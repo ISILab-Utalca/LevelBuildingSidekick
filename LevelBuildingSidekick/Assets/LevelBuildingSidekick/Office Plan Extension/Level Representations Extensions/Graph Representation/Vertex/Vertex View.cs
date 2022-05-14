@@ -1,18 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using LevelBuildingSidekick;
 
-public class VertexView : MonoBehaviour
+public class VertexView : View
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void Draw(Rect rect)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

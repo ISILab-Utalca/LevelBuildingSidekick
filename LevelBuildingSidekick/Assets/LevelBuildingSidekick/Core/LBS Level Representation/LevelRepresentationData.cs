@@ -2,17 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelRepresentationData : MonoBehaviour
+namespace LevelBuildingSidekick
 {
-    // Start is called before the first frame update
-    void Start()
+    public abstract class LevelRepresentationData : Data
     {
-        
+
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

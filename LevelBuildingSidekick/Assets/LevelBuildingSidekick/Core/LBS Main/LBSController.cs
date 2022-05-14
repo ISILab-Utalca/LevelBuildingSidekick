@@ -1,18 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
-public class LBSController : MonoBehaviour
+public class LBSController
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    static EditorWindow view;
+    LBSData data;
 
-    // Update is called once per frame
-    void Update()
+    [MenuItem("Level Building Sidekick/Open New")]
+    public static void ShowWindow()
     {
-        
+        view = EditorWindow.GetWindow<EditorWindow>("Level Building Sidekick");
+        view.Show();
     }
 }

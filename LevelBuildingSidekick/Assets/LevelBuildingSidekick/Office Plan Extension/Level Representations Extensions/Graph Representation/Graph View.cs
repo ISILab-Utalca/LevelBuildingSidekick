@@ -1,18 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
+using LevelBuildingSidekick;
 
-public class GraphView : MonoBehaviour
+public class GraphView : LevelRepresentationView
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void Draw(Rect rect)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

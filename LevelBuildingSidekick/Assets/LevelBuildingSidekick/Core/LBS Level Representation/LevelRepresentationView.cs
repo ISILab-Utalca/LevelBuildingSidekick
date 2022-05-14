@@ -1,18 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
-public class LevelRepresentationView : MonoBehaviour
+namespace LevelBuildingSidekick
 {
-    // Start is called before the first frame update
-    void Start()
+    public abstract class LevelRepresentationView : View
     {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
+

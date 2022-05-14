@@ -1,18 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using LevelBuildingSidekick;
 
-public class NodeView : MonoBehaviour
+public class NodeView: View
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Texture2D circle;
 
-    // Update is called once per frame
-    void Update()
+    public override void Draw(Rect rect)
     {
-        
     }
 }

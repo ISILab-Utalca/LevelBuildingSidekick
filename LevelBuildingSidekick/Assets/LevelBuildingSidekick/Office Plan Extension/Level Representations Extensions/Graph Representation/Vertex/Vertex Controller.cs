@@ -1,18 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using LevelBuildingSidekick;
 
-public class VertexController : MonoBehaviour
+public class VertexController : Controller
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void Update()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
