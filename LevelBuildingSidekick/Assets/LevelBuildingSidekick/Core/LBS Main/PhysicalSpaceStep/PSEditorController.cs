@@ -6,7 +6,13 @@ namespace LevelBuildingSidekick
 {
     public class PSEditorController : Step
     {
-        GraphController graph;
+        LevelRepresentationController level;
+
+        public override void LoadData()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public override void Update()
         {
         }
