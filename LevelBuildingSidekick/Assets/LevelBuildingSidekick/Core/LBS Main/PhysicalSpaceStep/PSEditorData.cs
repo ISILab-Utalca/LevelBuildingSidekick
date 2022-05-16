@@ -4,8 +4,10 @@ using UnityEngine;
 
 namespace LevelBuildingSidekick
 {
+    [CreateAssetMenu(menuName = "LevelBuildingSidekick/PhysicalSpaceData")]
     public class PSEditorData : Data
     {
+            
     }
 }
 
