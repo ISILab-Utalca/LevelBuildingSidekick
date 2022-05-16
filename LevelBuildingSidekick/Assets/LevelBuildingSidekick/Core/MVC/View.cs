@@ -7,7 +7,11 @@ namespace LevelBuildingSidekick
     public abstract class View
     {
         public Controller Controller { get; set; }
-        public abstract void Draw(Rect rect);
+        public View(Controller controller)
+        {
+            Controller = controller;
+        }
+        public abstract void Draw();
 
         public abstract void Display();
     }
