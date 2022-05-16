@@ -3,18 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-public class LBSView: EditorWindow
+namespace LevelBuildingSidekick
 {
-    static string header;
-
-    private void OnEnable()
+    public class LBSView : View
     {
-        
+        public LBSWindow Window { get; set; }
+
+        public LBSView()
+        {
+            Window = new LBSWindow();
+        }
+        public override void Draw(Rect rect)
+        {
+        }
+
+        public override void Display()
+        {
+            Window.Show();
+        }
     }
 
-
-    private void OnGUI()
+    public class LBSWindow : EditorWindow
     {
-        
+        public void OnEnable()
+        {
+            
+        }
+        private void OnGUI()
+        {
+            
+        }
     }
 }
+
