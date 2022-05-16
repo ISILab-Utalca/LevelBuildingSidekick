@@ -6,7 +6,12 @@ namespace LevelBuildingSidekick
 {
     public class PSEditorController : Step
     {
-        LevelRepresentationController level;
+        public LevelRepresentationController level;
+
+        public PSEditorController()
+        {
+            View = new PSEditorView(this);
+        }
 
         public override void LoadData()
         {
