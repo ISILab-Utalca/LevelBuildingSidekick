@@ -8,6 +8,8 @@ namespace LevelBuildingSidekick
     {
         public Controller Controller { get; set; }
         public abstract void Draw(Rect rect);
+
+        public abstract void Display();
     }
 }
 
