@@ -6,9 +6,12 @@ namespace LevelBuildingSidekick
 {
     public abstract class Controller
     {
-        View view;
-        Data data;
+        public string Name { get; set; }
+        public View View { get; set; }
+        public Data Data { get; set; }
         public abstract void Update();
+
+        public abstract void LoadData();
     }
 }
 
