@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,9 +6,13 @@ using UnityEngine;
 namespace LevelBuildingSidekick
 {
     [CreateAssetMenu(menuName = "LevelBuildingSidekick/GlobalData")]
+    [System.Serializable]
     public class LBSData : Data
     {
-        List<Data> stepsData;
+        [SerializeField]
+        public List<Data> StepsData;
+
+        public override Type ControllerType => typeof(LBSController);
     }
 }
 
