@@ -5,6 +5,10 @@ using LevelBuildingSidekick;
 
 public class VertexController : Controller
 {
+    public VertexController()
+    {
+    }
+
     public override void LoadData()
     {
         throw new System.NotImplementedException();

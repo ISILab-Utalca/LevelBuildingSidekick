@@ -5,5 +5,7 @@ using LevelBuildingSidekick;
 
 public abstract class ToolController : Controller
 {
-    
+    protected ToolController()
+    {
+    }
 }

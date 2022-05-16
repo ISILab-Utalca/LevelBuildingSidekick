@@ -8,6 +8,10 @@ namespace LevelBuildingSidekick
     public abstract class Step: Controller
     {
         LevelRepresentationController levelRepresentation;
+
+        protected Step()
+        {
+        }
     }
 }
 

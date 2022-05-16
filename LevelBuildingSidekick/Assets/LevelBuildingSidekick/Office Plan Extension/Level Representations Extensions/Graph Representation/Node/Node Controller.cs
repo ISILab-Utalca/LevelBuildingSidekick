@@ -5,6 +5,10 @@ using LevelBuildingSidekick;
 
 public class NodeController : Controller
 {
+    public NodeController()
+    {
+    }
+
     public override void LoadData()
     {
         throw new System.NotImplementedException();
