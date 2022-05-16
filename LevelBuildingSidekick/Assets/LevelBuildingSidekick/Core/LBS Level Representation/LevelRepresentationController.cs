@@ -4,8 +4,11 @@ using UnityEngine;
 
 namespace LevelBuildingSidekick
 {
-    public abstract class LevelRepresentationController: Controller
+    public abstract class LevelRepresentationController : Controller
     {
+        protected LevelRepresentationController()
+        {
+        }
     }
 }
 
