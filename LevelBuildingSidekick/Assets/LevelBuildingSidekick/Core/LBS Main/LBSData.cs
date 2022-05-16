@@ -2,17 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LBSData : MonoBehaviour
+namespace LevelBuildingSidekick
 {
-    // Start is called before the first frame update
-    void Start()
+    [CreateAssetMenu(menuName = "LevelBuildingSidekick/GlobalData")]
+    public class LBSData : Data
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        List<Data> stepsData;
     }
 }
+
