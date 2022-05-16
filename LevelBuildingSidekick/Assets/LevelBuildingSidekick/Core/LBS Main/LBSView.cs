@@ -9,11 +9,11 @@ namespace LevelBuildingSidekick
     {
         public LBSWindow Window { get; set; }
 
-        public LBSView()
+        public LBSView(Controller controller):base(controller)
         {
             Window = new LBSWindow();
         }
-        public override void Draw(Rect rect)
+        public override void Draw()
         {
         }
 
