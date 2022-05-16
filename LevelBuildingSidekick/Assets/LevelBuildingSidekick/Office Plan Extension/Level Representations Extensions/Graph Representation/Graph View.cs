@@ -6,12 +6,16 @@ using LevelBuildingSidekick;
 
 public class GraphView : LevelRepresentationView
 {
+    public GraphView(Controller controller) : base(controller)
+    {
+    }
+
     public override void Display()
     {
         throw new System.NotImplementedException();
     }
 
-    public override void Draw(Rect rect)
+    public override void Draw()
     {
     }
 }

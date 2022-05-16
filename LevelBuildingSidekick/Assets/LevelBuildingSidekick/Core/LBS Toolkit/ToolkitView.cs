@@ -5,12 +5,16 @@ using LevelBuildingSidekick;
 
 public class ToolkitView : View
 {
+    public ToolkitView(Controller controller) : base(controller)
+    {
+    }
+
     public override void Display()
     {
         throw new System.NotImplementedException();
     }
 
-    public override void Draw(Rect rect)
+    public override void Draw()
     {
     }
 }
