@@ -4,11 +4,16 @@ using UnityEngine;
 
 namespace LevelBuildingSidekick
 {
+    [System.Serializable]
     public abstract class Controller
     {
-        public string Name { get; set; }
         public View View { get; set; }
         public Data Data { get; set; }
+
+        public Controller()
+        {
+        }
+
         public abstract void Update();
 
         public abstract void LoadData();
