@@ -7,7 +7,9 @@ namespace LevelBuildingSidekick
 {
     public abstract class LevelRepresentationView : View
     {
-
+        protected LevelRepresentationView(Controller controller) : base(controller)
+        {
+        }
     }
 }
 
