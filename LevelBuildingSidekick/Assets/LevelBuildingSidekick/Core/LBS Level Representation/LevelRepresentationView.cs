@@ -10,6 +10,17 @@ namespace LevelBuildingSidekick
         protected LevelRepresentationView(Controller controller) : base(controller)
         {
         }
+
+        public override void Display()
+        {
+            Draw();
+        }
+
+        public override void Draw()
+        {
+            var controller = Controller as LevelRepresentationController;
+            controller.Toolkit.View.Display();
+        }
     }
 }
 

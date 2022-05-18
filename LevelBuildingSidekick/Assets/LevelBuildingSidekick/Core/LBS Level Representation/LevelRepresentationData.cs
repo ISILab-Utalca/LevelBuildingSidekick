@@ -4,9 +4,10 @@ using UnityEngine;
 
 namespace LevelBuildingSidekick
 {
+    [System.Serializable]
     public abstract class LevelRepresentationData : Data
     {
-
+        public ToolkitData toolkitData;
     }
 
 }
