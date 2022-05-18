@@ -10,8 +10,10 @@ namespace LevelBuildingSidekick
         public View View { get; set; }
         public Data Data { get; set; }
 
-        public Controller()
+        public Controller(Data data)
         {
+            Data = data;
+            LoadData();
         }
 
         public abstract void Update();
