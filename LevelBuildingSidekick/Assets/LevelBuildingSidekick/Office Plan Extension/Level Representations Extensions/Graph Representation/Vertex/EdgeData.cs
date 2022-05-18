@@ -5,10 +5,10 @@ using LevelBuildingSidekick;
 using System;
 
 [System.Serializable]
-public class GraphData : Data
+public class EdgeData: Data
 {
-    List<NodeController> nodes;
-    List<VertexController> vertexes;
+    NodeController inNode;
+    NodeController outNode;
 
 
     public override Type ControllerType => throw new NotImplementedException();

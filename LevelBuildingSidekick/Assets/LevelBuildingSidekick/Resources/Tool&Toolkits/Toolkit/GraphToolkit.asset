@@ -9,7 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70c0a3e463d106546873d07177a1c8f6, type: 3}
-  m_Name: New PS Editor Data
+  m_Script: {fileID: 11500000, guid: f971e8dd0b9d12c4cac25c2eb2d5170a, type: 3}
+  m_Name: GraphToolkit
   m_EditorClassIdentifier: 
-  WindowName: Physical Space Editor
+  toolDatas:
+  - {fileID: 11400000, guid: ca036f915ed3cc241b156b142c6ed2a3, type: 2}

@@ -1,21 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 using LevelBuildingSidekick;
 
-public class GraphView : LevelRepresentationView
+public class EdgeController : Controller
 {
-    public GraphView(Controller controller) : base(controller)
+    public EdgeController(Data data) : base(data)
     {
     }
 
-    public override void Display()
+    public override void LoadData()
     {
         throw new System.NotImplementedException();
     }
 
-    public override void Draw()
+    public override void Update()
     {
     }
 }

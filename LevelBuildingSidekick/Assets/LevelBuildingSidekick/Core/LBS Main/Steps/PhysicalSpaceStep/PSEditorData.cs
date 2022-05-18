@@ -11,6 +11,8 @@ namespace LevelBuildingSidekick
         public string WindowName;
         public override Type ControllerType => typeof(PSEditorController);
 
+        public LevelRepresentationData levelData;
+
     }
 }
 

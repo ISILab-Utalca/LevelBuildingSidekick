@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using LevelBuildingSidekick;
 
-public class VertexController : Controller
+public class EdgeView : View
 {
-    public VertexController()
+    public EdgeView(Controller controller) : base(controller)
     {
     }
 
-    public override void LoadData()
+    public override void Display()
     {
         throw new System.NotImplementedException();
     }
 
-    public override void Update()
+    public override void Draw()
     {
     }
 }

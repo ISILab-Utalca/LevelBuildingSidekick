@@ -9,7 +9,7 @@ namespace LevelBuildingSidekick
     {
         LevelRepresentationController levelRepresentation;
 
-        protected Step()
+        protected Step(Data data) : base(data)
         {
         }
     }
