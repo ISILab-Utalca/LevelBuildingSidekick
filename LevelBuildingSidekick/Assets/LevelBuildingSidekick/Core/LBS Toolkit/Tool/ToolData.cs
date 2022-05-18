@@ -4,7 +4,6 @@ using UnityEngine;
 using LevelBuildingSidekick;
 using System;
 
-public class ToolData : Data
+public abstract class ToolData : Data
 {
-    public override Type ControllerType => throw new NotImplementedException();
 }
