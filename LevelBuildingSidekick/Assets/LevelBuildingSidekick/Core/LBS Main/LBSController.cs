@@ -26,7 +26,7 @@ namespace LevelBuildingSidekick
 
         public LBSController(Data data) : base(data)
         {
-            View = new LBSView(this);
+            //View = new LBSView(this);
 
             //LoadData();
         }
