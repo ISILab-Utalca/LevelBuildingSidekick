@@ -11,13 +11,21 @@ namespace LevelBuildingSidekick
         public System.Action draw;
         private void OnEnable()
         {
-
+            minSize = new Vector2(100,100);
         }
 
         private void OnGUI()
         {
             draw?.Invoke();
         }
+
+        private void OnDisable()
+        {
+            base.SaveChanges();
+            //DestroyImmediate(this);
+        }
+
+        
     }
 }
 

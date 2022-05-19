@@ -11,7 +11,7 @@ namespace LevelBuildingSidekick
 
         public LBSView(Controller controller):base(controller)
         {
-            Window = EditorWindow.CreateInstance<LBSWindow>();
+            Window = EditorWindow.GetWindow<LBSWindow>();
         }
         public override void Draw()
         {

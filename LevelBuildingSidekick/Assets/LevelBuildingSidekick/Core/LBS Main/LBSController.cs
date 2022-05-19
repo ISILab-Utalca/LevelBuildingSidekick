@@ -36,7 +36,7 @@ namespace LevelBuildingSidekick
         {
             //Debug.Log("I: " + Instance + " - Step: " + Instance.currentStep);
             Instance.currentStep.View.Display();
-            //view = EditorWindow.GetWindow<LBSWindow>("Level Building Sidekick");
+            //var view = EditorWindow.GetWindow<LBSWindow>("Level Building Sidekick");
             //view.Show();
             /*
             if(currentStep != null)
@@ -47,8 +47,8 @@ namespace LevelBuildingSidekick
 
         public override void LoadData()
         {
-            /*LBSData data = ScriptableObject.CreateInstance<LBSData>();
-            data.name = "LBSData";
+            //LBSData data = ScriptableObject.CreateInstance<LBSData>();
+            //data.name = "LBSData";
             //Parse data from Data to LBSData
             if (Data == null)
             {
@@ -60,7 +60,8 @@ namespace LevelBuildingSidekick
                 {
                     Debug.LogError("No Data Found");
                 }
-            }*/
+            }
+
             LBSData data;
             try
             {

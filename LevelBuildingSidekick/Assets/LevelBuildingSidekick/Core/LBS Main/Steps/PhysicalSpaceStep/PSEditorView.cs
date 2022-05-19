@@ -13,7 +13,9 @@ namespace LevelBuildingSidekick
         public PSEditorView(Controller controller):base(controller)
         {
             scrollPosition = Vector2.zero;
-            Window = EditorWindow.CreateInstance<StepWindow>();
+            Window = EditorWindow.GetWindow<StepWindow>();
+            //Window.minSize = Vector2.one* 100;
+            //Window.Show();
             Window.draw = Draw;
             //Debug.Log("D: " + (Controller.Data as PSEditorData));
 
@@ -27,7 +29,6 @@ namespace LevelBuildingSidekick
 
         public override void Draw()
         {
-            GUILayout.Label("Hi");
             scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
             //Debug.Log((Controller as PSEditorController).Level);
             //Debug.Log((Controller as PSEditorController).Level.View);
