@@ -19,7 +19,7 @@ namespace LevelBuildingSidekick
 
         public override void Display()
         {
-            Window.Show();
+            //Window.Show();
         }
     }
 
