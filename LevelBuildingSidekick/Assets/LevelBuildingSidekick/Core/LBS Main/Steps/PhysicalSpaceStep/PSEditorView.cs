@@ -23,6 +23,11 @@ namespace LevelBuildingSidekick
 
         public override void Display()
         {
+            if(Window == null)
+            {
+                Window = EditorWindow.GetWindow<StepWindow>();
+                Window.draw = Draw;
+            }
             Window.titleContent.text = (Controller.Data as PSEditorData).WindowName;
             Window.Show();
         }
