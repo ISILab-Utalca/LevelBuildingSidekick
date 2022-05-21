@@ -59,5 +59,6 @@ public class GraphController : LevelRepresentationController
 
     public override void Update()
     {
+        Toolkit.Update();
     }
 }
