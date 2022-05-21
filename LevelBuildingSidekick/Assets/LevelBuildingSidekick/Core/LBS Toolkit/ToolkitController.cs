@@ -7,14 +7,12 @@ using System;
 public class ToolkitController : Controller
 {
     public List<ToolController> ToolControllers { get; set; }
-    public ToolController activeTool;
     public LevelRepresentationController Level { get; set; }
 
     public ToolkitController(Data data, LevelRepresentationController level) : base(data)
     {
         View = new ToolkitView(this);
         Level = level;
-        SetActiveTool(ToolControllers[0]);
     }
 
     public override void LoadData()
@@ -24,7 +22,7 @@ public class ToolkitController : Controller
         var data = Data as ToolkitData;
         foreach(ToolData t in data.toolDatas)
         {
-            var tool = Activator.CreateInstance(t.ControllerType, new object[] { t });
+            var tool = Activator.CreateInstance(t.ControllerType, new object[] { t , this});
             if (tool is ToolController)
             {
                 ToolControllers.Add(tool as ToolController);
@@ -32,17 +30,11 @@ public class ToolkitController : Controller
         }
     }
 
-    public void SetActiveTool(ToolController tool)
-    {
-        if(tool == null)
-        {
-            return;
-        }
-        activeTool = tool;
-        activeTool.PrepareAction(Level);
-    }
-
     public override void Update()
     {
+        foreach(ToolController t in ToolControllers)
+        {
+            t.Update();
+        }
     }
 }
