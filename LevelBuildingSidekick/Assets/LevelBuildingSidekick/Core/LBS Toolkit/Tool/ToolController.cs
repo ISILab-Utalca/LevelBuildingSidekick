@@ -1,16 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using UnityEngine.Events;
 using LevelBuildingSidekick;
 
 public abstract class ToolController : Controller
 {
-    ToolkitController Toolkit { get; set; }
-    protected ToolController(Data data) : base(data)
+    public UnityEvent OnButtonClick = new UnityEvent();
+    protected ToolkitController Toolkit { get; set; }
+    public bool IsActive { get; set; }
+    protected ToolController(Data data, ToolkitController toolkit) : base(data)
     {
-    }
-
-    public abstract void PrepareAction(LevelRepresentationController level); 
+        Toolkit = toolkit;
+    } 
 
     public abstract void Action(LevelRepresentationController level);
+
+    public override void Update()
+    {
+    }
 }
