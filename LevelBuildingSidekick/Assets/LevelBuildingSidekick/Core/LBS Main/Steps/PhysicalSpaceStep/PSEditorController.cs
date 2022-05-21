@@ -29,6 +29,7 @@ namespace LevelBuildingSidekick
 
         public override void Update()
         {
+            Level.Update();
         }
     }
 }
