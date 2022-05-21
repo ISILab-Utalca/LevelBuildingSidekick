@@ -6,11 +6,14 @@ using UnityEngine.Events;
 
 public class CreateNodeView : ToolView
 {
-    public UnityEvent OnButtonClick = new UnityEvent();
-
+    string active;
+    string unnactive;
     public CreateNodeView(Controller controller) : base(controller)
     {
+        active = "Node";
 
+        unnactive = "!Node";
+        
     }
 
     public override void Display()
@@ -22,9 +25,12 @@ public class CreateNodeView : ToolView
     {
         var data = Controller.Data as CreateNodeData;
         var controller = Controller as CreateNodeController;
-        if(GUILayout.Button(data.label))
+        //controller.MousePosition = GUIUtility.ScreenToGUIPoint(Event.current.mousePosition);
+        string t = controller.IsActive ? active : unnactive;
+        if (GUILayout.Button(t))
         {
-            OnButtonClick?.Invoke();
+            controller.OnButtonClick?.Invoke();
         }
     }
+
 }
