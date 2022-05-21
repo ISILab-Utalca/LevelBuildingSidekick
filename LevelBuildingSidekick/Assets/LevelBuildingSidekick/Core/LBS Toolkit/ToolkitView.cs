@@ -23,6 +23,7 @@ public class ToolkitView : View
     {
         //GUILayout.Label("Toolkit");
         var controller = Controller as ToolkitController;
+        //controller.Update();
         foreach(ToolController t in controller.ToolControllers)
         {
             t.View.Display();
