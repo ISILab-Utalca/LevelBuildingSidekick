@@ -6,4 +6,5 @@ using System;
 
 public abstract class ToolData : Data
 {
+    public Texture2D icon;
 }
