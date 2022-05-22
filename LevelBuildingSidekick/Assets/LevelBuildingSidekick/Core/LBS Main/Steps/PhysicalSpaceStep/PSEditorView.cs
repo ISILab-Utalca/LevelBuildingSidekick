@@ -35,12 +35,19 @@ namespace LevelBuildingSidekick
         public override void Draw()
         {
             PSEditorController controller = Controller as PSEditorController;
-            scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
+
+            
+            scrollPosition = GUILayout.BeginScrollView(scrollPosition, true, true);
+            //GUILayout.BeginArea(new Rect(0, 0, 1000, 1000));
             //Debug.Log((Controller as PSEditorController).Level);
             //Debug.Log((Controller as PSEditorController).Level.View);
+            //GUILayout.BeginVertical();
             controller.Update();
             controller.Level.View.Display();
-            EditorGUILayout.EndScrollView();
+            //GUILayout.EndVertical();
+            //GUILayout.EndArea();
+            GUILayout.EndScrollView();
+            
         }
 
 
