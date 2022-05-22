@@ -7,6 +7,7 @@ using UnityEditor;
 public class NodeView: View
 {
     public Texture2D circle;
+    Vector2 scrollPos;
 
     public NodeView(Controller controller) : base(controller)
     {
@@ -27,13 +28,23 @@ public class NodeView: View
         var size = 2 * data.Radius * Vector2.one;
 
         Rect rect = new Rect(pos, size);
+        Rect innerRect = new Rect(pos + (size * 0.2f), size * 0.6f); //0.7 == sqrt(2)/2, side of square inside circle inside square.
+        //should be 0,15 but image has blank space
 
-        Texture2D texture = new Texture2D(1, 1);
+        GUI.DrawTexture(rect, data.Sprite, ScaleMode.StretchToFill);
 
-        GUILayout.BeginArea(rect);
-        GUI.DrawTexture(new Rect(Vector2.zero, Vector2.one*2*data.Radius), data.Sprite, ScaleMode.StretchToFill);
+        GUILayout.BeginArea(innerRect);
+        scrollPos = GUILayout.BeginScrollView(scrollPos);
+        //GUILayout.Button(data.Sprite);
+        //Rect rt = GUILayoutUtility.GetAspectRect(1);
+        //rt.position = Vector2.zero;
+        //rt.size = Vector2.one * 2 * data.Radius;
         GUI.contentColor = Color.black;
-        GUI.Label(new Rect(Vector2.one*data.Radius/2, Vector2.one * data.Radius),data.label);
+        GUILayout.Label(data.label);
+        GUILayout.Label("Width: " + data.width.x + " - " + data.width.y);
+        GUILayout.Label("Width: " + data.height.x + " - " + data.height.y);
+        GUILayout.Label("Aspect Ratio: " + data.aspectRatio.x + " : " + data.aspectRatio.y);
+        GUILayout.EndScrollView();
         GUILayout.EndArea();
     }
 }
