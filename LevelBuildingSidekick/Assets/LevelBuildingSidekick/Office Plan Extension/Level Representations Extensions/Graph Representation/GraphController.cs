@@ -7,10 +7,24 @@ using System;
 public class GraphController : LevelRepresentationController
 {
     public List<NodeController> Nodes { get; set; }
+    public NodeController SelectedNode { get; set; }
     public List<EdgeController> Edges { get; set; }
+    public EdgeController SelectedEdge { get; set; }
     public GraphController(Data data) : base(data)
     {
         View = new GraphView(this);
+    }
+
+    public NodeController GetNodeAt(Vector2 pos)
+    {
+        foreach(NodeController n in Nodes)
+        {
+            if (n.GetRect().Contains(pos))
+            {
+                return n;
+            }
+        }
+        return null;
     }
 
     public override void LoadData()
