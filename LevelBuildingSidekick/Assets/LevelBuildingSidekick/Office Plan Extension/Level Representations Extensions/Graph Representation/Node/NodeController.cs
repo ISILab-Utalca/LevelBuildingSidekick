@@ -18,4 +18,16 @@ public class NodeController : Controller
     public override void Update()
     {
     }
+
+    public Rect GetRect()
+    {
+        NodeData d = Data as NodeData;
+        return new Rect(d.Position, d.Radius * 2 * Vector2.one);
+    }
+
+    public void Translate(Vector2 delta)
+    {
+        NodeData d = Data as NodeData;
+        d.Position += delta;
+    }
 }
