@@ -14,6 +14,11 @@ namespace LevelBuildingSidekick
             minSize = new Vector2(100,100);
         }
 
+        private void OnInspectorUpdate()
+        {
+            Repaint();
+        }
+
         private void OnGUI()
         {
             draw?.Invoke();
