@@ -7,9 +7,9 @@ using System;
 [System.Serializable]
 public class EdgeData: Data
 {
-    NodeController inNode;
-    NodeController outNode;
+    public NodeData node1;
+    public NodeData node2;
+    public float thikness = 5; // -> static?
 
-
-    public override Type ControllerType => throw new NotImplementedException();
+    public override Type ControllerType => typeof(EdgeController);
 }
