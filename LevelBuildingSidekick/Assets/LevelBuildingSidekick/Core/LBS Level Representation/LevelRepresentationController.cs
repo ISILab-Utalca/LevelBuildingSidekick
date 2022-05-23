@@ -23,7 +23,10 @@ namespace LevelBuildingSidekick
             }
         }
 
-
+        public override void Update()
+        {
+            Toolkit.Update();
+        }
     }
 }
 
