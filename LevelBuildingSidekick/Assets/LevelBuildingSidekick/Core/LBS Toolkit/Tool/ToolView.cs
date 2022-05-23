@@ -9,4 +9,7 @@ public abstract class ToolView : View
     {
     }
 
+    public abstract void DisplayInToolkit();
+    public abstract void DrawInToolkit();
+
 }
