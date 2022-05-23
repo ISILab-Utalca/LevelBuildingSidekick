@@ -14,6 +14,7 @@ public class GraphView : LevelRepresentationView
 
     public override void Draw()
     {
+        base.Draw();
         //Debug.Log("Graph View");
         //scrollPos = EditorGUILayout.BeginScrollView(scrollPos,true,true);
         //GUILayout.BeginArea(new Rect(0, 0, 1000, 1000));
@@ -46,7 +47,6 @@ public class GraphView : LevelRepresentationView
             GUILayout.Label(i.ToString());
         }*/
 
-        base.Draw();
         //GUILayout.EndArea();
         //EditorGUILayout.EndScrollView();
     }
