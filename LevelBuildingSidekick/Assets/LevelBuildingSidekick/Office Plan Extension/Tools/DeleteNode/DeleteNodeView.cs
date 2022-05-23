@@ -14,21 +14,30 @@ public class DeleteNodeView : ToolView
         unnactive = "!Delete";
     }
 
-    public override void Display()
+    public override void DisplayInToolkit()
     {
-        Draw();
+        DrawInToolkit();
     }
 
-    public override void Draw()
+    public override void DrawInToolkit()
     {
         var data = Controller.Data as DeleteNodeData;
         var controller = Controller as DeleteNodeController;
         //controller.MousePosition = GUIUtility.ScreenToGUIPoint(Event.current.mousePosition);
-        
+
         string t = controller.IsActive ? active : unnactive;
         if (GUILayout.Button(t))
         {
             controller.OnButtonClick?.Invoke();
         }
+    }
+
+    public override void Display()
+    {
+    }
+
+
+    public override void Draw()
+    {
     }
 }
