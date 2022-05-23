@@ -18,9 +18,8 @@ public class DeleteNodeController : ToolController
         if(graph.SelectedNode != null)
         {
             NodeController n = graph.SelectedNode;
-            Debug.Log(graph.SelectedNode);
-            graph.Nodes.Remove(graph.SelectedNode);
-            graph.SelectedNode = null;
+            //Debug.Log(graph.SelectedNode);
+            graph.RemoveNode(graph.SelectedNode);
             Object.DestroyImmediate(n.Data);
             IsActive = false;
         }
