@@ -9,11 +9,20 @@ public class SelectNodeView : ToolView
     {
     }
 
+    public override void DisplayInToolkit()
+    {
+    }
+
+    public override void DrawInToolkit()
+    {
+    }
+
     public override void Display()
     {
     }
 
     public override void Draw()
     {
+        // -> Feedback of selection
     }
 }

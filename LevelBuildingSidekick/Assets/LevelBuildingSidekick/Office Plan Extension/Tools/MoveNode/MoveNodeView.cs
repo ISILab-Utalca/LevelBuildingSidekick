@@ -13,12 +13,12 @@ public class MoveNodeView : ToolView
         unnactive = "!Moving";
     }
 
-    public override void Display()
+    public override void DisplayInToolkit()
     {
-        Draw();
+        DrawInToolkit();
     }
 
-    public override void Draw()
+    public override void DrawInToolkit()
     {
         var data = Controller.Data as MoveNodeData;
         var controller = Controller as MoveNodeController;
@@ -29,5 +29,13 @@ public class MoveNodeView : ToolView
         {
             controller.OnButtonClick?.Invoke();
         }
+    }
+
+    public override void Display()
+    {
+    }
+
+    public override void Draw()
+    {
     }
 }

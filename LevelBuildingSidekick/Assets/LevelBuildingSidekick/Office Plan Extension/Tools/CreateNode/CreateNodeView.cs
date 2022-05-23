@@ -16,12 +16,12 @@ public class CreateNodeView : ToolView
         
     }
 
-    public override void Display()
+    public override void DisplayInToolkit()
     {
-        Draw();
+        DrawInToolkit();
     }
 
-    public override void Draw()
+    public override void DrawInToolkit()
     {
         var data = Controller.Data as CreateNodeData;
         var controller = Controller as CreateNodeController;
@@ -33,4 +33,11 @@ public class CreateNodeView : ToolView
         }
     }
 
+    public override void Display()
+    {
+    }
+
+    public override void Draw()
+    {
+    }
 }
