@@ -27,6 +27,36 @@ public class GraphController : LevelRepresentationController
         return null;
     }
 
+    internal void RemoveNode(NodeController node)
+    {
+        foreach (EdgeController e in Edges)
+        {
+            if (e.Contains(node))
+            {
+                RemoveEdge(e);
+            }
+        }
+        Nodes.Remove(node);
+        if(node.Equals(SelectedNode))
+        {
+            SelectedNode = null;    
+        }
+        GraphData d = Data as GraphData;
+        d.nodes.Remove(node.Data as NodeData);
+
+    }
+
+    internal void RemoveEdge(EdgeController edge)
+    { 
+        Edges.Remove(edge);
+        if (edge.Equals(SelectedEdge))
+        {
+            SelectedEdge = null;
+        }
+        GraphData d = Data as GraphData;
+        d.edges.Remove(edge.Data as EdgeData);
+    }
+
     public override void LoadData()
     {
         base.LoadData();
@@ -59,6 +89,18 @@ public class GraphController : LevelRepresentationController
         }
     }
 
+    public EdgeController GetEdge(NodeController n1, NodeController n2)
+    {
+        foreach(EdgeController e in Edges)
+        {
+            if(e.DoesConnect(n1,n2))
+            {
+                return e;
+            }
+        }
+        return null;
+    }
+
     internal bool AddNode(NodeData nodeData)
     {
         var node = Activator.CreateInstance(nodeData.ControllerType, new object[] { nodeData });
@@ -71,8 +113,21 @@ public class GraphController : LevelRepresentationController
         return false;
     }
 
+
+    internal bool AddEdge(EdgeData edgeData)
+    {
+        var edge = Activator.CreateInstance(edgeData.ControllerType, new object[] { edgeData });
+        if (edge is EdgeController)
+        {
+            Edges.Add(edge as EdgeController);
+            (Data as GraphData).edges.Add(edgeData);
+            return true;
+        }
+        return false;
+    }
+
     public override void Update()
     {
-        Toolkit.Update();
+        base.Update();
     }
 }
