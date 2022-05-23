@@ -16,7 +16,6 @@ public class MoveNodeController : ToolController
 
     public override void Action(LevelRepresentationController level)
     {
-        Debug.Log("Move");
         GraphController graph = level as GraphController;
         if(graph.SelectedNode == null)
         {
