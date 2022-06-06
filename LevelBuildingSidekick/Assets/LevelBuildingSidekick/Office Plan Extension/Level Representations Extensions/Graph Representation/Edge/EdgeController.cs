@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using LevelBuildingSidekick;
 using System;
+using LevelBuildingSidekick.Graph;
 
 public class EdgeController : Controller
 {
+    public NodeController Node1 { get; set; }
+    public NodeController Node2 { get; set; }
+
     public EdgeController(Data data) : base(data)
     {
         View = new EdgeView(this);
