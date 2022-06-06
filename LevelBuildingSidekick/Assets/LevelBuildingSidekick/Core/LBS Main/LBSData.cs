@@ -9,8 +9,8 @@ namespace LevelBuildingSidekick
     [System.Serializable]
     public class LBSData : Data
     {
-        [SerializeField]
-        public List<Data> StepsData;
+        public LevelData levelData;
+        public List<Data> stepsData;
 
         public override Type ControllerType => typeof(LBSController);
     }
