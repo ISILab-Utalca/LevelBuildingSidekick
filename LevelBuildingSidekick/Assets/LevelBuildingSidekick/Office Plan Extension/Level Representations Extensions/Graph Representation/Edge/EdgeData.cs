@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using LevelBuildingSidekick;
 using System;
+using LevelBuildingSidekick.Graph;
 
 [System.Serializable]
 public class EdgeData: Data
