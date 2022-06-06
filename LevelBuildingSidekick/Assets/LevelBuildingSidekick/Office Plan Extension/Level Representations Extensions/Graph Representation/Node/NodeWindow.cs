@@ -2,36 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using LevelBuildingSidekick;
+
 public class NodeWindow : EditorWindow
 {
-    public NodeData Data { get; set; }
+    public Controller controller { get; set; }
     Vector2 scrollPos;
     private void OnEnable()
     {
-        minSize = new Vector2(100, 100);
     }
 
     private void OnInspectorUpdate()
     {
-        Repaint();
+        //Repaint();
     }
 
     private void OnGUI()
     {
-        if(Data == null)
+        if(controller.Data == null)
         {
-            GUILayout.Label("NoNode");
+            GUILayout.Label("None Selected");
             return;
         }
-        var editor = Editor.CreateEditor(Data);
+        var editor = Editor.CreateEditor(controller.Data);
         scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
-        editor.DrawDefaultInspector();
+        editor.OnInspectorGUI();
         EditorGUILayout.EndScrollView();
     }
 
     private void OnDisable()
     {
-        base.SaveChanges();
+        //base.SaveChanges();
         //DestroyImmediate(this);
     }
 }
