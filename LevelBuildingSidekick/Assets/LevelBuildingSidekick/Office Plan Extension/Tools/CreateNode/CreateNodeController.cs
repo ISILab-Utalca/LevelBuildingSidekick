@@ -2,6 +2,7 @@ using LevelBuildingSidekick;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using LevelBuildingSidekick.Graph;
 
 public class CreateNodeController : ToolController
 {
@@ -26,7 +27,9 @@ public class CreateNodeController : ToolController
 
 
         NodeData node = ScriptableObject.CreateInstance<NodeData>();
-        node.Position = Event.current.mousePosition - node.Radius*Vector2.one;
+
+
+        node.Position = new Vector2Int((int)(Event.current.mousePosition.x - node.Radius), (int)(Event.current.mousePosition.y - node.Radius));
         node.label = "Node: " + graph.Nodes.Count.ToString();
         graph.AddNode(node);
         //Debug.Log("New node: " + node.label + " Node Count: " + graph.Nodes.Count);
