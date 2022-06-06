@@ -3,131 +3,267 @@ using System.Collections.Generic;
 using UnityEngine;
 using LevelBuildingSidekick;
 using System;
+using System.Linq;
 
-public class GraphController : LevelRepresentationController
+namespace LevelBuildingSidekick.Graph
 {
-    public List<NodeController> Nodes { get; set; }
-    public NodeController SelectedNode { get; set; }
-    public List<EdgeController> Edges { get; set; }
-    public EdgeController SelectedEdge { get; set; }
-    public GraphController(Data data) : base(data)
+    public class GraphController : LevelRepresentationController
     {
-        View = new GraphView(this);
-    }
-
-    public NodeController GetNodeAt(Vector2 pos)
-    {
-        foreach(NodeController n in Nodes)
+        private List<NodeController> _Nodes;
+        public List<NodeController> Nodes
         {
-            if (n.GetRect().Contains(pos))
+            get
             {
-                return n;
+                if (_Nodes == null)
+                {
+                    _Nodes = new List<NodeController>();
+                }
+                return _Nodes;
             }
         }
-        return null;
-    }
 
-    internal void RemoveNode(NodeController node)
-    {
-        foreach (EdgeController e in Edges)
+        private List<EdgeController> _Edges;
+        public List<EdgeController> Edges
         {
-            if (e.Contains(node))
+            get
             {
-                RemoveEdge(e);
+                if (_Edges == null)
+                {
+                    _Edges = new List<EdgeController>();
+                }
+                return _Edges;
             }
         }
-        Nodes.Remove(node);
-        if(node.Equals(SelectedNode))
+
+        private Controller _SelectedItem;
+        public EdgeController SelectedEdge
         {
-            SelectedNode = null;    
+            get
+            {
+                if (_SelectedItem == null || !(_SelectedItem is EdgeController))
+                {
+                    return null;
+                }
+                return _SelectedItem as EdgeController;
+            }
+            set
+            {
+                _SelectedItem = value;
+            }
         }
-        GraphData d = Data as GraphData;
-        d.nodes.Remove(node.Data as NodeData);
-
-    }
-
-    internal void RemoveEdge(EdgeController edge)
-    { 
-        Edges.Remove(edge);
-        if (edge.Equals(SelectedEdge))
+        public NodeController SelectedNode
         {
-            SelectedEdge = null;
+            get
+            {
+                if (_SelectedItem == null || !(_SelectedItem is NodeController))
+                {
+                    return null;
+                }
+                return _SelectedItem as NodeController;
+            }
+            set
+            {
+                _SelectedItem = value;
+            }
         }
-        GraphData d = Data as GraphData;
-        d.edges.Remove(edge.Data as EdgeData);
-    }
 
-    public override void LoadData()
-    {
-        base.LoadData();
+        int step;
 
-        var data = Data as GraphData;
-        //Debug.Log("!: " + Data);
-
-        Nodes = new List<NodeController>();
-
-        foreach (NodeData n in data.nodes)
+        public GraphController(Data data) : base(data)
         {
-            var node = Activator.CreateInstance(n.ControllerType, new object[] { n });
-            if(node is NodeController)
+            View = new GraphView(this);
+        }
+
+        public int[,] ToMatrix(out Vector2Int[] indexes)
+        {
+            Vector2Int s = LBSController.Instance.CurrentLevel.levelSize / step;
+            int[,] tileMatrix = new int[s.x, s.y];
+            indexes = new Vector2Int[Nodes.Count];
+            for (int i = 0; i < Nodes.Count; i++)
+            {
+                int x = Nodes[i].Position.x / step;
+                int y = Nodes[i].Position.y / step;
+
+                tileMatrix[x, y] = i;
+                indexes[i] = new Vector2Int(x, y);
+            }
+            return tileMatrix;
+        }
+
+        //Can be optimized
+        public bool[,] AdjacencyMatrix()
+        {
+            bool[,] adjacency = new bool[Nodes.Count, Nodes.Count];
+            for (int i = 0; i < Nodes.Count; i++)
+            {
+                foreach (NodeController n in Nodes[i].neighbors)
+                {
+                    int index = Array.IndexOf(Nodes.ToArray(), n);
+                    if (index < 0)
+                    {
+                        Debug.LogError("Node not on Graph");
+                    }
+                    adjacency[i, index] = true;
+                }
+            }
+            return adjacency;
+        }
+
+        public List<int>[] AdjacencyIndexes()
+        {
+            List<int>[] adjacencies = new List<int>[Nodes.Count];
+            for(int i = 0; i < Nodes.Count; i++)
+            {
+                adjacencies[i] = new List<int>();
+                foreach(NodeController n in Nodes[i].neighbors)
+                {
+                    int index = Array.IndexOf(Nodes.ToArray(), n);
+                    if(index >= 0 && index > i)
+                    {
+                        adjacencies[i].Add(index);
+                    }
+                }
+            }
+            return adjacencies;
+        }
+
+        public Tuple<Vector2Int,Vector2Int>[] EdgesAsSegments()
+        {
+            Tuple<Vector2Int, Vector2Int>[] segments = new Tuple<Vector2Int, Vector2Int>[Edges.Count];
+            for(int i = 0; i < Edges.Count; i++)
+            {
+                var pos1 = Edges[i].Node1.Position;
+                var pos2 = Edges[i].Node1.Position;
+                segments[i] = new Tuple<Vector2Int, Vector2Int>(pos1, pos2);
+            }
+            return segments;
+        }
+
+        public NodeController GetNodeAt(Vector2 pos)
+        {
+            foreach (NodeController n in Nodes)
+            {
+                if (n.GetRect().Contains(pos))
+                {
+                    return n;
+                }
+            }
+            return null;
+        }
+
+        internal void RemoveNode(NodeController node)
+        {
+            foreach (EdgeController e in Edges)
+            {
+                if (e.Contains(node))
+                {
+                    RemoveEdge(e);
+                }
+            }
+            Nodes.Remove(node);
+            if (node.Equals(SelectedNode))
+            {
+                _SelectedItem = null;
+            }
+            GraphData d = Data as GraphData;
+            d.nodes.Remove(node.Data as NodeData);
+
+        }
+
+        internal void RemoveEdge(EdgeController edge)
+        {
+            Edges.Remove(edge);
+            if (edge.Equals(SelectedEdge))
+            {
+                _SelectedItem = null;
+            }
+            GraphData d = Data as GraphData;
+            d.edges.Remove(edge.Data as EdgeData);
+        }
+
+        public override void LoadData()
+        {
+            base.LoadData();
+
+            var data = Data as GraphData;
+            //Debug.Log("!: " + Data);
+
+            //Nodes = new List<NodeController>();
+
+            foreach (NodeData n in data.nodes)
+            {
+                var node = Activator.CreateInstance(n.ControllerType, new object[] { n });
+                if (node is NodeController)
+                {
+                    Nodes.Add(node as NodeController);
+                    //Nodes[^1].Data = n;
+                }
+            }
+
+            //Edges = new List<EdgeController>();
+
+            foreach (EdgeData e in data.edges)
+            {
+                var edge = Activator.CreateInstance(e.ControllerType, new object[] { e });
+                if (edge is EdgeController)
+                {
+                    Edges.Add(edge as EdgeController);
+                    //Edges[^1].Data = e;
+                }
+            }
+        }
+
+        public EdgeController GetEdge(NodeController n1, NodeController n2)
+        {
+            foreach (EdgeController e in Edges)
+            {
+                if (e.DoesConnect(n1, n2))
+                {
+                    return e;
+                }
+            }
+            return null;
+        }
+
+        internal bool AddNode(NodeData nodeData)
+        {
+            var node = Activator.CreateInstance(nodeData.ControllerType, new object[] { nodeData });
+            if (node is NodeController)
             {
                 Nodes.Add(node as NodeController);
-                //Nodes[^1].Data = n;
+                (Data as GraphData).nodes.Add(nodeData);
+                return true;
             }
+            return false;
         }
 
-        Edges = new List<EdgeController>();
 
-        foreach (EdgeData e in data.edges)
+        internal bool AddEdge(EdgeData edgeData)
         {
-            var edge = Activator.CreateInstance(e.ControllerType, new object[] { e });
+            var edge = Activator.CreateInstance(edgeData.ControllerType, new object[] { edgeData });
             if (edge is EdgeController)
             {
-                Edges.Add(edge as EdgeController);
-                //Edges[^1].Data = e;
+                var e = edge as EdgeController;
+                Edges.Add(e);
+                (Data as GraphData).edges.Add(edgeData);
+                return true;
             }
+            return false;
         }
-    }
 
-    public EdgeController GetEdge(NodeController n1, NodeController n2)
-    {
-        foreach(EdgeController e in Edges)
+        public Vector2 LastNode()
         {
-            if(e.DoesConnect(n1,n2))
+            if (Nodes.Count == 0)
             {
-                return e;
+                return Vector2.zero;
             }
+            return Nodes.Max((n) => (n.Data as NodeData).Position);
         }
-        return null;
-    }
 
-    internal bool AddNode(NodeData nodeData)
-    {
-        var node = Activator.CreateInstance(nodeData.ControllerType, new object[] { nodeData });
-        if(node is NodeController)
+        public override void Update()
         {
-            Nodes.Add(node as NodeController);
-            (Data as GraphData).nodes.Add(nodeData);
-            return true;
+            base.Update();
         }
-        return false;
     }
 
-
-    internal bool AddEdge(EdgeData edgeData)
-    {
-        var edge = Activator.CreateInstance(edgeData.ControllerType, new object[] { edgeData });
-        if (edge is EdgeController)
-        {
-            Edges.Add(edge as EdgeController);
-            (Data as GraphData).edges.Add(edgeData);
-            return true;
-        }
-        return false;
-    }
-
-    public override void Update()
-    {
-        base.Update();
-    }
 }
