@@ -15,6 +15,7 @@ namespace LevelBuildingSidekick.Graph
         public Vector2Int width;
         public Vector2Int height;
         public Vector2Int aspectRatio;
+        public ProportionType proportionType;
 
         //Should be in children class
         [NonReorderable]
@@ -29,12 +30,18 @@ namespace LevelBuildingSidekick.Graph
         public List<string> tags;
 
         public Vector2Int Position { get; set; }
-        public float Radius { get => 64; } // -> static?
+        public int Radius { get => 64; } // -> static?
         public Texture2D Sprite { get => Resources.Load("Textures/Circle") as Texture2D; } // -> static?
 
 
         public override Type ControllerType => typeof(NodeController);
 
+    }
+
+    public enum ProportionType
+    {
+        RATIO,
+        SIZE
     }
 }
 
