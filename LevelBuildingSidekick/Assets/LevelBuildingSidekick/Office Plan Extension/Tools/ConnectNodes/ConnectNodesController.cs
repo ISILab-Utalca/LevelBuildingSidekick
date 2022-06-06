@@ -2,6 +2,7 @@ using LevelBuildingSidekick;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using LevelBuildingSidekick.Graph;
 
 public class ConnectNodesController : ToolController
 {
@@ -18,6 +19,10 @@ public class ConnectNodesController : ToolController
 
     public override void Action(LevelRepresentationController level)
     {
+        if(firstNode == null)
+        {
+            return;
+        }
         GraphController graph = level as GraphController;
 
         NodeController n = graph.GetNodeAt(Event.current.mousePosition);
@@ -26,24 +31,28 @@ public class ConnectNodesController : ToolController
         CurrentPos = Vector2.zero;
         if (n == null)
         {
-            Debug.Log("NULL");
+            //Debug.Log("NULL");
             return;
         }
         if(n.Equals(firstNode)) // -> Can not connect to itself
         {
-            Debug.Log("SameNode");
+            //Debug.Log("SameNode");
             return;
         }
         if(graph.GetEdge(firstNode,n) != null) // -> Cannot create redundant edges
         {
-            Debug.Log("AlreadyConnected");
+            //Debug.Log("AlreadyConnected");
             return;
         }
 
         EdgeData edge = ScriptableObject.CreateInstance<EdgeData>();
         edge.node1 = firstNode.Data as NodeData;
         edge.node2 = n.Data as NodeData;
-        graph.AddEdge(edge);
+        if(graph.AddEdge(edge))
+        {
+            firstNode.neighbors.Add(n);
+            n.neighbors.Add(firstNode);
+        }
 
         firstNode = null;
     }
