@@ -16,12 +16,12 @@ namespace LevelBuildingSidekick
 
         private void OnInspectorUpdate()
         {
-            Repaint();
         }
 
         private void OnGUI()
         {
             draw?.Invoke();
+            Repaint();
         }
 
         private void OnDisable()
