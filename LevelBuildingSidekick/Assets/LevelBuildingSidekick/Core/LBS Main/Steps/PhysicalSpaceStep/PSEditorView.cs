@@ -37,7 +37,7 @@ namespace LevelBuildingSidekick
             PSEditorController controller = Controller as PSEditorController;
 
             
-            scrollPosition = GUILayout.BeginScrollView(scrollPosition, true, true);
+            //scrollPosition = GUILayout.BeginScrollView(scrollPosition, true, true);
             //GUILayout.BeginArea(new Rect(0, 0, 1000, 1000));
             //Debug.Log((Controller as PSEditorController).Level);
             //Debug.Log((Controller as PSEditorController).Level.View);
@@ -46,7 +46,7 @@ namespace LevelBuildingSidekick
             controller.Level.View.Display();
             //GUILayout.EndVertical();
             //GUILayout.EndArea();
-            GUILayout.EndScrollView();
+            //GUILayout.EndScrollView();
             
         }
 

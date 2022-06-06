@@ -11,6 +11,7 @@ public class ToolkitView : View
 
     public ToolkitView(Controller controller) : base(controller)
     {
+        //Debug.Log((controller as ToolkitController).ToolControllers.Count);
         ToolkitOverlay.draw = DrawToolkit;
     }
 
