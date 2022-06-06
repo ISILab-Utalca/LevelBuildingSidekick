@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using LevelBuildingSidekick;
 using System;
+using LevelBuildingSidekick.Graph;
 
 public class OfficePlanData : LevelRepresentationData
 {
