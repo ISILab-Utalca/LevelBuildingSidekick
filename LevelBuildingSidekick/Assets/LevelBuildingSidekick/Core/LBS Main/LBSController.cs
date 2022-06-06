@@ -24,6 +24,14 @@ namespace LevelBuildingSidekick
         List<Step> steps;
         public Step currentStep;
 
+        public LevelData CurrentLevel
+        {
+            get
+            {
+                return (Data as LBSData).levelData;
+            }
+        }
+
         public LBSController(Data data) : base(data)
         {
             //View = new LBSView(this);
@@ -47,25 +55,11 @@ namespace LevelBuildingSidekick
 
         public override void LoadData()
         {
-            //LBSData data = ScriptableObject.CreateInstance<LBSData>();
-            //data.name = "LBSData";
-            //Parse data from Data to LBSData
-            if (Data == null)
-            {
-                try
-                {
-                    Data = Resources.Load("LBSData") as LBSData;
-                }
-                catch
-                {
-                    Debug.LogError("No Data Found");
-                }
-            }
 
             LBSData data;
             try
             {
-                data = Data as LBSData;
+                data = Instance.Data as LBSData;
             }
             catch
             {
@@ -75,7 +69,7 @@ namespace LevelBuildingSidekick
 
 
             steps = new List<Step>();
-            foreach (Data d in data.StepsData)
+            foreach (Data d in data.stepsData)
             {
                 var step = Activator.CreateInstance(d.ControllerType, new object[] { d });
                 if(step is Step)
