@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: GraphData
   m_EditorClassIdentifier: 
   toolkitData: {fileID: 11400000, guid: ca8f1b44868ee8e419d75136002ccb2d, type: 2}
-  nodes:
-  - {fileID: 11400000, guid: a3241b0ad056d0e478b9629392eef0e9, type: 2}
+  nodes: []
   edges: []
