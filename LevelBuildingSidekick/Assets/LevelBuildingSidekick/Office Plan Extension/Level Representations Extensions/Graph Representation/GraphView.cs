@@ -24,7 +24,7 @@ namespace LevelBuildingSidekick.Graph
 
             scrollPos = GUILayout.BeginScrollView(scrollPos);
 
-            lastElement = controller.LastNode();
+            lastElement = controller.FartherPosition();
             var size = lastElement + offset;
 
             var r = GUILayoutUtility.GetRect(size.x, size.y);

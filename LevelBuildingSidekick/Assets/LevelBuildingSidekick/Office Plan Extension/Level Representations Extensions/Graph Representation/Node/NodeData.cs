@@ -29,7 +29,7 @@ namespace LevelBuildingSidekick.Graph
 
         public List<string> tags;
 
-        public Vector2Int Position { get; set; }
+        public Vector2Int position;
         public int Radius { get => 64; } // -> static?
         public Texture2D Sprite { get => Resources.Load("Textures/Circle") as Texture2D; } // -> static?
 

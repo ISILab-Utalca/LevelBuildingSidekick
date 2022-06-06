@@ -14,7 +14,7 @@ namespace LevelBuildingSidekick.Graph
         public Vector2Int Ratio => (Data as NodeData).aspectRatio;
         public ProportionType ProportionType => (Data as NodeData).proportionType;
 
-        public Vector2Int Position => (Data as NodeData).Position;
+        public Vector2Int Position => (Data as NodeData).position;
         public int Radius => (Data as NodeData).Radius;
 
         public NodeController(Data data) : base(data)
@@ -35,18 +35,18 @@ namespace LevelBuildingSidekick.Graph
         public Rect GetRect()
         {
             NodeData d = Data as NodeData;
-            return new Rect(d.Position, d.Radius * 2 * Vector2.one);
+            return new Rect(d.position, d.Radius * 2 * Vector2.one);
         }
 
         public void Translate(Vector2 delta)
         {
             NodeData d = Data as NodeData;
-            d.Position += new Vector2Int((int)delta.x,(int)delta.y);
+            d.position += new Vector2Int((int)delta.x,(int)delta.y);
         }
         public void Translate(Vector2Int delta)
         {
             NodeData d = Data as NodeData;
-            d.Position += delta;
+            d.position += delta;
         }
     }
 }

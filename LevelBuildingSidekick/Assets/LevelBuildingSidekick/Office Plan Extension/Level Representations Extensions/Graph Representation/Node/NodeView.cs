@@ -25,7 +25,7 @@ namespace LevelBuildingSidekick.Graph
             //Debug.Log("Node View");
             var data = Controller.Data as NodeData;
 
-            var pos = data.Position;
+            var pos = data.position;
             var size = 2 * data.Radius * Vector2.one;
 
             Rect rect = new Rect(pos, size);

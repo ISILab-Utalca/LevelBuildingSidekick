@@ -251,13 +251,16 @@ namespace LevelBuildingSidekick.Graph
             return false;
         }
 
-        public Vector2 LastNode()
+
+        public Vector2 FartherPosition()
         {
             if (Nodes.Count == 0)
             {
                 return Vector2.zero;
             }
-            return Nodes.Max((n) => (n.Data as NodeData).Position);
+            var x = Nodes.OrderBy((n) => n.Position.x).Last().Position.x;
+            var y = Nodes.OrderBy((n) => n.Position.y).Last().Position.y;
+            return new Vector2(x,y);
         }
 
         public override void Update()

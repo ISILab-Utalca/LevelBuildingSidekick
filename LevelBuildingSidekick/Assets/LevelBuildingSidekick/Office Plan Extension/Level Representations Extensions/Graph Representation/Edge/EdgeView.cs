@@ -23,8 +23,8 @@ public class EdgeView : View
         float r1 = d.node1.Radius;
         float r2 = d.node2.Radius;
 
-        Vector2 pos1 = d.node1.Position;
-        Vector2 pos2 = d.node2.Position;
+        Vector2 pos1 = d.node1.position;
+        Vector2 pos2 = d.node2.position;
 
         if(Mathf.Abs(pos1.x - pos2.x) > Mathf.Abs(pos1.y - pos2.y))
         {

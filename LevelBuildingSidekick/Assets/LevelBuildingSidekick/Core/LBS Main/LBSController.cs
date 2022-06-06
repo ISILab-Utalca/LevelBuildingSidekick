@@ -63,7 +63,7 @@ namespace LevelBuildingSidekick
             }
             catch
             {
-                Debug.LogError("Incorrect Data Type");
+                //Debug.LogError("Incorrect Data Type");
                 return;
             }
 
