@@ -6,6 +6,7 @@ using LevelBuildingSidekick.Blueprint;
 
 namespace LevelBuildingSidekick.Graph
 {
+    [System.Serializable]
     public class NodeController : Controller
     {
         public List<NodeController> neighbors;
@@ -36,6 +37,10 @@ namespace LevelBuildingSidekick.Graph
                 }
                 return Room.label;
             }
+            set
+            {
+                Room.label = value;
+            }
         }
 
         public Vector2Int Height
@@ -48,6 +53,14 @@ namespace LevelBuildingSidekick.Graph
                     return Vector2Int.zero;
                 }
                 return Room.height;
+            }
+            set
+            {
+                if (value.x < 1 || value.y < 1)
+                {
+                    return;
+                }
+                Room.height = value;
             }
         }
 
@@ -62,6 +75,14 @@ namespace LevelBuildingSidekick.Graph
                 }
                 return Room.width;
             }
+            set
+            {
+                if (value.x < 1 || value.y < 1)
+                {
+                    return;
+                }
+                Room.width = value;
+            }
         }
 
         public Vector2Int Ratio
@@ -75,9 +96,17 @@ namespace LevelBuildingSidekick.Graph
                 }
                 return Room.aspectRatio;
             }
+            set
+            {
+                if (value.x < 1 || value.y < 1)
+                {
+                    return;
+                }
+                Room.aspectRatio = value;
+            }
         }
 
-        public ProportionType proportionType
+        public ProportionType ProportionType
         {
             get
             {
@@ -87,6 +116,14 @@ namespace LevelBuildingSidekick.Graph
                     return ProportionType.NONE;
                 }
                 return Room.proportionType;
+            }
+            set
+            {
+                if (value == ProportionType.NONE)
+                {
+                    return;
+                }
+                Room.proportionType = value;
             }
         }
 
@@ -103,7 +140,8 @@ namespace LevelBuildingSidekick.Graph
 
         public override void Update()
         {
-
+            Label = "hola mundo";
+            Height = new Vector2Int(5, 5);
         }
 
         public Rect GetRect()

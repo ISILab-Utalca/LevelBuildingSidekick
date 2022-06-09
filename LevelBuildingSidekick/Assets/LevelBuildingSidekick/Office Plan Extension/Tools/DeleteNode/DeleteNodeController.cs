@@ -9,9 +9,7 @@ public class DeleteNodeController : ToolController
     public DeleteNodeController(Data data, ToolkitController toolkit) : base(data, toolkit)
     {
         View = new DeleteNodeView(this);
-        OnButtonClick.AddListener(() => { IsActive = !IsActive;}); //Debug.Log(IsActive); });
     }
-
 
     public override void Action(LevelRepresentationController level)
     {

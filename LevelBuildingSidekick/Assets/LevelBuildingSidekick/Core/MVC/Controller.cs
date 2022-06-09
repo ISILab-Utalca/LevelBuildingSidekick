@@ -13,12 +13,14 @@ namespace LevelBuildingSidekick
         public Controller(Data data)
         {
             Data = data;
+            //Debug.Log(this);
             LoadData();
         }
 
         public abstract void Update();
 
         public abstract void LoadData();
+
     }
 }
 

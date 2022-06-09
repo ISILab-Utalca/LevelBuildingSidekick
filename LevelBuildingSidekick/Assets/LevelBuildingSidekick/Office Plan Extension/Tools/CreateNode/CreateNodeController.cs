@@ -10,8 +10,12 @@ public class CreateNodeController : ToolController
     public CreateNodeController(Data data, ToolkitController toolkit) : base(data, toolkit)
     {
         View = new CreateNodeView(this);
-        OnButtonClick.AddListener(() => { IsActive = !IsActive; waiting = false; }); //Debug.Log(IsActive); });
-        IsActive = false;
+    }
+
+    public override void Switch()
+    {
+        base.Switch();
+        waiting = false;
     }
 
     public override void Action(LevelRepresentationController level)
@@ -22,6 +26,7 @@ public class CreateNodeController : ToolController
         //Debug.Log(level + " - " + graph);
         if (graph == null)
         {
+            Debug.Log("NULL Graph");
             return;
         }
 
@@ -30,9 +35,9 @@ public class CreateNodeController : ToolController
 
 
         node.position = new Vector2Int((int)(Event.current.mousePosition.x - node.Radius), (int)(Event.current.mousePosition.y - node.Radius));
-        node.label = "Node: " + graph.Nodes.Count.ToString();
+        //node.room.label = "Node: " + graph.Nodes.Count.ToString();
         graph.AddNode(node);
-        //Debug.Log("New node: " + node.label + " Node Count: " + graph.Nodes.Count);
+        Debug.Log("New node: " + node.room + " Node Count: " + graph.Nodes.Count);
 
     }
 
@@ -53,6 +58,7 @@ public class CreateNodeController : ToolController
             }
             if (waiting && (e.button == 0 && e.type.Equals(EventType.MouseUp)))
             {
+                //Debug.Log("Hi");
                 Action(Toolkit.Level);
                 waiting = false;
                 IsActive = false;

@@ -15,7 +15,6 @@ namespace LevelBuildingSidekick
         public override void LoadData()
         {
             var data = Data as LevelRepresentationData;
-
             var toolkit = Activator.CreateInstance(data.toolkitData.ControllerType, new object[] {data.toolkitData, this});
             if(toolkit is ToolkitController)
             {

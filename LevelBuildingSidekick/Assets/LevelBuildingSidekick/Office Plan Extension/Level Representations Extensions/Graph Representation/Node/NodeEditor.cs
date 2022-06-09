@@ -7,55 +7,39 @@ using UnityEditorInternal;
 
 namespace LevelBuildingSidekick.Graph
 {
-    [CustomEditor(typeof(NodeData))]
+    [CustomEditor(typeof(NodeController))]
     public class NodeEditor : Editor
     {
-        SerializedProperty node;
-        ReorderableList floorTiles;
-        ReorderableList wallTiles;
-        ReorderableList doorTiles;
 
         // Start is called before the first frame update
         private void OnEnable()
         {
-            node = serializedObject.FindProperty("node");
-            NodeData d = target as NodeData;
-            if (d.floorTiles == null)
-            {
-                d.floorTiles = new List<GameObject>();
-            }
-            if (d.wallTiles == null)
-            {
-                d.wallTiles = new List<GameObject>();
-            }
-            if (d.doorTiles == null)
-            {
-                d.doorTiles = new List<GameObject>();
-            }
+            
         }
 
         // Update is called once per frame
         public override void OnInspectorGUI()
         {
+
             //base.OnInspectorGUI();
-            NodeData g = target as NodeData;
+            NodeController nodeController = 
             //Espacio para proximo control
             EditorGUILayout.Space();
             
-            g.label = EditorGUILayout.TextField("Label ", g.label);
+            nodeController.Label = EditorGUILayout.TextField("Label ", nodeController.Label);
            
             //Espacio para proximo control
             EditorGUILayout.Space();
-            g.proportionType = (ProportionType)EditorGUILayout.EnumPopup("Proportion type", g.proportionType);
+            nodeController.ProportionType = (ProportionType)EditorGUILayout.EnumPopup("Proportion type", nodeController.ProportionType);
 
-            switch (g.proportionType)
+            switch (nodeController.ProportionType)
             {
                 case ProportionType.RATIO:
-                    g.aspectRatio = EditorGUILayout.Vector2IntField("Aspect Radio ", g.aspectRatio);
+                    nodeController.Ratio = EditorGUILayout.Vector2IntField("Aspect Radio ", nodeController.Ratio);
                     break;
                 case ProportionType.SIZE:
-                    g.width = EditorGUILayout.Vector2IntField("Width ", g.width);
-                    g.height = EditorGUILayout.Vector2IntField("Height", g.height);
+                    nodeController.Width = EditorGUILayout.Vector2IntField("Width ", nodeController.Width);
+                    nodeController.Height = EditorGUILayout.Vector2IntField("Height", nodeController.Height);
                     break;
             }
 
@@ -63,7 +47,10 @@ namespace LevelBuildingSidekick.Graph
             EditorGUILayout.Space();
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.Space();
-            var listFloor = g.floorTiles;
+            
+
+            /*
+            var listFloor = NodeController.floorTiles;
             int newCount = Mathf.Max(0, EditorGUILayout.IntField("Size", listFloor.Count));
             
             
@@ -76,6 +63,7 @@ namespace LevelBuildingSidekick.Graph
             {
                 //listFloor[i] = EditorGUILayout.TextField("Element: " + i, listFloor[i]);
             }
+            */
             EditorGUILayout.EndHorizontal();
 
         }

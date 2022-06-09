@@ -14,7 +14,6 @@ public class ConnectNodesController : ToolController
     {
         View = new ConnectNodesView(this);
         IsActive = false;
-        OnButtonClick.AddListener(() => { IsActive = !IsActive; });
     }
 
     public override void Action(LevelRepresentationController level)

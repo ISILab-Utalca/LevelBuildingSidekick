@@ -11,8 +11,7 @@ public class MoveNodeController : ToolController
     public MoveNodeController(Data data, ToolkitController toolkit) : base(data, toolkit)
     {
         View = new MoveNodeView(this);
-        IsActive = false;    
-        OnButtonClick.AddListener(() => { IsActive = !IsActive; }); //Debug.Log(IsActive); });
+        IsActive = false;
     }
 
     public override void Action(LevelRepresentationController level)

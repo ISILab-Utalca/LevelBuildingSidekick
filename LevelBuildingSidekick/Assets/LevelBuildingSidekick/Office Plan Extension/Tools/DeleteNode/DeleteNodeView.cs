@@ -28,7 +28,7 @@ public class DeleteNodeView : ToolView
         string t = controller.IsActive ? active : unnactive;
         if (GUILayout.Button(t))
         {
-            controller.OnButtonClick?.Invoke();
+            controller.Switch();
         }
     }
 
