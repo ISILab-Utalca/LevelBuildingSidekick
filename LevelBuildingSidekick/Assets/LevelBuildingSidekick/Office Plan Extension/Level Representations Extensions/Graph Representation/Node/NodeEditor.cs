@@ -65,6 +65,8 @@ namespace LevelBuildingSidekick.Graph
             EditorGUILayout.Space();
             var listFloor = g.floorTiles;
             int newCount = Mathf.Max(0, EditorGUILayout.IntField("Size", listFloor.Count));
+            
+            
             while (newCount < listFloor.Count)
                 listFloor.RemoveAt(listFloor.Count - 1);
             while (newCount > listFloor.Count)

@@ -8,6 +8,8 @@ namespace LevelBuildingSidekick.Blueprint
     public class RoomData : Data
     {
         public RoomCharacteristics room;
+
+
         public Vector2Int position;
         public Vector2Int bounds;
         public bool[,] surface;
