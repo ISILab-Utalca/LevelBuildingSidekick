@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using LevelBuildingSidekick;
+using LevelBuildingSidekick.Blueprint;
 
 namespace LevelBuildingSidekick.Graph
 {
@@ -10,6 +11,84 @@ namespace LevelBuildingSidekick.Graph
         public List<NodeController> neighbors;
         public Vector2Int Position => (Data as NodeData).position;
         public int Radius => (Data as NodeData).Radius;
+        public Texture2D Sprite => (Data as NodeData).Sprite;
+
+        public RoomCharacteristics Room
+        {
+            get
+            {
+                if ((Data as NodeData).room == null)
+                {
+                    return new RoomCharacteristics();
+                }
+                return (Data as NodeData).room;
+            }
+        }
+
+        public string Label
+        {
+            get
+            {
+                if (Room == null)
+                {
+                    Debug.LogWarning("Room does not Exist");
+                    return "";
+                }
+                return Room.label;
+            }
+        }
+
+        public Vector2Int Height
+        {
+            get
+            {
+                if (Room == null)
+                {
+                    Debug.LogWarning("Room does not Exist");
+                    return Vector2Int.zero;
+                }
+                return Room.height;
+            }
+        }
+
+        public Vector2Int Width
+        {
+            get
+            {
+                if (Room == null)
+                {
+                    Debug.LogWarning("Room does not Exist");
+                    return Vector2Int.zero;
+                }
+                return Room.width;
+            }
+        }
+
+        public Vector2Int Ratio
+        {
+            get
+            {
+                if ((Data as NodeData).room == null)
+                {
+                    Debug.LogWarning("Room does not Exist");
+                    return Vector2Int.zero;
+                }
+                return Room.aspectRatio;
+            }
+        }
+
+        public ProportionType proportionType
+        {
+            get
+            {
+                if(Room == null)
+                {
+                    Debug.LogWarning("Room does not Exit");
+                    return ProportionType.NONE;
+                }
+                return Room.proportionType;
+            }
+        }
 
         public NodeController(Data data) : base(data)
         {
@@ -24,6 +103,7 @@ namespace LevelBuildingSidekick.Graph
 
         public override void Update()
         {
+
         }
 
         public Rect GetRect()

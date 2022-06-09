@@ -12,11 +12,10 @@ namespace LevelBuildingSidekick.Graph
     [CreateAssetMenu(menuName = ("LevelBuildingSidekick/Level Represetations/Graph Representation/Node"))]
     public class NodeData : Data
     {
-        RoomCharacteristics room;
+        public RoomCharacteristics room;
         public Vector2Int position;
         public int Radius { get => 64; } // -> static?
         public Texture2D Sprite { get => Resources.Load("Textures/Circle") as Texture2D; } // -> static?
-
 
         public override Type ControllerType => typeof(NodeController);
 
