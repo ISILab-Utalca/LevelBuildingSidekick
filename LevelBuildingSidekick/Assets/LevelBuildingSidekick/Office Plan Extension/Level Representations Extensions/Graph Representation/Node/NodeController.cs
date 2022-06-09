@@ -8,12 +8,6 @@ namespace LevelBuildingSidekick.Graph
     public class NodeController : Controller
     {
         public List<NodeController> neighbors;
-        public string Label => (Data as NodeData).label;
-        public Vector2Int Width => (Data as NodeData).width;
-        public Vector2Int Heigth => (Data as NodeData).height;
-        public Vector2Int Ratio => (Data as NodeData).aspectRatio;
-        public ProportionType ProportionType => (Data as NodeData).proportionType;
-
         public Vector2Int Position => (Data as NodeData).position;
         public int Radius => (Data as NodeData).Radius;
 

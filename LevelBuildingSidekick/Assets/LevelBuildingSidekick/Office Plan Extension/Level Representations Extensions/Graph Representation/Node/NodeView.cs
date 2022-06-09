@@ -40,11 +40,6 @@ namespace LevelBuildingSidekick.Graph
             //Rect rt = GUILayoutUtility.GetAspectRect(1);
             //rt.position = Vector2.zero;
             //rt.size = Vector2.one * 2 * data.Radius;
-            GUI.contentColor = Color.black;
-            GUILayout.Label(data.label);
-            GUILayout.Label("Width: " + data.width.x + " - " + data.width.y);
-            GUILayout.Label("Width: " + data.height.x + " - " + data.height.y);
-            GUILayout.Label("Aspect Ratio: " + data.aspectRatio.x + " : " + data.aspectRatio.y);
             GUILayout.EndScrollView();
             GUILayout.EndArea();
         }
