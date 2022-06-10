@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using LevelBuildingSidekick;
 using System.Linq;
-
+using System;
 
 namespace LevelBuildingSidekick.Blueprint
 {
@@ -37,6 +37,7 @@ namespace LevelBuildingSidekick.Blueprint
                 return (Data as RoomData).surface;
             }
         }
+
         //Change to length of surface
         public Vector2Int Bounds
         {
@@ -61,6 +62,13 @@ namespace LevelBuildingSidekick.Blueprint
                 return Position + (Bounds / 2);
             }
             
+        }
+        public int ID
+        {
+            get
+            {
+                return GetHashCode();
+            }
         }
 
         public string Label
@@ -138,6 +146,17 @@ namespace LevelBuildingSidekick.Blueprint
                 (Data as RoomData).room.proportionType = value;
             }
         }
+        public HashSet<Vector2Int> TilePositions
+        {
+            get
+            {
+                if((Data as RoomData).tilePositions == null)
+                {
+                    (Data as RoomData).tilePositions = new HashSet<Vector2Int>();
+                }
+                return (Data as RoomData).tilePositions;
+            }
+        }
 
 
         public RoomController(Data data) : base(data)
@@ -189,6 +208,39 @@ namespace LevelBuildingSidekick.Blueprint
             }
             Bounds = size;
         }
+        public void ResizeToMin()
+        {
+            switch(ProportionType)
+            {
+                case ProportionType.RATIO:
+                    Resize(Ratio);
+                    break;
+                case ProportionType.SIZE:
+                    Resize(new Vector2Int(Width.x, Width.y));
+                    break;
+            }
+        }
+
+        public void Resize(Vector2Int size)
+        {
+            Bounds = size;
+            //Remove if out of size
+            foreach(Vector2Int v in tileP)
+            //Add till size
+            for(int i = 0; i < size.x; i++)
+            {
+                for(int j = 0; j < size.y; j++)
+                {
+
+                }
+            }
+        }
+
+        public override int GetHashCode()
+        {
+            return Label.GetHashCode();
+        }
+
     }
 
 
