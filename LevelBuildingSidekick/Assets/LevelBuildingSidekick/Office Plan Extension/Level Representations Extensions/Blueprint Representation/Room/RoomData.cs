@@ -12,6 +12,7 @@ namespace LevelBuildingSidekick.Blueprint
 
         public Vector2Int position;
         public Vector2Int bounds;
+        public HashSet<Vector2Int> tilePositions;
         public bool[,] surface;
 
 

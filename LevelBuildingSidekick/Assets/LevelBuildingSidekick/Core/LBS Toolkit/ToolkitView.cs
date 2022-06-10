@@ -15,11 +15,6 @@ public class ToolkitView : View
         ToolkitOverlay.draw = DrawToolkit;
     }
 
-    public override void Display()
-    {
-        Draw();
-    }
-
     public void DrawToolkit()
     {
         //GUILayout.Label("Toolkit");
@@ -31,12 +26,12 @@ public class ToolkitView : View
         }
     }
 
-    public override void Draw()
+    public override void Draw2D()
     {
         var controller = Controller as ToolkitController;
         foreach (ToolController t in controller.ToolControllers)
         {
-            t.View.Display();
+            t.View.Draw2D();
         }
     }
 

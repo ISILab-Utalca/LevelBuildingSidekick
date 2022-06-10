@@ -11,12 +11,7 @@ public class BlueprintView : LevelRepresentationView
     {
     }
 
-    public override void Display()
-    {
-        Draw();
-    }
-
-    public override void Draw()
+    public override void Draw2D()
     {
         BlueprintData data = (Controller as BlueprintController).Data as BlueprintData;
         scrollPos = EditorGUILayout.BeginScrollView(scrollPos);

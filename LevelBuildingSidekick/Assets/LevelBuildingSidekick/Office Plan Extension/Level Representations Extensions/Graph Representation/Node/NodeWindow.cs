@@ -24,10 +24,7 @@ public class NodeWindow : EditorWindow
             GUILayout.Label("None Selected");
             return;
         }
-        var editor = Editor.CreateEditor(controller.Data);
-        scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
-        editor.OnInspectorGUI();
-        EditorGUILayout.EndScrollView();
+        controller.View.DrawEditor();
     }
 
     private void OnDisable()

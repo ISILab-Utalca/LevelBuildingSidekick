@@ -11,15 +11,10 @@ namespace LevelBuildingSidekick
         {
         }
 
-        public override void Display()
-        {
-            Draw();
-        }
-
-        public override void Draw()
+        public override void Draw2D()
         {
             var controller = Controller as LevelRepresentationController;
-            controller.Toolkit.View.Display();
+            controller.Toolkit.View.Draw2D();
         }
     }
 }

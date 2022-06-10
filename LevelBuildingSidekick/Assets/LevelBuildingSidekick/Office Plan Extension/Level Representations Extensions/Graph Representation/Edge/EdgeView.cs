@@ -10,12 +10,7 @@ public class EdgeView : View
     {
     }
 
-    public override void Display()
-    {
-        Draw();
-    }
-
-    public override void Draw()
+    public override void Draw2D()
     {
         EdgeController c = Controller as EdgeController;
         EdgeData d = c.Data as EdgeData;

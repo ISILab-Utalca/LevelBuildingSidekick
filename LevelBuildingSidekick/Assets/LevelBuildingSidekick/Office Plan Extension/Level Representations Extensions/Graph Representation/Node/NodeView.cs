@@ -14,12 +14,7 @@ namespace LevelBuildingSidekick.Graph
         {
         }
 
-        public override void Display()
-        {
-            Draw();
-        }
-
-        public override void Draw()
+        public override void Draw2D()
         {
 
             //Debug.Log("Node View");
@@ -35,13 +30,39 @@ namespace LevelBuildingSidekick.Graph
             GUI.DrawTexture(rect, data.Sprite, ScaleMode.StretchToFill);
 
             GUILayout.BeginArea(innerRect);
-            scrollPos = GUILayout.BeginScrollView(scrollPos);
+            GUILayout.Label("AAAAAAAAAAAAAAAAAa");
+            //scrollPos = GUILayout.BeginScrollView(scrollPos);
             //GUILayout.Button(data.Sprite);
             //Rect rt = GUILayoutUtility.GetAspectRect(1);
             //rt.position = Vector2.zero;
             //rt.size = Vector2.one * 2 * data.Radius;
-            GUILayout.EndScrollView();
+            //GUILayout.EndScrollView();
             GUILayout.EndArea();
+        }
+
+        public override void DrawEditor()
+        {
+             NodeController nodeController = Controller as NodeController;
+            //Espacio para proximo control
+            EditorGUILayout.Space();
+            
+            nodeController.Label = EditorGUILayout.TextField("Label ", nodeController.Label);
+           
+            //Espacio para proximo control
+            EditorGUILayout.Space();
+            nodeController.ProportionType = (ProportionType)EditorGUILayout.EnumPopup("Proportion type", nodeController.ProportionType);
+
+            switch (nodeController.ProportionType)
+            {
+                case ProportionType.RATIO:
+                    nodeController.Ratio = EditorGUILayout.Vector2IntField("Aspect Radio ", nodeController.Ratio);
+                    break;
+                case ProportionType.SIZE:
+                    nodeController.Width = EditorGUILayout.Vector2IntField("Width ", nodeController.Width);
+                    nodeController.Height = EditorGUILayout.Vector2IntField("Height", nodeController.Height);
+                    break;
+            }
+
         }
     }
 }

@@ -7,31 +7,12 @@ namespace LevelBuildingSidekick
 {
     public class LBSView : View
     {
-        public LBSWindow Window { get; set; }
-
         public LBSView(Controller controller):base(controller)
         {
             //Window = EditorWindow.GetWindow<LBSWindow>();
         }
-        public override void Draw()
+        public override void Draw2D()
         {
-        }
-
-        public override void Display()
-        {
-            //Window.Show();
-        }
-    }
-
-    public class LBSWindow : EditorWindow
-    {
-        public void OnEnable()
-        {
-            
-        }
-        private void OnGUI()
-        {
-            
         }
     }
 }

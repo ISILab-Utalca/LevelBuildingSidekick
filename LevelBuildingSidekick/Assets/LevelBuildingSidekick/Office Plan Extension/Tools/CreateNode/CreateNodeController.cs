@@ -37,7 +37,7 @@ public class CreateNodeController : ToolController
         node.position = new Vector2Int((int)(Event.current.mousePosition.x - node.Radius), (int)(Event.current.mousePosition.y - node.Radius));
         //node.room.label = "Node: " + graph.Nodes.Count.ToString();
         graph.AddNode(node);
-        Debug.Log("New node: " + node.room + " Node Count: " + graph.Nodes.Count);
+        //Debug.Log("New node: " + node.room + " Node Count: " + graph.Nodes.Count);
 
     }
 

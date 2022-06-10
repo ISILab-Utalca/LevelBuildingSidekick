@@ -17,11 +17,7 @@ public class SelectNodeView : ToolView
     {
     }
 
-    public override void Display()
-    {
-    }
-
-    public override void Draw()
+    public override void Draw2D()
     {
         // -> Feedback of selection
     }

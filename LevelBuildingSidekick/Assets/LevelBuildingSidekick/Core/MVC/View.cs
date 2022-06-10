@@ -11,9 +11,9 @@ namespace LevelBuildingSidekick
         {
             Controller = controller;
         }
-        public abstract void Draw();
+        public virtual void Draw2D() { }
 
-        public abstract void Display();
+        public virtual void DrawEditor() { }
     }
 }
 

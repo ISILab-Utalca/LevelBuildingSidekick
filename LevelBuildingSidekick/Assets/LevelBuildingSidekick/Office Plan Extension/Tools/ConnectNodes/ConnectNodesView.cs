@@ -33,9 +33,7 @@ public class ConnectNodesView : ToolView
         }
     }
 
-    public override void Display() { Draw(); }
-
-    public override void Draw() 
+    public override void Draw2D() 
     {
         ConnectNodesController c = Controller as ConnectNodesController;
         if(c.InitialPos == Vector2.zero && c.CurrentPos == Vector2.zero)

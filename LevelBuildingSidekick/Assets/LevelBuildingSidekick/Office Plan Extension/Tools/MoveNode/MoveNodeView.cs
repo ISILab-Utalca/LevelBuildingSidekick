@@ -31,11 +31,7 @@ public class MoveNodeView : ToolView
         }
     }
 
-    public override void Display()
-    {
-    }
-
-    public override void Draw()
+    public override void Draw2D()
     {
     }
 }

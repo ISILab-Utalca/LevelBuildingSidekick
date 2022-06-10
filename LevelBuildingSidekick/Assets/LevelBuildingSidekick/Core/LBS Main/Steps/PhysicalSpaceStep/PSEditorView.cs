@@ -16,23 +16,12 @@ namespace LevelBuildingSidekick
             Window = EditorWindow.GetWindow<StepWindow>();
             //Window.minSize = Vector2.one* 100;
             //Window.Show();
-            Window.draw = Draw;
+            Window.draw = Draw2D;
             //Debug.Log("D: " + (Controller.Data as PSEditorData));
 
         }
 
-        public override void Display()
-        {
-            if(Window == null)
-            {
-                Window = EditorWindow.GetWindow<StepWindow>();
-                Window.draw = Draw;
-            }
-            Window.titleContent.text = (Controller.Data as PSEditorData).WindowName;
-            Window.Show();
-        }
-
-        public override void Draw()
+        public override void Draw2D()
         {
             PSEditorController controller = Controller as PSEditorController;
 
@@ -43,7 +32,7 @@ namespace LevelBuildingSidekick
             //Debug.Log((Controller as PSEditorController).Level.View);
             //GUILayout.BeginVertical();
             controller.Update();
-            controller.Level.View.Display();
+            controller.Level.View.Draw2D();
             //GUILayout.EndVertical();
             //GUILayout.EndArea();
             //GUILayout.EndScrollView();

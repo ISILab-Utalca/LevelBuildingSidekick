@@ -29,8 +29,6 @@ namespace LevelBuildingSidekick
             base.SaveChanges();
             //DestroyImmediate(this);
         }
-
-        
     }
 }
 

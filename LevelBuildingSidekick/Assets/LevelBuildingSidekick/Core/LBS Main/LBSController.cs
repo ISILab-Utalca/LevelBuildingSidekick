@@ -43,7 +43,8 @@ namespace LevelBuildingSidekick
         public static void ShowWindow()
         {
             //Debug.Log("I: " + Instance + " - Step: " + Instance.currentStep);
-            Instance.currentStep.View.Display();
+            var window = EditorWindow.CreateInstance<StepWindow>();
+            window.draw = Instance.currentStep.View.Draw2D;
             //var view = EditorWindow.GetWindow<LBSWindow>("Level Building Sidekick");
             //view.Show();
             /*

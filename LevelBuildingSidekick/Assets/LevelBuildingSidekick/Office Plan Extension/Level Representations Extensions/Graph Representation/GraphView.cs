@@ -10,7 +10,7 @@ namespace LevelBuildingSidekick.Graph
     public class GraphView : LevelRepresentationView
     {
         NodeWindow nodeInspector;
-        Vector2 scrollPos;
+        //Vector2 scrollPos;
         Vector2 lastElement;
         Vector2 offset;
         public GraphView(Controller controller) : base(controller)
@@ -18,18 +18,18 @@ namespace LevelBuildingSidekick.Graph
             offset = new Vector2Int(256, 256);
         }
 
-        public override void Draw()
+        public override void Draw2D()
         {
             var controller = Controller as GraphController;
 
-            scrollPos = GUILayout.BeginScrollView(scrollPos);
+            controller.scrollPosition = GUILayout.BeginScrollView(controller.scrollPosition);
 
             lastElement = controller.FartherPosition();
             var size = lastElement + offset;
 
             var r = GUILayoutUtility.GetRect(size.x, size.y);
             GUI.DrawTexture(r, new Texture2D(1, 1));
-            base.Draw();
+            base.Draw2D();
             //Debug.Log("Graph View");
 
             if (controller.SelectedNode != null)
@@ -48,11 +48,11 @@ namespace LevelBuildingSidekick.Graph
 
             foreach (NodeController n in controller.Nodes)
             {
-                n.View.Display();
+                n.View.Draw2D();
             }
             foreach (EdgeController e in controller.Edges)
             {
-                e.View.Display();
+                e.View.Draw2D();
             }
             GUILayout.EndScrollView();
 

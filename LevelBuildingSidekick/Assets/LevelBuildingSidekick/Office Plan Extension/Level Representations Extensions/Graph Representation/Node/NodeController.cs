@@ -131,6 +131,9 @@ namespace LevelBuildingSidekick.Graph
         {
             View = new NodeView(this);
             neighbors = new List<NodeController>();
+            Height = Vector2Int.one;
+            Width = Vector2Int.one;
+            Ratio = Vector2Int.one;
         }
 
         public override void LoadData()
