@@ -69,9 +69,12 @@ namespace LevelBuildingSidekick.Graph
 
         int step;
 
+        public Vector2 scrollPosition { get; set; }
+
         public GraphController(Data data) : base(data)
         {
             View = new GraphView(this);
+            scrollPosition = Vector2.zero;
         }
 
         public int[,] ToMatrix(out Vector2Int[] indexes)
