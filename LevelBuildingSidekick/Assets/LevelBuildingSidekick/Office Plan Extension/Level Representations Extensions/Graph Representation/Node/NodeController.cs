@@ -14,7 +14,7 @@ namespace LevelBuildingSidekick.Graph
         {
             get
             {
-                return Label.GetHashCode();
+                return GetHashCode();
             }
         }
         public Vector2Int Position => (Data as NodeData).position;
@@ -167,6 +167,11 @@ namespace LevelBuildingSidekick.Graph
         {
             NodeData d = Data as NodeData;
             d.position += delta;
+        }
+
+        public override int GetHashCode()
+        {
+            return Label.GetHashCode();
         }
     }
 }
