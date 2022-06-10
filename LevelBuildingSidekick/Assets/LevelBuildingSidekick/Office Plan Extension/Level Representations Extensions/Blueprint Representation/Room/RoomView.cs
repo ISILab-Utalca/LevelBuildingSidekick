@@ -12,7 +12,6 @@ namespace LevelBuildingSidekick.Blueprint
 
         public override void Draw2D()
         {
-            throw new System.NotImplementedException();
         }
     }
 }
