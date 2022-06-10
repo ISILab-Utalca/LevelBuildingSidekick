@@ -19,7 +19,7 @@ public class NodeWindow : EditorWindow
 
     private void OnGUI()
     {
-        if(controller.Data == null)
+        if(controller.Data == null) 
         {
             GUILayout.Label("None Selected");
             return;

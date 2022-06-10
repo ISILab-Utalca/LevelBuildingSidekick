@@ -9,6 +9,7 @@ namespace LevelBuildingSidekick.Graph
     {
         public Texture2D circle;
         Vector2 scrollPos;
+        bool ftDropdown;
 
         public NodeView(Controller controller) : base(controller)
         {
@@ -18,19 +19,19 @@ namespace LevelBuildingSidekick.Graph
         {
 
             //Debug.Log("Node View");
-            var data = Controller.Data as NodeData;
+            var node = Controller as NodeController;
 
-            var pos = data.position;
-            var size = 2 * data.Radius * Vector2.one;
+            var pos = node.Position;
+            var size = 2 * node.Radius * Vector2.one;
 
             Rect rect = new Rect(pos, size);
             Rect innerRect = new Rect(pos + (size * 0.2f), size * 0.6f); //0.7 == sqrt(2)/2, side of square inside circle inside square.
                                                                          //should be 0,15 but image has blank space
 
-            GUI.DrawTexture(rect, data.Sprite, ScaleMode.StretchToFill);
+            GUI.DrawTexture(rect, node.Sprite, ScaleMode.StretchToFill);
 
             GUILayout.BeginArea(innerRect);
-            GUILayout.Label("AAAAAAAAAAAAAAAAAa");
+            GUILayout.Label(node.Label);
             //scrollPos = GUILayout.BeginScrollView(scrollPos);
             //GUILayout.Button(data.Sprite);
             //Rect rt = GUILayoutUtility.GetAspectRect(1);
@@ -63,6 +64,27 @@ namespace LevelBuildingSidekick.Graph
                     break;
             }
 
+            //Espacio para proximo control
+            EditorGUILayout.Space();
+
+            ftDropdown = EditorGUILayout.BeginFoldoutHeaderGroup(ftDropdown, "Floor Tiles");
+            if(ftDropdown)
+            {
+                var list = nodeController.FloorTiles;
+                int newCount = Mathf.Max(0, EditorGUILayout.IntField("Size", list.Count));
+                while (newCount < list.Count)
+                    list.RemoveAt(list.Count - 1);
+                while (newCount > list.Count)
+                    list.Add(null);
+
+                for (int i = 0; i < list.Count; i++)
+                {
+                    list[i] = EditorGUILayout.ObjectField("Element " + i, list[i], typeof(GameObject), true) as GameObject;
+                }
+            }
+            EditorGUILayout.EndFoldoutHeaderGroup();
+                
+           
         }
     }
 }

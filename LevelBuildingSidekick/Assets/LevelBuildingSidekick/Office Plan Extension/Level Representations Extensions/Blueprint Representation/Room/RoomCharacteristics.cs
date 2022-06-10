@@ -16,9 +16,11 @@ namespace LevelBuildingSidekick.Blueprint
         //Should be in children class
         [NonReorderable]
         public List<GameObject> floorTiles;
+
         //[SerializeField]
         [NonReorderable]
         public List<GameObject> wallTiles;
+
         //[SerializeField]
         [NonReorderable]
         public List<GameObject> doorTiles;
