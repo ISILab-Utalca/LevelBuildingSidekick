@@ -70,6 +70,17 @@ namespace LevelBuildingSidekick.Blueprint
                 return GetHashCode();
             }
         }
+        public RoomCharacteristics Room
+        {
+            get
+            {
+                if ((Data as RoomData).room == null)
+                {
+                    return new RoomCharacteristics();
+                }
+                return (Data as RoomData).room;
+            }
+        }
 
         public string Label
         {
@@ -157,6 +168,41 @@ namespace LevelBuildingSidekick.Blueprint
                 return (Data as RoomData).tilePositions;
             }
         }
+        public List<GameObject> FloorTiles
+        {
+            get
+            {
+                if (Room.floorTiles == null)
+                {
+                    Room.floorTiles = new List<GameObject>();
+                }
+                return Room.floorTiles;
+            }
+        }
+
+        public List<GameObject> WallTiles
+        {
+            get
+            {
+                if (Room.wallTiles == null)
+                {
+                    Room.wallTiles = new List<GameObject>();
+                }
+                return Room.wallTiles;
+            }
+        }
+
+        public List<GameObject> DoorTiles
+        {
+            get
+            {
+                if (Room.doorTiles == null)
+                {
+                    Room.doorTiles = new List<GameObject>();
+                }
+                return Room.doorTiles;
+            }
+        }
 
 
         public RoomController(Data data) : base(data)
@@ -225,7 +271,7 @@ namespace LevelBuildingSidekick.Blueprint
         {
             Bounds = size;
             //Remove if out of size
-            foreach(Vector2Int v in tileP)
+            foreach(Vector2Int v in TilePositions)
             //Add till size
             for(int i = 0; i < size.x; i++)
             {

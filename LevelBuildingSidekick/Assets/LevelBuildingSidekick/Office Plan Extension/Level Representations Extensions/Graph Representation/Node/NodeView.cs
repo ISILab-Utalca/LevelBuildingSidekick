@@ -10,6 +10,8 @@ namespace LevelBuildingSidekick.Graph
         public Texture2D circle;
         Vector2 scrollPos;
         bool ftDropdown;
+        bool wtDropdown;
+        bool dtDropdown;
 
         public NodeView(Controller controller) : base(controller)
         {
@@ -43,24 +45,24 @@ namespace LevelBuildingSidekick.Graph
 
         public override void DrawEditor()
         {
-             NodeController nodeController = Controller as NodeController;
+             NodeController controller = Controller as NodeController;
             //Espacio para proximo control
             EditorGUILayout.Space();
             
-            nodeController.Label = EditorGUILayout.TextField("Label ", nodeController.Label);
+            controller.Label = EditorGUILayout.TextField("Label ", controller.Label);
            
             //Espacio para proximo control
             EditorGUILayout.Space();
-            nodeController.ProportionType = (ProportionType)EditorGUILayout.EnumPopup("Proportion type", nodeController.ProportionType);
+            controller.ProportionType = (ProportionType)EditorGUILayout.EnumPopup("Proportion type", controller.ProportionType);
 
-            switch (nodeController.ProportionType)
+            switch (controller.ProportionType)
             {
                 case ProportionType.RATIO:
-                    nodeController.Ratio = EditorGUILayout.Vector2IntField("Aspect Radio ", nodeController.Ratio);
+                    controller.Ratio = EditorGUILayout.Vector2IntField("Aspect Radio ", controller.Ratio);
                     break;
                 case ProportionType.SIZE:
-                    nodeController.Width = EditorGUILayout.Vector2IntField("Width ", nodeController.Width);
-                    nodeController.Height = EditorGUILayout.Vector2IntField("Height", nodeController.Height);
+                    controller.Width = EditorGUILayout.Vector2IntField("Width ", controller.Width);
+                    controller.Height = EditorGUILayout.Vector2IntField("Height", controller.Height);
                     break;
             }
 
@@ -70,7 +72,7 @@ namespace LevelBuildingSidekick.Graph
             ftDropdown = EditorGUILayout.BeginFoldoutHeaderGroup(ftDropdown, "Floor Tiles");
             if(ftDropdown)
             {
-                var list = nodeController.FloorTiles;
+                var list = controller.FloorTiles;
                 int newCount = Mathf.Max(0, EditorGUILayout.IntField("Size", list.Count));
                 while (newCount < list.Count)
                     list.RemoveAt(list.Count - 1);
@@ -83,8 +85,46 @@ namespace LevelBuildingSidekick.Graph
                 }
             }
             EditorGUILayout.EndFoldoutHeaderGroup();
-                
-           
+
+            EditorGUILayout.Space();
+
+            wtDropdown = EditorGUILayout.BeginFoldoutHeaderGroup(wtDropdown, "Wall Tiles");
+            if (wtDropdown)
+            {
+                var list = controller.WallTiles;
+                int newCount = Mathf.Max(0, EditorGUILayout.IntField("Size", list.Count));
+                while (newCount < list.Count)
+                    list.RemoveAt(list.Count - 1);
+                while (newCount > list.Count)
+                    list.Add(null);
+
+                for (int i = 0; i < list.Count; i++)
+                {
+                    list[i] = EditorGUILayout.ObjectField("Element " + i, list[i], typeof(GameObject), true) as GameObject;
+                }
+            }
+            EditorGUILayout.EndFoldoutHeaderGroup();
+
+            EditorGUILayout.Space();
+
+            dtDropdown = EditorGUILayout.BeginFoldoutHeaderGroup(dtDropdown, "Door Tiles");
+            if (dtDropdown)
+            {
+                var list = controller.DoorTiles;
+                int newCount = Mathf.Max(0, EditorGUILayout.IntField("Size", list.Count));
+                while (newCount < list.Count)
+                    list.RemoveAt(list.Count - 1);
+                while (newCount > list.Count)
+                    list.Add(null);
+
+                for (int i = 0; i < list.Count; i++)
+                {
+                    list[i] = EditorGUILayout.ObjectField("Element " + i, list[i], typeof(GameObject), true) as GameObject;
+                }
+            }
+            EditorGUILayout.EndFoldoutHeaderGroup();
+
+
         }
     }
 }

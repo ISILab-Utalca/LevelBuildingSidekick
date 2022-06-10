@@ -146,6 +146,30 @@ namespace LevelBuildingSidekick.Graph
             }
         }
 
+        public List<GameObject> WallTiles
+        {
+            get
+            {
+                if (Room.wallTiles == null)
+                {
+                    Room.wallTiles = new List<GameObject>();
+                }
+                return Room.wallTiles;
+            }
+        }
+
+        public List<GameObject> DoorTiles
+        {
+            get
+            {
+                if (Room.doorTiles == null)
+                {
+                    Room.doorTiles = new List<GameObject>();
+                }
+                return Room.doorTiles;
+            }
+        }
+
         public NodeController(Data data) : base(data)
         {
             View = new NodeView(this);
