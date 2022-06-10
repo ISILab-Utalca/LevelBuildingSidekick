@@ -13,13 +13,27 @@ namespace LevelBuildingSidekick.Blueprint
         {
             get
             {
+                if ((Data as RoomData) == null)
+                {
+                    Debug.LogWarning("Room does not Exist");
+                    return Vector2Int.zero;
+                }
                 return (Data as RoomData).position;
+            }
+            set
+            {
+                (Data as RoomData).position = value;
             }
         }
         public bool[,] Surface
         {
             get
             {
+                if ((Data as RoomData) == null)
+                {
+                    Debug.LogWarning("Room does not Exist");
+                    return null;
+                }
                 return (Data as RoomData).surface;
             }
         }
@@ -28,6 +42,11 @@ namespace LevelBuildingSidekick.Blueprint
         {
             get
             {
+                if ((Data as RoomData) == null)
+                {
+                    Debug.LogWarning("Room does not Exist");
+                    return Vector2Int.zero;
+                }
                 return (Data as RoomData).bounds;
             }
             set
@@ -41,6 +60,7 @@ namespace LevelBuildingSidekick.Blueprint
             {
                 return Position + (Bounds / 2);
             }
+            
         }
 
         public string Label
@@ -54,6 +74,10 @@ namespace LevelBuildingSidekick.Blueprint
                 }
                 return (Data as RoomData).room.label;
             }
+            set
+            {
+                (Data as RoomData).room.label = value;
+            }
         }
         public Vector2Int Height
         {
@@ -65,6 +89,10 @@ namespace LevelBuildingSidekick.Blueprint
                     return Vector2Int.zero;
                 }
                 return (Data as RoomData).room.height;
+            }
+            set
+            {
+                (Data as RoomData).room.height = value;
             }
         }
         public Vector2Int Width
@@ -78,6 +106,10 @@ namespace LevelBuildingSidekick.Blueprint
                 }
                 return (Data as RoomData).room.width;
             }
+            set
+            {
+                (Data as RoomData).room.width = value;
+            }
         }
         public Vector2Int Ratio
         {
@@ -90,12 +122,20 @@ namespace LevelBuildingSidekick.Blueprint
                 }
                 return (Data as RoomData).room.aspectRatio;
             }
+            set
+            {
+                (Data as RoomData).room.aspectRatio = value;
+            }
         }
         public ProportionType ProportionType
         {
             get
             {
                 return (Data as RoomData).room.proportionType;
+            }
+            set
+            {
+                (Data as RoomData).room.proportionType = value;
             }
         }
 
