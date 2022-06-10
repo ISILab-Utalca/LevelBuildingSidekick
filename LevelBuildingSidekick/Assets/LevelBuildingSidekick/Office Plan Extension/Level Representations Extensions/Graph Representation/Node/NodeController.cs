@@ -10,6 +10,13 @@ namespace LevelBuildingSidekick.Graph
     public class NodeController : Controller
     {
         public List<NodeController> neighbors;
+        public int ID
+        {
+            get
+            {
+                return Label.GetHashCode();
+            }
+        }
         public Vector2Int Position => (Data as NodeData).position;
         public int Radius => (Data as NodeData).Radius;
         public Texture2D Sprite => (Data as NodeData).Sprite;
@@ -50,7 +57,7 @@ namespace LevelBuildingSidekick.Graph
                 if (Room == null)
                 {
                     Debug.LogWarning("Room does not Exist");
-                    return Vector2Int.zero;
+                    return Vector2Int.one;
                 }
                 return Room.height;
             }
@@ -71,7 +78,7 @@ namespace LevelBuildingSidekick.Graph
                 if (Room == null)
                 {
                     Debug.LogWarning("Room does not Exist");
-                    return Vector2Int.zero;
+                    return Vector2Int.one;
                 }
                 return Room.width;
             }
@@ -92,7 +99,7 @@ namespace LevelBuildingSidekick.Graph
                 if ((Data as NodeData).room == null)
                 {
                     Debug.LogWarning("Room does not Exist");
-                    return Vector2Int.zero;
+                    return Vector2Int.one;
                 }
                 return Room.aspectRatio;
             }
@@ -113,7 +120,7 @@ namespace LevelBuildingSidekick.Graph
                 if(Room == null)
                 {
                     Debug.LogWarning("Room does not Exit");
-                    return ProportionType.NONE;
+                    return ProportionType.RATIO;
                 }
                 return Room.proportionType;
             }
@@ -143,8 +150,6 @@ namespace LevelBuildingSidekick.Graph
 
         public override void Update()
         {
-            Label = "hola mundo";
-            Height = new Vector2Int(5, 5);
         }
 
         public Rect GetRect()
