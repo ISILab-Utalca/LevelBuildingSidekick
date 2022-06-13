@@ -14,8 +14,8 @@ namespace LevelBuildingSidekick.Graph
     {
         public RoomCharacteristics room;
         public Vector2Int position;
-        public int Radius { get => 64; } // -> static?
-        public Texture2D Sprite { get => Resources.Load("Textures/Circle") as Texture2D; } // -> static?
+        public int radius { get => 64; } // -> static?
+        public Texture2D sprite { get => Resources.Load("Textures/Circle") as Texture2D; } // -> static?
 
         public override Type ControllerType => typeof(NodeController);
 

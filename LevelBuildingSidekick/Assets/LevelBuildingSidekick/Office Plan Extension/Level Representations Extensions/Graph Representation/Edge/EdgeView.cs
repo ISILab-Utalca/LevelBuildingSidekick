@@ -15,8 +15,8 @@ public class EdgeView : View
         EdgeController c = Controller as EdgeController;
         EdgeData d = c.Data as EdgeData;
 
-        float r1 = d.node1.Radius;
-        float r2 = d.node2.Radius;
+        float r1 = d.node1.radius;
+        float r2 = d.node2.radius;
 
         Vector2 pos1 = d.node1.position;
         Vector2 pos2 = d.node2.position;

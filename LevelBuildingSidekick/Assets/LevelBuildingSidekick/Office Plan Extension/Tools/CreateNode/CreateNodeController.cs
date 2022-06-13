@@ -34,7 +34,7 @@ public class CreateNodeController : ToolController
         NodeData node = ScriptableObject.CreateInstance<NodeData>();
 
 
-        node.position = new Vector2Int((int)(Event.current.mousePosition.x - node.Radius), (int)(Event.current.mousePosition.y - node.Radius));
+        node.position = new Vector2Int((int)(Event.current.mousePosition.x - node.radius), (int)(Event.current.mousePosition.y - node.radius));
         //node.room.label = "Node: " + graph.Nodes.Count.ToString();
         graph.AddNode(node);
         //Debug.Log("New node: " + node.room + " Node Count: " + graph.Nodes.Count);

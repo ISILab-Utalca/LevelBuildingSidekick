@@ -17,9 +17,39 @@ namespace LevelBuildingSidekick.Graph
                 return GetHashCode();
             }
         }
-        public Vector2Int Position => (Data as NodeData).position;
-        public int Radius => (Data as NodeData).Radius;
-        public Texture2D Sprite => (Data as NodeData).Sprite;
+        public Vector2Int Position
+        {
+            get
+            {
+                if ((Data as NodeData == null))
+                {
+                    return Vector2Int.zero;
+                }
+                return (Data as NodeData).position;
+            }
+        }
+        public int Radius
+        {
+            get
+            {
+                if ((Data as NodeData == null))
+                {
+                    return 0;
+                }
+                return (Data as NodeData).radius;
+            }
+        }
+        public Texture2D Sprite
+        {
+            get
+            {
+                if ((Data as NodeData == null))
+                {
+                    return null;
+                }
+                return (Data as NodeData).sprite;
+            }
+        } 
 
         public RoomCharacteristics Room
         {
@@ -191,7 +221,7 @@ namespace LevelBuildingSidekick.Graph
         public Rect GetRect()
         {
             NodeData d = Data as NodeData;
-            return new Rect(d.position, d.Radius * 2 * Vector2.one);
+            return new Rect(d.position, d.radius * 2 * Vector2.one);
         }
 
         public void Translate(Vector2 delta)
