@@ -245,16 +245,17 @@ namespace LevelBuildingSidekick.Blueprint
 
         public Vector2Int CloserEmpty(Vector2 direction, Vector2Int position, out Vector2Int lastPos)
         {
+            Debug.Log(direction);
             lastPos = position;
             if((position.x < 0 || position.x >= Size.x) && (position.y < 0 || position.y >= Size.y))
             {
-                Debug.LogWarning("-1,-1");
+                //Debug.LogWarning("-1,-1");
                 return -Vector2Int.one;
             }
 
             if(TileMap[position.x, position.y] == 0)
             {
-                Debug.LogWarning(position);
+                //Debug.LogWarning(position);
                 return position;
             }
 
@@ -263,17 +264,18 @@ namespace LevelBuildingSidekick.Blueprint
             do
             {
                 lastPos = emptyPos;
+                //Debug.Log(new Vector2Int((int)(direction.x * i), (int)(direction.y * i)));
                 emptyPos = position + (new Vector2Int((int)(direction.x * i), (int)(direction.y * i)));
                 if (emptyPos.x >= Size.x || emptyPos.y >= Size.y || emptyPos.x < 0 || emptyPos.y < 0)
                 {
-                    Debug.LogWarning("-1,-1");
+                    //Debug.LogWarning("-1,-1");
                     return -Vector2Int.one;
                 }
                 i++;
             }
             while (TileMap[emptyPos.x, emptyPos.y] != 0);
 
-            Debug.LogWarning(emptyPos);
+            //Debug.LogWarning(emptyPos);
             return emptyPos;
         }
 
@@ -281,12 +283,12 @@ namespace LevelBuildingSidekick.Blueprint
         {
             if ((position.x < 0 || position.x >= Size.x) && (position.y < 0 || position.y >= Size.y))
             {
-                Debug.LogWarning("-1,-1");
+                //Debug.LogWarning("-1,-1");
                 return -Vector2Int.one;
             }
             if (TileMap[position.x, position.y] == 0)
             {
-                Debug.LogWarning(position);
+                //Debug.LogWarning(position);
                 return position;
             }
 
@@ -314,12 +316,12 @@ namespace LevelBuildingSidekick.Blueprint
                 }
                 if(iterations > TileMap.Length*4)
                 {
-                    Debug.LogWarning("-1,-1");
+                    //Debug.LogWarning("-1,-1");
                     return -Vector2Int.one;
                 }
             }
 
-            Debug.LogWarning(emptyPos);
+            //Debug.LogWarning(emptyPos);
             return emptyPos;
         }
 
@@ -332,7 +334,7 @@ namespace LevelBuildingSidekick.Blueprint
 
             foreach(Vector2Int pos in room.TilePositions)
             {
-                Debug.LogWarning("R.P: " + room.Position +   "Pos: " + pos + " - Size: " + Size);
+                //Debug.LogWarning("R.P: " + room.Position +   "Pos: " + pos + " - Size: " + Size);
                 TileMap[room.Position.x + pos.x, room.Position.y + pos.y] = 0;
             }
             room.ResizeToMin();

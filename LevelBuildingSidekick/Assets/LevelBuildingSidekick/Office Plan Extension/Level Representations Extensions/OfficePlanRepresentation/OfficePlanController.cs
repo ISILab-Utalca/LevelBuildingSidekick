@@ -208,20 +208,20 @@ namespace LevelBuildingSidekick.OfficePlan
                     {
                         continue;
                     }
-                    Vector2 dir = (Vector2)(parent.Position - n.Position) / Vector2.Distance(parent.Position, n.Position);
+                    Vector2 dir = (Vector2)(n.Position - parent.Position) / Vector2.Distance(parent.Position, n.Position);
                     Vector2Int pos = Blueprint.CloserEmpty(dir, parentRoom.Position, out Vector2Int last);
                     if (pos.x <0 || pos.y < 0)
                     {
                         pos = Blueprint.CloserEmptyFrom(last);
                     }
-                    if (pos.x < 0 || pos.y < 0)
+                    /*if (pos.x < 0 || pos.y < 0)
                     {
                         pos = Vector2Int.zero;
-                    }
+                    }*/
 
-                    Debug.LogWarning(pos);
+                    //Debug.LogWarning(pos);
 
-                    room = Blueprint.AddRoom(n.Room, Vector2Int.zero);
+                    room = Blueprint.AddRoom(n.Room, pos);
                     //Debug.Log(room.ID);
                     Blueprint.ResizeRoomToMin(room);
                     open.Add(n);
@@ -327,7 +327,7 @@ namespace LevelBuildingSidekick.OfficePlan
                 Debug.LogError("The Tiles Prefabs are NULL");
                 return;
             }
-            Debug.Log("B.R: " + Blueprint.Rooms.Count);
+            //Debug.Log("B.R: " + Blueprint.Rooms.Count);
             foreach (RoomController r in Blueprint.Rooms)
             {
                 GameObject parent = new GameObject(r.Label);

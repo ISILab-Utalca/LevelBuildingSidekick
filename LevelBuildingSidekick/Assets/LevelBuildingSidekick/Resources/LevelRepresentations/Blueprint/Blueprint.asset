@@ -16,6 +16,4 @@ MonoBehaviour:
   step: 20
   stride: 0
   size: {x: 20, y: 20}
-  rooms:
-  - {fileID: 0}
-  - {fileID: 0}
+  rooms: []
