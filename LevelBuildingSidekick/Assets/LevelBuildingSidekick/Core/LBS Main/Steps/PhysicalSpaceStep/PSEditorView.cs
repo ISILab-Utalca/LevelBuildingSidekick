@@ -7,16 +7,14 @@ namespace LevelBuildingSidekick
 {
     public class PSEditorView : View
     {
-        StepWindow Window { get; set; }
-        Vector2 scrollPosition;
+        GenericWindow Window { get; set; }
 
         public PSEditorView(Controller controller):base(controller)
         {
-            scrollPosition = Vector2.zero;
-            Window = EditorWindow.GetWindow<StepWindow>();
+            //Window = EditorWindow.GetWindow<GenericWindow>();
             //Window.minSize = Vector2.one* 100;
             //Window.Show();
-            Window.draw = Draw2D;
+            //Window.draw = Draw2D;
             //Debug.Log("D: " + (Controller.Data as PSEditorData));
 
         }
@@ -32,7 +30,7 @@ namespace LevelBuildingSidekick
             //Debug.Log((Controller as PSEditorController).Level.View);
             //GUILayout.BeginVertical();
             controller.Update();
-            controller.Level.View.Draw2D();
+            controller.LevelRepresentation.View.Draw2D();
             //GUILayout.EndVertical();
             //GUILayout.EndArea();
             //GUILayout.EndScrollView();

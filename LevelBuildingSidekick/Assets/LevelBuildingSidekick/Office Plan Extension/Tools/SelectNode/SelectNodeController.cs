@@ -17,6 +17,10 @@ public class SelectNodeController : ToolController
     {
         GraphController graph = level as GraphController;
 
+        if (graph == null)
+        {
+            return;
+        }
         NodeController n = graph.GetNodeAt(Event.current.mousePosition);
         if(n!=null)
         {

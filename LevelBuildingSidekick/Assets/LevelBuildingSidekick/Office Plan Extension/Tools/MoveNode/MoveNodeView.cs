@@ -13,11 +13,6 @@ public class MoveNodeView : ToolView
         unnactive = "!Moving";
     }
 
-    public override void DisplayInToolkit()
-    {
-        DrawInToolkit();
-    }
-
     public override void DrawInToolkit()
     {
         var data = Controller.Data as MoveNodeData;

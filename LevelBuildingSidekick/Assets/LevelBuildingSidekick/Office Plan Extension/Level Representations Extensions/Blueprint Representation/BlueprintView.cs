@@ -4,37 +4,66 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-public class BlueprintView : LevelRepresentationView
+namespace LevelBuildingSidekick.Blueprint
 {
-    Vector2 scrollPos;
-    public BlueprintView(Controller controller) : base(controller)
+    public class BlueprintView : LevelRepresentationView
     {
-    }
-
-    public override void Draw2D()
-    {
-        BlueprintData data = (Controller as BlueprintController).Data as BlueprintData;
-        scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
-        EditorGUILayout.BeginVertical();
-        for(int i = 0; i < data.tilemap.GetLength(0); i++)
+        Vector2 scrollPos;
+        public BlueprintView(Controller controller) : base(controller)
         {
-            EditorGUILayout.BeginHorizontal();
-            for(int j = 0; j < data.tilemap.GetLength(1); j++)
+        }
+
+        public override void Draw2D()
+        {
+            var controller = (Controller as BlueprintController);
+            scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
+
+            var r = GUILayoutUtility.GetRect((controller.Size.x * controller.Step) + ((controller.Size.x + 1) * controller.Stride),
+                                            (controller.Size.y * controller.Step) + ((controller.Size.y + 1) * controller.Stride));
+            //GUILayout.BeginArea(r);
+
+            //Texture2D texture = new Texture2D(controller.Size.x, controller.Size.y);
+            Texture2D texture = new Texture2D(1, 1);
+            texture.SetPixel(0, 0, Color.black);
+
+            for (int i = 0; i < controller.TileMap.GetLength(0); i++)
             {
-                if (data.tilemap[i,j] == 0)
+                for (int j = 0; j < controller.TileMap.GetLength(1); j++)
                 {
-                    Handles.DrawSolidRectangleWithOutline(new Rect(0, 0, data.tileSize, data.tileSize), Color.gray, Color.gray);
-                }
-                else
-                {
-                    Handles.DrawSolidRectangleWithOutline(new Rect(0, 0, data.tileSize, data.tileSize), Color.white, Color.white);
+                    if (controller.TileMap[i, j] == 0)
+                    {
+                        //texture.SetPixel(i, j, Color.black);
+                        /*Handles.DrawSolidRectangleWithOutline(new Rect((controller.Step*i) + (controller.Stride*(i+1)),
+                            (controller.Step * j) + (controller.Stride * (j + 1)), 
+                            controller.Step, controller.Step), 
+                            Color.black, Color.black);*/
+                    }
+                    else
+                    {
+                        //texture.SetPixel(i, j, Color.white);
+                        Handles.DrawSolidRectangleWithOutline(new Rect((controller.Step * i) + (controller.Stride * (i + 1)),
+                            (controller.Step * j) + (controller.Stride * (j + 1)),
+                            controller.Step, controller.Step),
+                            Color.white, Color.white);
+                    }
                 }
             }
-            EditorGUILayout.EndHorizontal();
-        }
-        EditorGUILayout.EndVertical();
-        EditorGUILayout.EndScrollView();
-            
-    }
+            texture.Apply();
+            //base.Draw2D();
+            GUI.DrawTexture(r, texture);
+            //GUILayout.EndArea();
+            EditorGUILayout.EndScrollView();
 
+        }
+
+        public override void DrawEditor()
+        {
+            var controller = Controller as BlueprintController;
+            controller.Size = EditorGUILayout.Vector2IntField("Size", controller.Size);
+            controller.Step = EditorGUILayout.IntField("Size", controller.Step);
+            controller.Stride = EditorGUILayout.IntField("Size", controller.Stride);
+        }
+
+    }
 }
+

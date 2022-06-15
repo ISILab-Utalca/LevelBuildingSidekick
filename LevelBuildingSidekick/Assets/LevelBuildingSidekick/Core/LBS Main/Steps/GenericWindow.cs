@@ -6,12 +6,11 @@ using UnityEditor.Overlays;
 
 namespace LevelBuildingSidekick
 {
-    public class StepWindow : EditorWindow, ISupportsOverlays
+    public class GenericWindow : EditorWindow, ISupportsOverlays
     {
         public System.Action draw;
         private void OnEnable()
         {
-            minSize = new Vector2(100,100);
         }
 
         private void OnInspectorUpdate()

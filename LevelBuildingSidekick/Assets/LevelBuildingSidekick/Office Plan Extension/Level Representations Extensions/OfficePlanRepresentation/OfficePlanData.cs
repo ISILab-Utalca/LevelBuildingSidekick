@@ -4,12 +4,30 @@ using UnityEngine;
 using LevelBuildingSidekick;
 using System;
 using LevelBuildingSidekick.Graph;
+using LevelBuildingSidekick.Blueprint;
 
-public class OfficePlanData : LevelRepresentationData
+
+namespace LevelBuildingSidekick.OfficePlan
 {
-    GraphData graph;
-    BlueprintData blueprint;
+    [CreateAssetMenu(menuName = "LevelBuildingSidekick/Level Represetation/OfficePlan Representation/Level")]
+    public class OfficePlanData : LevelRepresentationData
+    {
+        public GraphData graph;
+        public BlueprintData blueprint;
+        public TeselationType type;
+        public ToolkitData toolkit;
+        public GameObject floor;
+        public GameObject wall;
+        public GameObject door;
 
-    public override Type ControllerType => typeof(OfficePlanController);
+        public override Type ControllerType => typeof(OfficePlanController);
 
+    }
+
+    public enum TeselationType
+    {
+        DOWNSCALE,
+        SIZE,
+    }
 }
+

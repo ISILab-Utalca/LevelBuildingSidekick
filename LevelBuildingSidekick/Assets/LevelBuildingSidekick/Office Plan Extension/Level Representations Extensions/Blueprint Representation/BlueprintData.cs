@@ -4,11 +4,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlueprintData : LevelRepresentationData
+namespace LevelBuildingSidekick.Blueprint
 {
-    public int[,] tilemap;
-    public int tileSize;
+    [CreateAssetMenu(menuName = "LevelBuildingSidekick/Level Represetation/Blueprint Representation/Level")]
+    public class BlueprintData : LevelRepresentationData
+    {
+        public int[,] tilemap;
+        public int step;
+        public int stride;
+        public Vector2Int size;
+        public List<RoomData> rooms;
 
-    public override Type ControllerType => typeof(BlueprintController);
 
+
+        public override Type ControllerType => typeof(BlueprintController);
+
+    }
 }
+

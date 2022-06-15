@@ -8,8 +8,6 @@ public abstract class ToolView : View
     protected ToolView(Controller controller) : base(controller)
     {
     }
-
-    public abstract void DisplayInToolkit();
     public abstract void DrawInToolkit();
 
 }

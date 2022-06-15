@@ -34,7 +34,6 @@ namespace LevelBuildingSidekick.Graph
                 return _Edges;
             }
         }
-
         private Controller _SelectedItem;
         public EdgeController SelectedEdge
         {
@@ -66,33 +65,84 @@ namespace LevelBuildingSidekick.Graph
                 _SelectedItem = value;
             }
         }
-
-        int step;
-
-        public Vector2 scrollPosition { get; set; }
+        public Vector2Int Size
+        {
+            get
+            {
+                return (Data as GraphData).size;
+            }
+            set
+            {
+                (Data as GraphData).size = value;
+            }
+        }
 
         public GraphController(Data data) : base(data)
         {
             View = new GraphView(this);
-            scrollPosition = Vector2.zero;
+            //scrollPosition = Vector2.zero;
         }
 
-        public int[,] ToMatrix(out Vector2Int[] indexes)
+        public override void LoadData()
         {
-            Vector2Int s = LBSController.Instance.CurrentLevel.levelSize / step;
-            int[,] tileMatrix = new int[s.x, s.y];
-            indexes = new Vector2Int[Nodes.Count];
-            for (int i = 0; i < Nodes.Count; i++)
-            {
-                int x = Nodes[i].Position.x / step;
-                int y = Nodes[i].Position.y / step;
+            base.LoadData();
 
-                tileMatrix[x, y] = i;
-                indexes[i] = new Vector2Int(x, y);
+            var data = Data as GraphData;
+            //Debug.Log("!: " + Data);
+
+            //Nodes = new List<NodeController>();
+            if(data.nodes == null)
+            {
+                data.nodes = new List<NodeData>();
             }
-            return tileMatrix;
+            foreach (NodeData n in data.nodes)
+            {
+                var node = Activator.CreateInstance(n.ControllerType, new object[] { n });
+                if (node is NodeController)
+                {
+                    Nodes.Add(node as NodeController);
+                    //Nodes[^1].Data = n;
+                }
+            }
+
+            //Edges = new List<EdgeController>();
+            if (data.edges == null)
+            {
+                data.edges = new List<EdgeData>();
+            }
+            foreach (EdgeData e in data.edges)
+            {
+                var edge = Activator.CreateInstance(e.ControllerType, new object[] { e });
+                if (edge is EdgeController)
+                {
+                    Edges.Add(edge as EdgeController);
+                    //Edges[^1].Data = e;
+                }
+            }
         }
 
+        public Dictionary<int, Vector2Int> ToMatrixPositions(Vector2Int size)
+        {
+            //int[,] tileMatrix = new int[size.x, size.y];
+            float step = Mathf.Max(Size.x / size.x, Size.y / size.y);
+            Dictionary<int, Vector2Int> indexes = new Dictionary<int, Vector2Int>();
+            foreach (NodeController n in Nodes)
+            {
+                int x = (int)(n.Position.x / step);
+                int y = (int)(n.Position.y / step);
+                if(x >= size.x || y >= size.y)
+                {
+                    Debug.LogWarning("Node out of Bounds");
+                    continue;
+                }
+                //tileMatrix[x, y] = n.ID;
+                if(!indexes.ContainsKey(n.ID))
+                {
+                    indexes.Add(n.ID, new Vector2Int(x, y));
+                }
+            }
+            return indexes;
+        }
         //Can be optimized
         public bool[,] AdjacencyMatrix()
         {
@@ -101,7 +151,7 @@ namespace LevelBuildingSidekick.Graph
             {
                 foreach (NodeController n in Nodes[i].neighbors)
                 {
-                    int index = Array.IndexOf(Nodes.ToArray(), n);
+                    int index = Nodes.FindIndex((node) => node.ID == n.ID);
                     if (index < 0)
                     {
                         Debug.LogError("Node not on Graph");
@@ -111,7 +161,6 @@ namespace LevelBuildingSidekick.Graph
             }
             return adjacency;
         }
-
         public List<int>[] AdjacencyIndexes()
         {
             List<int>[] adjacencies = new List<int>[Nodes.Count];
@@ -129,7 +178,6 @@ namespace LevelBuildingSidekick.Graph
             }
             return adjacencies;
         }
-
         public Tuple<Vector2Int,Vector2Int>[] EdgesAsSegments()
         {
             Tuple<Vector2Int, Vector2Int>[] segments = new Tuple<Vector2Int, Vector2Int>[Edges.Count];
@@ -141,7 +189,6 @@ namespace LevelBuildingSidekick.Graph
             }
             return segments;
         }
-
         public NodeController GetNodeAt(Vector2 pos)
         {
             foreach (NodeController n in Nodes)
@@ -153,14 +200,13 @@ namespace LevelBuildingSidekick.Graph
             }
             return null;
         }
-
         internal void RemoveNode(NodeController node)
         {
-            foreach (EdgeController e in Edges)
+            for(int i = 0; i < Edges.Count; i++)
             {
-                if (e.Contains(node))
+                if (Edges[i].Contains(node))
                 {
-                    RemoveEdge(e);
+                    RemoveEdge(Edges[i]);
                 }
             }
             Nodes.Remove(node);
@@ -172,7 +218,6 @@ namespace LevelBuildingSidekick.Graph
             d.nodes.Remove(node.Data as NodeData);
 
         }
-
         internal void RemoveEdge(EdgeController edge)
         {
             Edges.Remove(edge);
@@ -183,39 +228,6 @@ namespace LevelBuildingSidekick.Graph
             GraphData d = Data as GraphData;
             d.edges.Remove(edge.Data as EdgeData);
         }
-
-        public override void LoadData()
-        {
-            base.LoadData();
-
-            var data = Data as GraphData;
-            //Debug.Log("!: " + Data);
-
-            //Nodes = new List<NodeController>();
-
-            foreach (NodeData n in data.nodes)
-            {
-                var node = Activator.CreateInstance(n.ControllerType, new object[] { n });
-                if (node is NodeController)
-                {
-                    Nodes.Add(node as NodeController);
-                    //Nodes[^1].Data = n;
-                }
-            }
-
-            //Edges = new List<EdgeController>();
-
-            foreach (EdgeData e in data.edges)
-            {
-                var edge = Activator.CreateInstance(e.ControllerType, new object[] { e });
-                if (edge is EdgeController)
-                {
-                    Edges.Add(edge as EdgeController);
-                    //Edges[^1].Data = e;
-                }
-            }
-        }
-
         public EdgeController GetEdge(NodeController n1, NodeController n2)
         {
             foreach (EdgeController e in Edges)
@@ -227,7 +239,6 @@ namespace LevelBuildingSidekick.Graph
             }
             return null;
         }
-
         internal bool AddNode(NodeData nodeData)
         {
             var node = Activator.CreateInstance(nodeData.ControllerType, new object[] { nodeData });
@@ -239,8 +250,6 @@ namespace LevelBuildingSidekick.Graph
             }
             return false;
         }
-
-
         internal bool AddEdge(EdgeData edgeData)
         {
             var edge = Activator.CreateInstance(edgeData.ControllerType, new object[] { edgeData });
@@ -253,8 +262,6 @@ namespace LevelBuildingSidekick.Graph
             }
             return false;
         }
-
-
         public Vector2 FartherPosition()
         {
             if (Nodes.Count == 0)
@@ -265,7 +272,6 @@ namespace LevelBuildingSidekick.Graph
             var y = Nodes.OrderBy((n) => n.Position.y).Last().Position.y;
             return new Vector2(x,y);
         }
-
         public override void Update()
         {
             base.Update();

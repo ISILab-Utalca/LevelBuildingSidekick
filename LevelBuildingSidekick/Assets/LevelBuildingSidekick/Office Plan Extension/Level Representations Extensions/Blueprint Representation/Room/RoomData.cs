@@ -10,10 +10,11 @@ namespace LevelBuildingSidekick.Blueprint
         public RoomCharacteristics room;
 
 
-        public Vector2Int position;
-        public Vector2Int bounds;
-        public HashSet<Vector2Int> tilePositions;
-        public bool[,] surface;
+        public Vector2Int position = Vector2Int.zero;
+        public Vector2Int bounds = Vector2Int.one;
+        public Vector2Int outerBounds = Vector2Int.one;
+        public List<Vector2Int> tilePositions = new List<Vector2Int>();
+        //public bool[,] surface;
 
 
         public override Type ControllerType => typeof(RoomController);

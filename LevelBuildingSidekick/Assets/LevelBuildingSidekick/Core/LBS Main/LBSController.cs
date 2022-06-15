@@ -24,6 +24,36 @@ namespace LevelBuildingSidekick
         List<Step> steps;
         public Step currentStep;
 
+        private GenericWindow _LevelWindow;
+        public GenericWindow LevelWindow
+        {
+            get
+            {
+                if(_LevelWindow == null)
+                {
+                    _LevelWindow = GenericWindow.CreateInstance<GenericWindow>();
+                    _LevelWindow.titleContent = new GUIContent("Level Window");
+                    _LevelWindow.draw = Instance.currentStep.View.Draw2D;
+                }
+                return _LevelWindow;
+            }
+        }
+
+        public InspectorWindow _InspectorWindow;
+        public InspectorWindow InspectorWindow
+        {
+            get
+            {
+                if (_InspectorWindow == null)
+                {
+                    _InspectorWindow = InspectorWindow.CreateInstance<InspectorWindow>();
+                    _InspectorWindow.titleContent = new GUIContent("Inspector Window");
+                    _InspectorWindow.controller = Instance.currentStep.LevelRepresentation;
+                }
+                return _InspectorWindow;
+            }
+        }
+
         public LevelData CurrentLevel
         {
             get
@@ -42,16 +72,14 @@ namespace LevelBuildingSidekick
         [MenuItem("Level Building Sidekick/Open New")]
         public static void ShowWindow()
         {
-            //Debug.Log("I: " + Instance + " - Step: " + Instance.currentStep);
-            var window = EditorWindow.CreateInstance<StepWindow>();
-            window.draw = Instance.currentStep.View.Draw2D;
-            //var view = EditorWindow.GetWindow<LBSWindow>("Level Building Sidekick");
-            //view.Show();
-            /*
-            if(currentStep != null)
-            {
-                view.titleContent.text = currentStep.Name;
-            }*/
+            Instance.LevelWindow.Show();
+        }
+
+        [MenuItem("Level Building Sidekick/Show Inspector")]
+        public static void ShowInspector()
+        {
+            //Debug.Log(Instance.InspectorWindow);
+            Instance.InspectorWindow.Show();
         }
 
         public override void LoadData()

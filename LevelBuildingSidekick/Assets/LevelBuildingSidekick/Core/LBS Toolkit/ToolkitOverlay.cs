@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 
 namespace LevelBuildingSidekick
 {
-    [Overlay(typeof(StepWindow), "CustomToolkit", "Toolkit", true)]
+    [Overlay(typeof(GenericWindow), "CustomToolkit", "Toolkit", true)]
     public class ToolkitOverlay : IMGUIOverlay
     {
         public static System.Action draw;

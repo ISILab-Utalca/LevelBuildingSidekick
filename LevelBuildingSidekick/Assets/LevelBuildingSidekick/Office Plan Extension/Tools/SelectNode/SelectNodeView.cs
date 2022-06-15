@@ -9,10 +9,6 @@ public class SelectNodeView : ToolView
     {
     }
 
-    public override void DisplayInToolkit()
-    {
-    }
-
     public override void DrawInToolkit()
     {
     }

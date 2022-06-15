@@ -8,6 +8,11 @@ namespace LevelBuildingSidekick
 {
     public class LevelView : View
     {
+        public LevelView(Controller controller): base(controller)
+        {
+
+        }
+
         public override void DrawEditor()
         {
             LevelController controller = Controller as LevelController;

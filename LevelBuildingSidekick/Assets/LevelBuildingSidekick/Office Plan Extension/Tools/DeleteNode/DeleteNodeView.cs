@@ -14,11 +14,6 @@ public class DeleteNodeView : ToolView
         unnactive = "!Delete";
     }
 
-    public override void DisplayInToolkit()
-    {
-        DrawInToolkit();
-    }
-
     public override void DrawInToolkit()
     {
         var data = Controller.Data as DeleteNodeData;

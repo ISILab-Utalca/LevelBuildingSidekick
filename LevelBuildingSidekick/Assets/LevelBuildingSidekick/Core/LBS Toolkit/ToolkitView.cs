@@ -11,18 +11,19 @@ public class ToolkitView : View
 
     public ToolkitView(Controller controller) : base(controller)
     {
+        //var toolkit = new ToolkitOverlay();
         //Debug.Log((controller as ToolkitController).ToolControllers.Count);
-        ToolkitOverlay.draw = DrawToolkit;
+        ToolkitOverlay.draw = DrawEditor;
     }
 
-    public void DrawToolkit()
+    public override void DrawEditor()
     {
         //GUILayout.Label("Toolkit");
         var controller = Controller as ToolkitController;
         //controller.Update();
         foreach (ToolController t in controller.ToolControllers)
         {
-            (t.View as ToolView).DisplayInToolkit();
+            (t.View as ToolView).DrawInToolkit();
         }
     }
 

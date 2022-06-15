@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62d23b60054f6cd40919240b38c17238, type: 3}
   m_Name: LBSData
   m_EditorClassIdentifier: 
+  levelData: {fileID: 0}
   stepsData:
-  - {fileID: 11400000, guid: 2881dfae8f6ea5a459a6a84b046be2e1, type: 2}
+  - {fileID: 11400000, guid: 7be77c9cb2babc147806f601045c5132, type: 2}

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7f1f64e88e5274fb0c0ee435e75aac, type: 3}
+  m_Name: OfficePlan
+  m_EditorClassIdentifier: 
+  toolkitData: {fileID: 11400000, guid: ca8f1b44868ee8e419d75136002ccb2d, type: 2}
+  graph: {fileID: 11400000, guid: 4ec9acd7efec9cb479fa90fcc8171d39, type: 2}
+  blueprint: {fileID: 11400000, guid: 2e1659e1dcfe77b46a91240a175199d4, type: 2}
+  type: 0
+  toolkit: {fileID: 0}
+  floor: {fileID: 916917378494744782, guid: 98f5378049f9b5745a77677f581b32b1, type: 3}
+  wall: {fileID: 7779381877309823848, guid: 2f6c4572e07a60b43b00e1c4f489a806, type: 3}
+  door: {fileID: 0}

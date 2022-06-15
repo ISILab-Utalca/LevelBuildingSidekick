@@ -14,7 +14,7 @@ namespace LevelBuildingSidekick
         public override void Draw2D()
         {
             var controller = Controller as LevelRepresentationController;
-            controller.Toolkit.View.Draw2D();
+            //controller.Toolkit.View.Draw2D();
         }
     }
 }

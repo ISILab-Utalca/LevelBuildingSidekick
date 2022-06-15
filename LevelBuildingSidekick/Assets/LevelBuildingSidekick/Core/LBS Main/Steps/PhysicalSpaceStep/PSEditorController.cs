@@ -7,8 +7,6 @@ namespace LevelBuildingSidekick
 {
     public class PSEditorController : Step
     {
-        public LevelRepresentationController Level { get; set; }
-
         public PSEditorController(Data data) : base(data)
         {
             View = new PSEditorView(this);
@@ -22,14 +20,14 @@ namespace LevelBuildingSidekick
             //Debug.Log("Hi: " + level);
             if (level is LevelRepresentationController)
             {
-                Level = (level as LevelRepresentationController);
+                LevelRepresentation = (level as LevelRepresentationController);
                 //Level.Data = data.levelData;
             }
         }
 
         public override void Update()
         {
-            Level.Update();
+            LevelRepresentation.Update();
         }
     }
 }

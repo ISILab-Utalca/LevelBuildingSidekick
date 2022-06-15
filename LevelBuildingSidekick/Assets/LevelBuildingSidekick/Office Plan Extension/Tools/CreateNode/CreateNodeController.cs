@@ -14,7 +14,9 @@ public class CreateNodeController : ToolController
 
     public override void Switch()
     {
+        //Debug.Log(IsActive);
         base.Switch();
+        //Debug.Log(IsActive);
         waiting = false;
     }
 
@@ -35,7 +37,8 @@ public class CreateNodeController : ToolController
 
 
         node.position = new Vector2Int((int)(Event.current.mousePosition.x - node.radius), (int)(Event.current.mousePosition.y - node.radius));
-        //node.room.label = "Node: " + graph.Nodes.Count.ToString();
+        node.room = new LevelBuildingSidekick.Blueprint.RoomCharacteristics();
+        node.room.label = "Node: " + graph.Nodes.Count.ToString();
         graph.AddNode(node);
         //Debug.Log("New node: " + node.room + " Node Count: " + graph.Nodes.Count);
 
@@ -48,6 +51,7 @@ public class CreateNodeController : ToolController
 
     public override void Update()
     {
+        //Debug.Log(IsActive);
         if(IsActive)
         {
             Event e = Event.current;

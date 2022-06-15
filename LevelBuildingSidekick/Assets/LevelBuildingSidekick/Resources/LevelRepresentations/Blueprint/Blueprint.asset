@@ -9,9 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4bf52cd8d6795cd4791654e093dcda98, type: 3}
-  m_Name: GraphData
+  m_Script: {fileID: 11500000, guid: e48dd2ca53cb36a41b064af7df49b903, type: 3}
+  m_Name: Blueprint
   m_EditorClassIdentifier: 
-  toolkitData: {fileID: 11400000, guid: ca8f1b44868ee8e419d75136002ccb2d, type: 2}
-  nodes: []
-  edges: []
+  toolkitData: {fileID: 0}
+  step: 20
+  stride: 0
+  size: {x: 20, y: 20}
+  rooms:
+  - {fileID: 0}
+  - {fileID: 0}
