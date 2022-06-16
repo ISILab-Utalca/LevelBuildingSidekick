@@ -332,7 +332,7 @@ namespace LevelBuildingSidekick.OfficePlan
             {
                 GameObject parent = new GameObject(r.Label);
                 parent.transform.position = new Vector3(r.Position.x, 0, r.Position.y);
-                Debug.Log("R.P: " + r.TilePositions.Count);
+                //Debug.Log("R.P: " + r.TilePositions.Count);
                 foreach (Vector2Int v in r.TilePositions)
                 {
                     var f = GameObject.Instantiate(Floor,new Vector3(v.x + r.Position.x,0,v.y + r.Position.y),Floor.transform.rotation);
