@@ -13,7 +13,7 @@ namespace LevelBuildingSidekick.OfficePlan
     public class OfficePlanData : LevelRepresentationData
     {
         public GraphData graph;
-        public BlueprintData blueprint;
+        public SchemaData schema;
         public TeselationType type;
         public ToolkitData toolkit;
         public GameObject floor;

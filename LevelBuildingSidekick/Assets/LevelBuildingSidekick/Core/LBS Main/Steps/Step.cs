@@ -5,7 +5,7 @@ using System;
 
 
 namespace LevelBuildingSidekick
-{
+{ 
     public abstract class Step: Controller
     {
         private LevelRepresentationController _LevelRepresentationController;

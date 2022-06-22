@@ -200,6 +200,15 @@ namespace LevelBuildingSidekick.Graph
             }
             return null;
         }
+        public NodeController GetEdgeAt(Vector2 pos)
+        {
+            List<Tuple<float, EdgeController>> edges = new List<Tuple<float, EdgeController>>();
+            foreach (EdgeController e in Edges)
+            {
+                
+            }
+            return null;
+        }
         internal void RemoveNode(NodeController node)
         {
             for(int i = 0; i < Edges.Count; i++)

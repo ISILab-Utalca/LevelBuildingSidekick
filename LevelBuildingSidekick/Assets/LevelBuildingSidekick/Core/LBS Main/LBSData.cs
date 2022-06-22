@@ -10,6 +10,7 @@ namespace LevelBuildingSidekick
     public class LBSData : Data
     {
         public LevelData levelData;
+        [NonReorderable]
         public List<Data> stepsData;
 
         public override Type ControllerType => typeof(LBSController);

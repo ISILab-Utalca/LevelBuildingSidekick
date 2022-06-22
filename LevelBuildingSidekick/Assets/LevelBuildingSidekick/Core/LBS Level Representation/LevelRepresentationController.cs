@@ -7,7 +7,7 @@ namespace LevelBuildingSidekick
 {
     public abstract class LevelRepresentationController : Controller
     {
-        //public ToolkitController Toolkit { get; set; }
+        public ToolkitController Toolkit { get; set; }
         protected LevelRepresentationController(Data data) : base(data)
         {
         }
@@ -15,20 +15,24 @@ namespace LevelBuildingSidekick
         public override void LoadData()
         {
             var data = Data as LevelRepresentationData;
-            /*if(data.toolkitData != null)
+            if(data.toolkitData != null)
             {
                 var toolkit = Activator.CreateInstance(data.toolkitData.ControllerType, new object[] { data.toolkitData, this });
                 if (toolkit is ToolkitController)
                 {
                     Toolkit = toolkit as ToolkitController;
                 }
-            }*/
+            }
             
         }
 
+
         public override void Update()
         {
-            //Toolkit.Update();
+            if(Toolkit != null)
+            {
+                Toolkit.Update();
+            }
         }
     }
 }

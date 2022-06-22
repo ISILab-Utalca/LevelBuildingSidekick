@@ -6,18 +6,17 @@ using UnityEngine;
 
 namespace LevelBuildingSidekick.Blueprint
 {
-    [CreateAssetMenu(menuName = "LevelBuildingSidekick/Level Represetation/Blueprint Representation/Level")]
-    public class BlueprintData : LevelRepresentationData
+    [CreateAssetMenu(menuName = "LevelBuildingSidekick/Level Represetation/Schema Representation/Level")]
+    public class SchemaData : LevelRepresentationData
     {
         public int[,] tilemap;
         public int step;
-        public int stride;
         public Vector2Int size;
         public List<RoomData> rooms;
 
 
 
-        public override Type ControllerType => typeof(BlueprintController);
+        public override Type ControllerType => typeof(SchemaController);
 
     }
 }

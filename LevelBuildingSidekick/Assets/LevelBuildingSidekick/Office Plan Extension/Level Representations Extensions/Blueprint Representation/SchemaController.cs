@@ -7,7 +7,7 @@ using System;
 
 namespace LevelBuildingSidekick.Blueprint
 {
-    public class BlueprintController : LevelRepresentationController
+    public class SchemaController : LevelRepresentationController
     {
         private List<RoomController> _Rooms;
         public List<RoomController> Rooms
@@ -29,26 +29,26 @@ namespace LevelBuildingSidekick.Blueprint
         {
             get
             {
-                if((Data as BlueprintData).tilemap == null)
+                if((Data as SchemaData).tilemap == null)
                 {
-                    (Data as BlueprintData).tilemap = new int[Size.x,Size.y];
+                    (Data as SchemaData).tilemap = new int[Size.x,Size.y];
                 }
-                return (Data as BlueprintData).tilemap;
+                return (Data as SchemaData).tilemap;
             }
             set
             {
-                (Data as BlueprintData).tilemap = value;
+                (Data as SchemaData).tilemap = value;
             }
         }
         public Vector2Int Size
         {
             get
             {
-                return (Data as BlueprintData).size;
+                return (Data as SchemaData).size;
             }
             set
             {
-                (Data as BlueprintData).size = value;
+                (Data as SchemaData).size = value;
                 var newTilemap = new int[value.x, value.y];
                 var minx = Mathf.Min(value.x, TileMap.GetLength(0));
                 var miny = Mathf.Min(value.y, TileMap.GetLength(1));
@@ -59,42 +59,31 @@ namespace LevelBuildingSidekick.Blueprint
                         newTilemap[i, j] = TileMap[i, j];
                     }
                 }
-                (Data as BlueprintData).tilemap = newTilemap;
+                (Data as SchemaData).tilemap = newTilemap;
             }
         }
         public int Step
         {
             get
             {
-                return (Data as BlueprintData).step;
+                return (Data as SchemaData).step;
             }
             set
             {
-                (Data as BlueprintData).step = value;
-            }
-        }
-        public int Stride
-        {
-            get
-            {
-                return (Data as BlueprintData).stride;
-            }
-            set
-            {
-                (Data as BlueprintData).stride = value;
+                (Data as SchemaData).step = value;
             }
         }
 
-        public BlueprintController(Data data) : base(data)
+        public SchemaController(Data data) : base(data)
         {
-            View = new BlueprintView(this);
+            View = new SchemaView(this);
         }
 
         public override void LoadData()
         {
             base.LoadData();
 
-            var data = Data as BlueprintData;
+            var data = Data as SchemaData;
 
             if(data.rooms == null)
             {
@@ -139,7 +128,7 @@ namespace LevelBuildingSidekick.Blueprint
                     return r as RoomController;
                 }
                 _Rooms.Add(r as RoomController);
-                (Data as BlueprintData).rooms.Add(data);
+                (Data as SchemaData).rooms.Add(data);
             }
             return r as RoomController;
         }
@@ -171,8 +160,8 @@ namespace LevelBuildingSidekick.Blueprint
         {
             Rooms.Clear();
             Rooms = new List<RoomController>();
-            (Data as BlueprintData).rooms.Clear();
-            (Data as BlueprintData).rooms = new List<RoomData>();
+            (Data as SchemaData).rooms.Clear();
+            (Data as SchemaData).rooms = new List<RoomData>();
             TileMap = new int[Size.x, Size.y];
         }
 
@@ -231,7 +220,7 @@ namespace LevelBuildingSidekick.Blueprint
         }*/
         public int[,] ToTileMap()
         {
-            var tiles = (Data as BlueprintData).tilemap;
+            var tiles = (Data as SchemaData).tilemap;
             tiles = new int[Size.x, Size.y];
             foreach(RoomController r in Rooms)
             {
@@ -245,7 +234,7 @@ namespace LevelBuildingSidekick.Blueprint
 
         public Vector2Int CloserEmpty(Vector2 direction, Vector2Int position, out Vector2Int lastPos)
         {
-            Debug.Log(direction);
+            //Debug.Log(direction);
             lastPos = position;
             if((position.x < 0 || position.x >= Size.x) && (position.y < 0 || position.y >= Size.y))
             {

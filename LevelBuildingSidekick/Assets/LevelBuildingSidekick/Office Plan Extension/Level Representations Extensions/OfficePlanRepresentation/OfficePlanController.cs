@@ -12,7 +12,7 @@ namespace LevelBuildingSidekick.OfficePlan
     public class OfficePlanController : LevelRepresentationController
     {
         public GraphController Graph { get; set; }
-        public BlueprintController Blueprint { get; set; }
+        public SchemaController Schema { get; set; }
         public TeselationType Teseleation
         {
             get
@@ -89,13 +89,13 @@ namespace LevelBuildingSidekick.OfficePlan
                 Graph = graph as GraphController;
             }
 
-            var blueprint = Activator.CreateInstance(data.blueprint.ControllerType, new object[] { data.blueprint });
-            if (blueprint is BlueprintController)
+            var blueprint = Activator.CreateInstance(data.schema.ControllerType, new object[] { data.schema });
+            if (blueprint is SchemaController)
             {
-                Blueprint = blueprint as BlueprintController;
+                Schema = blueprint as SchemaController;
             }
 
-            foreach (RoomController r in Blueprint.Rooms)
+            foreach (RoomController r in Schema.Rooms)
             {
                 var node = Graph.Nodes.First((n) => n.ID == r.ID);
                 if (node == null)
@@ -123,17 +123,17 @@ namespace LevelBuildingSidekick.OfficePlan
         {
             float minimumChange = 2 * 1.14f;
             bool[,] adjacency = Graph.AdjacencyMatrix();
-            Dictionary<int, Vector2Int> positions = Graph.ToMatrixPositions(Blueprint.Size);
+            Dictionary<int, Vector2Int> positions = Graph.ToMatrixPositions(Schema.Size);
 
             foreach (NodeController n in Graph.Nodes)
             {
-                if (!Blueprint.ContainsRoom(n.ID))
+                if (!Schema.ContainsRoom(n.ID))
                 {
-                    Blueprint.AddRoom(n.Room, positions[n.ID]);
+                    Schema.AddRoom(n.Room, positions[n.ID]);
                 }
             }
 
-            foreach (RoomController r in Blueprint.Rooms)
+            foreach (RoomController r in Schema.Rooms)
             {
                 r.ResizeToMin();
             }
@@ -142,9 +142,9 @@ namespace LevelBuildingSidekick.OfficePlan
             bool colliding = false;
             do
             {
-                foreach (RoomController r in Blueprint.Rooms)
+                foreach (RoomController r in Schema.Rooms)
                 {
-                    Vector2Int v = Blueprint.GetCollisionPush(r);
+                    Vector2Int v = Schema.GetCollisionPush(r);
                     colliding = v.magnitude != 0;
                     v += GetPush(r.ID, adjacency, positions);
                     r.Position += v;
@@ -157,9 +157,9 @@ namespace LevelBuildingSidekick.OfficePlan
             float maxDistance = 0;
             do
             {
-                foreach (RoomController r in Blueprint.Rooms)
+                foreach (RoomController r in Schema.Rooms)
                 {
-                    float dist = Blueprint.Translate(r, GetPull(r.ID, adjacency, positions)).magnitude;
+                    float dist = Schema.Translate(r, GetPull(r.ID, adjacency, positions)).magnitude;
                     maxDistance = dist > maxDistance ? dist : maxDistance;
                 }
             }
@@ -167,23 +167,23 @@ namespace LevelBuildingSidekick.OfficePlan
             #endregion
 
             //Search empty spaces and fill
-            Blueprint.ToTileMap();
+            Schema.ToTileMap();
         }*/
 
         public void SimpleGraphToBlueprint()
         {
             //Debug.Log("Step1");
-            Blueprint.ClearRooms();
+            Schema.ClearRooms();
 
             List<NodeController> open = new List<NodeController>();
             List<NodeController> closed = new List<NodeController>();
 
             //Debug.Log("Step1");
             var node = Graph.Nodes.OrderBy((n) => n.Position.magnitude).First();
-            var room = Blueprint.AddRoom(node.Room, Vector2Int.zero);
+            var room = Schema.AddRoom(node.Room, Vector2Int.zero);
             //Debug.Log("Step2");
             //Debug.Log("Root: " + room.ID);
-            Blueprint.ResizeRoomToMin(room);
+            Schema.ResizeRoomToMin(room);
             open.Add(node);
 
             //Debug.Log("Step3");
@@ -192,11 +192,11 @@ namespace LevelBuildingSidekick.OfficePlan
                 var parent = open.First();
                 open.Remove(parent);
                 closed.Add(parent);
-                var parentRoom = Blueprint.Rooms.Find((r) => r.ID == parent.ID);
+                var parentRoom = Schema.Rooms.Find((r) => r.ID == parent.ID);
                 if(parentRoom == null)
                 {
                     Debug.LogError("Parent ID: " + parent.ID);
-                    foreach (RoomController r in Blueprint.Rooms)
+                    foreach (RoomController r in Schema.Rooms)
                     {
                         Debug.LogError("Room ID" + r.ID);
                     }
@@ -209,10 +209,10 @@ namespace LevelBuildingSidekick.OfficePlan
                         continue;
                     }
                     Vector2 dir = (Vector2)(n.Position - parent.Position) / Vector2.Distance(parent.Position, n.Position);
-                    Vector2Int pos = Blueprint.CloserEmpty(dir, parentRoom.Position, out Vector2Int last);
+                    Vector2Int pos = Schema.CloserEmpty(dir, parentRoom.Position, out Vector2Int last);
                     if (pos.x <0 || pos.y < 0)
                     {
-                        pos = Blueprint.CloserEmptyFrom(last);
+                        pos = Schema.CloserEmptyFrom(last);
                     }
                     /*if (pos.x < 0 || pos.y < 0)
                     {
@@ -221,9 +221,9 @@ namespace LevelBuildingSidekick.OfficePlan
 
                     //Debug.LogWarning(pos);
 
-                    room = Blueprint.AddRoom(n.Room, pos);
+                    room = Schema.AddRoom(n.Room, pos);
                     //Debug.Log(room.ID);
-                    Blueprint.ResizeRoomToMin(room);
+                    Schema.ResizeRoomToMin(room);
                     open.Add(n);
                 }
             }
@@ -327,8 +327,8 @@ namespace LevelBuildingSidekick.OfficePlan
                 Debug.LogError("The Tiles Prefabs are NULL");
                 return;
             }
-            //Debug.Log("B.R: " + Blueprint.Rooms.Count);
-            foreach (RoomController r in Blueprint.Rooms)
+            //Debug.Log("B.R: " + Schema.Rooms.Count);
+            foreach (RoomController r in Schema.Rooms)
             {
                 GameObject parent = new GameObject(r.Label);
                 parent.transform.position = new Vector3(r.Position.x, 0, r.Position.y);
@@ -369,11 +369,11 @@ namespace LevelBuildingSidekick.OfficePlan
             }
         }
 
-        [MenuItem("Level Building Sidekick/Open Element Inspector")]
+        /*[MenuItem("Level Building Sidekick/Open Element Inspector")]
         public static void ShowInspector()
         {
             ElementInspector.Show();
-        }
+        }*/
     }
 }
 

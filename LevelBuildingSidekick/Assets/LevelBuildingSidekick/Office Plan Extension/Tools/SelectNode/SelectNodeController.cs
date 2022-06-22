@@ -22,10 +22,7 @@ public class SelectNodeController : ToolController
             return;
         }
         NodeController n = graph.GetNodeAt(Event.current.mousePosition);
-        if(n!=null)
-        {
-            graph.SelectedNode = n;
-        }
+        graph.SelectedNode = n;
     }
 
     public override void LoadData()

@@ -14,6 +14,9 @@ namespace LevelBuildingSidekick
         public virtual void Draw2D() { }
 
         public virtual void DrawEditor() { }
+
+        public virtual void Display2DWindow() { }
+        public virtual void DisplayInspectorWindow() { }
     }
 }
 

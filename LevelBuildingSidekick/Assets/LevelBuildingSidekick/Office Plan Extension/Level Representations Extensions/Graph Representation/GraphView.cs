@@ -24,7 +24,12 @@ namespace LevelBuildingSidekick.Graph
             //lastElement = controller.FartherPosition();
             //var size = lastElement + offset;
 
-            var r = GUILayoutUtility.GetRect(controller.Size.x, controller.Size.y);
+            var r = GUILayoutUtility.GetRect(controller.Size.x,
+                controller.Size.y,
+                controller.Size.x,
+                controller.Size.y);
+            r.width = controller.Size.x;
+            r.height = controller.Size.y;
             GUI.DrawTexture(r, new Texture2D(1, 1));
             //Debug.Log("Graph View");
 
@@ -39,6 +44,7 @@ namespace LevelBuildingSidekick.Graph
             base.Draw2D();
             GUILayout.EndScrollView();
 
+            base.Draw2D();
         }
 
         public override void DrawEditor()

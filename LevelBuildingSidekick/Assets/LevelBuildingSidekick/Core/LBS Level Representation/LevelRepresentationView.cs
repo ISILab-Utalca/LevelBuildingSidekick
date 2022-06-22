@@ -7,6 +7,7 @@ namespace LevelBuildingSidekick
 {
     public abstract class LevelRepresentationView : View
     {
+        List<string> Windows = new List<string>();
         protected LevelRepresentationView(Controller controller) : base(controller)
         {
         }
@@ -14,7 +15,10 @@ namespace LevelBuildingSidekick
         public override void Draw2D()
         {
             var controller = Controller as LevelRepresentationController;
-            //controller.Toolkit.View.Draw2D();
+            if(controller.Toolkit != null)
+            {
+                controller.Toolkit.View.Draw2D();
+            }
         }
     }
 }

@@ -28,6 +28,16 @@ namespace LevelBuildingSidekick
             base.SaveChanges();
             //DestroyImmediate(this);
         }
+
+        private void OnFocus()
+        {
+            Repaint();
+        }
+
+        private void OnLostFocus()
+        {
+            
+        }
     }
 }
 

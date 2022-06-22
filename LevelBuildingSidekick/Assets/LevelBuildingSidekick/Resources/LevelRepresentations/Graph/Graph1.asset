@@ -9,8 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70c0a3e463d106546873d07177a1c8f6, type: 3}
-  m_Name: PhysicalSpace
+  m_Script: {fileID: 11500000, guid: 4bf52cd8d6795cd4791654e093dcda98, type: 3}
+  m_Name: Graph1
   m_EditorClassIdentifier: 
-  WindowName: 
-  levelData: {fileID: 11400000, guid: 851843f7bfabebf48a1237efd4be2fe0, type: 2}
+  toolkitData: {fileID: 11400000, guid: ca8f1b44868ee8e419d75136002ccb2d, type: 2}
+  nodes: []
+  edges: []
+  size: {x: 400, y: 400}
