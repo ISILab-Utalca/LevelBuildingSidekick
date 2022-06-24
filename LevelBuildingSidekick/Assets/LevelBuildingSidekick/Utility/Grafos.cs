@@ -10,16 +10,16 @@ using System.Numerics;
 
 namespace Utility
 {
-    ////////////////////
+    ///////////////////////
     public struct enlaces
     {
         public PointF p1;
         public PointF p2;
     }
 
-    class Grafos
+    public class Grafos
     {
-        public static Boolean grafoPlanar(List<Vector2> listaPuntos, Boolean[,] matriz)
+            public static Boolean grafoPlanar(List<Vector2> listaPuntos, Boolean[,] matriz)
         {
             UndirectedAdjacencyListGraph<PointF> grafo = new UndirectedAdjacencyListGraph<PointF>();
             List<PointF> listaPuntos2 = new List<PointF>();
