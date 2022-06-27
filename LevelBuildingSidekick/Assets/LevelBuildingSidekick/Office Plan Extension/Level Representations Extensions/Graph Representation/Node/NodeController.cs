@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using LevelBuildingSidekick;
 using LevelBuildingSidekick.Blueprint;
+using Utility;
 
 namespace LevelBuildingSidekick.Graph
 {
     [System.Serializable]
     public class NodeController : Controller
     {
-        public List<NodeController> neighbors;
+        public HashSet<NodeController> neighbors;
         public int ID
         {
             get
@@ -39,6 +40,13 @@ namespace LevelBuildingSidekick.Graph
                 return (Data as NodeData).radius;
             }
         }
+        public Vector2Int Centroid
+        {
+            get
+            {
+                return (Position + (Vector2Int.one * Radius));
+            }
+        } 
         public Texture2D Sprite
         {
             get
@@ -62,7 +70,6 @@ namespace LevelBuildingSidekick.Graph
                 return (Data as NodeData).room;
             }
         }
-
         public string Label
         {
             get
@@ -79,7 +86,6 @@ namespace LevelBuildingSidekick.Graph
                 Room.label = value;
             }
         }
-
         public Vector2Int Height
         {
             get
@@ -100,7 +106,6 @@ namespace LevelBuildingSidekick.Graph
                 Room.height = value;
             }
         }
-
         public Vector2Int Width
         {
             get
@@ -121,7 +126,6 @@ namespace LevelBuildingSidekick.Graph
                 Room.width = value;
             }
         }
-
         public Vector2Int Ratio
         {
             get
@@ -142,7 +146,6 @@ namespace LevelBuildingSidekick.Graph
                 Room.aspectRatio = value;
             }
         }
-
         public ProportionType ProportionType
         {
             get
@@ -163,7 +166,6 @@ namespace LevelBuildingSidekick.Graph
                 Room.proportionType = value;
             }
         }
-
         public List<GameObject> FloorTiles
         {
             get
@@ -175,7 +177,6 @@ namespace LevelBuildingSidekick.Graph
                 return Room.floorTiles;
             }
         }
-
         public List<GameObject> WallTiles
         {
             get
@@ -187,7 +188,6 @@ namespace LevelBuildingSidekick.Graph
                 return Room.wallTiles;
             }
         }
-
         public List<GameObject> DoorTiles
         {
             get
@@ -199,11 +199,12 @@ namespace LevelBuildingSidekick.Graph
                 return Room.doorTiles;
             }
         }
+        
 
         public NodeController(Data data) : base(data)
         {
             View = new NodeView(this);
-            neighbors = new List<NodeController>();
+            neighbors = new HashSet<NodeController>();
             Height = Vector2Int.one;
             Width = Vector2Int.one;
             Ratio = Vector2Int.one;
@@ -238,6 +239,23 @@ namespace LevelBuildingSidekick.Graph
         public override int GetHashCode()
         {
             return Label.GetHashCode();
+        }
+
+        public Vector2Int GetAnchor(Vector2 pos)
+        {
+            Vector2Int v = Centroid;
+            int angle = MathTools.GetAngleD90(Position, pos);
+            //Axes are reversed :C
+            switch(angle)
+            { 
+                case 0: v += Vector2Int.left * Radius; break;
+                case 90: v += Vector2Int.down * Radius; break;
+                case 180: v += Vector2Int.right * Radius; break;
+                case 270: v += Vector2Int.up * Radius; break;
+                default: Debug.LogWarning("Something wrong with MathTools.GetAngleD90"); break;
+            }
+
+            return v;
         }
     }
 }
