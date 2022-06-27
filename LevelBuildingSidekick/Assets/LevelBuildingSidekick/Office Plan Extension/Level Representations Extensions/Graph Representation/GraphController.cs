@@ -4,6 +4,7 @@ using UnityEngine;
 using LevelBuildingSidekick;
 using System;
 using System.Linq;
+using Utility;
 
 namespace LevelBuildingSidekick.Graph
 {
@@ -200,14 +201,32 @@ namespace LevelBuildingSidekick.Graph
             }
             return null;
         }
-        public NodeController GetEdgeAt(Vector2 pos)
+        public EdgeController GetEdgeAt(Vector2 pos)
         {
             List<Tuple<float, EdgeController>> edges = new List<Tuple<float, EdgeController>>();
             foreach (EdgeController e in Edges)
             {
-                
+                float dist = MathTools.PointToLineDistance(pos, e.Node1.GetAnchor(e.Node2.Centroid), e.Node2.GetAnchor(e.Node1.Centroid));
+                //Debug.Log("E: " + e + " - N1: " + e.Node1 + " - N2: " + e.Node2 + "D: " + dist);
+                if (dist < 30)//threshold should be parametrized
+                {
+                    edges.Add(new Tuple<float, EdgeController>(dist,e));
+                }
+                else
+                {
+                    //  Debug.Log("Dist: " + dist);
+                }
             }
-            return null;
+            if(edges.Count == 0)
+            {
+                return null;
+            }
+            var tuple = edges.OrderBy((t) => t.Item1).First();
+            if(tuple == null)
+            {
+                return null;
+            }
+            return tuple.Item2;
         }
         internal void RemoveNode(NodeController node)
         {
@@ -265,6 +284,17 @@ namespace LevelBuildingSidekick.Graph
             if (edge is EdgeController)
             {
                 var e = edge as EdgeController;
+                var n1 = Nodes.Find((n) => n.Data == edgeData.node1);
+                var n2 = Nodes.Find((n) => n.Data == edgeData.node2);
+                if(n1 == null || n2 == null)
+                {
+                    Debug.LogError("Something went wrong");
+                    return false;
+                }
+                n1.neighbors.Add(n2);
+                n2.neighbors.Add(n1);
+                e.Node1 = n1;
+                e.Node2 = n2;
                 Edges.Add(e);
                 (Data as GraphData).edges.Add(edgeData);
                 return true;
