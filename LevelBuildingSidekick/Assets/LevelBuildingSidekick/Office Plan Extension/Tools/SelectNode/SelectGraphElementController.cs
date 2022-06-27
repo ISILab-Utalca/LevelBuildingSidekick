@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using LevelBuildingSidekick.Graph;
 
-public class SelectNodeController : ToolController
+public class SelectGraphElementController : ToolController
 {
     bool waiting;
     //public static NodeController SelectedNode { get; set; }
-    public SelectNodeController(Data data, ToolkitController toolkit) : base(data, toolkit)
+    public SelectGraphElementController(Data data, ToolkitController toolkit) : base(data, toolkit)
     {
-        View = new SelectNodeView(this);
+        View = new SelectGraphElementView(this);
     }
 
     public override void Action(LevelRepresentationController level)
@@ -20,9 +20,13 @@ public class SelectNodeController : ToolController
         if (graph == null)
         {
             return;
-        }
-        NodeController n = graph.GetNodeAt(Event.current.mousePosition);
+        } 
+        var n = graph.GetNodeAt(Event.current.mousePosition);
         graph.SelectedNode = n;
+        if (n == null)
+        {
+            graph.SelectedEdge = graph.GetEdgeAt(Event.current.mousePosition);
+        }
     }
 
     public override void LoadData()

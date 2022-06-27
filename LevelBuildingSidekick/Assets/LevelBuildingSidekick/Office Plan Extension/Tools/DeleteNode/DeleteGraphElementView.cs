@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DeleteNodeView : ToolView
+public class DeleteGraphElementView : ToolView
 {
     string active;
     string unnactive;
-    public DeleteNodeView(Controller controller) : base(controller)
+    public DeleteGraphElementView(Controller controller) : base(controller)
     {
 
         active = "Delete";
@@ -16,8 +16,8 @@ public class DeleteNodeView : ToolView
 
     public override void DrawInToolkit()
     {
-        var data = Controller.Data as DeleteNodeData;
-        var controller = Controller as DeleteNodeController;
+        var data = Controller.Data as DeleteGraphElementData;
+        var controller = Controller as DeleteGraphElementController;
         //controller.MousePosition = GUIUtility.ScreenToGUIPoint(Event.current.mousePosition);
 
         string t = controller.IsActive ? active : unnactive;

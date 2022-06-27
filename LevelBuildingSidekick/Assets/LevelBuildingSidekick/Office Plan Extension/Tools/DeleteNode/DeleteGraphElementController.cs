@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using LevelBuildingSidekick.Graph;
 
-public class DeleteNodeController : ToolController
+public class DeleteGraphElementController : ToolController
 {
-    public DeleteNodeController(Data data, ToolkitController toolkit) : base(data, toolkit)
+    public DeleteGraphElementController(Data data, ToolkitController toolkit) : base(data, toolkit)
     {
-        View = new DeleteNodeView(this);
+        View = new DeleteGraphElementView(this);
     }
 
     public override void Action(LevelRepresentationController level)
@@ -20,6 +20,13 @@ public class DeleteNodeController : ToolController
             //Debug.Log(graph.SelectedNode);
             graph.RemoveNode(graph.SelectedNode);
             Object.DestroyImmediate(n.Data);
+            IsActive = false;
+        }
+        else if(graph.SelectedEdge != null)
+        {
+            EdgeController e = graph.SelectedEdge;
+            graph.RemoveEdge(e);
+            Object.DestroyImmediate(e.Data);
             IsActive = false;
         }
     }

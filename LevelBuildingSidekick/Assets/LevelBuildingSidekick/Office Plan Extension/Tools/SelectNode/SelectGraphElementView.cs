@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SelectNodeView : ToolView
+public class SelectGraphElementView : ToolView
 {
-    public SelectNodeView(Controller controller) : base(controller)
+    public SelectGraphElementView(Controller controller) : base(controller)
     {
     }
 

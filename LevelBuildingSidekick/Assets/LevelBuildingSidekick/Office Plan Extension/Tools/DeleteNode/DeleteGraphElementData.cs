@@ -5,7 +5,7 @@ using UnityEngine;
 
 [System.Serializable]
 [CreateAssetMenu(menuName = "LevelBuildingSidekick/Tools/GraphTools/Delete Node")]
-public class DeleteNodeData : ToolData
+public class DeleteGraphElementData : ToolData
 {
-    public override Type ControllerType => typeof(DeleteNodeController);
+    public override Type ControllerType => typeof(DeleteGraphElementController);
 }
