@@ -7,5 +7,5 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "LevelBuildingSidekick/Tools/GraphTools/Select Node")]
 public class SelectNodeData : ToolData
 {
-    public override Type ControllerType => typeof(SelectNodeController);
+    public override Type ControllerType => typeof(SelectGraphElementController);
 }
