@@ -7,6 +7,7 @@ using System.Reflection;
 
 namespace LevelBuildingSidekick
 {
+
     public class LBSController : Controller
     {
         public static LBSController Instance {
@@ -146,15 +147,22 @@ namespace LevelBuildingSidekick
         {
             GenericWindow window;
 
-            if(!Windows.ContainsKey(title))
+            if (!Windows.ContainsKey(title) )
             {
                 window = EditorWindow.CreateInstance<GenericWindow>();
                 Windows.Add(title, window);
                 window.titleContent = new GUIContent(title);
                 return window;
             }
-
+            
             window = Windows[title];
+            if(window == null)
+            {
+                window = EditorWindow.CreateInstance<GenericWindow>();
+                window.titleContent = new GUIContent(title);
+                Windows[title] = window;
+            }
+
             return window;
         }
     }
