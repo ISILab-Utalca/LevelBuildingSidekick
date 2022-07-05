@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class DeleteGraphElementView : ToolView
 {
-    string active;
-    string unnactive;
+    Texture2D active;
+    Texture2D unnactive;
     public DeleteGraphElementView(Controller controller) : base(controller)
     {
 
-        active = "Delete";
-        unnactive = "!Delete";
+        active = Resources.Load("Icons/Icon2_Delete") as Texture2D;
+        unnactive = Resources.Load("Icons/Icon1_Delete") as Texture2D;
     }
 
     public override void DrawInToolkit()
@@ -20,7 +20,7 @@ public class DeleteGraphElementView : ToolView
         var controller = Controller as DeleteGraphElementController;
         //controller.MousePosition = GUIUtility.ScreenToGUIPoint(Event.current.mousePosition);
 
-        string t = controller.IsActive ? active : unnactive;
+        var t = controller.IsActive ? active : unnactive;
         if (GUILayout.Button(t))
         {
             controller.Switch();

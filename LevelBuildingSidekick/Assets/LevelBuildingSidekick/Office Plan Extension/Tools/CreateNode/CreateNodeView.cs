@@ -6,13 +6,13 @@ using UnityEngine.Events;
 
 public class CreateNodeView : ToolView
 {
-    string active;
-    string unnactive;
+    Texture2D active;
+    Texture2D unnactive;
     public CreateNodeView(Controller controller) : base(controller)
     {
-        active = "Node";
+        active = Resources.Load("Icons/Icon2_Node") as Texture2D;
 
-        unnactive = "!Node";
+        unnactive = Resources.Load("Icons/Icon1_Node") as Texture2D;
         
     }
 
@@ -21,7 +21,7 @@ public class CreateNodeView : ToolView
         var data = Controller.Data as CreateNodeData;
         var controller = Controller as CreateNodeController;
         //controller.MousePosition = GUIUtility.ScreenToGUIPoint(Event.current.mousePosition);
-        string t = controller.IsActive ? active : unnactive;
+        var t = controller.IsActive ? active : unnactive;
         if (GUILayout.Button(t))
         {
             controller.Switch();

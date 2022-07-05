@@ -6,13 +6,13 @@ using UnityEditor;
 
 public class ConnectNodesView : ToolView
 {
-    string active;
-    string unnactive;
+    Texture2D active;
+    Texture2D unnactive;
     float thikness;
     public ConnectNodesView(Controller controller) : base(controller)
     {
-        active = "Edge";
-        unnactive = "!Edge";
+        active = Resources.Load("Icons/Icon2_Edge") as Texture2D;
+        unnactive = Resources.Load("Icons/Icon1_Edge") as Texture2D;
         thikness = 2;
     }
 
@@ -21,7 +21,7 @@ public class ConnectNodesView : ToolView
         var data = Controller.Data as ConnectNodesData;
         var controller = Controller as ConnectNodesController;
         //controller.MousePosition = GUIUtility.ScreenToGUIPoint(Event.current.mousePosition);
-        string t = controller.IsActive ? active : unnactive;
+        var t = controller.IsActive ? active : unnactive; 
         if (GUILayout.Button(t))
         {
             controller.Switch();
