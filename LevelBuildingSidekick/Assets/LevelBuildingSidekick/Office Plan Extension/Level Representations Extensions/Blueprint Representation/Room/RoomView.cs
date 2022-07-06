@@ -39,7 +39,7 @@ namespace LevelBuildingSidekick.Blueprint
             }
 
             EditorGUILayout.Space();
-
+            /*
             ftDropdown = EditorGUILayout.BeginFoldoutHeaderGroup(ftDropdown, "Floor Tiles");
             if (ftDropdown)
             {
@@ -94,6 +94,7 @@ namespace LevelBuildingSidekick.Blueprint
                 }
             }
             EditorGUILayout.EndFoldoutHeaderGroup();
+            */
         }
     }
 }

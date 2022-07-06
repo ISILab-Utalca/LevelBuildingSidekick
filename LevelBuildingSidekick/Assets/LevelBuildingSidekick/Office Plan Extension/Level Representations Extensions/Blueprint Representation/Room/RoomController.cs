@@ -27,43 +27,28 @@ namespace LevelBuildingSidekick.Blueprint
         }
 
         //Change to length of surface
-        public Vector2Int InnerBounds
+        public Vector2Int Bounds
         {
             get
             {
-                if ((Data as RoomData) == null)
+                if ((Data as RoomData) == null || TilePositions == null || TilePositions.Count == 0)
                 {
-                    Debug.LogWarning("Room does not Exist");
                     return Vector2Int.zero;
                 }
-                return (Data as RoomData).bounds;
-            }
-            set
-            {
-                (Data as RoomData).bounds = value;
-            }
-        }
-        public Vector2Int OuterBounds
-        {
-            get
-            {
-                if ((Data as RoomData) == null)
-                {
-                    Debug.LogWarning("Room does not Exist");
-                    return Vector2Int.zero;
-                }
-                return (Data as RoomData).outerBounds;
+                int x = TilePositions.OrderBy((v) => v.x).Last().x - TilePositions.OrderBy((v) => v.x).First().x;
+                int y = TilePositions.OrderBy((v) => v.y).Last().y - TilePositions.OrderBy((v) => v.y).First().y;
+                return new Vector2Int(x,y) + Vector2Int.one;
             }
             private set
             {
-                (Data as RoomData).outerBounds = value;
+                (Data as RoomData).bounds = value;
             }
         }
         public Vector2Int Centroid
         {
             get
             {
-                return Position + (InnerBounds / 2);
+                return Position + (Bounds / 2);
             }
             
         }
@@ -71,7 +56,7 @@ namespace LevelBuildingSidekick.Blueprint
         {
             get
             {
-                return (InnerBounds / 2);
+                return (Bounds / 2);
             }
         }
         public int ID
@@ -183,42 +168,22 @@ namespace LevelBuildingSidekick.Blueprint
                 return (Data as RoomData).tilePositions;
             }
         }
-        public List<GameObject> FloorTiles
+        public bool[,] Surface
         {
             get
             {
-                if (Room.floorTiles == null)
+                if ((Data as RoomData) == null)
                 {
-                    Room.floorTiles = new List<GameObject>();
+                    Debug.LogWarning("Room does not Exist");
+                    return null;
                 }
-                return Room.floorTiles;
+                return (Data as RoomData).surface;
             }
-        }
-
-        public List<GameObject> WallTiles
-        {
-            get
+            set
             {
-                if (Room.wallTiles == null)
-                {
-                    Room.wallTiles = new List<GameObject>();
-                }
-                return Room.wallTiles;
+                (Data as RoomData).surface = value;
             }
         }
-
-        public List<GameObject> DoorTiles
-        {
-            get
-            {
-                if (Room.doorTiles == null)
-                {
-                    Room.doorTiles = new List<GameObject>();
-                }
-                return Room.doorTiles;
-            }
-        }
-
 
         public RoomController(Data data) : base(data)
         {
@@ -236,9 +201,9 @@ namespace LevelBuildingSidekick.Blueprint
         public bool AddTilePositions(Vector2Int pos)
         {
             //Debug.Log(pos);
-            if (OuterBounds.x < (pos + Vector2Int.one).x || OuterBounds.y < (pos + Vector2Int.one).y)
+            if (Bounds.x < (pos + Vector2Int.one).x || Bounds.y < (pos + Vector2Int.one).y)
             {
-                OuterBounds = pos + Vector2Int.one;
+                Bounds = pos + Vector2Int.one;
             }
             if(TilePositions.Contains(pos))
             {
@@ -256,27 +221,27 @@ namespace LevelBuildingSidekick.Blueprint
         public void Expand(Vector2Int size)
         {
             //Resize Surface
-            if(InnerBounds.x < size.x)
+            if(Bounds.x < size.x)
             {
-                for(int j = 0; j < InnerBounds.y; j++)
+                for(int j = 0; j < Bounds.y; j++)
                 {
-                    for(int i = InnerBounds.x; i < size.x; i++)
+                    for(int i = Bounds.x; i < size.x; i++)
                     {
                         AddTilePositions(Position + new Vector2Int(i,j));
                     }
                 }
             }
-            if(InnerBounds.y < size.y)
+            if(Bounds.y < size.y)
             {
-                for (int i = 0; i < InnerBounds.x; i++)
+                for (int i = 0; i < Bounds.x; i++)
                 {
-                    for (int j = InnerBounds.y; j < size.y; j++)
+                    for (int j = Bounds.y; j < size.y; j++)
                     {
                         AddTilePositions(Position + new Vector2Int(i, j));
                     }
                 }
             }
-            InnerBounds = size;
+            Bounds = size;
         }
         public void ResizeToMin()
         {
@@ -293,15 +258,9 @@ namespace LevelBuildingSidekick.Blueprint
 
         public void Resize(Vector2Int size)
         {
-            InnerBounds = size;
+            Bounds = size;
             //Remove if out of size
-            foreach(Vector2Int v in TilePositions)
-            {
-                if(v.x > size.x || v.y > size.y)
-                {
-                    TilePositions.Remove(v);
-                }
-            }
+            TilePositions.Clear();
             //Add till size
             for(int i = 0; i < size.x; i++)
             {
@@ -317,33 +276,21 @@ namespace LevelBuildingSidekick.Blueprint
             return Label.GetHashCode();
         }
 
-        /*public bool CheckCollision(Rect other, bool useOuterBounds)
+        public bool CheckCollision(Rect other)
         {
-            Rect rect = new Rect(Position, InnerBounds);
-            if (useOuterBounds)
-            {
-                rect = new Rect(Position, OuterBounds);
-            }
+            Rect rect = new Rect(Position, Bounds);
             return rect.Overlaps(other);
-        }*/
+        }
 
-        /*public bool CheckCollision(RoomController other, bool useOuterBounds)
+        public bool CheckCollision(RoomController other)
         {
-            Rect r = new Rect(other.Position, other.InnerBounds);
-            if (useOuterBounds)
-            {
-                r = new Rect(other.Position, other.OuterBounds);
-            }
-            return CheckCollision(r, useOuterBounds);
-        }*/
+            Rect r = new Rect(other.Position, other.Bounds);
+            return CheckCollision(r);
+        }
 
-        /*public bool CheckCollision(RoomController other, out HashSet<Vector2Int> collisions)
+        public bool CheckCollision(RoomController other, out HashSet<Vector2Int> collisions)
         {
             collisions = new HashSet<Vector2Int>();
-            if (!CheckCollision(other, true))
-            {
-                return false;
-            }
 
             foreach (Vector2Int pos1 in TilePositions)
             {
@@ -351,13 +298,13 @@ namespace LevelBuildingSidekick.Blueprint
                 {
                     if ((pos1 + Position) == (pos2 + other.Position))
                     {
-                        collisions.Add((pos1 - Center));
+                        collisions.Add(pos1 + Position);
                         break; // -> each tile can collide just once with 1 other room
                     }
                 }
             }
             return (collisions.Count > 0);
-        }*/
+        }
 
         /*public bool CheckCollision(RoomController other, out Vector2Int distance)
         {
@@ -371,6 +318,50 @@ namespace LevelBuildingSidekick.Blueprint
             return collides;
         }*/
 
+        public void Generate3D()
+        {
+
+        }
+
+        public bool IsAdjacent(RoomController other, out Vector2Int minDistance)
+        {
+            minDistance = Centroid - other.Centroid;
+            foreach (Vector2Int v1 in TilePositions)
+            {
+                foreach(Vector2Int v2 in other.TilePositions)
+                {
+                    var v = (Position + v1) - (other.Position + v2);
+                    if(v.x == 0 && v.y == 0)
+                    {
+                        minDistance = Vector2Int.zero;
+                        return true;
+                    }
+                    if(v.x == 0)
+                    {
+                        if(Mathf.Abs(v.y) < (Bounds.y + other.Bounds.y))
+                        {
+                            minDistance = Vector2Int.zero;
+                            return true;
+                        }
+                    }
+                    else if(v.y == 0)
+                    {
+                        if(Mathf.Abs(v.x) < (Bounds.x + other.Bounds.x))
+                        {
+                            minDistance = Vector2Int.zero;
+                            return true;
+                        }
+                    }
+                    if(v.magnitude < minDistance.magnitude)
+                    {
+                        minDistance = v;
+                    }
+                }
+            }
+            //minDistance = Mathf.Abs(minDistance.x) < Mathf.Abs(minDistance.y ? minDistance.x * Vector2Int.right : minDistance.y * Vector2Int.up;
+            //Debug.Log(minDistance);
+            return false;
+        }
     }
 
 }

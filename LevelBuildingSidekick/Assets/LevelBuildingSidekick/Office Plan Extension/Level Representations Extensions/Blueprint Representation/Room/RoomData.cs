@@ -14,7 +14,7 @@ namespace LevelBuildingSidekick.Blueprint
         public Vector2Int bounds = Vector2Int.one;
         public Vector2Int outerBounds = Vector2Int.one;
         public List<Vector2Int> tilePositions = new List<Vector2Int>();
-        //public bool[,] surface;
+        public bool[,] surface = new bool[1,1];
 
 
         public override Type ControllerType => typeof(RoomController);
