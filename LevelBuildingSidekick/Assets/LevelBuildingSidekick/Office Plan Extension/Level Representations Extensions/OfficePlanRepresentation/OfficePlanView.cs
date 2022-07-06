@@ -39,29 +39,18 @@ namespace LevelBuildingSidekick.OfficePlan
             }
             else
             {
+                if (LBSController.Instance.CurrentLevel != null)
+                {
+                    LBSController.Instance.CurrentLevel.View.DrawEditor();
+
+                    EditorGUILayout.Separator();
+                }
+
                 scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
 
-                controller.Graph.Size = EditorGUILayout.Vector2IntField("Level Representation Size", controller.Graph.Size);
+                controller.Schema.Size = EditorGUILayout.Vector2IntField("Tilemap Size", controller.Schema.Size);
 
-
-                controller.Teseleation = (TeselationType)EditorGUILayout.EnumPopup("Teselation Type", controller.Teseleation);
-
-                if (controller.Teseleation == TeselationType.DOWNSCALE)
-                {
-                    controller.Schema.Step = EditorGUILayout.IntField("Tile Size", controller.Schema.Step);
-
-                    controller.Schema.Size = (controller.Graph.Size / controller.Schema.Step);
-                }
-                else
-                {
-                    Vector2Int v = controller.Schema.Size;
-                    controller.Schema.Size = EditorGUILayout.Vector2IntField("Tilemap Size", controller.Schema.Size);
-                    if (controller.Schema.Size != v)
-                    {
-                        controller.Schema.Step = controller.Graph.Size.x / v.x;
-                    }
-                }
-
+                controller.Schema.TileSize = EditorGUILayout.IntField("Tile Size", controller.Schema.TileSize);
 
                 EditorGUILayout.Space();
 
@@ -71,13 +60,18 @@ namespace LevelBuildingSidekick.OfficePlan
 
                 if (GUILayout.Button("Regenerate Schema"))
                 {
-                    controller.SimpleGraphToBlueprint();
+                    controller.GraphToSchema();
+                    //Debug.Log(controller.Schema.Rooms.Count);
                 }
 
                 if (GUILayout.Button("Generate 3D Map"))
                 {
                     controller.Generate3D();
                 }
+
+                EditorGUILayout.Space();
+
+
 
                 EditorGUILayout.EndScrollView();
             }
