@@ -14,7 +14,6 @@ namespace LevelBuildingSidekick.OfficePlan
     {
         public GraphData graph;
         public SchemaData schema;
-        public TeselationType type;
         public ToolkitData toolkit;
         public GameObject floor;
         public GameObject wall;

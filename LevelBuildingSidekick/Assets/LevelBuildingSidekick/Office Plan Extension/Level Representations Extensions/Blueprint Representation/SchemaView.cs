@@ -15,15 +15,17 @@ namespace LevelBuildingSidekick.Blueprint
 
         public override void Draw2D()
         {
+            int id = 0;
+            Color c = Color.black;
             var controller = (Controller as SchemaController);
             scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
 
-            var r = GUILayoutUtility.GetRect((controller.Size.x * controller.Step), 
-                (controller.Size.y * controller.Step), 
-                (controller.Size.x * controller.Step),
-                (controller.Size.y * controller.Step));
-            r.width = (controller.Size.x * controller.Step);
-            r.height = (controller.Size.y * controller.Step);
+            var r = GUILayoutUtility.GetRect((controller.Size.x * controller.TileSize), 
+                (controller.Size.y * controller.TileSize), 
+                (controller.Size.x * controller.TileSize),
+                (controller.Size.y * controller.TileSize));
+            r.width = (controller.Size.x * controller.TileSize);
+            r.height = (controller.Size.y * controller.TileSize);
             //Debug.Log(r.width + " - " + r.height);
             //GUILayout.BeginArea(r);
 
@@ -47,13 +49,18 @@ namespace LevelBuildingSidekick.Blueprint
                     }
                     else
                     {
-                        //texture.SetPixel(i, j, Color.white);
-                        Texture2D t = new Texture2D(1, 1);
-                        t.SetPixel(0, 0, Color.white);
+                        if(controller.TileMap[i, j] != id)
+                        {
+                            id = controller.TileMap[i, j];
+                            c = new Color(Random.value, Random.value, Random.value);
+                        }
+                            //texture.SetPixel(i, j, Color.white);
+                            Texture2D t = new Texture2D(1, 1);
+                        t.SetPixel(0, 0, c);
                         t.Apply();
-                       var rect = new Rect((controller.Step * i),
-                            (controller.Step * j),
-                            controller.Step, controller.Step);
+                       var rect = new Rect((controller.TileSize * i),
+                            (controller.TileSize * j),
+                            controller.TileSize, controller.TileSize);
                         GUI.DrawTexture(rect, t);
                         /*Handles.DrawSolidRectangleWithOutline(new Rect((controller.Step * i),
                             (controller.Step * j),
@@ -72,7 +79,7 @@ namespace LevelBuildingSidekick.Blueprint
         {
             var controller = Controller as SchemaController;
             controller.Size = EditorGUILayout.Vector2IntField("Size", controller.Size);
-            controller.Step = EditorGUILayout.IntField("Size", controller.Step);
+            controller.TileSize = EditorGUILayout.IntField("Size", controller.TileSize);
         }
 
     }

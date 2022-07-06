@@ -35,6 +35,7 @@ namespace LevelBuildingSidekick.Graph
                 return _Edges;
             }
         }
+
         private Controller _SelectedItem;
         public EdgeController SelectedEdge
         {
@@ -66,15 +67,11 @@ namespace LevelBuildingSidekick.Graph
                 _SelectedItem = value;
             }
         }
-        public Vector2Int Size
+        public int CellSize
         {
             get
             {
-                return (Data as GraphData).size;
-            }
-            set
-            {
-                (Data as GraphData).size = value;
+                return (Data as GraphData).cellSize;
             }
         }
 
@@ -92,7 +89,7 @@ namespace LevelBuildingSidekick.Graph
             //Debug.Log("!: " + Data);
 
             //Nodes = new List<NodeController>();
-            if(data.nodes == null)
+            if (data.nodes == null)
             {
                 data.nodes = new List<NodeData>();
             }
@@ -125,24 +122,59 @@ namespace LevelBuildingSidekick.Graph
         public Dictionary<int, Vector2Int> ToMatrixPositions(Vector2Int size)
         {
             //int[,] tileMatrix = new int[size.x, size.y];
-            float step = Mathf.Max(Size.x / size.x, Size.y / size.y);
+            var closer = CloserPosition();
+            var farther = FartherPosition();
+            //var start = Mathf.Min(closer.x, closer.y);
+            //var end = Mathf.Max(farther.x, farther.y);
+            var Size = new Vector2Int(Mathf.Min(closer.x, closer.y), Mathf.Max(farther.x, farther.y));
+            //float step = Mathf.Max(Size.x / size.x, Size.y / size.y);
             Dictionary<int, Vector2Int> indexes = new Dictionary<int, Vector2Int>();
             foreach (NodeController n in Nodes)
             {
-                int x = (int)(n.Position.x / step);
+                /*int x = (int)(n.Position.x / step);
                 int y = (int)(n.Position.y / step);
                 if(x >= size.x || y >= size.y)
                 {
                     Debug.LogWarning("Node out of Bounds");
                     continue;
-                }
+                }*/
                 //tileMatrix[x, y] = n.ID;
-                if(!indexes.ContainsKey(n.ID))
+                if (!indexes.ContainsKey(n.ID))
                 {
-                    indexes.Add(n.ID, new Vector2Int(x, y));
+                    indexes.Add(n.ID, ToMatrixPosition(n.ID, Size, size));
                 }
             }
             return indexes;
+        }
+        public Vector2Int ToMatrixPosition(int ID, Vector2Int size)
+        {
+            var closer = CloserPosition();
+            var farther = FartherPosition();
+            //var start = Mathf.Min(closer.x, closer.y);
+            //var end = Mathf.Max(farther.x, farther.y);
+            var l = Mathf.Max(farther.x, farther.y) - Mathf.Min(closer.x, closer.y);
+            //Debug.Log("L: " + l);
+            var Size = new Vector2(l, l);
+            var node = Nodes.Find((n) => n.ID == ID);
+            var pos = node.Position - closer;
+            //Debug.Log("Pos: " + node.Position);
+            //Debug.Log();
+
+
+            return new Vector2Int((int)(0.1f * size.x + pos.x * ((0.8f * size.x) / Size.x)),
+                (int)(0.1f * size.y + pos.y * ((0.8f * size.y) / Size.y)));
+        }
+        public Vector2Int ToMatrixPosition(int ID, Vector2Int graphSize, Vector2Int size)
+        {
+            //var closer = CloserPosition();
+            //var farther = FartherPosition();
+            //var start = Mathf.Min(closer.x, closer.y);
+            //var end = Mathf.Max(farther.x, farther.y);
+            //var Size = new Vector2Int(Mathf.Min(closer.x, closer.y), Mathf.Max(farther.x, farther.y));
+            var node = Nodes.Find((n) => n.ID == ID);
+
+            return new Vector2Int((int)(0.1f * size.x + node.Centroid.x * ((0.8f * size.x) / graphSize.x)),
+                (int)(0.1f * size.y + node.Centroid.y * ((0.8f * size.y) / graphSize.y)));
         }
         //Can be optimized
         public bool[,] AdjacencyMatrix()
@@ -272,7 +304,9 @@ namespace LevelBuildingSidekick.Graph
             var node = Activator.CreateInstance(nodeData.ControllerType, new object[] { nodeData });
             if (node is NodeController)
             {
+                (node as NodeController).Radius = CellSize / 2;
                 Nodes.Add(node as NodeController);
+                
                 (Data as GraphData).nodes.Add(nodeData);
                 return true;
             }
@@ -301,15 +335,33 @@ namespace LevelBuildingSidekick.Graph
             }
             return false;
         }
-        public Vector2 FartherPosition()
+        public Vector2Int FartherPosition()
         {
             if (Nodes.Count == 0)
             {
-                return Vector2.zero;
+                return Vector2Int.zero;
             }
-            var x = Nodes.OrderBy((n) => n.Position.x).Last().Position.x;
-            var y = Nodes.OrderBy((n) => n.Position.y).Last().Position.y;
-            return new Vector2(x,y);
+            var x = Nodes.OrderBy((n) =>
+            {
+                //var offset = CellSize * (n.ProportionType == ProportionType.RATIO ? n.Ratio.x : n.Width.x);
+                return n.Position.x; //+ offset;
+            }).Last().Position.x;
+            var y = Nodes.OrderBy((n) => 
+            {
+                //var offset = CellSize * (n.ProportionType == ProportionType.RATIO ? n.Ratio.y : n.Width.y);
+                return n.Position.y; //+ offset;
+            }).Last().Position.y;
+            return new Vector2Int(x,y);
+        }
+        public Vector2Int CloserPosition()
+        {
+            if (Nodes.Count == 0)
+            {
+                return Vector2Int.zero;
+            }
+            var x = Nodes.OrderBy((n) => n.Position.x).First().Position.x;
+            var y = Nodes.OrderBy((n) => n.Position.y).First().Position.y;
+            return new Vector2Int(x, y);
         }
         public override void Update()
         {

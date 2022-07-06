@@ -14,7 +14,7 @@ namespace LevelBuildingSidekick.Graph
         public List<NodeData> nodes = new List<NodeData>();
         [SerializeField]
         public List<EdgeData> edges = new List<EdgeData>();
-        public Vector2Int size;
+        internal int cellSize = 128;
 
         public override Type ControllerType => typeof(GraphController);
     }

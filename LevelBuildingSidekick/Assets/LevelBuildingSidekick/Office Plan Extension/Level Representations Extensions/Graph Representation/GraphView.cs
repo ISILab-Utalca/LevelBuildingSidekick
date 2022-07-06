@@ -21,15 +21,18 @@ namespace LevelBuildingSidekick.Graph
 
             scrollPosition = GUILayout.BeginScrollView(scrollPosition);
 
-            //lastElement = controller.FartherPosition();
-            //var size = lastElement + offset;
+            var offset = controller.CellSize * Vector2Int.one;
 
-            var r = GUILayoutUtility.GetRect(controller.Size.x,
-                controller.Size.y,
-                controller.Size.x,
-                controller.Size.y);
-            r.width = controller.Size.x;
-            r.height = controller.Size.y;
+            var lastElement = controller.FartherPosition();
+            var size = lastElement + offset;
+
+            var r = GUILayoutUtility.GetRect(10*offset.x,
+                10*offset.y,
+                size.x,
+                size.y);
+
+            //r.width = size.x;
+            //r.height = size.y;
             GUI.DrawTexture(r, new Texture2D(1, 1));
             //Debug.Log("Graph View");
 
@@ -50,8 +53,6 @@ namespace LevelBuildingSidekick.Graph
         public override void DrawEditor()
         {
             var controller = Controller as GraphController;
-
-            controller.Size = EditorGUILayout.Vector2IntField("Size", controller.Size);
         }
     }
 }
