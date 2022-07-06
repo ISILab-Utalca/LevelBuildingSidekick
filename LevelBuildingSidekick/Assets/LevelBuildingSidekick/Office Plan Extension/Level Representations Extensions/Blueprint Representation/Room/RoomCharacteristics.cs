@@ -13,18 +13,11 @@ namespace LevelBuildingSidekick.Blueprint
         public Vector2Int aspectRatio = Vector2Int.one;
         public ProportionType proportionType = ProportionType.RATIO;
 
-        //Should be in children class
-        [NonReorderable]
-        public List<GameObject> floorTiles;
+        public Dictionary<string, HashSet<GameObject>> prefabs;
 
-        //[SerializeField]
-        [NonReorderable]
-        public List<GameObject> wallTiles;
+        public string[] prefabCategories = { "Walls", "Floors", "Doors"};
 
-        //[SerializeField]
         [NonReorderable]
-        public List<GameObject> doorTiles;
-
-        public List<string> tags;
+        public HashSet<string> tags;
     }
 }
