@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace Utility
 {
@@ -77,6 +78,18 @@ namespace Utility
                 angle = -v.y > v.x ? 270 : 0;
             }
             return angle;
+        }
+
+        public static T[,] ResizeArray<T>(T[,] original, int x, int y)
+        {
+            T[,] newArray = new T[x, y];
+            int minX = Mathf.Min(original.GetLength(0), newArray.GetLength(0));
+            int minY = Mathf.Min(original.GetLength(1), newArray.GetLength(1));
+
+            for (int i = 0; i < minY; ++i)
+                Array.Copy(original, i * original.GetLength(0), newArray, i * newArray.GetLength(0), minX);
+
+            return newArray;
         }
     }
 }
