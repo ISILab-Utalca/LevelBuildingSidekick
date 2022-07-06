@@ -32,41 +32,12 @@ namespace LevelBuildingSidekick
         List<Step> steps;
         public Step currentStep;
 
-        private GenericWindow _LevelWindow;
-        public GenericWindow LevelWindow
+        public LevelController _CurrentLevel;
+        public LevelController CurrentLevel
         {
             get
             {
-                if(_LevelWindow == null)
-                {
-                    _LevelWindow = GenericWindow.CreateInstance<GenericWindow>();
-                    _LevelWindow.titleContent = new GUIContent("Level Window");
-                    _LevelWindow.draw = Instance.currentStep.View.Draw2D;
-                }
-                return _LevelWindow;
-            }
-        }
-
-        public GenericWindow _InspectorWindow;
-        public GenericWindow InspectorWindow
-        {
-            get
-            {
-                if (_InspectorWindow == null)
-                {
-                    _InspectorWindow = EditorWindow.CreateInstance<GenericWindow>();
-                    _InspectorWindow.titleContent = new GUIContent("Inspector Window");
-                    _InspectorWindow.draw = Instance.currentStep.LevelRepresentation.View.DrawEditor;
-                }
-                return _InspectorWindow;
-            }
-        }
-
-        public LevelData CurrentLevel
-        {
-            get
-            {
-                return (Data as LBSData).levelData;
+                return _CurrentLevel;
             }
         }
 
@@ -137,6 +108,16 @@ namespace LevelBuildingSidekick
             {
                 currentStep = steps[0];
             }
+
+            if(data.levelData !=  null)
+            {
+                var level = Activator.CreateInstance(data.levelData.ControllerType, new object[] { data.levelData });
+                if (level is LevelController)
+                {
+                    _CurrentLevel = level as LevelController;
+                }
+            }
+            
         }
 
         public override void Update()
