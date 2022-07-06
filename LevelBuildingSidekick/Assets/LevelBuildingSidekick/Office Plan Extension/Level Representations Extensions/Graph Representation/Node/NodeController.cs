@@ -4,6 +4,7 @@ using UnityEngine;
 using LevelBuildingSidekick;
 using LevelBuildingSidekick.Blueprint;
 using Utility;
+using System.Linq;
 
 namespace LevelBuildingSidekick.Graph
 {
@@ -28,6 +29,12 @@ namespace LevelBuildingSidekick.Graph
                 }
                 return (Data as NodeData).position;
             }
+            set
+            {
+                if (value.x < 0) value.x = 0;
+                if (value.y < 0) value.y = 0;
+                (Data as NodeData).position = value;
+            }
         }
         public int Radius
         {
@@ -38,6 +45,10 @@ namespace LevelBuildingSidekick.Graph
                     return 0;
                 }
                 return (Data as NodeData).radius;
+            }
+            set
+            {
+                (Data as NodeData).radius = value;
             }
         }
         public Vector2Int Centroid
@@ -146,6 +157,20 @@ namespace LevelBuildingSidekick.Graph
                 Room.aspectRatio = value;
             }
         }
+        public int MinArea
+        {
+            get
+            {
+                if (ProportionType == ProportionType.RATIO)
+                {
+                    return Ratio.x * Ratio.y;
+                }
+                else
+                {
+                    return Width.x * Height.x;
+                }
+            }
+        }
         public ProportionType ProportionType
         {
             get
@@ -166,40 +191,28 @@ namespace LevelBuildingSidekick.Graph
                 Room.proportionType = value;
             }
         }
-        public List<GameObject> FloorTiles
+        public HashSet<string> Tags
         {
             get
             {
-                if (Room.floorTiles == null)
+                if (Room.tags == null)
                 {
-                    Room.floorTiles = new List<GameObject>();
+                    Room.tags = new HashSet<string>();
                 }
-                return Room.floorTiles;
+                return Room.tags;
+            }
+            set
+            {
+                Room.tags = value;
             }
         }
-        public List<GameObject> WallTiles
+        public string[] ItemCategories
         {
             get
             {
-                if (Room.wallTiles == null)
-                {
-                    Room.wallTiles = new List<GameObject>();
-                }
-                return Room.wallTiles;
+                return Room.prefabCategories;
             }
         }
-        public List<GameObject> DoorTiles
-        {
-            get
-            {
-                if (Room.doorTiles == null)
-                {
-                    Room.doorTiles = new List<GameObject>();
-                }
-                return Room.doorTiles;
-            }
-        }
-        
 
         public NodeController(Data data) : base(data)
         {
@@ -232,8 +245,7 @@ namespace LevelBuildingSidekick.Graph
         }
         public void Translate(Vector2Int delta)
         {
-            NodeData d = Data as NodeData;
-            d.position += delta;
+            Position += delta;
         }
 
         public override int GetHashCode()
@@ -257,6 +269,39 @@ namespace LevelBuildingSidekick.Graph
 
             return v;
         }
+
+        public HashSet<GameObject> GetPrefabs(string category)
+        {
+            if(Room.prefabCategories.Contains(category))
+            {
+                if(Room.prefabs == null)
+                {
+                    Room.prefabs = new Dictionary<string, HashSet<GameObject>>();
+                }
+                if(!Room.prefabs.ContainsKey(category))
+                {
+                    Room.prefabs.Add(category, new HashSet<GameObject>());
+                }
+                if(Room.prefabs[category] == null)
+                {
+                    Room.prefabs[category] = new HashSet<GameObject>();
+                }
+                return Room.prefabs[category];
+            }
+            Debug.LogWarning("No such category of items in Node");
+            return null;
+        }
+
+        public bool SetPrefabs(string category, HashSet<GameObject> prefabs)
+        {
+            if(!Room.prefabCategories.Contains(category))
+            {
+                return false;
+            }
+            Room.prefabs[category] = prefabs;
+            return true;
+        }
+
     }
 }
 

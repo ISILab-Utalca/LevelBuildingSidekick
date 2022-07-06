@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System.Linq;
 
 namespace LevelBuildingSidekick.Graph
 {
@@ -12,6 +13,9 @@ namespace LevelBuildingSidekick.Graph
         bool ftDropdown;
         bool wtDropdown;
         bool dtDropdown;
+        bool openTags;
+        bool openGameObjects;
+        int categoryIndex;
 
         public NodeView(Controller controller) : base(controller)
         {
@@ -69,61 +73,129 @@ namespace LevelBuildingSidekick.Graph
             //Espacio para proximo control
             EditorGUILayout.Space();
 
-            ftDropdown = EditorGUILayout.BeginFoldoutHeaderGroup(ftDropdown, "Floor Tiles");
-            if(ftDropdown)
+            LevelController level = LBSController.Instance.CurrentLevel;
+
+            GUILayout.Label("Level Data", EditorStyles.boldLabel);
+
+            //controller.LevelSize = EditorGUILayout.Vector2IntField("Level Size ", controller.LevelSize);
+
+            #region TAGS
+            openTags = EditorGUILayout.BeginFoldoutHeaderGroup(openTags, "Tags");
+            //controller.Tags = EditorGUILayout.TextField()
+            var tags = level.Tags.ToList();
+            tags.Add("None");
+            var myTags = controller.Tags.ToList();
+
+            /*int newCount = Mathf.Max(0, EditorGUILayout.IntField("Size", list.Count));
+            while (newCount < list.Count)
+                list.RemoveAt(list.Count - 1);
+            while (newCount > list.Count)
+                list.Add(null);*/
+            int erase = -1;
+            for (int i = 0; i < myTags.Count; i++)
             {
-                var list = controller.FloorTiles;
-                int newCount = Mathf.Max(0, EditorGUILayout.IntField("Size", list.Count));
-                while (newCount < list.Count)
-                    list.RemoveAt(list.Count - 1);
-                while (newCount > list.Count)
-                    list.Add(null);
-
-                for (int i = 0; i < list.Count; i++)
+                int index = -1;
+                if (level.Tags.Contains(myTags[i]))
                 {
-                    list[i] = EditorGUILayout.ObjectField("Element " + i, list[i], typeof(GameObject), true) as GameObject;
+                    index = tags.FindIndex((s) => s.Equals(myTags[i]));
                 }
+                else
+                {
+                    level.Tags.Remove(myTags[i]);
+                    continue;
+                }
+
+                EditorGUILayout.BeginHorizontal();
+                int newIndex = index;
+                newIndex = EditorGUILayout.Popup(newIndex, tags.ToArray());
+                if(newIndex != index)
+                {
+                    myTags[i] = tags[newIndex];
+                }
+                GUILayout.FlexibleSpace();
+                if (GUILayout.Button("-"))
+                {
+                    erase = i;
+                }
+                EditorGUILayout.EndHorizontal();
             }
-            EditorGUILayout.EndFoldoutHeaderGroup();
+            int newTag = tags.Count - 1;
+            newTag = EditorGUILayout.Popup(newTag, tags.ToArray());
 
-            EditorGUILayout.Space();
-
-            wtDropdown = EditorGUILayout.BeginFoldoutHeaderGroup(wtDropdown, "Wall Tiles");
-            if (wtDropdown)
+            if (erase >= 0 && erase < myTags.Count)
             {
-                var list = controller.WallTiles;
-                int newCount = Mathf.Max(0, EditorGUILayout.IntField("Size", list.Count));
-                while (newCount < list.Count)
-                    list.RemoveAt(list.Count - 1);
-                while (newCount > list.Count)
-                    list.Add(null);
-
-                for (int i = 0; i < list.Count; i++)
-                {
-                    list[i] = EditorGUILayout.ObjectField("Element " + i, list[i], typeof(GameObject), true) as GameObject;
-                }
+                myTags.RemoveAt(erase);
             }
-            EditorGUILayout.EndFoldoutHeaderGroup();
 
-            EditorGUILayout.Space();
-
-            dtDropdown = EditorGUILayout.BeginFoldoutHeaderGroup(dtDropdown, "Door Tiles");
-            if (dtDropdown)
+            if (newTag != tags.Count - 1)
             {
-                var list = controller.DoorTiles;
-                int newCount = Mathf.Max(0, EditorGUILayout.IntField("Size", list.Count));
-                while (newCount < list.Count)
-                    list.RemoveAt(list.Count - 1);
-                while (newCount > list.Count)
-                    list.Add(null);
-
-                for (int i = 0; i < list.Count; i++)
-                {
-                    list[i] = EditorGUILayout.ObjectField("Element " + i, list[i], typeof(GameObject), true) as GameObject;
-                }
+                myTags.Add(tags[newTag]);
             }
-            EditorGUILayout.EndFoldoutHeaderGroup();
 
+            controller.Tags = myTags.Distinct().ToHashSet();
+            EditorGUILayout.EndFoldoutHeaderGroup();
+            #endregion
+
+            #region PREFABS
+            openGameObjects = EditorGUILayout.BeginFoldoutHeaderGroup(openGameObjects, "Prefabs");
+
+            categoryIndex = EditorGUILayout.Popup(categoryIndex, controller.ItemCategories);
+            string category = controller.ItemCategories[categoryIndex];
+
+            var prefs = LBSController.Instance.CurrentLevel.RequestLevelObjects(category).ToList();
+            var options = prefs.Select((p) => p.name).ToList();
+            var myPrefs = controller.GetPrefabs(category).ToList();
+
+            for (int i = 0; i < myPrefs.Count; i++)
+            {
+                int index = -1;
+                if(LBSController.Instance.CurrentLevel.RequestLevelObjects(category).Contains(myPrefs[i]))
+                {
+                    index = prefs.FindIndex((p) => p.Equals(myPrefs[i]));
+                }
+                else
+                {
+                    myPrefs.Remove(myPrefs[i]);
+                    continue;
+                }
+
+                EditorGUILayout.BeginHorizontal();
+                index = EditorGUILayout.Popup(index, options.ToArray());
+                myPrefs[i] = prefs[index];
+                GUILayout.FlexibleSpace();
+                if (GUILayout.Button("-"))
+                {
+                    erase = i;
+                }
+                EditorGUILayout.EndHorizontal();
+            }
+
+            options.Add("New Prefab");
+            int newDDPref = options.Count - 1;
+            newDDPref = EditorGUILayout.Popup(newDDPref, options.ToArray());
+            GameObject newPref = null;
+            newPref = EditorGUILayout.ObjectField("Element " + myPrefs.Count, newPref, typeof(GameObject), false) as GameObject;
+
+            if (erase >= 0 && erase < myPrefs.Count)
+            {
+                myPrefs.RemoveAt(erase);
+            }
+
+            if (newPref != null)
+            {
+                LBSController.Instance.CurrentLevel.RequestLevelObjects(category).Add(newPref);
+                myPrefs.Add(newPref);
+            }
+
+            if (newDDPref < prefs.Count)
+            {
+                myPrefs.Add(prefs[newDDPref]);
+            }
+
+            controller.SetPrefabs(category, myPrefs.ToHashSet());
+            
+            EditorGUILayout.EndFoldoutHeaderGroup();
+            #endregion
 
         }
     }
