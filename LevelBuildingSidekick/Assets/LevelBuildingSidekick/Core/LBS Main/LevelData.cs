@@ -9,13 +9,24 @@ namespace LevelBuildingSidekick
     [CreateAssetMenu(menuName = "LevelBuildingSidekick/Data/Level Data")]
     public class LevelData : Data
     {
-        public HashSet<string> tags;
-        public HashSet<GameObject> floorTiles;
-        public HashSet<GameObject> wallTiles;
-        public HashSet<GameObject> doorTiles;
+        public HashSet<string> tags = new HashSet<string>();
+        public HashSet<string> Tags
+        {
+            get
+            {
+                if(tags == null)
+                {
+                    tags = new HashSet<string>();
+                }
+                return tags;
+            }
+        }
+
+        public Dictionary<string, HashSet<GameObject>> levelObjects = new Dictionary<string, HashSet<GameObject>>();
+
         public Vector2Int levelSize;
 
-        public override Type ControllerType => throw new NotImplementedException();
+        public override Type ControllerType => typeof(LevelController);
     }
 }
 

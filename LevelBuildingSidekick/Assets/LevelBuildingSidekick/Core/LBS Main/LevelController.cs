@@ -11,6 +11,7 @@ namespace LevelBuildingSidekick
     {
         public LevelController(Data data) : base(data)
         {
+            View = new LevelView(this);
         }
 
         public HashSet<string> Tags
@@ -23,39 +24,21 @@ namespace LevelBuildingSidekick
                 }
                 return (Data as LevelData).tags;
             }
-            set { }
-        }
-        public HashSet<GameObject> FloorTiles
-        {
-            get
+            set 
             {
-                if ((Data as LevelData == null))
-                {
-                    return null;
-                }
-                return (Data as LevelData).floorTiles;
+                (Data as LevelData).tags = value;
             }
         }
-        public HashSet<GameObject> WallTiles
+
+        public Dictionary<string, HashSet<GameObject>> LevelObjects
         {
             get
             {
-                if ((Data as LevelData == null))
+                if ((Data as LevelData).levelObjects == null)
                 {
-                    return null;
+                    (Data as LevelData).levelObjects = new Dictionary<string, HashSet<GameObject>>();
                 }
-                return (Data as LevelData).wallTiles;
-            }
-        }
-        public HashSet<GameObject> DoorTiles
-        {
-            get
-            {
-                if ((Data as LevelData == null))
-                {
-                    return null;
-                }
-                return (Data as LevelData).doorTiles;
+                return (Data as LevelData).levelObjects;
             }
         }
 
@@ -77,12 +60,25 @@ namespace LevelBuildingSidekick
 
         public override void LoadData()
         {
-            throw new System.NotImplementedException();
+            //throw new System.NotImplementedException();
         }
 
         public override void Update()
         {
-            throw new System.NotImplementedException();
+            //throw new System.NotImplementedException();
+        }
+
+        public HashSet<GameObject> RequestLevelObjects(string category)
+        {
+            if (!LevelObjects.ContainsKey(category))
+            {
+                LevelObjects.Add(category, new HashSet<GameObject>());
+            }
+            if (LevelObjects[category] == null)
+            {
+                LevelObjects[category] = new HashSet<GameObject>();
+            }
+            return LevelObjects[category];
         }
     }
 }
