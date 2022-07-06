@@ -10,13 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc7f1f64e88e5274fb0c0ee435e75aac, type: 3}
-  m_Name: OfficePlan1
+  m_Name: OfficePlan
   m_EditorClassIdentifier: 
   toolkitData: {fileID: 0}
-  graph: {fileID: 11400000, guid: b489a9dc13041a744a57b99feff66361, type: 2}
-  schema: {fileID: 11400000, guid: 0f0f66f09fdbd314f99fc0d89883d23c, type: 2}
-  type: 0
+  graph: {fileID: 11400000, guid: b8a907b30e257594f96a8fb7dde06dcc, type: 2}
+  schema: {fileID: 11400000, guid: 20473cd750241a242ac5f3d41202f8f7, type: 2}
   toolkit: {fileID: 0}
   floor: {fileID: 916917378494744782, guid: 98f5378049f9b5745a77677f581b32b1, type: 3}
-  wall: {fileID: 7779381877309823848, guid: 2f6c4572e07a60b43b00e1c4f489a806, type: 3}
+  wall: {fileID: 6229247520373792897, guid: 3ad7a1cffb2556547a8b7e60fd320431, type: 3}
   door: {fileID: 0}

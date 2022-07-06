@@ -9,8 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70c0a3e463d106546873d07177a1c8f6, type: 3}
-  m_Name: PSData
+  m_Script: {fileID: 11500000, guid: 0397c874abf32ab46b2abc723b3bf9cd, type: 3}
+  m_Name: Schema
   m_EditorClassIdentifier: 
-  WindowName: 
-  levelData: {fileID: 11400000, guid: 6dc0c7dc1ce47ad48bceea6c562c3afd, type: 2}
+  toolkitData: {fileID: 0}
+  tileSize: 40
+  size: {x: 10, y: 10}
+  rooms: []

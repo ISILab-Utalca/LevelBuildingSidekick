@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62d23b60054f6cd40919240b38c17238, type: 3}
-  m_Name: LBSData
+  m_Script: {fileID: 11500000, guid: 70c0a3e463d106546873d07177a1c8f6, type: 3}
+  m_Name: PhysicalSpace
   m_EditorClassIdentifier: 
-  levelData: {fileID: 0}
-  stepsData:
-  - {fileID: 11400000, guid: bcbfd134aeaa68145b37b55972c011db, type: 2}
+  WindowName: 
+  levelData: {fileID: 11400000, guid: dc27e4f7f7c398b408a22369676de730, type: 2}
