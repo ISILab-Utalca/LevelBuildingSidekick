@@ -10,14 +10,14 @@ namespace LevelBuildingSidekick.Graph
 {
     public class GraphController : LevelRepresentationController
     {
-        private List<NodeController> _Nodes;
-        public List<NodeController> Nodes
+        private HashSet<NodeController> _Nodes;
+        public HashSet<NodeController> Nodes
         {
             get
             {
                 if (_Nodes == null)
                 {
-                    _Nodes = new List<NodeController>();
+                    _Nodes = new HashSet<NodeController>();
                 }
                 return _Nodes;
             }
@@ -155,7 +155,7 @@ namespace LevelBuildingSidekick.Graph
             var l = Mathf.Max(farther.x, farther.y) - Mathf.Min(closer.x, closer.y);
             //Debug.Log("L: " + l);
             var Size = new Vector2(l, l);
-            var node = Nodes.Find((n) => n.ID == ID);
+            var node = Nodes.ToList().Find((n) => n.ID == ID);
             var pos = node.Position - closer;
             //Debug.Log("Pos: " + node.Position);
             //Debug.Log();
@@ -171,7 +171,7 @@ namespace LevelBuildingSidekick.Graph
             //var start = Mathf.Min(closer.x, closer.y);
             //var end = Mathf.Max(farther.x, farther.y);
             //var Size = new Vector2Int(Mathf.Min(closer.x, closer.y), Mathf.Max(farther.x, farther.y));
-            var node = Nodes.Find((n) => n.ID == ID);
+            var node = Nodes.ToList().Find((n) => n.ID == ID);
 
             return new Vector2Int((int)(0.1f * size.x + node.Centroid.x * ((0.8f * size.x) / graphSize.x)),
                 (int)(0.1f * size.y + node.Centroid.y * ((0.8f * size.y) / graphSize.y)));
@@ -179,12 +179,13 @@ namespace LevelBuildingSidekick.Graph
         //Can be optimized
         public bool[,] AdjacencyMatrix()
         {
+            var nodes = Nodes.ToList();
             bool[,] adjacency = new bool[Nodes.Count, Nodes.Count];
             for (int i = 0; i < Nodes.Count; i++)
             {
-                foreach (NodeController n in Nodes[i].neighbors)
+                foreach (NodeController n in nodes[i].neighbors)
                 {
-                    int index = Nodes.FindIndex((node) => node.ID == n.ID);
+                    int index = nodes.FindIndex((node) => node.ID == n.ID);
                     if (index < 0)
                     {
                         Debug.LogError("Node not on Graph");
@@ -196,11 +197,12 @@ namespace LevelBuildingSidekick.Graph
         }
         public List<int>[] AdjacencyIndexes()
         {
+            var nodes = Nodes.ToList();
             List<int>[] adjacencies = new List<int>[Nodes.Count];
             for(int i = 0; i < Nodes.Count; i++)
             {
                 adjacencies[i] = new List<int>();
-                foreach(NodeController n in Nodes[i].neighbors)
+                foreach(NodeController n in nodes[i].neighbors)
                 {
                     int index = Array.IndexOf(Nodes.ToArray(), n);
                     if(index >= 0 && index > i)
@@ -305,10 +307,14 @@ namespace LevelBuildingSidekick.Graph
             if (node is NodeController)
             {
                 (node as NodeController).Radius = CellSize / 2;
-                Nodes.Add(node as NodeController);
-                
-                (Data as GraphData).nodes.Add(nodeData);
-                return true;
+                (node as NodeController).Exist = (s) => {
+                    //Debug.Log("name: " + s);  
+                    return Nodes.ToList().Find((n) => n.Label == s) == null; };
+                if(Nodes.Add(node as NodeController))
+                {
+                    (Data as GraphData).nodes.Add(nodeData);
+                    return true;
+                }
             }
             return false;
         }
@@ -318,8 +324,8 @@ namespace LevelBuildingSidekick.Graph
             if (edge is EdgeController)
             {
                 var e = edge as EdgeController;
-                var n1 = Nodes.Find((n) => n.Data == edgeData.node1);
-                var n2 = Nodes.Find((n) => n.Data == edgeData.node2);
+                var n1 = Nodes.ToList().Find((n) => n.Data == edgeData.node1);
+                var n2 = Nodes.ToList().Find((n) => n.Data == edgeData.node2);
                 if(n1 == null || n2 == null)
                 {
                     Debug.LogError("Something went wrong");

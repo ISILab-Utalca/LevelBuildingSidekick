@@ -52,8 +52,9 @@ namespace LevelBuildingSidekick.Graph
              NodeController controller = Controller as NodeController;
             //Espacio para proximo control
             EditorGUILayout.Space();
-            
-            controller.Label = EditorGUILayout.TextField("Label ", controller.Label);
+            string newLabel = controller.Label;
+            newLabel = EditorGUILayout.TextField("Label ", newLabel);
+            controller.Label = newLabel;
            
             //Espacio para proximo control
             EditorGUILayout.Space();

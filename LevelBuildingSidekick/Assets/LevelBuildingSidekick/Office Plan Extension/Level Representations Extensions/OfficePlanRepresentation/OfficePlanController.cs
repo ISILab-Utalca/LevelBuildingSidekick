@@ -310,9 +310,10 @@ namespace LevelBuildingSidekick.OfficePlan
                 rooms.Add(room);
             }
 
+            var nodes = Graph.Nodes.ToList();
 
             Schema.ClearRooms();
-            var node = Graph.Nodes.OrderByDescending((n) => n.MinArea).First();
+            var node = nodes.OrderByDescending((n) => n.MinArea).First();
             var parent = rooms.Find((r) => r.ID == node.ID);
 
             List<RoomController> open = new List<RoomController>();
@@ -329,7 +330,7 @@ namespace LevelBuildingSidekick.OfficePlan
                 open.Remove(parent);
                 closed.Add(parent);
 
-                node = Graph.Nodes.Find((n) => n.ID == parent.ID);
+                node = nodes.Find((n) => n.ID == parent.ID);
 
                 //Debug.Log("N: " + node.neighbors.Count);
                 foreach(NodeController n in node.neighbors.OrderByDescending((n) => n.MinArea))
@@ -383,13 +384,14 @@ namespace LevelBuildingSidekick.OfficePlan
         //Fix to use centroids
         public Vector2Int GetPull(int ID, bool[,] adjacency, Dictionary<int, Vector2Int> positions)
         {
-            int index = Graph.Nodes.FindIndex((n) => n.ID == ID);
+            var nodes = Graph.Nodes.ToList();
+            int index = nodes.FindIndex((n) => n.ID == ID);
             Vector2Int pull = Vector2Int.zero;
             for (int i = 0; i < adjacency.GetLength(1); i++)
             {
                 if (adjacency[index, i])
                 {
-                    pull += (positions[Graph.Nodes[i].ID] - positions[ID]); // - o +? dividir por 2?
+                    pull += (positions[nodes[i].ID] - positions[ID]); // - o +? dividir por 2?
                 }
             }
             return pull;
@@ -397,13 +399,14 @@ namespace LevelBuildingSidekick.OfficePlan
         //Fix to Use centroids, should scale with 1/distance
         public Vector2Int GetPush(int ID, bool[,] adjacency, Dictionary<int, Vector2Int> positions)
         {
-            int index = Graph.Nodes.FindIndex((n) => n.ID == ID);
+            var nodes = Graph.Nodes.ToList();
+            int index = nodes.FindIndex((n) => n.ID == ID);
             Vector2Int push = Vector2Int.zero;
             for (int i = 0; i < adjacency.GetLength(1); i++)
             {
                 if (!adjacency[index, i])
                 {
-                    push += (positions[ID] - positions[Graph.Nodes[i].ID]); // - o +? dividir por 2? // distance should affect inversed
+                    push += (positions[ID] - positions[nodes[i].ID]); // - o +? dividir por 2? // distance should affect inversed
                 }
             }
             return push;

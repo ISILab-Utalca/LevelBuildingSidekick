@@ -5,6 +5,7 @@ using LevelBuildingSidekick;
 using LevelBuildingSidekick.Blueprint;
 using Utility;
 using System.Linq;
+using System;
 
 namespace LevelBuildingSidekick.Graph
 {
@@ -81,6 +82,7 @@ namespace LevelBuildingSidekick.Graph
                 return (Data as NodeData).room;
             }
         }
+        public Func<string, bool> Exist;
         public string Label
         {
             get
@@ -93,8 +95,11 @@ namespace LevelBuildingSidekick.Graph
                 return Room.label;
             }
             set
-            {
-                Room.label = value;
+            {;
+                if (Exist?.Invoke(value) == true)
+                {
+                    Room.label = value;
+                }
             }
         }
         public Vector2Int Height

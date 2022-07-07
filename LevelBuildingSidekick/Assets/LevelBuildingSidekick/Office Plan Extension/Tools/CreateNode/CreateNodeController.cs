@@ -38,7 +38,13 @@ public class CreateNodeController : ToolController
 
         node.position = new Vector2Int((int)(Event.current.mousePosition.x - node.radius), (int)(Event.current.mousePosition.y - node.radius));
         node.room = new LevelBuildingSidekick.Blueprint.RoomCharacteristics();
-        node.room.label = "Node: " + graph.Nodes.Count.ToString();
+        int index = graph.Nodes.Count;
+        node.room.label = "Node: " + index.ToString();
+        while(!graph.AddNode(node))
+        {
+            index++;
+            node.room.label = "Node: " + index.ToString();
+        }
         graph.AddNode(node);
         //Debug.Log("New node: " + node.room + " Node Count: " + graph.Nodes.Count);
 

@@ -53,6 +53,7 @@ public class ConnectNodesController : ToolController
             n.neighbors.Add(firstNode);
         }
 
+
         firstNode = null;
     }
 
