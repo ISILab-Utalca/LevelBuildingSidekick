@@ -15,8 +15,8 @@ public class SelectGraphElementView : ToolView
 
     public override void DrawInToolkit()
     {
-        var data = Controller.Data as DeleteGraphElementData;
-        var controller = Controller as DeleteGraphElementController;
+        var data = Controller.Data as SelectGraphElementData;
+        var controller = Controller as SelectGraphElementController;
         
         var t = controller.IsActive ? active : unnactive;
         if (GUILayout.Button(t))
