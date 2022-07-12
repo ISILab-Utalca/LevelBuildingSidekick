@@ -8,12 +8,18 @@ using UnityEditor;
 
 public class ToolkitView : View
 {
+    //ToolkitOverlay toolkit;
 
     public ToolkitView(Controller controller) : base(controller)
     {
         //var toolkit = new ToolkitOverlay();
+        //toolkit = draw;
+        //Debug.Log("Hi: " + draw);
         //Debug.Log((controller as ToolkitController).ToolControllers.Count);
-        ToolkitOverlay.draw = DrawEditor;
+        /*if (toolkit != null)
+        {
+            toolkit.draw = DrawEditor;
+        }*/
     }
 
     public override void DrawEditor()
@@ -21,7 +27,8 @@ public class ToolkitView : View
         //GUILayout.Label("Toolkit");
         var controller = Controller as ToolkitController;
         //controller.Update();
-        foreach (ToolController t in controller.ToolControllers)
+        //Debug.Log("V: " + controller.Tools.Count);
+        foreach (ToolController t in controller.Tools)
         {
             (t.View as ToolView).DrawInToolkit();
         }
@@ -30,7 +37,7 @@ public class ToolkitView : View
     public override void Draw2D()
     {
         var controller = Controller as ToolkitController;
-        foreach (ToolController t in controller.ToolControllers)
+        foreach (ToolController t in controller.Tools)
         {
             t.View.Draw2D();
         }

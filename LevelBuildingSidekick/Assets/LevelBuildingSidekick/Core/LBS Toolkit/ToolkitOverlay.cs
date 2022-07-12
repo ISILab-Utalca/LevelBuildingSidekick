@@ -7,14 +7,22 @@ using UnityEngine.UIElements;
 
 namespace LevelBuildingSidekick
 {
-    [Overlay(typeof(GenericWindow), "CustomToolkit", "Toolkit", true)]
-    public class ToolkitOverlay : IMGUIOverlay
+    public abstract class ToolkitOverlay : IMGUIOverlay
     {
-        public static System.Action draw;
+    }
+
+
+    [Overlay(typeof(GenericWindow), "GraphToolkit", "Graph Toolkit", true)]
+    public class GraphToolkitOverlay : ToolkitOverlay 
+    {
+        public static ToolkitView toolkit;
 
         public override void OnGUI()
         {
-            draw?.Invoke();
+            if(toolkit != null)
+            {
+                toolkit.DrawEditor();
+            }
         }
     }
 }
