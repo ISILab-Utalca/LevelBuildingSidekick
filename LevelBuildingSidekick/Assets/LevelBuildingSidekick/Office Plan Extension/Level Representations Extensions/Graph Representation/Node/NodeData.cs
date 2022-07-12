@@ -9,7 +9,7 @@ using LevelBuildingSidekick.Blueprint;
 namespace LevelBuildingSidekick.Graph
 {
     [System.Serializable]
-    [CreateAssetMenu(menuName = ("LevelBuildingSidekick/Level Represetation/Graph Representation/Node"))]
+    //[CreateAssetMenu(menuName = ("LevelBuildingSidekick/Level Represetation/Graph Representation/Node"))]
     public class NodeData : Data
     {
         public RoomCharacteristics room;

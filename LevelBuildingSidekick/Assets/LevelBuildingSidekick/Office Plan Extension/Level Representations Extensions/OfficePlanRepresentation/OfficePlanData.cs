@@ -9,15 +9,15 @@ using LevelBuildingSidekick.Blueprint;
 
 namespace LevelBuildingSidekick.OfficePlan
 {
-    [CreateAssetMenu(menuName = "LevelBuildingSidekick/Level Represetation/OfficePlan Representation/Level")]
+    //[CreateAssetMenu(menuName = "LevelBuildingSidekick/Level Represetation/OfficePlan Representation/Level")]
     public class OfficePlanData : LevelRepresentationData
     {
         public GraphData graph;
         public SchemaData schema;
-        public ToolkitData toolkit;
-        public GameObject floor;
-        public GameObject wall;
-        public GameObject door;
+        //public ToolkitData toolkit;
+        //public GameObject floor;
+        //public GameObject wall;
+        //public GameObject door;
 
         public override Type ControllerType => typeof(OfficePlanController);
 

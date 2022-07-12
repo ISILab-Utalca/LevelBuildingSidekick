@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace LevelBuildingSidekick
 {
-    [CreateAssetMenu(menuName = "LevelBuildingSidekick/Level Element")]
+    //[CreateAssetMenu(menuName = "LevelBuildingSidekick/Level Element")]
     [System.Serializable]
     public class LevelElementData : Data
     {

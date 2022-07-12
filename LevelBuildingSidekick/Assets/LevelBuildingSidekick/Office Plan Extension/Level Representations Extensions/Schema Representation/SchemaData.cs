@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace LevelBuildingSidekick.Blueprint
 {
-    [CreateAssetMenu(menuName = "LevelBuildingSidekick/Level Represetation/Schema Representation/Level")]
+    //[CreateAssetMenu(menuName = "LevelBuildingSidekick/Level Represetation/Schema Representation/Level")]
     public class SchemaData : LevelRepresentationData
     {
         public int[,] tilemap;

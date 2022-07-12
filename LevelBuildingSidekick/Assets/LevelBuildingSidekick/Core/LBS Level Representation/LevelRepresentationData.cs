@@ -7,7 +7,7 @@ namespace LevelBuildingSidekick
     [System.Serializable]
     public abstract class LevelRepresentationData : Data
     {
-        public ToolkitData toolkitData;
+        public ToolkitData toolkit;
     }
 
 }

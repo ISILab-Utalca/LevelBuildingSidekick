@@ -6,7 +6,7 @@ using UnityEngine;
 namespace LevelBuildingSidekick 
 {
     [System.Serializable]
-    public abstract class Data : ScriptableObject
+    public abstract class Data
     {
         public abstract Type ControllerType { get; }
     }
