@@ -13,7 +13,7 @@ namespace LevelBuildingSidekick.OfficePlan
     {
         public GraphController Graph { get; set; }
         public SchemaController Schema { get; set; }
-        public GameObject Floor
+        /*public GameObject Floor
         {
             get
             {
@@ -46,7 +46,7 @@ namespace LevelBuildingSidekick.OfficePlan
                 (Data as OfficePlanData).door = value;
             }
         }
-        public ToolkitController toolkit;
+        public ToolkitController toolkit;*/
 
         private static GenericWindow _ElementInspector;
         public static GenericWindow ElementInspector
@@ -72,10 +72,20 @@ namespace LevelBuildingSidekick.OfficePlan
 
             var data = Data as OfficePlanData;
 
+            if(data.graph == null)
+            {
+                data.graph = new GraphData();
+            }
+
             var graph = Activator.CreateInstance(data.graph.ControllerType, new object[] { data.graph });
             if (graph is GraphController)
             {
                 Graph = graph as GraphController;
+            }
+
+            if (data.schema == null)
+            {
+                data.schema = new SchemaData();
             }
 
             var schema = Activator.CreateInstance(data.schema.ControllerType, new object[] { data.schema });
@@ -100,15 +110,11 @@ namespace LevelBuildingSidekick.OfficePlan
             }*/
             //Toolkit = Graph.Toolkit;
             //ToolkitOverlay.draw = Graph.Toolkit.View.DrawEditor;
-           if(data.toolkitData != null)
+           /*if(data.toolkit != null)
            {
-                var t = Activator.CreateInstance(data.toolkitData.ControllerType, new object[] { data.toolkitData, this.Graph });
-                if (t is ToolkitController)
-                {
-                    toolkit = t as ToolkitController;
-                }
+                Toolkit = new ToolkitController(data.toolkit, this, null);
                 //ToolkitOverlay.draw = toolkit.View.DrawEditor;
-           }
+           }*/
         }
 
         /*public void GraphToBlueprint()
@@ -454,7 +460,7 @@ namespace LevelBuildingSidekick.OfficePlan
 
         public override void Update()
         {
-            toolkit.Update();
+            Toolkit.Update();
 
             if(Graph.SelectedNode != null)
             {
@@ -475,7 +481,7 @@ namespace LevelBuildingSidekick.OfficePlan
 
         //missing Doors
         public void Generate3D()
-        {
+        {/*
             if(Floor == null || Wall == null)
             {
                 Debug.LogError("The Tiles Prefabs are NULL");
@@ -522,7 +528,7 @@ namespace LevelBuildingSidekick.OfficePlan
                         g.transform.parent = parent.transform;
                     }
                 }
-            }
+            }*/
         }
 
         /*[MenuItem("Level Building Sidekick/Open Element Inspector")]

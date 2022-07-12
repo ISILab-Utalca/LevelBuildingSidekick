@@ -14,15 +14,15 @@ namespace LevelBuildingSidekick
 
         public override void LoadData()
         {
-            var data = Data as LevelRepresentationData;
-            if(data.toolkitData != null)
+            /*var data = Data as LevelRepresentationData;
+            if(data.toolkit != null)
             {
-                var toolkit = Activator.CreateInstance(data.toolkitData.ControllerType, new object[] { data.toolkitData, this });
+                var toolkit = Activator.CreateInstance(data.toolkit.ControllerType, new object[] { data.toolkit, this });
                 if (toolkit is ToolkitController)
                 {
                     Toolkit = toolkit as ToolkitController;
                 }
-            }
+            }*/
             
         }
 

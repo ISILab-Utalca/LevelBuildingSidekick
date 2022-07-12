@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
+using UnityEditor.Overlays;
 using LevelBuildingSidekick;
 using System;
 using System.Linq;
@@ -117,6 +119,18 @@ namespace LevelBuildingSidekick.Graph
                     //Edges[^1].Data = e;
                 }
             }
+
+            if(data.toolkit == null)
+            {
+                List<ToolData> tools = new List<ToolData>() { new SelectGraphElementData(), 
+                                                              new CreateNodeData(),
+                                                              new ConnectNodesData(),
+                                                              new MoveNodeData(),
+                                                              new DeleteGraphElementData()}; 
+                data.toolkit = new ToolkitData(tools);
+            }
+            Toolkit = new ToolkitController(data.toolkit, this);
+            GraphToolkitOverlay.toolkit = Toolkit.View as ToolkitView;
         }
 
         public Dictionary<int, Vector2Int> ToMatrixPositions(Vector2Int size)

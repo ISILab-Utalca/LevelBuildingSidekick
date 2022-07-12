@@ -19,14 +19,14 @@ public class DeleteGraphElementController : ToolController
             NodeController n = graph.SelectedNode;
             //Debug.Log(graph.SelectedNode);
             graph.RemoveNode(graph.SelectedNode);
-            Object.DestroyImmediate(n.Data);
+            //Object.DestroyImmediate(n.Data);
             IsActive = false;
         }
         else if(graph.SelectedEdge != null)
         {
             EdgeController e = graph.SelectedEdge;
             graph.RemoveEdge(e);
-            Object.DestroyImmediate(e.Data);
+            //Object.DestroyImmediate(e.Data);
             IsActive = false;
         }
     }

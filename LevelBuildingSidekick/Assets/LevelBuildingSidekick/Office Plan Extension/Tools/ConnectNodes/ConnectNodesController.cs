@@ -44,7 +44,8 @@ public class ConnectNodesController : ToolController
             return;
         }
 
-        EdgeData edge = ScriptableObject.CreateInstance<EdgeData>();
+        //EdgeData edge = ScriptableObject.CreateInstance<EdgeData>();
+        EdgeData edge = new EdgeData();
         edge.node1 = firstNode.Data as NodeData;
         edge.node2 = n.Data as NodeData;
         if(graph.AddEdge(edge))

@@ -33,7 +33,8 @@ public class CreateNodeController : ToolController
         }
 
 
-        NodeData node = ScriptableObject.CreateInstance<NodeData>();
+        //NodeData node = ScriptableObject.CreateInstance<NodeData>();
+        NodeData node = new NodeData();
 
 
         node.position = new Vector2Int((int)(Event.current.mousePosition.x - node.radius), (int)(Event.current.mousePosition.y - node.radius));

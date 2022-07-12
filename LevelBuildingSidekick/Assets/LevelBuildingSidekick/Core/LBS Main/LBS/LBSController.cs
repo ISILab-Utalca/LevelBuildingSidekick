@@ -17,7 +17,7 @@ namespace LevelBuildingSidekick
                 if (_Instance == null)
                 {
                     //Debug.Log("It's Null");
-                    _Instance = new LBSController(Resources.Load("LBSData") as LBSData);
+                    _Instance = new LBSController( new LBSData() );
                     //Debug.Log(_Instance + " - " + _Instance.currentStep);
                 }
                 else
@@ -30,14 +30,22 @@ namespace LevelBuildingSidekick
         private static LBSController _Instance;
 
         List<Step> steps;
-        public Step currentStep;
+        public Step CurrentStep;
 
-        public LevelController _CurrentLevel;
+        private LevelController _CurrentLevel;
         public LevelController CurrentLevel
         {
             get
             {
                 return _CurrentLevel;
+            }
+            set
+            {
+                _CurrentLevel = value;
+                (Data as LBSData).levelData = value.Data as LevelData;
+                //Debug.Log(_CurrentLevel.Steps.Count);
+                if(_CurrentLevel.Steps.Count > 0)
+                    CurrentStep = _CurrentLevel.Steps[0];
             }
         }
 
@@ -54,27 +62,41 @@ namespace LevelBuildingSidekick
             }
         }
 
+        public Dictionary<string, LevelRepresentationData> LevelRepresentations
+        {
+            get
+            {
+                if((Data as LBSData).levelRepresentations == null)
+                {
+                    //SHOULD LOAD DATA
+                    (Data as LBSData).levelRepresentations = new Dictionary<string, LevelRepresentationData>();
+                }
+                return (Data as LBSData).levelRepresentations;
+            }
+        }
+
         public LBSController(Data data) : base(data)
         {
             //Debug.Log((data as LBSData).stepsData[0]);
             //View = new LBSView(this);
 
             //LoadData();
-            currentStep = steps[0];
+            View = new LBSView(this);
+            //currentStep = steps[0];
         }
 
         [MenuItem("Level Building Sidekick/Open New")]
         public static void ShowWindow()
         {
-            //Debug.Log(Instance.currentStep);
-            Instance.currentStep.View.Display2DWindow();
+            //Debug.Log(Instance.View);
+            Instance.View.DisplayInspectorWindow();
         }
-
+/*
         [MenuItem("Level Building Sidekick/Show Inspector")]
         public static void ShowInspector()
         {
             Instance.currentStep.View.DisplayInspectorWindow();
-        }
+        }*/
 
         public override void LoadData()
         {
@@ -106,7 +128,7 @@ namespace LevelBuildingSidekick
             //Debug.Log(steps.Count);
             if (steps.Count > 0)
             {
-                currentStep = steps[0];
+                CurrentStep = steps[0];
             }
 
             if(data.levelData !=  null)
@@ -144,8 +166,26 @@ namespace LevelBuildingSidekick
                 Windows[title] = window;
             }
 
+            window.close = () => Utility.JSONDataManager.SaveData(CurrentLevel.Name, CurrentLevel.Data as LevelData);
+
             return window;
         }
+
+        public LevelController CreateLevel(string levelName, Vector2Int size)
+        {
+            LevelData d =  new LevelData();
+            d.levelName = levelName;
+            d.size = size;
+            d.steps.Add( new PSEditorData() );
+            LevelController c = new LevelController(d);
+            return c;
+        }
+
+        public void SetLevel(LevelData level)
+        {
+            CurrentLevel = Activator.CreateInstance(typeof(LevelController), new object[] { level}) as LevelController;
+        }
+
     }
 }
 
