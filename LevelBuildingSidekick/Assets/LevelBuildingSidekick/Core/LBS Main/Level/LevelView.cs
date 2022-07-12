@@ -130,6 +130,11 @@ namespace LevelBuildingSidekick
 
             EditorGUILayout.EndFoldoutHeaderGroup();
             #endregion
+
+            if(GUILayout.Button("Save Level"))
+            {
+                Utility.JSONDataManager.SaveData(controller.Name, controller.Data as LevelData);
+            }
         }
     }
 }
