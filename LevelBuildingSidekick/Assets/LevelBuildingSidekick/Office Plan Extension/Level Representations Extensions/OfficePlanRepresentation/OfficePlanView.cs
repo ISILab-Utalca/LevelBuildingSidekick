@@ -20,7 +20,7 @@ namespace LevelBuildingSidekick.OfficePlan
             EditorGUILayout.BeginHorizontal();
             controller.Graph.View.Draw2D();
             controller.Schema.View.Draw2D();
-            controller.toolkit.View.Draw2D();
+            controller.Toolkit.View.Draw2D();
             EditorGUILayout.EndHorizontal();
 
         }
@@ -54,9 +54,9 @@ namespace LevelBuildingSidekick.OfficePlan
 
                 EditorGUILayout.Space();
 
-                controller.Floor = EditorGUILayout.ObjectField("Floor Tile", controller.Floor, typeof(GameObject), true) as GameObject;
-                controller.Wall = EditorGUILayout.ObjectField("Wall Tile", controller.Wall, typeof(GameObject), true) as GameObject;
-                controller.Door = EditorGUILayout.ObjectField("Door Tile", controller.Door, typeof(GameObject), true) as GameObject;
+                ///controller.Floor = EditorGUILayout.ObjectField("Floor Tile", controller.Floor, typeof(GameObject), true) as GameObject;
+                //controller.Wall = EditorGUILayout.ObjectField("Wall Tile", controller.Wall, typeof(GameObject), true) as GameObject;
+                //controller.Door = EditorGUILayout.ObjectField("Door Tile", controller.Door, typeof(GameObject), true) as GameObject;
 
                 if (GUILayout.Button("Regenerate Schema"))
                 {
