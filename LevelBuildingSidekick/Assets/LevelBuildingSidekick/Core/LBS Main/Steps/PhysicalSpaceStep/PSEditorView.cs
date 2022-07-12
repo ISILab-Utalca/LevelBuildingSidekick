@@ -40,13 +40,14 @@ namespace LevelBuildingSidekick
         public override void Display2DWindow()
         {
             PSEditorController controller = Controller as PSEditorController;
-
+            //Debug.Log("Displaying 2D");
             controller.LevelRepresentation.View.Display2DWindow();
         }
 
         public override void DisplayInspectorWindow()
         {
             PSEditorController controller = Controller as PSEditorController;
+            //Debug.Log("Displaying Inspector");
 
             controller.LevelRepresentation.View.DisplayInspectorWindow();
         }

@@ -9,8 +9,13 @@ namespace LevelBuildingSidekick
     public class GenericWindow : EditorWindow, ISupportsOverlays
     {
         public System.Action draw;
-        private void OnEnable()
+        public System.Action init;
+        public System.Action close;
+        public System.Action onFocus;
+
+        private void Awake()
         {
+            init?.Invoke();
         }
 
         private void OnInspectorUpdate()
@@ -31,12 +36,18 @@ namespace LevelBuildingSidekick
 
         private void OnFocus()
         {
+            onFocus?.Invoke();
             Repaint();
         }
 
         private void OnLostFocus()
         {
-            
+            base.SaveChanges();
+        }
+
+        private void OnDestroy()
+        {
+            close?.Invoke();
         }
     }
 }
