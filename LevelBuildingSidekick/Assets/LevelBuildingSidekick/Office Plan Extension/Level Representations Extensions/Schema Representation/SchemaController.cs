@@ -117,7 +117,7 @@ namespace LevelBuildingSidekick.Blueprint
                 position = CloserEmptyFrom(position);
             }
 
-            RoomData data = ScriptableObject.CreateInstance<RoomData>();
+            RoomData data = new RoomData();
             data.room = room;
             data.position = position;
             var r = Activator.CreateInstance(data.ControllerType, new object[] { data });
