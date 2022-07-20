@@ -17,28 +17,44 @@ namespace LevelBuildingSidekick
             {
                 if ((Data as LevelData).tags == null)
                 {
-                    (Data as LevelData).tags = new HashSet<string>();
+                    (Data as LevelData).tags = new List<string>();
                 }
-                return (Data as LevelData).tags;
+                return (Data as LevelData).tags.ToHashSet();
             }
             set 
             {
-                (Data as LevelData).tags = value;
+                (Data as LevelData).tags = value.ToList();
             }
         }
 
-        public Dictionary<string, HashSet<GameObject>> LevelObjects
+        public List<ItemCategory> LevelObjects
         {
             get
             {
                 if ((Data as LevelData).levelObjects == null)
                 {
-                    (Data as LevelData).levelObjects = new Dictionary<string, HashSet<GameObject>>();
+                    (Data as LevelData).levelObjects = new List<ItemCategory>();
                 }
                 return (Data as LevelData).levelObjects;
             }
-        }
+            set
+            {
+                (Data as LevelData).levelObjects = value;
+            }
 
+        }
+        public List<string> ItemCategories
+        {
+            get
+            {
+                var categories = LevelObjects.Select((c) => c.category).ToList();
+                if (categories == null || categories.Count == 0)
+                {
+                    categories = new List<string>();
+                }
+                return categories;
+            }
+        }
         public Vector2Int LevelSize
         {
             get
@@ -110,17 +126,13 @@ namespace LevelBuildingSidekick
 
         public HashSet<GameObject> RequestLevelObjects(string category)
         {
-            if (!LevelObjects.ContainsKey(category))
+            if (LevelObjects.Find((i) => i.category == category) == null)
             {
-                Debug.Log("category created: " + category);
-                LevelObjects.Add(category, new HashSet<GameObject>());
+                //Debug.Log("category created: " + category);
+                (Data as LevelData).levelObjects.Add(new ItemCategory(category));
+                //LevelObjects.Add(category, new HashSet<GameObject>());
             }
-            if (LevelObjects[category] == null)
-            {
-                Debug.Log("Hashset created: " + category);
-                LevelObjects[category] = new HashSet<GameObject>();
-            }
-            return LevelObjects[category];
+            return LevelObjects.Find((i) => i.category == category).items.ToHashSet();
         }
     }
 }

@@ -82,6 +82,17 @@ namespace LevelBuildingSidekick.Graph
                 return (Data as NodeData).room;
             }
         }
+        public Dictionary<string, HashSet<GameObject>> Prefabs
+        {
+            get
+            {
+                return Room.prefabs.ToDictionary(p => p.category, p => p.items.ToHashSet());
+            }
+            set
+            {
+                Room.prefabs = value.Select((k) => new ItemCategory(k.Key, k.Value.ToList())).ToList();
+            }
+        }
         public Func<string, bool> Exist;
         public string Label
         {
@@ -111,7 +122,7 @@ namespace LevelBuildingSidekick.Graph
                     Debug.LogWarning("Room does not Exist");
                     return Vector2Int.one;
                 }
-                return Room.height;
+                return Room.heightRange;
             }
             set
             {
@@ -119,7 +130,7 @@ namespace LevelBuildingSidekick.Graph
                 {
                     return;
                 }
-                Room.height = value;
+                Room.heightRange = value;
             }
         }
         public Vector2Int Width
@@ -131,7 +142,7 @@ namespace LevelBuildingSidekick.Graph
                     Debug.LogWarning("Room does not Exist");
                     return Vector2Int.one;
                 }
-                return Room.width;
+                return Room.widthRange;
             }
             set
             {
@@ -139,7 +150,7 @@ namespace LevelBuildingSidekick.Graph
                 {
                     return;
                 }
-                Room.width = value;
+                Room.widthRange = value;
             }
         }
         public Vector2Int Ratio
@@ -281,17 +292,13 @@ namespace LevelBuildingSidekick.Graph
             {
                 if(Room.prefabs == null)
                 {
-                    Room.prefabs = new Dictionary<string, HashSet<GameObject>>();
+                    Room.prefabs = new List<ItemCategory>();
                 }
-                if(!Room.prefabs.ContainsKey(category))
+                if(Room.prefabs.Find((r) => r.category == category) == null)
                 {
-                    Room.prefabs.Add(category, new HashSet<GameObject>());
+                    Room.prefabs.Add(new ItemCategory(category));
                 }
-                if(Room.prefabs[category] == null)
-                {
-                    Room.prefabs[category] = new HashSet<GameObject>();
-                }
-                return Room.prefabs[category];
+                return (Room.prefabs.Find((r) => r.category == category).items.ToHashSet());
             }
             Debug.LogWarning("No such category of items in Node");
             return null;
@@ -303,7 +310,7 @@ namespace LevelBuildingSidekick.Graph
             {
                 return false;
             }
-            Room.prefabs[category] = prefabs;
+            Prefabs[category] = prefabs;
             return true;
         }
 

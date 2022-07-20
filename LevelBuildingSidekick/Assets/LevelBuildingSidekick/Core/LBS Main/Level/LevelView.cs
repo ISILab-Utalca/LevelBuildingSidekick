@@ -67,7 +67,7 @@ namespace LevelBuildingSidekick
             #region PREFABS
             openGameObjects = EditorGUILayout.BeginFoldoutHeaderGroup(openGameObjects, "Prefabs");
 
-            var keys = controller.LevelObjects.Select((k => k.Key)).ToList();
+            var keys = controller.ItemCategories;
             keys.Add("New Category");
 
             targetKey = EditorGUILayout.Popup(targetKey, keys.ToArray());
@@ -77,16 +77,16 @@ namespace LevelBuildingSidekick
 
             if (targetKey == controller.LevelObjects.Count())
             {
-                controller.LevelObjects.Add("New Category", new HashSet<GameObject>());
+                //controller.LevelObjects.Add("New Category", new HashSet<GameObject>());
             }
 
-            //Debug.Log(targetKey);
+            //Debug.Log( "Ks: " + keys.Count + " - K:" + key);
             newKey = EditorGUILayout.TextField("Prefab Type: ", newKey);
 
-            var prefabs = controller.LevelObjects[keys[targetKey]].ToList();
-
-            if(!key.Equals("New Category"))
+            var prefabs = new List<GameObject>();
+            if (!key.Equals("New Category"))
             {
+                prefabs = controller.LevelObjects.Find((c) => c.category == keys[targetKey]).items;
                 erase = -1;
                 for (int i = 0; i < prefabs.Count; i++)
                 {
@@ -112,20 +112,26 @@ namespace LevelBuildingSidekick
                     prefabs.Add(newPref);
                 }
             }
-            
 
-            if(!key.Equals(newKey))
+            var c = controller.LevelObjects.Find((c) => c.category == key);
+            if (!key.Equals(newKey))
             {
-                if(!controller.LevelObjects.ContainsKey(newKey))
+                if (c == null)
                 {
-                    controller.LevelObjects.Remove(key);
-                    controller.LevelObjects.Add(newKey, prefabs.Distinct().ToHashSet());
+                    controller.LevelObjects.Add(new ItemCategory(newKey));
+                }
+                else if(controller.LevelObjects.Find((c) => c.category == newKey) == null)
+                {
+                    c.category = newKey;
                 }
             }
-            else
+            else if(c != null)
             {
-                controller.LevelObjects[key] = prefabs.Distinct().ToHashSet();
+                c.items = prefabs.Distinct().ToList();
             }
+
+
+
 
 
             EditorGUILayout.EndFoldoutHeaderGroup();
