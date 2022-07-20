@@ -11,9 +11,9 @@ namespace LevelBuildingSidekick
     {
         public string levelName;
 
-        public HashSet<string> tags;
+        public List<string> tags;
 
-        public Dictionary<string, HashSet<GameObject>> levelObjects;
+        public List<ItemCategory> levelObjects;
 
         public Vector2Int size;
 
