@@ -625,13 +625,14 @@ namespace LevelBuildingSidekick.Blueprint
         }
         public void Optimize()
         {
-            Utility.HillClimbing.Run(this, 
+            /*Utility.HillClimbing.Run(this, 
                () => { return Utility.HillClimbing.NonSignificantEpochs > 10; },
                GetNeighbors,
-               Evaluate);
+               Evaluate);*/
         }
-        public List<SchemaData> GetNeighbors(SchemaData schema)
+        public List<SchemaData> GetNeighbors()
         {
+            SchemaData schema = Data as SchemaData;
             //SchemaData orignial = schema.Clone();
             List<SchemaData> neighbors = new List<SchemaData>();
 

@@ -13,6 +13,7 @@ namespace LevelBuildingSidekick.Blueprint
         //public Vector2Int bounds = Vector2Int.one;
         //public Vector2Int outerBounds = Vector2Int.one;
         public HashSet<Vector2Int> tilePositions = new HashSet<Vector2Int>();
+        public int[,] surface = new int[1,1];
 
 
         public override Type ControllerType => typeof(RoomController);
