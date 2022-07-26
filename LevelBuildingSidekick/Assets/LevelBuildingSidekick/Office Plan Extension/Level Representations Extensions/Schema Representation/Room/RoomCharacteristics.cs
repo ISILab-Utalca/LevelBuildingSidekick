@@ -12,7 +12,7 @@ namespace LevelBuildingSidekick.Blueprint
         public Vector2Int heightRange = Vector2Int.one;
         public Vector2Int aspectRatio = Vector2Int.one;
         public ProportionType proportionType = ProportionType.RATIO;
-        public List<int> IDs;
+        public List<int> neighbors;
 
         public List<ItemCategory> prefabs;
 
