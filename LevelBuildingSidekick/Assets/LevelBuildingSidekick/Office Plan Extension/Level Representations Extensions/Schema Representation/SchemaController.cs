@@ -274,6 +274,18 @@ namespace LevelBuildingSidekick.Blueprint
                     _TileMap[r.Position.x + v.x, r.Position.y + v.y] = r.ID;
                 }
             }
+
+            string s = "";
+            for (int i = 0; i < _TileMap.GetLength(0); i++)
+            {
+                for (int j = 0; j < _TileMap.GetLength(1); j++)
+                {
+                    s += " " + (_TileMap[i,j] == 0 ? 0 : 5) + " ";
+                }
+                s += "\n";
+            }
+            Debug.Log(s);
+
             return _TileMap;
         }
         public bool IsLegal(Vector2Int position)
@@ -342,32 +354,73 @@ namespace LevelBuildingSidekick.Blueprint
                 return;
             }
 
-            var xmin = cols.OrderBy((v) => v.x).First().x;
-            var xmax = cols.OrderBy((v) => v.x).Last().x;
+            var xmin = cols.Min((v) => v.x);
+            var xmax = cols.Max((v) => v.x);
 
-            var ymin = cols.OrderBy((v) => v.y).First().y;
-            var ymax = cols.OrderBy((v) => v.y).Last().y;
+            var ymin = cols.Min((v) => v.y);
+            var ymax = cols.Max((v) => v.y);
 
-            if(xmin < 0 && xmax > 0)
+            bool xDeadlock = false;
+            bool yDeadlock = false;
+
+            if (xmin < 0 && xmax > 0)
             {
-                Debug.Log("Fuck x");
+                xDeadlock = true;
+                Debug.Log("Complex collision in X");
             }
             if(ymin < 0 && ymax > 0)
             {
-                Debug.Log("Fuck y");
+                yDeadlock = true;
+                Debug.Log("Complex collision in Y");
             }
 
-            int x = Mathf.Abs(xmax) > Mathf.Abs(xmin) ? xmax : xmin;
-            int y = Mathf.Abs(ymax) > Mathf.Abs(ymin) ? ymax : ymin;
+            int x = 0;
+            if (xDeadlock)
+            {
+                x = Mathf.Abs(xmax) < Mathf.Abs(xmin) ? xmax : xmin;
+            }
+            else
+            {
+                x = Mathf.Abs(xmax) > Mathf.Abs(xmin) ? xmax : xmin;
+            }
 
-            x = x > 0 ? x - 1 : x + 1;
-            y = y > 0 ? y - 1 : y + 1;
+            int y = 0;
+            if(yDeadlock)
+            {
+                y = Mathf.Abs(ymax) < Mathf.Abs(ymin) ? ymax : ymin;
+            }
+            else
+            {
+                y = Mathf.Abs(ymax) > Mathf.Abs(ymin) ? ymax : ymin;
+            }
+
+            //x = x > 0 ? x - 1 : x + 1;
+            //y = y > 0 ? y - 1 : y + 1;
 
             room.Position += new Vector2Int(x, y);
+
+            SolveCollision(room);
         }
 
         internal void SolveAdjacencie(RoomController room)
         {
+            var neighbors = Rooms.Where((r) => room.NeighborsIDs.Contains(r.ID));
+            List<Vector2Int> distances = new List<Vector2Int>();
+
+            foreach (RoomController r in neighbors)
+            {
+                if (!room.IsAdjacent(r, out Vector2Int distance))
+                {
+                    distances.Add(distance);
+                }
+            }
+
+            if (distances.Count == 0)
+            {
+                return;
+            }
+
+
 
         }
 
