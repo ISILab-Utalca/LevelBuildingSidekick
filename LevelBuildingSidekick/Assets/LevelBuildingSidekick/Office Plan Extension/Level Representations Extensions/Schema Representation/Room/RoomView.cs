@@ -33,8 +33,8 @@ namespace LevelBuildingSidekick.Blueprint
                     controller.Ratio = EditorGUILayout.Vector2IntField("Aspect Radio ", controller.Ratio);
                     break;
                 case ProportionType.SIZE:
-                    controller.Width = EditorGUILayout.Vector2IntField("Width ", controller.Width);
-                    controller.Height = EditorGUILayout.Vector2IntField("Height", controller.Height);
+                    controller.WidthRange = EditorGUILayout.Vector2IntField("Width ", controller.WidthRange);
+                    controller.HeightRange = EditorGUILayout.Vector2IntField("Height", controller.HeightRange);
                     break;
             }
 

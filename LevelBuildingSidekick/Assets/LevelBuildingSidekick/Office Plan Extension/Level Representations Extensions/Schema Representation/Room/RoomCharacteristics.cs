@@ -8,12 +8,13 @@ namespace LevelBuildingSidekick.Blueprint
     public class RoomCharacteristics
     {
         public string label;
-        public Vector2Int width = Vector2Int.one;
-        public Vector2Int height = Vector2Int.one;
+        public Vector2Int widthRange = Vector2Int.one;
+        public Vector2Int heightRange = Vector2Int.one;
         public Vector2Int aspectRatio = Vector2Int.one;
         public ProportionType proportionType = ProportionType.RATIO;
+        public List<int> IDs;
 
-        public Dictionary<string, HashSet<GameObject>> prefabs;
+        public List<ItemCategory> prefabs;
 
         public string[] prefabCategories = { "Walls", "Floors", "Doors"};
 
