@@ -420,7 +420,101 @@ namespace LevelBuildingSidekick.Blueprint
                 return;
             }
 
+            var xmin = distances.Min((v) => v.x);
+            var xmax = distances.Max((v) => v.x);
 
+            var ymin = distances.Min((v) => v.y);
+            var ymax = distances.Max((v) => v.y);
+
+            bool xDeadlock = false;
+            bool yDeadlock = false;
+
+            if (xmin < 0 && xmax > 0)
+            {
+                xDeadlock = true;
+                Debug.Log("Complex adjacency in X");
+            }
+            if (ymin < 0 && ymax > 0)
+            {
+                yDeadlock = true;
+                Debug.Log("Complex adjacency in Y");
+            }
+
+            int x = 0;
+            int xe = 0;
+            if (xDeadlock)
+            {
+                x = Mathf.Abs(xmax) < Mathf.Abs(xmin) ? xmax : xmin;
+                xe = Mathf.Abs(xmax) > Mathf.Abs(xmin) ? xmax : xmin;
+            }
+            else
+            {
+                x = Mathf.Abs(xmax) > Mathf.Abs(xmin) ? xmax : xmin;
+                xe = Mathf.Abs(xmax) < Mathf.Abs(xmin) ? xmax : xmin;
+            }
+
+            int y = 0;
+            int ye = 0;
+            if (yDeadlock)
+            {
+                y = Mathf.Abs(ymax) < Mathf.Abs(ymin) ? ymax : ymin;
+                ye = Mathf.Abs(ymax) > Mathf.Abs(ymin) ? ymax : ymin;
+            }
+            else
+            {
+                y = Mathf.Abs(ymax) > Mathf.Abs(ymin) ? ymax : ymin;
+                ye = Mathf.Abs(ymax) < Mathf.Abs(ymin) ? ymax : ymin;
+            }
+
+            int xi = x < 0 ? -1 : 1;
+            int yi = y < 0 ? -1 : 1;
+            //Move
+            bool xMove = x != 0;
+            bool yMove = y != 0;
+            bool xyMove = xMove && yMove;
+
+            var wallTiles = room.GetWalls().SelectMany(v => v);
+
+            foreach (Vector2Int v in wallTiles)
+            {
+                if (xMove && !IsLegal(v + Vector2Int.right * xi + room.Position))
+                {
+                    xMove = false;
+                }
+                if (yMove && !IsLegal(v + Vector2Int.up * yi + room.Position))
+                {
+                    yMove = false;
+                }
+                if (xyMove && !IsLegal(v + new Vector2Int(xi, yi) + room.Position))
+                {
+                    xyMove = false;
+                }
+                if (!xMove && !yMove && !xyMove)
+                {
+                    break;
+                }
+            }
+
+            if (xyMove)
+            {
+                room.Position += new Vector2Int(xi, yi);
+            }
+            else if (xMove)
+            {
+                room.Position += Vector2Int.right * xi;
+            }
+            else if (yMove)
+            {
+                room.Position += Vector2Int.up * yi;
+            }
+            else
+            {
+                return;
+            }
+
+            SolveAdjacencie(room);
+
+            //Expand
 
         }
 
