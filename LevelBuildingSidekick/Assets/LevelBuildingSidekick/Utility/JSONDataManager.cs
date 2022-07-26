@@ -39,10 +39,10 @@ namespace Utility
         {
             string[] files = System.IO.Directory.GetFiles(path);
             //Debug.Log("Files: " + files.Length);
+            //Debug.Log("Path: " + path);
             List<string> jsonFiles = new List<string>();
             foreach (string s in files)
             {
-                //Debug.Log("Path: " + s);
                 if (s.EndsWith(".json"))
                 {
                     string[] lines = s.Split('/');
