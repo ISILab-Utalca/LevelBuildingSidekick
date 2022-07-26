@@ -295,7 +295,7 @@ namespace LevelBuildingSidekick.OfficePlan
             //Debug.Log("Step4");
         }*/
 
-        public void GraphToSchema()
+        /*public void GraphToSchema()
         {
             Schema.ClearRooms();
 
@@ -304,89 +304,78 @@ namespace LevelBuildingSidekick.OfficePlan
                 return;
             }
 
-            List<RoomController> rooms = new List<RoomController>();
+            //List<RoomController> rooms = new List<RoomController>();
 
             foreach (NodeController n in Graph.Nodes)
             {
                 var pos = Graph.ToMatrixPosition(n.ID, Schema.Size);
-                var room = Schema.AddRoom(n.Room, pos);
-                //Debug.Log("Node: " + room.Label);
-                Schema.ResizeRoomToMin(room);
-                //room.ResizeToMin();
-                rooms.Add(room);
+                Schema.AddRoom(n.Room, pos);
             }
 
-            var nodes = Graph.Nodes.ToList();
-
-            Schema.ClearRooms();
-            var node = nodes.OrderByDescending((n) => n.MinArea).First();
-            var parent = rooms.Find((r) => r.ID == node.ID);
-
-            List<RoomController> open = new List<RoomController>();
-            List<RoomController> closed = new List<RoomController>();
-
-            open.Add(parent);
-            parent.Position = Graph.ToMatrixPosition(node.ID, Schema.Size);
-            Schema.AddRoom(parent);
-
-            //Debug.Log("C: " + open.Count);
-            while (open.Count != 0)
+            for(int i = 0; i < 15; i++)
             {
-                parent = open.First();
-                open.Remove(parent);
-                closed.Add(parent);
-
-                node = nodes.Find((n) => n.ID == parent.ID);
-
-                //Debug.Log("N: " + node.neighbors.Count);
-                foreach(NodeController n in node.neighbors.OrderByDescending((n) => n.MinArea))
-                {
-                    var child = rooms.Find((r) => r.ID == n.ID);
-                    if(closed.Find((c) => c.ID == child.ID) != null || open.Find((o) => o.ID == child.ID) != null)
-                    {
-                        continue;
-                    }
-                    Vector2 dist = (node.Centroid - n.Centroid);
-                    var pos = Schema.CloserEmpty(dist.normalized ,parent.Position, out Vector2Int lastPos);
-
-
-                    Debug.LogWarning("Node: " + child.Label);
-                    if (pos.Equals(-Vector2Int.one))
-                    {
-                        pos = Schema.CloserEmptyFrom(lastPos);
-                    }
-
-                    Debug.Log("P1: " + pos + " - Bounds: " + child.Bounds);
-
-                    if (pos.x < parent.Position.x)
-                    {
-                        pos.x -= (child.Bounds.x - 1);
-                    }
-                    if(pos.y > parent.Position.y)
-                    {
-                        pos.y += (child.Bounds.y - 1);
-                    }
-
-                    Debug.Log("P2: " + pos);
-
-                    child.Position = pos;
-
-                    Schema.AddRoom(child);
-
-                    Schema.RegenerateTileMap();
-
-                    /*if (Schema.GetCollisions(child, out HashSet<Vector2Int> collisions))
-                    {
-                        Schema.SolveCollisions(child, collisions);
-                    }*/
-
-                    open.Add(child);
-                }
+                Schema.ExpandRoomsOnce();
+                Schema.PullAdjacenciesOnce();
             }
-                //open.Add(n);
 
+            Schema.RemakeTileMap();
+        }*/
 
+        public void GraphToSchema()
+        {
+            Schema.Clear();
+
+            if(Graph.Nodes.Count <= 0)
+            {
+                Schema.ToTileMap();
+                return;
+            }
+
+            Queue<NodeController> open = new Queue<NodeController>();
+            HashSet<NodeController> closed = new HashSet<NodeController>();
+
+            var parent = Graph.Nodes.OrderByDescending((n) => n.neighbors.Count).First();
+            open.Enqueue(parent);
+            var room = Schema.AddRoom(parent.Room, Vector2Int.zero);
+            
+            while(open.Count > 0)
+            {
+                parent = open.Dequeue();
+                /*Debug.Log("P: " + parent.ID);
+                foreach (RoomController r in Schema.Rooms)
+                {
+                    Debug.Log("R: " + r.ID);
+                }*/
+                var parentRoom = Schema.Rooms.Find((r) => r.ID == parent.ID);
+                
+                parentRoom.ResizeToMin();
+                Schema.SolveCollision(parentRoom);
+                var childs = parent.neighbors.OrderBy(n => Utility.MathTools.GetAngleD15(parent.Centroid, n.Centroid));
+                foreach(NodeController child in parent.neighbors)
+                {
+                    if(closed.Contains(child) || open.ToHashSet().Contains(child))
+                    {
+                        //Debug.Log("Present: " + child.ID);
+                        continue;
+                    }//order in clockwise manner starting from left
+                    open.Enqueue(child);
+                    room = Schema.AddRoom(child.Room, Schema.CloserEmpty(parentRoom, parent.Centroid - child.Centroid));
+                    //Debug.Log("Should be true: " + Schema.Rooms.Contains(room));
+                    Schema.SolveCollision(room);
+                }
+
+                closed.Add(parent);
+            }
+
+            /*foreach(RoomController r in Schema.Rooms)
+            {
+                Schema.SolveAdjacencie(r);
+            }*/
+            //Hunt Adjacencies
+
+            Schema.ToTileMap();
         }
+
         //Fix to use centroids
         public Vector2Int GetPull(int ID, bool[,] adjacency, Dictionary<int, Vector2Int> positions)
         {
@@ -461,7 +450,7 @@ namespace LevelBuildingSidekick.OfficePlan
         public override void Update()
         {
             Toolkit.Update();
-
+            
             if(Graph.SelectedNode != null)
             {
                 ElementInspector.titleContent = new GUIContent("Node Inspector");

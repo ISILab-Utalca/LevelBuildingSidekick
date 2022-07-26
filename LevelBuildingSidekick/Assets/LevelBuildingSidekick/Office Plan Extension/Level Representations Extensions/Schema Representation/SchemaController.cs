@@ -25,19 +25,20 @@ namespace LevelBuildingSidekick.Blueprint
                 _Rooms = value;
             }
         }
+        private int[,] _TileMap;
         public int[,] TileMap
         {
             get
             {
-                if((Data as SchemaData).tilemap == null)
+                if(_TileMap == null)
                 {
-                    (Data as SchemaData).tilemap = new int[Size.x,Size.y];
+                    _TileMap = new int[Size.x,Size.y];
                 }
-                return (Data as SchemaData).tilemap;
+                return _TileMap;
             }
             set
             {
-                (Data as SchemaData).tilemap = value;
+                _TileMap = value;
             }
         }
         public Vector2Int Size
@@ -49,17 +50,7 @@ namespace LevelBuildingSidekick.Blueprint
             set
             {
                 (Data as SchemaData).size = value;
-                var newTilemap = new int[value.x, value.y];
-                var minx = Mathf.Min(value.x, TileMap.GetLength(0));
-                var miny = Mathf.Min(value.y, TileMap.GetLength(1));
-                for (int i = 0; i < minx; i++)
-                {
-                    for (int j = 0; j < miny; j++)
-                    { 
-                        newTilemap[i, j] = TileMap[i, j];
-                    }
-                }
-                (Data as SchemaData).tilemap = newTilemap;
+                _TileMap = Utility.MathTools.ResizeArray<int>(TileMap, value.x, value.y);
             }
         }
         public int TileSize
@@ -74,11 +65,13 @@ namespace LevelBuildingSidekick.Blueprint
             }
         }
 
-        private List<Tuple<int, float>>[,] temptativeMap;
+        //private List<Tuple<int, float>>[,] temptativeMap;
 
         public SchemaController(Data data) : base(data)
         {
             View = new SchemaView(this);
+            Size = 20 * Vector2Int.one;
+            TileSize = 20;
         }
 
         public override void LoadData()
@@ -106,27 +99,15 @@ namespace LevelBuildingSidekick.Blueprint
         }
         public RoomController AddRoom(RoomCharacteristics room, Vector2Int position)
         {
-
-            if (position.x < 0 || position.y < 0)
-            {
-                Debug.LogWarning("No space left Pos: " + position + " - Size: " + Size);
-                return null;
-            }
-            if (TileMap[position.x, position.y] != 0)
-            {
-                position = CloserEmptyFrom(position);
-            }
-
             RoomData data = new RoomData();
             data.room = room;
             data.position = position;
             var r = Activator.CreateInstance(data.ControllerType, new object[] { data });
             if(r is RoomController)
             {
-                if(AddRoom(r as RoomController))
+                if(!AddRoom(r as RoomController))
                 {
                     _Rooms.Find((_r) => _r.ID == (r as RoomController).ID).Data = data;
-                    //return r as RoomController;
                 }
             }
             return r as RoomController;
@@ -138,12 +119,6 @@ namespace LevelBuildingSidekick.Blueprint
             {
                 _Rooms.Add(room);
                 (Data as SchemaData).rooms.Add(room.Data as RoomData);
-                //TileMap[room.Position.x, room.Position.y] = room.ID;
-                foreach(Vector2Int v in room.TilePositions)
-                {
-                    TileMap[v.x + room.Position.x, v.y + room.Position.y] = room.ID;
-                }
-
                 return true;
             }
             return false;
@@ -191,14 +166,14 @@ namespace LevelBuildingSidekick.Blueprint
 
             return collisions.Count > 0;
         }
-        internal void ClearRooms()
+        internal void Clear()
         {
             Rooms.Clear();
             Rooms = new List<RoomController>();
             (Data as SchemaData).rooms.Clear();
             (Data as SchemaData).rooms = new List<RoomData>();
             TileMap = new int[Size.x, Size.y];
-            temptativeMap = new List<Tuple<int, float>>[Size.x, Size.y];
+            //temptativeMap = new List<Tuple<int, float>>[Size.x, Size.y];
         }
         public Vector2Int Translate(RoomController room, Vector2Int pull)
         {
@@ -271,70 +246,58 @@ namespace LevelBuildingSidekick.Blueprint
         }
         public int[,] ToTileMap()
         {
-            var tiles = (Data as SchemaData).tilemap;
-            tiles = new int[Size.x, Size.y];
+            int x1 = Rooms.Select((r) => r.Position).Min((p) => p.x);
+            int y1 = Rooms.Select((r) => r.Position).Min((p) => p.y);
+
+            foreach (RoomController room in Rooms)
+            {
+                room.Position -= new Vector2Int(x1, y1);
+            }
+
+            int x2 = 0;
+            int y2 = 0;
+
+            foreach(RoomController room in Rooms)
+            {
+                int x = room.Position.x + room.TilePositions.Max((p) => p.x);
+                int y = room.Position.y + room.TilePositions.Max((p) => p.y);
+                x2 = x > x2 ? x : x2;
+                y2 = y > y2 ? y : y2;
+            }
+            _TileMap = new int[x2+1, y2+1];
+            //Debug.Log("Size: " + (x2 + 1) + " - " + (y2 + 1));
             foreach(RoomController r in Rooms)
             {
                 foreach(Vector2Int v in r.TilePositions)
                 {
-                    tiles[r.Position.x + v.x, r.Position.y + v.y] = r.ID;
+                    //Debug.Log("Pos: " + (r.Position.x + v.x) + " - " + (r.Position.y + v.y));
+                    _TileMap[r.Position.x + v.x, r.Position.y + v.y] = r.ID;
                 }
             }
-            return tiles;
+            return _TileMap;
         }
-
-        public Vector2Int CloserEmpty(Vector2 direction, Vector2Int position, out Vector2Int lastPos)
+        public bool IsLegal(Vector2Int position)
         {
-            //Debug.LogWarning("Dir: " + direction);
-            lastPos = position;
-            if((position.x < 0 || position.x >= Size.x) || (position.y < 0 || position.y >= Size.y))
+            foreach(RoomController r in Rooms)
             {
-                //Debug.LogWarning("-1,-1");
-                return -Vector2Int.one;
-            }
-
-            if(TileMap[position.x, position.y] == 0)
-            {
-                //Debug.LogWarning("Empty: " + position);
-                return position;
-            }
-
-            var emptyPos = position;
-            int i = 1;
-            do
-            {
-                lastPos = emptyPos;
-                //Debug.Log(new Vector2Int((int)(direction.x * i), (int)(direction.y * i)));
-                emptyPos = position + (new Vector2Int((int)(direction.x * i), (int)(direction.y * i)));
-                if (emptyPos.x >= Size.x || emptyPos.y >= Size.y || emptyPos.x < 0 || emptyPos.y < 0)
+                if(r.TilePositions.Contains(position))
                 {
-                    //Debug.LogWarning("LastPos: " + lastPos);
-                    return -Vector2Int.one;
+                    return false;
                 }
-                i++;
             }
-            while (TileMap[emptyPos.x, emptyPos.y] != 0);
-
-            //Debug.LogWarning("Found Empty AT: " + emptyPos);
-            return emptyPos;
+            return true;
+        }
+        public Vector2Int CloserEmpty(RoomController room, Vector2 direction)
+        {
+            var pos = room.OuterTile(direction);
+            if(!IsLegal(pos))
+            {
+                return CloserEmptyFrom(pos);
+            }
+            return pos;
         }
         public Vector2Int CloserEmptyFrom(Vector2Int position)
         {
-            if ((position.x < 0 || position.x >= Size.x))
-            {
-                //Debug.LogWarning("-1,-1");
-                position.x = Mathf.Clamp(position.x, 0, Size.x - 1);
-            }
-            if((position.y < 0 || position.y >= Size.y))
-            {
-                position.y = Mathf.Clamp(position.y, 0, Size.y - 1);
-            }
-            if (TileMap[position.x, position.y] == 0)
-            {
-                //Debug.LogWarning(position);
-                return position;
-            }
-
             var emptyPos = position;
 
             Vector2Int[] dirs = { new Vector2Int(1, 0), new Vector2Int(0, 1), new Vector2Int(-1, 0), new Vector2Int(0, -1) };
@@ -343,7 +306,7 @@ namespace LevelBuildingSidekick.Blueprint
             int dirIndex = 0;
 
             var aux = emptyPos;
-            while(TileMap[emptyPos.x, emptyPos.y] != 0)
+            while(!IsLegal(emptyPos))
             {
                 aux += dirs[dirIndex]*steps;
                 dirIndex++;
@@ -353,157 +316,61 @@ namespace LevelBuildingSidekick.Blueprint
                 {
                     steps++;
                 }
-                if(!(aux.x < 0 || aux.x >= Size.x) && !(aux.y < 0 || aux.y >= Size.y))
+                emptyPos = aux;
+            }
+            return emptyPos;
+        }
+        internal void SolveCollision(RoomController room)
+        {
+            // do, while (room.CheckCollision)
+            var cols = new HashSet<Vector2Int>();
+            var center = room.Center;
+            foreach(RoomController r in Rooms)
+            {
+                if(r != room)
                 {
-                    emptyPos = aux;
-                }
-                if(iterations > TileMap.Length*4)
-                {
-                    //Debug.LogWarning("-1,-1");
-                    return -Vector2Int.one;
+                    room.CheckCollision(r, out HashSet<Vector2Int> collisions);
+                    foreach(Vector2Int v in collisions)
+                    {
+                        cols.Add(center - v);
+                    }
                 }
             }
 
-            //Debug.LogWarning(emptyPos);
-            return emptyPos;
-        }
-        public void ResizeRoomToMin(RoomController room)
-        {
-            if(!Rooms.Contains(room))
+            if(cols.Count == 0)
             {
                 return;
             }
-            foreach(Vector2Int pos in room.TilePositions)
+
+            var xmin = cols.OrderBy((v) => v.x).First().x;
+            var xmax = cols.OrderBy((v) => v.x).Last().x;
+
+            var ymin = cols.OrderBy((v) => v.y).First().y;
+            var ymax = cols.OrderBy((v) => v.y).Last().y;
+
+            if(xmin < 0 && xmax > 0)
             {
-                //Debug.LogWarning("R.P: " + room.Position +   "Pos: " + pos + " - Size: " + Size);
-                TileMap[room.Position.x + pos.x, room.Position.y + pos.y] = 0;
+                Debug.Log("Fuck x");
+            }
+            if(ymin < 0 && ymax > 0)
+            {
+                Debug.Log("Fuck y");
             }
 
-            room.TilePositions.Clear();
+            int x = Mathf.Abs(xmax) > Mathf.Abs(xmin) ? xmax : xmin;
+            int y = Mathf.Abs(ymax) > Mathf.Abs(ymin) ? ymax : ymin;
 
-            var x = room.ProportionType == ProportionType.RATIO ? room.Ratio.x : room.Width.x;
-            var y = room.ProportionType == ProportionType.RATIO ? room.Ratio.y : room.Height.x;
+            x = x > 0 ? x - 1 : x + 1;
+            y = y > 0 ? y - 1 : y + 1;
 
-            if(x < y)
-            {
-                float step = (y*1.0f / x*1.0f);
-                //Debug.Log("Step: " + step);
-                for (int i = 0; i < x; i++)
-                {
-                    if (room.Position.x + i >= Size.x)
-                    {
-                        if (TileMap[room.Position.x - 1, room.Position.y] == 0)
-                        {
-                            room.Position -= Vector2Int.right;
-                        }
-                        else
-                        {
-                            Debug.LogWarning("Not Enough Space: " + TileMap.GetLength(0) + " , " + TileMap.GetLength(1));
-                            return;
-                        }
-                    }
-                    for (int j = 0; j < step * i; j++)
-                    {
-                        if (room.Position.y + j >= Size.y)
-                        {
-                            if (TileMap[room.Position.x, room.Position.y - 1] == 0)
-                            {
-                                room.Position -= Vector2Int.up;
-                            }
-                            else
-                            {
-                                Debug.LogWarning("Not Enough Space: " + TileMap.GetLength(0) + " , " + TileMap.GetLength(1));
-                                return;
-                            }
-                        }
-                        room.AddTilePositions(new Vector2Int(i, j));
-                    }
-                    for (int k = 0; k <= i; k++)
-                    {
-                        for (int j = (int)(step * i); j < step * (i + 1); j++)
-                        {
-                            if (room.Position.y + j >= Size.y)
-                            {
-                                if (TileMap[room.Position.x, room.Position.y - 1] == 0)
-                                {
-                                    room.Position -= Vector2Int.up;
-                                }
-                                else
-                                {
-                                    Debug.LogWarning("Not Enough Space: " + TileMap.GetLength(0) + " , " + TileMap.GetLength(1));
-                                    return;
-                                }
-                            }
-                            room.AddTilePositions(new Vector2Int(k, j));
-                        }
-                    }
-                }
-            }
-            else
-            {
-                float step = (x*1.0f / y*1.0f);
-                for (int j = 0; j < y; j++)
-                {
-                    if (room.Position.y + j >= Size.y)
-                    {
-                        if (TileMap[room.Position.x, room.Position.y - 1] == 0)
-                        {
-                            room.Position -= Vector2Int.up;
-                        }
-                        else
-                        {
-                            Debug.LogWarning("Not Enough Space: " + TileMap.GetLength(0) + " , " + TileMap.GetLength(1));
-                            return;
-                        }
-                    }
-                    for (int i = 0; i < step * j; i++)
-                    {
-                        if (room.Position.x + i >= Size.x)
-                        {
-                            if (TileMap[room.Position.x - 1, room.Position.y] == 0)
-                            {
-                                room.Position -= Vector2Int.right;
-                            }
-                            else
-                            {
-                                Debug.LogWarning("Not Enough Space: " + TileMap.GetLength(0) + " , " + TileMap.GetLength(1));
-                                return;
-                            }
-                        }
-                        room.AddTilePositions(new Vector2Int(i, j));
-                    }
-                    for (int k = 0; k <= j; k++)
-                    {
-                        for (int i = (int)(step * j); i < step * (j + 1); i++)
-                        {
-                            if (room.Position.x + i >= Size.x)
-                            {
-                                if (TileMap[room.Position.x - 1, room.Position.y] == 0)
-                                {
-                                    room.Position -= Vector2Int.right;
-                                }
-                                else
-                                {
-                                    Debug.LogWarning("Not Enough Space: " + TileMap.GetLength(0) + " , " + TileMap.GetLength(1));
-                                    return;
-                                }
-                            }
-                            room.AddTilePositions(new Vector2Int(i, k));
-                        }
-                    }
-                }
-            }
-
-            foreach (Vector2Int pos in room.TilePositions)
-            {
-                //Debug.Log("X: " + (room.Position.x + pos.x) + ", Y: " + (room.Position.y + pos.y));
-                TileMap[room.Position.x + pos.x, room.Position.y + pos.y] = room.ID;
-            }
+            room.Position += new Vector2Int(x, y);
         }
-        private void AddRoomChance(RoomCharacteristics room, Vector2Int position)
+
+        internal void SolveAdjacencie(RoomController room)
         {
 
         }
+
         public void SolveCollisions(RoomController room, HashSet<Vector2Int> collisions)
         {
             var colX = collisions.OrderBy((v) => v.x).ToList();
@@ -608,18 +475,59 @@ namespace LevelBuildingSidekick.Blueprint
             //Expand*/
 
         }
-
-
-        public void RegenerateTileMap()
+        public void Optimize()
         {
-            TileMap = new int[Size.x, Size.y];
-            foreach(RoomController r in Rooms)
+            Utility.HillClimbing.Run(this, 
+               () => { return Utility.HillClimbing.NonSignificantEpochs > 10; },
+               GetNeighbors,
+               Evaluate);
+        }
+        public List<SchemaController> GetNeighbors(SchemaController schema)
+        {
+            List<SchemaController> neighbors = new List<SchemaController>();
+            foreach (RoomController r in schema.Rooms)
             {
-                foreach(Vector2Int v in r.TilePositions)
+                r.CalculateSurface();
+            }
+
+            ToTileMap();
+
+            foreach (RoomController r1 in schema.Rooms)
+            {
+                foreach(RoomController r2 in schema.Rooms)
                 {
-                    TileMap[v.x + r.Position.x, v.y + r.Position.y] = r.ID;
+                    if(r1.Equals(r2))
+                    {
+                        continue;
+                    }
+                    if(true) //schema.Connections.ContainsKey(r1.ID) && schema.Connections[r1.ID].Contains(r2.ID)
+                    {
+                        if(r1.IsAdjacent(r2, out Vector2Int distance))
+                        {
+                            //Interchanging tiles
+                        }
+                        else
+                        {
+                            //Expand room
+                        }
+                    }
+                }
+                //Expand room
+            }
+
+            return neighbors;
+        }
+        public float Evaluate(SchemaController schema)
+        {
+            float score = 0;
+            foreach(RoomController r in schema.Rooms)
+            {
+                if(!r.FulfillConstraints(out float dist))
+                {
+                    score++;
                 }
             }
+            return schema.Rooms.Count - score;
         }
     }
 }
