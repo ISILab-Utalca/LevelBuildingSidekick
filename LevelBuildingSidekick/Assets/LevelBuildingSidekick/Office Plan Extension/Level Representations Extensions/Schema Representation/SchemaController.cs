@@ -399,6 +399,7 @@ namespace LevelBuildingSidekick.Blueprint
 
             room.Position += new Vector2Int(x, y);
 
+            //Not a good solution
             SolveCollision(room);
         }
 
@@ -629,38 +630,24 @@ namespace LevelBuildingSidekick.Blueprint
                GetNeighbors,
                Evaluate);
         }
-        public List<SchemaController> GetNeighbors(SchemaController schema)
+        public List<SchemaData> GetNeighbors(SchemaData schema)
         {
-            List<SchemaController> neighbors = new List<SchemaController>();
-            foreach (RoomController r in schema.Rooms)
-            {
-                r.CalculateSurface();
-            }
+            //SchemaData orignial = schema.Clone();
+            List<SchemaData> neighbors = new List<SchemaData>();
 
-            ToTileMap();
+            Vector2Int[] dirs = { Vector2Int.right, Vector2Int.up, Vector2Int.left, Vector2Int.down };
 
-            foreach (RoomController r1 in schema.Rooms)
+            for(int i = 0; i < schema.rooms.Count; i++)
             {
-                foreach(RoomController r2 in schema.Rooms)
+                foreach(Vector2Int v in dirs)
                 {
-                    if(r1.Equals(r2))
-                    {
-                        continue;
-                    }
-                    if(true) //schema.Connections.ContainsKey(r1.ID) && schema.Connections[r1.ID].Contains(r2.ID)
-                    {
-                        if(r1.IsAdjacent(r2, out Vector2Int distance))
-                        {
-                            //Interchanging tiles
-                        }
-                        else
-                        {
-                            //Expand room
-                        }
-                    }
+                    var s = schema.Clone();
+                    s.rooms[i].position += v;
+                    neighbors.Add(s);
                 }
-                //Expand room
             }
+
+
 
             return neighbors;
         }

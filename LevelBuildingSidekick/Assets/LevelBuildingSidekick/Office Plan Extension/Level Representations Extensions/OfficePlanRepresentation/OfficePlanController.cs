@@ -359,7 +359,7 @@ namespace LevelBuildingSidekick.OfficePlan
                         continue;
                     }//order in clockwise manner starting from left
                     open.Enqueue(child);
-                    room = Schema.AddRoom(child.Room, Schema.CloserEmpty(parentRoom, parent.Centroid - child.Centroid));
+                    room = Schema.AddRoom(child.Room, Schema.CloserEmpty(parentRoom, child.Centroid - parent.Centroid));
                     //Debug.Log("Should be true: " + Schema.Rooms.Contains(room));
                     Schema.SolveCollision(room);
                 }
@@ -367,10 +367,10 @@ namespace LevelBuildingSidekick.OfficePlan
                 closed.Add(parent);
             }
 
-            foreach(RoomController r in Schema.Rooms)
+            /*foreach(RoomController r in Schema.Rooms)
             {
                 Schema.SolveAdjacencie(r);
-            }
+            }*/
             //Hunt Adjacencies
 
             Schema.ToTileMap();
