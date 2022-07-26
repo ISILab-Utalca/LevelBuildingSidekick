@@ -48,11 +48,12 @@ public class ConnectNodesController : ToolController
         EdgeData edge = new EdgeData();
         edge.node1 = firstNode.Data as NodeData;
         edge.node2 = n.Data as NodeData;
-        if(graph.AddEdge(edge))
+        graph.AddEdge(edge);
+        /*if (graph.AddEdge(edge))
         {
             firstNode.neighbors.Add(n);
             n.neighbors.Add(firstNode);
-        }
+        }*/
 
 
         firstNode = null;
