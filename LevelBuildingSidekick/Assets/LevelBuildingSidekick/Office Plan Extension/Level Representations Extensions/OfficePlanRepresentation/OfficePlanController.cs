@@ -367,10 +367,10 @@ namespace LevelBuildingSidekick.OfficePlan
                 closed.Add(parent);
             }
 
-            /*foreach(RoomController r in Schema.Rooms)
+            foreach(RoomController r in Schema.Rooms)
             {
                 Schema.SolveAdjacencie(r);
-            }*/
+            }
             //Hunt Adjacencies
 
             Schema.ToTileMap();
