@@ -19,12 +19,14 @@ namespace LevelBuildingSidekick.Blueprint
             var controller = (Controller as SchemaController);
             scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
 
-            var r = GUILayoutUtility.GetRect((controller.Size.x * controller.TileSize), 
-                (controller.Size.y * controller.TileSize), 
-                (controller.Size.x * controller.TileSize),
-                (controller.Size.y * controller.TileSize));
-            r.width = (controller.Size.x * controller.TileSize);
-            r.height = (controller.Size.y * controller.TileSize);
+            Vector2Int size = new Vector2Int(controller.TileMap.GetLength(0), controller.TileMap.GetLength(1));
+
+            var r = GUILayoutUtility.GetRect((size.x * controller.TileSize), 
+                (size.y * controller.TileSize), 
+                (size.x * controller.TileSize),
+                (size.y * controller.TileSize));
+            r.width = (size.x * controller.TileSize);
+            r.height = (size.y * controller.TileSize);
             //Debug.Log(r.width + " - " + r.height);
             //GUILayout.BeginArea(r);
 
@@ -72,7 +74,7 @@ namespace LevelBuildingSidekick.Blueprint
         public override void DrawEditor()
         {
             var controller = Controller as SchemaController;
-            controller.Size = EditorGUILayout.Vector2IntField("Size", controller.Size);
+            //controller.Size = EditorGUILayout.Vector2IntField("Size", controller.Size);
             controller.TileSize = EditorGUILayout.IntField("Size", controller.TileSize);
         }
 
