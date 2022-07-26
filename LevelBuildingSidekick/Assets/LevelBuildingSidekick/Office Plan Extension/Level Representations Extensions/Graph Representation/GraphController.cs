@@ -345,8 +345,10 @@ namespace LevelBuildingSidekick.Graph
                     Debug.LogError("Something went wrong");
                     return false;
                 }
+
                 n1.neighbors.Add(n2);
                 n2.neighbors.Add(n1);
+
                 e.Node1 = n1;
                 e.Node2 = n2;
                 Edges.Add(e);
@@ -363,13 +365,13 @@ namespace LevelBuildingSidekick.Graph
             }
             var x = Nodes.OrderBy((n) =>
             {
-                //var offset = CellSize * (n.ProportionType == ProportionType.RATIO ? n.Ratio.x : n.Width.x);
-                return n.Position.x; //+ offset;
+                //var offset = 0.1*CellSize * (n.ProportionType == ProportionType.RATIO ? n.Ratio.x : n.Width.x);
+                return n.Position.x;
             }).Last().Position.x;
             var y = Nodes.OrderBy((n) => 
             {
-                //var offset = CellSize * (n.ProportionType == ProportionType.RATIO ? n.Ratio.y : n.Width.y);
-                return n.Position.y; //+ offset;
+                //var offset = 0.1*CellSize * (n.ProportionType == ProportionType.RATIO ? n.Ratio.y : n.Height.x);
+                return n.Position.y;
             }).Last().Position.y;
             return new Vector2Int(x,y);
         }
