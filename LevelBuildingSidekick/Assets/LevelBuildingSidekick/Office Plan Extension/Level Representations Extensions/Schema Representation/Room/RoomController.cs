@@ -184,6 +184,22 @@ namespace LevelBuildingSidekick.Blueprint
                 (Data as RoomData).surface = value;
             }
         }
+        public HashSet<int> NeighborsIDs
+        {
+            get
+            {
+                if ((Data as RoomData).room.neighbors == null)
+                {
+                    (Data as RoomData).room.neighbors = new List<int>();
+                }
+                return (Data as RoomData).room.neighbors.ToHashSet();
+            }
+            set
+            {
+                (Data as RoomData).room.neighbors = value.ToList();
+            }
+        }
+
 
         public RoomController(Data data) : base(data)
         {

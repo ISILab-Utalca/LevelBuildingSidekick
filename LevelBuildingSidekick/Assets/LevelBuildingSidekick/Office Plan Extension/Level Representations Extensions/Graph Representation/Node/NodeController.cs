@@ -13,6 +13,21 @@ namespace LevelBuildingSidekick.Graph
     public class NodeController : Controller
     {
         public HashSet<NodeController> neighbors;
+        public HashSet<int> NeighborsIDs
+        {
+            get
+            {
+                if((Data as NodeData).room.neighbors == null)
+                {
+                    (Data as NodeData).room.neighbors = new List<int>();
+                }
+                return (Data as NodeData).room.neighbors.ToHashSet();
+            }
+            set
+            {
+                (Data as NodeData).room.neighbors = value.ToList();
+            }
+        }
         public int ID
         {
             get
@@ -311,6 +326,18 @@ namespace LevelBuildingSidekick.Graph
                 return false;
             }
             Prefabs[category] = prefabs;
+            return true;
+        }
+
+        public bool AddNeighbor(NodeController n)
+        {
+            if(NeighborsIDs.Contains(n.ID))
+            {
+                return false;
+            }
+
+            (Data as NodeData).room.neighbors.Add(n.ID);
+            neighbors.Add(n);
             return true;
         }
 
