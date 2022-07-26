@@ -9,10 +9,11 @@ namespace LevelBuildingSidekick.Blueprint
     //[CreateAssetMenu(menuName = "LevelBuildingSidekick/Level Represetation/Schema Representation/Level")]
     public class SchemaData : LevelRepresentationData
     {
-        public int[,] tilemap;
+        //public int[,] tilemap;
         public int tileSize;
         public Vector2Int size;
         public List<RoomData> rooms;
+        //public Dictionary<int, HashSet<int>> connections;
 
 
 
