@@ -15,8 +15,7 @@ namespace LevelBuildingSidekick.Blueprint
 
         public override void Draw2D()
         {
-            int id = 0;
-            Color c = Color.black;
+            //Color c = Color.black;
             var controller = (Controller as SchemaController);
             scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
 
@@ -49,14 +48,9 @@ namespace LevelBuildingSidekick.Blueprint
                     }
                     else
                     {
-                        if(controller.TileMap[i, j] != id)
-                        {
-                            id = controller.TileMap[i, j];
-                            c = new Color(Random.value, Random.value, Random.value);
-                        }
                             //texture.SetPixel(i, j, Color.white);
-                            Texture2D t = new Texture2D(1, 1);
-                        t.SetPixel(0, 0, c);
+                        Texture2D t = new Texture2D(1, 1);
+                        t.SetPixel(0, 0, Color.white);
                         t.Apply();
                        var rect = new Rect((controller.TileSize * i),
                             (controller.TileSize * j),
