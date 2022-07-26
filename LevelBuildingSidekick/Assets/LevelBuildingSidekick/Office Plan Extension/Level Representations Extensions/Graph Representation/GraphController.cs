@@ -346,8 +346,8 @@ namespace LevelBuildingSidekick.Graph
                     return false;
                 }
 
-                n1.neighbors.Add(n2);
-                n2.neighbors.Add(n1);
+                n1.AddNeighbor(n2);
+                n2.AddNeighbor(n1);
 
                 e.Node1 = n1;
                 e.Node2 = n2;
