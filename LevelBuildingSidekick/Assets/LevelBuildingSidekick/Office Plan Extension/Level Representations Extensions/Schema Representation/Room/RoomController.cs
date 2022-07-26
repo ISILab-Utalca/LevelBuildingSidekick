@@ -35,8 +35,8 @@ namespace LevelBuildingSidekick.Blueprint
                 {
                     return Vector2Int.zero;
                 }
-                int x = TilePositions.OrderBy((v) => v.x).Last().x - TilePositions.OrderBy((v) => v.x).First().x;
-                int y = TilePositions.OrderBy((v) => v.y).Last().y - TilePositions.OrderBy((v) => v.y).First().y;
+                int x = TilePositions.Max((v) => v.x) - TilePositions.Min((v) => v.x);
+                int y = TilePositions.Max((v) => v.y) - TilePositions.Min((v) => v.y);
                 return new Vector2Int(x,y) + Vector2Int.one;
             }
         }
@@ -447,6 +447,119 @@ namespace LevelBuildingSidekick.Blueprint
                 x++;
             }
             return outerTile;
+        }
+
+        public List<Tuple<Vector2Int,Vector2Int>> GetCorners()
+        {
+            List<Tuple<Vector2Int, Vector2Int>> walls = new List<Tuple<Vector2Int, Vector2Int>>();
+            CalculateSurface();
+            Vector2Int start = Vector2Int.zero;
+            for(int i = 0; i < Surface.GetLength(0); i++)
+            {
+                if(Surface[i,0] != 0)
+                {
+                    start.x = i;
+                    break;
+                }
+            }
+
+            var current = start;
+            var wallStart = start;
+            Vector2Int[] dirs = { Vector2Int.right, Vector2Int.down, Vector2Int.left, Vector2Int.up }; // follow this order cuz we start at the top and moving in x > 0
+            int dir = 0;
+            do
+            {
+                var aux = current + dirs[dir];
+                if(aux.x >= Surface.GetLength(0) || aux.x < 0 || aux.y >= Surface.GetLength(1) || aux.y < 0 ||
+                    Surface[aux.x, aux.y] != 0)
+                {
+                    var border1 = aux + dirs[(dir + 1) % dirs.Length];
+                    var border2 = aux + dirs[(dir + 3) % dirs.Length];
+                    if(border1.x >= Surface.GetLength(0) || border1.x < 0 || border1.y >= Surface.GetLength(1) || border1.y < 0 ||
+                        border2.x >= Surface.GetLength(0) || border2.x < 0 || border2.y >= Surface.GetLength(1) || border2.y < 0 ||
+                        Surface[border1.x, border1.y] == 0 || Surface[border2.x, border2.y] == 0)
+                    {
+                        current = aux;
+                        continue;
+                    }
+                    //Concave wall?;
+                    else
+                    {
+                        walls.Add(new Tuple<Vector2Int, Vector2Int>(wallStart, current));
+
+                        var n = aux + dirs[(dir + 1) % dirs.Length];
+                        var nborder1 = n + dirs[(dir + 2) % dirs.Length];//dir+1 + 1
+                        var nborder2 = n + dirs[(dir + 4) % dirs.Length];//dir+3 + 1
+                        if (nborder1.x >= Surface.GetLength(0) || nborder1.x < 0 || nborder1.y >= Surface.GetLength(1) || nborder1.y < 0 ||
+                            nborder2.x >= Surface.GetLength(0) || nborder2.x < 0 || nborder2.y >= Surface.GetLength(1) || nborder2.y < 0 ||
+                            Surface[nborder1.x, nborder1.y] == 0 || Surface[nborder2.x, nborder2.y] == 0)
+                        {
+                            current = n;
+                            wallStart = n;
+                            continue;
+                        }
+                        n = aux + dirs[(dir + 3) % dirs.Length];
+                        nborder1 = n + dirs[(dir + 4) % dirs.Length];//dir+1 + 3 => could be the same as above
+                        nborder2 = n + dirs[(dir + 6) % dirs.Length];//dir+3 + 3 => could be the same as above
+                        if (nborder1.x >= Surface.GetLength(0) || nborder1.x < 0 || nborder1.y >= Surface.GetLength(1) || nborder1.y < 0 ||
+                            nborder2.x >= Surface.GetLength(0) || nborder2.x < 0 || nborder2.y >= Surface.GetLength(1) || nborder2.y < 0 ||
+                            Surface[nborder1.x, nborder1.y] == 0 || Surface[nborder2.x, nborder2.y] == 0)
+                        {
+                            current = n;
+                            wallStart = n;
+                            continue;
+                        }
+
+                        Debug.LogError("Missing case");
+                        return walls;
+                    }
+                }
+                else
+                {
+                    //make wall
+                    walls.Add(new Tuple<Vector2Int, Vector2Int>(wallStart, current));
+                    wallStart = current;
+                    dir = (dir + 1) % dirs.Length;
+                }
+                current = aux;
+            }
+            while (current != start || walls.Count < 4);
+
+            return walls;
+        }
+
+        public List<List<Vector2Int>> GetWalls()
+        {
+            List<List<Vector2Int>> walls = new List<List<Vector2Int>>();
+            var corners = GetCorners();
+            foreach (Tuple<Vector2Int, Vector2Int> t in corners)
+            {
+                walls.Add(new List<Vector2Int>());
+            }
+            for(int i = 0; i < corners.Count; i++)
+            {
+                if(corners[i].Item1.x == corners[i].Item2.x)
+                {
+                    int x = corners[i].Item1.x;
+                    int y1 = corners[i].Item1.y < corners[i].Item2.y ? corners[i].Item1.y : corners[i].Item2.y;
+                    int y2 = corners[i].Item1.y > corners[i].Item2.y ? corners[i].Item1.y : corners[i].Item2.y;
+                    for(int j = y1; j <= y2; j++)
+                    {
+                        walls[i].Add(new Vector2Int(x, j));
+                    }
+                }
+                else
+                {
+                    int y = corners[i].Item1.y;
+                    int x1 = corners[i].Item1.x < corners[i].Item2.x ? corners[i].Item1.x : corners[i].Item2.x;
+                    int x2 = corners[i].Item1.x > corners[i].Item2.x ? corners[i].Item1.x : corners[i].Item2.x;
+                    for (int j = x1; j <= x2; j++)
+                    {
+                        walls[i].Add(new Vector2Int(j, y));
+                    }
+                }
+            }
+            return walls;
         }
     }
 
