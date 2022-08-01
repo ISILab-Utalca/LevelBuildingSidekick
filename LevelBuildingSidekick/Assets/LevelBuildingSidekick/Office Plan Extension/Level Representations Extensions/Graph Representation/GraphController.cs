@@ -120,39 +120,46 @@ namespace LevelBuildingSidekick.Graph
                 }
             }
 
-            if(data.toolkit == null)
+            if (data.toolkit == null)
             {
-                List<ToolData> tools = new List<ToolData>() { new SelectGraphElementData(), 
+                List<ToolData> tools = new List<ToolData>() { new SelectGraphElementData(),
                                                               new CreateNodeData(),
                                                               new ConnectNodesData(),
                                                               new MoveNodeData(),
-                                                              new DeleteGraphElementData()}; 
+                                                              new DeleteGraphElementData()};
                 data.toolkit = new ToolkitData(tools);
             }
             Toolkit = new ToolkitController(data.toolkit, this);
             GraphToolkitOverlay.toolkit = Toolkit.View as ToolkitView;
         }
 
+        public void SelectAt(Vector2 position)
+        {
+            var selectedNode = GetNodeAt(position);
+            if (selectedNode != null)
+            {
+                SelectedNode = selectedNode;
+                return;
+            }
+
+            var selectedEdge = GetEdgeAt(position);
+            if (selectedEdge != null)
+            {
+                SelectedEdge = selectedEdge;
+            }
+
+        }
+
         public Dictionary<int, Vector2Int> ToMatrixPositions(Vector2Int size)
         {
-            //int[,] tileMatrix = new int[size.x, size.y];
             var closer = CloserPosition();
             var farther = FartherPosition();
-            //var start = Mathf.Min(closer.x, closer.y);
-            //var end = Mathf.Max(farther.x, farther.y);
-            var Size = new Vector2Int(Mathf.Min(closer.x, closer.y), Mathf.Max(farther.x, farther.y));
-            //float step = Mathf.Max(Size.x / size.x, Size.y / size.y);
+            var start = Mathf.Min(closer.x, closer.y);
+            var end = Mathf.Max(farther.x, farther.y);
+            var Size = new Vector2Int(start, end);
             Dictionary<int, Vector2Int> indexes = new Dictionary<int, Vector2Int>();
             foreach (NodeController n in Nodes)
             {
-                /*int x = (int)(n.Position.x / step);
-                int y = (int)(n.Position.y / step);
-                if(x >= size.x || y >= size.y)
-                {
-                    Debug.LogWarning("Node out of Bounds");
-                    continue;
-                }*/
-                //tileMatrix[x, y] = n.ID;
                 if (!indexes.ContainsKey(n.ID))
                 {
                     indexes.Add(n.ID, ToMatrixPosition(n.ID, Size, size));
@@ -164,32 +171,24 @@ namespace LevelBuildingSidekick.Graph
         {
             var closer = CloserPosition();
             var farther = FartherPosition();
-            //var start = Mathf.Min(closer.x, closer.y);
-            //var end = Mathf.Max(farther.x, farther.y);
             var l = Mathf.Max(farther.x, farther.y) - Mathf.Min(closer.x, closer.y);
-            //Debug.Log("L: " + l);
             var Size = new Vector2(l, l);
             var node = Nodes.ToList().Find((n) => n.ID == ID);
             var pos = node.Position - closer;
-            //Debug.Log("Pos: " + node.Position);
-            //Debug.Log();
 
-
-            return new Vector2Int((int)(0.1f * size.x + pos.x * ((0.8f * size.x) / Size.x)),
-                (int)(0.1f * size.y + pos.y * ((0.8f * size.y) / Size.y)));
+            var x = (int)(0.1f * size.x + pos.x * ((0.8f * size.x) / Size.x));
+            var y = (int)(0.1f * size.y + pos.y * ((0.8f * size.y) / Size.y));
+            return new Vector2Int(x, y);
         }
         public Vector2Int ToMatrixPosition(int ID, Vector2Int graphSize, Vector2Int size)
         {
-            //var closer = CloserPosition();
-            //var farther = FartherPosition();
-            //var start = Mathf.Min(closer.x, closer.y);
-            //var end = Mathf.Max(farther.x, farther.y);
-            //var Size = new Vector2Int(Mathf.Min(closer.x, closer.y), Mathf.Max(farther.x, farther.y));
             var node = Nodes.ToList().Find((n) => n.ID == ID);
 
-            return new Vector2Int((int)(0.1f * size.x + node.Centroid.x * ((0.8f * size.x) / graphSize.x)),
-                (int)(0.1f * size.y + node.Centroid.y * ((0.8f * size.y) / graphSize.y)));
+            var x = (int)(0.1f * size.x + node.Centroid.x * ((0.8f * size.x) / graphSize.x));
+            var y = (int)(0.1f * size.y + node.Centroid.y * ((0.8f * size.y) / graphSize.y));
+            return new Vector2Int(x, y);
         }
+
         //Can be optimized
         public bool[,] AdjacencyMatrix()
         {
