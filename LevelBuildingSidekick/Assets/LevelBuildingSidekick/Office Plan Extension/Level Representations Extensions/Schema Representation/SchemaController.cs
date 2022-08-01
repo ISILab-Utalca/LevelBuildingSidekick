@@ -651,17 +651,29 @@ namespace LevelBuildingSidekick.Schema
                 {
                     for(int i = 0; i < vDirs.Length; i++)
                     {
-                        foreach(var v in wall)
+                        if(wall[0].y + vDirs[i].y >= 0 && wall[0].y + vDirs[i].y < matrix.GetLength(1))
                         {
-                            if(v.y + vDirs[i].y >= 0 && v.y + vDirs[i].y < matrix.GetLength(1))
+                            var child1 = new int[matrix.GetLength(0),matrix.GetLength(1)];
+                            Array.Copy(matrix, child1, matrix.Length);
+                            var child2 = new int[matrix.GetLength(0), matrix.GetLength(1)];
+                            Array.Copy(matrix, child2, matrix.Length);
+                            foreach (var v in wall)
                             {
-                                matrix[v.x, v.y] = matrix[v.x + vDirs[i].x, v.y + vDirs[i].y];
-                                matrix[v.x + vDirs[i].x, v.y + vDirs[i].y] = matrix[v.x, v.y];
+                                child1[v.x, v.y] = child1[v.x + vDirs[i].x, v.y + vDirs[i].y];
+                                child2[v.x + vDirs[i].x, v.y + vDirs[i].y] = child2[v.x, v.y];
                             }
-                            else
+                            neighbors.Add(child1);
+                            neighbors.Add(child2);
+                        }
+                        else
+                        {
+                            var child = new int[matrix.GetLength(0), matrix.GetLength(1)];
+                            Array.Copy(matrix, child, matrix.Length);
+                            foreach (var v in wall)
                             {
-                                matrix[v.x, v.y] = 0; // SHOULD BE THE CLONE
+                                child[v.x, v.y] = 0; // SHOULD BE THE CLONE
                             }
+                            neighbors.Add(child);
                         }
                     }
                 }
