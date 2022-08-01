@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace LevelBuildingSidekick.Blueprint
+namespace LevelBuildingSidekick.Schema
 {
     //[CreateAssetMenu(menuName = "LevelBuildingSidekick/Level Represetation/Schema Representation/Level")]
     public class SchemaData : LevelRepresentationData

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-namespace LevelBuildingSidekick.Blueprint
+namespace LevelBuildingSidekick.Schema
 {
     public class RoomView : View
     {
