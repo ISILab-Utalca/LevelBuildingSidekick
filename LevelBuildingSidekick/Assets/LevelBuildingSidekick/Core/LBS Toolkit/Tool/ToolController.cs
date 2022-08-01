@@ -14,7 +14,6 @@ public abstract class ToolController : Controller
 
     public virtual void Switch()
     {
-        //IsActive = !IsActive;
         if(Toolkit != null)
         {
             Toolkit.Switch(this);
