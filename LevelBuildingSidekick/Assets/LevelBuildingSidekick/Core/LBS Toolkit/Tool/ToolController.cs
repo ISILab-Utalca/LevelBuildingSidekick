@@ -14,7 +14,11 @@ public abstract class ToolController : Controller
 
     public virtual void Switch()
     {
-        IsActive = !IsActive;
+        //IsActive = !IsActive;
+        if(Toolkit != null)
+        {
+            Toolkit.Switch(this);
+        }
     }
 
     public abstract void Action(LevelRepresentationController level);

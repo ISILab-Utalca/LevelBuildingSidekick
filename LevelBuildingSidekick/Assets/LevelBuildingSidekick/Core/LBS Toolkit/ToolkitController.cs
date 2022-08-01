@@ -15,6 +15,12 @@ public class ToolkitController : Controller
         View = new ToolkitView(this);
     }
 
+    internal void Switch(ToolController current)
+    {
+        Tools.ForEach(t => t.IsActive = false);
+        current.IsActive = true;
+    }
+
     public override void LoadData()
     {
         //Each Tool
