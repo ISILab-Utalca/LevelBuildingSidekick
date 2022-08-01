@@ -48,7 +48,7 @@ namespace LevelBuildingSidekick.OfficePlan
 
                 scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
 
-                controller.Schema.Size = EditorGUILayout.Vector2IntField("Tilemap Size", controller.Schema.Size);
+                //controller.Schema.Size = EditorGUILayout.Vector2IntField("Tilemap Size", controller.Schema.Size);
 
                 controller.Schema.TileSize = EditorGUILayout.IntField("Tile Size", controller.Schema.TileSize);
 

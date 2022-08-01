@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using LevelBuildingSidekick;
 using LevelBuildingSidekick.Graph;
-using LevelBuildingSidekick.Blueprint;
+using LevelBuildingSidekick.Schema;
 using System.Linq;
 using UnityEditor;
 
@@ -327,7 +327,7 @@ namespace LevelBuildingSidekick.OfficePlan
 
             if(Graph.Nodes.Count <= 0)
             {
-                Schema.ToTileMap();
+                Schema.Tomatrix();
                 return;
             }
 
@@ -337,8 +337,9 @@ namespace LevelBuildingSidekick.OfficePlan
             var parent = Graph.Nodes.OrderByDescending((n) => n.neighbors.Count).First();
             open.Enqueue(parent);
             var room = Schema.AddRoom(parent.Room, Vector2Int.zero);
-            
-            while(open.Count > 0)
+            room.ResizeToMin();
+
+            while (open.Count > 0)
             {
                 parent = open.Dequeue();
                 /*Debug.Log("P: " + parent.ID);
@@ -347,9 +348,8 @@ namespace LevelBuildingSidekick.OfficePlan
                     Debug.Log("R: " + r.ID);
                 }*/
                 var parentRoom = Schema.Rooms.Find((r) => r.ID == parent.ID);
-                
-                parentRoom.ResizeToMin();
-                Schema.SolveCollision(parentRoom);
+                //Debug.Log(parentRoom.Label + " Pos: " + parentRoom.Position);
+
                 var childs = parent.neighbors.OrderBy(n => Utility.MathTools.GetAngleD15(parent.Centroid, n.Centroid));
                 foreach(NodeController child in parent.neighbors)
                 {
@@ -360,8 +360,10 @@ namespace LevelBuildingSidekick.OfficePlan
                     }//order in clockwise manner starting from left
                     open.Enqueue(child);
                     room = Schema.AddRoom(child.Room, Schema.CloserEmpty(parentRoom, child.Centroid - parent.Centroid));
-                    //Debug.Log("Should be true: " + Schema.Rooms.Contains(room));
+                    room.ResizeToMin();
                     Schema.SolveCollision(room);
+                    //Debug.Log("Pos After Collisions: " + parentRoom.Position);
+                    //Schema.SolveCollision(room);
                 }
 
                 closed.Add(parent);
@@ -373,7 +375,7 @@ namespace LevelBuildingSidekick.OfficePlan
             }
             //Hunt Adjacencies
 
-            Schema.ToTileMap();
+            Schema.Tomatrix();
         }
 
         //Fix to use centroids

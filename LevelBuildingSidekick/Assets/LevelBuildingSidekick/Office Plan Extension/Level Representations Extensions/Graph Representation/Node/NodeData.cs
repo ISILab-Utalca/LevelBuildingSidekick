@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditorInternal;
 using LevelBuildingSidekick;
 using System;
-using LevelBuildingSidekick.Blueprint;
+using LevelBuildingSidekick.Schema;
 
 namespace LevelBuildingSidekick.Graph
 {

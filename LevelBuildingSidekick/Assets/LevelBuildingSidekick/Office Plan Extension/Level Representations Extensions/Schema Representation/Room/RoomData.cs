@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace LevelBuildingSidekick.Blueprint
+namespace LevelBuildingSidekick.Schema
 {
     public class RoomData : Data
     {
@@ -12,7 +12,7 @@ namespace LevelBuildingSidekick.Blueprint
         public Vector2Int position = Vector2Int.zero;
         //public Vector2Int bounds = Vector2Int.one;
         //public Vector2Int outerBounds = Vector2Int.one;
-        public HashSet<Vector2Int> tilePositions = new HashSet<Vector2Int>();
+        public HashSet<Tile> tiles = new HashSet<Tile>();
         public int[,] surface = new int[1,1];
 
 
@@ -23,9 +23,9 @@ namespace LevelBuildingSidekick.Blueprint
             var r = new RoomData();
             r.room = room;
             r.position = position;
-            foreach(Vector2Int v in tilePositions)
+            foreach(Tile t in tiles)
             {
-                r.tilePositions.Add(v);
+                r.tiles.Add(t);
             }
             return r;
         }
