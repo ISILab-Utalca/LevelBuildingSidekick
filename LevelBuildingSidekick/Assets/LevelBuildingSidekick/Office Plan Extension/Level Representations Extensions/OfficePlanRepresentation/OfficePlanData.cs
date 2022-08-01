@@ -4,7 +4,7 @@ using UnityEngine;
 using LevelBuildingSidekick;
 using System;
 using LevelBuildingSidekick.Graph;
-using LevelBuildingSidekick.Blueprint;
+using LevelBuildingSidekick.Schema;
 
 
 namespace LevelBuildingSidekick.OfficePlan

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace LevelBuildingSidekick.Blueprint
+namespace LevelBuildingSidekick.Schema
 {
     [System.Serializable]
     public class RoomCharacteristics

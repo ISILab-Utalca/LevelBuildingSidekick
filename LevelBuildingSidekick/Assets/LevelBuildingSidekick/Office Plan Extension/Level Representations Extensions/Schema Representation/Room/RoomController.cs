@@ -5,7 +5,7 @@ using LevelBuildingSidekick;
 using System.Linq;
 using System;
 
-namespace LevelBuildingSidekick.Blueprint
+namespace LevelBuildingSidekick.Schema
 {
     public class RoomController : Controller
     {
@@ -31,12 +31,12 @@ namespace LevelBuildingSidekick.Blueprint
         {
             get
             {
-                if ((Data as RoomData) == null || TilePositions == null || TilePositions.Count == 0)
+                if ((Data as RoomData) == null || Tiles == null || Tiles.Count == 0)
                 {
                     return Vector2Int.zero;
                 }
-                int x = TilePositions.Max((v) => v.x) - TilePositions.Min((v) => v.x);
-                int y = TilePositions.Max((v) => v.y) - TilePositions.Min((v) => v.y);
+                int x = Tiles.Max((v) => v.x) - Tiles.Min((v) => v.x);
+                int y = Tiles.Max((v) => v.y) - Tiles.Min((v) => v.y);
                 return new Vector2Int(x,y) + Vector2Int.one;
             }
         }
@@ -153,19 +153,19 @@ namespace LevelBuildingSidekick.Blueprint
                 (Data as RoomData).room.proportionType = value;
             }
         }
-        public HashSet<Vector2Int> TilePositions
+        public HashSet<Tile> Tiles
         {
             get
             {
-                if((Data as RoomData).tilePositions == null)
+                if((Data as RoomData).tiles == null)
                 {
-                    (Data as RoomData).tilePositions = new HashSet<Vector2Int>();
+                    (Data as RoomData).tiles = new HashSet<Tile>();
                 }
-                return (Data as RoomData).tilePositions;
+                return (Data as RoomData).tiles;
             }
             private set
             {
-                TilePositions = value;
+                Tiles = value;
             }
         }
         public int[,] Surface
@@ -203,7 +203,7 @@ namespace LevelBuildingSidekick.Blueprint
 
         public RoomController(Data data) : base(data)
         {
-            AddTileLocalPosition(Vector2Int.zero);
+            Tiles.Add(Tile.zero);
         }
 
         public override void LoadData()
@@ -217,11 +217,12 @@ namespace LevelBuildingSidekick.Blueprint
         public bool AddTileLocalPosition(Vector2Int pos)
         {
             //Debug.Log(pos);
-            if(TilePositions.Contains(pos))
+            var t = new Tile(pos);
+            if(Tiles.Contains(t))
             {
                 return false;
             }
-            TilePositions.Add(pos);
+            Tiles.Add(t);
             return true;
         }
         public bool AddTilePosition(Vector2Int pos)
@@ -244,39 +245,40 @@ namespace LevelBuildingSidekick.Blueprint
                     return true;
                 }
                 Position -= delta;
-                var tiles = TilePositions.ToArray();
+                var tiles = Tiles.ToArray();
                 for(int i = 0; i < tiles.Length; i++)
                 {
                     tiles[i] += delta;
                 }
-                TilePositions = tiles.ToHashSet();
+                Tiles = tiles.ToHashSet();
                 return true;
             }
             return false;
         }
         public bool RemoveTilePosition(Vector2Int pos)
         {
-            if(pos == Position)
+            var t = new Tile(pos);
+            if(t == Position)
             {
-                if(TilePositions.Remove(pos))
+                if(Tiles.Remove(t))
                 {
-                    Position = new Vector2Int(TilePositions.ToList().OrderBy((v) => v.x).First().x , TilePositions.ToList().OrderBy((v) => v.y).First().y);
-                    var delta = Position - pos;
+                    Position = new Vector2Int(Tiles.ToList().OrderBy((v) => v.x).First().x , Tiles.ToList().OrderBy((v) => v.y).First().y);
+                    var delta = Position - t;
                     if(delta == Vector2Int.zero)
                     {
                         return true;
                     }
-                    var tiles = TilePositions.ToArray();
+                    var tiles = Tiles.ToArray();
                     for (int i = 0; i < tiles.Length; i++)
                     {
                         tiles[i] -= delta;
                     }
-                    TilePositions = tiles.ToHashSet();
+                    Tiles = tiles.ToHashSet();
                     return true;
                 }
                 return false;
             }
-            return TilePositions.Remove(pos);
+            return Tiles.Remove(t);
         }
 
         public void Expand(Vector2Int size)
@@ -318,7 +320,7 @@ namespace LevelBuildingSidekick.Blueprint
         public void Resize(Vector2Int size)
         {
             //Remove if out of size
-            TilePositions.Clear();
+            Tiles.Clear();
             //Add till size
             for(int i = 0; i < size.x; i++)
             {
@@ -327,6 +329,7 @@ namespace LevelBuildingSidekick.Blueprint
                     AddTileLocalPosition(new Vector2Int(i, j));
                 }
             }
+            //Debug.Log(Label + ": " + TilePositions.Count);
         }
 
         public bool CheckCollision(Rect other)
@@ -339,13 +342,13 @@ namespace LevelBuildingSidekick.Blueprint
             Rect r = new Rect(other.Position, other.Bounds);
             return CheckCollision(r);
         }
-        public bool CheckCollision(RoomController other, out HashSet<Vector2Int> collisions)
+        public bool CheckCollision(RoomController other, out HashSet<Tile> collisions)
         {
-            collisions = new HashSet<Vector2Int>();
+            collisions = new HashSet<Tile>();
 
-            foreach (Vector2Int pos1 in TilePositions)
+            foreach (Tile pos1 in Tiles)
             {
-                foreach (Vector2Int pos2 in other.TilePositions)
+                foreach (Tile pos2 in other.Tiles)
                 {
                     if ((pos1 + Position) == (pos2 + other.Position))
                     {
@@ -361,12 +364,12 @@ namespace LevelBuildingSidekick.Blueprint
             int minX = Mathf.Abs(Centroid.x - other.Centroid.x);
             int minY = Mathf.Abs(Centroid.y - other.Centroid.y);
             minDistance = Centroid - other.Centroid;
-            foreach (Vector2Int v1 in TilePositions)
+            foreach (Tile v1 in Tiles)
             {
-                foreach(Vector2Int v2 in other.TilePositions)
+                foreach(Tile v2 in other.Tiles)
                 {
-                    int x = Mathf.Abs((Position + v1).x - (other.Position + v2).x) + 1;
-                    int y = Mathf.Abs((Position + v1).y - (other.Position + v2).y) + 1;
+                    int x = (int)Mathf.Abs((Position + v1).x - (other.Position + v2).x) + 1;
+                    int y = (int)Mathf.Abs((Position + v1).y - (other.Position + v2).y) + 1;
                     if (x + y == 1)// one must be 0 and the other 1
                     {
                         minDistance = Vector2Int.zero;
@@ -386,7 +389,7 @@ namespace LevelBuildingSidekick.Blueprint
         public void CalculateSurface()
         {
             Surface = new int[Bounds.x, Bounds.y];
-            foreach(Vector2Int v in TilePositions)
+            foreach(Tile v in Tiles)
             {
                 Surface[v.x, v.y] = 1;
             }
@@ -436,130 +439,190 @@ namespace LevelBuildingSidekick.Blueprint
 
         public Vector2Int OuterTile(Vector2 direction)
         {
-            var c = Center;
+            var c = new Tile(Center);
             float m = direction.y / direction.x;
             int x = 1;
             var outerTile = c;
             
-            while(TilePositions.Contains(outerTile))
+            while(Tiles.Contains(outerTile))
             {
                 outerTile = c + new Vector2Int(x, (int)(x * m));
                 x++;
             }
-            return outerTile;
+            return outerTile.vector;
         }
-
-        public List<Tuple<Vector2Int,Vector2Int>> GetCorners()
+        public void CategorizeTile(Tile t)
         {
-            List<Tuple<Vector2Int, Vector2Int>> walls = new List<Tuple<Vector2Int, Vector2Int>>();
-            CalculateSurface();
-            Vector2Int start = Vector2Int.zero;
-            for(int i = 0; i < Surface.GetLength(0); i++)
+            Vector2Int[] sidedirs = { Vector2Int.right, Vector2Int.up, Vector2Int.left, Vector2Int.down };
+            Vector2Int[] diagdirs = { Vector2Int.right + Vector2Int.up, Vector2Int.up + Vector2Int.left, Vector2Int.left + Vector2Int.down, Vector2Int.down + Vector2Int.right };
+
+            int s = 0;
+            int d = 0;
+            for (int i = 0; i < 4; i++)
             {
-                if(Surface[i,0] != 0)
+                //revisar laterales para saber si es esquina externa
+                if (Tiles.Contains(t + sidedirs[i]))
                 {
-                    start.x = i;
-                    break;
+                    s += Mathf.RoundToInt(Mathf.Pow(2, i));
+                }
+                //revisar diagonales para saber si es esquina interna
+                if (Tiles.Contains(t + diagdirs[i]))
+                {
+                    d += Mathf.RoundToInt(Mathf.Pow(2, i));
                 }
             }
-
-            var current = start;
-            var wallStart = start;
-            Vector2Int[] dirs = { Vector2Int.right, Vector2Int.down, Vector2Int.left, Vector2Int.up }; // follow this order cuz we start at the top and moving in x > 0
-            int dir = 0;
-            do
+            t.SetSides(s);
+            t.SetDiagonals(d);
+        }
+        public void CategorizeTiles()
+        {
+            foreach (Tile t in Tiles)
             {
-                var aux = current + dirs[dir];
-                if(aux.x >= Surface.GetLength(0) || aux.x < 0 || aux.y >= Surface.GetLength(1) || aux.y < 0 ||
-                    Surface[aux.x, aux.y] != 0)
+                CategorizeTile(t);
+            }
+        }
+        public List<Tile> GetCorners()
+        {
+            List<Tile> corners = new List<Tile>();
+            if(Tiles.Count == 1)
+            {
+                corners.Add(Tile.zero);
+                return corners;
+            }
+            foreach (Tile t in Tiles)
+            {
+                //s = 3,6,9,12 are corners, 15 is a single Tile, 7,11,13,14 are tile with 3 free sides
+                //s = 0 means inner Tile
+                if(t.sideCode != 0)
                 {
-                    var border1 = aux + dirs[(dir + 1) % dirs.Length];
-                    var border2 = aux + dirs[(dir + 3) % dirs.Length];
-                    if(border1.x >= Surface.GetLength(0) || border1.x < 0 || border1.y >= Surface.GetLength(1) || border1.y < 0 ||
-                        border2.x >= Surface.GetLength(0) || border2.x < 0 || border2.y >= Surface.GetLength(1) || border2.y < 0 ||
-                        Surface[border1.x, border1.y] == 0 || Surface[border2.x, border2.y] == 0)
+                    if (t.sideCode % 3 == 0 || t.sideCode == 7 || t.sideCode == 11 || t.sideCode == 13 || t.sideCode == 14)
                     {
-                        current = aux;
+                        corners.Add(t);
+                    }  
+                }//d = 1,2,4,8 are inner corners 7,11,13,14 are inner corners wiht a free side ; d = 0 inner Tile
+                else if (t.diagCode != 0 && (Mathf.IsPowerOfTwo(t.diagCode) || t.diagCode == 7 || t.diagCode == 11 || t.diagCode == 13 || t.diagCode == 14))
+                {
+                    corners.Add(t);
+                }
+            }
+            return corners;
+        }
+        public List<Tuple<Tile,Tile>> GetWallCorners()
+        {
+            List<Tuple<Tile, Tile>> walls = new List<Tuple<Tile, Tile>>();
+            var corners = GetCorners();
+            Vector2Int[] dirs = { Vector2Int.right, Vector2Int.up, Vector2Int.left, Vector2Int.down };
+            foreach (Tile t in corners)
+            {
+                //inner corners don't connect between them so its safe to only start with external corners
+                if(t.sideCode <= 0)
+                {
+                    continue;
+                }
+                foreach(Vector2Int v in dirs)
+                {
+                    //3 sided corner
+                    if (t.sideCode == 7 || t.sideCode == 11 || t.sideCode == 13 || t.sideCode == 14)
+                    {
+                        walls.Add(new Tuple<Tile, Tile>(t, t));
                         continue;
                     }
-                    //Concave wall?;
+                    //2 Sided corners search for other corner
+                    var step = t;
+                    while(true)
+                    {
+                        step += v;
+                        //must find other corner before exiting bounds
+                        if(!Tiles.Contains(step))
+                        {
+                            //Debug.LogWarning("Should've found corner");
+                            break;
+                        }
+                        if(corners.Contains(step))
+                        {
+                            //if external add wall
+                            step = corners.Find((c) => c == step);
+                            if(step.sideCode > 0) //external corner
+                            {
+                                walls.Add(new Tuple<Tile, Tile>(t, step));
+                                break;
+                            }
+                            //if internal wall is 1 tile shorter
+                            else //internal corner
+                            {
+                                walls.Add(new Tuple<Tile, Tile>(t, step-v));
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            return walls;
+        }
+        public List<List<Tile>> GetWalls()
+        {
+            List<List<Tile>> walls = new List<List<Tile>>();
+            var wallCorners = GetWallCorners();
+            foreach(Tuple<Tile,Tile> t in wallCorners)
+            {
+                var l = new List<Tile>();
+                if(t.Item1 == t.Item2)
+                {
+                    l.Add(t.Item1);
+                    walls.Add(l);
+                    continue;
+                }
+                if(t.Item1.x == t.Item2.x)
+                {
+                    if(t.Item1.y < t.Item2.y)
+                    {
+                        for(int i = 0; i <= t.Item2.y - t.Item1.y; i++)
+                        {
+                            l.Add(t.Item1 + Vector2Int.up * i);
+                        }
+                    }
                     else
                     {
-                        walls.Add(new Tuple<Vector2Int, Vector2Int>(wallStart, current));
-
-                        var n = aux + dirs[(dir + 1) % dirs.Length];
-                        var nborder1 = n + dirs[(dir + 2) % dirs.Length];//dir+1 + 1
-                        var nborder2 = n + dirs[(dir + 4) % dirs.Length];//dir+3 + 1
-                        if (nborder1.x >= Surface.GetLength(0) || nborder1.x < 0 || nborder1.y >= Surface.GetLength(1) || nborder1.y < 0 ||
-                            nborder2.x >= Surface.GetLength(0) || nborder2.x < 0 || nborder2.y >= Surface.GetLength(1) || nborder2.y < 0 ||
-                            Surface[nborder1.x, nborder1.y] == 0 || Surface[nborder2.x, nborder2.y] == 0)
+                        for (int i = 0; i <= t.Item1.x - t.Item2.x; i++)
                         {
-                            current = n;
-                            wallStart = n;
-                            continue;
+                            l.Add(t.Item2 + Vector2Int.up * i);
                         }
-                        n = aux + dirs[(dir + 3) % dirs.Length];
-                        nborder1 = n + dirs[(dir + 4) % dirs.Length];//dir+1 + 3 => could be the same as above
-                        nborder2 = n + dirs[(dir + 6) % dirs.Length];//dir+3 + 3 => could be the same as above
-                        if (nborder1.x >= Surface.GetLength(0) || nborder1.x < 0 || nborder1.y >= Surface.GetLength(1) || nborder1.y < 0 ||
-                            nborder2.x >= Surface.GetLength(0) || nborder2.x < 0 || nborder2.y >= Surface.GetLength(1) || nborder2.y < 0 ||
-                            Surface[nborder1.x, nborder1.y] == 0 || Surface[nborder2.x, nborder2.y] == 0)
-                        {
-                            current = n;
-                            wallStart = n;
-                            continue;
-                        }
-
-                        Debug.LogError("Missing case");
-                        return walls;
                     }
+                    walls.Add(l);
                 }
                 else
                 {
-                    //make wall
-                    walls.Add(new Tuple<Vector2Int, Vector2Int>(wallStart, current));
-                    wallStart = current;
-                    dir = (dir + 1) % dirs.Length;
+                    if (t.Item1.x < t.Item2.x)
+                    {
+                        for (int i = 0; i <= t.Item2.x - t.Item2.x; i++)
+                        {
+                            l.Add(t.Item1 + Vector2Int.right * i);
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i <= t.Item1.x - t.Item2.x; i++)
+                        {
+                            l.Add(t.Item2 + Vector2Int.right * i);
+                        }
+                    }
+                    walls.Add(l);
                 }
-                current = aux;
             }
-            while (current != start || walls.Count < 4);
-
             return walls;
         }
 
-        public List<List<Vector2Int>> GetWalls()
+        public List<Tile> GetWallTiles()
         {
-            List<List<Vector2Int>> walls = new List<List<Vector2Int>>();
-            var corners = GetCorners();
-            foreach (Tuple<Vector2Int, Vector2Int> t in corners)
+            List<Tile> wallTiles = new List<Tile>();
+            foreach (Tile t in Tiles)
             {
-                walls.Add(new List<Vector2Int>());
-            }
-            for(int i = 0; i < corners.Count; i++)
-            {
-                if(corners[i].Item1.x == corners[i].Item2.x)
+                if(Mathf.IsPowerOfTwo(t.sideCode) || t.sideCode%5 == 0)
                 {
-                    int x = corners[i].Item1.x;
-                    int y1 = corners[i].Item1.y < corners[i].Item2.y ? corners[i].Item1.y : corners[i].Item2.y;
-                    int y2 = corners[i].Item1.y > corners[i].Item2.y ? corners[i].Item1.y : corners[i].Item2.y;
-                    for(int j = y1; j <= y2; j++)
-                    {
-                        walls[i].Add(new Vector2Int(x, j));
-                    }
-                }
-                else
-                {
-                    int y = corners[i].Item1.y;
-                    int x1 = corners[i].Item1.x < corners[i].Item2.x ? corners[i].Item1.x : corners[i].Item2.x;
-                    int x2 = corners[i].Item1.x > corners[i].Item2.x ? corners[i].Item1.x : corners[i].Item2.x;
-                    for (int j = x1; j <= x2; j++)
-                    {
-                        walls[i].Add(new Vector2Int(j, y));
-                    }
+                    wallTiles.Add(t);
                 }
             }
-            return walls;
+            return wallTiles;
         }
     }
 
