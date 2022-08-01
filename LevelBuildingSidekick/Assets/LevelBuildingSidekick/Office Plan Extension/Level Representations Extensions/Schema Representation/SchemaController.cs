@@ -5,7 +5,7 @@ using UnityEngine;
 using System.Linq;
 using System;
 
-namespace LevelBuildingSidekick.Blueprint
+namespace LevelBuildingSidekick.Schema
 {
     public class SchemaController : LevelRepresentationController
     {
@@ -112,7 +112,6 @@ namespace LevelBuildingSidekick.Blueprint
             }
             return r as RoomController;
         }
-
         public bool AddRoom(RoomController room)
         {
             if (!_Rooms.Contains(room))
@@ -146,9 +145,9 @@ namespace LevelBuildingSidekick.Blueprint
             }
             return false;
         }
-        public bool GetCollisions(RoomController room, out HashSet<Vector2Int> collisions)
+        public bool GetCollisions(RoomController room, out HashSet<Tile> collisions)
         {
-            collisions = new HashSet<Vector2Int>();
+            collisions = new HashSet<Tile>();
 
             foreach(RoomController r in Rooms)
             {
@@ -156,7 +155,7 @@ namespace LevelBuildingSidekick.Blueprint
                 {
                     continue;
                 }
-                room.CheckCollision(r, out HashSet<Vector2Int> c);
+                room.CheckCollision(r, out HashSet<Tile> c);
                 var positions = c.ToList();
                 for(int i = 0; i < positions.Count; i++)
                 {
@@ -222,7 +221,7 @@ namespace LevelBuildingSidekick.Blueprint
                 {
                     continue;
                 }
-                if(room.CheckCollision(r, out HashSet<Vector2Int> positions))
+                if(room.CheckCollision(r, out HashSet<Tile> positions))
                 {
                     var xList = positions.AsEnumerable().OrderBy((v) => v.x);
                     var yList = positions.AsEnumerable().OrderBy((v) => v.y);
@@ -244,7 +243,7 @@ namespace LevelBuildingSidekick.Blueprint
             }
             return collisionPush;
         }
-        public int[,] ToTileMap()
+        public int[,] Tomatrix()
         {
             int x1 = Rooms.Select((r) => r.Position).Min((p) => p.x);
             int y1 = Rooms.Select((r) => r.Position).Min((p) => p.y);
@@ -259,19 +258,20 @@ namespace LevelBuildingSidekick.Blueprint
 
             foreach(RoomController room in Rooms)
             {
-                int x = room.Position.x + room.TilePositions.Max((p) => p.x);
-                int y = room.Position.y + room.TilePositions.Max((p) => p.y);
+                int x = room.Position.x + room.Tiles.Max((p) => p.x);
+                int y = room.Position.y + room.Tiles.Max((p) => p.y);
                 x2 = x > x2 ? x : x2;
                 y2 = y > y2 ? y : y2;
             }
+            Debug.Log("W: " + x2 + " - H: " + y2);
             _TileMap = new int[x2+1, y2+1];
             //Debug.Log("Size: " + (x2 + 1) + " - " + (y2 + 1));
             foreach(RoomController r in Rooms)
             {
-                foreach(Vector2Int v in r.TilePositions)
+                foreach(Tile t in r.Tiles)
                 {
                     //Debug.Log("Pos: " + (r.Position.x + v.x) + " - " + (r.Position.y + v.y));
-                    _TileMap[r.Position.x + v.x, r.Position.y + v.y] = r.ID;
+                    _TileMap[r.Position.x + t.x, r.Position.y + t.y] = r.ID;
                 }
             }
 
@@ -288,21 +288,63 @@ namespace LevelBuildingSidekick.Blueprint
 
             return _TileMap;
         }
-        public bool IsLegal(Vector2Int position)
+        public void FromMatrix(int[,] matrix)
         {
             foreach(RoomController r in Rooms)
             {
-                if(r.TilePositions.Contains(position))
+                r.Tiles.Clear();
+            }
+            for(int i = 0; i < matrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                {
+                    if (matrix[i,j] != 0)
+                    {
+                        var r = Rooms.Find(r => r.ID == matrix[i, j]);
+                        if(r != null)
+                        {
+                            r.Tiles.Add(new Tile(i, j));
+                        }
+                        else
+                        {
+                            Debug.LogWarning("Room Does Not Exist");
+                        }
+                    }
+                }
+            }
+        }
+        public bool IsLegal(Vector2 position)
+        {
+            foreach(RoomController r in Rooms)
+            {
+                var t = new Tile((int)position.x - r.Position.x, (int)position.y - r.Position.y);
+                if (r.Tiles.Contains(t))
                 {
                     return false;
                 }
             }
+            //Debug.Log(position + " Don't exist");
+            return true;
+        }
+        public bool IsLegal(Vector2Int position, out RoomController room)
+        {
+            var t = new Tile(position);
+            foreach (RoomController r in Rooms)
+            {
+                if (r.Tiles.Contains(t))
+                {
+                    room = r;
+                    return false;
+                }
+            }
+            //Debug.Log(t + " Don't exist");
+            room = null;
             return true;
         }
         public Vector2Int CloserEmpty(RoomController room, Vector2 direction)
         {
             var pos = room.OuterTile(direction);
-            if(!IsLegal(pos))
+            if(!IsLegal(room.Position + pos))
             {
                 return CloserEmptyFrom(pos);
             }
@@ -334,335 +376,462 @@ namespace LevelBuildingSidekick.Blueprint
         }
         internal void SolveCollision(RoomController room)
         {
-            // do, while (room.CheckCollision)
-            var cols = new HashSet<Vector2Int>();
-            var center = room.Center;
-            foreach(RoomController r in Rooms)
+            //Debug.Log("Check Collisions of " + room.Label);
+            int tries = 20;
+            for (int i = 0; i < tries; i++)
             {
-                if(r != room)
+                // do, while (room.CheckCollision)
+                var cols = new HashSet<Vector2>();
+                var center = room.Center;
+                foreach (RoomController r in Rooms)
                 {
-                    room.CheckCollision(r, out HashSet<Vector2Int> collisions);
-                    foreach(Vector2Int v in collisions)
+                    if (r != room)
                     {
-                        cols.Add(center - v);
+                        room.CheckCollision(r, out HashSet<Tile> collisions);
+                        if(collisions.Count != 0)
+                        {
+                            Debug.Log("Try: " + i + " collides with " + r.Label);
+                            foreach (Tile v in collisions)
+                            {
+                                cols.Add(center - v);
+                            }
+                        }
                     }
                 }
+
+                if (cols.Count == 0)
+                {
+                    //Debug.Log("No collisions left");
+                    return;
+                }
+
+                var xmin = cols.Min((v) => v.x);
+                var xmax = cols.Max((v) => v.x);
+
+                var ymin = cols.Min((v) => v.y);
+                var ymax = cols.Max((v) => v.y);
+
+                bool xDeadlock = false;
+                bool yDeadlock = false;
+
+                if (xmin < 0 && xmax > 0)
+                {
+                    xDeadlock = true;
+                    Debug.Log("Complex collision in X");
+                }
+                if (ymin < 0 && ymax > 0)
+                {
+                    yDeadlock = true;
+                    Debug.Log("Complex collision in Y");
+                }
+
+                int x = 0;
+                if (xDeadlock)
+                {
+                    x = (int)(Mathf.Abs(xmax) < Mathf.Abs(xmin) ? xmax : xmin);
+                }
+                else
+                {
+                    x = (int)(Mathf.Abs(xmax) > Mathf.Abs(xmin) ? xmax : xmin);
+                }
+
+                int y = 0;
+                if (yDeadlock)
+                {
+                    y = (int)(Mathf.Abs(ymax) < Mathf.Abs(ymin) ? ymax : ymin);
+                }
+                else
+                {
+                    y = (int)(Mathf.Abs(ymax) > Mathf.Abs(ymin) ? ymax : ymin);
+                }
+
+                //x = x > 0 ? x - 1 : x + 1;
+                //y = y > 0 ? y - 1 : y + 1;
+                room.Position += new Vector2Int(x, y);
+
             }
-
-            if(cols.Count == 0)
-            {
-                return;
-            }
-
-            var xmin = cols.Min((v) => v.x);
-            var xmax = cols.Max((v) => v.x);
-
-            var ymin = cols.Min((v) => v.y);
-            var ymax = cols.Max((v) => v.y);
-
-            bool xDeadlock = false;
-            bool yDeadlock = false;
-
-            if (xmin < 0 && xmax > 0)
-            {
-                xDeadlock = true;
-                Debug.Log("Complex collision in X");
-            }
-            if(ymin < 0 && ymax > 0)
-            {
-                yDeadlock = true;
-                Debug.Log("Complex collision in Y");
-            }
-
-            int x = 0;
-            if (xDeadlock)
-            {
-                x = Mathf.Abs(xmax) < Mathf.Abs(xmin) ? xmax : xmin;
-            }
-            else
-            {
-                x = Mathf.Abs(xmax) > Mathf.Abs(xmin) ? xmax : xmin;
-            }
-
-            int y = 0;
-            if(yDeadlock)
-            {
-                y = Mathf.Abs(ymax) < Mathf.Abs(ymin) ? ymax : ymin;
-            }
-            else
-            {
-                y = Mathf.Abs(ymax) > Mathf.Abs(ymin) ? ymax : ymin;
-            }
-
-            //x = x > 0 ? x - 1 : x + 1;
-            //y = y > 0 ? y - 1 : y + 1;
-
-            room.Position += new Vector2Int(x, y);
-
-            //Not a good solution
-            SolveCollision(room);
         }
-
         internal void SolveAdjacencie(RoomController room)
         {
-            var neighbors = Rooms.Where((r) => room.NeighborsIDs.Contains(r.ID));
-            List<Vector2Int> distances = new List<Vector2Int>();
-
-            foreach (RoomController r in neighbors)
+            int tries = 20;
+            for (int i = 0; i < tries; i++)
             {
-                if (!room.IsAdjacent(r, out Vector2Int distance))
+                var neighbors = Rooms.Where((r) => room.NeighborsIDs.Contains(r.ID));
+                List<Vector2Int> distances = new List<Vector2Int>();
+
+                foreach (RoomController r in neighbors)
                 {
-                    distances.Add(distance);
+                    if (!room.IsAdjacent(r, out Vector2Int distance))
+                    {
+                        distances.Add(distance);
+                    }
                 }
-            }
 
-            if (distances.Count == 0)
-            {
-                return;
-            }
+                if (distances.Count == 0)
+                {
+                    return;
+                }
 
-            var xmin = distances.Min((v) => v.x);
-            var xmax = distances.Max((v) => v.x);
+                var xmin = distances.Min((v) => v.x);
+                var xmax = distances.Max((v) => v.x);
 
-            var ymin = distances.Min((v) => v.y);
-            var ymax = distances.Max((v) => v.y);
+                var ymin = distances.Min((v) => v.y);
+                var ymax = distances.Max((v) => v.y);
 
-            bool xDeadlock = false;
-            bool yDeadlock = false;
+                bool xDeadlock = false;
+                bool yDeadlock = false;
 
-            if (xmin < 0 && xmax > 0)
-            {
-                xDeadlock = true;
-                Debug.Log("Complex adjacency in X");
-            }
-            if (ymin < 0 && ymax > 0)
-            {
-                yDeadlock = true;
-                Debug.Log("Complex adjacency in Y");
-            }
+                if (xmin < 0 && xmax > 0)
+                {
+                    xDeadlock = true;
+                    Debug.Log("Complex adjacency in X");
+                }
+                if (ymin < 0 && ymax > 0)
+                {
+                    yDeadlock = true;
+                    Debug.Log("Complex adjacency in Y");
+                }
 
-            int x = 0;
-            int xe = 0;
-            if (xDeadlock)
-            {
-                x = Mathf.Abs(xmax) < Mathf.Abs(xmin) ? xmax : xmin;
-                xe = Mathf.Abs(xmax) > Mathf.Abs(xmin) ? xmax : xmin;
-            }
-            else
-            {
-                x = Mathf.Abs(xmax) > Mathf.Abs(xmin) ? xmax : xmin;
-                xe = Mathf.Abs(xmax) < Mathf.Abs(xmin) ? xmax : xmin;
-            }
+                int x = 0;
+                int xe = 0;
+                if (xDeadlock)
+                {
+                    x = Mathf.Abs(xmax) < Mathf.Abs(xmin) ? xmax : xmin;
+                    xe = Mathf.Abs(xmax) > Mathf.Abs(xmin) ? xmax : xmin;
+                }
+                else
+                {
+                    x = Mathf.Abs(xmax) > Mathf.Abs(xmin) ? xmax : xmin;
+                    xe = Mathf.Abs(xmax) < Mathf.Abs(xmin) ? xmax : xmin;
+                }
 
-            int y = 0;
-            int ye = 0;
-            if (yDeadlock)
-            {
-                y = Mathf.Abs(ymax) < Mathf.Abs(ymin) ? ymax : ymin;
-                ye = Mathf.Abs(ymax) > Mathf.Abs(ymin) ? ymax : ymin;
-            }
-            else
+                int y = 0;
+                int ye = 0;
+                if (yDeadlock)
+                {
+                    y = Mathf.Abs(ymax) < Mathf.Abs(ymin) ? ymax : ymin;
+                    ye = Mathf.Abs(ymax) > Mathf.Abs(ymin) ? ymax : ymin;
+                }
+                else
             {
                 y = Mathf.Abs(ymax) > Mathf.Abs(ymin) ? ymax : ymin;
                 ye = Mathf.Abs(ymax) < Mathf.Abs(ymin) ? ymax : ymin;
             }
+                int xi = x < 0 ? -1 : 1;
+                int yi = y < 0 ? -1 : 1;
+                //Move
+                bool xMove = x != 0;
+                bool yMove = y != 0;
+                bool xyMove = xMove && yMove;
 
-            int xi = x < 0 ? -1 : 1;
-            int yi = y < 0 ? -1 : 1;
-            //Move
-            bool xMove = x != 0;
-            bool yMove = y != 0;
-            bool xyMove = xMove && yMove;
+                var wallTiles = room.GetWalls().SelectMany(v => v);
 
-            var wallTiles = room.GetWalls().SelectMany(v => v);
+                foreach (Tile v in wallTiles)
+                {
+                    if (xMove && !IsLegal(Vector2Int.right * xi + room.Position + v))
+                    {
+                        xMove = false;
+                    }
+                    if (yMove && !IsLegal(Vector2Int.up * yi + room.Position + v))
+                    {
+                        yMove = false;
+                    }
+                    if (xyMove && !IsLegal(new Vector2Int(xi, yi) + room.Position + v))
+                    {
+                        xyMove = false;
+                    }
+                    if (!xMove && !yMove && !xyMove)
+                    {
+                        break;
+                    }
+                }
 
-            foreach (Vector2Int v in wallTiles)
-            {
-                if (xMove && !IsLegal(v + Vector2Int.right * xi + room.Position))
+                if (xyMove)
                 {
-                    xMove = false;
+                    room.Position += new Vector2Int(xi, yi);
                 }
-                if (yMove && !IsLegal(v + Vector2Int.up * yi + room.Position))
+                else if (xMove)
                 {
-                    yMove = false;
+                    room.Position += Vector2Int.right * xi;
                 }
-                if (xyMove && !IsLegal(v + new Vector2Int(xi, yi) + room.Position))
+                else if (yMove)
                 {
-                    xyMove = false;
+                    room.Position += Vector2Int.up * yi;
                 }
-                if (!xMove && !yMove && !xyMove)
+                else
                 {
                     break;
                 }
             }
 
-            if (xyMove)
-            {
-                room.Position += new Vector2Int(xi, yi);
-            }
-            else if (xMove)
-            {
-                room.Position += Vector2Int.right * xi;
-            }
-            else if (yMove)
-            {
-                room.Position += Vector2Int.up * yi;
-            }
-            else
-            {
-                return;
-            }
-
-            SolveAdjacencie(room);
-
             //Expand
+        }
+        public HashSet<Vector2Int> GetMatrixCorners(int[,] matrix)
+        {
+            Vector2Int[] sidedirs = { Vector2Int.right, Vector2Int.up, Vector2Int.left, Vector2Int.down };
+            Vector2Int[] diagdirs = { Vector2Int.right + Vector2Int.up, Vector2Int.up + Vector2Int.left, Vector2Int.left + Vector2Int.down, Vector2Int.down + Vector2Int.right };
 
+            HashSet<Vector2Int> corners = new HashSet<Vector2Int>();
+            for (int j = 0; j < matrix.GetLength(1); j++)
+            {
+                for (int i = 0; i < matrix.GetLength(0); i++)
+                {
+                    if (matrix[i, j] == 0)
+                    {
+                        continue;
+                    }
+                    int s = 0;
+                    for (int k = 0; k < sidedirs.Length; k++)
+                    {
+                        if (i + sidedirs[k].x >= 0 && i + sidedirs[k].x < matrix.GetLength(0) && j + sidedirs[k].y >= 0 && j + sidedirs[k].y < matrix.GetLength(1))
+                        {
+                            if (matrix[i, j] != matrix[i + sidedirs[k].x, j + sidedirs[k].y])
+                            {
+                                s += Mathf.RoundToInt(Mathf.Pow(2, k));
+                            }
+                        }
+                    }
+                    if (s != 0)
+                    {
+                        if (s % 3 == 0 || s == 7 || s == 11 || s == 13 || s == 14)
+                        {
+                            corners.Add(new Vector2Int(i, j));
+                            continue;
+                        }
+                    }
+                    for (int k = 0; k < diagdirs.Length; k++)
+                    {
+                        if (i + diagdirs[k].x >= 0 && i + diagdirs[k].x < matrix.GetLength(0) && j + diagdirs[k].y >= 0 && j + diagdirs[k].y < matrix.GetLength(1))
+                        {
+                            if (matrix[i, j] != matrix[i + diagdirs[k].x, j + diagdirs[k].y])
+                            {
+                                corners.Add(new Vector2Int(i + diagdirs[k].x, j));
+                                corners.Add(new Vector2Int(i, j + diagdirs[k].y));
+                            }
+                        }
+                    }
+                }
+            }
+            return corners;
+        }
+        public List<List<Vector2Int>> GetMatrixWalls(int[,] matrix)
+        {
+            Vector2Int[] sidedirs = { Vector2Int.right, Vector2Int.up, Vector2Int.left, Vector2Int.down };
+            List<List<Vector2Int>> walls = new List<List<Vector2Int>>();
+            var corners = GetMatrixCorners(matrix);
+            foreach(Vector2Int v in corners)
+            {
+                foreach(Vector2Int dir in sidedirs)
+                {
+                    List<Vector2Int> wall = new List<Vector2Int>();
+                    Vector2Int step = v;
+                    while (step.x >= 0 && step.x < matrix.GetLength(0) && step.y >= 0 && step.y < matrix.GetLength(1) &&
+                        matrix[v.x,v.y] == matrix[step.x, step.y])
+                    {
+                        wall.Add(step);
+                        if(corners.Contains(step))
+                        {
+                            walls.Add(wall);
+                            break;
+                        }
+                    }
+                }
+            }
+            return walls;
+        }
+        public List<int[,]> GetMatrixNeighbors(int[,] matrix)
+        {
+            var walls = GetMatrixWalls(matrix);
+            List<int[,]> neighbors = new List<int[,]>();
+            Vector2Int[] vDirs = { Vector2Int.up, Vector2Int.down };
+            Vector2Int[] hDirs = { Vector2Int.right, Vector2Int.left };
+            foreach (var wall in walls)
+            {
+                if(wall[0].x == wall[^1].x)
+                {
+                    for(int i = 0; i < vDirs.Length; i++)
+                    {
+                        foreach(var v in wall)
+                        {
+                            if(v.y + vDirs[i].y >= 0 && v.y + vDirs[i].y < matrix.GetLength(1))
+                            {
+                                matrix[v.x, v.y] = matrix[v.x + vDirs[i].x, v.y + vDirs[i].y];
+                                matrix[v.x + vDirs[i].x, v.y + vDirs[i].y] = matrix[v.x, v.y];
+                            }
+                            else
+                            {
+                                matrix[v.x, v.y] = 0; // SHOULD BE THE CLONE
+                            }
+                        }
+                    }
+                }
+                if(wall[0].y == wall[^1].y)
+                {
+                    for (int i = 0; i < hDirs.Length; i++)
+                    {
+
+                    }
+                }
+            }
+
+            return neighbors;
         }
 
-        public void SolveCollisions(RoomController room, HashSet<Vector2Int> collisions)
+        public List<List<Tile>> GetSemiWalls(RoomController room)
         {
-            var colX = collisions.OrderBy((v) => v.x).ToList();
-            var x1 = colX.First().x - (room.Position.x - 1);
-            var x2 = colX.Last().x - (room.Position.x - 1);
-            Vector2Int mov = Vector2Int.zero;
-
-
-            if(x1*x2 > 0)
+            HashSet<Tile> pseudoCorners = room.GetCorners().ToHashSet();
+            Vector2Int[] dirs = { Vector2Int.right, Vector2Int.up, Vector2Int.left, Vector2Int.down };
+            //find all tiles where the room touch other room corner and add them as pseudoCorners
+            foreach (RoomController r in Rooms)
             {
-                mov.x = Mathf.Abs(x1) > Mathf.Abs(x2) ? x1 : x2;
-            }
-            else if(x1 < 0)
-            {
-                mov.x = Mathf.Abs(x1) + 1;
-            }
-
-            var colY = collisions.OrderBy((v) => v.y).ToList();
-
-            if (!colX.First().Equals(colY.First()))
-            {
-                var y1 = colY.First().y - (room.Position.y - 1);
-                var y2 = colY.Last().y - (room.Position.y - 1);
-
-                if (y1 * y2 > 0)
-                {
-                    mov.y = Mathf.Abs(y1) > Mathf.Abs(y2) ? y1 : y2;
-                }
-                else if (y1 < 0)
-                {
-                    mov.y = Mathf.Abs(y1) + 1;
-                }
-            }
-            
-
-            room.Position += mov;
-
-            GetCollisions(room, out collisions);
-
-            foreach(Vector2Int v in collisions)
-            {
-                if(room.TilePositions.Contains(v))
-                {
-                    room.TilePositions.Remove(v);
-                }
-            }
-
-        }
-        public void SolveAdjacencies(RoomController room, HashSet<int> IDs)
-        {
-            if(IDs.Count == 0)
-            {
-                return;
-            }
-
-            Vector2Int center = Vector2Int.zero;
-            foreach (int id in IDs)
-            {
-                var r = Rooms.Find((r) => r.ID == id);
-                center += r.Centroid;
-            }
-            center /= IDs.Count;
-
-            var distance = room.Centroid - center;
-
-
-
-                //Debug.Log(IDs.Count);
-            /*Vector2Int distance = Vector2Int.zero;
-            int rooms = 0;
-            foreach(int id in IDs)
-            {
-                var r = Rooms.Find((r) => r.ID == id);
-                if(r == null)
+                if(room == r)
                 {
                     continue;
                 }
-                if(!room.IsAdjacent(r, out Vector2Int dist))
+                var corners = r.GetCorners().Where(t => t.sideCode != 0);
+                foreach(Tile t in corners)
                 {
-                    rooms++;
-                    distance += dist;
+                    foreach(Vector2Int dir in dirs)
+                    {
+                        if (room.Tiles.TryGetValue(t + r.Position + dir - room.Position, out Tile tile))
+                        {
+                            pseudoCorners.Add(tile);
+                        }
+                    }
                 }
-
             }
 
-            if(rooms == 0)
+            var semiWalls = room.GetWalls();
+            //Search and Add all walls created by pseudoCorners
+            foreach(Tile t in pseudoCorners)
             {
-                return;
+                foreach(Vector2Int dir in dirs)
+                {
+                    List<Tile> wall = new List<Tile>();
+                    while(true)
+                    {
+                        var moved = t + dir;
+                        if(!room.Tiles.Contains(moved))
+                        {
+                            break;
+                        }
+                        if(pseudoCorners.Contains(moved))
+                        {
+                            semiWalls.Add(wall);
+                            break;
+                        }
+                        wall.Add(moved);
+                    }
+                }
             }
-
-            distance /= rooms;
-            //Debug.Log("Move: " + distance);
-
-            //Vector2Int offset = new Vector2Int(distance.x < 0 ? 1 : -1, distance.y < 0 ? 1 : -1);
-
-            //Debug.Log(new Vector2Int(x, y));
-
-            //Translate(room, room.Position - distance / 2);
-            room.Position -= distance;// (distance + offset);
-
-
-            //Expand*/
-
+            return semiWalls;
         }
         public void Optimize()
         {
-            /*Utility.HillClimbing.Run(this, 
+            Utility.HillClimbing.Run((Data as SchemaData), 
                () => { return Utility.HillClimbing.NonSignificantEpochs > 10; },
-               GetNeighbors,
-               Evaluate);*/
+               GetNeighborsByWalls,
+               Evaluate);
         }
-        public List<SchemaData> GetNeighbors()
+        public List<SchemaData> GetNeighborsByWalls(SchemaData data)
         {
-            SchemaData schema = Data as SchemaData;
-            //SchemaData orignial = schema.Clone();
             List<SchemaData> neighbors = new List<SchemaData>();
 
             Vector2Int[] dirs = { Vector2Int.right, Vector2Int.up, Vector2Int.left, Vector2Int.down };
 
-            for(int i = 0; i < schema.rooms.Count; i++)
+            for(int i = 0; i < data.rooms.Count; i++)
             {
                 foreach(Vector2Int v in dirs)
                 {
-                    var s = schema.Clone();
+                    var s = data.Clone();
                     s.rooms[i].position += v;
                     neighbors.Add(s);
                 }
             }
 
+            for(int i = 0; i < data.rooms.Count; i++)
+            {
+                var s = data.Clone();
+                var controller = new SchemaController(s);
+                var r = controller.Rooms.Find(r => r.Label == data.rooms[i].room.label);
+                var walls = controller.GetSemiWalls(r);
+                foreach(List<Tile> wall in walls)
+                {
+                    if(wall.Count == 1)
+                    {
+                        foreach(Vector2Int dir in dirs)
+                        {
+                            foreach(Tile t in wall)
+                            {
+                                if (r.Tiles.Contains(t + dir))
+                                {
+                                    continue;
+                                }
+                                r.Tiles.Add(t + dir);
+                                if(!controller.IsLegal((t + dir).vector, out RoomController room))
+                                {
+                                    room.Tiles.Remove(t + dir + r.Position - room.Position);
+                                }
+                            }
+                        }
+                    }
+                    else if(wall[0].x == wall[1].x)
+                    {
+                        foreach (Tile t in wall)
+                        {
+                            
+                        }
+                    }
+                    else
+                    {
 
+                    }
+                }
+                
+            }
 
             return neighbors;
         }
-        public float Evaluate(SchemaController schema)
+        /*public List<SchemaData> GetNeighborsByTile(SchemaData data)
         {
+            List<SchemaData> neighbors = new List<SchemaData>();
+            Vector2Int[] dirs = { Vector2Int.right, Vector2Int.up, Vector2Int.left, Vector2Int.down };
+            for (int i = 0; i < data.rooms.Count; i++)
+            {
+                foreach (Tile t in data.rooms[i].tiles)
+                {
+                    foreach(Vector2Int dir in dirs)
+                    {
+                        var tile = t + data.rooms[i].position + dir;
+                        foreach (RoomData r2 in data.rooms)
+                        {
+                            if (data.rooms[i] == r2)
+                            {
+                                continue;
+                            }
+                            if (r2.tiles.Contains(t - r2.position))
+                            {
+
+                                break;
+                            }
+                        }
+                    }
+                    
+                }
+            }
+        }*/
+        public float Evaluate(SchemaData data)
+        {
+            SchemaController controller = new SchemaController(data);
             float score = 0;
-            foreach(RoomController r in schema.Rooms)
+            foreach(RoomController r in controller.Rooms)
             {
                 if(!r.FulfillConstraints(out float dist))
                 {
                     score++;
                 }
             }
-            return schema.Rooms.Count - score;
+            return controller.Rooms.Count - score;
         }
     }
 }
