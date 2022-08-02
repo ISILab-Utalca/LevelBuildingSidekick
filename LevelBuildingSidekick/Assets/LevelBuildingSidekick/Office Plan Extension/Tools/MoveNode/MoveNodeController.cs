@@ -8,6 +8,9 @@ public class MoveNodeController : ToolController
 {
     Vector2 lastPos;
     Vector2 currentPos;
+
+    private NodeController currentNode;
+
     public MoveNodeController(Data data, ToolkitController toolkit) : base(data, toolkit)
     {
         View = new MoveNodeView(this);
@@ -21,11 +24,12 @@ public class MoveNodeController : ToolController
         {
             return;
         }
-        if(!graph.SelectedNode.GetRect().Contains(Event.current.mousePosition))
-        {
-            //IsActive = false;
-            return;
-        }
+
+        //if(!graph.SelectedNode.GetRect().Contains(Event.current.mousePosition))
+        //{
+        //    return;
+        //}
+
         lastPos = currentPos;
         currentPos = Event.current.mousePosition;
         Vector2 delta = currentPos - lastPos;
@@ -36,10 +40,11 @@ public class MoveNodeController : ToolController
     {
         GraphController graph = level as GraphController;
 
-        NodeController n = graph.GetNodeAt(Event.current.mousePosition);
-        if (n != null)
+        //NodeController currentNode = graph.GetNodeAt(Event.current.mousePosition);
+        currentNode = graph.TrySelectAt(CurrentPos) as NodeController;
+        if (currentNode != null)
         {
-            graph.SelectedNode = n;
+            graph.SelectedNode = currentNode;
         }
     }
 
@@ -47,25 +52,24 @@ public class MoveNodeController : ToolController
     {
     }
 
+    public override void OnMouseDown(Vector2 position)
+    {
+        currentPos = position;
+        SelectNode(Toolkit.Level);        
+    }
+
+    public override void OnMouseDrag(Vector2 position)
+    {
+        Action(Toolkit.Level);
+    }
+
+    public override void OnMouseUp(Vector2 position)
+    {
+        currentNode = null;
+    }
+
     public override void Update()
     {
-        if (IsActive)
-        {
-            Event e = Event.current;
-            if (e.button == 0 && e.type.Equals(EventType.MouseDown))
-            {
-                currentPos = e.mousePosition;
-                SelectNode(Toolkit.Level);
-                //Debug.Log("Down");
-            }
-            if (e.button == 0 && e.type.Equals(EventType.MouseDrag))
-            {
-                Action(Toolkit.Level);
-            }
-            if (e.button == 0 && e.type.Equals(EventType.MouseUp))
-            {
-                //IsActive = false;
-            }
-        }
+
     }
 }
