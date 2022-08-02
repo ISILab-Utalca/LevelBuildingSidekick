@@ -7,7 +7,6 @@ using LevelBuildingSidekick.Graph;
 public class ConnectNodesController : ToolController
 {
     public Vector2 InitialPos { get; set; }
-    public Vector2 CurrentPos { get; set; }
 
     NodeController firstNode;
     public ConnectNodesController(Data data, ToolkitController toolkit) : base(data, toolkit)
@@ -44,17 +43,10 @@ public class ConnectNodesController : ToolController
             return;
         }
 
-        //EdgeData edge = ScriptableObject.CreateInstance<EdgeData>();
         EdgeData edge = new EdgeData();
         edge.node1 = firstNode.Data as NodeData;
         edge.node2 = n.Data as NodeData;
         graph.AddEdge(edge);
-        /*if (graph.AddEdge(edge))
-        {
-            firstNode.neighbors.Add(n);
-            n.neighbors.Add(firstNode);
-        }*/
-
 
         firstNode = null;
     }
@@ -63,41 +55,44 @@ public class ConnectNodesController : ToolController
     {
     }
 
-    void SelectNode(LevelRepresentationController level)
+    bool SelectNode(LevelRepresentationController level)
     {
         GraphController graph = level as GraphController;
 
         NodeController n = graph.GetNodeAt(Event.current.mousePosition);
         if (n == null)
         {
-            return;
+            return false;
         }
         graph.SelectedNode = n;
         firstNode = n;
         InitialPos = Event.current.mousePosition;
         CurrentPos = Event.current.mousePosition;
+        return true;
     }
 
     // Update is called once per frame
-    public override void Update()
+    public override void Update() 
     {
-        if(IsActive)
+
+    }
+
+    public override void OnMouseDown(Vector2 position)
+    {
+        if(SelectNode(Toolkit.Level))
         {
-            Event e = Event.current;
-            if (e.button == 0 && e.type.Equals(EventType.MouseDown))
-            {
-                SelectNode(Toolkit.Level);
-                //Debug.Log("Down");
-            }
-            if (e.button == 0 && e.type.Equals(EventType.MouseDrag))
-            {
-                CurrentPos = e.mousePosition;
-            }
-            if (e.button == 0 && e.type.Equals(EventType.MouseUp))
-            {
-                Action(Toolkit.Level);
-                IsActive = false;
-            }
+            (View as ConnectNodesView).ShowLine(true);
         }
+    }
+
+    public override void OnMouseUp(Vector2 position)
+    {
+        (View as ConnectNodesView).ShowLine(false);
+        Action(Toolkit.Level);
+    }
+
+    public override void OnMouseDrag(Vector2 position)
+    {
+        CurrentPos = position;
     }
 }
