@@ -6,8 +6,6 @@ using LevelBuildingSidekick.Graph;
 
 public class SelectGraphElementController : ToolController
 {
-    bool waiting;
-    //public static NodeController SelectedNode { get; set; }
     public SelectGraphElementController(Data data, ToolkitController toolkit) : base(data, toolkit)
     {
         View = new SelectGraphElementView(this);
@@ -16,11 +14,11 @@ public class SelectGraphElementController : ToolController
     public override void Action(LevelRepresentationController level)
     {
         GraphController graph = level as GraphController;
-
         if (graph == null)
         {
             return;
         } 
+
         var n = graph.GetNodeAt(Event.current.mousePosition);
         graph.SelectedNode = n;
         if (n == null)
@@ -33,18 +31,17 @@ public class SelectGraphElementController : ToolController
     {
     }
 
+    public override void OnMouseDown(Vector2 position)
+    {
+    }
+
+    public override void OnMouseUp(Vector2 position)
+    {
+        Action(Toolkit.Level);
+    }
+
     public override void Update()
     {
-        Event e = Event.current;
-        if (e.button == 0 && e.type.Equals(EventType.MouseDown))
-        {
-            //Debug.Log("Down");
-            waiting = true;
-        }
-        if (waiting && (e.button == 0 && e.type.Equals(EventType.MouseUp)))
-        {
-            Action(Toolkit.Level);
-            waiting = false;
-        }
+
     }
 }
