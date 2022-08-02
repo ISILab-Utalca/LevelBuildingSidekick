@@ -12,6 +12,12 @@ namespace LevelBuildingSidekick.Graph
 {
     public class GraphController : LevelRepresentationController
     {
+        // la var (edgeThreshold) esto yo lo pondria a como una variable estatica en 
+        // otro lado ya que solo se ocupa para seleccionar las edges,
+        // tal vez en la data de la herramienta seleccionar
+        // (tal vez parametrizado o incluso estatico en algun lado)
+        public float edgeThreshold = 10; 
+
         private HashSet<NodeController> _Nodes;
         public HashSet<NodeController> Nodes
         {
@@ -133,20 +139,23 @@ namespace LevelBuildingSidekick.Graph
             GraphToolkitOverlay.toolkit = Toolkit.View as ToolkitView;
         }
 
-        public void SelectAt(Vector2 position)
+        public Controller TrySelectAt(Vector2 position)
         {
             var selectedNode = GetNodeAt(position);
             if (selectedNode != null)
             {
                 SelectedNode = selectedNode;
-                return;
+                return selectedNode;
             }
 
             var selectedEdge = GetEdgeAt(position);
             if (selectedEdge != null)
             {
                 SelectedEdge = selectedEdge;
+                return selectedEdge;
             }
+
+            return null;
 
         }
 
@@ -254,14 +263,9 @@ namespace LevelBuildingSidekick.Graph
             foreach (EdgeController e in Edges)
             {
                 float dist = MathTools.PointToLineDistance(pos, e.Node1.GetAnchor(e.Node2.Centroid), e.Node2.GetAnchor(e.Node1.Centroid));
-                //Debug.Log("E: " + e + " - N1: " + e.Node1 + " - N2: " + e.Node2 + "D: " + dist);
-                if (dist < 30)//threshold should be parametrized
+                if (dist < edgeThreshold)
                 {
                     edges.Add(new Tuple<float, EdgeController>(dist,e));
-                }
-                else
-                {
-                    //  Debug.Log("Dist: " + dist);
                 }
             }
             if(edges.Count == 0)
@@ -275,6 +279,7 @@ namespace LevelBuildingSidekick.Graph
             }
             return tuple.Item2;
         }
+
         internal void RemoveNode(NodeController node)
         {
             for(int i = 0; i < Edges.Count; i++)
@@ -291,8 +296,8 @@ namespace LevelBuildingSidekick.Graph
             }
             GraphData d = Data as GraphData;
             d.nodes.Remove(node.Data as NodeData);
-
         }
+
         internal void RemoveEdge(EdgeController edge)
         {
             Edges.Remove(edge);
