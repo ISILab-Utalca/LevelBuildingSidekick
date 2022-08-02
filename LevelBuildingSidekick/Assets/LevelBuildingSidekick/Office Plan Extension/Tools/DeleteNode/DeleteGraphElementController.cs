@@ -14,20 +14,19 @@ public class DeleteGraphElementController : ToolController
     public override void Action(LevelRepresentationController level)
     {
         GraphController graph = level as GraphController;
-        if(graph.SelectedNode != null)
+
+        var currentNode = graph.GetNodeAt(CurrentPos);
+        if (currentNode != null)
         {
-            NodeController n = graph.SelectedNode;
-            //Debug.Log(graph.SelectedNode);
-            graph.RemoveNode(graph.SelectedNode);
-            //Object.DestroyImmediate(n.Data);
-            IsActive = false;
+            graph.RemoveNode(currentNode);
+            return;
         }
-        else if(graph.SelectedEdge != null)
+
+        var currentEdge = graph.GetEdgeAt(CurrentPos);
+        if (currentEdge != null)
         {
-            EdgeController e = graph.SelectedEdge;
-            graph.RemoveEdge(e);
-            //Object.DestroyImmediate(e.Data);
-            IsActive = false;
+            graph.RemoveEdge(currentEdge);
+            return;
         }
     }
 
@@ -38,9 +37,11 @@ public class DeleteGraphElementController : ToolController
 
     public override void Update()
     {
-        if (IsActive)
-        {
-            Action(Toolkit.Level);
-        }
+        
+    }
+
+    public override void OnMouseDown(Vector2 position)
+    {
+        Action(Toolkit.Level);
     }
 }
