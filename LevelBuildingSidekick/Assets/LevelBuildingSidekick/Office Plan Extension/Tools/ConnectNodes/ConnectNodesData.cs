@@ -7,5 +7,8 @@ using UnityEngine;
 //[CreateAssetMenu(menuName = "LevelBuildingSidekick/Tools/GraphTools/Connect Nodes")]
 public class ConnectNodesData : ToolData
 {
+    public float thikness = 2;
+
     public override Type ControllerType => typeof(ConnectNodesController);
+
 }
