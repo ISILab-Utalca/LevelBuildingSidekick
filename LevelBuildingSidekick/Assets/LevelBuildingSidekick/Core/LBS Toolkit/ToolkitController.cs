@@ -42,6 +42,7 @@ public class ToolkitController : Controller
     {
         foreach(ToolController t in Tools)
         {
+            t.InternalUpdate();
             t.Update();
         }
     }
