@@ -327,7 +327,7 @@ namespace LevelBuildingSidekick.OfficePlan
 
             if(Graph.Nodes.Count <= 0)
             {
-                Schema.Tomatrix();
+                Schema.ToMatrix();
                 return;
             }
 
@@ -375,7 +375,7 @@ namespace LevelBuildingSidekick.OfficePlan
             }
             //Hunt Adjacencies
 
-            Schema.Tomatrix();
+            Schema.ToMatrix();
         }
 
         //Fix to use centroids
