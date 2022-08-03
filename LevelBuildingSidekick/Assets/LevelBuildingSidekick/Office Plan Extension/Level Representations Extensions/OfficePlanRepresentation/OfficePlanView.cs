@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using LevelBuildingSidekick;
+using System.Threading;
 
 namespace LevelBuildingSidekick.OfficePlan
 {
     public class OfficePlanView : LevelRepresentationView
     {
         Vector2 scrollPos;
+        Thread t;
         public OfficePlanView(Controller controller) : base(controller)
         {
         }
@@ -67,6 +69,18 @@ namespace LevelBuildingSidekick.OfficePlan
                 if (GUILayout.Button("Generate 3D Map"))
                 {
                     controller.Generate3D();
+                }
+
+                if (GUILayout.Button("Optimize"))
+                {
+                    t = new Thread(controller.Schema.Optimize);
+                    t.Start();
+                }
+                if(t != null && t.IsAlive)
+                {
+                    EditorGUILayout.Space();
+                    GUILayout.Label("Running Thread");
+                    EditorGUILayout.Space();
                 }
 
                 EditorGUILayout.Space();
