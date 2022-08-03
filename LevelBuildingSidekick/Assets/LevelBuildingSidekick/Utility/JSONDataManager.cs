@@ -29,7 +29,7 @@ namespace Utility
             string json = reader.ReadToEnd();
             
             //T data = JsonUtility.FromJson<T>(json);
-            var data = JsonConvert.DeserializeObject<T>(json);
+            var data = JsonConvert.DeserializeObject<T>(json, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto });
 
             if (data == null)
             {
