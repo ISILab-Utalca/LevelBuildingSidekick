@@ -13,7 +13,7 @@ namespace Utility
         {
             //Debug.Log("Saving: " + data);
             string dataPath = Application.persistentDataPath + '/' + path + ".json";
-            var jsonString = JsonConvert.SerializeObject(data, Formatting.None);
+            var jsonString = JsonConvert.SerializeObject(data, Formatting.None, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto });
             //string json = JsonUtility.ToJson(data);
             using StreamWriter writer = new StreamWriter(dataPath);
             writer.Write(jsonString);
