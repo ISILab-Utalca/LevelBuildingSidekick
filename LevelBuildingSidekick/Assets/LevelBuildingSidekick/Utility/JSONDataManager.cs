@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace Utility
 {
@@ -12,9 +13,11 @@ namespace Utility
         {
             //Debug.Log("Saving: " + data);
             string dataPath = Application.persistentDataPath + '/' + path + ".json";
-            string json = JsonUtility.ToJson(data);
+            var jsonString = JsonConvert.SerializeObject(data, Formatting.None);
+            //string json = JsonUtility.ToJson(data);
             using StreamWriter writer = new StreamWriter(dataPath);
-            writer.Write(json);
+            writer.Write(jsonString);
+            //writer.Write(json);
         }
 
         public static T LoadData<T>(string path)
@@ -24,8 +27,9 @@ namespace Utility
 
             //Debug.Log("Loading: " + dataPath);
             string json = reader.ReadToEnd();
-
-            T data = JsonUtility.FromJson<T>(json);
+            
+            //T data = JsonUtility.FromJson<T>(json);
+            var data = JsonConvert.DeserializeObject<T>(json);
 
             if (data == null)
             {
