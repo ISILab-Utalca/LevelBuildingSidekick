@@ -243,7 +243,7 @@ namespace LevelBuildingSidekick.Schema
             }
             return collisionPush;
         }
-        public int[,] Tomatrix()
+        public int[,] ToMatrix()
         {
             int x1 = Rooms.Select((r) => r.Position).Min((p) => p.x);
             int y1 = Rooms.Select((r) => r.Position).Min((p) => p.y);
@@ -263,7 +263,7 @@ namespace LevelBuildingSidekick.Schema
                 x2 = x > x2 ? x : x2;
                 y2 = y > y2 ? y : y2;
             }
-            Debug.Log("W: " + x2 + " - H: " + y2);
+            //Debug.Log("W: " + x2 + " - H: " + y2);
             _TileMap = new int[x2+1, y2+1];
             //Debug.Log("Size: " + (x2 + 1) + " - " + (y2 + 1));
             foreach(RoomController r in Rooms)
@@ -284,7 +284,7 @@ namespace LevelBuildingSidekick.Schema
                 }
                 s += "\n";
             }
-            Debug.Log(s);
+            //Debug.Log(s);
 
             return _TileMap;
         }
@@ -390,7 +390,7 @@ namespace LevelBuildingSidekick.Schema
                         room.CheckCollision(r, out HashSet<Tile> collisions);
                         if(collisions.Count != 0)
                         {
-                            Debug.Log("Try: " + i + " collides with " + r.Label);
+                            //Debug.Log("Try: " + i + " collides with " + r.Label);
                             foreach (Tile v in collisions)
                             {
                                 cols.Add(center - v);
@@ -417,12 +417,12 @@ namespace LevelBuildingSidekick.Schema
                 if (xmin < 0 && xmax > 0)
                 {
                     xDeadlock = true;
-                    Debug.Log("Complex collision in X");
+                    //Debug.Log("Complex collision in X");
                 }
                 if (ymin < 0 && ymax > 0)
                 {
                     yDeadlock = true;
-                    Debug.Log("Complex collision in Y");
+                    //Debug.Log("Complex collision in Y");
                 }
 
                 int x = 0;
@@ -484,12 +484,12 @@ namespace LevelBuildingSidekick.Schema
                 if (xmin < 0 && xmax > 0)
                 {
                     xDeadlock = true;
-                    Debug.Log("Complex adjacency in X");
+                    //Debug.Log("Complex adjacency in X");
                 }
                 if (ymin < 0 && ymax > 0)
                 {
                     yDeadlock = true;
-                    Debug.Log("Complex adjacency in Y");
+                    //Debug.Log("Complex adjacency in Y");
                 }
 
                 int x = 0;
@@ -583,12 +583,10 @@ namespace LevelBuildingSidekick.Schema
                     int s = 0;
                     for (int k = 0; k < sidedirs.Length; k++)
                     {
-                        if (i + sidedirs[k].x >= 0 && i + sidedirs[k].x < matrix.GetLength(0) && j + sidedirs[k].y >= 0 && j + sidedirs[k].y < matrix.GetLength(1))
+                        if (!(i + sidedirs[k].x >= 0 && i + sidedirs[k].x < matrix.GetLength(0) && j + sidedirs[k].y >= 0 && j + sidedirs[k].y < matrix.GetLength(1))
+                            || matrix[i, j] != matrix[i + sidedirs[k].x, j + sidedirs[k].y])
                         {
-                            if (matrix[i, j] != matrix[i + sidedirs[k].x, j + sidedirs[k].y])
-                            {
                                 s += Mathf.RoundToInt(Mathf.Pow(2, k));
-                            }
                         }
                     }
                     if (s != 0)
@@ -596,18 +594,16 @@ namespace LevelBuildingSidekick.Schema
                         if (s % 3 == 0 || s == 7 || s == 11 || s == 13 || s == 14)
                         {
                             corners.Add(new Vector2Int(i, j));
-                            continue;
                         }
+                        continue;
                     }
                     for (int k = 0; k < diagdirs.Length; k++)
                     {
-                        if (i + diagdirs[k].x >= 0 && i + diagdirs[k].x < matrix.GetLength(0) && j + diagdirs[k].y >= 0 && j + diagdirs[k].y < matrix.GetLength(1))
+                        if (!(i + diagdirs[k].x >= 0 && i + diagdirs[k].x < matrix.GetLength(0) && j + diagdirs[k].y >= 0 && j + diagdirs[k].y < matrix.GetLength(1))
+                            || (matrix[i, j] != matrix[i + diagdirs[k].x, j + diagdirs[k].y]))
                         {
-                            if (matrix[i, j] != matrix[i + diagdirs[k].x, j + diagdirs[k].y])
-                            {
                                 corners.Add(new Vector2Int(i + diagdirs[k].x, j));
                                 corners.Add(new Vector2Int(i, j + diagdirs[k].y));
-                            }
                         }
                     }
                 }
@@ -619,16 +615,25 @@ namespace LevelBuildingSidekick.Schema
             Vector2Int[] sidedirs = { Vector2Int.right, Vector2Int.up, Vector2Int.left, Vector2Int.down };
             List<List<Vector2Int>> walls = new List<List<Vector2Int>>();
             var corners = GetMatrixCorners(matrix);
+            HashSet<Vector2Int> visited = new HashSet<Vector2Int>();
+            //Debug.Log("Corners: " + corners.Count);
             foreach(Vector2Int v in corners)
             {
-                foreach(Vector2Int dir in sidedirs)
+                int tries = 0;
+                foreach (Vector2Int dir in sidedirs)
                 {
                     List<Vector2Int> wall = new List<Vector2Int>();
                     Vector2Int step = v;
-                    while (step.x >= 0 && step.x < matrix.GetLength(0) && step.y >= 0 && step.y < matrix.GetLength(1) &&
-                        matrix[v.x,v.y] == matrix[step.x, step.y])
+                    while (step.x + dir.x >= 0 && step.x + dir.x < matrix.GetLength(0) && step.y + dir.y >= 0 && step.y + dir.y < matrix.GetLength(1) &&
+                        matrix[v.x,v.y] == matrix[step.x + dir.x, step.y + dir.y])
                     {
+                        tries++;
+                        step += dir;
                         wall.Add(step);
+                        if(visited.Contains(step))
+                        {
+                            break;
+                        }
                         if(corners.Contains(step))
                         {
                             walls.Add(wall);
@@ -636,6 +641,14 @@ namespace LevelBuildingSidekick.Schema
                         }
                     }
                 }
+                if (tries == 0)
+                {
+                    List<Vector2Int> wall = new List<Vector2Int>();
+                    wall.Add(v);
+                    walls.Add(wall);
+                }
+                visited.Add(v);
+                //Debug.Log("Walls: " + walls.Count);
             }
             return walls;
         }
@@ -647,52 +660,57 @@ namespace LevelBuildingSidekick.Schema
             Vector2Int[] hDirs = { Vector2Int.right, Vector2Int.left };
             foreach (var wall in walls)
             {
-                if(wall[0].x == wall[^1].x)
+                if(wall[0].y == wall[^1].y)
                 {
                     for(int i = 0; i < vDirs.Length; i++)
                     {
                         if(wall[0].y + vDirs[i].y >= 0 && wall[0].y + vDirs[i].y < matrix.GetLength(1))
                         {
-                            var child1 = new int[matrix.GetLength(0),matrix.GetLength(1)];
-                            Array.Copy(matrix, child1, matrix.Length);
-                            var child2 = new int[matrix.GetLength(0), matrix.GetLength(1)];
-                            Array.Copy(matrix, child2, matrix.Length);
-                            foreach (var v in wall)
-                            {
-                                child1[v.x, v.y] = child1[v.x + vDirs[i].x, v.y + vDirs[i].y];
-                                child2[v.x + vDirs[i].x, v.y + vDirs[i].y] = child2[v.x, v.y];
-                            }
-                            neighbors.Add(child1);
-                            neighbors.Add(child2);
-                        }
-                        else
-                        {
-                            var child = new int[matrix.GetLength(0), matrix.GetLength(1)];
+                            var child = new int[matrix.GetLength(0),matrix.GetLength(1)];
                             Array.Copy(matrix, child, matrix.Length);
                             foreach (var v in wall)
                             {
-                                child[v.x, v.y] = 0; // SHOULD BE THE CLONE
+                                child[v.x + vDirs[i].x, v.y + vDirs[i].y] = child[v.x, v.y];
                             }
                             neighbors.Add(child);
                         }
                     }
                 }
-                if(wall[0].y == wall[^1].y)
+                if(wall[0].x == wall[^1].x)
                 {
                     for (int i = 0; i < hDirs.Length; i++)
                     {
+                        if (wall[0].x + hDirs[i].x >= 0 && wall[0].x + hDirs[i].x < matrix.GetLength(0))
+                        {
+                            var child = new int[matrix.GetLength(0), matrix.GetLength(1)];
+                            Array.Copy(matrix, child, matrix.Length);
+                            foreach (var v in wall)
+                            {
+                                try
+                                {
+                                    child[v.x + hDirs[i].x, v.y + hDirs[i].y] = child[v.x, v.y];
+                                    Debug.Log("V: " + v);
+                                }
+                                catch
+                                {
+                                    Debug.Log("matrix size: " + matrix.GetLength(0) + " - " + matrix.GetLength(1));
+                                    Debug.Log("Moved To: " +  (v.x + hDirs[i].x) + " - " + (v.y + hDirs[i].y));
+                                    Debug.Log("Moved From: " + (v.x) + " - " + (v.y));
 
+                                }
+                            }
+                            neighbors.Add(child);
+                        }
                     }
                 }
             }
-
+            Debug.Log("Neighbors: " + neighbors.Count);
             return neighbors;
         }
-
         public List<List<Tile>> GetSemiWalls(RoomController room)
         {
-            HashSet<Tile> pseudoCorners = room.GetCorners().ToHashSet();
-            Vector2Int[] dirs = { Vector2Int.right, Vector2Int.up, Vector2Int.left, Vector2Int.down };
+          
+            Vector2Int[] dirs = { Vector2Int.right, Vector2Int.up, Vector2Int.left, Vector2Int.down };  HashSet<Tile> pseudoCorners = room.GetCorners().ToHashSet();
             //find all tiles where the room touch other room corner and add them as pseudoCorners
             foreach (RoomController r in Rooms)
             {
@@ -740,10 +758,11 @@ namespace LevelBuildingSidekick.Schema
         }
         public void Optimize()
         {
-            Utility.HillClimbing.Run((Data as SchemaData), 
-               () => { return Utility.HillClimbing.NonSignificantEpochs > 10; },
-               GetNeighborsByWalls,
-               Evaluate);
+            var optimized = Utility.HillClimbing.Run(ToMatrix(), 
+                            () => { return Utility.HillClimbing.NonSignificantEpochs > 10; },
+                            GetMatrixNeighbors,
+                            EvaluateMatrix);
+            FromMatrix(optimized);
         }
         public List<SchemaData> GetNeighborsByWalls(SchemaData data)
         {
@@ -844,6 +863,151 @@ namespace LevelBuildingSidekick.Schema
                 }
             }
             return controller.Rooms.Count - score;
+        }
+
+        public float EvaluateMatrix(int[,] matrix)
+        {
+            float alfa = 0.84f;
+            float beta = 0.16f;
+            return EvaluateMatrixAdjacencies(matrix) * alfa + EvaluateMatrixAreas(matrix) * beta;
+        }
+
+        public float EvaluateMatrixAdjacencies(int[,] matrix)
+        {
+            float maxScore = 0;
+            float score = 0;
+            Vector2Int[] dirs = { Vector2Int.right, Vector2Int.up, Vector2Int.left, Vector2Int.down };
+            Dictionary<int, HashSet<int>> adjacencies = new Dictionary<int, HashSet<int>>();
+            for (int j = 0; j < matrix.GetLength(1); j++)
+            {
+                for (int i = 0; i < matrix.GetLength(0); i++)
+                {
+                    if (matrix[i, j] == 0)
+                    {
+                        continue;
+                    }
+                    var r = Rooms.Find(r => r.ID == matrix[i, j]);
+                    if (r == null)
+                    {
+                        Debug.LogWarning("Room Not Found");
+                        continue;
+                    }
+                    if (!adjacencies.ContainsKey(matrix[i, j]))
+                    {
+                        adjacencies.Add(matrix[i, j], new HashSet<int>());
+                    }
+                    foreach (var dir in dirs)
+                    {
+                        if(i + dir.x >= 0 && i + dir.x < matrix.GetLength(0) && j + dir.y >= 0 && j + dir.y < matrix.GetLength(1))
+                        {
+                            if (r.NeighborsIDs.Contains(matrix[i + dir.x, j + dir.y]))
+                            {
+                                adjacencies[matrix[i, j]].Add(matrix[i + dir.x, j + dir.y]);
+                            }
+                        }
+                        
+                    }
+                }
+                foreach (var r in Rooms)
+                {
+                    maxScore += r.NeighborsIDs.Count();
+                }
+                foreach (var pair in adjacencies)
+                {
+                    score += pair.Value.Count;
+                }
+            }
+            return maxScore > 0 ? score / maxScore : 0;
+        }
+
+        public float EvaluateMatrixAreas(int[,] matrix)
+        {
+            float score = 0;
+            //int[] length 5 -> minX, minY, maxX, maxY, number of tiles
+            Dictionary<int, int[]> areas = new Dictionary<int, int[]>();
+            for(int j = 0; j < matrix.GetLength(1); j++)
+            {
+                for(int i = 0; i < matrix.GetLength(0); i++)
+                {
+                    if(matrix[i,j] == 0)
+                    {
+                        continue;
+                    }
+                    var r = Rooms.Find(r => r.ID == matrix[i, j]);
+                    if (r == null)
+                    {
+                        Debug.LogWarning("Room Not Found in Rooms: " + matrix[i, j]);
+                        continue;
+                    }
+                    if (!areas.ContainsKey(matrix[i, j]))
+                    {
+                        areas.Add(matrix[i, j], new int[]{ i, j, i, j, 1});
+                    }
+                    //Update X values
+                    if (areas[matrix[i, j]][0] > i)
+                    {
+                        areas[matrix[i, j]][0] = i;
+                    }
+                    else if (areas[matrix[i, j]][2] < i)
+                    {
+                        areas[matrix[i, j]][2] = i;
+                    }
+                    //Update y values
+                    if (areas[matrix[i, j]][1] > j)
+                    {
+                        areas[matrix[i, j]][1] = j;
+                    }
+                    else if (areas[matrix[i, j]][3] < j)
+                    {
+                        areas[matrix[i, j]][3] = j;
+                    }
+                    areas[matrix[i, j]][4]++;
+                }
+            }
+
+            foreach(var r in Rooms)
+            {
+                if(!areas.ContainsKey(r.ID))
+                {
+                    Debug.LogWarning("Room Not Found in Matrix: " + r.ID);
+                    continue;
+                }
+                float distance = 0;
+                float da = 0;
+                float x = (areas[r.ID][2] - areas[r.ID][0]) + 1;
+                float y = (areas[r.ID][3] - areas[r.ID][1]) + 1;
+                if (r.ProportionType == ProportionType.RATIO)
+                {
+                    var expectedRatio = r.Ratio.x > r.Ratio.y ? (r.Ratio.x * 1.0f) / (r.Ratio.y * 1.0f) : (r.Ratio.y * 1.0f) / (r.Ratio.x * 1.0f);
+                    var actualRatio = r.Ratio.x > r.Ratio.y ? (x) / (y) : (y) / (x);
+                    distance = Mathf.Abs(expectedRatio - actualRatio);
+                    float a = areas[r.ID][4]/(r.Ratio.x*r.Ratio.y*1.0f);
+                    da = (a - (int)a);
+                }
+                else
+                {
+                    var dx = Mathf.Abs(x - r.WidthRange.x);
+                    dx = dx > Mathf.Abs(x - r.WidthRange.y) ? Mathf.Abs(x - r.WidthRange.y) : dx;
+                    var dy = Mathf.Abs(y - r.HeightRange.x);
+                    dy = dy > Mathf.Abs(y - r.HeightRange.y) ? Mathf.Abs(y - r.HeightRange.y) : dy;
+                    distance = (dx + dy) / 2;
+                    var minA = r.WidthRange.x * r.HeightRange.x;
+                    var maxA = r.WidthRange.y * r.HeightRange.y;
+                    var a = x * y;
+                    if(a < minA)
+                    {
+                        da = (minA - a) / minA;
+                    }
+                    else if(a > maxA)
+                    {
+                        da = (a - maxA) / a;
+                    }
+                }
+                float rscore = 1 - (distance*0.5f + da*0.5f);
+                score += rscore;
+            }
+
+            return (score/Rooms.Count);
         }
     }
 }
