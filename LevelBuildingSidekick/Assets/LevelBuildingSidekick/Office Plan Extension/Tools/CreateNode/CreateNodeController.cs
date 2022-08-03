@@ -6,7 +6,6 @@ using LevelBuildingSidekick.Graph;
 
 public class CreateNodeController : ToolController
 {
-    bool waiting;
     public CreateNodeController(Data data, ToolkitController toolkit) : base(data, toolkit)
     {
         View = new CreateNodeView(this);
@@ -15,7 +14,6 @@ public class CreateNodeController : ToolController
     public override void Switch()
     {
         base.Switch();
-        waiting = false;
     }
 
     public override void Action(LevelRepresentationController level)
@@ -51,13 +49,11 @@ public class CreateNodeController : ToolController
 
     public override void OnMouseDown(Vector2 position)
     {
-        waiting = true;
     }
 
     public override void OnMouseUp(Vector2 position)
     {
         Action(Toolkit.Level);
-        waiting = false;
     }
 
     public override void OnMouseDrag(Vector2 position)
