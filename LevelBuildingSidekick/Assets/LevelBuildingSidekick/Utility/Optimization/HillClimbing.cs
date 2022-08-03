@@ -35,6 +35,7 @@ namespace Utility
         }
         public static T Run<T>(T root, System.Func<bool> endCondition, System.Func<T, List<T>> GetNeighbors, System.Func<T, float> Evaluate)
         {
+            var r = new System.Random();
             score = 0;
             prevScore = score;
             T best = root;
@@ -43,21 +44,38 @@ namespace Utility
                 prevScore = score;
                 score = Evaluate(best);
                 List<T> candidates = GetNeighbors(best);
-                foreach (T candidate in candidates)
+                List<T> betters = new List<T>();
+                Debug.Log("Before: " + candidates.Count);
+                float higherScore = score;
+                for(int i = 0; i < candidates.Count; i++)
                 {
-                    float newScore = Evaluate(candidate);
-                    if (newScore > score)
+                    float newScore = Evaluate(candidates[i]);
+                    if (newScore > higherScore)
                     {
-                        best = candidate;
-                        score = newScore;
-                        nonSignificantEpochs = 0;
+                        betters.Clear();
+                        betters.Add(candidates[i]);
                     }
+                    else if(newScore == higherScore)
+                    {
+                        betters.Add(candidates[i]);
+                    }
+                    higherScore = higherScore < newScore ? newScore : higherScore;
                 }
-                if(score == prevScore)
+                if(higherScore <= score)
                 {
                     nonSignificantEpochs++;
                 }
-
+                else
+                {
+                    nonSignificantEpochs = 0;
+                }
+                if(betters.Count == 0)
+                {
+                    return best;
+                }
+                Debug.Log("After: " + betters.Count);
+                best = betters[r.Next(0, betters.Count - 1)];
+                Debug.Log("Score: " + score);
             }
             return best;
         }
