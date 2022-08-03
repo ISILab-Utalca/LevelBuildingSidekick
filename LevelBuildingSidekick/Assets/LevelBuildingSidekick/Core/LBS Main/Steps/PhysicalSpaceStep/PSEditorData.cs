@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Newtonsoft.Json;
 
 namespace LevelBuildingSidekick
 {
@@ -9,7 +10,7 @@ namespace LevelBuildingSidekick
     [System.Serializable]
     public class PSEditorData : Data
     {
-        public string WindowName;
+        [JsonIgnore] public string WindowName; // puede que esto ne sea necesario (?)
         public override Type ControllerType => typeof(PSEditorController);
 
         public LevelRepresentationData levelData = new OfficePlan.OfficePlanData();

@@ -29,7 +29,9 @@ public class CreateNodeController : ToolController
 
         var xPos = (int)(Event.current.mousePosition.x - node.radius); // node.radius/2f??
         var yPos = (int)(Event.current.mousePosition.y - node.radius); // node.radius/2f??
-        node.position = new Vector2Int(xPos, yPos);
+        node.x = xPos;
+        node.y = yPos;
+        //new Vector2Int(xPos, yPos);
         node.room = new LevelBuildingSidekick.Schema.RoomCharacteristics();
 
         int index = graph.Nodes.Count;

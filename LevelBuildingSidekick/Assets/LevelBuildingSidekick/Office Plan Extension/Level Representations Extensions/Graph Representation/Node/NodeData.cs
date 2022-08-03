@@ -5,6 +5,7 @@ using UnityEditorInternal;
 using LevelBuildingSidekick;
 using System;
 using LevelBuildingSidekick.Schema;
+using Newtonsoft.Json;
 
 namespace LevelBuildingSidekick.Graph
 {
@@ -13,9 +14,10 @@ namespace LevelBuildingSidekick.Graph
     public class NodeData : Data
     {
         public RoomCharacteristics room;
-        public Vector2Int position;
+        public int x;
+        public int y;
         public int radius;
-        public Texture2D sprite { get => Resources.Load("Textures/Circle") as Texture2D; } // -> static?
+        [JsonIgnore] public Texture2D sprite { get => Resources.Load("Textures/Circle") as Texture2D; } // -> static?
 
         public override Type ControllerType => typeof(NodeController);
 

@@ -28,6 +28,7 @@ namespace LevelBuildingSidekick.Graph
                 (Data as NodeData).room.neighbors = value.ToList();
             }
         }
+
         public int ID
         {
             get
@@ -43,13 +44,16 @@ namespace LevelBuildingSidekick.Graph
                 {
                     return Vector2Int.zero;
                 }
-                return (Data as NodeData).position;
+                var d = (Data as NodeData);
+                return new Vector2Int(d.x,d.y);
+                //return (Data as NodeData).position;
             }
             set
             {
                 if (value.x < 0) value.x = 0;
                 if (value.y < 0) value.y = 0;
-                (Data as NodeData).position = value;
+                (Data as NodeData).x = value.x;
+                (Data as NodeData).y = value.y;
             }
         }
         public int Radius
@@ -265,14 +269,12 @@ namespace LevelBuildingSidekick.Graph
 
         public Rect GetRect()
         {
-            NodeData d = Data as NodeData;
-            return new Rect(d.position, d.radius * 2 * Vector2.one);
+            return new Rect(Position, Radius * 2 * Vector2.one);
         }
 
         public void Translate(Vector2 delta)
         {
-            NodeData d = Data as NodeData;
-            d.position += new Vector2Int((int)delta.x,(int)delta.y);
+            Position += new Vector2Int((int)delta.x,(int)delta.y);
         }
         public void Translate(Vector2Int delta)
         {
