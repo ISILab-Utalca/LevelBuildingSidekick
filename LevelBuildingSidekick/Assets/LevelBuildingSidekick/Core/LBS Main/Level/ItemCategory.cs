@@ -8,7 +8,7 @@ namespace LevelBuildingSidekick
     public class ItemCategory
     {
         public string category;
-        public List<GameObject> items;
+        public List<GameObject> items; // cambiar a string (!!!)
 
         public ItemCategory(string _category, List<GameObject> _items)
         {

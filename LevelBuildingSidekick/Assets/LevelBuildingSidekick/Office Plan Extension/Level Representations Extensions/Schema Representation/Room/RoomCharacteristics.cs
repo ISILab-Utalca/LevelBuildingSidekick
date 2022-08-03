@@ -8,9 +8,12 @@ namespace LevelBuildingSidekick.Schema
     public class RoomCharacteristics
     {
         public string label;
-        public Vector2Int widthRange = Vector2Int.one;
-        public Vector2Int heightRange = Vector2Int.one;
-        public Vector2Int aspectRatio = Vector2Int.one;
+        public int minWidth = 1;
+        public int maxWidth = 1;
+        public int minHeight = 1;
+        public int maxHeight = 1;
+        public int xAspectRatio = 1;
+        public int yAspectRatio = 1;
         public ProportionType proportionType = ProportionType.RATIO;
         public List<int> neighbors;
 
@@ -19,6 +22,6 @@ namespace LevelBuildingSidekick.Schema
         public string[] prefabCategories = { "Walls", "Floors", "Doors"};
 
         [NonReorderable]
-        public HashSet<string> tags;
+        public HashSet<string> tags; // cambiar a una lista (!!!)
     }
 }

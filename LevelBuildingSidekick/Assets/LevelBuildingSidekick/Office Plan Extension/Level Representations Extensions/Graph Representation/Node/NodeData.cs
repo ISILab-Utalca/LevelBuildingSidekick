@@ -26,7 +26,6 @@ namespace LevelBuildingSidekick.Graph
 
 public enum ProportionType
 {
-    NONE,
     RATIO,
     SIZE
 }
