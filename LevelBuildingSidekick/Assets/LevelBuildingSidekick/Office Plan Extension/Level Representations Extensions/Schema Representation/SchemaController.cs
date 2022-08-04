@@ -45,12 +45,13 @@ namespace LevelBuildingSidekick.Schema
         {
             get
             {
-                return (Data as SchemaData).size;
+                return new Vector2Int((Data as SchemaData).width, (Data as SchemaData).height) ;
             }
             set
             {
-                (Data as SchemaData).size = value;
-                _TileMap = Utility.MathTools.ResizeArray<int>(TileMap, value.x, value.y);
+                (Data as SchemaData).width = value.x;
+                (Data as SchemaData).height = value.y;
+                //_TileMap = Utility.MathTools.ResizeArray<int>(TileMap, value.x, value.y);
             }
         }
         public int TileSize
@@ -101,7 +102,8 @@ namespace LevelBuildingSidekick.Schema
         {
             RoomData data = new RoomData();
             data.room = room;
-            data.position = position;
+            data.x = position.x;
+            data.y = position.y;
             var r = Activator.CreateInstance(data.ControllerType, new object[] { data });
             if(r is RoomController)
             {
@@ -799,7 +801,8 @@ namespace LevelBuildingSidekick.Schema
                 foreach(Vector2Int v in dirs)
                 {
                     var s = data.Clone();
-                    s.rooms[i].position += v;
+                    s.rooms[i].x += v.x;
+                    s.rooms[i].y += v.y;
                     neighbors.Add(s);
                 }
             }

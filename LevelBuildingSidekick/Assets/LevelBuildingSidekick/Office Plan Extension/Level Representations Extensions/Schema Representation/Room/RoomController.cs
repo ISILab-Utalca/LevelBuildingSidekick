@@ -18,11 +18,12 @@ namespace LevelBuildingSidekick.Schema
                     Debug.LogWarning("Room does not Exist");
                     return Vector2Int.zero;
                 }
-                return (Data as RoomData).position;
+                return new Vector2Int((Data as RoomData).x, (Data as RoomData).y);
             }
             set
             {
-                (Data as RoomData).position = value;
+                (Data as RoomData).x = value.x;
+                (Data as RoomData).y = value.y;
             }
         }
 

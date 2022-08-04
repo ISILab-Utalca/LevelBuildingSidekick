@@ -12,8 +12,8 @@ namespace LevelBuildingSidekick.Schema
     {
         //public int[,] tilemap;
         public int tileSize;
-        public int x;
-        public int y;
+        public int width;
+        public int height;
         public List<RoomData> rooms;
         //public Dictionary<int, HashSet<int>> connections;
 
@@ -24,8 +24,8 @@ namespace LevelBuildingSidekick.Schema
         {
             var schema = new SchemaData();
             schema.tileSize = tileSize;
-            schema.x = x;
-            schema.y = y;
+            schema.width = width;
+            schema.height = height;
             schema.rooms = new List<RoomData>();
             foreach(RoomData r in rooms)
             {
