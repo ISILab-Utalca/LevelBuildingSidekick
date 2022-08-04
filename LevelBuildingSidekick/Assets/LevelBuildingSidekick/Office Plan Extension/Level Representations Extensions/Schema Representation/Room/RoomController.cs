@@ -103,11 +103,12 @@ namespace LevelBuildingSidekick.Schema
                     Debug.LogWarning("Room does not Exist");
                     return Vector2Int.zero;
                 }
-                return (Data as RoomData).room.heightRange;
+                return new Vector2Int(Room.minHeight, Room.maxHeight);
             }
             set
             {
-                (Data as RoomData).room.heightRange = value;
+                Room.minHeight = value.x;
+                Room.maxHeight = value.y;
             }
         }
         public Vector2Int WidthRange
@@ -119,11 +120,12 @@ namespace LevelBuildingSidekick.Schema
                     Debug.LogWarning("Room does not Exist");
                     return Vector2Int.zero;
                 }
-                return (Data as RoomData).room.widthRange;
+                return new Vector2Int(Room.minWidth, Room.maxWidth);
             }
             set
             {
-                (Data as RoomData).room.widthRange = value;
+                Room.minWidth = value.x;
+                Room.maxWidth = value.y;
             }
         }
         public Vector2Int Ratio
@@ -135,11 +137,12 @@ namespace LevelBuildingSidekick.Schema
                     Debug.LogWarning("Room does not Exist");
                     return Vector2Int.zero;
                 }
-                return (Data as RoomData).room.aspectRatio;
+                return new Vector2Int(Room.xAspectRatio, Room.yAspectRatio);
             }
             set
             {
-                (Data as RoomData).room.aspectRatio = value;
+                Room.xAspectRatio = value.x;
+                Room.yAspectRatio = value.y;
             }
         }
         public ProportionType ProportionType
