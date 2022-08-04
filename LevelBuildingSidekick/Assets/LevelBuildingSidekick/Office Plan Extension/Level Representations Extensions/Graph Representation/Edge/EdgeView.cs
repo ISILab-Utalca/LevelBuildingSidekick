@@ -13,10 +13,9 @@ public class EdgeView : View
     public override void Draw2D()
     {
         EdgeController c = Controller as EdgeController;
-        EdgeData d = c.Data as EdgeData;
 
-        float r1 = d.node1.radius;
-        float r2 = d.node2.radius;
+        float r1 = c.Node1.Radius;
+        float r2 = c.Node2.Radius;
 
         Vector2 pos1 = c.Node1.GetAnchor(c.Node2.Centroid);
         Vector2 pos2 = c.Node2.GetAnchor(c.Node1.Centroid);
