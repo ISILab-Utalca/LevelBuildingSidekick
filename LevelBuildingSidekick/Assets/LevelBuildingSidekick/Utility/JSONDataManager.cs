@@ -33,7 +33,7 @@ namespace Utility
             {
                 Directory.CreateDirectory(directoryPath);
             }
-            string dataPath = directoryPath + '/' + fileName + ".json";
+            string dataPath = directoryPath + '/' + fileName;
             using StreamReader reader = new StreamReader(dataPath);
 
             //Debug.Log("Loading: " + dataPath);
