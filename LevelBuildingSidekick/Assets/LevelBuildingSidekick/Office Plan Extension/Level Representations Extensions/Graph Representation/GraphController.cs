@@ -114,7 +114,10 @@ namespace LevelBuildingSidekick.Graph
 
             foreach(NodeController node in Nodes)
             {
-                edges.Add(node.ID, new HashSet<int>());
+                if(!edges.ContainsKey(node.ID))
+                {
+                    edges.Add(node.ID, new HashSet<int>());
+                }
                 foreach(int id in node.NeighborsIDs)
                 {
                     edges[node.ID].Add(id);
