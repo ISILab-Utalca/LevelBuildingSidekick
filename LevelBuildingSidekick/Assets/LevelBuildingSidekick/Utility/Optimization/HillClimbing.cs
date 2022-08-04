@@ -37,6 +37,7 @@ namespace Utility
         {
             var r = new System.Random();
             score = 0;
+            nonSignificantEpochs = 0;
             prevScore = score;
             T best = root;
             while (endCondition?.Invoke() == false)
@@ -60,6 +61,8 @@ namespace Utility
                         betters.Add(candidates[i]);
                     }
                     higherScore = higherScore < newScore ? newScore : higherScore;
+                    //Debug.Log("New Score: " + newScore);
+
                 }
                 if(higherScore <= score)
                 {
