@@ -110,23 +110,23 @@ namespace LevelBuildingSidekick.Graph
                     //Nodes[^1].Data = n;
                 }
             }
+            Dictionary<int, HashSet<int>> edges = new Dictionary<int, HashSet<int>>();
 
-            //Edges = new List<EdgeController>();
-            if (data.edges == null)
+            foreach(NodeController node in Nodes)
             {
-                data.edges = new List<EdgeData>();
-            }
-            foreach (EdgeData e in data.edges)
-            {
-                var edge = Activator.CreateInstance(e.ControllerType, new object[] { e });
-                if (edge is EdgeController)
+                edges.Add(node.ID, new HashSet<int>());
+                foreach(int id in node.NeighborsIDs)
                 {
-                    Edges.Add(edge as EdgeController);
-                    //Edges[^1].Data = e;
+                    edges[node.ID].Add(id);
+                    if(!edges.ContainsKey(id) || !edges[id].Contains(node.ID))
+                    {
+                        EdgeData edge = new EdgeData(node.ID, id);
+                        AddEdge(edge);
+                    }
                 }
             }
 
-            if (data.toolkit == null)
+            if (data.toolkit == null) // Should be parametrized (!)
             {
                 List<ToolData> tools = new List<ToolData>() { new SelectGraphElementData(),
                                                               new CreateNodeData(),
@@ -342,8 +342,8 @@ namespace LevelBuildingSidekick.Graph
             if (edge is EdgeController)
             {
                 var e = edge as EdgeController;
-                var n1 = Nodes.ToList().Find((n) => n.Data == edgeData.node1);
-                var n2 = Nodes.ToList().Find((n) => n.Data == edgeData.node2);
+                var n1 = Nodes.ToList().Find((n) => n.ID == edgeData.firstNodeID);
+                var n2 = Nodes.ToList().Find((n) => n.ID == edgeData.secondNodeID);
                 if(n1 == null || n2 == null)
                 {
                     Debug.LogError("Something went wrong");
