@@ -9,6 +9,13 @@ public class EdgeController : Controller
 {
     public NodeController Node1 { get; set; }
     public NodeController Node2 { get; set; }
+    public float Thickness
+    {
+        get
+        {
+            return (Data as EdgeData).thikness;
+        }
+    }
 
     public EdgeController(Data data) : base(data)
     {

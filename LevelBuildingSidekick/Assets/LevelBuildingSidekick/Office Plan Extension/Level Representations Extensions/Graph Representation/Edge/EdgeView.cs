@@ -25,7 +25,7 @@ public class EdgeView : View
         //Debug.Log("A1: " + pos1 + " - A2: " + pos2);
 
         Handles.BeginGUI();
-        Handles.DrawAAPolyLine(d.thikness, pos1, pos2);
+        Handles.DrawAAPolyLine(c.Thickness, pos1, pos2);
         Handles.EndGUI();
     }
 }
