@@ -166,7 +166,7 @@ namespace LevelBuildingSidekick
                 Windows[title] = window;
             }
 
-            window.close = () => Utility.JSONDataManager.SaveData(CurrentLevel.Name, CurrentLevel.Data as LevelData);
+            //window.close = () => Utility.JSONDataManager.SaveData(CurrentLevel.Name, CurrentLevel.Data as LevelData);
 
             return window;
         }
