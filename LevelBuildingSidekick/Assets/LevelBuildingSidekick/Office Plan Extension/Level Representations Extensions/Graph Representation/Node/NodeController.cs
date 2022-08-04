@@ -171,7 +171,7 @@ namespace LevelBuildingSidekick.Graph
                     return;
                 }
                 Room.minWidth = value.x;
-                Room.minHeight = value.y;
+                Room.maxWidth = value.y;
             }
         }
         public Vector2Int Ratio
