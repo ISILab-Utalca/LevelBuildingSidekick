@@ -10,7 +10,7 @@ namespace LevelBuildingSidekick.OfficePlan
     public class OfficePlanView : LevelRepresentationView
     {
         Vector2 scrollPos;
-        Thread t;
+        Thread thread;
         public OfficePlanView(Controller controller) : base(controller)
         {
         }
@@ -73,10 +73,13 @@ namespace LevelBuildingSidekick.OfficePlan
 
                 if (GUILayout.Button("Optimize"))
                 {
-                    t = new Thread(controller.Schema.Optimize);
-                    t.Start();
+                    if(thread == null || !thread.IsAlive)
+                    {
+                        thread = new Thread(controller.Schema.Optimize);
+                        thread.Start();
+                    }
                 }
-                if(t != null && t.IsAlive)
+                if(thread != null && thread.IsAlive)
                 {
                     EditorGUILayout.Space();
                     GUILayout.Label("Running Thread");
@@ -84,9 +87,6 @@ namespace LevelBuildingSidekick.OfficePlan
                 }
 
                 EditorGUILayout.Space();
-
-
-
                 EditorGUILayout.EndScrollView();
             }
         }
