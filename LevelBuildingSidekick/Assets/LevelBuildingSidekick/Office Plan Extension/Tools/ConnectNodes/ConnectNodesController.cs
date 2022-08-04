@@ -43,9 +43,7 @@ public class ConnectNodesController : ToolController
             return;
         }
 
-        EdgeData edge = new EdgeData();
-        edge.node1 = firstNode.Data as NodeData;
-        edge.node2 = n.Data as NodeData;
+        EdgeData edge = new EdgeData(firstNode.ID, n.ID);
         graph.AddEdge(edge);
 
         firstNode = null;
