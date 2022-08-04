@@ -10,10 +10,13 @@ namespace LevelBuildingSidekick
     [System.Serializable]
     public class PSEditorData : Data
     {
-        [JsonIgnore] public string WindowName; // puede que esto ne sea necesario (?)
+        [JsonIgnore] 
+        public string WindowName; // puede que esto ne sea necesario (?)
+
+        [JsonIgnore]
         public override Type ControllerType => typeof(PSEditorController);
 
-        public LevelRepresentationData levelData = new OfficePlan.OfficePlanData();
+        public LevelRepresentationData levelData = new OfficePlan.OfficePlanData(); //Shpuld be paramaetrizable (!)
 
         public PSEditorData()
         {

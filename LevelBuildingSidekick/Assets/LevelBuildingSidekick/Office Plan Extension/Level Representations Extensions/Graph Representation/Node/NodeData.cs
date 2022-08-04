@@ -17,8 +17,11 @@ namespace LevelBuildingSidekick.Graph
         public int x;
         public int y;
         public int radius;
-        [JsonIgnore] public Texture2D sprite { get => Resources.Load("Textures/Circle") as Texture2D; } // -> static?
 
+        [JsonIgnore] 
+        public Texture2D sprite { get => Resources.Load("Textures/Circle") as Texture2D; } // -> static?
+
+        [JsonIgnore]
         public override Type ControllerType => typeof(NodeController);
 
     }

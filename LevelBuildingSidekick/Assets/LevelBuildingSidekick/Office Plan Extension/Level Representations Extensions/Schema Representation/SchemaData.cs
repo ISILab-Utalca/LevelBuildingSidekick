@@ -1,4 +1,5 @@
 using LevelBuildingSidekick;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,16 +12,20 @@ namespace LevelBuildingSidekick.Schema
     {
         //public int[,] tilemap;
         public int tileSize;
-        public Vector2Int size;
+        public int x;
+        public int y;
         public List<RoomData> rooms;
         //public Dictionary<int, HashSet<int>> connections;
+
+        [JsonIgnore]
         public override Type ControllerType => typeof(SchemaController);
 
         public SchemaData Clone()
         {
             var schema = new SchemaData();
             schema.tileSize = tileSize;
-            schema.size = size;
+            schema.x = x;
+            schema.y = y;
             schema.rooms = new List<RoomData>();
             foreach(RoomData r in rooms)
             {

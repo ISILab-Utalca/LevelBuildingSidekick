@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using LevelBuildingSidekick;
 using System;
+using Newtonsoft.Json;
 
 namespace LevelBuildingSidekick.Graph
 {
@@ -14,9 +15,10 @@ namespace LevelBuildingSidekick.Graph
         public List<NodeData> nodes = new List<NodeData>();
         [SerializeField]
         public List<EdgeData> edges = new List<EdgeData>();
-        public int cellSize = 64;
+        public int cellSize = 64; //Add to View parameters (?)
 
 
+        [JsonIgnore]
         public override Type ControllerType => typeof(GraphController);
     }
 }

@@ -5,7 +5,7 @@ using LevelBuildingSidekick;
 using System;
 using LevelBuildingSidekick.Graph;
 using LevelBuildingSidekick.Schema;
-
+using Newtonsoft.Json;
 
 namespace LevelBuildingSidekick.OfficePlan
 {
@@ -19,11 +19,12 @@ namespace LevelBuildingSidekick.OfficePlan
         //public GameObject wall;
         //public GameObject door;
 
+        [JsonIgnore]
         public override Type ControllerType => typeof(OfficePlanController);
 
     }
 
-    public enum TeselationType
+    public enum TeselationType // Delete (??)
     {
         DOWNSCALE,
         SIZE,

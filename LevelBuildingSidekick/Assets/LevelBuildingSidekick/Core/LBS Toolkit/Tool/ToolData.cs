@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using LevelBuildingSidekick;
 using System;
+using Newtonsoft.Json;
 
 public abstract class ToolData : Data
 {
+    [JsonIgnore]
     public Texture2D icon;
 }

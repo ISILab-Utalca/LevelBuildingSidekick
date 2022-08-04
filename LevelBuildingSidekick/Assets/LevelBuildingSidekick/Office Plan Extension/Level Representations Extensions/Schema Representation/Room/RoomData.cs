@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,20 +10,25 @@ namespace LevelBuildingSidekick.Schema
     {
         public RoomCharacteristics room;
 
-        public Vector2Int position = Vector2Int.zero;
+        public int x;
+        public int y;
         //public Vector2Int bounds = Vector2Int.one;
         //public Vector2Int outerBounds = Vector2Int.one;
-        public HashSet<Tile> tiles = new HashSet<Tile>();
+        public HashSet<Tile> tiles = new HashSet<Tile>(); // Should be list
+
+        [JsonIgnore]
         public int[,] surface = new int[1,1];
 
 
+        [JsonIgnore]
         public override Type ControllerType => typeof(RoomController);
 
         public RoomData Clone()
         {
             var r = new RoomData();
             r.room = room;
-            r.position = position;
+            r.x = x;
+            r.y = y;
             foreach(Tile t in tiles)
             {
                 r.tiles.Add(t);
