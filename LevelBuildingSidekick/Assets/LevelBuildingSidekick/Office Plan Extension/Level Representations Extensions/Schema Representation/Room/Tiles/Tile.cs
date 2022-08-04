@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,6 +34,7 @@ namespace LevelBuildingSidekick.Schema
             diagCode = 15;
         }
 
+        [JsonIgnore]
         public Vector2Int Position
         {
             get { return new Vector2Int(x,y); }
