@@ -132,7 +132,7 @@ namespace LevelBuildingSidekick.Graph
                 }
             }
         }
-        public Vector2Int Height
+        public Vector2Int HeightRange
         {
             get
             {
@@ -141,7 +141,7 @@ namespace LevelBuildingSidekick.Graph
                     Debug.LogWarning("Room does not Exist");
                     return Vector2Int.one;
                 }
-                return Room.heightRange;
+                return new Vector2Int(Room.minHeight, Room.maxHeight);
             }
             set
             {
@@ -149,7 +149,8 @@ namespace LevelBuildingSidekick.Graph
                 {
                     return;
                 }
-                Room.heightRange = value;
+                Room.minHeight = value.x;
+                Room.maxHeight = value.y;
             }
         }
         public Vector2Int Width
@@ -161,7 +162,7 @@ namespace LevelBuildingSidekick.Graph
                     Debug.LogWarning("Room does not Exist");
                     return Vector2Int.one;
                 }
-                return Room.widthRange;
+                return new Vector2Int(Room.minWidth, Room.maxWidth);
             }
             set
             {
@@ -169,7 +170,8 @@ namespace LevelBuildingSidekick.Graph
                 {
                     return;
                 }
-                Room.widthRange = value;
+                Room.minWidth = value.x;
+                Room.minHeight = value.y;
             }
         }
         public Vector2Int Ratio
@@ -181,7 +183,7 @@ namespace LevelBuildingSidekick.Graph
                     Debug.LogWarning("Room does not Exist");
                     return Vector2Int.one;
                 }
-                return Room.aspectRatio;
+                return new Vector2Int(Room.xAspectRatio, Room.yAspectRatio);
             }
             set
             {
@@ -189,7 +191,8 @@ namespace LevelBuildingSidekick.Graph
                 {
                     return;
                 }
-                Room.aspectRatio = value;
+                Room.xAspectRatio = value.x;
+                Room.yAspectRatio = value.y;
             }
         }
         public int MinArea
@@ -202,7 +205,7 @@ namespace LevelBuildingSidekick.Graph
                 }
                 else
                 {
-                    return Width.x * Height.x;
+                    return Width.x * HeightRange.x;
                 }
             }
         }
@@ -219,10 +222,6 @@ namespace LevelBuildingSidekick.Graph
             }
             set
             {
-                if (value == ProportionType.NONE)
-                {
-                    return;
-                }
                 Room.proportionType = value;
             }
         }
@@ -253,7 +252,7 @@ namespace LevelBuildingSidekick.Graph
         {
             View = new NodeView(this);
             neighbors = new HashSet<NodeController>();
-            Height = Vector2Int.one;
+            HeightRange = Vector2Int.one;
             Width = Vector2Int.one;
             Ratio = Vector2Int.one;
         }
