@@ -139,7 +139,7 @@ namespace LevelBuildingSidekick
 
             if(GUILayout.Button("Save Level"))
             {
-                Utility.JSONDataManager.SaveData(controller.Name, controller.Data as LevelData);
+                Utility.JSONDataManager.SaveData("LBSLevels", controller.Name, controller.Data as LevelData);
             }
         }
     }
