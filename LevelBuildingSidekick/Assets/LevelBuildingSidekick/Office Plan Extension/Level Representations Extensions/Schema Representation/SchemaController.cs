@@ -303,7 +303,14 @@ namespace LevelBuildingSidekick.Schema
                         var r = Rooms.Find(r => r.ID == matrix[i, j]);
                         if(r != null)
                         {
-                            r.Tiles.Add(new Tile(i, j));
+                            try
+                            {
+                                r.AddTilePosition(new Vector2Int(i, j));
+                            }
+                            catch
+                            {
+                                Debug.LogError("Error con los Tiles?");
+                            }
                         }
                         else
                         {
@@ -667,10 +674,24 @@ namespace LevelBuildingSidekick.Schema
                         if(wall[0].y + vDirs[i].y >= 0 && wall[0].y + vDirs[i].y < matrix.GetLength(1))
                         {
                             var child = new int[matrix.GetLength(0),matrix.GetLength(1)];
+                            var child2 = new int[matrix.GetLength(0), matrix.GetLength(1)];
                             Array.Copy(matrix, child, matrix.Length);
+                            Array.Copy(matrix, child2, matrix.Length);
                             foreach (var v in wall)
                             {
                                 child[v.x + vDirs[i].x, v.y + vDirs[i].y] = child[v.x, v.y];
+                                child2[v.x, v.y] = child2[v.x + vDirs[i].x, v.y + vDirs[i].y];
+                            }
+                            neighbors.Add(child);
+                            neighbors.Add(child2);
+                        }
+                        else
+                        {
+                            var child = new int[matrix.GetLength(0), matrix.GetLength(1)];
+                            Array.Copy(matrix, child, matrix.Length);
+                            foreach (var v in wall)
+                            {
+                                child[v.x, v.y] = 0;
                             }
                             neighbors.Add(child);
                         }
@@ -683,28 +704,31 @@ namespace LevelBuildingSidekick.Schema
                         if (wall[0].x + hDirs[i].x >= 0 && wall[0].x + hDirs[i].x < matrix.GetLength(0))
                         {
                             var child = new int[matrix.GetLength(0), matrix.GetLength(1)];
+                            var child2 = new int[matrix.GetLength(0), matrix.GetLength(1)];
+                            Array.Copy(matrix, child, matrix.Length);
+                            Array.Copy(matrix, child2, matrix.Length);
+                            foreach (var v in wall)
+                            {
+                                    child[v.x + hDirs[i].x, v.y + hDirs[i].y] = child[v.x, v.y];
+                                    child2[v.x, v.y] = child2[v.x + hDirs[i].x, v.y + hDirs[i].y];
+                            }
+                            neighbors.Add(child);
+                            neighbors.Add(child2);
+                        }
+                        else
+                        {
+                            var child = new int[matrix.GetLength(0), matrix.GetLength(1)];
                             Array.Copy(matrix, child, matrix.Length);
                             foreach (var v in wall)
                             {
-                                try
-                                {
-                                    child[v.x + hDirs[i].x, v.y + hDirs[i].y] = child[v.x, v.y];
-                                    Debug.Log("V: " + v);
-                                }
-                                catch
-                                {
-                                    Debug.Log("matrix size: " + matrix.GetLength(0) + " - " + matrix.GetLength(1));
-                                    Debug.Log("Moved To: " +  (v.x + hDirs[i].x) + " - " + (v.y + hDirs[i].y));
-                                    Debug.Log("Moved From: " + (v.x) + " - " + (v.y));
-
-                                }
+                                child[v.x, v.y] = 0;
                             }
                             neighbors.Add(child);
                         }
                     }
                 }
             }
-            Debug.Log("Neighbors: " + neighbors.Count);
+            //Debug.Log("Neighbors: " + neighbors.Count);
             return neighbors;
         }
         public List<List<Tile>> GetSemiWalls(RoomController room)
@@ -759,7 +783,7 @@ namespace LevelBuildingSidekick.Schema
         public void Optimize()
         {
             var optimized = Utility.HillClimbing.Run(ToMatrix(), 
-                            () => { return Utility.HillClimbing.NonSignificantEpochs > 10; },
+                            () => { return Utility.HillClimbing.NonSignificantEpochs >= 100; },
                             GetMatrixNeighbors,
                             EvaluateMatrix);
             FromMatrix(optimized);
