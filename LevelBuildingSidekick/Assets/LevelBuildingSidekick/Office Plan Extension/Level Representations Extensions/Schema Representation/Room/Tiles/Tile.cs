@@ -12,6 +12,11 @@ namespace LevelBuildingSidekick.Schema
         public int sideCode { get; private set; }
         public int diagCode { get; private set; }
 
+        public Tile ()
+        {
+
+        }
+
         public Tile(int _x, int _y)
         {
             x = _x;
@@ -26,6 +31,11 @@ namespace LevelBuildingSidekick.Schema
             y = v.y;
             sideCode = 15;
             diagCode = 15;
+        }
+
+        public Vector2Int Position
+        {
+            get { return new Vector2Int(x,y); }
         }
 
         public override int GetHashCode()
