@@ -18,6 +18,10 @@ namespace Utility
                 Directory.CreateDirectory(directoryPath);
             }
             string dataPath =  directoryPath + '/' + fileName + ".json";
+            if (File.Exists(dataPath))
+            {
+                File.Delete(dataPath);
+            }
             var jsonString = JsonConvert.SerializeObject(data, Formatting.Indented, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto });
             //string json = JsonUtility.ToJson(data);
             Debug.Log("Save data to: " + dataPath);
