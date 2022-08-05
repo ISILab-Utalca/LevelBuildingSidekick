@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace LevelBuildingSidekick.Schema
@@ -17,7 +18,23 @@ namespace LevelBuildingSidekick.Schema
         public HashSet<Tile> tiles = new HashSet<Tile>(); // Should be list
 
         [JsonIgnore]
-        public int[,] surface = new int[1,1];
+        public int[,] surface = new int[1, 1];
+        
+        [JsonIgnore]
+        public Vector2Int Surface
+        {
+            get {
+                var x = tiles.ToList().Max(t => t.x);
+                var y = tiles.ToList().Max(t => t.y);
+                return new Vector2Int(x,y);
+            }
+        }
+
+        [JsonIgnore]
+        public Vector2Int Position
+        {
+            get { return new Vector2Int(x,y); }
+        }
 
 
         [JsonIgnore]
