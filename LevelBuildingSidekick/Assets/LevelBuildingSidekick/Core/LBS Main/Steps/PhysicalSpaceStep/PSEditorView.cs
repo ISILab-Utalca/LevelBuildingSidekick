@@ -11,11 +11,6 @@ namespace LevelBuildingSidekick
 
         public PSEditorView(Controller controller):base(controller)
         {
-            //Window = EditorWindow.GetWindow<GenericWindow>();
-            //Window.minSize = Vector2.one* 100;
-            //Window.Show();
-            //Window.draw = Draw2D;
-            //Debug.Log("D: " + (Controller.Data as PSEditorData));
 
         }
 
@@ -23,32 +18,20 @@ namespace LevelBuildingSidekick
         {
             PSEditorController controller = Controller as PSEditorController;
 
-            
-            //scrollPosition = GUILayout.BeginScrollView(scrollPosition, true, true);
-            //GUILayout.BeginArea(new Rect(0, 0, 1000, 1000));
-            //Debug.Log((Controller as PSEditorController).Level);
-            //Debug.Log((Controller as PSEditorController).Level.View);
-            //GUILayout.BeginVertical();
             controller.Update();
             controller.LevelRepresentation.View.Draw2D();
-            //GUILayout.EndVertical();
-            //GUILayout.EndArea();
-            //GUILayout.EndScrollView();
             
         }
 
         public override void Display2DWindow()
         {
             PSEditorController controller = Controller as PSEditorController;
-            //Debug.Log("Displaying 2D");
             controller.LevelRepresentation.View.Display2DWindow();
         }
 
         public override void DisplayInspectorWindow()
         {
             PSEditorController controller = Controller as PSEditorController;
-            //Debug.Log("Displaying Inspector");
-
             controller.LevelRepresentation.View.DisplayInspectorWindow();
         }
 
