@@ -103,9 +103,11 @@ namespace LevelBuildingSidekick.Graph
             }
             foreach (NodeData n in data.nodes)
             {
+                Debug.Log("Xratio: " + n.room.xAspectRatio + " - Yratio: " + n.room.yAspectRatio);
                 var node = Activator.CreateInstance(n.ControllerType, new object[] { n });
                 if (node is NodeController)
                 {
+                    (node as NodeController).Exist = v => !Nodes.Any(n => n.Label == v);
                     Nodes.Add(node as NodeController);
                     //Nodes[^1].Data = n;
                 }

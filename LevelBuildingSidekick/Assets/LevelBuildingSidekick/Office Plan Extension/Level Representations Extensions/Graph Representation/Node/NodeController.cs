@@ -125,10 +125,12 @@ namespace LevelBuildingSidekick.Graph
                 return Room.label;
             }
             set
-            {;
-                if (Exist?.Invoke(value) == true)
+            {  
+                if(Exist?.Invoke(value) == true)
                 {
+                   //Debug.Log("Does not exist");
                     Room.label = value;
+
                 }
             }
         }
@@ -252,9 +254,6 @@ namespace LevelBuildingSidekick.Graph
         {
             View = new NodeView(this);
             neighbors = new HashSet<NodeController>();
-            HeightRange = Vector2Int.one;
-            Width = Vector2Int.one;
-            Ratio = Vector2Int.one;
         }
 
         public override void LoadData()
