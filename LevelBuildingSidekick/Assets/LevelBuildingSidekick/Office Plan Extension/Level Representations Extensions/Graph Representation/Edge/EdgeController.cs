@@ -33,12 +33,12 @@ public class EdgeController : Controller
     internal bool DoesConnect(NodeController n1, NodeController n2)
     {
         EdgeData d = Data as EdgeData;
-        return ((n1.Data.Equals(d.firstNodeID) && n2.Data.Equals(d.secondNodeID)) || (n2.Data.Equals(d.firstNodeID) && n1.Data.Equals(d.secondNodeID)));
+        return ((n1.Data.Equals(d.firstNode) && n2.Data.Equals(d.secondNode)) || (n2.Data.Equals(d.firstNode) && n1.Data.Equals(d.secondNode)));
     }
 
     internal bool Contains(NodeController node)
     {
         EdgeData d = Data as EdgeData;
-        return (node.Data.Equals(d.firstNodeID) || node.Data.Equals(d.secondNodeID));
+        return (node.Data.Equals(d.firstNode) || node.Data.Equals(d.secondNode));
     }
 }
