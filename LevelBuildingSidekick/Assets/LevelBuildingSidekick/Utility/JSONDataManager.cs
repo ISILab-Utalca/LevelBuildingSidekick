@@ -9,31 +9,46 @@ namespace Utility
 {
     public static class JSONDataManager
     {
-        public static void SaveData<T>(string path, T data)
+        public static void SaveData<T>(string directoryName, string fileName, T data)
         {
             //Debug.Log("Saving: " + data);
-            string dataPath = Application.persistentDataPath + '/' + path + ".json";
+            string directoryPath = Application.dataPath + '/' + directoryName;
+            if(!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+            string dataPath =  directoryPath + '/' + fileName + ".json";
+            if (File.Exists(dataPath))
+            {
+                File.Delete(dataPath);
+            }
             var jsonString = JsonConvert.SerializeObject(data, Formatting.Indented, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto });
             //string json = JsonUtility.ToJson(data);
+            Debug.Log("Save data to: " + dataPath);
             using StreamWriter writer = new StreamWriter(dataPath);
             writer.Write(jsonString);
             //writer.Write(json);
         }
 
-        public static T LoadData<T>(string path)
+        public static T LoadData<T>(string directoryName, string fileName)
         {
-            string dataPath = Application.persistentDataPath + '/' + path;
+            string directoryPath = Application.dataPath + '/' + directoryName;
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+            string dataPath = directoryPath + '/' + fileName;
             using StreamReader reader = new StreamReader(dataPath);
 
             //Debug.Log("Loading: " + dataPath);
             string json = reader.ReadToEnd();
             
             //T data = JsonUtility.FromJson<T>(json);
-            var data = JsonConvert.DeserializeObject<T>(json, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto });
+            var data = JsonConvert.DeserializeObject<T>(json, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented });
 
             if (data == null)
             {
-                Debug.LogWarning("Data in " + path + " is not of type" + typeof(T).ToString());
+                Debug.LogWarning("Data in " + fileName + " is not of type" + typeof(T).ToString());
             }
 
             return data;
@@ -41,6 +56,11 @@ namespace Utility
 
         public static List<string> GetJSONFiles(string path)
         {
+            if(!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            //Debug.Log(path);
             string[] files = System.IO.Directory.GetFiles(path);
             //Debug.Log("Files: " + files.Length);
             //Debug.Log("Path: " + path);

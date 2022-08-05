@@ -103,9 +103,11 @@ namespace LevelBuildingSidekick.Graph
             }
             foreach (NodeData n in data.nodes)
             {
+                //Debug.Log("Xratio: " + n.room.xAspectRatio + " - Yratio: " + n.room.yAspectRatio);
                 var node = Activator.CreateInstance(n.ControllerType, new object[] { n });
                 if (node is NodeController)
                 {
+                    (node as NodeController).Exist = v => !Nodes.Any(n => n.Label == v);
                     Nodes.Add(node as NodeController);
                     //Nodes[^1].Data = n;
                 }
@@ -328,10 +330,8 @@ namespace LevelBuildingSidekick.Graph
             if (node is NodeController)
             {
                 (node as NodeController).Radius = CellSize / 2;
-                (node as NodeController).Exist = (s) => {
-                    //Debug.Log("name: " + s);  
-                    return Nodes.ToList().Find((n) => n.Label == s) == null; };
-                if(Nodes.Add(node as NodeController))
+                (node as NodeController).Exist = v => !Nodes.Any(n => n.Label == v);
+                if (Nodes.Add(node as NodeController))
                 {
                     (Data as GraphData).nodes.Add(nodeData);
                     return true;

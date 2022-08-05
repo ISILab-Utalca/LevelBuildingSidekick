@@ -29,7 +29,7 @@ namespace LevelBuildingSidekick
         public LBSView(Controller controller):base(controller)
         {
             //Window = EditorWindow.GetWindow<LBSWindow>();
-            jsonFiles = Utility.JSONDataManager.GetJSONFiles(Application.persistentDataPath);
+            jsonFiles = Utility.JSONDataManager.GetJSONFiles(Application.dataPath + "/LBSLevels");
         }
         public override void Draw2D()
         {
@@ -82,7 +82,7 @@ namespace LevelBuildingSidekick
                 }
                 else
                 { 
-                    LBSController.Instance.SetLevel(Utility.JSONDataManager.LoadData<LevelData>(loadLevelName));
+                    LBSController.Instance.SetLevel(Utility.JSONDataManager.LoadData<LevelData>("LBSLevels", loadLevelName));
                 }
                 //Debug.Log("View: " + LBSController.Instance.CurrentLevel.View);
                 LBSController.Instance.CurrentStep.View.Display2DWindow();
@@ -101,8 +101,8 @@ namespace LevelBuildingSidekick
         public override void DisplayInspectorWindow()
         {
             var window = LBSController.Instance.RequestWindow("LBSWindow");
-            window.init = () => jsonFiles = Utility.JSONDataManager.GetJSONFiles(Application.persistentDataPath);
-            window.onFocus = () => jsonFiles = Utility.JSONDataManager.GetJSONFiles(Application.persistentDataPath);
+            window.init = () => jsonFiles = Utility.JSONDataManager.GetJSONFiles(Application.dataPath + "/LBSLevels");
+            window.onFocus = () => jsonFiles = Utility.JSONDataManager.GetJSONFiles(Application.dataPath + "/LBSLevels");
             window.draw = DrawEditor;
             closeWindow = window.Close;
             window.Show();

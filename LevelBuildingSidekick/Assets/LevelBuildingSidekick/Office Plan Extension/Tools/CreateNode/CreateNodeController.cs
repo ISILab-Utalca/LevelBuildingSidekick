@@ -41,7 +41,7 @@ public class CreateNodeController : ToolController
             index++;
             node.room.label = "Node: " + index.ToString();
         }
-        graph.AddNode(node);
+        //graph.AddNode(node);
     }
 
 
