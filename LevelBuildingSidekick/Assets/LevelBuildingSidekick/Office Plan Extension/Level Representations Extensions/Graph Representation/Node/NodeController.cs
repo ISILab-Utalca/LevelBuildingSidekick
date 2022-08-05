@@ -217,7 +217,7 @@ namespace LevelBuildingSidekick.Graph
             {
                 if(Room == null)
                 {
-                    Debug.LogWarning("Room does not Exit");
+                    //Debug.LogWarning("Room does not Exit");
                     return ProportionType.RATIO;
                 }
                 return Room.proportionType;
