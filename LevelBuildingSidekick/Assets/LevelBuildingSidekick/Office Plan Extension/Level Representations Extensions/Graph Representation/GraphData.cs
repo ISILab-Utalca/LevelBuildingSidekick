@@ -14,7 +14,6 @@ namespace LevelBuildingSidekick.Graph
         [SerializeField]
         public List<NodeData> nodes = new List<NodeData>();
         [SerializeField]
-        [JsonIgnore]
         public List<EdgeData> edges = new List<EdgeData>();
         public int cellSize = 64; //Add to View parameters (??)
 
