@@ -9,8 +9,43 @@ using Newtonsoft.Json;
 [System.Serializable]
 public class EdgeData: Data
 {
-    public int firstNodeID; //Should be ID (!!!)
-    public int secondNodeID; //Should be ID (!!!)
+    [JsonIgnore]
+    public NodeData firstNode;
+    [JsonIgnore]
+    public NodeData secondNode;
+
+    private string firstNodeLabel;
+    private string secondNodeLabel;
+    public string FirstNodeLabel
+    {
+        get
+        {
+            if (firstNode != null)
+            {
+                firstNodeLabel = firstNode.room.label;
+            }
+            return firstNodeLabel;
+        }
+        set
+        {
+            firstNodeLabel = value;
+        }
+    }
+    public string SecondNodeLabel
+    {
+        get
+        {
+            if(secondNode != null)
+            {
+                secondNodeLabel = secondNode.room.label;
+            }
+            return secondNodeLabel;
+        }
+        set
+        {
+            secondNodeLabel = value;
+        }
+    }
 
     [JsonIgnore]
     public float thikness = 5; // -> static (??)
@@ -20,9 +55,9 @@ public class EdgeData: Data
 
     public EdgeData() { }
 
-    public EdgeData(int _firstNodeID, int _secondNodeID)
+    public EdgeData(NodeData _firstNode, NodeData _secondNode)
     {
-        firstNodeID = _firstNodeID;
-        secondNodeID = _secondNodeID;
+        firstNode = _firstNode;
+        secondNode = _secondNode;
     }
 }
