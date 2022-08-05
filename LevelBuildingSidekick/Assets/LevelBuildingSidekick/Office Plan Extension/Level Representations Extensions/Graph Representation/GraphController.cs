@@ -103,7 +103,7 @@ namespace LevelBuildingSidekick.Graph
             }
             foreach (NodeData n in data.nodes)
             {
-                //Debug.Log("Xratio: " + n.room.xAspectRatio + " - Yratio: " + n.room.yAspectRatio);
+                //Debug.Log("ID: " + n.room.label);
                 var node = Activator.CreateInstance(n.ControllerType, new object[] { n });
                 if (node is NodeController)
                 {
@@ -112,23 +112,10 @@ namespace LevelBuildingSidekick.Graph
                     //Nodes[^1].Data = n;
                 }
             }
-            Dictionary<int, HashSet<int>> edges = new Dictionary<int, HashSet<int>>();
 
-            foreach(NodeController node in Nodes)
+            foreach(EdgeData e in data.edges)
             {
-                if(!edges.ContainsKey(node.ID))
-                {
-                    edges.Add(node.ID, new HashSet<int>());
-                }
-                foreach(int id in node.NeighborsIDs)
-                {
-                    edges[node.ID].Add(id);
-                    if(!edges.ContainsKey(id) || !edges[id].Contains(node.ID))
-                    {
-                        EdgeData edge = new EdgeData(node.ID, id);
-                        AddEdge(edge);
-                    }
-                }
+                AddEdgeController(e);
             }
 
             if (data.toolkit == null) // Should be parametrized (!)
@@ -341,13 +328,22 @@ namespace LevelBuildingSidekick.Graph
         }
         internal bool AddEdge(EdgeData edgeData)
         {
+            if(AddEdgeController(edgeData))
+            {
+                (Data as GraphData).edges.Add(edgeData);
+                return true;
+            }
+            return false;
+        }
+        internal bool AddEdgeController(EdgeData edgeData)
+        {
             var edge = Activator.CreateInstance(edgeData.ControllerType, new object[] { edgeData });
             if (edge is EdgeController)
             {
                 var e = edge as EdgeController;
-                var n1 = Nodes.ToList().Find((n) => n.ID == edgeData.firstNodeID);
-                var n2 = Nodes.ToList().Find((n) => n.ID == edgeData.secondNodeID);
-                if(n1 == null || n2 == null)
+                var n1 = Nodes.ToList().Find((n) => n.Label == edgeData.FirstNodeLabel);
+                var n2 = Nodes.ToList().Find((n) => n.Label == edgeData.SecondNodeLabel);
+                if (n1 == null || n2 == null)
                 {
                     Debug.LogError("Something went wrong");
                     return false;
@@ -359,10 +355,8 @@ namespace LevelBuildingSidekick.Graph
                 e.Node1 = n1;
                 e.Node2 = n2;
                 Edges.Add(e);
-                (Data as GraphData).edges.Add(edgeData);
-                return true;
             }
-            return false;
+            return true;
         }
         public Vector2Int FartherPosition()
         {
