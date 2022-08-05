@@ -330,10 +330,8 @@ namespace LevelBuildingSidekick.Graph
             if (node is NodeController)
             {
                 (node as NodeController).Radius = CellSize / 2;
-                (node as NodeController).Exist = (s) => {
-                    //Debug.Log("name: " + s);  
-                    return Nodes.ToList().Find((n) => n.Label == s) == null; };
-                if(Nodes.Add(node as NodeController))
+                (node as NodeController).Exist =  = v => !Nodes.Any(n => n.Label == v);
+                if (Nodes.Add(node as NodeController))
                 {
                     (Data as GraphData).nodes.Add(nodeData);
                     return true;
