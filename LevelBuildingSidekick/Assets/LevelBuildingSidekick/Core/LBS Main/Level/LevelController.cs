@@ -71,14 +71,14 @@ namespace LevelBuildingSidekick
             }
         }
 
-        private List<Step> _Steps;
-        public List<Step> Steps
+        private List<LevelRepresentationController> _Steps;
+        public List<LevelRepresentationController> Steps
         {
             get
             {
                 if(_Steps == null)
                 {
-                    _Steps = new List<Step>();
+                    _Steps = new List<LevelRepresentationController>();
                 }
                 return _Steps;
             }
@@ -118,13 +118,13 @@ namespace LevelBuildingSidekick
             }
 
             //Debug.Log("Steps: " + data.steps.Count);
-            foreach(Data d in data.steps)
+            foreach(Data d in data.representations)
             {
                 //Debug.Log("Type: " + d.ControllerType);
-                var step = Activator.CreateInstance(d.ControllerType, new object[] { d });
-                if(step is Step)
+                var levelRepresentation = Activator.CreateInstance(d.ControllerType, new object[] { d });
+                if(levelRepresentation is LevelRepresentationController)
                 {
-                    Steps.Add(step as Step);
+                    Steps.Add(levelRepresentation as LevelRepresentationController);
                 }
             }
             //Debug.Log("StepsC: " + Steps.Count);
