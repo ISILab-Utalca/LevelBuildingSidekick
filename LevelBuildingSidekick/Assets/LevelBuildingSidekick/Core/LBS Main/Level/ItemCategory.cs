@@ -48,6 +48,9 @@ namespace LevelBuildingSidekick
             items = new List<GameObject>();
         }
 
-        public ItemCategory() { }
+        public ItemCategory() 
+        {
+            items = new List<GameObject>();
+        }
     }
 }
