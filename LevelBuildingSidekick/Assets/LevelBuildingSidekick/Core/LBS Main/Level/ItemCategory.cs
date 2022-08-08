@@ -13,7 +13,7 @@ namespace LevelBuildingSidekick
         [JsonIgnore]
         public List<GameObject> items; // cambiar a string (!!!)
         private List<string> itemNames;
-        public List<string> ItemNames
+        public List<string> UpdatedItemNames
         {
             get
             {
@@ -33,6 +33,14 @@ namespace LevelBuildingSidekick
             set
             {
                 itemNames = value;
+            }
+        }
+        [JsonIgnore]
+        public List<string> ItemNames
+        {
+            get
+            {
+                return itemNames;
             }
         }
 
