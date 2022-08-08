@@ -259,6 +259,17 @@ namespace LevelBuildingSidekick.Graph
         public override void LoadData()
         {
             //throw new System.NotImplementedException();
+            foreach (var cat in Room.prefabs)
+            {
+                foreach (var name in cat.ItemNames)
+                {
+                    var obj = Utility.DirectoryTools.SearchObjectByName<GameObject>(name);
+                    if (obj != null)
+                    {
+                        cat.items.Add(obj);
+                    }
+                }
+            }
         }
 
         public override void Update()
