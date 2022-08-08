@@ -29,8 +29,7 @@ namespace LevelBuildingSidekick
         }
         private static LBSController _Instance;
 
-        List<Step> steps;
-        public Step CurrentStep;
+        public LevelRepresentationController CurrentStep;
 
         private LevelController _CurrentLevel;
         public LevelController CurrentLevel
@@ -44,8 +43,8 @@ namespace LevelBuildingSidekick
                 _CurrentLevel = value;
                 (Data as LBSData).levelData = value.Data as LevelData;
                 //Debug.Log(_CurrentLevel.Steps.Count);
-                if(_CurrentLevel.Steps.Count > 0)
-                    CurrentStep = _CurrentLevel.Steps[0];
+                if(_CurrentLevel.Representations.Count > 0)
+                    CurrentStep = _CurrentLevel.Representations[0];
             }
         }
 
@@ -108,29 +107,6 @@ namespace LevelBuildingSidekick
                 return;
             }
 
-
-            steps = new List<Step>();
-            //Debug.Log(data.stepsData.Count);
-            foreach (Data d in data.stepsData)
-            {
-                var step = Activator.CreateInstance(d.ControllerType, new object[] { d });
-                if(step is Step)
-                {
-                    //(step as Step).Data = d;
-                    steps.Add(step as Step);
-                    //Debug.Log(steps[^1]);
-                    //steps[^1].Data = d;
-                    continue;
-                }
-                Debug.LogError("Type: " + d.ControllerType + " is not an inheritance of Step class");
-            }
-
-            //Debug.Log(steps.Count);
-            if (steps.Count > 0)
-            {
-                CurrentStep = steps[0];
-            }
-
             if(data.levelData !=  null)
             {
                 var level = Activator.CreateInstance(data.levelData.ControllerType, new object[] { data.levelData });
@@ -173,10 +149,10 @@ namespace LevelBuildingSidekick
 
         public LevelController CreateLevel(string levelName, Vector2Int size)
         {
-            LevelData d =  new LevelData();
+            LevelData d = new LevelData();
             d.levelName = levelName;
             d.size = size;
-            d.steps.Add( new PSEditorData() );
+            d.representations.Add(new OfficePlan.OfficePlanData () );
             LevelController c = new LevelController(d);
             return c;
         }
