@@ -72,7 +72,7 @@ namespace LevelBuildingSidekick
         }
 
         private List<LevelRepresentationController> _Steps;
-        public List<LevelRepresentationController> Steps
+        public List<LevelRepresentationController> Representations
         {
             get
             {
@@ -124,7 +124,7 @@ namespace LevelBuildingSidekick
                 var levelRepresentation = Activator.CreateInstance(d.ControllerType, new object[] { d });
                 if(levelRepresentation is LevelRepresentationController)
                 {
-                    Steps.Add(levelRepresentation as LevelRepresentationController);
+                    Representations.Add(levelRepresentation as LevelRepresentationController);
                 }
             }
             //Debug.Log("StepsC: " + Steps.Count);
