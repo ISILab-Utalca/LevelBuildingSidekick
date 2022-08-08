@@ -17,7 +17,7 @@ namespace LevelBuildingSidekick
 
         public Vector2Int size;
 
-        public List<Data> steps = new List<Data>();
+        public List<LevelRepresentationData> representations = new List<LevelRepresentationData>();
 
         public override Type ControllerType => typeof(LevelController);
     }
