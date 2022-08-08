@@ -105,6 +105,18 @@ namespace LevelBuildingSidekick
                 return;
             }
 
+            foreach(var cat in LevelObjects)
+            {
+                foreach(var name in cat.ItemNames)
+                {
+                    var obj = Utility.DirectoryTools.SearchObjectByName<GameObject>(name);
+                    if(obj != null)
+                    {
+                        cat.items.Add(obj);
+                    }
+                }
+            }
+
             //Debug.Log("Steps: " + data.steps.Count);
             foreach(Data d in data.steps)
             {
