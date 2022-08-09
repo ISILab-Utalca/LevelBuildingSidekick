@@ -15,13 +15,13 @@ namespace LevelBuildingSidekick.Schema
         public int xAspectRatio = 1;
         public int yAspectRatio = 1;
         public ProportionType proportionType = ProportionType.RATIO;
-        public List<int> neighbors;
+        public List<int> neighbors; // No debería existir aca (!)
 
         public List<ItemCategory> prefabs;
 
         public string[] prefabCategories = { "Walls", "Floors", "Doors"};
 
         [NonReorderable]
-        public HashSet<string> tags; // cambiar a una lista (!!!)
+        public HashSet<string> tags; // cambiar a una lista (!!!) 
     }
 }
