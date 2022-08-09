@@ -21,7 +21,7 @@ namespace LevelBuildingSidekick.OfficePlan
 
             EditorGUILayout.BeginHorizontal();
             controller.Graph.View.Draw2D();
-            controller.Schema.View.Draw2D();
+            //controller.Schema.View.Draw2D();
             controller.Toolkit.View.Draw2D();
             EditorGUILayout.EndHorizontal();
 
@@ -50,33 +50,30 @@ namespace LevelBuildingSidekick.OfficePlan
 
                 scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
 
-                //controller.Schema.Size = EditorGUILayout.Vector2IntField("Tilemap Size", controller.Schema.Size);
-
-                controller.Schema.TileSize = EditorGUILayout.IntField("Tile Size", controller.Schema.TileSize);
-
                 EditorGUILayout.Space();
-
-                ///controller.Floor = EditorGUILayout.ObjectField("Floor Tile", controller.Floor, typeof(GameObject), true) as GameObject;
-                //controller.Wall = EditorGUILayout.ObjectField("Wall Tile", controller.Wall, typeof(GameObject), true) as GameObject;
-                //controller.Door = EditorGUILayout.ObjectField("Door Tile", controller.Door, typeof(GameObject), true) as GameObject;
 
                 if (GUILayout.Button("Regenerate Schema"))
                 {
-                    controller.GraphToSchema();
-                    //Debug.Log(controller.Schema.Rooms.Count);
+                    controller.GenerateShcema();
+                    //controller.PrintSchema();
                 }
 
                 if (GUILayout.Button("Generate 3D Map"))
                 {
-                    controller.Generate3D();
+                    //controller.Generate3D(); // GENERATE 3D
                 }
 
                 if (GUILayout.Button("Optimize"))
                 {
                     if(thread == null || !thread.IsAlive)
                     {
-                        thread = new Thread(controller.Schema.Optimize);
+                        thread = new Thread(()=> {
+                            Debug.Log("<color=#00FF00>Start Optimize</color>");
+                            controller.Optimize();
+                            Debug.Log("<color=#00FF00>Finish Optimize</color>");
+                        });
                         thread.Start();
+                       
                     }
                 }
                 if(thread != null && thread.IsAlive)
@@ -97,11 +94,8 @@ namespace LevelBuildingSidekick.OfficePlan
 
             var graph = LBSController.Instance.RequestWindow("Graph Window");
             graph.draw = () => { controller.Graph.View.Draw2D(); controller.Graph.Update(); };
-            var schema = LBSController.Instance.RequestWindow("Schema Window");
-            schema.draw = () => { controller.Schema.View.Draw2D(); controller.Schema.Update(); };
 
             graph.Show();
-            schema.Show();
         }
 
         public override void DisplayInspectorWindow()

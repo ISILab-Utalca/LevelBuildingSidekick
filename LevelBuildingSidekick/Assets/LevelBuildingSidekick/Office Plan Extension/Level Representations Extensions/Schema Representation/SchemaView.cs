@@ -8,6 +8,8 @@ namespace LevelBuildingSidekick.Schema
 {
     public class SchemaView : LevelRepresentationView
     {
+        public float tileSize = 20;
+
         Vector2 scrollPos;
         public SchemaView(Controller controller) : base(controller)
         {
@@ -15,18 +17,14 @@ namespace LevelBuildingSidekick.Schema
 
         public override void Draw2D()
         {
-            //Color c = Color.black;
-            var controller = (Controller as SchemaController);
+            /*
             scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
 
             Vector2Int size = new Vector2Int(controller.TileMap.GetLength(0), controller.TileMap.GetLength(1));
 
-            var r = GUILayoutUtility.GetRect((size.x * controller.TileSize), 
-                (size.y * controller.TileSize), 
-                (size.x * controller.TileSize),
-                (size.y * controller.TileSize));
-            r.width = (size.x * controller.TileSize);
-            r.height = (size.y * controller.TileSize);
+            var r = GUILayoutUtility.GetRect((size.x * tileSize), (size.y * tileSize), (size.x * tileSize), (size.y * tileSize));
+            r.width = (size.x * tileSize);
+            r.height = (size.y * tileSize);
             //Debug.Log(r.width + " - " + r.height);
             //GUILayout.BeginArea(r);
 
@@ -43,10 +41,10 @@ namespace LevelBuildingSidekick.Schema
                     if (controller.TileMap[i, j] == 0)
                     {
                         //texture.SetPixel(i, j, Color.black);
-                        /*Handles.DrawSolidRectangleWithOutline(new Rect((controller.Step*i),
+                        Handles.DrawSolidRectangleWithOutline(new Rect((controller.Step*i),
                             (controller.Step * j), 
                             controller.Step, controller.Step), 
-                            Color.black, Color.black);*/
+                            Color.black, Color.black);
                     }
                     else
                     {
@@ -58,24 +56,25 @@ namespace LevelBuildingSidekick.Schema
                             (controller.TileSize * j),
                             controller.TileSize, controller.TileSize);
                         GUI.DrawTexture(rect, t);
-                        /*Handles.DrawSolidRectangleWithOutline(new Rect((controller.Step * i),
+                        Handles.DrawSolidRectangleWithOutline(new Rect((controller.Step * i),
                             (controller.Step * j),
                             controller.Step, controller.Step),
-                            Color.white, Color.white);*/
+                            Color.white, Color.white);
                     }
                 }
             }
             //base.Draw2D();
             //GUILayout.EndArea();
             EditorGUILayout.EndScrollView();
+            */
 
         }
 
         public override void DrawEditor()
         {
-            var controller = Controller as SchemaController;
+            //var controller = Controller as SchemaController;
             //controller.Size = EditorGUILayout.Vector2IntField("Size", controller.Size);
-            controller.TileSize = EditorGUILayout.IntField("Size", controller.TileSize);
+            //controller.TileSize = EditorGUILayout.IntField("Size", controller.TileSize);
         }
 
     }

@@ -85,7 +85,7 @@ namespace Utility
 
         public static T Run<T, U>(T root, U heuristic, System.Func<bool> endCondition, System.Func<T, List<T>> GetNeighbors, System.Func<T, U, float> Evaluate)
         {
-            var r = new System.Random();
+            var random = new System.Random();
             score = 0;
             nonSignificantEpochs = 0;
             prevScore = score;
@@ -111,7 +111,6 @@ namespace Utility
                         betters.Add(candidates[i]);
                     }
                     higherScore = higherScore < newScore ? newScore : higherScore;
-                    //Debug.Log("New Score: " + newScore);
 
                 }
                 if (higherScore <= score)
@@ -127,7 +126,7 @@ namespace Utility
                     return best;
                 }
                 Debug.Log("After: " + betters.Count);
-                best = betters[r.Next(0, betters.Count - 1)];
+                best = betters[random.Next(0, betters.Count - 1)];
                 Debug.Log("Score: " + score);
             }
             return best;

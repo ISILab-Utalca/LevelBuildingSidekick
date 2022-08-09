@@ -14,6 +14,8 @@ namespace LevelBuildingSidekick.OfficePlan
     {
         public GraphData graph;
         public SchemaData schema;
+        public List<RoomCharacteristics> characteristics;
+
         //public ToolkitData toolkit;
         //public GameObject floor;
         //public GameObject wall;

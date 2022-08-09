@@ -6,49 +6,19 @@ using LevelBuildingSidekick.Graph;
 using LevelBuildingSidekick.Schema;
 using System.Linq;
 using UnityEditor;
+using static LevelBuildingSidekick.Schema.SchemaData;
 
 namespace LevelBuildingSidekick.OfficePlan
 {
     public class OfficePlanController : LevelRepresentationController
     {
+        private SchemaData schema;
+
         public GraphController Graph { get; set; }
-        public SchemaController Schema { get; set; }
-        /*public GameObject Floor
-        {
-            get
-            {
-                return (Data as OfficePlanData).floor;
-            }
-            set
-            {
-                (Data as OfficePlanData).floor = value;
-            }
-        }
-        public GameObject Wall
-        {
-            get
-            {
-                return (Data as OfficePlanData).wall;
-            }
-            set
-            {
-                (Data as OfficePlanData).wall = value;
-            }
-        }
-        public GameObject Door
-        {
-            get
-            {
-                return (Data as OfficePlanData).door;
-            }
-            set
-            {
-                (Data as OfficePlanData).door = value;
-            }
-        }
-        public ToolkitController toolkit;*/
+        //public SchemaController Schema { get; set; }
 
         private static GenericWindow _ElementInspector;
+
         public static GenericWindow ElementInspector
         {
             get
@@ -72,7 +42,7 @@ namespace LevelBuildingSidekick.OfficePlan
 
             var data = Data as OfficePlanData;
 
-            if(data.graph == null)
+            if (data.graph == null)
             {
                 data.graph = new GraphData();
             }
@@ -88,247 +58,52 @@ namespace LevelBuildingSidekick.OfficePlan
                 data.schema = new SchemaData();
             }
 
-            var schema = Activator.CreateInstance(data.schema.ControllerType, new object[] { data.schema });
-            if (schema is SchemaController)
+            //var schema = Activator.CreateInstance(data.schema.ControllerType, new object[] { data.schema });
+            //if (schema is SchemaController)
             {
-                Schema = schema as SchemaController;
+              //  Schema = schema as SchemaController;
             }
-
-            /*if(Graph.Nodes.Count > 0)
-            {
-                foreach (RoomController r in Schema.Rooms)
-                {
-                    var node = Graph.Nodes.First((n) => n.ID == r.ID);
-                    if (node == null)
-                    {
-                        Debug.LogError("Incongruent Data: " + r.ID);
-                        continue;
-                    }
-
-                    r.Room = node.Room;
-                }
-            }*/
-            //Toolkit = Graph.Toolkit;
-            //ToolkitOverlay.draw = Graph.Toolkit.View.DrawEditor;
-           /*if(data.toolkit != null)
-           {
-                Toolkit = new ToolkitController(data.toolkit, this, null);
-                //ToolkitOverlay.draw = toolkit.View.DrawEditor;
-           }*/
         }
 
-        /*public void GraphToBlueprint()
+        public void GenerateShcema()
         {
-            float minimumChange = 2 * 1.14f;
-            bool[,] adjacency = Graph.AdjacencyMatrix();
-            Dictionary<int, Vector2Int> positions = Graph.ToMatrixPositions(Schema.Size);
+            schema = GraphToSchema(Graph.Data as GraphData);
+        }
 
-            foreach (NodeController n in Graph.Nodes)
-            {
-                if (!Schema.ContainsRoom(n.ID))
-                {
-                    Schema.AddRoom(n.Room, positions[n.ID]);
-                }
-            }
-
-            foreach (RoomController r in Schema.Rooms)
-            {
-                r.ResizeToMin();
-            }
-
-            #region PUSH
-            bool colliding = false;
-            do
-            {
-                foreach (RoomController r in Schema.Rooms)
-                {
-                    Vector2Int v = Schema.GetCollisionPush(r);
-                    colliding = v.magnitude != 0;
-                    v += GetPush(r.ID, adjacency, positions);
-                    r.Position += v;
-                }
-            }
-            while (colliding);
-            #endregion
-
-            #region PULL
-            float maxDistance = 0;
-            do
-            {
-                foreach (RoomController r in Schema.Rooms)
-                {
-                    float dist = Schema.Translate(r, GetPull(r.ID, adjacency, positions)).magnitude;
-                    maxDistance = dist > maxDistance ? dist : maxDistance;
-                }
-            }
-            while (maxDistance < minimumChange);
-            #endregion
-
-            //Search empty spaces and fill
-            Schema.ToTileMap();
-        }*/
-
-        /*public void GraphToSchema()
+        public void PrintSchema()
         {
-            //Debug.Log("Step1");
-            Schema.ClearRooms();
+            string msg = "";
 
-            List<NodeController> open = new List<NodeController>();
-            List<NodeController> closed = new List<NodeController>();
+            var sch = schema;
+            msg += "<b>Schema</b>\n";
+            msg += "Room count:" + sch.rooms.Count + "\n";
 
-            //Debug.Log("Step1");
-            var node = Graph.Nodes.OrderBy((n) => n.Position.magnitude).First();
-            var room = Schema.AddRoom(node.Room, Vector2Int.zero);
-            //Debug.Log("Step2");
-            //Debug.Log("Root: " + room.ID);
-            Schema.ResizeRoomToMin(room);
-            open.Add(node);
-
-            //Debug.Log("Step3");
-            while (open.Count > 0)
+            foreach (var room in sch.rooms)
             {
-                var parent = open.First();
-                open.Remove(parent);
-                closed.Add(parent);
-                var parentRoom = Schema.Rooms.Find((r) => r.ID == parent.ID);
-                if(parentRoom == null)
-                {
-                    Debug.LogError("Parent ID: " + parent.ID);
-                    foreach (RoomController r in Schema.Rooms)
-                    {
-                        Debug.LogError("Room ID" + r.ID);
-                    }
-                    return;
-                }
-                foreach (NodeController n in parent.neighbors)
-                {
-                    if (closed.Find((c) => c.ID == n.ID) != null || open.Find((o) => o.ID == n.ID) != null)
-                    {
-                        continue;
-                    }
-                    Vector2 dir = (Vector2)(n.Position - parent.Position) / Vector2.Distance(parent.Position, n.Position);
-                    Vector2Int pos = Schema.CloserEmpty(dir, parentRoom.Position, out Vector2Int last);
-                    if (pos.x <0 || pos.y < 0)
-                    {
-                        pos = Schema.CloserEmptyFrom(last);
-                    }
-                    /*if (pos.x < 0 || pos.y < 0)
-                    {
-                        pos = Vector2Int.zero;
-                    }
-
-        //Debug.LogWarning(pos);
-
-        room = Schema.AddRoom(n.Room, pos);
-                    //Debug.Log(room.ID);
-                    Schema.ResizeRoomToMin(room);
-                    open.Add(n);
-                }
+                msg += "-------------------\n";
+                msg += "id: " + room.ID + "\n";
+                msg += "tile count: " + room.tiles.Count + "\n";
             }
-            //Debug.Log("Step4");
-        }*/
 
-        /*public void GraphToSchema()
+            Debug.Log(msg);
+        }
+
+        public void Optimize()
         {
-            //Debug.Log("Step1");
-            Schema.ClearRooms();
+            var graph = Graph.Data as GraphData;
+            var optimized = Utility.HillClimbing.Run(schema,graph,
+                            () => { return Utility.HillClimbing.NonSignificantEpochs >= 100; },
+                            GetNeighbors,
+                            EvaluateMap);
+            Debug.Log(optimized);
+        }
 
-            List<NodeController> open = new List<NodeController>();
-            List<NodeController> closed = new List<NodeController>();
-
-            //Debug.Log("Step1");
-            var node = Graph.Nodes.OrderBy((n) => n.neighbors.Count).First();
-            var room = Schema.AddRoom(node.Room, Schema.Size/2);
-            //var first = room;
-            //Debug.Log("Step2");
-            //Debug.Log("Root: " + room.ID);
-            Schema.ResizeRoomToMin(room);
-            open.Add(node);
-
-            //Debug.Log("Step3");
-            while (open.Count > 0)
-            {
-                var parent = open.First();
-                Debug.Log("Node: " + parent.Label);
-                open.Remove(parent);
-                closed.Add(parent);
-                var parentRoom = Schema.Rooms.Find((r) => r.ID == parent.ID);
-                if (parentRoom == null)
-                {
-                    Debug.LogError("Parent ID: " + parent.ID);
-                    foreach (RoomController r in Schema.Rooms)
-                    {
-                        Debug.LogError("Room ID" + r.ID);
-                    }
-                    return;
-                }
-                foreach (NodeController n in parent.neighbors)
-                {
-                    if (closed.Find((c) => c.ID == n.ID) != null || open.Find((o) => o.ID == n.ID) != null)
-                    {
-                        continue;
-                    }
-                    Vector2 dir = (Vector2)(n.Position - parent.Position) / Vector2.Distance(parent.Position, n.Position);
-                    Vector2Int pos = Schema.CloserEmpty(dir, parentRoom.Position, out Vector2Int last);
-                    if (pos.x < 0 || pos.y < 0)
-                    {
-                        pos = Schema.CloserEmptyFrom(last);
-                    }
-
-                    //Debug.LogWarning(pos);
-
-                    room = Schema.AddRoom(n.Room, pos);
-                    //Debug.Log(room.ID);
-                    Schema.ResizeRoomToMin(room);
-
-                    //Fix PULLS
-                    Schema.SolveAdjacencies(room, n.neighbors.Select((i) => i.ID).ToHashSet<int>());
-
-                    if(Schema.GetCollisions(room, out HashSet<Vector2Int> collisions))
-                    {
-                        Schema.SolveCollisions(room, collisions);
-                    }
-
-                    open.Add(n);
-                }
-            }
-            //Debug.Log("Step4");
-        }*/
-
-        /*public void GraphToSchema()
+        private SchemaData GraphToSchema(GraphData graphData) // ¿esta funcionando?
         {
-            Schema.ClearRooms();
-
-            if(Graph.Nodes.Count == 0)
+            if (Graph.Nodes.Count <= 0)
             {
-                return;
-            }
-
-            //List<RoomController> rooms = new List<RoomController>();
-
-            foreach (NodeController n in Graph.Nodes)
-            {
-                var pos = Graph.ToMatrixPosition(n.ID, Schema.Size);
-                Schema.AddRoom(n.Room, pos);
-            }
-
-            for(int i = 0; i < 15; i++)
-            {
-                Schema.ExpandRoomsOnce();
-                Schema.PullAdjacenciesOnce();
-            }
-
-            Schema.RemakeTileMap();
-        }*/
-
-        public void GraphToSchema()
-        {
-            Schema.Clear();
-
-            if(Graph.Nodes.Count <= 0)
-            {
-                Schema.ToMatrix();
-                return;
+                Debug.LogWarning("[Error]: Graph node have 0 nodes.");
+                return null;
             }
 
             Queue<NodeController> open = new Queue<NodeController>();
@@ -336,117 +111,169 @@ namespace LevelBuildingSidekick.OfficePlan
 
             var parent = Graph.Nodes.OrderByDescending((n) => n.neighbors.Count).First();
             open.Enqueue(parent);
-            var room = Schema.AddRoom(parent.Room, Vector2Int.zero);
-            room.ResizeToMin();
+
+            var schema = new SchemaData();
+            int h = (int)((parent.Room.maxHeight + parent.Room.minHeight) / 2f);
+            int w = (int)((parent.Room.maxWidth + parent.Room.minWidth) / 2f);
+            schema.AddRoom(Vector2Int.zero, h, w, parent.Room.label);
 
             while (open.Count > 0)
             {
                 parent = open.Dequeue();
-                /*Debug.Log("P: " + parent.ID);
-                foreach (RoomController r in Schema.Rooms)
-                {
-                    Debug.Log("R: " + r.ID);
-                }*/
-                var parentRoom = Schema.Rooms.Find((r) => r.ID == parent.ID);
-                //Debug.Log(parentRoom.Label + " Pos: " + parentRoom.Position);
 
                 var childs = parent.neighbors.OrderBy(n => Utility.MathTools.GetAngleD15(parent.Centroid, n.Centroid));
-                foreach(NodeController child in parent.neighbors)
+                foreach (NodeController child in parent.neighbors)
                 {
-                    if(closed.Contains(child) || open.ToHashSet().Contains(child))
-                    {
-                        //Debug.Log("Present: " + child.ID);
+                    if (closed.Contains(child) || open.ToHashSet().Contains(child))
                         continue;
-                    }//order in clockwise manner starting from left
+
                     open.Enqueue(child);
-                    room = Schema.AddRoom(child.Room, Schema.CloserEmpty(parentRoom, child.Centroid - parent.Centroid));
-                    room.ResizeToMin();
-                    Schema.SolveCollision(room);
-                    //Debug.Log("Pos After Collisions: " + parentRoom.Position);
-                    //Schema.SolveCollision(room);
+                    h = (int)((child.Room.maxHeight + child.Room.minHeight) / 2f);
+                    w = (int)((child.Room.maxWidth + child.Room.minWidth) / 2f);
+                    var pos = (child.Centroid - parent.Centroid);
+                    schema.AddRoom(pos, w, h, child.Room.label);
                 }
 
                 closed.Add(parent);
             }
 
-            foreach(RoomController r in Schema.Rooms)
-            {
-                Schema.SolveAdjacencie(r);
-            }
-            //Hunt Adjacencies
-
-            Schema.ToMatrix();
+            return schema;
         }
 
-        //Fix to use centroids
-        public Vector2Int GetPull(int ID, bool[,] adjacency, Dictionary<int, Vector2Int> positions)
+        public List<SchemaData> GetNeighbors(SchemaData rootSchema)
         {
-            var nodes = Graph.Nodes.ToList();
-            int index = nodes.FindIndex((n) => n.ID == ID);
-            Vector2Int pull = Vector2Int.zero;
-            for (int i = 0; i < adjacency.GetLength(1); i++)
+            var neightbours = new List<SchemaData>(); 
+            foreach (var room in rootSchema.rooms)
             {
-                if (adjacency[index, i])
+                var vWalls = room.GetVerticalWalls();
+                var hWalls = room.GetHorizontalWalls();
+                var walls = vWalls.Concat(hWalls);
+
+                foreach (var wall in walls)
                 {
-                    pull += (positions[nodes[i].ID] - positions[ID]); // - o +? dividir por 2?
+                    var neighbor = rootSchema.Clone() as SchemaData;
+                    neighbor.SetTiles(wall.allTiles, ""); // setea los tiles a nulo o default
+                    neightbours.Add(neighbor);
+                }
+                foreach (var wall in walls)
+                {
+                    var neighbor = rootSchema.Clone() as SchemaData;
+                    var tiles = new List<Vector2Int>();
+                    wall.allTiles.ForEach(t => tiles.Add(t + wall.dir));
+                    neighbor.SetTiles(tiles,room.ID);
+                    neightbours.Add(neighbor);
                 }
             }
-            return pull;
+            return neightbours;
         }
-        //Fix to Use centroids, should scale with 1/distance
-        public Vector2Int GetPush(int ID, bool[,] adjacency, Dictionary<int, Vector2Int> positions)
+
+        public float EvaluateMap(SchemaData schemaData, GraphData graphData)
         {
-            var nodes = Graph.Nodes.ToList();
-            int index = nodes.FindIndex((n) => n.ID == ID);
-            Vector2Int push = Vector2Int.zero;
-            for (int i = 0; i < adjacency.GetLength(1); i++)
+            float alfa = 0.84f;
+            float beta = 1 - alfa;
+            var adjacenceValue = EvaluateAdjacencies(graphData, schemaData) * alfa;
+            var areaValue = EvaluateAreas(graphData, schemaData) * beta;
+            Debug.Log("Ad: "+adjacenceValue +" ,Ar: "+ areaValue);
+            return adjacenceValue + areaValue ;
+        }
+
+        private float EvaluateAreas(GraphData graphData, SchemaData schema)
+        {
+            var value = 0f;
+            for (int i = 0; i < graphData.nodes.Count; i++)
             {
-                if (!adjacency[index, i])
+                var node = graphData.nodes[i];
+                //var n = schema.GetRoomByID(node.id);
+                switch (node.room.proportionType)
                 {
-                    push += (positions[ID] - positions[nodes[i].ID]); // - o +? dividir por 2? // distance should affect inversed
+                    case ProportionType.RATIO:
+                        value = EvaluateBtyRatio(node, schema.rooms[i]); // usar n en vez de la referencia en lista
+                        break;
+                    case ProportionType.SIZE:
+                        value = EvaluateBtySize(node, schema.rooms[i]);
+                        break;
                 }
             }
-            return push;
+            return value / schema.rooms.Count;
         }
-        public Tuple<Vector2Int, Vector2Int>[] GetPulls(bool[,] adjacency, Vector2Int[] positions)
+
+        private float EvaluateBtyRatio(NodeData node, SchemaRoomData room)
         {
-            var pulls = new Tuple<Vector2Int, Vector2Int>[positions.Length];
+            float current = room.GetRatio();
+            float objetive = node.room.xAspectRatio / (float)node.room.yAspectRatio;
 
-            //TODO check adjacency is square;
+            return 1 - (Mathf.Abs(objetive - current) / objetive);
+        }
 
-            for (int i = 0; i < positions.Length; i++)
+        private float EvaluateBtySize(NodeData node,SchemaRoomData room)
+        {
+            var vw = 1f;
+            if (room.GetWidth() < node.room.minWidth || room.GetWidth() > node.room.maxWidth)
             {
-                Vector2Int xPull = Vector2Int.zero;
-                Vector2Int yPull = Vector2Int.zero;
-                for (int j = 0; j < positions.Length; j++)
+                var objetive = (node.room.minWidth + node.room.maxWidth) / 2f;
+                var current = room.GetWidth();
+                vw -= (Mathf.Abs(objetive - current) / objetive);
+            }
+
+            var vh = 1f;
+            if (room.GetHeight() < node.room.minHeight || room.GetHeight() > node.room.maxHeight)
+            {
+                var objetive = (node.room.minHeight + node.room.maxHeight) / 2f;
+                var current = room.GetHeight();
+                vh -= (Mathf.Abs(objetive - current) / objetive);
+            }
+
+            return (vw + vh)/2f;
+        }
+
+        private float EvaluateAdjacencies(GraphData graphData, SchemaData schema) // esto podria recivir una funcion de calculo de distancia (?)
+        {
+            var distValue = 0f;
+            foreach (var edge in graphData.edges)
+            {
+                var r1 = schema.GetRoomByID(edge.firstNode.room.label);
+                var r2 = schema.GetRoomByID(edge.secondNode.room.label);
+
+                var roomDist = GetRoomDistance(r1, r2);
+                if (roomDist <= 1)
                 {
-                    if (adjacency[i, j])
+                    distValue++;
+                }
+                else
+                {
+                    var c = r1.tiles.Count();
+                    var max1 = (r1.GetHeight() + r1.GetWidth()) / 2f;
+                    var max2 = (r2.GetHeight() + r2.GetWidth()) / 2f;
+
+                    Debug.Log("dist: " + roomDist + " ,c: " + c + " ,max1: " + max1 + " ,max2: " + max2);
+                    distValue += 1 - (roomDist/(max1 + max2));
+                }
+            }
+
+            return distValue / (float)graphData.edges.Count;
+        }
+
+        private int GetRoomDistance(SchemaRoomData r1, SchemaRoomData r2) // O2 - manhattan
+        {
+            var lessDist = int.MaxValue;
+            var ts1 = r1.tiles.ToList();
+            var ts2 = r2.tiles.ToList();
+            for (int i = 0; i < ts1.Count; i++)
+            {
+                for (int j = 0; j < ts2.Count; j++)
+                {
+                    var t1 = ts1[i];
+                    var t2 = ts2[j];
+
+                    var dist = Mathf.Abs(t1.x - t2.x) + Mathf.Abs(t1.y - t2.y); // manhattan
+
+                    if (dist <= lessDist)
                     {
-                        var pull = positions[i] - positions[j] / 2;
-
-                        if (pull.x < 0)
-                        {
-                            xPull.x += pull.x;
-                        }
-                        else
-                        {
-                            xPull.y += pull.x;
-                        }
-
-                        if (pull.y < 0)
-                        {
-                            yPull.x += pull.y;
-                        }
-                        else
-                        {
-                            yPull.y += pull.y;
-                        }
+                        lessDist = dist;
                     }
                 }
-                pulls[i] = new Tuple<Vector2Int, Vector2Int>(xPull, yPull);
             }
-
-            return pulls;
+            return lessDist;
         }
 
         public override void Update()
@@ -456,77 +283,19 @@ namespace LevelBuildingSidekick.OfficePlan
             if(Graph.SelectedNode != null)
             {
                 ElementInspector.titleContent = new GUIContent("Node Inspector");
-                ElementInspector.draw = Graph.SelectedNode.View.DrawEditor;
+                ElementInspector.draw = Graph.SelectedNode.View.DrawEditor; // (!!!)
             }
             else if(Graph.SelectedEdge != null)
             {
                 ElementInspector.titleContent = new GUIContent("Edge Inspector");
-                ElementInspector.draw = Graph.SelectedEdge.View.DrawEditor;
+                ElementInspector.draw = Graph.SelectedEdge.View.DrawEditor; // (!!!)
             }
             else
             {
                 ElementInspector.titleContent = new GUIContent("Graph Inspector");
-                ElementInspector.draw = Graph.View.DrawEditor;
+                ElementInspector.draw = Graph.View.DrawEditor; // (!!!)
             }
         }
-
-        //missing Doors
-        public void Generate3D()
-        {/*
-            if(Floor == null || Wall == null)
-            {
-                Debug.LogError("The Tiles Prefabs are NULL");
-                return;
-            }
-            //Debug.Log("B.R: " + Schema.Rooms.Count);
-            foreach (RoomController r in Schema.Rooms)
-            {
-                GameObject parent = new GameObject(r.Label);
-                parent.transform.position = new Vector3(r.Position.x, 0, r.Position.y);
-                //Debug.Log("R.P: " + r.TilePositions.Count);
-                foreach (Vector2Int v in r.TilePositions)
-                {
-                    var f = GameObject.Instantiate(Floor,new Vector3(v.x + r.Position.x,0,v.y + r.Position.y),Floor.transform.rotation);
-                    f.transform.parent = parent.transform;
-                    if (v.x == 0)
-                    {
-                        Vector3 pos = new Vector3(v.x + r.Position.x, 0, v.y + r.Position.y) + Vector3.left / 2;
-                        var g = GameObject.Instantiate(Wall, pos, Quaternion.Euler(0,90,0));
-                        //g.name = "Left";
-                        g.transform.parent = parent.transform;
-                    }
-                    if(v.y == 0)
-                    {
-                        Vector3 pos = new Vector3(v.x + r.Position.x, 0, v.y + r.Position.y) + Vector3.back / 2;
-                        var g = GameObject.Instantiate(Wall, pos, Quaternion.Euler(0, 0, 0));
-                        //g.name = "Back";
-                        g.transform.parent = parent.transform;
-                    }
-
-                    if(v.x == r.Bounds.x - 1)
-                    {
-                        Vector3 pos = new Vector3(v.x + r.Position.x, 0, v.y + r.Position.y) + Vector3.right / 2;
-                        var g = GameObject.Instantiate(Wall, pos, Quaternion.Euler(0, 270, 0));
-                        //g.name = "Right";
-                        g.transform.parent = parent.transform;
-                    }
-                    if(v.y == r.Bounds.y - 1)
-                    {
-                        //Debug.Log(r.InnerBounds);
-                        Vector3 pos = new Vector3(v.x + r.Position.x, 0, v.y + r.Position.y) + Vector3.forward / 2;
-                        var g = GameObject.Instantiate(Wall, pos, Quaternion.Euler(0, 180, 0));
-                        //g.name = "Front";
-                        g.transform.parent = parent.transform;
-                    }
-                }
-            }*/
-        }
-
-        /*[MenuItem("Level Building Sidekick/Open Element Inspector")]
-        public static void ShowInspector()
-        {
-            ElementInspector.Show();
-        }*/
     }
 }
 
