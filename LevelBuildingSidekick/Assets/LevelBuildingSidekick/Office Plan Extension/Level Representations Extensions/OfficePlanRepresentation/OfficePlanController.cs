@@ -127,11 +127,18 @@ namespace LevelBuildingSidekick.OfficePlan
                     if (closed.Contains(child) || open.ToHashSet().Contains(child))
                         continue;
 
+                    var room = child.Room;
                     open.Enqueue(child);
-                    h = (int)((child.Room.maxHeight + child.Room.minHeight) / 2f);
-                    w = (int)((child.Room.maxWidth + child.Room.minWidth) / 2f);
-                    var pos = (child.Centroid - parent.Centroid);
-                    schema.AddRoom(pos, w, h, child.Room.label);
+
+                    var parentH = (int)((room.maxHeight + room.minHeight) / 2f);
+                    var parentW = (int)((room.maxWidth + room.minWidth) / 2f);
+                    var childH = (int)((room.maxHeight + room.minHeight) / 2f);
+                    var childW = (int)((room.maxWidth + room.minWidth) / 2f);
+
+                    var dir = ((Vector2)(child.Centroid - parent.Centroid)).normalized;
+                    var posX = dir.x * ((childW + parentW) / 2f);
+                    var posY = dir.y + ((childH + parentH) / 2f);
+                    schema.AddRoom(new Vector2Int((int)posX, (int)posY), childW, childH, child.Room.label);
                 }
 
                 closed.Add(parent);
@@ -173,8 +180,7 @@ namespace LevelBuildingSidekick.OfficePlan
             float beta = 1 - alfa;
             var adjacenceValue = EvaluateAdjacencies(graphData, schemaData) * alfa;
             var areaValue = EvaluateAreas(graphData, schemaData) * beta;
-            Debug.Log("Ad: "+adjacenceValue +" ,Ar: "+ areaValue);
-            return adjacenceValue + areaValue ;
+            return adjacenceValue + areaValue;
         }
 
         private float EvaluateAreas(GraphData graphData, SchemaData schema)
@@ -183,14 +189,14 @@ namespace LevelBuildingSidekick.OfficePlan
             for (int i = 0; i < graphData.nodes.Count; i++)
             {
                 var node = graphData.nodes[i];
-                //var n = schema.GetRoomByID(node.id);
+                var room = schema.GetRoomByID(node.room.label);
                 switch (node.room.proportionType)
                 {
                     case ProportionType.RATIO:
-                        value = EvaluateBtyRatio(node, schema.rooms[i]); // usar n en vez de la referencia en lista
+                        value += EvaluateBtyRatio(node, room);
                         break;
                     case ProportionType.SIZE:
-                        value = EvaluateBtySize(node, schema.rooms[i]);
+                        value += EvaluateBtySize(node, room);
                         break;
                 }
             }
@@ -244,8 +250,6 @@ namespace LevelBuildingSidekick.OfficePlan
                     var c = r1.tiles.Count();
                     var max1 = (r1.GetHeight() + r1.GetWidth()) / 2f;
                     var max2 = (r2.GetHeight() + r2.GetWidth()) / 2f;
-
-                    Debug.Log("dist: " + roomDist + " ,c: " + c + " ,max1: " + max1 + " ,max2: " + max2);
                     distValue += 1 - (roomDist/(max1 + max2));
                 }
             }

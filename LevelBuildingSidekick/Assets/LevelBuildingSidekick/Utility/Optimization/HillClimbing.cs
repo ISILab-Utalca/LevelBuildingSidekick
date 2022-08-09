@@ -83,20 +83,25 @@ namespace Utility
             return best;
         }
 
-        public static T Run<T, U>(T root, U heuristic, System.Func<bool> endCondition, System.Func<T, List<T>> GetNeighbors, System.Func<T, U, float> Evaluate)
+        public static T Run<T, U>(T root, U heuristic, System.Func<bool> endCondition, System.Func<T, List<T>> GetNeighbors, System.Func<T, U, float> Evaluate,int? seed = null, bool debug = false)
         {
-            var random = new System.Random();
-            score = 0;
+            int iterations = 0;
+
+            System.Random random = (seed != null)? new System.Random((int)seed) : new System.Random();
+
+            score = prevScore = 0;
             nonSignificantEpochs = 0;
-            prevScore = score;
+
             T best = root;
             while (endCondition?.Invoke() == false)
             {
+                iterations++;
+
                 prevScore = score;
                 score = Evaluate(best, heuristic);  
                 List<T> candidates = GetNeighbors(best);
                 List<T> betters = new List<T>();
-                Debug.Log("Before: " + candidates.Count);
+                
                 float higherScore = score;
                 for (int i = 0; i < candidates.Count; i++)
                 {
@@ -125,10 +130,20 @@ namespace Utility
                 {
                     return best;
                 }
-                Debug.Log("After: " + betters.Count);
+
                 best = betters[random.Next(0, betters.Count - 1)];
-                Debug.Log("Score: " + score);
+
+                if (debug)
+                {
+                    var msg = "";
+                    msg = "<b> Iteration '" + iterations + "'</b>\n";
+                    msg = "candidates: " + candidates.Count;
+                    msg = "betters: " + betters.Count;
+                    msg = "better score: " + score;
+                    Debug.Log(msg);
+                }
             }
+
             return best;
         }
 

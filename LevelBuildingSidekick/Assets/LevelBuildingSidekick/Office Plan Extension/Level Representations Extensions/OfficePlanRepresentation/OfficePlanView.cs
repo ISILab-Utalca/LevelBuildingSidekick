@@ -55,6 +55,7 @@ namespace LevelBuildingSidekick.OfficePlan
                 if (GUILayout.Button("Regenerate Schema"))
                 {
                     controller.GenerateShcema();
+                    Debug.Log("<color=#FF0000>Regenerate Schema</color>");
                     //controller.PrintSchema();
                 }
 

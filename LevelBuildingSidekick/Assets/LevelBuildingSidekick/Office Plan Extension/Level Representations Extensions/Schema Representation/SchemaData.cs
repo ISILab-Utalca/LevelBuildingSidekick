@@ -24,7 +24,8 @@ namespace LevelBuildingSidekick.Schema
         //internal List<SchemaEdgeData> edges = new List<SchemaEdgeData>();
 
         // Meta info
-        //private string[,] roomsIDs;
+        [JsonIgnore] private string[,] matrixIDs;
+        [JsonIgnore] private RectInt? rect;
         //private int[,] tilevalue; // walls
         //private bool dirty = false; // flag
         private Vector2Int size;
@@ -97,6 +98,49 @@ namespace LevelBuildingSidekick.Schema
             return clone;
         }
 
+        internal string[,] GetMatrix()
+        {
+            if (/**/matrixIDs != null)
+                return matrixIDs;
+
+            var rect = GetRect();
+            matrixIDs = new string[rect.width, rect.height];
+            foreach (var r in rooms)
+            {
+                foreach (var t in r.tiles)
+                {
+                    matrixIDs[t.x, t.y] = r.ID;
+                }
+            }
+            return matrixIDs;
+        }
+
+        private RectInt GetRect()
+        {
+            if (/*!dirty &&*/ rect != null)
+                return (RectInt)rect;
+
+            Vector2Int max = new Vector2Int(int.MinValue, int.MinValue);
+            Vector2Int min = new Vector2Int(int.MaxValue, int.MaxValue);
+            foreach (var r in rooms)
+            {
+                var currentMax = r.GetRect().max;
+                if (currentMax.x > max.x)
+                    max.x = currentMax.x;
+                if (currentMax.y > max.y)
+                    max.y = currentMax.y;
+
+                var currentMin = r.GetRect().min;
+                if (currentMin.x < min.x)
+                    min.x = currentMin.x;
+                if (currentMin.y < min.y)
+                    min.y = currentMin.y;
+            }
+            rect = new RectInt(min, max - min + new Vector2Int(1, 1));
+            return (RectInt)rect;
+        }
+
+
         [Serializable]
         internal class SchemaRoomData : ICloneable
         {
@@ -142,7 +186,7 @@ namespace LevelBuildingSidekick.Schema
                 }
             }
 
-            private RectInt GetRect()
+            internal RectInt GetRect()
             {
                 if (/*!dirty &&*/ rect != null)
                     return (RectInt)rect;
