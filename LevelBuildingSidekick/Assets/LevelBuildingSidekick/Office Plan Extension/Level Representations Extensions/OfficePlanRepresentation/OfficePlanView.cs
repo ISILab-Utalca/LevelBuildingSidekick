@@ -93,9 +93,9 @@ namespace LevelBuildingSidekick.OfficePlan
         {
             var controller = Controller as OfficePlanController;
 
-            var graph = LBSController.RequestWindow("Graph Window");
+            var graph = EditorWindow.CreateInstance<GenericWindow>();
+            graph.titleContent = new GUIContent("Graph Window");
             graph.draw = () => { controller.Graph.View.Draw2D(); controller.Graph.Update(); };
-
             graph.Show();
         }
 
@@ -103,9 +103,10 @@ namespace LevelBuildingSidekick.OfficePlan
         {
             var controller = Controller as OfficePlanController;
 
-            var inspector = LBSController.RequestWindow("Inspector Window");
+            var inspector = EditorWindow.CreateInstance<GenericWindow>();
+            inspector.titleContent = new GUIContent("Graph Window");
             inspector.draw = DrawEditor;
-
+            Debug.Log(inspector);
             inspector.Show();
         }
     }
