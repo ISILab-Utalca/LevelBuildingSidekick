@@ -24,7 +24,7 @@ namespace Utility
             }
             var jsonString = JsonConvert.SerializeObject(data, Formatting.Indented, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto });
             //string json = JsonUtility.ToJson(data);
-            Debug.Log("Save data to: " + dataPath);
+            //Debug.Log("Save data to: " + dataPath);
             using StreamWriter writer = new StreamWriter(dataPath);
             writer.Write(jsonString);
             //writer.Write(json);

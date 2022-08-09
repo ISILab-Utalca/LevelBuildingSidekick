@@ -7,49 +7,43 @@ using System.Reflection;
 
 namespace LevelBuildingSidekick
 {
-
-    public class LBSController : Controller
+    public class LBSController
     {
-        public static LBSController Instance {
-            get
-            {
-                //Debug.Log("Here");
-                if (_Instance == null)
-                {
-                    //Debug.Log("It's Null");
-                    _Instance = new LBSController( new LBSData() );
-                    //Debug.Log(_Instance + " - " + _Instance.currentStep);
-                }
-                else
-                {
-                    //Debug.Log(_Instance);
-                }
-                return _Instance;
-            }
-        }
-        private static LBSController _Instance;
-
-        public LevelRepresentationController CurrentStep;
-
-        private LevelController _CurrentLevel;
-        public LevelController CurrentLevel
+        private static LevelBackUp backUp;
+        //private LevelController _CurrentLevel;
+        public static LevelController CurrentLevel
         {
             get
             {
-                return _CurrentLevel;
+                LoadbakcUp();
+                Debug.Log(backUp.level);
+                return backUp.level;
             }
             set
             {
-                _CurrentLevel = value;
-                (Data as LBSData).levelData = value.Data as LevelData;
-                //Debug.Log(_CurrentLevel.Steps.Count);
-                if(_CurrentLevel.Representations.Count > 0)
-                    CurrentStep = _CurrentLevel.Representations[0];
+                LoadbakcUp();
+                backUp.level = value;
             }
         }
 
-        private Dictionary<string, GenericWindow> _Windows;
-        public Dictionary<string, GenericWindow> Windows
+        private static void LoadbakcUp()
+        {
+            if (backUp == null)
+            {
+                Debug.Log("Loading");
+                backUp = Resources.Load("LBSBackUp") as LevelBackUp;
+                if (backUp == null)
+                {
+                    Debug.Log("Created new");
+                    backUp = ScriptableObject.CreateInstance<LevelBackUp>();
+                    AssetDatabase.CreateAsset(backUp, "Assets/LevelBuildingSidekick/Core/LBS Main/Level/Resources/LBSBackUp.asset");
+                    AssetDatabase.SaveAssets();
+                }
+            }
+        }
+
+        private static Dictionary<string, GenericWindow> _Windows;
+        public static Dictionary<string, GenericWindow> Windows
         {
             get 
             {
@@ -61,34 +55,11 @@ namespace LevelBuildingSidekick
             }
         }
 
-        public Dictionary<string, LevelRepresentationData> LevelRepresentations
-        {
-            get
-            {
-                if((Data as LBSData).levelRepresentations == null)
-                {
-                    //SHOULD LOAD DATA
-                    (Data as LBSData).levelRepresentations = new Dictionary<string, LevelRepresentationData>();
-                }
-                return (Data as LBSData).levelRepresentations;
-            }
-        }
-
-        public LBSController(Data data) : base(data)
-        {
-            //Debug.Log((data as LBSData).stepsData[0]);
-            //View = new LBSView(this);
-
-            //LoadData();
-            View = new LBSView(this);
-            //currentStep = steps[0];
-        }
-
         [MenuItem("Level Building Sidekick/Open New")]
         public static void ShowWindow()
         {
             //Debug.Log(Instance.View);
-            Instance.View.DisplayInspectorWindow();
+            var window = LBSView.GetWindow<LBSView>("Level Building Sidekick");
         }
 /*
         [MenuItem("Level Building Sidekick/Show Inspector")]
@@ -97,32 +68,7 @@ namespace LevelBuildingSidekick
             Instance.currentStep.View.DisplayInspectorWindow();
         }*/
 
-        public override void LoadData()
-        {
-            
-            LBSData data = Data as LBSData;
-            if(data == null)
-            { 
-                Debug.LogError("Incorrect Data Type: " + data.GetType());
-                return;
-            }
-
-            if(data.levelData !=  null)
-            {
-                var level = Activator.CreateInstance(data.levelData.ControllerType, new object[] { data.levelData });
-                if (level is LevelController)
-                {
-                    _CurrentLevel = level as LevelController;
-                }
-            }
-            
-        }
-
-        public override void Update()
-        {
-        }
-
-        public GenericWindow RequestWindow(string title)
+        public static GenericWindow RequestWindow(string title)
         {
             GenericWindow window;
 
@@ -147,7 +93,7 @@ namespace LevelBuildingSidekick
             return window;
         }
 
-        public LevelController CreateLevel(string levelName, Vector2Int size)
+        public static LevelController CreateLevel(string levelName, Vector2Int size)
         {
             LevelData d = new LevelData();
             d.levelName = levelName;
@@ -157,7 +103,7 @@ namespace LevelBuildingSidekick
             return c;
         }
 
-        public void SetLevel(LevelData level)
+        public static void SetLevel(LevelData level)
         {
             CurrentLevel = Activator.CreateInstance(typeof(LevelController), new object[] { level}) as LevelController;
         }

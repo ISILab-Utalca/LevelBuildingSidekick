@@ -74,7 +74,7 @@ namespace LevelBuildingSidekick.Graph
             //Espacio para proximo control
             EditorGUILayout.Space();
 
-            LevelController level = LBSController.Instance.CurrentLevel;
+            LevelController level = LBSController.CurrentLevel;
 
             GUILayout.Label("Level Data", EditorStyles.boldLabel);
 
@@ -143,14 +143,14 @@ namespace LevelBuildingSidekick.Graph
             categoryIndex = EditorGUILayout.Popup(categoryIndex, controller.ItemCategories);
             string category = controller.ItemCategories[categoryIndex];
 
-            var prefs = LBSController.Instance.CurrentLevel.RequestLevelObjects(category).ToList();
+            var prefs = LBSController.CurrentLevel.RequestLevelObjects(category).ToList();
             var options = prefs.Select((p) => p.name).ToList();
             var myPrefs = controller.GetPrefabs(category).ToList();
 
             for (int i = 0; i < myPrefs.Count; i++)
             {
                 int index = -1;
-                if(LBSController.Instance.CurrentLevel.RequestLevelObjects(category).Contains(myPrefs[i]))
+                if(LBSController.CurrentLevel.RequestLevelObjects(category).Contains(myPrefs[i]))
                 {
                     index = prefs.FindIndex((p) => p.Equals(myPrefs[i]));
                 }
@@ -184,7 +184,7 @@ namespace LevelBuildingSidekick.Graph
 
             if (newPref != null)
             {
-                LBSController.Instance.CurrentLevel.RequestLevelObjects(category).Add(newPref);
+                LBSController.CurrentLevel.RequestLevelObjects(category).Add(newPref);
                 myPrefs.Add(newPref);
             }
 
