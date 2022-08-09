@@ -71,18 +71,19 @@ namespace LevelBuildingSidekick
             }
         }
 
-        private List<LevelRepresentationController> _Steps;
+        private List<LevelRepresentationController> _Representations;
         public List<LevelRepresentationController> Representations
         {
             get
             {
-                if(_Steps == null)
+                if(_Representations == null)
                 {
-                    _Steps = new List<LevelRepresentationController>();
+                    _Representations = new List<LevelRepresentationController>();
                 }
-                return _Steps;
+                return _Representations;
             }
         }
+        public LevelRepresentationController CurrentRepresentation;
 
         public string Name
         {
@@ -127,6 +128,8 @@ namespace LevelBuildingSidekick
                     Representations.Add(levelRepresentation as LevelRepresentationController);
                 }
             }
+
+            CurrentRepresentation = Representations[0];
             //Debug.Log("StepsC: " + Steps.Count);
             //throw new System.NotImplementedException();
         }

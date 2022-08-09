@@ -41,9 +41,9 @@ namespace LevelBuildingSidekick.OfficePlan
             }
             else
             {
-                if (LBSController.Instance.CurrentLevel != null)
+                if (LBSController.CurrentLevel != null)
                 {
-                    LBSController.Instance.CurrentLevel.View.DrawEditor();
+                    LBSController.CurrentLevel.View.DrawEditor();
 
                     EditorGUILayout.Separator();
                 }
@@ -93,7 +93,7 @@ namespace LevelBuildingSidekick.OfficePlan
         {
             var controller = Controller as OfficePlanController;
 
-            var graph = LBSController.Instance.RequestWindow("Graph Window");
+            var graph = LBSController.RequestWindow("Graph Window");
             graph.draw = () => { controller.Graph.View.Draw2D(); controller.Graph.Update(); };
 
             graph.Show();
@@ -103,7 +103,7 @@ namespace LevelBuildingSidekick.OfficePlan
         {
             var controller = Controller as OfficePlanController;
 
-            var inspector = LBSController.Instance.RequestWindow("Inspector Window");
+            var inspector = LBSController.RequestWindow("Inspector Window");
             inspector.draw = DrawEditor;
 
             inspector.Show();

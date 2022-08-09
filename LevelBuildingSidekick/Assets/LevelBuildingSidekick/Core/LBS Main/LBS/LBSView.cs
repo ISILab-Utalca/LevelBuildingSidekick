@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace LevelBuildingSidekick
 {
-    public class LBSView : View
+    public class LBSView : GenericWindow
     {
         bool creatingNew = true;
 
@@ -16,26 +16,16 @@ namespace LevelBuildingSidekick
         Vector2Int newLevelSize;
         string step1Key;
         LevelRepresentationData step1;
-        //LevelRepresentationData step2;
-        //LevelRepresentationData step3;
-        //LevelRepresentationData step4;
-        //LevelRepresentationData step5;
-
-        System.Action closeWindow;
-
         List<string> jsonFiles = new List<string>();
-
         int levelToLoad = 0;
-        public LBSView(Controller controller):base(controller)
+
+        private void Awake()
         {
-            //Window = EditorWindow.GetWindow<LBSWindow>();
-            jsonFiles = Utility.JSONDataManager.GetJSONFiles(Application.dataPath + "/LBSLevels");
-        }
-        public override void Draw2D()
-        {
+            init = () => jsonFiles = Utility.JSONDataManager.GetJSONFiles(Application.dataPath + "/LBSLevels");
+            onFocus = () => jsonFiles = Utility.JSONDataManager.GetJSONFiles(Application.dataPath + "/LBSLevels");
         }
 
-        public override void DrawEditor()
+        public void OnGUI()
         {
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.BeginVertical();
@@ -78,34 +68,20 @@ namespace LevelBuildingSidekick
                 if (creatingNew)
                 {
 
-                    LBSController.Instance.CurrentLevel = LBSController.Instance.CreateLevel(newLevelName, newLevelSize);
+                    LBSController.CurrentLevel = LBSController.CreateLevel(newLevelName, newLevelSize);
                 }
                 else
                 { 
-                    LBSController.Instance.SetLevel(Utility.JSONDataManager.LoadData<LevelData>("LBSLevels", loadLevelName));
+                    LBSController.SetLevel(Utility.JSONDataManager.LoadData<LevelData>("LBSLevels", loadLevelName));
                 }
                 //Debug.Log("View: " + LBSController.Instance.CurrentLevel.View);
-                LBSController.Instance.CurrentStep.View.Display2DWindow();
-                LBSController.Instance.CurrentStep.View.DisplayInspectorWindow();
-                closeWindow();
+                LBSController.CurrentLevel.CurrentRepresentation.View.Display2DWindow();
+                LBSController.CurrentLevel.CurrentRepresentation.View.DisplayInspectorWindow();
+                Close();
             }
             EditorGUILayout.EndVertical();
 
             EditorGUILayout.EndHorizontal();
-        }
-
-        public override void Display2DWindow()
-        {
-        }
-
-        public override void DisplayInspectorWindow()
-        {
-            var window = LBSController.Instance.RequestWindow("LBSWindow");
-            window.init = () => jsonFiles = Utility.JSONDataManager.GetJSONFiles(Application.dataPath + "/LBSLevels");
-            window.onFocus = () => jsonFiles = Utility.JSONDataManager.GetJSONFiles(Application.dataPath + "/LBSLevels");
-            window.draw = DrawEditor;
-            closeWindow = window.Close;
-            window.Show();
         }
     }
 }
