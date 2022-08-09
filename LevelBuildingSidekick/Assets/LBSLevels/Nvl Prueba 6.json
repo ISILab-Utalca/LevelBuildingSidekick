@@ -1,0 +1,330 @@
+{
+  "levelName": "Nvl Prueba 6",
+  "tags": [],
+  "levelObjects": [
+    {
+      "category": "Walls",
+      "ItemNames": []
+    }
+  ],
+  "size": {
+    "x": 0,
+    "y": 0,
+    "magnitude": 0.0,
+    "sqrMagnitude": 0
+  },
+  "representations": [
+    {
+      "$type": "LevelBuildingSidekick.OfficePlan.OfficePlanData, Assembly-CSharp",
+      "graph": {
+        "nodes": [
+          {
+            "room": {
+              "label": "Node: 0",
+              "minWidth": 4,
+              "maxWidth": 4,
+              "minHeight": 4,
+              "maxHeight": 4,
+              "xAspectRatio": 4,
+              "yAspectRatio": 4,
+              "proportionType": 1,
+              "neighbors": [
+                -103931470,
+                -103931473
+              ],
+              "prefabs": [
+                {
+                  "category": "Walls",
+                  "ItemNames": []
+                }
+              ],
+              "prefabCategories": [
+                "Walls",
+                "Floors",
+                "Doors"
+              ],
+              "tags": []
+            },
+            "x": 159,
+            "y": 152,
+            "radius": 32
+          },
+          {
+            "room": {
+              "label": "Node: 1",
+              "minWidth": 1,
+              "maxWidth": 1,
+              "minHeight": 1,
+              "maxHeight": 1,
+              "xAspectRatio": 1,
+              "yAspectRatio": 1,
+              "proportionType": 0,
+              "neighbors": [
+                -103931472,
+                -103931476
+              ],
+              "prefabs": [
+                {
+                  "category": "Walls",
+                  "ItemNames": []
+                }
+              ],
+              "prefabCategories": [
+                "Walls",
+                "Floors",
+                "Doors"
+              ],
+              "tags": []
+            },
+            "x": 159,
+            "y": 297,
+            "radius": 32
+          },
+          {
+            "room": {
+              "label": "Node: 2",
+              "minWidth": 8,
+              "maxWidth": 8,
+              "minHeight": 2,
+              "maxHeight": 2,
+              "xAspectRatio": 8,
+              "yAspectRatio": 2,
+              "proportionType": 1,
+              "neighbors": [
+                -103931472,
+                -103931471
+              ],
+              "prefabs": [
+                {
+                  "category": "Walls",
+                  "ItemNames": []
+                }
+              ],
+              "prefabCategories": [
+                "Walls",
+                "Floors",
+                "Doors"
+              ],
+              "tags": []
+            },
+            "x": 327,
+            "y": 151,
+            "radius": 32
+          },
+          {
+            "room": {
+              "label": "Node: 3",
+              "minWidth": 4,
+              "maxWidth": 4,
+              "minHeight": 2,
+              "maxHeight": 2,
+              "xAspectRatio": 4,
+              "yAspectRatio": 2,
+              "proportionType": 1,
+              "neighbors": [
+                -103931470
+              ],
+              "prefabs": [
+                {
+                  "category": "Walls",
+                  "ItemNames": []
+                }
+              ],
+              "prefabCategories": [
+                "Walls",
+                "Floors",
+                "Doors"
+              ],
+              "tags": []
+            },
+            "x": 457,
+            "y": 151,
+            "radius": 32
+          },
+          {
+            "room": {
+              "label": "Node: 4",
+              "minWidth": 6,
+              "maxWidth": 6,
+              "minHeight": 4,
+              "maxHeight": 4,
+              "xAspectRatio": 6,
+              "yAspectRatio": 4,
+              "proportionType": 1,
+              "neighbors": [
+                -103931473,
+                -103931477
+              ],
+              "prefabs": [
+                {
+                  "category": "Walls",
+                  "ItemNames": []
+                }
+              ],
+              "prefabCategories": [
+                "Walls",
+                "Floors",
+                "Doors"
+              ],
+              "tags": []
+            },
+            "x": 301,
+            "y": 296,
+            "radius": 32
+          },
+          {
+            "room": {
+              "label": "Node: 5",
+              "minWidth": 4,
+              "maxWidth": 4,
+              "minHeight": 4,
+              "maxHeight": 4,
+              "xAspectRatio": 4,
+              "yAspectRatio": 4,
+              "proportionType": 1,
+              "neighbors": [
+                -103931476,
+                -103931474,
+                -103931475
+              ],
+              "prefabs": [
+                {
+                  "category": "Walls",
+                  "ItemNames": []
+                }
+              ],
+              "prefabCategories": [
+                "Walls",
+                "Floors",
+                "Doors"
+              ],
+              "tags": []
+            },
+            "x": 461,
+            "y": 296,
+            "radius": 32
+          },
+          {
+            "room": {
+              "label": "Node: 6",
+              "minWidth": 1,
+              "maxWidth": 1,
+              "minHeight": 1,
+              "maxHeight": 1,
+              "xAspectRatio": 2,
+              "yAspectRatio": 2,
+              "proportionType": 0,
+              "neighbors": [
+                -103931477
+              ],
+              "prefabs": [
+                {
+                  "category": "Walls",
+                  "ItemNames": []
+                }
+              ],
+              "prefabCategories": [
+                "Walls",
+                "Floors",
+                "Doors"
+              ],
+              "tags": []
+            },
+            "x": 585,
+            "y": 261,
+            "radius": 32
+          },
+          {
+            "room": {
+              "label": "Node: 7",
+              "minWidth": 1,
+              "maxWidth": 1,
+              "minHeight": 1,
+              "maxHeight": 1,
+              "xAspectRatio": 2,
+              "yAspectRatio": 2,
+              "proportionType": 0,
+              "neighbors": [
+                -103931477
+              ],
+              "prefabs": [
+                {
+                  "category": "Walls",
+                  "ItemNames": []
+                }
+              ],
+              "prefabCategories": [
+                "Walls",
+                "Floors",
+                "Doors"
+              ],
+              "tags": []
+            },
+            "x": 584,
+            "y": 356,
+            "radius": 32
+          }
+        ],
+        "edges": [
+          {
+            "FirstNodeLabel": "Node: 0",
+            "SecondNodeLabel": "Node: 2"
+          },
+          {
+            "FirstNodeLabel": "Node: 2",
+            "SecondNodeLabel": "Node: 3"
+          },
+          {
+            "FirstNodeLabel": "Node: 0",
+            "SecondNodeLabel": "Node: 1"
+          },
+          {
+            "FirstNodeLabel": "Node: 1",
+            "SecondNodeLabel": "Node: 4"
+          },
+          {
+            "FirstNodeLabel": "Node: 4",
+            "SecondNodeLabel": "Node: 5"
+          },
+          {
+            "FirstNodeLabel": "Node: 5",
+            "SecondNodeLabel": "Node: 6"
+          },
+          {
+            "FirstNodeLabel": "Node: 5",
+            "SecondNodeLabel": "Node: 7"
+          }
+        ],
+        "cellSize": 64,
+        "toolkit": {
+          "tools": [
+            {
+              "$type": "SelectGraphElementData, Assembly-CSharp"
+            },
+            {
+              "$type": "CreateNodeData, Assembly-CSharp"
+            },
+            {
+              "$type": "ConnectNodesData, Assembly-CSharp"
+            },
+            {
+              "$type": "MoveNodeData, Assembly-CSharp"
+            },
+            {
+              "$type": "DeleteGraphElementData, Assembly-CSharp"
+            }
+          ]
+        }
+      },
+      "schema": {
+        "tileSize": 20,
+        "width": 20,
+        "height": 20,
+        "rooms": [],
+        "toolkit": null
+      },
+      "toolkit": null
+    }
+  ],
+  "ControllerType": "LevelBuildingSidekick.LevelController, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+}
