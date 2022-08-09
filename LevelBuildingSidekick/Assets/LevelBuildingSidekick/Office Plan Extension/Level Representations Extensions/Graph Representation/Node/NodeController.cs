@@ -340,7 +340,8 @@ namespace LevelBuildingSidekick.Graph
             {
                 return false;
             }
-            Prefabs[category] = prefabs;
+            var cat = Room.prefabs.Find(c => c.category == category);
+            cat.items = prefabs.ToList();
             return true;
         }
 
