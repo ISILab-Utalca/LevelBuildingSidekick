@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor.Experimental.GraphView;
 using UnityEditor;
+using UnityEditor.UIElements;
+using UnityEngine.UIElements;
 using System.Linq;
 
 namespace LevelBuildingSidekick.Graph
 {
-    public class NodeView : View
+    public class LBSNodeView : GraphElement
     {
         public Texture2D circle;
         Vector2 scrollPos;
@@ -17,15 +20,43 @@ namespace LevelBuildingSidekick.Graph
         bool openGameObjects;
         int categoryIndex;
 
-        public NodeView(Controller controller) : base(controller)
+        LBSNodeController Controller;
+
+        public LBSNodeView(LBSNodeController controller)
         {
+            Controller = controller;
+
+            SetPosition(new Rect(Controller.Position - Vector2.one * Controller.Radius, Vector2.one * 2 * Controller.Radius));
+
+            Box b = new Box();
+            b.style.minHeight = 2 * Controller.Radius;
+            b.style.minWidth = 2 * Controller.Radius;
+            b.style.backgroundColor = Color.green;
+            b.style.opacity = 100;
+            b.Add(new Label(Controller.Label));
+            
+            Add(b);
+
+            VisualElement main = this;
+            VisualElement borderContainer = main.Q(name: "node-border");
+
+            capabilities |= Capabilities.Selectable | Capabilities.Movable | Capabilities.Deletable | Capabilities.Ascendable | Capabilities.Copiable | Capabilities.Snappable | Capabilities.Groupable;
+            usageHints = UsageHints.DynamicTransform;
+
         }
 
-        public override void Draw2D()
+        public override void OnSelected()
+        {
+            base.OnSelected();
+            Debug.Log(Controller.Label + " AH!");
+        }
+
+
+        public void Draw2D()
         {
 
             //Debug.Log("Node View");
-            var node = Controller as NodeController;
+            var node = Controller as LBSNodeController;
 
             var pos = node.Position;
             var size = 2 * node.Radius * Vector2.one;
@@ -47,9 +78,9 @@ namespace LevelBuildingSidekick.Graph
             GUILayout.EndArea();
         }
 
-        public override void DrawEditor()
+        public void DrawEditor()
         {
-             NodeController controller = Controller as NodeController;
+             LBSNodeController controller = Controller as LBSNodeController;
             //Espacio para proximo control
             EditorGUILayout.Space();
             string newLabel = controller.Label;
@@ -199,6 +230,8 @@ namespace LevelBuildingSidekick.Graph
             #endregion
 
         }
+
+        
     }
 }
 

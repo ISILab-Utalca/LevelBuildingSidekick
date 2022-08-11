@@ -10,22 +10,22 @@ using System;
 namespace LevelBuildingSidekick.Graph
 {
     [System.Serializable]
-    public class NodeController : Controller
+    public class LBSNodeController : Controller
     {
-        public HashSet<NodeController> neighbors;
+        public HashSet<LBSNodeController> neighbors;
         public HashSet<int> NeighborsIDs
         {
             get
             {
-                if((Data as NodeData).room.neighbors == null)
+                if((Data as LBSNodeData).room.neighbors == null)
                 {
-                    (Data as NodeData).room.neighbors = new List<int>();
+                    (Data as LBSNodeData).room.neighbors = new List<int>();
                 }
-                return (Data as NodeData).room.neighbors.ToHashSet();
+                return (Data as LBSNodeData).room.neighbors.ToHashSet();
             }
             set
             {
-                (Data as NodeData).room.neighbors = value.ToList();
+                (Data as LBSNodeData).room.neighbors = value.ToList();
             }
         }
 
@@ -40,11 +40,11 @@ namespace LevelBuildingSidekick.Graph
         {
             get
             {
-                if ((Data as NodeData == null))
+                if ((Data as LBSNodeData == null))
                 {
                     return Vector2Int.zero;
                 }
-                var d = (Data as NodeData);
+                var d = (Data as LBSNodeData);
                 return new Vector2Int(d.x,d.y);
                 //return (Data as NodeData).position;
             }
@@ -52,23 +52,23 @@ namespace LevelBuildingSidekick.Graph
             {
                 if (value.x < 0) value.x = 0;
                 if (value.y < 0) value.y = 0;
-                (Data as NodeData).x = value.x;
-                (Data as NodeData).y = value.y;
+                (Data as LBSNodeData).x = value.x;
+                (Data as LBSNodeData).y = value.y;
             }
         }
         public int Radius
         {
             get
             {
-                if ((Data as NodeData == null))
+                if ((Data as LBSNodeData == null))
                 {
                     return 0;
                 }
-                return (Data as NodeData).radius;
+                return (Data as LBSNodeData).radius;
             }
             set
             {
-                (Data as NodeData).radius = value;
+                (Data as LBSNodeData).radius = value;
             }
         }
         public Vector2Int Centroid
@@ -82,11 +82,11 @@ namespace LevelBuildingSidekick.Graph
         {
             get
             {
-                if ((Data as NodeData == null))
+                if ((Data as LBSNodeData == null))
                 {
                     return null;
                 }
-                return (Data as NodeData).sprite;
+                return (Data as LBSNodeData).sprite;
             }
         } 
 
@@ -94,11 +94,11 @@ namespace LevelBuildingSidekick.Graph
         {
             get
             {
-                if ((Data as NodeData).room == null)
+                if ((Data as LBSNodeData).room == null)
                 {
                     return new RoomCharacteristics();
                 }
-                return (Data as NodeData).room;
+                return (Data as LBSNodeData).room;
             }
         }
         public Dictionary<string, HashSet<GameObject>> Prefabs
@@ -117,19 +117,14 @@ namespace LevelBuildingSidekick.Graph
         {
             get
             {
-                if (Room == null)
-                {
-                    Debug.LogWarning("Room does not Exist");
-                    return "";
-                }
-                return Room.label;
+                return (Data as LBSNodeData).label;
             }
             set
             {  
                 if(Exist?.Invoke(value) == true)
                 {
-                   //Debug.Log("Does not exist");
-                    Room.label = value;
+                    //Debug.Log("Does not exist");
+                    (Data as LBSNodeData).label = value;
 
                 }
             }
@@ -180,7 +175,7 @@ namespace LevelBuildingSidekick.Graph
         {
             get
             {
-                if ((Data as NodeData).room == null)
+                if ((Data as LBSNodeData).room == null)
                 {
                     Debug.LogWarning("Room does not Exist");
                     return Vector2Int.one;
@@ -250,10 +245,10 @@ namespace LevelBuildingSidekick.Graph
             }
         }
 
-        public NodeController(Data data) : base(data)
+        public LBSNodeController(Data data) : base(data)
         {
-            View = new NodeView(this);
-            neighbors = new HashSet<NodeController>();
+            View = new LBSNodeView(this);
+            neighbors = new HashSet<LBSNodeController>();
         }
 
         public override void LoadData()
@@ -345,14 +340,14 @@ namespace LevelBuildingSidekick.Graph
             return true;
         }
 
-        public bool AddNeighbor(NodeController n)
+        public bool AddNeighbor(LBSNodeController n)
         {
             if(NeighborsIDs.Contains(n.ID))
             {
                 return false;
             }
 
-            (Data as NodeData).room.neighbors.Add(n.ID);
+            (Data as LBSNodeData).room.neighbors.Add(n.ID);
             neighbors.Add(n);
             return true;
         }
