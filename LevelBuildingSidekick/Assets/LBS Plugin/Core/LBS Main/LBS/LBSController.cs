@@ -16,12 +16,12 @@ namespace LevelBuildingSidekick
         {
             get
             {
-                LoadbakcUp();
+                LoadBackup();
                 return backUp.level;
             }
             set
             {
-                LoadbakcUp();
+                LoadBackup();
                 backUp.level = value;
             }
         }
@@ -32,7 +32,7 @@ namespace LevelBuildingSidekick
             var window = LBSView.GetWindow<LBSView>("Level Building Sidekick");
         }
 
-        private static void LoadbakcUp()
+        private static void LoadBackup()
         {
             if (backUp == null)
             {
@@ -40,11 +40,11 @@ namespace LevelBuildingSidekick
                 if (backUp == null)
                 {
                     backUp = ScriptableObject.CreateInstance<LevelBackUp>();
-                    if(!Directory.Exists("Assets/LevelBuildingSidekick/Core/LBS Main/Level/Resources"))
+                    if(!Directory.Exists("Assets/LevelBuildingSidekick/Core/LBS Main/Level/Resources")) // esto podria ser peligroso (!)
                     {
-                        Directory.CreateDirectory("Assets/LevelBuildingSidekick/Core/LBS Main/Level/Resources");
+                        Directory.CreateDirectory("Assets/LevelBuildingSidekick/Core/LBS Main/Level/Resources"); // esto podria ser peligroso (!)
                     }
-                    AssetDatabase.CreateAsset(backUp, "Assets/LevelBuildingSidekick/Core/LBS Main/Level/Resources/LBSBackUp.asset");
+                    AssetDatabase.CreateAsset(backUp, "Assets/LevelBuildingSidekick/Core/LBS Main/Level/Resources/LBSBackUp.asset"); // esto podria ser peligroso (!)
                     AssetDatabase.SaveAssets();
                 }
             }
