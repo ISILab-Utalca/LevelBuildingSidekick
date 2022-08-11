@@ -22,7 +22,7 @@ namespace LevelBuildingSidekick
         {
             if (controller.Data != null)
             {
-                controller.View.DrawEditor();
+                (controller.View as View).DrawEditor();
             }
             else
             {
