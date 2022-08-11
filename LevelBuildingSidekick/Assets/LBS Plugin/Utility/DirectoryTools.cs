@@ -7,7 +7,7 @@ namespace Utility
 {
     public static class DirectoryTools
     {
-        public static T SearchObjectByName<T>(string name)
+        public static T SearchAssetByName<T>(string name)
         {
             var guids = AssetDatabase.FindAssets(name);
             object obj = null;

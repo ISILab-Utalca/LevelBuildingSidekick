@@ -260,7 +260,7 @@ namespace LevelBuildingSidekick.Graph
                 {
                     foreach (var name in cat.ItemNames)
                     {
-                        var obj = Utility.DirectoryTools.SearchObjectByName<GameObject>(name);
+                        var obj = Utility.DirectoryTools.SearchAssetByName<GameObject>(name);
                         if (obj != null)
                         {
                             cat.items.Add(obj);

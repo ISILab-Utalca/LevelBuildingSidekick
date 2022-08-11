@@ -2,7 +2,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
-
+using Utility;
 
 public class TileMapEditor : EditorWindow
 {
@@ -25,12 +25,12 @@ public class TileMapEditor : EditorWindow
         VisualElement root = rootVisualElement;
 
         // Import UXML
-        var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/TEST/UXML/TileMapEditor.uxml");
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("TileMapEditor.uxml");
         visualTree.CloneTree(root);
 
         // A stylesheet can be added to a VisualElement.
         // The style will be applied to the VisualElement and all of its children.
-        var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/TEST/USS/TileMapEditor.uss");
+        var styleSheet = DirectoryTools.SearchAssetByName<StyleSheet>("TileMapEditor.uss");
         root.styleSheets.Add(styleSheet);
 
         tileGridView = root.Q<TileGridView>();

@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor;
 using System;
+using Utility;
 
 public class TileGridView : GraphView
 {
@@ -23,7 +24,8 @@ public class TileGridView : GraphView
         this.AddManipulator(new SelectionDragger());
         this.AddManipulator(new RectangleSelector());
 
-        var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/TEST/USS/TileMapEditor.uss");
+        var path = "Assets/LBS Plugin/Level Representation/TileMap/USS/TileMapEditor.uss";
+        var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(path);
         styleSheets.Add(styleSheet);
     }
 
