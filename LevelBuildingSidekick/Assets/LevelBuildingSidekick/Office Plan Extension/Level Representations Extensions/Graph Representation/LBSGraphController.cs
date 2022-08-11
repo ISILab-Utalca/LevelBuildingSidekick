@@ -10,7 +10,7 @@ using Utility;
 
 namespace LevelBuildingSidekick.Graph
 {
-    public class GraphController : LevelRepresentationController
+    public class LBSGraphController : LevelRepresentationController
     {
         // la var (edgeThreshold) esto yo lo pondria a como una variable estatica en 
         // otro lado ya que solo se ocupa para seleccionar las edges,
@@ -18,14 +18,14 @@ namespace LevelBuildingSidekick.Graph
         // (tal vez parametrizado o incluso estatico en algun lado)
         public float edgeThreshold = 10; 
 
-        private HashSet<NodeController> _Nodes;
-        public HashSet<NodeController> Nodes
+        private HashSet<LBSNodeController> _Nodes;
+        public HashSet<LBSNodeController> Nodes
         {
             get
             {
                 if (_Nodes == null)
                 {
-                    _Nodes = new HashSet<NodeController>();
+                    _Nodes = new HashSet<LBSNodeController>();
                 }
                 return _Nodes;
             }
@@ -60,15 +60,15 @@ namespace LevelBuildingSidekick.Graph
                 _SelectedItem = value;
             }
         }
-        public NodeController SelectedNode
+        public LBSNodeController SelectedNode
         {
             get
             {
-                if (_SelectedItem == null || !(_SelectedItem is NodeController))
+                if (_SelectedItem == null || !(_SelectedItem is LBSNodeController))
                 {
                     return null;
                 }
-                return _SelectedItem as NodeController;
+                return _SelectedItem as LBSNodeController;
             }
             set
             {
@@ -79,13 +79,13 @@ namespace LevelBuildingSidekick.Graph
         {
             get
             {
-                return (Data as GraphData).cellSize;
+                return (Data as LBSGraphData).cellSize;
             }
         }
 
-        public GraphController(Data data) : base(data)
+        public LBSGraphController(Data data) : base(data)
         {
-            View = new GraphView(this);
+            //View = new LBSGraphView(this);
             //scrollPosition = Vector2.zero;
         }
 
@@ -93,22 +93,22 @@ namespace LevelBuildingSidekick.Graph
         {
             base.LoadData();
 
-            var data = Data as GraphData;
+            var data = Data as LBSGraphData;
             //Debug.Log("!: " + Data);
 
             //Nodes = new List<NodeController>();
             if (data.nodes == null)
             {
-                data.nodes = new List<NodeData>();
+                data.nodes = new List<LBSNodeData>();
             }
-            foreach (NodeData n in data.nodes)
+            foreach (LBSNodeData n in data.nodes)
             {
                 //Debug.Log("ID: " + n.room.label);
                 var node = Activator.CreateInstance(n.ControllerType, new object[] { n });
-                if (node is NodeController)
+                if (node is LBSNodeController)
                 {
-                    (node as NodeController).Exist = v => !Nodes.Any(n => n.Label == v);
-                    Nodes.Add(node as NodeController);
+                    (node as LBSNodeController).Exist = v => !Nodes.Any(n => n.Label == v);
+                    Nodes.Add(node as LBSNodeController);
                     //Nodes[^1].Data = n;
                 }
             }
@@ -159,7 +159,7 @@ namespace LevelBuildingSidekick.Graph
             var end = Mathf.Max(farther.x, farther.y);
             var Size = new Vector2Int(start, end);
             Dictionary<int, Vector2Int> indexes = new Dictionary<int, Vector2Int>();
-            foreach (NodeController n in Nodes)
+            foreach (LBSNodeController n in Nodes)
             {
                 if (!indexes.ContainsKey(n.ID))
                 {
@@ -197,7 +197,7 @@ namespace LevelBuildingSidekick.Graph
             bool[,] adjacency = new bool[Nodes.Count, Nodes.Count];
             for (int i = 0; i < Nodes.Count; i++)
             {
-                foreach (NodeController n in nodes[i].neighbors)
+                foreach (LBSNodeController n in nodes[i].neighbors)
                 {
                     int index = nodes.FindIndex((node) => node.ID == n.ID);
                     if (index < 0)
@@ -216,7 +216,7 @@ namespace LevelBuildingSidekick.Graph
             for(int i = 0; i < Nodes.Count; i++)
             {
                 adjacencies[i] = new List<int>();
-                foreach(NodeController n in nodes[i].neighbors)
+                foreach(LBSNodeController n in nodes[i].neighbors)
                 {
                     int index = Array.IndexOf(Nodes.ToArray(), n);
                     if(index >= 0 && index > i)
@@ -238,9 +238,9 @@ namespace LevelBuildingSidekick.Graph
             }
             return segments;
         }
-        public NodeController GetNodeAt(Vector2 pos)
+        public LBSNodeController GetNodeAt(Vector2 pos)
         {
-            foreach (NodeController n in Nodes)
+            foreach (LBSNodeController n in Nodes)
             {
                 if (n.GetRect().Contains(pos))
                 {
@@ -272,7 +272,7 @@ namespace LevelBuildingSidekick.Graph
             return tuple.Item2;
         }
 
-        internal void RemoveNode(NodeController node)
+        internal void RemoveNode(LBSNodeController node)
         {
             for(int i = 0; i < Edges.Count; i++)
             {
@@ -286,8 +286,8 @@ namespace LevelBuildingSidekick.Graph
             {
                 _SelectedItem = null;
             }
-            GraphData d = Data as GraphData;
-            d.nodes.Remove(node.Data as NodeData);
+            LBSGraphData d = Data as LBSGraphData;
+            d.nodes.Remove(node.Data as LBSNodeData);
         }
 
         internal void RemoveEdge(EdgeController edge)
@@ -297,10 +297,10 @@ namespace LevelBuildingSidekick.Graph
             {
                 _SelectedItem = null;
             }
-            GraphData d = Data as GraphData;
+            LBSGraphData d = Data as LBSGraphData;
             d.edges.Remove(edge.Data as EdgeData);
         }
-        public EdgeController GetEdge(NodeController n1, NodeController n2)
+        public EdgeController GetEdge(LBSNodeController n1, LBSNodeController n2)
         {
             foreach (EdgeController e in Edges)
             {
@@ -311,16 +311,16 @@ namespace LevelBuildingSidekick.Graph
             }
             return null;
         }
-        internal bool AddNode(NodeData nodeData)
+        internal bool AddNode(LBSNodeData nodeData)
         {
             var node = Activator.CreateInstance(nodeData.ControllerType, new object[] { nodeData });
-            if (node is NodeController)
+            if (node is LBSNodeController)
             {
-                (node as NodeController).Radius = CellSize / 2;
-                (node as NodeController).Exist = v => !Nodes.Any(n => n.Label == v);
-                if (Nodes.Add(node as NodeController))
+                (node as LBSNodeController).Radius = CellSize / 2;
+                (node as LBSNodeController).Exist = v => !Nodes.Any(n => n.Label == v);
+                if (Nodes.Add(node as LBSNodeController))
                 {
-                    (Data as GraphData).nodes.Add(nodeData);
+                    (Data as LBSGraphData).nodes.Add(nodeData);
                     return true;
                 }
             }
@@ -330,7 +330,7 @@ namespace LevelBuildingSidekick.Graph
         {
             if(AddEdgeController(edgeData))
             {
-                (Data as GraphData).edges.Add(edgeData);
+                (Data as LBSGraphData).edges.Add(edgeData);
                 return true;
             }
             return false;

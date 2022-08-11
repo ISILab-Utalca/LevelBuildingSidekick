@@ -9,17 +9,17 @@ namespace LevelBuildingSidekick.Graph
 {
     [System.Serializable]
     //[CreateAssetMenu(menuName = "LevelBuildingSidekick/Level Represetation/Graph Representation/Level")]
-    public class GraphData : LevelRepresentationData
+    public class LBSGraphData : LevelRepresentationData
     {
         [SerializeField]
-        public List<NodeData> nodes = new List<NodeData>();
+        public List<LBSNodeData> nodes = new List<LBSNodeData>();
         [SerializeField]
         public List<EdgeData> edges = new List<EdgeData>();
-        public int cellSize = 64; //Add to View parameters (??)
+        public int cellSize = 32; //Add to View parameters (??)
 
 
         [JsonIgnore]
-        public override Type ControllerType => typeof(GraphController);
+        public override Type ControllerType => typeof(LBSGraphController);
     }
 }
 

@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using UnityEngine.UIElements;
+using UnityEditor;
 
 namespace LevelBuildingSidekick
 {
-    public abstract class View : IEditorDrawable, I2DDrawable
+    public abstract class View : VisualElement, IEditorDrawable, I2DDrawable
     {
         public Controller Controller { get; set; }
         public View(Controller controller)
