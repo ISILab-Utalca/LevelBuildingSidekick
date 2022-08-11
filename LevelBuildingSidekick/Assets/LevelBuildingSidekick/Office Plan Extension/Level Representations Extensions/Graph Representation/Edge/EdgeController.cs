@@ -7,8 +7,8 @@ using LevelBuildingSidekick.Graph;
 
 public class EdgeController : Controller
 {
-    public NodeController Node1 { get; set; }
-    public NodeController Node2 { get; set; }
+    public LBSNodeController Node1 { get; set; }
+    public LBSNodeController Node2 { get; set; }
     public float Thickness
     {
         get
@@ -30,13 +30,13 @@ public class EdgeController : Controller
     {
     }
 
-    internal bool DoesConnect(NodeController n1, NodeController n2)
+    internal bool DoesConnect(LBSNodeController n1, LBSNodeController n2)
     {
         EdgeData d = Data as EdgeData;
         return ((n1.Data.Equals(d.firstNode) && n2.Data.Equals(d.secondNode)) || (n2.Data.Equals(d.firstNode) && n1.Data.Equals(d.secondNode)));
     }
 
-    internal bool Contains(NodeController node)
+    internal bool Contains(LBSNodeController node)
     {
         EdgeData d = Data as EdgeData;
         return (node.Data.Equals(d.firstNode) || node.Data.Equals(d.secondNode));

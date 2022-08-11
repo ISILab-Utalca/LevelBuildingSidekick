@@ -9,7 +9,7 @@ public class MoveNodeController : ToolController
     Vector2 lastPos;
     Vector2 currentPos;
 
-    private NodeController currentNode;
+    private LBSNodeController currentNode;
 
     public MoveNodeController(Data data, ToolkitController toolkit) : base(data, toolkit)
     {
@@ -19,7 +19,7 @@ public class MoveNodeController : ToolController
 
     public override void Action(LevelRepresentationController level)
     {
-        GraphController graph = level as GraphController;
+        LBSGraphController graph = level as LBSGraphController;
         if(graph.SelectedNode == null)
         {
             return;
@@ -38,10 +38,10 @@ public class MoveNodeController : ToolController
 
     void SelectNode(LevelRepresentationController level)
     {
-        GraphController graph = level as GraphController;
+        LBSGraphController graph = level as LBSGraphController;
 
         //NodeController currentNode = graph.GetNodeAt(Event.current.mousePosition);
-        currentNode = graph.TrySelectAt(CurrentPos) as NodeController;
+        currentNode = graph.TrySelectAt(CurrentPos) as LBSNodeController;
         if (currentNode != null)
         {
             graph.SelectedNode = currentNode;

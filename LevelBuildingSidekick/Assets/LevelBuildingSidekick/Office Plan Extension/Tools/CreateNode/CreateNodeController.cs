@@ -18,14 +18,14 @@ public class CreateNodeController : ToolController
 
     public override void Action(LevelRepresentationController level)
     {
-        GraphController graph = level as GraphController;
+        LBSGraphController graph = level as LBSGraphController;
         if (graph == null)
         {
             Debug.Log("NULL Graph");
             return;
         }
 
-        NodeData node = new NodeData();
+        LBSNodeData node = new LBSNodeData();
 
         var xPos = (int)(Event.current.mousePosition.x - node.radius); // node.radius/2f??
         var yPos = (int)(Event.current.mousePosition.y - node.radius); // node.radius/2f??
@@ -35,11 +35,11 @@ public class CreateNodeController : ToolController
         node.room = new LevelBuildingSidekick.Schema.RoomCharacteristics();
 
         int index = graph.Nodes.Count;
-        node.room.label = "Node: " + index.ToString();
+        node.label = "Node: " + index.ToString();
         while(!graph.AddNode(node))
         {
             index++;
-            node.room.label = "Node: " + index.ToString();
+            node.label = "Node: " + index.ToString();
         }
         //graph.AddNode(node);
     }

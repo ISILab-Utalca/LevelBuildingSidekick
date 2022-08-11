@@ -20,9 +20,9 @@ namespace LevelBuildingSidekick.OfficePlan
             var controller = Controller as OfficePlanController;
 
             EditorGUILayout.BeginHorizontal();
-            controller.Graph.View.Draw2D();
+            (controller.Graph.View as View).Draw2D();
             //controller.Schema.View.Draw2D();
-            controller.Toolkit.View.Draw2D();
+            (controller.Toolkit.View as View).Draw2D();
             EditorGUILayout.EndHorizontal();
 
         }
@@ -33,17 +33,17 @@ namespace LevelBuildingSidekick.OfficePlan
 
             if (controller.Graph.SelectedNode != null)
             {
-                controller.Graph.SelectedNode.View.DrawEditor();
+                (controller.Graph.SelectedNode.View as View).DrawEditor();
             }
             else if (controller.Graph.SelectedEdge != null)
             {
-                controller.Graph.SelectedEdge.View.DrawEditor();
+                (controller.Graph.SelectedEdge.View as View).DrawEditor();
             }
             else
             {
                 if (LBSController.CurrentLevel != null)
                 {
-                    LBSController.CurrentLevel.View.DrawEditor();
+                    (LBSController.CurrentLevel.View as View).DrawEditor();
 
                     EditorGUILayout.Separator();
                 }
@@ -95,7 +95,7 @@ namespace LevelBuildingSidekick.OfficePlan
 
             var graph = EditorWindow.CreateInstance<GenericWindow>();
             graph.titleContent = new GUIContent("Graph Window");
-            graph.draw = () => { controller.Graph.View.Draw2D(); controller.Graph.Update(); };
+            graph.draw = () => { (controller.Graph.View as View).Draw2D(); controller.Graph.Update(); };
             graph.Show();
         }
 

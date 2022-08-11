@@ -83,16 +83,11 @@ namespace LevelBuildingSidekick.Schema
         {
             get
             {
-                if ((Data as RoomData).room == null)
-                {
-                    Debug.LogWarning("Room does not Exist");
-                    return "";
-                }
-                return (Data as RoomData).room.label;
+                return (Data as RoomData).label;
             }
             set
             {
-                (Data as RoomData).room.label = value;
+                (Data as RoomData).label = value;
             }
         }
         public Vector2Int HeightRange

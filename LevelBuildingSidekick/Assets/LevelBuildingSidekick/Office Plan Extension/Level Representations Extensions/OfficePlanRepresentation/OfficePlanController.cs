@@ -14,7 +14,7 @@ namespace LevelBuildingSidekick.OfficePlan
     {
         private SchemaData schema;
 
-        public GraphController Graph { get; set; }
+        public LBSGraphController Graph { get; set; }
         //public SchemaController Schema { get; set; }
 
         private static GenericWindow _ElementInspector;
@@ -44,13 +44,13 @@ namespace LevelBuildingSidekick.OfficePlan
 
             if (data.graph == null)
             {
-                data.graph = new GraphData();
+                data.graph = new LBSGraphData();
             }
 
             var graph = Activator.CreateInstance(data.graph.ControllerType, new object[] { data.graph });
-            if (graph is GraphController)
+            if (graph is LBSGraphController)
             {
-                Graph = graph as GraphController;
+                Graph = graph as LBSGraphController;
             }
 
             if (data.schema == null)
@@ -67,7 +67,7 @@ namespace LevelBuildingSidekick.OfficePlan
 
         public void GenerateShcema()
         {
-            schema = GraphToSchema(Graph.Data as GraphData);
+            schema = GraphToSchema(Graph.Data as LBSGraphData);
         }
 
         public void PrintSchema()
@@ -90,7 +90,7 @@ namespace LevelBuildingSidekick.OfficePlan
 
         public void Optimize()
         {
-            var graph = Graph.Data as GraphData;
+            var graph = Graph.Data as LBSGraphData;
             var optimized = Utility.HillClimbing.Run(schema,graph,
                             () => { return Utility.HillClimbing.NonSignificantEpochs >= 100; },
                             GetNeighbors,
@@ -98,7 +98,7 @@ namespace LevelBuildingSidekick.OfficePlan
             Debug.Log(optimized);
         }
 
-        private SchemaData GraphToSchema(GraphData graphData) // ¿esta funcionando?
+        private SchemaData GraphToSchema(LBSGraphData graphData) // ¿esta funcionando?
         {
             if (Graph.Nodes.Count <= 0)
             {
@@ -106,8 +106,8 @@ namespace LevelBuildingSidekick.OfficePlan
                 return null;
             }
 
-            Queue<NodeController> open = new Queue<NodeController>();
-            HashSet<NodeController> closed = new HashSet<NodeController>();
+            Queue<LBSNodeController> open = new Queue<LBSNodeController>();
+            HashSet<LBSNodeController> closed = new HashSet<LBSNodeController>();
 
             var parent = Graph.Nodes.OrderByDescending((n) => n.neighbors.Count).First();
             open.Enqueue(parent);
@@ -115,14 +115,14 @@ namespace LevelBuildingSidekick.OfficePlan
             var schema = new SchemaData();
             int h = (int)((parent.Room.maxHeight + parent.Room.minHeight) / 2f);
             int w = (int)((parent.Room.maxWidth + parent.Room.minWidth) / 2f);
-            schema.AddRoom(Vector2Int.zero, h, w, parent.Room.label);
+            schema.AddRoom(Vector2Int.zero, h, w, parent.Label);
 
             while (open.Count > 0)
             {
                 parent = open.Dequeue();
 
                 var childs = parent.neighbors.OrderBy(n => Utility.MathTools.GetAngleD15(parent.Centroid, n.Centroid));
-                foreach (NodeController child in parent.neighbors)
+                foreach (LBSNodeController child in parent.neighbors)
                 {
                     if (closed.Contains(child) || open.ToHashSet().Contains(child))
                         continue;
@@ -138,7 +138,7 @@ namespace LevelBuildingSidekick.OfficePlan
                     var dir = ((Vector2)(child.Centroid - parent.Centroid)).normalized;
                     var posX = dir.x * ((childW + parentW) / 2f);
                     var posY = dir.y + ((childH + parentH) / 2f);
-                    schema.AddRoom(new Vector2Int((int)posX, (int)posY), childW, childH, child.Room.label);
+                    schema.AddRoom(new Vector2Int((int)posX, (int)posY), childW, childH, child.Label);
                 }
 
                 closed.Add(parent);
@@ -174,7 +174,7 @@ namespace LevelBuildingSidekick.OfficePlan
             return neightbours;
         }
 
-        public float EvaluateMap(SchemaData schemaData, GraphData graphData)
+        public float EvaluateMap(SchemaData schemaData, LBSGraphData graphData)
         {
             float alfa = 0.84f;
             float beta = 1 - alfa;
@@ -183,13 +183,13 @@ namespace LevelBuildingSidekick.OfficePlan
             return adjacenceValue + areaValue;
         }
 
-        private float EvaluateAreas(GraphData graphData, SchemaData schema)
+        private float EvaluateAreas(LBSGraphData graphData, SchemaData schema)
         {
             var value = 0f;
             for (int i = 0; i < graphData.nodes.Count; i++)
             {
                 var node = graphData.nodes[i];
-                var room = schema.GetRoomByID(node.room.label);
+                var room = schema.GetRoomByID(node.label);
                 switch (node.room.proportionType)
                 {
                     case ProportionType.RATIO:
@@ -203,7 +203,7 @@ namespace LevelBuildingSidekick.OfficePlan
             return value / schema.rooms.Count;
         }
 
-        private float EvaluateBtyRatio(NodeData node, SchemaRoomData room)
+        private float EvaluateBtyRatio(LBSNodeData node, SchemaRoomData room)
         {
             float current = room.GetRatio();
             float objetive = node.room.xAspectRatio / (float)node.room.yAspectRatio;
@@ -211,7 +211,7 @@ namespace LevelBuildingSidekick.OfficePlan
             return 1 - (Mathf.Abs(objetive - current) / objetive);
         }
 
-        private float EvaluateBtySize(NodeData node,SchemaRoomData room)
+        private float EvaluateBtySize(LBSNodeData node,SchemaRoomData room)
         {
             var vw = 1f;
             if (room.GetWidth() < node.room.minWidth || room.GetWidth() > node.room.maxWidth)
@@ -232,13 +232,13 @@ namespace LevelBuildingSidekick.OfficePlan
             return (vw + vh)/2f;
         }
 
-        private float EvaluateAdjacencies(GraphData graphData, SchemaData schema) // esto podria recivir una funcion de calculo de distancia (?)
+        private float EvaluateAdjacencies(LBSGraphData graphData, SchemaData schema) // esto podria recivir una funcion de calculo de distancia (?)
         {
             var distValue = 0f;
             foreach (var edge in graphData.edges)
             {
-                var r1 = schema.GetRoomByID(edge.firstNode.room.label);
-                var r2 = schema.GetRoomByID(edge.secondNode.room.label);
+                var r1 = schema.GetRoomByID(edge.firstNode.label);
+                var r2 = schema.GetRoomByID(edge.secondNode.label);
 
                 var roomDist = GetRoomDistance(r1, r2);
                 if (roomDist <= 1)
@@ -287,17 +287,17 @@ namespace LevelBuildingSidekick.OfficePlan
             if(Graph.SelectedNode != null)
             {
                 ElementInspector.titleContent = new GUIContent("Node Inspector");
-                ElementInspector.draw = Graph.SelectedNode.View.DrawEditor; // (!!!)
+                ElementInspector.draw = (Graph.SelectedNode.View as View).DrawEditor; // (!!!)
             }
             else if(Graph.SelectedEdge != null)
             {
                 ElementInspector.titleContent = new GUIContent("Edge Inspector");
-                ElementInspector.draw = Graph.SelectedEdge.View.DrawEditor; // (!!!)
+                ElementInspector.draw = (Graph.SelectedEdge.View as View).DrawEditor; // (!!!)
             }
             else
             {
                 ElementInspector.titleContent = new GUIContent("Graph Inspector");
-                ElementInspector.draw = Graph.View.DrawEditor; // (!!!)
+                ElementInspector.draw = (Graph.View as View).DrawEditor; // (!!!)
             }
         }
     }

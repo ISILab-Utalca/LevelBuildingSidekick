@@ -13,7 +13,7 @@ public class SelectGraphElementController : ToolController
 
     public override void Action(LevelRepresentationController level)
     {
-        GraphController graph = level as GraphController;
+        LBSGraphController graph = level as LBSGraphController;
         if (graph == null)
         {
             return;

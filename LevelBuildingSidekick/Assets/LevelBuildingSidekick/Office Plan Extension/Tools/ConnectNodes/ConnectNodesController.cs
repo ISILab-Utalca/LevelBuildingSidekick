@@ -8,7 +8,7 @@ public class ConnectNodesController : ToolController
 {
     public Vector2 InitialPos { get; set; }
 
-    NodeController firstNode;
+    LBSNodeController firstNode;
     public ConnectNodesController(Data data, ToolkitController toolkit) : base(data, toolkit)
     {
         View = new ConnectNodesView(this);
@@ -21,9 +21,9 @@ public class ConnectNodesController : ToolController
         {
             return;
         }
-        GraphController graph = level as GraphController;
+        LBSGraphController graph = level as LBSGraphController;
 
-        NodeController n = graph.GetNodeAt(Event.current.mousePosition);
+        LBSNodeController n = graph.GetNodeAt(Event.current.mousePosition);
 
         InitialPos = Vector2.zero;
         CurrentPos = Vector2.zero;
@@ -43,7 +43,7 @@ public class ConnectNodesController : ToolController
             return;
         }
 
-        EdgeData edge = new EdgeData(firstNode.Data as NodeData, n.Data as NodeData);
+        EdgeData edge = new EdgeData(firstNode.Data as LBSNodeData, n.Data as LBSNodeData);
         graph.AddEdge(edge);
 
         firstNode = null;
@@ -55,9 +55,9 @@ public class ConnectNodesController : ToolController
 
     bool SelectNode(LevelRepresentationController level)
     {
-        GraphController graph = level as GraphController;
+        LBSGraphController graph = level as LBSGraphController;
 
-        NodeController n = graph.GetNodeAt(Event.current.mousePosition);
+        LBSNodeController n = graph.GetNodeAt(Event.current.mousePosition);
         if (n == null)
         {
             return false;

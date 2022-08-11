@@ -12,7 +12,7 @@ namespace LevelBuildingSidekick.OfficePlan
     //[CreateAssetMenu(menuName = "LevelBuildingSidekick/Level Represetation/OfficePlan Representation/Level")]
     public class OfficePlanData : LevelRepresentationData
     {
-        public GraphData graph;
+        public LBSGraphData graph;
         public SchemaData schema;
         public List<RoomCharacteristics> characteristics;
 

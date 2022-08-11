@@ -13,6 +13,7 @@ namespace LevelBuildingSidekick.Schema
 
         public int x;
         public int y;
+        public string label = "";
         //public Vector2Int bounds = Vector2Int.one;
         //public Vector2Int outerBounds = Vector2Int.one;
         public HashSet<Tile> tiles = new HashSet<Tile>(); // Should be list

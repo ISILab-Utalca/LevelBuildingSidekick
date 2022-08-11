@@ -10,9 +10,9 @@ using Newtonsoft.Json;
 public class EdgeData: Data
 {
     [JsonIgnore]
-    public NodeData firstNode;
+    public LBSNodeData firstNode;
     [JsonIgnore]
-    public NodeData secondNode;
+    public LBSNodeData secondNode;
 
     private string firstNodeLabel;
     private string secondNodeLabel;
@@ -22,7 +22,7 @@ public class EdgeData: Data
         {
             if (firstNode != null)
             {
-                firstNodeLabel = firstNode.room.label;
+                firstNodeLabel = firstNode.label;
             }
             return firstNodeLabel;
         }
@@ -37,7 +37,7 @@ public class EdgeData: Data
         {
             if(secondNode != null)
             {
-                secondNodeLabel = secondNode.room.label;
+                secondNodeLabel = secondNode.label;
             }
             return secondNodeLabel;
         }
@@ -55,7 +55,7 @@ public class EdgeData: Data
 
     public EdgeData() { }
 
-    public EdgeData(NodeData _firstNode, NodeData _secondNode)
+    public EdgeData(LBSNodeData _firstNode, LBSNodeData _secondNode)
     {
         firstNode = _firstNode;
         secondNode = _secondNode;

@@ -13,7 +13,7 @@ public class DeleteGraphElementController : ToolController
 
     public override void Action(LevelRepresentationController level)
     {
-        GraphController graph = level as GraphController;
+        LBSGraphController graph = level as LBSGraphController;
 
         var currentNode = graph.GetNodeAt(CurrentPos);
         if (currentNode != null)

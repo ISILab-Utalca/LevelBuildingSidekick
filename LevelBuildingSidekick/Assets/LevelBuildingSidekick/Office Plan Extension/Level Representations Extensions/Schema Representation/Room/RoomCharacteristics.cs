@@ -7,7 +7,6 @@ namespace LevelBuildingSidekick.Schema
     [System.Serializable]
     public class RoomCharacteristics
     {
-        public string label;
         public int minWidth = 1;
         public int maxWidth = 1;
         public int minHeight = 1;
