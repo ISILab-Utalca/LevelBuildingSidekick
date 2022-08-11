@@ -26,7 +26,7 @@ namespace LevelBuildingSidekick
             }
         }
 
-        [MenuItem("Level Building Sidekick/Open New")]
+        [MenuItem("LBS/Welcome window...",priority = 0)]
         public static void ShowWindow()
         {
             var window = LBSView.GetWindow<LBSView>("Level Building Sidekick");

@@ -10,8 +10,8 @@ namespace LevelBuildingSidekick.Graph
     {
         LBSGraphView graphView;
 
-        [MenuItem("Level Building Sidekick/Testing")]
-        public static void ShowExample()
+        [MenuItem("LBS/Graph window...")]
+        public static void OpenWindow()
         {
             LBSGraphWindow wnd = GetWindow<LBSGraphWindow>();
             wnd.titleContent = new GUIContent("GraphWindow");

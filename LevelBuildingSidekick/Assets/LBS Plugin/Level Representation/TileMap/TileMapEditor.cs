@@ -12,7 +12,7 @@ public class TileMapEditor : EditorWindow
     private Label notSelectedLabel;
     private InspectorView inspectorView;
 
-    [MenuItem("Test/TileMap Window")]
+    [MenuItem("LBS/TileMap Window...")]
     public static void OpenWindow()
     {
         TileMapEditor wnd = GetWindow<TileMapEditor>();
