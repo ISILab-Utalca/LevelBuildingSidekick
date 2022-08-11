@@ -39,7 +39,7 @@ public class ToolkitView : View
         var controller = Controller as ToolkitController;
         foreach (ToolController t in controller.Tools)
         {
-            t.View.Draw2D();
+            (t.View as View).Draw2D();
         }
     }
 
