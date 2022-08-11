@@ -25,15 +25,15 @@ namespace LevelBuildingSidekick.Graph
             // VisualElements objects can contain other VisualElement following a tree hierarchy.
 
             // Import UXML
-            var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Assets/GraphWindow.uxml");
+            var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("GraphWindow");
             visualTree.CloneTree(root);
 
             // A stylesheet can be added to a VisualElement.
             // The style will be applied to the VisualElement and all of its children.
-            var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Assets/GraphWindow.uss");
+            var styleSheet = Utility.DirectoryTools.SearchAssetByName<StyleSheet>("GraphWindow");
             root.styleSheets.Add(styleSheet);
 
-            graphView = root.Q<LBSGraphView>();
+            graphView = root.Q<LBSGraphView>(); 
         }
 
         private void OnSelectionChange()

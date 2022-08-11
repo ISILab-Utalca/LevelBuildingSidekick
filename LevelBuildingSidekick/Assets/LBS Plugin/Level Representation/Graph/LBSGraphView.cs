@@ -28,7 +28,7 @@ namespace LevelBuildingSidekick.Graph
             this.AddManipulator(new SelectionDragger());
             this.AddManipulator(new RectangleSelector());
 
-            var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Assets/GraphWindow.uss");
+            var styleSheet = Utility.DirectoryTools.SearchAssetByName<StyleSheet>("GraphWindow"); 
             styleSheets.Add(styleSheet);
         }
 

@@ -23,9 +23,8 @@ public class TileGridView : GraphView
         this.AddManipulator(new ContentDragger());
         this.AddManipulator(new SelectionDragger());
         this.AddManipulator(new RectangleSelector());
-
-        var path = "Assets/LBS Plugin/Level Representation/TileMap/USS/TileMapEditor.uss";
-        var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(path);
+         
+        var styleSheet = DirectoryTools.SearchAssetByName<StyleSheet>("TileMapEditor");
         styleSheets.Add(styleSheet);
     }
 

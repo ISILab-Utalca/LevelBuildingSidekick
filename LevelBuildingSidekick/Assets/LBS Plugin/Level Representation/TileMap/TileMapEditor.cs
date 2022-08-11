@@ -25,12 +25,12 @@ public class TileMapEditor : EditorWindow
         VisualElement root = rootVisualElement;
 
         // Import UXML
-        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("TileMapEditor.uxml");
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("TileMapEditor");
         visualTree.CloneTree(root);
 
         // A stylesheet can be added to a VisualElement.
         // The style will be applied to the VisualElement and all of its children.
-        var styleSheet = DirectoryTools.SearchAssetByName<StyleSheet>("TileMapEditor.uss");
+        var styleSheet = DirectoryTools.SearchAssetByName<StyleSheet>("TileMapEditor"); 
         root.styleSheets.Add(styleSheet);
 
         tileGridView = root.Q<TileGridView>();
