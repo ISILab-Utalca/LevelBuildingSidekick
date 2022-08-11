@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
+using UnityEngine.UIElements;
+using UnityEditor.UIElements;
 namespace LevelBuildingSidekick
 {
     [System.Serializable]
     public abstract class Controller
     {
-        public View View { get; set; }
+        public VisualElement View { get; set; }
         public Data Data { get; set; }
 
         public Controller(Data data)
