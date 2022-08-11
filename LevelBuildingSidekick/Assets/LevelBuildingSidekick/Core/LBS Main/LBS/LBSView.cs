@@ -75,8 +75,8 @@ namespace LevelBuildingSidekick
                     LBSController.SetLevel(Utility.JSONDataManager.LoadData<LevelData>("LBSLevels", loadLevelName));
                 }
                 //Debug.Log("View: " + LBSController.Instance.CurrentLevel.View);
-                LBSController.CurrentLevel.CurrentRepresentation.View.Display2DWindow();
-                LBSController.CurrentLevel.CurrentRepresentation.View.DisplayInspectorWindow();
+                (LBSController.CurrentLevel.CurrentRepresentation.View as View).Display2DWindow();
+                (LBSController.CurrentLevel.CurrentRepresentation.View as View).DisplayInspectorWindow();
                 Close();
             }
             EditorGUILayout.EndVertical();

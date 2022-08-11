@@ -17,7 +17,7 @@ namespace LevelBuildingSidekick
             var controller = Controller as LevelRepresentationController;
             if(controller.Toolkit != null)
             {
-                controller.Toolkit.View.Draw2D();
+                (controller.Toolkit.View as View).Draw2D();
             }
         }
     }
