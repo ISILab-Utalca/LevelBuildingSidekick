@@ -8,13 +8,16 @@ namespace LevelBuildingSidekick.Graph
 {
     public class LBSGraphWindow : EditorWindow
     {
-        LBSGraphView graphView;
+        public LBSGraphView graphView;
 
         [MenuItem("LBS/Graph window...")]
         public static void OpenWindow()
         {
             LBSGraphWindow wnd = GetWindow<LBSGraphWindow>();
             wnd.titleContent = new GUIContent("GraphWindow");
+            var graph = wnd.rootVisualElement.Q<LBSGraphView>();
+            //Debug.Log(graph.GetHashCode());
+            graph.controller = new LBSGraphController();
         }
 
         public void CreateGUI()
@@ -32,8 +35,10 @@ namespace LevelBuildingSidekick.Graph
             // The style will be applied to the VisualElement and all of its children.
             var styleSheet = Utility.DirectoryTools.SearchAssetByName<StyleSheet>("GraphWindow");
             root.styleSheets.Add(styleSheet);
-
-            graphView = root.Q<LBSGraphView>(); 
+             
+            graphView = root.Q<LBSGraphView>();
+            //Debug.Log(graphView.GetHashCode()); 
+            //Debug.Log(graphView.Controller);
         }
 
         private void OnSelectionChange()

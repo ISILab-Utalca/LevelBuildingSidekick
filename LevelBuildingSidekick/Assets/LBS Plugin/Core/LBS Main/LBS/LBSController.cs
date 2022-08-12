@@ -5,6 +5,7 @@ using UnityEditor;
 using System;
 using System.Reflection;
 using System.IO;
+using LevelBuildingSidekick.Graph;
 
 namespace LevelBuildingSidekick
 {
@@ -55,6 +56,8 @@ namespace LevelBuildingSidekick
             LevelData data = new LevelData();
             data.levelName = levelName;
             data.size = size;
+            data.representations.Add(new LBSGraphData());
+            LBSGraphWindow.OpenWindow();
             return data;
         }
     }
