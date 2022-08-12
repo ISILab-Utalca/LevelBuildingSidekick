@@ -57,7 +57,6 @@ namespace LevelBuildingSidekick
             data.levelName = levelName;
             data.size = size;
             data.representations.Add(new LBSGraphData());
-            LBSGraphWindow.OpenWindow();
             return data;
         }
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.Linq;
+using LevelBuildingSidekick.Graph;
 
 namespace LevelBuildingSidekick
 {
@@ -21,8 +22,12 @@ namespace LevelBuildingSidekick
 
         private void Awake()
         {
-            //init = () => jsonFiles = Utility.JSONDataManager.GetJSONFiles(Application.dataPath + "/LBSLevels");
-            //onFocus = () => jsonFiles = Utility.JSONDataManager.GetJSONFiles(Application.dataPath + "/LBSLevels");
+
+        }
+
+        public void OnFocus()
+        {
+            jsonFiles = Utility.JSONDataManager.GetJSONFiles(Application.dataPath + "/LBSLevels");
         }
 
         public void OnGUI()
@@ -74,10 +79,9 @@ namespace LevelBuildingSidekick
                 {
                     LBSController.CurrentLevel = Utility.JSONDataManager.LoadData<LevelData>("LBSLevels", loadLevelName);
                 }
-                //Debug.Log("View: " + LBSController.Instance.CurrentLevel.View);
-                //(LBSController.CurrentLevel.CurrentRepresentation.View as View).Display2DWindow();
-                //(LBSController.CurrentLevel.CurrentRepresentation.View as View).DisplayInspectorWindow();
-                Close();
+
+                LBSGraphWindow.OpenWindow();
+                this.Close();
             }
             EditorGUILayout.EndVertical();
 
