@@ -5,3 +5,20 @@ GridBackground {
     --spacing: 15;
     flex-grow: 1;
 }
+
+.Label {
+    flex-grow: 1;
+    align-items: center;
+    justify-content: flex-start;
+    -unity-text-align: middle-center;
+    overflow: hidden;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    right: 50%;
+    bottom: 50%;
+    transform-origin: left top;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+}

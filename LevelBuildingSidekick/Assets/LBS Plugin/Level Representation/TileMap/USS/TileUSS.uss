@@ -10,4 +10,5 @@
     border-right-color: rgba(0, 0, 0, 255);
     border-top-color: rgba(0, 0, 0, 255);
     border-bottom-color: rgba(0, 0, 0, 255);
+    flex-grow: 1;
 }

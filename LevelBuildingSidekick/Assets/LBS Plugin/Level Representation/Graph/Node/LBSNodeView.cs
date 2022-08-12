@@ -26,13 +26,11 @@ namespace LevelBuildingSidekick.Graph
             SetPosition(new Rect(Controller.Position - Vector2.one * Controller.Radius, Vector2.one * 2 * Controller.Radius));
 
             Box b = new Box();
-            b.style.minHeight = 2 * Controller.Radius;
-            b.style.minWidth = 2 * Controller.Radius;
-            b.style.backgroundColor = Color.green;
-            b.style.opacity = 100;
+            b.style.minHeight = b.style.minWidth = b.style.maxHeight = b.style.maxWidth = 2 * Controller.Radius;
             b.Add(new Label(Controller.Label));
             
             Add(b);
+            //Add(new Label(Controller.Label));
 
             VisualElement main = this;
             VisualElement borderContainer = main.Q(name: "node-border");
@@ -40,12 +38,14 @@ namespace LevelBuildingSidekick.Graph
             capabilities |= Capabilities.Selectable | Capabilities.Movable | Capabilities.Deletable | Capabilities.Ascendable | Capabilities.Copiable | Capabilities.Snappable | Capabilities.Groupable;
             usageHints = UsageHints.DynamicTransform;
 
+            var styleSheet = Utility.DirectoryTools.SearchAssetByName<StyleSheet>("NodeUSS");
+            styleSheets.Add(styleSheet);
         }
 
         public override void OnSelected()
         {
             base.OnSelected();
-            Debug.Log(Controller.Label + " AH!");
+            //Debug.Log(Controller.Label + " AH!");
         }
 
 
