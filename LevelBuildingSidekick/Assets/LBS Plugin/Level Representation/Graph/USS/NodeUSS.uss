@@ -1,4 +1,4 @@
-TileUSS {
+nodeUSS {
     background-color: red;
     min-width: 50;
     min-height: 50;
