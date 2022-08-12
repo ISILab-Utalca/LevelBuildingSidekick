@@ -14,7 +14,7 @@ namespace LevelBuildingSidekick.Schema
         public int xAspectRatio = 1;
         public int yAspectRatio = 1;
         public ProportionType proportionType = ProportionType.RATIO;
-        public List<string> neighbors; // No debería existir aca (!)
+        public List<int> neighbors; // No deberia existir aca (!)
 
         public List<ItemCategory> prefabs;
 
