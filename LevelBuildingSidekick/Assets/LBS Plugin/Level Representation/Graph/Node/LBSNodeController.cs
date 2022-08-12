@@ -13,13 +13,13 @@ namespace LevelBuildingSidekick.Graph
     public class LBSNodeController : Controller
     {
         public HashSet<LBSNodeController> neighbors;
-        public HashSet<int> NeighborsIDs
+        public HashSet<string> NeighborsIDs
         {
             get
             {
                 if((Data as LBSNodeData).room.neighbors == null)
                 {
-                    (Data as LBSNodeData).room.neighbors = new List<int>();
+                    (Data as LBSNodeData).room.neighbors = new List<string>();
                 }
                 return (Data as LBSNodeData).room.neighbors.ToHashSet();
             }
@@ -342,12 +342,12 @@ namespace LevelBuildingSidekick.Graph
 
         public bool AddNeighbor(LBSNodeController n)
         {
-            if(NeighborsIDs.Contains(n.ID))
+            if(NeighborsIDs.Contains(n.Label))
             {
                 return false;
             }
 
-            (Data as LBSNodeData).room.neighbors.Add(n.ID);
+            (Data as LBSNodeData).room.neighbors.Add(n.Label);
             neighbors.Add(n);
             return true;
         }

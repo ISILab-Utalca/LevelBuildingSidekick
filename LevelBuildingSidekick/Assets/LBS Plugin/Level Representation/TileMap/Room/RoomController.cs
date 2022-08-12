@@ -183,13 +183,13 @@ namespace LevelBuildingSidekick.Schema
                 (Data as RoomData).surface = value;
             }
         }
-        public HashSet<int> NeighborsIDs
+        public HashSet<string> NeighborsIDs
         {
             get
             {
                 if ((Data as RoomData).room.neighbors == null)
                 {
-                    (Data as RoomData).room.neighbors = new List<int>();
+                    (Data as RoomData).room.neighbors = new List<string>();
                 }
                 return (Data as RoomData).room.neighbors.ToHashSet();
             }
