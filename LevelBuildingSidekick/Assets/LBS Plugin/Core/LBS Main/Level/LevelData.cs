@@ -31,6 +31,20 @@ namespace LevelBuildingSidekick
             return levelObjects.Find((i) => i.category == category).items;
         }
 
+        // En un futuro vamos a agrupar representaciones de nivel del mismo tipo, 
+        //en ese caso debería haber un getRepresentation group o algo similar que 
+        //devuelva el grupo completo de representaciones de tipo T
+        public T GetRepresentation<T>() where T : LBSRepesentationData
+        {
+            foreach(var r in representations)
+            {
+                if(r is T)
+                {
+                    return r as T;
+                }
+            }
+            return null;
+        }
     }
 }
 
