@@ -17,6 +17,15 @@ namespace LevelBuildingSidekick.Graph
         //Vector2 scrollPos;
         Vector2 scrollPosition;
         public LBSGraphController controller;
+
+        public List<LBSNodeView> SelectedNodes 
+        {
+            get
+            {
+                return selection.Where((s) => s is LBSNodeView) as List<LBSNodeView>;
+            }
+        }
+
         public LBSGraphView()
         {
             //Controller = new LBSGraphController();
@@ -28,13 +37,15 @@ namespace LevelBuildingSidekick.Graph
             this.AddManipulator(new RectangleSelector());
 
             var styleSheet = Utility.DirectoryTools.SearchAssetByName<StyleSheet>("GraphWindow"); 
+            //style.backgroundColor = new Color(79, 79, 79);
             styleSheets.Add(styleSheet);
 
         }
 
         public void PopulateView()
         {
-            controller.Nodes.ToList().ForEach(n => AddElement(n.View as LBSNodeView));
+
+            controller.Nodes.ToList().ForEach(n => AddElement(new LBSNodeView(n)));
         }
 
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
@@ -47,8 +58,8 @@ namespace LevelBuildingSidekick.Graph
 
         public void AddNode(Vector2 pos)
         {
-            controller.AddNode(new LBSNodeData("Node: " + controller.Nodes.Count, pos, controller.CellSize));
-            AddElement(controller.Nodes.ToList()[^1].View as GraphElement);
+            var n = controller.NewNode(pos);
+            AddElement(new LBSNodeView(n));
         }
 
 
