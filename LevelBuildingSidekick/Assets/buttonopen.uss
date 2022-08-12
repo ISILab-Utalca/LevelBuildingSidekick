@@ -1,0 +1,45 @@
+.buttonopen {
+    width: 79px;
+    height: 15px;
+    justify-content: flex-end;
+    align-items: stretch;
+    position: relative;
+    top: 0;
+    left: 0;
+    font-size: 8px;
+    -unity-font-style: bold;
+    margin-left: 4px;
+    margin-right: 4px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+.RRSSbutton {
+    width: 12px;
+    height: 12px;
+    padding-bottom: 2px;
+    border-top-left-radius: 31px;
+    border-bottom-left-radius: 31px;
+    border-top-right-radius: 31px;
+    border-bottom-right-radius: 31px;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    background-image: none;
+    justify-content: space-between;
+    align-items: stretch;
+    position: absolute;
+    flex-direction: row;
+}
+
+.gonext {
+    background-color: rgb(182, 182, 182);
+    height: 4px;
+    width: 4px;
+    border-top-left-radius: 13px;
+    border-bottom-left-radius: 13px;
+    border-top-right-radius: 13px;
+    border-bottom-right-radius: 13px;
+    margin-right: 4px;
+}
