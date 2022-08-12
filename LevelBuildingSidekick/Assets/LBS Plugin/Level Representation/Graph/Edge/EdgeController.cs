@@ -13,7 +13,7 @@ public class EdgeController : Controller
     {
         get
         {
-            return (Data as EdgeData).thikness;
+            return (Data as LBSEdgeData).thikness;
         }
     }
 
@@ -32,13 +32,13 @@ public class EdgeController : Controller
 
     internal bool DoesConnect(LBSNodeController n1, LBSNodeController n2)
     {
-        EdgeData d = Data as EdgeData;
+        LBSEdgeData d = Data as LBSEdgeData;
         return ((n1.Data.Equals(d.firstNode) && n2.Data.Equals(d.secondNode)) || (n2.Data.Equals(d.firstNode) && n1.Data.Equals(d.secondNode)));
     }
 
     internal bool Contains(LBSNodeController node)
     {
-        EdgeData d = Data as EdgeData;
+        LBSEdgeData d = Data as LBSEdgeData;
         return (node.Data.Equals(d.firstNode) || node.Data.Equals(d.secondNode));
     }
 }

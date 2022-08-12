@@ -17,23 +17,23 @@ namespace LevelBuildingSidekick.Graph
         bool openGameObjects;
         int categoryIndex;
 
-        LBSNodeController Controller;
+        LBSNodeData Controller;
 
-        public LBSNodeView(LBSNodeController controller)
+        public LBSNodeView(LBSNodeData node)
         {
-            Controller = controller;
+            Controller = node;
 
             SetPosition(new Rect(Controller.Position - Vector2.one * Controller.Radius, Vector2.one * 2 * Controller.Radius));
 
             Box b = new Box();
             b.style.minHeight = b.style.minWidth = b.style.maxHeight = b.style.maxWidth = 2 * Controller.Radius;
-            b.Add(new Label(Controller.Label));
+            b.Add(new Label(node.label));
             
             Add(b);
             //Add(new Label(Controller.Label));
 
             VisualElement main = this;
-            VisualElement borderContainer = main.Q(name: "node-border");
+            //VisualElement borderContainer = main.Q(name: "node-border");
 
             capabilities |= Capabilities.Selectable | Capabilities.Movable | Capabilities.Deletable | Capabilities.Ascendable | Capabilities.Copiable | Capabilities.Snappable | Capabilities.Groupable;
             usageHints = UsageHints.DynamicTransform;
@@ -48,33 +48,7 @@ namespace LevelBuildingSidekick.Graph
             //Debug.Log(Controller.Label + " AH!");
         }
 
-
-        public void Draw2D()
-        {
-
-            //Debug.Log("Node View");
-            var node = Controller as LBSNodeController;
-
-            var pos = node.Position;
-            var size = 2 * node.Radius * Vector2.one;
-
-            Rect rect = new Rect(pos, size);
-            Rect innerRect = new Rect(pos + (size * 0.2f), size * 0.6f); //0.7 == sqrt(2)/2, side of square inside circle inside square.
-                                                                         //should be 0,15 but image has blank space
-
-            GUI.DrawTexture(rect, node.Sprite, ScaleMode.StretchToFill);
-
-            GUILayout.BeginArea(innerRect);
-            GUILayout.Label(node.Label);
-            //scrollPos = GUILayout.BeginScrollView(scrollPos);
-            //GUILayout.Button(data.Sprite);
-            //Rect rt = GUILayoutUtility.GetAspectRect(1);
-            //rt.position = Vector2.zero;
-            //rt.size = Vector2.one * 2 * data.Radius;
-            //GUILayout.EndScrollView();
-            GUILayout.EndArea();
-        }
-
+        /*
         public void DrawEditor()
         {
              LBSNodeController controller = Controller as LBSNodeController;
@@ -222,7 +196,7 @@ namespace LevelBuildingSidekick.Graph
             #endregion
 
         }
-
+        */
         
     }
 }

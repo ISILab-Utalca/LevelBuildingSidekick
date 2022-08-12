@@ -7,7 +7,7 @@ using LevelBuildingSidekick.Graph;
 using Newtonsoft.Json;
 
 [System.Serializable]
-public class EdgeData: Data
+public class LBSEdgeData: Data
 {
     [JsonIgnore]
     public LBSNodeData firstNode;
@@ -53,11 +53,17 @@ public class EdgeData: Data
     [JsonIgnore]
     public override Type ControllerType => typeof(EdgeController);
 
-    public EdgeData() { }
+    public LBSEdgeData() { }
 
-    public EdgeData(LBSNodeData _firstNode, LBSNodeData _secondNode)
+    public LBSEdgeData(LBSNodeData _firstNode, LBSNodeData _secondNode)
     {
         firstNode = _firstNode;
         secondNode = _secondNode;
+    }
+
+
+    public bool Contains(string nodeID)
+    {
+        return FirstNodeLabel == nodeID || SecondNodeLabel == nodeID;
     }
 }

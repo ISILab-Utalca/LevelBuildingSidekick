@@ -1,3 +1,5 @@
+using LevelBuildingSidekick.Graph;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,5 +24,10 @@ namespace LevelBuildingSidekick.Schema
 
         [NonReorderable]
         public HashSet<string> tags; // cambiar a una lista (!!!) 
+
+        internal void AddNeighbor(LBSNodeData n2)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -34,6 +34,9 @@ namespace LevelBuildingSidekick.Graph
             }
         }
 
+        [JsonIgnore]
+        public Func<string, bool> Exist { get; internal set; }
+
         public LBSNodeData()
         {
 
@@ -78,7 +81,6 @@ namespace LevelBuildingSidekick.Graph
                 radius = value;
             }
         }
-
     }
 }
 

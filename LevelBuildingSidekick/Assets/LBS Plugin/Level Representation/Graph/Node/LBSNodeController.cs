@@ -247,7 +247,7 @@ namespace LevelBuildingSidekick.Graph
 
         public LBSNodeController(Data data) : base(data)
         {
-            View = new LBSNodeView(this);
+            //View = new LBSNodeView(this);
             neighbors = new HashSet<LBSNodeController>();
         }
 

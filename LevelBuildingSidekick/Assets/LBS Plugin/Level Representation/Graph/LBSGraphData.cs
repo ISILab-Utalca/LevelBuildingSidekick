@@ -16,7 +16,7 @@ namespace LevelBuildingSidekick.Graph
         public List<LBSNodeData> nodes = new List<LBSNodeData>(); // private
 
         [SerializeField]
-        public List<EdgeData> edges = new List<EdgeData>(); // private
+        public List<LBSEdgeData> edges = new List<LBSEdgeData>(); // private
         public int cellSize = 32; //Add to View parameters (??)
 
         [JsonIgnore]
