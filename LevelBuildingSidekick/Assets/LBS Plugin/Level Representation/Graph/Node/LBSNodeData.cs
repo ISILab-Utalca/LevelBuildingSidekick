@@ -47,6 +47,38 @@ namespace LevelBuildingSidekick.Graph
             this.radius = radius;
         }
 
+        public Vector2Int Centroid
+        {
+            get
+            {
+                return (Position + (Vector2Int.one * Radius));
+            }
+        }
+
+        public Vector2Int Position
+        {
+            get
+            {
+                return new Vector2Int(x,y);
+            }
+            set
+            {
+                x = value.x;
+                y = value.y;
+            }
+        }
+        public int Radius
+        {
+            get
+            {
+                return radius;
+            }
+            set
+            {
+                radius = value;
+            }
+        }
+
     }
 }
 
