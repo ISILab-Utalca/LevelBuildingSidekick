@@ -51,7 +51,7 @@ namespace LevelBuildingSidekick.Graph
             nodes.Add(node);
         }
 
-        public List<LBSNodeData> GetNeighbor(LBSNodeData node)
+        public List<LBSNodeData> GetNeighbors(LBSNodeData node)
         {
             var nIDs = node.room.neighbors;
             List<LBSNodeData> neighbors = new List<LBSNodeData>();
