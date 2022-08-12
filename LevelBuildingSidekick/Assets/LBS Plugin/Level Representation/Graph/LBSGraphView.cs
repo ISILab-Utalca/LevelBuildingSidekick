@@ -16,11 +16,10 @@ namespace LevelBuildingSidekick.Graph
 
         //Vector2 scrollPos;
         Vector2 scrollPosition;
-        LBSGraphController Controller;
+        public LBSGraphController controller;
         public LBSGraphView()
         {
-            Controller = new LBSGraphController(new LBSGraphData());
-
+            //Controller = new LBSGraphController();
             Insert(0, new GridBackground());
 
             this.AddManipulator(new ContentZoomer());
@@ -30,11 +29,12 @@ namespace LevelBuildingSidekick.Graph
 
             var styleSheet = Utility.DirectoryTools.SearchAssetByName<StyleSheet>("GraphWindow"); 
             styleSheets.Add(styleSheet);
+
         }
 
         public void PopulateView()
         {
-            Controller.Nodes.ToList().ForEach(n => AddElement(n.View as LBSNodeView));
+            controller.Nodes.ToList().ForEach(n => AddElement(n.View as LBSNodeView));
         }
 
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
@@ -47,8 +47,8 @@ namespace LevelBuildingSidekick.Graph
 
         public void AddNode(Vector2 pos)
         {
-            Controller.AddNode(new LBSNodeData("Node: " + Controller.Nodes.Count, pos, Controller.CellSize));
-            AddElement(Controller.Nodes.ToList()[^1].View as GraphElement);
+            controller.AddNode(new LBSNodeData("Node: " + controller.Nodes.Count, pos, controller.CellSize));
+            AddElement(controller.Nodes.ToList()[^1].View as GraphElement);
         }
 
 

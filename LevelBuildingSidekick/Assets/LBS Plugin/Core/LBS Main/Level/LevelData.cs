@@ -43,7 +43,11 @@ namespace LevelBuildingSidekick
                     return r as T;
                 }
             }
-            return null;
+
+            T representation = Activator.CreateInstance(typeof(T)) as T;
+            representations.Add(representation);
+
+            return representation;
         }
     }
 }

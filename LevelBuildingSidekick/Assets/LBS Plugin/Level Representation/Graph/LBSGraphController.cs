@@ -83,9 +83,8 @@ namespace LevelBuildingSidekick.Graph
             }
         }
 
-        public LBSGraphController(Data data) : base(data)
+        public LBSGraphController() : base(LBSController.CurrentLevel.GetRepresentation<LBSGraphData>())
         {
-          
         }
 
         public override void LoadData()
