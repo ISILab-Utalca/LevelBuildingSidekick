@@ -6,12 +6,13 @@ using UnityEditor.Experimental.GraphView;
 using UnityEditor;
 using System;
 using Utility;
+using LBS.Representation.TileMap;
 
 public class TileGridView : GraphView
 {
     public new class UxmlFactory : UxmlFactory<TileGridView, GraphView.UxmlTraits> { }
 
-    public MapDataScriptable map;
+    public TileMapController controller;
 
     public Vector2 tileSize = new Vector2(100,100);
 
@@ -28,15 +29,27 @@ public class TileGridView : GraphView
         styleSheets.Add(styleSheet);
     }
 
-    internal void SetView(MapDataScriptable map)
+    internal void SetView(TileMapController controller)
     {
-        this.map = map;
+        this.controller = controller;
         DeleteElements(graphElements);
 
-        map.tiles.ForEach(t => CreateTileView(t,tileSize));
+        var data = controller.Data as LBSTileMapData;
+        var mtx = data.GetMatrix();
+        for (int i = 0; i < mtx.GetLength(0); i++)
+        {
+            for (int j = 0; j < mtx.GetLength(1); j++)
+            {
+                var roomId = mtx[i, j];
+                if(data.GetRoomByID(roomId) != null)
+                {
+                    CreateTileView(new Vector2Int(i,j), tileSize);
+                }
+            }
+        }
     }
 
-    void CreateTileView(Tile tile,Vector2 size)
+    void CreateTileView(Vector2Int tile,Vector2 size)
     {
         var t = new TileView(tile,size);
         AddElement(t);
@@ -58,15 +71,14 @@ public class TileGridView : GraphView
         */
     }
 }
-// UnityEditor.Experimental.GraphView.Node
 public class TileView : GraphElement, ICollectibleElement
 {
-    private Tile tile;
+    private Vector2Int tile;
 
-    public TileView(Tile tile,Vector2 size)
+    public TileView(Vector2Int tile,Vector2 size)
     {
         this.tile = tile;
-        this.SetPosition(new Rect(tile.position * size, size));
+        this.SetPosition(new Rect(tile * size, size));
         var v = new VisualElement();
         v.Add(new Box());
         Add(v);

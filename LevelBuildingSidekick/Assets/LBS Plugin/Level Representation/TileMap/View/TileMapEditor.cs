@@ -3,11 +3,10 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using Utility;
+using LBS.Representation.TileMap;
 
 public class TileMapEditor : EditorWindow
 {
-    private MapDataScriptable map;
-
     private TileGridView tileGridView;
     private Label notSelectedLabel;
     private InspectorView inspectorView;
@@ -15,8 +14,13 @@ public class TileMapEditor : EditorWindow
     [MenuItem("LBS/TileMap Window...")]
     public static void OpenWindow()
     {
+        var controller = new TileMapController();
+
         TileMapEditor wnd = GetWindow<TileMapEditor>();
         wnd.titleContent = new GUIContent("TileMapEditor");
+
+        var view = wnd.rootVisualElement.Q<TileGridView>();
+        view.controller = controller;
     }
 
     public void CreateGUI()
@@ -40,12 +44,13 @@ public class TileMapEditor : EditorWindow
 
     private void OnSelectionChange()
     {
-        var map = Selection.activeObject as MapDataScriptable;
+        var c = tileGridView.controller;
+        var map = c.Data as LBSTileMapData;
         if(map != null)
         {
             notSelectedLabel.visible = false;
             tileGridView.visible = true;
-            tileGridView.SetView(map);
+            tileGridView.SetView(c);
         }
         else
         {
