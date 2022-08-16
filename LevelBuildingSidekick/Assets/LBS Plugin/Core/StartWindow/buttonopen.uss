@@ -27,10 +27,14 @@
     border-top-width: 0;
     border-bottom-width: 0;
     background-image: none;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: stretch;
     position: absolute;
     flex-direction: row;
+    margin-right: 12px;
+    -unity-text-align: upper-center;
+    margin-left: 0;
+    left: 51px;
 }
 
 .gonext {
