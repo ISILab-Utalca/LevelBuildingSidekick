@@ -52,7 +52,7 @@ namespace LBS.Representation.TileMap
             rooms.Add(new RoomData(tiles, ID));
         }
 
-        public void AddTile(List<Vector2Int> tiles, string roomId)
+        public void AddTiles(List<Vector2Int> tiles, string roomId)
         {
             SetTiles(tiles,roomId);
         }
