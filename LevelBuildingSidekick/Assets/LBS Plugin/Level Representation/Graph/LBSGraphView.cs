@@ -70,7 +70,6 @@ namespace LevelBuildingSidekick.Graph
             AddElement(new LBSNodeView(n));
         }
 
-
         public void Draw2D()
         {
             /*

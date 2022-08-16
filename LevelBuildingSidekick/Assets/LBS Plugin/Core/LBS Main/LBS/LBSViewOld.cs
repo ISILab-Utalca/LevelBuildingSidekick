@@ -4,10 +4,36 @@ using UnityEngine;
 using UnityEditor;
 using System.Linq;
 using LevelBuildingSidekick.Graph;
+using UnityEngine.UIElements;
 
 namespace LevelBuildingSidekick
 {
     public class LBSView : EditorWindow
+    {
+        [MenuItem("LBS/Welcome window...", priority = 0)]
+        public static void ShowWindow()
+        {
+            var window = GetWindow<LBSView>();
+            window.titleContent = new GUIContent("Level Building Sidekick");
+            //var btn1 = buscar boton;
+            var controller = new LBSController();
+        }
+
+        public void CreateGUI()
+        {
+            VisualElement root = rootVisualElement;
+
+            var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("OpenNewInfo");
+            visualTree.CloneTree(root);
+
+            var styleSheet = Utility.DirectoryTools.SearchAssetByName<StyleSheet>("buttonopen");
+            root.styleSheets.Add(styleSheet);
+        }
+
+    }
+
+    [System.Obsolete]
+    public class LBSViewOld : EditorWindow
     {
         bool creatingNew = true;
 
@@ -20,10 +46,6 @@ namespace LevelBuildingSidekick
         List<string> jsonFiles = new List<string>();
         int levelToLoad = 0;
 
-        private void Awake()
-        {
-
-        }
 
         public void OnFocus()
         {
@@ -32,6 +54,7 @@ namespace LevelBuildingSidekick
 
         public void OnGUI()
         {
+            
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.BeginVertical();
             if (GUILayout.Button("New Level", GUILayout.MaxHeight(128)))
@@ -86,6 +109,7 @@ namespace LevelBuildingSidekick
             EditorGUILayout.EndVertical();
 
             EditorGUILayout.EndHorizontal();
+            
         }
     }
 }
