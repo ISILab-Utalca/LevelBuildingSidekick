@@ -6,6 +6,8 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using System.Linq;
+using System;
+using System.Reflection;
 
 namespace LevelBuildingSidekick.Graph
 {
@@ -19,11 +21,15 @@ namespace LevelBuildingSidekick.Graph
 
         public LBSNodeData Data;
 
+        public delegate void NodeEvent(LBSNodeData data);
+        public NodeEvent OnStartDragEdge;
+        public NodeEvent OnEndDragEdge;
+
         public LBSNodeView(LBSNodeData node)
         {
             Data = node;
 
-            SetPosition(new Rect(Data.Position - Vector2.one * Data.Radius, Vector2.one * 2 * Data.Radius));
+            SetPosition(new Rect(Data.Position, Vector2.one * 2 * Data.Radius));
 
             Box b = new Box();
             b.style.minHeight = b.style.minWidth = b.style.maxHeight = b.style.maxWidth = 2 * Data.Radius;
@@ -56,6 +62,9 @@ namespace LevelBuildingSidekick.Graph
             base.SetPosition(newPos);
             Data.Position = new Vector2Int((int)newPos.x, (int)newPos.y);
         }
+
+
+        
 
         /*
         public void DrawEditor()

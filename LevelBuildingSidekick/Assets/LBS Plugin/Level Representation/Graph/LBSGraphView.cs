@@ -47,7 +47,6 @@ namespace LevelBuildingSidekick.Graph
             var styleSheet = Utility.DirectoryTools.SearchAssetByName<StyleSheet>("GraphWindow"); 
             //style.backgroundColor = new Color(79, 79, 79);
             styleSheets.Add(styleSheet);
-
         }
 
         public void PopulateView()
@@ -60,46 +59,29 @@ namespace LevelBuildingSidekick.Graph
         {
             var pos = (evt.localMousePosition - new Vector2(viewTransform.position.x, viewTransform.position.y)) / scale;
             {
-                evt.menu.AppendAction("New Node", (a) => AddNode(pos));
-            }        
+                evt.menu.AppendAction("New Node :D", (a) => AddNode(pos));
+            }
+
+            {
+                evt.menu.AppendAction("Clean", (a) =>
+                {
+                    controller.Clear();
+                    DeleteElements(graphElements);
+                });
+            }
+
         }
+
+   
 
         public void AddNode(Vector2 pos)
         {
-            var n = controller.NewNode(pos);
-            AddElement(new LBSNodeView(n));
+            var data = controller.NewNode(pos);
+            var view = new LBSNodeView(data);
+            //view.AddManipulator(new CreateEdge(controller,this));
+            AddElement(view);
         }
-
-        public void Draw2D()
-        {
-            /*
-            var controller = Controller as LBSGraphController;
-
-            scrollPosition = GUILayout.BeginScrollView(scrollPosition);
-
-            var offset = controller.CellSize * Vector2Int.one;
-
-            var lastElement = controller.FartherPosition();
-            var size = lastElement + offset;
-
-            var r = GUILayoutUtility.GetRect(10*offset.x,
-                10*offset.y,
-                size.x,
-                size.y);
-
-            GUI.DrawTexture(r, new Texture2D(1, 1));
-
-            foreach (LBSNodeController n in controller.Nodes)
-            {
-                (n.View as View).Draw2D();
-            }
-            foreach (EdgeController e in controller.Edges)
-            {
-                (e.View as View).Draw2D();
-            }
-            GUILayout.EndScrollView();
-            */
-        }
+    
     }
 }
 

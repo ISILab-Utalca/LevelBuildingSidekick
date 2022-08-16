@@ -7,6 +7,9 @@ using LevelBuildingSidekick;
 using System;
 using System.Linq;
 using Utility;
+using UnityEngine.UIElements;
+using UnityEditor.Experimental.GraphView;
+using LevelBuildingSidekick.Graph;
 
 namespace LevelBuildingSidekick.Graph
 {
@@ -41,6 +44,7 @@ namespace LevelBuildingSidekick.Graph
                 return graph.edges;
             }
         }
+
         private Controller _SelectedItem;
         public int CellSize
         {
@@ -74,6 +78,12 @@ namespace LevelBuildingSidekick.Graph
         public override void LoadData()
         {
             
+        }
+
+        public void Clear()
+        {
+            Nodes.Clear();
+            Edges.Clear();
         }
 
         internal void RemoveNode(LBSNodeData node)
@@ -136,7 +146,7 @@ namespace LevelBuildingSidekick.Graph
 
         public override void Update()
         {
-
+            throw new NotImplementedException();
         }
     }
 

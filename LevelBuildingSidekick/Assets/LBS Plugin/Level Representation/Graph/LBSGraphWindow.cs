@@ -18,6 +18,8 @@ namespace LevelBuildingSidekick.Graph
             var graph = wnd.rootVisualElement.Q<LBSGraphView>();
             //Debug.Log(graph.GetHashCode());
             graph.controller = new LBSGraphController(graph);
+            Debug.Log(wnd.position);
+            wnd.position = wnd.position;
         }
 
         public void CreateGUI()
