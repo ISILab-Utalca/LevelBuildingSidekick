@@ -1,14 +1,14 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
     <Style src="project://database/Assets/buttonopen.uss?fileID=7433441132597879392&amp;guid=585bed622d428f948b14ad7ef652428a&amp;type=3#buttonopen" />
     <ui:VisualElement style="height: 381px; background-color: rgb(56, 56, 56); flex-direction: row; flex-grow: 1; padding-left: -12px; padding-right: -12px; padding-top: -12px; padding-bottom: -12px;">
-        <ui:VisualElement style="width: 328px;">
+        <ui:VisualElement name="Selector" style="width: 203px;">
             <ui:VisualElement name="openselector" style="width: 192px; height: 727px; max-width: 300px; justify-content: center; align-items: center;">
                 <ui:Button text="New Level" display-tooltip-when-elided="true" class="buttonopen" style="height: 28px; width: 160px; border-top-left-radius: 4px; border-bottom-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; font-size: 16px;" />
                 <ui:Button text="Load Level" display-tooltip-when-elided="true" class="buttonopen" style="width: 160px; height: 28px; font-size: 16px; border-top-left-radius: 4px; border-bottom-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px;" />
                 <ui:Button text="Info LBS" display-tooltip-when-elided="true" class="buttonopen" style="width: 160px; height: 28px; font-size: 16px; border-top-left-radius: 4px; border-bottom-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px;" />
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement style="height: 374px; width: 1067px;">
+        <ui:VisualElement name="Options" style="height: 374px; width: 666px; display: none;">
             <ui:VisualElement name="options" style="width: 574px; height: 365px; align-items: flex-start; justify-content: center; margin-left: 8px; margin-right: 8px; margin-top: 2px; margin-bottom: 2px;">
                 <ui:Label text="LABEL" display-tooltip-when-elided="true" name="Titulo" style="margin-bottom: 4px; font-size: 24px; margin-top: 8px; -unity-font-style: bold;" />
                 <ui:Label text="Descripcion de la herramienta. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged." display-tooltip-when-elided="true" name="Descripcion" style="white-space: normal; font-size: 12px; margin-bottom: 14px; width: 573px; height: 26px;" />
@@ -40,6 +40,24 @@
                         </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Open-Level" style="width: 666px; display: none; height: 374px; justify-content: flex-start; align-items: flex-start; margin-left: 24px; margin-right: 8px; margin-top: 2px; margin-bottom: 2px;">
+            <ui:Label text="OPEN LEVEL" display-tooltip-when-elided="true" style="height: 42px; width: 591px; font-size: 24px; -unity-font-style: bold; margin-top: 8px; margin-left: 0; margin-bottom: 124px;" />
+            <ui:DropdownField label="Select" index="-1" choices="System.Collections.Generic.List`1[System.String]" style="width: 527px; height: 21px; font-size: 16px; margin-bottom: 124px; padding-left: 8px;" />
+            <ui:VisualElement style="height: 32px; width: 561px; flex-direction: row-reverse;">
+                <ui:Button text="Open" display-tooltip-when-elided="true" class="OpenBotton openbotton" style="-unity-font-style: bold; color: rgb(255, 255, 255); background-color: rgb(43, 72, 110); margin-left: 8px; width: 112px; height: 27px; font-size: 14px;" />
+                <ui:Button text="Cancel" display-tooltip-when-elided="true" class="OpenBotton openbotton" style="-unity-font-style: normal; margin-right: 8px; height: 27px; width: 112px; font-size: 14px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="New-Level" style="width: 666px; display: flex; height: 374px; justify-content: flex-start; align-items: flex-start; margin-left: 24px; margin-right: 8px; margin-top: 2px; margin-bottom: 2px;">
+            <ui:Label text="NEW LEVEL" display-tooltip-when-elided="true" style="height: 42px; width: 591px; font-size: 24px; -unity-font-style: bold; margin-top: 8px; margin-left: 0; margin-bottom: 24px;" />
+            <ui:TextField picking-mode="Ignore" label="Name" value="filler text" text="filler text" style="width: 521px; font-size: 16px; margin-bottom: 44px;" />
+            <uie:Vector3Field label="Size" style="width: 521px; font-size: 16px; padding-bottom: 44px; padding-right: 0;" />
+            <ui:DropdownField label="//algo" index="-1" choices="System.Collections.Generic.List`1[System.String]" style="width: 527px; height: 21px; font-size: 16px; margin-bottom: 88px; padding-left: 8px;" />
+            <ui:VisualElement style="height: 32px; width: 561px; flex-direction: row-reverse;">
+                <ui:Button text="Open" display-tooltip-when-elided="true" class="OpenBotton openbotton" style="-unity-font-style: bold; color: rgb(255, 255, 255); background-color: rgb(43, 72, 110); margin-left: 8px; width: 112px; height: 27px; font-size: 14px;" />
+                <ui:Button text="Cancel" display-tooltip-when-elided="true" class="OpenBotton openbotton" style="-unity-font-style: normal; margin-right: 8px; height: 27px; width: 112px; font-size: 14px;" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
