@@ -61,17 +61,18 @@ public class TileGridView : GraphView
         var pos = (evt.localMousePosition - new Vector2(viewTransform.position.x, viewTransform.position.y)) / scale;
         Vector2Int tilePos = new Vector2Int((int)pos.x / (int)tileSize.x, (int)pos.y / (int)tileSize.y);
 
-        /*
+        
         evt.menu.AppendAction("Add Tile", (a) => 
         {
-            var tile = map.CreateTile(tilePos);
-            CreateTileView(tile,tileSize);
+            var data = controller.Data as LBSTileMapData;
+            data.AddTiles(new List<Vector2Int>() { tilePos }, "test");
+            CreateTileView(tilePos, tileSize);
             Debug.Log("Ge:"+graphElements.ToList().Count);
         });
-        */
+        
     }
 }
-public class TileView : GraphElement, ICollectibleElement
+public class TileView : GraphElement
 {
     private Vector2Int tile;
 
@@ -82,15 +83,9 @@ public class TileView : GraphElement, ICollectibleElement
         var v = new VisualElement();
         v.Add(new Box());
         Add(v);
-       
 
-        var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/TEST/USS/TileUSS.uss");
+        var styleSheet = Utility.DirectoryTools.SearchAssetByName<StyleSheet>("TileUSS");
         styleSheets.Add(styleSheet);
-    }
-
-    public void CollectElements(HashSet<GraphElement> collectedElementSet, Func<GraphElement, bool> conditionFunc)
-    {
-        throw new NotImplementedException();
     }
 
 }
