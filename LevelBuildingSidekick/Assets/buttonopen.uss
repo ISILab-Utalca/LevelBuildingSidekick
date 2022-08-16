@@ -1,0 +1,18 @@
+.buttonopen {
+    margin-left: 12px;
+    margin-right: 12px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+
+.gonext {
+    margin-right: 6px;
+}
+
+.RRSSbutton {
+    justify-content: center;
+    align-items: center;
+    width: 64px;
+    height: 64px;
+    font-size: 0;
+}
