@@ -23,11 +23,15 @@ namespace LevelBuildingSidekick
         {
             VisualElement root = rootVisualElement;
 
-            var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("OpenNewInfo");
+            var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("StartWindow");
             visualTree.CloneTree(root);
 
-            var styleSheet = Utility.DirectoryTools.SearchAssetByName<StyleSheet>("buttonopen");
+            var styleSheet = Utility.DirectoryTools.SearchAssetByName<StyleSheet>("StartWindow");
             root.styleSheets.Add(styleSheet);
+
+            var newLevel = root.Q<Button>(name: "");
+            var loadLevel = root.Q<Button>(name: "");
+            //var newLevel = root.Q<Button>(name: "");
         }
 
     }
