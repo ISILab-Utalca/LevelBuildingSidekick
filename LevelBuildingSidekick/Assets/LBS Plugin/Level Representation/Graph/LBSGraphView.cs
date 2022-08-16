@@ -78,7 +78,7 @@ namespace LevelBuildingSidekick.Graph
         {
             var data = controller.NewNode(pos);
             var view = new LBSNodeView(data);
-            view.AddManipulator(new CreateEdge(controller,this));
+            //view.AddManipulator(new CreateEdge(controller,this));
             AddElement(view);
         }
     
