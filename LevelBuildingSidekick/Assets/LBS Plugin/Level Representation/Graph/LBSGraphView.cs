@@ -16,7 +16,18 @@ namespace LevelBuildingSidekick.Graph
 
         //Vector2 scrollPos;
         Vector2 scrollPosition;
-        public LBSGraphController controller;
+        private LBSGraphController controller;
+        public LBSGraphController Controller
+        {
+            get
+            {
+                if(controller == null)
+                {
+                    controller = new LBSGraphController(this);
+                }
+                return controller;
+            }
+        }
 
         public List<LBSNodeView> SelectedNodes 
         {
@@ -44,15 +55,17 @@ namespace LevelBuildingSidekick.Graph
             this.AddManipulator(new SelectionDragger());
             this.AddManipulator(new RectangleSelector());
 
-            var styleSheet = Utility.DirectoryTools.SearchAssetByName<StyleSheet>("GraphWindow"); 
-            //style.backgroundColor = new Color(79, 79, 79);
+            var styleSheet = Utility.DirectoryTools.SearchAssetByName<StyleSheet>("GraphWindow");
+            //style.backgroundColor = new Color(79, 79, 79);;
             styleSheets.Add(styleSheet);
         }
 
         public void PopulateView()
         {
             DeleteElements(graphElements);
-            controller.Nodes.ToList().ForEach(n => AddElement(new LBSNodeView(n)));
+            Debug.Log(Controller);
+            Debug.Log(Controller.Nodes);
+            Controller.Nodes.ForEach(n => { if (n == null) { Debug.Log("WTF?"); } AddElement(new LBSNodeView(n)); });
         }
 
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
@@ -63,11 +76,11 @@ namespace LevelBuildingSidekick.Graph
             }
 
             {
-                evt.menu.AppendAction("Clean", (a) =>
+                evt.menu.AppendAction("Clean", (Action<DropdownMenuAction>)((a) =>
                 {
-                    controller.Clear();
+                    this.Controller.Clear();
                     DeleteElements(graphElements);
-                });
+                }));
             }
 
         }
@@ -76,7 +89,7 @@ namespace LevelBuildingSidekick.Graph
 
         public void AddNode(Vector2 pos)
         {
-            var data = controller.NewNode(pos);
+            var data = Controller.NewNode(pos);
             var view = new LBSNodeView(data);
             //view.AddManipulator(new CreateEdge(controller,this));
             AddElement(view);

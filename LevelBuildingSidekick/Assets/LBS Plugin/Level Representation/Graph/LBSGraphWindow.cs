@@ -16,10 +16,9 @@ namespace LevelBuildingSidekick.Graph
             LBSGraphWindow wnd = GetWindow<LBSGraphWindow>();
             wnd.titleContent = new GUIContent("GraphWindow");
             var graph = wnd.rootVisualElement.Q<LBSGraphView>();
-            //Debug.Log(graph.GetHashCode());
-            graph.controller = new LBSGraphController(graph);
-            Debug.Log(wnd.position);
-            wnd.position = wnd.position;
+            //graph.Controller = new LBSGraphController(graph);
+            Debug.Log(wnd); // son vitales...
+            wnd.position = wnd.position; // VITALES!!!!
         }
 
         public void CreateGUI()
@@ -39,13 +38,11 @@ namespace LevelBuildingSidekick.Graph
             root.styleSheets.Add(styleSheet);
              
             graphView = root.Q<LBSGraphView>();
-            //Debug.Log(graphView.GetHashCode()); 
-            //Debug.Log(graphView.Controller);
         }
 
         private void OnFocus()
         {
-            if(graphView != null)
+            if (graphView != null) 
                 graphView.PopulateView();
         }
 
