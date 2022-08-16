@@ -42,36 +42,6 @@ namespace LevelBuildingSidekick.Graph
             }
         }
         private Controller _SelectedItem;
-        public EdgeController SelectedEdge
-        {
-            get
-            {
-                if (_SelectedItem == null || !(_SelectedItem is EdgeController))
-                {
-                    return null;
-                }
-                return _SelectedItem as EdgeController;
-            }
-            set
-            {
-                _SelectedItem = value;
-            }
-        }
-        public LBSNodeController SelectedNode
-        {
-            get
-            {
-                if (_SelectedItem == null || !(_SelectedItem is LBSNodeController))
-                {
-                    return null;
-                }
-                return _SelectedItem as LBSNodeController;
-            }
-            set
-            {
-                _SelectedItem = value;
-            }
-        }
         public int CellSize
         {
             get
@@ -80,8 +50,25 @@ namespace LevelBuildingSidekick.Graph
             }
         }
 
-        public LBSGraphController() : base(LBSController.CurrentLevel.GetRepresentation<LBSGraphData>())
+        public List<LBSNodeData> SelectedNodes
         {
+            get
+            {
+                return (View as LBSGraphView).SelectedNodes.Select(v => v.Node).ToList();
+            }
+        }
+
+        public List<LBSEdgeData> SelectedEdges
+        {
+            get
+            {
+                return (View as LBSGraphView).SelectedEdges.Select(v => v.Edge).ToList();
+            }
+        }
+
+        public LBSGraphController(LBSGraphView view) : base(LBSController.CurrentLevel.GetRepresentation<LBSGraphData>())
+        {
+            View = view;
         }
 
         public override void LoadData()
@@ -99,19 +86,11 @@ namespace LevelBuildingSidekick.Graph
                 }
             }
             Nodes.Remove(node);
-            if (node.Equals(SelectedNode))
-            {
-                _SelectedItem = null;
-            }
         }
 
         internal void RemoveEdge(LBSEdgeData edge)
         {
             Edges.Remove(edge);
-            if (edge.Equals(SelectedEdge))
-            {
-                _SelectedItem = null;
-            }
         }
 
         public LBSEdgeData GetEdge(LBSNodeData n1, LBSNodeData n2)

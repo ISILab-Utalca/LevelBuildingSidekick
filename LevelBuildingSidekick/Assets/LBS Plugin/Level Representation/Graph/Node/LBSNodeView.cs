@@ -17,16 +17,16 @@ namespace LevelBuildingSidekick.Graph
         bool openGameObjects;
         int categoryIndex;
 
-        LBSNodeData Controller;
+        public LBSNodeData Node;
 
         public LBSNodeView(LBSNodeData node)
         {
-            Controller = node;
+            Node = node;
 
-            SetPosition(new Rect(Controller.Position - Vector2.one * Controller.Radius, Vector2.one * 2 * Controller.Radius));
+            SetPosition(new Rect(Node.Position - Vector2.one * Node.Radius, Vector2.one * 2 * Node.Radius));
 
             Box b = new Box();
-            b.style.minHeight = b.style.minWidth = b.style.maxHeight = b.style.maxWidth = 2 * Controller.Radius;
+            b.style.minHeight = b.style.minWidth = b.style.maxHeight = b.style.maxWidth = 2 * Node.Radius;
             b.Add(new Label(node.label));
             
             Add(b);

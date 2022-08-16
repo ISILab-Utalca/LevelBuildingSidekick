@@ -26,6 +26,14 @@ namespace LevelBuildingSidekick.Graph
             }
         }
 
+        public List<LBSEdgeView> SelectedEdges
+        {
+            get
+            {
+                return selection.Where(s => s is LBSEdgeView) as List<LBSEdgeView>;
+            }
+        }
+
         public LBSGraphView()
         {
             //Controller = new LBSGraphController();

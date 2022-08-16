@@ -4,13 +4,15 @@ using UnityEngine;
 using UnityEditor;
 using LevelBuildingSidekick;
 using UnityEngine.UIElements;
+using UnityEditor.Experimental.GraphView;
 using Newtonsoft.Json;
 
-public class LBSEdgeView : VisualElement
+public class LBSEdgeView : GraphElement
 {
-    //EdgeData edge;
+    public LBSEdgeData Edge;
     public LBSEdgeView(Controller controller) //: base(controller)
     {
+        capabilities |= Capabilities.Selectable | Capabilities.Deletable;
     }
 
     public void Draw2D() // solo necesita un contructor del visual element

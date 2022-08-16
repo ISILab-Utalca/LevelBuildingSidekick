@@ -48,10 +48,11 @@ public class LBSEdgeData: Data
     }
 
     [JsonIgnore]
-    public float thikness = 5; // -> static (??)
+    public override Type ControllerType => throw new NotImplementedException();
 
     [JsonIgnore]
-    public override Type ControllerType => typeof(EdgeController);
+    public float thikness = 5; // -> static (??)
+
 
     public LBSEdgeData() { }
 

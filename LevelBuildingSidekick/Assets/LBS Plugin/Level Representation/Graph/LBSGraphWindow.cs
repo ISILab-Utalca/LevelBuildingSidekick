@@ -17,7 +17,7 @@ namespace LevelBuildingSidekick.Graph
             wnd.titleContent = new GUIContent("GraphWindow");
             var graph = wnd.rootVisualElement.Q<LBSGraphView>();
             //Debug.Log(graph.GetHashCode());
-            graph.controller = new LBSGraphController();
+            graph.controller = new LBSGraphController(graph);
         }
 
         public void CreateGUI()
