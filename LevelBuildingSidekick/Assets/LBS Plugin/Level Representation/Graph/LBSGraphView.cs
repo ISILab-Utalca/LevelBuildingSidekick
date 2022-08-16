@@ -52,7 +52,7 @@ namespace LevelBuildingSidekick.Graph
 
         public void PopulateView()
         {
-
+            DeleteElements(graphElements);
             controller.Nodes.ToList().ForEach(n => AddElement(new LBSNodeView(n)));
         }
 

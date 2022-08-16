@@ -41,9 +41,10 @@ namespace LevelBuildingSidekick.Graph
             //Debug.Log(graphView.Controller);
         }
 
-        private void OnSelectionChange()
+        private void OnFocus()
         {
-            graphView.PopulateView();
+            if(graphView != null)
+                graphView.PopulateView();
         }
 
 

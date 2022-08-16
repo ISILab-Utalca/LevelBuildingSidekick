@@ -6,6 +6,7 @@ using LevelBuildingSidekick;
 using System;
 using LevelBuildingSidekick.Schema;
 using Newtonsoft.Json;
+using UnityEditor;
 
 namespace LevelBuildingSidekick.Graph
 {
@@ -81,6 +82,18 @@ namespace LevelBuildingSidekick.Graph
                 radius = value;
             }
         }
+        public void UnitySelect()
+        {
+            var s = ScriptableObject.CreateInstance<InspectorDrawer>();
+            s.data = this;
+            Selection.SetActiveObjectWithContext(s, s);
+        }
+    }
+
+    public class InspectorDrawer : ScriptableObject
+    {
+        [SerializeField]
+        internal LBSNodeData data;
     }
 }
 

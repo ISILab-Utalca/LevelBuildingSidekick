@@ -17,16 +17,16 @@ namespace LevelBuildingSidekick.Graph
         bool openGameObjects;
         int categoryIndex;
 
-        public LBSNodeData Node;
+        public LBSNodeData Data;
 
         public LBSNodeView(LBSNodeData node)
         {
-            Node = node;
+            Data = node;
 
-            SetPosition(new Rect(Node.Position - Vector2.one * Node.Radius, Vector2.one * 2 * Node.Radius));
+            SetPosition(new Rect(Data.Position - Vector2.one * Data.Radius, Vector2.one * 2 * Data.Radius));
 
             Box b = new Box();
-            b.style.minHeight = b.style.minWidth = b.style.maxHeight = b.style.maxWidth = 2 * Node.Radius;
+            b.style.minHeight = b.style.minWidth = b.style.maxHeight = b.style.maxWidth = 2 * Data.Radius;
             b.Add(new Label(node.label));
             
             Add(b);
@@ -46,6 +46,15 @@ namespace LevelBuildingSidekick.Graph
         {
             base.OnSelected();
             //Debug.Log(Controller.Label + " AH!");
+            //base.OnSelected();
+            Data.UnitySelect();
+            //Debug.Log("Calling");
+        }
+
+        public override void SetPosition(Rect newPos)
+        {
+            base.SetPosition(newPos);
+            Data.Position = new Vector2Int((int)newPos.x, (int)newPos.y);
         }
 
         /*
@@ -197,7 +206,7 @@ namespace LevelBuildingSidekick.Graph
 
         }
         */
-        
+
     }
 }
 

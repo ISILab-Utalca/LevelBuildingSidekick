@@ -54,7 +54,7 @@ namespace LevelBuildingSidekick.Graph
         {
             get
             {
-                return (View as LBSGraphView).SelectedNodes.Select(v => v.Node).ToList();
+                return (View as LBSGraphView).SelectedNodes.Select(v => v.Data).ToList();
             }
         }
 
