@@ -84,13 +84,13 @@ namespace LevelBuildingSidekick.Graph
         }
         public void UnitySelect()
         {
-            var s = ScriptableObject.CreateInstance<InspectorDrawer>();
+            var s = ScriptableObject.CreateInstance<InspectorDrawer<LBSNodeData>>();
             s.data = this;
             Selection.SetActiveObjectWithContext(s, s);
         }
     }
 
-    public class InspectorDrawer : ScriptableObject
+    public class InspectorDrawer<T> : ScriptableObject  where T : Data
     {
         [SerializeField]
         internal LBSNodeData data;

@@ -29,7 +29,7 @@ namespace LevelBuildingSidekick.Graph
         {
             Data = node;
 
-            SetPosition(new Rect(Data.Position - Vector2.one * Data.Radius, Vector2.one * 2 * Data.Radius));
+            SetPosition(new Rect(Data.Position, Vector2.one * 2 * Data.Radius));
 
             Box b = new Box();
             b.style.minHeight = b.style.minWidth = b.style.maxHeight = b.style.maxWidth = 2 * Data.Radius;
