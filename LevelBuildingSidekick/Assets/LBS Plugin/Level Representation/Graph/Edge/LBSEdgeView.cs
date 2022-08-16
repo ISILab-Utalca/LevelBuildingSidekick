@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 public class LBSEdgeView : GraphElement
 {
     public LBSEdgeData Edge;
-    public LBSEdgeView(Controller controller) //: base(controller)
+    public LBSEdgeView() //: base(controller)
     {
         capabilities |= Capabilities.Selectable | Capabilities.Deletable;
     }

@@ -6,6 +6,8 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using System.Linq;
+using System;
+using System.Reflection;
 
 namespace LevelBuildingSidekick.Graph
 {
@@ -18,6 +20,10 @@ namespace LevelBuildingSidekick.Graph
         int categoryIndex;
 
         public LBSNodeData Data;
+
+        public delegate void NodeEvent(LBSNodeData data);
+        public NodeEvent OnStartDragEdge;
+        public NodeEvent OnEndDragEdge;
 
         public LBSNodeView(LBSNodeData node)
         {
@@ -56,6 +62,9 @@ namespace LevelBuildingSidekick.Graph
             base.SetPosition(newPos);
             Data.Position = new Vector2Int((int)newPos.x, (int)newPos.y);
         }
+
+
+        
 
         /*
         public void DrawEditor()
