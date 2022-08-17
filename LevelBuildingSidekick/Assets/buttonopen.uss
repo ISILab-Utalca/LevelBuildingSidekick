@@ -30,3 +30,6 @@
     border-bottom-width: 2px;
     font-size: 12px;
 }
+
+.unity-radio-button-group {
+}
