@@ -15,7 +15,21 @@ namespace LevelBuildingSidekick
 
         public List<ItemCategory> levelObjects;
 
-        public Vector2Int size;
+        int x, y, z;
+
+        public Vector3 Size
+        {
+            get
+            {
+                return new Vector3(x,y,z);
+            }
+            set
+            {
+                x = (int)value.x;
+                y = (int)value.y;
+                z = (int)value.z;
+            }
+        }
 
         public List<LBSRepesentationData> representations = new List<LBSRepesentationData>();
 

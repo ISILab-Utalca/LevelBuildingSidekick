@@ -30,7 +30,7 @@ namespace LevelBuildingSidekick
         [MenuItem("LBS/[Old] Welcome window...",priority = 0)]
         public static void ShowWindow()
         {
-            var window = LBSViewOld.GetWindow<LBSViewOld>("Level Building Sidekick");
+            var window = LBSStartWindow.GetWindow<LBSStartWindow>("Level Building Sidekick");
         }
 
         private static void LoadBackup()
@@ -51,11 +51,11 @@ namespace LevelBuildingSidekick
             }
         }
 
-        public static LevelData CreateLevel(string levelName, Vector2Int size)
+        public static LevelData CreateLevel(string levelName, Vector3 size)
         {
             LevelData data = new LevelData();
             data.levelName = levelName;
-            data.size = size;
+            data.Size = size;
             data.representations.Add(new LBSGraphData());
             return data;
         }

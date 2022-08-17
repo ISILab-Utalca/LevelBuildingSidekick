@@ -3,12 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using System.Reflection;
 
-public static class Reflection
+namespace Utility
 {
-    public static IEnumerable<Type> FindDerivedTypes(Type baseType)
+    public static class Reflection
     {
-        var assembly = baseType.Assembly;
-        return assembly.GetTypes().Where(t => t.IsSubclassOf(baseType));
+        public static IEnumerable<Type> FindDerivedTypes(Type baseType)
+        {
+            //var assembly = baseType.Assembly;
+            var assembly = Assembly.GetExecutingAssembly();
+            return assembly.GetTypes().Where(t => t.IsSubclassOf(baseType));
+        }
+
+        public static IEnumerable<Type> FindDerivedTypes(Assembly assembly, Type baseType)
+        {
+            return assembly.GetTypes().Where(t => t.IsSubclassOf(baseType));
+        }
     }
 }
+

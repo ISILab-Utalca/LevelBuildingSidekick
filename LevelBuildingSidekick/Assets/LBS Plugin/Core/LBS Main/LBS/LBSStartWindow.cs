@@ -135,7 +135,7 @@ namespace LevelBuildingSidekick
 
         void OpenNewLevel()
         {
-            LBSController.CurrentLevel = LBSController.CreateLevel(newLvlNameField.value, newLvlSizeField.value);
+            LBSController.CurrentLevel = LBSController.CreateLevel(newLvlNameField.value, Vector3.zero);
             LBSGraphWindow.OpenWindow();
             this.Close();
         }
