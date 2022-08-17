@@ -12,6 +12,8 @@ namespace LevelBuildingSidekick.Graph
 {
     public class LBSGraphView : GraphView
     {
+        private CreateEdge createEdge;
+
         public new class UxmlFactory : UxmlFactory<LBSGraphView, GraphView.UxmlTraits> { }
 
         //Vector2 scrollPos;
@@ -48,12 +50,17 @@ namespace LevelBuildingSidekick.Graph
         public LBSGraphView()
         {
             //Controller = new LBSGraphController();
-            Insert(0, new GridBackground());
+            var gb = new GridBackground();
+            gb.StretchToParentSize();
+            Insert(0, gb);
 
             this.AddManipulator(new ContentZoomer());
             this.AddManipulator(new ContentDragger());
             this.AddManipulator(new SelectionDragger());
             this.AddManipulator(new RectangleSelector());
+
+            //createEdge = new CreateEdge(controller, this);
+            //this.AddManipulator(createEdge);
 
             var styleSheet = Utility.DirectoryTools.SearchAssetByName<StyleSheet>("GraphWindow");
             //style.backgroundColor = new Color(79, 79, 79);;
@@ -63,36 +70,56 @@ namespace LevelBuildingSidekick.Graph
         public void PopulateView()
         {
             DeleteElements(graphElements);
-            Debug.Log(Controller);
-            Debug.Log(Controller.Nodes);
-            Controller.Nodes.ForEach(n => { if (n == null) { Debug.Log("WTF?"); } AddElement(new LBSNodeView(n)); });
+
+            Controller.Nodes.ForEach(n => {
+                AddNodeView(n);
+            });
+
+            controller.Edges.ForEach(e => {
+                AddEdgeView(e);
+            });
         }
 
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
             var pos = (evt.localMousePosition - new Vector2(viewTransform.position.x, viewTransform.position.y)) / scale;
-            {
-                evt.menu.AppendAction("New Node :D", (a) => AddNode(pos));
-            }
 
+            evt.menu.AppendAction("New Node", (a) =>
             {
-                evt.menu.AppendAction("Clean", (Action<DropdownMenuAction>)((a) =>
-                {
-                    this.Controller.Clear();
-                    DeleteElements(graphElements);
-                }));
-            }
+                var data = Controller.NewNode(pos);
+                AddNodeView(data);
+            });
+
+            evt.menu.AppendAction("New Conection", (a) =>
+            {
+                var n1 = controller.Nodes[0]; // temp
+                var n2 = controller.Nodes[1]; // temp
+                var edge = Controller.NewEdge(n1,n2);
+                AddEdgeView(edge);
+            });
+
+
+            evt.menu.AppendAction("Clean", (Action<DropdownMenuAction>)((a) =>
+            {
+                this.Controller.Clear();
+                DeleteElements(graphElements);
+            }));
 
         }
 
-   
-
-        public void AddNode(Vector2 pos)
+ 
+        public void AddEdgeView(LBSEdgeData data)
         {
-            var data = Controller.NewNode(pos);
-            var view = new LBSNodeView(data);
-            //view.AddManipulator(new CreateEdge(controller,this));
+            var view = new LBSEdgeView();//new LBSEdgeView(data);
             AddElement(view);
+            Debug.Log("C: "+ graphElements.Count());
+        }
+
+        public void AddNodeView(LBSNodeData data)
+        {
+            var view = new LBSNodeView(data);
+            AddElement(view);
+            //view.AddManipulator(createEdge);
         }
     
     }
