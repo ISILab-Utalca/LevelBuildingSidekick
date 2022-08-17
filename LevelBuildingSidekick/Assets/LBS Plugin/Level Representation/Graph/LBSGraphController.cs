@@ -15,11 +15,6 @@ namespace LevelBuildingSidekick.Graph
 {
     public class LBSGraphController : Controller
     {
-        // la var (edgeThreshold) esto yo lo pondria a como una variable estatica en 
-        // otro lado ya que solo se ocupa para seleccionar las edges,
-        // tal vez en la data de la herramienta seleccionar
-        // (tal vez parametrizado o incluso estatico en algun lado)
-        public float edgeThreshold = 10; 
         public List<LBSNodeData> Nodes
         {
             get
@@ -46,6 +41,7 @@ namespace LevelBuildingSidekick.Graph
         }
 
         private Controller _SelectedItem;
+
         public int CellSize
         {
             get
@@ -60,15 +56,15 @@ namespace LevelBuildingSidekick.Graph
             {
                 return (View as LBSGraphView).SelectedNodes.Select(v => v.Data).ToList();
             }
-        }
+        } // no se usa (!!!)
 
         public List<LBSEdgeData> SelectedEdges
         {
             get
             {
-                return (View as LBSGraphView).SelectedEdges.Select(v => v.Edge).ToList();
+                return null;//(View as LBSGraphView).SelectedEdges.Select(v => v.data ).ToList();
             }
-        }
+        } // no se usa (!!!)
 
         public LBSGraphController(LBSGraphView view) : base(LBSController.CurrentLevel.GetRepresentation<LBSGraphData>())
         {
@@ -86,6 +82,7 @@ namespace LevelBuildingSidekick.Graph
             Edges.Clear();
         }
 
+        // Node methods
         internal void RemoveNode(LBSNodeData node)
         {
             for(int i = 0; i < Edges.Count; i++)
@@ -96,23 +93,6 @@ namespace LevelBuildingSidekick.Graph
                 }
             }
             Nodes.Remove(node);
-        }
-
-        internal void RemoveEdge(LBSEdgeData edge)
-        {
-            Edges.Remove(edge);
-        }
-
-        public LBSEdgeData GetEdge(LBSNodeData n1, LBSNodeData n2)
-        {
-            foreach (LBSEdgeData e in Edges)
-            {
-                if (e.Contains(n1.label) && e.Contains(n2.label))
-                {
-                    return e;
-                }
-            }
-            return null;
         }
 
         internal void AddNode(LBSNodeData nodeData)
@@ -134,6 +114,28 @@ namespace LevelBuildingSidekick.Graph
             AddNode(node);
             return node;
         }
+
+        // Edge methods
+        internal LBSEdgeData NewEdge(LBSNodeData n1, LBSNodeData n2)
+        {
+            var graph = Data as LBSGraphData;
+            var edge = new LBSEdgeData(n1,n2);
+            AddEdge(edge);
+            return edge;
+        }
+
+        public LBSEdgeData GetEdge(LBSNodeData n1, LBSNodeData n2)
+        {
+            foreach (LBSEdgeData e in Edges)
+            {
+                if (e.Contains(n1.label) && e.Contains(n2.label))
+                {
+                    return e;
+                }
+            }
+            return null;
+        } //(?)
+
         internal bool AddEdge(LBSEdgeData edgeData)
         {
             if(Edges.Any(e => e.Contains(edgeData.FirstNodeLabel) && e.Contains(edgeData.SecondNodeLabel)))
@@ -143,6 +145,12 @@ namespace LevelBuildingSidekick.Graph
             Edges.Add(edgeData);
             return true;
         }
+
+        internal void RemoveEdge(LBSEdgeData edge)
+        {
+            Edges.Remove(edge);
+        }
+
 
         public override void Update()
         {
