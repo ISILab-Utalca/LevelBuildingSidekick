@@ -76,8 +76,24 @@ namespace LevelBuildingSidekick.Graph
             });
 
             controller.Edges.ForEach(e => {
-                AddEdgeView(e);
+                var nv1 = GetNodeViewBylabel(e.FirstNodeLabel);
+                var nv2 = GetNodeViewBylabel(e.SecondNodeLabel);
+                AddEdgeView(nv1,nv2);
             });
+        }
+
+        public LBSNodeView GetNodeViewBylabel(string label)
+        {
+            foreach (var element in graphElements)
+            {
+                if (element is LBSNodeView)
+                {
+                    var n = (LBSNodeView)element;
+                    if (n != null && n.Data.label == label)
+                        return n;
+                }
+            }
+            return null;
         }
 
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
@@ -95,7 +111,9 @@ namespace LevelBuildingSidekick.Graph
                 var n1 = controller.Nodes[0]; // temp
                 var n2 = controller.Nodes[1]; // temp
                 var edge = Controller.NewEdge(n1,n2);
-                AddEdgeView(edge);
+                var nv1 = GetNodeViewBylabel(n1.label);
+                var nv2 = GetNodeViewBylabel(n2.label);
+                AddEdgeView(nv1, nv2);
             });
 
 
@@ -107,10 +125,10 @@ namespace LevelBuildingSidekick.Graph
 
         }
 
- 
-        public void AddEdgeView(LBSEdgeData data)
+
+        public void AddEdgeView(LBSNodeView nv1, LBSNodeView nv2)
         {
-            var view = new LBSEdgeView();//new LBSEdgeView(data);
+            var view = new LBSEdgeView(nv1,nv2);//new LBSEdgeView(data);
             AddElement(view);
             Debug.Log("C: "+ graphElements.Count());
         }
