@@ -25,6 +25,9 @@ public class LBSEdgeView : GraphElement
 
     public void OnGenerateVisualContent(MeshGenerationContext mgc)
     {
+        if (nv1 != null || nv2 != null)
+            return;
+
         painter = mgc.painter2D;
         painter.strokeColor = Color.white;
         painter.lineWidth = 2f;
@@ -38,6 +41,33 @@ public class LBSEdgeView : GraphElement
         painter.Stroke();
     }
 
-    
+}
 
+public class LBSProxyEdge : GraphElement
+{
+    public Vector2 nv1, nv2;
+    public Painter2D painter;
+
+    public LBSProxyEdge(Vector2 nv1, Vector2 nv2)
+    {
+        this.nv1 = nv1;
+        this.nv2 = nv2;
+    }
+
+    public void OnGenerateVisualContent(MeshGenerationContext mgc)
+    {
+        painter = mgc.painter2D;
+    }
+
+    public void UpdateDraw(Vector2 p1, Vector2 p2)
+    {
+        painter.strokeColor = Color.white;
+        painter.lineWidth = 2f;
+        painter.lineCap = LineCap.Round;
+
+        painter.BeginPath();
+        painter.MoveTo(p1);
+        painter.LineTo(p2);
+        painter.Stroke();
+    }
 }

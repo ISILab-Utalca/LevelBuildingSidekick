@@ -6,6 +6,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+[System.Obsolete] // al final no se uso, puede que se vuelva a usar
 public class CreateEdge : MouseManipulator
 {
     private LBSGraphController controller;

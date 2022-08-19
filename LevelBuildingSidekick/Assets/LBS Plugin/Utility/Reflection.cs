@@ -11,4 +11,12 @@ public static class Reflection
         var assembly = baseType.Assembly;
         return assembly.GetTypes().Where(t => t.IsSubclassOf(baseType));
     }
+
+    public static void PrintDerivedTypes(Type baseType)
+    {
+        var types = FindDerivedTypes(baseType).ToList();
+        var msg = "";
+        types.ForEach(t => msg+= t.Name +"\n");
+        Debug.Log(msg);
+    }
 }

@@ -40,6 +40,11 @@ namespace LevelBuildingSidekick.Graph
             graphView = root.Q<LBSGraphView>();
         }
 
+        private void OnGUI()
+        {
+            graphView.OnGUI();
+        }
+
         private void OnFocus()
         {
             if (graphView != null) 

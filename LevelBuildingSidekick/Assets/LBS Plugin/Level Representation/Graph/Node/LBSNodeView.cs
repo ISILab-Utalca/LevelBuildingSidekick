@@ -40,6 +40,46 @@ namespace LevelBuildingSidekick.Graph
 
             var styleSheet = Utility.DirectoryTools.SearchAssetByName<StyleSheet>("NodeUSS");
             styleSheets.Add(styleSheet);
+
+            RegisterCallback<MouseDownEvent>(OnMouseDown);
+            RegisterCallback<MouseUpEvent>(OnMouseUp);
+        }
+
+        private void OnMouseDown(MouseDownEvent evt)
+        {
+            Debug.Log("A");
+        }
+
+        private void OnMouseUp(MouseUpEvent evt)
+        {
+            Debug.Log("B");
+        }
+
+        protected override void ExecuteDefaultAction(EventBase evt)
+        {
+            base.ExecuteDefaultAction(evt);
+            //Debug.Log("type: "+ evt.GetType());
+            if (evt is MouseDownEvent)
+            {
+                Debug.Log("A");
+                var e = (MouseDownEvent)evt;
+                if(e.button == 1)
+                {
+                    Debug.Log("B");
+                    OnStartDragEdge?.Invoke(Data);
+                }
+            }
+            else if(evt is MouseUpEvent)
+            {
+                Debug.Log("C");
+                var e = (MouseUpEvent)evt;
+                if (e.button == 1)
+                {
+                    Debug.Log("D");
+                    OnEndDragEdge?.Invoke(Data);
+
+                }
+            }
         }
 
         public override void OnSelected()
@@ -55,5 +95,3 @@ namespace LevelBuildingSidekick.Graph
         }
     }
 }
-
-
