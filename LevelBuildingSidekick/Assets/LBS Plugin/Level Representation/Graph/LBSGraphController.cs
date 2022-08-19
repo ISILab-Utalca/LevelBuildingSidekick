@@ -15,6 +15,7 @@ namespace LevelBuildingSidekick.Graph
 {
     public class LBSGraphController : Controller
     {
+
         public List<LBSNodeData> Nodes
         {
             get
@@ -81,6 +82,9 @@ namespace LevelBuildingSidekick.Graph
             Nodes.Clear();
             Edges.Clear();
         }
+
+       
+
 
         // Node methods
         internal void RemoveNode(LBSNodeData node)
@@ -154,7 +158,7 @@ namespace LevelBuildingSidekick.Graph
 
         public override void Update()
         {
-            throw new NotImplementedException();
+
         }
     }
 

@@ -12,7 +12,9 @@ namespace LevelBuildingSidekick.Graph
 {
     public class LBSGraphView : GraphView
     {
-        private CreateEdge createEdge;
+        public static bool isDragEdge = false;
+        private static LBSProxyEdge proxyEdge;
+        private static LBSNodeView first;
 
         public new class UxmlFactory : UxmlFactory<LBSGraphView, GraphView.UxmlTraits> { }
 
@@ -23,7 +25,7 @@ namespace LevelBuildingSidekick.Graph
         {
             get
             {
-                if(controller == null)
+                if (controller == null)
                 {
                     controller = new LBSGraphController(this);
                 }
@@ -31,7 +33,7 @@ namespace LevelBuildingSidekick.Graph
             }
         }
 
-        public List<LBSNodeView> SelectedNodes 
+        public List<LBSNodeView> SelectedNodes
         {
             get
             {
@@ -65,19 +67,38 @@ namespace LevelBuildingSidekick.Graph
             var styleSheet = Utility.DirectoryTools.SearchAssetByName<StyleSheet>("GraphWindow");
             //style.backgroundColor = new Color(79, 79, 79);;
             styleSheets.Add(styleSheet);
+
         }
 
         public void PopulateView()
         {
             DeleteElements(graphElements);
 
-            Controller.Nodes.ForEach(n => {
+            Controller.Nodes.ForEach(n =>
+            {
                 AddNodeView(n);
             });
 
-            controller.Edges.ForEach(e => {
-                AddEdgeView(e);
+            controller.Edges.ForEach(e =>
+            {
+                var nv1 = GetNodeViewBylabel(e.FirstNodeLabel);
+                var nv2 = GetNodeViewBylabel(e.SecondNodeLabel);
+                AddEdgeView(nv1, nv2);
             });
+        }
+
+        public LBSNodeView GetNodeViewBylabel(string label)
+        {
+            foreach (var element in graphElements)
+            {
+                if (element is LBSNodeView)
+                {
+                    var n = (LBSNodeView)element;
+                    if (n != null && n.Data.label == label)
+                        return n;
+                }
+            }
+            return null;
         }
 
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
@@ -90,14 +111,17 @@ namespace LevelBuildingSidekick.Graph
                 AddNodeView(data);
             });
 
+            /*
             evt.menu.AppendAction("New Conection", (a) =>
             {
                 var n1 = controller.Nodes[0]; // temp
                 var n2 = controller.Nodes[1]; // temp
-                var edge = Controller.NewEdge(n1,n2);
-                AddEdgeView(edge);
+                var edge = Controller.NewEdge(n1, n2);
+                var nv1 = GetNodeViewBylabel(n1.label);
+                var nv2 = GetNodeViewBylabel(n2.label);
+                AddEdgeView(nv1, nv2);
             });
-
+            */
 
             evt.menu.AppendAction("Clean", (Action<DropdownMenuAction>)((a) =>
             {
@@ -107,21 +131,69 @@ namespace LevelBuildingSidekick.Graph
 
         }
 
- 
-        public void AddEdgeView(LBSEdgeData data)
+        protected override void ExecuteDefaultAction(EventBase evt)
         {
-            var view = new LBSEdgeView();//new LBSEdgeView(data);
+            base.ExecuteDefaultAction(evt);
+            if (evt is MouseUpEvent)
+            {
+                var e = (MouseUpEvent)evt;
+                if(e.button == 1)
+                {
+                    isDragEdge = false;
+                    first = null;
+                    proxyEdge = null;
+                }
+            }
+        }
+
+
+        public void AddEdgeView(LBSNodeView nv1, LBSNodeView nv2)
+        {
+            var view = new LBSEdgeView(nv1, nv2);//new LBSEdgeView(data);
             AddElement(view);
-            Debug.Log("C: "+ graphElements.Count());
+            Debug.Log("C: " + graphElements.Count());
         }
 
         public void AddNodeView(LBSNodeData data)
         {
             var view = new LBSNodeView(data);
+            view.OnStartDragEdge += StartDragEdge;
+            view.OnEndDragEdge += EndDragEdge;
             AddElement(view);
             //view.AddManipulator(createEdge);
         }
-    
+
+        public void OnGUI()
+        {
+            if (isDragEdge)
+            {
+                //var pos1 = first.GetPosition().center;
+                //var pos2 = mouse
+                //proxyEdge.UpdateDraw(pos1,);
+            }
+        }
+
+        public void StartDragEdge(LBSNodeData data)
+        {
+            first = GetNodeViewBylabel(data.label);
+            proxyEdge = new LBSProxyEdge(first.GetPosition().position,new Vector2(0,0));
+            AddElement(proxyEdge);
+            isDragEdge = true;
+        }
+
+        public void EndDragEdge(LBSNodeData data)
+        {
+            if (first != null)
+            {
+                var second = GetNodeViewBylabel(data.label);
+                AddEdgeView(first, second);
+            }
+
+            RemoveElement(proxyEdge);
+            proxyEdge = null;
+            first = null;
+            isDragEdge = false;
+        }
     }
 }
 

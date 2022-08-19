@@ -6,26 +6,68 @@ using LevelBuildingSidekick;
 using UnityEngine.UIElements;
 using UnityEditor.Experimental.GraphView;
 using Newtonsoft.Json;
+using LevelBuildingSidekick.Graph;
 
 public class LBSEdgeView : GraphElement
 {
-    public LBSEdgeData Edge;
-    public LBSEdgeView() //: base(controller)
+    public LBSNodeView nv1, nv2;
+    public Painter2D painter;
+
+    public LBSEdgeView(LBSNodeView nv1, LBSNodeView nv2)
     {
+        this.nv1 = nv1;
+        this.nv2 = nv2;
+
         capabilities |= Capabilities.Selectable | Capabilities.Deletable;
+        generateVisualContent += OnGenerateVisualContent;
+        
     }
 
-    public void Draw2D() // solo necesita un contructor del visual element
+    public void OnGenerateVisualContent(MeshGenerationContext mgc)
     {
-        //EdgeData c = edge;
+        if (nv1 != null || nv2 != null)
+            return;
 
-        //Debug.Log("P1: " + c.Node1.Position + " - P2: " + c.Node2.Position);
-        //Debug.Log("C1: " + c.Node1.Centroid + " - C2: " + c.Node2.Centroid);
-        //Debug.Log("A1: " + pos1 + " - A2: " + pos2);
+        painter = mgc.painter2D;
+        painter.strokeColor = Color.white;
+        painter.lineWidth = 2f;
+        painter.lineCap = LineCap.Round;
+        var p1 = nv1.GetPosition();
+        var p2 = nv2.GetPosition();
 
-        //Handles.BeginGUI();
-        //Handles.DrawAAPolyLine(c.Thickness, pos1, pos2);
-        //Handles.EndGUI();
+        painter.BeginPath();
+        painter.MoveTo(p1.center);
+        painter.LineTo(p2.center);
+        painter.Stroke();
     }
+
 }
 
+public class LBSProxyEdge : GraphElement
+{
+    public Vector2 nv1, nv2;
+    public Painter2D painter;
+
+    public LBSProxyEdge(Vector2 nv1, Vector2 nv2)
+    {
+        this.nv1 = nv1;
+        this.nv2 = nv2;
+    }
+
+    public void OnGenerateVisualContent(MeshGenerationContext mgc)
+    {
+        painter = mgc.painter2D;
+    }
+
+    public void UpdateDraw(Vector2 p1, Vector2 p2)
+    {
+        painter.strokeColor = Color.white;
+        painter.lineWidth = 2f;
+        painter.lineCap = LineCap.Round;
+
+        painter.BeginPath();
+        painter.MoveTo(p1);
+        painter.LineTo(p2);
+        painter.Stroke();
+    }
+}
