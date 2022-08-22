@@ -1,11 +1,11 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
     <Style src="project://database/Assets/buttonopen.uss?fileID=7433441132597879392&amp;guid=585bed622d428f948b14ad7ef652428a&amp;type=3#buttonopen" />
     <ui:VisualElement style="height: 512px; background-color: rgb(56, 56, 56); flex-direction: row; flex-grow: 1; padding-left: -12px; padding-right: -12px; padding-top: -12px; padding-bottom: -12px; width: 866px;">
-        <ui:VisualElement name="Selector" style="width: 256px; position: absolute; height: 512px; align-items: center;">
-            <ui:VisualElement name="openselector" style="width: 192px; height: 387px; max-width: 300px; justify-content: center; align-items: center;">
-                <ui:Button text="New Level" display-tooltip-when-elided="true" name="NewLvlBtn" class="buttonopen" style="height: 28px; width: 160px; border-top-left-radius: 4px; border-bottom-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; font-size: 16px;" />
-                <ui:Button text="Load Level" display-tooltip-when-elided="true" name="LoadLvlBtn" class="buttonopen" style="width: 160px; height: 28px; font-size: 16px; border-top-left-radius: 4px; border-bottom-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px;" />
-                <ui:Button text="Info LBS" display-tooltip-when-elided="true" name="InfoBtn" class="buttonopen" style="width: 160px; height: 28px; font-size: 16px; border-top-left-radius: 4px; border-bottom-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px;" />
+        <ui:VisualElement name="Selector" style="width: 139px; position: absolute; height: 404px; align-items: flex-start; border-right-color: rgb(42, 42, 42);">
+            <ui:VisualElement name="openselector" style="width: 139px; height: 393px; max-width: 300px; justify-content: flex-start; align-items: center; margin-top: 6px; border-right-color: rgb(42, 42, 42); border-left-width: 0; border-right-width: 2px; border-top-width: 0; border-bottom-width: 0; -unity-text-align: upper-left;">
+                <ui:Button text="New Level" display-tooltip-when-elided="true" name="NewLvlBtn" class="buttonopen" style="height: 28px; width: 118px; border-top-left-radius: 4px; border-bottom-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; font-size: 16px; background-color: rgb(38, 38, 38); -unity-font-style: bold;" />
+                <ui:Button text="Load Level" display-tooltip-when-elided="true" name="LoadLvlBtn" class="buttonopen" style="width: 118px; height: 28px; font-size: 16px; border-top-left-radius: 4px; border-bottom-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; -unity-font-style: bold; -unity-background-image-tint-color: rgba(255, 255, 255, 0.25); background-color: rgba(88, 88, 88, 0); border-left-color: rgba(255, 255, 255, 0); border-right-color: rgba(255, 255, 255, 0); border-top-color: rgba(255, 255, 255, 0); border-bottom-color: rgba(255, 255, 255, 0);" />
+                <ui:Button text="Info LBS" display-tooltip-when-elided="true" name="InfoBtn" class="buttonopen" style="width: 118px; height: 28px; font-size: 16px; border-top-left-radius: 4px; border-bottom-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; -unity-font-style: bold; background-color: rgba(88, 88, 88, 0); border-left-color: rgba(255, 255, 255, 0); border-right-color: rgba(255, 255, 255, 0); border-top-color: rgba(255, 255, 255, 0); border-bottom-color: rgba(255, 255, 255, 0);" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="Info" style="height: 411px; width: 616px; display: flex; position: absolute; left: 256px; visibility: hidden;">
@@ -49,12 +49,27 @@
                 <ui:Button text="Open" display-tooltip-when-elided="true" name="OpenLoadLvlBtn" class="OpenBotton openbotton" style="-unity-font-style: bold; color: rgb(255, 255, 255); background-color: rgb(43, 72, 110); margin-left: 8px; width: 112px; height: 27px; font-size: 14px;" />
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="NewLevel" style="width: 578px; display: flex; height: 390px; justify-content: flex-start; align-items: flex-start; margin-left: 24px; margin-right: 8px; margin-top: 2px; margin-bottom: 2px; position: absolute; left: 256px; visibility: visible;">
-            <ui:Label text="NEW LEVEL" display-tooltip-when-elided="true" style="height: 42px; width: 591px; font-size: 24px; -unity-font-style: bold; margin-top: 8px; margin-left: 0; margin-bottom: 24px;" />
-            <ui:TextField picking-mode="Ignore" label="Name" value="filler text" text="filler text" name="LvlNameField" style="width: 521px; font-size: 16px; margin-bottom: 44px;" />
-            <uie:Vector3Field label="Size" name="LvlSizeField" style="width: 521px; font-size: 16px; padding-bottom: 158px; padding-right: 0;" />
-            <ui:VisualElement style="height: 32px; width: 561px; flex-direction: row-reverse; bottom: 0;">
-                <ui:Button text="Open" display-tooltip-when-elided="true" name="OpenNewLvlBtn" class="OpenBotton openbotton" style="-unity-font-style: bold; color: rgb(255, 255, 255); background-color: rgb(43, 72, 110); margin-left: 8px; width: 112px; height: 27px; font-size: 14px;" />
+        <ui:VisualElement name="NewLevel" style="width: 693px; display: flex; height: 396px; justify-content: flex-start; align-items: flex-start; margin-left: 24px; margin-right: 8px; margin-top: 2px; margin-bottom: 2px; position: absolute; left: 141px; visibility: visible; flex-direction: row;">
+            <ui:VisualElement name="Izq" style="height: 409px; width: 675px; align-items: flex-start;">
+                <ui:Label text="NEW LEVEL" display-tooltip-when-elided="true" style="height: 42px; width: 439px; font-size: 24px; -unity-font-style: bold; margin-top: 8px; margin-left: 0; margin-bottom: 8px;" />
+                <ui:VisualElement name="Configuracion" style="width: 442px; height: 42px; flex-direction: row; padding-right: 2px; margin-right: 0; align-items: center;">
+                    <ui:Label tabindex="-1" text="Initial setup" display-tooltip-when-elided="true" style="font-size: 16px; padding-right: 8px; height: 28px;" />
+                    <ui:Button tabindex="-1" display-tooltip-when-elided="true" style="height: 18px; width: 18px; justify-content: flex-start;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="Miniaturas" style="height: 149px; width: 535px;">
+                    <ui:Button tabindex="-1" display-tooltip-when-elided="true" style="width: 144px; height: 122px; background-color: rgb(42, 42, 42);">
+                        <ui:Label tabindex="-1" text="Label" display-tooltip-when-elided="true" />
+                        <ui:VisualElement style="height: 92px; width: 117px; background-color: rgb(60, 60, 60);" />
+                        <ui:Label tabindex="-1" text="Label" display-tooltip-when-elided="true" />
+                    </ui:Button>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="derch" style="width: 285px; align-items: center; height: 405px; margin-top: 0; background-color: rgb(42, 42, 42);">
+                <ui:TextField picking-mode="Ignore" label="Name" value="filler text" text="filler text" name="LvlNameField" max-length="-1" style="width: 195px; font-size: 16px; margin-bottom: 23px; flex-direction: column; margin-top: 52px;" />
+                <uie:Vector3Field label="Size" name="LvlSizeField" style="width: 195px; font-size: 16px; padding-bottom: 8px; padding-right: 0; flex-direction: column; margin-bottom: 172px;" />
+                <ui:VisualElement name="Abrir" style="height: 32px; width: 198px; flex-direction: row-reverse; bottom: 0;">
+                    <ui:Button text="Open" display-tooltip-when-elided="true" name="OpenNewLvlBtn" class="OpenBotton openbotton" style="-unity-font-style: bold; color: rgb(255, 255, 255); background-color: rgb(43, 72, 110); margin-left: 8px; width: 112px; height: 27px; font-size: 14px; border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px;" />
+                </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
