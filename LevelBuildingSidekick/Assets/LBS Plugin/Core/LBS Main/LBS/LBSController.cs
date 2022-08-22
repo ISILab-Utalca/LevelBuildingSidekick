@@ -11,6 +11,13 @@ namespace LevelBuildingSidekick
 {
     public class LBSController
     {
+        #region InspectorDrawer
+        private class LevelScriptable : GenericScriptable<LevelData> { };
+        [CustomEditor(typeof(LevelScriptable))]
+        [CanEditMultipleObjects]
+        private class LevelScriptableEditor : GenericScriptableEditor { };
+        #endregion
+
         private static LevelBackUp backUp;
 
         public static LevelData CurrentLevel
@@ -58,6 +65,13 @@ namespace LevelBuildingSidekick
             data.Size = size;
             data.representations.Add(new LBSGraphData());
             return data;
+        }
+
+        public static void ShowLevelInspector()
+        {
+            var s = ScriptableObject.CreateInstance<LevelScriptable>();
+            s.data = CurrentLevel;
+            Selection.SetActiveObjectWithContext(s, s);
         }
     }
 }
