@@ -10,64 +10,67 @@ using LevelBuildingSidekick.Graph;
 
 public class LBSEdgeView : GraphElement
 {
-    public LBSNodeView nv1, nv2;
-    public Painter2D painter;
+    private static float dist = 10f;
 
-    public LBSEdgeView(LBSNodeView nv1, LBSNodeView nv2)
+    private LBSNodeView nv1, nv2;
+    private List<GraphElement> elements = new List<GraphElement>();
+    private GraphView root;
+
+    public LBSEdgeView(LBSNodeView nv1, LBSNodeView nv2, LBSGraphView root)
     {
         this.nv1 = nv1;
         this.nv2 = nv2;
+        this.root = root;
 
         capabilities |= Capabilities.Selectable | Capabilities.Deletable;
-        generateVisualContent += OnGenerateVisualContent;
-        
+
+        UpdateDots();
+        nv1.OnMoving += ()=>
+        {
+            UpdateDots();
+            nv1.BringToFront();
+        };
+
+        nv2.OnMoving += () =>
+        {
+            UpdateDots();
+            nv2.BringToFront();
+        };
+
     }
 
-    public void OnGenerateVisualContent(MeshGenerationContext mgc)
+
+    public void UpdateDots()
     {
-        if (nv1 != null || nv2 != null)
-            return;
+        var pos1 = this.nv1.GetPosition().center;
+        var pos2 = this.nv2.GetPosition().center;
 
-        painter = mgc.painter2D;
-        painter.strokeColor = Color.white;
-        painter.lineWidth = 2f;
-        painter.lineCap = LineCap.Round;
-        var p1 = nv1.GetPosition();
-        var p2 = nv2.GetPosition();
+        var vec = (pos2 - pos1).normalized;
+        var num = Vector2.Distance(pos1,pos2)/dist;
 
-        painter.BeginPath();
-        painter.MoveTo(p1.center);
-        painter.LineTo(p2.center);
-        painter.Stroke();
+        elements.ForEach(e => root.RemoveElement(e));
+        elements = new List<GraphElement>();
+
+        for (int i = 0; i < num; i++)
+        {
+            var dot = new Dot(5);
+            var p = pos1 + (i * vec * dist);
+            dot.SetPosition(new Rect(p.x,p.y,5,5));
+            elements.Add(dot);
+            root.AddElement(dot);
+
+        } 
     }
 
 }
 
-public class LBSProxyEdge : GraphElement
+public class Dot : GraphElement
 {
-    public Vector2 nv1, nv2;
-    public Painter2D painter;
-
-    public LBSProxyEdge(Vector2 nv1, Vector2 nv2)
+    public Dot(int size)
     {
-        this.nv1 = nv1;
-        this.nv2 = nv2;
-    }
-
-    public void OnGenerateVisualContent(MeshGenerationContext mgc)
-    {
-        painter = mgc.painter2D;
-    }
-
-    public void UpdateDraw(Vector2 p1, Vector2 p2)
-    {
-        painter.strokeColor = Color.white;
-        painter.lineWidth = 2f;
-        painter.lineCap = LineCap.Round;
-
-        painter.BeginPath();
-        painter.MoveTo(p1);
-        painter.LineTo(p2);
-        painter.Stroke();
+        var box = new Box();
+        box.style.minHeight = box.style.minWidth = box.style.maxHeight = box.style.maxWidth = size;
+        box.style.backgroundColor = Color.white;
+        this.Add(box);
     }
 }

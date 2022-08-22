@@ -20,6 +20,7 @@ namespace LevelBuildingSidekick.Graph
         public delegate void NodeEvent(LBSNodeData data);
         public NodeEvent OnStartDragEdge;
         public NodeEvent OnEndDragEdge;
+        public Action OnMoving;
 
         public LBSNodeView(LBSNodeData node)
         {
@@ -43,42 +44,30 @@ namespace LevelBuildingSidekick.Graph
 
             RegisterCallback<MouseDownEvent>(OnMouseDown);
             RegisterCallback<MouseUpEvent>(OnMouseUp);
+
         }
+
+        /*
+        public override void HandleEvent(EventBase evt)
+        {
+            Debug.Log(evt.GetType());
+        }*/
 
         private void OnMouseDown(MouseDownEvent evt)
         {
-            Debug.Log("A");
+            if (evt.button == 1)
+            {
+                OnStartDragEdge?.Invoke(Data);
+                Debug.Log("Start edge");
+            }
         }
 
         private void OnMouseUp(MouseUpEvent evt)
         {
-            Debug.Log("B");
-        }
-
-        protected override void ExecuteDefaultAction(EventBase evt)
-        {
-            base.ExecuteDefaultAction(evt);
-            //Debug.Log("type: "+ evt.GetType());
-            if (evt is MouseDownEvent)
+            if (evt.button == 1)
             {
-                Debug.Log("A");
-                var e = (MouseDownEvent)evt;
-                if(e.button == 1)
-                {
-                    Debug.Log("B");
-                    OnStartDragEdge?.Invoke(Data);
-                }
-            }
-            else if(evt is MouseUpEvent)
-            {
-                Debug.Log("C");
-                var e = (MouseUpEvent)evt;
-                if (e.button == 1)
-                {
-                    Debug.Log("D");
-                    OnEndDragEdge?.Invoke(Data);
-
-                }
+                OnEndDragEdge?.Invoke(Data);
+                Debug.Log("End Edge");
             }
         }
 
@@ -92,6 +81,7 @@ namespace LevelBuildingSidekick.Graph
         {
             base.SetPosition(newPos);
             Data.Position = new Vector2Int((int)newPos.x, (int)newPos.y);
+            OnMoving?.Invoke();
         }
     }
 }

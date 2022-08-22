@@ -38,6 +38,7 @@ namespace LevelBuildingSidekick.Graph
             root.styleSheets.Add(styleSheet);
              
             graphView = root.Q<LBSGraphView>();
+
         }
 
         private void OnGUI()
@@ -47,8 +48,10 @@ namespace LevelBuildingSidekick.Graph
 
         private void OnFocus()
         {
-            if (graphView != null) 
+            if (graphView != null)
+            {
                 graphView.PopulateView();
+            }
         }
 
 

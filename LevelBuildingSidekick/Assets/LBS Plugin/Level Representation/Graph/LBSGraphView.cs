@@ -13,7 +13,6 @@ namespace LevelBuildingSidekick.Graph
     public class LBSGraphView : GraphView
     {
         public static bool isDragEdge = false;
-        private static LBSProxyEdge proxyEdge;
         private static LBSNodeView first;
 
         public new class UxmlFactory : UxmlFactory<LBSGraphView, GraphView.UxmlTraits> { }
@@ -141,7 +140,7 @@ namespace LevelBuildingSidekick.Graph
                 {
                     isDragEdge = false;
                     first = null;
-                    proxyEdge = null;
+                    //proxyEdge = null;
                 }
             }
         }
@@ -149,7 +148,21 @@ namespace LevelBuildingSidekick.Graph
 
         public void AddEdgeView(LBSNodeView nv1, LBSNodeView nv2)
         {
-            var view = new LBSEdgeView(nv1, nv2);//new LBSEdgeView(data);
+            var view = new LBSEdgeView(nv1, nv2, this);
+            var l1 = nv1.Data.label;
+            var l2 = nv2.Data.label;
+
+            if (l1 == l2) // si son el mismo nodo no hago nada
+                return;
+
+            foreach (var e in controller.Edges) // recorro las conexiones
+            {
+                if (e.Contains(l1) && e.Contains(l2)) // si exite una conexion igual no hago nada
+                    return;
+            }
+
+            nv1.OnMoving += view.UpdateDots;
+            nv2.OnMoving += view.UpdateDots;
             AddElement(view);
             Debug.Log("C: " + graphElements.Count());
         }
@@ -171,13 +184,22 @@ namespace LevelBuildingSidekick.Graph
                 //var pos2 = mouse
                 //proxyEdge.UpdateDraw(pos1,);
             }
+
+            foreach (var e in graphElements)
+            {
+                if(e is LBSEdgeView)
+                {
+                    var edge = (LBSEdgeView)e;
+                    //edge.UpdateDraw();
+                }
+            }
         }
 
         public void StartDragEdge(LBSNodeData data)
         {
             first = GetNodeViewBylabel(data.label);
-            proxyEdge = new LBSProxyEdge(first.GetPosition().position,new Vector2(0,0));
-            AddElement(proxyEdge);
+            //proxyEdge = new LBSProxyEdge(first.GetPosition().position,new Vector2(0,0));
+            //AddElement(proxyEdge);
             isDragEdge = true;
         }
 
@@ -189,8 +211,8 @@ namespace LevelBuildingSidekick.Graph
                 AddEdgeView(first, second);
             }
 
-            RemoveElement(proxyEdge);
-            proxyEdge = null;
+            //RemoveElement(proxyEdge);
+            //proxyEdge = null;
             first = null;
             isDragEdge = false;
         }

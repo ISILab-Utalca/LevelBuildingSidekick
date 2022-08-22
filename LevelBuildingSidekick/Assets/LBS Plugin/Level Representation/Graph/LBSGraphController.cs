@@ -155,10 +155,15 @@ namespace LevelBuildingSidekick.Graph
             Edges.Remove(edge);
         }
 
+        internal bool ContainEdge(LBSEdgeData edge)
+        {
+            return Edges.Contains(edge);
+        }
+
 
         public override void Update()
         {
-
+            
         }
     }
 

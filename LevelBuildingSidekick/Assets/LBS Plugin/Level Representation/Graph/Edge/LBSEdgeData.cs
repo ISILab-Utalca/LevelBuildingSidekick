@@ -16,6 +16,7 @@ public class LBSEdgeData: Data
 
     private string firstNodeLabel;
     private string secondNodeLabel;
+
     public string FirstNodeLabel
     {
         get
@@ -56,10 +57,10 @@ public class LBSEdgeData: Data
 
     public LBSEdgeData() { }
 
-    public LBSEdgeData(LBSNodeData _firstNode, LBSNodeData _secondNode)
+    public LBSEdgeData(LBSNodeData firstNode, LBSNodeData secondNode)
     {
-        firstNode = _firstNode;
-        secondNode = _secondNode;
+        this.firstNode = firstNode;
+        this.secondNode = secondNode;
     }
 
 
