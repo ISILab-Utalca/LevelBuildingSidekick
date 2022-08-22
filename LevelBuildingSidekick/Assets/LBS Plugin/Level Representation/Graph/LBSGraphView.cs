@@ -66,7 +66,7 @@ namespace LevelBuildingSidekick.Graph
             var styleSheet = Utility.DirectoryTools.SearchAssetByName<StyleSheet>("GraphWindow");
             //style.backgroundColor = new Color(79, 79, 79);;
             styleSheets.Add(styleSheet);
-
+            LBSController.ShowLevelInspector();
         }
 
         public void PopulateView()
@@ -128,6 +128,10 @@ namespace LevelBuildingSidekick.Graph
                 DeleteElements(graphElements);
             }));
 
+            evt.menu.AppendAction("Save", a =>
+            {
+                Utility.JSONDataManager.SaveData("LBSLevels", "test1", LBSController.CurrentLevel);
+            });
         }
 
         protected override void ExecuteDefaultAction(EventBase evt)
@@ -215,6 +219,15 @@ namespace LevelBuildingSidekick.Graph
             //proxyEdge = null;
             first = null;
             isDragEdge = false;
+        }
+
+        public override void ClearSelection()
+        {
+            base.ClearSelection();
+            if(selection.Count == 0)
+            {
+                LBSController.ShowLevelInspector();
+            }
         }
     }
 }
