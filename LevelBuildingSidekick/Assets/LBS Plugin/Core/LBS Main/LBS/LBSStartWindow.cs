@@ -143,6 +143,7 @@ namespace LevelBuildingSidekick
 
         void LoadLevel()
         {
+            
             LBSController.CurrentLevel = Utility.JSONDataManager.LoadData<LevelData>("LBSLevels", loadLvlSelectionDD.value);
             LBSGraphWindow.OpenWindow();
             this.Close();
