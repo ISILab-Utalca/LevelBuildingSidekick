@@ -14,11 +14,13 @@ namespace LevelBuildingSidekick.Graph
     //[CreateAssetMenu(menuName = ("LevelBuildingSidekick/Level Represetation/Graph Representation/Node"))]
     public class LBSNodeData : Data
     {
-        public RoomCharacteristics room;
+        [HideInInspector]
         public int x;
+        [HideInInspector]
         public int y;
-        public int radius;
         public string label = "";
+        public int radius;
+        public RoomCharacteristics room;
 
         [JsonIgnore] 
         public Texture2D sprite { get => Resources.Load("Textures/Circle") as Texture2D; } // -> static?
@@ -82,18 +84,6 @@ namespace LevelBuildingSidekick.Graph
                 radius = value;
             }
         }
-        public void UnitySelect()
-        {
-            var s = ScriptableObject.CreateInstance<InspectorDrawer>();
-            s.data = this;
-            Selection.SetActiveObjectWithContext(s, s);
-        }
-    }
-
-    public class InspectorDrawer : ScriptableObject
-    {
-        [SerializeField]
-        internal LBSNodeData data;
     }
 }
 

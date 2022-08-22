@@ -13,6 +13,13 @@ namespace LevelBuildingSidekick.Graph
 {
     public class LBSNodeView : GraphElement
     {
+        #region InspectorDrawer
+        private class NodeScriptable : GenericScriptable<LBSNodeData> { };
+        [CustomEditor(typeof(NodeScriptable))]
+        [CanEditMultipleObjects]
+        private class NodeScriptableEditor : GenericScriptableEditor { };
+        #endregion
+
         public Texture2D circle;
 
         public LBSNodeData Data;
@@ -74,7 +81,9 @@ namespace LevelBuildingSidekick.Graph
         public override void OnSelected()
         {
             base.OnSelected();
-            Data.UnitySelect();
+            var s = ScriptableObject.CreateInstance<NodeScriptable>();
+            s.data = Data;
+            Selection.SetActiveObjectWithContext(s, s);
         }
 
         public override void SetPosition(Rect newPos)
