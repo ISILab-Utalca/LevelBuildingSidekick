@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,8 +16,9 @@ namespace LevelBuildingSidekick
 
         public List<ItemCategory> levelObjects;
 
-        int x, y, z;
+        public int x, y, z;
 
+        [JsonIgnore]
         public Vector3 Size
         {
             get
@@ -33,6 +35,7 @@ namespace LevelBuildingSidekick
 
         public List<LBSRepesentationData> representations = new List<LBSRepesentationData>();
 
+        [JsonIgnore]
         public override Type ControllerType => throw new NotImplementedException();
         //public override Type ControllerType => typeof(LevelController);
 
