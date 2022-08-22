@@ -41,7 +41,8 @@ namespace LevelBuildingSidekick
             window.titleContent = new GUIContent("Level Building Sidekick");
             //var btn1 = buscar boton;
             Debug.Log(window.position);
-            window.position = window.position;
+            window.position = window.position; 
+            window.minSize = window.maxSize = new Vector2(864, 396);
             var controller = new LBSController();
         }
 
@@ -85,9 +86,9 @@ namespace LevelBuildingSidekick
             newLvlSizeField = rootVisualElement.Q<Vector3Field>(name: "LvlSizeField");
             newLvlSizeField.value = new Vector3(512,2,512);
 
-            var representations = Utility.Reflection.FindDerivedTypes(typeof(LBSRepesentationData));
-            lvlRepListDD = rootVisualElement.Q<DropdownField>(name: "LvlRepListDD");
-            lvlRepListDD.choices = representations.Select(r => r.ToString()).ToList();
+            //var representations = Utility.Reflection.FindDerivedTypes(typeof(LBSRepesentationData));
+            //lvlRepListDD = rootVisualElement.Q<DropdownField>(name: "LvlRepListDD");
+            //lvlRepListDD.choices = representations.Select(r => r.ToString()).ToList();
             
             openNewLvlBtn = rootVisualElement.Q<Button>(name: "OpenNewLvlBtn");
             openNewLvlBtn.clicked += OpenNewLevel;
