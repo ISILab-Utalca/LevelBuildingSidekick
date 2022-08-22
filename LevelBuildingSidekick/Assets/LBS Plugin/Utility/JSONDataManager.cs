@@ -9,6 +9,13 @@ namespace Utility
 {
     public static class JSONDataManager
     {
+        public static void SaveData<T>(string path, T data)
+        {
+            var jsonString = JsonConvert.SerializeObject(data, Formatting.Indented, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto });
+            using StreamWriter writer = new StreamWriter(path);
+            writer.Write(jsonString);
+        }
+
         public static void SaveData<T>(string directoryName, string fileName, T data)
         {
             //Debug.Log("Saving: " + data);
@@ -77,6 +84,30 @@ namespace Utility
             //Debug.Log("Json Files: " + jsonFiles.Count);
 
             return jsonFiles;
+        }
+
+        // este metodo no debiera ir en "JSONDataManager" sino que en otra casa de utilities 
+        // pero por ahora se puede quedar aqui supongo hasta que encontremos un mejor lugar (?)
+        public static List<FileInfo> GetAllFilesByExtencion(string extension, DirectoryInfo dir)
+        {
+            var directory = dir.GetDirectories();
+            var files = dir.GetFiles();
+
+            var toReturn = new List<FileInfo>();
+            for (int i = 0; i < files.Length; i++)
+            {
+                if (files[i].FullName.EndsWith(extension))
+                {
+                    toReturn.Add(files[i]);
+                }
+            }
+
+            var dirs = dir.GetDirectories();
+            for (int i = 0; i < dirs.Length; i++)
+            {
+                toReturn = toReturn.Concat(GetAllFilesByExtencion(extension, dirs[i])).ToList();
+            }
+            return toReturn;
         }
     }
 

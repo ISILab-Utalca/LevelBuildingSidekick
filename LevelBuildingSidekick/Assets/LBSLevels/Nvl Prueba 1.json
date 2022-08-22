@@ -4,226 +4,258 @@
   "levelObjects": [
     {
       "category": "Walls",
-      "ItemNames": []
+      "UpdatedItemNames": []
     }
   ],
-  "size": {
-    "x": 0,
-    "y": 0,
-    "magnitude": 0.0,
-    "sqrMagnitude": 0
-  },
+  "x": 0,
+  "y": 0,
+  "z": 0,
   "representations": [
     {
-      "$type": "LevelBuildingSidekick.OfficePlan.OfficePlanData, Assembly-CSharp",
-      "graph": {
-        "nodes": [
-          {
-            "room": {
-              "label": "Node: 0",
-              "minWidth": 1,
-              "maxWidth": 1,
-              "minHeight": 1,
-              "maxHeight": 1,
-              "xAspectRatio": 8,
-              "yAspectRatio": 2,
-              "proportionType": 0,
-              "neighbors": [
-                -103931473,
-                -560259765
-              ],
-              "prefabs": [
-                {
-                  "category": "Walls",
-                  "ItemNames": []
-                }
-              ],
-              "prefabCategories": [
-                "Walls",
-                "Floors",
-                "Doors"
-              ],
-              "tags": []
-            },
+      "$type": "LevelBuildingSidekick.Graph.LBSGraphData, Assembly-CSharp",
+      "nodes": [
+        {
+          "x": 228,
+          "y": 72,
+          "label": "Node: 0",
+          "radius": 32,
+          "room": {
+            "minWidth": 1,
+            "maxWidth": 1,
+            "minHeight": 1,
+            "maxHeight": 1,
+            "xAspectRatio": 8,
+            "yAspectRatio": 2,
+            "proportionType": 0,
+            "neighbors": [
+              "-103931473",
+              "-560259765"
+            ],
+            "prefabs": [
+              {
+                "category": "Walls",
+                "UpdatedItemNames": []
+              }
+            ],
+            "prefabCategories": [
+              "Walls",
+              "Floors",
+              "Doors"
+            ],
+            "tags": []
+          },
+          "Centroid": {
+            "x": 260,
+            "y": 104,
+            "magnitude": 280.028564,
+            "sqrMagnitude": 78416
+          },
+          "Position": {
             "x": 228,
             "y": 72,
-            "radius": 32
+            "magnitude": 239.098312,
+            "sqrMagnitude": 57168
           },
-          {
-            "room": {
-              "label": "Center",
-              "minWidth": 4,
-              "maxWidth": 4,
-              "minHeight": 4,
-              "maxHeight": 4,
-              "xAspectRatio": 4,
-              "yAspectRatio": 4,
-              "proportionType": 1,
-              "neighbors": [
-                -103931472,
-                -103931471,
-                -103931470,
-                -103931476
-              ],
-              "prefabs": [
-                {
-                  "category": "Walls",
-                  "ItemNames": []
-                }
-              ],
-              "prefabCategories": [
-                "Walls",
-                "Floors",
-                "Doors"
-              ],
-              "tags": []
-            },
+          "Radius": 32
+        },
+        {
+          "x": 227,
+          "y": 188,
+          "label": "Center",
+          "radius": 32,
+          "room": {
+            "minWidth": 4,
+            "maxWidth": 4,
+            "minHeight": 4,
+            "maxHeight": 4,
+            "xAspectRatio": 4,
+            "yAspectRatio": 4,
+            "proportionType": 1,
+            "neighbors": [
+              "-103931472",
+              "-103931471",
+              "-103931470",
+              "-103931476"
+            ],
+            "prefabs": [
+              {
+                "category": "Walls",
+                "UpdatedItemNames": []
+              }
+            ],
+            "prefabCategories": [
+              "Walls",
+              "Floors",
+              "Doors"
+            ],
+            "tags": []
+          },
+          "Centroid": {
+            "x": 259,
+            "y": 220,
+            "magnitude": 339.824951,
+            "sqrMagnitude": 115481
+          },
+          "Position": {
             "x": 227,
             "y": 188,
-            "radius": 32
+            "magnitude": 294.742249,
+            "sqrMagnitude": 86873
           },
-          {
-            "room": {
-              "label": "Node: 2",
-              "minWidth": 1,
-              "maxWidth": 1,
-              "minHeight": 1,
-              "maxHeight": 1,
-              "xAspectRatio": 2,
-              "yAspectRatio": 4,
-              "proportionType": 0,
-              "neighbors": [
-                -103931473,
-                -560259765
-              ],
-              "prefabs": [
-                {
-                  "category": "Walls",
-                  "ItemNames": []
-                }
-              ],
-              "prefabCategories": [
-                "Walls",
-                "Floors",
-                "Doors"
-              ],
-              "tags": []
-            },
+          "Radius": 32
+        },
+        {
+          "x": 86,
+          "y": 188,
+          "label": "Node: 2",
+          "radius": 32,
+          "room": {
+            "minWidth": 1,
+            "maxWidth": 1,
+            "minHeight": 1,
+            "maxHeight": 1,
+            "xAspectRatio": 2,
+            "yAspectRatio": 4,
+            "proportionType": 0,
+            "neighbors": [
+              "-103931473",
+              "-560259765"
+            ],
+            "prefabs": [
+              {
+                "category": "Walls",
+                "UpdatedItemNames": []
+              }
+            ],
+            "prefabCategories": [
+              "Walls",
+              "Floors",
+              "Doors"
+            ],
+            "tags": []
+          },
+          "Centroid": {
+            "x": 118,
+            "y": 220,
+            "magnitude": 249.647751,
+            "sqrMagnitude": 62324
+          },
+          "Position": {
             "x": 86,
             "y": 188,
-            "radius": 32
+            "magnitude": 206.736542,
+            "sqrMagnitude": 42740
           },
-          {
-            "room": {
-              "label": "Node: 3",
-              "minWidth": 1,
-              "maxWidth": 1,
-              "minHeight": 1,
-              "maxHeight": 1,
-              "xAspectRatio": 2,
-              "yAspectRatio": 4,
-              "proportionType": 0,
-              "neighbors": [
-                -103931473,
-                -560259765
-              ],
-              "prefabs": [
-                {
-                  "category": "Walls",
-                  "ItemNames": []
-                }
-              ],
-              "prefabCategories": [
-                "Walls",
-                "Floors",
-                "Doors"
-              ],
-              "tags": []
-            },
+          "Radius": 32
+        },
+        {
+          "x": 361,
+          "y": 187,
+          "label": "Node: 3",
+          "radius": 32,
+          "room": {
+            "minWidth": 1,
+            "maxWidth": 1,
+            "minHeight": 1,
+            "maxHeight": 1,
+            "xAspectRatio": 2,
+            "yAspectRatio": 4,
+            "proportionType": 0,
+            "neighbors": [
+              "-103931473",
+              "-560259765"
+            ],
+            "prefabs": [
+              {
+                "category": "Walls",
+                "UpdatedItemNames": []
+              }
+            ],
+            "prefabCategories": [
+              "Walls",
+              "Floors",
+              "Doors"
+            ],
+            "tags": []
+          },
+          "Centroid": {
+            "x": 393,
+            "y": 219,
+            "magnitude": 449.9,
+            "sqrMagnitude": 202410
+          },
+          "Position": {
             "x": 361,
             "y": 187,
-            "radius": 32
+            "magnitude": 406.558716,
+            "sqrMagnitude": 165290
           },
-          {
-            "room": {
-              "label": "Node: 4",
-              "minWidth": 1,
-              "maxWidth": 1,
-              "minHeight": 1,
-              "maxHeight": 1,
-              "xAspectRatio": 6,
-              "yAspectRatio": 2,
-              "proportionType": 0,
-              "neighbors": [
-                -103931473,
-                -560259765
-              ],
-              "prefabs": [
-                {
-                  "category": "Walls",
-                  "ItemNames": []
-                }
-              ],
-              "prefabCategories": [
-                "Walls",
-                "Floors",
-                "Doors"
-              ],
-              "tags": []
-            },
+          "Radius": 32
+        },
+        {
+          "x": 225,
+          "y": 309,
+          "label": "Node: 4",
+          "radius": 32,
+          "room": {
+            "minWidth": 1,
+            "maxWidth": 1,
+            "minHeight": 1,
+            "maxHeight": 1,
+            "xAspectRatio": 6,
+            "yAspectRatio": 2,
+            "proportionType": 0,
+            "neighbors": [
+              "-103931473",
+              "-560259765"
+            ],
+            "prefabs": [
+              {
+                "category": "Walls",
+                "UpdatedItemNames": []
+              }
+            ],
+            "prefabCategories": [
+              "Walls",
+              "Floors",
+              "Doors"
+            ],
+            "tags": []
+          },
+          "Centroid": {
+            "x": 257,
+            "y": 341,
+            "magnitude": 427.00116,
+            "sqrMagnitude": 182330
+          },
+          "Position": {
             "x": 225,
             "y": 309,
-            "radius": 32
-          }
-        ],
-        "edges": [
-          {
-            "FirstNodeLabel": "Node: 0",
-            "SecondNodeLabel": "Center"
+            "magnitude": 382.238159,
+            "sqrMagnitude": 146106
           },
-          {
-            "FirstNodeLabel": "Center",
-            "SecondNodeLabel": "Node: 3"
-          },
-          {
-            "FirstNodeLabel": "Node: 2",
-            "SecondNodeLabel": "Center"
-          },
-          {
-            "FirstNodeLabel": "Node: 4",
-            "SecondNodeLabel": "Center"
-          }
-        ],
-        "cellSize": 64,
-        "toolkit": {
-          "tools": [
-            {
-              "$type": "SelectGraphElementData, Assembly-CSharp"
-            },
-            {
-              "$type": "CreateNodeData, Assembly-CSharp"
-            },
-            {
-              "$type": "ConnectNodesData, Assembly-CSharp"
-            },
-            {
-              "$type": "MoveNodeData, Assembly-CSharp"
-            },
-            {
-              "$type": "DeleteGraphElementData, Assembly-CSharp"
-            }
-          ]
+          "Radius": 32
         }
-      },
-      "schema": {
-        "tileSize": 20,
-        "width": 20,
-        "height": 20,
-        "rooms": [],
-        "toolkit": null
-      },
-      "toolkit": null
+      ],
+      "edges": [
+        {
+          "FirstNodeLabel": "Node: 0",
+          "SecondNodeLabel": "Center"
+        },
+        {
+          "FirstNodeLabel": "Center",
+          "SecondNodeLabel": "Node: 3"
+        },
+        {
+          "FirstNodeLabel": "Node: 2",
+          "SecondNodeLabel": "Center"
+        },
+        {
+          "FirstNodeLabel": "Node: 4",
+          "SecondNodeLabel": "Center"
+        }
+      ],
+      "cellSize": 64
     }
-  ],
-  "ControllerType": "LevelBuildingSidekick.LevelController, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+  ]
 }

@@ -1,4 +1,11 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
     <Style src="project://database/Assets/LBS%20Plugin/Level%20Representation/Graph/USS/GraphWindow.uss?fileID=7433441132597879392&amp;guid=bc4229f168ace7049b18ec22c155151e&amp;type=3#GraphWindow" />
-    <LevelBuildingSidekick.Graph.LBSGraphView focusable="true" name="LBSGraphView" class="GridBackground" style="flex-grow: 1;" />
+    <ui:VisualElement style="flex-direction: row;" />
+    <LevelBuildingSidekick.Graph.LBSGraphView focusable="true" name="LBSGraphView" class="GridBackground" style="flex-grow: 1;">
+        <uie:Toolbar>
+            <uie:ToolbarButton tabindex="-1" text="Save" display-tooltip-when-elided="true" name="SaveButton" />
+            <uie:ToolbarMenu tabindex="-1" display-tooltip-when-elided="true" />
+            <uie:ToolbarButton tabindex="-1" text="Save as" display-tooltip-when-elided="true" name="SaveAsButton" />
+        </uie:Toolbar>
+    </LevelBuildingSidekick.Graph.LBSGraphView>
 </ui:UXML>

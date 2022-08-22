@@ -9,15 +9,15 @@ using LevelBuildingSidekick.Graph;
 
 namespace LevelBuildingSidekick
 {
-    public class LBSController
+    public class LBSController /// change name "LBSController" to "LBS" or "LBSCore"
     {
         #region InspectorDrawer
         private class LevelScriptable : GenericScriptable<LevelData> { };
-        [CustomEditor(typeof(LevelScriptable))]
-        [CanEditMultipleObjects]
+        [CustomEditor(typeof(LevelScriptable)),CanEditMultipleObjects]
         private class LevelScriptableEditor : GenericScriptableEditor { };
         #endregion
 
+        private static string currentPath;
         private static LevelBackUp backUp;
 
         public static LevelData CurrentLevel
@@ -34,11 +34,6 @@ namespace LevelBuildingSidekick
             }
         }
 
-        [MenuItem("LBS/[Old] Welcome window...",priority = 0)]
-        public static void ShowWindow()
-        {
-            var window = LBSStartWindow.GetWindow<LBSStartWindow>("Level Building Sidekick");
-        }
 
         private static void LoadBackup()
         {
@@ -55,6 +50,44 @@ namespace LevelBuildingSidekick
                     AssetDatabase.CreateAsset(backUp, "Assets/LevelBuildingSidekick/Core/LBS Main/Level/Resources/LBSBackUp.asset"); // esto podria ser peligroso (!)
                     AssetDatabase.SaveAssets();
                 }
+            }
+        }
+
+
+        internal static void SaveFile()
+        {
+            if(CurrentLevel.levelName == "")
+                SaveFileAs();
+
+            var path = Application.dataPath;
+            System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(path);
+            var files = Utility.JSONDataManager.GetAllFilesByExtencion(".json", dir);
+
+            // esto no me deja tener dos archivos que se llamen igual en carpetas diferentes
+            var fileInfo = files.Find(f => f.Name.Contains(CurrentLevel.levelName));
+
+            if (fileInfo != null)
+            {
+                Utility.JSONDataManager.SaveData(fileInfo.FullName, LBSController.CurrentLevel);
+            }
+            else
+            {
+                SaveFileAs();
+            }
+
+        }
+
+        internal static void SaveFileAs()
+        {
+            var lvl = CurrentLevel;
+
+            var name = lvl.levelName;
+            var path = EditorUtility.SaveFilePanel("Save level data", "", name + ".json", "json");
+
+            if (path != "")
+            {
+                Debug.Log("Save file on: '" + path + "'.");
+                Utility.JSONDataManager.SaveData(path, LBSController.CurrentLevel);
             }
         }
 
