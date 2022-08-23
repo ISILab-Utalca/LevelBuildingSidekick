@@ -66,9 +66,9 @@
             </ui:VisualElement>
             <ui:VisualElement name="derch" style="width: 285px; align-items: center; height: 405px; margin-top: 0; background-color: rgb(42, 42, 42);">
                 <ui:TextField picking-mode="Ignore" label="Name" value="filler text" text="filler text" name="LvlNameField" max-length="-1" style="width: 195px; font-size: 16px; margin-bottom: 23px; flex-direction: column; margin-top: 52px;" />
-                <uie:Vector3Field label="Size" name="LvlSizeField" style="width: 195px; font-size: 16px; padding-bottom: 8px; padding-right: 0; flex-direction: column; margin-bottom: 172px;" />
+                <uie:Vector3Field label="Size" name="LvlSizeField" style="width: 195px; font-size: 16px; padding-bottom: 8px; padding-right: 0; flex-direction: column; margin-bottom: 186px;" />
                 <ui:VisualElement name="Abrir" style="height: 32px; width: 198px; flex-direction: row-reverse; bottom: 0;">
-                    <ui:Button text="Open" display-tooltip-when-elided="true" name="OpenNewLvlBtn" class="OpenBotton openbotton" style="-unity-font-style: bold; color: rgb(255, 255, 255); background-color: rgb(43, 72, 110); margin-left: 8px; width: 112px; height: 27px; font-size: 14px; border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px;" />
+                    <ui:Button text="Open" display-tooltip-when-elided="true" name="OpenNewLvlBtn" class="OpenBotton openbotton" style="-unity-font-style: bold; color: rgb(255, 255, 255); background-color: rgb(43, 72, 110); margin-left: 8px; width: 97px; height: 25px; font-size: 14px; border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px;" />
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
