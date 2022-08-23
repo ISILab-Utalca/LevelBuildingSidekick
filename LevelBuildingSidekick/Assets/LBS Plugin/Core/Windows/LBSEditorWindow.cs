@@ -6,7 +6,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public abstract class LBSWindowEditor : EditorWindow
+public abstract class LBSEditorWindow : EditorWindow
 {
     protected VisualElement root;
 
@@ -19,9 +19,18 @@ public abstract class LBSWindowEditor : EditorWindow
 
         OnCreateGUI();
 
-        var toolbar = root.Q<ToolbarMenu>("GeneralToolbar");
-        toolbar.menu.AppendAction("Save", SaveAction);
-        toolbar.menu.AppendAction("Save as", SaveAsAction);
+        var toolBar = new Toolbar();
+        var fileMenu = new ToolbarMenu();
+        fileMenu.text = "File";
+        fileMenu.menu.AppendAction("Save", SaveAction);
+        fileMenu.menu.AppendAction("Save as", SaveAsAction);
+
+        root.Insert(0,toolBar);
+        toolBar.Add(fileMenu);
+
+        //var toolbar = root.Q<ToolbarMenu>("GeneralToolbar");
+        //toolbar.menu.AppendAction("Save", SaveAction);
+        //toolbar.menu.AppendAction("Save as", SaveAsAction);
 
 
         //var saveBtn = root.Q<ToolbarButton>("SaveButton");
