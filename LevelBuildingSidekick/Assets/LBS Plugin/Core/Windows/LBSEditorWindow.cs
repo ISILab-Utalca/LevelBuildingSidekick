@@ -22,24 +22,40 @@ public abstract class LBSEditorWindow : EditorWindow
         var toolBar = new Toolbar();
         var fileMenu = new ToolbarMenu();
         fileMenu.text = "File";
-        fileMenu.menu.AppendAction("Save", SaveAction);
-        fileMenu.menu.AppendAction("Save as", SaveAsAction);
+        fileMenu.menu.AppendAction("Level.../Load",(dma)=> { LBSController.LoadFile(); });
+        fileMenu.menu.AppendAction("Level.../Save", (dma) => { LBSController.SaveFile(); });
+        fileMenu.menu.AppendAction("Level.../Save as", (dma) => { LBSController.SaveFileAs(); });
+        fileMenu.menu.AppendSeparator();
+        fileMenu.menu.AppendAction("Representation.../Load", (dma) => { Debug.Log("[Implementar loadRep]"); }); // ver si es necesaria (!)
+        fileMenu.menu.AppendAction("Representation.../Save", (dma) => { Debug.Log("[Implementar saveRep]"); }); // ver si es necesaria (!)
+        fileMenu.menu.AppendAction("Representation.../Save as", (dma) => { Debug.Log("[Implementar saveRep]"); }); // ver si es necesaria (!)
+        fileMenu.menu.AppendSeparator();
+        fileMenu.menu.AppendAction("Help.../Documentation", (dma) => { Debug.Log("[Implementar documnetation]"); }); // ver si es necesaria (!)
+        fileMenu.menu.AppendAction("Help.../About", (dma) => { Debug.Log("[Implementar about]"); }); // ver si es necesaria (!)
+        fileMenu.menu.AppendSeparator();
+        fileMenu.menu.AppendAction("Close", (dma) => { this.Close(); }); 
+        fileMenu.menu.AppendAction("Close All", (dma) => {
+            LBSController.GetSubClassTypes<LBSEditorWindow>().ForEach(t => EditorWindow.GetWindow(t).Close());
+        });
+
+        var search = new ToolbarPopupSearchField();
+        search.tooltip = "[Implementar]";
 
         root.Insert(0,toolBar);
         toolBar.Add(fileMenu);
+        toolBar.Add(search); 
+    }
 
-        //var toolbar = root.Q<ToolbarMenu>("GeneralToolbar");
-        //toolbar.menu.AppendAction("Save", SaveAction);
-        //toolbar.menu.AppendAction("Save as", SaveAsAction);
+    private void OnDestroy()
+    {
+        var answer = EditorUtility.DisplayDialog(
+                   "The current file has not been saved",
+                   "if you open a file the progress in the current document will be lost, are you sure to continue?",
+                   "save",
+                   "discard");
 
-
-        //var saveBtn = root.Q<ToolbarButton>("SaveButton");
-        //saveBtn.clicked += SaveAction;
-
-        //var saveAsBtn = root.Q<ToolbarButton>("SaveAsButton");
-        //saveAsBtn.clicked += SaveAsAction;
-
-
+        if (answer)
+            LBSController.SaveFile();
     }
 
     protected void ImportUXML(string name)
@@ -53,27 +69,5 @@ public abstract class LBSEditorWindow : EditorWindow
         var styleSheet = Utility.DirectoryTools.SearchAssetByName<StyleSheet>(name);
         root.styleSheets.Add(styleSheet);
     }
-
-
-    private void SaveAction(DropdownMenuAction dma)
-    {
-        SaveAction();
-    }
-
-    private void SaveAsAction(DropdownMenuAction dma)
-    {
-        SaveAsAction();
-    }
-
-    private void SaveAction()
-    {
-        LBSController.SaveFile();
-    }
-
-    private void SaveAsAction()
-    {
-        LBSController.SaveFileAs();
-    }
-
 
 }

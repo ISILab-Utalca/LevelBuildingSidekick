@@ -37,6 +37,21 @@ namespace Utility
             //writer.Write(json);
         }
 
+        public static T LoadData<T>(string path)
+        {
+            using StreamReader reader = new StreamReader(path);
+            string json = reader.ReadToEnd();
+            var data = JsonConvert.DeserializeObject<T>(json, 
+                new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented });
+
+            if (data == null)
+            {
+                Debug.LogWarning("Data in " + path + " is not of type" + typeof(T).ToString());
+            }
+
+            return data;
+        }
+
         public static T LoadData<T>(string directoryName, string fileName)
         {
             string directoryPath = Application.dataPath + '/' + directoryName;

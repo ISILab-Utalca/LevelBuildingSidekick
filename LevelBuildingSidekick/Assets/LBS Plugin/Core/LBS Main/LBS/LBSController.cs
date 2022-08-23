@@ -6,6 +6,7 @@ using System;
 using System.Reflection;
 using System.IO;
 using LevelBuildingSidekick.Graph;
+using System.Text;
 
 namespace LevelBuildingSidekick
 {
@@ -17,7 +18,6 @@ namespace LevelBuildingSidekick
         private class LevelScriptableEditor : GenericScriptableEditor { };
         #endregion
 
-        private static string currentPath;
         private static LevelBackUp backUp;
 
         public static LevelData CurrentLevel
@@ -34,6 +34,25 @@ namespace LevelBuildingSidekick
             }
         }
 
+
+        public static List<Type> GetSubClassTypes<T>()
+        {
+            var result = new List<Type>();
+            Assembly[] assemblies = System.AppDomain.CurrentDomain.GetAssemblies();
+            Type editorWindowType = typeof(T);
+            foreach (var assembly in assemblies)
+            {
+                Type[] types = assembly.GetTypes();
+                foreach (var type in types)
+                {
+                    if (type.IsSubclassOf(editorWindowType))
+                    {
+                        result.Add(type);
+                    }
+                }
+            }
+            return result;
+        }
 
         private static void LoadBackup()
         {
@@ -55,25 +74,16 @@ namespace LevelBuildingSidekick
 
         internal static void LoadFile()
         {
-            // aqui preguntar si exiten cambios entre la version abierta y la guardada
-            // si no es nulo y exiten diferencias entre el abierto y la guardada
-            // abrir un "Dialog" que pregunte si esta seguro de cargar otro archivo
-            // y que si lo hace se perdera el actual;
-            if (backUp != null && true) 
+            var answer = EditorUtility.DisplayDialog(
+                   "The current file has not been saved",
+                   "if you open a file the progress in the current document will be lost, are you sure to continue?",
+                   "continue",
+                   "cancel");
+            if (answer)
             {
-                
-                var diag = EditorUtility.DisplayDialog(
-                    "The current file has not been saved", 
-                    "if you open a file the progress in the current document will be lost, are you sure to continue?",
-                    "continue",
-                    "cancel");
-
-                if(diag)
-                    SaveFile();
+                var path = EditorUtility.OpenFilePanel("Load level data", "", ".json");
+                CurrentLevel = Utility.JSONDataManager.LoadData<LevelData>(path);
             }
-
-
-
         }
 
         private static bool FileExists(string name, string extension, out FileInfo toReturn)
@@ -86,12 +96,6 @@ namespace LevelBuildingSidekick
 
             toReturn = fileInfo;
             return fileInfo != null;
-        }
-
-        private static bool FileExists(string name,string extension)
-        {
-            FileInfo useless;
-            return FileExists(name, extension, out useless);
         }
 
         internal static void SaveFile()

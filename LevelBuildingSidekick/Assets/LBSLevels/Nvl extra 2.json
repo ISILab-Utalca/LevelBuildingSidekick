@@ -7,10 +7,7 @@
   "z": 0,
   "representations": [
     {
-      "$type": "LevelBuildingSidekick.Graph.LBSGraphData, Assembly-CSharp",
-      "nodes": [],
-      "edges": [],
-      "cellSize": 32
+      "$type": "LBS.Representation.TileMap.LBSTileMapData, Assembly-CSharp"
     }
   ]
 }
