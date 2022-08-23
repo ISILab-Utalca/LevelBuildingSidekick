@@ -25,8 +25,22 @@ namespace Utility
         {
             var types = FindDerivedTypes(baseType).ToList();
             var msg = "";
-            types.ForEach(t => msg+= t.Name +"\n");
+            types.ForEach(t => msg += t.Name + "\n");
             Debug.Log(msg);
+        }
+
+        public static List<Tuple<Attribute, MemberInfo>> CollectMetohdsByAttribute(Type attributeType)
+        {
+            var methods = Assembly.GetExecutingAssembly()
+                        .GetTypes()
+                        .SelectMany(t => t.GetMethods())
+                        .Where(m => m.GetCustomAttributes(attributeType, false).Length > 0)
+                        .ToArray();
+
+            var toReturn = new List<Tuple<Attribute, MemberInfo>>();
+            methods.ToList().ForEach(m => toReturn.Add(new Tuple<Attribute, MemberInfo>(m.GetCustomAttribute(attributeType, false), m)));
+
+            return toReturn;
         }
     }
 }
