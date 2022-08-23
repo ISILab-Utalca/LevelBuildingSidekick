@@ -53,20 +53,54 @@ namespace LevelBuildingSidekick
             }
         }
 
+        internal static void LoadFile()
+        {
+            // aqui preguntar si exiten cambios entre la version abierta y la guardada
+            // si no es nulo y exiten diferencias entre el abierto y la guardada
+            // abrir un "Dialog" que pregunte si esta seguro de cargar otro archivo
+            // y que si lo hace se perdera el actual;
+            if (backUp != null && true) 
+            {
+                
+                var diag = EditorUtility.DisplayDialog(
+                    "The current file has not been saved", 
+                    "if you open a file the progress in the current document will be lost, are you sure to continue?",
+                    "continue",
+                    "cancel");
+
+                if(diag)
+                    SaveFile();
+            }
+
+
+
+        }
+
+        private static bool FileExists(string name, string extension, out FileInfo toReturn)
+        {
+            var path = Application.dataPath;
+            System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(path);
+            var files = Utility.JSONDataManager.GetAllFilesByExtencion(extension, dir);
+
+            var fileInfo = files.Find(f => f.Name.Contains(name));
+
+            toReturn = fileInfo;
+            return fileInfo != null;
+        }
+
+        private static bool FileExists(string name,string extension)
+        {
+            FileInfo useless;
+            return FileExists(name, extension, out useless);
+        }
 
         internal static void SaveFile()
         {
             if(CurrentLevel.levelName == "")
                 SaveFileAs();
 
-            var path = Application.dataPath;
-            System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(path);
-            var files = Utility.JSONDataManager.GetAllFilesByExtencion(".json", dir);
-
-            // esto no me deja tener dos archivos que se llamen igual en carpetas diferentes
-            var fileInfo = files.Find(f => f.Name.Contains(CurrentLevel.levelName));
-
-            if (fileInfo != null)
+            FileInfo fileInfo;
+            if (FileExists(CurrentLevel.levelName, ".json", out fileInfo))
             {
                 Utility.JSONDataManager.SaveData(fileInfo.FullName, LBSController.CurrentLevel);
             }
