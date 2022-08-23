@@ -5,39 +5,33 @@ using UnityEditor.UIElements;
 using Utility;
 using LBS.Representation.TileMap;
 
-public class TileMapEditor : EditorWindow
+public class LBSTileMapWindow : LBSEditorWindow
 {
     private TileGridView tileGridView;
     private Label notSelectedLabel;
     private InspectorView inspectorView;
 
-    [MenuItem("LBS/TileMap Window...")]
+    [MenuItem("LBS/Physic step.../Tile map")]
+    [LBSWindow("Tile map")]
     public static void OpenWindow()
     {
         var controller = new TileMapController();
 
-        TileMapEditor wnd = GetWindow<TileMapEditor>();
+        LBSTileMapWindow wnd = GetWindow<LBSTileMapWindow>();
         wnd.titleContent = new GUIContent("TileMapEditor");
 
         var view = wnd.rootVisualElement.Q<TileGridView>();
         view.controller = controller;
     }
 
-    public void CreateGUI()
+    public override void OnCreateGUI()
     {
-        // Each editor window contains a root VisualElement object
-        VisualElement root = rootVisualElement;
+        this.ImportUXML("TileMapEditor");
+        this.ImportStyleSheet("TileMapEditor");
 
-        // Import UXML
-        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("TileMapEditor");
-        visualTree.CloneTree(root);
-
-        // A stylesheet can be added to a VisualElement.
-        // The style will be applied to the VisualElement and all of its children.
-        var styleSheet = DirectoryTools.SearchAssetByName<StyleSheet>("TileMapEditor"); 
-        root.styleSheets.Add(styleSheet);
 
         tileGridView = root.Q<TileGridView>();
+
         notSelectedLabel = root.Q<Label>("NotSelected");
         inspectorView = root.Q<InspectorView>();
     }
