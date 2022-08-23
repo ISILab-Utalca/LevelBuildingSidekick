@@ -6,15 +6,16 @@ using UnityEditor.UIElements;
 
 namespace LevelBuildingSidekick.Graph
 {
-    public class LBSGraphWindow : LBSWindowEditor
+    public class LBSRoomCharacteristicsWindow : LBSEditorWindow
     {
         public LBSGraphView graphView;
 
-        [MenuItem("LBS/Graph window...")]
+        [MenuItem("LBS/Physic step.../Room characteristics graph")]
+        [LBSWindow("Room Characteristics")]
         public static void OpenWindow()
         {
-            var wnd = GetWindow<LBSGraphWindow>();
-            wnd.titleContent = new GUIContent("Graph window");
+            var wnd = GetWindow<LBSRoomCharacteristicsWindow>();
+            wnd.titleContent = new GUIContent("Room characteristics window");
            
             Debug.Log(wnd); // son vitales...
             wnd.position = wnd.position; // VITALES!!!!
