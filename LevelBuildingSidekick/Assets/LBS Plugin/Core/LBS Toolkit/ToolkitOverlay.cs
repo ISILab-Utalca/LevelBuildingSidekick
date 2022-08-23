@@ -13,7 +13,7 @@ namespace LevelBuildingSidekick
     }
 
 
-    [Overlay(typeof(LBSGraphWindow), "GraphToolkit", "Graph Toolkit", true)]
+    [Overlay(typeof(LBSRoomCharacteristicsWindow), "GraphToolkit", "Graph Toolkit", true)]
     public class GraphToolkitOverlay : ToolkitOverlay 
     {
         public static ToolkitView toolkit;
