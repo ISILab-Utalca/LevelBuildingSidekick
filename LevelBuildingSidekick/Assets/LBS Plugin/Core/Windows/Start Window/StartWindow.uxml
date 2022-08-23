@@ -1,0 +1,76 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Assets/buttonopen.uss?fileID=7433441132597879392&amp;guid=585bed622d428f948b14ad7ef652428a&amp;type=3#buttonopen" />
+    <ui:VisualElement style="height: 512px; background-color: rgb(56, 56, 56); flex-direction: row; flex-grow: 1; padding-left: -12px; padding-right: -12px; padding-top: -12px; padding-bottom: -12px; width: 866px;">
+        <ui:VisualElement name="Selector" style="width: 139px; position: absolute; height: 404px; align-items: flex-start; border-right-color: rgb(42, 42, 42);">
+            <ui:VisualElement name="openselector" style="width: 139px; height: 393px; max-width: 300px; justify-content: flex-start; align-items: center; margin-top: 6px; border-right-color: rgb(42, 42, 42); border-left-width: 0; border-right-width: 2px; border-top-width: 0; border-bottom-width: 0; -unity-text-align: upper-left;">
+                <ui:Button text="New Level" display-tooltip-when-elided="true" name="NewLvlBtn" class="buttonopen" style="height: 28px; width: 118px; border-top-left-radius: 4px; border-bottom-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; font-size: 16px; background-color: rgb(38, 38, 38); -unity-font-style: bold;" />
+                <ui:Button text="Load Level" display-tooltip-when-elided="true" name="LoadLvlBtn" class="buttonopen" style="width: 118px; height: 28px; font-size: 16px; border-top-left-radius: 4px; border-bottom-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; -unity-font-style: bold; -unity-background-image-tint-color: rgba(255, 255, 255, 0.25); background-color: rgba(88, 88, 88, 0); border-left-color: rgba(255, 255, 255, 0); border-right-color: rgba(255, 255, 255, 0); border-top-color: rgba(255, 255, 255, 0); border-bottom-color: rgba(255, 255, 255, 0);" />
+                <ui:Button text="Info LBS" display-tooltip-when-elided="true" name="InfoBtn" class="buttonopen" style="width: 118px; height: 28px; font-size: 16px; border-top-left-radius: 4px; border-bottom-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; -unity-font-style: bold; background-color: rgba(88, 88, 88, 0); border-left-color: rgba(255, 255, 255, 0); border-right-color: rgba(255, 255, 255, 0); border-top-color: rgba(255, 255, 255, 0); border-bottom-color: rgba(255, 255, 255, 0);" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Info" style="height: 411px; width: 616px; display: flex; position: absolute; left: 256px; visibility: hidden;">
+            <ui:VisualElement name="options" style="width: 574px; height: 365px; align-items: flex-start; justify-content: center; margin-left: 8px; margin-right: 8px; margin-top: 2px; margin-bottom: 2px;">
+                <ui:Label text="LABEL" display-tooltip-when-elided="true" name="Titulo" style="margin-bottom: 4px; font-size: 24px; margin-top: 8px; -unity-font-style: bold;" />
+                <ui:Label text="Descripcion de la herramienta. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged." display-tooltip-when-elided="true" name="Descripcion" style="white-space: normal; font-size: 12px; margin-bottom: 14px; width: 573px; height: 26px;" />
+                <ui:VisualElement name="Conthzt1" style="flex-direction: row; height: 198px; width: 606px; margin-bottom: 12px;">
+                    <ui:VisualElement name="Tutorial" style="width: 380px; height: 197px; background-color: rgb(42, 42, 42); border-top-left-radius: 8px; border-bottom-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; margin-bottom: 1px; margin-right: 12px; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-left-color: rgb(38, 38, 38); border-right-color: rgb(38, 38, 38); border-top-color: rgb(38, 38, 38); border-bottom-color: rgb(38, 38, 38);">
+                        <ui:VisualElement name="Image" style="height: 156px; background-image: url(&apos;project://database/Assets/LBS%20Plugin/Assets2D/minips1.png?fileID=2800000&amp;guid=350064e03f223134791faaefbbb2f615&amp;type=3#minips1&apos;); border-top-left-radius: 4px; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; width: 379px;" />
+                        <ui:VisualElement name="Text" style="height: 22px; font-size: 160px;">
+                            <ui:Label text="Ir a tutoriales" display-tooltip-when-elided="true" style="font-size: 18px; color: rgb(186, 186, 186); margin-top: 4px; margin-bottom: 4px; margin-left: 16px; height: 33px; -unity-text-align: middle-left;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="IsiLab" style="flex-direction: column; height: 197px; width: 184px; background-color: rgb(42, 42, 42); border-top-left-radius: 8px; border-bottom-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; margin-right: 12px; align-items: center; justify-content: center;">
+                        <ui:VisualElement name="IsiLabLogo" style="background-image: url(&apos;project://database/Assets/LBS%20Plugin/Assets2D/LogoISILab.png?fileID=2800000&amp;guid=c42326d52f631ab4888b4d5ea549f3ae&amp;type=3#LogoISILab&apos;); height: 72px; width: 116px;" />
+                        <ui:VisualElement name="RRSS" style="height: 25px; flex-direction: row-reverse; justify-content: center; margin-top: 18px; width: 113px; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; align-items: flex-end;">
+                            <ui:Button display-tooltip-when-elided="true" class="rrssbutton RRSSbutton" style="position: relative; background-image: url(&apos;project://database/Assets/LBS%20Plugin/Assets2D/Twitter1.png?fileID=2800000&amp;guid=d50c5075e1aa49b47a74b11dd52194ef&amp;type=3#Twitter1&apos;); -unity-background-scale-mode: scale-to-fit; -unity-slice-left: 2; -unity-slice-top: 2; -unity-slice-right: 2; -unity-slice-bottom: 2; width: 32px; height: 32px; padding-left: 7px; border-top-left-radius: 100px; border-bottom-left-radius: 100px; border-top-right-radius: 100px; border-bottom-right-radius: 100px; border-left-color: rgba(255, 255, 255, 0); border-right-color: rgba(255, 255, 255, 0); border-top-color: rgba(255, 255, 255, 0); border-bottom-color: rgba(255, 255, 255, 0); justify-content: center; border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0; transform-origin: center; scale: 1 1; translate: 0 0; rotate: 0;" />
+                            <ui:Button text=" " display-tooltip-when-elided="true" class="RRSSbutton" style="position: relative; background-image: url(&apos;project://database/Assets/LBS%20Plugin/Assets2D/Web.png?fileID=2800000&amp;guid=62c80a186b522c64f803302d8d5bcc35&amp;type=3#Web&apos;); -unity-background-scale-mode: stretch-to-fill; -unity-slice-left: 0; -unity-slice-top: 0; -unity-slice-bottom: 0; -unity-slice-right: 0; height: 32px; width: 32px; padding-right: 7px; border-top-left-radius: 76px; border-bottom-left-radius: 76px; border-top-right-radius: 76px; border-bottom-right-radius: 76px; border-left-color: rgba(255, 255, 255, 0); border-right-color: rgba(255, 255, 255, 0); border-top-color: rgba(255, 255, 255, 0); border-bottom-color: rgba(255, 255, 255, 0); align-items: flex-start;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="Conthzt2" style="flex-direction: row; width: 588px; margin-right: 0; margin-left: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; height: 75px;">
+                    <ui:VisualElement name="News" style="background-color: rgb(42, 42, 42); height: 57px; width: 57px; flex-direction: row; border-top-left-radius: 8px; border-bottom-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; margin-right: 12px; background-image: url(&apos;project://database/Assets/LBS%20Plugin/Assets2D/newspaper.png?fileID=2800000&amp;guid=5777151bd74151544888ad1d2dedb445&amp;type=3#newspaper&apos;); -unity-slice-left: 8; -unity-slice-top: 8; -unity-slice-right: 8; -unity-slice-bottom: 8; -unity-background-scale-mode: scale-and-crop;" />
+                    <ui:VisualElement name="Actualizacines" style="width: 509px; height: 60px; background-color: rgb(42, 42, 42); border-top-left-radius: 8px; border-bottom-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; margin-right: 12px; padding-left: 6px; padding-right: 6px; padding-top: 2px; padding-bottom: 2px; align-items: center; justify-content: space-around;">
+                        <ui:VisualElement name="Texto" style="flex-grow: 0; height: 21px; margin-top: 2px;">
+                            <ui:Label text="Ssistema de schema actualizado " display-tooltip-when-elided="true" style="font-size: 18px; -unity-text-align: upper-center; height: 26px; margin-top: 4px;" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="Avance" style="height: 14px; width: 119px; flex-direction: row; margin-top: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; justify-content: center; align-items: center;">
+                            <ui:VisualElement name="one" class="gonext" style="width: 8px; height: 8px; background-color: rgb(182, 182, 182); border-top-left-radius: 8px; border-bottom-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; border-left-color: rgb(182, 182, 182); border-right-color: rgb(182, 182, 182); border-top-color: rgb(182, 182, 182); border-bottom-color: rgb(182, 182, 182);" />
+                            <ui:VisualElement name="two" class="gonext" style="border-top-left-radius: 8px; border-bottom-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; background-color: rgb(88, 88, 88); width: 8px; height: 8px;" />
+                            <ui:VisualElement name="two" class="gonext" style="border-top-left-radius: 8px; border-bottom-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; background-color: rgb(88, 88, 88); width: 8px; height: 8px;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="LoadLevel" style="width: 640px; display: flex; height: 388px; justify-content: flex-start; align-items: flex-start; margin-left: 24px; margin-right: 8px; margin-top: 2px; margin-bottom: 2px; visibility: hidden; position: absolute; left: 256px;">
+            <ui:Label text="OPEN LEVEL" display-tooltip-when-elided="true" style="height: 42px; width: 591px; font-size: 24px; -unity-font-style: bold; margin-top: 8px; margin-left: 0; margin-bottom: 124px;" />
+            <ui:DropdownField label="Select" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="LoadLvlSelectionDD" style="width: 527px; height: 21px; font-size: 16px; margin-bottom: 124px; padding-left: 8px;" />
+            <ui:VisualElement style="height: 32px; width: 561px; flex-direction: row-reverse;">
+                <ui:Button text="Open" display-tooltip-when-elided="true" name="OpenLoadLvlBtn" class="OpenBotton openbotton" style="-unity-font-style: bold; color: rgb(255, 255, 255); background-color: rgb(43, 72, 110); margin-left: 8px; width: 112px; height: 27px; font-size: 14px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="NewLevel" style="width: 693px; display: flex; height: 396px; justify-content: flex-start; align-items: flex-start; margin-left: 24px; margin-right: 8px; margin-top: 2px; margin-bottom: 2px; position: absolute; left: 141px; visibility: visible; flex-direction: row;">
+            <ui:VisualElement name="Izq" style="height: 409px; width: 675px; align-items: flex-start;">
+                <ui:Label text="NEW LEVEL" display-tooltip-when-elided="true" style="height: 42px; width: 439px; font-size: 24px; -unity-font-style: bold; margin-top: 8px; margin-left: 0; margin-bottom: 8px;" />
+                <ui:VisualElement name="Configuracion" style="width: 442px; height: 42px; flex-direction: row; padding-right: 2px; margin-right: 0; align-items: center;">
+                    <ui:Label tabindex="-1" text="Initial setup" display-tooltip-when-elided="true" style="font-size: 16px; padding-right: 8px; height: 28px;" />
+                    <ui:Button tabindex="-1" display-tooltip-when-elided="true" style="height: 18px; width: 18px; justify-content: flex-start;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="Miniaturas" style="height: 149px; width: 535px;">
+                    <ui:Button tabindex="-1" display-tooltip-when-elided="true" style="width: 144px; height: 122px; background-color: rgb(42, 42, 42);">
+                        <ui:Label tabindex="-1" text="Label" display-tooltip-when-elided="true" />
+                        <ui:VisualElement style="height: 92px; width: 117px; background-color: rgb(60, 60, 60);" />
+                        <ui:Label tabindex="-1" text="Label" display-tooltip-when-elided="true" />
+                    </ui:Button>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="derch" style="width: 285px; align-items: center; height: 405px; margin-top: 0; background-color: rgb(42, 42, 42);">
+                <ui:TextField picking-mode="Ignore" label="Name" value="filler text" text="filler text" name="LvlNameField" max-length="-1" style="width: 195px; font-size: 16px; margin-bottom: 23px; flex-direction: column; margin-top: 52px;" />
+                <uie:Vector3Field label="Size" name="LvlSizeField" style="width: 195px; font-size: 16px; padding-bottom: 8px; padding-right: 0; flex-direction: column; margin-bottom: 186px;" />
+                <ui:VisualElement name="Abrir" style="height: 32px; width: 198px; flex-direction: row-reverse; bottom: 0;">
+                    <ui:Button text="Open" display-tooltip-when-elided="true" name="OpenNewLvlBtn" class="OpenBotton openbotton" style="-unity-font-style: bold; color: rgb(255, 255, 255); background-color: rgb(43, 72, 110); margin-left: 8px; width: 97px; height: 25px; font-size: 14px; border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -19,11 +19,18 @@ public abstract class LBSWindowEditor : EditorWindow
 
         OnCreateGUI();
 
-        var saveBtn = root.Q<ToolbarButton>("SaveButton");
-        saveBtn.clicked += SaveAction;
+        var toolbar = root.Q<ToolbarMenu>("GeneralToolbar");
+        toolbar.menu.AppendAction("Save", SaveAction);
+        toolbar.menu.AppendAction("Save as", SaveAsAction);
 
-        var saveAsBtn = root.Q<ToolbarButton>("SaveAsButton");
-        saveAsBtn.clicked += SaveAsAction;
+
+        //var saveBtn = root.Q<ToolbarButton>("SaveButton");
+        //saveBtn.clicked += SaveAction;
+
+        //var saveAsBtn = root.Q<ToolbarButton>("SaveAsButton");
+        //saveAsBtn.clicked += SaveAsAction;
+
+
     }
 
     protected void ImportUXML(string name)
@@ -36,6 +43,17 @@ public abstract class LBSWindowEditor : EditorWindow
     {
         var styleSheet = Utility.DirectoryTools.SearchAssetByName<StyleSheet>(name);
         root.styleSheets.Add(styleSheet);
+    }
+
+
+    private void SaveAction(DropdownMenuAction dma)
+    {
+        SaveAction();
+    }
+
+    private void SaveAsAction(DropdownMenuAction dma)
+    {
+        SaveAsAction();
     }
 
     private void SaveAction()
