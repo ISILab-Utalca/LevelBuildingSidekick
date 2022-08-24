@@ -118,13 +118,13 @@
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="OptionsNewLevel" style="width: 709px; display: flex; height: 407px; justify-content: flex-start; align-items: flex-start; margin-left: 8px; margin-right: 8px; margin-top: 2px; margin-bottom: 2px; position: absolute; left: 141px; visibility: visible; flex-direction: row-reverse;">
-            <ui:VisualElement name="derch" style="width: 227px; align-items: flex-end; height: 415px; margin-top: 0; background-color: rgb(48, 48, 48);">
+        <ui:VisualElement name="OptionsNewLevel" style="width: 709px; display: none; height: 407px; justify-content: flex-start; align-items: flex-start; margin-left: 8px; margin-right: 8px; margin-top: 2px; margin-bottom: 2px; position: absolute; left: 141px; visibility: visible; flex-direction: row-reverse;">
+            <ui:VisualElement name="derch" style="width: 227px; align-items: flex-end; height: 415px; margin-top: 0; background-color: rgb(48, 48, 48); visibility: visible;">
                 <ui:VisualElement style="flex-direction: row; width: 219px;">
                     <Unity.Cloud.Collaborate.Components.BetterTextField style="width: 183px; height: 18px; margin-top: 8px; margin-left: 8px; margin-right: 4px;" />
                     <ui:Button tabindex="-1" display-tooltip-when-elided="true" style="height: 18px; width: 18px; margin-top: 8px; background-color: rgb(42, 42, 42); background-image: url(&apos;project://database/Assets/LBS%20Plugin/Assets2D/Iconos/Save.png?fileID=2800000&amp;guid=435e7b356b3775e498aaad73aec5a92b&amp;type=3#Save&apos;); -unity-background-scale-mode: scale-to-fit;" />
                 </ui:VisualElement>
-                <ui:VisualElement name="Abrir" style="height: 377px; width: 225px; flex-direction: column; bottom: -2px; margin-top: 8px; justify-content: flex-start; align-items: center; margin-bottom: 4px; padding-top: 0; padding-bottom: 0;">
+                <ui:VisualElement name="Abrir" style="height: 377px; width: 225px; flex-direction: column; bottom: -2px; margin-top: 8px; justify-content: flex-start; align-items: center; margin-bottom: 4px; padding-top: 0; padding-bottom: 0; display: flex; visibility: visible;">
                     <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1">
                         <ui:VisualElement name="BWC" class="BWC" style="border-right-width: 4px; margin-right: 4px;">
                             <Unity.Cloud.Collaborate.Components.ChangeListEntries.ToggleableChangeListElement style="width: 18px; height: 2px; margin-left: 8px;" />
