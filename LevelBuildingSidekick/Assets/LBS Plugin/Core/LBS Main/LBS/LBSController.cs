@@ -90,7 +90,7 @@ namespace LevelBuildingSidekick
         {
             var path = Application.dataPath;
             System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(path);
-            var files = Utility.JSONDataManager.GetAllFilesByExtencion(extension, dir);
+            var files = Utility.DirectoryTools.GetAllFilesByExtension(extension, dir);
 
             var fileInfo = files.Find(f => f.Name.Contains(name));
 
