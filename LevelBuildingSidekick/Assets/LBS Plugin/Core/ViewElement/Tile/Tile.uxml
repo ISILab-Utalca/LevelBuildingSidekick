@@ -1,4 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/LBS%20Plugin/Core/ViewElement/Tile/TileW.uss?fileID=7433441132597879392&amp;guid=5ef1e412b2113bf42946d6fafed9f09b&amp;type=3#TileW" />
-    <ui:VisualElement class="TileW" />
+    <ui:VisualElement class="TileW" style="flex-grow: 1; min-width: auto; min-height: auto; border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0; overflow: visible; width: auto; height: auto; max-width: initial; max-height: initial;">
+        <ui:VisualElement name="VisualElement" style="flex-grow: 1; border-left-width: 8px; border-right-width: 8px; border-top-width: 8px; border-bottom-width: 8px; overflow: visible; border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0);" />
+    </ui:VisualElement>
 </ui:UXML>
