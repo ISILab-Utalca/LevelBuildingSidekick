@@ -118,7 +118,7 @@
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="OptionsNewLevel" style="width: 709px; display: flex; height: 407px; justify-content: flex-start; align-items: flex-start; margin-left: 8px; margin-right: 8px; margin-top: 2px; margin-bottom: 2px; position: absolute; left: 141px; visibility: visible; flex-direction: row-reverse;">
+        <ui:VisualElement name="OptionsNewLevel" style="width: 709px; display: none; height: 407px; justify-content: flex-start; align-items: flex-start; margin-left: 8px; margin-right: 8px; margin-top: 2px; margin-bottom: 2px; position: absolute; left: 141px; visibility: visible; flex-direction: row-reverse;">
             <ui:VisualElement name="derch" style="width: 227px; align-items: flex-end; height: 415px; margin-top: 0; background-color: rgb(48, 48, 48); visibility: visible;">
                 <ui:VisualElement style="flex-direction: row; width: 219px;">
                     <Unity.Cloud.Collaborate.Components.BetterTextField style="width: 183px; height: 18px; margin-top: 8px; margin-left: 8px; margin-right: 4px;" />
