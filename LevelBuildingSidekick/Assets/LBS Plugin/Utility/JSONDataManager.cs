@@ -18,7 +18,6 @@ namespace Utility
 
         public static void SaveData<T>(string directoryName, string fileName, T data)
         {
-            //Debug.Log("Saving: " + data);
             string directoryPath = Application.dataPath + '/' + directoryName;
             if(!Directory.Exists(directoryPath))
             {
@@ -29,25 +28,19 @@ namespace Utility
             {
                 File.Delete(dataPath);
             }
-            var jsonString = JsonConvert.SerializeObject(data, Formatting.Indented, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto });
-            //string json = JsonUtility.ToJson(data);
-            //Debug.Log("Save data to: " + dataPath);
-            using StreamWriter writer = new StreamWriter(dataPath);
-            writer.Write(jsonString);
-            //writer.Write(json);
+
+            SaveData(dataPath,data);
         }
 
         public static T LoadData<T>(string path)
         {
             using StreamReader reader = new StreamReader(path);
             string json = reader.ReadToEnd();
-            var data = JsonConvert.DeserializeObject<T>(json, 
+            var data = JsonConvert.DeserializeObject<T>(json,
                 new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented });
 
             if (data == null)
-            {
                 Debug.LogWarning("Data in " + path + " is not of type" + typeof(T).ToString());
-            }
 
             return data;
         }
@@ -60,20 +53,8 @@ namespace Utility
                 Directory.CreateDirectory(directoryPath);
             }
             string dataPath = directoryPath + '/' + fileName;
-            using StreamReader reader = new StreamReader(dataPath);
 
-            //Debug.Log("Loading: " + dataPath);
-            string json = reader.ReadToEnd();
-            
-            //T data = JsonUtility.FromJson<T>(json);
-            var data = JsonConvert.DeserializeObject<T>(json, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented });
-
-            if (data == null)
-            {
-                Debug.LogWarning("Data in " + fileName + " is not of type" + typeof(T).ToString());
-            }
-
-            return data;
+            return LoadData<T>(dataPath);
         }
 
         public static List<string> GetJSONFiles(string path)
@@ -82,10 +63,7 @@ namespace Utility
             {
                 Directory.CreateDirectory(path);
             }
-            //Debug.Log(path);
             string[] files = System.IO.Directory.GetFiles(path);
-            //Debug.Log("Files: " + files.Length);
-            //Debug.Log("Path: " + path);
             List<string> jsonFiles = new List<string>();
             foreach (string s in files)
             {
@@ -96,34 +74,10 @@ namespace Utility
                 }
             }
 
-            //Debug.Log("Json Files: " + jsonFiles.Count);
-
             return jsonFiles;
         }
 
-        // este metodo no debiera ir en "JSONDataManager" sino que en otra casa de utilities 
-        // pero por ahora se puede quedar aqui supongo hasta que encontremos un mejor lugar (?)
-        public static List<FileInfo> GetAllFilesByExtencion(string extension, DirectoryInfo dir)
-        {
-            var directory = dir.GetDirectories();
-            var files = dir.GetFiles();
 
-            var toReturn = new List<FileInfo>();
-            for (int i = 0; i < files.Length; i++)
-            {
-                if (files[i].FullName.EndsWith(extension))
-                {
-                    toReturn.Add(files[i]);
-                }
-            }
-
-            var dirs = dir.GetDirectories();
-            for (int i = 0; i < dirs.Length; i++)
-            {
-                toReturn = toReturn.Concat(GetAllFilesByExtencion(extension, dirs[i])).ToList();
-            }
-            return toReturn;
-        }
     }
 
 }
