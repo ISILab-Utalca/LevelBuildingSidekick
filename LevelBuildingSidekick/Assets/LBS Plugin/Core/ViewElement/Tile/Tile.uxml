@@ -1,0 +1,4 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/LBS%20Plugin/Core/ViewElement/Tile/TileW.uss?fileID=7433441132597879392&amp;guid=5ef1e412b2113bf42946d6fafed9f09b&amp;type=3#TileW" />
+    <ui:VisualElement class="TileW" />
+</ui:UXML>
