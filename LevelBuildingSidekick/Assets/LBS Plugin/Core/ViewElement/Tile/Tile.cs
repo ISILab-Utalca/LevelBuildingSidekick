@@ -12,6 +12,8 @@ public class Tile : VisualElement
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("Tile");
         visualTree.CloneTree(this);
 
+        var styleSheet = Utility.DirectoryTools.SearchAssetByName<StyleSheet>("TileW");
+        this.styleSheets.Add(styleSheet);
     }
 
 }
