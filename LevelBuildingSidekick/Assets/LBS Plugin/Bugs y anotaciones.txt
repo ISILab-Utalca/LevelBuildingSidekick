@@ -1,0 +1,14 @@
+
+Bugs
+
+- Las ventanas pueden perder referencias no acesibles por los desarrolladores provocando que estan no se muestren,
+	- Una solucion a esto puede ser reiniaar unity, o reescalar la ventana en cuestion.
+
+
+Anotaciones
+
+- Explicar en documnetacion el funcionamiento del menu "LBS" y todos sus botones internos.
+	- Start window
+	- Steps window
+- Explicar en documentacion el funcionamiento de contexMenu "LBS" y todos sus botones internos.
+	- WindowPreset

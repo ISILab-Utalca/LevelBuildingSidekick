@@ -1,2 +1,0 @@
-- Las ventanas pueden perder referencias no acesibles por los desarrolladores provocando que estan no se muestren,
-	- Una solucion a esto puede ser reiniaar unity, o reescalar la ventana en cuestion.
