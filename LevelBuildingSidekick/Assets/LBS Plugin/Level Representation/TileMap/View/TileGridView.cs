@@ -7,6 +7,7 @@ using UnityEditor;
 using System;
 using Utility;
 using LBS.Representation.TileMap;
+using LBS.ElementView;
 
 public class TileGridView : GraphView
 {
@@ -27,6 +28,7 @@ public class TileGridView : GraphView
          
         var styleSheet = DirectoryTools.SearchAssetByName<StyleSheet>("TileMapEditor");
         styleSheets.Add(styleSheet);
+
     }
 
     internal void SetView(TileMapController controller)
@@ -49,10 +51,12 @@ public class TileGridView : GraphView
         }
     }
 
-    void CreateTileView(Vector2Int tile,Vector2 size)
+    void CreateTileView(Vector2Int tilePos,Vector2 size)
     {
-        var t = new TileView(tile,size);
-        AddElement(t);
+        var tile = new Tile();
+        tile.SetPosition(new Rect(tilePos * size, size));
+        tile.SetSize((int)size.x, (int)size.y);
+        AddElement(tile);
     }
 
     public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
@@ -71,21 +75,4 @@ public class TileGridView : GraphView
         });
         
     }
-}
-public class TileView : GraphElement
-{
-    private Vector2Int tile;
-
-    public TileView(Vector2Int tile,Vector2 size)
-    {
-        this.tile = tile;
-        this.SetPosition(new Rect(tile * size, size));
-        var v = new VisualElement();
-        v.Add(new Box());
-        Add(v);
-
-        var styleSheet = Utility.DirectoryTools.SearchAssetByName<StyleSheet>("TileUSS");
-        styleSheets.Add(styleSheet);
-    }
-
 }
