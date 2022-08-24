@@ -7,6 +7,7 @@ public class LBSPopulation : LBSEditorWindow
 {
 
     [MenuItem("LBS/Population step.../Population (nombre temporal)")]
+    [LBSWindow("Population Window")]
     public static void OpenWindow()
     {
         var wnd = GetWindow<LBSPopulation>();
