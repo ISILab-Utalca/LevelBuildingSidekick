@@ -9,7 +9,6 @@ public class LBSTileMapWindow : LBSEditorWindow
 {
     private TileGridView tileGridView;
     private Label notSelectedLabel;
-    private InspectorView inspectorView;
 
     [MenuItem("LBS/Physic step.../Tile map")]
     [LBSWindow("Tile map")]
@@ -33,7 +32,6 @@ public class LBSTileMapWindow : LBSEditorWindow
         tileGridView = root.Q<TileGridView>();
 
         notSelectedLabel = root.Q<Label>("NotSelected");
-        inspectorView = root.Q<InspectorView>();
     }
 
     private void OnSelectionChange()
