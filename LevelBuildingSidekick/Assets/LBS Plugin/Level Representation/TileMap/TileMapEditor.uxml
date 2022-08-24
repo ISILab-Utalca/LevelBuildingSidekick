@@ -1,15 +1,8 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <Style src="project://database/Assets/LBS Plugin/Level Representation/TileMap/USS/TileMapEditor.uss?fileID=7433441132597879392&amp;guid=80e0e935364bb54428dc84c270af7784&amp;type=3#TileMapEditor" />
-    <Style src="project://database/Assets/LBS Plugin/Level Representation/TileMap/USS/TileUSS.uss?fileID=7433441132597879392&amp;guid=77b90eb7f1e6cba4b95ceb49ea57c848&amp;type=3#TileUSS" />
+    <Style src="project://database/Assets/LBS%20Plugin/Level%20Representation/TileMap/USS/TileMapEditor.uss?fileID=7433441132597879392&amp;guid=80e0e935364bb54428dc84c270af7784&amp;type=3#TileMapEditor" />
+    <Style src="project://database/Assets/LBS%20Plugin/Level%20Representation/Graph/USS/NodeUSS.uss?fileID=7433441132597879392&amp;guid=77b90eb7f1e6cba4b95ceb49ea57c848&amp;type=3#NodeUSS" />
     <ui:VisualElement style="flex-grow: 1;">
-        <SplitView>
-            <ui:VisualElement name="LeftPanel" style="flex-shrink: 1;">
-                <InspectorView />
-            </ui:VisualElement>
-            <ui:VisualElement name="RightPanel">
-                <TileGridView name="TileGridView" style="flex-grow: 1; display: flex; visibility: visible; opacity: 1; overflow: visible;" />
-                <ui:Label text="nada seleccionado" display-tooltip-when-elided="true" name="NotSelected" style="display: none;" />
-            </ui:VisualElement>
-        </SplitView>
+        <TileGridView name="TileGridView" style="flex-grow: 1; display: flex; visibility: visible; opacity: 1; overflow: visible;" />
+        <ui:Label text="nada seleccionado" display-tooltip-when-elided="true" name="NotSelected" style="display: none;" />
     </ui:VisualElement>
 </ui:UXML>
