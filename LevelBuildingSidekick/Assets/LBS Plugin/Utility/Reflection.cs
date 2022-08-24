@@ -29,16 +29,16 @@ namespace Utility
             Debug.Log(msg);
         }
 
-        public static List<Tuple<Attribute, MemberInfo>> CollectMetohdsByAttribute(Type attributeType)
+        public static List<Tuple<T, MethodInfo>> CollectMetohdsByAttribute<T>() where T : Attribute
         {
             var methods = Assembly.GetExecutingAssembly()
                         .GetTypes()
                         .SelectMany(t => t.GetMethods())
-                        .Where(m => m.GetCustomAttributes(attributeType, false).Length > 0)
+                        .Where(m => m.GetCustomAttributes<T>().Count() > 0)
                         .ToArray();
 
-            var toReturn = new List<Tuple<Attribute, MemberInfo>>();
-            methods.ToList().ForEach(m => toReturn.Add(new Tuple<Attribute, MemberInfo>(m.GetCustomAttribute(attributeType, false), m)));
+            var toReturn = new List<Tuple<T, MethodInfo>>();
+            methods.ToList().ForEach(m => toReturn.Add(new Tuple<T, MethodInfo>(m.GetCustomAttribute<T>(), m)));
 
             return toReturn;
         }
