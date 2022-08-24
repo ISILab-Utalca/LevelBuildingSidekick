@@ -108,7 +108,7 @@ namespace LevelBuildingSidekick
             loadLvlSelectionDropDown = rootVisualElement.Q<DropdownField>(name: "LoadLvlSelectionDD");
             openLoadLvlBtn = rootVisualElement.Q<Button>(name: "OpenLoadLvlBtn");
 
-            var jsonFiles = Utility.JSONDataManager.GetJSONFiles(Application.dataPath + "/LBSLevels");
+            var jsonFiles = Utility.JSONDataManager.GetJSONFiles(Application.dataPath + "/LBSLevels"); //deberia traerlo de cualquier ruta en el proyecto o no?
             loadLvlSelectionDropDown.choices = jsonFiles;
 
             openLoadLvlBtn.clicked += LoadLevel;
@@ -152,11 +152,18 @@ namespace LevelBuildingSidekick
 
         void LoadLevel()
         {
-
-            LBSController.CurrentLevel = Utility.JSONDataManager.LoadData<LevelData>("LBSLevels", loadLvlSelectionDropDown.value);
-
-            OpenPresetWindow();
-            this.Close();
+            var selected = loadLvlSelectionDropDown.value;
+            if (selected != null)
+            {
+                LBSController.CurrentLevel = Utility.JSONDataManager.LoadData<LevelData>("LBSLevels", selected);
+                OpenPresetWindow();
+                this.Close();
+            }
+            else
+            {
+                Debug.LogWarning("Select a level file to open.");
+            }
+            
         }
     }
 }
