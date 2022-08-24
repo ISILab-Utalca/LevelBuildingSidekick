@@ -6,6 +6,8 @@ using System.Linq;
 using LevelBuildingSidekick.Graph;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
+using System;
+using System.Reflection;
 
 namespace LevelBuildingSidekick
 {
@@ -30,26 +32,25 @@ namespace LevelBuildingSidekick
         #endregion
 
         #region LoadLevel
-        DropdownField loadLvlSelectionDD;
+        DropdownField loadLvlSelectionDropDown;
         Button openLoadLvlBtn;
         #endregion
+
+        private static List<Tuple<LBSWindowAttribute, MethodInfo>> methods;
+        private static List<WindowsPreset> presets;
 
         [MenuItem("LBS/Welcome window...", priority = 0)]
         public static void ShowWindow()
         {
             var window = GetWindow<LBSStartWindow>();
             window.titleContent = new GUIContent("Level Building Sidekick");
-            //var btn1 = buscar boton;
-            Debug.Log(window.position);
             window.position = window.position;
             window.minSize = window.maxSize = new Vector2(864, 396);
             var controller = new LBSController();
 
-            // esto solo es de testeo mover donde corresponda
-            // cuando se tenga la posibilidad de seleccionar que ventanas se pueden y deben abrir 
-            // en la seleccion de modos de la ventana principal
-            var methods = Utility.Reflection.CollectMetohdsByAttribute(typeof(LBSWindowAttribute)); 
-            methods.ForEach(m => Debug.Log((m.Item1 as LBSWindowAttribute).Name));
+            methods = Utility.Reflection.CollectMetohdsByAttribute<LBSWindowAttribute>();
+            methods.ForEach(m => Debug.Log(m.Item1.Name));
+            presets = Utility.DirectoryTools.GetScriptablesByType<WindowsPreset>();
         }
 
         public void CreateGUI()
@@ -78,10 +79,11 @@ namespace LevelBuildingSidekick
             loadLvlPanel = rootVisualElement.Q<VisualElement>(name: "LoadLevel");
             infoPanel = rootVisualElement.Q<VisualElement>(name: "Info");
 
-            TurnOnNewLevel();
-            newLvlBtn.clicked += TurnOnNewLevel;
-            loadLvlBtn.clicked += TurnOnLoadLevel;
-            infoBtn.clicked += TurnOnInfo;
+            OpenPanel(newLvlPanel);
+            newLvlBtn.clicked += () => OpenPanel(newLvlPanel);
+            loadLvlBtn.clicked += () => OpenPanel(loadLvlPanel);
+            infoBtn.clicked += () => OpenPanel(infoPanel);
+
         }
 
         void InitNewLevel()
@@ -103,12 +105,11 @@ namespace LevelBuildingSidekick
 
         void InitLoadLevel()
         {
-            loadLvlSelectionDD = rootVisualElement.Q<DropdownField>(name: "LoadLvlSelectionDD");
+            loadLvlSelectionDropDown = rootVisualElement.Q<DropdownField>(name: "LoadLvlSelectionDD");
             openLoadLvlBtn = rootVisualElement.Q<Button>(name: "OpenLoadLvlBtn");
 
             var jsonFiles = Utility.JSONDataManager.GetJSONFiles(Application.dataPath + "/LBSLevels");
-            //Debug.Log(jsonFiles.Count);
-            loadLvlSelectionDD.choices = jsonFiles;
+            loadLvlSelectionDropDown.choices = jsonFiles;
 
             openLoadLvlBtn.clicked += LoadLevel;
 
@@ -119,39 +120,42 @@ namespace LevelBuildingSidekick
 
         }
 
-        void TurnOnNewLevel()
+        private void OpenPanel(VisualElement element) // hay mejores formas de hacer esto (!)
         {
-            newLvlPanel.visible = true;
-            loadLvlPanel.visible = false;
-            infoPanel.visible = false;
+            newLvlPanel.visible = (newLvlPanel == element);
+            loadLvlPanel.visible = (loadLvlPanel == element);
+            infoPanel.visible = (infoPanel == element);
         }
 
-        void TurnOnLoadLevel()
+        private void OpenPresetWindow() // mejor nombre de metodo (!)
         {
-            newLvlPanel.visible = false;
-            loadLvlPanel.visible = true;
-            infoPanel.visible = false;
-        }
-
-        void TurnOnInfo()
-        {
-            newLvlPanel.visible = false;
-            loadLvlPanel.visible = false;
-            infoPanel.visible = true;
+            var firstPreset = presets[0]; // esto es temporal (!)
+            foreach (var wName in firstPreset.Windows)
+            {
+                var m = methods.Find(t => t.Item1.Name == wName);
+                try
+                {
+                    var action = (Action)m.Item2.CreateDelegate(typeof(Action));
+                    action.Invoke();
+                }
+                catch { }
+            }
         }
 
         void OpenNewLevel()
         {
             LBSController.CurrentLevel = LBSController.CreateLevel(newLvlNameField.value, Vector3.zero);
-            LBSRoomCharacteristicsWindow.OpenWindow();
+
+            OpenPresetWindow();
             this.Close();
         }
 
         void LoadLevel()
         {
-            
-            LBSController.CurrentLevel = Utility.JSONDataManager.LoadData<LevelData>("LBSLevels", loadLvlSelectionDD.value);
-            LBSRoomCharacteristicsWindow.OpenWindow();
+
+            LBSController.CurrentLevel = Utility.JSONDataManager.LoadData<LevelData>("LBSLevels", loadLvlSelectionDropDown.value);
+
+            OpenPresetWindow();
             this.Close();
         }
     }
