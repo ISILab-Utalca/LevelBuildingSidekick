@@ -33,6 +33,11 @@ namespace LevelBuildingSidekick.Graph
             return nodes.Find(n => n.Rect.Contains(currentPos));
         }
 
+        internal LBSNodeData GetNodeByLabel(string value)   // by ID (??)
+        {
+            return nodes.Find(n => n.label == value);
+        }
+
         internal object GetEdge(LBSNodeController firstNode, List<LBSNodeData> nodes)
         {
             throw new NotImplementedException();
@@ -58,15 +63,26 @@ namespace LevelBuildingSidekick.Graph
 
         public List<LBSNodeData> GetNeighbors(LBSNodeData node)
         {
-            var nIDs = node.room.neighbors;
-            List<LBSNodeData> neighbors = new List<LBSNodeData>();
-            foreach(var id in nIDs)
+            var conects =  edges.Where(e => e.Contains(node.label)).ToList();
+            var neigs = new List<LBSNodeData>();
+            conects.ForEach((e) =>
             {
-                var n = nodes.Find(n => n.label == id);
-                if(n != null)
-                    neighbors.Add(n);
-            }
-            return neighbors;
+                if (e.FirstNodeLabel != node.label)
+                    neigs.Add(GetNodeByLabel(e.FirstNodeLabel));
+                if (e.SecondNodeLabel != node.label)
+                    neigs.Add(GetNodeByLabel(e.SecondNodeLabel));
+            });
+
+            return neigs;
+        }
+
+        public override void Print()
+        {
+            var msg = "";
+            msg += "<b>Room char. (step 1)</b>" + "\n";
+            msg += "Node amount: " + this.nodes.Count + "\n";
+            msg += "Edge amount: " + this.edges.Count + "\n";
+            Debug.Log(msg);
         }
     }
 }
