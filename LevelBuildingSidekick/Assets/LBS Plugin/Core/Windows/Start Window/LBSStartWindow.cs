@@ -49,7 +49,7 @@ namespace LevelBuildingSidekick
             var controller = new LBSController();
 
             methods = Utility.Reflection.CollectMetohdsByAttribute<LBSWindowAttribute>();
-            methods.ForEach(m => Debug.Log(m.Item1.Name));
+            //methods.ForEach(m => Debug.Log(m.Item1.Name));
             presets = Utility.DirectoryTools.GetScriptablesByType<WindowsPreset>();
         }
 
