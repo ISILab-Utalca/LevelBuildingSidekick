@@ -4,10 +4,11 @@ using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using Utility;
 using LBS.Representation.TileMap;
+using LevelBuildingSidekick;
 
 public class LBSTileMapWindow : LBSEditorWindow
 {
-    private TileGridView tileGridView;
+    private TileGridView view;
     private Label notSelectedLabel;
 
     [MenuItem("LBS/Physic step.../Tile map")]
@@ -17,10 +18,10 @@ public class LBSTileMapWindow : LBSEditorWindow
         var controller = new TileMapController();
 
         LBSTileMapWindow wnd = GetWindow<LBSTileMapWindow>();
-        wnd.titleContent = new GUIContent("TileMapEditor");
+        wnd.titleContent = new GUIContent("Tile Map");
 
         var view = wnd.rootVisualElement.Q<TileGridView>();
-        view.controller = controller;
+        //view.data = controller;
     }
 
     public override void OnCreateGUI()
@@ -29,13 +30,22 @@ public class LBSTileMapWindow : LBSEditorWindow
         this.ImportStyleSheet("TileMapEditor");
 
 
-        tileGridView = root.Q<TileGridView>();
+        view = root.Q<TileGridView>();
 
         notSelectedLabel = root.Q<Label>("NotSelected");
     }
 
-    private void OnSelectionChange()
+
+    private void ActualizeView()
     {
+        view.ClearView();
+        var tileMap = LBSController.CurrentLevel.GetRepresentation<LBSTileMapData>();
+        tileMap.Print();
+        if (tileMap != null)
+        {
+            view.Populate(tileMap);
+        }
+        /*
         var c = tileGridView.controller;
         var map = c.Data as LBSTileMapData;
         if(map != null)
@@ -48,6 +58,21 @@ public class LBSTileMapWindow : LBSEditorWindow
         {
             notSelectedLabel.visible = true;
             tileGridView.visible = false;
-        }
+        }*/
+    }
+
+    private void OnFocus()
+    {
+        ActualizeView();
+    }
+
+    private void OnLostFocus()
+    {
+        ActualizeView();
+    }
+
+    private void OnSelectionChange()
+    {
+        ActualizeView();
     }
 }
