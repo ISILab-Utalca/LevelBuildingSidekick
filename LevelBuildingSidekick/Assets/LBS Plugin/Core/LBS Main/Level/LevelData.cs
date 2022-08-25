@@ -33,11 +33,11 @@ namespace LevelBuildingSidekick
             }
         }
 
+        [SerializeReference]
         public List<LBSRepesentationData> representations = new List<LBSRepesentationData>();
 
         [JsonIgnore]
         public override Type ControllerType => throw new NotImplementedException();
-        //public override Type ControllerType => typeof(LevelController);
 
         public List<GameObject> RequestLevelObjects(string category)
         { 
@@ -46,6 +46,11 @@ namespace LevelBuildingSidekick
                 levelObjects.Add(new ItemCategory(category));
             }
             return levelObjects.Find((i) => i.category == category).items;
+        }
+
+        public void AddRepresentation(LBSRepesentationData representation) 
+        {
+            representations.Add(representation);
         }
 
         // En un futuro vamos a agrupar representaciones de nivel del mismo tipo, 
