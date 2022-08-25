@@ -31,7 +31,6 @@ namespace LBS.Representation.TileMap
             Debug.Log(optimized);
         }
 
-
         private float EvaluateAdjacencies(LBSGraphData graphData, LBSTileMapData schema) // esto podria recivir una funcion de calculo de distancia (?)
         {
             var distValue = 0f;
@@ -137,7 +136,6 @@ namespace LBS.Representation.TileMap
             }
             return lessDist;
         }
-
 
         public List<LBSTileMapData> GetNeighbors(LBSTileMapData tileMap)
         {
