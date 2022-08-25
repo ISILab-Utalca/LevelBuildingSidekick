@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
+using LBS.Transformers;
 
 namespace LevelBuildingSidekick.Graph
 {
@@ -17,8 +18,8 @@ namespace LevelBuildingSidekick.Graph
             var wnd = GetWindow<LBSRoomCharacteristicsWindow>();
             wnd.titleContent = new GUIContent("Room characteristics window");
            
-            Debug.Log(wnd); // son vitales...
-            wnd.position = wnd.position; // VITALES!!!!
+            //Debug.Log(wnd); // son vitales...
+            //wnd.position = wnd.position; // VITALES!!!!
         }
 
         public override void OnCreateGUI()
@@ -27,6 +28,18 @@ namespace LevelBuildingSidekick.Graph
             this.ImportStyleSheet("GraphWindow");
 
             graphView = root.Q<LBSGraphView>();
+            var generateBtn = root.Q<Button>("GenerateBtn");
+            generateBtn.clicked += () =>
+            {
+                Debug.Log("[Generate Tile map]");
+                var g = LBSController.CurrentLevel.GetRepresentation<LBSGraphData>(); // lBSGraphData deberia llamarse RoomCharData
+                var tm = new GraphToTileMap().Transform(g);
+                //LBSController.CurrentLevel.InseertRepresentation();
+                LBSController.CurrentLevel.AddRepresentation(tm);
+                LBSController.SaveFile(); // esto es necesario?, supongo que si pero no se
+                g.Print();
+                tm.Print();
+            };
         }
 
         private void OnGUI()
