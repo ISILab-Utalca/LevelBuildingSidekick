@@ -4,7 +4,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LBSRepesentationData : Data
+[System.Serializable]
+public abstract class LBSRepesentationData : Data
 {
     public override Type ControllerType => throw new NotImplementedException();
+
+    public abstract void Print();
 }
