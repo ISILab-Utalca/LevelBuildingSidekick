@@ -1,6 +1,7 @@
 using LevelBuildingSidekick;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using UnityEditor;
@@ -15,6 +16,11 @@ public abstract class LBSEditorWindow : EditorWindow
 
     public abstract void OnCreateGUI();
 
+    void OnGUI()
+    {
+        
+    }
+
     public void CreateGUI()
     {
         // Each editor window contains a root VisualElement object
@@ -22,10 +28,14 @@ public abstract class LBSEditorWindow : EditorWindow
 
         OnCreateGUI();
 
+        // root toolbar
         var toolBar = new Toolbar();
+        root.Insert(0, toolBar);
+
+        // File menu option
         var fileMenu = new ToolbarMenu();
         fileMenu.text = "File";
-        fileMenu.menu.AppendAction("Level.../Load",(dma)=> { LBSController.LoadFile(); });
+        fileMenu.menu.AppendAction("Level.../Load", (dma) => { LBSController.LoadFile(); });
         fileMenu.menu.AppendAction("Level.../Save", (dma) => { LBSController.SaveFile(); });
         fileMenu.menu.AppendAction("Level.../Save as", (dma) => { LBSController.SaveFileAs(); });
         fileMenu.menu.AppendSeparator();
@@ -36,7 +46,7 @@ public abstract class LBSEditorWindow : EditorWindow
         fileMenu.menu.AppendAction("Help.../Documentation", (dma) => { Debug.Log("[Implementar documnetation]"); }); // ver si es necesaria (!)
         fileMenu.menu.AppendAction("Help.../About", (dma) => { Debug.Log("[Implementar about]"); }); // ver si es necesaria (!)
         fileMenu.menu.AppendSeparator();
-        fileMenu.menu.AppendAction("Close", (dma) => { this.Close(); }); 
+        fileMenu.menu.AppendAction("Close", (dma) => { this.Close(); });
         fileMenu.menu.AppendAction("Close All", (dma) => {
             var types = Reflection.GetAllSubClassOf<LBSEditorWindow>().ToList();
             types.ForEach((t) => {
@@ -45,15 +55,23 @@ public abstract class LBSEditorWindow : EditorWindow
                 if ((bool)generic?.Invoke(this, null))
                     EditorWindow.GetWindow(t).Close();
             });
-        
-        });
 
+        });
+        toolBar.Add(fileMenu);
+
+        // search object in current window
         var search = new ToolbarPopupSearchField();
         search.tooltip = "[Implementar]";
+        toolBar.Add(search);
 
-        root.Insert(0,toolBar);
-        toolBar.Add(fileMenu);
-        toolBar.Add(search); 
+        // file name label
+        FileInfo fileInfo;
+        LBSController.FileExists(LBSController.CurrentLevel.levelName, ".json", out fileInfo);
+        var label = new Label("file: ''" + fileInfo.Name + "''*");
+        label.style.color = new Color(0.6f, 0.6f, 0.6f);
+        toolBar.Add(label);
+
+       
     }
 
     private void OnDestroy()
