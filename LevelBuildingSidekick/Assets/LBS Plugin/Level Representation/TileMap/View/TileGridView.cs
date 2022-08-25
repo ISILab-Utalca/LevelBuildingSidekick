@@ -13,7 +13,8 @@ public class TileGridView : GraphView
 {
     public new class UxmlFactory : UxmlFactory<TileGridView, GraphView.UxmlTraits> { }
 
-    public TileMapController controller;
+    // public LBSTileGridControler controller
+    public LBSTileMapData data;
 
     public Vector2 tileSize = new Vector2(100,100);
 
@@ -31,12 +32,16 @@ public class TileGridView : GraphView
 
     }
 
-    internal void SetView(TileMapController controller)
+    internal void ClearView()
     {
-        this.controller = controller;
+        DeleteElements(graphElements);
+    }
+
+    internal void Populate(LBSTileMapData data)
+    {
+        this.data = data;
         DeleteElements(graphElements);
 
-        var data = controller.Data as LBSTileMapData;
         var mtx = data.GetMatrix();
         for (int i = 0; i < mtx.GetLength(0); i++)
         {
@@ -65,14 +70,14 @@ public class TileGridView : GraphView
         var pos = (evt.localMousePosition - new Vector2(viewTransform.position.x, viewTransform.position.y)) / scale;
         Vector2Int tilePos = new Vector2Int((int)pos.x / (int)tileSize.x, (int)pos.y / (int)tileSize.y);
 
-        
+        /*
         evt.menu.AppendAction("Add Tile", (a) => 
         {
-            var data = controller.Data as LBSTileMapData;
             data.AddTiles(new List<Vector2Int>() { tilePos }, "test");
             CreateTileView(tilePos, tileSize);
             Debug.Log("Ge:"+graphElements.ToList().Count);
         });
+        */
         
     }
 }
