@@ -13,8 +13,8 @@ public class LBSPopulation : LBSEditorWindow
         var wnd = GetWindow<LBSPopulation>();
         wnd.titleContent = new GUIContent("Population window");
 
-        Debug.Log(wnd); // son vitales...
-        wnd.position = wnd.position; // VITALES!!!!
+        //Debug.Log(wnd); // son vitales...
+        //wnd.position = wnd.position; // VITALES!!!!
     }
 
     public override void OnCreateGUI()
