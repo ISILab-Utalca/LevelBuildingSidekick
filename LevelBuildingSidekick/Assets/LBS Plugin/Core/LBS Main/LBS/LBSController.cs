@@ -10,7 +10,9 @@ using System.Text;
 
 namespace LevelBuildingSidekick
 {
-    public class LBSController /// change name "LBSController" to "LBS" or "LBSCore" or "LBSMain"
+    // change name "LBSController" to "LBS" or "LBSCore" or "LBSMain" (!)
+    // esta clase podria ser estatica completamente (??)
+    public class LBSController 
     {
         #region InspectorDrawer
         private class LevelScriptable : GenericScriptable<LevelData> { };
@@ -18,7 +20,7 @@ namespace LevelBuildingSidekick
         private class LevelScriptableEditor : GenericScriptableEditor { };
         #endregion
 
-        private static LevelBackUp backUp;
+        //private static LevelBackUp backUp;
 
         public static LevelData CurrentLevel
         {
@@ -38,29 +40,6 @@ namespace LevelBuildingSidekick
             }
         }
 
-
-        
-
-        /*
-        private static void LoadBackup()
-        {
-
-            if (backUp == null)
-            {
-                backUp = Resources.Load("LBSBackUp") as LevelBackUp;
-                if (backUp == null)
-                {
-                    backUp = ScriptableObject.CreateInstance<LevelBackUp>();
-                    if(!Directory.Exists("Assets/LevelBuildingSidekick/Core/LBS Main/Level/Resources")) // esto podria ser peligroso (!)
-                    {
-                        Directory.CreateDirectory("Assets/LevelBuildingSidekick/Core/LBS Main/Level/Resources"); // esto podria ser peligroso (!)
-                    }
-                    AssetDatabase.CreateAsset(backUp, "Assets/LevelBuildingSidekick/Core/LBS Main/Level/Resources/LBSBackUp.asset"); // esto podria ser peligroso (!)
-                    AssetDatabase.SaveAssets();
-                }
-            }
-        }
-        */
 
         internal static void LoadFile()
         {
@@ -91,7 +70,7 @@ namespace LevelBuildingSidekick
             }
         }
 
-        private static bool FileExists(string name, string extension, out FileInfo toReturn)
+        public static bool FileExists(string name, string extension, out FileInfo toReturn)
         {
             var path = Application.dataPath;
             System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(path);
