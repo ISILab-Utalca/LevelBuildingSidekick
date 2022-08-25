@@ -1,10 +1,13 @@
 using LevelBuildingSidekick;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Utility;
 
 public abstract class LBSEditorWindow : EditorWindow
 {
@@ -35,7 +38,14 @@ public abstract class LBSEditorWindow : EditorWindow
         fileMenu.menu.AppendSeparator();
         fileMenu.menu.AppendAction("Close", (dma) => { this.Close(); }); 
         fileMenu.menu.AppendAction("Close All", (dma) => {
-            LBSController.GetSubClassTypes<LBSEditorWindow>().ForEach(t => EditorWindow.GetWindow(t).Close());
+            var types = Reflection.GetAllSubClassOf<LBSEditorWindow>().ToList();
+            types.ForEach((t) => {
+                MethodInfo method = typeof(EditorWindow).GetMethod(nameof(EditorWindow.HasOpenInstances)); // magia
+                MethodInfo generic = method.MakeGenericMethod(t);
+                if ((bool)generic?.Invoke(this, null))
+                    EditorWindow.GetWindow(t).Close();
+            });
+        
         });
 
         var search = new ToolbarPopupSearchField();
