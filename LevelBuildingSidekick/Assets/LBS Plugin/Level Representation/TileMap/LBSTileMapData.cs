@@ -157,6 +157,16 @@ namespace LBS.Representation.TileMap
         {
             return rooms[i];
         }
+
+        public override void Print()
+        {
+            var msg = "";
+            msg += "<b>Tile map. (step 1)</b>" + "\n";
+            msg += "Room amount: " + this.rooms.Count + "\n";
+            msg += "------------";
+            rooms.ForEach(r => msg += r.ID + ": " + r.tiles.Count + "\n");
+            Debug.Log(msg);
+        }
     }
 }
    
