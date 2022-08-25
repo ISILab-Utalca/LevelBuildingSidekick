@@ -39,24 +39,7 @@ namespace LevelBuildingSidekick
         }
 
 
-        public static List<Type> GetSubClassTypes<T>()
-        {
-            var result = new List<Type>();
-            Assembly[] assemblies = System.AppDomain.CurrentDomain.GetAssemblies();
-            Type editorWindowType = typeof(T);
-            foreach (var assembly in assemblies)
-            {
-                Type[] types = assembly.GetTypes();
-                foreach (var type in types)
-                {
-                    if (type.IsSubclassOf(editorWindowType))
-                    {
-                        result.Add(type);
-                    }
-                }
-            }
-            return result;
-        }
+        
 
         /*
         private static void LoadBackup()
@@ -81,15 +64,30 @@ namespace LevelBuildingSidekick
 
         internal static void LoadFile()
         {
-            var answer = EditorUtility.DisplayDialog(
+            var answer = EditorUtility.DisplayDialogComplex(
                    "The current file has not been saved",
                    "if you open a file the progress in the current document will be lost, are you sure to continue?",
-                   "continue",
+                   "save",
+                   "discard",
                    "cancel");
-            if (answer)
+            string path;
+            switch(answer)
             {
-                var path = EditorUtility.OpenFilePanel("Load level data", "", ".json");
-                CurrentLevel = Utility.JSONDataManager.LoadData<LevelData>(path);
+                case 1:
+                    SaveFile();
+                    path = EditorUtility.OpenFilePanel("Load level data", "", ".json");
+                    CurrentLevel = Utility.JSONDataManager.LoadData<LevelData>(path);
+                    break;
+                case 2:
+                    path = EditorUtility.OpenFilePanel("Load level data", "", ".json");
+                    CurrentLevel = Utility.JSONDataManager.LoadData<LevelData>(path);
+                    break;
+                case 3:
+                    // do nothing
+                    break;
+                default:
+                    // do nothing
+                    break;
             }
         }
 
