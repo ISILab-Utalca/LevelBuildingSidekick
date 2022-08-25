@@ -46,9 +46,14 @@ namespace LevelBuildingSidekick
             return levelObjects.Find((i) => i.category == category).items;
         }
 
-        public void AddRepresentation(LBSRepesentationData representation) 
+        public void AddRepresentation(LBSRepesentationData rep) 
         {
-            representations.Add(representation);
+            var x = representations.Find(r => r.GetType() == rep.GetType());
+            if(x != null)
+            {
+                representations.Remove(rep);
+            }
+            representations.Add(rep);
         }
 
         // En un futuro vamos a agrupar representaciones de nivel del mismo tipo, 
