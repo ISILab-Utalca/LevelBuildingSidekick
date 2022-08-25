@@ -9,21 +9,20 @@ namespace Utility
 {
     public static class Reflection
     {
-        public static IEnumerable<Type> FindDerivedTypes(Type baseType)
+        public static IEnumerable<Type> GetAllSubClassOf<T>()
         {
-            //var assembly = baseType.Assembly;
-            var assembly = Assembly.GetExecutingAssembly();
-            return assembly.GetTypes().Where(t => t.IsSubclassOf(baseType));
+            return GetAllSubClassOf(typeof(T));
         }
 
-        public static IEnumerable<Type> FindDerivedTypes(Assembly assembly, Type baseType)
+        public static IEnumerable<Type> GetAllSubClassOf(Type baseType)
         {
+            var assembly = Assembly.GetExecutingAssembly();
             return assembly.GetTypes().Where(t => t.IsSubclassOf(baseType));
         }
 
         public static void PrintDerivedTypes(Type baseType)
         {
-            var types = FindDerivedTypes(baseType).ToList();
+            var types = GetAllSubClassOf(baseType).ToList();
             var msg = "";
             types.ForEach(t => msg += t.Name + "\n");
             Debug.Log(msg);
