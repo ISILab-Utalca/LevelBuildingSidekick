@@ -21,6 +21,7 @@ namespace LBS.Transformers
             HashSet<LBSNodeData> closed = new HashSet<LBSNodeData>();
 
             var parent = graph.nodes.OrderByDescending((n) => graph.GetNeighbors(n).Count).First();
+            graph.nodes.ForEach(n => Debug.Log(n.label +": "+ graph.GetNeighbors(n).Count));
             open.Enqueue(parent);
 
             var tileMap = new LBSTileMapData();
