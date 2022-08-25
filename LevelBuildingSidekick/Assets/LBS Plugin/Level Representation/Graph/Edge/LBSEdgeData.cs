@@ -36,7 +36,7 @@ public class LBSEdgeData: Data
     {
         get
         {
-            if(secondNode != null)
+            if(secondNode != null) 
             {
                 secondNodeLabel = secondNode.label;
             }
@@ -44,7 +44,7 @@ public class LBSEdgeData: Data
         }
         set
         {
-            secondNodeLabel = value;
+            secondNodeLabel = value; // estas asignaciones con referencias intermedias pueden traer problemas (!!!)
         }
     }
 
