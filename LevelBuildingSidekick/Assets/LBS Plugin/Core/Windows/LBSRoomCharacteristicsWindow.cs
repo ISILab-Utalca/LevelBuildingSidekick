@@ -9,7 +9,7 @@ namespace LevelBuildingSidekick.Graph
 {
     public class LBSRoomCharacteristicsWindow : LBSEditorWindow
     {
-        public LBSGraphView graphView;
+        private LBSGraphView graphView;
 
         [MenuItem("LBS/Physic step.../Room characteristics graph")]
         [LBSWindow("Room Characteristics")]
@@ -29,17 +29,18 @@ namespace LevelBuildingSidekick.Graph
 
             graphView = root.Q<LBSGraphView>();
             var generateBtn = root.Q<Button>("GenerateBtn");
-            generateBtn.clicked += () =>
-            {
-                Debug.Log("[Generate Tile map]");
-                var g = LBSController.CurrentLevel.GetRepresentation<LBSGraphData>(); // lBSGraphData deberia llamarse RoomCharData
-                var tm = new GraphToTileMap().Transform(g);
-                //LBSController.CurrentLevel.InseertRepresentation();
-                LBSController.CurrentLevel.AddRepresentation(tm);
-                LBSController.SaveFile(); // esto es necesario?, supongo que si pero no se
-                g.Print();
-                tm.Print();
-            };
+            generateBtn.clicked += () => { GenerateSchema(); };
+        }
+
+        private void GenerateSchema()
+        {
+            Debug.Log("[Generate Tile map]");
+            var g = LBSController.CurrentLevel.GetRepresentation<LBSGraphData>(); // lBSGraphData deberia llamarse RoomCharData
+            var tm = new GraphToTileMap().Transform(g);
+            LBSController.CurrentLevel.AddRepresentation(tm);
+            LBSController.SaveFile(); // esto es necesario?, supongo que si pero no se
+            g.Print();
+            tm.Print();
         }
 
         private void OnGUI()
