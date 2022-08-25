@@ -10,7 +10,7 @@ using System.Text;
 
 namespace LevelBuildingSidekick
 {
-    public class LBSController /// change name "LBSController" to "LBS" or "LBSCore"
+    public class LBSController /// change name "LBSController" to "LBS" or "LBSCore" or "LBSMain"
     {
         #region InspectorDrawer
         private class LevelScriptable : GenericScriptable<LevelData> { };
@@ -24,13 +24,17 @@ namespace LevelBuildingSidekick
         {
             get
             {
-                LoadBackup();
-                return backUp.level;
+                var instance = LevelBackUp.Instance();
+                return instance.level;
+                //LoadBackup();
+                //return backUp.level;
             }
             set
             {
-                LoadBackup();
-                backUp.level = value;
+                var instance = LevelBackUp.Instance();
+                instance.level = value;
+                //LoadBackup();
+                //backUp.level = value;
             }
         }
 
@@ -54,8 +58,10 @@ namespace LevelBuildingSidekick
             return result;
         }
 
+        /*
         private static void LoadBackup()
         {
+
             if (backUp == null)
             {
                 backUp = Resources.Load("LBSBackUp") as LevelBackUp;
@@ -71,6 +77,7 @@ namespace LevelBuildingSidekick
                 }
             }
         }
+        */
 
         internal static void LoadFile()
         {

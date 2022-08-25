@@ -11,19 +11,23 @@ namespace LevelBuildingSidekick
     public class LevelData : Data
     {
         public string levelName;
-
         public List<string> tags;
-
         public List<ItemCategory> levelObjects;
 
-        public int x, y, z;
+        public int x, y, z;        
+
+        [SerializeReference]
+        public List<LBSRepesentationData> representations = new List<LBSRepesentationData>();
+
+        [JsonIgnore]
+        public override Type ControllerType => throw new NotImplementedException();
 
         [JsonIgnore]
         public Vector3 Size
         {
             get
             {
-                return new Vector3(x,y,z);
+                return new Vector3(x, y, z);
             }
             set
             {
@@ -32,12 +36,6 @@ namespace LevelBuildingSidekick
                 z = (int)value.z;
             }
         }
-
-        [SerializeReference]
-        public List<LBSRepesentationData> representations = new List<LBSRepesentationData>();
-
-        [JsonIgnore]
-        public override Type ControllerType => throw new NotImplementedException();
 
         public List<GameObject> RequestLevelObjects(string category)
         { 
