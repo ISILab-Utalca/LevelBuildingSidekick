@@ -16,10 +16,7 @@ public abstract class LBSEditorWindow : EditorWindow
 
     public abstract void OnCreateGUI();
 
-    void OnGUI()
-    {
-        
-    }
+
 
     public void CreateGUI()
     {
@@ -47,16 +44,7 @@ public abstract class LBSEditorWindow : EditorWindow
         fileMenu.menu.AppendAction("Help.../About", (dma) => { Debug.Log("[Implementar about]"); }); // ver si es necesaria (!)
         fileMenu.menu.AppendSeparator();
         fileMenu.menu.AppendAction("Close", (dma) => { this.Close(); });
-        fileMenu.menu.AppendAction("Close All", (dma) => {
-            var types = Reflection.GetAllSubClassOf<LBSEditorWindow>().ToList();
-            types.ForEach((t) => {
-                MethodInfo method = typeof(EditorWindow).GetMethod(nameof(EditorWindow.HasOpenInstances)); // magia
-                MethodInfo generic = method.MakeGenericMethod(t);
-                if ((bool)generic?.Invoke(this, null))
-                    EditorWindow.GetWindow(t).Close();
-            });
-
-        });
+        fileMenu.menu.AppendAction("Close All", (dma) => { this.CloseAll(); });
         toolBar.Add(fileMenu);
 
         // search object in current window
@@ -65,17 +53,37 @@ public abstract class LBSEditorWindow : EditorWindow
         toolBar.Add(search);
 
         // file name label
-        FileInfo fileInfo;
-        LBSController.FileExists(LBSController.CurrentLevel.levelName, ".json", out fileInfo);
-        var label = new Label("file: ''" + fileInfo.Name + "''*");
-        label.style.color = new Color(0.6f, 0.6f, 0.6f);
+        var label = new Label();
+        var fileInfo = LBSController.CurrentLevel.fileInfo;
+        if (fileInfo != null)
+        {
+            label.text = "file: ''" + fileInfo.Name + "''*";
+            label.style.color = new Color(0.6f, 0.6f, 0.6f);
+        }
+        else
+        {
+            label.text = "file: ''Unsaved''";
+            label.style.color = new Color(0.6f, 0.6f, 0.6f);
+        }
         toolBar.Add(label);
 
        
     }
 
+    private void CloseAll()
+    {
+        var types = Reflection.GetAllSubClassOf<LBSEditorWindow>().ToList();
+        types.ForEach((t) => {
+            MethodInfo method = typeof(EditorWindow).GetMethod(nameof(EditorWindow.HasOpenInstances)); // magia
+            MethodInfo generic = method.MakeGenericMethod(t);
+            if ((bool)generic?.Invoke(this, null))
+                EditorWindow.GetWindow(t).Close();
+        });
+    }
+
     private void OnDestroy()
     {
+        /*
         var answer = EditorUtility.DisplayDialog(
                    "The current file has not been saved",
                    "if you open a file the progress in the current document will be lost, are you sure to continue?",
@@ -84,6 +92,8 @@ public abstract class LBSEditorWindow : EditorWindow
 
         if (answer)
             LBSController.SaveFile();
+
+        */
     }
 
     protected void ImportUXML(string name)

@@ -67,7 +67,7 @@ namespace LevelBuildingSidekick.Graph
             }
         } // no se usa (!!!)
 
-        public LBSGraphController(LBSGraphView view) : base(LBSController.CurrentLevel.GetRepresentation<LBSGraphData>())
+        public LBSGraphController(LBSGraphView view) : base(LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>())
         {
             View = view;
         }

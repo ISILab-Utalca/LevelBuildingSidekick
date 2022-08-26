@@ -8,6 +8,7 @@ using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using System;
 using System.Reflection;
+using System.IO;
 
 namespace LevelBuildingSidekick
 {
@@ -32,6 +33,7 @@ namespace LevelBuildingSidekick
         #endregion
 
         #region LoadLevel
+        private List<FileInfo> jsonInfo = new List<FileInfo>();
         DropdownField loadLvlSelectionDropDown;
         Button openLoadLvlBtn;
         #endregion
@@ -49,7 +51,6 @@ namespace LevelBuildingSidekick
             var controller = new LBSController();
 
             methods = Utility.Reflection.CollectMetohdsByAttribute<LBSWindowAttribute>();
-            //methods.ForEach(m => Debug.Log(m.Item1.Name));
             presets = Utility.DirectoryTools.GetScriptablesByType<WindowsPreset>();
         }
 
@@ -108,8 +109,10 @@ namespace LevelBuildingSidekick
             loadLvlSelectionDropDown = rootVisualElement.Q<DropdownField>(name: "LoadLvlSelectionDD");
             openLoadLvlBtn = rootVisualElement.Q<Button>(name: "OpenLoadLvlBtn");
 
-            var jsonFiles = Utility.JSONDataManager.GetJSONFiles(Application.dataPath + "/LBSLevels"); //deberia traerlo de cualquier ruta en el proyecto o no?
-            loadLvlSelectionDropDown.choices = jsonFiles;
+            var path = Application.dataPath;
+            jsonInfo = Utility.DirectoryTools.GetAllFilesByExtension(".json",path); // esto encuentra todos los json, incluso lo que no son lvls (!!)
+            //jsonPaths = Utility.JSONDataManager.GetJSONFiles(Application.dataPath + "/LBSLevels"); //deberia traerlo de cualquier ruta en el proyecto o no?
+            loadLvlSelectionDropDown.choices = jsonInfo.Select(fi => fi.Name).ToList();
 
             openLoadLvlBtn.clicked += LoadLevel;
 
@@ -144,18 +147,18 @@ namespace LevelBuildingSidekick
 
         void OpenNewLevel()
         {
-            LBSController.CurrentLevel = LBSController.CreateLevel(newLvlNameField.value, Vector3.zero);
-
+            LBSController.CreateNewLevel(newLvlNameField.value, Vector3.zero);
             OpenPresetWindow();
             this.Close();
         }
 
         void LoadLevel()
         {
-            var selected = loadLvlSelectionDropDown.value;
+            var index = loadLvlSelectionDropDown.index;
+            var selected = jsonInfo[index];
             if (selected != null)
             {
-                LBSController.CurrentLevel = Utility.JSONDataManager.LoadData<LevelData>("LBSLevels", selected);
+                LBSController.LoadFile(selected.FullName);
                 OpenPresetWindow();
                 this.Close();
             }

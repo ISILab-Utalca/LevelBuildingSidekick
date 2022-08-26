@@ -13,6 +13,7 @@ namespace LevelBuildingSidekick
         [JsonIgnore]
         public List<GameObject> items; // cambiar a string (!!!)
         private List<string> itemNames;
+        [JsonIgnore]
         public List<string> UpdatedItemNames
         {
             get
@@ -56,7 +57,7 @@ namespace LevelBuildingSidekick
             items = new List<GameObject>();
         }
 
-        public ItemCategory() 
+        public ItemCategory()  //(?)
         {
             items = new List<GameObject>();
         }

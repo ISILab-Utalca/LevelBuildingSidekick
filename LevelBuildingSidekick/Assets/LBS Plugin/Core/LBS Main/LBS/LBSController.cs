@@ -22,46 +22,61 @@ namespace LevelBuildingSidekick
 
         //private static LevelBackUp backUp;
 
-        public static LevelData CurrentLevel
+        private static readonly string defaultName = "New file";
+
+        public static LoadedLevel CurrentLevel
         {
             get
             {
                 var instance = LevelBackUp.Instance();
-                return instance.level;
-                //LoadBackup();
-                //return backUp.level;
+                if(instance.level == null)
+                {
+                    instance.level =  new LoadedLevel(new LevelData(), null);
+                }
+
+                return (LoadedLevel)instance.level;
             }
             set
             {
                 var instance = LevelBackUp.Instance();
                 instance.level = value;
-                //LoadBackup();
-                //backUp.level = value;
             }
         }
 
+        internal static void LoadFile(string path)
+        {
+            var fileInfo = new System.IO.FileInfo(path);
+            var data = Utility.JSONDataManager.LoadData<LevelData>(path);
+            CurrentLevel = new LoadedLevel(data, fileInfo);
+        }
 
         internal static void LoadFile()
         {
             var answer = EditorUtility.DisplayDialogComplex(
                    "The current file has not been saved",
                    "if you open a file the progress in the current document will be lost, are you sure to continue?",
-                   "save",
-                   "discard",
-                   "cancel");
+                   "save", // ok
+                   "discard", // cancel
+                   "cancel"); // alt
             string path;
-            switch(answer)
+            FileInfo fileInfo;
+            LevelData data;
+            switch (answer)
             {
-                case 1:
+                case 0: // ok
                     SaveFile();
                     path = EditorUtility.OpenFilePanel("Load level data", "", ".json");
-                    CurrentLevel = Utility.JSONDataManager.LoadData<LevelData>(path);
+                    fileInfo = new System.IO.FileInfo(path);
+                    data = Utility.JSONDataManager.LoadData<LevelData>(path);
+                    CurrentLevel = new LoadedLevel(data,fileInfo);
                     break;
-                case 2:
+                case 1: // cancel
                     path = EditorUtility.OpenFilePanel("Load level data", "", ".json");
-                    CurrentLevel = Utility.JSONDataManager.LoadData<LevelData>(path);
+                    fileInfo = new System.IO.FileInfo(path);
+                    data = Utility.JSONDataManager.LoadData<LevelData>(path);
+                    CurrentLevel = new LoadedLevel(data, fileInfo);
                     break;
-                case 3:
+                case 2: // alt
                     // do nothing
                     break;
                 default:
@@ -84,51 +99,69 @@ namespace LevelBuildingSidekick
 
         internal static void SaveFile()
         {
-            if(CurrentLevel.levelName == "")
+            var fileInfo = CurrentLevel.fileInfo;
+            if (fileInfo == null)
                 SaveFileAs();
 
-            FileInfo fileInfo;
-            if (FileExists(CurrentLevel.levelName, ".json", out fileInfo))
-            {
-                Utility.JSONDataManager.SaveData(fileInfo.FullName, LBSController.CurrentLevel);
-            }
-            else
-            {
+            if (!fileInfo.Exists)
                 SaveFileAs();
-            }
+
+            Utility.JSONDataManager.SaveData(fileInfo.FullName, CurrentLevel.data);
+
+            //if(CurrentLevel.levelName == "")
+            //SaveFileAs();
+
+            //FileInfo fileInfo;
+            //if (FileExists(CurrentLevel.levelName, ".json", out fileInfo))
+            //{
+            //    Utility.JSONDataManager.SaveData(fileInfo.FullName, LBSController.CurrentLevel);
+            //}
+            //else
+            //{
+            //    SaveFileAs();
+            //}
 
         }
 
         internal static void SaveFileAs()
         {
-            var lvl = CurrentLevel;
+            var fileInfo = CurrentLevel.fileInfo;
+            var data = CurrentLevel.data;
 
-            var name = lvl.levelName;
-            var path = EditorUtility.SaveFilePanel("Save level data", "", name + ".json", "json");
+            var path = EditorUtility.SaveFilePanel(
+                    "Save level",
+                    (fileInfo.Exists) ? fileInfo.DirectoryName : Application.dataPath,
+                    (fileInfo.Exists) ? fileInfo.Name : defaultName + ".json",
+                    "json"); ;
 
             if (path != "")
             {
                 Debug.Log("Save file on: '" + path + "'.");
-                Utility.JSONDataManager.SaveData(path, LBSController.CurrentLevel);
+                Utility.JSONDataManager.SaveData(path, CurrentLevel.data);
             }
         }
 
-        public static LevelData CreateLevel(string levelName, Vector3 size)
+        public static LevelData CreateNewLevel(string levelName, Vector3 size)
         {
-            LevelData data = new LevelData();
-            data.levelName = levelName;
+            var data = new LevelData();
+            var loaded = new LoadedLevel(data, null);
             data.Size = size;
             data.representations.Add(new LBSGraphData());
+            CurrentLevel = loaded;
             return data;
         }
 
         public static void ShowLevelInspector()
         {
             var s = ScriptableObject.CreateInstance<LevelScriptable>();
-            s.data = CurrentLevel;
+            s.data = CurrentLevel.data;
             Selection.SetActiveObjectWithContext(s, s);
+
         }
+
     }
+
+    
 }
 
 

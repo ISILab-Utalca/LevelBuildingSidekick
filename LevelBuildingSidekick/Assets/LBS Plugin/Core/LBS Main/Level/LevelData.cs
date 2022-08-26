@@ -10,13 +10,13 @@ namespace LevelBuildingSidekick
     //[CreateAssetMenu(menuName = "LevelBuildingSidekick/Data/Level Data")]
     public class LevelData : Data
     {
-        public string levelName;
+        // public string levelName;
         public List<string> tags;
         public List<ItemCategory> levelObjects;
 
         public int x, y, z;        
 
-        [SerializeReference]
+        //[SerializeReference]
         public List<LBSRepesentationData> representations = new List<LBSRepesentationData>();
 
         [JsonIgnore]
@@ -48,10 +48,10 @@ namespace LevelBuildingSidekick
 
         public void AddRepresentation(LBSRepesentationData rep) 
         {
-            var x = representations.Find(r => r.GetType() == rep.GetType());
-            if(x != null)
+            var currentRep = representations.Find(r => r.GetType() == rep.GetType());
+            if(currentRep != null)
             {
-                representations.Remove(rep);
+                representations.Remove(currentRep);
             }
             representations.Add(rep);
         }

@@ -39,7 +39,7 @@ public class LBSTileMapWindow : LBSEditorWindow
     private void ActualizeView()
     {
         view.ClearView();
-        var tileMap = LBSController.CurrentLevel.GetRepresentation<LBSTileMapData>();
+        var tileMap = LBSController.CurrentLevel.data.GetRepresentation<LBSTileMapData>();
         tileMap.Print();
         if (tileMap != null)
         {

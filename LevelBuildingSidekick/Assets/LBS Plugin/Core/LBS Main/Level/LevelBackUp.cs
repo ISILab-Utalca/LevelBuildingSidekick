@@ -10,8 +10,10 @@ namespace LevelBuildingSidekick
     {
         private static readonly string defaultPath = "Assets/LevelBuildingSidekick/Core/LBS Main/Level/Resources"; // esto podria ser peligroso (!)
         private static readonly string defaultName = "/LBSBackUp.asset";
+
         private static LevelBackUp instance;
-        public LevelData level; // current
+
+        public LoadedLevel? level; // current
 
         public static LevelBackUp Instance() // Singleton
         {
@@ -36,6 +38,18 @@ namespace LevelBuildingSidekick
             AssetDatabase.SaveAssets();
             instance = backUp;
             return instance;
+        }
+    }
+
+    public struct LoadedLevel
+    {
+        public FileInfo fileInfo;
+        public LevelData data;
+
+        public LoadedLevel(LevelData data, FileInfo fileInfo)
+        {
+            this.fileInfo = fileInfo;
+            this.data = data;
         }
     }
 

@@ -17,9 +17,8 @@ namespace LevelBuildingSidekick.Graph
         {
             var wnd = GetWindow<LBSRoomCharacteristicsWindow>();
             wnd.titleContent = new GUIContent("Room characteristics window");
-           
-            //Debug.Log(wnd); // son vitales...
-            //wnd.position = wnd.position; // VITALES!!!!
+            Debug.Log(wnd); // son vitales...
+            wnd.position = wnd.position; // VITALES!!!!
         }
 
         public override void OnCreateGUI()
@@ -29,9 +28,10 @@ namespace LevelBuildingSidekick.Graph
 
             graphView = root.Q<LBSGraphView>();
             var generateBtn = root.Q<Button>("GenerateBtn");
-            generateBtn.clicked += () => { GenerateSchema(); };
+            generateBtn.clicked += () => { /*GenerateSchema();*/ };
         }
 
+        /*
         private void GenerateSchema()
         {
             Debug.Log("[Generate Tile map]");
@@ -42,6 +42,7 @@ namespace LevelBuildingSidekick.Graph
             g.Print();
             tm.Print();
         }
+        */
 
         private void OnGUI()
         {

@@ -11,7 +11,7 @@ namespace LBS.Representation.TileMap
 {
     public class TileMapController : Controller
     {
-        public TileMapController() : base(LBSController.CurrentLevel.GetRepresentation<LBSTileMapData>())
+        public TileMapController() : base(LBSController.CurrentLevel.data.GetRepresentation<LBSTileMapData>())
         {
         }
 
@@ -22,7 +22,7 @@ namespace LBS.Representation.TileMap
 
         public void Optimize()
         {
-            var graphData = LBSController.CurrentLevel.GetRepresentation<LBSGraphData>();
+            var graphData = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
             var schemaData = Data as LBSTileMapData;
             var optimized = Utility.HillClimbing.Run(schemaData, graphData,
                             () => { return Utility.HillClimbing.NonSignificantEpochs >= 100; },
