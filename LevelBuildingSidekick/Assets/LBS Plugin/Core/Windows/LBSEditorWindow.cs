@@ -16,8 +16,6 @@ public abstract class LBSEditorWindow : EditorWindow
 
     public abstract void OnCreateGUI();
 
-
-
     public void CreateGUI()
     {
         // Each editor window contains a root VisualElement object
@@ -54,7 +52,7 @@ public abstract class LBSEditorWindow : EditorWindow
 
         // file name label
         var label = new Label();
-        var fileInfo = LBSController.CurrentLevel.fileInfo;
+        var fileInfo = LBSController.CurrentLevel.FileInfo;
         if (fileInfo != null)
         {
             label.text = "file: ''" + fileInfo.Name + "''*";

@@ -25,6 +25,7 @@ public class LBSEdgeView : GraphElement
         capabilities |= Capabilities.Selectable | Capabilities.Deletable;
 
         UpdateDots();
+        /*
         nv1.OnMoving += ()=>
         {
             UpdateDots();
@@ -36,12 +37,14 @@ public class LBSEdgeView : GraphElement
             UpdateDots();
             nv2.BringToFront();
         };
+        */
 
     }
 
 
     public void UpdateDots()
     {
+        /*
         var pos1 = this.nv1.GetPosition().center;
         var pos2 = this.nv2.GetPosition().center;
 
@@ -60,6 +63,7 @@ public class LBSEdgeView : GraphElement
             root.AddElement(dot);
 
         } 
+        */
     }
 
 }

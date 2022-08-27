@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 859ab218a1803d741919e486713522a7, type: 3}
   m_Name: Juego2
   m_EditorClassIdentifier: 
+  thumnail: {fileID: 0}
   windows:
   - Room Characteristics
-  - Tile map
-  - Population Window

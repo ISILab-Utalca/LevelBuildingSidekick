@@ -12,3 +12,292 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2c5380ca5f26894e843e1e81d0e1a4d, type: 3}
   m_Name: LBSBackUp
   m_EditorClassIdentifier: 
+  level:
+    fullName: C:\Users\Nicolas\Documents\GitHub\level-building-sidekick\LevelBuildingSidekick\Assets\LBSLevels\Test.json
+    data:
+      tags: []
+      levelObjects:
+      - category: Walls
+        items: []
+      x: 0
+      y: 0
+      z: 0
+      representations:
+      - rid: 4094366403902308462
+  references:
+    version: 2
+    RefIds:
+    - rid: 4094366403902308462
+      type: {class: LBSGraphData, ns: LevelBuildingSidekick.Graph, asm: Assembly-CSharp}
+      data:
+        nodes:
+        - x: 228
+          y: 72
+          label: 'Node: 0'
+          radius: 32
+          room:
+            minWidth: 1
+            maxWidth: 1
+            minHeight: 1
+            maxHeight: 1
+            xAspectRatio: 8
+            yAspectRatio: 2
+            proportionType: 0
+            neighbors:
+            - -103931473
+            - -560259765
+            prefabs:
+            - category: Walls
+              items: []
+            prefabCategories:
+            - Walls
+            - Floors
+            - Doors
+        - x: 227
+          y: 188
+          label: Center
+          radius: 32
+          room:
+            minWidth: 4
+            maxWidth: 4
+            minHeight: 4
+            maxHeight: 4
+            xAspectRatio: 4
+            yAspectRatio: 4
+            proportionType: 1
+            neighbors:
+            - -103931472
+            - -103931471
+            - -103931470
+            - -103931476
+            prefabs:
+            - category: Walls
+              items: []
+            prefabCategories:
+            - Walls
+            - Floors
+            - Doors
+        - x: 86
+          y: 188
+          label: 'Node: 2'
+          radius: 32
+          room:
+            minWidth: 1
+            maxWidth: 1
+            minHeight: 1
+            maxHeight: 1
+            xAspectRatio: 2
+            yAspectRatio: 4
+            proportionType: 0
+            neighbors:
+            - -103931473
+            - -560259765
+            prefabs:
+            - category: Walls
+              items: []
+            prefabCategories:
+            - Walls
+            - Floors
+            - Doors
+        - x: 361
+          y: 187
+          label: 'Node: 3'
+          radius: 32
+          room:
+            minWidth: 1
+            maxWidth: 1
+            minHeight: 1
+            maxHeight: 1
+            xAspectRatio: 2
+            yAspectRatio: 4
+            proportionType: 0
+            neighbors:
+            - -103931473
+            - -560259765
+            prefabs:
+            - category: Walls
+              items: []
+            prefabCategories:
+            - Walls
+            - Floors
+            - Doors
+        - x: 225
+          y: 309
+          label: 'Node: 4'
+          radius: 32
+          room:
+            minWidth: 1
+            maxWidth: 1
+            minHeight: 1
+            maxHeight: 1
+            xAspectRatio: 6
+            yAspectRatio: 2
+            proportionType: 0
+            neighbors:
+            - -103931473
+            - -560259765
+            prefabs:
+            - category: Walls
+              items: []
+            prefabCategories:
+            - Walls
+            - Floors
+            - Doors
+        edges:
+        - firstNode:
+            x: 0
+            y: 0
+            label: 
+            radius: 0
+            room:
+              minWidth: 1
+              maxWidth: 1
+              minHeight: 1
+              maxHeight: 1
+              xAspectRatio: 1
+              yAspectRatio: 1
+              proportionType: 0
+              neighbors: []
+              prefabs: []
+              prefabCategories:
+              - Walls
+              - Floors
+              - Doors
+          secondNode:
+            x: 0
+            y: 0
+            label: 
+            radius: 0
+            room:
+              minWidth: 1
+              maxWidth: 1
+              minHeight: 1
+              maxHeight: 1
+              xAspectRatio: 1
+              yAspectRatio: 1
+              proportionType: 0
+              neighbors: []
+              prefabs: []
+              prefabCategories:
+              - Walls
+              - Floors
+              - Doors
+          thikness: 5
+        - firstNode:
+            x: 0
+            y: 0
+            label: 
+            radius: 0
+            room:
+              minWidth: 1
+              maxWidth: 1
+              minHeight: 1
+              maxHeight: 1
+              xAspectRatio: 1
+              yAspectRatio: 1
+              proportionType: 0
+              neighbors: []
+              prefabs: []
+              prefabCategories:
+              - Walls
+              - Floors
+              - Doors
+          secondNode:
+            x: 0
+            y: 0
+            label: 
+            radius: 0
+            room:
+              minWidth: 1
+              maxWidth: 1
+              minHeight: 1
+              maxHeight: 1
+              xAspectRatio: 1
+              yAspectRatio: 1
+              proportionType: 0
+              neighbors: []
+              prefabs: []
+              prefabCategories:
+              - Walls
+              - Floors
+              - Doors
+          thikness: 5
+        - firstNode:
+            x: 0
+            y: 0
+            label: 
+            radius: 0
+            room:
+              minWidth: 1
+              maxWidth: 1
+              minHeight: 1
+              maxHeight: 1
+              xAspectRatio: 1
+              yAspectRatio: 1
+              proportionType: 0
+              neighbors: []
+              prefabs: []
+              prefabCategories:
+              - Walls
+              - Floors
+              - Doors
+          secondNode:
+            x: 0
+            y: 0
+            label: 
+            radius: 0
+            room:
+              minWidth: 1
+              maxWidth: 1
+              minHeight: 1
+              maxHeight: 1
+              xAspectRatio: 1
+              yAspectRatio: 1
+              proportionType: 0
+              neighbors: []
+              prefabs: []
+              prefabCategories:
+              - Walls
+              - Floors
+              - Doors
+          thikness: 5
+        - firstNode:
+            x: 0
+            y: 0
+            label: 
+            radius: 0
+            room:
+              minWidth: 1
+              maxWidth: 1
+              minHeight: 1
+              maxHeight: 1
+              xAspectRatio: 1
+              yAspectRatio: 1
+              proportionType: 0
+              neighbors: []
+              prefabs: []
+              prefabCategories:
+              - Walls
+              - Floors
+              - Doors
+          secondNode:
+            x: 0
+            y: 0
+            label: 
+            radius: 0
+            room:
+              minWidth: 1
+              maxWidth: 1
+              minHeight: 1
+              maxHeight: 1
+              xAspectRatio: 1
+              yAspectRatio: 1
+              proportionType: 0
+              neighbors: []
+              prefabs: []
+              prefabCategories:
+              - Walls
+              - Floors
+              - Doors
+          thikness: 5
+        cellSize: 64

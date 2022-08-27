@@ -132,6 +132,15 @@ namespace LevelBuildingSidekick.Graph
             {
                 Utility.JSONDataManager.SaveData("LBSLevels", "test1", LBSController.CurrentLevel);
             });
+
+            evt.menu.AppendAction("Debug/print info",(a) => {
+                var rep = LBSController.CurrentLevel.data.representations;
+                if (rep.Count > 0)
+                    rep[0].Print();
+                else
+                    Debug.Log("AA");
+
+            });
         }
 
         protected override void ExecuteDefaultAction(EventBase evt)
@@ -152,9 +161,14 @@ namespace LevelBuildingSidekick.Graph
 
         public void AddEdgeView(LBSNodeView nv1, LBSNodeView nv2)
         {
+            if (nv1 == null || nv2 == null)
+                return;
+
             var view = new LBSEdgeView(nv1, nv2, this);
             var l1 = nv1.Data.label;
             var l2 = nv2.Data.label;
+
+             
 
             if (l1 == l2) // si son el mismo nodo no hago nada
                 return;

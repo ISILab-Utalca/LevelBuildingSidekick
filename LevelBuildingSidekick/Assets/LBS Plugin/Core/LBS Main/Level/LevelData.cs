@@ -16,7 +16,7 @@ namespace LevelBuildingSidekick
 
         public int x, y, z;        
 
-        //[SerializeReference]
+        [SerializeReference()]
         public List<LBSRepesentationData> representations = new List<LBSRepesentationData>();
 
         [JsonIgnore]
@@ -44,6 +44,7 @@ namespace LevelBuildingSidekick
                 levelObjects.Add(new ItemCategory(category));
             }
             return levelObjects.Find((i) => i.category == category).items;
+
         }
 
         public void AddRepresentation(LBSRepesentationData rep) 

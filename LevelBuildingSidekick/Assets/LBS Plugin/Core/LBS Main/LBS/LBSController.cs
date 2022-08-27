@@ -29,12 +29,17 @@ namespace LevelBuildingSidekick
             get
             {
                 var instance = LevelBackUp.Instance();
-                if(instance.level == null)
+                //Debug.Log("A: "+ instance.level.data);
+                //var reps = instance.level.data.representations;
+                //if (reps.Count > 0) reps[0].Print(); else Debug.Log("EE");
+                //Debug.Log("B: " + instance.level.fullName);
+                if (instance.level == null)
                 {
-                    instance.level =  new LoadedLevel(new LevelData(), null);
+                    instance.level =  new LoadedLevel(new LevelData(), "");
                 }
 
-                return (LoadedLevel)instance.level;
+                return instance.level;
+
             }
             set
             {
@@ -47,7 +52,7 @@ namespace LevelBuildingSidekick
         {
             var fileInfo = new System.IO.FileInfo(path);
             var data = Utility.JSONDataManager.LoadData<LevelData>(path);
-            CurrentLevel = new LoadedLevel(data, fileInfo);
+            CurrentLevel = new LoadedLevel(data, fileInfo.FullName);
         }
 
         internal static void LoadFile()
@@ -68,13 +73,13 @@ namespace LevelBuildingSidekick
                     path = EditorUtility.OpenFilePanel("Load level data", "", ".json");
                     fileInfo = new System.IO.FileInfo(path);
                     data = Utility.JSONDataManager.LoadData<LevelData>(path);
-                    CurrentLevel = new LoadedLevel(data,fileInfo);
+                    CurrentLevel = new LoadedLevel(data,fileInfo.FullName);
                     break;
                 case 1: // cancel
                     path = EditorUtility.OpenFilePanel("Load level data", "", ".json");
                     fileInfo = new System.IO.FileInfo(path);
                     data = Utility.JSONDataManager.LoadData<LevelData>(path);
-                    CurrentLevel = new LoadedLevel(data, fileInfo);
+                    CurrentLevel = new LoadedLevel(data, fileInfo.FullName);
                     break;
                 case 2: // alt
                     // do nothing
@@ -99,7 +104,7 @@ namespace LevelBuildingSidekick
 
         internal static void SaveFile()
         {
-            var fileInfo = CurrentLevel.fileInfo;
+            var fileInfo = CurrentLevel.FileInfo;
             if (fileInfo == null)
                 SaveFileAs();
 
@@ -125,7 +130,7 @@ namespace LevelBuildingSidekick
 
         internal static void SaveFileAs()
         {
-            var fileInfo = CurrentLevel.fileInfo;
+            var fileInfo = CurrentLevel.FileInfo;
             var data = CurrentLevel.data;
 
             var path = EditorUtility.SaveFilePanel(
