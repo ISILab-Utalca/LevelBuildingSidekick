@@ -147,6 +147,7 @@ namespace LevelBuildingSidekick
 
         void OpenNewLevel()
         {
+            Debug.Log("open btn"); // quitar
             LBSController.CreateNewLevel(newLvlNameField.value, Vector3.zero);
             OpenPresetWindow();
             this.Close();
@@ -154,6 +155,7 @@ namespace LevelBuildingSidekick
 
         void LoadLevel()
         {
+            Debug.Log("Load btn"); // quitar
             var index = loadLvlSelectionDropDown.index;
             var selected = jsonInfo[index];
             if (selected != null)

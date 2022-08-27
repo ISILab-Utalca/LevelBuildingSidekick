@@ -11,39 +11,54 @@ using UnityEditor;
 namespace LevelBuildingSidekick.Graph
 {
     [System.Serializable]
-    //[CreateAssetMenu(menuName = ("LevelBuildingSidekick/Level Represetation/Graph Representation/Node"))]
     public class LBSNodeData : Data
     {
-        [HideInInspector]
-        public int x;
-        [HideInInspector]
-        public int y;
-        public string label = "";
-        public int radius;
+        [HideInInspector, JsonRequired]
+        private int x, y;
+        [JsonRequired]
+        private string label = ""; // ID
+        public int radius; // esto deberia ir aqui (??)
+
+        [JsonIgnore]
+        public Action<LBSNodeData> OnChange; //!
+
         public RoomCharacteristics room;
 
-        [JsonIgnore] 
-        public Texture2D sprite { get => Resources.Load("Textures/Circle") as Texture2D; } // -> static?
+        public string Label
+        {
+            get => label;
+            set { 
+                label = value;
+                OnChange?.Invoke(this);
+            }
+        }
+
+
+
+        
+
+        //[JsonIgnore] 
+        //public Texture2D sprite { get => Resources.Load("Textures/Circle") as Texture2D; } // -> static?
 
         [JsonIgnore]
         public override Type ControllerType => typeof(LBSNodeController);
 
-        [JsonIgnore]
-        public Rect Rect
-        {
-            get
-            {
-                return new Rect(new Vector2(x - radius, y - radius), Vector2.one * radius * 2);
-            }
-        }
+        //[JsonIgnore]
+        //public Rect Rect
+        //{
+        //    get
+        //    {
+        //        return new Rect(new Vector2(x - radius, y - radius), Vector2.one * radius * 2);
+        //    }
+        //}
 
         [JsonIgnore]
-        public Func<string, bool> Exist { get; internal set; }
+        public Func<string, bool> Exist { get; internal set; } //?
 
-        public LBSNodeData()
-        {
-
-        }
+        /// <summary>
+        /// Empty constructor, necessary for serialization with json.
+        /// </summary>
+        public LBSNodeData() { }
 
         public LBSNodeData(string label, Vector2 position, int radius)
         {
@@ -53,6 +68,7 @@ namespace LevelBuildingSidekick.Graph
             this.radius = radius;
         }
 
+        [JsonIgnore]
         public Vector2Int Centroid
         {
             get
@@ -61,6 +77,7 @@ namespace LevelBuildingSidekick.Graph
             }
         }
 
+        [JsonIgnore]
         public Vector2Int Position
         {
             get
@@ -73,6 +90,8 @@ namespace LevelBuildingSidekick.Graph
                 y = value.y;
             }
         }
+
+        [JsonIgnore]
         public int Radius
         {
             get

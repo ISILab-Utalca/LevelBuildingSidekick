@@ -44,16 +44,14 @@ namespace LevelBuildingSidekick.Graph
                 {
                     return Vector2Int.zero;
                 }
-                var d = (Data as LBSNodeData);
-                return new Vector2Int(d.x,d.y);
-                //return (Data as NodeData).position;
+                var node = (Data as LBSNodeData);
+                return node.Position;
             }
             set
             {
                 if (value.x < 0) value.x = 0;
                 if (value.y < 0) value.y = 0;
-                (Data as LBSNodeData).x = value.x;
-                (Data as LBSNodeData).y = value.y;
+                (Data as LBSNodeData).Position = value;
             }
         }
         public int Radius
@@ -86,7 +84,7 @@ namespace LevelBuildingSidekick.Graph
                 {
                     return null;
                 }
-                return (Data as LBSNodeData).sprite;
+                return null;//(Data as LBSNodeData).sprite;
             }
         } 
 
@@ -117,14 +115,14 @@ namespace LevelBuildingSidekick.Graph
         {
             get
             {
-                return (Data as LBSNodeData).label;
+                return (Data as LBSNodeData).Label;
             }
             set
             {  
                 if(Exist?.Invoke(value) == true)
                 {
                     //Debug.Log("Does not exist");
-                    (Data as LBSNodeData).label = value;
+                    (Data as LBSNodeData).Label = value;
 
                 }
             }

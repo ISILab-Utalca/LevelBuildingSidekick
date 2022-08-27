@@ -23,7 +23,7 @@ public class LBSEdgeData: Data
         {
             if (firstNode != null)
             {
-                firstNodeLabel = firstNode.label;
+                firstNodeLabel = firstNode.Label;
             }
             return firstNodeLabel;
         }
@@ -38,7 +38,7 @@ public class LBSEdgeData: Data
         {
             if(secondNode != null) 
             {
-                secondNodeLabel = secondNode.label;
+                secondNodeLabel = secondNode.Label;
             }
             return secondNodeLabel;
         }
@@ -54,13 +54,17 @@ public class LBSEdgeData: Data
     [JsonIgnore]
     public float thikness = 5; // -> static (??)
 
-
+    /// <summary>
+    /// Empty constructor, necessary for serialization with json.
+    /// </summary>
     public LBSEdgeData() { }
 
-    public LBSEdgeData(LBSNodeData firstNode, LBSNodeData secondNode)
+    public LBSEdgeData(LBSNodeData n1, LBSNodeData n2)
     {
-        this.firstNode = firstNode;
-        this.secondNode = secondNode;
+        this.firstNode = n1;
+        this.firstNodeLabel = n1.Label;
+        this.secondNode = n2;
+        this.secondNodeLabel = n2.Label;
     }
 
 

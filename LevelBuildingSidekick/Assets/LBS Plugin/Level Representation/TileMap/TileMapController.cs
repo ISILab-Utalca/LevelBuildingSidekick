@@ -31,15 +31,24 @@ namespace LBS.Representation.TileMap
             Debug.Log(optimized);
         }
 
-        private float EvaluateAdjacencies(LBSGraphData graphData, LBSTileMapData schema) // esto podria recivir una funcion de calculo de distancia (?)
+        private float EvaluateAdjacencies(LBSGraphData graphData, LBSTileMapData schema) 
         {
-            var distValue = 0f;
-            foreach (var edge in graphData.edges)
+           
+            if (graphData.EdgeCount() <= 0)
             {
-                var r1 = schema.GetRoomByID(edge.firstNode.label);
-                var r2 = schema.GetRoomByID(edge.secondNode.label);
+                Debug.LogWarning("Cannot calculate the adjacency of a map are nodes that are not connected.");
+                return 0;
+            }
 
-                var roomDist = GetRoomDistance(r1, r2);
+            var distValue = 0f;
+            for (int i = 0; i < graphData.EdgeCount(); i++)
+            {
+                var edge = graphData.GetEdge(i);
+           
+                var r1 = schema.GetRoomByID(edge.FirstNodeLabel);
+                var r2 = schema.GetRoomByID(edge.SecondNodeLabel);
+
+                var roomDist = GetRoomDistance(r1, r2);  // este metodo podria recivir una funcion de calculo de distancia en ved de estar fija (?)
                 if (roomDist <= 1)
                 {
                     distValue++;
@@ -53,16 +62,16 @@ namespace LBS.Representation.TileMap
                 }
             }
 
-            return distValue / (float)graphData.edges.Count;
+            return distValue / (float)graphData.EdgeCount();
         }
 
         private float EvaluateAreas(LBSGraphData graphData, LBSTileMapData tileMap)
         {
             var value = 0f;
-            for (int i = 0; i < graphData.nodes.Count; i++)
+            for (int i = 0; i < graphData.NodeCount(); i++)
             {
-                var node = graphData.nodes[i];
-                var room = tileMap.GetRoomByID(node.label);
+                var node = graphData.GetNode(i);
+                var room = tileMap.GetRoomByID(node.Label);
                 switch (node.room.proportionType)
                 {
                     case ProportionType.RATIO:

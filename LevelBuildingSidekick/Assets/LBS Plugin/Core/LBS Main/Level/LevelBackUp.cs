@@ -56,7 +56,21 @@ namespace LevelBuildingSidekick
         public string fullName = "";
         public LevelData data;
 
-        public FileInfo FileInfo => new FileInfo(fullName);
+        public FileInfo FileInfo
+        {
+            get
+            {
+                try
+                {
+                    var fi = new FileInfo(fullName);
+                    return fi;
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+        }
 
         public LoadedLevel(LevelData data, string fullName)
         {

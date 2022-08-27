@@ -7,17 +7,20 @@ using UnityEngine;
 namespace LevelBuildingSidekick
 {
     [System.Serializable]
-    //[CreateAssetMenu(menuName = "LevelBuildingSidekick/Data/Level Data")]
     public class LevelData : Data
     {
         // public string levelName;
-        public List<string> tags;
-        public List<ItemCategory> levelObjects;
+        [SerializeField, JsonRequired]
+        private List<string> tags;
 
-        public int x, y, z;        
+        [SerializeField, JsonRequired, SerializeReference]
+        private List<ItemCategory> levelObjects;
 
-        [SerializeReference()]
-        public List<LBSRepesentationData> representations = new List<LBSRepesentationData>();
+        [SerializeField, JsonRequired]
+        private int x, y, z;        
+
+        [SerializeField, JsonRequired, SerializeReference]
+        private List<LBSRepesentationData> representations = new List<LBSRepesentationData>();
 
         [JsonIgnore]
         public override Type ControllerType => throw new NotImplementedException();
@@ -25,10 +28,7 @@ namespace LevelBuildingSidekick
         [JsonIgnore]
         public Vector3 Size
         {
-            get
-            {
-                return new Vector3(x, y, z);
-            }
+            get => new Vector3(x, y, z);
             set
             {
                 x = (int)value.x;
@@ -37,6 +37,7 @@ namespace LevelBuildingSidekick
             }
         }
 
+        [Obsolete("Esta funcion no se esta ocupanbdo actualemente pero se puede volver a usar a futuro")]
         public List<GameObject> RequestLevelObjects(string category)
         { 
             if(levelObjects.Find((i) => i.category == category) == null)
@@ -47,8 +48,15 @@ namespace LevelBuildingSidekick
 
         }
 
+
+        /// <summary>
+        /// Add a new representation, if a representation of
+        /// the type delivered already exists, it overwrites it.
+        /// </summary>
+        /// <param name="rep"></param>
         public void AddRepresentation(LBSRepesentationData rep) 
         {
+            // puede que necesitemos  guardar reps del mismo tipo por lo que hay que revisar esta funcion denuevi (!!)
             var currentRep = representations.Find(r => r.GetType() == rep.GetType());
             if(currentRep != null)
             {
@@ -57,23 +65,23 @@ namespace LevelBuildingSidekick
             representations.Add(rep);
         }
 
-        // En un futuro vamos a agrupar representaciones de nivel del mismo tipo, 
-        //en ese caso debería haber un getRepresentation group o algo similar que 
-        //devuelva el grupo completo de representaciones de tipo T
+        /// <summary>
+        /// gets a level representation of the type indicated,
+        /// if representation of the type is not found, creates it and return.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public T GetRepresentation<T>() where T : LBSRepesentationData
         {
-            foreach(var r in representations)
-            {
-                if(r is T)
-                {
-                    return r as T;
-                }
-            }
+            var rep = (T)representations.Find(r => (r is T));
 
-            T representation = Activator.CreateInstance(typeof(T)) as T;
-            representations.Add(representation);
+            if(rep != null)
+                return rep;
 
-            return representation;
+            rep = Activator.CreateInstance(typeof(T)) as T;
+            representations.Add(rep);
+
+            return rep;
         }
     }
 }

@@ -1,0 +1,87 @@
+{
+  "tags": [],
+  "levelObjects": [],
+  "x": 0,
+  "y": 0,
+  "z": 0,
+  "representations": [
+    {
+      "$type": "LevelBuildingSidekick.Graph.LBSGraphData, Assembly-CSharp",
+      "nodes": [
+        {
+          "x": 142,
+          "y": 75,
+          "label": "Node: 0",
+          "radius": 32,
+          "room": {
+            "minWidth": 1,
+            "maxWidth": 1,
+            "minHeight": 1,
+            "maxHeight": 1,
+            "xAspectRatio": 1,
+            "yAspectRatio": 1,
+            "proportionType": 0,
+            "neighbors": [],
+            "prefabs": [],
+            "prefabCategories": [
+              "Walls",
+              "Floors",
+              "Doors"
+            ],
+            "tags": null
+          },
+          "Label": "Node: 0"
+        },
+        {
+          "x": 348,
+          "y": 178,
+          "label": "Node: 1",
+          "radius": 32,
+          "room": {
+            "minWidth": 1,
+            "maxWidth": 1,
+            "minHeight": 1,
+            "maxHeight": 1,
+            "xAspectRatio": 1,
+            "yAspectRatio": 1,
+            "proportionType": 0,
+            "neighbors": [],
+            "prefabs": [],
+            "prefabCategories": [
+              "Walls",
+              "Floors",
+              "Doors"
+            ],
+            "tags": null
+          },
+          "Label": "Node: 1"
+        },
+        {
+          "x": 293,
+          "y": 43,
+          "label": "Node: 2",
+          "radius": 32,
+          "room": {
+            "minWidth": 1,
+            "maxWidth": 1,
+            "minHeight": 1,
+            "maxHeight": 1,
+            "xAspectRatio": 1,
+            "yAspectRatio": 1,
+            "proportionType": 0,
+            "neighbors": [],
+            "prefabs": [],
+            "prefabCategories": [
+              "Walls",
+              "Floors",
+              "Doors"
+            ],
+            "tags": null
+          },
+          "Label": "Node: 2"
+        }
+      ],
+      "edges": []
+    }
+  ]
+}

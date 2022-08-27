@@ -37,7 +37,7 @@ namespace LevelBuildingSidekick.Graph
 
             Box b = new Box();
             b.style.minHeight = b.style.minWidth = b.style.maxHeight = b.style.maxWidth = 2 * Data.Radius;
-            b.Add(new Label(node.label));
+            b.Add(new Label(node.Label));
             
             Add(b);
 

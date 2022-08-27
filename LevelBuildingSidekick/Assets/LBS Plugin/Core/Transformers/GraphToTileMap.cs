@@ -11,7 +11,7 @@ namespace LBS.Transformers
     {
         public override LBSTileMapData Transform(LBSGraphData graph)
         {
-            if (graph.nodes.Count <= 0)
+            if (graph.NodeCount() <= 0)
             {
                 Debug.LogWarning("[Error]: Graph node have 0 nodes.");
                 return null;
@@ -20,14 +20,14 @@ namespace LBS.Transformers
             Queue<LBSNodeData> open = new Queue<LBSNodeData>();
             HashSet<LBSNodeData> closed = new HashSet<LBSNodeData>();
 
-            var parent = graph.nodes.OrderByDescending((n) => graph.GetNeighbors(n).Count).First();
-            graph.nodes.ForEach(n => Debug.Log(n.label +": "+ graph.GetNeighbors(n).Count));
+            var parent = graph.GetNodes().OrderByDescending((n) => graph.GetNeighbors(n).Count).First();
+            //graph.nodes.ForEach(n => Debug.Log(n.label +": "+ graph.GetNeighbors(n).Count));
             open.Enqueue(parent);
 
             var tileMap = new LBSTileMapData();
             int h = (int)((parent.room.maxHeight + parent.room.minHeight) / 2f);
             int w = (int)((parent.room.maxWidth + parent.room.minWidth) / 2f);
-            tileMap.AddRoom(Vector2Int.zero, h, w, parent.label);
+            tileMap.AddRoom(Vector2Int.zero, h, w, parent.Label);
 
             while (open.Count > 0)
             {
@@ -51,7 +51,7 @@ namespace LBS.Transformers
                     var dir = ((Vector2)(child.Centroid - parent.Centroid)).normalized;
                     var posX = dir.x * ((childW + parentW) / 2f);
                     var posY = dir.y + ((childH + parentH) / 2f);
-                    tileMap.AddRoom(new Vector2Int((int)posX, (int)posY), childW, childH, child.label);
+                    tileMap.AddRoom(new Vector2Int((int)posX, (int)posY), childW, childH, child.Label);
                 }
 
                 closed.Add(parent);

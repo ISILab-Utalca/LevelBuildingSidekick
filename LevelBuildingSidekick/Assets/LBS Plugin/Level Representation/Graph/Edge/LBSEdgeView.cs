@@ -12,6 +12,8 @@ public class LBSEdgeView : GraphElement
 {
     private static float dist = 10f;
 
+    private LBSEdgeData data; // ??
+
     private LBSNodeView nv1, nv2;
     private List<GraphElement> elements = new List<GraphElement>();
     private GraphView root;

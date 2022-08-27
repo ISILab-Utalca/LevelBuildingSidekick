@@ -130,14 +130,24 @@ namespace LevelBuildingSidekick
 
         internal static void SaveFileAs()
         {
-            var fileInfo = CurrentLevel.FileInfo;
-            var data = CurrentLevel.data;
-
-            var path = EditorUtility.SaveFilePanel(
+            var path = "";
+            if (CurrentLevel.FileInfo != null)
+            {
+                var fileInfo = CurrentLevel.FileInfo;
+                path = EditorUtility.SaveFilePanel(
                     "Save level",
                     (fileInfo.Exists) ? fileInfo.DirectoryName : Application.dataPath,
                     (fileInfo.Exists) ? fileInfo.Name : defaultName + ".json",
-                    "json"); ;
+                    "json");
+            }
+            else
+            {
+                path = EditorUtility.SaveFilePanel(
+                    "Save level",
+                    Application.dataPath,
+                    defaultName + ".json",
+                    "json");
+            }
 
             if (path != "")
             {
@@ -151,7 +161,7 @@ namespace LevelBuildingSidekick
             var data = new LevelData();
             var loaded = new LoadedLevel(data, null);
             data.Size = size;
-            data.representations.Add(new LBSGraphData());
+            data.AddRepresentation(new LBSGraphData());
             CurrentLevel = loaded;
             return data;
         }

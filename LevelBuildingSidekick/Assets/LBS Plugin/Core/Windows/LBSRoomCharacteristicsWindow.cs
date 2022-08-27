@@ -15,7 +15,9 @@ namespace LevelBuildingSidekick.Graph
         [LBSWindow("Room Characteristics")]
         public static void OpenWindow()
         {
+            Debug.Log("B");
             var wnd = GetWindow<LBSRoomCharacteristicsWindow>();
+            Debug.Log("C");
             wnd.titleContent = new GUIContent("Room characteristics window");
             Debug.Log(wnd); // son vitales...
             wnd.position = wnd.position; // VITALES!!!!

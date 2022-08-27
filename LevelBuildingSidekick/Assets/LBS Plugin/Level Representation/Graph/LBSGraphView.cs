@@ -73,17 +73,10 @@ namespace LevelBuildingSidekick.Graph
         {
             DeleteElements(graphElements);
 
-            Controller.Nodes.ForEach(n =>
-            {
-                AddNodeView(n);
-            });
+            var graph = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
 
-            controller.Edges.ForEach(e =>
-            {
-                var nv1 = GetNodeViewBylabel(e.FirstNodeLabel);
-                var nv2 = GetNodeViewBylabel(e.SecondNodeLabel);
-                AddEdgeView(nv1, nv2);
-            });
+            graph.GetNodes().ForEach(n => AddNodeView(n));
+            graph.GetEdges().ForEach(e => AddEdgeView(e));
         }
 
         public LBSNodeView GetNodeViewBylabel(string label)
@@ -93,7 +86,7 @@ namespace LevelBuildingSidekick.Graph
                 if (element is LBSNodeView)
                 {
                     var n = (LBSNodeView)element;
-                    if (n != null && n.Data.label == label)
+                    if (n != null && n.Data.Label == label)
                         return n;
                 }
             }
@@ -110,18 +103,6 @@ namespace LevelBuildingSidekick.Graph
                 AddNodeView(data);
             });
 
-            /*
-            evt.menu.AppendAction("New Conection", (a) =>
-            {
-                var n1 = controller.Nodes[0]; // temp
-                var n2 = controller.Nodes[1]; // temp
-                var edge = Controller.NewEdge(n1, n2);
-                var nv1 = GetNodeViewBylabel(n1.label);
-                var nv2 = GetNodeViewBylabel(n2.label);
-                AddEdgeView(nv1, nv2);
-            });
-            */
-
             evt.menu.AppendAction("Clean", (Action<DropdownMenuAction>)((a) =>
             {
                 this.Controller.Clear();
@@ -134,11 +115,8 @@ namespace LevelBuildingSidekick.Graph
             });
 
             evt.menu.AppendAction("Debug/print info",(a) => {
-                var rep = LBSController.CurrentLevel.data.representations;
-                if (rep.Count > 0)
-                    rep[0].Print();
-                else
-                    Debug.Log("AA");
+                var graph = (controller.Data as LBSGraphData);
+                graph.Print();
 
             });
         }
@@ -159,30 +137,23 @@ namespace LevelBuildingSidekick.Graph
         }
 
 
-        public void AddEdgeView(LBSNodeView nv1, LBSNodeView nv2)
+        private void AddEdgeView(LBSEdgeData edge)
         {
+            var graph = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
+            var nodeViews = graphElements.ToList().Where(e => e is LBSNodeView).Select(e => e as LBSNodeView).ToList();
+            var nv1 = nodeViews.Find(n => n.Data.Label == edge.FirstNodeLabel);
+            var nv2 = nodeViews.Find(n => n.Data.Label == edge.SecondNodeLabel);
+
             if (nv1 == null || nv2 == null)
-                return;
-
-            var view = new LBSEdgeView(nv1, nv2, this);
-            var l1 = nv1.Data.label;
-            var l2 = nv2.Data.label;
-
-             
-
-            if (l1 == l2) // si son el mismo nodo no hago nada
-                return;
-
-            foreach (var e in controller.Edges) // recorro las conexiones
             {
-                if (e.Contains(l1) && e.Contains(l2)) // si exite una conexion igual no hago nada
-                    return;
+                Debug.LogWarning("There is no 'NodeView' to which to link this 'EdgeView'.");
+                return;
             }
 
-            nv1.OnMoving += view.UpdateDots;
-            nv2.OnMoving += view.UpdateDots;
-            AddElement(view);
-            Debug.Log("C: " + graphElements.Count());
+            var edgeView = new LBSEdgeView(nv1, nv2, this);
+            nv1.OnMoving += edgeView.UpdateDots;
+            nv2.OnMoving += edgeView.UpdateDots;
+            AddElement(edgeView);
         }
 
         public void AddNodeView(LBSNodeData data)
@@ -215,7 +186,7 @@ namespace LevelBuildingSidekick.Graph
 
         public void StartDragEdge(LBSNodeData data)
         {
-            first = GetNodeViewBylabel(data.label);
+            first = GetNodeViewBylabel(data.Label);
             //proxyEdge = new LBSProxyEdge(first.GetPosition().position,new Vector2(0,0));
             //AddElement(proxyEdge);
             isDragEdge = true;
@@ -225,8 +196,9 @@ namespace LevelBuildingSidekick.Graph
         {
             if (first != null)
             {
-                var second = GetNodeViewBylabel(data.label);
-                AddEdgeView(first, second);
+                var second = GetNodeViewBylabel(data.Label);
+                var edge = new LBSEdgeData(first.Data, second.Data);
+                AddEdgeView(edge);
             }
 
             //RemoveElement(proxyEdge);
