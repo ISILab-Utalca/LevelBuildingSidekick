@@ -13,30 +13,33 @@ MonoBehaviour:
   m_Name: LBSBackUp
   m_EditorClassIdentifier: 
   level:
-    fullName: C:\Users\Nicolas\Documents\GitHub\level-building-sidekick\LevelBuildingSidekick\Assets\ISILab\LBS
-      Examples\Test Levels\prueba1.json
+    fullName: C:\Users\fergo\OneDrive\Documentos\GitHub\level-building-sidekick\LevelBuildingSidekick\Assets\ISILab\LBS
+      Examples\Test Levels\Nvl extra 2.json
     data:
       tags: []
       levelObjects: []
-      x: 30
-      y: 10
-      z: 15
+      x: 0
+      y: 0
+      z: 0
       representations:
-      - rid: 4094366469446697128
+      - rid: 474196947389382729
+      - rid: 474196947389382730
   references:
     version: 2
     RefIds:
-    - rid: 4094366469446697128
+    - rid: 474196947389382729
       type: {class: LBSGraphData, ns: LevelBuildingSidekick.Graph, asm: Assembly-CSharp}
       data:
         nodes:
-        - rid: 4094366469446697129
-        - rid: 4094366469446697130
-        - rid: 4094366469446697131
+        - rid: 474196947389382731
+        - rid: 474196947389382732
+        - rid: 474196947389382733
         edges:
-        - rid: 4094366469446697132
-        - rid: 4094366469446697133
-    - rid: 4094366469446697129
+        - rid: 474196947389382734
+        - rid: 474196947389382735
+    - rid: 474196947389382730
+      type: {class: LBSTileMapData, ns: LBS.Representation.TileMap, asm: Assembly-CSharp}
+    - rid: 474196947389382731
       type: {class: RoomCharacteristicsData, ns: LevelBuildingSidekick.Schema, asm: Assembly-CSharp}
       data:
         radius: 32
@@ -52,7 +55,7 @@ MonoBehaviour:
         proportionType: 0
         prefabs: []
         tags: []
-    - rid: 4094366469446697130
+    - rid: 474196947389382732
       type: {class: RoomCharacteristicsData, ns: LevelBuildingSidekick.Schema, asm: Assembly-CSharp}
       data:
         radius: 32
@@ -68,7 +71,7 @@ MonoBehaviour:
         proportionType: 0
         prefabs: []
         tags: []
-    - rid: 4094366469446697131
+    - rid: 474196947389382733
       type: {class: RoomCharacteristicsData, ns: LevelBuildingSidekick.Schema, asm: Assembly-CSharp}
       data:
         radius: 32
@@ -84,15 +87,15 @@ MonoBehaviour:
         proportionType: 0
         prefabs: []
         tags: []
-    - rid: 4094366469446697132
-      type: {class: LBSEdgeData, ns: , asm: Assembly-CSharp}
-      data:
-        firstNodeLabel: 'Node: 2'
-        secondNodeLabel: 'Node: 1'
-        thikness: 5
-    - rid: 4094366469446697133
+    - rid: 474196947389382734
       type: {class: LBSEdgeData, ns: , asm: Assembly-CSharp}
       data:
         firstNodeLabel: 'Node: 0'
         secondNodeLabel: 'Node: 1'
+        thikness: 5
+    - rid: 474196947389382735
+      type: {class: LBSEdgeData, ns: , asm: Assembly-CSharp}
+      data:
+        firstNodeLabel: 'Node: 1'
+        secondNodeLabel: 'Node: 2'
         thikness: 5
