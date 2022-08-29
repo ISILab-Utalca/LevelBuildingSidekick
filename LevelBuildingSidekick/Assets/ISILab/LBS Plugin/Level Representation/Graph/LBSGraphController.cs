@@ -10,10 +10,17 @@ using Utility;
 using UnityEngine.UIElements;
 using UnityEditor.Experimental.GraphView;
 using LevelBuildingSidekick.Graph;
+using LevelBuildingSidekick.Schema;
 
 namespace LevelBuildingSidekick.Graph
 {
-    public class LBSGraphController : Controller
+    // Este no deberia ser un controlador general de grafos
+    // sino que deberia exitir un controlador para cada uno
+    // de los diferentes grafos que podamso crear, asi podemos
+    // tener una "GraphView" generica, ademas de una data generica
+    // pero podemos guardar los datos especificos y controlarlos
+    // de manera especifica (!!!)
+    public class LBSGraphController : Controller 
     {
         public int cellSize = 32;
 
@@ -105,7 +112,7 @@ namespace LevelBuildingSidekick.Graph
         internal LBSNodeData NewNode(Vector2 position)
         {
             var graph = (Data as LBSGraphData);
-            LBSNodeData node = new LBSNodeData("Node: " + graph.NodeCount(), position, CellSize);
+            LBSNodeData node = new RoomCharacteristicsData("Node: " + graph.NodeCount(), position, CellSize);
             AddNode(node);
             return node;
         }

@@ -11,19 +11,20 @@ using UnityEditor;
 namespace LevelBuildingSidekick.Graph
 {
     [System.Serializable]
-    public class LBSNodeData : Data
+    public abstract class LBSNodeData : Data
     {
         [HideInInspector, JsonRequired]
         private int x, y;
         [JsonRequired]
-        private string label = ""; // ID
+        private string label = ""; // "ID" or "name"
         public int radius; // esto deberia ir aqui (??)
 
+        [HideInInspector, JsonIgnore]
+        public Action<LBSNodeData> OnChange; // (!!!)
+
+        //public RoomCharacteristicsData room;
+
         [JsonIgnore]
-        public Action<LBSNodeData> OnChange; //!
-
-        public RoomCharacteristics room;
-
         public string Label
         {
             get => label;
@@ -32,10 +33,6 @@ namespace LevelBuildingSidekick.Graph
                 OnChange?.Invoke(this);
             }
         }
-
-
-
-        
 
         //[JsonIgnore] 
         //public Texture2D sprite { get => Resources.Load("Textures/Circle") as Texture2D; } // -> static?

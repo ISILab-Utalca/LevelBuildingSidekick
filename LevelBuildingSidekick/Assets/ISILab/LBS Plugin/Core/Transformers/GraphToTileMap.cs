@@ -4,6 +4,7 @@ using UnityEngine;
 using LBS.Representation.TileMap;
 using LevelBuildingSidekick.Graph;
 using System.Linq;
+using LevelBuildingSidekick.Schema;
 
 namespace LBS.Transformers
 {
@@ -20,33 +21,32 @@ namespace LBS.Transformers
             Queue<LBSNodeData> open = new Queue<LBSNodeData>();
             HashSet<LBSNodeData> closed = new HashSet<LBSNodeData>();
 
-            var parent = graph.GetNodes().OrderByDescending((n) => graph.GetNeighbors(n).Count).First();
+            var parent = graph.GetNodes().OrderByDescending((n) => graph.GetNeighbors(n).Count).First() as RoomCharacteristicsData;
             //graph.nodes.ForEach(n => Debug.Log(n.label +": "+ graph.GetNeighbors(n).Count));
             open.Enqueue(parent);
 
             var tileMap = new LBSTileMapData();
-            int h = (int)((parent.room.maxHeight + parent.room.minHeight) / 2f);
-            int w = (int)((parent.room.maxWidth + parent.room.minWidth) / 2f);
+            int h = parent.RangeHeight.Middle;
+            int w = parent.RangeWidth.Middle;
             tileMap.AddRoom(Vector2Int.zero, h, w, parent.Label);
 
             while (open.Count > 0)
             {
-                parent = open.Dequeue();
+                parent = open.Dequeue() as RoomCharacteristicsData;
 
-                var childs = graph.GetNeighbors(parent).OrderBy(n => Utility.MathTools.GetAngleD15(parent.Centroid, n.Centroid));
+                var childs = graph.GetNeighbors(parent).OrderBy(n => Utility.MathTools.GetAngleD15(parent.Centroid, n.Centroid)).Select( c => c as RoomCharacteristicsData);
 
                 foreach (var child in childs)
                 {
                     if (closed.Contains(child) || open.ToHashSet().Contains(child))
                         continue;
 
-                    var room = child.room;
                     open.Enqueue(child);
 
-                    var parentH = (int)((room.maxHeight + room.minHeight) / 2f);
-                    var parentW = (int)((room.maxWidth + room.minWidth) / 2f);
-                    var childH = (int)((room.maxHeight + room.minHeight) / 2f);
-                    var childW = (int)((room.maxWidth + room.minWidth) / 2f);
+                    var parentH = parent.RangeHeight.Middle; 
+                    var parentW = parent.RangeWidth.Middle;
+                    var childH = child.RangeHeight.Middle;
+                    var childW = child.RangeWidth.Middle;
 
                     var dir = ((Vector2)(child.Centroid - parent.Centroid)).normalized;
                     var posX = dir.x * ((childW + parentW) / 2f);

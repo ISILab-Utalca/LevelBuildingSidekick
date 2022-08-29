@@ -70,9 +70,9 @@ namespace LBS.Representation.TileMap
             var value = 0f;
             for (int i = 0; i < graphData.NodeCount(); i++)
             {
-                var node = graphData.GetNode(i);
+                var node = graphData.GetNode(i) as RoomCharacteristicsData;
                 var room = tileMap.GetRoomByID(node.Label);
-                switch (node.room.proportionType)
+                switch (node.ProportionType)
                 {
                     case ProportionType.RATIO:
                         value += EvaluateBtyRatio(node, room);
@@ -94,28 +94,28 @@ namespace LBS.Representation.TileMap
             return adjacenceValue + areaValue;
         }
 
-        private float EvaluateBtyRatio(LBSNodeData node, RoomData room)
+        private float EvaluateBtyRatio(RoomCharacteristicsData node, RoomData room)
         {
             float current = room.GetRatio();
-            float objetive = node.room.xAspectRatio / (float)node.room.yAspectRatio;
+            float objetive = node.AspectRatio.width / (float)node.AspectRatio.heigth;
 
             return 1 - (Mathf.Abs(objetive - current) / objetive);
         }
 
-        private float EvaluateBySize(LBSNodeData node, RoomData room)
+        private float EvaluateBySize(RoomCharacteristicsData node, RoomData room)
         {
             var vw = 1f;
-            if (room.GetWidth() < node.room.minWidth || room.GetWidth() > node.room.maxWidth)
+            if (room.GetWidth() < node.RangeWidth.min || room.GetWidth() > node.RangeHeight.max)
             {
-                var objetive = (node.room.minWidth + node.room.maxWidth) / 2f;
+                var objetive = node.RangeWidth.Middle;
                 var current = room.GetWidth();
                 vw -= (Mathf.Abs(objetive - current) / objetive);
             }
 
             var vh = 1f;
-            if (room.GetHeight() < node.room.minHeight || room.GetHeight() > node.room.maxHeight)
+            if (room.GetHeight() < node.RangeHeight.min || room.GetHeight() > node.RangeHeight.max)
             {
-                var objetive = (node.room.minHeight + node.room.maxHeight) / 2f;
+                var objetive = node.RangeHeight.Middle;
                 var current = room.GetHeight();
                 vh -= (Mathf.Abs(objetive - current) / objetive);
             }

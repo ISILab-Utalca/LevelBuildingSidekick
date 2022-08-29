@@ -12,7 +12,41 @@ namespace LevelBuildingSidekick.Graph
     [System.Serializable]
     public class LBSNodeController : Controller
     {
+        public LBSNodeController(Data data) : base(data)
+        {
+            //View = new LBSNodeView(this);
+            //neighbors = new HashSet<LBSNodeController>();
+        }
+
+        public override void LoadData()
+        {
+            /*
+            if (Room != null && Room.prefabs != null)
+            {
+                foreach (var cat in Room.prefabs)
+                {
+                    foreach (var name in cat.ItemNames)
+                    {
+                        var obj = Utility.DirectoryTools.SearchAssetByName<GameObject>(name);
+                        if (obj != null)
+                        {
+                            cat.items.Add(obj);
+                        }
+                    }
+                }
+            }
+            */
+
+        }
+
+        public override void Update()
+        {
+
+        }
+
+        /*
         public HashSet<LBSNodeController> neighbors;
+
         public HashSet<string> NeighborsIDs
         {
             get
@@ -88,13 +122,13 @@ namespace LevelBuildingSidekick.Graph
             }
         } 
 
-        public RoomCharacteristics Room
+        public RoomCharacteristicsData Room
         {
             get
             {
                 if ((Data as LBSNodeData).room == null)
                 {
-                    return new RoomCharacteristics();
+                    return new RoomCharacteristicsData();
                 }
                 return (Data as LBSNodeData).room;
             }
@@ -349,7 +383,9 @@ namespace LevelBuildingSidekick.Graph
             neighbors.Add(n);
             return true;
         }
+        */
 
     }
+
 }
 
