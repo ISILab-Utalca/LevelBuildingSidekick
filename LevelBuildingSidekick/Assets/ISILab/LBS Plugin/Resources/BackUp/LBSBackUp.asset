@@ -13,112 +13,86 @@ MonoBehaviour:
   m_Name: LBSBackUp
   m_EditorClassIdentifier: 
   level:
-    fullName: C:\Users\Nicolas\Documents\GitHub\level-building-sidekick\LevelBuildingSidekick\Assets\LBSLevels\prueba1.json
+    fullName: C:\Users\Nicolas\Documents\GitHub\level-building-sidekick\LevelBuildingSidekick\Assets\ISILab\LBS
+      Examples\Test Levels\prueba1.json
     data:
       tags: []
       levelObjects: []
-      x: 0
-      y: 0
-      z: 0
+      x: 30
+      y: 10
+      z: 15
       representations:
-      - rid: 4094366403902309011
+      - rid: 4094366469446697128
   references:
     version: 2
     RefIds:
-    - rid: 4094366403902309011
+    - rid: 4094366469446697128
       type: {class: LBSGraphData, ns: LevelBuildingSidekick.Graph, asm: Assembly-CSharp}
       data:
         nodes:
-        - rid: 4094366403902309012
-        - rid: 4094366403902309013
-        - rid: 4094366403902309014
+        - rid: 4094366469446697129
+        - rid: 4094366469446697130
+        - rid: 4094366469446697131
         edges:
-        - rid: 4094366403902309015
-        - rid: 4094366403902309016
-        - rid: 4094366403902309017
-        - rid: 4094366403902309018
-        - rid: 4094366403902309019
-        - rid: 4094366403902309020
-        - rid: 4094366403902309021
-    - rid: 4094366403902309012
-      type: {class: LBSNodeData, ns: LevelBuildingSidekick.Graph, asm: Assembly-CSharp}
+        - rid: 4094366469446697132
+        - rid: 4094366469446697133
+    - rid: 4094366469446697129
+      type: {class: RoomCharacteristicsData, ns: LevelBuildingSidekick.Schema, asm: Assembly-CSharp}
       data:
         radius: 32
-        room:
-          minWidth: 1
-          maxWidth: 1
-          minHeight: 1
-          maxHeight: 1
-          xAspectRatio: 1
-          yAspectRatio: 1
-          proportionType: 0
-          neighbors: []
-          prefabs: []
-          prefabCategories:
-          - Walls
-          - Floors
-          - Doors
-    - rid: 4094366403902309013
-      type: {class: LBSNodeData, ns: LevelBuildingSidekick.Graph, asm: Assembly-CSharp}
+        rangeWidth:
+          min: 1
+          max: 1
+        rangeHeight:
+          min: 1
+          max: 1
+        aspectRatio:
+          width: 1
+          heigth: 1
+        proportionType: 0
+        prefabs: []
+        tags: []
+    - rid: 4094366469446697130
+      type: {class: RoomCharacteristicsData, ns: LevelBuildingSidekick.Schema, asm: Assembly-CSharp}
       data:
         radius: 32
-        room:
-          minWidth: 1
-          maxWidth: 1
-          minHeight: 1
-          maxHeight: 1
-          xAspectRatio: 1
-          yAspectRatio: 1
-          proportionType: 0
-          neighbors: []
-          prefabs: []
-          prefabCategories:
-          - Walls
-          - Floors
-          - Doors
-    - rid: 4094366403902309014
-      type: {class: LBSNodeData, ns: LevelBuildingSidekick.Graph, asm: Assembly-CSharp}
+        rangeWidth:
+          min: 1
+          max: 1
+        rangeHeight:
+          min: 1
+          max: 1
+        aspectRatio:
+          width: 1
+          heigth: 1
+        proportionType: 0
+        prefabs: []
+        tags: []
+    - rid: 4094366469446697131
+      type: {class: RoomCharacteristicsData, ns: LevelBuildingSidekick.Schema, asm: Assembly-CSharp}
       data:
         radius: 32
-        room:
-          minWidth: 1
-          maxWidth: 1
-          minHeight: 1
-          maxHeight: 1
-          xAspectRatio: 1
-          yAspectRatio: 1
-          proportionType: 0
-          neighbors: []
-          prefabs: []
-          prefabCategories:
-          - Walls
-          - Floors
-          - Doors
-    - rid: 4094366403902309015
+        rangeWidth:
+          min: 1
+          max: 1
+        rangeHeight:
+          min: 1
+          max: 1
+        aspectRatio:
+          width: 1
+          heigth: 1
+        proportionType: 0
+        prefabs: []
+        tags: []
+    - rid: 4094366469446697132
       type: {class: LBSEdgeData, ns: , asm: Assembly-CSharp}
       data:
+        firstNodeLabel: 'Node: 2'
+        secondNodeLabel: 'Node: 1'
         thikness: 5
-    - rid: 4094366403902309016
+    - rid: 4094366469446697133
       type: {class: LBSEdgeData, ns: , asm: Assembly-CSharp}
       data:
-        thikness: 5
-    - rid: 4094366403902309017
-      type: {class: LBSEdgeData, ns: , asm: Assembly-CSharp}
-      data:
-        thikness: 5
-    - rid: 4094366403902309018
-      type: {class: LBSEdgeData, ns: , asm: Assembly-CSharp}
-      data:
-        thikness: 5
-    - rid: 4094366403902309019
-      type: {class: LBSEdgeData, ns: , asm: Assembly-CSharp}
-      data:
-        thikness: 5
-    - rid: 4094366403902309020
-      type: {class: LBSEdgeData, ns: , asm: Assembly-CSharp}
-      data:
-        thikness: 5
-    - rid: 4094366403902309021
-      type: {class: LBSEdgeData, ns: , asm: Assembly-CSharp}
-      data:
+        firstNodeLabel: 'Node: 0'
+        secondNodeLabel: 'Node: 1'
         thikness: 5
