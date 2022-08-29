@@ -8,7 +8,7 @@ namespace LevelBuildingSidekick
 {
     public class LevelBackUp : ScriptableObject
     {
-        private static readonly string defaultPath = "Assets/LevelBuildingSidekick/Core/LBS Main/Level/Resources"; // esto podria ser peligroso (!)
+        private static readonly string defaultPath = "Assets/ISILab/LBS Plugin/Resources/BackUp"; // esto podria ser peligroso (!)
         private static readonly string defaultName = "/LBSBackUp.asset";
 
         public static LevelBackUp instance;
@@ -62,8 +62,8 @@ namespace LevelBuildingSidekick
             {
                 try
                 {
-                    var fi = new FileInfo(fullName);
-                    return fi;
+                    var fileInfo = new FileInfo(fullName);
+                    return fileInfo;
                 }
                 catch
                 {
