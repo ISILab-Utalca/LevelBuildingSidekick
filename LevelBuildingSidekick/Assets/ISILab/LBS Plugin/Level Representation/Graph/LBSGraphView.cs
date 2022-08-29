@@ -114,7 +114,7 @@ namespace LevelBuildingSidekick.Graph
                 Utility.JSONDataManager.SaveData("LBSLevels", "test1", LBSController.CurrentLevel);
             });
 
-            evt.menu.AppendAction("Debug/print info",(a) => {
+            evt.menu.AppendAction("Debug/print info", (a) => {
                 var graph = (controller.Data as LBSGraphData);
                 graph.Print();
 
@@ -127,7 +127,7 @@ namespace LevelBuildingSidekick.Graph
             if (evt is MouseUpEvent)
             {
                 var e = (MouseUpEvent)evt;
-                if(e.button == 1)
+                if (e.button == 1)
                 {
                     isDragEdge = false;
                     first = null;
@@ -141,18 +141,18 @@ namespace LevelBuildingSidekick.Graph
         {
             var graph = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
             var nodeViews = graphElements.ToList().Where(e => e is LBSNodeView).Select(e => e as LBSNodeView).ToList();
-            Debug.Log("nvc: "+nodeViews.Count());
+            //Debug.Log("nvc: " + nodeViews.Count());
             var nv1 = nodeViews.Find((n) => {
-                Debug.Log("ndl: "+ n.Data.Label +"=="+ edge.FirstNodeLabel + " => " + (n.Data.Label == edge.FirstNodeLabel));
+                //Debug.Log("ndl: " + n.Data.Label + "==" + edge.FirstNodeLabel + " => " + (n.Data.Label == edge.FirstNodeLabel));
                 return n.Data.Label == edge.FirstNodeLabel;
-                });
+            });
             var nv2 = nodeViews.Find((n) =>
             {
-                Debug.Log("ndl: " + n.Data.Label + "==" + edge.SecondNodeLabel +" => " +(n.Data.Label == edge.SecondNodeLabel));
+                //Debug.Log("ndl: " + n.Data.Label + "==" + edge.SecondNodeLabel + " => " + (n.Data.Label == edge.SecondNodeLabel));
                 return n.Data.Label == edge.SecondNodeLabel;
             });
 
-            Debug.Log("nv1: "+nv1 +",nv2: "+ nv2);
+            //Debug.Log("nv1: " + nv1 + ",nv2: " + nv2);
             if (nv1 == null || nv2 == null)
             {
                 Debug.LogWarning("There is no 'NodeView' to which to link this 'EdgeView'.");
@@ -185,7 +185,7 @@ namespace LevelBuildingSidekick.Graph
 
             foreach (var e in graphElements)
             {
-                if(e is LBSEdgeView)
+                if (e is LBSEdgeView)
                 {
                     var edge = (LBSEdgeView)e;
                     //edge.UpdateDraw();
@@ -221,7 +221,7 @@ namespace LevelBuildingSidekick.Graph
         public override void ClearSelection()
         {
             base.ClearSelection();
-            if(selection.Count == 0)
+            if (selection.Count == 0)
             {
                 LBSController.ShowLevelInspector();
             }
