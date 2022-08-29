@@ -1,14 +1,28 @@
 
 Bugs
 
-- Las ventanas pueden perder referencias no acesibles por los desarrolladores provocando que estan no se muestren,
+- Las ventanas pueden perder referencias no acesibles por los desarrolladores provocando que estan
+  no se muestren.
 	- Una solucion a esto puede ser reiniaar unity, o reescalar la ventana en cuestion.
 
-
 Anotaciones
+- Los archivos PDF "DOCUMENTACION" y "README" estanm vacios y existen pero exiten para recordar
+  que deben ser llenados.
+
+- Existe un archivo "LvlBackUp" correspondiente al archivo que se tiene abierto actualemnte,
+  Este archivo guarda caombios que solo le consiernen al desarrollador de la  maquina en cuestion
+  y no debieria ser entregado a los demas atravez de githubs u otros medios de sincronizacvcion de
+  proyectos.
+	- Al bajar el "LvlBackUp" de otra persona puede generar confusion al cambiar la informacion que
+      se tiene abierta ya que se mostrar la que la otra persona tuviera en focus.
+	- Al bajar este archivo de otro se perderan los cambios que no seguardaran dentro de la copia de
+	  "LvlBackUp" local.
+	- Es necesario avisar que esto puede suceder.
+	- Es necesario recomendar ignorar este archivo en la sincronizacion de proyectos.
 
 - Explicar en documnetacion el funcionamiento del menu "LBS" y todos sus botones internos.
 	- Start window
 	- Steps window
+
 - Explicar en documentacion el funcionamiento de contexMenu "LBS" y todos sus botones internos.
 	- WindowPreset
