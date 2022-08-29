@@ -9,8 +9,8 @@
       "$type": "LevelBuildingSidekick.Graph.LBSGraphData, Assembly-CSharp",
       "nodes": [
         {
-          "x": 142,
-          "y": 75,
+          "x": 185,
+          "y": 93,
           "label": "Node: 0",
           "radius": 32,
           "room": {
@@ -33,8 +33,8 @@
           "Label": "Node: 0"
         },
         {
-          "x": 348,
-          "y": 178,
+          "x": 325,
+          "y": 157,
           "label": "Node: 1",
           "radius": 32,
           "room": {
@@ -57,8 +57,8 @@
           "Label": "Node: 1"
         },
         {
-          "x": 293,
-          "y": 43,
+          "x": 216,
+          "y": 221,
           "label": "Node: 2",
           "radius": 32,
           "room": {
@@ -81,7 +81,36 @@
           "Label": "Node: 2"
         }
       ],
-      "edges": []
+      "edges": [
+        {
+          "FirstNodeLabel": "",
+          "SecondNodeLabel": ""
+        },
+        {
+          "FirstNodeLabel": "",
+          "SecondNodeLabel": ""
+        },
+        {
+          "FirstNodeLabel": "Node: 0",
+          "SecondNodeLabel": "Node: 1"
+        },
+        {
+          "FirstNodeLabel": "Node: 1",
+          "SecondNodeLabel": "Node: 2"
+        },
+        {
+          "FirstNodeLabel": "Node: 0",
+          "SecondNodeLabel": "Node: 1"
+        },
+        {
+          "FirstNodeLabel": "Node: 0",
+          "SecondNodeLabel": "Node: 1"
+        },
+        {
+          "FirstNodeLabel": "Node: 0",
+          "SecondNodeLabel": "Node: 2"
+        }
+      ]
     }
   ]
 }

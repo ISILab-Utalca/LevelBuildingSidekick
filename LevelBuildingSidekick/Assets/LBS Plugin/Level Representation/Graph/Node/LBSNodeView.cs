@@ -65,7 +65,6 @@ namespace LevelBuildingSidekick.Graph
             if (evt.button == 1)
             {
                 OnStartDragEdge?.Invoke(Data);
-                Debug.Log("Start edge");
             }
         }
 
@@ -74,7 +73,6 @@ namespace LevelBuildingSidekick.Graph
             if (evt.button == 1)
             {
                 OnEndDragEdge?.Invoke(Data);
-                Debug.Log("End Edge");
             }
         }
 

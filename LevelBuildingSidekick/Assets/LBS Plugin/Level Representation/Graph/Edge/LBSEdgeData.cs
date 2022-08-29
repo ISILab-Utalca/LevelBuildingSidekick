@@ -9,14 +9,18 @@ using Newtonsoft.Json;
 [System.Serializable]
 public class LBSEdgeData: Data
 {
-    [JsonIgnore]
-    public LBSNodeData firstNode;
-    [JsonIgnore]
-    public LBSNodeData secondNode;
+    //[JsonIgnore]
+    //public LBSNodeData firstNode;
+    //[JsonIgnore]
+    //public LBSNodeData secondNode;
 
     private string firstNodeLabel;
     private string secondNodeLabel;
 
+    public string FirstNodeLabel => firstNodeLabel;
+    public string SecondNodeLabel => secondNodeLabel;
+
+    /*
     public string FirstNodeLabel
     {
         get
@@ -47,6 +51,7 @@ public class LBSEdgeData: Data
             secondNodeLabel = value; // estas asignaciones con referencias intermedias pueden traer problemas (!!!)
         }
     }
+    */
 
     [JsonIgnore]
     public override Type ControllerType => throw new NotImplementedException();
@@ -61,15 +66,17 @@ public class LBSEdgeData: Data
 
     public LBSEdgeData(LBSNodeData n1, LBSNodeData n2)
     {
-        this.firstNode = n1;
+        Debug.Log(n1 + ", " + n1.Label + ", " + n2 + "," + n2.Label);
+        //this.firstNode = n1;
         this.firstNodeLabel = n1.Label;
-        this.secondNode = n2;
+        //this.secondNode = n2;
         this.secondNodeLabel = n2.Label;
     }
 
 
     public bool Contains(string nodeID)
     {
-        return FirstNodeLabel == nodeID || SecondNodeLabel == nodeID;
+        return firstNodeLabel == nodeID || firstNodeLabel == nodeID;
+        //return FirstNodeLabel == nodeID || SecondNodeLabel == nodeID;
     }
 }

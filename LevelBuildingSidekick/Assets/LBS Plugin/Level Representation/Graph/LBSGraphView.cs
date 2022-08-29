@@ -141,9 +141,18 @@ namespace LevelBuildingSidekick.Graph
         {
             var graph = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
             var nodeViews = graphElements.ToList().Where(e => e is LBSNodeView).Select(e => e as LBSNodeView).ToList();
-            var nv1 = nodeViews.Find(n => n.Data.Label == edge.FirstNodeLabel);
-            var nv2 = nodeViews.Find(n => n.Data.Label == edge.SecondNodeLabel);
+            Debug.Log("nvc: "+nodeViews.Count());
+            var nv1 = nodeViews.Find((n) => {
+                Debug.Log("ndl: "+ n.Data.Label +"=="+ edge.FirstNodeLabel + " => " + (n.Data.Label == edge.FirstNodeLabel));
+                return n.Data.Label == edge.FirstNodeLabel;
+                });
+            var nv2 = nodeViews.Find((n) =>
+            {
+                Debug.Log("ndl: " + n.Data.Label + "==" + edge.SecondNodeLabel +" => " +(n.Data.Label == edge.SecondNodeLabel));
+                return n.Data.Label == edge.SecondNodeLabel;
+            });
 
+            Debug.Log("nv1: "+nv1 +",nv2: "+ nv2);
             if (nv1 == null || nv2 == null)
             {
                 Debug.LogWarning("There is no 'NodeView' to which to link this 'EdgeView'.");
@@ -186,6 +195,7 @@ namespace LevelBuildingSidekick.Graph
 
         public void StartDragEdge(LBSNodeData data)
         {
+            Debug.Log("Start edge");
             first = GetNodeViewBylabel(data.Label);
             //proxyEdge = new LBSProxyEdge(first.GetPosition().position,new Vector2(0,0));
             //AddElement(proxyEdge);
@@ -196,13 +206,14 @@ namespace LevelBuildingSidekick.Graph
         {
             if (first != null)
             {
+                Debug.Log("End Edge");
                 var second = GetNodeViewBylabel(data.Label);
                 var edge = new LBSEdgeData(first.Data, second.Data);
+                var current = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
+                current.AddEdge(edge);
                 AddEdgeView(edge);
             }
 
-            //RemoveElement(proxyEdge);
-            //proxyEdge = null;
             first = null;
             isDragEdge = false;
         }

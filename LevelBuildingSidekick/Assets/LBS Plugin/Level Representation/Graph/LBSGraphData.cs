@@ -202,8 +202,8 @@ namespace LevelBuildingSidekick.Graph
         internal void AddEdge(LBSEdgeData edge)
         {
             //edge.OnChange += (n) => Debug.Log("[implementar]"); // <------------------------------------- !!!!!
-            var n1 = edge.firstNode;
-            var n2 = edge.secondNode;
+            var n1 = GetNode(edge.FirstNodeLabel);
+            var n2 = GetNode(edge.SecondNodeLabel);
             if (n1.Label == n2.Label)
             {
                 Debug.LogWarning("Cannot connect a node to itself.");

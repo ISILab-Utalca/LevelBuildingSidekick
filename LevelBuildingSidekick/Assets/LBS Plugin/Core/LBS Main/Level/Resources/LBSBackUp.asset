@@ -21,19 +21,26 @@ MonoBehaviour:
       y: 0
       z: 0
       representations:
-      - rid: 4094366403902308646
+      - rid: 4094366403902309011
   references:
     version: 2
     RefIds:
-    - rid: 4094366403902308646
+    - rid: 4094366403902309011
       type: {class: LBSGraphData, ns: LevelBuildingSidekick.Graph, asm: Assembly-CSharp}
       data:
         nodes:
-        - rid: 4094366403902308647
-        - rid: 4094366403902308648
-        - rid: 4094366403902308649
-        edges: []
-    - rid: 4094366403902308647
+        - rid: 4094366403902309012
+        - rid: 4094366403902309013
+        - rid: 4094366403902309014
+        edges:
+        - rid: 4094366403902309015
+        - rid: 4094366403902309016
+        - rid: 4094366403902309017
+        - rid: 4094366403902309018
+        - rid: 4094366403902309019
+        - rid: 4094366403902309020
+        - rid: 4094366403902309021
+    - rid: 4094366403902309012
       type: {class: LBSNodeData, ns: LevelBuildingSidekick.Graph, asm: Assembly-CSharp}
       data:
         radius: 32
@@ -51,7 +58,7 @@ MonoBehaviour:
           - Walls
           - Floors
           - Doors
-    - rid: 4094366403902308648
+    - rid: 4094366403902309013
       type: {class: LBSNodeData, ns: LevelBuildingSidekick.Graph, asm: Assembly-CSharp}
       data:
         radius: 32
@@ -69,7 +76,7 @@ MonoBehaviour:
           - Walls
           - Floors
           - Doors
-    - rid: 4094366403902308649
+    - rid: 4094366403902309014
       type: {class: LBSNodeData, ns: LevelBuildingSidekick.Graph, asm: Assembly-CSharp}
       data:
         radius: 32
@@ -87,3 +94,31 @@ MonoBehaviour:
           - Walls
           - Floors
           - Doors
+    - rid: 4094366403902309015
+      type: {class: LBSEdgeData, ns: , asm: Assembly-CSharp}
+      data:
+        thikness: 5
+    - rid: 4094366403902309016
+      type: {class: LBSEdgeData, ns: , asm: Assembly-CSharp}
+      data:
+        thikness: 5
+    - rid: 4094366403902309017
+      type: {class: LBSEdgeData, ns: , asm: Assembly-CSharp}
+      data:
+        thikness: 5
+    - rid: 4094366403902309018
+      type: {class: LBSEdgeData, ns: , asm: Assembly-CSharp}
+      data:
+        thikness: 5
+    - rid: 4094366403902309019
+      type: {class: LBSEdgeData, ns: , asm: Assembly-CSharp}
+      data:
+        thikness: 5
+    - rid: 4094366403902309020
+      type: {class: LBSEdgeData, ns: , asm: Assembly-CSharp}
+      data:
+        thikness: 5
+    - rid: 4094366403902309021
+      type: {class: LBSEdgeData, ns: , asm: Assembly-CSharp}
+      data:
+        thikness: 5
