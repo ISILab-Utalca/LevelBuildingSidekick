@@ -17,8 +17,6 @@ namespace LevelBuildingSidekick.Graph
 
         public new class UxmlFactory : UxmlFactory<LBSGraphView, GraphView.UxmlTraits> { }
 
-        //Vector2 scrollPos;
-        Vector2 scrollPosition;
         private LBSGraphController controller;
         public LBSGraphController Controller
         {
@@ -141,27 +139,23 @@ namespace LevelBuildingSidekick.Graph
         {
             var graph = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
             var nodeViews = graphElements.ToList().Where(e => e is LBSNodeView).Select(e => e as LBSNodeView).ToList();
-            //Debug.Log("nvc: " + nodeViews.Count());
             var nv1 = nodeViews.Find((n) => {
-                //Debug.Log("ndl: " + n.Data.Label + "==" + edge.FirstNodeLabel + " => " + (n.Data.Label == edge.FirstNodeLabel));
                 return n.Data.Label == edge.FirstNodeLabel;
             });
             var nv2 = nodeViews.Find((n) =>
             {
-                //Debug.Log("ndl: " + n.Data.Label + "==" + edge.SecondNodeLabel + " => " + (n.Data.Label == edge.SecondNodeLabel));
                 return n.Data.Label == edge.SecondNodeLabel;
             });
 
-            //Debug.Log("nv1: " + nv1 + ",nv2: " + nv2);
             if (nv1 == null || nv2 == null)
             {
                 Debug.LogWarning("There is no 'NodeView' to which to link this 'EdgeView'.");
                 return;
             }
 
-            var edgeView = new LBSEdgeView(nv1, nv2, this);
-            nv1.OnMoving += edgeView.UpdateDots;
-            nv2.OnMoving += edgeView.UpdateDots;
+            var edgeView = new LBSDotedEdgeView(nv1, nv2, this);
+            nv1.OnMoving += edgeView.ActualizeView;
+            nv2.OnMoving += edgeView.ActualizeView;
             AddElement(edgeView);
         }
 
