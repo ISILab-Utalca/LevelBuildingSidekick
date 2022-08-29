@@ -93,7 +93,7 @@ namespace Utility
             nonSignificantEpochs = 0;
 
             T best = root;
-            while (endCondition?.Invoke() == false)
+            while (endCondition?.Invoke() == false) //(!endCondition?.Invoke())
             {
                 iterations++;
 
@@ -126,6 +126,7 @@ namespace Utility
                 {
                     nonSignificantEpochs = 0;
                 }
+
                 if (betters.Count == 0)
                 {
                     return best;
