@@ -14,10 +14,15 @@ public class LBSEdgeData: Data
     //[JsonIgnore]
     //public LBSNodeData secondNode;
 
+    [SerializeField,JsonRequired]
     private string firstNodeLabel;
+    [SerializeField,JsonRequired]
     private string secondNodeLabel;
 
+    [HideInInspector,JsonIgnore]
     public string FirstNodeLabel => firstNodeLabel;
+
+    [HideInInspector,JsonIgnore]
     public string SecondNodeLabel => secondNodeLabel;
 
     /*
