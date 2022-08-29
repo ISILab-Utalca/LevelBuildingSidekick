@@ -8,15 +8,12 @@ using UnityEditor.Experimental.GraphView;
 using Newtonsoft.Json;
 using LevelBuildingSidekick.Graph;
 
-public class LBSEdgeView : GraphElement
+public abstract class LBSEdgeView : GraphElement
 {
-    private static float dist = 10f;
+    protected LBSEdgeData data; // (??)
 
-    private LBSEdgeData data; // ??
-
-    private LBSNodeView nv1, nv2;
-    private List<GraphElement> elements = new List<GraphElement>();
-    private GraphView root;
+    protected LBSNodeView nv1, nv2;
+    protected GraphView root;
 
     public LBSEdgeView(LBSNodeView nv1, LBSNodeView nv2, LBSGraphView root)
     {
@@ -26,32 +23,40 @@ public class LBSEdgeView : GraphElement
 
         capabilities |= Capabilities.Selectable | Capabilities.Deletable;
 
-        UpdateDots();
-        /*
+        ActualizeView();
+        
         nv1.OnMoving += ()=>
         {
-            UpdateDots();
+            ActualizeView();
             nv1.BringToFront();
         };
 
         nv2.OnMoving += () =>
         {
-            UpdateDots();
+            ActualizeView();
             nv2.BringToFront();
         };
-        */
-
     }
 
+    public abstract void ActualizeView();
+}
 
-    public void UpdateDots()
+public class LBSDotedEdgeView : LBSEdgeView
+{
+    private static float dist = 10f;
+    private List<GraphElement> elements = new List<GraphElement>();
+
+    public LBSDotedEdgeView(LBSNodeView nv1, LBSNodeView nv2, LBSGraphView root) : base(nv1, nv2, root)
     {
-        /*
+    }
+
+    public override void ActualizeView()
+    {
         var pos1 = this.nv1.GetPosition().center;
         var pos2 = this.nv2.GetPosition().center;
 
         var vec = (pos2 - pos1).normalized;
-        var num = Vector2.Distance(pos1,pos2)/dist;
+        var num = Vector2.Distance(pos1, pos2) / dist;
 
         elements.ForEach(e => root.RemoveElement(e));
         elements = new List<GraphElement>();
@@ -60,14 +65,44 @@ public class LBSEdgeView : GraphElement
         {
             var dot = new Dot(5);
             var p = pos1 + (i * vec * dist);
-            dot.SetPosition(new Rect(p.x,p.y,5,5));
+            dot.SetPosition(new Rect(p.x, p.y, 5, 5));
             elements.Add(dot);
             root.AddElement(dot);
+            dot.SendToBack();
+        }
+    }
+}
 
-        } 
-        */
+public class LBSLineEdgeView : LBSEdgeView
+{
+    public Line line;
+
+    public LBSLineEdgeView(LBSNodeView nv1, LBSNodeView nv2, LBSGraphView root) : base(nv1, nv2, root)
+    {
     }
 
+
+    public override void ActualizeView()
+    {
+        var pos1 = this.nv1.GetPosition().center;
+        var pos2 = this.nv2.GetPosition().center;
+    }
+}
+
+
+public class Line : GraphElement
+{
+    Painter2D painter;
+
+    public Line()
+    {
+
+    }
+
+    void OnGenerateVisualContent(MeshGenerationContext mgc)
+    {
+
+    }
 }
 
 public class Dot : GraphElement
