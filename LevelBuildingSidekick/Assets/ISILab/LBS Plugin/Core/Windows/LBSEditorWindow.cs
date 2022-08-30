@@ -34,12 +34,12 @@ public abstract class LBSEditorWindow : EditorWindow
         fileMenu.menu.AppendAction("Level.../Save", (dma) => { LBSController.SaveFile(); });
         fileMenu.menu.AppendAction("Level.../Save as", (dma) => { LBSController.SaveFileAs(); });
         fileMenu.menu.AppendSeparator();
-        fileMenu.menu.AppendAction("Representation.../Load", (dma) => { Debug.Log("[Implementar loadRep]"); }); // ver si es necesaria (!)
-        fileMenu.menu.AppendAction("Representation.../Save", (dma) => { Debug.Log("[Implementar saveRep]"); }); // ver si es necesaria (!)
-        fileMenu.menu.AppendAction("Representation.../Save as", (dma) => { Debug.Log("[Implementar saveRep]"); }); // ver si es necesaria (!)
+        fileMenu.menu.AppendAction("Representation.../Load", (dma) => { Debug.LogError("[Implementar loadRep]"); }); // ver si es necesaria (!)
+        fileMenu.menu.AppendAction("Representation.../Save", (dma) => { Debug.LogError("[Implementar saveRep]"); }); // ver si es necesaria (!)
+        fileMenu.menu.AppendAction("Representation.../Save as", (dma) => { Debug.LogError("[Implementar saveRep]"); }); // ver si es necesaria (!)
         fileMenu.menu.AppendSeparator();
-        fileMenu.menu.AppendAction("Help.../Documentation", (dma) => { Debug.Log("[Implementar documnetation]"); }); // ver si es necesaria (!)
-        fileMenu.menu.AppendAction("Help.../About", (dma) => { Debug.Log("[Implementar about]"); }); // ver si es necesaria (!)
+        fileMenu.menu.AppendAction("Help.../Documentation", (dma) => { Debug.LogError("[Implementar documnetation]"); }); // ver si es necesaria (!)
+        fileMenu.menu.AppendAction("Help.../About", (dma) => { Debug.LogError("[Implementar about]"); }); // ver si es necesaria (!)
         fileMenu.menu.AppendSeparator();
         fileMenu.menu.AppendAction("Close", (dma) => { this.Close(); });
         fileMenu.menu.AppendAction("Close All", (dma) => { this.CloseAll(); });
