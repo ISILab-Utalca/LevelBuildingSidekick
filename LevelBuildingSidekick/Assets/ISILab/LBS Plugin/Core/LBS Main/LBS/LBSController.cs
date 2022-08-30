@@ -29,10 +29,7 @@ namespace LevelBuildingSidekick
             get
             {
                 var instance = LevelBackUp.Instance();
-                //Debug.Log("A: "+ instance.level.data);
-                //var reps = instance.level.data.representations;
-                //if (reps.Count > 0) reps[0].Print(); else Debug.Log("EE");
-                //Debug.Log("B: " + instance.level.fullName);
+
                 if (instance.level == null)
                 {
                     instance.level =  new LoadedLevel(new LevelData(), "");
@@ -70,13 +67,13 @@ namespace LevelBuildingSidekick
             {
                 case 0: // ok
                     SaveFile();
-                    path = EditorUtility.OpenFilePanel("Load level data", "", ".json");
+                    path = EditorUtility.OpenFilePanel("Load level data", "", "json");
                     fileInfo = new System.IO.FileInfo(path);
                     data = Utility.JSONDataManager.LoadData<LevelData>(path);
-                    CurrentLevel = new LoadedLevel(data,fileInfo.FullName);
+                    CurrentLevel = new LoadedLevel(data, fileInfo.FullName);
                     break;
                 case 1: // cancel
-                    path = EditorUtility.OpenFilePanel("Load level data", "", ".json");
+                    path = EditorUtility.OpenFilePanel("Load level data", "", "json");
                     fileInfo = new System.IO.FileInfo(path);
                     data = Utility.JSONDataManager.LoadData<LevelData>(path);
                     CurrentLevel = new LoadedLevel(data, fileInfo.FullName);
@@ -106,26 +103,17 @@ namespace LevelBuildingSidekick
         {
             var fileInfo = CurrentLevel.FileInfo;
             if (fileInfo == null)
+            {
                 SaveFileAs();
-
-            if (!fileInfo.Exists)
+            }
+            else if (!fileInfo.Exists)
+            {
                 SaveFileAs();
-
-            Utility.JSONDataManager.SaveData(fileInfo.FullName, CurrentLevel.data);
-
-            //if(CurrentLevel.levelName == "")
-            //SaveFileAs();
-
-            //FileInfo fileInfo;
-            //if (FileExists(CurrentLevel.levelName, ".json", out fileInfo))
-            //{
-            //    Utility.JSONDataManager.SaveData(fileInfo.FullName, LBSController.CurrentLevel);
-            //}
-            //else
-            //{
-            //    SaveFileAs();
-            //}
-
+            }
+            else
+            {
+                Utility.JSONDataManager.SaveData(fileInfo.FullName, CurrentLevel.data);
+            }
         }
 
         internal static void SaveFileAs()
@@ -153,6 +141,7 @@ namespace LevelBuildingSidekick
             {
                 Debug.Log("Save file on: '" + path + "'.");
                 Utility.JSONDataManager.SaveData(path, CurrentLevel.data);
+                LevelBackUp.Instance().level.fullName = path;
             }
         }
 
