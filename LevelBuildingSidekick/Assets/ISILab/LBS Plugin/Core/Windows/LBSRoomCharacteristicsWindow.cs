@@ -28,21 +28,19 @@ namespace LevelBuildingSidekick.Graph
 
             graphView = root.Q<LBSGraphView>();
             var generateBtn = root.Q<Button>("GenerateBtn");
-            generateBtn.clicked += () => { /*GenerateSchema();*/ };
+            generateBtn.clicked += () => { GenerateSchema(); };
         }
 
-        /*
+        
         private void GenerateSchema()
         {
             Debug.Log("[Generate Tile map]");
-            var g = LBSController.CurrentLevel.GetRepresentation<LBSGraphData>(); // lBSGraphData deberia llamarse RoomCharData
+            var g = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
             var tm = new GraphToTileMap().Transform(g);
-            LBSController.CurrentLevel.AddRepresentation(tm);
+            LBSController.CurrentLevel.data.AddRepresentation(tm);
             LBSController.SaveFile(); // esto es necesario?, supongo que si pero no se
-            g.Print();
-            tm.Print();
         }
-        */
+        
 
         private void OnGUI()
         {
