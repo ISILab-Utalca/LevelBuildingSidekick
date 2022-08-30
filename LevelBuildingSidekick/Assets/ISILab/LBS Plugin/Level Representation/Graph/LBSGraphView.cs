@@ -48,7 +48,6 @@ namespace LevelBuildingSidekick.Graph
 
         public LBSGraphView()
         {
-            //Controller = new LBSGraphController();
             var gb = new GridBackground();
             gb.StretchToParentSize();
             Insert(0, gb);
@@ -58,11 +57,7 @@ namespace LevelBuildingSidekick.Graph
             this.AddManipulator(new SelectionDragger());
             this.AddManipulator(new RectangleSelector());
 
-            //createEdge = new CreateEdge(controller, this);
-            //this.AddManipulator(createEdge);
-
             var styleSheet = Utility.DirectoryTools.SearchAssetByName<StyleSheet>("GraphWindow");
-            //style.backgroundColor = new Color(79, 79, 79);;
             styleSheets.Add(styleSheet);
             LBSController.ShowLevelInspector();
         }
@@ -101,16 +96,11 @@ namespace LevelBuildingSidekick.Graph
                 AddNodeView(data);
             });
 
-            evt.menu.AppendAction("Clean", (Action<DropdownMenuAction>)((a) =>
+            evt.menu.AppendAction("Clean", ((a) =>
             {
                 this.Controller.Clear();
                 DeleteElements(graphElements);
             }));
-
-            evt.menu.AppendAction("Save", a =>
-            {
-                Utility.JSONDataManager.SaveData("LBSLevels", "test1", LBSController.CurrentLevel);
-            });
 
             evt.menu.AppendAction("Debug/print info", (a) => {
                 var graph = (controller.Data as LBSGraphData);
