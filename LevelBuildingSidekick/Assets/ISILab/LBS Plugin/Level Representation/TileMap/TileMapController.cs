@@ -45,8 +45,8 @@ namespace LBS.Representation.TileMap
             {
                 var edge = graphData.GetEdge(i);
            
-                var r1 = schema.GetRoomByID(edge.FirstNodeLabel);
-                var r2 = schema.GetRoomByID(edge.SecondNodeLabel);
+                var r1 = schema.GetRoom(edge.FirstNodeLabel);
+                var r2 = schema.GetRoom(edge.SecondNodeLabel);
 
                 var roomDist = GetRoomDistance(r1, r2);  // este metodo podria recivir una funcion de calculo de distancia en ved de estar fija (?)
                 if (roomDist <= 1)
@@ -55,7 +55,7 @@ namespace LBS.Representation.TileMap
                 }
                 else
                 {
-                    var c = r1.tiles.Count();
+                    var c = r1.TilesCount;
                     var max1 = (r1.GetHeight() + r1.GetWidth()) / 2f;
                     var max2 = (r2.GetHeight() + r2.GetWidth()) / 2f;
                     distValue += 1 - (roomDist / (max1 + max2));
@@ -71,7 +71,7 @@ namespace LBS.Representation.TileMap
             for (int i = 0; i < graphData.NodeCount(); i++)
             {
                 var node = graphData.GetNode(i) as RoomCharacteristicsData;
-                var room = tileMap.GetRoomByID(node.Label);
+                var room = tileMap.GetRoom(node.Label);
                 switch (node.ProportionType)
                 {
                     case ProportionType.RATIO:
@@ -82,7 +82,7 @@ namespace LBS.Representation.TileMap
                         break;
                 }
             }
-            return value / (tileMap.GetRoomAmount() * 1f);
+            return value / (tileMap.RoomCount * 1f);
         }
 
         public float EvaluateMap(LBSTileMapData schemaData, LBSGraphData graphData)
@@ -126,8 +126,8 @@ namespace LBS.Representation.TileMap
         private int GetRoomDistance(RoomData r1, RoomData r2) // O2 - manhattan
         {
             var lessDist = int.MaxValue;
-            var ts1 = r1.tiles;
-            var ts2 = r2.tiles;
+            var ts1 = r1.Tiles;
+            var ts2 = r2.Tiles;
             for (int i = 0; i < ts1.Count; i++)
             {
                 for (int j = 0; j < ts2.Count; j++)
@@ -150,7 +150,7 @@ namespace LBS.Representation.TileMap
         {
             var neightbours = new List<LBSTileMapData>();
 
-            for (int i = 0; i < tileMap.GetRoomAmount(); i++)
+            for (int i = 0; i < tileMap.RoomCount; i++)
             {
                 var room = tileMap.GetRoom(i);
                 var vWalls = room.GetVerticalWalls();
