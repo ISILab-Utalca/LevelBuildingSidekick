@@ -8,22 +8,52 @@ using UnityEngine;
 namespace LBS.Representation.TileMap
 {
 
-    [Serializable]
+    [System.Serializable]
     internal class RoomData : ICloneable
     {
         // Info
-        internal string ID;
-        internal List<Vector2Int> tiles = new List<Vector2Int>();
+        [SerializeField, JsonRequired]
+        private string id; // laber or ID
+        [SerializeField, JsonRequired]
+        private List<Vector2Int> tiles = new List<Vector2Int>();
+        [SerializeField, JsonRequired]
+        private string color;
 
         // Metainfo
-        [JsonIgnore] internal Vector2Int centroid;
-        [JsonIgnore] internal Vector2Int surface;
-        [JsonIgnore] private RectInt? rect;
+        [JsonIgnore]
+        internal Vector2Int centroid; // esto podria ir en un controlador y no directamente en la data (??)
+        [JsonIgnore]
+        internal Vector2Int surface; // esto podria ir en un controlador y no directamente en la data (??)
+        [JsonIgnore]
+        private RectInt? rect; // esto podria ir en un controlador y no directamente en la data (??)
 
-        internal RoomData(List<Vector2Int> tiles, string ID)
+        [JsonIgnore]
+        public string ID => this.id;
+        [JsonIgnore]
+        public Color Color { 
+            get
+            {
+                var c = Commons.StrToColor(color);
+                //Debug.Log("#"+color+": <color=#"+ color + ">"+c.ToString()+"</color>");
+                return c;
+            }
+            set => color = Commons.ColorTosStr(value);
+        }
+        [JsonIgnore]
+        public List<Vector2Int> Tiles => new List<Vector2Int>(tiles);
+        [JsonIgnore]
+        public int TilesCount => tiles.Count;
+
+        /// <summary>
+        /// Empty constructor.
+        /// </summary>
+        public RoomData() { }
+
+        internal RoomData(List<Vector2Int> tiles, string id)
         {
-            this.ID = ID;
+            this.id = id;
             this.tiles = tiles;
+            this.color = Commons.ColorTosStr( new Color(UnityEngine.Random.Range(0f,1f), UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f)));
         }
 
         public object Clone()
@@ -33,10 +63,14 @@ namespace LBS.Representation.TileMap
             {
                 tiles.Add(new Vector2Int(t.x, t.y));
             }
-            var clone = new RoomData(tiles, this.ID);
+            var clone = new RoomData(tiles, this.id);
             return clone;
         }
 
+        /// <summary>
+        /// Add the tile delivered by parameters, if have it does nothing.
+        /// </summary>
+        /// <param name="tile"></param>
         internal void AddTile(Vector2Int tile)
         {
             if (!tiles.Contains(tile))
@@ -45,6 +79,10 @@ namespace LBS.Representation.TileMap
             }
         }
 
+        /// <summary>
+        /// Remove tile delivered by parameters, if dont have it does nothing.
+        /// </summary>
+        /// <param name="tile"></param>
         internal void RemoveTile(Vector2Int tile)
         {
             if (tiles.Contains(tile))
@@ -216,7 +254,7 @@ namespace LBS.Representation.TileMap
                     wallTiles.Add(new Vector2Int(current.x + i, current.y));
                 }
                 var dir = (current.x >= GetCentroid().x) ? Vector2Int.right : Vector2Int.left;
-                walls.Add(new WallData(current, (Vector2Int)other, this.ID, dir, wallTiles));
+                walls.Add(new WallData(current, (Vector2Int)other, this.id, dir, wallTiles));
             }
             return walls;
         }
@@ -260,7 +298,7 @@ namespace LBS.Representation.TileMap
                     wallTiles.Add(new Vector2Int(current.x, current.y + i));
                 }
                 var dir = (current.y >= GetCentroid().y) ? Vector2Int.up : Vector2Int.down;
-                walls.Add(new WallData(current, (Vector2Int)other, this.ID, dir, wallTiles));
+                walls.Add(new WallData(current, (Vector2Int)other, this.id, dir, wallTiles));
             }
             return walls;
         }
