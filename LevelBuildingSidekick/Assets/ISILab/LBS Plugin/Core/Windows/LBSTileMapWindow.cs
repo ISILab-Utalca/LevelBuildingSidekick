@@ -38,27 +38,16 @@ public class LBSTileMapWindow : LBSEditorWindow
 
     private void ActualizeView()
     {
+        if (view == null)
+            return;
+
         view.ClearView();
+
         var tileMap = LBSController.CurrentLevel.data.GetRepresentation<LBSTileMapData>();
-        tileMap.Print();
         if (tileMap != null)
         {
             view.Populate(tileMap);
         }
-        /*
-        var c = tileGridView.controller;
-        var map = c.Data as LBSTileMapData;
-        if(map != null)
-        {
-            notSelectedLabel.visible = false;
-            tileGridView.visible = true;
-            tileGridView.SetView(c);
-        }
-        else
-        {
-            notSelectedLabel.visible = true;
-            tileGridView.visible = false;
-        }*/
     }
 
     private void OnFocus()
@@ -68,11 +57,12 @@ public class LBSTileMapWindow : LBSEditorWindow
 
     private void OnLostFocus()
     {
-        ActualizeView();
+        
+        //ActualizeView();
     }
 
     private void OnSelectionChange()
     {
-        ActualizeView();
+        //ActualizeView();
     }
 }
