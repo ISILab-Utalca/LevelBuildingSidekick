@@ -81,7 +81,6 @@ public class LBSEdgeData: Data
 
     public bool Contains(string nodeID)
     {
-        return firstNodeLabel == nodeID || firstNodeLabel == nodeID;
-        //return FirstNodeLabel == nodeID || SecondNodeLabel == nodeID;
+        return firstNodeLabel == nodeID || secondNodeLabel == nodeID;
     }
 }

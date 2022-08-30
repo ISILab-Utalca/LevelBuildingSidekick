@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace LevelBuildingSidekick
 {
+    [CreateAssetMenu(menuName ="LBS.../Back Up",fileName ="LBSBackUp.asset")]
     public class LevelBackUp : ScriptableObject
     {
         private static readonly string defaultPath = "Assets/ISILab/LBS Plugin/Resources/BackUp"; // esto podria ser peligroso (!)
@@ -20,8 +21,6 @@ namespace LevelBuildingSidekick
             // si la instancia ya esta registrada la retorna
             if (instance != null)
             {
-                EditorUtility.SetDirty(instance);
-                AssetDatabase.SaveAssets();
                 return instance;
             }
 
@@ -30,8 +29,6 @@ namespace LevelBuildingSidekick
             if (lbus.Count > 0)
             {
                 instance = lbus[0];
-                EditorUtility.SetDirty(instance);
-                AssetDatabase.SaveAssets();
                 return instance;
             }
 

@@ -223,16 +223,24 @@ namespace LevelBuildingSidekick.Graph
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
-        public List<LBSNodeData> GetNeighbors(LBSNodeData node)
+        public List<T> GetNeighbors<T>(T node) where T : LBSNodeData
         {
-            var conects =  edges.Where(e => e.Contains(node.Label)).ToList();
-            var neigs = new List<LBSNodeData>();
+            var conects = edges.Where(e => e.Contains(node.Label)).ToList();
+            var neigs = new List<T>();
             conects.ForEach((e) =>
             {
                 if (e.FirstNodeLabel != node.Label)
-                    neigs.Add(GetNode(e.FirstNodeLabel));
+                {
+                    var n = GetNode(e.FirstNodeLabel);
+                    neigs.Add((T)n);
+                }
+                    
                 if (e.SecondNodeLabel != node.Label)
-                    neigs.Add(GetNode(e.SecondNodeLabel));
+                {
+                    var n = GetNode(e.SecondNodeLabel);
+                    neigs.Add((T)n);
+                }
+                    
             });
 
             return neigs;

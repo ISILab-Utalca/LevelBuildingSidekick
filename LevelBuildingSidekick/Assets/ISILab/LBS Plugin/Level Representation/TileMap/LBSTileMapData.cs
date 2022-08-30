@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace LBS.Representation.TileMap
@@ -18,27 +19,48 @@ namespace LBS.Representation.TileMap
     public class LBSTileMapData : LBSRepesentationData, ICloneable // cambiar de nombre a mapData o baseStructureData
     {
         // Concrete info
+        [SerializeField,JsonRequired, SerializeReference]
         private List<RoomData> rooms = new List<RoomData>();
 
         // Meta info
-        [JsonIgnore] private string[,] matrixIDs;
-        [JsonIgnore] private RectInt? rect;
-        [JsonIgnore] private int[,] tilevalue; // walls
-        [JsonIgnore] private Vector2Int size;
-        //private bool dirty = false; // flag
+        [HideInInspector, JsonIgnore] 
+        private string[,] matrixIDs; // matriz con info de la habitacion a la que correspode cada tile
+        [HideInInspector, JsonIgnore]
+        private RectInt? rect;
+        [HideInInspector, JsonIgnore]
+        private int[,] tilevalue; // walls
+        [HideInInspector, JsonIgnore]
+        private Vector2Int size;
 
+        //private bool dirty = false; // flag
 
         // Properties
         //public Vector2Int Size => 
         //public roomAmount =>
+        public int RoomCount => rooms.Count;
+        internal RoomData GetRoom(int i) => rooms[i];
 
-        [JsonIgnore] public override Type ControllerType => typeof(Controller);
 
-        internal RoomData GetRoomByID(string id)
+        [JsonIgnore] 
+        public override Type ControllerType => typeof(Controller);
+
+        /// <summary>
+        /// Returns the room with the ID provided by parameters.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        internal RoomData GetRoom(string id) // "ID" = "Label"
         {
-            return rooms.Find(r => r.ID.Equals(id));
+            return rooms.Find(r => r.ID == id);
         }
 
+        /// <summary>
+        /// Add a room.
+        /// </summary>
+        /// <param name="firstPos"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="ID"></param>
         public void AddRoom(Vector2Int firstPos, int width, int height, string ID)
         {
             var tiles = new List<Vector2Int>();
@@ -46,12 +68,13 @@ namespace LBS.Representation.TileMap
             {
                 for (int j = 0; j < height; j++)
                 {
-                    tiles.Add(new Vector2Int(firstPos.x + i, firstPos.y + j));
+                    tiles.Add(new Vector2Int(firstPos.x + i - (width/2), firstPos.y + j - (height/2)));
                 }
             }
             rooms.Add(new RoomData(tiles, ID));
         }
 
+        
         public void AddTiles(List<Vector2Int> tiles, string roomId)
         {
             SetTiles(tiles,roomId);
@@ -69,33 +92,35 @@ namespace LBS.Representation.TileMap
         {
             foreach (var r in rooms)
             {
-                if (r.tiles.Contains(tile))
+                if (r.Tiles.Contains(tile))
                 {
-                    r.tiles.Remove(tile);
+                    r.RemoveTile(tile);
                 }
             }
         }
 
-        public void SetTiles(List<Vector2Int> tiles, string roomId)
+        /// <summary>
+        /// Add a tile to the respective room. if the room does not exist
+        /// it does nothing and if a room has already been assigned the
+        /// corresponding tile it moves it to the new room.
+        /// </summary>
+        /// <param name="tiles"></param>
+        /// <param name="roomId"></param>
+        public void SetTiles(List<Vector2Int> tiles, string roomId) 
         {
-            if(!rooms.Exists(r => r.ID == (roomId)))
+            var room = rooms.Find(r => r.ID == roomId);
+            if (room == null) // esto podria crear la habitacion y asignarla en vez de no hacer nada (??)
             {
-                Debug.LogWarning("[Error]: There is no room with the id <b>'" + roomId + "'</b> in the level representation."); // change this to name or something like. (!)
+                // change this to name or something like. (!)
+                Debug.LogWarning("[Error]: There is no room with the label <b>'" + roomId + "'</b> in the level representation."); 
                 return;
             }
-            
             RemoveTiles(tiles);
-
-            var room = rooms.Find(r => r.ID.Equals(roomId));
+            
             foreach (var t in tiles)
             {
                 room.AddTile(t);
             }
-        }
-
-        internal int GetRoomAmount()
-        {
-            return rooms.Count;
         }
 
         public object Clone()
@@ -120,9 +145,10 @@ namespace LBS.Representation.TileMap
             matrixIDs = new string[rect.width, rect.height];
             foreach (var r in rooms)
             {
-                foreach (var t in r.tiles)
+                foreach (var t in r.Tiles)
                 {
-                    matrixIDs[t.x, t.y] = r.ID;
+                    var pos = t - rect.min;
+                    matrixIDs[pos.x, pos.y] = r.ID;
                 }
             }
             return matrixIDs;
@@ -153,10 +179,7 @@ namespace LBS.Representation.TileMap
             return (RectInt)rect;
         }
 
-        internal RoomData GetRoom(int i)
-        {
-            return rooms[i];
-        }
+
 
         public override void Print()
         {
@@ -164,7 +187,7 @@ namespace LBS.Representation.TileMap
             msg += "<b>Tile map. (step 1)</b>" + "\n";
             msg += "Room amount: " + this.rooms.Count + "\n";
             msg += "------------";
-            rooms.ForEach(r => msg += r.ID + ": " + r.tiles.Count + "\n");
+            rooms.ForEach(r => msg += r.ID + ": " + r.TilesCount + "\n");
             Debug.Log(msg);
         }
     }

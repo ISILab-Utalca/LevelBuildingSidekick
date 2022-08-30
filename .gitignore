@@ -72,3 +72,7 @@ crashlytics-build.properties
 "Temp/*" 
 "Library/*" 
 "Venv/*"
+
+# ISILab
+LBSBackUp.asset
+LBSBackUp.asset.meta
