@@ -14,7 +14,7 @@ namespace LBS.Transformers
         {
             if (graph.NodeCount() <= 0)
             {
-                Debug.LogWarning("[Error]: Graph node have 0 nodes.");
+                Debug.LogWarning("[Error]: 'Graph node' have 0 nodes.");
                 return null;
             }
 
@@ -22,8 +22,8 @@ namespace LBS.Transformers
             HashSet<LBSNodeData> closed = new HashSet<LBSNodeData>();
 
             var parent = graph.GetNodes().OrderByDescending((n) => graph.GetNeighbors(n).Count).First() as RoomCharacteristicsData;
-            //graph.nodes.ForEach(n => Debug.Log(n.label +": "+ graph.GetNeighbors(n).Count));
             open.Enqueue(parent);
+            //Debug.Log("parent: "+parent.Label);
 
             var tileMap = new LBSTileMapData();
             int h = parent.RangeHeight.Middle;
@@ -33,8 +33,10 @@ namespace LBS.Transformers
             while (open.Count > 0)
             {
                 parent = open.Dequeue() as RoomCharacteristicsData;
+                Debug.Log("parent: " + parent.Label);
 
-                var childs = graph.GetNeighbors(parent).OrderBy(n => Utility.MathTools.GetAngleD15(parent.Centroid, n.Centroid)).Select( c => c as RoomCharacteristicsData);
+                var childs = graph.GetNeighbors(parent);
+                //var childs = graph.GetNeighbors(parent).OrderBy(n => Utility.MathTools.GetAngleD15(parent.Centroid, n.Centroid)).Select( c => c as RoomCharacteristicsData);
 
                 foreach (var child in childs)
                 {
@@ -50,7 +52,7 @@ namespace LBS.Transformers
 
                     var dir = ((Vector2)(child.Centroid - parent.Centroid)).normalized;
                     var posX = dir.x * ((childW + parentW) / 2f);
-                    var posY = dir.y + ((childH + parentH) / 2f);
+                    var posY = dir.y * ((childH + parentH) / 2f);
                     tileMap.AddRoom(new Vector2Int((int)posX, (int)posY), childW, childH, child.Label);
                 }
 
