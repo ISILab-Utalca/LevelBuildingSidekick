@@ -6,7 +6,7 @@ using UnityEngine;
 public class LBSTest : LBSEditorWindow // es necesario una clase "LBSTest" que se va a hacer con ella (!!)
 {
 
-    [MenuItem("LBS/Test step.../test (nombre temporal)")]
+    [MenuItem("ISILab/LBS plugin/Test step.../test (nombre temporal)")]
     public static void OpenWindow()
     {
         var wnd = GetWindow<LBSEnviroment>();

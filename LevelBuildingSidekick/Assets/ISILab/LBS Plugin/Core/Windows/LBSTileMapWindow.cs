@@ -11,7 +11,7 @@ public class LBSTileMapWindow : LBSEditorWindow
     private TileGridView view;
     private Label notSelectedLabel;
 
-    [MenuItem("LBS/Physic step.../Tile map")]
+    [MenuItem("ISILab/LBS plugin/Physic step.../Tile map")]
     [LBSWindow("Tile map")]
     public static void OpenWindow()
     {

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class LBSQuest : LBSEditorWindow
 {
-    [MenuItem("LBS/Quest step.../quest (nombre temporal)")]
+    [MenuItem("ISILab/LBS plugin/SQuest step.../quest (nombre temporal)")]
     public static void OpenWindow()
     {
         var wnd = GetWindow<LBSQuest>();

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class LBSEnviroment : LBSEditorWindow
 {
-    [MenuItem("LBS/Enviroment step.../enviroment (nombre temporal)(la de los colorinches y luces)")]
+    [MenuItem("ISILab/LBS plugin/Enviroment step.../enviroment (nombre temporal)(la de los colorinches y luces)")]
     public static void OpenWindow()
     {
         var wnd = GetWindow<LBSEnviroment>();

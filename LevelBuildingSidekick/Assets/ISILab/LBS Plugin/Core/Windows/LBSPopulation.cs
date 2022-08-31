@@ -6,7 +6,7 @@ using UnityEngine;
 public class LBSPopulation : LBSEditorWindow
 {
 
-    [MenuItem("LBS/Population step.../Population (nombre temporal)")]
+    [MenuItem("ISILab/LBS plugin/Population step.../Population (nombre temporal)")]
     [LBSWindow("Population Window")]
     public static void OpenWindow()
     {

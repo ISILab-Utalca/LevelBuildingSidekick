@@ -11,7 +11,7 @@ namespace LevelBuildingSidekick.Graph
     {
         private LBSGraphView graphView;
 
-        [MenuItem("LBS/Physic step.../Room characteristics graph")]
+        [MenuItem("ISILab/LBS plugin/Physic step.../Room characteristics graph")]
         [LBSWindow("Room Characteristics")]
         public static void OpenWindow()
         {

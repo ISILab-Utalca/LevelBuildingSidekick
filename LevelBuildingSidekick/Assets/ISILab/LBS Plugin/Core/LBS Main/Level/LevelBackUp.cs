@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace LevelBuildingSidekick
 {
-    [CreateAssetMenu(menuName ="LBS.../Back Up",fileName ="LBSBackUp.asset")]
+    [CreateAssetMenu(menuName = "ISILab/LBS plugin/Back Up", fileName ="LBSBackUp.asset")]
     public class LevelBackUp : ScriptableObject
     {
         private static readonly string defaultPath = "Assets/ISILab/LBS Plugin/Resources/BackUp"; // esto podria ser peligroso (!)

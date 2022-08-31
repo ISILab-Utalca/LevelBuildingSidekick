@@ -41,7 +41,7 @@ namespace LevelBuildingSidekick
         private static List<Tuple<LBSWindowAttribute, MethodInfo>> methods;
         private static List<WindowsPreset> presets;
 
-        [MenuItem("LBS/Welcome window...", priority = 0)]
+        [MenuItem("ISILab/LBS plugin/Welcome window...", priority = 0)]
         public static void ShowWindow()
         {
             var window = GetWindow<LBSStartWindow>();
