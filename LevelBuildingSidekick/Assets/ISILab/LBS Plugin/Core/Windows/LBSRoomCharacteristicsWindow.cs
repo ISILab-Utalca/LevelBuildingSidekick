@@ -41,17 +41,12 @@ namespace LevelBuildingSidekick.Graph
             LBSController.SaveFile(); // esto es necesario?, supongo que si pero no se
         }
         
-
-        private void OnGUI()
-        {
-            //graphView.OnGUI();
-        }
-
         private void OnFocus()
         {
             if (graphView != null)
             {
-                graphView.PopulateView();
+                var data = LBSController.CurrentLevel.data;
+                graphView.Populate(data.GetRepresentation<LBSGraphData>());
             }
         }
  
