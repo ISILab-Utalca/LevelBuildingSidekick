@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement focusable="false" style="flex-grow: 1; overflow: visible; position: absolute; background-color: rgba(0, 0, 0, 0);">
+        <ui:VisualElement style="width: 100px; height: 100px; background-color: rgba(183, 71, 71, 255); position: absolute; top: 72px; left: 85px;" />
+    </ui:VisualElement>
+    <ui:VisualElement style="overflow: visible; flex-grow: 1; position: absolute; background-color: rgb(0, 0, 0);">
+        <ui:VisualElement focusable="false" style="width: 100px; height: 100px; background-color: rgb(154, 183, 71); -unity-text-align: upper-left; position: absolute; top: 122px; left: 134px; display: flex;" />
+    </ui:VisualElement>
+</ui:UXML>
