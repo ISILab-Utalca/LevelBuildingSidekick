@@ -10,7 +10,12 @@ using System.Text;
 
 namespace LevelBuildingSidekick
 {
-    // change name "LBSController" to "LBS" or "LBSCore" or "LBSMain" (!)
+    public static class Globals
+    {
+
+    }
+
+    // change name "LBSController" to "LBS" or "LBSCore" or "LBSMain" or "LBSManager" (!) 
     // esta clase podria ser estatica completamente (??)
     public class LBSController 
     {
