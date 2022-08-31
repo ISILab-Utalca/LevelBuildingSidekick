@@ -9,7 +9,7 @@ namespace LBS.Representation.TileMap
 {
 
     [System.Serializable]
-    internal class RoomData : ICloneable
+    public class RoomData : ICloneable
     {
         // Info
         [SerializeField, JsonRequired]
