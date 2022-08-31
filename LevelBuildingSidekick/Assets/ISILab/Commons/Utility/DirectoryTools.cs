@@ -25,6 +25,17 @@ namespace Utility
             return (T)obj;
         }
 
+        public static List<T> GetScriptables<T>(string name = "") where T : ScriptableObject
+        {
+            var posibles = GetScriptablesByType<T>();
+            return posibles.Where(so => so.name.Contains(name)).ToList();
+        }
+
+        public static T GetScriptable<T>(string name = "") where T : ScriptableObject
+        {
+            return GetScriptables<T>(name)[0];
+        }
+
         public static List<T> GetScriptablesByType<T>() where T : ScriptableObject
         {
             List<T> toReturn = new List<T>();
