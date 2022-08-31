@@ -18,9 +18,9 @@ namespace LevelBuildingSidekick
             LoadData();
         }
 
-        public abstract void Update();
+        public abstract void Update(); // no se estan usando (!!!!)
 
-        public abstract void LoadData();
+        public abstract void LoadData(); // no se estan usando (!!!!)
 
     }
 }
