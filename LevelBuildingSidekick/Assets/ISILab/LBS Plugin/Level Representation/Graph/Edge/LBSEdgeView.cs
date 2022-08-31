@@ -15,7 +15,7 @@ public abstract class LBSEdgeView : GraphElement
     protected LBSNodeView nv1, nv2;
     protected GraphView root;
 
-    public LBSEdgeView(LBSNodeView nv1, LBSNodeView nv2, LBSGraphView root)
+    public LBSEdgeView(LBSNodeView nv1, LBSNodeView nv2, LBSBaseView root)
     {
         this.nv1 = nv1;
         this.nv2 = nv2;
@@ -46,7 +46,7 @@ public class LBSDotedEdgeView : LBSEdgeView
     private static float dist = 10f;
     private List<GraphElement> elements = new List<GraphElement>();
 
-    public LBSDotedEdgeView(LBSNodeView nv1, LBSNodeView nv2, LBSGraphView root) : base(nv1, nv2, root)
+    public LBSDotedEdgeView(LBSNodeView nv1, LBSNodeView nv2, LBSBaseView root) : base(nv1, nv2, root)
     {
     }
 
@@ -77,7 +77,7 @@ public class LBSLineEdgeView : LBSEdgeView
 {
     public Line line;
 
-    public LBSLineEdgeView(LBSNodeView nv1, LBSNodeView nv2, LBSGraphView root) : base(nv1, nv2, root)
+    public LBSLineEdgeView(LBSNodeView nv1, LBSNodeView nv2, LBSBaseView root) : base(nv1, nv2, root)
     {
     }
 

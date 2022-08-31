@@ -8,8 +8,11 @@ using System;
 using Utility;
 using LBS.Representation.TileMap;
 using LBS.ElementView;
+using LevelBuildingSidekick;
 
-public class TileGridView : GraphView
+
+
+public class TileGridView : LBSBaseView
 {
     public new class UxmlFactory : UxmlFactory<TileGridView, GraphView.UxmlTraits> { }
 
@@ -44,20 +47,16 @@ public class TileGridView : GraphView
         }
     }
 
-    internal void ClearView()
+    public override void Populate<T>(T value)
     {
-        DeleteElements(graphElements);
-    }
-
-    internal void Populate(LBSTileMapData data)
-    {
-        this.data = data;
-        DeleteElements(graphElements);
-        var mtx = data.GetMatrix();
+        var data = value as LBSTileMapData;
+        if (data == null)
+            Debug.LogWarning("[Error]: The information you are trying to upload cannot be displayed in this view.");
 
         // Esto demora 1.8 seg en completarse con alrededor de 550 tiles,
         // es necesario mejorar la eficinecia en este paso ya que añade mucha demora.
         // Se sugiere probar con object pool o algo asi. (!!!)
+        var mtx = data.GetMatrix();
         for (int i = 0; i < mtx.GetLength(0); i++)
         {
             for (int j = 0; j < mtx.GetLength(1); j++)
@@ -70,6 +69,7 @@ public class TileGridView : GraphView
                 }
             }
         }
+
     }
 
     void CreateTileView(Vector2Int tilePos,Vector2 size,RoomData data)

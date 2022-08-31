@@ -1,10 +1,13 @@
+using LBS.View;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class LBSPopulation : LBSEditorWindow
 {
+    private FreeStampView stampView; 
 
     [MenuItem("ISILab/LBS plugin/Population step.../Population (nombre temporal)")]
     [LBSWindow("Population Window")]
@@ -19,6 +22,10 @@ public class LBSPopulation : LBSEditorWindow
 
     public override void OnCreateGUI()
     {
-        //throw new System.NotImplementedException();
+        this.ImportUXML("populationUXML");
+        this.ImportStyleSheet("GraphWindow");
+
+        stampView = root.Q<FreeStampView>();
     }
+
 }

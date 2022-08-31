@@ -7,10 +7,11 @@ using LevelBuildingSidekick;
 using System;
 using System.Linq;
 using UnityEngine.UIElements;
+using LBS.Representation.TileMap;
 
 namespace LevelBuildingSidekick.Graph
 {
-    public class LBSGraphView : GraphView
+    public class LBSGraphView : LBSBaseView
     {
         public static bool isDragEdge = false;
         private static LBSNodeView first;
@@ -62,14 +63,16 @@ namespace LevelBuildingSidekick.Graph
             LBSController.ShowLevelInspector();
         }
 
-        public void PopulateView()
+        public override void Populate<T>(T value)
         {
+            var data = value as LBSGraphData;
+            if(data == null)
+                Debug.LogWarning("[Error]: The information you are trying to upload cannot be displayed in this view.");
+
+
             DeleteElements(graphElements);
-
-            var graph = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
-
-            graph.GetNodes().ForEach(n => AddNodeView(n));
-            graph.GetEdges().ForEach(e => AddEdgeView(e));
+            data.GetNodes().ForEach(n => AddNodeView(n));
+            data.GetEdges().ForEach(e => AddEdgeView(e));
         }
 
         public LBSNodeView GetNodeViewBylabel(string label)
@@ -210,6 +213,8 @@ namespace LevelBuildingSidekick.Graph
                 LBSController.ShowLevelInspector();
             }
         }
+
+
     }
 }
 

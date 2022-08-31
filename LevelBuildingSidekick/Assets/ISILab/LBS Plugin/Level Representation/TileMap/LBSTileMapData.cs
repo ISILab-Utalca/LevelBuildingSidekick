@@ -40,9 +40,19 @@ namespace LBS.Representation.TileMap
         public int RoomCount => rooms.Count;
         internal RoomData GetRoom(int i) => rooms[i];
 
+        public List<RoomData> GetRooms() => new List<RoomData>(rooms);
 
         [JsonIgnore] 
         public override Type ControllerType => typeof(Controller);
+
+        public override void Clear()
+        {
+            rooms.Clear();
+            matrixIDs = null;
+            rect = null;
+            tilevalue = null;
+            //size = null;
+        }
 
         /// <summary>
         /// Returns the room with the ID provided by parameters.

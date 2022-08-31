@@ -14,4 +14,9 @@ public abstract class LBSRepesentationData : Data
     /// the representation.
     /// </summary>
     public abstract void Print();
+
+    /// <summary>
+    /// Cleans all the information saved in.
+    /// </summary>
+    public abstract void Clear();
 }

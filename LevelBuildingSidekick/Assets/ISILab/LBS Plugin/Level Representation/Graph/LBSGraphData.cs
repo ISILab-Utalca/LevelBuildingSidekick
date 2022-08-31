@@ -22,7 +22,7 @@ namespace LevelBuildingSidekick.Graph
         [JsonIgnore]
         public override Type ControllerType => typeof(LBSGraphController);
 
-        internal void Clear()
+        public override void Clear()
         {
             edges = new List<LBSEdgeData>();
             nodes = new List<LBSNodeData>();
