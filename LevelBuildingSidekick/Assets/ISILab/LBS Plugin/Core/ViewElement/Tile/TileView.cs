@@ -8,7 +8,7 @@ namespace LBS.ElementView
 {
     public class TileView : GraphElement
     {
-        public new class UxmlFactory : UxmlFactory<TileView, VisualElement.UxmlTraits> { }
+        //public new class UxmlFactory : UxmlFactory<TileView, VisualElement.UxmlTraits> { }
 
         private int wallthicc = 8;
         private VisualElement border;
@@ -27,6 +27,9 @@ namespace LBS.ElementView
 
             this.SetPadding(0);
             this.SetBorderWidth(0);
+
+            capabilities |= Capabilities.Selectable | Capabilities.Deletable | Capabilities.Ascendable | Capabilities.Copiable | Capabilities.Snappable | Capabilities.Groupable;
+            usageHints = UsageHints.DynamicTransform;
         }
 
         public void ShowLabel(bool value)

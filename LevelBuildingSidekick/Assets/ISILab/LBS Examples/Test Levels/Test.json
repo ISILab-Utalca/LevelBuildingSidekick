@@ -25,8 +25,8 @@
           "proportionType": 1,
           "tags": [],
           "radius": 32,
-          "x": 103,
-          "y": 191,
+          "x": 135,
+          "y": 233,
           "label": "Node: 0"
         },
         {
@@ -46,7 +46,7 @@
           "proportionType": 1,
           "tags": [],
           "radius": 32,
-          "x": 104,
+          "x": 135,
           "y": 79,
           "label": "Node: 1"
         },
@@ -67,7 +67,7 @@
           "proportionType": 1,
           "tags": [],
           "radius": 32,
-          "x": -12,
+          "x": -17,
           "y": 79,
           "label": "Node: 2"
         },
@@ -88,8 +88,8 @@
           "proportionType": 1,
           "tags": [],
           "radius": 32,
-          "x": 103,
-          "y": -15,
+          "x": 135,
+          "y": -40,
           "label": "Node: 3"
         },
         {
@@ -109,7 +109,7 @@
           "proportionType": 1,
           "tags": [],
           "radius": 32,
-          "x": 205,
+          "x": 279,
           "y": 79,
           "label": "Node: 4"
         }
@@ -130,6 +130,61 @@
         {
           "firstNodeLabel": "Node: 1",
           "secondNodeLabel": "Node: 4"
+        }
+      ]
+    },
+    {
+      "$type": "LBSStampGroupData, Assembly-CSharp",
+      "stamps": [
+        {
+          "x": 600,
+          "y": 349,
+          "label": "Enemy"
+        },
+        {
+          "x": 568,
+          "y": 334,
+          "label": "Tool"
+        },
+        {
+          "x": 504,
+          "y": 381,
+          "label": "Enemy"
+        },
+        {
+          "x": 384,
+          "y": 293,
+          "label": "Enemy"
+        },
+        {
+          "x": 416,
+          "y": 228,
+          "label": "Enemy"
+        },
+        {
+          "x": 416,
+          "y": 350,
+          "label": "Enemy"
+        },
+        {
+          "x": 252,
+          "y": 350,
+          "label": "Enemy"
+        },
+        {
+          "x": 352,
+          "y": 350,
+          "label": "Enemy"
+        },
+        {
+          "x": 457,
+          "y": 292,
+          "label": "Enemy"
+        },
+        {
+          "x": 220,
+          "y": 334,
+          "label": "Tool"
         }
       ]
     },
@@ -1490,7 +1545,7 @@
               "sqrMagnitude": 98
             }
           ],
-          "color": "02E78E"
+          "color": "17103E"
         },
         {
           "id": "Node: 0",
@@ -1592,7 +1647,7 @@
               "sqrMagnitude": 101
             }
           ],
-          "color": "B22C09"
+          "color": "EF6C7E"
         },
         {
           "id": "Node: 2",
@@ -1694,7 +1749,7 @@
               "sqrMagnitude": 65
             }
           ],
-          "color": "89861A"
+          "color": "3FE5B0"
         },
         {
           "id": "Node: 3",
@@ -1796,7 +1851,7 @@
               "sqrMagnitude": 65
             }
           ],
-          "color": "32DD82"
+          "color": "025BDD"
         },
         {
           "id": "Node: 4",
@@ -1898,7 +1953,7 @@
               "sqrMagnitude": 101
             }
           ],
-          "color": "BE80D8"
+          "color": "BB3F3F"
         }
       ],
       "RoomCount": 5

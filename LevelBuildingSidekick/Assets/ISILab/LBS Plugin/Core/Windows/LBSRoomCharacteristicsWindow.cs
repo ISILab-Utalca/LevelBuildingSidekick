@@ -41,7 +41,7 @@ namespace LevelBuildingSidekick.Graph
             LBSController.SaveFile(); // esto es necesario?, supongo que si pero no se
         }
         
-        private void OnFocus()
+        public override void OnFocus()
         {
             if (graphView != null)
             {

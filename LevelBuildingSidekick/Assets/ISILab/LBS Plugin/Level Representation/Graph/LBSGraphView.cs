@@ -49,10 +49,6 @@ namespace LevelBuildingSidekick.Graph
 
         public LBSGraphView()
         {
-            var gb = new GridBackground();
-            gb.StretchToParentSize();
-            Insert(0, gb);
-
             this.AddManipulator(new ContentZoomer());
             this.AddManipulator(new ContentDragger());
             this.AddManipulator(new SelectionDragger());

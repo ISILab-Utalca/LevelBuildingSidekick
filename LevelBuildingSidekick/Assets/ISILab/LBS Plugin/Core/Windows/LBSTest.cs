@@ -20,4 +20,9 @@ public class LBSTest : LBSEditorWindow // es necesario una clase "LBSTest" que s
     {
         //throw new System.NotImplementedException();
     }
+
+    public override void OnFocus()
+    {
+        throw new System.NotImplementedException();
+    }
 }

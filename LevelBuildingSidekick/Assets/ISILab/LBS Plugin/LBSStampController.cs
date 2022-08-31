@@ -2,6 +2,7 @@
 using LevelBuildingSidekick;
 using LevelBuildingSidekick.Graph;
 using System.Collections;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Utility;
@@ -38,6 +39,14 @@ public class LBSStampController : LBSViewController
             ));
     }
 
+    public override void PopulateView(GraphView view)
+    {
+        data.GetStamps().ForEach(s => {
+            var v = new StampView(s);
+            view.AddElement(v);
+        });
+    }
+
     public void CreateStamp(ContextualMenuPopulateEvent evt, LBSBaseView view, StampPresset stamp)
     {
         var viewPos = new Vector2(view.viewTransform.position.x, view.viewTransform.position.y);
@@ -47,6 +56,8 @@ public class LBSStampController : LBSViewController
         data.AddStamp(newStamp);
         view.AddElement(new StampView(newStamp));
     }
+
+
 
     public void PrintData()
     {

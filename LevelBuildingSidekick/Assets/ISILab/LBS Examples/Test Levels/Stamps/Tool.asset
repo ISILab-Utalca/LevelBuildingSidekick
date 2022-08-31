@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d210eb186a177240a5151921fafa124, type: 3}
   m_Name: Tool
   m_EditorClassIdentifier: 
-  icon: {fileID: 2800000, guid: 8d7c217b39521c84d9a7ab909e3c0de7, type: 3}
+  icon: {fileID: 2800000, guid: 230284c4a7f83a9439fa0674ebbeac53, type: 3}
   tags: []
   Prefabs: []

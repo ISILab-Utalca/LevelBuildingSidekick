@@ -15,6 +15,7 @@ public abstract class LBSEditorWindow : EditorWindow
     protected VisualElement root;
 
     public abstract void OnCreateGUI();
+    public abstract void OnFocus();
 
     public void CreateGUI()
     {

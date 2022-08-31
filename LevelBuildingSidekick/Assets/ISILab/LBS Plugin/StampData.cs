@@ -5,7 +5,7 @@ using System.Collections;
 using UnityEngine;
 
 
-[SerializeField]
+[System.Serializable]
 public class StampData : Data //cuestinable el nombre stamp pero no swe me ocurio otro (!!!)
 {
     [HideInInspector, JsonRequired]
@@ -25,6 +25,7 @@ public class StampData : Data //cuestinable el nombre stamp pero no swe me ocuri
         y = (int)position.y;
     }
 
+    [JsonIgnore]
     public override Type ControllerType => throw new NotImplementedException(); // no se usa en nada (!!!)
 
     [JsonIgnore]

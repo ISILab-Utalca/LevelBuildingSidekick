@@ -5,11 +5,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class LBSStampGroupData : LBSRepesentationData
 {
     [SerializeField, JsonRequired, SerializeReference]
     private List<StampData> stamps = new List<StampData>();
 
+    [JsonIgnore]
     public override Type ControllerType => throw new NotImplementedException();
 
     public StampData GetStamp(int index)

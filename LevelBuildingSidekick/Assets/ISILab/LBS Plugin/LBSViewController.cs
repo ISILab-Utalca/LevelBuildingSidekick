@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -10,6 +11,8 @@ public abstract class LBSViewController : Controller
     public List<ContextAction> contextActions = new List<ContextAction>();
 
     protected LBSViewController(Data data) : base(data) { }
+
+    public abstract void PopulateView(GraphView view);
 
     public override void LoadData()
     {

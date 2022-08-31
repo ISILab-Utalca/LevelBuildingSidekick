@@ -14,7 +14,6 @@ namespace LBS.View
 
         public FreeStampView()
         {
-            Insert(0, new GridBackground());
             this.AddManipulator(new ContentZoomer());
             this.AddManipulator(new ContentDragger());
             this.AddManipulator(new SelectionDragger());
@@ -28,9 +27,20 @@ namespace LBS.View
             controller = new LBSStampController(stamps);
         }
 
-        public override void Populate<T>(T data)
+        public override void Populate<T>(T value)
         {
-            throw new System.NotImplementedException();
+            var data = value as LBSStampGroupData;
+            if (data == null)
+                Debug.LogWarning("[Error]: The information you are trying to upload cannot be displayed in this view.");
+
+            DeleteElements(graphElements);
+            data.GetStamps().ForEach(s => AddElementView(s));
+        }
+
+        public void AddElementView(StampData data)
+        {
+            var view = new StampView(data);
+            AddElement(view);
         }
     }
 }

@@ -15,8 +15,6 @@ public class LBSTileMapWindow : LBSEditorWindow
     [LBSWindow("Tile map")]
     public static void OpenWindow()
     {
-        var controller = new TileMapController();
-
         LBSTileMapWindow wnd = GetWindow<LBSTileMapWindow>();
         wnd.titleContent = new GUIContent("Tile Map");
 
@@ -50,7 +48,7 @@ public class LBSTileMapWindow : LBSEditorWindow
         }
     }
 
-    private void OnFocus()
+    public override void OnFocus()
     {
         ActualizeView();
     }

@@ -6,19 +6,54 @@ using LevelBuildingSidekick.Graph;
 using LevelBuildingSidekick.Schema;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.Experimental.GraphView;
+using LBS.ElementView;
 
 namespace LBS.Representation.TileMap
 {
-    public class TileMapController : Controller
+    public class LBSTileMapController : LBSViewController
     {
-        public TileMapController() : base(LBSController.CurrentLevel.data.GetRepresentation<LBSTileMapData>())
+        private Vector2 tileSize = new Vector2(100, 100);
+        private LBSTileMapData data;
+
+        public LBSTileMapController(LBSTileMapData data) : base(data)
         {
+            this.data = data;
         }
 
-        public override void LoadData()
-        {
 
+        public override void PopulateView(GraphView view)
+        {
+            // Esto demora 1.8 seg en completarse con alrededor de 550 tiles,
+            // es necesario mejorar la eficinecia en este paso ya que añade mucha demora.
+            // Se sugiere probar con object pool o algo asi. (!!!)
+            var mtx = data.GetMatrix();
+            for (int i = 0; i < mtx.GetLength(0); i++)
+            {
+                for (int j = 0; j < mtx.GetLength(1); j++)
+                {
+                    var roomId = mtx[i, j];
+                    var roomData = data.GetRoom(roomId);
+                    if (roomData != null)
+                    {
+                        var tv = CreateTileView(new Vector2Int(i, j), tileSize, roomData); // esta es la linea en cuestion que lagea (!!!)
+                        view.AddElement(tv);
+                    }
+                }
+            }
         }
+
+        private TileView CreateTileView(Vector2Int tilePos, Vector2 size, RoomData data)
+        {
+            var tile = new TileView();
+            tile.SetPosition(new Rect(tilePos * size, size));
+            tile.SetSize((int)size.x, (int)size.y);
+            tile.SetColor(data.Color);
+            tile.SetLabel(tilePos);
+            return tile;
+        }
+
+
 
         public void Optimize()
         {
@@ -180,6 +215,12 @@ namespace LBS.Representation.TileMap
         {
             //Toolkit.Update();
         }
+
+        public override void LoadData()
+        {
+
+        }
+
     }
 }
 

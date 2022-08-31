@@ -1,4 +1,5 @@
 using LBS.View;
+using LevelBuildingSidekick;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -26,6 +27,15 @@ public class LBSPopulation : LBSEditorWindow
         this.ImportStyleSheet("GraphWindow");
 
         stampView = root.Q<FreeStampView>();
+    }
+
+    public override void OnFocus()
+    {
+        if (stampView == null)
+            return;
+
+        var data = LBSController.CurrentLevel.data;
+        stampView.Populate(data.GetRepresentation<LBSStampGroupData>());
     }
 
 }

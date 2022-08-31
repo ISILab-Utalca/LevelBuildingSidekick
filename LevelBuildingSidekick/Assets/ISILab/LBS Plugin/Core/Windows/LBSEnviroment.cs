@@ -20,4 +20,8 @@ public class LBSEnviroment : LBSEditorWindow
         //throw new System.NotImplementedException();
     }
 
+    public override void OnFocus()
+    {
+        throw new System.NotImplementedException();
+    }
 }
