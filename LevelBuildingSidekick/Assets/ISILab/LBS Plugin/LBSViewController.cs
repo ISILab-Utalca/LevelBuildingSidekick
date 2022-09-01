@@ -9,10 +9,18 @@ using UnityEngine.UIElements;
 public abstract class LBSViewController : Controller
 {
     public List<ContextAction> contextActions = new List<ContextAction>();
+    public List<GraphElement> elements = new List<GraphElement>();
 
     protected LBSViewController(Data data) : base(data) { }
 
-    public abstract void PopulateView(GraphView view);
+    public void SetContextualMenu(MainView view)
+    {
+        view.OnBuild += (cmpe) => OnContextualBuid(view,cmpe);
+    }
+
+    public abstract void OnContextualBuid( MainView view, ContextualMenuPopulateEvent cmpe);
+
+    public abstract void PopulateView(MainView view);
 
     public override void LoadData()
     {

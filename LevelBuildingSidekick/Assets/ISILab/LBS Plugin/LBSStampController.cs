@@ -39,10 +39,17 @@ public class LBSStampController : LBSViewController
             ));
     }
 
-    public override void PopulateView(GraphView view)
+    public override void OnContextualBuid(MainView view, ContextualMenuPopulateEvent cmpe)
+    {
+        cmpe.menu.AppendAction("Stamp/TEST", (dma) => { Debug.Log("test stamp"); });
+        cmpe.menu.AppendAction("Stamp/Print", (dma) => { data.Print(); });
+    }
+
+    public override void PopulateView(MainView view)
     {
         data.GetStamps().ForEach(s => {
             var v = new StampView(s);
+            elements.Add(v);
             view.AddElement(v);
         });
     }
@@ -63,5 +70,6 @@ public class LBSStampController : LBSViewController
     {
         data.Print();
     }
+
 
 }

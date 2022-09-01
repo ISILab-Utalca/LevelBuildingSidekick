@@ -8,6 +8,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using LBS.ElementView;
+using UnityEngine.UIElements;
 
 namespace LBS.Representation.TileMap
 {
@@ -21,8 +22,18 @@ namespace LBS.Representation.TileMap
             this.data = data;
         }
 
+        public override void OnContextualBuid( MainView view, ContextualMenuPopulateEvent cmpe)
+        {
+            cmpe.menu.AppendAction("TileMap/TEST", (dma) => { Debug.Log("test tilemap"); });
 
-        public override void PopulateView(GraphView view)
+            cmpe.menu.AppendAction("TileMap/Optimizar", (dma) => {
+                view.DeleteElements(elements);
+                LBSController.CurrentLevel.data.AddRepresentation(Optimize());
+                PopulateView(view);
+            });
+        }
+
+        public override void PopulateView(MainView view)
         {
             // Esto demora 1.8 seg en completarse con alrededor de 550 tiles,
             // es necesario mejorar la eficinecia en este paso ya que añade mucha demora.
@@ -37,6 +48,7 @@ namespace LBS.Representation.TileMap
                     if (roomData != null)
                     {
                         var tv = CreateTileView(new Vector2Int(i, j), tileSize, roomData); // esta es la linea en cuestion que lagea (!!!)
+                        elements.Add(tv);
                         view.AddElement(tv);
                     }
                 }
@@ -53,9 +65,7 @@ namespace LBS.Representation.TileMap
             return tile;
         }
 
-
-
-        public void Optimize()
+        public LBSTileMapData Optimize()
         {
             var graphData = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
             var schemaData = Data as LBSTileMapData;
@@ -63,7 +73,7 @@ namespace LBS.Representation.TileMap
                             () => { return Utility.HillClimbing.NonSignificantEpochs >= 100; },
                             GetNeighbors,
                             EvaluateMap);
-            Debug.Log(optimized);
+            return optimized;
         }
 
         private float EvaluateAdjacencies(LBSGraphData graphData, LBSTileMapData schema) 
@@ -195,7 +205,8 @@ namespace LBS.Representation.TileMap
                 foreach (var wall in walls)
                 {
                     var neighbor = tileMap.Clone() as LBSTileMapData;
-                    neighbor.SetTiles(wall.allTiles, ""); // setea los tiles a nulo o default
+                    neighbor.RemoveTiles(wall.allTiles);
+                    //neighbor.SetTiles(wall.allTiles, ""); // setea los tiles a nulo o default
                     neightbours.Add(neighbor);
                 }
                 foreach (var wall in walls)

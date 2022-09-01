@@ -30,7 +30,6 @@ public class TileGridView : LBSBaseView
          
         var styleSheet = DirectoryTools.SearchAssetByName<StyleSheet>("TileMapEditor");
         styleSheets.Add(styleSheet);
-
     }
 
     public void ShowLabels(bool value)

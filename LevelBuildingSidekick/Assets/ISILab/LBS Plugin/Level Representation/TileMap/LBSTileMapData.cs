@@ -37,13 +37,17 @@ namespace LBS.Representation.TileMap
         // Properties
         //public Vector2Int Size => 
         //public roomAmount =>
+        [JsonIgnore]
         public int RoomCount => rooms.Count;
+
+        [JsonIgnore]
+        public override Type ControllerType => typeof(Controller);
+
         internal RoomData GetRoom(int i) => rooms[i];
 
         public List<RoomData> GetRooms() => new List<RoomData>(rooms);
 
-        [JsonIgnore] 
-        public override Type ControllerType => typeof(Controller);
+
 
         public override void Clear()
         {

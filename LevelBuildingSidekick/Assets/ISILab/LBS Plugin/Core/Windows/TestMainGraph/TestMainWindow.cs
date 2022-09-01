@@ -1,5 +1,6 @@
 ﻿using LBS.Representation.TileMap;
 using LevelBuildingSidekick;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -34,8 +35,11 @@ public class TestMainWindow : LBSEditorWindow
         var data = LBSController.CurrentLevel.data;
         tileMapController = new LBSTileMapController(data.GetRepresentation<LBSTileMapData>());
         tileMapController.PopulateView(view);
+        tileMapController.SetContextualMenu(view);
         stampController = new LBSStampController(data.GetRepresentation<LBSStampGroupData>());
         stampController.PopulateView(view);
+        stampController.SetContextualMenu(view);
+        
     }
 
     public override void OnFocus()
@@ -46,6 +50,8 @@ public class TestMainWindow : LBSEditorWindow
 
 public class MainView : GraphView
 {
+    public Action<ContextualMenuPopulateEvent> OnBuild;
+
     public new class UxmlFactory : UxmlFactory<MainView, GraphView.UxmlTraits> { }
 
     public MainView()
@@ -58,6 +64,7 @@ public class MainView : GraphView
 
     public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
     {
-
+        OnBuild?.Invoke(evt);
+        //evt.menu.AppendAction("name", (dma) => { });
     }
 }

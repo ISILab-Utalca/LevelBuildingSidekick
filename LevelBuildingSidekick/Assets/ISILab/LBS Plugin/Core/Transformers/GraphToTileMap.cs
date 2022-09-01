@@ -26,9 +26,9 @@ namespace LBS.Transformers
             //Debug.Log("parent: "+parent.Label);
 
             var tileMap = new LBSTileMapData();
-            int h = parent.RangeHeight.Middle;
-            int w = parent.RangeWidth.Middle;
-            tileMap.AddRoom(Vector2Int.zero, h, w, parent.Label);
+            int h = Random.Range(parent.RangeHeight.min, parent.RangeHeight.max);
+            int w = Random.Range(parent.RangeWidth.min, parent.RangeWidth.max);
+            tileMap.AddRoom(Vector2Int.zero, w, h, parent.Label);
 
             while (open.Count > 0)
             {
@@ -45,14 +45,14 @@ namespace LBS.Transformers
 
                     open.Enqueue(child);
 
-                    var parentH = parent.RangeHeight.Middle; 
-                    var parentW = parent.RangeWidth.Middle;
-                    var childH = child.RangeHeight.Middle;
-                    var childW = child.RangeWidth.Middle;
+                    var parentH = Random.Range(parent.RangeHeight.min, parent.RangeHeight.max); 
+                    var parentW = Random.Range(parent.RangeWidth.min, parent.RangeWidth.max);
+                    var childH = Random.Range(child.RangeHeight.min, child.RangeHeight.max);
+                    var childW = Random.Range(child.RangeWidth.min, child.RangeWidth.max);
 
                     var dir = ((Vector2)(child.Centroid - parent.Centroid)).normalized;
-                    var posX = dir.x * ((childW + parentW) / 2f);
-                    var posY = dir.y * ((childH + parentH) / 2f);
+                    var posX = dir.x * ((childW + parentW) / 2f) * 1.41f;
+                    var posY = dir.y * ((childH + parentH) / 2f) * 1.41f;
                     tileMap.AddRoom(new Vector2Int((int)posX, (int)posY), childW, childH, child.Label);
                 }
 
