@@ -78,7 +78,6 @@ namespace LBS.Representation.TileMap
 
         private float EvaluateAdjacencies(LBSGraphData graphData, LBSTileMapData schema) 
         {
-           
             if (graphData.EdgeCount() <= 0)
             {
                 Debug.LogWarning("Cannot calculate the adjacency of a map are nodes that are not connected.");
@@ -150,7 +149,7 @@ namespace LBS.Representation.TileMap
         private float EvaluateBySize(RoomCharacteristicsData node, RoomData room)
         {
             var vw = 1f;
-            if (room.GetWidth() < node.RangeWidth.min || room.GetWidth() > node.RangeHeight.max)
+            if (room.GetWidth() < node.RangeWidth.min || room.GetWidth() > node.RangeWidth.max)
             {
                 var objetive = node.RangeWidth.Middle;
                 var current = room.GetWidth();
@@ -205,18 +204,19 @@ namespace LBS.Representation.TileMap
                 foreach (var wall in walls)
                 {
                     var neighbor = tileMap.Clone() as LBSTileMapData;
-                    neighbor.RemoveTiles(wall.allTiles);
-                    //neighbor.SetTiles(wall.allTiles, ""); // setea los tiles a nulo o default
-                    neightbours.Add(neighbor);
-                }
-                foreach (var wall in walls)
-                {
-                    var neighbor = tileMap.Clone() as LBSTileMapData;
                     var tiles = new List<Vector2Int>();
                     wall.allTiles.ForEach(t => tiles.Add(t + wall.dir));
                     neighbor.SetTiles(tiles, room.ID);
                     neightbours.Add(neighbor);
                 }
+
+                foreach (var wall in walls)
+                {
+                    var neighbor = tileMap.Clone() as LBSTileMapData;
+                    neighbor.RemoveTiles(wall.allTiles);
+                    neightbours.Add(neighbor);
+                }
+                
             }
             return neightbours;
         }

@@ -232,14 +232,14 @@ namespace LBS.Representation.TileMap
                     if (current == candidate)
                         continue;
 
-                    if (current.x - candidate.x == 0)
+                    if (current.x - candidate.x != 0)
+                        continue;
+
+                    var dist = Mathf.Abs(current.y - candidate.y);
+                    if (dist < lessDist)
                     {
-                        var dist = Mathf.Abs(current.y - candidate.y);
-                        if (dist < lessDist)
-                        {
-                            lessDist = dist;
-                            other = candidate;
-                        }
+                        lessDist = dist;
+                        other = candidate;
                     }
                 }
 
@@ -247,11 +247,11 @@ namespace LBS.Representation.TileMap
                     other = current;
 
                 var wallTiles = new List<Vector2Int>();
-                var end = Mathf.Min(current.x, (int)other?.x);
-                var start = Mathf.Max(current.x, (int)other?.x);
-                for (int i = start; i <= end; i++)
+                var end = Mathf.Max(current.y, (int)other?.y);
+                var start = Mathf.Min(current.y, (int)other?.y);
+                for (int i = 0; i <= end- start; i++)
                 {
-                    wallTiles.Add(new Vector2Int(current.x + i, current.y));
+                    wallTiles.Add(new Vector2Int(current.x, start + i));
                 }
                 var dir = (current.x >= GetCentroid().x) ? Vector2Int.right : Vector2Int.left;
                 walls.Add(new WallData(current, (Vector2Int)other, this.id, dir, wallTiles));
@@ -276,14 +276,14 @@ namespace LBS.Representation.TileMap
                     if (current == candidate)
                         continue;
 
-                    if (current.y - candidate.y == 0)
+                    if (current.y - candidate.y != 0)
+                        continue;
+
+                    var dist = Mathf.Abs(current.x - candidate.x);
+                    if (dist < lessDist)
                     {
-                        var dist = Mathf.Abs(current.x - candidate.x);
-                        if (dist < lessDist)
-                        {
-                            lessDist = dist;
-                            other = candidate;
-                        }
+                        lessDist = dist;
+                        other = candidate;
                     }
                 }
 
@@ -291,11 +291,11 @@ namespace LBS.Representation.TileMap
                     other = current;
 
                 var wallTiles = new List<Vector2Int>();
-                var end = Mathf.Min(current.y, (int)other?.y);
-                var start = Mathf.Max(current.y, (int)other?.y);
-                for (int i = start; i <= end; i++)
+                var end = Mathf.Max(current.x, (int)other?.x);
+                var start = Mathf.Min(current.x, (int)other?.x);
+                for (int i = 0; i <= end - start; i++)
                 {
-                    wallTiles.Add(new Vector2Int(current.x, current.y + i));
+                    wallTiles.Add(new Vector2Int(start + i, current.y));
                 }
                 var dir = (current.y >= GetCentroid().y) ? Vector2Int.up : Vector2Int.down;
                 walls.Add(new WallData(current, (Vector2Int)other, this.id, dir, wallTiles));

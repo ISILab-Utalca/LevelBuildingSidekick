@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using LBS.Representation.TileMap;
 
 namespace Utility
 {
@@ -133,6 +134,9 @@ namespace Utility
                 }
 
                 best = betters[random.Next(0, betters.Count - 1)];
+
+                if (best is LBSTileMapData)
+                    (best as LBSTileMapData).Print(); // debug temporal quitar luego
 
                 if (debug)
                 {

@@ -33,7 +33,6 @@ namespace LBS.Transformers
             while (open.Count > 0)
             {
                 parent = open.Dequeue() as RoomCharacteristicsData;
-                Debug.Log("parent: " + parent.Label);
 
                 var childs = graph.GetNeighbors(parent);
                 //var childs = graph.GetNeighbors(parent).OrderBy(n => Utility.MathTools.GetAngleD15(parent.Centroid, n.Centroid)).Select( c => c as RoomCharacteristicsData);

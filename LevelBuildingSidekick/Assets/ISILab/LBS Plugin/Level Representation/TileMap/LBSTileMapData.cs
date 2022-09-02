@@ -198,11 +198,42 @@ namespace LBS.Representation.TileMap
         public override void Print()
         {
             var msg = "";
+            var mtx = GetMatrix();
+            msg += "[*]";
+            for (int j = 0; j < mtx.GetLength(0); j++)
+            {
+                msg += "[" + j % 9 + "]";
+            }
+            msg += "\n";
+
+            for (int j = 0; j < mtx.GetLength(1); j++)
+            {
+                msg += "[" + j % 9 + "]";
+                for (int i = 0; i < mtx.GetLength(0); i++)
+                {
+                    if (mtx[i, j] != null)
+                    {
+                        var c = Commons.ColorTosStr(GetRoom(mtx[i, j]).Color);
+                        msg += "<color=#"+c+">[ ]</color>";
+                    }
+                    else
+                    {
+                        msg += "   ";
+                    }
+                    
+                }
+                msg += "\n";
+            }
+            Debug.Log(msg);
+
+            /*
+            var msg = "";
             msg += "<b>Tile map. (step 1)</b>" + "\n";
             msg += "Room amount: " + this.rooms.Count + "\n";
             msg += "------------";
             rooms.ForEach(r => msg += r.ID + ": " + r.TilesCount + "\n");
             Debug.Log(msg);
+            */
         }
     }
 }
