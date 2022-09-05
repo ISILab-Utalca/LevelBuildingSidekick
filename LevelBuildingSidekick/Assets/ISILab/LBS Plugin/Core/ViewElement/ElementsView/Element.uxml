@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement name="ViewElemnt" style="height: 104px; width: 84px;">
+        <ui:VisualElement name="ContentImage" style="height: 84px; width: 84px; background-color: rgba(88, 88, 88, 255); align-items: center; justify-content: center;">
+            <ui:VisualElement name="image" style="width: 76px; height: 76px;" />
+        </ui:VisualElement>
+        <ui:Label tabindex="-1" text="Name element" display-tooltip-when-elided="true" enable-rich-text="true" name="NameE" style="margin-top: 2px; -unity-text-align: upper-center;" />
+    </ui:VisualElement>
+</ui:UXML>
