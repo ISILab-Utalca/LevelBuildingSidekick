@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Diagnostics;
 
-public static class Commons
+public static class Parse
 {
     /// <summary>
     /// Get color from string whit "#f0f0f0f0" -> #RGBA format
