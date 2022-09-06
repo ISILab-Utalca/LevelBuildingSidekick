@@ -213,7 +213,7 @@ namespace LBS.Representation.TileMap
                 {
                     if (mtx[i, j] != null)
                     {
-                        var c = Commons.ColorTosStr(GetRoom(mtx[i, j]).Color);
+                        var c = Parse.ColorTosStr(GetRoom(mtx[i, j]).Color);
                         msg += "<color=#"+c+">[ ]</color>";
                     }
                     else

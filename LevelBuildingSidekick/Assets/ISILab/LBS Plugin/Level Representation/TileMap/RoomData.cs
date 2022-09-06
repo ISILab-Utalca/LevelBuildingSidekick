@@ -33,11 +33,11 @@ namespace LBS.Representation.TileMap
         public Color Color { 
             get
             {
-                var c = Commons.StrToColor(color);
+                var c = Parse.StrToColor(color);
                 //Debug.Log("#"+color+": <color=#"+ color + ">"+c.ToString()+"</color>");
                 return c;
             }
-            set => color = Commons.ColorTosStr(value);
+            set => color = Parse.ColorTosStr(value);
         }
         [JsonIgnore]
         public List<Vector2Int> Tiles => new List<Vector2Int>(tiles);
@@ -53,7 +53,7 @@ namespace LBS.Representation.TileMap
         {
             this.id = id;
             this.tiles = tiles;
-            this.color = Commons.ColorTosStr( new Color(UnityEngine.Random.Range(0f,1f), UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f)));
+            this.color = Parse.ColorTosStr( new Color(UnityEngine.Random.Range(0f,1f), UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f)));
         }
 
         public object Clone()
