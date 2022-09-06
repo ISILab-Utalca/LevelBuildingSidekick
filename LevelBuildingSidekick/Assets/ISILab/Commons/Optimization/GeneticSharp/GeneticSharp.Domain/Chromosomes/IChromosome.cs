@@ -16,13 +16,6 @@ namespace GeneticSharp.Domain.Chromosomes
     {
         #region Properties
         /// <summary>
-        /// Gets or sets the fitness.
-        /// </summary>
-        /// <value>The fitness.</value>
-        double? Fitness { get; set; }
-
-
-        /// <summary>
         /// Gets the length.
         /// </summary>
         /// <value>The length.</value>
