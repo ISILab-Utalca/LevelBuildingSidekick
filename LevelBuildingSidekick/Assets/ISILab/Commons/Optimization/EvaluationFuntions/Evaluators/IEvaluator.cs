@@ -15,6 +15,6 @@ namespace Commons.Optimization.Fitness
         /// </summary>
         /// <param name="chromosome">The chromosome to be evaluated.</param>
         /// <returns>The fitness of the chromosome.</returns>
-        double Evaluate(IEvaluable evaluable);
+        float Evaluate(IEvaluable evaluable);
     }
 }

@@ -9,13 +9,13 @@ namespace Commons.Optimization.Fitness
     /// </summary>
     public class FuncFitness : IEvaluator
     {
-        private readonly Func<IEvaluable, double> m_func;
+        private readonly Func<IEvaluable, float> m_func;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:GeneticSharp.Domain.Fitnesses.FuncFitness"/> class.
         /// </summary>
         /// <param name="func">The fitness evaluation Func.</param>
-        public FuncFitness (Func<IEvaluable, double> func)
+        public FuncFitness (Func<IEvaluable, float> func)
         {
             ExceptionHelper.ThrowIfNull("func", func);
             m_func = func;
@@ -26,7 +26,7 @@ namespace Commons.Optimization.Fitness
         /// Evaluate the specified chromosome.
         /// </summary>
         /// <param name="chromosome">Chromosome.</param>
-        public double Evaluate (IEvaluable chromosome)
+        public float Evaluate (IEvaluable chromosome)
         {
             return m_func (chromosome);
         }
