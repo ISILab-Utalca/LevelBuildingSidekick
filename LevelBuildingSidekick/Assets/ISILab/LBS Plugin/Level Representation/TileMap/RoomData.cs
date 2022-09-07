@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace LBS.Representation.TileMap
@@ -246,6 +247,9 @@ namespace LBS.Representation.TileMap
                 if (other == null)
                     other = current;
 
+                if (walls.Any(w => (w.firstCorner == other) && (w.secondCorner == current)))
+                    continue;
+
                 var wallTiles = new List<Vector2Int>();
                 var end = Mathf.Max(current.y, (int)other?.y);
                 var start = Mathf.Min(current.y, (int)other?.y);
@@ -254,7 +258,9 @@ namespace LBS.Representation.TileMap
                     wallTiles.Add(new Vector2Int(current.x, start + i));
                 }
                 var dir = (current.x >= GetCentroid().x) ? Vector2Int.right : Vector2Int.left;
-                walls.Add(new WallData(current, (Vector2Int)other, this.id, dir, wallTiles));
+
+                var wall = new WallData(current, (Vector2Int)other, this.id, dir, wallTiles);
+                walls.Add(wall);
             }
             return walls;
         }
@@ -289,6 +295,9 @@ namespace LBS.Representation.TileMap
 
                 if (other == null)
                     other = current;
+
+                if (walls.Any(w => (w.firstCorner == other) && (w.secondCorner == current)))
+                    continue;
 
                 var wallTiles = new List<Vector2Int>();
                 var end = Mathf.Max(current.x, (int)other?.x);

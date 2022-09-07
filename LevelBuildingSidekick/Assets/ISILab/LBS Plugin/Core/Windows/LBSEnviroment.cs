@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class LBSEnviroment : LBSEditorWindow
+public class LBSEnviroment : GenericGraphWindow
 {
     [MenuItem("ISILab/LBS plugin/Enviroment step.../enviroment (nombre temporal)(la de los colorinches y luces)")]
     public static void OpenWindow()
@@ -21,6 +21,11 @@ public class LBSEnviroment : LBSEditorWindow
     }
 
     public override void OnFocus()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void OnLoadControllers()
     {
         throw new System.NotImplementedException();
     }

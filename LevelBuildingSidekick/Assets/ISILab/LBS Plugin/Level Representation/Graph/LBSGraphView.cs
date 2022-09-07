@@ -11,10 +11,13 @@ using LBS.Representation.TileMap;
 
 namespace LevelBuildingSidekick.Graph
 {
-    public class LBSGraphView : LBSBaseView
+    [Obsolete]
+    public class LBSGraphView : global::LBSGraphView
     {
+        /*
         public static bool isDragEdge = false;
         private static LBSNodeView first;
+        private LBSGraphData data;
 
         public new class UxmlFactory : UxmlFactory<LBSGraphView, GraphView.UxmlTraits> { }
 
@@ -61,7 +64,7 @@ namespace LevelBuildingSidekick.Graph
 
         public override void Populate<T>(T value)
         {
-            var data = value as LBSGraphData;
+            data = value as LBSGraphData;
             if(data == null)
                 Debug.LogWarning("[Error]: The information you are trying to upload cannot be displayed in this view.");
 
@@ -102,7 +105,7 @@ namespace LevelBuildingSidekick.Graph
             }));
 
             evt.menu.AppendAction("Debug/print info", (a) => {
-                var graph = (controller.Data as LBSGraphData);
+                var graph = data;
                 graph.Print();
 
             });
@@ -154,7 +157,6 @@ namespace LevelBuildingSidekick.Graph
             view.OnStartDragEdge += StartDragEdge;
             view.OnEndDragEdge += EndDragEdge;
             AddElement(view);
-            //view.AddManipulator(createEdge);
         }
 
         public void OnGUI()
@@ -209,7 +211,7 @@ namespace LevelBuildingSidekick.Graph
                 LBSController.ShowLevelInspector();
             }
         }
-
+        */
 
     }
 }

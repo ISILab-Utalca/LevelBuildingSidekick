@@ -8,8 +8,9 @@ using Utility;
 
 namespace LBS.View
 {
-    public class FreeStampView : LBSBaseView
+    public class FreeStampView : LBSGraphView
     {
+        /*
         public new class UxmlFactory : UxmlFactory<FreeStampView, GraphView.UxmlTraits> { }
 
         public FreeStampView()
@@ -42,5 +43,6 @@ namespace LBS.View
             var view = new StampView(data);
             AddElement(view);
         }
+        */
     }
 }

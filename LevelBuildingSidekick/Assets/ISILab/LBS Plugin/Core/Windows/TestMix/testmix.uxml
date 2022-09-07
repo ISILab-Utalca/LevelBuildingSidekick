@@ -1,7 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <ui:VisualElement name="MainContent" style="flex-grow: 1;">
-        <TileGridView focusable="true" style="flex-grow: 1; overflow: hidden; position: relative; background-color: rgba(0, 0, 0, 0); visibility: visible; display: flex; flex-shrink: 1; opacity: 1;">
-            <LBS.View.FreeStampView focusable="true" usage-hints="None" style="flex-grow: 1; position: relative; background-color: rgba(0, 0, 0, 0); -unity-background-image-tint-color: rgb(255, 255, 255); align-items: stretch; flex-basis: auto; overflow: hidden; display: flex; visibility: visible; opacity: 1;" />
-        </TileGridView>
-    </ui:VisualElement>
-</ui:UXML>

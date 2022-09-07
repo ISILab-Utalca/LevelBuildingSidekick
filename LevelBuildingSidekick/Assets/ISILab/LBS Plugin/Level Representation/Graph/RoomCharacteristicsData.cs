@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace LevelBuildingSidekick.Schema
@@ -10,26 +11,33 @@ namespace LevelBuildingSidekick.Schema
     [System.Serializable]
     public class RoomCharacteristicsData : LBSNodeData
     {
+        #region InspectorDrawer
+        private class NodeScriptable : GenericScriptable<LBSNodeData> { };
+        [CustomEditor(typeof(GenericScriptable<LBSNodeData>))]
+        [CanEditMultipleObjects]
+        private class NodeScriptableEditor : GenericScriptableEditor { };
+        #endregion
+
         [HideInInspector, JsonIgnore]
         public static readonly string[] prefabCategories = { "Walls", "Floors", "Doors" };
 
         [SerializeField, JsonRequired]
         private IntRange rangeWidth = new IntRange(1, 1);
+
         [SerializeField, JsonRequired]
         private IntRange rangeHeight = new IntRange(1, 1);
+
         [SerializeField, JsonRequired]
         private AspectRatioValue aspectRatio = new AspectRatioValue(1, 1);
 
         [SerializeField, JsonRequired]
         private ProportionType proportionType = ProportionType.RATIO;
 
-        //public List<string> neighbors; // No deberia existir aca (!)
-
         [SerializeField, JsonIgnore]
-        private List<ItemCategory> prefabs; // esto para que (??)
+        private List<ItemCategory> prefabs = new List<ItemCategory>(); // esto para que (??)
 
         [SerializeField, JsonRequired]
-        private List<string> tags;
+        private List<string> tags = new List<string>();
 
         [JsonIgnore]
         public ProportionType ProportionType => proportionType;

@@ -12,14 +12,13 @@ using UnityEngine.UIElements;
 
 namespace LBS.Representation.TileMap
 {
-    public class LBSTileMapController : LBSViewController
+    public class LBSTileMapController : LBSRepController<LBSTileMapData>
     {
-        private Vector2 tileSize = new Vector2(100, 100);
-        private LBSTileMapData data;
+        private static readonly Vector2 tileSize = new Vector2(100, 100);
 
-        public LBSTileMapController(LBSTileMapData data) : base(data)
+        public LBSTileMapController(GraphView view, LBSTileMapData data) : base(view, data)
         {
-            this.data = data;
+
         }
 
         public override void OnContextualBuid( MainView view, ContextualMenuPopulateEvent cmpe)
@@ -68,7 +67,7 @@ namespace LBS.Representation.TileMap
         public LBSTileMapData Optimize()
         {
             var graphData = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
-            var schemaData = Data as LBSTileMapData;
+            var schemaData = data;
             var optimized = Utility.HillClimbing.Run(schemaData, graphData,
                             () => { return Utility.HillClimbing.NonSignificantEpochs >= 100; },
                             GetNeighbors,
@@ -219,17 +218,6 @@ namespace LBS.Representation.TileMap
                 
             }
             return neightbours;
-        }
-
-
-        public override void Update()
-        {
-            //Toolkit.Update();
-        }
-
-        public override void LoadData()
-        {
-
         }
 
     }
