@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
+using System.Reflection;
 
 public class GenericScriptableEditor : Editor
 {
@@ -15,8 +16,7 @@ public class GenericScriptableEditor : Editor
     public override VisualElement CreateInspectorGUI()
     {
         var container = new VisualElement();
-        var prop = serializedObject.FindProperty("Data");
-        InspectorElement.FillDefaultInspector(container, serializedObject, this);
+        InspectorElement.FillDefaultInspector(container, serializedObject , this);
         return container;
     }
 }

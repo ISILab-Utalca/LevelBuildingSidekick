@@ -1,7 +1,7 @@
 using GeneticSharp.Infrastructure.Framework.Texts;
 using GeneticSharp.Infrastructure.Framework.Commons;
 
-namespace GeneticSharp.Domain.Terminations
+namespace Commons.Optimization.Terminations
 {
     /// <summary>
     /// Base class for ITerminations implementations.
@@ -17,12 +17,12 @@ namespace GeneticSharp.Domain.Terminations
         /// Determines whether the specified geneticAlgorithm reached the termination condition.
         /// </summary>
         /// <returns>True if termination has been reached, otherwise false.</returns>
-        /// <param name="geneticAlgorithm">The genetic algorithm.</param>
-        public bool HasReached(IGeneticAlgorithm geneticAlgorithm)
+        /// <param name="optimizer">The genetic algorithm.</param>
+        public bool HasReached(IOptimizer optimizer)
         {
-            ExceptionHelper.ThrowIfNull("geneticAlgorithm", geneticAlgorithm);
+            ExceptionHelper.ThrowIfNull("geneticAlgorithm", optimizer);
 
-            m_hasReached = PerformHasReached(geneticAlgorithm);
+            m_hasReached = PerformHasReached(optimizer);
 
             return m_hasReached;
         }
@@ -40,8 +40,8 @@ namespace GeneticSharp.Domain.Terminations
         /// Determines whether the specified geneticAlgorithm reached the termination condition.
         /// </summary>
         /// <returns>True if termination has been reached, otherwise false.</returns>
-        /// <param name="geneticAlgorithm">The genetic algorithm.</param>
-        protected abstract bool PerformHasReached(IGeneticAlgorithm geneticAlgorithm);
+        /// <param name="optimizer">The genetic algorithm.</param>
+        protected abstract bool PerformHasReached(IOptimizer optimizer);
         #endregion
     }
 }

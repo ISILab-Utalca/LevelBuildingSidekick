@@ -9,7 +9,7 @@ using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Reinsertions;
 using GeneticSharp.Domain.Selections;
-using GeneticSharp.Domain.Terminations;
+using Commons.Optimization.Terminations;
 using GeneticSharp.Infrastructure.Framework.Texts;
 using GeneticSharp.Infrastructure.Framework.Threading;
 using GeneticSharp.Infrastructure.Framework.Commons;
@@ -136,6 +136,14 @@ namespace GeneticSharp.Domain
         /// Occurs when stopped.
         /// </summary>
         public event EventHandler Stopped;
+
+
+        public Action OnGenerationRan { get; set; }
+        public Action OnTerminationReached { get; set; }
+        public Action OnStopped { get; set; }
+        public Action OnResumed { get; set; }
+        public Action OnPaused { get; set; }
+        public Action OnStarted { get; set; }
         #endregion
 
         #region Properties
@@ -215,6 +223,14 @@ namespace GeneticSharp.Domain
             }
         }
 
+        public IEvaluable BestCandidate
+        {
+            get
+            {
+                return BestChromosome;
+            }
+        }
+
         /// <summary>
         /// Gets the time evolving.
         /// </summary>
@@ -232,13 +248,13 @@ namespace GeneticSharp.Domain
 
             private set
             {
-                var shouldStop = Stopped != null && m_state != value && value == GeneticAlgorithmState.Stopped;
+                var shouldStop = OnStopped != null && m_state != value && value == GeneticAlgorithmState.Stopped;
 
                 m_state = value;
 
                 if (shouldStop)
                 {
-                    Stopped?.Invoke(this, EventArgs.Empty);
+                    OnStopped?.Invoke();
                 }
             }
         }
@@ -268,6 +284,7 @@ namespace GeneticSharp.Domain
         /// </summary>
         public void Start()
         {
+            OnStarted?.Invoke();
             lock (m_lock)
             {
                 State = GeneticAlgorithmState.Started;
@@ -288,6 +305,7 @@ namespace GeneticSharp.Domain
         /// </summary>
         public void Resume()
         {
+            OnResumed?.Invoke();
             try
             {
                 lock (m_lock)
@@ -352,6 +370,12 @@ namespace GeneticSharp.Domain
             {
                 m_stopRequested = true;
             }
+            OnStopped?.Invoke();
+        }
+
+        public void Pause()
+        {
+            OnPaused?.Invoke();
         }
 
         /// <summary>
@@ -377,15 +401,12 @@ namespace GeneticSharp.Domain
             EvaluateFitness();
             Population.EndCurrentGeneration();
 
-            var handler = GenerationRan;
-            handler?.Invoke(this, EventArgs.Empty);
+            OnGenerationRan?.Invoke();
 
             if (Termination.HasReached(this))
             {
                 State = GeneticAlgorithmState.TerminationReached;
-
-                handler = TerminationReached;
-                handler?.Invoke(this, EventArgs.Empty);
+                OnTerminationReached?.Invoke();
 
                 return true;
             }

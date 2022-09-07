@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using GeneticSharp.Infrastructure.Framework.Reflection;
 
-namespace GeneticSharp.Domain.Terminations
+namespace Commons.Optimization.Terminations
 {
     /// <summary>
     /// Termination service.
