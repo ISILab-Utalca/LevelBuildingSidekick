@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace GeneticSharp.Domain.Terminations
+namespace Commons.Optimization.Terminations
 {
     /// <summary>
     /// Fitness Threshold Termination
@@ -44,10 +44,10 @@ namespace GeneticSharp.Domain.Terminations
         /// Determines whether the specified geneticAlgorithm reached the termination condition.
         /// </summary>
         /// <returns>True if termination has been reached, otherwise false.</returns>
-        /// <param name="geneticAlgorithm">The genetic algorithm.</param>
-        protected override bool PerformHasReached(IGeneticAlgorithm geneticAlgorithm)
+        /// <param name="optimizer">The genetic algorithm.</param>
+        protected override bool PerformHasReached(IOptimizer optimizer)
         {
-            return geneticAlgorithm.BestChromosome.Fitness >= ExpectedFitness;
+            return optimizer.BestCandidate.Fitness >= ExpectedFitness;
         }
         #endregion
     }

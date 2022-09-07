@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Linq;
 
-namespace GeneticSharp.Domain.Terminations
+namespace Commons.Optimization.Terminations
 {
     /// <summary>
     /// An termination where you can combine others ITerminations with a AND logical operator.
@@ -23,13 +23,13 @@ namespace GeneticSharp.Domain.Terminations
         /// <summary>
         /// Determines whether the specified geneticAlgorithm reached the termination condition.
         /// </summary>
-        /// <param name="geneticAlgorithm">The genetic algorithm.</param>
+        /// <param name="optimizer">The genetic algorithm.</param>
         /// <returns>
         /// True if termination has been reached, otherwise false.
         /// </returns>
-        protected override bool PerformHasReached(IGeneticAlgorithm geneticAlgorithm)
+        protected override bool PerformHasReached(IOptimizer optimizer)
         {
-            return Terminations.All(t => t.HasReached(geneticAlgorithm));
+            return Terminations.All(t => t.HasReached(optimizer));
         }
         #endregion
     }

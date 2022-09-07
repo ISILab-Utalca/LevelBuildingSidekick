@@ -1,4 +1,4 @@
-namespace GeneticSharp.Domain.Terminations
+namespace Commons.Optimization.Terminations
 {
     /// <summary>
     /// Defines the interface for a termination condition.
@@ -14,7 +14,7 @@ namespace GeneticSharp.Domain.Terminations
         /// </summary>
         /// <returns>True if termination has been reached, otherwise false.</returns>
         /// <param name="geneticAlgorithm">The genetic algorithm.</param>
-        bool HasReached(IGeneticAlgorithm geneticAlgorithm);
+        bool HasReached(IOptimizer optimizer);
         #endregion
     }
 }

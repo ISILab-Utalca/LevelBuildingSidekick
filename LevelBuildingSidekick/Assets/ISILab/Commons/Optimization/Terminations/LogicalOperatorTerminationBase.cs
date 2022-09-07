@@ -4,7 +4,7 @@ using System.Linq;
 using GeneticSharp.Infrastructure.Framework.Texts;
 using GeneticSharp.Infrastructure.Framework.Commons;
 
-namespace GeneticSharp.Domain.Terminations
+namespace Commons.Optimization.Terminations
 {
     /// <summary>
     /// A base class for logical operator terminations.
@@ -65,20 +65,20 @@ namespace GeneticSharp.Domain.Terminations
         /// <summary>
         /// Determines whether the specified geneticAlgorithm reached the termination condition.
         /// </summary>
-        /// <param name="geneticAlgorithm">The genetic algorithm.</param>
+        /// <param name="optimizer">The genetic algorithm.</param>
         /// <returns>
         /// True if termination has been reached, otherwise false.
         /// </returns>
-        public bool HasReached(IGeneticAlgorithm geneticAlgorithm)
+        public bool HasReached(IOptimizer optimizer)
         {
-            ExceptionHelper.ThrowIfNull("geneticAlgorithm", geneticAlgorithm);
+            ExceptionHelper.ThrowIfNull("geneticAlgorithm", optimizer);
 
             if (Terminations.Count < m_minOperands)
             {
                 throw new InvalidOperationException("The {0} needs at least {1} terminations to perform. Please, add the missing terminations.".With(GetType().Name, m_minOperands));
             }
 
-            return PerformHasReached(geneticAlgorithm);
+            return PerformHasReached(optimizer);
         }
 
         /// <summary>
@@ -93,11 +93,11 @@ namespace GeneticSharp.Domain.Terminations
         /// <summary>
         /// Determines whether the specified geneticAlgorithm reached the termination condition.
         /// </summary>
-        /// <param name="geneticAlgorithm">The genetic algorithm.</param>
+        /// <param name="optimizer">The genetic algorithm.</param>
         /// <returns>
         /// True if termination has been reached, otherwise false.
         /// </returns>
-        protected abstract bool PerformHasReached(IGeneticAlgorithm geneticAlgorithm);
+        protected abstract bool PerformHasReached(IOptimizer optimizer);
         #endregion
     }
 }
