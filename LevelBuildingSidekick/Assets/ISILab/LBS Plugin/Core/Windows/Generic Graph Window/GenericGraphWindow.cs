@@ -35,18 +35,7 @@ public abstract class GenericGraphWindow : EditorWindow, ISupportsOverlays
         mainView  = rootVisualElement.Q<MainView>();
         InitToolBar();
 
-        //RefreshView();
-        controllers.Clear();
-        OnLoadControllers();
-        InitContextualMenu();
-        Populate();
-
-        currentController = controllers[0];
-        mainView.OnClearSelection += () =>
-        {
-             var il = Reflection.MakeGenericScriptable(currentController.GetData()); // temporal (!!!)
-             Selection.SetActiveObjectWithContext(il, il);
-        };
+        RefreshView();       
     }
 
     public void SwithController(int value)
@@ -67,6 +56,13 @@ public abstract class GenericGraphWindow : EditorWindow, ISupportsOverlays
         OnLoadControllers();
         InitContextualMenu();
         Populate();
+
+        currentController = controllers[0];
+        mainView.OnClearSelection = () =>
+        {
+            var il = Reflection.MakeGenericScriptable(currentController.GetData()); // temporal (!!!)
+            Selection.SetActiveObjectWithContext(il, il);
+        };
     }
 
     public override void SaveChanges()
@@ -121,6 +117,7 @@ public abstract class GenericGraphWindow : EditorWindow, ISupportsOverlays
         // File menu option
         var fileMenu = new ToolbarMenu();
         fileMenu.text = "File";
+        fileMenu.menu.AppendAction("New", (dma) => { LBSController.CreateNewLevel("new file", new Vector3(100, 100, 100)); RefreshView(); });
         fileMenu.menu.AppendAction("Load", (dma) => {  LBSController.LoadFile(); RefreshView(); });
         fileMenu.menu.AppendAction("Save", (dma) => { LBSController.SaveFile(); });
         fileMenu.menu.AppendAction("Save as", (dma) => { LBSController.SaveFileAs(); });

@@ -35,11 +35,14 @@ public class LBSSchemaWindow : GenericGraphWindow
 
     public override void OnFocus()
     {
-        //ActualizeView();
+        var data = LBSController.CurrentLevel.data;
+        controllers.ForEach(c => c.PopulateView(MainView));
     }
 
     public override void OnLoadControllers()
     {
-        //throw new System.NotImplementedException();
+        var data = LBSController.CurrentLevel.data; // peligroso buscar otra forma (!)
+        var tileData = data.GetRepresentation<LBSTileMapData>();
+        controllers.Add(new LBSTileMapController(MainView, tileData));
     }
 }
