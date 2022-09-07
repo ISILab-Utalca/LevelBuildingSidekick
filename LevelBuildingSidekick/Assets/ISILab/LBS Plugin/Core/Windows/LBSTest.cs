@@ -21,11 +21,6 @@ public class LBSTest : GenericGraphWindow // es necesario una clase "LBSTest" qu
         //throw new System.NotImplementedException();
     }
 
-    public override void OnFocus()
-    {
-        throw new System.NotImplementedException();
-    }
-
     public override void OnLoadControllers()
     {
         throw new System.NotImplementedException();

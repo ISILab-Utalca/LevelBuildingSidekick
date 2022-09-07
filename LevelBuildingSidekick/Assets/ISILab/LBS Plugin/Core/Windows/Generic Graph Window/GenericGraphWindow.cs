@@ -17,6 +17,7 @@ public abstract class GenericGraphWindow : EditorWindow, ISupportsOverlays
 {
     protected List<IRepController> controllers = new List<IRepController>();
     protected IRepController currentController;
+
     protected VisualElement root;
     protected MainView mainView;
 
@@ -25,8 +26,24 @@ public abstract class GenericGraphWindow : EditorWindow, ISupportsOverlays
     public MainView MainView => mainView;
 
     public abstract void OnCreateGUI();
-    public abstract void OnFocus();
+    
     public abstract void OnLoadControllers();
+
+    private void OnInspectorUpdate()
+    {
+        var fileInfo = LBSController.CurrentLevel.FileInfo;
+        if (fileInfo != null)
+        {
+            label.text = "file*: ''" + fileInfo.Name + "''";
+            label.style.color = new Color(0.6f, 0.6f, 0.6f);
+        }
+        else
+        {
+            label.text = "file: ''Unsaved''";
+            label.style.color = Color.white;
+        }
+
+    }
 
     public void CreateGUI()
     {
@@ -38,12 +55,30 @@ public abstract class GenericGraphWindow : EditorWindow, ISupportsOverlays
         RefreshView();       
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    public void OnFocus()
+    {
+        var data = LBSController.CurrentLevel.data;
+        controllers.ForEach(c => c.PopulateView(MainView));
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="value"></param>
     public void SwithController(int value)
     {
         if(value < 0 || value >= controllers.Count)
         {
             Debug.LogWarning("Index <b>'"+value+"'</b> is out of bounds.");
         }
+        currentController = controllers[value];
+    }
+
+    private static void RefreshAllViews()
+    {
 
     }
 
@@ -82,31 +117,23 @@ public abstract class GenericGraphWindow : EditorWindow, ISupportsOverlays
         return (T)controllers.Find(c => c is T);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     private void Populate()
     {
         controllers.ForEach(c => c.PopulateView(mainView));
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     private void InitContextualMenu()
     {
         controllers.ForEach(c => c.SetContextualMenu(mainView));
     }
 
-    private void OnInspectorUpdate()
-    {
-        var fileInfo = LBSController.CurrentLevel.FileInfo;
-        if (fileInfo != null)
-        {
-            label.text = "file*: ''" + fileInfo.Name + "''";
-            label.style.color = new Color(0.6f, 0.6f, 0.6f);
-        }
-        else
-        {
-            label.text = "file: ''Unsaved''";
-            label.style.color = Color.white;
-        }
-
-    }
+    
 
     private void InitToolBar()
     {
@@ -117,8 +144,8 @@ public abstract class GenericGraphWindow : EditorWindow, ISupportsOverlays
         // File menu option
         var fileMenu = new ToolbarMenu();
         fileMenu.text = "File";
-        fileMenu.menu.AppendAction("New", (dma) => { LBSController.CreateNewLevel("new file", new Vector3(100, 100, 100)); RefreshView(); });
-        fileMenu.menu.AppendAction("Load", (dma) => {  LBSController.LoadFile(); RefreshView(); });
+        fileMenu.menu.AppendAction("New", (dma) => { LBSController.CreateNewLevel("new file", new Vector3(100, 100, 100)); GenericGraphWindow.RefeshAll(this); });
+        fileMenu.menu.AppendAction("Load", (dma) => {  LBSController.LoadFile(); GenericGraphWindow.RefeshAll(this); });
         fileMenu.menu.AppendAction("Save", (dma) => { LBSController.SaveFile(); });
         fileMenu.menu.AppendAction("Save as", (dma) => { LBSController.SaveFileAs(); });
         fileMenu.menu.AppendSeparator();
@@ -130,7 +157,7 @@ public abstract class GenericGraphWindow : EditorWindow, ISupportsOverlays
         fileMenu.menu.AppendAction("Help.../About", (dma) => { Debug.LogError("[Implementar about]"); }); // ver si es necesaria (!)
         fileMenu.menu.AppendSeparator();
         fileMenu.menu.AppendAction("Close", (dma) => { this.Close(); });
-        fileMenu.menu.AppendAction("Close All", (dma) => { this.CloseAll(); });
+        fileMenu.menu.AppendAction("Close All", (dma) => { GenericGraphWindow.CloseAll(this); });
         toolBar.Add(fileMenu);
 
         // search object in current window
@@ -143,15 +170,28 @@ public abstract class GenericGraphWindow : EditorWindow, ISupportsOverlays
         toolBar.Add(label);
     }
 
-
-
-    private void CloseAll()
+    private static void RefeshAll(GenericGraphWindow current)
     {
         var types = Reflection.GetAllSubClassOf<GenericGraphWindow>().ToList();
         types.ForEach((t) => {
             MethodInfo method = typeof(EditorWindow).GetMethod(nameof(EditorWindow.HasOpenInstances)); // magia
             MethodInfo generic = method.MakeGenericMethod(t);
-            if ((bool)generic?.Invoke(this, null))
+            if ((bool)generic?.Invoke(current, null))
+            {
+                var w =  (GenericGraphWindow)EditorWindow.GetWindow(t);
+                w.RefreshView();
+            }
+        });
+    }
+
+
+    private static void CloseAll(GenericGraphWindow current)
+    {
+        var types = Reflection.GetAllSubClassOf<GenericGraphWindow>().ToList();
+        types.ForEach((t) => {
+            MethodInfo method = typeof(EditorWindow).GetMethod(nameof(EditorWindow.HasOpenInstances)); // magia
+            MethodInfo generic = method.MakeGenericMethod(t);
+            if ((bool)generic?.Invoke(current, null))
                 EditorWindow.GetWindow(t).Close();
         });
     }

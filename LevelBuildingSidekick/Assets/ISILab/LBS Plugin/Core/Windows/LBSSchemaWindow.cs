@@ -7,42 +7,31 @@ using LBS.Representation.TileMap;
 using LevelBuildingSidekick;
 using UnityEditor.Overlays;
 
-public class LBSSchemaWindow : GenericGraphWindow
+namespace LBS.Windows
 {
-    private TileGridView view;
-    private Label notSelectedLabel;
-
-    [MenuItem("ISILab/LBS plugin/Schema window")]
-    [LBSWindow("Schema window")]
-    public static void OpenWindow()
+    public class LBSSchemaWindow : GenericGraphWindow, ISupportsOverlays
     {
-        LBSSchemaWindow wnd = GetWindow<LBSSchemaWindow>();
-        wnd.titleContent = new GUIContent("Schema window");
-    }
+        private LBSSchemaWindow() { }
 
-    public override void OnCreateGUI()
-    {
-        this.ImportUXML("TileMapEditor");
-        this.ImportStyleSheet("TileMapEditor");
+        [MenuItem("ISILab/LBS plugin/Schema window")]
+        [LBSWindow("Schema window")]
+        public static void OpenWindow()
+        {
+            var  wnd = GetWindow<LBSSchemaWindow>();
+            wnd.titleContent = new GUIContent("Schema window");
+        }
+
+        public override void OnCreateGUI()
+        {
+            Debug.Log("aaaa");
+        }
 
 
-        view = root.Q<TileGridView>();
-
-        notSelectedLabel = root.Q<Label>("NotSelected");
-    }
-
-
-
-    public override void OnFocus()
-    {
-        var data = LBSController.CurrentLevel.data;
-        controllers.ForEach(c => c.PopulateView(MainView));
-    }
-
-    public override void OnLoadControllers()
-    {
-        var data = LBSController.CurrentLevel.data; // peligroso buscar otra forma (!)
-        var tileData = data.GetRepresentation<LBSTileMapData>();
-        controllers.Add(new LBSTileMapController(MainView, tileData));
+        public override void OnLoadControllers()
+        {
+            var data = LBSController.CurrentLevel.data; // peligroso buscar otra forma (!)
+            var tileData = data.GetRepresentation<LBSTileMapData>();
+            controllers.Add(new LBSTileMapController(MainView, tileData));
+        }
     }
 }

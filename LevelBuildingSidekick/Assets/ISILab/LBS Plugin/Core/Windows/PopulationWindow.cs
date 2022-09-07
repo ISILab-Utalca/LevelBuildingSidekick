@@ -37,9 +37,5 @@ public class PopulationWindow : GenericGraphWindow , ISupportsOverlays
         controllers.Add(new LBSStampController(MainView, data.GetRepresentation<LBSStampGroupData>()));
     }
 
-    public override void OnFocus()
-    {
-
-    }
 }
 

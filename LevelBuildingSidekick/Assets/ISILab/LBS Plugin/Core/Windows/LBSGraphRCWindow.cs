@@ -9,7 +9,6 @@ using UnityEditor.Overlays;
 
 namespace LevelBuildingSidekick.Graph
 {
-
     public class LBSGraphRCWindow : GenericGraphWindow , ISupportsOverlays// RC => roomcharacteristics
     {
         private LBSGraphRCWindow() { }
@@ -24,18 +23,9 @@ namespace LevelBuildingSidekick.Graph
 
         public override void OnCreateGUI()
         {
-            //this.ImportUXML("MainView");
-            //this.ImportStyleSheet("GraphWindow");
-
-            //var generateBtn = root.Q<Button>("GenerateBtn");
-            //generateBtn.clicked += () => { GenerateSchema(); };
+           
         }
 
-        public override void OnFocus()
-        {
-            var data = LBSController.CurrentLevel.data;
-            controllers.ForEach(c => c.PopulateView(MainView));
-        }
 
         public override void OnLoadControllers()
         {
