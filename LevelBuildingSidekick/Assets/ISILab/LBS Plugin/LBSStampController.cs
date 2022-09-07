@@ -7,42 +7,29 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Utility;
 
-public class LBSStampController : LBSViewController
+// esto deberia llamarse population o algo asi
+public class LBSStampController : LBSRepController<LBSStampGroupData>
 {
-    LBSStampGroupData data;
-    FreeStampView view;
 
-    public LBSStampController(LBSStampGroupData data) : base(data)
+    public LBSStampController(GraphView view,LBSStampGroupData data) : base(view ,data)
     {
-        this.data = data;
 
-        var stamps = DirectoryTools.GetScriptablesByType<StampPresset>();
-
-        foreach (var stamp in stamps)
-        {
-            contextActions.Add(new ContextAction(
-            "Create Stamp/" + stamp.name,
-            (dma,view, evt) => { CreateStamp(evt,view,stamp); }
-            ));
-        }
-
-        contextActions.Add(new ContextAction(
-            "Clear",
-            (dma, view, evt) => { 
-                data.Clear();
-                view.DeleteElements(view.graphElements);
-            }));
-
-        contextActions.Add(new ContextAction(
-            "Print",
-            (dma, view, evt) => { PrintData(); }
-            ));
     }
 
     public override void OnContextualBuid(MainView view, ContextualMenuPopulateEvent cmpe)
     {
-        cmpe.menu.AppendAction("Stamp/TEST", (dma) => { Debug.Log("test stamp"); });
         cmpe.menu.AppendAction("Stamp/Print", (dma) => { data.Print(); });
+
+        var stamps = DirectoryTools.GetScriptablesByType<StampPresset>();
+        foreach (var stamp in stamps)
+        {
+            cmpe.menu.AppendAction("Stamp/Create/" + stamp.name, (dma) => CreateStamp(cmpe, view, stamp));
+        }
+
+        cmpe.menu.AppendAction("Stamp/Clear", (dma) => { 
+            data.Clear();
+            view.DeleteElements(elements);
+            });
     }
 
     public override void PopulateView(MainView view)
@@ -54,7 +41,7 @@ public class LBSStampController : LBSViewController
         });
     }
 
-    public void CreateStamp(ContextualMenuPopulateEvent evt, LBSBaseView view, StampPresset stamp)
+    public void CreateStamp(ContextualMenuPopulateEvent evt, GraphView view, StampPresset stamp)
     {
         var viewPos = new Vector2(view.viewTransform.position.x, view.viewTransform.position.y);
         var pos = (evt.localMousePosition - viewPos) / view.scale;
@@ -63,13 +50,4 @@ public class LBSStampController : LBSViewController
         data.AddStamp(newStamp);
         view.AddElement(new StampView(newStamp));
     }
-
-
-
-    public void PrintData()
-    {
-        data.Print();
-    }
-
-
 }

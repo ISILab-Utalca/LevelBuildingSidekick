@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class LBSQuest : LBSEditorWindow
+public class LBSQuest : GenericGraphWindow
 {
-    [MenuItem("ISILab/LBS plugin/SQuest step.../quest (nombre temporal)")]
+    [MenuItem("ISILab/LBS plugin/Quest step.../quest (nombre temporal)")]
     public static void OpenWindow()
     {
         var wnd = GetWindow<LBSQuest>();
@@ -22,6 +22,11 @@ public class LBSQuest : LBSEditorWindow
     }
 
     public override void OnFocus()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void OnLoadControllers()
     {
         throw new System.NotImplementedException();
     }

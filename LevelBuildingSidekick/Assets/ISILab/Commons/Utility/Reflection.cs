@@ -4,11 +4,46 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using System.Reflection;
+using System.Reflection.Emit;
 
 namespace Utility
 {
     public static class Reflection
     {
+
+        public static ScriptableObject MakeGenericScriptable(object obj)
+        {
+            return MakeGenericWraper<ScriptableObject>(obj);
+        }
+
+        private static T MakeGenericWraper<T>(object obj)
+        {
+            AssemblyName an = new AssemblyName(obj.ToString() + "_generic");
+            var ab = AssemblyBuilder.DefineDynamicAssembly(an, AssemblyBuilderAccess.Run);
+            var mb = ab.DefineDynamicModule(an.Name);
+
+            var tb = mb.DefineType(obj.ToString() + "_generic", TypeAttributes.Public, typeof(T));
+            tb.DefineField("data", obj.GetType(), FieldAttributes.Public);
+            Type[] parameterTypes = { obj.GetType() };
+            var ctor = tb.DefineConstructor(MethodAttributes.Public, CallingConventions.Standard, parameterTypes);
+            var defCtor = tb.DefineDefaultConstructor(MethodAttributes.Public);
+            ILGenerator ctor1IL = ctor.GetILGenerator();
+
+            {
+                //  Creation b constructor    
+                var il_gen = ctor.GetILGenerator();
+                il_gen.Emit(OpCodes.Ldarg_0);
+                il_gen.Emit(OpCodes.Call, typeof(T));
+                il_gen.Emit(OpCodes.Ret);
+            }
+            Type t = tb.CreateType();
+
+            var ret = Activator.CreateInstance(t);
+            var pro = t.GetField("data");
+            pro.SetValue(ret, obj);
+
+            return (T)ret;
+        }
         public static IEnumerable<Type> GetAllSubClassOf<T>()
         {
             return GetAllSubClassOf(typeof(T));

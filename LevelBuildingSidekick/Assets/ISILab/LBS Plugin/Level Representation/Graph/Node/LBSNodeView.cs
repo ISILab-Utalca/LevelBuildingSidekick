@@ -8,6 +8,11 @@ using UnityEngine.UIElements;
 using System.Linq;
 using System;
 using System.Reflection;
+using Utility;
+using LevelBuildingSidekick.Graph;
+using LevelBuildingSidekick.Schema;
+using System.Reflection.Emit;
+using Label = UnityEngine.UIElements.Label;
 
 namespace LevelBuildingSidekick.Graph
 {
@@ -15,12 +20,10 @@ namespace LevelBuildingSidekick.Graph
     {
         #region InspectorDrawer
         private class NodeScriptable : GenericScriptable<LBSNodeData> { };
-        [CustomEditor(typeof(NodeScriptable))]
+        [CustomEditor(typeof(GenericScriptable<LBSNodeData>))]
         [CanEditMultipleObjects]
         private class NodeScriptableEditor : GenericScriptableEditor { };
         #endregion
-
-        public Texture2D circle;
 
         public LBSNodeData Data;
 
@@ -79,9 +82,9 @@ namespace LevelBuildingSidekick.Graph
         public override void OnSelected()
         {
             base.OnSelected();
-            var s = ScriptableObject.CreateInstance<NodeScriptable>();
-            s.data = Data;
-            Selection.SetActiveObjectWithContext(s, s);
+
+            var il = Reflection.MakeGenericScriptable(Data);
+            Selection.SetActiveObjectWithContext(il, il);
         }
 
         public override void SetPosition(Rect newPos)

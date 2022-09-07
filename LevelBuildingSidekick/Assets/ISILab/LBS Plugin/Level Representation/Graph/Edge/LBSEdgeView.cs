@@ -8,14 +8,14 @@ using UnityEditor.Experimental.GraphView;
 using Newtonsoft.Json;
 using LevelBuildingSidekick.Graph;
 
-public abstract class LBSEdgeView : GraphElement
+public abstract class LBSEdgeView : LBSGraphElement
 {
     protected LBSEdgeData data; // (??)
 
     protected LBSNodeView nv1, nv2;
     protected GraphView root;
 
-    public LBSEdgeView(LBSNodeView nv1, LBSNodeView nv2, LBSBaseView root)
+    public LBSEdgeView(LBSNodeView nv1, LBSNodeView nv2, GraphView root)
     {
         this.nv1 = nv1;
         this.nv2 = nv2;
@@ -24,8 +24,8 @@ public abstract class LBSEdgeView : GraphElement
         capabilities |= Capabilities.Selectable | Capabilities.Deletable;
 
         ActualizeView();
-        
-        nv1.OnMoving += ()=>
+
+        nv1.OnMoving += () =>
         {
             ActualizeView();
             nv1.BringToFront();
@@ -44,9 +44,9 @@ public abstract class LBSEdgeView : GraphElement
 public class LBSDotedEdgeView : LBSEdgeView
 {
     private static float dist = 10f;
-    private List<GraphElement> elements = new List<GraphElement>();
+    public List<GraphElement> elements = new List<GraphElement>();
 
-    public LBSDotedEdgeView(LBSNodeView nv1, LBSNodeView nv2, LBSBaseView root) : base(nv1, nv2, root)
+    public LBSDotedEdgeView(LBSNodeView nv1, LBSNodeView nv2, GraphView root) : base(nv1, nv2, root)
     {
     }
 
@@ -71,13 +71,19 @@ public class LBSDotedEdgeView : LBSEdgeView
             dot.SendToBack();
         }
     }
+
+    public override void OnDelete()
+    {
+        elements.ForEach(e => root.RemoveElement(e));
+        elements = new List<GraphElement>();
+    }
 }
 
 public class LBSLineEdgeView : LBSEdgeView
 {
     public Line line;
 
-    public LBSLineEdgeView(LBSNodeView nv1, LBSNodeView nv2, LBSBaseView root) : base(nv1, nv2, root)
+    public LBSLineEdgeView(LBSNodeView nv1, LBSNodeView nv2, GraphView root) : base(nv1, nv2, root)
     {
     }
 
@@ -86,6 +92,11 @@ public class LBSLineEdgeView : LBSEdgeView
     {
         var pos1 = this.nv1.GetPosition().center;
         var pos2 = this.nv2.GetPosition().center;
+    }
+
+    public override void OnDelete()
+    {
+        throw new System.NotImplementedException();
     }
 }
 

@@ -8,12 +8,13 @@ using UnityEngine.UIElements;
 
 namespace LevelBuildingSidekick
 {
+    /*
     public abstract class ToolkitOverlay : IMGUIOverlay
     {
     }
 
 
-    [Overlay(typeof(LBSRoomCharacteristicsWindow), "GraphToolkit", "Graph Toolkit", true)]
+    [Overlay(typeof(LBSGraphRCWindow), "GraphToolkit", "Graph Toolkit", true)]
     public class GraphToolkitOverlay : ToolkitOverlay 
     {
         public static ToolkitView toolkit;
@@ -26,6 +27,7 @@ namespace LevelBuildingSidekick
             }
         }
     }
+    */
 }
 
 

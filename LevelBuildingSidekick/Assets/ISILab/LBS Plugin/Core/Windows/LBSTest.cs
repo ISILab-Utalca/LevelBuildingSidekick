@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class LBSTest : LBSEditorWindow // es necesario una clase "LBSTest" que se va a hacer con ella (!!)
+public class LBSTest : GenericGraphWindow // es necesario una clase "LBSTest" que se va a hacer con ella (!!)
 {
 
     [MenuItem("ISILab/LBS plugin/Test step.../test (nombre temporal)")]
@@ -22,6 +22,11 @@ public class LBSTest : LBSEditorWindow // es necesario una clase "LBSTest" que s
     }
 
     public override void OnFocus()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void OnLoadControllers()
     {
         throw new System.NotImplementedException();
     }

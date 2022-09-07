@@ -199,16 +199,9 @@ namespace LBS.Representation.TileMap
         {
             var msg = "";
             var mtx = GetMatrix();
-            msg += "[*]";
-            for (int j = 0; j < mtx.GetLength(0); j++)
-            {
-                msg += "[" + j % 9 + "]";
-            }
-            msg += "\n";
 
             for (int j = 0; j < mtx.GetLength(1); j++)
             {
-                msg += "[" + j % 9 + "]";
                 for (int i = 0; i < mtx.GetLength(0); i++)
                 {
                     if (mtx[i, j] != null)
@@ -218,7 +211,7 @@ namespace LBS.Representation.TileMap
                     }
                     else
                     {
-                        msg += "   ";
+                        msg += "#";
                     }
                     
                 }

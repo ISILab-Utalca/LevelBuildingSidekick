@@ -2,9 +2,11 @@
     <ui:VisualElement name="WindowElements" style="flex-direction: column; flex-grow: 1; width: auto;">
         <ui:VisualElement style="flex-wrap: nowrap; flex-direction: row; width: 596px; height: 322px;">
             <ui:VisualElement name="Derch" style="height: 320px; flex-grow: 1; width: 129px; justify-content: center;">
-                <ui:VisualElement name="Preview" style="height: 180px; align-items: center; justify-content: center;">
-                    <ui:VisualElement name="Image" style="background-color: rgb(88, 88, 88); height: 132px; width: 132px; background-image: none; -unity-background-scale-mode: scale-to-fit;" />
-                    <ui:Label tabindex="-1" text="Element" display-tooltip-when-elided="true" style="font-size: 24px; -unity-text-align: upper-center; margin-top: 4px;" />
+                <ui:VisualElement name="Preview" style="height: 180px; align-items: center; justify-content: center; width: 170px;">
+                    <ui:VisualElement name="ImageCont" style="background-color: rgb(88, 88, 88); height: 132px; width: 132px; background-image: none; -unity-background-scale-mode: scale-to-fit; align-items: center; justify-content: center;">
+                        <ui:VisualElement name="image" style="height: 116px; width: 116px; background-image: url(&apos;project://database/Assets/ISILab/LBS%20Plugin/Assets2D/Elements/hacha.png?fileID=2800000&amp;guid=2fbe5313b9f7a3c428c24a4a75feb2e6&amp;type=3#hacha&apos;);" />
+                    </ui:VisualElement>
+                    <ui:Label tabindex="-1" text="Element" display-tooltip-when-elided="true" name="nameSelection" style="font-size: 24px; -unity-text-align: upper-center; margin-top: 4px;" />
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement name="izqu" style="height: 320px; width: 424px;">

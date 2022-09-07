@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thumnail: {fileID: 0}
   windows:
-  - Room Characteristics
+  - GraphRC window
+  - Schema window

@@ -12,8 +12,9 @@ using LevelBuildingSidekick;
 
 
 
-public class TileGridView : LBSBaseView
+public class TileGridView : LBSGraphView
 {
+    /*
     public new class UxmlFactory : UxmlFactory<TileGridView, GraphView.UxmlTraits> { }
 
     // public LBSTileGridControler controller
@@ -94,15 +95,12 @@ public class TileGridView : LBSBaseView
         {
             ShowLabels(false);
         });
-
-        /*
         evt.menu.AppendAction("Add Tile", (a) => 
         {
             data.AddTiles(new List<Vector2Int>() { tilePos }, "test");
             CreateTileView(tilePos, tileSize);
             Debug.Log("Ge:"+graphElements.ToList().Count);
         });
-        */
-
     }
+     */
 }

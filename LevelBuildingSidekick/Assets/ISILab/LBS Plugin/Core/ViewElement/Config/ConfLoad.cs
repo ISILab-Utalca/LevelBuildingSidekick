@@ -16,7 +16,7 @@ public class ConfLoad : Button
 
         fileSave = this.Q<Label>(name: "fileSave");
 
-        fileSave.text = "Defalult";
+        fileSave.text = "Default";
     }
 
     public ConfLoad(string fileS)

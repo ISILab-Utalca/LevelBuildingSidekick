@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement name="Preview" style="width: 170px; height: 180px; align-items: center; justify-content: center;">
+        <ui:VisualElement name="ImageCont" style="width: 132px; height: 132px; align-items: center; justify-content: center; background-color: rgb(88, 88, 88);">
+            <ui:VisualElement name="image" style="width: 116px; height: 116px; background-image: url(&apos;project://database/Assets/ISILab/LBS%20Plugin/Assets2D/Elements/hacha.png?fileID=2800000&amp;guid=2fbe5313b9f7a3c428c24a4a75feb2e6&amp;type=3#hacha&apos;);" />
+        </ui:VisualElement>
+        <ui:Label tabindex="-1" text="Element" display-tooltip-when-elided="true" name="nameSelection" style="font-size: 24px;" />
+    </ui:VisualElement>
+</ui:UXML>
