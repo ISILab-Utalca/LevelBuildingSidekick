@@ -121,9 +121,9 @@ public abstract class GenericGraphWindow : EditorWindow, ISupportsOverlays
         // File menu option
         var fileMenu = new ToolbarMenu();
         fileMenu.text = "File";
-        fileMenu.menu.AppendAction("Level.../Load", (dma) => {  LBSController.LoadFile(); RefreshView(); });
-        fileMenu.menu.AppendAction("Level.../Save", (dma) => { LBSController.SaveFile(); });
-        fileMenu.menu.AppendAction("Level.../Save as", (dma) => { LBSController.SaveFileAs(); });
+        fileMenu.menu.AppendAction("Load", (dma) => {  LBSController.LoadFile(); RefreshView(); });
+        fileMenu.menu.AppendAction("Save", (dma) => { LBSController.SaveFile(); });
+        fileMenu.menu.AppendAction("Save as", (dma) => { LBSController.SaveFileAs(); });
         fileMenu.menu.AppendSeparator();
         fileMenu.menu.AppendAction("Representation.../Load", (dma) => { Debug.LogError("[Implementar loadRep]"); }); // ver si es necesaria (!)
         fileMenu.menu.AppendAction("Representation.../Save", (dma) => { Debug.LogError("[Implementar saveRep]"); }); // ver si es necesaria (!)
