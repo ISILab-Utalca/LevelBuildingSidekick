@@ -26,6 +26,11 @@ namespace LBS.Windows
             Debug.Log("aaaa");
         }
 
+        public override void OnInitPanel()
+        {
+            
+            //throw new System.NotImplementedException();
+        }
 
         public override void OnLoadControllers()
         {

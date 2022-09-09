@@ -7,6 +7,7 @@ public class Config : Button
 {
     public new class UxmlFactory : UxmlFactory<Config, VisualElement.UxmlTraits> { }
 
+
     public Label lTop;
     public Label labelBot;
     public VisualElement img;

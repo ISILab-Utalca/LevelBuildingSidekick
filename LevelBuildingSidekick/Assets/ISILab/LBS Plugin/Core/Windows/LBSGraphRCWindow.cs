@@ -6,8 +6,10 @@ using UnityEditor.UIElements;
 using LBS.Transformers;
 using System;
 using UnityEditor.Overlays;
+using LevelBuildingSidekick;
+using LevelBuildingSidekick.Graph;
 
-namespace LevelBuildingSidekick.Graph
+namespace LBS.Windows
 {
     public class LBSGraphRCWindow : GenericGraphWindow , ISupportsOverlays// RC => roomcharacteristics
     {
@@ -26,6 +28,10 @@ namespace LevelBuildingSidekick.Graph
            
         }
 
+        public override void OnInitPanel()
+        {
+            //throw new NotImplementedException();
+        }
 
         public override void OnLoadControllers()
         {

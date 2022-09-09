@@ -1,4 +1,5 @@
-﻿using LevelBuildingSidekick;
+﻿using LBS.ElementView;
+using LevelBuildingSidekick;
 using System;
 using System.Collections.Generic;
 using UnityEditor;
@@ -48,6 +49,16 @@ public abstract class LBSRepController<T> : IRepController where T : LBSRepesent
     {
         return data;
     }
+
+    /// <summary>
+    /// Marka los objetos para que no sean interactuables, (los hace trasparentes ademas). el nombre esta raro (!)
+    /// </summary>
+    /// <param name="v"></param>
+    public void ShowView(bool v)
+    {
+        elements.ForEach(e =>  e.style.opacity = v ? new StyleFloat(0.1f): new StyleFloat(1f));
+        // desactiva la interacion con los objetos correspondientes a este controlador
+    }
 }
 
 public interface IRepController
@@ -56,4 +67,5 @@ public interface IRepController
     public void SetContextualMenu(MainView view);
     public void OnContextualBuid(MainView view, ContextualMenuPopulateEvent cmpe);
     public object GetData();
+    public void ShowView(bool v);
 }

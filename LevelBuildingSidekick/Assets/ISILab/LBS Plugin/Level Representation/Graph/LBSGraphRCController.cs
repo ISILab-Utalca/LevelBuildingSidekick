@@ -12,6 +12,7 @@ using UnityEditor.Experimental.GraphView;
 using LevelBuildingSidekick.Graph;
 using LevelBuildingSidekick.Schema;
 using LBS.Transformers;
+using LBS.ElementView;
 
 namespace LevelBuildingSidekick.Graph
 {
