@@ -10,7 +10,6 @@
 /[Ll]ogs/
 /[Mm]emoryCaptures/
 /[Vv]env/
-/[Gg]itIgnorable/
 
 [Ll]ibrary/
 [Vv]env/
@@ -77,3 +76,5 @@ crashlytics-build.properties
 # ISILab
 LBSBackUp.asset
 LBSBackUp.asset.meta
+[Gg]itIgnorable/
+/[Gg]itIgnorable/
