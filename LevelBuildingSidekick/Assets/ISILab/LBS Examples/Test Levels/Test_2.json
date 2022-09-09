@@ -1,0 +1,141 @@
+{
+  "tags": [],
+  "levelObjects": [],
+  "x": 0,
+  "y": 0,
+  "z": 0,
+  "representations": [
+    {
+      "$type": "LevelBuildingSidekick.Graph.LBSGraphData, Assembly-CSharp",
+      "nodes": [
+        {
+          "$type": "LevelBuildingSidekick.Schema.RoomCharacteristicsData, Assembly-CSharp",
+          "rangeWidth": {
+            "min": 2,
+            "max": 2
+          },
+          "rangeHeight": {
+            "min": 2,
+            "max": 2
+          },
+          "aspectRatio": {
+            "width": 1,
+            "heigth": 1
+          },
+          "proportionType": 0,
+          "tags": [],
+          "radius": 32,
+          "x": 638,
+          "y": 82,
+          "label": "Node: 0"
+        },
+        {
+          "$type": "LevelBuildingSidekick.Schema.RoomCharacteristicsData, Assembly-CSharp",
+          "rangeWidth": {
+            "min": 2,
+            "max": 2
+          },
+          "rangeHeight": {
+            "min": 2,
+            "max": 2
+          },
+          "aspectRatio": {
+            "width": 1,
+            "heigth": 1
+          },
+          "proportionType": 0,
+          "tags": [],
+          "radius": 32,
+          "x": 638,
+          "y": 222,
+          "label": "Node: 1"
+        },
+        {
+          "$type": "LevelBuildingSidekick.Schema.RoomCharacteristicsData, Assembly-CSharp",
+          "rangeWidth": {
+            "min": 2,
+            "max": 2
+          },
+          "rangeHeight": {
+            "min": 6,
+            "max": 6
+          },
+          "aspectRatio": {
+            "width": 1,
+            "heigth": 1
+          },
+          "proportionType": 0,
+          "tags": [],
+          "radius": 32,
+          "x": 790,
+          "y": 222,
+          "label": "Node: 2"
+        },
+        {
+          "$type": "LevelBuildingSidekick.Schema.RoomCharacteristicsData, Assembly-CSharp",
+          "rangeWidth": {
+            "min": 2,
+            "max": 2
+          },
+          "rangeHeight": {
+            "min": 6,
+            "max": 6
+          },
+          "aspectRatio": {
+            "width": 1,
+            "heigth": 1
+          },
+          "proportionType": 0,
+          "tags": [],
+          "radius": 32,
+          "x": 469,
+          "y": 222,
+          "label": "Node: 3"
+        },
+        {
+          "$type": "LevelBuildingSidekick.Schema.RoomCharacteristicsData, Assembly-CSharp",
+          "rangeWidth": {
+            "min": 8,
+            "max": 8
+          },
+          "rangeHeight": {
+            "min": 2,
+            "max": 2
+          },
+          "aspectRatio": {
+            "width": 1,
+            "heigth": 1
+          },
+          "proportionType": 0,
+          "tags": [],
+          "radius": 32,
+          "x": 790,
+          "y": -17,
+          "label": "Node: 4"
+        }
+      ],
+      "edges": [
+        {
+          "firstNodeLabel": "Node: 0",
+          "secondNodeLabel": "Node: 1"
+        },
+        {
+          "firstNodeLabel": "Node: 1",
+          "secondNodeLabel": "Node: 2"
+        },
+        {
+          "firstNodeLabel": "Node: 3",
+          "secondNodeLabel": "Node: 1"
+        },
+        {
+          "firstNodeLabel": "Node: 4",
+          "secondNodeLabel": "Node: 0"
+        },
+        {
+          "firstNodeLabel": "Node: 4",
+          "secondNodeLabel": "Node: 2"
+        }
+      ]
+    }
+  ]
+}
