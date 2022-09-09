@@ -23,6 +23,17 @@ public class Doors : VisualElement
         Botton = this.Q<VisualElement>(name: "Botton");
 
     }
+    /// <summary>
+    /// Terminar Nicolas
+    /// </summary>
+    /// <param name="one"></param>
+    public Doors(object one)
+    {
+        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("Door");
+        visualTree.CloneTree(this);
+
+        
+    }
 
 
 }
