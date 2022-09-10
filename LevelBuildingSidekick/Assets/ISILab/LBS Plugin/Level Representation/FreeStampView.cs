@@ -1,4 +1,5 @@
 using LevelBuildingSidekick;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
@@ -8,6 +9,7 @@ using Utility;
 
 namespace LBS.View
 {
+    [Obsolete]
     public class FreeStampView : LBSGraphView
     {
         /*
