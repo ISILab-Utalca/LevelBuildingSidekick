@@ -207,7 +207,7 @@ namespace LBS.Representation.TileMap
                     if (mtx[i, j] != null)
                     {
                         var c = Parse.ColorTosStr(GetRoom(mtx[i, j]).Color);
-                        msg += "<color=#"+c+">[ ]</color>";
+                        msg += "<color=#"+c+">#</color>";
                     }
                     else
                     {
