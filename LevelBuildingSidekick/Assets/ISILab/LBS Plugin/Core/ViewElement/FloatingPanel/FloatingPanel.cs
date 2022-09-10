@@ -22,7 +22,7 @@ namespace LBS.VisualElements
 
         public FloatingPanel() { }
 
-        public FloatingPanel(string title, List<Tuple <string,Action>> actions, List<IRepController> controllers, EditorWindow prev = null, EditorWindow next = null)
+        public FloatingPanel(string title, List<Tuple <string,Action>> actions, List<IRepController> controllers, Type prev = null, Type next = null)
         {
             var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("FloatingPanel");
             visualTree.CloneTree(this);
@@ -37,7 +37,7 @@ namespace LBS.VisualElements
 
             foreach (var c in controllers)
             {
-                var toggle = new Toggle(c.ToString()); // cambiar a un nombre decvente  en vez de usar toString() (!)
+                var toggle = new Toggle(c.GetName()); // cambiar a un nombre decvente  en vez de usar toString() (!)
                 toggle.RegisterValueChangedCallback((v) => { c.ShowView(!v.newValue);});
                 toggleContent.Add(toggle);
             }
@@ -45,7 +45,7 @@ namespace LBS.VisualElements
             foreach (var action in actions)
             {
                 var button = new Button();
-                button.name = action.Item1;
+                button.text = action.Item1;
                 button.clicked += action.Item2;
                 buttonContent.Add(button);
             }
@@ -53,7 +53,7 @@ namespace LBS.VisualElements
             if (prev != null)
             {
                 this.prev.style.display = DisplayStyle.Flex;
-                this.prev.clicked += () => EditorWindow.GetWindow(prev.GetType());
+                this.prev.clicked += () => EditorWindow.GetWindow(prev);
             }
             else
             {
@@ -63,7 +63,7 @@ namespace LBS.VisualElements
             if (next != null)
             {
                 this.next.style.display = DisplayStyle.Flex;
-                this.next.clicked += () => EditorWindow.GetWindow(next.GetType());
+                this.next.clicked += () => EditorWindow.GetWindow(next);
             }
             else
             {
