@@ -1,11 +1,20 @@
 
-Bugs
+### Bugs ###
 
 - Las ventanas pueden perder referencias no acesibles por los desarrolladores provocando que estan
   no se muestren.
 	- Una solucion a esto puede ser reiniaar unity, o reescalar la ventana en cuestion.
 
-Anotaciones
+- Aveces al hacer cambios en el codigo y tener una ventana abierta esta empieza arojar null refs
+  esto ocurre apesar de que las variables que y al linea de codigo que dice tener null references
+  tiene a todas las variables implicadas con valores correctamente asignado (se comporobo).
+	- Esto ocurre cuando se tiene abierta las ventnas y el debbug de visualstudio activado, se
+	  soluciona refrescando la ventana vuelve a aparecer al editar algun codigo.
+
+
+
+### Anotaciones ###
+
 - Los archivos PDF "DOCUMENTACION" y "README" estanm vacios y existen pero exiten para recordar
   que deben ser llenados.
 
