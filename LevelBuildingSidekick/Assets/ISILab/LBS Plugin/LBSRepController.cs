@@ -45,6 +45,8 @@ public abstract class LBSRepController<T> : IRepController where T : LBSRepesent
     /// <param name="view"></param>
     public abstract void PopulateView(MainView view);
 
+    public abstract string GetName();
+
     public object GetData()
     {
         return data;
@@ -68,4 +70,5 @@ public interface IRepController
     public void OnContextualBuid(MainView view, ContextualMenuPopulateEvent cmpe);
     public object GetData();
     public void ShowView(bool v);
+    public string GetName();
 }

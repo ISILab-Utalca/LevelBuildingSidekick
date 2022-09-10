@@ -51,4 +51,9 @@ public class LBSStampController : LBSRepController<LBSStampGroupData>
         data.AddStamp(newStamp);
         view.AddElement(new StampView(newStamp));
     }
+
+    public override string GetName()
+    {
+        return "Stamp Layer";
+    }
 }

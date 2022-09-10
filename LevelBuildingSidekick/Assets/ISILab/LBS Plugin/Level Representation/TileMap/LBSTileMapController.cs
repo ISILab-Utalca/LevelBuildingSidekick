@@ -53,6 +53,10 @@ namespace LBS.Representation.TileMap
                 }
             }
         }
+        public override string GetName()
+        {
+            return "Schema Layer";
+        }
 
         private TileView CreateTileView(Vector2Int tilePos, Vector2 size, RoomData data)
         {

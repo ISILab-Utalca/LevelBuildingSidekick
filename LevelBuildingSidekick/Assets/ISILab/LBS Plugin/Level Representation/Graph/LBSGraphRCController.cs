@@ -44,6 +44,10 @@ namespace LevelBuildingSidekick.Graph
                 });
         }
 
+        public override string GetName()
+        {
+            return "Node Layer";
+        }
 
         public void GenerateSchema() 
         {
