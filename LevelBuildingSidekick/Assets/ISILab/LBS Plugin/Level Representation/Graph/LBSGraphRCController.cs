@@ -38,8 +38,6 @@ namespace LevelBuildingSidekick.Graph
         {
             var pos = (cmpe.localMousePosition - new Vector2(view.transform.position.x, view.transform.position.y)) / view.scale;
 
-            cmpe.menu.AppendAction("GraphRC/TEST", (dma) => { Debug.Log("Test GraphRC"); });
-
             cmpe.menu.AppendAction("GraphRC/Add Node", (dma) => {
                 var n = NewNode(pos);
                 AddNodeView(n);
