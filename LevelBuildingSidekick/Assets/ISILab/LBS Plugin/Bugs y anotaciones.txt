@@ -10,6 +10,7 @@
   tiene a todas las variables implicadas con valores correctamente asignado (se comporobo).
 	- Esto ocurre cuando se tiene abierta las ventnas y el debbug de visualstudio activado, se
 	  soluciona refrescando la ventana vuelve a aparecer al editar algun codigo.
+	- Tambien courrio al momento de subir cmabios al git.
 
 
 
