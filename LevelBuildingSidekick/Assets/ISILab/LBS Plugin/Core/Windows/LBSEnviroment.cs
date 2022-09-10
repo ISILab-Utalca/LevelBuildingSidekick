@@ -17,10 +17,6 @@ namespace LBS.Windows
             wnd.position = wnd.position; // VITALES!!!!
         }
 
-        public override void OnCreateGUI()
-        {
-            //throw new System.NotImplementedException();
-        }
 
         public override void OnInitPanel()
         {

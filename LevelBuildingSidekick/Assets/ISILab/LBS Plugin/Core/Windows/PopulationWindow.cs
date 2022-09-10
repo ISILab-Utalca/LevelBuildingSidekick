@@ -23,15 +23,15 @@ namespace LBS.Windows
             wnd.titleContent = new GUIContent("Population window");
         }
 
-        public override void OnCreateGUI()
-        {
-            //this.ImportUXML("MainView");
-            //this.ImportStyleSheet("GraphWindow");
-        }
-
         public override void OnInitPanel()
         {
-            throw new NotImplementedException();
+            actions.Add(new System.Tuple<string, System.Action>(
+                "Generate 3D",
+                () => Debug.Log("[Implementar]")
+                ));
+
+            nextWindow = typeof(LBSQuestWindow);
+            prevWindow = typeof(LBSSchemaWindow);
         }
 
         public override void OnLoadControllers()

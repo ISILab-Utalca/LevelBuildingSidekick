@@ -27,12 +27,13 @@ namespace LBS.Windows
         protected VisualElement root;
         protected MainView mainView;
         protected FloatingPanel panel;
+        protected Type nextWindow, prevWindow;
 
         private Label label;
 
         public MainView MainView => mainView;
 
-        public abstract void OnCreateGUI();
+        //public abstract void OnCreateGUI();
 
         public abstract void OnLoadControllers();
 
@@ -142,8 +143,9 @@ namespace LBS.Windows
 
         private void InitPanel()
         {
+            actions.Clear();
             OnInitPanel();
-            var panel = new FloatingPanel("", actions, controllers);
+            var panel = new FloatingPanel("Option panel", actions, controllers,prevWindow,nextWindow);
 
             mainView.Add(panel);
         }

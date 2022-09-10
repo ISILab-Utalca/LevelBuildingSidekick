@@ -23,14 +23,21 @@ namespace LBS.Windows
             wnd.titleContent = new GUIContent("GraphRC window");
         }
 
-        public override void OnCreateGUI()
-        {
-           
-        }
 
+        // este metodo deberia tener parametros tipo (out action, out nextW, out prevW)
+        // para boligar a que se immplementen estas coas aqui y no se tenga que intuir. (?)
         public override void OnInitPanel()
         {
-            //throw new NotImplementedException();
+            actions.Add(new System.Tuple<string, System.Action>(
+                "Generate Schema",
+                () => {
+                    var c = GetController<LBSGraphRCController>();
+                    c.GenerateSchema();
+                    var w = GetWindow<LBSSchemaWindow>();
+                    w.RefreshView();
+                }));
+
+            nextWindow = typeof(LBSSchemaWindow);
         }
 
         public override void OnLoadControllers()

@@ -21,15 +21,26 @@ namespace LBS.Windows
             wnd.titleContent = new GUIContent("Schema window");
         }
 
-        public override void OnCreateGUI()
-        {
-            Debug.Log("aaaa");
-        }
-
+        // este metodo deberia tener parametros tipo (out action, out nextW, out prevW)
+        // para boligar a que se immplementen estas coas aqui y no se tenga que intuir. (?)
         public override void OnInitPanel()
         {
-            
-            //throw new System.NotImplementedException();
+            actions.Add(new System.Tuple<string, System.Action>(
+                "Generate 3D",
+                () => Generate3D.GenerateLevel(LBSController.CurrentLevel)
+                ));
+
+            actions.Add(new System.Tuple<string, System.Action>(
+                "Optimize",
+                () => {
+                    var c = controllers.Find(c => c.GetType() == typeof(LBSTileMapController)) as LBSTileMapController;
+                    var s = c.Optimize();
+                    LBSController.CurrentLevel.data.AddRepresentation(s);
+                    this.RefreshView();
+                }));
+
+            nextWindow = typeof(PopulationWindow);
+            prevWindow = typeof(LBSGraphRCWindow);
         }
 
         public override void OnLoadControllers()
