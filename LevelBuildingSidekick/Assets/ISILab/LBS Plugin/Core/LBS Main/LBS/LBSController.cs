@@ -7,6 +7,10 @@ using System.Reflection;
 using System.IO;
 using LevelBuildingSidekick.Graph;
 using System.Text;
+using LBS.Representation.TileMap;
+using Utility;
+using LevelBuildingSidekick.Schema;
+using System.Linq;
 
 namespace LevelBuildingSidekick
 {
