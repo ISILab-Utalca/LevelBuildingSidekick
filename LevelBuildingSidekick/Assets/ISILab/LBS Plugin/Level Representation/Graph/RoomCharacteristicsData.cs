@@ -17,7 +17,7 @@ namespace LevelBuildingSidekick.Schema
         [CanEditMultipleObjects]
         private class NodeScriptableEditor : GenericScriptableEditor { };
         #endregion
-
+        // lista de strings que represente a los RoomElementBundle
         [HideInInspector, JsonIgnore]
         public static readonly string[] prefabCategories = { "Walls", "Floors", "Doors" };
 
@@ -35,6 +35,9 @@ namespace LevelBuildingSidekick.Schema
 
         [SerializeField, JsonIgnore]
         private List<ItemCategory> prefabs = new List<ItemCategory>(); // esto para que (??)
+
+        [SerializeField, JsonRequired]
+        public List<string> bundlesNames = new List<string>();
 
         [SerializeField, JsonRequired]
         private List<string> tags = new List<string>();
