@@ -9,10 +9,16 @@ namespace LevelBuildingSidekick
     [System.Serializable]
     public class ItemCategory
     {
+        [SerializeField,JsonRequired]
         public string category;
-        [JsonIgnore]
-        public List<GameObject> items; // cambiar a string (!!!)
-        private List<string> itemNames;
+
+        [SerializeField, JsonRequired]
+        public Generate3D.PivotType pivotType;
+
+        [SerializeField, JsonIgnore]
+        public List<GameObject> items = new List<GameObject>(); // cambiar a string (??)
+        private List<string> itemNames = new List<string>();
+
         [JsonIgnore]
         public List<string> UpdatedItemNames
         {
@@ -51,9 +57,9 @@ namespace LevelBuildingSidekick
             items = _items;
         }
 
-        public ItemCategory(string _category)
+        public ItemCategory(string name)
         {
-            category = _category;
+            category = name;
             items = new List<GameObject>();
         }
 
@@ -61,5 +67,6 @@ namespace LevelBuildingSidekick
         {
             items = new List<GameObject>();
         }
+
     }
 }
