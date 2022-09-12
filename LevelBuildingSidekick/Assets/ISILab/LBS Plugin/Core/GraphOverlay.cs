@@ -1,7 +1,7 @@
 using LBS.Transformers;
 using LBS.Windows;
-using LevelBuildingSidekick;
-using LevelBuildingSidekick.Graph;
+using LBS;
+using LBS.Graph;
 using System;
 using System.Collections;
 using System.Collections.Generic;

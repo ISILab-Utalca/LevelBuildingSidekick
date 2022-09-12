@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using LBS.Representation.TileMap;
-using LevelBuildingSidekick.Graph;
+using LBS.Graph;
 using System.Linq;
-using LevelBuildingSidekick.Schema;
+using LBS.Schema;
 
 namespace LBS.Transformers
 {

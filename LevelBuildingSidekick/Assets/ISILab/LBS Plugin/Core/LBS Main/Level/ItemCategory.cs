@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Linq;
 using Newtonsoft.Json;
 
-namespace LevelBuildingSidekick
+namespace LBS
 {
     [System.Serializable]
     public class ItemCategory

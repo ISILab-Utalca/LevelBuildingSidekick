@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.Overlays;
-using LevelBuildingSidekick;
+using LBS;
 using System;
 using System.Linq;
 using Utility;
 using UnityEngine.UIElements;
 using UnityEditor.Experimental.GraphView;
-using LevelBuildingSidekick.Graph;
-using LevelBuildingSidekick.Schema;
+using LBS.Graph;
+using LBS.Schema;
 using LBS.Transformers;
 using LBS.ElementView;
 
-namespace LevelBuildingSidekick.Graph
+namespace LBS.Graph
 {
     // Este no deberia ser un controlador general de grafos
     // sino que deberia exitir un controlador para cada uno

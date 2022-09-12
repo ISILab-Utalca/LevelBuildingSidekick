@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.Linq;
-using LevelBuildingSidekick.Graph;
+using LBS.Graph;
 using UnityEngine.UIElements;
 
 using System;
 using System.Reflection;
 using System.IO;
 
-namespace LevelBuildingSidekick
+namespace LBS.Windows
 {
     public class LBSStartWindow : EditorWindow
     {
@@ -48,7 +48,7 @@ namespace LevelBuildingSidekick
             window.titleContent = new GUIContent("Level Building Sidekick");
             window.position = window.position;
             window.minSize = window.maxSize = new Vector2(864, 396);
-            var controller = new LBSController();
+            //var controller = new LBSController();
 
             methods = Utility.Reflection.CollectMetohdsByAttribute<LBSWindowAttribute>();
             presets = Utility.DirectoryTools.GetScriptablesByType<WindowsPreset>();

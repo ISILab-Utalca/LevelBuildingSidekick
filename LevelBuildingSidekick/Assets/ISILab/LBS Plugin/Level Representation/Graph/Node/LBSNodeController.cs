@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using LevelBuildingSidekick;
-using LevelBuildingSidekick.Schema;
+using LBS;
+using LBS.Schema;
 using Utility;
 using System.Linq;
 using System;
 
-namespace LevelBuildingSidekick.Graph
+namespace LBS.Graph
 {
     [System.Serializable]
     public class LBSNodeController : Controller

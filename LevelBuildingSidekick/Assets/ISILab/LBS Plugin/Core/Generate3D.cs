@@ -1,7 +1,7 @@
 using LBS.Representation.TileMap;
-using LevelBuildingSidekick;
-using LevelBuildingSidekick.Graph;
-using LevelBuildingSidekick.Schema;
+using LBS;
+using LBS.Graph;
+using LBS.Schema;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;

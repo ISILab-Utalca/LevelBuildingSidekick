@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using LevelBuildingSidekick;
+using LBS;
 using System;
 using Newtonsoft.Json;
 using System.Linq;
 
-namespace LevelBuildingSidekick.Graph
+namespace LBS.Graph
 {
     [System.Serializable]
     public class LBSGraphData : LBSRepesentationData

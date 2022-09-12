@@ -1,5 +1,5 @@
-using LevelBuildingSidekick;
-using LevelBuildingSidekick.Schema;
+using LBS;
+using LBS.Schema;
 using Newtonsoft.Json;
 using System;
 using System.Collections;

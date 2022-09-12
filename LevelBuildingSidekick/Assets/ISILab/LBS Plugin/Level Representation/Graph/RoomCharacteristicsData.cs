@@ -1,4 +1,4 @@
-using LevelBuildingSidekick.Graph;
+using LBS.Graph;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace LevelBuildingSidekick.Schema
+namespace LBS.Schema
 {
     [System.Serializable]
     public class RoomCharacteristicsData : LBSNodeData

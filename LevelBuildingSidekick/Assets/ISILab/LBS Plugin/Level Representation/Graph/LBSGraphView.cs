@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
-using LevelBuildingSidekick;
+using LBS;
 using System;
 using System.Linq;
 using UnityEngine.UIElements;
 using LBS.Representation.TileMap;
 
-namespace LevelBuildingSidekick.Graph
+namespace LBS.Graph
 {
     [Obsolete]
     public class LBSGraphView : global::LBSGraphView

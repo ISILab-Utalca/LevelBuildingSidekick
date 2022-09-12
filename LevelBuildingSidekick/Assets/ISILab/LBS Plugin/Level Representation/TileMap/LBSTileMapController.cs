@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using LevelBuildingSidekick;
-using LevelBuildingSidekick.Graph;
-using LevelBuildingSidekick.Schema;
+using LBS;
+using LBS.Graph;
+using LBS.Schema;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
