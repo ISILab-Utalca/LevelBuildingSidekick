@@ -14,7 +14,7 @@ namespace LevelBuildingSidekick
         private List<string> tags = new List<string>();
 
         [SerializeField, JsonRequired, SerializeReference]
-        private List<ItemCategory> levelObjects;
+        private List<ItemCategory> levelObjects = new List<ItemCategory>();
 
         [SerializeField, JsonRequired]
         private int x, y, z;        
