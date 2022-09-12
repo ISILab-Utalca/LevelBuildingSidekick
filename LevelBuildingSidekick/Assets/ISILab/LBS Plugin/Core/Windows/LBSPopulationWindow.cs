@@ -11,15 +11,15 @@ using UnityEngine.UIElements;
 
 namespace LBS.Windows
 {
-    public class PopulationWindow : GenericGraphWindow, ISupportsOverlays
+    public class LBSPopulationWindow : GenericGraphWindow, ISupportsOverlays
     {
-        private PopulationWindow() { }
+        private LBSPopulationWindow() { }
 
         [MenuItem("ISILab/LBS plugin/Population Window")]
         [LBSWindow("Population Window")]
         public static void OpenWindow()
         {
-            var wnd = GetWindow<PopulationWindow>();
+            var wnd = GetWindow<LBSPopulationWindow>();
             wnd.titleContent = new GUIContent("Population window");
         }
 

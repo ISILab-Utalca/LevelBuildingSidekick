@@ -39,7 +39,7 @@ namespace LBS.Windows
                     this.RefreshView();
                 }));
 
-            nextWindow = typeof(PopulationWindow);
+            nextWindow = typeof(LBSPopulationWindow);
             prevWindow = typeof(LBSGraphRCWindow);
         }
 
