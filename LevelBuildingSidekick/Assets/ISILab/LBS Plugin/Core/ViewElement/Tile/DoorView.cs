@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Doors : VisualElement
+public class DoorView : VisualElement
 {
-    public new class UxmlFactory : UxmlFactory<Doors, VisualElement.UxmlTraits> { }
+    public new class UxmlFactory : UxmlFactory<DoorView, VisualElement.UxmlTraits> { }
 
     public VisualElement Left;
     public VisualElement Right;
     public VisualElement Top;
     public VisualElement Botton;
 
-    public Doors()
+    public DoorView()
     {
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("Door");
         visualTree.CloneTree(this);
@@ -27,7 +27,7 @@ public class Doors : VisualElement
     /// Terminar Nicolas
     /// </summary>
     /// <param name="one"></param>
-    public Doors(object one)
+    public DoorView(object one)
     {
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("Door");
         visualTree.CloneTree(this);
