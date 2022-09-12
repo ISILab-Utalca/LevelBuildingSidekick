@@ -29,18 +29,21 @@ namespace GeneticSharp.Domain.Mutations
         /// </summary>
         /// <param name="chromosome">The chromosome.</param>
         /// <param name="probability">The probability to mutate each chromosome.</param>
-        protected override void PerformMutate(IChromosome chromosome, float probability)
+        protected override void PerformMutate(IEvaluable evaluable, float probability)
         {
+            var data = evaluable.GetData<object[]>();
             if (RandomizationProvider.Current.GetDouble() <= probability)
             {
-                var indexes = RandomizationProvider.Current.GetUniqueInts(2, 0, chromosome.Length);
+                var indexes = RandomizationProvider.Current.GetUniqueInts(2, 0, data.Length);
                 var firstIndex = indexes[0];
                 var secondIndex = indexes[1];
-                var firstGene = chromosome.GetGene(firstIndex);
-                var secondGene = chromosome.GetGene(secondIndex);
+                var firstGene = data[firstIndex];
+                var secondGene = data[secondIndex];
 
-                chromosome.ReplaceGene(firstIndex, secondGene);
-                chromosome.ReplaceGene(secondIndex, firstGene);
+                data[firstIndex] = secondGene;
+                data[secondIndex] = firstGene;
+
+                evaluable.SetData(data);
             }
         }
         #endregion

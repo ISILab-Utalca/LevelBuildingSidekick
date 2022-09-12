@@ -33,7 +33,7 @@ namespace GeneticSharp.Domain.Crossovers
 
             SwapPointOneGeneIndex = swapPointOneGeneIndex;
             SwapPointTwoGeneIndex = swapPointTwoGeneIndex;
-            MinChromosomeLength = 3;
+            MinLength = 3;
         }
 
         /// <summary>
@@ -66,10 +66,12 @@ namespace GeneticSharp.Domain.Crossovers
         /// <returns>
         /// The offspring (children) of the parents.
         /// </returns>
-        protected override IList<IChromosome> PerformCross(IList<IChromosome> parents)
+        protected override IList<IEvaluable> PerformCross(IList<IEvaluable> parents)
         {
-            var firstParent = parents[0];
-            var secondParent = parents[1];
+            var datas = parents.Select(p => p.GetData<object[]>()).ToList();
+
+            var firstParent = datas[0];
+            var secondParent = datas[1];
             var parentLength = firstParent.Length;
             var swapPointsLength = parentLength - 1;
 
@@ -80,7 +82,17 @@ namespace GeneticSharp.Domain.Crossovers
                     "The swap point two index is {0}, but there is only {1} genes. The swap should result at least one gene to each sides.".With(SwapPointTwoGeneIndex, parentLength));
             }
 
-            return CreateChildren(firstParent, secondParent);
+            var offsprings = CreateChildren(firstParent, secondParent);
+            List<IEvaluable> children = new List<IEvaluable>();
+
+            foreach(var data in offsprings)
+            {
+                var child = parents[0].CreateNew();
+                child.SetData(data);
+                children.Add(child);
+            }
+
+            return children;
         }
 
         /// <summary>
@@ -89,14 +101,19 @@ namespace GeneticSharp.Domain.Crossovers
         /// <returns>The child.</returns>
         /// <param name="leftParent">Left parent.</param>
         /// <param name="rightParent">Right parent.</param>
-        protected override IChromosome CreateChild(IChromosome leftParent, IChromosome rightParent)
+        protected override object[] CreateChild(object[] leftParent, object[] rightParent)
         {
             var firstCutGenesCount = SwapPointOneGeneIndex + 1;
             var secondCutGenesCount = SwapPointTwoGeneIndex + 1;
-            var child = leftParent.CreateNew();
-            child.ReplaceGenes(0, leftParent.GetGenes().Take(firstCutGenesCount).ToArray());
-            child.ReplaceGenes(firstCutGenesCount, rightParent.GetGenes().Skip(firstCutGenesCount).Take(secondCutGenesCount - firstCutGenesCount).ToArray());
-            child.ReplaceGenes(secondCutGenesCount, leftParent.GetGenes().Skip(secondCutGenesCount).ToArray());
+            var child = new object[leftParent.Length];
+
+            var firstPart = leftParent.Take(firstCutGenesCount).ToArray();
+            var secondPart = rightParent.Skip(firstCutGenesCount).Take(secondCutGenesCount - firstCutGenesCount).ToArray();
+            var thirdPart = leftParent.Skip(secondCutGenesCount).ToArray();
+
+            Array.Copy(firstPart, 0, child, 0, firstPart.Length);
+            Array.Copy(secondPart, 0, child, firstCutGenesCount, secondPart.Length);
+            Array.Copy(thirdPart, 0, child, secondCutGenesCount, thirdPart.Length);
 
             return child;
         }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
@@ -35,28 +36,33 @@ namespace GeneticSharp.Domain.Crossovers
         /// <returns>
         /// The offspring (children) of the parents.
         /// </returns>
-        protected override IList<IChromosome> PerformCross(IList<IChromosome> parents)
+        protected override IList<IEvaluable> PerformCross(IList<IEvaluable> parents)
         {
-            var parent1 = parents[0];
-            var parent2 = parents[1];
+            var datas = parents.Select(p => p.GetData<object[]>()).ToList();
+
+            var parent1 = datas[0];
+            var parent2 = datas[1];
 
             // The minium swap point is 1 to safe generate a gene with at least two genes.
             var parent1Point = RandomizationProvider.Current.GetInt(1, parent1.Length) + 1;
             var parent2Point = RandomizationProvider.Current.GetInt(1, parent2.Length) + 1;
 
-            var offspring1 = CreateOffspring(parent1, parent2, parent1Point, parent2Point);
-            var offspring2 = CreateOffspring(parent2, parent1, parent2Point, parent1Point);
+            var offspring1 = parents[0].CreateNew();
+            var offspring2 = parents[0].CreateNew();
 
-            return new List<IChromosome>() { offspring1, offspring2 };
+            offspring1.SetData(CreateOffspring(parent1, parent2, parent1Point, parent2Point));
+            offspring2.SetData(CreateOffspring(parent2, parent1, parent2Point, parent1Point));
+
+            return new List<IEvaluable>() { offspring1, offspring2 };
         }
 
-        private static IChromosome CreateOffspring(IChromosome leftParent, IChromosome rightParent, int leftParentPoint, int rightParentPoint)
+        private static object[] CreateOffspring(object[] leftParent, object[] rightParent, int leftParentPoint, int rightParentPoint)
         {
-            var offspring = leftParent.CreateNew();
-
-            offspring.Resize(leftParentPoint + (rightParent.Length - rightParentPoint));
-            offspring.ReplaceGenes(0, leftParent.GetGenes().Take(leftParentPoint).ToArray());
-            offspring.ReplaceGenes(leftParentPoint, rightParent.GetGenes().Skip(rightParentPoint).ToArray());
+            var offspring = new object[leftParentPoint + (rightParent.Length - rightParentPoint)];
+            var left = leftParent.Take(leftParentPoint).ToArray();
+            var right = rightParent.Skip(rightParentPoint).ToArray();
+            Array.Copy(left, 0, offspring, 0, left.Length);
+            Array.Copy(right,0,offspring,leftParentPoint,right.Length);
 
             return offspring;
         }

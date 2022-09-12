@@ -46,9 +46,9 @@ namespace GeneticSharp.Domain.Selections
         /// <returns>
         /// The selected chromosomes.
         /// </returns>
-        protected override IList<IChromosome> PerformSelectChromosomes(int number, Generation generation)
+        protected override IList<IEvaluable> PerformSelectEvaluables(int number, Generation generation)
         {
-            var chromosomes = generation.Chromosomes;
+            var chromosomes = generation.Evaluables;
             var rouleteWheel = new List<double>();
             double stepSize = 1.0 / number;
 

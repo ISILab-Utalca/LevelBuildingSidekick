@@ -34,7 +34,7 @@ namespace GeneticSharp.Domain.Crossovers
         /// Gets the minimum length of the chromosome supported by the crossover.
         /// </summary>
         /// <value>The minimum length of the chromosome.</value>
-        int MinChromosomeLength { get; }
+        int MinLength { get; }
         #endregion
 
         #region Methods
@@ -43,7 +43,7 @@ namespace GeneticSharp.Domain.Crossovers
         /// </summary>
         /// <param name="parents">The parents chromosomes.</param>
         /// <returns>The offspring (children) of the parents.</returns>
-        IList<IChromosome> Cross(IList<IChromosome> parents);
+        IList<IEvaluable> Cross(IList<IEvaluable> parents);
         #endregion
     }
 }

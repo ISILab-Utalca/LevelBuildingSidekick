@@ -38,22 +38,21 @@ namespace GeneticSharp.Domain.Crossovers
         /// </summary>
         /// <param name="parents">The parents chromosomes.</param>
         /// <returns>The offspring (children) of the parents.</returns>
-        protected override IList<IChromosome> PerformCross(IList<IChromosome> parents)
+        protected override IList<IEvaluable> PerformCross(IList<IEvaluable> parents)
         {
-            var parent1 = parents[0];
-            var parent2 = parents[1];
+            var datas = parents.Select(p => p.GetData<object[]>()).ToList();
 
-            if (parents.AnyHasRepeatedGene())
+            var parent1 = datas[0];
+            var parent2 = datas[1];
+
+            if (datas.AnyHasRepeatedValue())
             {
                 throw new CrossoverException(this, "The Cycle Crossover (CX) can be only used with ordered chromosomes. The specified chromosome has repeated genes.");
             }
 
             var cycles = new List<List<int>>();
-            var offspring1 = parent1.CreateNew();
-            var offspring2 = parent2.CreateNew();
-
-            var parent1Genes = parent1.GetGenes();
-            var parent2Genes = parent2.GetGenes();
+            var offspring1 = new object[parent1.Length];
+            var offspring2 = new object[parent1.Length];
 
             // Search for the cycles.
             for (int i = 0; i < parent1.Length; i++)
@@ -61,7 +60,7 @@ namespace GeneticSharp.Domain.Crossovers
                 if (!cycles.SelectMany(p => p).Contains(i))
                 {
                     var cycle = new List<int>();
-                    CreateCycle(parent1Genes, parent2Genes, i, cycle);
+                    CreateCycle(parent1, parent2, i, cycle);
                     cycles.Add(cycle);
                 }
             }
@@ -74,16 +73,22 @@ namespace GeneticSharp.Domain.Crossovers
                 if (i % 2 == 0)
                 {
                     // Copy cycle index pair: values from Parent 1 and copied to Child 1, and values from Parent 2 will be copied to Child 2.
-                    CopyCycleIndexPair(cycle, parent1Genes, offspring1, parent2Genes, offspring2);
+                    CopyCycleIndexPair(cycle, parent1, offspring1, parent2, offspring2);
                 }
                 else
                 {
                     // Copy cycle index odd: values from Parent 1 will be copied to Child 2, and values from Parent 1 will be copied to Child 1.
-                    CopyCycleIndexPair(cycle, parent1Genes, offspring2, parent2Genes, offspring1);
+                    CopyCycleIndexPair(cycle, parent1, offspring2, parent2, offspring1);
                 }
             }
 
-            return new List<IChromosome>() { offspring1, offspring2 };
+            var child1 = parents[0].CreateNew();
+            var child2 = parents[0].CreateNew();
+
+            child1.SetData(offspring1);
+            child2.SetData(offspring2);
+
+            return new List<IEvaluable>() { child1, child2 };
         }
 
         /// <summary>
@@ -94,15 +99,15 @@ namespace GeneticSharp.Domain.Crossovers
         /// <param name="toOffspring1">To offspring1.</param>
         /// <param name="fromParent2Genes">From parent2 genes.</param>
         /// <param name="toOffspring2">To offspring2.</param>
-        private static void CopyCycleIndexPair(IList<int> cycle, object[] fromParent1Genes, IChromosome toOffspring1, object[] fromParent2Genes, IChromosome toOffspring2)
+        private static void CopyCycleIndexPair(IList<int> cycle, object[] fromParent1Genes, object[] toOffspring1, object[] fromParent2Genes, object[] toOffspring2)
         {
             int geneCycleIndex = 0;
 
             for (int j = 0; j < cycle.Count; j++)
             {
                 geneCycleIndex = cycle[j];
-                toOffspring1.ReplaceGene(geneCycleIndex, fromParent1Genes[geneCycleIndex]);
-                toOffspring2.ReplaceGene(geneCycleIndex, fromParent2Genes[geneCycleIndex]);
+                toOffspring1[geneCycleIndex] = fromParent1Genes[geneCycleIndex];
+                toOffspring2[geneCycleIndex] = fromParent2Genes[geneCycleIndex];
             }
         }
 

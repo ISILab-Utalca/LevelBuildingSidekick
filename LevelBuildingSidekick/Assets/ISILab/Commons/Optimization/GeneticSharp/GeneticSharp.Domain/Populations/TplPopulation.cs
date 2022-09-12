@@ -33,17 +33,17 @@ namespace GeneticSharp.Domain.Populations
             Generations = new List<Generation>();
             GenerationsNumber = 0;
 
-            var chromosomes = new ConcurrentBag<IChromosome>();
+            var chromosomes = new ConcurrentBag<IEvaluable>();
             Parallel.For(0, MinSize, i =>
             {
-                var c = AdamChromosome.CreateNew();
+                var c = Adam.CreateNew();
 
                 if (c == null)
                 {
                     throw new InvalidOperationException("The Adam chromosome's 'CreateNew' method generated a null chromosome. This is a invalid behavior, please, check your chromosome code.");
                 }
 
-                c.ValidateGenes();
+                //c.ValidateGenes();
 
                 chromosomes.Add(c);
             });

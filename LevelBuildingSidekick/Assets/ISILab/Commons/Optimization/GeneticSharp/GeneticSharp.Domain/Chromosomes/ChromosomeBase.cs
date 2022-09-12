@@ -151,15 +151,15 @@ namespace GeneticSharp.Domain.Chromosomes
         /// Creates a new chromosome using the same structure of this.
         /// </summary>
         /// <returns>The new chromosome.</returns>
-        public abstract IChromosome CreateNew();
+        public abstract IChromosome CreateNewChromosome();
 
         /// <summary>
         /// Creates a clone.
         /// </summary>
         /// <returns>The chromosome clone.</returns>
-        public virtual IChromosome Clone()
+        public virtual IChromosome CloneChromosome()
         {
-            var clone = CreateNew();
+            var clone = CreateNewChromosome();
             clone.ReplaceGenes(0, m_genes);
             clone.Fitness = Fitness;
 
@@ -385,7 +385,43 @@ namespace GeneticSharp.Domain.Chromosomes
 
         public abstract object GenerateGene(int geneIndex);
 
-        public abstract T GetData<T>();
+        IEvaluable IEvaluable.CreateNew()
+        {
+            return CreateNewChromosome();
+        }
+
+        IEvaluable IEvaluable.Clone()
+        {
+            return CloneChromosome();
+        }
+
+        public bool IsValid()
+        {
+            return this.ValidateGenes();
+        }
+
+        public void SetData<T>(T data)
+        {
+            if(!(data is U[]))
+            {
+                throw new InvalidCastException("The received data is not of type " + typeof(U).ToString() + "[]");
+            }
+            m_genes = (U[])(object)data;
+        }
+
+        public T GetData<T>()
+        {
+            if(!(m_genes is T))
+            {
+                throw new InvalidCastException("The requested data is not of type " + typeof(U).ToString() + "[]");
+            }
+            return (T)(object)(m_genes);
+        }
+
+        public T GetSampleData<T>()
+        {
+            return GenerateGene<T>(0);
+        }
         #endregion
     }
 }

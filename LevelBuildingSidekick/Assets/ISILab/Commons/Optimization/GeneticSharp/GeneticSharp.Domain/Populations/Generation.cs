@@ -19,24 +19,24 @@ namespace GeneticSharp.Domain.Populations
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Populations.Generation"/> class.
         /// </summary>
         /// <param name="number">The generation number.</param>
-        /// <param name="chromosomes">The chromosomes of the generation..</param>
-        public Generation(int number, IList<IChromosome> chromosomes)
+        /// <param name="evaluables">The chromosomes of the generation..</param>
+        public Generation(int number, IList<IEvaluable> evaluables)
         {
-            if (number < 1)
+            if (number < 0)
             {
                 throw new ArgumentOutOfRangeException(
                     nameof(number),
-                    "Generation number {0} is invalid. Generation number should be positive and start in 1.".With(number));
+                    "Generation number can not be lesser than 0. ".With(number));
             }
 
-            if (chromosomes == null || chromosomes.Count < 2)
+            if (evaluables == null)
             {
-                throw new ArgumentOutOfRangeException(nameof(chromosomes), "A generation should have at least 2 chromosomes.");
+                throw new NullReferenceException("A generation can not be null.");
             }
 
             Number = number;
             CreationDate = DateTime.Now;
-            Chromosomes = chromosomes;
+            Evaluables = evaluables;
         }
         #endregion
 
@@ -56,33 +56,44 @@ namespace GeneticSharp.Domain.Populations
         /// Gets the chromosomes.
         /// </summary>
         /// <value>The chromosomes.</value>
-        public IList<IChromosome> Chromosomes { get; internal set; }
+        public IList<IEvaluable> Evaluables { get; internal set; }
 
         /// <summary>
         /// Gets the best chromosome.
         /// </summary>
         /// <value>The best chromosome.</value>
-        public IChromosome BestChromosome { get; internal set; }
+        public IEvaluable BestCandidate { get; internal set; }
         #endregion
 
         #region Methods
         /// <summary>
         /// Ends the generation.
         /// </summary>
-        /// <param name="chromosomesNumber">Chromosomes number to keep on generation.</param>
-        public void End(int chromosomesNumber)
+        /// <param name="evaluablesCount">Evaluables number to keep on generation.</param>
+        public void End(int evaluablesCount)
         {
-            Chromosomes = Chromosomes
-                .Where(ValidateChromosome)
-                .OrderByDescending(c => c.Fitness.Value)
+            Evaluables = Evaluables
+                .Where(ValidateEvaluables)
+                .OrderByDescending(c => c.Fitness)
                 .ToList();
 
-            if (Chromosomes.Count > chromosomesNumber)
+            BestCandidate = Evaluables.First();
+
+            if(evaluablesCount == 0)
             {
-                Chromosomes = Chromosomes.Take(chromosomesNumber).ToList();
+                throw new ArgumentException("Can not keep generations with size 0");
             }
 
-            BestChromosome = Chromosomes.First();
+            if(evaluablesCount < 0)
+            {
+                return;
+            }
+
+            if (Evaluables.Count > evaluablesCount)
+            {
+                Evaluables = Evaluables.Take(evaluablesCount).ToList();
+            }
+
         }
 
         /// <summary>
@@ -90,7 +101,7 @@ namespace GeneticSharp.Domain.Populations
         /// </summary>
         /// <param name="chromosome">The chromosome to validate.</param>
         /// <returns>True if a chromosome is valid.</returns>
-        private static bool ValidateChromosome(IChromosome chromosome)
+        private static bool ValidateEvaluables(IEvaluable chromosome)
         {
             if (!chromosome.Fitness.HasValue)
             {

@@ -35,7 +35,7 @@ namespace GeneticSharp.Domain.Selections
         /// <returns>The selected chromosomes.</returns>
         /// <param name="number">The number of chromosomes to select.</param>
         /// <param name="generation">The generation where the selection will be made.</param>
-        public IList<IChromosome> SelectChromosomes(int number, Generation generation)
+        public IList<IEvaluable> SelectEvaluables(int number, Generation generation)
         {
             if (number < m_minNumberChromosomes)
             {
@@ -44,14 +44,14 @@ namespace GeneticSharp.Domain.Selections
 
             ExceptionHelper.ThrowIfNull("generation", generation);
 
-            if (generation.Chromosomes.Any(c => !c.Fitness.HasValue))
+            if (generation.Evaluables.Any(c => !c.Fitness.HasValue))
             {
                 throw new SelectionException(
                        this,
                        "There are chromosomes with null fitness.");
             }
 
-            return PerformSelectChromosomes(number, generation);
+            return PerformSelectEvaluables(number, generation);
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace GeneticSharp.Domain.Selections
         /// <returns>The selected chromosomes.</returns>
         /// <param name="number">The number of chromosomes to select.</param>
         /// <param name="generation">The generation where the selection will be made.</param>
-        protected abstract IList<IChromosome> PerformSelectChromosomes(int number, Generation generation);
+        protected abstract IList<IEvaluable> PerformSelectEvaluables(int number, Generation generation);
         #endregion
     }
 }

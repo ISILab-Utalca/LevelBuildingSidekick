@@ -6,8 +6,8 @@ namespace Commons.Optimization.Fitness
 {
     public interface IRangedEvaluator : IEvaluator
     {
-        public float MaxValue { get; set; }
-        public float MinValue { get; set; }
+        public float MaxValue { get;}
+        public float MinValue { get;}
     }
 }
 

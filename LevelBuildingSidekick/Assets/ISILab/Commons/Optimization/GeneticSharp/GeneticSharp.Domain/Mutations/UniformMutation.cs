@@ -56,11 +56,13 @@ namespace GeneticSharp.Domain.Mutations
         /// </summary>
         /// <param name="chromosome">The chromosome.</param>
         /// <param name="probability">The probability to mutate each chromosome.</param>
-        protected override void PerformMutate(IChromosome chromosome, float probability)
+        protected override void PerformMutate(IEvaluable evaluable, float probability)
         {
-            ExceptionHelper.ThrowIfNull("chromosome", chromosome);
+            ExceptionHelper.ThrowIfNull("chromosome", evaluable);
 
-            var genesLength = chromosome.Length;
+            var data = evaluable.GetData<object[]>();
+
+            var genesLength = data.Length;
 
             if (m_mutableGenesIndexes == null || m_mutableGenesIndexes.Length == 0)
             {
@@ -85,9 +87,10 @@ namespace GeneticSharp.Domain.Mutations
 
                 if (RandomizationProvider.Current.GetDouble() <= probability)
                 {
-                    chromosome.ReplaceGene(geneIndex, chromosome.GenerateGene(geneIndex));
+                    data[geneIndex] = evaluable.GetSampleData<object>();
                 }
             }
+            evaluable.SetData(data);
         }
         #endregion
     }

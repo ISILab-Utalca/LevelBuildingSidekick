@@ -73,13 +73,13 @@ namespace GeneticSharp.Domain.Chromosomes
         /// Creates a new chromosome using the same structure of this.
         /// </summary>
         /// <returns>The new chromosome.</returns>
-        IChromosome CreateNew();
+        IChromosome CreateNewChromosome();
 
         /// <summary>
         /// Creates a clone.
         /// </summary>
         /// <returns>The chromosome clone.</returns>
-        IChromosome Clone();
+        IChromosome CloneChromosome();
         #endregion
     }
 }

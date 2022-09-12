@@ -31,9 +31,9 @@ namespace GeneticSharp.Domain.Selections
         /// <param name="number">The number of chromosomes to select.</param>
         /// <param name="generation">The generation where the selection will be made.</param>
         /// <returns>The select chromosomes.</returns>
-        protected override IList<IChromosome> PerformSelectChromosomes(int number, Generation generation)
+        protected override IList<IEvaluable> PerformSelectEvaluables(int number, Generation generation)
         {
-            var ordered = generation.Chromosomes.OrderByDescending(c => c.Fitness);
+            var ordered = generation.Evaluables.OrderByDescending(c => c.Fitness);
             return ordered.Take(number).ToList();
         }
 

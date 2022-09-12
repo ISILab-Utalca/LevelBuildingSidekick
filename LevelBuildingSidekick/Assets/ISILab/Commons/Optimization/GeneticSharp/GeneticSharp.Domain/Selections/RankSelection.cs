@@ -49,9 +49,9 @@ namespace GeneticSharp.Domain.Selections
         /// <param name="rankWheel">The rank wheel.</param>
         /// <param name="getPointer">The get pointer.</param>
         /// <returns>The selected chromosomes.</returns>
-        protected static IList<IChromosome> SelectFromWheel(int number, IList<IChromosome> chromosomes, IList<double> rankWheel, Func<double> getPointer)
+        protected static IList<IEvaluable> SelectFromWheel(int number, IList<IEvaluable> chromosomes, IList<double> rankWheel, Func<double> getPointer)
         {
-            var selected = new List<IChromosome>();
+            var selected = new List<IEvaluable>();
 
             for (int i = 0; i < number; i++)
             {
@@ -73,7 +73,7 @@ namespace GeneticSharp.Domain.Selections
         /// </summary>
         /// <param name="chromosomes">The chromosomes.</param>
         /// <param name="rankWheel">The rank wheel.</param>
-        protected static void CalculateCumulativeFitnessRank(IList<IChromosome> chromosomes, IList<double> rankWheel)
+        protected static void CalculateCumulativeFitnessRank(IList<IEvaluable> chromosomes, IList<double> rankWheel)
         {
             var totalFitness = chromosomes.Count * (chromosomes.Count + 1) / 2;
 
@@ -92,9 +92,9 @@ namespace GeneticSharp.Domain.Selections
         /// <param name="number">The number of chromosomes to select.</param>
         /// <param name="generation">The generation where the selection will be made.</param>
         /// <returns>The select chromosomes.</returns>
-        protected override IList<IChromosome> PerformSelectChromosomes(int number, Generation generation)
+        protected override IList<IEvaluable> PerformSelectEvaluables(int number, Generation generation)
         {
-            var chromosomes = generation.Chromosomes.OrderByDescending(c => c.Fitness).ToList();
+            var chromosomes = generation.Evaluables.OrderByDescending(c => c.Fitness).ToList();
             var rankWheel = new List<double>();
             var rnd = RandomizationProvider.Current;
 

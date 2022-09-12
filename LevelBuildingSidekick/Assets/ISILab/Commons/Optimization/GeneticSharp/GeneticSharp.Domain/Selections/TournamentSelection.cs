@@ -81,17 +81,17 @@ namespace GeneticSharp.Domain.Selections
         /// <returns>
         /// The selected chromosomes.
         /// </returns>
-        protected override IList<IChromosome> PerformSelectChromosomes(int number, Generation generation)
+        protected override IList<IEvaluable> PerformSelectEvaluables(int number, Generation generation)
         {
-            if (Size > generation.Chromosomes.Count)
+            if (Size > generation.Evaluables.Count)
             {
                 throw new SelectionException(
                     this,
-                    "The tournament size is greater than available chromosomes. Tournament size is {0} and generation {1} available chromosomes are {2}.".With(Size, generation.Number, generation.Chromosomes.Count));
+                    "The tournament size is greater than available chromosomes. Tournament size is {0} and generation {1} available chromosomes are {2}.".With(Size, generation.Number, generation.Evaluables.Count));
             }
 
-            var candidates = generation.Chromosomes.ToList();
-            var selected = new List<IChromosome>();
+            var candidates = generation.Evaluables.ToList();
+            var selected = new List<IEvaluable>();
 
             while (selected.Count < number)
             {

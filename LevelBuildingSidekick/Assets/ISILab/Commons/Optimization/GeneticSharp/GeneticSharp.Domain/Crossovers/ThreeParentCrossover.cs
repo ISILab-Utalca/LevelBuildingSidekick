@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using GeneticSharp.Domain.Chromosomes;
+using System.Linq;
 
 namespace GeneticSharp.Domain.Crossovers
 {
@@ -34,13 +35,15 @@ namespace GeneticSharp.Domain.Crossovers
         /// <returns>
         /// The offspring (children) of the parents.
         /// </returns>
-        protected override IList<IChromosome> PerformCross(IList<IChromosome> parents)
+        protected override IList<IEvaluable> PerformCross(IList<IEvaluable> parents)
         {
-            var parent1 = parents[0];
-            var parent1Genes = parent1.GetGenes();
-            var parent2Genes = parents[1].GetGenes();
-            var parent3Genes = parents[2].GetGenes();
-            var offspring = parent1.CreateNew();
+            var datas = parents.Select(p => p.GetData<object[]>()).ToList();
+
+            var parent1 = datas[0];
+            var parent1Genes = datas;
+            var parent2Genes = datas[1];
+            var parent3Genes = datas[2];
+            var offspring = new object[parent1.Length];
             object parent1Gene;
 
             for (int i = 0; i < parent1.Length; i++)
@@ -49,15 +52,18 @@ namespace GeneticSharp.Domain.Crossovers
 
                 if (parent1Gene == parent2Genes[i])
                 {
-                    offspring.ReplaceGene(i, parent1Gene);
+                    offspring[i] = parent1Gene;
                 }
                 else
                 {
-                    offspring.ReplaceGene(i, parent3Genes[i]);
+                    offspring[i] = parent3Genes[i];
                 }
             }
 
-            return new List<IChromosome>() { offspring };
+            var child = parents[0].CreateNew();
+            child.SetData(offspring);
+
+            return new List<IEvaluable>() { child };
         }
         #endregion
     }

@@ -38,9 +38,9 @@ namespace GeneticSharp.Domain.Crossovers
         /// Validates the parents.
         /// </summary>
         /// <param name="parents">The parents.</param>
-        protected override void ValidateParents(IList<IChromosome> parents)
+        protected override void ValidateParents(IList<object[]> parents)
         {
-            if (parents.AnyHasRepeatedGene())
+            if (parents.AnyHasRepeatedValue())
             {
                 throw new CrossoverException(this, "The Position-based Crossover (POS) can be only used with ordered chromosomes. The specified chromosome has repeated genes.");
             }
@@ -55,29 +55,29 @@ namespace GeneticSharp.Domain.Crossovers
         /// <returns>
         /// The child.
         /// </returns>
-        protected override IChromosome CreateChild(IChromosome firstParent, IChromosome secondParent, int[] swapIndexes)
+        protected override object[] CreateChild(object[] firstParent, object[] secondParent, int[] swapIndexes)
         {
-            var secondParentSwapGenes = secondParent.GetGenes()
+            var secondParentSwapGenes = secondParent
                  .Select((g, i) => new { Gene = g, Index = i })
                  .Where((g) => swapIndexes.Contains(g.Index))
                  .ToArray();
 
-            using (var firstParentRemainingGenes = firstParent.GetGenes()
+            using (var firstParentRemainingGenes = firstParent
                 .Except(secondParentSwapGenes.Select(element => element.Gene).ToArray()).GetEnumerator())
             {
-                var child = firstParent.CreateNew();
+                var child = new object[firstParent.Length];
                 var secondParentSwapGensIndex = 0;
 
                 for (int i = 0; i < firstParent.Length; i++)
                 {
                     if (secondParentSwapGenes.Any(f => f.Index == i))
                     {
-                        child.ReplaceGene(i, secondParentSwapGenes[secondParentSwapGensIndex++].Gene);
+                        child[i] = secondParentSwapGenes[secondParentSwapGensIndex++];
                     }
                     else
                     {
                         firstParentRemainingGenes.MoveNext();
-                        child.ReplaceGene(i, firstParentRemainingGenes.Current);
+                        child[i] = firstParentRemainingGenes.Current;
                     }
                 }
 

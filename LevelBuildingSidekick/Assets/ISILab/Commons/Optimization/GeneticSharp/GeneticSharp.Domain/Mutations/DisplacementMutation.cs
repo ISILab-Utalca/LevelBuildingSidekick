@@ -33,17 +33,17 @@ namespace GeneticSharp.Domain.Mutations
         /// </summary>
         /// <returns>The resulted sequence after mutation operation.</returns>
         /// <param name="sequence">The sequence to be mutated.</param>
-        protected override IEnumerable<T> MutateOnSequence<T>(IEnumerable<T> sequence)
+        protected override object[] MutateOnSequence(object[] sequence)
         {
-            var geneToShift = DetermineGeneToShift(sequence.Count() - 1);
+            var geneToShift = DetermineGeneToShift(sequence.Length - 1);
 
             if (RandomizationProvider.Current.GetDouble() <= 0.5)
             {
-                return sequence.LeftShift(geneToShift);
+                return sequence.AsEnumerable().LeftShift(geneToShift).ToArray();
             }
             else
             {
-                return sequence.RightShift(geneToShift);
+                return sequence.AsEnumerable().RightShift(geneToShift).ToArray();
             }
         }
 

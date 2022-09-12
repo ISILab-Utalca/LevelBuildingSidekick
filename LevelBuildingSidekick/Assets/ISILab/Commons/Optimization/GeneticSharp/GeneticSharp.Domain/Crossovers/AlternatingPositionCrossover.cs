@@ -38,39 +38,44 @@ namespace GeneticSharp.Domain.Crossovers
         /// </summary>
         /// <param name="parents">The parents chromosomes.</param>
         /// <returns>The offspring (children) of the parents.</returns>
-        protected override IList<IChromosome> PerformCross(IList<IChromosome> parents)
+        protected override IList<IEvaluable> PerformCross(IList<IEvaluable> parents)
         {
-            if (parents.AnyHasRepeatedGene())
+            var datas = parents.Select(p => p.GetData<object[]>()).ToList();
+            
+            if (datas.AnyHasRepeatedValue())
             {
                 throw new CrossoverException(this, "The Alternating-position (AP) can be only used with ordered chromosomes. The specified chromosome has repeated genes.");
             }
 
-            var p1 = parents[0];
-            var p2 = parents[1];
-            var child1 = CreateChild(p1, p2);
-            var child2 = CreateChild(p2, p1);
+            var p1 = datas[0];
+            var p2 = datas[1];
 
-            return new List<IChromosome> { child1, child2 };
+            var child1 = parents[0].CreateNew();
+            var child2 = parents[0].CreateNew();
+
+            child1.SetData(CreateChildValues(p1,p2));
+            child2.SetData(CreateChildValues(p2, p1));
+
+            
+
+            return new List<IEvaluable> { child1, child2 };
         }
 
-        private IChromosome CreateChild(IChromosome firstParent, IChromosome secondParent)
+        private object[] CreateChildValues(object[] firstParent, object[] secondParent)
         {
-            var child = firstParent.CreateNew();
-            var childGenes = new object[firstParent.Length];
-            var childGenesIndex = 0;
+            var childValues = new object[firstParent.Length];
+            var childValuesIndex = 0;
 
-            for (int i = 0; i < firstParent.Length && childGenesIndex < firstParent.Length; i++)
+            for (int i = 0; i < firstParent.Length && childValuesIndex < firstParent.Length; i++)
             {
-                AddChildGene(childGenes, ref childGenesIndex, firstParent.GetGene(i));
+                AddChildGene(childValues, ref childValuesIndex, firstParent[i]);
 
                 // The childGenesIndes could be incremented by the previous AddChildGene call
-                if (childGenesIndex < secondParent.Length)
-                    AddChildGene(childGenes, ref childGenesIndex, secondParent.GetGene(i));
+                if (childValuesIndex < secondParent.Length)
+                    AddChildGene(childValues, ref childValuesIndex, secondParent[i]);
             }
 
-            child.ReplaceGenes(0, childGenes);
-
-            return child;
+            return childValues;
         }
 
         private static void AddChildGene(object[] childGenes, ref int childGenesIndex, object parentGene)

@@ -46,7 +46,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// Creates the new.
         /// </summary>
         /// <returns>The new.</returns>
-        public override IChromosome CreateNew()
+        public override IChromosome CreateNewChromosome()
         {
             return new IntegerChromosome(m_minValue, m_maxValue);
         }
@@ -86,18 +86,6 @@ namespace GeneticSharp.Domain.Chromosomes
             var value = GetGene<bool>(realIndex);
 
             ReplaceGene(realIndex, !value);
-        }
-
-        public override T GetData<T>()
-        {
-            try
-            {
-                return (T)(object)this;
-            }
-            catch
-            {
-                throw new TypeAccessException("Incorrect Type T for " + GetType().Name);
-            }
         }
     }
 }

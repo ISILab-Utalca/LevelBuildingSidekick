@@ -19,10 +19,10 @@ namespace GeneticSharp.Domain
         /// <param name="crossoverProbability">The crossover probability.</param>
         /// <param name="parents">The parents.</param>
         /// <returns>The result chromosomes.</returns>
-        public override IList<IChromosome> Cross(IPopulation population, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
+        public override IList<IEvaluable> Cross(IPopulation population, ICrossover crossover, float crossoverProbability, IList<IEvaluable> parents)
         {
             var minSize = population.MinSize;
-            var offspring = new List<IChromosome>(minSize);
+            var offspring = new List<IEvaluable>(minSize);
 
             for (int i = 0; i < minSize; i += crossover.ParentsNumber)
             {
@@ -43,7 +43,7 @@ namespace GeneticSharp.Domain
         /// <param name="mutation">The mutation class.</param>
         /// <param name="mutationProbability">The mutation probability.</param>
         /// <param name="chromosomes">The chromosomes.</param>
-        public override void Mutate(IMutation mutation, float mutationProbability, IList<IChromosome> chromosomes)
+        public override void Mutate(IMutation mutation, float mutationProbability, IList<IEvaluable> chromosomes)
         {
             for (int i = 0; i < chromosomes.Count; i++)
             {
