@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Infrastructure.Framework.Texts;
 using GeneticSharp.Infrastructure.Framework.Commons;
+using System.Linq;
 
 namespace GeneticSharp.Domain.Crossovers
 {
@@ -33,7 +34,7 @@ namespace GeneticSharp.Domain.Crossovers
         {
             ParentsNumber = parentsNumber;
             ChildrenNumber = childrenNumber;
-            MinChromosomeLength = minChromosomeLength;
+            MinLength = minChromosomeLength;
         }
         #endregion
 
@@ -59,7 +60,7 @@ namespace GeneticSharp.Domain.Crossovers
         /// Gets or sets the minimum length of the chromosome supported by the crossover.
         /// </summary>
         /// <value>The minimum length of the chromosome.</value>
-        public int MinChromosomeLength { get; protected set; }
+        public int MinLength { get; protected set; }
         #endregion
 
         #region Methods        
@@ -70,21 +71,27 @@ namespace GeneticSharp.Domain.Crossovers
         /// <returns>
         /// The offspring (children) of the parents.
         /// </returns>
-        public IList<IChromosome> Cross(IList<IChromosome> parents)
+        public IList<IEvaluable> Cross(IList<IEvaluable> parents)
         {
             ExceptionHelper.ThrowIfNull("parents", parents);
+
 
             if (parents.Count != ParentsNumber)
             {
                 throw new ArgumentOutOfRangeException(nameof(parents), "The number of parents should be the same of ParentsNumber.");
             }
 
-            var firstParent = parents[0];
+            var firstParent = parents[0].GetData<object[]>();
 
-            if (firstParent.Length < MinChromosomeLength)
+            if(firstParent == null)
+            {
+                throw new NullReferenceException("IEvaluable is not IChromosome");
+            }
+
+            if (firstParent.Length < MinLength)
             {
                 throw new CrossoverException(
-                    this, "A chromosome should have, at least, {0} genes. {1} has only {2} gene.".With(MinChromosomeLength, firstParent.GetType().Name, firstParent.Length));
+                    this, "A chromosome should have, at least, {0} genes. {1} has only {2} gene.".With(MinLength, firstParent.GetType().Name, firstParent.Length));
             }
 
             return PerformCross(parents);
@@ -95,7 +102,7 @@ namespace GeneticSharp.Domain.Crossovers
         /// </summary>
         /// <param name="parents">The parents chromosomes.</param>
         /// <returns>The offspring (children) of the parents.</returns>
-        protected abstract IList<IChromosome> PerformCross(IList<IChromosome> parents);
+        protected abstract IList<IEvaluable> PerformCross(IList<IEvaluable> parents);
         #endregion        
     }
 }

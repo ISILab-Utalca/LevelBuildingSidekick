@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using LevelBuildingSidekick;
+using LBS;
 using System.Threading;
 using UnityEngine.UIElements;
 
-namespace LevelBuildingSidekick.OfficePlan
+namespace LBS.OfficePlan
 {
     public class OfficePlanView : VisualElement // esta clase esta repetida
     {

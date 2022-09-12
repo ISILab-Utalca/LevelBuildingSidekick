@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/GitIgnorable/OpenNewLevelInfo.unity
+    guid: 8014e068e21bc2d4e9d6c57039586cbd
   m_configObjects: {}

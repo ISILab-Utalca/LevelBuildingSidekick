@@ -1,4 +1,4 @@
-using LevelBuildingSidekick.Schema;
+using LBS.Schema;
 using Newtonsoft.Json;
 using System;
 using System.Collections;

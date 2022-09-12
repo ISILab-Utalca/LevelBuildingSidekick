@@ -32,21 +32,21 @@ namespace GeneticSharp.Domain.Mutations
         /// <summary>
         /// Mutate the specified chromosome.
         /// </summary>
-        /// <param name="chromosome">The chromosome.</param>
+        /// <param name="evaluable">The chromosome.</param>
         /// <param name="probability">The probability to mutate each chromosome.</param>
-        protected override void PerformMutate (IChromosome chromosome, float probability)
+        protected override void PerformMutate (IEvaluable evaluable, float probability)
         {
-            var binaryChromosome = chromosome as IBinaryChromosome;
-
-            if (binaryChromosome == null) 
-            {
-                throw new MutationException (this, "Needs a binary chromosome that implements IBinaryChromosome.");    
-            }
-
+            var data = evaluable.GetData<object[]>();
             if (m_rnd.GetDouble() <= probability)
             {
-                var index = m_rnd.GetInt(0, chromosome.Length);
-                binaryChromosome.FlipGene (index);
+                var index = m_rnd.GetInt(0, data.Length);
+                var boolean = data[index];
+                if(!(boolean is bool))
+                {
+                    throw new TypeAccessException("Input must be colection of bool");
+                }
+                data[index] = !((bool)data[index]);
+                evaluable.SetData(data);
             }
         }
         #endregion

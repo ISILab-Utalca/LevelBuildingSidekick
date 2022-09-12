@@ -1,4 +1,4 @@
-using LevelBuildingSidekick;
+using LBS;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;

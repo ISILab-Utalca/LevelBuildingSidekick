@@ -10,4 +10,20 @@ public interface IEvaluable
     /// <value>The fitness.</value>
     double? Fitness { get; set; }
     public T GetData<T>();
+    public void SetData<T>(T data);
+
+    /// <summary>
+    /// Creates a new evaluable using the same structure of this.
+    /// </summary>
+    /// <returns>The new evaluable.</returns>
+    public IEvaluable CreateNew();
+
+    /// <summary>
+    /// Creates a clone.
+    /// </summary>
+    /// <returns>The Evaluable clone.</returns>
+    public IEvaluable Clone();
+
+    public bool IsValid();
+    T GetSampleData<T>();
 }

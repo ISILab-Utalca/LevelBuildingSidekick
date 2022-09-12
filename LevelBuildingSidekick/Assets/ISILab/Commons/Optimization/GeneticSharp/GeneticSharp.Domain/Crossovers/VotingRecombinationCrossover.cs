@@ -65,30 +65,35 @@ namespace GeneticSharp.Domain.Crossovers
         /// </summary>
         /// <param name="parents">The parents chromosomes.</param>
         /// <returns>The offspring (children) of the parents.</returns>
-        protected override IList<IChromosome> PerformCross(IList<IChromosome> parents)
+        protected override IList<IEvaluable> PerformCross(IList<IEvaluable> parents)
         {
-            var firstParent = parents[0];
-            var child = firstParent.CreateNew();
+            var datas = parents.Select(p => p.GetData<object[]>()).ToList();
+
+            var firstParent = datas[0];
+            var data = new object[firstParent.Length];
             var mutableGenesIndexes = new List<int>();
            
-            for (int i = 0; i < child.Length; i++)
+            for (int i = 0; i < data.Length; i++)
             {
                 // If in this set an element occurs at least the threshold number of times, it is copied into the offspring.
-                 var moreOcurrencesGeneValue = parents
-                                            .GroupBy(p => p.GetGene(i))
+                 var moreOcurrencesGeneValue = datas
+                                            .GroupBy(p => p[i])
                                             .Where(p => p.Count() >= _threshold)
                                             .OrderByDescending(g => g.Count())
                                             .FirstOrDefault();
 
                 if (moreOcurrencesGeneValue != null)
                 {
-                    child.ReplaceGene(i, moreOcurrencesGeneValue.Key);
+                    data[i] = moreOcurrencesGeneValue.Key;
                 }
                 else
                 {
                     mutableGenesIndexes.Add(i);
                 }
             }
+
+            var child = parents[0].CreateNew();
+            child.SetData(data);
 
             // The remaining positions of the offspring are filled with mutations.
             if (mutableGenesIndexes.Count > 0)
@@ -97,7 +102,7 @@ namespace GeneticSharp.Domain.Crossovers
                     .Mutate(child, 1);
             }
 
-            return new List<IChromosome> { child };
+            return new List<IEvaluable> { child };
         }
     }
 }

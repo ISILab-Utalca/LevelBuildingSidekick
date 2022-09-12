@@ -20,13 +20,13 @@ namespace GeneticSharp.Domain.Chromosomes
         /// that need ordered chromosomes, like OX1 and PMX.
         /// </remarks>
         /// <returns><c>true</c>, if chromosome has repeated gene, <c>false</c> otherwise.</returns>
-        /// <param name="chromosomes">The chromosomes.</param>
-        public static bool AnyHasRepeatedGene(this IList<IChromosome> chromosomes)
+        /// <param name="objectColections">The chromosomes.</param>
+        public static bool AnyHasRepeatedValue(this IList<object[]> objectColections)
         {
-            for (int i = 0; i < chromosomes.Count; i++)
+            for (int i = 0; i < objectColections.Count; i++)
             {
-                var c = chromosomes[i];
-                var notRepeatedGenesLength = c.GetGenes().Distinct().Count();
+                var c = objectColections[i];
+                var notRepeatedGenesLength = c.Distinct().Count();
 
                 if (notRepeatedGenesLength < c.Length)
                 {
@@ -53,7 +53,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// Validates the chromosome.
         /// </summary>
         /// <param name="chromosome">The chromosomes.</param>
-        public static void ValidateGenes(this IChromosome chromosome)
+        public static bool ValidateGenes(this IChromosome chromosome)
         {
             if(chromosome != null && chromosome.GetGenes() == null)
             {
@@ -64,6 +64,7 @@ namespace GeneticSharp.Domain.Chromosomes
             {
                 throw new InvalidOperationException("The chromosome '{0}' is generating genes with null value.".With(chromosome.GetType().Name));
             }
+            return true;
         }
     }
 }

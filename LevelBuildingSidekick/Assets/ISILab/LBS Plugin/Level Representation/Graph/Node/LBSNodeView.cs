@@ -9,12 +9,12 @@ using System.Linq;
 using System;
 using System.Reflection;
 using Utility;
-using LevelBuildingSidekick.Graph;
-using LevelBuildingSidekick.Schema;
+using LBS.Graph;
+using LBS.Schema;
 using System.Reflection.Emit;
 using Label = UnityEngine.UIElements.Label;
 
-namespace LevelBuildingSidekick.Graph
+namespace LBS.Graph
 {
     public class LBSNodeView : GraphElement
     {

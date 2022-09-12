@@ -53,18 +53,6 @@ namespace GeneticSharp.Domain.Chromosomes
         {
             return String.Join (string.Empty, GetGenes<bool>().Select (g => g.ToString()).ToArray());
         }
-
-        public override T GetData<T>()
-        {
-            try
-            {
-                return (T)(object)this;
-            }
-            catch
-            {
-                throw new TypeAccessException("Incorrect Type T for " + GetType().Name);
-            }
-        }
         #endregion
     }
 }

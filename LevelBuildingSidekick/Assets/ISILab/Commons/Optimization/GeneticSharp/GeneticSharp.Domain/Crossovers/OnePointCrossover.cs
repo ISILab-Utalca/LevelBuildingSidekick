@@ -69,10 +69,12 @@ namespace GeneticSharp.Domain.Crossovers
         /// <returns>
         /// The offspring (children) of the parents.
         /// </returns>
-        protected override IList<IChromosome> PerformCross(IList<IChromosome> parents)
+        protected override IList<IEvaluable> PerformCross(IList<IEvaluable> parents)
         {
-            var firstParent = parents[0];
-            var secondParent = parents[1];
+            var datas = parents.Select(p => p.GetData<object[]>()).ToList();
+
+            var firstParent = datas[0];
+            var secondParent = datas[1];
 
             var swapPointsLength = firstParent.Length - 1;
 
@@ -83,7 +85,17 @@ namespace GeneticSharp.Domain.Crossovers
                     "The swap point index is {0}, but there is only {1} genes. The swap should result at least one gene to each side.".With(SwapPointIndex, firstParent.Length));
             }
 
-            return CreateChildren(firstParent, secondParent);
+            List<IEvaluable> children = new List<IEvaluable>();
+            var offspring = CreateChildren(firstParent, secondParent);
+
+            foreach(var data in offspring)
+            {
+                var child = parents[0].CreateNew();
+                child.SetData(data);
+                children.Add(child);
+            }
+
+            return children;
         }
 
         /// <summary>
@@ -92,12 +104,12 @@ namespace GeneticSharp.Domain.Crossovers
         /// <param name="firstParent">The first parent.</param>
         /// <param name="secondParent">The second parent.</param>
         /// <returns>The children chromosomes.</returns>
-        protected IList<IChromosome> CreateChildren(IChromosome firstParent, IChromosome secondParent)
+        protected IList<object[]> CreateChildren(object[] firstParent, object[] secondParent)
         {
             var firstChild = CreateChild(firstParent, secondParent);
             var secondChild = CreateChild(secondParent, firstParent);
 
-            return new List<IChromosome>() { firstChild, secondChild };
+            return new List<object[]>() { firstChild, secondChild };
         }
 
         /// <summary>
@@ -106,12 +118,16 @@ namespace GeneticSharp.Domain.Crossovers
         /// <returns>The child.</returns>
         /// <param name="leftParent">Left parent.</param>
         /// <param name="rightParent">Right parent.</param>
-        protected virtual IChromosome CreateChild(IChromosome leftParent, IChromosome rightParent)
+        protected virtual object[] CreateChild(object[] leftParent, object[] rightParent)
         {
             var cutGenesCount = SwapPointIndex + 1;
-            var child = leftParent.CreateNew();
-            child.ReplaceGenes(0, leftParent.GetGenes().Take(cutGenesCount).ToArray());
-            child.ReplaceGenes(cutGenesCount, rightParent.GetGenes().Skip(cutGenesCount).ToArray());
+            var child = new object[leftParent.Length];
+
+            var leftpart = leftParent.Take(cutGenesCount).ToArray();
+            var rightPart = rightParent.Skip(cutGenesCount).ToArray();
+
+            Array.Copy(leftpart, 0, child, 0, leftpart.Length);
+            Array.Copy(rightPart, 0, child, cutGenesCount, rightPart.Length);
 
             return child;
         }

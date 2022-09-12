@@ -13,7 +13,7 @@ namespace GeneticSharp.Domain.Populations
         /// <summary>
         /// Occurs when best chromosome changed.
         /// </summary>
-        event EventHandler BestChromosomeChanged;
+        public Action OnBestcandidateChanged { get; set; }
         #endregion
 
         #region Properties
@@ -61,7 +61,7 @@ namespace GeneticSharp.Domain.Populations
         /// Gets the best chromosome.
         /// </summary>
         /// <value>The best chromosome.</value>
-        IChromosome BestChromosome { get; }
+        IEvaluable BestCandidate { get; }
 
         /// <summary>
         /// Gets or sets the generation strategy.
@@ -79,7 +79,7 @@ namespace GeneticSharp.Domain.Populations
         /// Creates a new generation.
         /// </summary>
         /// <param name="chromosomes">The chromosomes for new generation.</param>
-        void CreateNewGeneration(IList<IChromosome> chromosomes);
+        void CreateNewGeneration(IList<IEvaluable> chromosomes);
 
         /// <summary>
         /// Ends the current generation.

@@ -33,20 +33,20 @@ namespace GeneticSharp.Domain.Mutations
         /// </summary>
         /// <returns>The resulted sequence after mutation operation.</returns>
         /// <param name="sequence">The sequence to be mutated.</param>
-        protected override IEnumerable<T> MutateOnSequence<T>(IEnumerable<T> sequence)
+        protected override object[] MutateOnSequence(object[] sequence)
         {
             // If there is at least two differente genes on source sequence,
             // Then is possible shuffle their in sequence.
             if (sequence.Distinct().Count() > 1)
             {
-                var result = sequence.Shuffle(RandomizationProvider.Current);
+                var result = sequence.AsEnumerable().Shuffle(RandomizationProvider.Current);
               
                 while (sequence.SequenceEqual(result))
                 {
-                    result = sequence.Shuffle(RandomizationProvider.Current);
+                    result = sequence.AsEnumerable().Shuffle(RandomizationProvider.Current);
                 }
 
-                return result; 
+                return result.ToArray(); 
             }
 
             // All genes on sequence are equal, then sequence cannot be shuffled.

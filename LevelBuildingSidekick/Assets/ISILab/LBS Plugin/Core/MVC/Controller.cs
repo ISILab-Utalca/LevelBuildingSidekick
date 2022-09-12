@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
-namespace LevelBuildingSidekick
+namespace LBS
 {
     [System.Serializable]
     public abstract class Controller

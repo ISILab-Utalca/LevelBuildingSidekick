@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
+using System.Linq;
 
 namespace GeneticSharp.Domain.Crossovers
 {
@@ -52,28 +53,33 @@ namespace GeneticSharp.Domain.Crossovers
         /// </summary>
         /// <param name="parents">The parents chromosomes.</param>
         /// <returns>The offspring (children) of the parents.</returns>
-        protected override IList<IChromosome> PerformCross(IList<IChromosome> parents)
+        protected override IList<IEvaluable> PerformCross(IList<IEvaluable> parents)
         {
-            var firstParent = parents[0];
-            var secondParent = parents[1];
-            var firstChild = firstParent.CreateNew();
-            var secondChild = secondParent.CreateNew();
+            var datas = parents.Select(p => p.GetData<object[]>()).ToList();
+
+            var firstParent = datas[0];
+            var secondParent = datas[1];
+            var firstChild = new object[firstParent.Length];
+            var secondChild = new object[secondParent.Length];
 
             for (int i = 0; i < firstParent.Length; i++)
             {
                 if (RandomizationProvider.Current.GetDouble() < MixProbability)
                 {
-                    firstChild.ReplaceGene(i, firstParent.GetGene(i));
-                    secondChild.ReplaceGene(i, secondParent.GetGene(i));
+                    firstChild[i] = firstParent[i];
+                    secondChild[i] = secondParent[i];
                 }
                 else
                 {
-                    firstChild.ReplaceGene(i, secondParent.GetGene(i));
-                    secondChild.ReplaceGene(i, firstParent.GetGene(i));
+                    firstChild[i] = secondParent[i];
+                    secondChild[i] = firstParent[i];
                 }
             }
 
-            return new List<IChromosome> { firstChild, secondChild };
+            var child1 = parents[0].CreateNew();
+            var child2 = parents[0].CreateNew();
+
+            return new List<IEvaluable> { child1, child2 };
         }
         #endregion
     }

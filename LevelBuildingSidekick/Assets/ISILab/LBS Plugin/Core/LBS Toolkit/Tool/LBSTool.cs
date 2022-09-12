@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Events;
-using LevelBuildingSidekick;
+using LBS;
 using UnityEngine;
 using Newtonsoft.Json;
 

@@ -1,4 +1,4 @@
-using LevelBuildingSidekick.Graph;
+using LBS.Graph;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -6,7 +6,7 @@ using UnityEditor.Overlays;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace LevelBuildingSidekick
+namespace LBS
 {
     /*
     public abstract class ToolkitOverlay : IMGUIOverlay

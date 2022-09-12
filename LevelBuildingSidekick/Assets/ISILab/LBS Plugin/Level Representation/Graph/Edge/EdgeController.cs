@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using LevelBuildingSidekick;
+using LBS;
 using System;
-using LevelBuildingSidekick.Graph;
+using LBS.Graph;
 
 public class EdgeController : Controller
 {

@@ -16,39 +16,6 @@ using GeneticSharp.Infrastructure.Framework.Commons;
 
 namespace GeneticSharp.Domain
 {
-    #region Enums
-    /// <summary>
-    /// The possible states for a genetic algorithm.
-    /// </summary>
-    public enum GeneticAlgorithmState
-    {
-        /// <summary>
-        /// The GA has not been started yet.
-        /// </summary>
-        NotStarted,
-
-        /// <summary>
-        /// The GA has been started and is running.
-        /// </summary>
-        Started,
-
-        /// <summary>
-        /// The GA has been stopped and is not running.
-        /// </summary>
-        Stopped,
-
-        /// <summary>
-        /// The GA has been resumed after a stop or termination reach and is running.
-        /// </summary>
-        Resumed,
-
-        /// <summary>
-        /// The GA has reach the termination condition and is not running.
-        /// </summary>
-        TerminationReached
-    }
-    #endregion
-
     /// <summary>
     /// A genetic algorithm (GA) is a search heuristic that mimics the process of natural selection. 
     /// This heuristic (also sometimes called a metaheuristic) is routinely used to generate useful solutions 
@@ -78,7 +45,7 @@ namespace GeneticSharp.Domain
         #region Fields
         private bool m_stopRequested;
         private readonly object m_lock = new object();
-        private GeneticAlgorithmState m_state;
+        private OptimizerState m_state;
         private Stopwatch m_stopwatch;
         #endregion              
 
@@ -105,7 +72,7 @@ namespace GeneticSharp.Domain
             ExceptionHelper.ThrowIfNull("mutation", mutation);
 
             Population = population;
-            Fitness = fitness;
+            Evaluator = fitness;
             Selection = selection;
             Crossover = crossover;
             Mutation = mutation;
@@ -115,7 +82,7 @@ namespace GeneticSharp.Domain
             CrossoverProbability = DefaultCrossoverProbability;
             MutationProbability = DefaultMutationProbability;
             TimeEvolving = TimeSpan.Zero;
-            State = GeneticAlgorithmState.NotStarted;
+            State = OptimizerState.NotStarted;
             TaskExecutor = new LinearTaskExecutor();
             OperatorsStrategy = new DefaultOperatorsStrategy();
         }
@@ -161,7 +128,7 @@ namespace GeneticSharp.Domain
         /// <summary>
         /// Gets the fitness function.
         /// </summary>
-        public IEvaluator Fitness { get; private set; }
+        public IEvaluator Evaluator { get; private set; }
 
         /// <summary>
         /// Gets or sets the selection operator.
@@ -219,7 +186,7 @@ namespace GeneticSharp.Domain
         {
             get
             {
-                return Population.BestChromosome;
+                return Population.BestCandidate as IChromosome;
             }
         }
 
@@ -239,7 +206,7 @@ namespace GeneticSharp.Domain
         /// <summary>
         /// Gets the state.
         /// </summary>
-        public GeneticAlgorithmState State
+        public OptimizerState State
         {
             get
             {
@@ -248,7 +215,7 @@ namespace GeneticSharp.Domain
 
             private set
             {
-                var shouldStop = OnStopped != null && m_state != value && value == GeneticAlgorithmState.Stopped;
+                var shouldStop = OnStopped != null && m_state != value && value == OptimizerState.Stopped;
 
                 m_state = value;
 
@@ -267,7 +234,7 @@ namespace GeneticSharp.Domain
         {
             get
             {
-                return State == GeneticAlgorithmState.Started || State == GeneticAlgorithmState.Resumed;
+                return State == OptimizerState.Started || State == OptimizerState.Resumed;
             }
         }
 
@@ -287,7 +254,7 @@ namespace GeneticSharp.Domain
             OnStarted?.Invoke();
             lock (m_lock)
             {
-                State = GeneticAlgorithmState.Started;
+                State = OptimizerState.Started;
                 m_stopwatch = Stopwatch.StartNew();
                 Population.CreateInitialGeneration();
                 m_stopwatch.Stop();
@@ -325,7 +292,7 @@ namespace GeneticSharp.Domain
                         throw new InvalidOperationException("Attempt to resume a genetic algorithm with a termination ({0}) already reached. Please, specify a new termination or extend the current one.".With(Termination));
                     }
 
-                    State = GeneticAlgorithmState.Resumed;
+                    State = OptimizerState.Resumed;
                 }
 
                 if (EndCurrentGeneration())
@@ -351,7 +318,7 @@ namespace GeneticSharp.Domain
             }
             catch
             {
-                State = GeneticAlgorithmState.Stopped;
+                State = OptimizerState.Stopped;
                 throw;
             }
         }
@@ -405,7 +372,7 @@ namespace GeneticSharp.Domain
 
             if (Termination.HasReached(this))
             {
-                State = GeneticAlgorithmState.TerminationReached;
+                State = OptimizerState.TerminationReached;
                 OnTerminationReached?.Invoke();
 
                 return true;
@@ -414,7 +381,7 @@ namespace GeneticSharp.Domain
             if (m_stopRequested)
             {
                 TaskExecutor.Stop();
-                State = GeneticAlgorithmState.Stopped;
+                State = OptimizerState.Stopped;
             }
 
             return false;
@@ -427,7 +394,7 @@ namespace GeneticSharp.Domain
         {
             try
             {
-                var chromosomesWithoutFitness = Population.CurrentGeneration.Chromosomes.Where(c => !c.Fitness.HasValue).ToList();
+                var chromosomesWithoutFitness = Population.CurrentGeneration.Evaluables.Where(c => !c.Fitness.HasValue).ToList();
 
                 for (int i = 0; i < chromosomesWithoutFitness.Count; i++)
                 {
@@ -450,7 +417,7 @@ namespace GeneticSharp.Domain
                 TaskExecutor.Clear();
             }
 
-            Population.CurrentGeneration.Chromosomes = Population.CurrentGeneration.Chromosomes.OrderByDescending(c => c.Fitness).ToList();
+            Population.CurrentGeneration.Evaluables = Population.CurrentGeneration.Evaluables.OrderByDescending(c => c.Fitness).ToList();
         }
 
         /// <summary>
@@ -463,11 +430,11 @@ namespace GeneticSharp.Domain
 
             try
             {
-                c.Fitness = Fitness.Evaluate(c);
+                c.Fitness = Evaluator.Evaluate(c);
             }
             catch (Exception ex)
             {
-                throw new FitnessException(Fitness, "Error executing Fitness.Evaluate for chromosome: {0}".With(ex.Message), ex);
+                throw new FitnessException(Evaluator, "Error executing Fitness.Evaluate for chromosome: {0}".With(ex.Message), ex);
             }
         }
 
@@ -475,9 +442,9 @@ namespace GeneticSharp.Domain
         /// Selects the parents.
         /// </summary>
         /// <returns>The parents.</returns>
-        private IList<IChromosome> SelectParents()
+        private IList<IEvaluable> SelectParents()
         {
-            return Selection.SelectChromosomes(Population.MinSize, Population.CurrentGeneration);
+            return Selection.SelectEvaluables(Population.MinSize, Population.CurrentGeneration);
         }
 
         /// <summary>
@@ -485,7 +452,7 @@ namespace GeneticSharp.Domain
         /// </summary>
         /// <param name="parents">The parents.</param>
         /// <returns>The result chromosomes.</returns>
-        private IList<IChromosome> Cross(IList<IChromosome> parents)
+        private IList<IEvaluable> Cross(IList<IEvaluable> parents)
         {
             return OperatorsStrategy.Cross(Population, Crossover, CrossoverProbability, parents);
         }
@@ -494,7 +461,7 @@ namespace GeneticSharp.Domain
         /// Mutate the specified chromosomes.
         /// </summary>
         /// <param name="chromosomes">The chromosomes.</param>
-        private void Mutate(IList<IChromosome> chromosomes)
+        private void Mutate(IList<IEvaluable> chromosomes)
         {
             OperatorsStrategy.Mutate(Mutation, MutationProbability, chromosomes);
         }
@@ -507,7 +474,7 @@ namespace GeneticSharp.Domain
         /// <returns>
         /// The reinserted chromosomes.
         /// </returns>
-        private IList<IChromosome> Reinsert(IList<IChromosome> offspring, IList<IChromosome> parents)
+        private IList<IEvaluable> Reinsert(IList<IEvaluable> offspring, IList<IEvaluable> parents)
         {
             return Reinsertion.SelectChromosomes(Population, offspring, parents);
         }

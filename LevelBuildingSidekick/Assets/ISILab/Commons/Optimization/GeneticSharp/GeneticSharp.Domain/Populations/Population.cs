@@ -17,8 +17,8 @@ namespace GeneticSharp.Domain.Populations
         /// </summary>
         /// <param name="minSize">The minimum size (chromosomes).</param>
         /// <param name="maxSize">The maximum size (chromosomes).</param>
-        /// <param name="adamChromosome">The original chromosome of all population ;).</param>
-        public Population(int minSize, int maxSize, IChromosome adamChromosome)
+        /// <param name="adam">The original chromosome of all population ;).</param>
+        public Population(int minSize, int maxSize, IEvaluable adam)
         {
             if (minSize < 2)
             {
@@ -30,12 +30,12 @@ namespace GeneticSharp.Domain.Populations
                 throw new ArgumentOutOfRangeException("maxSize", "The maximum size for a population should be equal or greater than minimum size.");
             }
 
-            ExceptionHelper.ThrowIfNull("adamChromosome", adamChromosome);
+            ExceptionHelper.ThrowIfNull("adamChromosome", adam);
 
             CreationDate = DateTime.Now;
             MinSize = minSize;
             MaxSize = maxSize;
-            AdamChromosome = adamChromosome;
+            Adam = adam;
             Generations = new List<Generation>();
             GenerationStrategy = new PerformanceGenerationStrategy(10);
         }
@@ -43,9 +43,9 @@ namespace GeneticSharp.Domain.Populations
 
         #region Events
         /// <summary>
-        /// Occurs when best chromosome changed.
+        /// Occurs when best evaluable changed.
         /// </summary>
-        public event EventHandler BestChromosomeChanged;
+        public Action OnBestcandidateChanged { get; set; }
         #endregion
 
         #region Properties
@@ -93,7 +93,7 @@ namespace GeneticSharp.Domain.Populations
         /// Gets or sets the best chromosome.
         /// </summary>
         /// <value>The best chromosome.</value>
-        public IChromosome BestChromosome { get; protected set; }
+        public IEvaluable BestCandidate { get; protected set; }
 
         /// <summary>
         /// Gets or sets the generation strategy.
@@ -104,7 +104,7 @@ namespace GeneticSharp.Domain.Populations
         /// Gets or sets the original chromosome of all population.
         /// </summary>
         /// <value>The adam chromosome.</value>
-        protected IChromosome AdamChromosome { get; set; }
+        protected IEvaluable Adam { get; set; }
         #endregion
 
         #region Public methods
@@ -116,33 +116,35 @@ namespace GeneticSharp.Domain.Populations
             Generations = new List<Generation>();
             GenerationsNumber = 0;
 
-            var chromosomes = new List<IChromosome>();
+            var evaluables = new List<IEvaluable>();
 
             for (int i = 0; i < MinSize; i++)
             {
-                var c = AdamChromosome.CreateNew();
+                var c = Adam.CreateNew();
 
                 if (c == null)
                 {
-                    throw new InvalidOperationException("The Adam chromosome's 'CreateNew' method generated a null chromosome. This is a invalid behavior, please, check your chromosome code.");
+                    throw new InvalidOperationException("The Adam evaluable 'CreateNew' method generated a null evaluable. This is a invalid behavior, please, check your evaluable code.");
                 }
 
-                c.ValidateGenes();
+                if(!c.IsValid())
+                {
+                    throw new InvalidOperationException("The Adam evaluable's 'CreateNew' method generated an invalid evaluable. This is a invalid behavior, please, check your evaluable code.");
+                }
 
-                chromosomes.Add(c);
+                evaluables.Add(c);
             }
 
-            CreateNewGeneration(chromosomes);
+            CreateNewGeneration(evaluables);
         }
 
         /// <summary>
         /// Creates a new generation.
         /// </summary>
         /// <param name="chromosomes">The chromosomes for new generation.</param>
-        public virtual void CreateNewGeneration(IList<IChromosome> chromosomes)
+        public virtual void CreateNewGeneration(IList<IEvaluable> chromosomes)
         {
             ExceptionHelper.ThrowIfNull("chromosomes", chromosomes);
-            chromosomes.ValidateGenes();
 
             CurrentGeneration = new Generation(++GenerationsNumber, chromosomes);
             Generations.Add(CurrentGeneration);
@@ -156,23 +158,12 @@ namespace GeneticSharp.Domain.Populations
         {
             CurrentGeneration.End(MaxSize);
 
-            if (BestChromosome != CurrentGeneration.BestChromosome)
+            if (BestCandidate != CurrentGeneration.BestCandidate)
             {
-                BestChromosome = CurrentGeneration.BestChromosome;
+                BestCandidate = CurrentGeneration.BestCandidate;
 
-                OnBestChromosomeChanged(EventArgs.Empty);
+                OnBestcandidateChanged?.Invoke();
             }
-        }
-        #endregion
-
-        #region Protected methods
-        /// <summary>
-        /// Raises the best chromosome changed event.
-        /// </summary>
-        /// <param name="args">The event arguments.</param>
-        protected virtual void OnBestChromosomeChanged(EventArgs args)
-        {
-            BestChromosomeChanged?.Invoke(this, args);
         }
         #endregion
     }

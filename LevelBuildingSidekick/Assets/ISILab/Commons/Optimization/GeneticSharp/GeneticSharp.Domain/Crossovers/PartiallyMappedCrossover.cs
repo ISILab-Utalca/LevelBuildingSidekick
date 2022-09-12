@@ -37,16 +37,18 @@ namespace GeneticSharp.Domain.Crossovers
         /// <returns>
         /// The offspring (children) of the parents.
         /// </returns>
-        protected override IList<IChromosome> PerformCross(IList<IChromosome> parents)
+        protected override IList<IEvaluable> PerformCross(IList<IEvaluable> parents)
         {
-            if (parents.AnyHasRepeatedGene())
+            var datas = parents.Select(p => p.GetData<object[]>()).ToList();
+
+            if (datas.AnyHasRepeatedValue())
             {
                 throw new CrossoverException(this, "The Partially Mapped Crossover (PMX) can be only used with ordered chromosomes. The specified chromosome has repeated genes.");
             }
 
             // Choose the thow parents.
-            var parent1 = parents[0];
-            var parent2 = parents[1];
+            var parent1 = datas[0];
+            var parent2 = datas[1];
 
             // Create, sort and define the cut point indexes.
             var cutPointsIndexes = RandomizationProvider.Current.GetUniqueInts(2, 0, parent1.Length);
@@ -55,21 +57,19 @@ namespace GeneticSharp.Domain.Crossovers
             var secondCutPointIndex = cutPointsIndexes[1];
 
             // Parent1 creates the mapping section.
-            var parent1Genes = parent1.GetGenes();
-            var parent1MappingSection = parent1Genes.Skip(firstCutPointIndex).Take((secondCutPointIndex - firstCutPointIndex) + 1).ToArray();
+            var parent1MappingSection = parent1.Skip(firstCutPointIndex).Take((secondCutPointIndex - firstCutPointIndex) + 1).ToArray();
 
             // Parent12 creates the mapping section.
-            var parent2Genes = parent2.GetGenes();
-            var parent2MappingSection = parent2Genes.Skip(firstCutPointIndex).Take((secondCutPointIndex - firstCutPointIndex) + 1).ToArray();
+            var parent2MappingSection = parent2.Skip(firstCutPointIndex).Take((secondCutPointIndex - firstCutPointIndex) + 1).ToArray();
 
             // The new offsprings are created and 
             // their genes ar replaced start in the first cut point index
             // and using the genes in the mapping section from parent 1 e 2.
-            var offspring1 = parent1.CreateNew();
-            var offspring2 = parent2.CreateNew();
+            var offspring1 = new object[parent1.Length];
+            var offspring2 = new object[parent2.Length];
 
-            offspring2.ReplaceGenes(firstCutPointIndex, parent1MappingSection);
-            offspring1.ReplaceGenes(firstCutPointIndex, parent2MappingSection);
+            Array.Copy(parent1MappingSection, 0, offspring2, firstCutPointIndex, parent1MappingSection.Length);
+            Array.Copy(parent2MappingSection, 0, offspring1, firstCutPointIndex, parent2MappingSection.Length);
 
             var length = parent1.Length;
 
@@ -80,14 +80,20 @@ namespace GeneticSharp.Domain.Crossovers
                     continue;
                 }
 
-                var geneForOffspring1 = GetGeneNotInMappingSection(parent1Genes[i], parent2MappingSection, parent1MappingSection);
-                offspring1.ReplaceGene(i, geneForOffspring1);
+                var geneForOffspring1 = GetGeneNotInMappingSection(parent1[i], parent2MappingSection, parent1MappingSection);
+                offspring1[i] = geneForOffspring1;
 
-                var geneForOffspring2 = GetGeneNotInMappingSection(parent2Genes[i], parent1MappingSection, parent2MappingSection);
-                offspring2.ReplaceGene(i, geneForOffspring2);
+                var geneForOffspring2 = GetGeneNotInMappingSection(parent2[i], parent1MappingSection, parent2MappingSection);
+                offspring2[i] = geneForOffspring2;
             }
 
-            return new List<IChromosome>() { offspring1, offspring2 };
+            var child1 = parents[0].CreateNew();
+            var child2 = parents[0].CreateNew();
+
+            child1.SetData(offspring1);
+            child2.SetData(offspring2);
+
+            return new List<IEvaluable>() { child1, child2 };
         }
 
         private object GetGeneNotInMappingSection(object candidateGene, object[] mappingSection, object[] otherParentMappingSection)

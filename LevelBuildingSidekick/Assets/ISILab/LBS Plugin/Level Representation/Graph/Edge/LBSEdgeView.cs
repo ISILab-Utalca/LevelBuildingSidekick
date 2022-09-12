@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using LevelBuildingSidekick;
+using LBS;
 using UnityEngine.UIElements;
 using UnityEditor.Experimental.GraphView;
 using Newtonsoft.Json;
-using LevelBuildingSidekick.Graph;
+using LBS.Graph;
 
 public abstract class LBSEdgeView : LBSGraphElement
 {

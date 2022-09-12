@@ -17,32 +17,34 @@ namespace GeneticSharp.Domain.Mutations
         /// </summary>
         /// <param name="chromosome">The chromosome.</param>
         /// <param name="probability">The probability to mutate each chromosome.</param>
-        protected override void PerformMutate(IChromosome chromosome, float probability)
+        protected override void PerformMutate(IEvaluable evaluable, float probability)
         {
-            ValidateLength(chromosome);
+            var sequence = evaluable.GetData<object[]>();
+
+            ValidateLength(sequence);
 
             if (RandomizationProvider.Current.GetDouble() <= probability)
             {
-                var indexes = RandomizationProvider.Current.GetUniqueInts(2, 0, chromosome.Length).OrderBy(i => i).ToArray();
+                var indexes = RandomizationProvider.Current.GetUniqueInts(2, 0, sequence.Length).OrderBy(i => i).ToArray();
                 var firstIndex = indexes[0];
                 var secondIndex = indexes[1];
                 var sequenceLength = (secondIndex - firstIndex) + 1;
 
-                var mutatedSequence = MutateOnSequence(chromosome.GetGenes().Skip(firstIndex).Take(sequenceLength)).ToArray();
+                var mutatedSequence = MutateOnSequence(sequence.Skip(firstIndex).Take(sequenceLength).ToArray());
                 
-                chromosome.ReplaceGenes(firstIndex, mutatedSequence);
+                evaluable.SetData(mutatedSequence);
             }
         }
 
         /// <summary>
         /// Validate length of the chromosome.
         /// </summary>
-        /// <param name="chromosome">The chromosome.</param>
-        protected virtual void ValidateLength(IChromosome chromosome)
+        /// <param name="sequence">The sequence.</param>
+        protected virtual void ValidateLength(object[] sequence)
         {
-            if (chromosome.Length < 3)
+            if (sequence.Length < 3)
             {
-                throw new MutationException(this, "A chromosome should have, at least, 3 genes. {0} has only {1} gene.".With(chromosome.GetType().Name, chromosome.Length));
+                throw new MutationException(this, "A chromosome should have, at least, 3 genes. {0} has only {1} gene.".With(sequence.GetType().Name, sequence.Length));
             }
         }
 
@@ -51,7 +53,7 @@ namespace GeneticSharp.Domain.Mutations
         /// </summary>
         /// <returns>The resulted sequence after mutation operation.</returns>
         /// <param name="sequence">The sequence to be mutated.</param>
-        protected abstract IEnumerable<T> MutateOnSequence<T>(IEnumerable<T> sequence);
+        protected abstract object[] MutateOnSequence(object[] sequence);
         #endregion
     }
 }

@@ -18,6 +18,6 @@ namespace GeneticSharp.Domain.Selections
         /// <returns>The selected chromosomes.</returns>
         /// <param name="number">The number of chromosomes to select.</param>
         /// <param name="generation">The generation where the selection will be made.</param>
-        IList<IChromosome> SelectChromosomes(int number, Generation generation);
+        IList<IEvaluable> SelectEvaluables(int number, Generation generation);
     }
 }

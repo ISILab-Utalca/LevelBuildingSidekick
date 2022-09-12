@@ -1,7 +1,7 @@
 ﻿using LBS.ElementView;
 using LBS.View;
-using LevelBuildingSidekick;
-using LevelBuildingSidekick.Graph;
+using LBS;
+using LBS.Graph;
 using System.Collections;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;

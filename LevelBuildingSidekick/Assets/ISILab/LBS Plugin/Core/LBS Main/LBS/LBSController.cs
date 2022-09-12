@@ -5,14 +5,14 @@ using UnityEditor;
 using System;
 using System.Reflection;
 using System.IO;
-using LevelBuildingSidekick.Graph;
+using LBS.Graph;
 using System.Text;
 using LBS.Representation.TileMap;
 using Utility;
-using LevelBuildingSidekick.Schema;
+using LBS.Schema;
 using System.Linq;
 
-namespace LevelBuildingSidekick
+namespace LBS
 {
     public static class Globals
     {
@@ -21,7 +21,7 @@ namespace LevelBuildingSidekick
 
     // change name "LBSController" to "LBS" or "LBSCore" or "LBSMain" or "LBSManager" (!) 
     // esta clase podria ser estatica completamente (??)
-    public class LBSController 
+    public static class LBSController 
     {
         #region InspectorDrawer
         private class LevelScriptable : GenericScriptable<LevelData> { };

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using LevelBuildingSidekick;
+using LBS;
 using UnityEditor.Overlays;
 using UnityEngine.UIElements;
 using UnityEditor;

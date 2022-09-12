@@ -58,12 +58,14 @@ namespace GeneticSharp.Domain.Crossovers
         /// </summary>
         /// <param name="parents">The parents chromosomes.</param>
         /// <returns>The offspring (children) of the parents.</returns>
-        protected override IList<IChromosome> PerformCross(IList<IChromosome> parents)
+        protected override IList<IEvaluable> PerformCross(IList<IEvaluable> parents)
         {
-            var parentOne = parents[0];
-            var parentTwo = parents[1];
+            var datas = parents.Select(p => p.GetData<object[]>()).ToList();
 
-            if (parents.AnyHasRepeatedGene())
+            var parentOne = datas[0];
+            var parentTwo = datas[1];
+
+            if (datas.AnyHasRepeatedValue())
             {
                 throw new CrossoverException(this, "The Ordered Crossover (OX1) can be only used with ordered chromosomes. The specified chromosome has repeated genes.");
             }
@@ -72,10 +74,14 @@ namespace GeneticSharp.Domain.Crossovers
             Array.Sort(middleSectionIndexes);
             var middleSectionBeginIndex = middleSectionIndexes[0];
             var middleSectionEndIndex = middleSectionIndexes[1];
-            var firstChild = CreateChild(parentOne, parentTwo, middleSectionBeginIndex, middleSectionEndIndex);
-            var secondChild = CreateChild(parentTwo, parentOne, middleSectionBeginIndex, middleSectionEndIndex);
 
-            return new List<IChromosome>() { firstChild, secondChild };
+            var firstChild = parents[0].CreateNew();
+            var secondChild = parents[0].CreateNew();
+
+            firstChild.SetData(CreateChild(parentOne, parentTwo, middleSectionBeginIndex, middleSectionEndIndex));
+            secondChild.SetData(CreateChild(parentTwo, parentOne, middleSectionBeginIndex, middleSectionEndIndex));
+
+            return new List<IEvaluable>() { firstChild, secondChild };
         }
 
         /// <summary>
@@ -86,26 +92,26 @@ namespace GeneticSharp.Domain.Crossovers
         /// <param name="secondParent">Second parent.</param>
         /// <param name="middleSectionBeginIndex">Middle section begin index.</param>
         /// <param name="middleSectionEndIndex">Middle section end index.</param>
-        private static IChromosome CreateChild(IChromosome firstParent, IChromosome secondParent, int middleSectionBeginIndex, int middleSectionEndIndex)
+        private static object[] CreateChild(object[] firstParent, object[] secondParent, int middleSectionBeginIndex, int middleSectionEndIndex)
         {
-            var middleSectionGenes = firstParent.GetGenes().Skip(middleSectionBeginIndex).Take((middleSectionEndIndex - middleSectionBeginIndex) + 1);
+            var middleSectionGenes = firstParent.Skip(middleSectionBeginIndex).Take((middleSectionEndIndex - middleSectionBeginIndex) + 1);
 
-            using (var secondParentRemainingGenes = secondParent.GetGenes().Except(middleSectionGenes).GetEnumerator())
+            using (var secondParentRemainingGenes = secondParent.Except(middleSectionGenes).GetEnumerator())
             {
-                var child = firstParent.CreateNew();
+                var child = new object[firstParent.Length];
 
                 for (int i = 0; i < firstParent.Length; i++)
                 {
-                    var firstParentGene = firstParent.GetGene(i);
+                    var firstParentGene = firstParent[i];
 
                     if (i >= middleSectionBeginIndex && i <= middleSectionEndIndex)
                     {
-                        child.ReplaceGene(i, firstParentGene);
+                        child[i] = firstParentGene;
                     }
                     else
                     {
                         secondParentRemainingGenes.MoveNext();
-                        child.ReplaceGene(i, secondParentRemainingGenes.Current);
+                        child[i] = secondParentRemainingGenes.Current;
                     }
                 }
 

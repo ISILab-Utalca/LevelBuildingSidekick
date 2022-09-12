@@ -6,8 +6,8 @@ using UnityEditor.UIElements;
 using LBS.Transformers;
 using System;
 using UnityEditor.Overlays;
-using LevelBuildingSidekick;
-using LevelBuildingSidekick.Graph;
+using LBS;
+using LBS.Graph;
 
 namespace LBS.Windows
 {

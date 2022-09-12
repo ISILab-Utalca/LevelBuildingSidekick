@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditorInternal;
-using LevelBuildingSidekick;
+using LBS;
 using System;
-using LevelBuildingSidekick.Schema;
+using LBS.Schema;
 using Newtonsoft.Json;
 using UnityEditor;
 
-namespace LevelBuildingSidekick.Graph
+namespace LBS.Graph
 {
     [System.Serializable]
     public abstract class LBSNodeData : Data
