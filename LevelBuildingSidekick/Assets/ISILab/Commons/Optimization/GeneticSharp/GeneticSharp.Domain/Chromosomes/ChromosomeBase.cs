@@ -3,6 +3,7 @@ using System.Diagnostics;
 using GeneticSharp.Infrastructure.Framework.Texts;
 using GeneticSharp.Infrastructure.Framework.Commons;
 using System.Linq;
+using System.Collections;
 
 namespace GeneticSharp.Domain.Chromosomes
 {
@@ -400,27 +401,45 @@ namespace GeneticSharp.Domain.Chromosomes
             return this.ValidateGenes();
         }
 
-        public void SetData<T>(T data)
+        public void SetDataSequence<T>(T[] data)
         {
-            if(!(data is U[]))
+            if(data == null)
+            {
+                throw new NullReferenceException();
+            }
+            if(!(data[0] is U))
             {
                 throw new InvalidCastException("The received data is not of type " + typeof(U).ToString() + "[]");
             }
-            m_genes = (U[])(object)data;
+            m_genes = data.Select(d => (U)(object)d).ToArray();
         }
-
+        
         public T GetData<T>()
         {
-            if(!(m_genes is T))
+            if(!(GetType() is T))
             {
-                throw new InvalidCastException("The requested data is not of type " + typeof(U).ToString() + "[]");
+                throw new TypeAccessException("Invalid type requested, " + GetType().ToString() + " is not instance of type: " + typeof(T).ToString());
             }
-            return (T)(object)(m_genes);
+            return (T)(object)(this);
         }
 
         public T GetSampleData<T>()
         {
             return GenerateGene<T>(0);
+        }
+
+        public T[] GetDataSquence<T>()
+        {
+            if(!(m_genes[0] is T))
+            {
+                throw new TypeAccessException("Invalid type requested, " + GetType().ToString() + " does not have or implement a way to return a collection of type: " + typeof(T).ToString());
+            }
+            return m_genes.Select(g => (T)(object)g).ToArray();
+        }
+
+        public void SetData<T>(T data)
+        {
+            throw new NotImplementedException();
         }
         #endregion
     }

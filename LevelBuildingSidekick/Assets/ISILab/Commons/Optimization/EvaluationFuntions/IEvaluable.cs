@@ -10,6 +10,7 @@ public interface IEvaluable
     /// <value>The fitness.</value>
     double? Fitness { get; set; }
     public T GetData<T>();
+    public void SetDataSequence<T>(T[] data);
     public void SetData<T>(T data);
 
     /// <summary>
@@ -25,5 +26,6 @@ public interface IEvaluable
     public IEvaluable Clone();
 
     public bool IsValid();
-    T GetSampleData<T>();
+    public T GetSampleData<T>();
+    public T[] GetDataSquence<T>();
 }

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Infrastructure.Framework.Texts;
+using UnityEngine;
 
 namespace GeneticSharp.Domain.Crossovers
 {
@@ -68,10 +69,12 @@ namespace GeneticSharp.Domain.Crossovers
         /// </returns>
         protected override IList<IEvaluable> PerformCross(IList<IEvaluable> parents)
         {
-            var datas = parents.Select(p => p.GetData<object[]>()).ToList();
+            var datas = parents.Select(p => p.GetDataSquence<object>()).ToList();
 
             var firstParent = datas[0];
             var secondParent = datas[1];
+            //Debug.Log(firstParent.Length + " - " + secondParent.Length);
+
             var parentLength = firstParent.Length;
             var swapPointsLength = parentLength - 1;
 
@@ -87,8 +90,10 @@ namespace GeneticSharp.Domain.Crossovers
 
             foreach(var data in offsprings)
             {
+                //Debug.Log(data.Length);
                 var child = parents[0].CreateNew();
-                child.SetData(data);
+                child.SetDataSequence(data);
+                //Debug.Log(child.GetDataSquence<object>().Length);
                 children.Add(child);
             }
 

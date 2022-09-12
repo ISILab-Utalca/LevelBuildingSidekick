@@ -37,7 +37,7 @@ namespace GeneticSharp.Domain.Crossovers
         /// </returns>
         protected override IList<IEvaluable> PerformCross(IList<IEvaluable> parents)
         {
-            var datas = parents.Select(p => p.GetData<object[]>()).ToList();
+            var datas = parents.Select(p => p.GetDataSquence<object>()).ToList();
 
             var parent1 = datas[0];
             var parent1Genes = datas;
@@ -61,7 +61,7 @@ namespace GeneticSharp.Domain.Crossovers
             }
 
             var child = parents[0].CreateNew();
-            child.SetData(offspring);
+            child.SetDataSequence(offspring);
 
             return new List<IEvaluable>() { child };
         }
