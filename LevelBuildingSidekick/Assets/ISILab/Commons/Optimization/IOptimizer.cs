@@ -1,4 +1,4 @@
-using Commons.Optimization.Fitness;
+using Commons.Optimization.Evaluator;
 using Commons.Optimization.Terminations;
 using System;
 using System.Collections;

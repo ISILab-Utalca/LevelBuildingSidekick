@@ -2,7 +2,7 @@
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Infrastructure.Framework.Commons;
 
-namespace Commons.Optimization.Fitness
+namespace Commons.Optimization.Evaluator
 {
     /// <summary>
     /// An IFitness implementation that defer the fitness evaluation to a Func.

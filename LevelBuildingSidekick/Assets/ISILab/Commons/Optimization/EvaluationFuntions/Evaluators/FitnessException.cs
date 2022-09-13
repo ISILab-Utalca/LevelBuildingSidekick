@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 using System.Security.Permissions;
 using GeneticSharp.Infrastructure.Framework.Texts;
 
-namespace Commons.Optimization.Fitness
+namespace Commons.Optimization.Evaluator
 {
     /// <summary>
     /// Exception throw when an error occurs during the execution of fitness evaluation.

@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
-using Commons.Optimization.Fitness;
+using Commons.Optimization.Evaluator;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Reinsertions;
@@ -64,7 +64,7 @@ namespace GeneticSharp.Domain
                           ISelection selection,
                           ICrossover crossover,
                           IMutation mutation)
-        {
+        {   
             ExceptionHelper.ThrowIfNull("population", population);
             ExceptionHelper.ThrowIfNull("fitness", fitness);
             ExceptionHelper.ThrowIfNull("selection", selection);
@@ -89,22 +89,6 @@ namespace GeneticSharp.Domain
         #endregion
 
         #region Events
-        /// <summary>
-        /// Occurs when generation ran.
-        /// </summary>
-        public event EventHandler GenerationRan;
-
-        /// <summary>
-        /// Occurs when termination reached.
-        /// </summary>
-        public event EventHandler TerminationReached;
-
-        /// <summary>
-        /// Occurs when stopped.
-        /// </summary>
-        public event EventHandler Stopped;
-
-
         public Action OnGenerationRan { get; set; }
         public Action OnTerminationReached { get; set; }
         public Action OnStopped { get; set; }
