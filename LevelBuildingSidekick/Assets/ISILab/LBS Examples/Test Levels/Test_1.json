@@ -6,10 +6,10 @@
   "z": 0,
   "representations": [
     {
-      "$type": "LevelBuildingSidekick.Graph.LBSGraphData, Assembly-CSharp",
+      "$type": "LBS.Graph.LBSGraphData, Assembly-CSharp",
       "nodes": [
         {
-          "$type": "LevelBuildingSidekick.Schema.RoomCharacteristicsData, Assembly-CSharp",
+          "$type": "LBS.Schema.RoomCharacteristicsData, Assembly-CSharp",
           "rangeWidth": {
             "min": 8,
             "max": 8
@@ -23,6 +23,7 @@
             "heigth": 1
           },
           "proportionType": 1,
+          "bundlesNames": [],
           "tags": [],
           "radius": 32,
           "x": 503,
@@ -30,7 +31,7 @@
           "label": "Node: 0"
         },
         {
-          "$type": "LevelBuildingSidekick.Schema.RoomCharacteristicsData, Assembly-CSharp",
+          "$type": "LBS.Schema.RoomCharacteristicsData, Assembly-CSharp",
           "rangeWidth": {
             "min": 2,
             "max": 2
@@ -44,14 +45,15 @@
             "heigth": 1
           },
           "proportionType": 0,
+          "bundlesNames": [],
           "tags": [],
           "radius": 32,
-          "x": 623,
+          "x": 624,
           "y": -128,
           "label": "Node: 1"
         },
         {
-          "$type": "LevelBuildingSidekick.Schema.RoomCharacteristicsData, Assembly-CSharp",
+          "$type": "LBS.Schema.RoomCharacteristicsData, Assembly-CSharp",
           "rangeWidth": {
             "min": 6,
             "max": 6
@@ -64,15 +66,16 @@
             "width": 1,
             "heigth": 1
           },
-          "proportionType": 0,
+          "proportionType": 1,
+          "bundlesNames": [],
           "tags": [],
           "radius": 32,
           "x": 503,
-          "y": -4,
+          "y": -3,
           "label": "Node: 2"
         },
         {
-          "$type": "LevelBuildingSidekick.Schema.RoomCharacteristicsData, Assembly-CSharp",
+          "$type": "LBS.Schema.RoomCharacteristicsData, Assembly-CSharp",
           "rangeWidth": {
             "min": 2,
             "max": 2
@@ -85,7 +88,8 @@
             "width": 1,
             "heigth": 1
           },
-          "proportionType": 0,
+          "proportionType": 1,
+          "bundlesNames": [],
           "tags": [],
           "radius": 32,
           "x": 380,
@@ -93,7 +97,7 @@
           "label": "Node: 3"
         },
         {
-          "$type": "LevelBuildingSidekick.Schema.RoomCharacteristicsData, Assembly-CSharp",
+          "$type": "LBS.Schema.RoomCharacteristicsData, Assembly-CSharp",
           "rangeWidth": {
             "min": 4,
             "max": 4
@@ -106,7 +110,8 @@
             "width": 1,
             "heigth": 1
           },
-          "proportionType": 0,
+          "proportionType": 1,
+          "bundlesNames": [],
           "tags": [],
           "radius": 32,
           "x": 503,
@@ -137,18 +142,643 @@
       "$type": "LBS.Representation.TileMap.LBSTileMapData, Assembly-CSharp",
       "rooms": [
         {
-          "id": "Node: 0",
+          "id": "Node: 4",
           "tiles": [
+            {
+              "x": -2,
+              "y": -2,
+              "magnitude": 2.828427,
+              "sqrMagnitude": 8
+            },
+            {
+              "x": -2,
+              "y": -1,
+              "magnitude": 2.236068,
+              "sqrMagnitude": 5
+            },
+            {
+              "x": -2,
+              "y": 0,
+              "magnitude": 2.0,
+              "sqrMagnitude": 4
+            },
+            {
+              "x": -2,
+              "y": 1,
+              "magnitude": 2.236068,
+              "sqrMagnitude": 5
+            },
+            {
+              "x": -1,
+              "y": -2,
+              "magnitude": 2.236068,
+              "sqrMagnitude": 5
+            },
+            {
+              "x": -1,
+              "y": -1,
+              "magnitude": 1.41421354,
+              "sqrMagnitude": 2
+            },
+            {
+              "x": -1,
+              "y": 0,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1
+            },
+            {
+              "x": -1,
+              "y": 1,
+              "magnitude": 1.41421354,
+              "sqrMagnitude": 2
+            },
+            {
+              "x": 0,
+              "y": -2,
+              "magnitude": 2.0,
+              "sqrMagnitude": 4
+            },
+            {
+              "x": 0,
+              "y": -1,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1
+            },
             {
               "x": 0,
               "y": 0,
               "magnitude": 0.0,
               "sqrMagnitude": 0
+            },
+            {
+              "x": 0,
+              "y": 1,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1
+            },
+            {
+              "x": 1,
+              "y": -2,
+              "magnitude": 2.236068,
+              "sqrMagnitude": 5
+            },
+            {
+              "x": 1,
+              "y": -1,
+              "magnitude": 1.41421354,
+              "sqrMagnitude": 2
+            },
+            {
+              "x": 1,
+              "y": 0,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1
+            },
+            {
+              "x": 1,
+              "y": 1,
+              "magnitude": 1.41421354,
+              "sqrMagnitude": 2
+            },
+            {
+              "x": -3,
+              "y": -2,
+              "magnitude": 3.60555124,
+              "sqrMagnitude": 13
+            },
+            {
+              "x": -3,
+              "y": -1,
+              "magnitude": 3.1622777,
+              "sqrMagnitude": 10
+            },
+            {
+              "x": -3,
+              "y": 0,
+              "magnitude": 3.0,
+              "sqrMagnitude": 9
+            },
+            {
+              "x": -3,
+              "y": 1,
+              "magnitude": 3.1622777,
+              "sqrMagnitude": 10
+            },
+            {
+              "x": 2,
+              "y": -2,
+              "magnitude": 2.828427,
+              "sqrMagnitude": 8
+            },
+            {
+              "x": 2,
+              "y": -1,
+              "magnitude": 2.236068,
+              "sqrMagnitude": 5
+            },
+            {
+              "x": 2,
+              "y": 0,
+              "magnitude": 2.0,
+              "sqrMagnitude": 4
+            },
+            {
+              "x": 2,
+              "y": 1,
+              "magnitude": 2.236068,
+              "sqrMagnitude": 5
+            },
+            {
+              "x": -3,
+              "y": 2,
+              "magnitude": 3.60555124,
+              "sqrMagnitude": 13
+            },
+            {
+              "x": -2,
+              "y": 2,
+              "magnitude": 2.828427,
+              "sqrMagnitude": 8
+            },
+            {
+              "x": -1,
+              "y": 2,
+              "magnitude": 2.236068,
+              "sqrMagnitude": 5
+            },
+            {
+              "x": 0,
+              "y": 2,
+              "magnitude": 2.0,
+              "sqrMagnitude": 4
+            },
+            {
+              "x": 1,
+              "y": 2,
+              "magnitude": 2.236068,
+              "sqrMagnitude": 5
+            },
+            {
+              "x": 2,
+              "y": 2,
+              "magnitude": 2.828427,
+              "sqrMagnitude": 8
+            },
+            {
+              "x": -3,
+              "y": -3,
+              "magnitude": 4.2426405,
+              "sqrMagnitude": 18
+            },
+            {
+              "x": -2,
+              "y": -3,
+              "magnitude": 3.60555124,
+              "sqrMagnitude": 13
+            },
+            {
+              "x": -1,
+              "y": -3,
+              "magnitude": 3.1622777,
+              "sqrMagnitude": 10
+            },
+            {
+              "x": 0,
+              "y": -3,
+              "magnitude": 3.0,
+              "sqrMagnitude": 9
+            },
+            {
+              "x": 1,
+              "y": -3,
+              "magnitude": 3.1622777,
+              "sqrMagnitude": 10
+            },
+            {
+              "x": 2,
+              "y": -3,
+              "magnitude": 3.60555124,
+              "sqrMagnitude": 13
+            },
+            {
+              "x": -3,
+              "y": 3,
+              "magnitude": 4.2426405,
+              "sqrMagnitude": 18
+            },
+            {
+              "x": -2,
+              "y": 3,
+              "magnitude": 3.60555124,
+              "sqrMagnitude": 13
+            },
+            {
+              "x": -1,
+              "y": 3,
+              "magnitude": 3.1622777,
+              "sqrMagnitude": 10
+            },
+            {
+              "x": 0,
+              "y": 3,
+              "magnitude": 3.0,
+              "sqrMagnitude": 9
+            },
+            {
+              "x": 1,
+              "y": 3,
+              "magnitude": 3.1622777,
+              "sqrMagnitude": 10
+            },
+            {
+              "x": 2,
+              "y": 3,
+              "magnitude": 3.60555124,
+              "sqrMagnitude": 13
+            },
+            {
+              "x": -4,
+              "y": -3,
+              "magnitude": 5.0,
+              "sqrMagnitude": 25
+            },
+            {
+              "x": -4,
+              "y": -2,
+              "magnitude": 4.472136,
+              "sqrMagnitude": 20
+            },
+            {
+              "x": -4,
+              "y": -1,
+              "magnitude": 4.12310553,
+              "sqrMagnitude": 17
+            },
+            {
+              "x": -4,
+              "y": 0,
+              "magnitude": 4.0,
+              "sqrMagnitude": 16
+            },
+            {
+              "x": -4,
+              "y": 1,
+              "magnitude": 4.12310553,
+              "sqrMagnitude": 17
+            },
+            {
+              "x": -4,
+              "y": 2,
+              "magnitude": 4.472136,
+              "sqrMagnitude": 20
+            },
+            {
+              "x": -4,
+              "y": 3,
+              "magnitude": 5.0,
+              "sqrMagnitude": 25
             }
           ],
-          "color": "8C0BA1"
+          "color": "D7F019"
+        },
+        {
+          "id": "Node: 0",
+          "tiles": [
+            {
+              "x": -1,
+              "y": -4,
+              "magnitude": 4.12310553,
+              "sqrMagnitude": 17
+            },
+            {
+              "x": 0,
+              "y": -4,
+              "magnitude": 4.0,
+              "sqrMagnitude": 16
+            },
+            {
+              "x": 1,
+              "y": -4,
+              "magnitude": 4.12310553,
+              "sqrMagnitude": 17
+            },
+            {
+              "x": 2,
+              "y": -4,
+              "magnitude": 4.472136,
+              "sqrMagnitude": 20
+            },
+            {
+              "x": 3,
+              "y": -4,
+              "magnitude": 5.0,
+              "sqrMagnitude": 25
+            },
+            {
+              "x": -1,
+              "y": -5,
+              "magnitude": 5.09901953,
+              "sqrMagnitude": 26
+            },
+            {
+              "x": 0,
+              "y": -5,
+              "magnitude": 5.0,
+              "sqrMagnitude": 25
+            },
+            {
+              "x": 1,
+              "y": -5,
+              "magnitude": 5.09901953,
+              "sqrMagnitude": 26
+            },
+            {
+              "x": 2,
+              "y": -5,
+              "magnitude": 5.38516474,
+              "sqrMagnitude": 29
+            },
+            {
+              "x": 3,
+              "y": -5,
+              "magnitude": 5.83095169,
+              "sqrMagnitude": 34
+            },
+            {
+              "x": -2,
+              "y": -5,
+              "magnitude": 5.38516474,
+              "sqrMagnitude": 29
+            },
+            {
+              "x": -2,
+              "y": -4,
+              "magnitude": 4.472136,
+              "sqrMagnitude": 20
+            },
+            {
+              "x": 4,
+              "y": -5,
+              "magnitude": 6.40312433,
+              "sqrMagnitude": 41
+            },
+            {
+              "x": 4,
+              "y": -4,
+              "magnitude": 5.656854,
+              "sqrMagnitude": 32
+            },
+            {
+              "x": -2,
+              "y": -6,
+              "magnitude": 6.3245554,
+              "sqrMagnitude": 40
+            },
+            {
+              "x": -1,
+              "y": -6,
+              "magnitude": 6.08276272,
+              "sqrMagnitude": 37
+            },
+            {
+              "x": 0,
+              "y": -6,
+              "magnitude": 6.0,
+              "sqrMagnitude": 36
+            },
+            {
+              "x": 1,
+              "y": -6,
+              "magnitude": 6.08276272,
+              "sqrMagnitude": 37
+            },
+            {
+              "x": 2,
+              "y": -6,
+              "magnitude": 6.3245554,
+              "sqrMagnitude": 40
+            },
+            {
+              "x": 3,
+              "y": -6,
+              "magnitude": 6.708204,
+              "sqrMagnitude": 45
+            },
+            {
+              "x": 4,
+              "y": -6,
+              "magnitude": 7.21110249,
+              "sqrMagnitude": 52
+            },
+            {
+              "x": -3,
+              "y": -6,
+              "magnitude": 6.708204,
+              "sqrMagnitude": 45
+            },
+            {
+              "x": -3,
+              "y": -5,
+              "magnitude": 5.83095169,
+              "sqrMagnitude": 34
+            },
+            {
+              "x": -3,
+              "y": -4,
+              "magnitude": 5.0,
+              "sqrMagnitude": 25
+            },
+            {
+              "x": -4,
+              "y": -6,
+              "magnitude": 7.21110249,
+              "sqrMagnitude": 52
+            },
+            {
+              "x": -4,
+              "y": -5,
+              "magnitude": 6.40312433,
+              "sqrMagnitude": 41
+            },
+            {
+              "x": -4,
+              "y": -4,
+              "magnitude": 5.656854,
+              "sqrMagnitude": 32
+            },
+            {
+              "x": -5,
+              "y": -6,
+              "magnitude": 7.81025,
+              "sqrMagnitude": 61
+            },
+            {
+              "x": -5,
+              "y": -5,
+              "magnitude": 7.071068,
+              "sqrMagnitude": 50
+            },
+            {
+              "x": -5,
+              "y": -4,
+              "magnitude": 6.40312433,
+              "sqrMagnitude": 41
+            }
+          ],
+          "color": "723E5F"
+        },
+        {
+          "id": "Node: 3",
+          "tiles": [
+            {
+              "x": -5,
+              "y": 2,
+              "magnitude": 5.38516474,
+              "sqrMagnitude": 29
+            },
+            {
+              "x": -5,
+              "y": 4,
+              "magnitude": 6.40312433,
+              "sqrMagnitude": 41
+            },
+            {
+              "x": -5,
+              "y": 5,
+              "magnitude": 7.071068,
+              "sqrMagnitude": 50
+            },
+            {
+              "x": -5,
+              "y": 3,
+              "magnitude": 5.83095169,
+              "sqrMagnitude": 34
+            },
+            {
+              "x": -6,
+              "y": 2,
+              "magnitude": 6.3245554,
+              "sqrMagnitude": 40
+            },
+            {
+              "x": -6,
+              "y": 3,
+              "magnitude": 6.708204,
+              "sqrMagnitude": 45
+            },
+            {
+              "x": -6,
+              "y": 4,
+              "magnitude": 7.21110249,
+              "sqrMagnitude": 52
+            },
+            {
+              "x": -6,
+              "y": 5,
+              "magnitude": 7.81025,
+              "sqrMagnitude": 61
+            }
+          ],
+          "color": "0B57B8"
+        },
+        {
+          "id": "Node: 1",
+          "tiles": [
+            {
+              "x": 3,
+              "y": -1,
+              "magnitude": 3.1622777,
+              "sqrMagnitude": 10
+            },
+            {
+              "x": 3,
+              "y": 0,
+              "magnitude": 3.0,
+              "sqrMagnitude": 9
+            },
+            {
+              "x": 4,
+              "y": -1,
+              "magnitude": 4.12310553,
+              "sqrMagnitude": 17
+            },
+            {
+              "x": 4,
+              "y": 0,
+              "magnitude": 4.0,
+              "sqrMagnitude": 16
+            }
+          ],
+          "color": "4A6EB3"
+        },
+        {
+          "id": "Node: 2",
+          "tiles": [
+            {
+              "x": -2,
+              "y": 4,
+              "magnitude": 4.472136,
+              "sqrMagnitude": 20
+            },
+            {
+              "x": -1,
+              "y": 4,
+              "magnitude": 4.12310553,
+              "sqrMagnitude": 17
+            },
+            {
+              "x": 0,
+              "y": 4,
+              "magnitude": 4.0,
+              "sqrMagnitude": 16
+            },
+            {
+              "x": 1,
+              "y": 4,
+              "magnitude": 4.12310553,
+              "sqrMagnitude": 17
+            },
+            {
+              "x": -3,
+              "y": 5,
+              "magnitude": 5.83095169,
+              "sqrMagnitude": 34
+            },
+            {
+              "x": -2,
+              "y": 5,
+              "magnitude": 5.38516474,
+              "sqrMagnitude": 29
+            },
+            {
+              "x": -1,
+              "y": 5,
+              "magnitude": 5.09901953,
+              "sqrMagnitude": 26
+            },
+            {
+              "x": 0,
+              "y": 5,
+              "magnitude": 5.0,
+              "sqrMagnitude": 25
+            },
+            {
+              "x": 1,
+              "y": 5,
+              "magnitude": 5.09901953,
+              "sqrMagnitude": 26
+            },
+            {
+              "x": -3,
+              "y": 4,
+              "magnitude": 5.0,
+              "sqrMagnitude": 25
+            }
+          ],
+          "color": "80D4E4"
         }
-      ]
+      ],
+      "doors": []
     }
   ]
 }

@@ -16,7 +16,7 @@ namespace LBS.Representation.TileMap
         [SerializeField, JsonRequired]
         private string id; // laber or ID
         [SerializeField, JsonRequired]
-        private List<Vector2Int> tiles = new List<Vector2Int>();
+        private List<TileData> tiles = new List<TileData>();
         [SerializeField, JsonRequired]
         private string color;
 
@@ -40,8 +40,10 @@ namespace LBS.Representation.TileMap
             }
             set => color = Parse.ColorTosStr(value);
         }
+
         [JsonIgnore]
-        public List<Vector2Int> Tiles => new List<Vector2Int>(tiles);
+        public List<TileData> Tiles => new List<TileData>(tiles);
+
         [JsonIgnore]
         public int TilesCount => tiles.Count;
 
@@ -50,7 +52,7 @@ namespace LBS.Representation.TileMap
         /// </summary>
         public RoomData() { }
 
-        internal RoomData(List<Vector2Int> tiles, string id)
+        internal RoomData(List<TileData> tiles, string id)
         {
             this.id = id;
             this.tiles = tiles;
@@ -59,10 +61,11 @@ namespace LBS.Representation.TileMap
 
         public object Clone()
         {
-            var tiles = new List<Vector2Int>();
+            var tiles = new List<TileData>();
             foreach (var t in this.tiles)
             {
-                tiles.Add(new Vector2Int(t.x, t.y));
+                var pos = t.GetPosition();
+                tiles.Add(new TileData(pos.x, pos.y));
             }
             var clone = new RoomData(tiles, this.id);
             return clone;
@@ -72,7 +75,7 @@ namespace LBS.Representation.TileMap
         /// Add the tile delivered by parameters, if have it does nothing.
         /// </summary>
         /// <param name="tile"></param>
-        internal void AddTile(Vector2Int tile)
+        internal void AddTile(TileData tile)
         {
             if (!tiles.Contains(tile))
             {
@@ -84,7 +87,7 @@ namespace LBS.Representation.TileMap
         /// Remove tile delivered by parameters, if dont have it does nothing.
         /// </summary>
         /// <param name="tile"></param>
-        internal void RemoveTile(Vector2Int tile)
+        internal void RemoveTile(TileData tile)
         {
             if (tiles.Contains(tile))
             {
@@ -94,6 +97,7 @@ namespace LBS.Representation.TileMap
 
         internal RectInt GetRect()
         {
+
             if (/*!dirty &&*/ rect != null)
                 return (RectInt)rect;
 
@@ -101,15 +105,16 @@ namespace LBS.Representation.TileMap
             Vector2Int min = new Vector2Int(int.MaxValue, int.MaxValue);
             foreach (var t in tiles)
             {
-                if (t.x > max.x)
-                    max.x = t.x;
-                if (t.y > max.y)
-                    max.y = t.y;
+                var pos = t.GetPosition();
+                if (pos.x > max.x)
+                    max.x = pos.x;
+                if (pos.y > max.y)
+                    max.y = pos.y;
 
-                if (t.x < min.x)
-                    min.x = t.x;
-                if (t.y < min.y)
-                    min.y = t.y;
+                if (pos.x < min.x)
+                    min.x = pos.x;
+                if (pos.y < min.y)
+                    min.y = pos.y;
             }
             rect = new RectInt(min, max - min + new Vector2Int(1, 1));
             return (RectInt)rect;
@@ -149,22 +154,22 @@ namespace LBS.Representation.TileMap
 
             Vector2Int center = new Vector2Int(0, 0);
             foreach (var t in tiles)
-                center += t;
+                center += t.GetPosition();
 
             centroid = center / tiles.Count;
             return centroid;
         }
 
-        internal List<Vector2Int> GetConvexCorners()
+        internal List<TileData> GetConvexCorners()
         {
-            var corners = new List<Vector2Int>();
+            var corners = new List<TileData>();
             foreach (var current in tiles)
             {
                 var s = 0;
                 for (int i = 0; i < Directions.sidedirs.Length; i++)
                 {
-                    var neighbor = current + Directions.sidedirs[i];
-                    if (!tiles.Contains(neighbor))
+                    var neighbor = current.GetPosition() + Directions.sidedirs[i];
+                    if (!tiles.Contains(new TileData(neighbor))) // (!!!) podria no conicidir nunca
                     {
                         s += Mathf.RoundToInt(Mathf.Pow(2, i));
                     }
@@ -179,16 +184,17 @@ namespace LBS.Representation.TileMap
             return corners;
         }
 
-        internal List<Vector2Int> GetConcaveCorners()
+        internal List<TileData> GetConcaveCorners()
         {
-            var corners = new List<Vector2Int>();
+            var corners = new List<TileData>();
             foreach (var current in tiles)
             {
                 var s = 0;
+                var pos = current.GetPosition();
                 for (int i = 0; i < Directions.sidedirs.Length; i++)
                 {
-                    var neighbor = current + Directions.sidedirs[i];
-                    if (!tiles.Contains(neighbor))
+                    var neighbor = pos + Directions.sidedirs[i];
+                    if (!tiles.Contains(new TileData(neighbor))) // (!!!) podria no conicidir nunca
                     {
                         s += Mathf.RoundToInt(Mathf.Pow(2, i));
                     }
@@ -199,16 +205,22 @@ namespace LBS.Representation.TileMap
 
                 for (int i = 0; i < Directions.diagdirs.Length; i++)
                 {
-                    var neighbor = current + Directions.diagdirs[i];
-                    if (!tiles.Contains(neighbor))
+                    var neighbor = pos  + Directions.diagdirs[i];
+                    if (!tiles.Contains(new TileData(neighbor))) // (!!!) podria no conicidir nunca
                     {
-                        var other1 = new Vector2Int(current.x + Directions.diagdirs[i].x, current.y);
-                        if (!corners.Contains(other1))
-                            corners.Add(other1);
+                        var other1 = new Vector2Int(pos.x + Directions.diagdirs[i].x, pos.y);
+                        if (!corners.Contains(new TileData(other1)))
+                        {
+                            var c = tiles.Find(t => t.GetPosition().Equals(other1));
+                            corners.Add(c);  // (!!!) podria no conicidir nunca
+                        }
 
-                        var other2 = new Vector2Int(current.x, current.y + Directions.diagdirs[i].y);
-                        if (!corners.Contains(other2))
-                            corners.Add(other2);
+                        var other2 = new Vector2Int(pos.x, pos.y + Directions.diagdirs[i].y);
+                        if (!corners.Contains(new TileData(other2)))
+                        {
+                            var c = tiles.Find(t => t.GetPosition().Equals(other2));
+                            corners.Add(c); // (!!!) podria no conicidir nunca
+                        }
                     }
                 }
 
@@ -226,17 +238,17 @@ namespace LBS.Representation.TileMap
 
             foreach (var current in convexCorners)
             {
-                Vector2Int? other = null;
+                TileData other = null;
                 int lessDist = int.MaxValue;
                 foreach (var candidate in allCorners)
                 {
                     if (current == candidate)
                         continue;
-
-                    if (current.x - candidate.x != 0)
+                    var pos = current.GetPosition();
+                    if (pos.x - candidate.GetPosition().x != 0)
                         continue;
 
-                    var dist = Mathf.Abs(current.y - candidate.y);
+                    var dist = Mathf.Abs(pos.y - candidate.GetPosition().y);
                     if (dist < lessDist)
                     {
                         lessDist = dist;
@@ -247,19 +259,19 @@ namespace LBS.Representation.TileMap
                 if (other == null)
                     other = current;
 
-                if (walls.Any(w => (w.firstCorner == other) && (w.secondCorner == current)))
+                if (walls.Any(w => (w.firstCorner == other.GetPosition()) && (w.secondCorner == current.GetPosition())))
                     continue;
 
                 var wallTiles = new List<Vector2Int>();
-                var end = Mathf.Max(current.y, (int)other?.y);
-                var start = Mathf.Min(current.y, (int)other?.y);
+                var end = Mathf.Max(current.GetPosition().y, (int)other.GetPosition().y);
+                var start = Mathf.Min(current.GetPosition().y, (int)other.GetPosition().y);
                 for (int i = 0; i <= end- start; i++)
                 {
-                    wallTiles.Add(new Vector2Int(current.x, start + i));
+                    wallTiles.Add(new Vector2Int(current.GetPosition().x, start + i));
                 }
-                var dir = (current.x >= GetCentroid().x) ? Vector2Int.right : Vector2Int.left;
+                var dir = (current.GetPosition().x >= GetCentroid().x) ? Vector2Int.right : Vector2Int.left;
 
-                var wall = new WallData(current, (Vector2Int)other, this.id, dir, wallTiles);
+                var wall = new WallData(current.GetPosition(),other.GetPosition(), this.id, dir, wallTiles);
                 walls.Add(wall);
             }
             return walls;
@@ -275,17 +287,18 @@ namespace LBS.Representation.TileMap
 
             foreach (var current in convexCorners)
             {
-                Vector2Int? other = null;
+                TileData other = null;
                 int lessDist = int.MaxValue;
                 foreach (var candidate in allCorners)
                 {
                     if (current == candidate)
                         continue;
 
-                    if (current.y - candidate.y != 0)
+                    var pos = current.GetPosition();
+                    if (pos.y - candidate.GetPosition().y != 0)
                         continue;
 
-                    var dist = Mathf.Abs(current.x - candidate.x);
+                    var dist = Mathf.Abs(pos.x - candidate.GetPosition().x);
                     if (dist < lessDist)
                     {
                         lessDist = dist;
@@ -296,18 +309,19 @@ namespace LBS.Representation.TileMap
                 if (other == null)
                     other = current;
 
-                if (walls.Any(w => (w.firstCorner == other) && (w.secondCorner == current)))
+                if (walls.Any(w => (w.firstCorner == other.GetPosition()) && (w.secondCorner == current.GetPosition())))
                     continue;
 
                 var wallTiles = new List<Vector2Int>();
-                var end = Mathf.Max(current.x, (int)other?.x);
-                var start = Mathf.Min(current.x, (int)other?.x);
+                var end = Mathf.Max(current.GetPosition().x, (int)other.GetPosition().x);
+                var start = Mathf.Min(current.GetPosition().x, (int)other.GetPosition().x);
                 for (int i = 0; i <= end - start; i++)
                 {
-                    wallTiles.Add(new Vector2Int(start + i, current.y));
+                    wallTiles.Add(new Vector2Int(start + i, current.GetPosition().y));
                 }
-                var dir = (current.y >= GetCentroid().y) ? Vector2Int.up : Vector2Int.down;
-                walls.Add(new WallData(current, (Vector2Int)other, this.id, dir, wallTiles));
+                var dir = (current.GetPosition().y >= GetCentroid().y) ? Vector2Int.up : Vector2Int.down;
+                var wall = new WallData(current.GetPosition(), other.GetPosition(), this.id, dir, wallTiles);
+                walls.Add(wall);
             }
             return walls;
         }

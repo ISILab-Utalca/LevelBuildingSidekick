@@ -32,7 +32,10 @@ public class DoorView : VisualElement
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("Door");
         visualTree.CloneTree(this);
 
-        
+        Left = this.Q<VisualElement>(name: "Left");
+        Right = this.Q<VisualElement>(name: "Right");
+        Top = this.Q<VisualElement>(name: "Top");
+        Botton = this.Q<VisualElement>(name: "Botton");
     }
 
 

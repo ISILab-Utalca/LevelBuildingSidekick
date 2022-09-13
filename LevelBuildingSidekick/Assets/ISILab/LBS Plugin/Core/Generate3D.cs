@@ -34,7 +34,7 @@ public static class Generate3D
             {
                 var pivot = new GameObject();
                 pivot.transform.SetParent(mainPivot.transform);
-                pivot.transform.position = new Vector3(tile.x, 0, tile.y); // (* vector de tamaño de tile en mundo) (!)
+                pivot.transform.position = new Vector3(tile.GetPosition().x, 0, tile.GetPosition().y); // (* vector de tamaño de tile en mundo) (!)
 
 
                 foreach (var cat in bundle.GetCategories())

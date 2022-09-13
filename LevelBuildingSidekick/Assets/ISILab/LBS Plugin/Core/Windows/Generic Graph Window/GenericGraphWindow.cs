@@ -17,7 +17,6 @@ using Utility;
 
 namespace LBS.Windows
 {
-
     public abstract class GenericGraphWindow : EditorWindow, ISupportsOverlays
     {
         protected List<Tuple<string, Action>> actions = new List<Tuple<string, Action>>();

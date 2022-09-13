@@ -179,8 +179,8 @@ namespace LBS.Representation.TileMap
             {
                 for (int j = 0; j < ts2.Count; j++)
                 {
-                    var t1 = ts1[i];
-                    var t2 = ts2[j];
+                    var t1 = ts1[i].GetPosition();
+                    var t2 = ts2[j].GetPosition();
 
                     var dist = Mathf.Abs(t1.x - t2.x) + Mathf.Abs(t1.y - t2.y); // manhattan
 
@@ -207,8 +207,8 @@ namespace LBS.Representation.TileMap
                 foreach (var wall in walls)
                 {
                     var neighbor = tileMap.Clone() as LBSTileMapData;
-                    var tiles = new List<Vector2Int>();
-                    wall.allTiles.ForEach(t => tiles.Add(t + wall.dir));
+                    var tiles = new List<TileData>();
+                    wall.allTiles.ForEach(t => tiles.Add(new TileData( t + wall.dir)));
                     neighbor.SetTiles(tiles, room.ID);
                     neightbours.Add(neighbor);
                 }
