@@ -3,6 +3,8 @@ using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
 using System.Linq;
 using GeneticSharp.Infrastructure.Framework.Texts;
+using UnityEngine;
+using System;
 
 namespace GeneticSharp.Domain.Mutations
 {
@@ -19,7 +21,7 @@ namespace GeneticSharp.Domain.Mutations
         /// <param name="probability">The probability to mutate each chromosome.</param>
         protected override void PerformMutate(IEvaluable evaluable, float probability)
         {
-            var sequence = evaluable.GetData<object[]>();
+            var sequence = evaluable.GetDataSquence<object>();
 
             ValidateLength(sequence);
 
@@ -30,9 +32,11 @@ namespace GeneticSharp.Domain.Mutations
                 var secondIndex = indexes[1];
                 var sequenceLength = (secondIndex - firstIndex) + 1;
 
-                var mutatedSequence = MutateOnSequence(sequence.Skip(firstIndex).Take(sequenceLength).ToArray());
+                var m = MutateOnSequence(sequence.Skip(firstIndex).Take(sequenceLength).ToArray());
+
+                Array.Copy(m, 0, sequence, firstIndex, sequenceLength);
                 
-                evaluable.SetData(mutatedSequence);
+                evaluable.SetDataSequence(sequence);
             }
         }
 

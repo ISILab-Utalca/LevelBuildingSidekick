@@ -31,7 +31,7 @@ namespace GeneticSharp.Domain.Mutations
         /// <param name="probability">The probability to mutate each chromosome.</param>
         protected override void PerformMutate(IEvaluable evaluable, float probability)
         {
-            var data = evaluable.GetData<object[]>();
+            var data = evaluable.GetDataSquence<object>();
             if (RandomizationProvider.Current.GetDouble() <= probability)
             {
                 var indexes = RandomizationProvider.Current.GetUniqueInts(2, 0, data.Length);
@@ -43,7 +43,7 @@ namespace GeneticSharp.Domain.Mutations
                 data[firstIndex] = secondGene;
                 data[secondIndex] = firstGene;
 
-                evaluable.SetData(data);
+                evaluable.SetDataSequence(data);
             }
         }
         #endregion

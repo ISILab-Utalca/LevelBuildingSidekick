@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 using GeneticSharp.Domain.Randomizations;
+using UnityEngine;
 
 namespace GeneticSharp.Domain.Mutations
 {
@@ -39,11 +40,13 @@ namespace GeneticSharp.Domain.Mutations
 
             if (RandomizationProvider.Current.GetDouble() <= 0.5)
             {
-                return sequence.AsEnumerable().LeftShift(geneToShift).ToArray();
+                var s = sequence.AsEnumerable().LeftShift(geneToShift).ToArray();
+                return s;
             }
             else
             {
-                return sequence.AsEnumerable().RightShift(geneToShift).ToArray();
+                var s = sequence.AsEnumerable().RightShift(geneToShift).ToArray();
+                return s;
             }
         }
 

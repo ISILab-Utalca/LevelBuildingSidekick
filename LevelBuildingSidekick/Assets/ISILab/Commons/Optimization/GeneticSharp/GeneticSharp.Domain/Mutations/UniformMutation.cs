@@ -60,7 +60,7 @@ namespace GeneticSharp.Domain.Mutations
         {
             ExceptionHelper.ThrowIfNull("chromosome", evaluable);
 
-            var data = evaluable.GetData<object[]>();
+            var data = evaluable.GetDataSquence<object>();
 
             var genesLength = data.Length;
 
@@ -90,7 +90,7 @@ namespace GeneticSharp.Domain.Mutations
                     data[geneIndex] = evaluable.GetSampleData<object>();
                 }
             }
-            evaluable.SetData(data);
+            evaluable.SetDataSequence(data);
         }
         #endregion
     }
