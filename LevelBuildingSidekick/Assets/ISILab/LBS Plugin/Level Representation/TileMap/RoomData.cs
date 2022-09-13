@@ -245,10 +245,10 @@ namespace LBS.Representation.TileMap
                     if (current == candidate)
                         continue;
                     var pos = current.GetPosition();
-                    if (pos.x - pos.x != 0)
+                    if (pos.x - candidate.GetPosition().x != 0)
                         continue;
 
-                    var dist = Mathf.Abs(pos.y - pos.y);
+                    var dist = Mathf.Abs(pos.y - candidate.GetPosition().y);
                     if (dist < lessDist)
                     {
                         lessDist = dist;
@@ -320,7 +320,8 @@ namespace LBS.Representation.TileMap
                     wallTiles.Add(new Vector2Int(start + i, current.GetPosition().y));
                 }
                 var dir = (current.GetPosition().y >= GetCentroid().y) ? Vector2Int.up : Vector2Int.down;
-                walls.Add(new WallData(current.GetPosition(),other.GetPosition(), this.id, dir, wallTiles));
+                var wall = new WallData(current.GetPosition(), other.GetPosition(), this.id, dir, wallTiles);
+                walls.Add(wall);
             }
             return walls;
         }
