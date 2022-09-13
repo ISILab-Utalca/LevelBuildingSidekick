@@ -11,7 +11,7 @@ using LBS.ElementView;
 using LBS;
 
 
-
+[Obsolete]
 public class TileGridView : LBSGraphView
 {
     /*
