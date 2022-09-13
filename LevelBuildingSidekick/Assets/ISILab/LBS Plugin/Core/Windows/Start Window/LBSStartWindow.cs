@@ -38,8 +38,8 @@ namespace LBS.Windows
         Button openLoadLvlBtn;
         #endregion
 
-        private static List<Tuple<LBSWindowAttribute, MethodInfo>> methods;
-        private static List<WindowsPreset> presets;
+        private static List<Tuple<LBSWindowAttribute, MethodInfo>> methods = new List<Tuple<LBSWindowAttribute, MethodInfo>>();
+        private static List<WindowsPreset> presets = new List<WindowsPreset>();
 
         [MenuItem("ISILab/LBS plugin/Welcome window...", priority = 0)]
         public static void ShowWindow()

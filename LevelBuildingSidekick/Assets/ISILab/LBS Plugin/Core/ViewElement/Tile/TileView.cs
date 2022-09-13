@@ -14,6 +14,12 @@ namespace LBS.ElementView
         private VisualElement border;
         private Label label;
 
+        // Doors
+        public VisualElement left;
+        public VisualElement right;
+        public VisualElement top;
+        public VisualElement bottom;
+
         public TileView()
         {
             var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("Tile");
@@ -25,11 +31,58 @@ namespace LBS.ElementView
             border = this.Q<VisualElement>("Border");
             label = this.Q<Label>();
 
+            left = this.Q<VisualElement>(name: "DoorLeft");
+            right = this.Q<VisualElement>(name: "DoorRight");
+            top = this.Q<VisualElement>(name: "DoorTop");
+            bottom = this.Q<VisualElement>(name: "DoorBottom");
+
             this.SetPadding(0);
             this.SetBorderWidth(0);
+            HideAllDoors();
 
             capabilities |= Capabilities.Selectable | Capabilities.Deletable | Capabilities.Ascendable | Capabilities.Copiable | Capabilities.Snappable | Capabilities.Groupable;
             usageHints = UsageHints.DynamicTransform;
+        }
+
+
+        public void ShowDir(Vector2Int dir)
+        {
+            var angle = Vector2.SignedAngle(Vector2.right, dir) % 360;
+            if (angle < 0)
+                angle = 360 + angle;
+
+            if (angle < 45 || angle > 315)
+            {
+                right.visible = true;
+            }
+            else if (angle > 45 && angle <= 135)
+            {
+                bottom.visible = true;
+            }
+            else if (angle > 135 && angle <= 225)
+            {
+                left.visible = true;
+            }
+            else if (angle > 225 && angle <= 315)
+            {
+                top.visible = true;
+            }
+        }
+
+        public void SetDoorColor(Color color)
+        {
+            left.style.backgroundColor = color;
+            right.style.backgroundColor = color;
+            top.style.backgroundColor = color;
+            bottom.style.backgroundColor = color;
+        }
+
+        public void HideAllDoors()
+        {
+            left.visible = false;
+            right.visible = false;
+            top.visible = false;
+            bottom.visible = false;
         }
 
         public void ShowLabel(bool value)
@@ -50,6 +103,7 @@ namespace LBS.ElementView
         public void SetColor(Color color)
         {
             this.style.backgroundColor = color;
+            SetDoorColor(color);
         }
 
         public void SetWalls(bool value,WallDirection[] dirs)

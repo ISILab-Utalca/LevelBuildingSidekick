@@ -34,8 +34,9 @@ namespace LBS.Windows
                 "Optimize",
                 () => {
                     var c = controllers.Find(c => c.GetType() == typeof(LBSTileMapController)) as LBSTileMapController;
-                    var s = c.Optimize();
-                    LBSController.CurrentLevel.data.AddRepresentation(s);
+                    var schema = c.Optimize();
+                    schema = c.RecalculateDoors(schema);
+                    LBSController.CurrentLevel.data.AddRepresentation(schema);
                     this.RefreshView();
                 }));
 

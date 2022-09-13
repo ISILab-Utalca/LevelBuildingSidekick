@@ -30,6 +30,8 @@ namespace LBS.Windows
 
         private Label label;
 
+        private bool _createGui = false; //parche
+
         public MainView MainView => mainView;
 
         //public abstract void OnCreateGUI();
@@ -40,6 +42,9 @@ namespace LBS.Windows
 
         private void OnInspectorUpdate()
         {
+            if (!_createGui)
+                return;
+
             var fileInfo = LBSController.CurrentLevel.FileInfo;
             if (fileInfo != null)
             {
@@ -62,6 +67,7 @@ namespace LBS.Windows
             InitToolBar();
 
             RefreshView();
+            _createGui = true;
         }
 
         /// <summary>

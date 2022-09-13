@@ -144,7 +144,7 @@ namespace LBS.Graph
 
         internal List<LBSEdgeData> GetEdges()
         {
-            return edges;
+            return new List<LBSEdgeData>(edges);
         }
 
         /// <summary>
