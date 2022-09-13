@@ -11,6 +11,9 @@ public class LBSStampGroupData : LBSRepesentationData
     [SerializeField, JsonRequired, SerializeReference]
     private List<StampData> stamps = new List<StampData>();
 
+    [SerializeField, JsonRequired]
+    private int subdivX = 1 , subdivY = 1;
+
     [JsonIgnore]
     public override Type ControllerType => throw new NotImplementedException();
 
