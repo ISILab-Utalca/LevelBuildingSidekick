@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Commons.Optimization.Fitness;
+using Commons.Optimization.Evaluator;
 using System.Linq;
 using System;
 

@@ -1,5 +1,5 @@
 
-namespace Commons.Optimization.Fitness
+namespace Commons.Optimization.Evaluator
 {
     /// <summary>
     /// Defines an interface for fitness function.

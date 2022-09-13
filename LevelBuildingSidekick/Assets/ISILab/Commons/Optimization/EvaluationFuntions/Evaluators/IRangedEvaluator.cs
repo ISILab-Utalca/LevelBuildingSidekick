@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Commons.Optimization.Fitness
+namespace Commons.Optimization.Evaluator
 {
     public interface IRangedEvaluator : IEvaluator
     {
