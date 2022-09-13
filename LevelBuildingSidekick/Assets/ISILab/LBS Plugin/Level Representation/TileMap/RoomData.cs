@@ -71,6 +71,16 @@ namespace LBS.Representation.TileMap
             return clone;
         }
 
+        internal bool Contains(TileData data)
+        {
+            return tiles.Find(t => t.Equals(data)) != null;
+        }
+
+        internal bool Contains(Vector2Int pos)
+        {
+            return tiles.Find(t => t.GetPosition().Equals(pos)) != null;
+        }
+
         /// <summary>
         /// Add the tile delivered by parameters, if have it does nothing.
         /// </summary>

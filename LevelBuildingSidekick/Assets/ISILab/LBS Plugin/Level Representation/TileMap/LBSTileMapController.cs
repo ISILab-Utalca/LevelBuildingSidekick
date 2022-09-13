@@ -9,12 +9,13 @@ using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using LBS.ElementView;
 using UnityEngine.UIElements;
+using Random = UnityEngine.Random;
 
 namespace LBS.Representation.TileMap
 {
     public class LBSTileMapController : LBSRepController<LBSTileMapData>
     {
-        private static readonly Vector2 tileSize = new Vector2(100, 100);
+        private static readonly Vector2 tileSize = new Vector2(100, 100); // mover a data
 
         public LBSTileMapController(GraphView view, LBSTileMapData data) : base(view, data)
         {
@@ -23,8 +24,6 @@ namespace LBS.Representation.TileMap
 
         public override void OnContextualBuid( MainView view, ContextualMenuPopulateEvent cmpe)
         {
-            cmpe.menu.AppendAction("TileMap/TEST", (dma) => { Debug.Log("test tilemap"); });
-
             cmpe.menu.AppendAction("TileMap/Optimizar", (dma) => {
                 view.DeleteElements(elements);
                 LBSController.CurrentLevel.data.AddRepresentation(Optimize());
@@ -38,21 +37,90 @@ namespace LBS.Representation.TileMap
             // es necesario mejorar la eficinecia en este paso ya que añade mucha demora.
             // Se sugiere probar con object pool o algo asi. (!!!)
             var mtx = data.GetMatrix();
+            var dt = -data.GetRect().min;
             for (int i = 0; i < mtx.GetLength(0); i++)
             {
                 for (int j = 0; j < mtx.GetLength(1); j++)
                 {
                     var roomId = mtx[i, j];
                     var roomData = data.GetRoom(roomId);
-                    if (roomData != null)
+
+                    if (roomData == null)
+                        continue;
+
+                    var pos = new Vector2Int(i, j);
+                    var tv = CreateTileView(pos, tileSize, roomData); // esta es la linea en cuestion que lagea (!!!)
+
+                    var doors = data.GetDoors();
+                    foreach (var d in doors)
                     {
-                        var tv = CreateTileView(new Vector2Int(i, j), tileSize, roomData); // esta es la linea en cuestion que lagea (!!!)
-                        elements.Add(tv);
-                        view.AddElement(tv);
+                        var pos1 = d.GetFirstPosition() + dt;
+                        var pos2 = d.GetSecondPosition() + dt;
+                        if(pos == pos1)
+                        {
+                            tv.ShowDir(pos2 - pos1);
+                        }
+                        else if(pos == pos2)
+                        {
+                            tv.ShowDir(pos1 - pos2);
+                            //tv.Add(new DoorView(pos2, pos1, roomData.Color));
+                        }
                     }
+
+                    elements.Add(tv);
+                    view.AddElement(tv);
                 }
             }
         }
+
+        internal LBSTileMapData RecalculateDoors(LBSTileMapData schema)
+        {
+            var graphData = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
+            schema.ClearDoors();
+            var edges = graphData.GetEdges();
+            foreach (var e in edges)
+            {
+                var room1 = schema.GetRoom(e.FirstNodeLabel);
+                var room2 = schema.GetRoom(e.SecondNodeLabel);
+                var tiles = GetNearestTiles(room1,room2);
+
+                var doorTiles = tiles[Random.Range(0,tiles.Count)];
+                var door = new DoorData(room1.ID, room2.ID, doorTiles.Item1.GetPosition(), doorTiles.Item2.GetPosition());
+                schema.AddDoor(door);
+            }
+            return schema;
+        }
+
+        private List<Tuple<TileData,TileData>> GetNearestTiles(RoomData r1,RoomData r2)
+        {
+            var lessDist = int.MaxValue;
+            var nearest = new List<Tuple<TileData, TileData>>();
+            var ts1 = r1.Tiles;
+            var ts2 = r2.Tiles;
+            for (int i = 0; i < ts1.Count; i++)
+            {
+                for (int j = 0; j < ts2.Count; j++)
+                {
+                    var t1 = ts1[i].GetPosition();
+                    var t2 = ts2[j].GetPosition();
+
+                    var dist = Mathf.Abs(t1.x - t2.x) + Mathf.Abs(t1.y - t2.y); // manhattan
+
+                    if (dist == lessDist)
+                    {
+                        nearest.Add(new Tuple<TileData,TileData>(ts1[i], ts2[j]));
+                    }
+                    else if(dist < lessDist)
+                    {
+                        nearest.Clear();
+                        nearest.Add(new Tuple<TileData, TileData>(ts1[i], ts2[j]));
+                        lessDist = dist;
+                    }
+                }
+            }
+            return nearest;
+        }
+
         public override string GetName()
         {
             return "Schema Layer";

@@ -51,7 +51,6 @@ namespace LBS.Representation.TileMap
         public List<RoomData> GetRooms() => new List<RoomData>(rooms);
 
 
-
         public override void Clear()
         {
             rooms.Clear();
@@ -60,6 +59,35 @@ namespace LBS.Representation.TileMap
             rect = null;
             tilevalue = null;
             //size = null;
+        }
+
+        public void AddDoor(DoorData door)
+        {
+            doors.Add(door);
+        }
+
+        internal void ClearDoors()
+        {
+            doors.Clear();
+        }
+
+        internal List<DoorData> GetDoors()
+        {
+            return new List<DoorData>(doors);
+        }
+
+        internal List<DoorData> GetDoors(string roomID) // roomID or roomLabel
+        {
+            var toReturn = new List<DoorData>();
+            var room = rooms.Find(r => r.ID.Equals(roomID));
+            if (room == null)
+            {
+                Debug.LogWarning("[error]: there is no room with that identifier.");
+                return toReturn;
+            }
+
+            toReturn = doors.Where(d => room.Contains(d.GetFirstPosition())).ToList();
+            return toReturn;
         }
 
         /// <summary>
@@ -196,7 +224,7 @@ namespace LBS.Representation.TileMap
             return matrixIDs;
         }
 
-        private RectInt GetRect()
+        internal RectInt GetRect()
         {
             if (/*!dirty &&*/ rect != null)
                 return (RectInt)rect;
@@ -221,8 +249,6 @@ namespace LBS.Representation.TileMap
             return (RectInt)rect;
         }
 
-
-
         public override void Print()
         {
             var msg = "";
@@ -246,15 +272,6 @@ namespace LBS.Representation.TileMap
                 msg += "\n";
             }
             Debug.Log(msg);
-
-            /*
-            var msg = "";
-            msg += "<b>Tile map. (step 1)</b>" + "\n";
-            msg += "Room amount: " + this.rooms.Count + "\n";
-            msg += "------------";
-            rooms.ForEach(r => msg += r.ID + ": " + r.TilesCount + "\n");
-            Debug.Log(msg);
-            */
         }
     }
 }
