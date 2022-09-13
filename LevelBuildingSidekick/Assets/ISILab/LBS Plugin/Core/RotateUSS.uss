@@ -1,0 +1,5 @@
+Icon :hover {
+    rotate: 360deg;
+    transition-duration: 3s;
+    transition-property: all;
+}

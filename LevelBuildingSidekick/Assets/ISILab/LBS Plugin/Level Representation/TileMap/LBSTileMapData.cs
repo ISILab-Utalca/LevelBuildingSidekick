@@ -19,8 +19,11 @@ namespace LBS.Representation.TileMap
     public class LBSTileMapData : LBSRepesentationData, ICloneable // cambiar de nombre a mapData o baseStructureData
     {
         // Concrete info
-        [SerializeField,JsonRequired, SerializeReference]
+        [SerializeField, JsonRequired, SerializeReference]
         private List<RoomData> rooms = new List<RoomData>();
+
+        [SerializeField, JsonRequired, SerializeReference]
+        private List<DoorData> doors = new List<DoorData>();
 
         // Meta info
         [HideInInspector, JsonIgnore] 
@@ -52,6 +55,7 @@ namespace LBS.Representation.TileMap
         public override void Clear()
         {
             rooms.Clear();
+            doors.Clear();
             matrixIDs = null;
             rect = null;
             tilevalue = null;
@@ -77,24 +81,41 @@ namespace LBS.Representation.TileMap
         /// <param name="ID"></param>
         public void AddRoom(Vector2Int firstPos, int width, int height, string ID)
         {
-            var tiles = new List<Vector2Int>();
+            var tiles = new List<TileData>();
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
                 {
-                    tiles.Add(new Vector2Int(firstPos.x + i - (width/2), firstPos.y + j - (height/2)));
+                    tiles.Add(new TileData(new Vector2Int(firstPos.x + i - (width/2), firstPos.y + j - (height/2))));
                 }
             }
             rooms.Add(new RoomData(tiles, ID));
         }
 
         
-        public void AddTiles(List<Vector2Int> tiles, string roomId)
+        public void AddTiles(List<TileData> tiles, string roomId)
         {
             SetTiles(tiles,roomId);
         }
 
         public void RemoveTiles(List<Vector2Int> tiles)
+        {
+            var toRemove = new List<TileData>();
+            foreach (var r in rooms)
+            {
+                foreach (var t in r.Tiles)
+                {
+                    foreach (var ot in tiles)
+                    {
+                        if (t.GetPosition() == ot)
+                            toRemove.Add(t);
+                    }
+                }
+            }
+            RemoveTiles(toRemove);
+        }
+
+        public void RemoveTiles(List<TileData> tiles)
         {
             foreach (var t in tiles)
             {
@@ -102,7 +123,7 @@ namespace LBS.Representation.TileMap
             }
         }
 
-        public void RemoveTile(Vector2Int tile)
+        public void RemoveTile(TileData tile)
         {
             foreach (var r in rooms)
             {
@@ -120,7 +141,7 @@ namespace LBS.Representation.TileMap
         /// </summary>
         /// <param name="tiles"></param>
         /// <param name="roomId"></param>
-        public void SetTiles(List<Vector2Int> tiles, string roomId) 
+        public void SetTiles(List<TileData> tiles, string roomId) 
         {
             var room = rooms.Find(r => r.ID == roomId);
             if (room == null) // esto podria crear la habitacion y asignarla en vez de no hacer nada (??)
@@ -147,6 +168,13 @@ namespace LBS.Representation.TileMap
                 var room = r.Clone() as RoomData;
                 clone.rooms.Add(room);
             }
+
+            foreach(var d in rooms)
+            {
+                var door = d.Clone() as DoorData;
+                clone.doors.Add(door);
+            }
+
             return clone;
         }
 
@@ -161,7 +189,7 @@ namespace LBS.Representation.TileMap
             {
                 foreach (var t in r.Tiles)
                 {
-                    var pos = t - rect.min;
+                    var pos = t.GetPosition() - rect.min;
                     matrixIDs[pos.x, pos.y] = r.ID;
                 }
             }
