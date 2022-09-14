@@ -1,0 +1,16 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Assets/GitIgnorable/foldoutLayer.uss?fileID=7433441132597879392&amp;guid=ef9b986b9ccf3ae42afaf48bbce62f55&amp;type=3#foldoutLayer" />
+    <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" horizontal-scroller-visibility="Hidden" style="height: 286px;">
+        <ui:VisualElement style="height: 276px; width: 245px; flex-direction: column; -unity-background-scale-mode: scale-to-fit;">
+            <ui:VisualElement name="Layer" style="flex-direction: row; height: 88px; width: 229px; align-items: flex-start;">
+                <ui:VisualElement name="Icon_layer" style="height: 13px; width: 16px; background-image: url(&apos;project://database/Assets/ISILab/LBS%20Plugin/Assets2D/Layers_Icon.png?fileID=2800000&amp;guid=06c081418decd754c906960b1e3c0fdd&amp;type=3#Layers_Icon&apos;); -unity-background-scale-mode: scale-to-fit; justify-content: center; margin-top: 4px;" />
+                <ui:Foldout text="Layer" name="Layer_detail" value="true" style="height: 79px; width: 215px; background-image: none; flex-direction: column;">
+                    <ui:VisualElement name="LayerInfo" style="flex-direction: row; align-items: center;">
+                        <ui:VisualElement name="IconElement" style="height: 14px; width: 11px; background-image: url(&apos;project://database/Assets/ISILab/LBS%20Plugin/Assets2D/Stamp_Icon.png?fileID=2800000&amp;guid=6c87f2ef86861b14c9d7af565ae313f2&amp;type=3#Stamp_Icon&apos;); -unity-background-scale-mode: scale-to-fit; margin-right: 4px; justify-content: center; padding-bottom: 0; margin-bottom: 2px;" />
+                        <ui:Label tabindex="-1" text="Label" display-tooltip-when-elided="true" name="nameElement" style="width: 114px; height: 17px; justify-content: flex-end;" />
+                    </ui:VisualElement>
+                </ui:Foldout>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:ScrollView>
+</ui:UXML>
