@@ -17,6 +17,7 @@ namespace LBS.Overlays
     public class GraphOverlay : Overlay // esta corresponderia a todas las funciones bases del derivados del graphview.
     {
         private const string ID = "GraphOverlayTools";
+         
 
         public override VisualElement CreatePanelContent()
         {
