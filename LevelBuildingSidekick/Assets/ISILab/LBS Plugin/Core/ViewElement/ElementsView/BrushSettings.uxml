@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement name="BrushSettings" style="width: 412px; height: 173px; padding-left: 8px; padding-right: 8px; padding-top: 8px; padding-bottom: 8px; align-items: stretch;">
+        <ui:TextField picking-mode="Ignore" label="Name List" value="filler text" text="filler text" name="NameList" style="margin-bottom: 16px;" />
+        <ui:DropdownField label="Brush Stamp" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="BrushStamp" style="margin-bottom: 16px;" />
+        <ui:VisualElement name="VisualElement" style="width: 397px; height: 26px; flex-direction: row;">
+            <ui:SliderInt picking-mode="Ignore" label="Brush Size" value="42" high-value="100" name="SizeB1" style="width: 358px; height: 22px;" />
+            <ui:IntegerField value="42" name="SizeB2" style="margin-right: 3px;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
