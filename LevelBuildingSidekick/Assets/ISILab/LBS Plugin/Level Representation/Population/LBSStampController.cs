@@ -1,5 +1,4 @@
 ﻿using LBS.ElementView;
-using LBS.View;
 using LBS;
 using LBS.Graph;
 using System.Collections;
@@ -42,7 +41,7 @@ public class LBSStampController : LBSRepController<LBSStampGroupData>
         });
     }
 
-    public void CreateStamp(ContextualMenuPopulateEvent evt, GraphView view, StampPresset stamp)
+    public virtual void CreateStamp(ContextualMenuPopulateEvent evt, GraphView view, StampPresset stamp)
     {
         var viewPos = new Vector2(view.viewTransform.position.x, view.viewTransform.position.y);
         var pos = (evt.localMousePosition - viewPos) / view.scale;
