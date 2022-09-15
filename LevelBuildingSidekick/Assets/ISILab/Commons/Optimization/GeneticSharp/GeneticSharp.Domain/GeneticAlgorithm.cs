@@ -103,11 +103,15 @@ namespace GeneticSharp.Domain
         /// </summary>
         public IOperatorsStrategy OperatorsStrategy { get; set; }
 
-        /// <summary>
-        /// Gets the population.
-        /// </summary>
-        /// <value>The population.</value>
         public IPopulation Population { get; private set; }
+
+        public IEvaluable[] LastGeneration
+        {
+            get
+            {
+                return Population.CurrentGeneration.Evaluables.ToArray();
+            }
+        }
 
         /// <summary>
         /// Gets the fitness function.
@@ -226,6 +230,7 @@ namespace GeneticSharp.Domain
         /// Gets or sets the task executor which will be used to execute fitness evaluation.
         /// </summary>
         public ITaskExecutor TaskExecutor { get; set; }
+
         #endregion
 
         #region Methods

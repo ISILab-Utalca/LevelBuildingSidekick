@@ -1,10 +1,12 @@
 using Commons.Optimization.Evaluator;
 using Commons.Optimization.Terminations;
+using GeneticSharp.Domain.Populations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
+using System.Linq;
 
 public abstract class BaseOptimizer : IOptimizer
 {
@@ -16,7 +18,18 @@ public abstract class BaseOptimizer : IOptimizer
 
     public IEvaluable BestCandidate { get; private set; }
 
-
+    /// <summary>
+    /// Gets the population.
+    /// </summary>
+    /// <value>The population.</value>
+    public IPopulation Population { get; private set; }
+    public IEvaluable[] LastGeneration
+    {
+        get
+        {
+            return Population.CurrentGeneration.Evaluables.ToArray();
+        }
+    }
     public ITermination Termination { get; set; }
     public IEvaluator Evaluator { get; private set; }
     public OptimizerState State { 

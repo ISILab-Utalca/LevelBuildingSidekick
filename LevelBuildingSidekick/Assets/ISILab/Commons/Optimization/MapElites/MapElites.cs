@@ -19,7 +19,7 @@ public class MapElites
             if(xSampleCount != value && value > 0)
             {
                 xSampleCount = value;
-                OnSampleSizeChanged?.Invoke();
+                OnSampleSizeChange();
             }
         }
     }
@@ -36,7 +36,7 @@ public class MapElites
             if(ySampleCount != value && value > 0)
             {
                 ySampleCount = value;
-                OnSampleSizeChanged?.Invoke();
+                OnSampleSizeChange();
             }
         }
     }
@@ -60,7 +60,7 @@ public class MapElites
             if(!xEvaluator.Equals(value))
             {
                 xEvaluator = value;
-                OnEvaluatorChanged?.Invoke();
+                OnEvaluatorChange();
             }
         }
     }
@@ -77,12 +77,27 @@ public class MapElites
             if(!yEvaluator.Equals(value))
             {
                 yEvaluator = value;
-                OnEvaluatorChanged?.Invoke();
+                OnEvaluatorChange();
             }
         }
     }
 
     System.Action OnEvaluatorChanged;
+
+    IOptimizer optimizer;
+    public IOptimizer Optimizer
+    {
+        get
+        {
+            return optimizer;
+        }
+        set
+        {
+            optimizer = value;
+            OnOptimizerChange();
+        }
+    }
+    public System.Action OnOptimizerChanged;
 
     public MapElites()
     {
@@ -159,14 +174,23 @@ public class MapElites
         return evaluables;
     }
 
-    public void OnSampleSizeChange()
+    private void OnSampleSizeChange()
     {
         Clear();
+        OnSampleSizeChanged?.Invoke();
     }
 
-    public void OnEvaluatorChange()
+    private void OnEvaluatorChange()
     {
         Clear();
+        OnEvaluatorChanged?.Invoke();
+    }
+
+    private void OnOptimizerChange()
+    {
+        Clear();
+        OnOptimizerChanged?.Invoke();
+        Optimizer.OnGenerationRan += () => UpdateSamples(Optimizer.LastGeneration);
     }
 
     private void Clear()

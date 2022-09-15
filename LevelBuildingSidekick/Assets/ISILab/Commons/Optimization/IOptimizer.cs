@@ -1,6 +1,7 @@
 using Commons.Optimization.Evaluator;
 using Commons.Optimization.Terminations;
 using System;
+using GeneticSharp.Domain.Populations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,11 +27,18 @@ public interface IOptimizer
     /// <value>The time evolving.</value>
     TimeSpan TimeEvolving { get; }
 
+    /// <summary>
+    /// Gets the population.
+    /// </summary>
+    /// <value>The population.</value>
+    public IPopulation Population { get; }
+
     public ITermination Termination { get; set; }
     public IEvaluator Evaluator { get;}
 
     public bool IsRunning { get; }
     public OptimizerState State { get; }
+    public IEvaluable[] LastGeneration { get; }
     #endregion
 
     #region Events
