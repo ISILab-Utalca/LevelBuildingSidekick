@@ -1,4 +1,5 @@
 using LBS.ElementView;
+using LBS.VisualElements;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -64,11 +65,6 @@ namespace LBS.Windows
                     content.Add(new MapEliteElementView());
                 }
             }
-        }
-
-        public Texture2D MakeBackground()
-        {
-            mainView.
         }
     }
 }
