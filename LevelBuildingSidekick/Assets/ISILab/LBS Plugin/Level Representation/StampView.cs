@@ -6,7 +6,7 @@ using Utility;
 
 public class StampView : GraphElement // esto se puede simplificar y combiniar con nodeView
 {
-    private static readonly float size = 64;
+    private static readonly float size = 64; //esto debería ser ajustable
     private Texture2D texture;
 
     private StampData data;
