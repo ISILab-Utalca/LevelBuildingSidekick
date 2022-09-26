@@ -1,4 +1,4 @@
-using LBS.VisualElements;
+using LBS.ElementView;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -16,6 +16,8 @@ namespace LBS.Windows
             var window = GetWindow<MapEliteWindow>();
             window.titleContent = new GUIContent("Map Elite");
         }
+
+        public MainView mainView;
 
         public Button btn;
         public Vector2Field partitions;
@@ -62,6 +64,11 @@ namespace LBS.Windows
                     content.Add(new MapEliteElementView());
                 }
             }
+        }
+
+        public Texture2D MakeBackground()
+        {
+            mainView.
         }
     }
 }
