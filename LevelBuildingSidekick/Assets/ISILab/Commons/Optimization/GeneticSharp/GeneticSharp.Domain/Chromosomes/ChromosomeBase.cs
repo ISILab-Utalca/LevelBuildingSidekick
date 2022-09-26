@@ -441,6 +441,8 @@ namespace GeneticSharp.Domain.Chromosomes
         {
             throw new NotImplementedException();
         }
+
+        public abstract UnityEngine.Texture2D ToTexture();
         #endregion
     }
 }

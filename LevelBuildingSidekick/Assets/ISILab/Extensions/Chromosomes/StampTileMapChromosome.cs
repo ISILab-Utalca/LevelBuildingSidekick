@@ -4,14 +4,18 @@ using UnityEngine;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
 using System.Linq;
+using Utility;
 
 public class StampTileMapChromosome : ChromosomeBase2D<int>
 {
     private List<StampData> stamps;
+    private int tileSize;
 
     public StampTileMapChromosome(LBSStampTileMapController stampController) : base(0, 0)
     {
         var rawStamps = (stampController.GetData() as LBSStampGroupData).GetStamps();
+
+        tileSize = (int)stampController.TileSize;
 
         var x1 = rawStamps.Min(s => s.Position.x);
         var x2 = rawStamps.Max(s => s.Position.x);
@@ -57,5 +61,35 @@ public class StampTileMapChromosome : ChromosomeBase2D<int>
     public override object GenerateGene(int geneIndex)
     {
         return RandomizationProvider.Current.GetInt(0, stamps.Count);
+    }
+
+    public override Texture2D ToTexture()
+    {
+        int width = MatrixWidth * tileSize;
+        int height = (Length / MatrixWidth) * tileSize;
+
+        Texture2D texture = new Texture2D(width, height);
+
+        Texture2D empty = new Texture2D(1,1);
+        empty.SetPixel(0, 0, new Color(0,0,0,0));
+        empty.Apply();
+
+        for(int i = 0; i < Length; i++)
+        {
+            var pos = ToMatrixPosition(i);
+            var id = GetGene<int>(i);
+            if (id == -1)
+            {
+                texture.InsertTextureInRect(empty, (int)pos.x * tileSize, (int)pos.y * tileSize, tileSize, tileSize);
+            }
+            else
+            {
+                var t = DirectoryTools.GetScriptable<StampPresset>(stamps[id].Label).Icon;
+                texture.InsertTextureInRect(t, (int)pos.x*tileSize, (int)pos.y*tileSize, tileSize, tileSize);
+            }
+        }
+
+        texture.Apply();
+        return texture;
     }
 }
