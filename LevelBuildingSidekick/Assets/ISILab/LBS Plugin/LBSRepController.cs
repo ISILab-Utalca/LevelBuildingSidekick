@@ -11,10 +11,10 @@ public abstract class LBSRepController<T> : IRepController where T : LBSRepesent
 {
     protected List<GraphElement> elements = new List<GraphElement>();
 
-    protected GraphView view;
+    protected LBSGraphView view;
     protected T data;
 
-    protected LBSRepController(GraphView view,T data)
+    protected LBSRepController(LBSGraphView view,T data)
     { 
         this.view = view;
         this.data = data;

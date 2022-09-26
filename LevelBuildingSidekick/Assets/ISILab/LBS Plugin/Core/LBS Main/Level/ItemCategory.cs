@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Newtonsoft.Json;
+using LBS.Generator;
 
 namespace LBS
 {
@@ -13,7 +14,7 @@ namespace LBS
         public string category;
 
         [SerializeField, JsonRequired]
-        public Generate3D.PivotType pivotType;
+        public PivotType pivotType;
 
         [SerializeField, JsonIgnore]
         public List<GameObject> items = new List<GameObject>(); // cambiar a string (??)

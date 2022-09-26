@@ -1,4 +1,5 @@
 using LBS;
+using LBS.Generator;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,7 +42,7 @@ public class RoomElementBundle : ScriptableObject
             var c = new ItemCategory(cat);
 
             if (cat == "Walls" || cat == "Doors")
-                c.pivotType = Generate3D.PivotType.Edge;
+                c.pivotType = PivotType.Edge;
 
             categories.Add(c);
         }

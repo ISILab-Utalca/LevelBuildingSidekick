@@ -12,7 +12,7 @@ using LBS.Representation.TileMap;
 namespace LBS.Graph
 {
     [Obsolete]
-    public class LBSGraphView : global::LBSGraphView
+    public class LBSGraphViewOld 
     {
         /*
         public static bool isDragEdge = false;

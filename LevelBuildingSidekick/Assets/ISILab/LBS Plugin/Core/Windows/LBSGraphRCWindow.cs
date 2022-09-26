@@ -44,7 +44,7 @@ namespace LBS.Windows
         {
             var data = LBSController.CurrentLevel.data; // peligroso buscar otra forma (!)
             var graphData = data.GetRepresentation<LBSGraphData>();
-            controllers.Add(new LBSGraphRCController(MainView, graphData));
+            AddController(new LBSGraphRCController(MainView, graphData));
         }
     }
 }

@@ -33,7 +33,8 @@ namespace LBS.Windows
             actions.Add(new System.Tuple<string, System.Action>(
                 "Optimize",
                 () => {
-                    var c = controllers.Find(c => c.GetType() == typeof(LBSTileMapController)) as LBSTileMapController;
+                    // controllers.Find(c => c.GetType() == typeof(LBSTileMapController)) as LBSTileMapController;
+                    var c = GetControllerByType<LBSTileMapController>();
                     var schema = c.Optimize();
                     schema = c.RecalculateDoors(schema);
                     LBSController.CurrentLevel.data.AddRepresentation(schema);
@@ -48,7 +49,7 @@ namespace LBS.Windows
         {
             var data = LBSController.CurrentLevel.data; // peligroso buscar otra forma (!)
             var tileData = data.GetRepresentation<LBSTileMapData>();
-            controllers.Add(new LBSTileMapController(MainView, tileData));
+            AddController(new LBSTileMapController(MainView, tileData));
         }
     }
 }

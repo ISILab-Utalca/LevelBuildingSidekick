@@ -11,7 +11,7 @@ using Utility;
 public class LBSStampController : LBSRepController<LBSStampGroupData>
 {
 
-    public LBSStampController(GraphView view,LBSStampGroupData data) : base(view ,data)
+    public LBSStampController(LBSGraphView view,LBSStampGroupData data) : base(view ,data)
     {
 
     }

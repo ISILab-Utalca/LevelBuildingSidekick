@@ -20,7 +20,7 @@ namespace LBS.Windows
     public abstract class GenericGraphWindow : EditorWindow, ISupportsOverlays
     {
         protected List<Tuple<string, Action>> actions = new List<Tuple<string, Action>>();
-        protected List<IRepController> controllers = new List<IRepController>();
+        private List<IRepController> controllers = new List<IRepController>();
         protected IRepController currentController;
 
         protected VisualElement root;
@@ -39,6 +39,17 @@ namespace LBS.Windows
         public abstract void OnLoadControllers();
 
         public abstract void OnInitPanel();
+
+        public T GetControllerByType<T>() where T : IRepController
+        {
+            var x = controllers.Find(c => c.GetType() == typeof(T));
+            return (T)x;
+        }
+
+        public void AddController(IRepController controller)
+        {
+            controllers.Add(controller);
+        }
 
         private void OnInspectorUpdate()
         {
@@ -64,6 +75,7 @@ namespace LBS.Windows
             root = rootVisualElement;
             this.ImportUXML("GenericGraphWindowUXML");
             mainView = rootVisualElement.Q<MainView>();
+            mainView.ggw = this; // cancercito (!!!)
             InitToolBar();
 
             RefreshView();
@@ -150,7 +162,7 @@ namespace LBS.Windows
         {
             actions.Clear();
             OnInitPanel();
-            var panel = new FloatingPanel("Option panel", actions, controllers,prevWindow,nextWindow);
+            var panel = new FloatingPanel("Option panel", actions, controllers, prevWindow, nextWindow);
 
             mainView.Add(panel);
         }

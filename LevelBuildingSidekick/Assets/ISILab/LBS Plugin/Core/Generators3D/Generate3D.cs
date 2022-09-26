@@ -8,6 +8,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using Utility;
+using LBS.Generator;
 
 public static class Generate3D
 {
@@ -17,7 +18,7 @@ public static class Generate3D
         var schema = level.data.GetRepresentation<LBSTileMapData>();
         var graph = level.data.GetRepresentation<LBSGraphData>();
         GenPhysic3D(schema, graph);
-        GenPopulation3D();
+        //GenPopulation3D();
     }
 
     public static GameObject GenPhysic3D(LBSTileMapData schema, LBSGraphData graph, string name = "New level 3D")
@@ -70,14 +71,12 @@ public static class Generate3D
     }
     */
 
-    public static void GenPopulation3D()
-    {
-
-    }
+    /*
     public enum PivotType
     {
         Center,
         Edge
     }
+    */
 }
 

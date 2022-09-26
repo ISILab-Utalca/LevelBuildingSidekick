@@ -32,29 +32,33 @@ namespace LBS.Graph
         public NodeEvent OnEndDragEdge;
         public Action OnMoving;
 
-        public LBSNodeView(LBSNodeData node)
+        public LBSNodeView(LBSNodeData node, LBSGraphView root) : base(root)
         {
             Data = node;
 
             SetPosition(new Rect(Data.Position, Vector2.one * 2 * Data.Radius));
 
-            Box b = new Box();
-            b.style.minHeight = b.style.minWidth = b.style.maxHeight = b.style.maxWidth = 2 * Data.Radius;
-            b.Add(new Label(node.Label));
-            
-            Add(b);
-
-            VisualElement main = this;
+            {
+                Box b = new Box();
+                b.style.maxHeight = b.style.maxWidth = 2 * Data.Radius;
+                var l = new Label(node.Label);
+                l.pickingMode = PickingMode.Ignore;
+                l.focusable = true;
+                b.pickingMode = PickingMode.Ignore;
+                b.Add(l);
+                Add(b);
+            }
 
             capabilities |= Capabilities.Selectable | Capabilities.Movable | Capabilities.Deletable | Capabilities.Ascendable | Capabilities.Copiable | Capabilities.Snappable | Capabilities.Groupable;
             usageHints = UsageHints.DynamicTransform;
 
             var styleSheet = Utility.DirectoryTools.SearchAssetByName<StyleSheet>("NodeUSS");
+            this.style.minHeight = this.style.minWidth = this.style.maxHeight = this.style.maxWidth = 2 * Data.Radius;
             styleSheets.Add(styleSheet);
 
             RegisterCallback<MouseDownEvent>(OnMouseDown);
             RegisterCallback<MouseUpEvent>(OnMouseUp);
-            //RegisterCallback<>(AAA);
+             
         }
 
         public new void RemoveFromHierarchy()
@@ -68,9 +72,10 @@ namespace LBS.Graph
             //Debug.Log(evt.GetType());
         }
 
-        private void AAA(DetachFromPanelEvent evt)
+        public void Delete()
         {
-            Debug.Log(evt.currentTarget);
+            //rootView.refres
+            this.OnDelete();
         }
 
         private void OnMouseDown(MouseDownEvent evt)

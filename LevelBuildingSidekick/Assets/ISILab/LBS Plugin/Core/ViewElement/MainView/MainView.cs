@@ -9,19 +9,12 @@ namespace LBS.ElementView
 {
     public class MainView : LBSGraphView
     {
+        public new class UxmlFactory : UxmlFactory<MainView, GraphView.UxmlTraits> { }
+
         public Action<ContextualMenuPopulateEvent> OnBuild;
-
-        //manipulators
-        internal ContentZoomer zoomer = new ContentZoomer();
-        internal ContentDragger dragger = new ContentDragger();
-        internal SelectionDragger selectionDragger = new SelectionDragger();
-        internal RectangleSelector rectagleSelector = new RectangleSelector();
-
-        private List<Manipulator> manipulators = new List<Manipulator>();
-
         public Action OnClearSelection;
 
-        public new class UxmlFactory : UxmlFactory<MainView, GraphView.UxmlTraits> { }
+        private List<Manipulator> manipulators = new List<Manipulator>();
 
         public MainView()
         {
@@ -41,15 +34,31 @@ namespace LBS.ElementView
             OnBuild?.Invoke(evt);
         }
 
-        public void SetBasicManipulators()
+        public override void ClearSelection() // (?)
         {
-            var manis = new List<Manipulator>() { zoomer, dragger, selectionDragger, rectagleSelector };
+            base.ClearSelection();
+            if (selection.Count == 0)
+            {
+                OnClearSelection?.Invoke();
+            }
+        }
+
+        public void SetBasicManipulators() // necesario aqui (?)
+        {
+            var manis = new List<Manipulator>() {
+                new ClickSelector(),
+                new ContentZoomer(),
+                new ContentDragger(),
+                new SelectionDragger(),
+                new RectangleSelector()
+            };
+
             SetManipulators(manis);
         }
 
         public void SetManipulator(Manipulator current)
         {
-            RemoveManipulators(manipulators);
+            ClearManipulators();
             this.AddManipulator(current);
         }
 
@@ -59,23 +68,19 @@ namespace LBS.ElementView
             AddManipulators(manipulators);
         }
 
-        public override void ClearSelection()
-        {
-            base.ClearSelection();
-            if (selection.Count == 0)
-            {
-                OnClearSelection?.Invoke();
-                //LBSController.ShowLevelInspector();
-            }
-        }
-
         public void ClearManipulators()
         {
             foreach (var m in this.manipulators)
             {
-                this.RemoveManipulator(m);
+                this.RemoveManipulator(m as IManipulator);
             }
             this.manipulators.Clear();
+        }
+
+        public void RemoveManipulator(Manipulator manipulator)
+        {
+            this.manipulators.Remove(manipulator);
+            this.RemoveManipulator(manipulator as IManipulator);
         }
 
         public void RemoveManipulators(List<Manipulator> manipulators)
@@ -83,8 +88,14 @@ namespace LBS.ElementView
             foreach (var m in manipulators)
             {
                 this.manipulators.Remove(m);
-                this.RemoveManipulator(m);
+                this.RemoveManipulator(m as IManipulator);
             }
+        }
+
+        public void AddManipulator(Manipulator manipulator)
+        {
+            this.manipulators.Add(manipulator);
+            this.AddManipulator(manipulator as IManipulator);
         }
 
         public void AddManipulators(List<Manipulator> manipulators)
@@ -94,8 +105,16 @@ namespace LBS.ElementView
                 if (!this.manipulators.Contains(m))
                 {
                     this.manipulators.Add(m);
-                    this.AddManipulator(m);
+                    this.AddManipulator(m as IManipulator);
                 }
+            }
+        }
+
+        public void PrintManipulators()
+        {
+            foreach (var m in manipulators)
+            {
+                Debug.Log(m.GetType().ToString());
             }
         }
 

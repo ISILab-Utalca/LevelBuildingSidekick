@@ -17,7 +17,7 @@ namespace LBS.Representation.TileMap
     {
         private static readonly Vector2 tileSize = new Vector2(100, 100); // mover a data
 
-        public LBSTileMapController(GraphView view, LBSTileMapData data) : base(view, data)
+        public LBSTileMapController(LBSGraphView view, LBSTileMapData data) : base(view, data)
         {
 
         }

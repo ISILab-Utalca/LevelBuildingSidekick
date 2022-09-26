@@ -10,6 +10,8 @@ using UnityEditor;
 using UnityEditor.Overlays;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEditor.Experimental.GraphView;
+using LBS.Manipulators;
 
 namespace LBS.Overlays
 {
@@ -29,7 +31,8 @@ namespace LBS.Overlays
                 var allMode = new PresedBtn();
                 {
                     var wnd = EditorWindow.GetWindow<LBSGraphRCWindow>();
-                    //allMode.clicked += wnd.MainView.SetBasicManipulators;
+                    allMode.clicked += () => wnd.MainView.SetBasicManipulators();
+                    allMode.clicked += () => wnd.MainView.PrintManipulators();
                     allMode.text = "All mode";
                 }
                 btnGroup.Add(allMode);
@@ -37,24 +40,44 @@ namespace LBS.Overlays
 
                 var select = new PresedBtn();
                 {
-                    select.clicked += () => Debug.Log("[Select implementar]"); //wnd.MainView.SetManipulator(wnd.MainView.rectagleSelector); // mm no me gusta (!) 
+                    var wnd = EditorWindow.GetWindow<LBSGraphRCWindow>();
+                    select.clicked += () => wnd.MainView.SetManipulator(new RectangleSelector()); // mm no me gusta (!) 
                     select.text = "Select mode";
                 }
                 btnGroup.Add(select);
 
+                var drag = new PresedBtn();
+                {
+                    var wnd = EditorWindow.GetWindow<LBSGraphRCWindow>();
+                    drag.clicked += () => wnd.MainView.SetManipulator(new SelectionDragger()); // mm no me gusta (!) 
+                    drag.text = "Drag mode";
+                }
+                btnGroup.Add(drag);
+
+                var zoom = new PresedBtn();
+                {
+                    var wnd = EditorWindow.GetWindow<LBSGraphRCWindow>();
+                    zoom.clicked += () => wnd.MainView.SetManipulator(new ContentZoomer()); // mm no me gusta (!) 
+                    zoom.text = "Zoom mode";
+                }
+                btnGroup.Add(zoom);
+
+                var b = new Box();
+                b.style.minHeight = 10;
+                btnGroup.Add(b);
+
                 var delete = new PresedBtn();
                 {
-                    delete.clicked += () => Debug.Log("[Delete implementar]");
+                    var wnd = EditorWindow.GetWindow<LBSGraphRCWindow>();
+                    delete.clicked += () => wnd.MainView.SetManipulator(new DeleteManipulator());
                     delete.text = "Delete mode";
                 }
                 btnGroup.Add(delete);
 
                 var addNode = new PresedBtn();
                 {
-                    addNode.clicked += () =>
-                    {
-                        Debug.Log("[Add node implementar]");
-                    };
+                    var wnd = EditorWindow.GetWindow<LBSGraphRCWindow>();
+                    addNode.clicked += () => wnd.MainView.SetManipulator(new AddNodeManipulator(wnd.MainView));
                     addNode.text = "Add node mode";
                 }
                 btnGroup.Add(addNode);
@@ -62,7 +85,7 @@ namespace LBS.Overlays
             btnGroup.Init();
             root.Add(btnGroup);
 
-
+            /*
             var generateSchema = new PresedBtn();
             {
                 generateSchema.clicked += () =>
@@ -74,6 +97,7 @@ namespace LBS.Overlays
                 generateSchema.text = "Generate Schema";
             }
             root.Add(generateSchema);
+            */
 
 
             return root;
@@ -150,8 +174,8 @@ namespace LBS.Overlays
             }
             else
             {
-                if (current == active)
-                    return;
+                //if (current == active)
+                //    return;
 
                 group.ForEach(b => b.SetActive(false));
                 current = active;

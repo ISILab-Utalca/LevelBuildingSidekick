@@ -10,7 +10,7 @@ public class LBSStampTileMapController : LBSStampController, ITileMap
 
     public float Subdivision { get; set; }
 
-    public LBSStampTileMapController(GraphView view, LBSStampGroupData data) : base(view, data)
+    public LBSStampTileMapController(LBSGraphView view, LBSStampGroupData data) : base(view, data)
     {
         Subdivision = 1;
     }

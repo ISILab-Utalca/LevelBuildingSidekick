@@ -29,7 +29,7 @@ namespace LBS.Graph
         public LBSNodeView first; // cancercito (!!)
         public int CellSize => cellSize;
 
-        public LBSGraphRCController(GraphView view,LBSGraphData data) : base(view, data)
+        public LBSGraphRCController(LBSGraphView view,LBSGraphData data) : base(view, data)
         {
 
         }
@@ -128,7 +128,7 @@ namespace LBS.Graph
 
         public void AddNodeView(LBSNodeData data)
         {
-            var nodeView = new LBSNodeView(data);
+            var nodeView = new LBSNodeView(data, view);
             nodeView.OnStartDragEdge += StartDragEdge;
             nodeView.OnEndDragEdge += EndDragEdge;
             elements.Add(nodeView);
