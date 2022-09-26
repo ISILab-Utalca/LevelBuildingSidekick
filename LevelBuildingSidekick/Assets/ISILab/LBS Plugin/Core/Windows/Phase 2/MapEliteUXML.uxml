@@ -7,7 +7,7 @@
         <ui:VisualElement name="Guias" style="height: 332px; width: 432px; border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-left-width: 2px; border-right-width: 0; border-top-width: 0; border-bottom-width: 2px; border-top-left-radius: 0; border-bottom-left-radius: 8px; border-top-right-radius: 0; border-bottom-right-radius: 0; align-items: center; justify-content: flex-start;">
             <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1">
                 <ui:VisualElement name="Content" style="height: 328px; width: 414px; align-items: auto; justify-content: flex-start; flex-direction: row; flex-wrap: nowrap; flex-grow: 1;">
-                    <MapEliteElementView name="MapEliteElementView" style="flex-grow: 1; width: 128px; height: 100px; max-width: 128px; max-height: 100px; min-width: 128px; min-height: 100px; border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; display: flex; margin-left: 2px; margin-right: 2px; margin-top: 2px; margin-bottom: 2px;" />
+                    <LBS.VisualElements.MapEliteElementView />
                 </ui:VisualElement>
             </ui:ScrollView>
         </ui:VisualElement>
