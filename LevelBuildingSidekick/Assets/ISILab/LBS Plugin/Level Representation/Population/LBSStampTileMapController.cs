@@ -11,6 +11,8 @@ public class LBSStampTileMapController : LBSStampController, ITileMap
     public float Subdivision { get; set; }
 
     public LBSStampTileMapController(LBSGraphView view, LBSStampGroupData data) : base(view, data)
+    public float TileSize { get { return UnitSize / Subdivision; } }
+
     {
         Subdivision = 1;
     }
@@ -29,10 +31,14 @@ public class LBSStampTileMapController : LBSStampController, ITileMap
 
     public Vector2 ToTileCoords(Vector2 position)
     {
-        var size = UnitSize / Subdivision;
-        int x = (int)((position.x / size) - (position.x % size));
-        int y = (int)((position.y / size) - (position.y % size));
+        int x = (int)((position.x / TileSize) - (position.x % TileSize));
+        int y = (int)((position.y / TileSize) - (position.y % TileSize));
 
         return new Vector2(x, y);
+    }
+
+    public Vector2 FromTileCoords(Vector2 position)
+    {
+        return position * TileSize;
     }
 }
