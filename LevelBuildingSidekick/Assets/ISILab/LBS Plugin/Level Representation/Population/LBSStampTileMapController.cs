@@ -11,11 +11,11 @@ public class LBSStampTileMapController : LBSStampController, ITileMap
     public float Subdivision { get; set; }
 
     public LBSStampTileMapController(LBSGraphView view, LBSStampGroupData data) : base(view, data)
-    public float TileSize { get { return UnitSize / Subdivision; } }
-
     {
         Subdivision = 1;
     }
+    public float TileSize { get { return UnitSize / Subdivision; } }
+
 
     public override void CreateStamp(ContextualMenuPopulateEvent evt, GraphView view, StampPresset stamp)
     {
@@ -42,3 +42,4 @@ public class LBSStampTileMapController : LBSStampController, ITileMap
         return position * TileSize;
     }
 }
+
