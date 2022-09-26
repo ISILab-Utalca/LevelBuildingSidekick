@@ -16,7 +16,7 @@ using Label = UnityEngine.UIElements.Label;
 
 namespace LBS.Graph
 {
-    public class LBSNodeView : GraphElement
+    public class LBSNodeView : LBSGraphElement
     {
         #region InspectorDrawer
         private class NodeScriptable : GenericScriptable<LBSNodeData> { };
@@ -54,14 +54,24 @@ namespace LBS.Graph
 
             RegisterCallback<MouseDownEvent>(OnMouseDown);
             RegisterCallback<MouseUpEvent>(OnMouseUp);
-
+            //RegisterCallback<>(AAA);
         }
 
-        /*
+        public new void RemoveFromHierarchy()
+        {
+            Debug.Log("RFH");
+            //base.RemoveFromHierarchy();
+        }
+
         public override void HandleEvent(EventBase evt)
         {
-            Debug.Log(evt.GetType());
-        }*/
+            //Debug.Log(evt.GetType());
+        }
+
+        private void AAA(DetachFromPanelEvent evt)
+        {
+            Debug.Log(evt.currentTarget);
+        }
 
         private void OnMouseDown(MouseDownEvent evt)
         {
@@ -92,6 +102,11 @@ namespace LBS.Graph
             base.SetPosition(newPos);
             Data.Position = new Vector2Int((int)newPos.x, (int)newPos.y);
             OnMoving?.Invoke();
+        }
+
+        public override void OnDelete()
+        {
+            //throw new NotImplementedException();
         }
     }
 }

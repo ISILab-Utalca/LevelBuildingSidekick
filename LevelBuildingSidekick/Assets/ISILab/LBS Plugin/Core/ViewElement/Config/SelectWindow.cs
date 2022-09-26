@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 public class SelectWindow : Button
 {
-    public new class UxmlFactory : UxmlFactory<ConfLoad, VisualElement.UxmlTraits> { }
+    public new class UxmlFactory : UxmlFactory<SelectWindow, VisualElement.UxmlTraits> { }
 
     public Label windowName;
     public Toggle check;

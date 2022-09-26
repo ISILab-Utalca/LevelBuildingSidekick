@@ -3,31 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class ConfLoad : Button
+namespace LBS.VisualElements
 {
-    public new class UxmlFactory : UxmlFactory<ConfLoad, VisualElement.UxmlTraits> { }
-
-    public Label fileSave;
-
-    public ConfLoad()
+    public class ConfLoad : Button
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("ConfigLoadUXML");
-        visualTree.CloneTree(this);
+        public new class UxmlFactory : UxmlFactory<ConfLoad, VisualElement.UxmlTraits> { }
 
-        fileSave = this.Q<Label>(name: "fileSave");
+        public Label fileSave;
 
-        fileSave.text = "Default";
+        public ConfLoad()
+        {
+            var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("ConfigLoadUXML");
+            visualTree.CloneTree(this);
+
+            fileSave = this.Q<Label>(name: "fileSave");
+
+            fileSave.text = "Default";
+        }
+
+        public ConfLoad(string fileS)
+        {
+            var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("ConfigLoadUXML");
+            visualTree.CloneTree(this);
+
+            fileSave = this.Q<Label>(name: "fileSave");
+
+            fileSave.text = fileS;
+        }
     }
-
-    public ConfLoad(string fileS)
-    {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("ConfigLoadUXML");
-        visualTree.CloneTree(this);
-
-        fileSave = this.Q<Label>(name: "fileSave");
-
-        fileSave.text = fileS;
-    }
-
-
 }

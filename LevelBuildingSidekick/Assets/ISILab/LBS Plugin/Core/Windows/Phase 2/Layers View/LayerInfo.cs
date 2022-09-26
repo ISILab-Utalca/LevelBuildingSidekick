@@ -3,33 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class LayerInfo : VisualElement
+namespace LBS.VisualElements
 {
-    public new class UxmlFactory : UxmlFactory<LayerInfo, VisualElement.UxmlTraits> { }
-
-    public VisualElement icnElement;
-    public Label nameElement;
-
-    public LayerInfo()
+    public class LayerInfo : VisualElement
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LayersInfoUXML");
-        visualTree.CloneTree(this);
+        public new class UxmlFactory : UxmlFactory<LayerInfo, VisualElement.UxmlTraits> { }
 
-        icnElement = this.Q<VisualElement>(name: "IconElement");
-        nameElement = this.Q<Label>(name: "NameElement");
+        public VisualElement icnElement;
+        public Label nameElement;
 
-        nameElement.text = "Name Element";
-    }
+        public LayerInfo()
+        {
+            var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LayersInfoUXML");
+            visualTree.CloneTree(this);
 
-    public LayerInfo(Texture2D texture2D, string labelText)
-    {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LayersInfoUXML");
-        visualTree.CloneTree(this);
+            icnElement = this.Q<VisualElement>(name: "IconElement");
+            nameElement = this.Q<Label>(name: "NameElement");
 
-        icnElement = this.Q<VisualElement>(name: "IconElement");
-        nameElement = this.Q<Label>(name: "NameElement");
+            nameElement.text = "Name Element";
+        }
 
-        icnElement.style.backgroundImage = texture2D;
-        nameElement.text = labelText;
+        public LayerInfo(Texture2D texture2D, string labelText)
+        {
+            var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LayersInfoUXML");
+            visualTree.CloneTree(this);
+
+            icnElement = this.Q<VisualElement>(name: "IconElement");
+            nameElement = this.Q<Label>(name: "NameElement");
+
+            icnElement.style.backgroundImage = texture2D;
+            nameElement.text = labelText;
+        }
     }
 }
