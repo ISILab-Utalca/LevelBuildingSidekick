@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Data.SqlTypes;
 using System.Linq;
+using UnityEngine;
 
 namespace GeneticSharp.Domain.Chromosomes
 {
@@ -86,6 +87,11 @@ namespace GeneticSharp.Domain.Chromosomes
             var value = GetGene<bool>(realIndex);
 
             ReplaceGene(realIndex, !value);
+        }
+
+        public override Texture2D ToTexture()
+        {
+            return null;
         }
     }
 }

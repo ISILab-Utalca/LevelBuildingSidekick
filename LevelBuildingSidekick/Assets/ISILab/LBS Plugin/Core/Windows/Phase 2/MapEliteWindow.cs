@@ -1,3 +1,4 @@
+using LBS.ElementView;
 using LBS.VisualElements;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,6 +17,8 @@ namespace LBS.Windows
             var window = GetWindow<MapEliteWindow>();
             window.titleContent = new GUIContent("Map Elite");
         }
+
+        public MainView mainView;
 
         public Button btn;
         public Vector2Field partitions;

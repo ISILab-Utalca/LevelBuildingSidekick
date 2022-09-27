@@ -28,4 +28,6 @@ public interface IEvaluable
     public bool IsValid();
     public T GetSampleData<T>();
     public T[] GetDataSquence<T>();
+    public Texture2D ToTexture();
+    public string ToString();
 }
