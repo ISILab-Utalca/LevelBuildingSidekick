@@ -81,23 +81,18 @@ namespace LBS.Overlays
                     addNode.text = "Add node mode";
                 }
                 btnGroup.Add(addNode);
+
+                var connect = new PresedBtn();
+                {
+                    var wnd = EditorWindow.GetWindow<LBSGraphRCWindow>();
+                    var c = wnd.GetController<LBSGraphRCController>();
+                    connect.clicked += () => wnd.MainView.SetManipulator(new ConnectionManipulator(c));
+                    connect.text = "Connect mode";
+                }
+                btnGroup.Add(connect);
             }
             btnGroup.Init();
             root.Add(btnGroup);
-
-            /*
-            var generateSchema = new PresedBtn();
-            {
-                generateSchema.clicked += () =>
-                {
-                    var controller = (this.containerWindow as LBSGraphRCWindow).GetController<LBSGraphRCController>();
-                    controller.GenerateSchema();
-                    LBSSchemaWindow.OpenWindow();
-                };
-                generateSchema.text = "Generate Schema";
-            }
-            root.Add(generateSchema);
-            */
 
 
             return root;
