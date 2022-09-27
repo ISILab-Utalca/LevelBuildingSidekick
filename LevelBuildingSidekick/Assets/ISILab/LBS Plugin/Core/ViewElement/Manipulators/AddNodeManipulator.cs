@@ -9,12 +9,12 @@ namespace LBS.Manipulators
 {
     public class AddNodeManipulator : MouseManipulator
     {
-        private LBSGraphView view;
+        private LBSGraphRCController controller;
 
-        public AddNodeManipulator(LBSGraphView view)
+        public AddNodeManipulator(LBSGraphRCController controller)
         {
             activators.Add(new ManipulatorActivationFilter { button = MouseButton.LeftMouse });
-            this.view = view;
+            this.controller = controller;
         }
 
         protected override void RegisterCallbacksOnTarget()
@@ -30,10 +30,12 @@ namespace LBS.Manipulators
         private void OnMouseDown(MouseDownEvent e)
         {
             var pos = e.localMousePosition;
+            //controller.NewNode(pos);
+            //controller.refresh();
+
             var graph = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
             var node = new RoomCharacteristicsData("Node: " + graph.NodeCount(), pos, 32);
             graph.AddNode(node);
-
             //view.ggw.RefreshView();
 
         }

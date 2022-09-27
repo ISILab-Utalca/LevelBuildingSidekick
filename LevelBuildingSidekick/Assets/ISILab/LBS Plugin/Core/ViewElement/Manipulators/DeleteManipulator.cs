@@ -9,9 +9,12 @@ namespace LBS.Manipulators
 
     public class DeleteManipulator : MouseManipulator
     {
-        public DeleteManipulator()
+        private LBSGraphRCController controller;
+
+        public DeleteManipulator(LBSGraphRCController controller)
         {
             activators.Add(new ManipulatorActivationFilter {button = MouseButton.LeftMouse});
+            this.controller = controller;
         }
 
         protected override void RegisterCallbacksOnTarget()
@@ -34,9 +37,10 @@ namespace LBS.Manipulators
             var node = e.target as LBSNodeView; 
             if (node != null)
             {
-                var graph = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
-                graph.RemoveNode(node.Data.Label);
-                t.Clear();
+                controller.RemoveNode(node.Data);
+                //var graph = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
+                //graph.RemoveNode(node.Data.Label);
+                //t.Clear();
                 return;
             }
 
@@ -44,9 +48,10 @@ namespace LBS.Manipulators
             var edge = e.target as LBSEdgeView;
             if(edge != null)
             {
-                var graph = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
-                graph.RemoveEdge(edge.Data);
-                t.Clear();
+                controller.RemoveEdge(edge.Data);
+                //var graph = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
+                //graph.RemoveEdge(edge.Data);
+                //t.Clear();
                 return;
             }
 

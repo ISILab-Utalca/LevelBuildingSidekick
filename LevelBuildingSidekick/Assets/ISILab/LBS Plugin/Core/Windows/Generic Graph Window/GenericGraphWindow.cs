@@ -75,7 +75,6 @@ namespace LBS.Windows
             root = rootVisualElement;
             this.ImportUXML("GenericGraphWindowUXML");
             mainView = rootVisualElement.Q<MainView>();
-            mainView.ggw = this; // cancercito (!!!)
             InitToolBar();
 
             RefreshView();
@@ -108,6 +107,7 @@ namespace LBS.Windows
         public void RefreshView()
         {
             mainView.graphElements.ForEach(e => mainView.RemoveElement(e));
+            mainView.ClearView();
 
             controllers.Clear();
 
@@ -125,18 +125,6 @@ namespace LBS.Windows
             };
         }
 
-        public override void SaveChanges()
-        {
-            Debug.Log("No se como funciona esta funcion (SaveChanges)");
-            base.SaveChanges();
-        }
-
-        public override void DiscardChanges()
-        {
-            Debug.Log("No se como funciona esta funcion (DiscardChanges)");
-            base.DiscardChanges();
-        }
-
         public T GetController<T>()
         {
             return (T)controllers.Find(c => c is T);
@@ -147,6 +135,7 @@ namespace LBS.Windows
         /// </summary>
         private void Populate()
         {
+            //clear(); (?)
             controllers.ForEach(c => c.PopulateView(mainView));
         }
 
@@ -155,10 +144,11 @@ namespace LBS.Windows
         /// </summary>
         private void InitContextualMenu()
         {
+            //clear(); (?)
             controllers.ForEach(c => c.SetContextualMenu(mainView));
         }
 
-        private void InitPanel()
+        private void InitPanel() // esto talvez deberia sacarse a otra clase para separar el panel del la ventana (??)
         {
             actions.Clear();
             OnInitPanel();
@@ -217,7 +207,6 @@ namespace LBS.Windows
                 }
             });
         }
-
 
         private static void CloseAll(GenericGraphWindow current)
         {

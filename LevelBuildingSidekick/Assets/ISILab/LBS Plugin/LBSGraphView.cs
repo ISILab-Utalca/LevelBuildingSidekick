@@ -11,46 +11,33 @@ public abstract class LBSGraphView : GraphView
 {
     public List<IRepController> controllersRefs;
 
+    /// <summary>
+    /// Removes all visual elements contained in this view.
+    /// </summary>
     public void ClearView()
     {
         this.graphElements.ForEach(e => this.RemoveElement(e));
     }
 
-    public GenericGraphWindow ggw; // cancercito (!!!)
-
-    public void Refresh()
-    {
-        this.ClearView();
-        Debug.Log("Refresh AAA");
-        /*
-        controllers.Clear();
-
-        OnLoadControllers();
-        InitContextualMenu();
-        InitPanel();
-        Populate();
-
-        currentController = controllers[0];
-        mainView.OnClearSelection = () =>
-        {
-            // puede que esto generar clases que ya existe y se dupliquen revisar si puede llegar a ser un problema (?)
-            var il = Reflection.MakeGenericScriptable(currentController.GetData());
-            Selection.SetActiveObjectWithContext(il, il);
-        };
-        */
-    }
-
+    /// <summary>
+    /// Removes the visual elements delivered by parameters
+    /// that this view contains.
+    /// </summary>
+    /// <param name="elements"></param>
     public new void DeleteElements(IEnumerable<GraphElement> elements)
     {
         var elms = elements.Where(e => e is LBSGraphElement).Select(e=> e as LBSGraphElement).ToList();
         elms.ForEach(e => e.OnDelete());
         base.DeleteElements(elements);
     }
+
 }
 
 public abstract class LBSGraphElement : GraphElement
 {
-    public LBSGraphView rootView;
+    private LBSGraphView rootView;
+
+    public LBSGraphView Root => rootView;
 
     public LBSGraphElement(LBSGraphView rootView)
     {

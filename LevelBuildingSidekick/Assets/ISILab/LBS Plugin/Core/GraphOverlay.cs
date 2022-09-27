@@ -69,15 +69,18 @@ namespace LBS.Overlays
                 var delete = new PresedBtn();
                 {
                     var wnd = EditorWindow.GetWindow<LBSGraphRCWindow>();
-                    delete.clicked += () => wnd.MainView.SetManipulator(new DeleteManipulator());
+                    var c = wnd.GetController<LBSGraphRCController>();
+                    delete.clicked += () => wnd.MainView.SetManipulator(new DeleteManipulator(c));
                     delete.text = "Delete mode";
                 }
                 btnGroup.Add(delete);
 
                 var addNode = new PresedBtn();
                 {
+                    Debug.Log("A");
                     var wnd = EditorWindow.GetWindow<LBSGraphRCWindow>();
-                    addNode.clicked += () => wnd.MainView.SetManipulator(new AddNodeManipulator(wnd.MainView));
+                    var c = wnd.GetController<LBSGraphRCController>();
+                    addNode.clicked += () => wnd.MainView.SetManipulator(new AddNodeManipulator(c));
                     addNode.text = "Add node mode";
                 }
                 btnGroup.Add(addNode);
