@@ -12,6 +12,8 @@ namespace LBS.Generator
 {
     public class PhysicStepGenerator : Generator
     {
+        private static List<Vector2Int> dirs = new List<Vector2Int>() { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right };
+
         private LBSTileMapData schema;
         private LBSGraphData graph;
         
@@ -24,12 +26,12 @@ namespace LBS.Generator
                 var bundle = RoomElementBundle.Combine(bNames.Select(n => DirectoryTools.GetScriptable<RoomElementBundle>(n)).ToList());
 
                 var room = schema.GetRoom(node.Label);
+                var doors = schema.GetDoors();
                 foreach (var tile in room.Tiles)
                 {
                     var pivot = new GameObject();
                     pivot.transform.SetParent(mainPivot.transform);
                     pivot.transform.position = new Vector3(tile.GetPosition().x, 0, tile.GetPosition().y); // (* vector de tamaño de tile en mundo) (!)
-
 
                     foreach (var cat in bundle.GetCategories())
                     {
@@ -40,9 +42,18 @@ namespace LBS.Generator
                                 go = GenPhysicCenter(cat, pivot.transform);
                                 break;
                             case PivotType.Edge:
-                                for (int i = 0; i < 4; i++) // esto podria cambiar si hay tiles hexagonales o triangulares (?)
+                                for (int i = 0; i < dirs.Count; i++) // esto podria cambiar si hay tiles hexagonales o triangulares (?)
                                 {
-                                    go = GenPhysicEdge(tile, room, graph, cat); // implementar construccion de murrallas y puertas (!!!)
+                                    var d = new DoorData("","",tile.GetPosition(), tile.GetPosition() + dirs[i]);
+                                    if(doors.Contains(d)) // En esta direccion hay una puerta
+                                    {
+
+                                    }
+                                    else // Si no hay puerta hay muralla
+                                    {
+
+                                    }
+                                    go = GenPhysicEdge(cat, pivot.transform,dirs[i]); // implementar construccion de murrallas y puertas (!!!)
                                 }
                                 break;
                         }
@@ -59,8 +70,13 @@ namespace LBS.Generator
             return SceneView.Instantiate(prefs[Random.Range(0, prefs.Count)], parent);
         }
 
-        private GameObject GenPhysicEdge(TileData tile, RoomData room, LBSGraphData graphData, ItemCategory cat)
+        private GameObject GenPhysicEdge(ItemCategory bundle, Transform parent, Vector2 dir)
         {
+         //   if()
+
+            var prefs = bundle.items;
+            SceneView.Instantiate(prefs[Random.Range(0, prefs.Count)], parent);
+
             return null;
             //var r = SceneView.Instantiate();
             //return r;
