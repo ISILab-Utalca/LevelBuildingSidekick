@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BasicRoom
   m_EditorClassIdentifier: 
   categories:
-  - category: Door
+  - category: Wall
     pivotType: 1
     items:
     - {fileID: 4304932923910414374, guid: abf31349866e3cb459dfcc937467c4da, type: 3}
