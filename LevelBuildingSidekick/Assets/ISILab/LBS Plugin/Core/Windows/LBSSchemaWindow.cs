@@ -6,6 +6,7 @@ using Utility;
 using LBS.Representation.TileMap;
 using LBS;
 using UnityEditor.Overlays;
+using LBS.Generator;
 
 namespace LBS.Windows
 {
@@ -25,9 +26,16 @@ namespace LBS.Windows
         // para boligar a que se immplementen estas coas aqui y no se tenga que intuir. (?)
         public override void OnInitPanel()
         {
+            var generator = new PhysicStepGenerator();
+
             actions.Add(new System.Tuple<string, System.Action>(
                 "Generate 3D",
-                () => Generate3D.GenerateLevel(LBSController.CurrentLevel)
+                () => {
+                    var data = LBSController.CurrentLevel.data;
+                    generator.Init(data);
+                    generator.Generate(); 
+                }
+                //() => Generate3D.GenerateLevel(LBSController.CurrentLevel)
                 ));
 
             actions.Add(new System.Tuple<string, System.Action>(

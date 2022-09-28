@@ -8,7 +8,6 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "ISILab/LBS plugin/Element bundle", fileName = "New bundle")]
 public class RoomElementBundle : ScriptableObject
 {
-    //private static readonly string[] defaultCategories = { "Walls", "Floors", "Doors", "Skies" };
     [SerializeField] private List<ItemCategory> categories = new List<ItemCategory>();
 
     public List<ItemCategory> GetCategories()

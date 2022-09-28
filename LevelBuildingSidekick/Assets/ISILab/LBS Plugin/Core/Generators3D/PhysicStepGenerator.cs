@@ -72,7 +72,8 @@ namespace LBS.Generator
 
         private GameObject GenPhysicEdge(ItemCategory bundle, Transform parent, Vector2 dir)
         {
-         //   if()
+            var x = DirectoryTools.GetScriptable<Tags_SO>();
+
 
             var prefs = bundle.items;
             SceneView.Instantiate(prefs[Random.Range(0, prefs.Count)], parent);
