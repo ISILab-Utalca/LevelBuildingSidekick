@@ -276,7 +276,7 @@ namespace LBS.Representation.TileMap
                 {
                     var neighbor = tileMap.Clone() as LBSTileMapData;
                     var tiles = new List<TileData>();
-                    wall.allTiles.ForEach(t => tiles.Add(new TileData( t + wall.dir)));
+                    wall.allTiles.ForEach(t => tiles.Add(new TileData( t + wall.dir,room.ID)));
                     neighbor.SetTiles(tiles, room.ID);
                     neightbours.Add(neighbor);
                 }

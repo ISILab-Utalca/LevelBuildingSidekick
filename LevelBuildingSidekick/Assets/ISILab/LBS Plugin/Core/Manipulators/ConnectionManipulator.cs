@@ -37,12 +37,11 @@ public class ConnectionManipulator : MouseManipulator
         if (node == null)
             return;
 
-        Debug.Log("Start drag");
-        first = node.Data;//controller.GetNodeViewBylabel(node.Data.Label);
+        first = node.Data;
     }
     private void OnMouseMove(MouseMoveEvent e)
     {
-        Debug.Log("Move drag");
+        //Debug.Log("Move drag");
     }
 
     private void OnMouseUp(MouseUpEvent e)
@@ -56,7 +55,5 @@ public class ConnectionManipulator : MouseManipulator
 
         var edge = new LBSEdgeData(first, node.Data);
         controller.AddEdge(edge);
-
-        Debug.Log("End drag");
     }
 }

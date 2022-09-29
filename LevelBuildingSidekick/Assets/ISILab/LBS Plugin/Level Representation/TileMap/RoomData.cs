@@ -65,7 +65,7 @@ namespace LBS.Representation.TileMap
             foreach (var t in this.tiles)
             {
                 var pos = t.GetPosition();
-                tiles.Add(new TileData(pos.x, pos.y));
+                tiles.Add(new TileData(pos.x, pos.y,this.id));
             }
             var clone = new RoomData(tiles, this.id);
             return clone;
@@ -179,7 +179,7 @@ namespace LBS.Representation.TileMap
                 for (int i = 0; i < Directions.sidedirs.Length; i++)
                 {
                     var neighbor = current.GetPosition() + Directions.sidedirs[i];
-                    if (!tiles.Contains(new TileData(neighbor))) // (!!!) podria no conicidir nunca
+                    if (!tiles.Contains(new TileData(neighbor, this.id))) // (!!!) podria no conicidir nunca
                     {
                         s += Mathf.RoundToInt(Mathf.Pow(2, i));
                     }
@@ -204,7 +204,7 @@ namespace LBS.Representation.TileMap
                 for (int i = 0; i < Directions.sidedirs.Length; i++)
                 {
                     var neighbor = pos + Directions.sidedirs[i];
-                    if (!tiles.Contains(new TileData(neighbor))) // (!!!) podria no conicidir nunca
+                    if (!tiles.Contains(new TileData(neighbor, this.id))) // (!!!) podria no conicidir nunca
                     {
                         s += Mathf.RoundToInt(Mathf.Pow(2, i));
                     }
@@ -216,17 +216,17 @@ namespace LBS.Representation.TileMap
                 for (int i = 0; i < Directions.diagdirs.Length; i++)
                 {
                     var neighbor = pos  + Directions.diagdirs[i];
-                    if (!tiles.Contains(new TileData(neighbor))) // (!!!) podria no conicidir nunca
+                    if (!tiles.Contains(new TileData(neighbor, this.id))) // (!!!) podria no conicidir nunca
                     {
                         var other1 = new Vector2Int(pos.x + Directions.diagdirs[i].x, pos.y);
-                        if (!corners.Contains(new TileData(other1)))
+                        if (!corners.Contains(new TileData(other1, this.id)))
                         {
                             var c = tiles.Find(t => t.GetPosition().Equals(other1));
                             corners.Add(c);  // (!!!) podria no conicidir nunca
                         }
 
                         var other2 = new Vector2Int(pos.x, pos.y + Directions.diagdirs[i].y);
-                        if (!corners.Contains(new TileData(other2)))
+                        if (!corners.Contains(new TileData(other2, this.id)))
                         {
                             var c = tiles.Find(t => t.GetPosition().Equals(other2));
                             corners.Add(c); // (!!!) podria no conicidir nunca

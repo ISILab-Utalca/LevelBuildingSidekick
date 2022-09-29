@@ -1,10 +1,11 @@
+using LBS.Representation.TileMap;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace LBS
+namespace LBS.Representation
 {
     [System.Serializable]
     public class TileData : ICloneable
@@ -14,15 +15,19 @@ namespace LBS
         [SerializeField, JsonRequired]
         private int y;
 
+        [SerializeField, JsonRequired]
+        private string RoomId; // info duplicada (?)
+
         public TileData() { }
 
-        public TileData(int x, int y)
+        public TileData(int x, int y,string roomId)
         {
             this.x = x;
             this.y = y;
+            this.RoomId = roomId;
         }
 
-        public TileData(Vector2Int pos)
+        public TileData(Vector2Int pos, string roomId)
         {
             this.x = pos.x;
             this.y = pos.y;
@@ -30,7 +35,7 @@ namespace LBS
 
         public object Clone()
         {
-            var clone = new TileData(this.x,this.y);
+            var clone = new TileData(this.x,this.y,this.RoomId);
             return clone;
         }
 
@@ -61,6 +66,11 @@ namespace LBS
         public override int GetHashCode()
         {
             return HashCode.Combine(x, y);
+        }
+
+        internal string GetRoomID()
+        {
+            return this.RoomId;
         }
     }
 }

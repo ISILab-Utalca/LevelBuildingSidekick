@@ -1,4 +1,5 @@
 using LBS.Graph;
+using LBS.Representation;
 using LBS.Representation.TileMap;
 using LBS.Schema;
 using System.Collections;
@@ -33,6 +34,13 @@ namespace LBS.Generator
                     pivot.transform.SetParent(mainPivot.transform);
                     pivot.transform.position = new Vector3(tile.GetPosition().x, 0, tile.GetPosition().y); // (* vector de tamaño de tile en mundo) (!)
 
+                    var cBundle = bundle.GetCategories().Where(c => c.pivotType == PivotType.Center).ToList();
+                    var eBundle = bundle.GetCategories().Where(c => c.pivotType == PivotType.Edge).ToList();
+
+                    GenPhysicEdge(eBundle, pivot.transform, tile, schema);
+                    /*
+                    go = GenPhysicCenter(cat, pivot.transform);
+
                     foreach (var cat in bundle.GetCategories())
                     {
                         GameObject go;
@@ -58,6 +66,7 @@ namespace LBS.Generator
                                 break;
                         }
                     }
+                    */
 
                 }
             }
@@ -70,18 +79,42 @@ namespace LBS.Generator
             return SceneView.Instantiate(prefs[Random.Range(0, prefs.Count)], parent);
         }
 
-        private GameObject GenPhysicEdge(ItemCategory bundle, Transform parent, Vector2 dir)
+        private GameObject GenPhysicEdge(List<ItemCategory> bundle, Transform parent,TileData tile,LBSTileMapData schema)
         {
-            var x = DirectoryTools.GetScriptable<Tags_SO>();
+            var bWall = bundle.Where(b => b.category == "Wall").ToList();
+            var bDoor = bundle.Where(b => b.category == "Door").ToList();
 
+            for (int i = 0; i < dirs.Count; i++)
+            {
+                var other = schema.GetTile(tile.GetPosition() + dirs[i]);
+                if(other == null) // si no hya otro tile pone muralla
+                {
+                    InstantiateEdge(bWall);
+                    continue;
+                }
 
-            var prefs = bundle.items;
-            SceneView.Instantiate(prefs[Random.Range(0, prefs.Count)], parent);
+                var doors = schema.GetDoors();
+                var tempDoor = new DoorData("", "", tile.GetPosition(), tile.GetPosition() + dirs[i]);
+                if (doors.Contains(tempDoor)) // si es una puerta pone puerta
+                {
+                    InstantiateEdge(bDoor);
+                    continue;
+                }
+
+                if(!other.GetRoomID().Equals(tile.GetRoomID())) // si son de diferentes habitaciones pone muralla
+                {
+                    InstantiateEdge(bDoor);
+                } // si son de la misma no pone nada
+            }
 
             return null;
-            //var r = SceneView.Instantiate();
-            //return r;
         }   
+
+        private void InstantiateEdge(List<ItemCategory> bundles)
+        {
+            //var prefs = bundle.items;
+            //SceneView.Instantiate(prefs[Random.Range(0, prefs.Count)], parent);
+        }
 
         public override void Init(LevelData levelData)
         {

@@ -12,6 +12,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.Experimental.GraphView;
 using LBS.Manipulators;
+using LBS.VisualElements;
 
 namespace LBS.Overlays
 {
@@ -20,7 +21,6 @@ namespace LBS.Overlays
     {
         private const string ID = "GraphOverlayTools";
          
-
         public override VisualElement CreatePanelContent()
         {
             var root = new VisualElement();
@@ -32,7 +32,6 @@ namespace LBS.Overlays
                 {
                     var wnd = EditorWindow.GetWindow<LBSGraphRCWindow>();
                     allMode.clicked += () => wnd.MainView.SetBasicManipulators();
-                    allMode.clicked += () => wnd.MainView.PrintManipulators();
                     allMode.text = "All mode";
                 }
                 btnGroup.Add(allMode);
@@ -77,7 +76,6 @@ namespace LBS.Overlays
 
                 var addNode = new PresedBtn();
                 {
-                    Debug.Log("A");
                     var wnd = EditorWindow.GetWindow<LBSGraphRCWindow>();
                     var c = wnd.GetController<LBSGraphRCController>();
                     addNode.clicked += () => wnd.MainView.SetManipulator(new AddNodeManipulator(c));
@@ -102,94 +100,4 @@ namespace LBS.Overlays
         }
     }
 
-    public class PresedBtn : Button, IGrupable
-    {
-        public new class UxmlFactory : UxmlFactory<PresedBtn, UxmlTraits> { }
-
-        public Color selected = new Color(0.35f, 0.35f, 0.35f, 1f);
-        public Color unselected = new Color(0.27f, 0.38f, 0.49f, 1f);
-        public Texture2D Icon;
-
-        public void AddEvent(Action action)
-        {
-            this.clicked += action;
-        }
-
-        public void SetActive(bool value)
-        {
-            this.style.backgroundColor = !value ? selected : unselected;
-        }
-    }
-
-    public interface IGrupable
-    {
-        public void AddEvent(Action action);
-
-        public void SetActive(bool value);
-    }
-
-    public class ButtonGroup : VisualElement
-    {
-        public new class UxmlFactory : UxmlFactory<ButtonGroup, UxmlTraits> { }
-
-        public bool allowSwitchOff = false;
-        private List<IGrupable> group = new List<IGrupable>();
-        private IGrupable current;
-
-        public ButtonGroup()
-        {
-            Init();
-        }
-
-        public void Init()
-        {
-            group = this.Query<VisualElement>().ToList().Where(ve => ve is IGrupable).Select(ve => ve as IGrupable).ToList();
-            group.ForEach(b => b.AddEvent(() => Active(b)));
-
-            if (!allowSwitchOff && group.Count > 0)
-            {
-                current = group[0];
-                Active(current);
-            }
-        }
-
-        private void Active(IGrupable active)
-        {
-            if (allowSwitchOff)
-            {
-                if (current == active)
-                {
-                    current = null;
-                    active.SetActive(false);
-                }
-                else
-                {
-                    group.ForEach(b => b.SetActive(false));
-                    current = active;
-                    active.SetActive(true);
-                }
-
-            }
-            else
-            {
-                //if (current == active)
-                //    return;
-
-                group.ForEach(b => b.SetActive(false));
-                current = active;
-                active.SetActive(true);
-            }
-        }
-
-        public void Remove(IGrupable btn)
-        {
-            group.Remove(btn);
-        }
-
-        public void AddMember(IGrupable btn)
-        {
-            group.Add(btn);
-        }
-
-    }
 }

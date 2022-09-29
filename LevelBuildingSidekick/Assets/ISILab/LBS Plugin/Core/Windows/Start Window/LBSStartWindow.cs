@@ -9,15 +9,16 @@ using UnityEngine.UIElements;
 using System;
 using System.Reflection;
 using System.IO;
+using LBS.VisualElements;
 
 namespace LBS.Windows
 {
     public class LBSStartWindow : EditorWindow
     {
         #region Selection
-        Button newLvlBtn;
-        Button loadLvlBtn;
-        Button infoBtn;
+        PresedBtn newLvlBtn;
+        PresedBtn loadLvlBtn;
+        PresedBtn infoBtn;
 
         VisualElement newLvlPanel;
         VisualElement loadLvlPanel;
@@ -72,9 +73,14 @@ namespace LBS.Windows
 
         void InitSelection()
         {
-            newLvlBtn = rootVisualElement.Q<Button>(name: "NewLvlBtn");
-            loadLvlBtn = rootVisualElement.Q<Button>(name: "LoadLvlBtn");
-            infoBtn = rootVisualElement.Q<Button>(name: "InfoBtn");
+            var g = rootVisualElement.Q<ButtonGroup>();
+            newLvlBtn = rootVisualElement.Q<PresedBtn>(name: "NewLvlBtn");
+            g.AddMember(newLvlBtn);
+            loadLvlBtn = rootVisualElement.Q<PresedBtn>(name: "LoadLvlBtn");
+            g.AddMember(loadLvlBtn);
+            infoBtn = rootVisualElement.Q<PresedBtn>(name: "InfoBtn");
+            g.AddMember(infoBtn);
+            g.Init();
 
             newLvlPanel = rootVisualElement.Q<VisualElement>(name: "NewLevel");
             loadLvlPanel = rootVisualElement.Q<VisualElement>(name: "LoadLevel");

@@ -114,13 +114,27 @@ namespace LBS.Representation.TileMap
             {
                 for (int j = 0; j < height; j++)
                 {
-                    tiles.Add(new TileData(new Vector2Int(firstPos.x + i - (width/2), firstPos.y + j - (height/2))));
+                    tiles.Add(new TileData(new Vector2Int(firstPos.x + i - (width / 2), firstPos.y + j - (height / 2)), ID));
                 }
             }
             rooms.Add(new RoomData(tiles, ID));
         }
 
-        
+        internal TileData GetTile(Vector2Int pos)
+        {
+            foreach (var room in rooms)
+            {
+                foreach (var tile in room.Tiles)
+                {
+                    if(tile.GetPosition().Equals(pos))
+                    {
+                        return tile;
+                    }
+                }
+            }
+            return null;
+        }
+
         public void AddTiles(List<TileData> tiles, string roomId)
         {
             SetTiles(tiles,roomId);
