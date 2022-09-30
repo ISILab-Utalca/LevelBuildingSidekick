@@ -1,3 +1,4 @@
+using LBS;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +8,11 @@ using Utility;
 
 public class StringEnumAttribute : PropertyAttribute
 {
-    public Tags_SO DB;
+    public LBSTags DB;
 
     public StringEnumAttribute()
     {
-        DB = DirectoryTools.GetScriptable<Tags_SO>();
+        DB = DirectoryTools.GetScriptable<LBSTags>();
     }
 }
 

@@ -44,7 +44,6 @@ namespace LBS.Windows
             this.btn = root.Q<Button>("Calculate");
             this.partitions = root.Q<Vector2Field>();
 
-            Debug.Log(btn);
             btn.clicked += Calculate;
         }
 
