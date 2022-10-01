@@ -1,7 +1,7 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
     <ui:VisualElement style="flex-wrap: nowrap; flex-direction: row; width: auto; height: auto; flex-grow: 1; min-height: 160px; min-width: 480px;">
         <ui:VisualElement name="Right" style="height: auto; flex-grow: 0; width: 165px; justify-content: center; flex-shrink: 1; min-height: auto;">
-            <BrushView tabindex="-1" focusable="true" />
+            <BrushView tabindex="-1" focusable="true" name="Preview" />
         </ui:VisualElement>
         <ui:VisualElement name="Left" style="height: auto; width: auto; flex-grow: 1; min-width: auto; min-height: auto;">
             <ui:VisualElement name="SM" style="height: 18px; width: auto; flex-direction: row; flex-grow: 0; min-width: auto; min-height: 18px;">
@@ -12,8 +12,7 @@
             </ui:VisualElement>
             <ui:VisualElement name="Elements" style="height: auto; width: auto; align-items: center; flex-grow: 1;">
                 <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" horizontal-scroller-visibility="Hidden" style="height: auto; width: auto; margin-top: 4px; flex-direction: row; flex-wrap: wrap; flex-grow: 1; min-width: auto; min-height: auto;">
-                    <ui:VisualElement name="BrushPanel" style="height: auto; width: auto; flex-direction: row; padding-right: 0; flex-wrap: nowrap; flex-grow: 1; align-items: stretch; flex-shrink: 1;" />
-                    <BrushView tabindex="-1" focusable="true" style="width: 100px; height: 100px;" />
+                    <ui:VisualElement name="BrushPanel" style="height: auto; width: auto; flex-direction: row; padding-right: 0; flex-wrap: wrap; flex-grow: 1; align-items: stretch; flex-shrink: 1;" />
                 </ui:ScrollView>
             </ui:VisualElement>
         </ui:VisualElement>

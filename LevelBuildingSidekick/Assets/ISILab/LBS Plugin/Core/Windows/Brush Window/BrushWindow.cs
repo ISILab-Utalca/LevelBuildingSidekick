@@ -71,6 +71,7 @@ namespace LBS.Windows
             this.tags = LBSTags.GetInstance("Brush tags");
             flags.choices = tags.Alls;
             flags.RegisterValueChangedCallback(v => ActualizeBrushPanel(LayerToTag(v.newValue)));
+            ActualizeBrushPanel(tags.Alls);
         }
 
         private List<string> LayerToTag(int map)
@@ -87,8 +88,8 @@ namespace LBS.Windows
             return r;
         }
 
-
-
+        // Este metodo aun no incluye la funcionalidade disernir
+        // que brushes mostrar segun sus tag, ahora muestra todas (!)
         private void ActualizeBrushPanel(List<string> tags)
         {
             var stamps = DirectoryTools.GetScriptables<StampPresset>().ToList();
@@ -96,14 +97,24 @@ namespace LBS.Windows
 
             foreach (var stamp in stamps)
             {
+                AddBrush(stamp);
+                /*
+                if (stamp.Tags.Count <= 0) 
+                {
+                    AddBrush(stamp);
+                    break;
+                }
+
                 foreach (var tag in tags)
                 {
+
                     if (stamp.Tags.Contains(tag))
                     {
                         AddBrush(stamp);
                         break;
                     }
                 }
+                */
             }
         }
 
@@ -125,6 +136,7 @@ namespace LBS.Windows
         private void AddBrush(StampPresset presset)
         {
             var brush = new BrushView(presset);
+            brush.style.height = brush.style.width = 50;
             brush.clicked += () => { Select(brush.Presset); };
             brushesPanel.Add(brush);
         }
