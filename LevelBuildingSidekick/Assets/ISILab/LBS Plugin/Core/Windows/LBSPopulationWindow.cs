@@ -30,6 +30,13 @@ namespace LBS.Windows
                 () => Debug.Log("[Implementar]")
                 ));
 
+            actions.Add(new Tuple<string, Action>(
+                "Map Elites",
+                () => {
+                    var wnd = GetWindow<MapEliteWindow>();
+                    wnd.mainView = this;
+                })) ;
+
             nextWindow = typeof(LBSQuestWindow);
             prevWindow = typeof(LBSSchemaWindow);
         }
@@ -38,8 +45,8 @@ namespace LBS.Windows
         {
             var data = LBSController.CurrentLevel.data; // peligroso buscar otra forma (!)
 
-            AddController(new LBSTileMapController(MainView, data.GetRepresentation<LBSTileMapData>()));
-            AddController(new LBSStampController(MainView, data.GetRepresentation<LBSStampGroupData>()));
+            //AddController(new LBSTileMapController(MainView, data.GetRepresentation<LBSTileMapData>()));
+            AddController(new LBSStampTileMapController(MainView, data.GetRepresentation<LBSStampGroupData>()));
         }
 
     }

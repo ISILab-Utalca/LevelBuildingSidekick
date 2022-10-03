@@ -18,7 +18,7 @@ namespace LBS.Windows
             window.titleContent = new GUIContent("Map Elite");
         }
 
-        public MainView mainView;
+        public GenericGraphWindow mainView;
 
         public Button btn;
         public Vector2Field partitions;
