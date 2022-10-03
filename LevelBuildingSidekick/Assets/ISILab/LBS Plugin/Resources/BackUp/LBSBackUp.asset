@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: LBSBackUp
   m_EditorClassIdentifier: 
   level:
-    fullName: C:\Users\fergo\OneDrive\Documentos\GitHub\level-building-sidekick\LevelBuildingSidekick\Assets\ISILab\LBS
-      Examples\Test Levels\Test_Extra2.json
+    fullName: 
     data:
       tags: []
       levelObjects: []
@@ -22,245 +21,55 @@ MonoBehaviour:
       y: 0
       z: 0
       representations:
-      - rid: 2850100449300185561
-      - rid: 2850100472610554163
+      - rid: 2850100766269243520
+      - rid: 2850100766269243521
   references:
     version: 2
     RefIds:
-    - rid: 2850100449300185561
+    - rid: 2850100766269243520
       type: {class: LBSGraphData, ns: LBS.Graph, asm: Assembly-CSharp}
       data:
         nodes:
-        - rid: 2850100449300185566
-        - rid: 2850100449300185568
-        - rid: 2850100449300186058
-        - rid: 2850100449300186059
-        - rid: 2850100449300186060
-        edges:
-        - rid: 2850100449300185570
-        - rid: 2850100449300186067
-        - rid: 2850100449300186068
-        - rid: 2850100449300186069
-    - rid: 2850100449300185566
+        - rid: 2850100766269243522
+        - rid: 2850100766269243524
+        edges: []
+    - rid: 2850100766269243521
+      type: {class: LBSTileMapData, ns: LBS.Representation.TileMap, asm: Assembly-CSharp}
+      data:
+        rooms: []
+    - rid: 2850100766269243522
       type: {class: RoomCharacteristicsData, ns: LBS.Schema, asm: Assembly-CSharp}
       data:
         label: 'Node: 0'
         radius: 32
         rangeWidth:
-          min: 2
-          max: 2
+          min: 1
+          max: 1
         rangeHeight:
-          min: 2
-          max: 2
+          min: 1
+          max: 1
         aspectRatio:
           width: 1
           heigth: 1
-        proportionType: 1
+        proportionType: 0
         prefabs: []
         bundlesNames: []
         tags: []
-    - rid: 2850100449300185568
+    - rid: 2850100766269243524
       type: {class: RoomCharacteristicsData, ns: LBS.Schema, asm: Assembly-CSharp}
       data:
         label: 'Node: 1'
         radius: 32
         rangeWidth:
-          min: 2
-          max: 2
+          min: 1
+          max: 1
         rangeHeight:
-          min: 2
-          max: 2
+          min: 1
+          max: 1
         aspectRatio:
           width: 1
           heigth: 1
-        proportionType: 1
+        proportionType: 0
         prefabs: []
         bundlesNames: []
         tags: []
-    - rid: 2850100449300185570
-      type: {class: LBSEdgeData, ns: , asm: Assembly-CSharp}
-      data:
-        firstNodeLabel: 'Node: 0'
-        secondNodeLabel: 'Node: 1'
-        thikness: 5
-    - rid: 2850100449300186058
-      type: {class: RoomCharacteristicsData, ns: LBS.Schema, asm: Assembly-CSharp}
-      data:
-        label: 'Node: 2'
-        radius: 32
-        rangeWidth:
-          min: 2
-          max: 2
-        rangeHeight:
-          min: 2
-          max: 2
-        aspectRatio:
-          width: 1
-          heigth: 1
-        proportionType: 1
-        prefabs: []
-        bundlesNames: []
-        tags: []
-    - rid: 2850100449300186059
-      type: {class: RoomCharacteristicsData, ns: LBS.Schema, asm: Assembly-CSharp}
-      data:
-        label: 'Node: 3'
-        radius: 32
-        rangeWidth:
-          min: 2
-          max: 2
-        rangeHeight:
-          min: 2
-          max: 2
-        aspectRatio:
-          width: 1
-          heigth: 1
-        proportionType: 1
-        prefabs: []
-        bundlesNames: []
-        tags: []
-    - rid: 2850100449300186060
-      type: {class: RoomCharacteristicsData, ns: LBS.Schema, asm: Assembly-CSharp}
-      data:
-        label: 'Node: 4'
-        radius: 32
-        rangeWidth:
-          min: 2
-          max: 2
-        rangeHeight:
-          min: 2
-          max: 2
-        aspectRatio:
-          width: 1
-          heigth: 1
-        proportionType: 1
-        prefabs: []
-        bundlesNames: []
-        tags: []
-    - rid: 2850100449300186067
-      type: {class: LBSEdgeData, ns: , asm: Assembly-CSharp}
-      data:
-        firstNodeLabel: 'Node: 1'
-        secondNodeLabel: 'Node: 2'
-        thikness: 5
-    - rid: 2850100449300186068
-      type: {class: LBSEdgeData, ns: , asm: Assembly-CSharp}
-      data:
-        firstNodeLabel: 'Node: 2'
-        secondNodeLabel: 'Node: 3'
-        thikness: 5
-    - rid: 2850100449300186069
-      type: {class: LBSEdgeData, ns: , asm: Assembly-CSharp}
-      data:
-        firstNodeLabel: 'Node: 3'
-        secondNodeLabel: 'Node: 4'
-        thikness: 5
-    - rid: 2850100472610554163
-      type: {class: LBSTileMapData, ns: LBS.Representation.TileMap, asm: Assembly-CSharp}
-      data:
-        rooms:
-        - rid: 2850100472610554164
-        - rid: 2850100472610554165
-        - rid: 2850100472610554166
-        - rid: 2850100472610554167
-        - rid: 2850100472610554168
-    - rid: 2850100472610554164
-      type: {class: RoomData, ns: LBS.Representation.TileMap, asm: Assembly-CSharp}
-      data:
-        id: 'Node: 1'
-        tiles:
-        - x: -1
-          y: -1
-        - x: -1
-          y: 0
-        - x: 0
-          y: -1
-        - x: 0
-          y: 0
-        - x: -2
-          y: -1
-        - x: -2
-          y: 0
-        - x: -2
-          y: 1
-        - x: -1
-          y: 1
-        - x: 0
-          y: 1
-        color: A4318E
-    - rid: 2850100472610554165
-      type: {class: RoomData, ns: LBS.Representation.TileMap, asm: Assembly-CSharp}
-      data:
-        id: 'Node: 0'
-        tiles:
-        - x: -3
-          y: -1
-        - x: -3
-          y: -2
-        color: 1A8980
-    - rid: 2850100472610554166
-      type: {class: RoomData, ns: LBS.Representation.TileMap, asm: Assembly-CSharp}
-      data:
-        id: 'Node: 2'
-        tiles:
-        - x: 1
-          y: 1
-        - x: 3
-          y: 1
-        - x: 1
-          y: 3
-        - x: 3
-          y: 3
-        - x: 1
-          y: 2
-        - x: 3
-          y: 2
-        - x: 2
-          y: 1
-        - x: 2
-          y: 2
-        - x: 2
-          y: 3
-        color: 068A33
-    - rid: 2850100472610554167
-      type: {class: RoomData, ns: LBS.Representation.TileMap, asm: Assembly-CSharp}
-      data:
-        id: 'Node: 3'
-        tiles:
-        - x: 4
-          y: 3
-        - x: 4
-          y: 5
-        - x: 6
-          y: 3
-        - x: 6
-          y: 5
-        - x: 4
-          y: 4
-        - x: 6
-          y: 4
-        - x: 5
-          y: 3
-        - x: 5
-          y: 4
-        - x: 5
-          y: 5
-        color: 28FE5D
-    - rid: 2850100472610554168
-      type: {class: RoomData, ns: LBS.Representation.TileMap, asm: Assembly-CSharp}
-      data:
-        id: 'Node: 4'
-        tiles:
-        - x: 6
-          y: 6
-        - x: 6
-          y: 8
-        - x: 6
-          y: 7
-        - x: 7
-          y: 6
-        - x: 7
-          y: 7
-        - x: 7
-          y: 8
-        color: 3B99E5
