@@ -20,10 +20,12 @@ public class LBSStampController : LBSRepController<LBSStampGroupData>
     {
         cmpe.menu.AppendAction("Stamp/Print", (dma) => { data.Print(); });
 
+        var mousePos = cmpe.localMousePosition;
+
         var stamps = DirectoryTools.GetScriptablesByType<StampPresset>();
         foreach (var stamp in stamps)
         {
-            cmpe.menu.AppendAction("Stamp/Create/" + stamp.name, (dma) => CreateStamp(cmpe, view, stamp));
+            cmpe.menu.AppendAction("Stamp/Create/" + stamp.name, (dma) => CreateStamp(mousePos, view, stamp));
         }
 
         cmpe.menu.AppendAction("Stamp/Clear", (dma) => { 
@@ -41,10 +43,10 @@ public class LBSStampController : LBSRepController<LBSStampGroupData>
         });
     }
 
-    public virtual void CreateStamp(ContextualMenuPopulateEvent evt, GraphView view, StampPresset stamp)
+    public virtual void CreateStamp(Vector2 pos, GraphView view, StampPresset stamp)
     {
         var viewPos = new Vector2(view.viewTransform.position.x, view.viewTransform.position.y);
-        var pos = (evt.localMousePosition - viewPos) / view.scale;
+        pos = (pos - viewPos) / view.scale;
 
         var newStamp = new StampData(stamp.name, pos);
         data.AddStamp(newStamp);
