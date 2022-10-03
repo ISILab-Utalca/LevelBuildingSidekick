@@ -19,6 +19,7 @@ namespace LBS
 
 
         [SerializeField, JsonRequired]
+        [Tooltip("Defines the position of the items as center, edge or vertex. Suggestion:\n Floor and Skies: Center \n Walls and door: Edge")]
         public PivotType pivotType;
 
         [SerializeField, JsonIgnore]

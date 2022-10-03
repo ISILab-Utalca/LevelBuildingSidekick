@@ -31,18 +31,20 @@ namespace LBS.Schema
         private AspectRatioValue aspectRatio = new AspectRatioValue(1, 1);
 
         [SerializeField, JsonRequired]
+        [Tooltip("Choose size to adjust the width and height of the rooms.")]
         private ProportionType proportionType = ProportionType.RATIO;
 
         [SerializeField, JsonIgnore]
         private List<ItemCategory> prefabs = new List<ItemCategory>(); // esto para que (??)
 
         [SerializeField, JsonRequired]
+        [Tooltip("Assign a list of prefabs as a bundle to a node.")]
         public List<string> bundlesNames = new List<string>();
 
         [SerializeField, JsonRequired]
         private List<string> tags = new List<string>();
 
-        [JsonIgnore]
+        [JsonIgnore]        
         public ProportionType ProportionType => proportionType;
 
         [JsonIgnore]
