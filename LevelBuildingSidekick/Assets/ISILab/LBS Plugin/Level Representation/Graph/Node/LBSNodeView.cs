@@ -61,20 +61,8 @@ namespace LBS.Graph
              
         }
 
-        public new void RemoveFromHierarchy()
-        {
-            Debug.Log("RFH");
-            //base.RemoveFromHierarchy();
-        }
-
-        public override void HandleEvent(EventBase evt)
-        {
-            //Debug.Log(evt.GetType());
-        }
-
         public void Delete()
         {
-            //rootView.refres
             this.OnDelete();
         }
 

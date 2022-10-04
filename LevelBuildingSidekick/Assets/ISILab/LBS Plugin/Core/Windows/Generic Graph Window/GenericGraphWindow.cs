@@ -106,7 +106,11 @@ namespace LBS.Windows
 
         public void RefreshView()
         {
-            mainView.graphElements.ForEach(e => mainView.RemoveElement(e));
+            foreach (var e in mainView.graphElements)
+            {
+                mainView.RemoveElement(e);
+            }
+            //mainView.graphElements.ForEach(e => mainView.RemoveElement(e));
             mainView.ClearView();
 
             controllers.Clear();

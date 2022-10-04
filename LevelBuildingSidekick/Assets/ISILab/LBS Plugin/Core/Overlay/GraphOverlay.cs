@@ -67,27 +67,35 @@ namespace LBS.Overlays
 
                 var delete = new PresedBtn();
                 {
-                    var wnd = EditorWindow.GetWindow<LBSGraphRCWindow>();
-                    var c = wnd.GetController<LBSGraphRCController>();
-                    delete.clicked += () => wnd.MainView.SetManipulator(new DeleteManipulator(c));
+                    delete.clicked += () =>
+                    {
+                        var wnd = EditorWindow.GetWindow<LBSGraphRCWindow>();
+                        var c = wnd.GetController<LBSGraphRCController>();
+                        wnd.MainView.SetManipulator(new DeleteNodeManipulator(wnd,c));
+                    };
                     delete.text = "Delete mode";
                 }
                 btnGroup.Add(delete);
 
                 var addNode = new PresedBtn();
                 {
-                    var wnd = EditorWindow.GetWindow<LBSGraphRCWindow>();
-                    var c = wnd.GetController<LBSGraphRCController>();
-                    addNode.clicked += () => wnd.MainView.SetManipulator(new AddNodeManipulator(c));
+                    addNode.clicked += () => {
+                        var wnd = EditorWindow.GetWindow<LBSGraphRCWindow>();
+                        var c = wnd.GetController<LBSGraphRCController>();
+                        wnd.MainView.SetManipulator(new AddNodeManipulator(wnd,c)); 
+                    };
                     addNode.text = "Add node mode";
                 }
                 btnGroup.Add(addNode);
 
                 var connect = new PresedBtn();
                 {
-                    var wnd = EditorWindow.GetWindow<LBSGraphRCWindow>();
-                    var c = wnd.GetController<LBSGraphRCController>();
-                    connect.clicked += () => wnd.MainView.SetManipulator(new ConnectionManipulator(c));
+                    connect.clicked += () =>
+                    {
+                        var wnd = EditorWindow.GetWindow<LBSGraphRCWindow>();
+                        var c = wnd.GetController<LBSGraphRCController>();
+                        wnd.MainView.SetManipulator(new ConnectionManipulator(wnd,c));
+                    };
                     connect.text = "Connect mode";
                 }
                 btnGroup.Add(connect);

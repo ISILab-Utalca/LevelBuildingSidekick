@@ -1,4 +1,5 @@
 using LBS.Graph;
+using LBS.Windows;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,13 +9,15 @@ public class ConnectionManipulator : MouseManipulator
 {
     private LBSNodeData first;
     private LBSGraphRCController controller;
+    private GenericGraphWindow window;
 
     public Vector2 panSpeed { get; set; }
 
-    public ConnectionManipulator(LBSGraphRCController controller)
+    public ConnectionManipulator(GenericGraphWindow window,LBSGraphRCController controller)
     {
         activators.Add(new ManipulatorActivationFilter { button = MouseButton.RightMouse });
         this.controller = controller;
+        this.window = window;
     }
 
     protected override void RegisterCallbacksOnTarget()
@@ -38,7 +41,9 @@ public class ConnectionManipulator : MouseManipulator
             return;
 
         first = node.Data;
+        
     }
+
     private void OnMouseMove(MouseMoveEvent e)
     {
         //Debug.Log("Move drag");
@@ -55,5 +60,6 @@ public class ConnectionManipulator : MouseManipulator
 
         var edge = new LBSEdgeData(first, node.Data);
         controller.AddEdge(edge);
+        window.RefreshView();
     }
 }

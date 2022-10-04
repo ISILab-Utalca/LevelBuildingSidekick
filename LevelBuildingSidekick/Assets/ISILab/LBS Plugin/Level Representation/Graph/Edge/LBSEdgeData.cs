@@ -71,10 +71,7 @@ public class LBSEdgeData: Data
 
     public LBSEdgeData(LBSNodeData n1, LBSNodeData n2)
     {
-        Debug.Log(n1 + ", " + n1.Label + ", " + n2 + "," + n2.Label);
-        //this.firstNode = n1;
         this.firstNodeLabel = n1.Label;
-        //this.secondNode = n2;
         this.secondNodeLabel = n2.Label;
     }
 

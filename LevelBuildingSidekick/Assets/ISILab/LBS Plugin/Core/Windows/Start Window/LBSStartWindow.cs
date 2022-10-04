@@ -53,6 +53,8 @@ namespace LBS.Windows
 
             methods = Utility.Reflection.CollectMetohdsByAttribute<LBSWindowAttribute>();
             presets = Utility.DirectoryTools.GetScriptablesByType<WindowsPreset>();
+
+
         }
 
         public void CreateGUI()

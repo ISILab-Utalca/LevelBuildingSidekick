@@ -13,6 +13,7 @@ using Random = UnityEngine.Random;
 
 namespace LBS.Representation.TileMap
 {
+    //schema
     public class LBSTileMapController : LBSRepController<LBSTileMapData>
     {
         private static readonly Vector2 tileSize = new Vector2(100, 100); // mover a data
@@ -20,6 +21,11 @@ namespace LBS.Representation.TileMap
         public LBSTileMapController(LBSGraphView view, LBSTileMapData data) : base(view, data)
         {
 
+        }
+
+        public void RemoveTile(TileData tile)
+        {
+            data.RemoveTile(tile);
         }
 
         public override void OnContextualBuid( MainView view, ContextualMenuPopulateEvent cmpe)
@@ -49,7 +55,9 @@ namespace LBS.Representation.TileMap
                         continue;
 
                     var pos = new Vector2Int(i, j);
-                    var tv = CreateTileView(pos, tileSize, roomData); // esta es la linea en cuestion que lagea (!!!)
+                    var posT = new Vector2Int(i, j) - dt;
+                    var t = roomData.GetTile(posT);
+                    var tv = CreateTileView(t, pos, tileSize, roomData); // esta es la linea en cuestion que lagea (!!!)
 
                     var doors = data.GetDoors();
                     foreach (var d in doors)
@@ -126,9 +134,9 @@ namespace LBS.Representation.TileMap
             return "Schema Layer";
         }
 
-        private TileView CreateTileView(Vector2Int tilePos, Vector2 size, RoomData data)
+        private LBSTileView CreateTileView(TileData tileData,Vector2Int tilePos, Vector2 size, RoomData data)
         {
-            var tile = new TileView();
+            var tile = new LBSTileView(tileData,view);
             tile.SetPosition(new Rect(tilePos * size, size));
             tile.SetSize((int)size.x, (int)size.y);
             tile.SetColor(data.Color);

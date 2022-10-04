@@ -1,10 +1,12 @@
 using LBS.ElementView;
+using LBS.Representation;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+// public class LBSSchemaController : LBSRepController<LBStile>, ITileMap
 public class LBSStampTileMapController : LBSStampController, ITileMap
 {
     public static int UnitSize = 100; //esto no dbeería estar aca(!!!)
@@ -20,8 +22,11 @@ public class LBSStampTileMapController : LBSStampController, ITileMap
     public override void OnContextualBuid(MainView view, ContextualMenuPopulateEvent cmpe)
     {
         base.OnContextualBuid(view, cmpe);
+    }
 
-
+    public void Remove(TileData tile)
+    {
+        //data.RemoveStamp();
     }
 
     public override void CreateStamp(Vector2 pos, GraphView view, StampPresset stamp)

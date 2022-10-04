@@ -55,10 +55,14 @@ namespace LBS.Representation.TileMap
         {
             rooms.Clear();
             doors.Clear();
+            SetDirty();
+        }
+
+        public void SetDirty() // este nombre no es correcto pero se asemeja al comportamiento de unity (!)
+        {
             matrixIDs = null;
             rect = null;
             tilevalue = null;
-            //size = null;
         }
 
         public void AddDoor(DoorData door)
@@ -118,6 +122,7 @@ namespace LBS.Representation.TileMap
                 }
             }
             rooms.Add(new RoomData(tiles, ID));
+            SetDirty();
         }
 
         internal TileData GetTile(Vector2Int pos)
@@ -135,9 +140,12 @@ namespace LBS.Representation.TileMap
             return null;
         }
 
+
+
         public void AddTiles(List<TileData> tiles, string roomId)
         {
             SetTiles(tiles,roomId);
+            SetDirty();
         }
 
         public void RemoveTiles(List<Vector2Int> tiles)
@@ -163,6 +171,7 @@ namespace LBS.Representation.TileMap
             {
                 RemoveTile(t);
             }
+            SetDirty();
         }
 
         public void RemoveTile(TileData tile)
@@ -174,6 +183,7 @@ namespace LBS.Representation.TileMap
                     r.RemoveTile(tile);
                 }
             }
+            SetDirty();
         }
 
         /// <summary>
@@ -198,6 +208,7 @@ namespace LBS.Representation.TileMap
             {
                 room.AddTile(t);
             }
+            SetDirty();
         }
 
         public object Clone()

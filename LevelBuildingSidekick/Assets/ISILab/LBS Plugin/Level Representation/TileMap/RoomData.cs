@@ -71,6 +71,19 @@ namespace LBS.Representation.TileMap
             return clone;
         }
 
+        public TileData GetTile(Vector2Int pos)
+        {
+            for (int i = 0; i < tiles.Count; i++)
+            {
+                var t = tiles[i];
+                if(t.GetPosition().Equals(pos))
+                {
+                    return t;
+                }
+            }
+            return null;
+        }
+
         internal bool Contains(TileData data)
         {
             return tiles.Find(t => t.Equals(data)) != null;

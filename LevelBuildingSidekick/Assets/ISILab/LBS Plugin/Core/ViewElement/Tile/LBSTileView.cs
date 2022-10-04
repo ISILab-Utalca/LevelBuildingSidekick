@@ -1,3 +1,4 @@
+using LBS.Representation;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
@@ -6,9 +7,12 @@ using UnityEngine.UIElements;
 
 namespace LBS.ElementView
 {
-    public class TileView : GraphElement
+    public class LBSTileView : LBSGraphElement
     {
-        //public new class UxmlFactory : UxmlFactory<TileView, VisualElement.UxmlTraits> { }
+       
+        //public new class UxmlFactory : UxmlFactory<LBSTileView, VisualElement.UxmlTraits> { }
+
+        public TileData Data;
 
         private int wallthicc = 8;
         private VisualElement border;
@@ -20,8 +24,10 @@ namespace LBS.ElementView
         public VisualElement top;
         public VisualElement bottom;
 
-        public TileView()
+        public LBSTileView(TileData tile, LBSGraphView root) : base(root)
         {
+            Data = tile;
+
             var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("Tile");
             visualTree.CloneTree(this);
 
@@ -147,6 +153,11 @@ namespace LBS.ElementView
         {
             this.style.width = this.style.maxWidth = this.style.minWidth = x;
             this.style.height = this.style.maxHeight = this.style.minHeight = y;
+        }
+
+        public override void OnDelete()
+        {
+            throw new System.NotImplementedException();
         }
 
         public enum WallDirection

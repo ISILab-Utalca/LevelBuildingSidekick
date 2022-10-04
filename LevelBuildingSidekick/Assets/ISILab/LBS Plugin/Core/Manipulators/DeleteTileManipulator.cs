@@ -1,5 +1,5 @@
-using LBS.Graph;
-using LBS.Schema;
+using LBS.ElementView;
+using LBS.Representation.TileMap;
 using LBS.Windows;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,12 +8,12 @@ using UnityEngine.UIElements;
 
 namespace LBS.Manipulators
 {
-    public class AddNodeManipulator : MouseManipulator
+    public class DeleteTileManipulator : MouseManipulator
     {
-        private LBSGraphRCController controller;
+        private LBSTileMapController controller;
         private GenericGraphWindow window;
 
-        public AddNodeManipulator(GenericGraphWindow window,LBSGraphRCController controller)
+        public DeleteTileManipulator(GenericGraphWindow window, LBSTileMapController controller)
         {
             activators.Add(new ManipulatorActivationFilter { button = MouseButton.LeftMouse });
             this.controller = controller;
@@ -32,12 +32,17 @@ namespace LBS.Manipulators
 
         private void OnMouseDown(MouseDownEvent e)
         {
-            var pos = e.localMousePosition;
+            var t = e.target as LBSGraphElement;
+            if (t == null)
+                return;
 
-            var graph = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
-            var node = new RoomCharacteristicsData("Node: " + graph.NodeCount(), pos, 32);
-            graph.AddNode(node);
-            window.RefreshView();
+            var tile = e.target as LBSTileView;
+            if (tile != null)
+            {
+                controller.RemoveTile(tile.Data);
+                window.RefreshView();
+                return;
+            }
         }
     }
 }

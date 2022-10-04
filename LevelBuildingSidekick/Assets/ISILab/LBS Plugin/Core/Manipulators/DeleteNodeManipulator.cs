@@ -1,4 +1,6 @@
+using LBS.ElementView;
 using LBS.Graph;
+using LBS.Windows;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,15 +8,16 @@ using UnityEngine.UIElements;
 
 namespace LBS.Manipulators
 {
-
-    public class DeleteManipulator : MouseManipulator
+    public class DeleteNodeManipulator : MouseManipulator 
     {
         private LBSGraphRCController controller;
+        private GenericGraphWindow window;
 
-        public DeleteManipulator(LBSGraphRCController controller)
+        public DeleteNodeManipulator(GenericGraphWindow window,LBSGraphRCController controller)
         {
             activators.Add(new ManipulatorActivationFilter {button = MouseButton.LeftMouse});
             this.controller = controller;
+            this.window = window;
         }
 
         protected override void RegisterCallbacksOnTarget()
@@ -30,6 +33,7 @@ namespace LBS.Manipulators
         private void OnMouseDown(MouseDownEvent e)
         {
             var t = e.target as LBSGraphElement;
+            //var t = (T)e.target; 
             if (t == null)
                 return;
 
@@ -38,6 +42,7 @@ namespace LBS.Manipulators
             if (node != null)
             {
                 controller.RemoveNode(node.Data);
+                window.RefreshView();
                 //var graph = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
                 //graph.RemoveNode(node.Data.Label);
                 //t.Clear();
@@ -49,6 +54,7 @@ namespace LBS.Manipulators
             if(edge != null)
             {
                 controller.RemoveEdge(edge.Data);
+                window.RefreshView();
                 //var graph = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
                 //graph.RemoveEdge(edge.Data);
                 //t.Clear();
