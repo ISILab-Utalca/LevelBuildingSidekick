@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 namespace LBS.VisualElements
 {
-    public class MapEliteElementView : VisualElement
+    public class MapEliteElementView : Button
     {
         public new class UxmlFactory : UxmlFactory<MapEliteElementView, VisualElement.UxmlTraits> { }
 

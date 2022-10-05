@@ -6,7 +6,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-// public class LBSSchemaController : LBSRepController<LBStile>, ITileMap
+// public class LBSPopulationController : LBSRepController<LBStile>, ITileMap
 public class LBSStampTileMapController : LBSStampController, ITileMap
 {
     public static int UnitSize = 100; //esto no dbeería estar aca(!!!)
@@ -43,12 +43,12 @@ public class LBSStampTileMapController : LBSStampController, ITileMap
         view.AddElement(new StampView(newStamp));
     }
 
-    public Vector2 ToTileCoords(Vector2 position)
+    public Vector2Int ToTileCoords(Vector2 position)
     {
         int x = (int)(position.x - (position.x % TileSize));
         int y = (int)(position.y - (position.y % TileSize));
 
-        return new Vector2(x, y);
+        return new Vector2Int(x, y);
     }
 
     public Vector2 FromTileCoords(Vector2 position)

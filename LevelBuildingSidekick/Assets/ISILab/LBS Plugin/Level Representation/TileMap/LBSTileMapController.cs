@@ -14,9 +14,13 @@ using Random = UnityEngine.Random;
 namespace LBS.Representation.TileMap
 {
     //schema
-    public class LBSTileMapController : LBSRepController<LBSTileMapData>
+    public class LBSTileMapController : LBSRepController<LBSTileMapData> , ITileMap
     {
         private static readonly Vector2 tileSize = new Vector2(100, 100); // mover a data
+
+        public float Subdivision => throw new NotImplementedException();
+
+        public float TileSize => throw new NotImplementedException();
 
         public LBSTileMapController(LBSGraphView view, LBSTileMapData data) : base(view, data)
         {
@@ -300,6 +304,18 @@ namespace LBS.Representation.TileMap
             return neightbours;
         }
 
+        public Vector2Int ToTileCoords(Vector2 position)
+        {
+            int x = (int)(position.x - (position.x % TileSize));
+            int y = (int)(position.y - (position.y % TileSize));
+
+            return new Vector2Int(x, y);
+        }
+
+        public Vector2 FromTileCoords(Vector2 position)
+        {
+            return position * TileSize;
+        }
     }
 }
 

@@ -17,6 +17,8 @@ namespace LBS.Overlays
     {
         private const string ID = "SchemaOverlayTools";
 
+        public RoomData cTemp = null;
+
         public override VisualElement CreatePanelContent()
         {
             var root = new VisualElement();
@@ -76,12 +78,30 @@ namespace LBS.Overlays
                     addTile.clicked += () =>
                     {
                         var wnd = EditorWindow.GetWindow<LBSSchemaWindow>();
-                        var c = wnd.GetController<LBSStampTileMapController>();
-                        //wnd.MainView.SetManipulator(new DeleteManipulator(c));
+                        var c = wnd.GetController<LBSTileMapController>();
+                        wnd.MainView.SetManipulator(new AddTileManipulator(wnd,c,cTemp));
                     };
                     addTile.text = "Add tile mode";
                 }
                 btnGroup.Add(addTile);
+
+                var changeRoom = new Button();
+                {
+                    var box = new Box();
+                    changeRoom.Add(box);
+                    changeRoom.clicked += () =>
+                    {
+                        var wnd = EditorWindow.GetWindow<LBSSchemaWindow>();
+                        var c = wnd.GetController<LBSStampTileMapController>();
+                        var d = c.GetData() as LBSTileMapData;
+                        var x = d.GetRooms()[Random.Range(0, d.GetRooms().Count)];
+                        cTemp = x;
+                        box.style.color = x.Color;
+                    };
+                    changeRoom.text = "Change room:";
+
+                }
+                btnGroup.Add(changeRoom);
 
                 var addDoor = new PresedBtn();
                 {
