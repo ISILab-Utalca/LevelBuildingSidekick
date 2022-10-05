@@ -11,8 +11,8 @@ public class Startup
     {
         // propiedad que se pueda cambiar para que el usuario pueda dejar
         // de ver esta pantalla al inicio del proyecto si lo necesita
-        if (false)
-            return;
+        //if (false)
+        //    return;
 
         var onStart = SessionState.GetBool("start",true);
         if(onStart)

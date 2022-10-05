@@ -20,7 +20,7 @@ namespace LBS.Representation.TileMap
 
         public float Subdivision => throw new NotImplementedException();
 
-        public float TileSize => throw new NotImplementedException();
+        public float TileSize => tileSize.x;
 
         public LBSTileMapController(LBSGraphView view, LBSTileMapData data) : base(view, data)
         {
@@ -42,6 +42,37 @@ namespace LBS.Representation.TileMap
         }
 
         public override void PopulateView(MainView view)
+        {
+            var dt = data.GetDT();
+            var rooms = data.GetRooms();
+            var doors = data.GetDoors();
+            foreach (var room in rooms)
+            {
+                foreach (var tile in room.Tiles)
+                {
+                    var pos = tile.GetPosition();// - dt;
+                    var tv = CreateTileView(tile, pos, tileSize, room);
+
+                    foreach (var door in doors)
+                    {
+                        var pos1 = door.GetFirstPosition();// - dt;
+                        var pos2 = door.GetSecondPosition();// - dt;
+                        if (pos == pos1)
+                            tv.ShowDir(pos2 - pos1);
+                        else if (pos == pos2)
+                            tv.ShowDir(pos1 - pos2);
+                    }
+
+                    elements.Add(tv);
+                    view.AddElement(tv);
+                }
+            }
+
+            
+        }
+
+        /*
+        public override void PopulateView(MainView view) 
         {
             // Esto demora 1.8 seg en completarse con alrededor de 550 tiles,
             // es necesario mejorar la eficinecia en este paso ya que añade mucha demora.
@@ -84,7 +115,7 @@ namespace LBS.Representation.TileMap
                 }
             }
         }
-
+        */
         internal LBSTileMapData RecalculateDoors(LBSTileMapData schema)
         {
             var graphData = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
@@ -156,6 +187,8 @@ namespace LBS.Representation.TileMap
                             () => { return Utility.HillClimbing.NonSignificantEpochs >= 100; },
                             GetNeighbors,
                             EvaluateMap);
+            optimized.RecalculateTilePos();
+            LBSController.CurrentLevel.data.AddRepresentation(optimized);
             return optimized;
         }
 
@@ -304,10 +337,10 @@ namespace LBS.Representation.TileMap
             return neightbours;
         }
 
-        public Vector2Int ToTileCoords(Vector2 position)
+        public Vector2Int ToTileCoords(Vector2 pos)
         {
-            int x = (int)(position.x - (position.x % TileSize));
-            int y = (int)(position.y - (position.y % TileSize));
+            int x = (pos.x > 0)? (int)(pos.x / (float)TileSize): (int)(pos.x / (float)TileSize) - 1;
+            int y = (pos.y > 0)? (int)(pos.y / (float)TileSize): (int)(pos.y / (float)TileSize) - 1;
 
             return new Vector2Int(x, y);
         }

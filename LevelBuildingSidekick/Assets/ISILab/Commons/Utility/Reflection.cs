@@ -16,13 +16,13 @@ namespace Utility
             return MakeGenericWraper<ScriptableObject>(obj);
         }
 
-        private static T MakeGenericWraper<T>(object obj)
+        private static T MakeGenericWraper<T>(object obj) where T : ScriptableObject
         {
-            AssemblyName an = new AssemblyName(obj.ToString() + "_generic");
+            AssemblyName an = new AssemblyName(obj.ToString() + "Generic");
             var ab = AssemblyBuilder.DefineDynamicAssembly(an, AssemblyBuilderAccess.Run);
             var mb = ab.DefineDynamicModule(an.Name);
 
-            var tb = mb.DefineType(obj.ToString() + "_generic", TypeAttributes.Public, typeof(T));
+            var tb = mb.DefineType(obj.ToString() + "Generic", TypeAttributes.Public, typeof(T));
             tb.DefineField("data", obj.GetType(), FieldAttributes.Public);
             Type[] parameterTypes = { obj.GetType() };
             var ctor = tb.DefineConstructor(MethodAttributes.Public, CallingConventions.Standard, parameterTypes);
@@ -38,7 +38,7 @@ namespace Utility
             }
             Type t = tb.CreateType();
 
-            var ret = Activator.CreateInstance(t);
+            var ret = ScriptableObject.CreateInstance(t);// Activator.CreateInstance(t);
             var pro = t.GetField("data");
             pro.SetValue(ret, obj);
 

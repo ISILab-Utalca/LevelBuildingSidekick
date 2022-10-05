@@ -52,6 +52,13 @@ public abstract class LBSRepController<T> : IRepController where T : LBSRepesent
         return data;
     }
 
+    public Vector2 ViewportMousePosition(Vector2 pos)
+    {
+        var viewPos = new Vector2(view.viewTransform.position.x, view.viewTransform.position.y);
+        pos = (pos - viewPos) / view.scale;
+        return pos;
+    }
+
     /// <summary>
     /// Marka los objetos para que no sean interactuables, (los hace trasparentes ademas). el nombre esta raro (!)
     /// </summary>
@@ -71,4 +78,5 @@ public interface IRepController
     public object GetData();
     public void ShowView(bool v);
     public string GetName();
+    public Vector2 ViewportMousePosition(Vector2 pos);
 }

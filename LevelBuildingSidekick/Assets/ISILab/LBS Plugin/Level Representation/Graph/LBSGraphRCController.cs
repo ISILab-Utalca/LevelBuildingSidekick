@@ -51,7 +51,6 @@ namespace LBS.Graph
 
         public void GenerateSchema() 
         {
-            Debug.Log("[Generate Tile map]");
             var g = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>(); // peligroso buscar otra forma (!)
             var tm = new GraphToTileMap().Transform(g);
             LBSController.CurrentLevel.data.AddRepresentation(tm);

@@ -16,26 +16,32 @@ namespace LBS.Representation
         private int y;
 
         [SerializeField, JsonRequired]
-        private string RoomId; // info duplicada (?)
+        private string roomId; // info duplicada (?)
+
+        [HideInInspector, JsonIgnore]
+        private Action<TileData> OnDataChange;
 
         public TileData() { }
 
-        public TileData(int x, int y,string roomId)
+        public TileData(int x, int y,string roomId)//, Action<TileData> onChange)// = null)
         {
             this.x = x;
             this.y = y;
-            this.RoomId = roomId;
+            this.roomId = roomId;
+            //this.OnDataChange = onChange;
         }
 
-        public TileData(Vector2Int pos, string roomId)
+        public TileData(Vector2Int pos, string roomId)//, Action<TileData> onChange)// = null)
         {
             this.x = pos.x;
             this.y = pos.y;
+            this.roomId = roomId;
+            //this.OnDataChange = onChange;
         }
 
         public object Clone()
         {
-            var clone = new TileData(this.x,this.y,this.RoomId);
+            var clone = new TileData(this.x, this.y, this.roomId);//, this.OnDataChange);
             return clone;
         }
 
@@ -48,6 +54,7 @@ namespace LBS.Representation
         {
             this.x = pos.x;
             this.y = pos.y;
+            OnDataChange?.Invoke(this);
         }
 
         public override bool Equals(object obj)
@@ -70,12 +77,12 @@ namespace LBS.Representation
 
         internal string GetRoomID()
         {
-            return this.RoomId;
+            return this.roomId;
         }
     }
 }
 
-namespace LBS
+namespace LBS.Representation
 {
     public class DoorData : ICloneable
     {
@@ -85,6 +92,9 @@ namespace LBS
         private int x1, y1;
         [SerializeField, JsonRequired]
         private int x2, y2;
+
+        [HideInInspector, JsonIgnore]
+        private Action<DoorData> OnDataChange;
 
         public DoorData() { }
 
