@@ -65,7 +65,8 @@ namespace LBS.Representation.TileMap
             foreach (var t in this.tiles)
             {
                 var pos = t.GetPosition();
-                tiles.Add(new TileData(pos.x, pos.y,this.id));
+                
+                tiles.Add(t.Clone() as TileData);
             }
             var clone = new RoomData(tiles, this.id);
             return clone;

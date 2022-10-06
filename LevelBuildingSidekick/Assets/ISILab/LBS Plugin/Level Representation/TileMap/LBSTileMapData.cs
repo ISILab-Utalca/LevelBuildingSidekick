@@ -30,16 +30,11 @@ namespace LBS.Representation.TileMap
         private string[,] matrixIDs; // matriz con info de la habitacion a la que correspode cada tile
         [HideInInspector, JsonIgnore]
         private RectInt? rect;
-        [HideInInspector, JsonIgnore]
-        private int[,] tilevalue; // walls
+        //[HideInInspector, JsonIgnore]
+        //private int[,] tilevalue; // walls
         [HideInInspector, JsonIgnore]
         private Vector2Int size;
 
-        //private bool dirty = false; // flag
-
-        // Properties
-        //public Vector2Int Size => 
-        //public roomAmount =>
         [JsonIgnore]
         public int RoomCount => rooms.Count;
 
@@ -49,7 +44,6 @@ namespace LBS.Representation.TileMap
         internal RoomData GetRoom(int i) => rooms[i];
 
         public List<RoomData> GetRooms() => new List<RoomData>(rooms);
-
 
         public override void Clear()
         {
@@ -62,7 +56,26 @@ namespace LBS.Representation.TileMap
         {
             matrixIDs = null;
             rect = null;
-            tilevalue = null;
+            //tilevalue = null;
+            //RecalculateTilePos();
+        }
+
+        public Vector2Int GetDT()
+        {
+            return GetRect().min;
+        }
+
+        public void RecalculateTilePos()
+        {
+            rect = null;
+            var m = GetRect().min;
+            foreach (var room in rooms)
+            {
+                foreach (var tile in room.Tiles)
+                {
+                    tile.SetPosition(tile.GetPosition() - m);
+                }
+            }
         }
 
         public void AddDoor(DoorData door)
@@ -140,7 +153,11 @@ namespace LBS.Representation.TileMap
             return null;
         }
 
-
+        public void AddTile(TileData tile,string roomId)
+        {
+            SetTiles(new List<TileData>() { tile }, roomId);
+            SetDirty();
+        }
 
         public void AddTiles(List<TileData> tiles, string roomId)
         {
@@ -233,16 +250,18 @@ namespace LBS.Representation.TileMap
 
         internal string[,] GetMatrix()
         {
-            if (/**/matrixIDs != null)
+            if (matrixIDs != null)
                 return matrixIDs;
 
+            this.rect = null;
             var rect = GetRect();
             matrixIDs = new string[rect.width, rect.height];
             foreach (var r in rooms)
             {
                 foreach (var t in r.Tiles)
                 {
-                    var pos = t.GetPosition() - rect.min;
+                    var gp = t.GetPosition();
+                    var pos = gp - rect.min;
                     matrixIDs[pos.x, pos.y] = r.ID;
                 }
             }

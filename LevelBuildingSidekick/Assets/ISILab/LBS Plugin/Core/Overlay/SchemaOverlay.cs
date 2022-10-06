@@ -17,7 +17,10 @@ namespace LBS.Overlays
     {
         private const string ID = "SchemaOverlayTools";
 
-        public RoomData cTemp = null;
+        // mejorable (!)
+        public RoomData cTemp = null; 
+        public Box box;
+        public int index = 0;
 
         public override VisualElement CreatePanelContent()
         {
@@ -75,33 +78,25 @@ namespace LBS.Overlays
 
                 var addTile = new PresedBtn();
                 {
+                    addTile.style.flexDirection = FlexDirection.Row;
+                    addTile.style.alignItems = Align.Center;
+                    box = new Box();
+                    box.style.minHeight = box.style.minWidth = box.style.maxHeight = 10;
+                    addTile.Add(box);
                     addTile.clicked += () =>
                     {
                         var wnd = EditorWindow.GetWindow<LBSSchemaWindow>();
                         var c = wnd.GetController<LBSTileMapController>();
+                        var d = c.GetData() as LBSTileMapData;
+                        cTemp = d.GetRooms()[index];
+                        box.style.backgroundColor = cTemp.Color;
+                        index = (index + 1) % d.GetRooms().Count;
                         wnd.MainView.SetManipulator(new AddTileManipulator(wnd,c,cTemp));
                     };
                     addTile.text = "Add tile mode";
                 }
                 btnGroup.Add(addTile);
 
-                var changeRoom = new Button();
-                {
-                    var box = new Box();
-                    changeRoom.Add(box);
-                    changeRoom.clicked += () =>
-                    {
-                        var wnd = EditorWindow.GetWindow<LBSSchemaWindow>();
-                        var c = wnd.GetController<LBSStampTileMapController>();
-                        var d = c.GetData() as LBSTileMapData;
-                        var x = d.GetRooms()[Random.Range(0, d.GetRooms().Count)];
-                        cTemp = x;
-                        box.style.color = x.Color;
-                    };
-                    changeRoom.text = "Change room:";
-
-                }
-                btnGroup.Add(changeRoom);
 
                 var addDoor = new PresedBtn();
                 {

@@ -42,13 +42,11 @@ namespace LBS.Manipulators
                 return;
             }
 
-            var pos = e.localMousePosition;
+            var pos = controller.ViewportMousePosition(e.localMousePosition);
+            var tPos = controller.ToTileCoords(pos);
             var schema = LBSController.CurrentLevel.data.GetRepresentation<LBSTileMapData>();
-            //var tPos = controller.ToTileCoords();
-            //var tile = new TileData(pos,cRoom.ID);
-            //var node = new RoomCharacteristicsData("Node: " + graph.NodeCount(), pos, 32);
-            //schema.AddTiles();
-            //graph.AddNode(node);
+            var tile = new TileData(tPos, cRoom.ID);
+            schema.AddTile(tile,cRoom.ID);
             window.RefreshView();
         }
     }
