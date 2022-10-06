@@ -1,21 +1,21 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <Style src="project://database/Assets/ISILab/LBS%20Plugin/Core/Windows/Phase%202/MapEliteUSS.uss?fileID=7433441132597879392&amp;guid=ac773345d0f3bcc4392c29c0837c7f7e&amp;type=3#MapEliteUSS" />
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Assets/ISILab/LBS%20Plugin/Core/Windows/Map%20Elite%20Window/MapEliteUSS.uss?fileID=7433441132597879392&amp;guid=ac773345d0f3bcc4392c29c0837c7f7e&amp;type=3#MapEliteUSS" />
     <ui:VisualElement name="MapElite" usage-hints="GroupTransform" style="flex-grow: 1; width: 485px; align-items: center; justify-content: center;">
         <ui:VisualElement style="height: 29px; width: 429px;">
-            <ui:DropdownField label="Evaluation 1" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="Evaluation1" style="justify-content: flex-start; height: 16px; width: 269px; flex-direction: row;" />
+            <ui:DropdownField label="Evaluation 1" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="EvaluatorFieldY" style="justify-content: flex-start; height: 16px; width: 269px; flex-direction: row;" />
         </ui:VisualElement>
         <ui:VisualElement name="Guias" style="height: 332px; width: 432px; border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-left-width: 2px; border-right-width: 0; border-top-width: 0; border-bottom-width: 2px; border-top-left-radius: 0; border-bottom-left-radius: 8px; border-top-right-radius: 0; border-bottom-right-radius: 0; align-items: center; justify-content: flex-start;">
-            <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1">
-                <ui:VisualElement name="Content" style="height: 328px; width: 414px; align-items: auto; justify-content: flex-start; flex-direction: row; flex-wrap: nowrap; flex-grow: 1;">
-                    <LBS.VisualElements.MapEliteElementView focusable="false" usage-hints="None" />
+            <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" mode="VerticalAndHorizontal" focusable="false" vertical-page-size="-1" style="width: 100%; height: 100%; margin-left: 4px; margin-right: 4px; margin-top: 4px; margin-bottom: 4px; flex-direction: column; align-items: stretch; justify-content: flex-start;">
+                <ui:VisualElement name="Content" class="unity-group-box" style="flex-wrap: wrap-reverse; flex-direction: row; margin-left: 4px; margin-right: 4px; margin-top: 4px; margin-bottom: 4px; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; flex-grow: 1; width: 385px;">
+                    <LBS.VisualElements.ButtonWrapper tabindex="-1" focusable="true" style="width: 64px; height: 64px;" />
                 </ui:VisualElement>
             </ui:ScrollView>
         </ui:VisualElement>
         <ui:VisualElement style="height: 29px; width: 429px; align-items: flex-end; justify-content: flex-end;">
-            <ui:DropdownField label="Evaluation 2" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="Evaluation2" style="justify-content: flex-start; height: 16px; width: 269px; flex-wrap: wrap; flex-direction: row;" />
+            <ui:DropdownField label="Evaluation 2" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="EvaluatorFieldX" style="justify-content: flex-start; height: 16px; width: 269px; flex-wrap: wrap; flex-direction: row;" />
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:Vector2Field label="partitions" x="1" y="1" />
-    <UnityEditor.Search.ObjectField type="UnityEngine.ScriptableObject, UnityEngine.CoreModule" name="IAField" />
+    <ui:Vector2Field label="Partitions" x="1" y="1" name="Partitions" />
+    <ui:DropdownField label="Optimizer" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="IAField" />
     <ui:Button tabindex="-1" text="Calculate" display-tooltip-when-elided="true" name="Calculate" />
 </ui:UXML>

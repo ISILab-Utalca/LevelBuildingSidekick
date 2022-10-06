@@ -55,6 +55,12 @@ namespace Utility
             return assembly.GetTypes().Where(t => t.IsSubclassOf(baseType));
         }
 
+        public static IEnumerable<Type> GetAllImplementationsOf(Type baseType)
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            return assembly.GetTypes().Where(t => t.GetInterface(baseType.Name) != null);
+        }
+
         public static void PrintDerivedTypes(Type baseType)
         {
             var types = GetAllSubClassOf(baseType).ToList();
@@ -76,6 +82,7 @@ namespace Utility
 
             return toReturn;
         }
+
     }
 }
 

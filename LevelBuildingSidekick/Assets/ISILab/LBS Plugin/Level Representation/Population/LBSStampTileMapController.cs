@@ -34,9 +34,7 @@ public class LBSStampTileMapController : LBSStampController, ITileMap
         var viewPos = new Vector2(view.viewTransform.position.x, view.viewTransform.position.y);
         pos = (pos - viewPos) / view.scale;
 
-        Debug.Log("Before: " + pos);
         pos = ToTileCoords(pos);
-        Debug.Log("After: " + pos);
 
         var newStamp = new StampData(stamp.name, pos);
         data.AddStamp(newStamp);

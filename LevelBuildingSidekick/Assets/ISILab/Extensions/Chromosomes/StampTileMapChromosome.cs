@@ -6,7 +6,7 @@ using GeneticSharp.Domain.Randomizations;
 using System.Linq;
 using Utility;
 
-public class StampTileMapChromosome : ChromosomeBase2D<int>
+public class StampTileMapChromosome : ChromosomeBase2D<int>, IDrawable
 {
     private List<StampData> stamps;
     private int tileSize;
