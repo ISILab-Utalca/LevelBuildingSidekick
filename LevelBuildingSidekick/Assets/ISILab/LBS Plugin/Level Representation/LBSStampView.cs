@@ -4,14 +4,16 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Utility;
 
-public class StampView : GraphElement // esto se puede simplificar y combiniar con nodeView
+public class LBSStampView : LBSGraphElement // esto se puede simplificar y combiniar con nodeView
 {
     private static readonly float size = 64; //esto debería ser ajustable
     private Texture2D texture;
 
     private StampData data;
 
-    public StampView(StampData data)
+    public StampData Data => data;
+
+    public LBSStampView(StampData data,LBSGraphView root) : base(root)
     {
         this.data = data;
         SetPosition(new Rect(data.Position, Vector2.one * size));
@@ -22,6 +24,11 @@ public class StampView : GraphElement // esto se puede simplificar y combiniar c
 
         capabilities |= Capabilities.Selectable | Capabilities.Movable | Capabilities.Deletable | Capabilities.Ascendable | Capabilities.Copiable | Capabilities.Snappable | Capabilities.Groupable;
         usageHints = UsageHints.DynamicTransform;
+    }
+
+    public override void OnDelete()
+    {
+        throw new System.NotImplementedException();
     }
 
     public override void SetPosition(Rect newPos)

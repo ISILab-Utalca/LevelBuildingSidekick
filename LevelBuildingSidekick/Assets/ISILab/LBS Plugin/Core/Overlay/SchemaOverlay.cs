@@ -100,18 +100,24 @@ namespace LBS.Overlays
 
                 var addDoor = new PresedBtn();
                 {
-                    var wnd = EditorWindow.GetWindow<LBSSchemaWindow>();
-                    var c = wnd.GetController<LBSStampTileMapController>();
-                    //delete.clicked += () => wnd.MainView.SetManipulator(new DeleteManipulator(c));
+                    addDoor.clicked += () =>
+                    {
+                        var wnd = EditorWindow.GetWindow<LBSSchemaWindow>();
+                        var c = wnd.GetController<LBSTileMapController>();
+                        wnd.MainView.SetManipulator(new AddDoorManipulator(wnd,c));
+                    };
                     addDoor.text = "Add door mode";
                 }
                 btnGroup.Add(addDoor);
 
                 var removeDoor = new PresedBtn();
                 {
-                    var wnd = EditorWindow.GetWindow<LBSSchemaWindow>();
-                    var c = wnd.GetController<LBSStampTileMapController>();
-                    //delete.clicked += () => wnd.MainView.SetManipulator(new DeleteManipulator(c));
+                    removeDoor.clicked += () =>
+                    {
+                        var wnd = EditorWindow.GetWindow<LBSSchemaWindow>();
+                        var c = wnd.GetController<LBSTileMapController>();
+                        wnd.MainView.SetManipulator(new RemoveDoorManipulator(wnd, c));
+                    };
                     removeDoor.text = "Remove door mode";
                 }
                 btnGroup.Add(removeDoor);

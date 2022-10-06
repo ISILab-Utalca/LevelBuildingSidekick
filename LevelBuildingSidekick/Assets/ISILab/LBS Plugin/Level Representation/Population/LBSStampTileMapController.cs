@@ -38,7 +38,7 @@ public class LBSStampTileMapController : LBSStampController, ITileMap
 
         var newStamp = new StampData(stamp.name, pos);
         data.AddStamp(newStamp);
-        view.AddElement(new StampView(newStamp));
+        view.AddElement(new LBSStampView(newStamp,this.view));
     }
 
     public Vector2Int ToTileCoords(Vector2 position)

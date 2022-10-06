@@ -31,7 +31,7 @@ namespace LBS.Windows
                 ));
 
             actions.Add(new Tuple<string, Action>(
-                "Map Elites",
+                "Map Elites", 
                 () => {
                     var wnd = GetWindow<MapEliteWindow>();
                     wnd.mainView = this;
@@ -45,7 +45,7 @@ namespace LBS.Windows
         {
             var data = LBSController.CurrentLevel.data; // peligroso buscar otra forma (!)
 
-            //AddController(new LBSTileMapController(MainView, data.GetRepresentation<LBSTileMapData>()));
+            AddController(new LBSTileMapController(MainView, data.GetRepresentation<LBSTileMapData>()));
             AddController(new LBSStampTileMapController(MainView, data.GetRepresentation<LBSStampGroupData>()));
         }
 

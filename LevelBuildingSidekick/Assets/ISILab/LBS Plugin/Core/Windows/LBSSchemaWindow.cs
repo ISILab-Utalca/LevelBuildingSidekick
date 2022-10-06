@@ -35,7 +35,6 @@ namespace LBS.Windows
                     generator.Init(data);
                     generator.Generate(); 
                 }
-                //() => Generate3D.GenerateLevel(LBSController.CurrentLevel)
                 ));
 
             actions.Add(new System.Tuple<string, System.Action>(

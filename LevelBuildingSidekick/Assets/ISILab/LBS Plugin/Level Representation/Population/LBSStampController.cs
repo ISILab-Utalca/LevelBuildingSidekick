@@ -37,7 +37,7 @@ public class LBSStampController : LBSRepController<LBSStampGroupData>
     public override void PopulateView(MainView view)
     {
         data.GetStamps().ForEach(s => {
-            var v = new StampView(s);
+            var v = new LBSStampView(s, view);
             elements.Add(v);
             view.AddElement(v);
         });
@@ -50,7 +50,7 @@ public class LBSStampController : LBSRepController<LBSStampGroupData>
 
         var newStamp = new StampData(stamp.name, pos);
         data.AddStamp(newStamp);
-        view.AddElement(new StampView(newStamp));
+        view.AddElement(new LBSStampView(newStamp,this.view));
     }
 
     public override string GetName()
