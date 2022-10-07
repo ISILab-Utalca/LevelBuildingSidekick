@@ -1,3 +1,4 @@
+using LBS.Manipulators;
 using LBS.VisualElements;
 using LBS.Windows;
 using System.Collections;
@@ -59,18 +60,24 @@ namespace LBS.Overlays
 
                 var addStamp = new PresedBtn();
                 {
-                    var wnd = EditorWindow.GetWindow<LBSSchemaWindow>();
-                    var c = wnd.GetController<LBSStampTileMapController>();
-                    //delete.clicked += () => wnd.MainView.SetManipulator(new DeleteManipulator(c));
+                    addStamp.clicked += () =>
+                    {
+                        var wnd = EditorWindow.GetWindow<LBSPopulationWindow>();
+                        var c = wnd.GetController<LBSStampTileMapController>();
+                        wnd.MainView.SetManipulator(new AddStampManipulator(wnd,c));
+                    };
                     addStamp.text = "Add stamp mode";
                 }
                 btnGroup.Add(addStamp);
 
                 var removeStamp = new PresedBtn();
                 {
-                    var wnd = EditorWindow.GetWindow<LBSSchemaWindow>();
-                    var c = wnd.GetController<LBSStampTileMapController>();
-                    //delete.clicked += () => wnd.MainView.SetManipulator(new DeleteManipulator(c));
+                    removeStamp.clicked += () =>
+                    {
+                        var wnd = EditorWindow.GetWindow<LBSPopulationWindow>();
+                        var c = wnd.GetController<LBSStampTileMapController>();
+                        wnd.MainView.SetManipulator(new RemoveStampManipulator(wnd,c));
+                    };
                     removeStamp.text = "Remove stamp mode";
                 }
                 btnGroup.Add(removeStamp);

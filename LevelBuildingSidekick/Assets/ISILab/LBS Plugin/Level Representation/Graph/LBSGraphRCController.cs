@@ -169,7 +169,6 @@ namespace LBS.Graph
         {
             var graph = data;
             graph.AddEdge(edge);
-
         }
 
         internal void RemoveEdge(LBSEdgeData edge)

@@ -11,6 +11,8 @@ namespace LBS.Windows
 {
     public class BrushWindow : EditorWindow // o StampWindow
     {
+        public static StampPresset SelectedStamp;
+
 
         [MenuItem("ISILab/LBS plugin/Brush window", priority = 1)]
         public static void ShowWindow()
@@ -121,6 +123,7 @@ namespace LBS.Windows
         private void Select(StampPresset presset)
         {
             preview.SetValue(presset);
+            SelectedStamp = presset;
         }
 
         private void NewBrush()

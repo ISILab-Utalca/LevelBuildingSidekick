@@ -28,12 +28,13 @@ public class LBSStampGroupData : LBSRepesentationData
     {
         var r = stamps.Find(s => s.Label == label);
         if (r != null)
-            RemoveNode(r);
+            RemoveStamp(r);
     }
 
-    public void RemoveNode(StampData node)
+
+    public void RemoveStamp(StampData stamp)
     {
-        stamps.Remove(node);
+        stamps.Remove(stamp);
     }
 
     /// <summary>

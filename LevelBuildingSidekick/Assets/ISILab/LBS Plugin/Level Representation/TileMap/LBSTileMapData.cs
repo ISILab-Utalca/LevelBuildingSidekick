@@ -83,6 +83,23 @@ namespace LBS.Representation.TileMap
             doors.Add(door);
         }
 
+        public void RemoveDoor(DoorData door)
+        {
+            doors.Remove(door);
+            /*
+            DoorData r = null;
+            foreach (var d in doors)
+            {
+                if(d.Equals(door))
+                {
+                    r = d;
+                    break;
+                }
+            }
+            doors.Remove(r);
+            */
+        }
+
         internal void ClearDoors()
         {
             doors.Clear();

@@ -34,6 +34,35 @@ namespace LBS.Representation.TileMap
             data.RemoveTile(tile);
         }
 
+        public void AddTile(TileData tile, string id)
+        {
+            data.AddTile(tile,id);
+        }
+
+        public void RemoveDoor(DoorData door)
+        {
+            data.RemoveDoor(door);
+        }
+
+        public void AddDoor(DoorData door)
+        {
+            if(!data.GetDoors().Contains(door))
+                data.AddDoor(door);
+        }
+
+        public DoorData GetDoor(TileData t1,TileData t2)
+        {
+            var temp = new DoorData(t1.GetRoomID(), t2.GetRoomID(),t1.GetPosition(), t2.GetPosition());
+            foreach ( var door in data.GetDoors())
+            {
+                if(door.Equals(temp))
+                {
+                    return (door);
+                }
+            }
+            return null;
+        }
+
         public override void OnContextualBuid( MainView view, ContextualMenuPopulateEvent cmpe)
         {
             cmpe.menu.AppendAction("TileMap/Optimizar", (dma) => {
