@@ -22,6 +22,8 @@ namespace LBS.Representation.TileMap
 
         public float TileSize => tileSize.x;
 
+        public int MatrixWidth => throw new NotImplementedException();
+
         public LBSTileMapController(LBSGraphView view, LBSTileMapData data) : base(view, data)
         {
 

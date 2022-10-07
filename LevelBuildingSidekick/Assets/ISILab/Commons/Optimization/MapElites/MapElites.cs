@@ -57,7 +57,7 @@ public class MapElites
         }
         set
         {
-            if(!xEvaluator.Equals(value))
+            if(xEvaluator == null || !xEvaluator.Equals(value))
             {
                 xEvaluator = value;
                 OnEvaluatorChange();
@@ -74,7 +74,7 @@ public class MapElites
         }
         set
         {
-            if(!yEvaluator.Equals(value))
+            if(yEvaluator == null || !yEvaluator.Equals(value))
             {
                 yEvaluator = value;
                 OnEvaluatorChange();
@@ -119,6 +119,11 @@ public class MapElites
         BestSamples = new IEvaluable[xSampleCount, ySampleCount];
         OnSampleSizeChanged += OnSampleSizeChange;
         OnEvaluatorChanged += OnEvaluatorChange;
+    }
+
+    public void Run()
+    {
+        optimizer.Start();
     }
 
     public void UpdateSamples(IEvaluable[] samples)

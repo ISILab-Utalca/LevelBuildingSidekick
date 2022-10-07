@@ -53,38 +53,26 @@ namespace LBS.Windows
             mapElites = new MapElites();
 
             this.Container = root.Q<VisualElement>("Content");
-            this.EvaluatorFieldX = new ClassDropDown(root.Q<DropdownField>("EvaluatorFieldX"), typeof(IEvaluator), true);
-            this.EvaluatorFieldY = new ClassDropDown(root.Q<DropdownField>("EvaluatorFieldY"), typeof(IEvaluator), true);
+            this.EvaluatorFieldX = new ClassDropDown(root.Q<DropdownField>("EvaluatorFieldX"), typeof(IRangedEvaluator), true);
+            this.EvaluatorFieldY = new ClassDropDown(root.Q<DropdownField>("EvaluatorFieldY"), typeof(IRangedEvaluator), true);
             this.IAField = new ClassDropDown(root.Q<DropdownField>("IAField"), typeof(IOptimizer), true);
             this.CalculateButton = root.Q<Button>("Calculate");
             this.Partitions = root.Q<Vector2Field>("Partitions");
 
             this.Partitions.RegisterValueChangedCallback(x => ChangePartitions(x.newValue));
+            EvaluatorFieldX.Dropdown.RegisterCallback<ChangeEvent<string>>( s => {mapElites.XEvaluator = EvaluatorFieldX.GetChoiceInstance() as IRangedEvaluator;});
+            mapElites.OnSampleUpdated += UpdateSample;
 
             this.Partitions.value = new Vector2(10,10);
 
             //this.fieldIA.RegisterValueChangedCallback(x => ChangeIA(x));
 
-            CalculateButton.clicked += Calculate;
+            CalculateButton.clicked += Run;
         }
 
-        public void Calculate()
+        public void Run()
         {
-            Debug.Log("SAA");
-            Container.Clear();
-            if(Partitions.value.x <= 0 || Partitions.value.y <= 0)
-            {
-                Debug.Log("particiones en 0 , tienen que ser mayor a 1 por lo menos.");
-                return;
-            }
-
-            for (int i = 0; i < Partitions.value.x; i++)
-            {
-                for (int j = 0; j < Partitions.value.y; j++)
-                {
-                    Container.Add(new ButtonWrapper());
-                }
-            }
+            mapElites.Run();
         }
 
         public void ChangePartitions(Vector2 partitions)

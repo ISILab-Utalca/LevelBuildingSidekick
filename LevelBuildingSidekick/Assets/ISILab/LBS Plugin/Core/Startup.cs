@@ -25,7 +25,7 @@ public class Startup
     private static void Start()
     {
         LBSStartWindow.ShowWindow();
-        Debug.Log("hello world");
+        //Debug.Log("hello world");
         EditorApplication.update -= Start;
     }
 }
