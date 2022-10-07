@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
+using System.Linq;
 
 // public class LBSPopulationController : LBSRepController<LBStile>, ITileMap
 public class LBSStampTileMapController : LBSStampController, ITileMap
@@ -12,12 +13,20 @@ public class LBSStampTileMapController : LBSStampController, ITileMap
     public static int UnitSize = 100; //esto no dbeería estar aca(!!!)
 
     public float Subdivision { get; set; }
+    public int MatrixWidth {
+        get {
+            var dist = data.GetStamps().Max(s => s.Position.x) - data.GetStamps().Min(s => s.Position.x);
+            dist = (int)(dist - (dist % TileSize));
+            return dist;
+        } 
+    }
 
     public LBSStampTileMapController(LBSGraphView view, LBSStampGroupData data) : base(view, data)
     {
         Subdivision = 1;
     }
     public float TileSize { get { return UnitSize / Subdivision; } }
+
 
     public override void OnContextualBuid(MainView view, ContextualMenuPopulateEvent cmpe)
     {

@@ -8,7 +8,7 @@ using Utility;
 
 public class StampTileMapChromosome : ChromosomeBase2D<int>, IDrawable
 {
-    private List<StampData> stamps;
+    public List<StampData> stamps { get; private set; }
     private int tileSize;
 
     public StampTileMapChromosome(LBSStampTileMapController stampController) : base(0, 0)

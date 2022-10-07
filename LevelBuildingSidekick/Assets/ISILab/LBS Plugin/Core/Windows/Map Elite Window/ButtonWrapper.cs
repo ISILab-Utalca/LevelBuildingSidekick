@@ -37,6 +37,7 @@ namespace LBS.VisualElements
             visualTree.CloneTree(this);
             var styleSheet = Utility.DirectoryTools.SearchAssetByName<StyleSheet>("MapEliteUSS");
             this.styleSheets.Add(styleSheet);
+            style.backgroundColor = new Color(0,0,0,0);
             Icon = this.Q<VisualElement>("Icon");
 
             Icon.style.backgroundImage = default;

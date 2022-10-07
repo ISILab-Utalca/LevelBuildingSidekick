@@ -9,7 +9,7 @@ public class Horizontal2DSimetryEvaluator : Simetry2DEvaluator
 
     public override float MinValue => 0;
 
-    public Horizontal2DSimetryEvaluator(int matrixWidth) : base(matrixWidth) { }
+    public Horizontal2DSimetryEvaluator() : base() { }
 
     public override float CalculateSimetry(object[] data, int height)
     {

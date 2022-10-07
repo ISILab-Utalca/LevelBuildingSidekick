@@ -10,13 +10,19 @@ public abstract class Simetry2DEvaluator : IRangedEvaluator
 
     public int matrixWidth;
 
-    public Simetry2DEvaluator(int matrixWidth)
+    public Simetry2DEvaluator()
     {
-        this.matrixWidth = matrixWidth;
     }
 
     public float Evaluate(IEvaluable evaluable)
     {
+        if(!(evaluable is ITileMap))
+        {
+            throw new FitnessException("evaluable must be ITileMap");
+        }
+
+        matrixWidth = (evaluable as ITileMap).MatrixWidth;
+
         var data = evaluable.GetDataSquence<object>();
         int height = data.Length / matrixWidth;
 
