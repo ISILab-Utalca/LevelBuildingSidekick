@@ -64,16 +64,20 @@ namespace LBS.Windows
             this.Partitions = root.Q<Vector2Field>("Partitions");
 
             this.evaluatorXPanel = root.Q<SubPanel>("EvaluatorX");
+            evaluatorXPanel.style.display = DisplayStyle.None;
             this.evaluatorYPanel = root.Q<SubPanel>("EvaluatorY");
+            evaluatorYPanel.style.display = DisplayStyle.None;
 
             this.Partitions.RegisterValueChangedCallback(x => ChangePartitions(x.newValue));
             EvaluatorFieldX.Dropdown.RegisterCallback<ChangeEvent<string>>( s => {
+                evaluatorXPanel.style.display = DisplayStyle.Flex;
                 var value = EvaluatorFieldX.GetChoiceInstance();
                 mapElites.XEvaluator = value as IRangedEvaluator;
                 evaluatorXPanel.SetValue(value,"Evaluator: " + mapElites.XEvaluator.GetName(), "(axis X)");
             });
 
             EvaluatorFieldY.Dropdown.RegisterCallback<ChangeEvent<string>>(s => {
+                evaluatorYPanel.style.display = DisplayStyle.Flex;
                 var value = EvaluatorFieldY.GetChoiceInstance();
                 mapElites.YEvaluator = value as IRangedEvaluator;
                 evaluatorYPanel.SetValue(value,"Evaluator: " + mapElites.YEvaluator.GetName(), "(axis Y)");

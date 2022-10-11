@@ -39,7 +39,7 @@ namespace LBS.VisualElements
                 var n = field.Name;
                 Debug.Log(n+": "+t);
 
-                if(t == typeof(int))
+                if (t == typeof(int))
                 {
                     var x = new IntegerField(n);
                     x.RegisterCallback<ChangeEvent<int>>(v =>
@@ -48,6 +48,7 @@ namespace LBS.VisualElements
                         var f = field;
                         f.SetValue(o, v.newValue);
                     });
+                    contentPanel.Add(x);
                 }
                 else if (t == typeof(float))
                 {
@@ -58,6 +59,18 @@ namespace LBS.VisualElements
                         var f = field;
                         f.SetValue(o, v.newValue);
                     });
+                    contentPanel.Add(x);
+                }
+                else if(t == typeof(StampPresset))
+                {
+                    var x = new UnityEditor.UIElements.ObjectField(n);
+                    x.RegisterCallback<ChangeEvent<StampPresset>>(v =>
+                    {
+                        var o = obj;
+                        var f = field;
+                        f.SetValue(o, v.newValue);
+                    });
+                    contentPanel.Add(x);
                 }
             }
         }

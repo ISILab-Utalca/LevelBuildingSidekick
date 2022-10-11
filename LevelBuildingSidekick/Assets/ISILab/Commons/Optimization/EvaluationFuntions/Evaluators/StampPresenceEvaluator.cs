@@ -10,7 +10,8 @@ public class StampPresenceEvaluator : IRangedEvaluator
 
     public float MinValue => 0;
 
-    public StampData element;
+    public StampData element; 
+    //public StampPresset element; 
 
     public StampPresenceEvaluator()
     {
