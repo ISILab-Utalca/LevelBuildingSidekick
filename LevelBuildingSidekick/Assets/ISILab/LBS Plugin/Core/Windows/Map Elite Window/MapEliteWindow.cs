@@ -9,6 +9,7 @@ using UnityEngine.UIElements;
 using System.Linq;
 using GeneticSharp.Domain;
 using Commons.Optimization.Evaluator;
+using Utility;
 
 namespace LBS.Windows
 {
@@ -40,6 +41,9 @@ namespace LBS.Windows
 
         public ClassDropDown IAField;
 
+        public SubPanel evaluatorXPanel;
+        public SubPanel evaluatorYPanel;
+
         public void CreateGUI()
         {
             VisualElement root = rootVisualElement;
@@ -59,8 +63,22 @@ namespace LBS.Windows
             this.CalculateButton = root.Q<Button>("Calculate");
             this.Partitions = root.Q<Vector2Field>("Partitions");
 
+            this.evaluatorXPanel = root.Q<SubPanel>("EvaluatorX");
+            this.evaluatorYPanel = root.Q<SubPanel>("EvaluatorY");
+
             this.Partitions.RegisterValueChangedCallback(x => ChangePartitions(x.newValue));
-            EvaluatorFieldX.Dropdown.RegisterCallback<ChangeEvent<string>>( s => {mapElites.XEvaluator = EvaluatorFieldX.GetChoiceInstance() as IRangedEvaluator;});
+            EvaluatorFieldX.Dropdown.RegisterCallback<ChangeEvent<string>>( s => {
+                var value = EvaluatorFieldX.GetChoiceInstance();
+                mapElites.XEvaluator = value as IRangedEvaluator;
+                evaluatorXPanel.SetValue(value,"Evaluator: " + mapElites.XEvaluator.GetName(), "(axis X)");
+            });
+
+            EvaluatorFieldY.Dropdown.RegisterCallback<ChangeEvent<string>>(s => {
+                var value = EvaluatorFieldY.GetChoiceInstance();
+                mapElites.YEvaluator = value as IRangedEvaluator;
+                evaluatorYPanel.SetValue(value,"Evaluator: " + mapElites.YEvaluator.GetName(), "(axis Y)");
+            });
+
             mapElites.OnSampleUpdated += UpdateSample;
 
             this.Partitions.value = new Vector2(10,10);
@@ -73,6 +91,12 @@ namespace LBS.Windows
         public void Run()
         {
             mapElites.Run();
+        }
+
+        private void OnFocus()
+        {
+            var il = Reflection.MakeGenericScriptable(mapElites);
+            Selection.SetActiveObjectWithContext(il, il);
         }
 
         public void ChangePartitions(Vector2 partitions)

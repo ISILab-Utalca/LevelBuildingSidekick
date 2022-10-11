@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Commons.Optimization.Evaluator;
 
+[System.Serializable]
 public class StampPresenceEvaluator : IRangedEvaluator
 {
     public float MaxValue => 1;
@@ -49,5 +50,10 @@ public class StampPresenceEvaluator : IRangedEvaluator
             }
         }
         return Mathf.Clamp(presence,MinValue,MaxValue);
+    }
+
+    public string GetName()
+    {
+        return "Stamp presence";
     }
 }

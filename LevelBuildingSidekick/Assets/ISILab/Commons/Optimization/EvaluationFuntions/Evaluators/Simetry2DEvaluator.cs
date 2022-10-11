@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Commons.Optimization.Evaluator;
 
+[System.Serializable]
 public abstract class Simetry2DEvaluator : IRangedEvaluator
 {
     public abstract float MaxValue { get; }
@@ -32,4 +33,6 @@ public abstract class Simetry2DEvaluator : IRangedEvaluator
     }
 
     public abstract float CalculateSimetry(object[] data, int height);
+
+    public abstract string GetName();
 }

@@ -21,5 +21,6 @@ namespace LBS.VisualElements
             varPanel = this.Q<VisualElement>("varPanel");
         }
 
+        //public void Set
     }
 }

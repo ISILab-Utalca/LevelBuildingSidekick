@@ -8,7 +8,7 @@ namespace Commons.Optimization.Evaluator
     /// <see href="http://en.wikipedia.org/wiki/Fitness_function">Wikipedia</see>
     /// </remarks>
     /// </summary>
-    public interface IEvaluator
+    public interface IEvaluator : INameable
     {
         /// <summary>
         /// Performs the evaluation against the specified chromosome.
@@ -16,5 +16,10 @@ namespace Commons.Optimization.Evaluator
         /// <param name="chromosome">The chromosome to be evaluated.</param>
         /// <returns>The fitness of the chromosome.</returns>
         float Evaluate(IEvaluable evaluable);
+    }
+
+    public interface INameable
+    {
+        string GetName();
     }
 }

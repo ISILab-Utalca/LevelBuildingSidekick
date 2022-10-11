@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Commons.Optimization.Evaluator;
 
+[System.Serializable]
 public class Vertical2DSimetryEvaluator : Simetry2DEvaluator
 {
     public override float MaxValue => 1;
@@ -25,5 +26,10 @@ public class Vertical2DSimetryEvaluator : Simetry2DEvaluator
             }
         }
         return simetry;
+    }
+
+    public override string GetName()
+    {
+        return "Vertical 2D simetry";
     }
 }

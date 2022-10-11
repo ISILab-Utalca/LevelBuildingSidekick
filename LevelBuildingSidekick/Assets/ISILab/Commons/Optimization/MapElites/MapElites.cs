@@ -5,6 +5,7 @@ using Commons.Optimization.Evaluator;
 using System.Linq;
 using System;
 
+[System.Serializable]
 public class MapElites
 {
     private int xSampleCount;
@@ -97,6 +98,7 @@ public class MapElites
             OnOptimizerChange();
         }
     }
+
     public System.Action OnOptimizerChanged;
 
     public Action<Vector2Int> OnSampleUpdated;

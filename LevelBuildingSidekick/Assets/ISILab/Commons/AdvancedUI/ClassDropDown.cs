@@ -1,3 +1,4 @@
+using Commons.Optimization.Evaluator;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -34,13 +35,16 @@ public class ClassDropDown //this could inherit from DropDown
         {
             types = Utility.Reflection.GetAllImplementationsOf(Type);
         }
-        //Utility.Reflection.PrintDerivedTypes(typeof(IOptimizer));
+
         if (FilterAbstract)
         {
             types = types.Where(t => !t.IsAbstract);
         }
 
-        var options = types.Select(t => t.Name).ToList();
+        var options = types.Select(t => {
+            var value = t.Name;
+            return value;
+        }).ToList();
 
         Dropdown.choices = options;
     }

@@ -30,6 +30,11 @@ namespace Commons.Optimization.Evaluator
         {
             return m_func (chromosome);
         }
+
+        public string GetName()
+        {
+            return "Function fitness";
+        }
         #endregion
     }
 }

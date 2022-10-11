@@ -4,6 +4,7 @@ using UnityEngine;
 using Commons.Optimization.Evaluator;
 using System.Linq;
 
+[System.Serializable]
 public class ResemblanceEvaluator : IRangedEvaluator
 {
     public float MaxValue { get { return 1; } }
@@ -34,5 +35,10 @@ public class ResemblanceEvaluator : IRangedEvaluator
         var n = 1 - (dist / (1.0f * data.Length));
 
         return Mathf.Clamp(n, MinValue, MaxValue);
+    }
+
+    public string GetName()
+    {
+        return "Resemblance";
     }
 }
