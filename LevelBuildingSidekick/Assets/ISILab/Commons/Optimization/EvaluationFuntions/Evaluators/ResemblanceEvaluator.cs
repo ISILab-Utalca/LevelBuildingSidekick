@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Commons.Optimization.Evaluator;
 using System.Linq;
+using UnityEngine.UIElements;
 
 [System.Serializable]
 public class ResemblanceEvaluator : IRangedEvaluator
@@ -11,6 +12,21 @@ public class ResemblanceEvaluator : IRangedEvaluator
     public float MinValue { get { return 0; } }
 
     public object[] Sample{ get; set; }
+
+    public VisualElement CIGUI()
+    {
+        var ve = new VisualElement();
+
+        var v2 = new Vector2Field("Fitness threshold");
+        v2.value = new Vector2(this.MinValue, this.MaxValue);
+        v2.RegisterValueChangedCallback(v => {
+            Debug.LogWarning("Falta implementar");
+            //this.MinValue = v.newValue.x;
+            //this.MaxValue = v.newValue.y;
+        });
+        ve.Add(v2);
+        return ve;
+    }
 
     public float Evaluate(IEvaluable evaluable)
     {

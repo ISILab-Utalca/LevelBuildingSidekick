@@ -16,7 +16,7 @@ public class GenericScriptableEditor : Editor
     public override VisualElement CreateInspectorGUI()
     {
         var container = new VisualElement();
-        InspectorElement.FillDefaultInspector(container, serializedObject , this);
+        InspectorElement.FillDefaultInspector(container, serializedObject, this);
         return container;
     }
 }

@@ -12,6 +12,11 @@
 	  soluciona refrescando la ventana vuelve a aparecer al editar algun codigo.
 	- Tambien courrio al momento de subir cmabios al git.
 
+- El uso de ClassDropdown necesita que las clases a la cual hace referencia no este dentro de un nemespace
+  ya que el estar en el namespace este no las puede encontrar a traves de reflexion por lo que termina
+  arrojando un null reference.
+	- Una solucion temporar para esto es dejar las clases que se necesitan para este elemento fuera de un namespace
+	  apesar de que esto implique mas desorden en el codigo.
 
 
 ### Anotaciones ###

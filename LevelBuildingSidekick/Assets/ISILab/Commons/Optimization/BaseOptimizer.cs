@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 using System.Linq;
+using Commons.Optimization;
 
 public abstract class BaseOptimizer : IOptimizer
 {
@@ -179,5 +180,6 @@ public abstract class BaseOptimizer : IOptimizer
         }
     }
 
+    public abstract string GetName();
 
 }

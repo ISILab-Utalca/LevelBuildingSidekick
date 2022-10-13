@@ -1,6 +1,7 @@
 ﻿using System;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Infrastructure.Framework.Commons;
+using UnityEngine.UIElements;
 
 namespace Commons.Optimization.Evaluator
 {
@@ -19,6 +20,11 @@ namespace Commons.Optimization.Evaluator
         {
             ExceptionHelper.ThrowIfNull("func", func);
             m_func = func;
+        }
+
+        public VisualElement CIGUI()
+        {
+            return new VisualElement();
         }
 
         #region IFitness implementation

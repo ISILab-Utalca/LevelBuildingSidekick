@@ -4,6 +4,8 @@ using UnityEngine;
 using Commons.Optimization.Evaluator;
 using System.Linq;
 using System;
+using UnityEngine.UIElements;
+using Commons.Optimization;
 
 [System.Serializable]
 public class MapElites
@@ -49,6 +51,7 @@ public class MapElites
 
     public IEvaluable[,] BestSamples { get; private set; }
 
+    [SerializeField ,SerializeReference]
     IRangedEvaluator xEvaluator;
     public IRangedEvaluator XEvaluator
     {
@@ -66,6 +69,7 @@ public class MapElites
         }
     }
 
+    [SerializeReference]
     IRangedEvaluator yEvaluator;
     public IRangedEvaluator YEvaluator
     {
@@ -85,6 +89,7 @@ public class MapElites
 
     Action OnEvaluatorChanged;
 
+    [SerializeReference]
     IOptimizer optimizer;
     public IOptimizer Optimizer
     {
@@ -125,7 +130,7 @@ public class MapElites
 
     public void Run()
     {
-        optimizer.Start();
+        Optimizer.Start();
     }
 
     public void UpdateSamples(IEvaluable[] samples)

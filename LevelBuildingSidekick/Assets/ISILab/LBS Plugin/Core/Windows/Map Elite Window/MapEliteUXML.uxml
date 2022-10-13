@@ -31,5 +31,6 @@
         </ui:VisualElement>
         <LBS.VisualElements.SubPanel name="EvaluatorX" style="margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px;" />
         <LBS.VisualElements.SubPanel name="EvaluatorY" style="margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px;" />
+        <LBS.VisualElements.SubPanel name="Optimizer" style="margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px;" />
     </ui:ScrollView>
 </ui:UXML>

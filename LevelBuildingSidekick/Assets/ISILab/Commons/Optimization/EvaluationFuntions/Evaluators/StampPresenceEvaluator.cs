@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Commons.Optimization.Evaluator;
+using UnityEngine.UIElements;
+using UnityEditor.UIElements;
 
 [System.Serializable]
 public class StampPresenceEvaluator : IRangedEvaluator
@@ -22,7 +24,6 @@ public class StampPresenceEvaluator : IRangedEvaluator
     {
         this.element = element;
     }
-
 
     public float Evaluate(IEvaluable evaluable)
     {
@@ -56,5 +57,28 @@ public class StampPresenceEvaluator : IRangedEvaluator
     public string GetName()
     {
         return "Stamp presence";
+    }
+
+    public VisualElement CIGUI()
+    {
+        var ve = new VisualElement();
+
+        var v2 = new Vector2Field("Fitness threshold");
+        v2.value = new Vector2(this.MinValue,this.MaxValue);
+        v2.RegisterValueChangedCallback(v => {
+            Debug.LogWarning("Falta implementar");
+            //this.MinValue = v.newValue.x;
+            //this.MaxValue = v.newValue.y;
+        });
+        ve.Add(v2);
+
+        var so = new ObjectField("Stamp reference");
+        so.objectType = typeof(StampPresset);
+        so.RegisterValueChangedCallback(v => {
+            Debug.LogWarning("Falta implementar");
+            //this.element = v.newValue;
+        });
+        ve.Add(so);
+        return ve;
     }
 }

@@ -10,6 +10,7 @@ using System.Linq;
 using GeneticSharp.Domain;
 using Commons.Optimization.Evaluator;
 using Utility;
+using Commons.Optimization;
 
 namespace LBS.Windows
 {
@@ -43,6 +44,7 @@ namespace LBS.Windows
 
         public SubPanel evaluatorXPanel;
         public SubPanel evaluatorYPanel;
+        public SubPanel optimizerPanel;
 
         public void CreateGUI()
         {
@@ -67,20 +69,33 @@ namespace LBS.Windows
             evaluatorXPanel.style.display = DisplayStyle.None;
             this.evaluatorYPanel = root.Q<SubPanel>("EvaluatorY");
             evaluatorYPanel.style.display = DisplayStyle.None;
+            this.optimizerPanel = root.Q<SubPanel>("Optimizer");
+            optimizerPanel.style.display = DisplayStyle.None;
 
             this.Partitions.RegisterValueChangedCallback(x => ChangePartitions(x.newValue));
-            EvaluatorFieldX.Dropdown.RegisterCallback<ChangeEvent<string>>( s => {
+
+            EvaluatorFieldX.Dropdown.RegisterCallback<ChangeEvent<string>>(s => {
                 evaluatorXPanel.style.display = DisplayStyle.Flex;
                 var value = EvaluatorFieldX.GetChoiceInstance();
                 mapElites.XEvaluator = value as IRangedEvaluator;
-                evaluatorXPanel.SetValue(value,"Evaluator: " + mapElites.XEvaluator.GetName(), "(axis X)");
+                if(value is IShowable)
+                    evaluatorXPanel.SetValue(value as IShowable, "Evaluator: " + mapElites.XEvaluator.GetName(), "(axis X)");
             });
 
             EvaluatorFieldY.Dropdown.RegisterCallback<ChangeEvent<string>>(s => {
                 evaluatorYPanel.style.display = DisplayStyle.Flex;
                 var value = EvaluatorFieldY.GetChoiceInstance();
                 mapElites.YEvaluator = value as IRangedEvaluator;
-                evaluatorYPanel.SetValue(value,"Evaluator: " + mapElites.YEvaluator.GetName(), "(axis Y)");
+                if (value is IShowable)
+                    evaluatorYPanel.SetValue(value as IShowable, "Evaluator: " + mapElites.YEvaluator.GetName(), "(axis Y)");
+            });
+
+            IAField.Dropdown.RegisterCallback<ChangeEvent<string>>(s => {
+                optimizerPanel.style.display = DisplayStyle.Flex;
+                var value = IAField.GetChoiceInstance();
+                mapElites.Optimizer = value as IOptimizer;
+                if (value is IShowable)
+                    optimizerPanel.SetValue(value as IShowable,"Optimizer: " + mapElites.Optimizer.GetName());
             });
 
             mapElites.OnSampleUpdated += UpdateSample;
@@ -91,6 +106,8 @@ namespace LBS.Windows
 
             CalculateButton.clicked += Run;
         }
+
+        
 
         public void Run()
         {

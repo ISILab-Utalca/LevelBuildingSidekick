@@ -10,6 +10,20 @@ namespace Utility
 {
     public static class Reflection
     {
+        public static Type GetType(string name)
+        {
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies().Reverse().ToList();
+            foreach (var assembly in assemblies)
+            {
+                var tt = assembly.GetType(name);
+                if (tt != null)
+                {
+                    return tt;
+                }
+            }
+
+            return null;
+        }
 
         public static ScriptableObject MakeGenericScriptable(object obj)
         {
@@ -44,6 +58,7 @@ namespace Utility
 
             return (T)ret;
         }
+
         public static IEnumerable<Type> GetAllSubClassOf<T>()
         {
             return GetAllSubClassOf(typeof(T));

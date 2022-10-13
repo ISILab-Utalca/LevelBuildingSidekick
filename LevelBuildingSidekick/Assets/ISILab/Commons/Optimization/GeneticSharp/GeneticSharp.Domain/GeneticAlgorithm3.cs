@@ -13,6 +13,9 @@ using Commons.Optimization.Terminations;
 using GeneticSharp.Infrastructure.Framework.Texts;
 using GeneticSharp.Infrastructure.Framework.Threading;
 using GeneticSharp.Infrastructure.Framework.Commons;
+using UnityEngine;
+using GeneticSharp.Domain;
+using Commons.Optimization;
 
 namespace GeneticSharp.Domain
 {
@@ -28,8 +31,10 @@ namespace GeneticSharp.Domain
     /// </para>
     /// <see href="http://http://en.wikipedia.org/wiki/Genetic_algorithm">Wikipedia</see>
     /// </summary>
-    public class GeneticAlgorithm : IGeneticAlgorithm
+    //[System.Serializable]
+    public class GeneticAlgorithm3 : IGeneticAlgorithm
     {
+        /*
         #region Constants
         /// <summary>
         /// The default crossover probability.
@@ -47,9 +52,16 @@ namespace GeneticSharp.Domain
         private readonly object m_lock = new object();
         private OptimizerState m_state;
         private Stopwatch m_stopwatch;
-        #endregion              
+        #endregion
+
+
 
         #region Constructors
+        public GeneticAlgorithm()
+        {
+            // implementar cosas (!!!)
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.GeneticAlgorithm"/> class.
         /// </summary>
@@ -467,6 +479,64 @@ namespace GeneticSharp.Domain
         {
             return Reinsertion.SelectChromosomes(Population, offspring, parents);
         }
+
+        public virtual string GetName()
+        {
+            return "Genetic algorithm";
+        }
         #endregion
+        
+        */
+        public IChromosome BestChromosome => throw new NotImplementedException();
+
+        public int GenerationsNumber => throw new NotImplementedException();
+
+        public IEvaluable BestCandidate => throw new NotImplementedException();
+
+        public TimeSpan TimeEvolving => throw new NotImplementedException();
+
+        public IPopulation Population => throw new NotImplementedException();
+
+        public ITermination Termination { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public IEvaluator Evaluator => throw new NotImplementedException();
+
+        public bool IsRunning => throw new NotImplementedException();
+
+        public OptimizerState State => throw new NotImplementedException();
+
+        public IEvaluable[] LastGeneration => throw new NotImplementedException();
+
+        public Action OnGenerationRan { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Action OnTerminationReached { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Action OnStopped { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Action OnResumed { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Action OnPaused { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Action OnStarted { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public string GetName()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Pause()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Resume()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Start()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Stop()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

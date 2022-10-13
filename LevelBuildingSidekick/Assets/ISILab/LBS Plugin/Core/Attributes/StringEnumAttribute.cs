@@ -26,8 +26,8 @@ public class SEDrawer : PropertyDrawer
         var all = new List<string>(att.DB.Basics).Concat(att.DB.Others).ToList();
 
         var db = all.Append("Add new...");
-
-        var n = all.IndexOf(property.stringValue);
+        var v = property.stringValue;
+        var n = all.IndexOf(v);
         var t = EditorGUI.Popup(position, n, db.ToArray());
 
         if (t < all.Count)

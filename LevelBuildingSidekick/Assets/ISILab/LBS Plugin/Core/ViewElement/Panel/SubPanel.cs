@@ -24,7 +24,7 @@ namespace LBS.VisualElements
             this.contentPanel = this.Q<VisualElement>("Content");
         }
 
-        public void SetValue(object obj, string title, string extraTitle = "")
+        public void SetValue(IShowable obj, string title, string extraTitle = "")
         {
             ClearValue();
             this.title.text = title;
@@ -33,6 +33,10 @@ namespace LBS.VisualElements
             var type = obj.GetType();
             var fields = type.GetFields();
 
+            var ve = obj.CIGUI();
+            contentPanel.Add(ve);
+
+            /*
             foreach (var field in fields)
             {
                 var t = field.FieldType;
@@ -73,11 +77,17 @@ namespace LBS.VisualElements
                     contentPanel.Add(x);
                 }
             }
+            */
         }
 
         public void ClearValue()
         {
             this.contentPanel.Clear();
         }
+    }
+
+    public interface IShowable
+    {
+        public VisualElement CIGUI();
     }
 }

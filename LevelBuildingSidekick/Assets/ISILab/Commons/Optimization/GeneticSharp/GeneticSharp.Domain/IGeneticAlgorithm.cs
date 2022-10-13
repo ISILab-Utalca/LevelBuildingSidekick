@@ -1,4 +1,5 @@
 using System;
+using Commons.Optimization;
 using GeneticSharp.Domain.Chromosomes;
 
 namespace GeneticSharp.Domain

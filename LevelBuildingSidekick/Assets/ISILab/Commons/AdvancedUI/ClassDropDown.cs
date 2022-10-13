@@ -6,12 +6,15 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Utility;
 
-public class ClassDropDown //this could inherit from DropDown
+public class ClassDropDown //this could inherit from DropDown (!!!) Si, porvafor
 {
     public DropdownField Dropdown;
     public Type Type;
     bool FilterAbstract;
+
+    private List<Type> _types;
 
     public ClassDropDown(DropdownField dropdown, Type type, bool filterAbstract)
     {
@@ -25,20 +28,20 @@ public class ClassDropDown //this could inherit from DropDown
 
     void UpdateOptions()
     {
-        IEnumerable<Type> types = null;
+        List<Type> types = null;
 
         if(Type.IsClass)
         {
-            types = Utility.Reflection.GetAllSubClassOf(Type);
+            types = Utility.Reflection.GetAllSubClassOf(Type).ToList();
         }
         else if(Type.IsInterface)
         {
-            types = Utility.Reflection.GetAllImplementationsOf(Type);
+            types = Utility.Reflection.GetAllImplementationsOf(Type).ToList();
         }
 
         if (FilterAbstract)
         {
-            types = types.Where(t => !t.IsAbstract);
+            types = types.Where(t => !t.IsAbstract).ToList();
         }
 
         var options = types.Select(t => {
@@ -46,14 +49,19 @@ public class ClassDropDown //this could inherit from DropDown
             return value;
         }).ToList();
 
+        _types = types;
         Dropdown.choices = options;
     }
 
     public object GetChoiceInstance()
     {
         object obj = null;
-
-        var t = Type.GetType(Dropdown.value);
+        var dv = Dropdown.value;
+        var dx = Dropdown.choices.IndexOf(dv);
+        //var t = Type.GetType(dv,true);
+        //obj = Activator.CreateInstance(t);
+        //var t = Reflection.GetType(dv);
+        var t = _types[dx];
         try
         {
             obj = Activator.CreateInstance(t);
@@ -65,5 +73,7 @@ public class ClassDropDown //this could inherit from DropDown
 
         return obj;
     }
+
+    
 
 }

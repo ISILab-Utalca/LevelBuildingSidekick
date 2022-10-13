@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Commons.Optimization.Evaluator;
+using UnityEngine.UIElements;
 
 [System.Serializable]
 public abstract class Simetry2DEvaluator : IRangedEvaluator
@@ -35,4 +36,6 @@ public abstract class Simetry2DEvaluator : IRangedEvaluator
     public abstract float CalculateSimetry(object[] data, int height);
 
     public abstract string GetName();
+
+    public abstract VisualElement CIGUI();
 }

@@ -11,7 +11,13 @@ namespace GeneticSharp.Domain.Populations
     /// </summary>
     public class Population : IPopulation
     {
+
         #region Constructors
+        public Population()
+        {
+
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Populations.Population"/> class.
         /// </summary>
