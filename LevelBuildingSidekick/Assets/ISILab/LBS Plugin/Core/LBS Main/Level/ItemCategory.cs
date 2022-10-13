@@ -14,7 +14,7 @@ namespace LBS
     public class ItemCategory
     {
         [SerializeField,JsonRequired]
-        [StringEnum]
+        [StringEnum("Tile tags")]
         public string category;
 
 

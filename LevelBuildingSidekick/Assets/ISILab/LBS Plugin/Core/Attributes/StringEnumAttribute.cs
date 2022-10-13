@@ -10,9 +10,9 @@ public class StringEnumAttribute : PropertyAttribute
 {
     public LBSTags DB;
 
-    public StringEnumAttribute()
+    public StringEnumAttribute(string name)
     {
-        DB = DirectoryTools.GetScriptable<LBSTags>();
+        DB = DirectoryTools.GetScriptable<LBSTags>(name);
     }
 }
 
