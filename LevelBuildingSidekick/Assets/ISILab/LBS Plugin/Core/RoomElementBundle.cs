@@ -35,12 +35,12 @@ public class RoomElementBundle : ScriptableObject
 
     public RoomElementBundle()
     {
-        string[] defaultCategories = { "Walls", "Floors", "Doors", "Skies" };
+        string[] defaultCategories = { "Wall", "Floor", "Door", "Ceiling" };
         foreach (var cat in defaultCategories)
         {
             var c = new ItemCategory(cat);
 
-            if (cat == "Walls" || cat == "Doors")
+            if (cat == "Wall" || cat == "Door")
                 c.pivotType = PivotType.Edge;
 
             categories.Add(c);

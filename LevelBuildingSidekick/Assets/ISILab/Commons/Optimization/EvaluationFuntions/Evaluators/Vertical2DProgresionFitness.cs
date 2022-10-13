@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Commons.Optimization.Evaluator;
+using UnityEngine.UIElements;
 
 public class Vertical2DProgresionFitness : IRangedEvaluator
 {
@@ -49,6 +50,13 @@ public class Vertical2DProgresionFitness : IRangedEvaluator
 
     public string GetName()
     {
-        throw new System.NotImplementedException();
+        return "Vertical 2D progresion fitness";
+    }
+
+    public VisualElement CIGUI()
+    {
+        var ve = new VisualElement();
+
+        return ve;
     }
 }
