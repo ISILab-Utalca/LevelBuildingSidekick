@@ -1,0 +1,173 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement style="height: auto; width: auto; background-color: rgb(34, 34, 34); flex-grow: 1;">
+        <ui:VisualElement name="Name_More" style="height: 52px; flex-direction: row; margin-top: 4px; margin-bottom: 4px;">
+            <ui:VisualElement name="Action" style="flex-grow: 1; width: 178px; justify-content: center; align-items: center; margin-right: 0;">
+                <ui:VisualElement style="height: 53px; width: 207px; border-left-color: rgb(95, 95, 95); border-right-color: rgb(95, 95, 95); border-top-color: rgb(95, 95, 95); border-bottom-color: rgb(95, 95, 95); border-left-width: 6px; border-right-width: 6px; border-top-width: 6px; border-bottom-width: 6px; border-top-left-radius: 25px; border-bottom-left-radius: 25px; border-top-right-radius: 25px; border-bottom-right-radius: 25px; align-items: center; justify-content: center; font-size: 16px; margin-left: 0; margin-right: 0; padding-right: 0;">
+                    <ui:Label tabindex="-1" text="Action" display-tooltip-when-elided="true" style="-unity-font-style: bold; font-size: 24px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="More" style="flex-grow: 1; align-items: center; justify-content: center;">
+                <ui:VisualElement style="border-left-color: rgb(95, 95, 95); border-right-color: rgb(95, 95, 95); border-top-color: rgb(95, 95, 95); border-bottom-color: rgb(95, 95, 95); border-left-width: 6px; border-right-width: 6px; border-top-width: 6px; border-bottom-width: 6px; height: 45px; width: 45px; border-top-left-radius: 36px; border-bottom-left-radius: 36px; border-top-right-radius: 36px; border-bottom-right-radius: 36px; align-items: center; justify-content: center;">
+                    <ui:Label tabindex="-1" text="+" display-tooltip-when-elided="true" style="align-items: center; justify-content: center; -unity-font-style: bold; font-size: 32px; -unity-text-align: middle-left; height: 24px; width: 22px; color: rgb(118, 118, 118); display: none;" />
+                    <ui:VisualElement style="height: 19px; width: 19px; background-image: url(&apos;project://database/Assets/ISILab/LBS%20Plugin/Core/Windows/Actions%20and%20Quests/more.png?fileID=2800000&amp;guid=fad169050185b7448abf924f0c817916&amp;type=3#more&apos;); -unity-background-scale-mode: scale-to-fit;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Name_More" style="height: 52px; flex-direction: row; margin-top: 4px; margin-bottom: 4px;">
+            <ui:VisualElement name="Action" style="flex-grow: 1; width: 178px; justify-content: center; align-items: center;">
+                <ui:VisualElement style="height: 53px; width: 207px; border-left-color: rgb(95, 95, 95); border-right-color: rgb(95, 95, 95); border-top-color: rgb(95, 95, 95); border-bottom-color: rgb(95, 95, 95); border-left-width: 6px; border-right-width: 6px; border-top-width: 6px; border-bottom-width: 6px; border-top-left-radius: 25px; border-bottom-left-radius: 25px; border-top-right-radius: 25px; border-bottom-right-radius: 25px; align-items: center; justify-content: center; font-size: 16px;">
+                    <ui:Label tabindex="-1" text="Action" display-tooltip-when-elided="true" style="-unity-font-style: bold; font-size: 24px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="More" style="flex-grow: 1; align-items: center; justify-content: center;">
+                <ui:VisualElement style="border-left-color: rgb(95, 95, 95); border-right-color: rgb(95, 95, 95); border-top-color: rgb(95, 95, 95); border-bottom-color: rgb(95, 95, 95); border-left-width: 6px; border-right-width: 6px; border-top-width: 6px; border-bottom-width: 6px; height: 45px; width: 45px; border-top-left-radius: 36px; border-bottom-left-radius: 36px; border-top-right-radius: 36px; border-bottom-right-radius: 36px; align-items: center; justify-content: center;">
+                    <ui:Label tabindex="-1" text="+" display-tooltip-when-elided="true" style="align-items: center; justify-content: center; -unity-font-style: bold; font-size: 32px; -unity-text-align: middle-left; height: 24px; width: 22px; color: rgb(118, 118, 118); display: none;" />
+                    <ui:VisualElement style="height: 19px; width: 19px; background-image: url(&apos;project://database/Assets/ISILab/LBS%20Plugin/Core/Windows/Actions%20and%20Quests/more.png?fileID=2800000&amp;guid=fad169050185b7448abf924f0c817916&amp;type=3#more&apos;); -unity-background-scale-mode: scale-to-fit;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Name_More" style="height: 52px; flex-direction: row; margin-top: 4px; margin-bottom: 4px;">
+            <ui:VisualElement name="Action" style="flex-grow: 1; width: 178px; justify-content: center; align-items: center;">
+                <ui:VisualElement style="height: 53px; width: 207px; border-left-color: rgb(95, 95, 95); border-right-color: rgb(95, 95, 95); border-top-color: rgb(95, 95, 95); border-bottom-color: rgb(95, 95, 95); border-left-width: 6px; border-right-width: 6px; border-top-width: 6px; border-bottom-width: 6px; border-top-left-radius: 25px; border-bottom-left-radius: 25px; border-top-right-radius: 25px; border-bottom-right-radius: 25px; align-items: center; justify-content: center; font-size: 16px;">
+                    <ui:Label tabindex="-1" text="Action" display-tooltip-when-elided="true" style="-unity-font-style: bold; font-size: 24px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="More" style="flex-grow: 1; align-items: center; justify-content: center;">
+                <ui:VisualElement style="border-left-color: rgb(95, 95, 95); border-right-color: rgb(95, 95, 95); border-top-color: rgb(95, 95, 95); border-bottom-color: rgb(95, 95, 95); border-left-width: 6px; border-right-width: 6px; border-top-width: 6px; border-bottom-width: 6px; height: 45px; width: 45px; border-top-left-radius: 36px; border-bottom-left-radius: 36px; border-top-right-radius: 36px; border-bottom-right-radius: 36px; align-items: center; justify-content: center;">
+                    <ui:Label tabindex="-1" text="+" display-tooltip-when-elided="true" style="align-items: center; justify-content: center; -unity-font-style: bold; font-size: 32px; -unity-text-align: middle-left; height: 24px; width: 22px; color: rgb(118, 118, 118); display: none;" />
+                    <ui:VisualElement style="height: 19px; width: 19px; background-image: url(&apos;project://database/Assets/ISILab/LBS%20Plugin/Core/Windows/Actions%20and%20Quests/more.png?fileID=2800000&amp;guid=fad169050185b7448abf924f0c817916&amp;type=3#more&apos;); -unity-background-scale-mode: scale-to-fit;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Name_More" style="height: 52px; flex-direction: row; margin-top: 4px; margin-bottom: 4px;">
+            <ui:VisualElement name="Action" style="flex-grow: 1; width: 178px; justify-content: center; align-items: center;">
+                <ui:VisualElement style="height: 53px; width: 207px; border-left-color: rgb(95, 95, 95); border-right-color: rgb(95, 95, 95); border-top-color: rgb(95, 95, 95); border-bottom-color: rgb(95, 95, 95); border-left-width: 6px; border-right-width: 6px; border-top-width: 6px; border-bottom-width: 6px; border-top-left-radius: 25px; border-bottom-left-radius: 25px; border-top-right-radius: 25px; border-bottom-right-radius: 25px; align-items: center; justify-content: center; font-size: 16px;">
+                    <ui:Label tabindex="-1" text="Action" display-tooltip-when-elided="true" style="-unity-font-style: bold; font-size: 24px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="More" style="flex-grow: 1; align-items: center; justify-content: center;">
+                <ui:VisualElement style="border-left-color: rgb(95, 95, 95); border-right-color: rgb(95, 95, 95); border-top-color: rgb(95, 95, 95); border-bottom-color: rgb(95, 95, 95); border-left-width: 6px; border-right-width: 6px; border-top-width: 6px; border-bottom-width: 6px; height: 45px; width: 45px; border-top-left-radius: 36px; border-bottom-left-radius: 36px; border-top-right-radius: 36px; border-bottom-right-radius: 36px; align-items: center; justify-content: center;">
+                    <ui:Label tabindex="-1" text="+" display-tooltip-when-elided="true" style="align-items: center; justify-content: center; -unity-font-style: bold; font-size: 32px; -unity-text-align: middle-left; height: 24px; width: 22px; color: rgb(118, 118, 118); display: none;" />
+                    <ui:VisualElement style="height: 19px; width: 19px; background-image: url(&apos;project://database/Assets/ISILab/LBS%20Plugin/Core/Windows/Actions%20and%20Quests/more.png?fileID=2800000&amp;guid=fad169050185b7448abf924f0c817916&amp;type=3#more&apos;); -unity-background-scale-mode: scale-to-fit;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Name_More" style="height: 52px; flex-direction: row; margin-top: 4px; margin-bottom: 4px;">
+            <ui:VisualElement name="Action" style="flex-grow: 1; width: 178px; justify-content: center; align-items: center;">
+                <ui:VisualElement style="height: 53px; width: 207px; border-left-color: rgb(95, 95, 95); border-right-color: rgb(95, 95, 95); border-top-color: rgb(95, 95, 95); border-bottom-color: rgb(95, 95, 95); border-left-width: 6px; border-right-width: 6px; border-top-width: 6px; border-bottom-width: 6px; border-top-left-radius: 25px; border-bottom-left-radius: 25px; border-top-right-radius: 25px; border-bottom-right-radius: 25px; align-items: center; justify-content: center; font-size: 16px;">
+                    <ui:Label tabindex="-1" text="Action" display-tooltip-when-elided="true" style="-unity-font-style: bold; font-size: 24px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="More" style="flex-grow: 1; align-items: center; justify-content: center;">
+                <ui:VisualElement style="border-left-color: rgb(95, 95, 95); border-right-color: rgb(95, 95, 95); border-top-color: rgb(95, 95, 95); border-bottom-color: rgb(95, 95, 95); border-left-width: 6px; border-right-width: 6px; border-top-width: 6px; border-bottom-width: 6px; height: 45px; width: 45px; border-top-left-radius: 36px; border-bottom-left-radius: 36px; border-top-right-radius: 36px; border-bottom-right-radius: 36px; align-items: center; justify-content: center;">
+                    <ui:Label tabindex="-1" text="+" display-tooltip-when-elided="true" style="align-items: center; justify-content: center; -unity-font-style: bold; font-size: 32px; -unity-text-align: middle-left; height: 24px; width: 22px; color: rgb(118, 118, 118); display: none;" />
+                    <ui:VisualElement style="height: 19px; width: 19px; background-image: url(&apos;project://database/Assets/ISILab/LBS%20Plugin/Core/Windows/Actions%20and%20Quests/more.png?fileID=2800000&amp;guid=fad169050185b7448abf924f0c817916&amp;type=3#more&apos;); -unity-background-scale-mode: scale-to-fit;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Name_More" style="height: 52px; flex-direction: row; margin-top: 4px; margin-bottom: 4px;">
+            <ui:VisualElement name="Action" style="flex-grow: 1; width: 178px; justify-content: center; align-items: center;">
+                <ui:VisualElement style="height: 53px; width: 207px; border-left-color: rgb(95, 95, 95); border-right-color: rgb(95, 95, 95); border-top-color: rgb(95, 95, 95); border-bottom-color: rgb(95, 95, 95); border-left-width: 6px; border-right-width: 6px; border-top-width: 6px; border-bottom-width: 6px; border-top-left-radius: 25px; border-bottom-left-radius: 25px; border-top-right-radius: 25px; border-bottom-right-radius: 25px; align-items: center; justify-content: center; font-size: 16px;">
+                    <ui:Label tabindex="-1" text="Action" display-tooltip-when-elided="true" style="-unity-font-style: bold; font-size: 24px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="More" style="flex-grow: 1; align-items: center; justify-content: center;">
+                <ui:VisualElement style="border-left-color: rgb(95, 95, 95); border-right-color: rgb(95, 95, 95); border-top-color: rgb(95, 95, 95); border-bottom-color: rgb(95, 95, 95); border-left-width: 6px; border-right-width: 6px; border-top-width: 6px; border-bottom-width: 6px; height: 45px; width: 45px; border-top-left-radius: 36px; border-bottom-left-radius: 36px; border-top-right-radius: 36px; border-bottom-right-radius: 36px; align-items: center; justify-content: center;">
+                    <ui:Label tabindex="-1" text="+" display-tooltip-when-elided="true" style="align-items: center; justify-content: center; -unity-font-style: bold; font-size: 32px; -unity-text-align: middle-left; height: 24px; width: 22px; color: rgb(118, 118, 118); display: none;" />
+                    <ui:VisualElement style="height: 19px; width: 19px; background-image: url(&apos;project://database/Assets/ISILab/LBS%20Plugin/Core/Windows/Actions%20and%20Quests/more.png?fileID=2800000&amp;guid=fad169050185b7448abf924f0c817916&amp;type=3#more&apos;); -unity-background-scale-mode: scale-to-fit;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Name_More" style="height: 52px; flex-direction: row; margin-top: 4px; margin-bottom: 4px;">
+            <ui:VisualElement name="Action" style="flex-grow: 1; width: 178px; justify-content: center; align-items: center;">
+                <ui:VisualElement style="height: 53px; width: 207px; border-left-color: rgb(95, 95, 95); border-right-color: rgb(95, 95, 95); border-top-color: rgb(95, 95, 95); border-bottom-color: rgb(95, 95, 95); border-left-width: 6px; border-right-width: 6px; border-top-width: 6px; border-bottom-width: 6px; border-top-left-radius: 25px; border-bottom-left-radius: 25px; border-top-right-radius: 25px; border-bottom-right-radius: 25px; align-items: center; justify-content: center; font-size: 16px;">
+                    <ui:Label tabindex="-1" text="Action" display-tooltip-when-elided="true" style="-unity-font-style: bold; font-size: 24px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="More" style="flex-grow: 1; align-items: center; justify-content: center;">
+                <ui:VisualElement style="border-left-color: rgb(95, 95, 95); border-right-color: rgb(95, 95, 95); border-top-color: rgb(95, 95, 95); border-bottom-color: rgb(95, 95, 95); border-left-width: 6px; border-right-width: 6px; border-top-width: 6px; border-bottom-width: 6px; height: 45px; width: 45px; border-top-left-radius: 36px; border-bottom-left-radius: 36px; border-top-right-radius: 36px; border-bottom-right-radius: 36px; align-items: center; justify-content: center;">
+                    <ui:Label tabindex="-1" text="+" display-tooltip-when-elided="true" style="align-items: center; justify-content: center; -unity-font-style: bold; font-size: 32px; -unity-text-align: middle-left; height: 24px; width: 22px; color: rgb(118, 118, 118); display: none;" />
+                    <ui:VisualElement style="height: 19px; width: 19px; background-image: url(&apos;project://database/Assets/ISILab/LBS%20Plugin/Core/Windows/Actions%20and%20Quests/more.png?fileID=2800000&amp;guid=fad169050185b7448abf924f0c817916&amp;type=3#more&apos;); -unity-background-scale-mode: scale-to-fit;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Name_More" style="height: 52px; flex-direction: row; margin-top: 4px; margin-bottom: 4px;">
+            <ui:VisualElement name="Action" style="flex-grow: 1; width: 178px; justify-content: center; align-items: center;">
+                <ui:VisualElement style="height: 53px; width: 207px; border-left-color: rgb(95, 95, 95); border-right-color: rgb(95, 95, 95); border-top-color: rgb(95, 95, 95); border-bottom-color: rgb(95, 95, 95); border-left-width: 6px; border-right-width: 6px; border-top-width: 6px; border-bottom-width: 6px; border-top-left-radius: 25px; border-bottom-left-radius: 25px; border-top-right-radius: 25px; border-bottom-right-radius: 25px; align-items: center; justify-content: center; font-size: 16px;">
+                    <ui:Label tabindex="-1" text="Action" display-tooltip-when-elided="true" style="-unity-font-style: bold; font-size: 24px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="More" style="flex-grow: 1; align-items: center; justify-content: center;">
+                <ui:VisualElement style="border-left-color: rgb(95, 95, 95); border-right-color: rgb(95, 95, 95); border-top-color: rgb(95, 95, 95); border-bottom-color: rgb(95, 95, 95); border-left-width: 6px; border-right-width: 6px; border-top-width: 6px; border-bottom-width: 6px; height: 45px; width: 45px; border-top-left-radius: 36px; border-bottom-left-radius: 36px; border-top-right-radius: 36px; border-bottom-right-radius: 36px; align-items: center; justify-content: center;">
+                    <ui:Label tabindex="-1" text="+" display-tooltip-when-elided="true" style="align-items: center; justify-content: center; -unity-font-style: bold; font-size: 32px; -unity-text-align: middle-left; height: 24px; width: 22px; color: rgb(118, 118, 118); display: none;" />
+                    <ui:VisualElement style="height: 19px; width: 19px; background-image: url(&apos;project://database/Assets/ISILab/LBS%20Plugin/Core/Windows/Actions%20and%20Quests/more.png?fileID=2800000&amp;guid=fad169050185b7448abf924f0c817916&amp;type=3#more&apos;); -unity-background-scale-mode: scale-to-fit;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Name_More" style="height: 52px; flex-direction: row; margin-top: 4px; margin-bottom: 4px;">
+            <ui:VisualElement name="Action" style="flex-grow: 1; width: 178px; justify-content: center; align-items: center;">
+                <ui:VisualElement style="height: 53px; width: 207px; border-left-color: rgb(95, 95, 95); border-right-color: rgb(95, 95, 95); border-top-color: rgb(95, 95, 95); border-bottom-color: rgb(95, 95, 95); border-left-width: 6px; border-right-width: 6px; border-top-width: 6px; border-bottom-width: 6px; border-top-left-radius: 25px; border-bottom-left-radius: 25px; border-top-right-radius: 25px; border-bottom-right-radius: 25px; align-items: center; justify-content: center; font-size: 16px;">
+                    <ui:Label tabindex="-1" text="Action" display-tooltip-when-elided="true" style="-unity-font-style: bold; font-size: 24px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="More" style="flex-grow: 1; align-items: center; justify-content: center;">
+                <ui:VisualElement style="border-left-color: rgb(95, 95, 95); border-right-color: rgb(95, 95, 95); border-top-color: rgb(95, 95, 95); border-bottom-color: rgb(95, 95, 95); border-left-width: 6px; border-right-width: 6px; border-top-width: 6px; border-bottom-width: 6px; height: 45px; width: 45px; border-top-left-radius: 36px; border-bottom-left-radius: 36px; border-top-right-radius: 36px; border-bottom-right-radius: 36px; align-items: center; justify-content: center;">
+                    <ui:Label tabindex="-1" text="+" display-tooltip-when-elided="true" style="align-items: center; justify-content: center; -unity-font-style: bold; font-size: 32px; -unity-text-align: middle-left; height: 24px; width: 22px; color: rgb(118, 118, 118); display: none;" />
+                    <ui:VisualElement style="height: 19px; width: 19px; background-image: url(&apos;project://database/Assets/ISILab/LBS%20Plugin/Core/Windows/Actions%20and%20Quests/more.png?fileID=2800000&amp;guid=fad169050185b7448abf924f0c817916&amp;type=3#more&apos;); -unity-background-scale-mode: scale-to-fit;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Name_More" style="height: 52px; flex-direction: row; margin-top: 4px; margin-bottom: 4px;">
+            <ui:VisualElement name="Action" style="flex-grow: 1; width: 178px; justify-content: center; align-items: center;">
+                <ui:VisualElement style="height: 53px; width: 207px; border-left-color: rgb(95, 95, 95); border-right-color: rgb(95, 95, 95); border-top-color: rgb(95, 95, 95); border-bottom-color: rgb(95, 95, 95); border-left-width: 6px; border-right-width: 6px; border-top-width: 6px; border-bottom-width: 6px; border-top-left-radius: 25px; border-bottom-left-radius: 25px; border-top-right-radius: 25px; border-bottom-right-radius: 25px; align-items: center; justify-content: center; font-size: 16px;">
+                    <ui:Label tabindex="-1" text="Action" display-tooltip-when-elided="true" style="-unity-font-style: bold; font-size: 24px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="More" style="flex-grow: 1; align-items: center; justify-content: center;">
+                <ui:VisualElement style="border-left-color: rgb(95, 95, 95); border-right-color: rgb(95, 95, 95); border-top-color: rgb(95, 95, 95); border-bottom-color: rgb(95, 95, 95); border-left-width: 6px; border-right-width: 6px; border-top-width: 6px; border-bottom-width: 6px; height: 45px; width: 45px; border-top-left-radius: 36px; border-bottom-left-radius: 36px; border-top-right-radius: 36px; border-bottom-right-radius: 36px; align-items: center; justify-content: center;">
+                    <ui:Label tabindex="-1" text="+" display-tooltip-when-elided="true" style="align-items: center; justify-content: center; -unity-font-style: bold; font-size: 32px; -unity-text-align: middle-left; height: 24px; width: 22px; color: rgb(118, 118, 118); display: none;" />
+                    <ui:VisualElement style="height: 19px; width: 19px; background-image: url(&apos;project://database/Assets/ISILab/LBS%20Plugin/Core/Windows/Actions%20and%20Quests/more.png?fileID=2800000&amp;guid=fad169050185b7448abf924f0c817916&amp;type=3#more&apos;); -unity-background-scale-mode: scale-to-fit;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Name_More" style="height: 52px; flex-direction: row; margin-top: 4px; margin-bottom: 4px;">
+            <ui:VisualElement name="Action" style="flex-grow: 1; width: 178px; justify-content: center; align-items: center;">
+                <ui:VisualElement style="height: 53px; width: 207px; border-left-color: rgb(95, 95, 95); border-right-color: rgb(95, 95, 95); border-top-color: rgb(95, 95, 95); border-bottom-color: rgb(95, 95, 95); border-left-width: 6px; border-right-width: 6px; border-top-width: 6px; border-bottom-width: 6px; border-top-left-radius: 25px; border-bottom-left-radius: 25px; border-top-right-radius: 25px; border-bottom-right-radius: 25px; align-items: center; justify-content: center; font-size: 16px;">
+                    <ui:Label tabindex="-1" text="Action" display-tooltip-when-elided="true" style="-unity-font-style: bold; font-size: 24px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="More" style="flex-grow: 1; align-items: center; justify-content: center;">
+                <ui:VisualElement style="border-left-color: rgb(95, 95, 95); border-right-color: rgb(95, 95, 95); border-top-color: rgb(95, 95, 95); border-bottom-color: rgb(95, 95, 95); border-left-width: 6px; border-right-width: 6px; border-top-width: 6px; border-bottom-width: 6px; height: 45px; width: 45px; border-top-left-radius: 36px; border-bottom-left-radius: 36px; border-top-right-radius: 36px; border-bottom-right-radius: 36px; align-items: center; justify-content: center;">
+                    <ui:Label tabindex="-1" text="+" display-tooltip-when-elided="true" style="align-items: center; justify-content: center; -unity-font-style: bold; font-size: 32px; -unity-text-align: middle-left; height: 24px; width: 22px; color: rgb(118, 118, 118); display: none;" />
+                    <ui:VisualElement style="height: 19px; width: 19px; background-image: url(&apos;project://database/Assets/ISILab/LBS%20Plugin/Core/Windows/Actions%20and%20Quests/more.png?fileID=2800000&amp;guid=fad169050185b7448abf924f0c817916&amp;type=3#more&apos;); -unity-background-scale-mode: scale-to-fit;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Name_More" style="height: 52px; flex-direction: row; margin-top: 4px; margin-bottom: 4px;">
+            <ui:VisualElement name="Action" style="flex-grow: 1; width: 178px; justify-content: center; align-items: center;">
+                <ui:VisualElement style="height: 53px; width: 207px; border-left-color: rgb(95, 95, 95); border-right-color: rgb(95, 95, 95); border-top-color: rgb(95, 95, 95); border-bottom-color: rgb(95, 95, 95); border-left-width: 6px; border-right-width: 6px; border-top-width: 6px; border-bottom-width: 6px; border-top-left-radius: 25px; border-bottom-left-radius: 25px; border-top-right-radius: 25px; border-bottom-right-radius: 25px; align-items: center; justify-content: center; font-size: 16px;">
+                    <ui:Label tabindex="-1" text="Action" display-tooltip-when-elided="true" style="-unity-font-style: bold; font-size: 24px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="More" style="flex-grow: 1; align-items: center; justify-content: center;">
+                <ui:VisualElement style="border-left-color: rgb(95, 95, 95); border-right-color: rgb(95, 95, 95); border-top-color: rgb(95, 95, 95); border-bottom-color: rgb(95, 95, 95); border-left-width: 6px; border-right-width: 6px; border-top-width: 6px; border-bottom-width: 6px; height: 45px; width: 45px; border-top-left-radius: 36px; border-bottom-left-radius: 36px; border-top-right-radius: 36px; border-bottom-right-radius: 36px; align-items: center; justify-content: center;">
+                    <ui:Label tabindex="-1" text="+" display-tooltip-when-elided="true" style="align-items: center; justify-content: center; -unity-font-style: bold; font-size: 32px; -unity-text-align: middle-left; height: 24px; width: 22px; color: rgb(118, 118, 118); display: none;" />
+                    <ui:VisualElement style="height: 19px; width: 19px; background-image: url(&apos;project://database/Assets/ISILab/LBS%20Plugin/Core/Windows/Actions%20and%20Quests/more.png?fileID=2800000&amp;guid=fad169050185b7448abf924f0c817916&amp;type=3#more&apos;); -unity-background-scale-mode: scale-to-fit;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Name_More" style="height: 52px; flex-direction: row; margin-top: 4px; margin-bottom: 4px;">
+            <ui:VisualElement name="Action" style="flex-grow: 1; width: 178px; justify-content: center; align-items: center;">
+                <ui:VisualElement style="height: 53px; width: 207px; border-left-color: rgb(95, 95, 95); border-right-color: rgb(95, 95, 95); border-top-color: rgb(95, 95, 95); border-bottom-color: rgb(95, 95, 95); border-left-width: 6px; border-right-width: 6px; border-top-width: 6px; border-bottom-width: 6px; border-top-left-radius: 25px; border-bottom-left-radius: 25px; border-top-right-radius: 25px; border-bottom-right-radius: 25px; align-items: center; justify-content: center; font-size: 16px;">
+                    <ui:Label tabindex="-1" text="Action" display-tooltip-when-elided="true" style="-unity-font-style: bold; font-size: 24px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="More" style="flex-grow: 1; align-items: center; justify-content: center;">
+                <ui:VisualElement style="border-left-color: rgb(95, 95, 95); border-right-color: rgb(95, 95, 95); border-top-color: rgb(95, 95, 95); border-bottom-color: rgb(95, 95, 95); border-left-width: 6px; border-right-width: 6px; border-top-width: 6px; border-bottom-width: 6px; height: 45px; width: 45px; border-top-left-radius: 36px; border-bottom-left-radius: 36px; border-top-right-radius: 36px; border-bottom-right-radius: 36px; align-items: center; justify-content: center;">
+                    <ui:Label tabindex="-1" text="+" display-tooltip-when-elided="true" style="align-items: center; justify-content: center; -unity-font-style: bold; font-size: 32px; -unity-text-align: middle-left; height: 24px; width: 22px; color: rgb(118, 118, 118); display: none;" />
+                    <ui:VisualElement style="height: 19px; width: 19px; background-image: url(&apos;project://database/Assets/ISILab/LBS%20Plugin/Core/Windows/Actions%20and%20Quests/more.png?fileID=2800000&amp;guid=fad169050185b7448abf924f0c817916&amp;type=3#more&apos;); -unity-background-scale-mode: scale-to-fit;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
