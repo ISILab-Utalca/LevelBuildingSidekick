@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4335453245991809624}
   m_Layer: 0
-  m_Name: doorPivot
+  m_Name: door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,7 +33,7 @@ Transform:
   - {fileID: 1994200399390319178}
   - {fileID: 1453238601699097665}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4857925432061117092
 GameObject:
@@ -62,7 +62,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4857925432061117092}
   m_LocalRotation: {x: -0, y: -0, z: 0.7071061, w: -0.70710754}
-  m_LocalPosition: {x: -0.4999987, y: 0.9999993, z: 0.55}
+  m_LocalPosition: {x: -0.4999987, y: 0.9999993, z: 0.05}
   m_LocalScale: {x: 0.2, y: 0.1, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -160,7 +160,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5548950668282588891}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.55}
+  m_LocalPosition: {x: 0, y: 0, z: 0.05}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -258,7 +258,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7700175454035362157}
   m_LocalRotation: {x: -0, y: -0, z: -1, w: 0.00000058114523}
-  m_LocalPosition: {x: -0.000002324581, y: 2, z: 0.55}
+  m_LocalPosition: {x: -0.000002324581, y: 2, z: 0.05}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -356,7 +356,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8222850854563358852}
   m_LocalRotation: {x: -0, y: -0, z: -0.70710725, w: -0.7071064}
-  m_LocalPosition: {x: 0.5000013, y: 1.0000006, z: 0.55}
+  m_LocalPosition: {x: 0.5000013, y: 1.0000006, z: 0.05}
   m_LocalScale: {x: 0.2, y: 0.1, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children: []

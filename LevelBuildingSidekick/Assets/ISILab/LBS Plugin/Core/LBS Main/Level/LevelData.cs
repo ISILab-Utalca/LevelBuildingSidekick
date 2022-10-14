@@ -17,7 +17,11 @@ namespace LBS
         private List<ItemCategory> levelObjects = new List<ItemCategory>();
 
         [SerializeField, JsonRequired]
-        private int x, y, z;        
+        private int x, y, z;
+        [SerializeField, JsonRequired]
+        private float tileSize = 2f;
+        [SerializeField, JsonRequired]
+        private float wallThickness = .1f;
 
         [SerializeField, JsonRequired, SerializeReference]
         private List<LBSRepesentationData> representations = new List<LBSRepesentationData>();
@@ -36,6 +40,12 @@ namespace LBS
                 z = (int)value.z;
             }
         }
+
+        [JsonIgnore]
+        public float TileSize => tileSize;
+        [JsonIgnore]
+        public float WallThickness => wallThickness;
+
 
         [Obsolete("Esta funcion no se esta ocupanbdo actualemente pero se puede volver a usar a futuro")]
         public List<GameObject> RequestLevelObjects(string category)

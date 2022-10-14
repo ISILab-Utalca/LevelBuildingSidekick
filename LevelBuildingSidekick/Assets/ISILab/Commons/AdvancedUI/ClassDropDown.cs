@@ -58,9 +58,6 @@ public class ClassDropDown //this could inherit from DropDown (!!!) Si, porvafor
         object obj = null;
         var dv = Dropdown.value;
         var dx = Dropdown.choices.IndexOf(dv);
-        //var t = Type.GetType(dv,true);
-        //obj = Activator.CreateInstance(t);
-        //var t = Reflection.GetType(dv);
         var t = _types[dx];
         try
         {

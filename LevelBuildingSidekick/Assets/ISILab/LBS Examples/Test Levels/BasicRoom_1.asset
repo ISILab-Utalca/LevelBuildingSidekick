@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 99a643f0a6401af4095889f2a037615f, type: 3}
-  m_Name: BasicRoom
+  m_Name: BasicRoom_1
   m_EditorClassIdentifier: 
   categories:
   - category: Wall
     pivotType: 1
     items:
-    - {fileID: 1421577743583734271, guid: a121ddcf89e479d4f92634d1b354f644, type: 3}
-  - category: Floor
-    pivotType: 0
-    items:
-    - {fileID: 3340211634435293643, guid: 7a68f3748ea3f56469f668b4a78e63bf, type: 3}
+    - {fileID: 4304932923910414374, guid: abf31349866e3cb459dfcc937467c4da, type: 3}
   - category: Door
     pivotType: 1
     items:
-    - {fileID: 407947492618299251, guid: 1fc9075de6743144195992418e91910e, type: 3}
+    - {fileID: 2589646057331771087, guid: a42e31de5e880084ba9d3756e3897b1d, type: 3}
+  - category: Floor
+    pivotType: 0
+    items:
+    - {fileID: 8610614471345408872, guid: 9263c520bcec7e8489b55875dd8d139b, type: 3}
   - category: Ceiling
     pivotType: 0
     items:
-    - {fileID: 2804152555805628249, guid: 6bc6303d284ac1e45a7d4f0a150a6e26, type: 3}
+    - {fileID: 2936855057016558548, guid: 8a861b0008cc2884d8c61124e028295b, type: 3}
