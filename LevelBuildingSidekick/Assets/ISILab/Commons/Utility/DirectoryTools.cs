@@ -9,6 +9,13 @@ namespace Utility
 {
     public static class DirectoryTools
     {
+        public static string FullPathToProjectPath(string fullpath)
+        {
+            var x = fullpath.Split("Assets");
+            var r = "Assets" + x[x.Length - 1];
+            return r;
+        }
+
         public static T SearchAssetByName<T>(string name)
         {
             var guids = AssetDatabase.FindAssets(name);

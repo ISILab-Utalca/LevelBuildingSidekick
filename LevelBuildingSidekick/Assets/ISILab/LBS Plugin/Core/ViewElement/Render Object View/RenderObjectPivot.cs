@@ -4,8 +4,22 @@ using UnityEngine;
 
 public class RenderObjectPivot : MonoBehaviour
 {
-    public Camera cam;
-    public Transform pivotCam;
+    [SerializeField]
+    private Camera cam;
+    [SerializeField]
+    private Transform pivotCam;
 
-    public Transform root;
+    [SerializeField]
+    private Transform root;
+
+    public void SetPref(GameObject go)
+    {
+        for (int i = 0; i < root.childCount; i++)
+        {
+            var g = root.GetChild(i);
+            DestroyImmediate(g.gameObject);
+        }
+
+        Instantiate(go, root);
+    }
 }
