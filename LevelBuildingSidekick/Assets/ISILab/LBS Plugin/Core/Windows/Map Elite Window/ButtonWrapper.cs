@@ -56,5 +56,11 @@ namespace LBS.VisualElements
 
             Data = data;
         }
+
+        public void Init(Vector2 size)
+        {
+            style.width = size.x;
+            style.height = size.y;
+        }
     }
 }

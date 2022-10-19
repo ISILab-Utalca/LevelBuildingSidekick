@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: b59839afa51303b4caa89b61ed5a42fb
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - m_ViewDataDictionary: {instanceID: 0}
+  - pref: {fileID: -3240697751671222156, guid: 29dcbf7ef47b8f54f9745177015e47d9, type: 3}
+  - rTexture: {fileID: 8400000, guid: 9f5c770eb9ce3c648984916e77c0d3ba, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
