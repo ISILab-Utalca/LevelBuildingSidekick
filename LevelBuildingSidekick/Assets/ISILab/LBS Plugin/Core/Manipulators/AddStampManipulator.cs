@@ -35,7 +35,7 @@ namespace LBS.Manipulators
                 return;
 
             var pos = controller.ViewportMousePosition(e.localMousePosition);
-            var tPos = controller.ToTileCoords(pos);
+            var tPos = controller.FromTileCoords(controller.ToTileCoords(pos));
 
             var stamps = LBSController.CurrentLevel.data.GetRepresentation<LBSStampGroupData>();
             var s = new StampData(selected.Label, tPos);
