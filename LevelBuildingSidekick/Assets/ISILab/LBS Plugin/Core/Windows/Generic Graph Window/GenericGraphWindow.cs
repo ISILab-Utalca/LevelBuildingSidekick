@@ -20,8 +20,8 @@ namespace LBS.Windows
     public abstract class GenericGraphWindow : EditorWindow, ISupportsOverlays
     {
         protected List<Tuple<string, Action>> actions = new List<Tuple<string, Action>>();
-        private List<IRepController> controllers = new List<IRepController>();
-        protected IRepController currentController;
+        protected List<IRepController> controllers = new List<IRepController>();
+        public IRepController CurrentController { get; protected set; }
 
         protected VisualElement root;
         protected MainView mainView;
@@ -100,7 +100,7 @@ namespace LBS.Windows
             {
                 Debug.LogWarning("Index <b>'" + value + "'</b> is out of bounds.");
             }
-            currentController = controllers[value];
+            CurrentController = controllers[value];
         }
 
 
@@ -120,11 +120,12 @@ namespace LBS.Windows
             InitPanel();
             Populate();
 
-            currentController = controllers[0];
+            if(CurrentController == null)
+                CurrentController = controllers[0];
             mainView.OnClearSelection = () =>
             {
             // puede que esto generar clases que ya existe y se dupliquen revisar si puede llegar a ser un problema (?)
-            var il = Reflection.MakeGenericScriptable(currentController.GetData());
+            var il = Reflection.MakeGenericScriptable(CurrentController.GetData());
                 Selection.SetActiveObjectWithContext(il, il);
             };
         }

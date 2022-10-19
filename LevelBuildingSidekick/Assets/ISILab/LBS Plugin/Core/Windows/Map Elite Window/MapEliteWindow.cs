@@ -11,6 +11,7 @@ using GeneticSharp.Domain;
 using Commons.Optimization.Evaluator;
 using Utility;
 using Commons.Optimization;
+using GeneticSharp.Domain.Chromosomes;
 
 namespace LBS.Windows
 {
@@ -25,7 +26,7 @@ namespace LBS.Windows
 
         private MapElites mapElites;
 
-        public int ButtonSize = 64; //Should be a RangeSlider field(!!!)
+        public int ButtonSize = 192; //Should be a RangeSlider field(!!!)
 
         public GenericGraphWindow mainView;
 
@@ -74,7 +75,7 @@ namespace LBS.Windows
 
             this.Partitions.RegisterValueChangedCallback(x => ChangePartitions(x.newValue));
 
-            EvaluatorFieldX.Dropdown.RegisterCallback<ChangeEvent<string>>(s => {
+            EvaluatorFieldX.Dropdown.RegisterCallback<ChangeEvent<string>>(e => {
                 evaluatorXPanel.style.display = DisplayStyle.Flex;
                 var value = EvaluatorFieldX.GetChoiceInstance();
                 mapElites.XEvaluator = value as IRangedEvaluator;
@@ -82,7 +83,7 @@ namespace LBS.Windows
                     evaluatorXPanel.SetValue(value as IShowable, "Evaluator: " + mapElites.XEvaluator.GetName(), "(axis X)");
             });
 
-            EvaluatorFieldY.Dropdown.RegisterCallback<ChangeEvent<string>>(s => {
+            EvaluatorFieldY.Dropdown.RegisterCallback<ChangeEvent<string>>(e => {
                 evaluatorYPanel.style.display = DisplayStyle.Flex;
                 var value = EvaluatorFieldY.GetChoiceInstance();
                 mapElites.YEvaluator = value as IRangedEvaluator;
@@ -90,7 +91,7 @@ namespace LBS.Windows
                     evaluatorYPanel.SetValue(value as IShowable, "Evaluator: " + mapElites.YEvaluator.GetName(), "(axis Y)");
             });
 
-            IAField.Dropdown.RegisterCallback<ChangeEvent<string>>(s => {
+            IAField.Dropdown.RegisterCallback<ChangeEvent<string>>(e => {
                 optimizerPanel.style.display = DisplayStyle.Flex;
                 var value = IAField.GetChoiceInstance();
                 mapElites.Optimizer = value as IOptimizer;
@@ -100,17 +101,22 @@ namespace LBS.Windows
 
             mapElites.OnSampleUpdated += UpdateSample;
 
-            this.Partitions.value = new Vector2(10,10);
+            this.Partitions.value = new Vector2(3,3);
+
+            //ChangePartitions(new Vector2(3, 3));
 
             //this.fieldIA.RegisterValueChangedCallback(x => ChangeIA(x));
 
             CalculateButton.clicked += Run;
         }
 
-        
-
         public void Run()
         {
+            if(!(mainView.CurrentController is IChromosomable))
+            {
+                return;
+            }
+            mapElites.Adam = (mainView.CurrentController as IChromosomable).ToChromosome();
             mapElites.Run();
         }
 
@@ -146,6 +152,7 @@ namespace LBS.Windows
         {
             var index = (coords.y * mapElites.XSampleCount + coords.x);
             Content[index].Data = mapElites.BestSamples[coords.x, coords.y];
+            Debug.Log("Hyaaaa");
         }
     }
 }

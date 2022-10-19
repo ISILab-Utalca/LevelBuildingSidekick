@@ -46,7 +46,10 @@ namespace LBS.Windows
             var data = LBSController.CurrentLevel.data; // peligroso buscar otra forma (!)
 
             AddController(new LBSTileMapController(MainView, data.GetRepresentation<LBSTileMapData>()));
-            AddController(new LBSStampTileMapController(MainView, data.GetRepresentation<LBSStampGroupData>()));
+            var c = new LBSStampTileMapController(MainView, data.GetRepresentation<LBSStampGroupData>());
+            AddController(c);
+
+            CurrentController = c;
         }
 
     }

@@ -6,9 +6,10 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System.Linq;
+using GeneticSharp.Domain.Chromosomes;
 
 // public class LBSPopulationController : LBSRepController<LBStile>, ITileMap
-public class LBSStampTileMapController : LBSStampController, ITileMap
+public class LBSStampTileMapController : LBSStampController, ITileMap, IChromosomable
 {
     public static int UnitSize = 100; //esto no dbeería estar aca(!!!)
 
@@ -44,6 +45,9 @@ public class LBSStampTileMapController : LBSStampController, ITileMap
         pos = (pos - viewPos) / view.scale;
 
         pos = ToTileCoords(pos);
+        Debug.Log(pos);
+        pos = FromTileCoords(pos);
+        Debug.Log(pos);
 
         var newStamp = new StampData(stamp.name, pos);
         data.AddStamp(newStamp);
@@ -52,8 +56,8 @@ public class LBSStampTileMapController : LBSStampController, ITileMap
 
     public Vector2Int ToTileCoords(Vector2 position)
     {
-        int x = (int)(position.x - (position.x % TileSize));
-        int y = (int)(position.y - (position.y % TileSize));
+        int x = (int)((position.x - (position.x % TileSize))/UnitSize);
+        int y = (int)((position.y - (position.y % TileSize))/UnitSize);
 
         return new Vector2Int(x, y);
     }
@@ -61,6 +65,11 @@ public class LBSStampTileMapController : LBSStampController, ITileMap
     public Vector2 FromTileCoords(Vector2 position)
     {
         return position * TileSize;
+    }
+
+    public IChromosome ToChromosome()
+    {
+        return new StampTileMapChromosome(this);
     }
 }
 
