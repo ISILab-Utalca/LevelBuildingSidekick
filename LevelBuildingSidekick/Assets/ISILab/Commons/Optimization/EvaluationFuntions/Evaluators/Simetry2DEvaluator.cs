@@ -7,10 +7,12 @@ using UnityEngine.UIElements;
 [System.Serializable]
 public abstract class Simetry2DEvaluator : IRangedEvaluator
 {
-    public abstract float MaxValue { get; }
-    public abstract float MinValue { get; }
+    float min = 0;
+    float max = 1;
+    public float MaxValue => max;
+    public float MinValue => min;
 
-    public int matrixWidth;
+    internal int matrixWidth;
 
     public Simetry2DEvaluator()
     {
@@ -37,5 +39,19 @@ public abstract class Simetry2DEvaluator : IRangedEvaluator
 
     public abstract string GetName();
 
-    public abstract VisualElement CIGUI();
+    public virtual VisualElement CIGUI()
+    {
+        var content = new VisualElement();
+
+        var v2 = new Vector2Field("Fitness threshold");
+        v2.value = new Vector2(this.MinValue, this.MaxValue);
+        v2.RegisterValueChangedCallback(e => {
+            min = e.newValue.x;
+            max = e.newValue.y;
+        });
+
+        content.Add(v2);
+
+        return content;
+    }
 }

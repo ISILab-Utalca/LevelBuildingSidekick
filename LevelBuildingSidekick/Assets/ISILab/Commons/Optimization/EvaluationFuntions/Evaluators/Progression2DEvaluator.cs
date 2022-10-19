@@ -4,11 +4,10 @@ using UnityEngine;
 using Commons.Optimization.Evaluator;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
-using System.Linq;
 
-[System.Serializable]
-public class StampPresenceEvaluator : IRangedEvaluator
+public abstract class Progression2DEvaluator : IRangedEvaluator
 {
+
     float min = 0;
     float max = 1;
     public float MaxValue => max;
@@ -17,51 +16,25 @@ public class StampPresenceEvaluator : IRangedEvaluator
 
     public StampPresset stamp;
 
-    public StampPresenceEvaluator()
-    {
-        this.stamp = null;
-    }
-
-    public StampPresenceEvaluator(StampPresset stamp)
-    {
-        this.stamp = stamp;
-    }
-
     public float Evaluate(IEvaluable evaluable)
     {
-        int presence = 0;
-
         if (!(evaluable is StampTileMapChromosome))
         {
             return MinValue;
         }
 
         var stmc = evaluable as StampTileMapChromosome;
+        var id = stmc.stamps.FindIndex(s => s.Label == stamp.Label);
+        var height = stmc.Length / stmc.MatrixWidth;
 
-        if(!stmc.stamps.Any(s => s.Label == stamp.Label))
-        {
-            return MinValue;
-        }
-
-        var index = stmc.stamps.FindIndex(s => s.Label == stamp.Label);
-
-        var data = stmc.GetDataSquence<int>();
-        foreach (var i in data)
-        {
-            if(index == i)
-            {
-                presence++;
-            }
-        }
-        return Mathf.Clamp(presence,MinValue,MaxValue);
+        return Mathf.Clamp(EvaluateProgression(stmc, id, height), MinValue, MaxValue);
     }
 
-    public string GetName()
-    {
-        return "Stamp Presence";
-    }
+    public abstract float EvaluateProgression(StampTileMapChromosome stmc, int id, int height);
 
-    public VisualElement CIGUI()
+    public abstract string GetName();
+
+    public virtual VisualElement CIGUI()
     {
         var content = new VisualElement();
 
@@ -75,7 +48,14 @@ public class StampPresenceEvaluator : IRangedEvaluator
         ObjectField of = new ObjectField("Stamp: ");
         of.objectType = typeof(StampPresset);
         of.value = stamp;
-        of.RegisterCallback<ChangeEvent<StampPresset>>((e) => stamp = e.newValue);
+        of.RegisterValueChangedCallback((e) =>
+        {
+            Debug.Log(e.newValue);
+            if(e.newValue is StampPresset)
+            {
+                stamp = e.newValue as StampPresset;
+            }
+        });
 
         content.Add(v2);
         content.Add(of);

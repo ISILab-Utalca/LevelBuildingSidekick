@@ -8,24 +8,28 @@ using UnityEngine.UIElements;
 [System.Serializable]
 public class ResemblanceEvaluator : IRangedEvaluator
 {
-    public float MaxValue { get { return 1; } }
-    public float MinValue { get { return 0; } }
+
+    float min = 0;
+    float max = 1;
+    public float MaxValue => max;
+    public float MinValue => min;
 
     public object[] Sample{ get; set; }
 
     public VisualElement CIGUI()
     {
-        var ve = new VisualElement();
+        var content = new VisualElement();
 
         var v2 = new Vector2Field("Fitness threshold");
         v2.value = new Vector2(this.MinValue, this.MaxValue);
-        v2.RegisterValueChangedCallback(v => {
-            Debug.LogWarning("Falta implementar");
-            //this.MinValue = v.newValue.x;
-            //this.MaxValue = v.newValue.y;
+        v2.RegisterValueChangedCallback(e => {
+            min = e.newValue.x;
+            max = e.newValue.y;
         });
-        ve.Add(v2);
-        return ve;
+
+        content.Add(v2);
+
+        return content;
     }
 
     public float Evaluate(IEvaluable evaluable)
