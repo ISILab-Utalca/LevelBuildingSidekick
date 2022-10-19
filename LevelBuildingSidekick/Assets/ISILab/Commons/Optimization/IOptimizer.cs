@@ -22,6 +22,7 @@ namespace Commons.Optimization
         /// </summary>
         /// <value>The best candidate.</value>
         IEvaluable BestCandidate { get; }
+        IEvaluable Adam { get; set; }
 
         /// <summary>
         /// Gets the time evolving.
