@@ -11,29 +11,34 @@ public class StampTileMapChromosome : ChromosomeBase2D<int>, IDrawable
     public List<StampData> stamps { get; private set; }
     private int tileSize;
 
-    public StampTileMapChromosome(LBSStampTileMapController stampController) : base(0, 0)
+    public StampTileMapChromosome(LBSStampTileMapController stampController) : base(4, 2)
     {
         var rawStamps = (stampController.GetData() as LBSStampGroupData).GetStamps();
 
         tileSize = (int)stampController.TileSize;
 
-        var x1 = rawStamps.Min(s => s.Position.x);
-        var x2 = rawStamps.Max(s => s.Position.x);
+        var x1 = rawStamps.Min(s => stampController.ToTileCoords(s.Position).x);
+        var x2 = rawStamps.Max(s => stampController.ToTileCoords(s.Position).x);
 
-        var y1 = rawStamps.Min(s => s.Position.y);
-        var y2 = rawStamps.Max(s => s.Position.y);
+        var y1 = rawStamps.Min(s => stampController.ToTileCoords(s.Position).y);
+        var y2 = rawStamps.Max(s => stampController.ToTileCoords(s.Position).y);
 
-        int width = x2 - x1;
-        int height = y2 - y1;
+        int width = (x2 - x1) + 1;
+        int height = (y2 - y1) + 1;
 
-        var size = stampController.ToTileCoords(new Vector2(width, height));
-        var offset = stampController.ToTileCoords(new Vector2(x1, y1));
+        var size = new Vector2(width, height);
+        var offset = new Vector2(x1, y1);
 
         Resize((int)(size.y * size.x));
 
         MatrixWidth = (int)size.x;
 
         stamps = rawStamps.Distinct().ToList();
+
+        if(stamps.Any(s => s == null))
+        {
+            Debug.Log("Dafuq");
+        }
 
         for(int i = 0; i < Length; i++)
         {
@@ -42,7 +47,7 @@ public class StampTileMapChromosome : ChromosomeBase2D<int>, IDrawable
 
         foreach (var stamp in rawStamps)
         {
-            var index = ToIndex(stampController.ToTileCoords(stamp.Position));
+            var index = ToIndex(stampController.ToTileCoords(stamp.Position) - offset);
             ReplaceGene(index, stamps.FindIndex(s => s == stamp));
         }
     }
