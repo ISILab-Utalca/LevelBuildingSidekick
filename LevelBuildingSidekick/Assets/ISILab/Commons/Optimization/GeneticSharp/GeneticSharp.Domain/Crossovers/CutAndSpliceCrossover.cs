@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
+using UnityEngine.UIElements;
 
 namespace GeneticSharp.Domain.Crossovers
 {
@@ -22,8 +23,9 @@ namespace GeneticSharp.Domain.Crossovers
         /// Initializes a new instance of the <see cref="CutAndSpliceCrossover"/> class.
         /// </summary>
         public CutAndSpliceCrossover()
-            : base(2, 2)
         {
+            ParentsNumber = 2;
+            ChildrenNumber = 2;
             IsOrdered = false;
         }
         #endregion
@@ -65,6 +67,12 @@ namespace GeneticSharp.Domain.Crossovers
             Array.Copy(right,0,offspring,leftParentPoint,right.Length);
 
             return offspring;
+        }
+
+        public override VisualElement CIGUI()
+        {
+            var content = new VisualElement();
+            return content;
         }
         #endregion
     }

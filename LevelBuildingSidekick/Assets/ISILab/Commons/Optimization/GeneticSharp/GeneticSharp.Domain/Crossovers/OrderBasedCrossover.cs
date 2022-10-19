@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
+using UnityEngine.UIElements;
 
 namespace GeneticSharp.Domain.Crossovers
 {
@@ -31,8 +32,9 @@ namespace GeneticSharp.Domain.Crossovers
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.OrderBasedCrossover"/> class.
         /// </summary>
         public OrderBasedCrossover()
-            : base(2, 2)
         {
+            ParentsNumber = 2;
+            ChildrenNumber = 2;
             IsOrdered = true;
         }
 
@@ -122,6 +124,12 @@ namespace GeneticSharp.Domain.Crossovers
             }
 
             return child;
+        }
+
+        public override VisualElement CIGUI()
+        {
+            var content = new VisualElement();
+            return content;
         }
 
         #endregion

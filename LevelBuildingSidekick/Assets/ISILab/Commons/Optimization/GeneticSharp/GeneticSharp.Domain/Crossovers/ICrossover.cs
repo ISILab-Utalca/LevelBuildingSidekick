@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
+using LBS.VisualElements;
 
 namespace GeneticSharp.Domain.Crossovers
 {
@@ -15,7 +16,7 @@ namespace GeneticSharp.Domain.Crossovers
     /// <see href="http://en.wikipedia.org/wiki/Crossover_(genetic_algorithm)">Crossover (Genetic Algorithm)</see>
     /// </remarks>
     /// </summary>
-    public interface ICrossover : IChromosomeOperator
+    public interface ICrossover : IChromosomeOperator, IShowable
     {
         #region Properties
         /// <summary>

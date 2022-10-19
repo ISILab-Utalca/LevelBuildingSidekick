@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
+using UnityEngine.UIElements;
 
 namespace GeneticSharp.Domain.Crossovers
 {
@@ -23,8 +24,11 @@ namespace GeneticSharp.Domain.Crossovers
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.PartiallyMappedCrossover"/> class.
         /// </summary>
-        public PartiallyMappedCrossover() : base(2, 2, 3)
+        public PartiallyMappedCrossover()
         {
+            ParentsNumber = 2;
+            ChildrenNumber = 2;
+            MinLength = 3;
             IsOrdered = true;
         }
         #endregion
@@ -108,6 +112,12 @@ namespace GeneticSharp.Domain.Crossovers
             }
 
             return candidateGene;
+        }
+
+        public override VisualElement CIGUI()
+        {
+            var content = new VisualElement();
+            return content;
         }
         #endregion
     }

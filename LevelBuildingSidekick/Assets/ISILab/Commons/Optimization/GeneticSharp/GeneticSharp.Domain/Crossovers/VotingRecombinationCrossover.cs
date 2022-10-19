@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Mutations;
+using UnityEngine.UIElements;
 
 namespace GeneticSharp.Domain.Crossovers
 {
@@ -34,30 +35,19 @@ namespace GeneticSharp.Domain.Crossovers
     [DisplayName("Voting Recombination (VR)")]
     public sealed class VotingRecombinationCrossover : CrossoverBase
     {
-        private readonly int _threshold;
+        private int _threshold;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.VotingRecombinationCrossover"/> class.
         /// </summary>
         /// <param name="parentsNumber">The number of parents need for cross.</param>
         /// <param name="threshold">An element occurs at least the threshold number of times, it is copied into the offspring</param>
-        public VotingRecombinationCrossover(int parentsNumber, int threshold)
-            : base(parentsNumber, 1)
+        public VotingRecombinationCrossover()
         {
-            if (threshold > parentsNumber)
-            {
-                throw new ArgumentOutOfRangeException(nameof(threshold), "The threshold should be smaller or equal to the parents number.");
-            }
-
+            ParentsNumber = 2;
+            ChildrenNumber = 1;
+            _threshold = 2;
             IsOrdered = false;
-            _threshold = threshold;
-        }
-
-        // <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.VotingRecombinationCrossover"/> class.
-        /// </summary>
-        public VotingRecombinationCrossover() : this(3, 2)
-        {
         }
 
         /// <summary>
@@ -103,6 +93,21 @@ namespace GeneticSharp.Domain.Crossovers
             }
 
             return new List<IEvaluable> { child };
+        }
+
+        public override VisualElement CIGUI()
+        {
+            var content = new VisualElement();
+
+            var parentsField = new IntegerField("Parents: ");
+            parentsField.value = ParentsNumber;
+            parentsField.RegisterCallback<ChangeEvent<int>>(e => ParentsNumber = e.newValue);
+
+            var thresholdField = new IntegerField("Threshold: ");
+            thresholdField.value = _threshold;
+            thresholdField.RegisterCallback<ChangeEvent<int>>(e => _threshold = e.newValue);
+
+            return content;
         }
     }
 }

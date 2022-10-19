@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
+using UnityEngine.UIElements;
 
 namespace GeneticSharp.Domain.Crossovers
 {
@@ -28,8 +29,10 @@ namespace GeneticSharp.Domain.Crossovers
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.VotingRecombinationCrossover"/> class.
         /// </summary>
-        public AlternatingPositionCrossover() : base(2, 2)
+        public AlternatingPositionCrossover() : base()
         {
+            ParentsNumber = 2;
+            ChildrenNumber = 2;
             IsOrdered = true;
         }
 
@@ -85,6 +88,12 @@ namespace GeneticSharp.Domain.Crossovers
                 childGenes[childGenesIndex] = parentGene;
                 childGenesIndex++;
             }
+        }
+
+        public override VisualElement CIGUI()
+        {
+            var content = new VisualElement();
+            return content;
         }
     }
 }

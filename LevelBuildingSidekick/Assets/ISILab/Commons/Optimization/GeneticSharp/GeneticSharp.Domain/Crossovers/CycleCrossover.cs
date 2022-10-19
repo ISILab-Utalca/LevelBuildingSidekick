@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
+using UnityEngine.UIElements;
 
 namespace GeneticSharp.Domain.Crossovers
 {
@@ -26,8 +27,9 @@ namespace GeneticSharp.Domain.Crossovers
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.CycleCrossover"/> class.
         /// </summary>
         public CycleCrossover()
-            : base(2, 2)
         {
+            ParentsNumber = 2;
+            ChildrenNumber = 2;
             IsOrdered = true;
         }
         #endregion
@@ -131,6 +133,12 @@ namespace GeneticSharp.Domain.Crossovers
                     CreateCycle(parent1Genes, parent2Genes, newGeneIndex.Index, cycle);
                 }
             }
+        }
+
+        public override VisualElement CIGUI()
+        {
+            var content = new VisualElement();
+            return content;
         }
         #endregion
     }

@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using GeneticSharp.Domain.Chromosomes;
 using System.Linq;
+using UnityEngine.UIElements;
 
 namespace GeneticSharp.Domain.Crossovers
 {
@@ -22,8 +23,9 @@ namespace GeneticSharp.Domain.Crossovers
         /// Initializes a new instance of the <see cref="ThreeParentCrossover"/> class.
         /// </summary>
         public ThreeParentCrossover()
-            : base(3, 1)
         {
+            ParentsNumber = 3;
+            ChildrenNumber = 1;
         }
         #endregion
 
@@ -64,6 +66,12 @@ namespace GeneticSharp.Domain.Crossovers
             child.SetDataSequence(offspring);
 
             return new List<IEvaluable>() { child };
+        }
+
+        public override VisualElement CIGUI()
+        {
+            var content = new VisualElement();
+            return content;
         }
         #endregion
     }

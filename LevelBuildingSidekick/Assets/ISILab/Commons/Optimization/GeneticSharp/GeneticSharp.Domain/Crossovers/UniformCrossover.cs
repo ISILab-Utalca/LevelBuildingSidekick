@@ -3,6 +3,7 @@ using System.ComponentModel;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
 using System.Linq;
+using UnityEngine.UIElements;
 
 namespace GeneticSharp.Domain.Crossovers
 {
@@ -22,21 +23,13 @@ namespace GeneticSharp.Domain.Crossovers
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.UniformCrossover"/> class.
         /// </summary>
         /// <param name="mixProbability">The mix probability. he default mix probability is 0.5.</param>
-        public UniformCrossover(float mixProbability)
-            : base(2, 2)
+        public UniformCrossover()
         {
-            MixProbability = mixProbability;
+            ParentsNumber = 2;
+            ChildrenNumber = 2;
+            MixProbability = 0.5f;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.UniformCrossover"/> class.
-        /// <remarks>
-        /// The default mix probability is 0.5.
-        /// </remarks>
-        /// </summary>
-        public UniformCrossover() : this(0.5f)
-        {
-        }
         #endregion
 
         #region Properties
@@ -80,6 +73,15 @@ namespace GeneticSharp.Domain.Crossovers
             var child2 = parents[0].CreateNew();
 
             return new List<IEvaluable> { child1, child2 };
+        }
+
+        public override VisualElement CIGUI()
+        {
+            var content = new VisualElement();
+            var mixProbField = new FloatField("Mix Probability: ");
+            mixProbField.value = MixProbability;
+            mixProbField.RegisterCallback<ChangeEvent<float>>(e => MixProbability = e.newValue);
+            return content;
         }
         #endregion
     }

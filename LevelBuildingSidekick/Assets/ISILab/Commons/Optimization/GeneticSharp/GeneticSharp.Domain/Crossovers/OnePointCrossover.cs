@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Infrastructure.Framework.Texts;
+using UnityEngine.UIElements;
 
 namespace GeneticSharp.Domain.Crossovers
 {
@@ -40,16 +41,11 @@ namespace GeneticSharp.Domain.Crossovers
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.OnePointCrossover"/> class.
         /// </summary>
         /// <param name="swapPointIndex">Swap point index.</param>
-        public OnePointCrossover(int swapPointIndex) : base(2, 2)
+        public OnePointCrossover()
         {
-            SwapPointIndex = swapPointIndex;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.OnePointCrossover"/> class.
-        /// </summary>
-        public OnePointCrossover() : this(0)
-        {
+            ParentsNumber = 2;
+            ChildrenNumber = 2;
+            SwapPointIndex = 0;
         }
         #endregion
 
@@ -130,6 +126,15 @@ namespace GeneticSharp.Domain.Crossovers
             Array.Copy(rightPart, 0, child, cutGenesCount, rightPart.Length);
 
             return child;
+        }
+
+        public override VisualElement CIGUI()
+        {
+            var content = new VisualElement();
+            var indexField = new IntegerField("Swap Point: ");
+            indexField.value = SwapPointIndex;
+            indexField.RegisterCallback<ChangeEvent<int>>(e => SwapPointIndex = e.newValue);
+            return content;
         }
         #endregion
     }
