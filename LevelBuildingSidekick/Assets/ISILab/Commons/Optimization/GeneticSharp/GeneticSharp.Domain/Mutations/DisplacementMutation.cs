@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using GeneticSharp.Domain.Randomizations;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace GeneticSharp.Domain.Mutations
 {
@@ -58,6 +59,12 @@ namespace GeneticSharp.Domain.Mutations
         protected virtual int DetermineGeneToShift(int maxCount)
         {
              return RandomizationProvider.Current.GetInt(0, maxCount) + 1;
+        }
+
+        public override VisualElement CIGUI()
+        {
+            var content = new VisualElement();
+            return content;
         }
         #endregion
     }

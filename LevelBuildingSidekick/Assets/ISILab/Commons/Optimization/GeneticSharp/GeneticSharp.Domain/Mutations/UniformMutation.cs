@@ -5,6 +5,8 @@ using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Infrastructure.Framework.Texts;
 using GeneticSharp.Infrastructure.Framework.Commons;
+using UnityEngine.UIElements;
+using Utility;
 
 namespace GeneticSharp.Domain.Mutations
 {
@@ -19,7 +21,7 @@ namespace GeneticSharp.Domain.Mutations
         #region Fields
         private int[] m_mutableGenesIndexes;
 
-        private readonly bool m_allGenesMutable;
+        private bool m_allGenesMutable;
         #endregion
 
         #region Constructors
@@ -45,8 +47,10 @@ namespace GeneticSharp.Domain.Mutations
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Mutations.UniformMutation"/> class.
         /// </summary>
         /// <remarks>Creates an instance of UniformMutation where some random genes will be mutated.</remarks>
-        public UniformMutation() : this(false)
+        public UniformMutation()
         {
+            m_mutableGenesIndexes = new int[0];
+            m_allGenesMutable = true;
         }
         #endregion
 
@@ -91,6 +95,41 @@ namespace GeneticSharp.Domain.Mutations
                 }
             }
             evaluable.SetDataSequence(data);
+        }
+
+        public override VisualElement CIGUI()
+        {
+            var content = new VisualElement();
+            var allMutableToggle = new Toggle("All Mutable ");
+            allMutableToggle.value = m_allGenesMutable;
+            allMutableToggle.RegisterCallback<ChangeEvent<bool>>(e => m_allGenesMutable = e.newValue);
+
+            var geneIndex = new ListView(
+                m_mutableGenesIndexes,
+                -1,
+                () => 
+                {
+                    var i = m_mutableGenesIndexes.Length;
+                    m_mutableGenesIndexes = m_mutableGenesIndexes.Resize(i + 1);
+                    var iF = new IntegerField("Element " + i, -1);
+                    iF.RegisterCallback<ChangeEvent<int>>(e => m_mutableGenesIndexes[i] = e.newValue);
+                    return iF;
+                },
+                (e, i) => (e as IntegerField).value = m_mutableGenesIndexes[i]
+                );
+            geneIndex.headerTitle = "Mutable Genes Indexes";
+            //Probably some USS already has all this, or XML
+            geneIndex.showBorder = true;
+            geneIndex.showFoldoutHeader = true;
+            geneIndex.showAddRemoveFooter = true;
+            geneIndex.showBoundCollectionSize = true;
+            geneIndex.fixedItemHeight = 20;
+            geneIndex.tooltip = "Use only if not all genes are mutable to specify which ones are";
+
+            content.Add(allMutableToggle);
+            content.Add(geneIndex);
+
+            return content;
         }
         #endregion
     }

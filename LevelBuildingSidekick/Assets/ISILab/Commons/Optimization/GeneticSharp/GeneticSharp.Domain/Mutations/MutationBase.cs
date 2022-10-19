@@ -1,5 +1,6 @@
 ﻿using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Infrastructure.Framework.Commons;
+using UnityEngine.UIElements;
 
 namespace GeneticSharp.Domain.Mutations
 {
@@ -13,6 +14,7 @@ namespace GeneticSharp.Domain.Mutations
         /// Gets or sets a value indicating whether the operator is ordered (if can keep the chromosome order).
         /// </summary>
         public bool IsOrdered { get; protected set; }
+
         #endregion
 
         #region Methods
@@ -34,6 +36,7 @@ namespace GeneticSharp.Domain.Mutations
         /// <param name="chromosome">The chromosome.</param>
         /// <param name="probability">The probability to mutate each chromosome.</param>
         protected abstract void PerformMutate(IEvaluable chromosome, float probability);
+        public abstract VisualElement CIGUI();
         #endregion
     }
 }

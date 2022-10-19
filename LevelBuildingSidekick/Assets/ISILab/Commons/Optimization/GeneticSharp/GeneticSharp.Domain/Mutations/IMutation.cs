@@ -1,4 +1,5 @@
 using GeneticSharp.Domain.Chromosomes;
+using LBS.VisualElements;
 
 namespace GeneticSharp.Domain.Mutations
 {
@@ -23,7 +24,7 @@ namespace GeneticSharp.Domain.Mutations
     /// </para>
     /// <see href="http://en.wikipedia.org/wiki/Mutation_(genetic_algorithm)"/> 
     /// </summary>
-    public interface IMutation : IChromosomeOperator
+    public interface IMutation : IChromosomeOperator, IShowable
     {
         /// <summary>
         /// Mutate the specified chromosome.

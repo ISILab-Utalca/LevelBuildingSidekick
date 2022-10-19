@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using GeneticSharp.Domain.Randomizations;
 using System.Linq;
+using UnityEngine.UIElements;
 
 namespace GeneticSharp.Domain.Mutations
 {
@@ -24,6 +25,12 @@ namespace GeneticSharp.Domain.Mutations
         public PartialShuffleMutation()
         {
             IsOrdered = true;
+        }
+
+        public override VisualElement CIGUI()
+        {
+            var content = new VisualElement();
+            return content;
         }
         #endregion
 

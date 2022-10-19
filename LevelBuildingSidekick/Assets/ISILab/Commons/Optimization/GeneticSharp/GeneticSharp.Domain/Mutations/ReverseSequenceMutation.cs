@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using UnityEngine.UIElements;
 
 namespace GeneticSharp.Domain.Mutations
 {
@@ -23,6 +24,12 @@ namespace GeneticSharp.Domain.Mutations
         public ReverseSequenceMutation()
         {
             IsOrdered = true;
+        }
+
+        public override VisualElement CIGUI()
+        {
+            var content = new VisualElement();
+            return content;
         }
         #endregion
 

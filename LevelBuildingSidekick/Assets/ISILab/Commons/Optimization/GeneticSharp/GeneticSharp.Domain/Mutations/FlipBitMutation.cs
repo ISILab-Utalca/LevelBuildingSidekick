@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
+using UnityEngine.UIElements;
 
 namespace GeneticSharp.Domain.Mutations
 {
@@ -48,6 +49,12 @@ namespace GeneticSharp.Domain.Mutations
                 data[index] = !((bool)data[index]);
                 evaluable.SetDataSequence(data);
             }
+        }
+
+        public override VisualElement CIGUI()
+        {
+            var content = new VisualElement();
+            return content;
         }
         #endregion
     }

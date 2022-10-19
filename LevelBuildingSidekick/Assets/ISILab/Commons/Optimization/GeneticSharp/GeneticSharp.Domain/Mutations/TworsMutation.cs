@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
+using UnityEngine.UIElements;
 
 namespace GeneticSharp.Domain.Mutations
 {
@@ -20,6 +21,12 @@ namespace GeneticSharp.Domain.Mutations
         public TworsMutation()
         {
             IsOrdered = true;
+        }
+
+        public override VisualElement CIGUI()
+        {
+            var content = new VisualElement();
+            return content;
         }
         #endregion
 
