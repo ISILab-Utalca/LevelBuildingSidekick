@@ -18,6 +18,7 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
     private DropdownField[] dropdowns = new DropdownField[4];
     private Slider distance;
     private Slider rotation;
+    private Slider labelDist;
 
     private RenderObjectPivot pivot;
     private TileConections selected;
@@ -78,6 +79,8 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
         distance.RegisterValueChangedCallback(DistanceCamera);
         this.rotation = root.Q<Slider>("Rotation");
         rotation.RegisterValueChangedCallback(RotateCamera);
+        this.labelDist = root.Q<Slider>("LabelDistance");
+        labelDist.RegisterValueChangedCallback(LabelDist);
 
         ActualizeView();
 
@@ -91,12 +94,11 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
             pivot.cam.cameraType = CameraType.Preview;
         }
 
-        SceneViewCameraWindow.additionalSettingsGui += test;
     }
 
-    private void test(SceneView sv)
+    private void LabelDist(ChangeEvent<float> value)
     {
-        sv.ShowAuxWindow();
+        pivot.LabelDist(value.newValue);
     }
 
     private void RotateCamera(ChangeEvent<float> value)

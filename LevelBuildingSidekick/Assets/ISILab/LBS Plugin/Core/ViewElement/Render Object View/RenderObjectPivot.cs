@@ -51,6 +51,11 @@ public class RenderObjectPivot : MonoBehaviour
     {
         cam.transform.position = pivotCam.transform.position -(cam.transform.forward * value);
     }
+
+    internal void LabelDist(float value)
+    {
+        cpMain.transform.localScale = Vector3.one * value;
+    }
 }
 
 [CustomEditor(typeof(RenderObjectPivot))]
