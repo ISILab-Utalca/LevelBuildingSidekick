@@ -46,9 +46,10 @@ public class MapElites
 
     Action OnSampleSizeChanged;
 
-    [Range(0,0.5f)]
+    [Range(0, 0.5f)]
     public double threshold;
 
+    public IEvaluable Adam { get; set; }
     public IEvaluable[,] BestSamples { get; private set; }
 
     [SerializeField ,SerializeReference]
@@ -120,16 +121,18 @@ public class MapElites
 
     public MapElites(IRangedEvaluator xEvaluator, IRangedEvaluator yEvaluator)
     {
+        this.xEvaluator = xEvaluator;
+        this.yEvaluator = yEvaluator;
         xSampleCount = 5;
         ySampleCount = 5;
         threshold = 0.25;
         BestSamples = new IEvaluable[xSampleCount, ySampleCount];
-        OnSampleSizeChanged += OnSampleSizeChange;
-        OnEvaluatorChanged += OnEvaluatorChange;
     }
 
     public void Run()
     {
+        Optimizer.Adam = Adam;
+        Optimizer.OnGenerationRan += () => UpdateSamples(Optimizer.LastGeneration);
         Optimizer.Start();
     }
 
@@ -160,7 +163,8 @@ public class MapElites
 
     public bool UpdateSample(int x, int y, IEvaluable evaluable)
     {
-        if(BestSamples[x,y] == null)
+        Debug.Log("Kyaaaa");
+        if (BestSamples[x,y] == null)
         {
             BestSamples[x, y] = evaluable;
             OnSampleUpdated?.Invoke(new Vector2Int(x,y));
@@ -203,7 +207,8 @@ public class MapElites
     private void OnOptimizerChange()
     {
         Clear();
-        Optimizer.OnGenerationRan += () => UpdateSamples(Optimizer.LastGeneration);
+        OnOptimizerChanged?.Invoke();
+        //Optimizer.OnGenerationRan += () => UpdateSamples(Optimizer.LastGeneration);
     }
 
     private void Clear()
