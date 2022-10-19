@@ -17,6 +17,7 @@ public abstract class BaseOptimizer : IOptimizer
     public bool IsRunning { get { return State == OptimizerState.Running || State == OptimizerState.Started || State == OptimizerState.Resumed; } }
     public TimeSpan TimeEvolving { get; private set; }
 
+    public IEvaluable Adam { get; set; }
     public IEvaluable BestCandidate { get; private set; }
 
     /// <summary>
