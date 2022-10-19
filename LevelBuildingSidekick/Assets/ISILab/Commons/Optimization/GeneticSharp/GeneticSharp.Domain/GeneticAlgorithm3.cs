@@ -513,6 +513,7 @@ namespace GeneticSharp.Domain
         public Action OnResumed { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public Action OnPaused { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public Action OnStarted { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IEvaluable Adam { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public string GetName()
         {
