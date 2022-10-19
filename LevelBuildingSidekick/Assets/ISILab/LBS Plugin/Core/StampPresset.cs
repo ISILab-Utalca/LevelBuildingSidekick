@@ -9,8 +9,8 @@ public class StampPresset : ScriptableObject // tambien puede ser stamp brush
     private string label;
     [SerializeField] 
     private Texture2D icon;
-    [SerializeField, StringEnum("")] 
-    private List<string> tags = new List<string>();
+    [SerializeField, StringEnum("Brush tags")] 
+    public List<string> tags = new List<string>();
     [SerializeField] 
     private List<GameObject> Prefabs = new List<GameObject>(); // estos podria ser una clase propia que obligemos a poner a los prefs 
 
