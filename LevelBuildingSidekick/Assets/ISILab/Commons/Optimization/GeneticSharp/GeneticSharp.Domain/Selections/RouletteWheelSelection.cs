@@ -5,6 +5,7 @@ using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Randomizations;
+using UnityEngine.UIElements;
 
 namespace GeneticSharp.Domain.Selections
 {
@@ -33,7 +34,7 @@ namespace GeneticSharp.Domain.Selections
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Selections.RouletteWheelSelection"/> class.
         /// </summary>
-        public RouletteWheelSelection() : base(2)
+        public RouletteWheelSelection() : base()
         {
         }
         #endregion
@@ -99,6 +100,12 @@ namespace GeneticSharp.Domain.Selections
             CalculateCumulativePercentFitness(chromosomes, rouletteWheel);
 
             return SelectFromWheel(number, chromosomes, rouletteWheel, () => rnd.GetDouble());
+        }
+
+        public override VisualElement CIGUI()
+        {
+            var contennt = new VisualElement();
+            return contennt;
         }
         #endregion
     }

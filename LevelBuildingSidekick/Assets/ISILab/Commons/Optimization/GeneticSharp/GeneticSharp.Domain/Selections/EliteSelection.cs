@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
+using UnityEngine.UIElements;
 
 namespace GeneticSharp.Domain.Selections
 {
@@ -19,8 +20,15 @@ namespace GeneticSharp.Domain.Selections
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Selections.EliteSelection"/> class.
         /// </summary>
-        public EliteSelection() : base(2)
+        public EliteSelection() : base()
         {
+        }
+
+        public override VisualElement CIGUI()
+        {
+            var content = new VisualElement();
+
+            return content;
         }
         #endregion
 

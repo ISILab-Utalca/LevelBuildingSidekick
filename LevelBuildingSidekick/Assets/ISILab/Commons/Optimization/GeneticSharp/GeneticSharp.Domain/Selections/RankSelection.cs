@@ -5,6 +5,7 @@ using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Randomizations;
+using UnityEngine.UIElements;
 
 namespace GeneticSharp.Domain.Selections
 {
@@ -35,7 +36,7 @@ namespace GeneticSharp.Domain.Selections
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Selections.RankSelection"/> class.
         /// </summary>
-        public RankSelection() : base(2)
+        public RankSelection() : base()
         {
         }
         #endregion
@@ -101,6 +102,12 @@ namespace GeneticSharp.Domain.Selections
             CalculateCumulativeFitnessRank(chromosomes, rankWheel);
 
             return SelectFromWheel(number, chromosomes, rankWheel, () => rnd.GetDouble());
+        }
+
+        public override VisualElement CIGUI()
+        {
+            var content = new VisualElement();
+            return content;
         }
         #endregion
     }

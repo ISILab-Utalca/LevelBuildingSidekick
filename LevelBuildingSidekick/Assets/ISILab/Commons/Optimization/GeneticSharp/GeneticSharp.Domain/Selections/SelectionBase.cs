@@ -5,6 +5,7 @@ using GeneticSharp.Domain.Populations;
 using GeneticSharp.Infrastructure.Framework.Texts;
 using GeneticSharp.Infrastructure.Framework.Commons;
 using System.Linq;
+using UnityEngine.UIElements;
 
 namespace GeneticSharp.Domain.Selections
 {
@@ -14,7 +15,7 @@ namespace GeneticSharp.Domain.Selections
     public abstract class SelectionBase : ISelection
     {
         #region Fields
-        private readonly int m_minNumberChromosomes;
+        public int m_minNumberChromosomes;
         #endregion
 
         #region Constructors
@@ -26,6 +27,13 @@ namespace GeneticSharp.Domain.Selections
         {
             m_minNumberChromosomes = minNumberChromosomes;
         }
+
+        public SelectionBase()
+        {
+            m_minNumberChromosomes = 2;
+        }
+
+        public abstract VisualElement CIGUI();
         #endregion
 
         #region ISelection implementation
