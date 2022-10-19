@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using UnityEngine.UIElements;
 
 namespace Commons.Optimization.Terminations
 {
@@ -23,8 +24,9 @@ namespace Commons.Optimization.Terminations
         /// <remarks>
         /// The ExpectedStagnantGenerationsNumber default value is 100.
         /// </remarks>
-        public FitnessStagnationTermination() : this(100)
+        public FitnessStagnationTermination()
         {
+            ExpectedStagnantGenerationsNumber = 100;
         }
 
         /// <summary>
@@ -42,6 +44,7 @@ namespace Commons.Optimization.Terminations
         /// Gets or sets the expected stagnant generations number to reach the termination.
         /// </summary>
         public int ExpectedStagnantGenerationsNumber { get; set; }
+
         #endregion
 
         #region Methods
@@ -66,6 +69,16 @@ namespace Commons.Optimization.Terminations
             m_lastFitness = bestFitness;
 
             return m_stagnantGenerationsCount >= ExpectedStagnantGenerationsNumber;
+        }
+
+        public override VisualElement CIGUI()
+        {
+            var content = new VisualElement();
+            var stagField = new IntegerField("Max Generations: ");
+            stagField.value = ExpectedStagnantGenerationsNumber;
+            stagField.RegisterCallback<ChangeEvent<int>>(e => ExpectedStagnantGenerationsNumber = e.newValue);
+            content.Add(stagField);
+            return content;
         }
         #endregion
     }

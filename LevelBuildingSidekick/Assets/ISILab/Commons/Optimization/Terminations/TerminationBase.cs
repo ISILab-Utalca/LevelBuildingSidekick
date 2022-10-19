@@ -1,5 +1,6 @@
 using GeneticSharp.Infrastructure.Framework.Texts;
 using GeneticSharp.Infrastructure.Framework.Commons;
+using UnityEngine.UIElements;
 
 namespace Commons.Optimization.Terminations
 {
@@ -10,6 +11,8 @@ namespace Commons.Optimization.Terminations
     {
         #region Fields
         private bool m_hasReached;
+
+        public abstract VisualElement CIGUI();
         #endregion
 
         #region Methods

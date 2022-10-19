@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GeneticSharp.Infrastructure.Framework.Texts;
 using GeneticSharp.Infrastructure.Framework.Commons;
+using UnityEngine.UIElements;
 
 namespace Commons.Optimization.Terminations
 {
@@ -60,6 +61,11 @@ namespace Commons.Optimization.Terminations
             ExceptionHelper.ThrowIfNull("termination", termination);
 
             Terminations.Add(termination);
+        }
+
+        public VisualElement CIGUI()
+        {
+            return new Label("Not implemented");
         }
 
         /// <summary>

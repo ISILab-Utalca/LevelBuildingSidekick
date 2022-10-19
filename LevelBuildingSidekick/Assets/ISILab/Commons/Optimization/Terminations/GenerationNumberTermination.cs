@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using UnityEngine.UIElements;
 
 namespace Commons.Optimization.Terminations
 {
@@ -18,8 +19,9 @@ namespace Commons.Optimization.Terminations
         /// <remarks>
         /// The default expected generation number is 100.
         /// </remarks>
-        public GenerationNumberTermination() : this(100)
+        public GenerationNumberTermination()
         {
+            ExpectedGenerationNumber = 100;
         }
 
         /// <summary>
@@ -49,6 +51,16 @@ namespace Commons.Optimization.Terminations
         protected override bool PerformHasReached(IOptimizer optimizer)
         {
             return optimizer.GenerationsNumber >= ExpectedGenerationNumber;
+        }
+
+        public override VisualElement CIGUI()
+        {
+            var content = new VisualElement();
+            var stagField = new IntegerField("Max Generations: ");
+            stagField.value = ExpectedGenerationNumber;
+            stagField.RegisterCallback<ChangeEvent<int>>(e => ExpectedGenerationNumber = e.newValue);
+            content.Add(stagField);
+            return content;
         }
         #endregion
     }
