@@ -22,6 +22,25 @@ using UnityEngine.UIElements;
 [System.Serializable]
 public class GeneticAlgorithm : IGeneticAlgorithm , IShowable
 {
+    public GeneticAlgorithm()
+    {
+
+        Reinsertion = new ElitistReinsertion();
+        CrossoverProbability = DefaultCrossoverProbability;
+        MutationProbability = DefaultMutationProbability;
+        TimeEvolving = TimeSpan.Zero;
+        State = OptimizerState.NotStarted;
+        TaskExecutor = new LinearTaskExecutor();
+        OperatorsStrategy = new DefaultOperatorsStrategy();
+
+        Selection = new RankSelection();
+        Crossover = new UniformCrossover();
+        Mutation = new UniformMutation();
+        Population = new Population();
+        Termination = new GenerationNumberTermination(1);
+
+    }
+
     #region Constants
     /// <summary>
     /// The default crossover probability.
@@ -67,7 +86,7 @@ public class GeneticAlgorithm : IGeneticAlgorithm , IShowable
     /// </summary>
     public IOperatorsStrategy OperatorsStrategy { get; set; }
 
-    public IPopulation Population { get; private set; }
+    public IPopulation Population { get; set; }
 
     public IEvaluable[] LastGeneration
     {
@@ -194,6 +213,8 @@ public class GeneticAlgorithm : IGeneticAlgorithm , IShowable
     /// Gets or sets the task executor which will be used to execute fitness evaluation.
     /// </summary>
     public ITaskExecutor TaskExecutor { get; set; }
+
+    public IEvaluable Adam { get; set; }
 
     #endregion
 
@@ -336,7 +357,7 @@ public class GeneticAlgorithm : IGeneticAlgorithm , IShowable
         {
             State = OptimizerState.TerminationReached;
             OnTerminationReached?.Invoke();
-
+            UnityEngine.Debug.Log("Finish");
             return true;
         }
 
@@ -405,6 +426,7 @@ public class GeneticAlgorithm : IGeneticAlgorithm , IShowable
     /// </summary>
     public void Start()
     {
+        Population.Adam = Adam;
         OnStarted?.Invoke();
         lock (m_lock)
         {
@@ -434,62 +456,164 @@ public class GeneticAlgorithm : IGeneticAlgorithm , IShowable
         OnStopped?.Invoke();
     }
 
+    //ESTO ESTA ASQUEROSISIMO, WAKALA (!!!!)
     public VisualElement CIGUI()
     {
-        var ve = new VisualElement();
+        var content = new VisualElement();
 
-        var population = new DropdownField("Population");
-        var popuClass = new ClassDropDown(population, typeof(IPopulation), false);
-        popuClass.Dropdown.RegisterCallback<ChangeEvent<string>>(v => {
+
+        SubPanel PopulationPanel = new SubPanel();
+        PopulationPanel.style.display = DisplayStyle.None;
+
+        var populationDD = new DropdownField("Population");
+        var popuClass = new ClassDropDown(populationDD, typeof(IPopulation), false);
+        if (Population != null)
+        {
+            popuClass.Dropdown.value = Population.GetType().Name;
+            Population.Adam = Adam;
+            PopulationPanel.style.display = DisplayStyle.Flex;
+            PopulationPanel.SetValue(Population, Population.GetType().Name);
+        }
+        popuClass.Dropdown.RegisterCallback<ChangeEvent<string>>(e => {
             var value = popuClass.GetChoiceInstance();
-            this.population = value as IPopulation;
+            Population = value as IPopulation;
             if (value is IShowable)
-                popuClass.Dropdown.value = v.newValue;
+                popuClass.Dropdown.value = e.newValue;
+            if (Population != null)
+            {
+                Population.Adam = Adam;
+                PopulationPanel.style.display = DisplayStyle.Flex;
+                PopulationPanel.SetValue(Population, Population.GetType().Name);
+            }
         });
-        ve.Add(population);
 
-        var fitness = new DropdownField("Fitness");
-        var fitClass = new ClassDropDown(fitness, typeof(IEvaluator), true);
-        fitClass.Dropdown.RegisterCallback<ChangeEvent<string>>(v => {
+        SubPanel FitnessPanel = new SubPanel();
+        FitnessPanel.style.display = DisplayStyle.None;
+
+        var fitnessDD = new DropdownField("Fitness");
+        var fitClass = new ClassDropDown(fitnessDD, typeof(IEvaluator), true);
+        fitClass.Dropdown.RegisterCallback<ChangeEvent<string>>(e => {
             var value = fitClass.GetChoiceInstance();
-            this.fitness = value as IEvaluator;
+            Evaluator = value as IEvaluator;
             if (value is IShowable)
-                fitClass.Dropdown.value = v.newValue;
+                fitClass.Dropdown.value = e.newValue;
+            if (Evaluator != null)
+            {
+                FitnessPanel.style.display = DisplayStyle.Flex;
+                FitnessPanel.SetValue(Evaluator, Evaluator.GetType().ToString());
+            }
         });
-        ve.Add(fitness);
 
-        var selection = new DropdownField("Selection");
-        var selClass = new ClassDropDown(selection, typeof(ISelection), true);
-        selClass.Dropdown.RegisterCallback<ChangeEvent<string>>(v => {
+        SubPanel SelectionPanel = new SubPanel();
+        SelectionPanel.style.display = DisplayStyle.None;
+
+        var selectionDD = new DropdownField("Selection");
+        var selClass = new ClassDropDown(selectionDD, typeof(ISelection), true);
+        if (Selection != null)
+        {
+            selClass.Dropdown.value = Selection.GetType().Name; 
+            SelectionPanel.style.display = DisplayStyle.Flex;
+            SelectionPanel.SetValue(Selection, Selection.GetType().Name);
+        }
+        selClass.Dropdown.RegisterCallback<ChangeEvent<string>>(e => {
             var value = selClass.GetChoiceInstance();
-            this.selection = value as ISelection;
+            Selection = value as ISelection;
             if (value is IShowable)
-                selClass.Dropdown.value = v.newValue;
+                selClass.Dropdown.value = e.newValue;
+            if (Selection != null)
+            {
+                SelectionPanel.style.display = DisplayStyle.Flex;
+                SelectionPanel.SetValue(Selection, Selection.GetType().Name);
+            }
         });
-        ve.Add(selection);
 
-        var crossover = new DropdownField("Crossover");
-        var crosClass = new ClassDropDown(crossover, typeof(ICrossover), true);
-        crosClass.Dropdown.RegisterCallback<ChangeEvent<string>>(v => {
+        SubPanel CrossOverPanel = new SubPanel();
+        CrossOverPanel.style.display = DisplayStyle.None;
+
+        var crossoverDD = new DropdownField("Crossover");
+        var crosClass = new ClassDropDown(crossoverDD, typeof(ICrossover), true);
+        if (Crossover != null)
+        {
+            crosClass.Dropdown.value = Crossover.GetType().Name;
+            CrossOverPanel.style.display = DisplayStyle.Flex;
+            CrossOverPanel.SetValue(Crossover, Crossover.GetType().Name);
+        }
+        crosClass.Dropdown.RegisterCallback<ChangeEvent<string>>(e => {
             var value = crosClass.GetChoiceInstance();
-            this.crossover = value as ICrossover;
+            Crossover = value as ICrossover;
             if (value is IShowable)
-                crosClass.Dropdown.value = v.newValue;
+                crosClass.Dropdown.value = e.newValue;
+            if (Crossover != null)
+            {
+                CrossOverPanel.style.display = DisplayStyle.Flex;
+                CrossOverPanel.SetValue(Crossover, Crossover.GetType().Name);
+            }
         });
-        ve.Add(crossover);
 
-        var mutation = new DropdownField("Mutation");
-        var mutClass = new ClassDropDown(mutation, typeof(IMutation), true);
-        mutClass.Dropdown.RegisterCallback<ChangeEvent<string>>(v => {
+        SubPanel MutationPanel = new SubPanel();
+        MutationPanel.style.display = DisplayStyle.None;
+
+        var mutationDD = new DropdownField("Mutation");
+        var mutClass = new ClassDropDown(mutationDD, typeof(IMutation), true);
+        if (Mutation != null)
+        {
+            mutClass.Dropdown.value = Mutation.GetType().Name;
+            MutationPanel.style.display = DisplayStyle.Flex;
+            MutationPanel.SetValue(Mutation, Mutation.GetType().Name);
+        }
+        mutClass.Dropdown.RegisterCallback<ChangeEvent<string>>(e => {
             var value = mutClass.GetChoiceInstance();
-            this.mutation = value as IMutation;
+            Mutation = value as IMutation;
             if (value is IShowable)
-                mutClass.Dropdown.value = v.newValue;
+                mutClass.Dropdown.value = e.newValue;
+            if (Mutation != null)
+            {
+                MutationPanel.style.display = DisplayStyle.Flex;
+                MutationPanel.SetValue(Mutation, Mutation.GetType().Name);
+            }
         });
-        ve.Add(mutation);
 
-        return ve;
 
-        
+        SubPanel TerminationPanel = new SubPanel();
+        TerminationPanel.style.display = DisplayStyle.None;
+        var terminationDD = new DropdownField("Termination");
+        var termClass = new ClassDropDown(terminationDD, typeof(ITermination), true);
+        if (Termination != null)
+        {
+            termClass.Dropdown.value = Termination.GetType().Name;
+            TerminationPanel.style.display = DisplayStyle.Flex;
+            TerminationPanel.SetValue(Termination, Termination.GetType().Name);
+        }
+        termClass.Dropdown.RegisterCallback<ChangeEvent<string>>(e => {
+            var value = termClass.GetChoiceInstance();
+            Termination = value as ITermination;
+            if (value is IShowable)
+                termClass.Dropdown.value = e.newValue;
+            if (Termination != null)
+            {
+                TerminationPanel.style.display = DisplayStyle.Flex;
+                TerminationPanel.SetValue(Termination, Termination.GetType().Name);
+            }
+        });
+
+        content.Add(populationDD);
+        content.Add(PopulationPanel);
+
+        content.Add(fitnessDD);
+        content.Add(FitnessPanel);
+
+        content.Add(selectionDD);
+        content.Add(SelectionPanel);
+
+        content.Add(crossoverDD);
+        content.Add(CrossOverPanel);
+
+        content.Add(mutationDD);
+        content.Add(MutationPanel);
+
+        content.Add(terminationDD);
+        content.Add(TerminationPanel);
+
+        return content;
     }
 }
