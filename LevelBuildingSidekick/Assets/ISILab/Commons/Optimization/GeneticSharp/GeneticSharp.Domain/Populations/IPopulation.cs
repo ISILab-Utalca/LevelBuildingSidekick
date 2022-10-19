@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
+using LBS.VisualElements;
 
 namespace GeneticSharp.Domain.Populations
 {
     /// <summary>
     /// Defines an interface for a population of candidate solutions (chromosomes).
     /// </summary>
-    public interface IPopulation
+    public interface IPopulation : IShowable
     {
         #region Events
         /// <summary>
@@ -67,6 +68,7 @@ namespace GeneticSharp.Domain.Populations
         /// Gets or sets the generation strategy.
         /// </summary>
         IGenerationStrategy GenerationStrategy { get; set; }
+        public IEvaluable Adam { get; set; }
         #endregion
 
         #region Methods

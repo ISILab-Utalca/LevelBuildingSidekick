@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Infrastructure.Framework.Commons;
+using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace GeneticSharp.Domain.Populations
 {
@@ -15,7 +17,11 @@ namespace GeneticSharp.Domain.Populations
         #region Constructors
         public Population()
         {
-
+            CreationDate = DateTime.Now;
+            Generations = new List<Generation>();
+            GenerationStrategy = new PerformanceGenerationStrategy(10);
+            MinSize = 5;
+            MaxSize = 5;
         }
 
         /// <summary>
@@ -110,7 +116,8 @@ namespace GeneticSharp.Domain.Populations
         /// Gets or sets the original chromosome of all population.
         /// </summary>
         /// <value>The adam chromosome.</value>
-        protected IEvaluable Adam { get; set; }
+        public IEvaluable Adam { get; set; }
+
         #endregion
 
         #region Public methods
@@ -170,6 +177,22 @@ namespace GeneticSharp.Domain.Populations
 
                 OnBestcandidateChanged?.Invoke();
             }
+        }
+
+        public VisualElement CIGUI()
+        {
+            var content = new VisualElement();
+
+            var v2 = new Vector2IntField("Population Size");
+            v2.value = new Vector2Int(this.MinSize, this.MaxSize);
+            v2.RegisterValueChangedCallback(e => {
+                MinSize = e.newValue.x;
+                MaxSize = e.newValue.y;
+            });
+
+            content.Add(v2);
+
+            return content;
         }
         #endregion
     }
