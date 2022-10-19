@@ -70,13 +70,13 @@ namespace LBS
         public void SetTag(int n, string value)
         {
             others[n] = value;
-            AssetDatabase.SaveAssets();
+            //AssetDatabase.SaveAssets();
         }
 
         public void AddTag(string tag = "")
         {
             others.Add(tag);
-            AssetDatabase.SaveAssets();
+            //AssetDatabase.SaveAssets();
         }
 
         public void RemoveLast()
@@ -85,6 +85,11 @@ namespace LBS
             {
                 others.Remove(others.Last());
             }
+            //AssetDatabase.SaveAssets();
+        }
+
+        public void Save()
+        {
             AssetDatabase.SaveAssets();
         }
     }
@@ -122,11 +127,18 @@ namespace LBS
             {
                 t.AddTag("");
             }
+
             if (GUILayout.Button("-", GUILayout.MaxWidth(50)))
             {
                 t.RemoveLast();
             }
             EditorGUILayout.EndHorizontal();
+
+            if(GUILayout.Button("save"))
+            {
+                t.Save();
+            }
+
             EditorGUILayout.HelpBox("These objects contain sensitive information for the operation of the LBS package," +
                 " please do not move, delete or change their names.", MessageType.Warning);
             serializedObject.ApplyModifiedProperties();

@@ -15,27 +15,18 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
 
     private Button addButton;
     private VisualElement content;
+    private DropdownField[] dropdowns = new DropdownField[4];
+    private Slider distance;
+    private Slider rotation;
 
     private RenderObjectPivot pivot;
-    private GameObject selected;
+    private TileConections selected;
     private RenderObjectView screen;
 
-    private List<string> _paths = new List<string>();
+    //private List<string> _paths = new List<string>();
     private List<Button> buttons = new List<Button>();
 
     private readonly int btnSize = 64;
-
-    public void AddItemsToMenu(GenericMenu menu)
-    {
-        GUIContent content = new GUIContent("Clear prefabs refenreces");
-        menu.AddItem(content, false, () =>
-        {
-            this.content.Clear();
-            _paths = new List<string>();
-            EditorPrefs.SetString("TileEditorWindow", "");
-            this.content.Add(addButton);
-        });
-    }
 
     [MenuItem("ISILab/LBS plugin/Tile edit window", priority = 1)]
     public static void ShowWindow()
@@ -44,22 +35,27 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
         window.titleContent = new GUIContent("Tile Edit Window");
     }
 
+    void IHasCustomMenu.AddItemsToMenu(GenericMenu menu)
+    {
+        GUIContent content = new GUIContent("Clear prefabs refenreces");
+        menu.AddItem(content, false, () =>
+        {
+            this.content.Clear();
+            EditorPrefs.SetString("TileEditorWindow", "");
+            this.content.Add(addButton);
+        });
+    }
+
     private void OnInspectorUpdate()
     {
         if (rTexture == null)
             return;
 
-        var x = (int)screen.style.width.value.value;
-        rTexture.width = x;
-        var y = (int)screen.style.height.value.value;
-        rTexture.height = y;
+        //var x = (int)screen.style.width.value.value;
+        //rTexture.width = x;
+        //var y = (int)screen.style.height.value.value;
+        //rTexture.height = y;
     }
-
-    private void OnDisable()
-    {
-        SavePrefsPaths(_paths);
-    }
-
 
     public void CreateGUI()
     {
@@ -68,43 +64,96 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("TileEditWindowUXML");
         visualTree.CloneTree(root);
 
+        this.dropdowns[0] = root.Q<DropdownField>("A");
+        this.dropdowns[1] = root.Q<DropdownField>("B");
+        this.dropdowns[2] = root.Q<DropdownField>("C");
+        this.dropdowns[3] = root.Q<DropdownField>("D");
+
         this.screen = root.Q<RenderObjectView>();
         this.content = root.Q<VisualElement>("Content");
+        
         this.addButton = root.Q<Button>("AddButton");
-        addButton.clicked += () => {
-            var path = EditorUtility.OpenFilePanel("Load prefab", "", "prefab");
-            path = DirectoryTools.FullPathToProjectPath(path);
-            _paths.Add(path);
-            SavePrefsPaths(_paths);
-            ActualizeView();
-        };
+        addButton.clicked += AddButton;
+        this.distance = root.Q<Slider>("Distance");
+        distance.RegisterValueChangedCallback(DistanceCamera);
+        this.rotation = root.Q<Slider>("Rotation");
+        rotation.RegisterValueChangedCallback(RotateCamera);
+
         ActualizeView();
 
         if (pivot == null)
         {
+            pref.hideFlags = HideFlags.None;
             pivot = SceneView.Instantiate(pref);
+            var muyLejos = 9999;
+            pivot.transform.position = new Vector3(muyLejos, muyLejos, muyLejos);
+            pivot.hideFlags = HideFlags.HideAndDontSave;
+            pivot.cam.cameraType = CameraType.Preview;
         }
 
-        var muyLejos = 99999;
-        pivot.transform.position = new Vector3(muyLejos, muyLejos, muyLejos);
-        pivot.hideFlags = HideFlags.HideAndDontSave;
-
+        SceneViewCameraWindow.additionalSettingsGui += test;
     }
 
-    private void SetSelected(GameObject go)
+    private void test(SceneView sv)
     {
-        selected = go;
-        pivot.SetPref(go);
+        sv.ShowAuxWindow();
     }
 
-    private void LoadButtons(List<GameObject> objs)
+    private void RotateCamera(ChangeEvent<float> value)
     {
-        foreach (var o in objs)
+        pivot.SetRotateCam(value.newValue);
+        
+    }
+
+    private void DistanceCamera(ChangeEvent<float> value)
+    {
+        pivot.SetDistanceCam(value.newValue);
+    }
+
+    private void AddButton()
+    {
+        var path = EditorUtility.OpenFilePanel("Load prefab", "", "prefab");
+        path = DirectoryTools.FullPathToProjectPath(path);
+
+        var go = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+        var so = ScriptableObject.CreateInstance<TileConections>();
+        so.Init(go);
+
+        var sPath = EditorUtility.SaveFilePanel("Sabe metadata","", "","asset");
+        sPath = DirectoryTools.FullPathToProjectPath(sPath);
+        AssetDatabase.CreateAsset(so, sPath);
+        AssetDatabase.SaveAssets();
+
+        ActualizeView();
+    }
+
+    private void SetSelected(TileConections data)
+    {
+        this.selected = data;
+        pivot.SetPref(selected.Tile);
+        var i = 0;
+        foreach (var dd in dropdowns)
         {
-            var img = AssetPreview.GetAssetPreview(o);
+            dd.value = data.GetConnection(i);
+            dd.choices = LBSTags.GetInstance("WFC Tags").Alls;
+            int n = i;
+            dd.RegisterCallback<ChangeEvent<string>>(e => {
+                this.selected.SetConnection(n, e.newValue);
+            });
+            i++;
+        }
+
+    }
+
+    private void LoadButtons()
+    {
+        var tiles = DirectoryTools.GetScriptables<TileConections>();
+        foreach (var data in tiles)
+        {
+            var img = AssetPreview.GetAssetPreview(data.Tile);
             var btn = new Button();
             btn.clicked += () => {
-                var selected = o;
+                var selected = data;
                 SetSelected(selected);
             };
             btn.style.width = btn.style.height = btn.style.maxHeight = btn.style.minHeight = btnSize;
@@ -117,50 +166,8 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
     private void ActualizeView()
     {
         content.Clear();
-        var objs = LoadPrefsPaths();
-        LoadButtons(objs);
-
-        if(objs.Count > 0)
-        {
-            selected = objs[0] as GameObject;
-        }
+        LoadButtons();
         content.Add(addButton);
     }
-
-    private List<GameObject> LoadPrefsPaths()
-    {
-        var objs = new List<GameObject>();
-        var x = EditorPrefs.GetString("TileEditorWindow");
-        _paths = x.Split("?").ToList();
-
-        var r = new List<string>();
-        foreach (var path in _paths)
-        {
-            var o = AssetDatabase.LoadAssetAtPath<GameObject>(path);
-            if (o != null)
-            {
-                objs.Add(o);
-            }
-            else
-            {
-                r.Add(path);
-            }
-        }
-
-        r.ForEach(rp => _paths.Remove(rp));
-        return objs;
-    }
-
-    private void SavePrefsPaths(List<string> paths)
-    {
-        var v = "";
-        foreach (var p in paths)
-        {
-            v += p + "?";
-        }
-
-        EditorPrefs.SetString("TileEditorWindow", v);
-    }
-
 
 }
