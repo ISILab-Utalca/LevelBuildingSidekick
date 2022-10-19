@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,6 +27,14 @@ namespace Utility
                 }
             }
             return temp;
+        }
+
+        public static T[] Resize<T>(this T[] array, int size)
+        {
+            var newarray = new T[size];
+            var length = size > array.Length ? array.Length : size;
+            Array.Copy(array, newarray, length);
+            return newarray;
         }
     }
 
