@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99a643f0a6401af4095889f2a037615f, type: 3}
+  m_Name: Bundle P1
+  m_EditorClassIdentifier: 
+  categories:
+  - category: Wall
+    pivotType: 1
+    items:
+    - {fileID: 6229247520373792897, guid: 3ad7a1cffb2556547a8b7e60fd320431, type: 3}
+    - {fileID: 5699357662600130749, guid: cf915a29d62865c4a9fac3cdfe5c3c8c, type: 3}
+    - {fileID: 6074304751300712246, guid: 19b5a58b7d0b4ca4e9b7adf6282ef443, type: 3}
+    - {fileID: 8766764870399681533, guid: 9e987e5e275fd2a4f977b20206fa74ff, type: 3}
+  - category: Floor
+    pivotType: 0
+    items:
+    - {fileID: 9100508158649072905, guid: e348e7143b6247b488737e4be26fb038, type: 3}
+    - {fileID: 8898804249963617590, guid: 51399b9513e241040acdbf67d3ba479c, type: 3}
+    - {fileID: 4506225093705001793, guid: 92311860c8c187d41a8281547a752763, type: 3}
+    - {fileID: 5600215542615774154, guid: b5c0bcf85e3a9b1448b613dcd8c592eb, type: 3}
+  - category: Door
+    pivotType: 1
+    items:
+    - {fileID: 4463566038210007903, guid: 49a5f24a081cbbc44bd23d76c2869723, type: 3}
+  - category: Ceiling
+    pivotType: 0
+    items:
+    - {fileID: 2804152555805628249, guid: 6bc6303d284ac1e45a7d4f0a150a6e26, type: 3}
