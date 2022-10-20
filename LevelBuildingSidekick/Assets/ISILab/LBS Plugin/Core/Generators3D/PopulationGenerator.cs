@@ -30,7 +30,7 @@ namespace LBS.Generator
                 var go = prefabs[Random.Range(0,prefabs.Count())];
                 var inst = SceneView.Instantiate(go,mainPivot.transform);
                 var pos = popu.Position;
-                inst.transform.position = new Vector3(pos.x * tileSize,0,pos.y *tileSize);
+                inst.transform.position = new Vector3(pos.x * tileSize, 0, pos.y * tileSize);
             }
 
             return mainPivot;

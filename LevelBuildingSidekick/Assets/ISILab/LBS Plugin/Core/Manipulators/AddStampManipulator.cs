@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Utility;
 
 namespace LBS.Manipulators
 {
@@ -35,12 +36,13 @@ namespace LBS.Manipulators
                 return;
 
             var pos = controller.ViewportMousePosition(e.localMousePosition);
-            var tPos = controller.FromTileCoords(controller.ToTileCoords(pos));
-
+            var tPos = controller.ToTileCoords(pos);
             var stamps = LBSController.CurrentLevel.data.GetRepresentation<LBSStampGroupData>();
-            var s = new StampData(selected.Label, tPos);
-            stamps.AddStamp(s);
+            var stamp = new StampData(selected.Label, tPos);
+            stamps.AddStamp(stamp);
             window.RefreshView();
+            //controller.CreateStamp(e.localMousePosition, window.MainView, selected);
+
         }
     }
 }

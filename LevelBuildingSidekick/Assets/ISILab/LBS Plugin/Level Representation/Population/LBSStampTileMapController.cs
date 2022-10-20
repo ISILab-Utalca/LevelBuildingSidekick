@@ -39,19 +39,38 @@ public class LBSStampTileMapController : LBSStampController, ITileMap, IChromoso
         //data.RemoveStamp();
     }
 
+    public override void PopulateView(MainView view)
+    {
+        var stamps = data.GetStamps();
+        foreach (var stamp in stamps)
+        {
+            var pos = stamp.Position;
+            var sv = CreateStampView(stamp, pos, new Vector2(TileSize, TileSize));
+            elements.Add(sv);
+            view.AddElement(sv);
+        }
+
+    }
+
+    public LBSStampView CreateStampView(StampData data, Vector2Int pos, Vector2 size)
+    {
+        var sv = new LBSStampView(data,view);
+        sv.SetPosition(new Rect(pos * size, size));
+        return sv;
+    }
+
     public override void CreateStamp(Vector2 pos, GraphView view, StampPresset stamp)
     {
         var viewPos = new Vector2(view.viewTransform.position.x, view.viewTransform.position.y);
         pos = (pos - viewPos) / view.scale;
 
-        pos = ToTileCoords(pos);
-        Debug.Log(pos);
-        pos = FromTileCoords(pos);
-        Debug.Log(pos);
+        var tPos = ToTileCoords(pos);
+        var cPos = FromTileCoords(pos);
 
-        var newStamp = new StampData(stamp.name, pos);
+        var newStamp = new StampData(stamp.name, tPos);
         data.AddStamp(newStamp);
-        view.AddElement(new LBSStampView(newStamp,this.view));
+        var v = new LBSStampView(newStamp, this.view);
+        view.AddElement(v);
     }
 
     public Vector2Int ToTileCoords(Vector2 position)

@@ -74,7 +74,7 @@ namespace LBS.Representation.TileMap
 
         public override void PopulateView(MainView view)
         {
-            var dt = data.GetDT();
+            //var dt = data.GetDT();
             var rooms = data.GetRooms();
             var doors = data.GetDoors();
             foreach (var room in rooms)
@@ -98,55 +98,8 @@ namespace LBS.Representation.TileMap
                     view.AddElement(tv);
                 }
             }
-
-            
         }
 
-        /*
-        public override void PopulateView(MainView view) 
-        {
-            // Esto demora 1.8 seg en completarse con alrededor de 550 tiles,
-            // es necesario mejorar la eficinecia en este paso ya que añade mucha demora.
-            // Se sugiere probar con object pool o algo asi. (!!!)
-            var mtx = data.GetMatrix();
-            var dt = -data.GetRect().min;
-            for (int i = 0; i < mtx.GetLength(0); i++)
-            {
-                for (int j = 0; j < mtx.GetLength(1); j++)
-                {
-                    var roomId = mtx[i, j];
-                    var roomData = data.GetRoom(roomId);
-
-                    if (roomData == null)
-                        continue;
-
-                    var pos = new Vector2Int(i, j);
-                    var posT = new Vector2Int(i, j) - dt;
-                    var t = roomData.GetTile(posT);
-                    var tv = CreateTileView(t, pos, tileSize, roomData); // esta es la linea en cuestion que lagea (!!!)
-
-                    var doors = data.GetDoors();
-                    foreach (var d in doors)
-                    {
-                        var pos1 = d.GetFirstPosition() + dt;
-                        var pos2 = d.GetSecondPosition() + dt;
-                        if(pos == pos1)
-                        {
-                            tv.ShowDir(pos2 - pos1);
-                        }
-                        else if(pos == pos2)
-                        {
-                            tv.ShowDir(pos1 - pos2);
-                            //tv.Add(new DoorView(pos2, pos1, roomData.Color));
-                        }
-                    }
-
-                    elements.Add(tv);
-                    view.AddElement(tv);
-                }
-            }
-        }
-        */
         internal LBSTileMapData RecalculateDoors(LBSTileMapData schema)
         {
             var graphData = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();

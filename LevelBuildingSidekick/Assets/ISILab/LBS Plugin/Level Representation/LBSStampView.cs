@@ -34,6 +34,6 @@ public class LBSStampView : LBSGraphElement // esto se puede simplificar y combi
     public override void SetPosition(Rect newPos)
     {
         base.SetPosition(newPos);
-        data.Position = new Vector2Int((int)newPos.x, (int)newPos.y);
+        //data.Position = new Vector2Int((int)newPos.x, (int)newPos.y);
     }
 }
