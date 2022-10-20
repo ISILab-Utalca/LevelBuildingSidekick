@@ -35,11 +35,6 @@ public class StampTileMapChromosome : ChromosomeBase2D<int>, IDrawable
 
         stamps = rawStamps.Distinct().ToList();
 
-        if(stamps.Any(s => s == null))
-        {
-            Debug.Log("Dafuq");
-        }
-
         for(int i = 0; i < Length; i++)
         {
             ReplaceGene(i, -1);
@@ -60,12 +55,13 @@ public class StampTileMapChromosome : ChromosomeBase2D<int>, IDrawable
     public override IChromosome CreateNewChromosome()
     {
         var c = new StampTileMapChromosome(Length, MatrixWidth, stamps);
+        c.tileSize = tileSize;
         return c;
     }
 
     public override object GenerateGene(int geneIndex)
     {
-        return RandomizationProvider.Current.GetInt(0, stamps.Count);
+        return RandomizationProvider.Current.GetInt(-1, stamps.Count);
     }
 
     public override Texture2D ToTexture()
@@ -79,16 +75,22 @@ public class StampTileMapChromosome : ChromosomeBase2D<int>, IDrawable
         empty.SetPixel(0, 0, new Color(0,0,0,0));
         empty.Apply();
 
+        string s = "";
+
         for(int i = 0; i < Length; i++)
         {
+            if (i % MatrixWidth == 0)
+                s += "\n";
             var pos = ToMatrixPosition(i);
             var id = GetGene<int>(i);
             if (id == -1)
             {
+                s += "0";
                 texture.InsertTextureInRect(empty, (int)pos.x * tileSize, (int)pos.y * tileSize, tileSize, tileSize);
             }
             else
             {
+                s += "1";
                 var t = DirectoryTools.GetScriptable<StampPresset>(stamps[id].Label).Icon;
                 texture.InsertTextureInRect(t, (int)pos.x*tileSize, (int)pos.y*tileSize, tileSize, tileSize);
             }

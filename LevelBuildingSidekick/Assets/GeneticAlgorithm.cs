@@ -37,7 +37,7 @@ public class GeneticAlgorithm : IGeneticAlgorithm , IShowable
         Crossover = new UniformCrossover();
         Mutation = new UniformMutation();
         Population = new Population();
-        Termination = new GenerationNumberTermination(1);
+        Termination = new GenerationNumberTermination();
 
     }
 
@@ -357,7 +357,6 @@ public class GeneticAlgorithm : IGeneticAlgorithm , IShowable
         {
             State = OptimizerState.TerminationReached;
             OnTerminationReached?.Invoke();
-            UnityEngine.Debug.Log("Finish");
             return true;
         }
 

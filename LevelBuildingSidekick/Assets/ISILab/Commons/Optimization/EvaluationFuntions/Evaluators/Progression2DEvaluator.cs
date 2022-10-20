@@ -50,7 +50,6 @@ public abstract class Progression2DEvaluator : IRangedEvaluator
         of.value = stamp;
         of.RegisterValueChangedCallback((e) =>
         {
-            Debug.Log(e.newValue);
             if(e.newValue is StampPresset)
             {
                 stamp = e.newValue as StampPresset;
