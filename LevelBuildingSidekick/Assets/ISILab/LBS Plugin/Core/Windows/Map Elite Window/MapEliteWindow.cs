@@ -152,7 +152,7 @@ namespace LBS.Windows
         {
             var index = (coords.y * mapElites.XSampleCount + coords.x);
             Content[index].Data = mapElites.BestSamples[coords.x, coords.y];
-            Debug.Log("Hyaaaa");
+            Debug.Log("index: " + index);
         }
     }
 }

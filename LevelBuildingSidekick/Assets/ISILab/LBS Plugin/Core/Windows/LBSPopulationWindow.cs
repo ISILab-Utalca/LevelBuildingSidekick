@@ -8,6 +8,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEditor.Overlays;
 using UnityEngine;
 using UnityEngine.UIElements;
+using LBS.Generator;
 
 namespace LBS.Windows
 {
@@ -25,17 +26,21 @@ namespace LBS.Windows
 
         public override void OnInitPanel()
         {
+            var generator = new PopulationGenerator();
             actions.Add(new System.Tuple<string, System.Action>(
                 "Generate 3D",
-                () => Debug.Log("[Implementar]")
-                ));
+                () => {
+                    var data = LBSController.CurrentLevel.data;
+                    generator.Init(data);
+                    generator.Generate();
+                })) ;
 
             actions.Add(new Tuple<string, Action>(
-                "Map Elites", 
+                "Map Elites",
                 () => {
                     var wnd = GetWindow<MapEliteWindow>();
                     wnd.mainView = this;
-                })) ;
+                }));
 
             nextWindow = typeof(LBSQuestWindow);
             prevWindow = typeof(LBSSchemaWindow);
@@ -54,3 +59,4 @@ namespace LBS.Windows
 
     }
 }
+

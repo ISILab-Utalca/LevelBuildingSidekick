@@ -15,4 +15,5 @@ MonoBehaviour:
   label: Axe
   icon: {fileID: 2800000, guid: 230284c4a7f83a9439fa0674ebbeac53, type: 3}
   tags: []
-  Prefabs: []
+  prefabs:
+  - {fileID: 8203073568141072114, guid: 6cd1ac9652a50da4485a86492f47c63d, type: 3}

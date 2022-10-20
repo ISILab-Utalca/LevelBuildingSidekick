@@ -15,4 +15,5 @@ MonoBehaviour:
   label: Hammer
   icon: {fileID: 2800000, guid: 74fbbbb79e9ac4744946e1f190596e61, type: 3}
   tags: []
-  Prefabs: []
+  prefabs:
+  - {fileID: 3895385195090632927, guid: 1acbb84ab32a1184b986c3496a00b805, type: 3}

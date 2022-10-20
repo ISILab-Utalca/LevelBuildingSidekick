@@ -17,9 +17,16 @@ namespace LBS.Generator
 
         private LBSTileMapData schema;
         private LBSGraphData graph;
+        private float tileSize = 1f;
         
         public override GameObject Generate()
         {
+            if(schema == null || graph == null)
+            {
+                Debug.LogWarning("cannot be generated, there is no information about the map to load.");
+                return null;
+            }
+
             var mainPivot = new GameObject("New level 3D");
             foreach (var node in graph.GetNodes())
             {
@@ -32,8 +39,8 @@ namespace LBS.Generator
                 {
                     var pivot = new GameObject();
                     pivot.transform.SetParent(mainPivot.transform);
-                    var tSize = LBSController.CurrentLevel.data.TileSize;
-                    pivot.transform.position = new Vector3(tile.GetPosition().x, 0, tile.GetPosition().y) * (tSize); // (* vector de tamaño de tile en mundo) (!)
+                    //var tSize = LBSController.CurrentLevel.data.TileSize;
+                    pivot.transform.position = new Vector3(tile.GetPosition().x, 0, tile.GetPosition().y) * (tileSize); // (* vector de tamaño de tile en mundo) (!)
 
                     var cBundle = bundle.GetCategories().Where(c => c.pivotType == PivotType.Center).ToList();
                     var eBundle = bundle.GetCategories().Where(c => c.pivotType == PivotType.Edge).ToList();
@@ -51,7 +58,11 @@ namespace LBS.Generator
         private GameObject GenPhysicCenter(ItemCategory bundle, Transform parent)
         {
             var prefs = bundle.items;
-            return SceneView.Instantiate(prefs[Random.Range(0, prefs.Count)], parent);
+            var r = SceneView.Instantiate(prefs[Random.Range(0, prefs.Count)], parent);
+
+            if(false) // dejar esta como variable que el usuario pueda controlar
+                r.transform.Rotate(new Vector3(0, 90, 0) * Random.Range(0, 4));
+            return r;
         }
 
         private void InstantiateEdge(ItemCategory bundle,Transform pivot,Vector2 dir)
@@ -104,6 +115,7 @@ namespace LBS.Generator
         {
             this.schema = levelData.GetRepresentation<LBSTileMapData>();
             this.graph = levelData.GetRepresentation<LBSGraphData>();
+            tileSize = levelData.TileSize;
         }
     }
 }

@@ -1,5 +1,6 @@
 using LBS;
 using LBS.VisualElements;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,14 +21,15 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
     private Slider rotation;
     private Slider labelDist;
 
-    private RenderObjectPivot pivot;
+    //private RenderObjectPivot pivot;
     private TileConections selected;
     private RenderObjectView screen;
 
-    //private List<string> _paths = new List<string>();
     private List<Button> buttons = new List<Button>();
 
     private readonly int btnSize = 64;
+
+    public Action<GameObject> SelectPref;
 
     [MenuItem("ISILab/LBS plugin/Tile edit window", priority = 1)]
     public static void ShowWindow()
@@ -45,17 +47,6 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
             EditorPrefs.SetString("TileEditorWindow", "");
             this.content.Add(addButton);
         });
-    }
-
-    private void OnInspectorUpdate()
-    {
-        if (rTexture == null)
-            return;
-
-        //var x = (int)screen.style.width.value.value;
-        //rTexture.width = x;
-        //var y = (int)screen.style.height.value.value;
-        //rTexture.height = y;
     }
 
     public void CreateGUI()
@@ -76,40 +67,27 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
         this.addButton = root.Q<Button>("AddButton");
         addButton.clicked += AddButton;
         this.distance = root.Q<Slider>("Distance");
-        distance.RegisterValueChangedCallback(DistanceCamera);
         this.rotation = root.Q<Slider>("Rotation");
-        rotation.RegisterValueChangedCallback(RotateCamera);
         this.labelDist = root.Q<Slider>("LabelDistance");
-        labelDist.RegisterValueChangedCallback(LabelDist);
 
         ActualizeView();
 
-        if (pivot == null)
-        {
-            pref.hideFlags = HideFlags.None;
-            pivot = SceneView.Instantiate(pref);
-            var muyLejos = 9999;
-            pivot.transform.position = new Vector3(muyLejos, muyLejos, muyLejos);
-            pivot.hideFlags = HideFlags.HideAndDontSave;
-            pivot.cam.cameraType = CameraType.Preview;
-        }
+        var pivot = CreatePivot();
+        distance.RegisterValueChangedCallback((e)=> { pivot.SetDistanceCam(e.newValue); });
+        rotation.RegisterValueChangedCallback((e) => { pivot.SetRotateCam(e.newValue); });
+        labelDist.RegisterValueChangedCallback((e) => { pivot.LabelDist(e.newValue); });
+        SelectPref += pivot.SetPref;
 
     }
 
-    private void LabelDist(ChangeEvent<float> value)
-    {
-        pivot.LabelDist(value.newValue);
-    }
 
-    private void RotateCamera(ChangeEvent<float> value)
+    public RenderObjectPivot CreatePivot()
     {
-        pivot.SetRotateCam(value.newValue);
-        
-    }
-
-    private void DistanceCamera(ChangeEvent<float> value)
-    {
-        pivot.SetDistanceCam(value.newValue);
+        var pivot = SceneView.Instantiate(pref);
+        var muyLejos = 9999;
+        pivot.transform.position = new Vector3(muyLejos, muyLejos, muyLejos);
+        pivot.hideFlags = HideFlags.HideAndDontSave;
+        return pivot;
     }
 
     private void AddButton()
@@ -132,7 +110,8 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
     private void SetSelected(TileConections data)
     {
         this.selected = data;
-        pivot.SetPref(selected.Tile);
+        SelectPref?.Invoke(selected.Tile);
+        //pivot.SetPref(selected.Tile);
         var i = 0;
         foreach (var dd in dropdowns)
         {

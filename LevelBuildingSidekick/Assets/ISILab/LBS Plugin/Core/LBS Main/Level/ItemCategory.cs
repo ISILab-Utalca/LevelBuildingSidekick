@@ -49,6 +49,7 @@ namespace LBS
                 itemNames = value;
             }
         }
+
         [JsonIgnore]
         public List<string> ItemNames
         {

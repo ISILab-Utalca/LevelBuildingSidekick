@@ -38,6 +38,7 @@ namespace LBS.Schema
         private List<ItemCategory> prefabs = new List<ItemCategory>(); // esto para que (??)
 
         [SerializeField, JsonRequired]
+        [ScriptableToString(typeof(RoomElementBundle))]
         [Tooltip("Assign a list of prefabs as a bundle to a node.")]
         public List<string> bundlesNames = new List<string>();
 

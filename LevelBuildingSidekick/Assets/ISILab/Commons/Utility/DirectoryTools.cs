@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 using System.Linq;
+using System;
 
 namespace Utility
 {
@@ -23,7 +24,7 @@ namespace Utility
             foreach (var guid in guids)
             {
                 obj = AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(guid), typeof(T));
-                if(obj != null)
+                if (obj != null)
                 {
                     break;
                 }
@@ -35,6 +36,12 @@ namespace Utility
         public static List<T> GetScriptables<T>(string name = "") where T : ScriptableObject
         {
             var posibles = GetScriptablesByType<T>();
+            return posibles.Where(so => so.name.Contains(name)).ToList();
+        }
+
+        public static List<ScriptableObject> GetScriptables(Type type, string name = "")
+        {
+            var posibles = GetScriptablesByType(type);
             return posibles.Where(so => so.name.Contains(name)).ToList();
         }
 
@@ -51,6 +58,18 @@ namespace Utility
             {
                 string path = AssetDatabase.GUIDToAssetPath(guids[i]);
                 toReturn.Add(AssetDatabase.LoadAssetAtPath<T>(path));
+            }
+            return toReturn;
+        }
+
+        public static List<ScriptableObject> GetScriptablesByType(Type type)
+        {
+            List<ScriptableObject> toReturn = new List<ScriptableObject>();
+            var guids = AssetDatabase.FindAssets("t:" + type.ToString());
+            for (int i = 0; i < guids.Length; i++)
+            {
+                string path = AssetDatabase.GUIDToAssetPath(guids[i]);
+                toReturn.Add(AssetDatabase.LoadAssetAtPath(path, type) as ScriptableObject);
             }
             return toReturn;
         }

@@ -10,6 +10,7 @@ using System;
 using System.Reflection;
 using System.IO;
 using LBS.VisualElements;
+using Utility;
 
 namespace LBS.Windows
 {
@@ -37,6 +38,8 @@ namespace LBS.Windows
         private List<FileInfo> jsonInfo = new List<FileInfo>();
         DropdownField loadLvlSelectionDropDown;
         Button openLoadLvlBtn;
+        Button loadLoadLvlBtn; // mejorar nombre (!)
+        private VisualElement contentLoad;
         #endregion
 
         private static List<Tuple<LBSWindowAttribute, MethodInfo>> methods = new List<Tuple<LBSWindowAttribute, MethodInfo>>();
@@ -47,14 +50,12 @@ namespace LBS.Windows
         {
             var window = GetWindow<LBSStartWindow>();
             window.titleContent = new GUIContent("Level Building Sidekick");
-            window.position = window.position;
+            //window.position = window.position;
             window.minSize = window.maxSize = new Vector2(864, 396);
             //var controller = new LBSController();
 
             methods = Utility.Reflection.CollectMetohdsByAttribute<LBSWindowAttribute>();
             presets = Utility.DirectoryTools.GetScriptablesByType<WindowsPreset>();
-
-
         }
 
         public void CreateGUI()
@@ -66,7 +67,6 @@ namespace LBS.Windows
 
             var styleSheet = Utility.DirectoryTools.SearchAssetByName<StyleSheet>("StartWindow");
             root.styleSheets.Add(styleSheet);
-
 
             InitSelection();
             InitNewLevel();
@@ -93,6 +93,9 @@ namespace LBS.Windows
             loadLvlBtn.clicked += () => OpenPanel(loadLvlPanel);
             infoBtn.clicked += () => OpenPanel(infoPanel);
 
+            //var lvls = DirectoryTools.GetAllFilesByExtension("json");
+            //contentLoad
+
         }
 
         void InitNewLevel()
@@ -107,8 +110,18 @@ namespace LBS.Windows
             //lvlRepListDD = rootVisualElement.Q<DropdownField>(name: "LvlRepListDD");
             //lvlRepListDD.choices = representations.Select(r => r.ToString()).ToList();
             
-            openNewLvlBtn = rootVisualElement.Q<Button>(name: "OpenNewLvlBtn");
+            openNewLvlBtn = rootVisualElement.Q<Button>(name: "OpenNewLvlBtn"); 
             openNewLvlBtn.clicked += OpenNewLevel;
+
+            //loadLoadLvlBtn = rootVisualElement.Q<Button>(name: "LoadLoadLvlBtn");
+            //loadLoadLvlBtn.clicked += LoadFromFolder;
+
+            contentLoad = rootVisualElement.Q<VisualElement>("ContentLoad");
+
+        }
+
+        private void LoadFromFolder()
+        {
 
         }
 
