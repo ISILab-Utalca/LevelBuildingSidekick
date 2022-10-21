@@ -12,8 +12,8 @@ namespace Utility
     {
         public static string FullPathToProjectPath(string fullpath)
         {
-            var x = fullpath.Split("Assets");
-            var r = "Assets" + x[x.Length - 1];
+            var x = fullpath.Split("/Assets/");
+            var r = "Assets/" + x[x.Length - 1];
             return r;
         }
 

@@ -45,6 +45,9 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
             this.content.Clear();
             EditorPrefs.SetString("TileEditorWindow", "");
             this.content.Add(addButton);
+            var tc = DirectoryTools.GetScriptables<TileConections>();
+            var paths = tc.Select(so => AssetDatabase.GetAssetPath(so)).ToList();
+            paths.ForEach(p => AssetDatabase.DeleteAsset(p));
         });
     }
 
@@ -59,6 +62,8 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
         this.dropdowns[1] = root.Q<DropdownField>("B");
         this.dropdowns[2] = root.Q<DropdownField>("C");
         this.dropdowns[3] = root.Q<DropdownField>("D");
+        ShowDropdown(false);
+        
 
         this.screen = root.Q<RenderObjectView>();
         this.content = root.Q<VisualElement>("Content");
@@ -77,6 +82,14 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
         labelDist.RegisterValueChangedCallback((e) => { pivot.LabelDist(e.newValue); });
         SelectPref += pivot.SetPref;
 
+    }
+
+    public void ShowDropdown(bool v)
+    {
+        foreach (var dd in dropdowns)
+        {
+            dd.style.display = v ? DisplayStyle.Flex : DisplayStyle.None;
+        }
     }
 
 
@@ -100,6 +113,7 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
 
         var sPath = EditorUtility.SaveFilePanel("Save metadata","", "","asset");
         sPath = DirectoryTools.FullPathToProjectPath(sPath);
+        EditorUtility.SetDirty(so);
         AssetDatabase.CreateAsset(so, sPath);
         AssetDatabase.SaveAssets();
 
@@ -111,6 +125,7 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
         this.selected = data;
         SelectPref?.Invoke(selected.Tile);
         var i = 0;
+        ShowDropdown(true);
         foreach (var dd in dropdowns)
         {
             dd.value = data.GetConnection(i);

@@ -37,7 +37,6 @@ public class RenderObjectPivot : MonoBehaviour
         {
             var pivot = canvasPivots[i];
             var p = cam.WorldToScreenPoint(pivot.transform.position);
-            //var p = cam.ViewportToScreenPoint(pivot.transform.position);
             rects[i].localPosition = p - new Vector3(cam.pixelWidth, cam.pixelHeight)/2;
         }
     }
@@ -58,30 +57,3 @@ public class RenderObjectPivot : MonoBehaviour
     }
 }
 
-[CustomEditor(typeof(RenderObjectPivot))]
-public class ExampleEditor : Editor
-{
-
-    public void OnSceneGUI()
-    {
-        var t = target as RenderObjectPivot;
-        var tr = t.transform;
-        var pos = tr.position;
-        // display an orange disc where the object is
-        var color = new Color(1, 0.8f, 0.4f, 1);
-        Handles.color = color;
-        Handles.DrawWireDisc(pos, tr.up, 1.0f);
-        // display object "value" in scene
-        GUI.color = color;
-        Handles.Label(pos, 1.ToString("F1"));
-        //t.root.position = Handles.PositionHandle(t.root.position,Quaternion.identity);
-        //Handles.DrawCamera(new Rect(0, 0, 100, 100), t.cam);
-
-        foreach (var pivot in t.canvasPivots)
-        {
-            var p = t.cam.ViewportToScreenPoint(pivot.transform.position);
-            Handles.Label(p,pivot.name);
-        }
-
-    }
-}
