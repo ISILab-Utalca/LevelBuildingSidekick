@@ -13,4 +13,8 @@ MonoBehaviour:
   m_Name: WFC Tags
   m_EditorClassIdentifier: 
   basics: []
-  others: []
+  others:
+  - path
+  - grass
+  - sand
+  - rock
