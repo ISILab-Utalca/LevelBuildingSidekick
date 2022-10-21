@@ -21,7 +21,6 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
     private Slider rotation;
     private Slider labelDist;
 
-    //private RenderObjectPivot pivot;
     private TileConections selected;
     private RenderObjectView screen;
 
@@ -99,7 +98,7 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
         var so = ScriptableObject.CreateInstance<TileConections>();
         so.Init(go);
 
-        var sPath = EditorUtility.SaveFilePanel("Sabe metadata","", "","asset");
+        var sPath = EditorUtility.SaveFilePanel("Save metadata","", "","asset");
         sPath = DirectoryTools.FullPathToProjectPath(sPath);
         AssetDatabase.CreateAsset(so, sPath);
         AssetDatabase.SaveAssets();
@@ -111,7 +110,6 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
     {
         this.selected = data;
         SelectPref?.Invoke(selected.Tile);
-        //pivot.SetPref(selected.Tile);
         var i = 0;
         foreach (var dd in dropdowns)
         {

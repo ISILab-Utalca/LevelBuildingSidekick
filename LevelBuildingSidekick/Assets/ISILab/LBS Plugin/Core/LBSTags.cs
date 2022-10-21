@@ -35,7 +35,7 @@ namespace LBS
         }
     }
 
-
+    [System.Serializable]
     [CreateAssetMenu(fileName = "New tags list", menuName = "ISILab/LBS plugin/Tags List")]
     public class LBSTags : ScriptableObject
     {
@@ -70,13 +70,13 @@ namespace LBS
         public void SetTag(int n, string value)
         {
             others[n] = value;
-            //AssetDatabase.SaveAssets();
+            EditorUtility.SetDirty(this);
         }
 
         public void AddTag(string tag = "")
         {
             others.Add(tag);
-            //AssetDatabase.SaveAssets();
+            EditorUtility.SetDirty(this);
         }
 
         public void RemoveLast()
@@ -85,11 +85,12 @@ namespace LBS
             {
                 others.Remove(others.Last());
             }
-            //AssetDatabase.SaveAssets();
+            EditorUtility.SetDirty(this);
         }
 
         public void Save()
         {
+            EditorUtility.SetDirty(this);
             AssetDatabase.SaveAssets();
         }
     }
