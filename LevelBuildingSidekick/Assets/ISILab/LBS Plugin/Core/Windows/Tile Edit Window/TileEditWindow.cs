@@ -21,6 +21,10 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
     private Slider rotation;
     private Slider labelDist;
 
+    private Button generateMaoBtn;
+    private Vector2IntField mapSize;
+    private FloatField tileSize;
+
     private TileConections selected;
     private RenderObjectView screen;
 
@@ -29,6 +33,8 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
     private readonly int btnSize = 64;
 
     public Action<GameObject> SelectPref;
+
+    public WFCSolver solverWFC = new WFCSolver(); // <--
 
     [MenuItem("ISILab/LBS plugin/Tile edit window", priority = 1)]
     public static void ShowWindow()
@@ -69,10 +75,14 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
         this.content = root.Q<VisualElement>("Content");
         
         this.addButton = root.Q<Button>("AddButton");
-        addButton.clicked += AddButton;
+        addButton.clicked += AddAction;
         this.distance = root.Q<Slider>("Distance");
         this.rotation = root.Q<Slider>("Rotation");
         this.labelDist = root.Q<Slider>("LabelDistance");
+
+        this.generateMaoBtn = root.Q<Button>("GenerateButton");
+        generateMaoBtn.clicked += () => GenerateMap(SolveMap());
+        this.mapSize = root.Q<Vector2IntField>("mapSize");
 
         ActualizeView();
 
@@ -82,6 +92,27 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
         labelDist.RegisterValueChangedCallback((e) => { pivot.LabelDist(e.newValue); });
         SelectPref += pivot.SetPref;
 
+    }
+
+    public TileConections[,] SolveMap()
+    {
+        var samples = DirectoryTools.GetScriptables<TileConections>();
+        TileConections[,] tileColection = new TileConections[mapSize.value.x, mapSize.value.y];
+        return solverWFC.Solve(samples,tileColection);
+    }
+
+    public void GenerateMap(TileConections[,] map)
+    {
+        var pivot = new GameObject();
+        for (int i = 0; i < map.GetLength(0); i++)
+        {
+            for (int j = 0; j < map.GetLength(1); j++)
+            {
+                // falta ponerle la rotacion correcta (!!!!!)
+                var t = SceneView.Instantiate(map[i, j].Tile, pivot.transform);
+                t.transform.position *= tileSize.value;
+            }
+        }
     }
 
     public void ShowDropdown(bool v)
@@ -102,7 +133,7 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
         return pivot;
     }
 
-    private void AddButton()
+    private void AddAction()
     {
         var path = EditorUtility.OpenFilePanel("Load prefab", "", "prefab");
         path = DirectoryTools.FullPathToProjectPath(path);
@@ -113,10 +144,8 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
 
         var sPath = EditorUtility.SaveFilePanel("Save metadata","", "","asset");
         sPath = DirectoryTools.FullPathToProjectPath(sPath);
-        EditorUtility.SetDirty(so);
         AssetDatabase.CreateAsset(so, sPath);
-        AssetDatabase.SaveAssets();
-
+        EditorUtility.SetDirty(so);
         ActualizeView();
     }
 
@@ -133,10 +162,10 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
             int n = i;
             dd.RegisterCallback<ChangeEvent<string>>(e => {
                 this.selected.SetConnection(n, e.newValue);
+                EditorUtility.SetDirty(data);
             });
             i++;
         }
-
     }
 
     private void LoadButtons()

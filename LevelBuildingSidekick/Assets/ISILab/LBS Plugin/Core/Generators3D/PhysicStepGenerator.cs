@@ -62,6 +62,7 @@ namespace LBS.Generator
 
             if(false) // dejar esta como variable que el usuario pueda controlar
                 r.transform.Rotate(new Vector3(0, 90, 0) * Random.Range(0, 4));
+
             return r;
         }
 

@@ -8,11 +8,11 @@ public class WFCSolver
 {
     public static WFCTags tags;
     
-    public WFCTile[,] Solve(List<WFCTile> samples, WFCTile[,] matrix, Vector2Int[] locked = null)
+    public TileConections[,] Solve(List<TileConections> samples, TileConections[,] matrix, Vector2Int[] locked = null)
     {
         int width = matrix.GetLength(0);
         int height = matrix.GetLength(1);
-        List<WFCTile>[,] undefinedMatrix = new List<WFCTile>[width, height];
+        List<TileConections>[,] undefinedMatrix = new List<TileConections>[width, height];
 
         if(locked == null)
         {
@@ -50,7 +50,7 @@ public class WFCSolver
             }
         }
 
-        WFCTile[,] definedMatrix = new WFCTile[width, height];
+        TileConections[,] definedMatrix = new TileConections[width, height];
 
         for (int j = 0; j < height; j++)
         {
@@ -70,17 +70,17 @@ public class WFCSolver
         return definedMatrix;
     }
 
-    public List<WFCTile>[,] CollapseOnce(List<WFCTile> samples, WFCTile[,] matrix, Vector2Int[] locked = null)
+    public List<TileConections>[,] CollapseOnce(List<TileConections> samples, TileConections[,] matrix, Vector2Int[] locked = null)
     {
         int width = matrix.GetLength(0);
         int height = matrix.GetLength(1);
-        List<WFCTile>[,] undefinedMatrix = new List<WFCTile>[width, height];
+        List<TileConections>[,] undefinedMatrix = new List<TileConections>[width, height];
 
         for(int j = 0; j < height; j++)
         {
             for (int i = 0; i < width; j++)
             {
-                var list = new List<WFCTile>();
+                var list = new List<TileConections>();
                 if(locked != null && locked.Any(v => v.x == i && v.y == j))
                 {
                     list.Add(matrix[i, j]);
@@ -89,7 +89,7 @@ public class WFCSolver
                 }
 
                 Vector2Int[] dir = { new Vector2Int(1, 0), new Vector2Int(0, 1), new Vector2Int(-1, 0), new Vector2Int(0, -1) };
-                var neighbors = new List<WFCTile>[4];
+                var neighbors = new List<TileConections>[4];
                 for(int k = 0; k < dir.Length; k++)
                 {
                     try
@@ -111,9 +111,9 @@ public class WFCSolver
         return undefinedMatrix;
     }
 
-    public List<WFCTile> SolveTile(List<WFCTile> samples, List<WFCTile>[] neighbors)
+    public List<TileConections> SolveTile(List<TileConections> samples, List<TileConections>[] neighbors)
     {
-        List<WFCTile> options = samples;
+        List<TileConections> options = samples;
 
         for(int i = 0; i < neighbors.Length; i++)
         {
@@ -124,11 +124,11 @@ public class WFCSolver
 
             int opposite = (i + (neighbors.Length / 2)) % neighbors.Length;
 
-            WFCTile tile = null;
+            TileConections tile = null;
             foreach (var sample in samples)
             {
                 tile = sample;
-                if (!(neighbors[i].Any(t => t.tags[i] == sample.tags[opposite])))
+                if (!(neighbors[i].Any(t => t.GetConnection(i) == sample.GetConnection(i))))
                 {
                     options.Remove(tile);
                 }

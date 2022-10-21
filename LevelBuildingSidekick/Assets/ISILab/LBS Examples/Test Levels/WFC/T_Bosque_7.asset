@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4ba1f009dd5df04c89ff08d112e7684, type: 3}
+  m_Name: T_Bosque_7
+  m_EditorClassIdentifier: 
+  tile: {fileID: 2878849239795905248, guid: 0caa0d3363b65a34984792da424c32fc, type: 3}
+  connection:
+  - grass
+  - grass
+  - grass
+  - grass
