@@ -88,8 +88,11 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
 
         var pivot = CreatePivot();
         distance.RegisterValueChangedCallback((e)=> { pivot.SetDistanceCam(e.newValue); });
+        pivot.SetDistanceCam(distance.value);
         rotation.RegisterValueChangedCallback((e) => { pivot.SetRotateCam(e.newValue); });
+        pivot.SetRotateCam(rotation.value);
         labelDist.RegisterValueChangedCallback((e) => { pivot.LabelDist(e.newValue); });
+        pivot.LabelDist(labelDist.value);
         SelectPref += pivot.SetPref;
 
     }
