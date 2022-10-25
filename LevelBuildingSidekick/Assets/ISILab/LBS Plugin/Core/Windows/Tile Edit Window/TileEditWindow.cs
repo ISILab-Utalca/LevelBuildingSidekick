@@ -126,10 +126,7 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
                     v += 2;
 
                 for (int k = 0; k < v; k++)
-                {
                     go.transform.Rotate(new Vector3(0, 1, 0),90);
-                }
-                
             }
         }
         //Print(map);
