@@ -36,13 +36,18 @@ namespace LBS.Manipulators
                 return;
 
             var pos = controller.ViewportMousePosition(e.localMousePosition);
+            //Ugly Fix(!)
+            int dy = pos.y < 0 ? -1 : 0;
+            int dx = pos.x < 0 ? -1 : 0;
+            var dp = new Vector2Int(dx,dy);
+
             var tPos = controller.ToTileCoords(pos);
             var stamps = LBSController.CurrentLevel.data.GetRepresentation<LBSStampGroupData>();
-            var stamp = new StampData(selected.Label, tPos);
+            var stamp = new StampData(selected.Label, tPos + dp);
             stamps.AddStamp(stamp);
             window.RefreshView();
             //controller.CreateStamp(e.localMousePosition, window.MainView, selected);
-
+            Debug.Log("No Aquí");
         }
     }
 }
