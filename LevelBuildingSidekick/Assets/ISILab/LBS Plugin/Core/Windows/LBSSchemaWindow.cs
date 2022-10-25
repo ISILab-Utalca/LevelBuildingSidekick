@@ -28,6 +28,7 @@ namespace LBS.Windows
         {
             var generator = new PhysicStepGenerator();
 
+
             actions.Add(new System.Tuple<string, System.Action>(
                 "Generate 3D",
                 () => {
@@ -56,7 +57,10 @@ namespace LBS.Windows
         {
             var data = LBSController.CurrentLevel.data; // peligroso buscar otra forma (!)
             var tileData = data.GetRepresentation<LBSTileMapData>();
-            AddController(new LBSTileMapController(MainView, tileData));
+            var c = new LBSTileMapController(MainView, tileData);
+            AddController(c);
+            //tileData = c.RecalculateDoors(tileData);
+            //LBSController.CurrentLevel.data.AddRepresentation(tileData);
         }
     }
 }
