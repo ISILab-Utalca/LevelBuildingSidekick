@@ -84,33 +84,34 @@ public class StampTileMapChromosome : ChromosomeBase2D<int>, IDrawable
 
     public override Texture2D ToTexture()
     {
-        int width = MatrixWidth * tileSize;
-        int height = (Length / MatrixWidth) * tileSize;
+        int width = MatrixWidth;
+        int height = (Length / MatrixWidth);
 
-        Texture2D texture = new Texture2D(width, height);
+        Texture2D texture = new Texture2D(width * tileSize, height * tileSize);
 
-        Texture2D empty = new Texture2D(1,1);
-        empty.SetPixel(0, 0, new Color(0,0,0,0));
+        Texture2D empty = new Texture2D(1, 1);
+        empty.SetPixel(0, 0, new Color(0, 0, 0, 0));
         empty.Apply();
 
-        string s = "";
-
-        for(int i = 0; i < Length; i++)
+        for (int j = 0; j < height; j++)
         {
-            var pos = ToMatrixPosition(i);
-            var id = GetGene<int>(i);
-            if (id == -1)
+            for (int i = 0; i < width; i++)
             {
-                texture.InsertTextureInRect(empty, (int)pos.x * tileSize, (int)pos.y * tileSize, tileSize, tileSize);
-            }
-            else
-            {
-                var t = DirectoryTools.GetScriptable<StampPresset>(stamps[id].Label).Icon;
-                texture.InsertTextureInRect(t, (int)pos.x*tileSize, (int)pos.y*tileSize, tileSize, tileSize);
+                var index = ToIndex(new Vector2(i, j));
+                var id = GetGene<int>(index);
+                if (id == -1)
+                {
+                    texture.InsertTextureInRect(empty, i * tileSize, (height - 1 - j) * tileSize, tileSize, tileSize);
+                }
+                else
+                {
+                    var t = DirectoryTools.GetScriptable<StampPresset>(stamps[id].Label).Icon;
+                    texture.InsertTextureInRect(t, i * tileSize, (height - 1 - j) * tileSize, tileSize, tileSize);
+                }
             }
         }
+        texture.Apply(); 
 
-        texture.Apply();
         return texture;
     }
 }
