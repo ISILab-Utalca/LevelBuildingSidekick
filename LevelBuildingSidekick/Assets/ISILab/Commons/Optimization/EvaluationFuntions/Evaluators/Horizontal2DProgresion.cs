@@ -8,7 +8,7 @@ public class Horizontal2DProgresion : Progression2DEvaluator
 {
     public override string GetName()
     {
-        return "Horizontal 2D progresion fitness";
+        return "Progression: Horizontal 2D";
     }
 
     public override VisualElement CIGUI()
@@ -18,6 +18,7 @@ public class Horizontal2DProgresion : Progression2DEvaluator
 
     public override float EvaluateProgression(StampTileMapChromosome stmc, int id, int height)
     {
+        int[] ocurrences = new int[stmc.MatrixWidth];
         float p = 0;
         int prev = 0;
         int max = 0;
@@ -32,20 +33,20 @@ public class Horizontal2DProgresion : Progression2DEvaluator
                     current++;
                 }
             }
-            if (current >= max)
-            {
-                max = current;
-                p++;
-            }
-
-            if (current > prev)
-            {
-                p++;
-            }
-            prev = current;
+            ocurrences[i] = current;
         }
 
-        p /= 2 * stmc.MatrixWidth;
+        for (int i = 1; i < ocurrences.Length; i++)
+        {
+            if(ocurrences[i] > ocurrences[i-1])
+            {
+                p++;
+            }
+        }
+
+
+        p /= stmc.MatrixWidth;
+
 
         return Mathf.Clamp(p, MinValue, MaxValue);
     }
