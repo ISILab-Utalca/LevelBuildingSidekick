@@ -19,7 +19,6 @@ public class StampPresenceEvaluator : IRangedEvaluator
 
     public StampPresenceEvaluator()
     {
-        this.stamp = null;
     }
 
     public StampPresenceEvaluator(StampPresset stamp)
@@ -45,7 +44,7 @@ public class StampPresenceEvaluator : IRangedEvaluator
 
         var index = stmc.stamps.FindIndex(s => s.Label == stamp.Label);
 
-        var data = stmc.GetDataSquence<int>();
+        var data = stmc.GetGenes<int>();
         foreach (var i in data)
         {
             if(index == i)
@@ -53,6 +52,8 @@ public class StampPresenceEvaluator : IRangedEvaluator
                 presence++;
             }
         }
+        presence /= data.Length;
+
         return Mathf.Clamp(presence,MinValue,MaxValue);
     }
 
@@ -75,7 +76,7 @@ public class StampPresenceEvaluator : IRangedEvaluator
         ObjectField of = new ObjectField("Stamp: ");
         of.objectType = typeof(StampPresset);
         of.value = stamp;
-        of.RegisterCallback<ChangeEvent<StampPresset>>((e) => stamp = e.newValue);
+        of.RegisterValueChangedCallback((e) => stamp = e.newValue as StampPresset);
 
         content.Add(v2);
         content.Add(of);
