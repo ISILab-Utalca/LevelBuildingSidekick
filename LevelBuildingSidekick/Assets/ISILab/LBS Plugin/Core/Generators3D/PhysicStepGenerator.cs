@@ -40,7 +40,7 @@ namespace LBS.Generator
                     var pivot = new GameObject();
                     pivot.transform.SetParent(mainPivot.transform);
                     //var tSize = LBSController.CurrentLevel.data.TileSize;
-                    pivot.transform.position = new Vector3(tile.GetPosition().x, 0, tile.GetPosition().y) * (tileSize); // (* vector de tamaño de tile en mundo) (!)
+                    pivot.transform.position = new Vector3(tile.GetPosition().x, 0, -tile.GetPosition().y) * (tileSize); // (* vector de tamaño de tile en mundo) (!)
 
                     var cBundle = bundle.GetCategories().Where(c => c.pivotType == PivotType.Center).ToList();
                     var eBundle = bundle.GetCategories().Where(c => c.pivotType == PivotType.Edge).ToList();
@@ -74,7 +74,7 @@ namespace LBS.Generator
             var tSize = LBSController.CurrentLevel.data.TileSize;
             var mag = (wThic + tSize) * 0.5f;
             dir = dir.normalized;
-            var d = new Vector3(dir.x * mag, 0, dir.y * mag);
+            var d = new Vector3(dir.x * mag, 0, -dir.y * mag);
             go.transform.position += d;
             var a = go.transform.position - pivot.transform.position;
             go.transform.LookAt(a + go.transform.position,Vector3.up);
