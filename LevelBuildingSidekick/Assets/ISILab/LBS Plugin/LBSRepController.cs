@@ -68,6 +68,11 @@ public abstract class LBSRepController<T> : IRepController where T : LBSRepesent
         elements.ForEach(e =>  e.style.opacity = v ? new StyleFloat(0.1f): new StyleFloat(1f));
         // desactiva la interacion con los objetos correspondientes a este controlador
     }
+
+    public void Clear()
+    {
+        data.Clear();
+    }
 }
 
 public interface IRepController
@@ -79,4 +84,6 @@ public interface IRepController
     public void ShowView(bool v);
     public string GetName();
     public Vector2 ViewportMousePosition(Vector2 pos);
+
+    public void Clear();
 }
