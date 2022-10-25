@@ -102,6 +102,8 @@ public class LBSStampTileMapController : LBSStampController, ITileMap, IChromoso
         var x = data.GetStamps().Min(s => s.Position.x);
         var y = data.GetStamps().Min(s => s.Position.y);
 
+        var dp = new Vector2Int(x,y);
+
         data.Clear();
 
         var genome = chromosome.GetGenes<int>();
@@ -111,7 +113,7 @@ public class LBSStampTileMapController : LBSStampController, ITileMap, IChromoso
         {
             if (genome[i] == -1)
                 continue;
-            var pos = chrom.ToMatrixPosition(i);
+            var pos = chrom.ToMatrixPosition(i) + dp;
             var stamp = new StampData();
             stamp.Position = pos;
             stamp.Label = chrom.stamps[genome[i]].Label;
