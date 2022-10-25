@@ -58,6 +58,18 @@ namespace LBS.Transformers
                 closed.Add(parent);
             }
 
+            var tiles = tileMap.GetRooms().SelectMany(r => r.Tiles);
+
+            var x = tiles.Min(t => t.GetPosition().x);
+            var y = tiles.Min(t => t.GetPosition().y);
+
+            var dp = new Vector2Int(x,y);
+
+            foreach(var t in tiles)
+            {
+                t.SetPosition(t.GetPosition() - dp);
+            }
+
             return tileMap;
         }
     }
