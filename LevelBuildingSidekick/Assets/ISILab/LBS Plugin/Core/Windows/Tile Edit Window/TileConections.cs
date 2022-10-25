@@ -14,7 +14,7 @@ public class TileConections : ScriptableObject
 
     public string GetConnection(int n)
     {
-        return connection[n];
+        return connection[n]; // rigth,bot,left,top
     }
 
     public void SetConnection(int n, string value)

@@ -64,10 +64,10 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("TileEditWindowUXML");
         visualTree.CloneTree(root);
 
-        this.dropdowns[0] = root.Q<DropdownField>("A");
-        this.dropdowns[1] = root.Q<DropdownField>("B");
-        this.dropdowns[2] = root.Q<DropdownField>("C");
-        this.dropdowns[3] = root.Q<DropdownField>("D");
+        this.dropdowns[3] = root.Q<DropdownField>("Top");
+        this.dropdowns[0] = root.Q<DropdownField>("Right");
+        this.dropdowns[1] = root.Q<DropdownField>("Bottom");
+        this.dropdowns[2] = root.Q<DropdownField>("Left");
         ShowDropdown(false);
         
 
@@ -83,6 +83,7 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
         this.generateMaoBtn = root.Q<Button>("GenerateButton");
         generateMaoBtn.clicked += () => GenerateMap(SolveMap());
         this.mapSize = root.Q<Vector2IntField>("mapSize");
+        this.tileSize = root.Q<FloatField>("tileSize");
 
         ActualizeView();
 
@@ -97,26 +98,62 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
 
     }
 
-    public TileConections[,] SolveMap()
+    public TileConnectWFC[,] SolveMap()
     {
         var samples = DirectoryTools.GetScriptables<TileConections>();
-        TileConections[,] tileColection = new TileConections[mapSize.value.x, mapSize.value.y];
-        return solverWFC.Solve(samples,tileColection);
+        var x = new TileConnectWFC[mapSize.value.x, mapSize.value.y];
+        return solverWFC.Solve(samples,x);
     }
 
-    public void GenerateMap(TileConections[,] map)
+    public void GenerateMap(TileConnectWFC[,] map)
     {
         var pivot = new GameObject();
         for (int i = 0; i < map.GetLength(0); i++)
         {
             for (int j = 0; j < map.GetLength(1); j++)
             {
-                // falta ponerle la rotacion correcta (!!!!!)
-                var t = SceneView.Instantiate(map[i, j].Tile, pivot.transform);
-                t.transform.position *= tileSize.value;
+                if(map[i,j] == null)
+                {
+                    continue;
+                }
+
+                var pref = map[i, j].Tile.Tile;
+                var go = SceneView.Instantiate(pref, pivot.transform);
+                go.transform.position = new Vector3(i,0,-j) * tileSize.value;
+                
+                var v = map[i, j].Rotation;
+                if (v % 2 != 0) // parche, no quitar (!!!)
+                    v += 2;
+
+                for (int k = 0; k < v; k++)
+                {
+                    go.transform.Rotate(new Vector3(0, 1, 0),90);
+                }
+                
             }
         }
+        //Print(map);
     }
+
+    public void Print(TileConnectWFC[,] map)
+    {
+        string v = "";
+        for (int i = 0; i < map.GetLength(1); i++)
+        {
+            for (int k = 0; k < 3; k++)
+            {
+                for (int j = 0; j < map.GetLength(0); j++)
+                {
+                    v += map[j, i].Print(k);
+                    v += "   ";
+                }
+                v += "\n";
+            }
+            v += "\n";
+        }
+        Debug.Log(v);
+    }
+
 
     public void ShowDropdown(bool v)
     {

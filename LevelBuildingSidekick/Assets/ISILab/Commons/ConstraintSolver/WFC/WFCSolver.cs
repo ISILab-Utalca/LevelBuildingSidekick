@@ -1,68 +1,85 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using LBS;
 using System.Linq;
+using UnityEngine;
+
+public class TileConnectWFC
+{
+    private TileConections tile;
+    private int rotation; // max 3 (*90)
+
+    public TileConections Tile => tile;
+    public float Rotation => rotation; // el 90 puede ser parametrizado o calculado con el 4
+
+    public TileConnectWFC(TileConections tile, int rotation)
+    {
+        this.tile = tile;
+        this.rotation = rotation;
+    }
+
+    public string GetConnection(int n)
+    {
+        return tile.GetConnection((n + rotation) % 4); // el 4 puede ser un parametro (??)
+    }
+
+    public string Print(int i)
+    {
+        var s0 = GetConnection(0)[0] == 'p' ? 'O' : 'X';
+        var s1 = GetConnection(1)[0] == 'p' ? 'O' : 'X';
+        var s2 = GetConnection(2)[0] == 'p' ? 'O' : 'X';
+        var s3 = GetConnection(3)[0] == 'p' ? 'O' : 'X';
+        var c = rotation;//(new List<char> { s0, s1, s2, s3 }).Contains('O') ? 'O' : 'X';
+        if (i == 0)
+        {
+            return ("X " + s3 + " X");
+        } 
+        else if (i == 1)
+        {
+            return (s2 + " " + c + " " + s0);
+        }
+        else if (i == 2)
+        {
+            return ("X " + s1 + " X");
+        }
+        return "";
+    }
+}
 
 public class WFCSolver
 {
     public static WFCTags tags;
-    
-    public TileConections[,] Solve(List<TileConections> samples, TileConections[,] matrix, Vector2Int[] locked = null)
+
+    // samples son las piezas que se puden utilizar
+    // tilw conection ?
+    // locked ? (sobra)
+    public TileConnectWFC[,] Solve(List<TileConections> samples, TileConnectWFC[,] matrix, Vector2Int[] locked = null)
     {
         int width = matrix.GetLength(0);
         int height = matrix.GetLength(1);
-        List<TileConections>[,] undefinedMatrix = new List<TileConections>[width, height];
+        List<TileConnectWFC>[,] undefinedMatrix = InitUndefMatrix(samples, matrix);
 
-        if(locked == null)
+        if (locked == null)
         {
             locked = new Vector2Int[0];
         }
 
-        int prevCounter = 0;
-        int counter = 0;
-
-        while(prevCounter != matrix.Length) // Termination should be done with ITermination (!)
+        while (!IsDefined(undefinedMatrix))
         {
-            //Can stuck the program in stagnation loop
-
-            do
-            {
-                prevCounter = counter;
-                counter = 0;
-                undefinedMatrix = CollapseOnce(samples, matrix, locked);
-                foreach (var list in undefinedMatrix)
-                {
-                    counter += list.Count;
-                }
-            }
-            while (prevCounter != counter);
-
-            foreach(var list in undefinedMatrix)
-            {
-                //Collapse One Tile -> Should be done with ISelection (!)
-                if(list.Count > 1)
-                {
-                    var sample = list[Random.Range(0, list.Count)];
-                    list.Clear();
-                    list.Add(sample);
-                }
-            }
+            undefinedMatrix = Collapse(undefinedMatrix);
         }
 
-        TileConections[,] definedMatrix = new TileConections[width, height];
-
-        for (int j = 0; j < height; j++)
+        var definedMatrix = new TileConnectWFC[width,height];
+        for (int i = 0; i < width; i++)
         {
-            for (int i = 0; i < width; j++)
+            for (int j = 0; j < height; j++)
             {
-                if (undefinedMatrix[i,j].Count == 1)
+            
+                if (undefinedMatrix[i, j].Count == 1)
                 {
                     definedMatrix[i, j] = undefinedMatrix[i, j][0];
                 }
                 else
                 {
-                    Debug.LogError("Error Somewhere in WFC");
+                    definedMatrix[i, j] = null;
                 }
             }
         }
@@ -70,71 +87,194 @@ public class WFCSolver
         return definedMatrix;
     }
 
-    public List<TileConections>[,] CollapseOnce(List<TileConections> samples, TileConections[,] matrix, Vector2Int[] locked = null)
+    private bool IsDefined(List<TileConnectWFC>[,] matrix)
     {
-        int width = matrix.GetLength(0);
-        int height = matrix.GetLength(1);
-        List<TileConections>[,] undefinedMatrix = new List<TileConections>[width, height];
-
-        for(int j = 0; j < height; j++)
+        for (int i = 0; i < matrix.GetLength(0); i++)
         {
-            for (int i = 0; i < width; j++)
+            for (int j = 0; j < matrix.GetLength(1); j++)
             {
-                var list = new List<TileConections>();
-                if(locked != null && locked.Any(v => v.x == i && v.y == j))
+                if(matrix[i,j].Count > 1)
                 {
-                    list.Add(matrix[i, j]);
-                    undefinedMatrix[i, j] = list;
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private List<TileConnectWFC>[,] InitUndefMatrix(List<TileConections> samples, TileConnectWFC[,] matrix)
+    {
+        var prev = new List<TileConnectWFC>[matrix.GetLength(0), matrix.GetLength(1)];
+
+        for (int i = 0; i < prev.GetLength(0); i++)
+        {
+            for (int j = 0; j < prev.GetLength(1); j++)
+            {
+                if (matrix[i,j] != null)
+                {
+                    prev[i, j] = new List<TileConnectWFC>() { matrix[i, j] };
+                }
+                else
+                {
+                    var sampleWFC = GenerateRotateSamples(samples, 4); // el 4 podria estar parametrizado (?)
+                    prev[i, j] = new List<TileConnectWFC>(sampleWFC);
+                }
+            }
+        }
+        return prev;
+    }
+
+    private List<TileConnectWFC> GenerateRotateSamples(List<TileConections> sample, int maxRotation)
+    {
+        var toReturn = new List<TileConnectWFC>();
+        for (int i = 0; i < maxRotation; i++)
+        {
+            for (int j = 0; j < sample.Count; j++)
+            {
+                toReturn.Add(new TileConnectWFC(sample[j], i));
+            }
+        }
+        return toReturn;
+    }
+
+    private List<TileConnectWFC>[,] Collapse(List<TileConnectWFC>[,] undefMatrix)
+    {
+        var toReturn = undefMatrix;//new List<TileConnectWFC>[undefMatrix.GetLength(0), undefMatrix.GetLength(1)];
+        var preValue = 0;
+        var posValue = 0;
+        var scape = 0;
+        do 
+        {
+            preValue = Posibilities(toReturn);
+            for (int i = 0; i < toReturn.GetLength(0); i++)
+            {
+                for (int j = 0; j < toReturn.GetLength(1); j++)
+                {
+                    var odds = new List<TileConnectWFC>(undefMatrix[i, j]);
+                    var neighbors = GetNeighbors(i, j, undefMatrix);
+
+                    toReturn[i, j] = GetCompatibles(odds, neighbors);
+                }
+            }
+            posValue = Posibilities(toReturn);
+            scape++;
+        } while (preValue > posValue && scape < 1000);
+
+        toReturn = CollapseOnce(toReturn);
+        return toReturn;
+    }
+
+    private int Posibilities(List<TileConnectWFC>[,] matrix)
+    {
+        var value = 0;
+        for (int i = 0; i < matrix.GetLength(0); i++)
+        {
+            for (int j = 0; j < matrix.GetLength(1); j++)
+            {
+                value += matrix[i, j].Count;
+            }
+        }
+        return value;
+    }
+
+    // colapsa uno aleatorio
+    private List<TileConnectWFC>[,] CollapseOnce(List<TileConnectWFC>[,] undefMatrix) // ref (??)
+    {
+        if (IsDefined(undefMatrix))
+            return undefMatrix;
+
+        var toDef = new List<Vector2Int>();
+        var v = int.MaxValue;
+        for (int i = 0; i < undefMatrix.GetLength(0); i++)
+        {
+            for (int j = 0; j < undefMatrix.GetLength(1); j++)
+            {
+                if (undefMatrix[i, j].Count() <= 1)
+                {
                     continue;
                 }
 
-                Vector2Int[] dir = { new Vector2Int(1, 0), new Vector2Int(0, 1), new Vector2Int(-1, 0), new Vector2Int(0, -1) };
-                var neighbors = new List<TileConections>[4];
-                for(int k = 0; k < dir.Length; k++)
+                if (undefMatrix[i, j].Count() < v)
                 {
-                    try
-                    {
-                        neighbors[i] = undefinedMatrix[i + dir[k].x, j + dir[k].y];
-                    }
-                    catch
-                    {
-                        neighbors[i] = null;
-                    }
+                    toDef.Clear();
+                    toDef.Add(new Vector2Int(i, j));
+                    v = undefMatrix[i, j].Count();
                 }
-
-                list = SolveTile(samples, neighbors);
-
-                undefinedMatrix[i, j] = list;
+                else if(undefMatrix[i, j].Count() == v)
+                {
+                    toDef.Add(new Vector2Int(i, j));
+                }
             }
         }
 
-        return undefinedMatrix;
+        var pos = toDef[Random.Range(0, toDef.Count())];
+        var undefTile = undefMatrix[pos.x, pos.y];
+        undefMatrix[pos.x, pos.y] = new List<TileConnectWFC>() { undefTile[Random.Range(0, undefTile.Count())] };
+        return undefMatrix;
     }
 
-    public List<TileConections> SolveTile(List<TileConections> samples, List<TileConections>[] neighbors)
+    private List<TileConnectWFC> GetCompatibles(List<TileConnectWFC> odds, List<TileConnectWFC>[] neighbors)
     {
-        List<TileConections> options = samples;
-
-        for(int i = 0; i < neighbors.Length; i++)
+        var toReturn = new List<TileConnectWFC>(odds);
+        int dir = 0;
+        var temp = new List<TileConnectWFC>[neighbors.Length];
+        foreach (var neigh in neighbors)
         {
-            if(neighbors[i] == null || neighbors[i].Count == 0)
+            temp[dir] = new List<TileConnectWFC>();
+            if (neigh == null || neigh.Count <= 0)
             {
+                temp[dir] = new List<TileConnectWFC>(odds);
+                dir++;
                 continue;
             }
 
-            int opposite = (i + (neighbors.Length / 2)) % neighbors.Length;
+            var otherDir = (int)(dir + (neighbors.Count() / 2f)) % neighbors.Count();
+            temp[dir] = new List<TileConnectWFC>(odds).Where(o => CheckCompatible(o, dir, neigh, otherDir)).ToList();
+            dir++;
+        }
 
-            TileConections tile = null;
-            foreach (var sample in samples)
-            {
-                tile = sample;
-                if (!(neighbors[i].Any(t => t.GetConnection(i) == sample.GetConnection(i))))
-                {
-                    options.Remove(tile);
-                }
-            }
-        } 
-
-        return options;
+        for (int i = 0; i < temp.Count(); i++)
+        {
+            toReturn = toReturn.Intersect(temp[i]).ToList();
+        }
+        return toReturn;
     }
+
+    private bool CheckCompatible(TileConnectWFC tile, int tileDir, List<TileConnectWFC> other, int otherDir)
+    {
+        var t = tile.GetConnection(tileDir);
+        var o = new List<string>();
+        foreach (var os in other)
+        {
+            var s = os.GetConnection(otherDir);
+            if(s == t)
+            {
+                return true;
+            }
+        }
+        return false;
+
+        //var ooo = other.Select(o => o.GetConnection(otherDir)).ToList();
+        //return o.Contains(t);
+    }
+
+    private List<TileConnectWFC>[] GetNeighbors(int x,int y, List<TileConnectWFC>[,] matrix)
+    {
+        Vector2Int[] dir = { new Vector2Int(1, 0), new Vector2Int(0, 1), new Vector2Int(-1, 0), new Vector2Int(0, -1) };
+        var neighbors = new List<TileConnectWFC>[dir.Length];
+        for (int i = 0; i < dir.Length; i++)
+        {
+            var posX = x + dir[i].x;
+            var posY = y + dir[i].y;
+            if (posX >= matrix.GetLength(0) || posX < 0 || posY >= matrix.GetLength(1) || posY < 0)
+            {
+                neighbors[i] = null;
+                continue;
+            }
+
+            neighbors[i] = new List<TileConnectWFC>(matrix[posX, posY]);
+        }
+        return neighbors;
+    }
+
 }

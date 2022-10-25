@@ -15,6 +15,6 @@ MonoBehaviour:
   tile: {fileID: 2728034937134865143, guid: c9838b11134b21440905e83ee33fdaaa, type: 3}
   connection:
   - path
-  - grass
-  - grass
+  - path
+  - path
   - path
