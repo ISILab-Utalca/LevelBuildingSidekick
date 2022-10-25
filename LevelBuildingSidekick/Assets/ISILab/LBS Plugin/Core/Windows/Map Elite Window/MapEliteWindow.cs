@@ -26,7 +26,7 @@ namespace LBS.Windows
 
         private MapElites mapElites;
 
-        public int ButtonSize = 192; //Should be a RangeSlider field(!!!)
+        public int ButtonSize = 128; //Should be a RangeSlider field(!!!)
 
         public GenericGraphWindow mainView;
 
@@ -145,7 +145,13 @@ namespace LBS.Windows
                 var b = new ButtonWrapper(null, new Vector2(ButtonSize, ButtonSize));
                 b.text = (i + 1).ToString();
                 b.style.backgroundImage = defaultButton;
-                b.clicked += () => { if (b.Data != null) (mainView.CurrentController as IChromosomable).FromChromosome(b.Data as IChromosome); };
+                b.clicked += () => 
+                { 
+                    if (b.Data != null)
+                    {
+                        (mainView.CurrentController as IChromosomable).FromChromosome(b.Data as IChromosome);
+                    } 
+                };
                 Content[i] = b;
                 Container.Add(b);
             }
@@ -153,7 +159,6 @@ namespace LBS.Windows
 
         public void UpdateSample(Vector2Int coords)
         {
-            Debug.Log("Coords: " + coords);
             var index = (coords.y * mapElites.XSampleCount + coords.x);
             Content[index].Data = mapElites.BestSamples[coords.x, coords.y];
         }
