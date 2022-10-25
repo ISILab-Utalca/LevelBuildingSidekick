@@ -47,7 +47,7 @@ public class MapElites
     Action OnSampleSizeChanged;
 
     [Range(0, 0.5f)]
-    public double threshold;
+    public double devest = 0.5;
 
     public IEvaluable Adam { get; set; }
     public IEvaluable[,] BestSamples { get; private set; }
@@ -115,7 +115,7 @@ public class MapElites
         yEvaluator = null;
         xSampleCount = 5;
         ySampleCount = 5;
-        threshold = 0.25;
+        devest = 0.5;
         BestSamples = new IEvaluable[xSampleCount, ySampleCount];
     }
 
@@ -125,7 +125,7 @@ public class MapElites
         this.yEvaluator = yEvaluator;
         xSampleCount = 5;
         ySampleCount = 5;
-        threshold = 0.25;
+        devest = 0.5;
         BestSamples = new IEvaluable[xSampleCount, ySampleCount];
     }
 
@@ -143,27 +143,32 @@ public class MapElites
         float xStep = Mathf.Abs(XEvaluator.MaxValue - XEvaluator.MinValue) / XSampleCount;
         float yStep = Mathf.Abs(YEvaluator.MaxValue - YEvaluator.MinValue) / YSampleCount;
 
-        for (int j = 0; j < YSampleCount; j++)
+        foreach (var me in evaluables)
         {
-            for(int i = 0; i < XSampleCount; i++)
+            var xPos = (me.xFitness - XEvaluator.MinValue) / xStep;
+            var yPos = (me.yFitness - YEvaluator.MinValue) / yStep;
+
+
+            var tileXPos = (int)xPos;
+            var tileYPos = (int)yPos;
+
+            var dx = Mathf.Abs(0.5f - (xPos - tileXPos));
+            var dy = Mathf.Abs(0.5f - (yPos - tileYPos));
+
+
+            if (dx <= devest && dy <= devest)
             {
-                var dist = (xStep + yStep)*threshold;
-                foreach(var me in evaluables)
-                {
-                    var d = Mathf.Abs(xStep * i - me.xFitness) + Mathf.Abs(yStep * j - me.yFitness);
-                    if (d < dist)
-                    {
-                        dist = d;
-                        UpdateSample(i, j, me.evaluable);
-                    }
-                }
+                tileXPos = tileXPos >= XSampleCount ? tileXPos - 1 : tileXPos;
+                tileYPos = tileYPos >= YSampleCount ? tileYPos - 1 : tileYPos;
+                UpdateSample(tileXPos, tileYPos, me.evaluable);
             }
+
+            //Debug.Log(xPos + " - " + yPos);
         }
     }
 
     public bool UpdateSample(int x, int y, IEvaluable evaluable)
     {
-        Debug.Log("Kyaaaa");
         if (BestSamples[x,y] == null)
         {
             BestSamples[x, y] = evaluable;
