@@ -112,10 +112,12 @@ namespace LBS.Windows
 
         public void Run()
         {
+            Clear();
             if(!(mainView.CurrentController is IChromosomable))
             {
                 return;
             }
+
             mapElites.Adam = (mainView.CurrentController as IChromosomable).ToChromosome();
             mapElites.Run();
         }
@@ -143,6 +145,7 @@ namespace LBS.Windows
                 var b = new ButtonWrapper(null, new Vector2(ButtonSize, ButtonSize));
                 b.text = (i + 1).ToString();
                 b.style.backgroundImage = defaultButton;
+                b.clicked += () => { if (b.Data != null) (mainView.CurrentController as IChromosomable).FromChromosome(b.Data as IChromosome); };
                 Content[i] = b;
                 Container.Add(b);
             }
@@ -150,9 +153,18 @@ namespace LBS.Windows
 
         public void UpdateSample(Vector2Int coords)
         {
+            Debug.Log("Coords: " + coords);
             var index = (coords.y * mapElites.XSampleCount + coords.x);
             Content[index].Data = mapElites.BestSamples[coords.x, coords.y];
-            Debug.Log("index: " + index);
+        }
+
+        public void Clear()
+        {
+            foreach(ButtonWrapper bw in Content)
+            {
+                bw.style.backgroundImage = defaultButton;
+                bw.Data = null;
+            }
         }
     }
 }
