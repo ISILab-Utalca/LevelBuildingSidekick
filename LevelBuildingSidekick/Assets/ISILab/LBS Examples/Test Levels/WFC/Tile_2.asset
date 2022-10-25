@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tile: {fileID: 1466049723841294769, guid: 4001682b4dd4b8d4f96d8f2f36eacc59, type: 3}
   connection:
-  - grass
   - path
   - grass
   - path
+  - grass
