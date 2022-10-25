@@ -20,9 +20,9 @@ public abstract class ChromosomeBase2D<T> : ChromosomeBase<T>, ITileMap
         return (int)(pos.y * MatrixWidth + pos.x);
     }
 
-    public Vector2 ToMatrixPosition(int index)
+    public Vector2Int ToMatrixPosition(int index)
     {
-        return new Vector2(index % MatrixWidth, index / MatrixWidth);
+        return new Vector2Int(index % MatrixWidth, index / MatrixWidth);
     }
 
     public Vector2Int ToTileCoords(Vector2 position)
