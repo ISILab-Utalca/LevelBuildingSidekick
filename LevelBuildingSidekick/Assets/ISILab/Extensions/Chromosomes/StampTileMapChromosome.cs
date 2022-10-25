@@ -17,39 +17,57 @@ public class StampTileMapChromosome : ChromosomeBase2D<int>, IDrawable
 
         tileSize = (int)stampController.TileSize;
 
-        var x1 = rawStamps.Min(s => stampController.ToTileCoords(s.Position).x);
-        var x2 = rawStamps.Max(s => stampController.ToTileCoords(s.Position).x);
+        var x1 = rawStamps.Min(s => s.Position.x);
+        var x2 = rawStamps.Max(s => s.Position.x);
 
-        var y1 = rawStamps.Min(s => stampController.ToTileCoords(s.Position).y);
-        var y2 = rawStamps.Max(s => stampController.ToTileCoords(s.Position).y);
+        var y1 = rawStamps.Min(s => s.Position.y);
+        var y2 = rawStamps.Max(s => s.Position.y);
 
         int width = (x2 - x1) + 1;
         int height = (y2 - y1) + 1;
 
-        var size = new Vector2(width, height);
+
+        var size = new Vector2Int(width, height);
         var offset = new Vector2(x1, y1);
 
-        Resize((int)(size.y * size.x));
+        Resize(size.y * size.x);
 
         MatrixWidth = (int)size.x;
 
-        stamps = rawStamps.Distinct().ToList();
+        List<string> reviwed = new List<string>();
+        stamps = rawStamps.Where(s =>
+        {
+            if(reviwed.Contains(s.Label))
+            {
+                return false;
+            }
+            reviwed.Add(s.Label);
+            return true;
+        }).ToList();
 
         for(int i = 0; i < Length; i++)
         {
             ReplaceGene(i, -1);
         }
 
+        Debug.Log(Length);
+
         foreach (var stamp in rawStamps)
         {
-            var index = ToIndex(stampController.ToTileCoords(stamp.Position) - offset);
+            var index = ToIndex(stamp.Position - offset);
             ReplaceGene(index, stamps.FindIndex(s => s == stamp));
         }
+
     }
 
     public StampTileMapChromosome(int length, int matrixWidth, List<StampData> stamps) : base(length, matrixWidth)
     {
         this.stamps = stamps.Select(s => s).ToList();
+        for (int i = 0; i < Length; i++)
+        {
+            ReplaceGene(i, -1);
+        }
+
     }
         
     public override IChromosome CreateNewChromosome()
@@ -79,18 +97,14 @@ public class StampTileMapChromosome : ChromosomeBase2D<int>, IDrawable
 
         for(int i = 0; i < Length; i++)
         {
-            if (i % MatrixWidth == 0)
-                s += "\n";
             var pos = ToMatrixPosition(i);
             var id = GetGene<int>(i);
             if (id == -1)
             {
-                s += "0";
                 texture.InsertTextureInRect(empty, (int)pos.x * tileSize, (int)pos.y * tileSize, tileSize, tileSize);
             }
             else
             {
-                s += "1";
                 var t = DirectoryTools.GetScriptable<StampPresset>(stamps[id].Label).Icon;
                 texture.InsertTextureInRect(t, (int)pos.x*tileSize, (int)pos.y*tileSize, tileSize, tileSize);
             }
