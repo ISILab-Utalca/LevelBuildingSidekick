@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
+using System;
 
 // public class LBSPopulationController : LBSRepController<LBStile>, ITileMap
 public class LBSStampTileMapController : LBSStampController, ITileMap, IChromosomable
@@ -89,6 +90,33 @@ public class LBSStampTileMapController : LBSStampController, ITileMap, IChromoso
     public IChromosome ToChromosome()
     {
         return new StampTileMapChromosome(this);
+    }
+
+    public void FromChromosome(IChromosome chromosome)
+    {
+        if(!(chromosome is StampTileMapChromosome))
+        {
+            return;
+        }
+
+        var x = data.GetStamps().Min(s => s.Position.x);
+        var y = data.GetStamps().Min(s => s.Position.y);
+
+        data.Clear();
+
+        var genome = chromosome.GetGenes<int>();
+        var chrom = (chromosome as StampTileMapChromosome);
+
+        for(int i = 0; i < genome.Length; i++)
+        {
+            if (genome[i] == -1)
+                continue;
+            var pos = chrom.ToMatrixPosition(i);
+            var stamp = new StampData();
+            stamp.Position = pos;
+            stamp.Label = chrom.stamps[genome[i]].Label;
+            data.AddStamp(stamp);
+        }
     }
 }
 
