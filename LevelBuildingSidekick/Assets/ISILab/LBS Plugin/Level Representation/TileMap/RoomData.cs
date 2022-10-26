@@ -122,8 +122,8 @@ namespace LBS.Representation.TileMap
         internal RectInt GetRect()
         {
 
-            if (/*!dirty &&*/ rect != null)
-                return (RectInt)rect;
+            //if (/*!dirty &&*/ rect != null)
+            //    return (RectInt)rect;
 
             Vector2Int max = new Vector2Int(int.MinValue, int.MinValue);
             Vector2Int min = new Vector2Int(int.MaxValue, int.MaxValue);
@@ -146,8 +146,8 @@ namespace LBS.Representation.TileMap
 
         internal float GetRatio()
         {
-            if (/*!dirty &&*/ rect != null)
-                return ((RectInt)rect).width / ((RectInt)rect).height;
+           // if (/*!dirty &&*/ rect != null)
+           //     return ((RectInt)rect).width / ((RectInt)rect).height;
 
             rect = GetRect();
             return ((RectInt)rect).width / ((RectInt)rect).height;
@@ -155,8 +155,8 @@ namespace LBS.Representation.TileMap
 
         internal int GetWidth()
         {
-            if (/*!dirty &&*/ rect != null)
-                return ((RectInt)rect).width;
+            //if (/*!dirty &&*/ rect != null)
+            //    return ((RectInt)rect).width;
 
             rect = GetRect();
             return ((RectInt)rect).width;
@@ -164,8 +164,8 @@ namespace LBS.Representation.TileMap
 
         internal int GetHeight()
         {
-            if (/*!dirty &&*/ rect != null)
-                return ((RectInt)rect).height;
+            //if (/*!dirty &&*/ rect != null)
+            //    return ((RectInt)rect).height;
 
             rect = GetRect();
             return ((RectInt)rect).height;
@@ -173,8 +173,8 @@ namespace LBS.Representation.TileMap
 
         internal Vector2Int GetCentroid()
         {
-            if (/*!dirty &&*/ centroid != null)
-                return centroid;
+            //if (/*!dirty &&*/ centroid != null)
+            //    return centroid;
 
             Vector2Int center = new Vector2Int(0, 0);
             foreach (var t in tiles)

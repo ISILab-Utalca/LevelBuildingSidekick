@@ -219,7 +219,7 @@ namespace LBS.Representation.TileMap
                 switch (node.ProportionType)
                 {
                     case ProportionType.RATIO:
-                        value += EvaluateBtyRatio(node, room);
+                        value += EvaluateByRatio(node, room);
                         break;
                     case ProportionType.SIZE:
                         value += EvaluateBySize(node, room);
@@ -231,19 +231,44 @@ namespace LBS.Representation.TileMap
 
         public float EvaluateMap(LBSTileMapData schemaData, LBSGraphData graphData)
         {
-            float alfa = 0.84f;
-            float beta = 1 - alfa;
-            var adjacenceValue = EvaluateAdjacencies(graphData, schemaData) * alfa;
-            var areaValue = EvaluateAreas(graphData, schemaData) * beta;
-            return adjacenceValue + areaValue;
+            var evaluattions = new Tuple<Func<LBSGraphData, LBSTileMapData, float>, float>[]
+            {
+                new Tuple<Func<LBSGraphData, LBSTileMapData, float>,float>(EvaluateAdjacencies,0.5f),
+                new Tuple<Func<LBSGraphData, LBSTileMapData, float>,float>(EvaluateAreas,0.3f),
+                new Tuple<Func<LBSGraphData, LBSTileMapData, float>,float>(EvaluateEmptySpace,0.2f)
+            };
+
+
+            var value = 0f;
+            for (int i = 0; i < evaluattions.Count(); i++)
+            {
+                var action = evaluattions[i].Item1;
+                var weight = evaluattions[i].Item2;
+                value += (float) action?.Invoke(graphData, schemaData) * weight;
+            }
+
+            return value;
         }
 
-        private float EvaluateBtyRatio(RoomCharacteristicsData node, RoomData room)
+        private float EvaluateEmptySpace(LBSGraphData graphData, LBSTileMapData schemaData)
+        {
+            var value = 0f;
+            foreach (var room in schemaData.GetRooms())
+            {
+                var rectArea = room.GetRect().width * room.GetRect().height;
+                var tc = room.TilesCount;
+                value += 1 - (MathF.Abs(rectArea - tc) / (tc * 1f));
+            }
+
+            return value / (schemaData.RoomCount * 1f);
+        }
+
+        private float EvaluateByRatio(RoomCharacteristicsData node, RoomData room)
         {
             float current = room.GetRatio();
             float objetive = node.AspectRatio.width / (float)node.AspectRatio.heigth;
 
-            return 1 - (Mathf.Abs(objetive - current) / objetive);
+            return 1 - (Mathf.Abs(objetive - current) / (float)objetive);
         }
 
         private float EvaluateBySize(RoomCharacteristicsData node, RoomData room)
@@ -253,7 +278,7 @@ namespace LBS.Representation.TileMap
             {
                 var objetive = node.RangeWidth.Middle;
                 var current = room.GetWidth();
-                vw -= (Mathf.Abs(objetive - current) / objetive);
+                vw -= (Mathf.Abs(objetive - current) / (float)objetive);
             }
 
             var vh = 1f;
@@ -261,7 +286,7 @@ namespace LBS.Representation.TileMap
             {
                 var objetive = node.RangeHeight.Middle;
                 var current = room.GetHeight();
-                vh -= (Mathf.Abs(objetive - current) / objetive);
+                vh -= (Mathf.Abs(objetive - current) / (float)objetive);
             }
 
             return (vw + vh) / 2f;

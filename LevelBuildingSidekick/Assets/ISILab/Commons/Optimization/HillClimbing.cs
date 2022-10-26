@@ -34,6 +34,7 @@ namespace Utility
                 return nonSignificantEpochs;
             }
         }
+
         public static T Run<T>(T root, System.Func<bool> endCondition, System.Func<T, List<T>> GetNeighbors, System.Func<T, float> Evaluate)
         {
             var r = new System.Random();
@@ -135,8 +136,11 @@ namespace Utility
 
                 best = betters[random.Next(0, betters.Count - 1)];
 
-                //if (best is LBSTileMapData)
-                //    (best as LBSTileMapData).Print(); // debug temporal quitar luego
+                if (best is LBSTileMapData)
+                {
+                    (best as LBSTileMapData).Print(); // debug temporal quitar luego
+                    Debug.Log(higherScore);
+                }
 
                 if (debug)
                 {
