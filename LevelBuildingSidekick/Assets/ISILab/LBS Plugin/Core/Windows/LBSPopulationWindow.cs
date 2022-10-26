@@ -50,7 +50,7 @@ namespace LBS.Windows
                     brsh.titleContent = new GUIContent(brsh.GetName());
                 }));
 
-            nextWindow = typeof(LBSQuestWindow);
+            nextWindow = typeof(QuestWindow);
             prevWindow = typeof(LBSSchemaWindow);
         }
 

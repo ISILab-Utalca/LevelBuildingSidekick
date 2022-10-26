@@ -1,0 +1,20 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement style="flex-direction: row; flex-grow: 1;">
+        <ui:VisualElement style="background-color: rgb(53, 53, 53); width: 350px; flex-grow: 1; height: 796px;">
+            <Action2 />
+            <Action2 />
+            <Action2 />
+            <Action2 />
+            <Action2 />
+            <Action2 />
+            <Action2 />
+        </ui:VisualElement>
+        <ui:VisualElement>
+            <ui:VisualElement style="height: auto; background-color: rgb(53, 53, 53); flex-grow: 1;" />
+            <QuestSequence />
+        </ui:VisualElement>
+        <ui:VisualElement style="width: 476px;">
+            <TargetOptions style="flex-grow: 1;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
