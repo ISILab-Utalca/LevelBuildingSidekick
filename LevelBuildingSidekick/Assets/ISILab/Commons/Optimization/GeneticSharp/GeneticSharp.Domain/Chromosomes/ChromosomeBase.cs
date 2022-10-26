@@ -411,7 +411,10 @@ namespace GeneticSharp.Domain.Chromosomes
             {
                 throw new InvalidCastException("The received data is not of type " + typeof(U).ToString() + "[]");
             }
-            m_genes = data.Select(d => (U)(object)d).ToArray();
+            for(int i = 0; i < data.Length; i++)
+            {
+                ReplaceGene(i, (U)(object)data[i]);
+            }
         }
         
         public T GetData<T>()
