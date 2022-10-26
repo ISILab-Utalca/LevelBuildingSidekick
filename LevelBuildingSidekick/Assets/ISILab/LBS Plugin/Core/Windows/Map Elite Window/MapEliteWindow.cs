@@ -12,6 +12,7 @@ using Commons.Optimization.Evaluator;
 using Utility;
 using Commons.Optimization;
 using GeneticSharp.Domain.Chromosomes;
+using LBS.Representation.TileMap;
 
 namespace LBS.Windows
 {
@@ -118,6 +119,7 @@ namespace LBS.Windows
                 return;
             }
 
+            StampTileMapChromosome.TileMap = mainView.GetController<LBSTileMapController>();
             mapElites.Adam = (mainView.CurrentController as IChromosomable).ToChromosome();
             mapElites.Run();
         }

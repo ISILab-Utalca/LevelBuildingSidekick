@@ -173,7 +173,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <param name="index">The gene index to replace.</param>
         /// <param name="gene">The new gene.</param>
         /// <exception cref="System.ArgumentOutOfRangeException">index;There is no Gene on index {0} to be replaced..With(index)</exception>
-        public void ReplaceGene<T>(int index, T gene)
+        public virtual void ReplaceGene<T>(int index, T gene)
         {
             if (index < 0 || index >= m_length)
             {
@@ -199,7 +199,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <remarks>
         /// The genes to be replaced can't be greater than the available space between the start index and the end of the chromosome.
         /// </remarks>
-        public void ReplaceGenes<T>(int startIndex, T[] genes)
+        public virtual void ReplaceGenes<T>(int startIndex, T[] genes)
         {
             ExceptionHelper.ThrowIfNull("genes", genes);
 
@@ -411,7 +411,10 @@ namespace GeneticSharp.Domain.Chromosomes
             {
                 throw new InvalidCastException("The received data is not of type " + typeof(U).ToString() + "[]");
             }
-            m_genes = data.Select(d => (U)(object)d).ToArray();
+            for(int i = 0; i < data.Length; i++)
+            {
+                ReplaceGene(i, (U)(object)data[i]);
+            }
         }
         
         public T GetData<T>()

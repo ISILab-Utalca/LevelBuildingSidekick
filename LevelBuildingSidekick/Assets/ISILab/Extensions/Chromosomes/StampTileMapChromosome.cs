@@ -5,9 +5,12 @@ using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
 using System.Linq;
 using Utility;
+using LBS.Representation.TileMap;
 
 public class StampTileMapChromosome : ChromosomeBase2D<int>, IDrawable
 {
+    public static LBSTileMapController TileMap { get; set; }
+
     public List<StampData> stamps { get; private set; }
     private int tileSize;
 
@@ -17,22 +20,33 @@ public class StampTileMapChromosome : ChromosomeBase2D<int>, IDrawable
 
         tileSize = (int)stampController.TileSize;
 
+        var tileMap = TileMap.GetData() as LBSTileMapData;
+        var tiles = tileMap.GetRooms().SelectMany(r => r.Tiles);
+
+        var x1 = tiles.Min(t => t.GetPosition().x);
+        var x2 = tiles.Max(t => t.GetPosition().x);
+
+        var y1 = tiles.Min(t => t.GetPosition().y);
+        var y2 = tiles.Max(t => t.GetPosition().y);
+
+        /*
         var x1 = rawStamps.Min(s => s.Position.x);
         var x2 = rawStamps.Max(s => s.Position.x);
 
         var y1 = rawStamps.Min(s => s.Position.y);
         var y2 = rawStamps.Max(s => s.Position.y);
+        */
 
         int width = (x2 - x1) + 1;
         int height = (y2 - y1) + 1;
-
 
         var size = new Vector2Int(width, height);
         var offset = new Vector2(x1, y1);
 
         Resize(size.y * size.x);
 
-        MatrixWidth = (int)size.x;
+
+        MatrixWidth = width;
 
         List<string> reviwed = new List<string>();
         stamps = rawStamps.Where(s =>
@@ -47,10 +61,8 @@ public class StampTileMapChromosome : ChromosomeBase2D<int>, IDrawable
 
         for(int i = 0; i < Length; i++)
         {
-            ReplaceGene(i, -1);
+            base.ReplaceGene(i, -1);
         }
-
-        Debug.Log(Length);
 
         foreach (var stamp in rawStamps)
         {
@@ -113,5 +125,41 @@ public class StampTileMapChromosome : ChromosomeBase2D<int>, IDrawable
         texture.Apply(); 
 
         return texture;
+    }
+
+    public override void ReplaceGene<T>(int index, T gene)
+    {
+        if (!(gene is int))
+        {
+            Debug.LogError("Incorrect Data type");
+            return;
+        }
+
+        int i = (int)(object)gene;
+
+        if(i < -1 || i >= stamps.Count)
+        {
+            return;
+        }
+
+        var tileMap = TileMap.GetData() as LBSTileMapData;
+        var tiles = tileMap.GetRooms().SelectMany(r => r.Tiles);
+
+        string s = ""; 
+        if (i != -1)
+        {
+            s += "Index: " + index + " - Pos: " + ToMatrixPosition(index) + " // ";
+            if (!tiles.Any(t => t.GetPosition() == ToMatrixPosition(index)))
+            {
+                base.ReplaceGene(index, -1);
+                s += "Rejected";
+                Debug.Log(s);
+                return;
+            }
+            s += "Approved";
+            Debug.Log(s);
+        }
+
+        base.ReplaceGene(index, gene);
     }
 }

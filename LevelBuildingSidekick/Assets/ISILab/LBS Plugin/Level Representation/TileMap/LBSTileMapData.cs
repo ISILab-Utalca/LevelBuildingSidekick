@@ -332,7 +332,7 @@ namespace LBS.Representation.TileMap
                 }
                 msg += "\n";
             }
-            Debug.Log(msg);
+            //Debug.Log(msg);
         }
     }
 }
