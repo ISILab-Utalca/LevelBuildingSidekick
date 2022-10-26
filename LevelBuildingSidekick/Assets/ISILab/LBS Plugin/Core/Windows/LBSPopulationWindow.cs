@@ -42,6 +42,14 @@ namespace LBS.Windows
                     wnd.mainView = this;
                 }));
 
+            actions.Add(new Tuple<string, Action>(
+                "Brush window",
+                () =>
+                {
+                    var brsh = GetWindow<BrushWindow>();
+                    brsh.titleContent = new GUIContent(brsh.GetName());
+                }));
+
             nextWindow = typeof(LBSQuestWindow);
             prevWindow = typeof(LBSSchemaWindow);
         }

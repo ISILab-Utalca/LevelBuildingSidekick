@@ -1,3 +1,4 @@
+using Commons.Optimization.Evaluator;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using Utility;
 
 namespace LBS.Windows
 {
-    public class BrushWindow : EditorWindow // o StampWindow
+    public class BrushWindow : EditorWindow, INameable // o StampWindow
     {
         public static StampPresset SelectedStamp;
 
@@ -18,7 +19,7 @@ namespace LBS.Windows
         public static void ShowWindow()
         {
             var window = GetWindow<BrushWindow>();
-            window.titleContent = new GUIContent("Brush Window"); // o stamp window
+            window.titleContent = new GUIContent(window.GetName()); // o stamp window
         }
 
         private BrushView preview;
@@ -155,5 +156,9 @@ namespace LBS.Windows
             sizeField.value = v;
         }
 
+        public string GetName()
+        {
+            return "Brush Window";
+        }
     }
 }
