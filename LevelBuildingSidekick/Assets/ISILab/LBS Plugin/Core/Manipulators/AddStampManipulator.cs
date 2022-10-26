@@ -47,7 +47,6 @@ namespace LBS.Manipulators
             stamps.AddStamp(stamp);
             window.RefreshView();
             //controller.CreateStamp(e.localMousePosition, window.MainView, selected);
-            Debug.Log("No Aquí");
         }
     }
 }

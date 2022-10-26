@@ -18,6 +18,9 @@ public class Horizontal2DSimetry : Simetry2DEvaluator
             {
                 if (data[(matrixWidth * j) + i].Equals(data[(height - 1 - j)*matrixWidth + i]))
                 {
+                    if (data[matrixWidth * j + i] is int)
+                        if ((int)(object)data[matrixWidth * j + i] == -1)
+                            continue;
                     simetry++;
                 }
             }

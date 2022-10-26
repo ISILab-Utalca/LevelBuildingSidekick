@@ -139,7 +139,7 @@ namespace Utility
                 if (best is LBSTileMapData)
                 {
                     (best as LBSTileMapData).Print(); // debug temporal quitar luego
-                    Debug.Log(higherScore);
+                    //Debug.Log(higherScore);
                 }
 
                 if (debug)
