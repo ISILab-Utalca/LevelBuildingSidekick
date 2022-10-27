@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4ba1f009dd5df04c89ff08d112e7684, type: 3}
-  m_Name: Tile_7
+  m_Name: T_Bosque_7 2
   m_EditorClassIdentifier: 
-  tile: {fileID: 8151632068590299998, guid: 6424d885230d0824e907b5f1ea0d258c, type: 3}
+  tile: {fileID: 2878849239795905248, guid: 0caa0d3363b65a34984792da424c32fc, type: 3}
   connection:
-  - 
-  - 
-  - 
-  - 
+  - grass
+  - grass
+  - grass
+  - grass
