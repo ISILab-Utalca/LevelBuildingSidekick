@@ -157,6 +157,10 @@ namespace LBS.Windows
                 Content[i] = b;
                 Container.Add(b);
             }
+
+            var t = BackgroundTexture();
+
+            Content.ToList().ForEach(b => b.style.backgroundImage = t);
         }
 
         public void UpdateSample(Vector2Int coords)
@@ -172,6 +176,49 @@ namespace LBS.Windows
                 bw.style.backgroundImage = defaultButton;
                 bw.Data = null;
             }
+        }
+
+        private Texture2D BackgroundTexture()
+        {
+            var tmc = (mainView.GetController<LBSTileMapController>());
+            var rooms = (tmc.GetData() as LBSTileMapData).GetRooms();
+            var tiles = rooms.SelectMany(r => r.Tiles);
+
+            var x1 = tiles.Min(t => t.GetPosition().x);
+            var x2 = tiles.Max(t => t.GetPosition().x);
+
+            var y1 = tiles.Min(t => t.GetPosition().y);
+            var y2 = tiles.Max(t => t.GetPosition().y);
+
+            int width = (x2 - x1) + 1;
+            int height = (y2 - y1) + 1;
+
+            var size = new Vector2Int(width, height);
+            var offset = new Vector2(x1, y1);
+
+            var pref = Resources.Load<Texture2D>("Floor");
+            var texture = new Texture2D((int)(width*tmc.TileSize), (int)(height*tmc.TileSize));
+
+            foreach(var r in rooms)
+            {
+                var aux = new Texture2D(pref.width, pref.height);
+                var pixels = pref.GetPixels();
+                var color = r.Color;
+                for(int i = 0; i < pixels.Length; i++)
+                {
+                    pixels[i] = new Color(pixels[i].r * color.r, pixels[i].g * color.g, pixels[i].b * color.b);
+                }
+                aux.SetPixels(pixels);
+                aux.Apply();
+                foreach(var t in r.Tiles)
+                {
+                    var pos = t.GetPosition();
+                    texture.InsertTextureInRect(aux, (int)(pos.x * tmc.TileSize), (int)((height - 1 - pos.y) * tmc.TileSize), (int)tmc.TileSize, (int)tmc.TileSize);
+                }
+            }
+            texture.Apply();
+
+            return texture;
         }
     }
 }
