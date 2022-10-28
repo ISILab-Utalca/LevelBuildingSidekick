@@ -30,7 +30,7 @@ public abstract class Simetry2DEvaluator : IRangedEvaluator
         var data = evaluable.GetDataSquence<object>();
         int height = data.Length / matrixWidth;
 
-        float simetry = CalculateSimetry(data, height)/(data.Length / 2);
+        float simetry = CalculateSimetry(data, height);
 
         return Mathf.Clamp(simetry, MinValue, MaxValue);
     }

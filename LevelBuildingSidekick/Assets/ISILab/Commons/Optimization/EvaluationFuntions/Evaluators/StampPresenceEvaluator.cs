@@ -28,7 +28,7 @@ public class StampPresenceEvaluator : IRangedEvaluator
 
     public float Evaluate(IEvaluable evaluable)
     {
-        int presence = 0;
+        float presence = 0;
 
         if (!(evaluable is StampTileMapChromosome))
         {
@@ -37,7 +37,7 @@ public class StampPresenceEvaluator : IRangedEvaluator
 
         var stmc = evaluable as StampTileMapChromosome;
 
-        if(!stmc.stamps.Any(s => s.Label == stamp.Label))
+        if (!stmc.stamps.Any(s => s.Label == stamp.Label))
         {
             return MinValue;
         }
@@ -47,7 +47,7 @@ public class StampPresenceEvaluator : IRangedEvaluator
         var data = stmc.GetGenes<int>();
         foreach (var i in data)
         {
-            if(index == i)
+            if (index == i)
             {
                 presence++;
             }

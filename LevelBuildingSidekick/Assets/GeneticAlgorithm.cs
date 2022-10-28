@@ -435,6 +435,7 @@ public class GeneticAlgorithm : IGeneticAlgorithm , IShowable
             m_stopwatch.Stop();
             TimeEvolving = m_stopwatch.Elapsed;
         }
+        UnityEngine.Debug.Log("Running");
         Resume();
     }
 

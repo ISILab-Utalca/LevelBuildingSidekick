@@ -133,11 +133,29 @@ public class MapElites
     {
         Optimizer.Adam = Adam;
         Optimizer.OnGenerationRan += () => UpdateSamples(Optimizer.LastGeneration);
+        Optimizer.OnTerminationReached += () =>
+        {
+            int c = 0;
+            for (int j = 0; j < BestSamples.GetLength(1); j++)
+            {
+                for (int i = 0; i < BestSamples.GetLength(0); i++)
+                {
+                    if(BestSamples[i,j] != null)
+                    {
+                        c++;
+                        UpdateSample(i,j,BestSamples[i,j]);
+                    }
+                }
+            }
+            Debug.Log("Finished: " + c);
+
+        };
         Optimizer.Start();
     }
 
     public void UpdateSamples(IEvaluable[] samples)
     {
+        
         var evaluables = MapSamples(samples);
 
         float xStep = Mathf.Abs(XEvaluator.MaxValue - XEvaluator.MinValue) / XSampleCount;
@@ -176,7 +194,7 @@ public class MapElites
             return true;
         }
 
-        if(BestSamples[x,y].Fitness < evaluable.Fitness)
+        if(BestSamples[x,y].Fitness <= evaluable.Fitness)
         {
             BestSamples[x, y] = evaluable;
             OnSampleUpdated?.Invoke(new Vector2Int(x, y));

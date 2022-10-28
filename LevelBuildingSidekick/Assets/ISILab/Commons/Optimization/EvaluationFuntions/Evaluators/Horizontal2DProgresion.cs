@@ -20,8 +20,6 @@ public class Horizontal2DProgresion : Progression2DEvaluator
     {
         int[] ocurrences = new int[stmc.MatrixWidth];
         float p = 0;
-        int prev = 0;
-        int max = 0;
 
         for (int i = 0; i < stmc.MatrixWidth; i++)
         {

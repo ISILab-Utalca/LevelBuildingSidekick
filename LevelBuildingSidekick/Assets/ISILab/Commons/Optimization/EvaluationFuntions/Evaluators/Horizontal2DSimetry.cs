@@ -12,20 +12,21 @@ public class Horizontal2DSimetry : Simetry2DEvaluator
     public override float CalculateSimetry(object[] data, int height)
     {
         float simetry = 0;
-        for (int j = 0; j < height / 2; j++)
+        float elements = 0;
+        for (int j = 0; j < height; j++)
         {
             for (int i = 0; i < matrixWidth; i++)
             {
+                if ((int)(object)data[matrixWidth * j + i] == -1)
+                    continue;
+                elements++;
                 if (data[(matrixWidth * j) + i].Equals(data[(height - 1 - j)*matrixWidth + i]))
                 {
-                    if (data[matrixWidth * j + i] is int)
-                        if ((int)(object)data[matrixWidth * j + i] == -1)
-                            continue;
                     simetry++;
                 }
             }
         }
-        return simetry;
+        return simetry/elements;
     }
 
     public override string GetName()

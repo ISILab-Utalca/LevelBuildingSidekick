@@ -153,11 +153,9 @@ public class StampTileMapChromosome : ChromosomeBase2D<int>, IDrawable
             {
                 base.ReplaceGene(index, -1);
                 s += "Rejected";
-                Debug.Log(s);
                 return;
             }
             s += "Approved";
-            Debug.Log(s);
         }
 
         base.ReplaceGene(index, gene);
