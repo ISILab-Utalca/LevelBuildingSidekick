@@ -10,10 +10,18 @@ namespace LBS.Representation
     [System.Serializable]
     public class TileData : ICloneable
     {
+        // Informacion propia
+
+        // Position
         [SerializeField, JsonRequired]
         private int x;
         [SerializeField, JsonRequired]
         private int y;
+        [SerializeField, JsonRequired]
+        private int rotation;
+        
+
+        // Informacion de referencia
 
         [SerializeField, JsonRequired]
         private string roomId; // info duplicada (?)
