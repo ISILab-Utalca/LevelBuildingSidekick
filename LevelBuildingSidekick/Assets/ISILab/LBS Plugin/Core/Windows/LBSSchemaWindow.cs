@@ -59,6 +59,8 @@ namespace LBS.Windows
             var tileData = data.GetRepresentation<LBSTileMapData>();
             var c = new LBSTileMapController(MainView, tileData);
             AddController(c);
+            //tileData = c.RecalculateDoors(tileData);
+            //LBSController.CurrentLevel.data.AddRepresentation(tileData);
         }
     }
 }

@@ -156,30 +156,11 @@ namespace LBS.Representation.TileMap
         private LBSTileView CreateTileView(TileData tileData,Vector2Int tilePos, Vector2 size, RoomData data)
         {
             var tile = new LBSTileView(tileData,view);
-            Debug.Log("CreateTileView");
-            var rs =tile.resolvedStyle;
-            var s = tile.style;
-            var cs = tile.generateVisualContent += aaa;
-            
             tile.SetPosition(new Rect(tilePos * size, size));
             tile.SetSize((int)size.x, (int)size.y);
             tile.SetColor(data.Color);
             tile.SetLabel(tilePos);
             return tile;
-        }
-
-        public void aaa(MeshGenerationContext mgc)
-        {
-            Rect r = new Rect(10,10,10,10);
-            float left = 0; float right = r.width; float top = 0; float bottom = r.height;
-            Vertex[] k_Vertices = new Vertex[4];
-            short[] k_Indices = { 0, 1, 2, 2, 3, 0 };
-            Texture2D m_Texture = new Texture2D(10,10);
-            k_Vertices[0].position = new Vector3(left, bottom, Vertex.nearZ);
-            k_Vertices[1].position = new Vector3(left, top, Vertex.nearZ);
-            k_Vertices[2].position = new Vector3(right, top, Vertex.nearZ);
-            k_Vertices[3].position = new Vector3(right, bottom, Vertex.nearZ);
-            MeshWriteData mwd = mgc.Allocate(k_Vertices.Length, k_Indices.Length, m_Texture);
         }
 
         public LBSTileMapData Optimize()

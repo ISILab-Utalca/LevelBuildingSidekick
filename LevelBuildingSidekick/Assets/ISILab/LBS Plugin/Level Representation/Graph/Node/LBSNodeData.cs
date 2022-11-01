@@ -35,7 +35,7 @@ namespace LBS.Graph
         }
 
         [JsonIgnore]
-        public override Type ControllerType => typeof(Controller);
+        public override Type ControllerType => typeof(LBSNodeController);
 
         /// <summary>
         /// Empty constructor, necessary for serialization with json.
