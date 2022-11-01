@@ -3,23 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Action2 : VisualElement
+public class ActionBtn : VisualElement
 {
-    public new class UxmlFactory : UxmlFactory<Action2, VisualElement.UxmlTraits> { }
+    public new class UxmlFactory : UxmlFactory<ActionBtn, VisualElement.UxmlTraits> { }
 
     public Label nameAction;
    
-    public Action2()
+    public ActionBtn()
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("Action_window");
+        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("ActionBtnUXML");
         visualTree.CloneTree(this);
 
         nameAction = this.Q<Label>(name: "Action"); 
     }
 
-    public Action2(string labelText)
+    public ActionBtn(string labelText)
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("Action_window");
+        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("ActionBtnUXML");
         visualTree.CloneTree(this);
 
         nameAction = this.Q<Label>(name: "Action");

@@ -21,11 +21,13 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
     private Slider rotation;
     private Slider labelDist;
 
-    private Button generateMaoBtn;
+    private Button generateMapBtn;
     private Vector2IntField mapSize;
     private FloatField tileSize;
 
-    private TileConections selected;
+    private Button generateSchema;
+
+    public static TileConections selected;
     private RenderObjectView screen;
 
     private List<Button> buttons = new List<Button>();
@@ -35,6 +37,8 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
     public Action<GameObject> SelectPref;
 
     public WFCSolver solverWFC = new WFCSolver(); // <--
+
+    private Color BASE;
 
     [MenuItem("ISILab/LBS plugin/Tile edit window", priority = 1)]
     public static void ShowWindow()
@@ -80,8 +84,18 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
         this.rotation = root.Q<Slider>("Rotation");
         this.labelDist = root.Q<Slider>("LabelDistance");
 
-        this.generateMaoBtn = root.Q<Button>("GenerateButton");
-        generateMaoBtn.clicked += () => GenerateMap(SolveMap());
+        this.generateMapBtn = root.Q<Button>("GenerateButton");
+        generateMapBtn.clicked += () => GenerateMap(SolveMap());
+        this.generateSchema = root.Q<Button>("GenerateSchema");
+        generateSchema.clicked += () =>
+        {
+            Debug.Log("aaa");
+            var s = SolveMap();
+            var m = GridToMapData.Generate(s);
+            LBSController.CurrentLevel.data.AddRepresentation(m);
+
+            
+        };
         this.mapSize = root.Q<Vector2IntField>("mapSize");
         this.tileSize = root.Q<FloatField>("tileSize");
 
@@ -188,7 +202,7 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
 
     private void SetSelected(TileConections data)
     {
-        this.selected = data;
+        TileEditWindow.selected = data;
         SelectPref?.Invoke(selected.Tile);
         var i = 0;
         ShowDropdown(true);
@@ -198,7 +212,7 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
             dd.choices = LBSTags.GetInstance("WFC Tags").Alls;
             int n = i;
             dd.RegisterCallback<ChangeEvent<string>>(e => {
-                this.selected.SetConnection(n, e.newValue);
+                TileEditWindow.selected.SetConnection(n, e.newValue);
                 EditorUtility.SetDirty(data);
             });
             i++;
@@ -214,6 +228,7 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
             var btn = new Button();
             btn.clicked += () => {
                 var selected = data;
+                //buttons.ForEach(b => b.style.backgroundColor =);
                 SetSelected(selected);
             };
             btn.style.width = btn.style.height = btn.style.maxHeight = btn.style.minHeight = btnSize;

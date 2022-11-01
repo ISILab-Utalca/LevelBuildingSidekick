@@ -8,7 +8,7 @@ public class TileConnectWFC
     private int rotation; // max 3 (*90)
 
     public TileConections Tile => tile;
-    public float Rotation => rotation; // el 90 puede ser parametrizado o calculado con el 4
+    public int Rotation => rotation; // el 90 puede ser parametrizado o calculado con el 4
 
     public TileConnectWFC(TileConections tile, int rotation)
     {
