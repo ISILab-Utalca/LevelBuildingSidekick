@@ -257,7 +257,6 @@ namespace LBS.Representation.TileMap
                 new Tuple<Func<LBSGraphData, LBSTileMapData, float>,float>(EvaluateEmptySpace,0.2f)
             };
 
-
             var value = 0f;
             for (int i = 0; i < evaluattions.Count(); i++)
             {
