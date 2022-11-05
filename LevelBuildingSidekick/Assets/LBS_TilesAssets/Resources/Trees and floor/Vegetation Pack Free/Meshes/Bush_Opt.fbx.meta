@@ -8,7 +8,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Vegetation
-    second: {fileID: 2100000, guid: eced5eaf288645942abd989060b040f5, type: 2}
+    second: {fileID: 2100000, guid: 71f6ec5b0386a624dbfa7de2aff67696, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
