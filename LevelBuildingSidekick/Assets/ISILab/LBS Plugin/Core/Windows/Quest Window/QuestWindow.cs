@@ -7,6 +7,8 @@ using UnityEngine.UIElements;
 
 public class QuestWindow : EditorWindow, INameable
 {
+    public VisualElement actionsContent;
+
     [MenuItem("ISILab/LBS plugin/Quest window", priority = 1)]
     public static void ShowWindow()
     {
@@ -20,6 +22,14 @@ public class QuestWindow : EditorWindow, INameable
 
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("QuestWindowUXML");
         visualTree.CloneTree(root);
+
+        actionsContent = root.Q<VisualElement>("Actions");
+    }
+
+    public void AddAction()
+    {
+        var act = new ActionBtn();
+        actionsContent.Add(act);
     }
 
     public string GetName()
