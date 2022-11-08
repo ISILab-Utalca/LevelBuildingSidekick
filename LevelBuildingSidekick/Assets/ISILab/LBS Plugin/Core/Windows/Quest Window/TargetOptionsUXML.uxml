@@ -1,69 +1,33 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <ui:VisualElement name="Base" style="height: 575px; width: 381px; flex-direction: column;">
-        <ui:Label tabindex="-1" text="TARGET" display-tooltip-when-elided="true" name="Target" style="-unity-font-style: bold; font-size: 18px; margin-left: 4px; margin-right: 4px; margin-top: 8px; margin-bottom: 4px;" />
-        <ui:VisualElement name="ModeOption" style="height: 62px;">
-            <ui:Foldout text="MODE" name="Mode">
-                <ui:VisualElement style="align-items: center; height: 32px; width: 344px;">
-                    <ui:VisualElement name="ContentBotton" style="height: 32px; background-color: rgb(95, 95, 95); width: 188px; align-items: center; border-top-left-radius: 4px; border-bottom-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; flex-direction: row; justify-content: center; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px;">
-                        <ui:VisualElement name="RoomSelect" style="background-color: rgb(58, 121, 187); height: 32px; width: 63px; border-top-left-radius: 4px; border-bottom-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; background-image: none; -unity-background-scale-mode: scale-to-fit; align-items: center; justify-content: center;">
-                            <ui:VisualElement style="background-image: url(&apos;project://database/Assets/ISILab/LBS%20Plugin/Assets2D/RoomSelection.png?fileID=2800000&amp;guid=b1704af221b60f64face13aea01f1b04&amp;type=3#RoomSelection&apos;); width: 29px; height: 20px; -unity-background-scale-mode: scale-to-fit;" />
-                        </ui:VisualElement>
-                        <ui:VisualElement name="TileSelect" style="background-color: rgba(58, 121, 187, 0); height: 32px; width: 63px; border-top-left-radius: 4px; border-bottom-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; align-items: center; justify-content: center;">
-                            <ui:VisualElement name="IconTile" style="background-color: rgb(186, 186, 186); height: 20px; width: 20px; border-top-left-radius: 2px; border-bottom-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px;" />
-                        </ui:VisualElement>
-                        <ui:VisualElement name="ElementSelect" style="background-color: rgba(58, 121, 187, 0); height: 32px; width: 63px; border-top-left-radius: 4px; border-bottom-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; align-items: center; justify-content: center;">
-                            <ui:VisualElement name="IconElement" style="background-image: url(&apos;project://database/Assets/ISILab/LBS%20Plugin/Assets2D/ElementIcon.png?fileID=2800000&amp;guid=c41356f9d44bd1e47b39995dfd60f6be&amp;type=3#ElementIcon&apos;); height: 23px; width: 37px; -unity-background-scale-mode: scale-to-fit;" />
-                        </ui:VisualElement>
-                    </ui:VisualElement>
-                </ui:VisualElement>
-            </ui:Foldout>
-        </ui:VisualElement>
-        <ui:VisualElement name="SelectOption" style="height: 39px; margin-bottom: 32px;">
-            <ui:Foldout text="SELECT" name="Select" style="height: 59px; width: 226px;">
-                <ui:VisualElement name="ContentSelect" style="flex-direction: row; height: 54px; justify-content: center; width: 375px;">
-                    <ui:VisualElement name="AddSelection" style="background-color: rgb(77, 77, 77); height: 42px; width: 42px; border-top-left-radius: 2px; border-bottom-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; padding-right: 0; margin-right: 24px; align-items: center; justify-content: center;">
-                        <ui:VisualElement name="IconAdd" style="background-image: url(&apos;project://database/Assets/ISILab/LBS%20Plugin/Assets2D/SelectionSum.png?fileID=2800000&amp;guid=e68e66bc22637ff4dbec15ec2925f716&amp;type=3#SelectionSum&apos;); width: 29px; height: 27px; -unity-background-scale-mode: stretch-to-fill;" />
-                    </ui:VisualElement>
-                    <ui:VisualElement name="SubsctSelection" style="background-color: rgb(77, 77, 77); height: 42px; width: 42px; border-top-left-radius: 2px; border-bottom-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; margin-right: 24px; align-items: center; justify-content: center;">
-                        <ui:VisualElement name="IconSubtct" style="background-image: url(&apos;project://database/Assets/ISILab/LBS%20Plugin/Assets2D/SelectionSubtrackt.png?fileID=2800000&amp;guid=a8c3dca19ef0ad04ea29f069ce7a28f0&amp;type=3#SelectionSubtrackt&apos;); width: 30px; height: 26px; -unity-background-scale-mode: stretch-to-fill;" />
-                    </ui:VisualElement>
-                    <ui:VisualElement name="AreaSelection" style="background-color: rgb(77, 77, 77); height: 42px; width: 42px; border-top-left-radius: 2px; border-bottom-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; margin-right: 24px; align-items: center; justify-content: center;">
-                        <ui:VisualElement name="IconSelection" style="background-image: url(&apos;project://database/Assets/ISILab/LBS%20Plugin/Assets2D/SelectionArea.png?fileID=2800000&amp;guid=c817582b95bae3845985abb34701173d&amp;type=3#SelectionArea&apos;); width: 29px; height: 29px; -unity-background-scale-mode: stretch-to-fill;" />
-                    </ui:VisualElement>
-                </ui:VisualElement>
-            </ui:Foldout>
-        </ui:VisualElement>
-        <ui:VisualElement name="ActionTarget1" style="height: 122px; width: 380px; margin-bottom: 8px;">
-            <ui:Foldout text="OPTION 1&#10;" name="Option1" style="height: auto; width: auto;">
-                <ui:VisualElement name="ContentOp2" style="height: 160px; width: 353px; align-items: center; justify-content: center; flex-direction: column;">
-                    <ui:VisualElement name="Text" style="flex-direction: row; height: 103px; width: 345px; background-color: rgba(89, 0, 0, 0); align-items: center; justify-content: center;">
-                        <ui:Label tabindex="-1" text="Action" display-tooltip-when-elided="true" style="font-size: 16px;" />
-                        <ui:VisualElement style="background-color: rgba(125, 35, 35, 0); height: 27px; width: 185px;" />
-                        <ui:Label tabindex="-1" text="Target" display-tooltip-when-elided="true" style="font-size: 16px;" />
-                    </ui:VisualElement>
-                    <ui:VisualElement name="ActionCont" style="height: 146px; width: 337px; flex-direction: row; align-items: center; justify-content: center;">
-                        <ui:VisualElement name="ActionContent" style="background-color: rgba(95, 95, 95, 0); height: 39px; width: 104px; border-left-color: rgb(95, 95, 95); border-right-color: rgb(95, 95, 95); border-top-color: rgb(95, 95, 95); border-bottom-color: rgb(95, 95, 95); border-left-width: 6px; border-right-width: 6px; border-top-width: 6px; border-bottom-width: 6px; border-top-left-radius: 21px; border-bottom-left-radius: 21px; border-top-right-radius: 21px; border-bottom-right-radius: 21px;" />
-                        <ui:VisualElement name="Line" style="background-color: rgba(125, 35, 35, 0); height: 27px; width: 130px; background-image: url(&apos;project://database/Assets/ISILab/LBS%20Plugin/Assets2D/Line.png?fileID=2800000&amp;guid=26ec05afb1a4ce84891efe9441af0ed2&amp;type=3#Line&apos;); -unity-background-scale-mode: scale-to-fit;" />
-                        <ui:VisualElement name="TargetContent" style="background-color: rgba(95, 95, 95, 0); height: 39px; width: 104px; border-left-color: rgb(95, 95, 95); border-right-color: rgb(95, 95, 95); border-top-color: rgb(95, 95, 95); border-bottom-color: rgb(95, 95, 95); border-left-width: 6px; border-right-width: 6px; border-top-width: 6px; border-bottom-width: 6px; border-top-left-radius: 21px; border-bottom-left-radius: 21px; border-top-right-radius: 21px; border-bottom-right-radius: 21px;" />
-                    </ui:VisualElement>
-                </ui:VisualElement>
-            </ui:Foldout>
-        </ui:VisualElement>
-        <ui:VisualElement name="ActionTarget2" style="height: auto; width: auto;">
-            <ui:Foldout text="OPTION 2" name="Option2" style="height: 106px; width: 365px;">
-                <ui:VisualElement name="ContentOp2" style="height: 160px; width: 353px; align-items: center; justify-content: center; flex-direction: column;">
-                    <ui:VisualElement name="Text" style="flex-direction: row; height: 103px; width: 345px; background-color: rgba(89, 0, 0, 0); align-items: center; justify-content: center;">
-                        <ui:Label tabindex="-1" text="Action" display-tooltip-when-elided="true" style="font-size: 16px;" />
-                        <ui:VisualElement style="background-color: rgba(125, 35, 35, 0); height: 27px; width: 185px;" />
-                        <ui:Label tabindex="-1" text="Target" display-tooltip-when-elided="true" style="font-size: 16px;" />
-                    </ui:VisualElement>
-                    <ui:VisualElement name="ActionCont" style="height: 146px; width: 337px; flex-direction: row; align-items: center; justify-content: center;">
-                        <ui:VisualElement name="ActionContent" style="background-color: rgba(95, 95, 95, 0); height: 39px; width: 104px; border-left-color: rgb(95, 95, 95); border-right-color: rgb(95, 95, 95); border-top-color: rgb(95, 95, 95); border-bottom-color: rgb(95, 95, 95); border-left-width: 6px; border-right-width: 6px; border-top-width: 6px; border-bottom-width: 6px; border-top-left-radius: 21px; border-bottom-left-radius: 21px; border-top-right-radius: 21px; border-bottom-right-radius: 21px;" />
-                        <ui:VisualElement name="Line" style="background-color: rgba(125, 35, 35, 0); height: 27px; width: 130px; background-image: url(&apos;project://database/Assets/ISILab/LBS%20Plugin/Assets2D/Line.png?fileID=2800000&amp;guid=26ec05afb1a4ce84891efe9441af0ed2&amp;type=3#Line&apos;); -unity-background-scale-mode: scale-to-fit;" />
-                        <ui:VisualElement name="TargetContent" style="background-color: rgba(95, 95, 95, 0); height: 39px; width: 104px; border-left-color: rgb(95, 95, 95); border-right-color: rgb(95, 95, 95); border-top-color: rgb(95, 95, 95); border-bottom-color: rgb(95, 95, 95); border-left-width: 6px; border-right-width: 6px; border-top-width: 6px; border-bottom-width: 6px; border-top-left-radius: 21px; border-bottom-left-radius: 21px; border-top-right-radius: 21px; border-bottom-right-radius: 21px;" />
-                    </ui:VisualElement>
-                </ui:VisualElement>
-            </ui:Foldout>
-        </ui:VisualElement>
+    <ui:Label tabindex="-1" text="TARGET" display-tooltip-when-elided="true" name="Target" style="-unity-font-style: bold; font-size: 16px; margin-left: 4px; margin-right: 4px; margin-top: 8px; margin-bottom: 4px;" />
+    <ui:VisualElement name="SelectOption" style="height: auto; padding-bottom: 0; margin-bottom: 5px;">
+        <ui:Foldout text="SELECT" name="Select" style="height: auto; width: auto; flex-grow: 1;">
+            <ui:VisualElement style="align-items: center; height: auto; width: auto; flex-direction: row; flex-grow: 1; flex-shrink: 1; -unity-background-scale-mode: stretch-to-fill; margin-right: 5px;">
+                <ui:Button tabindex="-1" text="&#10;" display-tooltip-when-elided="true" style="flex-shrink: 1; flex-grow: 1; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; align-items: center; justify-content: center; -unity-background-scale-mode: scale-and-crop; -unity-slice-left: 0; -unity-slice-top: 0; -unity-slice-right: 0; -unity-slice-bottom: 0; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-right-width: 0;">
+                    <ui:VisualElement name="Icon" style="background-image: url(&apos;project://database/Assets/ISILab/LBS%20Plugin/Assets2D/SelectionSum.png?fileID=2800000&amp;guid=e68e66bc22637ff4dbec15ec2925f716&amp;type=3#SelectionSum&apos;); width: 20px; height: 20px; -unity-background-scale-mode: scale-to-fit;" />
+                </ui:Button>
+                <ui:Button tabindex="-1" display-tooltip-when-elided="true" style="flex-shrink: 1; flex-grow: 1; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; align-items: center; justify-content: center; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                    <ui:VisualElement name="Icon" style="height: 20px; width: 20px; border-top-left-radius: 2px; border-bottom-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; background-image: url(&apos;project://database/Assets/ISILab/LBS%20Plugin/Assets2D/SelectionSubtrackt.png?fileID=2800000&amp;guid=a8c3dca19ef0ad04ea29f069ce7a28f0&amp;type=3#SelectionSubtrackt&apos;);" />
+                </ui:Button>
+                <ui:Button tabindex="-1" display-tooltip-when-elided="true" style="flex-shrink: 1; flex-grow: 1; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; align-items: center; justify-content: center; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; border-top-left-radius: 0; border-bottom-left-radius: 0; border-left-width: 0;">
+                    <ui:VisualElement name="Icon" style="background-image: url(&apos;project://database/Assets/ISILab/LBS%20Plugin/Assets2D/SelectionArea.png?fileID=2800000&amp;guid=c817582b95bae3845985abb34701173d&amp;type=3#SelectionArea&apos;); height: 20px; width: 20px; -unity-background-scale-mode: scale-to-fit;" />
+                </ui:Button>
+            </ui:VisualElement>
+        </ui:Foldout>
+    </ui:VisualElement>
+    <ui:VisualElement name="ModeOption" style="height: auto;">
+        <ui:Foldout text="MODE" name="Mode" style="flex-direction: column; align-items: stretch;">
+            <ui:VisualElement style="align-items: center; height: auto; width: auto; flex-direction: row; justify-content: flex-start; margin-right: 5px;">
+                <ui:Button tabindex="-1" text="&#10;" display-tooltip-when-elided="true" style="flex-shrink: 1; flex-grow: 1; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; align-items: center; justify-content: center; -unity-background-scale-mode: scale-and-crop; -unity-slice-left: 0; -unity-slice-top: 0; -unity-slice-right: 0; -unity-slice-bottom: 0; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-right-width: 0;">
+                    <ui:VisualElement name="Icon" style="background-image: url(&apos;project://database/Assets/ISILab/LBS%20Plugin/Assets2D/RoomSelection.png?fileID=2800000&amp;guid=b1704af221b60f64face13aea01f1b04&amp;type=3#RoomSelection&apos;); width: 20px; height: 20px; -unity-background-scale-mode: scale-to-fit;" />
+                </ui:Button>
+                <ui:Button tabindex="-1" display-tooltip-when-elided="true" style="flex-shrink: 1; flex-grow: 1; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; align-items: center; justify-content: center; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                    <ui:VisualElement name="Icon" style="background-color: rgb(186, 186, 186); height: 20px; width: 20px; border-top-left-radius: 2px; border-bottom-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px;" />
+                </ui:Button>
+                <ui:Button tabindex="-1" display-tooltip-when-elided="true" style="flex-shrink: 1; flex-grow: 1; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; align-items: center; justify-content: center; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; border-top-left-radius: 0; border-bottom-left-radius: 0; border-left-width: 0;">
+                    <ui:VisualElement name="Icon" style="background-image: url(&apos;project://database/Assets/ISILab/LBS%20Plugin/Assets2D/ElementIcon.png?fileID=2800000&amp;guid=c41356f9d44bd1e47b39995dfd60f6be&amp;type=3#ElementIcon&apos;); height: 20px; width: 20px; -unity-background-scale-mode: scale-to-fit;" />
+                </ui:Button>
+            </ui:VisualElement>
+        </ui:Foldout>
     </ui:VisualElement>
 </ui:UXML>

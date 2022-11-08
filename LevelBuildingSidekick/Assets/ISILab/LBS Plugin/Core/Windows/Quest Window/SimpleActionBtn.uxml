@@ -1,0 +1,5 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement name="Action" style="width: 184px; height: 46px; border-left-color: rgb(95, 95, 95); border-right-color: rgb(95, 95, 95); border-top-color: rgb(95, 95, 95); border-bottom-color: rgb(95, 95, 95); border-left-width: 6px; border-right-width: 6px; border-top-width: 6px; border-bottom-width: 6px; border-top-left-radius: 25px; border-bottom-left-radius: 25px; border-top-right-radius: 25px; border-bottom-right-radius: 25px; -unity-text-align: middle-center; margin-left: 8px; margin-right: 8px; margin-top: 8px; margin-bottom: 8px;">
+        <ui:Label tabindex="-1" text="Action" display-tooltip-when-elided="true" style="height: 33px; width: 174px; color: rgb(210, 210, 210); font-size: 24px;" />
+    </ui:VisualElement>
+</ui:UXML>
