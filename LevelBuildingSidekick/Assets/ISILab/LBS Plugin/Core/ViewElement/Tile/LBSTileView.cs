@@ -46,7 +46,7 @@ namespace LBS.ElementView
             this.SetBorderWidth(0);
             HideAllDoors();
 
-            capabilities |= Capabilities.Selectable | Capabilities.Deletable | Capabilities.Ascendable | Capabilities.Copiable | Capabilities.Snappable | Capabilities.Groupable;
+            capabilities |= Capabilities.Selectable | Capabilities.Ascendable | Capabilities.Copiable | Capabilities.Snappable | Capabilities.Groupable;
             usageHints = UsageHints.DynamicTransform;
         }
 
