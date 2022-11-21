@@ -54,11 +54,11 @@ public class StampProportionFitnessByRoom : IRangedEvaluator
             return MinValue;
         }
 
-        var stmc = evaluable as StampTileMapChromosome;
-        var data = stmc.GetGenes<int>();
+        var chromosome = evaluable as StampTileMapChromosome;
+        var data = chromosome.GetGenes<int>();
 
-        var p1count = stmc.stamps.Select(s => s.Label == stamp1.Label).Count();
-        var p2count = stmc.stamps.Select(s => s.Label == stamp2.Label).Count();
+        var p1count = chromosome.stamps.Select(s => s.Label == stamp1.Label).Count();
+        var p2count = chromosome.stamps.Select(s => s.Label == stamp2.Label).Count();
 
         if (p1count == 0 || p2count == 0)
         {
@@ -78,15 +78,15 @@ public class StampProportionFitnessByRoom : IRangedEvaluator
         {
             int counterP1 = 0;
             int counterP2 = 0;
-            foreach (var t in r.Tiles)
+            foreach (var tp in r.TilesPositions)
             {
-                int val = stmc.GetGene<int>(stmc.ToIndex(t.GetPosition()));
+                int val = chromosome.GetGene<int>(chromosome.ToIndex(tp));
                 if (val == -1) continue;
-                if (stamp1.Label == stmc.stamps[val].Label)
+                if (stamp1.Label == chromosome.stamps[val].Label)
                 {
                     counterP1++;
                 }
-                if (stamp2.Label == stmc.stamps[val].Label)
+                if (stamp2.Label == chromosome.stamps[val].Label)
                 {
                     counterP2++;
                 }
