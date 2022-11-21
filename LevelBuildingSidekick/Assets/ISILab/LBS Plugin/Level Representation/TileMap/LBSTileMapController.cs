@@ -74,20 +74,19 @@ namespace LBS.Representation.TileMap
 
         public override void PopulateView(MainView view)
         {
-            //var dt = data.GetDT();
             var rooms = data.GetRooms();
             var doors = data.GetDoors();
             foreach (var room in rooms)
             {
                 foreach (var tile in room.Tiles)
                 {
-                    var pos = tile.GetPosition();// - dt;
+                    var pos = tile.GetPosition();
                     var tv = CreateTileView(tile, pos, tileSize, room);
 
                     foreach (var door in doors)
                     {
-                        var pos1 = door.GetFirstPosition();// - dt;
-                        var pos2 = door.GetSecondPosition();// - dt;
+                        var pos1 = door.GetFirstPosition();
+                        var pos2 = door.GetSecondPosition();
                         if (pos == pos1)
                             tv.ShowDir(pos2 - pos1);
                         else if (pos == pos2)
