@@ -136,9 +136,9 @@ namespace Utility
 
                 best = betters[random.Next(0, betters.Count - 1)];
 
-                if (best is LBSTileMapData)
+                if (best is LBSSchemaData)
                 {
-                    (best as LBSTileMapData).Print(); // debug temporal quitar luego
+                    (best as LBSSchemaData).Print(); // debug temporal quitar luego
                     //Debug.Log(higherScore);
                 }
 

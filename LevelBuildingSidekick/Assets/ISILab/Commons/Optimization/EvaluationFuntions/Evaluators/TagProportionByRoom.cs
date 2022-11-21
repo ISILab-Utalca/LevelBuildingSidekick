@@ -90,7 +90,7 @@ public class TagProportionByRoom : IRangedEvaluator
             indexG2.Add(stmc.stamps.FindIndex(s => s.Label == pr));
         }
 
-        var rooms = (StampTileMapChromosome.TileMap.GetData() as LBSTileMapData).GetRooms();
+        var rooms = (StampTileMapChromosome.TileMap.GetData() as LBSSchemaData).GetRooms();
 
         var fitness = 0;
 

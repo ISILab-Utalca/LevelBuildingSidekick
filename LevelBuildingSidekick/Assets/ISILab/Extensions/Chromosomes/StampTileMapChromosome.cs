@@ -20,7 +20,7 @@ public class StampTileMapChromosome : ChromosomeBase2D<int>, IDrawable
 
         tileSize = (int)stampController.TileSize;
 
-        var tileMap = TileMap.GetData() as LBSTileMapData;
+        var tileMap = TileMap.GetData() as LBSSchemaData;
         var tiles = tileMap.GetRooms().SelectMany(r => r.Tiles);
 
         var x1 = tiles.Min(t => t.GetPosition().x);
@@ -142,7 +142,7 @@ public class StampTileMapChromosome : ChromosomeBase2D<int>, IDrawable
             return;
         }
 
-        var tileMap = TileMap.GetData() as LBSTileMapData;
+        var tileMap = TileMap.GetData() as LBSSchemaData;
         var tiles = tileMap.GetRooms().SelectMany(r => r.Tiles);
 
         string s = ""; 

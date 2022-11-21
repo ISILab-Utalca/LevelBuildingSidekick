@@ -14,7 +14,7 @@ using Random = UnityEngine.Random;
 namespace LBS.Representation.TileMap
 {
     //schema
-    public class LBSTileMapController : LBSRepController<LBSTileMapData> , ITileMap
+    public class LBSTileMapController : LBSRepController<LBSSchemaData> , ITileMap
     {
         private static readonly Vector2 tileSize = new Vector2(100, 100); // mover a data
 
@@ -24,7 +24,7 @@ namespace LBS.Representation.TileMap
 
         public int MatrixWidth => throw new NotImplementedException();
 
-        public LBSTileMapController(LBSGraphView view, LBSTileMapData data) : base(view, data)
+        public LBSTileMapController(LBSGraphView view, LBSSchemaData data) : base(view, data)
         {
 
         }
@@ -99,7 +99,7 @@ namespace LBS.Representation.TileMap
             }
         }
 
-        internal LBSTileMapData RecalculateDoors(LBSTileMapData schema)
+        internal LBSSchemaData RecalculateDoors(LBSSchemaData schema)
         {
             var graphData = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
             schema.ClearDoors();
@@ -181,7 +181,7 @@ namespace LBS.Representation.TileMap
             MeshWriteData mwd = mgc.Allocate(k_Vertices.Length, k_Indices.Length, m_Texture);
         }
 
-        public LBSTileMapData Optimize()
+        public LBSSchemaData Optimize()
         {
             var graphData = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
             var schemaData = data;
@@ -194,7 +194,7 @@ namespace LBS.Representation.TileMap
             return optimized;
         }
 
-        private float EvaluateAdjacencies(LBSGraphData graphData, LBSTileMapData schema) 
+        private float EvaluateAdjacencies(LBSGraphData graphData, LBSSchemaData schema) 
         {
             if (graphData.EdgeCount() <= 0)
             {
@@ -227,7 +227,7 @@ namespace LBS.Representation.TileMap
             return distValue / (float)graphData.EdgeCount();
         }
 
-        private float EvaluateAreas(LBSGraphData graphData, LBSTileMapData tileMap)
+        private float EvaluateAreas(LBSGraphData graphData, LBSSchemaData tileMap)
         {
             var value = 0f;
             for (int i = 0; i < graphData.NodeCount(); i++)
@@ -247,13 +247,13 @@ namespace LBS.Representation.TileMap
             return value / (tileMap.RoomCount * 1f);
         }
 
-        public float EvaluateMap(LBSTileMapData schemaData, LBSGraphData graphData)
+        public float EvaluateMap(LBSSchemaData schemaData, LBSGraphData graphData)
         {
-            var evaluattions = new Tuple<Func<LBSGraphData, LBSTileMapData, float>, float>[]
+            var evaluattions = new Tuple<Func<LBSGraphData, LBSSchemaData, float>, float>[]
             {
-                new Tuple<Func<LBSGraphData, LBSTileMapData, float>,float>(EvaluateAdjacencies,0.5f),
-                new Tuple<Func<LBSGraphData, LBSTileMapData, float>,float>(EvaluateAreas,0.3f),
-                new Tuple<Func<LBSGraphData, LBSTileMapData, float>,float>(EvaluateEmptySpace,0.2f)
+                new Tuple<Func<LBSGraphData, LBSSchemaData, float>,float>(EvaluateAdjacencies,0.5f),
+                new Tuple<Func<LBSGraphData, LBSSchemaData, float>,float>(EvaluateAreas,0.3f),
+                new Tuple<Func<LBSGraphData, LBSSchemaData, float>,float>(EvaluateEmptySpace,0.2f)
             };
 
             var value = 0f;
@@ -267,7 +267,7 @@ namespace LBS.Representation.TileMap
             return value;
         }
 
-        private float EvaluateEmptySpace(LBSGraphData graphData, LBSTileMapData schemaData)
+        private float EvaluateEmptySpace(LBSGraphData graphData, LBSSchemaData schemaData)
         {
             var value = 0f;
             foreach (var room in schemaData.GetRooms())
@@ -332,9 +332,9 @@ namespace LBS.Representation.TileMap
             return lessDist;
         }
 
-        public List<LBSTileMapData> GetNeighbors(LBSTileMapData tileMap)
+        public List<LBSSchemaData> GetNeighbors(LBSSchemaData tileMap)
         {
-            var neightbours = new List<LBSTileMapData>();
+            var neightbours = new List<LBSSchemaData>();
 
             for (int i = 0; i < tileMap.RoomCount; i++)
             {
@@ -345,7 +345,7 @@ namespace LBS.Representation.TileMap
 
                 foreach (var wall in walls)
                 {
-                    var neighbor = tileMap.Clone() as LBSTileMapData;
+                    var neighbor = tileMap.Clone() as LBSSchemaData;
                     var tiles = new List<TileData>();
                     wall.allTiles.ForEach(t => tiles.Add(new TileData( t + wall.dir,room.ID)));
                     neighbor.SetTiles(tiles, room.ID);
@@ -354,7 +354,7 @@ namespace LBS.Representation.TileMap
 
                 foreach (var wall in walls)
                 {
-                    var neighbor = tileMap.Clone() as LBSTileMapData;
+                    var neighbor = tileMap.Clone() as LBSSchemaData;
                     neighbor.RemoveTiles(wall.allTiles);
                     neightbours.Add(neighbor);
                 }

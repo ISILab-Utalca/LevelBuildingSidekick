@@ -87,7 +87,7 @@ namespace LBS.Overlays
                     {
                         var wnd = EditorWindow.GetWindow<LBSSchemaWindow>();
                         var c = wnd.GetController<LBSTileMapController>();
-                        var d = c.GetData() as LBSTileMapData;
+                        var d = c.GetData() as LBSSchemaData;
                         cTemp = d.GetRooms()[index];
                         box.style.backgroundColor = cTemp.Color;
                         index = (index + 1) % d.GetRooms().Count;

@@ -8,9 +8,9 @@ using LBS.Schema;
 
 namespace LBS.Transformers
 {
-    public class GraphToTileMap : Transformer<LBSGraphData, LBSTileMapData>
+    public class GraphToTileMap : Transformer<LBSGraphData, LBSSchemaData>
     {
-        public override LBSTileMapData Transform(LBSGraphData graph)
+        public override LBSSchemaData Transform(LBSGraphData graph)
         {
             if (graph.NodeCount() <= 0)
             {
@@ -25,7 +25,7 @@ namespace LBS.Transformers
             open.Enqueue(parent);
             //Debug.Log("parent: "+parent.Label);
 
-            var tileMap = new LBSTileMapData();
+            var tileMap = new LBSSchemaData();
             int h = Random.Range(parent.RangeHeight.min, parent.RangeHeight.max);
             int w = Random.Range(parent.RangeWidth.min, parent.RangeWidth.max);
             tileMap.AddRoom(Vector2Int.zero, w, h, parent.Label);

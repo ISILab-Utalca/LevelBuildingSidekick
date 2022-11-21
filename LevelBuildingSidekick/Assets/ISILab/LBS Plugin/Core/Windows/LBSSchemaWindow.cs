@@ -56,7 +56,7 @@ namespace LBS.Windows
         public override void OnLoadControllers()
         {
             var data = LBSController.CurrentLevel.data; // peligroso buscar otra forma (!)
-            var tileData = data.GetRepresentation<LBSTileMapData>();
+            var tileData = data.GetRepresentation<LBSSchemaData>();
             var c = new LBSTileMapController(MainView, tileData);
             AddController(c);
         }

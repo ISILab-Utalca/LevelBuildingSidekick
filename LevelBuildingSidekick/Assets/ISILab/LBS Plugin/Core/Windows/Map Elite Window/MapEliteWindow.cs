@@ -181,7 +181,7 @@ namespace LBS.Windows
         private Texture2D BackgroundTexture()
         {
             var tmc = (mainView.GetController<LBSTileMapController>());
-            var rooms = (tmc.GetData() as LBSTileMapData).GetRooms();
+            var rooms = (tmc.GetData() as LBSSchemaData).GetRooms();
             var tiles = rooms.SelectMany(r => r.Tiles);
 
             var x1 = tiles.Min(t => t.GetPosition().x);

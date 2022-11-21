@@ -70,7 +70,7 @@ public class StampProportionFitnessByRoom : IRangedEvaluator
             return MinValue;
         }
 
-        var rooms = (StampTileMapChromosome.TileMap.GetData() as LBSTileMapData).GetRooms();
+        var rooms = (StampTileMapChromosome.TileMap.GetData() as LBSSchemaData).GetRooms();
 
         var fitness = 0;
 
