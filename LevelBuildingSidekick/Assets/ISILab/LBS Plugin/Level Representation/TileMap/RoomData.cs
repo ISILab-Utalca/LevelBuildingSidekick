@@ -12,98 +12,86 @@ namespace LBS.Representation.TileMap
     [System.Serializable]
     public class RoomData : ICloneable
     {
-        // Info
+        // Fields
         [SerializeField, JsonRequired]
         private string id; // laber or ID
         [SerializeField, JsonRequired]
-        private List<TileData> tiles = new List<TileData>();
+        private List<Vector2Int> tilesPos = new List<Vector2Int>(); // (!) podrian ser Vector3int para mapas 3D
         [SerializeField, JsonRequired]
         private string color;
 
         // Metainfo
         [JsonIgnore]
-        internal Vector2Int centroid; // esto podria ir en un controlador y no directamente en la data (??)
-        [JsonIgnore]
         internal Vector2Int surface; // esto podria ir en un controlador y no directamente en la data (??)
         [JsonIgnore]
         private RectInt? rect; // esto podria ir en un controlador y no directamente en la data (??)
 
+        // Properties
+        [JsonIgnore]
+        public Vector2Int Centroid => new Vector2Int( tilesPos.Sum(tp => tp.x), tilesPos.Sum(tp => tp.y)/ tilesPos.Count);
+        [JsonIgnore]
+        public Vector2Int Size => GetRect().size;
+        [JsonIgnore]
+        public int Width => GetRect().width;
+        [JsonIgnore]
+        public int Height => GetRect().height;
         [JsonIgnore]
         public string ID => this.id;
         [JsonIgnore]
         public Color Color { 
-            get
-            {
-                var c = Parse.StrToColor(color);
-                //Debug.Log("#"+color+": <color=#"+ color + ">"+c.ToString()+"</color>");
-                return c;
-            }
+            get => Parse.StrToColor(color);
             set => color = Parse.ColorTosStr(value);
         }
-
         [JsonIgnore]
-        public List<TileData> Tiles => new List<TileData>(tiles);
-
+        public List<Vector2Int> Tiles => new List<Vector2Int>(tilesPos);
         [JsonIgnore]
-        public int TilesCount => tiles.Count;
+        public int TilesCount => tilesPos.Count;
 
         /// <summary>
         /// Empty constructor.
         /// </summary>
         public RoomData() { }
 
-        internal RoomData(List<TileData> tiles, string id)
+        internal RoomData(List<Vector2Int> tiles,Color color, string id)
         {
             this.id = id;
-            this.tiles = tiles;
-            this.color = Parse.ColorTosStr( new Color(UnityEngine.Random.Range(0f,1f), UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f)));
+            this.tilesPos = tiles;
+            this.color = Parse.ColorTosStr(color);
+            //this.color = Parse.ColorTosStr( new Color(UnityEngine.Random.Range(0f,1f), UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f)));
         }
 
         public object Clone()
         {
-            var tiles = new List<TileData>();
-            foreach (var t in this.tiles)
+            var tiles = new List<Vector2Int>();
+            foreach (var t in this.tilesPos)
             {
-                var pos = t.GetPosition();
+                var tilePos = new Vector2Int(t.x,t.y);
                 
-                tiles.Add(t.Clone() as TileData);
+                tiles.Add(tilePos);
             }
-            var clone = new RoomData(tiles, this.id);
+            var clone = new RoomData(tiles,this.Color, this.id);
             return clone;
-        }
-
-        public TileData GetTile(Vector2Int pos)
-        {
-            for (int i = 0; i < tiles.Count; i++)
-            {
-                var t = tiles[i];
-                if(t.GetPosition().Equals(pos))
-                {
-                    return t;
-                }
-            }
-            return null;
         }
 
         internal bool Contains(TileData data)
         {
-            return tiles.Find(t => t.Equals(data)) != null;
+            return tilesPos.Find(t => t.Equals(data.Position)) != null;
         }
 
         internal bool Contains(Vector2Int pos)
         {
-            return tiles.Find(t => t.GetPosition().Equals(pos)) != null;
+            return tilesPos.Find(tp => tp.Equals(pos)) != null;
         }
 
         /// <summary>
         /// Add the tile delivered by parameters, if have it does nothing.
         /// </summary>
         /// <param name="tile"></param>
-        internal void AddTile(TileData tile)
+        internal void AddTile(Vector2Int tile)
         {
-            if (!tiles.Contains(tile))
+            if (!tilesPos.Contains(tile))
             {
-                tiles.Add(tile);
+                tilesPos.Add(tile);
             }
         }
 
@@ -111,25 +99,22 @@ namespace LBS.Representation.TileMap
         /// Remove tile delivered by parameters, if dont have it does nothing.
         /// </summary>
         /// <param name="tile"></param>
-        internal void RemoveTile(TileData tile)
+        internal void RemoveTile(Vector2Int tile)
         {
-            if (tiles.Contains(tile))
+            if (tilesPos.Contains(tile))
             {
-                tiles.Remove(tile);
+                tilesPos.Remove(tile);
             }
         }
 
         internal RectInt GetRect()
         {
 
-            //if (/*!dirty &&*/ rect != null)
-            //    return (RectInt)rect;
-
             Vector2Int max = new Vector2Int(int.MinValue, int.MinValue);
             Vector2Int min = new Vector2Int(int.MaxValue, int.MaxValue);
-            foreach (var t in tiles)
+            foreach (var tilePos in tilesPos)
             {
-                var pos = t.GetPosition();
+                var pos = tilePos;
                 if (pos.x > max.x)
                     max.x = pos.x;
                 if (pos.y > max.y)
@@ -144,115 +129,90 @@ namespace LBS.Representation.TileMap
             return (RectInt)rect;
         }
 
+        [Obsolete("this method is deprecated, instead use the 'Raatio' property instead")]
         internal float GetRatio()
         {
-           // if (/*!dirty &&*/ rect != null)
-           //     return ((RectInt)rect).width / ((RectInt)rect).height;
-
             rect = GetRect();
             return ((RectInt)rect).width / ((RectInt)rect).height;
         }
 
+        [Obsolete("this method is deprecated, instead use the 'Width' property instead")]
         internal int GetWidth()
         {
-            //if (/*!dirty &&*/ rect != null)
-            //    return ((RectInt)rect).width;
-
             rect = GetRect();
             return ((RectInt)rect).width;
         }
 
+        [Obsolete("this method is deprecated, instead use the 'Height' property instead")]
         internal int GetHeight()
         {
-            //if (/*!dirty &&*/ rect != null)
-            //    return ((RectInt)rect).height;
-
             rect = GetRect();
             return ((RectInt)rect).height;
         }
 
-        internal Vector2Int GetCentroid()
+        internal List<Vector2Int> GetConvexCorners() // (??)  esto solo funciona para "4 conected", deberia estar en una clase aparte?, si en la clase de las tablas del gabo
         {
-            //if (/*!dirty &&*/ centroid != null)
-            //    return centroid;
-
-            Vector2Int center = new Vector2Int(0, 0);
-            foreach (var t in tiles)
-                center += t.GetPosition();
-
-            centroid = center / tiles.Count;
-            return centroid;
-        }
-
-        internal List<TileData> GetConvexCorners()
-        {
-            var corners = new List<TileData>();
-            foreach (var current in tiles)
+            var corners = new List<Vector2Int>();
+            foreach (var currentPos in tilesPos)
             {
-                var s = 0;
-                for (int i = 0; i < Directions.sidedirs.Length; i++)
-                {
-                    var neighbor = current.GetPosition() + Directions.sidedirs[i];
-                    if (!tiles.Contains(new TileData(neighbor, this.id))) // (!!!) podria no conicidir nunca
-                    {
-                        s += Mathf.RoundToInt(Mathf.Pow(2, i));
-                    }
-                }
+                var s = CalcNeighValueTile(currentPos);
                 if (s != 0)
                 {
                     if (s % 3 == 0 || s == 7 || s == 11 || s == 13 || s == 14)
-                        corners.Add(current);
+                        corners.Add(currentPos);
                     continue;
                 }
             }
             return corners;
         }
 
-        internal List<TileData> GetConcaveCorners()
+        private int CalcNeighValueTile(Vector2Int position) // (!) el nombre es malisimo mejorar, esta tambien es de la clase de las tablas del gabo
         {
-            var corners = new List<TileData>();
-            foreach (var current in tiles)
+            var value = 0;
+            for (int i = 0; i < Directions.sidedirs.Length; i++)
             {
-                var s = 0;
-                var pos = current.GetPosition();
-                for (int i = 0; i < Directions.sidedirs.Length; i++)
+                var otherPos = position + Directions.sidedirs[i];
+                if (!tilesPos.Contains(otherPos))
                 {
-                    var neighbor = pos + Directions.sidedirs[i];
-                    if (!tiles.Contains(new TileData(neighbor, this.id))) // (!!!) podria no conicidir nunca
-                    {
-                        s += Mathf.RoundToInt(Mathf.Pow(2, i));
-                    }
+                    value += Mathf.RoundToInt(Mathf.Pow(2, i));
                 }
+            }
 
+            return value;
+        }
+
+        internal List<Vector2Int> GetConcaveCorners() // (!) Tambien es de la clase de las tablas del gabo 
+        {
+            var corners = new List<Vector2Int>();
+            foreach (var currentPos in tilesPos)
+            {
+                var s = CalcNeighValueTile(currentPos);
                 if (s != 0)
                     continue;
 
                 for (int i = 0; i < Directions.diagdirs.Length; i++)
                 {
-                    var neighbor = pos  + Directions.diagdirs[i];
-                    if (!tiles.Contains(new TileData(neighbor, this.id))) // (!!!) podria no conicidir nunca
-                    {
-                        var other1 = new Vector2Int(pos.x + Directions.diagdirs[i].x, pos.y);
-                        if (!corners.Contains(new TileData(other1, this.id)))
-                        {
-                            var c = tiles.Find(t => t.GetPosition().Equals(other1));
-                            corners.Add(c);  // (!!!) podria no conicidir nunca
-                        }
+                    var otherPos = currentPos  + Directions.diagdirs[i];
+                    if (tilesPos.Contains(otherPos))
+                        continue;
 
-                        var other2 = new Vector2Int(pos.x, pos.y + Directions.diagdirs[i].y);
-                        if (!corners.Contains(new TileData(other2, this.id)))
-                        {
-                            var c = tiles.Find(t => t.GetPosition().Equals(other2));
-                            corners.Add(c); // (!!!) podria no conicidir nunca
-                        }
+                    var other1 = new Vector2Int(currentPos.x + Directions.diagdirs[i].x, currentPos.y);
+                    if (!corners.Contains(other1))
+                    {
+                        corners.Add(other1);
+                    }
+
+                    var other2 = new Vector2Int(currentPos.x, currentPos.y + Directions.diagdirs[i].y);
+                    if (!corners.Contains(other2))
+                    {
+                        corners.Add(other2);
                     }
                 }
-
             }
             return corners;
         }
 
-        internal List<WallData> GetVerticalWalls()
+        internal List<WallData> GetVerticalWalls() // (!) Tambien es de la clase de las tablas del gabo 
         {
             var walls = new List<WallData>();
 
@@ -262,17 +222,18 @@ namespace LBS.Representation.TileMap
 
             foreach (var current in convexCorners)
             {
-                TileData other = null;
+                Vector2Int? other = null;
                 int lessDist = int.MaxValue;
                 foreach (var candidate in allCorners)
                 {
                     if (current == candidate)
                         continue;
-                    var pos = current.GetPosition();
-                    if (pos.x - candidate.GetPosition().x != 0)
+
+                    var pos = current;
+                    if (pos.x - candidate.x != 0)
                         continue;
 
-                    var dist = Mathf.Abs(pos.y - candidate.GetPosition().y);
+                    var dist = Mathf.Abs(pos.y - candidate.y);
                     if (dist < lessDist)
                     {
                         lessDist = dist;
@@ -283,25 +244,26 @@ namespace LBS.Representation.TileMap
                 if (other == null)
                     other = current;
 
-                if (walls.Any(w => (w.firstCorner == other.GetPosition()) && (w.secondCorner == current.GetPosition())))
+                if (walls.Any(w => (w.First == other) && (w.Last == current)))
                     continue;
 
                 var wallTiles = new List<Vector2Int>();
-                var end = Mathf.Max(current.GetPosition().y, (int)other.GetPosition().y);
-                var start = Mathf.Min(current.GetPosition().y, (int)other.GetPosition().y);
+                var oth = (Vector2Int)other;
+                var end = Mathf.Max(current.y, oth.y);
+                var start = Mathf.Min(current.y, oth.y);
                 for (int i = 0; i <= end- start; i++)
                 {
-                    wallTiles.Add(new Vector2Int(current.GetPosition().x, start + i));
+                    wallTiles.Add(new Vector2Int(current.x, start + i));
                 }
-                var dir = (current.GetPosition().x >= GetCentroid().x) ? Vector2Int.right : Vector2Int.left;
+                var dir = (current.x >= Centroid.x) ? Vector2Int.right : Vector2Int.left;
 
-                var wall = new WallData(current.GetPosition(),other.GetPosition(), this.id, dir, wallTiles);
+                var wall = new WallData(this.id, dir, wallTiles);
                 walls.Add(wall);
             }
             return walls;
         }
 
-        internal List<WallData> GetHorizontalWalls()
+        internal List<WallData> GetHorizontalWalls() // (!) Tambien es de la clase de las tablas del gabo 
         {
             var walls = new List<WallData>();
 
@@ -311,18 +273,18 @@ namespace LBS.Representation.TileMap
 
             foreach (var current in convexCorners)
             {
-                TileData other = null;
+                Vector2Int? other = null;
                 int lessDist = int.MaxValue;
                 foreach (var candidate in allCorners)
                 {
                     if (current == candidate)
                         continue;
 
-                    var pos = current.GetPosition();
-                    if (pos.y - candidate.GetPosition().y != 0)
+                    var pos = current;
+                    if (pos.y - candidate.y != 0)
                         continue;
 
-                    var dist = Mathf.Abs(pos.x - candidate.GetPosition().x);
+                    var dist = Mathf.Abs(pos.x - candidate.x);
                     if (dist < lessDist)
                     {
                         lessDist = dist;
@@ -333,18 +295,19 @@ namespace LBS.Representation.TileMap
                 if (other == null)
                     other = current;
 
-                if (walls.Any(w => (w.firstCorner == other.GetPosition()) && (w.secondCorner == current.GetPosition())))
+                if (walls.Any(w => (w.First == other) && (w.Last == current) ))
                     continue;
 
                 var wallTiles = new List<Vector2Int>();
-                var end = Mathf.Max(current.GetPosition().x, (int)other.GetPosition().x);
-                var start = Mathf.Min(current.GetPosition().x, (int)other.GetPosition().x);
+                var oth = (Vector2Int)other;
+                var end = Mathf.Max(current.x, (int)oth.x);
+                var start = Mathf.Min(current.x, (int)oth.x);
                 for (int i = 0; i <= end - start; i++)
                 {
-                    wallTiles.Add(new Vector2Int(start + i, current.GetPosition().y));
+                    wallTiles.Add(new Vector2Int(start + i, current.y));
                 }
-                var dir = (current.GetPosition().y >= GetCentroid().y) ? Vector2Int.up : Vector2Int.down;
-                var wall = new WallData(current.GetPosition(), other.GetPosition(), this.id, dir, wallTiles);
+                var dir = (current.y >= Centroid.y) ? Vector2Int.up : Vector2Int.down;
+                var wall = new WallData(this.id, dir, wallTiles);
                 walls.Add(wall);
             }
             return walls;
