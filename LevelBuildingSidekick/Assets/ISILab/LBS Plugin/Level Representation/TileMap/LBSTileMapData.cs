@@ -34,7 +34,7 @@ public class LBSTileMapData : LBSRepesentationData, ICloneable
     public LBSTileMapData() { }
 
     // Methods
-    public void RecalculateTilePos() // (!) find a better name 
+    public virtual void RecalculateTilePos() // (!) find a better name 
     {
         var m = GetRect().min;
         foreach (var tile in tiles)
