@@ -35,12 +35,11 @@ namespace LBS.Generator
 
                 var room = schema.GetRoom(node.Label);
                 var doors = schema.GetDoors();
-                foreach (var tile in room.TilesPositions)
+                foreach (var tp in room.TilesPositions)
                 {
                     var pivot = new GameObject();
                     pivot.transform.SetParent(mainPivot.transform);
-                    //var tSize = LBSController.CurrentLevel.data.TileSize;
-                    pivot.transform.position = new Vector3(tile.GetPosition().x, 0, -tile.GetPosition().y) * (tileSize); // (* vector de tamaño de tile en mundo) (!)
+                    pivot.transform.position = new Vector3(tp.x, 0, -tp.y) * (tileSize);
 
                     var cBundle = bundle.GetCategories().Where(c => c.pivotType == PivotType.Center).ToList();
                     var eBundle = bundle.GetCategories().Where(c => c.pivotType == PivotType.Edge).ToList();
@@ -49,7 +48,9 @@ namespace LBS.Generator
                     {
                         GenPhysicCenter(bundel,pivot.transform);
                     }
-                    GenPhysicEdge(eBundle, pivot.transform, tile);
+                    var tile = schema.GetTile(tp);
+                    GenPhysicEdge(schema,eBundle, pivot.transform, tile);
+                    //GenPhysicCorners(blabla);
                 }
             }
             return mainPivot;
@@ -60,7 +61,7 @@ namespace LBS.Generator
             var prefs = bundle.items;
             var r = SceneView.Instantiate(prefs[Random.Range(0, prefs.Count)], parent);
 
-            if(false) // dejar esta como variable que el usuario pueda controlar
+            if(false) // (!) dejar esta como variable que el usuario pueda controlar, y cambiar a que funcione con la rotacion del tile
                 r.transform.Rotate(new Vector3(0, 90, 0) * Random.Range(0, 4));
 
             return r;
@@ -80,15 +81,16 @@ namespace LBS.Generator
             go.transform.LookAt(a + go.transform.position,Vector3.up);
         }
 
-        private GameObject GenPhysicEdge(List<ItemCategory> bundle, Transform parent, TileData tile)//,LBSTileMapData schema)
+        private GameObject GenPhysicEdge(LBSSchemaData schema,List<ItemCategory> bundle, Transform parent, TileData tile)//,LBSTileMapData schema)
         {
             var bWall = bundle.Where(b => b.category == "Wall").ToList();
             var bDoor = bundle.Where(b => b.category == "Door").ToList();
 
             var doors = schema.GetDoors();
+            var room = schema.GetRoom(tile.Position);
             for (int i = 0; i < dirs.Count; i++)
             {
-                var other = schema.GetTile(tile.GetPosition() + dirs[i]);
+                var other = schema.GetTile(tile.Position + dirs[i]);
                 
                 if (other == null) // si no hya otro tile pone muralla
                 {
@@ -96,19 +98,19 @@ namespace LBS.Generator
                     continue;
                 }
 
-                var tempDoor = new DoorData("", "", tile.GetPosition(), tile.GetPosition() + dirs[i]);
+                var tempDoor = new DoorData("", "", tile.Position, tile.Position + dirs[i]);
                 if (doors.Contains(tempDoor)) // si es una puerta pone puerta
                 {
                     InstantiateEdge(bDoor[Random.Range(0, bDoor.Count)], parent, dirs[i]);
                     continue;
                 }
 
-                if(!other.GetRoomID().Equals(tile.GetRoomID())) // si son de diferentes habitaciones pone muralla
+                var otherRoom = schema.GetRoom(other.Position);
+                if(!otherRoom.Equals(room)) // si son de diferentes habitaciones pone muralla
                 {
                     InstantiateEdge(bWall[Random.Range(0, bWall.Count)], parent, dirs[i]);
                 } // si son de la misma no pone nada
             }
-
             return null;
         }   
 
