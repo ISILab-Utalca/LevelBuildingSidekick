@@ -28,8 +28,6 @@ namespace LBS.Representation.TileMap
         // Meta info
         [HideInInspector, JsonIgnore]
         private RectInt? rect;
-        //[HideInInspector, JsonIgnore]
-        //private int[,] tilevalue; // walls
         [HideInInspector, JsonIgnore]
         private Vector2Int size;
 
@@ -47,6 +45,7 @@ namespace LBS.Representation.TileMap
         {
             rooms.Clear();
             doors.Clear();
+            base.Clear();
         }
 
         public void RecalculateTilePos()
@@ -54,10 +53,7 @@ namespace LBS.Representation.TileMap
             var m = GetRect().min;
             foreach (var room in rooms)
             {
-                foreach (var tile in room.Tiles)
-                {
-                    tile.SetPosition(tile.GetPosition() - m);
-                }
+                room.Move(-m);
             }
         }
 
@@ -119,71 +115,11 @@ namespace LBS.Representation.TileMap
             {
                 for (int j = 0; j < height; j++)
                 {
-                    tiles.Add(new TileData(new Vector2Int(firstPos.x + i - (width / 2), firstPos.y + j - (height / 2)), ID));
+                    tiles.Add(new TileData(new Vector2Int(firstPos.x + i - (width / 2), firstPos.y + j - (height / 2))));
                 }
             }
-            rooms.Add(new RoomData(tiles, ID));
-        }
-
-        internal TileData GetTile(Vector2Int pos)
-        {
-            foreach (var room in rooms)
-            {
-                foreach (var tile in room.Tiles)
-                {
-                    if(tile.GetPosition().Equals(pos))
-                    {
-                        return tile;
-                    }
-                }
-            }
-            return null;
-        }
-
-        public void AddTile(TileData tile,string roomId)
-        {
-            SetTiles(new List<TileData>() { tile }, roomId);
-        }
-
-        public void AddTiles(List<TileData> tiles, string roomId)
-        {
-            SetTiles(tiles,roomId);
-        } 
-
-        public void RemoveTiles(List<Vector2Int> tiles)
-        {
-            var toRemove = new List<TileData>();
-            foreach (var r in rooms)
-            {
-                foreach (var t in r.Tiles)
-                {
-                    foreach (var ot in tiles)
-                    {
-                        if (t.GetPosition() == ot)
-                            toRemove.Add(t);
-                    }
-                }
-            }
-            RemoveTiles(toRemove);
-        }
-
-        public void RemoveTiles(List<TileData> tiles)
-        {
-            foreach (var t in tiles)
-            {
-                RemoveTile(t);
-            }
-        }
-
-        public void RemoveTile(TileData tile)
-        {
-            foreach (var r in rooms)
-            {
-                if (r.Tiles.Contains(tile))
-                {
-                    r.RemoveTile(tile);
-                }
-            }
+            var color = new Color(UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f));
+            rooms.Add(new RoomData(tiles.Select(t => t.Position).ToList(), color, ID));
         }
 
         /// <summary>
@@ -236,7 +172,7 @@ namespace LBS.Representation.TileMap
             var matrixIDs = new string[rect.width, rect.height];
             foreach (var r in rooms)
             {
-                foreach (var t in r.Tiles)
+                foreach (var t in r.TilesPositions)
                 {
                     var gp = t.GetPosition();
                     var pos = gp - rect.min;
@@ -244,28 +180,6 @@ namespace LBS.Representation.TileMap
                 }
             }
             return matrixIDs;
-        }
-
-        internal RectInt GetRect()
-        {
-            Vector2Int max = new Vector2Int(int.MinValue, int.MinValue);
-            Vector2Int min = new Vector2Int(int.MaxValue, int.MaxValue);
-            foreach (var r in rooms)
-            {
-                var currentMax = r.GetRect().max;
-                if (currentMax.x > max.x)
-                    max.x = currentMax.x;
-                if (currentMax.y > max.y)
-                    max.y = currentMax.y;
-
-                var currentMin = r.GetRect().min;
-                if (currentMin.x < min.x)
-                    min.x = currentMin.x;
-                if (currentMin.y < min.y)
-                    min.y = currentMin.y;
-            }
-            rect = new RectInt(min, max - min + new Vector2Int(1, 1));
-            return (RectInt)rect;
         }
 
         public override void Print()
