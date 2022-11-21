@@ -78,7 +78,7 @@ namespace LBS.Representation.TileMap
             var doors = data.GetDoors();
             foreach (var room in rooms)
             {
-                foreach (var tile in room.Tiles)
+                foreach (var tile in room.TilesPositions)
                 {
                     var pos = tile.GetPosition();
                     var tv = CreateTileView(tile, pos, tileSize, room);
@@ -121,8 +121,8 @@ namespace LBS.Representation.TileMap
         {
             var lessDist = int.MaxValue;
             var nearest = new List<Tuple<TileData, TileData>>();
-            var ts1 = r1.Tiles;
-            var ts2 = r2.Tiles;
+            var ts1 = r1.TilesPositions;
+            var ts2 = r2.TilesPositions;
             for (int i = 0; i < ts1.Count; i++)
             {
                 for (int j = 0; j < ts2.Count; j++)
@@ -312,8 +312,8 @@ namespace LBS.Representation.TileMap
         private int GetRoomDistance(RoomData r1, RoomData r2) // O2 - manhattan
         {
             var lessDist = int.MaxValue;
-            var ts1 = r1.Tiles;
-            var ts2 = r2.Tiles;
+            var ts1 = r1.TilesPositions;
+            var ts2 = r2.TilesPositions;
             for (int i = 0; i < ts1.Count; i++)
             {
                 for (int j = 0; j < ts2.Count; j++)
