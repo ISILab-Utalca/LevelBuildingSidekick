@@ -25,18 +25,14 @@ namespace LBS.Representation.TileMap
         [SerializeField, JsonRequired, SerializeReference]
         private List<DoorData> doors = new List<DoorData>();
 
-        // Meta info
-        [HideInInspector, JsonIgnore]
-        private RectInt? rect;
-        [HideInInspector, JsonIgnore]
-        private Vector2Int size;
-
+        // Properties
         [JsonIgnore]
         public int RoomCount => rooms.Count;
 
-        [JsonIgnore]
-        public override Type ControllerType => typeof(Controller);
+        // Constructors
+        public LBSSchemaData() : base () { }
 
+        // Methods
         internal RoomData GetRoom(int i) => rooms[i];
 
         public List<RoomData> GetRooms() => new List<RoomData>(rooms);
@@ -48,12 +44,17 @@ namespace LBS.Representation.TileMap
             base.Clear();
         }
 
-        public void RecalculateTilePos()
+        public override void RecalculateTilePos()
         {
             var m = GetRect().min;
             foreach (var room in rooms)
             {
                 room.Move(-m);
+            }
+
+            foreach(var tile in this.tiles)
+            {
+                tile.Position -= m;
             }
         }
 
@@ -142,14 +143,24 @@ namespace LBS.Representation.TileMap
             
             foreach (var t in tiles)
             {
-                room.AddTile(t);
+                tiles.Add(t);
+                room.AddTile(t.Position);
             }
         }
 
-        public object Clone()
+        internal RoomData GetRoom(Vector2Int tilePos)
+        {
+            foreach (var room in rooms)
+            {
+                if (room.Contains(tilePos))
+                    return room;
+            }
+            return null;
+        }
+
+        public override object Clone()
         {
             var clone = new LBSSchemaData();
-            clone.size = size + new Vector2Int();
             clone.rooms = new List<RoomData>();
             foreach (var r in rooms)
             {
@@ -170,11 +181,11 @@ namespace LBS.Representation.TileMap
         {
             var rect = GetRect();
             var matrixIDs = new string[rect.width, rect.height];
-            foreach (var r in rooms)
+            foreach (var r in rooms)    // (!!) esto solo considera a los tiles que pertenecen a una habitacion
             {
                 foreach (var t in r.TilesPositions)
                 {
-                    var gp = t.GetPosition();
+                    var gp = t;
                     var pos = gp - rect.min;
                     matrixIDs[pos.x, pos.y] = r.ID;
                 }
