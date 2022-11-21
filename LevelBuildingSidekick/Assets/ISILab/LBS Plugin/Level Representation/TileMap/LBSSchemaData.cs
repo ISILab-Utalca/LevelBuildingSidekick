@@ -53,7 +53,6 @@ namespace LBS.Representation.TileMap
 
         public void RecalculateTilePos()
         {
-            rect = null;
             var m = GetRect().min;
             foreach (var room in rooms)
             {
@@ -126,7 +125,6 @@ namespace LBS.Representation.TileMap
                 }
             }
             rooms.Add(new RoomData(tiles, ID));
-            SetDirty();
         }
 
         internal TileData GetTile(Vector2Int pos)
@@ -147,14 +145,12 @@ namespace LBS.Representation.TileMap
         public void AddTile(TileData tile,string roomId)
         {
             SetTiles(new List<TileData>() { tile }, roomId);
-            SetDirty();
         }
 
         public void AddTiles(List<TileData> tiles, string roomId)
         {
             SetTiles(tiles,roomId);
-            SetDirty();
-        }
+        } 
 
         public void RemoveTiles(List<Vector2Int> tiles)
         {
@@ -179,7 +175,6 @@ namespace LBS.Representation.TileMap
             {
                 RemoveTile(t);
             }
-            SetDirty();
         }
 
         public void RemoveTile(TileData tile)
@@ -191,7 +186,6 @@ namespace LBS.Representation.TileMap
                     r.RemoveTile(tile);
                 }
             }
-            SetDirty();
         }
 
         /// <summary>
@@ -216,7 +210,6 @@ namespace LBS.Representation.TileMap
             {
                 room.AddTile(t);
             }
-            SetDirty();
         }
 
         public object Clone()
@@ -241,10 +234,6 @@ namespace LBS.Representation.TileMap
 
         internal string[,] GetMatrix()
         {
-            if (matrixIDs != null)
-                return matrixIDs;
-
-            this.rect = null;
             var rect = GetRect();
             matrixIDs = new string[rect.width, rect.height];
             foreach (var r in rooms)
@@ -261,9 +250,6 @@ namespace LBS.Representation.TileMap
 
         internal RectInt GetRect()
         {
-            if (/*!dirty &&*/ rect != null)
-                return (RectInt)rect;
-
             Vector2Int max = new Vector2Int(int.MinValue, int.MinValue);
             Vector2Int min = new Vector2Int(int.MaxValue, int.MaxValue);
             foreach (var r in rooms)
@@ -306,7 +292,6 @@ namespace LBS.Representation.TileMap
                 }
                 msg += "\n";
             }
-            //Debug.Log(msg);
             Debug.Log(msg);
         }
     }
