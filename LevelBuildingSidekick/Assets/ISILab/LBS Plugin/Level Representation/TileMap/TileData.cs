@@ -10,9 +10,7 @@ namespace LBS.Representation
     [System.Serializable]
     public class TileData : ICloneable
     {
-        // Informacion propia
-
-        // Position
+        // Fields
         [SerializeField, JsonRequired]
         private int x;
         [SerializeField, JsonRequired]
@@ -20,44 +18,47 @@ namespace LBS.Representation
         [SerializeField, JsonRequired]
         private int rotation;
         
+        // Properties
+        [JsonIgnore]
+        public Vector2Int Position
+        {
+            get => new Vector2Int(x, y);
+            set { x = value.x; y = value.y; }
+        }
 
-        // Informacion de referencia
+        // Events
+        [HideInInspector]
+        public event Action<TileData> OnDataChange;
 
-        [SerializeField, JsonRequired]
-        private string roomId; // info duplicada (?)
-
-        [HideInInspector, JsonIgnore]
-        private Action<TileData> OnDataChange;
-
+        // Constructors
         public TileData() { }
 
-        public TileData(int x, int y,string roomId)//, Action<TileData> onChange)// = null)
+        public TileData(int x, int y)
         {
             this.x = x;
             this.y = y;
-            this.roomId = roomId;
-            //this.OnDataChange = onChange;
         }
 
-        public TileData(Vector2Int pos, string roomId)//, Action<TileData> onChange)// = null)
+        public TileData(Vector2Int pos)
         {
             this.x = pos.x;
             this.y = pos.y;
-            this.roomId = roomId;
-            //this.OnDataChange = onChange;
         }
 
+        // Methods
         public object Clone()
         {
-            var clone = new TileData(this.x, this.y, this.roomId);//, this.OnDataChange);
+            var clone = new TileData(this.x, this.y);
             return clone;
         }
 
+        [Obsolete("this method is deprecated, instead use the 'Postion' property instead")]
         public Vector2Int GetPosition()
         {
             return new Vector2Int(x, y);
         }
 
+        [Obsolete("this method is deprecated, instead use the 'Position' property instead")]
         public void SetPosition(Vector2Int pos)
         {
             this.x = pos.x;
@@ -81,11 +82,6 @@ namespace LBS.Representation
         public override int GetHashCode()
         {
             return HashCode.Combine(x, y);
-        }
-
-        internal string GetRoomID()
-        {
-            return this.roomId;
         }
     }
 }
