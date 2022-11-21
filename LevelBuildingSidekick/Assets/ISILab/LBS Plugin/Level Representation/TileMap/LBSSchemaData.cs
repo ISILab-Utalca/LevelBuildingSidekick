@@ -18,7 +18,7 @@ namespace LBS.Representation.TileMap
     [System.Serializable]
     public class LBSSchemaData : LBSRepesentationData, ICloneable // cambiar de nombre a mapData o baseStructureData
     {
-        // Concrete info
+        // Fields
         [SerializeField, JsonRequired, SerializeReference]
         private List<RoomData> rooms = new List<RoomData>();
 
@@ -26,8 +26,6 @@ namespace LBS.Representation.TileMap
         private List<DoorData> doors = new List<DoorData>();
 
         // Meta info
-        [HideInInspector, JsonIgnore] 
-        private string[,] matrixIDs; // matriz con info de la habitacion a la que correspode cada tile
         [HideInInspector, JsonIgnore]
         private RectInt? rect;
         //[HideInInspector, JsonIgnore]
@@ -232,10 +230,10 @@ namespace LBS.Representation.TileMap
             return clone;
         }
 
-        internal string[,] GetMatrix()
+        internal string[,] GetMatrix() // (?) inecesaria ?
         {
             var rect = GetRect();
-            matrixIDs = new string[rect.width, rect.height];
+            var matrixIDs = new string[rect.width, rect.height];
             foreach (var r in rooms)
             {
                 foreach (var t in r.Tiles)
