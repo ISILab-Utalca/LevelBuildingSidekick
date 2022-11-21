@@ -9,7 +9,7 @@ public class LBSTileMapData : LBSRepesentationData, ICloneable
 {
     // Fields
     [SerializeField, JsonRequired, SerializeReference]
-    private List<TileData> tiles = new List<TileData>(); // (??) cambiar tileData a ITile
+    protected List<TileData> tiles = new List<TileData>(); // (??) cambiar tileData a ITile
     [SerializeField, JsonRequired]
     private Vector2Int maxMapSize;
     [SerializeField, JsonRequired]
