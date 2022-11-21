@@ -16,7 +16,7 @@ namespace LBS.Representation.TileMap
     }
 
     [System.Serializable]
-    public class LBSSchemaData : LBSRepesentationData, ICloneable // cambiar de nombre a mapData o baseStructureData
+    public class LBSSchemaData : LBSTileMapData, ICloneable // cambiar de nombre a mapData o baseStructureData
     {
         // Fields
         [SerializeField, JsonRequired, SerializeReference]
