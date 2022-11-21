@@ -35,7 +35,7 @@ namespace LBS.Generator
 
                 var room = schema.GetRoom(node.Label);
                 var doors = schema.GetDoors();
-                foreach (var tile in room.Tiles)
+                foreach (var tile in room.TilesPositions)
                 {
                     var pivot = new GameObject();
                     pivot.transform.SetParent(mainPivot.transform);
