@@ -312,14 +312,14 @@ namespace LBS.Representation.TileMap
         private int GetRoomDistance(RoomData r1, RoomData r2) // O2 - manhattan
         {
             var lessDist = int.MaxValue;
-            var ts1 = r1.TilesPositions;
-            var ts2 = r2.TilesPositions;
-            for (int i = 0; i < ts1.Count; i++)
+            var tPos1 = r1.TilesPositions;
+            var tPos2 = r2.TilesPositions;
+            for (int i = 0; i < tPos1.Count; i++)
             {
-                for (int j = 0; j < ts2.Count; j++)
+                for (int j = 0; j < tPos2.Count; j++)
                 {
-                    var t1 = ts1[i].GetPosition();
-                    var t2 = ts2[j].GetPosition();
+                    var t1 = tPos1[i];
+                    var t2 = tPos2[j];
 
                     var dist = Mathf.Abs(t1.x - t2.x) + Mathf.Abs(t1.y - t2.y); // manhattan
 
@@ -347,7 +347,7 @@ namespace LBS.Representation.TileMap
                 {
                     var neighbor = tileMap.Clone() as LBSSchemaData;
                     var tiles = new List<TileData>();
-                    wall.allTiles.ForEach(t => tiles.Add(new TileData( t + wall.dir,room.ID)));
+                    wall.allTiles.ForEach(t => tiles.Add(new TileData( t + wall.dir)));
                     neighbor.SetTiles(tiles, room.ID);
                     neightbours.Add(neighbor);
                 }
