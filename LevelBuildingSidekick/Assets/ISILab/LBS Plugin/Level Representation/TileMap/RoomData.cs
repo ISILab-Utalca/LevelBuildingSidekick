@@ -23,9 +23,6 @@ namespace LBS.Representation.TileMap
         // Metainfo
         [JsonIgnore]
         internal Vector2Int surface; // esto podria ir en un controlador y no directamente en la data (??)
-        [JsonIgnore]
-        private RectInt? rect; // esto podria ir en un controlador y no directamente en la data (??)
-
         // Properties
         [JsonIgnore]
         public Vector2Int Centroid => new Vector2Int( tilesPos.Sum(tp => tp.x), tilesPos.Sum(tp => tp.y)/ tilesPos.Count);
@@ -35,6 +32,8 @@ namespace LBS.Representation.TileMap
         public int Width => GetRect().width;
         [JsonIgnore]
         public int Height => GetRect().height;
+        [JsonIgnore]
+        public float Ratio => (Width / Height * 1f);
         [JsonIgnore]
         public string ID => this.id;
         [JsonIgnore]
@@ -129,29 +128,29 @@ namespace LBS.Representation.TileMap
                 if (pos.y < min.y)
                     min.y = pos.y;
             }
-            rect = new RectInt(min, max - min + new Vector2Int(1, 1));
-            return (RectInt)rect;
+            var rect = new RectInt(min, max - min + new Vector2Int(1, 1));
+            return rect;
         }
 
         [Obsolete("this method is deprecated, instead use the 'Raatio' property instead")]
         internal float GetRatio()
         {
-            rect = GetRect();
+            var rect = GetRect();
             return ((RectInt)rect).width / ((RectInt)rect).height;
         }
 
         [Obsolete("this method is deprecated, instead use the 'Width' property instead")]
         internal int GetWidth()
         {
-            rect = GetRect();
-            return ((RectInt)rect).width;
+            var rect  = GetRect();
+            return (rect).width;
         }
 
         [Obsolete("this method is deprecated, instead use the 'Height' property instead")]
         internal int GetHeight()
         {
-            rect = GetRect();
-            return ((RectInt)rect).height;
+            var rect  = GetRect();
+            return (rect).height;
         }
 
         internal List<Vector2Int> GetConvexCorners() // (??)  esto solo funciona para "4 conected", deberia estar en una clase aparte?, si en la clase de las tablas del gabo
