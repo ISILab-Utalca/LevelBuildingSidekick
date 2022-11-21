@@ -59,8 +59,8 @@ public class TagProportionByRoom : IRangedEvaluator
             return MinValue;
         }
 
-        var stmc = evaluable as StampTileMapChromosome;
-        var data = stmc.GetGenes<int>();
+        var chromosome = evaluable as StampTileMapChromosome;
+        var data = chromosome.GetGenes<int>();
 
         var pressets = Utility.DirectoryTools.GetScriptables<StampPresset>();
 
@@ -82,12 +82,12 @@ public class TagProportionByRoom : IRangedEvaluator
 
         foreach (var pr in pressetsG1)
         {
-            indexG1.Add(stmc.stamps.FindIndex(s => s.Label == pr));
+            indexG1.Add(chromosome.stamps.FindIndex(s => s.Label == pr));
         }
 
         foreach (var pr in pressetsG2)
         {
-            indexG2.Add(stmc.stamps.FindIndex(s => s.Label == pr));
+            indexG2.Add(chromosome.stamps.FindIndex(s => s.Label == pr));
         }
 
         var rooms = (StampTileMapChromosome.TileMap.GetData() as LBSSchemaData).GetRooms();
@@ -100,15 +100,15 @@ public class TagProportionByRoom : IRangedEvaluator
             int counterG1 = 0;
             int counterG2 = 0;
 
-            foreach (var t in r.Tiles)
+            foreach (var tp in r.TilesPositions)
             {
-                int val = stmc.GetGene<int>(stmc.ToIndex(t.GetPosition()));
+                int val = chromosome.GetGene<int>(chromosome.ToIndex(tp));
                 if (val == -1) continue;
                 if (indexG1.Contains(val))
                 {
                     counterG1++;
                 }
-                else if(indexG2.Contains(stmc.GetGene<int>(stmc.ToIndex(t.GetPosition()))))
+                else if(indexG2.Contains(chromosome.GetGene<int>(chromosome.ToIndex(tp))))
                 {
                     counterG2++;
                 }
