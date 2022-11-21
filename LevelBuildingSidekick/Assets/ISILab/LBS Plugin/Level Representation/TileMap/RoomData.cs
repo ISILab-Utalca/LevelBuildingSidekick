@@ -10,7 +10,7 @@ namespace LBS.Representation.TileMap
 {
 
     [System.Serializable]
-    public class RoomData : ICloneable
+    public class RoomData : ICloneable // (?) esto podria llamarse algo como "area data" o algo asi
     {
         // Fields
         [SerializeField, JsonRequired]
@@ -43,7 +43,7 @@ namespace LBS.Representation.TileMap
             set => color = Parse.ColorTosStr(value);
         }
         [JsonIgnore]
-        public List<Vector2Int> Tiles => new List<Vector2Int>(tilesPos);
+        public List<Vector2Int> TilesPositions => new List<Vector2Int>(tilesPos);
         [JsonIgnore]
         public int TilesCount => tilesPos.Count;
 
@@ -57,7 +57,11 @@ namespace LBS.Representation.TileMap
             this.id = id;
             this.tilesPos = tiles;
             this.color = Parse.ColorTosStr(color);
-            //this.color = Parse.ColorTosStr( new Color(UnityEngine.Random.Range(0f,1f), UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f)));
+        }
+
+        internal void Move(Vector2Int value)
+        {
+            tilesPos.ForEach(tp => tp += value);
         }
 
         public object Clone()
