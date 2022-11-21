@@ -17,7 +17,11 @@ namespace LBS.Representation
         private int y;
         [SerializeField, JsonRequired]
         private int rotation;
-        
+        [SerializeField, JsonRequired]
+        private string[] connection; // (?) name can also be "relationshipNeighbors"
+        [SerializeField, JsonRequired]
+        private int maxConnection; // (?) name can also be "maxNeighbors"
+
         // Properties
         [JsonIgnore]
         public Vector2Int Position
@@ -25,6 +29,18 @@ namespace LBS.Representation
             get => new Vector2Int(x, y);
             set { x = value.x; y = value.y; }
         }
+        [HideInInspector, JsonIgnore]
+        public int Rotation
+        {
+            get => rotation;
+            set
+            {
+                if (!CanBeRotated)
+                    return;
+                rotation = Mathf.Clamp(value, 0, maxConnection);
+            }
+        }
+        public bool CanBeRotated => true;
 
         // Events
         [HideInInspector]
