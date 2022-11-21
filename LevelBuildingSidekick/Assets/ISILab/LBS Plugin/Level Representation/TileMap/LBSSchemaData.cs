@@ -49,20 +49,6 @@ namespace LBS.Representation.TileMap
         {
             rooms.Clear();
             doors.Clear();
-            SetDirty();
-        }
-
-        public void SetDirty() // este nombre no es correcto pero se asemeja al comportamiento de unity (!)
-        {
-            matrixIDs = null;
-            rect = null;
-            //tilevalue = null;
-            //RecalculateTilePos();
-        }
-
-        public Vector2Int GetDT()
-        {
-            return GetRect().min;
         }
 
         public void RecalculateTilePos()
