@@ -23,19 +23,11 @@ public class StampTileMapChromosome : ChromosomeBase2D<int>, IDrawable
         var tileMap = TileMap.GetData() as LBSSchemaData;
         var tiles = tileMap.GetRooms().SelectMany(r => r.TilesPositions);
 
-        var x1 = tiles.Min(t => t.GetPosition().x);
-        var x2 = tiles.Max(t => t.GetPosition().x);
+        var x1 = tiles.Min(t => t.x);
+        var x2 = tiles.Max(t => t.x);
 
-        var y1 = tiles.Min(t => t.GetPosition().y);
-        var y2 = tiles.Max(t => t.GetPosition().y);
-
-        /*
-        var x1 = rawStamps.Min(s => s.Position.x);
-        var x2 = rawStamps.Max(s => s.Position.x);
-
-        var y1 = rawStamps.Min(s => s.Position.y);
-        var y2 = rawStamps.Max(s => s.Position.y);
-        */
+        var y1 = tiles.Min(t => t.y);
+        var y2 = tiles.Max(t => t.y);
 
         int width = (x2 - x1) + 1;
         int height = (y2 - y1) + 1;
@@ -149,7 +141,7 @@ public class StampTileMapChromosome : ChromosomeBase2D<int>, IDrawable
         if (i != -1)
         {
             s += "Index: " + index + " - Pos: " + ToMatrixPosition(index) + " // ";
-            if (!tiles.Any(t => t.GetPosition() == ToMatrixPosition(index)))
+            if (!tiles.Any(t => t == ToMatrixPosition(index)))
             {
                 base.ReplaceGene(index, -1);
                 s += "Rejected";
