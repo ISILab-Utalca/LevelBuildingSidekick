@@ -182,13 +182,13 @@ namespace LBS.Windows
         {
             var tmc = (mainView.GetController<LBSTileMapController>());
             var rooms = (tmc.GetData() as LBSSchemaData).GetRooms();
-            var tiles = rooms.SelectMany(r => r.Tiles);
+            var tiles = rooms.SelectMany(r => r.TilesPositions);
 
-            var x1 = tiles.Min(t => t.GetPosition().x);
-            var x2 = tiles.Max(t => t.GetPosition().x);
+            var x1 = tiles.Min(t => t.x);
+            var x2 = tiles.Max(t => t.x);
 
-            var y1 = tiles.Min(t => t.GetPosition().y);
-            var y2 = tiles.Max(t => t.GetPosition().y);
+            var y1 = tiles.Min(t => t.y);
+            var y2 = tiles.Max(t => t.y);
 
             int width = (x2 - x1) + 1;
             int height = (y2 - y1) + 1;
@@ -210,9 +210,9 @@ namespace LBS.Windows
                 }
                 aux.SetPixels(pixels);
                 aux.Apply();
-                foreach(var t in r.Tiles)
+                foreach(var tp in r.TilesPositions)
                 {
-                    var pos = t.GetPosition();
+                    var pos = tp;
                     texture.InsertTextureInRect(aux, (int)(pos.x * tmc.TileSize), (int)((height - 1 - pos.y) * tmc.TileSize), (int)tmc.TileSize, (int)tmc.TileSize);
                 }
             }
