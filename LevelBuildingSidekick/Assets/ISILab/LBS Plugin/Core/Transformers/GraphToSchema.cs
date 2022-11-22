@@ -8,7 +8,7 @@ using LBS.Schema;
 
 namespace LBS.Transformers
 {
-    public class GraphToTileMap : Transformer<LBSGraphData, LBSSchemaData>
+    public class GraphToSchema : Transformer<LBSGraphData, LBSSchemaData>
     {
         public override LBSSchemaData Transform(LBSGraphData graph)
         {
@@ -23,19 +23,17 @@ namespace LBS.Transformers
 
             var parent = graph.GetNodes().OrderByDescending((n) => graph.GetNeighbors(n).Count).First() as RoomCharacteristicsData;
             open.Enqueue(parent);
-            //Debug.Log("parent: "+parent.Label);
 
-            var tileMap = new LBSSchemaData();
+            var schema = new LBSSchemaData();
             int h = Random.Range(parent.RangeHeight.min, parent.RangeHeight.max);
             int w = Random.Range(parent.RangeWidth.min, parent.RangeWidth.max);
-            tileMap.AddRoom(Vector2Int.zero, w, h, parent.Label);
+            schema.AddRoom(Vector2Int.zero, w, h, parent.Label);
 
             while (open.Count > 0)
             {
                 parent = open.Dequeue() as RoomCharacteristicsData;
 
                 var childs = graph.GetNeighbors(parent);
-                //var childs = graph.GetNeighbors(parent).OrderBy(n => Utility.MathTools.GetAngleD15(parent.Centroid, n.Centroid)).Select( c => c as RoomCharacteristicsData);
 
                 foreach (var child in childs)
                 {
@@ -52,25 +50,14 @@ namespace LBS.Transformers
                     var dir = ((Vector2)(child.Centroid - parent.Centroid)).normalized;
                     var posX = dir.x * ((childW + parentW) / 2f) * 1.41f;
                     var posY = dir.y * ((childH + parentH) / 2f) * 1.41f;
-                    tileMap.AddRoom(new Vector2Int((int)posX, (int)posY), childW, childH, child.Label);
+                    schema.AddRoom(new Vector2Int((int)posX, (int)posY), childW, childH, child.Label);
                 }
 
                 closed.Add(parent);
             }
 
-            var tiles = tileMap.GetRooms().SelectMany(r => r.TilesPositions);
-
-            var x = tiles.Min(t => t.GetPosition().x);
-            var y = tiles.Min(t => t.GetPosition().y);
-
-            var dp = new Vector2Int(x,y);
-
-            foreach(var t in tiles)
-            {
-                t.SetPosition(t.GetPosition() - dp);
-            }
-
-            return tileMap;
+            schema.RecalculateTilePos();
+            return schema;
         }
     }
 }

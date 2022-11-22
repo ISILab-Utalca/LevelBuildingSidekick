@@ -52,7 +52,7 @@ namespace LBS.Graph
         public void GenerateSchema() 
         {
             var g = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>(); // peligroso buscar otra forma (!)
-            var tm = new GraphToTileMap().Transform(g);
+            var tm = new GraphToSchema().Transform(g);
             LBSController.CurrentLevel.data.AddRepresentation(tm);
         }
 
