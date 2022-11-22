@@ -75,8 +75,6 @@ namespace LBS.Manipulators
                 return;
 
             var door = new DoorData(
-                first.GetRoomID(),
-                second.GetRoomID(),
                 first.GetPosition(),
                 second.GetPosition()
                 );

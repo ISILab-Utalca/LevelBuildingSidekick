@@ -111,11 +111,6 @@ public class Line : GraphElement
     {
 
     }
-
-    void OnGenerateVisualContent(MeshGenerationContext mgc)
-    {
-
-    }
 }
 
 public class Dot : GraphElement

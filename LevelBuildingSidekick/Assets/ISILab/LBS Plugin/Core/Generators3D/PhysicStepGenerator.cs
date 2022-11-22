@@ -98,7 +98,7 @@ namespace LBS.Generator
                     continue;
                 }
 
-                var tempDoor = new DoorData("", "", tile.Position, tile.Position + dirs[i]);
+                var tempDoor = new DoorData(tile.Position, tile.Position + dirs[i]);
                 if (doors.Contains(tempDoor)) // si es una puerta pone puerta
                 {
                     InstantiateEdge(bDoor[Random.Range(0, bDoor.Count)], parent, dirs[i]);
