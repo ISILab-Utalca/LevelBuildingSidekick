@@ -6,32 +6,29 @@ namespace LBS.Representation
 {
     public class DoorData : ICloneable
     {
-        [SerializeField, JsonRequired]
-        private string room1, room2;
+        // Fields
         [SerializeField, JsonRequired]
         private int x1, y1;
         [SerializeField, JsonRequired]
         private int x2, y2;
 
+        // Events
         [HideInInspector, JsonIgnore]
         private Action<DoorData> OnDataChange;
 
+        // Constructors
         public DoorData() { }
 
-        public DoorData(string room1, string room2, int x1, int y1, int x2, int y2) // los tiles deberias saber a que room pertenecen (?)
+        public DoorData( int x1, int y1, int x2, int y2)
         {
-            this.room1 = room1;
-            this.room2 = room2;
             this.x1 = x1;
             this.y1 = y1;
             this.x2 = x2;
             this.y2 = y2;
         }
 
-        public DoorData(string room1, string room2, Vector2Int tile1, Vector2Int tile2) // los tiles deberias saber a que room pertenecen (?)
+        public DoorData( Vector2Int tile1, Vector2Int tile2) 
         {
-            this.room1 = room1;
-            this.room2 = room2;
             this.x1 = tile1.x;
             this.y1 = tile1.y;
             this.x2 = tile2.x;
@@ -50,7 +47,7 @@ namespace LBS.Representation
 
         public object Clone()
         {
-            var clone = new DoorData(this.room1, this.room2, x1, y1, x2, y2);
+            var clone = new DoorData( x1, y1, x2, y2);
             return clone;
         }
 
@@ -71,7 +68,7 @@ namespace LBS.Representation
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(room1, room2, x1, y1, x2, y2);
+            return HashCode.Combine( x1, y1, x2, y2);
         }
     }
 }
