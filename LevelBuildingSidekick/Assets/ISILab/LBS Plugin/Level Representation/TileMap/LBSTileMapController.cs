@@ -52,7 +52,7 @@ namespace LBS.Representation.TileMap
 
         public DoorData GetDoor(TileData t1,TileData t2)
         {
-            var temp = new DoorData(t1.GetRoomID(), t2.GetRoomID(),t1.GetPosition(), t2.GetPosition());
+            var temp = new DoorData(t1.GetPosition(), t2.GetPosition());
             foreach ( var door in data.GetDoors())
             {
                 if(door.Equals(temp))
@@ -78,9 +78,9 @@ namespace LBS.Representation.TileMap
             var doors = data.GetDoors();
             foreach (var room in rooms)
             {
-                foreach (var tile in room.TilesPositions)
+                foreach (var pos in room.TilesPositions)
                 {
-                    var pos = tile.GetPosition();
+                    var tile = data.GetTile(pos);
                     var tv = CreateTileView(tile, pos, tileSize, room);
 
                     foreach (var door in doors)
@@ -111,7 +111,7 @@ namespace LBS.Representation.TileMap
                 var tiles = GetNearestTiles(room1,room2);
 
                 var doorTiles = tiles[Random.Range(0,tiles.Count)];
-                var door = new DoorData(room1.ID, room2.ID, doorTiles.Item1.GetPosition(), doorTiles.Item2.GetPosition());
+                var door = new DoorData(doorTiles.Item1.GetPosition(), doorTiles.Item2.GetPosition());
                 schema.AddDoor(door);
             }
             return schema;
@@ -120,31 +120,38 @@ namespace LBS.Representation.TileMap
         private List<Tuple<TileData,TileData>> GetNearestTiles(RoomData r1,RoomData r2)
         {
             var lessDist = int.MaxValue;
-            var nearest = new List<Tuple<TileData, TileData>>();
+            var nearest = new List<Tuple<Vector2Int, Vector2Int>>();
             var ts1 = r1.TilesPositions;
             var ts2 = r2.TilesPositions;
             for (int i = 0; i < ts1.Count; i++)
             {
                 for (int j = 0; j < ts2.Count; j++)
                 {
-                    var t1 = ts1[i].GetPosition();
-                    var t2 = ts2[j].GetPosition();
+                    var tPos1 = ts1[i];
+                    var tPos2 = ts2[j];
 
-                    var dist = Mathf.Abs(t1.x - t2.x) + Mathf.Abs(t1.y - t2.y); // manhattan
+                    var dist = Mathf.Abs(tPos1.x - tPos2.x) + Mathf.Abs(tPos1.y - tPos2.y); // manhattan
 
                     if (dist == lessDist)
                     {
-                        nearest.Add(new Tuple<TileData,TileData>(ts1[i], ts2[j]));
+                        nearest.Add(new Tuple<Vector2Int, Vector2Int>(ts1[i], ts2[j]));
                     }
                     else if(dist < lessDist)
                     {
                         nearest.Clear();
-                        nearest.Add(new Tuple<TileData, TileData>(ts1[i], ts2[j]));
+                        nearest.Add(new Tuple<Vector2Int, Vector2Int>(ts1[i], ts2[j]));
                         lessDist = dist;
                     }
                 }
             }
-            return nearest;
+
+            var schema = GetData() as LBSSchemaData;
+            var toR = nearest.Select(n => {
+                var t1 = schema.GetTile(n.Item1);
+                var t2 = schema.GetTile(n.Item2);
+                return new Tuple<TileData, TileData>(t1,t2);
+            }).ToList();
+            return toR;
         }
 
         public override string GetName()
