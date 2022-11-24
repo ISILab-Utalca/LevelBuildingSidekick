@@ -37,7 +37,7 @@ namespace LBS.VisualElements
 
             foreach (var c in controllers)
             {
-                var toggle = new Toggle(c.GetName()); // cambiar a un nombre decvente  en vez de usar toString() (!)
+                var toggle = new Toggle(c.GetName()); 
                 toggle.RegisterValueChangedCallback((v) => { c.ShowView(!v.newValue);});
                 toggleContent.Add(toggle);
             }
