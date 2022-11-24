@@ -103,7 +103,6 @@ namespace LBS.Overlays
             btnGroup.Init();
             root.Add(btnGroup);
 
-
             return root;
         }
     }
