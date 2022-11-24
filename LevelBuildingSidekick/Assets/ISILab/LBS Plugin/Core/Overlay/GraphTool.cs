@@ -18,11 +18,11 @@ namespace LBS.Overlays
 
         private LBSGraphRCWindow window;
 
-        public Button selectButton;
-        public Button eraseButton;
-        public Button zoomButton;
-        public Button addNodeButton;
-        public Button addEdgeButton;
+        private Button selectButton;
+        private Button eraseButton;
+        private Button zoomButton;
+        private Button addNodeButton;
+        private Button addEdgeButton;
 
         public override VisualElement CreatePanelContent() // (?) dudosa la implementacion de alguno de los botones
         {
