@@ -104,7 +104,7 @@ namespace LBS.Windows
             newLvlNameField.value = "New Level Name";
 
             newLvlSizeField = rootVisualElement.Q<Vector3Field>(name: "LvlSizeField");
-            newLvlSizeField.value = new Vector3(512,2,512);
+            newLvlSizeField.value = new Vector3(64,1,64);
 
             //var representations = Utility.Reflection.FindDerivedTypes(typeof(LBSRepesentationData));
             //lvlRepListDD = rootVisualElement.Q<DropdownField>(name: "LvlRepListDD");
@@ -168,7 +168,9 @@ namespace LBS.Windows
 
         void OpenNewLevel()
         {
-            LBSController.CreateNewLevel(newLvlNameField.value, Vector3.zero);
+            var name = newLvlNameField.value;
+            var size = newLvlSizeField.value;
+            LBSController.CreateNewLevel(name, size);
             OpenPresetWindow();
             this.Close();
         }
