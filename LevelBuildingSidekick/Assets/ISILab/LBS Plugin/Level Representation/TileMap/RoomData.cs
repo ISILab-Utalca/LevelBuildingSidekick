@@ -86,7 +86,12 @@ namespace LBS.Representation.TileMap
 
         internal bool Contains(Vector2Int pos)
         {
-            return tilesPos.Find(tp => tp.Equals(pos)) != null;
+            for (int i = 0; i < tilesPos.Count; i++)
+            {
+                if (tilesPos[i].Equals(pos))
+                    return true;
+            }
+            return false;
         }
 
         /// <summary>

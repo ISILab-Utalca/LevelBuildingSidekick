@@ -216,7 +216,7 @@ namespace LBS.Representation.TileMap
 
         internal RoomData GetRoom(Vector2Int tilePos)
         {
-            foreach (var room in rooms)
+            foreach (var room in this.rooms)
             {
                 if (room.Contains(tilePos))
                     return room;
