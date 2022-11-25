@@ -166,7 +166,6 @@ namespace LBS.Representation.TileMap
         private LBSTileView CreateTileView(TileData tileData,Vector2Int tilePos, Vector2 size, RoomData data)
         {
             var tile = new LBSTileView(tileData,view);
-            Debug.Log("CreateTileView");
             var rs =tile.resolvedStyle;
             var s = tile.style;
             
