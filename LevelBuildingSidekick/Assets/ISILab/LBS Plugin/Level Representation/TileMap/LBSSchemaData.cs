@@ -41,31 +41,50 @@ namespace LBS.Representation.TileMap
         {
             rooms.Clear();
             doors.Clear();
+            tiles.Clear();
             base.Clear();
         }
 
         public override void RecalculateTilePos()
         {
-            var m = GetRect().min;
-            foreach (var room in rooms)
+            var rect = GetRect();
+            var m = rect.min;
+            for (int i = 0; i < rooms.Count; i++)
             {
-                room.Move(-m);
+                this.rooms[i].Move(-m);
             }
 
-            foreach(var tile in this.tiles)
+            for (int i = 0; i < this.tiles.Count; i++)
             {
-                tile.Position -= m;
+                this.tiles[i].Position = this.tiles[i].Position - m;
             }
+
         }
 
         public void AddDoor(DoorData door)
         {
             doors.Add(door);
+            var p1 = door.GetFirstPosition();
+            var p2 = door.GetSecondPosition();
+            var t1 = GetTile(p1);
+            var t2 = GetTile(p2);
+            var i1 = TileMapUtils.CalcDir4Connected(p1, p2);
+            var i2 = TileMapUtils.CalcDir4Connected(p2, p1);
+            t1.SetConection(i1,"Door");
+            t2.SetConection(i2,"Door");
         }
 
         public void RemoveDoor(DoorData door)
         {
             doors.Remove(door);
+            var p1 = door.GetFirstPosition();
+            var p2 = door.GetSecondPosition();
+            var t1 = GetTile(p1);
+            var t2 = GetTile(p2);
+            var i1 = TileMapUtils.CalcDir4Connected(p1, p2);
+            var i2 = TileMapUtils.CalcDir4Connected(p2, p1);
+            t1.SetConection(i1, null);
+            t2.SetConection(i2, null);
         }
 
         internal void ClearDoors()
@@ -111,16 +130,19 @@ namespace LBS.Representation.TileMap
         /// <param name="ID"></param>
         public void AddRoom(Vector2Int firstPos, int width, int height, string ID)
         {
-            var tiles = new List<TileData>();
+            var tempTiles = new List<TileData>();
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
                 {
-                    tiles.Add(new TileData(new Vector2Int(firstPos.x + i - (width / 2), firstPos.y + j - (height / 2))));
+                    var pos = new Vector2Int(firstPos.x + i - (width / 2), firstPos.y + j - (height / 2));
+                    var tile = new TileData(pos,new string[4]);
+                    this.tiles.Add(tile);
+                    tempTiles.Add(tile);
                 }
             }
             var color = new Color(UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f));
-            rooms.Add(new RoomData(tiles.Select(t => t.Position).ToList(), color, ID));
+            this.rooms.Add(new RoomData(tempTiles.Select(t => t.Position).ToList(), color, ID));
         }
 
         /// <summary>
@@ -143,8 +165,52 @@ namespace LBS.Representation.TileMap
             
             foreach (var t in tiles)
             {
-                tiles.Add(t);
+                this.tiles.Add(t);
                 room.AddTile(t.Position);
+            }
+        }
+
+        public void AddTile(TileData tile, string roomId)
+        {
+            base.AddTile(tile);
+            var room = rooms.Find(r => r.ID == roomId);
+            room.AddTile(tile.Position);
+        }
+
+        public override void AddTile(TileData tile)
+        {
+            Debug.LogError("do not use this method, instead use AddTile(TileData tile, string roomId)");
+        }
+
+        public override void AddTiles(List<TileData> tiles)
+        {
+            Debug.LogError("do not use this method, instead useSetTiles(List<TileData> tiles, string roomId)");
+        }
+
+        public override void RemoveTile(TileData tile)
+        {
+            base.RemoveTile(tile);
+
+            foreach (var room in rooms)
+            {
+                room.RemoveTile(tile.Position);
+            }
+        }
+
+        public override void RemoveTiles(List<TileData> tiles)
+        {
+            foreach (var tile in tiles)
+            {
+                RemoveTile(tile);
+            }
+        }
+
+        public override void RemoveTiles(List<Vector2Int> tiles)
+        {
+            base.RemoveTiles(tiles);
+            foreach (var room in rooms)
+            {
+                tiles.ForEach(t => room.RemoveTile(t));
             }
         }
 
@@ -174,20 +240,25 @@ namespace LBS.Representation.TileMap
                 clone.doors.Add(door);
             }
 
+            foreach (var t in tiles)
+            {
+                var tile = t.Clone() as TileData;
+                clone.tiles.Add(tile);
+            }
+
             return clone;
         }
 
         internal string[,] GetMatrix() // (?) inecesaria ?
         {
+            RecalculateTilePos();
             var rect = GetRect();
             var matrixIDs = new string[rect.width, rect.height];
-            foreach (var r in rooms)    // (!!) esto solo considera a los tiles que pertenecen a una habitacion
+            foreach (var r in this.rooms)    // (!!) esto solo considera a los tiles que pertenecen a una habitacion
             {
                 foreach (var t in r.TilesPositions)
                 {
-                    var gp = t;
-                    var pos = gp - rect.min;
-                    matrixIDs[pos.x, pos.y] = r.ID;
+                    matrixIDs[t.x, t.y] = r.ID;
                 }
             }
             return matrixIDs;
