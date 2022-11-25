@@ -60,7 +60,10 @@ namespace LBS.Representation.TileMap
 
         internal void Move(Vector2Int value)
         {
-            tilesPos.ForEach(tp => tp += value);
+            for (int i = 0; i < this.tilesPos.Count; i++)
+            {
+                this.tilesPos[i] += value;
+            }
         }
 
         public object Clone()
