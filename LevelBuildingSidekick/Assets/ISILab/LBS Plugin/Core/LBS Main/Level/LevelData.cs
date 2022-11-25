@@ -9,7 +9,6 @@ namespace LBS
     [System.Serializable]
     public class LevelData : Data
     {
-        // public string levelName;
         [SerializeField, JsonRequired]
         private List<string> tags = new List<string>();
 
@@ -21,7 +20,7 @@ namespace LBS
         [SerializeField, JsonRequired]
         private float tileSize = 2f;
         [SerializeField, JsonRequired]
-        private float wallThickness = .1f;
+        private float wallThickness = .1f; // (!) esto no deveria ir aqui sino
 
         [SerializeField, JsonRequired, SerializeReference]
         private List<LBSRepesentationData> representations = new List<LBSRepesentationData>();
@@ -46,7 +45,6 @@ namespace LBS
         [JsonIgnore]
         public float WallThickness => wallThickness;
 
-
         [Obsolete("Esta funcion no se esta ocupanbdo actualemente pero se puede volver a usar a futuro")]
         public List<GameObject> RequestLevelObjects(string category)
         { 
@@ -58,6 +56,17 @@ namespace LBS
 
         }
 
+        public void RemoveNullRepresentation() // (!) parche, no deberia poder añadirse nulls
+        {
+            var r = new List<LBSRepesentationData>();
+            foreach (var rep in representations)
+            {
+                if (rep != null)
+                    r.Add(rep);
+            }
+            representations = r;
+        }
+
 
         /// <summary>
         /// Add a new representation, if a representation of
@@ -66,8 +75,9 @@ namespace LBS
         /// <param name="rep"></param>
         public void AddRepresentation(LBSRepesentationData rep) 
         {
-            // puede que necesitemos  guardar reps del mismo tipo por lo que hay que revisar esta funcion denuevi (!!)
-            var currentRep = representations.Find(r => r.GetType() == rep.GetType());
+            //RemoveNullRepresentation();
+            // puede que necesitemos guardar reps del mismo tipo por lo que hay que revisar esta funcion denuevi (!!)
+            var currentRep = representations.Find(r => r?.GetType() == rep.GetType());
             if(currentRep != null)
             {
                 representations.Remove(currentRep);
