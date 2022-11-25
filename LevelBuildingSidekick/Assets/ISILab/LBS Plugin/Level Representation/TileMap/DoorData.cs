@@ -19,22 +19,15 @@ namespace LBS.Representation
         // Constructors
         public DoorData() { }
 
-        public DoorData( int x1, int y1, int x2, int y2)
+        public DoorData( Vector2Int pos1, Vector2Int pos2) 
         {
-            this.x1 = x1;
-            this.y1 = y1;
-            this.x2 = x2;
-            this.y2 = y2;
+            this.x1 = pos1.x;
+            this.y1 = pos1.y;
+            this.x2 = pos2.x;
+            this.y2 = pos2.y;
         }
 
-        public DoorData( Vector2Int tile1, Vector2Int tile2) 
-        {
-            this.x1 = tile1.x;
-            this.y1 = tile1.y;
-            this.x2 = tile2.x;
-            this.y2 = tile2.y;
-        }
-
+        // Methods
         public Vector2Int GetFirstPosition()
         {
             return new Vector2Int(x1, y1);
@@ -47,7 +40,7 @@ namespace LBS.Representation
 
         public object Clone()
         {
-            var clone = new DoorData( x1, y1, x2, y2);
+            var clone = new DoorData( new Vector2Int(x1, y1), new Vector2Int(x2, y2));
             return clone;
         }
 
@@ -70,5 +63,6 @@ namespace LBS.Representation
         {
             return HashCode.Combine( x1, y1, x2, y2);
         }
+
     }
 }
