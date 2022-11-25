@@ -17,13 +17,11 @@ namespace LBS.Representation
         private int y;
         [SerializeField, JsonRequired]
         private int rotation;
-        [SerializeField, JsonRequired]
-        private string[] connection; // (?) name can also be "relationshipNeighbors"
-        [SerializeField, JsonRequired]
-        private int maxConnection; // (?) name can also be "maxNeighbors"
+        [JsonRequired]
+        private string[] connection = new string[4]; // (?) name can also be "relationshipNeighbors"
 
         // Properties
-        [JsonIgnore]
+        [HideInInspector, JsonIgnore]
         public Vector2Int Position
         {
             get => new Vector2Int(x, y);
@@ -37,9 +35,10 @@ namespace LBS.Representation
             {
                 if (!CanBeRotated)
                     return;
-                rotation = Mathf.Clamp(value, 0, maxConnection);
+                rotation = Mathf.Clamp(value, 0, connection.Length);
             }
         }
+        [HideInInspector, JsonIgnore]
         public bool CanBeRotated => true;
 
         // Events
@@ -49,22 +48,30 @@ namespace LBS.Representation
         // Constructors
         public TileData() { }
 
-        public TileData(int x, int y)
+        public TileData(int x, int y,string[] sideConections)
         {
             this.x = x;
             this.y = y;
+            this.connection = sideConections;
         }
 
-        public TileData(Vector2Int pos)
+        public TileData(Vector2Int pos, string[] sideConections)
         {
             this.x = pos.x;
             this.y = pos.y;
+            this.connection = sideConections;
+
         }
 
         // Methods
         public object Clone()
         {
-            var clone = new TileData(this.x, this.y);
+            var c = new string[this.connection.Length];
+            for (int i = 0; i < connection.Length; i++)
+            {
+                c[i] = connection[i];
+            }
+            var clone = new TileData(this.x, this.y,c);
             return clone;
         }
 
@@ -82,8 +89,16 @@ namespace LBS.Representation
             OnDataChange?.Invoke(this);
         }
 
+        internal void SetConection(int index, string value)
+        {
+            connection[index] = value;
+        }
+
         public override bool Equals(object obj)
         {
+            if (!(obj is TileData))
+                return false;
+
             var other = (TileData)obj;
             if (other == null)
                 return false;
