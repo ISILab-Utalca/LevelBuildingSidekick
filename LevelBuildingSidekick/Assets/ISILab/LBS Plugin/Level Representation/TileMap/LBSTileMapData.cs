@@ -91,7 +91,7 @@ public class LBSTileMapData : LBSRepesentationData, ICloneable
         }
     }
 
-    public virtual void AddTile(TileData tile, string roomId)
+    public virtual void AddTile(TileData tile)
     {
         SetTiles(new List<TileData>() { tile });
     }
