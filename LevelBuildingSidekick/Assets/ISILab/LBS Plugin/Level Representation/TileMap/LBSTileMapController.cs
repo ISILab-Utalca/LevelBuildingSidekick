@@ -19,6 +19,7 @@ namespace LBS.Representation.TileMap
 
         public float Subdivision => throw new NotImplementedException();
 
+
         public float TileSize => tileSize.x;
 
         public int MatrixWidth => throw new NotImplementedException();
@@ -244,6 +245,7 @@ namespace LBS.Representation.TileMap
 
         public float EvaluateMap(LBSSchemaData schemaData, LBSGraphData graphData)
         {
+
             var evaluattions = new Tuple<Func<LBSGraphData, LBSSchemaData, float>, float>[]
             {
                 new Tuple<Func<LBSGraphData, LBSSchemaData, float>,float>(EvaluateAdjacencies,0.5f),
