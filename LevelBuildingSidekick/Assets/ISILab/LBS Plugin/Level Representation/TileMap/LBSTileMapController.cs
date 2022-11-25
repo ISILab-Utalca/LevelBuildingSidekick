@@ -13,7 +13,6 @@ using Random = UnityEngine.Random;
 
 namespace LBS.Representation.TileMap
 {
-    //schema
     public class LBSTileMapController : LBSRepController<LBSSchemaData> , ITileMap
     {
         private static readonly Vector2 tileSize = new Vector2(100, 100); // mover a data
@@ -108,16 +107,16 @@ namespace LBS.Representation.TileMap
             {
                 var room1 = schema.GetRoom(e.FirstNodeLabel);
                 var room2 = schema.GetRoom(e.SecondNodeLabel);
-                var tiles = GetNearestTiles(room1,room2);
+                var pTiles = GetNearestTiles(schema,room1,room2);
 
-                var doorTiles = tiles[Random.Range(0,tiles.Count)];
+                var doorTiles = pTiles[Random.Range(0,pTiles.Count)];
                 var door = new DoorData(doorTiles.Item1.GetPosition(), doorTiles.Item2.GetPosition());
                 schema.AddDoor(door);
             }
             return schema;
         }
 
-        private List<Tuple<TileData,TileData>> GetNearestTiles(RoomData r1,RoomData r2)
+        private List<Tuple<TileData,TileData>> GetNearestTiles(LBSSchemaData schema,RoomData r1,RoomData r2)
         {
             var lessDist = int.MaxValue;
             var nearest = new List<Tuple<Vector2Int, Vector2Int>>();
@@ -145,12 +144,16 @@ namespace LBS.Representation.TileMap
                 }
             }
 
-            var schema = GetData() as LBSSchemaData;
-            var toR = nearest.Select(n => {
-                var t1 = schema.GetTile(n.Item1);
-                var t2 = schema.GetTile(n.Item2);
-                return new Tuple<TileData, TileData>(t1,t2);
-            }).ToList();
+            //var schema = GetData() as LBSSchemaData;
+
+            var toR = new List<Tuple<TileData, TileData>>();
+            for (int i = 0; i < nearest.Count; i++)
+            {
+                var t1 = schema.GetTile(nearest[i].Item1);
+                var t2 = schema.GetTile(nearest[i].Item2);
+                var t = new Tuple<TileData, TileData>(t1, t2);
+                toR.Add(t);
+            }
             return toR;
         }
 
@@ -339,7 +342,7 @@ namespace LBS.Representation.TileMap
                 {
                     var neighbor = tileMap.Clone() as LBSSchemaData;
                     var tiles = new List<TileData>();
-                    wall.allTiles.ForEach(t => tiles.Add(new TileData( t + wall.dir)));
+                    wall.allTiles.ForEach(t => tiles.Add(new TileData( t + wall.dir,new string[4]))); 
                     neighbor.SetTiles(tiles, room.ID);
                     neightbours.Add(neighbor);
                 }
