@@ -7,20 +7,24 @@ using LBS.Representation.TileMap;
 using LBS;
 using UnityEditor.Overlays;
 using LBS.Generator;
+using LBS.Overlays;
 
 namespace LBS.Windows
 {
     public class LBSSchemaWindow : GenericGraphWindow, ISupportsOverlays
     {
-        private LBSSchemaWindow() { }
-
         [MenuItem("ISILab/LBS plugin/Schema window")]
         [LBSWindow("Schema window")]
         public static void OpenWindow()
         {
-            var  wnd = GetWindow<LBSSchemaWindow>();
+            var wnd = GetWindow<LBSSchemaWindow>();
             wnd.titleContent = new GUIContent("Schema window");
         }
+
+        private void OnEnable()
+        {
+        }
+
 
         // este metodo deberia tener parametros tipo (out action, out nextW, out prevW)
         // para boligar a que se immplementen estas coas aqui y no se tenga que intuir. (?)
