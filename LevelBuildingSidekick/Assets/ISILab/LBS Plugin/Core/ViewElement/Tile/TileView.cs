@@ -11,7 +11,7 @@ public abstract class TileView : LBSGraphElement
     // Methods
     public abstract override void OnDelete();
     public abstract void SetView(string top, string right, string bottom, string left);
-    public abstract void SetView(LBSTag top, LBSTag right, LBSTag bottom, LBSTag left);
+    //public abstract void SetView(LBSTag top, LBSTag right, LBSTag bottom, LBSTag left);
 
     public void SetBackgorundColor(Color color)
     {
