@@ -7,7 +7,7 @@ using UnityEditor;
 
 public class WFCTags
 {
-    public LBSTagLists wfctags;
+    public LBSTags wfctags;
 
     List<string> lastTags;
 

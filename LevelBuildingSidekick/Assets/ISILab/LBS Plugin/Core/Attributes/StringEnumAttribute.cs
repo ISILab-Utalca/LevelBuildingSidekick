@@ -8,11 +8,11 @@ using Utility;
 
 public class StringEnumAttribute : PropertyAttribute
 {
-    public LBSTagLists DB;
+    public LBSTags DB;
 
     public StringEnumAttribute(string name)
     {
-        DB = DirectoryTools.GetScriptable<LBSTagLists>(name);
+        DB = DirectoryTools.GetScriptable<LBSTags>(name);
     }
 }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class TilePath : LBSGraphElement //c4
+public class TileWFC_View : LBSGraphElement //c4
 {
     public TileWFC Data;
 
@@ -16,7 +16,7 @@ public class TilePath : LBSGraphElement //c4
         throw new System.NotImplementedException();
     }
 
-    public TilePath(TileWFC tile, LBSGraphView root) : base(root)
+    public TileWFC_View(TileWFC tile, LBSGraphView root) : base(root)
     {
         Data = tile;
 

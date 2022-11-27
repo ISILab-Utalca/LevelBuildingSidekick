@@ -38,7 +38,7 @@ namespace LBS.Windows
 
         private StampPresset current;
 
-        private LBSTagLists tags;
+        private LBSTags tags;
 
         public void CreateGUI()
         {
@@ -71,7 +71,7 @@ namespace LBS.Windows
             sizeSlider.RegisterValueChangedCallback(v => ChangeSize(v.newValue));
             addBrushButton.clicked += NewBrush;
 
-            this.tags = LBSTagLists.GetInstance("Brush tags");
+            this.tags = LBSTags.GetInstance("Brush tags");
             flags.choices = tags.Alls;
             flags.RegisterValueChangedCallback(v => ActualizeBrushPanel(LayerToTag(v.newValue)));
             ActualizeBrushPanel(tags.Alls);

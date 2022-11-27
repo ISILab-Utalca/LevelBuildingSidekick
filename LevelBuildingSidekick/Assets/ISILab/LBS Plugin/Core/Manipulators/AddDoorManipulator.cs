@@ -39,7 +39,7 @@ namespace LBS.Manipulators
 
         private void OnMouseDown(MouseDownEvent e)
         {
-            var tile = e.target as TileSchema;
+            var tile = e.target as LBSTileView;
             if (tile == null)
                 return;
 
@@ -57,7 +57,7 @@ namespace LBS.Manipulators
             if (first == null)
                 return;
 
-            var tile = e.target as TileSchema;
+            var tile = e.target as LBSTileView;
             if (tile == null)
                 return;
 

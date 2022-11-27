@@ -57,14 +57,6 @@ public class TileSimple : TileView
 
     }
 
-    public override void SetView(LBSTag top, LBSTag right, LBSTag bottom, LBSTag left)
-    {
-        throw new System.NotImplementedException();
-    }
-
-
-        
-
 }
 
 [CreateAssetMenu(menuName = "ISILab/LBS Plugin/Tile style")]
