@@ -22,7 +22,7 @@ public class TagProportion : IRangedEvaluator
     public VisualElement CIGUI()
     {
         var content = new VisualElement();
-        var tags = Utility.DirectoryTools.GetScriptable<LBSTags>("Brush tags").Alls;
+        var tags = Utility.DirectoryTools.GetScriptable<LBSTagLists>("Brush tags").Alls;
 
         var v2 = new Vector2Field("Fitness threshold");
         v2.value = new Vector2(this.MinValue, this.MaxValue);

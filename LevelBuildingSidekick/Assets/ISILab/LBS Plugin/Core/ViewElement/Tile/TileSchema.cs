@@ -7,11 +7,8 @@ using UnityEngine.UIElements;
 
 namespace LBS.ElementView
 {
-    public class LBSTileView : LBSGraphElement
+    public class TileSchema : LBSGraphElement
     {
-       
-        //public new class UxmlFactory : UxmlFactory<LBSTileView, VisualElement.UxmlTraits> { }
-
         public TileData Data;
 
         private int wallthicc = 8;
@@ -24,7 +21,7 @@ namespace LBS.ElementView
         public VisualElement top;
         public VisualElement bottom;
 
-        public LBSTileView(TileData tile, LBSGraphView root) : base(root)
+        public TileSchema(TileData tile, LBSGraphView root) : base(root)
         {
             Data = tile;
 
@@ -51,7 +48,7 @@ namespace LBS.ElementView
         }
 
 
-        public void ShowDir(Vector2Int dir)
+        public void ShowDir(Vector2Int dir) // (!!) esto esta duplicado en "TileMapUtils" usar eso mejor.
         {
             var angle = Vector2.SignedAngle(Vector2.right, dir) % 360;
             if (angle < 0)

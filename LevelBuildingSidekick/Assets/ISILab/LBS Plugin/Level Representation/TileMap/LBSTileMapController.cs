@@ -163,9 +163,9 @@ namespace LBS.Representation.TileMap
             return "Schema Layer";
         }
 
-        private LBSTileView CreateTileView(TileData tileData,Vector2Int tilePos, Vector2 size, RoomData data)
+        private TileSchema CreateTileView(TileData tileData,Vector2Int tilePos, Vector2 size, RoomData data)
         {
-            var tile = new LBSTileView(tileData,view);
+            var tile = new TileSchema(tileData,view);
             var rs =tile.resolvedStyle;
             var s = tile.style;
             

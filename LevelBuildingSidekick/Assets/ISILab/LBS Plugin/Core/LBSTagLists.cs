@@ -9,14 +9,14 @@ namespace LBS
 {
     public static class TagsIntance
     {
-        public static Dictionary<string, LBSTags> tagsLists = new Dictionary<string, LBSTags>();
+        public static Dictionary<string, LBSTagLists> tagsLists = new Dictionary<string, LBSTagLists>();
 
-        public static LBSTags GetInstance(string name)
+        public static LBSTagLists GetInstance(string name)
         {
-            var ins = DirectoryTools.GetScriptable<LBSTags>(name);
+            var ins = DirectoryTools.GetScriptable<LBSTagLists>(name);
             if (ins == null)
             {
-                ins = ScriptableObject.CreateInstance<LBSTags>();
+                ins = ScriptableObject.CreateInstance<LBSTagLists>();
                 var path = EditorUtility.SaveFilePanel("Create 'Tags' file", "", "name", "asset");
                 AssetDatabase.CreateAsset(ins, path);
                 AssetDatabase.SaveAssets();
@@ -37,14 +37,14 @@ namespace LBS
 
     [System.Serializable]
     [CreateAssetMenu(fileName = "New tags list", menuName = "ISILab/LBS plugin/Tags List")]
-    public class LBSTags : ScriptableObject
+    public class LBSTagLists : ScriptableObject // (!) esta clase va a terminar cambiando tarde o temprano
     {
-        public static LBSTags GetInstance(string name)
+        public static LBSTagLists GetInstance(string name)
         {
-            var ins = DirectoryTools.GetScriptable<LBSTags>(name);
+            var ins = DirectoryTools.GetScriptable<LBSTagLists>(name);
             if (ins == null)
             {
-                ins = ScriptableObject.CreateInstance<LBSTags>();
+                ins = ScriptableObject.CreateInstance<LBSTagLists>();
                 var path = EditorUtility.SaveFilePanel("Create 'Tags' file", "", "name", "asset");
                 AssetDatabase.CreateAsset(ins, path);
                 AssetDatabase.SaveAssets();
@@ -96,12 +96,12 @@ namespace LBS
     }
 
 
-    [CustomEditor(typeof(LBSTags))]
+    [CustomEditor(typeof(LBSTagLists))]
     public class LBSTags_Editor : Editor
     {
         public override void OnInspectorGUI()
         {
-            var t = target as LBSTags;
+            var t = target as LBSTagLists;
 
             if (t == null)
                 return;

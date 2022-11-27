@@ -36,7 +36,7 @@ namespace LBS.Manipulators
             if (t == null)
                 return;
 
-            var tile = e.target as LBSTileView;
+            var tile = e.target as TileSchema;
             if (tile != null)
             {
                 controller.RemoveTile(tile.Data);

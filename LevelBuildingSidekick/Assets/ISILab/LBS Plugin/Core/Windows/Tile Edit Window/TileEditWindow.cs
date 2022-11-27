@@ -209,7 +209,7 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
         foreach (var dd in dropdowns)
         {
             dd.value = data.GetConnection(i);
-            dd.choices = LBSTags.GetInstance("WFC Tags").Alls;
+            dd.choices = LBSTagLists.GetInstance("WFC Tags").Alls;
             int n = i;
             dd.RegisterCallback<ChangeEvent<string>>(e => {
                 TileEditWindow.selected.SetConnection(n, e.newValue);
