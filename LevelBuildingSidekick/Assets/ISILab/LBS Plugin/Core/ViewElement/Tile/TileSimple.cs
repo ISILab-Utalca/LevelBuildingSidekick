@@ -67,10 +67,16 @@ public class TileSimple : TileView
 
 }
 
-public class tileSimpleStyle : ScriptableObject
+[CreateAssetMenu(menuName = "ISILab/LBS Plugin/Tile style")]
+public class tileSimpleStyle : TileStyle
 {
-    public List<> estyles;
+    public List<Style> styles;
 
-
+    [System.Serializable]
+    public struct Style
+    {
+        public string value;
+        public Color color;
+    }
 
 }

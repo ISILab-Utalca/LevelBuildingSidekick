@@ -18,3 +18,8 @@ public abstract class TileView : LBSGraphElement
         this.style.backgroundColor = color;
     }
 }
+
+public class TileStyle : ScriptableObject
+{
+
+}
