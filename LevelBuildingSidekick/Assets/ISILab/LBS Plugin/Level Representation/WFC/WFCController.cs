@@ -37,13 +37,37 @@ namespace LBS.Representation
 
         public override void PopulateView(MainView view)
         {
-            //throw new System.NotImplementedException();
+            this.view = view;
+            view.DeleteElements(elements);
+
+            foreach (var tile in data.Tiles)
+            {
+                var tv = CreateTileView(tile, tile.Position, new Vector2(100, 100));
+                elements.Add(tv);
+                view.AddElement(tv);
+            }
         }
 
         public Vector2Int ToTileCoords(Vector2 position)
         {
             //throw new System.NotImplementedException();
             return new Vector2Int();
+        }
+
+        private TileView CreateTileView(TileData tileData, Vector2Int tilePos, Vector2 size)
+        {
+            var tile = new TileSimple();
+            tile.style.marginBottom = tile.style.marginLeft = tile.style.marginRight = tile.style.marginTop = 0;
+            tile.style.paddingBottom = tile.style.paddingLeft = tile.style.paddingRight = tile.style.paddingTop = 0;
+            tile.style.borderRightWidth = tile.style.borderBottomWidth = tile.style.borderLeftWidth = tile.style.borderTopWidth = 0;
+            var rs = tile.resolvedStyle;
+            var s = tile.style;
+
+            tile.SetView(tileData.Connections);
+            tile.SetPosition(new Rect(tilePos * size, size));
+            tile.SetSize((int)size.x, (int)size.y);
+            //tile.SetLabel(tilePos);
+            return tile;
         }
 
     }

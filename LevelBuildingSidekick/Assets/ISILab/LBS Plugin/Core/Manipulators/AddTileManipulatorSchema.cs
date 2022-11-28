@@ -6,17 +6,59 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using LBS.Representation.TileMap;
 using LBS.Representation;
+using System;
 
 namespace LBS.Manipulators
 {
     public class AddTileManipulator : MouseManipulator
+    {
+        IRepController controller;
+        LBSTileMapData data;
+
+        // Events
+        public event Action OnEndAction;
+
+        public AddTileManipulator(LBSTileMapData data, IRepController controller)
+        {
+            this.controller = controller;
+            this.data = data;
+        }
+
+        protected override void RegisterCallbacksOnTarget()
+        {
+            target.RegisterCallback<MouseDownEvent>(OnMouseDown);
+        }
+
+        protected override void UnregisterCallbacksFromTarget()
+        {
+            target.UnregisterCallback<MouseDownEvent>(OnMouseDown);
+        }
+
+        private void OnMouseDown(MouseDownEvent e)
+        {
+            var pos = controller.ViewportMousePosition(e.localMousePosition);
+            var tPos = ToTileCoords(pos, 100); // (!) pasar mejor los paramtros no enduro
+            data.AddTile(new TileData(tPos, 0,new string[4]{"", "", "", ""}));
+            OnEndAction?.Invoke();
+        }
+
+        public Vector2Int ToTileCoords(Vector2 pos,float size)
+        {
+            int x = (pos.x > 0) ? (int)(pos.x / size) : (int)(pos.x / size) - 1;
+            int y = (pos.y > 0) ? (int)(pos.y / size) : (int)(pos.y / size) - 1;
+
+            return new Vector2Int(x, y);
+        }
+    }
+
+    public class AddTileManipulatorSchema : MouseManipulator
     {
         private LBSTileMapController controller;
         private GenericGraphWindow window;
 
         private RoomData cRoom;
 
-        public AddTileManipulator(GenericGraphWindow window, LBSTileMapController controller,RoomData cRoom)
+        public AddTileManipulatorSchema(GenericGraphWindow window, LBSTileMapController controller,RoomData cRoom)
         {
             activators.Add(new ManipulatorActivationFilter { button = MouseButton.LeftMouse });
             this.controller = controller;

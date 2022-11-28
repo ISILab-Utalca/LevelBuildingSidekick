@@ -70,7 +70,7 @@ namespace LBS.Overlays
                     {
                         var wnd = EditorWindow.GetWindow<LBSSchemaWindow>();
                         var c = wnd.GetController<LBSTileMapController>();
-                        wnd.MainView.SetManipulator(new DeleteTileManipulator(wnd,c));
+                        wnd.MainView.SetManipulator(new DeleteTileManipulator_other(wnd,c));
                     };
                    removeTile.text = "Delete tile mode";
                 }
@@ -91,7 +91,7 @@ namespace LBS.Overlays
                         cTemp = d.GetRooms()[index];
                         box.style.backgroundColor = cTemp.Color;
                         index = (index + 1) % d.GetRooms().Count;
-                        wnd.MainView.SetManipulator(new AddTileManipulator(wnd,c,cTemp));
+                        wnd.MainView.SetManipulator(new AddTileManipulatorSchema(wnd,c,cTemp));
                     };
                     addTile.text = "Add tile mode";
                 }

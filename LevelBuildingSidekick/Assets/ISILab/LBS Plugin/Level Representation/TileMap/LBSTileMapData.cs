@@ -123,6 +123,18 @@ public class LBSTileMapData : LBSRepesentationData, ICloneable
         }
     }
 
+    public virtual void RemoveTile(Vector2Int pos)
+    {
+        foreach (var t in this.tiles)
+        {
+            if (t.Position == pos)
+            {
+                RemoveTile(t);
+                return;
+            }
+        }
+    }
+
     public virtual void RemoveTile(TileData tile)
     {
         if (this.tiles.Contains(tile))

@@ -17,11 +17,16 @@ public abstract class TileView : LBSGraphElement
     }
 
     public abstract void SetView(string top, string right, string bottom, string left);
-    //public abstract void SetView(LBSTag top, LBSTag right, LBSTag bottom, LBSTag left);
 
     public void SetBackgorundColor(Color color)
     {
         this.style.backgroundColor = color;
+    }
+
+    public void SetSize(int x, int y)
+    {
+        this.style.width = this.style.maxWidth = this.style.minWidth = x;
+        this.style.height = this.style.maxHeight = this.style.minHeight = y;
     }
 }
 

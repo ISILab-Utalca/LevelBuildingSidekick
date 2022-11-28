@@ -237,6 +237,5 @@ namespace LBS.Windows
             var styleSheet = Utility.DirectoryTools.SearchAssetByName<StyleSheet>(name);
             root.styleSheets.Add(styleSheet);
         }
-
     }
 }

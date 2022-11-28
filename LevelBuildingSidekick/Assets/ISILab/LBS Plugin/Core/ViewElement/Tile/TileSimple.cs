@@ -28,24 +28,24 @@ public class TileSimple : TileView
 
     public override void OnDelete()
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 
     public override void SetView(string top, string right, string bottom, string left)
     {
-        if (top != "")
+        if (top == "")
         {
             this.top.visible = false;
         }
-        if (right != "")
+        if (right == "")
         { 
             this.right.visible = false;
         }
-        if (bottom != "")
+        if (bottom == "")
         {
             this.bottom.visible = false;
         }
-        if (left != "")
+        if (left == "")
         { 
             this.left.visible = false;
         }

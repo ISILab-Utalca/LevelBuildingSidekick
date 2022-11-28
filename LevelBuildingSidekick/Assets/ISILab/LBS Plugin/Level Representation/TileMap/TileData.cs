@@ -41,6 +41,8 @@ namespace LBS.Representation
         [HideInInspector, JsonIgnore]
         public bool CanBeRotated => true;
 
+        [HideInInspector, JsonIgnore]
+        public string[] Connections => connection;
         // Events
         [HideInInspector]
         public event Action<TileData> OnDataChange;

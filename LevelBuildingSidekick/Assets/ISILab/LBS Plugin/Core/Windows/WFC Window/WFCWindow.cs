@@ -34,6 +34,8 @@ namespace LBS.Windows
                      generator.Generate();
                  }
                  ));
+
+
         }
 
         public override void OnLoadControllers()

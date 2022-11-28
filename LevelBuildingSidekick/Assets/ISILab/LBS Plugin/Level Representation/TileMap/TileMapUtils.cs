@@ -16,13 +16,13 @@ public static class TileMapUtils
     /// <returns></returns>
     public static int CalcDir4Connected(Vector2Int pos1, Vector2Int pos2)
     {
-        var dir = pos1 - pos2;
+        var dir = pos2 - pos1;
 
-        if (dir.Equals(Vector2Int.up))
+        if (dir.Equals(-Vector2Int.up))
             return 0;
         if (dir.Equals(Vector2Int.right))
             return 1;
-        if (dir.Equals(Vector2Int.down))
+        if (dir.Equals(-Vector2Int.down))
             return 2;
         if (dir.Equals(Vector2Int.left))
             return 3;
