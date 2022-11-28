@@ -17,6 +17,8 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
     private Button addButton;
     private VisualElement content;
     private DropdownField[] dropdowns = new DropdownField[4];
+    private Slider weight;
+
     private Slider distance;
     private Slider rotation;
     private Slider labelDist;
@@ -72,6 +74,7 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
         this.dropdowns[0] = root.Q<DropdownField>("Right");
         this.dropdowns[1] = root.Q<DropdownField>("Bottom");
         this.dropdowns[2] = root.Q<DropdownField>("Left");
+        this.weight = root.Q<Slider>("Weight");
         ShowDropdown(false);
         
 
@@ -89,12 +92,9 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
         this.generateSchema = root.Q<Button>("GenerateSchema");
         generateSchema.clicked += () =>
         {
-            Debug.Log("aaa");
             var s = SolveMap();
             var m = GridToMapData.Generate(s);
             LBSController.CurrentLevel.data.AddRepresentation(m);
-
-            
         };
         this.mapSize = root.Q<Vector2IntField>("mapSize");
         this.tileSize = root.Q<FloatField>("tileSize");
@@ -172,6 +172,7 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
         {
             dd.style.display = v ? DisplayStyle.Flex : DisplayStyle.None;
         }
+        weight.style.display = v ? DisplayStyle.Flex : DisplayStyle.None;
     }
 
 
