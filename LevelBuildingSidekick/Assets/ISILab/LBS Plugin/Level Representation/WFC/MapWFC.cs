@@ -13,11 +13,11 @@ public class MapWFC : MonoBehaviour
     [SerializeField]
     public int m_extraBorder = 5;
 
-    private List<TileWFC> tiles = new List<TileWFC>();
+    private List<TileWFC_struct> tiles = new List<TileWFC_struct>();
 
     public float TileSize { get => tileSize; }
 
-    public List<TileWFC> Tiles { get => tiles; }
+    public List<TileWFC_struct> Tiles { get => tiles; }
 
     public Vector2Int GetMin()
     {
@@ -53,7 +53,7 @@ public class MapWFC : MonoBehaviour
         return new Vector2Int(maxX, maxY);
     }
 
-    public void Add(TileWFC tile)
+    public void Add(TileWFC_struct tile)
     {
         if(tiles.Any(t => t.position == tile.position))
         {
@@ -63,7 +63,7 @@ public class MapWFC : MonoBehaviour
         tiles.Add(tile);
     }
 
-    public void Replace(TileWFC tile)
+    public void Replace(TileWFC_struct tile)
     {
         try
         {
@@ -78,13 +78,13 @@ public class MapWFC : MonoBehaviour
     }
 }
 
-public struct TileWFC
+public struct TileWFC_struct
 {
     public TileConnectWFC data;
     public Vector2Int position;
     public bool locked;
 
-    public TileWFC(TileConnectWFC data, Vector2Int position, bool locked)
+    public TileWFC_struct(TileConnectWFC data, Vector2Int position, bool locked)
     {
         this.data = data;
         this.position = position;

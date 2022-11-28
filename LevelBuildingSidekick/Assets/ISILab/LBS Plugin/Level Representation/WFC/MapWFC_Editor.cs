@@ -46,7 +46,7 @@ public class MapWFC_Editor : Editor
                     if (GUI.Button(rect, free)) 
                     {
                         var sel = TileEditWindow.selected;
-                        select.Add(new TileWFC(new TileConnectWFC(sel, 0), new Vector2Int(i, j), true)); 
+                        select.Add(new TileWFC_struct(new TileConnectWFC(sel, 0), new Vector2Int(i, j), true)); 
                         //handleExample.shieldArea = 5;
                     }
                 }
