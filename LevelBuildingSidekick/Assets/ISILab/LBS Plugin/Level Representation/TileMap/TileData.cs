@@ -16,8 +16,8 @@ namespace LBS.Representation
         [SerializeField, JsonRequired]
         private int y;
         [SerializeField, JsonRequired]
-        private int rotation;
-        [JsonRequired]
+        private int rotation; // (!) estos tiles no necesitan rotacion, son los 3d los que si, estos simplemente pueden cambiar sus etiquetas de lugar
+        [SerializeField, JsonRequired]
         private string[] connection = new string[4]; // (?) name can also be "relationshipNeighbors"
 
         // Properties
@@ -48,19 +48,20 @@ namespace LBS.Representation
         // Constructors
         public TileData() { }
 
-        public TileData(int x, int y,string[] sideConections)
+        public TileData(int x, int y,int rotation, string[] sideConections)
         {
             this.x = x;
             this.y = y;
+            this.rotation = rotation;
             this.connection = sideConections;
         }
 
-        public TileData(Vector2Int pos, string[] sideConections)
+        public TileData(Vector2Int pos,int rotation, string[] sideConections)
         {
             this.x = pos.x;
             this.y = pos.y;
+            this.rotation = rotation;
             this.connection = sideConections;
-
         }
 
         // Methods
@@ -71,7 +72,7 @@ namespace LBS.Representation
             {
                 c[i] = connection[i];
             }
-            var clone = new TileData(this.x, this.y,c);
+            var clone = new TileData(this.x, this.y, this.rotation, c);
             return clone;
         }
 

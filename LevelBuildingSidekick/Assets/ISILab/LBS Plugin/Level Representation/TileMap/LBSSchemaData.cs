@@ -136,7 +136,7 @@ namespace LBS.Representation.TileMap
                 for (int j = 0; j < height; j++)
                 {
                     var pos = new Vector2Int(firstPos.x + i - (width / 2), firstPos.y + j - (height / 2));
-                    var tile = new TileData(pos,new string[4]);
+                    var tile = new TileData(pos,0,new string[4]);
                     this.tiles.Add(tile);
                     tempTiles.Add(tile);
                 }
