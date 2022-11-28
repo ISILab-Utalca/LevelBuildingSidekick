@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Button tabindex="-1" text="All mode" display-tooltip-when-elided="true" name="AllMode" />
+    <ui:Button tabindex="-1" text="Add tile mode" display-tooltip-when-elided="true" name="AddTileButton" />
+    <ui:Button tabindex="-1" text="Erase tile mode" display-tooltip-when-elided="true" name="EraseTileButton" />
+    <ui:Button tabindex="-1" text="Add connection mode" display-tooltip-when-elided="true" name="AddConectionButton" />
+    <ui:Button tabindex="-1" text="Erase connection mode" display-tooltip-when-elided="true" name="EraseConectionButton" />
+</ui:UXML>
