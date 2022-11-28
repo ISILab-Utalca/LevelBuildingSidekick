@@ -8,6 +8,9 @@ using UnityEngine;
 
 namespace LBS.Windows
 {
+    // Esta clase usa:
+    // MapData
+    // WFCController
     public class WFCWindow : GenericGraphWindow, ISupportsOverlays
     {
         private WFCWindow() { }
@@ -16,7 +19,7 @@ namespace LBS.Windows
         public static void ShowWindow()
         {
             var window = GetWindow<WFCWindow>();
-            window.titleContent = new GUIContent("WFC");
+            window.titleContent = new GUIContent("WFC Window");
         }
 
         public override void OnInitPanel()
@@ -31,8 +34,6 @@ namespace LBS.Windows
                      generator.Generate();
                  }
                  ));
-
-
         }
 
         public override void OnLoadControllers()
