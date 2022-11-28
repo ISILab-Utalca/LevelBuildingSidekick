@@ -218,6 +218,13 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
             });
             i++;
         }
+        weight.value = data.weight;
+        weight.RegisterCallback<ChangeEvent<string>>( e => 
+        {
+            TileEditWindow.selected.weight = weight.value;
+        });
+
+
     }
 
     private void LoadButtons()
