@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 public class TileWFC_View : LBSGraphElement //c4
 {
-    public TileWFC Data;
+    public TileWFC_struct Data;
 
     public VisualElement left;
     public VisualElement right;
@@ -16,17 +16,17 @@ public class TileWFC_View : LBSGraphElement //c4
         throw new System.NotImplementedException();
     }
 
-    public TileWFC_View(TileWFC tile, LBSGraphView root) : base(root)
+    public TileWFC_View(TileWFC_struct tile, LBSGraphView root) : base(root)
     {
         Data = tile;
 
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("Tile_WFC");
+        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("TileWFC");
         visualTree.CloneTree(this);
 
-        left = this.Q<VisualElement>(name: "DoorLeft");
-        right = this.Q<VisualElement>(name: "DoorRight");
-        top = this.Q<VisualElement>(name: "DoorTop");
-        bottom = this.Q<VisualElement>(name: "DoorBottom");
+        left = this.Q<VisualElement>(name: "Left");
+        right = this.Q<VisualElement>(name: "Right");
+        top = this.Q<VisualElement>(name: "Top");
+        bottom = this.Q<VisualElement>(name: "Bottom");
     }
 
     public void ShowDir(Vector2Int dir)

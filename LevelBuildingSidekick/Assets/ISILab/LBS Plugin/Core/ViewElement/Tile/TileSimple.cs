@@ -6,8 +6,6 @@ using UnityEngine.UIElements;
 
 public class TileSimple : TileView
 {
-    public TileData Data;
-
     private VisualElement left;
     private VisualElement right;
     private VisualElement top;
@@ -15,10 +13,8 @@ public class TileSimple : TileView
     private VisualElement border;
     private Label cordsLabel;
 
-    public TileSimple(TileData data, LBSGraphView root) : base(root)
+    public TileSimple() : base(null) // (!!) ver si este null no da problemas
     {
-        this.Data = data;
-
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("TileSimple");
         visualTree.CloneTree(this);
 
@@ -49,12 +45,10 @@ public class TileSimple : TileView
         {
             this.bottom.visible = false;
         }
-        if (bottom != "")
+        if (left != "")
         { 
-            this.bottom.visible = false;
+            this.left.visible = false;
         }
-
-
     }
 
 }
