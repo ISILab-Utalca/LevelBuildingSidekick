@@ -6,11 +6,14 @@ using UnityEngine;
 public class TileConections : ScriptableObject
 {
     [SerializeField,HideInInspector]
-    private GameObject tile;
+    private GameObject tile; // (!) esto podria ser object bunddle
     [SerializeField,HideInInspector]
     private string[] connection = new string[4] { "", "", "", "" };
+    [SerializeField, HideInInspector]
+    private float weight = 50; // (?) de 0 a 100 o 0 a 1 ?
 
     public GameObject Tile => tile;
+    public string[] Connections => connection;
 
     public string GetConnection(int n)
     {
@@ -25,5 +28,21 @@ public class TileConections : ScriptableObject
     public void Init(GameObject tile)
     {
         this.tile = tile;
+    }
+
+    public override bool Equals(object other)
+    {
+        var o = (TileConections)other;
+
+        if (o == null)
+            return false;
+
+        for (int i = 0; i < connection.Length; i++)
+        {
+            if (connection[i] != o.connection[i])
+                return false;
+        }
+        return true;
+
     }
 }
