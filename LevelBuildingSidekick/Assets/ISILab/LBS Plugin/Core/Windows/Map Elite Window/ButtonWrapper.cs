@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,14 +19,6 @@ namespace LBS.VisualElements
             set
             {
                 data = value;
-                if(data is IDrawable)
-                {
-                    Icon.style.backgroundImage = (data as IDrawable).ToTexture();
-                }
-                else
-                {
-                    Icon.style.backgroundImage = default;
-                }
             }
         }
 
@@ -61,6 +54,21 @@ namespace LBS.VisualElements
         {
             style.width = size.x;
             style.height = size.y;
+        }
+
+        public Texture2D GetTexture()
+        {
+
+            if (data is IDrawable)
+            {
+                return (data as IDrawable).ToTexture();
+            }
+            return default;
+        }
+
+        internal void SetTexture(Texture2D texture)
+        {
+            style.backgroundImage = texture;
         }
     }
 }

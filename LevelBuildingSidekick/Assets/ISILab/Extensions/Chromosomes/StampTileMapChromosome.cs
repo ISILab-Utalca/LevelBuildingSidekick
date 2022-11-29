@@ -88,10 +88,12 @@ public class StampTileMapChromosome : ChromosomeBase2D<int>, IDrawable
 
     public override Texture2D ToTexture()
     {
+        int tsize = 16;
         int width = MatrixWidth;
         int height = (Length / MatrixWidth);
+        var size = width > height ? width : height;
 
-        Texture2D texture = new Texture2D(width * tileSize, height * tileSize);
+        Texture2D texture = new Texture2D(size * tsize, size * tsize);
 
         Texture2D empty = new Texture2D(1, 1);
         empty.SetPixel(0, 0, new Color(0, 0, 0, 0));
@@ -105,12 +107,12 @@ public class StampTileMapChromosome : ChromosomeBase2D<int>, IDrawable
                 var id = GetGene<int>(index);
                 if (id == -1)
                 {
-                    texture.InsertTextureInRect(empty, i * tileSize, (height - 1 - j) * tileSize, tileSize, tileSize);
+                    texture.InsertTextureInRect(empty, i * tsize, (height - 1 - j) * tsize, tsize, tsize);
                 }
                 else
                 {
                     var t = DirectoryTools.GetScriptable<StampPresset>(stamps[id].Label).Icon;
-                    texture.InsertTextureInRect(t, i * tileSize, (height - 1 - j) * tileSize, tileSize, tileSize);
+                    texture.InsertTextureInRect(t, i * tsize, (height - 1 - j) * tsize, tsize, tsize);
                 }
             }
         }
