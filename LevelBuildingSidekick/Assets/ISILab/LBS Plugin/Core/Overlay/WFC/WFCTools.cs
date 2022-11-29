@@ -10,7 +10,10 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Utility;
 
-[Overlay(typeof(WFCWindow), ID, "WFCTools", "-", defaultDisplay = true)]
+
+
+
+[Overlay(typeof(WFCWindow), ID, "WFC Tools", "-", defaultDisplay = true)]
 public class WFCTools : Overlay
 {
     private const string ID = "WFCToolsOverlay";
@@ -106,7 +109,6 @@ public class WFCTools : Overlay
             manipulator.OnEndAction += () => { window.RefreshView(); };
             window.MainView.SetManipulator(manipulator);
         };
-
 
         return root;
     }
