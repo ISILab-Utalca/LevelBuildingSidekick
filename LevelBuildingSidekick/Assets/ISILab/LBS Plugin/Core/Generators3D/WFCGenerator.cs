@@ -26,8 +26,7 @@ namespace LBS.Generator
             var mainPivot = new GameObject("New level 3D");
             for (int i = 0; i < wfc.Tiles.Count; i++)
             {
-                var r = 0;
-                var posibleTile = new List<TileConections>();
+                var posibleTile = new List<TileConnectWFC>();
                 for (int j = 0; j < tiles.Count; j++)
                 {
                     var tc = tiles[j];
@@ -35,17 +34,16 @@ namespace LBS.Generator
                     var c2 = wfcTiles[i].Connections;
                     for (int k = 0; k < 4; k++)
                     {
-                        r = k;
                         if (Compare(c1, c2))
                         {
-                            posibleTile.Add(tiles[i]);
+                            posibleTile.Add(new TileConnectWFC(tc, k));
                         }
 
-                        c2 = Rotate(c2);
+                        c1 = Rotate(c1);
                     }
                 }
-                
-                if(posibleTile.Count <= 0)
+
+                if (posibleTile.Count <= 0)
                 {
                     Debug.Log("there is no tile matching these connections." + wfcTiles.ToString());
                     continue;
@@ -53,38 +51,41 @@ namespace LBS.Generator
 
                 var pref = GetPref(posibleTile);
 
-                if(pref == null)
+                if (pref == null)
                 {
                     Debug.Log("problems loading gameobject");
                     continue;
                 }
 
-                var go = SceneView.Instantiate(pref, mainPivot.transform);
-                go.transform.position = new Vector3(wfc.Tiles[i].Position.x, 0, -wfc.Tiles[i].Position.y) * size* 10;
+                Debug.Log(pref.Rotation);
 
-                if (r % 2 != 0) // parche, no quitar (!!!)
-                    r += 2;
+                var go = SceneView.Instantiate(pref.Tile.Tile, mainPivot.transform);
+                go.transform.position = new Vector3(wfc.Tiles[i].Position.x, 0, -wfc.Tiles[i].Position.y) * size* 10; // (!!) *10 parche
 
+                var r = pref.Rotation;
+                // if (r % 2 != 0) // parche, no quitar (!!!)
+                //     r += 2;
+                go.transform.Rotate(new Vector3(0, -1, 0), 90); // (!!!) esto es un ´parche por que el WFC empieza con Right a la derecha y estpo empieza con Top a la derecha
                 for (int k = 0; k < r; k++)
                     go.transform.Rotate(new Vector3(0, 1, 0), 90);
             }
             return mainPivot;
         }
 
-        private GameObject GetPref(List<TileConections> posibles) // (!) esto puede estar mejor o estar en un mejor lugar
+        private TileConnectWFC GetPref(List<TileConnectWFC> posibles) // (!) esto puede estar mejor o estar en un mejor lugar
         {
             var v = 0f;
             for (int i = 0; i < posibles.Count; i++)
             {
-                v += posibles[i].weight;
+                v += posibles[i].Tile.weight;
             }
             var s = Random.Range(0f,v);
             var c = 0f;
             for (int i = 0; i < posibles.Count; i++)
             {
-                c += posibles[i].weight;
+                c += posibles[i].Tile.weight;
                 if (s <= c)
-                    return posibles[i].Tile;
+                    return posibles[i];
             }
             return null;
         }
@@ -105,19 +106,19 @@ namespace LBS.Generator
 
         private string[] Rotate(string[] c)
         {
+            var temp = c.ToList();
             var last = c.Last();
-            var cc = c.ToList().Remove(last);
+            temp.RemoveAt(temp.Count - 1);
             var r = new List<string>() { last };
-            r.AddRange(c);
-            r.Remove(r.Last());
+            r.AddRange(temp);
 
-            var rr = new string[4];
+            var toR = new string[4];
             for (int i = 0; i < 4; i++)
             {
-                rr[i] = r[i];
+                toR[i] = r[i];
             }
             
-            return rr;
+            return toR;
         }
 
         public override void Init(LevelData levelData)
