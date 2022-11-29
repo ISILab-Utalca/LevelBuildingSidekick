@@ -24,7 +24,7 @@ namespace LBS.Windows
 
         public override void OnInitPanel()
         {
-            var generator = new PhysicStepGenerator();
+            var generator = new WFCGenerator();
 
             actions.Add(new System.Tuple<string, System.Action>(
                  "Generate 3D",

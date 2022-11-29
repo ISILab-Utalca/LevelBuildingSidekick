@@ -143,7 +143,6 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
                     go.transform.Rotate(new Vector3(0, 1, 0),90);
             }
         }
-        //Print(map);
     }
 
     public void Print(TileConnectWFC[,] map)
