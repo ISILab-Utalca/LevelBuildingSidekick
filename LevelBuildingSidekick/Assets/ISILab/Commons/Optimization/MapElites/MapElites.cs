@@ -6,6 +6,7 @@ using System.Linq;
 using System;
 using UnityEngine.UIElements;
 using Commons.Optimization;
+using System.Threading;
 
 [System.Serializable]
 public class MapElites
@@ -51,6 +52,7 @@ public class MapElites
 
     public IEvaluable Adam { get; set; }
     public IEvaluable[,] BestSamples { get; private set; }
+    public List<int> changedSample;
 
     [SerializeField ,SerializeReference]
     IRangedEvaluator xEvaluator;
@@ -109,6 +111,8 @@ public class MapElites
 
     public Action<Vector2Int> OnSampleUpdated;
 
+    public Thread thread;
+
     public MapElites()
     {
         xEvaluator = null;
@@ -147,10 +151,15 @@ public class MapElites
                     }
                 }
             }
+            if(thread != null && thread.IsAlive && thread.ThreadState == ThreadState.Running)
+            {
+                thread.Join();
+            }
             Debug.Log("Finished: " + c);
 
         };
-        Optimizer.Start();
+        thread = new Thread(Optimizer.Start);
+        thread.Start(); 
     }
 
     public void UpdateSamples(IEvaluable[] samples)

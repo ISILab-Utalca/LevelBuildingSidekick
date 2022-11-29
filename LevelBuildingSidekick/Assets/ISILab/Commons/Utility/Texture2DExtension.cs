@@ -46,6 +46,34 @@ namespace Utility
             }
             origin.Apply();
         }
+
+        public static Texture2D Merge(this Texture2D origin, Texture2D other)
+        {
+            if(origin.width != other.width || origin.height != other.height)
+            {
+                Debug.LogError("Textures have different sizes");
+                return null;
+            }
+
+            var t = new Texture2D(origin.width, origin.height);
+
+            for(int j = 0; j < origin.height; j++)
+            {
+                for (int i = 0; i < origin.width; i++)
+                {
+                    if(other.GetPixel(i,j).a == 0)
+                    {
+                        t.SetPixel(i, j, origin.GetPixel(i, j));
+                    }
+                    else
+                    {
+                        t.SetPixel(i, j, other.GetPixel(i, j));
+                    }
+                }
+            }
+            t.Apply();
+            return t;
+        }
     }
 }
 

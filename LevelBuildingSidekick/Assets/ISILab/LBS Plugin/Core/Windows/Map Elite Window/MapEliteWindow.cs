@@ -48,8 +48,12 @@ namespace LBS.Windows
         public SubPanel evaluatorYPanel;
         public SubPanel optimizerPanel;
 
+        private List<Vector2Int> toUpdate;
+        private Texture2D ButtonBackground;
+
         public void CreateGUI()
         {
+            toUpdate = new List<Vector2Int>();
             VisualElement root = rootVisualElement;
 
             var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("MapEliteUXML");
@@ -132,6 +136,7 @@ namespace LBS.Windows
 
         public void ChangePartitions(Vector2 partitions)
         {
+            ButtonBackground = BackgroundTexture();
             if (partitions.x == mapElites.XSampleCount && partitions.y == mapElites.YSampleCount)
                 return;
             mapElites.XSampleCount = (int)partitions.x;
@@ -158,28 +163,29 @@ namespace LBS.Windows
                 Container.Add(b);
             }
 
-            var t = BackgroundTexture();
-
-            Content.ToList().ForEach(b => b.style.backgroundImage = t);
+            Content.ToList().ForEach(b => b.style.backgroundImage = ButtonBackground);
         }
 
         public void UpdateSample(Vector2Int coords)
         {
             var index = (coords.y * mapElites.XSampleCount + coords.x);
             Content[index].Data = mapElites.BestSamples[coords.x, coords.y];
+            if(!toUpdate.Contains(coords))
+                toUpdate.Add(coords);
         }
 
         public void Clear()
         {
             foreach(ButtonWrapper bw in Content)
             {
-                bw.style.backgroundImage = defaultButton;
+                bw.style.backgroundImage = ButtonBackground;
                 bw.Data = null;
             }
         }
 
         private Texture2D BackgroundTexture()
         {
+            int tsize = 16;
             var tmc = (mainView.GetController<LBSTileMapController>());
             var rooms = (tmc.GetData() as LBSSchemaData).GetRooms();
             var tiles = rooms.SelectMany(r => r.TilesPositions);
@@ -193,16 +199,23 @@ namespace LBS.Windows
             int width = (x2 - x1) + 1;
             int height = (y2 - y1) + 1;
 
-            var size = new Vector2Int(width, height);
+            var size = width > height ? width : height;
             var offset = new Vector2(x1, y1);
 
             var pref = Resources.Load<Texture2D>("Floor");
-            var texture = new Texture2D((int)(width*tmc.TileSize), (int)(height*tmc.TileSize));
+            var texture = new Texture2D((size * tsize), (size * tsize));
+            var pixels = texture.GetPixels();
+            for(int i = 0; i < pixels.Length; i++)
+            {
+                pixels[i] = new Color(0, 0, 0, 0);
+            }
+            texture.SetPixels(0, 0, (size * tsize), (size * tsize), pixels);
+            texture.Apply();
 
-            foreach(var r in rooms)
+            foreach (var r in rooms)
             {
                 var aux = new Texture2D(pref.width, pref.height);
-                var pixels = pref.GetPixels();
+                pixels = pref.GetPixels();
                 var color = r.Color;
                 for(int i = 0; i < pixels.Length; i++)
                 {
@@ -213,12 +226,22 @@ namespace LBS.Windows
                 foreach(var tp in r.TilesPositions)
                 {
                     var pos = tp;
-                    texture.InsertTextureInRect(aux, (int)(pos.x * tmc.TileSize), (int)((height - 1 - pos.y) * tmc.TileSize), (int)tmc.TileSize, (int)tmc.TileSize);
+                    texture.InsertTextureInRect(aux, (pos.x * tsize), ((height - 1 - pos.y) * tsize), tsize, tsize);
                 }
             }
             texture.Apply();
 
             return texture;
+        }
+
+        private void OnInspectorUpdate()
+        {
+            foreach (var v in toUpdate)
+            {
+                var t = Content[v.x * v.y].GetTexture();
+                Content[v.x * v.y].SetTexture(ButtonBackground.Merge(t));
+            }
+            toUpdate.Clear();
         }
     }
 }
