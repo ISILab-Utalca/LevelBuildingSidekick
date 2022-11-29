@@ -28,11 +28,11 @@ namespace LBS.ElementView
         {
             Data = tile;
 
-            var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("Tile");
+            var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("TileHill");
             visualTree.CloneTree(this);
 
-            var styleSheet = Utility.DirectoryTools.SearchAssetByName<StyleSheet>("TileW");
-            this.styleSheets.Add(styleSheet);
+            //var styleSheet = Utility.DirectoryTools.SearchAssetByName<StyleSheet>("TileW");
+            //this.styleSheets.Add(styleSheet);
 
             border = this.Q<VisualElement>("Border");
             label = this.Q<Label>();

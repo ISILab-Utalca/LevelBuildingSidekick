@@ -37,17 +37,33 @@ public class TileSimple : TileView
         {
             this.top.visible = false;
         }
+        else
+        {
+            this.top.style.backgroundColor = WFCTools.GetColor(top);
+        }
         if (right == "")
         { 
             this.right.visible = false;
+        }
+        else
+        {
+            this.right.style.backgroundColor = WFCTools.GetColor(right);
         }
         if (bottom == "")
         {
             this.bottom.visible = false;
         }
+        else
+        {
+            this.bottom.style.backgroundColor = WFCTools.GetColor(bottom);
+        }
         if (left == "")
         { 
             this.left.visible = false;
+        }
+        else
+        {
+            this.left.style.backgroundColor = WFCTools.GetColor(left);
         }
     }
 

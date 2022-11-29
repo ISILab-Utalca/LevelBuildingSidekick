@@ -35,7 +35,6 @@ namespace LBS.Manipulators
 
         private void OnMouseDown(MouseDownEvent e)
         {
-            Debug.Log(e.target.GetType());
             var t = e.target as LBSGraphElement;
             if (t == null)
                 return;

@@ -16,14 +16,16 @@ namespace LBS.Manipulators
 
         IRepController controller;
         LBSTileMapData data;
+        WFCTools.ColorTag ct;
 
         // Events
         public event Action OnEndAction;
 
-        public AddConnectionManipulator(LBSTileMapData data, IRepController controller)
+        public AddConnectionManipulator(WFCTools.ColorTag tag,LBSTileMapData data, IRepController controller)
         {
             this.controller = controller;
             this.data = data;
+            ct = tag;
         }
 
         protected override void RegisterCallbacksOnTarget()
@@ -77,8 +79,8 @@ namespace LBS.Manipulators
 
             var dir1 = TileMapUtils.CalcDir4Connected(first.Position, second.Position);
             var dir2 = TileMapUtils.CalcDir4Connected(second.Position, first.Position);
-            first.SetConection(dir1, "path");
-            second.SetConection(dir2, "path");
+            first.SetConection(dir1, ct.tag);
+            second.SetConection(dir2, ct.tag);
             OnEndAction?.Invoke();
         }
 
