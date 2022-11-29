@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tile: {fileID: 8151632068590299998, guid: 6424d885230d0824e907b5f1ea0d258c, type: 3}
   connection:
-  - 
-  - 
-  - 
-  - 
+  - grass
+  - grass
+  - grass
+  - grass
+  weight: 50
