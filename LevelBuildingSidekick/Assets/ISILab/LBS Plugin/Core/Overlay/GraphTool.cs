@@ -11,7 +11,7 @@ using UnityEngine.UIElements;
 
 namespace LBS.Overlays
 {
-    [Overlay(typeof(LBSGraphRCWindow), ID, "Tools", "GraphTool", defaultDisplay = true)]
+    //[Overlay(typeof(LBSGraphRCWindow), ID, "Tools", "GraphTool", defaultDisplay = true)]
     public class GraphTool : Overlay
     {
         private const string ID = "GraphOverlayTools";

@@ -16,6 +16,7 @@ using LBS.VisualElements;
 
 namespace LBS.Overlays
 {
+    // (??) OLD
     [Overlay(typeof(LBSGraphRCWindow), ID, "Tools", "GraphOverlayUSS", defaultDisplay = true)]
     public class GraphOverlay : Overlay // esta corresponderia a todas las funciones bases del derivados del graphview.
     {
@@ -27,16 +28,15 @@ namespace LBS.Overlays
 
             var btnGroup = new ButtonGroup();
             {
-
                 var allMode = new PresedBtn();
                 {
                     var wnd = EditorWindow.GetWindow<LBSGraphRCWindow>();
                     allMode.clicked += () => wnd.MainView.SetBasicManipulators();
-                    allMode.text = "All mode";
+                    allMode.text = "Handling mode";
                 }
                 btnGroup.Add(allMode);
 
-
+                /*
                 var select = new PresedBtn();
                 {
                     var wnd = EditorWindow.GetWindow<LBSGraphRCWindow>();
@@ -60,6 +60,7 @@ namespace LBS.Overlays
                     zoom.text = "Zoom mode";
                 }
                 btnGroup.Add(zoom);
+                */
 
                 var b = new Box();
                 b.style.minHeight = 10;
