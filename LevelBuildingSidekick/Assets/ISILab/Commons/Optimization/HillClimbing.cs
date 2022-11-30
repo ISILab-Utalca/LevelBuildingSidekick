@@ -138,7 +138,7 @@ namespace Utility
 
                 if (best is LBSSchemaData)
                 {
-                    (best as LBSSchemaData).Print(); // debug temporal quitar luego
+                    //(best as LBSSchemaData).Print(); // debug temporal quitar luego
                     //Debug.Log(higherScore);
                 }
 

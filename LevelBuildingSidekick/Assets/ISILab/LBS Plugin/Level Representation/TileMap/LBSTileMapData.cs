@@ -37,7 +37,7 @@ public class LBSTileMapData : LBSRepesentationData, ICloneable
     public virtual void RecalculateTilePos() // (!) find a better name 
     {
         var m = GetRect().min;
-        foreach (var tile in tiles)
+        foreach (var tile in tiles) // (?) neseitara estar dentro de un mutex o algo asi en el futuro
         {
             tile.Position = tile.Position - m;
         }
@@ -82,7 +82,9 @@ public class LBSTileMapData : LBSRepesentationData, ICloneable
         {
             if (tiles.Contains(other))
             {
-                tiles[tiles.IndexOf(other)] = other;
+                RemoveTile(other.Position);
+                tiles.Add(other);
+                //tiles[tiles.IndexOf(other)] = other;
             }
             else
             {
@@ -137,7 +139,7 @@ public class LBSTileMapData : LBSRepesentationData, ICloneable
 
     public virtual void RemoveTile(TileData tile)
     {
-        if (this.tiles.Contains(tile))
+        if (this.tiles.Contains(tile)) // (!!) sobra
         {
             this.tiles.Remove(tile);
         }

@@ -70,7 +70,7 @@ namespace LBS.Representation.TileMap
             var t2 = GetTile(p2);
             var i1 = TileMapUtils.CalcDir4Connected(p1, p2);
             var i2 = TileMapUtils.CalcDir4Connected(p2, p1);
-            t1.SetConection(i1,"Door");
+            t1.SetConection(i1,"Door"); // (!!!) ojo con este seteo de tag
             t2.SetConection(i2,"Door");
         }
 
@@ -137,7 +137,8 @@ namespace LBS.Representation.TileMap
                 {
                     var pos = new Vector2Int(firstPos.x + i - (width / 2), firstPos.y + j - (height / 2));
                     var tile = new TileData(pos,0,new string[4]);
-                    this.tiles.Add(tile);
+                    AddTile(tile);
+                    //this.tiles.Add(tile);
                     tempTiles.Add(tile);
                 }
             }
@@ -172,19 +173,21 @@ namespace LBS.Representation.TileMap
 
         public void AddTile(TileData tile, string roomId)
         {
-            base.AddTile(tile);
+            AddTile(tile);
             var room = rooms.Find(r => r.ID == roomId);
             room.AddTile(tile.Position);
         }
 
         public override void AddTile(TileData tile)
         {
-            Debug.LogError("do not use this method, instead use AddTile(TileData tile, string roomId)");
+            base.AddTile(tile);
+            //Debug.LogError("do not use this method, instead use AddTile(TileData tile, string roomId)");
         }
 
         public override void AddTiles(List<TileData> tiles)
         {
-            Debug.LogError("do not use this method, instead useSetTiles(List<TileData> tiles, string roomId)");
+            base.AddTiles(tiles);
+            //Debug.LogError("do not use this method, instead useSetTiles(List<TileData> tiles, string roomId)");
         }
 
         public override void RemoveTile(TileData tile)

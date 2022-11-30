@@ -25,7 +25,7 @@ namespace LBS.Representation.TileMap
         internal Vector2Int surface; // esto podria ir en un controlador y no directamente en la data (??)
         // Properties
         [JsonIgnore]
-        public Vector2Int Centroid => new Vector2Int( tilesPos.Sum(tp => tp.x), tilesPos.Sum(tp => tp.y)/ tilesPos.Count);
+        public Vector2Int Centroid => new Vector2Int( tilesPos.Sum(tp => tp.x) / tilesPos.Count, tilesPos.Sum(tp => tp.y)/ tilesPos.Count);
         [JsonIgnore]
         public Vector2Int Size => GetRect().size;
         [JsonIgnore]

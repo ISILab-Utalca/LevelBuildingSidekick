@@ -52,7 +52,7 @@ namespace LBS.Representation.TileMap
 
         public DoorData GetDoor(TileData t1,TileData t2)
         {
-            var temp = new DoorData(t1.GetPosition(), t2.GetPosition());
+            var temp = new DoorData(t1.Position, t2.Position);
             foreach ( var door in data.GetDoors())
             {
                 if(door.Equals(temp))
@@ -108,10 +108,17 @@ namespace LBS.Representation.TileMap
             {
                 var room1 = schema.GetRoom(e.FirstNodeLabel);
                 var room2 = schema.GetRoom(e.SecondNodeLabel);
-                var pTiles = GetNearestTiles(schema,room1,room2);
+
+                if (GetRoomDistance(room1, room2) > 1)
+                {
+                    Debug.Log("Esta edge no se pudo poner como puerta");
+                    continue;
+                }
+                
+                var pTiles = GetNearestTiles(schema, room1, room2);
 
                 var doorTiles = pTiles[Random.Range(0,pTiles.Count)];
-                var door = new DoorData(doorTiles.Item1.GetPosition(), doorTiles.Item2.GetPosition());
+                var door = new DoorData(doorTiles.Item1.Position, doorTiles.Item2.Position);
                 schema.AddDoor(door);
             }
             return schema;
