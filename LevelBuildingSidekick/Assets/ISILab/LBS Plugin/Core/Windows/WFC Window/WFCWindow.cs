@@ -15,7 +15,7 @@ namespace LBS.Windows
     {
         private WFCWindow() { }
 
-        [MenuItem("ISILab/LBS plugin/WFC Window", priority = 1)]
+        //[MenuItem("ISILab/LBS plugin/WFC Window", priority = 1)]
         public static void ShowWindow()
         {
             var window = GetWindow<WFCWindow>();
