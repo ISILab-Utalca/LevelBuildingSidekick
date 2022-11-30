@@ -38,7 +38,7 @@
                 <ui:Vector2IntField label="Map size" name="mapSize" x="4" y="4" />
                 <ui:FloatField label="Tile size" value="20" name="tileSize" />
                 <ui:Button tabindex="-1" text="Generate map" display-tooltip-when-elided="true" name="GenerateButton" />
-                <ui:Button tabindex="-1" text="Generate schema" display-tooltip-when-elided="true" name="GenerateSchema" />
+                <ui:Button tabindex="-1" text="Generate schema" display-tooltip-when-elided="true" name="GenerateSchema" style="visibility: visible; display: none;" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:ScrollView>
