@@ -26,10 +26,11 @@ namespace LBS.Overlays
                 {
                     var wnd = EditorWindow.GetWindow<LBSPopulationWindow>();
                     allMode.clicked += () => wnd.MainView.SetBasicManipulators();
-                    allMode.text = "All mode";
+                    allMode.text = "Handling mode";
                 }
                 btnGroup.Add(allMode);
 
+                /*
                 var select = new PresedBtn();
                 {
                     var wnd = EditorWindow.GetWindow<LBSPopulationWindow>();
@@ -53,6 +54,7 @@ namespace LBS.Overlays
                     zoom.text = "Zoom mode";
                 }
                 btnGroup.Add(zoom);
+                */
 
                 var b = new Box();
                 b.style.minHeight = 10;
