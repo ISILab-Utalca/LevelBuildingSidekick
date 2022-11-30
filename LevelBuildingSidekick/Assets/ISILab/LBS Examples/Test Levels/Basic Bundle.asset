@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 99a643f0a6401af4095889f2a037615f, type: 3}
-  m_Name: Basic Room
+  m_Name: Basic Bundle
   m_EditorClassIdentifier: 
   categories:
   - category: Wall
@@ -29,3 +29,4 @@ MonoBehaviour:
     pivotType: 0
     items:
     - {fileID: 2804152555805628249, guid: 6bc6303d284ac1e45a7d4f0a150a6e26, type: 3}
+  Size: 2
