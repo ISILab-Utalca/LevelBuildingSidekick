@@ -53,6 +53,7 @@ namespace LBS.Windows
 
         private Color Paused;
         private Color Running;
+        private object locker;
 
         public void CreateGUI()
         {
@@ -182,8 +183,11 @@ namespace LBS.Windows
         {
             var index = (coords.y * mapElites.XSampleCount + coords.x);
             Content[index].Data = mapElites.BestSamples[coords.x, coords.y];
-            if(!toUpdate.Contains(coords))
-                toUpdate.Add(coords);
+            lock(locker)
+            {
+                if (!toUpdate.Contains(coords))
+                    toUpdate.Add(coords);
+            }
         }
 
         public void Clear()
@@ -248,12 +252,17 @@ namespace LBS.Windows
 
         private void OnInspectorUpdate()
         {
-            foreach (var v in toUpdate)
+            lock(locker)
             {
-                var t = Content[v.x * v.y].GetTexture();
-                Content[v.x * v.y].SetTexture(ButtonBackground.Merge(t));
+                for (int i = 0; i < toUpdate.Count; i++)
+                {
+                    var v = toUpdate[i];
+                    var t = Content[v.y * (int)Partitions.value.x + v.x].GetTexture();
+                    Content[v.y * (int)Partitions.value.x + v.x].SetTexture(ButtonBackground.Merge(t));
+                }
+                toUpdate.Clear();
             }
-            toUpdate.Clear();
+            
 
             if (mapElites.Running)
             {
