@@ -59,7 +59,7 @@ namespace LBS.Schema
 
         public RoomCharacteristicsData(string label, Vector2 position, int radius) : base(label, position, radius)
         {
-
+            bundlesNames.Add(Utility.DirectoryTools.GetScriptables<RoomElementBundle>()[0].name);
         }
 
         [System.Serializable]
