@@ -75,6 +75,10 @@ namespace LBS
         /// <param name="rep"></param>
         public void AddRepresentation(LBSRepesentationData rep) 
         {
+            if(rep == null)
+            {
+                return;
+            }
             //RemoveNullRepresentation();
             // puede que necesitemos guardar reps del mismo tipo por lo que hay que revisar esta funcion denuevi (!!)
             var currentRep = representations.Find(r => r?.GetType() == rep.GetType());

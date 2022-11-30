@@ -51,6 +51,9 @@ namespace LBS.Windows
         private List<Vector2Int> toUpdate;
         private Texture2D ButtonBackground;
 
+        private Color Paused;
+        private Color Running;
+
         public void CreateGUI()
         {
             toUpdate = new List<Vector2Int>();
@@ -113,6 +116,9 @@ namespace LBS.Windows
             //this.fieldIA.RegisterValueChangedCallback(x => ChangeIA(x));
 
             CalculateButton.clicked += Run;
+
+            Paused = root.style.backgroundColor.value;
+            Running = Color.blue;
         }
 
         public void Run()
@@ -242,6 +248,15 @@ namespace LBS.Windows
                 Content[v.x * v.y].SetTexture(ButtonBackground.Merge(t));
             }
             toUpdate.Clear();
+
+            if (mapElites.Running)
+            {
+                rootVisualElement.style.backgroundColor = Running;
+            }
+            else
+            {
+                rootVisualElement.style.backgroundColor = Paused;
+            }
         }
     }
 }

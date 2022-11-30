@@ -111,7 +111,9 @@ public class MapElites
 
     public Action<Vector2Int> OnSampleUpdated;
 
-    public Thread thread;
+    private Thread thread;
+
+    public bool Running => thread != null && thread.IsAlive && thread.ThreadState == ThreadState.Running;
 
     public MapElites()
     {
@@ -151,7 +153,7 @@ public class MapElites
                     }
                 }
             }
-            if(thread != null && thread.IsAlive && thread.ThreadState == ThreadState.Running)
+            if(Running)
             {
                 thread.Join();
             }
