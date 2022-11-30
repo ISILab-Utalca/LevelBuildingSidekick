@@ -35,7 +35,22 @@ namespace LBS.Manipulators
             var pos = e.localMousePosition;
 
             var graph = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
-            var node = new RoomCharacteristicsData("Node: " + graph.NodeCount(), pos, 32);
+
+            var name = "";
+            var loop = true;
+            var v = 0;
+            do
+            {
+                name = "Node: " + v;
+
+                var nn = graph.GetNode(name);
+                if (nn == null)
+                    loop = false;
+                v++;
+            } while (loop);
+
+
+            var node = new RoomCharacteristicsData(name, pos, 32);
             graph.AddNode(node);
             window.RefreshView();
         }

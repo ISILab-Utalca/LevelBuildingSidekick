@@ -101,7 +101,7 @@ namespace LBS.Graph
             return null;
         }
 
-        public void StartDragEdge(LBSNodeData data) // pasar a manupilator
+        public void StartDragEdge(LBSNodeData data) // (!!) pasar a manupilator
         {
             Debug.Log("Start edge");
             first = GetNodeViewBylabel(data.Label);
@@ -109,7 +109,7 @@ namespace LBS.Graph
             //AddElement(proxyEdge);
         }
 
-        public void EndDragEdge(LBSNodeData data) // pasar a manipulator
+        public void EndDragEdge(LBSNodeData data) // (!!) pasar a manipulator
         {
             if (first != null)
             {
