@@ -33,7 +33,7 @@ public class StSDrawer : PropertyDrawer
         var n = list.IndexOf(v);
         var t = EditorGUI.Popup(position, n, list.ToArray());
 
-        if(t < list.Count)
+        if(t < list.Count && t >= 0)
         {
             property.stringValue = list[t];
         }
