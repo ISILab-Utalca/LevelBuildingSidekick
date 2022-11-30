@@ -183,14 +183,20 @@ namespace GeneticSharp.Domain.Populations
         {
             var content = new VisualElement();
 
-            var v2 = new Vector2IntField("Population Size");
-            v2.value = new Vector2Int(this.MinSize, this.MaxSize);
-            v2.RegisterValueChangedCallback(e => {
-                MinSize = e.newValue.x;
-                MaxSize = e.newValue.y;
+            var minSize = new IntegerField("Min Size");
+            minSize.value = MinSize;
+            minSize.RegisterValueChangedCallback(e => {
+                MinSize = e.newValue;
+            });
+            var maxSize = new IntegerField("Min Size");
+            maxSize.value = MaxSize;
+            maxSize.RegisterValueChangedCallback(e => {
+                MaxSize = e.newValue;
             });
 
-            content.Add(v2);
+
+            content.Add(minSize);
+            content.Add(maxSize);
 
             return content;
         }

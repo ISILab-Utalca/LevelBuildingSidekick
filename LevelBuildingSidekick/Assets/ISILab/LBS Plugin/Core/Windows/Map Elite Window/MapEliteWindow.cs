@@ -75,14 +75,16 @@ namespace LBS.Windows
             this.Partitions = root.Q<Vector2Field>("Partitions");
 
             this.evaluatorXPanel = root.Q<SubPanel>("EvaluatorX");
-            evaluatorXPanel.style.display = DisplayStyle.None;
+            evaluatorXPanel.style.display = mapElites.XEvaluator == null ? DisplayStyle.None : DisplayStyle.Flex;
             this.evaluatorYPanel = root.Q<SubPanel>("EvaluatorY");
-            evaluatorYPanel.style.display = DisplayStyle.None;
+            evaluatorYPanel.style.display = mapElites.YEvaluator == null ? DisplayStyle.None : DisplayStyle.Flex;
             this.optimizerPanel = root.Q<SubPanel>("Optimizer");
-            optimizerPanel.style.display = DisplayStyle.None;
+            optimizerPanel.style.display = mapElites.Optimizer == null ? DisplayStyle.None : DisplayStyle.Flex;
 
             this.Partitions.RegisterValueChangedCallback(x => ChangePartitions(x.newValue));
 
+            if(mapElites.XEvaluator!= null)
+                EvaluatorFieldX.Dropdown.value = mapElites.XEvaluator.ToString();
             EvaluatorFieldX.Dropdown.RegisterCallback<ChangeEvent<string>>(e => {
                 evaluatorXPanel.style.display = DisplayStyle.Flex;
                 var value = EvaluatorFieldX.GetChoiceInstance();
@@ -91,6 +93,8 @@ namespace LBS.Windows
                     evaluatorXPanel.SetValue(value as IShowable, "Evaluator: " + mapElites.XEvaluator.GetName(), "(axis X)");
             });
 
+            if (mapElites.YEvaluator != null)
+                EvaluatorFieldY.Dropdown.value = mapElites.YEvaluator.ToString();
             EvaluatorFieldY.Dropdown.RegisterCallback<ChangeEvent<string>>(e => {
                 evaluatorYPanel.style.display = DisplayStyle.Flex;
                 var value = EvaluatorFieldY.GetChoiceInstance();
@@ -99,6 +103,8 @@ namespace LBS.Windows
                     evaluatorYPanel.SetValue(value as IShowable, "Evaluator: " + mapElites.YEvaluator.GetName(), "(axis Y)");
             });
 
+            if (mapElites.Optimizer != null)
+                IAField.Dropdown.value = mapElites.Optimizer.ToString();
             IAField.Dropdown.RegisterCallback<ChangeEvent<string>>(e => {
                 optimizerPanel.style.display = DisplayStyle.Flex;
                 var value = IAField.GetChoiceInstance();

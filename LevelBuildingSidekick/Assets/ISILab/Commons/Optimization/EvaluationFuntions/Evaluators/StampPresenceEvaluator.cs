@@ -5,6 +5,7 @@ using Commons.Optimization.Evaluator;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using System.Linq;
+using System;
 
 [System.Serializable]
 public class StampPresenceEvaluator : IRangedEvaluator
@@ -19,6 +20,8 @@ public class StampPresenceEvaluator : IRangedEvaluator
 
     public StampPresenceEvaluator()
     {
+        var t = Utility.DirectoryTools.GetScriptables<StampPresset>();
+        stamp = t.First();
     }
 
     public StampPresenceEvaluator(StampPresset stamp)

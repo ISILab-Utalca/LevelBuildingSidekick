@@ -18,7 +18,12 @@ public class TagProportionByRoom : IRangedEvaluator
     public float MaxValue => max;
 
     public float MinValue => min;
-
+    public TagProportionByRoom()
+    {
+        var list = Utility.DirectoryTools.GetScriptable<LBSTags>("Brush tags").Alls;
+        tag1 = list.First();
+        tag2 = list.Last();
+    }
 
     public VisualElement CIGUI()
     {

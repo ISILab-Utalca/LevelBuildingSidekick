@@ -5,6 +5,7 @@ using Commons.Optimization.Evaluator;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using System.Linq;
+using System;
 
 public class StampProportionFitness : IRangedEvaluator
 {
@@ -16,6 +17,13 @@ public class StampProportionFitness : IRangedEvaluator
     public float MaxValue => max;
 
     public float MinValue => min;
+     
+    public StampProportionFitness()
+    {
+        var t = Utility.DirectoryTools.GetScriptables<StampPresset>();
+        stamp1 = t.First();
+        stamp2 = t.Last();
+    }
 
     public VisualElement CIGUI()
     {

@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using System.Linq;
 using LBS.Representation.TileMap;
+using System;
 
 public class StampProportionFitnessByRoom : IRangedEvaluator
 {
@@ -17,6 +18,13 @@ public class StampProportionFitnessByRoom : IRangedEvaluator
     public float MaxValue => max;
 
     public float MinValue => min;
+
+    public StampProportionFitnessByRoom()
+    {
+        var t = Utility.DirectoryTools.GetScriptables<StampPresset>();
+        stamp1 = t.First();
+        stamp2 = t.Last();
+    }
 
     public VisualElement CIGUI()
     {

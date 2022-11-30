@@ -24,7 +24,7 @@ public class GeneticAlgorithm : IGeneticAlgorithm , IShowable
 {
     public GeneticAlgorithm()
     {
-
+        Evaluator = new StampPresenceEvaluator();
         Reinsertion = new ElitistReinsertion();
         CrossoverProbability = DefaultCrossoverProbability;
         MutationProbability = DefaultMutationProbability;
@@ -489,9 +489,15 @@ public class GeneticAlgorithm : IGeneticAlgorithm , IShowable
 
         SubPanel FitnessPanel = new SubPanel();
         FitnessPanel.style.display = DisplayStyle.None;
+        if (Evaluator != null)
+        {
+            FitnessPanel.style.display = DisplayStyle.Flex;
+            FitnessPanel.SetValue(Evaluator, Evaluator.GetType().ToString());
+        }
 
         var fitnessDD = new DropdownField("Fitness");
         var fitClass = new ClassDropDown(fitnessDD, typeof(IEvaluator), true);
+        fitClass.Dropdown.value = Evaluator.ToString();
         fitClass.Dropdown.RegisterCallback<ChangeEvent<string>>(e => {
             var value = fitClass.GetChoiceInstance();
             Evaluator = value as IEvaluator;

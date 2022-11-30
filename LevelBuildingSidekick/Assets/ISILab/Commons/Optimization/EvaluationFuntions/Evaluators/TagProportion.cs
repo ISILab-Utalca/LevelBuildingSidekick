@@ -5,6 +5,7 @@ using Commons.Optimization.Evaluator;
 using UnityEngine.UIElements;
 using System.Linq;
 using LBS;
+using System;
 
 public class TagProportion : IRangedEvaluator
 {
@@ -18,6 +19,12 @@ public class TagProportion : IRangedEvaluator
 
     public float MinValue => min;
 
+    public TagProportion()
+    {
+        var list = Utility.DirectoryTools.GetScriptable<LBSTags>("Brush tags").Alls;
+        tag1 = list.First();
+        tag2 = list.Last();
+    }
 
     public VisualElement CIGUI()
     {

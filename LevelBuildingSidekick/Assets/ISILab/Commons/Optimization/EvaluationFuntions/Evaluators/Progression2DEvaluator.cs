@@ -4,6 +4,8 @@ using UnityEngine;
 using Commons.Optimization.Evaluator;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
+using System;
+using System.Linq;
 
 public abstract class Progression2DEvaluator : IRangedEvaluator
 {
@@ -15,6 +17,12 @@ public abstract class Progression2DEvaluator : IRangedEvaluator
     public float MinValue => min;
 
     public StampPresset stamp;
+
+    public Progression2DEvaluator()
+    {
+        var t = Utility.DirectoryTools.GetScriptables<StampPresset>();
+        stamp = t.First();
+    }
 
     public float Evaluate(IEvaluable evaluable)
     {

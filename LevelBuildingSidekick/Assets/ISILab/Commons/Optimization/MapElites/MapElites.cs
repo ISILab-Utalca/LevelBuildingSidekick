@@ -117,8 +117,9 @@ public class MapElites
 
     public MapElites()
     {
-        xEvaluator = null;
-        yEvaluator = null;
+        xEvaluator = new Horizontal2DSimetry();
+        yEvaluator = new Vertical2DSimetry();
+        optimizer = new GeneticAlgorithm();
         xSampleCount = 5;
         ySampleCount = 5;
         devest = 0.5;
@@ -129,6 +130,7 @@ public class MapElites
     {
         this.xEvaluator = xEvaluator;
         this.yEvaluator = yEvaluator;
+        optimizer = new GeneticAlgorithm();
         xSampleCount = 5;
         ySampleCount = 5;
         devest = 0.5;
