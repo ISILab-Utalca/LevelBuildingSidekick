@@ -30,7 +30,7 @@ namespace LBS.Windows
 
         public int ButtonSize = 128; //Should be a RangeSlider field(!!!)
 
-        public LBSStampGroupData mainView = LBSController.CurrentLevel.data.GetRepresentation<LBSStampGroupData>();
+        public GenericGraphWindow mainView;
 
         public Button CalculateButton;
 
