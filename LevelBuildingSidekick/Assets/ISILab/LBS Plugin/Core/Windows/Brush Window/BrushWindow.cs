@@ -75,6 +75,7 @@ namespace LBS.Windows
             flags.choices = tags.Alls;
             flags.RegisterValueChangedCallback(v => ActualizeBrushPanel(LayerToTag(v.newValue)));
             ActualizeBrushPanel(tags.Alls);
+            Select(DirectoryTools.GetScriptable<StampPresset>());
         }
 
         private List<string> LayerToTag(int map)
@@ -101,23 +102,6 @@ namespace LBS.Windows
             foreach (var stamp in stamps)
             {
                 AddBrush(stamp);
-                /*
-                if (stamp.Tags.Count <= 0) 
-                {
-                    AddBrush(stamp);
-                    break;
-                }
-
-                foreach (var tag in tags)
-                {
-
-                    if (stamp.Tags.Contains(tag))
-                    {
-                        AddBrush(stamp);
-                        break;
-                    }
-                }
-                */
             }
         }
 
