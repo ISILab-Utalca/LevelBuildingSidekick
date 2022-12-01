@@ -139,7 +139,7 @@ public class WFCSolver
 
     private List<TileConnectWFC>[,] Collapse(List<TileConnectWFC>[,] undefMatrix)
     {
-        var toReturn = undefMatrix;//new List<TileConnectWFC>[undefMatrix.GetLength(0), undefMatrix.GetLength(1)];
+        var toReturn = undefMatrix;
         var preValue = 0;
         var posValue = 0;
         var scape = 0;
@@ -253,9 +253,6 @@ public class WFCSolver
             }
         }
         return false;
-
-        //var ooo = other.Select(o => o.GetConnection(otherDir)).ToList();
-        //return o.Contains(t);
     }
 
     private List<TileConnectWFC>[] GetNeighbors(int x,int y, List<TileConnectWFC>[,] matrix)
