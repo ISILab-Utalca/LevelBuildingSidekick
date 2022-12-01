@@ -9,7 +9,7 @@ namespace LBS.ElementView
 {
     public class LBSTileView : LBSGraphElement
     {
-       
+        private static VisualTreeAsset visualTree;
         //public new class UxmlFactory : UxmlFactory<LBSTileView, VisualElement.UxmlTraits> { }
 
         public TileData Data;
@@ -28,7 +28,10 @@ namespace LBS.ElementView
         {
             Data = tile;
 
-            var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("TileHill");
+            if(visualTree == null)
+            {
+                visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("TileHill");
+            }
             visualTree.CloneTree(this);
 
             //var styleSheet = Utility.DirectoryTools.SearchAssetByName<StyleSheet>("TileW");
