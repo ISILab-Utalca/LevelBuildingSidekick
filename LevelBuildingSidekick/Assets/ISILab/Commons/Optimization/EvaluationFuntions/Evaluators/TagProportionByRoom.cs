@@ -75,10 +75,10 @@ public class TagProportionByRoom : IRangedEvaluator
         if (pressetsG1.Count() == 0 || pressetsG2.Count() == 0)
         {
             return MinValue;// Temporal Fix, Should be changed
-            if (pressetsG1.Count() == 0 && pressetsG2.Count() == 0)
+            /*if (pressetsG1.Count() == 0 && pressetsG2.Count() == 0)
             {
                 return MaxValue;
-            }
+            }*/
 
         }
 
@@ -116,7 +116,7 @@ public class TagProportionByRoom : IRangedEvaluator
 
             foreach (var tp in r.TilesPositions)
             {
-                int val = stmc.GetGene<int>(stmc.ToIndex(tp));
+                int val = data[stmc.ToIndex(tp)];
                 if (val == -1) continue;
                 if (pressetsG1.Contains(stmc.stamps[val].Label))
                 {

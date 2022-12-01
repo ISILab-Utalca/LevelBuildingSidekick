@@ -83,7 +83,7 @@ public class StampProportionFitnessByRoom : IRangedEvaluator
             float counterP2 = 0;
             foreach (var tp in r.TilesPositions)
             {
-                int val = stmc.GetGene<int>(stmc.ToIndex(tp));
+                int val = data[stmc.ToIndex(tp)];
                 if (val == -1) continue;
                 if (stamp1.Label == stmc.stamps[val].Label)
                 {
