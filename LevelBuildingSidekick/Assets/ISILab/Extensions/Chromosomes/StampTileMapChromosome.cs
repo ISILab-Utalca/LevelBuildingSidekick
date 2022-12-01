@@ -14,11 +14,9 @@ public class StampTileMapChromosome : ChromosomeBase2D<int>, IDrawable
     public List<StampData> stamps { get; private set; }
     private int tileSize;
 
-    public StampTileMapChromosome(LBSStampTileMapController stampController) : base(4, 2)
+    public StampTileMapChromosome(LBSStampGroupData stampData) : base(4, 2)
     {
-        var rawStamps = (stampController.GetData() as LBSStampGroupData).GetStamps();
-
-        tileSize = (int)stampController.TileSize;
+        var rawStamps = stampData.GetStamps();
 
         var tileMap = TileMap.GetData() as LBSSchemaData;
         var tiles = tileMap.GetRooms().SelectMany(r => r.TilesPositions);
