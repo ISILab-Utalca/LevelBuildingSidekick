@@ -42,6 +42,8 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
 
     private Color BASE;
 
+    private static RenderObjectPivot pivot;
+
     //[MenuItem("ISILab/LBS plugin/Tile edit window", priority = 1)]
     [MenuItem("ISILab/Tile edit window (WFC)", priority = 1)]
     public static void ShowWindow()
@@ -103,7 +105,9 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
 
         ActualizeView();
 
-        var pivot = CreatePivot();
+        if(pivot == null)
+            pivot = CreatePivot();
+        pivot.Clear();
         distance.RegisterValueChangedCallback((e)=> { pivot.SetDistanceCam(e.newValue); });
         pivot.SetDistanceCam(distance.value);
         rotation.RegisterValueChangedCallback((e) => { pivot.SetRotateCam(e.newValue); });
@@ -182,7 +186,7 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
         var pivot = SceneView.Instantiate(pref);
         var muyLejos = 9999;
         pivot.transform.position = new Vector3(muyLejos, muyLejos, muyLejos);
-        pivot.hideFlags = HideFlags.HideAndDontSave;
+        pivot.gameObject.hideFlags = HideFlags.HideAndDontSave;
         return pivot;
     }
 
@@ -219,11 +223,14 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
             });
             i++;
         }
-       // weight.value = data.weight;
-       // weight.RegisterCallback<ChangeEvent<string>>( e => 
-       // {
-       //     TileEditWindow.selected.weight = weight.value;
-       // });
+        // weight.value = data.weight;
+        //weight.RegisterValueChangedCallback((e) => {
+        //    TileEditWindow.selected.weight = weight.value;
+        //});
+        // weight.RegisterCallback<ChangeEvent<string>>( e => 
+        // {
+        //     TileEditWindow.selected.weight = weight.value;
+        // });
 
 
     }
