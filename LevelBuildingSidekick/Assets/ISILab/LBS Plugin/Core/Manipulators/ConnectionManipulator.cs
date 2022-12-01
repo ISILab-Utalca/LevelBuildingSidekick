@@ -41,7 +41,6 @@ public class ConnectionManipulator : MouseManipulator
             return;
 
         first = node.Data;
-        
     }
 
     private void OnMouseMove(MouseMoveEvent e)
