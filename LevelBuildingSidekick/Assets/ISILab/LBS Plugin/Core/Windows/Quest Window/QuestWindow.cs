@@ -9,7 +9,7 @@ public class QuestWindow : EditorWindow, INameable
 {
     public VisualElement actionsContent;
 
-    [MenuItem("ISILab/LBS plugin/Quest window", priority = 1)]
+    //[MenuItem("ISILab/LBS plugin/Quest window", priority = 1)]
     public static void ShowWindow()
     {
         var window = GetWindow<QuestWindow>();
