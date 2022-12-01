@@ -31,7 +31,7 @@ public class Vertical2DSimetry : Simetry2DEvaluator
 
     public override string GetName()
     {
-        return "Horizontal 2D Simetry";
+        return "Vertical 2D Simetry";
     }
 
     public override VisualElement CIGUI()
