@@ -69,7 +69,7 @@ public class TileSimple : TileView
 
 }
 
-[CreateAssetMenu(menuName = "ISILab/LBS Plugin/Tile style")]
+[CreateAssetMenu(menuName = "ISILab/LBS plugin/Tile style")]
 public class tileSimpleStyle : TileStyle
 {
     public List<Style> styles;
