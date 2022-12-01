@@ -37,13 +37,12 @@ public class StampTileMapChromosome : ChromosomeBase2D<int>, IDrawable
 
         Resize(size.y * size.x);
 
-
         MatrixWidth = width;
 
         List<string> reviwed = new List<string>();
         stamps = rawStamps.Where(s =>
         {
-            if(reviwed.Contains(s.Label))
+            if (reviwed.Contains(s.Label))
             {
                 return false;
             }
@@ -51,17 +50,22 @@ public class StampTileMapChromosome : ChromosomeBase2D<int>, IDrawable
             return true;
         }).ToList();
 
-        for(int i = 0; i < Length; i++)
+        for (int i = 0; i < Length; i++)
         {
             base.ReplaceGene(i, -1);
         }
 
+        List<int> incidences = new List<int>();
+
         foreach (var stamp in rawStamps)
         {
             var index = ToIndex(stamp.Position - offset);
-            ReplaceGene(index, stamps.FindIndex(s => s == stamp));
+            var id = stamps.FindIndex(s => s.Label == stamp.Label);
+            //Debug.Log("TP: " + (stamp.Position - offset) + " - Index: " + index + " - MP: " + ToMatrixPosition(index) + " - ID: " + id);
+            incidences.Add(index);
+            ReplaceGene(index, id);
         }
-
+        Debug.Log("Incidences: " + incidences.Count);
     }
 
     public StampTileMapChromosome(int length, int matrixWidth, List<StampData> stamps) : base(length, matrixWidth)
@@ -133,6 +137,7 @@ public class StampTileMapChromosome : ChromosomeBase2D<int>, IDrawable
 
         if(i < -1 || i >= stamps.Count)
         {
+            Debug.LogError("Out of Bounds");
             return;
         }
 
@@ -147,10 +152,12 @@ public class StampTileMapChromosome : ChromosomeBase2D<int>, IDrawable
             {
                 base.ReplaceGene(index, -1);
                 s += "Rejected";
+                Debug.Log(s);
                 return;
             }
             s += "Approved";
         }
+        //Debug.Log(s);
 
         base.ReplaceGene(index, gene);
     }

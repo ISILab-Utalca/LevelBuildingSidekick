@@ -40,13 +40,12 @@ public class StampProportionFitnessByRoom : IRangedEvaluator
         ObjectField of1 = new ObjectField("Stamp 1: ");
         of1.objectType = typeof(StampPresset);
         of1.value = stamp1;
-        of1.RegisterCallback<ChangeEvent<StampPresset>>((e) => stamp1 = e.newValue);
-
+        of1.RegisterValueChangedCallback(e => stamp1 = e.newValue as StampPresset);
 
         ObjectField of2 = new ObjectField("Stamp 2: ");
         of2.objectType = typeof(StampPresset);
         of2.value = stamp2;
-        of2.RegisterCallback<ChangeEvent<StampPresset>>((e) => stamp2 = e.newValue);
+        of2.RegisterValueChangedCallback(e => stamp2 = e.newValue as StampPresset);
 
         content.Add(v2);
         content.Add(of1);
@@ -62,46 +61,53 @@ public class StampProportionFitnessByRoom : IRangedEvaluator
             return MinValue;
         }
 
-        var chromosome = evaluable as StampTileMapChromosome;
-        var data = chromosome.GetGenes<int>();
+        var stmc = evaluable as StampTileMapChromosome;
+        var data = stmc.GetGenes<int>();
 
-        var p1count = chromosome.stamps.Select(s => s.Label == stamp1.Label).Count();
-        var p2count = chromosome.stamps.Select(s => s.Label == stamp2.Label).Count();
+        var foundS1 = stmc.stamps.Any(s => s.Label == stamp1.Label);
+        var founsS2 = stmc.stamps.Any(s => s.Label == stamp2.Label);
 
-        if (p1count == 0 || p2count == 0)
+        if (!foundS1 || !founsS2)
         {
-            if(p1count == 0 && p2count == 0)
-            {
-                return MaxValue;
-            }
-
-            return MinValue;
+            return MinValue;// Temporal Fix, Should be changed
+            //return foundS1 != founsS2 ? MinValue : MaxValue;
         }
 
         var rooms = (StampTileMapChromosome.TileMap.GetData() as LBSSchemaData).GetRooms();
 
-        var fitness = 0;
+        float fitness = 0;
 
         foreach (var r in rooms)
         {
-            int counterP1 = 0;
-            int counterP2 = 0;
+            float counterP1 = 0;
+            float counterP2 = 0;
             foreach (var tp in r.TilesPositions)
             {
-                int val = chromosome.GetGene<int>(chromosome.ToIndex(tp));
+                int val = stmc.GetGene<int>(stmc.ToIndex(tp));
                 if (val == -1) continue;
-                if (stamp1.Label == chromosome.stamps[val].Label)
+                if (stamp1.Label == stmc.stamps[val].Label)
                 {
                     counterP1++;
                 }
-                if (stamp2.Label == chromosome.stamps[val].Label)
+                if (stamp2.Label == stmc.stamps[val].Label)
                 {
                     counterP2++;
                 }
             }
-            var c = counterP1 / counterP2;
-            c = c > 1 ? 1 / c : c;
-            fitness += c;
+
+            float p = 0;
+
+            if ((counterP1 == 0 || counterP2 == 0))
+            {
+                p = MinValue;// Temporal Fix, Should be changed
+                //p = counterP1 != counterP2 ? MinValue : MaxValue;
+            }
+            else
+            {
+                 p = counterP1 / counterP2;
+            }
+            p = p > MaxValue ? MaxValue / p : p;
+            fitness += p;
         }
 
         return fitness/rooms.Count;

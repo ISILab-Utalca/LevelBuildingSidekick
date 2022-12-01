@@ -44,12 +44,12 @@ public class TagProportion : IRangedEvaluator
         DropdownField tagDD1 = new DropdownField("Tag 1: ");
         tagDD1.choices = tags;
         tagDD1.index = index1;
-        tagDD1.RegisterCallback<ChangeEvent<string>>(e => tag1 = e.newValue);
+        tagDD1.RegisterValueChangedCallback(e => tag1 = e.newValue);
 
         DropdownField tagDD2 = new DropdownField("Tag 2: ");
         tagDD2.choices = tags;
         tagDD2.index = index2;
-        tagDD2.RegisterCallback<ChangeEvent<string>>(e => tag2 = e.newValue);
+        tagDD2.RegisterValueChangedCallback(e => tag2 = e.newValue);
 
         content.Add(v2);
         content.Add(tagDD1);
@@ -73,22 +73,32 @@ public class TagProportion : IRangedEvaluator
         var pressetsG1 = pressets.Where(p => p.Tags.Contains(tag1)).Select(p => p.Label);
         var pressetsG2 = pressets.Where(p => p.Tags.Contains(tag2)).Select(p => p.Label);
 
-        if(pressetsG1.Count() == 0 || pressetsG2.Count() == 0)
+        if (pressetsG1.Count() == 0 || pressetsG2.Count() == 0)
         {
-            if(pressetsG1.Count() == 0 && pressetsG2.Count() == 0)
+            return MinValue; // Temporal Fix, SHould be changed
+            /*if (pressetsG1.Count() == pressetsG2.Count())
             {
                 return MaxValue;
-            }
+            }*/
 
-            return MinValue;
         }
 
-        int counterG1 = 0;
-        int counterG2 = 0;
+        var foundS1 = stmc.stamps.Any(s => pressetsG1.Contains(s.Label));
+        var founsS2 = stmc.stamps.Any(s => pressetsG2.Contains(s.Label));
+
+        if (!foundS1 || !founsS2)
+        {
+            return foundS1 != founsS2 ? MinValue : MaxValue;
+        }
+
+        float counterG1 = 0;
+        float counterG2 = 0;
 
         foreach (var id in data)
         {
-            if(pressetsG1.Contains(stmc.stamps[id].Label))
+            if (id == -1)
+                continue;
+            if (pressetsG1.Contains(stmc.stamps[id].Label))
             {
                 counterG1++;
             }
@@ -96,6 +106,12 @@ public class TagProportion : IRangedEvaluator
             {
                 counterG2 ++;
             }
+        }
+
+        if ((counterG1 == 0 || counterG2 == 0))
+        {
+            return MinValue; // Temporal Fix, SHould be changed
+            //return counterG1 != counterG2 ? MinValue : MaxValue;
         }
 
         var p = counterG1 / counterG2;

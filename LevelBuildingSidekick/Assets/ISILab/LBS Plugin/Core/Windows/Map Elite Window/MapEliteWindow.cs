@@ -13,6 +13,7 @@ using Utility;
 using Commons.Optimization;
 using GeneticSharp.Domain.Chromosomes;
 using LBS.Representation.TileMap;
+using System;
 
 namespace LBS.Windows
 {
@@ -53,7 +54,8 @@ namespace LBS.Windows
 
         private Color Paused;
         private Color Running;
-        private object locker;
+        private object locker = new object();
+        private EditorWindow popWind;
 
         public void CreateGUI()
         {
@@ -126,6 +128,8 @@ namespace LBS.Windows
 
             Paused = root.style.backgroundColor.value;
             Running = Color.blue;
+
+            popWind = EditorWindow.GetWindow<LBSPopulationWindow>();
         }
 
         public void Run()
@@ -170,6 +174,7 @@ namespace LBS.Windows
                     if (b.Data != null)
                     {
                         (mainView.CurrentController as IChromosomable).FromChromosome(b.Data as IChromosome);
+                        popWind.Repaint();
                     } 
                 };
                 Content[i] = b;
@@ -183,7 +188,8 @@ namespace LBS.Windows
         {
             var index = (coords.y * mapElites.XSampleCount + coords.x);
             Content[index].Data = mapElites.BestSamples[coords.x, coords.y];
-            lock(locker)
+            Content[index].Text =  ((decimal)mapElites.BestSamples[coords.x, coords.y].Fitness).ToString("f4");
+            lock (locker)
             {
                 if (!toUpdate.Contains(coords))
                     toUpdate.Add(coords);
@@ -256,9 +262,11 @@ namespace LBS.Windows
             {
                 for (int i = 0; i < toUpdate.Count; i++)
                 {
-                    var v = toUpdate[i];
-                    var t = Content[v.y * (int)Partitions.value.x + v.x].GetTexture();
-                    Content[v.y * (int)Partitions.value.x + v.x].SetTexture(ButtonBackground.Merge(t));
+                    var v = toUpdate[i]; 
+                    var index = (v.y * mapElites.XSampleCount + v.x);
+                    var t = Content[index].GetTexture();
+                    Content[index].SetTexture(ButtonBackground.Merge(t));
+                    Content[index].UpdateLabel();
                 }
                 toUpdate.Clear();
             }

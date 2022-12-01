@@ -39,13 +39,13 @@ public class StampProportionFitness : IRangedEvaluator
         ObjectField of1 = new ObjectField("Stamp 1: ");
         of1.objectType = typeof(StampPresset);
         of1.value = stamp1;
-        of1.RegisterCallback<ChangeEvent<StampPresset>>((e) => stamp1 = e.newValue);
+        of1.RegisterValueChangedCallback(e => stamp1 = e.newValue as StampPresset);
 
 
         ObjectField of2 = new ObjectField("Stamp 2: ");
         of2.objectType = typeof(StampPresset);
         of2.value = stamp2;
-        of2.RegisterCallback<ChangeEvent<StampPresset>>((e) => stamp2 = e.newValue);
+        of2.RegisterValueChangedCallback(e => stamp2 = e.newValue as StampPresset);
 
         content.Add(v2);
         content.Add(of1);
@@ -56,7 +56,7 @@ public class StampProportionFitness : IRangedEvaluator
 
     public float Evaluate(IEvaluable evaluable)
     {
-        if(!(evaluable is StampTileMapChromosome))
+        if (!(evaluable is StampTileMapChromosome))
         {
             return MinValue;
         }
@@ -64,37 +64,38 @@ public class StampProportionFitness : IRangedEvaluator
         var stmc = evaluable as StampTileMapChromosome;
         var data = stmc.GetGenes<int>();
 
-        var p1count = stmc.stamps.Select(s => s.Label == stamp1.Label).Count();
-        var p2count = stmc.stamps.Select(s => s.Label == stamp2.Label).Count();
-
-        if (p1count == 0 || p2count == 0)
-        {
-            if(p1count == 0 && p2count == 0)
-            {
-                return MaxValue;
-            }
-
+        if (!stmc.stamps.Any(s => s.Label == stamp1.Label))
             return MinValue;
-        }
+        if (!stmc.stamps.Any(s => s.Label == stamp2.Label))
+            return MinValue;
 
-        int counterP1 = 0;
-        int counterP2 = 0;
+        float counterP1 = 0;
+        float counterP2 = 0;
 
         foreach (var id in data)
         {
-            if(stamp1.Label == stmc.stamps[id].Label)
+            if (id == -1)
+                continue;
+            var label = stmc.stamps[id].Label;
+            if (stamp1.Label == label)
             {
                 counterP1++;
             }
-            if (stamp2.Label == stmc.stamps[id].Label)
+            else if (stamp2.Label == label)
             {
                 counterP2++;
             }
         }
 
-        var p = counterP1 / counterP2;
+        if (counterP1 == 0 || counterP2 == 0)
+        {
+            return MinValue;// Temporal Fix, Should be changed
+            //return counterP1 != counterP2 ? MinValue : MaxValue;
+        }
 
-        return p > MaxValue ? MaxValue / p : p;
+        float p = counterP1 / counterP2;
+
+        return p > MaxValue ? MaxValue*1f / p : p;
     }
 
     public string GetName()

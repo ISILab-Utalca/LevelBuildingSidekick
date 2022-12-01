@@ -43,12 +43,12 @@ public class TagProportionByRoom : IRangedEvaluator
         DropdownField tagDD1 = new DropdownField("Tag 1: ");
         tagDD1.choices = tags;
         tagDD1.index = index1;
-        tagDD1.RegisterCallback<ChangeEvent<string>>(e => tag1 = e.newValue);
+        tagDD1.RegisterValueChangedCallback(e => tag1 = e.newValue);
 
         DropdownField tagDD2 = new DropdownField("Tag 2: ");
         tagDD2.choices = tags;
         tagDD2.index = index2;
-        tagDD2.RegisterCallback<ChangeEvent<string>>(e => tag2 = e.newValue);
+        tagDD2.RegisterValueChangedCallback(e => tag2 = e.newValue);
 
         content.Add(v2);
         content.Add(tagDD1);
@@ -64,63 +64,92 @@ public class TagProportionByRoom : IRangedEvaluator
             return MinValue;
         }
 
-        var chromosome = evaluable as StampTileMapChromosome;
-        var data = chromosome.GetGenes<int>();
+        var stmc = evaluable as StampTileMapChromosome;
+        var data = stmc.GetGenes<int>();
 
         var pressets = Utility.DirectoryTools.GetScriptables<StampPresset>();
 
         var pressetsG1 = pressets.Where(p => p.Tags.Contains(tag1)).Select(p => p.Label);
         var pressetsG2 = pressets.Where(p => p.Tags.Contains(tag2)).Select(p => p.Label);
 
-        var indexG1 = new List<int>();
-        var indexG2 = new List<int>();
-
         if (pressetsG1.Count() == 0 || pressetsG2.Count() == 0)
         {
+            return MinValue;// Temporal Fix, Should be changed
             if (pressetsG1.Count() == 0 && pressetsG2.Count() == 0)
             {
                 return MaxValue;
             }
 
-            return MinValue;
         }
+
+        var foundS1 = stmc.stamps.Any(s => pressetsG1.Contains(s.Label));
+        var founsS2 = stmc.stamps.Any(s => pressetsG2.Contains(s.Label));
+
+        if (!foundS1 || !founsS2)
+        {
+            return foundS1 != founsS2 ? MinValue : MaxValue;
+        }
+
+        /*
+        var indexG1 = new List<int>();
+        var indexG2 = new List<int>();
 
         foreach (var pr in pressetsG1)
         {
-            indexG1.Add(chromosome.stamps.FindIndex(s => s.Label == pr));
+            indexG1.Add(stmc.stamps.FindIndex(s => s.Label == pr));
         }
 
         foreach (var pr in pressetsG2)
         {
-            indexG2.Add(chromosome.stamps.FindIndex(s => s.Label == pr));
-        }
+            indexG2.Add(stmc.stamps.FindIndex(s => s.Label == pr));
+        }*/
 
         var rooms = (StampTileMapChromosome.TileMap.GetData() as LBSSchemaData).GetRooms();
 
-        var fitness = 0;
+        float fitness = 0;
 
         foreach (var r in rooms)
         {
 
-            int counterG1 = 0;
-            int counterG2 = 0;
+            float counterG1 = 0;
+            float counterG2 = 0;
 
             foreach (var tp in r.TilesPositions)
             {
-                int val = chromosome.GetGene<int>(chromosome.ToIndex(tp));
+                int val = stmc.GetGene<int>(stmc.ToIndex(tp));
                 if (val == -1) continue;
+                if (pressetsG1.Contains(stmc.stamps[val].Label))
+                {
+                    counterG1++;
+                }
+                if (pressetsG2.Contains(stmc.stamps[val].Label))
+                {
+                    counterG2++;
+                }
+                /*
                 if (indexG1.Contains(val))
                 {
                     counterG1++;
                 }
-                else if(indexG2.Contains(chromosome.GetGene<int>(chromosome.ToIndex(tp))))
+                else if(indexG2.Contains(val))
                 {
                     counterG2++;
-                }
+                }*/
             }
-            var c = counterG1 / counterG2;
-            c = c > 1 ? 1 / c : c;
-            fitness += c;
+
+            float p = 0;
+
+            if ((counterG1 == 0 || counterG2 == 0))
+            {
+                p = MinValue; // Temporal Fix, Should be changed
+                //p = counterG1 != counterG2 ? MinValue : MaxValue;
+            }
+            else
+            {
+                p = counterG1 / counterG2;
+            }
+            p = p > MaxValue ? MaxValue / p : p;
+            fitness += p;
         }
 
         return fitness/rooms.Count;

@@ -47,7 +47,10 @@ namespace Utility
 
         public static T GetScriptable<T>(string name = "") where T : ScriptableObject
         {
-            return GetScriptables<T>(name)[0];
+            var list = GetScriptables<T>(name);
+            if (list.Count == 0)
+                return null;
+            return list[0];
         }
 
         public static List<T> GetScriptablesByType<T>() where T : ScriptableObject

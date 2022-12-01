@@ -130,8 +130,9 @@ namespace GeneticSharp.Domain.Populations
             GenerationsNumber = 0;
 
             var evaluables = new List<IEvaluable>();
+            evaluables.Add(Adam);
 
-            for (int i = 0; i < MinSize; i++)
+            for (int i = 1; i < MinSize; i++)
             {
                 var c = Adam.CreateNew();
 

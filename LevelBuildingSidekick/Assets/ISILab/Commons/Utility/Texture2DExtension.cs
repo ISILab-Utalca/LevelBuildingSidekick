@@ -17,6 +17,11 @@ namespace Utility
         public static void InsertTextureInRect(this Texture2D origin, Texture2D other, int x, int y, int width, int height)
         {
             var pixels = Resizer.Resize2DArray(other.GetPixels(), other.width, other.height, width, height);
+            /*if (x + width > origin.width || x + width > other.width || y + height > origin.height || y + height > other.height)
+            {
+                return;
+            }*/
+
             origin.SetPixels(x, y, width, height, pixels);
             origin.Apply();
         }
@@ -49,11 +54,18 @@ namespace Utility
 
         public static Texture2D Merge(this Texture2D origin, Texture2D other)
         {
+            if(origin == null || other == null)
+            {
+                return origin;
+            }
+
             if(origin.width != other.width || origin.height != other.height)
             {
-                Debug.LogError("Textures have different sizes");
-                return null;
+                return origin;
             }
+
+            int width = origin.width < other.width ? origin.width : other.width;
+            int height = origin.height < other.height ? origin.height : other.height;
 
             var t = new Texture2D(origin.width, origin.height);
 

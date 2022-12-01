@@ -11,6 +11,8 @@ namespace LBS.VisualElements
         public new class UxmlFactory : UxmlFactory<ButtonWrapper, VisualElement.UxmlTraits> { }
 
         object data;
+        Label label;
+        public string Text;
         public object Data { 
             get
             {
@@ -32,7 +34,8 @@ namespace LBS.VisualElements
             this.styleSheets.Add(styleSheet);
             style.backgroundColor = new Color(0,0,0,0);
             Icon = this.Q<VisualElement>("Icon");
-
+            label = this.Q<Label>("Fitness");
+            label.text = "0";
             Icon.style.backgroundImage = default;
         }
 
@@ -43,7 +46,8 @@ namespace LBS.VisualElements
             var styleSheet = Utility.DirectoryTools.SearchAssetByName<StyleSheet>("MapEliteUSS");
             this.styleSheets.Add(styleSheet);
             Icon = this.Q<VisualElement>("Icon");
-
+            label = this.Q<Label>("Fitness");
+            label.text = "0";
             style.width = size.x;
             style.height = size.y;
 
@@ -69,6 +73,11 @@ namespace LBS.VisualElements
         internal void SetTexture(Texture2D texture)
         {
             style.backgroundImage = texture;
+        }
+
+        internal void UpdateLabel()
+        {
+            label.text = Text;
         }
     }
 }

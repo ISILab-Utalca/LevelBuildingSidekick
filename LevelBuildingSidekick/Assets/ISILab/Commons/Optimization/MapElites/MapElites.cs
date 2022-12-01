@@ -117,8 +117,8 @@ public class MapElites
 
     public MapElites()
     {
-        xEvaluator = new Horizontal2DSimetry();
-        yEvaluator = new Vertical2DSimetry();
+        xEvaluator = new Vertical2DSimetry();
+        yEvaluator = new Horizontal2DSimetry();
         optimizer = new GeneticAlgorithm();
         xSampleCount = 5;
         ySampleCount = 5;
@@ -140,7 +140,13 @@ public class MapElites
     public void Run()
     {
         Optimizer.Adam = Adam;
-        Optimizer.OnGenerationRan += () => UpdateSamples(Optimizer.LastGeneration);
+        var fitness = Optimizer.Evaluator.Evaluate(Adam);
+        Debug.Log("Adam: " + fitness);
+        Clear();
+        Optimizer.OnGenerationRan += () =>
+        { 
+            UpdateSamples(Optimizer.LastGeneration); 
+        };
         Optimizer.OnTerminationReached += () =>
         {
             int c = 0;

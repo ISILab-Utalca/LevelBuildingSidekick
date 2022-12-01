@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 public class AverageVerticalProgression : Progression2DEvaluator
 {
-    int stride;
+    int stride = 1;
 
     public override float EvaluateProgression(StampTileMapChromosome stmc, int id, int height)
     {
@@ -55,7 +55,17 @@ public class AverageVerticalProgression : Progression2DEvaluator
 
         var intField = new IntegerField("Stride: ");
         intField.value = stride;
-        intField.RegisterCallback<ChangeEvent<int>>((e) => stride = e.newValue);
+        intField.RegisterCallback<ChangeEvent<int>>((e) => {
+            if (e.newValue >= 1)
+            {
+                stride = e.newValue;
+            }
+            else
+            {
+                intField.value = 1;
+                stride = 1;
+            }
+        });
 
         content.Add(base.CIGUI());
         content.Add(intField);
