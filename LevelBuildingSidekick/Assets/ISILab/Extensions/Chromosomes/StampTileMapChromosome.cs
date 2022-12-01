@@ -152,7 +152,7 @@ public class StampTileMapChromosome : ChromosomeBase2D<int>, IDrawable
             {
                 base.ReplaceGene(index, -1);
                 s += "Rejected";
-                Debug.Log(s);
+                //Debug.Log(s);
                 return;
             }
             s += "Approved";
