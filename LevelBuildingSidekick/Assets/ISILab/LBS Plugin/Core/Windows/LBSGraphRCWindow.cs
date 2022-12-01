@@ -15,7 +15,7 @@ namespace LBS.Windows
     {
         private LBSGraphRCWindow() { }
 
-        [MenuItem("ISILab/LBS plugin/GraphRC window")] // graphRC means Graph Room Characteristics
+        //[MenuItem("ISILab/LBS plugin/GraphRC window")] // graphRC means Graph Room Characteristics
         [LBSWindow("GraphRC window")]
         public static void OpenWindow()
         {

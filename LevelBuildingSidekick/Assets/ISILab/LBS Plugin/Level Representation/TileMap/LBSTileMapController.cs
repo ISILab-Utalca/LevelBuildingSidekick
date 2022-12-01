@@ -338,6 +338,7 @@ namespace LBS.Representation.TileMap
         public List<LBSSchemaData> GetNeighbors(LBSSchemaData tileMap)
         {
             var neightbours = new List<LBSSchemaData>();
+            var maxSize = LBSController.CurrentLevel.data.Size;
 
             for (int i = 0; i < tileMap.RoomCount; i++)
             {
@@ -352,6 +353,14 @@ namespace LBS.Representation.TileMap
                     var tiles = new List<TileData>();
                     wall.allTiles.ForEach(t => tiles.Add(new TileData( t + wall.dir,0,new string[4]))); 
                     neighbor.SetTiles(tiles, room.ID);
+
+
+                    if (neighbor.Size.x > (int)maxSize.x || neighbor.Size.y > (int)maxSize.z)
+                    {
+                        if (neighbor.Size.x > tileMap.Size.x || neighbor.Size.y > tileMap.Size.y)
+                            continue;
+                    }
+
                     neightbours.Add(neighbor);
                 }
 

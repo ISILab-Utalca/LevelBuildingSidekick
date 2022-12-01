@@ -42,7 +42,10 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
 
     private Color BASE;
 
-    [MenuItem("ISILab/LBS plugin/Tile edit window", priority = 1)]
+    private static RenderObjectPivot pivot;
+
+    //[MenuItem("ISILab/LBS plugin/Tile edit window", priority = 1)]
+    [MenuItem("ISILab/Tile edit window (WFC)", priority = 1)]
     public static void ShowWindow()
     {
         var window = GetWindow<TileEditWindow>();
@@ -74,7 +77,8 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
         this.dropdowns[0] = root.Q<DropdownField>("Right");
         this.dropdowns[1] = root.Q<DropdownField>("Bottom");
         this.dropdowns[2] = root.Q<DropdownField>("Left");
-        this.weight = root.Q<Slider>("Weight");
+        //this.weight = root.Q<Slider>("Weight");
+        //this.weight.style.display = DisplayStyle.None;
         ShowDropdown(false);
         
 
@@ -101,7 +105,9 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
 
         ActualizeView();
 
-        var pivot = CreatePivot();
+        if(pivot == null)
+            pivot = CreatePivot();
+        pivot.Clear();
         distance.RegisterValueChangedCallback((e)=> { pivot.SetDistanceCam(e.newValue); });
         pivot.SetDistanceCam(distance.value);
         rotation.RegisterValueChangedCallback((e) => { pivot.SetRotateCam(e.newValue); });
@@ -171,7 +177,7 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
         {
             dd.style.display = v ? DisplayStyle.Flex : DisplayStyle.None;
         }
-        weight.style.display = v ? DisplayStyle.Flex : DisplayStyle.None;
+        //weight.style.display = v ? DisplayStyle.Flex : DisplayStyle.None; // (!!!) descomentar para mostrar el slider de peso
     }
 
 
@@ -180,7 +186,7 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
         var pivot = SceneView.Instantiate(pref);
         var muyLejos = 9999;
         pivot.transform.position = new Vector3(muyLejos, muyLejos, muyLejos);
-        pivot.hideFlags = HideFlags.HideAndDontSave;
+        pivot.gameObject.hideFlags = HideFlags.HideAndDontSave;
         return pivot;
     }
 
@@ -217,11 +223,14 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
             });
             i++;
         }
-        weight.value = data.weight;
-        weight.RegisterCallback<ChangeEvent<string>>( e => 
-        {
-            TileEditWindow.selected.weight = weight.value;
-        });
+        // weight.value = data.weight;
+        //weight.RegisterValueChangedCallback((e) => {
+        //    TileEditWindow.selected.weight = weight.value;
+        //});
+        // weight.RegisterCallback<ChangeEvent<string>>( e => 
+        // {
+        //     TileEditWindow.selected.weight = weight.value;
+        // });
 
 
     }
@@ -235,7 +244,6 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
             var btn = new Button();
             btn.clicked += () => {
                 var selected = data;
-                //buttons.ForEach(b => b.style.backgroundColor =);
                 SetSelected(selected);
             };
             btn.style.width = btn.style.height = btn.style.maxHeight = btn.style.minHeight = btnSize;

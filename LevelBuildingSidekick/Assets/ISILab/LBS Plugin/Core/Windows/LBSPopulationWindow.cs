@@ -16,8 +16,8 @@ namespace LBS.Windows
     {
         private LBSPopulationWindow() { }
 
-        [MenuItem("ISILab/LBS plugin/Population Window")]
-        [LBSWindow("Population Window")]
+        //[MenuItem("ISILab/LBS plugin/Population Window")]
+        [LBSWindow("Population Window")] // (!) usar esto en el resto de ventanas y usar mas atributos como metadata
         public static void OpenWindow()
         {
             var wnd = GetWindow<LBSPopulationWindow>();

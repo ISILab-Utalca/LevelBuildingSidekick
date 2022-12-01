@@ -21,7 +21,6 @@
                 <ui:DropdownField label="Right" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="Right" style="flex-grow: 1; flex-shrink: 1;" />
                 <ui:DropdownField label="Bottom" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="Bottom" style="flex-grow: 1; flex-shrink: 1;" />
                 <ui:DropdownField label="Left" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="Left" style="flex-grow: 1; flex-shrink: 1;" />
-                <ui:Slider picking-mode="Ignore" label="Weight" value="42" high-value="100" name="Weight" />
                 <ui:VisualElement style="flex-shrink: 0; margin-left: 4px; margin-right: 4px; margin-top: 4px; margin-bottom: 4px;" />
                 <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" mode="Vertical" nested-interaction-kind="Default" touch-scroll-type="Clamped" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.28); align-items: flex-start; border-top-left-radius: 4px; border-bottom-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px;">
                     <ui:VisualElement name="Content" style="flex-direction: row; flex-wrap: wrap; flex-grow: 1; flex-shrink: 1;">
@@ -31,13 +30,14 @@
                     </ui:VisualElement>
                 </ui:ScrollView>
             </ui:VisualElement>
+            <ui:Slider picking-mode="Ignore" label="Weight" value="42" high-value="100" name="Weight" style="display: none; visibility: visible;" />
             <ui:VisualElement name="Title" style="background-color: rgb(70, 70, 70); flex-grow: 1; flex-wrap: wrap; width: auto; align-items: flex-start; margin-top: 0; margin-bottom: 0; margin-left: 0; margin-right: 0; padding-left: 6px; padding-right: 6px;">
                 <ui:Label tabindex="-1" text="Parameters" display-tooltip-when-elided="true" style="justify-content: flex-start;" />
             </ui:VisualElement>
             <ui:VisualElement style="flex-grow: 1; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; min-width: auto; min-height: auto; background-color: rgb(99, 99, 99); padding-left: 6px; padding-right: 6px; padding-top: 6px; padding-bottom: 6px;">
                 <ui:Vector2IntField label="Map size" name="mapSize" x="4" y="4" />
                 <ui:FloatField label="Tile size" value="20" name="tileSize" />
-                <ui:Button tabindex="-1" text="Generate map" display-tooltip-when-elided="true" name="GenerateButton" />
+                <ui:Button tabindex="-1" text="Generate map 3D" display-tooltip-when-elided="true" name="GenerateButton" />
                 <ui:Button tabindex="-1" text="Generate schema" display-tooltip-when-elided="true" name="GenerateSchema" style="visibility: visible; display: none;" />
             </ui:VisualElement>
         </ui:VisualElement>

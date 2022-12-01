@@ -13,7 +13,7 @@ namespace LBS.Windows
 {
     public class LBSSchemaWindow : GenericGraphWindow, ISupportsOverlays
     {
-        [MenuItem("ISILab/LBS plugin/Schema window")]
+        //[MenuItem("ISILab/LBS plugin/Schema window")]
         [LBSWindow("Schema window")]
         public static void OpenWindow()
         {

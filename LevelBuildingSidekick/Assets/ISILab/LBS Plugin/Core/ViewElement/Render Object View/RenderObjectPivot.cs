@@ -20,14 +20,18 @@ public class RenderObjectPivot : MonoBehaviour
 
     public List<RectTransform> rects;
 
-    public void SetPref(GameObject go)
+    public void Clear()
     {
         for (int i = 0; i < root.childCount; i++)
         {
             var g = root.GetChild(i);
             DestroyImmediate(g.gameObject);
         }
+    }
 
+    public void SetPref(GameObject go)
+    {
+        Clear();
         Instantiate(go, root);
     }
 
