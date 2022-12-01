@@ -354,8 +354,12 @@ namespace LBS.Representation.TileMap
                     wall.allTiles.ForEach(t => tiles.Add(new TileData( t + wall.dir,0,new string[4]))); 
                     neighbor.SetTiles(tiles, room.ID);
 
+
                     if (neighbor.Size.x > (int)maxSize.x || neighbor.Size.y > (int)maxSize.z)
-                        continue;
+                    {
+                        if (neighbor.Size.x > tileMap.Size.x || neighbor.Size.y > tileMap.Size.y)
+                            continue;
+                    }
 
                     neightbours.Add(neighbor);
                 }
