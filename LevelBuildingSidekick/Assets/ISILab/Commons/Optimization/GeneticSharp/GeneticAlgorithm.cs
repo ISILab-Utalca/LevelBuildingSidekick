@@ -435,18 +435,6 @@ public class GeneticAlgorithm : IGeneticAlgorithm , IShowable
             m_stopwatch.Stop();
             TimeEvolving = m_stopwatch.Elapsed;
         }
-
-        if (Population.CurrentGeneration != null)
-        {
-            foreach (var eval in Population.CurrentGeneration.Evaluables)
-            {
-                var stmc = eval as StampTileMapChromosome;
-                int c = 0;
-                stmc.GetGenes<int>().ToList().ForEach((gen) => { if (gen > -1) { c++; } });
-                UnityEngine.Debug.Log(c + " - " + stmc.Fitness);
-            }
-        }
-        //UnityEngine.Debug.Log("Running");
         Resume();
     }
 
