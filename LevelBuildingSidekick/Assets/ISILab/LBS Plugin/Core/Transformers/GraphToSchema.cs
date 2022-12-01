@@ -25,10 +25,10 @@ namespace LBS.Transformers
             open.Enqueue(parent);
 
             var schema = new LBSSchemaData();
-            int h = parent.RangeHeight.max;
-            int w = parent.RangeWidth.max;
-            //int h = Random.Range(parent.RangeHeight.min, parent.RangeHeight.max);
-            //int w = Random.Range(parent.RangeWidth.min, parent.RangeWidth.max);
+            //int h = parent.RangeHeight.max;
+            //int w = parent.RangeWidth.max;
+            int h = Random.Range(parent.RangeHeight.min, parent.RangeHeight.max);
+            int w = Random.Range(parent.RangeWidth.min, parent.RangeWidth.max);
             schema.AddRoom(Vector2Int.zero, w, h, parent.Label);
 
             while (open.Count > 0)
@@ -52,9 +52,9 @@ namespace LBS.Transformers
                     var pSchema = schema.GetRoom(parent.Label);
                     var pPos = (pSchema != null) ? pSchema.Centroid : Vector2Int.zero;
 
-                    var dir = ((Vector2)(parent.Centroid - child.Centroid)).normalized;
+                    var dir = -((Vector2)(parent.Centroid - child.Centroid)).normalized;
                     var posX = (dir.x * ((childW + parentW) / 2f) * 1.41f) + pPos.x;
-                    var posY = (-dir.y * ((childH + parentH) / 2f) * 1.41f) + pPos.y;
+                    var posY = (dir.y * ((childH + parentH) / 2f) * 1.41f) + pPos.y;
                     schema.AddRoom(new Vector2Int((int)posX, (int)posY), childW, childH, child.Label);
                 }
 
