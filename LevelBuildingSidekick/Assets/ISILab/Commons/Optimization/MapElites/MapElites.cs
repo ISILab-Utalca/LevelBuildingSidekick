@@ -141,7 +141,6 @@ public class MapElites
     {
         Optimizer.Adam = Adam;
         var fitness = Optimizer.Evaluator.Evaluate(Adam);
-        Debug.Log("Adam: " + fitness);
         Clear();
         Optimizer.OnGenerationRan += () =>
         { 

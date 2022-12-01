@@ -61,11 +61,9 @@ public class StampTileMapChromosome : ChromosomeBase2D<int>, IDrawable
         {
             var index = ToIndex(stamp.Position - offset);
             var id = stamps.FindIndex(s => s.Label == stamp.Label);
-            //Debug.Log("TP: " + (stamp.Position - offset) + " - Index: " + index + " - MP: " + ToMatrixPosition(index) + " - ID: " + id);
             incidences.Add(index);
             ReplaceGene(index, id);
         }
-        Debug.Log("Incidences: " + incidences.Count);
     }
 
     public StampTileMapChromosome(int length, int matrixWidth, List<StampData> stamps) : base(length, matrixWidth)
