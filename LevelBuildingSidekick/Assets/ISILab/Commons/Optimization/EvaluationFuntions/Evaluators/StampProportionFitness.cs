@@ -100,6 +100,6 @@ public class StampProportionFitness : IRangedEvaluator
 
     public string GetName()
     {
-        throw new System.NotImplementedException();
+        return "Stamp proportion fitness";
     }
 }

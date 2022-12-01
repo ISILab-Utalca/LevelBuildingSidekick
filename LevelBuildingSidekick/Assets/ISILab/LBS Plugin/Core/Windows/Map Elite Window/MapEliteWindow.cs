@@ -57,6 +57,9 @@ namespace LBS.Windows
         private object locker = new object();
         private EditorWindow popWind;
 
+        public Label labelX;
+        public Label labelY;
+
         public void CreateGUI()
         {
             toUpdate = new List<Vector2Int>();
@@ -77,6 +80,9 @@ namespace LBS.Windows
             this.CalculateButton = root.Q<Button>("Calculate");
             this.Partitions = root.Q<Vector2Field>("Partitions");
 
+            this.labelX = root.Q<Label>("LabelX");
+            this.labelY = root.Q<Label>("LabelY");
+
             this.evaluatorXPanel = root.Q<SubPanel>("EvaluatorX");
             evaluatorXPanel.style.display = mapElites.XEvaluator == null ? DisplayStyle.None : DisplayStyle.Flex;
             this.evaluatorYPanel = root.Q<SubPanel>("EvaluatorY");
@@ -89,6 +95,7 @@ namespace LBS.Windows
             if(mapElites.XEvaluator!= null)
                 EvaluatorFieldX.Dropdown.value = mapElites.XEvaluator.ToString();
             EvaluatorFieldX.Dropdown.RegisterCallback<ChangeEvent<string>>(e => {
+                labelX.text = (e!= null) ? e.newValue : "Evaluation X";
                 evaluatorXPanel.style.display = DisplayStyle.Flex;
                 var value = EvaluatorFieldX.GetChoiceInstance();
                 mapElites.XEvaluator = value as IRangedEvaluator;
@@ -99,6 +106,7 @@ namespace LBS.Windows
             if (mapElites.YEvaluator != null)
                 EvaluatorFieldY.Dropdown.value = mapElites.YEvaluator.ToString();
             EvaluatorFieldY.Dropdown.RegisterCallback<ChangeEvent<string>>(e => {
+                labelY.text = (e != null) ? e.newValue : "Evaluation Y";
                 evaluatorYPanel.style.display = DisplayStyle.Flex;
                 var value = EvaluatorFieldY.GetChoiceInstance();
                 mapElites.YEvaluator = value as IRangedEvaluator;
@@ -119,10 +127,6 @@ namespace LBS.Windows
             mapElites.OnSampleUpdated += UpdateSample;
 
             this.Partitions.value = new Vector2(3,3);
-
-            //ChangePartitions(new Vector2(3, 3));
-
-            //this.fieldIA.RegisterValueChangedCallback(x => ChangeIA(x));
 
             CalculateButton.clicked += Run;
 
