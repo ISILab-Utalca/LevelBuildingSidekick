@@ -83,6 +83,8 @@ namespace LBS
                     break;
                 case 1: // cancel
                     path = EditorUtility.OpenFilePanel("Load level data", "", "json");
+                    if (path == "")
+                        return;
                     fileInfo = new System.IO.FileInfo(path);
                     data = Utility.JSONDataManager.LoadData<LevelData>(path);
                     CurrentLevel = new LoadedLevel(data, fileInfo.FullName);
