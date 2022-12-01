@@ -32,7 +32,7 @@ namespace LBS.Schema
 
         [SerializeField, JsonRequired]
         [Tooltip("Choose size to adjust the width and height of the rooms.")]
-        private ProportionType proportionType = ProportionType.RATIO;
+        private ProportionType proportionType = ProportionType.SIZE;
 
         [SerializeField, JsonIgnore]
         private List<ItemCategory> prefabs = new List<ItemCategory>(); // esto para que (??)
@@ -60,6 +60,7 @@ namespace LBS.Schema
         public RoomCharacteristicsData(string label, Vector2 position, int radius) : base(label, position, radius)
         {
             bundlesNames.Add(Utility.DirectoryTools.GetScriptables<RoomElementBundle>()[0].name);
+            proportionType = ProportionType.SIZE;
         }
 
         [System.Serializable]
