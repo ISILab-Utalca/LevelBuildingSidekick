@@ -45,7 +45,7 @@ namespace LBS.Representation.TileMap
             base.Clear();
         }
 
-        public override void RecalculateTilePos()
+        public override Vector2Int RecalculateTilePos()
         {
             var rect = GetRect();
             var m = rect.min;
@@ -58,7 +58,7 @@ namespace LBS.Representation.TileMap
             {
                 this.tiles[i].Position = this.tiles[i].Position - m;
             }
-
+            return -m;
         }
 
         public void AddDoor(DoorData door)
