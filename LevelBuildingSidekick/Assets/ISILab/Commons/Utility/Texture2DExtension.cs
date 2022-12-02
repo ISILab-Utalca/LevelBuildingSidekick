@@ -17,13 +17,23 @@ namespace Utility
         public static void InsertTextureInRect(this Texture2D origin, Texture2D other, int x, int y, int width, int height)
         {
             var pixels = Resizer.Resize2DArray(other.GetPixels(), other.width, other.height, width, height);
-            /*if (x + width > origin.width || x + width > other.width || y + height > origin.height || y + height > other.height)
+            try
             {
-                return;
-            }*/
+                /*if (x + width > origin.width || x + width > other.width || y + height > origin.height || y + height > other.height)
+                {
+                    return;
+                }*/
 
-            origin.SetPixels(x, y, width, height, pixels);
-            origin.Apply();
+                origin.SetPixels(x, y, width, height, pixels);
+                origin.Apply();
+            }
+            catch
+            {
+                Debug.LogError("Process not completed, image out of bounds" +
+                    " OriginW: " + origin.width + " - OriginH: " + origin.height + " - OtherW: " + other.width + " - OtherH: " + other.height
+                    + " - TW: " + width + " - TH: " + height + " - pixels: " + pixels.Length + " - X: " + x + " - Y: " + y);
+            }
+            
         }
 
         public static void MirrorY(this Texture2D origin)
