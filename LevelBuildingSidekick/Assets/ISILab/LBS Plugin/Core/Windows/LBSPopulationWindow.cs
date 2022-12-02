@@ -39,7 +39,7 @@ namespace LBS.Windows
                 "Map Elites",
                 () => {
                     var wnd = GetWindow<MapEliteWindow>();
-                    wnd.mainView = this;
+                    //wnd.populationWindow = this;
                 }));
 
             actions.Add(new Tuple<string, Action>(

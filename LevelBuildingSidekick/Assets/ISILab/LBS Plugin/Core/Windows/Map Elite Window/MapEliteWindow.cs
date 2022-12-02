@@ -30,7 +30,7 @@ namespace LBS.Windows
 
         public int ButtonSize = 128; //Should be a RangeSlider field(!!!)
 
-        public GenericGraphWindow mainView;
+        public GenericGraphWindow populationWindow;
 
         public Button CalculateButton;
 
@@ -55,13 +55,13 @@ namespace LBS.Windows
         private Color Paused;
         private Color Running;
         private object locker = new object();
-        private EditorWindow popWind;
 
         public Label labelX;
         public Label labelY;
 
         public void CreateGUI()
         {
+            populationWindow = EditorWindow.GetWindow<LBSPopulationWindow>();
             toUpdate = new List<Vector2Int>();
             VisualElement root = rootVisualElement;
 
@@ -132,20 +132,18 @@ namespace LBS.Windows
 
             Paused = root.style.backgroundColor.value;
             Running = Color.blue;
-
-            popWind = EditorWindow.GetWindow<LBSPopulationWindow>();
         }
 
         public void Run()
         {
             Clear();
-            if(!(mainView.CurrentController is IChromosomable))
+            if(!(populationWindow.CurrentController is IChromosomable))
             {
                 return;
             }
 
-            StampTileMapChromosome.TileMap = mainView.GetController<LBSTileMapController>();
-            mapElites.Adam = (mainView.CurrentController as IChromosomable).ToChromosome();
+            StampTileMapChromosome.TileMap = populationWindow.GetController<LBSTileMapController>();
+            mapElites.Adam = (populationWindow.CurrentController as IChromosomable).ToChromosome();
             mapElites.Run();
         }
 
@@ -177,8 +175,8 @@ namespace LBS.Windows
                 { 
                     if (b.Data != null)
                     {
-                        (mainView.CurrentController as IChromosomable).FromChromosome(b.Data as IChromosome);
-                        popWind.Repaint();
+                        (populationWindow.CurrentController as IChromosomable).FromChromosome(b.Data as IChromosome);
+                        populationWindow.Repaint();
                     } 
                 };
                 Content[i] = b;
@@ -212,7 +210,7 @@ namespace LBS.Windows
         private Texture2D BackgroundTexture()
         {
             int tsize = 16;
-            var tmc = (mainView.GetController<LBSTileMapController>());
+            var tmc = (populationWindow.GetController<LBSTileMapController>());
             var rooms = (tmc.GetData() as LBSSchemaData).GetRooms();
             var tiles = rooms.SelectMany(r => r.TilesPositions);
 
