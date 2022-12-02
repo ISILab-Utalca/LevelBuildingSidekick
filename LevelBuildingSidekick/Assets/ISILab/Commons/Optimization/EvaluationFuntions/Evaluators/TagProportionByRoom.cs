@@ -105,8 +105,15 @@ public class TagProportionByRoom : IRangedEvaluator
         }*/
 
         var rooms = (StampTileMapChromosome.TileMap.GetData() as LBSSchemaData).GetRooms();
+        var tiles = rooms.SelectMany(r => r.TilesPositions);
 
         float fitness = 0;
+
+        Vector2Int offset = new Vector2Int
+        (
+            tiles.Min(t => t.x),
+            tiles.Min(t => t.y)
+        );
 
         foreach (var r in rooms)
         {
@@ -116,7 +123,7 @@ public class TagProportionByRoom : IRangedEvaluator
 
             foreach (var tp in r.TilesPositions)
             {
-                int val = data[stmc.ToIndex(tp)];
+                int val = data[stmc.ToIndex(tp - offset)];
                 if (val == -1) continue;
                 if (pressetsG1.Contains(stmc.stamps[val].Label))
                 {

@@ -56,7 +56,7 @@ public class StampProportionFitnessByRoom : IRangedEvaluator
 
     public float Evaluate(IEvaluable evaluable)
     {
-        if(!(evaluable is StampTileMapChromosome))
+        if (!(evaluable is StampTileMapChromosome))
         {
             return MinValue;
         }
@@ -74,8 +74,16 @@ public class StampProportionFitnessByRoom : IRangedEvaluator
         }
 
         var rooms = (StampTileMapChromosome.TileMap.GetData() as LBSSchemaData).GetRooms();
+        var tiles = rooms.SelectMany(r => r.TilesPositions);
+
 
         float fitness = 0;
+
+        Vector2Int offset = new Vector2Int
+        (
+            tiles.Min(t => t.x),
+            tiles.Min(t => t.y)
+        );
 
         foreach (var r in rooms)
         {
@@ -83,7 +91,7 @@ public class StampProportionFitnessByRoom : IRangedEvaluator
             float counterP2 = 0;
             foreach (var tp in r.TilesPositions)
             {
-                int val = data[stmc.ToIndex(tp)];
+                int val = data[stmc.ToIndex(tp - offset)];
                 if (val == -1) continue;
                 if (stamp1.Label == stmc.stamps[val].Label)
                 {
