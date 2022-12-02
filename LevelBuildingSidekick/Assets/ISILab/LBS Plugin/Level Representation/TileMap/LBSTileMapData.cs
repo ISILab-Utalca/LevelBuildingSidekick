@@ -34,13 +34,14 @@ public class LBSTileMapData : LBSRepesentationData, ICloneable
     public LBSTileMapData() { }
 
     // Methods
-    public virtual void RecalculateTilePos() // (!) find a better name 
+    public virtual Vector2Int RecalculateTilePos() // (!) find a better name 
     {
         var m = GetRect().min;
         foreach (var tile in tiles) // (?) neseitara estar dentro de un mutex o algo asi en el futuro
         {
             tile.Position = tile.Position - m;
         }
+        return -m;
     }
 
     public RectInt GetRect()

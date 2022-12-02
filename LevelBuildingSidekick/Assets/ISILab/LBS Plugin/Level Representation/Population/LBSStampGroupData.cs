@@ -66,4 +66,12 @@ public class LBSStampGroupData : LBSRepesentationData
         stamps.ForEach(s => msg += s.Label + ": " + s.Position + "\n");
         Debug.Log(msg);
     }
+
+    internal void MoveStamp(Vector2Int x)
+    {
+        for (int i = 0; i < stamps.Count; i++)
+        {
+            stamps[i].Position += x;
+        }
+    }
 }
