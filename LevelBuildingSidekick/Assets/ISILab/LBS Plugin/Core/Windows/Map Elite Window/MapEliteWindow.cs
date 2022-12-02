@@ -224,7 +224,7 @@ namespace LBS.Windows
             int height = (y2 - y1) + 1;
 
             var size = width > height ? width : height;
-            var offset = new Vector2(x1, y1);
+            var offset = new Vector2Int(x1, y1);
 
             var pref = Resources.Load<Texture2D>("Floor");
             var texture = new Texture2D((size * tsize), (size * tsize));
@@ -250,7 +250,7 @@ namespace LBS.Windows
                 foreach(var tp in r.TilesPositions)
                 {
                     var pos = tp;
-                    texture.InsertTextureInRect(aux, (pos.x * tsize), ((height - 1 - pos.y) * tsize), tsize, tsize);
+                    texture.InsertTextureInRect(aux, ((pos.x - offset.x) * tsize), ((height - 1 - (pos.y - offset.y)) * tsize), tsize, tsize);
                 }
             }
             texture.Apply();
