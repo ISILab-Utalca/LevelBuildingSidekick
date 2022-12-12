@@ -1,4 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <Style src="project://database/Assets/ISILab/LBS%20Plugin/Level%20Representation/Graph/USS/NodeUSS.uss?fileID=7433441132597879392&amp;guid=77b90eb7f1e6cba4b95ceb49ea57c848&amp;type=3#NodeUSS" />
-    <ui:VisualElement name="Box" style="height: 71px; width: 78px; position: relative; flex-grow: 1;" />
-</ui:UXML>

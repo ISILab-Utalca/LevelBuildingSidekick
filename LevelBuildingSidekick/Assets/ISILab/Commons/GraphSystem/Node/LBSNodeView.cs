@@ -25,6 +25,8 @@ namespace LBS.Graph
         private class NodeScriptableEditor : GenericScriptableEditor { };
         #endregion
 
+        private static VisualTreeAsset visualTree;
+
         public LBSNodeData Data;
 
         public delegate void NodeEvent(LBSNodeData data);
@@ -32,29 +34,39 @@ namespace LBS.Graph
         public NodeEvent OnEndDragEdge;
         public Action OnMoving;
 
-        public LBSNodeView(LBSNodeData node, LBSGraphView root) : base(root)
+        private float cellSize;
+
+        public LBSNodeView(LBSNodeData node, LBSGraphView root, float cellSize = 1) : base(root)
         {
             Data = node;
+            this.cellSize = cellSize;
+            Vector2 size = new Vector2(Data.Width, Data.Height) * cellSize;
+            SetPosition(new Rect(Data.Position, size));
 
-            SetPosition(new Rect(Data.Position, Vector2.one * 2 * Data.Radius));
+            var styleSheet = DirectoryTools.SearchAssetByName<StyleSheet>("NodeUSS");
+            if (visualTree == null)
+            {
+                visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("NodeUxml");
+            }
+            visualTree.CloneTree(this);
 
+            this.style.minHeight = this.style.maxHeight = size.y;
+            this.style.minWidth = this.style.maxWidth = size.x;
+            styleSheets.Add(styleSheet);
+            /*
             {
                 Box b = new Box();
-                b.style.maxHeight = b.style.maxWidth = 2 * Data.Radius;
+                b.style.flexGrow = b.style.flexShrink = 1;
                 var l = new Label(node.Label);
                 l.pickingMode = PickingMode.Ignore;
                 l.focusable = true;
                 b.pickingMode = PickingMode.Ignore;
                 b.Add(l);
                 Add(b);
-            }
+            }*/
 
             capabilities |= Capabilities.Selectable | Capabilities.Movable | Capabilities.Deletable | Capabilities.Ascendable | Capabilities.Copiable | Capabilities.Snappable | Capabilities.Groupable;
             usageHints = UsageHints.DynamicTransform;
-
-            var styleSheet = Utility.DirectoryTools.SearchAssetByName<StyleSheet>("NodeUSS");
-            this.style.minHeight = this.style.minWidth = this.style.maxHeight = this.style.maxWidth = 2 * Data.Radius;
-            styleSheets.Add(styleSheet);
 
             RegisterCallback<MouseDownEvent>(OnMouseDown);
             RegisterCallback<MouseUpEvent>(OnMouseUp);
