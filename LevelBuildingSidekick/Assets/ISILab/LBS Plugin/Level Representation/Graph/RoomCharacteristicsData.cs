@@ -57,7 +57,7 @@ namespace LBS.Schema
         [JsonIgnore]
         public AspectRatioValue AspectRatio => aspectRatio;
 
-        public RoomCharacteristicsData(string label, Vector2 position, int radius) : base(label, position, radius)
+        public RoomCharacteristicsData(string label, Vector2 position, int radius) : base(label, position)
         {
             bundlesNames.Add(Utility.DirectoryTools.GetScriptables<RoomElementBundle>()[0].name);
             proportionType = ProportionType.SIZE;

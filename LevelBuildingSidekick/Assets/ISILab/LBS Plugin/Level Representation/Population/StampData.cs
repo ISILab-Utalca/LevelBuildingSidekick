@@ -6,7 +6,7 @@ using UnityEngine;
 
 
 [System.Serializable]
-public class StampData : Data //cuestinable el nombre stamp pero no swe me ocurio otro (!!!)
+public class StampData
 {
     [HideInInspector, JsonRequired]
     private int x, y;
@@ -24,9 +24,6 @@ public class StampData : Data //cuestinable el nombre stamp pero no swe me ocuri
         x = (int)position.x;
         y = (int)position.y;
     }
-
-    [JsonIgnore]
-    public override Type ControllerType => throw new NotImplementedException(); // no se usa en nada (!!!)
 
     [JsonIgnore]
     public string Label

@@ -22,12 +22,8 @@ namespace LBS.Graph
     // tener una "GraphView" generica, ademas de una data generica
     // pero podemos guardar los datos especificos y controlarlos
     // de manera especifica (!!!)
-    public class LBSGraphRCController : LBSRepController<LBSGraphData>
+    public class LBSGraphRCController : LBSGraphController
     {
-        public static readonly int cellSize = 32;
-
-        public LBSNodeView first; // cancercito (!!)
-        public int CellSize => cellSize;
 
         public LBSGraphRCController(LBSGraphView view,LBSGraphData data) : base(view, data)
         {
@@ -87,93 +83,12 @@ namespace LBS.Graph
             view.AddElement(edgeView);
         }
 
-        public LBSNodeView GetNodeViewBylabel(string label) 
-        {
-            foreach (var element in view.graphElements)
-            {
-                if (element is LBSNodeView)
-                {
-                    var n = (LBSNodeView)element;
-                    if (n != null && n.Data.Label == label)
-                        return n;
-                }
-            }
-            return null;
-        }
-
-        public void StartDragEdge(LBSNodeData data) // (!!) pasar a manupilator
-        {
-            Debug.Log("Start edge");
-            first = GetNodeViewBylabel(data.Label);
-            //proxyEdge = new LBSProxyEdge(first.GetPosition().position,new Vector2(0,0));
-            //AddElement(proxyEdge);
-        }
-
-        public void EndDragEdge(LBSNodeData data) // (!!) pasar a manipulator
-        {
-            if (first != null)
-            {
-                Debug.Log("End Edge");
-                var second = GetNodeViewBylabel(data.Label);
-                var edge = new LBSEdgeData(first.Data, second.Data);
-                var current = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
-                current.AddEdge(edge);
-                AddEdgeView(edge);
-            }
-
-            first = null;
-        }
-
-        public void AddNodeView(LBSNodeData data)
-        {
-            var nodeView = new LBSNodeView(data, view);
-            nodeView.OnStartDragEdge += StartDragEdge;
-            nodeView.OnEndDragEdge += EndDragEdge;
-            elements.Add(nodeView);
-            view.AddElement(nodeView);
-        }
-
-
-        // Node methods
-        internal void RemoveNode(LBSNodeData node)
-        {
-            var graph = data;
-            graph.RemoveNode(node);
-        }
-
-        internal void AddNode(LBSNodeData node)
-        {
-            var graph = data;
-            graph.AddNode(node);
-        }
-
-        internal LBSNodeData NewNode(Vector2 position)
+        internal override LBSNodeData NewNode(Vector2 position)
         {
             var graph = data;
             LBSNodeData node = new RoomCharacteristicsData("Node: " + graph.NodeCount(), position, CellSize);
             AddNode(node);
             return node;
-        }
-
-        // Edge methods
-        internal LBSEdgeData NewEdge(LBSNodeData n1, LBSNodeData n2)
-        {
-            var graph = data;
-            var edge = new LBSEdgeData(n1,n2);
-            AddEdge(edge);
-            return edge;
-        }
-
-        internal void AddEdge(LBSEdgeData edge)
-        {
-            var graph = data;
-            graph.AddEdge(edge);
-        }
-
-        internal void RemoveEdge(LBSEdgeData edge)
-        {
-            var graph = data;
-            graph.RemoveEdge(edge);
         }
     }
 

@@ -5,9 +5,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public abstract class LBSRepesentationData : Data
+public abstract class LBSRepesentationData
 {
-    public override Type ControllerType => throw new NotImplementedException(); // no se usa
 
     /// <summary>
     /// prints by console basic information of 
@@ -21,11 +20,9 @@ public abstract class LBSRepesentationData : Data
     public abstract void Clear();
 }
 
-public abstract class LBSCompositeRepresentationData : Data
+public abstract class LBSCompositeRepresentationData
 {
     public List<LBSRepesentationData> representations = new List<LBSRepesentationData>();
-
-    public override Type ControllerType => throw new NotImplementedException();
 
 
 }

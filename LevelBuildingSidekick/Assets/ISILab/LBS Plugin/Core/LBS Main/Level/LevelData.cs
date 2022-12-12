@@ -7,7 +7,7 @@ using UnityEngine;
 namespace LBS
 {
     [System.Serializable]
-    public class LevelData : Data
+    public class LevelData
     {
         [SerializeField, JsonRequired]
         private List<string> tags = new List<string>();
@@ -25,8 +25,6 @@ namespace LBS
         [SerializeField, JsonRequired, SerializeReference]
         private List<LBSRepesentationData> representations = new List<LBSRepesentationData>();
 
-        [JsonIgnore]
-        public override Type ControllerType => throw new NotImplementedException();
 
         [JsonIgnore]
         public Vector3 Size

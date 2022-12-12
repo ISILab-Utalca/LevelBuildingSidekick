@@ -11,9 +11,6 @@ public class LBSStampGroupData : LBSRepesentationData
     [SerializeField, JsonRequired, SerializeReference]
     private List<StampData> stamps = new List<StampData>();
 
-    [JsonIgnore]
-    public override Type ControllerType => throw new NotImplementedException();
-
     public StampData GetStamp(int index)
     {
         return stamps[index];
