@@ -32,27 +32,15 @@ public abstract class LBSGraphView : GraphView
         base.DeleteElements(elements);
     }
 
-}
-
-public abstract class LBSGraphElement : GraphElement
-{
-
-    private LBSGraphView rootView;
-
-    public LBSGraphView Root => rootView;
-
-    public LBSGraphElement()
+    public T GetController<T>() where T : IRepController
     {
-        LoadVisual();
+        foreach(var controller in controllersRefs)
+        {
+            if(controller is T)
+            {
+                return (T)controller;
+            }
+        }
+        return default;
     }
-
-    public LBSGraphElement(LBSGraphView rootView)
-    {
-        this.rootView = rootView;
-        LoadVisual();
-    }
-
-    public abstract void LoadVisual();
-
-    public abstract void OnDelete();
 }
