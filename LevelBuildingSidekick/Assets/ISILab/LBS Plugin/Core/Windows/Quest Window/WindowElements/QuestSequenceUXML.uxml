@@ -14,7 +14,7 @@
             </ui:Button>
         </ui:VisualElement>
         <ui:VisualElement name="Sequence" style="flex-grow: 1; width: auto; height: auto; -unity-text-align: middle-left; justify-content: flex-end; align-items: stretch;">
-            <ui:VisualElement name="QuestSequence" style="flex-grow: 0; height: auto; width: auto;" />
+            <LBS.ElementView.MainView focusable="true" name="QuestGraph" style="flex-grow: 1;" />
             <ui:VisualElement name="ActionSuggest" style="height: auto; color: rgb(42, 42, 42); -unity-background-image-tint-color: rgba(42, 42, 42, 0); background-color: rgb(42, 42, 42); justify-content: flex-start; flex-direction: row;">
                 <ui:Label tabindex="-1" text="Suggestions" display-tooltip-when-elided="true" name="Sugestions" style="color: rgb(255, 255, 255); font-size: 18px; margin-left: 8px; margin-right: 16px; margin-top: 8px; margin-bottom: 8px;" />
                 <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" style="flex-grow: 1;">
