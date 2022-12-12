@@ -9,6 +9,7 @@ using UnityEngine.UIElements;
 
 public abstract class LBSGraphView : GraphView
 {
+
     public List<IRepController> controllersRefs;
 
     /// <summary>
@@ -35,14 +36,23 @@ public abstract class LBSGraphView : GraphView
 
 public abstract class LBSGraphElement : GraphElement
 {
+
     private LBSGraphView rootView;
 
     public LBSGraphView Root => rootView;
 
+    public LBSGraphElement()
+    {
+        LoadVisual();
+    }
+
     public LBSGraphElement(LBSGraphView rootView)
     {
         this.rootView = rootView;
+        LoadVisual();
     }
+
+    public abstract void LoadVisual();
 
     public abstract void OnDelete();
 }

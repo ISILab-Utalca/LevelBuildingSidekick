@@ -19,8 +19,6 @@ namespace LBS.Graph
         
         //public int cellSize = 32; //Add to View parameters (??)
 
-        [JsonIgnore]
-        public override Type ControllerType => typeof(LBSGraphRCController);
 
         public override void Clear()
         {
