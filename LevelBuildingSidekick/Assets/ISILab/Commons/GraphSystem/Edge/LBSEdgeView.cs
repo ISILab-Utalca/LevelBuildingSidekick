@@ -17,6 +17,8 @@ public abstract class LBSEdgeView : LBSGraphElement
 
     public LBSEdgeData Data => data;
 
+    public LBSEdgeView() : base() { }
+
     public LBSEdgeView(LBSNodeView nv1, LBSNodeView nv2, LBSGraphView root) : base(root)
     {
         this.nv1 = nv1;
@@ -49,6 +51,10 @@ public class LBSDotedEdgeView : LBSEdgeView
     public List<GraphElement> elements = new List<GraphElement>();
 
     public LBSDotedEdgeView(LBSNodeView nv1, LBSNodeView nv2, LBSGraphView root) : base(nv1, nv2, root)
+    {
+    }
+
+    public override void LoadVisual()
     {
     }
 
@@ -89,6 +95,9 @@ public class LBSLineEdgeView : LBSEdgeView
     {
     }
 
+    public override void LoadVisual()
+    {
+    }
 
     public override void ActualizeView()
     {

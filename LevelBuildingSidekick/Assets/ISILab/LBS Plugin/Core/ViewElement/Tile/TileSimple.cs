@@ -6,6 +6,8 @@ using UnityEngine.UIElements;
 
 public class TileSimple : TileView
 {
+    private VisualTreeAsset visualTree;
+
     private VisualElement left;
     private VisualElement right;
     private VisualElement top;
@@ -15,8 +17,6 @@ public class TileSimple : TileView
 
     public TileSimple() : base(null) // (!!) ver si este null no da problemas
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("TileSimple");
-        visualTree.CloneTree(this);
 
         left = this.Q<VisualElement>(name: "Left");
         right = this.Q<VisualElement>(name: "Right");
@@ -24,6 +24,15 @@ public class TileSimple : TileView
         bottom = this.Q<VisualElement>(name: "Bottom");
         border = this.Q<VisualElement>("Border");
         cordsLabel = this.Q<Label>("CordsLabel");
+    }
+
+    public override void LoadVisual()
+    {
+        if(!visualTree)
+        {
+            visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("TileSimple");
+        }
+        visualTree.CloneTree(this);
     }
 
     public override void OnDelete()

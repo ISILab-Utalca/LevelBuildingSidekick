@@ -26,6 +26,10 @@ public class LBSStampView : LBSGraphElement // esto se puede simplificar y combi
         usageHints = UsageHints.DynamicTransform;
     }
 
+    public override void LoadVisual()
+    {
+    }
+
     public override void OnDelete()
     {
         throw new System.NotImplementedException();

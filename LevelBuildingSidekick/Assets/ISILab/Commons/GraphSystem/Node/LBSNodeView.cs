@@ -24,8 +24,10 @@ namespace LBS.Graph
         [CanEditMultipleObjects]
         private class NodeScriptableEditor : GenericScriptableEditor { };
         #endregion
+        public new class UxmlFactory : UxmlFactory<LBSNodeView, VisualElement.UxmlTraits> { }
 
         private static VisualTreeAsset visualTree;
+        private static StyleSheet styleSheet;
 
         public LBSNodeData Data;
 
@@ -36,6 +38,10 @@ namespace LBS.Graph
 
         private float cellSize;
 
+        public LBSNodeView(): base() 
+        {
+        }
+
         public LBSNodeView(LBSNodeData node, LBSGraphView root, float cellSize = 1) : base(root)
         {
             Data = node;
@@ -43,27 +49,12 @@ namespace LBS.Graph
             Vector2 size = new Vector2(Data.Width, Data.Height) * cellSize;
             SetPosition(new Rect(Data.Position, size));
 
-            var styleSheet = DirectoryTools.SearchAssetByName<StyleSheet>("NodeUSS");
-            if (visualTree == null)
-            {
-                visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("NodeUxml");
-            }
-            visualTree.CloneTree(this);
 
             this.style.minHeight = this.style.maxHeight = size.y;
             this.style.minWidth = this.style.maxWidth = size.x;
-            styleSheets.Add(styleSheet);
-            /*
-            {
-                Box b = new Box();
-                b.style.flexGrow = b.style.flexShrink = 1;
-                var l = new Label(node.Label);
-                l.pickingMode = PickingMode.Ignore;
-                l.focusable = true;
-                b.pickingMode = PickingMode.Ignore;
-                b.Add(l);
-                Add(b);
-            }*/
+
+            var label = this.Q<Label>(name: "Label");
+            label.text = Data.Label;
 
             capabilities |= Capabilities.Selectable | Capabilities.Movable | Capabilities.Deletable | Capabilities.Ascendable | Capabilities.Copiable | Capabilities.Snappable | Capabilities.Groupable;
             usageHints = UsageHints.DynamicTransform;
@@ -71,6 +62,21 @@ namespace LBS.Graph
             RegisterCallback<MouseDownEvent>(OnMouseDown);
             RegisterCallback<MouseUpEvent>(OnMouseUp);
              
+        }
+
+        public override void LoadVisual()
+        {
+            if (!styleSheet)
+            {
+                styleSheet = DirectoryTools.SearchAssetByName<StyleSheet>("NodeUSS");
+            }
+            styleSheets.Add(styleSheet);
+
+            if (!visualTree)
+            {
+                visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("NodeUxml");
+            }
+            visualTree.CloneTree(this);
         }
 
         public void Delete()

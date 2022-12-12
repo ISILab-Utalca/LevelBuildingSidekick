@@ -5,6 +5,8 @@ using UnityEngine.UIElements;
 
 public class TileWFC_View : LBSGraphElement //c4
 {
+    private static VisualTreeAsset visualTree;
+
     public TileWFC_struct Data;
 
     public VisualElement left;
@@ -20,13 +22,20 @@ public class TileWFC_View : LBSGraphElement //c4
     {
         Data = tile;
 
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("TileWFC");
-        visualTree.CloneTree(this);
 
         left = this.Q<VisualElement>(name: "Left");
         right = this.Q<VisualElement>(name: "Right");
         top = this.Q<VisualElement>(name: "Top");
         bottom = this.Q<VisualElement>(name: "Bottom");
+    }
+
+    public override void LoadVisual()
+    {
+        if(!visualTree)
+        {
+            visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("TileWFC");
+        }
+        visualTree.CloneTree(this);
     }
 
     public void ShowDir(Vector2Int dir)

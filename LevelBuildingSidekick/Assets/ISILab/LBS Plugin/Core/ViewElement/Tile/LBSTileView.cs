@@ -28,11 +28,6 @@ namespace LBS.ElementView
         {
             Data = tile;
 
-            if(visualTree == null)
-            {
-                visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("TileHill");
-            }
-            visualTree.CloneTree(this);
 
             //var styleSheet = Utility.DirectoryTools.SearchAssetByName<StyleSheet>("TileW");
             //this.styleSheets.Add(styleSheet);
@@ -53,6 +48,14 @@ namespace LBS.ElementView
             usageHints = UsageHints.DynamicTransform;
         }
 
+        public override void LoadVisual()
+        {
+            if (!visualTree)
+            {
+                visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("TileHill");
+            }
+            visualTree.CloneTree(this);
+        }
 
         public void ShowDir(Vector2Int dir)
         {
