@@ -38,6 +38,10 @@ namespace LBS.Windows
             actions.Add(new Tuple<string, Action>(
                 "Map Elites",
                 () => {
+                    var sch = LBSController.CurrentLevel.data.GetRepresentation<LBSSchemaData>();
+                    var x = sch.RecalculateTilePos();
+                    var stm = LBSController.CurrentLevel.data.GetRepresentation<LBSStampGroupData>();
+                    stm.MoveStamp(x);
                     var wnd = GetWindow<MapEliteWindow>();
                     //wnd.populationWindow = this;
                 }));
