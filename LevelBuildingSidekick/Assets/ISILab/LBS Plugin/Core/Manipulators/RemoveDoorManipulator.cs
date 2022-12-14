@@ -94,11 +94,11 @@ namespace LBS.Manipulators
     public class RemoveDoorManipulator : MouseManipulator
     {
         private LBSTileMapController controller;
-        private GenericGraphWindow window;
+        private GenericLBSWindow window;
 
         private TileData first;
 
-        public RemoveDoorManipulator(GenericGraphWindow window, LBSTileMapController controller)
+        public RemoveDoorManipulator(GenericLBSWindow window, LBSTileMapController controller)
         {
             activators.Add(new ManipulatorActivationFilter { button = MouseButton.RightMouse });
             this.controller = controller;

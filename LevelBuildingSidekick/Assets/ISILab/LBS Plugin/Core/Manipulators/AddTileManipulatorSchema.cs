@@ -54,11 +54,11 @@ namespace LBS.Manipulators
     public class AddTileManipulatorSchema : MouseManipulator
     {
         private LBSTileMapController controller;
-        private GenericGraphWindow window;
+        private GenericLBSWindow window;
 
         private RoomData cRoom;
 
-        public AddTileManipulatorSchema(GenericGraphWindow window, LBSTileMapController controller,RoomData cRoom)
+        public AddTileManipulatorSchema(GenericLBSWindow window, LBSTileMapController controller,RoomData cRoom)
         {
             activators.Add(new ManipulatorActivationFilter { button = MouseButton.LeftMouse });
             this.controller = controller;

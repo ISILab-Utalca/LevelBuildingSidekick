@@ -11,7 +11,7 @@ using LBS.Overlays;
 
 namespace LBS.Windows
 {
-    public class LBSSchemaWindow : GenericGraphWindow, ISupportsOverlays
+    public class LBSSchemaWindow : GenericLBSWindow, ISupportsOverlays
     {
         //[MenuItem("ISILab/LBS plugin/Schema window")]
         [LBSWindow("Schema window")]

@@ -6,13 +6,14 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.Experimental.GraphView;
+using LBS.Windows;
+using LBS;
+using LBS.Graph;
 
-public class QuestWindow : EditorWindow, INameable
+public class QuestWindow : GenericLBSWindow, INameable
 {
     public VisualElement actionsContent;
     GrammarTree grammarTree;
-    public MainView questView;
-    LBSQuestGraphController graphController;
 
     //[MenuItem("ISILab/LBS plugin/Quest window", priority = 1)]
     public static void ShowWindow()
@@ -21,27 +22,27 @@ public class QuestWindow : EditorWindow, INameable
         window.titleContent = new GUIContent(window.GetName());
     }
 
-    public void CreateGUI()
+    public override void CreateGUI()
     {
+        OnLoadControllers();
         VisualElement root = rootVisualElement;
 
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("QuestWindowUXML");
         visualTree.CloneTree(root);
 
         actionsContent = root.Q<VisualElement>(name: "Content");
-        questView = root.Q<MainView>(name: "QuestGraph");
-        graphController = questView.GetController<LBSQuestGraphController>();
+        mainView = root.Q<MainView>(name: "QuestGraph");
 
 
         grammarTree = GrammarReader.ReadGrammar(Application.dataPath + "/Grammar/FirstGrammar.xml"); //Use actual route (!!!)
 
         foreach(var p in grammarTree.Productions)
         {
-            AddAction("Rule: " + p.Key);
+            AddAction("Rule: " + p.Key, p.Value);
         }
         foreach(var t in grammarTree.Terminals)
         {
-            AddAction("Terminal: " + t.Key);
+            AddAction("Terminal: " + t.Key, t.Value);
         }
     }
 
@@ -50,12 +51,15 @@ public class QuestWindow : EditorWindow, INameable
 
     }
 
-    public void AddAction(string action)
+    public void AddAction(string label, GrammarNode grammarElement)
     {
-        var act = new ActionButton(action);
+        var act = new ActionButton(label, grammarElement);
         act.ActionBtn.clicked += () =>
         {
-            questView.Add(new Node());
+            var graph = this.GetController<LBSQuestGraphController>();
+            var node = graph.NewNode(Vector2.zero, act.grammarElement);
+            graph.AddNode(node);
+            graph.AddNodeView(node);
         };
         actionsContent.Add(act);
         
@@ -64,5 +68,19 @@ public class QuestWindow : EditorWindow, INameable
     public string GetName()
     {
         return "Quest window";
+    }
+
+    public override void OnLoadControllers()
+    {
+        var data = LBSController.CurrentLevel.data;
+        var quests = data.GetRepresentation<LBSGraphData>("QuestGraph");
+        var graph = new LBSQuestGraphController(mainView, quests);
+        controllers.Add(graph);
+        CurrentController = graph;
+    }
+
+    public override void OnInitPanel()
+    {
+
     }
 }

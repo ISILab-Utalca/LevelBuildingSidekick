@@ -50,7 +50,7 @@ public class GrammarReader
     }
 
 
-    private static GrammarNode ProcessSrgsElement(SrgsElement element, GrammarTree grammar, SrgsDocument doc)
+    private static GrammarNode ProcessSrgsElement(SrgsElement element, GrammarTree grammar, SrgsDocument doc, string id)
     {
         if (element is SrgsText)
         {
@@ -58,11 +58,11 @@ public class GrammarReader
         }
         if (element is SrgsOneOf)
         {
-            return ProcessSrgsOneOf(element as SrgsOneOf, grammar, doc);
+            return ProcessSrgsOneOf(element as SrgsOneOf, grammar, doc, id);
         }
         if (element is SrgsItem)
         {
-            return ProcessSrgsItem(element as SrgsItem, grammar, doc);
+            return ProcessSrgsItem(element as SrgsItem, grammar, doc, id);
         }
         if (element is SrgsRuleRef)
         {
@@ -80,47 +80,40 @@ public class GrammarReader
         return grammar.Terminals[text.Text];
     }
 
-    private static NonTerminalNode ProcessSrgsOneOf(SrgsOneOf oneOf, GrammarTree grammar, SrgsDocument doc)
+    private static NonTerminalNode ProcessSrgsOneOf(SrgsOneOf oneOf, GrammarTree grammar, SrgsDocument doc, string id)
     {
-        List<GrammarNode> nodes = new List<GrammarNode>();
-        foreach (var i in oneOf.Items)
+        if (!grammar.NonTerminals.ContainsKey(id))
         {
-            nodes.Add(ProcessSrgsItem(i, grammar, doc));
+            var node = new NonTerminalNode(id);
+            grammar.NonTerminals.Add(id, node);
+            for (int i = 0; i < oneOf.Items.Count; i++)
+            {
+                node.AppendNode(ProcessSrgsItem(oneOf.Items[i], grammar, doc, id + ".i"));
+            }
         }
-        return new NonTerminalNode(nodes);
+        
+        return grammar.NonTerminals[id];
     }
 
-    private static GrammarNode ProcessSrgsItem(SrgsItem item, GrammarTree grammar, SrgsDocument doc)
+    private static GrammarNode ProcessSrgsItem(SrgsItem item, GrammarTree grammar, SrgsDocument doc, string id)
     {
         if (item.Elements.Count == 1)
         {
-            return ProcessSrgsElement(item.Elements[0], grammar, doc);
+            return ProcessSrgsElement(item.Elements[0], grammar, doc, id);
         }
 
-        var pn = new ProductionNode();
-        //perhaps unneded (?)
-        string s = "";
-        foreach (var e in item.Elements)
+
+        if (!grammar.Productions.ContainsKey(id))
         {
-            if (e is SrgsText)
+            var pn = new ProductionNode(id);
+            grammar.Productions.Add(id, pn);
+            for(int i = 0; i < item.Elements.Count; i++)
             {
-                s += (e as SrgsText).Text;
-            }
-            else if (e is SrgsRuleRef)
-            {
-                s += (e as SrgsRuleRef).Uri.ToString().Trim('#');
+                pn.AppendNode(ProcessSrgsElement(item.Elements[i], grammar, doc, id + ".i"));
             }
         }
 
-        if (!grammar.Productions.ContainsKey(s))
-        {
-            foreach (var e in item.Elements)
-            {
-                pn.AppendNode(ProcessSrgsElement(e, grammar, doc));
-            }
-        }
-
-        return pn;
+        return grammar.Productions[id];
     }
 
     private static ProductionNode ProcessSrgsRuleRef(SrgsRuleRef ruleRef, GrammarTree grammar, SrgsDocument doc)
@@ -134,11 +127,11 @@ public class GrammarReader
     {
         if (!grammar.Productions.ContainsKey(rule.Id))
         {
-            var r = new ProductionNode();
+            var r = new ProductionNode(rule.Id);
             grammar.Productions.Add(rule.Id, r);
-            foreach (var e in rule.Elements)
+            for(int i = 0; i < rule.Elements.Count; i++)
             {
-                r.AppendNode(ProcessSrgsElement(e, grammar, doc));
+                r.AppendNode(ProcessSrgsElement(rule.Elements[i], grammar, doc, rule.Id + ".i"));
             }
         }
 

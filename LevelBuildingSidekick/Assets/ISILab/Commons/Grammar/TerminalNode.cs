@@ -10,6 +10,7 @@ public class TerminalNode : GrammarNode
 
     public TerminalNode(string text)
     {
+        ID = text;
         terminal = text;
     }
 

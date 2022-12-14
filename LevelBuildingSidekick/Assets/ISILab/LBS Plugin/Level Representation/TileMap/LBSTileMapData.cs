@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LBSTileMapData : LBSRepesentationData, ICloneable
+public class LBSTileMapData : LBSRepresentationData, ICloneable
 {
     // Fields
     [SerializeField, JsonRequired, SerializeReference]

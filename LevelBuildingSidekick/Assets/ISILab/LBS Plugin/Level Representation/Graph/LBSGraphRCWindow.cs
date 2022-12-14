@@ -11,7 +11,7 @@ using LBS.Graph;
 
 namespace LBS.Windows
 {
-    public class LBSGraphRCWindow : GenericGraphWindow , ISupportsOverlays// RC => roomcharacteristics
+    public class LBSGraphRCWindow : GenericLBSWindow , ISupportsOverlays// RC => roomcharacteristics
     {
         private LBSGraphRCWindow() { }
 

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class LBSStampGroupData : LBSRepesentationData
+public class LBSStampGroupData : LBSRepresentationData
 {
     [SerializeField, JsonRequired, SerializeReference]
     private List<StampData> stamps = new List<StampData>();

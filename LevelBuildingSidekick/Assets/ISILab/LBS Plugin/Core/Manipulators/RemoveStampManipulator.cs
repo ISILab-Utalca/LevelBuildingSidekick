@@ -9,9 +9,9 @@ namespace LBS.Manipulators
     public class RemoveStampManipulator : MouseManipulator
     {
         private LBSStampTileMapController controller;
-        private GenericGraphWindow window;
+        private GenericLBSWindow window;
 
-        public RemoveStampManipulator(GenericGraphWindow window, LBSStampTileMapController controller)
+        public RemoveStampManipulator(GenericLBSWindow window, LBSStampTileMapController controller)
         {
             activators.Add(new ManipulatorActivationFilter { button = MouseButton.LeftMouse });
             this.controller = controller;

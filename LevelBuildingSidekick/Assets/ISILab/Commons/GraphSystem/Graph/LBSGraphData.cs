@@ -9,16 +9,18 @@ using System.Linq;
 namespace LBS.Graph
 {
     [System.Serializable]
-    public class LBSGraphData : LBSRepesentationData
+    public class LBSGraphData : LBSRepresentationData
     {
+        #region FIELDS
+
         [SerializeField, JsonRequired, SerializeReference]
         private List<LBSNodeData> nodes = new List<LBSNodeData>();
 
         [SerializeField, JsonRequired, SerializeReference]
         private List<LBSEdgeData> edges = new List<LBSEdgeData>();
-        
-        //public int cellSize = 32; //Add to View parameters (??)
 
+        //public int cellSize = 32; //Add to View parameters (??)
+        #endregion
 
         public override void Clear()
         {
@@ -46,17 +48,6 @@ namespace LBS.Graph
         {
             RemoveEdges(node);
             nodes.Remove(node);
-        }
-
-        /// <summary>
-        /// Returns the first node that is in position.
-        /// </summary>
-        /// <param name="currentPos"></param>
-        /// <returns></returns>
-        [Obsolete]
-        internal LBSNodeData GetNode(Vector2 currentPos)
-        {
-            return null; // nodes.Find(n => n.Rect.Contains(currentPos));
         }
 
         /// <summary>

@@ -9,11 +9,11 @@ public class ConnectionManipulator : MouseManipulator
 {
     private LBSNodeData first;
     private LBSGraphRCController controller;
-    private GenericGraphWindow window;
+    private GenericLBSWindow window;
 
     public Vector2 panSpeed { get; set; }
 
-    public ConnectionManipulator(GenericGraphWindow window,LBSGraphRCController controller)
+    public ConnectionManipulator(GenericLBSWindow window,LBSGraphRCController controller)
     {
         activators.Add(new ManipulatorActivationFilter { button = MouseButton.RightMouse });
         this.controller = controller;

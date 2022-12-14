@@ -12,7 +12,7 @@ using LBS.Generator;
 
 namespace LBS.Windows
 {
-    public class LBSPopulationWindow : GenericGraphWindow, ISupportsOverlays
+    public class LBSPopulationWindow : GenericLBSWindow, ISupportsOverlays
     {
         private LBSPopulationWindow() { }
 

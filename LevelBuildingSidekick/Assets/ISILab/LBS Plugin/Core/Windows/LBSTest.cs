@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace LBS.Windows
 {
-    public class LBSTest : GenericGraphWindow // es necesario una clase "LBSTest" que se va a hacer con ella (!!)
+    public class LBSTest : GenericLBSWindow // es necesario una clase "LBSTest" que se va a hacer con ella (!!)
     {
 
         //[MenuItem("ISILab/LBS plugin/Test step.../test (nombre temporal)")]

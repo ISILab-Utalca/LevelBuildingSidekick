@@ -11,7 +11,7 @@ namespace LBS.Windows
     // Esta clase usa:
     // MapData
     // WFCController
-    public class WFCWindow : GenericGraphWindow, ISupportsOverlays
+    public class WFCWindow : GenericLBSWindow, ISupportsOverlays
     {
         private WFCWindow() { }
 

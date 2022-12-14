@@ -18,7 +18,7 @@ using UnityEngine.Networking;
 
 namespace LBS.Windows
 {
-    public abstract class GenericGraphWindow : EditorWindow, ISupportsOverlays
+    public abstract class GenericLBSWindow : EditorWindow, ISupportsOverlays
     {
         protected List<Tuple<string, Action>> actions = new List<Tuple<string, Action>>();
         protected List<IRepController> controllers = new List<IRepController>();
@@ -71,7 +71,7 @@ namespace LBS.Windows
 
         }
 
-        public void CreateGUI()
+        public virtual void CreateGUI()
         {
             root = rootVisualElement;
             this.ImportUXML("GenericGraphWindowUXML");
@@ -173,8 +173,8 @@ namespace LBS.Windows
             // File menu option
             var fileMenu = new ToolbarMenu();
             fileMenu.text = "File";
-            fileMenu.menu.AppendAction("New", (dma) => { LBSController.CreateNewLevel("new file", new Vector3(100, 100, 100)); GenericGraphWindow.RefeshAll(this); });
-            fileMenu.menu.AppendAction("Load", (dma) => { LBSController.LoadFile(); GenericGraphWindow.RefeshAll(this); });
+            fileMenu.menu.AppendAction("New", (dma) => { LBSController.CreateNewLevel("new file", new Vector3(100, 100, 100)); GenericLBSWindow.RefeshAll(this); });
+            fileMenu.menu.AppendAction("Load", (dma) => { LBSController.LoadFile(); GenericLBSWindow.RefeshAll(this); });
             fileMenu.menu.AppendAction("Save", (dma) => { LBSController.SaveFile(); });
             fileMenu.menu.AppendAction("Save as", (dma) => { LBSController.SaveFileAs(); });
             fileMenu.menu.AppendSeparator();
@@ -186,7 +186,7 @@ namespace LBS.Windows
             fileMenu.menu.AppendAction("Help.../About", (dma) => { Debug.LogError("[Implementar about]"); }); // ver si es necesaria (!)
             fileMenu.menu.AppendSeparator();
             fileMenu.menu.AppendAction("Close", (dma) => { this.Close(); });
-            fileMenu.menu.AppendAction("Close All", (dma) => { GenericGraphWindow.CloseAll(this); });
+            fileMenu.menu.AppendAction("Close All", (dma) => { GenericLBSWindow.CloseAll(this); });
             toolBar.Add(fileMenu);
 
             // search object in current window
@@ -199,24 +199,24 @@ namespace LBS.Windows
             toolBar.Add(label);
         }
 
-        private static void RefeshAll(GenericGraphWindow current)
+        private static void RefeshAll(GenericLBSWindow current)
         {
-            var types = Reflection.GetAllSubClassOf<GenericGraphWindow>().ToList();
+            var types = Reflection.GetAllSubClassOf<GenericLBSWindow>().ToList();
             types.ForEach((t) =>
             {
                 MethodInfo method = typeof(EditorWindow).GetMethod(nameof(EditorWindow.HasOpenInstances)); // magia
                 MethodInfo generic = method.MakeGenericMethod(t);
                 if ((bool)generic?.Invoke(current, null))
                 {
-                    var w = (GenericGraphWindow)EditorWindow.GetWindow(t);
+                    var w = (GenericLBSWindow)EditorWindow.GetWindow(t);
                     w.RefreshView();
                 }
             });
         }
 
-        private static void CloseAll(GenericGraphWindow current)
+        private static void CloseAll(GenericLBSWindow current)
         {
-            var types = Reflection.GetAllSubClassOf<GenericGraphWindow>().ToList();
+            var types = Reflection.GetAllSubClassOf<GenericLBSWindow>().ToList();
             types.ForEach((t) =>
             {
                 MethodInfo method = typeof(EditorWindow).GetMethod(nameof(EditorWindow.HasOpenInstances)); // magia

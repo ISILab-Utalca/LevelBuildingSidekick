@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class QuestGraphNode : LBSNodeData
 {
-    GrammarNode grammarElement;
+    string grammarKey;
 
-    public QuestGraphNode(string label, Vector2 position) : base(label, position) { }
-
-    public QuestGraphNode(GrammarNode grammarElement, Vector2 position) : base(grammarElement.ID, position)
+    public QuestGraphNode(string label, Vector2 position) : base(label, position) 
     {
-        this.grammarElement = grammarElement;
+        this.grammarKey = label;
+        Debug.Log(Label);
+        Label = label;
     }
 }

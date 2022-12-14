@@ -5,8 +5,24 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public abstract class LBSRepesentationData
+public abstract class LBSRepresentationData
 {
+    private string label;
+    public string Label
+    {
+        get => label;
+        set => label = value;
+    }
+
+    public LBSRepresentationData()
+    {
+        label = this.GetType().Name;
+    }
+    public LBSRepresentationData(string label) 
+    {
+        this.label = label;
+    }
+
 
     /// <summary>
     /// prints by console basic information of 
@@ -22,7 +38,7 @@ public abstract class LBSRepesentationData
 
 public abstract class LBSCompositeRepresentationData
 {
-    public List<LBSRepesentationData> representations = new List<LBSRepesentationData>();
+    public List<LBSRepresentationData> representations = new List<LBSRepresentationData>();
 
 
 }

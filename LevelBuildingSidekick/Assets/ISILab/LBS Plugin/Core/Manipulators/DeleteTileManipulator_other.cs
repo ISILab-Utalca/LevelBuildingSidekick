@@ -62,9 +62,9 @@ namespace LBS.Manipulators
     public class DeleteTileManipulator_other : MouseManipulator
     {
         private LBSTileMapController controller;
-        private GenericGraphWindow window;
+        private GenericLBSWindow window;
 
-        public DeleteTileManipulator_other(GenericGraphWindow window, LBSTileMapController controller)
+        public DeleteTileManipulator_other(GenericLBSWindow window, LBSTileMapController controller)
         {
             activators.Add(new ManipulatorActivationFilter { button = MouseButton.LeftMouse });
             this.controller = controller;

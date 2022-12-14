@@ -7,7 +7,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public abstract class LBSRepController<T> : IRepController where T : LBSRepesentationData // representation controler // : Controller
+public abstract class LBSRepController<T> : IRepController where T : LBSRepresentationData // representation controler // : Controller
 {
     protected List<GraphElement> elements = new List<GraphElement>();
 

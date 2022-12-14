@@ -10,9 +10,9 @@ namespace LBS.Manipulators
     public class AddStampManipulator : MouseManipulator
     {
         private LBSStampTileMapController controller;
-        private GenericGraphWindow window;
+        private GenericLBSWindow window;
 
-        public AddStampManipulator(GenericGraphWindow window, LBSStampTileMapController controller)
+        public AddStampManipulator(GenericLBSWindow window, LBSStampTileMapController controller)
         {
             activators.Add(new ManipulatorActivationFilter { button = MouseButton.LeftMouse });
             this.controller = controller;

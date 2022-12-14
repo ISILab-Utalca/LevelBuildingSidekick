@@ -9,6 +9,8 @@ namespace LBS
     [System.Serializable]
     public class LevelData
     {
+        #region FIELDS
+
         [SerializeField, JsonRequired]
         private List<string> tags = new List<string>();
 
@@ -23,8 +25,11 @@ namespace LBS
         private float wallThickness = .1f; // (!) esto no deveria ir aqui sino
 
         [SerializeField, JsonRequired, SerializeReference]
-        private List<LBSRepesentationData> representations = new List<LBSRepesentationData>();
+        private List<LBSRepresentationData> representations = new List<LBSRepresentationData>();
 
+        #endregion
+
+        #region PROPERTIES
 
         [JsonIgnore]
         public Vector3 Size
@@ -43,6 +48,10 @@ namespace LBS
         [JsonIgnore]
         public float WallThickness => wallThickness;
 
+        #endregion
+
+        #region METHODS
+
         [Obsolete("Esta funcion no se esta ocupanbdo actualemente pero se puede volver a usar a futuro")]
         public List<GameObject> RequestLevelObjects(string category)
         { 
@@ -56,7 +65,7 @@ namespace LBS
 
         public void RemoveNullRepresentation() // (!) parche, no deberia poder añadirse nulls
         {
-            var r = new List<LBSRepesentationData>();
+            var r = new List<LBSRepresentationData>();
             foreach (var rep in representations)
             {
                 if (rep != null)
@@ -71,7 +80,7 @@ namespace LBS
         /// the type delivered already exists, it overwrites it.
         /// </summary>
         /// <param name="rep"></param>
-        public void AddRepresentation(LBSRepesentationData rep) 
+        public void AddRepresentation(LBSRepresentationData rep) 
         {
             if(rep == null)
             {
@@ -93,7 +102,7 @@ namespace LBS
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public T GetRepresentation<T>() where T : LBSRepesentationData
+        public T GetRepresentation<T>() where T : LBSRepresentationData
         {
             var rep = (T)representations.Find(r => (r is T));
 
@@ -105,6 +114,22 @@ namespace LBS
 
             return rep;
         }
+
+        public T GetRepresentation<T>(string label) where T : LBSRepresentationData
+        {
+            var rep = (T)representations.Find(r => (r is T && r.Label == label));
+
+            if (rep != null)
+                return rep;
+
+            rep = Activator.CreateInstance(typeof(T)) as T;
+            rep.Label = label;
+            representations.Add(rep);
+
+            return rep;
+        }
+
+        #endregion
     }
 }
 

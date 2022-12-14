@@ -6,9 +6,15 @@ public class NonTerminalNode : GrammarNode
 {
     List<GrammarNode> nodes;
 
-    public NonTerminalNode(List<GrammarNode> alternations)
+    public NonTerminalNode(string id, List<GrammarNode> alternations)
     {
+        ID = id;
         nodes = alternations;
+    }
+    public NonTerminalNode(string id)
+    {
+        ID = id;
+        nodes = new List<GrammarNode>();
     }
 
     public override List<GrammarNode> GetTerminals()
@@ -19,5 +25,9 @@ public class NonTerminalNode : GrammarNode
     public override string GetText()
     {
         return nodes[Random.Range(0, nodes.Count - 1)].GetText();
+    }
+    public void AppendNode(GrammarNode node)
+    {
+        nodes.Add(node);
     }
 }

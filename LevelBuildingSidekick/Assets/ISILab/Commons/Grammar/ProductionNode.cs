@@ -6,9 +6,16 @@ public class ProductionNode : GrammarNode
 {
     List<GrammarNode> nodes;
 
-    public ProductionNode(List<GrammarNode> rhs)
+    public ProductionNode(string id, List<GrammarNode> rhs)
     {
+        ID = id;
         nodes = rhs;
+    }
+
+    public ProductionNode(string id)
+    {
+        ID = id;
+        nodes = new List<GrammarNode>();
     }
 
     public ProductionNode()

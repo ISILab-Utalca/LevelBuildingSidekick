@@ -10,6 +10,8 @@ public class ActionButton : VisualElement
     public Button ActionBtn;
     public Button AddBtn;
 
+    public GrammarNode grammarElement;
+
     public ActionButton()
     {
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("ActionButtonUXML");
@@ -19,7 +21,7 @@ public class ActionButton : VisualElement
         AddBtn = this.Q<Button>(name: "AddBtn");
     }
 
-    public ActionButton(string labelText)
+    public ActionButton(string label, GrammarNode grammarElement)
     {
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("ActionButtonUXML");
         visualTree.CloneTree(this);
@@ -27,7 +29,7 @@ public class ActionButton : VisualElement
         ActionBtn = this.Q<Button>(name: "ActionBtn");
         AddBtn = this.Q<Button>(name: "AddBtn");
 
-
-        ActionBtn.text = labelText;
+        this.grammarElement = grammarElement;
+        ActionBtn.text = label;
     }
 }

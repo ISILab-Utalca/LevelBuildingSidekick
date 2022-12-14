@@ -5,6 +5,7 @@ using UnityEngine;
 
 public abstract class GrammarNode
 {
+
     public GrammarNode(){ }
 
     public string ID { get; set; }

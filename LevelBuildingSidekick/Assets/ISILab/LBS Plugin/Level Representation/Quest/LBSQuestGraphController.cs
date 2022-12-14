@@ -18,7 +18,8 @@ public class LBSQuestGraphController : LBSGraphController
 
     public LBSNodeData NewNode(Vector2 position, GrammarNode grammarElement)
     {
-        QuestGraphNode g = new QuestGraphNode(grammarElement, position);
+        QuestGraphNode g = new QuestGraphNode(grammarElement.ID, position);
         return g;
     }
+
 }

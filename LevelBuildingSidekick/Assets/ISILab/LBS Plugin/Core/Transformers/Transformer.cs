@@ -5,8 +5,8 @@ using UnityEngine;
 namespace LBS.Transformers
 {
     public abstract class Transformer<T,U>
-        where T : LBSRepesentationData
-        where U : LBSRepesentationData
+        where T : LBSRepresentationData
+        where U : LBSRepresentationData
     {
         public abstract U Transform(T representation);
     }
