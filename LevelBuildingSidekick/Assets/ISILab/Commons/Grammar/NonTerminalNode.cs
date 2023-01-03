@@ -5,6 +5,7 @@ using UnityEngine;
 public class NonTerminalNode : GrammarNode
 {
     List<GrammarNode> nodes;
+    public List<GrammarNode> Nodes => nodes;
 
     public NonTerminalNode(string id, List<GrammarNode> alternations)
     {
@@ -29,5 +30,43 @@ public class NonTerminalNode : GrammarNode
     public void AppendNode(GrammarNode node)
     {
         nodes.Add(node);
+    }
+
+    public override List<string> GetExpansionsText()
+    {/*
+        if (nodes.Count == 1)
+        {
+            return  nodes[0].GetExpansionsText();
+        }*/
+
+        var expansions = new  List<string>();
+
+        foreach (var node in Nodes)
+        {
+            var s = "";
+            node.GetExpansionsText().ForEach(n => s += n + " ");
+            expansions.Add(s);
+        }
+        return expansions;
+    }
+
+    public override List<GrammarNode> GetExpansion(int index)
+    {
+        if (index < 0 || index >= nodes.Count)
+        {
+            foreach(var n in nodes)
+            {
+                Debug.Log(n.ID);
+            }
+            return null;
+        }
+
+
+        return nodes[index].GetExpansion(index);
+    }
+
+    public override string ToString()
+    {
+        return base.ToString();
     }
 }

@@ -23,4 +23,14 @@ public class TerminalNode : GrammarNode
     {
         return new List<GrammarNode>() {this};
     }
+
+    public override List<string> GetExpansionsText()
+    {
+        return new List<string>() { ID };
+    }
+
+    public override List<GrammarNode> GetExpansion(int index)
+    {
+        return new List<GrammarNode>() { this }; 
+    }
 }
