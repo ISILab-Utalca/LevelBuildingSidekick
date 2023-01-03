@@ -8,12 +8,12 @@ using UnityEngine.UIElements;
 public class ConnectionManipulator : MouseManipulator
 {
     private LBSNodeData first;
-    private LBSGraphRCController controller;
+    private LBSGraphController controller;
     private GenericLBSWindow window;
 
     public Vector2 panSpeed { get; set; }
 
-    public ConnectionManipulator(GenericLBSWindow window,LBSGraphRCController controller)
+    public ConnectionManipulator(GenericLBSWindow window,LBSGraphController controller)
     {
         activators.Add(new ManipulatorActivationFilter { button = MouseButton.RightMouse });
         this.controller = controller;
