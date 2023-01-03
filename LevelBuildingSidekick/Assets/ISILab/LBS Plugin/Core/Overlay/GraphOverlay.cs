@@ -36,31 +36,6 @@ namespace LBS.Overlays
                 }
                 btnGroup.Add(allMode);
 
-                /*
-                var select = new PresedBtn();
-                {
-                    var wnd = EditorWindow.GetWindow<LBSGraphRCWindow>();
-                    select.clicked += () => wnd.MainView.SetManipulator(new RectangleSelector()); // mm no me gusta (!) 
-                    select.text = "Select mode";
-                }
-                btnGroup.Add(select);
-
-                var drag = new PresedBtn();
-                {
-                    var wnd = EditorWindow.GetWindow<LBSGraphRCWindow>();
-                    drag.clicked += () => wnd.MainView.SetManipulator(new SelectionDragger()); // mm no me gusta (!) 
-                    drag.text = "Drag mode";
-                }
-                btnGroup.Add(drag);
-
-                var zoom = new PresedBtn();
-                {
-                    var wnd = EditorWindow.GetWindow<LBSGraphRCWindow>();
-                    zoom.clicked += () => wnd.MainView.SetManipulator(new ContentZoomer()); // mm no me gusta (!) 
-                    zoom.text = "Zoom mode";
-                }
-                btnGroup.Add(zoom);
-                */
 
                 var b = new Box();
                 b.style.minHeight = 10;
