@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<grammar xml:lang="es-CL" root="Actions" version="1.0" xmlns="http://www.w3.org/2001/06/grammar">
-  <rule id="Actions">
+<grammar xml:lang="es-CL" root="Quest" version="1.0" xmlns="http://www.w3.org/2001/06/grammar">
+  <rule id="Quest">
     <one-of>
       <item>
         <ruleref uri="#Subquest" />
@@ -35,7 +35,7 @@
       </item>
       <item>
         <ruleref uri="#Goto" />
-        <ruleref uri="#Actions" />go to</item>
+        <ruleref uri="#Quest" />go to</item>
     </one-of>
   </rule>
   <rule id="Goto">
