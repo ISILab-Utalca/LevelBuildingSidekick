@@ -97,7 +97,9 @@ public class GrammarReader
 
     private static GrammarNode ProcessSrgsItem(SrgsItem item, GrammarTree grammar, SrgsDocument doc, string id)
     {
-        if (item.Elements.Count == 1)
+        bool b = id.StartsWith(doc.Root.Id.Trim('#')); // don not erase this line
+
+        if (item.Elements.Count == 1 && b)
         {
             return ProcessSrgsElement(item.Elements[0], grammar, doc, id);
         }
