@@ -22,6 +22,9 @@ namespace LBS.Graph
         //public int cellSize = 32; //Add to View parameters (??)
         #endregion
 
+        public LBSGraphData() : base() { }
+        public LBSGraphData(string label) : base(label) { }
+
         public override void Clear()
         {
             edges = new List<LBSEdgeData>();
@@ -81,7 +84,7 @@ namespace LBS.Graph
         /// <param name="node"></param>
         internal void AddNode(LBSNodeData node)
         {
-            node.OnChange += (n) => Debug.Log("[implementar]"); // <------------------------------------- !!!!!
+            //node.OnChange += (n) => Debug.Log("[implementar]"); // <------------------------------------- !!!!!
 
             int index = nodes.Count;
             if(!nodes.Any(n => n.Label == node.Label))
@@ -95,7 +98,7 @@ namespace LBS.Graph
             {
                 tempName = node.Label + " " + index;
                 index++;
-            } while (!nodes.Any(n => n.Label == tempName));
+            } while (nodes.Any(n => n.Label == tempName));
 
             node.Label = tempName;
             nodes.Add(node);
@@ -193,11 +196,18 @@ namespace LBS.Graph
             //edge.OnChange += (n) => Debug.Log("[implementar]"); // <------------------------------------- !!!!!
             var n1 = GetNode(edge.FirstNodeLabel);
             var n2 = GetNode(edge.SecondNodeLabel);
-            if (n1.Label == n2.Label)
+            //Debug.Log(Label);
+            /*foreach(var n in nodes)
+            {
+                Debug.Log(n.Label);
+            }*/
+            //Debug.Log(n1);
+            //Debug.Log(n2);
+            /*if (n1.Label == n2.Label)
             {
                 Debug.LogWarning("Cannot connect a node to itself.");
                 return;
-            }
+            }*/
 
             if(edges.Any(e => e.Contains(n1.Label) && e.Contains(n2.Label)))
             {
