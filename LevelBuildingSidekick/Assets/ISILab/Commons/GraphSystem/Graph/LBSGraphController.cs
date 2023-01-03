@@ -103,14 +103,14 @@ namespace LBS.Graph
             //AddElement(proxyEdge);
         }
 
-        public void EndDragEdge(LBSNodeData data) // (!!) pasar a manipulator
+        public void EndDragEdge(LBSNodeData data, string label) // (!!) pasar a manipulator
         {
             if (first != null)
             {
                 Debug.Log("End Edge");
                 var second = GetNodeViewBylabel(data.Label);
                 var edge = new LBSEdgeData(first.Data, second.Data);
-                var current = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
+                var current = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>(label);
                 current.AddEdge(edge);
                 AddEdgeView(edge);
             }
@@ -122,7 +122,7 @@ namespace LBS.Graph
         {
             var nodeView = new LBSNodeView(data, view, cellSize);
             nodeView.OnStartDragEdge += StartDragEdge;
-            nodeView.OnEndDragEdge += EndDragEdge;
+            nodeView.OnEndDragEdge += (n) =>  EndDragEdge(n, this.data.Label);
             elements.Add(nodeView);
             view.AddElement(nodeView);
         }
@@ -135,7 +135,7 @@ namespace LBS.Graph
             graph.RemoveNode(node);
         }
 
-        internal void AddNode(LBSNodeData node)
+        internal virtual void AddNode(LBSNodeData node)
         {
             var graph = data;
             graph.AddNode(node);
