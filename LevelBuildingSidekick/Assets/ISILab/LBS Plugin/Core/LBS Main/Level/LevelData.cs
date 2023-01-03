@@ -122,7 +122,7 @@ namespace LBS
             if (rep != null)
                 return rep;
 
-            rep = Activator.CreateInstance(typeof(T)) as T;
+            rep = Activator.CreateInstance(typeof(T), new object[] { label}) as T;
             rep.Label = label;
             representations.Add(rep);
 
