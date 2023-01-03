@@ -88,7 +88,7 @@ public class GrammarReader
             grammar.NonTerminals.Add(id, node);
             for (int i = 0; i < oneOf.Items.Count; i++)
             {
-                node.AppendNode(ProcessSrgsItem(oneOf.Items[i], grammar, doc, id + ".i"));
+                node.AppendNode(ProcessSrgsItem(oneOf.Items[i], grammar, doc, id + "." + i));
             }
         }
         
@@ -109,7 +109,7 @@ public class GrammarReader
             grammar.Productions.Add(id, pn);
             for(int i = 0; i < item.Elements.Count; i++)
             {
-                pn.AppendNode(ProcessSrgsElement(item.Elements[i], grammar, doc, id + ".i"));
+                pn.AppendNode(ProcessSrgsElement(item.Elements[i], grammar, doc, id + "." + i));
             }
         }
 
@@ -131,7 +131,7 @@ public class GrammarReader
             grammar.Productions.Add(rule.Id, r);
             for(int i = 0; i < rule.Elements.Count; i++)
             {
-                r.AppendNode(ProcessSrgsElement(rule.Elements[i], grammar, doc, rule.Id + ".i"));
+                r.AppendNode(ProcessSrgsElement(rule.Elements[i], grammar, doc, rule.Id + "." + i));
             }
         }
 
