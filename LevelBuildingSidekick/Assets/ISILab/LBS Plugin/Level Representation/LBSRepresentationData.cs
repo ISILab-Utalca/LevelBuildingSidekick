@@ -18,9 +18,11 @@ public abstract class LBSRepresentationData
     {
         label = this.GetType().Name;
     }
+
     public LBSRepresentationData(string label) 
     {
         this.label = label;
+        Label = label;
     }
 
 
