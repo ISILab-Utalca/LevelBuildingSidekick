@@ -12,5 +12,9 @@ public abstract class GrammarNode
     public abstract string GetText();
     public abstract List<GrammarNode> GetTerminals();
 
+    public abstract List<string> GetExpansionsText();
+
+    public abstract List<GrammarNode> GetExpansion(int index);
+
 
 }
