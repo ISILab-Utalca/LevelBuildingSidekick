@@ -13,7 +13,6 @@ using LBS.Graph;
 public class QuestWindow : GenericLBSWindow, INameable
 {
     public VisualElement actionsContent;
-    GrammarTree grammarTree;
 
     //[MenuItem("ISILab/LBS plugin/Quest window", priority = 1)]
     public static void ShowWindow()
@@ -33,14 +32,12 @@ public class QuestWindow : GenericLBSWindow, INameable
         actionsContent = root.Q<VisualElement>(name: "Content");
         mainView = root.Q<MainView>(name: "QuestGraph");
 
-
-        grammarTree = GrammarReader.ReadGrammar(Application.dataPath + "/Grammar/FirstGrammar.xml"); //Use actual route (!!!)
-
-        foreach(var p in grammarTree.Productions)
+        var grammarTree = GetController<LBSQuestGraphController>().GrammarTree;
+        foreach (var p in grammarTree.Actions)
         {
             AddAction("Rule: " + p.Key, p.Value);
         }
-        foreach(var t in grammarTree.Terminals)
+        foreach (var t in grammarTree.Terminals)
         {
             AddAction("Terminal: " + t.Key, t.Value);
         }
@@ -83,4 +80,6 @@ public class QuestWindow : GenericLBSWindow, INameable
     {
 
     }
+
+
 }
