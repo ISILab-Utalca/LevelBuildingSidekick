@@ -87,11 +87,7 @@ public class LBSQuestGraphController : LBSGraphController
 
         var graph = data as LBSGraphData;
 
-        Debug.Log(graph.GetNodes().Count);
-
         graph.Clear();
-
-        Debug.Log(graph.GetNodes().Count);
 
         if (node.Children.Count != 0)
         {
@@ -104,8 +100,6 @@ public class LBSQuestGraphController : LBSGraphController
                 graph.AddEdge(node.Children[i - 1], node.Children[i]);
             }
         }
-
-        Debug.Log(graph.GetNodes().Count);
 
     }
 
