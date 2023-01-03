@@ -33,17 +33,17 @@ public class NonTerminalNode : GrammarNode
     }
 
     public override List<string> GetExpansionsText()
-    {/*
+    {
         if (nodes.Count == 1)
         {
-            return  nodes[0].GetExpansionsText();
-        }*/
+            return new List<string>() { nodes[0].ID };
+        }
 
         var expansions = new  List<string>();
 
         foreach (var node in Nodes)
         {
-            var s = "";
+            var s = node.ID + ": ";
             node.GetExpansionsText().ForEach(n => s += n + " ");
             expansions.Add(s);
         }
@@ -54,6 +54,7 @@ public class NonTerminalNode : GrammarNode
     {
         if (index < 0 || index >= nodes.Count)
         {
+            Debug.Log("WTF");
             foreach(var n in nodes)
             {
                 Debug.Log(n.ID);
