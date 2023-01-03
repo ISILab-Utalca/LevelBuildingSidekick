@@ -10,10 +10,10 @@ namespace LBS.Manipulators
 {
     public class AddNodeManipulator : MouseManipulator
     {
-        private LBSGraphRCController controller;
+        private LBSGraphController controller;
         private GenericLBSWindow window;
 
-        public AddNodeManipulator(GenericLBSWindow window,LBSGraphRCController controller)
+        public AddNodeManipulator(GenericLBSWindow window,LBSGraphController controller)
         {
             activators.Add(new ManipulatorActivationFilter { button = MouseButton.LeftMouse });
             this.controller = controller;
