@@ -10,10 +10,10 @@ namespace LBS.Manipulators
 {
     public class DeleteNodeManipulator : MouseManipulator 
     {
-        private LBSGraphRCController controller;
+        private LBSGraphController controller;
         private GenericLBSWindow window;
 
-        public DeleteNodeManipulator(GenericLBSWindow window,LBSGraphRCController controller)
+        public DeleteNodeManipulator(GenericLBSWindow window,LBSGraphController controller)
         {
             activators.Add(new ManipulatorActivationFilter {button = MouseButton.LeftMouse});
             this.controller = controller;
