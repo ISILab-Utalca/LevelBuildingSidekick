@@ -13,7 +13,7 @@ namespace LBS.Graph
     [System.Serializable]
     public abstract class LBSNodeData
     {
-        #region ATRIBUTES
+        #region FIELDS
         [HideInInspector, JsonRequired]
         private int x, y;
 
