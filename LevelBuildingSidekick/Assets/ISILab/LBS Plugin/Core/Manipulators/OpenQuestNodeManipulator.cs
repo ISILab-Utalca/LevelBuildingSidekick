@@ -47,6 +47,7 @@ public class OpenQuestNodeManipulator : MouseManipulator
         }
 
         controller.OpenNode(data);
+        window.RefreshView();
         /*
         var grammarElement = controller.GetGrammarElement(data.GrammarKey);
         if (grammarElement == null)
