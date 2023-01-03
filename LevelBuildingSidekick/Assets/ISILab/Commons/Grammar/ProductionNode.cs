@@ -51,9 +51,16 @@ public class ProductionNode : GrammarNode
 
     public override List<string> GetExpansionsText()
     {
-        if(nodes.Count == 1)
+        if (nodes.Count == 1 && nodes[0] is NonTerminalNode)
         {
-            return nodes[0].GetExpansionsText();
+            if (nodes[0] is NonTerminalNode)
+            {
+                return nodes[0].GetExpansionsText();
+            }
+            else
+            {
+                return new List<string>() { nodes[0].ID };
+            }
         }
 
         var expansions = new List<string>();
@@ -74,11 +81,7 @@ public class ProductionNode : GrammarNode
             return nodes[0].GetExpansion(index);
         }
 
-        var expansions = new List<GrammarNode>();
-        foreach (var node in nodes)
-        {
-            expansions.Add(node);
-        }
-        return expansions;
+
+        return nodes;
     }
 }
