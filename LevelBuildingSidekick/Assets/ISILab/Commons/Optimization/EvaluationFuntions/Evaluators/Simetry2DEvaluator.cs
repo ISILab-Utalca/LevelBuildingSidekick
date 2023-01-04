@@ -18,6 +18,13 @@ public abstract class Simetry2DEvaluator : IRangedEvaluator
     {
     }
 
+
+    /// <summary>
+    /// Evaluates the given evaluable object.
+    /// </summary>
+    /// <param name="evaluable">The evaluable object to evaluate.</param>
+    /// <returns>A float value representing the evaluation of the given object.</returns>
+    /// <exception cref="FitnessException">Thrown if the evaluable object is not an instance of ITileMap.</exception>
     public float Evaluate(IEvaluable evaluable)
     {
         if(!(evaluable is ITileMap))
@@ -35,10 +42,20 @@ public abstract class Simetry2DEvaluator : IRangedEvaluator
         return Mathf.Clamp(simetry, MinValue, MaxValue);
     }
 
+
+    /// <summary>
+    /// Calculates the simetry of the given data array.
+    /// </summary>
+    /// <param name="data">The data array to calculate simetry for.</param>
+    /// <param name="height">The height of the data array.</param>
+    /// <returns>A float value representing the simetry of the given data array.</returns>
     public abstract float CalculateSimetry(object[] data, int height);
 
     public abstract string GetName();
 
+    /// <summary>
+    /// Creates a visual element for the current object.
+    /// </summary>
     public virtual VisualElement CIGUI()
     {
         var content = new VisualElement();

@@ -9,6 +9,12 @@ public class Vertical2DSimetry : Simetry2DEvaluator
 {
     public Vertical2DSimetry() : base() { }
 
+    /// <summary>
+    /// Calculates the simetry of the given data.
+    /// </summary>
+    /// <param name="data">The data to calculate simetry for.</param>
+    /// <param name="height">The height of the data.</param>
+    /// <returns>The simetry of the data.</returns>
     public override float CalculateSimetry(object[] data, int height)
     {
         float simetry = 0;
