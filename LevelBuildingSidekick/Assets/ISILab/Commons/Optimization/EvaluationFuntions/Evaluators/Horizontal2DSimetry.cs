@@ -9,6 +9,12 @@ public class Horizontal2DSimetry : Simetry2DEvaluator
 {
     public Horizontal2DSimetry() : base() { }
 
+    /// <summary>
+    /// Calculates the symmetry of an object represented in a matrix.
+    /// </summary>
+    /// <param name="data">A matrix representing the object, where each element is of type <see cref="object"/>.</param>
+    /// <param name="height">The number of rows in the matrix.</param>
+    /// <returns>A value between 0 and 1, representing the symmetry of the object. 0 indicates no symmetry and 1 indicates perfect symmetry.</returns>
     public override float CalculateSimetry(object[] data, int height)
     {
         float simetry = 0;
@@ -36,6 +42,10 @@ public class Horizontal2DSimetry : Simetry2DEvaluator
         return "Horizontal 2D Simetry";
     }
 
+    /// <summary>
+    /// Returns the custom inspector GUI for this object.
+    /// </summary>
+    /// <returns>A <see cref="VisualElement"/> representing the custom inspector GUI.</returns>
     public override VisualElement CIGUI()
     {
         return base.CIGUI();

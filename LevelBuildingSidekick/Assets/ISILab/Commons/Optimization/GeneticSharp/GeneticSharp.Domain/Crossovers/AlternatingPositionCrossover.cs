@@ -64,6 +64,12 @@ namespace GeneticSharp.Domain.Crossovers
             return new List<IEvaluable> { child1, child2 };
         }
 
+        /// <summary>
+        /// Creates an array of child values by combining the elements of two parent arrays.
+        /// </summary>
+        /// <param name="firstParent">The first parent array.</param>
+        /// <param name="secondParent">The second parent array.</param>
+        /// <returns>An array of objects representing the child values.</returns>
         private object[] CreateChildValues(object[] firstParent, object[] secondParent)
         {
             var childValues = new object[firstParent.Length];
@@ -81,6 +87,12 @@ namespace GeneticSharp.Domain.Crossovers
             return childValues;
         }
 
+        /// <summary>
+        /// Adds a gene to an array of child genes, if it is not already present in the array.
+        /// </summary>
+        /// <param name="childGenes">The array of child genes.</param>
+        /// <param name="childGenesIndex">The current index in the child genes array.</param>
+        /// <param name="parentGene">The gene to add to the child genes array.</param>
         private static void AddChildGene(object[] childGenes, ref int childGenesIndex, object parentGene)
         {
             if (!childGenes.Contains(parentGene))
