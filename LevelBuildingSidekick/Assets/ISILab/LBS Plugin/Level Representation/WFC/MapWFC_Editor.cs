@@ -11,6 +11,9 @@ public class MapWFC_Editor : Editor
     public Texture locked, unlocked,free;
     public Vector2 iconSize = new Vector2(32,32);
 
+    /// <summary>
+    /// 
+    /// </summary>
     private void OnSceneGUI()
     {
         var select = (MapWFC)target;
