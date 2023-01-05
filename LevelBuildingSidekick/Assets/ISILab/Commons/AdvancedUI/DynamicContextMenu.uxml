@@ -1,0 +1,5 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement style="align-items: flex-start;">
+        <ui:VisualElement name="Menu" style="flex-wrap: nowrap; align-items: stretch; justify-content: flex-start;" />
+    </ui:VisualElement>
+</ui:UXML>

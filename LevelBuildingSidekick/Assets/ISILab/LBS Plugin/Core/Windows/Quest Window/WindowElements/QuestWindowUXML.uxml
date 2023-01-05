@@ -9,8 +9,7 @@
             </ui:ScrollView>
         </ui:VisualElement>
         <ui:VisualElement style="flex-direction: column; flex-grow: 1;">
-            <LBS.ElementView.MainView focusable="true" style="flex-grow: 1; height: auto;" />
-            <QuestSequence style="flex-grow: 0; height: 250px; max-height: 250px; min-height: 250px;" />
+            <QuestSequence name="QuestSequence" style="flex-grow: 1; height: auto; max-height: none; min-height: auto; justify-content: flex-start; align-items: stretch;" />
         </ui:VisualElement>
         <ui:VisualElement style="width: 300px; flex-grow: 0; flex-shrink: 1; max-width: 300px; min-width: 300px;">
             <TargetOptions style="padding-bottom: 5px; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0);" />

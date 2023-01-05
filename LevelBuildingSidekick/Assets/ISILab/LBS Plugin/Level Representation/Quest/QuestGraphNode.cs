@@ -67,7 +67,7 @@ public class QuestGraphNode : LBSNodeData
 
         for(int i = 0; i < nodes.Count; i++)
         {
-            Children.Add(new QuestGraphNode(nodes[i].ID, new Vector2(i*Width*2.5f,0), this));
+            Children.Add(new QuestGraphNode(nodes[i].ID, new Vector2(64*i*Width*2.5f,0), this));
         }
     }
 }

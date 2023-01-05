@@ -71,7 +71,7 @@ public class ExpandManipulator : MouseManipulator
             int counter = i;
             var a = new Action(() =>
             {
-                window.MainView.Remove(menu);
+                menu.style.visibility = Visibility.Hidden;
                 data.Expand(counter, questGraph.GrammarTree);
             });
 
@@ -81,5 +81,6 @@ public class ExpandManipulator : MouseManipulator
         menu.Update(actions, node.GetPosition().position);
 
         window.MainView.Add(menu);
+
     }
 }

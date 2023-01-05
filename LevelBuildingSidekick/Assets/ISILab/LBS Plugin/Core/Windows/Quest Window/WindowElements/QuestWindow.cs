@@ -13,6 +13,7 @@ using LBS.Graph;
 public class QuestWindow : GenericLBSWindow, INameable
 {
     public VisualElement actionsContent;
+    public VisualElement openNodes;
 
     //[MenuItem("ISILab/LBS plugin/Quest window", priority = 1)]
     public static void ShowWindow()
@@ -31,6 +32,7 @@ public class QuestWindow : GenericLBSWindow, INameable
 
         actionsContent = root.Q<VisualElement>(name: "Content");
         mainView = root.Q<MainView>(name: "QuestGraph");
+        openNodes = root.Q<VisualElement>(name: "OpenNodes");
 
         var grammarTree = GetController<LBSQuestGraphController>().GrammarTree;
         foreach (var p in grammarTree.Actions)
@@ -50,10 +52,10 @@ public class QuestWindow : GenericLBSWindow, INameable
 
     public void AddAction(string label, GrammarNode grammarElement)
     {
+        var graph = this.GetController<LBSQuestGraphController>();
         var act = new ActionButton(label, grammarElement);
         act.ActionBtn.clicked += () =>
         {
-            var graph = this.GetController<LBSQuestGraphController>();
             var node = graph.NewNode(Vector2.zero, act.grammarElement);
             graph.AddNode(node);
             graph.AddNodeView(node);
@@ -74,6 +76,7 @@ public class QuestWindow : GenericLBSWindow, INameable
         var graph = new LBSQuestGraphController(mainView, quests);
         controllers.Add(graph);
         CurrentController = graph;
+        RefreshOpenNodes();
     }
 
     public override void OnInitPanel()
@@ -81,5 +84,34 @@ public class QuestWindow : GenericLBSWindow, INameable
 
     }
 
+    public void RefreshOpenNodes()
+    {
+        openNodes.Clear();
 
+        var controller = GetController<LBSQuestGraphController>();
+        if (controller == null)
+            return;
+        var nodes = controller.openNodes;
+
+
+        for (int i = 0; i < nodes.Count; i++)
+        {
+            var button = new Button() { text = ">>" + nodes[i].GrammarKey };
+            int index = i;
+            button.clicked += () =>
+            {
+                controller.CloseUntill(index);
+                RefreshOpenNodes();
+                OnFocus();
+            };
+            openNodes.Add(button);
+        }
+
+
+    }
+
+
+    public void UpdateActions()
+    {
+    }
 }

@@ -10,7 +10,7 @@ public class LBSQuestGraphController : LBSGraphController
 
     List<QuestGraphNode> quests;
 
-    List<QuestGraphNode> openNodes; // change name to something bette (!!!)
+    public List<QuestGraphNode> openNodes; // change name to something better (!!!)
 
     QuestGraphNode currentQuest;
     public QuestGraphNode CurrentQuest
@@ -74,24 +74,27 @@ public class LBSQuestGraphController : LBSGraphController
 
     public void OpenNode(QuestGraphNode node)
     {
-        if(openNodes.Count == 0)
+        if (openNodes.Count == 0)
         {
             openNodes.Add(node);
         }
-        else if(openNodes[^1].Children.Contains(node))
+        else if (openNodes[^1].Children.Contains(node))
         {
             CloseNode(openNodes[^1]);
             openNodes.Add(node);
-            Debug.Log(node.GrammarKey);
         }
 
+        UpdateData(node);
+    }
+
+    public void UpdateData(QuestGraphNode node)
+    {
         var graph = data as LBSGraphData;
 
         graph.Clear();
 
         if (node.Children.Count != 0)
         {
-            Debug.Log("Working");
             data.AddNode(node.Children[0]);
 
             for (int i = 1; i < node.Children.Count; i++)
@@ -100,7 +103,6 @@ public class LBSQuestGraphController : LBSGraphController
                 graph.AddEdge(node.Children[i - 1], node.Children[i]);
             }
         }
-
     }
 
     public void CloseNode(QuestGraphNode node)
@@ -114,5 +116,16 @@ public class LBSQuestGraphController : LBSGraphController
             if(n is QuestGraphNode)
                 node.Children.Add(n as QuestGraphNode);
         }
+    }
+
+    internal void CloseUntill(int index)
+    {
+        while(openNodes.Count > index + 1)
+        {
+            CloseNode(openNodes[^1]);
+            openNodes.Remove(openNodes[^1]);
+            UpdateData(openNodes[^1]);
+        }
+
     }
 }

@@ -23,11 +23,9 @@ public class DynamicContextMenu : GraphElement
 
     public DynamicContextMenu() 
     {
-        Menu = new VisualElement();
-        Menu.pickingMode = PickingMode.Ignore;
-        style.alignContent = Align.FlexStart;
-        Menu.style.alignContent = Align.Stretch;
-        style.overflow = Overflow.Visible;
+        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("DynamicContextMenu");
+        visualTree.CloneTree(this);
+        Menu = this.Q<VisualElement>(name: "Menu");
     }
 
     public DynamicContextMenu(List<Tuple<string, Action>> actions, Vector2 position)
@@ -37,19 +35,19 @@ public class DynamicContextMenu : GraphElement
 
     public void Update(List<Tuple<string, Action>> actions, Vector2 position)
     {
+        style.visibility = Visibility.Visible;
         var max = actions.Max(t => t.Item1.Length);
         Menu.Clear();
         float width = max * 8;
-        List<Button> buttons = new List<Button>();
+        SetPosition(new Rect(position, new Vector2(width, actions.Count*60)));
         foreach (var action in actions)
         {
-            var func = new GenericMenu.MenuFunction(action.Item2);
+            //var func = new GenericMenu.MenuFunction(action.Item2);
             var button = new Button(action.Item2) { text = action.Item1 };
             //buttons.Add(button);
             Menu.Add(button);
         }
         //width = buttons.Max(b => b.contentRect.width);
-        SetPosition(new Rect(position, new Vector2(0, 0)));
         Add(Menu);
     }
 
