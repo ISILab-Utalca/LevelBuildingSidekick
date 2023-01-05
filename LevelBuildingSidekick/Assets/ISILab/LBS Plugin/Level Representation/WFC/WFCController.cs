@@ -19,22 +19,41 @@ namespace LBS.Representation
 
         public int MatrixWidth => throw new System.NotImplementedException();
 
+        /// <summary>
+        /// Se ingresa un vector2 posición
+        /// </summary>
+        /// <param name="position"> Vector2 posición del tile</param>
+        /// <returns> Un nuevo vector2 </returns>
         public Vector2 FromTileCoords(Vector2 position)
         {
             //throw new System.NotImplementedException();
             return new Vector2();
         }
 
+        /// <summary>
+        /// Función para solicitar el nombre
+        /// </summary>
+        /// <returns> Retorna un string con el nombre en especifico</returns>
         public override string GetName()
         {
             return "WFC controller";
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="cmpe"></param>
         public override void OnContextualBuid(MainView view, ContextualMenuPopulateEvent cmpe)
         {
            // throw new System.NotImplementedException();
         }
 
+        /// <summary>
+        /// Elimina los elementos en pantalla, para posteriormente
+        /// crear una visualización de los tiles, por cada tile
+        /// </summary>
+        /// <param name="view"> Vista actual </param>
         public override void PopulateView(MainView view)
         {
             this.view = view;
@@ -48,12 +67,24 @@ namespace LBS.Representation
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>
         public Vector2Int ToTileCoords(Vector2 position)
         {
             //throw new System.NotImplementedException();
             return new Vector2Int();
         }
 
+        /// <summary>
+        /// Funcion para crear la ventana de los tiles
+        /// </summary>
+        /// <param name="tileData"> Info de los tiles </param>
+        /// <param name="tilePos"> Vector2 con la posición de los tiles </param>
+        /// <param name="size"> Vector2 con el tamaño de la ventana</param>
+        /// <returns> Variable tile de tipo "TileSimple" </returns>
         private TileView CreateTileView(TileData tileData, Vector2Int tilePos, Vector2 size)
         {
             var tile = new TileSimple();
