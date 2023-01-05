@@ -71,7 +71,9 @@ namespace LBS.Graph
 
 
         /// <summary>
-        /// Empty constructor, necessary for serialization with json.
+        /// Empty constructor, necessary for serialization with json. <--?
+        /// Default constructor for the LBSNodeData class. Initializes
+        /// label to "Undefined" and dimensions to 1x1.
         /// </summary>
         public LBSNodeData() 
         {
@@ -82,6 +84,11 @@ namespace LBS.Graph
             y = 0;
         }
 
+        /// <summary>
+        /// Constructor of the LBSNodeData class
+        /// </summary>
+        /// <param name="label"></param>
+        /// <param name="position"></param>
         public LBSNodeData(string label, Vector2 position)
         {
             this.label = label;

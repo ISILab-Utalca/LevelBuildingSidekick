@@ -19,6 +19,12 @@ public abstract class LBSEdgeView : LBSGraphElement
 
     public LBSEdgeView() : base() { }
 
+    /// <summary>
+    /// Constructor for the LBSEdgeView class.
+    /// </summary>
+    /// <param name="nv1">First node view in the edge.</param>
+    /// <param name="nv2">Second node view in the edge.</param>
+    /// <param name="root">Root graph view.</param>
     public LBSEdgeView(LBSNodeView nv1, LBSNodeView nv2, LBSGraphView root) : base(root)
     {
         this.nv1 = nv1;
@@ -50,6 +56,12 @@ public class LBSDotedEdgeView : LBSEdgeView
     private static float dist = 10f;
     public List<GraphElement> elements = new List<GraphElement>();
 
+    /// <summary>
+    /// Constructor of the class LBSDotedEdgeView.
+    /// </summary>
+    /// <param name="nv1">fFirst node view in the edge.</param>
+    /// <param name="nv2">Second node view in the edge<./param>
+    /// <param name="root">Root graph view.</param>
     public LBSDotedEdgeView(LBSNodeView nv1, LBSNodeView nv2, LBSGraphView root) : base(nv1, nv2, root)
     {
     }
@@ -58,6 +70,12 @@ public class LBSDotedEdgeView : LBSEdgeView
     {
     }
 
+    /// <summary>
+    /// Uupdates the view of an edge. It does so by removing 
+    /// all dots that make up the edge, and then adding new 
+    /// ones based on the current positions of the two nodes 
+    /// that the edge connects.
+    /// </summary>
     public override void ActualizeView()
     {
         var pos1 = this.nv1.GetPosition().center;
@@ -80,6 +98,9 @@ public class LBSDotedEdgeView : LBSEdgeView
         }
     }
 
+    /// <summary>
+    /// Remove the content from the elements list and replace the list with a new one.
+    /// </summary>
     public override void OnDelete()
     {
         elements.ForEach(e => root.RemoveElement(e));
@@ -91,6 +112,12 @@ public class LBSLineEdgeView : LBSEdgeView
 {
     public Line line;
 
+    /// <summary>
+    /// Cosntructor for the LBSLineEdgeView class.
+    /// </summary>
+    /// <param name="nv1">First node view in the edge.</param>
+    /// <param name="nv2">Second node view in the edge.</param>
+    /// <param name="root">Root graph view.</param>
     public LBSLineEdgeView(LBSNodeView nv1, LBSNodeView nv2, LBSGraphView root) : base(nv1, nv2, root)
     {
     }
@@ -99,6 +126,9 @@ public class LBSLineEdgeView : LBSEdgeView
     {
     }
 
+    /// <summary>
+    /// Update the view.
+    /// </summary>
     public override void ActualizeView()
     {
         var pos1 = this.nv1.GetPosition().center;
@@ -124,6 +154,10 @@ public class Line : GraphElement
 
 public class Dot : GraphElement
 {
+    /// <summary>
+    /// Constructor for the Dot class with the specified size.
+    /// </summary>
+    /// <param name="size">The size of the dot.</param>
     public Dot(int size)
     {
         var box = new Box();

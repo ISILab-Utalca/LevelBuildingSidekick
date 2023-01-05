@@ -25,6 +25,9 @@ namespace LBS.Graph
         public LBSGraphData() : base() { }
         public LBSGraphData(string label) : base(label) { }
 
+        /// <summary>
+        /// Clear the edges and nodes.
+        /// </summary>
         public override void Clear()
         {
             edges = new List<LBSEdgeData>();
@@ -34,7 +37,7 @@ namespace LBS.Graph
         /// <summary>
         /// Remove node by ID/Label.
         /// </summary>
-        /// <param name="ID"></param>
+        /// <param name="ID">ID given to remove the node.</param>
         internal void RemoveNode(string ID)
         {
             var r = nodes.Find(n => n.Label == ID);
@@ -43,10 +46,10 @@ namespace LBS.Graph
         }
 
         /// <summary>
-        /// Remove node by refrence and remove conection, 
+        /// Remove node by reference and remove conection, 
         /// also removes the edges connected to the node.
         /// </summary>
-        /// <param name="node"></param>
+        /// <param name="node">Node data given to find the node.</param>
         internal void RemoveNode(LBSNodeData node)
         {
             RemoveEdges(node);
@@ -54,10 +57,10 @@ namespace LBS.Graph
         }
 
         /// <summary>
-        ///  Return the first node whit the ID/Label.
+        /// Return the first node whit the ID/Label.
         /// </summary>
-        /// <param name="label"></param>
-        /// <returns></returns>
+        /// <param name="label">Label given to get the node.</param>
+        /// <returns>Return the node found by label or null if no such exists.</returns>
         internal LBSNodeData GetNode(string label)   // by ID (??)
         {
             return nodes.Find(n => n.Label == label);
@@ -66,22 +69,28 @@ namespace LBS.Graph
         /// <summary>
         /// Return node by index.
         /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
+        /// <param name="index">Index to get the node.</param>
+        /// <returns>Return the node found by index.</returns>
         internal LBSNodeData GetNode(int index)
         {
             return nodes[index];
         }
 
+        /// <summary>
+        /// Return a list of nodes.
+        /// </summary>
+        /// <returns> List of nodes.</returns>
         internal List<LBSNodeData> GetNodes()
         {
             return new List<LBSNodeData>(nodes);
         }
 
         /// <summary>
-        /// Add new node.
+        /// Adds a new node to the list in the graph.
+        /// If the label of the new node is already in use, the method will 
+        /// append an index to the label until it is unique.
         /// </summary>
-        /// <param name="node"></param>
+        /// <param name="node">Data node to add.</param>
         internal void AddNode(LBSNodeData node)
         {
             //node.OnChange += (n) => Debug.Log("[implementar]"); // <------------------------------------- !!!!!
@@ -107,7 +116,7 @@ namespace LBS.Graph
         /// <summary>
         /// Get node count.
         /// </summary>
-        /// <returns></returns>
+        /// <returns> Nodes count.</returns>
         internal int NodeCount()
         {
             return nodes.Count;
@@ -117,8 +126,8 @@ namespace LBS.Graph
         /// Returns all edges that are connected to the node 
         /// delivered by parameters.
         /// </summary>
-        /// <param name="node"></param>
-        /// <returns></returns>
+        /// <param name="node"> Node data to get the node.</param>
+        /// <returns> A enumerable collection of edges containing the given node.</returns>
         internal IEnumerable<LBSEdgeData> GetEdges(LBSNodeData node)
         {
             return edges.Where(e => e.Contains(node.Label));
@@ -127,22 +136,26 @@ namespace LBS.Graph
         /// <summary>
         /// Return edge by index.
         /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
+        /// <param name="index"> int variable that indicate edge position in array edges</param>
+        /// <returns> edge of edges array</returns>
         internal LBSEdgeData GetEdge(int index)
         {
             return edges[index];
         }
 
+        /// <summary>
+        /// Get a list of edges of type LBSEdgeData
+        /// </summary>
+        /// <returns> List of edges</returns>
         internal List<LBSEdgeData> GetEdges()
         {
             return new List<LBSEdgeData>(edges);
         }
 
         /// <summary>
-        /// Get edge Conut.
+        /// Get edge count.
         /// </summary>
-        /// <returns></returns>
+        /// <returns> Edges count.</returns>
         internal int EdgeCount()
         {
             return edges.Count;
@@ -151,7 +164,7 @@ namespace LBS.Graph
         /// <summary>
         /// Remove al edge conected to the node delivered by parameters. 
         /// </summary>
-        /// <param name="node"></param>
+        /// <param name="node"> Data node to remove edges. </param>
         internal void RemoveEdges(LBSNodeData node)
         {
             var rs = edges.FindAll(e => e.Contains(node.Label));
@@ -161,6 +174,8 @@ namespace LBS.Graph
         /// <summary>
         /// Remove the edge connected to the nodes delivered by parameters.
         /// </summary>
+        /// <param name="n1"> First node to disconnect edge.</param>
+        /// <param name="n2"> Second node to disconnect edge.</param>
         internal void RemoveEdge(LBSNodeData n1, LBSNodeData n2)
         {
             var e = edges.Find(e => e.Contains(n1.Label) && e.Contains(n2.Label));
@@ -170,7 +185,7 @@ namespace LBS.Graph
         /// <summary>
         /// Remove edge.
         /// </summary>
-        /// <param name="edge"></param>
+        /// <param name="edge"> Data to edge to remove. </param>
         internal void RemoveEdge(LBSEdgeData edge)
         {
             edges.Remove(edge);
@@ -179,8 +194,8 @@ namespace LBS.Graph
         /// <summary>
         /// Add new edge.
         /// </summary>
-        /// <param name="n1"></param>
-        /// <param name="n2"></param>
+        /// <param name="n1"> First node to add a edge.</param>
+        /// <param name="n2"> Second node to add a edge.</param>
         internal void AddEdge(LBSNodeData n1,LBSNodeData n2)
         {
             var e = new LBSEdgeData(n1, n2);
@@ -190,7 +205,9 @@ namespace LBS.Graph
         /// <summary>
         /// Add edge.
         /// </summary>
-        /// <param name="edge"></param>
+        /// <param name="edge"> Edge to add. </param>
+        /// <returns> If exists a connection between the two nodes before show a warning
+        /// message.</returns>
         internal void AddEdge(LBSEdgeData edge)
         {
             //edge.OnChange += (n) => Debug.Log("[implementar]"); // <------------------------------------- !!!!!
@@ -220,8 +237,8 @@ namespace LBS.Graph
         /// <summary>
         /// Returns the neighboring nodes of the node delivered by parameters.
         /// </summary>
-        /// <param name="node"></param>
-        /// <returns></returns>
+        /// <param name="node"> Node to find neighbors. </param>
+        /// <returns> List of neighbors.</returns>
         public List<T> GetNeighbors<T>(T node) where T : LBSNodeData
         {
             var conects = edges.Where(e => e.Contains(node.Label)).ToList();
@@ -245,7 +262,9 @@ namespace LBS.Graph
             return neigs;
         }
 
-
+        /// <summary>
+        /// Print the nodes and edges amount by console.
+        /// </summary>
         public override void Print()
         {
             var msg = "";

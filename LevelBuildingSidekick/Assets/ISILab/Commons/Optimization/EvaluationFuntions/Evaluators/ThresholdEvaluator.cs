@@ -17,6 +17,9 @@ public class ThresholdEvaluator : IRangedEvaluator
     public float Threshold = 0.5f;
     IRangedEvaluator evaluator;
 
+    /// <summary>
+    /// Creates a GUI interface.
+    /// </summary>
     public VisualElement CIGUI()
     {
         var content = new VisualElement();
@@ -60,6 +63,12 @@ public class ThresholdEvaluator : IRangedEvaluator
         return content;
     }
 
+
+    /// <summary>
+    /// Calculates the fitness of an evaluable object by comparing its evaluation to a desired threshold.
+    /// </summary>
+    /// <param name="evaluable">The object to be evaluated</param>
+    /// <returns>A value between 0 and 1 representing the fitness of the object</returns>
     public float Evaluate(IEvaluable evaluable)
     {
         float fitness = evaluator.Evaluate(evaluable);

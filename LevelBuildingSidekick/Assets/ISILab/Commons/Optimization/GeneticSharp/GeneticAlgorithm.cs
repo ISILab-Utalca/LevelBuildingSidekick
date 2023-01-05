@@ -455,7 +455,9 @@ public class GeneticAlgorithm : IGeneticAlgorithm , IShowable
         OnStopped?.Invoke();
     }
 
-    //ESTO ESTA ASQUEROSISIMO, WAKALA (!!!!)
+    /// <summary>
+    /// Creates a GUI interface for configuring genetic algorithms.
+    /// </summary>
     public VisualElement CIGUI()
     {
         var content = new VisualElement();

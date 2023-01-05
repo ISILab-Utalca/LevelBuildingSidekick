@@ -71,6 +71,12 @@ public abstract class BaseOptimizer : IOptimizer
 
     #endregion
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BaseOptimizer"/> class with the specified starting evaluable, evaluator, and termination condition.
+    /// </summary>
+    /// <param name="adam">The starting evaluable.</param>
+    /// <param name="evaluator">The evaluator to use.</param>
+    /// <param name="termination">The termination condition to use.</param>
     public BaseOptimizer(IEvaluable adam, IEvaluator evaluator, ITermination termination)
     {
         BestCandidate = adam;
@@ -83,7 +89,9 @@ public abstract class BaseOptimizer : IOptimizer
         GenerationsNumber = 0; 
         TimeEvolving = TimeSpan.Zero;
     }
-
+    /// <summary>
+    /// Pauses the optimizer.
+    /// </summary>
     public virtual void Pause()
     {
         lock (m_lock)
@@ -93,6 +101,9 @@ public abstract class BaseOptimizer : IOptimizer
         OnPaused?.Invoke();
     }
 
+    /// <summary>
+    /// Resumes the optimizer.
+    /// </summary>
     public virtual void Resume()
     {
         OnResumed?.Invoke();
@@ -105,6 +116,9 @@ public abstract class BaseOptimizer : IOptimizer
         Run();
     }
 
+    /// <summary>
+    /// Stops the optimizer.
+    /// </summary>
     public virtual void Stop()
     {
         lock (m_lock)
@@ -114,6 +128,9 @@ public abstract class BaseOptimizer : IOptimizer
         OnStopped?.Invoke();
     }
 
+    /// <summary>
+    /// Starts the optimizer.
+    /// </summary>
     public virtual void Start()
     {
         OnStarted?.Invoke();
@@ -130,6 +147,10 @@ public abstract class BaseOptimizer : IOptimizer
 
     public abstract void RunOnce();
 
+    /// <summary>
+    /// Runs the optimization algorithm until a termination condition is reached or the optimizer is paused or stopped.
+    /// </summary>
+    /// <returns>The best candidate solution found by the optimizer.</returns>
     public virtual IEvaluable Run()
     {
         while (!TerminatioReached() && !(State == OptimizerState.Paused || State == OptimizerState.Stopped))
@@ -155,6 +176,10 @@ public abstract class BaseOptimizer : IOptimizer
         return BestCandidate;
     }
 
+    /// <summary>
+    /// Determines if the optimizer has reached a termination condition.
+    /// </summary>
+    /// <returns>True if the termination condition has been reached, false otherwise.</returns>
     private bool TerminatioReached()
     {
         if(Termination.HasReached(this))
@@ -165,6 +190,9 @@ public abstract class BaseOptimizer : IOptimizer
         return false;
     }
 
+    /// <summary>
+    /// Requests that the optimization process be stopped.
+    /// </summary>
     public void RequestStop()
     {
         lock(m_lock)
@@ -173,6 +201,9 @@ public abstract class BaseOptimizer : IOptimizer
         }
     }
 
+    /// <summary>
+    /// Requests that the optimization process be paused.
+    /// </summary>
     public void RequestPause()
     {
         lock (m_lock)
