@@ -52,6 +52,10 @@ public class Vertical2DProgresion : Progression2DEvaluator
         return Mathf.Clamp(p, MinValue, MaxValue);
     }
 
+    /// <summary>
+    /// Gets the name of the evaluator.
+    /// </summary>
+    /// <returns> The name of the evaluator. </returns>
     public override string GetName()
     {
         return "Vertical 2D progresion fitness";

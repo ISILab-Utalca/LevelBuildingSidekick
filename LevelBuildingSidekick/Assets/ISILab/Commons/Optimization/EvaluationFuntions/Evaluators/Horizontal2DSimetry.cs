@@ -37,6 +37,10 @@ public class Horizontal2DSimetry : Simetry2DEvaluator
         return simetry / elements;
     }
 
+    /// <summary>
+    /// Gets the name of the evaluator.
+    /// </summary>
+    /// <returns> THe name of the evaluator. </returns>
     public override string GetName()
     {
         return "Horizontal 2D Simetry";

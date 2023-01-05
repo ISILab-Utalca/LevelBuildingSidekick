@@ -84,6 +84,10 @@ public class AverageVerticalProgression : Progression2DEvaluator
         return content;
     }
 
+    /// <summary>
+    /// Gets the name of the evaluator.
+    /// </summary>
+    /// <returns> The name of the evaluator. </returns>
     public override string GetName()
     {
         return "Average Vertical Progression";

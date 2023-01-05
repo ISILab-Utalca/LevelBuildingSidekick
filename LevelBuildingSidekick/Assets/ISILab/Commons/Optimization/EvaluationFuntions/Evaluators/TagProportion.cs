@@ -19,6 +19,9 @@ public class TagProportion : IRangedEvaluator
 
     public float MinValue => min;
 
+    /// <summary>
+    /// Creates the new instance of <see cref="TagProportion"/> class.
+    /// </summary>
     public TagProportion()
     {
         var list = Utility.DirectoryTools.GetScriptable<LBSTags>("Brush tags").Alls;
@@ -26,6 +29,10 @@ public class TagProportion : IRangedEvaluator
         tag2 = list.Last();
     }
 
+    /// <summary>
+    /// Creates the GUI for the evaluator.
+    /// </summary>
+    /// <returns> A <see cref="VisualElement"/> containing the GUI. </returns>
     public VisualElement CIGUI()
     {
         var content = new VisualElement();
@@ -58,6 +65,11 @@ public class TagProportion : IRangedEvaluator
         return content;
     }
 
+    /// <summary>
+    /// Compare the presence of one tag with another in each of the rooms.
+    /// </summary>
+    /// <param name="evaluable"></param>
+    /// <returns> A float value representing the evaluation result. </returns>
     public float Evaluate(IEvaluable evaluable)
     {
         if(!(evaluable is StampTileMapChromosome))
@@ -119,6 +131,10 @@ public class TagProportion : IRangedEvaluator
         return p > 1 ? 1 / p : p;
     }
 
+    /// <summary>
+    /// Gets the name of the evaluator.
+    /// </summary>
+    /// <returns> The name of the evaluator </returns>
     public string GetName()
     {
         return "Tag Proportion";

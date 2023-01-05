@@ -18,7 +18,7 @@ public class ThresholdEvaluator : IRangedEvaluator
     IRangedEvaluator evaluator;
 
     /// <summary>
-    /// Creates a GUI interface.
+    /// Creates a GUI interface of Threshold Evaluator.
     /// </summary>
     public VisualElement CIGUI()
     {
@@ -79,6 +79,10 @@ public class ThresholdEvaluator : IRangedEvaluator
         return 1 - (Mathf.Abs(desired - fitness) / (evaluator.MaxValue - evaluator.MinValue));
     }
 
+    /// <summary>
+    /// Gets the name of the evaluator.
+    /// </summary>
+    /// <returns> The name of the evaluator. </returns>
     public string GetName()
     {
         return "Threshold Evaluator";

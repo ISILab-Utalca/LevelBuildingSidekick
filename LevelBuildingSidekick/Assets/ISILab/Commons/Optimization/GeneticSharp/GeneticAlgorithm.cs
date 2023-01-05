@@ -218,6 +218,10 @@ public class GeneticAlgorithm : IGeneticAlgorithm , IShowable
 
     #endregion
 
+    /// <summary>
+    /// Gets the of name of instance.
+    /// </summary>
+    /// <returns> The name of instance </returns>
     public string GetName()
     {
         return "Genetic algorithm";
