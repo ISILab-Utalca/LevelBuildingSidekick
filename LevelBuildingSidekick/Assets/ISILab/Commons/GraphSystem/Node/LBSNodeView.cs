@@ -47,10 +47,10 @@ namespace LBS.Graph
 
         /// <summary>
         /// Constructor for the LBSNodeView class, which creates a visual
-        /// representation of a node data and adds it to the given root graph view. [duda]
+        /// representation of a node data and set the parent graph of the node view. 
         /// </summary>
-        /// <param name="node"> Node data to be represented by the node view. </param>
-        /// <param name="root"> Root graph view to which the node view will be added. </param>
+        /// <param name="node"> Node data represented by the node view. </param>
+        /// <param name="root"> Parent root graph view. </param>
         /// <param name="cellSize"> Size of the cell in which the node is represented, in pixels. </param>
         public LBSNodeView(LBSNodeData node, LBSGraphView root, float cellSize = 1) : base(root)
         {

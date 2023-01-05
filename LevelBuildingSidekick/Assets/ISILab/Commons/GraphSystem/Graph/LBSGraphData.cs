@@ -22,7 +22,15 @@ namespace LBS.Graph
         //public int cellSize = 32; //Add to View parameters (??)
         #endregion
 
+        /// <summary>
+        /// Default base class constructor of LBSGraphData.  
+        /// </summary>
         public LBSGraphData() : base() { }
+
+        /// <summary>
+        /// Construct of the class LBSGraphData.
+        /// </summary>
+        /// <param name="label">Label of the graph data. </param>
         public LBSGraphData(string label) : base(label) { }
 
         /// <summary>

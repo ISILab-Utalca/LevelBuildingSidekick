@@ -55,9 +55,9 @@ namespace LBS.Graph
         }
 
         /// <summary>
-        /// Get the name of the layer
+        /// Get the name of the layer.
         /// </summary>
-        /// <returns> The string Node Layer</returns>
+        /// <returns> The string "Node Layer". </returns>
         public override string GetName()
         {
             return "Node Layer";
@@ -77,11 +77,11 @@ namespace LBS.Graph
         }
 
         /// <summary>
-        /// Add an edge view to the view, find the node views that are connected by this edge
-        /// if any of the node views was not found, return. Create the edge view and add the 
-        /// edge view to the list of elements and the view.
+        /// Add an edge view to the view, find the node views that are connected by this edge.
+        /// Create the edge view and add the edge view to the list of elements and the view.
         /// </summary>
-        /// <param name="edge"></param>
+        /// <param name="edge">Data EdgeView to be added. </param>
+        /// <return> Return nothing if one of the nodes views is not found. </return>
         private void AddEdgeView(LBSEdgeData edge)
         {
             var nodeViews = view.graphElements.ToList().Where(e => e is LBSNodeView).Select(e => e as LBSNodeView).ToList();
@@ -161,7 +161,6 @@ namespace LBS.Graph
             view.AddElement(nodeView);
         }
 
-
         // Node methods
         /// <summary>
         /// Remove a node from the graph.
@@ -206,7 +205,7 @@ namespace LBS.Graph
         }
 
         /// <summary>
-        /// Ass a new Edge to the graph.
+        /// Add a new Edge to the graph.
         /// </summary>
         /// <param name="edge">Edge data to add.</param>
         internal void AddEdge(LBSEdgeData edge)

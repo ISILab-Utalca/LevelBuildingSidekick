@@ -17,6 +17,9 @@ public abstract class LBSEdgeView : LBSGraphElement
 
     public LBSEdgeData Data => data;
 
+    /// <summary>
+    /// Default base class constructor for LBSEdgeView class.
+    /// </summary>
     public LBSEdgeView() : base() { }
 
     /// <summary>

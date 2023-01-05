@@ -28,6 +28,9 @@ public class LBSEdgeData
     [JsonIgnore]
     public float thikness = 5; // -> static (??)
 
+    /// <summary>
+    /// The direction of the edge.
+    /// </summary>
     public EdgeDirection Direction { get; set; }
 
     /// <summary>
@@ -49,14 +52,17 @@ public class LBSEdgeData
     /// <summary>
     /// Determines whether this edge contains the given node.
     /// </summary>
-    /// <param name="nodeID">The identifier of the node to check for.</param>
-    /// <returns>True if the edge contains the given node, false otherwise.</returns>
+    /// <param name="nodeID"> The identifier of the node to check for.</param>
+    /// <returns> True if the edge contains the given node, false otherwise.</returns>
     public bool Contains(string nodeID)
     {
         return firstNodeLabel == nodeID || secondNodeLabel == nodeID;
     }
 }
 
+/// <summary>
+///  Enumeration of posibles edges directions.
+/// </summary>
 public enum EdgeDirection
 {
     BIDIRECTIONAL,
