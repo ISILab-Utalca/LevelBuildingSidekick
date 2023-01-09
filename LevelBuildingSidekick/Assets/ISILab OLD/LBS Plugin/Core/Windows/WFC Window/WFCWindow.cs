@@ -11,12 +11,13 @@ namespace LBS.Windows
     // Esta clase usa:
     // MapData
     // WFCController
+
     public class WFCWindow : GenericLBSWindow, ISupportsOverlays
     {
         private WFCWindow() { }
 
         /// <summary>
-        /// Funci�n para mostrar la ventana
+        /// 
         /// </summary>
         [MenuItem("ISILab/LBS plugin/WFC Window", priority = 0)]
         public static void ShowWindow()
