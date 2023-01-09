@@ -29,11 +29,21 @@ namespace LBS.Graph
         public LBSNodeView first; // cancercito (!!)
         public int CellSize => cellSize;
 
+        /// <summary>
+        /// Constructor for the LBSGraphController class.
+        /// </summary>
+        /// <param name="view">Graph view that the controller will use.</param>
+        /// <param name="data">Graph data that the controller will use.</param>
         public LBSGraphController(LBSGraphView view,LBSGraphData data) : base(view, data)
         {
 
         }
 
+        /// <summary>
+        /// Creates a new node at the given position and adds it to the graph view.
+        /// </summary>
+        /// <param name="view">The main view in which the node will be added.</param>
+        /// <param name="cmpe">The contextual menu populate event that is triggering this method.</param>
         public override void OnContextualBuid(MainView view, ContextualMenuPopulateEvent cmpe)
         {
             var pos = (cmpe.localMousePosition - new Vector2(view.transform.position.x, view.transform.position.y)) / view.scale;
@@ -44,11 +54,20 @@ namespace LBS.Graph
                 });
         }
 
+        /// <summary>
+        /// Get the name of the layer.
+        /// </summary>
+        /// <returns> The string "Node Layer". </returns>
         public override string GetName()
         {
             return "Node Layer";
         }
 
+        /// <summary>
+        /// Populates the provided MainView with the nodes and edges stored in this layer's data.
+        /// Deletes any existing elements in the provided MainView.
+        /// </summary>
+        /// <param name="view">The MainView to populate</param>
         public override void PopulateView(MainView view)
         {
             this.view = view;
@@ -57,6 +76,12 @@ namespace LBS.Graph
             data.GetEdges().ForEach(e => AddEdgeView(e));
         }
 
+        /// <summary>
+        /// Add an edge view to the view, find the node views that are connected by this edge.
+        /// Create the edge view and add the edge view to the list of elements and the view.
+        /// </summary>
+        /// <param name="edge">Data EdgeView to be added. </param>
+        /// <return> Return nothing if one of the nodes views is not found. </return>
         private void AddEdgeView(LBSEdgeData edge)
         {
             var nodeViews = view.graphElements.ToList().Where(e => e is LBSNodeView).Select(e => e as LBSNodeView).ToList();
@@ -81,7 +106,12 @@ namespace LBS.Graph
             view.AddElement(edgeView);
         }
 
-        public virtual LBSNodeView GetNodeViewBylabel(string label) 
+        /// <summary>
+        /// Get the NodeView with from a given label.
+        /// </summary>
+        /// <param name="label">The label of the node view get.</param>
+        /// <returns>The node view with the given label, or null if no such view exists.</returns>
+        public virtual LBSNodeView GetNodeViewBylabel(string label)
         {
             foreach (var element in view.graphElements)
             {
@@ -118,6 +148,10 @@ namespace LBS.Graph
             first = null;
         }
 
+        /// <summary>
+        /// Add a new NodeView.
+        /// </summary>
+        /// <param name="data">Node data to create the new NodeView.</param>
         public void AddNodeView(LBSNodeData data)
         {
             var nodeView = new LBSNodeView(data, view, cellSize);
@@ -127,23 +161,41 @@ namespace LBS.Graph
             view.AddElement(nodeView);
         }
 
-
         // Node methods
+        /// <summary>
+        /// Remove a node from the graph.
+        /// </summary>
+        /// <param name="node">Node data of the node.</param>
         internal void RemoveNode(LBSNodeData node)
         {
             var graph = data;
             graph.RemoveNode(node);
         }
 
+        /// <summary>
+        /// Add a node to the graph.
+        /// </summary>
+        /// <param name="node">Node data of the new node</param>
         internal virtual void AddNode(LBSNodeData node)
         {
             var graph = data;
             graph.AddNode(node);
         }
 
+        /// <summary>
+        /// Create a new node with the given position.
+        /// </summary>
+        /// <param name="position">The position of the node.</param>
+        /// <returns>The new node.</returns>
         internal abstract LBSNodeData NewNode(Vector2 position);
 
         // Edge methods
+        /// <summary>
+        /// Create and add a new edge by two data nodes.
+        /// </summary>
+        /// <param name="n1">Data of the first node.</param>
+        /// <param name="n2">Data of hte second node.</param>
+        /// <returns>Return the new Edge.</returns>
         internal LBSEdgeData NewEdge(LBSNodeData n1, LBSNodeData n2)
         {
             var graph = data;
@@ -152,12 +204,20 @@ namespace LBS.Graph
             return edge;
         }
 
+        /// <summary>
+        /// Add a new Edge to the graph.
+        /// </summary>
+        /// <param name="edge">Edge data to add.</param>
         internal void AddEdge(LBSEdgeData edge)
         {
             var graph = data;
             graph.AddEdge(edge);
         }
 
+        /// <summary>
+        /// Remove a Edge of the graph.
+        /// </summary>
+        /// <param name="edge">Edge data given to remove.</param>
         internal void RemoveEdge(LBSEdgeData edge)
         {
             var graph = data;

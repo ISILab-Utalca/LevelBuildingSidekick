@@ -28,6 +28,9 @@ public class LBSEdgeData
     [JsonIgnore]
     public float thikness = 5; // -> static (??)
 
+    /// <summary>
+    /// The direction of the edge.
+    /// </summary>
     public EdgeDirection Direction { get; set; }
 
     /// <summary>
@@ -35,19 +38,31 @@ public class LBSEdgeData
     /// </summary>
     public LBSEdgeData() { }
 
+    /// <summary>
+    /// Constructor for the LBSEdgeData class, which creates an edge between two nodes.
+    /// </summary>
+    /// <param name="n1">First node data object in the edge</param>
+    /// <param name="n2">Second node data object in the edge</param>
     public LBSEdgeData(LBSNodeData n1, LBSNodeData n2)
     {
         this.firstNodeLabel = n1.Label;
         this.secondNodeLabel = n2.Label;
     }
 
-
+    /// <summary>
+    /// Determines whether this edge contains the given node.
+    /// </summary>
+    /// <param name="nodeID"> The identifier of the node to check for.</param>
+    /// <returns> True if the edge contains the given node, false otherwise.</returns>
     public bool Contains(string nodeID)
     {
         return firstNodeLabel == nodeID || secondNodeLabel == nodeID;
     }
 }
 
+/// <summary>
+///  Enumeration of posibles edges directions.
+/// </summary>
 public enum EdgeDirection
 {
     BIDIRECTIONAL,

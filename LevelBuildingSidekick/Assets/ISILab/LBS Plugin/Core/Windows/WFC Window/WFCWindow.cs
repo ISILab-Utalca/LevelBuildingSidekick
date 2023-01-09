@@ -15,7 +15,9 @@ namespace LBS.Windows
     {
         private WFCWindow() { }
 
-        
+        /// <summary>
+        /// Funci�n para mostrar la ventana
+        /// </summary>
         [MenuItem("ISILab/LBS plugin/WFC Window", priority = 0)]
         public static void ShowWindow()
         {
@@ -23,6 +25,9 @@ namespace LBS.Windows
             window.titleContent = new GUIContent("WFC Window");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public override void OnInitPanel()
         {
             var generator = new WFCGenerator();
@@ -37,6 +42,9 @@ namespace LBS.Windows
                  ));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public override void OnLoadControllers()
         {
             var data = LBSController.CurrentLevel.data;

@@ -11,11 +11,23 @@ public class Horizontal2DProgresion : Progression2DEvaluator
         return "Progression: Horizontal 2D";
     }
 
+    /// <summary>
+    /// Returns the custom inspector GUI for this object.
+    /// </summary>
+    /// <returns>A <see cref="VisualElement"/> representing the custom inspector GUI.</returns>
     public override VisualElement CIGUI()
     {
         return base.CIGUI();
     }
 
+
+    /// <summary>
+    /// Evaluates the progression of a given object in a matrix represented by a <see cref="StampTileMapChromosome"/> object.
+    /// </summary>
+    /// <param name="stmc">The <see cref="StampTileMapChromosome"/> object representing the matrix.</param>
+    /// <param name="id">The identifier of the object being evaluated.</param>
+    /// <param name="height">The number of rows in the matrix.</param>
+    /// <returns>A value between <see cref="MinValue"/> and <see cref="MaxValue"/> </returns>
     public override float EvaluateProgression(StampTileMapChromosome stmc, int id, int height)
     {
         int[] ocurrences = new int[stmc.MatrixWidth];

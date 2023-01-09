@@ -82,6 +82,12 @@ namespace LBS.Graph
             y = 0;
         }
 
+        /// <summary>
+        /// Constructor of the LBSNodeData class, which creates a new node data with 
+        /// the given label and position and dimensions 1x1.
+        /// </summary>
+        /// <param name="label"> Label of the node. </param>
+        /// <param name="position"> Position if the node. </param>
         public LBSNodeData(string label, Vector2 position)
         {
             this.label = label;
@@ -93,6 +99,9 @@ namespace LBS.Graph
     }
 }
 
+/// <summary>
+/// Enum that represents the different types of proportion that can be used for a graph element.
+/// </summary>
 public enum ProportionType
 {
     SIZE,

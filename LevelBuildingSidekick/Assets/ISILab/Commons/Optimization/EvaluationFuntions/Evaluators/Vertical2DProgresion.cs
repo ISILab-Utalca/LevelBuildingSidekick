@@ -11,6 +11,13 @@ public class Vertical2DProgresion : Progression2DEvaluator
         return base.CIGUI();
     }
 
+    /// <summary>
+    /// Calculates the progression of a certain id in a <see cref="StampTileMapChromosome"/>.
+    /// </summary>
+    /// <param name="stmc">The <see cref="StampTileMapChromosome"/> to evaluate.</param>
+    /// <param name="id">The id to evaluate the progression of.</param>
+    /// <param name="height">The height of the <see cref="StampTileMapChromosome"/>.</param>
+    /// <returns>A float value representing the progression of the id in the <see cref="StampTileMapChromosome"/>.</returns>
     public override float EvaluateProgression(StampTileMapChromosome stmc, int id, int height)
     {
         float p = 0;
@@ -45,6 +52,10 @@ public class Vertical2DProgresion : Progression2DEvaluator
         return Mathf.Clamp(p, MinValue, MaxValue);
     }
 
+    /// <summary>
+    /// Gets the name of the evaluator.
+    /// </summary>
+    /// <returns> The name of the evaluator. </returns>
     public override string GetName()
     {
         return "Vertical 2D progresion fitness";

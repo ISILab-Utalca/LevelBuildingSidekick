@@ -12,6 +12,11 @@ using System.Threading;
 public class MapElites
 {
     private int xSampleCount;
+
+    /// <summary>
+    /// Gets or sets the number of samples in the X dimension.
+    /// </summary>
+    /// <value>The number of samples in the X dimension.</value>
     public int XSampleCount
     {
         get
@@ -29,6 +34,11 @@ public class MapElites
     }
 
     private int ySampleCount;
+
+    /// <summary>
+    /// Gets or sets the number of samples in the Y dimension.
+    /// </summary>
+    /// <value>The number of samples in the Y dimension.</value>
     public int YSampleCount
     {
         get
@@ -56,6 +66,11 @@ public class MapElites
 
     [SerializeField ,SerializeReference]
     IRangedEvaluator xEvaluator;
+
+    /// <summary>
+    /// Gets or sets the evaluator for the X dimension.
+    /// </summary>
+    /// <value>The evaluator for the X dimension.</value>
     public IRangedEvaluator XEvaluator
     {
         get
@@ -74,6 +89,11 @@ public class MapElites
 
     [SerializeReference]
     IRangedEvaluator yEvaluator;
+
+    /// <summary>
+    /// Gets or sets the evaluator for the Y dimension.
+    /// </summary>
+    /// <value>The evaluator for the Y dimension.</value>
     public IRangedEvaluator YEvaluator
     {
         get
@@ -94,6 +114,11 @@ public class MapElites
 
     [SerializeReference]
     IOptimizer optimizer;
+
+    /// <summary>
+    /// Gets or sets the optimizer to use.
+    /// </summary>
+    /// <value>The optimizer to use.</value>
     public IOptimizer Optimizer
     {
         get
@@ -115,6 +140,9 @@ public class MapElites
 
     public bool Running => thread != null && thread.IsAlive && thread.ThreadState == ThreadState.Running;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="MapElites"/> class.
+    /// </summary>
     public MapElites()
     {
         xEvaluator = new Vertical2DSimetry();
@@ -126,6 +154,11 @@ public class MapElites
         BestSamples = new IEvaluable[xSampleCount, ySampleCount];
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="MapElites"/> class with the specified evaluators.
+    /// </summary>
+    /// <param name="xEvaluator">The evaluator for the X dimension.</param>
+    /// <param name="yEvaluator">The evaluator for the Y dimension.</param>
     public MapElites(IRangedEvaluator xEvaluator, IRangedEvaluator yEvaluator)
     {
         this.xEvaluator = xEvaluator;
@@ -137,6 +170,12 @@ public class MapElites
         BestSamples = new IEvaluable[xSampleCount, ySampleCount];
     }
 
+    /// <summary>
+    /// Sets the "Adam" property of the "Optimizer" ,
+    /// Evaluates the fitness function of "Adam", invokes the "Clear" method, and subscribes
+    /// "OnGenerationRan" and "OnTerminationReached" events of the "Optimizer" property. 
+    /// Also creates a new thread with the "Start" method of the "Optimizer" property as its argument and starts the thread.
+    /// </summary>
     public void Run()
     {
         Optimizer.Adam = Adam;
@@ -171,6 +210,10 @@ public class MapElites
         thread.Start(); 
     }
 
+    /// <summary>
+    /// Updates the best samples in the map with the provided array of evaluables.
+    /// </summary>
+    /// <param name="samples">The array of evaluables to update the map with.</param>
     public void UpdateSamples(IEvaluable[] samples)
     {
         
@@ -203,6 +246,13 @@ public class MapElites
         }
     }
 
+    /// <summary>
+    /// Updates the sample at the specified coordinates with the provided evaluable.
+    /// </summary>
+    /// <param name="x">X index of element to update in the "BestSamples" array.</param>
+    /// <param name="y">Y index of element to update in the "BestSamples" array.</param>
+    /// <param name="evaluable">Evaluable object to update in the "BestSamples" array.</param>
+    /// <returns>Boolean value indicating if the update was successful or not.
     public bool UpdateSample(int x, int y, IEvaluable evaluable)
     {
         if (BestSamples[x,y] == null)
@@ -221,6 +271,11 @@ public class MapElites
         return false;
     }
 
+    /// <summary>
+    /// Maps the provided array of evaluables to a list of evaluables with x and y fitness values.
+    /// </summary>
+    /// <param name="samples">The array of evaluables to map.</param>
+    /// <returns>A list of evaluables with x and y fitness values.</returns>
     public List<MappedIEvaluable> MapSamples(IEvaluable[] samples)
     {
         List<MappedIEvaluable> evaluables = new List<MappedIEvaluable>();
@@ -233,18 +288,27 @@ public class MapElites
         return evaluables;
     }
 
+    /// <summary>
+    /// Calls the "Clear" method and raises the "OnSampleSizeChanged" event if it is not null.
+    /// </summary>
     private void OnSampleSizeChange()
     {
         Clear();
         OnSampleSizeChanged?.Invoke();
     }
 
+    /// <summary>
+    /// Calls the "Clear" method and raises the "OnEvaluatorChanged" event if it is not null.
+    /// </summary>
     private void OnEvaluatorChange()
     {
         Clear();
         OnEvaluatorChanged?.Invoke();
     }
 
+    /// <summary>
+    /// Calls the "Clear" method and raises the "OnOptimizerChanged" event if it is not null.
+    /// </summary>
     private void OnOptimizerChange()
     {
         Clear();
@@ -252,12 +316,19 @@ public class MapElites
         //Optimizer.OnGenerationRan += () => UpdateSamples(Optimizer.LastGeneration);
     }
 
+    /// <summary>
+    /// Sets "BestSamples" to a new two-dimensional array of "IEvaluable" objects with dimensions specified
+    /// by the "xSampleCount" and "ySampleCount" properties of the current class.
+    /// </summary>
     private void Clear()
     {
         BestSamples = new IEvaluable[xSampleCount, ySampleCount];
     }
 }
 
+/// <summary>
+/// Struct to store and represent an "IEvaluable" object along with its "xFitness" and "yFitness" values.
+/// </summary>
 public struct MappedIEvaluable
 {
     public float xFitness;

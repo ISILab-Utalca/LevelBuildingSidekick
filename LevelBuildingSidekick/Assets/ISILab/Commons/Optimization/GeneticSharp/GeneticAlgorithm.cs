@@ -218,6 +218,10 @@ public class GeneticAlgorithm : IGeneticAlgorithm , IShowable
 
     #endregion
 
+    /// <summary>
+    /// Gets the of name of instance.
+    /// </summary>
+    /// <returns> The name of instance </returns>
     public string GetName()
     {
         return "Genetic algorithm";
@@ -455,7 +459,9 @@ public class GeneticAlgorithm : IGeneticAlgorithm , IShowable
         OnStopped?.Invoke();
     }
 
-    //ESTO ESTA ASQUEROSISIMO, WAKALA (!!!!)
+    /// <summary>
+    /// Creates a GUI interface for configuring genetic algorithms.
+    /// </summary>
     public VisualElement CIGUI()
     {
         var content = new VisualElement();

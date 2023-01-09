@@ -19,6 +19,9 @@ public class StampProportionFitnessByRoom : IRangedEvaluator
 
     public float MinValue => min;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="StampProportionFitnessByRoom"/> class.
+    /// </summary>
     public StampProportionFitnessByRoom()
     {
         var t = Utility.DirectoryTools.GetScriptables<StampPresset>();
@@ -26,6 +29,10 @@ public class StampProportionFitnessByRoom : IRangedEvaluator
         stamp2 = t.Last();
     }
 
+    /// <summary>
+    /// Creates the GUI for the evaluator.
+    /// </summary>
+    /// <returns> A <see cref="VisualElement"/> containing the GUI. </returns>
     public VisualElement CIGUI()
     {
         var content = new VisualElement();
@@ -54,6 +61,11 @@ public class StampProportionFitnessByRoom : IRangedEvaluator
         return content;
     }
 
+    /// <summary>
+    /// Compare the presence of one stamp with another in each of the rooms.
+    /// </summary>
+    /// <param name="evaluable"></param>
+    /// <returns> A float value indicating the fitness of the chromosome. </returns>
     public float Evaluate(IEvaluable evaluable)
     {
         if (!(evaluable is StampTileMapChromosome))
@@ -121,6 +133,10 @@ public class StampProportionFitnessByRoom : IRangedEvaluator
         return fitness/rooms.Count;
     }
 
+    /// <summary>
+    /// Gets the name of the evaluator.
+    /// </summary>
+    /// <returns> The name of the evaluator. </returns>
     public string GetName()
     {
         return "Stamp proportion fitness by room";

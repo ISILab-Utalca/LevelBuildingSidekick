@@ -8,6 +8,13 @@ public class AverageHorizontalProgression : Progression2DEvaluator
 {
     int stride = 1;
 
+    /// <summary>
+    /// Calculates the progression of a given tile map chromosome.
+    /// </summary>
+    /// <param name="stmc">The tile map chromosome to evaluate.</param>
+    /// <param name="id">The ID of the tile to evaluate.</param>
+    /// <param name="height">The height of the tile map.</param>
+    /// <returns>A float representing the progression of the tile map.</returns>
     public override float EvaluateProgression(StampTileMapChromosome stmc, int id, int height)
     {
         int p = 0;
@@ -49,6 +56,10 @@ public class AverageHorizontalProgression : Progression2DEvaluator
         return p;
     }
 
+    /// <summary>
+    /// Creates a visual element for the current object.
+    /// </summary>
+    /// <returns>A visual element representing the current object.</returns>
     public override VisualElement CIGUI()
     {
         var content = new VisualElement();
@@ -73,6 +84,10 @@ public class AverageHorizontalProgression : Progression2DEvaluator
         return content;
     }
 
+    /// <summary>
+    /// Gets the name of the evaluator.
+    /// </summary>
+    /// <returns> The name of the evaluator.</returns>
     public override string GetName()
     {
         return "Average Horizontal Progression";
