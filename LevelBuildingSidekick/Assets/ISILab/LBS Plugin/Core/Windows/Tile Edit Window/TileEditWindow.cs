@@ -52,6 +52,10 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
         window.titleContent = new GUIContent("Tile Edit Window");
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="menu"></param>
     void IHasCustomMenu.AddItemsToMenu(GenericMenu menu)
     {
         GUIContent content = new GUIContent("Clear prefabs refenreces");
@@ -66,6 +70,9 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
         });
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public void CreateGUI()
     {
         VisualElement root = rootVisualElement;
@@ -77,14 +84,15 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
         this.dropdowns[0] = root.Q<DropdownField>("Right");
         this.dropdowns[1] = root.Q<DropdownField>("Bottom");
         this.dropdowns[2] = root.Q<DropdownField>("Left");
-        //this.weight = root.Q<Slider>("Weight");
-        //this.weight.style.display = DisplayStyle.None;
-        ShowDropdown(false);
-        
+        //Weight vars
+        this.weight = root.Q<Slider>("Weight");
+        this.weight.style.display = DisplayStyle.None;
+        ShowDropdown(true);
+
 
         this.screen = root.Q<RenderObjectView>();
         this.content = root.Q<VisualElement>("Content");
-        
+
         this.addButton = root.Q<Button>("AddButton");
         addButton.clicked += AddAction;
         this.distance = root.Q<Slider>("Distance");
@@ -105,10 +113,10 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
 
         ActualizeView();
 
-        if(pivot == null)
+        if (pivot == null)
             pivot = CreatePivot();
         pivot.Clear();
-        distance.RegisterValueChangedCallback((e)=> { pivot.SetDistanceCam(e.newValue); });
+        distance.RegisterValueChangedCallback((e) => { pivot.SetDistanceCam(e.newValue); });
         pivot.SetDistanceCam(distance.value);
         rotation.RegisterValueChangedCallback((e) => { pivot.SetRotateCam(e.newValue); });
         pivot.SetRotateCam(rotation.value);
@@ -118,13 +126,21 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
 
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
     public TileConnectWFC[,] SolveMap()
     {
         var samples = DirectoryTools.GetScriptables<TileConections>();
         var x = new TileConnectWFC[mapSize.value.x, mapSize.value.y];
-        return solverWFC.Solve(samples,x);
+        return solverWFC.Solve(samples, x);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="map"></param>
     public void GenerateMap(TileConnectWFC[,] map)
     {
         var pivot = new GameObject();
@@ -132,25 +148,29 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
         {
             for (int j = 0; j < map.GetLength(1); j++)
             {
-                if(map[i,j] == null)
+                if (map[i, j] == null)
                 {
                     continue;
                 }
 
                 var pref = map[i, j].Tile.Tile;
                 var go = SceneView.Instantiate(pref, pivot.transform);
-                go.transform.position = new Vector3(i,0,-j) * tileSize.value;
-                
+                go.transform.position = new Vector3(i, 0, -j) * tileSize.value;
+
                 var v = map[i, j].Rotation;
                 if (v % 2 != 0) // parche, no quitar (!!!)
                     v += 2;
 
                 for (int k = 0; k < v; k++)
-                    go.transform.Rotate(new Vector3(0, 1, 0),90);
+                    go.transform.Rotate(new Vector3(0, 1, 0), 90);
             }
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="map"></param>
     public void Print(TileConnectWFC[,] map)
     {
         string v = "";
@@ -177,7 +197,8 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
         {
             dd.style.display = v ? DisplayStyle.Flex : DisplayStyle.None;
         }
-        //weight.style.display = v ? DisplayStyle.Flex : DisplayStyle.None; // (!!!) descomentar para mostrar el slider de peso
+        //Weight display slider
+        weight.style.display = v ? DisplayStyle.Flex : DisplayStyle.None;
     }
 
 
@@ -223,14 +244,15 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
             });
             i++;
         }
-        // weight.value = data.weight;
-        //weight.RegisterValueChangedCallback((e) => {
-        //    TileEditWindow.selected.weight = weight.value;
-        //});
-        // weight.RegisterCallback<ChangeEvent<string>>( e => 
-        // {
-        //     TileEditWindow.selected.weight = weight.value;
-        // });
+        //Assign Weight from "EditWindow" to the var in script
+        weight.value = data.weight;
+        weight.RegisterValueChangedCallback((e) => {
+            TileEditWindow.selected.weight = weight.value;
+        });
+         weight.RegisterCallback<ChangeEvent<string>>( e => 
+         {
+             TileEditWindow.selected.weight = weight.value;
+         });
 
 
     }

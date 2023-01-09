@@ -1,6 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class TileConnectWFC
 {
@@ -207,11 +210,22 @@ public class WFCSolver
             }
         }
 
+        //Implement weight (???)
         var pos = toDef[Random.Range(0, toDef.Count())];
         var undefTile = undefMatrix[pos.x, pos.y];
-        undefMatrix[pos.x, pos.y] = new List<TileConnectWFC>() { undefTile[Random.Range(0, undefTile.Count())] };
+        undefMatrix[pos.x, pos.y] = new List<TileConnectWFC>() {FortuneWheel(undefTile)};
         return undefMatrix;
     }
+
+
+    private TileConnectWFC FortuneWheel(List<TileConnectWFC> list)
+    {
+
+        //list[0].Tile;
+        
+        return list[Random.Range(0, list.Count())];
+    } 
+
 
     private List<TileConnectWFC> GetCompatibles(List<TileConnectWFC> odds, List<TileConnectWFC>[] neighbors)
     {
