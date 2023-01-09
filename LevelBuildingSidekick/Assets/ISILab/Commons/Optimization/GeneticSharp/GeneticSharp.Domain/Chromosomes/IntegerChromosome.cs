@@ -89,6 +89,10 @@ namespace GeneticSharp.Domain.Chromosomes
             ReplaceGene(realIndex, !value);
         }
 
+        /// <summary>
+        /// Converts an object to a texture.
+        /// </summary>
+        /// <returns>A <see cref="Texture2D"/> representing the object.</returns>
         public override Texture2D ToTexture()
         {
             return null;

@@ -18,17 +18,29 @@ public class StampPresenceEvaluator : IRangedEvaluator
 
     public StampPresset stamp;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="StampPresenceEvaluator"/> class
+    /// </summary>
     public StampPresenceEvaluator()
     {
         var t = Utility.DirectoryTools.GetScriptables<StampPresset>();
         stamp = t.First();
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="StampPresenceEvaluator"/> with the specified <see cref="StampPresset"/>
+    /// </summary>
+    /// <param name="stamp"></param>
     public StampPresenceEvaluator(StampPresset stamp)
     {
         this.stamp = stamp;
     }
 
+    /// <summary>
+    /// Evaluates the presence of the specified <see cref="StampPresset"/> in <see cref="IEvaluable"/>
+    /// </summary>
+    /// <param name="evaluable"></param>
+    /// <returns> A value between <see cref="MinValue"/> and <see cref="MaxValue"/> </returns>
     public float Evaluate(IEvaluable evaluable)
     {
         float presence = 0;
@@ -60,11 +72,19 @@ public class StampPresenceEvaluator : IRangedEvaluator
         return Mathf.Clamp(presence,MinValue,MaxValue);
     }
 
+    /// <summary>
+    /// Gets the name of the evaluator.
+    /// </summary>
+    /// <returns> The name of the evaluator </returns>
     public string GetName()
     {
         return "Stamp Presence";
     }
 
+    /// <summary>
+    /// Creates the GUI for the evaluator.
+    /// </summary>
+    /// <returns> A <see cref="VisualElement"/> containing the GUI </returns>
     public VisualElement CIGUI()
     {
         var content = new VisualElement();

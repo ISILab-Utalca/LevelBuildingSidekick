@@ -38,10 +38,20 @@ namespace LBS.Graph
 
         private float cellSize;
 
+        /// <summary>
+        /// Default constructor of LBSNodeView.
+        /// </summary>
         public LBSNodeView(): base() 
         {
         }
 
+        /// <summary>
+        /// Constructor for the LBSNodeView class, which creates a visual
+        /// representation of a node data and set the parent graph of the node view. 
+        /// </summary>
+        /// <param name="node"> Node data represented by the node view. </param>
+        /// <param name="root"> Parent root graph view. </param>
+        /// <param name="cellSize"> Size of the cell in which the node is represented, in pixels. </param>
         public LBSNodeView(LBSNodeData node, LBSGraphView root, float cellSize = 1) : base(root)
         {
             Data = node;
@@ -64,6 +74,9 @@ namespace LBS.Graph
              
         }
 
+        /// <summary>
+        /// Loads the visual tree and styles for this node view.
+        /// </summary>
         public override void LoadVisual()
         {
             if (!styleSheet)
@@ -79,11 +92,19 @@ namespace LBS.Graph
             visualTree.CloneTree(this);
         }
 
+        /// <summary>
+        /// Delete the graph element.
+        /// </summary>
         public void Delete()
         {
             this.OnDelete();
         }
 
+        /// <summary>
+        /// Handles a mouse down event. If the right mouse button is pressed, 
+        /// invokes the OnStartDragEdge event.
+        /// </summary>
+        /// <param name="evt"> MouseDownEvent to handle.</param>
         private void OnMouseDown(MouseDownEvent evt)
         {
             if (evt.button == 1)
@@ -92,6 +113,11 @@ namespace LBS.Graph
             }
         }
 
+        /// <summary>
+        /// Handles a mouse up event. If the right mouse button is released, 
+        /// invokes the OnEndDragEdge event.
+        /// </summary>
+        /// <param name="evt"> MouseUpEvent to handle. </param>
         private void OnMouseUp(MouseUpEvent evt)
         {
             if (evt.button == 1)
@@ -100,6 +126,10 @@ namespace LBS.Graph
             }
         }
 
+        /// <summary>
+        /// Sets the data element of this graph as the active object in the
+        /// selection.
+        /// </summary>
         public override void OnSelected()
         {
             base.OnSelected();
@@ -108,6 +138,10 @@ namespace LBS.Graph
             Selection.SetActiveObjectWithContext(il, il);
         }
 
+        /// <summary>
+        /// Set a new position by parameter.
+        /// </summary>
+        /// <param name="newPos"> New position given.</param>
         public override void SetPosition(Rect newPos)
         {
             base.SetPosition(newPos);

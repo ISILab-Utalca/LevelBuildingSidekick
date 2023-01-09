@@ -24,7 +24,7 @@ public abstract class LBSGraphView : GraphView
     /// Removes the visual elements delivered by parameters
     /// that this view contains.
     /// </summary>
-    /// <param name="elements"></param>
+    /// <param name="elements"> elements to remove.</param>
     public new void DeleteElements(IEnumerable<GraphElement> elements)
     {
         var elms = elements.Where(e => e is LBSGraphElement).Select(e=> e as LBSGraphElement).ToList();
@@ -32,6 +32,12 @@ public abstract class LBSGraphView : GraphView
         base.DeleteElements(elements);
     }
 
+    /// <summary>
+    /// Get the controller from controllerRefs.
+    /// </summary>
+    /// <typeparam name="T">Type of the controller.</typeparam>
+    /// <returns> The controller of the especifies type, or the default if no such 
+    /// controller exists. </returns>
     public T GetController<T>() where T : IRepController
     {
         foreach(var controller in controllersRefs)
