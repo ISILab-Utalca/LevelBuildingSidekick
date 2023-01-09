@@ -7,7 +7,7 @@ namespace LBS.Windows
 {
     public class LBSEnviroment : GenericLBSWindow
     {
-        //[MenuItem("ISILab/LBS plugin/Enviroment step.../enviroment (nombre temporal)(la de los colorinches y luces)")]
+        [MenuItem("ISILab/LBS plugin/Enviroment step.../enviroment (nombre temporal)(la de los colorinches y luces)")]
         public static void OpenWindow()
         {
             var wnd = GetWindow<LBSEnviroment>();

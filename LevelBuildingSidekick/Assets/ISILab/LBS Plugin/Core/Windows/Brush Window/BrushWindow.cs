@@ -15,7 +15,7 @@ namespace LBS.Windows
         public static StampPresset SelectedStamp;
 
 
-        //[MenuItem("ISILab/LBS plugin/Brush window", priority = 1)]
+        [MenuItem("ISILab/LBS plugin/Brush window", priority = 1)]
         public static void ShowWindow()
         {
             var window = GetWindow<BrushWindow>();
