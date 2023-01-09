@@ -44,7 +44,7 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
 
     private static RenderObjectPivot pivot;
 
-    //[MenuItem("ISILab/LBS plugin/Tile edit window", priority = 1)]
+    [MenuItem("ISILab/LBS plugin/Tile edit window", priority = 1)]
     [MenuItem("ISILab/Tile edit window (WFC)", priority = 1)]
     public static void ShowWindow()
     {
