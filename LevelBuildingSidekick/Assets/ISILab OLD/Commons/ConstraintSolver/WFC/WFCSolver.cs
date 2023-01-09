@@ -218,12 +218,30 @@ public class WFCSolver
     }
 
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="list"></param>
+    /// <returns></returns>
     private TileConnectWFC FortuneWheel(List<TileConnectWFC> list)
     {
-
-        //list[0].Tile;
         
-        return list[Random.Range(0, list.Count())];
+        float sumWeight = 0;
+        
+        for (int i = 0; i < list.Count(); i++){ sumWeight += list[i].Tile.weight; }
+
+        var r = Random.Range(0, (int)sumWeight);
+        var pivot = 0;
+
+        for (int i = 0; i < list.Count(); i++)
+        {
+            if (r >= pivot && r <= pivot + list[i].Tile.weight)
+            {
+                return list[i];
+            }
+            pivot += (int)list[i].Tile.weight;
+        }
+        return null;
     } 
 
 

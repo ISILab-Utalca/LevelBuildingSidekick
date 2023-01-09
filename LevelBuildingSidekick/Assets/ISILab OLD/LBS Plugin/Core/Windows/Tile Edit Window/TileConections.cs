@@ -10,7 +10,7 @@ public class TileConections : ScriptableObject
     [SerializeField,HideInInspector]
     private string[] connection = new string[4] { "", "", "", "" };
     [SerializeField, HideInInspector]
-    public float weight = 50; // (?) de 0 a 100 o 0 a 1 ?
+    public float weight = 50; // de 0 a 100
 
     public GameObject Tile => tile;
     public string[] Connections => connection;
