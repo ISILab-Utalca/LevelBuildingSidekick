@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Assets/ISILab/LBS%20Plugin/Core/RotateUSS.uss?fileID=7433441132597879392&amp;guid=8401a2b571e39e64298679e177d3b4e0&amp;type=3#RotateUSS" />
+    <ui:VisualElement name="Icon" style="flex-grow: 1; background-image: none; width: 100%; height: 100%; flex-direction: column-reverse;">
+        <ui:Label tabindex="-1" text="Label" display-tooltip-when-elided="true" name="Fitness" picking-mode="Ignore" style="bottom: auto; top: 0; flex-direction: column; right: auto; justify-content: flex-end; align-items: flex-start; -unity-font-style: bold; color: rgb(224, 224, 224); flex-shrink: 1; flex-grow: 1; flex-wrap: nowrap; transform-origin: left bottom; -unity-text-align: lower-left;" />
+    </ui:VisualElement>
+</ui:UXML>
