@@ -11,8 +11,16 @@ using Utility;
 
 namespace LBS.Generator
 {
+    public enum PivotType // (!!!) PyshicStep esto tiene que estar en otro lado
+    {
+        Center,
+        Edge
+    }
+
     public class PhysicStepGenerator : Generator
     {
+        
+
         private static List<Vector2Int> dirs = new List<Vector2Int>() { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right };
 
         private LBSSchemaData schema;
