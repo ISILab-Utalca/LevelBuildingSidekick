@@ -44,7 +44,8 @@ public class LBSQuestGraphController : LBSGraphController
 
     public LBSQuestGraphController(LBSGraphView view, LBSGraphData data) : base(view, data)
     {
-        GrammarTree = GrammarReader.ReadGrammar(Application.dataPath + "/Grammar/Grammar.xml");
+        GrammarTree = GrammarReader.ReadGrammar(Application.dataPath + "/ISI Lab/LBS/Examples/Grammar/Grammar.xml");
+        //GrammarTree = GrammarReader.ReadGrammar(Application.dataPath + "/Grammar/Grammar.xml");
         openNodes = new List<QuestGraphNode>();
         OpenNode(CurrentQuest);
     }
