@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace LBS.Settings
 {
-    public static class LBSSettingProvider
+    public static class LBSSettingProvider // (!!) reimplementar
     {
         [SettingsProvider]
         public static SettingsProvider CreateTileTagProvider()

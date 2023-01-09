@@ -10,11 +10,9 @@ namespace LBS.Generator
         public abstract GameObject Generate();
 
         public abstract void Init(LevelData levelData);
+
+        //public abstract void Init(Layer layer); // (!!) implementar
     }
 
-    public enum PivotType //PyshicStep
-    {
-        Center,
-        Edge
-    }
+    
 }
