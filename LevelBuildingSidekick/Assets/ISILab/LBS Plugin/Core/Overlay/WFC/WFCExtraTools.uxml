@@ -1,6 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <ui:VisualElement>
         <ui:Button tabindex="-1" text="Fill with empty tiles" display-tooltip-when-elided="true" name="FillButton" focusable="true" />
+        <ui:Button tabindex="-1" text="Select to colapse" display-tooltip-when-elided="true" name="SelectToColapseButton" focusable="true" />
         <ui:Button tabindex="-1" text="Colapse" display-tooltip-when-elided="true" name="ColapseButton" focusable="true" />
         <ui:Button tabindex="-1" text="----" display-tooltip-when-elided="true" focusable="true" style="color: rgba(238, 238, 238, 0.25); background-color: rgba(88, 88, 88, 0.25);" />
         <ui:Button tabindex="-1" text="----" display-tooltip-when-elided="true" focusable="true" style="color: rgba(238, 238, 238, 0.25); background-color: rgba(88, 88, 88, 0.25);" />

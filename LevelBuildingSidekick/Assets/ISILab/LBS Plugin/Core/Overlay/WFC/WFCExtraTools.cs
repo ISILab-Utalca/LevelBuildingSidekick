@@ -13,7 +13,8 @@ public class WFCExtraTools : Overlay
     private const string ID = "WFCExtraToolsOverlay";
 
     private Button fillButton;
-    // private Button 
+    private Button SelectToColapseButton;
+    private Button ColapseButton;
 
     public override VisualElement CreatePanelContent()
     {
@@ -31,7 +32,17 @@ public class WFCExtraTools : Overlay
             Fill(data);
         };
 
+        SelectToColapseButton = root.Q<Button>("SelectToColapseButton");
+        SelectToColapseButton.clicked += () =>
+        {
+            //var manipulator = new 
+        };
 
+        ColapseButton = root.Q<Button>("ColapseButton");
+        ColapseButton.clicked += () =>
+        {
+
+        };
 
         return root;
     }

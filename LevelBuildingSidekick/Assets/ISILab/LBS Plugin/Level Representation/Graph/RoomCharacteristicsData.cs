@@ -66,6 +66,7 @@ namespace LBS.Schema
         [System.Serializable]
         public struct IntRange
         {
+            //[Range(1,16)]
             [SerializeField,JsonRequired]
             public int min;
             [SerializeField, JsonRequired]
@@ -95,5 +96,27 @@ namespace LBS.Schema
                 this.heigth = heigth;
             }
         }
+
+
+        // test
+        [AttributeUsage(AttributeTargets.Field, Inherited = true, AllowMultiple = false)]
+        public class MinMaxAttribute : PropertyAttribute
+        {
+            public int min, max;
+
+            public MinMaxAttribute(int min, int max)
+            {
+                this.min = min;
+                this.max = max;
+            }
+        }
+
+
+        [CustomPropertyDrawer(typeof(MinMaxAttribute))]
+        public sealed class MinMaxDrawer : PropertyDrawer
+        {
+           // var rangeAttribute = (RangeExAttribute)base.attribute;
+        }
+
     }
 }
