@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using LBS.Components;
 
 namespace LBS
 {
@@ -25,7 +26,10 @@ namespace LBS
         private float wallThickness = .1f; // (!) esto no deveria ir aqui sino
 
         [SerializeField, JsonRequired, SerializeReference]
-        private List<LBSRepresentationData> representations = new List<LBSRepresentationData>();
+        private List<LBSRepresentationData> representations = new List<LBSRepresentationData>(); //eliminar (!!!)
+
+        [SerializeField, JsonRequired, SerializeReference]
+        private List<LBSLayer> layers = new List<LBSLayer>();
 
         #endregion
 
