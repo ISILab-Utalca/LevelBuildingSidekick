@@ -32,7 +32,7 @@ namespace LBS.Manipulators
 
         private void OnMouseDown(MouseDownEvent e)
         {
-            var pos = e.localMousePosition;
+            var pos = controller.ViewportMousePosition(e.localMousePosition);
 
             var graph = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
 

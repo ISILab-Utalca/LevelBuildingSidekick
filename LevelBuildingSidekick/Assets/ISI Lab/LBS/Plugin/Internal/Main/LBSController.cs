@@ -161,7 +161,7 @@ namespace LBS
             var data = new LevelData();
             var loaded = new LoadedLevel(data, null);
             data.Size = size;
-            data.AddRepresentation(new LBSGraphData());
+            //data.AddRepresentation(new LBSGraphData());
             CurrentLevel = loaded;
             return data;
         }
