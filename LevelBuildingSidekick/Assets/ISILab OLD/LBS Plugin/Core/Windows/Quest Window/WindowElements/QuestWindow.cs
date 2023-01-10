@@ -9,6 +9,7 @@ using UnityEditor.Experimental.GraphView;
 using LBS.Windows;
 using LBS;
 using LBS.Graph;
+using LBS.VisualElements;
 
 public class QuestWindow : GenericLBSWindow, INameable
 {

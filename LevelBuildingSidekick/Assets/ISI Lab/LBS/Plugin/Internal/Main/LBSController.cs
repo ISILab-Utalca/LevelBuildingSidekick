@@ -54,48 +54,44 @@ namespace LBS
             }
         }
 
-        internal static void LoadFile(string path)
+        public static void LoadFile(string path)
         {
             var fileInfo = new System.IO.FileInfo(path);
             var data = Utility.JSONDataManager.LoadData<LevelData>(path);
             CurrentLevel = new LoadedLevel(data, fileInfo.FullName);
         }
 
-        internal static void LoadFile()
+        public static LoadedLevel LoadFile()
         {
             var answer = EditorUtility.DisplayDialogComplex(
                    "The current file has not been saved",
                    "if you open a file the progress in the current document will be lost, are you sure to continue?",
-                   "save", // ok
-                   "discard", // cancel
-                   "cancel"); // alt
+                   "save",
+                   "discard",
+                   "cancel");
             string path;
             FileInfo fileInfo;
             LevelData data;
             switch (answer)
             {
-                case 0: // ok
+                case 0: // Save
                     SaveFile();
                     path = EditorUtility.OpenFilePanel("Load level data", "", "json");
                     fileInfo = new System.IO.FileInfo(path);
                     data = Utility.JSONDataManager.LoadData<LevelData>(path);
                     CurrentLevel = new LoadedLevel(data, fileInfo.FullName);
-                    break;
-                case 1: // cancel
+                    return CurrentLevel;
+
+                case 1: // Discard
                     path = EditorUtility.OpenFilePanel("Load level data", "", "json");
                     if (path == "")
-                        return;
+                        return null;
                     fileInfo = new System.IO.FileInfo(path);
                     data = Utility.JSONDataManager.LoadData<LevelData>(path);
                     CurrentLevel = new LoadedLevel(data, fileInfo.FullName);
-                    break;
-                case 2: // alt
-                    // do nothing
-                    break;
-                default:
-                    // do nothing
-                    break;
+                    return CurrentLevel;
             }
+            return null;
         }
 
         public static bool FileExists(string name, string extension, out FileInfo toReturn)
@@ -110,7 +106,7 @@ namespace LBS
             return fileInfo != null;
         }
 
-        internal static void SaveFile()
+        public static void SaveFile()
         {
             var fileInfo = CurrentLevel.FileInfo;
             if (fileInfo == null)
@@ -127,7 +123,7 @@ namespace LBS
             }
         }
 
-        internal static void SaveFileAs()
+        public static void SaveFileAs()
         {
             var path = "";
             if (CurrentLevel.FileInfo != null)
@@ -156,14 +152,14 @@ namespace LBS
             }
         }
 
-        public static LevelData CreateNewLevel(string levelName, Vector3 size)
+        public static LoadedLevel CreateNewLevel(string levelName, Vector3 size)
         {
             var data = new LevelData();
             var loaded = new LoadedLevel(data, null);
             data.Size = size;
             data.AddRepresentation(new LBSGraphData());
             CurrentLevel = loaded;
-            return data;
+            return CurrentLevel;
         }
 
         public static void ShowLevelInspector()

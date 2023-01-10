@@ -10,6 +10,7 @@ using UnityEditor.Experimental.GraphView;
 using LBS.ElementView;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
+using LBS.VisualElements;
 
 namespace LBS.Representation.TileMap
 {

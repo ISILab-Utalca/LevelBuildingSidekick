@@ -6,6 +6,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Utility;
+using LBS.VisualElements;
 
 // esto deberia llamarse population o algo asi
 public class LBSStampController : LBSRepController<LBSStampGroupData>

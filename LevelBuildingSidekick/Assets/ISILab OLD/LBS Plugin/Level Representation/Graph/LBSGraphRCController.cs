@@ -13,6 +13,7 @@ using LBS.Graph;
 using LBS.Schema;
 using LBS.Transformers;
 using LBS.ElementView;
+using LBS.VisualElements;
 
 namespace LBS.Graph
 {

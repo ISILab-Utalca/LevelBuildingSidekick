@@ -8,6 +8,7 @@ using UnityEngine.UIElements;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using System;
+using LBS.VisualElements;
 
 // public class LBSPopulationController : LBSRepController<LBStile>, ITileMap
 public class LBSStampTileMapController : LBSStampController, ITileMap, IChromosomable

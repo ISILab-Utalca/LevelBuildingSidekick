@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
+using LBS.VisualElements;
 
 public abstract class LBSRepController<T> : IRepController where T : LBSRepresentationData // representation controler // : Controller
 {

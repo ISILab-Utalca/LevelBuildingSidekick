@@ -5,7 +5,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace LBS.ElementView
+namespace LBS.VisualElements
 {
     public class MainView : LBSGraphView
     {
