@@ -128,7 +128,19 @@ namespace LBS.Overlays
                 }
                 btnGroup.Add(removeDoor);
 
+                var dragTiles = new PresedBtn();
+                {
+                    dragTiles.clicked += () =>
+                    {
+                        var wnd = EditorWindow.GetWindow<LBSSchemaWindow>();
+                        var c =wnd.GetController<LBSTileMapController>();
+                        wnd.MainView.SetManipulator(new CreateTileDragingManipulatorSchema(wnd, c, cTemp));
+                    };
+                    dragTiles.text = "Drag tiles mode";
+                }
+                btnGroup.Add(dragTiles);
             }
+            
             btnGroup.Init();
             root.Add(btnGroup);
 
