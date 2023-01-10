@@ -15,7 +15,7 @@ using MouseButton = UnityEngine.UIElements.MouseButton;
 
 namespace LBS.Manipulators
 {
-    public class CreateTileDragingManipulator : MouseManipulator
+    public class AddTileWithBrushManipulator : MouseManipulator
     {
         IRepController controller;
         LBSTileMapData data;
@@ -23,7 +23,7 @@ namespace LBS.Manipulators
         // Events
         public event Action OnEndAction;
 
-        public CreateTileDragingManipulator(LBSTileMapData data, IRepController controller)
+        public AddTileWithBrushManipulator(LBSTileMapData data, IRepController controller)
         {
             this.controller = controller;
             this.data = data;
@@ -56,19 +56,17 @@ namespace LBS.Manipulators
         }
     }
 
-    public class CreateTileDragingManipulatorSchema : MouseManipulator
+    public class AddTileWithBrushManipulatorSchema : MouseManipulator
     {
         private LBSTileMapController controller;
         private GenericLBSWindow window;
         private RoomData cRoom;
         private bool activeDragging = false;
 
-        //pos1 -> first tile clicked
-        //pos2 -> last tile hovered
         private Vector2 pos1 = new Vector2();
         private Vector2 pos2 = new Vector2();
 
-        public CreateTileDragingManipulatorSchema(GenericLBSWindow window, LBSTileMapController controller, RoomData cRoom)
+        public AddTileWithBrushManipulatorSchema(GenericLBSWindow window, LBSTileMapController controller, RoomData cRoom)
         {
             activators.Add(new ManipulatorActivationFilter { button = MouseButton.LeftMouse });
             this.controller = controller;
@@ -92,47 +90,33 @@ namespace LBS.Manipulators
 
         private void OnMouseDown(MouseDownEvent e)
         {
-            pos1 = controller.ViewportMousePosition(e.localMousePosition);
-            Debug.LogWarning(pos1);
             activeDragging = true;
         }
 
         private void OnMouseUp(MouseUpEvent e)
         {
-            pos2 = controller.ViewportMousePosition(e.localMousePosition);
             activeDragging = false;
         }
 
-        //Draging draw
-        //for()
-        //{
-        //  for()
-        //  {
-        //      going through the first tile with "OnMouseDown" to where it is dropped with "OnMouseUp"
-        //  }
-        //}
+
+        //Dragging draw brush
         private void OnMouseMove(MouseMoveEvent e)
         {
+            Debug.LogWarning("Dragging");
+
             if (cRoom == null)
             {
                 Debug.LogWarning("No room selected");
                 return;
             }
 
+            var pos = controller.ViewportMousePosition(e.localMousePosition);
+            var tPos = controller.ToTileCoords(pos);
+            var schema = LBSController.CurrentLevel.data.GetRepresentation<LBSSchemaData>();
             if (activeDragging)
             {
-                var tPos1 = controller.ToTileCoords(pos1);
-                var tPos2 = controller.ToTileCoords(pos2);
-                var schema = LBSController.CurrentLevel.data.GetRepresentation<LBSSchemaData>();
-
-                for (int i = tPos1.y; i <= tPos2.y; i++)
-                {
-                    for (int j = tPos1.x; j <= tPos2.x; j++)
-                    {
-                        var tile = new TileData(new Vector2Int(j, i), 0, new string[4]); // (!) esto solo esta para 4 conectados 
-                        schema.AddTile(tile, cRoom.ID);
-                    }
-                }
+                var tile = new TileData(tPos, 0, new string[4]); // (!) esto solo esta para 4 conectados 
+                schema.AddTile(tile, cRoom.ID);
                 window.RefreshView();
             }
         }

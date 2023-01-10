@@ -19,7 +19,7 @@ namespace LBS.Overlays
 
         // mejorable (!)
         public RoomData cTemp = null; 
-        public Box box;
+        public Box box, dragBox, brushBox;
         public int index = 0;
 
         public override VisualElement CreatePanelContent()
@@ -67,6 +67,7 @@ namespace LBS.Overlays
                 b.style.minHeight = 10;
                 btnGroup.Add(b);
 
+                ////Remove tile Mode
                 var removeTile = new PresedBtn();
                 {
                     removeTile.clicked += () =>
@@ -79,6 +80,7 @@ namespace LBS.Overlays
                 }
                 btnGroup.Add(removeTile);
 
+                //Add tile Mode
                 var addTile = new PresedBtn();
                 {
                     addTile.style.flexDirection = FlexDirection.Row;
@@ -103,7 +105,7 @@ namespace LBS.Overlays
                 }
                 btnGroup.Add(addTile);
 
-
+                //Add door Mode
                 var addDoor = new PresedBtn();
                 {
                     addDoor.clicked += () =>
@@ -116,6 +118,7 @@ namespace LBS.Overlays
                 }
                 btnGroup.Add(addDoor);
 
+                //Remove door Mode
                 var removeDoor = new PresedBtn();
                 {
                     removeDoor.clicked += () =>
@@ -128,22 +131,59 @@ namespace LBS.Overlays
                 }
                 btnGroup.Add(removeDoor);
 
+                //Drag tile Mode
                 var dragTiles = new PresedBtn();
                 {
+                    dragTiles.style.flexDirection = FlexDirection.Row;
+                    dragTiles.style.alignItems = Align.Center;
+                    dragBox = new Box();
+                    dragBox.style.minHeight = dragBox.style.minWidth = dragBox.style.maxHeight = 10;
+                    dragTiles.Add(dragBox);
                     dragTiles.clicked += () =>
                     {
                         var wnd = EditorWindow.GetWindow<LBSSchemaWindow>();
-                        var c =wnd.GetController<LBSTileMapController>();
+                        var c = wnd.GetController<LBSTileMapController>();
+                        var d = c.GetData() as LBSSchemaData;
+                        if (d.GetRooms() == null || d.GetRooms().Count <= 0)
+                            return;
+
+                        cTemp = d.GetRooms()[index];
+                        dragBox.style.backgroundColor = cTemp.Color;
+                        index = (index + 1) % d.GetRooms().Count;
                         wnd.MainView.SetManipulator(new CreateTileDragingManipulatorSchema(wnd, c, cTemp));
                     };
-                    dragTiles.text = "Drag tiles mode";
+                    dragTiles.text = "Add drag mode";
                 }
                 btnGroup.Add(dragTiles);
+                
+                //Brush tile mode
+                var brushTiles = new PresedBtn();
+                {
+                    brushTiles.style.flexDirection = FlexDirection.Row;
+                    brushTiles.style.alignItems = Align.Center;
+                    brushBox = new Box();
+                    brushBox.style.minHeight = brushBox.style.minWidth = brushBox.style.maxHeight = 10;
+                    brushTiles.Add(brushBox);
+                    brushTiles.clicked += () =>
+                    {
+                        var wnd = EditorWindow.GetWindow<LBSSchemaWindow>();
+                        var c = wnd.GetController<LBSTileMapController>();
+                        var d = c.GetData() as LBSSchemaData;
+                        if (d.GetRooms() == null || d.GetRooms().Count <= 0)
+                            return;
+
+                        cTemp = d.GetRooms()[index];
+                        dragBox.style.backgroundColor = cTemp.Color;
+                        index = (index + 1) % d.GetRooms().Count;
+                        wnd.MainView.SetManipulator(new CreateTileDragingManipulatorSchema(wnd, c, cTemp));
+                    };
+                    brushTiles.text = "Add brush mode";
+                }
+                btnGroup.Add(brushTiles);
             }
             
             btnGroup.Init();
             root.Add(btnGroup);
-
 
             return root; 
         }
