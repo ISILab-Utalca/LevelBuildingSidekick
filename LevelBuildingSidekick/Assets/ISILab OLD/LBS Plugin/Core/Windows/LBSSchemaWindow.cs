@@ -62,6 +62,7 @@ namespace LBS.Windows
             var data = LBSController.CurrentLevel.data; // peligroso buscar otra forma (!)
             var tileData = data.GetRepresentation<LBSSchemaData>();
             var c = new LBSTileMapController(MainView, tileData);
+            CurrentController = GetControllerByType<LBSTileMapController>();
             AddController(c);
         }
     }
