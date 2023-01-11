@@ -62,18 +62,20 @@ namespace LBS.Manipulators
         private GenericLBSWindow window;
         private RoomData cRoom;
         private bool activeDragging = false;
+        private bool dragSelector = false;
 
         //pos1 -> first tile clicked
         //pos2 -> last tile hovered
         private Vector2 pos1 = new Vector2();
         private Vector2 pos2 = new Vector2();
 
-        public CreateTileDragingManipulatorSchema(GenericLBSWindow window, LBSTileMapController controller, RoomData cRoom)
+        public CreateTileDragingManipulatorSchema(GenericLBSWindow window, LBSTileMapController controller, RoomData cRoom, bool dragSelector)
         {
             activators.Add(new ManipulatorActivationFilter { button = MouseButton.LeftMouse });
             this.controller = controller;
             this.window = window;
             this.cRoom = cRoom;
+            this.dragSelector = dragSelector;
         }
 
         protected override void RegisterCallbacksOnTarget()
@@ -121,20 +123,31 @@ namespace LBS.Manipulators
 
             if (activeDragging)
             {
-                var tPos1 = controller.ToTileCoords(pos1);
-                var tPos2 = controller.ToTileCoords(pos2);
-                var schema = LBSController.CurrentLevel.data.GetRepresentation<LBSSchemaData>();
-
-                for (int i = tPos1.y; i <= tPos2.y; i++)
+                //Draging draw system
+                if (dragSelector)
                 {
-                    for (int j = tPos1.x; j <= tPos2.x; j++)
+                    var tPos1 = controller.ToTileCoords(pos1);
+                    var tPos2 = controller.ToTileCoords(pos2);
+                    var schema = LBSController.CurrentLevel.data.GetRepresentation<LBSSchemaData>();
+
+                    for (int i = tPos1.y; i <= tPos2.y; i++)
                     {
-                        var tile = new TileData(new Vector2Int(j, i), 0, new string[4]); // (!) esto solo esta para 4 conectados 
-                        schema.AddTile(tile, cRoom.ID);
+                        for (int j = tPos1.x; j <= tPos2.x; j++)
+                        {
+                            var tile = new TileData(new Vector2Int(j, i), 0, new string[4]); // (!) esto solo esta para 4 conectados 
+                            schema.AddTile(tile, cRoom.ID);
+                        }
                     }
+                    window.RefreshView();
                 }
-                window.RefreshView();
+                //Draging delete system
+                else
+                {
+
+                }
             }
         }
     }
+
+
 }

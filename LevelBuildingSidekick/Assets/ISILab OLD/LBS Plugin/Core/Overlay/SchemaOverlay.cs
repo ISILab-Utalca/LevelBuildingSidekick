@@ -18,7 +18,8 @@ namespace LBS.Overlays
         private const string ID = "SchemaOverlayTools";
 
         // mejorable (!)
-        public RoomData cTemp = null; 
+        public RoomData cTemp = null;
+        public bool dragSelector = false;
         public Box box, dragBox, brushBox;
         public int index = 0;
 
@@ -141,6 +142,7 @@ namespace LBS.Overlays
                     dragTiles.Add(dragBox);
                     dragTiles.clicked += () =>
                     {
+                        if (!dragSelector) { dragSelector = true;}
                         var wnd = EditorWindow.GetWindow<LBSSchemaWindow>();
                         var c = wnd.GetController<LBSTileMapController>();
                         var d = c.GetData() as LBSSchemaData;
@@ -150,12 +152,33 @@ namespace LBS.Overlays
                         cTemp = d.GetRooms()[index];
                         dragBox.style.backgroundColor = cTemp.Color;
                         index = (index + 1) % d.GetRooms().Count;
-                        wnd.MainView.SetManipulator(new CreateTileDragingManipulatorSchema(wnd, c, cTemp));
+                        wnd.MainView.SetManipulator(new CreateTileDragingManipulatorSchema(wnd, c, cTemp, dragSelector));
                     };
                     dragTiles.text = "Add drag mode";
                 }
                 btnGroup.Add(dragTiles);
-                
+
+                //Drag delete mode
+                var dragDeleteTiles = new PresedBtn();
+                {
+                    dragDeleteTiles.style.flexDirection = FlexDirection.Row;
+                    dragDeleteTiles.style.alignItems = Align.Center;
+                    dragDeleteTiles.clicked += () =>
+                    {
+                        if (dragSelector) { dragSelector = false;}
+                        var wnd = EditorWindow.GetWindow<LBSSchemaWindow>();
+                        var c = wnd.GetController<LBSTileMapController>();
+                        var d = c.GetData() as LBSSchemaData;
+                        if (d.GetRooms() == null || d.GetRooms().Count <= 0)
+                            return;
+                        cTemp = d.GetRooms()[index];
+                        index = (index + 1) % d.GetRooms().Count;
+                        wnd.MainView.SetManipulator(new CreateTileDragingManipulatorSchema(wnd, c, cTemp, dragSelector));
+                    };
+                    dragDeleteTiles.text = "Delete drag mode";
+                }
+                btnGroup.Add(dragDeleteTiles);
+
                 //Brush tile mode
                 var brushTiles = new PresedBtn();
                 {
