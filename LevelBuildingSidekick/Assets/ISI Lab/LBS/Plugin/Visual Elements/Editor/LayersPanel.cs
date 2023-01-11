@@ -6,6 +6,8 @@ using UnityEngine.UIElements;
 
 public class LayersPanel : VisualElement
 {
+    public List<string> names = new List<string>() { "pedro", "jose", "juan" };
+
     public LayersPanel()
     {
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LayersPanel"); // Editor
@@ -13,21 +15,25 @@ public class LayersPanel : VisualElement
 
         // LayerList
         var list = this.Q<ListView>("LayerList");
-        Func<VisualElement> makeItem = () => new Label();
-        Action<VisualElement, int> bindItem = (l, i) => (l as Label).text = i.ToString();
-        //Func<VisualElement> makeItem = () => new LayerView();
-        //Action<VisualElement, int> bindItem = (l, n) => (l as LayerView).SetName(n.ToString());
-        list.fixedItemHeight = 16;
+
+        Func<VisualElement> makeItem = () =>
+        {
+            return new LayerView();
+        };
+
+        list.bindItem += (item, index) =>
+        {
+            (item as LayerView).SetName(names[index]);
+        };
+
+        list.fixedItemHeight = 18;
+
+        list.itemsSource = names;
+
         list.makeItem += makeItem;
-        list.bindItem += bindItem;
-        //list.unbindItem += ;
-        //list.itemsAdded += ;
-        //list.itemsRemoved += ;
-        //list.itemsSource += ;
+
         list.onItemsChosen += OnItemChosen;
         list.onSelectionChange += OnSelectionChange; 
-
-        
     }
 
     public void OnSelectionChange(IEnumerable<object> objs)
