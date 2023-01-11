@@ -45,7 +45,7 @@ namespace LBS.Representation
         /// </summary>
         /// <param name="view"></param>
         /// <param name="cmpe"></param>
-        public override void OnContextualBuid(MainView view, ContextualMenuPopulateEvent cmpe)
+        public override void OnContextualBuid(MainViewOld view, ContextualMenuPopulateEvent cmpe)
         {
            // throw new System.NotImplementedException();
         }
@@ -55,7 +55,7 @@ namespace LBS.Representation
         /// crear una visualización de los tiles, por cada tile
         /// </summary>
         /// <param name="view"> Vista actual </param>
-        public override void PopulateView(MainView view)
+        public override void PopulateView(MainViewOld view)
         {
             this.view = view;
             view.DeleteElements(elements);
