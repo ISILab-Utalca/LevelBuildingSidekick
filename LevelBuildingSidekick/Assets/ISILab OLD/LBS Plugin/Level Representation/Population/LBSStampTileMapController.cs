@@ -31,7 +31,7 @@ public class LBSStampTileMapController : LBSStampController, ITileMap, IChromoso
     public float TileSize { get { return UnitSize / Subdivision; } }
 
 
-    public override void OnContextualBuid(MainView view, ContextualMenuPopulateEvent cmpe)
+    public override void OnContextualBuid(MainViewOld view, ContextualMenuPopulateEvent cmpe)
     {
         base.OnContextualBuid(view, cmpe);
     }
@@ -41,7 +41,7 @@ public class LBSStampTileMapController : LBSStampController, ITileMap, IChromoso
         //data.RemoveStamp();
     }
 
-    public override void PopulateView(MainView view)
+    public override void PopulateView(MainViewOld view)
     {
         var stamps = data.GetStamps();
         foreach (var stamp in stamps)
