@@ -27,7 +27,7 @@ public abstract class LBSRepController<T> : IRepController where T : LBSRepresen
         this.view = view;
     }
 
-    public void SetContextualMenu(MainView view)
+    public void SetContextualMenu(MainViewOld view)
     {
         view.OnBuild += (cmpe) => OnContextualBuid(view,cmpe);
     }
@@ -38,13 +38,13 @@ public abstract class LBSRepController<T> : IRepController where T : LBSRepresen
     /// </summary>
     /// <param name="view"></param>
     /// <param name="cmpe"></param>
-    public abstract void OnContextualBuid( MainView view, ContextualMenuPopulateEvent cmpe);
+    public abstract void OnContextualBuid( MainViewOld view, ContextualMenuPopulateEvent cmpe);
 
     /// <summary>
     /// Populates view delivered by parameters with the data information.
     /// </summary>
     /// <param name="view"></param>
-    public abstract void PopulateView(MainView view);
+    public abstract void PopulateView(MainViewOld view);
 
     public abstract string GetName();
 
@@ -78,9 +78,9 @@ public abstract class LBSRepController<T> : IRepController where T : LBSRepresen
 
 public interface IRepController
 {
-    public void PopulateView(MainView view);
-    public void SetContextualMenu(MainView view);
-    public void OnContextualBuid(MainView view, ContextualMenuPopulateEvent cmpe);
+    public void PopulateView(MainViewOld view);
+    public void SetContextualMenu(MainViewOld view);
+    public void OnContextualBuid(MainViewOld view, ContextualMenuPopulateEvent cmpe);
     public object GetData();
     public void ShowView(bool v);
     public string GetName();
