@@ -20,7 +20,7 @@ namespace LBS.Overlays
         // mejorable (!)
         public RoomData cTemp = null;
         public bool dragSelector = false;
-        public Box box, dragBox, brushBox;
+        public Box box, dragBox, brushBox, diagonalBox;
         public int index = 0;
 
         public override VisualElement CreatePanelContent()
@@ -142,7 +142,6 @@ namespace LBS.Overlays
                     dragTiles.Add(dragBox);
                     dragTiles.clicked += () =>
                     {
-                        if (!dragSelector) { dragSelector = true;}
                         var wnd = EditorWindow.GetWindow<LBSSchemaWindow>();
                         var c = wnd.GetController<LBSTileMapController>();
                         var d = c.GetData() as LBSSchemaData;
@@ -152,7 +151,7 @@ namespace LBS.Overlays
                         cTemp = d.GetRooms()[index];
                         dragBox.style.backgroundColor = cTemp.Color;
                         index = (index + 1) % d.GetRooms().Count;
-                        wnd.MainView.SetManipulator(new CreateTileDragingManipulatorSchema(wnd, c, cTemp, dragSelector));
+                        wnd.MainView.SetManipulator(new CreateTileDragingManipulatorSchema(wnd, c, cTemp));
                     };
                     dragTiles.text = "Add drag mode";
                 }
@@ -161,19 +160,11 @@ namespace LBS.Overlays
                 //Drag delete mode
                 var dragDeleteTiles = new PresedBtn();
                 {
-                    dragDeleteTiles.style.flexDirection = FlexDirection.Row;
-                    dragDeleteTiles.style.alignItems = Align.Center;
                     dragDeleteTiles.clicked += () =>
                     {
-                        if (dragSelector) { dragSelector = false;}
                         var wnd = EditorWindow.GetWindow<LBSSchemaWindow>();
                         var c = wnd.GetController<LBSTileMapController>();
-                        var d = c.GetData() as LBSSchemaData;
-                        if (d.GetRooms() == null || d.GetRooms().Count <= 0)
-                            return;
-                        cTemp = d.GetRooms()[index];
-                        index = (index + 1) % d.GetRooms().Count;
-                        wnd.MainView.SetManipulator(new CreateTileDragingManipulatorSchema(wnd, c, cTemp, dragSelector));
+                        wnd.MainView.SetManipulator(new DeleteTileGridingManipulator_Scheme(wnd, c));
                     };
                     dragDeleteTiles.text = "Delete drag mode";
                 }
@@ -196,13 +187,38 @@ namespace LBS.Overlays
                             return;
 
                         cTemp = d.GetRooms()[index];
-                        dragBox.style.backgroundColor = cTemp.Color;
+                        brushBox.style.backgroundColor = cTemp.Color;
                         index = (index + 1) % d.GetRooms().Count;
                         wnd.MainView.SetManipulator(new CreateTileDragingManipulatorSchema(wnd, c, cTemp));
                     };
                     brushTiles.text = "Add brush mode";
                 }
                 btnGroup.Add(brushTiles);
+
+                //Diagonal tile mode
+                var diagonalTiles = new PresedBtn();
+                {
+                    brushTiles.style.flexDirection = FlexDirection.Row;
+                    brushTiles.style.alignItems = Align.Center;
+                    diagonalBox = new Box();
+                    diagonalBox.style.minHeight = diagonalBox.style.minWidth = diagonalBox.style.maxHeight = 10;
+                    brushTiles.Add(diagonalBox);
+                    brushTiles.clicked += () =>
+                    {
+                        var wnd = EditorWindow.GetWindow<LBSSchemaWindow>();
+                        var c = wnd.GetController<LBSTileMapController>();
+                        var d = c.GetData() as LBSSchemaData;
+                        if (d.GetRooms() == null || d.GetRooms().Count <= 0)
+                            return;
+
+                        cTemp = d.GetRooms()[index];
+                        diagonalBox.style.backgroundColor = cTemp.Color;
+                        index = (index + 1) % d.GetRooms().Count;
+                        wnd.MainView.SetManipulator(new CreateTileDragingManipulatorSchema(wnd, c, cTemp));
+                    };
+                    brushTiles.text = "Add diagonal mode";
+                }
+                btnGroup.Add(diagonalTiles);
             }
             
             btnGroup.Init();

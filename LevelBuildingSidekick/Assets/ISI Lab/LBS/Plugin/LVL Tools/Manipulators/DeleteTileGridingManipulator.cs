@@ -1,22 +1,17 @@
+using LBS.ElementView;
+using LBS.Representation.TileMap;
 using LBS.Windows;
-using LBS.Schema;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
-using LBS.Representation.TileMap;
-using LBS.Representation;
-using System;
-using LBS.ElementView;
-using static UnityEngine.ParticleSystem;
-using static UnityEditor.PlayerSettings;
-using Unity.VisualScripting;
 using MouseButton = UnityEngine.UIElements.MouseButton;
-using Unity.IO.LowLevel.Unsafe;
 
 namespace LBS.Manipulators
 {
-    public class CreateTileDragingManipulator : MouseManipulator
+    public class DeleteTileGridingManipulator : MouseManipulator
     {
         IRepController controller;
         LBSTileMapData data;
@@ -24,7 +19,7 @@ namespace LBS.Manipulators
         // Events
         public event Action OnEndAction;
 
-        public CreateTileDragingManipulator(LBSTileMapData data, IRepController controller)
+        public DeleteTileGridingManipulator(LBSTileMapData data, IRepController controller)
         {
             this.controller = controller;
             this.data = data;
@@ -42,13 +37,22 @@ namespace LBS.Manipulators
 
         private void OnMouseDown(MouseDownEvent e)
         {
-            var pos = controller.ViewportMousePosition(e.localMousePosition);
-            var tPos = ToTileCoords(pos, 100); // (!) pasar mejor los paramtros no enduro
-            data.AddTile(new TileData(tPos, 0, new string[4] { "", "", "", "" }));
-            OnEndAction?.Invoke();
+            var t = e.target as LBSGraphElement;
+            if (t == null)
+                return;
+
+            var tile = e.target as TileView;
+            if (tile != null)
+            {
+                var pos = controller.ViewportMousePosition(e.localMousePosition);
+                Vector2Int tpos = ToTileCoords(pos, 100);
+                data.RemoveTile(tpos);
+                OnEndAction?.Invoke();
+                return;
+            }
         }
 
-        public Vector2Int ToTileCoords(Vector2 pos, float size)
+        public Vector2Int ToTileCoords(Vector2 pos, float size) // (!) esto esta duplicado en otro manipulator, podria heredarse
         {
             int x = (pos.x > 0) ? (int)(pos.x / size) : (int)(pos.x / size) - 1;
             int y = (pos.y > 0) ? (int)(pos.y / size) : (int)(pos.y / size) - 1;
@@ -57,11 +61,11 @@ namespace LBS.Manipulators
         }
     }
 
-    public class CreateTileDragingManipulatorSchema : MouseManipulator
+    public class DeleteTileGridingManipulator_Scheme : MouseManipulator
     {
         private LBSTileMapController controller;
         private GenericLBSWindow window;
-        private RoomData cRoom;
+
         private bool activeDragging = false;
 
         //pos1 -> first tile clicked
@@ -69,14 +73,12 @@ namespace LBS.Manipulators
         private Vector2 pos1 = new Vector2();
         private Vector2 pos2 = new Vector2();
 
-        public CreateTileDragingManipulatorSchema(GenericLBSWindow window, LBSTileMapController controller, RoomData cRoom)
+        public DeleteTileGridingManipulator_Scheme(GenericLBSWindow window, LBSTileMapController controller)
         {
             activators.Add(new ManipulatorActivationFilter { button = MouseButton.LeftMouse });
             this.controller = controller;
             this.window = window;
-            this.cRoom = cRoom;
         }
-
         protected override void RegisterCallbacksOnTarget()
         {
             target.RegisterCallback<MouseDownEvent>(OnMouseDown);
@@ -103,39 +105,34 @@ namespace LBS.Manipulators
             activeDragging = false;
         }
 
-        //Draging draw
-        //for()
-        //{
-        //  for()
-        //  {
-        //      going through the first tile with "OnMouseDown" to where it is dropped with "OnMouseUp"
-        //  }
-        //}
         private void OnMouseMove(MouseMoveEvent e)
         {
-            if (cRoom == null)
-            {
-                Debug.LogWarning("No room selected");
-                return;
-            }
-
             if (!activeDragging) return;
 
             var tPos1 = controller.ToTileCoords(pos1);
             var tPos2 = controller.ToTileCoords(pos2);
             var schema = LBSController.CurrentLevel.data.GetRepresentation<LBSSchemaData>();
-                    
+
             for (int i = tPos1.y; i <= tPos2.y; i++)
             {
                 for (int j = tPos1.x; j <= tPos2.x; j++)
                 {
-                    var tile = new TileData(new Vector2Int(j, i), 0, new string[4]); // (!) esto solo esta para 4 conectados
-                    schema.AddTile(tile, cRoom.ID);
-                    window.RefreshView();
+                    var t = e.target as LBSGraphElement;
+                    if (t == null)
+                        return;
+                    var tile = e.target as LBSTileView;
+                    if (tile.GetPosition().y == tPos1.y && tile.GetPosition().x == tPos1.x && tile != null)
+                    {
+                        controller.RemoveTile(tile.Data);
+                        window.RefreshView();
+                        return;
+                    }
                 }
             }
+
+            
+
+            
         }
     }
-
-
 }
