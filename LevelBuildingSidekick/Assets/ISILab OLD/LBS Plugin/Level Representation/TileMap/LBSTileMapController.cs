@@ -64,7 +64,7 @@ namespace LBS.Representation.TileMap
             return null;
         }
 
-        public override void OnContextualBuid( MainView view, ContextualMenuPopulateEvent cmpe)
+        public override void OnContextualBuid( MainViewOld view, ContextualMenuPopulateEvent cmpe)
         {
             cmpe.menu.AppendAction("TileMap/Optimizar", (dma) => {
                 view.DeleteElements(elements);
@@ -73,7 +73,7 @@ namespace LBS.Representation.TileMap
             });
         }
 
-        public override void PopulateView(MainView view)
+        public override void PopulateView(MainViewOld view)
         {
             var rooms = data.GetRooms();
             var doors = data.GetDoors();
