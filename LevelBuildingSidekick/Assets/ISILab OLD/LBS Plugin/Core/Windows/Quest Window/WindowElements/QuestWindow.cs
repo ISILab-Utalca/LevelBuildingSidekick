@@ -32,7 +32,7 @@ public class QuestWindow : GenericLBSWindow, INameable
         visualTree.CloneTree(root);
 
         actionsContent = root.Q<VisualElement>(name: "Content");
-        mainView = root.Q<MainView>(name: "QuestGraph");
+        mainView = root.Q<MainViewOld>(name: "QuestGraph");
         openNodes = root.Q<VisualElement>(name: "OpenNodes");
 
         var grammarTree = GetController<LBSQuestGraphController>().GrammarTree;
