@@ -25,7 +25,7 @@ namespace LBS.Windows
         public IRepController CurrentController { get; protected set; }
 
         protected VisualElement root;
-        protected MainView mainView;
+        protected MainViewOld mainView;
         protected FloatingPanel panel;
         protected Type nextWindow, prevWindow;
 
@@ -33,7 +33,7 @@ namespace LBS.Windows
 
         private bool _createGui = false; //parche
 
-        public MainView MainView => mainView;
+        public MainViewOld MainView => mainView;
 
         //public abstract void OnCreateGUI();
 
@@ -75,7 +75,7 @@ namespace LBS.Windows
         {
             root = rootVisualElement;
             this.ImportUXML("GenericGraphWindowUXML");
-            mainView = rootVisualElement.Q<MainView>();
+            mainView = rootVisualElement.Q<MainViewOld>();
             InitToolBar();
 
             RefreshView();
