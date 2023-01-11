@@ -8,6 +8,7 @@ using UnityEngine.UIElements;
 
 public class LBSMainWindow : EditorWindow
 {
+    public ToolKit currentToolKit;
 
     [MenuItem("ISILab/LBS plugin/Main window", priority = 0)]
     public static void ShowWindow()
