@@ -10,9 +10,9 @@ namespace LBS.Manipulators
     public abstract class LBSMouseManipulator : MouseManipulator
     {
         private IRepController controller;
-        private MainView view;
+        private MainViewOld view;
 
-        public LBSMouseManipulator(MainView view, IRepController controller)
+        public LBSMouseManipulator(MainViewOld view, IRepController controller)
         {
             this.controller = controller;
             this.view = view;
