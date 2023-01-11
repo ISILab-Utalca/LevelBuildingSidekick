@@ -45,7 +45,7 @@ namespace LBS.Graph
         /// </summary>
         /// <param name="view">The main view in which the node will be added.</param>
         /// <param name="cmpe">The contextual menu populate event that is triggering this method.</param>
-        public override void OnContextualBuid(MainView view, ContextualMenuPopulateEvent cmpe)
+        public override void OnContextualBuid(MainViewOld view, ContextualMenuPopulateEvent cmpe)
         {
             var pos = (cmpe.localMousePosition - new Vector2(view.transform.position.x, view.transform.position.y)) / view.scale;
 
@@ -69,7 +69,7 @@ namespace LBS.Graph
         /// Deletes any existing elements in the provided MainView.
         /// </summary>
         /// <param name="view">The MainView to populate</param>
-        public override void PopulateView(MainView view)
+        public override void PopulateView(MainViewOld view)
         {
             this.view = view;
             view.DeleteElements(elements);
