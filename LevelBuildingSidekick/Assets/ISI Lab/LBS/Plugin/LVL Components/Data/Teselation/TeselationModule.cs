@@ -4,9 +4,10 @@ using UnityEngine;
 
 namespace LBS.Components.Teselation
 {
+    [System.Serializable]
     public abstract class TeselationModule : LBSModule
     {
-        Vector2 CellSize;
+        public static Vector2 CellSize;
 
         public Vector2 SnapPosition(Vector2 position)
         {
