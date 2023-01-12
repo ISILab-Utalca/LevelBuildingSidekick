@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using LBS.Tools;
 
 namespace LBS.Components
 {
@@ -15,6 +16,9 @@ namespace LBS.Components
 
         [SerializeField, JsonRequired, SerializeReference]
         List<LBSModule> modules;
+
+        [SerializeField, JsonRequired, SerializeReference]
+        List<Transformer> transformers;
 
         [SerializeField, JsonRequired, SerializeReference]
         bool visible;
@@ -149,7 +153,38 @@ namespace LBS.Components
             modules[index].IsVisible = true;
         }
 
+        public bool AddTransformer(Transformer transformer)
+        {
+            if (transformers.Contains(transformer))
+            {
+                return false;
+            }
 
+            transformers.Add(transformer);
+            transformer.OnAdd();
+            return true;
+        }
+
+        public bool RemoveTransformer(Transformer transformer)
+        {
+            if(transformers.Contains(transformer))
+            {
+                transformer.OnRemove();
+            }
+            return transformers.Remove(transformer);
+        }
+
+        public Transformer RemoveTransformerAt(int index)
+        {
+            if(!transformers.ContainsIndex(index))
+            {
+                return null;
+            }
+            var transf = transformers[index];
+            transf.OnRemove();
+            transformers.RemoveAt(index);
+            return transf;
+        }
     }
 }
 
