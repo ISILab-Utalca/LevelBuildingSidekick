@@ -121,7 +121,7 @@ namespace LBS.Generator
             return toR;
         }
 
-        public override void Init(LevelData levelData)
+        public override void Init(LevelDataOld levelData)
         {
             this.wfc = levelData.GetRepresentation<MapData>();
             this.size = levelData.TileSize;

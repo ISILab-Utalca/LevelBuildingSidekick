@@ -51,7 +51,7 @@ namespace LBS
     public class LoadedLevel
     {
         public string fullName = "";
-        public LevelData data;
+        public LevelDataOld data;
 
         public FileInfo FileInfo
         {
@@ -69,7 +69,7 @@ namespace LBS
             }
         }
 
-        public LoadedLevel(LevelData data, string fullName)
+        public LoadedLevel(LevelDataOld data, string fullName)
         {
             this.fullName = fullName;
             this.data = data;

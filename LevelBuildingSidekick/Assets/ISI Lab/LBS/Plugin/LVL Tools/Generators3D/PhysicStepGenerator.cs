@@ -122,7 +122,7 @@ namespace LBS.Generator
             return null;
         }   
 
-        public override void Init(LevelData levelData)
+        public override void Init(LevelDataOld levelData)
         {
             this.schema = levelData.GetRepresentation<LBSSchemaData>();
             this.graph = levelData.GetRepresentation<LBSGraphData>();

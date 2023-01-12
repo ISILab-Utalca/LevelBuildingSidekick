@@ -36,7 +36,7 @@ namespace LBS.Generator
             return mainPivot;
         }
 
-        public override void Init(LevelData levelData)
+        public override void Init(LevelDataOld levelData)
         {
             this.population = levelData.GetRepresentation<LBSStampGroupData>();
             tileSize = levelData.TileSize;

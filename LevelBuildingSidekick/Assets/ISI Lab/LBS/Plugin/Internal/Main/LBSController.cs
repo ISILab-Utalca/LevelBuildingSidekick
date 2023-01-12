@@ -24,7 +24,7 @@ namespace LBS
     public static class LBSController 
     {
         #region InspectorDrawer
-        private class LevelScriptable : GenericScriptable<LevelData> { };
+        private class LevelScriptable : GenericScriptable<LevelDataOld> { };
         [CustomEditor(typeof(LevelScriptable)),CanEditMultipleObjects]
         private class LevelScriptableEditor : GenericScriptableEditor { };
         #endregion
@@ -41,7 +41,7 @@ namespace LBS
 
                 if (instance.level == null)
                 {
-                    instance.level =  new LoadedLevel(new LevelData(), "");
+                    instance.level =  new LoadedLevel(new LevelDataOld(), "");
                 }
 
                 return instance.level;
@@ -57,7 +57,7 @@ namespace LBS
         public static void LoadFile(string path)
         {
             var fileInfo = new System.IO.FileInfo(path);
-            var data = Utility.JSONDataManager.LoadData<LevelData>(fileInfo.DirectoryName,fileInfo.Name);
+            var data = Utility.JSONDataManager.LoadData<LevelDataOld>(fileInfo.DirectoryName,fileInfo.Name);
             CurrentLevel = new LoadedLevel(data, fileInfo.FullName);
         }
 
@@ -71,14 +71,14 @@ namespace LBS
                    "cancel");
             string path;
             FileInfo fileInfo;
-            LevelData data;
+            LevelDataOld data;
             switch (answer)
             {
                 case 0: // Save
                     SaveFile();
                     path = EditorUtility.OpenFilePanel("Load level data", "", "lbs");
                     fileInfo = new System.IO.FileInfo(path);
-                    data = Utility.JSONDataManager.LoadData<LevelData>(fileInfo.DirectoryName, fileInfo.Name);
+                    data = Utility.JSONDataManager.LoadData<LevelDataOld>(fileInfo.DirectoryName, fileInfo.Name);
                     CurrentLevel = new LoadedLevel(data, fileInfo.FullName);
                     return CurrentLevel;
 
@@ -87,7 +87,7 @@ namespace LBS
                     if (path == "")
                         return null;
                     fileInfo = new System.IO.FileInfo(path);
-                    data = Utility.JSONDataManager.LoadData<LevelData>(fileInfo.DirectoryName, fileInfo.Name);
+                    data = Utility.JSONDataManager.LoadData<LevelDataOld>(fileInfo.DirectoryName, fileInfo.Name);
                     CurrentLevel = new LoadedLevel(data, fileInfo.FullName);
                     return CurrentLevel;
             }
@@ -155,7 +155,7 @@ namespace LBS
 
         public static LoadedLevel CreateNewLevel(string levelName, Vector3 size)
         {
-            var data = new LevelData();
+            var data = new LevelDataOld();
             var loaded = new LoadedLevel(data, null);
             data.Size = size;
             data.AddRepresentation(new LBSGraphData());
