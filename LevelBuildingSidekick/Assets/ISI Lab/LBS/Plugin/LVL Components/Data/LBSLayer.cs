@@ -1,20 +1,56 @@
+using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using LBS.Tools;
 
 namespace LBS.Components
 {
+    [System.Serializable]
     public class LBSLayer
     {
+        //FIELDS
+
+        [SerializeField, JsonRequired, SerializeReference]
+        string id;
+
+        [SerializeField, JsonRequired, SerializeReference]
         List<LBSModule> modules;
 
+        [SerializeField, JsonRequired, SerializeReference]
+        List<Transformer> transformers;
+
+        [SerializeField, JsonRequired, SerializeReference]
         bool visible;
+
+        //PROPERTIES
         public bool IsVisible
         {
             get => visible;
             set => visible = value;
         }
+        public string ID
+        {
+            get => id;
+            set => id = value;
+        }
 
+        //CONSTRUCTORS
+        public LBSLayer()
+        {
+            modules = new List<LBSModule>();
+            IsVisible = true;
+            ID = GetType().Name;
+        }
+
+        public LBSLayer(List<LBSModule> modules, string ID, bool visible)
+        {
+            this.modules = modules;
+            this.ID = ID;
+            IsVisible = visible;
+        }
+
+        //MEHTODS
         public bool AddModule(LBSModule module)
         {
             if(modules.Contains(module))
@@ -22,6 +58,20 @@ namespace LBS.Components
                 return false;
             }
             modules.Add(module);
+            return true;
+        }
+
+        public bool InsertModule(int index, LBSModule module)
+        {
+            if (modules.Contains(module))
+            {
+                return false;
+            }
+            if (!(modules.ContainsIndex(index) || index == modules.Count))
+            {
+                return false;
+            }
+            modules.Insert(index, module);
             return true;
         }
 
@@ -41,27 +91,45 @@ namespace LBS.Components
             return mod;
         }
 
+        public bool MoveModule(int index, LBSModule module)
+        {
+            if (!modules.Contains(module))
+            {
+                return false;
+            }
+            if(!modules.ContainsIndex(index))
+            {
+                return false;
+            }
+            modules.Remove(module);
+            modules.Insert(index, module);
+            return true;
+        }
+
         public LBSModule GetModule(int index)
         {
             return modules[index];
         }
 
-        public T GetModule<T>() where T : LBSModule
+        public T GetModule<T>(string ID = "") where T : LBSModule
         {
-            foreach(var mod in modules)
+            foreach (var mod in modules)
             {
                 if (mod is T)
-                    return mod as T;
+                {
+                    if(ID.Equals("") || mod.ID.Equals(ID))
+                        return mod as T;
+                }
             }
             return null;
         }
 
-        public List<T> GetModules<T>() where T : LBSModule
+        public List<T> GetModules<T>(string ID = "") where T : LBSModule
         {
             List<T> mods = new List<T>();
             foreach (var mod in modules)
             {
-                if (mod is T)
+                if (ID.Equals("") || mod.ID.Equals(ID))
                     mods.Add(mod as T);
             }
             return mods;
@@ -85,7 +153,38 @@ namespace LBS.Components
             modules[index].IsVisible = true;
         }
 
+        public bool AddTransformer(Transformer transformer)
+        {
+            if (transformers.Contains(transformer))
+            {
+                return false;
+            }
 
+            transformers.Add(transformer);
+            transformer.OnAdd();
+            return true;
+        }
+
+        public bool RemoveTransformer(Transformer transformer)
+        {
+            if(transformers.Contains(transformer))
+            {
+                transformer.OnRemove();
+            }
+            return transformers.Remove(transformer);
+        }
+
+        public Transformer RemoveTransformerAt(int index)
+        {
+            if(!transformers.ContainsIndex(index))
+            {
+                return null;
+            }
+            var transf = transformers[index];
+            transf.OnRemove();
+            transformers.RemoveAt(index);
+            return transf;
+        }
     }
 }
 
