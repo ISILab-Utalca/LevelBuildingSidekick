@@ -14,18 +14,8 @@ public class LBSLevelData
     [SerializeField, JsonRequired]
     private List<string> tags = new List<string>();
 
-    [SerializeField, JsonRequired, SerializeReference]
-    private List<ItemCategory> levelObjects = new List<ItemCategory>();
-
     [SerializeField, JsonRequired]
     private int x, y, z;
-    [SerializeField, JsonRequired]
-    private float tileSize = 2f;
-    [SerializeField, JsonRequired]
-    private float wallThickness = .1f; // (!) esto no deveria ir aqui sino
-
-    [SerializeField, JsonRequired, SerializeReference]
-    private List<LBSRepresentationData> representations = new List<LBSRepresentationData>(); //eliminar (!!!)
 
     [SerializeField, JsonRequired, SerializeReference]
     private List<LBSLayer> layers = new List<LBSLayer>();
