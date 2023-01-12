@@ -8,9 +8,9 @@ using UnityEngine.UIElements;
 
 public class LBSMainWindow : EditorWindow
 {
-    public ToolKit currentToolKit;
-
     private VisualElement _extra;
+
+    private VisualElement toolPanel;
 
     [MenuItem("ISILab/LBS plugin/Main window", priority = 0)]
     public static void ShowWindow()
@@ -32,7 +32,7 @@ public class LBSMainWindow : EditorWindow
         var mainView = rootVisualElement.Q<MainView>("MainView");
 
         // ToolPanel
-        var toolPanel = rootVisualElement.Q<VisualElement>("ToolPanel");
+        toolPanel = rootVisualElement.Q<VisualElement>("ToolPanel");
 
         // InspectorContent
         var inspector = rootVisualElement.Q<VisualElement>("InspectorContent");
