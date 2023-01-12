@@ -15,7 +15,7 @@ public class LBSLevelData
     private List<string> tags = new List<string>();
 
     [SerializeField, JsonRequired]
-    private int x, y, z;
+    private int maxWidth, maxHeight;
 
     [SerializeField, JsonRequired, SerializeReference]
     private List<LBSLayer> layers = new List<LBSLayer>();
@@ -25,101 +25,60 @@ public class LBSLevelData
     #region PROPERTIES
 
     [JsonIgnore]
-    public Vector3 Size
+    public Vector2Int MaxSize
     {
-        get => new Vector3(x, y, z);
+        get => new Vector2Int(maxWidth, maxHeight);
         set
         {
-            x = (int)value.x;
-            y = (int)value.y;
-            z = (int)value.z;
+            maxWidth = (int)value.x;
+            maxHeight = (int)value.y;
         }
     }
-
-    [JsonIgnore]
-    public float TileSize => tileSize;
-    [JsonIgnore]
-    public float WallThickness => wallThickness;
 
     #endregion
 
     #region METHODS
 
-    [Obsolete("Esta funcion no se esta ocupanbdo actualemente pero se puede volver a usar a futuro")]
-    public List<GameObject> RequestLevelObjects(string category)
+    public void RemoveNullLayers() // (!) parche, no deberia poder añadirse nulls
     {
-        if (levelObjects.Find((i) => i.category == category) == null)
+        var r = new List<LBSLayer>();
+        foreach (var layer in layers)
         {
-            levelObjects.Add(new ItemCategory(category));
+            if (layer != null)
+                r.Add(layer);
         }
-        return levelObjects.Find((i) => i.category == category).items;
-
+        layers = r;
     }
-
-    public void RemoveNullRepresentation() // (!) parche, no deberia poder añadirse nulls
-    {
-        var r = new List<LBSRepresentationData>();
-        foreach (var rep in representations)
-        {
-            if (rep != null)
-                r.Add(rep);
-        }
-        representations = r;
-    }
-
 
     /// <summary>
     /// Add a new representation, if a representation of
     /// the type delivered already exists, it overwrites it.
     /// </summary>
-    /// <param name="rep"></param>
-    public void AddRepresentation(LBSRepresentationData rep)
+    /// <param name="layer"></param>
+    public void AddLayer(LBSLayer layer)
     {
-        if (rep == null)
-        {
+        if (layer == null || layers.Contains(layer))
             return;
-        }
-        //RemoveNullRepresentation();
-        // puede que necesitemos guardar reps del mismo tipo por lo que hay que revisar esta funcion denuevi (!!)
-        var currentRep = representations.Find(r => r?.GetType() == rep.GetType());
-        if (currentRep != null)
-        {
-            representations.Remove(currentRep);
-        }
-        representations.Add(rep);
+
+        layers.Add(layer);
     }
 
     /// <summary>
-    /// gets a level representation of the type indicated,
-    /// if representation of the type is not found, creates it and return.
+    /// Retrieves a representation from the list of layers by its ID
+    /// and returns it. If the representation is not found or an exception
+    /// is thrown, returns null.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <returns></returns>
-    public T GetRepresentation<T>() where T : LBSRepresentationData
+    /// <param name="id">The ID of the representation to retrieve</param>
+    /// <returns>The representation with the specified ID or null</returns>
+    public LBSLayer GetRepresentation(string id)
     {
-        var rep = (T)representations.Find(r => (r is T));
+        try
+        {
+            return layers.Find( l => l.ID == id);
+        }
+        catch (Exception e) { }
 
-        if (rep != null)
-            return rep;
-
-        rep = Activator.CreateInstance(typeof(T)) as T;
-        representations.Add(rep);
-
-        return rep;
-    }
-
-    public T GetRepresentation<T>(string label) where T : LBSRepresentationData
-    {
-        var rep = (T)representations.Find(r => (r is T && r.Label == label));
-
-        if (rep != null)
-            return rep;
-
-        rep = Activator.CreateInstance(typeof(T), new object[] { label }) as T;
-        rep.Label = label;
-        representations.Add(rep);
-
-        return rep;
+        return null;
     }
 
     #endregion
