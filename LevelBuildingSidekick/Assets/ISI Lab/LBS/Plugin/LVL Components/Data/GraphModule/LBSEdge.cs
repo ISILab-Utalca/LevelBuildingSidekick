@@ -15,10 +15,10 @@ namespace LBS.Components.Graph
         //public LBSNodeData firstNode;
         //[JsonIgnore]
         //public LBSNodeData secondNode;
-
-        [SerializeField, JsonRequired]
+        
+        [SerializeField, JsonRequired, SerializeReference]
         private LBSNode firstNode;
-        [SerializeField, JsonRequired]
+        [SerializeField, JsonRequired, SerializeReference]
         private LBSNode secondNode;
 
         [HideInInspector, JsonIgnore]
