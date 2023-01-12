@@ -7,10 +7,10 @@ using System.Linq;
 
 namespace LBS.Components.Graph
 {
-    public class GraphModule : LBSModule
+    public class GraphModule<T> : LBSModule where T : LBSNode
     {
         [SerializeField, JsonRequired, SerializeReference]
-        List<LBSNode> nodes = new List<LBSNode>();
+        List<T> nodes = new List<T>();
 
         [SerializeField, JsonRequired, SerializeReference]
         List<LBSEdge> edges = new List<LBSEdge>();
@@ -26,7 +26,7 @@ namespace LBS.Components.Graph
         public override void Clear()
         {
             edges = new List<LBSEdge>();
-            nodes = new List<LBSNode>();
+            nodes = new List<T>();
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace LBS.Components.Graph
         /// also removes the edges connected to the node.
         /// </summary>
         /// <param name="node">Node data given to find the node.</param>
-        internal void RemoveNode(LBSNode node)
+        internal void RemoveNode(T node)
         {
             RemoveEdges(node);
             nodes.Remove(node);
@@ -86,7 +86,7 @@ namespace LBS.Components.Graph
         /// append an index to the label until it is unique.
         /// </summary>
         /// <param name="node">Data node to add.</param>
-        internal void AddNode(LBSNode node)
+        internal void AddNode(T node)
         {
             //node.OnChange += (n) => Debug.Log("[implementar]"); // <------------------------------------- !!!!!
 
@@ -278,5 +278,7 @@ namespace LBS.Components.Graph
             Debug.Log(msg);
         }
     }
+
+    public class LBSBaseGraph : GraphModule<LBSNode> { }
 }
 
