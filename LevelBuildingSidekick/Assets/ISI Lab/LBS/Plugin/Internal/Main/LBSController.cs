@@ -57,7 +57,7 @@ namespace LBS
         public static void LoadFile(string path)
         {
             var fileInfo = new System.IO.FileInfo(path);
-            var data = Utility.JSONDataManager.LoadData<LevelData>(path);
+            var data = Utility.JSONDataManager.LoadData<LevelData>(fileInfo.DirectoryName,fileInfo.Name);
             CurrentLevel = new LoadedLevel(data, fileInfo.FullName);
         }
 
@@ -76,18 +76,18 @@ namespace LBS
             {
                 case 0: // Save
                     SaveFile();
-                    path = EditorUtility.OpenFilePanel("Load level data", "", "json");
+                    path = EditorUtility.OpenFilePanel("Load level data", "", "lbs");
                     fileInfo = new System.IO.FileInfo(path);
-                    data = Utility.JSONDataManager.LoadData<LevelData>(path);
+                    data = Utility.JSONDataManager.LoadData<LevelData>(fileInfo.DirectoryName, fileInfo.Name);
                     CurrentLevel = new LoadedLevel(data, fileInfo.FullName);
                     return CurrentLevel;
 
                 case 1: // Discard
-                    path = EditorUtility.OpenFilePanel("Load level data", "", "json");
+                    path = EditorUtility.OpenFilePanel("Load level data", "", "lbs");
                     if (path == "")
                         return null;
                     fileInfo = new System.IO.FileInfo(path);
-                    data = Utility.JSONDataManager.LoadData<LevelData>(path);
+                    data = Utility.JSONDataManager.LoadData<LevelData>(fileInfo.DirectoryName, fileInfo.Name);
                     CurrentLevel = new LoadedLevel(data, fileInfo.FullName);
                     return CurrentLevel;
             }
@@ -119,35 +119,36 @@ namespace LBS
             }
             else
             {
-                Utility.JSONDataManager.SaveData(fileInfo.FullName, CurrentLevel.data);
+                Utility.JSONDataManager.SaveData(fileInfo.DirectoryName, fileInfo.Name, CurrentLevel.data);
             }
         }
 
         public static void SaveFileAs()
         {
             var path = "";
+            var fileInfo = CurrentLevel.FileInfo;
             if (CurrentLevel.FileInfo != null)
             {
-                var fileInfo = CurrentLevel.FileInfo;
+                
                 path = EditorUtility.SaveFilePanel(
                     "Save level",
                     (fileInfo.Exists) ? fileInfo.DirectoryName : Application.dataPath,
-                    (fileInfo.Exists) ? fileInfo.Name : defaultName + ".json",
-                    "json");
+                    (fileInfo.Exists) ? fileInfo.Name : defaultName + ".lbs",
+                    "lbs");
             }
             else
             {
                 path = EditorUtility.SaveFilePanel(
                     "Save level",
                     Application.dataPath,
-                    defaultName + ".json",
-                    "json");
+                    defaultName + ".lbs",
+                    "lbs");
             }
 
             if (path != "")
             {
                 Debug.Log("Save file on: '" + path + "'.");
-                Utility.JSONDataManager.SaveData(path, CurrentLevel.data);
+                Utility.JSONDataManager.SaveData(fileInfo.DirectoryName, fileInfo.Name, CurrentLevel.data);
                 LevelBackUp.Instance().level.fullName = path;
             }
         }
