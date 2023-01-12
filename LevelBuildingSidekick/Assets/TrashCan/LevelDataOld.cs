@@ -8,7 +8,7 @@ using LBS.Components;
 namespace LBS
 {
     [System.Serializable]
-    public class LevelData
+    public class LevelDataOld
     {
         #region FIELDS
 
