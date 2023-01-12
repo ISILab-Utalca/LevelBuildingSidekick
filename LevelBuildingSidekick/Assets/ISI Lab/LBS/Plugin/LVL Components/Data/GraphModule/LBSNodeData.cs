@@ -102,7 +102,7 @@ namespace LBS.Graph
 /// <summary>
 /// Enum that represents the different types of proportion that can be used for a graph element.
 /// </summary>
-public enum ProportionType
+public enum ProportionType //Mover de aca (!!!)
 {
     SIZE,
     RATIO
