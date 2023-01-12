@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -39,6 +40,9 @@ namespace LBS.Components
             get => id;
             set => id = value;
         }
+
+        //EVENTS
+        public Action OnChanged;
 
         //METHODS
 
