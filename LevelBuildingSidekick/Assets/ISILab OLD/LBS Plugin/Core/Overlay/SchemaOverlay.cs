@@ -198,12 +198,12 @@ namespace LBS.Overlays
                 //Diagonal tile mode
                 var diagonalTiles = new PresedBtn();
                 {
-                    brushTiles.style.flexDirection = FlexDirection.Row;
-                    brushTiles.style.alignItems = Align.Center;
+                    diagonalTiles.style.flexDirection = FlexDirection.Row;
+                    diagonalTiles.style.alignItems = Align.Center;
                     diagonalBox = new Box();
                     diagonalBox.style.minHeight = diagonalBox.style.minWidth = diagonalBox.style.maxHeight = 10;
-                    brushTiles.Add(diagonalBox);
-                    brushTiles.clicked += () =>
+                    diagonalTiles.Add(diagonalBox);
+                    diagonalTiles.clicked += () =>
                     {
                         var wnd = EditorWindow.GetWindow<LBSSchemaWindow>();
                         var c = wnd.GetController<LBSTileMapController>();
@@ -214,9 +214,9 @@ namespace LBS.Overlays
                         cTemp = d.GetRooms()[index];
                         diagonalBox.style.backgroundColor = cTemp.Color;
                         index = (index + 1) % d.GetRooms().Count;
-                        wnd.MainView.SetManipulator(new CreateTileDragingManipulatorSchema(wnd, c, cTemp));
+                        wnd.MainView.SetManipulator(new CreateDiagonalTilesManipulatorsSchema(wnd, c, cTemp));
                     };
-                    brushTiles.text = "Add diagonal mode";
+                    diagonalTiles.text = "Add diagonal mode";
                 }
                 btnGroup.Add(diagonalTiles);
             }
