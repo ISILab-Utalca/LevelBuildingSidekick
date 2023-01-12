@@ -8,10 +8,10 @@ using LBS.Schema;
 using Newtonsoft.Json;
 using UnityEditor;
 
-namespace LBS.Graph
+namespace LBS.Components.Graph
 {
     [System.Serializable]
-    public abstract class LBSNodeData
+    public abstract class LBSNode
     {
         #region FIELDS
         [HideInInspector, JsonRequired]
@@ -67,13 +67,13 @@ namespace LBS.Graph
         #endregion
 
         [HideInInspector, JsonIgnore]
-        internal Action<LBSNodeData> OnChange; // explicarle esto al gabo pa ver que opina (!!!)
+        internal Action<LBSNode> OnChange; // explicarle esto al gabo pa ver que opina (!!!)
 
 
         /// <summary>
         /// Empty constructor, necessary for serialization with json.
         /// </summary>
-        public LBSNodeData() 
+        public LBSNode() 
         {
             label = "Undefined";
             width = 1;
@@ -88,7 +88,7 @@ namespace LBS.Graph
         /// </summary>
         /// <param name="label"> Label of the node. </param>
         /// <param name="position"> Position if the node. </param>
-        public LBSNodeData(string label, Vector2 position)
+        public LBSNode(string label, Vector2 position)
         {
             this.label = label;
             x = (int)position.x;
@@ -97,14 +97,5 @@ namespace LBS.Graph
             height = 1;
         }
     }
-}
-
-/// <summary>
-/// Enum that represents the different types of proportion that can be used for a graph element.
-/// </summary>
-public enum ProportionType //Mover de aca (!!!)
-{
-    SIZE,
-    RATIO
 }
 

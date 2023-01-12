@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 
 public class ConnectionManipulator : MouseManipulator
 {
-    private LBSNodeData first;
+    private LBSNodeDataOld first;
     private LBSGraphController controller;
     private GenericLBSWindow window;
 
@@ -57,7 +57,7 @@ public class ConnectionManipulator : MouseManipulator
         if (node == null)
             return;
 
-        var edge = new LBSEdgeData(first, node.Data);
+        var edge = new LBSEdgeDataOld(first, node.Data);
         controller.AddEdge(edge);
         window.RefreshView();
     }

@@ -7,7 +7,7 @@ using LBS.Graph;
 using Newtonsoft.Json;
 
 [System.Serializable]
-public class LBSEdgeData
+public class LBSEdgeDataOld
 {
     //[JsonIgnore]
     //public LBSNodeData firstNode;
@@ -36,14 +36,14 @@ public class LBSEdgeData
     /// <summary>
     /// Empty constructor, necessary for serialization with json.
     /// </summary>
-    public LBSEdgeData() { }
+    public LBSEdgeDataOld() { }
 
     /// <summary>
     /// Constructor for the LBSEdgeData class, which creates an edge between two nodes.
     /// </summary>
     /// <param name="n1">First node data object in the edge</param>
     /// <param name="n2">Second node data object in the edge</param>
-    public LBSEdgeData(LBSNodeData n1, LBSNodeData n2)
+    public LBSEdgeDataOld(LBSNodeDataOld n1, LBSNodeDataOld n2)
     {
         this.firstNodeLabel = n1.Label;
         this.secondNodeLabel = n2.Label;

@@ -83,7 +83,7 @@ namespace LBS.Graph
         /// </summary>
         /// <param name="edge">Data EdgeView to be added. </param>
         /// <return> Return nothing if one of the nodes views is not found. </return>
-        private void AddEdgeView(LBSEdgeData edge)
+        private void AddEdgeView(LBSEdgeDataOld edge)
         {
             var nodeViews = view.graphElements.ToList().Where(e => e is LBSNodeView).Select(e => e as LBSNodeView).ToList();
             var nv1 = nodeViews.Find((n) => {
@@ -126,7 +126,7 @@ namespace LBS.Graph
             return null;
         }
 
-        public void StartDragEdge(LBSNodeData data) // (!!) pasar a manupilator
+        public void StartDragEdge(LBSNodeDataOld data) // (!!) pasar a manupilator
         {
             Debug.Log("Start edge");
             first = GetNodeViewBylabel(data.Label);
@@ -134,13 +134,13 @@ namespace LBS.Graph
             //AddElement(proxyEdge);
         }
 
-        public void EndDragEdge(LBSNodeData data, string label) // (!!) pasar a manipulator
+        public void EndDragEdge(LBSNodeDataOld data, string label) // (!!) pasar a manipulator
         {
             if (first != null)
             {
                 Debug.Log("End Edge");
                 var second = GetNodeViewBylabel(data.Label);
-                var edge = new LBSEdgeData(first.Data, second.Data);
+                var edge = new LBSEdgeDataOld(first.Data, second.Data);
                 var current = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>(label);
                 current.AddEdge(edge);
                 AddEdgeView(edge);
@@ -153,7 +153,7 @@ namespace LBS.Graph
         /// Add a new NodeView.
         /// </summary>
         /// <param name="data">Node data to create the new NodeView.</param>
-        public void AddNodeView(LBSNodeData data)
+        public void AddNodeView(LBSNodeDataOld data)
         {
             var nodeView = new LBSNodeView(data, view, cellSize);
             nodeView.OnStartDragEdge += StartDragEdge;
@@ -167,7 +167,7 @@ namespace LBS.Graph
         /// Remove a node from the graph.
         /// </summary>
         /// <param name="node">Node data of the node.</param>
-        internal void RemoveNode(LBSNodeData node)
+        internal void RemoveNode(LBSNodeDataOld node)
         {
             var graph = data;
             graph.RemoveNode(node);
@@ -177,7 +177,7 @@ namespace LBS.Graph
         /// Add a node to the graph.
         /// </summary>
         /// <param name="node">Node data of the new node</param>
-        internal virtual void AddNode(LBSNodeData node)
+        internal virtual void AddNode(LBSNodeDataOld node)
         {
             var graph = data;
             graph.AddNode(node);
@@ -188,7 +188,7 @@ namespace LBS.Graph
         /// </summary>
         /// <param name="position">The position of the node.</param>
         /// <returns>The new node.</returns>
-        internal abstract LBSNodeData NewNode(Vector2 position);
+        internal abstract LBSNodeDataOld NewNode(Vector2 position);
 
         // Edge methods
         /// <summary>
@@ -197,10 +197,10 @@ namespace LBS.Graph
         /// <param name="n1">Data of the first node.</param>
         /// <param name="n2">Data of hte second node.</param>
         /// <returns>Return the new Edge.</returns>
-        internal LBSEdgeData NewEdge(LBSNodeData n1, LBSNodeData n2)
+        internal LBSEdgeDataOld NewEdge(LBSNodeDataOld n1, LBSNodeDataOld n2)
         {
             var graph = data;
-            var edge = new LBSEdgeData(n1,n2);
+            var edge = new LBSEdgeDataOld(n1,n2);
             AddEdge(edge);
             return edge;
         }
@@ -209,7 +209,7 @@ namespace LBS.Graph
         /// Add a new Edge to the graph.
         /// </summary>
         /// <param name="edge">Edge data to add.</param>
-        internal void AddEdge(LBSEdgeData edge)
+        internal void AddEdge(LBSEdgeDataOld edge)
         {
             var graph = data;
             graph.AddEdge(edge);
@@ -219,7 +219,7 @@ namespace LBS.Graph
         /// Remove a Edge of the graph.
         /// </summary>
         /// <param name="edge">Edge data given to remove.</param>
-        internal void RemoveEdge(LBSEdgeData edge)
+        internal void RemoveEdge(LBSEdgeDataOld edge)
         {
             var graph = data;
             graph.RemoveEdge(edge);

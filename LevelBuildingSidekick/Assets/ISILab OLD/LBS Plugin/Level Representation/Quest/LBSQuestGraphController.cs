@@ -50,19 +50,19 @@ public class LBSQuestGraphController : LBSGraphController
         OpenNode(CurrentQuest);
     }
 
-    internal override LBSNodeData NewNode(Vector2 position)
+    internal override LBSNodeDataOld NewNode(Vector2 position)
     {
         QuestGraphNode g = new QuestGraphNode("Undefined", position);
         return g;
     }
 
-    public LBSNodeData NewNode(Vector2 position, GrammarNode grammarElement)
+    public LBSNodeDataOld NewNode(Vector2 position, GrammarNode grammarElement)
     {
         QuestGraphNode g = new QuestGraphNode(grammarElement.ID, position);
         return g;
     }
 
-    internal override void AddNode(LBSNodeData node)
+    internal override void AddNode(LBSNodeDataOld node)
     {
         base.AddNode(node);
         openNodes[^1].Children.Add(node as QuestGraphNode);

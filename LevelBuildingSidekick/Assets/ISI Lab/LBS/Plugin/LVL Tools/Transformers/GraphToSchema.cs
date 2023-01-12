@@ -18,8 +18,8 @@ namespace LBS.Transformers
                 return null;
             }
 
-            Queue<LBSNodeData> open = new Queue<LBSNodeData>();
-            HashSet<LBSNodeData> closed = new HashSet<LBSNodeData>();
+            Queue<LBSNodeDataOld> open = new Queue<LBSNodeDataOld>();
+            HashSet<LBSNodeDataOld> closed = new HashSet<LBSNodeDataOld>();
 
             var parent = graph.GetNodes().OrderByDescending((n) => graph.GetNeighbors(n).Count).First() as RoomCharacteristicsData;
             open.Enqueue(parent);
