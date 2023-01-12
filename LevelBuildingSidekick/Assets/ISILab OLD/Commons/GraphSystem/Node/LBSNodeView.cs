@@ -19,8 +19,8 @@ namespace LBS.Graph
     public class LBSNodeView : LBSGraphElement
     {
         #region InspectorDrawer
-        private class NodeScriptable : GenericScriptable<LBSNodeData> { };
-        [CustomEditor(typeof(GenericScriptable<LBSNodeData>))]
+        private class NodeScriptable : GenericScriptable<LBSNodeDataOld> { };
+        [CustomEditor(typeof(GenericScriptable<LBSNodeDataOld>))]
         [CanEditMultipleObjects]
         private class NodeScriptableEditor : GenericScriptableEditor { };
         #endregion
@@ -29,9 +29,9 @@ namespace LBS.Graph
         private static VisualTreeAsset visualTree;
         private static StyleSheet styleSheet;
 
-        public LBSNodeData Data;
+        public LBSNodeDataOld Data;
 
-        public delegate void NodeEvent(LBSNodeData data);
+        public delegate void NodeEvent(LBSNodeDataOld data);
         public NodeEvent OnStartDragEdge;
         public NodeEvent OnEndDragEdge;
         public Action OnMoving;
@@ -52,7 +52,7 @@ namespace LBS.Graph
         /// <param name="node"> Node data represented by the node view. </param>
         /// <param name="root"> Parent root graph view. </param>
         /// <param name="cellSize"> Size of the cell in which the node is represented, in pixels. </param>
-        public LBSNodeView(LBSNodeData node, LBSGraphView root, float cellSize = 1) : base(root)
+        public LBSNodeView(LBSNodeDataOld node, LBSGraphView root, float cellSize = 1) : base(root)
         {
             Data = node;
             this.cellSize = cellSize;

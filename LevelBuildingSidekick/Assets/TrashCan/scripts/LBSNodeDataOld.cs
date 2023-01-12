@@ -11,7 +11,7 @@ using UnityEditor;
 namespace LBS.Graph
 {
     [System.Serializable]
-    public abstract class LBSNodeData
+    public abstract class LBSNodeDataOld
     {
         #region FIELDS
         [HideInInspector, JsonRequired]
@@ -67,13 +67,13 @@ namespace LBS.Graph
         #endregion
 
         [HideInInspector, JsonIgnore]
-        internal Action<LBSNodeData> OnChange; // explicarle esto al gabo pa ver que opina (!!!)
+        internal Action<LBSNodeDataOld> OnChange; // explicarle esto al gabo pa ver que opina (!!!)
 
 
         /// <summary>
         /// Empty constructor, necessary for serialization with json.
         /// </summary>
-        public LBSNodeData() 
+        public LBSNodeDataOld() 
         {
             label = "Undefined";
             width = 1;
@@ -88,7 +88,7 @@ namespace LBS.Graph
         /// </summary>
         /// <param name="label"> Label of the node. </param>
         /// <param name="position"> Position if the node. </param>
-        public LBSNodeData(string label, Vector2 position)
+        public LBSNodeDataOld(string label, Vector2 position)
         {
             this.label = label;
             x = (int)position.x;

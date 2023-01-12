@@ -60,7 +60,7 @@ namespace LBS.Graph
             data.GetEdges().ForEach(e => AddEdgeView(e));
         }
 
-        private void AddEdgeView(LBSEdgeData edge)
+        private void AddEdgeView(LBSEdgeDataOld edge)
         {
             var nodeViews = view.graphElements.ToList().Where(e => e is LBSNodeView).Select(e => e as LBSNodeView).ToList();
             var nv1 = nodeViews.Find((n) => {
@@ -84,10 +84,10 @@ namespace LBS.Graph
             view.AddElement(edgeView);
         }
 
-        internal override LBSNodeData NewNode(Vector2 position)
+        internal override LBSNodeDataOld NewNode(Vector2 position)
         {
             var graph = data;
-            LBSNodeData node = new RoomCharacteristicsData("Node: " + graph.NodeCount(), position, CellSize);
+            LBSNodeDataOld node = new RoomCharacteristicsData("Node: " + graph.NodeCount(), position, CellSize);
             AddNode(node);
             return node;
         }

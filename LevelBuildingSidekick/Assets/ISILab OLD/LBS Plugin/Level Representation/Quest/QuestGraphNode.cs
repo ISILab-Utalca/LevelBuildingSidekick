@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class QuestGraphNode : LBSNodeData
+public class QuestGraphNode : LBSNodeDataOld
 {
     string grammarKey;
     public string GrammarKey => grammarKey;

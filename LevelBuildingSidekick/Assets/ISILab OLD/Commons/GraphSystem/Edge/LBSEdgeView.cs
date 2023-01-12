@@ -10,12 +10,12 @@ using LBS.Graph;
 
 public abstract class LBSEdgeView : LBSGraphElement
 {
-    protected LBSEdgeData data; // (??)
+    protected LBSEdgeDataOld data; // (??)
 
     protected LBSNodeView nv1, nv2;
     protected GraphView root;
 
-    public LBSEdgeData Data => data;
+    public LBSEdgeDataOld Data => data;
 
     /// <summary>
     /// Default base class constructor for LBSEdgeView class.

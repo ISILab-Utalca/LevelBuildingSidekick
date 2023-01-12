@@ -9,11 +9,11 @@ using UnityEngine;
 namespace LBS.Schema
 {
     [System.Serializable]
-    public class RoomCharacteristicsData : LBSNodeData
+    public class RoomCharacteristicsData : LBSNodeDataOld
     {
         #region InspectorDrawer
-        private class NodeScriptable : GenericScriptable<LBSNodeData> { };
-        [CustomEditor(typeof(GenericScriptable<LBSNodeData>))]
+        private class NodeScriptable : GenericScriptable<LBSNodeDataOld> { };
+        [CustomEditor(typeof(GenericScriptable<LBSNodeDataOld>))]
         [CanEditMultipleObjects]
         private class NodeScriptableEditor : GenericScriptableEditor { };
         #endregion
