@@ -5,24 +5,26 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace LBS.ElementView
+namespace LBS.VisualElements
 {
-    public class MainView : LBSGraphView
+    [Obsolete]
+    public class MainViewOld : LBSGraphView
     {
-        public new class UxmlFactory : UxmlFactory<MainView, GraphView.UxmlTraits> { }
+        public new class UxmlFactory : UxmlFactory<MainViewOld, GraphView.UxmlTraits> { }
 
         public Action<ContextualMenuPopulateEvent> OnBuild;
         public Action OnClearSelection;
 
         private List<Manipulator> manipulators = new List<Manipulator>();
 
-        public MainView()
+        public MainViewOld()
         {
             Insert(0,new GridBackground());
             var styleSheet = Utility.DirectoryTools.SearchAssetByName<StyleSheet>("MainViewUSS");
             styleSheets.Add(styleSheet);
 
             SetBasicManipulators();
+
         }
 
         /// <summary>

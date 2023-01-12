@@ -13,6 +13,7 @@ using LBS.Graph;
 using LBS.Schema;
 using LBS.Transformers;
 using LBS.ElementView;
+using LBS.VisualElements;
 
 namespace LBS.Graph
 {
@@ -30,7 +31,7 @@ namespace LBS.Graph
 
         }
 
-        public override void OnContextualBuid(MainView view, ContextualMenuPopulateEvent cmpe)
+        public override void OnContextualBuid(MainViewOld view, ContextualMenuPopulateEvent cmpe)
         {
             var pos = (cmpe.localMousePosition - new Vector2(view.transform.position.x, view.transform.position.y)) / view.scale;
 
@@ -51,7 +52,7 @@ namespace LBS.Graph
             LBSController.CurrentLevel.data.AddRepresentation(tm);
         }
 
-        public override void PopulateView(MainView view)
+        public override void PopulateView(MainViewOld view)
         {
             this.view = view;
             view.DeleteElements(elements);

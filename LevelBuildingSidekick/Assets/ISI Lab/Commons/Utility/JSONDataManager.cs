@@ -4,50 +4,106 @@ using UnityEngine;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Utility
 {
     public static class JSONDataManager
     {
-        public static void SaveData<T>(string path, T data)
+        private static void SaveData<T>(string path, T data)
         {
-            var jsonString = JsonConvert.SerializeObject(data, Formatting.Indented, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto });
+            // generate serializer setting
+            var jsonSerializerSettings = new JsonSerializerSettings()
+            {
+                PreserveReferencesHandling = PreserveReferencesHandling.All,
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                TypeNameHandling = TypeNameHandling.All,
+                Formatting = Formatting.Indented,
+                NullValueHandling = NullValueHandling.Ignore,
+            };
+
+            // add converters to serializer
+            jsonSerializerSettings.Converters.Add(new Vector3Converter());
+            jsonSerializerSettings.Converters.Add(new Vector2Converter());
+
+            // generate json string
+            var jsonString = JsonConvert.SerializeObject(
+                data,
+                jsonSerializerSettings
+                );
+
+            // write json in a file
             using StreamWriter writer = new StreamWriter(path);
             writer.Write(jsonString);
         }
 
         public static void SaveData<T>(string directoryName, string fileName, T data)
         {
-            string directoryPath = Application.dataPath + '/' + directoryName;
-            if(!Directory.Exists(directoryPath))
+            string directoryPath = directoryName;
+            if (!Directory.Exists(directoryPath))
             {
                 Directory.CreateDirectory(directoryPath);
             }
-            string dataPath =  directoryPath + '/' + fileName + ".json";
+            string dataPath = directoryPath + '/' + fileName;
             if (File.Exists(dataPath))
             {
                 File.Delete(dataPath);
             }
 
-            SaveData(dataPath,data);
+            SaveData(dataPath, data);
         }
 
-        public static T LoadData<T>(string path)
+        public static void SaveData<T>(string directoryName, string fileName, string format, T data)
         {
+            string directoryPath = directoryName;
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+            string dataPath = directoryPath + '/' + fileName + "." + format;
+            if (File.Exists(dataPath))
+            {
+                File.Delete(dataPath);
+            }
+
+            SaveData(dataPath, data);
+        }
+
+        private static T LoadData<T>(string path)
+        {
+            // read file and obtain json string
             using StreamReader reader = new StreamReader(path);
             string json = reader.ReadToEnd();
-            var data = JsonConvert.DeserializeObject<T>(json,
-                new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented });
+
+            // generate serializer setting
+            var jsonSerializerSettings = new JsonSerializerSettings()
+            {
+                PreserveReferencesHandling = PreserveReferencesHandling.All,
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                TypeNameHandling = TypeNameHandling.All,
+                Formatting = Formatting.Indented,
+                NullValueHandling = NullValueHandling.Ignore,
+            };
+
+            // add converters to serializer
+            jsonSerializerSettings.Converters.Add(new Vector3Converter());
+            jsonSerializerSettings.Converters.Add(new Vector2Converter());
+
+            // generate data from string
+            var data = JsonConvert.DeserializeObject<T>(
+                json,
+                jsonSerializerSettings
+                );
 
             if (data == null)
-                Debug.LogWarning("Data in " + path + " is not of type" + typeof(T).ToString());
+                Debug.LogWarning("Data in " + path + " is not of type " + typeof(T).ToString());
 
             return data;
         }
 
         public static T LoadData<T>(string directoryName, string fileName)
         {
-            string directoryPath = Application.dataPath + '/' + directoryName;
+            string directoryPath = directoryName;
             if (!Directory.Exists(directoryPath))
             {
                 Directory.CreateDirectory(directoryPath);
@@ -57,12 +113,26 @@ namespace Utility
             return LoadData<T>(dataPath);
         }
 
+        public static T LoadData<T>(string directoryName, string fileName, string format)
+        {
+            string directoryPath = directoryName;
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+            string dataPath = directoryPath + '/' + fileName + "." + format;
+
+            return LoadData<T>(dataPath);
+        }
+
         public static List<string> GetJSONFiles(string path)
         {
-            if(!Directory.Exists(path))
+            if (!Directory.Exists(path))
             {
-                Directory.CreateDirectory(path);
+                return null;
+                //return new List<string>(); // (??) return empty list
             }
+
             string[] files = System.IO.Directory.GetFiles(path);
             List<string> jsonFiles = new List<string>();
             foreach (string s in files)
@@ -80,4 +150,55 @@ namespace Utility
 
     }
 
+    public class Vector3Converter : JsonConverter
+    {
+        public override bool CanConvert(System.Type objectType)
+        {
+            return objectType == typeof(Vector3);
+        }
+
+        public override object ReadJson(JsonReader reader, System.Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            JObject obj = JObject.Load(reader);
+            float x = (float)obj["x"];
+            float y = (float)obj["y"];
+            float z = (float)obj["z"];
+            return new Vector3(x, y, z);
+        }
+
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            Vector3 v = (Vector3)value;
+            JObject jo = new JObject();
+            jo["x"] = v.x;
+            jo["y"] = v.y;
+            jo["z"] = v.z;
+            jo.WriteTo(writer);
+        }
+    }
+
+    public class Vector2Converter : JsonConverter
+    {
+        public override bool CanConvert(System.Type objectType)
+        {
+            return objectType == typeof(Vector2);
+        }
+
+        public override object ReadJson(JsonReader reader, System.Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            JObject obj = JObject.Load(reader);
+            float x = (float)obj["x"];
+            float y = (float)obj["y"];
+            return new Vector2(x, y);
+        }
+
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            Vector2 v = (Vector2)value;
+            JObject jo = new JObject();
+            jo["x"] = v.x;
+            jo["y"] = v.y;
+            jo.WriteTo(writer);
+        }
+    }
 }

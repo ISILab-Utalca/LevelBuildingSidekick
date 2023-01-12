@@ -6,6 +6,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Utility;
+using LBS.VisualElements;
 
 // esto deberia llamarse population o algo asi
 public class LBSStampController : LBSRepController<LBSStampGroupData>
@@ -16,7 +17,7 @@ public class LBSStampController : LBSRepController<LBSStampGroupData>
 
     }
 
-    public override void OnContextualBuid(MainView view, ContextualMenuPopulateEvent cmpe)
+    public override void OnContextualBuid(MainViewOld view, ContextualMenuPopulateEvent cmpe)
     {
         cmpe.menu.AppendAction("Stamp/Print", (dma) => { data.Print(); });
 
@@ -34,7 +35,7 @@ public class LBSStampController : LBSRepController<LBSStampGroupData>
             });
     }
 
-    public override void PopulateView(MainView view)
+    public override void PopulateView(MainViewOld view)
     {
         data.GetStamps().ForEach(s => {
             var v = new LBSStampView(s, view);
