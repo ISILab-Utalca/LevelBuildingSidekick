@@ -37,6 +37,9 @@ public class LBSLevelData
 
     #endregion
 
+    //EVENTS
+    public Action OnChanged;
+
     #region METHODS
 
     public void RemoveNullLayers() // (!) parche, no deberia poder añadirse nulls
@@ -61,6 +64,18 @@ public class LBSLevelData
             return;
 
         layers.Add(layer);
+        layer.OnChanged += this.OnChanged;
+    }
+
+    /// <summary>
+    /// Removes a layer from the list of layers and unsubscribes
+    /// the OnChanged event of the removed layer.
+    /// </summary>
+    /// <param name="layer">The layer to remove</param>
+    public void RemoveLayer(LBSLayer layer)
+    {
+        layers.Remove(layer);
+        layer.OnChanged -= this.OnChanged;
     }
 
     /// <summary>
