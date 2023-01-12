@@ -16,8 +16,6 @@ public class LBSLevelData
 
     [SerializeField, JsonRequired]
     private int x, y, z;
-    [SerializeField, JsonRequired]
-    private float tileSize = 2f;
 
     [SerializeField, JsonRequired, SerializeReference]
     private List<LBSLayer> layers = new List<LBSLayer>();
