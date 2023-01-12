@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using LBS.Tools;
+using System;
 
 namespace LBS.Components
 {
@@ -36,6 +37,9 @@ namespace LBS.Components
             set => id = value;
         }
 
+        //EVENTS
+        public Action OnChanged;
+
         //CONSTRUCTORS
         public LBSLayer()
         {
@@ -47,6 +51,7 @@ namespace LBS.Components
         public LBSLayer(List<LBSModule> modules, string ID, bool visible)
         {
             this.modules = modules;
+            modules.ForEach(m => m.OnChanged += this.OnChanged);
             this.ID = ID;
             IsVisible = visible;
         }
@@ -59,6 +64,7 @@ namespace LBS.Components
                 return false;
             }
             modules.Add(module);
+            module.OnChanged += this.OnChanged;
             return true;
         }
 
@@ -73,12 +79,15 @@ namespace LBS.Components
                 return false;
             }
             modules.Insert(index, module);
+            module.OnChanged += this.OnChanged;
             return true;
         }
 
         public bool RemoveModule(LBSModule module)
         {
-            return modules.Remove(module);
+            var b = modules.Remove(module);
+            module.OnChanged -= this.OnChanged;
+            return b;
         }
 
         public LBSModule RemoveModuleAt(int index)
@@ -87,9 +96,10 @@ namespace LBS.Components
             {
                 return null;
             }
-            var mod = modules[index];
+            var module = modules[index];
             modules.RemoveAt(index);
-            return mod;
+            module.OnChanged -= this.OnChanged;
+            return module;
         }
 
         public bool MoveModule(int index, LBSModule module)
@@ -114,12 +124,12 @@ namespace LBS.Components
 
         public T GetModule<T>(string ID = "") where T : LBSModule
         {
-            foreach (var mod in modules)
+            foreach (var module in modules)
             {
-                if (mod is T)
+                if (module is T)
                 {
-                    if(ID.Equals("") || mod.ID.Equals(ID))
-                        return mod as T;
+                    if(ID.Equals("") || module.ID.Equals(ID))
+                        return module as T;
                 }
             }
             return null;
