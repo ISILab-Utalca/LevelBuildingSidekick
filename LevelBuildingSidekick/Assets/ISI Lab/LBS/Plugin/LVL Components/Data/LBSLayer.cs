@@ -9,21 +9,22 @@ namespace LBS.Components
     [System.Serializable]
     public class LBSLayer
     {
-        //FIELDS
 
-        [SerializeField, JsonRequired, SerializeReference]
+        [SerializeField, JsonRequired]
         string id;
-
-        [SerializeField, JsonRequired, SerializeReference]
-        List<LBSModule> modules;
 
         [SerializeField, JsonRequired, SerializeReference]
         List<Transformer> transformers;
 
-        [SerializeField, JsonRequired, SerializeReference]
-        bool visible;
+        [SerializeField]
+        [JsonRequired, SerializeReference]
+        private List<LBSModule> modules;
 
-        //PROPERTIES
+        [SerializeField]
+        [JsonRequired]
+        private bool visible;
+
+        [JsonIgnore]
         public bool IsVisible
         {
             get => visible;
@@ -50,7 +51,7 @@ namespace LBS.Components
             IsVisible = visible;
         }
 
-        //MEHTODS
+        //METHODS
         public bool AddModule(LBSModule module)
         {
             if(modules.Contains(module))

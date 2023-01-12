@@ -9,14 +9,15 @@ namespace LBS.Components
     [System.Serializable]
     public abstract class LBSModule
     {
+
         //FIELDS
-        [SerializeField, JsonRequired, SerializeReference]
+        [SerializeField, JsonRequired]
         string id;
 
-        [SerializeField, JsonRequired, SerializeReference]
+        [SerializeField, JsonRequired]
         bool visible;
 
-        [SerializeField, JsonRequired, SerializeReference]
+        [SerializeField, JsonRequired]
         bool changed;
 
         //PROPERTIES
