@@ -11,10 +11,10 @@ namespace LBS.Components
     {
 
         [SerializeField, JsonRequired]
-        string id;
+        private string id;
 
         [SerializeField, JsonRequired, SerializeReference]
-        List<Transformer> transformers;
+        private List<Transformer> transformers;
 
         [SerializeField]
         [JsonRequired, SerializeReference]
