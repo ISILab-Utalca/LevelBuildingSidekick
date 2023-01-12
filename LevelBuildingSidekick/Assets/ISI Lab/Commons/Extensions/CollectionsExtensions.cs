@@ -12,4 +12,11 @@ public static class CollectionsExtensions
     }
 
     #endregion
+
+    #region Vector2
+    public static Vector2Int ToInt(this Vector2 vector)
+    {
+        return new Vector2Int((int)vector.x, (int)vector.y);
+    }
+    #endregion
 }
