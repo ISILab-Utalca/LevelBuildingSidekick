@@ -11,10 +11,28 @@ namespace LBS.Components.TileMap
         [SerializeField, JsonRequired, SerializeReference]
         int x, y;
 
+        int sides = 4;
+
         public Vector2Int Position
         {
             get => new Vector2Int(x,y);
             set { x = value.x; y = value.y; }
+        }
+
+        public int Sides => sides;
+
+        public LBSTile() 
+        {
+            x = 0;
+            y = 0;
+            sides = 4; 
+        }
+
+        public LBSTile(Vector2 position, int sides = 4) 
+        {
+            x = (int)position.x;
+            y = (int)position.y;
+            this.sides = sides; 
         }
     }
 }
