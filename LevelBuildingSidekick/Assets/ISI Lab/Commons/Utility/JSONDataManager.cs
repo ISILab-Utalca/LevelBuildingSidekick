@@ -10,6 +10,8 @@ namespace Utility
 {
     public static class JSONDataManager
     {
+        public static List<JsonConverter> converters = new List<JsonConverter>();
+
         private static void SaveData<T>(string path, T data)
         {
             // generate serializer setting
@@ -23,6 +25,11 @@ namespace Utility
             };
 
             // add converters to serializer
+            foreach(var converter in converters)
+            {
+                jsonSerializerSettings.Converters.Add(converter);
+            }
+
             jsonSerializerSettings.Converters.Add(new Vector3Converter());
             jsonSerializerSettings.Converters.Add(new Vector2Converter());
 
@@ -147,6 +154,12 @@ namespace Utility
             return jsonFiles;
         }
 
+        public static void LoadConverters()
+        {
+            var converterTypes = Utility.Reflection.GetAllSubClassOf(typeof(JsonConverter));
+            converterTypes.Where(c => c.);
+        }
+
 
     }
 
@@ -159,21 +172,27 @@ namespace Utility
 
         public override object ReadJson(JsonReader reader, System.Type objectType, object existingValue, JsonSerializer serializer)
         {
+            var values = serializer.Deserialize<float[]>(reader);
+            return new Vector3(values[0], values[1], values[2]);
+            /*
             JObject obj = JObject.Load(reader);
             float x = (float)obj["x"];
             float y = (float)obj["y"];
             float z = (float)obj["z"];
-            return new Vector3(x, y, z);
+            return new Vector3(x, y, z);*/
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
+            var vector = (Vector3)value;
+            serializer.Serialize(writer, new float[] { vector.x, vector.y, vector.z });
+            /*
             Vector3 v = (Vector3)value;
             JObject jo = new JObject();
             jo["x"] = v.x;
             jo["y"] = v.y;
             jo["z"] = v.z;
-            jo.WriteTo(writer);
+            jo.WriteTo(writer);*/
         }
     }
 
@@ -186,19 +205,47 @@ namespace Utility
 
         public override object ReadJson(JsonReader reader, System.Type objectType, object existingValue, JsonSerializer serializer)
         {
+            var values = serializer.Deserialize<float[]>(reader);
+            return new Vector2(values[0], values[1]);
+            /*
             JObject obj = JObject.Load(reader);
             float x = (float)obj["x"];
             float y = (float)obj["y"];
-            return new Vector2(x, y);
+            return new Vector2(x, y);*/
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
+            var vector = (Vector2)value;
+            serializer.Serialize(writer, new float[] { vector.x, vector.y});
+            /*
             Vector2 v = (Vector2)value;
             JObject jo = new JObject();
             jo["x"] = v.x;
             jo["y"] = v.y;
-            jo.WriteTo(writer);
+            jo.WriteTo(writer);*/
+        }
+    }
+
+    public class LBSTagConverter : JsonConverter
+    {
+        public override bool CanConvert(System.Type objectType)
+        {
+            return objectType == typeof(LBSTag);
+        }
+
+        public override object ReadJson(JsonReader reader, System.Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            var value = (string)reader.Value;
+            var tag = ScriptableObject.CreateInstance<LBSTag>();
+            tag.value = value;
+            return tag;
+        }
+
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            var tag = (LBSTag)value;
+            writer.WriteValue(tag.value);
         }
     }
 }
