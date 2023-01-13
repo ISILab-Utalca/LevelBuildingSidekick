@@ -13,6 +13,15 @@ public static class CollectionsExtensions
 
     #endregion
 
+    #region Array
+
+    public static bool ContainsIndex<T>(this T[] array, int index)
+    {
+        return index >= 0 && index < array.Length;
+    }
+
+    #endregion
+
     #region Vector2
     public static Vector2Int ToInt(this Vector2 vector)
     {
