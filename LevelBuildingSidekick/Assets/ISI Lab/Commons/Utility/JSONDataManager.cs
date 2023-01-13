@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
 
 namespace Utility
 {
@@ -157,7 +158,8 @@ namespace Utility
         public static void LoadConverters()
         {
             var converterTypes = Utility.Reflection.GetAllSubClassOf(typeof(JsonConverter));
-            converterTypes.Where(c => c.);
+            //converterTypes.Where(c => c.);
+            throw new Exception("***");
         }
 
 
