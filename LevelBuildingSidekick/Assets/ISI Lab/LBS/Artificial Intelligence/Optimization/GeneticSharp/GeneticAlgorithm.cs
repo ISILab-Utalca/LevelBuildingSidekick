@@ -50,7 +50,7 @@ public class GeneticAlgorithm : IGeneticAlgorithm , IShowable
     /// <summary>
     /// The default mutation probability.
     /// </summary>
-    public const float DefaultMutationProbability = 0.1f;
+    public const float DefaultMutationProbability = 0.25f;
     #endregion
 
     #region Fields
