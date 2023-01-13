@@ -41,6 +41,7 @@ namespace LBS.Components.TileMap
 
         public virtual bool AddTile(T tile)
         {
+            tile.Position = SnapPosition(tile.Position).ToInt();
             var t = GetTile(tile.Position);
             if (t != null)
             {
