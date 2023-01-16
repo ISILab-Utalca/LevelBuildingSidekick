@@ -76,7 +76,7 @@ namespace LBS.Windows
 
         void InitSelection()
         {
-            var g = rootVisualElement.Q<ButtonGroup>();
+            var g = rootVisualElement.Q<ButtonGroupOld>();
             newLvlBtn = rootVisualElement.Q<PresedBtn>(name: "NewLvlBtn");
             g.AddMember(newLvlBtn);
             loadLvlBtn = rootVisualElement.Q<PresedBtn>(name: "LoadLvlBtn");
