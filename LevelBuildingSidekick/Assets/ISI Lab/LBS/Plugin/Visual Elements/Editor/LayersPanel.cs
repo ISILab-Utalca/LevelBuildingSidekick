@@ -1,3 +1,4 @@
+using LBS.Components;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,16 +7,18 @@ using UnityEngine.UIElements;
 
 public class LayersPanel : VisualElement
 {
-    public List<string> names = new List<string>() { };
+    public LBSLevelData data;
 
     private ListView list;
     private TextField nameField;
     private DropdownField typeDropdown;
 
-    public LayersPanel()
+    public LayersPanel(LBSLevelData data)
     {
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LayersPanel"); // Editor
         visualTree.CloneTree(this);
+
+        this.data = data;
 
         // LayerList
         list = this.Q<ListView>("LayerList");
@@ -28,11 +31,13 @@ public class LayersPanel : VisualElement
         list.bindItem += (item, index) =>
         {
             var view = (item as LayerView);
-            view.SetName(names[index]);
+            var layer = data.Get(index);
+            view.SetName(layer.Name);
+            view.SetIcon(layer.iconPath);
         };
 
         list.fixedItemHeight = 18;
-        list.itemsSource = names;
+        list.itemsSource = data.Layers;
         list.makeItem += makeItem;
         list.onItemsChosen += OnItemChosen;
         list.onSelectionChange += OnSelectionChange;
@@ -42,6 +47,7 @@ public class LayersPanel : VisualElement
 
         // TypeDropdown
         typeDropdown = this.Q<DropdownField>("TypeDropdown");
+        typeDropdown.choices = new List<string> { "Interior", "Exterior", "Population" };
 
         // AddLayerButton
         var addLayerBtn = this.Q<Button>("AddLayerButton");
@@ -52,24 +58,42 @@ public class LayersPanel : VisualElement
         RemoveSelectedBtn.clicked += OnRemove;
     }
 
-    public void Init()
+    private LBSLayer CreateLayer(int index)
     {
-
+        LBSLayer toR = null;
+        switch (index)
+        {
+            case 0:
+                toR = new InteriorConstructor().Construct();
+                break;
+            case 1:
+                toR = new ExteriorConstructor().Construct();
+                break;
+            case 2:
+                toR = new PopulationConstructor().Construct();
+                break;
+        }
+        return toR;
     }
 
     private void OnAddLayer()
     {
-        names.Add(nameField.text);
+        var layer = CreateLayer(typeDropdown.index);
+        layer.Name = nameField.text;
+        data.AddLayer(layer);
         list.Rebuild();
     }
 
     private void OnRemove()
     {
-        if (names.Count <= 0)
+        if (data.Layers.Count <= 0)
             return;
 
         var index = list.selectedIndex;
-        names.RemoveAt(index);
+        if (index <= 0)
+            return;
+
+        data.RemoveAt(index);
         list.Rebuild();
     }
 
