@@ -1,0 +1,22 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="PopulationToolkit" style="flex-direction: row;">
+        <ui:Button tabindex="-1" display-tooltip-when-elided="true" name="SelectButton" class="RoundedButton" style="border-top-left-radius: 14px; border-bottom-left-radius: 14px; border-top-right-radius: 14px; border-bottom-right-radius: 14px; background-color: rgb(72, 72, 72); padding-left: 10px; padding-right: 10px; padding-top: 4px; padding-bottom: 4px; min-width: auto; min-height: auto; flex-direction: row; background-image: none; align-items: center;">
+            <ui:VisualElement style="width: 16px; height: 16px; background-image: url(&apos;project://database/Assets/ISI%20Lab/Commons/Assets2D/cursor.png?fileID=2800000&amp;guid=8f86e0b0900d0714b9432040fbc47ce3&amp;type=3#cursor&apos;); -unity-background-image-tint-color: rgb(196, 196, 196);" />
+            <ui:Label tabindex="-1" text="Select" display-tooltip-when-elided="true" style="padding-left: 3px; width: 41px;" />
+        </ui:Button>
+        <ui:Button tabindex="-1" display-tooltip-when-elided="true" name="SelectButton" class="RoundedButton" style="border-top-left-radius: 14px; border-bottom-left-radius: 14px; border-top-right-radius: 14px; border-bottom-right-radius: 14px; background-color: rgb(72, 72, 72); padding-left: 10px; padding-right: 10px; padding-top: 4px; padding-bottom: 4px; min-width: auto; min-height: auto; flex-direction: row; background-image: none; align-items: center;">
+            <ui:VisualElement style="width: 16px; height: 16px; background-image: url(&apos;project://database/Assets/ISI%20Lab/LBS/Plugin/Assets2D/RoomSelection.png?fileID=2800000&amp;guid=b1704af221b60f64face13aea01f1b04&amp;type=3#RoomSelection&apos;); -unity-background-image-tint-color: rgb(255, 255, 255); flex-grow: 0;" />
+            <ui:Label tabindex="-1" text="Paint by tile" display-tooltip-when-elided="true" style="padding-left: 3px;" />
+        </ui:Button>
+        <ui:Button tabindex="-1" display-tooltip-when-elided="true" name="SelectButton" class="RoundedButton" style="border-top-left-radius: 14px; border-bottom-left-radius: 14px; border-top-right-radius: 14px; border-bottom-right-radius: 14px; background-color: rgb(72, 72, 72); padding-left: 10px; padding-right: 10px; padding-top: 4px; padding-bottom: 4px; min-width: auto; min-height: auto; flex-direction: row; background-image: none; align-items: center;">
+            <ui:VisualElement style="width: 16px; height: 16px; background-image: url(&apos;project://database/Assets/ISI%20Lab/LBS/Plugin/Assets2D/connection.png?fileID=2800000&amp;guid=bd700db3dfe4b4d40be798aee555d7f7&amp;type=3#connection&apos;); -unity-background-image-tint-color: rgb(255, 255, 255); flex-grow: 0;" />
+            <ui:Label tabindex="-1" text="Paint by connection" display-tooltip-when-elided="true" style="padding-left: 3px;" />
+            <ui:DropdownField index="-1" choices="Point,Line,Square,Free" />
+        </ui:Button>
+        <ui:Button tabindex="-1" display-tooltip-when-elided="true" name="SelectButton" class="RoundedButton" style="border-top-left-radius: 14px; border-bottom-left-radius: 14px; border-top-right-radius: 14px; border-bottom-right-radius: 14px; background-color: rgb(72, 72, 72); padding-left: 10px; padding-right: 10px; padding-top: 4px; padding-bottom: 4px; min-width: auto; min-height: auto; flex-direction: row; background-image: none; align-items: center;">
+            <ui:VisualElement style="width: 16px; height: 16px; background-image: url(&apos;project://database/Assets/ISI%20Lab/Commons/Assets2D/erased.png?fileID=2800000&amp;guid=8e8fbec1ef6d10c43a3cd708f17ea463&amp;type=3#erased&apos;); -unity-background-image-tint-color: rgb(255, 255, 255); flex-grow: 0;" />
+            <ui:Label tabindex="-1" text="Erase" display-tooltip-when-elided="true" style="padding-left: 3px;" />
+            <ui:DropdownField index="-1" choices="Pair,Line,Square,Free" />
+        </ui:Button>
+    </ui:VisualElement>
+</ui:UXML>
