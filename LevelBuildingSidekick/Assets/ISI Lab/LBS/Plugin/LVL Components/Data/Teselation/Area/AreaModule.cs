@@ -13,6 +13,11 @@ namespace LBS.Components.Teselation
             areas.Clear();
         }
 
+        public override object Clone()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public override void Print()
         {
             throw new System.NotImplementedException();

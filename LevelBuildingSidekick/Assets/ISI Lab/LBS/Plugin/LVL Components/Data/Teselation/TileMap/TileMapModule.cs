@@ -134,6 +134,11 @@ namespace LBS.Components.TileMap
         {
             throw new System.NotImplementedException();
         }
+
+        public override object Clone()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 
     [System.Serializable]

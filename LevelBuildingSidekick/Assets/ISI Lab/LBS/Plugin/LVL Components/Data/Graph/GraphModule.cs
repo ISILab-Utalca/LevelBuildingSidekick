@@ -277,6 +277,11 @@ namespace LBS.Components.Graph
             msg += "Edge amount: " + this.edges.Count + "\n";
             Debug.Log(msg);
         }
+
+        public override object Clone()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 
     public class LBSBaseGraph : GraphModule<LBSNode> { }
