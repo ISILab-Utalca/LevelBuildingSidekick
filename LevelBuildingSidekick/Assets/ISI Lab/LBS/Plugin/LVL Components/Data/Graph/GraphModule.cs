@@ -7,18 +7,34 @@ using System.Linq;
 
 namespace LBS.Components.Graph
 {
+    [System.Serializable]
     public class GraphModule<T> : LBSModule where T : LBSNode
     {
+        //FIELDS
+
         [SerializeField, JsonRequired, SerializeReference]
         List<T> nodes = new List<T>();
 
         [SerializeField, JsonRequired, SerializeReference]
         List<LBSEdge> edges = new List<LBSEdge>();
 
+        //PROPERTIES
+
+        [JsonIgnore]
+        public int NodeCount => nodes.Count;
+
+
+        [JsonIgnore]
+        public int EdgeCount => edges.Count;
+
+        //COSNTRUCTORS
+
         /// <summary>
         /// Default base class constructor of LBSGraphData.  
         /// </summary>
         public GraphModule() : base() { }
+
+        //METHODS
 
         /// <summary>
         /// Clear the edges and nodes.
@@ -109,15 +125,6 @@ namespace LBS.Components.Graph
         }
 
         /// <summary>
-        /// Get node count.
-        /// </summary>
-        /// <returns> Nodes count.</returns>
-        internal int NodeCount()
-        {
-            return nodes.Count;
-        }
-
-        /// <summary>
         /// Returns all edges that are connected to the node 
         /// delivered by parameters.
         /// </summary>
@@ -145,15 +152,6 @@ namespace LBS.Components.Graph
         internal List<LBSEdge> GetEdges()
         {
             return new List<LBSEdge>(edges);
-        }
-
-        /// <summary>
-        /// Get edge count.
-        /// </summary>
-        /// <returns> Edges count.</returns>
-        internal int EdgeCount()
-        {
-            return edges.Count;
         }
 
         /// <summary>
@@ -284,6 +282,7 @@ namespace LBS.Components.Graph
         }
     }
 
+    [System.Serializable]
     public class LBSBaseGraph : GraphModule<LBSNode> { }
 }
 
