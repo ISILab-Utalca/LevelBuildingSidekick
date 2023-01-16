@@ -14,6 +14,16 @@ namespace LBS.Components
         [SerializeField, JsonRequired]
         private string id;
 
+        [SerializeField, JsonRequired]
+        private string name;
+        
+        [SerializeField]
+        [JsonRequired]
+        private bool visible;
+
+        [SerializeField, JsonRequired]
+        public string iconPath;
+
         [SerializeField, JsonRequired, SerializeReference]
         private List<Transformer> transformers;
 
@@ -21,24 +31,31 @@ namespace LBS.Components
         [JsonRequired, SerializeReference]
         private List<LBSModule> modules;
 
-        [SerializeField]
-        [JsonRequired]
-        private bool visible;
-
         [JsonIgnore]
         public bool IsVisible
         {
             get => visible;
             set => visible = value;
         }
+
+        [JsonIgnore]
         public string ID
         {
             get => id;
             set => id = value;
         }
 
+        [JsonIgnore]
+        public string Name
+        {
+            get => name;
+            set => name = value;
+        }
+
+
+
         //EVENTS
-        public Action OnChanged;
+        public Action<LBSLayer> OnChanged;
 
         //CONSTRUCTORS
         public LBSLayer()
@@ -51,7 +68,7 @@ namespace LBS.Components
         public LBSLayer(List<LBSModule> modules, string ID, bool visible)
         {
             this.modules = modules;
-            modules.ForEach(m => m.OnChanged += this.OnChanged);
+            modules.ForEach(m => m.OnChanged += (mo) => { this.OnChanged(this); });
             this.ID = ID;
             IsVisible = visible;
         }
@@ -64,7 +81,7 @@ namespace LBS.Components
                 return false;
             }
             modules.Add(module);
-            module.OnChanged += this.OnChanged;
+            module.OnChanged += (mo) => { this.OnChanged(this); };
             return true;
         }
 
@@ -79,14 +96,14 @@ namespace LBS.Components
                 return false;
             }
             modules.Insert(index, module);
-            module.OnChanged += this.OnChanged;
+            module.OnChanged += (mo) => { this.OnChanged(this); };
             return true;
         }
 
         public bool RemoveModule(LBSModule module)
         {
             var b = modules.Remove(module);
-            module.OnChanged -= this.OnChanged;
+            module.OnChanged -= (mo) => { this.OnChanged(this); };
             return b;
         }
 
@@ -98,7 +115,7 @@ namespace LBS.Components
             }
             var module = modules[index];
             modules.RemoveAt(index);
-            module.OnChanged -= this.OnChanged;
+            module.OnChanged -= (mo) => { this.OnChanged(this); };
             return module;
         }
 
