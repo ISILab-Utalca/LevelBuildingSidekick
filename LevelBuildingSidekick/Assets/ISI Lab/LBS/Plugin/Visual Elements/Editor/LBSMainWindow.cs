@@ -8,22 +8,32 @@ using UnityEngine.UIElements;
 
 public class LBSMainWindow : EditorWindow
 {
+    // Data
+    public LBSLevelData levelData;
+
+    //
     private VisualElement _extra;
 
-    private VisualElement toolPanel;
+    // Visual Elements
+    private ButtonGroup toolPanel;
+    private VisualElement extraPanel;
+    private VisualElement noLayerSign;
 
     [MenuItem("ISILab/LBS plugin/Main window", priority = 0)]
     public static void ShowWindow()
     {
         var window = GetWindow<LBSMainWindow>();
-        Texture icon = null; // (!!) implementar 
-        window.titleContent = new GUIContent("Level builder",icon);
+        Texture icon = Resources.Load<Texture>("Icons/Logo"); // (!!) implementar 
+        window.titleContent = new GUIContent("Level builder", icon);
     }
 
     public virtual void CreateGUI()
     {
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSMainWindow");
         visualTree.CloneTree(rootVisualElement);
+
+        levelData = new LBSLevelData(); // (!)
+        //levelData.on
 
         // ToolBar
         var toolbar = rootVisualElement.Q<ToolBarMain>("ToolBar");
@@ -32,13 +42,19 @@ public class LBSMainWindow : EditorWindow
         var mainView = rootVisualElement.Q<MainView>("MainView");
 
         // ToolPanel
-        toolPanel = rootVisualElement.Q<VisualElement>("ToolPanel");
+        toolPanel = rootVisualElement.Q<ButtonGroup>("ToolPanel");
 
         // InspectorContent
         var inspector = rootVisualElement.Q<VisualElement>("InspectorContent");
 
         // ExtraPanel
-        var extraPanel = rootVisualElement.Q<VisualElement>("ExtraPanel");
+        extraPanel = rootVisualElement.Q<VisualElement>("ExtraPanel");
+
+        // NoLayerSign
+        noLayerSign = rootVisualElement.Q<VisualElement>("NoLayerSign");
+        levelData.OnChanged += (lvl) => {
+            noLayerSign.style.display = (lvl.Layers.Count <= 0) ? DisplayStyle.None : DisplayStyle.Flex;
+        };
 
         // LayerButton
         var layerBtn = rootVisualElement.Q<Button>("LayerButton");
@@ -47,7 +63,7 @@ public class LBSMainWindow : EditorWindow
             if(_extra == null || _extra.GetType() != typeof(LayersPanel))
             {
                 extraPanel.Clear();
-                _extra = new LayersPanel();
+                _extra = new LayersPanel(levelData);
                 extraPanel.Add(_extra);
             }
             else
