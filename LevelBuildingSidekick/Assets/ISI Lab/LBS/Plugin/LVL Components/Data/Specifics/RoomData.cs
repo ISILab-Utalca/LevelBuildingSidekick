@@ -1,11 +1,12 @@
 using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace LBS.Components.Specifics
 {
-    public class RoomData
+    public class RoomData : ICloneable
     {
         //FIELDS
         [SerializeField, JsonRequired]
@@ -54,6 +55,7 @@ namespace LBS.Components.Specifics
             return true;
         }
 
+
         public string GetTag(int index)
         {
             if (tags.ContainsIndex(index))
@@ -73,6 +75,10 @@ namespace LBS.Components.Specifics
             var t = tags[index];
             tags.RemoveAt(index);
             return t;
+        }
+        public object Clone()
+        {
+            throw new NotImplementedException();
         }
 
     }
