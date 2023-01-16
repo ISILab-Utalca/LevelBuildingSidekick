@@ -7,28 +7,28 @@ using UnityEngine.UIElements;
 
 namespace LBS.VisualElements
 {
-    public interface IGrupable
+    public interface IGrupableOld
     {
         public void AddEvent(Action action);
         public void SetActive(bool value);
     }
 
-    public class ButtonGroup : VisualElement
+    public class ButtonGroupOld : VisualElement
     {
-        public new class UxmlFactory : UxmlFactory<ButtonGroup, UxmlTraits> { }
+        public new class UxmlFactory : UxmlFactory<ButtonGroupOld, UxmlTraits> { }
 
         public bool allowSwitchOff = false;
-        private List<IGrupable> group = new List<IGrupable>();
-        private IGrupable current;
+        private List<IGrupableOld> group = new List<IGrupableOld>();
+        private IGrupableOld current;
 
-        public ButtonGroup()
+        public ButtonGroupOld()
         {
             Init();
         }
 
         public void Init()
         {
-            group = this.Query<VisualElement>().ToList().Where(ve => ve is IGrupable).Select(ve => ve as IGrupable).ToList();
+            group = this.Query<VisualElement>().ToList().Where(ve => ve is IGrupableOld).Select(ve => ve as IGrupableOld).ToList();
             group.ForEach(b => b.AddEvent(() => Active(b)));
 
             if (!allowSwitchOff && group.Count > 0)
@@ -38,7 +38,7 @@ namespace LBS.VisualElements
             }
         }
 
-        private void Active(IGrupable active)
+        private void Active(IGrupableOld active)
         {
             if (allowSwitchOff)
             {
@@ -57,21 +57,18 @@ namespace LBS.VisualElements
             }
             else
             {
-                //if (current == active)
-                //    return;
-
                 group.ForEach(b => b.SetActive(false));
                 current = active;
                 active.SetActive(true);
             }
         }
 
-        public void Remove(IGrupable btn)
+        public void Remove(IGrupableOld btn)
         {
             group.Remove(btn);
         }
 
-        public void AddMember(IGrupable btn)
+        public void AddMember(IGrupableOld btn)
         {
             group.Add(btn);
         }
