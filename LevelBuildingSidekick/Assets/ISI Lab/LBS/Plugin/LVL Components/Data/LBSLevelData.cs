@@ -12,7 +12,7 @@ public class LBSLevelData
     #region FIELDS
 
     [SerializeField, JsonRequired]
-    private List<string> tags = new List<string>();
+    private List<string> tags = new List<string>(); // (?) unnused
 
     [SerializeField, JsonRequired]
     private int maxWidth, maxHeight;
@@ -23,6 +23,9 @@ public class LBSLevelData
     #endregion
 
     #region PROPERTIES
+
+    [JsonIgnore]
+    public List<LBSLayer> Layers => layers;
 
     [JsonIgnore]
     public Vector2Int MaxSize
@@ -38,9 +41,14 @@ public class LBSLevelData
     #endregion
 
     //EVENTS
-    public Action OnChanged;
+    public Action<LBSLevelData> OnChanged;
 
     #region METHODS
+
+    public LBSLayer Get(int index)
+    {
+        return layers[index];
+    }
 
     public void RemoveNullLayers() // (!) parche, no deberia poder añadirse nulls
     {
@@ -64,7 +72,7 @@ public class LBSLevelData
             return;
 
         layers.Add(layer);
-        layer.OnChanged += this.OnChanged;
+        layer.OnChanged += (l) => this.OnChanged(this);
     }
 
     /// <summary>
@@ -75,7 +83,14 @@ public class LBSLevelData
     public void RemoveLayer(LBSLayer layer)
     {
         layers.Remove(layer);
-        layer.OnChanged -= this.OnChanged;
+        layer.OnChanged -= (l) => this.OnChanged(this);
+    }
+
+    public void RemoveAt(int index)
+    {
+        var layer = layers[index];
+        layers.RemoveAt(index);
+        layer.OnChanged -= (l) => this.OnChanged(this);
     }
 
     /// <summary>
