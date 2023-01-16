@@ -20,7 +20,7 @@ namespace LBS.Overlays
         {
             var root = new VisualElement();
 
-            var btnGroup = new ButtonGroup();
+            var btnGroup = new ButtonGroupOld();
             {
                 var allMode = new PresedBtn();
                 {
