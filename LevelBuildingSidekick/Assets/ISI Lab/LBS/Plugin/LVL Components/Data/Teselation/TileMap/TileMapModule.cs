@@ -3,13 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using LBS.Components.Teselation;
+using Newtonsoft.Json;
 
 namespace LBS.Components.TileMap
 {
+    [System.Serializable]
     public class TileMapModule<T> : TeselationModule where T : LBSTile
     {
+        //FIELDS
+        [SerializeField, JsonRequired, SerializeReference]
         List<T> tiles;
 
+        //PROEPRTIES
         public Rect Rect
         {
             get
@@ -38,6 +43,14 @@ namespace LBS.Components.TileMap
                 }
             }
         }
+
+        public Vector2 Size => Rect.size;
+
+        public int Width => (int)Size.x;
+
+        public int Height => (int)Size.y;
+
+        public int TileCount => tiles.Count;
 
         public virtual bool AddTile(T tile)
         {
@@ -123,6 +136,7 @@ namespace LBS.Components.TileMap
         }
     }
 
+    [System.Serializable]
     public class LBSBaseTileMap : TileMapModule<LBSTile> { }
 }
 
