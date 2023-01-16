@@ -14,15 +14,15 @@ public class ToolBarMain : VisualElement // esto puede ser directamente toolbar
 
     public ToolBarMain()
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("ToolBarMain");
+        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("ToolBarMain"); // Editor
         visualTree.CloneTree(this);
 
         // File menu option
-        var fileMenu = this.Q<ToolbarMenu>("ToolbarMenu");
-        //fileMenu.menu.AppendAction("New", NewLevel);
-        //fileMenu.menu.AppendAction("Load", LoadLevel);
-        //fileMenu.menu.AppendAction("Save", SaveLevel);
-        //fileMenu.menu.AppendAction("Save as", SaveAsLevel);
+        var fileMenu = this.Q<ToolbarMenu>("ToolBarMenu");
+        fileMenu.menu.AppendAction("New", NewLevel);
+        fileMenu.menu.AppendAction("Load", LoadLevel);
+        fileMenu.menu.AppendAction("Save", SaveLevel);
+        fileMenu.menu.AppendAction("Save as", SaveAsLevel);
 
         // search object in current window
         var search = this.Q<ToolbarPopupSearchField>("SearchField"); // (!) Implementar
