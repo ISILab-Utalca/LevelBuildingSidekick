@@ -8,6 +8,7 @@ public class LayerView : VisualElement
     public new class UxmlFactory : UxmlFactory<LayerView, VisualElement.UxmlTraits> { }
 
     private Label layerName;
+    private VisualElement layerIcon;
 
     public LayerView()
     {
@@ -16,10 +17,19 @@ public class LayerView : VisualElement
 
         // LayerName
         layerName= this.Q<Label>("LayerName");
+
+        // LayerIcon
+        layerIcon = this.Q<VisualElement>("LayerIcon");
     }
 
     public void SetName(string name)
     {
         layerName.text = name;
+    }
+
+    public void SetIcon(string name)
+    {
+        var texture = Resources.Load<Texture2D>(name);
+        layerIcon.style.backgroundImage = texture;
     }
 }
