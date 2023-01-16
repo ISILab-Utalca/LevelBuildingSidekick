@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -45,7 +46,7 @@ namespace LBS.Components.TileMap
 
         public bool RemoveConnection(string connection)
         {
-
+            throw new NotImplementedException();
         }
     }
 }
