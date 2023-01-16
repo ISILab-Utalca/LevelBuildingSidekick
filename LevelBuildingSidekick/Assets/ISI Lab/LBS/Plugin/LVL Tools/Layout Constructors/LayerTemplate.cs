@@ -6,28 +6,18 @@ using UnityEngine;
 
 [System.Serializable]
 [CreateAssetMenu(menuName ="ISILab/LBS/Layer Template")]
-public class LayerTemplates : ScriptableObject
+public class LayerTemplate : ScriptableObject
 {
+    [ContextMenuItem("Set as Interior", "InteriorConstruct")]
+    [ContextMenuItem("Set as Exterior", "ExteriorConstruct")]
+    [ContextMenuItem("Set as Population", "PopulationConstruct")]
+    //[ContextMenuItem("Set as Quest", "InteriorConstruct")]
     public LBSLayer layer;
-
-    public LBSLayer Construct()
+    
+    private void InteriorConstruct()
     {
-        var layer = new LBSLayer();
-        return layer;
-    }
-}
+        layer = new LBSLayer();
 
-public abstract class LayoutConstructor 
-{
-    public abstract LBSLayer Construct();
-}
-
-public class InteriorConstructor : LayoutConstructor
-{
-    public override LBSLayer Construct()
-    {
-        var layer = new LBSLayer();
-        
         // Modules
         layer.AddModule(new LBSBaseGraph());
 
@@ -37,16 +27,11 @@ public class InteriorConstructor : LayoutConstructor
         layer.ID = "Interior";
         layer.Name = "Interior layer";
         layer.iconPath = "Icons/interior-design";
-
-        return layer;
     }
-}
 
-public class ExteriorConstructor : LayoutConstructor
-{
-    public override LBSLayer Construct()
+    private void ExteriorConstruct()
     {
-        var layer = new LBSLayer();
+        layer = new LBSLayer();
 
         // Modules
         layer.AddModule(new LBSBaseGraph());
@@ -57,16 +42,11 @@ public class ExteriorConstructor : LayoutConstructor
         layer.ID = "Exterior";
         layer.Name = "Exterior layer";
         layer.iconPath = "Icons/pine-tree";
-
-        return layer;
     }
-}
 
-public class PopulationConstructor : LayoutConstructor
-{
-    public override LBSLayer Construct()
+    private void PopulationConstruct()
     {
-        var layer = new LBSLayer();
+        layer = new LBSLayer();
 
         // Modules
         layer.AddModule(new LBSBaseGraph());
@@ -74,10 +54,8 @@ public class PopulationConstructor : LayoutConstructor
         // Transformers
         //layer.AddTransformer();
 
-        layer.ID = "Exterior";
-        layer.Name = "Population layer"; 
+        layer.ID = "Population";
+        layer.Name = "Population layer";
         layer.iconPath = "Icons/ghost";
-
-        return layer;
     }
 }
