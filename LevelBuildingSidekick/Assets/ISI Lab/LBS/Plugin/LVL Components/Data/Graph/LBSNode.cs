@@ -17,6 +17,9 @@ namespace LBS.Components.Graph
         [HideInInspector, SerializeField, JsonRequired, SerializeReference]
         private int x, y;
 
+        /// <summary>
+        /// Width and Height for node size in window. Porportional to window defined Unit size.
+        /// </summary>
         [HideInInspector, SerializeField, JsonRequired, SerializeReference]
         private float width, height;
 

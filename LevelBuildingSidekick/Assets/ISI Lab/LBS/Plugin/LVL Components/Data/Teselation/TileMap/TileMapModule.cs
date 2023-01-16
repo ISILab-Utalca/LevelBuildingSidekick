@@ -3,13 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using LBS.Components.Teselation;
+using Newtonsoft.Json;
 
 namespace LBS.Components.TileMap
 {
+    [System.Serializable]
     public class TileMapModule<T> : TeselationModule where T : LBSTile
     {
+        //FIELDS
+        [SerializeField, JsonRequired, SerializeReference]
         List<T> tiles;
 
+        //PROEPRTIES
+        [JsonIgnore]
         public Rect Rect
         {
             get
@@ -26,6 +32,7 @@ namespace LBS.Components.TileMap
             }
         }
 
+        [JsonIgnore]
         public Vector2 Origin
         {
             get => Rect.position;
@@ -38,6 +45,18 @@ namespace LBS.Components.TileMap
                 }
             }
         }
+
+        [JsonIgnore]
+        public Vector2 Size => Rect.size;
+
+        [JsonIgnore]
+        public int Width => (int)Size.x;
+
+        [JsonIgnore]
+        public int Height => (int)Size.y;
+
+        [JsonIgnore]
+        public int TileCount => tiles.Count;
 
         public virtual bool AddTile(T tile)
         {
@@ -121,8 +140,14 @@ namespace LBS.Components.TileMap
         {
             throw new System.NotImplementedException();
         }
+
+        public override object Clone()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 
+    [System.Serializable]
     public class LBSBaseTileMap : TileMapModule<LBSTile> { }
 }
 

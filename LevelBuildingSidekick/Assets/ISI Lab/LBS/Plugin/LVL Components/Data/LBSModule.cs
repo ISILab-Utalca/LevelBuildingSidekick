@@ -7,7 +7,7 @@ using UnityEngine;
 namespace LBS.Components
 {
     [System.Serializable]
-    public abstract class LBSModule
+    public abstract class LBSModule : ICloneable
     {
 
         //FIELDS
@@ -57,6 +57,7 @@ namespace LBS.Components
         /// Cleans all the information saved in.
         /// </summary>
         public abstract void Clear();
+        public abstract object Clone();
     }
 }
 

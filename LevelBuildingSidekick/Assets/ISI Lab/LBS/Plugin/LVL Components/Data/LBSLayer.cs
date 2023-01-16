@@ -8,7 +8,7 @@ using System;
 namespace LBS.Components
 {
     [System.Serializable]
-    public class LBSLayer
+    public class LBSLayer : ICloneable
     {
 
         [SerializeField, JsonRequired]
@@ -212,6 +212,11 @@ namespace LBS.Components
             transf.OnRemove();
             transformers.RemoveAt(index);
             return transf;
+        }
+
+        public object Clone()
+        {
+            throw new NotImplementedException();
         }
     }
 }
