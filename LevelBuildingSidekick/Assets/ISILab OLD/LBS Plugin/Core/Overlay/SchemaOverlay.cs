@@ -28,7 +28,7 @@ namespace LBS.Overlays
 
             var btnGroup = new ButtonGroupOld();
             {
-                var allMode = new PresedBtn();
+                var allMode = new PresedBtnOld();
                 {
                     var wnd = EditorWindow.GetWindow<LBSSchemaWindow>();
                     allMode.clicked += () => wnd.MainView.SetBasicManipulators();
@@ -67,7 +67,7 @@ namespace LBS.Overlays
                 b.style.minHeight = 10;
                 btnGroup.Add(b);
 
-                var removeTile = new PresedBtn();
+                var removeTile = new PresedBtnOld();
                 {
                     removeTile.clicked += () =>
                     {
@@ -79,7 +79,7 @@ namespace LBS.Overlays
                 }
                 btnGroup.Add(removeTile);
 
-                var addTile = new PresedBtn();
+                var addTile = new PresedBtnOld();
                 {
                     addTile.style.flexDirection = FlexDirection.Row;
                     addTile.style.alignItems = Align.Center;
@@ -104,7 +104,7 @@ namespace LBS.Overlays
                 btnGroup.Add(addTile);
 
 
-                var addDoor = new PresedBtn();
+                var addDoor = new PresedBtnOld();
                 {
                     addDoor.clicked += () =>
                     {
@@ -116,7 +116,7 @@ namespace LBS.Overlays
                 }
                 btnGroup.Add(addDoor);
 
-                var removeDoor = new PresedBtn();
+                var removeDoor = new PresedBtnOld();
                 {
                     removeDoor.clicked += () =>
                     {
@@ -128,7 +128,7 @@ namespace LBS.Overlays
                 }
                 btnGroup.Add(removeDoor);
 
-                var dragTiles = new PresedBtn();
+                var dragTiles = new PresedBtnOld();
                 {
                     dragTiles.clicked += () =>
                     {

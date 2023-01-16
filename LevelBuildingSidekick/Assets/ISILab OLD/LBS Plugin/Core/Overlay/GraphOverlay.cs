@@ -28,7 +28,7 @@ namespace LBS.Overlays
 
             var btnGroup = new ButtonGroupOld();
             {
-                var allMode = new PresedBtn();
+                var allMode = new PresedBtnOld();
                 {
                     var wnd = EditorWindow.GetWindow<LBSGraphRCWindow>();
                     allMode.clicked += () => wnd.MainView.SetBasicManipulators();
@@ -41,7 +41,7 @@ namespace LBS.Overlays
                 b.style.minHeight = 10;
                 btnGroup.Add(b);
 
-                var delete = new PresedBtn();
+                var delete = new PresedBtnOld();
                 {
                     delete.clicked += () =>
                     {
@@ -53,7 +53,7 @@ namespace LBS.Overlays
                 }
                 btnGroup.Add(delete);
 
-                var addNode = new PresedBtn();
+                var addNode = new PresedBtnOld();
                 {
                     addNode.clicked += () => {
                         var wnd = EditorWindow.GetWindow<LBSGraphRCWindow>();
@@ -64,7 +64,7 @@ namespace LBS.Overlays
                 }
                 btnGroup.Add(addNode);
 
-                var connect = new PresedBtn();
+                var connect = new PresedBtnOld();
                 {
                     connect.clicked += () =>
                     {

@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 namespace LBS.VisualElements
 {
 
-    public class PresedBtn : Button, IGrupableOld
+    public class PresedBtn : Button, IGrupable
     {
         public new class UxmlFactory : UxmlFactory<PresedBtn, UxmlTraits> { }
 
@@ -23,6 +23,11 @@ namespace LBS.VisualElements
         public void SetActive(bool value)
         {
             this.style.backgroundColor = !value ? selected : unselected;
+        }
+
+        public void SetEvent(Action action)
+        {
+            this.clicked += action;
         }
     }
 }

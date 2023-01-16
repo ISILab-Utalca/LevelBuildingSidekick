@@ -2,6 +2,7 @@ using LBS.Components;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -12,6 +13,10 @@ public class LayersPanel : VisualElement
     private ListView list;
     private TextField nameField;
     private DropdownField typeDropdown;
+
+    public event Action<LBSLayer> OnAddLayer;
+    public event Action<LBSLayer> OnRemoveLayer;
+    public event Action<LBSLayer> OnSelectLayer;
 
     public LayersPanel(LBSLevelData data)
     {
@@ -48,14 +53,15 @@ public class LayersPanel : VisualElement
         // TypeDropdown
         typeDropdown = this.Q<DropdownField>("TypeDropdown");
         typeDropdown.choices = new List<string> { "Interior", "Exterior", "Population" };
+        typeDropdown.index = 0; // (?)
 
         // AddLayerButton
         var addLayerBtn = this.Q<Button>("AddLayerButton");
-        addLayerBtn.clicked += OnAddLayer;
+        addLayerBtn.clicked += AddLayer;
 
         // RemoveSelectedButton
         var RemoveSelectedBtn = this.Q<Button>("RemoveSelectedButton");
-        RemoveSelectedBtn.clicked += OnRemove;
+        RemoveSelectedBtn.clicked += RemoveSelectedLayer;
     }
 
     private LBSLayer CreateLayer(int index)
@@ -76,15 +82,30 @@ public class LayersPanel : VisualElement
         return toR;
     }
 
-    private void OnAddLayer()
+    private void AddLayer()
     {
+        if (typeDropdown.index < 0)
+        {
+            Debug.LogWarning("No layer type has been selected yet, make sure to select one.");
+            return;
+        }
+
         var layer = CreateLayer(typeDropdown.index);
+
         layer.Name = nameField.text;
+
+        int i = 1;
+        while (data.Layers.Any(l => l.Name.Equals(layer.Name)))
+        {
+            layer.Name = nameField.text + " " + i;
+            i++;
+        }
+
         data.AddLayer(layer);
         list.Rebuild();
     }
 
-    private void OnRemove()
+    private void RemoveSelectedLayer()
     {
         if (data.Layers.Count <= 0)
             return;
@@ -99,7 +120,7 @@ public class LayersPanel : VisualElement
 
     public void OnSelectionChange(IEnumerable<object> objs)
     {
-        Debug.Log("OSC");
+        OnSelectLayer(objs.ToList()[0] as LBSLayer);
     }
 
     public void OnItemChosen(IEnumerable<object> objs)

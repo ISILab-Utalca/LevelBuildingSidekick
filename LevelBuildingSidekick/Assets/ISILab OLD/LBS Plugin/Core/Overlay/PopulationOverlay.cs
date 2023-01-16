@@ -22,7 +22,7 @@ namespace LBS.Overlays
 
             var btnGroup = new ButtonGroupOld();
             {
-                var allMode = new PresedBtn();
+                var allMode = new PresedBtnOld();
                 {
                     var wnd = EditorWindow.GetWindow<LBSPopulationWindow>();
                     allMode.clicked += () => wnd.MainView.SetBasicManipulators();
@@ -60,7 +60,7 @@ namespace LBS.Overlays
                 b.style.minHeight = 10;
                 btnGroup.Add(b);
 
-                var addStamp = new PresedBtn();
+                var addStamp = new PresedBtnOld();
                 {
                     addStamp.clicked += () =>
                     {
@@ -72,7 +72,7 @@ namespace LBS.Overlays
                 }
                 btnGroup.Add(addStamp);
 
-                var removeStamp = new PresedBtn();
+                var removeStamp = new PresedBtnOld();
                 {
                     removeStamp.clicked += () =>
                     {

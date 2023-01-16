@@ -39,7 +39,7 @@
     padding-top: 0;
     margin-top: 2px;
     margin-bottom: 2px;
-    background-image: url('project://database/Assets/LBS%20Plugin/Assets2D/Iconos/image2.png?fileID=2800000&guid=106cfad729cddf64a8417b51d6ac5a29&type=3#image2');
+    background-image: url('project://database/Assets/ISI%20Lab/LBS/Plugin/Assets2D/image2.png?fileID=2800000&guid=106cfad729cddf64a8417b51d6ac5a29&type=3#image2');
     -unity-background-scale-mode: scale-to-fit;
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;

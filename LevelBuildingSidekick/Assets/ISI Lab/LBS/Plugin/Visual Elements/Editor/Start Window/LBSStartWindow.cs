@@ -5,7 +5,6 @@ using UnityEditor;
 using System.Linq;
 using LBS.Graph;
 using UnityEngine.UIElements;
-
 using System;
 using System.Reflection;
 using System.IO;
@@ -76,13 +75,13 @@ namespace LBS.Windows
 
         void InitSelection()
         {
-            var g = rootVisualElement.Q<ButtonGroupOld>();
+            var g = rootVisualElement.Q<ButtonGroup>("ButtonGroup");
             newLvlBtn = rootVisualElement.Q<PresedBtn>(name: "NewLvlBtn");
-            g.AddMember(newLvlBtn);
+            g.Add(newLvlBtn);
             loadLvlBtn = rootVisualElement.Q<PresedBtn>(name: "LoadLvlBtn");
-            g.AddMember(loadLvlBtn);
+            g.Add(loadLvlBtn);
             infoBtn = rootVisualElement.Q<PresedBtn>(name: "InfoBtn");
-            g.AddMember(infoBtn);
+            g.Add(infoBtn);
             g.Init();
 
             newLvlPanel = rootVisualElement.Q<VisualElement>(name: "NewLevel");
