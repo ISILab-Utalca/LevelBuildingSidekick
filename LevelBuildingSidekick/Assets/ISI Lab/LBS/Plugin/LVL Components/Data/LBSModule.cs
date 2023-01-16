@@ -43,7 +43,7 @@ namespace LBS.Components
         }
 
         //EVENTS
-        public Action OnChanged;
+        public Action<LBSModule> OnChanged;
 
         //METHODS
 
