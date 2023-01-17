@@ -13,30 +13,43 @@ public class BasicToolButton : VisualElement, IGrupable
     private VisualElement icon;
     private Label label;
 
-    public BasicToolButton()
+    // Event
+    public event Action OnFocus; // se llama cuando se selecciona el boton
+    public event Action OnBlur; // se llama cuando se dejo de seleccionar el boton
+   
+    public BasicToolButton(Texture2D texture, string name)
     {
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("BasicToolButton"); // Editor
         visualTree.CloneTree(this);
 
         // Button
         button = this.Q<Button>("Button");
+        //button.clicked += OnFocus;
 
-        // Icon
-        icon = this.Q<VisualElement>("Icon");
+       // Icon
+       icon = this.Q<VisualElement>("Icon");
+        icon.style.backgroundImage = texture;
 
         // LabelName
         label = this.Q<Label>("LabelName");
-
+        label.text = name;
     }
 
-    public void SetEvent(Action action)
+    public void AddEvent(Action action)
     {
         button.clicked += action;
     }
 
-    public void SetActive(bool value)
+    void IGrupable.OnBlur()
     {
-        button.style.backgroundColor = (value) ? selected: color;
+        button.style.backgroundColor = color;
+        OnBlur?.Invoke();
+    }
+
+    void IGrupable.OnFocus()
+    {
+        button.style.backgroundColor = selected;
+        OnFocus?.Invoke();
     }
 }
 
