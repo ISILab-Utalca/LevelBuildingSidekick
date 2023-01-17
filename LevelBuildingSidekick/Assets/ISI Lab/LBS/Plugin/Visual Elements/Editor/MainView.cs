@@ -10,7 +10,7 @@ public class MainView : LBSGraphView
     public new class UxmlFactory : UxmlFactory<MainView, GraphView.UxmlTraits> { }
 
     public ExternalBounds visualBound;
-    public DrawTool test;
+    //public DrawTool test;
 
     public Action<ContextualMenuPopulateEvent> OnBuild;
     public Action OnClearSelection;
@@ -36,10 +36,10 @@ public class MainView : LBSGraphView
                 new Vector2(20000, 20000)
                 )
             );
-        this.test = new DrawTool(new Vector2(0, 0), new Vector2(2, 2));
+        //this.test = new DrawTool(new Vector2(0, 0), new Vector2(2, 2));
 
         AddElement(visualBound);
-        AddElement(test);
+        //AddElement(test);
     }
 
     public void SetBasicManipulators() // necesario aqui (?)

@@ -15,6 +15,7 @@ namespace LBS.Components.TileMap
         List<T> tiles;
 
         //PROEPRTIES
+        [JsonIgnore]
         public Rect Rect
         {
             get
@@ -31,6 +32,7 @@ namespace LBS.Components.TileMap
             }
         }
 
+        [JsonIgnore]
         public Vector2 Origin
         {
             get => Rect.position;
@@ -44,12 +46,16 @@ namespace LBS.Components.TileMap
             }
         }
 
+        [JsonIgnore]
         public Vector2 Size => Rect.size;
 
+        [JsonIgnore]
         public int Width => (int)Size.x;
 
+        [JsonIgnore]
         public int Height => (int)Size.y;
 
+        [JsonIgnore]
         public int TileCount => tiles.Count;
 
         public virtual bool AddTile(T tile)
