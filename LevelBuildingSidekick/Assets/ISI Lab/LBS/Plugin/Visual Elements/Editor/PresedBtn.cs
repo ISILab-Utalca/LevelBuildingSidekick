@@ -20,14 +20,14 @@ namespace LBS.VisualElements
             this.clicked += action;
         }
 
-        public void SetActive(bool value)
+        void IGrupable.OnBlur() 
         {
-            this.style.backgroundColor = !value ? selected : unselected;
+            this.style.backgroundColor = unselected;
         }
 
-        public void SetEvent(Action action)
+        void IGrupable.OnFocus()
         {
-            this.clicked += action;
+            this.style.backgroundColor = selected;
         }
     }
 }
