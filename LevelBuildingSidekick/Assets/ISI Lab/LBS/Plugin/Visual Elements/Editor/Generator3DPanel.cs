@@ -5,7 +5,11 @@ using UnityEngine.UIElements;
 
 public class Generator3DPanel : VisualElement
 {
-    public Generator3DPanel()
+    public new class UxmlFactory : UxmlFactory<Generator3DPanel, VisualElement.UxmlTraits> { }
+
+    public Generator3DPanel() { }
+
+    public Generator3DPanel(LBSLevelData levelData)
     {
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("Generator3DPanel"); // Editor
         visualTree.CloneTree(this);
