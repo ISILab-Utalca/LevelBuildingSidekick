@@ -16,7 +16,7 @@ namespace LBS.Components.Specifics
             room = null;
         }
 
-        public RoomNode(RoomData room) : base()
+        public RoomNode(string id, Vector2 position, RoomData room) : base(id, position)
         {
             this.room = room;
         }
