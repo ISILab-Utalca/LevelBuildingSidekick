@@ -34,6 +34,11 @@ namespace LBS.Components.Teselation
             return null;
         }
 
+        public T GetArea(string id)
+        {
+            return areas.Find(a => a.ID.Equals(id));
+        }
+
         public bool Remove(T area)
         {
             return areas.Remove(area);
