@@ -24,7 +24,7 @@ namespace LBS.Components.Graph
         private float width, height;
 
         [HideInInspector, SerializeField, JsonRequired, SerializeReference]
-        private string label = ""; // "ID" or "name"
+        private string id = ""; // "ID" or "name"
 
         //PROPERTIES
         [JsonIgnore]
@@ -57,12 +57,12 @@ namespace LBS.Components.Graph
         }
 
         [JsonIgnore]
-        public string Label
+        public string ID
         {
-            get => label;
+            get => id;
             set
             {
-                label = value;
+                id = value;
                 OnChange?.Invoke(this);
             }
         }
@@ -76,7 +76,7 @@ namespace LBS.Components.Graph
         /// </summary>
         public LBSNode() 
         {
-            label = "Undefined";
+            id = "Undefined";
             width = 1;
             height = 1;
             x = 0;
@@ -91,7 +91,7 @@ namespace LBS.Components.Graph
         /// <param name="position"> Position if the node. </param>
         public LBSNode(string label, Vector2 position)
         {
-            this.label = label;
+            this.id = label;
             x = (int)position.x;
             y = (int)position.y;
             width = 1;
