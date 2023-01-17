@@ -22,9 +22,15 @@ namespace LBS.VisualElements
 
         public void Init()
         {
+            // busca todos los botones dentro de si mismo
             group = this.Query<VisualElement>().ToList().Where(ve => ve is IGrupable).Select(ve => ve as IGrupable).ToList();
-            group.ForEach(b => b.SetEvent(() => Active(b)));
 
+            // les añade el metodo "Active"
+            group.ForEach(b => b.AddEvent(() => {
+                    Active(b); 
+            }));
+
+            // inicia el grupo con el primero activo
             if (!allowSwitchOff && group.Count > 0)
             {
                 current = group[0];
@@ -32,27 +38,32 @@ namespace LBS.VisualElements
             }
         }
 
+        private void ChangeActive(IGrupable active)
+        {
+            current?.OnBlur();
+            current = active;
+            current.OnFocus();
+        }
+
         private void Active(IGrupable active)
         {
-            if (allowSwitchOff)
+            if(!allowSwitchOff)
             {
-                if (current == active)
-                {
-                    current = null;
-                    active.SetActive(false);
-                }
-                else
-                {
-                    group.ForEach(b => b.SetActive(false));
-                    current = active;
-                    active.SetActive(true);
-                }
+                ChangeActive(active);
+                return;
             }
             else
             {
-                group.ForEach(b => b.SetActive(false));
-                current = active;
-                active.SetActive(true);
+                if (current == active)
+                {
+                    current.OnBlur();
+                    current = null;
+                }
+                else
+                {
+                    ChangeActive(active);
+                    return;
+                }
             }
         }
 
@@ -78,7 +89,7 @@ namespace LBS.VisualElements
             {
                 var e = element as IGrupable;
                 group.Add(e);
-                e.SetEvent(() => Active(e));
+                e.AddEvent(() => Active(e));
             }
 
             base.Add(element);
