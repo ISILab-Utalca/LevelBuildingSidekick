@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using LBS.Tools;
 using System;
+using System.Linq;
 
 namespace LBS.Components
 {
@@ -65,12 +66,14 @@ namespace LBS.Components
             ID = GetType().Name;
         }
 
-        public LBSLayer(List<LBSModule> modules, string ID, bool visible)
+        public LBSLayer(List<LBSModule> modules, string ID, bool visible, string name, string iconPath)
         {
             this.modules = modules;
             modules.ForEach(m => m.OnChanged += (mo) => { this.OnChanged(this); });
             this.ID = ID;
             IsVisible = visible;
+            this.name = name;
+            this.iconPath = iconPath;
         }
 
         //METHODS
@@ -216,7 +219,9 @@ namespace LBS.Components
 
         public object Clone()
         {
-            throw new NotImplementedException();
+            var modules = this.modules.Select(m => m.Clone() as LBSModule).ToList();
+            var layer = new LBSLayer(modules,this.id,this.visible, this.name,this.iconPath);
+            return layer;
         }
     }
 }
