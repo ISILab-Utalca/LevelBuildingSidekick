@@ -11,7 +11,7 @@ using UnityEditor;
 namespace LBS.Components.Graph
 {
     [System.Serializable]
-    public abstract class LBSNode
+    public abstract class LBSNode : ICloneable
     {
         //FIELDS
         [HideInInspector, SerializeField, JsonRequired, SerializeReference]
@@ -97,6 +97,8 @@ namespace LBS.Components.Graph
             width = 1;
             height = 1;
         }
+
+        public abstract object Clone();
     }
 }
 
