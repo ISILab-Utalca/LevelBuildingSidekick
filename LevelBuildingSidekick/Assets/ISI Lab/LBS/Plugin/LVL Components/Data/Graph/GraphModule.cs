@@ -278,7 +278,10 @@ namespace LBS.Components.Graph
 
         public override object Clone()
         {
-            throw new System.NotImplementedException();
+            var module = new GraphModule<T>();
+            module.nodes = this.nodes.Select(n => n.Clone() as T).ToList();
+            module.edges = this.edges.Select(e => e.Clone() as LBSEdge).ToList();
+            return module;
         }
     }
 
