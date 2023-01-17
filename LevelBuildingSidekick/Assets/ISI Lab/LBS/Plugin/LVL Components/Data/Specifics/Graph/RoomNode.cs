@@ -20,6 +20,11 @@ namespace LBS.Components.Specifics
         {
             this.room = room;
         }
+
+        public override object Clone()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
 
