@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="Content" />
+    <ui:VisualElement style="flex-direction: row; flex-grow: 0;">
+        <ui:TextField picking-mode="Ignore" value="filler text" text="new bundle" name="NewField" style="flex-grow: 1;" />
+        <ui:Button tabindex="-1" text="Add bundle" display-tooltip-when-elided="true" enable-rich-text="true" name="AddButton" style="flex-grow: 1;" />
+    </ui:VisualElement>
+</ui:UXML>
