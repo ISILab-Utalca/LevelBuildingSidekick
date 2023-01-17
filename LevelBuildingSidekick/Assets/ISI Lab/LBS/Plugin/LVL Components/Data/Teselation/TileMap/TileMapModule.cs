@@ -84,6 +84,19 @@ namespace LBS.Components.TileMap
             return tile;
         }
 
+        public List<T> GetTileNeighbors(T tile, List<Vector2> directions)
+        {
+            List<T> neighbors = new List<T>();
+            foreach(var v in directions)
+            {
+                var pos = tile.Position + new Vector2(v.x * CellSize.x, v.y * CellSize.y);
+                pos = SnapPosition(pos);
+                var neigh = tiles.Find(t => t.Position == pos);
+                neighbors.Add(neigh);
+            }
+            return neighbors;
+        }
+
         public bool RemoveTile(T tile)
         {
             return tiles.Remove(tile);
