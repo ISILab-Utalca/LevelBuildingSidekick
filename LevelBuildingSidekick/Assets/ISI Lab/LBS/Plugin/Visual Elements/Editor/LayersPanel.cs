@@ -8,22 +8,31 @@ using UnityEngine.UIElements;
 
 public class LayersPanel : VisualElement
 {
+    public new class UxmlFactory : UxmlFactory<LayersPanel, VisualElement.UxmlTraits> { }
+
     public LBSLevelData data;
 
     private ListView list;
     private TextField nameField;
     private DropdownField typeDropdown;
 
+    // Events
     public event Action<LBSLayer> OnAddLayer;
     public event Action<LBSLayer> OnRemoveLayer;
     public event Action<LBSLayer> OnSelectLayer;
 
-    public LayersPanel(LBSLevelData data)
+    // templates
+    private List<LayerTemplate> templates;
+
+    public LayersPanel() { }
+
+    public LayersPanel(ref LBSLevelData data, ref List<LayerTemplate> templates)
     {
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LayersPanel"); // Editor
         visualTree.CloneTree(this);
 
         this.data = data;
+        this.templates = templates;
 
         // LayerList
         list = this.Q<ListView>("LayerList");
@@ -36,7 +45,7 @@ public class LayersPanel : VisualElement
         list.bindItem += (item, index) =>
         {
             var view = (item as LayerView);
-            var layer = data.Get(index);
+            var layer = this.data.Get(index);
             view.SetName(layer.Name);
             view.SetIcon(layer.iconPath);
         };
@@ -52,7 +61,8 @@ public class LayersPanel : VisualElement
 
         // TypeDropdown
         typeDropdown = this.Q<DropdownField>("TypeDropdown");
-        typeDropdown.choices = new List<string> { "Interior", "Exterior", "Population" };
+        typeDropdown.choices = templates.Select(t => t.name).ToList();
+        //typeDropdown.choices = new List<string> { "Interior", "Exterior", "Population" };
         typeDropdown.index = 0; // (?)
 
         // AddLayerButton
@@ -66,20 +76,8 @@ public class LayersPanel : VisualElement
 
     private LBSLayer CreateLayer(int index)
     {
-        LBSLayer toR = null;
-        switch (index)
-        {
-            case 0:
-                toR = new InteriorConstructor().Construct();
-                break;
-            case 1:
-                toR = new ExteriorConstructor().Construct();
-                break;
-            case 2:
-                toR = new PopulationConstructor().Construct();
-                break;
-        }
-        return toR;
+        var layers = templates.Select(t => t.layer).ToList();
+        return layers[index].Clone() as LBSLayer;
     }
 
     private void AddLayer()
@@ -120,7 +118,8 @@ public class LayersPanel : VisualElement
 
     public void OnSelectionChange(IEnumerable<object> objs)
     {
-        OnSelectLayer(objs.ToList()[0] as LBSLayer);
+        var selected = objs.ToList()[0] as LBSLayer;
+        OnSelectLayer?.Invoke(selected);
     }
 
     public void OnItemChosen(IEnumerable<object> objs)
