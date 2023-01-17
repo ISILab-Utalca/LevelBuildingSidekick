@@ -42,6 +42,20 @@ namespace LBS.Components.Specifics
         }
 
         [JsonIgnore]
+        public Vector2Int Size
+        {
+            get => new Vector2Int(Width, Height);
+            set
+            {
+                if (value.x >= 1 && value.y >= 1)
+                {
+                    width = value.x;
+                    height = value.y;
+                }
+            }
+        }
+
+        [JsonIgnore]
         public int TagCount => tags.Count;
 
         //METHODS
