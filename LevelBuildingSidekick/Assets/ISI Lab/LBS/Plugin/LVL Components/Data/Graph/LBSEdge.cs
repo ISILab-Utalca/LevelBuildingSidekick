@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 namespace LBS.Components.Graph
 {
     [System.Serializable]
-    public class LBSEdge
+    public class LBSEdge : ICloneable
     {
         //[JsonIgnore]
         //public LBSNodeData firstNode;
@@ -59,6 +59,11 @@ namespace LBS.Components.Graph
         public bool Contains(LBSNode node)
         {
             return firstNode == node || secondNode == node;
+        }
+
+        public object Clone()
+        {
+            throw new NotImplementedException();
         }
     }
 
