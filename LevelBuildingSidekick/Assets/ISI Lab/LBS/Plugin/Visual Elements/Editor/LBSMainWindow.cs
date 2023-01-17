@@ -1,3 +1,4 @@
+using LBS.Components;
 using LBS.ElementView;
 using LBS.VisualElements;
 using System.Collections;
@@ -11,19 +12,33 @@ public class LBSMainWindow : EditorWindow
     // Data
     public LBSLevelData levelData;
 
-    //
-    private VisualElement _extra;
+    // Selected
+    public LBSLayer selectedLayer;
+    public string selectedMode; // (??) esto deberia ser mas que un string?
+
+    // Templates
+    public List<LayerTemplate> layerTemplates;
 
     // Visual Elements
     private ButtonGroup toolPanel;
     private VisualElement extraPanel;
     private VisualElement noLayerSign;
+    private ModeSelector modeSelector;
+
+    // Panels
+    private LayersPanel layerPanel;
+    private AIPanel aiPanel;
+    private Generator3DPanel gen3DPanel;
+
+    // Manager
+    private ToolkitManager toolkitManager;
+
 
     [MenuItem("ISILab/LBS plugin/Main window", priority = 0)]
     public static void ShowWindow()
     {
         var window = GetWindow<LBSMainWindow>();
-        Texture icon = Resources.Load<Texture>("Icons/Logo"); // (!!) implementar 
+        Texture icon = Resources.Load<Texture>("Icons/Logo");
         window.titleContent = new GUIContent("Level builder", icon);
     }
 
@@ -33,16 +48,24 @@ public class LBSMainWindow : EditorWindow
         visualTree.CloneTree(rootVisualElement);
 
         levelData = new LBSLevelData(); // (!)
-        //levelData.on
+
+        // LayerTemplate
+        layerTemplates = Utility.DirectoryTools.GetScriptablesByType<LayerTemplate>();
+
+        // ToolPanel
+        toolPanel = rootVisualElement.Q<ButtonGroup>("ToolsGroup");
+
+        // ModeSelector
+        modeSelector = rootVisualElement.Q<ModeSelector>("ModeSelector");
+
+        // ToolKitManager
+        toolkitManager = new ToolkitManager(ref toolPanel,ref modeSelector, ref layerTemplates);
 
         // ToolBar
         var toolbar = rootVisualElement.Q<ToolBarMain>("ToolBar");
 
         // MainView 
         var mainView = rootVisualElement.Q<MainView>("MainView");
-
-        // ToolPanel
-        toolPanel = rootVisualElement.Q<ButtonGroup>("ToolPanel");
 
         // InspectorContent
         var inspector = rootVisualElement.Q<VisualElement>("InspectorContent");
@@ -52,59 +75,60 @@ public class LBSMainWindow : EditorWindow
 
         // NoLayerSign
         noLayerSign = rootVisualElement.Q<VisualElement>("NoLayerSign");
+        noLayerSign.style.display = (levelData.Layers.Count <= 0) ? DisplayStyle.Flex : DisplayStyle.None;
         levelData.OnChanged += (lvl) => {
-            noLayerSign.style.display = (lvl.Layers.Count <= 0) ? DisplayStyle.None : DisplayStyle.Flex;
+            noLayerSign.style.display = (lvl.Layers.Count <= 0) ? DisplayStyle.Flex : DisplayStyle.None;
         };
+
+        // SelectedLabel
+        var selectedLabel = rootVisualElement.Q<Label>("SelectedLabel");
+
+        // LayerPanel
+        //layerPanel = rootVisualElement.Q<LayersPanel>("LayersPanel");
+        layerPanel = new LayersPanel(ref levelData, ref layerTemplates);
+        extraPanel.Add(layerPanel);
+        layerPanel.style.display = DisplayStyle.Flex;
+        layerPanel.OnSelectLayer += (layer) => {
+            var mode = "mode";
+            toolkitManager.SetTool(ref layer,ref mode);
+            selectedLabel.text = "selected: " + layer.Name;
+        };
+
+        // AIPanel
+        //aiPanel = rootVisualElement.Q<AIPanel>("AIPanel");
+        aiPanel = new AIPanel(levelData);
+        extraPanel.Add(aiPanel);
+        aiPanel.style.display = DisplayStyle.None;
+
+        // Gen3DPanel
+        //gen3DPanel = rootVisualElement.Q<Generator3DPanel>("Gen3DPanel");
+        gen3DPanel = new Generator3DPanel(levelData);
+        extraPanel.Add(gen3DPanel);
+        gen3DPanel.style.display = DisplayStyle.None;
+
 
         // LayerButton
         var layerBtn = rootVisualElement.Q<Button>("LayerButton");
         layerBtn.clicked += () =>
         {
-            if(_extra == null || _extra.GetType() != typeof(LayersPanel))
-            {
-                extraPanel.Clear();
-                _extra = new LayersPanel(levelData);
-                extraPanel.Add(_extra);
-            }
-            else
-            {
-                extraPanel.Clear();
-                _extra = null;
-            }
+            var value = (layerPanel.style.display == DisplayStyle.None);
+            layerPanel.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
         };
 
         // IAButton
         var IABtn = rootVisualElement.Q<Button>("IAButton");
         IABtn.clicked += () =>
         {
-            if (_extra == null || _extra.GetType() != typeof(AIPanel))
-            {
-                extraPanel.Clear();
-                _extra = new AIPanel();
-                extraPanel.Add(_extra);
-            }
-            else
-            {
-                extraPanel.Clear();
-                _extra = null;
-            }
+            var value = (aiPanel.style.display == DisplayStyle.None);
+            aiPanel.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
         };
 
         // 3DButton
         var Gen3DBtn = rootVisualElement.Q<Button>("3DButton");
         Gen3DBtn.clicked += () =>
         {
-            if (_extra == null || _extra.GetType() != typeof(Generator3DPanel))
-            {
-                extraPanel.Clear();
-                _extra = new Generator3DPanel();
-                extraPanel.Add(_extra);
-            }
-            else
-            {
-                extraPanel.Clear();
-                _extra = null;
-            }
+            var value = (gen3DPanel.style.display == DisplayStyle.None);
+            gen3DPanel.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
         };
     }
 }
