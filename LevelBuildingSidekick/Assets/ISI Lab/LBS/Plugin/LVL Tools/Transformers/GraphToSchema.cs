@@ -44,7 +44,7 @@ namespace LBS.Transformers
 
                     open.Enqueue(child);
 
-                    var parentH = Random.Range(parent.RangeHeight.min, parent.RangeHeight.max); 
+                    var parentH = Random.Range(parent.RangeHeight.min, parent.RangeHeight.max);
                     var parentW = Random.Range(parent.RangeWidth.min, parent.RangeWidth.max);
                     var childH = Random.Range(child.RangeHeight.min, child.RangeHeight.max);
                     var childW = Random.Range(child.RangeWidth.min, child.RangeWidth.max);
@@ -53,12 +53,22 @@ namespace LBS.Transformers
                     var pPos = (pSchema != null) ? pSchema.Centroid : Vector2Int.zero;
 
                     var dir = -((Vector2)(parent.Centroid - child.Centroid)).normalized;
-                    var posX = (dir.x * ((childW + parentW) / 2f) * 1.41f) + pPos.x;
-                    var posY = (dir.y * ((childH + parentH) / 2f) * 1.41f) + pPos.y;
-                    schema.AddRoom(new Vector2Int((int)posX, (int)posY), childW, childH, child.Label);
-                }
 
-                closed.Add(parent);
+                    var posX = (dir.x * ((childW + parentW) / 2f) * Mathf.Sqrt(2)) + pPos.x;
+                    var posY = (dir.y * ((childH + parentH) / 2f) * Mathf.Sqrt(2)) + pPos.y;
+
+                    if ((childW == 1 || childW == 2) && ((childH == 1 || childH == 2)))
+                    {
+                        posX = Mathf.Round(posX);
+                        posY = Mathf.Round(posY);
+                    }
+
+                    schema.AddRoom(new Vector2Int((int)posX, (int)posY), childW, childH, child.Label);
+
+                    if(schema.CheckTilesRooms()) { schema.RepositionRooms();}
+                }
+                
+                closed.Add(parent);                              
             }
 
             schema.RecalculateTilePos();

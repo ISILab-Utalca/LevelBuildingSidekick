@@ -10,6 +10,7 @@ using UnityEditor.Experimental.GraphView;
 using LBS.ElementView;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 namespace LBS.Representation.TileMap
 {
@@ -119,6 +120,7 @@ namespace LBS.Representation.TileMap
 
                 var doorTiles = pTiles[Random.Range(0,pTiles.Count)];
                 var door = new DoorData(doorTiles.Item1.Position, doorTiles.Item2.Position);
+
                 schema.AddDoor(door);
             }
             return schema;
@@ -196,6 +198,8 @@ namespace LBS.Representation.TileMap
             return optimized;
         }
 
+        
+
         private float EvaluateAdjacencies(LBSGraphData graphData, LBSSchemaData schema) 
         {
             if (graphData.EdgeCount() <= 0)
@@ -220,15 +224,15 @@ namespace LBS.Representation.TileMap
                 else
                 {
                     var c = r1.TilesCount;
-                    var max1 = (r1.GetHeight() + r1.GetWidth()) / 2f;
-                    var max2 = (r2.GetHeight() + r2.GetWidth()) / 2f;
+                    var max1 = (r1.Width + r1.Height) / 2f;
+                    var max2 = (r2.Width + r2.Height) / 2f;
                     distValue += 1 - (roomDist / (max1 + max2));
                 }
             }
 
             return distValue / (float)graphData.EdgeCount();
         }
-
+          
         private float EvaluateAreas(LBSGraphData graphData, LBSSchemaData tileMap)
         {
             var value = 0f;
@@ -252,18 +256,19 @@ namespace LBS.Representation.TileMap
         public float EvaluateMap(LBSSchemaData schemaData, LBSGraphData graphData)
         {
 
-            var evaluattions = new Tuple<Func<LBSGraphData, LBSSchemaData, float>, float>[]
+            var evaluations = new Tuple<Func<LBSGraphData, LBSSchemaData, float>, float>[]
             {
                 new Tuple<Func<LBSGraphData, LBSSchemaData, float>,float>(EvaluateAdjacencies,0.5f),
                 new Tuple<Func<LBSGraphData, LBSSchemaData, float>,float>(EvaluateAreas,0.3f),
                 new Tuple<Func<LBSGraphData, LBSSchemaData, float>,float>(EvaluateEmptySpace,0.2f)
+                //new Tuple<Func<LBSGraphData, LBSSchemaData, float>, float>(EvaluateRoomDistribution,0.1f)
             };
 
             var value = 0f;
-            for (int i = 0; i < evaluattions.Count(); i++)
+            for (int i = 0; i < evaluations.Count(); i++)
             {
-                var action = evaluattions[i].Item1;
-                var weight = evaluattions[i].Item2;
+                var action = evaluations[i].Item1;
+                var weight = evaluations[i].Item2;
                 value += (float) action?.Invoke(graphData, schemaData) * weight;
             }
 
@@ -285,7 +290,7 @@ namespace LBS.Representation.TileMap
 
         private float EvaluateByRatio(RoomCharacteristicsData node, RoomData room)
         {
-            float current = room.GetRatio();
+            float current = room.Ratio;
             float objetive = node.AspectRatio.width / (float)node.AspectRatio.heigth;
 
             return 1 - (Mathf.Abs(objetive - current) / (float)objetive);
@@ -294,22 +299,49 @@ namespace LBS.Representation.TileMap
         private float EvaluateBySize(RoomCharacteristicsData node, RoomData room)
         {
             var vw = 1f;
-            if (room.GetWidth() < node.RangeWidth.min || room.GetWidth() > node.RangeWidth.max)
+            if (room.Width < node.RangeWidth.min || room.Width > node.RangeWidth.max)
             {
                 var objetive = node.RangeWidth.Middle;
-                var current = room.GetWidth();
+                var current = room.Width;
                 vw -= (Mathf.Abs(objetive - current) / (float)objetive);
             }
 
             var vh = 1f;
-            if (room.GetHeight() < node.RangeHeight.min || room.GetHeight() > node.RangeHeight.max)
+            if (room.Height < node.RangeHeight.min || room.Height > node.RangeHeight.max)
             {
                 var objetive = node.RangeHeight.Middle;
-                var current = room.GetHeight();
+                var current = room.Height;
                 vh -= (Mathf.Abs(objetive - current) / (float)objetive);
             }
 
             return (vw + vh) / 2f;
+        }
+
+        private float EvaluateRoomDistribution(LBSGraphData graphData, LBSSchemaData schema)
+        {
+            if (graphData.NodeCount() <= 0)
+            {
+                Debug.LogWarning("Cannot calculate the distribution of rooms, there are no rooms in the map.");
+                return 0;
+            }
+
+            float totalDist = 0f;
+            for (int i = 0; i < graphData.NodeCount(); i++)
+            {
+                var node = graphData.GetNode(i);
+                var room = schema.GetRoom(node.Label);
+                for (int j = i + 1; j < graphData.NodeCount(); j++)
+                {
+                    var otherNode = graphData.GetNode(j);
+                    var otherRoom = schema.GetRoom(otherNode.Label);
+                    totalDist += Vector2Int.Distance(room.Centroid, otherRoom.Centroid);
+                }
+            }
+            //calculate average distance
+            var avgDist = totalDist / (graphData.NodeCount() * (graphData.NodeCount() - 1) / 2f);
+
+            //normalize the distance to a value between 0 and 1
+            return 1 - (avgDist / (Mathf.Max(schema.Width, schema.Height) / 2f));
         }
 
         private int GetRoomDistance(RoomData r1, RoomData r2) // O2 - manhattan
@@ -351,7 +383,7 @@ namespace LBS.Representation.TileMap
                 {
                     var neighbor = tileMap.Clone() as LBSSchemaData;
                     var tiles = new List<TileData>();
-                    wall.allTiles.ForEach(t => tiles.Add(new TileData( t + wall.dir,0,new string[4]))); 
+                    wall.allTiles.ForEach(t => tiles.Add(new TileData(t + wall.dir, 0, new string[4])));
                     neighbor.SetTiles(tiles, room.ID);
 
 
@@ -370,8 +402,36 @@ namespace LBS.Representation.TileMap
                     neighbor.RemoveTiles(wall.allTiles);
                     neightbours.Add(neighbor);
                 }
+
+                //Move rooms
+
                 
+
+                // Change the room size
+                var newSize = new Vector2(Random.Range(1, room.Size.x), Random.Range(1, room.Size.y));  
+
+                for (int x = 0; x < newSize.x; x++)
+                {
+                    var newTiles = new List<TileData>();
+                    var neighbor = tileMap.Clone() as LBSSchemaData; 
+
+                    for (int y = 0; y < newSize.y; y++)
+                    {
+                        newTiles.Add(new TileData(new Vector2Int(room.Centroid.x + x, room.Centroid.y + y), 0, new string[4]));
+                    }
+
+                    neighbor.SetTiles(newTiles, room.ID);
+
+                    if (neighbor.Size.x > (int)maxSize.x || neighbor.Size.y > (int)maxSize.z)
+                    {
+                        if (neighbor.Size.x > tileMap.Size.x || neighbor.Size.y > tileMap.Size.y)
+                            continue;
+                    }
+
+                    neightbours.Add(neighbor);
+                }
             }
+
             return neightbours;
         }
 
