@@ -53,6 +53,16 @@ namespace LBS.Components.Teselation
             return a;
         }
 
+        public bool ContainsPoint(Vector2 point)
+        {
+            foreach(T a in areas)
+            {
+                if (a.ContainsPoint(point))
+                    return true;
+            }
+            return false;
+        }
+
         public override void Clear()
         {
             areas.Clear();

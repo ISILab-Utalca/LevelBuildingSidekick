@@ -14,7 +14,7 @@ namespace LBS.Components.TileMap
             connections = new string[Sides];
         }
 
-        public ConnectedTile(Vector2 position, int sides = 4) : base(position, sides)
+        public ConnectedTile(Vector2 position, string id, int sides = 4) : base(position, id, sides)
         {
             connections = new string[Sides];
         }

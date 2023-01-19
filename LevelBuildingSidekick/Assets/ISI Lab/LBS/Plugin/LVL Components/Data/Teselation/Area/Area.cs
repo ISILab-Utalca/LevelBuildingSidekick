@@ -21,6 +21,30 @@ public class Area
     [JsonIgnore]
     public string ID => id;
 
+    [JsonIgnore]
+    public Vector2 Position
+    {
+        get
+        {
+            var x = perimeter.Points.Min(p => p.x);
+            var y = perimeter.Points.Min(p => p.y);
+            return new Vector2(x, y);
+        }
+    }
+
+    [JsonIgnore]
+    public Rect Rect
+    {
+        get
+        {
+            var pos = Position;
+            var width = perimeter.Points.Max(p => p.x) - pos.x;
+            var height = perimeter.Points.Max(p => p.y) - pos.y;
+
+            return new Rect(Position, new Vector2(width, height));
+        }
+    }
+
     public Vector2 Centroid
     {
         get
@@ -79,6 +103,11 @@ public class Area
         return v;
     }
 
+    public virtual bool ContainsPoint(Vector2 point)
+    {
+        return perimeter.IsInside(point);
+    }
+
     internal void Clear()
     {
         perimeter.Points.Clear();
@@ -86,6 +115,16 @@ public class Area
 
     public bool Collides(Area other)//Implementar
     {
+        //Agregar Collision de Rects primero, Bounding Boxes (!)
+
+        for(int i = 0; i < other.PerimeterVertexCount; i++)
+        {
+            if(ContainsPoint(other.GetVertex(i)))
+            {
+                return true;
+            }
+        }
+
         return false;
     }
 }
@@ -99,5 +138,34 @@ struct Polygon
     public Polygon(List<Vector2> points)
     {
         Points = points;
+    }
+
+    public bool IsInside(Vector2 point)
+    {
+        if (Points.Count < 3)
+            return false;
+
+        var externalPoint = new Vector2(int.MaxValue, point.y);
+
+        int count = 0;
+        int i = 0;
+        do
+        {
+
+            // Forming a line from two consecutive points of
+            // poly
+            if (point.LinesIntersect(externalPoint, Points[i], Points[(i + 1) % Points.Count]))
+            {
+
+                // If side is intersects exline
+                if ( point.IntersectionOrientation(Points[i], Points[(i + 1) % Points.Count]) == Orientation.COLINEAR)
+                    return point.IsInLine(Points[i], Points[(i + 1) % Points.Count]);
+                count++;
+            }
+            i = (i + 1) % Points.Count;
+        } while (i != 0);
+
+        // When count is odd
+        return count % 2 != 0;
     }
 }
