@@ -46,6 +46,13 @@ namespace LBS.Components.TileMap
             }
         }
 
+
+        [JsonIgnore]
+        public new Vector2 CellSize
+        {
+            get => TeselationModule.CellSize;
+        }
+
         [JsonIgnore]
         public Vector2 Size => Rect.size;
 
@@ -57,6 +64,9 @@ namespace LBS.Components.TileMap
 
         [JsonIgnore]
         public int TileCount => tiles.Count;
+
+        [JsonIgnore]
+        public List<T> Tiles => new List<T>(tiles);
 
         public virtual bool AddTile(T tile)
         {
@@ -82,6 +92,11 @@ namespace LBS.Components.TileMap
         {
             var tile = tiles.Find(t => t.Position == pos);
             return tile;
+        }
+
+        public T GetTile(int index)
+        {
+            return tiles[index];
         }
 
         public List<T> GetTileNeighbors(T tile, List<Vector2> directions)
