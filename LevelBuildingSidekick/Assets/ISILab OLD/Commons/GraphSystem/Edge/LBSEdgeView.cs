@@ -12,7 +12,7 @@ public abstract class LBSEdgeView : LBSGraphElement
 {
     protected LBSEdgeDataOld data; // (??)
 
-    protected LBSNodeView nv1, nv2;
+    protected LBSNodeViewOld nv1, nv2;
     protected GraphView root;
 
     public LBSEdgeDataOld Data => data;
@@ -28,7 +28,7 @@ public abstract class LBSEdgeView : LBSGraphElement
     /// <param name="nv1">First node view in the edge.</param>
     /// <param name="nv2">Second node view in the edge.</param>
     /// <param name="root">Root graph view.</param>
-    public LBSEdgeView(LBSNodeView nv1, LBSNodeView nv2, LBSGraphView root) : base(root)
+    public LBSEdgeView(LBSNodeViewOld nv1, LBSNodeViewOld nv2, LBSGraphView root) : base(root)
     {
         this.nv1 = nv1;
         this.nv2 = nv2;
@@ -65,7 +65,7 @@ public class LBSDotedEdgeView : LBSEdgeView
     /// <param name="nv1">fFirst node view in the edge.</param>
     /// <param name="nv2">Second node view in the edge<./param>
     /// <param name="root">Root graph view.</param>
-    public LBSDotedEdgeView(LBSNodeView nv1, LBSNodeView nv2, LBSGraphView root) : base(nv1, nv2, root)
+    public LBSDotedEdgeView(LBSNodeViewOld nv1, LBSNodeViewOld nv2, LBSGraphView root) : base(nv1, nv2, root)
     {
     }
 
@@ -121,7 +121,7 @@ public class LBSLineEdgeView : LBSEdgeView
     /// <param name="nv1">First node view in the edge.</param>
     /// <param name="nv2">Second node view in the edge.</param>
     /// <param name="root">Root graph view.</param>
-    public LBSLineEdgeView(LBSNodeView nv1, LBSNodeView nv2, LBSGraphView root) : base(nv1, nv2, root)
+    public LBSLineEdgeView(LBSNodeViewOld nv1, LBSNodeViewOld nv2, LBSGraphView root) : base(nv1, nv2, root)
     {
     }
 

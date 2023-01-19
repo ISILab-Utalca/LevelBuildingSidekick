@@ -62,7 +62,6 @@ public class LayersPanel : VisualElement
         // TypeDropdown
         typeDropdown = this.Q<DropdownField>("TypeDropdown");
         typeDropdown.choices = templates.Select(t => t.name).ToList();
-        //typeDropdown.choices = new List<string> { "Interior", "Exterior", "Population" };
         typeDropdown.index = 0; // (?)
 
         // AddLayerButton

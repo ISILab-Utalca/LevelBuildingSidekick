@@ -24,6 +24,7 @@ public class LBSMainWindow : EditorWindow
     private VisualElement extraPanel;
     private VisualElement noLayerSign;
     private ModeSelector modeSelector;
+    private MainView mainView;
 
     // Panels
     private LayersPanel layerPanel;
@@ -58,14 +59,14 @@ public class LBSMainWindow : EditorWindow
         // ModeSelector
         modeSelector = rootVisualElement.Q<ModeSelector>("ModeSelector");
 
+        // MainView 
+        mainView = rootVisualElement.Q<MainView>("MainView");
+
         // ToolKitManager
-        toolkitManager = new ToolkitManager(ref toolPanel,ref modeSelector, ref layerTemplates);
+        toolkitManager = new ToolkitManager(ref toolPanel,ref modeSelector, ref mainView, ref layerTemplates);
 
         // ToolBar
         var toolbar = rootVisualElement.Q<ToolBarMain>("ToolBar");
-
-        // MainView 
-        var mainView = rootVisualElement.Q<MainView>("MainView");
 
         // InspectorContent
         var inspector = rootVisualElement.Q<VisualElement>("InspectorContent");
@@ -89,8 +90,7 @@ public class LBSMainWindow : EditorWindow
         extraPanel.Add(layerPanel);
         layerPanel.style.display = DisplayStyle.Flex;
         layerPanel.OnSelectLayer += (layer) => {
-            var mode = "mode";
-            toolkitManager.SetTool(ref layer,ref mode);
+            toolkitManager.SetTool(ref layer);
             selectedLabel.text = "selected: " + layer.Name;
         };
 
@@ -131,4 +131,5 @@ public class LBSMainWindow : EditorWindow
             gen3DPanel.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
         };
     }
+
 }

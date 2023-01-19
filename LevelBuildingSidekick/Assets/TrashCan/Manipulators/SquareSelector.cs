@@ -5,17 +5,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class ConnectionManipulator : MouseManipulator
+public class SquareSelector : MouseManipulator
 {
-    private LBSNodeDataOld first;
-    private LBSGraphController controller;
+    private Vector2Int first;
+    private LBSGraphRCController controller;
     private GenericLBSWindow window;
 
-    public Vector2 panSpeed { get; set; }
-
-    public ConnectionManipulator(GenericLBSWindow window,LBSGraphController controller)
+    public SquareSelector(GenericLBSWindow window, LBSGraphRCController controller, float size = 100) // (???) deberia pedir la view en ves de la window
     {
-        activators.Add(new ManipulatorActivationFilter { button = MouseButton.RightMouse });
         this.controller = controller;
         this.window = window;
     }
@@ -36,16 +33,13 @@ public class ConnectionManipulator : MouseManipulator
 
     private void OnMouseDown(MouseDownEvent e)
     {
-        var node = e.target as LBSNodeView;
-        if (node == null)
-            return;
-
-        first = node.Data;
+        var pos = controller.ViewportMousePosition(e.localMousePosition);
+        Vector2Int tpos = ToTileCoords(pos, 100);
     }
 
     private void OnMouseMove(MouseMoveEvent e)
     {
-        //Debug.Log("Move drag");
+
     }
 
     private void OnMouseUp(MouseUpEvent e)
@@ -53,12 +47,20 @@ public class ConnectionManipulator : MouseManipulator
         if (first == null)
             return;
 
-        var node = e.target as LBSNodeView;
+        var node = e.target as LBSNodeViewOld;
         if (node == null)
             return;
 
-        var edge = new LBSEdgeDataOld(first, node.Data);
-        controller.AddEdge(edge);
-        window.RefreshView();
+        //var edge = new LBSEdgeData(first, node.Data);
+        //controller.AddEdge(edge);
+        //window.RefreshView();
+    }
+
+    public Vector2Int ToTileCoords(Vector2 pos, float size) // (!) esto esta duplicado en otro manipulator, podria heredarse
+    {
+        int x = (pos.x > 0) ? (int)(pos.x / size) : (int)(pos.x / size) - 1;
+        int y = (pos.y > 0) ? (int)(pos.y / size) : (int)(pos.y / size) - 1;
+
+        return new Vector2Int(x, y);
     }
 }

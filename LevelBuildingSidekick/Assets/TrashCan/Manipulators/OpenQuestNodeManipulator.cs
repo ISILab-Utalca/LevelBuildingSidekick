@@ -34,7 +34,7 @@ public class OpenQuestNodeManipulator : MouseManipulator
             return;
 
         // Node
-        var node = e.target as LBSNodeView;
+        var node = e.target as LBSNodeViewOld;
         if (node == null)
         {
             return;

@@ -1,5 +1,6 @@
 using LBS.Components;
 using LBS.Components.Graph;
+using LBS.Components.Specifics;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -35,6 +36,7 @@ public class LayerTemplateEditor : Editor
 
     private void InteriorConstruct(LayerTemplate template)
     {
+        //template = new LayerTemplate();
         var layer = new LBSLayer();
 
         // Modules
@@ -48,6 +50,29 @@ public class LayerTemplateEditor : Editor
         layer.iconPath = "Icons/interior-design";
 
         template.layer = layer;
+
+        template.modes = new List<LBSMode>();
+
+        Texture2D icon = Resources.Load<Texture2D>("Icons/pine-tree");
+
+        // Mode 1
+        var tool1 = new LBSTool(icon, "Select", typeof(Empty), null);
+        var tool2 = new LBSTool(icon, "Add node",typeof(CreateNewNode<RoomNode>), null);
+        var tool3 = new LBSTool(icon, "Add conection", typeof(CreateNewNode<RoomNode>), null);
+
+        var mode1 = new LBSMode();
+        mode1.toolkit.AddRange(new List<LBSTool>() { tool1, tool2, tool3 });
+        mode1.name = "Graph";
+        template.modes.Add(mode1);
+
+        // Mode 2
+        var tool4 = new LBSTool(icon, "Select", typeof(Empty), null);
+
+        var mode2 = new LBSMode();
+        mode2.toolkit.Add(tool4);
+        mode2.name = "Schema";
+        template.modes.Add(mode2);
+
         AssetDatabase.SaveAssets();
     }
 

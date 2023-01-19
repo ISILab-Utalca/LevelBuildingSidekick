@@ -34,6 +34,7 @@ namespace LBS.VisualElements
             if (!allowSwitchOff && group.Count > 0)
             {
                 current = group[0];
+                current.OnFocus();
                 Active(current);
             }
         }
@@ -97,6 +98,8 @@ namespace LBS.VisualElements
 
         public new void Clear()
         {
+            if (current != null)
+                current.OnBlur();
             group.Clear();
             base.Clear();
         }

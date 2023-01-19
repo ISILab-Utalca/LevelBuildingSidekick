@@ -27,7 +27,7 @@ namespace LBS.Graph
     {
         public static readonly int cellSize = 64;
 
-        public LBSNodeView first; // cancercito (!!)
+        public LBSNodeViewOld first; // cancercito (!!)
         public int CellSize => cellSize;
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace LBS.Graph
         /// <return> Return nothing if one of the nodes views is not found. </return>
         private void AddEdgeView(LBSEdgeDataOld edge)
         {
-            var nodeViews = view.graphElements.ToList().Where(e => e is LBSNodeView).Select(e => e as LBSNodeView).ToList();
+            var nodeViews = view.graphElements.ToList().Where(e => e is LBSNodeViewOld).Select(e => e as LBSNodeViewOld).ToList();
             var nv1 = nodeViews.Find((n) => {
                 return n.Data.Label == edge.FirstNodeLabel;
             });
@@ -112,13 +112,13 @@ namespace LBS.Graph
         /// </summary>
         /// <param name="label">The label of the node view get.</param>
         /// <returns>The node view with the given label, or null if no such view exists.</returns>
-        public virtual LBSNodeView GetNodeViewBylabel(string label)
+        public virtual LBSNodeViewOld GetNodeViewBylabel(string label)
         {
             foreach (var element in view.graphElements)
             {
-                if (element is LBSNodeView)
+                if (element is LBSNodeViewOld)
                 {
-                    var n = (LBSNodeView)element;
+                    var n = (LBSNodeViewOld)element;
                     if (n != null && n.Data.Label == label)
                         return n;
                 }
@@ -155,7 +155,7 @@ namespace LBS.Graph
         /// <param name="data">Node data to create the new NodeView.</param>
         public void AddNodeView(LBSNodeDataOld data)
         {
-            var nodeView = new LBSNodeView(data, view, cellSize);
+            var nodeView = new LBSNodeViewOld(data, view, cellSize);
             nodeView.OnStartDragEdge += StartDragEdge;
             nodeView.OnEndDragEdge += (n) =>  EndDragEdge(n, this.data.Label);
             elements.Add(nodeView);

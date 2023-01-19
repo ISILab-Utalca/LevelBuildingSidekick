@@ -16,7 +16,7 @@ using Label = UnityEngine.UIElements.Label;
 
 namespace LBS.Graph
 {
-    public class LBSNodeView : LBSGraphElement
+    public class LBSNodeViewOld : LBSGraphElement
     {
         #region InspectorDrawer
         private class NodeScriptable : GenericScriptable<LBSNodeDataOld> { };
@@ -24,7 +24,7 @@ namespace LBS.Graph
         [CanEditMultipleObjects]
         private class NodeScriptableEditor : GenericScriptableEditor { };
         #endregion
-        public new class UxmlFactory : UxmlFactory<LBSNodeView, VisualElement.UxmlTraits> { }
+        public new class UxmlFactory : UxmlFactory<LBSNodeViewOld, VisualElement.UxmlTraits> { }
 
         private static VisualTreeAsset visualTree;
         private static StyleSheet styleSheet;
@@ -41,7 +41,7 @@ namespace LBS.Graph
         /// <summary>
         /// Default constructor of LBSNodeView.
         /// </summary>
-        public LBSNodeView(): base() 
+        public LBSNodeViewOld(): base() 
         {
         }
 
@@ -52,7 +52,7 @@ namespace LBS.Graph
         /// <param name="node"> Node data represented by the node view. </param>
         /// <param name="root"> Parent root graph view. </param>
         /// <param name="cellSize"> Size of the cell in which the node is represented, in pixels. </param>
-        public LBSNodeView(LBSNodeDataOld node, LBSGraphView root, float cellSize = 1) : base(root)
+        public LBSNodeViewOld(LBSNodeDataOld node, LBSGraphView root, float cellSize = 1) : base(root)
         {
             Data = node;
             this.cellSize = cellSize;

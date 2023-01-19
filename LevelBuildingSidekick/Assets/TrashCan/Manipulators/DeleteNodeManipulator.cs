@@ -38,7 +38,7 @@ namespace LBS.Manipulators
                 return;
 
             // Node
-            var node = e.target as LBSNodeView; 
+            var node = e.target as LBSNodeViewOld; 
             if (node != null)
             {
                 controller.RemoveNode(node.Data);

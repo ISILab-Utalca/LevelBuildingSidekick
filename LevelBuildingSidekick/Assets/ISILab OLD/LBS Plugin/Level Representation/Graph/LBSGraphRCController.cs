@@ -62,7 +62,7 @@ namespace LBS.Graph
 
         private void AddEdgeView(LBSEdgeDataOld edge)
         {
-            var nodeViews = view.graphElements.ToList().Where(e => e is LBSNodeView).Select(e => e as LBSNodeView).ToList();
+            var nodeViews = view.graphElements.ToList().Where(e => e is LBSNodeViewOld).Select(e => e as LBSNodeViewOld).ToList();
             var nv1 = nodeViews.Find((n) => {
                 return n.Data.Label == edge.FirstNodeLabel;
             });
