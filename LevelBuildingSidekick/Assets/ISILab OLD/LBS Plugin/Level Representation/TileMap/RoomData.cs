@@ -25,7 +25,8 @@ namespace LBS.Representation.TileMap
         internal Vector2Int surface; // esto podria ir en un controlador y no directamente en la data (??)
         // Properties
         [JsonIgnore]
-        public Vector2Int Centroid => new Vector2Int( tilesPos.Sum(tp => tp.x) / tilesPos.Count, tilesPos.Sum(tp => tp.y)/ tilesPos.Count);
+        public Vector2Int Centroid => (tilesPos.Count != 0) ? new Vector2Int( tilesPos.Sum(tp => tp.x) / tilesPos.Count, tilesPos.Sum(tp => tp.y)/ tilesPos.Count) : 
+                                                              new Vector2Int(tilesPos.Sum(tp => tp.x), tilesPos.Sum(tp => tp.y));
         [JsonIgnore]
         public Vector2Int Size => GetRect().size;
         [JsonIgnore]
@@ -118,6 +119,15 @@ namespace LBS.Representation.TileMap
             }
         }
 
+        internal Vector2Int GetRandomTilePosFromCenter()
+        {
+            int auxNum = (Size == new Vector2Int(1, 1)) ? 1 : 2;
+
+            return new Vector2Int(Centroid.x + UnityEngine.Random.Range(-Width / auxNum, Width / auxNum),
+                                  Centroid.y + UnityEngine.Random.Range(-Height / auxNum, Height / auxNum));
+          
+        }
+
         internal RectInt GetRect()
         {
 
@@ -140,7 +150,7 @@ namespace LBS.Representation.TileMap
             return rect;
         }
 
-        [Obsolete("this method is deprecated, instead use the 'Raatio' property instead")]
+        [Obsolete("this method is deprecated, instead use the 'Ratio' property instead")]
         internal float GetRatio()
         {
             var rect = GetRect();

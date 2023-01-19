@@ -16,7 +16,7 @@ using Unity.IO.LowLevel.Unsafe;
 
 namespace LBS.Manipulators
 {
-    public class CreateTileDragingManipulator : MouseManipulator
+    public class CreateDiagonalTilesManipulators : MouseManipulator // (!!!) FIX
     {
         IRepController controller;
         LBSTileMapData data;
@@ -24,7 +24,7 @@ namespace LBS.Manipulators
         // Events
         public event Action OnEndAction;
 
-        public CreateTileDragingManipulator(LBSTileMapData data, IRepController controller)
+        public CreateDiagonalTilesManipulators(LBSTileMapData data, IRepController controller)
         {
             this.controller = controller;
             this.data = data;
@@ -57,7 +57,7 @@ namespace LBS.Manipulators
         }
     }
 
-    public class CreateTileDragingManipulatorSchema : MouseManipulator
+    public class CreateDiagonalTilesManipulatorsSchema : MouseManipulator
     {
         private LBSTileMapController controller;
         private GenericLBSWindow window;
@@ -69,7 +69,7 @@ namespace LBS.Manipulators
         private Vector2 pos1 = new Vector2();
         private Vector2 pos2 = new Vector2();
 
-        public CreateTileDragingManipulatorSchema(GenericLBSWindow window, LBSTileMapController controller, RoomData cRoom)
+        public CreateDiagonalTilesManipulatorsSchema(GenericLBSWindow window, LBSTileMapController controller, RoomData cRoom)
         {
             activators.Add(new ManipulatorActivationFilter { button = MouseButton.LeftMouse });
             this.controller = controller;
@@ -101,16 +101,9 @@ namespace LBS.Manipulators
         {
             pos2 = controller.ViewportMousePosition(e.localMousePosition);
             activeDragging = false;
+            window.RefreshView();
         }
 
-        //Draging draw
-        //for()
-        //{
-        //  for()
-        //  {
-        //      going through the first tile with "OnMouseDown" to where it is dropped with "OnMouseUp"
-        //  }
-        //}
         private void OnMouseMove(MouseMoveEvent e)
         {
             if (cRoom == null)
@@ -124,15 +117,71 @@ namespace LBS.Manipulators
             var tPos1 = controller.ToTileCoords(pos1);
             var tPos2 = controller.ToTileCoords(pos2);
             var schema = LBSController.CurrentLevel.data.GetRepresentation<LBSSchemaData>();
-                    
-            for (int i = tPos1.y; i <= tPos2.y; i++)
+            var dir = tPos2 - tPos1;
+
+            if(dir.x == 0 && dir.y == 0) return;
+
+            //Vertical
+            if (dir.x == 0 && dir.y > 0 || dir.x == 0 && dir.y < 0)
             {
-                for (int j = tPos1.x; j <= tPos2.x; j++)
+                for (int i = tPos1.y; i <= tPos2.y; i++)
                 {
-                    var tile = new TileData(new Vector2Int(j, i), 0, new string[4]); // (!) esto solo esta para 4 conectados
+                    var tile = new TileData(new Vector2Int(tPos1.x, i), 0, new string[4]);
                     schema.AddTile(tile, cRoom.ID);
-                    window.RefreshView();
                 }
+            }
+            //Horizontal
+            if (dir.x > 0 && dir.y == 0 || dir.x < 0 && dir.y == 0)
+            {
+                for (int i = tPos1.x; i <= tPos2.x; i++)
+                {
+                    var tile = new TileData(new Vector2Int(i, tPos1.y), 0, new string[4]);
+                    schema.AddTile(tile, cRoom.ID);
+                }
+            }
+
+            //i <= Math.Abs(tPos2.x - tPos1.x)
+            //Diagonals
+            //Bottom right to top left
+            if (dir.x < 0 && dir.y < 0)
+            {
+                for (int i = 0; i <= tPos2.x - tPos1.x; i++)
+                {
+                    var tile = new TileData(new Vector2Int(tPos2.x - i, tPos2.y - i), 0, new string[4]);
+                    schema.AddTile(tile, cRoom.ID);
+                }
+
+            }
+            //Top left to bottom right
+            else if (dir.x > 0 && dir.y > 0)
+            {
+                for (int i = 0; i <= tPos2.x - tPos1.x; i++)
+                {
+                    var tile = new TileData(new Vector2Int(tPos1.x + i, tPos2.y - i), 0, new string[4]);
+                    schema.AddTile(tile, cRoom.ID);
+                }
+            }
+            //Bottom left to top right
+            else if (dir.x > 0 && dir.y < 0)
+            {
+                for (int i = 0; i <= tPos2.x - tPos1.x; i++)
+                {
+                    var tile = new TileData(new Vector2Int(tPos1.x + i, tPos1.y + i), 0, new string[4]);
+                    schema.AddTile(tile, cRoom.ID);
+                }
+            }
+            //Top right to bottom left
+            else if(dir.x < 0 && dir.y > 0)
+            {
+                for (int i = 0; i <= tPos2.x - tPos1.x; i++)
+                {
+                    var tile = new TileData(new Vector2Int(tPos2.x - i, tPos1.y + i), 0, new string[4]);
+                    schema.AddTile(tile, cRoom.ID);
+                }
+            }
+            else
+            {
+                return;
             }
         }
     }

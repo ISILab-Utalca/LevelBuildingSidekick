@@ -17,7 +17,7 @@ public class AverageVerticalProgression : Progression2DEvaluator
     /// <returns>A float value representing the progression of the specified tile in the given chromosome.</returns>
     public override float EvaluateProgression(StampTileMapChromosome stmc, int id, int height)
     {
-        int p = 0;
+        float p = 0;
         int prev = 0;
         int max = 0;
 
@@ -51,7 +51,7 @@ public class AverageVerticalProgression : Progression2DEvaluator
             prev = current;
         }
 
-        p /= 2 * height;
+        p /=  (2 * height);
 
         return p;
     }

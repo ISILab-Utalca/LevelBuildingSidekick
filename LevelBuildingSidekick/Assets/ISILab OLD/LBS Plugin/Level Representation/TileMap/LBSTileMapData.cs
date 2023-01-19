@@ -83,7 +83,7 @@ public class LBSTileMapData : LBSRepresentationData, ICloneable
         {
             if (tiles.Contains(other))
             {
-                RemoveTile(other.Position);
+                RemoveTile(other.Position);               
                 tiles.Add(other);
                 //tiles[tiles.IndexOf(other)] = other;
             }

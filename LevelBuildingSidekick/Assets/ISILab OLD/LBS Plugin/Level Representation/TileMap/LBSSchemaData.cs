@@ -5,6 +5,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 namespace LBS.Representation.TileMap
@@ -144,6 +146,86 @@ namespace LBS.Representation.TileMap
             }
             var color = new Color(UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f));
             this.rooms.Add(new RoomData(tempTiles.Select(t => t.Position).ToList(), color, ID));
+        }
+
+        /// <summary>
+        /// Check if exist a room with 0 tiles.
+        /// </summary>
+        /// <returns> True if found a room with 0 tiles, False otherwise.</returns>
+        public bool CheckTilesRooms()
+        {
+            foreach (var room in rooms)
+            {
+                if (room.TilesCount <= 0)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Find all the rooms without tiles in the schema.
+        /// </summary>
+        /// <returns> A list of RoomData.</returns>
+        public List<RoomData> GetRoomsWithoutTiles()
+        {
+            var rwt = new List<RoomData>();
+
+            foreach (var room in rooms)
+            {
+                if (room.TilesCount <= 0) 
+                    rwt.Add(room);                               
+            }
+
+            return rwt; 
+        }
+
+        public void RepositionRooms()
+        {
+            var rwt = GetRoomsWithoutTiles();
+            RoomData closetRoom = rwt[0];
+            float closetDis = Mathf.Infinity;
+
+            for(int i = 0; i < rwt.Count; i++)
+            {
+                for(int j = 0; j < rooms.Count; j++)
+                {                   
+                    float dis = Vector2Int.Distance(rwt[i].Centroid, rooms[j].Centroid);
+
+                    if (rwt[i].ID == rooms[j].ID || rooms[j].Centroid == Vector2Int.zero) continue;
+
+                    if(dis < closetDis)
+                    {
+                        closetDis = dis;
+                        closetRoom = rooms[j];
+                    }
+                }
+
+                List<Vector2Int> tilesPositionsSchema = new List<Vector2Int>();
+                Vector2Int randomPos = closetRoom.GetRandomTilePosFromCenter();
+
+                foreach(var r in rooms)
+                {
+                    foreach(var pos in r.TilesPositions)
+                    {           
+                        tilesPositionsSchema.Add(pos);
+                    }
+                }
+
+                do
+                {
+                    randomPos = closetRoom.GetRandomTilePosFromCenter();
+                }
+                while (tilesPositionsSchema.Contains(randomPos));
+
+                rwt[i].Move(randomPos);
+                rwt[i].AddTile(randomPos);
+                Debug.Log("New Pos: " + randomPos);
+                break;
+                
+            }
         }
 
         /// <summary>
