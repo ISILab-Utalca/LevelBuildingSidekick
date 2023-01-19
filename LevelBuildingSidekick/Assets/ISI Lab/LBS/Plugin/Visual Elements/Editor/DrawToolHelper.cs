@@ -9,7 +9,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using static Unity.Burst.Intrinsics.X86;
 
-public class DrawTool : GraphElement
+public class DrawToolHelper : GraphElement
 {
     public new class UxmlFactory : UxmlFactory<DrawTool, UxmlTraits> { }
 
@@ -17,19 +17,19 @@ public class DrawTool : GraphElement
     private Vector2 initialPos, endPos;
     private Rect grid;
 
-    public DrawTool()
+    public DrawToolHelper()
     {
         this.style.width = 50; // (!) deshardcodear
         this.style.height = 50;
 
-        this.initialPos = new Vector2(0,0);
-        this.endPos = new Vector2(50,50);
+        this.initialPos = new Vector2(0, 0);
+        this.endPos = new Vector2(50, 50);
         this.grid = new Rect(initialPos, endPos);
 
         this.generateVisualContent += OnGenerateVisualContent;
     }
 
-    public DrawTool(Vector2 initialPos, Vector2 endPos)
+    public DrawToolHelper(Vector2 initialPos, Vector2 endPos)
     {
         this.initialPos = initialPos;
         this.endPos = endPos;
@@ -186,7 +186,7 @@ public class DrawTool : GraphElement
         foreach (var path in points)
         {
             paint2D.MoveTo(path[0]);
-            for(int i = 1; i < path.Count; i++)
+            for (int i = 1; i < path.Count; i++)
             {
                 paint2D.LineTo(path[i]);
             }
@@ -198,7 +198,7 @@ public class DrawTool : GraphElement
         paint2D.Stroke();
     }
     //Draw a triangle
-    private void DrawTriangle(Vector2 point, Color color, Color border, float stroke,float angle, float radius)
+    private void DrawTriangle(Vector2 point, Color color, Color border, float stroke, float angle, float radius)
     {
         float angle1 = 0;
         float angle2 = 120;
@@ -238,7 +238,7 @@ public class DrawTool : GraphElement
         paint2D.Stroke();
     }
     //Draw any polygon (in a range)
-    private void DrawPolygons(Vector2 point, int edges, Color color, Color border, float stroke,float angle, float radius)
+    private void DrawPolygons(Vector2 point, int edges, Color color, Color border, float stroke, float angle, float radius)
     {
         List<int> edgesDegree = new List<int>();
         List<Vector2> points = new List<Vector2>();
