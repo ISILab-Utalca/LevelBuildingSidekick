@@ -7,73 +7,12 @@ using UnityEditor.Experimental.GraphView;
 using UnityEditor.Overlays;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static Unity.Burst.Intrinsics.X86;
 
-public class DrawToolHelper : GraphElement
+public static class DrawToolHelper
 {
-    public new class UxmlFactory : UxmlFactory<DrawTool, UxmlTraits> { }
-
-    private Painter2D paint2D;
-    private Vector2 initialPos, endPos;
-    private Rect grid;
-
-    public DrawToolHelper()
-    {
-        this.style.width = 50; // (!) deshardcodear
-        this.style.height = 50;
-
-        this.initialPos = new Vector2(0, 0);
-        this.endPos = new Vector2(50, 50);
-        this.grid = new Rect(initialPos, endPos);
-
-        this.generateVisualContent += OnGenerateVisualContent;
-    }
-
-    public DrawToolHelper(Vector2 initialPos, Vector2 endPos)
-    {
-        this.initialPos = initialPos;
-        this.endPos = endPos;
-
-        this.generateVisualContent += OnGenerateVisualContent;
-    }
-
-    void OnGenerateVisualContent(MeshGenerationContext mgc)
-    {
-        // Init
-        paint2D = mgc.painter2D;
-
-        /*
-         DrawSquareGrid(new List<List<Vector2>>()
-              {
-                 new List<Vector2>() {
-                     new Vector2(grid.xMin, grid.yMin),
-                     new Vector2(grid.xMax, grid.yMin),
-                     new Vector2(grid.xMax, grid.yMax),
-                     new Vector2(grid.xMin, grid.yMax),
-                 },
-              },
-         new Color(1, 0, 0, 0.05f),
-         new Color(1, 0, 0, 1f),
-         3,
-        1.5f,
-        45f * Mathf.Deg2Rad
-         );
-        
-        DrawLine
-        (
-            new Vector2(grid.xMin,grid.yMin), new Vector2(grid.xMax, grid.yMax),
-            new Color(1, 0, 0, 0.05f),
-            new Color(1, 0, 0, 1f),
-            true,
-            3
-        );
-        */
-        //DrawTriangle(new Vector2(0,0), Color.blue, Color.black, 0.5f, 0, 50);
-        DrawPolygons(new Vector2(0, 0), 16, Color.blue, Color.black, 0.5f, 0 * Mathf.Deg2Rad, 50);
-    }
 
     //Draw a square with a hole inside
-    private void DrawHoleyShape(List<List<Vector2>> points, Color color, Color border, float stroke = 1)
+    public static void DrawHoleyShape(this Painter2D paint2D, List<List<Vector2>> points, Color color, Color border, float stroke = 1)
     {
         paint2D.strokeColor = border;
         paint2D.fillColor = color;
@@ -94,16 +33,18 @@ public class DrawToolHelper : GraphElement
         paint2D.Stroke();
 
     }
+
     //Draw a circle
-    private void DrawCircle(Vector2 pos, float radius, Color color)
+    public static void DrawCircle(this Painter2D paint2D, Vector2 pos, float radius, Color color)
     {
+        
         paint2D.fillColor = color;
         paint2D.BeginPath();
         paint2D.Arc(pos, radius, 0.0f, 360.0f);
         paint2D.Fill();
     }
     //Draw a line
-    private void DrawLine(Vector2 iniPos, Vector2 endPos, Color color, Color border, bool dottedLine, float stroke = 3)
+    public static void DrawLine(this Painter2D paint2D, Vector2 iniPos, Vector2 endPos, Color color, Color border, bool dottedLine, float stroke = 3)
     {
         //Dotted Line
         if (dottedLine)
@@ -128,7 +69,7 @@ public class DrawToolHelper : GraphElement
                 //if the number is even, draw from the previous point to the actual
                 if (i % 2 == 0)
                 {
-                    DrawLineWithList(new List<Vector2>() { dots[i - 1], dots[i] }, color, border, 3);
+                    DrawLineWithList( paint2D,new List<Vector2>() { dots[i - 1], dots[i] }, color, border, 3);
                 }
                 //if the number is odd, just doesn't draw the line, and leave a space
                 else
@@ -140,11 +81,11 @@ public class DrawToolHelper : GraphElement
         //If 'dottedLine' is false, just make a straight line
         else
         {
-            DrawLineWithList(new List<Vector2>() { iniPos, endPos }, color, border, 3);
+            DrawLineWithList( paint2D,new List<Vector2>() { iniPos, endPos }, color, border, 3);
         }
     }
     //Draw a line with List<Vector2> instead of just two points
-    private void DrawLineWithList(List<Vector2> point, Color color, Color border, float stroke = 1)
+    public static void DrawLineWithList(this Painter2D paint2D, List<Vector2> point, Color color, Color border, float stroke = 1)
     {
         paint2D.strokeColor = border;
         paint2D.fillColor = color;
@@ -162,7 +103,7 @@ public class DrawToolHelper : GraphElement
     }
     //Draw a square with differents points
     //in the example, just gave initial point and end point to make the entire square
-    private void DrawSquareGrid(List<List<Vector2>> points, Color color, Color border, float stroke, float scale, float angle)
+    public static void DrawSquareGrid(this Painter2D paint2D, List<List<Vector2>> points, Color color, Color border, float stroke, float scale, float angle)
     {
         paint2D.strokeColor = border;
         paint2D.fillColor = color;
@@ -198,7 +139,7 @@ public class DrawToolHelper : GraphElement
         paint2D.Stroke();
     }
     //Draw a triangle
-    private void DrawTriangle(Vector2 point, Color color, Color border, float stroke, float angle, float radius)
+    public static void DrawTriangle(this Painter2D paint2D, Vector2 point, Color color, Color border, float stroke, float angle, float radius)
     {
         float angle1 = 0;
         float angle2 = 120;
@@ -238,7 +179,7 @@ public class DrawToolHelper : GraphElement
         paint2D.Stroke();
     }
     //Draw any polygon (in a range)
-    private void DrawPolygons(Vector2 point, int edges, Color color, Color border, float stroke, float angle, float radius)
+    public static void DrawPolygons(this Painter2D paint2D, Vector2 point, int edges, Color color, Color border, float stroke, float angle, float radius)
     {
         List<int> edgesDegree = new List<int>();
         List<Vector2> points = new List<Vector2>();
@@ -246,7 +187,7 @@ public class DrawToolHelper : GraphElement
 
         if (edges <= 0)
         {
-            DrawCircle(point, radius, color);
+            DrawCircle(paint2D, point, radius, color);
             return;
         }
 

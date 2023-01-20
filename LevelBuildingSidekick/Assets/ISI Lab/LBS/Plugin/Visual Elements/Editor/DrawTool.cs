@@ -42,34 +42,29 @@ public class DrawTool : GraphElement
         // Init
         paint2D = mgc.painter2D;
 
-        /*
-         DrawSquareGrid(new List<List<Vector2>>()
-              {
-                 new List<Vector2>() {
-                     new Vector2(grid.xMin, grid.yMin),
-                     new Vector2(grid.xMax, grid.yMin),
-                     new Vector2(grid.xMax, grid.yMax),
-                     new Vector2(grid.xMin, grid.yMax),
-                 },
-              },
-         new Color(1, 0, 0, 0.05f),
-         new Color(1, 0, 0, 1f),
-         3,
-        1.5f,
-        45f * Mathf.Deg2Rad
-         );
-        
-        DrawLine
-        (
-            new Vector2(grid.xMin,grid.yMin), new Vector2(grid.xMax, grid.yMax),
-            new Color(1, 0, 0, 0.05f),
-            new Color(1, 0, 0, 1f),
-            true,
-            3
-        );
-        */
+        Vector2 iniPos = new Vector2(grid.xMin, grid.yMin); // coordinates of top-left corner
+        Vector2 endPos = new Vector2(grid.xMax, grid.yMax); // coordinates of bottom-right corner
+
+        DrawSquareGrid(new List<List<Vector2>>()
+        { 
+            new List<Vector2>() 
+            {
+                    new Vector2(grid.xMin, grid.yMin),
+                    new Vector2(grid.xMax, grid.yMin),
+                    new Vector2(grid.xMax, grid.yMax),
+                    new Vector2(grid.xMin, grid.yMax),
+            },
+        }
+        , new Color(0, 0, 0, 0)
+        , new Color(0, 0, 0, 1)
+        , 3
+        , 1
+        , 0.45f * Mathf.Deg2Rad
+        , true);
+
+        //DrawLine(new Vector2(grid.xMin,grid.yMin), new Vector2(grid.xMax, grid.yMax), new Color(1, 0, 0, 0.05f), new Color(1, 0, 0, 1f), true, 3);
         //DrawTriangle(new Vector2(0,0), Color.blue, Color.black, 0.5f, 0, 50);
-        DrawPolygons(new Vector2(0, 0), 16, Color.blue, Color.black, 0.5f, 0 * Mathf.Deg2Rad, 50);
+        //DrawPolygons(new Vector2(0, 0), 16, Color.blue, Color.black, 0.5f, 0 * Mathf.Deg2Rad, 50);
     }
 
     //Draw a square with a hole inside
@@ -162,41 +157,100 @@ public class DrawTool : GraphElement
     }
     //Draw a square with differents points
     //in the example, just gave initial point and end point to make the entire square
-    private void DrawSquareGrid(List<List<Vector2>> points, Color color, Color border, float stroke, float scale, float angle)
+    private void DrawSquareGrid(List<List<Vector2>> points, Color color, Color border, float stroke, float scale, float angle, bool dottedLine)
     {
-        paint2D.strokeColor = border;
-        paint2D.fillColor = color;
-        paint2D.BeginPath();
-
-        for (int j = 0; j < points.Count; j++)
+        if (dottedLine)
         {
-            for (int i = 0; i < points[j].Count; i++)
+            // Calculate the size of the square
+            float width = Mathf.Abs(endPos.x - initialPos.x);
+            float height = Mathf.Abs(endPos.y - initialPos.y);
+            float size = Mathf.Max(width, height);
+
+            // Calculate the center of the square
+            Vector2 center = new Vector2((initialPos.x + endPos.x) / 2, (initialPos.y + endPos.y) / 2);
+
+            float halfSize = size / 2;
+            Vector2 topLeft = new Vector2(center.x - halfSize, center.y + halfSize);
+            Vector2 topRight = new Vector2(center.x + halfSize, center.y + halfSize);
+            Vector2 bottomLeft = new Vector2(center.x - halfSize, center.y - halfSize);
+            Vector2 bottomRight = new Vector2(center.x + halfSize, center.y - halfSize);
+
+            // Draw the top line
+            DrawLine(topLeft, topRight, color, border, dottedLine, stroke);
+
+            // Draw the right line
+            DrawLine(topRight, bottomRight, color, border, dottedLine, stroke);
+
+            // Draw the bottom line
+            DrawLine(bottomRight, bottomLeft, color, border, dottedLine, stroke);
+
+            // Draw the left line
+            DrawLine(bottomLeft, topLeft, color, border, dottedLine, stroke);
+
+        }
+        else
+        {
+            paint2D.strokeColor = border;
+            paint2D.fillColor = color;
+            paint2D.BeginPath();
+
+            for (int j = 0; j < points.Count; j++)
             {
-                Vector2 newVector2 = new Vector2();
-                newVector2.x = points[j][i].x * scale;
-                newVector2.y = points[j][i].y * scale;
-                float x = newVector2.x;
-                float y = newVector2.y;
-                newVector2.x = x * Mathf.Cos(angle) - y * Mathf.Sin(angle);
-                newVector2.y = x * Mathf.Sin(angle) + y * Mathf.Cos(angle);
-                points[j][i] = newVector2;
+                for (int i = 0; i < points[j].Count; i++)
+                {
+                    Vector2 newVector2 = new Vector2();
+                    newVector2.x = points[j][i].x * scale;
+                    newVector2.y = points[j][i].y * scale;
+                    float x = newVector2.x;
+                    float y = newVector2.y;
+                    newVector2.x = x * Mathf.Cos(angle) - y * Mathf.Sin(angle);
+                    newVector2.y = x * Mathf.Sin(angle) + y * Mathf.Cos(angle);
+                    points[j][i] = newVector2;
+                }
             }
+            foreach (var path in points)
+            {
+                paint2D.MoveTo(path[0]);
+                for (int i = 1; i < path.Count; i++)
+                {
+                    paint2D.LineTo(path[i]);
+                }
+
+                paint2D.ClosePath();
+            }
+            paint2D.lineWidth = stroke;
+            paint2D.Fill(FillRule.OddEven);
+            paint2D.Stroke();
+
+            // Calculate the size of the square
+            float width = Mathf.Abs(endPos.x - initialPos.x);
+            float height = Mathf.Abs(endPos.y - initialPos.y);
+            float size = Mathf.Max(width, height);
+
+            // Calculate the center of the square
+            Vector2 center = new Vector2((initialPos.x + endPos.x) / 2, (initialPos.y + endPos.y) / 2);
+
+            float halfSize = size / 2;
+            Vector2 topLeft = new Vector2(center.x - halfSize, center.y + halfSize);
+            Vector2 topRight = new Vector2(center.x + halfSize, center.y + halfSize);
+            Vector2 bottomLeft = new Vector2(center.x - halfSize, center.y - halfSize);
+            Vector2 bottomRight = new Vector2(center.x + halfSize, center.y - halfSize);
+
+            // Draw the top line
+            DrawLine(topLeft, topRight, color, border, dottedLine, stroke);
+
+            // Draw the right line
+            DrawLine(topRight, bottomRight, color, border, dottedLine, stroke);
+
+            // Draw the bottom line
+            DrawLine(bottomRight, bottomLeft, color, border, dottedLine, stroke);
+
+            // Draw the left line
+            DrawLine(bottomLeft, topLeft, color, border, dottedLine, stroke);
         }
 
-        foreach (var path in points)
-        {
-            paint2D.MoveTo(path[0]);
-            for(int i = 1; i < path.Count; i++)
-            {
-                paint2D.LineTo(path[i]);
-            }
-
-            paint2D.ClosePath();
-        }
-        paint2D.lineWidth = stroke;
-        paint2D.Fill(FillRule.OddEven);
-        paint2D.Stroke();
     }
+
     //Draw a triangle
     private void DrawTriangle(Vector2 point, Color color, Color border, float stroke,float angle, float radius)
     {
