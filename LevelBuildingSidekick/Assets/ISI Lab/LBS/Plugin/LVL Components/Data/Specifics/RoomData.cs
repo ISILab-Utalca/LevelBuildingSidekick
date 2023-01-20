@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace LBS.Components.Specifics
 {
+    [System.Serializable]
     public class RoomData : ICloneable
     {
         //FIELDS
@@ -58,6 +59,19 @@ namespace LBS.Components.Specifics
         [JsonIgnore]
         public int TagCount => tags.Count;
 
+        // CONSTRUCTORS
+        public RoomData()
+        {
+
+        }
+
+        public RoomData(int width, int height, List<string> tags)
+        {
+            this.width = width;
+            this.height = height;
+            this.tags = tags;
+        }
+
         //METHODS
         public bool AddTag(string tag)
         {
@@ -68,7 +82,6 @@ namespace LBS.Components.Specifics
             tags.Add(tag);
             return true;
         }
-
 
         public string GetTag(int index)
         {
@@ -90,9 +103,10 @@ namespace LBS.Components.Specifics
             tags.RemoveAt(index);
             return t;
         }
+
         public object Clone()
         {
-            throw new NotImplementedException();
+            return new RoomData(this.Width,this.Height,new List<string>(tags));
         }
 
     }

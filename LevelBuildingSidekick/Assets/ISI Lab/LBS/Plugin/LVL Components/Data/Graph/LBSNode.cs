@@ -68,7 +68,7 @@ namespace LBS.Components.Graph
         }
 
         [HideInInspector, JsonIgnore]
-        internal Action<LBSNode> OnChange; // explicarle esto al gabo pa ver que opina (!!!)
+        internal Action<LBSNode> OnChange; //  (!!!) implementar
 
 
         /// <summary>

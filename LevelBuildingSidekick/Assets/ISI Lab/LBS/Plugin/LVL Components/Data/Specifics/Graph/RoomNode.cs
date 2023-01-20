@@ -2,13 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using LBS.Components.Graph;
+using Newtonsoft.Json;
 
 namespace LBS.Components.Specifics
 {
+    [System.Serializable]
     public class RoomNode : LBSNode
     {
+        [SerializeField, JsonRequired]
         RoomData room;
 
+        [JsonIgnore]
         public RoomData Room => room;
 
         public RoomNode(): base()
@@ -23,7 +27,7 @@ namespace LBS.Components.Specifics
 
         public override object Clone()
         {
-            throw new System.NotImplementedException();
+            return new RoomNode(ID, Position, room.Clone() as RoomData);
         }
     }
 }

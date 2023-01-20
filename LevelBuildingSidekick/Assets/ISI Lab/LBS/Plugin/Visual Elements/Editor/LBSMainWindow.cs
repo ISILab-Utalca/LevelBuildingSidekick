@@ -33,6 +33,7 @@ public class LBSMainWindow : EditorWindow
 
     // Manager
     private ToolkitManager toolkitManager;
+    private DrawManager drawManager;
 
 
     [MenuItem("ISILab/LBS plugin/Main window", priority = 0)]
@@ -63,7 +64,11 @@ public class LBSMainWindow : EditorWindow
         mainView = rootVisualElement.Q<MainView>("MainView");
 
         // ToolKitManager
-        toolkitManager = new ToolkitManager(ref toolPanel,ref modeSelector, ref mainView, ref layerTemplates);
+        toolkitManager = new ToolkitManager(ref toolPanel, ref modeSelector, ref mainView, ref layerTemplates);
+
+        // DrawManager
+        drawManager = new DrawManager(ref mainView, ref layerTemplates);
+        levelData.OnChanged += (lvl) => { drawManager.RefreshView(ref selectedLayer); };
 
         // ToolBar
         var toolbar = rootVisualElement.Q<ToolBarMain>("ToolBar");
@@ -90,7 +95,8 @@ public class LBSMainWindow : EditorWindow
         extraPanel.Add(layerPanel);
         layerPanel.style.display = DisplayStyle.Flex;
         layerPanel.OnSelectLayer += (layer) => {
-            toolkitManager.SetTool(ref layer);
+            var module = layer.GetModule(0); // (!!) implementar cuando se pueda seleccionar un modulo
+            toolkitManager.SetTool(ref levelData,ref layer,ref module);
             selectedLabel.text = "selected: " + layer.Name;
         };
 
@@ -131,5 +137,4 @@ public class LBSMainWindow : EditorWindow
             gen3DPanel.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
         };
     }
-
 }

@@ -1,3 +1,4 @@
+using LBS.Components;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,12 +6,11 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class MainView : LBSGraphView
+public class MainView : GraphView
 {
     public new class UxmlFactory : UxmlFactory<MainView, GraphView.UxmlTraits> { }
 
     public ExternalBounds visualBound;
-    //public DrawTool test;
 
     public Action<ContextualMenuPopulateEvent> OnBuild;
     public Action OnClearSelection;
@@ -42,14 +42,28 @@ public class MainView : LBSGraphView
         //AddElement(test);
     }
 
+    public void SetElementView(List<LBSLayer> layers, ref List<LayerTemplate> templates)
+    {
+        foreach (var layer in layers)
+        {
+            foreach (var template in templates)
+            {
+                if (layer.ID == template.layer.ID)
+                {
+                    //template.DrawElement(layer, this); ////////////////////////////////////////////////////////
+                }
+            }
+        }
+    }
+
     public void SetBasicManipulators() // necesario aqui (?)
     {
         var manis = new List<Manipulator>() {
-                new ClickSelector(),
+                //new ClickSelector(),
                 new ContentZoomer(),
                 new ContentDragger(),
                 new SelectionDragger(),
-                new RectangleSelector()
+                // new RectangleSelector()
             };
 
         SetManipulators(manis);
@@ -116,5 +130,16 @@ public class MainView : LBSGraphView
                 this.AddManipulator(m as IManipulator);
             }
         }
+    }
+
+    public void ClearView()
+    {
+        this.graphElements.ForEach(e => this.RemoveElement(e));
+        AddElement(visualBound);
+    }
+
+    public new void AddElement(GraphElement element)
+    {
+        base.AddElement(element);
     }
 }

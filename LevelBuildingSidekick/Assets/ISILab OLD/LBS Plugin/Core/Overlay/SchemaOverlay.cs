@@ -155,20 +155,20 @@ namespace LBS.Overlays
                 btnGroup.Add(dragTiles);
 
                 //Drag delete mode
-                var dragDeleteTiles = new PresedBtn();
+                var dragDeleteTiles = new PresedBtnOld();
                 {
                     dragDeleteTiles.clicked += () =>
                     {
                         var wnd = EditorWindow.GetWindow<LBSSchemaWindow>();
                         var c = wnd.GetController<LBSTileMapController>();
-                        wnd.MainView.SetManipulator(new DeleteTileGridingManipulator_Scheme(wnd, c));
+                        //wnd.MainView.SetManipulator(new DeleteTileGridingManipulator_Scheme(wnd, c));
                     };
                     dragDeleteTiles.text = "Delete drag mode";
                 }
                 btnGroup.Add(dragDeleteTiles);
 
                 //Brush tile mode
-                var brushTiles = new PresedBtn();
+                var brushTiles = new PresedBtnOld();
                 {
                     brushTiles.style.flexDirection = FlexDirection.Row;
                     brushTiles.style.alignItems = Align.Center;
@@ -193,7 +193,7 @@ namespace LBS.Overlays
                 btnGroup.Add(brushTiles);
 
                 //Diagonal tile mode
-                var diagonalTiles = new PresedBtn();
+                var diagonalTiles = new PresedBtnOld();
                 {
                     diagonalTiles.style.flexDirection = FlexDirection.Row;
                     diagonalTiles.style.alignItems = Align.Center;

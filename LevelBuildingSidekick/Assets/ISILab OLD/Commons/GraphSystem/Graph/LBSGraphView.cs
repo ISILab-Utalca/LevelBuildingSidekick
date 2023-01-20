@@ -15,7 +15,7 @@ public abstract class LBSGraphView : GraphView
     /// <summary>
     /// Removes all visual elements contained in this view.
     /// </summary>
-    public void ClearView()
+    public virtual void ClearView()
     {
         this.graphElements.ForEach(e => this.RemoveElement(e));
     }

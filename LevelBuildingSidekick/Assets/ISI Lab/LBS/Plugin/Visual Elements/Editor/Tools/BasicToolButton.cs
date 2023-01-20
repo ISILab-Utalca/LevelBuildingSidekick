@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 public class BasicToolButton : VisualElement, IGrupable
 {
     public Color color = new Color(72 / 255f, 72 / 255f, 72 / 255f);
-    public Color selected = new Color(207 / 255f, 100 / 255f, 29 / 255f);
+    public Color selected = new Color(161 / 255f, 81 / 255f, 21 / 255f);
 
     private Button button;
     private VisualElement icon;

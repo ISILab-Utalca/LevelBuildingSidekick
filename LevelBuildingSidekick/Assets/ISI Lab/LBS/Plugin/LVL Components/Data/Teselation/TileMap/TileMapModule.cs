@@ -12,7 +12,7 @@ namespace LBS.Components.TileMap
     {
         //FIELDS
         [SerializeField, JsonRequired, SerializeReference]
-        List<T> tiles;
+        List<LBSTile> tiles;
 
         //PROEPRTIES
         [JsonIgnore]
@@ -66,7 +66,7 @@ namespace LBS.Components.TileMap
         public int TileCount => tiles.Count;
 
         [JsonIgnore]
-        public List<T> Tiles => new List<T>(tiles);
+        public List<LBSTile> Tiles => new List<LBSTile>(tiles);
 
         public virtual bool AddTile(T tile)
         {
@@ -90,13 +90,13 @@ namespace LBS.Components.TileMap
 
         public T GetTile(Vector2Int pos)
         {
-            var tile = tiles.Find(t => t.Position == pos);
+            var tile = tiles.Find(t => t.Position == pos) as T;
             return tile;
         }
 
         public T GetTile(int index)
         {
-            return tiles[index];
+            return tiles[index] as T;
         }
 
         public List<T> GetTileNeighbors(T tile, List<Vector2> directions)
@@ -106,7 +106,7 @@ namespace LBS.Components.TileMap
             {
                 var pos = tile.Position + new Vector2(v.x * CellSize.x, v.y * CellSize.y);
                 pos = SnapPosition(pos);
-                var neigh = tiles.Find(t => t.Position == pos);
+                var neigh = tiles.Find(t => t.Position == pos) as T;
                 neighbors.Add(neigh);
             }
             return neighbors;
@@ -123,7 +123,7 @@ namespace LBS.Components.TileMap
             {
                 return null;
             }
-            var t = tiles[index];
+            var t = tiles[index] as T;
             tiles.Remove(t);
             return t;
         }
@@ -154,7 +154,7 @@ namespace LBS.Components.TileMap
             {
                 var p = tile.Position;
                 var pos = p - rect.min;
-                matrixIDs[(int)pos.x, (int)pos.y] = tile;
+                matrixIDs[(int)pos.x, (int)pos.y] = tile as T;
             }
             return matrixIDs;
         }

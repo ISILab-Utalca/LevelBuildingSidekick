@@ -16,6 +16,7 @@ public class LayerTemplateEditor : Editor
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
+
         var template = (LayerTemplate)target;
 
         if(GUILayout.Button("Set as interior"))
@@ -36,11 +37,10 @@ public class LayerTemplateEditor : Editor
 
     private void InteriorConstruct(LayerTemplate template)
     {
-        //template = new LayerTemplate();
         var layer = new LBSLayer();
 
         // Modules
-        layer.AddModule(new LBSBaseGraph());
+        layer.AddModule(new LBSRoomGraph());
 
         // Transformers
         //layer.AddTransformer();
@@ -56,9 +56,9 @@ public class LayerTemplateEditor : Editor
         Texture2D icon = Resources.Load<Texture2D>("Icons/pine-tree");
 
         // Mode 1
-        var tool1 = new LBSTool(icon, "Select", typeof(Empty), null);
-        var tool2 = new LBSTool(icon, "Add node",typeof(CreateNewNode<RoomNode>), null);
-        var tool3 = new LBSTool(icon, "Add conection", typeof(CreateNewNode<RoomNode>), null);
+        var tool1 = new LBSTool(icon, "Select", typeof(Empty), null, true);
+        var tool2 = new LBSTool(icon, "Add node",typeof(CreateNewRoomNode), null, false);
+        var tool3 = new LBSTool(icon, "Add conection", typeof(CreateNewRoomNode), null, false);
 
         var mode1 = new LBSMode();
         mode1.toolkit.AddRange(new List<LBSTool>() { tool1, tool2, tool3 });

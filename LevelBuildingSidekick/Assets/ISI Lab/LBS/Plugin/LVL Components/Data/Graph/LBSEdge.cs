@@ -11,11 +11,6 @@ namespace LBS.Components.Graph
     [System.Serializable]
     public class LBSEdge : ICloneable
     {
-        //[JsonIgnore]
-        //public LBSNodeData firstNode;
-        //[JsonIgnore]
-        //public LBSNodeData secondNode;
-        
         [SerializeField, JsonRequired, SerializeReference]
         private LBSNode firstNode;
         [SerializeField, JsonRequired, SerializeReference]
@@ -63,7 +58,7 @@ namespace LBS.Components.Graph
 
         public object Clone()
         {
-            throw new NotImplementedException();
+            return new LBSEdge(FirstNode.Clone() as LBSNode, SecondNode.Clone() as LBSNode);
         }
     }
 

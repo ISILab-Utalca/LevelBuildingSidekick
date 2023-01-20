@@ -5,6 +5,7 @@ using UnityEngine;
 using LBS.Tools;
 using System;
 using System.Linq;
+using LBS.Tools.Transformer;
 
 namespace LBS.Components
 {
@@ -28,8 +29,7 @@ namespace LBS.Components
         [SerializeField, JsonRequired, SerializeReference]
         private List<Transformer> transformers;
 
-        [SerializeField]
-        [JsonRequired, SerializeReference]
+        [SerializeField, JsonRequired, SerializeReference]
         private List<LBSModule> modules;
 
         [JsonIgnore]
@@ -52,8 +52,6 @@ namespace LBS.Components
             get => name;
             set => name = value;
         }
-
-
 
         //EVENTS
         public Action<LBSLayer> OnChanged;
@@ -144,9 +142,11 @@ namespace LBS.Components
 
         public T GetModule<T>(string ID = "") where T : LBSModule
         {
+            var type = typeof(T);
             foreach (var module in modules)
             {
-                if (module is T)
+                var mType = module.GetType();
+                if (mType == type)
                 {
                     if(ID.Equals("") || module.ID.Equals(ID))
                         return module as T;

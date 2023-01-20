@@ -1,5 +1,6 @@
 using LBS.Components;
 using LBS.Components.Graph;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,7 @@ public class LayerTemplate : ScriptableObject
 {
     public LBSLayer layer;
     public List<LBSMode> modes = new List<LBSMode>();
+
 }
 
 [System.Serializable]

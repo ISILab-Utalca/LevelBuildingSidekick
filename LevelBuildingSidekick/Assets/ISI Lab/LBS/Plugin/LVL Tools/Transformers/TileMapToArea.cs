@@ -25,8 +25,8 @@ namespace LBS.Tools.Transformer
 
             foreach(var id in IDs)
             {
-                var room = tiles.Where(t => t.ID.Equals(id));
-                var corners = GetCorners(room.ToList());
+                var room = tiles.Where(t => t.ID.Equals(id)).ToList();
+                var corners = GetCorners(room.Select(t => t as ConnectedTile).ToList());
 
                 var area = areaModule.GetArea(id);
                 if(area != null)

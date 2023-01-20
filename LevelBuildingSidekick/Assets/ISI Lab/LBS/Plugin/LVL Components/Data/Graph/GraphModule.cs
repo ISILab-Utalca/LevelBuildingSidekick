@@ -4,6 +4,7 @@ using UnityEngine;
 using LBS.Graph;
 using Newtonsoft.Json;
 using System.Linq;
+using LBS.Components.Specifics;
 
 namespace LBS.Components.Graph
 {
@@ -13,7 +14,7 @@ namespace LBS.Components.Graph
         //FIELDS
 
         [SerializeField, JsonRequired, SerializeReference]
-        List<T> nodes = new List<T>();
+        List<LBSNode> nodes = new List<LBSNode>();
 
         [SerializeField, JsonRequired, SerializeReference]
         List<LBSEdge> edges = new List<LBSEdge>();
@@ -42,7 +43,7 @@ namespace LBS.Components.Graph
         public override void Clear()
         {
             edges = new List<LBSEdge>();
-            nodes = new List<T>();
+            nodes = new List<LBSNode>();
         }
 
         /// <summary>
@@ -51,7 +52,7 @@ namespace LBS.Components.Graph
         /// <param name="ID">ID given to remove the node.</param>
         public void RemoveNode(string ID)
         {
-            var r = nodes.Find(n => n.ID == ID);
+            var r = nodes.Find(n => n.ID == ID) as T;
             if (r != null)
                 RemoveNode(r);
         }
@@ -74,7 +75,7 @@ namespace LBS.Components.Graph
         /// <returns>Return the node found by label or null if no such exists.</returns>
         public T GetNode(string id)
         {
-            return nodes.Find(n => n.ID == id);
+            return nodes.Find(n => n.ID == id) as T;
         }
 
         /// <summary>
@@ -84,7 +85,7 @@ namespace LBS.Components.Graph
         /// <returns>Return the node found by index.</returns>
         public T GetNode(int index)
         {
-            return nodes[index];
+            return nodes[index] as T;
         }
 
         /// <summary>
@@ -93,7 +94,7 @@ namespace LBS.Components.Graph
         /// <returns> List of nodes.</returns>
         public List<T> GetNodes()
         {
-            return new List<T>(nodes);
+            return new List<T>(nodes.Select(n => n as T));
         }
 
         /// <summary>
@@ -279,7 +280,7 @@ namespace LBS.Components.Graph
         public override object Clone()
         {
             var module = new GraphModule<T>();
-            module.nodes = this.nodes.Select(n => n.Clone() as T).ToList();
+            module.nodes = this.nodes.Select(n => n.Clone() as LBSNode).ToList();
             module.edges = this.edges.Select(e => e.Clone() as LBSEdge).ToList();
             return module;
         }
@@ -287,5 +288,8 @@ namespace LBS.Components.Graph
 
     [System.Serializable]
     public class LBSBaseGraph : GraphModule<LBSNode> { }
+
+    [System.Serializable]
+    public class LBSRoomGraph : GraphModule<RoomNode> { }
 }
 
