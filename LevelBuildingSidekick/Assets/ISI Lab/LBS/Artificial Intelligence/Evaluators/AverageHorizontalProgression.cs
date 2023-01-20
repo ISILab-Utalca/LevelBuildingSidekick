@@ -17,7 +17,7 @@ public class AverageHorizontalProgression : Progression2DEvaluator
     /// <returns>A float representing the progression of the tile map.</returns>
     public override float EvaluateProgression(StampTileMapChromosome stmc, int id, int height)
     {
-        int p = 0;
+        float p = 0;
         int prev = 0;
         int max = 0;
 
@@ -51,7 +51,7 @@ public class AverageHorizontalProgression : Progression2DEvaluator
             prev = current;
         }
 
-        p /= 2 * stmc.MatrixWidth;
+        p /= (2 * stmc.MatrixWidth);
 
         return p;
     }

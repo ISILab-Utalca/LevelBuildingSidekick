@@ -21,10 +21,10 @@ public static class Vector2Extension
         return false;
     }
 
-    public static Orientation IntersectionOrientation(this Vector2 vector, Vector2 point1, Vector2 point2)
+    public static Orientation IntersectionOrientation(this Vector2 point, Vector2 start,  Vector2 end)
     {
-        float val = (point1.y - vector.y) * (point2.x - point1.x)
-      - (point1.x - vector.x) * (point2.y - point1.y);
+        float val = (point.y - start.y) * (end.x - point.x)
+      - (point.x - start.x) * (end.y - point.y);
 
         if (val == 0)
 

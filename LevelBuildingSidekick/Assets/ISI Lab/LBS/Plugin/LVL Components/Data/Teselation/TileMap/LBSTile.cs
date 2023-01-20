@@ -16,6 +16,9 @@ namespace LBS.Components.TileMap
         [SerializeField, JsonRequired, SerializeReference]
         int sides = 4;
 
+        [SerializeField, JsonRequired, SerializeReference]
+        string id;
+
         //PROPERTIES
 
         [JsonIgnore]
@@ -28,6 +31,14 @@ namespace LBS.Components.TileMap
         [JsonIgnore]
         public int Sides => sides;
 
+        [JsonIgnore]
+        public string ID
+        {
+            get => id;
+            set => id = value;
+        }
+
+
         //COSNTRUCTORS
 
         public LBSTile() 
@@ -37,10 +48,11 @@ namespace LBS.Components.TileMap
             sides = 4; 
         }
 
-        public LBSTile(Vector2 position, int sides = 4) 
+        public LBSTile(Vector2 position, string id, int sides = 4) 
         {
             x = (int)position.x;
             y = (int)position.y;
+            this.id = id;
             this.sides = sides; 
         }
     }
