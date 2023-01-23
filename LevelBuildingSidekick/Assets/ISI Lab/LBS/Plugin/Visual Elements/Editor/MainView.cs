@@ -17,6 +17,9 @@ public class MainView : GraphView
 
     private List<Manipulator> manipulators = new List<Manipulator>();
 
+    private Vector2 tileSize = new Vector2(100,100);
+    public Vector2 TileSize => tileSize;
+
     public MainView()
     {
         Insert(0, new GridBackground());

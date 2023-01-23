@@ -26,8 +26,8 @@ public class BasicToolButton : VisualElement, IGrupable
         button = this.Q<Button>("Button");
         //button.clicked += OnFocus;
 
-       // Icon
-       icon = this.Q<VisualElement>("Icon");
+        // Icon
+        icon = this.Q<VisualElement>("Icon");
         icon.style.backgroundImage = texture;
 
         // LabelName
@@ -35,7 +35,7 @@ public class BasicToolButton : VisualElement, IGrupable
         label.text = name;
     }
 
-    public void AddEvent(Action action)
+    public void AddGroupEvent(Action action)
     {
         button.clicked += action;
     }

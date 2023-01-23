@@ -21,11 +21,11 @@ public class LBSTool
     public bool UseUnitySelector;
 
     [NonSerialized]
-    private LBSManipulator _manipulator;
+    protected LBSManipulator _manipulator;
 
-    public event Action OnStartAction;
-    public event Action OnUpdateAction;
-    public event Action OnEndAction;
+    public Action OnStartAction;
+    public Action OnUpdateAction;
+    public Action OnEndAction;
 
     public LBSTool(Texture2D icon, string name, Type manipulator, Type inspector, bool useUnitySelector = false)
     {
@@ -37,7 +37,7 @@ public class LBSTool
     }
 
 
-    public VisualElement GetButton(MainView view)
+    public virtual VisualElement GetButton(MainView view)
     {
         var btn = new BasicToolButton(this.icon, this.name);
 
@@ -54,7 +54,7 @@ public class LBSTool
         return btn;
     }
 
-    public void InitManipulator(ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module) // (!)
+    public virtual void InitManipulator(ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module) // (!)
     {
         var mType = Type.GetType(this.manipulator);
         _manipulator = Activator.CreateInstance(mType) as LBSManipulator;
@@ -65,8 +65,8 @@ public class LBSTool
         _manipulator.Init(ref view,ref level, ref layer, ref module);
     }
 
-    public VisualElement GetInspector()
+    public virtual VisualElement GetInspector()
     {
-        return null; // (!) implementar
+        throw new NotImplementedException(); // (!) implementar
     }
 }
