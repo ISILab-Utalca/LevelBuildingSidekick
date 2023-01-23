@@ -26,8 +26,8 @@ public class LBSEdgeView<T,U> : GraphElement where T: LBSEdge where U :LBSNode
         this.node2 = node2;
         node2.OnMoving += (pos) => { ActualizePositions(pos1, pos); };
         
-        var sPos1 = new Vector2Int((int)node1.GetPosition().x, (int)node1.GetPosition().y);
-        var sPos2 = new Vector2Int((int)node2.GetPosition().x, (int)node2.GetPosition().y);
+        var sPos1 = new Vector2Int((int)node1.GetPosition().center.x, (int)node1.GetPosition().center.y);
+        var sPos2 = new Vector2Int((int)node2.GetPosition().center.x, (int)node2.GetPosition().center.y);
         ActualizePositions(sPos1, sPos2);
 
         this.SetPosition(new Rect(pos1, new Vector2(10,10)));
