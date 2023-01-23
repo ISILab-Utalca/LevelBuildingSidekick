@@ -55,6 +55,13 @@ namespace LBS.Components.TileMap
             this.id = id;
             this.sides = sides; 
         }
+
+        public override bool Equals(object obj)
+        {
+            if(obj is LBSTile)
+                return Position == (obj as LBSTile).Position;
+            return false;
+        }
     }
 }
 
