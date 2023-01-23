@@ -49,7 +49,6 @@ public class CreateNewRoomNode : LBSManipulator // where T: LBSNode  // (!) Crea
 
         var n = new RoomNode(name, pos.ToInt(), new RoomData()); //var n = Activator.CreateInstance<T>();
         module.AddNode(n);
-        Debug.Log("[ISI Lab] Node '" + name + "' added");
         OnManipulationEnd?.Invoke();
     }
 

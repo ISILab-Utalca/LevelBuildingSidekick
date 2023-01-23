@@ -142,4 +142,11 @@ public class MainView : GraphView
     {
         base.AddElement(element);
     }
+
+    public Vector2 FixPos(Vector2 v)
+    {
+        var t = new Vector2(this.viewTransform.position.x, this.viewTransform.position.y);
+        var vv = (v - t) / this.scale;
+        return vv;
+    }
 }

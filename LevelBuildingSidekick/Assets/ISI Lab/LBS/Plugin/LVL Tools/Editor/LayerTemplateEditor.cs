@@ -51,12 +51,16 @@ public class LayerTemplateEditor : Editor
 
         template.layer = layer;
 
-        Texture2D icon = Resources.Load<Texture2D>("Icons/pine-tree");
+
 
         // Mode 1
+        Texture2D icon = Resources.Load<Texture2D>("Icons/Select");
         var tool1 = new LBSTool(icon, "Select", typeof(Empty), null, true);
+        icon = Resources.Load<Texture2D>("Icons/Addnode");
         var tool2 = new LBSTool(icon, "Add node",typeof(CreateNewRoomNode), null, false);
+        icon = Resources.Load<Texture2D>("Icons/AddConnection");
         var tool3 = new LBSTool(icon, "Add conection", typeof(CreateNewRoomNode), null, false);
+
 
         var mode1 = new LBSMode("Graph", new DrawSimpleGraph(), new List<LBSTool>() { tool1, tool2, tool3 });
         template.modes.Add(mode1);
