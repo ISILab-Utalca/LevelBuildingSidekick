@@ -8,7 +8,8 @@ using UnityEditor.Experimental.GraphView;
 using Newtonsoft.Json;
 using LBS.Graph;
 
-public abstract class LBSEdgeView : LBSGraphElement
+[System.Obsolete]
+public abstract class LBSEdgeViewOld : LBSGraphElement
 {
     protected LBSEdgeDataOld data; // (??)
 
@@ -20,7 +21,7 @@ public abstract class LBSEdgeView : LBSGraphElement
     /// <summary>
     /// Default base class constructor for LBSEdgeView class.
     /// </summary>
-    public LBSEdgeView() : base() { }
+    public LBSEdgeViewOld() : base() { }
 
     /// <summary>
     /// Constructor for the LBSEdgeView class.
@@ -28,7 +29,7 @@ public abstract class LBSEdgeView : LBSGraphElement
     /// <param name="nv1">First node view in the edge.</param>
     /// <param name="nv2">Second node view in the edge.</param>
     /// <param name="root">Root graph view.</param>
-    public LBSEdgeView(LBSNodeViewOld nv1, LBSNodeViewOld nv2, LBSGraphView root) : base(root)
+    public LBSEdgeViewOld(LBSNodeViewOld nv1, LBSNodeViewOld nv2, LBSGraphView root) : base(root)
     {
         this.nv1 = nv1;
         this.nv2 = nv2;
@@ -54,7 +55,7 @@ public abstract class LBSEdgeView : LBSGraphElement
     public abstract void ActualizeView();
 }
 
-public class LBSDotedEdgeView : LBSEdgeView
+public class LBSDotedEdgeView : LBSEdgeViewOld
 {
     private static float dist = 10f;
     public List<GraphElement> elements = new List<GraphElement>();
@@ -111,7 +112,7 @@ public class LBSDotedEdgeView : LBSEdgeView
     }
 }
 
-public class LBSLineEdgeView : LBSEdgeView
+public class LBSLineEdgeView : LBSEdgeViewOld
 {
     public Line line;
 

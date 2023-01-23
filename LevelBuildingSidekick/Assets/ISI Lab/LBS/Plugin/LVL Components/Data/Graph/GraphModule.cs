@@ -105,8 +105,6 @@ namespace LBS.Components.Graph
         /// <param name="node">Data node to add.</param>
         public void AddNode(T node)
         {
-            //node.OnChange += (n) => Debug.Log("[implementar]"); // <------------------------------------- !!!!!
-
             int index = nodes.Count;
             if (!nodes.Any(n => n.ID == node.ID))
             {
@@ -123,6 +121,8 @@ namespace LBS.Components.Graph
 
             node.ID = tempName;
             nodes.Add(node);
+
+            OnChanged?.Invoke(this);
         }
 
         /// <summary>

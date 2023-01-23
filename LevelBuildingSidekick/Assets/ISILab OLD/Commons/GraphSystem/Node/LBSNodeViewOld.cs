@@ -16,6 +16,7 @@ using Label = UnityEngine.UIElements.Label;
 
 namespace LBS.Graph
 {
+    [Obsolete]
     public class LBSNodeViewOld : LBSGraphElement
     {
         #region InspectorDrawer

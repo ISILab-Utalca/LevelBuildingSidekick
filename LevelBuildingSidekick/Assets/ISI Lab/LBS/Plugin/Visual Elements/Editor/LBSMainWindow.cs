@@ -3,6 +3,7 @@ using LBS.ElementView;
 using LBS.VisualElements;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -13,8 +14,8 @@ public class LBSMainWindow : EditorWindow
     public LBSLevelData levelData;
 
     // Selected
-    public LBSLayer selectedLayer;
-    public string selectedMode; // (??) esto deberia ser mas que un string?
+    private LBSLayer _selectedLayer;
+    private string _selectedMode; // (??) esto deberia ser mas que un string?
 
     // Templates
     public List<LayerTemplate> layerTemplates;
@@ -25,6 +26,7 @@ public class LBSMainWindow : EditorWindow
     private VisualElement noLayerSign;
     private ModeSelector modeSelector;
     private MainView mainView;
+    private Label selectedLabel;
 
     // Panels
     private LayersPanel layerPanel;
@@ -49,8 +51,6 @@ public class LBSMainWindow : EditorWindow
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSMainWindow");
         visualTree.CloneTree(rootVisualElement);
 
-        levelData = new LBSLevelData(); // (!)
-
         // LayerTemplate
         layerTemplates = Utility.DirectoryTools.GetScriptablesByType<LayerTemplate>();
 
@@ -59,16 +59,23 @@ public class LBSMainWindow : EditorWindow
 
         // ModeSelector
         modeSelector = rootVisualElement.Q<ModeSelector>("ModeSelector");
+        modeSelector.OnSelectionChange += (mode) =>
+        {
+            OnSelectedModeChange(mode, _selectedLayer);
+        };
 
         // MainView 
         mainView = rootVisualElement.Q<MainView>("MainView");
 
-        // ToolKitManager
-        toolkitManager = new ToolkitManager(ref toolPanel, ref modeSelector, ref mainView, ref layerTemplates);
-
         // DrawManager
         drawManager = new DrawManager(ref mainView, ref layerTemplates);
-        levelData.OnChanged += (lvl) => { drawManager.RefreshView(ref selectedLayer); };
+
+        // ToolKitManager
+        toolkitManager = new ToolkitManager(ref toolPanel, ref modeSelector, ref mainView, ref layerTemplates);
+        toolkitManager.OnEndSomeAction += () =>
+        {
+            drawManager.RefreshView(ref _selectedLayer, _selectedMode);
+        };
 
         // ToolBar
         var toolbar = rootVisualElement.Q<ToolBarMain>("ToolBar");
@@ -81,33 +88,32 @@ public class LBSMainWindow : EditorWindow
 
         // NoLayerSign
         noLayerSign = rootVisualElement.Q<VisualElement>("NoLayerSign");
-        noLayerSign.style.display = (levelData.Layers.Count <= 0) ? DisplayStyle.Flex : DisplayStyle.None;
-        levelData.OnChanged += (lvl) => {
-            noLayerSign.style.display = (lvl.Layers.Count <= 0) ? DisplayStyle.Flex : DisplayStyle.None;
-        };
 
         // SelectedLabel
-        var selectedLabel = rootVisualElement.Q<Label>("SelectedLabel");
+        selectedLabel = rootVisualElement.Q<Label>("SelectedLabel");
+
+        // Init Data
+        levelData = new LBSLevelData(); // (!) cargar archivo aqui de alguna forma
+        OnLevelDataChange(levelData);
+        levelData.OnChanged += (lvl) => {
+            OnLevelDataChange(lvl);
+        };
 
         // LayerPanel
-        //layerPanel = rootVisualElement.Q<LayersPanel>("LayersPanel");
         layerPanel = new LayersPanel(ref levelData, ref layerTemplates);
         extraPanel.Add(layerPanel);
         layerPanel.style.display = DisplayStyle.Flex;
-        layerPanel.OnSelectLayer += (layer) => {
-            var module = layer.GetModule(0); // (!!) implementar cuando se pueda seleccionar un modulo
-            toolkitManager.SetTool(ref levelData,ref layer,ref module);
-            selectedLabel.text = "selected: " + layer.Name;
+        layerPanel.OnSelectLayer += (layer) =>
+        {
+            OnSelectedLayerChange(layer);
         };
 
         // AIPanel
-        //aiPanel = rootVisualElement.Q<AIPanel>("AIPanel");
         aiPanel = new AIPanel(levelData);
         extraPanel.Add(aiPanel);
         aiPanel.style.display = DisplayStyle.None;
 
         // Gen3DPanel
-        //gen3DPanel = rootVisualElement.Q<Generator3DPanel>("Gen3DPanel");
         gen3DPanel = new Generator3DPanel(levelData);
         extraPanel.Add(gen3DPanel);
         gen3DPanel.style.display = DisplayStyle.None;
@@ -136,5 +142,41 @@ public class LBSMainWindow : EditorWindow
             var value = (gen3DPanel.style.display == DisplayStyle.None);
             gen3DPanel.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
         };
+    }
+
+    public void OnLevelDataChange(LBSLevelData levelData)
+    {
+        noLayerSign.style.display = (levelData.Layers.Count <= 0) ? DisplayStyle.Flex : DisplayStyle.None;
+        modeSelector.style.display = (levelData.Layers.Count <= 0) ? DisplayStyle.None : DisplayStyle.Flex;
+    }
+
+    public void OnSelectedModeChange(string mode, LBSLayer layer)
+    {
+        _selectedMode = mode;
+        var modes = _selectedLayer.GetModes(layerTemplates);
+        object tools;
+        modes.TryGetValue(mode,out tools);
+
+        var module = layer.GetModule(0); // (!!) implementar cuando se pueda seleccionar un modulo
+        toolkitManager.SetTools(tools, ref levelData, ref layer, ref module);
+    }
+
+    public void OnSelectedLayerChange(LBSLayer layer)
+    {
+        _selectedLayer = layer;
+        
+        // actualize modes
+        var modes = _selectedLayer.GetModes(layerTemplates);
+        modeSelector.SetChoices(modes);
+        modeSelector.Index = 0;
+        modeSelector.style.display = DisplayStyle.Flex;
+        OnSelectedModeChange(modes.Keys.First(), _selectedLayer);
+
+        selectedLabel.text = "selected: " + layer.Name;
+
+        // (?) Actualize IAs?
+
+        // (?) Actualize gen3D?
+
     }
 }

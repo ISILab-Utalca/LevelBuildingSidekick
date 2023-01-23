@@ -14,8 +14,14 @@ public class DrawManager
         this.templates = templates;
     }
 
-    public void RefreshView(ref LBSLayer layers)
+
+    public void RefreshView(ref LBSLayer layer, string modeName)
     {
-        //layers.ID
+        var _layer = layer;
+        var template = templates.Find(t => t.layer.ID.Equals(_layer.ID));
+        var mode = template.modes.Find(m => m.name.Equals(modeName));
+
+        view.ClearView();
+        mode.Drawer.Draw(ref _layer, view);
     }
 }

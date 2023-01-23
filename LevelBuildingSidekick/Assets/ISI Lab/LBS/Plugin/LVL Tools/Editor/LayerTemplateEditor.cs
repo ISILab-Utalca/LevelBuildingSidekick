@@ -51,8 +51,6 @@ public class LayerTemplateEditor : Editor
 
         template.layer = layer;
 
-        template.modes = new List<LBSMode>();
-
         Texture2D icon = Resources.Load<Texture2D>("Icons/pine-tree");
 
         // Mode 1
@@ -60,17 +58,13 @@ public class LayerTemplateEditor : Editor
         var tool2 = new LBSTool(icon, "Add node",typeof(CreateNewRoomNode), null, false);
         var tool3 = new LBSTool(icon, "Add conection", typeof(CreateNewRoomNode), null, false);
 
-        var mode1 = new LBSMode();
-        mode1.toolkit.AddRange(new List<LBSTool>() { tool1, tool2, tool3 });
-        mode1.name = "Graph";
+        var mode1 = new LBSMode("Graph", new DrawSimpleGraph(), new List<LBSTool>() { tool1, tool2, tool3 });
         template.modes.Add(mode1);
 
         // Mode 2
         var tool4 = new LBSTool(icon, "Select", typeof(Empty), null);
 
-        var mode2 = new LBSMode();
-        mode2.toolkit.Add(tool4);
-        mode2.name = "Schema";
+        var mode2 = new LBSMode("Schema", new DrawSimpleGraph(),new List<LBSTool>() { tool4 });
         template.modes.Add(mode2);
 
         AssetDatabase.SaveAssets();

@@ -23,6 +23,10 @@ public class LBSTool
     [NonSerialized]
     private LBSManipulator _manipulator;
 
+    public event Action OnStartAction;
+    public event Action OnUpdateAction;
+    public event Action OnEndAction;
+
     public LBSTool(Texture2D icon, string name, Type manipulator, Type inspector, bool useUnitySelector = false)
     {
         this.icon = icon;
@@ -36,8 +40,8 @@ public class LBSTool
     public VisualElement GetButton(MainView view)
     {
         var btn = new BasicToolButton(this.icon, this.name);
-        var mType = Type.GetType(manipulator);
-        _manipulator = Activator.CreateInstance(mType) as LBSManipulator;
+        //var mType = Type.GetType(manipulator); // (!) quitar
+        //_manipulator = Activator.CreateInstance(mType) as LBSManipulator; // (!) quitar
 
         btn.OnFocus += () => { 
             view.AddManipulator(_manipulator);
@@ -54,6 +58,12 @@ public class LBSTool
 
     public void InitManipulator(ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module) // (!)
     {
+        var mType = Type.GetType(this.manipulator);
+        _manipulator = Activator.CreateInstance(mType) as LBSManipulator;
+        _manipulator.OnManipulationStart += OnStartAction;
+        _manipulator.OnManipulationUpdate += OnUpdateAction;
+        _manipulator.OnManipulationEnd += OnEndAction;
+
         _manipulator.InitData(ref level, ref layer, ref module);
     }
 

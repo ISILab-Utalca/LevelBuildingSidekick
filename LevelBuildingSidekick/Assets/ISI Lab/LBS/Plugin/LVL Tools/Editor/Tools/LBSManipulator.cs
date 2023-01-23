@@ -11,13 +11,19 @@ public abstract class LBSManipulator : MouseManipulator
     // ref view
     protected MainView view;
 
+    public Action OnManipulationStart;
+    public Action OnManipulationUpdate;
+    public Action OnManipulationEnd;
+
     public LBSManipulator() { }
 
     public void InitView(ref MainView view)
     {
         this.view = view;
+       
     }
 
     public abstract void InitData(ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module);
+
 
 }

@@ -50,7 +50,7 @@ namespace LBS.Manipulators
             }
 
             // Edge
-            var edge = e.target as LBSEdgeView;
+            var edge = e.target as LBSEdgeViewOld;
             if(edge != null)
             {
                 controller.RemoveEdge(edge.Data);

@@ -12,6 +12,8 @@ public class CreateNewRoomNode : LBSManipulator // where T: LBSNode  // (!) Crea
     // ref Data
     private GraphModule<RoomNode> module;
 
+    public CreateNewRoomNode() : base() { }
+
     public override void InitData(ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
     {
         this.module = layer.GetModule<GraphModule<RoomNode>>();
@@ -29,6 +31,7 @@ public class CreateNewRoomNode : LBSManipulator // where T: LBSNode  // (!) Crea
 
     private void OnMouseDown(MouseDownEvent e)
     {
+        OnManipulationStart?.Invoke();
         var pos = e.localMousePosition;
 
         var name = "";
@@ -46,6 +49,8 @@ public class CreateNewRoomNode : LBSManipulator // where T: LBSNode  // (!) Crea
 
         var n = new RoomNode(name, pos.ToInt(), new RoomData()); //var n = Activator.CreateInstance<T>();
         module.AddNode(n);
+        Debug.Log("[ISI Lab] Node '" + name + "' added");
+        OnManipulationEnd?.Invoke();
     }
 
 }
