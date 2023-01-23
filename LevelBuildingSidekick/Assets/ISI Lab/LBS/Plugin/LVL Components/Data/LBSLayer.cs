@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using LBS.Tools;
+using LBS.Tools.Transformer;
 using System;
 using System.Linq;
 using LBS.Tools.Transformer;
@@ -148,7 +148,7 @@ namespace LBS.Components
                 var mType = module.GetType();
                 if (mType == type)
                 {
-                    if(ID.Equals("") || module.ID.Equals(ID))
+                    if(ID.Equals("") || module.Key.Equals(ID))
                         return module as T;
                 }
             }
@@ -160,7 +160,7 @@ namespace LBS.Components
             List<T> mods = new List<T>();
             foreach (var mod in modules)
             {
-                if (ID.Equals("") || mod.ID.Equals(ID))
+                if (ID.Equals("") || mod.Key.Equals(ID))
                     mods.Add(mod as T);
             }
             return mods;

@@ -12,7 +12,7 @@ namespace LBS.Components.TileMap
     {
         //FIELDS
         [SerializeField, JsonRequired, SerializeReference]
-        List<LBSTile> tiles;
+        protected List<LBSTile> tiles;
 
         //PROEPRTIES
         [JsonIgnore]
@@ -68,6 +68,15 @@ namespace LBS.Components.TileMap
         [JsonIgnore]
         public List<LBSTile> Tiles => new List<LBSTile>(tiles);
 
+        public TileMapModule()
+        {
+            tiles = new List<LBSTile>();
+        }
+        public TileMapModule(List<LBSTile> tiles)
+        {
+            this.tiles = tiles;
+        }
+
         public virtual bool AddTile(T tile)
         {
             tile.Position = SnapPosition(tile.Position).ToInt();
@@ -97,6 +106,11 @@ namespace LBS.Components.TileMap
         public T GetTile(int index)
         {
             return tiles[index] as T;
+        }
+
+        public bool Contains(Vector2 pos)
+        {
+            return tiles.Any(t => t.Position.x == (int)pos.x && t.Position.y == (int)pos.y);
         }
 
         public List<T> GetTileNeighbors(T tile, List<Vector2> directions)

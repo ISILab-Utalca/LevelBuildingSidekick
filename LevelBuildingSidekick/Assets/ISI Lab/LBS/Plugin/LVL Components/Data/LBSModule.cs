@@ -12,7 +12,7 @@ namespace LBS.Components
 
         //FIELDS
         [SerializeField, JsonRequired]
-        string id;
+        string key;
 
         [SerializeField, JsonRequired]
         bool visible;
@@ -36,10 +36,10 @@ namespace LBS.Components
         }
 
         [JsonIgnore]
-        public string ID
+        public string Key
         {
-            get => id;
-            set => id = value;
+            get => key;
+            set => key = value;
         }
 
         //EVENTS
