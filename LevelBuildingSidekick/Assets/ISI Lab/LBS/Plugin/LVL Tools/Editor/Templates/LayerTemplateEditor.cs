@@ -66,9 +66,10 @@ public class LayerTemplateEditor : Editor
         template.modes.Add(mode1);
 
         // Mode 2
-        var tool5 = new LBSTool(icon, "Select", typeof(Empty), null);
+        var tool5 = new LBSTool(icon, "Select", typeof(Empty), null, true);
+        //var tool6 = new Lbtool
 
-        var mode2 = new LBSMode("Schema", new DrawSimpleTilemap(),new List<LBSTool>() { tool5 });
+        var mode2 = new LBSMode("Schema", new DrawConnectedTilemap(),new List<LBSTool>() { tool5 });
         template.modes.Add(mode2);
 
         AssetDatabase.SaveAssets();

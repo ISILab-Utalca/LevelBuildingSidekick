@@ -15,7 +15,7 @@ namespace LBS.VisualElements
         public Color unselected = new Color(0.27f, 0.38f, 0.49f, 1f);
         public Texture2D Icon;
 
-        public void AddEvent(Action action)
+        public void AddGroupEvent(Action action)
         {
             this.clicked += action;
         }

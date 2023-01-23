@@ -26,7 +26,7 @@ namespace LBS.VisualElements
             group = this.Query<VisualElement>().ToList().Where(ve => ve is IGrupable).Select(ve => ve as IGrupable).ToList();
 
             // les añade el metodo "Active"
-            group.ForEach(b => b.AddEvent(() => {
+            group.ForEach(b => b.AddGroupEvent(() => {
                     Active(b); 
             }));
 
@@ -90,7 +90,7 @@ namespace LBS.VisualElements
             {
                 var e = element as IGrupable;
                 group.Add(e);
-                e.AddEvent(() => Active(e));
+                e.AddGroupEvent(() => Active(e));
             }
 
             base.Add(element);

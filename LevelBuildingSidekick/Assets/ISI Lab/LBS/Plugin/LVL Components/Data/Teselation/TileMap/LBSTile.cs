@@ -9,15 +9,14 @@ namespace LBS.Components.TileMap
     public class LBSTile
     {
         //FIELDS
+        [SerializeField, JsonRequired, SerializeReference]
+        protected int x, y;
 
         [SerializeField, JsonRequired, SerializeReference]
-        int x, y;
+        protected int sides = 4;
 
         [SerializeField, JsonRequired, SerializeReference]
-        int sides = 4;
-
-        [SerializeField, JsonRequired, SerializeReference]
-        string id;
+        protected string id;
 
         //PROPERTIES
 

@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 public interface IGrupable
 {
-    public void AddEvent(Action action);
+    public void AddGroupEvent(Action action);
     public void OnBlur();
     public void OnFocus();
 }
