@@ -34,7 +34,8 @@ namespace LBS.Windows
         #endregion
 
         #region LoadLevel
-        private List<FileInfo> jsonInfo = new List<FileInfo>();
+        //private List<FileInfo> jsonInfo = new List<FileInfo>();
+        private List<FileInfo> levelDataInfo = new List<FileInfo>();
         DropdownField loadLvlSelectionDropDown;
         Button openLoadLvlBtn;
         Button loadLoadLvlBtn; // mejorar nombre (!)
@@ -131,9 +132,11 @@ namespace LBS.Windows
             openLoadLvlBtn = rootVisualElement.Q<Button>(name: "OpenLoadLvlBtn");
 
             var path = Application.dataPath;
-            jsonInfo = Utility.DirectoryTools.GetAllFilesByExtension(".json",path); // esto encuentra todos los json, incluso lo que no son lvls (!!)
+            levelDataInfo = Utility.DirectoryTools.GetAllFilesByExtension(".LBS", path);
+            loadLvlSelectionDropDown.choices = levelDataInfo.Select(fi => fi.Name).ToList();
+            //jsonInfo = Utility.DirectoryTools.GetAllFilesByExtension(".json",path); // esto encuentra todos los json, incluso lo que no son lvls (!!)
             //jsonPaths = Utility.JSONDataManager.GetJSONFiles(Application.dataPath + "/LBSLevels"); //deberia traerlo de cualquier ruta en el proyecto o no?
-            loadLvlSelectionDropDown.choices = jsonInfo.Select(fi => fi.Name).ToList();
+            //loadLvlSelectionDropDown.choices = jsonInfo.Select(fi => fi.Name).ToList();
 
             openLoadLvlBtn.clicked += LoadLevel;
 
@@ -153,7 +156,12 @@ namespace LBS.Windows
 
         private void OpenPresetWindow() // mejor nombre de metodo (!)
         {
+
+            LBSMainWindow mainWindow = (LBSMainWindow)EditorWindow.GetWindow(typeof(LBSMainWindow));
+            mainWindow.Show();
+            /*
             var firstPreset = presets[0]; // esto es temporal (!)
+            var preset = new LBSMainWindow();
             foreach (var wName in firstPreset.Windows)
             {
                 var m = methods.Find(t => t.Item1.Name == wName);
@@ -164,6 +172,7 @@ namespace LBS.Windows
                 }
                 catch { }
             }
+            */
         }
 
         void OpenNewLevel()
@@ -178,7 +187,7 @@ namespace LBS.Windows
         void LoadLevel()
         {
             var index = loadLvlSelectionDropDown.index;
-            var selected = jsonInfo[index];
+            var selected = levelDataInfo[index];
             if (selected != null)
             {
                 LBSController.LoadFile(selected.FullName);
