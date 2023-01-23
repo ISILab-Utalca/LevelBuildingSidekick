@@ -212,18 +212,6 @@ namespace LBS.Components.Graph
             {
                 return;
             }
-            //Debug.Log(Label);
-            /*foreach(var n in nodes)
-            {
-                Debug.Log(n.Label);
-            }*/
-            //Debug.Log(n1);
-            //Debug.Log(n2);
-            /*if (n1.Label == n2.Label)
-            {
-                Debug.LogWarning("Cannot connect a node to itself.");
-                return;
-            }*/
 
             if (edges.Any(e => e.Contains(n1) && e.Contains(n2)))
             {
@@ -231,6 +219,7 @@ namespace LBS.Components.Graph
                 return;
             }
             edges.Add(edge);
+            OnChanged?.Invoke(this);
         }
 
         /// <summary>
