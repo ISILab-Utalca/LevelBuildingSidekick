@@ -20,10 +20,10 @@ public abstract class LBSManipulator : MouseManipulator
     public void InitView(ref MainView view)
     {
         this.view = view;
-       
+
     }
 
-    public abstract void InitData(ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module);
+    public abstract void Init(ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module);
 
 
 }

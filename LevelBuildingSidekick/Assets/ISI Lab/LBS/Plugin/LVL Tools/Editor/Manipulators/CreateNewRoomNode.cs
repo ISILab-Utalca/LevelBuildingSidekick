@@ -11,12 +11,14 @@ public class CreateNewRoomNode : LBSManipulator // where T: LBSNode  // (!) Crea
 {
     // ref Data
     private GraphModule<RoomNode> module;
+    private MainView mainView;
 
     public CreateNewRoomNode() : base() { }
 
-    public override void InitData(ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
+    public override void Init(ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
     {
         this.module = layer.GetModule<GraphModule<RoomNode>>();
+        this.mainView = view;
     }
 
     protected override void RegisterCallbacksOnTarget()
@@ -32,7 +34,8 @@ public class CreateNewRoomNode : LBSManipulator // where T: LBSNode  // (!) Crea
     private void OnMouseDown(MouseDownEvent e)
     {
         OnManipulationStart?.Invoke();
-        var pos = e.localMousePosition;
+        var pos = mainView.FixPos(e.localMousePosition);
+        //var pos = e.localMousePosition;
 
         var name = "";
         var loop = true;

@@ -54,7 +54,8 @@ public class LBSNodeView<T> : GraphElement where T : LBSNode
     public override void SetPosition(Rect newPos)
     {
         base.SetPosition(newPos);
-        var nPos = new Vector2Int((int)newPos.x, (int)newPos.y);
+        var center = base.GetPosition().center;
+        var nPos = new Vector2Int((int)center.x, (int)center.y);
         Data.Position = nPos;
         OnMoving?.Invoke(nPos);
     }

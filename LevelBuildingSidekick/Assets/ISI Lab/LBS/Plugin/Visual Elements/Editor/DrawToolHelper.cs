@@ -44,37 +44,27 @@ public static class DrawToolHelper
         paint2D.Fill();
     }
     //Draw a line
-    public static void DrawLine(this Painter2D paint2D, Vector2 iniPos, Vector2 endPos, Color color, Color border, bool dottedLine, float stroke = 3)
+    public static void DrawLine(this Painter2D paint2D, Vector2 iniPos, Vector2 endPos, Color color, Color border, bool dottedLine, float stroke = 3,int divs = 12)
     {
         //Dotted Line
         if (dottedLine)
         {
-            //Number of dots
-            //if the number is odd | number of dots = (numDots-1)/2 
-            //if the number is even | number of dots = (numDots/2) - 1
-            //Prefer even number, because the generation dots gonna be better
-            int numDots = 12;
             List<Vector2> dots = new List<Vector2>();
 
-
-            // Calculate the position of the dots on the line
-            for (int i = 0; i < numDots; i++)
+            for (int i = 0; i < divs; i++)
             {
-                Vector2 dotPosition = Vector2.Lerp(iniPos, endPos, (float)i / (numDots - 1));
+                Vector2 dotPosition = Vector2.Lerp(iniPos, endPos, (float)i / (divs - 1));
                 dots.Add(dotPosition);
             }
 
             for (int i = 1; i < dots.Count; i++)
             {
-                //if the number is even, draw from the previous point to the actual
                 if (i % 2 == 0)
                 {
                     DrawLineWithList( paint2D,new List<Vector2>() { dots[i - 1], dots[i] }, color, border, 3);
                 }
-                //if the number is odd, just doesn't draw the line, and leave a space
                 else
-                {
-
+                { 
                 }
             }
         }
@@ -138,7 +128,8 @@ public static class DrawToolHelper
         paint2D.Fill(FillRule.OddEven);
         paint2D.Stroke();
     }
-    //Draw a triangle
+
+    [System.Obsolete]
     public static void DrawTriangle(this Painter2D paint2D, Vector2 point, Color color, Color border, float stroke, float angle, float radius)
     {
         float angle1 = 0;
@@ -178,12 +169,11 @@ public static class DrawToolHelper
         paint2D.Fill(FillRule.OddEven);
         paint2D.Stroke();
     }
+
     //Draw any polygon (in a range)
     public static void DrawPolygons(this Painter2D paint2D, Vector2 point, int edges, Color color, Color border, float stroke, float angle, float radius)
     {
-        List<int> edgesDegree = new List<int>();
         List<Vector2> points = new List<Vector2>();
-
 
         if (edges <= 0)
         {
@@ -193,9 +183,9 @@ public static class DrawToolHelper
 
         for (int i = 0; i < edges; i++)
         {
-            edgesDegree.Add((360 / edges) * i);
-            Vector2 newVector2 = new Vector2(point.x + radius * Mathf.Cos(edgesDegree[i] * Mathf.Deg2Rad), point.y + radius * Mathf.Sin(edgesDegree[i] * Mathf.Deg2Rad));
-            points.Add(newVector2);
+            var _angle = (360f / edges * 1f) * i;
+            Vector2 vec = new Vector2( radius * Mathf.Cos(_angle * Mathf.Deg2Rad), radius * Mathf.Sin(_angle * Mathf.Deg2Rad));
+            points.Add(vec);
         }
 
         paint2D.strokeColor = border;
@@ -204,14 +194,14 @@ public static class DrawToolHelper
 
         for (int i = 0; i < points.Count; i++)
         {
-            Vector2 newVector2 = new Vector2();
-            newVector2.x = points[i].x;
-            newVector2.y = points[i].y;
-            float x = newVector2.x;
-            float y = newVector2.y;
-            newVector2.x = x * Mathf.Cos(angle * Mathf.Deg2Rad) - y * Mathf.Sin(angle * Mathf.Deg2Rad);
-            newVector2.y = x * Mathf.Sin(angle * Mathf.Deg2Rad) + y * Mathf.Cos(angle * Mathf.Deg2Rad);
-            points[i] = newVector2;
+            Vector2 vec = new Vector2();
+            vec.x = points[i].x;
+            vec.y = points[i].y;
+            float x = vec.x;
+            float y = vec.y;
+            vec.x = (x * Mathf.Cos(angle * Mathf.Deg2Rad) - y * Mathf.Sin(angle * Mathf.Deg2Rad));
+            vec.y = (x * Mathf.Sin(angle * Mathf.Deg2Rad) + y * Mathf.Cos(angle * Mathf.Deg2Rad));
+            points[i] = vec + point;
         }
         paint2D.MoveTo(points[0]);
         for (int i = 1; i < points.Count; i++)
@@ -223,5 +213,17 @@ public static class DrawToolHelper
         paint2D.lineWidth = stroke;
         paint2D.Fill(FillRule.OddEven);
         paint2D.Stroke();
+    }
+
+    public static Vector2 Rotate(this Vector2 vector, float degrees)
+    {
+        float sin = Mathf.Sin(degrees * Mathf.Deg2Rad);
+        float cos = Mathf.Cos(degrees * Mathf.Deg2Rad);
+
+        float tx = vector.x;
+        float ty = vector.y;
+        vector.x = (cos * tx) - (sin * ty);
+        vector.y = (sin * tx) + (cos * ty);
+        return vector;
     }
 }

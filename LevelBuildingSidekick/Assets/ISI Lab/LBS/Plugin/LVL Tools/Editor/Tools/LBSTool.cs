@@ -21,11 +21,11 @@ public class LBSTool
     public bool UseUnitySelector;
 
     [NonSerialized]
-    private LBSManipulator _manipulator;
+    protected LBSManipulator _manipulator;
 
-    public event Action OnStartAction;
-    public event Action OnUpdateAction;
-    public event Action OnEndAction;
+    public Action OnStartAction;
+    public Action OnUpdateAction;
+    public Action OnEndAction;
 
     public LBSTool(Texture2D icon, string name, Type manipulator, Type inspector, bool useUnitySelector = false)
     {
@@ -33,15 +33,13 @@ public class LBSTool
         this.name = name;
         this.manipulator = manipulator.FullName;
         this.inspector = inspector?.FullName;
-        this.UseUnitySelector = useUnitySelector;
+        this.UseUnitySelector = useUnitySelector; // (!) esto es un parche, empty deberia ser el unico con este comportamiento
     }
 
 
-    public VisualElement GetButton(MainView view)
+    public virtual VisualElement GetButton(MainView view)
     {
         var btn = new BasicToolButton(this.icon, this.name);
-        //var mType = Type.GetType(manipulator); // (!) quitar
-        //_manipulator = Activator.CreateInstance(mType) as LBSManipulator; // (!) quitar
 
         btn.OnFocus += () => { 
             view.AddManipulator(_manipulator);
@@ -56,7 +54,7 @@ public class LBSTool
         return btn;
     }
 
-    public void InitManipulator(ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module) // (!)
+    public virtual void InitManipulator(ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module) // (!)
     {
         var mType = Type.GetType(this.manipulator);
         _manipulator = Activator.CreateInstance(mType) as LBSManipulator;
@@ -64,11 +62,11 @@ public class LBSTool
         _manipulator.OnManipulationUpdate += OnUpdateAction;
         _manipulator.OnManipulationEnd += OnEndAction;
 
-        _manipulator.InitData(ref level, ref layer, ref module);
+        _manipulator.Init(ref view,ref level, ref layer, ref module);
     }
 
-    public VisualElement GetInspector()
+    public virtual VisualElement GetInspector()
     {
-        return null; // (!) implementar
+        throw new NotImplementedException(); // (!) implementar
     }
 }

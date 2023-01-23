@@ -10,7 +10,6 @@ public class ToolkitManager
 {
     // VisualElement references
     private ButtonGroup toolPanel;
-    //private ModeSelector modeSelector;
     private MainView view;
 
     // ref data
@@ -24,10 +23,7 @@ public class ToolkitManager
     public ToolkitManager(ref ButtonGroup toolPanel,ref ModeSelector modeSelector, ref MainView view , ref List<LayerTemplate> templates)
     {
         this.toolPanel = toolPanel;
-        //this.modeSelector = modeSelector;
-        //this.modeSelector.OnSelectionChange += SelectionChange;
         this.view = view;
-
     }
 
     public void SetTools(object tools, ref LBSLevelData level ,ref LBSLayer layer, ref LBSModule module)
@@ -41,27 +37,11 @@ public class ToolkitManager
         foreach (var tool in _tools)
         {
             var btn = tool.GetButton(view);
-            tool.InitManipulator(ref level, ref layer, ref module);
+            tool.InitManipulator(ref view,ref level, ref layer, ref module);
             btn.style.flexGrow = 1;
             toolPanel.Add(btn);
             tool.OnEndAction += OnEndSomeAction;
         }
     }
 
-    /*
-    public void SelectionChange(string name)
-    {
-        toolPanel.Clear();
-        var obj = this.modeSelector.GetSelection(name);
-        var tools = obj as List<LBSTool>;
-        foreach (var tool in tools)
-        {
-            var btn = tool.GetButton(view);
-            tool.InitManipulator(ref level, ref layer, ref module);
-            btn.style.flexGrow = 1;
-            toolPanel.Add(btn);
-        }
-        
-    }
-    */
 }

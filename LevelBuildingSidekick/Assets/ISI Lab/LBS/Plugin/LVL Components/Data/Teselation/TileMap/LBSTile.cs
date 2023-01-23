@@ -9,15 +9,14 @@ namespace LBS.Components.TileMap
     public class LBSTile
     {
         //FIELDS
+        [SerializeField, JsonRequired, SerializeReference]
+        protected int x, y;
 
         [SerializeField, JsonRequired, SerializeReference]
-        int x, y;
+        protected int sides = 4;
 
         [SerializeField, JsonRequired, SerializeReference]
-        int sides = 4;
-
-        [SerializeField, JsonRequired, SerializeReference]
-        string id;
+        protected string id;
 
         //PROPERTIES
 
@@ -54,6 +53,13 @@ namespace LBS.Components.TileMap
             y = (int)position.y;
             this.id = id;
             this.sides = sides; 
+        }
+
+        public override bool Equals(object obj)
+        {
+            if(obj is LBSTile)
+                return Position == (obj as LBSTile).Position;
+            return false;
         }
     }
 }
