@@ -4,23 +4,24 @@ using UnityEngine;
 using LBS.Components.Graph;
 using LBS.Components.Teselation;
 using LBS.Components.Specifics;
+using LBS.Components.TileMap;
 
 namespace LBS.Tools.Transformer
 {
     public class AreaToGraph : Transformer
     {
         GraphModule<RoomNode> graph;
-        AreaModule<Area> areaModule;
+        AreaTileMap<ConnectedTile> schema;
 
-        public AreaToGraph(AreaModule<Area> area, GraphModule<RoomNode> graph)
+        public AreaToGraph(AreaTileMap<ConnectedTile> schema, GraphModule<RoomNode> graph)
         {
             this.graph = graph;
-            this.areaModule = area;
+            this.schema = schema;
         }
 
         public override void Switch()
         {
-            if(areaModule == null)
+            if(schema == null)
             {
                 Debug.LogError("Area Module is NULL");
                 return;
@@ -32,17 +33,30 @@ namespace LBS.Tools.Transformer
                 graph = new GraphModule<RoomNode>();
             }
 
-            for(int i = 0; i < areaModule.AreaCount; i++)
+            List<string> ids = new List<string>();
+
+            for(int i = 0; i < schema.RoomCount; i++)
             {
-                var area = areaModule.GetArea(i);
-                var node = graph.GetNode(area.ID);
+                var area = schema.GetRoom(i);
+                ids.Add(area.Key);
+                var node = graph.GetNode(area.Key);
                 if(node != null)
                 {
                     node.Position = area.Centroid.ToInt();
                     continue;
                 }
-                node = new RoomNode(area.ID, area.Centroid, new RoomData());
+                node = new RoomNode(area.Key, area.Centroid, new RoomData());
                 graph.AddNode(node);
+            }
+
+            for(int i = 0; i < graph.NodeCount; i++)
+            {
+                var n = graph.GetNode(i);
+                if(!ids.Contains(n.ID))
+                {
+                    Debug.LogWarning("Node Removed: No Tiles present in Room");
+                    graph.RemoveNode(n.ID);
+                }
             }
         }
 
