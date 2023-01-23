@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class DrawSchema : Drawer
+public class DrawSimpleTilemap : Drawer
 {
     public override void Draw(ref LBSLayer layer, MainView view)
     {

@@ -51,24 +51,24 @@ public class LayerTemplateEditor : Editor
 
         template.layer = layer;
 
-
-
         // Mode 1
         Texture2D icon = Resources.Load<Texture2D>("Icons/Select");
         var tool1 = new LBSTool(icon, "Select", typeof(Empty), null, true);
         icon = Resources.Load<Texture2D>("Icons/Addnode");
         var tool2 = new LBSTool(icon, "Add node",typeof(CreateNewRoomNode), null, false);
         icon = Resources.Load<Texture2D>("Icons/AddConnection");
-        var tool3 = new LBSTool(icon, "Add conection", typeof(CreateNewRoomNode), null, false);
+        var tool3 = new LBSTool(icon, "Add conection", typeof(CreateNewConnection<RoomNode>), null, false);
+        icon = Resources.Load<Texture2D>("Icons/Trash");
+        var tool4 = new LBSTool(icon, "Remove", typeof(RemoveGraphNode<RoomNode>), null, false);
 
 
-        var mode1 = new LBSMode("Graph", new DrawSimpleGraph(), new List<LBSTool>() { tool1, tool2, tool3 });
+        var mode1 = new LBSMode("Graph", new DrawSimpleGraph(), new List<LBSTool>() { tool1, tool2, tool3, tool4 });
         template.modes.Add(mode1);
 
         // Mode 2
-        var tool4 = new LBSTool(icon, "Select", typeof(Empty), null);
+        var tool5 = new LBSTool(icon, "Select", typeof(Empty), null);
 
-        var mode2 = new LBSMode("Schema", new DrawSimpleGraph(),new List<LBSTool>() { tool4 });
+        var mode2 = new LBSMode("Schema", new DrawSimpleTilemap(),new List<LBSTool>() { tool5 });
         template.modes.Add(mode2);
 
         AssetDatabase.SaveAssets();

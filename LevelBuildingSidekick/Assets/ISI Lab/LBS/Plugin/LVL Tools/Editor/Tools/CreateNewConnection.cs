@@ -5,13 +5,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class AddConection<T> : LBSManipulator where T : LBSNode
+public class CreateNewConnection<T> : LBSManipulator where T : LBSNode
 {
+    private GraphModule<T> module;
+
     private LBSNode first;
 
-    public override void InitData(ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
+    public override void Init(ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
     {
-        throw new System.NotImplementedException();
+        this.module = layer.GetModule<GraphModule<T>>();
     }
 
     protected override void RegisterCallbacksOnTarget()
@@ -30,6 +32,7 @@ public class AddConection<T> : LBSManipulator where T : LBSNode
 
     private void OnMouseDown(MouseDownEvent e)
     {
+        OnManipulationStart?.Invoke();
         var node = e.target as LBSNodeView<T>;
         if (node == null)
             return;
@@ -44,6 +47,15 @@ public class AddConection<T> : LBSManipulator where T : LBSNode
 
     private void OnMouseUp(MouseUpEvent e)
     {
+        if (first == null)
+            return;
 
+        var node = e.target as LBSNodeView<T>;
+        if (node == null)
+            return;
+
+        var edge = new LBSEdge(first, node.Data);
+        module.AddEdge(edge);
+        OnManipulationEnd?.Invoke();
     }
 }

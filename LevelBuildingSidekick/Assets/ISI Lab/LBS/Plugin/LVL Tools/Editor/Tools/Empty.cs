@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 public class Empty : LBSManipulator
 {
 
-    public override void InitData(ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
+    public override void Init(ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
     {
         // do nothing
     }
