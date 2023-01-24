@@ -3,17 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System;
+using Newtonsoft.Json;
 
 namespace LBS.Components.TileMap
 {
     public class TiledArea<T> : TileMapModule<T> where T : LBSTile
     {
+        #region FIELDS
+
+        [SerializeField, JsonIgnore, SerializeReference]
         string id;
+
+        #endregion
+
+        #region PROPERTIES
+
+        [JsonIgnore]
         public string ID => id;
 
+        #endregion
+
+        #region Events
+
+        [JsonIgnore]
         public Action<T> OnAddTile;
 
-        // CONSTRUCTORS
+        #endregion
+
+        #region CONSTRUCTORS
+
         public TiledArea() : base(){}
 
         public TiledArea(List<T> tiles, string id) : base()
@@ -24,7 +42,10 @@ namespace LBS.Components.TileMap
             this.id = id;
         }
 
-        // METHODS
+        #endregion
+
+        #region METHODS
+
         public override bool AddTile(T tile)
         {
             if (GetDistance(tile.Position) > 1)
@@ -234,6 +255,15 @@ namespace LBS.Components.TileMap
             }
             return walls;
         }
+
+        public override object Clone()
+        {
+            var tileMap = new TiledArea<T>();
+            tileMap.tiles = new List<LBSTile>(tiles);
+            return tileMap;
+        }
+
+        #endregion
     }
 }
 
