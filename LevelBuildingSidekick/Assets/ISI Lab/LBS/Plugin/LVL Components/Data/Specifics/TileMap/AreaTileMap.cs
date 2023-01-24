@@ -7,19 +7,19 @@ using LBS.Components.Teselation;
 
 namespace LBS.Components.TileMap
 {
-    public class AreaTileMap<T> : TeselationModule where T : LBSTile
+    public class AreaTileMap<T,U> : TeselationModule where T : TiledArea<U> where U : LBSTile
     {
-        public List<TiledRoom<T>> rooms;
+        public List<T> areas;
 
-        public int RoomCount => rooms.Count;
+        public int RoomCount => areas.Count;
 
-        public bool AddRoom(TiledRoom<T> room)
+        public bool AddArea(T room)
         {
             if (room == null)
                 return false;
-            if (GetRoom(room.ID) != null)
+            if (GetArea(room.ID) != null)
                 return false;
-            rooms.Add(room);
+            areas.Add(room);
             room.OnAddTile = (t) => 
             {
                 RemoveTile(t);
@@ -27,9 +27,9 @@ namespace LBS.Components.TileMap
             return true;
         }
 
-        private void RemoveTile(T t)
+        private void RemoveTile(U t)
         {
-            foreach(var r in rooms)
+            foreach(var r in areas)
             {
                 if(r.Contains(t.Position))
                 {
@@ -38,26 +38,26 @@ namespace LBS.Components.TileMap
             }
         }
 
-        public TiledRoom<T> GetRoom(string id)
+        public T GetArea(string id)
         {
-            return rooms.Find(r => r.Key == id);
+            return areas.Find(r => r.Key == id);
         }
 
-        public TiledRoom<T> GetRoom(int index)
+        public T GetRoom(int index)
         {
-            return rooms[index];
+            return areas[index];
         }
 
-        public bool RemoveRoom(TiledRoom<T> area)
+        public bool RemoveRoom(T area)
         {
-            return rooms.Remove(area);
+            return areas.Remove(area);
         }
 
         private int GetRoomDistance(string r1, string r2) // O2 - manhattan
         {
             var lessDist = int.MaxValue;
-            var room1 = GetRoom(r1);
-            var room2 = GetRoom(r2);
+            var room1 = GetArea(r1);
+            var room2 = GetArea(r2);
             for (int i = 0; i < room1.TileCount; i++)
             {
                 var dist = room2.GetDistance(room1.GetTile(i).Position);
@@ -72,7 +72,7 @@ namespace LBS.Components.TileMap
 
         public override void Clear()
         {
-            rooms.Clear();
+            areas.Clear();
         }
 
         public override void Print()

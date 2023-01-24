@@ -146,10 +146,24 @@ public class MainView : GraphView
         base.AddElement(element);
     }
 
+    // (?) esto deberia estar aqui 
     public Vector2 FixPos(Vector2 v)
     {
         var t = new Vector2(this.viewTransform.position.x, this.viewTransform.position.y);
         var vv = (v - t) / this.scale;
         return vv;
+    }
+
+    public Vector2Int ToTileCords(Vector2 vec)
+    {
+        var nPos = new Vector2Int((int)(vec.x / tileSize.x), (int)(vec.y / tileSize.y));
+
+        if (vec.x < 0)
+            nPos.x -= 1;
+
+        if (vec.y < 0)
+            nPos.y -= 1;
+
+        return nPos;
     }
 }

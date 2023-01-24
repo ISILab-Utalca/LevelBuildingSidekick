@@ -10,6 +10,8 @@ public class ToolBarMain : VisualElement // esto puede ser directamente toolbar
 {
     public new class UxmlFactory : UxmlFactory<ToolBarMain, VisualElement.UxmlTraits> { }
 
+    public LBSMainWindow window; // (!!) esta referencia solo existe por que actualmente tenemos la data con la que estamos trabajando en mainWindow 
+
     public event Action<LoadedLevel> OnChangeLevelData;
 
     public ToolBarMain()

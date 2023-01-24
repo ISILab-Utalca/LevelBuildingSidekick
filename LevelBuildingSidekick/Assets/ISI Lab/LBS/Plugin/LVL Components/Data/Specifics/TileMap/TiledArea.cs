@@ -6,14 +6,17 @@ using System;
 
 namespace LBS.Components.TileMap
 {
-    public class TiledRoom<T> : TileMapModule<T> where T : LBSTile
+    public class TiledArea<T> : TileMapModule<T> where T : LBSTile
     {
         string id;
         public string ID => id;
 
         public Action<T> OnAddTile;
 
-        public TiledRoom(List<T> tiles, string id) : base()
+        // CONSTRUCTORS
+        public TiledArea() : base(){}
+
+        public TiledArea(List<T> tiles, string id) : base()
         {
             this.tiles = new List<LBSTile>();
             tiles.ForEach(t => AddTile(t));
@@ -21,6 +24,7 @@ namespace LBS.Components.TileMap
             this.id = id;
         }
 
+        // METHODS
         public override bool AddTile(T tile)
         {
             if (GetDistance(tile.Position) > 1)

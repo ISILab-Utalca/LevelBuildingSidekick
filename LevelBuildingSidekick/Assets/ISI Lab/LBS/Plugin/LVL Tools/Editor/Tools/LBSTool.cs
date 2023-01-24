@@ -36,7 +36,6 @@ public class LBSTool
         this.UseUnitySelector = useUnitySelector; // (!) esto es un parche, empty deberia ser el unico con este comportamiento
     }
 
-
     public virtual VisualElement GetButton(MainView view)
     {
         var btn = new BasicToolButton(this.icon, this.name);
@@ -51,6 +50,7 @@ public class LBSTool
         btn.OnBlur += () => { 
             view.RemoveManipulator(_manipulator); 
         };
+
         return btn;
     }
 
