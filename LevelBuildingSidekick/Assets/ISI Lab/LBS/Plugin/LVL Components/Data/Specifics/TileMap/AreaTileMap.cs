@@ -7,11 +7,38 @@ using LBS.Components.Teselation;
 
 namespace LBS.Components.TileMap
 {
+    [System.Serializable]
     public class AreaTileMap<T,U> : TeselationModule where T : TiledArea<U> where U : LBSTile
     {
-        public List<T> areas;
+        #region FIELDS
 
+        [SerializeField, JsonRequired, SerializeReference]
+        protected List<T> areas;
+
+        #endregion
+
+        #region PROPERTIES
+
+        [JsonIgnore]
         public int RoomCount => areas.Count;
+
+        #endregion
+
+        #region CONSTRUCTOR
+        
+        public AreaTileMap() : base()
+        {
+            areas = new List<T>();
+        }
+
+        public AreaTileMap(List<T> areas) : base()
+        {
+            this.areas = areas;
+        }
+
+        #endregion
+
+        #region METHODS
 
         public bool AddArea(T room)
         {
@@ -82,10 +109,14 @@ namespace LBS.Components.TileMap
 
         public override object Clone()
         {
-            throw new System.NotImplementedException();
+            var a = new AreaTileMap<T, U>();
+            a.areas = new List<T>(areas);
+            return a;
         }
 
+        #endregion
+
     }
-    
+
 }
 

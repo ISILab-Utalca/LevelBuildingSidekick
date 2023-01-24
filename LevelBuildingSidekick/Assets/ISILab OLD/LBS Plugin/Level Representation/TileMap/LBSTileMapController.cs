@@ -384,7 +384,7 @@ namespace LBS.Representation.TileMap
                 {
                     var neighbor = tileMap.Clone() as LBSSchemaData;
                     var tiles = new List<TileData>();
-                    wall.allTiles.ForEach(t => tiles.Add(new TileData(t + wall.dir, 0, new string[4])));
+                    wall.Tiles.ForEach(t => tiles.Add(new TileData(t + wall.Dir, 0, new string[4])));
                     neighbor.SetTiles(tiles, room.ID);
 
 
@@ -400,7 +400,7 @@ namespace LBS.Representation.TileMap
                 foreach (var wall in walls)
                 {
                     var neighbor = tileMap.Clone() as LBSSchemaData;
-                    neighbor.RemoveTiles(wall.allTiles);
+                    neighbor.RemoveTiles(wall.Tiles);
                     neightbours.Add(neighbor);
                 }
 

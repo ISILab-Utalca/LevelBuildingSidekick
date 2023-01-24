@@ -7,14 +7,17 @@ using System.Linq;
 [System.Serializable]
 public class Area
 {
-    //FIELDS
+    #region FIELDS
+
     [SerializeField, JsonRequired, SerializeReference]
     Polygon perimeter;
 
     [SerializeField, JsonRequired, SerializeReference]
     string id;
 
-    //PROPERTIES
+    #endregion
+
+    #region PROPERTIES
     [JsonIgnore]
     public int PerimeterVertexCount => perimeter.Points.Count;
 
@@ -45,6 +48,7 @@ public class Area
         }
     }
 
+    [JsonIgnore]
     public Vector2 Centroid
     {
         get
@@ -67,7 +71,10 @@ public class Area
         }
     }
 
-    //COSNTRUCTOR
+    #endregion
+
+    #region COSNTRUCTOR
+
     public Area()
     {
         perimeter = new Polygon(new List<Vector2>());
@@ -79,7 +86,10 @@ public class Area
         perimeter = new Polygon(vertexes);
     }
 
-    //METHODS
+    #endregion
+
+    #region METHODS
+
     public bool AddVertex(Vector2 vertex)
     {
         perimeter.Points.Add(vertex);
@@ -127,18 +137,30 @@ public class Area
 
         return false;
     }
+
+    #endregion
 }
 
 [System.Serializable]
 struct Polygon
 {
+    #region FIELDS
+
     [SerializeField, JsonRequired, SerializeReference]
     public List<Vector2> Points;
+
+    #endregion
+
+    #region CONSTRUCTOR
 
     public Polygon(List<Vector2> points)
     {
         Points = points;
     }
+
+    #endregion
+
+    #region METHODS
 
     public bool IsInside(Vector2 point)
     {
@@ -168,4 +190,6 @@ struct Polygon
         // When count is odd
         return count % 2 != 0;
     }
+
+    #endregion
 }

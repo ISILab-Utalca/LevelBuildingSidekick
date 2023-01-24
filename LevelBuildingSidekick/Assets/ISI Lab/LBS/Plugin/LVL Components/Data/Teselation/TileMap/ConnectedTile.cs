@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,9 +6,22 @@ using UnityEngine;
 
 namespace LBS.Components.TileMap
 {
+    [System.Serializable]
     public class ConnectedTile : LBSTile
     {
+        #region FIELDS
+
+        [SerializeField, JsonRequired, SerializeReference]
         string[] connections;
+
+        #endregion
+
+        #region PROPERTIES
+
+
+        #endregion
+
+        #region CONSTRUCTOR
 
         public ConnectedTile() : base ()
         {
@@ -18,6 +32,10 @@ namespace LBS.Components.TileMap
         {
             connections = new string[Sides];
         }
+
+        #endregion
+
+        #region METHODS
 
         public bool SetConnection(string connection, int index)
         {
@@ -48,6 +66,8 @@ namespace LBS.Components.TileMap
         {
             throw new NotImplementedException();
         }
+
+        #endregion
     }
 }
 

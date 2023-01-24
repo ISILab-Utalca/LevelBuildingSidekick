@@ -7,7 +7,13 @@ namespace LBS.Components.Teselation
     [System.Serializable]
     public abstract class TeselationModule : LBSModule
     {
+        #region FIELDS
+
         public static Vector2 CellSize;
+
+        #endregion
+
+        #region METHODS
 
         public Vector2 SnapPosition(Vector2 position)
         {
@@ -36,6 +42,8 @@ namespace LBS.Components.Teselation
             );
             return worldPosition;
         }
+
+        #endregion
     }
 }
 

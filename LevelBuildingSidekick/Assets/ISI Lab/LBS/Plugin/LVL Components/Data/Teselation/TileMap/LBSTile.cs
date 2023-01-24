@@ -8,7 +8,8 @@ namespace LBS.Components.TileMap
     [System.Serializable]
     public class LBSTile
     {
-        //FIELDS
+        #region FIELDS
+
         [SerializeField, JsonRequired, SerializeReference]
         protected int x, y;
 
@@ -18,7 +19,9 @@ namespace LBS.Components.TileMap
         [SerializeField, JsonRequired, SerializeReference]
         protected string id;
 
-        //PROPERTIES
+        #endregion
+
+        #region PROPERTIES
 
         [JsonIgnore]
         public Vector2Int Position
@@ -37,8 +40,9 @@ namespace LBS.Components.TileMap
             set => id = value;
         }
 
+        #endregion
 
-        //COSNTRUCTORS
+        #region COSNTRUCTORS
 
         public LBSTile() 
         {
@@ -55,12 +59,22 @@ namespace LBS.Components.TileMap
             this.sides = sides; 
         }
 
+        #endregion
+
+        #region METHODS
+
         public override bool Equals(object obj)
         {
             if(obj is LBSTile)
                 return Position == (obj as LBSTile).Position;
             return false;
         }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+        #endregion
     }
 }
 
