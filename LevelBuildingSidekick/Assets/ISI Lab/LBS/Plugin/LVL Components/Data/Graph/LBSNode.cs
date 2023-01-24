@@ -11,9 +11,10 @@ using UnityEditor;
 namespace LBS.Components.Graph
 {
     [System.Serializable]
-    public abstract class LBSNode : ICloneable
+    public class LBSNode : ICloneable
     {
-        //FIELDS
+        #region FIELDS
+
         [HideInInspector, SerializeField, JsonRequired, SerializeReference]
         private int x, y;
 
@@ -26,7 +27,9 @@ namespace LBS.Components.Graph
         [HideInInspector, SerializeField, JsonRequired, SerializeReference]
         private string id = ""; // "ID" or "name"
 
-        //PROPERTIES
+        #endregion
+
+        #region PROPERTIES
         [JsonIgnore]
         public Vector2 Centroid => (Position + (new Vector2(width, height)/2));
 
@@ -70,6 +73,9 @@ namespace LBS.Components.Graph
         [HideInInspector, JsonIgnore]
         internal Action<LBSNode> OnChange; //  (!!!) implementar
 
+        #endregion
+
+        #region CONSTRUCTOR
 
         /// <summary>
         /// Empty constructor, necessary for serialization with json.
@@ -98,7 +104,29 @@ namespace LBS.Components.Graph
             height = 1;
         }
 
-        public abstract object Clone();
+        #endregion
+
+        #region METHODS
+
+        public override bool Equals(object obj)
+        {
+            if (obj is LBSNode)
+                return (obj as LBSNode).ID.Equals(ID);
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public virtual object Clone()
+        {
+            return new LBSNode(ID, Position);
+        }
+
+        #endregion
+
     }
 }
 
