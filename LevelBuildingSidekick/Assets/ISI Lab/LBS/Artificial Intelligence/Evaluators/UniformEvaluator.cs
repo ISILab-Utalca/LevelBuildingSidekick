@@ -1,13 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Commons.Optimization.Evaluator;
 using UnityEngine.UIElements;
-using UnityEditor.UIElements;
-using System;
 using System.Linq;
+using LBS.Representation.TileMap;
+using Utility;
 
-public abstract class UniformEvaluator : IRangedEvaluator
+public class UniformEvaluator : IRangedEvaluator
 {
 
     float min = 0;
@@ -16,17 +15,8 @@ public abstract class UniformEvaluator : IRangedEvaluator
 
     public float MinValue => min;
 
-    public StampPresset stamp;
 
-    /// <summary>
-    /// Creates a new UniformEvaluator object.
-    /// </summary>
-    public UniformEvaluator()
-    {
-        var t = Utility.DirectoryTools.GetScriptables<StampPresset>();
-        stamp = t.First();
-    }
-
+    List<StampPresset> pressets = DirectoryTools.GetScriptables<StampPresset>();
     /// <summary>
     /// Evaluates the given evaluable object.
     /// </summary>
@@ -40,36 +30,87 @@ public abstract class UniformEvaluator : IRangedEvaluator
         }
 
         var stmc = evaluable as StampTileMapChromosome;
+        // var pressets = DirectoryTools.GetScriptables<StampPresset>();
 
-        if (!stmc.stamps.Any(s => s.Label == stamp.Label))
+        var data = stmc.GetGenes<int>();
+        var total = stmc.stamps.Count;
+        var list = stmc.stamps;
+
+        var rooms = (StampTileMapChromosome.TileMap.GetData() as LBSSchemaData).GetRooms();
+        var tiles = rooms.SelectMany(r => r.TilesPositions);
+
+        Vector2Int offset = new Vector2Int
+        (
+            tiles.Min(t => t.x),
+            tiles.Min(t => t.y)
+        );
+
+        float Fitness = 0;
+
+        List<int[]> instances = new List<int[]>();
+        int[] ocurrences = new int[total];
+        foreach (var room in rooms)
         {
-            return MinValue;
+            var i = rooms.FindIndex(s => s.ID == room.ID);
+            var aux = 0;
+            foreach (var tile in room.TilesPositions)
+            {
+                int val = data[stmc.ToIndex(tile - offset)];
+                if (val == -1) continue;
+
+                ocurrences[val]++;
+                aux++;
+            }
+            instances.Add(ocurrences);
         }
 
-        //var stmc = evaluable as StampTileMapChromosome;
-        var id = stmc.stamps.FindIndex(s => s.Label == stamp.Label);
-        var data = stmc.GetGenes<int>();
-        var height = stmc.Length / stmc.MatrixWidth;
+        int population_rooms = rooms.Count;
 
-        return Mathf.Clamp(EvaluateUniform(stmc, id, height, data), MinValue, MaxValue);
+        foreach (var room in instances)
+        {
+            float temp = 0;
+            var id_stamp = 0;
+            foreach (var id in room)
+            {
+                if (id == 0) continue;
+
+                var i = stmc.stamps[id_stamp].Label;
+                var presset = pressets.Find(p => p.Label == i);
+                var pref = presset.Prefabs.Count;
+
+                id_stamp++;
+
+                float prop = id / pref;
+                if (prop > 1) { prop = 1 / prop; }
+
+                temp += prop;
+
+            }
+
+            temp /= id_stamp;
+
+            if (temp == 0) { population_rooms--; }
+            Fitness += temp;
+
+
+        }
+
+        Fitness /= population_rooms;
+
+        Debug.Log("Final: " + Fitness);
+
+        return Mathf.Clamp(Fitness, MinValue, MaxValue);
     }
 
-
-    /// <summary>
-    /// Evaluate the progression of the given data array.
-    /// </summary>
-    /// <param name="stmc">The chromosome to evaluate.</param>
-    /// <param name="id">The data array to calculate simetry for.</param>
-    /// <param name="height">The height of the data array.</param>
-    /// <returns>A float value representing the simetry of the given data array.</returns>
-    public abstract float EvaluateUniform(StampTileMapChromosome stmc, int id, int height, int[] data);
-
-    public abstract string GetName();
+    public string GetName()
+    {
+        return "Uniform Evaluator";
+    }
 
     /// <summary>
     /// Creates a visual element for the current object.
     /// </summary>
-    public virtual VisualElement CIGUI()
+    public VisualElement CIGUI()
     {
         var content = new VisualElement();
 
@@ -80,19 +121,7 @@ public abstract class UniformEvaluator : IRangedEvaluator
             max = e.newValue.y;
         });
 
-        ObjectField of = new ObjectField("Stamp: ");
-        of.objectType = typeof(StampPresset);
-        of.value = stamp;
-        of.RegisterValueChangedCallback((e) =>
-        {
-            if (e.newValue is StampPresset)
-            {
-                stamp = e.newValue as StampPresset;
-            }
-        });
-
         content.Add(v2);
-        content.Add(of);
 
         return content;
     }
