@@ -68,6 +68,7 @@ namespace LBS.Components.TileMap
         [JsonIgnore]
         public List<LBSTile> Tiles => new List<LBSTile>(tiles);
 
+        // CONSTRUCTORS
         public TileMapModule()
         {
             tiles = new List<LBSTile>();
@@ -77,6 +78,7 @@ namespace LBS.Components.TileMap
             this.tiles = tiles;
         }
 
+        // METHODS
         public virtual bool AddTile(T tile)
         {
             tile.Position = SnapPosition(tile.Position).ToInt();

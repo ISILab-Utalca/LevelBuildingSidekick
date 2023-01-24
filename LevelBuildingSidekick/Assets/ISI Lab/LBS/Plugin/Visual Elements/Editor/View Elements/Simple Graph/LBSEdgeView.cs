@@ -40,7 +40,8 @@ public class LBSEdgeView<T,U> : GraphElement where T: LBSEdge where U :LBSNode
         var view = this.GetFirstAncestorOfType<MainView>();
 
         var fPos1 = Vector2.zero ;
-        var fPos2 = view.FixPos(pos2) - view.FixPos(pos1);
+        var fPos2 = pos2 - pos1;
+        //var fPos2 = view.FixPos(pos2) - view.FixPos(pos1);
         painter.DrawLine(fPos1, fPos2, Color.white, Color.white, true, 1);
 
         var angle = Vector2.SignedAngle(Vector2.right,(fPos2 - fPos1).normalized); // (?) puede que no funcione

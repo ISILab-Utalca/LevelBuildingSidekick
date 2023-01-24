@@ -36,8 +36,8 @@ public class ToolkitManager
         var _tools = tools as List<LBSTool>;
         foreach (var tool in _tools)
         {
+            tool.InitManipulator(ref view, ref level, ref layer, ref module);
             var btn = tool.GetButton(view);
-            tool.InitManipulator(ref view,ref level, ref layer, ref module);
             btn.style.flexGrow = 1;
             toolPanel.Add(btn);
             tool.OnEndAction += OnEndSomeAction;

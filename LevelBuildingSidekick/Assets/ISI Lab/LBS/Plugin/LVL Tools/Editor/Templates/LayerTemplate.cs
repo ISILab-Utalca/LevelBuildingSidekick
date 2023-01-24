@@ -6,10 +6,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-[CreateAssetMenu(menuName ="ISILab/LBS/Layer Template")]
+[CreateAssetMenu(menuName = "ISILab/LBS/Layer Template")]
 public class LayerTemplate : ScriptableObject
 {
+    [SerializeField]
     public LBSLayer layer;
+    [SerializeReference]
     public List<LBSMode> modes = new List<LBSMode>();
 
 }
@@ -21,7 +23,7 @@ public class LBSMode
     public string name;
     [SerializeField]
     public string drawer;
-    [SerializeField]
+    [SerializeField, SerializeReference]
     public List<LBSTool> toolkit = new List<LBSTool>();
 
     [NonSerialized]

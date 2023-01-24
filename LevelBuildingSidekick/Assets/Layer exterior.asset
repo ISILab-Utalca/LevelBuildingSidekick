@@ -18,12 +18,12 @@ MonoBehaviour:
     visible: 1
     iconPath: Icons/pine-tree
     modules:
-    - rid: 564310607662940163
+    - rid: 8010065733755601626
   modes: []
   references:
     version: 2
     RefIds:
-    - rid: 564310607662940163
+    - rid: 8010065733755601626
       type: {class: LBSBaseGraph, ns: LBS.Components.Graph, asm: Assembly-CSharp}
       data:
         key: 
