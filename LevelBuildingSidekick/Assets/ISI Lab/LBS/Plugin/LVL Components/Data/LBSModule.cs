@@ -42,6 +42,7 @@ namespace LBS.Components
             set => key = value;
         }
 
+        [JsonIgnore]
         //EVENTS
         public Action<LBSModule> OnChanged;
 
