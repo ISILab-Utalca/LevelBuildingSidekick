@@ -38,6 +38,8 @@ public class LayerTemplateEditor : Editor
 
     /// <summary>
     /// 
+    /// This function adjust the icons, layout and labels of the system for Contructión in interior
+    /// also call the manipulators to make functional buttons in the layout
     /// </summary>
     /// <param name="template"></param>
     private void InteriorConstruct(LayerTemplate template)
@@ -107,7 +109,8 @@ public class LayerTemplateEditor : Editor
     }
 
     /// <summary>
-    /// 
+    /// This function adjust the icons, layout and labels of the system for Contructión in exterior
+    /// also call the manipulators to make functional buttons in the layout
     /// </summary>
     /// <param name="template"></param>
     private void ExteriorConstruct(LayerTemplate template)
@@ -159,7 +162,7 @@ public class LayerTemplateEditor : Editor
         );
 
 
-        var mode1 = new LBSMode("Graph", new DrawSimpleGraph(), new List<LBSTool>() { tool1, tool2, tool3, tool4 });
+        var mode1 = new LBSMode("Exterior", new DrawSimpleGraph(), new List<LBSTool>() { tool1, tool2, tool3, tool4 });
         template.modes.Add(mode1);
 
         AssetDatabase.SaveAssets();
@@ -167,6 +170,8 @@ public class LayerTemplateEditor : Editor
 
     /// <summary>
     /// 
+    /// This function adjust the icons, layout and labels of the Population system
+    /// also call the manipulators to make functional buttons in the layout
     /// </summary>
     /// <param name="template"></param>
     private void PopulationConstruct(LayerTemplate template)
@@ -205,7 +210,7 @@ public class LayerTemplateEditor : Editor
         var tool3 = new LBSTool(icon, "Remove", typeof(Empty), null, false);
 
 
-        var mode1 = new LBSMode("Graph", new DrawSimpleGraph(), new List<LBSTool>() { tool1, tool2, tool3});
+        var mode1 = new LBSMode("Population", new DrawSimpleGraph(), new List<LBSTool>() { tool1, tool2, tool3});
         template.modes.Add(mode1);
 
         AssetDatabase.SaveAssets();

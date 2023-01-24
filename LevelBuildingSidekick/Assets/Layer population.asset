@@ -18,13 +18,13 @@ MonoBehaviour:
     visible: 1
     iconPath: Icons/ghost
     modules:
-    - rid: 564310608096788623
+    - rid: 564310608096788646
   modes:
-  - rid: 564310608096788624
+  - rid: 564310608096788647
   references:
     version: 2
     RefIds:
-    - rid: 564310608096788623
+    - rid: 564310608096788646
       type: {class: LBSBaseGraph, ns: LBS.Components.Graph, asm: Assembly-CSharp}
       data:
         key: 
@@ -32,16 +32,16 @@ MonoBehaviour:
         changed: 0
         nodes: []
         edges: []
-    - rid: 564310608096788624
+    - rid: 564310608096788647
       type: {class: LBSMode, ns: , asm: Assembly-CSharp-Editor}
       data:
-        name: Graph
+        name: Population
         drawer: DrawSimpleGraph
         toolkit:
-        - rid: 564310608096788625
-        - rid: 564310608096788626
-        - rid: 564310608096788627
-    - rid: 564310608096788625
+        - rid: 564310608096788648
+        - rid: 564310608096788649
+        - rid: 564310608096788650
+    - rid: 564310608096788648
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: 771d36a714319204ea4ddcbecdc2006e, type: 3}
@@ -49,7 +49,7 @@ MonoBehaviour:
         manipulator: Empty
         inspector: 
         UseUnitySelector: 1
-    - rid: 564310608096788626
+    - rid: 564310608096788649
       type: {class: LBSMultiTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: 5bcc511dcb487f24187b421ea2806d87, type: 3}
@@ -67,7 +67,7 @@ MonoBehaviour:
         - Empty
         - Empty
         - Empty
-    - rid: 564310608096788627
+    - rid: 564310608096788650
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: 79e9d4f49f5e9874c805015d2c334f0c, type: 3}
