@@ -36,6 +36,10 @@ public class LayerTemplateEditor : Editor
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="template"></param>
     private void InteriorConstruct(LayerTemplate template)
     {
         var layer = new LBSLayer();
@@ -102,6 +106,10 @@ public class LayerTemplateEditor : Editor
         AssetDatabase.SaveAssets();
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="template"></param>
     private void ExteriorConstruct(LayerTemplate template)
     {
         var layer = new LBSLayer();
@@ -117,9 +125,50 @@ public class LayerTemplateEditor : Editor
         layer.iconPath = "Icons/pine-tree";
 
         template.layer = layer;
+
+        // Mode 1
+        Texture2D icon = Resources.Load<Texture2D>("Icons/Select");
+        var tool1 = new LBSTool(icon, "Select", typeof(Empty), null, true);
+        icon = Resources.Load<Texture2D>("Icons/RoomSelection");
+        var tool2 = new LBSTool(icon, "Paint by tile", typeof(Empty), null, false);
+        icon = Resources.Load<Texture2D>("Icons/AddConnection");
+        var tool3 = new LBSMultiTool(
+            icon,
+            "Paint by connection",
+            new List<string>() { "Point", "Line", "Square", "Free" },
+            new List<System.Type>() {
+                typeof(Empty), //typeof(AddTileToTiledAreaAtPoint<TiledArea<LBSTile>,LBSTile>), // point // (!!) implementar
+                typeof(Empty), //typeof(AddTileToTiledAreaAtLine<TiledArea<LBSTile>,LBSTile>), // line // (!!) implementar
+                typeof(Empty), //typeof(AddTileToTiledAreaAtGrid<TiledArea<LBSTile>,LBSTile>), // grid // (!!) implementar
+                typeof(Empty), //typeof(AddTileToTiledAreaAtFree<TiledArea<LBSTile>,LBSTile>)  // free // (!!) implementar
+            },
+            null
+        );
+        icon = Resources.Load<Texture2D>("Icons/erased");
+        var tool4 = new LBSMultiTool(
+            icon,
+            "Erase",
+            new List<string>() { "Pair", "Line", "Square", "Free" },
+            new List<System.Type>() {
+                typeof(Empty), //typeof(AddTileToTiledAreaAtPoint<TiledArea<LBSTile>,LBSTile>), // point // (!!) implementar
+                typeof(Empty), //typeof(AddTileToTiledAreaAtLine<TiledArea<LBSTile>,LBSTile>), // line // (!!) implementar
+                typeof(Empty), //typeof(AddTileToTiledAreaAtGrid<TiledArea<LBSTile>,LBSTile>), // grid // (!!) implementar
+                typeof(Empty), //typeof(AddTileToTiledAreaAtFree<TiledArea<LBSTile>,LBSTile>)  // free // (!!) implementar
+            },
+            null
+        );
+
+
+        var mode1 = new LBSMode("Graph", new DrawSimpleGraph(), new List<LBSTool>() { tool1, tool2, tool3, tool4 });
+        template.modes.Add(mode1);
+
         AssetDatabase.SaveAssets();
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="template"></param>
     private void PopulationConstruct(LayerTemplate template)
     {
         var layer = new LBSLayer();
@@ -135,6 +184,30 @@ public class LayerTemplateEditor : Editor
         layer.iconPath = "Icons/ghost";
 
         template.layer = layer;
+
+        // Mode 1
+        Texture2D icon = Resources.Load<Texture2D>("Icons/Select");
+        var tool1 = new LBSTool(icon, "Select", typeof(Empty), null, true);
+        icon = Resources.Load<Texture2D>("Icons/paintbrush");
+        var tool2 = new LBSMultiTool(
+            icon,
+            "Add population",
+            new List<string>() { "Pair", "Line", "Square", "Free" },
+            new List<System.Type>() {
+                typeof(Empty), //typeof(AddTileToTiledAreaAtPoint<TiledArea<LBSTile>,LBSTile>), // point // (!!) implementar
+                typeof(Empty), //typeof(AddTileToTiledAreaAtLine<TiledArea<LBSTile>,LBSTile>), // line // (!!) implementar
+                typeof(Empty), //typeof(AddTileToTiledAreaAtGrid<TiledArea<LBSTile>,LBSTile>), // grid // (!!) implementar
+                typeof(Empty), //typeof(AddTileToTiledAreaAtFree<TiledArea<LBSTile>,LBSTile>)  // free // (!!) implementar
+            },
+            null
+        );
+        icon = Resources.Load<Texture2D>("Icons/Trash");
+        var tool3 = new LBSTool(icon, "Remove", typeof(Empty), null, false);
+
+
+        var mode1 = new LBSMode("Graph", new DrawSimpleGraph(), new List<LBSTool>() { tool1, tool2, tool3});
+        template.modes.Add(mode1);
+
         AssetDatabase.SaveAssets();
     }
 }
