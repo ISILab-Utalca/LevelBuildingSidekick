@@ -13,11 +13,21 @@ MonoBehaviour:
   m_Name: Layer population
   m_EditorClassIdentifier: 
   layer:
-    id: LBSLayer
-    name: 
+    id: Population
+    name: Population layer
     visible: 1
-    iconPath: 
-    modules: []
+    iconPath: Icons/ghost
+    modules:
+    - rid: 564310607662940164
+  modes: []
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 564310607662940164
+      type: {class: LBSBaseGraph, ns: LBS.Components.Graph, asm: Assembly-CSharp}
+      data:
+        key: 
+        visible: 0
+        changed: 0
+        nodes: []
+        edges: []
