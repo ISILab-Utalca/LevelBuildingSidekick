@@ -54,6 +54,7 @@ namespace LBS.Components
         }
 
         //EVENTS
+        [JsonIgnore]
         public Action<LBSLayer> OnChanged;
 
         //CONSTRUCTORS
