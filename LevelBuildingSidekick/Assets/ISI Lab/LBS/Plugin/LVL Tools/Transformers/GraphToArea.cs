@@ -11,13 +11,13 @@ namespace LBS.Tools.Transformer
     public class GraphToArea : Transformer
     {
         GraphModule<RoomNode> graph;
-        AreaTileMap<ConnectedTile> schema;
+        AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile> schema;
 
         bool keepShape;
 
         public bool KeepShape => false;
 
-        public GraphToArea(GraphModule<RoomNode> graph, AreaTileMap<ConnectedTile> schema)
+        public GraphToArea(GraphModule<RoomNode> graph, AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile> schema)
         {
             this.graph = graph;
             this.schema = schema;
@@ -33,13 +33,13 @@ namespace LBS.Tools.Transformer
 
             if(schema == null)
             {
-                schema = new AreaTileMap<ConnectedTile>();
+                schema = new AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile>();
             }
 
             for(int i = 0; i < graph.NodeCount; i++)
             {
                 var node = graph.GetNode(i);
-                var room = schema.GetRoom(node.ID);
+                var room = schema.GetArea(node.ID);
                 if(room != null)
                 {
                     if (!KeepShape)
@@ -56,7 +56,7 @@ namespace LBS.Tools.Transformer
             }
         }
 
-        public TiledRoom<ConnectedTile> ConstructArea(RoomNode node)
+        public TiledArea<ConnectedTile> ConstructArea(RoomNode node)
         {
             var tiles = new List<ConnectedTile>();
 
@@ -69,7 +69,7 @@ namespace LBS.Tools.Transformer
             }
 
 
-            return new TiledRoom<ConnectedTile>(tiles, node.ID);
+            return new TiledArea<ConnectedTile>(tiles, node.ID);
         }
 
         public override void OnAdd()

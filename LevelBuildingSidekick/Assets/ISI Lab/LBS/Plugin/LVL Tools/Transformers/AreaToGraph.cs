@@ -11,9 +11,9 @@ namespace LBS.Tools.Transformer
     public class AreaToGraph : Transformer
     {
         GraphModule<RoomNode> graph;
-        AreaTileMap<ConnectedTile> schema;
+        AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile> schema;
 
-        public AreaToGraph(AreaTileMap<ConnectedTile> schema, GraphModule<RoomNode> graph)
+        public AreaToGraph(AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile> schema, GraphModule<RoomNode> graph)
         {
             this.graph = graph;
             this.schema = schema;

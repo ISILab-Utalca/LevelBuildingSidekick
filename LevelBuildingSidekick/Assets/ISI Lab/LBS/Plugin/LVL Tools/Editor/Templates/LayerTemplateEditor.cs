@@ -69,7 +69,7 @@ public class LayerTemplateEditor : Editor
         // Mode 2
         icon = Resources.Load<Texture2D>("Icons/Select");
         var tool5 = new LBSTool(icon, "Select", typeof(Empty), null, true);
-        icon = Resources.Load<Texture2D>("Icons/paintbrush");
+       
         var tool6 = new LBSMultiTool(
             icon,
             "Paint tile",
@@ -79,6 +79,19 @@ public class LayerTemplateEditor : Editor
                 typeof(AddTileToTiledAreaAtLine<TiledArea<LBSTile>,LBSTile>), // line // (!!) implementar
                 typeof(AddTileToTiledAreaAtGrid<TiledArea<LBSTile>,LBSTile>), // grid // (!!) implementar
                 typeof(AddTileToTiledAreaAtFree<TiledArea<LBSTile>,LBSTile>)  // free // (!!) implementar
+            },
+            null
+        );
+        icon = Resources.Load<Texture2D>("Icons/erase");
+        var tool7 = new LBSMultiTool(
+            icon,
+            "Erase",
+            new List<string>() { "point", "Line", "Grid", "Free" },
+            new List<System.Type>() {
+                typeof(Empty), //typeof(AddTileToTiledAreaAtPoint<TiledArea<LBSTile>,LBSTile>), // point // (!!) implementar
+                typeof(Empty), //typeof(AddTileToTiledAreaAtLine<TiledArea<LBSTile>,LBSTile>), // line // (!!) implementar
+                typeof(Empty), //typeof(AddTileToTiledAreaAtGrid<TiledArea<LBSTile>,LBSTile>), // grid // (!!) implementar
+                typeof(Empty), //typeof(AddTileToTiledAreaAtFree<TiledArea<LBSTile>,LBSTile>)  // free // (!!) implementar
             },
             null
         );
