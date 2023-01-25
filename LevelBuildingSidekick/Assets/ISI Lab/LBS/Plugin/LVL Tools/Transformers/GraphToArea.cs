@@ -69,7 +69,7 @@ namespace LBS.Tools.Transformer
             }
 
 
-            return new TiledArea<ConnectedTile>(tiles, node.ID);
+            return new TiledArea<ConnectedTile>(tiles, node.ID, "Room: " + node.ID);
         }
 
         public override void OnAdd()
