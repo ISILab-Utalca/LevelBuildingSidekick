@@ -1,5 +1,4 @@
 using LBS.VisualElements;
-
 namespace Commons.Optimization.Terminations
 {
     /// <summary>
@@ -16,7 +15,7 @@ namespace Commons.Optimization.Terminations
         /// </summary>
         /// <returns>True if termination has been reached, otherwise false.</returns>
         /// <param name="geneticAlgorithm">The genetic algorithm.</param>
-        bool HasReached(IOptimizer optimizer);
+        bool HasReached(BaseOptimizerMetahuristic<IEvaluable> optimizer);
         #endregion
     }
 }

@@ -1,7 +1,7 @@
 using GeneticSharp.Infrastructure.Framework.Texts;
 using GeneticSharp.Infrastructure.Framework.Commons;
 using UnityEngine.UIElements;
-
+using Commons.Optimization.Evaluator;
 namespace Commons.Optimization.Terminations
 {
     /// <summary>
@@ -21,7 +21,7 @@ namespace Commons.Optimization.Terminations
         /// </summary>
         /// <returns>True if termination has been reached, otherwise false.</returns>
         /// <param name="optimizer">The genetic algorithm.</param>
-        public bool HasReached(IOptimizer optimizer)
+        public bool HasReached(BaseOptimizerMetahuristic<IEvaluable, IEvaluator, ITermination> optimizer)
         {
             ExceptionHelper.ThrowIfNull("geneticAlgorithm", optimizer);
 
@@ -44,7 +44,7 @@ namespace Commons.Optimization.Terminations
         /// </summary>
         /// <returns>True if termination has been reached, otherwise false.</returns>
         /// <param name="optimizer">The genetic algorithm.</param>
-        protected abstract bool PerformHasReached(IOptimizer optimizer);
+        protected abstract bool PerformHasReached(BaseOptimizerMetahuristic<IEvaluable, IEvaluator, ITermination> optimizer);
         #endregion
     }
 }
