@@ -11,6 +11,7 @@ public class ToolkitManager
     // VisualElement references
     private ButtonGroup toolPanel;
     private MainView view;
+    private InspectorManager InspectorManager;
 
     // ref data
     private LBSLevelData level;
@@ -20,10 +21,11 @@ public class ToolkitManager
     // event
     public event Action OnEndSomeAction;
 
-    public ToolkitManager(ref ButtonGroup toolPanel,ref ModeSelector modeSelector, ref MainView view , ref List<LayerTemplate> templates)
+    public ToolkitManager(ref ButtonGroup toolPanel,ref ModeSelector modeSelector, ref MainView view, ref InspectorManager inspectorManager , ref List<LayerTemplate> templates)
     {
         this.toolPanel = toolPanel;
         this.view = view;
+        this.InspectorManager = inspectorManager;
     }
 
     public void SetTools(object tools, ref LBSLevelData level ,ref LBSLayer layer, ref LBSModule module)
@@ -36,11 +38,17 @@ public class ToolkitManager
         var _tools = tools as List<LBSTool>;
         foreach (var tool in _tools)
         {
-            tool.InitManipulator(ref view, ref level, ref layer, ref module);
-            var btn = tool.GetButton(view);
+            var btn = tool.InitButton(view, ref level, ref layer, ref module);
             btn.style.flexGrow = 1;
             toolPanel.Add(btn);
             tool.OnEndAction += OnEndSomeAction;
+
+            if (tool.inspector != "")
+            {
+                var insp = tool.InitInspector(view, ref level, ref layer, ref module);
+                btn.OnFocusEvent += () => { InspectorManager.AddInspector(insp); };
+                btn.OnBlurEvent += () => { InspectorManager.RemoveInspector(insp); };
+            }
         }
     }
 
