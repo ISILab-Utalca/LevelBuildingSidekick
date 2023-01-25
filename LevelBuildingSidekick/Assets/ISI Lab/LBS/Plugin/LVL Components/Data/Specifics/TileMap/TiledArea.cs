@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 
 namespace LBS.Components.TileMap
 {
+    [System.Serializable]
     public class TiledArea<T> : TileMapModule<T> where T : LBSTile
     {
         #region FIELDS
