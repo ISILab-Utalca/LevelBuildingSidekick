@@ -48,6 +48,7 @@ public class LayerTemplateEditor : Editor
 
         // Modules
         layer.AddModule(new LBSRoomGraph());
+        //layer.AddModule(new LBSSchema());
 
         // Transformers
         //layer.AddTransformer();
@@ -81,12 +82,12 @@ public class LayerTemplateEditor : Editor
             "Paint tile",
             new List<string>() { "point", "Line", "Grid","Free" },
             new List<System.Type>() { 
-                typeof(AddTileToTiledAreaAtPoint<TiledArea<LBSTile>,LBSTile>), // point // (!!) implementar
-                typeof(AddTileToTiledAreaAtLine<TiledArea<LBSTile>,LBSTile>), // line // (!!) implementar
-                typeof(AddTileToTiledAreaAtGrid<TiledArea<LBSTile>,LBSTile>), // grid // (!!) implementar
-                typeof(AddTileToTiledAreaAtFree<TiledArea<LBSTile>,LBSTile>)  // free // (!!) implementar
+                typeof(AddTileToTiledAreaAtPoint<TiledArea<ConnectedTile>,ConnectedTile>), // point // (!!) implementar
+                typeof(AddTileToTiledAreaAtLine<TiledArea<ConnectedTile>,ConnectedTile>), // line // (!!) implementar
+                typeof(AddTileToTiledAreaAtGrid<TiledArea<ConnectedTile>,ConnectedTile>), // grid // (!!) implementar
+                typeof(AddTileToTiledAreaAtFree<TiledArea<ConnectedTile>,ConnectedTile>)  // free // (!!) implementar
             },
-            typeof(RoomsPalleteInspector<TiledArea<LBSTile>,LBSTile>)
+            typeof(RoomsPalleteInspector<TiledArea<ConnectedTile>, ConnectedTile>)
         );
         icon = Resources.Load<Texture2D>("Icons/erase");
         var tool7 = new LBSMultiTool(

@@ -43,10 +43,11 @@ public class ToolkitManager
             toolPanel.Add(btn);
             tool.OnEndAction += OnEndSomeAction;
 
-            if (tool.inspector != "")
+            if (!string.IsNullOrEmpty(tool.inspector))
             {
+                Debug.Log("CCC");
                 var insp = tool.InitInspector(view, ref level, ref layer, ref module);
-                btn.OnFocusEvent += () => { InspectorManager.AddInspector(insp); };
+                btn.OnFocusEvent += () => { InspectorManager.AddInspector(insp); Debug.Log("BBB"); };
                 btn.OnBlurEvent += () => { InspectorManager.RemoveInspector(insp); };
             }
         }

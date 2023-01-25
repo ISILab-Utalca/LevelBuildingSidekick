@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System.Linq;
 using LBS.Components.Specifics;
 using UnityEditor.PackageManager.UI;
+using LBS.Components.TileMap;
 
 namespace LBS.Components.Graph
 {
@@ -302,5 +303,8 @@ namespace LBS.Components.Graph
 
     [System.Serializable]
     public class LBSRoomGraph : GraphModule<RoomNode> { }
+
+    [System.Serializable]
+    public class LBSSchema : AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile> { }
 }
 

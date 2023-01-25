@@ -23,16 +23,15 @@ public class LBSMultiTool : LBSTool
         {
             this.manipulators.Add(manipulator.FullName);
         }
-        this.inspector = inspector?.FullName;
     }
 
     public override ToolButton InitButton(MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
     {
         _manipulators = new List<LBSManipulator>();
         base.InitButton(view, ref level, ref layer, ref module); // (?) inecesario?
-        foreach (var monipulator in manipulators)
+        foreach (var manipulator in manipulators)
         {
-            var mType = Type.GetType(this.manipulator);
+            var mType = Type.GetType(manipulator);
             var current = Activator.CreateInstance(mType) as LBSManipulator;
             current.OnManipulationStart += OnStartAction;
             current.OnManipulationUpdate += OnUpdateAction;
@@ -65,7 +64,7 @@ public class LBSMultiTool : LBSTool
     {
         var iType = Type.GetType(this.inspector);
         _inspector = Activator.CreateInstance(iType) as LBSInspector;
-        _inspector.Init(new List<LBSManipulator>(_manipulators) { }, ref view, ref level, ref layer, ref module);
+        _inspector.Init(new List<LBSManipulator>(_manipulators), ref view, ref level, ref layer, ref module);
 
         return _inspector;
     }

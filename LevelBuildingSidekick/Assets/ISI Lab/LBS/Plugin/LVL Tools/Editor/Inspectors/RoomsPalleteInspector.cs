@@ -17,7 +17,7 @@ public class RoomsPalleteInspector<T,U> : LBSInspector where T: TiledArea<U> whe
 
     public RoomsPalleteInspector()
     {
-        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("NodeUxml");
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("RoomsPalleteInspector");
         visualTree.CloneTree(this);
 
         // Content
