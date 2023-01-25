@@ -76,13 +76,15 @@ namespace LBS.Components.TileMap
 
         #region CONSTRUCTOR
 
-        public TileMapModule()
+        public TileMapModule() : base()
         {
             tiles = new List<LBSTile>();
+            Key = GetType().Name;
         }
-        public TileMapModule(List<LBSTile> tiles)
+
+        public TileMapModule(List<T> tiles, string key) : base(key)
         {
-            this.tiles = tiles;
+            this.tiles = new List<LBSTile>(tiles);
         }
 
         #endregion

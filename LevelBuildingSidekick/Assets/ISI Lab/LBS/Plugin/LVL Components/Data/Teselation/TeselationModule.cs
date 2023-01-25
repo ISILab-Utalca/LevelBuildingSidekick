@@ -13,6 +13,15 @@ namespace LBS.Components.Teselation
 
         #endregion
 
+        #region CONSTRUCTOR
+
+        public TeselationModule() : base() { Key = GetType().Name; }
+
+        public TeselationModule(string key) : base(key) { }
+
+        #endregion
+
+
         #region METHODS
 
         public Vector2 SnapPosition(Vector2 position)
