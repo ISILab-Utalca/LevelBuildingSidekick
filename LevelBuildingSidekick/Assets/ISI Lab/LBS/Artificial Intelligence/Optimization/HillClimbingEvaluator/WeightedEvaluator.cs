@@ -28,14 +28,8 @@ public class WeighuedEvaluator : IEvaluator
         throw new NotImplementedException();
     }
 
-    public float EvaluateH<u>(IEvaluable evaluable, u Heu)
+    public float EvaluateH<u>(IEvaluable schemaData, u graphData)
     {
-        throw new NotImplementedException();
-    }
-
-    public float EvaluateMap(LBSSchemaData schemaData, LBSGraphData graphData)
-    {
-
         var evaluations = new Tuple<IEvaluator , float>[]
         {
                 new Tuple<IEvaluator,float>(Adjacencies,0.5f),
@@ -49,7 +43,7 @@ public class WeighuedEvaluator : IEvaluator
         {
             var action = evaluations[i].Item1;
             var weight = evaluations[i].Item2;
-            value += (float)action. * weight;
+            value += (float)action.EvaluateH(graphData, schemaData) * weight;
         }
 
         return value;
