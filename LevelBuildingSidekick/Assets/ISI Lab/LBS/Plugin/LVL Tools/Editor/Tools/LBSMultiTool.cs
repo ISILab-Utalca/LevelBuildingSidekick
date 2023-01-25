@@ -26,30 +26,10 @@ public class LBSMultiTool : LBSTool
         this.inspector = inspector?.FullName;
     }
 
-    public override VisualElement GetButton(MainView view)
-    {
-        var btn = new DropdownToolButton(this.icon, this.name, modes);
-        btn.OnModeChange += (index, name) => SetManipulator(index, view, btn);
-
-        SetManipulator(0, view, btn);
-
-        btn.OnFocus += () => {
-            view.AddManipulator(_manipulator);
-            if (UseUnitySelector)
-            {
-                view.AddManipulator(new ClickSelector());
-            }
-        };
-        btn.OnBlur += () => {
-            view.RemoveManipulator(_manipulator);
-        };
-        return btn;
-    }
-
-    public override void InitManipulator(ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
+    public override ToolButton InitButton(MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
     {
         _manipulators = new List<LBSManipulator>();
-        base.InitManipulator(ref view, ref level, ref layer, ref module);
+        base.InitButton(view, ref level, ref layer, ref module); // (?) inecesario?
         foreach (var monipulator in manipulators)
         {
             var mType = Type.GetType(this.manipulator);
@@ -62,6 +42,32 @@ public class LBSMultiTool : LBSTool
             _manipulators.Add(current);
 
         }
+
+        var btn = new DropdownToolButton(this.icon, this.name, modes);
+        btn.OnModeChange += (index, name) => SetManipulator(index, view, btn);
+
+        SetManipulator(0, view, btn);
+
+        btn.OnFocusEvent += () => {
+            view.AddManipulator(_manipulator);
+            if (UseUnitySelector)
+            {
+                view.AddManipulator(new ClickSelector());
+            }
+        };
+        btn.OnBlurEvent += () => {
+            view.RemoveManipulator(_manipulator);
+        };
+        return btn;
+    }
+
+    public override LBSInspector InitInspector(MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
+    {
+        var iType = Type.GetType(this.inspector);
+        _inspector = Activator.CreateInstance(iType) as LBSInspector;
+        _inspector.Init(new List<LBSManipulator>(_manipulators) { }, ref view, ref level, ref layer, ref module);
+
+        return _inspector;
     }
 
     private void SetManipulator(int n, MainView view, DropdownToolButton button)
@@ -69,20 +75,15 @@ public class LBSMultiTool : LBSTool
         view.RemoveManipulator(_manipulator);
         _manipulator = _manipulators[n];
 
-        button.OnFocus += () => {
+        button.OnFocusEvent += () => {
             view.AddManipulator(_manipulator);
             if (UseUnitySelector)
             {
                 view.AddManipulator(new ClickSelector());
             }
         };
-        button.OnBlur += () => {
+        button.OnBlurEvent += () => {
             view.RemoveManipulator(_manipulator);
         };
-    }
-
-    public override VisualElement GetInspector()
-    {
-        return base.GetInspector(); // (!) implementar
     }
 }
