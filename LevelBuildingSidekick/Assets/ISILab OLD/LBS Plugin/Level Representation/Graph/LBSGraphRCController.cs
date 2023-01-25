@@ -49,7 +49,7 @@ namespace LBS.Graph
         public void GenerateSchema() 
         {
             var tm = new GraphToSchema().Transform(data);
-            LBSController.CurrentLevel.data.AddRepresentation(tm);
+            //LBSController.CurrentLevel.data.AddRepresentation(tm);
         }
 
         public override void PopulateView(MainViewOld view)

@@ -79,12 +79,12 @@ namespace LBS.Generator
         {
             var prefs = bundle.items;
             var go = SceneView.Instantiate(prefs[Random.Range(0, prefs.Count)], pivot);
-            var wThic = LBSController.CurrentLevel.data.WallThickness;
-            var tSize = LBSController.CurrentLevel.data.TileSize;
-            var mag = (wThic + tSize) * 0.5f;
+            //var wThic = LBSController.CurrentLevel.data.WallThickness;
+            //var tSize = LBSController.CurrentLevel.data.TileSize;
+            //var mag = (wThic + tSize) * 0.5f;
             dir = dir.normalized;
-            var d = new Vector3(dir.x * mag, 0, -dir.y * mag);
-            go.transform.position += d;
+            //var d = new Vector3(dir.x * mag, 0, -dir.y * mag);
+            //go.transform.position += d;
             var a = go.transform.position - pivot.transform.position;
             go.transform.LookAt(a + go.transform.position,Vector3.up);
         }
@@ -122,11 +122,11 @@ namespace LBS.Generator
             return null;
         }   
 
-        public override void Init(LevelDataOld levelData)
+        public override void Init(LBSLevelData levelData)
         {
-            this.schema = levelData.GetRepresentation<LBSSchemaData>();
-            this.graph = levelData.GetRepresentation<LBSGraphData>();
-            tileSize = levelData.TileSize;
+            //this.schema = levelData.GetRepresentation<LBSSchemaData>();
+            //this.graph = levelData.GetRepresentation<LBSGraphData>();
+            //tileSize = levelData.TileSize;
         }
     }
 }

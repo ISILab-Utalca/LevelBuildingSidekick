@@ -123,14 +123,14 @@ namespace LBS.Manipulators
 
             var tPos1 = controller.ToTileCoords(pos1);
             var tPos2 = controller.ToTileCoords(pos2);
-            var schema = LBSController.CurrentLevel.data.GetRepresentation<LBSSchemaData>();
+            //var schema = LBSController.CurrentLevel.data.GetRepresentation<LBSSchemaData>();
                     
             for (int i = tPos1.y; i <= tPos2.y; i++)
             {
                 for (int j = tPos1.x; j <= tPos2.x; j++)
                 {
                     var tile = new TileData(new Vector2Int(j, i), 0, new string[4]); // (!) esto solo esta para 4 conectados
-                    schema.AddTile(tile, cRoom.ID);
+                    //schema.AddTile(tile, cRoom.ID);
                     window.RefreshView();
                 }
             }

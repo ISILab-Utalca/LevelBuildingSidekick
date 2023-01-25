@@ -39,7 +39,8 @@ namespace LBS.Components.Graph
         /// <summary>
         /// Default base class constructor of LBSGraphData.  
         /// </summary>
-        public GraphModule() : base() { }
+        public GraphModule() : base() { Key = GetType().Name; }
+        public GraphModule(string key) : base(key) { }
 
         #endregion
 

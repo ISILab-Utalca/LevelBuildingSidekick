@@ -141,8 +141,8 @@ namespace LBS.Graph
                 Debug.Log("End Edge");
                 var second = GetNodeViewBylabel(data.Label);
                 var edge = new LBSEdgeDataOld(first.Data, second.Data);
-                var current = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>(label);
-                current.AddEdge(edge);
+                //var current = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>(label);
+                //current.AddEdge(edge);
                 AddEdgeView(edge);
             }
 

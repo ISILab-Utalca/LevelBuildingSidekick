@@ -34,7 +34,7 @@ namespace LBS.Manipulators
         {
             var pos = controller.ViewportMousePosition(e.localMousePosition);
 
-            var graph = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
+            //var graph = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
 
             var name = "";
             var loop = true;
@@ -43,15 +43,15 @@ namespace LBS.Manipulators
             {
                 name = "Node: " + v;
 
-                var nn = graph.GetNode(name);
-                if (nn == null)
+                //var nn = graph.GetNode(name);
+                //if (nn == null)
                     loop = false;
                 v++;
             } while (loop);
 
 
             var node = new RoomCharacteristicsData(name, pos, 32);
-            graph.AddNode(node);
+            //graph.AddNode(node);
             window.RefreshView();
         }
     }

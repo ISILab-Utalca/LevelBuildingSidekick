@@ -42,9 +42,9 @@ namespace LBS.Manipulators
             var dp = new Vector2Int(dx,dy);
 
             var tPos = controller.ToTileCoords(pos);
-            var stamps = LBSController.CurrentLevel.data.GetRepresentation<LBSStampGroupData>();
+            //var stamps = LBSController.CurrentLevel.data.GetRepresentation<LBSStampGroupData>();
             var stamp = new StampData(selected.Label, tPos + dp);
-            stamps.AddStamp(stamp);
+            //stamps.AddStamp(stamp);
             window.RefreshView();
             //controller.CreateStamp(e.localMousePosition, window.MainView, selected);
         }

@@ -49,9 +49,9 @@ namespace LBS.Windows
         public override void OnLoadControllers()
         {
             var data = LBSController.CurrentLevel.data;
-            var tileData = data.GetRepresentation<MapData>();
-            var c = new WFCController(MainView, tileData);
-            AddController(c);
+            //var tileData = data.GetRepresentation<MapData>();
+            //var c = new WFCController(MainView, tileData);
+            //AddController(c);
         }
     }
 }

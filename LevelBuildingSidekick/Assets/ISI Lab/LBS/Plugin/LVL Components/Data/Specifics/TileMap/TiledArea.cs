@@ -12,7 +12,7 @@ namespace LBS.Components.TileMap
     {
         #region FIELDS
 
-        [SerializeField, JsonIgnore, SerializeReference]
+        [SerializeField, JsonRequired]
         protected string id;
         [SerializeField, JsonRequired]
         protected Color color;
@@ -28,7 +28,7 @@ namespace LBS.Components.TileMap
 
         #endregion
 
-        #region Events
+        #region EVENTS
 
         [JsonIgnore]
         public Action<T> OnAddTile;
@@ -39,11 +39,9 @@ namespace LBS.Components.TileMap
 
         public TiledArea() : base(){}
 
-        public TiledArea(List<T> tiles, string id) : base()
+        public TiledArea(List<T> tiles, string id, string key) : base(tiles, key)
         {
-            this.tiles = new List<LBSTile>();
             this.color = new Color().RandomColor(); // (?) esto debe ir aqui?
-            tiles.ForEach(t => AddTile(t));
 
             this.id = id;
         }

@@ -116,7 +116,7 @@ namespace LBS.Manipulators
 
             var tPos1 = controller.ToTileCoords(pos1);
             var tPos2 = controller.ToTileCoords(pos2);
-            var schema = LBSController.CurrentLevel.data.GetRepresentation<LBSSchemaData>();
+            //var schema = LBSController.CurrentLevel.data.GetRepresentation<LBSSchemaData>();
             var dir = tPos2 - tPos1;
 
             if(dir.x == 0 && dir.y == 0) return;
@@ -127,7 +127,7 @@ namespace LBS.Manipulators
                 for (int i = tPos1.y; i <= tPos2.y; i++)
                 {
                     var tile = new TileData(new Vector2Int(tPos1.x, i), 0, new string[4]);
-                    schema.AddTile(tile, cRoom.ID);
+                    //schema.AddTile(tile, cRoom.ID);
                 }
             }
             //Horizontal
@@ -136,7 +136,7 @@ namespace LBS.Manipulators
                 for (int i = tPos1.x; i <= tPos2.x; i++)
                 {
                     var tile = new TileData(new Vector2Int(i, tPos1.y), 0, new string[4]);
-                    schema.AddTile(tile, cRoom.ID);
+                    //schema.AddTile(tile, cRoom.ID);
                 }
             }
 
@@ -148,7 +148,7 @@ namespace LBS.Manipulators
                 for (int i = 0; i <= tPos2.x - tPos1.x; i++)
                 {
                     var tile = new TileData(new Vector2Int(tPos2.x - i, tPos2.y - i), 0, new string[4]);
-                    schema.AddTile(tile, cRoom.ID);
+                    //schema.AddTile(tile, cRoom.ID);
                 }
 
             }
@@ -158,7 +158,7 @@ namespace LBS.Manipulators
                 for (int i = 0; i <= tPos2.x - tPos1.x; i++)
                 {
                     var tile = new TileData(new Vector2Int(tPos1.x + i, tPos2.y - i), 0, new string[4]);
-                    schema.AddTile(tile, cRoom.ID);
+                    //schema.AddTile(tile, cRoom.ID);
                 }
             }
             //Bottom left to top right
@@ -167,7 +167,7 @@ namespace LBS.Manipulators
                 for (int i = 0; i <= tPos2.x - tPos1.x; i++)
                 {
                     var tile = new TileData(new Vector2Int(tPos1.x + i, tPos1.y + i), 0, new string[4]);
-                    schema.AddTile(tile, cRoom.ID);
+                    //schema.AddTile(tile, cRoom.ID);
                 }
             }
             //Top right to bottom left
@@ -176,7 +176,7 @@ namespace LBS.Manipulators
                 for (int i = 0; i <= tPos2.x - tPos1.x; i++)
                 {
                     var tile = new TileData(new Vector2Int(tPos2.x - i, tPos1.y + i), 0, new string[4]);
-                    schema.AddTile(tile, cRoom.ID);
+                    //schema.AddTile(tile, cRoom.ID);
                 }
             }
             else
