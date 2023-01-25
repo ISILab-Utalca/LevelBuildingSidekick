@@ -18,14 +18,14 @@ MonoBehaviour:
     visible: 1
     iconPath: Icons/interior-design
     modules:
-    - rid: 8010065733755601741
+    - rid: 564310631807189029
   modes:
-  - rid: 8010065733755601742
-  - rid: 8010065733755601743
+  - rid: 564310631807189030
+  - rid: 564310631807189031
   references:
     version: 2
     RefIds:
-    - rid: 8010065733755601741
+    - rid: 564310631807189029
       type: {class: LBSRoomGraph, ns: LBS.Components.Graph, asm: Assembly-CSharp}
       data:
         key: 
@@ -33,25 +33,25 @@ MonoBehaviour:
         changed: 0
         nodes: []
         edges: []
-    - rid: 8010065733755601742
+    - rid: 564310631807189030
       type: {class: LBSMode, ns: , asm: Assembly-CSharp-Editor}
       data:
         name: Graph
         drawer: DrawSimpleGraph
         toolkit:
-        - rid: 8010065733755601744
-        - rid: 8010065733755601745
-        - rid: 8010065733755601746
-        - rid: 8010065733755601747
-    - rid: 8010065733755601743
+        - rid: 564310631807189032
+        - rid: 564310631807189033
+        - rid: 564310631807189034
+        - rid: 564310631807189035
+    - rid: 564310631807189031
       type: {class: LBSMode, ns: , asm: Assembly-CSharp-Editor}
       data:
         name: Schema
         drawer: DrawConnectedTilemap
         toolkit:
-        - rid: 8010065733755601748
-        - rid: 8010065733755601749
-    - rid: 8010065733755601744
+        - rid: 564310631807189036
+        - rid: 564310631807189037
+    - rid: 564310631807189032
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: 771d36a714319204ea4ddcbecdc2006e, type: 3}
@@ -59,7 +59,7 @@ MonoBehaviour:
         manipulator: Empty
         inspector: 
         UseUnitySelector: 1
-    - rid: 8010065733755601745
+    - rid: 564310631807189033
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: 1814194ea9fd1be43a29c944a0098295, type: 3}
@@ -67,7 +67,7 @@ MonoBehaviour:
         manipulator: CreateNewRoomNode
         inspector: 
         UseUnitySelector: 0
-    - rid: 8010065733755601746
+    - rid: 564310631807189034
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: bd700db3dfe4b4d40be798aee555d7f7, type: 3}
@@ -76,7 +76,7 @@ MonoBehaviour:
           Version=2.6.0.0, Culture=neutral, PublicKeyToken=null]]
         inspector: 
         UseUnitySelector: 0
-    - rid: 8010065733755601747
+    - rid: 564310631807189035
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: 79e9d4f49f5e9874c805015d2c334f0c, type: 3}
@@ -85,7 +85,7 @@ MonoBehaviour:
           Version=2.6.0.0, Culture=neutral, PublicKeyToken=null]]
         inspector: 
         UseUnitySelector: 0
-    - rid: 8010065733755601748
+    - rid: 564310631807189036
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: 771d36a714319204ea4ddcbecdc2006e, type: 3}
@@ -93,7 +93,7 @@ MonoBehaviour:
         manipulator: Empty
         inspector: 
         UseUnitySelector: 1
-    - rid: 8010065733755601749
+    - rid: 564310631807189037
       type: {class: LBSMultiTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: 771d36a714319204ea4ddcbecdc2006e, type: 3}
