@@ -21,6 +21,8 @@ namespace LBS.Components.TileMap
 
         [JsonIgnore]
         public int RoomCount => areas.Count;
+        [JsonIgnore]
+        public List<T> Areas => new List<T>(areas);
 
         #endregion
 

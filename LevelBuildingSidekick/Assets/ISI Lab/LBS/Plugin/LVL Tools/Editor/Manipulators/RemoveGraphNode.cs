@@ -1,8 +1,10 @@
 using LBS.Components;
 using LBS.Components.Graph;
 using LBS.Components.Specifics;
+using LBS.Graph;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.PackageManager.UI;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -31,11 +33,14 @@ public class RemoveGraphNode<T> : LBSManipulator where T : LBSNode
     private void OnMouseDown(MouseDownEvent e)
     {
         OnManipulationStart?.Invoke();
+
         var t = e.target as T;
         if (t == null)
             return;
-
+        
         module.RemoveNode(t);
+
+        
         OnManipulationEnd?.Invoke();
     }
 }

@@ -22,6 +22,8 @@ public class LBSTool
 
     [NonSerialized]
     protected LBSManipulator _manipulator;
+    [NonSerialized]
+    protected LBSInspector _inspector;
 
     public Action OnStartAction;
     public Action OnUpdateAction;
@@ -36,25 +38,7 @@ public class LBSTool
         this.UseUnitySelector = useUnitySelector; // (!) esto es un parche, empty deberia ser el unico con este comportamiento
     }
 
-    public virtual VisualElement GetButton(MainView view)
-    {
-        var btn = new BasicToolButton(this.icon, this.name);
-
-        btn.OnFocus += () => { 
-            view.AddManipulator(_manipulator);
-            if (UseUnitySelector)
-            {
-                view.AddManipulator(new ClickSelector());
-            }
-        };
-        btn.OnBlur += () => { 
-            view.RemoveManipulator(_manipulator); 
-        };
-
-        return btn;
-    }
-
-    public virtual void InitManipulator(ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module) // (!)
+    public virtual ToolButton InitButton(MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module) // (!)
     {
         var mType = Type.GetType(this.manipulator);
         _manipulator = Activator.CreateInstance(mType) as LBSManipulator;
@@ -63,10 +47,30 @@ public class LBSTool
         _manipulator.OnManipulationEnd += OnEndAction;
 
         _manipulator.Init(ref view,ref level, ref layer, ref module);
+
+        var btn = new BasicToolButton(this.icon, this.name);
+
+        btn.OnFocusEvent += () => { 
+            view.AddManipulator(_manipulator);
+            if (UseUnitySelector)
+            {
+                view.AddManipulator(new ClickSelector());
+            }
+        };
+        btn.OnBlurEvent += () => { 
+            view.RemoveManipulator(_manipulator); 
+        };
+
+        return btn;
     }
 
-    public virtual VisualElement GetInspector()
+    public virtual LBSInspector InitInspector(MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
     {
-        throw new NotImplementedException(); // (!) implementar
+        var iType = Type.GetType(this.inspector);
+        _inspector = Activator.CreateInstance(iType) as LBSInspector;
+        _inspector.Init(new List<LBSManipulator>() { _manipulator }, ref view, ref level, ref layer, ref module);
+
+        return _inspector;
     }
+
 }

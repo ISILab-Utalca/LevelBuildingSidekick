@@ -13,7 +13,9 @@ namespace LBS.Components.TileMap
         #region FIELDS
 
         [SerializeField, JsonIgnore, SerializeReference]
-        string id;
+        protected string id;
+        [SerializeField, JsonRequired]
+        protected Color color;
 
         #endregion
 
@@ -21,6 +23,8 @@ namespace LBS.Components.TileMap
 
         [JsonIgnore]
         public string ID => id;
+        [JsonIgnore]
+        public Color Color => color;
 
         #endregion
 
@@ -38,6 +42,7 @@ namespace LBS.Components.TileMap
         public TiledArea(List<T> tiles, string id) : base()
         {
             this.tiles = new List<LBSTile>();
+            this.color = new Color().RandomColor(); // (?) esto debe ir aqui?
             tiles.ForEach(t => AddTile(t));
 
             this.id = id;
