@@ -1,5 +1,24 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <ui:VisualElement name="Content" style="flex-grow: 1;">
-        <ui:Label tabindex="-1" text="Hello Wold!" display-tooltip-when-elided="true" style="flex-grow: 1;" />
+        <ui:Label tabindex="-1" text="Area Tiles" display-tooltip-when-elided="true" />
+        <ui:GroupBox style="background-image: url(&apos;project://database/Packages/com.unity.timeline/Editor/StyleSheets/Images/DarkSkin/TimelineDisabledBackground.png?fileID=2800000&amp;guid=412f73153f3a3c549b67b2a847741145&amp;type=3#TimelineDisabledBackground&apos;); flex-direction: row;">
+            <ui:VisualElement style="flex-direction: row;">
+                <ui:Button tabindex="-1" text="Area 1" display-tooltip-when-elided="true" style="background-image: url(&apos;project://database/Assets/ISI%20Lab/LBS/Plugin/Assets2D/Schema/C1/Floorhalfwall-1.png?fileID=2800000&amp;guid=934963e94d899324eae13cc5790eb4a3&amp;type=3#Floorhalfwall-1&apos;); width: 50px; height: 50px; color: rgba(0, 0, 0, 255); font-size: 10px;" />
+                <ui:Button tabindex="-1" text="Area 2" display-tooltip-when-elided="true" style="background-image: url(&apos;project://database/Assets/ISI%20Lab/LBS/Plugin/Assets2D/Schema/C2/Floorhalfwall-2.png?fileID=2800000&amp;guid=b491d734b1acab4429c8114718a83190&amp;type=3#Floorhalfwall-2&apos;); width: 50px; height: 50px; color: rgb(0, 0, 0); font-size: 10px;" />
+                <ui:Button tabindex="-1" text="Area 3" display-tooltip-when-elided="true" style="background-image: url(&apos;project://database/Assets/ISI%20Lab/LBS/Plugin/Assets2D/Schema/C3/Floorhalfwall-3.png?fileID=2800000&amp;guid=529c40f9cad871a41ad5e27feb66aa63&amp;type=3#Floorhalfwall-3&apos;); width: 50px; height: 50px; color: rgb(0, 0, 0); font-size: 10px;" />
+                <ui:Button tabindex="-1" text="Area 4" display-tooltip-when-elided="true" style="background-image: url(&apos;project://database/Assets/ISI%20Lab/LBS/Plugin/Assets2D/Schema/C4/Floorhalfwall-4.png?fileID=2800000&amp;guid=61bbb46abbebbbc48b4dd72beaa52b36&amp;type=3#Floorhalfwall-4&apos;); width: 50px; height: 50px; color: rgb(0, 0, 0); font-size: 10px;" />
+                <ui:Button tabindex="-1" text="Floor" display-tooltip-when-elided="true" style="background-image: resource(&apos;Floor&apos;); width: 50px; height: 50px; color: rgb(0, 0, 0); font-size: 10px;" />
+            </ui:VisualElement>
+        </ui:GroupBox>
+        <ui:Label tabindex="-1" text="Area Tiles with doors&#10;" display-tooltip-when-elided="true" />
+        <ui:GroupBox style="background-image: url(&apos;project://database/Packages/com.unity.timeline/Editor/StyleSheets/Images/DarkSkin/TimelineDisabledBackground.png?fileID=2800000&amp;guid=412f73153f3a3c549b67b2a847741145&amp;type=3#TimelineDisabledBackground&apos;); flex-direction: row;">
+            <ui:VisualElement style="flex-direction: row;">
+                <ui:Button tabindex="-1" text="Area 1" display-tooltip-when-elided="true" style="background-image: url(&apos;project://database/Assets/ISI%20Lab/LBS/Plugin/Assets2D/Schema/C1/FourDoors.png?fileID=2800000&amp;guid=1773eb0e0f836794dba4a20c65f2b15c&amp;type=3#FourDoors&apos;); width: 50px; height: 50px; color: rgb(0, 0, 0); font-size: 10px;" />
+                <ui:Button tabindex="-1" text="Area 2" display-tooltip-when-elided="true" style="background-image: url(&apos;project://database/Assets/ISI%20Lab/LBS/Plugin/Assets2D/Schema/C2/FourDoors.png?fileID=2800000&amp;guid=aef24e40233d5aa4ca6161f6815d3e1e&amp;type=3#FourDoors&apos;); width: 50px; height: 50px; color: rgb(0, 0, 0); font-size: 10px;" />
+                <ui:Button tabindex="-1" text="Area 3" display-tooltip-when-elided="true" style="background-image: url(&apos;project://database/Assets/ISI%20Lab/LBS/Plugin/Assets2D/Schema/C3/FourDoors.png?fileID=2800000&amp;guid=cf93043c91116a6418a9e384749e666f&amp;type=3#FourDoors&apos;); width: 50px; height: 50px; color: rgb(0, 0, 0); font-size: 10px;" />
+                <ui:Button tabindex="-1" text="Area 4" display-tooltip-when-elided="true" style="background-image: url(&apos;project://database/Assets/ISI%20Lab/LBS/Plugin/Assets2D/Schema/C4/FourDoors.png?fileID=2800000&amp;guid=32928bfbffcd9bb489cb12f90c8d347b&amp;type=3#FourDoors&apos;); width: 50px; height: 50px; color: rgb(0, 0, 0); font-size: 10px;" />
+                <ui:Button tabindex="-1" text="Floor" display-tooltip-when-elided="true" style="background-image: url(&apos;project://database/Assets/ISI%20Lab/LBS/Plugin/Assets2D/Schema/White/Fourwalls.png?fileID=2800000&amp;guid=3b451b2e45d9e1e429e8958a2124815f&amp;type=3#Fourwalls&apos;); width: 50px; height: 50px; color: rgb(0, 0, 0); font-size: 10px;" />
+            </ui:VisualElement>
+        </ui:GroupBox>
     </ui:VisualElement>
 </ui:UXML>
