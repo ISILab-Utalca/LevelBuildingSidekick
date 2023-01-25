@@ -121,10 +121,10 @@ namespace LBS.Generator
             return toR;
         }
 
-        public override void Init(LevelDataOld levelData)
+        public override void Init(LBSLevelData levelData)
         {
-            this.wfc = levelData.GetRepresentation<MapData>();
-            this.size = levelData.TileSize;
+            //this.wfc = levelData.GetRepresentation<MapData>();
+            //this.size = levelData.TileSize;
         }
     }
 }

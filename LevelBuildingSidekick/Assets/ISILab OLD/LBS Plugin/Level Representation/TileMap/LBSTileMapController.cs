@@ -69,7 +69,7 @@ namespace LBS.Representation.TileMap
         {
             cmpe.menu.AppendAction("TileMap/Optimizar", (dma) => {
                 view.DeleteElements(elements);
-                LBSController.CurrentLevel.data.AddRepresentation(Optimize());
+                //LBSController.CurrentLevel.data.AddRepresentation(Optimize());
                 PopulateView(view);
             });
         }
@@ -103,10 +103,10 @@ namespace LBS.Representation.TileMap
 
         internal LBSSchemaData RecalculateDoors(LBSSchemaData schema)
         {
-            var graphData = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
+            //var graphData = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
             schema.ClearDoors();
-            var edges = graphData.GetEdges();
-            foreach (var e in edges)
+            //var edges = graphData.GetEdges();
+            /*foreach (var e in edges)
             {
                 var room1 = schema.GetRoom(e.FirstNodeLabel);
                 var room2 = schema.GetRoom(e.SecondNodeLabel);
@@ -123,7 +123,7 @@ namespace LBS.Representation.TileMap
                 var door = new DoorData(doorTiles.Item1.Position, doorTiles.Item2.Position);
 
                 schema.AddDoor(door);
-            }
+            }*/
             return schema;
         }
 
@@ -186,18 +186,18 @@ namespace LBS.Representation.TileMap
             return tile;
         }
 
-        public LBSSchemaData Optimize()
+        /*public LBSSchemaData Optimize()
         {
-            var graphData = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
+            //var graphData = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
             var schemaData = data;
-            var optimized = Utility.HillClimbing.Run(schemaData, graphData,
-                            () => { return Utility.HillClimbing.NonSignificantEpochs >= 100; },
-                            GetNeighbors,
-                            EvaluateMap);
-            optimized.RecalculateTilePos();
-            LBSController.CurrentLevel.data.AddRepresentation(optimized);
-            return optimized;
-        }
+            //var optimized = Utility.HillClimbing.Run(schemaData, graphData,
+              //              () => { return Utility.HillClimbing.NonSignificantEpochs >= 100; },
+                //            GetNeighbors,
+                  //          EvaluateMap);
+            //optimized.RecalculateTilePos();
+            //LBSController.CurrentLevel.data.AddRepresentation(optimized);
+            //return optimized;
+        }*/
 
         
 
@@ -371,7 +371,7 @@ namespace LBS.Representation.TileMap
         public List<LBSSchemaData> GetNeighbors(LBSSchemaData tileMap)
         {
             var neightbours = new List<LBSSchemaData>();
-            var maxSize = LBSController.CurrentLevel.data.Size;
+            //var maxSize = LBSController.CurrentLevel.data.Size;
 
             for (int i = 0; i < tileMap.RoomCount; i++)
             {
@@ -388,11 +388,11 @@ namespace LBS.Representation.TileMap
                     neighbor.SetTiles(tiles, room.ID);
 
 
-                    if (neighbor.Size.x > (int)maxSize.x || neighbor.Size.y > (int)maxSize.z)
+                    /*if (neighbor.Size.x > (int)maxSize.x || neighbor.Size.y > (int)maxSize.z)
                     {
                         if (neighbor.Size.x > tileMap.Size.x || neighbor.Size.y > tileMap.Size.y)
                             continue;
-                    }
+                    }*/
 
                     neightbours.Add(neighbor);
                 }
@@ -423,11 +423,11 @@ namespace LBS.Representation.TileMap
 
                     neighbor.SetTiles(newTiles, room.ID);
 
-                    if (neighbor.Size.x > (int)maxSize.x || neighbor.Size.y > (int)maxSize.z)
+                    /*if (neighbor.Size.x > (int)maxSize.x || neighbor.Size.y > (int)maxSize.z)
                     {
                         if (neighbor.Size.x > tileMap.Size.x || neighbor.Size.y > tileMap.Size.y)
                             continue;
-                    }
+                    }*/
 
                     neightbours.Add(neighbor);
                 }

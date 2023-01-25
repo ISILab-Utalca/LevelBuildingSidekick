@@ -86,9 +86,9 @@ namespace LBS.Manipulators
 
             var pos = controller.ViewportMousePosition(e.localMousePosition);
             var tPos = controller.ToTileCoords(pos);
-            var schema = LBSController.CurrentLevel.data.GetRepresentation<LBSSchemaData>();
+            //var schema = LBSController.CurrentLevel.data.GetRepresentation<LBSSchemaData>();
             var tile = new TileData(tPos,0,new string[4]); // (!) esto solo esta para 4 conectados 
-            schema.AddTile(tile,cRoom.ID);
+            //schema.AddTile(tile,cRoom.ID);
             window.RefreshView();
         }
     }

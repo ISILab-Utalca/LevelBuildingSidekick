@@ -36,10 +36,10 @@ namespace LBS.Generator
             return mainPivot;
         }
 
-        public override void Init(LevelDataOld levelData)
+        public override void Init(LBSLevelData levelData)
         {
-            this.population = levelData.GetRepresentation<LBSStampGroupData>();
-            tileSize = levelData.TileSize;
+            //this.population = levelData.GetRepresentation<LBSStampGroupData>();
+            //tileSize = levelData.TileSize;
         }
     }
 }
