@@ -28,6 +28,8 @@ public class RoomsPalleteInspector<T,U> : LBSInspector where T: TiledArea<U> whe
 
     public override void Init(List<LBSManipulator> lBSManipulators, ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
     {
+        return;
+
         var tiledArea = layer.GetModule<AreaTileMap<T,U>>();
         content.Clear();
         var areas = tiledArea.Areas;

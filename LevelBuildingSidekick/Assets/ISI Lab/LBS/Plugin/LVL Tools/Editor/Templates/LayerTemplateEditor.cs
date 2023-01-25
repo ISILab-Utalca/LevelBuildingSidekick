@@ -20,7 +20,7 @@ public class LayerTemplateEditor : Editor
 
         var template = (LayerTemplate)target;
 
-        if(GUILayout.Button("Set as interior"))
+        if(GUILayout.Button("Set as interior")) 
         {
             InteriorConstruct(template);
         }
@@ -47,6 +47,8 @@ public class LayerTemplateEditor : Editor
         var layer = new LBSLayer();
 
         // Modules
+        layer.AddModule(new LBSBaseGraph());
+        layer.AddModule(new LBSBaseGraph());
         //layer.AddModule(new GraphModule<RoomNode>());
         //layer.AddModule(new LBSSchema());
 
