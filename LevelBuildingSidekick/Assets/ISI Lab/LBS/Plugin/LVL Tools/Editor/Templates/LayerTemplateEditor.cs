@@ -86,7 +86,7 @@ public class LayerTemplateEditor : Editor
                 typeof(AddTileToTiledAreaAtGrid<TiledArea<LBSTile>,LBSTile>), // grid // (!!) implementar
                 typeof(AddTileToTiledAreaAtFree<TiledArea<LBSTile>,LBSTile>)  // free // (!!) implementar
             },
-            null
+            typeof(RoomsPalleteInspector<TiledArea<LBSTile>,LBSTile>)
         );
         icon = Resources.Load<Texture2D>("Icons/erase");
         var tool7 = new LBSMultiTool(
