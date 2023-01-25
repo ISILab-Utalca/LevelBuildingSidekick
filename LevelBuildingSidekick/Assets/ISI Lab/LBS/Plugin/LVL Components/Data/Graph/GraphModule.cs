@@ -16,10 +16,10 @@ namespace LBS.Components.Graph
         #region FIELDS
 
         [SerializeField, JsonRequired, SerializeReference]
-        List<LBSNode> nodes = new List<LBSNode>();
+        List<LBSNode> nodes;
 
         [SerializeField, JsonRequired, SerializeReference]
-        List<LBSEdge> edges = new List<LBSEdge>();
+        List<LBSEdge> edges;
 
         #endregion
 
@@ -39,8 +39,18 @@ namespace LBS.Components.Graph
         /// <summary>
         /// Default base class constructor of LBSGraphData.  
         /// </summary>
-        public GraphModule() : base() { Key = GetType().Name; }
-        public GraphModule(string key) : base(key) { }
+        public GraphModule() : base() 
+        { 
+            Key = GetType().Name;
+            nodes = new List<LBSNode>();
+            edges = new List<LBSEdge>();
+        }
+
+        public GraphModule(List<T> nodes, List<LBSEdge> edges, string key) : base(key) 
+        {
+            this.nodes = new List<LBSNode>(nodes);
+            this.edges = new List<LBSEdge>(edges);
+        }
 
         #endregion
 
@@ -303,7 +313,11 @@ namespace LBS.Components.Graph
     public class LBSBaseGraph : GraphModule<LBSNode> { }
 
     [System.Serializable]
-    public class LBSRoomGraph : GraphModule<RoomNode> { }
+    public class LBSRoomGraph : GraphModule<RoomNode> 
+    {
+        public LBSRoomGraph() : base() { Key = GetType().Name; }
+        public LBSRoomGraph(List<RoomNode> nodes, List<LBSEdge> edges, string key) : base(nodes, edges, key) { }
+    }
 
     [System.Serializable]
     public class LBSSchema : AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile> { }

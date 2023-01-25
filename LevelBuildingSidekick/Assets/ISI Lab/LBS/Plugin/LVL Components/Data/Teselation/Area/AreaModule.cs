@@ -22,6 +22,17 @@ namespace LBS.Components.Teselation
 
         #endregion
 
+        #region CONSTRUCTOR
+
+        public AreaModule() : base() { Key = GetType().Name; }
+
+        public AreaModule(List<T> areas, string key) : base(key)
+        {
+            this.areas = new List<Area>(areas);
+        }
+
+        #endregion
+
         #region METHODS
 
         public bool AddArea(T area)

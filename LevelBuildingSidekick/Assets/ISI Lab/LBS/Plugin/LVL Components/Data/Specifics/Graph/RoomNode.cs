@@ -11,7 +11,7 @@ namespace LBS.Components.Specifics
     {
         #region FIELDS
 
-        [SerializeField, JsonRequired, SerializeReference]
+        [SerializeField, JsonRequired]
         RoomData room;
 
         #endregion

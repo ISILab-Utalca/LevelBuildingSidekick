@@ -5,7 +5,6 @@ using UnityEngine;
 using LBS.Tools.Transformer;
 using System;
 using System.Linq;
-using LBS.Tools.Transformer;
 
 namespace LBS.Components
 {
@@ -61,14 +60,16 @@ namespace LBS.Components
         public LBSLayer()
         {
             modules = new List<LBSModule>();
+            transformers = new List<Transformer>();
             IsVisible = true;
             ID = GetType().Name;
         }
 
-        public LBSLayer(List<LBSModule> modules, string ID, bool visible, string name, string iconPath)
+        public LBSLayer(List<LBSModule> modules, List<Transformer> transformers, string ID, bool visible, string name, string iconPath)
         {
             this.modules = modules;
             modules.ForEach(m => m.OnChanged += (mo) => { this.OnChanged(this); });
+            this.transformers = transformers;
             this.ID = ID;
             IsVisible = visible;
             this.name = name;
@@ -143,14 +144,14 @@ namespace LBS.Components
 
         public T GetModule<T>(string ID = "") where T : LBSModule
         {
-            var type = typeof(T);
             foreach (var module in modules)
             {
-                var mType = module.GetType();
-                if (mType == type)
+                if (module is T)
                 {
                     if(ID.Equals("") || module.Key.Equals(ID))
+                    {
                         return module as T;
+                    }
                 }
             }
             return null;
@@ -220,8 +221,9 @@ namespace LBS.Components
 
         public object Clone()
         {
-            var modules = this.modules.Select(m => m.Clone() as LBSModule).ToList();
-            var layer = new LBSLayer(modules,this.id,this.visible, this.name,this.iconPath);
+            var modules = new List<LBSModule>(this.modules);
+            var transformers = new List<Transformer>(this.transformers);
+            var layer = new LBSLayer(modules,transformers,this.id,this.visible, this.name,this.iconPath);
             return layer;
         }
     }

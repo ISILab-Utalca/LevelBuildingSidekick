@@ -47,7 +47,7 @@ public class LayerTemplateEditor : Editor
         var layer = new LBSLayer();
 
         // Modules
-        layer.AddModule(new LBSRoomGraph());
+        layer.AddModule(new GraphModule<RoomNode>());
         //layer.AddModule(new LBSSchema());
 
         // Transformers
