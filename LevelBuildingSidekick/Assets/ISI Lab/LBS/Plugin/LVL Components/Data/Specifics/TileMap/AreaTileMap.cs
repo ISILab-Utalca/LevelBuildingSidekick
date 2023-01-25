@@ -13,7 +13,7 @@ namespace LBS.Components.TileMap
         #region FIELDS
 
         [SerializeField, JsonRequired, SerializeReference]
-        protected List<T> areas;
+        protected List<TiledArea<LBSTile>> areas;
 
         #endregion
 
@@ -22,7 +22,7 @@ namespace LBS.Components.TileMap
         [JsonIgnore]
         public int RoomCount => areas.Count;
         [JsonIgnore]
-        public List<T> Areas => new List<T>(areas);
+        public List<T> Areas => new List<T>(areas.Select( a => a as T));
 
         #endregion
 
@@ -30,26 +30,22 @@ namespace LBS.Components.TileMap
         
         public AreaTileMap() : base()
         {
-            areas = new List<T>();
-        }
-
-        public AreaTileMap(List<T> areas) : base()
-        {
-            this.areas = areas;
+            areas = new List<TiledArea<LBSTile>>();
         }
 
         #endregion
 
         #region METHODS
 
-        public bool AddArea(T room)
+        public bool AddArea(T area)
         {
-            if (room == null)
+            if (area == null)
                 return false;
-            if (GetArea(room.ID) != null)
+            if (GetArea(area.ID) != null)
                 return false;
-            areas.Add(room);
-            room.OnAddTile = (t) => 
+            var a = new TiledArea<LBSTile>(area.Tiles, area.ID,area.Key);
+            areas.Add(a);
+            area.OnAddTile = (t) => 
             {
                 RemoveTile(t);
             };
@@ -67,19 +63,20 @@ namespace LBS.Components.TileMap
             }
         }
 
-        public T GetArea(string id)
+        public TiledArea<LBSTile> GetArea(string id)
         {
             return areas.Find(r => r.Key == id);
         }
 
-        public T GetRoom(int index)
+        public TiledArea<LBSTile> GetRoom(int index)
         {
             return areas[index];
         }
 
         public bool RemoveRoom(T area)
         {
-            return areas.Remove(area);
+            var x = area as TiledArea<LBSTile>; // (??) funciona 
+            return areas.Remove(x);
         }
 
         private int GetRoomDistance(string r1, string r2) // O2 - manhattan
@@ -111,9 +108,9 @@ namespace LBS.Components.TileMap
 
         public override object Clone()
         {
-            var a = new AreaTileMap<T, U>();
-            a.areas = new List<T>(areas);
-            return a;
+            var atm = new AreaTileMap<T, U>();
+            atm.areas = new List<TiledArea<LBSTile>>(areas);
+            return atm;
         }
 
         #endregion

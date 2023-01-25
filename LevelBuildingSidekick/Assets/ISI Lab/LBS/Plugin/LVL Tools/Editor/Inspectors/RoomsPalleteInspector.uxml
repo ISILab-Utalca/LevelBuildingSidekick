@@ -1,7 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1">
-        <ui:VisualElement name="Content">
-            <ui:Label tabindex="-1" text="Hello Wold!" display-tooltip-when-elided="true" />
-        </ui:VisualElement>
-    </ui:ScrollView>
+    <ui:VisualElement name="Content" style="flex-grow: 1;">
+        <ui:Label tabindex="-1" text="Hello Wold!" display-tooltip-when-elided="true" style="flex-grow: 1;" />
+    </ui:VisualElement>
 </ui:UXML>

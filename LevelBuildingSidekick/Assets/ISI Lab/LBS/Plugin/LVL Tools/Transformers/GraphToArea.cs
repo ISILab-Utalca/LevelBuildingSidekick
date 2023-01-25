@@ -44,8 +44,9 @@ namespace LBS.Tools.Transformer
                 {
                     if (!KeepShape)
                     {
-                        //Puede que este creando las areas al reves por eje Y inverso
-                        room = ConstructArea(node);
+                        // (!) Puede que este creando las areas al reves por eje Y inverso
+                        var ca = ConstructArea(node);
+                        room = new TiledArea<LBSTile>(ca.Tiles, ca.ID, ca.Key);
                     }
                     else
                     {

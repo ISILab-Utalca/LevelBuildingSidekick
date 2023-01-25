@@ -47,7 +47,7 @@ public class LayerTemplateEditor : Editor
         var layer = new LBSLayer();
 
         // Modules
-        layer.AddModule(new GraphModule<RoomNode>());
+        //layer.AddModule(new GraphModule<RoomNode>());
         //layer.AddModule(new LBSSchema());
 
         // Transformers
@@ -74,9 +74,10 @@ public class LayerTemplateEditor : Editor
         template.modes.Add(mode1);
 
         // Mode 2
-        icon = Resources.Load<Texture2D>("Icons/Select");
+        icon = Resources.Load<Texture2D>("Icons/Select"); 
         var tool5 = new LBSTool(icon, "Select", typeof(Empty), null, true);
-       
+
+        icon = Resources.Load<Texture2D>("Icons/paintbrush"); 
         var tool6 = new LBSMultiTool(
             icon,
             "Paint tile",
@@ -89,7 +90,7 @@ public class LayerTemplateEditor : Editor
             },
             typeof(RoomsPalleteInspector<TiledArea<ConnectedTile>, ConnectedTile>)
         );
-        icon = Resources.Load<Texture2D>("Icons/erase");
+        icon = Resources.Load<Texture2D>("Icons/erased");
         var tool7 = new LBSMultiTool(
             icon,
             "Erase",
@@ -102,8 +103,12 @@ public class LayerTemplateEditor : Editor
             },
             null
         );
+        icon = Resources.Load<Texture2D>("Icons/open-exit-door");
+        var tool8 = new LBSTool(icon, "Add door", typeof(Empty), null, true);
+        icon = Resources.Load<Texture2D>("Icons/Trash");
+        var tool9 = new LBSTool(icon, "Remove door", typeof(Empty), null, true);
 
-        var mode2 = new LBSMode("Schema", new DrawConnectedTilemap(),new List<LBSTool>() { tool5, tool6 });
+        var mode2 = new LBSMode("Schema", new DrawConnectedTilemap(),new List<LBSTool>() { tool5, tool6, tool7, tool8, tool9 });
         template.modes.Add(mode2);
 
         AssetDatabase.SaveAssets();

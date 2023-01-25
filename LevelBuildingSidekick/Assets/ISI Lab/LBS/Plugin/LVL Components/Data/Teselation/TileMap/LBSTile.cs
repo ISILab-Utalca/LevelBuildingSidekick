@@ -10,13 +10,13 @@ namespace LBS.Components.TileMap
     {
         #region FIELDS
 
-        [SerializeField, JsonRequired, SerializeReference]
+        [SerializeField, JsonRequired]
         protected int x, y;
 
-        [SerializeField, JsonRequired, SerializeReference]
+        [SerializeField, JsonRequired]
         protected int sides = 4;
 
-        [SerializeField, JsonRequired, SerializeReference]
+        [SerializeField, JsonRequired]
         protected string id;
 
         #endregion
