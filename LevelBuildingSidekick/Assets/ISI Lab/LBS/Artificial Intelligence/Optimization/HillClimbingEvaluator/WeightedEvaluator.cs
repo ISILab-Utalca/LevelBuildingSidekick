@@ -43,7 +43,7 @@ public class WeighuedEvaluator : IEvaluator
         {
             var action = evaluations[i].Item1;
             var weight = evaluations[i].Item2;
-            value += (float)action.EvaluateH(graphData, schemaData) * weight;
+            value += (float)action.EvaluateH(schemaData, graphData) * weight;
         }
 
         return value;

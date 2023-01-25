@@ -137,7 +137,7 @@ namespace Commons.Optimization
 
         public abstract T RunOnce ( T evaluable, IEvaluator evaluator, ITermination termination);
 
-        public abstract void GetNeighbors();
+        public abstract List<T> GetNeighbors( T Adam);
         public virtual IEvaluable Run()
         {
             while (!TerminatioReached() && !(State == Op_State.Paused || State == Op_State.Stopped))
