@@ -1,3 +1,4 @@
+using LBS;
 using LBS.Components;
 using LBS.ElementView;
 using LBS.VisualElements;
@@ -97,7 +98,7 @@ public class LBSMainWindow : EditorWindow
         selectedLabel = rootVisualElement.Q<Label>("SelectedLabel");
 
         // Init Data
-        levelData = new LBSLevelData(); // (!) cargar archivo aqui de alguna forma
+        levelData = LBSController.CurrentLevel.data; // (!) cargar archivo aqui de alguna forma
         OnLevelDataChange(levelData);
         levelData.OnChanged += (lvl) => {
             OnLevelDataChange(lvl);
