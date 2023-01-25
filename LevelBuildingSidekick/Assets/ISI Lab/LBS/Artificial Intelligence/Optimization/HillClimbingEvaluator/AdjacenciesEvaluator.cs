@@ -1,16 +1,31 @@
-﻿using LBS.Graph;
+﻿using Commons.Optimization.Evaluator;
+using LBS.Graph;
 using LBS.Representation.TileMap;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
-public class AdjacenciesEvaluator
+public class AdjacenciesEvaluator : IEvaluator
 {   
 
     public AdjacenciesEvaluator() {}
 
-    public float Run(LBSGraphData graphData, LBSSchemaData schema)
+    public VisualElement CIGUI()
     {
+        throw new System.NotImplementedException();
+    }
+
+    public float Evaluate(IEvaluable evaluable)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public float EvaluateH<u>(IEvaluable evaluable, u Heu)
+    {
+        var graphData = evaluable as LBSGraphData;
+        var schema = Heu as LBSSchemaData;
+
         if (graphData.EdgeCount() <= 0)
         {
             Debug.LogWarning("Cannot calculate the adjacency of a map are nodes that are not connected.");
@@ -40,6 +55,11 @@ public class AdjacenciesEvaluator
         }
 
         return distValue / (float)graphData.EdgeCount();
+    }
+
+    public string GetName()
+    {
+        throw new System.NotImplementedException();
     }
 
     private int GetRoomDistance(RoomData r1, RoomData r2) // O2 - manhattan
