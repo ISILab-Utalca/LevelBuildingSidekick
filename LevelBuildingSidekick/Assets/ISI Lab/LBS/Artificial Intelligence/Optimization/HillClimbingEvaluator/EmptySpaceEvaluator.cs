@@ -1,4 +1,6 @@
 ﻿using Commons.Optimization.Evaluator;
+using LBS.Components.Graph;
+using LBS.Components.Specifics;
 using LBS.Graph;
 using LBS.Representation.TileMap;
 using System;
@@ -24,13 +26,13 @@ public class EmptySpaceEvaluator : IEvaluator
 
     public float EvaluateH<u>(IEvaluable evaluable, u Heu)
     {
-        var graphData = evaluable as GraphicsModule;
-        var schema = Heu as LBSSchemaData;
+        var graphData = evaluable as GraphModule<RoomNode>;
+        var schema = Heu as LBSSchema;
         var value = 0f;
-        foreach (var room in schema.GetRooms())
+        foreach (var room in schema.Areas)
         {
-            var rectArea = room.GetRect().width * room.GetRect().height;
-            var tc = room.TilesCount;
+            var rectArea = room.Rect.width * room.Rect.height;
+            var tc = room.TileCount;
             value += 1 - (MathF.Abs(rectArea - tc) / (tc * 1f));
         }
 
