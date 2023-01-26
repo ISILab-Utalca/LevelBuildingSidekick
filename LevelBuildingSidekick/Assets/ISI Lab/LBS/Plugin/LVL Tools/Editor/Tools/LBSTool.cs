@@ -38,7 +38,7 @@ public class LBSTool
         this.UseUnitySelector = useUnitySelector; // (!) esto es un parche, empty deberia ser el unico con este comportamiento
     }
 
-    public virtual ToolButton InitButton(MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module) // (!)
+    public virtual LBSGrupableButton InitButton(MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module) // (!)
     {
         var mType = Type.GetType(this.manipulator);
         _manipulator = Activator.CreateInstance(mType) as LBSManipulator;
