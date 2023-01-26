@@ -18,8 +18,7 @@ namespace LBS.Components
         [SerializeField, JsonRequired]
         private string name;
         
-        [SerializeField]
-        [JsonRequired]
+        [SerializeField, JsonRequired]
         private bool visible;
 
         [SerializeField, JsonRequired]
