@@ -10,7 +10,8 @@ namespace LBS.Components
     public abstract class LBSModule : ICloneable
     {
 
-        //FIELDS
+        #region FIELDS
+
         [SerializeField, JsonRequired]
         string key;
 
@@ -20,7 +21,10 @@ namespace LBS.Components
         [SerializeField, JsonRequired]
         bool changed;
 
-        //PROPERTIES
+        #endregion
+
+        #region PROPERTIES
+
         [JsonIgnore]
         public bool IsVisible
         {
@@ -42,10 +46,24 @@ namespace LBS.Components
             set => key = value;
         }
 
-        //EVENTS
+        #endregion
+
+        #region EVENTS
+
+        [JsonIgnore]
         public Action<LBSModule> OnChanged;
 
-        //METHODS
+        #endregion
+
+        #region CONSTRUCTOR
+
+        public LBSModule() { Key = GetType().Name; }
+
+        public LBSModule(string key) { Key = key; }
+
+        #endregion
+
+        #region METHODS
 
         /// <summary>
         /// prints by console basic information of 
@@ -58,6 +76,8 @@ namespace LBS.Components
         /// </summary>
         public abstract void Clear();
         public abstract object Clone();
+
+        #endregion
     }
 }
 

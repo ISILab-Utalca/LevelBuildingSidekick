@@ -9,17 +9,20 @@ namespace LBS.Components.Specifics
     [System.Serializable]
     public class RoomData : ICloneable
     {
-        //FIELDS
+        #region FIELDS
+
         [SerializeField, JsonRequired]
         private int width = 1;
 
         [SerializeField, JsonRequired]
         private int height = 1;
 
-        [SerializeField, JsonRequired]
+        [SerializeField, JsonRequired, SerializeReference]
         private List<string> tags = new List<string>();
 
-        //PROPERTIES
+        #endregion
+
+        #region PROPERTIES
         [JsonIgnore]
         public int Width
         {
@@ -59,7 +62,10 @@ namespace LBS.Components.Specifics
         [JsonIgnore]
         public int TagCount => tags.Count;
 
-        // CONSTRUCTORS
+        #endregion
+
+        #region CONSTRUCTORS
+
         public RoomData()
         {
 
@@ -72,7 +78,10 @@ namespace LBS.Components.Specifics
             this.tags = tags;
         }
 
-        //METHODS
+        #endregion
+
+        #region METHODS
+
         public bool AddTag(string tag)
         {
             if (tags.Contains(tag))
@@ -109,6 +118,7 @@ namespace LBS.Components.Specifics
             return new RoomData(this.Width,this.Height,new List<string>(tags));
         }
 
+        #endregion
     }
 }
 

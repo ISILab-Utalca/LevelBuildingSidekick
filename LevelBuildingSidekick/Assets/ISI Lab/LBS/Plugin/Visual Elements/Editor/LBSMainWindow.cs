@@ -1,3 +1,4 @@
+using LBS;
 using LBS.Components;
 using LBS.ElementView;
 using LBS.VisualElements;
@@ -36,6 +37,7 @@ public class LBSMainWindow : EditorWindow
     // Manager
     private ToolkitManager toolkitManager;
     private DrawManager drawManager;
+    private InspectorManager inspectorManager;
 
 
     [MenuItem("ISILab/LBS plugin/Main window", priority = 0)]
@@ -70,8 +72,14 @@ public class LBSMainWindow : EditorWindow
         // DrawManager
         drawManager = new DrawManager(ref mainView, ref layerTemplates);
 
+        // InspectorContent
+        var inspector = rootVisualElement.Q<VisualElement>("InspectorContent");
+
+        // InspectorManager
+        inspectorManager = new InspectorManager(ref mainView, inspector);
+
         // ToolKitManager
-        toolkitManager = new ToolkitManager(ref toolPanel, ref modeSelector, ref mainView, ref layerTemplates);
+        toolkitManager = new ToolkitManager(ref toolPanel, ref modeSelector, ref mainView,ref inspectorManager, ref layerTemplates);
         toolkitManager.OnEndSomeAction += () =>
         {
             drawManager.RefreshView(ref _selectedLayer, _selectedMode);
@@ -79,9 +87,6 @@ public class LBSMainWindow : EditorWindow
 
         // ToolBar
         var toolbar = rootVisualElement.Q<ToolBarMain>("ToolBar");
-
-        // InspectorContent
-        var inspector = rootVisualElement.Q<VisualElement>("InspectorContent");
 
         // ExtraPanel
         extraPanel = rootVisualElement.Q<VisualElement>("ExtraPanel");
@@ -93,7 +98,7 @@ public class LBSMainWindow : EditorWindow
         selectedLabel = rootVisualElement.Q<Label>("SelectedLabel");
 
         // Init Data
-        levelData = new LBSLevelData(); // (!) cargar archivo aqui de alguna forma
+        levelData = LBSController.CurrentLevel.data; // (!) cargar archivo aqui de alguna forma
         OnLevelDataChange(levelData);
         levelData.OnChanged += (lvl) => {
             OnLevelDataChange(lvl);

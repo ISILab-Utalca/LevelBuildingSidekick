@@ -47,9 +47,9 @@ namespace LBS.Windows
                 () => {
                     // controllers.Find(c => c.GetType() == typeof(LBSTileMapController)) as LBSTileMapController;
                     var c = GetControllerByType<LBSTileMapController>();
-                    var schema = c.Optimize();
-                    schema = c.RecalculateDoors(schema);
-                    LBSController.CurrentLevel.data.AddRepresentation(schema);
+                    //var schema = c.Optimize();
+                    //schema = c.RecalculateDoors(schema);
+                    //LBSController.CurrentLevel.data.AddRepresentation(schema);
                     this.RefreshView();
                 }));
 
@@ -60,10 +60,10 @@ namespace LBS.Windows
         public override void OnLoadControllers()
         {
             var data = LBSController.CurrentLevel.data; // peligroso buscar otra forma (!)
-            var tileData = data.GetRepresentation<LBSSchemaData>();
-            var c = new LBSTileMapController(MainView, tileData);
+            //var tileData = data.GetRepresentation<LBSSchemaData>();
+            //var c = new LBSTileMapController(MainView, tileData);
             CurrentController = GetControllerByType<LBSTileMapController>();
-            AddController(c);
+            //AddController(c);
         }
     }
 }

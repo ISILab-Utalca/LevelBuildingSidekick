@@ -10,11 +10,15 @@ namespace LBS.Components.TileMap
     [System.Serializable]
     public class TileMapModule<T> : TeselationModule where T : LBSTile
     {
-        //FIELDS
+        #region FIELDS
+
         [SerializeField, JsonRequired, SerializeReference]
         protected List<LBSTile> tiles;
 
-        //PROEPRTIES
+        #endregion
+
+        #region PROEPRTIES
+
         [JsonIgnore]
         public Rect Rect
         {
@@ -68,14 +72,24 @@ namespace LBS.Components.TileMap
         [JsonIgnore]
         public List<LBSTile> Tiles => new List<LBSTile>(tiles);
 
-        public TileMapModule()
+        #endregion
+
+        #region CONSTRUCTOR
+
+        public TileMapModule() : base()
         {
             tiles = new List<LBSTile>();
+            Key = GetType().Name;
         }
-        public TileMapModule(List<LBSTile> tiles)
+
+        public TileMapModule(List<T> tiles, string key) : base(key)
         {
-            this.tiles = tiles;
+            this.tiles = new List<LBSTile>(tiles);
         }
+
+        #endregion
+
+        #region METHODS
 
         public virtual bool AddTile(T tile)
         {
@@ -86,6 +100,7 @@ namespace LBS.Components.TileMap
                 tiles.Remove(t);
             }
             tiles.Add(tile);
+            OnChanged?.Invoke(this);
             return true;
         }
 
@@ -128,7 +143,12 @@ namespace LBS.Components.TileMap
 
         public bool RemoveTile(T tile)
         {
-            return tiles.Remove(tile);
+            if(tiles.Remove(tile))
+            {
+                OnChanged?.Invoke(this);
+                return true;
+            }
+            return false;
         }
 
         public T RemoveAt(int index)
@@ -139,6 +159,7 @@ namespace LBS.Components.TileMap
             }
             var t = tiles[index] as T;
             tiles.Remove(t);
+            OnChanged?.Invoke(this);
             return t;
         }
 
@@ -148,6 +169,7 @@ namespace LBS.Components.TileMap
             if (tile != null)
             {
                 tiles.Remove(tile);
+                OnChanged?.Invoke(this);
             }
             return tile;
         }
@@ -176,17 +198,27 @@ namespace LBS.Components.TileMap
         public override void Clear()
         {
             tiles.Clear();
+            OnChanged?.Invoke(this);
         }
 
         public override void Print()
         {
-            throw new System.NotImplementedException();
+            string s = "TileMap Module: " + Key + "\n\n";
+            foreach(var t in tiles)
+            {
+                s += "t - " + t.Position + "\n";
+            }
+            Debug.Log(s);
         }
 
         public override object Clone()
         {
-            throw new System.NotImplementedException();
+            var tileMap = new TileMapModule<T>();
+            tileMap.tiles = new List<LBSTile>(tiles);
+            return tileMap;
         }
+
+        #endregion
     }
 
     [System.Serializable]

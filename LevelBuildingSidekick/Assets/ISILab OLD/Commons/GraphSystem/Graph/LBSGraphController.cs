@@ -23,7 +23,7 @@ namespace LBS.Graph
     // tener una "GraphView" generica, ademas de una data generica
     // pero podemos guardar los datos especificos y controlarlos
     // de manera especifica (!!!)
-    public abstract class LBSGraphController : LBSRepController<GraphicsModule>
+    public abstract class LBSGraphController : LBSRepController<LBSGraphData>
     {
         public static readonly int cellSize = 64;
 
@@ -35,7 +35,7 @@ namespace LBS.Graph
         /// </summary>
         /// <param name="view">Graph view that the controller will use.</param>
         /// <param name="data">Graph data that the controller will use.</param>
-        public LBSGraphController(LBSGraphView view,GraphicsModule data) : base(view, data)
+        public LBSGraphController(LBSGraphView view,LBSGraphData data) : base(view, data)
         {
 
         }
@@ -141,8 +141,8 @@ namespace LBS.Graph
                 Debug.Log("End Edge");
                 var second = GetNodeViewBylabel(data.Label);
                 var edge = new LBSEdgeDataOld(first.Data, second.Data);
-                var current = LBSController.CurrentLevel.data.GetRepresentation<GraphicsModule>(label);
-                current.AddEdge(edge);
+                //var current = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>(label);
+                //current.AddEdge(edge);
                 AddEdgeView(edge);
             }
 

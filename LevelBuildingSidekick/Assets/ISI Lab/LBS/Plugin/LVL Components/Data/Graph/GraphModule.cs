@@ -5,21 +5,25 @@ using LBS.Graph;
 using Newtonsoft.Json;
 using System.Linq;
 using LBS.Components.Specifics;
+using UnityEditor.PackageManager.UI;
+using LBS.Components.TileMap;
 
 namespace LBS.Components.Graph
 {
     [System.Serializable]
     public class GraphModule<T> : LBSModule where T : LBSNode //REVISAR CLASE PARA IMPLEMENTAR METODOS Y TIPO T (!!!)
     {
-        //FIELDS
+        #region FIELDS
 
         [SerializeField, JsonRequired, SerializeReference]
-        List<LBSNode> nodes = new List<LBSNode>();
+        List<LBSNode> nodes;
 
         [SerializeField, JsonRequired, SerializeReference]
-        List<LBSEdge> edges = new List<LBSEdge>();
+        List<LBSEdge> edges;
 
-        //PROPERTIES
+        #endregion
+
+        #region PROPERTIES
 
         [JsonIgnore]
         public int NodeCount => nodes.Count;
@@ -28,33 +32,43 @@ namespace LBS.Components.Graph
         [JsonIgnore]
         public int EdgeCount => edges.Count;
 
-        //COSNTRUCTORS
+        #endregion
+
+        #region COSNTRUCTORS
 
         /// <summary>
         /// Default base class constructor of LBSGraphData.  
         /// </summary>
-        public GraphModule() : base() { }
-
-        //METHODS
-
-        /// <summary>
-        /// Clear the edges and nodes.
-        /// </summary>
-        public override void Clear()
-        {
-            edges = new List<LBSEdge>();
+        public GraphModule() : base() 
+        { 
+            Key = GetType().Name;
             nodes = new List<LBSNode>();
+            edges = new List<LBSEdge>();
         }
+
+        public GraphModule(List<T> nodes, List<LBSEdge> edges, string key) : base(key) 
+        {
+            this.nodes = new List<LBSNode>(nodes);
+            this.edges = new List<LBSEdge>(edges);
+        }
+
+        #endregion
+
+        #region METHODS
 
         /// <summary>
         /// Remove node by ID/Label.
         /// </summary>
         /// <param name="ID">ID given to remove the node.</param>
-        public void RemoveNode(string ID)
+        public T RemoveNode(string ID)
         {
             var r = nodes.Find(n => n.ID == ID) as T;
             if (r != null)
+            {
                 RemoveNode(r);
+                return r;
+            }
+            return null;
         }
 
         /// <summary>
@@ -62,10 +76,16 @@ namespace LBS.Components.Graph
         /// also removes the edges connected to the node.
         /// </summary>
         /// <param name="node">Node data given to find the node.</param>
-        public void RemoveNode(T node)
+        public bool RemoveNode(T node)
         {
-            RemoveEdges(node);
-            nodes.Remove(node);
+            if (node != null && nodes.Contains(node))
+            {
+                RemoveEdges(node);
+                nodes.Remove(node);
+                OnChanged?.Invoke(this);
+                return true;
+            }
+            return false;
         }
 
         /// <summary>
@@ -103,13 +123,14 @@ namespace LBS.Components.Graph
         /// append an index to the label until it is unique.
         /// </summary>
         /// <param name="node">Data node to add.</param>
-        public void AddNode(T node)
+        public bool AddNode(T node)
         {
             int index = nodes.Count;
             if (!nodes.Any(n => n.ID == node.ID))
             {
                 nodes.Add(node);
-                return;
+                OnChanged?.Invoke(this);
+                return true;
             }
 
             var tempName = "";
@@ -123,6 +144,7 @@ namespace LBS.Components.Graph
             nodes.Add(node);
 
             OnChanged?.Invoke(this);
+            return true;
         }
 
         /// <summary>
@@ -266,19 +288,38 @@ namespace LBS.Components.Graph
             Debug.Log(msg);
         }
 
+        /// <summary>
+        /// Clear the edges and nodes.
+        /// </summary>
+        public override void Clear()
+        {
+            edges.Clear();
+            nodes.Clear();
+            OnChanged?.Invoke(this);
+        }
+
         public override object Clone()
         {
             var module = new GraphModule<T>();
-            module.nodes = this.nodes.Select(n => n.Clone() as LBSNode).ToList();
-            module.edges = this.edges.Select(e => e.Clone() as LBSEdge).ToList();
+            module.nodes = new List<LBSNode>(nodes);
+            module.edges = new List<LBSEdge>(edges);
             return module;
         }
+
+        #endregion
     }
 
     [System.Serializable]
     public class LBSBaseGraph : GraphModule<LBSNode> { }
 
     [System.Serializable]
-    public class LBSRoomGraph : GraphModule<RoomNode> { }
+    public class LBSRoomGraph : GraphModule<RoomNode> 
+    {
+        public LBSRoomGraph() : base() { Key = GetType().Name; }
+        public LBSRoomGraph(List<RoomNode> nodes, List<LBSEdge> edges, string key) : base(nodes, edges, key) { }
+    }
+
+    [System.Serializable]
+    public class LBSSchema : AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile> { }
 }
 

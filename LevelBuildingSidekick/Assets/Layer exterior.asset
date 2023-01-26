@@ -13,11 +13,84 @@ MonoBehaviour:
   m_Name: Layer exterior
   m_EditorClassIdentifier: 
   layer:
-    id: LBSLayer
-    name: 
+    id: Exterior
+    name: Exterior layer
     visible: 1
-    iconPath: 
-    modules: []
+    iconPath: Icons/pine-tree
+    modules:
+    - rid: 564310631807189090
+  modes:
+  - rid: 564310631807189091
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 564310631807189090
+      type: {class: LBSBaseGraph, ns: LBS.Components.Graph, asm: Assembly-CSharp}
+      data:
+        key: LBSBaseGraph
+        visible: 0
+        changed: 0
+        nodes: []
+        edges: []
+    - rid: 564310631807189091
+      type: {class: LBSMode, ns: , asm: Assembly-CSharp-Editor}
+      data:
+        name: Exterior
+        drawer: DrawSimpleGraph
+        toolkit:
+        - rid: 564310631807189092
+        - rid: 564310631807189093
+        - rid: 564310631807189094
+        - rid: 564310631807189095
+    - rid: 564310631807189092
+      type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
+      data:
+        icon: {fileID: 2800000, guid: 771d36a714319204ea4ddcbecdc2006e, type: 3}
+        name: Select
+        manipulator: Empty
+        inspector: 
+        UseUnitySelector: 1
+    - rid: 564310631807189093
+      type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
+      data:
+        icon: {fileID: 2800000, guid: b1704af221b60f64face13aea01f1b04, type: 3}
+        name: Paint by tile
+        manipulator: Empty
+        inspector: 
+        UseUnitySelector: 0
+    - rid: 564310631807189094
+      type: {class: LBSMultiTool, ns: , asm: Assembly-CSharp-Editor}
+      data:
+        icon: {fileID: 2800000, guid: bd700db3dfe4b4d40be798aee555d7f7, type: 3}
+        name: Paint by connection
+        manipulator: Empty
+        inspector: 
+        UseUnitySelector: 0
+        modes:
+        - Point
+        - Line
+        - Square
+        - Free
+        manipulators:
+        - Empty
+        - Empty
+        - Empty
+        - Empty
+    - rid: 564310631807189095
+      type: {class: LBSMultiTool, ns: , asm: Assembly-CSharp-Editor}
+      data:
+        icon: {fileID: 2800000, guid: 8e8fbec1ef6d10c43a3cd708f17ea463, type: 3}
+        name: Erase
+        manipulator: Empty
+        inspector: 
+        UseUnitySelector: 0
+        modes:
+        - Pair
+        - Line
+        - Square
+        - Free
+        manipulators:
+        - Empty
+        - Empty
+        - Empty
+        - Empty

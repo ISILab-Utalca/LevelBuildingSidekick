@@ -106,7 +106,7 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
         {
             var s = SolveMap();
             var m = GridToMapData.Generate(s);
-            LBSController.CurrentLevel.data.AddRepresentation(m);
+            //LBSController.CurrentLevel.data.AddRepresentation(m);
         };
         this.mapSize = root.Q<Vector2IntField>("mapSize");
         this.tileSize = root.Q<FloatField>("tileSize");

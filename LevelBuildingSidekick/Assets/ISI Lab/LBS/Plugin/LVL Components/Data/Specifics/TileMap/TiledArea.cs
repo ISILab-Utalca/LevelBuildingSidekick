@@ -3,23 +3,52 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System;
+using Newtonsoft.Json;
 
 namespace LBS.Components.TileMap
 {
-    public class TiledRoom<T> : TileMapModule<T> where T : LBSTile
+    [System.Serializable]
+    public class TiledArea<T> : TileMapModule<T> where T : LBSTile
     {
-        string id;
-        public string ID => id;
+        #region FIELDS
 
+        [SerializeField, JsonRequired]
+        protected string id;
+        [SerializeField, JsonRequired]
+        protected Color color;
+
+        #endregion
+
+        #region PROPERTIES
+
+        [JsonIgnore]
+        public string ID => id;
+        [JsonIgnore]
+        public Color Color => color;
+
+        #endregion
+
+        #region EVENTS
+
+        [JsonIgnore]
         public Action<T> OnAddTile;
 
-        public TiledRoom(List<T> tiles, string id) : base()
+        #endregion
+
+        #region CONSTRUCTORS
+
+        public TiledArea() : base(){}
+
+        public TiledArea(List<T> tiles, string id, string key) : base(tiles, key)
         {
-            this.tiles = new List<LBSTile>();
-            tiles.ForEach(t => AddTile(t));
+            this.color = new Color().RandomColor(); // (?) esto debe ir aqui?
 
             this.id = id;
         }
+
+        #endregion
+
+        #region METHODS
 
         public override bool AddTile(T tile)
         {
@@ -230,6 +259,15 @@ namespace LBS.Components.TileMap
             }
             return walls;
         }
+
+        public override object Clone()
+        {
+            var tileMap = new TiledArea<T>();
+            tileMap.tiles = new List<LBSTile>(tiles);
+            return tileMap;
+        }
+
+        #endregion
     }
 }
 

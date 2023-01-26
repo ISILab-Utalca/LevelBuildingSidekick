@@ -34,8 +34,8 @@ namespace LBS.Manipulators
             if (t == null)
                 return;
 
-            var stamps = LBSController.CurrentLevel.data.GetRepresentation<LBSStampGroupData>();
-            stamps.RemoveStamp(t.Data);
+            //var stamps = LBSController.CurrentLevel.data.GetRepresentation<LBSStampGroupData>();
+            //stamps.RemoveStamp(t.Data);
             window.RefreshView();
         }
     }

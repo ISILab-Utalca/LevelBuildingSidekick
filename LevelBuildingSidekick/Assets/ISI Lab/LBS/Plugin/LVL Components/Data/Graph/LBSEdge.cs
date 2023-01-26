@@ -11,10 +11,26 @@ namespace LBS.Components.Graph
     [System.Serializable]
     public class LBSEdge : ICloneable
     {
+        #region FIELDS
+
         [SerializeField, JsonRequired, SerializeReference]
         private LBSNode firstNode;
+
         [SerializeField, JsonRequired, SerializeReference]
         private LBSNode secondNode;
+
+        /// <summary>
+        /// The direction of the edge.
+        /// </summary>
+        [SerializeField, JsonRequired]
+        EdgeDirection direction;
+
+        #endregion
+
+        #region PROPERTIES
+
+        [HideInInspector, JsonIgnore]
+        public EdgeDirection Direction => direction;
 
         [HideInInspector, JsonIgnore]
         public LBSNode FirstNode => firstNode;
@@ -22,13 +38,12 @@ namespace LBS.Components.Graph
         [HideInInspector, JsonIgnore]
         public LBSNode SecondNode => secondNode;
 
+        #endregion
+
         [JsonIgnore]
         public float thikness = 5; // -> static (??)
 
-        /// <summary>
-        /// The direction of the edge.
-        /// </summary>
-        public EdgeDirection Direction { get; set; }
+        #region CONSTRUCTOR
 
         /// <summary>
         /// Empty constructor, necessary for serialization with json.
@@ -46,6 +61,10 @@ namespace LBS.Components.Graph
             secondNode = n2;
         }
 
+        #endregion
+
+        #region METHODS
+
         /// <summary>
         /// Determines whether this edge contains the given node.
         /// </summary>
@@ -60,11 +79,14 @@ namespace LBS.Components.Graph
         {
             return new LBSEdge(FirstNode.Clone() as LBSNode, SecondNode.Clone() as LBSNode);
         }
+
+        #endregion
     }
 
     /// <summary>
     ///  Enumeration of posibles edges directions.
     /// </summary>
+    [System.Serializable]
     public enum EdgeDirection
     {
         BIDIRECTIONAL,

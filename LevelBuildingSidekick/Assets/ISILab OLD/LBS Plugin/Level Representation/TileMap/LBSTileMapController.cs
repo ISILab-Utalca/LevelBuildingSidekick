@@ -69,7 +69,7 @@ namespace LBS.Representation.TileMap
         {
             cmpe.menu.AppendAction("TileMap/Optimizar", (dma) => {
                 view.DeleteElements(elements);
-                LBSController.CurrentLevel.data.AddRepresentation(Optimize());
+                //LBSController.CurrentLevel.data.AddRepresentation(Optimize());
                 PopulateView(view);
             });
         }
@@ -103,10 +103,10 @@ namespace LBS.Representation.TileMap
 
         internal LBSSchemaData RecalculateDoors(LBSSchemaData schema)
         {
-            var graphData = LBSController.CurrentLevel.data.GetRepresentation<GraphicsModule>();
+            //var graphData = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
             schema.ClearDoors();
-            var edges = graphData.GetEdges();
-            foreach (var e in edges)
+            //var edges = graphData.GetEdges();
+            /*foreach (var e in edges)
             {
                 var room1 = schema.GetRoom(e.FirstNodeLabel);
                 var room2 = schema.GetRoom(e.SecondNodeLabel);
@@ -123,7 +123,7 @@ namespace LBS.Representation.TileMap
                 var door = new DoorData(doorTiles.Item1.Position, doorTiles.Item2.Position);
 
                 schema.AddDoor(door);
-            }
+            }*/
             return schema;
         }
 
@@ -186,22 +186,22 @@ namespace LBS.Representation.TileMap
             return tile;
         }
 
-        public LBSSchemaData Optimize()
+        /*public LBSSchemaData Optimize()
         {
-            var graphData = LBSController.CurrentLevel.data.GetRepresentation<GraphicsModule>();
+            //var graphData = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
             var schemaData = data;
-            var optimized = Utility.HillClimbing.Run(schemaData, graphData,
-                            () => { return Utility.HillClimbing.NonSignificantEpochs >= 100; },
-                            GetNeighbors,
-                            EvaluateMap);
-            optimized.RecalculateTilePos();
-            LBSController.CurrentLevel.data.AddRepresentation(optimized);
-            return optimized;
-        }
+            //var optimized = Utility.HillClimbing.Run(schemaData, graphData,
+              //              () => { return Utility.HillClimbing.NonSignificantEpochs >= 100; },
+                //            GetNeighbors,
+                  //          EvaluateMap);
+            //optimized.RecalculateTilePos();
+            //LBSController.CurrentLevel.data.AddRepresentation(optimized);
+            //return optimized;
+        }*/
 
         
 
-        private float EvaluateAdjacencies(GraphicsModule graphData, LBSSchemaData schema) 
+        private float EvaluateAdjacencies(LBSGraphData graphData, LBSSchemaData schema) 
         {
             if (graphData.EdgeCount() <= 0)
             {
@@ -234,7 +234,7 @@ namespace LBS.Representation.TileMap
             return distValue / (float)graphData.EdgeCount();
         }
           
-        private float EvaluateAreas(GraphicsModule graphData, LBSSchemaData tileMap)
+        private float EvaluateAreas(LBSGraphData graphData, LBSSchemaData tileMap)
         {
             var value = 0f;
             for (int i = 0; i < graphData.NodeCount(); i++)
@@ -254,14 +254,14 @@ namespace LBS.Representation.TileMap
             return value / (tileMap.RoomCount * 1f);
         }
 
-        public float EvaluateMap(LBSSchemaData schemaData, GraphicsModule graphData)
+        public float EvaluateMap(LBSSchemaData schemaData, LBSGraphData graphData)
         {
 
-            var evaluations = new Tuple<Func<GraphicsModule, LBSSchemaData, float>, float>[]
+            var evaluations = new Tuple<Func<LBSGraphData, LBSSchemaData, float>, float>[]
             {
-                new Tuple<Func<GraphicsModule, LBSSchemaData, float>,float>(EvaluateAdjacencies,0.5f),
-                new Tuple<Func<GraphicsModule, LBSSchemaData, float>,float>(EvaluateAreas,0.3f),
-                new Tuple<Func<GraphicsModule, LBSSchemaData, float>,float>(EvaluateEmptySpace,0.2f)
+                new Tuple<Func<LBSGraphData, LBSSchemaData, float>,float>(EvaluateAdjacencies,0.5f),
+                new Tuple<Func<LBSGraphData, LBSSchemaData, float>,float>(EvaluateAreas,0.3f),
+                new Tuple<Func<LBSGraphData, LBSSchemaData, float>,float>(EvaluateEmptySpace,0.2f)
                 //new Tuple<Func<LBSGraphData, LBSSchemaData, float>, float>(EvaluateRoomDistribution,0.1f)
             };
 
@@ -276,7 +276,7 @@ namespace LBS.Representation.TileMap
             return value;
         }
 
-        private float EvaluateEmptySpace(GraphicsModule graphData, LBSSchemaData schemaData)
+        private float EvaluateEmptySpace(LBSGraphData graphData, LBSSchemaData schemaData)
         {
             var value = 0f;
             foreach (var room in schemaData.GetRooms())
@@ -318,7 +318,7 @@ namespace LBS.Representation.TileMap
             return (vw + vh) / 2f;
         }
 
-        private float EvaluateRoomDistribution(GraphicsModule graphData, LBSSchemaData schema)
+        private float EvaluateRoomDistribution(LBSGraphData graphData, LBSSchemaData schema)
         {
             if (graphData.NodeCount() <= 0)
             {
@@ -371,7 +371,7 @@ namespace LBS.Representation.TileMap
         public List<LBSSchemaData> GetNeighbors(LBSSchemaData tileMap)
         {
             var neightbours = new List<LBSSchemaData>();
-            var maxSize = LBSController.CurrentLevel.data.Size;
+            //var maxSize = LBSController.CurrentLevel.data.Size;
 
             for (int i = 0; i < tileMap.RoomCount; i++)
             {
@@ -384,15 +384,15 @@ namespace LBS.Representation.TileMap
                 {
                     var neighbor = tileMap.Clone() as LBSSchemaData;
                     var tiles = new List<TileData>();
-                    wall.allTiles.ForEach(t => tiles.Add(new TileData(t + wall.dir, 0, new string[4])));
+                    wall.Tiles.ForEach(t => tiles.Add(new TileData(t + wall.Dir, 0, new string[4])));
                     neighbor.SetTiles(tiles, room.ID);
 
 
-                    if (neighbor.Size.x > (int)maxSize.x || neighbor.Size.y > (int)maxSize.z)
+                    /*if (neighbor.Size.x > (int)maxSize.x || neighbor.Size.y > (int)maxSize.z)
                     {
                         if (neighbor.Size.x > tileMap.Size.x || neighbor.Size.y > tileMap.Size.y)
                             continue;
-                    }
+                    }*/
 
                     neightbours.Add(neighbor);
                 }
@@ -400,7 +400,7 @@ namespace LBS.Representation.TileMap
                 foreach (var wall in walls)
                 {
                     var neighbor = tileMap.Clone() as LBSSchemaData;
-                    neighbor.RemoveTiles(wall.allTiles);
+                    neighbor.RemoveTiles(wall.Tiles);
                     neightbours.Add(neighbor);
                 }
 
@@ -423,11 +423,11 @@ namespace LBS.Representation.TileMap
 
                     neighbor.SetTiles(newTiles, room.ID);
 
-                    if (neighbor.Size.x > (int)maxSize.x || neighbor.Size.y > (int)maxSize.z)
+                    /*if (neighbor.Size.x > (int)maxSize.x || neighbor.Size.y > (int)maxSize.z)
                     {
                         if (neighbor.Size.x > tileMap.Size.x || neighbor.Size.y > tileMap.Size.y)
                             continue;
-                    }
+                    }*/
 
                     neightbours.Add(neighbor);
                 }

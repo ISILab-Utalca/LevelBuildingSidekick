@@ -9,11 +9,21 @@ namespace LBS.Components.Specifics
     [System.Serializable]
     public class RoomNode : LBSNode
     {
+        #region FIELDS
+
         [SerializeField, JsonRequired]
         RoomData room;
 
+        #endregion
+
+        #region PROPERTIES
+
         [JsonIgnore]
         public RoomData Room => room;
+
+        #endregion
+
+        #region CONSTRUCTOR
 
         public RoomNode(): base()
         {
@@ -25,10 +35,16 @@ namespace LBS.Components.Specifics
             this.room = room;
         }
 
+        #endregion;
+
+        #region METHODS
+
         public override object Clone()
         {
             return new RoomNode(ID, Position, room.Clone() as RoomData);
         }
+
+        #endregion
     }
 }
 

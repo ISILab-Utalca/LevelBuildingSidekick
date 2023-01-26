@@ -41,6 +41,7 @@ public class LBSLevelData
     #endregion
 
     //EVENTS
+    [JsonIgnore]
     public Action<LBSLevelData> OnChanged;
 
     #region METHODS

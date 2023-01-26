@@ -9,7 +9,7 @@ namespace LBS.Generator
     {
         public abstract GameObject Generate();
 
-        public abstract void Init(LevelDataOld levelData);
+        public abstract void Init(LBSLevelData levelData);
 
         //public abstract void Init(Layer layer); // (!!) implementar
     }

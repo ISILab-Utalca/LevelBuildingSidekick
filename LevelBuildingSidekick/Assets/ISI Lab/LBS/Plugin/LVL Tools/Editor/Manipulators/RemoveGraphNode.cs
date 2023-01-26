@@ -1,15 +1,17 @@
 using LBS.Components;
 using LBS.Components.Graph;
 using LBS.Components.Specifics;
+using LBS.Graph;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.PackageManager.UI;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class RemoveGraphNode<T> : LBSManipulator where T : LBSNode
 {
     // ref Data
-    private GraphModule<T> module; 
+    private GraphModule<T> module;
 
     public RemoveGraphNode() : base() { }
 
@@ -31,11 +33,35 @@ public class RemoveGraphNode<T> : LBSManipulator where T : LBSNode
     private void OnMouseDown(MouseDownEvent e)
     {
         OnManipulationStart?.Invoke();
-        var t = e.target as T;
-        if (t == null)
+        /*
+        var tile = e.target as RoomNode;
+        if (tile == null)
             return;
+        */
+        var node = e.target as LBSNodeView<T>;
+        
+        if (node == null)
+        {
+            Debug.Log("Clickiaste en cualquier");
+            return;
+        }
+        else
+        {
+            Debug.Log("NODO !!!");
+        }
 
-        module.RemoveNode(t);
+        /*
+var t = e.target as T;
+if (t == null)
+    return;
+*/
+
+
+
+        module.RemoveNode(node.Data);
+
+        
         OnManipulationEnd?.Invoke();
+
     }
 }

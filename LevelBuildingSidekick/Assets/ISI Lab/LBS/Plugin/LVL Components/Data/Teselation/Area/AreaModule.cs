@@ -5,43 +5,65 @@ using UnityEngine;
 
 namespace LBS.Components.Teselation
 {
+    [System.Serializable]
     public class AreaModule<T> : TeselationModule where T : Area
     {
-        //FIELDS
+        #region FIELDS
 
         [SerializeField, JsonRequired, SerializeReference]
-        List<T> areas;
+        List<Area> areas;
 
-        //PROPERTIES
+        #endregion
+
+        #region PROPERTIES
 
         [JsonIgnore]
         public int AreaCount => areas.Count;
 
-        //METHODS
+        #endregion
+
+        #region CONSTRUCTOR
+
+        public AreaModule() : base() { Key = GetType().Name; }
+
+        public AreaModule(List<T> areas, string key) : base(key)
+        {
+            this.areas = new List<Area>(areas);
+        }
+
+        #endregion
+
+        #region METHODS
 
         public bool AddArea(T area)
         {
             if (areas.Contains(area))
                 return false;
             areas.Add(area);
+            OnChanged?.Invoke(this);
             return true;
         }
 
         public T GetArea(int index)
         {
             if (areas.ContainsIndex(index))
-                return areas[index];
+                return areas[index] as T;
             return null;
         }
 
         public T GetArea(string id)
         {
-            return areas.Find(a => a.ID.Equals(id));
+            return areas.Find(a => a.ID.Equals(id)) as T;
         }
 
         public bool Remove(T area)
         {
-            return areas.Remove(area);
+            if(areas.Remove(area))
+            {
+                OnChanged?.Invoke(this);
+                return true;
+            }
+            return false;
         }
 
         public T RemoveAt(int index)
@@ -50,7 +72,8 @@ namespace LBS.Components.Teselation
                 return null;
             var a = areas[index];
             areas.Remove(a);
-            return a;
+            OnChanged?.Invoke(this);
+            return a as T;
         }
 
         public bool ContainsPoint(Vector2 point)
@@ -70,7 +93,9 @@ namespace LBS.Components.Teselation
 
         public override object Clone()
         {
-            throw new System.NotImplementedException();
+            var area = new AreaModule<T>();
+            area.areas = new List<Area>(areas);
+            return area;
         }
 
         public override void Print()
@@ -78,6 +103,7 @@ namespace LBS.Components.Teselation
             throw new System.NotImplementedException();
         }
 
+        #endregion
 
     }
 }

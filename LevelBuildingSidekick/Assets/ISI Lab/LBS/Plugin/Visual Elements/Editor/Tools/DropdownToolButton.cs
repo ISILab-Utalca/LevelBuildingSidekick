@@ -4,10 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class DropdownToolButton : VisualElement, IGrupable
+public class DropdownToolButton : ToolButton, IGrupable
 {
-    public Color color = new Color(72 / 255f, 72 / 255f, 72 / 255f);
-    public Color selected = new Color(161 / 255f, 81 / 255f, 21 / 255f);
 
     private Button button;
     private VisualElement icon;
@@ -15,8 +13,6 @@ public class DropdownToolButton : VisualElement, IGrupable
     private DropdownField dropdown;
 
     // Event
-    public event Action OnFocus; // se llama cuando se selecciona el boton
-    public event Action OnBlur; // se llama cuando se dejo de seleccionar el boton
     public event Action<int,string> OnModeChange;
 
     public DropdownToolButton(Texture2D texture, string name, List<string> choices)
@@ -44,20 +40,22 @@ public class DropdownToolButton : VisualElement, IGrupable
         });
     }
 
-    public void AddGroupEvent(Action action)
+    public override void AddGroupEvent(Action action)
     {
         button.clicked += action;
     }
 
-    void IGrupable.OnBlur()
+    public override void OnBlur()
     {
         button.style.backgroundColor = color;
-        OnBlur?.Invoke();
+        base.OnBlur();
     }
 
-    void IGrupable.OnFocus()
+    public override void OnFocus()
     {
         button.style.backgroundColor = selected;
-        OnFocus?.Invoke();
+        base.OnFocus();
     }
+
+
 }

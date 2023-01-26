@@ -7,29 +7,54 @@ using LBS.Components.Teselation;
 
 namespace LBS.Components.TileMap
 {
-    public class AreaTileMap<T> : TeselationModule where T : LBSTile
+    [System.Serializable]
+    public class AreaTileMap<T,U> : TeselationModule where T : TiledArea<U> where U : LBSTile
     {
-        public List<TiledRoom<T>> rooms;
+        #region FIELDS
 
-        public int RoomCount => rooms.Count;
+        [SerializeField, JsonRequired, SerializeReference]
+        protected List<TiledArea<LBSTile>> areas;
 
-        public bool AddRoom(TiledRoom<T> room)
+        #endregion
+
+        #region PROPERTIES
+
+        [JsonIgnore]
+        public int RoomCount => areas.Count;
+        [JsonIgnore]
+        public List<T> Areas => new List<T>(areas.Select( a => a as T));
+
+        #endregion
+
+        #region CONSTRUCTOR
+        
+        public AreaTileMap() : base()
         {
-            if (room == null)
+            areas = new List<TiledArea<LBSTile>>();
+        }
+
+        #endregion
+
+        #region METHODS
+
+        public bool AddArea(T area)
+        {
+            if (area == null)
                 return false;
-            if (GetRoom(room.ID) != null)
+            if (GetArea(area.ID) != null)
                 return false;
-            rooms.Add(room);
-            room.OnAddTile = (t) => 
+            var a = new TiledArea<LBSTile>(area.Tiles, area.ID,area.Key);
+            areas.Add(a);
+            area.OnAddTile = (t) => 
             {
                 RemoveTile(t);
             };
             return true;
         }
 
-        private void RemoveTile(T t)
+        private void RemoveTile(U t)
         {
-            foreach(var r in rooms)
+            foreach(var r in areas)
             {
                 if(r.Contains(t.Position))
                 {
@@ -38,26 +63,27 @@ namespace LBS.Components.TileMap
             }
         }
 
-        public TiledRoom<T> GetRoom(string id)
+        public TiledArea<LBSTile> GetArea(string id)
         {
-            return rooms.Find(r => r.Key == id);
+            return areas.Find(r => r.Key == id);
         }
 
-        public TiledRoom<T> GetRoom(int index)
+        public TiledArea<LBSTile> GetRoom(int index)
         {
-            return rooms[index];
+            return areas[index];
         }
 
-        public bool RemoveRoom(TiledRoom<T> area)
+        public bool RemoveRoom(T area)
         {
-            return rooms.Remove(area);
+            var x = area as TiledArea<LBSTile>; // (??) funciona 
+            return areas.Remove(x);
         }
 
         private int GetRoomDistance(string r1, string r2) // O2 - manhattan
         {
             var lessDist = int.MaxValue;
-            var room1 = GetRoom(r1);
-            var room2 = GetRoom(r2);
+            var room1 = GetArea(r1);
+            var room2 = GetArea(r2);
             for (int i = 0; i < room1.TileCount; i++)
             {
                 var dist = room2.GetDistance(room1.GetTile(i).Position);
@@ -72,7 +98,7 @@ namespace LBS.Components.TileMap
 
         public override void Clear()
         {
-            rooms.Clear();
+            areas.Clear();
         }
 
         public override void Print()
@@ -82,10 +108,14 @@ namespace LBS.Components.TileMap
 
         public override object Clone()
         {
-            throw new System.NotImplementedException();
+            var atm = new AreaTileMap<T, U>();
+            atm.areas = new List<TiledArea<LBSTile>>(areas);
+            return atm;
         }
 
+        #endregion
+
     }
-    
+
 }
 
