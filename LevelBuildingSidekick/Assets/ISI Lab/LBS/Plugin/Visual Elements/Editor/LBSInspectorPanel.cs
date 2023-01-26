@@ -55,6 +55,7 @@ public class LBSInspectorPanel : VisualElement
     public void RemoveInspector(LBSInspector inspector)
     {
         inspectors.Remove(inspector);
-        content.Remove(inspector);
+        if(content.Contains(inspector))
+            content.Remove(inspector);
     }
 }

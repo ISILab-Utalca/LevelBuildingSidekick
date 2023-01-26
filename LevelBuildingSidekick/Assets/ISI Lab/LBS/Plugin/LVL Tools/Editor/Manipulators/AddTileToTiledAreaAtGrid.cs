@@ -7,46 +7,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class AddTileToTiledAreaAtGrid<T,U> : LBSManipulator where T : TiledArea<U> where U : LBSTile
+public class AddTileToTiledAreaAtGrid<T,U> : ManipulateTiledArea<T, U> where T : TiledArea<U> where U : LBSTile
 {
-    private AreaTileMap<T,U> module;
-    private MainView mainView;
-
     private Vector2Int startPos;
 
-    public override void Init(ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
-    {
-        this.module = layer.GetModule<AreaTileMap<T,U>>();
-        this.mainView = view;
-    }
-
-    protected override void RegisterCallbacksOnTarget()
-    {
-        target.RegisterCallback<MouseDownEvent>(OnMouseDown);
-        target.RegisterCallback<MouseMoveEvent>(OnMouseMove);
-        target.RegisterCallback<MouseUpEvent>(OnMouseUp);
-    }
-
-    protected override void UnregisterCallbacksFromTarget()
-    {
-        target.UnregisterCallback<MouseDownEvent>(OnMouseDown);
-        target.UnregisterCallback<MouseMoveEvent>(OnMouseMove);
-        target.UnregisterCallback<MouseUpEvent>(OnMouseUp);
-    }
-
-    private void OnMouseDown(MouseDownEvent e)
+    protected override void OnMouseDown(MouseDownEvent e)
     {
         OnManipulationStart?.Invoke();
         var fixPos = mainView.FixPos(e.localMousePosition);
         startPos = mainView.ToTileCords(fixPos);
     }
 
-    private void OnMouseMove(MouseMoveEvent e)
+    protected override void OnMouseMove(MouseMoveEvent e)
     {
-
+        // do nothing
     }
 
-    private void OnMouseUp(MouseUpEvent e)
+    protected override void OnMouseUp(MouseUpEvent e)
     {
         var tPos1 = startPos;
         var fixPos = mainView.FixPos(e.localMousePosition);
