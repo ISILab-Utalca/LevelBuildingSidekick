@@ -1,4 +1,5 @@
 using LBS;
+using LBS.Components.TileMap;
 using LBS.Schema;
 using Newtonsoft.Json;
 using System;
@@ -253,7 +254,23 @@ namespace LBS.Representation.TileMap
             }
         }
 
+        public void FixSetTiles(List<LBSTile> tiles, string roomId)
+        {
+            var room = rooms.Find(r => r.ID == roomId);
+            if (room == null) // esto podria crear la habitacion y asignarla en vez de no hacer nada (??)
+            {
+                // change this to name or something like. (!)
+                Debug.LogWarning("[Error]: There is no room with the label <b>'" + roomId + "'</b> in the level representation.");
+                return;
+            }
+            RemoveTiles(tiles);
 
+            foreach (var t in tiles)
+            {
+                this.tiles.Add(t);
+                room.AddTile(t.Position);
+            }
+        }
         public void AddTile(TileData tile, string roomId)
         {
             AddTile(tile);

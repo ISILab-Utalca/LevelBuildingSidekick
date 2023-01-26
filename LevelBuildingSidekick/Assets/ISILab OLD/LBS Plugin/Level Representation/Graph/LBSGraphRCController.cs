@@ -26,7 +26,7 @@ namespace LBS.Graph
     public class LBSGraphRCController : LBSGraphController
     {
 
-        public LBSGraphRCController(LBSGraphView view,LBSGraphData data) : base(view, data)
+        public LBSGraphRCController(LBSGraphView view,GraphicsModule data) : base(view, data)
         {
 
         }

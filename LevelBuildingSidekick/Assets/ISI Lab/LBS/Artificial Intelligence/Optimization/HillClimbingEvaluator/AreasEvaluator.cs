@@ -12,7 +12,7 @@ public class AreasEvaluator : IEvaluator
 
     public float EvaluateH<u>(IEvaluable evaluable, u Heu)
     {
-        var graphData = evaluable as LBSGraphData;
+        var graphData = evaluable as GraphicsModule;
         var schema = Heu as LBSSchemaData;
         var value = 0f;
         for (int i = 0; i < graphData.NodeCount(); i++)

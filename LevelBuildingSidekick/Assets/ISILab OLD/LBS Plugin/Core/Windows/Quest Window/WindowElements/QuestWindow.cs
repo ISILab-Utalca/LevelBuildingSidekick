@@ -73,7 +73,7 @@ public class QuestWindow : GenericLBSWindow, INameable
     public override void OnLoadControllers()
     {
         var data = LBSController.CurrentLevel.data;
-        var quests = data.GetRepresentation<LBSGraphData>("QuestGraph");
+        var quests = data.GetRepresentation<GraphicsModule>("QuestGraph");
         var graph = new LBSQuestGraphController(mainView, quests);
         controllers.Add(graph);
         CurrentController = graph;

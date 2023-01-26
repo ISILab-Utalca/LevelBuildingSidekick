@@ -103,7 +103,7 @@ namespace LBS.Representation.TileMap
 
         internal LBSSchemaData RecalculateDoors(LBSSchemaData schema)
         {
-            var graphData = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
+            var graphData = LBSController.CurrentLevel.data.GetRepresentation<GraphicsModule>();
             schema.ClearDoors();
             var edges = graphData.GetEdges();
             foreach (var e in edges)
@@ -188,7 +188,7 @@ namespace LBS.Representation.TileMap
 
         public LBSSchemaData Optimize()
         {
-            var graphData = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
+            var graphData = LBSController.CurrentLevel.data.GetRepresentation<GraphicsModule>();
             var schemaData = data;
             var optimized = Utility.HillClimbing.Run(schemaData, graphData,
                             () => { return Utility.HillClimbing.NonSignificantEpochs >= 100; },
@@ -201,7 +201,7 @@ namespace LBS.Representation.TileMap
 
         
 
-        private float EvaluateAdjacencies(LBSGraphData graphData, LBSSchemaData schema) 
+        private float EvaluateAdjacencies(GraphicsModule graphData, LBSSchemaData schema) 
         {
             if (graphData.EdgeCount() <= 0)
             {
@@ -234,7 +234,7 @@ namespace LBS.Representation.TileMap
             return distValue / (float)graphData.EdgeCount();
         }
           
-        private float EvaluateAreas(LBSGraphData graphData, LBSSchemaData tileMap)
+        private float EvaluateAreas(GraphicsModule graphData, LBSSchemaData tileMap)
         {
             var value = 0f;
             for (int i = 0; i < graphData.NodeCount(); i++)
@@ -254,14 +254,14 @@ namespace LBS.Representation.TileMap
             return value / (tileMap.RoomCount * 1f);
         }
 
-        public float EvaluateMap(LBSSchemaData schemaData, LBSGraphData graphData)
+        public float EvaluateMap(LBSSchemaData schemaData, GraphicsModule graphData)
         {
 
-            var evaluations = new Tuple<Func<LBSGraphData, LBSSchemaData, float>, float>[]
+            var evaluations = new Tuple<Func<GraphicsModule, LBSSchemaData, float>, float>[]
             {
-                new Tuple<Func<LBSGraphData, LBSSchemaData, float>,float>(EvaluateAdjacencies,0.5f),
-                new Tuple<Func<LBSGraphData, LBSSchemaData, float>,float>(EvaluateAreas,0.3f),
-                new Tuple<Func<LBSGraphData, LBSSchemaData, float>,float>(EvaluateEmptySpace,0.2f)
+                new Tuple<Func<GraphicsModule, LBSSchemaData, float>,float>(EvaluateAdjacencies,0.5f),
+                new Tuple<Func<GraphicsModule, LBSSchemaData, float>,float>(EvaluateAreas,0.3f),
+                new Tuple<Func<GraphicsModule, LBSSchemaData, float>,float>(EvaluateEmptySpace,0.2f)
                 //new Tuple<Func<LBSGraphData, LBSSchemaData, float>, float>(EvaluateRoomDistribution,0.1f)
             };
 
@@ -276,7 +276,7 @@ namespace LBS.Representation.TileMap
             return value;
         }
 
-        private float EvaluateEmptySpace(LBSGraphData graphData, LBSSchemaData schemaData)
+        private float EvaluateEmptySpace(GraphicsModule graphData, LBSSchemaData schemaData)
         {
             var value = 0f;
             foreach (var room in schemaData.GetRooms())
@@ -318,7 +318,7 @@ namespace LBS.Representation.TileMap
             return (vw + vh) / 2f;
         }
 
-        private float EvaluateRoomDistribution(LBSGraphData graphData, LBSSchemaData schema)
+        private float EvaluateRoomDistribution(GraphicsModule graphData, LBSSchemaData schema)
         {
             if (graphData.NodeCount() <= 0)
             {

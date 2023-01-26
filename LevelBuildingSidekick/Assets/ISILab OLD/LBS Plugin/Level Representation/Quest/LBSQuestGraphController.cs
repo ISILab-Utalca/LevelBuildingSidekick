@@ -42,7 +42,7 @@ public class LBSQuestGraphController : LBSGraphController
         }
     }
 
-    public LBSQuestGraphController(LBSGraphView view, LBSGraphData data) : base(view, data)
+    public LBSQuestGraphController(LBSGraphView view, GraphicsModule data) : base(view, data)
     {
         GrammarTree = GrammarReader.ReadGrammar(Application.dataPath + "/ISI Lab/LBS/Examples/Grammar/Grammar.xml");
         //GrammarTree = GrammarReader.ReadGrammar(Application.dataPath + "/Grammar/Grammar.xml");
@@ -90,7 +90,7 @@ public class LBSQuestGraphController : LBSGraphController
 
     public void UpdateData(QuestGraphNode node)
     {
-        var graph = data as LBSGraphData;
+        var graph = data as GraphicsModule;
 
         graph.Clear();
 

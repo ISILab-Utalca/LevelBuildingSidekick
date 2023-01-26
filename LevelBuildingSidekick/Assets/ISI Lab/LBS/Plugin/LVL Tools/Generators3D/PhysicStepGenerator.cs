@@ -24,7 +24,7 @@ namespace LBS.Generator
         private static List<Vector2Int> dirs = new List<Vector2Int>() { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right };
 
         private LBSSchemaData schema;
-        private LBSGraphData graph;
+        private GraphicsModule graph;
         private float tileSize = 1f;
         
         public override GameObject Generate()
@@ -125,7 +125,7 @@ namespace LBS.Generator
         public override void Init(LevelDataOld levelData)
         {
             this.schema = levelData.GetRepresentation<LBSSchemaData>();
-            this.graph = levelData.GetRepresentation<LBSGraphData>();
+            this.graph = levelData.GetRepresentation<GraphicsModule>();
             tileSize = levelData.TileSize;
         }
     }

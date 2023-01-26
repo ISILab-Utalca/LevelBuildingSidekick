@@ -9,7 +9,7 @@ using System.Linq;
 namespace LBS.Graph
 {
     [System.Serializable]
-    public class LBSGraphData : LBSRepresentationData
+    public class GraphicsModule : LBSRepresentationData
     {
         #region FIELDS
 
@@ -25,13 +25,13 @@ namespace LBS.Graph
         /// <summary>
         /// Default base class constructor of LBSGraphData.  
         /// </summary>
-        public LBSGraphData() : base() { }
+        public GraphicsModule() : base() { }
 
         /// <summary>
         /// Construct of the class LBSGraphData.
         /// </summary>
         /// <param name="label">Label of the graph data. </param>
-        public LBSGraphData(string label) : base(label) { }
+        public GraphicsModule(string label) : base(label) { }
 
         /// <summary>
         /// Clear the edges and nodes.

@@ -34,7 +34,7 @@ namespace LBS.Manipulators
         {
             var pos = controller.ViewportMousePosition(e.localMousePosition);
 
-            var graph = LBSController.CurrentLevel.data.GetRepresentation<LBSGraphData>();
+            var graph = LBSController.CurrentLevel.data.GetRepresentation<GraphicsModule>();
 
             var name = "";
             var loop = true;

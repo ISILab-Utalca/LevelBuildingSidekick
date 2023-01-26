@@ -43,7 +43,7 @@ namespace LBS.Windows
         public override void OnLoadControllers()
         {
             var data = LBSController.CurrentLevel.data; // peligroso buscar otra forma (!)
-            var graphData = data.GetRepresentation<LBSGraphData>("RCGraph");
+            var graphData = data.GetRepresentation<GraphicsModule>("RCGraph");
             AddController(new LBSGraphRCController(MainView, graphData));
         }
     }
