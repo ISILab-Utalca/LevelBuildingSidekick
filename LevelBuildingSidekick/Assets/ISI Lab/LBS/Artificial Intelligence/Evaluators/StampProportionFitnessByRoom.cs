@@ -141,4 +141,9 @@ public class StampProportionFitnessByRoom : IRangedEvaluator
     {
         return "Stamp proportion fitness by room";
     }
+
+    public float EvaluateH<u>(IEvaluable evaluable, u Heu)
+    {
+        throw new NotImplementedException();
+    }
 }

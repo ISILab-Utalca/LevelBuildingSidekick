@@ -71,4 +71,9 @@ public abstract class Simetry2DEvaluator : IRangedEvaluator
 
         return content;
     }
+
+    public float EvaluateH<u>(IEvaluable evaluable, u Heu)
+    {
+        throw new System.NotImplementedException();
+    }
 }

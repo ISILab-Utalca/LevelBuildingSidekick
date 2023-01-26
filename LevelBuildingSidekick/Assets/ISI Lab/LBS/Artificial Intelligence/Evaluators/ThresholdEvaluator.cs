@@ -87,4 +87,9 @@ public class ThresholdEvaluator : IRangedEvaluator
     {
         return "Threshold Evaluator";
     }
+
+    public float EvaluateH<u>(IEvaluable evaluable, u Heu)
+    {
+        throw new System.NotImplementedException();
+    }
 }

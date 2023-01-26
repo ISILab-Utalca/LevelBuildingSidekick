@@ -53,7 +53,7 @@ namespace Commons.Optimization.Terminations
         /// </summary>
         /// <returns>True if termination has been reached, otherwise false.</returns>
         /// <param name="optimizer">The genetic algorithm.</param>
-        protected override bool PerformHasReached(IOptimizer optimizer)
+        protected override bool PerformHasReached(BaseOptimizerMetahuristic<IEvaluable> optimizer)
         {
             var bestFitness = optimizer.BestCandidate.Fitness.Value;
 

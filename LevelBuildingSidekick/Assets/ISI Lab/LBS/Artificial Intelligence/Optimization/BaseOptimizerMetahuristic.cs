@@ -15,12 +15,12 @@ namespace Commons.Optimization
     {
         #region Properties
 
-        int GenerationsNumber { get; }
+        public int GenerationsNumber { get; }
 
-        IEvaluable BestCandidate { get; }
-        T Adam { get; set; }
+        public IEvaluable BestCandidate { get; }
+        public T Adam { get; set; }
 
-        TimeSpan TimeEvolving { get; }
+        public TimeSpan TimeEvolving { get; }
         public bool IsRunning { get { return State == Op_State.Running || State == Op_State.Started || State == Op_State.Resumed; } }
         public IPopulation Population { get; }
 
