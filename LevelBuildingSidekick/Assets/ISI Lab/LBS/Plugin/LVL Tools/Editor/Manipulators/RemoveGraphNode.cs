@@ -33,35 +33,15 @@ public class RemoveGraphNode<T> : LBSManipulator where T : LBSNode
     private void OnMouseDown(MouseDownEvent e)
     {
         OnManipulationStart?.Invoke();
-        /*
-        var tile = e.target as RoomNode;
-        if (tile == null)
-            return;
-        */
+
         var node = e.target as LBSNodeView<T>;
         
         if (node == null)
         {
-            Debug.Log("Clickiaste en cualquier");
             return;
         }
-        else
-        {
-            Debug.Log("NODO !!!");
-        }
-
-        /*
-var t = e.target as T;
-if (t == null)
-    return;
-*/
-
-
 
         module.RemoveNode(node.Data);
-
-        
         OnManipulationEnd?.Invoke();
-
     }
 }

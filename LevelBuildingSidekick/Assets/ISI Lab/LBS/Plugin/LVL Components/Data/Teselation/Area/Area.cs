@@ -3,9 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
 [System.Serializable]
-public class Area
+public class Area : ICloneable
 {
     #region FIELDS
 
@@ -138,11 +139,17 @@ public class Area
         return false;
     }
 
+    public object Clone()
+    {
+        var p = perimeter.Clone() as Polygon;
+        return new Area(this.id, p.Points);
+    }
+
     #endregion
 }
 
 [System.Serializable]
-struct Polygon
+public class Polygon : ICloneable
 {
     #region FIELDS
 
@@ -189,6 +196,11 @@ struct Polygon
 
         // When count is odd
         return count % 2 != 0;
+    }
+
+    public object Clone()
+    {
+        return new Polygon(Points.Select(p => new Vector2(p.x,p.y)).ToList());
     }
 
     #endregion

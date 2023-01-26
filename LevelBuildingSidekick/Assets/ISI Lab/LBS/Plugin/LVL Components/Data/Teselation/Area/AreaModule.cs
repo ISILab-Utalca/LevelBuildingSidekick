@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace LBS.Components.Teselation
@@ -94,7 +95,7 @@ namespace LBS.Components.Teselation
         public override object Clone()
         {
             var area = new AreaModule<T>();
-            area.areas = new List<Area>(areas);
+            area.areas = areas.Select(a => a.Clone() as Area).ToList(); //new List<Area>(areas);
             return area;
         }
 

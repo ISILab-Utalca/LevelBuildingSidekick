@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public abstract class ToolButton : VisualElement, IGrupable
+public abstract class LBSGrupableButton : VisualElement, IGrupable
 {
     public Color color = new Color(72 / 255f, 72 / 255f, 72 / 255f);
     public Color selected = new Color(161 / 255f, 81 / 255f, 21 / 255f);
@@ -14,6 +14,8 @@ public abstract class ToolButton : VisualElement, IGrupable
     public Action OnBlurEvent; // se llama cuando se dejo de seleccionar el boton
 
     public abstract void AddGroupEvent(Action action);
+
+    public LBSGrupableButton() { }
 
     public virtual void OnBlur()
     {

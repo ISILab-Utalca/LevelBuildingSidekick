@@ -25,7 +25,7 @@ public class LBSMultiTool : LBSTool
         }
     }
 
-    public override ToolButton InitButton(MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
+    public override LBSGrupableButton InitButton(MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
     {
         _manipulators = new List<LBSManipulator>();
         base.InitButton(view, ref level, ref layer, ref module); // (?) inecesario?

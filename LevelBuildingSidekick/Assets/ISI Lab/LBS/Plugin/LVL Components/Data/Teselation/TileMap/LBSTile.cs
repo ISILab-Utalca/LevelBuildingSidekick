@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UnityEngine;
 namespace LBS.Components.TileMap
 {
     [System.Serializable]
-    public class LBSTile
+    public class LBSTile : ICloneable
     {
         #region FIELDS
 
@@ -73,6 +74,11 @@ namespace LBS.Components.TileMap
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        public object Clone()
+        {
+            return new LBSTile(this.Position,this.ID,this.sides);
         }
         #endregion
     }

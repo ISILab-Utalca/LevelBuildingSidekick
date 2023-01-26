@@ -11,7 +11,7 @@ public class ToolkitManager
     // VisualElement references
     private ButtonGroup toolPanel;
     private MainView view;
-    private InspectorManager InspectorManager;
+    private LBSInspectorPanel InspectorManager;
 
     // ref data
     private LBSLevelData level;
@@ -21,7 +21,7 @@ public class ToolkitManager
     // event
     public event Action OnEndSomeAction;
 
-    public ToolkitManager(ref ButtonGroup toolPanel,ref ModeSelector modeSelector, ref MainView view, ref InspectorManager inspectorManager , ref List<LayerTemplate> templates)
+    public ToolkitManager(ref ButtonGroup toolPanel,ref ModeSelector modeSelector, ref MainView view, ref LBSInspectorPanel inspectorManager , ref List<LayerTemplate> templates)
     {
         this.toolPanel = toolPanel;
         this.view = view;

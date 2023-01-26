@@ -18,8 +18,7 @@ namespace LBS.Components
         [SerializeField, JsonRequired]
         private string name;
         
-        [SerializeField]
-        [JsonRequired]
+        [SerializeField, JsonRequired]
         private bool visible;
 
         [SerializeField, JsonRequired]
@@ -84,7 +83,10 @@ namespace LBS.Components
                 return false;
             }
             modules.Add(module);
-            module.OnChanged += (mo) => { this.OnChanged(this); };
+            module.OnChanged += (mo) => 
+            { 
+                this.OnChanged?.Invoke(this); 
+            };
             return true;
         }
 
@@ -144,9 +146,11 @@ namespace LBS.Components
 
         public T GetModule<T>(string ID = "") where T : LBSModule
         {
+            var t = typeof(T);
             foreach (var module in modules)
             {
-                if (module is T)
+                //Debug.Log(module.GetType().Name + " - " + typeof(T).Name);
+                if (module is T || Utility.Reflection.IsSubclassOfRawGeneric(t,module.GetType()))
                 {
                     if(ID.Equals("") || module.Key.Equals(ID))
                     {
@@ -221,9 +225,9 @@ namespace LBS.Components
 
         public object Clone()
         {
-            var modules = new List<LBSModule>(this.modules);
-            var transformers = new List<Transformer>(this.transformers);
-            var layer = new LBSLayer(modules,transformers,this.id,this.visible, this.name,this.iconPath);
+            var modules = this.modules.Select(m => m.Clone() as LBSModule).ToList();
+            var transformers = new List<Transformer>(this.transformers); // (??) usar clone en vez de pasar la lista?
+            var layer = new LBSLayer(modules, transformers, this.id, this.visible, this.name, this.iconPath);
             return layer;
         }
     }
