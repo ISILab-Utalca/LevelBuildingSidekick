@@ -79,7 +79,7 @@ namespace LBS.Components.TileMap
             return areas.Remove(x);
         }
 
-        private int GetRoomDistance(string r1, string r2) // O2 - manhattan
+        public int GetRoomDistance(string r1, string r2) // O2 - manhattan
         {
             var lessDist = int.MaxValue;
             var room1 = GetArea(r1);

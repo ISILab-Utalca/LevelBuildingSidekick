@@ -1,6 +1,10 @@
 ﻿using Commons.Optimization.Evaluator;
+using LBS.Components;
+using LBS.Components.Graph;
+using LBS.Components.Specifics;
 using LBS.Graph;
 using LBS.Representation.TileMap;
+using Palmmedia.ReportGenerator.Core.Common;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -23,65 +27,42 @@ public class AdjacenciesEvaluator : IEvaluator
 
     public float EvaluateH<u>(IEvaluable evaluable, u Heu)
     {
-        var graphData = evaluable as GraphicsModule;
-        var schema = Heu as LBSSchemaData;
+        var graphData = evaluable as GraphModule<RoomNode>;
+        var schema = Heu as LBSSchema;
 
-        if (graphData.EdgeCount() <= 0)
+        if (graphData.EdgeCount <= 0)
         {
             Debug.LogWarning("Cannot calculate the adjacency of a map are nodes that are not connected.");
             return 0;
         }
 
         var distValue = 0f;
-        for (int i = 0; i < graphData.EdgeCount(); i++)
+        for (int i = 0; i < graphData.EdgeCount; i++)
         {
             var edge = graphData.GetEdge(i);
 
-            var r1 = schema.GetRoom(edge.FirstNodeLabel);
-            var r2 = schema.GetRoom(edge.SecondNodeLabel);
+            var r1 = schema.GetArea(edge.FirstNode.ID);
+            var r2 = schema.GetArea(edge.SecondNode.ID);
 
-            var roomDist = GetRoomDistance(r1, r2);  // este metodo podria recivir una funcion de calculo de distancia en ved de estar fija (?)
+            var roomDist = schema.GetRoomDistance(r1.ID, r2.ID);  // este metodo podria recivir una funcion de calculo de distancia en ved de estar fija (?)
             if (roomDist <= 1)
             {
                 distValue++;
             }
             else
             {
-                var c = r1.TilesCount;
+                var c = r1.TileCount;
                 var max1 = (r1.Width + r1.Height) / 2f;
                 var max2 = (r2.Width + r2.Height) / 2f;
                 distValue += 1 - (roomDist / (max1 + max2));
             }
         }
 
-        return distValue / (float)graphData.EdgeCount();
+        return distValue / (float)graphData.EdgeCount;
     }
 
     public string GetName()
     {
         throw new System.NotImplementedException();
-    }
-
-    private int GetRoomDistance(RoomData r1, RoomData r2) // O2 - manhattan
-    {
-        var lessDist = int.MaxValue;
-        var tPos1 = r1.TilesPositions;
-        var tPos2 = r2.TilesPositions;
-        for (int i = 0; i < tPos1.Count; i++)
-        {
-            for (int j = 0; j < tPos2.Count; j++)
-            {
-                var t1 = tPos1[i];
-                var t2 = tPos2[j];
-
-                var dist = Mathf.Abs(t1.x - t2.x) + Mathf.Abs(t1.y - t2.y); // manhattan
-
-                if (dist <= lessDist)
-                {
-                    lessDist = dist;
-                }
-            }
-        }
-        return lessDist;
     }
 }
