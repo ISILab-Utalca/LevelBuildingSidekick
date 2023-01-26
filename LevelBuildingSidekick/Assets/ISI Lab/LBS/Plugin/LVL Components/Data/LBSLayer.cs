@@ -144,9 +144,11 @@ namespace LBS.Components
 
         public T GetModule<T>(string ID = "") where T : LBSModule
         {
+            var t = typeof(T);
             foreach (var module in modules)
             {
-                if (module is T)
+                Debug.Log(module.GetType().Name + " - " + typeof(T).Name);
+                if (module is T || Utility.Reflection.IsSubclassOfRawGeneric(t,module.GetType()))
                 {
                     if(ID.Equals("") || module.Key.Equals(ID))
                     {
