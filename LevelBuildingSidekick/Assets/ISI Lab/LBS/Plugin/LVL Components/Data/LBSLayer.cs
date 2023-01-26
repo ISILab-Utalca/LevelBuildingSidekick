@@ -84,7 +84,10 @@ namespace LBS.Components
                 return false;
             }
             modules.Add(module);
-            module.OnChanged += (mo) => { this.OnChanged(this); };
+            module.OnChanged += (mo) => 
+            { 
+                this.OnChanged?.Invoke(this); 
+            };
             return true;
         }
 
