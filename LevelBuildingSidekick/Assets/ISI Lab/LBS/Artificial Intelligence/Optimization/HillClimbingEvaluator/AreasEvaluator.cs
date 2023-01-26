@@ -1,4 +1,7 @@
 ﻿using Commons.Optimization.Evaluator;
+using LBS.Components.Graph;
+using LBS.Components.Specifics;
+using LBS.Components.TileMap;
 using LBS.Graph;
 using LBS.Representation.TileMap;
 using LBS.Schema;
@@ -12,50 +15,33 @@ public class AreasEvaluator : IEvaluator
 
     public float EvaluateH<u>(IEvaluable evaluable, u Heu)
     {
-        var graphData = evaluable as GraphicsModule;
-        var schema = Heu as LBSSchemaData;
+        var graphData = evaluable as GraphModule<RoomNode>;
+        var schema = Heu as LBSSchema;
         var value = 0f;
-        for (int i = 0; i < graphData.NodeCount(); i++)
+        for (int i = 0; i < graphData.NodeCount; i++)
         {
-            var node = graphData.GetNode(i) as RoomCharacteristicsData;
-            var room = schema.GetRoom(node.Label);
-            switch (node.ProportionType)
-            {
-                case ProportionType.RATIO:
-                    value += EvaluateByRatio(node, room);
-                    break;
-                case ProportionType.SIZE:
-                    value += EvaluateBySize(node, room);
-                    break;
-            }
+            var node = graphData.GetNode(i);
+            var room = schema.GetArea(node.ID);
+
+            EvaluateBySize(node, room);
         }
         return value / (schema.RoomCount * 1f);
     }
 
-    private float EvaluateByRatio(RoomCharacteristicsData node, RoomData room)
+    private float EvaluateBySize(RoomNode node, TiledArea<LBSTile> room)
     {
-        float current = room.Ratio;
-        float objetive = node.AspectRatio.width / (float)node.AspectRatio.heigth;
-
-        return 1 - (Mathf.Abs(objetive - current) / (float)objetive);
-    }
-
-    private float EvaluateBySize(RoomCharacteristicsData node, RoomData room)
-    {
+        var DeltaW = node.Width * 0.35;
+        var DeltaH = node.Height * 0.35;
         var vw = 1f;
-        if (room.Width < node.RangeWidth.min || room.Width > node.RangeWidth.max)
+        if (room.Width < node.Width - DeltaW || room.Width > node.Width + DeltaW)
         {
-            var objetive = node.RangeWidth.Middle;
-            var current = room.Width;
-            vw -= (Mathf.Abs(objetive - current) / (float)objetive);
+            vw -= (Mathf.Abs(node.Width - room.Width) / (float)node.Width);
         }
 
         var vh = 1f;
-        if (room.Height < node.RangeHeight.min || room.Height > node.RangeHeight.max)
+        if (room.Height < node.Height - DeltaH || room.Height > node.Height + DeltaH)
         {
-            var objetive = node.RangeHeight.Middle;
-            var current = room.Height;
-            vh -= (Mathf.Abs(objetive - current) / (float)objetive);
+            vh -= (Mathf.Abs(node.Height - room.Height) / (float)node.Height);
         }
 
         return (vw + vh) / 2f;

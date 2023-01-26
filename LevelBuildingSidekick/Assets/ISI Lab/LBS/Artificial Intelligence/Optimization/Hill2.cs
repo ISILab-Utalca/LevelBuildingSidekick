@@ -12,6 +12,8 @@ using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 using LBS.Components.TileMap;
 using UnityEditor;
+using LBS.Components.Graph;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 namespace Utility
 {
@@ -132,9 +134,9 @@ namespace Utility
 
         public override List<IEvaluable> GetNeighbors(IEvaluable Adam)
         {
-            var tileMap = Adam as LBSSchemaData;
-            var neightbours = new List<LBSSchemaData>();
-            var maxSize = LBSController.CurrentLevel.data.Size;
+            var tileMap = Adam as LBSSchema;
+            var neightbours = new List<IEvaluable>();
+            var maxSize = LBSController.CurrentLevel.data.MaxSize;
 
             for (int i = 0; i < tileMap.RoomCount; i++)
             {
@@ -145,26 +147,20 @@ namespace Utility
 
                 foreach (var wall in walls)
                 {
-                    var neighbor = tileMap.Clone() as LBSSchemaData;
-                    var tiles = new List<LBSTile>();
-                    wall.allTiles.ForEach(t => tiles.Add(new LBSTile(t + wall.dir, room.ID, 4)));
-                    neighbor.SetTiles(tiles, room.ID);
+                    var neighbor = tileMap.Clone() as LBSSchema;
 
+                    var tiles = new TiledArea<ConnectedTile>();
+                    wall.Tiles.ForEach(t => tiles.AddTile(new ConnectedTile(t + wall.Dir, room.ID, 4)));
+                    neighbor.AddArea(tiles);
 
-                    if (neighbor.Size.x > (int)maxSize.x || neighbor.Size.y > (int)maxSize.z)
-                    {
-                        if (neighbor.Size.x > tileMap.Size.x || neighbor.Size.y > tileMap.Size.y)
-                            continue;
-                    }
-
-                    neightbours.Add(neighbor);
+                    neightbours.Add(neighbor as IEvaluable);
                 }
 
                 foreach (var wall in walls)
                 {
-                    var neighbor = tileMap.Clone() as LBSSchemaData;
-                    neighbor.RemoveTiles(wall.allTiles);
-                    neightbours.Add(neighbor);
+                    var neighbor = tileMap.Clone() as LBSSchema;
+                    neighbor.Clear();
+                    neightbours.Add(neighbor as IEvaluable);
                 }
 
                 //Move rooms
@@ -176,23 +172,17 @@ namespace Utility
 
                 for (int x = 0; x < newSize.x; x++)
                 {
-                    var newTiles = new List<TileData>();
-                    var neighbor = tileMap.Clone() as LBSSchemaData;
+                    var newTiles = new TiledArea<ConnectedTile>();
+                    var neighbor = tileMap.Clone() as LBSSchema;
 
                     for (int y = 0; y < newSize.y; y++)
                     {
-                        newTiles.Add(new TileData(new Vector2Int(room.Centroid.x + x, room.Centroid.y + y), 0, new string[4]));
+                        newTiles.AddTile(new ConnectedTile(new Vector2Int((int)room.Centroid.x + x, (int)room.Centroid.y + y), room.ID, 4));
                     }
 
-                    neighbor.SetTiles(newTiles, room.ID);
+                    neighbor.AddArea(newTiles);
 
-                    if (neighbor.Size.x > (int)maxSize.x || neighbor.Size.y > (int)maxSize.z)
-                    {
-                        if (neighbor.Size.x > tileMap.Size.x || neighbor.Size.y > tileMap.Size.y)
-                            continue;
-                    }
-
-                    neightbours.Add(neighbor);
+                    neightbours.Add(neighbor as IEvaluable);
                 }
             }
 
