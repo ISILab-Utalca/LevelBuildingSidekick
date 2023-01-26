@@ -62,11 +62,15 @@ public class AddDoor<T> : LBSManipulator where T : LBSTile
 
         var second = tile.Data;
 
+        /*
         var schema = controller.GetData() as LBSSchemaData;
         var r1 = schema.GetRoom(first.Position);
         var r2 = schema.GetRoom(second.Position);
         if (r1.Equals(r2))
             return;
+        */ 
+        
+
 
         var dx = Mathf.Abs(first.GetPosition().x - second.GetPosition().x);
         var dy = Mathf.Abs(first.GetPosition().y - second.GetPosition().y);
