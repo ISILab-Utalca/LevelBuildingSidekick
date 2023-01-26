@@ -75,6 +75,7 @@ namespace LBS.Components
         /// Cleans all the information saved in.
         /// </summary>
         public abstract void Clear();
+
         public abstract object Clone();
 
         #endregion

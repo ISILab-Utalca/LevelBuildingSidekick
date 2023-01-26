@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using Newtonsoft.Json;
 using LBS.Components.Teselation;
+using LBS.Components.TileMap;
 
 namespace LBS.Components.TileMap
 {
@@ -13,6 +14,7 @@ namespace LBS.Components.TileMap
         #region FIELDS
 
         [SerializeField, JsonRequired, SerializeReference]
+        //protected List<BasedTiledArea> areas;
         protected List<TiledArea<LBSTile>> areas;
 
         #endregion
@@ -30,6 +32,7 @@ namespace LBS.Components.TileMap
         
         public AreaTileMap() : base()
         {
+            //areas = new List<BasedTiledArea>();
             areas = new List<TiledArea<LBSTile>>();
         }
 
@@ -43,6 +46,7 @@ namespace LBS.Components.TileMap
                 return false;
             if (GetArea(area.ID) != null)
                 return false;
+            //var a = new BasedTiledArea(area.Tiles, area.ID,area.Key);
             var a = new TiledArea<LBSTile>(area.Tiles, area.ID,area.Key);
             areas.Add(a);
             area.OnAddTile = (t) => 
@@ -109,7 +113,12 @@ namespace LBS.Components.TileMap
         public override object Clone()
         {
             var atm = new AreaTileMap<T, U>();
-            atm.areas = new List<TiledArea<LBSTile>>(areas);
+            var nAreas = areas.Select(a => a.Clone() as T).ToList();// el "as" puede causar problemas
+            foreach (var nArea in nAreas)
+            {
+                atm.AddArea(nArea);
+            }
+            
             return atm;
         }
 
@@ -117,5 +126,13 @@ namespace LBS.Components.TileMap
 
     }
 
+
+}
+
+public class BasedTiledArea : TiledArea<LBSTile>
+{
+    public BasedTiledArea(List<LBSTile> tiles, string id, string key) : base(tiles, id, key)
+    {
+    }
 }
 

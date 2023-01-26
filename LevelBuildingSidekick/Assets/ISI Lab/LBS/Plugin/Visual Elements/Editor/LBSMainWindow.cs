@@ -37,7 +37,7 @@ public class LBSMainWindow : EditorWindow
     // Manager
     private ToolkitManager toolkitManager;
     private DrawManager drawManager;
-    private InspectorManager inspectorManager;
+    private LBSInspectorPanel inspectorManager;
 
 
     [MenuItem("ISILab/LBS plugin/Main window", priority = 0)]
@@ -73,10 +73,7 @@ public class LBSMainWindow : EditorWindow
         drawManager = new DrawManager(ref mainView, ref layerTemplates);
 
         // InspectorContent
-        var inspector = rootVisualElement.Q<VisualElement>("InspectorContent");
-
-        // InspectorManager
-        inspectorManager = new InspectorManager(ref mainView, inspector);
+        inspectorManager = rootVisualElement.Q<LBSInspectorPanel>("InpectorPanel");
 
         // ToolKitManager
         toolkitManager = new ToolkitManager(ref toolPanel, ref modeSelector, ref mainView,ref inspectorManager, ref layerTemplates);
