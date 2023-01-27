@@ -45,7 +45,7 @@ public class LayersPanel : VisualElement
         list.bindItem += (item, index) =>
         {
             var view = (item as LayerView);
-            var layer = this.data.Get(index);
+            var layer = this.data.GetLayer(index);
             view.SetName(layer.Name);
             view.SetIcon(layer.iconPath);
         };

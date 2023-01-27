@@ -37,6 +37,7 @@ public class ToolBarMain : VisualElement // esto puede ser directamente toolbar
     {
         var data = LBSController.CreateNewLevel("new file", new Vector3(100, 100, 100));
         OnChangeLevelData?.Invoke(data);
+        //Debug.Log(data);
         //GenericLBSWindow.RefeshAll(this);
     }
 
