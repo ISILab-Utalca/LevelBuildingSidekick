@@ -50,6 +50,11 @@ public class LBSMainWindow : EditorWindow
 
     public virtual void CreateGUI()
     {
+        Init();
+    }
+
+    public void Init()
+    {
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSMainWindow");
         visualTree.CloneTree(rootVisualElement);
 
@@ -76,7 +81,7 @@ public class LBSMainWindow : EditorWindow
         inspectorManager = rootVisualElement.Q<LBSInspectorPanel>("InpectorPanel");
 
         // ToolKitManager
-        toolkitManager = new ToolkitManager(ref toolPanel, ref modeSelector, ref mainView,ref inspectorManager, ref layerTemplates);
+        toolkitManager = new ToolkitManager(ref toolPanel, ref modeSelector, ref mainView, ref inspectorManager, ref layerTemplates);
         toolkitManager.OnEndSomeAction += () =>
         {
             drawManager.RefreshView(ref _selectedLayer, _selectedMode);
@@ -84,6 +89,20 @@ public class LBSMainWindow : EditorWindow
 
         // ToolBar
         var toolbar = rootVisualElement.Q<ToolBarMain>("ToolBar");
+        toolbar.OnNewLevel += (data) =>
+        {
+            LevelBackUp.Instance().level = data;
+            levelData = LevelBackUp.Instance().level.data;
+            RefreshWindow();
+        };
+        toolbar.OnLoadLevel += (data) =>
+        {
+            LevelBackUp.Instance().level = data;
+            levelData = LevelBackUp.Instance().level.data;
+            RefreshWindow();
+            drawManager.RefreshView(ref _selectedLayer, _selectedMode);
+        };
+
 
         // ExtraPanel
         extraPanel = rootVisualElement.Q<VisualElement>("ExtraPanel");
@@ -95,7 +114,7 @@ public class LBSMainWindow : EditorWindow
         selectedLabel = rootVisualElement.Q<Label>("SelectedLabel");
 
         // Init Data
-        levelData = LBSController.CurrentLevel.data; // (!) cargar archivo aqui de alguna forma
+        levelData = LBSController.CurrentLevel.data;
         OnLevelDataChange(levelData);
         levelData.OnChanged += (lvl) => {
             OnLevelDataChange(lvl);
@@ -144,6 +163,13 @@ public class LBSMainWindow : EditorWindow
             var value = (gen3DPanel.style.display == DisplayStyle.None);
             gen3DPanel.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
         };
+    }
+
+    private void RefreshWindow()
+    {
+        mainView.Clear();
+        this.rootVisualElement.Clear();
+        Init();
     }
 
     public void OnLevelDataChange(LBSLevelData levelData)

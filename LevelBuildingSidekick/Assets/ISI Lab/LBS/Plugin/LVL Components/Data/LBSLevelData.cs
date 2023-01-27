@@ -38,6 +38,9 @@ public class LBSLevelData
         }
     }
 
+    [JsonIgnore]
+    public int LayerCount => layers.Count;
+
     #endregion
 
     //EVENTS
@@ -46,7 +49,7 @@ public class LBSLevelData
 
     #region METHODS
 
-    public LBSLayer Get(int index)
+    public LBSLayer GetLayer(int index)
     {
         return layers[index];
     }
@@ -104,7 +107,7 @@ public class LBSLevelData
     /// </summary>
     /// <param name="id">The ID of the representation to retrieve</param>
     /// <returns>The representation with the specified ID or null</returns>
-    public LBSLayer GetRepresentation(string id)
+    public LBSLayer GetLayer(string id)
     {
         try
         {
