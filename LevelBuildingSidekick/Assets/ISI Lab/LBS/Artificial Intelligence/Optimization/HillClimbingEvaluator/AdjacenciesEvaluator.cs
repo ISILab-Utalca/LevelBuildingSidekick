@@ -27,7 +27,7 @@ public class AdjacenciesEvaluator : IEvaluator
 
     public float EvaluateH<u>(IEvaluable evaluable, u Heu)
     {
-        var graphData = evaluable as GraphModule<RoomNode>;
+        var graphData = evaluable as LBSRoomGraph;
         var schema = Heu as LBSSchema;
 
         if (graphData.EdgeCount <= 0)
