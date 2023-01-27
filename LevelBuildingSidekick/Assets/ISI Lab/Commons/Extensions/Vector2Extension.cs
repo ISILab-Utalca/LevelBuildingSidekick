@@ -10,6 +10,29 @@ public static class Vector2Extension
         return new Vector2Int((int)vector.x, (int)vector.y);
     }
 
+    public static List<Vector2Int> Get4Connected(this Vector2Int vector)
+    {
+        var toR = new List<Vector2Int>();
+        toR.Add(new Vector2Int(vector.x - 1, vector.y));
+        toR.Add(new Vector2Int(vector.x + 1, vector.y));
+        toR.Add(new Vector2Int(vector.x, vector.y - 1));
+        toR.Add(new Vector2Int(vector.x, vector.y + 1));
+        return toR;
+    }
+
+    public static List<Vector2Int> Get8Connected(this Vector2Int vector)
+    {
+        var toR = new List<Vector2Int>();
+        for (int i = -1; i <= 1; i++)
+        {
+            for (int j = -1; j <= 1; j++)
+            {
+                toR.Add(new Vector2Int(vector.x + i, vector.y + j));
+            }
+        }
+        return toR;
+    }
+
     public static bool IsInLine(this Vector2 vector, Vector2 start, Vector2 end)
     {
         if (start.x <= Mathf.Max(end.x, vector.x)
