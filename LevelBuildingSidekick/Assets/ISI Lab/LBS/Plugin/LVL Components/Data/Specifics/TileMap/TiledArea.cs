@@ -52,8 +52,8 @@ namespace LBS.Components.TileMap
 
         public override bool AddTile(T tile)
         {
-            if (GetDistance(tile.Position) > 1)
-                return false;
+            //if (GetDistance(tile.Position) > 1)
+            //    return false;
             OnAddTile?.Invoke(tile);
             return base.AddTile(tile);
         }
