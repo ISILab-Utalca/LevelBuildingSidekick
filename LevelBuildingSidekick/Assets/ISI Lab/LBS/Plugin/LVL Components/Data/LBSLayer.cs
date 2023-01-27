@@ -25,10 +25,15 @@ namespace LBS.Components
         public string iconPath;
 
         [SerializeField, JsonRequired, SerializeReference]
-        private List<Transformer> transformers;
+        private List<string> transformers; 
+
+        //[SerializeField, JsonRequired, SerializeReference]
+        //private List<Transformer> transformers;
 
         [SerializeField, JsonRequired, SerializeReference]
         private List<LBSModule> modules;
+
+        
 
         [JsonIgnore]
         public bool IsVisible
@@ -59,16 +64,17 @@ namespace LBS.Components
         public LBSLayer()
         {
             modules = new List<LBSModule>();
-            transformers = new List<Transformer>();
+            transformers = new List<string>();
             IsVisible = true;
             ID = GetType().Name;
         }
 
-        public LBSLayer(List<LBSModule> modules, List<Transformer> transformers, string ID, bool visible, string name, string iconPath)
+        public LBSLayer(List<LBSModule> modules, List<Type> transformers, string ID, bool visible, string name, string iconPath)
         {
             this.modules = modules;
             modules.ForEach(m => m.OnChanged += (mo) => { this.OnChanged(this); });
-            this.transformers = transformers;
+            this.transformers = new List<string>();
+            AddTrasformers(transformers);
             this.ID = ID;
             IsVisible = visible;
             this.name = name;
@@ -76,6 +82,8 @@ namespace LBS.Components
         }
 
         //METHODS
+
+
         public bool AddModule(LBSModule module)
         {
             if(modules.Contains(module))
@@ -190,44 +198,64 @@ namespace LBS.Components
             modules[index].IsVisible = true;
         }
 
-        public bool AddTransformer(Transformer transformer)
+        public List<Transformer> GetTransformers()
         {
-            if (transformers.Contains(transformer))
+            var toR = new List<Transformer>();
+            for (int i = 0; i < transformers.Count; i++)
+            {
+                var t = GetTransformer(i);
+                toR.Add(t);
+            }
+            return toR;
+        }
+
+        public Transformer GetTransformer(int index)
+        {
+            var sName = transformers[index];
+            var iType = Type.GetType(sName);
+            return Activator.CreateInstance(iType) as Transformer;
+        }
+
+        public void AddTrasformers(List<Type> trasformers)
+        {
+            foreach (var trans in trasformers)
+            {
+                AddTransformer(trans);
+            }
+        }
+
+        public bool AddTransformer(Type transformer)
+        {
+            var tName = transformer?.FullName;
+
+            if (transformers.Contains(tName))
             {
                 return false;
             }
 
-            transformers.Add(transformer);
-            transformer.OnAdd();
+            transformers.Add(tName);
             return true;
         }
 
-        public bool RemoveTransformer(Transformer transformer)
+        public bool RemoveTransformer(Type transformer)
         {
-            if(transformers.Contains(transformer))
-            {
-                transformer.OnRemove();
-            }
-            return transformers.Remove(transformer);
+            var tName = transformer?.FullName;
+            return transformers.Remove(tName);
         }
 
         public Transformer RemoveTransformerAt(int index)
         {
-            if(!transformers.ContainsIndex(index))
-            {
-                return null;
-            }
-            var transf = transformers[index];
-            transf.OnRemove();
+            var trans = transformers[index];
             transformers.RemoveAt(index);
-            return transf;
+            var iType = Type.GetType(trans);
+            return Activator.CreateInstance(iType) as Transformer;
         }
 
         public object Clone()
         {
             var modules = this.modules.Select(m => m.Clone() as LBSModule).ToList();
-            var transformers = new List<Transformer>(this.transformers); // (??) usar clone en vez de pasar la lista?
-            var layer = new LBSLayer(modules, transformers, this.id, this.visible, this.name, this.iconPath);
+            var transformers = this.GetTransformers(); // (??) usar clone en vez de pasar la lista?
+            var layer = new LBSLayer(modules, transformers.Select(t => t.GetType()).ToList(), this.id, this.visible, this.name, this.iconPath);
             return layer;
         }
     }
