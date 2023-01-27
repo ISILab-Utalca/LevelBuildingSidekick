@@ -263,11 +263,11 @@ namespace LBS.Representation.TileMap
                 Debug.LogWarning("[Error]: There is no room with the label <b>'" + roomId + "'</b> in the level representation.");
                 return;
             }
-            //RemoveTiles(tiles);
+            RemoveTiles(tiles);
 
             foreach (var t in tiles)
             {
-                //this.tiles.Add(t);
+                this.tiles.Add(t);
                 room.AddTile(t.Position);
             }
         }

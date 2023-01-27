@@ -5,13 +5,13 @@ using System;
 using Commons.Optimization.Evaluator;
 using UnityEngine.UIElements;
 
-public class WeightedEvaluator : IEvaluator
+public class WeighuedEvaluator : IEvaluator
 {
     IEvaluator Adjacencies;
     IEvaluator Areas;
     IEvaluator Empty;
 
-    public WeightedEvaluator()
+    public WeighuedEvaluator()
     {
         Adjacencies = new AdjacenciesEvaluator();
         Areas = new AreasEvaluator();

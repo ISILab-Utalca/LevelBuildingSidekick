@@ -26,7 +26,7 @@ public class EmptySpaceEvaluator : IEvaluator
 
     public float EvaluateH<u>(IEvaluable evaluable, u Heu)
     {
-        var graphData = evaluable as LBSRoomGraph;
+        var graphData = evaluable as GraphModule<RoomNode>;
         var schema = Heu as LBSSchema;
         var value = 0f;
         foreach (var room in schema.Areas)

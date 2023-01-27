@@ -38,7 +38,7 @@ namespace LBS.Windows
                 () => {
                     var data = LBSController.CurrentLevel.data;
                     generator.Init(data);
-                    //generator.Generate(); 
+                    generator.Generate(); 
                 }
                 ));
 

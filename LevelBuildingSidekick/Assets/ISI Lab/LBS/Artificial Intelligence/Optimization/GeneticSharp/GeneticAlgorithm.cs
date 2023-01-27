@@ -255,10 +255,10 @@ public class GeneticAlgorithm : IGeneticAlgorithm , IShowable
 
             if (Population.GenerationsNumber > 1)
             {
-                /*if (Termination.HasReached(this))
+                if (Termination.HasReached(this))
                 {
                     throw new InvalidOperationException("Attempt to resume a genetic algorithm with a termination ({0}) already reached. Please, specify a new termination or extend the current one.".With(Termination));
-                }*/
+                }
 
                 State = OptimizerState.Resumed;
             }
@@ -357,7 +357,7 @@ public class GeneticAlgorithm : IGeneticAlgorithm , IShowable
 
         OnGenerationRan?.Invoke();
 
-        /*if (Termination.HasReached(this))
+        if (Termination.HasReached(this))
         {
             State = OptimizerState.TerminationReached;
             OnTerminationReached?.Invoke();
@@ -368,7 +368,7 @@ public class GeneticAlgorithm : IGeneticAlgorithm , IShowable
         {
             TaskExecutor.Stop();
             State = OptimizerState.Stopped;
-        }*/
+        }
 
         return false;
     }

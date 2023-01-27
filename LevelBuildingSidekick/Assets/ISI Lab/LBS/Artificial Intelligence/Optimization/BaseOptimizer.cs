@@ -153,7 +153,7 @@ public abstract class BaseOptimizer : IOptimizer
     /// <returns>The best candidate solution found by the optimizer.</returns>
     public virtual IEvaluable Run()
     {
-        while (/*!TerminatioReached() &&*/ !(State == OptimizerState.Paused || State == OptimizerState.Stopped))
+        while (!TerminatioReached() && !(State == OptimizerState.Paused || State == OptimizerState.Stopped))
         {
             if (stopRequested)
             {
@@ -180,7 +180,7 @@ public abstract class BaseOptimizer : IOptimizer
     /// Determines if the optimizer has reached a termination condition.
     /// </summary>
     /// <returns>True if the termination condition has been reached, false otherwise.</returns>
-    /*private bool TerminatioReached()
+    private bool TerminatioReached()
     {
         if(Termination.HasReached(this))
         {
@@ -188,7 +188,7 @@ public abstract class BaseOptimizer : IOptimizer
             return true;
         }
         return false;
-    }*/
+    }
 
     /// <summary>
     /// Requests that the optimization process be stopped.

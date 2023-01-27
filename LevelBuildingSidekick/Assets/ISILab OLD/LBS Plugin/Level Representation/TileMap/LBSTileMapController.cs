@@ -12,7 +12,6 @@ using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 using LBS.VisualElements;
 using static UnityEngine.RuleTile.TilingRuleOutput;
-using LBS.Components.Graph;
 
 namespace LBS.Representation.TileMap
 {
@@ -202,16 +201,16 @@ namespace LBS.Representation.TileMap
 
         
 
-        /*private float EvaluateAdjacencies(LBSRoomGraph graphData, LBSSchemaData schema) 
+        private float EvaluateAdjacencies(LBSGraphData graphData, LBSSchemaData schema) 
         {
-            if (graphData.EdgeCount <= 0)
+            if (graphData.EdgeCount() <= 0)
             {
                 Debug.LogWarning("Cannot calculate the adjacency of a map are nodes that are not connected.");
                 return 0;
             }
 
             var distValue = 0f;
-            for (int i = 0; i < graphData.EdgeCount; i++)
+            for (int i = 0; i < graphData.EdgeCount(); i++)
             {
                 var edge = graphData.GetEdge(i);
            
@@ -344,7 +343,7 @@ namespace LBS.Representation.TileMap
 
             //normalize the distance to a value between 0 and 1
             return 1 - (avgDist / (Mathf.Max(schema.Width, schema.Height) / 2f));
-        }*/
+        }
 
         private int GetRoomDistance(RoomData r1, RoomData r2) // O2 - manhattan
         {
@@ -369,7 +368,7 @@ namespace LBS.Representation.TileMap
             return lessDist;
         }
 
-        /*public List<LBSSchemaData> GetNeighbors(LBSSchemaData tileMap)
+        public List<LBSSchemaData> GetNeighbors(LBSSchemaData tileMap)
         {
             var neightbours = new List<LBSSchemaData>();
             //var maxSize = LBSController.CurrentLevel.data.Size;
@@ -393,7 +392,7 @@ namespace LBS.Representation.TileMap
                     {
                         if (neighbor.Size.x > tileMap.Size.x || neighbor.Size.y > tileMap.Size.y)
                             continue;
-                    }
+                    }*/
 
                     neightbours.Add(neighbor);
                 }
@@ -428,14 +427,14 @@ namespace LBS.Representation.TileMap
                     {
                         if (neighbor.Size.x > tileMap.Size.x || neighbor.Size.y > tileMap.Size.y)
                             continue;
-                    }
+                    }*/
 
                     neightbours.Add(neighbor);
                 }
             }
 
             return neightbours;
-        }*/
+        }
 
         public Vector2Int ToTileCoords(Vector2 pos)
         {
