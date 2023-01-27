@@ -89,14 +89,20 @@ public class LBSMainWindow : EditorWindow
 
         // ToolBar
         var toolbar = rootVisualElement.Q<ToolBarMain>("ToolBar");
-        toolbar.OnChangeLevelData += (data) =>
+        toolbar.OnNewLevel += (data) =>
         {
             LevelBackUp.Instance().level = data;
             levelData = LevelBackUp.Instance().level.data;
-            if(levelData.LayerCount > 0)
-                OnSelectedLayerChange(levelData.GetLayer(0));
             RefreshWindow();
         };
+        toolbar.OnLoadLevel += (data) =>
+        {
+            LevelBackUp.Instance().level = data;
+            levelData = LevelBackUp.Instance().level.data;
+            RefreshWindow();
+            drawManager.RefreshView(ref _selectedLayer, _selectedMode);
+        };
+
 
         // ExtraPanel
         extraPanel = rootVisualElement.Q<VisualElement>("ExtraPanel");
@@ -108,7 +114,7 @@ public class LBSMainWindow : EditorWindow
         selectedLabel = rootVisualElement.Q<Label>("SelectedLabel");
 
         // Init Data
-        levelData = LBSController.CurrentLevel.data; // (!) cargar archivo aqui de alguna forma / REVISAR (!!!!!!!!!!!!!!!!)
+        levelData = LBSController.CurrentLevel.data;
         OnLevelDataChange(levelData);
         levelData.OnChanged += (lvl) => {
             OnLevelDataChange(lvl);
@@ -164,8 +170,6 @@ public class LBSMainWindow : EditorWindow
         mainView.Clear();
         this.rootVisualElement.Clear();
         Init();
-        if(_selectedLayer != null)
-            drawManager.RefreshView(ref _selectedLayer, _selectedMode);
     }
 
     public void OnLevelDataChange(LBSLevelData levelData)
