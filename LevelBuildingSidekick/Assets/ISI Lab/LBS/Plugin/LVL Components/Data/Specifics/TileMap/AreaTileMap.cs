@@ -72,6 +72,11 @@ namespace LBS.Components.TileMap
             return areas.Find(r => r.Key == id);
         }
 
+        public TiledArea<LBSTile> GetRoomPos(Vector2Int tilePos)
+        {
+            return areas.Find(r => r.Contains(tilePos));
+        }
+
         public TiledArea<LBSTile> GetRoom(int index)
         {
             return areas[index];

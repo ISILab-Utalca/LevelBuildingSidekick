@@ -44,19 +44,20 @@ public class AddDoor<T, U> : ManipulateTiledArea<T, U> where T : TiledArea<U> wh
 
         var second = tile.Data;
 
-        //var r1 = module.GetRoom(first.Position.);
-        //var r2 = module.GetRoom(second.Position);
-        //if (r1.Equals(r2))
+        var r1 = module.GetRoomPos(first.Position);
+        var r2 = module.GetRoomPos(second.Position);
+        if (r1.Equals(r2))
             return;
 
-        var dx = Mathf.Abs(first.GetPosition().x - second.GetPosition().x);
-        var dy = Mathf.Abs(first.GetPosition().y - second.GetPosition().y);
+        var dx = Mathf.Abs(first.Position.x - second.Position.x);
+        var dy = Mathf.Abs(first.Position.y - second.Position.y);
+        
         if (dx + dy > 1f)
             return;
 
         var door = new DoorData(
-            first.GetPosition(),
-            second.GetPosition()
+            first.Position,
+            second.Position
             );
 
         OnManipulationEnd?.Invoke();
