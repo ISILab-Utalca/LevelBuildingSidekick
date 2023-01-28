@@ -39,10 +39,9 @@ namespace LBS.Components.TileMap
 
         public TiledArea() : base(){}
 
-        public TiledArea(List<T> tiles, string id, string key) : base(tiles, key)
+        public TiledArea(List<T> tiles, string id, string key, Color color) : base(tiles, key)
         {
-            this.color = new Color().RandomColor(); // (?) esto debe ir aqui?
-
+            this.color = color;
             this.id = id;
         }
 

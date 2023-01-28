@@ -8,6 +8,7 @@ using LBS.Schema;
 
 namespace LBS.Transformers
 {
+    [System.Obsolete]
     public class GraphToSchema : TransformerOld<LBSGraphData, LBSSchemaData>
     {
         public override LBSSchemaData Transform(LBSGraphData graph)

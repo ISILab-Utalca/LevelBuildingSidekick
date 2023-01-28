@@ -5,48 +5,67 @@ using LBS.Components.Graph;
 using LBS.Components.Teselation;
 using LBS.Components.Specifics;
 using LBS.Components.TileMap;
+using LBS.Components;
+using System;
 
 namespace LBS.Tools.Transformer
 {
     public class GraphToArea : Transformer
     {
-        GraphModule<RoomNode> graph;
-        AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile> schema;
+        private GraphModule<RoomNode> graph;
+        private AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile> schema;
 
-        bool keepShape;
+        private bool keepShape;
 
         public bool KeepShape => false;
 
-        public GraphToArea(GraphModule<RoomNode> graph, AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile> schema)
-        {
-            this.graph = graph;
-            this.schema = schema;
-        }
+        public GraphToArea(Type from, Type to) : base(from, to){ }
 
-        public override void Switch()
+        public override void Switch(ref LBSLayer layer)
         {
-            if(graph == null)
+            graph = layer.GetModule(From) as GraphModule<RoomNode>;
+            schema = layer.GetModule(To) as AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile>;
+
+
+            if (graph == null)
             {
                 Debug.LogError("Graph is NULL");
                 return;
             }
 
-            if(schema == null)
+            if(schema.IsEmpty())
             {
-                schema = new AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile>();
+                CreateDataFrom();
             }
+            else
+            {
+                EditDataFrom();
+            }
+        }
 
-            for(int i = 0; i < graph.NodeCount; i++)
+        private void CreateDataFrom()
+        {
+            for (int i = 0; i < graph.NodeCount; i++)
+            {
+                var node = graph.GetNode(i);
+                var area = ConstructArea(node);
+                schema.AddArea(area);
+            }
+        }
+
+        private void EditDataFrom()
+        {
+            for (int i = 0; i < graph.NodeCount; i++)
             {
                 var node = graph.GetNode(i);
                 var room = schema.GetArea(node.ID);
-                if(room != null)
+                if (room != null)
                 {
                     if (!KeepShape)
                     {
                         // (!) Puede que este creando las areas al reves por eje Y inverso
-                        var ca = ConstructArea(node);
-                        room = new TiledArea<LBSTile>(ca.Tiles, ca.ID, ca.Key);
+                        var cArea = ConstructArea(node);
+                        room = new TiledArea<LBSTile>(cArea.Tiles, cArea.ID, cArea.Key, cArea.Color);
                     }
                     else
                     {
@@ -57,7 +76,7 @@ namespace LBS.Tools.Transformer
             }
         }
 
-        public TiledArea<ConnectedTile> ConstructArea(RoomNode node)
+        private TiledArea<ConnectedTile> ConstructArea(RoomNode node)
         {
             var tiles = new List<ConnectedTile>();
 
@@ -68,20 +87,11 @@ namespace LBS.Tools.Transformer
                     tiles.Add(new ConnectedTile(new Vector2(i,j), node.ID));
                 }
             }
-
-
-            return new TiledArea<ConnectedTile>(tiles, node.ID, "Room: " + node.ID);
+            var color = new Color().RandomColor();
+            var area = new TiledArea<ConnectedTile>(tiles, node.ID, "Room: " + node.ID,color);
+            return area;
         }
 
-        public override void OnAdd()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override void OnRemove()
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }
 

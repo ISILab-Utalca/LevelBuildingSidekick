@@ -2,6 +2,7 @@ using LBS;
 using LBS.Components;
 using LBS.ElementView;
 using LBS.VisualElements;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,6 +69,7 @@ public class LBSMainWindow : EditorWindow
         modeSelector = rootVisualElement.Q<ModeSelector>("ModeSelector");
         modeSelector.OnSelectionChange += (mode) =>
         {
+            OnApplyTrasformers(_selectedMode, mode);
             OnSelectedModeChange(mode, _selectedLayer);
         };
 
@@ -178,15 +180,32 @@ public class LBSMainWindow : EditorWindow
         modeSelector.style.display = (levelData.Layers.Count <= 0) ? DisplayStyle.None : DisplayStyle.Flex;
     }
 
+    public void OnApplyTrasformers(string modeFrom, string modeTo)
+    {
+        var ModuleFrom = _selectedLayer.GetMode(layerTemplates, modeFrom).module;
+        var ModuleTo = _selectedLayer.GetMode(layerTemplates, modeTo).module;
+
+        var transformers = _selectedLayer.GetTrasformers(layerTemplates);
+        var trans = transformers.Find(t => t.From.FullName.Equals(ModuleFrom) && t.To.FullName.Equals(ModuleTo)); // (!) lo de los fullname es parche ya que ".ModuleType no funciona"
+        trans?.Switch(ref _selectedLayer);
+    }
+
     public void OnSelectedModeChange(string mode, LBSLayer layer)
     {
+        var oldMode = _selectedMode;
         _selectedMode = mode;
-        var modes = _selectedLayer.GetModes(layerTemplates);
+        var modes = _selectedLayer.GetToolkit(layerTemplates);
+
+        // Apply trasformer
+        // OnApplyTrasformers(oldMode, _selectedMode);
+
+        // Init tools
         object tools;
         modes.TryGetValue(mode,out tools);
-
         var module = layer.GetModule(0); // (!!) implementar cuando se pueda seleccionar un modulo
         toolkitManager.SetTools(tools, ref levelData, ref layer, ref module);
+
+        drawManager.RefreshView(ref _selectedLayer, _selectedMode);
     }
 
     public void OnSelectedLayerChange(LBSLayer layer)
@@ -194,7 +213,7 @@ public class LBSMainWindow : EditorWindow
         _selectedLayer = layer;
         
         // actualize modes
-        var modes = _selectedLayer.GetModes(layerTemplates);
+        var modes = _selectedLayer.GetToolkit(layerTemplates);
         modeSelector.SetChoices(modes);
         modeSelector.Index = 0;
         modeSelector.style.display = DisplayStyle.Flex;

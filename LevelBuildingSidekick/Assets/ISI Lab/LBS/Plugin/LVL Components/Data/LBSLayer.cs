@@ -24,8 +24,8 @@ namespace LBS.Components
         [SerializeField, JsonRequired]
         public string iconPath;
 
-        [SerializeField, JsonRequired, SerializeReference]
-        private List<string> transformers; 
+        //[SerializeField, JsonRequired, SerializeReference]
+        //private List<string> transformers; 
 
         //[SerializeField, JsonRequired, SerializeReference]
         //private List<Transformer> transformers;
@@ -64,17 +64,17 @@ namespace LBS.Components
         public LBSLayer()
         {
             modules = new List<LBSModule>();
-            transformers = new List<string>();
+            //transformers = new List<string>();
             IsVisible = true;
             ID = GetType().Name;
         }
 
-        public LBSLayer(List<LBSModule> modules, List<Type> transformers, string ID, bool visible, string name, string iconPath)
+        public LBSLayer(List<LBSModule> modules,/* List<Type> transformers,*/ string ID, bool visible, string name, string iconPath)
         {
             this.modules = modules;
             modules.ForEach(m => m.OnChanged += (mo) => { this.OnChanged(this); });
-            this.transformers = new List<string>();
-            AddTrasformers(transformers);
+            //this.transformers = new List<string>();
+            //AddTrasformers(transformers);
             this.ID = ID;
             IsVisible = visible;
             this.name = name;
@@ -157,7 +157,6 @@ namespace LBS.Components
             var t = typeof(T);
             foreach (var module in modules)
             {
-                //Debug.Log(module.GetType().Name + " - " + typeof(T).Name);
                 if (module is T || Utility.Reflection.IsSubclassOfRawGeneric(t,module.GetType()))
                 {
                     if(ID.Equals("") || module.Key.Equals(ID))
@@ -167,6 +166,22 @@ namespace LBS.Components
                 }
             }
             return null;
+        }
+
+        public object GetModule(Type type ,string ID = "")
+        {
+            foreach (var module in modules)
+            {
+                if (module.GetType().Equals(type) || Utility.Reflection.IsSubclassOfRawGeneric(type, module.GetType()))
+                {
+                    if (ID.Equals("") || module.Key.Equals(ID))
+                    {
+                        return module;
+                    }
+                }
+            }
+            return null;
+
         }
 
         public List<T> GetModules<T>(string ID = "") where T : LBSModule
@@ -198,6 +213,7 @@ namespace LBS.Components
             modules[index].IsVisible = true;
         }
 
+        /*
         public List<Transformer> GetTransformers()
         {
             var toR = new List<Transformer>();
@@ -208,7 +224,9 @@ namespace LBS.Components
             }
             return toR;
         }
+        */
 
+        /*
         public Transformer GetTransformer(int index)
         {
             var sName = transformers[index];
@@ -251,11 +269,13 @@ namespace LBS.Components
             return Activator.CreateInstance(iType) as Transformer;
         }
 
+        */
+
         public object Clone()
         {
             var modules = this.modules.Select(m => m.Clone() as LBSModule).ToList();
-            var transformers = this.GetTransformers(); // (??) usar clone en vez de pasar la lista?
-            var layer = new LBSLayer(modules, transformers.Select(t => t.GetType()).ToList(), this.id, this.visible, this.name, this.iconPath);
+            //var transformers = this.GetTransformers(); // (??) usar clone en vez de pasar la lista?
+            var layer = new LBSLayer(modules,/* transformers.Select(t => t.GetType()).ToList(),*/ this.id, this.visible, this.name, this.iconPath);
             return layer;
         }
     }

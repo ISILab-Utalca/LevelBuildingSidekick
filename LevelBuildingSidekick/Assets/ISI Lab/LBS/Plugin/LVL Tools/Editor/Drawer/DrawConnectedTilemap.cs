@@ -9,11 +9,18 @@ public class DrawConnectedTilemap : Drawer
 {
     public override void Draw(ref LBSLayer layer, MainView view)
     {
-        var tilemap = layer.GetModule<TileMapModule<ConnectedTile>>();
+        var tilemap = layer.GetModule<AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile>>();
 
-        foreach (var tile in tilemap.Tiles)
+        foreach (var area in tilemap.Areas)
         {
-            //var tile = new LBSConectedTileView(,);
+            foreach (var tile in area.Tiles)
+            {
+                var tView = new LBSConectedTileView(tile as ConnectedTile);
+                tView.SetBackgroundColor(area.Color);
+                var size = view.TileSize;
+                tView.SetPosition(new Rect(tile.Position, size));
+                view.AddElement(tView);
+            }
         }
     }
 }

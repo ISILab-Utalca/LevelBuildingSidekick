@@ -21,7 +21,6 @@ namespace LBS.Components.Teselation
 
         #endregion
 
-
         #region METHODS
 
         public Vector2 SnapPosition(Vector2 position)
@@ -51,6 +50,8 @@ namespace LBS.Components.Teselation
             );
             return worldPosition;
         }
+
+        public override abstract bool IsEmpty();
 
         #endregion
     }

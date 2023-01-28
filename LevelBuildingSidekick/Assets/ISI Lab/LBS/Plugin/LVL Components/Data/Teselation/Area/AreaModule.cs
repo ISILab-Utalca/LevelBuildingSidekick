@@ -92,6 +92,11 @@ namespace LBS.Components.Teselation
             areas.Clear();
         }
 
+        public override bool IsEmpty()
+        {
+            return (areas.Count() <= 0);
+        }
+
         public override object Clone()
         {
             var area = new AreaModule<T>();

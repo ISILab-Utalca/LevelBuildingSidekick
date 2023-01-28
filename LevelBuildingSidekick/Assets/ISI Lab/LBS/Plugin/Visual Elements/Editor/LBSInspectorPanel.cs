@@ -8,7 +8,6 @@ public class LBSInspectorPanel : VisualElement
 {
     public new class UxmlFactory : UxmlFactory<LBSInspectorPanel, VisualElement.UxmlTraits> { }
 
-    private VisualElement s;
     private VisualElement content;
 
     private List<LBSInspector> inspectors = new List<LBSInspector>();
