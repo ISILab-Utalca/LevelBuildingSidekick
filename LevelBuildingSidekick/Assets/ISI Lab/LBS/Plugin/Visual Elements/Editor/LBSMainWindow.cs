@@ -76,7 +76,7 @@ public class LBSMainWindow : EditorWindow
         inspectorManager = rootVisualElement.Q<LBSInspectorPanel>("InpectorPanel");
 
         // ToolKitManager
-        toolkitManager = new ToolkitManager(ref toolPanel, ref modeSelector, ref mainView,ref inspectorManager, ref layerTemplates);
+        toolkitManager = new ToolkitManager(ref toolPanel, ref modeSelector, ref mainView, ref inspectorManager, ref layerTemplates);
         toolkitManager.OnEndSomeAction += () =>
         {
             drawManager.RefreshView(ref _selectedLayer, _selectedMode);
