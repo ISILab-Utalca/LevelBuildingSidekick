@@ -8,22 +8,20 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Utility;
 
-public class ClassDropDown //this could inherit from DropDown (!!!) Si, porvafor
+public class ClassDropDown : DropdownField
 {
-    public DropdownField Dropdown;
     public Type Type;
     bool FilterAbstract;
 
-    private List<Type> _types;
+    private List<Type> types;
 
-    public ClassDropDown(DropdownField dropdown, Type type, bool filterAbstract)
+    public ClassDropDown(Type type, bool filterAbstract)
     {
-        Dropdown = dropdown;
         Type = type;
         FilterAbstract = filterAbstract;
 
         UpdateOptions();
-        Dropdown.RegisterCallback<MouseDownEvent>((e) => UpdateOptions());
+        RegisterCallback<MouseDownEvent>((e) => UpdateOptions());
     }
 
     void UpdateOptions()
@@ -49,16 +47,16 @@ public class ClassDropDown //this could inherit from DropDown (!!!) Si, porvafor
             return value;
         }).ToList();
 
-        _types = types;
-        Dropdown.choices = options;
+        this.types = types;
+        choices = options;
     }
 
     public object GetChoiceInstance()
     {
         object obj = null;
-        var dv = Dropdown.value;
-        var dx = Dropdown.choices.IndexOf(dv);
-        var t = _types[dx];
+        var dv = value;
+        var dx = choices.IndexOf(dv);
+        var t = types[dx];
         try
         {
             obj = Activator.CreateInstance(t);
