@@ -2,6 +2,7 @@ using LBS.Components.Graph;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -63,6 +64,8 @@ public class LBSNodeView<T> : GraphElement where T : LBSNode
     public override void OnSelected()
     {
         base.OnSelected();
+        var il = Reflection.MakeGenericScriptable(Data);
+        Selection.SetActiveObjectWithContext(il, il);
     }
 
     public override void OnUnselected()

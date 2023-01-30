@@ -7,5 +7,5 @@ using UnityEngine.UIElements;
 
 public abstract class LBSInspector : VisualElement
 {
-    public abstract void Init(List<LBSManipulator> lBSManipulators, ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module);
+    public abstract void Init(List<IManipulatorLBS> lBSManipulators, ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module);
 }

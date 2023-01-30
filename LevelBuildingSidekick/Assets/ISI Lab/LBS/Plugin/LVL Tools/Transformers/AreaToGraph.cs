@@ -25,8 +25,8 @@ namespace LBS.Tools.Transformer
 
         public override void Switch(ref LBSLayer layer)
         {
-            schema = layer.GetModule(To) as AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile>;
-            graph = layer.GetModule(From) as GraphModule<RoomNode>;
+            schema = layer.GetModule(From) as AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile>;
+            graph = layer.GetModule(To) as GraphModule<RoomNode>;
 
 
             if (schema == null)
@@ -41,7 +41,8 @@ namespace LBS.Tools.Transformer
             }
             else
             {
-                EditDataFrom();
+                Debug.LogWarning("[ISI Lab]: Implementar bien 'AreaToGraph' cuando el objetivo no esta vacio");
+                //EditDataFrom();
             }
         }
 
@@ -50,7 +51,7 @@ namespace LBS.Tools.Transformer
             foreach (var area in schema.Areas)
             {
                 var pos = area.Centroid;
-                var rData = new RoomData(area.Width, area.Height, new List<string>()); // (!) le faltan las tags pero no se de donde sacarlas
+                var rData = new RoomData(area.Width, area.Height, new List<string>(), area.Color ); // (!) le faltan las tags pero no se de donde sacarlas
                 new RoomNode(area.ID, pos, rData);
             }
 
@@ -63,7 +64,7 @@ namespace LBS.Tools.Transformer
 
             for (int i = 0; i < schema.RoomCount; i++)
             {
-                var area = schema.GetRoom(i);
+                var area = schema.GetArea(i);
                 ids.Add(area.Key);
                 var node = graph.GetNode(area.Key);
                 if (node != null)

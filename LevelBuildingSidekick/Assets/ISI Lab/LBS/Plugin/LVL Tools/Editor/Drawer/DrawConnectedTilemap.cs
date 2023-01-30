@@ -18,7 +18,7 @@ public class DrawConnectedTilemap : Drawer
                 var tView = new LBSConectedTileView(tile as ConnectedTile);
                 tView.SetBackgroundColor(area.Color);
                 var size = view.TileSize;
-                tView.SetPosition(new Rect(tile.Position, size));
+                tView.SetPosition(new Rect(tile.Position * size, size));
                 view.AddElement(tView);
             }
         }
