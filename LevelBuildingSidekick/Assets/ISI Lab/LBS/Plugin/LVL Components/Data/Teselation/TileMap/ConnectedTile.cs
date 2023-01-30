@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +18,9 @@ namespace LBS.Components.TileMap
         #endregion
 
         #region PROPERTIES
+
+        [JsonIgnore]
+        public string[] Connections => connections.Select(s => s).ToArray();
 
 
         #endregion
