@@ -33,7 +33,9 @@ namespace LBS.Components
         [SerializeField, JsonRequired, SerializeReference]
         private List<LBSModule> modules;
 
-        
+        [SerializeField, JsonRequired, SerializeReference]
+        private CompositeBundle bundle;
+
 
         [JsonIgnore]
         public bool IsVisible
@@ -55,6 +57,9 @@ namespace LBS.Components
             get => name;
             set => name = value;
         }
+
+        [JsonIgnore]
+        public CompositeBundle Bundle => bundle;
 
         //EVENTS
         [JsonIgnore]
