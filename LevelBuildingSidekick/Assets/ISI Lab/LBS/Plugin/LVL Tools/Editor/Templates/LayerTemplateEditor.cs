@@ -75,7 +75,7 @@ public class LayerTemplateEditor : Editor
 
         // Mode 1
         Texture2D icon = Resources.Load<Texture2D>("Icons/Select");
-        var tool1 = new LBSTool(icon, "Select", typeof(Empty), null, true);
+        var tool1 = new LBSTool(icon, "Select", typeof(Select), null, true);
         icon = Resources.Load<Texture2D>("Icons/Addnode");
         var tool2 = new LBSTool(icon, "Add node", typeof(CreateNewRoomNode), null, false);
         icon = Resources.Load<Texture2D>("Icons/AddConnection");
@@ -93,7 +93,7 @@ public class LayerTemplateEditor : Editor
 
         // Mode 2
         icon = Resources.Load<Texture2D>("Icons/Select"); 
-        var tool5 = new LBSTool(icon, "Select", typeof(Empty), null, true);
+        var tool5 = new LBSTool(icon, "Select", typeof(Select), null, true);
 
         icon = Resources.Load<Texture2D>("Icons/paintbrush"); 
         var tool6 = new LBSMultiTool(
@@ -114,17 +114,17 @@ public class LayerTemplateEditor : Editor
             "Erase",
             new List<string>() { "point", "Line", "Grid", "Free" },
             new List<System.Type>() {
-                typeof(Empty), //typeof(AddTileToTiledAreaAtPoint<TiledArea<LBSTile>,LBSTile>), // point // (!!) implementar
-                typeof(Empty), //typeof(AddTileToTiledAreaAtLine<TiledArea<LBSTile>,LBSTile>), // line // (!!) implementar
-                typeof(Empty), //typeof(AddTileToTiledAreaAtGrid<TiledArea<LBSTile>,LBSTile>), // grid // (!!) implementar
-                typeof(Empty), //typeof(AddTileToTiledAreaAtFree<TiledArea<LBSTile>,LBSTile>)  // free // (!!) implementar
+                typeof(Select), //typeof(AddTileToTiledAreaAtPoint<TiledArea<LBSTile>,LBSTile>), // point // (!!) implementar
+                typeof(Select), //typeof(AddTileToTiledAreaAtLine<TiledArea<LBSTile>,LBSTile>), // line // (!!) implementar
+                typeof(Select), //typeof(AddTileToTiledAreaAtGrid<TiledArea<LBSTile>,LBSTile>), // grid // (!!) implementar
+                typeof(Select), //typeof(AddTileToTiledAreaAtFree<TiledArea<LBSTile>,LBSTile>)  // free // (!!) implementar
             },
             null
         );
         icon = Resources.Load<Texture2D>("Icons/open-exit-door");
-        var tool8 = new LBSTool(icon, "Add door", typeof(Empty), null, true);
+        var tool8 = new LBSTool(icon, "Add door", typeof(Select), null, true);
         icon = Resources.Load<Texture2D>("Icons/Trash");
-        var tool9 = new LBSTool(icon, "Remove door", typeof(Empty), null, true);
+        var tool9 = new LBSTool(icon, "Remove door", typeof(Select), null, true);
 
         var mode2 = new LBSMode(
             "Schema",
@@ -159,19 +159,19 @@ public class LayerTemplateEditor : Editor
 
         // Mode 1
         Texture2D icon = Resources.Load<Texture2D>("Icons/Select");
-        var tool1 = new LBSTool(icon, "Select", typeof(Empty), null, true);
+        var tool1 = new LBSTool(icon, "Select", typeof(Select), null, true);
         icon = Resources.Load<Texture2D>("Icons/RoomSelection");
-        var tool2 = new LBSTool(icon, "Paint by tile", typeof(Empty), null, false);
+        var tool2 = new LBSTool(icon, "Paint by tile", typeof(Select), null, false);
         icon = Resources.Load<Texture2D>("Icons/AddConnection");
         var tool3 = new LBSMultiTool(
             icon,
             "Paint by connection",
             new List<string>() { "Point", "Line", "Square", "Free" },
             new List<System.Type>() {
-                typeof(Empty), //typeof(AddTileToTiledAreaAtPoint<TiledArea<LBSTile>,LBSTile>), // point // (!!) implementar
-                typeof(Empty), //typeof(AddTileToTiledAreaAtLine<TiledArea<LBSTile>,LBSTile>), // line // (!!) implementar
-                typeof(Empty), //typeof(AddTileToTiledAreaAtGrid<TiledArea<LBSTile>,LBSTile>), // grid // (!!) implementar
-                typeof(Empty), //typeof(AddTileToTiledAreaAtFree<TiledArea<LBSTile>,LBSTile>)  // free // (!!) implementar
+                typeof(Select), //typeof(AddTileToTiledAreaAtPoint<TiledArea<LBSTile>,LBSTile>), // point // (!!) implementar
+                typeof(Select), //typeof(AddTileToTiledAreaAtLine<TiledArea<LBSTile>,LBSTile>), // line // (!!) implementar
+                typeof(Select), //typeof(AddTileToTiledAreaAtGrid<TiledArea<LBSTile>,LBSTile>), // grid // (!!) implementar
+                typeof(Select), //typeof(AddTileToTiledAreaAtFree<TiledArea<LBSTile>,LBSTile>)  // free // (!!) implementar
             },
             null
         );
@@ -181,10 +181,10 @@ public class LayerTemplateEditor : Editor
             "Erase",
             new List<string>() { "Pair", "Line", "Square", "Free" },
             new List<System.Type>() {
-                typeof(Empty), //typeof(AddTileToTiledAreaAtPoint<TiledArea<LBSTile>,LBSTile>), // point // (!!) implementar
-                typeof(Empty), //typeof(AddTileToTiledAreaAtLine<TiledArea<LBSTile>,LBSTile>), // line // (!!) implementar
-                typeof(Empty), //typeof(AddTileToTiledAreaAtGrid<TiledArea<LBSTile>,LBSTile>), // grid // (!!) implementar
-                typeof(Empty), //typeof(AddTileToTiledAreaAtFree<TiledArea<LBSTile>,LBSTile>)  // free // (!!) implementar
+                typeof(Select), //typeof(AddTileToTiledAreaAtPoint<TiledArea<LBSTile>,LBSTile>), // point // (!!) implementar
+                typeof(Select), //typeof(AddTileToTiledAreaAtLine<TiledArea<LBSTile>,LBSTile>), // line // (!!) implementar
+                typeof(Select), //typeof(AddTileToTiledAreaAtGrid<TiledArea<LBSTile>,LBSTile>), // grid // (!!) implementar
+                typeof(Select), //typeof(AddTileToTiledAreaAtFree<TiledArea<LBSTile>,LBSTile>)  // free // (!!) implementar
             },
             null
         );
@@ -224,22 +224,22 @@ public class LayerTemplateEditor : Editor
 
         // Mode 1
         Texture2D icon = Resources.Load<Texture2D>("Icons/Select");
-        var tool1 = new LBSTool(icon, "Select", typeof(Empty), null, true);
+        var tool1 = new LBSTool(icon, "Select", typeof(Select), null, true);
         icon = Resources.Load<Texture2D>("Icons/paintbrush");
         var tool2 = new LBSMultiTool(
             icon,
             "Add population",
             new List<string>() { "Pair", "Line", "Square", "Free" },
             new List<System.Type>() {
-                typeof(Empty), //typeof(AddTileToTiledAreaAtPoint<TiledArea<LBSTile>,LBSTile>), // point // (!!) implementar
-                typeof(Empty), //typeof(AddTileToTiledAreaAtLine<TiledArea<LBSTile>,LBSTile>), // line // (!!) implementar
-                typeof(Empty), //typeof(AddTileToTiledAreaAtGrid<TiledArea<LBSTile>,LBSTile>), // grid // (!!) implementar
-                typeof(Empty), //typeof(AddTileToTiledAreaAtFree<TiledArea<LBSTile>,LBSTile>)  // free // (!!) implementar
+                typeof(Select), //typeof(AddTileToTiledAreaAtPoint<TiledArea<LBSTile>,LBSTile>), // point // (!!) implementar
+                typeof(Select), //typeof(AddTileToTiledAreaAtLine<TiledArea<LBSTile>,LBSTile>), // line // (!!) implementar
+                typeof(Select), //typeof(AddTileToTiledAreaAtGrid<TiledArea<LBSTile>,LBSTile>), // grid // (!!) implementar
+                typeof(Select), //typeof(AddTileToTiledAreaAtFree<TiledArea<LBSTile>,LBSTile>)  // free // (!!) implementar
             },
             null
         );
         icon = Resources.Load<Texture2D>("Icons/Trash");
-        var tool3 = new LBSTool(icon, "Remove", typeof(Empty), null, false);
+        var tool3 = new LBSTool(icon, "Remove", typeof(Select), null, false);
 
         var mode1 = new LBSMode(
             "Population",

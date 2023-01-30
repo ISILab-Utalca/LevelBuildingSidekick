@@ -18,15 +18,14 @@ MonoBehaviour:
     visible: 1
     iconPath: Icons/ghost
     modules:
-    - rid: 564310742487793720
-    bundle: {fileID: 0}
+    - rid: 8010066049701773316
   modes:
-  - rid: 564310742487793721
+  - rid: 8010066049701773317
   transformers: []
   references:
     version: 2
     RefIds:
-    - rid: 564310742487793720
+    - rid: 8010066049701773316
       type: {class: LBSBaseGraph, ns: LBS.Components.Graph, asm: Assembly-CSharp}
       data:
         key: LBSBaseGraph
@@ -34,7 +33,7 @@ MonoBehaviour:
         changed: 0
         nodes: []
         edges: []
-    - rid: 564310742487793721
+    - rid: 8010066049701773317
       type: {class: LBSMode, ns: , asm: Assembly-CSharp-Editor}
       data:
         name: Population
@@ -42,23 +41,23 @@ MonoBehaviour:
         module: LBS.Components.Graph.GraphModule`1[[LBS.Components.Graph.LBSNode,
           Assembly-CSharp, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null]]
         toolkit:
-        - rid: 564310742487793722
-        - rid: 564310742487793723
-        - rid: 564310742487793724
-    - rid: 564310742487793722
+        - rid: 8010066049701773318
+        - rid: 8010066049701773319
+        - rid: 8010066049701773320
+    - rid: 8010066049701773318
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: 771d36a714319204ea4ddcbecdc2006e, type: 3}
         name: Select
-        manipulator: Empty
+        manipulator: Select
         inspector: 
         UseUnitySelector: 1
-    - rid: 564310742487793723
+    - rid: 8010066049701773319
       type: {class: LBSMultiTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: 5bcc511dcb487f24187b421ea2806d87, type: 3}
         name: Add population
-        manipulator: Empty
+        manipulator: Select
         inspector: 
         UseUnitySelector: 0
         modes:
@@ -67,15 +66,15 @@ MonoBehaviour:
         - Square
         - Free
         manipulators:
-        - Empty
-        - Empty
-        - Empty
-        - Empty
-    - rid: 564310742487793724
+        - Select
+        - Select
+        - Select
+        - Select
+    - rid: 8010066049701773320
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: 79e9d4f49f5e9874c805015d2c334f0c, type: 3}
         name: Remove
-        manipulator: Empty
+        manipulator: Select
         inspector: 
         UseUnitySelector: 0

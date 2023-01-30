@@ -10,53 +10,110 @@ namespace LBS.Tools.Transformer
 {
     public class AreaToTileMap : Transformer
     {
-        AreaModule<Area> areaModule;
-        TileMapModule<ConnectedTile> tileMap;
+        private List<Vector2Int> dirs = new List<Vector2Int>() // (!) esto deberia estar en un lugar general
+        {
+            Vector2Int.right,
+            Vector2Int.up,
+            Vector2Int.left,
+            Vector2Int.down
+        };
+
+        AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile> areaModule;
+        TiledArea<ConnectedTile> tileMap;
 
         public AreaToTileMap(Type from, Type to) : base(from, to)
         {
         }
 
-        public AreaToTileMap(AreaModule<Area> area, TileMapModule<ConnectedTile> tileMap) : base(area.GetType(), tileMap.GetType())
+        public AreaToTileMap(LBSLayer layer) : base(typeof(AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile>), typeof(AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile>))
         {
-            this.areaModule = area;
-            this.tileMap = tileMap;
+            this.areaModule = layer.GetModule(To) as AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile>; 
         }
-       
 
         public override void Switch(ref LBSLayer layer)
         {
-            for(int i = 0; i < tileMap.TileCount; i++)
+            if (true) //tileMap.IsEmpty()
             {
-                if(!areaModule.ContainsPoint(tileMap.GetTile(i).Position))
-                {
-                    tileMap.RemoveAt(i);
-                }
+                CreateDataFrom();
             }
-
-            for(int k = 0; k < areaModule.AreaCount; k++)
+            else
             {
-                var area = areaModule.GetArea(k);
-                var rect = area.Rect;
+                //EditDataFrom();
+            }
+        }
 
-                for(int j = 0; j < rect.height; j += (int)tileMap.CellSize.y)
+        private void CreateDataFrom()
+        {
+            var nAreas = new List<TiledArea<ConnectedTile>>();
+            foreach (var area in areaModule.Areas)
+            {
+                var nArea = new TiledArea<ConnectedTile>();
+                foreach (var tile in area.Tiles)
                 {
-                    for (int i = 0; i < rect.width; i += (int)tileMap.CellSize.x)
-                    {
-                        var pos = rect.position + new Vector2(i * tileMap.CellSize.x, j * tileMap.CellSize.y);
-                        pos = tileMap.SnapPosition(pos);
+                    var ct = new ConnectedTile(tile.Position, tile.ID);
 
-                        if(area.ContainsPoint(pos))
+                    for (int i = 0; i < dirs.Count; i++)
+                    {
+                        var nei = nArea.GetTileNeighbor(tile as ConnectedTile, dirs[i]);
+
+                        if (nei == null)
                         {
-                            if (tileMap.GetTile(pos.ToInt()) == null)
-                            {
-                                var tile = new ConnectedTile(pos, area.ID);
-                                tileMap.AddTile(tile);
-                            }
+                            ct.SetConnection("Wall", i);
+                        }
+                        else if (area.Contains(nei.Position))
+                        {
+                            ct.SetConnection("Empty", i);
+                        }
+                        else
+                        {
+                            ct.SetConnection("Wall", i);
                         }
                     }
+                    nArea.AddTile(ct);
                 }
+                nAreas.Add(nArea);
             }
+            areaModule.Clear();
+            nAreas.ForEach(a => areaModule.AddArea(a));
+        }
+
+        private void EditDataFrom()
+        {
+            Debug.LogError("[ISI Lab]: Implementar!!");
+
+            /*
+           for(int i = 0; i < tileMap.TileCount; i++)
+           {
+               if(!areaModule. ContainsPoint(tileMap.GetTile(i).Position))
+               {
+                   tileMap.RemoveAt(i);
+               }
+           }
+
+           for(int k = 0; k < areaModule.AreaCount; k++)
+           {
+               var area = areaModule.GetArea(k);
+               var rect = area.Rect;
+
+               for(int j = 0; j < rect.height; j += (int)tileMap.CellSize.y)
+               {
+                   for (int i = 0; i < rect.width; i += (int)tileMap.CellSize.x)
+                   {
+                       var pos = rect.position + new Vector2(i * tileMap.CellSize.x, j * tileMap.CellSize.y);
+                       pos = tileMap.SnapPosition(pos);
+
+                       if(area.ContainsPoint(pos))
+                       {
+                           if (tileMap.GetTile(pos.ToInt()) == null)
+                           {
+                               var tile = new ConnectedTile(pos, area.ID);
+                               tileMap.AddTile(tile);
+                           }
+                       }
+                   }
+               }
+           }
+           */
         }
     }
 }
