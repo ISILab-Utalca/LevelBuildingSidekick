@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 [CreateAssetMenu(fileName = "New bundle", menuName = "ISILab/Bundle")]
 [System.Serializable]
@@ -23,8 +24,16 @@ public class Bundle : ScriptableObject, IBundle
         return objects[index];
     }
 
-    public List<GameObject> GetObjects()
+    public List<GameObject> GetObjects(List<string> tags = null)
     {
+        if(tags == null)
+            return objects;
+        var ts = this.tags.Select(t => t.value);
+        foreach(var t in tags)
+        {
+            if (!ts.Contains(t))
+                return new List<GameObject>();
+        }
         return objects;
     }
 
