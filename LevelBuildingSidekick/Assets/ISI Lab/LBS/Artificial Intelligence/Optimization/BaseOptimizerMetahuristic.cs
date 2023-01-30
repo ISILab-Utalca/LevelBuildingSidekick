@@ -20,9 +20,9 @@ namespace Commons.Optimization
         public IEvaluable BestCandidate { get; }
         public T Adam { get; set; }
 
-        public TimeSpan TimeEvolving { get; }
+        public TimeSpan TimeEvolving { get; set; }
         public bool IsRunning { get { return State == Op_State.Running || State == Op_State.Started || State == Op_State.Resumed; } }
-        public IPopulation Population { get; }
+        public IPopulation Population { get; set; }
 
         public ITermination Termination { get; set; }
 
