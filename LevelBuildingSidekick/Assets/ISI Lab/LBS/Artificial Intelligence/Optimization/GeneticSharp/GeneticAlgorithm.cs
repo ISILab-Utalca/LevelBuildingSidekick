@@ -466,7 +466,7 @@ public class GeneticAlgorithm : IGeneticAlgorithm , IShowable
     {
         var content = new VisualElement();
 
-
+        /*
         SubPanel PopulationPanel = new SubPanel();
         PopulationPanel.style.display = DisplayStyle.None;
 
@@ -624,7 +624,8 @@ public class GeneticAlgorithm : IGeneticAlgorithm , IShowable
 
         content.Add(terminationDD);
         content.Add(TerminationPanel);
-
+        */
         return content;
+        
     }
 }
