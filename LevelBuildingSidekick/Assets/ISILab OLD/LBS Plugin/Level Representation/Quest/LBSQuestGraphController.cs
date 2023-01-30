@@ -96,7 +96,7 @@ public class LBSQuestGraphController : LBSGraphController
 
         if (node.Children.Count != 0)
         {
-            data.AddNode(node.Children[0]);
+            // data.AddNode(node.Children[0]);
 
             for (int i = 1; i < node.Children.Count; i++)
             {
@@ -110,13 +110,13 @@ public class LBSQuestGraphController : LBSGraphController
     {
         node.Children.Clear();
 
-        var nodes = data.GetNodes();
+        // var nodes = data.GetNodes();
 
-        foreach (var n in nodes)
+        /* foreach (var n in nodes)
         {
             if(n is QuestGraphNode)
                 node.Children.Add(n as QuestGraphNode);
-        }
+        }*/
     }
 
     internal void CloseUntill(int index)

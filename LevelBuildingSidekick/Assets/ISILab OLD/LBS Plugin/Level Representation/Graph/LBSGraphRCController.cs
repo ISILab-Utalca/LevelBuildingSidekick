@@ -26,7 +26,7 @@ namespace LBS.Graph
     public class LBSGraphRCController : LBSGraphController
     {
 
-        public LBSGraphRCController(LBSGraphView view,GraphicsModule data) : base(view, data)
+        public LBSGraphRCController(LBSGraphView view,LBSRepresentationData data) : base(view, data)
         {
 
         }
@@ -48,7 +48,7 @@ namespace LBS.Graph
 
         public void GenerateSchema() 
         {
-            var tm = new GraphToSchema().Transform(data);
+            // var tm = new GraphToSchema().Transform(data);
             //LBSController.CurrentLevel.data.AddRepresentation(tm);
         }
 
@@ -56,8 +56,8 @@ namespace LBS.Graph
         {
             this.view = view;
             view.DeleteElements(elements);
-            data.GetNodes().ForEach(n => AddNodeView(n));
-            data.GetEdges().ForEach(e => AddEdgeView(e));
+            // data.GetNodes().ForEach(n => AddNodeView(n));
+            //data.GetEdges().ForEach(e => AddEdgeView(e));
         }
 
         private void AddEdgeView(LBSEdgeDataOld edge)
@@ -87,7 +87,7 @@ namespace LBS.Graph
         internal override LBSNodeDataOld NewNode(Vector2 position)
         {
             var graph = data;
-            LBSNodeDataOld node = new RoomCharacteristicsData("Node: " + graph.NodeCount(), position, CellSize);
+            LBSNodeDataOld node = new RoomCharacteristicsData("Node: " + graph.Label, position, CellSize);
             AddNode(node);
             return node;
         }

@@ -169,7 +169,7 @@ namespace Commons.Optimization
         /// <returns>True if the termination condition has been reached, false otherwise.</returns>
         public bool TerminatioReached()
         {
-            if (Termination.HasReached(this))
+            if (Termination.HasReached(this as BaseOptimizerMetahuristic<IEvaluable>))
             {
                 OnTerminationReached?.Invoke();
                 return true;

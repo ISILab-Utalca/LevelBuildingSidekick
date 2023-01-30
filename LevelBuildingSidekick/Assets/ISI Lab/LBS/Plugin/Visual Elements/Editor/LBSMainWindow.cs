@@ -130,7 +130,7 @@ public class LBSMainWindow : EditorWindow
         };
 
         // IAButton
-        var IABtn = rootVisualElement.Q<Button>("IAButton");
+        var IABtn = rootVisualElement.Q<Button>("AIButton");
         IABtn.clicked += () =>
         {
             var value = (aiPanel.style.display == DisplayStyle.None);

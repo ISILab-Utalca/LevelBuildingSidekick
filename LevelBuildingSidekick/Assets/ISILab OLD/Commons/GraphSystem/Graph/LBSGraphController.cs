@@ -23,7 +23,7 @@ namespace LBS.Graph
     // tener una "GraphView" generica, ademas de una data generica
     // pero podemos guardar los datos especificos y controlarlos
     // de manera especifica (!!!)
-    public abstract class LBSGraphController : LBSRepController<LBSGraphData>
+    public abstract class LBSGraphController : LBSRepController<LBSRepresentationData>
     {
         public static readonly int cellSize = 64;
 
@@ -35,7 +35,7 @@ namespace LBS.Graph
         /// </summary>
         /// <param name="view">Graph view that the controller will use.</param>
         /// <param name="data">Graph data that the controller will use.</param>
-        public LBSGraphController(LBSGraphView view,LBSGraphData data) : base(view, data)
+        public LBSGraphController(LBSGraphView view,LBSRepresentationData data) : base(view, data)
         {
 
         }
@@ -50,8 +50,8 @@ namespace LBS.Graph
             var pos = (cmpe.localMousePosition - new Vector2(view.transform.position.x, view.transform.position.y)) / view.scale;
 
             cmpe.menu.AppendAction("GraphRC/Add Node", (dma) => {
-                var n = NewNode(pos);
-                AddNodeView(n);
+               // var n = NewNode(pos);
+               // AddNodeView(n);
                 });
         }
 
@@ -73,8 +73,8 @@ namespace LBS.Graph
         {
             this.view = view;
             view.DeleteElements(elements);
-            data.GetNodes().ForEach(n => AddNodeView(n));
-            data.GetEdges().ForEach(e => AddEdgeView(e));
+            // data.GetNodes().ForEach(n => AddNodeView(n));
+            // data.GetEdges().ForEach(e => AddEdgeView(e));
         }
 
         /// <summary>
@@ -170,7 +170,7 @@ namespace LBS.Graph
         internal void RemoveNode(LBSNodeDataOld node)
         {
             var graph = data;
-            graph.RemoveNode(node);
+            // graph.RemoveNode(node);
         }
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace LBS.Graph
         internal virtual void AddNode(LBSNodeDataOld node)
         {
             var graph = data;
-            graph.AddNode(node);
+            // graph.AddNode(node);
         }
 
         /// <summary>
@@ -212,7 +212,7 @@ namespace LBS.Graph
         internal void AddEdge(LBSEdgeDataOld edge)
         {
             var graph = data;
-            graph.AddEdge(edge);
+            //graph.AddEdge(edge);
         }
 
         /// <summary>
@@ -222,7 +222,7 @@ namespace LBS.Graph
         internal void RemoveEdge(LBSEdgeDataOld edge)
         {
             var graph = data;
-            graph.RemoveEdge(edge);
+            // graph.RemoveEdge(edge);
         }
     }
 

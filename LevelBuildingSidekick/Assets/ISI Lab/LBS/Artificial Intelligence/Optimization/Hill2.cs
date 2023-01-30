@@ -24,7 +24,7 @@ namespace Utility
         public Hill2( u heu ) : base(){
 
             heuristic = heu;
-            Evaluable = new WeighuedEvaluator();
+            Evaluable = new WeightedEvaluator();
         }
         static float prevScore = 0;
 

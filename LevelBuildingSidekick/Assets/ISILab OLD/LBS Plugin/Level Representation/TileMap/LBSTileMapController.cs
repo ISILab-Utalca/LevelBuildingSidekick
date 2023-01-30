@@ -12,6 +12,7 @@ using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 using LBS.VisualElements;
 using static UnityEngine.RuleTile.TilingRuleOutput;
+using LBS.Components.Graph;
 
 namespace LBS.Representation.TileMap
 {
@@ -200,17 +201,17 @@ namespace LBS.Representation.TileMap
         }*/
 
         
-
-        private float EvaluateAdjacencies(LBSGraphData graphData, LBSSchemaData schema) 
+        /*
+        private float EvaluateAdjacencies(LBSRoomGraph graphData, LBSSchemaData schema) 
         {
-            if (graphData.EdgeCount() <= 0)
+            if (graphData.EdgeCount <= 0)
             {
                 Debug.LogWarning("Cannot calculate the adjacency of a map are nodes that are not connected.");
                 return 0;
             }
 
             var distValue = 0f;
-            for (int i = 0; i < graphData.EdgeCount(); i++)
+            for (int i = 0; i < graphData.EdgeCount; i++)
             {
                 var edge = graphData.GetEdge(i);
            
@@ -253,7 +254,7 @@ namespace LBS.Representation.TileMap
             }
             return value / (tileMap.RoomCount * 1f);
         }
-
+        
         public float EvaluateMap(LBSSchemaData schemaData, LBSGraphData graphData)
         {
 
@@ -392,7 +393,7 @@ namespace LBS.Representation.TileMap
                     {
                         if (neighbor.Size.x > tileMap.Size.x || neighbor.Size.y > tileMap.Size.y)
                             continue;
-                    }*/
+                    }
 
                     neightbours.Add(neighbor);
                 }
@@ -427,14 +428,15 @@ namespace LBS.Representation.TileMap
                     {
                         if (neighbor.Size.x > tileMap.Size.x || neighbor.Size.y > tileMap.Size.y)
                             continue;
-                    }*/
+                    }
 
                     neightbours.Add(neighbor);
                 }
             }
 
             return neightbours;
-        }
+        } 
+*/
 
         public Vector2Int ToTileCoords(Vector2 pos)
         {
