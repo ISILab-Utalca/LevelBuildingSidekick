@@ -23,7 +23,7 @@ public class PopulationBundle : ScriptableObject, IBundle
         return objects[index];
     }
 
-    public List<GameObject> GetObjects()
+    public List<GameObject> GetObjects(List<string> tags = null)
     {
         return objects;
     }
