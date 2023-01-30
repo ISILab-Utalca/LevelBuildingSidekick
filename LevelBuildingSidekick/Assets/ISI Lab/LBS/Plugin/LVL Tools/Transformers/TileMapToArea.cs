@@ -5,6 +5,7 @@ using LBS.Components.Teselation;
 using LBS.Components.TileMap;
 using System.Linq;
 using System;
+using LBS.Components;
 
 namespace LBS.Tools.Transformer
 {
@@ -13,13 +14,13 @@ namespace LBS.Tools.Transformer
         AreaModule<Area> areaModule;
         TileMapModule<ConnectedTile> tileMap;
 
-        public TileMapToArea(TileMapModule<ConnectedTile> tileMap, AreaModule<Area> area)
+        public TileMapToArea(TileMapModule<ConnectedTile> tileMap, AreaModule<Area> area): base(tileMap.GetType(),area.GetType())
         {
             this.areaModule = area;
             this.tileMap = tileMap;
         }
 
-        public override void Switch()
+        public override void Switch(ref LBSLayer layer)
         {
             var tiles = tileMap.Tiles;
             var IDs = tiles.Select(t => t.ID).Distinct();
@@ -117,16 +118,7 @@ namespace LBS.Tools.Transformer
 
             return value;
         }
-        
-        public override void OnAdd()
-        {
-            throw new System.NotImplementedException();
-        }
 
-        public override void OnRemove()
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }
 

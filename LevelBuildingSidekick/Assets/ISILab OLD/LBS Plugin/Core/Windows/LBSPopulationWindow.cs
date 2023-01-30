@@ -32,7 +32,7 @@ namespace LBS.Windows
                 () => {
                     var data = LBSController.CurrentLevel.data;
                     generator.Init(data);
-                    generator.Generate();
+                    generator.Generate(data.GetLayer(0));
                 })) ;
 
             actions.Add(new Tuple<string, Action>(

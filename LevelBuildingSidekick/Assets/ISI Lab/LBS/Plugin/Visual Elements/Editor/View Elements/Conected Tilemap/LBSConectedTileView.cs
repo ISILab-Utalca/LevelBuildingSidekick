@@ -19,7 +19,7 @@ public class LBSConectedTileView : GraphElement
     private VisualElement bottom;
     private VisualElement border;
 
-    public LBSConectedTileView()
+    public LBSConectedTileView(ConnectedTile connectedTile)
     {
         var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("ConnectedTile");
         visualTree.CloneTree(this);
@@ -29,7 +29,14 @@ public class LBSConectedTileView : GraphElement
         right = this.Q<VisualElement>("Right");
         top = this.Q<VisualElement>("Top");
         bottom = this.Q<VisualElement>("Bottom");
+        border = this.Q<VisualElement>("Border");
+
+        this.data = connectedTile;
     }
 
+    public void SetBackgroundColor(Color color)
+    {
+        border.style.backgroundColor = color;
+    }
 
 }

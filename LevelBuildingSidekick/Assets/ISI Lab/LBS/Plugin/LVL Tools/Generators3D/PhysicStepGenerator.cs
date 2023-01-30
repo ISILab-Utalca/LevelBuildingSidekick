@@ -1,4 +1,4 @@
-using LBS.Components.Graph;
+using LBS.Components;
 using LBS.Graph;
 using LBS.Representation;
 using LBS.Representation.TileMap;
@@ -25,19 +25,19 @@ namespace LBS.Generator
         private static List<Vector2Int> dirs = new List<Vector2Int>() { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right };
 
         private LBSSchemaData schema;
-        // private LBSRoomGraph graph;
+        private LBSGraphData graph;
         private float tileSize = 1f;
         
-        public override GameObject Generate()
+        public override GameObject Generate(LBSLayer layer)
         {
-            if(schema == null /*||  graph == null*/)
+            if(schema == null || graph == null)
             {
                 Debug.LogWarning("cannot be generated, there is no information about the map to load.");
                 return null;
             }
 
             var mainPivot = new GameObject("New level 3D");
-           /* foreach (var node in graph.GetNodes())
+            foreach (var node in graph.GetNodes())
             {
                 var bNames = (node as RoomCharacteristicsData).bundlesNames;
                 var bundle = RoomElementBundle.Combine(bNames.Select(n => DirectoryTools.GetScriptable<RoomElementBundle>(n)).ToList());
@@ -61,7 +61,7 @@ namespace LBS.Generator
                     GenPhysicEdge(schema,eBundle, pivot.transform, tile);
                     //GenPhysicCorners(blabla);
                 }
-            } */
+            }
             return mainPivot;
         }
 
@@ -123,11 +123,16 @@ namespace LBS.Generator
             return null;
         }   
 
-        public override void Init(LBSLevelData levelData)
+        public void Init(LBSLevelData levelData)
         {
             //this.schema = levelData.GetRepresentation<LBSSchemaData>();
             //this.graph = levelData.GetRepresentation<LBSGraphData>();
             //tileSize = levelData.TileSize;
+        }
+
+        public override void Init(LBSLayer layer)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

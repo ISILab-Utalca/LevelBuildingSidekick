@@ -1,5 +1,7 @@
 using LBS.Components;
 using LBS.Components.Graph;
+using LBS.Tools.Transformer;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,11 +11,12 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "ISILab/LBS/Layer Template")]
 public class LayerTemplate : ScriptableObject
 {
-    [SerializeField]
+    [JsonRequired, SerializeField]
     public LBSLayer layer;
-    [SerializeReference]
+    [JsonRequired, SerializeReference]
     public List<LBSMode> modes = new List<LBSMode>();
-
+    [JsonRequired, SerializeReference]
+    public List<Transformer> transformers = new List<Transformer>();
 }
 
 [System.Serializable]
@@ -23,12 +26,15 @@ public class LBSMode
     public string name;
     [SerializeField]
     public string drawer;
+    [SerializeField]
+    public string module;
     [SerializeField, SerializeReference]
     public List<LBSTool> toolkit = new List<LBSTool>();
 
     [NonSerialized]
     public Drawer _drawer;
 
+    [JsonIgnore]
     public Drawer Drawer {
         get
         {
@@ -47,9 +53,21 @@ public class LBSMode
         }
     }
 
-    public LBSMode(string name, Drawer drawer, List<LBSTool> toolkit)
+    [JsonIgnore]
+    public Type ModuleType
+    {
+        get
+        {
+            var x = Type.GetType(module); // (?!) me regreso un null y no se porque 
+            return x;
+        }
+        set => module = value.FullName;
+    }
+
+    public LBSMode(string name,Type module, Drawer drawer, List<LBSTool> toolkit)
     {
         this.name = name;
+        this.ModuleType = module;
         this.Drawer = drawer;
         this.toolkit = toolkit;
     }

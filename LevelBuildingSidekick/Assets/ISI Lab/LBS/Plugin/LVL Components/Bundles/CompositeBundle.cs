@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 [CreateAssetMenu(fileName = "New Composite bundle", menuName = "ISILab/Composite bundle")]
 [System.Serializable]
@@ -29,12 +30,24 @@ public class CompositeBundle : ScriptableObject, IBundle
         return null;
     }
 
-    public List<GameObject> GetObjects()
+    public List<GameObject> GetObjects(List<string> tags = null)
     {
+        var ts = this.tags.Select(t => t.value);
+        if(tags != null)
+        {
+            for(int i = 0; i < tags.Count; i++)
+            {
+                if(ts.Contains(tags[i]))
+                {
+                    tags.RemoveAt(i);
+                }
+            }
+        }
+
         List<GameObject> objects = new List<GameObject>();
         foreach (IBundle bundle in bundles)
         {
-            objects.AddRange(bundle.GetObjects());
+            objects.AddRange(bundle.GetObjects(tags));
         }
         return objects;
     }

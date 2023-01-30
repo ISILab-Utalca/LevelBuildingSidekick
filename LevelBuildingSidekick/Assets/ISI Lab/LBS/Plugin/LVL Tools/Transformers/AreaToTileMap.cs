@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using LBS.Components.Teselation;
 using LBS.Components.TileMap;
-
-
+using LBS.Components;
+using System;
 
 namespace LBS.Tools.Transformer
 {
@@ -13,13 +13,18 @@ namespace LBS.Tools.Transformer
         AreaModule<Area> areaModule;
         TileMapModule<ConnectedTile> tileMap;
 
-        public AreaToTileMap(AreaModule<Area> area, TileMapModule<ConnectedTile> tileMap)
+        public AreaToTileMap(Type from, Type to) : base(from, to)
+        {
+        }
+
+        public AreaToTileMap(AreaModule<Area> area, TileMapModule<ConnectedTile> tileMap) : base(area.GetType(), tileMap.GetType())
         {
             this.areaModule = area;
             this.tileMap = tileMap;
         }
+       
 
-        public override void Switch()
+        public override void Switch(ref LBSLayer layer)
         {
             for(int i = 0; i < tileMap.TileCount; i++)
             {
@@ -52,16 +57,6 @@ namespace LBS.Tools.Transformer
                     }
                 }
             }
-        }
-
-        public override void OnAdd()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override void OnRemove()
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

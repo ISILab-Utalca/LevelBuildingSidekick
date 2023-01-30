@@ -255,24 +255,6 @@ namespace LBS.Components.Graph
 
             var neigs = conects.Where(e => e.FirstNode != node).Select(e => (T)e.FirstNode);
             neigs.Concat(conects.Where(e => e.SecondNode != node).Select(e => (T)e.SecondNode));
-            /*
-            var neigs = new List<T>();
-            conects.ForEach((e) =>
-            {
-                if (e.FirstNode != node)
-                {
-                    var n = e.FirstNode;
-                    neigs.Add((T)n);
-                }
-
-                if (e.SecondNode != node)
-                {
-                    var n = e.SecondNode;
-                    neigs.Add((T)n);
-                }
-
-            });*/
-
             return neigs.ToList();
         }
 
@@ -296,6 +278,12 @@ namespace LBS.Components.Graph
             edges.Clear();
             nodes.Clear();
             OnChanged?.Invoke(this);
+        }
+
+
+        public override bool IsEmpty()
+        {
+            return (nodes.Count <= 0 && edges.Count <= 0);
         }
 
         public override object Clone()

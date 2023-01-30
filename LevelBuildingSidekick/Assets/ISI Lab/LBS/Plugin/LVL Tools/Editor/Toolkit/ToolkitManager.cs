@@ -45,17 +45,14 @@ public class ToolkitManager
 
             if (!string.IsNullOrEmpty(tool.inspector))
             {
-                Debug.Log("CCC");
                 var insp = tool.InitInspector(view, ref level, ref layer, ref module);
                 insp.style.flexGrow = 1;
                 btn.OnFocusEvent += () => {
-                    var ins = insp;
-                    InspectorManager.AddInspector(ins); 
-                    Debug.Log("BBB");
+                    InspectorManager.AddInspector(insp); 
                 };
                 btn.OnBlurEvent += () => {
                     var ins = insp;
-                    InspectorManager.RemoveInspector(ins);
+                    InspectorManager.RemoveInspector(insp);
                 };
             }
         }

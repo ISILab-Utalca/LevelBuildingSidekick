@@ -14,6 +14,9 @@ public class ToolBarMain : VisualElement // esto puede ser directamente toolbar
 
     public event Action<LoadedLevel> OnChangeLevelData;
 
+    public event Action<LoadedLevel> OnLoadLevel;
+    public event Action<LoadedLevel> OnNewLevel;
+
     public ToolBarMain()
     {
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("ToolBarMain"); // Editor
@@ -36,14 +39,15 @@ public class ToolBarMain : VisualElement // esto puede ser directamente toolbar
     public void NewLevel(DropdownMenuAction dma)
     {
         var data = LBSController.CreateNewLevel("new file", new Vector3(100, 100, 100));
-        OnChangeLevelData?.Invoke(data);
+        OnNewLevel?.Invoke(data);
         //GenericLBSWindow.RefeshAll(this);
     }
 
     public void LoadLevel(DropdownMenuAction dma)
     {
         var data = LBSController.LoadFile();
-        OnChangeLevelData?.Invoke(data);
+        if(data != null)
+            OnLoadLevel?.Invoke(data);
         //GenericLBSWindow.RefeshAll(this);
     }
 

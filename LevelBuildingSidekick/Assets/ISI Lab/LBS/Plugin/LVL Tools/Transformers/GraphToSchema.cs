@@ -8,9 +8,10 @@ using LBS.Schema;
 
 namespace LBS.Transformers
 {
-    public class GraphToSchema : TransformerOld<GraphicsModule, LBSSchemaData>
+    [System.Obsolete]
+    public class GraphToSchema : TransformerOld<LBSGraphData, LBSSchemaData>
     {
-        public override LBSSchemaData Transform(GraphicsModule graph)
+        public override LBSSchemaData Transform(LBSGraphData graph)
         {
             if (graph.NodeCount() <= 0)
             {

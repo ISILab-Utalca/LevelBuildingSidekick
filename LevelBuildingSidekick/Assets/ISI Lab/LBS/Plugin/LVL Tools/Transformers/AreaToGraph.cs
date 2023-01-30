@@ -5,6 +5,8 @@ using LBS.Components.Graph;
 using LBS.Components.Teselation;
 using LBS.Components.Specifics;
 using LBS.Components.TileMap;
+using LBS.Components;
+using System;
 
 namespace LBS.Tools.Transformer
 {
@@ -13,34 +15,58 @@ namespace LBS.Tools.Transformer
         GraphModule<RoomNode> graph;
         AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile> schema;
 
-        public AreaToGraph(AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile> schema, GraphModule<RoomNode> graph)
+        public AreaToGraph(Type from, Type to) : base(from, to) { }
+
+        public AreaToGraph(AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile> schema, GraphModule<RoomNode> graph) : base(schema.GetType(), graph.GetType())
         {
             this.graph = graph;
             this.schema = schema;
         }
 
-        public override void Switch()
+        public override void Switch(ref LBSLayer layer)
         {
-            if(schema == null)
+            schema = layer.GetModule(To) as AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile>;
+            graph = layer.GetModule(From) as GraphModule<RoomNode>;
+
+
+            if (schema == null)
             {
                 Debug.LogError("Area Module is NULL");
                 return;
             }
 
-            if (graph == null)
+            if (schema.IsEmpty())
             {
-                Debug.LogWarning("Graph is NULL, new Graph created");
-                graph = new GraphModule<RoomNode>();
+                CreateDataFrom();
+            }
+            else
+            {
+                EditDataFrom();
+            }
+        }
+
+        private void CreateDataFrom()
+        {
+            foreach (var area in schema.Areas)
+            {
+                var pos = area.Centroid;
+                var rData = new RoomData(area.Width, area.Height, new List<string>()); // (!) le faltan las tags pero no se de donde sacarlas
+                new RoomNode(area.ID, pos, rData);
             }
 
+            // (!!!) le faltan las conexiones
+        }
+
+        private void EditDataFrom()
+        {
             List<string> ids = new List<string>();
 
-            for(int i = 0; i < schema.RoomCount; i++)
+            for (int i = 0; i < schema.RoomCount; i++)
             {
                 var area = schema.GetRoom(i);
                 ids.Add(area.Key);
                 var node = graph.GetNode(area.Key);
-                if(node != null)
+                if (node != null)
                 {
                     node.Position = area.Centroid.ToInt();
                     continue;
@@ -49,10 +75,10 @@ namespace LBS.Tools.Transformer
                 graph.AddNode(node);
             }
 
-            for(int i = 0; i < graph.NodeCount; i++)
+            for (int i = 0; i < graph.NodeCount; i++)
             {
                 var n = graph.GetNode(i);
-                if(!ids.Contains(n.ID))
+                if (!ids.Contains(n.ID))
                 {
                     Debug.LogWarning("Node Removed: No Tiles present in Room");
                     graph.RemoveNode(n.ID);
@@ -60,14 +86,5 @@ namespace LBS.Tools.Transformer
             }
         }
 
-        public override void OnAdd()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override void OnRemove()
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

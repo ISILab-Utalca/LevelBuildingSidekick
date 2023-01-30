@@ -8,7 +8,6 @@ public class LBSInspectorPanel : VisualElement
 {
     public new class UxmlFactory : UxmlFactory<LBSInspectorPanel, VisualElement.UxmlTraits> { }
 
-    private VisualElement s;
     private VisualElement content;
 
     private List<LBSInspector> inspectors = new List<LBSInspector>();
@@ -55,6 +54,7 @@ public class LBSInspectorPanel : VisualElement
     public void RemoveInspector(LBSInspector inspector)
     {
         inspectors.Remove(inspector);
-        content.Remove(inspector);
+        if(content.Contains(inspector))
+            content.Remove(inspector);
     }
 }

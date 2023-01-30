@@ -5,7 +5,7 @@ using UnityEngine;
 public interface IBundle
 {
     public List<LBSTag> GetTags();
-    public List<GameObject> GetObjects();
+    public List<GameObject> GetObjects(List<string> tags = null);
     public LBSTag GetTag(int index);
     public GameObject GetObject(int index);
 

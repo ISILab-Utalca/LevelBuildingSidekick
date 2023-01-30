@@ -211,6 +211,11 @@ namespace LBS.Components.TileMap
             Debug.Log(s);
         }
 
+        public override bool IsEmpty()
+        {
+            return (tiles.Count() <= 0);
+        }
+
         public override object Clone()
         {
             var tileMap = new TileMapModule<T>();

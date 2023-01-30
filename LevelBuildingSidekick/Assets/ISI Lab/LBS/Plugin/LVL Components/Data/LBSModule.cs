@@ -76,6 +76,8 @@ namespace LBS.Components
         /// </summary>
         public abstract void Clear();
 
+        public abstract bool IsEmpty();
+
         public abstract object Clone();
 
         #endregion

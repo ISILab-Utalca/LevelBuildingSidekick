@@ -19,6 +19,7 @@ MonoBehaviour:
     iconPath: 
     modules: []
   modes: []
+  transformers: []
   references:
     version: 2
     RefIds: []

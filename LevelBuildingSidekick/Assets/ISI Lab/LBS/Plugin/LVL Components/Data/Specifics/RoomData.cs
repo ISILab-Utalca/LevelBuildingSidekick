@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -61,6 +62,9 @@ namespace LBS.Components.Specifics
 
         [JsonIgnore]
         public int TagCount => tags.Count;
+
+        [JsonIgnore]
+        public List<string> Tags => tags.Select(t => t).ToList();
 
         #endregion
 
