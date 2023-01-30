@@ -5,6 +5,7 @@ using LBS.Representation;
 using Utility;
 using System.Linq;
 using UnityEditor;
+using LBS.Components;
 
 namespace LBS.Generator
 {
@@ -13,7 +14,7 @@ namespace LBS.Generator
         private LBSStampGroupData population;
         private float tileSize = 1f;
 
-        public override GameObject Generate()
+        public override GameObject Generate(LBSLayer layer)
         {
             if (population == null)
             {
@@ -36,10 +37,15 @@ namespace LBS.Generator
             return mainPivot;
         }
 
-        public override void Init(LBSLevelData levelData)
+        public void Init(LBSLevelData levelData)
         {
             //this.population = levelData.GetRepresentation<LBSStampGroupData>();
             //tileSize = levelData.TileSize;
+        }
+
+        public override void Init(LBSLayer layer)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

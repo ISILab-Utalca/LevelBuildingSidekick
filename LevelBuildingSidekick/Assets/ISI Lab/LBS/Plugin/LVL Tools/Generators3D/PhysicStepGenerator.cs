@@ -1,3 +1,4 @@
+using LBS.Components;
 using LBS.Graph;
 using LBS.Representation;
 using LBS.Representation.TileMap;
@@ -27,7 +28,7 @@ namespace LBS.Generator
         private LBSGraphData graph;
         private float tileSize = 1f;
         
-        public override GameObject Generate()
+        public override GameObject Generate(LBSLayer layer)
         {
             if(schema == null || graph == null)
             {
@@ -122,11 +123,16 @@ namespace LBS.Generator
             return null;
         }   
 
-        public override void Init(LBSLevelData levelData)
+        public void Init(LBSLevelData levelData)
         {
             //this.schema = levelData.GetRepresentation<LBSSchemaData>();
             //this.graph = levelData.GetRepresentation<LBSGraphData>();
             //tileSize = levelData.TileSize;
+        }
+
+        public override void Init(LBSLayer layer)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

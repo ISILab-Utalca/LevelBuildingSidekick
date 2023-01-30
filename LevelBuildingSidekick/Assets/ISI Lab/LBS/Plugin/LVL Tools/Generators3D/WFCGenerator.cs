@@ -1,3 +1,4 @@
+using LBS.Components;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace LBS.Generator
         public MapData wfc;
         public float size;
 
-        public override GameObject Generate()
+        public override GameObject Generate(LBSLayer layer)
         {
             var tiles = DirectoryTools.GetScriptables<TileConections>();
             var wfcTiles = wfc.Tiles;
@@ -121,10 +122,15 @@ namespace LBS.Generator
             return toR;
         }
 
-        public override void Init(LBSLevelData levelData)
+        public void Init(LBSLevelData levelData)
         {
             //this.wfc = levelData.GetRepresentation<MapData>();
             //this.size = levelData.TileSize;
+        }
+
+        public override void Init(LBSLayer layer)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
