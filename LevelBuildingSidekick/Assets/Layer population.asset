@@ -13,13 +13,69 @@ MonoBehaviour:
   m_Name: Layer population
   m_EditorClassIdentifier: 
   layer:
-    id: LBSLayer
-    name: 
+    id: Population
+    name: Population layer
     visible: 1
-    iconPath: 
-    modules: []
-  modes: []
+    iconPath: Icons/ghost
+    modules:
+    - rid: 564310742487793720
+    bundle: {fileID: 0}
+  modes:
+  - rid: 564310742487793721
   transformers: []
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 564310742487793720
+      type: {class: LBSBaseGraph, ns: LBS.Components.Graph, asm: Assembly-CSharp}
+      data:
+        key: LBSBaseGraph
+        visible: 0
+        changed: 0
+        nodes: []
+        edges: []
+    - rid: 564310742487793721
+      type: {class: LBSMode, ns: , asm: Assembly-CSharp-Editor}
+      data:
+        name: Population
+        drawer: DrawSimpleGraph
+        module: LBS.Components.Graph.GraphModule`1[[LBS.Components.Graph.LBSNode,
+          Assembly-CSharp, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null]]
+        toolkit:
+        - rid: 564310742487793722
+        - rid: 564310742487793723
+        - rid: 564310742487793724
+    - rid: 564310742487793722
+      type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
+      data:
+        icon: {fileID: 2800000, guid: 771d36a714319204ea4ddcbecdc2006e, type: 3}
+        name: Select
+        manipulator: Empty
+        inspector: 
+        UseUnitySelector: 1
+    - rid: 564310742487793723
+      type: {class: LBSMultiTool, ns: , asm: Assembly-CSharp-Editor}
+      data:
+        icon: {fileID: 2800000, guid: 5bcc511dcb487f24187b421ea2806d87, type: 3}
+        name: Add population
+        manipulator: Empty
+        inspector: 
+        UseUnitySelector: 0
+        modes:
+        - Pair
+        - Line
+        - Square
+        - Free
+        manipulators:
+        - Empty
+        - Empty
+        - Empty
+        - Empty
+    - rid: 564310742487793724
+      type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
+      data:
+        icon: {fileID: 2800000, guid: 79e9d4f49f5e9874c805015d2c334f0c, type: 3}
+        name: Remove
+        manipulator: Empty
+        inspector: 
+        UseUnitySelector: 0
