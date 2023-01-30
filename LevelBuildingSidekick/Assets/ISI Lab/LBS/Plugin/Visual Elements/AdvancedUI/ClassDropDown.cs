@@ -8,24 +8,66 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Utility;
 
-public class ClassDropDown : DropdownField
+public class ClassDropDown : VisualElement
 {
-    public Type Type;
+    public new class UxmlFactory : UxmlFactory<ClassDropDown, VisualElement.UxmlTraits> { }
+
+    Label label;
+    DropdownField dropdown;
+
+    public string Label
+    {
+        get => label.text;
+        set => label.text = value;
+    }
+
+    Type type;
+
+    public Type Type
+    {
+        get => type;
+        set => type = value;
+    }
+
     bool FilterAbstract;
 
     private List<Type> types;
 
-    public ClassDropDown(Type type, bool filterAbstract)
+    public ClassDropDown() : base()
     {
+        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("Dropdown");
+        visualTree.CloneTree(this);
+
+
+        label = this.Q<Label>();
+        dropdown = this.Q<DropdownField>();
+
+        FilterAbstract = true;
+
+        dropdown.RegisterCallback<MouseDownEvent>((e) => UpdateOptions());
+
+    }
+
+    public ClassDropDown(Type type, bool filterAbstract) : base()
+    {
+        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("Dropdown");
+        visualTree.CloneTree(this);
+
+
+        label = this.Q<Label>();
+        dropdown = this.Q<DropdownField>();
+
         Type = type;
         FilterAbstract = filterAbstract;
 
         UpdateOptions();
-        RegisterCallback<MouseDownEvent>((e) => UpdateOptions());
+        dropdown.RegisterCallback<MouseDownEvent>((e) => UpdateOptions());
     }
 
     void UpdateOptions()
     {
+        dropdown.choices.Clear();
+
         List<Type> types = null;
 
         if(Type.IsClass)
@@ -42,20 +84,17 @@ public class ClassDropDown : DropdownField
             types = types.Where(t => !t.IsAbstract).ToList();
         }
 
-        var options = types.Select(t => {
-            var value = t.Name;
-            return value;
-        }).ToList();
+        var options = types.Select(t => t.Name).ToList();
 
         this.types = types;
-        choices = options;
+        dropdown.choices = options;
     }
 
     public object GetChoiceInstance()
     {
         object obj = null;
-        var dv = value;
-        var dx = choices.IndexOf(dv);
+        var dv = dropdown.value;
+        var dx = dropdown.choices.IndexOf(dv);
         var t = types[dx];
         try
         {
