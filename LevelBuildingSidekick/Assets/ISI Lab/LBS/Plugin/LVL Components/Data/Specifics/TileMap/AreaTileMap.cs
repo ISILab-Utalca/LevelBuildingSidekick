@@ -92,12 +92,12 @@ namespace LBS.Components.TileMap
             return areas.Find(r => r.Contains(tilePos));
         }
 
-        public TiledArea<LBSTile> GetRoom(int index)
+        public TiledArea<LBSTile> GetArea(int index)
         {
             return areas[index];
         }
 
-        public bool RemoveRoom(T area)
+        public bool RemoveArea(T area)
         {
             var x = area as TiledArea<LBSTile>; // (??) funciona 
             return areas.Remove(x);
