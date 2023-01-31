@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using LBS.Generator;
 using LBS.Components;
+using LBS;
 
 public class Generator3DPanel : VisualElement
 {
@@ -12,13 +13,11 @@ public class Generator3DPanel : VisualElement
     Vector2Field scale;
     TextField objName;
 
-    Generator generator;
+    Generator3D generator;
     Button action;
     Toggle destroyPrev;
 
-    LBSLayer layer;
-
-    public Generator Generator
+    public Generator3D Generator
     {
         get => generator;
         set => generator = value;
@@ -26,9 +25,7 @@ public class Generator3DPanel : VisualElement
 
     public new class UxmlFactory : UxmlFactory<Generator3DPanel, VisualElement.UxmlTraits> { }
 
-    public Generator3DPanel() { }
-
-    public Generator3DPanel(LBSLevelData data)
+    public Generator3DPanel() 
     {
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("Generator3DPanel"); // Editor
         visualTree.CloneTree(this);
@@ -36,7 +33,15 @@ public class Generator3DPanel : VisualElement
         Init();
     }
 
-    public void Init()
+    public Generator3DPanel(LBSLayer layer)
+    {
+        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("Generator3DPanel"); // Editor
+        visualTree.CloneTree(this);
+
+        Init(layer);
+    }
+
+    public void Init(LBSLayer layer = null)
     {
         position = this.Q<Vector3Field>(name: "Position");
 
@@ -47,16 +52,30 @@ public class Generator3DPanel : VisualElement
 
         dropDown = this.Q<ClassDropDown>(name: "Generator");
         dropDown.Label = "Gennerator";
-        dropDown.Type = typeof(Generator);
+        dropDown.Type = typeof(Generator3D);
 
         destroyPrev = this.Q<Toggle>(name: "DestroyPrev");
 
         action = this.Q<Button>(name: "Action");
 
-        action.clicked += Execute;
+        action.clicked += () => Execute(layer);
+
+        if(layer != null)
+        {
+            generator = layer.Assitant.Generator;
+            if(generator != null)
+            {
+                dropDown.Value = generator.GetType().Name;
+                scale.value = generator.Scale;
+                position.value = generator.Position;
+                objName.value = generator.ObjName;
+
+            }
+        }
+
     }
 
-    public void Execute()
+    public void Execute(LBSLayer layer)
     {
         if (destroyPrev.value)
         {
@@ -69,7 +88,7 @@ public class Generator3DPanel : VisualElement
 
         if(!generator.GetType().Name.Equals(dropDown.Value))
         {
-            generator = dropDown.GetChoiceInstance() as Generator;
+            generator = dropDown.GetChoiceInstance() as Generator3D;
         }
 
         generator.ObjName = objName.value;
