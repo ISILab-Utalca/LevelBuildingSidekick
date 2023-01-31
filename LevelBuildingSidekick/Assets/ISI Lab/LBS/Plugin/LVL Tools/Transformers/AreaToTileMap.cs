@@ -13,9 +13,9 @@ namespace LBS.Tools.Transformer
         private List<Vector2Int> dirs = new List<Vector2Int>() // (!) esto deberia estar en un lugar general
         {
             Vector2Int.right,
-            Vector2Int.up,
+            Vector2Int.down,
             Vector2Int.left,
-            Vector2Int.down
+            Vector2Int.up
         };
 
         AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile> areaModule;
