@@ -36,6 +36,7 @@ public class LBSMultiTool : LBSTool
             current.AddManipulationStart(OnStartAction);
             current.AddManipulationUpdate(OnUpdateAction);
             current.AddManipulationEnd(OnEndAction);
+            _manipulator.AddManipulationEnd(() => Debug.Log("Mani: " + _manipulator.GetType().ToString()));
 
             current.Init(ref view, ref level, ref layer, ref module);
             _manipulators.Add(current);
@@ -45,18 +46,18 @@ public class LBSMultiTool : LBSTool
         var btn = new DropdownToolButton(this.icon, this.name, modes);
         btn.OnModeChange += (index, name) => SetManipulator(index, view, btn);
 
-        SetManipulator(0, view, btn);
+        SetManipulator(2, view, btn);
 
-        btn.OnFocusEvent += () => {
-            view.AddManipulator(_manipulator as Manipulator);
-            if (UseUnitySelector)
-            {
-                view.AddManipulator(new ClickSelector());
-            }
-        };
-        btn.OnBlurEvent += () => {
-            view.RemoveManipulator(_manipulator as Manipulator);
-        };
+        //btn.OnFocusEvent += () => {
+            //view.AddManipulator(_manipulator as Manipulator);
+            //if (UseUnitySelector)
+            //{
+            //    view.AddManipulator(new ClickSelector());
+            //}
+        //};
+        //btn.OnBlurEvent += () => {
+        //    view.RemoveManipulator(_manipulator as Manipulator);
+        //};
         return btn;
     }
 

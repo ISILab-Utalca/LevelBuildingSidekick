@@ -95,6 +95,9 @@ public class LayerTemplateEditor : Editor
         icon = Resources.Load<Texture2D>("Icons/Select"); 
         var tool5 = new LBSTool(icon, "Select", typeof(Select), null, true);
 
+        icon = Resources.Load<Texture2D>("Icons/paintbrush");
+        var tool6 = new LBSTool(icon, "Select", typeof(AddTileToTiledAreaAtPoint<TiledArea<ConnectedTile>, ConnectedTile>), null, true);
+        /*
         icon = Resources.Load<Texture2D>("Icons/paintbrush"); 
         var tool6 = new LBSMultiTool(
             icon,
@@ -108,6 +111,8 @@ public class LayerTemplateEditor : Editor
             },
             typeof(RoomsPalleteInspector<TiledArea<ConnectedTile>, ConnectedTile>)
         );
+        */
+
         icon = Resources.Load<Texture2D>("Icons/erased");
         var tool7 = new LBSMultiTool(
             icon,

@@ -45,6 +45,7 @@ public class LBSTool
         _manipulator.AddManipulationStart(OnStartAction);
         _manipulator.AddManipulationUpdate(OnUpdateAction);
         _manipulator.AddManipulationEnd(OnEndAction);
+        _manipulator.AddManipulationEnd( () => Debug.Log("Mani: "+_manipulator.GetType().ToString()));
 
         _manipulator.Init(ref view,ref level, ref layer, ref module);
 
