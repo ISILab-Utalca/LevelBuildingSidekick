@@ -2,31 +2,35 @@ using LBS.Components.TileMap;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Newtonsoft.Json;
 
-public class PopulationTiledArea<T> : TileMapModule<T> where T : LBSTile
+public class PopulationTiledArea : TileMapModule<PopulationTiles>
 {
-    public List<PopulationBundle> bundles = new List<PopulationBundle>();
-    public void AddTilesToBundle(List<T> tiles)
+    [SerializeField, JsonRequired]
+    private string label = ""; // "ID" or "name"
+
+    public void AddTilesToBundle(List<PopulationTiles> tiles)
     {
+        /*
         if (bundles.Count == 0)
         {
             bundles.Add(ScriptableObject.CreateInstance<PopulationBundle>());
         }
-
+        */
         // Add the tiles to the first bundle in the list
-        PopulationBundle bundle = bundles[0];
-        foreach (T tile in tiles)
+        //PopulationBundle bundle = bundles[0];
+        foreach (PopulationTiles tile in tiles)
         {
             //bundle.objects.Add(tile);
             //bundle.tags.Add(new LBSTag(tile.name));
         }
     }
 
-    public void RemoveTileFromBundle(T tile)
+    public void RemoveTileFromBundle(PopulationTiles tile)
     {
         // Find the bundle that contains the tile
-        LBSTagsBundle bundle = bundles.Find(b => b.Contains(tile));
-        if (bundle == null)
+        //LBSTagsBundle bundle = bundles.Find(b => b.Contains(tile));
+        //if (bundle == null)
         {
             return;
         }
@@ -38,6 +42,7 @@ public class PopulationTiledArea<T> : TileMapModule<T> where T : LBSTile
             bundle.objects.RemoveAt(index);
             bundle.tags.RemoveAt(index);
         }
-    }
-        */
+    */
+        }
+        
 }
