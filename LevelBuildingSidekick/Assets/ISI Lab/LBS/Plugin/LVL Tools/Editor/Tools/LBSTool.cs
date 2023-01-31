@@ -21,7 +21,7 @@ public class LBSTool
     public bool UseUnitySelector;
 
     [NonSerialized]
-    protected LBSManipulator _manipulator;
+    protected IManipulatorLBS _manipulator;
     [NonSerialized]
     protected LBSInspector _inspector;
 
@@ -41,24 +41,20 @@ public class LBSTool
     public virtual LBSGrupableButton InitButton(MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module) // (!)
     {
         var mType = Type.GetType(this.manipulator);
-        _manipulator = Activator.CreateInstance(mType) as LBSManipulator;
-        _manipulator.OnManipulationStart += OnStartAction;
-        _manipulator.OnManipulationUpdate += OnUpdateAction;
-        _manipulator.OnManipulationEnd += OnEndAction;
+        _manipulator = Activator.CreateInstance(mType) as IManipulatorLBS;
+        _manipulator.AddManipulationStart(OnStartAction);
+        _manipulator.AddManipulationUpdate(OnUpdateAction);
+        _manipulator.AddManipulationEnd(OnEndAction);
 
         _manipulator.Init(ref view,ref level, ref layer, ref module);
 
         var btn = new BasicToolButton(this.icon, this.name);
 
         btn.OnFocusEvent += () => { 
-            view.AddManipulator(_manipulator);
-            if (UseUnitySelector)
-            {
-                view.AddManipulator(new ClickSelector());
-            }
+            view.AddManipulator(_manipulator as Manipulator);
         };
         btn.OnBlurEvent += () => { 
-            view.RemoveManipulator(_manipulator); 
+            view.RemoveManipulator(_manipulator as Manipulator); 
         };
 
         return btn;
@@ -68,7 +64,7 @@ public class LBSTool
     {
         var iType = Type.GetType(this.inspector);
         _inspector = Activator.CreateInstance(iType) as LBSInspector;
-        _inspector.Init(new List<LBSManipulator>() { _manipulator }, ref view, ref level, ref layer, ref module);
+        _inspector.Init(new List<IManipulatorLBS>() { _manipulator }, ref view, ref level, ref layer, ref module);
 
         return _inspector;
     }

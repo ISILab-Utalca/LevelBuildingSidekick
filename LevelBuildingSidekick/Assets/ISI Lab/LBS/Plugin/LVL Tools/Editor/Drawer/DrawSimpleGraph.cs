@@ -30,6 +30,7 @@ public class DrawSimpleGraph : Drawer
             var n2 = nViews.Find(v => v.Data.Equals(edge.SecondNode));
             var element = new LBSEdgeView<LBSEdge, RoomNode>(edge, n1, n2, 10, 3);
             view.AddElement(element);
+            element.SendToBack();
         }
     }
 }

@@ -15,16 +15,16 @@ namespace LBS.Components.Graph
     {
         #region FIELDS
 
-        [HideInInspector, SerializeField, JsonRequired, SerializeReference]
+        [HideInInspector, SerializeField, JsonRequired]
         private int x, y;
 
         /// <summary>
         /// Width and Height for node size in window. Porportional to window defined Unit size.
         /// </summary>
-        [HideInInspector, SerializeField, JsonRequired, SerializeReference]
+        [HideInInspector, SerializeField, JsonRequired]
         private float width, height;
 
-        [HideInInspector, SerializeField, JsonRequired, SerializeReference]
+        [HideInInspector, SerializeField, JsonRequired]
         private string id = ""; // "ID" or "name"
 
         #endregion

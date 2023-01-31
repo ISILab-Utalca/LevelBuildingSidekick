@@ -93,13 +93,12 @@ namespace LBS.Components.TileMap
 
         public virtual bool AddTile(T tile)
         {
-            tile.Position = SnapPosition(tile.Position).ToInt();
+            //tile.Position = SnapPosition(tile.Position).ToInt();
             var t = GetTile(tile.Position);
             if (t != null)
-            {
                 tiles.Remove(t);
-            }
-            tiles.Add(tile);
+
+            tiles.Add(tile as LBSTile);
             OnChanged?.Invoke(this);
             return true;
         }
@@ -128,17 +127,24 @@ namespace LBS.Components.TileMap
             return tiles.Any(t => t.Position.x == (int)pos.x && t.Position.y == (int)pos.y);
         }
 
-        public List<T> GetTileNeighbors(T tile, List<Vector2> directions)
+        public List<T> GetTileNeighbors(T tile, List<Vector2Int> directions)
         {
             List<T> neighbors = new List<T>();
-            foreach(var v in directions)
+            for (int i = 0; i < directions.Count; i++)
             {
-                var pos = tile.Position + new Vector2(v.x * CellSize.x, v.y * CellSize.y);
-                pos = SnapPosition(pos);
-                var neigh = tiles.Find(t => t.Position == pos) as T;
-                neighbors.Add(neigh);
+                var nei = GetTileNeighbor(tile, directions[i]);
+                neighbors.Add(nei);
             }
+           
             return neighbors;
+        }
+
+
+        public T GetTileNeighbor(T tile, Vector2Int direction)
+        {
+            List<T> neighbors = new List<T>();
+            var pos = tile.Position + direction;
+            return this.GetTile(pos);
         }
 
         public bool RemoveTile(T tile)

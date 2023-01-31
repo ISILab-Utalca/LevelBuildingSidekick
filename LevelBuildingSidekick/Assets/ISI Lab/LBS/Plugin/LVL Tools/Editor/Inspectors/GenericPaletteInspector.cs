@@ -23,7 +23,7 @@ public class GenericPalleteInspector<T, U> : LBSInspector where T : TiledArea<U>
         content = this.Q<VisualElement>("Content");
     }
 
-    public override void Init(List<LBSManipulator> lBSManipulators, ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
+    public override void Init(List<IManipulatorLBS> lBSManipulators, ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
     {
         var tiledArea = layer.GetModule<AreaTileMap<T, U>>();
 

@@ -21,28 +21,40 @@ namespace LBS.Components.Specifics
         [SerializeField, JsonRequired, SerializeReference]
         private List<string> tags = new List<string>();
 
+        public Color color = Color.gray;
+
         #endregion
 
         #region PROPERTIES
         [JsonIgnore]
         public int Width
         {
-            get => width;
+            get
+            {
+                return width;
+            }
             set
             {
                 if (value >= 1)
                     width = value;
+                else
+                    width = 1;
             }
         }
 
         [JsonIgnore]
         public int Height
         {
-            get => height;
+            get
+            {
+                return height;
+            }
             set
             {
                 if (value >= 1)
                     height = value;
+                else
+                    height = 1;
             }
         }
 
@@ -75,11 +87,12 @@ namespace LBS.Components.Specifics
 
         }
 
-        public RoomData(int width, int height, List<string> tags)
+        public RoomData(int width, int height, List<string> tags, Color color)
         {
             this.width = width;
             this.height = height;
             this.tags = tags;
+            this.color = color;
         }
 
         #endregion
@@ -119,7 +132,7 @@ namespace LBS.Components.Specifics
 
         public object Clone()
         {
-            return new RoomData(this.Width,this.Height,new List<string>(tags));
+            return new RoomData(this.Width,this.Height,new List<string>(tags), this.color);
         }
 
         #endregion

@@ -40,6 +40,7 @@ public class ThresholdEvaluator : IRangedEvaluator
         SubPanel FitnessPanel = new SubPanel();
         FitnessPanel.style.display = DisplayStyle.None;
 
+        /*
         var fitnessDD = new DropdownField("Fitness");
         var fitClass = new ClassDropDown(fitnessDD, typeof(IRangedEvaluator), true);
         fitClass.Dropdown.RegisterCallback<ChangeEvent<string>>(e => {
@@ -52,11 +53,11 @@ public class ThresholdEvaluator : IRangedEvaluator
                 FitnessPanel.style.display = DisplayStyle.Flex;
                 FitnessPanel.SetValue(evaluator, evaluator.GetType().ToString());
             }
-        });
+        });*/
 
         content.Add(v2);
         content.Add(tfield);
-        content.Add(fitnessDD);
+        //content.Add(fitnessDD);
         content.Add(FitnessPanel);
         //content.Add(evaluator.CIGUI());
 

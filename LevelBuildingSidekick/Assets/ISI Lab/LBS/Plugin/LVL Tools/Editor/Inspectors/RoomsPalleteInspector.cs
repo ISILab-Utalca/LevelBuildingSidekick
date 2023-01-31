@@ -26,7 +26,7 @@ public class RoomsPalleteInspector<T,U> : LBSInspector where T: TiledArea<U> whe
         //LBSNodeView<LBSNode>
     }
 
-    public override void Init(List<LBSManipulator> lBSManipulators, ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
+    public override void Init(List<IManipulatorLBS> lBSManipulators, ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
     {
         var tiledArea = layer.GetModule<AreaTileMap<T,U>>();
 

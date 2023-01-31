@@ -82,6 +82,16 @@ namespace LBS.Components.TileMap
             }
         }
 
+        public U GetTileNeighbor(U tile, Vector2Int dir)
+        {
+            var pickedArea = areas.Find(a => a.Contains(tile.Position + dir));
+
+            if (pickedArea == null)
+                return null;
+
+            return (U)pickedArea.GetTile(tile.Position + dir);
+        }
+
         public TiledArea<LBSTile> GetArea(string id)
         {
             return areas.Find(r => r.Key == id);
@@ -92,12 +102,12 @@ namespace LBS.Components.TileMap
             return areas.Find(r => r.Contains(tilePos));
         }
 
-        public TiledArea<LBSTile> GetRoom(int index)
+        public TiledArea<LBSTile> GetArea(int index)
         {
             return areas[index];
         }
 
-        public bool RemoveRoom(T area)
+        public bool RemoveArea(T area)
         {
             var x = area as TiledArea<LBSTile>; // (??) funciona 
             return areas.Remove(x);

@@ -41,8 +41,17 @@ namespace LBS.Components.TileMap
 
         #region METHODS
 
-        public bool SetConnection(string connection, int index)
+        public void SetConnections(params string[] connections)
         {
+            for (int i = 0; i < connections.Length; i++)
+            {
+                this.connections[i] = connections[i];
+            }
+        }
+
+        public void SetConnection(string connection, int index)
+        {
+            /*
             if(!connections.ContainsIndex(index))
             {
                 return false;
@@ -52,9 +61,10 @@ namespace LBS.Components.TileMap
             {
                 return false;
             }
+            */
 
             connections[index] = connection;
-            return true;
+            //return true;
         }
 
         public string GetConnection(int index)

@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,8 +7,14 @@ using UnityEngine;
 [System.Serializable]
 public class PopulationBundle : ScriptableObject, IBundle
 {
+    [SerializeField, JsonRequired]
     public List<LBSTag> tags = new List<LBSTag>();
+    [SerializeReference, JsonRequired] 
     public List<GameObject> objects = new List<GameObject>();
+    [SerializeField, JsonRequired]
+    public Texture2D icon;
+    [SerializeField, JsonRequired]
+    private string label = ""; // "ID" or "name"
 
     public void Add(List<IBundle> data)
     {
