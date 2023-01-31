@@ -16,6 +16,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Utility;
 
+//Clase temporal para testear, eliminar ya que la principal es AIPanel.
 public class AITest : VisualElement
 {
     public new class UxmlFactory : UxmlFactory<AITest, VisualElement.UxmlTraits> { }
@@ -24,14 +25,6 @@ public class AITest : VisualElement
     private AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile> schema;
     private GraphModule<RoomNode> graph;
     Hill2<IEvaluable> HC;
-
-    //listaIeva s;
-    //listaIeva x;
-
-    /*public AIPanel(Commons.Optimization.BaseOptimizerMetahuristic<IEvaluable> _base)
-    {
-        this._base = _base;
-    }*/
 
     public AITest() { }
 
@@ -52,25 +45,13 @@ public class AITest : VisualElement
             if (data.Layers[i].ID == "Interior")
             {
                 UnityEngine.Debug.Log("Found layer: " + data.Layers[i].Name);
+                //En graph como en schema el GetModule no esta retornado correctamente los modulos de LBSRoomGraph y
+                //LBSSchema, por lo que se tuvo que utilizar a las padres como tipo de datos. (!!)
                 graph = data.Layers[i].GetModule<GraphModule<RoomNode>>();
-                //UnityEngine.Debug.Log("Nodos en graph: " + graph.NodeCount);
-                //UnityEngine.Debug.Log("Concexciones en graph: " + graph.EdgeCount);
                 schema = data.Layers[i].GetModule<AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile>>();
-                //UnityEngine.Debug.Log("Areas en Schema: " + schema.RoomCount);
-                //UnityEngine.Debug.Log("Areas en lista Areas en Schema: " + schema.Areas.Count);
                 break;
             }
         }
-
-
-        listaIeva s = new();
-        listaIeva x = new();
-
-        for(int i = 0; i < 15; i++)
-            s.a.Add(i);
-
-        for (int i = 0; i < 5; i++)
-            x.a.Add(i+2);
 
         HC = new Hill2<IEvaluable>(schema as IEvaluable, new WeightedEvaluator(), new FitnessStagnationTermination(), graph as IEvaluable);
         HC.Start();       

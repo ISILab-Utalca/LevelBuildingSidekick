@@ -1,25 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using System;
-using LBS.Representation.TileMap;
 using Commons.Optimization.Evaluator;
 using Commons.Optimization.Terminations;
 using Commons.Optimization;
 using LBS;
 using System.Linq;
-using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 using LBS.Components.TileMap;
 using UnityEditor;
 using LBS.Components.Graph;
-using static UnityEngine.RuleTile.TilingRuleOutput;
-using static Unity.Collections.AllocatorManager;
 using System.Diagnostics;
 using GeneticSharp.Domain.Selections;
 
 namespace Utility
 {
+    //Todo esto esta siendo usado en el panel AITest, cambiar nombre o reemplazar lo de la clase HillClimbing por esta.
+    //Division de los metodos y estados basados en el Genetic.
     public class Hill2<U> : BaseOptimizerMetahuristic<IEvaluable>
     {
         U heuristic;
@@ -68,7 +65,7 @@ namespace Utility
             {
                 iterations++;
                 candidates = GetNeighbors(Adam);
-                //prevScore = BestCandidate.Fitness.Value;
+                prevScore = BestCandidate.Fitness.Value; 
                 BestCandidate.Fitness = Evaluator.EvaluateH(best, heuristic);
                 
                 List<IEvaluable> betters = new List<IEvaluable>();
@@ -78,7 +75,7 @@ namespace Utility
                 //Fin Selection
 
                 //Inicio Termination
-                
+                //Aqui antes estaban las condiciones del terminator, siendo la logica del FitnessStagnationTermination ahora
                 //Fin Termination
 
                 if (betters.Count == 0)
@@ -129,7 +126,6 @@ namespace Utility
                     neightbours.Add(neighbor as IEvaluable);
                 }
 
-                //Move rooms
                 // Change the room size
                 var newSize = new Vector2(Random.Range(1, room.Size.x), Random.Range(1, room.Size.y));
 
