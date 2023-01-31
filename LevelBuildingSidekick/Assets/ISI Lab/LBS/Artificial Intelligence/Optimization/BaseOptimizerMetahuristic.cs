@@ -17,8 +17,8 @@ namespace Commons.Optimization
 
         public int GenerationsNumber { get; }
 
-        public IEvaluable BestCandidate { get; }
-        public TEvaluable Adam { get; set; }
+        public IEvaluable BestCandidate { get; set; }
+        public IEvaluable Adam { get; set; }
 
         public TimeSpan TimeEvolving { get; set; }
         public bool IsRunning { get { return State == Op_State.Running || State == Op_State.Started || State == Op_State.Resumed; } }
@@ -26,7 +26,7 @@ namespace Commons.Optimization
 
         public ITermination Termination { get; set; }
 
-        public IEvaluator Evaluator { get; }
+        public IEvaluator Evaluator { get; set; }
 
         public Op_State State
         {
@@ -77,10 +77,11 @@ namespace Commons.Optimization
         public Action OnStarted { get; set; }
         #endregion
 
-        public BaseOptimizerMetahuristic() { }
+        //public BaseOptimizerMetahuristic() { }
         public BaseOptimizerMetahuristic(IEvaluable adam, IEvaluator evaluator, ITermination termination)
         {
-            BestCandidate = adam;
+            Adam = adam;
+            BestCandidate = Adam;
             Evaluator = evaluator;
             Termination = termination;
 

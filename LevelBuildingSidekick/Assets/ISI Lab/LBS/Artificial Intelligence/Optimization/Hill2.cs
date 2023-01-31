@@ -24,21 +24,21 @@ namespace Utility
     {
         U heuristic;
         static double prevScore { get; set; }
-        static float score  { get; set; }
-        static int nonSignificantEpochs { get; set; }
         private System.Random random;
         private int iterations;
-        private float higherScore;
         IEvaluable best;
         ISelection Selection;
         List<IEvaluable> candidates;
 
-        public Hill2( U heu ) : base(){
+        public Hill2(IEvaluable adam, IEvaluator evaluator, ITermination termination, U heu) : base( adam, evaluator, termination){
 
+            Adam = adam;
+            BestCandidate = Adam;
+            Evaluator = evaluator;
+            Termination = termination;
             heuristic = heu;
-            candidates = GetNeighbors(Adam);
             Selection =  new HCSelector<U>(candidates, heuristic);
-            Termination = new FitnessStagnationTermination();
+            //Termination = new FitnessStagnationTermination();
             //Evaluator = new WeightedEvaluator();
         }
 
@@ -50,8 +50,7 @@ namespace Utility
                 //System.Random random = (seed != null) ? new System.Random((int)seed) : new System.Random();
                 iterations = GenerationsNumber; // <---(?)
                 random = new System.Random();
-                prevScore = BestCandidate.Fitness.Value;
-                nonSignificantEpochs = 0;
+                //prevScore = BestCandidate.Fitness.Value;
                 best = Adam;
                 stopRequested = false;
                 pauseRequested = false;
@@ -68,8 +67,8 @@ namespace Utility
             while (!TerminatioReached()) //(!endCondition?.Invoke())
             {
                 iterations++;
-
-                prevScore = BestCandidate.Fitness.Value;
+                candidates = GetNeighbors(Adam);
+                //prevScore = BestCandidate.Fitness.Value;
                 BestCandidate.Fitness = Evaluator.EvaluateH(best, heuristic);
                 
                 List<IEvaluable> betters = new List<IEvaluable>();
@@ -101,7 +100,7 @@ namespace Utility
 
         public override List<IEvaluable> GetNeighbors(IEvaluable Adam)
         {
-            var tileMap = Adam as LBSSchema;
+            var tileMap = Adam as AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile>;
             var neightbours = new List<IEvaluable>();
             var maxSize = LBSController.CurrentLevel.data.MaxSize;
 
@@ -114,7 +113,7 @@ namespace Utility
 
                 foreach (var wall in walls)
                 {
-                    var neighbor = tileMap.Clone() as LBSSchema;
+                    var neighbor = tileMap.Clone() as AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile>;
 
                     var tiles = new TiledArea<ConnectedTile>();
                     wall.Tiles.ForEach(t => tiles.AddTile(new ConnectedTile(t + wall.Dir, room.ID, 4)));

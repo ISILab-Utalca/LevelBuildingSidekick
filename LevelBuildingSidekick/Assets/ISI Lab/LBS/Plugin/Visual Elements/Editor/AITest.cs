@@ -1,4 +1,6 @@
 using Commons.Optimization;
+using Commons.Optimization.Terminations;
+using GeneticSharp.Domain.Chromosomes;
 using LBS.Components;
 using LBS.Components.Graph;
 using LBS.Components.Specifics;
@@ -17,11 +19,14 @@ using Utility;
 public class AITest : VisualElement
 {
     public new class UxmlFactory : UxmlFactory<AITest, VisualElement.UxmlTraits> { }
-
+    List<int> b;
     public LBSLevelData data;
     private AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile> schema;
     private GraphModule<RoomNode> graph;
     Hill2<IEvaluable> HC;
+
+    //listaIeva s;
+    //listaIeva x;
 
     /*public AIPanel(Commons.Optimization.BaseOptimizerMetahuristic<IEvaluable> _base)
     {
@@ -56,7 +61,18 @@ public class AITest : VisualElement
                 break;
             }
         }
-        HC = new Hill2<IEvaluable>(graph as IEvaluable);
+
+
+        listaIeva s = new();
+        listaIeva x = new();
+
+        for(int i = 0; i < 15; i++)
+            s.a.Add(i);
+
+        for (int i = 0; i < 5; i++)
+            x.a.Add(i+2);
+
+        HC = new Hill2<IEvaluable>(schema as IEvaluable, new WeightedEvaluator(), new FitnessStagnationTermination(), graph as IEvaluable);
         HC.Start();       
     }
 }
