@@ -107,7 +107,7 @@ namespace Utility
 
             for (int i = 0; i < tileMap.RoomCount; i++)
             {
-                var room = tileMap.GetRoom(i);
+                var room = tileMap.GetArea(i);
                 var vWalls = room.GetVerticalWalls();
                 var hWalls = room.GetHorizontalWalls();
                 var walls = vWalls.Concat(hWalls);

@@ -6,6 +6,7 @@ using GeneticSharp.Infrastructure.Framework.Texts;
 using GeneticSharp.Infrastructure.Framework.Commons;
 using System.Linq;
 using UnityEngine.UIElements;
+using Commons.Optimization.Evaluator;
 
 namespace GeneticSharp.Domain.Selections
 {
@@ -69,6 +70,11 @@ namespace GeneticSharp.Domain.Selections
         /// <param name="number">The number of chromosomes to select.</param>
         /// <param name="generation">The generation where the selection will be made.</param>
         protected abstract IList<IEvaluable> PerformSelectEvaluables(int number, Generation generation);
+
+        public List<IEvaluable> GetBetters(IEvaluator evaluator, double? score)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
     }
 }
