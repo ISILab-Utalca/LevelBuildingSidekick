@@ -13,7 +13,6 @@ public class SchemaGenerator : Generator
 {
     LBSSchema schema;
     LBSRoomGraph graph;
-    public Vector3 scale;
 
     public override GameObject Generate(LBSLayer layer)
     {
@@ -25,7 +24,7 @@ public class SchemaGenerator : Generator
             return null;
         }
 
-        var mainPivot = new GameObject("Schema");
+        var mainPivot = new GameObject(objName);
 
         for(int i = 0; i < graph.NodeCount; i++)
         {
@@ -58,6 +57,8 @@ public class SchemaGenerator : Generator
             }
         }
 
+        mainPivot.transform.position = position;
+
         return mainPivot;
 
     }
@@ -85,13 +86,12 @@ public class SchemaGenerator : Generator
             }
         }
 
-        pivot.transform.localScale = new Vector3(scale.x, scale.y, scale.z);
-        pivot.transform.position = new Vector3(scale.x * tile.Position.x, 0, scale.z * tile.Position.y);
+        pivot.transform.localScale = new Vector3(scale.x, 1, scale.y);
+        pivot.transform.position = new Vector3(scale.x * tile.Position.x, 0, scale.y * tile.Position.y);
     }
 
     public override void Init(LBSLayer layer)
     {
-        scale = Vector2.one;
         schema = layer.GetModule<LBSSchema>();
         graph = layer.GetModule<LBSRoomGraph>();
     }
