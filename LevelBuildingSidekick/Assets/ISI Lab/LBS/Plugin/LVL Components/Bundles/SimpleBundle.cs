@@ -1,20 +1,13 @@
-using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
-[CreateAssetMenu(fileName = "New bundle", menuName = "ISILab/PopulationBundle")]
+[CreateAssetMenu(fileName = "New bundle", menuName = "ISILab/Bundle")]
 [System.Serializable]
-public class PopulationBundle : Bundle
+public class SimpleBundle : Bundle
 {
-    [SerializeField, JsonRequired]
-    public List<LBSTag> tags = new List<LBSTag>();
-    [SerializeReference, JsonRequired] 
     public List<GameObject> objects = new List<GameObject>();
-    [SerializeField, JsonRequired]
-    public Texture2D icon;
-    [SerializeField, JsonRequired]
-    public string label = ""; // "ID" or "name"
 
     public override void Add(List<Bundle> data)
     {
@@ -32,6 +25,14 @@ public class PopulationBundle : Bundle
 
     public override List<GameObject> GetObjects(List<string> tags = null)
     {
+        if(tags == null)
+            return objects;
+        var ts = this.tags.Select(t => t.value);
+        foreach(var t in tags)
+        {
+            if (!ts.Contains(t))
+                return new List<GameObject>();
+        }
         return objects;
     }
 

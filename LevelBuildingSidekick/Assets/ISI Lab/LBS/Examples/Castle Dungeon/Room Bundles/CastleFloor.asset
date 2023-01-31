@@ -9,11 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d210eb186a177240a5151921fafa124, type: 3}
-  m_Name: Portal
+  m_Script: {fileID: 11500000, guid: c1ca1a068b763d94ca8f120873012f03, type: 3}
+  m_Name: CastleFloor
   m_EditorClassIdentifier: 
-  label: Portal
-  icon: {fileID: 2800000, guid: 1f46a093e7b49bf4db0dd0cc27dc0d0b, type: 3}
   tags: []
-  prefabs:
-  - {fileID: 100000, guid: 1fed90e8722c1334d9b51e0b56f26e4e, type: 3}
+  objects: []

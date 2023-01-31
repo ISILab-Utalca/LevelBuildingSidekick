@@ -146,7 +146,7 @@ public class LBSMainWindow : EditorWindow
         AIp.style.display = DisplayStyle.None;
 
         // Gen3DPanel
-        gen3DPanel = new Generator3DPanel(levelData);
+        gen3DPanel = new Generator3DPanel();
         extraPanel.Add(gen3DPanel);
         gen3DPanel.style.display = DisplayStyle.None;
 
@@ -233,9 +233,10 @@ public class LBSMainWindow : EditorWindow
 
         selectedLabel.text = "selected: " + layer.Name;
 
-        // (?) Actualize IAs?
+        // (!) Actualize IAs?
 
-        // (?) Actualize gen3D?
+        // (!) Actualize gen3D?
+        gen3DPanel.Init(layer);
 
     }
 }

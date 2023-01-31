@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d210eb186a177240a5151921fafa124, type: 3}
-  m_Name: Forniture
+  m_Script: {fileID: 11500000, guid: 1999236443295ea45aef10a08be2fb7f, type: 3}
+  m_Name: HammerPop
   m_EditorClassIdentifier: 
-  label: Forniture
-  icon: {fileID: 2800000, guid: 56ce24f604ce1a548ad088ee1f339ac2, type: 3}
   tags: []
-  prefabs:
-  - {fileID: 227202670916208311, guid: d163810cbf22ea54296ef7a5f83e1b8d, type: 3}
+  tags: []
+  objects: []
+  icon: {fileID: 0}
+  label: Hammer

@@ -32,11 +32,18 @@ public class LBSConectedTileView : GraphElement
         border = this.Q<VisualElement>("Border");
 
         this.data = connectedTile;
+
+        SetConnections(data.Connections);
     }
 
     public void SetBackgroundColor(Color color)
     {
         border.style.backgroundColor = color;
+    }
+
+    public virtual void SetConnections(string[] tags)
+    {
+        Debug.LogWarning("Implementar");
     }
 
 }

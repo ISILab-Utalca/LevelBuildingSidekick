@@ -9,11 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d210eb186a177240a5151921fafa124, type: 3}
-  m_Name: Treasure
+  m_Script: {fileID: 11500000, guid: b97f4a254b4f22943b7937bda87d5d2b, type: 3}
+  m_Name: CastleBundle
   m_EditorClassIdentifier: 
-  label: Treasure
-  icon: {fileID: 2800000, guid: 77c343dc3a0284c4eb1fe0f7b7f4b19d, type: 3}
   tags: []
-  prefabs:
-  - {fileID: 6200720779111275133, guid: 3fd611b78b29b0a4dba600d80f82f557, type: 3}

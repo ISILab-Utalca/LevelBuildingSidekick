@@ -8,41 +8,29 @@ public class PopulationTiledArea : TileMapModule<PopulationTiles>
 {
     [SerializeField, JsonRequired]
     private string label = ""; // "ID" or "name"
-
-    public void AddTilesToBundle(List<PopulationTiles> tiles)
+    public void findScript(string ID)
     {
-        /*
-        if (bundles.Count == 0)
-        {
-            bundles.Add(ScriptableObject.CreateInstance<PopulationBundle>());
-        }
-        */
-        // Add the tiles to the first bundle in the list
-        //PopulationBundle bundle = bundles[0];
-        foreach (PopulationTiles tile in tiles)
-        {
-            //bundle.objects.Add(tile);
-            //bundle.tags.Add(new LBSTag(tile.name));
-        }
-    }
+        PopulationBundle[] bundles = Resources.FindObjectsOfTypeAll<PopulationBundle>();
+        PopulationBundle target = null;
 
-    public void RemoveTileFromBundle(PopulationTiles tile)
-    {
-        // Find the bundle that contains the tile
-        //LBSTagsBundle bundle = bundles.Find(b => b.Contains(tile));
-        //if (bundle == null)
+        foreach (PopulationBundle bundle in bundles)
         {
+            if (bundle.label == ID)
+            {
+                target = bundle;
+                break;
+            }
+        }
+
+        if (target == null)
+        {
+            Debug.LogError("No bundle with ID " + ID + " was found");
             return;
         }
-        /*
-        // Remove the tile from the bundle
-        //int index = bundle.objects.IndexOf(tile);
-        if (index != -1)
-        {
-            bundle.objects.RemoveAt(index);
-            bundle.tags.RemoveAt(index);
-        }
-    */
-        }
-        
+
+        List<GameObject> objects = target.GetObjects();
+
+        // Do something with the found objects
+    }
+
 }

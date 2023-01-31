@@ -18,7 +18,7 @@ namespace LBS.Generator
         Edge
     }
 
-    public class PhysicStepGenerator : Generator
+    public class PhysicStepGenerator : Generator3D
     {
         
 

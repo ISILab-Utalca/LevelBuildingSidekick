@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class DrawConnectedTilemap : Drawer
+public class DrawConnectedTilemap : Drawer // DrawSchema
 {
     public override void Draw(ref LBSLayer layer, MainView view)
     {
@@ -15,8 +15,10 @@ public class DrawConnectedTilemap : Drawer
         {
             foreach (var tile in area.Tiles)
             {
-                var tView = new LBSConectedTileView(tile as ConnectedTile);
+                var cTile = tile as ConnectedTile;
+                var tView = new SchemaTileView(cTile);
                 tView.SetBackgroundColor(area.Color);
+                tView.SetConnections(cTile.Connections);
                 var size = view.TileSize;
                 tView.SetPosition(new Rect(tile.Position * size, size));
                 view.AddElement(tView);

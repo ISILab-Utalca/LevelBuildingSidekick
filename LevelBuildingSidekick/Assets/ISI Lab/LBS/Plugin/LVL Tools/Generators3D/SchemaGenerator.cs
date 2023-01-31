@@ -9,7 +9,7 @@ using LBS.Components.Specifics;
 using System.Linq;
 using UnityEditor;
 
-public class SchemaGenerator : Generator
+public class SchemaGenerator : Generator3D
 {
     LBSSchema schema;
     LBSRoomGraph graph;
@@ -44,8 +44,8 @@ public class SchemaGenerator : Generator
             bundles.Add("Door", layer.Bundle.GetObjects(temp));
 
             temp = new List<string>(tags);
-            temp.Add("Base");
-            bundles.Add("Base", layer.Bundle.GetObjects(temp));
+            temp.Add("Center");
+            bundles.Add("Center", layer.Bundle.GetObjects(temp));
 
             var area = schema.GetArea(node.ID);
 

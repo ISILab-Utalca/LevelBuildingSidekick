@@ -5,6 +5,7 @@ using UnityEngine;
 using LBS.Tools.Transformer;
 using System;
 using System.Linq;
+using LBS.Generator;
 
 namespace LBS.Components
 {
@@ -36,6 +37,9 @@ namespace LBS.Components
         [SerializeField, JsonRequired, SerializeReference]
         private CompositeBundle bundle;
 
+        [SerializeField, JsonRequired, SerializeReference]
+        private LBSLayerAssistant assitant;
+
 
         [JsonIgnore]
         public bool IsVisible
@@ -56,6 +60,12 @@ namespace LBS.Components
         {
             get => name;
             set => name = value;
+        }
+
+        [JsonIgnore]
+        public LBSLayerAssistant Assitant
+        {
+            get => assitant;
         }
 
         [JsonIgnore]
