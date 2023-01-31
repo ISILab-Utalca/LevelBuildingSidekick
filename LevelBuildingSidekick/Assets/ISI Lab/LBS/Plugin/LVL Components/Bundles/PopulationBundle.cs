@@ -14,7 +14,7 @@ public class PopulationBundle : Bundle
     [SerializeField, JsonRequired]
     public Texture2D icon;
     [SerializeField, JsonRequired]
-    private string label = ""; // "ID" or "name"
+    public string label = ""; // "ID" or "name"
 
     public override void Add(List<Bundle> data)
     {
