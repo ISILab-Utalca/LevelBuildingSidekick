@@ -21,12 +21,21 @@ public class ClassDropDown : VisualElement
         set => label.text = value;
     }
 
+    public string Value
+    {
+        get => dropdown.value;
+    }
+
     Type type;
 
     public Type Type
     {
         get => type;
-        set => type = value;
+        set
+        {
+            type = value;
+            UpdateOptions();
+        }
     }
 
     bool FilterAbstract;
@@ -107,7 +116,5 @@ public class ClassDropDown : VisualElement
 
         return obj;
     }
-
-    
 
 }
