@@ -47,14 +47,15 @@ namespace LBS.Tools.Transformer
             var nAreas = new List<TiledArea<ConnectedTile>>();
             foreach (var area in areaModule.Areas)
             {
-                var nArea = new TiledArea<ConnectedTile>();
+                var nArea = new TiledArea<ConnectedTile>(new List<ConnectedTile>(), area.ID, area.Key, area.Color);
+
                 foreach (var tile in area.Tiles)
                 {
                     var ct = new ConnectedTile(tile.Position, tile.ID);
 
                     for (int i = 0; i < dirs.Count; i++)
                     {
-                        var nei = nArea.GetTileNeighbor(tile as ConnectedTile, dirs[i]);
+                        var nei = areaModule.GetTileNeighbor(tile as ConnectedTile, dirs[i]);
 
                         if (nei == null)
                         {
@@ -66,7 +67,7 @@ namespace LBS.Tools.Transformer
                         }
                         else
                         {
-                            ct.SetConnection("Wall", i);
+                            ct.SetConnection("Wall", i); // (?) o puerta
                         }
                     }
                     nArea.AddTile(ct);
@@ -75,6 +76,7 @@ namespace LBS.Tools.Transformer
             }
             areaModule.Clear();
             nAreas.ForEach(a => areaModule.AddArea(a));
+
         }
 
         private void EditDataFrom()

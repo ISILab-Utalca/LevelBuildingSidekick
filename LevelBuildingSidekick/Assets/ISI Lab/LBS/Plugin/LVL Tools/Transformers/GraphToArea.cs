@@ -38,8 +38,8 @@ namespace LBS.Tools.Transformer
             if(schema.IsEmpty())
             {
                 CreateDataFrom();
-                //var parche = new AreaToTileMap(layer);
-                //parche.Switch(ref layer);
+                var parche = new AreaToTileMap(layer);
+                parche.Switch(ref layer);
             }
             else
             {

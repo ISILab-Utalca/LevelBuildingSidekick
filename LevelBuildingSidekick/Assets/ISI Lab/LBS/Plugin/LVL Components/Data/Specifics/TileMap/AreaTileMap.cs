@@ -82,6 +82,16 @@ namespace LBS.Components.TileMap
             }
         }
 
+        public U GetTileNeighbor(U tile, Vector2Int dir)
+        {
+            var pickedArea = areas.Find(a => a.Contains(tile.Position + dir));
+
+            if (pickedArea == null)
+                return null;
+
+            return (U)pickedArea.GetTile(tile.Position + dir);
+        }
+
         public TiledArea<LBSTile> GetArea(string id)
         {
             return areas.Find(r => r.Key == id);

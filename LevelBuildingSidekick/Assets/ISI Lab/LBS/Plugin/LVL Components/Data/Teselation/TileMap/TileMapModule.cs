@@ -93,13 +93,12 @@ namespace LBS.Components.TileMap
 
         public virtual bool AddTile(T tile)
         {
-            tile.Position = SnapPosition(tile.Position).ToInt();
+            //tile.Position = SnapPosition(tile.Position).ToInt();
             var t = GetTile(tile.Position);
             if (t != null)
-            {
                 tiles.Remove(t);
-            }
-            tiles.Add(tile);
+
+            tiles.Add(tile as LBSTile);
             OnChanged?.Invoke(this);
             return true;
         }
