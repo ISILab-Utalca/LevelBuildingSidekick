@@ -24,6 +24,11 @@ public class ClassDropDown : VisualElement
     public string Value
     {
         get => dropdown.value;
+        set
+        {
+            if (dropdown.choices.Contains(value))
+                dropdown.value = value;
+        }
     }
 
     Type type;
