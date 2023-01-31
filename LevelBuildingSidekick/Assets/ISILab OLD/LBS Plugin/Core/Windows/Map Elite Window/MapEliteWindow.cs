@@ -60,7 +60,7 @@ namespace LBS.Windows
         public Label labelY;
 
         public void CreateGUI()
-        {
+        {/*
             populationWindow = EditorWindow.GetWindow<LBSPopulationWindow>();
             toUpdate = new List<Vector2Int>();
             VisualElement root = rootVisualElement;
@@ -132,6 +132,7 @@ namespace LBS.Windows
 
             Paused = root.style.backgroundColor.value;
             Running = Color.blue;
+            */
         }
 
         public void Run()

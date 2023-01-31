@@ -8,26 +8,66 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Utility;
 
-public class ClassDropDown //this could inherit from DropDown (!!!) Si, porvafor
+public class ClassDropDown : VisualElement
 {
-    public DropdownField Dropdown;
-    public Type Type;
+    public new class UxmlFactory : UxmlFactory<ClassDropDown, VisualElement.UxmlTraits> { }
+
+    Label label;
+    DropdownField dropdown;
+
+    public string Label
+    {
+        get => label.text;
+        set => label.text = value;
+    }
+
+    Type type;
+
+    public Type Type
+    {
+        get => type;
+        set => type = value;
+    }
+
     bool FilterAbstract;
 
-    private List<Type> _types;
+    private List<Type> types;
 
-    public ClassDropDown(DropdownField dropdown, Type type, bool filterAbstract)
+    public ClassDropDown() : base()
     {
-        Dropdown = dropdown;
+        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("Dropdown");
+        visualTree.CloneTree(this);
+
+
+        label = this.Q<Label>();
+        dropdown = this.Q<DropdownField>();
+
+        FilterAbstract = true;
+
+        dropdown.RegisterCallback<MouseDownEvent>((e) => UpdateOptions());
+
+    }
+
+    public ClassDropDown(Type type, bool filterAbstract) : base()
+    {
+        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("Dropdown");
+        visualTree.CloneTree(this);
+
+
+        label = this.Q<Label>();
+        dropdown = this.Q<DropdownField>();
+
         Type = type;
         FilterAbstract = filterAbstract;
 
         UpdateOptions();
-        Dropdown.RegisterCallback<MouseDownEvent>((e) => UpdateOptions());
+        dropdown.RegisterCallback<MouseDownEvent>((e) => UpdateOptions());
     }
 
     void UpdateOptions()
     {
+        dropdown.choices.Clear();
+
         List<Type> types = null;
 
         if(Type.IsClass)
@@ -44,21 +84,18 @@ public class ClassDropDown //this could inherit from DropDown (!!!) Si, porvafor
             types = types.Where(t => !t.IsAbstract).ToList();
         }
 
-        var options = types.Select(t => {
-            var value = t.Name;
-            return value;
-        }).ToList();
+        var options = types.Select(t => t.Name).ToList();
 
-        _types = types;
-        Dropdown.choices = options;
+        this.types = types;
+        dropdown.choices = options;
     }
 
     public object GetChoiceInstance()
     {
         object obj = null;
-        var dv = Dropdown.value;
-        var dx = Dropdown.choices.IndexOf(dv);
-        var t = _types[dx];
+        var dv = dropdown.value;
+        var dx = dropdown.choices.IndexOf(dv);
+        var t = types[dx];
         try
         {
             obj = Activator.CreateInstance(t);
