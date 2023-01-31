@@ -11,14 +11,14 @@ using Commons.Optimization;
 
 namespace Commons.Optimization
 {
-    public abstract class BaseOptimizerMetahuristic <T> // where T : IEvaluable where U : IEvaluator where O : ITermination
+    public abstract class BaseOptimizerMetahuristic <TEvaluable>  where TEvaluable : IEvaluable
     {
         #region Properties
 
         public int GenerationsNumber { get; }
 
         public IEvaluable BestCandidate { get; }
-        public T Adam { get; set; }
+        public TEvaluable Adam { get; set; }
 
         public TimeSpan TimeEvolving { get; set; }
         public bool IsRunning { get { return State == Op_State.Running || State == Op_State.Started || State == Op_State.Resumed; } }
@@ -60,11 +60,11 @@ namespace Commons.Optimization
         #endregion
 
         #region Fields
-        private Op_State state;
-        private Stopwatch clock;
-        private readonly object m_lock;
-        private bool stopRequested;
-        private bool pauseRequested;
+        protected Op_State state;
+        protected Stopwatch clock;
+        protected readonly object m_lock;
+        protected bool stopRequested;
+        protected bool pauseRequested;
         #endregion
 
 
@@ -78,9 +78,9 @@ namespace Commons.Optimization
         #endregion
 
         public BaseOptimizerMetahuristic() { }
-        public BaseOptimizerMetahuristic(T adam, IEvaluator evaluator, ITermination termination)
+        public BaseOptimizerMetahuristic(IEvaluable adam, IEvaluator evaluator, ITermination termination)
         {
-            BestCandidate = adam as IEvaluable;
+            BestCandidate = adam;
             Evaluator = evaluator;
             Termination = termination;
 
@@ -135,10 +135,12 @@ namespace Commons.Optimization
             Run();
         }
 
-        public abstract T RunOnce ( T evaluable, IEvaluator evaluator, ITermination termination);
+        public abstract IEvaluable RunOnce ();
+        public abstract IEvaluable Run();
 
-        public abstract List<T> GetNeighbors( T Adam);
-        public virtual IEvaluable Run()
+        public abstract List<IEvaluable> GetNeighbors( IEvaluable Adam);
+
+        /*public virtual IEvaluable Run()
         {
             while (!TerminatioReached() && !(State == Op_State.Paused || State == Op_State.Stopped))
             {
@@ -154,14 +156,14 @@ namespace Commons.Optimization
                 }
 
                 clock.Restart();
-                RunOnce(Adam, Evaluator,Termination);
+                RunOnce();
                 OnGenerationRan?.Invoke();
                 clock.Stop();
                 State = Op_State.Running;
             }
 
             return BestCandidate;
-        }
+        }*/
 
         /// <summary>
         /// Determines if the optimizer has reached a termination condition.

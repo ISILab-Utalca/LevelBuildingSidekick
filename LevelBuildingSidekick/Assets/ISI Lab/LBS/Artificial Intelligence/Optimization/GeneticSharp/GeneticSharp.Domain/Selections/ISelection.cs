@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Commons.Optimization.Evaluator;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
 using LBS.VisualElements;
@@ -20,5 +22,6 @@ namespace GeneticSharp.Domain.Selections
         /// <param name="number">The number of chromosomes to select.</param>
         /// <param name="generation">The generation where the selection will be made.</param>
         IList<IEvaluable> SelectEvaluables(int number, Generation generation);
+        List<IEvaluable> GetBetters(IEvaluator evaluator, double? score);
     }
 }

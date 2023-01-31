@@ -5,8 +5,7 @@ using LBS.Representation.TileMap;
 using LBS.Graph;
 using System.Linq;
 using LBS.Schema;
-
-namespace LBS.Transformers
+/*namespace LBS.Transformers
 {
     [System.Obsolete]
     public class GraphToSchema : TransformerOld<LBSGraphData, LBSSchemaData>
@@ -76,4 +75,4 @@ namespace LBS.Transformers
             return schema;
         }
     }
-}
+}*/

@@ -57,7 +57,7 @@ namespace Commons.Optimization.Terminations
         {
             var bestFitness = optimizer.BestCandidate.Fitness.Value;
 
-            if (m_lastFitness == bestFitness)
+            if (m_lastFitness <= bestFitness)
             {
                 m_stagnantGenerationsCount++;
             }
