@@ -65,7 +65,12 @@ namespace LBS.Components
         [JsonIgnore]
         public LBSLayerAssistant Assitant
         {
-            get => assitant;
+            get
+            {
+                if(assitant == null)
+                    assitant = ScriptableObject.CreateInstance<LBSLayerAssistant>();
+                return assitant;
+            }
         }
 
         [JsonIgnore]
@@ -79,6 +84,7 @@ namespace LBS.Components
         public LBSLayer()
         {
             modules = new List<LBSModule>();
+            
             //transformers = new List<string>();
             IsVisible = true;
             ID = GetType().Name;
