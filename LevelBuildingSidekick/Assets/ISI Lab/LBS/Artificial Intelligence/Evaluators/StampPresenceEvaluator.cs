@@ -106,4 +106,9 @@ public class StampPresenceEvaluator : IRangedEvaluator
 
         return content;
     }
+
+    public float EvaluateH<u>(IEvaluable evaluable, u Heu)
+    {
+        throw new NotImplementedException();
+    }
 }

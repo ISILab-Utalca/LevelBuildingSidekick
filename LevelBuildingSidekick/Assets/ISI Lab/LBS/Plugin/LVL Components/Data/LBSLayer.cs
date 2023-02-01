@@ -5,6 +5,7 @@ using UnityEngine;
 using LBS.Tools.Transformer;
 using System;
 using System.Linq;
+using LBS.Generator;
 
 namespace LBS.Components
 {
@@ -36,6 +37,9 @@ namespace LBS.Components
         [SerializeField, JsonRequired, SerializeReference]
         private CompositeBundle bundle;
 
+        [SerializeField, JsonRequired, SerializeReference]
+        private LBSLayerAssistant assitant;
+
 
         [JsonIgnore]
         public bool IsVisible
@@ -59,6 +63,17 @@ namespace LBS.Components
         }
 
         [JsonIgnore]
+        public LBSLayerAssistant Assitant
+        {
+            get
+            {
+                if(assitant == null)
+                    assitant = ScriptableObject.CreateInstance<LBSLayerAssistant>();
+                return assitant;
+            }
+        }
+
+        [JsonIgnore]
         public CompositeBundle Bundle => bundle;
 
         //EVENTS
@@ -69,6 +84,7 @@ namespace LBS.Components
         public LBSLayer()
         {
             modules = new List<LBSModule>();
+            
             //transformers = new List<string>();
             IsVisible = true;
             ID = GetType().Name;

@@ -14,7 +14,7 @@ namespace LBS.Tools.Transformer
     public class GraphToArea : Transformer
     {
         private GraphModule<RoomNode> graph;
-        private AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile> schema;
+        private AreaTileMap<TiledArea> schema;
 
         private bool keepShape;
 
@@ -25,7 +25,7 @@ namespace LBS.Tools.Transformer
         public override void Switch(ref LBSLayer layer)
         {
             graph = layer.GetModule(From) as GraphModule<RoomNode>;
-            schema = layer.GetModule(To) as AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile>;
+            schema = layer.GetModule(To) as AreaTileMap<TiledArea>;
 
             /*
             if (graph == null)
@@ -59,7 +59,7 @@ namespace LBS.Tools.Transformer
             open.Enqueue(parent);
 
             var node = parent;
-            var area = ConstructArea(node, new Vector2Int());
+            var area = ConstructArea(node, node.Position);
             schema.AddArea(area);
 
             int exit = 0;
@@ -74,7 +74,7 @@ namespace LBS.Tools.Transformer
 
                 foreach (var child in childs)
                 {
-                    if (closed.Contains(child) || open.ToHashSet().Contains(child))
+                    if (closed.Contains(child) || open.Contains(child))
                         continue;
 
                     open.Enqueue(child);
@@ -87,7 +87,7 @@ namespace LBS.Tools.Transformer
                     var pSchema = schema.GetArea(parent.ID);
                     var pPos = (pSchema != null) ? pSchema.Centroid : Vector2Int.zero; // parent
 
-                    var dir = -((Vector2)(child.Position - parent.Position)).normalized;
+                    var dir = ((Vector2)(child.Position - parent.Position)).normalized;
 
                     var posX = (dir.x * ((childW + parentW) / 2f) * Mathf.Sqrt(2)) + pPos.x;
                     var posY = (dir.y * ((childH + parentH) / 2f) * Mathf.Sqrt(2)) + pPos.y;
@@ -132,7 +132,7 @@ namespace LBS.Tools.Transformer
                     {
                         // (!) Puede que este creando las areas al reves por eje Y inverso
                         var cArea = ConstructArea(node, new Vector2Int());
-                        room = new TiledArea<LBSTile>(cArea.Tiles, cArea.ID, cArea.Key, cArea.Color);
+                        room = new TiledArea(cArea.Tiles, cArea.ID, cArea.Key, cArea.Color);
                     }
                     else
                     {
@@ -143,9 +143,9 @@ namespace LBS.Tools.Transformer
             }
         }
 
-        private TiledArea<ConnectedTile> ConstructArea(RoomNode node, Vector2Int offset)
+        private TiledArea ConstructArea(RoomNode node, Vector2Int offset)
         {
-            var tiles = new List<ConnectedTile>();
+            var tiles = new List<LBSTile>();
 
             for(int j = 0; j < node.Room.Height; j++)
             {
@@ -154,7 +154,7 @@ namespace LBS.Tools.Transformer
                     tiles.Add(new ConnectedTile(new Vector2Int(i,j) + offset, node.ID));
                 }
             }
-            var area = new TiledArea<ConnectedTile>(tiles, node.ID, node.ID, node.Room.color);
+            var area = new TiledArea(tiles, node.ID, node.ID, node.Room.color);
             return area;
         }
 

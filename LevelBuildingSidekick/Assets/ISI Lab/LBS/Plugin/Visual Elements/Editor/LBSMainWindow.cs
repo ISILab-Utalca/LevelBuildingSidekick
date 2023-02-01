@@ -35,6 +35,8 @@ public class LBSMainWindow : EditorWindow
     private AIPanel aiPanel;
     private Generator3DPanel gen3DPanel;
 
+    private AITest AIp;
+
     // Manager
     private ToolkitManager toolkitManager;
     private DrawManager drawManager;
@@ -131,13 +133,20 @@ public class LBSMainWindow : EditorWindow
             OnSelectedLayerChange(layer);
         };
 
+        /*
         // AIPanel
         aiPanel = new AIPanel(levelData);
         extraPanel.Add(aiPanel);
         aiPanel.style.display = DisplayStyle.None;
+        */
+
+        // panel de prueba
+        AIp = new AITest(levelData);
+        extraPanel.Add(AIp);
+        AIp.style.display = DisplayStyle.None;
 
         // Gen3DPanel
-        gen3DPanel = new Generator3DPanel(levelData);
+        gen3DPanel = new Generator3DPanel();
         extraPanel.Add(gen3DPanel);
         gen3DPanel.style.display = DisplayStyle.None;
 
@@ -151,11 +160,14 @@ public class LBSMainWindow : EditorWindow
         };
 
         // IAButton
-        var IABtn = rootVisualElement.Q<Button>("IAButton");
+        var IABtn = rootVisualElement.Q<Button>("AIButton");
         IABtn.clicked += () =>
         {
-            var value = (aiPanel.style.display == DisplayStyle.None);
-            aiPanel.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
+            //var value = (aiPanel.style.display == DisplayStyle.None);
+            //aiPanel.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
+
+            var value = (AIp.style.display == DisplayStyle.None);
+            AIp.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
         };
 
         // 3DButton
@@ -221,9 +233,10 @@ public class LBSMainWindow : EditorWindow
 
         selectedLabel.text = "selected: " + layer.Name;
 
-        // (?) Actualize IAs?
+        // (!) Actualize IAs?
 
-        // (?) Actualize gen3D?
+        // (!) Actualize gen3D?
+        gen3DPanel.Init(layer);
 
     }
 }

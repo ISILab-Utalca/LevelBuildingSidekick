@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class AddTileToTiledAreaAtFree<T,U> : ManipulateTiledArea<T, U> where T : TiledArea<U> where U : LBSTile
+public class AddTileToTiledAreaAtFree<T,U> : ManipulateTiledArea<T, U> where T : TiledArea where U : LBSTile
 {
     private List<Vector2Int> tiles;
 

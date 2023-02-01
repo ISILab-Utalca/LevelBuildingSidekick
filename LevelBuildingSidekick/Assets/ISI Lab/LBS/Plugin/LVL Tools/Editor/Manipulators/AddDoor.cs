@@ -11,7 +11,7 @@ using LBS.Representation;
 using LBS.Representation.TileMap;
 using UnityEditor.PackageManager.UI;
 
-public class AddDoor<T, U> : ManipulateTiledArea<T, U> where T : TiledArea<U> where U : LBSTile
+public class AddDoor<T, U> : ManipulateTiledArea<T, U> where T : TiledArea where U : LBSTile
 {
     private List<Vector2Int> tiles;
     private TileData first;

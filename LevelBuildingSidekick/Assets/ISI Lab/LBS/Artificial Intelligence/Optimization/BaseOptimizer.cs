@@ -182,12 +182,13 @@ public abstract class BaseOptimizer : IOptimizer
     /// <returns>True if the termination condition has been reached, false otherwise.</returns>
     private bool TerminatioReached()
     {
-        if(Termination.HasReached(this))
+      /*  if(Termination.HasReached(this))
         {
             OnTerminationReached?.Invoke();
             return true;
-        }
+        }*/
         return false;
+      
     }
 
     /// <summary>

@@ -6,7 +6,7 @@ using LBS.Components;
 
 namespace LBS.Generator
 {
-    public abstract class Generator
+    public abstract class Generator3D
     {
         protected Vector2 scale;
         protected Vector3 position;

@@ -9,7 +9,7 @@ using LBS.Components;
 
 namespace LBS.Generator
 {
-    public class PopulationGenerator : Generator
+    public class PopulationGenerator : Generator3D
     {
         private LBSStampGroupData population;
         private float tileSize = 1f;

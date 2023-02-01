@@ -42,7 +42,7 @@ public class LBSQuestGraphController : LBSGraphController
         }
     }
 
-    public LBSQuestGraphController(LBSGraphView view, LBSGraphData data) : base(view, data)
+    public LBSQuestGraphController(LBSGraphView view, GraphicsModule data) : base(view, data)
     {
         GrammarTree = GrammarReader.ReadGrammar(Application.dataPath + "/ISI Lab/LBS/Examples/Grammar/Grammar.xml");
         //GrammarTree = GrammarReader.ReadGrammar(Application.dataPath + "/Grammar/Grammar.xml");
@@ -90,13 +90,13 @@ public class LBSQuestGraphController : LBSGraphController
 
     public void UpdateData(QuestGraphNode node)
     {
-        var graph = data as LBSGraphData;
+        var graph = data as GraphicsModule;
 
         graph.Clear();
 
         if (node.Children.Count != 0)
         {
-            data.AddNode(node.Children[0]);
+            // data.AddNode(node.Children[0]);
 
             for (int i = 1; i < node.Children.Count; i++)
             {
@@ -110,13 +110,13 @@ public class LBSQuestGraphController : LBSGraphController
     {
         node.Children.Clear();
 
-        var nodes = data.GetNodes();
+        // var nodes = data.GetNodes();
 
-        foreach (var n in nodes)
+        /* foreach (var n in nodes)
         {
             if(n is QuestGraphNode)
                 node.Children.Add(n as QuestGraphNode);
-        }
+        }*/
     }
 
     internal void CloseUntill(int index)

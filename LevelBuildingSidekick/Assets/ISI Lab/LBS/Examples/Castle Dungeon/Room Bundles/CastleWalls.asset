@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1ca1a068b763d94ca8f120873012f03, type: 3}
+  m_Name: CastleWalls
+  m_EditorClassIdentifier: 
+  tags:
+  - {fileID: 11400000, guid: 3976a3fe0b1050a45b6620425e9d4cdc, type: 2}
+  objects:
+  - {fileID: 100000, guid: 9c33f225c6ee98243a57390a7235bd50, type: 3}
+  - {fileID: 6074304751300712246, guid: 19b5a58b7d0b4ca4e9b7adf6282ef443, type: 3}
+  - {fileID: 5699357662600130749, guid: cf915a29d62865c4a9fac3cdfe5c3c8c, type: 3}
+  - {fileID: 8766764870399681533, guid: 9e987e5e275fd2a4f977b20206fa74ff, type: 3}

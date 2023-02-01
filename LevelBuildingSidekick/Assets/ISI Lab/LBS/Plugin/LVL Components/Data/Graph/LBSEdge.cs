@@ -72,7 +72,7 @@ namespace LBS.Components.Graph
         /// <returns> True if the edge contains the given node, false otherwise.</returns>
         public bool Contains(LBSNode node)
         {
-            return firstNode == node || secondNode == node;
+            return firstNode.Equals(node) || secondNode.Equals(node);
         }
 
         public object Clone()

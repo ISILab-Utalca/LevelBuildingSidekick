@@ -139,4 +139,9 @@ public class TagProportion : IRangedEvaluator
     {
         return "Tag Proportion";
     }
+
+    public float EvaluateH<u>(IEvaluable evaluable, u Heu)
+    {
+        throw new NotImplementedException();
+    }
 }

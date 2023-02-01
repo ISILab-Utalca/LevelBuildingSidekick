@@ -13,13 +13,13 @@ namespace LBS.Components
         #region FIELDS
 
         [SerializeField, JsonRequired]
-        string key;
+        protected string key;
 
         [SerializeField, JsonRequired]
-        bool visible;
+        protected bool visible;
 
         [SerializeField, JsonRequired]
-        bool changed;
+        protected bool changed;
 
         #endregion
 

@@ -183,4 +183,9 @@ public class TagProportionByRoom : IRangedEvaluator
     {
         return "Tag Proportion by room";
     }
+
+    public float EvaluateH<u>(IEvaluable evaluable, u Heu)
+    {
+        throw new System.NotImplementedException();
+    }
 }
