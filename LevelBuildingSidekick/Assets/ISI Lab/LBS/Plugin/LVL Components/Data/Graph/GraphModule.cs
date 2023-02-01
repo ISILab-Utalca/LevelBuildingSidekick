@@ -253,8 +253,10 @@ namespace LBS.Components.Graph
         {
             var conects = edges.Where(e => e.Contains(node)).ToList();
 
-            var neigs = conects.Where(e => e.FirstNode != node).Select(e => (T)e.FirstNode);
-            neigs.Concat(conects.Where(e => e.SecondNode != node).Select(e => (T)e.SecondNode));
+            var firsts = conects.Where(e => e.FirstNode != node).Select(e => (T)e.FirstNode);
+            var seconds = conects.Where(e => e.SecondNode != node).Select(e => (T)e.SecondNode);
+            var neigs = firsts.ToList();
+            neigs.AddRange(seconds.ToList());
             return neigs.ToList();
         }
 
