@@ -18,11 +18,6 @@ public class SchemaGenerator : Generator3D
     {
         Init(layer);
 
-        if (schema == null || graph == null)
-        {
-            Debug.LogWarning("cannot be generated, there is no information about the map to load.");
-            return null;
-        }
 
         var mainPivot = new GameObject(objName);
 
