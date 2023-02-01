@@ -9,6 +9,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Utility;
 
 public class LBSMainWindow : EditorWindow
 {
@@ -77,6 +78,14 @@ public class LBSMainWindow : EditorWindow
 
         // MainView 
         mainView = rootVisualElement.Q<MainView>("MainView");
+        mainView.OnClearSelection = () =>
+        {
+            if (_selectedLayer != null)
+            {
+                var il = Reflection.MakeGenericScriptable(_selectedLayer);
+                Selection.SetActiveObjectWithContext(il, il);
+            }
+        };
 
         // DrawManager
         drawManager = new DrawManager(ref mainView, ref layerTemplates);
@@ -130,7 +139,16 @@ public class LBSMainWindow : EditorWindow
         layerPanel.style.display = DisplayStyle.Flex;
         layerPanel.OnSelectLayer += (layer) =>
         {
-            OnSelectedLayerChange(layer);
+            if(!layer.Equals(_selectedLayer))
+            {
+                OnSelectedLayerChange(layer);
+            }
+
+            if (_selectedLayer != null)
+            {
+                var il = Reflection.MakeGenericScriptable(_selectedLayer);
+                Selection.SetActiveObjectWithContext(il, il);
+            }
         };
 
         /*
@@ -184,6 +202,7 @@ public class LBSMainWindow : EditorWindow
         mainView.Clear();
         this.rootVisualElement.Clear();
         Init();
+        mainView.OnClearSelection?.Invoke();
     }
 
     public void OnLevelDataChange(LBSLevelData levelData)

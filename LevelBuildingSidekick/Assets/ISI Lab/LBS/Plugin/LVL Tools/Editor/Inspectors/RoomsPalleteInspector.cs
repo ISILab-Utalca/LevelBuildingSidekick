@@ -38,7 +38,29 @@ public class RoomsPalleteInspector<T,U> : LBSInspector where T: TiledArea where 
             btn.style.width = btn.style.height = 64;
             btn.text = area.ID;
             btn.style.backgroundColor = area.Color;
+
+            btn.clicked += () => {
+                foreach (var manipulator in lBSManipulators)
+                {
+                    var _area = area;
+                    var mani = manipulator as ManipulateTiledArea<TiledArea, ConnectedTile>;
+                    mani.areaToSet = _area;
+                }
+            };
+
+            foreach (var manipulator in lBSManipulators)
+            {
+                var _area = area;
+                var mani = manipulator as ManipulateTiledArea<TiledArea, ConnectedTile>;
+                mani.areaToSet = _area;
+            }
+
             content.Add(btn);
         }
+    }
+
+    public void SelectElemnt(int index)
+    {
+
     }
 }

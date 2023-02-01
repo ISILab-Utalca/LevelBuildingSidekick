@@ -16,6 +16,7 @@ public class AddTileToTiledAreaAtPoint<T,U> : ManipulateTiledArea<T, U> where T 
         var pos = mainView.FixPos(e.localMousePosition);
         var tile = Activator.CreateInstance(typeof(U)) as U;
         tile.Position = mainView.ToTileCords(pos);
+        tile.ID = areaToSet.ID;
         areaToSet?.AddTile(tile);
         OnManipulationEnd?.Invoke();
     }

@@ -92,11 +92,17 @@ public class LayerTemplateEditor : Editor
         template.modes.Add(mode1);
 
         // Mode 2
-        icon = Resources.Load<Texture2D>("Icons/Select"); 
+        icon = Resources.Load<Texture2D>("Icons/Select");
         var tool5 = new LBSTool(icon, "Select", typeof(Select), null, true);
 
         icon = Resources.Load<Texture2D>("Icons/paintbrush");
-        var tool6 = new LBSTool(icon, "Paint tile", typeof(AddTileToTiledAreaAtPoint<TiledArea, ConnectedTile>), null, true);
+        var tool6 = new LBSTool(
+            icon,
+            "Paint tile",
+            typeof(AddTileToTiledAreaAtPoint<TiledArea, ConnectedTile>),
+            typeof(RoomsPalleteInspector<TiledArea, ConnectedTile>),
+            true);
+
         /*
         icon = Resources.Load<Texture2D>("Icons/paintbrush"); 
         var tool6 = new LBSMultiTool(
@@ -114,22 +120,23 @@ public class LayerTemplateEditor : Editor
         */
 
         icon = Resources.Load<Texture2D>("Icons/erased");
-        var tool7 = new LBSMultiTool(
+        var tool7 = new LBSTool(
             icon,
             "Erase",
-            new List<string>() { "point", "Line", "Grid", "Free" },
-            new List<System.Type>() {
-                typeof(Select), //typeof(AddTileToTiledAreaAtPoint<TiledArea<LBSTile>,LBSTile>), // point // (!!) implementar
-                typeof(Select), //typeof(AddTileToTiledAreaAtLine<TiledArea<LBSTile>,LBSTile>), // line // (!!) implementar
-                typeof(Select), //typeof(AddTileToTiledAreaAtGrid<TiledArea<LBSTile>,LBSTile>), // grid // (!!) implementar
-                typeof(Select), //typeof(AddTileToTiledAreaAtFree<TiledArea<LBSTile>,LBSTile>)  // free // (!!) implementar
-            },
+            null, // Removed<TiledArea<LBSTile>, LBSTile>,
             null
         );
+
         icon = Resources.Load<Texture2D>("Icons/open-exit-door");
-        var tool8 = new LBSTool(icon, "Add door", typeof(Select), null, true);
+        var tool8 = new LBSTool(icon, "Add door", typeof(AddDoor<TiledArea,ConnectedTile>), null, true);
+
         icon = Resources.Load<Texture2D>("Icons/Trash");
-        var tool9 = new LBSTool(icon, "Remove door", typeof(Select), null, true);
+        var tool9 = new LBSTool(
+            icon, 
+            "Remove door", 
+            null, //typeof(RemoveDoor<TiledArea,ConnectedTile>),
+            null, 
+            true);
 
         var mode2 = new LBSMode(
             "Schema",

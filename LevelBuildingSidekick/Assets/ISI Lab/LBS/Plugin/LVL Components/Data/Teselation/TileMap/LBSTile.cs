@@ -35,7 +35,7 @@ namespace LBS.Components.TileMap
         public int Sides => sides;
 
         [JsonIgnore]
-        public string ID
+        public string ID // yo creo que la id en tile es inesesaria ya que el area ya sabe coales son sus tiles
         {
             get => id;
             set => id = value;
