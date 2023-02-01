@@ -35,7 +35,8 @@ namespace LBS.Components
         private List<LBSModule> modules;
 
         [SerializeField, JsonRequired, SerializeReference]
-        private CompositeBundle bundle;
+        [ScriptableToString(typeof(CompositeBundle))]
+        private string bundle;
 
         [SerializeField, JsonRequired, SerializeReference]
         private LBSLayerAssistant assitant;
@@ -74,7 +75,10 @@ namespace LBS.Components
         }
 
         [JsonIgnore]
-        public CompositeBundle Bundle => bundle;
+        public CompositeBundle Bundle
+        {
+            get => Utility.DirectoryTools.GetScriptable<CompositeBundle>(bundle);
+        }
 
         //EVENTS
         [JsonIgnore]
