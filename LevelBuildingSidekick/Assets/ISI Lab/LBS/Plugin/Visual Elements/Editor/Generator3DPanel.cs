@@ -17,6 +17,8 @@ public class Generator3DPanel : VisualElement
     Button action;
     Toggle destroyPrev;
 
+    LBSLayer layer;
+
     public Generator3D Generator
     {
         get => generator;
@@ -43,6 +45,8 @@ public class Generator3DPanel : VisualElement
 
     public void Init(LBSLayer layer = null)
     {
+        this.layer = layer;
+
         position = this.Q<Vector3Field>(name: "Position");
 
         scale = this.Q<Vector2Field>(name: "Scale");
@@ -58,7 +62,7 @@ public class Generator3DPanel : VisualElement
 
         action = this.Q<Button>(name: "Action");
 
-        action.clicked += () => Execute(layer);
+        action.clicked += Execute;
 
         if(layer != null)
         {
@@ -75,7 +79,7 @@ public class Generator3DPanel : VisualElement
 
     }
 
-    public void Execute(LBSLayer layer)
+    public void Execute()
     {
         if (destroyPrev.value)
         {
@@ -86,7 +90,7 @@ public class Generator3DPanel : VisualElement
             }
         }
 
-        if(!generator.GetType().Name.Equals(dropDown.Value))
+        if(generator == null || !generator.GetType().Name.Equals(dropDown.Value))
         {
             generator = dropDown.GetChoiceInstance() as Generator3D;
         }
