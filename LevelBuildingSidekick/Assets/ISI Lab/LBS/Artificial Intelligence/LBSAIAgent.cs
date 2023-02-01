@@ -11,16 +11,34 @@ namespace LBS.AI
     {
         protected LBSLayer layer;
 
+        protected string id;
+
+        protected string name;
+
         public LBSLayer Layer
         {
             get => layer;
         }
 
+        public string ID
+        {
+            get => id;
+            set => id = value;
+        }
+
+        public string Name
+        {
+            get => name;
+            set => name = value;
+        }
+
         public LBSAIAgent() { }
 
-        public LBSAIAgent(LBSLayer layer)
+        public LBSAIAgent(LBSLayer layer, string id, string name)
         {
             this.layer = layer;
+            ID = id;
+            Name = name;
         }
 
         public abstract void Init(LBSLayer layer);
