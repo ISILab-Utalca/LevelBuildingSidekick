@@ -9,6 +9,8 @@ public class LBSLayerAssistant : ScriptableObject
     [SerializeField, SerializeReference]
     Generator3D generator;
 
+
+
     public Generator3D Generator
     {
         get => generator;
