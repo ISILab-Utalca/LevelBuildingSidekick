@@ -7,14 +7,14 @@ using UnityEngine;
 [System.Serializable]
 public class PopulationBundle : Bundle
 {
-    [SerializeField, JsonRequired]
-    public List<LBSTag> tags = new List<LBSTag>();
-    [SerializeReference, JsonRequired] 
-    public List<GameObject> objects = new List<GameObject>();
-    [SerializeField, JsonRequired]
-    public Texture2D icon;
-    [SerializeField, JsonRequired]
-    public string label = ""; // "ID" or "name"
+    [SerializeReference, JsonRequired, SerializeField]
+    private List<GameObject> objects = new List<GameObject>();
+    [JsonRequired, SerializeField]
+    private Texture2D icon;
+    [JsonRequired, SerializeField]
+    private string label = ""; // "ID" or "name" 
+    [JsonIgnore]
+    public string Label => label;
 
     public override void Add(List<Bundle> data)
     {

@@ -2,18 +2,52 @@ using LBS.Components.TileMap;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json;
 
-public class PopulationTiles : LBSTile
+namespace LBS.Components.TileMap
 {
-    // Start is called before the first frame update
-    void Start()
+    [System.Serializable]
+    public class PopulationTiles : LBSTile
     {
-        
-    }
+        #region FIELDS
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        [SerializeField, JsonRequired, SerializeReference]
+        int population;
+
+        #endregion
+
+        #region PROPERTIES
+
+        public int Population { get { return population; } set { population = value; } }
+
+        #endregion
+
+        #region CONSTRUCTOR
+
+        public PopulationTiles() : base()
+        {
+            population = 0;
+        }
+
+        public PopulationTiles(Vector2 position, string id, int sides = 4, int population = 0) : base(position, id, sides)
+        {
+            this.population = population;
+        }
+
+        #endregion
+
+        #region METHODS
+
+        public void AddPopulation(int value)
+        {
+            population += value;
+        }
+
+        public void RemovePopulation(int value)
+        {
+            population -= value;
+        }
+
+        #endregion
     }
 }

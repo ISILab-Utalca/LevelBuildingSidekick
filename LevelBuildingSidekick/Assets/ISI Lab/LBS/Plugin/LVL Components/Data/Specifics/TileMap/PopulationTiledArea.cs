@@ -1,13 +1,29 @@
 using LBS.Components.TileMap;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
-using Newtonsoft.Json;
 
-public class PopulationTiledArea : TileMapModule<PopulationTiles>
+public class PopulationTiledArea : TiledArea
 {
     [SerializeField, JsonRequired]
     private string label = ""; // "ID" or "name"
+
+    [SerializeField, JsonRequired]
+    private Texture2D icon = null;
+    [JsonIgnore]
+    public string Label => label;
+    [JsonIgnore]
+    public Texture2D Icon => icon;
+
+    public override object Clone()
+    {
+        return new PopulationTiledArea
+        {
+            icon = Icon,
+            label = Label
+        };
+    }
+
     public void findScript(string ID)
     {
         PopulationBundle[] bundles = Resources.FindObjectsOfTypeAll<PopulationBundle>();
@@ -15,7 +31,7 @@ public class PopulationTiledArea : TileMapModule<PopulationTiles>
 
         foreach (PopulationBundle bundle in bundles)
         {
-            if (bundle.label == ID)
+            if (bundle.Label == ID)
             {
                 target = bundle;
                 break;
@@ -32,5 +48,4 @@ public class PopulationTiledArea : TileMapModule<PopulationTiles>
 
         // Do something with the found objects
     }
-
 }
