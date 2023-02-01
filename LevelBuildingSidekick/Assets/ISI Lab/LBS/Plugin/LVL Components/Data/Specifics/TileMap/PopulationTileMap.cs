@@ -4,7 +4,7 @@ using System.Linq;
 namespace LBS.Components.TileMap
 {
     [System.Serializable]
-    public class PopulationTileMap<T> : AreaTileMap<T> where T : PopulationTiledArea
+    public class PopulationTileMap<T> : AreaTileMap<T> where T : TiledArea
     {
         #region FIELDS
 

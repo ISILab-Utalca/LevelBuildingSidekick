@@ -248,13 +248,18 @@ public class LayerTemplateEditor : Editor
                 typeof(Select), //typeof(AddTileToTiledAreaAtGrid<TiledArea<LBSTile>,LBSTile>), // grid // (!!) implementar
                 typeof(Select), //typeof(AddTileToTiledAreaAtFree<TiledArea<LBSTile>,LBSTile>)  // free // (!!) implementar
             },
-            null
+            typeof(PopulationPalleteInspector<PopulationTiledArea>),
+            //null,
+            false
         );
+
         icon = Resources.Load<Texture2D>("Icons/Trash");
         var tool3 = new LBSTool(icon, "Remove", typeof(Select), null, false);
+        
 
         var mode1 = new LBSMode(
             "Population",
+            //Change to pop
             typeof(GraphModule<LBSNode>), 
             new DrawSimpleGraph(),
             new List<LBSTool>() { tool1, tool2, tool3}

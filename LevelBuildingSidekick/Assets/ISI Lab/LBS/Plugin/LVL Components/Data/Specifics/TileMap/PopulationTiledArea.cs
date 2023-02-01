@@ -15,6 +15,8 @@ public class PopulationTiledArea : TiledArea
     [JsonIgnore]
     public Texture2D Icon => icon;
 
+    public TiledArea areaToSet;
+
     public override object Clone()
     {
         return new PopulationTiledArea
