@@ -12,5 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1ca1a068b763d94ca8f120873012f03, type: 3}
   m_Name: CastleDoor
   m_EditorClassIdentifier: 
-  tags: []
-  objects: []
+  tags:
+  - {fileID: 11400000, guid: 8626cde9d99521f46827f9897b09ed1b, type: 2}
+  objects:
+  - {fileID: 416386656469751746, guid: 54b6530d68b89fd469fb2679fd3d4c6a, type: 3}
+  - {fileID: 407947492618299251, guid: 1fc9075de6743144195992418e91910e, type: 3}
