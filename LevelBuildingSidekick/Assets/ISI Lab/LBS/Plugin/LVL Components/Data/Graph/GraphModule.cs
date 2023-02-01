@@ -309,7 +309,5 @@ namespace LBS.Components.Graph
         public LBSRoomGraph(List<RoomNode> nodes, List<LBSEdge> edges, string key) : base(nodes, edges, key) { }
     }
 
-    [System.Serializable]
-    public class LBSSchema : AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile> { }
 }
 

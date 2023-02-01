@@ -9,7 +9,7 @@ public class DrawConnectedTilemap : Drawer // DrawSchema
 {
     public override void Draw(ref LBSLayer layer, MainView view)
     {
-        var tilemap = layer.GetModule<AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile>>();
+        var tilemap = layer.GetModule<AreaTileMap<TiledArea>>();
 
         foreach (var area in tilemap.Areas)
         {

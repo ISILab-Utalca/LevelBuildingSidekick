@@ -62,13 +62,13 @@ public class LayerTemplateEditor : Editor
         template.transformers.Add(
             new GraphToArea(
                 typeof(GraphModule<RoomNode>),
-                typeof(AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile>)
+                typeof(AreaTileMap<TiledArea>)
                 )
             );
 
         template.transformers.Add(
             new AreaToGraph(
-                typeof(AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile>),
+                typeof(AreaTileMap<TiledArea>),
                 typeof(GraphModule<RoomNode>)
                 )
             );
@@ -101,12 +101,12 @@ public class LayerTemplateEditor : Editor
             "Paint tile",
             new List<string>() { "point", "Line", "Grid","Free" },
             new List<System.Type>() { 
-                typeof(AddTileToTiledAreaAtPoint<TiledArea<ConnectedTile>,ConnectedTile>), // point // (!!) implementar
-                typeof(AddTileToTiledAreaAtLine<TiledArea<ConnectedTile>,ConnectedTile>), // line // (!!) implementar
-                typeof(AddTileToTiledAreaAtGrid<TiledArea<ConnectedTile>,ConnectedTile>), // grid // (!!) implementar
-                typeof(AddTileToTiledAreaAtFree<TiledArea<ConnectedTile>,ConnectedTile>)  // free // (!!) implementar
+                typeof(AddTileToTiledAreaAtPoint<TiledArea,ConnectedTile>), // point // (!!) implementar
+                typeof(AddTileToTiledAreaAtLine<TiledArea,ConnectedTile>), // line // (!!) implementar
+                typeof(AddTileToTiledAreaAtGrid<TiledArea,ConnectedTile>), // grid // (!!) implementar
+                typeof(AddTileToTiledAreaAtFree<TiledArea,ConnectedTile>)  // free // (!!) implementar
             },
-            typeof(RoomsPalleteInspector<TiledArea<ConnectedTile>, ConnectedTile>)
+            typeof(RoomsPalleteInspector<TiledArea, ConnectedTile>)
         );
         icon = Resources.Load<Texture2D>("Icons/erased");
         var tool7 = new LBSMultiTool(
@@ -128,7 +128,7 @@ public class LayerTemplateEditor : Editor
 
         var mode2 = new LBSMode(
             "Schema",
-            typeof(AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile>),
+            typeof(AreaTileMap<TiledArea>),
             new DrawConnectedTilemap(),new List<LBSTool>() { tool5, tool6, tool7, tool8, tool9 }
             );
         template.modes.Add(mode2);

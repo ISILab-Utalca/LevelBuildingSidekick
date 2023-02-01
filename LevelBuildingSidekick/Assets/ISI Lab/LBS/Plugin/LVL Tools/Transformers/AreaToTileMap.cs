@@ -18,16 +18,16 @@ namespace LBS.Tools.Transformer
             Vector2Int.up
         };
 
-        AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile> areaModule;
-        TiledArea<ConnectedTile> tileMap;
+        AreaTileMap<TiledArea> areaModule;
+        TiledArea tileMap;
 
         public AreaToTileMap(Type from, Type to) : base(from, to)
         {
         }
 
-        public AreaToTileMap(LBSLayer layer) : base(typeof(AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile>), typeof(AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile>))
+        public AreaToTileMap(LBSLayer layer) : base(typeof(AreaTileMap<TiledArea>), typeof(AreaTileMap<TiledArea>))
         {
-            this.areaModule = layer.GetModule(To) as AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile>; 
+            this.areaModule = layer.GetModule(To) as AreaTileMap<TiledArea>; 
         }
 
         public override void Switch(ref LBSLayer layer)
@@ -44,10 +44,10 @@ namespace LBS.Tools.Transformer
 
         private void CreateDataFrom()
         {
-            var nAreas = new List<TiledArea<ConnectedTile>>();
+            var nAreas = new List<TiledArea>();
             foreach (var area in areaModule.Areas)
             {
-                var nArea = new TiledArea<ConnectedTile>(new List<ConnectedTile>(), area.ID, area.Key, area.Color);
+                var nArea = new TiledArea(new List<LBSTile>(), area.ID, area.Key, area.Color);
 
                 foreach (var tile in area.Tiles)
                 {

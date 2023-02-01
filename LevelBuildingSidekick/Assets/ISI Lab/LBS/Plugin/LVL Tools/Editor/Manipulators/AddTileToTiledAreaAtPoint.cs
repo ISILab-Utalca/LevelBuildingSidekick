@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class AddTileToTiledAreaAtPoint<T,U> : ManipulateTiledArea<T, U> where T : TiledArea<U> where U : LBSTile
+public class AddTileToTiledAreaAtPoint<T,U> : ManipulateTiledArea<T, U> where T : TiledArea where U : LBSTile
 {
 
     protected override void OnMouseDown(MouseDownEvent e)

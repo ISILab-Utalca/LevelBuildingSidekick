@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class AddTileToTiledAreaAtGrid<T,U> : ManipulateTiledArea<T, U> where T : TiledArea<U> where U : LBSTile
+public class AddTileToTiledAreaAtGrid<T,U> : ManipulateTiledArea<T, U> where T : TiledArea where U : LBSTile
 {
     private Vector2Int startPos;
 

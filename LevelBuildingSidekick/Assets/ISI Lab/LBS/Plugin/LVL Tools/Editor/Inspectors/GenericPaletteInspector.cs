@@ -7,10 +7,10 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Utility;
 
-public class GenericPalleteInspector<T, U> : LBSInspector where T : TiledArea<U> where U : LBSTile
+public class GenericPalleteInspector<T, U> : LBSInspector where T : TiledArea where U : LBSTile
 {
 
-    public Action<AreaTileMap<T, U>> OnSelectionChange;
+    public Action<AreaTileMap<T>> OnSelectionChange;
 
     private VisualElement content;
 
@@ -25,7 +25,7 @@ public class GenericPalleteInspector<T, U> : LBSInspector where T : TiledArea<U>
 
     public override void Init(List<IManipulatorLBS> lBSManipulators, ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
     {
-        var tiledArea = layer.GetModule<AreaTileMap<T, U>>();
+        var tiledArea = layer.GetModule<AreaTileMap<T>>();
 
         content.Clear();
         var areas = tiledArea.Areas;

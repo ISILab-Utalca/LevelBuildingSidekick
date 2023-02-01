@@ -8,7 +8,7 @@ using UnityEngine;
 public static class DataExtensions
 {
 
-    public static RectInt GetRect<T,U>(this AreaTileMap<T, U> schema) where T : TiledArea<U> where U : LBSTile
+    public static RectInt GetRect<T>(this AreaTileMap<T> schema) where T : TiledArea
     {
         var x = (int) schema.Areas.Min(a => a.Rect.min.x);
         var y = (int) schema.Areas.Min(a => a.Rect.min.y);
@@ -18,8 +18,8 @@ public static class DataExtensions
     }
     
 
-    public static Vector2Int RecalculateTilePos<T,U>(this AreaTileMap<T, U> schema) where T : TiledArea<U> where U : LBSTile
-    {
+    public static Vector2Int RecalculateTilePos<T>(this AreaTileMap<T> schema) where T : TiledArea
+    { 
         var rect = schema.GetRect();
         var m = rect.min;
         for (int i = 0; i < schema.Areas.Count; i++)
@@ -29,7 +29,7 @@ public static class DataExtensions
         return -m;
     }
 
-    public static bool CheckTilesRooms<T,U>(this AreaTileMap<T,U> schema) where T : TiledArea<U> where U : LBSTile
+    public static bool CheckTilesRooms<T,U>(this AreaTileMap<T> schema) where T : TiledArea
     {
         foreach (var area in schema.Areas)
         {
@@ -42,7 +42,7 @@ public static class DataExtensions
         return false;
     }
 
-    public static List<T> GetRoomsWithoutTiles<T,U>(this AreaTileMap<T, U> schema) where T : TiledArea<U> where U : LBSTile
+    public static List<T> GetRoomsWithoutTiles<T>(this AreaTileMap<T> schema) where T : TiledArea
     {
         var rwt = new List<T>();
 
@@ -55,7 +55,7 @@ public static class DataExtensions
         return rwt;
     }
 
-    public static void RepositionRooms<T, U>(this AreaTileMap<T, U> schema) where T : TiledArea<U> where U : LBSTile
+    public static void RepositionRooms<T>(this AreaTileMap<T> schema) where T : TiledArea
     {
         var rwt = schema.GetRoomsWithoutTiles();
         var closetRoom = rwt[0];
@@ -102,7 +102,7 @@ public static class DataExtensions
         }
     }
 
-    public static void Move<T>(this TiledArea<T> area, Vector2Int value) where T : LBSTile
+    public static void Move(this TiledArea area, Vector2Int value)
     {
         for (int i = 0; i < area.Tiles.Count; i++)
         {
@@ -110,7 +110,7 @@ public static class DataExtensions
         }
     }
 
-    public static Vector2Int GetRandomTilePosFromCenter<T>(this TiledArea<T> area) where T : LBSTile
+    public static Vector2Int GetRandomTilePosFromCenter(this TiledArea area)
     {
         int auxNum = (area.Size == new Vector2Int(1, 1)) ? 1 : 2;
 

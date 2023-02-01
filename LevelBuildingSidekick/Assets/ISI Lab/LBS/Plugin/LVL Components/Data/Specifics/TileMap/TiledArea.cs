@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 namespace LBS.Components.TileMap
 {
     [System.Serializable]
-    public class TiledArea<T> : TileMapModule<T> where T : LBSTile
+    public class TiledArea : TileMapModule<LBSTile>
     {
         #region FIELDS
 
@@ -31,7 +31,7 @@ namespace LBS.Components.TileMap
         #region EVENTS
 
         [JsonIgnore]
-        public Action<T> OnAddTile;
+        public Action<LBSTile> OnAddTile;
 
         #endregion
 
@@ -39,7 +39,7 @@ namespace LBS.Components.TileMap
 
         public TiledArea() : base(){}
 
-        public TiledArea(List<T> tiles, string id, string key, Color color) : base(tiles, key)
+        public TiledArea(List<LBSTile> tiles, string id, string key, Color color) : base(tiles, key)
         {
             this.color = color;
             this.id = id;
@@ -49,7 +49,7 @@ namespace LBS.Components.TileMap
 
         #region METHODS
 
-        public override bool AddTile(T tile)
+        public override bool AddTile(LBSTile tile)
         {
             //if (GetDistance(tile.Position) > 1)
             //    return false;
@@ -120,24 +120,24 @@ namespace LBS.Components.TileMap
 
         }
 
-        internal List<T> GetConvexCorners() // (??)  esto solo funciona para "4 conected", deberia estar en una clase aparte?, si en la clase de las tablas del gabo
+        internal List<LBSTile> GetConvexCorners() // (??)  esto solo funciona para "4 conected", deberia estar en una clase aparte?, si en la clase de las tablas del gabo
         {
             var sideDir = new List<Vector2>() { Vector2.right, Vector2.up, Vector2.left, Vector2.down };
-            var corners = new List<T>();
+            var corners = new List<LBSTile>();
             foreach (var t in tiles)
             {
                 if (IsConvexCorner(t.Position, sideDir))
-                    corners.Add(t as T);
+                    corners.Add(t);
             }
             return corners;
         }
 
-        internal List<T> GetConcaveCorners() // (!) Tambien es de la clase de las tablas del gabo 
+        internal List<LBSTile> GetConcaveCorners() // (!) Tambien es de la clase de las tablas del gabo 
         {
             var diagDir = new List<Vector2>() { Vector2.right + Vector2.up, Vector2.up + Vector2.left, Vector2.left + Vector2.down, Vector2.down + Vector2.right };
             var sideDir = new List<Vector2>() { Vector2.right, Vector2.up, Vector2.left, Vector2.down };
 
-            var corners = new List<T>();
+            var corners = new List<LBSTile>();
 
             foreach (var t in tiles)
             {
@@ -168,7 +168,7 @@ namespace LBS.Components.TileMap
 
             foreach (var current in convexCorners)
             {
-                T other = null;
+                LBSTile other = null;
                 int lessDist = int.MaxValue;
                 foreach (var candidate in allCorners)
                 {
@@ -219,7 +219,7 @@ namespace LBS.Components.TileMap
 
             foreach (var current in convexCorners)
             {
-                T other = null;
+                LBSTile other = null;
                 int lessDist = int.MaxValue;
                 foreach (var candidate in allCorners)
                 {
@@ -261,12 +261,13 @@ namespace LBS.Components.TileMap
 
         public override object Clone()
         {
-            var tileMap = new TiledArea<T>();
+            var tileMap = new TiledArea();
             tileMap.tiles = tiles.Select(t => t.Clone() as LBSTile).ToList(); //new List<LBSTile>(tiles);
             return tileMap;
         }
 
         #endregion
     }
+
 }
 

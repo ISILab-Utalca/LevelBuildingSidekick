@@ -28,7 +28,7 @@ public class AreasEvaluator : IEvaluator
         return value / (schema.RoomCount * 1f);
     }
 
-    private float EvaluateBySize(RoomNode node, TiledArea<LBSTile> room)
+    private float EvaluateBySize(RoomNode node, TiledArea room)
     {
         var DeltaW = node.Width * 0.35;
         var DeltaH = node.Height * 0.35;

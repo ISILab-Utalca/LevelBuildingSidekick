@@ -22,7 +22,7 @@ public class AITest : VisualElement
     public new class UxmlFactory : UxmlFactory<AITest, VisualElement.UxmlTraits> { }
     List<int> b;
     public LBSLevelData data;
-    private AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile> schema;
+    private AreaTileMap<TiledArea> schema;
     private GraphModule<RoomNode> graph;
     Hill2<IEvaluable> HC;
 
@@ -48,7 +48,7 @@ public class AITest : VisualElement
                 //En graph como en schema el GetModule no esta retornado correctamente los modulos de LBSRoomGraph y
                 //LBSSchema, por lo que se tuvo que utilizar a las padres como tipo de datos. (!!)
                 graph = data.Layers[i].GetModule<GraphModule<RoomNode>>();
-                schema = data.Layers[i].GetModule<AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile>>();
+                schema = data.Layers[i].GetModule<AreaTileMap<TiledArea>>();
                 break;
             }
         }

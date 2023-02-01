@@ -10,13 +10,13 @@ using System;
 namespace LBS.Components.TileMap
 {
     [System.Serializable]
-    public class AreaTileMap<T, U> : TeselationModule where T : TiledArea<U> where U : LBSTile
+    public class AreaTileMap<T> : TeselationModule where T : TiledArea
     {
         #region FIELDS
 
         [SerializeField, JsonRequired, SerializeReference]
         //protected List<BasedTiledArea> areas;
-        protected List<TiledArea<LBSTile>> areas;
+        protected List<TiledArea> areas;
 
         #endregion
 
@@ -29,19 +29,7 @@ namespace LBS.Components.TileMap
         {
             get
             {
-                var areas = new List<T>();
-                foreach (var ar in this.areas)
-                {
-                    var tiles = new List<U>();
-                    foreach (var tile in ar.Tiles)
-                    {
-                        tiles.Add(tile as U);
-                        //var t = typeof(T).GetGenericArguments()[0];
-                        //var c = Convert.ChangeType(ti, t);
-                    }
-                    var nArea = new TiledArea<U>(tiles,ar.ID,ar.Key,ar.Color) as T;
-                    areas.Add(nArea);
-                }
+                var areas = this.areas.Select(a => a as T).ToList();
                 return areas;
             }
         }
@@ -53,7 +41,7 @@ namespace LBS.Components.TileMap
         public AreaTileMap() : base()
         {
             //areas = new List<BasedTiledArea>();
-            areas = new List<TiledArea<LBSTile>>();
+            areas = new List<TiledArea>();
         }
 
         #endregion
@@ -62,16 +50,14 @@ namespace LBS.Components.TileMap
 
         public void AddArea(T area)
         {
-            //var a = new BasedTiledArea(area.Tiles, area.ID,area.Key);
-            var tArea = new TiledArea<LBSTile>(area.Tiles, area.ID,area.Key,area.Color);
-            areas.Add(tArea);
+            areas.Add(area);
             area.OnAddTile = (t) => 
             {
                 RemoveTile(t);
             };
         }
 
-        private void RemoveTile(U t)
+        private void RemoveTile(LBSTile t)
         {
             foreach(var r in areas)
             {
@@ -82,35 +68,34 @@ namespace LBS.Components.TileMap
             }
         }
 
-        public U GetTileNeighbor(U tile, Vector2Int dir)
+        public LBSTile GetTileNeighbor(LBSTile tile, Vector2Int dir)
         {
             var pickedArea = areas.Find(a => a.Contains(tile.Position + dir));
 
             if (pickedArea == null)
                 return null;
 
-            return (U)pickedArea.GetTile(tile.Position + dir);
+            return pickedArea.GetTile(tile.Position + dir);
         }
 
-        public TiledArea<LBSTile> GetArea(string id)
+        public TiledArea GetArea(string id)
         {
             return areas.Find(r => r.Key == id);
         }
 
-        public TiledArea<LBSTile> GetRoomPos(Vector2Int tilePos)
+        public TiledArea GetRoomPos(Vector2Int tilePos)
         {
             return areas.Find(r => r.Contains(tilePos));
         }
 
-        public TiledArea<LBSTile> GetArea(int index)
+        public TiledArea GetArea(int index)
         {
             return areas[index];
         }
 
         public bool RemoveArea(T area)
-        {
-            var x = area as TiledArea<LBSTile>; // (??) funciona 
-            return areas.Remove(x);
+        { 
+            return areas.Remove(area);
         }
 
         public int GetRoomDistance(string r1, string r2) // O2 - manhattan
@@ -147,7 +132,7 @@ namespace LBS.Components.TileMap
 
         public override object Clone()
         {
-            var atm = new AreaTileMap<T, U>();
+            var atm = new AreaTileMap<T>();
             var nAreas = areas.Select(a => a.Clone() as T).ToList();// el "as" puede causar problemas
             foreach (var nArea in nAreas)
             {
@@ -162,13 +147,5 @@ namespace LBS.Components.TileMap
     }
 
 
-}
-
-public class BasedTiledArea : TiledArea<LBSTile>
-{
-    public BasedTiledArea(List<LBSTile> tiles, string id, string key, Color color) 
-        : base(tiles, id, key,color)
-    {
-    }
 }
 

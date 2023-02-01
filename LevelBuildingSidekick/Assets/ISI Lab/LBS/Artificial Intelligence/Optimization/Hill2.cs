@@ -97,7 +97,7 @@ namespace Utility
 
         public override List<IEvaluable> GetNeighbors(IEvaluable Adam)
         {
-            var tileMap = Adam as AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile>;
+            var tileMap = Adam as AreaTileMap<TiledArea>;
             var neightbours = new List<IEvaluable>();
             var maxSize = LBSController.CurrentLevel.data.MaxSize;
 
@@ -110,9 +110,9 @@ namespace Utility
 
                 foreach (var wall in walls)
                 {
-                    var neighbor = tileMap.Clone() as AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile>;
+                    var neighbor = tileMap.Clone() as AreaTileMap<TiledArea>;
 
-                    var tiles = new TiledArea<ConnectedTile>();
+                    var tiles = new TiledArea();
                     wall.Tiles.ForEach(t => tiles.AddTile(new ConnectedTile(t + wall.Dir, room.ID, 4)));
                     neighbor.AddArea(tiles);
 
@@ -131,7 +131,7 @@ namespace Utility
 
                 for (int x = 0; x < newSize.x; x++)
                 {
-                    var newTiles = new TiledArea<ConnectedTile>();
+                    var newTiles = new TiledArea();
                     var neighbor = tileMap.Clone() as LBSSchema;
 
                     for (int y = 0; y < newSize.y; y++)

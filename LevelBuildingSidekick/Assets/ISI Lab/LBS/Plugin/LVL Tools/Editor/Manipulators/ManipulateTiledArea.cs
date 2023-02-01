@@ -5,15 +5,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public abstract class ManipulateTiledArea<T, U> : LBSManipulator where T : TiledArea<U> where U : LBSTile
+public abstract class ManipulateTiledArea<T, U> : LBSManipulator where T : TiledArea where U : LBSTile
 {
-    public TiledArea<U> areaToSet;
-    protected AreaTileMap<T, U> module;
+    public TiledArea areaToSet;
+    protected AreaTileMap<T> module;
     protected MainView mainView;
 
     public override void Init(ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
     {
-        this.module = layer.GetModule<AreaTileMap<T, U>>();
+        this.module = layer.GetModule<AreaTileMap<T>>();
         this.mainView = view;
     }
 

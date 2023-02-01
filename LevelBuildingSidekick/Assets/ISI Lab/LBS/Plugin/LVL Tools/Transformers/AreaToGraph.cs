@@ -13,11 +13,11 @@ namespace LBS.Tools.Transformer
     public class AreaToGraph : Transformer
     {
         GraphModule<RoomNode> graph;
-        AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile> schema;
+        AreaTileMap<TiledArea> schema;
 
         public AreaToGraph(Type from, Type to) : base(from, to) { }
 
-        public AreaToGraph(AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile> schema, GraphModule<RoomNode> graph) : base(schema.GetType(), graph.GetType())
+        public AreaToGraph(AreaTileMap<TiledArea> schema, GraphModule<RoomNode> graph) : base(schema.GetType(), graph.GetType())
         {
             this.graph = graph;
             this.schema = schema;
@@ -25,7 +25,7 @@ namespace LBS.Tools.Transformer
 
         public override void Switch(ref LBSLayer layer)
         {
-            schema = layer.GetModule(From) as AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile>;
+            schema = layer.GetModule(From) as AreaTileMap<TiledArea>;
             graph = layer.GetModule(To) as GraphModule<RoomNode>;
 
 

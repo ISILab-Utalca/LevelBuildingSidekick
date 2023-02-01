@@ -1,6 +1,7 @@
 using Commons.Optimization;
 using LBS.Components;
 using LBS.Components.Graph;
+using LBS.Components.TileMap;
 using NUnit.Framework;
 using System;
 using System.Collections;
