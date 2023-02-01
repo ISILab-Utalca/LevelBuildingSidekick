@@ -18,16 +18,16 @@ MonoBehaviour:
     visible: 1
     iconPath: Icons/pine-tree
     modules:
-    - rid: 7025910111843909696
+    - rid: 8010066075628863509
     bundle: {fileID: 0}
     assitant: {fileID: 0}
   modes:
-  - rid: 7025910111843909697
+  - rid: 8010066075628863510
   transformers: []
   references:
     version: 2
     RefIds:
-    - rid: 7025910111843909696
+    - rid: 8010066075628863509
       type: {class: LBSBaseGraph, ns: LBS.Components.Graph, asm: Assembly-CSharp}
       data:
         key: LBSBaseGraph
@@ -35,7 +35,7 @@ MonoBehaviour:
         changed: 0
         nodes: []
         edges: []
-    - rid: 7025910111843909697
+    - rid: 8010066075628863510
       type: {class: LBSMode, ns: , asm: Assembly-CSharp-Editor}
       data:
         name: Exterior
@@ -43,11 +43,11 @@ MonoBehaviour:
         module: LBS.Components.Graph.GraphModule`1[[LBS.Components.Graph.LBSNode,
           Assembly-CSharp, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null]]
         toolkit:
-        - rid: 7025910111843909698
-        - rid: 7025910111843909699
-        - rid: 7025910111843909700
-        - rid: 7025910111843909701
-    - rid: 7025910111843909698
+        - rid: 8010066075628863511
+        - rid: 8010066075628863512
+        - rid: 8010066075628863513
+        - rid: 8010066075628863514
+    - rid: 8010066075628863511
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: 771d36a714319204ea4ddcbecdc2006e, type: 3}
@@ -55,7 +55,7 @@ MonoBehaviour:
         manipulator: Select
         inspector: 
         UseUnitySelector: 1
-    - rid: 7025910111843909699
+    - rid: 8010066075628863512
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: b1704af221b60f64face13aea01f1b04, type: 3}
@@ -63,7 +63,7 @@ MonoBehaviour:
         manipulator: Select
         inspector: 
         UseUnitySelector: 0
-    - rid: 7025910111843909700
+    - rid: 8010066075628863513
       type: {class: LBSMultiTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: bd700db3dfe4b4d40be798aee555d7f7, type: 3}
@@ -81,7 +81,7 @@ MonoBehaviour:
         - Select
         - Select
         - Select
-    - rid: 7025910111843909701
+    - rid: 8010066075628863514
       type: {class: LBSMultiTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: 8e8fbec1ef6d10c43a3cd708f17ea463, type: 3}

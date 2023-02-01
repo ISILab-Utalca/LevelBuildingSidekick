@@ -193,6 +193,9 @@ namespace LBS.Components
         {
             foreach (var module in modules)
             {
+                var x = module.GetType();
+                var xx = module.GetType().BaseType;
+
                 if (module.GetType().Equals(type) || Utility.Reflection.IsSubclassOfRawGeneric(type, module.GetType()))
                 {
                     if (ID.Equals("") || module.Key.Equals(ID))

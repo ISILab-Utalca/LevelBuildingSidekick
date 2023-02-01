@@ -96,7 +96,7 @@ public class LayerTemplateEditor : Editor
         var tool5 = new LBSTool(icon, "Select", typeof(Select), null, true);
 
         icon = Resources.Load<Texture2D>("Icons/paintbrush");
-        var tool6 = new LBSTool(icon, "Select", typeof(AddTileToTiledAreaAtPoint<TiledArea<ConnectedTile>, ConnectedTile>), null, true);
+        var tool6 = new LBSTool(icon, "Paint tile", typeof(AddTileToTiledAreaAtPoint<TiledArea, ConnectedTile>), null, true);
         /*
         icon = Resources.Load<Texture2D>("Icons/paintbrush"); 
         var tool6 = new LBSMultiTool(

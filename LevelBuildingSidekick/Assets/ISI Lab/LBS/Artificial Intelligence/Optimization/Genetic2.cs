@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Unity.VisualScripting;
-using static Unity.Collections.AllocatorManager;
+// using static Unity.Collections.AllocatorManager;
 /*
 public class Genetic2 : BaseOptimizerMetahuristic<IEvaluable>
 {

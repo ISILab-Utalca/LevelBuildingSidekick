@@ -103,7 +103,7 @@ namespace Utility
             while (toCheck != null && toCheck != typeof(object))
             {
                 var cur = toCheck.GetTypeInfo().IsGenericType ? toCheck.GetGenericTypeDefinition() : toCheck;
-                if (generic == cur)
+                if (generic.Equals(cur)  || generic.Equals(toCheck))
                 {
                     return true;
                 }
