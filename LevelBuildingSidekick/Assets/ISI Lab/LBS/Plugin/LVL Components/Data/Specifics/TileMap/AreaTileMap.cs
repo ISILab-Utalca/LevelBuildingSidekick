@@ -44,6 +44,12 @@ namespace LBS.Components.TileMap
             areas = new List<TiledArea>();
         }
 
+        public AreaTileMap(List<TiledArea> areas, string key) : base(key)
+        {
+            //areas = new List<BasedTiledArea>();
+            this.areas = areas;
+        }
+
         #endregion
 
         #region METHODS

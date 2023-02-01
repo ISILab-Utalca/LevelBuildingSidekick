@@ -16,10 +16,10 @@ namespace LBS.Components.Graph
         #region FIELDS
 
         [SerializeField, JsonRequired, SerializeReference]
-        List<LBSNode> nodes;
+        protected List<LBSNode> nodes;
 
         [SerializeField, JsonRequired, SerializeReference]
-        List<LBSEdge> edges;
+        protected List<LBSEdge> edges;
 
         #endregion
 
@@ -301,13 +301,6 @@ namespace LBS.Components.Graph
 
     [System.Serializable]
     public class LBSBaseGraph : GraphModule<LBSNode> { }
-
-    [System.Serializable]
-    public class LBSRoomGraph : GraphModule<RoomNode> 
-    {
-        public LBSRoomGraph() : base() { Key = GetType().Name; }
-        public LBSRoomGraph(List<RoomNode> nodes, List<LBSEdge> edges, string key) : base(nodes, edges, key) { }
-    }
 
 }
 
