@@ -14,10 +14,10 @@ public class listaIeva : IOptimizable
 
     }
 
-    public double? Fitness { get; set; }
+    public double Fitness { get; set; }
 
 
-    public IOptimizable Clone()
+    public object Clone()
     {
         throw new System.NotImplementedException();
     }
