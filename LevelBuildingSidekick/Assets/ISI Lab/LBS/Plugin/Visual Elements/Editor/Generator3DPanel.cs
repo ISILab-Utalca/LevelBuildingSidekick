@@ -11,6 +11,7 @@ public class Generator3DPanel : VisualElement
     ClassDropDown dropDown;
     Vector3Field position;
     Vector2Field scale;
+    Vector2Field resize;
     TextField objName;
 
     Generator3D generator;
@@ -33,6 +34,9 @@ public class Generator3DPanel : VisualElement
         visualTree.CloneTree(this);
 
         Init();
+
+        action = this.Q<Button>(name: "Action");
+        action.clicked += Execute;
     }
 
     public Generator3DPanel(LBSLayer layer)
@@ -41,6 +45,10 @@ public class Generator3DPanel : VisualElement
         visualTree.CloneTree(this);
 
         Init(layer);
+
+
+        action = this.Q<Button>(name: "Action");
+        action.clicked += Execute;
     }
 
     public void Init(LBSLayer layer = null)
@@ -49,8 +57,11 @@ public class Generator3DPanel : VisualElement
 
         position = this.Q<Vector3Field>(name: "Position");
 
-        scale = this.Q<Vector2Field>(name: "Scale");
+        scale = this.Q<Vector2Field>(name: "Resize");
         scale.value = Vector2.one;
+
+        resize = this.Q<Vector2Field>(name: "ReferenceSize");
+        resize.value = Vector2.one;
 
         objName = this.Q<TextField>(name: "ObjName");
 
@@ -60,20 +71,16 @@ public class Generator3DPanel : VisualElement
 
         destroyPrev = this.Q<Toggle>(name: "DestroyPrev");
 
-        action = this.Q<Button>(name: "Action");
-
-        action.clicked += Execute;
-
         if(layer != null)
         {
             generator = layer.Assitant.Generator;
             if(generator != null)
             {
                 dropDown.Value = generator.GetType().Name;
-                scale.value = generator.Scale;
+                scale.value = generator.Resize;
                 position.value = generator.Position;
                 objName.value = generator.ObjName;
-
+                resize.value = generator.Resize;
             }
         }
 
@@ -97,9 +104,11 @@ public class Generator3DPanel : VisualElement
 
         generator.ObjName = objName.value;
         generator.Position = position.value;
+        generator.Resize = resize.value;
         generator.Scale = scale.value;
 
         generator.Generate(layer);
+
     }
 
 

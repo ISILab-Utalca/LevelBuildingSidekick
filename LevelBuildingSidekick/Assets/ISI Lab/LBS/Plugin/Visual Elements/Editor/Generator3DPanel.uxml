@@ -4,7 +4,8 @@
         <ui:VisualElement style="margin-left: 4px; margin-right: 4px; margin-top: 8px; margin-bottom: 8px;">
             <ui:TextField picking-mode="Ignore" label="Name" value="filler text" text="Section 1" name="ObjName" />
             <ui:Vector3Field label="Position" name="Position" />
-            <ui:Vector2Field label="Scale" name="Scale" />
+            <ui:Vector2Field label="Reference Size" name="ReferenceSize" />
+            <ui:Vector2Field label="Resize" name="Resize" style="display: none;" />
             <ui:Label tabindex="-1" text="Prefab Configuration" display-tooltip-when-elided="true" />
         </ui:VisualElement>
         <ui:VisualElement style="margin-left: 4px; margin-right: 4px; margin-top: 8px; margin-bottom: 8px;">
