@@ -46,10 +46,6 @@ namespace GeneticSharp.Domain.Selections
         /// <param name="generation">The generation where the selection will be made.</param>
         public IList<IOptimizable> SelectEvaluables(int number, Generation generation)
         {
-            if (number < m_minNumberChromosomes)
-            {
-                throw new ArgumentOutOfRangeException(nameof(number), "The number of selected chromosomes should be at least {0}.".With(m_minNumberChromosomes));
-            }
 
             ExceptionHelper.ThrowIfNull("generation", generation);
 
