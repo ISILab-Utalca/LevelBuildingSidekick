@@ -35,7 +35,6 @@ public class AIPanel : VisualElement
 
     public void Init(LBSLayer layer)
     {
-        Debug.Log("Hya");
 
         container.Clear();
 
@@ -44,8 +43,11 @@ public class AIPanel : VisualElement
         var assist = layer.Assitant;
 
         for(int i = 0; i < assist.AgentsCount; i++)
-        { 
-            container.Add(new AIAgentPanel(assist.GetAgent(i)));
+        {
+            var agent = assist.GetAgent(i);
+            agent.Init(layer);
+            container.Add(new AIAgentPanel(agent));
+
         }
     }
 
