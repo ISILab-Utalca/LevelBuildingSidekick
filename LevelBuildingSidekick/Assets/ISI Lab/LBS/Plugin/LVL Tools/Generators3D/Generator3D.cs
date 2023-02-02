@@ -6,11 +6,23 @@ using LBS.Components;
 
 namespace LBS.Generator
 {
+    [System.Serializable]
     public abstract class Generator3D
     {
+        [SerializeField]
         protected Vector2 scale;
+        [SerializeField]
+        protected Vector2 resize;
+        [SerializeField]
         protected Vector3 position;
+        [SerializeField]
         protected string objName;
+
+        public Vector2 Resize
+        {
+            get => resize;
+            set => resize = value;
+        }
 
         public Vector2 Scale
         {
