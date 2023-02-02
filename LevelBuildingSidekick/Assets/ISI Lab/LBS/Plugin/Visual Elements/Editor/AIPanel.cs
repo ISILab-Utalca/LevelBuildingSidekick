@@ -6,7 +6,6 @@ using NUnit.Framework;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using TMPro;
 using UnityEditor.SceneTemplate;
 using UnityEngine;
@@ -17,39 +16,39 @@ public class AIPanel : VisualElement
 {
     public new class UxmlFactory : UxmlFactory<AIPanel, VisualElement.UxmlTraits> { }
 
-    public LBSLevelData data;
-    private LBSSchema schema;
-    private LBSRoomGraph graph;
+    LBSLayer layer;
+
+    VisualElement container;
 
     /*public AIPanel(Commons.Optimization.BaseOptimizerMetahuristic<IEvaluable> _base)
     {
         this._base = _base;
     }*/
 
-    public AIPanel() { }
-
-    public AIPanel(LBSLevelData levelData)
+    public AIPanel()
     {
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("AIPanel"); // Editor
         visualTree.CloneTree(this);
 
-        this.data = levelData;
-        
-        var HillClimbingBtn = this.Q<Button>("OptimizerB");
-        HillClimbingBtn.clicked += Optimize;
+        container = this.Q<VisualElement>(name: "Container");
     }
-    private void Optimize()
+
+    public void Init(LBSLayer layer)
     {
-        for (int i = 0; i < data.Layers.Count; i++)
+
+        container.Clear();
+
+        this.layer = layer;
+
+        var assist = layer.Assitant;
+
+        for(int i = 0; i < assist.AgentsCount; i++)
         {
-            if (data.Layers[i].ID == "Interior")
-            {
-                UnityEngine.Debug.Log("Found layer: " + data.Layers[i].Name);
-                schema = data.Layers[i].GetModule<LBSSchema>();
-                graph = data.Layers[i].GetModule<LBSRoomGraph>();
-                UnityEngine.Debug.Log("Nodos en graph: " + graph.NodeCount);       
-                break;
-            }
+            var agent = assist.GetAgent(i);
+            agent.Init(layer);
+            container.Add(new AIAgentPanel(agent));
+
         }
     }
+
 }

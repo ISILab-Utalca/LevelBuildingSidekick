@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement style="border-left-width: 8px; border-right-width: 8px; border-top-width: 8px; border-bottom-width: 8px; padding-top: 0; padding-bottom: 0; padding-left: 0; padding-right: 0; margin-left: 8px; margin-right: 8px; margin-top: 8px; margin-bottom: 8px; flex-grow: 0; height: 73px;">
+        <ui:VisualElement style="flex-direction: row; padding-bottom: 8px; flex-shrink: 1; flex-grow: 1; flex-wrap: wrap;">
+            <ui:Label tabindex="-1" text="AI assistant" display-tooltip-when-elided="true" name="Name" style="-unity-font-style: bold; -unity-text-align: middle-center; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 8px; flex-grow: 1; width: auto;" />
+            <ui:Button tabindex="-1" text="Details" display-tooltip-when-elided="true" name="Details" style="padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 4px; flex-shrink: 0; flex-grow: 1;" />
+        </ui:VisualElement>
+        <ui:Button tabindex="-1" text="Execute" display-tooltip-when-elided="true" name="Execute" style="flex-shrink: 1; flex-grow: 1;" />
+    </ui:VisualElement>
+</ui:UXML>

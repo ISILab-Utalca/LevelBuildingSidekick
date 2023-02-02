@@ -8,21 +8,12 @@ using UnityEngine.UIElements;
 
 public class AreasEvaluator : IEvaluator
 {
+    LBSRoomGraph graph;
+
     public AreasEvaluator() { }
-
-    public float EvaluateH<u>(IOptimizable evaluable, u Heu)
+    public AreasEvaluator(LBSRoomGraph graph) 
     {
-        var graphData = evaluable as LBSRoomGraph;
-        var schema = Heu as LBSSchema;
-        var value = 0f;
-        for (int i = 0; i < graphData.NodeCount; i++)
-        {
-            var node = graphData.GetNode(i);
-            var room = schema.GetArea(node.ID);
-
-            EvaluateBySize(node, room);
-        }
-        return value / (schema.RoomCount * 1f);
+        this.graph = graph;
     }
 
     private float EvaluateBySize(RoomNode node, TiledArea room)
@@ -46,7 +37,17 @@ public class AreasEvaluator : IEvaluator
 
     public float Evaluate(IOptimizable evaluable)
     {
-        throw new System.NotImplementedException();
+
+        var schema = (evaluable as OptimizableSchema).Schema;
+        var value = 0f;
+        for (int i = 0; i < graph.NodeCount; i++)
+        {
+            var node = graph.GetNode(i);
+            var room = schema.GetArea(node.ID);
+
+            EvaluateBySize(node, room);
+        }
+        return value / (schema.RoomCount * 1f);
     }
 
     public string GetName()

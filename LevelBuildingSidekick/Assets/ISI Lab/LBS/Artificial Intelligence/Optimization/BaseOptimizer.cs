@@ -21,7 +21,6 @@ namespace Commons.Optimization
         protected readonly object m_lock;
         protected bool stopRequested;
         protected bool pauseRequested;
-        protected int generationsNumber;
 
         [SerializeField, SerializeReference]
         IPopulation population;
@@ -41,7 +40,7 @@ namespace Commons.Optimization
 
         #region Properties
 
-        public int GenerationsNumber => generationsNumber;
+        public int GenerationsNumber => Population.GenerationsNumber;
 
         public IOptimizable BestCandidate 
         {
@@ -126,16 +125,15 @@ namespace Commons.Optimization
 
         public BaseOptimizer()
         {
-            generationsNumber = 0;
             m_lock = new object();
             stopRequested = pauseRequested = false;
             State = Op_State.NotStarted;
 
         }
 
-        public BaseOptimizer(IOptimizable adam, IPopulation population, IEvaluator evaluator, ISelection selection, ITermination termination) : this()
+        public BaseOptimizer(IPopulation population, IEvaluator evaluator, ISelection selection, ITermination termination) : this()
         {
-            Adam = adam;
+            Adam = population.Adam;
             BestCandidate = Adam;
             Population = population;
             Evaluator = evaluator;
@@ -193,10 +191,10 @@ namespace Commons.Optimization
 
         public void Run()
         {
+            Population.CreateInitialGeneration();
             while(!TerminatioReached())
             {
                 RunOnce();
-                generationsNumber++;
                 OnGenerationRan?.Invoke();
             }
         }

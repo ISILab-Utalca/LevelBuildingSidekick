@@ -17,6 +17,7 @@ namespace GeneticSharp.Domain.Populations
         #region Constructors
         public Population()
         {
+            GenerationsNumber = 0;
             CreationDate = DateTime.Now;
             Generations = new List<Generation>();
             GenerationStrategy = new PerformanceGenerationStrategy(10);
@@ -32,10 +33,7 @@ namespace GeneticSharp.Domain.Populations
         /// <param name="adam">The original chromosome of all population ;).</param>
         public Population(int minSize, int maxSize, IOptimizable adam)
         {
-            if (minSize < 2)
-            {
-                throw new ArgumentOutOfRangeException("minSize", "The minimum size for a population is 2 chromosomes.");
-            }
+            GenerationsNumber = 0;
 
             if (maxSize < minSize)
             {
@@ -49,6 +47,7 @@ namespace GeneticSharp.Domain.Populations
             MaxSize = maxSize;
             Adam = adam;
             Generations = new List<Generation>();
+            GenerationsNumber = 0;
             GenerationStrategy = new PerformanceGenerationStrategy(10);
         }
         #endregion
