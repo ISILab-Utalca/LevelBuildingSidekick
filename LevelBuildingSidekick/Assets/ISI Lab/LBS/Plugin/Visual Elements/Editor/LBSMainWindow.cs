@@ -35,8 +35,6 @@ public class LBSMainWindow : EditorWindow
     private AIPanel aiPanel;
     private Generator3DPanel gen3DPanel;
 
-    private AITest AIp;
-
     // Manager
     private ToolkitManager toolkitManager;
     private DrawManager drawManager;
