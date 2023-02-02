@@ -21,7 +21,7 @@ namespace LBS.AI
     {
         Func<IOptimizable, List<IOptimizable>> GetNeighbors;
 
-        public HillClimbing(IOptimizable adam, IPopulation population, IEvaluator evaluator, ISelection selection, Func<IOptimizable, List<IOptimizable>> getNeighbors,  ITermination termination) : base( adam, population, evaluator, selection, termination)
+        public HillClimbing(IPopulation population, IEvaluator evaluator, ISelection selection, Func<IOptimizable, List<IOptimizable>> getNeighbors,  ITermination termination) : base( population, evaluator, selection, termination)
         {
             GetNeighbors = getNeighbors;
         }
