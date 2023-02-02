@@ -12,7 +12,7 @@ namespace LBS.Components.Specifics
         #region FIELDS
 
         [SerializeField, JsonRequired]
-        RoomData room;
+        private RoomData room;
 
         #endregion
 

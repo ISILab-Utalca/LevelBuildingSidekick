@@ -24,12 +24,6 @@ namespace LBS.Components
         [SerializeField, JsonRequired]
         public string iconPath; // (?) esto tiene que estar en la layertemplate
 
-        //[SerializeField, JsonRequired, SerializeReference]
-        //private List<string> transformers; 
-
-        //[SerializeField, JsonRequired, SerializeReference]
-        //private List<Transformer> transformers;
-
         [SerializeField, JsonRequired, SerializeReference]
         private List<LBSModule> modules;
 
@@ -61,6 +55,7 @@ namespace LBS.Components
             get => name;
             set => name = value;
         }
+
 
         [JsonIgnore]
         public LBSLayerAssistant Assitant
