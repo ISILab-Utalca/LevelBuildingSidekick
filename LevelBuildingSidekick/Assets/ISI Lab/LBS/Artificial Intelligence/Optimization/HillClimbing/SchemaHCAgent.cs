@@ -10,6 +10,7 @@ using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Populations;
 using Commons.Optimization.Evaluator;
 using Commons.Optimization.Terminations;
+using LBS.Components.Graph;
 
 public class SchemaHCAgent : LBSAIAgent
 {
@@ -27,25 +28,30 @@ public class SchemaHCAgent : LBSAIAgent
 
     public override void Init(LBSLayer layer)
     {
+        var graph = layer.GetModule<LBSRoomGraph>();
+
+        var schema = layer.GetModule<LBSSchema>();
+        var adam = new OptimizableSchema(schema);
+
         var selection = new EliteSelection();
-        var termination = new OrTermination(new ITermination[] { new FitnessStagnationTermination()}); // agregar termination de maximo local
+        var termination = new FitnessStagnationTermination(); // agregar termination de maximo local
         var evaluator = new WeightedEvaluator(new System.Tuple<IEvaluator, float>[] //agregar parametros necesarios a las clases de evaluación
         {
-            new System.Tuple<IEvaluator, float> (new AdjacenciesEvaluator(), 0.5f),
-            new System.Tuple<IEvaluator, float> (new AreasEvaluator(), 0.35f),
+            new System.Tuple<IEvaluator, float> (new AdjacenciesEvaluator(graph), 0.5f),
+            new System.Tuple<IEvaluator, float> (new AreasEvaluator(graph), 0.35f),
             new System.Tuple<IEvaluator, float> (new EmptySpaceEvaluator(), 0.15f),
 
         }) ;
-        var population = new Population(); // agregar parametros
+        var population = new Population(1, 100, adam); // agregar parametros
 
-        hillClimbing = new HillClimbing(null, population, evaluator, selection, GetNeighbors, termination); // asignar Adam
+        hillClimbing = new HillClimbing(population, evaluator, selection, GetNeighbors, termination); // asignar Adam
 
     }
 
     public List<IOptimizable> GetNeighbors(IOptimizable Adam)
     {
-        var tileMap = layer.GetModule<AreaTileMap<TiledArea>>(); // Adam as algun tipo de IOptimizable que usa schema
-        var neightbours = new List<IOptimizable>();
+        var tileMap = (Adam as OptimizableSchema).Schema; // Adam as algun tipo de IOptimizable que usa schema
+        var neighbours = new List<IOptimizable>();
 
         for (int i = 0; i < tileMap.RoomCount; i++)
         {
@@ -62,14 +68,14 @@ public class SchemaHCAgent : LBSAIAgent
                 wall.Tiles.ForEach(t => tiles.AddTile(new ConnectedTile(t + wall.Dir, room.ID, 4)));
                 neighbor.AddArea(tiles);
 
-                neightbours.Add(neighbor as IOptimizable);
+                neighbours.Add(neighbor as IOptimizable);
             }
 
             foreach (var wall in walls)
             {
-                var neighbor = tileMap.Clone() as LBSSchema;
-                neighbor.Clear();
-                neightbours.Add(neighbor as IOptimizable);
+                var neighbour = tileMap.Clone() as LBSSchema;
+                neighbour.Clear();
+                neighbours.Add(new OptimizableSchema(neighbour));
             }
 
             // Change the room size
@@ -87,10 +93,10 @@ public class SchemaHCAgent : LBSAIAgent
 
                 neighbor.AddArea(newTiles);
 
-                neightbours.Add(neighbor as IOptimizable);
+                neighbours.Add(neighbor as IOptimizable);
             }
         }
 
-        return neightbours;
+        return neighbours;
     }
 }
