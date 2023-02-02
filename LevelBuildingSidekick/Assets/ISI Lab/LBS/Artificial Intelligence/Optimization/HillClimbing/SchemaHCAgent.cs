@@ -28,6 +28,8 @@ public class SchemaHCAgent : LBSAIAgent
 
     public override void Init(LBSLayer layer)
     {
+        name = "Schema HillClimbing";
+
         var graph = layer.GetModule<LBSRoomGraph>();
 
         var schema = layer.GetModule<LBSSchema>();
