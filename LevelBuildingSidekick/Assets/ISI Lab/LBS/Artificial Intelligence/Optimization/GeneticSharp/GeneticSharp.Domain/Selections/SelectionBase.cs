@@ -53,7 +53,7 @@ namespace GeneticSharp.Domain.Selections
 
             ExceptionHelper.ThrowIfNull("generation", generation);
 
-            if (generation.Evaluables.Any(c => !c.Fitness.HasValue))
+            if (generation.Evaluables.Any(c => c.Fitness == double.NaN))
             {
                 throw new SelectionException(
                        this,
