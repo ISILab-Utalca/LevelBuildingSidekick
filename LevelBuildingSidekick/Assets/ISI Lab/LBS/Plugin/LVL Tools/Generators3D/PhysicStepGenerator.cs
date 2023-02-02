@@ -1,8 +1,5 @@
 using LBS.Components;
-using LBS.Graph;
 using LBS.Representation;
-using LBS.Representation.TileMap;
-using LBS.Schema;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,19 +15,19 @@ namespace LBS.Generator
         Edge
     }
 
-    public class PhysicStepGenerator : Generator3D
+    public class PhysicStepGenerator //: Generator3D
     {
-        
+        /*
 
         private static List<Vector2Int> dirs = new List<Vector2Int>() { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right };
 
-        private LBSSchemaData schema;
+        //private LBSSchemaData schema;
         //private LBSGraphData graph = null;
         private float tileSize = 1f;
         
         public override GameObject Generate(LBSLayer layer)
         {
-            if(schema == null/* || graph == null*/)
+            //if(schema == null/* || graph == null)
             {
                 Debug.LogWarning("cannot be generated, there is no information about the map to load.");
                 return null;
@@ -61,25 +58,27 @@ namespace LBS.Generator
                     GenPhysicEdge(schema,eBundle, pivot.transform, tile);
                     //GenPhysicCorners(blabla);
                 }
-            }*/
+            }
             return mainPivot;
         }
 
-        private GameObject GenPhysicCenter(ItemCategory bundle, Transform parent)
+        private GameObject GenPhysicCenter(object bundle, Transform parent)
         {
-            var prefs = bundle.items;
-            var r = SceneView.Instantiate(prefs[Random.Range(0, prefs.Count)], parent);
+            //var prefs = bundle.items;
+            //var r = SceneView.Instantiate(prefs[Random.Range(0, prefs.Count)], parent);
 
-            if(false) // (!) dejar esta como variable que el usuario pueda controlar, y cambiar a que funcione con la rotacion del tile
-                r.transform.Rotate(new Vector3(0, 90, 0) * Random.Range(0, 4));
+            //if(false) // (!) dejar esta como variable que el usuario pueda controlar, y cambiar a que funcione con la rotacion del tile
+            //    r.transform.Rotate(new Vector3(0, 90, 0) * Random.Range(0, 4));
 
-            return r;
+            //return r;
+            return null;
         }
 
-        private void InstantiateEdge(ItemCategory bundle,Transform pivot,Vector2 dir)
+        private void InstantiateEdge(object bundle,Transform pivot,Vector2 dir)
         {
-            var prefs = bundle.items;
-            var go = SceneView.Instantiate(prefs[Random.Range(0, prefs.Count)], pivot);
+            /*
+           // var prefs = bundle.items;
+            //var go = SceneView.Instantiate(prefs[Random.Range(0, prefs.Count)], pivot);
             //var wThic = LBSController.CurrentLevel.data.WallThickness;
             //var tSize = LBSController.CurrentLevel.data.TileSize;
             //var mag = (wThic + tSize) * 0.5f;
@@ -88,10 +87,12 @@ namespace LBS.Generator
             //go.transform.position += d;
             var a = go.transform.position - pivot.transform.position;
             go.transform.LookAt(a + go.transform.position,Vector3.up);
+            
         }
 
-        private GameObject GenPhysicEdge(LBSSchemaData schema,List<ItemCategory> bundle, Transform parent, TileData tile)//,LBSTileMapData schema)
+        //private GameObject GenPhysicEdge(object schema,List<object> bundle, Transform parent, object tile)//,LBSTileMapData schema)
         {
+            /*
             var bWall = bundle.Where(b => b.category == "Wall").ToList();
             var bDoor = bundle.Where(b => b.category == "Door").ToList();
 
@@ -121,6 +122,7 @@ namespace LBS.Generator
                 } // si son de la misma no pone nada
             }
             return null;
+            
         }   
 
         public void Init(LBSLevelData levelData)
@@ -134,5 +136,6 @@ namespace LBS.Generator
         {
             throw new System.NotImplementedException();
         }
+        */
     }
 }

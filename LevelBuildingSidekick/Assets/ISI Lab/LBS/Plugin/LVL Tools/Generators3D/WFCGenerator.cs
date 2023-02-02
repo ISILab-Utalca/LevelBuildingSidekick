@@ -8,8 +8,9 @@ using Utility;
 
 namespace LBS.Generator
 {
-    public class WFCGenerator : Generator3D //  (!!!) esta clase mescla lo que tiene que hacer la IA de WFC con generar 3d posteriormente
+    public class WFCGenerator //: Generator3D //  (!!!) esta clase mescla lo que tiene que hacer la IA de WFC con generar 3d posteriormente
     {
+        /*
         public MapData wfc;
         public float size;
 
@@ -132,5 +133,6 @@ namespace LBS.Generator
         {
             throw new System.NotImplementedException();
         }
+        */
     }
 }

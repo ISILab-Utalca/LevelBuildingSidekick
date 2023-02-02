@@ -23,6 +23,8 @@ public class LayoutEvaluator : IRangedEvaluator
     /// <returns>A float value representing the evaluation of the given object.</returns>
     public float Evaluate(IOptimizable evaluable)
     {
+        return 0f;
+        /*
         if (!(evaluable is StampTileMapChromosome))
         {
             return MinValue;
@@ -95,6 +97,7 @@ public class LayoutEvaluator : IRangedEvaluator
         Debug.Log("Final: " + Fitness);
 
         return Mathf.Clamp(Fitness, MinValue, MaxValue);
+        */
     }
 
     public string GetName()

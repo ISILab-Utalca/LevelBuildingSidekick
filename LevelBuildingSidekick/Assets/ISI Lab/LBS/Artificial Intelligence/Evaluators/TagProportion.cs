@@ -7,9 +7,9 @@ using System.Linq;
 using LBS;
 using System;
 
-public class TagProportion : IRangedEvaluator
+public class TagProportion // : IRangedEvaluator
 {
-
+    /*
     public string tag1;
     public string tag2;
 
@@ -91,7 +91,7 @@ public class TagProportion : IRangedEvaluator
             /*if (pressetsG1.Count() == pressetsG2.Count())
             {
                 return MaxValue;
-            }*/
+            }
 
         }
 
@@ -144,4 +144,5 @@ public class TagProportion : IRangedEvaluator
     {
         throw new NotImplementedException();
     }
+    */
 }

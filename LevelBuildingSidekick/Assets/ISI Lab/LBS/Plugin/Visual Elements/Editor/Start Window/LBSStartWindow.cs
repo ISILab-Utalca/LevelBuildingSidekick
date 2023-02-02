@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.Linq;
-using LBS.Graph;
 using UnityEngine.UIElements;
 using System;
 using System.Reflection;
@@ -43,7 +42,7 @@ namespace LBS.Windows
         #endregion
 
         private static List<Tuple<LBSWindowAttribute, MethodInfo>> methods = new List<Tuple<LBSWindowAttribute, MethodInfo>>();
-        private static List<WindowsPreset> presets = new List<WindowsPreset>();
+        //private static List<WindowsPreset> presets = new List<WindowsPreset>();
 
         [MenuItem("ISILab/LBS plugin/Welcome window...", priority = 0)]
         [MenuItem("ISILab/Welcome window", priority = 0)]
@@ -56,7 +55,7 @@ namespace LBS.Windows
             //var controller = new LBSController();
 
             methods = Utility.Reflection.CollectMetohdsByAttribute<LBSWindowAttribute>();
-            presets = Utility.DirectoryTools.GetScriptablesByType<WindowsPreset>();
+            //presets = Utility.DirectoryTools.GetScriptablesByType<WindowsPreset>();
         }
 
         public void CreateGUI()

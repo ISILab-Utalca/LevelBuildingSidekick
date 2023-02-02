@@ -3,7 +3,6 @@ using UnityEngine;
 using Commons.Optimization.Evaluator;
 using UnityEngine.UIElements;
 using System.Linq;
-using LBS.Representation.TileMap;
 using Utility;
 
 public class UniformEvaluator : IRangedEvaluator
@@ -16,7 +15,7 @@ public class UniformEvaluator : IRangedEvaluator
     public float MinValue => min;
 
 
-    List<StampPresset> pressets = DirectoryTools.GetScriptables<StampPresset>();
+    //List<StampPresset> pressets = DirectoryTools.GetScriptables<StampPresset>();
     /// <summary>
     /// Evaluates the given evaluable object.
     /// </summary>
@@ -24,6 +23,7 @@ public class UniformEvaluator : IRangedEvaluator
     /// <returns>A float value representing the evaluation of the given object.</returns>
     public float Evaluate(IOptimizable evaluable)
     {
+        /*
         if (!(evaluable is StampTileMapChromosome))
         {
             return MinValue;
@@ -36,7 +36,7 @@ public class UniformEvaluator : IRangedEvaluator
         var total = stmc.stamps.Count;
         var list = stmc.stamps;
 
-        var rooms = (StampTileMapChromosome.TileMap.GetData() as LBSSchemaData).GetRooms();
+        //var rooms = (StampTileMapChromosome.TileMap.GetData() as LBSSchemaData).GetRooms();
         var tiles = rooms.SelectMany(r => r.TilesPositions);
 
         Vector2Int offset = new Vector2Int
@@ -100,6 +100,8 @@ public class UniformEvaluator : IRangedEvaluator
         Debug.Log("Final: " + Fitness);
 
         return Mathf.Clamp(Fitness, MinValue, MaxValue);
+        */
+        return 0;
     }
 
     public string GetName()

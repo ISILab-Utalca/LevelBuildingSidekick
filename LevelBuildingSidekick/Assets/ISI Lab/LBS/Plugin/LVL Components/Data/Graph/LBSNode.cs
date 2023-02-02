@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEditorInternal;
 using LBS;
 using System;
-using LBS.Schema;
 using Newtonsoft.Json;
 using UnityEditor;
 

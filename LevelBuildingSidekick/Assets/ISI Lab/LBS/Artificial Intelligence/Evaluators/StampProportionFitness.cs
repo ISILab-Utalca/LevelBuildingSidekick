@@ -7,8 +7,9 @@ using UnityEditor.UIElements;
 using System.Linq;
 using System;
 
-public class StampProportionFitness : IRangedEvaluator
+public class StampProportionFitness //: IRangedEvaluator
 {
+    /*
     public StampPresset stamp1;
     public StampPresset stamp2;
 
@@ -123,4 +124,5 @@ public class StampProportionFitness : IRangedEvaluator
     {
         throw new NotImplementedException();
     }
+    */
 }

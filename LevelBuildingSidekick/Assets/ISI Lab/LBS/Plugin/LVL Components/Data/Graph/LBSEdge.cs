@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using LBS;
 using System;
-using LBS.Graph;
 using Newtonsoft.Json;
 
 namespace LBS.Components.Graph

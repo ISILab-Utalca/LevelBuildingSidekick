@@ -24,7 +24,7 @@ public class GeneticAlgorithm : IGeneticAlgorithm , IShowable
 {
     public GeneticAlgorithm()
     {
-        Evaluator = new StampPresenceEvaluator();
+        //Evaluator = new StampPresenceEvaluator();
         Reinsertion = new ElitistReinsertion();
         CrossoverProbability = DefaultCrossoverProbability;
         MutationProbability = DefaultMutationProbability;

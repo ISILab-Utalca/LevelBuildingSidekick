@@ -27,6 +27,7 @@ public abstract class Simetry2DEvaluator : IRangedEvaluator
     /// <exception cref="FitnessException">Thrown if the evaluable object is not an instance of ITileMap.</exception>
     public float Evaluate(IOptimizable evaluable)
     {
+        /*
         if(!(evaluable is ITileMap))
         {
             throw new FitnessException("evaluable must be ITileMap");
@@ -40,6 +41,8 @@ public abstract class Simetry2DEvaluator : IRangedEvaluator
         float simetry = CalculateSimetry(data, height);
 
         return Mathf.Clamp(simetry, MinValue, MaxValue);
+        */
+        return 0f;
     }
 
 

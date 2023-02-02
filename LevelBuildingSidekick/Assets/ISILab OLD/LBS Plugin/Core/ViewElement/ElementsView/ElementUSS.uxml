@@ -1,8 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <ui:VisualElement name="ViewElemnt" style="height: 104px; width: 84px;">
-        <ui:VisualElement name="ContentImage" style="height: 84px; width: 84px; background-color: rgb(88, 88, 88); align-items: center; justify-content: center;">
-            <ui:VisualElement name="image" style="width: 76px; height: 76px; background-image: url(&apos;project://database/Assets/ISILab/LBS%20Plugin/Assets2D/Elements/enemy.png?fileID=2800000&amp;guid=2aedf9378c8b6ba44aef1e136abd85e7&amp;type=3#enemy&apos;);" />
-        </ui:VisualElement>
-        <ui:Label tabindex="-1" text="Name element" display-tooltip-when-elided="true" enable-rich-text="true" name="NameE" style="margin-top: 2px; -unity-text-align: upper-center;" />
-    </ui:VisualElement>
-</ui:UXML>
