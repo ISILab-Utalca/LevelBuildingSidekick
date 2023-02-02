@@ -13,7 +13,7 @@ public class LBSLayerAssistant : ScriptableObject
     Generator3D generator;
 
     [SerializeField, SerializeReference]
-    List<LBSAIAgent> aiAgents;
+    List<LBSAIAgent> aiAgents = new List<LBSAIAgent>() { new SchemaHCAgent()};
     
     public Generator3D Generator
     {
