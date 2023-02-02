@@ -55,7 +55,7 @@ namespace Commons.Optimization.Terminations
         /// <param name="optimizer">The genetic algorithm.</param>
         protected override bool PerformHasReached(BaseOptimizer optimizer)
         {
-            var bestFitness = optimizer.BestCandidate.Fitness.Value;
+            var bestFitness = optimizer.BestCandidate.Fitness;
 
             if (m_lastFitness <= bestFitness)
             {
