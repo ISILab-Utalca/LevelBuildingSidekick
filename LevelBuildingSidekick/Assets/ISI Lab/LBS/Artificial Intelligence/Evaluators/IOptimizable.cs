@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IEvaluable
+public interface IOptimizable
 {
     /// <summary>
     /// Gets or sets the fitness.
@@ -17,13 +17,13 @@ public interface IEvaluable
     /// Creates a new evaluable using the same structure of this.
     /// </summary>
     /// <returns>The new evaluable.</returns>
-    public IEvaluable CreateNew();
+    public IOptimizable CreateNew();
 
     /// <summary>
     /// Creates a clone.
     /// </summary>
     /// <returns>The Evaluable clone.</returns>
-    public IEvaluable Clone();
+    public IOptimizable Clone();
 
     public bool IsValid();
     public T GetSampleData<T>();
