@@ -9,6 +9,7 @@ using LBS.Components.Specifics;
 using System.Linq;
 using UnityEditor;
 
+[System.Serializable]
 public class SchemaGenerator : Generator3D
 {
     LBSSchema schema;
@@ -17,7 +18,6 @@ public class SchemaGenerator : Generator3D
     public override GameObject Generate(LBSLayer layer)
     {
         Init(layer);
-
 
         var mainPivot = new GameObject(objName);
 
@@ -46,13 +46,15 @@ public class SchemaGenerator : Generator3D
 
             for(int j = 0; j < area.TileCount; j++)
             {
-                var tile = area.GetTile(i) as ConnectedTile;
+                var tile = area.GetTile(j) as ConnectedTile;
 
                 BuildTile(tile, bundles, mainPivot.transform);
             }
         }
 
         mainPivot.transform.position = position;
+        //mainPivot.transform.localScale = new Vector3(resize.x, 1, resize.y);
+
 
         return mainPivot;
 
@@ -63,9 +65,10 @@ public class SchemaGenerator : Generator3D
         var sideDir = new List<Vector2>() { Vector2.right, Vector2.up, Vector2.left, Vector2.down };
 
         var pivot = new GameObject("Tile: " + tile.Position);
+        pivot.transform.parent = parent;
 
-        var bases = bundles["Base"];
-        var floor = SceneView.Instantiate(bases[Random.Range(0, bases.Count)], parent);
+        var bases = bundles["Center"];
+        var floor = SceneView.Instantiate(bases[Random.Range(0, bases.Count)], pivot.transform);
 
         for (int k = 0; k < tile.Sides; k++)
         {
@@ -75,13 +78,11 @@ public class SchemaGenerator : Generator3D
                 var prefabs = bundles[tag];
 
                 var wall = SceneView.Instantiate(prefabs[Random.Range(0, prefabs.Count)], pivot.transform);
-                var delta = sideDir[k] / 2;
-                wall.transform.position += new Vector3(delta.x * scale.x, 0, delta.y * scale.y);
-                wall.transform.rotation = Quaternion.Euler(0, (90 * (k + 1)) % 360, 0);
+                wall.transform.position += new Vector3(sideDir[k].x, 0, -sideDir[k].y);
+                wall.transform.rotation = Quaternion.Euler(0, -(90 * (k + 1)) % 360, 0);
             }
         }
 
-        pivot.transform.localScale = new Vector3(scale.x, 1, scale.y);
         pivot.transform.position = new Vector3(scale.x * tile.Position.x, 0, scale.y * tile.Position.y);
     }
 
