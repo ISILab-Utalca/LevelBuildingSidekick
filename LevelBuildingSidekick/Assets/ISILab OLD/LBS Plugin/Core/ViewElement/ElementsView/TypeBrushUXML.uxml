@@ -1,5 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <ui:VisualElement name="TypeBrush" style="color: rgb(85, 138, 241); height: 52px; width: 52px; background-color: rgb(85, 138, 241); border-top-left-radius: 104px; border-bottom-left-radius: 104px; border-top-right-radius: 104px; border-bottom-right-radius: 104px; align-items: center; justify-content: center;">
-        <ui:VisualElement name="Image" style="align-items: center; justify-content: center; height: 38px; width: 38px; background-image: url(&apos;project://database/Assets/ISILab/LBS%20Plugin/Assets2D/Elements/hacha.png?fileID=2800000&amp;guid=2fbe5313b9f7a3c428c24a4a75feb2e6&amp;type=3#hacha&apos;);" />
-    </ui:VisualElement>
-</ui:UXML>
