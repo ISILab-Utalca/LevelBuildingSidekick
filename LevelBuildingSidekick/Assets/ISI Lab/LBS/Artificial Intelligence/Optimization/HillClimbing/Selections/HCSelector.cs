@@ -11,12 +11,12 @@ using UnityEngine.UIElements;
 
 internal class HCSelector<U> : ISelection
 {   
-    private List<IEvaluable> candidates;
+    private List<IOptimizable> candidates;
     private U heuristic;
     private double? higherScore;
     private double? newScore;
 
-    public HCSelector(List<IEvaluable> candidates, U heuristic)
+    public HCSelector(List<IOptimizable> candidates, U heuristic)
     {
         this.candidates = candidates;
         this.heuristic = heuristic;
@@ -28,9 +28,9 @@ internal class HCSelector<U> : ISelection
     }
 
 
-    public List<IEvaluable> GetBetters(IEvaluator evaluator, double? score)
+    public List<IOptimizable> GetBetters(IEvaluator evaluator, double? score)
     {
-        List<IEvaluable> betters = new List<IEvaluable>();
+        List<IOptimizable> betters = new List<IOptimizable>();
         higherScore = score;
 
         for (int i = 0; i < candidates.Count; i++)
@@ -51,7 +51,7 @@ internal class HCSelector<U> : ISelection
         return betters;
     }
 
-    public IList<IEvaluable> SelectEvaluables(int number, Generation generation)
+    public IList<IOptimizable> SelectEvaluables(int number, Generation generation)
     {
         throw new NotImplementedException();
     }

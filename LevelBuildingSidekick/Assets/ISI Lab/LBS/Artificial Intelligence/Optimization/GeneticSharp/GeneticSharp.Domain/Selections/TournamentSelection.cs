@@ -83,7 +83,7 @@ namespace GeneticSharp.Domain.Selections
         /// <returns>
         /// The selected chromosomes.
         /// </returns>
-        protected override IList<IEvaluable> PerformSelectEvaluables(int number, Generation generation)
+        protected override IList<IOptimizable> PerformSelectEvaluables(int number, Generation generation)
         {
             if (Size > generation.Evaluables.Count)
             {
@@ -93,7 +93,7 @@ namespace GeneticSharp.Domain.Selections
             }
 
             var candidates = generation.Evaluables.ToList();
-            var selected = new List<IEvaluable>();
+            var selected = new List<IOptimizable>();
 
             while (selected.Count < number)
             {

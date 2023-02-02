@@ -30,7 +30,7 @@ namespace GeneticSharp.Domain.Populations
         /// <param name="minSize">The minimum size (chromosomes).</param>
         /// <param name="maxSize">The maximum size (chromosomes).</param>
         /// <param name="adam">The original chromosome of all population ;).</param>
-        public Population(int minSize, int maxSize, IEvaluable adam)
+        public Population(int minSize, int maxSize, IOptimizable adam)
         {
             if (minSize < 2)
             {
@@ -105,7 +105,7 @@ namespace GeneticSharp.Domain.Populations
         /// Gets or sets the best chromosome.
         /// </summary>
         /// <value>The best chromosome.</value>
-        public IEvaluable BestCandidate { get; protected set; }
+        public IOptimizable BestCandidate { get; protected set; }
 
         /// <summary>
         /// Gets or sets the generation strategy.
@@ -116,7 +116,7 @@ namespace GeneticSharp.Domain.Populations
         /// Gets or sets the original chromosome of all population.
         /// </summary>
         /// <value>The adam chromosome.</value>
-        public IEvaluable Adam { get; set; }
+        public IOptimizable Adam { get; set; }
 
         #endregion
 
@@ -129,7 +129,7 @@ namespace GeneticSharp.Domain.Populations
             Generations = new List<Generation>();
             GenerationsNumber = 0;
 
-            var evaluables = new List<IEvaluable>();
+            var evaluables = new List<IOptimizable>();
             evaluables.Add(Adam);
 
             for (int i = 1; i < MinSize; i++)
@@ -156,7 +156,7 @@ namespace GeneticSharp.Domain.Populations
         /// Creates a new generation.
         /// </summary>
         /// <param name="chromosomes">The chromosomes for new generation.</param>
-        public virtual void CreateNewGeneration(IList<IEvaluable> chromosomes)
+        public virtual void CreateNewGeneration(IList<IOptimizable> chromosomes)
         {
             ExceptionHelper.ThrowIfNull("chromosomes", chromosomes);
 

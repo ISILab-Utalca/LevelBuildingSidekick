@@ -20,7 +20,7 @@ namespace GeneticSharp.Domain.Populations
         /// </summary>
         /// <param name="number">The generation number.</param>
         /// <param name="evaluables">The chromosomes of the generation..</param>
-        public Generation(int number, IList<IEvaluable> evaluables)
+        public Generation(int number, IList<IOptimizable> evaluables)
         {
             if (number < 0)
             {
@@ -56,13 +56,13 @@ namespace GeneticSharp.Domain.Populations
         /// Gets the chromosomes.
         /// </summary>
         /// <value>The chromosomes.</value>
-        public IList<IEvaluable> Evaluables { get; internal set; }
+        public IList<IOptimizable> Evaluables { get; internal set; }
 
         /// <summary>
         /// Gets the best chromosome.
         /// </summary>
         /// <value>The best chromosome.</value>
-        public IEvaluable BestCandidate { get; internal set; }
+        public IOptimizable BestCandidate { get; internal set; }
         #endregion
 
         #region Methods
@@ -101,7 +101,7 @@ namespace GeneticSharp.Domain.Populations
         /// </summary>
         /// <param name="chromosome">The chromosome to validate.</param>
         /// <returns>True if a chromosome is valid.</returns>
-        private static bool ValidateEvaluables(IEvaluable chromosome)
+        private static bool ValidateEvaluables(IOptimizable chromosome)
         {
             if (!chromosome.Fitness.HasValue)
             {

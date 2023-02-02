@@ -60,8 +60,8 @@ public class MapElites
     [Range(0, 0.5f)]
     public double devest = 0.5;
 
-    public IEvaluable Adam { get; set; }
-    public IEvaluable[,] BestSamples { get; private set; }
+    public IOptimizable Adam { get; set; }
+    public IOptimizable[,] BestSamples { get; private set; }
     public List<int> changedSample;
 
     [SerializeField ,SerializeReference]
@@ -151,7 +151,7 @@ public class MapElites
         xSampleCount = 5;
         ySampleCount = 5;
         devest = 0.5;
-        BestSamples = new IEvaluable[xSampleCount, ySampleCount];
+        BestSamples = new IOptimizable[xSampleCount, ySampleCount];
     }
 
     /// <summary>
@@ -167,7 +167,7 @@ public class MapElites
         xSampleCount = 5;
         ySampleCount = 5;
         devest = 0.5;
-        BestSamples = new IEvaluable[xSampleCount, ySampleCount];
+        BestSamples = new IOptimizable[xSampleCount, ySampleCount];
     }
 
     /// <summary>
@@ -214,7 +214,7 @@ public class MapElites
     /// Updates the best samples in the map with the provided array of evaluables.
     /// </summary>
     /// <param name="samples">The array of evaluables to update the map with.</param>
-    public void UpdateSamples(IEvaluable[] samples)
+    public void UpdateSamples(IOptimizable[] samples)
     {
         
         var evaluables = MapSamples(samples);
@@ -253,7 +253,7 @@ public class MapElites
     /// <param name="y">Y index of element to update in the "BestSamples" array.</param>
     /// <param name="evaluable">Evaluable object to update in the "BestSamples" array.</param>
     /// <returns>Boolean value indicating if the update was successful or not.
-    public bool UpdateSample(int x, int y, IEvaluable evaluable)
+    public bool UpdateSample(int x, int y, IOptimizable evaluable)
     {
         if (BestSamples[x,y] == null)
         {
@@ -276,7 +276,7 @@ public class MapElites
     /// </summary>
     /// <param name="samples">The array of evaluables to map.</param>
     /// <returns>A list of evaluables with x and y fitness values.</returns>
-    public List<MappedIEvaluable> MapSamples(IEvaluable[] samples)
+    public List<MappedIEvaluable> MapSamples(IOptimizable[] samples)
     {
         List<MappedIEvaluable> evaluables = new List<MappedIEvaluable>();
 
@@ -322,7 +322,7 @@ public class MapElites
     /// </summary>
     private void Clear()
     {
-        BestSamples = new IEvaluable[xSampleCount, ySampleCount];
+        BestSamples = new IOptimizable[xSampleCount, ySampleCount];
     }
 }
 
@@ -333,9 +333,9 @@ public struct MappedIEvaluable
 {
     public float xFitness;
     public float yFitness;
-    public IEvaluable evaluable;
+    public IOptimizable evaluable;
 
-    public MappedIEvaluable(IEvaluable evaluable, float xFitness, float yFitness)
+    public MappedIEvaluable(IOptimizable evaluable, float xFitness, float yFitness)
     {
         this.evaluable = evaluable;
         this.xFitness = xFitness;

@@ -62,13 +62,13 @@ namespace GeneticSharp.Domain.Populations
         /// Gets the best chromosome.
         /// </summary>
         /// <value>The best chromosome.</value>
-        IEvaluable BestCandidate { get; }
+        IOptimizable BestCandidate { get; }
 
         /// <summary>
         /// Gets or sets the generation strategy.
         /// </summary>
         IGenerationStrategy GenerationStrategy { get; set; }
-        public IEvaluable Adam { get; set; }
+        public IOptimizable Adam { get; set; }
         #endregion
 
         #region Methods
@@ -81,7 +81,7 @@ namespace GeneticSharp.Domain.Populations
         /// Creates a new generation.
         /// </summary>
         /// <param name="chromosomes">The chromosomes for new generation.</param>
-        void CreateNewGeneration(IList<IEvaluable> chromosomes);
+        void CreateNewGeneration(IList<IOptimizable> chromosomes);
 
         /// <summary>
         /// Ends the current generation.

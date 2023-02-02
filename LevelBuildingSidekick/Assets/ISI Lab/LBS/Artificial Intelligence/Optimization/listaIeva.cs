@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 
 
-public class listaIeva : IEvaluable
+public class listaIeva : IOptimizable
 {
 
     public List<int> a = new List<int>();
@@ -17,12 +17,12 @@ public class listaIeva : IEvaluable
     public double? Fitness { get; set; }
 
 
-    public IEvaluable Clone()
+    public IOptimizable Clone()
     {
         throw new System.NotImplementedException();
     }
 
-    public IEvaluable CreateNew()
+    public IOptimizable CreateNew()
     {
         throw new System.NotImplementedException();
     }

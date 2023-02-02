@@ -41,7 +41,7 @@ namespace GeneticSharp.Domain.Crossovers
         /// <returns>
         /// The offspring (children) of the parents.
         /// </returns>
-        protected override IList<IEvaluable> PerformCross(IList<IEvaluable> parents)
+        protected override IList<IOptimizable> PerformCross(IList<IOptimizable> parents)
         {
             var datas = parents.Select(p => p.GetDataSquence<object>()).ToList();
 
@@ -97,7 +97,7 @@ namespace GeneticSharp.Domain.Crossovers
             child1.SetDataSequence(offspring1);
             child2.SetDataSequence(offspring2);
 
-            return new List<IEvaluable>() { child1, child2 };
+            return new List<IOptimizable>() { child1, child2 };
         }
 
         private object GetGeneNotInMappingSection(object candidateGene, object[] mappingSection, object[] otherParentMappingSection)

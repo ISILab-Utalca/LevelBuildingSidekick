@@ -44,7 +44,7 @@ namespace GeneticSharp.Domain.Selections
         /// <returns>The selected chromosomes.</returns>
         /// <param name="number">The number of chromosomes to select.</param>
         /// <param name="generation">The generation where the selection will be made.</param>
-        public IList<IEvaluable> SelectEvaluables(int number, Generation generation)
+        public IList<IOptimizable> SelectEvaluables(int number, Generation generation)
         {
             if (number < m_minNumberChromosomes)
             {
@@ -69,9 +69,9 @@ namespace GeneticSharp.Domain.Selections
         /// <returns>The selected chromosomes.</returns>
         /// <param name="number">The number of chromosomes to select.</param>
         /// <param name="generation">The generation where the selection will be made.</param>
-        protected abstract IList<IEvaluable> PerformSelectEvaluables(int number, Generation generation);
+        protected abstract IList<IOptimizable> PerformSelectEvaluables(int number, Generation generation);
 
-        public List<IEvaluable> GetBetters(IEvaluator evaluator, double? score)
+        public List<IOptimizable> GetBetters(IEvaluator evaluator, double? score)
         {
             throw new NotImplementedException();
         }

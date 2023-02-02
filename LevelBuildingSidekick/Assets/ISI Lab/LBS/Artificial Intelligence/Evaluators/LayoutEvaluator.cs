@@ -21,7 +21,7 @@ public class LayoutEvaluator : IRangedEvaluator
     /// </summary>
     /// <param name="evaluable">The evaluable object to evaluate.</param>
     /// <returns>A float value representing the evaluation of the given object.</returns>
-    public float Evaluate(IEvaluable evaluable)
+    public float Evaluate(IOptimizable evaluable)
     {
         if (!(evaluable is StampTileMapChromosome))
         {
@@ -138,7 +138,7 @@ public class LayoutEvaluator : IRangedEvaluator
         return content;
     }
 
-    public float EvaluateH<u>(IEvaluable evaluable, u Heu)
+    public float EvaluateH<u>(IOptimizable evaluable, u Heu)
     {
         throw new System.NotImplementedException();
     }

@@ -21,8 +21,8 @@ namespace Commons.Optimization
         /// Gets the best candidate.
         /// </summary>
         /// <value>The best candidate.</value>
-        IEvaluable BestCandidate { get; }
-        IEvaluable Adam { get; set; }
+        IOptimizable BestCandidate { get; }
+        IOptimizable Adam { get; set; }
 
         /// <summary>
         /// Gets the time evolving.
@@ -41,7 +41,7 @@ namespace Commons.Optimization
 
         public bool IsRunning { get; }
         public OptimizerState State { get; }
-        public IEvaluable[] LastGeneration { get; }
+        public IOptimizable[] LastGeneration { get; }
         #endregion
 
         #region Events

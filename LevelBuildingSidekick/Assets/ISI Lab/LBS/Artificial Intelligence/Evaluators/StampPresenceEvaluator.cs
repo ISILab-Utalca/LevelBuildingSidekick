@@ -37,11 +37,11 @@ public class StampPresenceEvaluator : IRangedEvaluator
     }
 
     /// <summary>
-    /// Evaluates the presence of the specified <see cref="StampPresset"/> in <see cref="IEvaluable"/>
+    /// Evaluates the presence of the specified <see cref="StampPresset"/> in <see cref="IOptimizable"/>
     /// </summary>
     /// <param name="evaluable"></param>
     /// <returns> A value between <see cref="MinValue"/> and <see cref="MaxValue"/> </returns>
-    public float Evaluate(IEvaluable evaluable)
+    public float Evaluate(IOptimizable evaluable)
     {
         float presence = 0;
 
@@ -107,7 +107,7 @@ public class StampPresenceEvaluator : IRangedEvaluator
         return content;
     }
 
-    public float EvaluateH<u>(IEvaluable evaluable, u Heu)
+    public float EvaluateH<u>(IOptimizable evaluable, u Heu)
     {
         throw new NotImplementedException();
     }

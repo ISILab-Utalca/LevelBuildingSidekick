@@ -70,7 +70,7 @@ public class ThresholdEvaluator : IRangedEvaluator
     /// </summary>
     /// <param name="evaluable">The object to be evaluated</param>
     /// <returns>A value between 0 and 1 representing the fitness of the object</returns>
-    public float Evaluate(IEvaluable evaluable)
+    public float Evaluate(IOptimizable evaluable)
     {
         float fitness = evaluator.Evaluate(evaluable);
         var desired = evaluator.MinValue + (evaluator.MaxValue - evaluator.MinValue) * Threshold;
@@ -89,7 +89,7 @@ public class ThresholdEvaluator : IRangedEvaluator
         return "Threshold Evaluator";
     }
 
-    public float EvaluateH<u>(IEvaluable evaluable, u Heu)
+    public float EvaluateH<u>(IOptimizable evaluable, u Heu)
     {
         throw new System.NotImplementedException();
     }

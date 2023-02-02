@@ -75,7 +75,7 @@ namespace Commons.Optimization.Terminations
         /// <returns>
         /// True if termination has been reached, otherwise false.
         /// </returns>
-        public bool HasReached(BaseOptimizerMetahuristic<IEvaluable> optimizer)
+        public bool HasReached(BaseOptimizer optimizer)
         {
             ExceptionHelper.ThrowIfNull("geneticAlgorithm", optimizer);
 
@@ -103,7 +103,7 @@ namespace Commons.Optimization.Terminations
         /// <returns>
         /// True if termination has been reached, otherwise false.
         /// </returns>
-        protected abstract bool PerformHasReached(BaseOptimizerMetahuristic<IEvaluable> optimizer);
+        protected abstract bool PerformHasReached(BaseOptimizer optimizer);
         #endregion
     }
 }

@@ -23,9 +23,9 @@ namespace GeneticSharp.Domain
         /// <param name="crossoverProbability">The crossover probability.</param>
         /// <param name="parents">The parents.</param>
         /// <returns>The result chromosomes.</returns>
-        public override IList<IEvaluable> Cross(IPopulation population, ICrossover crossover, float crossoverProbability, IList<IEvaluable> parents)
+        public override IList<IOptimizable> Cross(IPopulation population, ICrossover crossover, float crossoverProbability, IList<IOptimizable> parents)
         {
-            var offspring = new ConcurrentBag<IEvaluable>();
+            var offspring = new ConcurrentBag<IOptimizable>();
 
             Parallel.ForEach(Enumerable.Range(0, population.MinSize / crossover.ParentsNumber).Select(i => i * crossover.ParentsNumber), i =>
             {
@@ -46,7 +46,7 @@ namespace GeneticSharp.Domain
         /// <param name="mutation">The mutation class.</param>
         /// <param name="mutationProbability">The mutation probability.</param>
         /// <param name="chromosomes">The chromosomes.</param>
-        public override void Mutate(IMutation mutation, float mutationProbability, IList<IEvaluable> chromosomes)
+        public override void Mutate(IMutation mutation, float mutationProbability, IList<IOptimizable> chromosomes)
         {
             Parallel.ForEach(chromosomes, c =>
             {

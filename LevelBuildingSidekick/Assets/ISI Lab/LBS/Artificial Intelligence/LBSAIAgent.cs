@@ -7,6 +7,7 @@ using LBS.Components;
 
 namespace LBS.AI
 {
+    [System.Serializable]
     public abstract class LBSAIAgent
     {
         protected LBSLayer layer;

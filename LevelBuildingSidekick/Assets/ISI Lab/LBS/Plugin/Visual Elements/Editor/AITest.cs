@@ -24,7 +24,7 @@ public class AITest : VisualElement
     public LBSLevelData data;
     private AreaTileMap<TiledArea> schema;
     private GraphModule<RoomNode> graph;
-    Hill2<IEvaluable> HC;
+    Hill2 HC;
 
     public AITest() { }
 
@@ -52,8 +52,6 @@ public class AITest : VisualElement
                 break;
             }
         }
-
-        HC = new Hill2<IEvaluable>(schema as IEvaluable, new WeightedEvaluator(), new FitnessStagnationTermination(), graph as IEvaluable);
-        HC.Start();       
+    
     }
 }

@@ -37,7 +37,7 @@ namespace GeneticSharp.Domain.Reinsertions
         /// <param name="population">The population.</param>
         /// <param name="offspring">The offspring.</param>
         /// <param name="parents">The parents.</param>
-        IList<IEvaluable> SelectChromosomes(IPopulation population, IList<IEvaluable> offspring, IList<IEvaluable> parents);
+        IList<IOptimizable> SelectChromosomes(IPopulation population, IList<IOptimizable> offspring, IList<IOptimizable> parents);
         #endregion
     }
 }

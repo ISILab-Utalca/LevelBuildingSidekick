@@ -386,12 +386,12 @@ namespace GeneticSharp.Domain.Chromosomes
 
         public abstract object GenerateGene(int geneIndex);
 
-        IEvaluable IEvaluable.CreateNew()
+        IOptimizable IOptimizable.CreateNew()
         {
             return CreateNewChromosome();
         }
 
-        IEvaluable IEvaluable.Clone()
+        IOptimizable IOptimizable.Clone()
         {
             return CloneChromosome();
         }

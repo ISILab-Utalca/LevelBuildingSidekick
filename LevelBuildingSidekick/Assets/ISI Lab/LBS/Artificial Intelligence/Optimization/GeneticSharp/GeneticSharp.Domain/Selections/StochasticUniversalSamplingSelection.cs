@@ -46,7 +46,7 @@ namespace GeneticSharp.Domain.Selections
         /// <returns>
         /// The selected chromosomes.
         /// </returns>
-        protected override IList<IEvaluable> PerformSelectEvaluables(int number, Generation generation)
+        protected override IList<IOptimizable> PerformSelectEvaluables(int number, Generation generation)
         {
             var chromosomes = generation.Evaluables;
             var rouleteWheel = new List<double>();

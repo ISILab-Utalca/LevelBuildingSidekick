@@ -40,7 +40,7 @@ public class TplPopulation : Population
         Generations = new List<Generation>();
         GenerationsNumber = 0;
 
-        var chromosomes = new ConcurrentBag<IEvaluable>();
+        var chromosomes = new ConcurrentBag<IOptimizable>();
         Parallel.For(0, MinSize, i =>
         {
             var c = Adam.CreateNew();

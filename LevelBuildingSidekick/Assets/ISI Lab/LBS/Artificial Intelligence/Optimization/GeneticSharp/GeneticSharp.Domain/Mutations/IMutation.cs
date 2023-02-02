@@ -31,6 +31,6 @@ namespace GeneticSharp.Domain.Mutations
         /// </summary>
         /// <param name="chromosome">The chromosome.</param>
         /// <param name="probability">The probability to mutate each chromosome.</param>
-        void Mutate(IEvaluable chromosome, float probability);
+        void Mutate(IOptimizable chromosome, float probability);
     }
 }

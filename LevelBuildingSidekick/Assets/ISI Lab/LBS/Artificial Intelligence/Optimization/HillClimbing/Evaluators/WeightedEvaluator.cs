@@ -23,12 +23,12 @@ public class WeightedEvaluator : IEvaluator
         throw new NotImplementedException();
     }
 
-    public float Evaluate(IEvaluable evaluable)
+    public float Evaluate(IOptimizable evaluable)
     {
         throw new NotImplementedException();
     }
 
-    public float EvaluateH<u>(IEvaluable schemaData, u graphData)
+    public float EvaluateH<u>(IOptimizable schemaData, u graphData)
     {
         var evaluations = new Tuple<IEvaluator , float>[]
         {

@@ -13,7 +13,7 @@ public class AreasEvaluator : IEvaluator
 {
     public AreasEvaluator() { }
 
-    public float EvaluateH<u>(IEvaluable evaluable, u Heu)
+    public float EvaluateH<u>(IOptimizable evaluable, u Heu)
     {
         var graphData = evaluable as LBSRoomGraph;
         var schema = Heu as LBSSchema;
@@ -47,7 +47,7 @@ public class AreasEvaluator : IEvaluator
         return (vw + vh) / 2f;
     }
 
-    public float Evaluate(IEvaluable evaluable)
+    public float Evaluate(IOptimizable evaluable)
     {
         throw new System.NotImplementedException();
     }

@@ -77,7 +77,7 @@ namespace GeneticSharp.Domain.Crossovers
         /// <returns>
         /// The offspring (children) of the parents.
         /// </returns>
-        public IList<IEvaluable> Cross(IList<IEvaluable> parents)
+        public IList<IOptimizable> Cross(IList<IOptimizable> parents)
         {
             ExceptionHelper.ThrowIfNull("parents", parents);
 
@@ -108,7 +108,7 @@ namespace GeneticSharp.Domain.Crossovers
         /// </summary>
         /// <param name="parents">The parents chromosomes.</param>
         /// <returns>The offspring (children) of the parents.</returns>
-        protected abstract IList<IEvaluable> PerformCross(IList<IEvaluable> parents);
+        protected abstract IList<IOptimizable> PerformCross(IList<IOptimizable> parents);
         #endregion        
     }
 }

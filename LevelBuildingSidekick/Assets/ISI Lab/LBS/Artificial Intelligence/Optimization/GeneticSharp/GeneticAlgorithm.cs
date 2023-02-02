@@ -88,7 +88,7 @@ public class GeneticAlgorithm : IGeneticAlgorithm , IShowable
 
     public IPopulation Population { get; set; }
 
-    public IEvaluable[] LastGeneration
+    public IOptimizable[] LastGeneration
     {
         get
         {
@@ -161,7 +161,7 @@ public class GeneticAlgorithm : IGeneticAlgorithm , IShowable
         }
     }
 
-    public IEvaluable BestCandidate
+    public IOptimizable BestCandidate
     {
         get
         {
@@ -214,7 +214,7 @@ public class GeneticAlgorithm : IGeneticAlgorithm , IShowable
     /// </summary>
     public ITaskExecutor TaskExecutor { get; set; }
 
-    public IEvaluable Adam { get; set; }
+    public IOptimizable Adam { get; set; }
 
     #endregion
 
@@ -314,7 +314,7 @@ public class GeneticAlgorithm : IGeneticAlgorithm , IShowable
     /// <returns>
     /// The reinserted chromosomes.
     /// </returns>
-    private IList<IEvaluable> Reinsert(IList<IEvaluable> offspring, IList<IEvaluable> parents)
+    private IList<IOptimizable> Reinsert(IList<IOptimizable> offspring, IList<IOptimizable> parents)
     {
         return Reinsertion.SelectChromosomes(Population, offspring, parents);
     }
@@ -324,7 +324,7 @@ public class GeneticAlgorithm : IGeneticAlgorithm , IShowable
     /// </summary>
     /// <param name="parents">The parents.</param>
     /// <returns>The result chromosomes.</returns>
-    private IList<IEvaluable> Cross(IList<IEvaluable> parents)
+    private IList<IOptimizable> Cross(IList<IOptimizable> parents)
     {
         return OperatorsStrategy.Cross(Population, Crossover, CrossoverProbability, parents);
     }
@@ -333,7 +333,7 @@ public class GeneticAlgorithm : IGeneticAlgorithm , IShowable
     /// Mutate the specified chromosomes.
     /// </summary>
     /// <param name="chromosomes">The chromosomes.</param>
-    private void Mutate(IList<IEvaluable> chromosomes)
+    private void Mutate(IList<IOptimizable> chromosomes)
     {
         OperatorsStrategy.Mutate(Mutation, MutationProbability, chromosomes);
     }
@@ -342,7 +342,7 @@ public class GeneticAlgorithm : IGeneticAlgorithm , IShowable
     /// Selects the parents.
     /// </summary>
     /// <returns>The parents.</returns>
-    private IList<IEvaluable> SelectParents()
+    private IList<IOptimizable> SelectParents()
     {
         return Selection.SelectEvaluables(Population.MinSize, Population.CurrentGeneration);
     }

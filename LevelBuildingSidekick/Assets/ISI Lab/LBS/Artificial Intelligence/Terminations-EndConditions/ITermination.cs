@@ -15,7 +15,7 @@ namespace Commons.Optimization.Terminations
         /// </summary>
         /// <returns>True if termination has been reached, otherwise false.</returns>
         /// <param name="geneticAlgorithm">The genetic algorithm.</param>
-        bool HasReached(BaseOptimizerMetahuristic<IEvaluable> optimizer);
+        bool HasReached(BaseOptimizer optimizer);
         #endregion
     }
 }

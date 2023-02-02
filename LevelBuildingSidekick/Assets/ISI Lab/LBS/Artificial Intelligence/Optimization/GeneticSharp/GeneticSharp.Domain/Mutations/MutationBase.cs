@@ -23,7 +23,7 @@ namespace GeneticSharp.Domain.Mutations
         /// </summary>
         /// <param name="chromosome">The chromosome.</param>
         /// <param name="probability">The probability to mutate each chromosome.</param>
-        public void Mutate(IEvaluable chromosome, float probability)
+        public void Mutate(IOptimizable chromosome, float probability)
         {
             ExceptionHelper.ThrowIfNull("chromosome", chromosome);
 
@@ -35,7 +35,7 @@ namespace GeneticSharp.Domain.Mutations
         /// </summary>
         /// <param name="chromosome">The chromosome.</param>
         /// <param name="probability">The probability to mutate each chromosome.</param>
-        protected abstract void PerformMutate(IEvaluable chromosome, float probability);
+        protected abstract void PerformMutate(IOptimizable chromosome, float probability);
         public abstract VisualElement CIGUI();
         #endregion
     }

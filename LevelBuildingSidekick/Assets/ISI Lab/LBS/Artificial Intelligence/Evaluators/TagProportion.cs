@@ -70,7 +70,7 @@ public class TagProportion : IRangedEvaluator
     /// </summary>
     /// <param name="evaluable"></param>
     /// <returns> A float value representing the evaluation result. </returns>
-    public float Evaluate(IEvaluable evaluable)
+    public float Evaluate(IOptimizable evaluable)
     {
         if(!(evaluable is StampTileMapChromosome))
         {
@@ -140,7 +140,7 @@ public class TagProportion : IRangedEvaluator
         return "Tag Proportion";
     }
 
-    public float EvaluateH<u>(IEvaluable evaluable, u Heu)
+    public float EvaluateH<u>(IOptimizable evaluable, u Heu)
     {
         throw new NotImplementedException();
     }

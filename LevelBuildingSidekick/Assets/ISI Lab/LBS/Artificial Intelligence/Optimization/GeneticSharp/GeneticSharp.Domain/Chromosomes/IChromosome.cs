@@ -12,7 +12,7 @@ namespace GeneticSharp.Domain.Chromosomes
     /// <see href="http://en.wikipedia.org/wiki/Chromosome_(genetic_algorithm)">http://en.wikipedia.org/wiki/Chromosome_(genetic_algorithm)</see> 
     /// </remarks>
     /// </summary>
-    public interface IChromosome : IComparable<IChromosome>, IEvaluable
+    public interface IChromosome : IComparable<IChromosome>, IOptimizable
     {
         #region Properties
         /// <summary>
