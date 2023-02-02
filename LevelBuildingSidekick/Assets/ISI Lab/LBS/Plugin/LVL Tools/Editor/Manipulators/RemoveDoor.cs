@@ -1,18 +1,10 @@
-using LBS.Components;
-using LBS.Components.Teselation;
 using LBS.Components.TileMap;
-using LBS.ElementView;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-using LBS.Representation;
-using LBS.Representation.TileMap;
-using UnityEditor.PackageManager.UI;
-using LBS.Tools.Transformer;
 
-public class AddDoor<T, U> : ManipulateTiledArea<T, U> where T : TiledArea where U : LBSTile
+public class RemoveDoor<T, U> : ManipulateTiledArea<T, U> where T : TiledArea where U : LBSTile
 {
     private List<Vector2Int> dirs = new List<Vector2Int>() // (!) esto deberia estar en un lugar general
     {
@@ -37,7 +29,7 @@ public class AddDoor<T, U> : ManipulateTiledArea<T, U> where T : TiledArea where
 
     protected override void OnMouseMove(MouseMoveEvent e)
     {
-       
+        //throw new System.NotImplementedException();
     }
 
     protected override void OnMouseUp(MouseUpEvent e)
@@ -58,15 +50,15 @@ public class AddDoor<T, U> : ManipulateTiledArea<T, U> where T : TiledArea where
 
         var dx = (first.Position.x - second.Position.x);
         var dy = (first.Position.y - second.Position.y);
-        
+
         if (Mathf.Abs(dx) + Mathf.Abs(dy) > 1f)
             return;
 
         var fDir = dirs.FindIndex(d => d.Equals(-new Vector2Int(dx, dy)));
         var tDir = dirs.FindIndex(d => d.Equals(new Vector2Int(dx, dy)));
 
-        first.SetConnection("Door", fDir);
-        second.SetConnection("Door", tDir);
+        first.SetConnection("Wall", fDir);
+        second.SetConnection("Wall", tDir);
 
         //var parche = new AreaToTileMap(); // (!!!!!) eliminar!!!
         //parche.ParcheDiParche(module);

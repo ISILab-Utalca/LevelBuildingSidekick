@@ -130,11 +130,11 @@ public class LayerTemplateEditor : Editor
         icon = Resources.Load<Texture2D>("Icons/open-exit-door");
         var tool8 = new LBSTool(icon, "Add door", typeof(AddDoor<TiledArea,ConnectedTile>), null, true);
 
-        icon = Resources.Load<Texture2D>("Icons/Trash");
+        icon = Resources.Load<Texture2D>("Icons/erased");
         var tool9 = new LBSTool(
             icon, 
             "Remove door",
-            typeof(Select), //typeof(RemoveDoor<TiledArea,ConnectedTile>),
+            typeof(RemoveDoor<TiledArea,ConnectedTile>), //typeof(RemoveDoor<TiledArea,ConnectedTile>),
             null, 
             true);
 

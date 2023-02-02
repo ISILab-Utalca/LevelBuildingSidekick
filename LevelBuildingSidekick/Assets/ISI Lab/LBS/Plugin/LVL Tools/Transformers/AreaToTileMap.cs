@@ -75,7 +75,8 @@ namespace LBS.Tools.Transformer
                         }
                         else
                         {
-                            (tile as ConnectedTile).SetConnection("Wall", i); // (?) o puerta
+                            if((tile as ConnectedTile).GetConnection(i) != "Door")
+                                (tile as ConnectedTile).SetConnection("Wall", i); // (?) o puerta
                             //ct.SetConnection("Wall", i); // (?) o puerta
                         }
                     }
