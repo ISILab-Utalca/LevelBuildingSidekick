@@ -141,11 +141,6 @@ namespace GeneticSharp.Domain.Populations
                     throw new InvalidOperationException("The Adam evaluable 'CreateNew' method generated a null evaluable. This is a invalid behavior, please, check your evaluable code.");
                 }
 
-                if(!c.IsValid())
-                {
-                    throw new InvalidOperationException("The Adam evaluable's 'CreateNew' method generated an invalid evaluable. This is a invalid behavior, please, check your evaluable code.");
-                }
-
                 evaluables.Add(c);
             }
 
