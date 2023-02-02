@@ -44,8 +44,8 @@ public class AddDoor<T, U> : ManipulateTiledArea<T, U> where T : TiledArea where
 
         var second = tile.Data;
 
-        var r1 = module.GetRoomPos(first.Position);
-        var r2 = module.GetRoomPos(second.Position);
+        var r1 = module.GetArea(first.Position);
+        var r2 = module.GetArea(second.Position);
         if (r1.Equals(r2))
             return;
 

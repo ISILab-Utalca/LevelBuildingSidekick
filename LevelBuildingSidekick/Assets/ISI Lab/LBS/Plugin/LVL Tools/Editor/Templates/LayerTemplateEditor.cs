@@ -123,7 +123,7 @@ public class LayerTemplateEditor : Editor
         var tool7 = new LBSTool(
             icon,
             "Erase",
-            typeof(Select), // Removed<TiledArea<LBSTile>, LBSTile>,
+            typeof(DeleteTileToAreaPoint<TiledArea, ConnectedTile>), // Removed<TiledArea<LBSTile>, LBSTile>,
             null
         ); ;
 

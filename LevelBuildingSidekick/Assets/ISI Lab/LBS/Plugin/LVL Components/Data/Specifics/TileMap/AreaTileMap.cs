@@ -91,7 +91,7 @@ namespace LBS.Components.TileMap
             return areas.Find(r => r.Key == id);
         }
 
-        public TiledArea GetRoomPos(Vector2Int tilePos)
+        public TiledArea GetArea(Vector2Int tilePos)
         {
             return areas.Find(r => r.Contains(tilePos));
         }

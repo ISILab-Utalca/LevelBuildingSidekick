@@ -57,6 +57,7 @@ namespace LBS.Components.TileMap
             return base.AddTile(tile);
         }
 
+
         public int GetDistance(Vector2 pos)
         {
             var lessDist = int.MaxValue;
