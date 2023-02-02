@@ -39,7 +39,8 @@ namespace LBS.Components
         private string bundle;
 
         [SerializeField, JsonRequired, SerializeReference]
-        private LBSLayerAssistant assitant;
+        [ScriptableToString(typeof(LBSLayerAssistant))]
+        private string assitant;
 
 
         [JsonIgnore]
@@ -66,12 +67,7 @@ namespace LBS.Components
         [JsonIgnore]
         public LBSLayerAssistant Assitant
         {
-            get
-            {
-                if(assitant == null)
-                    assitant = ScriptableObject.CreateInstance<LBSLayerAssistant>();
-                return assitant;
-            }
+            get => Utility.DirectoryTools.GetScriptable<LBSLayerAssistant>(assitant);
         }
 
         [JsonIgnore]
