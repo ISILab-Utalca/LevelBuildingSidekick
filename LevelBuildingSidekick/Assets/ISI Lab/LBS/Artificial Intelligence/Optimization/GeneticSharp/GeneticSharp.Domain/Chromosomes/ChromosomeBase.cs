@@ -37,7 +37,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <summary>
         /// Gets or sets the fitness of the chromosome in the current problem.
         /// </summary>
-        public double? Fitness { get; set; }
+        public double Fitness { get; set; }
 
         /// <summary>
         /// Gets the length, in genes, of the chromosome.
@@ -188,7 +188,7 @@ namespace GeneticSharp.Domain.Chromosomes
             {
                 throw new TypeAccessException("Incorrect Type T for " + GetType().Name);
             }
-            Fitness = null;
+            Fitness = float.NaN;
         }
 
         /// <summary>
@@ -224,7 +224,7 @@ namespace GeneticSharp.Domain.Chromosomes
 
                 Array.Copy(genes, 0, m_genes, startIndex, genes.Length);
 
-                Fitness = null;
+                Fitness = float.NaN;
             }
         }
 
@@ -391,7 +391,8 @@ namespace GeneticSharp.Domain.Chromosomes
             return CreateNewChromosome();
         }
 
-        IOptimizable IOptimizable.Clone()
+
+        public object Clone()
         {
             return CloneChromosome();
         }

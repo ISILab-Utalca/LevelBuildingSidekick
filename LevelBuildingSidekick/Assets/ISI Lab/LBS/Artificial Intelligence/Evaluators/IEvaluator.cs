@@ -18,7 +18,6 @@ namespace Commons.Optimization.Evaluator
         /// <param name="chromosome">The chromosome to be evaluated.</param>
         /// <returns>The fitness of the chromosome.</returns>
         float Evaluate(IOptimizable evaluable);
-        float EvaluateH <u>(IOptimizable evaluable, u Heu);
     }
 
     public interface INameable

@@ -37,7 +37,7 @@ namespace GeneticSharp.Domain.Mutations
         /// <param name="probability">The probability to mutate each chromosome.</param>
         protected override void PerformMutate (IOptimizable evaluable, float probability)
         {
-            var data = evaluable.GetDataSquence<object>();
+            var data = (evaluable as IChromosome).GetDataSquence<object>();
             if (m_rnd.GetDouble() <= probability)
             {
                 var index = m_rnd.GetInt(0, data.Length);
@@ -47,7 +47,7 @@ namespace GeneticSharp.Domain.Mutations
                     throw new TypeAccessException("Input must be colection of bool");
                 }
                 data[index] = !((bool)data[index]);
-                evaluable.SetDataSequence(data);
+                (evaluable as IChromosome).SetDataSequence(data);
             }
         }
 

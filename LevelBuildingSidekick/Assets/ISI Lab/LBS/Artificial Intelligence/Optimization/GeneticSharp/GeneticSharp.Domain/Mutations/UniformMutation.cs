@@ -64,7 +64,7 @@ namespace GeneticSharp.Domain.Mutations
         {
             ExceptionHelper.ThrowIfNull("chromosome", evaluable);
 
-            var data = evaluable.GetDataSquence<object>();
+            var data = (evaluable as IChromosome).GetDataSquence<object>();
 
             var genesLength = data.Length;
 
@@ -91,10 +91,10 @@ namespace GeneticSharp.Domain.Mutations
 
                 if (RandomizationProvider.Current.GetDouble() <= probability)
                 {
-                    data[geneIndex] = evaluable.GetSampleData<object>();
+                    data[geneIndex] = (evaluable as IChromosome).GetSampleData<object>();
                 }
             }
-            evaluable.SetDataSequence(data);
+            (evaluable as IChromosome).SetDataSequence(data);
         }
 
         public override VisualElement CIGUI()

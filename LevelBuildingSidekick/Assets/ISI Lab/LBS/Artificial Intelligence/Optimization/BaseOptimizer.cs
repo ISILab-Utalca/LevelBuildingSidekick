@@ -201,8 +201,6 @@ namespace Commons.Optimization
             }
         }
 
-        public abstract List<IOptimizable> GetNeighbors( IOptimizable Adam);
-
         /*public virtual IEvaluable Run()
         {
             while (!TerminatioReached() && !(State == Op_State.Paused || State == Op_State.Stopped))

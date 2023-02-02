@@ -57,7 +57,7 @@ namespace GeneticSharp.Domain.Crossovers
         /// <returns>The offspring (children) of the parents.</returns>
         protected override IList<IOptimizable> PerformCross(IList<IOptimizable> parents)
         {
-            var datas = parents.Select(p => p.GetDataSquence<object>()).ToList();
+            var datas = parents.Select(p => (p as IChromosome).GetDataSquence<object>()).ToList();
 
             var firstParent = datas[0];
             var data = new object[firstParent.Length];
@@ -83,7 +83,7 @@ namespace GeneticSharp.Domain.Crossovers
             }
 
             var child = parents[0].CreateNew();
-            child.SetDataSequence(data);
+            (child as IChromosome).SetDataSequence(data);
 
             // The remaining positions of the offspring are filled with mutations.
             if (mutableGenesIndexes.Count > 0)

@@ -80,6 +80,14 @@ namespace GeneticSharp.Domain.Chromosomes
         /// </summary>
         /// <returns>The chromosome clone.</returns>
         IChromosome CloneChromosome();
+
+        public bool IsValid();
+        public T GetSampleData<T>();
+        public T[] GetDataSquence<T>();
+
+        public T GetData<T>();
+        public void SetDataSequence<T>(T[] data);
+        public void SetData<T>(T data);
         #endregion
     }
 }

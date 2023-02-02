@@ -21,7 +21,7 @@ namespace GeneticSharp.Domain.Mutations
         /// <param name="probability">The probability to mutate each chromosome.</param>
         protected override void PerformMutate(IOptimizable evaluable, float probability)
         {
-            var sequence = evaluable.GetDataSquence<object>();
+            var sequence = (evaluable as IChromosome).GetDataSquence<object>();
 
             ValidateLength(sequence);
 
@@ -35,8 +35,8 @@ namespace GeneticSharp.Domain.Mutations
                 var m = MutateOnSequence(sequence.Skip(firstIndex).Take(sequenceLength).ToArray());
 
                 Array.Copy(m, 0, sequence, firstIndex, sequenceLength);
-                
-                evaluable.SetDataSequence(sequence);
+
+                (evaluable as IChromosome).SetDataSequence(sequence);
             }
         }
 

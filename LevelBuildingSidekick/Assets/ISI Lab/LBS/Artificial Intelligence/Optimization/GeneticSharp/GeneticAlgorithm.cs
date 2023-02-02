@@ -382,11 +382,10 @@ public class GeneticAlgorithm : IGeneticAlgorithm , IShowable
     {
         try
         {
-            var chromosomesWithoutFitness = Population.CurrentGeneration.Evaluables.Where(c => !c.Fitness.HasValue).ToList();
 
-            for (int i = 0; i < chromosomesWithoutFitness.Count; i++)
+            for (int i = 0; i < Population.CurrentGeneration.Evaluables.Count; i++)
             {
-                var c = chromosomesWithoutFitness[i];
+                var c = Population.CurrentGeneration.Evaluables[i];
 
                 TaskExecutor.Add(() =>
                 {
