@@ -5,15 +5,11 @@ using UnityEngine.UIElements;
 
 public class WeightedEvaluator : IEvaluator
 {
-    IEvaluator Adjacencies;
-    IEvaluator Areas;
-    IEvaluator Empty;
+    Tuple<IEvaluator, float>[] evaluators;
 
-    public WeightedEvaluator()
+    public WeightedEvaluator(params Tuple<IEvaluator, float>[] evaluators)
     {
-        Adjacencies = new AdjacenciesEvaluator();
-        Areas = new AreasEvaluator();
-        Empty = new EmptySpaceEvaluator();
+        this.evaluators = evaluators;
     }
 
     public VisualElement CIGUI()
@@ -23,28 +19,16 @@ public class WeightedEvaluator : IEvaluator
 
     public float Evaluate(IOptimizable evaluable)
     {
-        throw new NotImplementedException();
-    }
+        float totalWeight = 0;
+        float fitness = 0;
 
-    public float EvaluateH<u>(IOptimizable schemaData, u graphData)
-    {
-        var evaluations = new Tuple<IEvaluator , float>[]
+        foreach(var t in evaluators)
         {
-                new Tuple<IEvaluator,float>(Adjacencies,0.5f),
-                new Tuple<IEvaluator,float>(Areas,0.3f),
-                new Tuple<IEvaluator,float>(Empty,0.2f)
-            //new Tuple<Func<LBSGraphData, LBSSchemaData, float>, float>(EvaluateRoomDistribution,0.1f)
-        };
-
-        var value = 0f;
-        for (int i = 0; i < evaluations.Count(); i++)
-        {
-            var action = evaluations[i].Item1;
-            var weight = evaluations[i].Item2;
-            value += (float)action.EvaluateH(schemaData, graphData) * weight;
+            totalWeight += t.Item2;
+            fitness += t.Item1.Evaluate(evaluable);
         }
 
-        return value;
+        return fitness/totalWeight;
     }
 
     public string GetName()
