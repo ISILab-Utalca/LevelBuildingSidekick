@@ -5,7 +5,6 @@ using UnityEngine;
 using LBS.Tools.Transformer;
 using System;
 using System.Linq;
-using LBS.Generator;
 
 namespace LBS.Components
 {
@@ -18,7 +17,7 @@ namespace LBS.Components
 
         [SerializeField, JsonRequired]
         private string name;
-        
+
         [SerializeField, JsonRequired]
         private bool visible;
 
@@ -34,14 +33,13 @@ namespace LBS.Components
         [SerializeField, JsonRequired, SerializeReference]
         private List<LBSModule> modules;
 
-        [SerializeField, JsonRequired, SerializeReference]
+        [SerializeField, JsonRequired]
         [ScriptableToString(typeof(CompositeBundle))]
-        private string bundle;
+        private string bundle = "";
 
-        [SerializeField, JsonRequired, SerializeReference]
+        [SerializeField, JsonRequired]
         [ScriptableToString(typeof(LBSLayerAssistant))]
-        private string assitant;
-
+        private string assitant = "";
 
         [JsonIgnore]
         public bool IsVisible
@@ -67,13 +65,27 @@ namespace LBS.Components
         [JsonIgnore]
         public LBSLayerAssistant Assitant
         {
-            get => Utility.DirectoryTools.GetScriptable<LBSLayerAssistant>(assitant);
+            get 
+            {
+                var obj = Resources.FindObjectsOfTypeAll<LBSLayerAssistant>().ToList();
+                if(string.IsNullOrEmpty(assitant))
+                    assitant = obj[0].name;
+                var t = obj.Find(a => a.name.Contains(assitant)); // Utility.DirectoryTools.GetScriptable<LBSLayerAssistant>(assitant);
+                return t;
+            }
         }
 
         [JsonIgnore]
         public CompositeBundle Bundle
         {
-            get => Utility.DirectoryTools.GetScriptable<CompositeBundle>(bundle);
+            get
+            {
+                var obj = Resources.LoadAll<CompositeBundle>("Bundles").ToList();
+                if (string.IsNullOrEmpty(bundle))
+                    bundle = obj[0].name;
+                var t = obj.Find(a => a.name.Contains(bundle)); //Utility.DirectoryTools.GetScriptable<CompositeBundle>(bundle);
+                return t;
+            }
         }
 
         //EVENTS

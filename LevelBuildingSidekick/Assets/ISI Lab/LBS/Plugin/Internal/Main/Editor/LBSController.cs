@@ -22,8 +22,8 @@ namespace LBS
     {
         #region InspectorDrawer
         private class LevelScriptable : GenericScriptable<LBSLevelData> { };
-        [CustomEditor(typeof(LevelScriptable)),CanEditMultipleObjects]
-        private class LevelScriptableEditor : GenericScriptableEditor { };
+        //[CustomEditor(typeof(LevelScriptable)),CanEditMultipleObjects]
+        //private class LevelScriptableEditor : GenericScriptableEditor { };
         #endregion
 
         //private static LevelBackUp backUp;
@@ -95,12 +95,14 @@ namespace LBS
         {
             var path = Application.dataPath;
             System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(path);
-            var files = Utility.DirectoryTools.GetAllFilesByExtension(extension, dir);
+            //var files = Utility.DirectoryTools.GetAllFilesByExtension(extension, dir);
 
-            var fileInfo = files.Find(f => f.Name.Contains(name));
+            //var fileInfo = files.Find(f => f.Name.Contains(name));
 
-            toReturn = fileInfo;
-            return fileInfo != null;
+            //toReturn = fileInfo;
+            //return fileInfo != null;
+            toReturn = null;
+            return false;
         }
 
         public static void SaveFile()

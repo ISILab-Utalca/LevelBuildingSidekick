@@ -8,7 +8,7 @@ namespace GeneticSharp.Domain.Populations
     /// <summary>
     /// Defines an interface for a population of candidate solutions (chromosomes).
     /// </summary>
-    public interface IPopulation : IShowable
+    public interface IPopulation //: IShowable
     {
         #region Events
         /// <summary>

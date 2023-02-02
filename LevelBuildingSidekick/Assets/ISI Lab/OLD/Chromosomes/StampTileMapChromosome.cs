@@ -4,7 +4,6 @@ using UnityEngine;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
 using System.Linq;
-using Utility;
 
 public class StampTileMapChromosome //: ChromosomeBase2D<int>, IDrawable
 {

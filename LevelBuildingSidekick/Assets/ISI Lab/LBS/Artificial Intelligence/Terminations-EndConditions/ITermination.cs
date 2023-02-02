@@ -7,7 +7,7 @@ namespace Commons.Optimization.Terminations
     /// <remarks>
     /// <see href="http://en.wikipedia.org/wiki/Genetic_algorithm#Termination">Wikipedia</see> 
     /// </remarks>
-    public interface ITermination : IShowable
+    public interface ITermination //: IShowable
     {
         #region Methods
         /// <summary>

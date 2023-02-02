@@ -57,11 +57,11 @@ public class Generator3DPanel : VisualElement
 
         position = this.Q<Vector3Field>(name: "Position");
 
-        scale = this.Q<Vector2Field>(name: "Resize");
-        scale.value = Vector2.one;
-
-        resize = this.Q<Vector2Field>(name: "ReferenceSize");
+        resize = this.Q<Vector2Field>(name: "Resize");
         resize.value = Vector2.one;
+
+        scale = this.Q<Vector2Field>(name: "ReferenceSize");
+        scale.value = new Vector2(2,2);
 
         objName = this.Q<TextField>(name: "ObjName");
 
