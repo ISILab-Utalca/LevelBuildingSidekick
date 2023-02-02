@@ -58,9 +58,4 @@ public class RoomsPalleteInspector<T,U> : LBSInspector where T: TiledArea where 
             content.Add(btn);
         }
     }
-
-    public void SelectElemnt(int index)
-    {
-
-    }
 }

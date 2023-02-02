@@ -141,7 +141,8 @@ public class LayerTemplateEditor : Editor
         var mode2 = new LBSMode(
             "Schema",
             typeof(AreaTileMap<TiledArea>),
-            new DrawConnectedTilemap(),new List<LBSTool>() { tool5, tool6, tool7, tool8, tool9 }
+            new DrawConnectedTilemap(),
+            new List<LBSTool>() { tool5, tool6, tool7, tool8, tool9 }
             );
         template.modes.Add(mode2);
 
@@ -163,7 +164,8 @@ public class LayerTemplateEditor : Editor
         template.layer = layer;
 
         // Modules
-        layer.AddModule(new LBSBaseGraph());
+        var x = new Exterior();
+        layer.AddModule(x);
 
         // Transformers
         //
@@ -172,41 +174,51 @@ public class LayerTemplateEditor : Editor
         // Mode 1
         Texture2D icon = Resources.Load<Texture2D>("Icons/Select");
         var tool1 = new LBSTool(icon, "Select", typeof(Select), null, true);
+
+
         icon = Resources.Load<Texture2D>("Icons/RoomSelection");
-        var tool2 = new LBSTool(icon, "Paint by tile", typeof(Select), null, false);
+        var tool2 = new LBSTool(
+            icon,
+            "Add empty tile",
+            typeof(AddEmptyTile<ConnectedTile>),
+            null,
+            false);
+
+        icon = Resources.Load<Texture2D>("Icons/RoomSelection");
+        var tool3 = new LBSTool(
+            icon,
+            "Remove tile",
+            typeof(RemoveTileExterior<ConnectedTile>),
+            null,
+            false);
+
         icon = Resources.Load<Texture2D>("Icons/AddConnection");
-        var tool3 = new LBSMultiTool(
+        var tool4 = new LBSTool(
             icon,
-            "Paint by connection",
-            new List<string>() { "Point", "Line", "Square", "Free" },
-            new List<System.Type>() {
-                typeof(Select), //typeof(AddTileToTiledAreaAtPoint<TiledArea<LBSTile>,LBSTile>), // point // (!!) implementar
-                typeof(Select), //typeof(AddTileToTiledAreaAtLine<TiledArea<LBSTile>,LBSTile>), // line // (!!) implementar
-                typeof(Select), //typeof(AddTileToTiledAreaAtGrid<TiledArea<LBSTile>,LBSTile>), // grid // (!!) implementar
-                typeof(Select), //typeof(AddTileToTiledAreaAtFree<TiledArea<LBSTile>,LBSTile>)  // free // (!!) implementar
-            },
-            null
-        );
+            "Set connection",
+            typeof(AddConnection<ConnectedTile>),
+            typeof(TagsPalleteInspector<ConnectedTile>), //typeof(RoomsPalleteInspector<TiledArea, ConnectedTile>),
+            false);
+
         icon = Resources.Load<Texture2D>("Icons/erased");
-        var tool4 = new LBSMultiTool(
+        var tool5 = new LBSTool(
             icon,
-            "Erase",
-            new List<string>() { "Pair", "Line", "Square", "Free" },
-            new List<System.Type>() {
-                typeof(Select), //typeof(AddTileToTiledAreaAtPoint<TiledArea<LBSTile>,LBSTile>), // point // (!!) implementar
-                typeof(Select), //typeof(AddTileToTiledAreaAtLine<TiledArea<LBSTile>,LBSTile>), // line // (!!) implementar
-                typeof(Select), //typeof(AddTileToTiledAreaAtGrid<TiledArea<LBSTile>,LBSTile>), // grid // (!!) implementar
-                typeof(Select), //typeof(AddTileToTiledAreaAtFree<TiledArea<LBSTile>,LBSTile>)  // free // (!!) implementar
-            },
-            null
-        );
+            "Remove connection",
+            typeof(RemoveConnection<ConnectedTile>), 
+            null, 
+            false);
+
+        icon = Resources.Load<Texture2D>("Icons/erased");
+        var tool6 = new LBSTool(icon, "Collapse connection area", typeof(Select), null, false);
 
         var mode1 = new LBSMode(
             "Exterior",
-            typeof(GraphModule<LBSNode>), // (!!!) implentar la correcta
-            new DrawSimpleGraph(),
-            new List<LBSTool>() { tool1, tool2, tool3, tool4 }
+            typeof(TiledArea), // (!!!) implentar la correcta
+            new DrawExterior(),
+            new List<LBSTool>() { tool1, tool2, tool3, tool4, tool5 }//, tool6 }
             );
+
+
         template.modes.Add(mode1);
 
         AssetDatabase.SaveAssets();
