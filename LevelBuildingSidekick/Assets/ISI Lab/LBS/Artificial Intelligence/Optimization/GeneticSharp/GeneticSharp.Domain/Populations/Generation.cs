@@ -103,7 +103,7 @@ namespace GeneticSharp.Domain.Populations
         /// <returns>True if a chromosome is valid.</returns>
         private static bool ValidateEvaluables(IOptimizable chromosome)
         {
-            if (!chromosome.Fitness.HasValue)
+            if (chromosome.Fitness == float.NaN)
             {
                 throw new InvalidOperationException("There is unknown problem in current generation, because a chromosome has no fitness value.");
             }
