@@ -24,7 +24,7 @@ public class AITest : VisualElement
     public LBSLevelData data;
     private AreaTileMap<TiledArea> schema;
     private GraphModule<RoomNode> graph;
-    Hill2 HC;
+    HillClimbing HC;
 
     public AITest() { }
 

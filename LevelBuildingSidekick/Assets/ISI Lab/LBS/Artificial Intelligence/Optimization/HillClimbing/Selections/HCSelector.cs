@@ -33,7 +33,7 @@ internal class HCSelector<U> : ISelection
         List<IOptimizable> betters = new List<IOptimizable>();
         higherScore = score;
 
-        for (int i = 0; i < candidates.Count; i++)
+        /*for (int i = 0; i < candidates.Count; i++)
         {
             newScore = evaluator.EvaluateH(candidates[i], heuristic);
             if (newScore > higherScore)
@@ -46,7 +46,7 @@ internal class HCSelector<U> : ISelection
                 betters.Add(candidates[i]);
             }
             higherScore = higherScore < newScore ? newScore : higherScore;
-        }
+        }*/
 
         return betters;
     }
