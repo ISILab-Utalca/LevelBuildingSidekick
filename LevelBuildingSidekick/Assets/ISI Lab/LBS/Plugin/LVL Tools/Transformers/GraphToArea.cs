@@ -27,19 +27,12 @@ namespace LBS.Tools.Transformer
             graph = layer.GetModule(From) as GraphModule<RoomNode>;
             schema = layer.GetModule(To) as AreaTileMap<TiledArea>;
 
-            /*
-            if (graph == null)
-            {
-                Debug.LogError("Graph is NULL");
-                return;
-            }
-            */
-
             if(schema.IsEmpty())
             {
-                CreateDataFrom();
-                var parche = new AreaToTileMap(layer);
-                parche.Switch(ref layer);
+                CreateDataFrom(schema);
+                var parche = new AreaToTileMap();
+                //parche.Switch(ref layer);
+                parche.ParcheDiParche(schema);
             }
             else
             {
@@ -50,7 +43,7 @@ namespace LBS.Tools.Transformer
 
         
 
-        private void CreateDataFrom()
+        private void CreateDataFrom(AreaTileMap<TiledArea> schema)
         {
             Queue<RoomNode> open = new Queue<RoomNode>();
             HashSet<RoomNode> closed = new HashSet<RoomNode>();
@@ -122,6 +115,7 @@ namespace LBS.Tools.Transformer
 
         private void EditDataFrom()
         {
+            /*
             for (int i = 0; i < graph.NodeCount; i++)
             {
                 var node = graph.GetNode(i);
@@ -141,6 +135,7 @@ namespace LBS.Tools.Transformer
                     continue;
                 }
             }
+            */
         }
 
         private TiledArea ConstructArea(RoomNode node, Vector2Int offset)

@@ -13,7 +13,7 @@ namespace LBS.Components.TileMap
         #region FIELDS
 
         [SerializeField, JsonRequired, SerializeReference]
-        protected List<LBSTile> tiles;
+        protected List<LBSTile> tiles = new List<LBSTile>();
 
         #endregion
 
@@ -84,7 +84,8 @@ namespace LBS.Components.TileMap
 
         public TileMapModule(List<T> tiles, string key) : base(key)
         {
-            this.tiles = new List<LBSTile>(tiles);
+            AddTiles(tiles);
+            //this.tiles = new List<LBSTile>(tiles);
         }
 
         #endregion

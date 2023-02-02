@@ -21,6 +21,9 @@ namespace LBS.Components
         [SerializeField, JsonRequired]
         protected bool changed;
 
+        [JsonIgnore, HideInInspector]
+        public LBSLayer Owner;
+
         #endregion
 
         #region PROPERTIES

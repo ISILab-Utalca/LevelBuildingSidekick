@@ -1,6 +1,7 @@
 using LBS.Components;
 using LBS.Components.Teselation;
 using LBS.Components.TileMap;
+using LBS.Tools.Transformer;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,7 +10,6 @@ using UnityEngine.UIElements;
 
 public class AddTileToTiledAreaAtPoint<T,U> : ManipulateTiledArea<T, U> where T : TiledArea where U : LBSTile
 {
-
     protected override void OnMouseDown(MouseDownEvent e)
     {
         OnManipulationStart?.Invoke();
@@ -17,8 +17,14 @@ public class AddTileToTiledAreaAtPoint<T,U> : ManipulateTiledArea<T, U> where T 
         var tile = Activator.CreateInstance(typeof(U)) as U;
         tile.Position = mainView.ToTileCords(pos);
         tile.ID = areaToSet.ID;
-        areaToSet?.AddTile(tile);
-        OnManipulationEnd?.Invoke();
+        areaToSet.AddTile(tile);
+        (tile as ConnectedTile).SetConnections("Wall", "Wall", "Wall", "Wall");
+
+        var module =this.module;
+        var parche = new AreaToTileMap(); // (!!!!!) eliminar!!!
+        parche.ParcheDiParche(module);
+
+        this.OnManipulationEnd?.Invoke();
     }
 
     protected override void OnMouseMove(MouseMoveEvent e)

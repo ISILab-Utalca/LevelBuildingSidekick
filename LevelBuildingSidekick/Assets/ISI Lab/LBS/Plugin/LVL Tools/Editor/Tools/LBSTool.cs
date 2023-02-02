@@ -17,8 +17,6 @@ public class LBSTool
     public string manipulator;
     [SerializeField]
     public string inspector;
-    [SerializeField]
-    public bool UseUnitySelector;
 
     [NonSerialized]
     protected IManipulatorLBS _manipulator;
@@ -35,7 +33,6 @@ public class LBSTool
         this.name = name;
         this.manipulator = manipulator.FullName;
         this.inspector = inspector?.FullName;
-        this.UseUnitySelector = useUnitySelector; // (!) esto es un parche, empty deberia ser el unico con este comportamiento
     }
 
     public virtual LBSGrupableButton InitButton(MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module) // (!)
@@ -48,6 +45,7 @@ public class LBSTool
         //_manipulator.AddManipulationEnd( () => Debug.Log("Mani: "+_manipulator.GetType().ToString()));
 
         _manipulator.Init(ref view,ref level, ref layer, ref module);
+        Debug.Log("Init tool: " + _manipulator.ToString());
 
         var btn = new BasicToolButton(this.icon, this.name);
 

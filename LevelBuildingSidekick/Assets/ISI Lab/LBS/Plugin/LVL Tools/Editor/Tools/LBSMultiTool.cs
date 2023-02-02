@@ -28,6 +28,7 @@ public class LBSMultiTool : LBSTool
     public override LBSGrupableButton InitButton(MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
     {
         _manipulators = new List<IManipulatorLBS>();
+        Debug.Log("MULTITOOL");
         base.InitButton(view, ref level, ref layer, ref module); // (?) inecesario?
         foreach (var manipulator in manipulators)
         {
@@ -36,10 +37,12 @@ public class LBSMultiTool : LBSTool
             current.AddManipulationStart(OnStartAction);
             current.AddManipulationUpdate(OnUpdateAction);
             current.AddManipulationEnd(OnEndAction);
-            _manipulator.AddManipulationEnd(() => Debug.Log("Mani: " + _manipulator.GetType().ToString()));
+            current.AddManipulationEnd(() => Debug.Log("Mani: " + _manipulator.GetType().ToString()));
 
             current.Init(ref view, ref level, ref layer, ref module);
             _manipulators.Add(current);
+
+            Debug.Log("Init multitool: " +current.ToString());
 
         }
 

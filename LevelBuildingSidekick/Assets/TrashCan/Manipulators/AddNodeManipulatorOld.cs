@@ -8,12 +8,13 @@ using UnityEngine.UIElements;
 
 namespace LBS.Manipulators
 {
-    public class AddNodeManipulator : MouseManipulator
+    [System.Obsolete]
+    public class AddNodeManipulatorOld : MouseManipulator
     {
         private LBSGraphController controller;
         private GenericLBSWindow window;
 
-        public AddNodeManipulator(GenericLBSWindow window,LBSGraphController controller)
+        public AddNodeManipulatorOld(GenericLBSWindow window,LBSGraphController controller)
         {
             activators.Add(new ManipulatorActivationFilter { button = MouseButton.LeftMouse });
             this.controller = controller;

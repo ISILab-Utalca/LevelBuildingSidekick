@@ -16,7 +16,7 @@ namespace LBS.Components.TileMap
 
         [SerializeField, JsonRequired, SerializeReference]
         //protected List<BasedTiledArea> areas;
-        protected List<TiledArea> areas;
+        protected List<TiledArea> areas = new List<TiledArea>();
 
         #endregion
 
@@ -40,14 +40,15 @@ namespace LBS.Components.TileMap
         
         public AreaTileMap() : base()
         {
-            //areas = new List<BasedTiledArea>();
             areas = new List<TiledArea>();
         }
 
         public AreaTileMap(List<TiledArea> areas, string key) : base(key)
         {
-            //areas = new List<BasedTiledArea>();
-            this.areas = areas;
+            areas = new List<TiledArea>();
+            areas.ForEach(a => {
+                AddArea(a as T);
+            });
         }
 
         #endregion
@@ -57,6 +58,7 @@ namespace LBS.Components.TileMap
         public void AddArea(T area)
         {
             areas.Add(area);
+            area.Owner = this.Owner;
             area.OnAddTile = (t) => 
             {
                 RemoveTile(t);

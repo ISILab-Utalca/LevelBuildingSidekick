@@ -51,7 +51,6 @@ public class ToolkitManager
                     InspectorManager.AddInspector(insp); 
                 };
                 btn.OnBlurEvent += () => {
-                    var ins = insp;
                     InspectorManager.RemoveInspector(insp);
                 };
             }

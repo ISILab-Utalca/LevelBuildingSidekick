@@ -43,6 +43,33 @@ public class LBSMainWindow : EditorWindow
     private DrawManager drawManager;
     private LBSInspectorPanel inspectorManager;
 
+    //CANCER
+    private static LBSMainWindow singleton;
+    private static LBSMainWindow Singleton
+    {
+        get
+        {
+            if (singleton == null)
+            {
+                return _ShowWindow();
+            }
+            return singleton;
+        }
+    }
+    public static LBSLayer LayerSelected
+    {
+        get
+        {
+            return Singleton._selectedLayer;
+        }
+        set
+        {
+            Singleton._selectedLayer = value;
+        }
+    }
+
+    public static string ModeSelected => singleton._selectedMode;
+
 
     [MenuItem("ISILab/LBS plugin/Main window", priority = 0)]
     public static void ShowWindow()
@@ -50,6 +77,16 @@ public class LBSMainWindow : EditorWindow
         var window = GetWindow<LBSMainWindow>();
         Texture icon = Resources.Load<Texture>("Icons/Logo");
         window.titleContent = new GUIContent("Level builder", icon);
+        singleton = window;
+    }
+
+    private static LBSMainWindow _ShowWindow()
+    {
+        var window = GetWindow<LBSMainWindow>();
+        Texture icon = Resources.Load<Texture>("Icons/Logo");
+        window.titleContent = new GUIContent("Level builder", icon);
+        singleton = window;
+        return singleton;
     }
 
     public virtual void CreateGUI()
@@ -218,11 +255,21 @@ public class LBSMainWindow : EditorWindow
 
         var transformers = _selectedLayer.GetTrasformers(layerTemplates);
         var trans = transformers.Find(t => t.From.FullName.Equals(ModuleFrom) && t.To.FullName.Equals(ModuleTo)); // (!) lo de los fullname es parche ya que ".ModuleType no funciona"
-        trans?.Switch(ref _selectedLayer);
+        
+        if(trans == null)
+        {
+            Debug.LogWarning("No existe trasformador que trasforme de '" + ModuleFrom + "' a '" + ModuleTo);
+        }
+        else
+        {
+            trans.Switch(ref _selectedLayer);
+        }
     }
 
     public void OnSelectedModeChange(string mode, LBSLayer layer)
     {
+        _selectedLayer = layer;
+
         var oldMode = _selectedMode;
         _selectedMode = mode;
         var modes = _selectedLayer.GetToolkit(layerTemplates);

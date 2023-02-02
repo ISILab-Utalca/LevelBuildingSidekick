@@ -58,7 +58,7 @@ namespace LBS.Overlays
                     addNode.clicked += () => {
                         var wnd = EditorWindow.GetWindow<LBSGraphRCWindow>();
                         var c = wnd.GetController<LBSGraphRCController>();
-                        wnd.MainView.SetManipulator(new AddNodeManipulator(wnd,c)); 
+                        wnd.MainView.SetManipulator(new AddNodeManipulatorOld(wnd,c)); 
                     };
                     addNode.text = "Add node mode";
                 }

@@ -23,7 +23,7 @@ namespace LBS.Components
         private bool visible;
 
         [SerializeField, JsonRequired]
-        public string iconPath;
+        public string iconPath; // (?) esto tiene que estar en la layertemplate
 
         //[SerializeField, JsonRequired, SerializeReference]
         //private List<string> transformers; 
@@ -97,7 +97,9 @@ namespace LBS.Components
         public LBSLayer(List<LBSModule> modules,/* List<Type> transformers,*/ string ID, bool visible, string name, string iconPath)
         {
             this.modules = modules;
-            modules.ForEach(m => m.OnChanged += (mo) => { this.OnChanged(this); });
+            modules.ForEach(m => {
+                AddModule(m);
+            });
             //this.transformers = new List<string>();
             //AddTrasformers(transformers);
             this.ID = ID;
@@ -107,8 +109,6 @@ namespace LBS.Components
         }
 
         //METHODS
-
-
         public bool AddModule(LBSModule module)
         {
             if(modules.Contains(module))
@@ -116,6 +116,7 @@ namespace LBS.Components
                 return false;
             }
             modules.Add(module);
+            module.Owner = this;
             module.OnChanged += (mo) => 
             { 
                 this.OnChanged?.Invoke(this); 
@@ -134,42 +135,27 @@ namespace LBS.Components
                 return false;
             }
             modules.Insert(index, module);
+            module.Owner = this;
             module.OnChanged += (mo) => { this.OnChanged(this); };
             return true;
         }
 
         public bool RemoveModule(LBSModule module)
         {
-            var b = modules.Remove(module);
-            module.OnChanged -= (mo) => { this.OnChanged(this); };
-            return b;
+            var removed = modules.Remove(module);
+            if(removed)
+            {
+                module.Owner = null;
+                module.OnChanged -= (mo) => { this.OnChanged(this); };
+            }
+            return removed;
         }
 
         public LBSModule RemoveModuleAt(int index)
         {
-            if(!modules.ContainsIndex(index))
-            {
-                return null;
-            }
             var module = modules[index];
-            modules.RemoveAt(index);
-            module.OnChanged -= (mo) => { this.OnChanged(this); };
+            RemoveModule(module);
             return module;
-        }
-
-        public bool MoveModule(int index, LBSModule module)
-        {
-            if (!modules.Contains(module))
-            {
-                return false;
-            }
-            if(!modules.ContainsIndex(index))
-            {
-                return false;
-            }
-            modules.Remove(module);
-            modules.Insert(index, module);
-            return true;
         }
 
         public LBSModule GetModule(int index)
@@ -197,9 +183,6 @@ namespace LBS.Components
         {
             foreach (var module in modules)
             {
-                var x = module.GetType();
-                var xx = module.GetType().BaseType;
-
                 if (module.GetType().Equals(type) || Utility.Reflection.IsSubclassOfRawGeneric(type, module.GetType()))
                 {
                     if (ID.Equals("") || module.Key.Equals(ID))
@@ -212,7 +195,7 @@ namespace LBS.Components
 
         }
 
-        public List<T> GetModules<T>(string ID = "") where T : LBSModule
+        public List<T> GetModules<T>(string ID = "") where T : LBSModule  // (?) sobra?
         {
             List<T> mods = new List<T>();
             foreach (var mod in modules)
@@ -225,19 +208,11 @@ namespace LBS.Components
 
         public void HideModule(int index)
         {
-            if (!modules.ContainsIndex(index))
-            {
-                return;
-            }
             modules[index].IsVisible = false;
         }
 
         public void ShowModule(int index)
         {
-            if (!modules.ContainsIndex(index))
-            {
-                return;
-            }
             modules[index].IsVisible = true;
         }
 
@@ -301,7 +276,10 @@ namespace LBS.Components
 
         public object Clone()
         {
-            var modules = this.modules.Select(m => m.Clone() as LBSModule).ToList();
+            var modules = this.modules.Select(m => {
+                var module = m.Clone() as LBSModule;
+                return module;
+                }).ToList();
             //var transformers = this.GetTransformers(); // (??) usar clone en vez de pasar la lista?
             var layer = new LBSLayer(modules,/* transformers.Select(t => t.GetType()).ToList(),*/ this.id, this.visible, this.name, this.iconPath);
             return layer;

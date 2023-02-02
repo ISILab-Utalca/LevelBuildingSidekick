@@ -58,7 +58,7 @@ namespace LBS.Overlays
                     addNode.clicked += () => {
                         var wnd = EditorWindow.GetWindow<QuestWindow>();
                         var c = wnd.GetController<LBSQuestGraphController>();
-                        wnd.MainView.SetManipulator(new AddNodeManipulator(wnd,c)); 
+                        wnd.MainView.SetManipulator(new AddNodeManipulatorOld(wnd,c)); 
                     };
                     addNode.text = "Add node mode";
                 }

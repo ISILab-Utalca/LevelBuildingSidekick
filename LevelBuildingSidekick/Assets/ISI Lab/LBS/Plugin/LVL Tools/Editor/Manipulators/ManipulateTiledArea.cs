@@ -11,6 +11,8 @@ public abstract class ManipulateTiledArea<T, U> : LBSManipulator where T : Tiled
     protected AreaTileMap<T> module;
     protected MainView mainView;
 
+    public ManipulateTiledArea() : base() { }
+
     public override void Init(ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
     {
         this.module = layer.GetModule<AreaTileMap<T>>();

@@ -24,7 +24,7 @@ public static class DataExtensions
         var m = rect.min;
         for (int i = 0; i < schema.Areas.Count; i++)
         {
-            schema.Areas[i].Move(-m);
+            schema.GetArea(i).Move(-m);
         }
         return -m;
     }

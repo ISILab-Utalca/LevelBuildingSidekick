@@ -54,7 +54,7 @@ namespace LBS.Overlays
             addNodeButton.clicked += () => {
                 var wnd = EditorWindow.GetWindow<LBSGraphRCWindow>();
                 var c = wnd.GetController<LBSGraphRCController>();
-                wnd.MainView.SetManipulator(new AddNodeManipulator(wnd, c));
+                wnd.MainView.SetManipulator(new AddNodeManipulatorOld(wnd, c));
             };
 
             // Add edge button

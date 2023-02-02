@@ -123,9 +123,9 @@ public class LayerTemplateEditor : Editor
         var tool7 = new LBSTool(
             icon,
             "Erase",
-            null, // Removed<TiledArea<LBSTile>, LBSTile>,
+            typeof(Select), // Removed<TiledArea<LBSTile>, LBSTile>,
             null
-        );
+        ); ;
 
         icon = Resources.Load<Texture2D>("Icons/open-exit-door");
         var tool8 = new LBSTool(icon, "Add door", typeof(AddDoor<TiledArea,ConnectedTile>), null, true);
@@ -133,8 +133,8 @@ public class LayerTemplateEditor : Editor
         icon = Resources.Load<Texture2D>("Icons/Trash");
         var tool9 = new LBSTool(
             icon, 
-            "Remove door", 
-            null, //typeof(RemoveDoor<TiledArea,ConnectedTile>),
+            "Remove door",
+            typeof(Select), //typeof(RemoveDoor<TiledArea,ConnectedTile>),
             null, 
             true);
 
