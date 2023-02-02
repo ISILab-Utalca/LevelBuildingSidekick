@@ -20,13 +20,7 @@ public class EmptySpaceEvaluator : IEvaluator
 
     public float Evaluate(IOptimizable evaluable)
     {
-        throw new System.NotImplementedException();
-    }
-
-    public float EvaluateH<u>(IOptimizable evaluable, u Heu)
-    {
-        var graphData = evaluable as LBSRoomGraph;
-        var schema = Heu as LBSSchema;
+        var schema = (evaluable as OptimizableSchema).Schema;
         var value = 0f;
         foreach (var room in schema.Areas)
         {
