@@ -10,9 +10,16 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 public class AdjacenciesEvaluator : IEvaluator
-{   
+{
+    LBSRoomGraph graph;
 
     public AdjacenciesEvaluator() {}
+
+
+    public AdjacenciesEvaluator(LBSRoomGraph graph) 
+    {
+        this.graph = graph;
+    }
 
     public VisualElement CIGUI()
     {
@@ -21,24 +28,18 @@ public class AdjacenciesEvaluator : IEvaluator
 
     public float Evaluate(IOptimizable evaluable)
     {
-        throw new System.NotImplementedException();
-    }
+        var schema = (evaluable as OptimizableSchema).Schema;
 
-    public float EvaluateH<u>(IOptimizable evaluable, u Heu)
-    {
-        var graphData = evaluable as LBSRoomGraph;
-        var schema = Heu as LBSSchema;
-
-        if (graphData.EdgeCount <= 0)
+        if (graph.EdgeCount <= 0)
         {
             Debug.LogWarning("Cannot calculate the adjacency of a map are nodes that are not connected.");
-            return 0;
+            return 1;
         }
 
         var distValue = 0f;
-        for (int i = 0; i < graphData.EdgeCount; i++)
+        for (int i = 0; i < graph.EdgeCount; i++)
         {
-            var edge = graphData.GetEdge(i);
+            var edge = graph.GetEdge(i);
 
             var r1 = schema.GetArea(edge.FirstNode.ID);
             var r2 = schema.GetArea(edge.SecondNode.ID);
@@ -57,7 +58,7 @@ public class AdjacenciesEvaluator : IEvaluator
             }
         }
 
-        return distValue / (float)graphData.EdgeCount;
+        return distValue / (float)graph.EdgeCount;
     }
 
     public string GetName()
