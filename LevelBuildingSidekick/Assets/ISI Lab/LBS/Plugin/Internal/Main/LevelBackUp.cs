@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -25,7 +26,7 @@ namespace LBS
             }
 
             // si la instancia no esta registrada la busca y la retorna
-            List<LevelBackUp> lbus = Utility.DirectoryTools.GetScriptablesByType<LevelBackUp>();
+            List<LevelBackUp> lbus = Resources.FindObjectsOfTypeAll<LevelBackUp>().Select(lbu => lbu as LevelBackUp).ToList();//Utility.DirectoryTools.GetScriptablesByType<LevelBackUp>();
             if (lbus.Count > 0)
             {
                 instance = lbus[0];
@@ -38,9 +39,9 @@ namespace LBS
             if (!Directory.Exists(defaultPath))
                 Directory.CreateDirectory(defaultPath);
 
-            EditorUtility.SetDirty(instance);
-            AssetDatabase.CreateAsset(backUp, defaultPath + defaultName);
-            AssetDatabase.SaveAssets();
+            //EditorUtility.SetDirty(instance);
+            //AssetDatabase.CreateAsset(backUp, defaultPath + defaultName);
+            //AssetDatabase.SaveAssets();
             instance = backUp;
             return instance;
 

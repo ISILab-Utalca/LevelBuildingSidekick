@@ -260,7 +260,8 @@ public class LayerTemplateEditor : Editor
         var mode1 = new LBSMode(
             "Population",
             //Change to pop
-            typeof(GraphModule<LBSNode>), 
+            //Check if 'PopulationTileMap<TiledArea> works
+            typeof(PopulationTileMap<TiledArea>), 
             new DrawSimpleGraph(),
             new List<LBSTool>() { tool1, tool2, tool3}
             );

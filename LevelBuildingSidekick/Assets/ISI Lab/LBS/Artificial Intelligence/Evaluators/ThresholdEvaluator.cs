@@ -37,8 +37,8 @@ public class ThresholdEvaluator : IRangedEvaluator
             Threshold = e.newValue;
         });
 
-        SubPanel FitnessPanel = new SubPanel();
-        FitnessPanel.style.display = DisplayStyle.None;
+        //SubPanel FitnessPanel = new SubPanel();
+        //FitnessPanel.style.display = DisplayStyle.None;
 
         /*
         var fitnessDD = new DropdownField("Fitness");
@@ -58,7 +58,7 @@ public class ThresholdEvaluator : IRangedEvaluator
         content.Add(v2);
         content.Add(tfield);
         //content.Add(fitnessDD);
-        content.Add(FitnessPanel);
+        //content.Add(FitnessPanel);
         //content.Add(evaluator.CIGUI());
 
         return content;

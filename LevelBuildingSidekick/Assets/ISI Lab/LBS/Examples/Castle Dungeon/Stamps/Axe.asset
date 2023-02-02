@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tags: []
   objects: []
-  icon: {fileID: 0}
-  label: 
+  icon: {fileID: 2800000, guid: 6aa0a55ab02fb59449deb9c755fe7e0d, type: 3}
+  label: Axe

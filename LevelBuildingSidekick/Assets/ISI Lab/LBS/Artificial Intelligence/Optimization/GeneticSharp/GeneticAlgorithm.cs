@@ -20,7 +20,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 [System.Serializable]
-public class GeneticAlgorithm : IGeneticAlgorithm , IShowable
+public class GeneticAlgorithm : IGeneticAlgorithm //, IShowable
 {
     public GeneticAlgorithm()
     {

@@ -7,7 +7,7 @@ using LBS.Components.Graph;
 using LBS.Components.TileMap;
 using LBS.Components.Specifics;
 using System.Linq;
-using UnityEditor;
+//using UnityEditor;
 
 [System.Serializable]
 public class SchemaGenerator : Generator3D
@@ -68,7 +68,9 @@ public class SchemaGenerator : Generator3D
         pivot.transform.parent = parent;
 
         var bases = bundles["Center"];
-        var floor = SceneView.Instantiate(bases[Random.Range(0, bases.Count)], pivot.transform);
+
+        var floor = GameObject.Instantiate(bases[Random.Range(0, bases.Count)], pivot.transform);
+        //var floor = SceneView.Instantiate(bases[Random.Range(0, bases.Count)], pivot.transform);
 
         for (int k = 0; k < tile.Sides; k++)
         {
@@ -76,14 +78,13 @@ public class SchemaGenerator : Generator3D
             if (bundles.ContainsKey(tag))
             {
                 var prefabs = bundles[tag];
-
-                var wall = SceneView.Instantiate(prefabs[Random.Range(0, prefabs.Count)], pivot.transform);
-                wall.transform.position += new Vector3(sideDir[k].x, 0, -sideDir[k].y);
+                var wall =  GameObject.Instantiate(prefabs[Random.Range(0, prefabs.Count)], pivot.transform);
+                //var wall =  SceneView.Instantiate(prefabs[Random.Range(0, prefabs.Count)], pivot.transform);
+                wall.transform.position += new Vector3(sideDir[k].x, 0, sideDir[k].y);
                 wall.transform.rotation = Quaternion.Euler(0, -(90 * (k + 1)) % 360, 0);
             }
         }
-
-        pivot.transform.position = new Vector3(scale.x * tile.Position.x, 0, scale.y * tile.Position.y);
+        pivot.transform.position = new Vector3(scale.x * tile.Position.x, 0, -scale.y * tile.Position.y);
     }
 
     public override void Init(LBSLayer layer)

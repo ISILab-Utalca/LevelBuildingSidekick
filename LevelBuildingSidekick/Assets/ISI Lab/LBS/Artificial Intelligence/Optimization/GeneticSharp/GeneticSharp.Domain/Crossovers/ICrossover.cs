@@ -16,7 +16,7 @@ namespace GeneticSharp.Domain.Crossovers
     /// <see href="http://en.wikipedia.org/wiki/Crossover_(genetic_algorithm)">Crossover (Genetic Algorithm)</see>
     /// </remarks>
     /// </summary>
-    public interface ICrossover : IChromosomeOperator, IShowable
+    public interface ICrossover : IChromosomeOperator //, IShowable
     {
         #region Properties
         /// <summary>

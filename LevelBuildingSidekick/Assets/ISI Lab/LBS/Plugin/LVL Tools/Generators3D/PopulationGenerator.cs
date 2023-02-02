@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using LBS.Representation;
+//using LBS.Representation;
 using Utility;
 using System.Linq;
-using UnityEditor;
+//using UnityEditor;
 using LBS.Components;
 
 namespace LBS.Generator
