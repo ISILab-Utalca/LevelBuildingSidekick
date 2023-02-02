@@ -14,13 +14,15 @@ public class LBSLayerAssistant : ScriptableObject
 
     [SerializeField, SerializeReference]
     List<LBSAIAgent> aiAgents;
-
+    
     public Generator3D Generator
     {
         get => generator;
     }
 
-    public bool AddAI(LBSAIAgent aiAgent)
+    public int AgentsCount => aiAgents.Count;
+
+    public bool AddAgent(LBSAIAgent aiAgent)
     {
         if (aiAgents.Contains(aiAgent))
         {
@@ -30,25 +32,25 @@ public class LBSLayerAssistant : ScriptableObject
         return true;
     }
 
-    public bool RemoveModule(LBSAIAgent aiAgent)
+    public bool RemoveAgent(LBSAIAgent aiAgent)
     {
         var b = aiAgents.Remove(aiAgent);
         return b;
     }
 
-    public LBSAIAgent RemoveModuleAt(int index)
+    public LBSAIAgent RemoveAgentAt(int index)
     {
         var aiAgent = aiAgents[index];
         aiAgents.RemoveAt(index);
         return aiAgent;
     }
 
-    public LBSAIAgent GetModule(int index)
+    public LBSAIAgent GetAgent(int index)
     {
         return aiAgents[index];
     }
 
-    public T GetModule<T>(string ID = "") where T : LBSAIAgent
+    public T GetAgent<T>(string ID = "") where T : LBSAIAgent
     {
         var t = typeof(T);
         foreach (var aiAgent in aiAgents)
@@ -64,7 +66,7 @@ public class LBSLayerAssistant : ScriptableObject
         return null;
     }
 
-    public object GetModule(Type type, string ID = "")
+    public object GetAgent(Type type, string ID = "")
     {
         foreach (var aiAgent in aiAgents)
         {
@@ -83,7 +85,7 @@ public class LBSLayerAssistant : ScriptableObject
 
     }
 
-    public List<T> GetModules<T>(string ID = "") where T : LBSAIAgent
+    public List<T> GetAgents<T>(string ID = "") where T : LBSAIAgent
     {
         List<T> agents = new List<T>();
         foreach (var aiAgent in aiAgents)
