@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 
 public class Vertical2DProgresion : Progression2DEvaluator
 {
+    /*
     public override VisualElement CIGUI()
     {
         return base.CIGUI();
@@ -60,4 +61,5 @@ public class Vertical2DProgresion : Progression2DEvaluator
     {
         return "Vertical 2D progresion fitness";
     }
+    */
 }

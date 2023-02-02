@@ -5,7 +5,6 @@ using Commons.Optimization.Evaluator;
 using UnityEngine.UIElements;
 using System.Linq;
 using LBS;
-using LBS.Representation.TileMap;
 
 public class TagProportionByRoom : IRangedEvaluator
 {
@@ -24,9 +23,9 @@ public class TagProportionByRoom : IRangedEvaluator
     /// </summary>
     public TagProportionByRoom()
     {
-        var list = Utility.DirectoryTools.GetScriptable<LBSTags>("Brush tags").Alls;
-        tag1 = list.First();
-        tag2 = list.Last();
+        //var list = Utility.DirectoryTools.GetScriptable<LBSTags>("Brush tags").Alls;
+        //tag1 = list.First();
+        //tag2 = list.Last();
     }
 
     /// <summary>
@@ -36,7 +35,7 @@ public class TagProportionByRoom : IRangedEvaluator
     public VisualElement CIGUI()
     {
         var content = new VisualElement();
-        var tags = Utility.DirectoryTools.GetScriptable<LBSTags>("Brush tags").Alls;
+       // var tags = Utility.DirectoryTools.GetScriptable<LBSTags>("Brush tags").Alls;
 
         var v2 = new Vector2Field("Fitness threshold");
         v2.value = new Vector2(this.MinValue, this.MaxValue);
@@ -45,17 +44,17 @@ public class TagProportionByRoom : IRangedEvaluator
             max = e.newValue.y;
         });
 
-        var index1 = tags.FindIndex(t => t == tag1);
-        var index2 = tags.FindIndex(t => t == tag2);
+        //var index1 = tags.FindIndex(t => t == tag1);
+        //var index2 = tags.FindIndex(t => t == tag2);
 
         DropdownField tagDD1 = new DropdownField("Tag 1: ");
-        tagDD1.choices = tags;
-        tagDD1.index = index1;
+        //tagDD1.choices = tags;
+        //tagDD1.index = index1;
         tagDD1.RegisterValueChangedCallback(e => tag1 = e.newValue);
 
         DropdownField tagDD2 = new DropdownField("Tag 2: ");
-        tagDD2.choices = tags;
-        tagDD2.index = index2;
+        //tagDD2.choices = tags;
+        //tagDD2.index = index2;
         tagDD2.RegisterValueChangedCallback(e => tag2 = e.newValue);
 
         content.Add(v2);
@@ -78,14 +77,14 @@ public class TagProportionByRoom : IRangedEvaluator
         }
 
         var stmc = evaluable as StampTileMapChromosome;
-        var data = stmc.GetGenes<int>();
+        //var data = stmc.GetGenes<int>();
 
-        var pressets = Utility.DirectoryTools.GetScriptables<StampPresset>();
+        //var pressets = Utility.DirectoryTools.GetScriptables<StampPresset>();
 
-        var pressetsG1 = pressets.Where(p => p.Tags.Contains(tag1)).Select(p => p.Label);
-        var pressetsG2 = pressets.Where(p => p.Tags.Contains(tag2)).Select(p => p.Label);
+        //var pressetsG1 = pressets.Where(p => p.Tags.Contains(tag1)).Select(p => p.Label);
+        //var pressetsG2 = pressets.Where(p => p.Tags.Contains(tag2)).Select(p => p.Label);
 
-        if (pressetsG1.Count() == 0 || pressetsG2.Count() == 0)
+        //if (pressetsG1.Count() == 0 || pressetsG2.Count() == 0)
         {
             return MinValue;// Temporal Fix, Should be changed
             /*if (pressetsG1.Count() == 0 && pressetsG2.Count() == 0)
@@ -95,12 +94,12 @@ public class TagProportionByRoom : IRangedEvaluator
 
         }
 
-        var foundS1 = stmc.stamps.Any(s => pressetsG1.Contains(s.Label));
-        var founsS2 = stmc.stamps.Any(s => pressetsG2.Contains(s.Label));
+        //var foundS1 = stmc.stamps.Any(s => pressetsG1.Contains(s.Label));
+        //var founsS2 = stmc.stamps.Any(s => pressetsG2.Contains(s.Label));
 
-        if (!foundS1 || !founsS2)
+        //if (!foundS1 || !founsS2)
         {
-            return foundS1 != founsS2 ? MinValue : MaxValue;
+          //  return foundS1 != founsS2 ? MinValue : MaxValue;
         }
 
         /*
@@ -117,9 +116,10 @@ public class TagProportionByRoom : IRangedEvaluator
             indexG2.Add(stmc.stamps.FindIndex(s => s.Label == pr));
         }*/
 
-        var rooms = (StampTileMapChromosome.TileMap.GetData() as LBSSchemaData).GetRooms();
-        var tiles = rooms.SelectMany(r => r.TilesPositions);
+        //var rooms = (StampTileMapChromosome.TileMap.GetData() as LBSSchemaData).GetRooms();
+        //var tiles = rooms.SelectMany(r => r.TilesPositions);
 
+        /*
         float fitness = 0;
 
         Vector2Int offset = new Vector2Int
@@ -154,7 +154,7 @@ public class TagProportionByRoom : IRangedEvaluator
                 else if(indexG2.Contains(val))
                 {
                     counterG2++;
-                }*/
+                }
             }
 
             float p = 0;
@@ -173,6 +173,8 @@ public class TagProportionByRoom : IRangedEvaluator
         }
 
         return fitness/rooms.Count;
+        */
+        return 0;
     }
 
     /// <summary>

@@ -4,8 +4,9 @@ using UnityEngine;
 using Commons.Optimization.Evaluator;
 using UnityEngine.UIElements;
 
-public class Horizontal2DProgresion : Progression2DEvaluator
+public class Horizontal2DProgresion // : Progression2DEvaluator
 {
+    /*
     public override string GetName()
     {
         return "Progression: Horizontal 2D";
@@ -60,4 +61,5 @@ public class Horizontal2DProgresion : Progression2DEvaluator
 
         return Mathf.Clamp(p, MinValue, MaxValue);
     }
+    */
 }

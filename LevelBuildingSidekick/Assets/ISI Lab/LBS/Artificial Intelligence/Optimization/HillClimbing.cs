@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using LBS.Representation.TileMap;
 
 namespace Utility
 {
@@ -162,7 +161,7 @@ namespace Utility
 
                 best = betters[random.Next(0, betters.Count - 1)];
 
-                if (best is LBSSchemaData)
+                //if (best is LBSSchemaData)
                 {
                     //(best as LBSSchemaData).Print(); // debug temporal quitar luego
                     //Debug.Log(higherScore);

@@ -8,8 +8,9 @@ using System.Linq;
 using System;
 
 [System.Serializable]
-public class StampPresenceEvaluator : IRangedEvaluator
+public class StampPresenceEvaluator // : IRangedEvaluator
 {
+    /*
     float min = 0;
     float max = 1;
     public float MaxValue => max;
@@ -111,4 +112,5 @@ public class StampPresenceEvaluator : IRangedEvaluator
     {
         throw new NotImplementedException();
     }
+    */
 }

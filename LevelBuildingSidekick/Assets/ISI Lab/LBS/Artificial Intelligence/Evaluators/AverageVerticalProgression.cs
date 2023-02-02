@@ -4,8 +4,9 @@ using UnityEngine;
 using Commons.Optimization.Evaluator;
 using UnityEngine.UIElements;
 
-public class AverageVerticalProgression : Progression2DEvaluator
+public class AverageVerticalProgression //: Progression2DEvaluator
 {
+    /*
     int stride = 1;
 
     /// <summary>
@@ -92,4 +93,5 @@ public class AverageVerticalProgression : Progression2DEvaluator
     {
         return "Average Vertical Progression";
     }
+    */
 }

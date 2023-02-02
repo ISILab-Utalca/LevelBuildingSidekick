@@ -4,8 +4,9 @@ using UnityEngine;
 using Commons.Optimization.Evaluator;
 using UnityEngine.UIElements;
 
-public class AverageHorizontalProgression : Progression2DEvaluator
+public class AverageHorizontalProgression //: Progression2DEvaluator
 {
+    /*
     int stride = 1;
 
     /// <summary>
@@ -92,4 +93,5 @@ public class AverageHorizontalProgression : Progression2DEvaluator
     {
         return "Average Horizontal Progression";
     }
+    */
 }

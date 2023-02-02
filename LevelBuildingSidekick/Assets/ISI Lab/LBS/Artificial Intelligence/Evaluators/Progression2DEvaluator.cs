@@ -7,9 +7,9 @@ using UnityEditor.UIElements;
 using System;
 using System.Linq;
 
-public abstract class Progression2DEvaluator : IRangedEvaluator
+public abstract class Progression2DEvaluator //: IRangedEvaluator
 {
-
+    /*
     float min = 0;
     float max = 1;
     public float MaxValue => max;
@@ -93,4 +93,5 @@ public abstract class Progression2DEvaluator : IRangedEvaluator
     {
         throw new NotImplementedException();
     }
+    */
 }

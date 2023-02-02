@@ -7,6 +7,7 @@ namespace LBS.Settings
 {
     public static class LBSSettingProvider // (!!) reimplementar
     {
+        /*
         [SettingsProvider]
         public static SettingsProvider CreateTileTagProvider()
         {
@@ -84,6 +85,7 @@ namespace LBS.Settings
             };
             return provider;
         }
+        */
     }
 }
 

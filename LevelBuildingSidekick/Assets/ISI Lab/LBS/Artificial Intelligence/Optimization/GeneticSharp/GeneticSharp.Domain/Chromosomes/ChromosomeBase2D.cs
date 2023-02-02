@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GeneticSharp.Domain.Chromosomes;
 
-public abstract class ChromosomeBase2D<T> : ChromosomeBase<T>, ITileMap
+public abstract class ChromosomeBase2D<T> : ChromosomeBase<T>//, ITileMap
 {
     public float Subdivision => throw new System.NotImplementedException();
 

@@ -6,14 +6,16 @@ using UnityEditor;
 using UnityEngine;
 using Utility;
 
-public class StringEnumAttribute : PropertyAttribute
+public class StringEnumAttribute // : PropertyAttribute
 {
+    /*
     public LBSTags DB;
 
     public StringEnumAttribute(string name)
     {
         DB = DirectoryTools.GetScriptable<LBSTags>(name);
     }
+    */
 }
 
 [CustomPropertyDrawer(typeof(StringEnumAttribute))]
@@ -21,6 +23,7 @@ public class SEDrawer : PropertyDrawer
 {
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
+        /*
         var att = attribute as StringEnumAttribute;
 
         var all = new List<string>(att.DB.Basics).Concat(att.DB.Others).ToList();
@@ -41,5 +44,6 @@ public class SEDrawer : PropertyDrawer
             att.DB.AddTag("");
 
         }
+        */
     }
 }

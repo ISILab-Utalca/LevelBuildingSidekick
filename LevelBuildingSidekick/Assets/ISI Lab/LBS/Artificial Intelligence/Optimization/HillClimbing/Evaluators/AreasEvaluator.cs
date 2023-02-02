@@ -2,9 +2,6 @@
 using LBS.Components.Graph;
 using LBS.Components.Specifics;
 using LBS.Components.TileMap;
-using LBS.Graph;
-using LBS.Representation.TileMap;
-using LBS.Schema;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;

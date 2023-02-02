@@ -11,27 +11,27 @@ namespace LBS.Generator
 {
     public class PopulationGenerator : Generator3D
     {
-        private LBSStampGroupData population;
+        //private LBSStampGroupData population;
         private float tileSize = 1f;
 
         public override GameObject Generate(LBSLayer layer)
         {
-            if (population == null)
+            //if (population == null)
             {
                 Debug.LogWarning("cannot be generated, there is no information about the population to load.");
                 return null;
             }
 
-            var pressets = DirectoryTools.GetScriptables<StampPresset>();
+            //var pressets = DirectoryTools.GetScriptables<StampPresset>();
             var mainPivot = new GameObject("Population group");
-            foreach (var popu in population.GetStamps())
+            //foreach (var popu in population.GetStamps())
             {
-                var presset = pressets.Find(p => p.Label == popu.Label); 
-                var prefabs = presset.Prefabs;
-                var go = prefabs[Random.Range(0,prefabs.Count())];
-                var inst = SceneView.Instantiate(go,mainPivot.transform);
-                var pos = popu.Position;
-                inst.transform.position = new Vector3(pos.x * tileSize, 0, -pos.y * tileSize);
+                //var presset = pressets.Find(p => p.Label == popu.Label); 
+                //var prefabs = presset.Prefabs;
+                //var go = prefabs[Random.Range(0,prefabs.Count())];
+                //var inst = SceneView.Instantiate(go,mainPivot.transform);
+                //var pos = popu.Position;
+                //inst.transform.position = new Vector3(pos.x * tileSize, 0, -pos.y * tileSize);
             }
 
             return mainPivot;
