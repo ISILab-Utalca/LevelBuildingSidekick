@@ -68,7 +68,7 @@ public class LBSMainWindow : EditorWindow
     public static string ModeSelected => singleton._selectedMode;
 
 
-    [MenuItem("ISILab/LBS plugin/Main window", priority = 0)]
+    [MenuItem("ISILab/Level Building Sidekick", priority = 0)]
     public static void ShowWindow()
     {
         var window = GetWindow<LBSMainWindow>();

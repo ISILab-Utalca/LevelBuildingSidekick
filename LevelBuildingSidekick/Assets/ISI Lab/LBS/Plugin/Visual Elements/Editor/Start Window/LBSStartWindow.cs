@@ -44,8 +44,8 @@ namespace LBS.Windows
         private static List<Tuple<LBSWindowAttribute, MethodInfo>> methods = new List<Tuple<LBSWindowAttribute, MethodInfo>>();
         //private static List<WindowsPreset> presets = new List<WindowsPreset>();
 
-        [MenuItem("ISILab/LBS plugin/Welcome window...", priority = 0)]
-        [MenuItem("ISILab/Welcome window", priority = 0)]
+        //[MenuItem("ISILab/LBS plugin/Welcome window...", priority = 0)]
+        //[MenuItem("ISILab/Welcome window", priority = 0)]
         public static void ShowWindow()
         {
             var window = GetWindow<LBSStartWindow>();

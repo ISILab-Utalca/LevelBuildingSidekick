@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95a9e63de28b9dc40aa55a3c1f124e76, type: 3}
+  m_Name: New exterior bundle 1
+  m_EditorClassIdentifier: 
+  foward: {fileID: 11400000, guid: 4621d730e5aab7744b39cc98c4853ac8, type: 2}
+  right: {fileID: 11400000, guid: 4621d730e5aab7744b39cc98c4853ac8, type: 2}
+  backward: {fileID: 11400000, guid: 4621d730e5aab7744b39cc98c4853ac8, type: 2}
+  left: {fileID: 11400000, guid: 4621d730e5aab7744b39cc98c4853ac8, type: 2}
+  weight: 0.2
+  Pref: {fileID: 2207120468864375576, guid: 47f5616e8d3cd6f45a6accd62874a284, type: 3}
