@@ -24,6 +24,12 @@ namespace LBS.Components
         [SerializeField, JsonRequired]
         public string iconPath; // (?) esto tiene que estar en la layertemplate
 
+        //[SerializeField, JsonRequired, SerializeReference]
+        //private List<string> transformers; 
+
+        //[SerializeField, JsonRequired, SerializeReference]
+        //private List<Transformer> transformers;
+
         [SerializeField, JsonRequired, SerializeReference]
         private List<LBSModule> modules;
 
@@ -217,6 +223,22 @@ namespace LBS.Components
         public void ShowModule(int index)
         {
             modules[index].IsVisible = true;
+        }
+
+        internal void SetModule<T>(T module, string key = "") where T : LBSModule
+        {
+            var index = -1;
+            if (key.Equals(""))
+            {
+                index = modules.FindIndex(m => m is T);
+                modules[index] = module;
+                return;
+            }
+
+            index = modules.FindIndex(m => m is T && m.Key.Equals(key));
+            modules[index] = module;
+
+
         }
 
         /*
