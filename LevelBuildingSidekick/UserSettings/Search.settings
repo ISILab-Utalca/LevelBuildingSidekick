@@ -7,12 +7,15 @@ onBoardingDoNotAskAgain = true
 showPackageIndexes = false
 showStatusBar = false
 scopes = {
-	"last_search.AE24D059" = ""
+	"last_search.AE24D059" = "editor"
 	"OpenInspectorPreview.AE24D059" = "0"
 	"currentGroup.AE24D059" = "all"
 	"last_search.8C24D059" = "MainView"
 	"OpenInspectorPreview.8C24D059" = "0"
 	"currentGroup.8C24D059" = "all"
+	"last_search.7788661B" = "editor"
+	"OpenInspectorPreview.7788661B" = "0"
+	"currentGroup.7788661B" = "asset"
 }
 providers = {
 	adb = {
@@ -59,6 +62,8 @@ providers = {
 objectSelectors = {
 }
 recentSearches = [
+	"m"
+	"editor"
 	"find:"
 	"p: dir=\"WFC\" "
 ]

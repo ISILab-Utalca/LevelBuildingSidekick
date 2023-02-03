@@ -18,19 +18,19 @@ MonoBehaviour:
     visible: 1
     iconPath: Icons/pine-tree
     modules:
-    - rid: 6781467802349601436
-    bundle: {fileID: 0}
-    assitant: {fileID: 0}
+    - rid: 6781467825877811567
+    bundle: 
+    assitant: 
   modes:
-  - rid: 6781467802349601437
+  - rid: 6781467825877811568
   transformers: []
   references:
     version: 2
     RefIds:
-    - rid: 6781467802349601436
-      type: {class: LBSBaseGraph, ns: LBS.Components.Graph, asm: Assembly-CSharp}
+    - rid: 6781467825877811567
+      type: {class: Exterior, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
       data:
-        key: LBSBaseGraph
+        key: Exterior
         visible: 0
         changed: 0
         Owner:
@@ -39,72 +39,59 @@ MonoBehaviour:
           visible: 1
           iconPath: Icons/pine-tree
           modules:
-          - rid: 6781467802349601436
-          bundle: {fileID: 0}
-          assitant: {fileID: 0}
-        nodes: []
-        edges: []
-    - rid: 6781467802349601437
+          - rid: 6781467825877811567
+          bundle: 
+          assitant: 
+        tiles: []
+    - rid: 6781467825877811568
       type: {class: LBSMode, ns: , asm: Assembly-CSharp-Editor}
       data:
         name: Exterior
-        drawer: DrawSimpleGraph
-        module: LBS.Components.Graph.GraphModule`1[[LBS.Components.Graph.LBSNode,
-          Assembly-CSharp, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null]]
+        drawer: DrawExterior
+        module: LBS.Components.TileMap.TiledArea
         toolkit:
-        - rid: 6781467802349601438
-        - rid: 6781467802349601439
-        - rid: 6781467802349601440
-        - rid: 6781467802349601441
-    - rid: 6781467802349601438
+        - rid: 6781467825877811569
+        - rid: 6781467825877811570
+        - rid: 6781467825877811571
+        - rid: 6781467825877811572
+        - rid: 6781467825877811573
+    - rid: 6781467825877811569
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: 771d36a714319204ea4ddcbecdc2006e, type: 3}
         name: Select
         manipulator: Select
         inspector: 
-        UseUnitySelector: 1
-    - rid: 6781467802349601439
+    - rid: 6781467825877811570
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: b1704af221b60f64face13aea01f1b04, type: 3}
-        name: Paint by tile
-        manipulator: Select
+        name: Add empty tile
+        manipulator: AddEmptyTile`1[[LBS.Components.TileMap.ConnectedTile, Assembly-CSharp,
+          Version=2.6.0.0, Culture=neutral, PublicKeyToken=null]]
         inspector: 
-        UseUnitySelector: 0
-    - rid: 6781467802349601440
-      type: {class: LBSMultiTool, ns: , asm: Assembly-CSharp-Editor}
+    - rid: 6781467825877811571
+      type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
+      data:
+        icon: {fileID: 2800000, guid: b1704af221b60f64face13aea01f1b04, type: 3}
+        name: Remove tile
+        manipulator: RemoveTileExterior`1[[LBS.Components.TileMap.ConnectedTile,
+          Assembly-CSharp, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null]]
+        inspector: 
+    - rid: 6781467825877811572
+      type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: bd700db3dfe4b4d40be798aee555d7f7, type: 3}
-        name: Paint by connection
-        manipulator: Select
-        inspector: 
-        UseUnitySelector: 0
-        modes:
-        - Point
-        - Line
-        - Square
-        - Free
-        manipulators:
-        - Select
-        - Select
-        - Select
-        - Select
-    - rid: 6781467802349601441
-      type: {class: LBSMultiTool, ns: , asm: Assembly-CSharp-Editor}
+        name: Set connection
+        manipulator: AddConnection`1[[LBS.Components.TileMap.ConnectedTile, Assembly-CSharp,
+          Version=2.6.0.0, Culture=neutral, PublicKeyToken=null]]
+        inspector: TagsPalleteInspector`1[[LBS.Components.TileMap.ConnectedTile,
+          Assembly-CSharp, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null]]
+    - rid: 6781467825877811573
+      type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: 8e8fbec1ef6d10c43a3cd708f17ea463, type: 3}
-        name: Erase
-        manipulator: Select
+        name: Remove connection
+        manipulator: RemoveConnection`1[[LBS.Components.TileMap.ConnectedTile, Assembly-CSharp,
+          Version=2.6.0.0, Culture=neutral, PublicKeyToken=null]]
         inspector: 
-        UseUnitySelector: 0
-        modes:
-        - Pair
-        - Line
-        - Square
-        - Free
-        manipulators:
-        - Select
-        - Select
-        - Select
-        - Select

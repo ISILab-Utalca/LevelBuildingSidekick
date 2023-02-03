@@ -24,12 +24,6 @@ namespace LBS.Components
         [SerializeField, JsonRequired]
         public string iconPath; // (?) esto tiene que estar en la layertemplate
 
-        //[SerializeField, JsonRequired, SerializeReference]
-        //private List<string> transformers; 
-
-        //[SerializeField, JsonRequired, SerializeReference]
-        //private List<Transformer> transformers;
-
         [SerializeField, JsonRequired, SerializeReference]
         private List<LBSModule> modules;
 
@@ -62,13 +56,14 @@ namespace LBS.Components
             set => name = value;
         }
 
+
         [JsonIgnore]
         public LBSLayerAssistant Assitant
         {
             get 
             {
                 var obj = Resources.FindObjectsOfTypeAll<LBSLayerAssistant>().ToList();
-                if(string.IsNullOrEmpty(assitant))
+                if(string.IsNullOrEmpty(assitant)  && obj.Count > 0)
                     assitant = obj[0].name;
                 var t = obj.Find(a => a.name.Contains(assitant)); // Utility.DirectoryTools.GetScriptable<LBSLayerAssistant>(assitant);
                 return t;

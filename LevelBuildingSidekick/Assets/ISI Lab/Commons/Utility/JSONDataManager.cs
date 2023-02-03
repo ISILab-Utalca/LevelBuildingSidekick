@@ -19,26 +19,34 @@ namespace Utility
             var jsonSerializerSettings = new JsonSerializerSettings()
             {
                 PreserveReferencesHandling = PreserveReferencesHandling.All,
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
                 TypeNameHandling = TypeNameHandling.All,
                 Formatting = Formatting.Indented,
                 NullValueHandling = NullValueHandling.Ignore,
             };
 
             // add converters to serializer
-            foreach(var converter in converters)
-            {
-                jsonSerializerSettings.Converters.Add(converter);
-            }
+            //foreach(var converter in converters)
+            //{
+            //    jsonSerializerSettings.Converters.Add(converter);
+            //}
 
-            jsonSerializerSettings.Converters.Add(new Vector3Converter());
-            jsonSerializerSettings.Converters.Add(new Vector2Converter());
+            //jsonSerializerSettings.Converters.Add(new Vector3Converter());
+            //jsonSerializerSettings.Converters.Add(new Vector2Converter());
 
             // generate json string
-            var jsonString = JsonConvert.SerializeObject(
-                data,
-                jsonSerializerSettings
-                );
+            string jsonString = "ERROR";
+            try
+            {
+                jsonString = JsonConvert.SerializeObject(
+                    data,
+                    jsonSerializerSettings
+                    );
+            }
+            catch
+            {
+                Debug.Log("AAAAAAAAAAAAAF");
+            }
 
             // write json in a file
             using StreamWriter writer = new StreamWriter(path);
@@ -87,15 +95,15 @@ namespace Utility
             var jsonSerializerSettings = new JsonSerializerSettings()
             {
                 PreserveReferencesHandling = PreserveReferencesHandling.All,
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
                 TypeNameHandling = TypeNameHandling.All,
                 Formatting = Formatting.Indented,
                 NullValueHandling = NullValueHandling.Ignore,
             };
 
             // add converters to serializer
-            jsonSerializerSettings.Converters.Add(new Vector3Converter());
-            jsonSerializerSettings.Converters.Add(new Vector2Converter());
+            //jsonSerializerSettings.Converters.Add(new Vector3Converter());
+            //jsonSerializerSettings.Converters.Add(new Vector2Converter());
 
             // generate data from string
             var data = JsonConvert.DeserializeObject<T>(

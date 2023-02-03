@@ -7,4 +7,6 @@ using UnityEngine;
 public class LBSTag : ScriptableObject
 {
     public string value;
+
+    public Color color;
 }

@@ -12,10 +12,10 @@ namespace LBS.Components.Graph
     {
         #region FIELDS
 
-        [SerializeField, JsonRequired, SerializeReference]
+        [SerializeField, JsonRequired]
         private LBSNode firstNode;
 
-        [SerializeField, JsonRequired, SerializeReference]
+        [SerializeField, JsonRequired]
         private LBSNode secondNode;
 
         /// <summary>

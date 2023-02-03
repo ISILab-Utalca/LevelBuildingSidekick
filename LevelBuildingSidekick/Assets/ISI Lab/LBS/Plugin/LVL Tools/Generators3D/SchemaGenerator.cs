@@ -31,6 +31,7 @@ public class SchemaGenerator : Generator3D
             var bundles = new Dictionary<string, List<GameObject>>();
 
             var temp = new List<string>(tags);
+            
             temp.Add("Wall"); 
             bundles.Add("Wall", layer.Bundle.GetObjects(temp));
 
@@ -41,6 +42,7 @@ public class SchemaGenerator : Generator3D
             temp = new List<string>(tags);
             temp.Add("Center");
             bundles.Add("Center", layer.Bundle.GetObjects(temp));
+            
 
             var area = schema.GetArea(node.ID);
 

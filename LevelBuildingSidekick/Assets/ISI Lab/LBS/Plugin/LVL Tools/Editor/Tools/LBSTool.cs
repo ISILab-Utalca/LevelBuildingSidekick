@@ -45,7 +45,6 @@ public class LBSTool
         //_manipulator.AddManipulationEnd( () => Debug.Log("Mani: "+_manipulator.GetType().ToString()));
 
         _manipulator.Init(ref view,ref level, ref layer, ref module);
-        //Debug.Log("Init tool: " + _manipulator.ToString());
 
         var btn = new BasicToolButton(this.icon, this.name);
 
