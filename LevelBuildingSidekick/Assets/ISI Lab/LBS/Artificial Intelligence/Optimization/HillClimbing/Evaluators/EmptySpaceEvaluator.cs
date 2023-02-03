@@ -21,6 +21,12 @@ public class EmptySpaceEvaluator : IEvaluator
     public float Evaluate(IOptimizable evaluable)
     {
         var schema = (evaluable as OptimizableSchema).Schema;
+
+        if(schema.RoomCount <= 0)
+        {
+            return 0;
+        }
+
         var value = 0f;
         foreach (var room in schema.Areas)
         {
