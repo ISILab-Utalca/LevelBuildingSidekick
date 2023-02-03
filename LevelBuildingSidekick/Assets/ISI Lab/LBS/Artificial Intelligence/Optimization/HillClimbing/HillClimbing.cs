@@ -28,18 +28,15 @@ namespace LBS.AI
 
         public override void RunOnce()
         {
-            var parents = Selection.SelectEvaluables(1, Population.CurrentGeneration);
-
-            BestCandidate = Population.CurrentGeneration.BestCandidate;
-
             var offsprings = GetNeighbors?.Invoke(BestCandidate);
-
-            Population.CreateNewGeneration(offsprings);
 
             offsprings.ForEach(c =>
             {
-                Evaluator.Evaluate(c);
+                c.Fitness =  Evaluator.Evaluate(c);
             });
+
+            Population.CreateNewGeneration(offsprings);
+
 
         }
 
