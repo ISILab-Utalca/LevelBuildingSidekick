@@ -32,9 +32,12 @@ namespace LBS.Components.TileMap
             connections = new string[Sides];
         }
 
-        public ConnectedTile(Vector2 position, string id, int sides = 4) : base(position, id, sides)
+        public ConnectedTile(Vector2 position, string id, int sides = 4, string[] connections = null) : base(position, id, sides)
         {
-            connections = new string[Sides];
+            if (connections == null)
+                this.connections = new string[Sides];
+            else
+                this.connections = connections; 
         }
 
         #endregion
@@ -79,6 +82,11 @@ namespace LBS.Components.TileMap
         public bool RemoveConnection(string connection)
         {
             throw new NotImplementedException();
+        }
+
+        public override object Clone()
+        {
+            return new ConnectedTile(this.Position, this.ID, this.sides, new List<string>(this.connections).ToArray());
         }
 
         #endregion
