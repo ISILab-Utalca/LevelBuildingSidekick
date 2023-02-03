@@ -262,8 +262,8 @@ namespace LBS.Components.TileMap
 
         public override object Clone()
         {
-            var tileMap = new TiledArea();
-            tileMap.tiles = tiles.Select(t => t.Clone() as LBSTile).ToList(); //new List<LBSTile>(tiles);
+            var tileMap = new TiledArea(tiles.Select(t => t.Clone() as LBSTile).ToList(),this.ID,this.key,this.color);
+            //tiles.ForEach(t => tileMap.AddTile( t.Clone() as LBSTile)); //new List<LBSTile>(tiles);
             return tileMap;
         }
 
