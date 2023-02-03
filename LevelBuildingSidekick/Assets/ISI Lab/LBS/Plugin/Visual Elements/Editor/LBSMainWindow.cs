@@ -187,7 +187,10 @@ public class LBSMainWindow : EditorWindow
 
         
         // AIPanel
-        aiPanel = new AIPanel();
+        aiPanel = new AIPanel(() => { RefreshWindow();
+            drawManager.RefreshView(ref _selectedLayer, _selectedMode);
+            Debug.Log("Me ejecuto DX");
+        });
         extraPanel.Add(aiPanel);
         aiPanel.style.display = DisplayStyle.None;
         
@@ -196,6 +199,8 @@ public class LBSMainWindow : EditorWindow
         gen3DPanel = new Generator3DPanel();
         extraPanel.Add(gen3DPanel);
         gen3DPanel.style.display = DisplayStyle.None;
+
+
 
 
         // LayerButton
