@@ -42,11 +42,7 @@ namespace Commons.Optimization
 
         public int GenerationsNumber => Population.GenerationsNumber;
 
-        public IOptimizable BestCandidate 
-        {
-            get => bestCandidate;
-            set => bestCandidate = value; 
-        }
+        public IOptimizable BestCandidate => Population.BestCandidate;
 
         public IOptimizable Adam 
         {
@@ -134,11 +130,12 @@ namespace Commons.Optimization
         public BaseOptimizer(IPopulation population, IEvaluator evaluator, ISelection selection, ITermination termination) : this()
         {
             Adam = population.Adam;
-            BestCandidate = Adam;
-            Population = population;
             Evaluator = evaluator;
             Selection = selection;
             Termination = termination;
+            Population = population;
+
+            Adam.Fitness = Evaluator.Evaluate(Adam);
         }
 
         public virtual void Pause()
@@ -191,12 +188,38 @@ namespace Commons.Optimization
 
         public void Run()
         {
-            Population.CreateInitialGeneration();
-            while(!TerminatioReached())
+            int iterations = 0;
+            Init();
+            while(!TerminatioReached() && !(State == Op_State.Paused || State == Op_State.Stopped) && iterations < 1000)
             {
+                if (stopRequested)
+                {
+                    Stop();
+                    break;
+                }
+                if (pauseRequested)
+                {
+                    Pause();
+                    break;
+                }
+
+                clock.Restart();
                 RunOnce();
+                clock.Stop();
                 OnGenerationRan?.Invoke();
+                State = Op_State.Running;
+
+                iterations++;
             }
+        }
+
+        void Init()
+        {
+            State = Op_State.Started;
+            clock = new Stopwatch();
+            clock.Start();
+            Population.CreateInitialGeneration();
+            clock.Stop();
         }
 
         /*public virtual IEvaluable Run()
@@ -232,7 +255,6 @@ namespace Commons.Optimization
         {
             if (Termination.HasReached(this))
             {
-                BestCandidate = Population.CurrentGeneration.BestCandidate;
                 OnTerminationReached?.Invoke();
                 return true;
             }
