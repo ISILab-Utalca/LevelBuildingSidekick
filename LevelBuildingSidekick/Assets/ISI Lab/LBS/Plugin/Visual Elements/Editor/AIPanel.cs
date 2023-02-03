@@ -25,12 +25,23 @@ public class AIPanel : VisualElement
         this._base = _base;
     }*/
 
+    public System.Action OnAIExecute;
+
     public AIPanel()
     {
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("AIPanel"); // Editor
         visualTree.CloneTree(this);
 
         container = this.Q<VisualElement>(name: "Container");
+    }
+
+    public AIPanel(System.Action OnAIExecute)
+    {
+        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("AIPanel"); // Editor
+        visualTree.CloneTree(this);
+
+        container = this.Q<VisualElement>(name: "Container");
+        this.OnAIExecute = OnAIExecute;
     }
 
     public void Init(LBSLayer layer)
@@ -46,7 +57,7 @@ public class AIPanel : VisualElement
         {
             var agent = assist.GetAgent(i);
             agent.Init(layer);
-            container.Add(new AIAgentPanel(agent));
+            container.Add(new AIAgentPanel(agent, OnAIExecute));
 
         }
     }
