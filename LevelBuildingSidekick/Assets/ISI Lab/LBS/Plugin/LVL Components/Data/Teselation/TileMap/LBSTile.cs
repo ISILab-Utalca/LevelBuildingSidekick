@@ -76,7 +76,7 @@ namespace LBS.Components.TileMap
             return base.GetHashCode();
         }
 
-        public object Clone()
+        public virtual object Clone()
         {
             return new LBSTile(this.Position,this.ID,this.sides);
         }
