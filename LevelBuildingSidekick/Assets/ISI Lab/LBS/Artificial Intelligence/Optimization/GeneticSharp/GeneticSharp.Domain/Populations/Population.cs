@@ -5,6 +5,7 @@ using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Infrastructure.Framework.Commons;
 using UnityEngine;
 using UnityEngine.UIElements;
+using System.Linq;
 
 namespace GeneticSharp.Domain.Populations
 {
@@ -104,7 +105,7 @@ namespace GeneticSharp.Domain.Populations
         /// Gets or sets the best chromosome.
         /// </summary>
         /// <value>The best chromosome.</value>
-        public IOptimizable BestCandidate { get; protected set; }
+        public IOptimizable BestCandidate { get; set; }
 
         /// <summary>
         /// Gets or sets the generation strategy.
@@ -149,14 +150,21 @@ namespace GeneticSharp.Domain.Populations
         /// <summary>
         /// Creates a new generation.
         /// </summary>
-        /// <param name="chromosomes">The chromosomes for new generation.</param>
-        public virtual void CreateNewGeneration(IList<IOptimizable> chromosomes)
+        /// <param name="optimizables">The chromosomes for new generation.</param>
+        public virtual void CreateNewGeneration(IList<IOptimizable> optimizables)
         {
-            ExceptionHelper.ThrowIfNull("chromosomes", chromosomes);
+            ExceptionHelper.ThrowIfNull("chromosomes", optimizables);
 
-            CurrentGeneration = new Generation(++GenerationsNumber, chromosomes);
+            CurrentGeneration = new Generation(++GenerationsNumber, optimizables);
             Generations.Add(CurrentGeneration);
             GenerationStrategy.RegisterNewGeneration(this);
+
+            var best = optimizables.OrderByDescending(o => o.Fitness).First();
+
+            if(BestCandidate == null || BestCandidate.Fitness == double.NaN || BestCandidate.Fitness < best.Fitness)
+            {
+                BestCandidate = best;
+            }
         }
 
         /// <summary>
