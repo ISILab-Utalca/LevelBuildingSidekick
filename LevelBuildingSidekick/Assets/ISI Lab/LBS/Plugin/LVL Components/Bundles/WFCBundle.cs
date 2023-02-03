@@ -14,4 +14,16 @@ public class WFCBundle : ScriptableObject // Parche
     public float weight = 1;
 
     public GameObject Pref;
+
+    public string[] GetConnection(int rotation = 0)
+    {
+        var conections = new List<string>() {
+            right.value,
+            backward.value,
+            left.value,
+            foward.value
+        };
+
+        return conections.ToArray();
+    }
 }

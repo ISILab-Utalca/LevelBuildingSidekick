@@ -209,13 +209,18 @@ public class LayerTemplateEditor : Editor
             false);
 
         icon = Resources.Load<Texture2D>("Icons/erased");
-        var tool6 = new LBSTool(icon, "Collapse connection area", typeof(Select), null, false);
+        var tool6 = new LBSTool(
+            icon, 
+            "Collapse connection area", 
+            typeof(WaveFunctionCollapse<ConnectedTile>), 
+            null, 
+            false);
 
         var mode1 = new LBSMode(
             "Exterior",
             typeof(TiledArea), // (!!!) implentar la correcta
             new DrawExterior(),
-            new List<LBSTool>() { tool1, tool2, tool3, tool4, tool5 }//, tool6 }
+            new List<LBSTool>() { tool1, tool2, tool3, tool4, tool5, tool6 }
             );
 
 
