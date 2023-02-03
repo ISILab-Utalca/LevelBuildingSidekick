@@ -54,6 +54,7 @@ public class AdjacenciesEvaluator : IEvaluator
                 var max1 = (r1.Width + r1.Height) / 2f;
                 var max2 = (r2.Width + r2.Height) / 2f;
                 distValue += 1 - (roomDist / (max1 + max2));
+                //distValue += 1/roomDist;
             }
         }
 
