@@ -45,7 +45,7 @@ namespace LBS.Components.TileMap
 
         public AreaTileMap(List<TiledArea> areas, string key) : base(key)
         {
-            areas = new List<TiledArea>();
+            this.areas = new List<TiledArea>();
             areas.ForEach(a => {
                 AddArea(a as T);
             });
