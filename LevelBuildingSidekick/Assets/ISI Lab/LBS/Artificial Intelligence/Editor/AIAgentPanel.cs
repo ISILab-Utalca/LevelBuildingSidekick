@@ -15,6 +15,8 @@ public class AIAgentPanel : VisualElement
 
     LBSAIAgent agent;
 
+    public System.Action OnAIExecute;
+
     public AIAgentPanel()
     {
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("AIAgentPanel"); // Editor
@@ -25,13 +27,18 @@ public class AIAgentPanel : VisualElement
         execute = this.Q<Button>(name: "Execute");
     }
 
-    public AIAgentPanel(LBSAIAgent agent) : this()
+    public AIAgentPanel(LBSAIAgent agent, System.Action OnAIExecute) : this()
     {
         this.agent = agent;
+        this.OnAIExecute = OnAIExecute;
 
         label.text = agent.Name;
         details.clicked += () => Debug.LogWarning("Not Implemented");
-        execute.clicked += () => agent.Execute();
+        execute.clicked += () =>
+        {
+            agent.Execute();
+            this.OnAIExecute?.Invoke();
+        };
 
     }
 }
