@@ -10,6 +10,8 @@ public class AreasEvaluator : IEvaluator
 {
     LBSRoomGraph graph;
 
+    Vector2 delta;
+
     public AreasEvaluator() { }
     public AreasEvaluator(LBSRoomGraph graph) 
     {
@@ -18,18 +20,18 @@ public class AreasEvaluator : IEvaluator
 
     private float EvaluateBySize(RoomNode node, TiledArea room)
     {
-        var DeltaW = node.Width * 0.35;
-        var DeltaH = node.Height * 0.35;
+        var DeltaW = node.Room.Width;
+        var DeltaH = node.Room.Height;
         var vw = 1f;
-        if (room.Width < node.Width - DeltaW || room.Width > node.Width + DeltaW)
+        if (room.Width < node.Room.Width - delta.x || room.Width > node.Room.Width + delta.x)
         {
-            vw -= (Mathf.Abs(node.Width - room.Width) / (float)node.Width);
+            vw -= (Mathf.Abs(node.Room.Width - room.Width) / (float)node.Room.Width);
         }
 
         var vh = 1f;
-        if (room.Height < node.Height - DeltaH || room.Height > node.Height + DeltaH)
+        if (room.Height < node.Room.Height - delta.y || room.Height > node.Room.Height + delta.y)
         {
-            vh -= (Mathf.Abs(node.Height - room.Height) / (float)node.Height);
+            vh -= (Mathf.Abs(node.Room.Height - room.Height) / (float)node.Room.Height);
         }
 
         return (vw + vh) / 2f;
@@ -45,7 +47,7 @@ public class AreasEvaluator : IEvaluator
             var node = graph.GetNode(i);
             var room = schema.GetArea(node.ID);
 
-            EvaluateBySize(node, room);
+            value += EvaluateBySize(node, room);
         }
         return value / (schema.RoomCount * 1f);
     }
