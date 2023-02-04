@@ -13,7 +13,7 @@ public class SimpleBundle : Bundle
     {
         foreach (Bundle bundle in data)
         {
-            tags.AddRange(bundle.GetTags());
+            tags.AddRange(bundle.Tags.Select(t => t.value));
             objects.AddRange(bundle.GetObjects());
         }
     }
@@ -27,10 +27,9 @@ public class SimpleBundle : Bundle
     {
         if(tags == null)
             return objects;
-        var ts = this.tags.Select(t => t.value);
         foreach(var t in tags)
         {
-            if (!ts.Contains(t))
+            if (!this.tags.Contains(t))
                 return new List<GameObject>();
         }
         return objects;
@@ -38,20 +37,20 @@ public class SimpleBundle : Bundle
 
     public override LBSTag GetTag(int index)
     {
-        return tags[index];
+        return Utility.DirectoryTools.GetScriptable<LBSTag>(tags[index]);
     }
 
     public override List<LBSTag> GetTags()
     {
-        return tags;
+        return Tags;
     }
 
     public override void Remove(List<Bundle> data)
     {
         foreach (Bundle bundle in data)
         {
-            tags.RemoveAll(bundle.GetTags().Contains);
-            objects.RemoveAll(bundle.GetObjects().Contains);
+            tags.RemoveAll(t => bundle.Tags.Any(tag => tag.value == t));
+            objects.RemoveAll(o => bundle.GetObjects().Contains(o));
         }
     }
 }
