@@ -12,7 +12,7 @@ public class ScriptableToStringAttribute : PropertyAttribute
 
     public ScriptableToStringAttribute(Type type)
     {
-        SOs = Resources.FindObjectsOfTypeAll(type).Select(o => o as ScriptableObject).ToList();
-        //SOs = DirectoryTools.GetScriptables(type);
+        //SOs = Resources.FindObjectsOfTypeAll(type).Select(o => o as ScriptableObject).ToList();
+        SOs = DirectoryTools.GetScriptables(type);
     }
 }
