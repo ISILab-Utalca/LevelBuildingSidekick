@@ -19,6 +19,7 @@ namespace LBS.Components.Specifics
         private int height = 1;
 
         [SerializeField, JsonRequired]
+        [ScriptableToString(typeof(LBSTag))]
         private List<string> tags = new List<string>();
 
         [SerializeField, JsonRequired]
