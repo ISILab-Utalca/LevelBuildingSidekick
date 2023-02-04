@@ -13,6 +13,7 @@ using Commons.Optimization.Terminations;
 using LBS.Components.Graph;
 using LBS.Tools.Transformer;
 
+[System.Serializable]
 public class SchemaHCAgent : LBSAIAgent
 {
     HillClimbing hillClimbing;
@@ -37,7 +38,7 @@ public class SchemaHCAgent : LBSAIAgent
         throw new System.NotImplementedException();
     }
 
-    public override void Init(LBSLayer layer)
+    public override void Init(ref LBSLayer layer)
     {
         name = "Schema HillClimbing";
 
