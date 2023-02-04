@@ -30,19 +30,34 @@ public class SchemaGenerator : Generator3D
             //Debería estar en una clase de ensamblado de tiles
             var bundles = new Dictionary<string, List<GameObject>>();
 
-            var temp = new List<string>(tags);
+            var temp = tags.Select(s => s.Clone() as string).ToList();
             
             temp.Add("Wall"); 
             bundles.Add("Wall", layer.Bundle.GetObjects(temp));
 
-            temp = new List<string>(tags);
+            foreach(var obj in bundles["Wall"])
+            {
+                Debug.Log("Walls: " + obj.name);
+            }
+
+            temp = tags.Select(s => s.Clone() as string).ToList();
             temp.Add("Door");
             bundles.Add("Door", layer.Bundle.GetObjects(temp));
 
-            temp = new List<string>(tags);
-            temp.Add("Center");
-            bundles.Add("Center", layer.Bundle.GetObjects(temp));
-            
+            foreach (var obj in bundles["Door"])
+            {
+                Debug.Log("Doors: " + obj.name);
+            }
+
+            temp = tags.Select(s => s.Clone() as string).ToList();
+            temp.Add("Floor");
+            bundles.Add("Floor", layer.Bundle.GetObjects(temp));
+
+            foreach (var obj in bundles["Floor"])
+            {
+                Debug.Log("Floors: " + obj.name);
+            }
+
 
             var area = schema.GetArea(node.ID);
 
@@ -69,7 +84,7 @@ public class SchemaGenerator : Generator3D
         var pivot = new GameObject("Tile: " + tile.Position);
         pivot.transform.parent = parent;
 
-        var bases = bundles["Center"];
+        var bases = bundles["Floor"];
 
         var floor = GameObject.Instantiate(bases[Random.Range(0, bases.Count)], pivot.transform);
         //var floor = SceneView.Instantiate(bases[Random.Range(0, bases.Count)], pivot.transform);
