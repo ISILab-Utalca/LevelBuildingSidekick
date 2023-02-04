@@ -6,7 +6,8 @@ using Newtonsoft.Json;
 using LBS.AI;
 using System;
 
-[CreateAssetMenu(fileName = "New LBS Layer Assitant", menuName = "ISILab/LBS Layer Assitant")]
+[CreateAssetMenu(fileName = "New LBS Layer Assistant", menuName = "ISILab/LBS Layer Assistant")]
+[System.Serializable]
 public class LBSLayerAssistant : ScriptableObject
 {
     [SerializeField, SerializeReference]
