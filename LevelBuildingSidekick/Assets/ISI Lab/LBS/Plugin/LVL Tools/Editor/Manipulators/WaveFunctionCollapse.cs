@@ -1,4 +1,5 @@
 using LBS.Components.TileMap;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,20 +64,24 @@ public class WaveFunctionCollapse<T> : ManipulateTileMap<T> where T : LBSTile
 
     public void CalculateTile(ConnectedTile tile, List<WFCBundle> wfcTiles)
     {
+        var candidates = new List<string[]>();
+
         foreach (var wfc in wfcTiles)
         {
             for (int i = 0; i < 4; i++)
             {
                 if (Compare(tile.Connections, wfc.GetConnection(i)))
                 {
-                    tile.SetConnections(wfc.GetConnection(i));
-                    var neis = module.GetTileNeighbors(tile as T, dirs).Select(t => t as ConnectedTile);
-                    SetConnectionNei(tile.Connections,neis.ToArray());
+                    candidates.Add(wfc.GetConnection(i));
                     return;
                 }
             }
         }
-        
+
+        var a = candidates[UnityEngine.Random.Range(0, candidates.Count)];
+        tile.SetConnections(a);
+        var neis = module.GetTileNeighbors(tile as T, dirs).Select(t => t as ConnectedTile);
+        SetConnectionNei(tile.Connections, neis.ToArray());
     }
 
     public void SetConnectionNei(string[] oring, ConnectedTile[] neis)
