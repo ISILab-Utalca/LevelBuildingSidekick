@@ -48,9 +48,9 @@ public class TagsPalleteInspector<T> : LBSInspector where T : LBSTile
     public void RefreshPallete(int i, List<IManipulatorLBS> lBSManipulators)
     {
         content.Clear();
-        var bundle = bundles[i];
+        var bundle = bundles[i].Tags;
 
-        foreach (var tag in bundle.tags)
+        foreach (var tag in bundle)
         {
             var btn = new Button();
             btn.style.width = btn.style.height = 64;
