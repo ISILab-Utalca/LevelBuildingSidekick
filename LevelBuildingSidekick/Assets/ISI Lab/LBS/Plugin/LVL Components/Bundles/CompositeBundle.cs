@@ -8,11 +8,16 @@ using System.Linq;
 public class CompositeBundle : Bundle
 {
     [SerializeReference]
-    public List<Bundle> bundles = new List<Bundle>();
+    List<Bundle> bundles = new List<Bundle>();
 
     public override void Add(List<Bundle> data)
     {
         bundles.AddRange(data);
+    }
+
+    public void Add(Bundle data)
+    {
+        bundles.Add(data);
     }
 
     public override GameObject GetObject(int index)
@@ -32,14 +37,15 @@ public class CompositeBundle : Bundle
 
     public override List<GameObject> GetObjects(List<string> tags = null)
     {
-        var ts = this.tags.Select(t => t.value);
-        if(tags != null)
+        var ts = new List<string>();
+        if (tags != null)
         {
-            for(int i = 0; i < tags.Count; i++)
+            ts = tags.Select(s => s.Clone() as string).ToList();
+            for (int i = 0; i < ts.Count; i++)
             {
-                if(ts.Contains(tags[i]))
+                if(this.tags.Contains(ts[i]))
                 {
-                    tags.RemoveAt(i);
+                    ts.RemoveAt(i);
                 }
             }
         }
@@ -47,7 +53,7 @@ public class CompositeBundle : Bundle
         List<GameObject> objects = new List<GameObject>();
         foreach (Bundle bundle in bundles)
         {
-            objects.AddRange(bundle.GetObjects(tags));
+            objects.AddRange(bundle.GetObjects(ts));
         }
         return objects;
     }
