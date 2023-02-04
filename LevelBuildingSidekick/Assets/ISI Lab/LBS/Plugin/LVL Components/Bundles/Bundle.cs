@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public abstract class Bundle : ScriptableObject
 {
     [SerializeField]
-    protected List<LBSTag> tags = new List<LBSTag>();
+    [ScriptableToString(typeof(LBSTag))]
+    protected List<string> tags = new List<string>();
+
+    public List<LBSTag> Tags => tags.Select(t => Utility.DirectoryTools.GetScriptable<LBSTag>(t)).ToList();
 
     public abstract void Add(List<Bundle> data);
     public abstract GameObject GetObject(int index);
