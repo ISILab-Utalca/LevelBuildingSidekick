@@ -32,10 +32,11 @@ public class ToolkitManager
         currentTools = tools as List<LBSTool>;
         foreach (var tool in currentTools)
         {
+            tool.OnEndAction += OnEndSomeAction;
+
             var btn = tool.InitButton(view, ref level, ref layer, ref module);
             btn.style.flexGrow = 1;
             toolPanel.Add(btn);
-            tool.OnEndAction += OnEndSomeAction;
 
             if (!string.IsNullOrEmpty(tool.inspector))
             {
