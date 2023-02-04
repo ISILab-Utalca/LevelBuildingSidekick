@@ -15,11 +15,6 @@ public class ToolkitManager
     private MainView view;
     private LBSInspectorPanel InspectorManager;
 
-    // ref data
-    private LBSLevelData level;
-    private LBSLayer layer;
-    private LBSModule module;
-
     // event
     public event Action OnEndSomeAction;
 
@@ -32,13 +27,9 @@ public class ToolkitManager
 
     public void SetTools(object tools, ref LBSLevelData level ,ref LBSLayer layer, ref LBSModule module)
     {
-        this.level = level;
-        this.layer = layer;
-        this.module = module;
-
         ClearTools();
 
-        var currentTools = tools as List<LBSTool>;
+        currentTools = tools as List<LBSTool>;
         foreach (var tool in currentTools)
         {
             var btn = tool.InitButton(view, ref level, ref layer, ref module);
@@ -62,12 +53,12 @@ public class ToolkitManager
 
     public void ClearTools()
     {
-        toolPanel.Clear();
-
         foreach (var tool in currentTools)
         {
             tool.OnEndAction -= OnEndSomeAction;
         }
+
+        toolPanel.Clear();
     }
 
 }
