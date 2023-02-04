@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b97f4a254b4f22943b7937bda87d5d2b, type: 3}
   m_Name: CastleBundle
   m_EditorClassIdentifier: 
-  tags: []
+  tags:
+  - Simple
   bundles:
   - {fileID: 11400000, guid: 2c8680c6c97772545b07c1100390112c, type: 2}
   - {fileID: 11400000, guid: 03dd749e4127349488a1c23338b3004c, type: 2}

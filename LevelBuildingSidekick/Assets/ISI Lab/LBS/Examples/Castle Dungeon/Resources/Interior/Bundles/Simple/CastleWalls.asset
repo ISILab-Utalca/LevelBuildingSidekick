@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: CastleWalls
   m_EditorClassIdentifier: 
   tags:
-  - {fileID: 11400000, guid: 3976a3fe0b1050a45b6620425e9d4cdc, type: 2}
+  - Wall
   objects:
   - {fileID: 1421577743583734271, guid: a121ddcf89e479d4f92634d1b354f644, type: 3}

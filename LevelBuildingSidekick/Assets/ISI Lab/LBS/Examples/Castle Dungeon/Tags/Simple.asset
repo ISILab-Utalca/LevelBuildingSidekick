@@ -9,10 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1ca1a068b763d94ca8f120873012f03, type: 3}
-  m_Name: CastleFloor
+  m_Script: {fileID: 11500000, guid: 1ccb2e07e8c47b94f8c9ea89d6413783, type: 3}
+  m_Name: Simple
   m_EditorClassIdentifier: 
-  tags:
-  - {fileID: 11400000, guid: b95f2a08d613d1e4f95bf7f9064c5bfd, type: 2}
-  objects:
-  - {fileID: 3340211634435293643, guid: 7a68f3748ea3f56469f668b4a78e63bf, type: 3}
+  value: Simple
+  color: {r: 0, g: 0, b: 0, a: 0}
