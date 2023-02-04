@@ -190,7 +190,7 @@ public class LBSMainWindow : EditorWindow
         // AIPanel
         aiPanel = new AIPanel(() => {
             drawManager.RefreshView(ref _selectedLayer, _selectedMode);
-            Debug.Log("AI Ended");
+            //Debug.Log("AI Ended");
         });
         extraPanel.Add(aiPanel);
         aiPanel.style.display = DisplayStyle.None;
@@ -225,6 +225,7 @@ public class LBSMainWindow : EditorWindow
         var Gen3DBtn = rootVisualElement.Q<Button>("3DButton");
         Gen3DBtn.clicked += () =>
         {
+            gen3DPanel.Init(_selectedLayer);
             var value = (gen3DPanel.style.display == DisplayStyle.None);
             gen3DPanel.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
         };
@@ -296,10 +297,10 @@ public class LBSMainWindow : EditorWindow
         selectedLabel.text = "selected: " + layer.Name;
 
         // (!) Actualize IAs?
-        aiPanel.Init(ref layer);
+        //aiPanel.Init(ref layer);
 
         // (!) Actualize gen3D?
-        gen3DPanel.Init(layer);
+        //gen3DPanel.Init(layer);
 
     }
 }
