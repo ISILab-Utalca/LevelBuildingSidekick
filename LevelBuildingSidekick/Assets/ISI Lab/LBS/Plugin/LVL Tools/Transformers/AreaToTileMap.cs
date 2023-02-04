@@ -47,48 +47,6 @@ namespace LBS.Tools.Transformer
             }
         }
 
-        public void ParcheDiParche<T>(AreaTileMap<T> module) where T: TiledArea
-        {
-            var m = module;
-            var nAreas = new List<TiledArea>();
-            foreach (var area in m.Areas)
-            {
-             //   var nArea = new TiledArea(new List<LBSTile>(), area.ID, area.Key, area.Color);
-
-                foreach (var tile in area.Tiles)
-                {
-                //    var ct = new ConnectedTile(tile.Position, tile.ID);
-
-                    for (int i = 0; i < dirs.Count; i++)
-                    {
-                        var nei = m.GetTileNeighbor(tile as ConnectedTile, dirs[i]);
-
-                        if (nei == null)
-                        {
-                            (tile as ConnectedTile).SetConnection("Wall", i);
-                            //ct.SetConnection("Wall", i);
-                        }
-                        else if (area.Contains(nei.Position))
-                        {
-                            (tile as ConnectedTile).SetConnection("Empty", i);
-                            //ct.SetConnection("Empty", i);
-                        }
-                        else
-                        {
-                            if((tile as ConnectedTile).GetConnection(i) != "Door")
-                                (tile as ConnectedTile).SetConnection("Wall", i); // (?) o puerta
-                            //ct.SetConnection("Wall", i); // (?) o puerta
-                        }
-                    }
-                    //nArea.AddTile(ct);
-                }
-                //nAreas.Add(nArea);
-            }
-            //m.Clear();
-            //nAreas.ForEach(a => m.AddArea(a as T));
-
-        }
-
         private void CreateDataFrom()
         {
             var nAreas = new List<TiledArea>();

@@ -132,6 +132,7 @@ public class LBSMainWindow : EditorWindow
         toolkitManager.OnEndSomeAction += () =>
         {
             drawManager.RefreshView(ref _selectedLayer, _selectedMode);
+            Debug.Log("Action Ended");
         };
 
         // ToolBar
@@ -187,7 +188,7 @@ public class LBSMainWindow : EditorWindow
 
         
         // AIPanel
-        aiPanel = new AIPanel(() => { RefreshWindow();
+        aiPanel = new AIPanel(() => {
             drawManager.RefreshView(ref _selectedLayer, _selectedMode);
             Debug.Log("Me ejecuto DX");
         });

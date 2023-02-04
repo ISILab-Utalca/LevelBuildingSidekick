@@ -24,8 +24,7 @@ public class SchemaHCAgent : LBSAIAgent
         Debug.Log("HillClimbing start!");
         hillClimbing.Run();
         var x = (hillClimbing.BestCandidate as OptimizableSchema).Schema;
-        var xx = new AreaToTileMap();
-        xx.ParcheDiParche<TiledArea>(x);
+        CalculateConnections.Operate(x);
 
         layer.SetModule<LBSSchema>(x , x.Key);
 

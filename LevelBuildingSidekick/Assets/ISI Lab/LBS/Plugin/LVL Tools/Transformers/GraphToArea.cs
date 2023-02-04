@@ -30,9 +30,7 @@ namespace LBS.Tools.Transformer
             if(schema.IsEmpty())
             {
                 CreateDataFrom(schema);
-                var parche = new AreaToTileMap();
-                //parche.Switch(ref layer);
-                parche.ParcheDiParche(schema);
+                CalculateConnections.Operate(schema);
             }
             else
             {

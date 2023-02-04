@@ -11,7 +11,7 @@ namespace LBS.Components.Specifics
     {
         #region FIELDS
 
-        //[SerializeField, JsonRequired]
+        [SerializeField, JsonRequired]
         private RoomData room;
 
         #endregion
@@ -27,7 +27,7 @@ namespace LBS.Components.Specifics
 
         public RoomNode(): base()
         {
-            room = null;
+            room = new RoomData();
         }
 
         public RoomNode(string id, Vector2 position, RoomData room) : base(id, position)

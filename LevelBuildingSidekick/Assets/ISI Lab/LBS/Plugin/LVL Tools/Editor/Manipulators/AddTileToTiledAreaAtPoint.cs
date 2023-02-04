@@ -21,8 +21,7 @@ public class AddTileToTiledAreaAtPoint<T,U> : ManipulateTiledArea<T, U> where T 
         (tile as ConnectedTile).SetConnections("Wall", "Wall", "Wall", "Wall");
 
         var module =this.module;
-        var parche = new AreaToTileMap(); // (!!!!!) eliminar!!!
-        parche.ParcheDiParche(module);
+        CalculateConnections.Operate(module);
 
         this.OnManipulationEnd?.Invoke();
     }

@@ -24,8 +24,7 @@ public class DeleteTileToAreaPoint<T, U> : ManipulateTiledArea<T, U> where T : T
             area.RemoveTile(tile);
         }
 
-        var parche = new AreaToTileMap(); // (!!!!!) eliminar!!!
-        parche.ParcheDiParche(module);
+        CalculateConnections.Operate(module);
 
         OnManipulationEnd?.Invoke();
     }

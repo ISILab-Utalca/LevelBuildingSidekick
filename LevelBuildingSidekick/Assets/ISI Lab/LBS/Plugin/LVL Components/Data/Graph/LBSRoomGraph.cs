@@ -14,7 +14,7 @@ namespace LBS.Components.Graph
 
         public override object Clone()
         {
-            return new LBSRoomGraph(nodes.Select(n => n as RoomNode).ToList(), edges.Select(e => e).ToList(), key);
+            return new LBSRoomGraph(nodes.Select(n => n.Clone() as RoomNode).ToList(), edges.Select(e => e.Clone() as LBSEdge).ToList(), key);
         }
     }
 }
