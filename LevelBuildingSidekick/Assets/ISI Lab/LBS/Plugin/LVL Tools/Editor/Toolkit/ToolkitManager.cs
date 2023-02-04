@@ -8,6 +8,8 @@ using System;
 
 public class ToolkitManager
 {
+    private List<LBSTool> currentTools = new List<LBSTool>();
+
     // VisualElement references
     private ButtonGroup toolPanel;
     private MainView view;
@@ -34,9 +36,10 @@ public class ToolkitManager
         this.layer = layer;
         this.module = module;
 
-        toolPanel.Clear();
-        var _tools = tools as List<LBSTool>;
-        foreach (var tool in _tools)
+        ClearTools();
+
+        var currentTools = tools as List<LBSTool>;
+        foreach (var tool in currentTools)
         {
             var btn = tool.InitButton(view, ref level, ref layer, ref module);
             btn.style.flexGrow = 1;
@@ -54,6 +57,16 @@ public class ToolkitManager
                     InspectorManager.RemoveInspector(insp);
                 };
             }
+        }
+    }
+
+    public void ClearTools()
+    {
+        toolPanel.Clear();
+
+        foreach (var tool in currentTools)
+        {
+            tool.OnEndAction -= OnEndSomeAction;
         }
     }
 
