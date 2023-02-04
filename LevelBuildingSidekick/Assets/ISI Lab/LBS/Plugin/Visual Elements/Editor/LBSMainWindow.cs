@@ -294,7 +294,7 @@ public class LBSMainWindow : EditorWindow
         selectedLabel.text = "selected: " + layer.Name;
 
         // (!) Actualize IAs?
-        aiPanel.Init(layer);
+        aiPanel.Init(ref layer);
 
         // (!) Actualize gen3D?
         gen3DPanel.Init(layer);
