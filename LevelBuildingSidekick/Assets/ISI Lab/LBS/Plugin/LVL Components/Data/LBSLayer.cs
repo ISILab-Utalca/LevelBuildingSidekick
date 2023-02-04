@@ -68,11 +68,14 @@ namespace LBS.Components
         {
             get 
             {
+                /*
                 var obj = Resources.FindObjectsOfTypeAll<LBSLayerAssistant>().ToList();
                 if(string.IsNullOrEmpty(assitant)  && obj.Count > 0)
                     assitant = obj[0].name;
                 var t = obj.Find(a => a.name.Contains(assitant)); // Utility.DirectoryTools.GetScriptable<LBSLayerAssistant>(assitant);
-                return t;
+                return t;*/
+
+                return Utility.DirectoryTools.GetScriptable<LBSLayerAssistant>(assitant);
             }
         }
 
@@ -81,11 +84,13 @@ namespace LBS.Components
         {
             get
             {
-                var obj = Resources.LoadAll<CompositeBundle>("Bundles").ToList();
+                /*var obj = Resources.LoadAll<CompositeBundle>("Bundles").ToList();
                 if (string.IsNullOrEmpty(bundle))
                     bundle = obj[0].name;
                 var t = obj.Find(a => a.name.Contains(bundle)); //Utility.DirectoryTools.GetScriptable<CompositeBundle>(bundle);
-                return t;
+                return t;*/
+
+                return Utility.DirectoryTools.GetScriptable<CompositeBundle>(bundle);
             }
         }
 
@@ -237,6 +242,7 @@ namespace LBS.Components
 
             index = modules.FindIndex(m => m is T && m.Key.Equals(key));
             modules[index] = module;
+
 
 
         }
