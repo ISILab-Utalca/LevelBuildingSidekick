@@ -10,8 +10,8 @@ namespace LBS
     [CreateAssetMenu(menuName = "ISILab/LBS plugin/Back Up", fileName ="LBSBackUp.asset")]
     public class LevelBackUp : ScriptableObject
     {
-        private static readonly string defaultPath = "Assets/ISILab OLD/LBS Plugin/Resources/BackUp"; // esto podria ser peligroso (!)
-        //private static readonly string defaultName = "/LBSBackUp.asset";
+        private static readonly string defaultPath = "Assets/Resources"; // esto podria ser peligroso (!)
+        private static readonly string defaultName = "/LBSBackUp.asset";
 
         public static LevelBackUp instance;
 
@@ -19,6 +19,9 @@ namespace LBS
 
         public static LevelBackUp Instance() // Singleton
         {
+
+
+
             // si la instancia ya esta registrada la retorna
             if (instance != null)
             {
@@ -37,11 +40,12 @@ namespace LBS
             // si no encuentra la instancia, la crea y la retorna
             var backUp = ScriptableObject.CreateInstance<LevelBackUp>();
             if (!Directory.Exists(defaultPath))
+            {
                 Directory.CreateDirectory(defaultPath);
+            }
 
-            //EditorUtility.SetDirty(instance);
-            //AssetDatabase.CreateAsset(backUp, defaultPath + defaultName);
-            //AssetDatabase.SaveAssets();
+            AssetDatabase.CreateAsset(backUp, defaultPath + defaultName);
+            AssetDatabase.SaveAssets();
             instance = backUp;
             return instance;
 

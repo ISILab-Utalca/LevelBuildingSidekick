@@ -16,8 +16,6 @@ public class AIPanel : VisualElement
 {
     public new class UxmlFactory : UxmlFactory<AIPanel, VisualElement.UxmlTraits> { }
 
-    LBSLayer layer;
-
     VisualElement container;
 
     /*public AIPanel(Commons.Optimization.BaseOptimizerMetahuristic<IEvaluable> _base)
@@ -49,16 +47,14 @@ public class AIPanel : VisualElement
 
         container.Clear();
 
-        this.layer = layer;
-
         var assist = layer.Assitant;
 
         for(int i = 0; i < assist.AgentsCount; i++)
         {
             var agent = assist.GetAgent(i);
-            agent.OnTermination = OnAIExecute;
+            agent.OnTermination += OnAIExecute;
             agent.Init(ref layer);
-            container.Add(new AIAgentPanel(agent));
+            container.Add(new AIAgentPanel(ref agent));
 
         }
     }

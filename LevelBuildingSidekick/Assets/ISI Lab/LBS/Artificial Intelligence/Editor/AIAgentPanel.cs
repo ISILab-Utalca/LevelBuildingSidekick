@@ -25,7 +25,7 @@ public class AIAgentPanel : VisualElement
         execute = this.Q<Button>(name: "Execute");
     }
 
-    public AIAgentPanel(LBSAIAgent agent) : this()
+    public AIAgentPanel(ref LBSAIAgent agent) : this()
     {
         this.agent = agent;
 
@@ -33,7 +33,7 @@ public class AIAgentPanel : VisualElement
         details.clicked += () => Debug.LogWarning("Not Implemented");
         execute.clicked += () =>
         {
-            agent.Execute();
+            this.agent.Execute();
         };
 
     }
