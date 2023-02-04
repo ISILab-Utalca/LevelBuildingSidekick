@@ -44,7 +44,7 @@ public class AIPanel : VisualElement
         this.OnAIExecute = OnAIExecute;
     }
 
-    public void Init(LBSLayer layer)
+    public void Init(ref LBSLayer layer)
     {
 
         container.Clear();
@@ -56,7 +56,7 @@ public class AIPanel : VisualElement
         for(int i = 0; i < assist.AgentsCount; i++)
         {
             var agent = assist.GetAgent(i);
-            agent.Init(layer);
+            agent.Init(ref layer);
             container.Add(new AIAgentPanel(agent, OnAIExecute));
 
         }
