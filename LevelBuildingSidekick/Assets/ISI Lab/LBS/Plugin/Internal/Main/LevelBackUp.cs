@@ -11,7 +11,7 @@ namespace LBS
     public class LevelBackUp : ScriptableObject
     {
         private static readonly string defaultPath = "Assets/ISILab OLD/LBS Plugin/Resources/BackUp"; // esto podria ser peligroso (!)
-        private static readonly string defaultName = "/LBSBackUp.asset";
+        //private static readonly string defaultName = "/LBSBackUp.asset";
 
         public static LevelBackUp instance;
 

@@ -33,6 +33,9 @@ namespace LBS.AI
             set => name = value;
         }
 
+        public System.Action OnStart;
+        public System.Action OnTermination;
+
         public LBSAIAgent() { }
 
         public LBSAIAgent(LBSLayer layer, string id, string name)

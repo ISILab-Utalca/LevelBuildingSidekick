@@ -7,8 +7,9 @@ using UnityEngine.UIElements;
 using System.Linq;
 using System;
 
-public class StampProportionFitnessByRoom : IRangedEvaluator
+public class StampProportionFitnessByRoom //: IRangedEvaluator
 {
+    /*
     //public StampPresset stamp1;
     //public StampPresset stamp2;
 
@@ -59,7 +60,7 @@ public class StampProportionFitnessByRoom : IRangedEvaluator
         content.Add(of2);
 
         return content;
-        */
+        
         return null;
     }
 
@@ -133,7 +134,7 @@ public class StampProportionFitnessByRoom : IRangedEvaluator
         }
 
         return fitness/rooms.Count;
-        */
+        
         return 0;
     }
 
@@ -149,5 +150,5 @@ public class StampProportionFitnessByRoom : IRangedEvaluator
     public float EvaluateH<u>(IOptimizable evaluable, u Heu)
     {
         throw new NotImplementedException();
-    }
+    }*/
 }

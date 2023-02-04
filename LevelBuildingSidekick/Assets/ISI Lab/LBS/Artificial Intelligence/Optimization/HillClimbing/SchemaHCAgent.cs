@@ -20,16 +20,16 @@ public class SchemaHCAgent : LBSAIAgent
 
     public override void Execute()
     {
+        OnStart?.Invoke();
 
-        Debug.Log("HillClimbing start!");
         hillClimbing.Run();
         var x = (hillClimbing.BestCandidate as OptimizableSchema).Schema;
         CalculateConnections.Operate(x);
 
         layer.SetModule<LBSSchema>(x , x.Key);
 
+        OnTermination?.Invoke();
 
-        Debug.Log("HillClimbing finish!");
     }
 
     public override VisualElement GetInspector()
@@ -40,6 +40,9 @@ public class SchemaHCAgent : LBSAIAgent
     public override void Init(ref LBSLayer layer)
     {
         name = "Schema HillClimbing";
+
+        OnStart += () => Debug.Log("HillClimbing start!");
+        OnTermination += () => Debug.Log("HillClimbing finish!");
 
         this.layer = layer;
 

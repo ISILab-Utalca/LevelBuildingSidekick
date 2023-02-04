@@ -55,53 +55,6 @@ public static class DataExtensions
         return rwt;
     }
 
-    public static void RepositionRooms<T>(this AreaTileMap<T> schema) where T : TiledArea
-    {
-        var rwt = schema.GetRoomsWithoutTiles();
-        var closetRoom = rwt[0];
-        float closetDis = Mathf.Infinity;
-
-        for (int i = 0; i < rwt.Count; i++)
-        {
-            for (int j = 0; j < schema.Areas.Count; j++)
-            {
-                var rCentroid = rwt[i].Centroid;
-                float dis = Vector2Int.Distance(rCentroid.ToInt(), schema.Areas[j].Centroid.ToInt());
-
-                if (rwt[i].ID == schema.Areas[j].ID || schema.Areas[j].Centroid == Vector2Int.zero) continue;
-
-                if (dis < closetDis)
-                {
-                    closetDis = dis;
-                    closetRoom = schema.Areas[j];
-                }
-            }
-
-            List<Vector2Int> tilesPositionsSchema = new List<Vector2Int>();
-            Vector2Int randomPos = closetRoom.GetRandomTilePosFromCenter();
-
-            foreach (var area in schema.Areas)
-            {
-                foreach (var tile in area.Tiles)
-                {
-                    tilesPositionsSchema.Add(tile.Position);
-                }
-            }
-
-            do
-            {
-                randomPos = closetRoom.GetRandomTilePosFromCenter();
-            }
-            while (tilesPositionsSchema.Contains(randomPos));
-
-            rwt[i].Move(randomPos);
-            //rwt[i].AddTile(randomPos);    // esto probablementes un un parche pero no lo logrev terminar F
-            //Debug.Log("New Pos: " + randomPos);
-            break;
-
-        }
-    }
-
     public static void Move(this TiledArea area, Vector2Int value)
     {
         for (int i = 0; i < area.Tiles.Count; i++)

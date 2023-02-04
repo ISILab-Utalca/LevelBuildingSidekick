@@ -6,9 +6,9 @@ using UnityEngine.UIElements;
 using System.Linq;
 using LBS;
 
-public class TagProportionByRoom : IRangedEvaluator
+public class TagProportionByRoom //: IRangedEvaluator
 {
-
+    /*
     public string tag1;
     public string tag2;
 
@@ -90,7 +90,7 @@ public class TagProportionByRoom : IRangedEvaluator
             /*if (pressetsG1.Count() == 0 && pressetsG2.Count() == 0)
             {
                 return MaxValue;
-            }*/
+            }
 
         }
 
@@ -114,12 +114,12 @@ public class TagProportionByRoom : IRangedEvaluator
         foreach (var pr in pressetsG2)
         {
             indexG2.Add(stmc.stamps.FindIndex(s => s.Label == pr));
-        }*/
+        }
 
         //var rooms = (StampTileMapChromosome.TileMap.GetData() as LBSSchemaData).GetRooms();
         //var tiles = rooms.SelectMany(r => r.TilesPositions);
 
-        /*
+        
         float fitness = 0;
 
         Vector2Int offset = new Vector2Int
@@ -173,7 +173,7 @@ public class TagProportionByRoom : IRangedEvaluator
         }
 
         return fitness/rooms.Count;
-        */
+        
         return 0;
     }
 
@@ -189,5 +189,5 @@ public class TagProportionByRoom : IRangedEvaluator
     public float EvaluateH<u>(IOptimizable evaluable, u Heu)
     {
         throw new System.NotImplementedException();
-    }
+    }*/
 }

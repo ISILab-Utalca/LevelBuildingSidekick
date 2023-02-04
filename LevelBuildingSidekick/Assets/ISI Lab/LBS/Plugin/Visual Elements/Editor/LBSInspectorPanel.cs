@@ -12,7 +12,7 @@ public class LBSInspectorPanel : VisualElement
 
     private List<LBSInspector> inspectors = new List<LBSInspector>();
 
-    private bool _isLocalTabOpen = false;
+    //private bool _isLocalTabOpen = false;
 
     public LBSInspectorPanel() 
     {
@@ -21,8 +21,8 @@ public class LBSInspectorPanel : VisualElement
 
         // LocalTab
         var localTab = this.Q<SimpleGrupableButton>("LocalTab");
-        localTab.OnFocusEvent += () => { _isLocalTabOpen = true; };
-        localTab.OnBlurEvent += () => { _isLocalTabOpen = false; };
+        //localTab.OnFocusEvent += () => { _isLocalTabOpen = true; };
+        //localTab.OnBlurEvent += () => { _isLocalTabOpen = false; };
         localTab.SetName("Local");
 
         // GlobalTab

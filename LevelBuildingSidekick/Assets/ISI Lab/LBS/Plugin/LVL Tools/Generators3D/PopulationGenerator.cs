@@ -9,8 +9,8 @@ using LBS.Components;
 
 namespace LBS.Generator
 {
-    public class PopulationGenerator : Generator3D
-    {
+    public class PopulationGenerator //: Generator3D
+    {/*
         //private LBSStampGroupData population;
         private float tileSize = 1f;
 
@@ -46,6 +46,6 @@ namespace LBS.Generator
         public override void Init(LBSLayer layer)
         {
             throw new System.NotImplementedException();
-        }
+        }*/
     }
 }

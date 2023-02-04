@@ -190,7 +190,7 @@ public class LBSMainWindow : EditorWindow
         // AIPanel
         aiPanel = new AIPanel(() => {
             drawManager.RefreshView(ref _selectedLayer, _selectedMode);
-            Debug.Log("Me ejecuto DX");
+            Debug.Log("AI Ended");
         });
         extraPanel.Add(aiPanel);
         aiPanel.style.display = DisplayStyle.None;

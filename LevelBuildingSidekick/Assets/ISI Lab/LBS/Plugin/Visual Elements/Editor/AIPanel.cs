@@ -56,8 +56,9 @@ public class AIPanel : VisualElement
         for(int i = 0; i < assist.AgentsCount; i++)
         {
             var agent = assist.GetAgent(i);
+            agent.OnTermination = OnAIExecute;
             agent.Init(ref layer);
-            container.Add(new AIAgentPanel(agent, OnAIExecute));
+            container.Add(new AIAgentPanel(agent));
 
         }
     }

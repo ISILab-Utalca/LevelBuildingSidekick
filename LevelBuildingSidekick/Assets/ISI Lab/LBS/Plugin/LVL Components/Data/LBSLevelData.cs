@@ -92,12 +92,13 @@ public class LBSLevelData
         this.OnChanged?.Invoke(this);
     }
 
-    public void RemoveAt(int index)
+    public LBSLayer RemoveAt(int index)
     {
         var layer = layers[index];
         layers.RemoveAt(index);
         layer.OnChanged -= (l) => this.OnChanged(this);
         this.OnChanged?.Invoke(this);
+        return layer;
     }
 
     /// <summary>
@@ -113,7 +114,10 @@ public class LBSLevelData
         {
             return layers.Find( l => l.ID == id);
         }
-        catch (Exception e) { }
+        catch (Exception e) 
+        {
+            Debug.LogError(e);
+        }
 
         return null;
     }

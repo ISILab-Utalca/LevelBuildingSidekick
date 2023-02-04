@@ -99,6 +99,7 @@ public class LayersPanel : VisualElement
         }
 
         data.AddLayer(layer);
+        OnAddLayer?.Invoke(layer);
         list.Rebuild();
     }
 
@@ -111,7 +112,8 @@ public class LayersPanel : VisualElement
         if (index <= 0)
             return;
 
-        data.RemoveAt(index);
+        var layer = data.RemoveAt(index);
+        OnRemoveLayer?.Invoke(layer);
         list.Rebuild();
     }
 

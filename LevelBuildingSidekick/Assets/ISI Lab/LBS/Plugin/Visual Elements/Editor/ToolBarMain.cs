@@ -12,7 +12,7 @@ public class ToolBarMain : VisualElement // esto puede ser directamente toolbar
 
     public LBSMainWindow window; // (!!) esta referencia solo existe por que actualmente tenemos la data con la que estamos trabajando en mainWindow 
 
-    public event Action<LoadedLevel> OnChangeLevelData;
+    //public event Action<LoadedLevel> OnChangeLevelData;
 
     public event Action<LoadedLevel> OnLoadLevel;
     public event Action<LoadedLevel> OnNewLevel;
