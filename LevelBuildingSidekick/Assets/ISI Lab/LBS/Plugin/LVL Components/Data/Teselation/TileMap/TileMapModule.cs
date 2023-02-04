@@ -8,21 +8,6 @@ using Newtonsoft.Json;
 namespace LBS.Components.TileMap
 {
     [System.Serializable]
-    public class Exterior : TileMapModule<ConnectedTile>
-    {
-        public Exterior(): base() { }
-
-        public Exterior(List<ConnectedTile> tiles, string key) : base( tiles, key) 
-        {
-        }
-
-        public override object Clone()
-        {
-            return new Exterior(this.tiles.Select(t => t.Clone() as ConnectedTile).ToList(),this.key);
-        }
-    }
-
-    [System.Serializable]
     public class TileMapModule<T> : TeselationModule where T : LBSTile
     {
         #region FIELDS
@@ -41,6 +26,10 @@ namespace LBS.Components.TileMap
             {
                 if (tiles == null || tiles.Count == 0)
                 {
+                    // (!!!)
+                    // poner un debug aqui que le avise al usuario
+                    // que es zero por que no tiene tiles y no por
+                    // que esta en la posicion 0,0 
                     return new Rect(Vector2.zero, Vector2.zero);
                 }
                 var x = tiles.Min(t => t.Position.x);
@@ -247,8 +236,5 @@ namespace LBS.Components.TileMap
 
         #endregion
     }
-
-    [System.Serializable]
-    public class LBSBaseTileMap : TileMapModule<LBSTile> { }
 }
 
