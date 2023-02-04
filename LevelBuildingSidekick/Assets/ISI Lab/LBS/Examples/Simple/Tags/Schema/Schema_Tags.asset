@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Schema_Tags
   m_EditorClassIdentifier: 
   tags:
-  - {fileID: 11400000, guid: 3976a3fe0b1050a45b6620425e9d4cdc, type: 2}
-  - {fileID: 11400000, guid: a255697b12e264d4ab2d7163098b2733, type: 2}
-  - {fileID: 11400000, guid: 8626cde9d99521f46827f9897b09ed1b, type: 2}
+  - Door
+  - Wall
+  - Empty
