@@ -75,6 +75,8 @@ namespace LBS.Components
                 var t = obj.Find(a => a.name.Contains(assitant)); // Utility.DirectoryTools.GetScriptable<LBSLayerAssistant>(assitant);
                 return t;*/
 
+                if (string.IsNullOrEmpty(assitant))
+                    bundle = Utility.DirectoryTools.GetScriptables<LBSLayerAssistant>()[0].name;
                 return Utility.DirectoryTools.GetScriptable<LBSLayerAssistant>(assitant);
             }
         }
@@ -90,6 +92,8 @@ namespace LBS.Components
                 var t = obj.Find(a => a.name.Contains(bundle)); //Utility.DirectoryTools.GetScriptable<CompositeBundle>(bundle);
                 return t;*/
 
+                if (string.IsNullOrEmpty(bundle))
+                    bundle = Utility.DirectoryTools.GetScriptables<CompositeBundle>()[0].name;
                 return Utility.DirectoryTools.GetScriptable<CompositeBundle>(bundle);
             }
         }
