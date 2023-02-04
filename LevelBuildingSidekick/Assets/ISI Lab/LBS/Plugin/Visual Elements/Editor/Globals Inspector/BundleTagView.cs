@@ -28,7 +28,8 @@ public class BundleTagView : VisualElement
 
         // Content
         content = this.Q<VisualElement>("Content");
-        foreach (var tag in bundle.tags)
+        var tags = bundle.Tags;
+        foreach (var tag in tags)
         {
             var v = new TagView(tag);
             tagViews.Add(v);
