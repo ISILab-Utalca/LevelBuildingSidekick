@@ -31,7 +31,7 @@ public class AdjacenciesEvaluator : IEvaluator
 
         if (graph.EdgeCount <= 0)
         {
-            Debug.LogWarning("Cannot calculate the adjacency of a map are nodes that are not connected.");
+            //Debug.LogWarning("Cannot calculate the adjacency of a map are nodes that are not connected.");
             return 1;
         }
 
