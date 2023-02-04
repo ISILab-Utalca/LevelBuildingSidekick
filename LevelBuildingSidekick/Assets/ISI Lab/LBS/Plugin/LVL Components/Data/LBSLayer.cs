@@ -35,7 +35,7 @@ namespace LBS.Components
 
         [SerializeField, JsonRequired]
         [ScriptableToString(typeof(CompositeBundle))]
-        private string bundle = "";
+        private List<string> bundles = new List<string>();
 
         [SerializeField, JsonRequired]
         [ScriptableToString(typeof(LBSLayerAssistant))]
@@ -76,7 +76,7 @@ namespace LBS.Components
                 return t;*/
 
                 if (string.IsNullOrEmpty(assitant))
-                    bundle = Utility.DirectoryTools.GetScriptables<LBSLayerAssistant>()[0].name;
+                    assitant = Utility.DirectoryTools.GetScriptables<LBSLayerAssistant>()[0].name;
                 return Utility.DirectoryTools.GetScriptable<LBSLayerAssistant>(assitant);
             }
         }
@@ -92,9 +92,14 @@ namespace LBS.Components
                 var t = obj.Find(a => a.name.Contains(bundle)); //Utility.DirectoryTools.GetScriptable<CompositeBundle>(bundle);
                 return t;*/
 
-                if (string.IsNullOrEmpty(bundle))
-                    bundle = Utility.DirectoryTools.GetScriptables<CompositeBundle>()[0].name;
-                return Utility.DirectoryTools.GetScriptable<CompositeBundle>(bundle);
+                var bundle = ScriptableObject.CreateInstance<CompositeBundle>();
+
+                foreach(var b in bundles)
+                {
+                    bundle.Add(Utility.DirectoryTools.GetScriptable<Bundle>(b));
+                }
+
+                return bundle;
             }
         }
 
