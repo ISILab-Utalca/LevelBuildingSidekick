@@ -42,7 +42,7 @@ namespace LBS.AI
             Name = name;
         }
 
-        public abstract void Init(LBSLayer layer);
+        public abstract void Init(ref LBSLayer layer);
 
         public abstract void Execute();
 
