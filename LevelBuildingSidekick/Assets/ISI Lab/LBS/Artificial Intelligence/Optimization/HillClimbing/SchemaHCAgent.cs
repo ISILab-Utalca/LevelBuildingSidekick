@@ -56,8 +56,8 @@ public class SchemaHCAgent : LBSAIAgent
         var evaluator = new WeightedEvaluator(new System.Tuple<IEvaluator, float>[] //agregar parametros necesarios a las clases de evaluación
         {
             new System.Tuple<IEvaluator, float> (new AdjacenciesEvaluator(graph), 0.5f),
-            new System.Tuple<IEvaluator, float> (new AreasEvaluator(graph), 0.35f),
-            new System.Tuple<IEvaluator, float> (new EmptySpaceEvaluator(), 0.15f),
+            new System.Tuple<IEvaluator, float> (new AreasEvaluator(graph), 0.5f),
+            new System.Tuple<IEvaluator, float> (new EmptySpaceEvaluator(), 0.5f),
 
         }) ;
         var population = new Population(1, 100, adam); // agregar parametros
