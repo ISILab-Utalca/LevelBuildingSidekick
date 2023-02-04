@@ -132,7 +132,7 @@ public class LBSMainWindow : EditorWindow
         toolkitManager.OnEndSomeAction += () =>
         {
             drawManager.RefreshView(ref _selectedLayer, _selectedMode);
-            Debug.Log("Action Ended");
+            //Debug.Log("Action Ended");
         };
 
         // ToolBar
@@ -216,6 +216,7 @@ public class LBSMainWindow : EditorWindow
         var IABtn = rootVisualElement.Q<Button>("AIButton");
         IABtn.clicked += () =>
         {
+            aiPanel.Init(ref _selectedLayer);
             var value = (aiPanel.style.display == DisplayStyle.None);
             aiPanel.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
         };
