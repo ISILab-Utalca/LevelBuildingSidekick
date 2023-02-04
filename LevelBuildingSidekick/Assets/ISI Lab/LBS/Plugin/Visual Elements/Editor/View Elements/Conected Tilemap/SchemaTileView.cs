@@ -20,10 +20,15 @@ public class SchemaTileView : GraphElement
     private VisualElement bottom;
     private VisualElement border;
 
+    private static VisualTreeAsset view;
+
     public SchemaTileView(ConnectedTile connectedTile)
     {
-        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("SchemaTile");
-        visualTree.CloneTree(this);
+        if(view == null)
+        {
+            SchemaTileView.view = DirectoryTools.SearchAssetByName<VisualTreeAsset>("SchemaTile");
+        }
+        SchemaTileView.view.CloneTree(this);
 
         this.SetMargins(0);
         this.SetPaddings(0);
