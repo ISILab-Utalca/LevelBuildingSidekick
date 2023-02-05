@@ -135,7 +135,6 @@ namespace Commons.Optimization
             Termination = termination;
             Population = population;
 
-            Adam.Fitness = Evaluator.Evaluate(Adam);
         }
 
         public virtual void Pause()
@@ -218,6 +217,7 @@ namespace Commons.Optimization
             State = Op_State.Started;
             clock = new Stopwatch();
             clock.Start();
+            Adam.Fitness = Evaluator.Evaluate(Adam);
             Population.CreateInitialGeneration();
             clock.Stop();
         }
