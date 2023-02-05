@@ -50,8 +50,9 @@ namespace LBS.Tools.Transformer
             open.Enqueue(parent);
 
             var node = parent;
-            var area = ConstructArea(node, node.Position);
+            var area = new TiledArea(new List<LBSTile>(), node.ID, typeof(TiledArea).Name, node.Room.color);
             schema.AddArea(area);
+            ConstructArea(schema, node, node.Position);
 
             int exit = 0;
 
@@ -89,8 +90,9 @@ namespace LBS.Tools.Transformer
                         posY = Mathf.Round(posY);
                     }
 
-                    area = ConstructArea(child, new Vector2Int((int)posX,(int) posY));
+                    area = new TiledArea(new List<LBSTile>(), child.ID, typeof(TiledArea).Name, child.Room.color); 
                     schema.AddArea(area);
+                    ConstructArea(schema, child, new Vector2Int((int)posX,(int) posY));
 
                     //if (schema.CheckTilesRooms()) 
                     //    schema.RepositionRooms(); 
@@ -136,7 +138,7 @@ namespace LBS.Tools.Transformer
             */
         }
 
-        private TiledArea ConstructArea(RoomNode node, Vector2Int offset)
+        private void ConstructArea(AreaTileMap<TiledArea> schema, RoomNode node, Vector2Int offset)
         {
             var tiles = new List<LBSTile>();
 
@@ -144,11 +146,11 @@ namespace LBS.Tools.Transformer
             {
                 for(int i = 0; i < node.Room.Width; i++)
                 {
-                    tiles.Add(new ConnectedTile(new Vector2Int(i,j) + offset, node.ID));
+                    schema.AddTile(node.ID, new ConnectedTile(new Vector2Int(i,j) + offset, node.ID));
                 }
             }
-            var area = new TiledArea(tiles, node.ID, node.ID, node.Room.color);
-            return area;
+            //var area = new TiledArea(tiles, node.ID, node.ID, node.Room.color);
+            //return area;
         }
 
     }

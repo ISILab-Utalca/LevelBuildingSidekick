@@ -37,7 +37,7 @@ namespace LBS.Components.TileMap
 
         #region CONSTRUCTORS
 
-        public TiledArea() : base(){}
+        public TiledArea() : base() { Key = GetType().Name; }
 
         public TiledArea(List<LBSTile> tiles, string id, string key, Color color) : base(tiles, key)
         {

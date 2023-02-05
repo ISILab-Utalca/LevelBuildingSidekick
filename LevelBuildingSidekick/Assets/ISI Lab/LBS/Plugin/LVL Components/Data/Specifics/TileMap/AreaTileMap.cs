@@ -57,6 +57,11 @@ namespace LBS.Components.TileMap
 
         public void AddArea(T area)
         {
+            if (areas.Any(a => a.ID == area.ID))
+            {
+                //Debug.Log("Area already exist");
+                return;
+            }
             areas.Add(area);
             area.Owner = this.Owner;
             area.OnAddTile = (t) => 
@@ -65,13 +70,33 @@ namespace LBS.Components.TileMap
             };
         }
 
-        private void RemoveTile(LBSTile t)
+        public void AddTile(string areaID, LBSTile tile)
+        {
+            RemoveTile(tile);
+            var a = GetArea(areaID);
+            a.AddTile(tile);
+        }
+
+        public void RemoveTile(LBSTile t)
         {
             foreach(var r in areas)
             {
                 if(r.Contains(t.Position))
                 {
                     r.RemoveTile(t);
+                }
+            }
+        }
+
+        public void RemoveTile(Vector2Int pos)
+        {
+            
+            foreach (var r in areas)
+            {
+                if (r.Contains(pos))
+                {
+
+                    r.RemoveAt(pos);
                 }
             }
         }
@@ -88,7 +113,7 @@ namespace LBS.Components.TileMap
 
         public TiledArea GetArea(string id)
         {
-            return areas.Find(r => r.Key == id);
+            return areas.Find(r => r.ID.Equals(id));
         }
 
         public TiledArea GetArea(Vector2Int tilePos)

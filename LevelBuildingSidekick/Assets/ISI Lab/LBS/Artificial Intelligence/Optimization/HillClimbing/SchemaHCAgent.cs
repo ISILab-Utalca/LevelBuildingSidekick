@@ -52,12 +52,12 @@ public class SchemaHCAgent : LBSAIAgent
         var adam = new OptimizableSchema(schema);
 
         var selection = new EliteSelection();
-        var termination = new FitnessStagnationTermination(15); // agregar termination de maximo local
+        var termination = new FitnessStagnationTermination(100); // agregar termination de maximo local
         var evaluator = new WeightedEvaluator(new System.Tuple<IEvaluator, float>[] //agregar parametros necesarios a las clases de evaluación
         {
             new System.Tuple<IEvaluator, float> (new AdjacenciesEvaluator(graph), 0.5f),
-            new System.Tuple<IEvaluator, float> (new AreasEvaluator(graph), 0.5f),
-            new System.Tuple<IEvaluator, float> (new EmptySpaceEvaluator(), 0.5f),
+            new System.Tuple<IEvaluator, float> (new AreasEvaluator(graph), 0.35f),
+            new System.Tuple<IEvaluator, float> (new EmptySpaceEvaluator(), 0.15f),
 
         }) ;
         var population = new Population(1, 100, adam); // agregar parametros
@@ -73,17 +73,17 @@ public class SchemaHCAgent : LBSAIAgent
 
         for (int i = 0; i < tileMap.RoomCount; i++)
         {
-            var room = tileMap.GetArea(i);
-            var vWalls = room.GetVerticalWalls();
-            var hWalls = room.GetHorizontalWalls();
+            var area = tileMap.GetArea(i);
+            var vWalls = area.GetVerticalWalls();
+            var hWalls = area.GetHorizontalWalls();
             var walls = vWalls.Concat(hWalls);
 
             foreach (var wall in walls)
             {
                 var neighbour = tileMap.Clone() as LBSSchema;
 
-                var tiles = neighbour.GetArea(i);
-                wall.Tiles.ForEach(t => tiles.AddTile(new ConnectedTile(t + wall.Dir, room.ID, 4)));
+                //var area = neighbour.GetArea(i);
+                wall.Tiles.ForEach(t => neighbour.AddTile(area.ID, new ConnectedTile(t + wall.Dir, area.ID, 4)));
 
                 neighbours.Add(new OptimizableSchema(neighbour));
             }
@@ -92,8 +92,8 @@ public class SchemaHCAgent : LBSAIAgent
             {
                 var neighbour = tileMap.Clone() as LBSSchema;
 
-                var tiles = neighbour.GetArea(i);
-                wall.Tiles.ForEach(t => tiles.RemoveAt(t));
+                //var area = neighbour.GetArea(i);
+                wall.Tiles.ForEach(t => neighbour.RemoveTile(t));
 
                 neighbours.Add(new OptimizableSchema(neighbour));
             }
