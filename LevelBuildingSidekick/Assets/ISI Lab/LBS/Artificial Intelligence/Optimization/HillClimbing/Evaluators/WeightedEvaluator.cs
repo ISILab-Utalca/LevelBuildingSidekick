@@ -25,7 +25,7 @@ public class WeightedEvaluator : IEvaluator
         foreach(var t in evaluators)
         {
             totalWeight += t.Item2;
-            fitness += t.Item1.Evaluate(evaluable);
+            fitness += t.Item1.Evaluate(evaluable) * t.Item2;
         }
 
         return fitness/totalWeight;

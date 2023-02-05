@@ -11,12 +11,12 @@ public class DeleteTileToAreaPoint<T, U> : ManipulateTiledArea<T, U> where T : T
     {
         OnManipulationStart?.Invoke();
         var view = e.target as SchemaTileView;
-        var tile = view.Data;
-
-        if (tile == null)
+        if (view == null)
         {
             return;
         }
+
+        var tile = view.Data;
         var area = module.GetArea(tile.Position);
 
         if(area != null)

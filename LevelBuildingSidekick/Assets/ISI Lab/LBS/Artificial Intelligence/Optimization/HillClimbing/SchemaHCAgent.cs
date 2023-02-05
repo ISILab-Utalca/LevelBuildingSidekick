@@ -71,7 +71,7 @@ public class SchemaHCAgent : LBSAIAgent
         var tileMap = (Adam as OptimizableSchema).Schema; // Adam as algun tipo de IOptimizable que usa schema
         var neighbours = new List<IOptimizable>();
 
-        for (int i = 0; i < tileMap.RoomCount; i++)
+        for (int i = 0; i < tileMap.AreaCount; i++)
         {
             var area = tileMap.GetArea(i);
             var vWalls = area.GetVerticalWalls();

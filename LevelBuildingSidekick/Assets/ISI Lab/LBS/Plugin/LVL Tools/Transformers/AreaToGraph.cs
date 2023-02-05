@@ -62,7 +62,7 @@ namespace LBS.Tools.Transformer
         {
             List<string> ids = new List<string>();
 
-            for (int i = 0; i < schema.RoomCount; i++)
+            for (int i = 0; i < schema.AreaCount; i++)
             {
                 var area = schema.GetArea(i);
                 ids.Add(area.Key);

@@ -25,13 +25,13 @@ public class AreasEvaluator : IEvaluator
         var vw = 1f;
         if (room.Width < node.Room.Width - delta.x || room.Width > node.Room.Width + delta.x)
         {
-            vw -= (Mathf.Abs(node.Room.Width - room.Width) / (float)node.Room.Width);
+            vw -= (Mathf.Abs(node.Room.Width - room.Width) / ((float)node.Room.Width * 1f));
         }
 
         var vh = 1f;
         if (room.Height < node.Room.Height - delta.y || room.Height > node.Room.Height + delta.y)
         {
-            vh -= (Mathf.Abs(node.Room.Height - room.Height) / (float)node.Room.Height);
+            vh -= (Mathf.Abs(node.Room.Height - room.Height) / ((float)node.Room.Height * 1f));
         }
 
         return (vw + vh) / 2f;
@@ -49,7 +49,7 @@ public class AreasEvaluator : IEvaluator
 
             value += EvaluateBySize(node, room);
         }
-        return value / (schema.RoomCount * 1f);
+        return value / (schema.AreaCount * 1f);
     }
 
     public string GetName()

@@ -23,7 +23,7 @@ namespace LBS.Components.TileMap
         #region PROPERTIES
 
         [JsonIgnore]
-        public int RoomCount => areas.Count;
+        public int AreaCount => areas.Count;
         [JsonIgnore]
         public List<T> Areas
         {

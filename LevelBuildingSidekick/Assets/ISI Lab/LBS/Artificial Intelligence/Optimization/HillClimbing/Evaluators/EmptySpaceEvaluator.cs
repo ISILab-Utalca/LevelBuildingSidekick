@@ -22,7 +22,7 @@ public class EmptySpaceEvaluator : IEvaluator
     {
         var schema = (evaluable as OptimizableSchema).Schema;
 
-        if(schema.RoomCount <= 0)
+        if(schema.AreaCount <= 0)
         {
             return 0;
         }
@@ -35,7 +35,7 @@ public class EmptySpaceEvaluator : IEvaluator
             value += 1 - (MathF.Abs(rectArea - tc) / (tc * 1f));
         }
 
-        return value / (schema.RoomCount * 1f);
+        return value / (schema.AreaCount * 1f);
     }
 
     public string GetName()

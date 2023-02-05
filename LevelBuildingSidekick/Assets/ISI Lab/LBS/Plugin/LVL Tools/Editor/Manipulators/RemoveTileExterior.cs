@@ -10,12 +10,12 @@ public class RemoveTileExterior<T> : ManipulateTileMap<T> where T : LBSTile
     {
         OnManipulationStart?.Invoke();
         var view = e.target as ExteriorTileView;
-        var tile = view.Data;
-
-        if (tile == null)
+        
+        if (view == null)
         {
             return;
         }
+        var tile = view.Data;
 
         module.RemoveTile(tile as T);
 
