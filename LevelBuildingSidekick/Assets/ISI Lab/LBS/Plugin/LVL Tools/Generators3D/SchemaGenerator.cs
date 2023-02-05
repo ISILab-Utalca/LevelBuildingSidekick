@@ -97,7 +97,7 @@ public class SchemaGenerator : Generator3D
                 var prefabs = bundles[tag];
                 var wall =  GameObject.Instantiate(prefabs[Random.Range(0, prefabs.Count)], pivot.transform);
                 //var wall =  SceneView.Instantiate(prefabs[Random.Range(0, prefabs.Count)], pivot.transform);
-                wall.transform.position += new Vector3(sideDir[k].x, 0, sideDir[k].y);
+                wall.transform.position += new Vector3(sideDir[k].x*(scale.x/2), 0, sideDir[k].y*(scale.y/2));
                 wall.transform.rotation = Quaternion.Euler(0, -(90 * (k + 1)) % 360, 0);
             }
         }
