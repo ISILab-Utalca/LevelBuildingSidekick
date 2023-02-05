@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Exterior
   m_EditorClassIdentifier: 
   tags:
-  - {fileID: 11400000, guid: 5336158c6deeb2c4cb5d1b2cbc7ec898, type: 2}
-  - {fileID: 11400000, guid: 4621d730e5aab7744b39cc98c4853ac8, type: 2}
+  - Grass
+  - Path

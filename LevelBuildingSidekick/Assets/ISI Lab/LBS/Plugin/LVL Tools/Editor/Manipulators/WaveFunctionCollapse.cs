@@ -45,19 +45,31 @@ public class WaveFunctionCollapse<T> : ManipulateTileMap<T> where T : LBSTile
 
         var second = tile.Data;
 
-        var min = Vector2Int.Min(first.Position,second.Position);
+        var min = Vector2Int.Min(first.Position, second.Position);
         var max = Vector2Int.Max(first.Position, second.Position);
 
         var tiles = Utility.DirectoryTools.GetScriptables<WFCBundle>();
 
+        var toCalc = new List<ConnectedTile>();
         for (int i = min.x; i <= max.x; i++)
         {
             for (int j = min.y; j <= max.y; j++)
             {
                 var t = module.GetTile(new Vector2Int(i, j)) as ConnectedTile;
-                CalculateTile(t,tiles);
+                if (t == null)
+                    continue;
+
+                toCalc.Add(t);
             }
         }
+
+        do
+        {
+            var t = toCalc[UnityEngine.Random.Range(0, toCalc.Count)];
+            CalculateTile(t, tiles);
+            toCalc.Remove(t);
+
+        } while (toCalc.Count > 0);
 
         OnManipulationEnd?.Invoke();
     }
@@ -73,9 +85,14 @@ public class WaveFunctionCollapse<T> : ManipulateTileMap<T> where T : LBSTile
                 if (Compare(tile.Connections, wfc.GetConnection(i)))
                 {
                     candidates.Add(wfc.GetConnection(i));
-                    return;
                 }
             }
+        }
+
+        if(candidates.Count <= 0)
+        {
+            Debug.LogWarning("[ISI Lab]: No valid candidates found.");
+            return;
         }
 
         var a = candidates[UnityEngine.Random.Range(0, candidates.Count)];

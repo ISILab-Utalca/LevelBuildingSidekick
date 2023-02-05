@@ -7,6 +7,34 @@ using UnityEngine;
 
 public static class DataExtensions
 {
+    public static bool Compare(this string[] a, string[] b)
+    {
+        for (int i = 0; i < a.Length; i++)
+        {
+            for (int j = 0; j < b.Length; j++)
+            {
+                if (a[i] != b[i] && !string.IsNullOrEmpty(a[i]) && !string.IsNullOrEmpty(a[i]))
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    public static Tuple<WFCBundle,int> Get(this List<WFCBundle> tiles, string[] conections)
+    {
+        foreach (var tile in tiles)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                var cs = tile.GetConnection(i);
+                if(conections.Compare(cs))
+                {
+                    return new Tuple<WFCBundle, int>(tile,i);
+                }
+            }
+        }
+        return null;
+    }
 
     public static RectInt GetRect<T>(this AreaTileMap<T> schema) where T : TiledArea
     {
