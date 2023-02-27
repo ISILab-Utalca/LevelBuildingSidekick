@@ -8,9 +8,6 @@ using UnityEngine.UIElements;
 [System.Serializable]
 public abstract class LBSManipulator : MouseManipulator, IManipulatorLBS
 {
-    // ref view
-    protected MainView view;
-
     public Action OnManipulationStart;
     public Action OnManipulationUpdate;
     public Action OnManipulationEnd;

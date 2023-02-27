@@ -39,7 +39,7 @@ public class LBSEdgeView<T,U> : GraphElement where T: LBSEdge where U :LBSNode
         var painter = mgc.painter2D;
         var view = this.GetFirstAncestorOfType<MainView>();
 
-        var fPos1 = Vector2.zero ;
+        var fPos1 = Vector2.zero;
         var fPos2 = pos2 - pos1;
         //var fPos2 = view.FixPos(pos2) - view.FixPos(pos1);
         painter.DrawLine(fPos1, fPos2, Color.white, Color.white, true, 1);
@@ -59,6 +59,13 @@ public class LBSEdgeView<T,U> : GraphElement where T: LBSEdge where U :LBSNode
 
 public static class extVec
 {
+    public static Vector2Int Multiply(this Vector2Int vec, float value)
+    {
+        vec.x = (int)(vec.x * value);
+        vec.y = (int)(vec.y * value);
+        return vec;
+    }
+
     public static Vector2Int Divided(this Vector2Int vec, float value)
     {
         vec.x = (int)(vec.x / value);
