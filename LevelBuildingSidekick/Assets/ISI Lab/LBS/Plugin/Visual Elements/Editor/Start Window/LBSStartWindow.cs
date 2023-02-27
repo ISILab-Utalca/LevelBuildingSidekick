@@ -42,20 +42,13 @@ namespace LBS.Windows
         #endregion
 
         private static List<Tuple<LBSWindowAttribute, MethodInfo>> methods = new List<Tuple<LBSWindowAttribute, MethodInfo>>();
-        //private static List<WindowsPreset> presets = new List<WindowsPreset>();
-
-        //[MenuItem("ISILab/LBS plugin/Welcome window...", priority = 0)]
-        //[MenuItem("ISILab/Welcome window", priority = 0)]
         public static void ShowWindow()
         {
             var window = GetWindow<LBSStartWindow>();
             window.titleContent = new GUIContent("Level Building Sidekick");
-            //window.position = window.position;
             window.minSize = window.maxSize = new Vector2(864, 396);
-            //var controller = new LBSController();
 
             methods = Utility.Reflection.CollectMetohdsByAttribute<LBSWindowAttribute>();
-            //presets = Utility.DirectoryTools.GetScriptablesByType<WindowsPreset>();
         }
 
         public void CreateGUI()
