@@ -32,8 +32,8 @@ public class SchemaGenerator : Generator3D
 
             var temp = tags.Select(s => s.Clone() as string).ToList();
             
-            temp.Add("Wall"); 
-            bundles.Add("Wall", layer.Bundle.GetObjects(temp));
+            bundles.Add("Wall", layer.Bundle.GetObjects("Wall",temp));
+
 
             foreach(var obj in bundles["Wall"])
             {
@@ -41,8 +41,7 @@ public class SchemaGenerator : Generator3D
             }
 
             temp = tags.Select(s => s.Clone() as string).ToList();
-            temp.Add("Door");
-            bundles.Add("Door", layer.Bundle.GetObjects(temp));
+            bundles.Add("Door", layer.Bundle.GetObjects("Door", temp));
 
             foreach (var obj in bundles["Door"])
             {
@@ -50,8 +49,7 @@ public class SchemaGenerator : Generator3D
             }
 
             temp = tags.Select(s => s.Clone() as string).ToList();
-            temp.Add("Floor");
-            bundles.Add("Floor", layer.Bundle.GetObjects(temp));
+            bundles.Add("Floor", layer.Bundle.GetObjects("Floor", temp));
 
             foreach (var obj in bundles["Floor"])
             {
@@ -86,7 +84,9 @@ public class SchemaGenerator : Generator3D
 
         var bases = bundles["Floor"];
 
-        var floor = GameObject.Instantiate(bases[Random.Range(0, bases.Count)], pivot.transform);
+        var index = Random.Range(0, bases.Count);
+        Debug.Log(index);
+        var floor = GameObject.Instantiate(bases[index], pivot.transform);
         //var floor = SceneView.Instantiate(bases[Random.Range(0, bases.Count)], pivot.transform);
 
         for (int k = 0; k < tile.Sides; k++)

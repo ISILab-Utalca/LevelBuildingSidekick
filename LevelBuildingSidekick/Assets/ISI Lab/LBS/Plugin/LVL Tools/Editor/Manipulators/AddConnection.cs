@@ -52,8 +52,8 @@ public class AddConnection<T>: ManipulateTileMap<T> where T : LBSTile
         var fDir = dirs.FindIndex(d => d.Equals(-new Vector2Int(dx, dy)));
         var tDir = dirs.FindIndex(d => d.Equals(new Vector2Int(dx, dy)));
 
-        first.SetConnection(tagToSet.value, fDir);
-        second.SetConnection(tagToSet.value, tDir);
+        first.SetConnection(tagToSet.Label, fDir);
+        second.SetConnection(tagToSet.Label, tDir);
 
         //var parche = new AreaToTileMap(); // (!!!!!) eliminar!!!
         //parche.ParcheDiParche(module);

@@ -9,7 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ccb2e07e8c47b94f8c9ea89d6413783, type: 3}
+  m_Script: {fileID: 11500000, guid: 991b9c5ba138ec24298c266c695cad3e, type: 3}
   m_Name: Door
   m_EditorClassIdentifier: 
-  value: Door
+  label: Door
+  icon: {fileID: 0}
+  color: {r: 0, g: 0, b: 0, a: 0}

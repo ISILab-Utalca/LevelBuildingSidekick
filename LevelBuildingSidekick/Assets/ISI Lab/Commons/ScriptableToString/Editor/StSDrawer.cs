@@ -17,10 +17,17 @@ public class StSDrawer : PropertyDrawer
             return;
         }
 
+
         var list = att.SOs.Select(so => so.name).ToList();
         var v = property.stringValue;
         var n = list.IndexOf(v);
-        var t = EditorGUI.Popup(position, n, list.ToArray());
+
+        EditorGUI.BeginProperty(position, label, property);
+
+        var t = EditorGUI.Popup(position, att.type.Name, n, list.ToArray());
+        //var t = EditorGUILayout.Popup(n, list.ToArray());
+
+        EditorGUI.EndProperty();
 
         if (t < list.Count && t >= 0)
         {

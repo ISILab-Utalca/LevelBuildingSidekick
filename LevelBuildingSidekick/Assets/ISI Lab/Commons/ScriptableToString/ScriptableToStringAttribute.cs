@@ -9,9 +9,11 @@ using Utility;
 public class ScriptableToStringAttribute : PropertyAttribute
 {
     public List<ScriptableObject> SOs;
+    public Type type;
 
     public ScriptableToStringAttribute(Type type)
     {
+        this.type = type;
         //SOs = Resources.FindObjectsOfTypeAll(type).Select(o => o as ScriptableObject).ToList();
         SOs = DirectoryTools.GetScriptables(type);
     }

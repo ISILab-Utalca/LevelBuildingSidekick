@@ -197,7 +197,7 @@ public class LayerTemplateEditor : Editor
             icon,
             "Set connection",
             typeof(AddConnection<ConnectedTile>),
-            typeof(TagsPalleteInspector<ConnectedTile>), //typeof(RoomsPalleteInspector<TiledArea, ConnectedTile>),
+            typeof(TagsPalleteInspector), //typeof(RoomsPalleteInspector<TiledArea, ConnectedTile>),
             false);
 
         icon = Resources.Load<Texture2D>("Icons/erased");
@@ -245,7 +245,7 @@ public class LayerTemplateEditor : Editor
         template.layer = layer;
 
         // Modules
-        layer.AddModule(new LBSBaseGraph());
+        layer.AddModule(new LBSPopulationTileMap());
 
         // Transformers
         //
@@ -265,7 +265,7 @@ public class LayerTemplateEditor : Editor
                 typeof(Select), //typeof(AddTileToTiledAreaAtGrid<TiledArea<LBSTile>,LBSTile>), // grid // (!!) implementar
                 typeof(Select), //typeof(AddTileToTiledAreaAtFree<TiledArea<LBSTile>,LBSTile>)  // free // (!!) implementar
             },
-            typeof(PopulationPalleteInspector<PopulationTiledArea>),
+            typeof(TagsPalleteInspector),
             //null,
             false
         );

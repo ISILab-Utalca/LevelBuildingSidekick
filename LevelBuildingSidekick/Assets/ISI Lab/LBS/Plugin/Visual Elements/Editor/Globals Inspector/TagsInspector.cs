@@ -17,7 +17,7 @@ public class TagsInspector : VisualElement
         visualTree.CloneTree(this);
 
         // Init tags bundle
-        var bundles = Utility.DirectoryTools.GetScriptablesByType<LBSTagsBundle>().ToList();
+        var bundles = Utility.DirectoryTools.GetScriptablesByType<LBSIdentifierBundle>().ToList();
 
         // Content
         var content = this.Q<VisualElement>("Content");
@@ -46,7 +46,7 @@ public class TagsInspector : VisualElement
 
     private void AddBundle(string name)
     {
-        var so = ScriptableObject.CreateInstance<LBSTagsBundle>();
+        var so = ScriptableObject.CreateInstance<LBSIdentifierBundle>();
 
         string path = "Assets/" + name + "_Tag" + ".asset";
         AssetDatabase.CreateAsset(so, path);

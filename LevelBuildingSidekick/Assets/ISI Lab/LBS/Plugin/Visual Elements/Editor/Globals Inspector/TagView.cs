@@ -6,12 +6,12 @@ using UnityEditor;
 
 public class TagView : VisualElement
 {
-    public LBSTag tagSO;
+    public LBSIdentifier tagSO;
 
     // Visual element
     private TextField textfield;
 
-    public TagView(LBSTag tag)
+    public TagView(LBSIdentifier tag)
     {
         this.tagSO = tag;
 
@@ -25,7 +25,7 @@ public class TagView : VisualElement
 
     public void OnTextChange(string value)
     {
-        tagSO.value = value;
+        tagSO.Label = value;
         AssetDatabase.SaveAssets();
     }
 }

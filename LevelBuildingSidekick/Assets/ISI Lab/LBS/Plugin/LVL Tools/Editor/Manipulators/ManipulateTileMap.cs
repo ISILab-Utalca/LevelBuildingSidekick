@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 
 public abstract class ManipulateTileMap<T> : LBSManipulator where T : LBSTile
 {
-    public LBSTag tagToSet;
+    public LBSIdentifier tagToSet;
     protected TileMapModule<T> module;
     protected MainView mainView;
     public ManipulateTileMap() : base() { }

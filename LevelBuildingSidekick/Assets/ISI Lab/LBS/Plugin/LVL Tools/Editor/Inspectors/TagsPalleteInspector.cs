@@ -9,14 +9,14 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Utility;
 
-public class TagsPalleteInspector<T> : LBSInspector where T : LBSTile
+public class TagsPalleteInspector : LBSInspector
 {
     //public Action<T> OnSelectionChange;
 
     private VisualElement content;
     private DropdownField dropdownBundles;
 
-    private List<LBSTagsBundle> bundles;
+    private List<LBSIdentifierBundle> bundles;
 
     public TagsPalleteInspector()
     {
@@ -33,7 +33,7 @@ public class TagsPalleteInspector<T> : LBSInspector where T : LBSTile
 
     public override void Init(List<IManipulatorLBS> lBSManipulators, ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
     {
-        bundles = Utility.DirectoryTools.GetScriptables<LBSTagsBundle>();
+        bundles = Utility.DirectoryTools.GetScriptables<LBSIdentifierBundle>();
 
         dropdownBundles.choices = bundles.Select(b => b.name).ToList();
         dropdownBundles.index = 0;
@@ -54,9 +54,9 @@ public class TagsPalleteInspector<T> : LBSInspector where T : LBSTile
         {
             var btn = new Button();
             btn.style.width = btn.style.height = 64;
-            btn.text = tag.value;
-            btn.style.color = new Color(1f - tag.color.r, 1f - tag.color.g, 1f - tag.color.b);
-            btn.style.backgroundColor = tag.color;
+            btn.text = tag.Label;
+            btn.style.color = new Color(1f - tag.Color.r, 1f - tag.Color.g, 1f - tag.Color.b);
+            btn.style.backgroundColor = tag.Color;
 
             btn.clicked += () => {
                 foreach (var manipulator in lBSManipulators)

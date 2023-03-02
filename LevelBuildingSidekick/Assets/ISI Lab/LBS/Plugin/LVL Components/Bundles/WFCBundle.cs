@@ -6,10 +6,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New exterior bundle", menuName = "ISILab/Bundles/Exterior")]
 public class WFCBundle : ScriptableObject // Parche
 {
-    public LBSTag foward;   // top
-    public LBSTag right;    // right
-    public LBSTag backward; // bottom
-    public LBSTag left;     // left
+    public LBSCharacteristic foward;   // top
+    public LBSCharacteristic right;    // right
+    public LBSCharacteristic backward; // bottom
+    public LBSCharacteristic left;     // left
 
     [Range(0, 1)]
     public float weight = 1;
@@ -19,10 +19,10 @@ public class WFCBundle : ScriptableObject // Parche
     public string[] GetConnection(int rotation = 0)
     {
         var conections = new List<string>() {
-            right.value,
-            foward.value,
-            left.value,
-            backward.value
+            right.Label,
+            foward.Label,
+            left.Label,
+            backward.Label
         };
 
         for (int i = 0; i < rotation; i++)

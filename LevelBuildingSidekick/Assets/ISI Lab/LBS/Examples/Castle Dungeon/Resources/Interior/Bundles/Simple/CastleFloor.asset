@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1ca1a068b763d94ca8f120873012f03, type: 3}
   m_Name: CastleFloor
   m_EditorClassIdentifier: 
-  tags:
-  - Floor
+  id: Floor
+  characteristics: []
   objects:
   - {fileID: 3340211634435293643, guid: 7a68f3748ea3f56469f668b4a78e63bf, type: 3}

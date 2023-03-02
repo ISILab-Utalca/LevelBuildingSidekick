@@ -37,18 +37,7 @@ public class CompositeBundle : Bundle
 
     public override List<GameObject> GetObjects(List<string> tags = null)
     {
-        var ts = new List<string>();
-        if (tags != null)
-        {
-            ts = tags.Select(s => s.Clone() as string).ToList();
-            for (int i = 0; i < ts.Count; i++)
-            {
-                if(this.tags.Contains(ts[i]))
-                {
-                    ts.RemoveAt(i);
-                }
-            }
-        }
+        var ts = TrimCharacteristics(tags);
 
         List<GameObject> objects = new List<GameObject>();
         foreach (Bundle bundle in bundles)
@@ -58,12 +47,12 @@ public class CompositeBundle : Bundle
         return objects;
     }
 
-    public override LBSTag GetTag(int index)
+    public override LBSCharacteristic GetTag(int index)
     {
         int currentIndex = 0;
         foreach (Bundle bundle in bundles)
         {
-            List<LBSTag> currentTags = bundle.GetTags();
+            List<LBSCharacteristic> currentTags = bundle.GetCharacteristics();
             if (currentIndex + currentTags.Count > index)
             {
                 return currentTags[index - currentIndex];
@@ -73,12 +62,12 @@ public class CompositeBundle : Bundle
         return null;
     }
 
-    public override List<LBSTag> GetTags()
+    public override List<LBSCharacteristic> GetCharacteristics()
     {
-        List<LBSTag> allTags = new List<LBSTag>();
+        List<LBSCharacteristic> allTags = new List<LBSCharacteristic>();
         foreach (Bundle bundle in bundles)
         {
-            allTags.AddRange(bundle.GetTags());
+            allTags.AddRange(bundle.GetCharacteristics());
         }
         return allTags;
     }
@@ -86,5 +75,42 @@ public class CompositeBundle : Bundle
     public override void Remove(List<Bundle> data)
     {
         throw new System.NotImplementedException();
+    }
+
+    public List<Bundle> GetBundles(string id)
+    {
+        return bundles.Where(b => b.ID.Label == id).ToList();
+    }
+
+    public List<GameObject> GetObjects(string id , List<string> tags = null)
+    {
+        var ts = TrimCharacteristics(tags);
+        Debug.Log("Tag Count: " + tags.Count);
+        Debug.Log("Tag Count After: " + ts.Count);
+
+        List<GameObject> objects = new List<GameObject>();
+        foreach (Bundle bundle in bundles)
+        {
+            if (bundle is CompositeBundle)
+                objects.AddRange((bundle as CompositeBundle).GetObjects(id, ts));
+            else if (bundle.ID.Label == id)
+                objects.AddRange(bundle.GetObjects(ts));
+        }
+        return objects;
+    }
+
+    private List<string> TrimCharacteristics(List<string> tags = null)
+    {
+        var ts = new List<string>();
+
+        if (tags != null)
+        {
+            ts = tags.Select(s => s.Clone() as string).ToList();
+            if(ts.Contains(id))
+            {
+                ts.Remove(id);
+            }
+        }
+        return ts;
     }
 }

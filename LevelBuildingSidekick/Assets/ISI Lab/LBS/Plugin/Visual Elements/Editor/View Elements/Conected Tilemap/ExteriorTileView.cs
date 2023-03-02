@@ -55,10 +55,10 @@ public class ExteriorTileView : GraphElement
         bottom.style.display = (!tags[3].Equals("")) ? DisplayStyle.Flex : DisplayStyle.None;
         */
 
-        var tts = Utility.DirectoryTools.GetScriptables<LBSTag>().ToList();
+        var tts = Utility.DirectoryTools.GetScriptables<LBSIdentifier>().ToList();
         if(!string.IsNullOrEmpty(tags[0]))
         {
-            right.style.backgroundColor = tts.Find(t => t.value.Equals(tags[0])).color;
+            right.style.backgroundColor = tts.Find(t => t.Label.Equals(tags[0])).Color;
             right.style.display = DisplayStyle.Flex;
         }
         else
@@ -68,7 +68,7 @@ public class ExteriorTileView : GraphElement
 
         if (!string.IsNullOrEmpty(tags[1]))
         {
-            top.style.backgroundColor = tts.Find(t => t.value.Equals(tags[1])).color;
+            top.style.backgroundColor = tts.Find(t => t.Label.Equals(tags[1])).Color;
             top.style.display = DisplayStyle.Flex;
         }
         else
@@ -78,7 +78,7 @@ public class ExteriorTileView : GraphElement
 
         if (!string.IsNullOrEmpty(tags[2]))
         {
-            left.style.backgroundColor = tts.Find(t => t.value.Equals(tags[2])).color;
+            left.style.backgroundColor = tts.Find(t => t.Label.Equals(tags[2])).Color;
             left.style.display = DisplayStyle.Flex;
         }
         else
@@ -88,7 +88,7 @@ public class ExteriorTileView : GraphElement
 
         if (!string.IsNullOrEmpty(tags[3]))
         {
-            bottom.style.backgroundColor = tts.Find(t => t.value.Equals(tags[3])).color;
+            bottom.style.backgroundColor = tts.Find(t => t.Label.Equals(tags[3])).Color;
             bottom.style.display = DisplayStyle.Flex;
         }
         else

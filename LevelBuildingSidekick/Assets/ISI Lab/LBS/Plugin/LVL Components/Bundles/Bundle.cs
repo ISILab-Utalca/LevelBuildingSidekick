@@ -5,16 +5,24 @@ using System.Linq;
 
 public abstract class Bundle : ScriptableObject
 {
-    [SerializeField]
-    [ScriptableToString(typeof(LBSTag))]
-    protected List<string> tags = new List<string>();
 
-    public List<LBSTag> Tags => tags.Select(t => Utility.DirectoryTools.GetScriptable<LBSTag>(t)).ToList();
+    [SerializeField]
+    [ScriptableToString(typeof(LBSIdentifier))]
+    protected string id;
+
+    public LBSIdentifier ID
+    {
+        get => Utility.DirectoryTools.GetScriptable<LBSIdentifier>(id);
+        set => id = value.name;
+    }
+
+    [SerializeField]
+    protected List<LBSCharacteristic> characteristics;
 
     public abstract void Add(List<Bundle> data);
+    public abstract LBSCharacteristic GetTag(int index);
+    public abstract List<LBSCharacteristic> GetCharacteristics();
     public abstract GameObject GetObject(int index);
     public abstract List<GameObject> GetObjects(List<string> tags = null);
-    public abstract LBSTag GetTag(int index);
-    public abstract List<LBSTag> GetTags();
     public abstract void Remove(List<Bundle> data);
 }

@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 public class BundleTagView : VisualElement
 {
-    public LBSTagsBundle tagsBundle;
+    public LBSIdentifierBundle tagsBundle;
 
     // VisualElements
     private TextField bundleNameField;
@@ -15,7 +15,7 @@ public class BundleTagView : VisualElement
     private Button addButton;
     private List<TagView> tagViews;
 
-    public BundleTagView(LBSTagsBundle bundle)
+    public BundleTagView(LBSIdentifierBundle bundle)
     {
         this.tagsBundle = bundle;
 
@@ -61,8 +61,8 @@ public class BundleTagView : VisualElement
 
     private void AddTag(string name)
     {
-        var so = ScriptableObject.CreateInstance<LBSTag>();
-        so.value = name;
+        var so = ScriptableObject.CreateInstance<LBSIdentifier>();
+        so.Label = name;
         tagsBundle.AddTag(so);
 
         string path = "Assets/" + name + "_Tag" + ".asset";

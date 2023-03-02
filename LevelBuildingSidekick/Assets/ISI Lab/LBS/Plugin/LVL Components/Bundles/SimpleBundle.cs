@@ -13,8 +13,23 @@ public class SimpleBundle : Bundle
     {
         foreach (Bundle bundle in data)
         {
-            tags.AddRange(bundle.Tags.Select(t => t.value));
-            objects.AddRange(bundle.GetObjects());
+            var characts = bundle.GetCharacteristics();
+            foreach (LBSCharacteristic c in characts)
+            {
+                if(!characteristics.Contains(c))
+                {
+                    characteristics.Add(c);
+                }
+            }
+
+            var objs = bundle.GetObjects();
+            foreach (GameObject o in objs)
+            {
+                if (!objects.Contains(o))
+                {
+                    objects.Add(o);
+                }
+            }
         }
     }
 
@@ -29,27 +44,27 @@ public class SimpleBundle : Bundle
             return objects;
         foreach(var t in tags)
         {
-            if (!this.tags.Contains(t))
+            if (!this.characteristics.Any(c => c.Label == t))
                 return new List<GameObject>();
         }
         return objects;
     }
 
-    public override LBSTag GetTag(int index)
+    public override LBSCharacteristic GetTag(int index)
     {
-        return Utility.DirectoryTools.GetScriptable<LBSTag>(tags[index]);
+        return characteristics[index];
     }
 
-    public override List<LBSTag> GetTags()
+    public override List<LBSCharacteristic> GetCharacteristics()
     {
-        return Tags;
+        return characteristics;
     }
 
     public override void Remove(List<Bundle> data)
     {
         foreach (Bundle bundle in data)
         {
-            tags.RemoveAll(t => bundle.Tags.Any(tag => tag.value == t));
+            characteristics.RemoveAll(t => bundle.GetCharacteristics().Any(c => c == t));
             objects.RemoveAll(o => bundle.GetObjects().Contains(o));
         }
     }

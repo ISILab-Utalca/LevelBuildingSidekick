@@ -241,21 +241,21 @@ namespace Utility
     {
         public override bool CanConvert(System.Type objectType)
         {
-            return objectType == typeof(LBSTag);
+            return objectType == typeof(LBSIdentifier);
         }
 
         public override object ReadJson(JsonReader reader, System.Type objectType, object existingValue, JsonSerializer serializer)
         {
             var value = (string)reader.Value;
-            var tag = ScriptableObject.CreateInstance<LBSTag>();
-            tag.value = value;
+            var tag = ScriptableObject.CreateInstance<LBSIdentifier>();
+            tag.Label = value;
             return tag;
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            var tag = (LBSTag)value;
-            writer.WriteValue(tag.value);
+            var tag = (LBSIdentifier)value;
+            writer.WriteValue(tag.Label);
         }
     }
 }
