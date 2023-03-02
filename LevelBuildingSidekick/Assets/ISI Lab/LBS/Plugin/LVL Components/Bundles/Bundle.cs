@@ -16,7 +16,7 @@ public abstract class Bundle : ScriptableObject
         set => id = value.name;
     }
 
-    [SerializeField]
+    [SerializeField, SerializeReference]
     protected List<LBSCharacteristic> characteristics;
 
     public abstract void Add(List<Bundle> data);
