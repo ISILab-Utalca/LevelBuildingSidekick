@@ -1,31 +1,25 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <ui:VisualElement style="overflow: visible; position: relative; height: auto; width: auto; top: auto; left: auto; display: flex; visibility: visible; flex-grow: 1; background-color: rgb(67, 67, 67); flex-shrink: 0; max-width: none; min-width: auto;">
-        <LBS.VisualElements.ButtonGroup name="MainTabs" style="flex-direction: row; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; border-bottom-width: 1px; flex-grow: 0;">
-            <SimpleGrupableButton name="LocalTab" style="flex-grow: 1;" />
-            <SimpleGrupableButton name="GlobalTab" style="flex-grow: 1;" />
-            <SimpleGrupableButton name="AdvancedTab" style="flex-grow: 1;" />
+        <LBS.VisualElements.ButtonGroup name="MainTabs" color-attr="#D64A4A00" color-attr-2="#FF5800FF" focusable="false" style="flex-direction: row; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; border-bottom-width: 1px; flex-grow: 0;">
+            <GrupalbeButton tabindex="-1" text="Globals" name="GlobalTab" style="flex-grow: 1;" />
+            <GrupalbeButton tabindex="-1" text="Local" name="LocalTab" style="flex-grow: 1;" />
+            <GrupalbeButton tabindex="-1" text="Advanced" name="AdvancedTab" style="flex-grow: 1;" />
         </LBS.VisualElements.ButtonGroup>
-        <ui:VisualElement name="GlobalTab" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; flex-direction: row; flex-grow: 0; justify-content: flex-start; border-bottom-width: 1px; border-bottom-color: rgba(0, 0, 0, 0.3); padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; border-left-color: rgba(0, 0, 0, 0.3); border-right-color: rgba(0, 0, 0, 0.3); border-top-color: rgba(0, 0, 0, 0.3);">
-            <ui:Button tabindex="-1" text="Button" display-tooltip-when-elided="true" style="flex-grow: 1; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; border-top-right-radius: 0; border-bottom-right-radius: 0;" />
-            <ui:Button tabindex="-1" text="Button" display-tooltip-when-elided="true" style="flex-grow: 1; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0;" />
-            <ui:Button tabindex="-1" text="Button" display-tooltip-when-elided="true" style="flex-grow: 1; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0;" />
-            <ui:Button tabindex="-1" text="Button" display-tooltip-when-elided="true" style="flex-grow: 1; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0;" />
-            <ui:Button tabindex="-1" text="Button" display-tooltip-when-elided="true" style="flex-grow: 1; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; border-top-left-radius: 0; border-bottom-left-radius: 0;" />
-        </ui:VisualElement>
-        <ui:VisualElement name="LocalTab" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; flex-direction: row; flex-grow: 0; justify-content: flex-start; border-bottom-width: 1px; border-bottom-color: rgba(0, 0, 0, 0.3); padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; border-left-color: rgba(0, 0, 0, 0.3); border-right-color: rgba(0, 0, 0, 0.3); border-top-color: rgba(0, 0, 0, 0.3); display: none;">
-            <ui:Button tabindex="-1" text="Button" display-tooltip-when-elided="true" style="flex-grow: 1; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; border-top-right-radius: 0; border-bottom-right-radius: 0;" />
-            <ui:Button tabindex="-1" text="Button" display-tooltip-when-elided="true" style="flex-grow: 1; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0;" />
-            <ui:Button tabindex="-1" text="Button" display-tooltip-when-elided="true" style="flex-grow: 1; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0;" />
-            <ui:Button tabindex="-1" text="Button" display-tooltip-when-elided="true" style="flex-grow: 1; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0;" />
-            <ui:Button tabindex="-1" text="Button" display-tooltip-when-elided="true" style="flex-grow: 1; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; border-top-left-radius: 0; border-bottom-left-radius: 0;" />
-        </ui:VisualElement>
-        <ui:VisualElement name="AdvancedTab" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; flex-direction: row; flex-grow: 0; justify-content: flex-start; border-bottom-width: 1px; border-bottom-color: rgba(0, 0, 0, 0.3); padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; border-left-color: rgba(0, 0, 0, 0.3); border-right-color: rgba(0, 0, 0, 0.3); border-top-color: rgba(0, 0, 0, 0.3); display: none;">
-            <ui:Button tabindex="-1" text="Button" display-tooltip-when-elided="true" style="flex-grow: 1; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; border-top-right-radius: 0; border-bottom-right-radius: 0;" />
-            <ui:Button tabindex="-1" text="Button" display-tooltip-when-elided="true" style="flex-grow: 1; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0;" />
-            <ui:Button tabindex="-1" text="Button" display-tooltip-when-elided="true" style="flex-grow: 1; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0;" />
-            <ui:Button tabindex="-1" text="Button" display-tooltip-when-elided="true" style="flex-grow: 1; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0;" />
-            <ui:Button tabindex="-1" text="Button" display-tooltip-when-elided="true" style="flex-grow: 1; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; border-top-left-radius: 0; border-bottom-left-radius: 0;" />
-        </ui:VisualElement>
+        <LBS.VisualElements.ButtonGroup name="GlobalSubTabs" color-attr="#00FFDBFF" color-attr-2="#366FC0FF" style="flex-direction: row; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; border-bottom-width: 1px; flex-grow: 0;">
+            <GrupalbeButton tabindex="-1" text="Tags" name="Tags" style="flex-grow: 1;" />
+            <GrupalbeButton tabindex="-1" text="Tiles" name="Tiles" style="flex-grow: 1;" />
+            <GrupalbeButton tabindex="-1" text="Populations" name="Populations" style="flex-grow: 1;" />
+        </LBS.VisualElements.ButtonGroup>
+        <LBS.VisualElements.ButtonGroup name="LocalSubTabs" color-attr="#CF2424FF" color-attr-2="#6C0000FF" style="flex-direction: row; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; border-bottom-width: 1px; flex-grow: 0;">
+            <GrupalbeButton tabindex="-1" text="Y" name="Y" style="flex-grow: 1;" />
+            <GrupalbeButton tabindex="-1" text="X" name="X" style="flex-grow: 1;" />
+            <GrupalbeButton tabindex="-1" text="Z" name="Z" style="flex-grow: 1;" />
+        </LBS.VisualElements.ButtonGroup>
+        <LBS.VisualElements.ButtonGroup name="AdvancedSubTabs" color-attr="#E9A4A4FF" color-attr-2="#988484FF" style="flex-direction: row; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; border-bottom-width: 1px; flex-grow: 0;">
+            <GrupalbeButton tabindex="-1" text="A" name="A" style="flex-grow: 1;" />
+            <GrupalbeButton tabindex="-1" text="B" name="B" style="flex-grow: 1;" />
+            <GrupalbeButton tabindex="-1" text="C" name="C" style="flex-grow: 1;" />
+        </LBS.VisualElements.ButtonGroup>
         <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" style="flex-grow: 1;">
             <ui:VisualElement name="InspectorContent" style="flex-grow: 1; height: auto; background-color: rgb(40, 40, 40);" />
         </ui:ScrollView>
