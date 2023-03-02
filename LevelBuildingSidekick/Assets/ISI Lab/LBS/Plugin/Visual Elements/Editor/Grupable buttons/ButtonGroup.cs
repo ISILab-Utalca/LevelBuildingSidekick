@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -11,9 +12,35 @@ namespace LBS.VisualElements
     {
         public new class UxmlFactory : UxmlFactory<ButtonGroup, UxmlTraits> { }
 
+        public new class UxmlTraits : VisualElement.UxmlTraits
+        {
+            UxmlColorAttributeDescription m_Color = new UxmlColorAttributeDescription { name = "color-attr", defaultValue = Color.blue };
+            UxmlColorAttributeDescription m_Selected = new UxmlColorAttributeDescription { name = "color-attr-2", defaultValue = Color.red };
+
+            public override IEnumerable<UxmlChildElementDescription> uxmlChildElementsDescription
+            {
+                get { yield break; }
+            }
+
+            public override void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
+            {
+                base.Init(ve, bag, cc);
+                ButtonGroup btn = ve as ButtonGroup;
+                //btn.Clear();
+
+                btn.selected = m_Selected.GetValueFromBag(bag, cc);
+                //btn.Add(new ColorField("Selected") { value = btn.selected });
+                btn.color = m_Color.GetValueFromBag(bag, cc);
+                //btn.Add(new ColorField("Color") { value = btn.color });
+            }
+        };
+
         public bool allowSwitchOff = false;
         private List<IGrupable> group = new List<IGrupable>();
         private IGrupable current;
+
+        private Color selected = new Color(255f/ 255f, 189f/ 255f, 0);
+        private Color color = new Color(0,0,0,0.2f);
 
         public ButtonGroup()
         {
@@ -27,7 +54,8 @@ namespace LBS.VisualElements
 
             // les añade el metodo "Active"
             group.ForEach(b => b.AddGroupEvent(() => {
-                    Active(b); 
+                b.SetColorGroup(color, selected);
+                Active(b); 
             }));
 
             // inicia el grupo con el primero activo

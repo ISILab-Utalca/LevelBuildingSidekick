@@ -298,7 +298,7 @@ namespace LBS.Components.Graph
     }
 
     [System.Serializable]
-    public class LBSBaseGraph : GraphModule<LBSNode> { }
+    public class LBSBaseGraph : GraphModule<LBSNode> { } // (??) mover esto?
 
 }
 

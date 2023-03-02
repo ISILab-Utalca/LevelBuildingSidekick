@@ -15,6 +15,9 @@ namespace LBS.VisualElements
         public Color unselected = new Color(0.27f, 0.38f, 0.49f, 1f);
         public Texture2D Icon;
 
+        public event Action OnFocusEvent;
+        public event Action OnBlurEvent;
+
         public void AddGroupEvent(Action action)
         {
             this.clicked += action;
@@ -28,6 +31,12 @@ namespace LBS.VisualElements
         void IGrupable.OnFocus()
         {
             this.style.backgroundColor = selected;
+        }
+
+        public void SetColorGroup(Color color, Color select)
+        {
+            this.selected = select;
+            this.unselected = color;
         }
     }
 }

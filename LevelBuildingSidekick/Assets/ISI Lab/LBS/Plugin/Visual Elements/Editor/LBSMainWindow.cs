@@ -132,7 +132,6 @@ public class LBSMainWindow : EditorWindow
         toolkitManager.OnEndSomeAction += () =>
         {
             drawManager.RefreshView(ref _selectedLayer, _selectedMode);
-            //Debug.Log("Action Ended");
         };
 
         // ToolBar
@@ -186,7 +185,6 @@ public class LBSMainWindow : EditorWindow
             }
         };
 
-        
         // AIPanel
         aiPanel = new AIPanel(() => {
             drawManager.RefreshView(ref _selectedLayer, _selectedMode);
@@ -195,14 +193,10 @@ public class LBSMainWindow : EditorWindow
         extraPanel.Add(aiPanel);
         aiPanel.style.display = DisplayStyle.None;
         
-
         // Gen3DPanel
         gen3DPanel = new Generator3DPanel();
         extraPanel.Add(gen3DPanel);
         gen3DPanel.style.display = DisplayStyle.None;
-
-
-
 
         // LayerButton
         var layerBtn = rootVisualElement.Q<Button>("LayerButton");
