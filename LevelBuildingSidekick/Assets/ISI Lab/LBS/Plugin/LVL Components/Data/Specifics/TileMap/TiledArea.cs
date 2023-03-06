@@ -129,6 +129,7 @@ namespace LBS.Components.TileMap
             {
                 if (IsConvexCorner(t.Position, sideDir))
                     corners.Add(t);
+                    //corners.Add(t.Clone() as LBSTile);
             }
             return corners;
         }
@@ -153,6 +154,7 @@ namespace LBS.Components.TileMap
                     if (IsWall(other.Position, sideDir))
                     {
                         corners.Add(other);
+                        //corners.Add(other.Clone() as LBSTile);
                     }
                 }
             }
@@ -210,7 +212,7 @@ namespace LBS.Components.TileMap
             return walls;
         }
 
-        internal List<WallData> GetHorizontalWalls() // (!) Tambien es de la clase de las tablas del gabo 
+        internal List<WallData> GetHorizontalWalls() 
         {
             var walls = new List<WallData>();
 
@@ -263,7 +265,6 @@ namespace LBS.Components.TileMap
         public override object Clone()
         {
             var tileMap = new TiledArea(tiles.Select(t => t.Clone() as LBSTile).ToList(),this.ID,this.key,this.color);
-            //tiles.ForEach(t => tileMap.AddTile( t.Clone() as LBSTile)); //new List<LBSTile>(tiles);
             return tileMap;
         }
 
