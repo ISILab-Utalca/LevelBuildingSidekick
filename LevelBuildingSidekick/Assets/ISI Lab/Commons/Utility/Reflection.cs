@@ -25,6 +25,18 @@ namespace Utility
             return null;
         }
 
+        public static List<Tuple<Type, IEnumerable<T>>> GetClassesWith<T>() where T : LBSAttribute
+        {
+            var toR = from assembly in AppDomain.CurrentDomain.GetAssemblies()
+                from type in assembly.GetTypes()
+                let attributes = type.GetCustomAttributes(typeof(T), true)
+                where attributes != null && attributes.Length > 0
+                select new Tuple<Type, IEnumerable<T>>(type, attributes.Cast<T>());
+            //select new { Type = type, Attributes = attributes.Cast<T>() } as dynamic;
+
+            return toR.ToList();
+        }
+
         public static ScriptableObject MakeGenericScriptable(object obj)
         {
             return MakeGenericWraper<ScriptableObject>(obj);
