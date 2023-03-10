@@ -18,11 +18,6 @@ public class AIPanel : VisualElement
 
     VisualElement container;
 
-    /*public AIPanel(Commons.Optimization.BaseOptimizerMetahuristic<IEvaluable> _base)
-    {
-        this._base = _base;
-    }*/
-
     public System.Action OnAIExecute;
 
     public AIPanel()

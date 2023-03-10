@@ -23,13 +23,13 @@ public class AreasEvaluator : IEvaluator
         var DeltaW = node.Room.Width;
         var DeltaH = node.Room.Height;
         var vw = 1f;
-        if (room.Width < node.Room.Width - delta.x || room.Width > node.Room.Width + delta.x)
+        if (room.Width < DeltaW - delta.x || room.Width > DeltaW + delta.x)
         {
             vw -= (Mathf.Abs(node.Room.Width - room.Width) / ((float)node.Room.Width * 1f));
         }
 
         var vh = 1f;
-        if (room.Height < node.Room.Height - delta.y || room.Height > node.Room.Height + delta.y)
+        if (room.Height < DeltaH - delta.y || room.Height > DeltaH + delta.y)
         {
             vh -= (Mathf.Abs(node.Room.Height - room.Height) / ((float)node.Room.Height * 1f));
         }
@@ -39,7 +39,6 @@ public class AreasEvaluator : IEvaluator
 
     public float Evaluate(IOptimizable evaluable)
     {
-
         var schema = (evaluable as OptimizableSchema).Schema;
         var value = 0f;
         for (int i = 0; i < graph.NodeCount; i++)

@@ -12,8 +12,18 @@ public class ClassDropDown : VisualElement
 {
     public new class UxmlFactory : UxmlFactory<ClassDropDown, VisualElement.UxmlTraits> { }
 
+    #region FIELDS
+
     Label label;
     DropdownField dropdown;
+    Type type;
+
+    bool FilterAbstract;
+    private List<Type> types;
+
+    #endregion
+
+    #region PROPERTIES
 
     public string Label
     {
@@ -31,8 +41,6 @@ public class ClassDropDown : VisualElement
         }
     }
 
-    Type type;
-
     public Type Type
     {
         get => type;
@@ -42,10 +50,8 @@ public class ClassDropDown : VisualElement
             UpdateOptions();
         }
     }
+    #endregion
 
-    bool FilterAbstract;
-
-    private List<Type> types;
 
     public ClassDropDown() : base()
     {

@@ -14,7 +14,6 @@ public class AdjacenciesEvaluator : IEvaluator
 
     public AdjacenciesEvaluator() {}
 
-
     public AdjacenciesEvaluator(LBSRoomGraph graph) 
     {
         this.graph = graph;
@@ -32,7 +31,7 @@ public class AdjacenciesEvaluator : IEvaluator
         if (graph.EdgeCount <= 0)
         {
             Debug.LogWarning("Cannot calculate the adjacency of a map are nodes that are not connected.");
-            return 0;
+            return 1;
         }
 
         var distValue = 0f;
@@ -43,6 +42,9 @@ public class AdjacenciesEvaluator : IEvaluator
             var r1 = schema.GetArea(edge.FirstNode.ID);
             var r2 = schema.GetArea(edge.SecondNode.ID);
 
+            if (r1.TileCount <= 0 || r2.TileCount <= 0) // signiofica que una de las dos areas desaparecio y no deberia aporta, de hecho podria ser negativo (!)
+                continue;
+
             var roomDist = schema.GetRoomDistance(r1.ID, r2.ID);  // este metodo podria recivir una funcion de calculo de distancia en ved de estar fija (?)
             if (roomDist <= 1)
             {
@@ -50,9 +52,10 @@ public class AdjacenciesEvaluator : IEvaluator
             }
             else
             {
-                var c = r1.TileCount;
+                //var c = r1.TileCount;
                 var max1 = (r1.Width + r1.Height) / 2f;
                 var max2 = (r2.Width + r2.Height) / 2f;
+
                 distValue += 1 - (roomDist / (max1 + max2));
                 //distValue += 1/roomDist;
             }
