@@ -15,6 +15,7 @@ public class TileView : GraphElement
 
     public TileView(LBSTile tile, string uxml = null)
     {
+        data = tile;
         if(uxml != null)
         {
             var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>(uxml);
