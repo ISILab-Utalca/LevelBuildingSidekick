@@ -57,6 +57,8 @@ public class TagsPalleteInspector : LBSInspector
             btn.text = tag.Label;
             btn.style.color = new Color(1f - tag.Color.r, 1f - tag.Color.g, 1f - tag.Color.b);
             btn.style.backgroundColor = tag.Color;
+            if(tag.Icon != null)
+            btn.style.backgroundImage = tag.Icon;
 
             btn.clicked += () => {
                 foreach (var manipulator in lBSManipulators)

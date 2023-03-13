@@ -23,6 +23,7 @@ public class LayerTemplateEditor : Editor
 
         if(GUILayout.Button("Set as interior")) 
         {
+            
             InteriorConstruct(template);
         }
 
@@ -245,31 +246,21 @@ public class LayerTemplateEditor : Editor
         template.layer = layer;
 
         // Modules
-        layer.AddModule(new LBSPopulationTileMap());
-
+        layer.AddModule(new LBSTileMap());
+        layer.AddModule(new TaggedTileMap());
         // Transformers
         //
         //
 
-        // Mode 1
+        // Select
         Texture2D icon = Resources.Load<Texture2D>("Icons/Select");
         var tool1 = new LBSTool(icon, "Select", typeof(Select), null, true);
-        icon = Resources.Load<Texture2D>("Icons/paintbrush");
-        var tool2 = new LBSMultiTool(
-            icon,
-            "Add population",
-            new List<string>() { "Pair", "Line", "Square", "Free" },
-            new List<System.Type>() {
-                typeof(Select), //typeof(AddTileToTiledAreaAtPoint<TiledArea<LBSTile>,LBSTile>), // point // (!!) implementar
-                typeof(Select), //typeof(AddTileToTiledAreaAtLine<TiledArea<LBSTile>,LBSTile>), // line // (!!) implementar
-                typeof(Select), //typeof(AddTileToTiledAreaAtGrid<TiledArea<LBSTile>,LBSTile>), // grid // (!!) implementar
-                typeof(Select), //typeof(AddTileToTiledAreaAtFree<TiledArea<LBSTile>,LBSTile>)  // free // (!!) implementar
-            },
-            typeof(TagsPalleteInspector),
-            //null,
-            false
-        );
 
+        //Add
+        icon = Resources.Load<Texture2D>("Icons/paintbrush");
+        var tool2 = new LBSTool(icon, "Add Tile", typeof(AddTaggedTile), typeof(BundlePalleteInspector), false);
+
+        //Remove
         icon = Resources.Load<Texture2D>("Icons/Trash");
         var tool3 = new LBSTool(icon, "Remove", typeof(Select), null, false);
         
@@ -278,8 +269,8 @@ public class LayerTemplateEditor : Editor
             "Population",
             //Change to pop
             //Check if 'PopulationTileMap<TiledArea> works
-            typeof(PopulationTileMap<TiledArea>), 
-            new DrawSimpleGraph(),
+            typeof(LBSTileMap), 
+            new DrawTaggedTileMap(),
             new List<LBSTool>() { tool1, tool2, tool3}
             );
         template.modes.Add(mode1);
