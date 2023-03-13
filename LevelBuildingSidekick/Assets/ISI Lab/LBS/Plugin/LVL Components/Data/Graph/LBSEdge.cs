@@ -24,6 +24,9 @@ namespace LBS.Components.Graph
         [SerializeField, JsonRequired]
         EdgeDirection direction;
 
+        [JsonIgnore]
+        public float thikness = 5; // -> static (??)
+
         #endregion
 
         #region PROPERTIES
@@ -38,9 +41,6 @@ namespace LBS.Components.Graph
         public LBSNode SecondNode => secondNode;
 
         #endregion
-
-        [JsonIgnore]
-        public float thikness = 5; // -> static (??)
 
         #region CONSTRUCTOR
 
