@@ -13,21 +13,22 @@ namespace LBS.Components.Graph
     {
         #region FIELDS
 
-        [SerializeField, JsonRequired]
+        [HideInInspector, JsonRequired]
         private int x, y;
 
         /// <summary>
         /// Width and Height for node size in window. Porportional to window defined Unit size.
         /// </summary>
-        [SerializeField, JsonRequired]
+        [HideInInspector, JsonRequired]
         private float width, height;
 
-        [SerializeField, JsonRequired]
+        [HideInInspector, JsonRequired]
         private string id = ""; // "ID" or "name"
 
         #endregion
 
         #region PROPERTIES
+
         [JsonIgnore]
         public Vector2 Centroid => (Position + (new Vector2(width, height)/2));
 
@@ -68,12 +69,16 @@ namespace LBS.Components.Graph
             }
         }
 
-        [HideInInspector, JsonIgnore]
-        internal Action<LBSNode> OnChange; //  (!!!) implementar
-
         #endregion
 
-        #region CONSTRUCTOR
+        #region EVENTS
+        
+        [HideInInspector, JsonIgnore]
+        internal Action<LBSNode> OnChange; //  (!!!) implementar
+       
+        #endregion
+
+        #region CONSTRUCTORS
 
         /// <summary>
         /// Empty constructor, necessary for serialization with json.
