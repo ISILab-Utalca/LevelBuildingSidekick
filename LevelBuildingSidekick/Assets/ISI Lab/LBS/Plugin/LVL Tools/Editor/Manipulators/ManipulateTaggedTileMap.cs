@@ -12,7 +12,7 @@ public abstract class ManipulateTaggedTileMap : LBSManipulator
 
     public override void Init(ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
     {
-        this.module = module as TaggedTileMap;
+        this.module = layer.GetModule<TaggedTileMap>();
         mainView = view;
     }
 
