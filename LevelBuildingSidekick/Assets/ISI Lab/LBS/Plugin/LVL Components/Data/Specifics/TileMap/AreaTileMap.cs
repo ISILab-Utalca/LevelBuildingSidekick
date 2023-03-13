@@ -175,6 +175,16 @@ namespace LBS.Components.TileMap
             return atm;
         }
 
+        public override void OnAttach(LBSLayer layer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void OnDetach(LBSLayer layer)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
     }

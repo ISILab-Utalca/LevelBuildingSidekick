@@ -144,6 +144,7 @@ namespace LBS.Components
             { 
                 this.OnChanged?.Invoke(this); 
             };
+            module.OnAttach(this);
             return true;
         }
 

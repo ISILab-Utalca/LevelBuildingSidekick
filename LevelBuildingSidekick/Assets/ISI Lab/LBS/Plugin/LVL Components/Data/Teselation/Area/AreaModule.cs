@@ -109,6 +109,16 @@ namespace LBS.Components.Teselation
             throw new System.NotImplementedException();
         }
 
+        public override void OnAttach(LBSLayer layer)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void OnDetach(LBSLayer layer)
+        {
+            throw new System.NotImplementedException();
+        }
+
         #endregion
 
     }

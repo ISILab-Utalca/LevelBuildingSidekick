@@ -104,6 +104,7 @@ namespace LBS.Components.TileMap
                 tiles.Remove(t);
 
             tiles.Add(tile as LBSTile);
+            OnAddData?.Invoke(tile);
             OnChanged?.Invoke(this);
             return true;
         }
@@ -156,6 +157,7 @@ namespace LBS.Components.TileMap
         {
             if(tiles.Remove(tile))
             {
+                OnRemoveData?.Invoke(tile);
                 OnChanged?.Invoke(this);
                 return true;
             }
@@ -170,6 +172,7 @@ namespace LBS.Components.TileMap
             }
             var t = tiles[index] as T;
             tiles.Remove(t);
+            OnRemoveData?.Invoke(t);
             OnChanged?.Invoke(this);
             return t;
         }
@@ -180,6 +183,7 @@ namespace LBS.Components.TileMap
             if (tile != null)
             {
                 tiles.Remove(tile);
+                OnRemoveData?.Invoke(tile);
                 OnChanged?.Invoke(this);
             }
             return tile;
@@ -232,6 +236,16 @@ namespace LBS.Components.TileMap
             var tileMap = new TileMapModule<T>();
             tileMap.tiles = tiles.Select(t => t.Clone() as LBSTile).ToList(); //new List<LBSTile>(tiles);
             return tileMap;
+        }
+
+        public override void OnAttach(LBSLayer layer)
+        {
+            //throw new System.NotImplementedException();
+        }
+
+        public override void OnDetach(LBSLayer layer)
+        {
+            throw new System.NotImplementedException();
         }
 
         #endregion
