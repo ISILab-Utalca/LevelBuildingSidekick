@@ -11,8 +11,6 @@ using Utility;
 
 public class TagsPalleteInspector : LBSInspector
 {
-    //public Action<T> OnSelectionChange;
-
     private VisualElement content;
     private DropdownField dropdownBundles;
 
@@ -27,8 +25,6 @@ public class TagsPalleteInspector : LBSInspector
         content = this.Q<VisualElement>("Content");
 
         dropdownBundles = this.Q<DropdownField>("DropdownBundles");
-
-        //LBSNodeView<LBSNode>
     }
 
     public override void Init(List<IManipulatorLBS> lBSManipulators, ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
