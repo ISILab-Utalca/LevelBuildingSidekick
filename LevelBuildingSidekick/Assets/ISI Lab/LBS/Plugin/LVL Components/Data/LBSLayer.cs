@@ -11,6 +11,7 @@ namespace LBS.Components
     [System.Serializable]
     public class LBSLayer : ICloneable
     {
+        #region FIELDS
 
         [SerializeField, JsonRequired]
         private string id;
@@ -24,12 +25,6 @@ namespace LBS.Components
         [SerializeField, JsonRequired]
         public string iconPath; // (?) esto tiene que estar en la layertemplate
 
-        //[SerializeField, JsonRequired, SerializeReference]
-        //private List<string> transformers; 
-
-        //[SerializeField, JsonRequired, SerializeReference]
-        //private List<Transformer> transformers;
-
         [SerializeField, JsonRequired, SerializeReference]
         private List<LBSModule> modules = new List<LBSModule>();
 
@@ -40,6 +35,10 @@ namespace LBS.Components
         [SerializeField, JsonRequired]
         [ScriptableToString(typeof(LBSLayerAssistant))]
         private string assitant = "";
+
+        #endregion
+
+        #region PROPERTIES
 
         [JsonIgnore]
         public bool IsVisible
@@ -62,19 +61,11 @@ namespace LBS.Components
             set => name = value;
         }
 
-
         [JsonIgnore]
         public LBSLayerAssistant Assitant
         {
             get 
             {
-                /*
-                var obj = Resources.FindObjectsOfTypeAll<LBSLayerAssistant>().ToList();
-                if(string.IsNullOrEmpty(assitant)  && obj.Count > 0)
-                    assitant = obj[0].name;
-                var t = obj.Find(a => a.name.Contains(assitant)); // Utility.DirectoryTools.GetScriptable<LBSLayerAssistant>(assitant);
-                return t;*/
-
                 if (string.IsNullOrEmpty(assitant))
                     assitant = Utility.DirectoryTools.GetScriptables<LBSLayerAssistant>()[0].name;
                 return Utility.DirectoryTools.GetScriptable<LBSLayerAssistant>(assitant);
@@ -86,12 +77,6 @@ namespace LBS.Components
         {
             get
             {
-                /*var obj = Resources.LoadAll<CompositeBundle>("Bundles").ToList();
-                if (string.IsNullOrEmpty(bundle))
-                    bundle = obj[0].name;
-                var t = obj.Find(a => a.name.Contains(bundle)); //Utility.DirectoryTools.GetScriptable<CompositeBundle>(bundle);
-                return t;*/
-
                 var bundle = ScriptableObject.CreateInstance<CompositeBundle>();
 
                 foreach(var b in bundles)
@@ -103,11 +88,17 @@ namespace LBS.Components
             }
         }
 
-        //EVENTS
+        #endregion
+
+        #region EVENTS
+
         [JsonIgnore]
         public Action<LBSLayer> OnChanged;
 
-        //CONSTRUCTORS
+        #endregion
+
+        #region  CONSTRUCTORS
+
         public LBSLayer()
         {
             modules = new List<LBSModule>();
@@ -131,7 +122,10 @@ namespace LBS.Components
             this.iconPath = iconPath;
         }
 
-        //METHODS
+        #endregion
+
+        #region  METHODS
+
         public bool AddModule(LBSModule module)
         {
             if(modules.Contains(module))
@@ -267,6 +261,8 @@ namespace LBS.Components
             var layer = new LBSLayer(modules,/* transformers.Select(t => t.GetType()).ToList(),*/ this.id, this.visible, this.name, this.iconPath);
             return layer;
         }
+
+        #endregion
     }
 }
 
