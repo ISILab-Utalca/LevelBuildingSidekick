@@ -262,7 +262,7 @@ public class LayerTemplateEditor : Editor
 
         //Remove
         icon = Resources.Load<Texture2D>("Icons/Trash");
-        var tool3 = new LBSTool(icon, "Remove", typeof(Select), null, false);
+        var tool3 = new LBSTool(icon, "Remove", typeof(RemoveTile), null, false);
         
 
         var mode1 = new LBSMode(
