@@ -6,46 +6,35 @@ using Utility;
 using System.Linq;
 //using UnityEditor;
 using LBS.Components;
+using UnityEditor;
 
 namespace LBS.Generator
 {
-    public class PopulationGenerator //: Generator3D
-    {/*
-        //private LBSStampGroupData population;
-        private float tileSize = 1f;
-
+    public class PopulationGenerator : Generator3D
+    {
         public override GameObject Generate(LBSLayer layer)
         {
-            //if (population == null)
+            var data = layer.GetModule<TaggedTileMap>();
+
+            var parent = new GameObject(objName);
+
+            foreach(var k in data.tiles.Keys)
             {
-                Debug.LogWarning("cannot be generated, there is no information about the population to load.");
-                return null;
+                var sc = Utility.DirectoryTools.GetScriptables<SimpleBundle>().Find(b => b.ID.Label == data.tiles[k].BundleTag);
+
+                var pref = sc.GetObject(Random.Range(0,sc.objects.Count));
+
+                var go = GameObject.Instantiate(pref, parent.transform);
+                go.transform.position = new Vector3(k.Position.x, 0, k.Position.y);
             }
 
-            //var pressets = DirectoryTools.GetScriptables<StampPresset>();
-            var mainPivot = new GameObject("Population group");
-            //foreach (var popu in population.GetStamps())
-            {
-                //var presset = pressets.Find(p => p.Label == popu.Label); 
-                //var prefabs = presset.Prefabs;
-                //var go = prefabs[Random.Range(0,prefabs.Count())];
-                //var inst = SceneView.Instantiate(go,mainPivot.transform);
-                //var pos = popu.Position;
-                //inst.transform.position = new Vector3(pos.x * tileSize, 0, -pos.y * tileSize);
-            }
+            return parent;
 
-            return mainPivot;
-        }
-
-        public void Init(LBSLevelData levelData)
-        {
-            //this.population = levelData.GetRepresentation<LBSStampGroupData>();
-            //tileSize = levelData.TileSize;
         }
 
         public override void Init(LBSLayer layer)
         {
-            throw new System.NotImplementedException();
-        }*/
+            //throw new System.NotImplementedException();
+        }
     }
 }

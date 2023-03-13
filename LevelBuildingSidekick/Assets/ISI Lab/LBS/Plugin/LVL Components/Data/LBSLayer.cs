@@ -31,7 +31,7 @@ namespace LBS.Components
         //private List<Transformer> transformers;
 
         [SerializeField, JsonRequired, SerializeReference]
-        private List<LBSModule> modules;
+        private List<LBSModule> modules = new List<LBSModule>();
 
         [SerializeField, JsonRequired]
         [ScriptableToString(typeof(CompositeBundle))]
@@ -119,7 +119,7 @@ namespace LBS.Components
 
         public LBSLayer(List<LBSModule> modules,/* List<Type> transformers,*/ string ID, bool visible, string name, string iconPath)
         {
-            this.modules = modules;
+            //this.modules = modules;
             modules.ForEach(m => {
                 AddModule(m);
             });
@@ -256,64 +256,6 @@ namespace LBS.Components
 
 
         }
-
-        /*
-        public List<Transformer> GetTransformers()
-        {
-            var toR = new List<Transformer>();
-            for (int i = 0; i < transformers.Count; i++)
-            {
-                var t = GetTransformer(i);
-                toR.Add(t);
-            }
-            return toR;
-        }
-        */
-
-        /*
-        public Transformer GetTransformer(int index)
-        {
-            var sName = transformers[index];
-            var iType = Type.GetType(sName);
-            return Activator.CreateInstance(iType) as Transformer;
-        }
-
-        public void AddTrasformers(List<Type> trasformers)
-        {
-            foreach (var trans in trasformers)
-            {
-                AddTransformer(trans);
-            }
-        }
-
-        public bool AddTransformer(Type transformer)
-        {
-            var tName = transformer?.FullName;
-
-            if (transformers.Contains(tName))
-            {
-                return false;
-            }
-
-            transformers.Add(tName);
-            return true;
-        }
-
-        public bool RemoveTransformer(Type transformer)
-        {
-            var tName = transformer?.FullName;
-            return transformers.Remove(tName);
-        }
-
-        public Transformer RemoveTransformerAt(int index)
-        {
-            var trans = transformers[index];
-            transformers.RemoveAt(index);
-            var iType = Type.GetType(trans);
-            return Activator.CreateInstance(iType) as Transformer;
-        }
-
-        */
 
         public object Clone()
         {
