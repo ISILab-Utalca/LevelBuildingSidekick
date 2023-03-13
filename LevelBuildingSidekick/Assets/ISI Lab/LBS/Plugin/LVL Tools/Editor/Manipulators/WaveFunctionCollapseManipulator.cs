@@ -76,7 +76,7 @@ public class WaveFunctionCollapseManipulator<T> : ManipulateTileMap<T> where T :
 
     public void CalculateTile(ConnectedTile tile, List<WFCBundle> wfcTiles)
     {
-        var candidates = new List<string[]>();
+        var candidates = new List<Tuple<string[],WFCBundle>>();
 
         foreach (var wfc in wfcTiles)
         {
@@ -84,7 +84,7 @@ public class WaveFunctionCollapseManipulator<T> : ManipulateTileMap<T> where T :
             {
                 if (Compare(tile.Connections, wfc.GetConnection(i)))
                 {
-                    candidates.Add(wfc.GetConnection(i));
+                    candidates.Add(new Tuple<string[], WFCBundle>(wfc.GetConnection(i),wfc));
                 }
             }
         }
@@ -95,8 +95,24 @@ public class WaveFunctionCollapseManipulator<T> : ManipulateTileMap<T> where T :
             return;
         }
 
-        var a = candidates[UnityEngine.Random.Range(0, candidates.Count)];
-        tile.SetConnections(a);
+        var totalW = candidates.Sum(c => c.Item2.weight);
+        var rulleteValue = UnityEngine.Random.Range(0, totalW);
+
+        var index = -1;
+        var cur = 0f;
+        for (int i = 0; i < candidates.Count; i++)
+        {
+            cur += candidates[i].Item2.weight;
+            if (rulleteValue <= cur)
+            {
+                index = i;
+                break;
+            }
+        }
+        var candidate = candidates[index];
+
+        //var candidate = candidates[UnityEngine.Random.Range(0, candidates.Count)];
+        tile.SetConnections(candidate.Item1);
         var neis = module.GetTileNeighbors(tile as T, dirs).Select(t => t as ConnectedTile);
         SetConnectionNei(tile.Connections, neis.ToArray());
     }
