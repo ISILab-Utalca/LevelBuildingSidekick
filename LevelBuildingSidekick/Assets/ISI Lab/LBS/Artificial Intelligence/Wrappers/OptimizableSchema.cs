@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class OptimizableSchema : IOptimizable
 {
-    LBSSchema schema;
+    private LBSSchema schema;
 
-    double fitness;
+    private double fitness;
 
     public LBSSchema Schema => schema;
 

@@ -213,7 +213,7 @@ public class LayerTemplateEditor : Editor
         var tool6 = new LBSTool(
             icon, 
             "Collapse connection area", 
-            typeof(WaveFunctionCollapse<ConnectedTile>), 
+            typeof(WaveFunctionCollapseManipulator<ConnectedTile>), 
             null, 
             false);
 

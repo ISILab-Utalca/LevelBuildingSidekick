@@ -57,7 +57,6 @@ namespace LBS.Components.TileMap
             return base.AddTile(tile);
         }
 
-
         public int GetDistance(Vector2 pos)
         {
             var lessDist = int.MaxValue;
@@ -128,8 +127,10 @@ namespace LBS.Components.TileMap
             foreach (var t in tiles)
             {
                 if (IsConvexCorner(t.Position, sideDir))
-                    corners.Add(t);
-                    //corners.Add(t.Clone() as LBSTile);
+                {
+                    //corners.Add(t);
+                    corners.Add(t.Clone() as LBSTile);
+                }
             }
             return corners;
         }
@@ -153,8 +154,8 @@ namespace LBS.Components.TileMap
                         continue;
                     if (IsWall(other.Position, sideDir))
                     {
-                        corners.Add(other);
-                        //corners.Add(other.Clone() as LBSTile);
+                        //corners.Add(other);
+                        corners.Add(other.Clone() as LBSTile);
                     }
                 }
             }

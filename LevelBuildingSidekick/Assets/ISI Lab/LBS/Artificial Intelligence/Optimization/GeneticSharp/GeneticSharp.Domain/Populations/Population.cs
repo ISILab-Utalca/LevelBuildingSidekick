@@ -48,7 +48,6 @@ namespace GeneticSharp.Domain.Populations
             MaxSize = maxSize;
             Adam = adam;
             Generations = new List<Generation>();
-            GenerationsNumber = 0;
             GenerationStrategy = new PerformanceGenerationStrategy(10);
         }
         #endregion

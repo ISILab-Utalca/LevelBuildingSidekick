@@ -28,7 +28,14 @@ namespace LBS.AI
 
         public override void RunOnce()
         {
-            var offsprings = GetNeighbors?.Invoke(BestCandidate);
+            var last = Population.Generations.Last();
+            var best = this.Selection.SelectEvaluables(1, last).First();
+
+            if (GetNeighbors == null)
+                throw new NullReferenceException();
+
+            var offsprings = GetNeighbors?.Invoke(best);
+            //var offsprings = GetNeighbors?.Invoke(BestCandidate); // poner exepcion por si neigthbor es null (!!!)
 
             offsprings.ForEach(c =>
             {

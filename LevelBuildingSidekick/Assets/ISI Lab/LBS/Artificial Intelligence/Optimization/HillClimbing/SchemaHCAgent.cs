@@ -78,6 +78,7 @@ public class SchemaHCAgent : LBSAIAgent
             var hWalls = area.GetHorizontalWalls();
             var walls = vWalls.Concat(hWalls);
 
+            // Add wall tiles in wall direction to the next gen
             foreach (var wall in walls)
             {
                 var neighbour = tileMap.Clone() as LBSSchema;
@@ -88,6 +89,7 @@ public class SchemaHCAgent : LBSAIAgent
                 neighbours.Add(new OptimizableSchema(neighbour));
             }
 
+            // remove wall to the next gen
             foreach (var wall in walls)
             {
                 var neighbour = tileMap.Clone() as LBSSchema;
@@ -97,25 +99,6 @@ public class SchemaHCAgent : LBSAIAgent
 
                 neighbours.Add(new OptimizableSchema(neighbour));
             }
-
-            /*
-            // Change the room size
-            var newSize = new Vector2(Random.Range(1, room.Size.x), Random.Range(1, room.Size.y));
-
-            for (int x = 0; x < newSize.x; x++)
-            {
-                var neighbour = tileMap.Clone() as LBSSchema;ss
-                var newTiles = neighbour.GetArea(i);
-
-                for (int y = 0; y < newSize.y; y++)
-                {
-                    newTiles.AddTile(new ConnectedTile(new Vector2Int((int)room.Centroid.x + x, (int)room.Centroid.y + y), room.ID, 4));
-                }
-
-                neighbor.AddArea(newTiles);
-
-                neighbours.Add(neighbor as IOptimizable);
-            }*/
         }
 
         return neighbours;

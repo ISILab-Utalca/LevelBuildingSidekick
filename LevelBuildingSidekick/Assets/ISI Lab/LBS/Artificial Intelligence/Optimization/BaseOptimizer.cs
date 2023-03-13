@@ -16,6 +16,7 @@ namespace Commons.Optimization
     {
 
         #region Fields
+
         protected Op_State state;
         protected Stopwatch clock;
         protected readonly object m_lock;
@@ -33,9 +34,7 @@ namespace Commons.Optimization
 
         protected IOptimizable adam;
         protected IOptimizable bestCandidate;
-
-
-
+        
         #endregion
 
         #region Properties
@@ -109,7 +108,6 @@ namespace Commons.Optimization
 
         #endregion
 
-
         #region Events
         public Action OnGenerationRan { get; set; }
         public Action OnTerminationReached { get; set; }
@@ -124,7 +122,6 @@ namespace Commons.Optimization
             m_lock = new object();
             stopRequested = pauseRequested = false;
             State = Op_State.NotStarted;
-
         }
 
         public BaseOptimizer(IPopulation population, IEvaluator evaluator, ISelection selection, ITermination termination) : this()
@@ -134,7 +131,6 @@ namespace Commons.Optimization
             Selection = selection;
             Termination = termination;
             Population = population;
-
         }
 
         public virtual void Pause()
@@ -189,7 +185,7 @@ namespace Commons.Optimization
         {
             int iterations = 0;
             Init();
-            while(!TerminatioReached() && !(State == Op_State.Paused || State == Op_State.Stopped) && iterations < 1000)
+            while(!TerminationReached() && !(State == Op_State.Paused || State == Op_State.Stopped) && iterations < 1000)
             {
                 if (stopRequested)
                 {
@@ -222,36 +218,11 @@ namespace Commons.Optimization
             clock.Stop();
         }
 
-        /*public virtual IEvaluable Run()
-        {
-            while (!TerminatioReached() && !(State == Op_State.Paused || State == Op_State.Stopped))
-            {
-                if (stopRequested)
-                {
-                    Stop();
-                    break;
-                }
-                if (pauseRequested)
-                {
-                    Pause();
-                    break;
-                }
-
-                clock.Restart();
-                RunOnce();
-                OnGenerationRan?.Invoke();
-                clock.Stop();
-                State = Op_State.Running;
-            }
-
-            return BestCandidate;
-        }*/
-
         /// <summary>
         /// Determines if the optimizer has reached a termination condition.
         /// </summary>
         /// <returns>True if the termination condition has been reached, false otherwise.</returns>
-        public bool TerminatioReached()
+        public bool TerminationReached()
         {
             if (Termination.HasReached(this))
             {
@@ -281,6 +252,10 @@ namespace Commons.Optimization
             {
                 pauseRequested = true;
             }
+        }
+
+        public void a()
+        {
         }
 
     }
