@@ -41,8 +41,8 @@ public class LBSMainWindow : EditorWindow
     private LBSInspectorPanel inspectorManager;
 
     //CANCER
-    private static LBSMainWindow singleton;
-    private static LBSMainWindow Singleton
+    private static LBSMainWindow singleton; // QUITABLE  (?)
+    private static LBSMainWindow Singleton // QUITABLE  (?)
     {
         get
         {
@@ -53,7 +53,7 @@ public class LBSMainWindow : EditorWindow
             return singleton;
         }
     }
-    public static LBSLayer LayerSelected
+    public static LBSLayer LayerSelected // QUITABLE (?)
     {
         get
         {
@@ -249,7 +249,7 @@ public class LBSMainWindow : EditorWindow
         
         if(trans == null)
         {
-            Debug.LogWarning("No existe trasformador que trasforme de '" + ModuleFrom + "' a '" + ModuleTo);
+            //Debug.LogWarning("No existe trasformador que trasforme de '" + ModuleFrom + "' a '" + ModuleTo);
         }
         else
         {
