@@ -28,7 +28,7 @@ namespace LBS.Windows
 
         public int ButtonSize = 128; //Should be a RangeSlider field(!!!)
 
-        public GenericLBSWindow populationWindow;
+        //public GenericLBSWindow populationWindow;
 
         public Button CalculateButton;
 
