@@ -18,19 +18,20 @@ MonoBehaviour:
     visible: 1
     iconPath: Icons/ghost
     modules:
-    - rid: 6781467823356248085
-    bundle: 
+    - rid: 2747528131066462242
+    - rid: 2747528131066462243
+    bundles: []
     assitant: 
   modes:
-  - rid: 6781467823356248086
+  - rid: 2747528131066462244
   transformers: []
   references:
     version: 2
     RefIds:
-    - rid: 6781467823356248085
-      type: {class: LBSBaseGraph, ns: LBS.Components.Graph, asm: Assembly-CSharp}
+    - rid: 2747528131066462242
+      type: {class: LBSTileMap, ns: , asm: Assembly-CSharp}
       data:
-        key: LBSBaseGraph
+        key: LBSTileMap
         visible: 0
         changed: 0
         Owner:
@@ -39,48 +40,52 @@ MonoBehaviour:
           visible: 1
           iconPath: Icons/ghost
           modules:
-          - rid: 6781467823356248085
-          bundle: 
+          - rid: 2747528131066462242
+          - rid: 2747528131066462243
+          bundles: []
           assitant: 
-        nodes: []
-        edges: []
-    - rid: 6781467823356248086
+        tiles: []
+    - rid: 2747528131066462243
+      type: {class: TaggedTileMap, ns: , asm: Assembly-CSharp}
+      data:
+        key: TaggedTileMap
+        visible: 0
+        changed: 0
+        Owner:
+          id: Population
+          name: Population layer
+          visible: 1
+          iconPath: Icons/ghost
+          modules:
+          - rid: 2747528131066462242
+          - rid: 2747528131066462243
+          bundles: []
+          assitant: 
+    - rid: 2747528131066462244
       type: {class: LBSMode, ns: , asm: Assembly-CSharp-Editor}
       data:
         name: Population
-        drawer: DrawSimpleGraph
-        module: LBS.Components.Graph.GraphModule`1[[LBS.Components.Graph.LBSNode,
-          Assembly-CSharp, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null]]
+        drawer: DrawTaggedTileMap
+        module: LBSTileMap
         toolkit:
-        - rid: 6781467823356248087
-        - rid: 6781467823356248088
-        - rid: 6781467823356248089
-    - rid: 6781467823356248087
+        - rid: 2747528131066462245
+        - rid: 2747528131066462246
+        - rid: 2747528131066462247
+    - rid: 2747528131066462245
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: 771d36a714319204ea4ddcbecdc2006e, type: 3}
         name: Select
         manipulator: Select
         inspector: 
-    - rid: 6781467823356248088
-      type: {class: LBSMultiTool, ns: , asm: Assembly-CSharp-Editor}
+    - rid: 2747528131066462246
+      type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: 5bcc511dcb487f24187b421ea2806d87, type: 3}
-        name: Add population
-        manipulator: Select
-        inspector: PopulationPalleteInspector`1[[PopulationTiledArea, Assembly-CSharp,
-          Version=2.6.0.0, Culture=neutral, PublicKeyToken=null]]
-        modes:
-        - Pair
-        - Line
-        - Square
-        - Free
-        manipulators:
-        - Select
-        - Select
-        - Select
-        - Select
-    - rid: 6781467823356248089
+        name: Add Tile
+        manipulator: AddTaggedTile
+        inspector: BundlePalleteInspector
+    - rid: 2747528131066462247
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: 79e9d4f49f5e9874c805015d2c334f0c, type: 3}
