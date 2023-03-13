@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1ca1a068b763d94ca8f120873012f03, type: 3}
   m_Name: Proto_Walls
   m_EditorClassIdentifier: 
-  tags:
-  - Wall
+  id: Wall
+  characteristics: []
   objects:
   - {fileID: 6676179601473619193, guid: c61f1da0f5c700a4bbc368ec3e3aede7, type: 3}
+  references:
+    version: 2
+    RefIds: []

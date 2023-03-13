@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 991b9c5ba138ec24298c266c695cad3e, type: 3}
   m_Name: Path
   m_EditorClassIdentifier: 
-  label: 
+  label: Path
   icon: {fileID: 0}
-  color: {r: 0, g: 0, b: 0, a: 0}
+  color: {r: 0.735849, g: 0.67123294, b: 0.25338197, a: 1}

@@ -166,6 +166,7 @@ namespace LBS.Components
                 module.Owner = null;
                 module.OnChanged -= (mo) => { this.OnChanged(this); };
             }
+            module.OnDetach(this);
             return removed;
         }
 
@@ -245,7 +246,10 @@ namespace LBS.Components
             }
 
             index = modules.FindIndex(m => m is T && m.Key.Equals(key));
+
+            modules[index].OnDetach(this);
             modules[index] = module;
+            modules[index].OnAttach(this);
 
 
 

@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1ca1a068b763d94ca8f120873012f03, type: 3}
   m_Name: Proto_Door
   m_EditorClassIdentifier: 
-  tags:
-  - Door
+  id: Door
+  characteristics: []
   objects:
   - {fileID: 2669761667689212882, guid: a65e99a8742349848ae3e99b489059bc, type: 3}
+  references:
+    version: 2
+    RefIds: []

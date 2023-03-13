@@ -18,6 +18,7 @@ public class RemoveTile : ManipulateTileMap<LBSTile>
         var tile = view.Data;
 
         module.RemoveTile(tile);
+        Debug.Log("M: " + module);
 
         OnManipulationEnd?.Invoke();
     }

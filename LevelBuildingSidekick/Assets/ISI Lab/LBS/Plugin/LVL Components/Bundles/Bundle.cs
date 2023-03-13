@@ -8,7 +8,7 @@ public abstract class Bundle : ScriptableObject
 
     [SerializeField]
     [ScriptableToString(typeof(LBSIdentifier))]
-    protected string id;
+    protected string id = "";
 
     public LBSIdentifier ID
     {

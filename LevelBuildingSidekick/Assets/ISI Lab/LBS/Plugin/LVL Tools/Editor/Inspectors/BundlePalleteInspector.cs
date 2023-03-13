@@ -11,7 +11,7 @@ public class BundlePalleteInspector : LBSInspector
     private VisualElement content;
     private DropdownField dropdownBundles;
 
-    private List<Bundle> bundles;
+    private List<LBSIdentifierBundle> idBundles;
 
     public BundlePalleteInspector()
     {
@@ -27,28 +27,33 @@ public class BundlePalleteInspector : LBSInspector
     public override void Init(List<IManipulatorLBS> lBSManipulators, ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
     {
         // Una mejor opción podría buscar identifier bundles y sacar los bundles que tengan esos identifiers.
-        bundles = Utility.DirectoryTools.GetScriptables<Bundle>();
+        idBundles = Utility.DirectoryTools.GetScriptables<LBSIdentifierBundle>();
 
-        /*
-        dropdownBundles.choices = bundles.Select(b => b.name).ToList();
+        
+        dropdownBundles.choices = idBundles.Select(b => b.name).ToList();
         dropdownBundles.index = 0;
         dropdownBundles.RegisterCallback<ChangeEvent<string>>(e => {
             var manis = lBSManipulators;
             RefreshPallete(dropdownBundles.index, manis);
-        });*/
+        });
 
-        RefreshPallete(lBSManipulators);
+        RefreshPallete(dropdownBundles.index, lBSManipulators);
     }
 
-    public void RefreshPallete(List<IManipulatorLBS> lBSManipulators)
+    public void RefreshPallete(int index, List<IManipulatorLBS> lBSManipulators)
     {
         content.Clear();
+
+        var bundles = Utility.DirectoryTools.GetScriptables<Bundle>();
+        var tags = idBundles[index].GetTags();
+        var ids = tags.Select(id => id.Label).ToList();
+        bundles = bundles.Where(b => ids.Contains(b.ID.Label)).ToList();
 
         foreach (var b in bundles)
         {
             var btn = new Button();
             btn.style.width = btn.style.height = 64;
-            btn.text = b.ID.Label;
+            btn.text = b.name;
             btn.style.color = new Color(1f - b.ID.Color.r, 1f - b.ID.Color.g, 1f - b.ID.Color.b);
             btn.style.backgroundColor = b.ID.Color;
             if (b.ID.Icon != null)
