@@ -20,11 +20,9 @@ namespace LBS
     // esta clase podria ser estatica completamente (??)
     public static class LBSController 
     {
-        #region InspectorDrawer
         private class LevelScriptable : GenericScriptable<LBSLevelData> { };
         //[CustomEditor(typeof(LevelScriptable)),CanEditMultipleObjects]
         //private class LevelScriptableEditor : GenericScriptableEditor { };
-        #endregion
 
         //private static LevelBackUp backUp;
 
@@ -35,14 +33,11 @@ namespace LBS
             get
             {
                 var instance = LevelBackUp.Instance();
-
                 if (instance.level == null)
                 {
                     instance.level =  new LoadedLevel(new LBSLevelData(), "");
                 }
-
                 return instance.level;
-
             }
             set
             {
