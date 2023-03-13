@@ -37,10 +37,7 @@ namespace LBS.Components.Specifics
             }
             set
             {
-                if (value >= 1)
-                    width = value;
-                else
-                    width = 1;
+                width = Math.Max(value, 1);
             }
         }
 
@@ -53,10 +50,7 @@ namespace LBS.Components.Specifics
             }
             set
             {
-                if (value >= 1)
-                    height = value;
-                else
-                    height = 1;
+                height = Math.Max(value, 1);
             }
         }
 
@@ -78,7 +72,7 @@ namespace LBS.Components.Specifics
         public int TagCount => tags.Count;
 
         [JsonIgnore]
-        public List<string> Tags => tags.Select(t => t).ToList();
+        public List<string> Tags => new List<string>(tags);
 
         #endregion
 
