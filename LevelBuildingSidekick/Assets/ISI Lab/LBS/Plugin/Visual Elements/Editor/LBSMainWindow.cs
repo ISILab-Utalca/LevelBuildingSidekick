@@ -40,33 +40,6 @@ public class LBSMainWindow : EditorWindow
     private DrawManager drawManager;
     private LBSInspectorPanel inspectorManager;
 
-    //CANCER
-    private static LBSMainWindow singleton; // QUITABLE  (?)
-    private static LBSMainWindow Singleton // QUITABLE  (?)
-    {
-        get
-        {
-            if (singleton == null)
-            {
-                return _ShowWindow();
-            }
-            return singleton;
-        }
-    }
-    public static LBSLayer LayerSelected // QUITABLE (?)
-    {
-        get
-        {
-            return Singleton._selectedLayer;
-        }
-        set
-        {
-            Singleton._selectedLayer = value;
-        }
-    }
-
-    public static string ModeSelected => singleton._selectedMode;
-
 
     [MenuItem("ISILab/Level Building Sidekick", priority = 0)]
     public static void ShowWindow()
@@ -74,7 +47,6 @@ public class LBSMainWindow : EditorWindow
         var window = GetWindow<LBSMainWindow>();
         Texture icon = Resources.Load<Texture>("Icons/Logo");
         window.titleContent = new GUIContent("Level builder", icon);
-        singleton = window;
     }
 
     private static LBSMainWindow _ShowWindow()
@@ -82,8 +54,7 @@ public class LBSMainWindow : EditorWindow
         var window = GetWindow<LBSMainWindow>();
         Texture icon = Resources.Load<Texture>("Icons/Logo");
         window.titleContent = new GUIContent("Level builder", icon);
-        singleton = window;
-        return singleton;
+        return window;
     }
 
     public virtual void CreateGUI()
@@ -236,7 +207,7 @@ public class LBSMainWindow : EditorWindow
     public void OnLevelDataChange(LBSLevelData levelData)
     {
         noLayerSign.style.display = (levelData.Layers.Count <= 0) ? DisplayStyle.Flex : DisplayStyle.None;
-        modeSelector.style.display = (levelData.Layers.Count <= 0) ? DisplayStyle.None : DisplayStyle.Flex;
+        //modeSelector.style.display = (levelData.Layers.Count <= 0) ? DisplayStyle.None : DisplayStyle.Flex;
     }
 
     public void OnApplyTrasformers(string modeFrom, string modeTo)
@@ -249,7 +220,7 @@ public class LBSMainWindow : EditorWindow
         
         if(trans == null)
         {
-            //Debug.LogWarning("No existe trasformador que trasforme de '" + ModuleFrom + "' a '" + ModuleTo);
+            //Debug.LogWarning("No existe trasformador que trasforme de '" + ModuleFrom + "' a '" + ModuleTo); // (!!!)
         }
         else
         {
@@ -265,14 +236,12 @@ public class LBSMainWindow : EditorWindow
         _selectedMode = mode;
         var modes = _selectedLayer.GetToolkit(layerTemplates);
 
-        // Apply trasformer
-        // OnApplyTrasformers(oldMode, _selectedMode);
-
         // Init tools
-        object tools;
+        object tools = null;
         modes.TryGetValue(mode,out tools);
         var module = layer.GetModule(0); // (!!) implementar cuando se pueda seleccionar un modulo
         toolkitManager.SetTools(tools, ref levelData, ref layer, ref module);
+        modeSelector.style.display = (levelData.Layers.Count <= 0) ? DisplayStyle.None : DisplayStyle.Flex;
 
         drawManager.RefreshView(ref _selectedLayer,levelData.Layers, _selectedMode);
     }
