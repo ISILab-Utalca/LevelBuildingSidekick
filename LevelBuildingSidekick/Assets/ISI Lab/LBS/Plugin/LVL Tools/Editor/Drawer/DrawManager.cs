@@ -14,7 +14,6 @@ public class DrawManager
         this.templates = templates;
     }
 
-
     public void RefreshView(ref LBSLayer layer,List<LBSLayer> allLayers, string modeName)
     {
         var _layer = layer;
