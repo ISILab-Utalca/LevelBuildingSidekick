@@ -103,19 +103,16 @@ namespace LBS.Components
         {
             modules = new List<LBSModule>();
             
-            //transformers = new List<string>();
             IsVisible = true;
             ID = GetType().Name;
         }
 
-        public LBSLayer(List<LBSModule> modules,/* List<Type> transformers,*/ string ID, bool visible, string name, string iconPath)
+        public LBSLayer(List<LBSModule> modules, string ID, bool visible, string name, string iconPath)
         {
-            //this.modules = modules;
             modules.ForEach(m => {
                 AddModule(m);
             });
-            //this.transformers = new List<string>();
-            //AddTrasformers(transformers);
+
             this.ID = ID;
             IsVisible = visible;
             this.name = name;
