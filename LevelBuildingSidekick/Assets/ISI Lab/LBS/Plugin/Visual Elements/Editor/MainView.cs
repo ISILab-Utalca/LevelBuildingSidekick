@@ -8,17 +8,30 @@ using UnityEngine.UIElements;
 
 public class MainView : GraphView
 {
+    #region UXML_FACTORY
     public new class UxmlFactory : UxmlFactory<MainView, GraphView.UxmlTraits> { }
+    #endregion
 
-    public ExternalBounds visualBound;
+    #region FIELDS
+    
+    private ExternalBounds visualBound;
+    private List<Manipulator> manipulators = new List<Manipulator>();
+    private Vector2 tileSize = new Vector2(100, 100);
+    
+    #endregion
+
+    #region PROPERTIES
+    public Vector2 TileSize => tileSize;
+    #endregion
+
+    #region EVENTS
 
     public Action<ContextualMenuPopulateEvent> OnBuild;
     public Action OnClearSelection;
 
-    private List<Manipulator> manipulators = new List<Manipulator>();
+    #endregion
 
-    private Vector2 tileSize = new Vector2(100,100);
-    public Vector2 TileSize => tileSize;
+    #region CONSTRUCTORS
 
     public MainView()
     {
@@ -28,45 +41,21 @@ public class MainView : GraphView
         style.flexGrow = 1;
 
         SetBasicManipulators();
-
-        this.visualBound = new ExternalBounds(
-            new Rect(
-                new Vector2(-40000, -40000),
-                new Vector2(80000, 80000)
-                ),
-            new Rect(
-                new Vector2(-10000, -10000),
-                new Vector2(20000, 20000)
-                )
-            );
-        //this.test = new DrawTool(new Vector2(0, 0), new Vector2(2, 2));
+        InitBound(4000,10000);
 
         AddElement(visualBound);
-        //AddElement(test);
     }
 
-    public void SetElementView(List<LBSLayer> layers, ref List<LayerTemplate> templates)
-    {
-        foreach (var layer in layers)
-        {
-            foreach (var template in templates)
-            {
-                if (layer.ID == template.layer.ID)
-                {
-                    //template.DrawElement(layer, this); ////////////////////////////////////////////////////////
-                }
-            }
-        }
-    }
+    #endregion
+
+    #region METHODS
 
     public void SetBasicManipulators() // necesario aqui (?)
     {
         var manis = new List<Manipulator>() {
-                //new ClickSelector(),
                 new ContentZoomer(),
                 new ContentDragger(),
                 new SelectionDragger(),
-                // new RectangleSelector()
             };
 
         SetManipulators(manis);
@@ -146,8 +135,7 @@ public class MainView : GraphView
         base.AddElement(element);
     }
 
-    // (?) esto deberia estar aqui 
-    public Vector2 FixPos(Vector2 v)
+    public Vector2 FixPos(Vector2 v) // (?) esto deberia estar aqui 
     {
         var t = new Vector2(this.viewTransform.position.x, this.viewTransform.position.y);
         var vv = (v - t) / this.scale;
@@ -166,4 +154,21 @@ public class MainView : GraphView
 
         return nPos;
     }
+
+    private void InitBound(int interior, int exterior)
+    {
+        var dif = exterior - interior;
+        this.visualBound = new ExternalBounds(
+            new Rect(
+                new Vector2(-interior, -interior),
+                new Vector2(interior, interior)
+                ),
+            new Rect(
+                new Vector2(-exterior, -exterior),
+                new Vector2(exterior, exterior)
+                )
+            );
+    }
+
+    #endregion
 }
