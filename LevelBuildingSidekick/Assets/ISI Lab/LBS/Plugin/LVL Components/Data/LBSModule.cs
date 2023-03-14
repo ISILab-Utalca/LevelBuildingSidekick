@@ -55,7 +55,10 @@ namespace LBS.Components
         [JsonIgnore]
         public Action<LBSModule> OnChanged;
 
+        [JsonIgnore]
         public Action<object> OnAddData;
+
+        [JsonIgnore]
         public Action<object> OnRemoveData;
 
         #endregion
