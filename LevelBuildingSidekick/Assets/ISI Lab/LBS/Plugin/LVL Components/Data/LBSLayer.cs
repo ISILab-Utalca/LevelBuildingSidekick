@@ -28,12 +28,12 @@ namespace LBS.Components
         [SerializeField, JsonRequired, SerializeReference]
         private List<LBSModule> modules = new List<LBSModule>();
 
-        [SerializeField, JsonRequired]
         [ScriptableToString(typeof(CompositeBundle))]
+        [SerializeField, JsonRequired]
         private List<string> bundles = new List<string>();
 
-        [SerializeField, JsonRequired]
         [ScriptableToString(typeof(LBSLayerAssistant))]
+        [SerializeField, JsonRequired]
         private string assitant = "";
 
         #endregion
