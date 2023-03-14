@@ -12,6 +12,6 @@ public class LBSTileMap : TileMapModule<LBSTile>
 
     public override object Clone()
     {
-        return new LBSTileMap(tiles.Select(t => t as LBSTile).ToList(), key);
+        return new LBSTileMap(tiles.Select(t => t.Clone() as LBSTile).ToList(), key);
     }
 }
