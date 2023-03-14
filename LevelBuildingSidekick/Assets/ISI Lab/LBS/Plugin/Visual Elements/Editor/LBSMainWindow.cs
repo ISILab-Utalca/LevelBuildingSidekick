@@ -131,7 +131,7 @@ public class LBSMainWindow : EditorWindow
         toolkitManager = new ToolkitManager(ref toolPanel, ref modeSelector, ref mainView, ref inspectorManager, ref layerTemplates);
         toolkitManager.OnEndSomeAction += () =>
         {
-            drawManager.RefreshView(ref _selectedLayer, _selectedMode);
+            drawManager.RefreshView(ref _selectedLayer, levelData.Layers, _selectedMode);
         };
 
         // ToolBar
@@ -147,7 +147,7 @@ public class LBSMainWindow : EditorWindow
             LevelBackUp.Instance().level = data;
             levelData = LevelBackUp.Instance().level.data;
             RefreshWindow();
-            drawManager.RefreshView(ref _selectedLayer, _selectedMode);
+            drawManager.RefreshView(ref _selectedLayer, levelData.Layers, _selectedMode);
         };
 
 
@@ -187,7 +187,7 @@ public class LBSMainWindow : EditorWindow
 
         // AIPanel
         aiPanel = new AIPanel(() => {
-            drawManager.RefreshView(ref _selectedLayer, _selectedMode);
+            drawManager.RefreshView(ref _selectedLayer,levelData.Layers, _selectedMode);
             //Debug.Log("AI Ended");
         });
         extraPanel.Add(aiPanel);
@@ -274,7 +274,7 @@ public class LBSMainWindow : EditorWindow
         var module = layer.GetModule(0); // (!!) implementar cuando se pueda seleccionar un modulo
         toolkitManager.SetTools(tools, ref levelData, ref layer, ref module);
 
-        drawManager.RefreshView(ref _selectedLayer, _selectedMode);
+        drawManager.RefreshView(ref _selectedLayer,levelData.Layers, _selectedMode);
     }
 
     public void OnSelectedLayerChange(LBSLayer layer)
