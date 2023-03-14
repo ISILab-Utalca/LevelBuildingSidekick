@@ -39,8 +39,6 @@ namespace LBS.Tools.Transformer
             }
         }
 
-        
-
         private void CreateDataFrom(AreaTileMap<TiledArea> schema)
         {
             Queue<RoomNode> open = new Queue<RoomNode>();
@@ -103,39 +101,11 @@ namespace LBS.Tools.Transformer
             }
 
             schema.RecalculateTilePos();
-            /*
-            for (int i = 0; i < graph.NodeCount; i++)
-            {
-                var node = graph.GetNode(i);
-                var area = ConstructArea(node);
-                schema.AddArea(area);
-            }
-            */
         }
 
         private void EditDataFrom()
         {
-            /*
-            for (int i = 0; i < graph.NodeCount; i++)
-            {
-                var node = graph.GetNode(i);
-                var room = schema.GetArea(node.ID);
-                if (room != null)
-                {
-                    if (!KeepShape)
-                    {
-                        // (!) Puede que este creando las areas al reves por eje Y inverso
-                        var cArea = ConstructArea(node, new Vector2Int());
-                        room = new TiledArea(cArea.Tiles, cArea.ID, cArea.Key, cArea.Color);
-                    }
-                    else
-                    {
-                        room.Origin += room.Centroid - node.Position;
-                    }
-                    continue;
-                }
-            }
-            */
+
         }
 
         private void ConstructArea(AreaTileMap<TiledArea> schema, RoomNode node, Vector2Int offset)
