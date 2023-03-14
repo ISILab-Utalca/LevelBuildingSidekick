@@ -1,5 +1,6 @@
 using LBS.Components;
 using LBS.Components.TileMap;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,7 +8,10 @@ using UnityEngine;
 
 public class TaggedTileMap : LBSModule
 {
+    [SerializeField, JsonRequired, SerializeReference]
     public Dictionary<LBSTile, BundleData> tiles;
+    
+    [JsonIgnore]
     protected Func<LBSTile, bool> OnAddTile;
 
     public TaggedTileMap() : base() 
