@@ -9,7 +9,6 @@ namespace LBS.Components
     [System.Serializable]
     public abstract class LBSModule : ICloneable
     {
-
         #region FIELDS
 
         [SerializeField, JsonRequired]
