@@ -26,7 +26,6 @@ namespace LBS.Components.Graph
         [JsonIgnore]
         public int NodeCount => nodes.Count;
 
-
         [JsonIgnore]
         public int EdgeCount => edges.Count;
 
@@ -306,9 +305,5 @@ namespace LBS.Components.Graph
 
         #endregion
     }
-
-    [System.Serializable]
-    public class LBSBaseGraph : GraphModule<LBSNode> { } // (??) mover esto?
-
 }
 
