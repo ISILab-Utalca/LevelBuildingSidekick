@@ -28,7 +28,6 @@ public class BundlePalleteInspector : LBSInspector
     {
         // Una mejor opción podría buscar identifier bundles y sacar los bundles que tengan esos identifiers.
         idBundles = Utility.DirectoryTools.GetScriptables<LBSIdentifierBundle>();
-
         
         dropdownBundles.choices = idBundles.Select(b => b.name).ToList();
         dropdownBundles.index = 0;
