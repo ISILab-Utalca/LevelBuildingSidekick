@@ -15,13 +15,33 @@ public class DrawManager
     }
 
 
-    public void RefreshView(ref LBSLayer layer, string modeName)
+    public void RefreshView(ref LBSLayer layer,List<LBSLayer> allLayers, string modeName)
     {
         var _layer = layer;
         var template = templates.Find(t => t.layer.ID.Equals(_layer.ID));
         var mode = template.modes.Find(m => m.name.Equals(modeName));
 
+        // clear
         view.ClearView();
-        mode.Drawer.Draw(ref _layer, view);
+
+        // draw others
+        var _allLayers = new List<LBSLayer>(allLayers);
+        foreach (var otherLayer in _allLayers)
+        {
+            if (otherLayer == _layer)
+            {
+                mode.Drawer.Draw(ref _layer, view);
+            }
+            else
+            {
+                var oTemplate = templates.Find(t => t.layer.ID.Equals(otherLayer.ID));
+                var oMode = oTemplate.modes[oTemplate.modes.Count - 1];
+                var _other = otherLayer;
+                oMode.Drawer.Draw(ref _other, view);
+            }
+        }
+
+        // draw selected
+        //mode.Drawer.Draw(ref _layer, view);
     }
 }
