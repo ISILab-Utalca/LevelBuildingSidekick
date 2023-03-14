@@ -6,22 +6,41 @@ using System.Linq;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
+
 public class ModeSelector : VisualElement
 {
+    #region UXML_FACTORY
+    
     public new class UxmlFactory : UxmlFactory<ModeSelector, VisualElement.UxmlTraits> { }
+
+    #endregion
+
+    #region FIELDS
 
     private Button button;
     private DropdownField dropdown;
 
     private Dictionary<string, object> objects;
 
+    #endregion
+
+    #region EVENTS
+
     public event Action<string> OnSelectionChange;
+
+    #endregion
+
+    #region PROPERTIES
 
     public int Index
     {
         get => dropdown.index;
         set => dropdown.index = value;
     }
+
+    #endregion
+
+    #region CONSTRUCTORS
 
     public ModeSelector()
     {
@@ -36,6 +55,10 @@ public class ModeSelector : VisualElement
         dropdown.RegisterCallback<ChangeEvent<string>>(e => OnSelectionChange?.Invoke(e.newValue));
     }
 
+    #endregion
+
+    #region METHODS
+
     public void SetChoices(Dictionary<string,object> objects)
     {
         this.objects = objects;
@@ -49,4 +72,5 @@ public class ModeSelector : VisualElement
         return obj;
     }
 
+    #endregion
 }
