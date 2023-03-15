@@ -24,6 +24,14 @@ public class LayersPanel : VisualElement
     // templates
     private List<LayerTemplate> templates;
 
+    private Action onLayerVisibilityChange;
+
+    public event Action OnLayerVisibilityChange
+    {
+        add => onLayerVisibilityChange += value;
+        remove => onLayerVisibilityChange += value;
+    }
+
     public LayersPanel() { }
 
     public LayersPanel(ref LBSLevelData data, ref List<LayerTemplate> templates)
@@ -46,11 +54,11 @@ public class LayersPanel : VisualElement
         {
             var view = (item as LayerView);
             var layer = this.data.GetLayer(index);
-            view.SetName(layer.Name);
-            view.SetIcon(layer.iconPath);
+            view.SetInfo(layer);
+            view.OnVisibilityChange += onLayerVisibilityChange;
         };
 
-        list.fixedItemHeight = 18;
+        list.fixedItemHeight = 20;
         list.itemsSource = data.Layers;
         list.makeItem += makeItem;
         list.onItemsChosen += OnItemChosen;
