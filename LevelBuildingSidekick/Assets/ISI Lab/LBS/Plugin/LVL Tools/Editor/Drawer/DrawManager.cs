@@ -27,6 +27,9 @@ public class DrawManager
         var _allLayers = new List<LBSLayer>(allLayers);
         foreach (var otherLayer in _allLayers)
         {
+            if (!otherLayer.IsVisible)
+                continue;
+
             if (otherLayer == _layer)
             {
                 mode.Drawer.Draw(ref _layer, view);
