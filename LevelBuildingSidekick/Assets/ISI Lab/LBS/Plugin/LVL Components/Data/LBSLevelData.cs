@@ -76,7 +76,7 @@ public class LBSLevelData
             return;
 
         layers.Add(layer);
-        layer.OnChanged += (l) => this.OnChanged(this);
+        layer.OnModuleChange += (l) => this.OnChanged(this);
         this.OnChanged?.Invoke(this);
     }
 
@@ -88,7 +88,7 @@ public class LBSLevelData
     public void RemoveLayer(LBSLayer layer)
     {
         layers.Remove(layer);
-        layer.OnChanged -= (l) => this.OnChanged(this);
+        layer.OnModuleChange -= (l) => this.OnChanged(this);
         this.OnChanged?.Invoke(this);
     }
 
@@ -96,7 +96,7 @@ public class LBSLevelData
     {
         var layer = layers[index];
         layers.RemoveAt(index);
-        layer.OnChanged -= (l) => this.OnChanged(this);
+        layer.OnModuleChange -= (l) => this.OnChanged(this);
         this.OnChanged?.Invoke(this);
         return layer;
     }
