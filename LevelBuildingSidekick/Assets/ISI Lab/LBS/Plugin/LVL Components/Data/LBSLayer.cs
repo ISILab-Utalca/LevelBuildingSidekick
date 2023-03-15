@@ -62,6 +62,12 @@ namespace LBS.Components
         }
 
         [JsonIgnore]
+        public List<LBSModule> Modules
+        {
+            get => new List<LBSModule>(modules);
+        }
+
+        [JsonIgnore]
         public LBSLayerAssistant Assitant
         {
             get 
@@ -88,12 +94,18 @@ namespace LBS.Components
             }
         }
 
+        public event Action<LBSLayer> OnModuleChange 
+        {   
+            add => onModuleChange += value;
+            remove => onModuleChange -= value; 
+        }
+
         #endregion
 
         #region EVENTS
 
-        [JsonIgnore]
-        public Action<LBSLayer> OnChanged;
+        //[JsonIgnore]
+        private event Action<LBSLayer> onModuleChange;
 
         #endregion
 
@@ -133,7 +145,7 @@ namespace LBS.Components
             module.Owner = this;
             module.OnChanged += (mo) => 
             { 
-                this.OnChanged?.Invoke(this); 
+                this.onModuleChange?.Invoke(this); 
             };
             module.OnAttach(this);
             return true;
@@ -151,7 +163,7 @@ namespace LBS.Components
             }
             modules.Insert(index, module);
             module.Owner = this;
-            module.OnChanged += (mo) => { this.OnChanged(this); };
+            module.OnChanged += (mo) => { this.onModuleChange(this); };
             return true;
         }
 
@@ -161,7 +173,7 @@ namespace LBS.Components
             if(removed)
             {
                 module.Owner = null;
-                module.OnChanged -= (mo) => { this.OnChanged(this); };
+                module.OnChanged -= (mo) => { this.onModuleChange(this); };
             }
             module.OnDetach(this);
             return removed;
@@ -247,9 +259,6 @@ namespace LBS.Components
             modules[index].OnDetach(this);
             modules[index] = module;
             modules[index].OnAttach(this);
-
-
-
         }
 
         public object Clone()
