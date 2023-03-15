@@ -15,7 +15,7 @@
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement picking-mode="Ignore" style="flex-grow: 1;">
-                <LBS.VisualElements.ButtonGroup name="ToolsGroup" style="flex-direction: row; padding-left: 0; padding-right: 3px;" />
+                <LBS.VisualElements.ButtonGroup name="ToolsGroup" style="flex-direction: row; padding-left: 0; padding-right: 3px; flex-wrap: wrap; align-items: center; padding-bottom: 3px;" />
                 <ui:VisualElement style="flex-direction: row; align-items: center;">
                     <ModeSelector name="ModeSelector" style="display: none;" />
                     <ui:Label tabindex="-1" text="selected: -" display-tooltip-when-elided="true" name="SelectedLabel" style="color: rgba(255, 255, 255, 0.3);" />
