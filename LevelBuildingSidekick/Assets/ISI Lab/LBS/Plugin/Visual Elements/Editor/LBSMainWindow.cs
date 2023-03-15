@@ -155,6 +155,10 @@ public class LBSMainWindow : EditorWindow
                 Selection.SetActiveObjectWithContext(il, il);
             }
         };
+        layerPanel.OnLayerVisibilityChange += () =>
+        {
+            drawManager.RefreshView(ref _selectedLayer, levelData.Layers, _selectedMode);
+        };
 
         // AIPanel
         aiPanel = new AIPanel(() => {
