@@ -1,5 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:VisualElement picking-mode="Ignore" style="width: 100%; height: 100%; border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-left-width: 8px; border-right-width: 8px; border-top-width: 8px; border-bottom-width: 8px; border-top-left-radius: 50px; border-bottom-left-radius: 50px; border-top-right-radius: 50px; border-bottom-right-radius: 50px; background-color: rgb(65, 89, 135); flex-grow: 1; flex-shrink: 0;">
+    <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/Visual%20Elements/NodeUSS.uss?fileID=7433441132597879392&amp;guid=afa2cfcdd1f21a240afd8be6009458ab&amp;type=3#NodeUSS" />
+    <ui:VisualElement picking-mode="Ignore" name="Background" class="Node">
         <ui:Label tabindex="-1" text="Label" display-tooltip-when-elided="true" name="Label" picking-mode="Ignore" style="flex-grow: 1; align-items: center; justify-content: center; -unity-text-align: middle-center;" />
     </ui:VisualElement>
 </ui:UXML>
