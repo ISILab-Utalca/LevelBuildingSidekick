@@ -18,11 +18,18 @@ public class LBSNodeView<T> : GraphElement where T : LBSNode
 
     // Visual elements
     public Label label;
+    public VisualElement background;
+
+    public Color common = Color.white;
+    public Color selcted = new Color(150 / 255f, 243 / 255f, 255 / 255f);
 
     public LBSNodeView(T data, Vector2 position, Vector2 size)
     {
         var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("NodeUxml");
         visualTree.CloneTree(this);
+
+        var ss = DirectoryTools.SearchAssetByName<StyleSheet>("NodeUSS");
+        this.styleSheets.Add(ss);
 
         this.data = data;
 
@@ -36,6 +43,7 @@ public class LBSNodeView<T> : GraphElement where T : LBSNode
 
         // Label
         label = this.Q<Label>();
+        background = this.Q<VisualElement>("Background");
     }
 
     private void OnMouseDown(MouseDownEvent evt)
@@ -64,6 +72,9 @@ public class LBSNodeView<T> : GraphElement where T : LBSNode
     public override void OnSelected()
     {
         base.OnSelected();
+
+        background.SetBorder(selcted, 8);
+
         var il = Reflection.MakeGenericScriptable(Data);
         Selection.SetActiveObjectWithContext(il, il);
     }
@@ -71,6 +82,7 @@ public class LBSNodeView<T> : GraphElement where T : LBSNode
     public override void OnUnselected()
     {
         base.OnUnselected();
+        background.SetBorder(common, 8);
     }
 
 }
