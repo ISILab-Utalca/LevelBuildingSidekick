@@ -48,7 +48,7 @@ namespace LBS.Tools.Transformer
             open.Enqueue(parent);
 
             var node = parent;
-            var area = new TiledArea(new List<LBSTile>(), node.ID, typeof(TiledArea).Name, node.Room.color);
+            var area = new TiledArea(new List<LBSTile>(), node.ID, typeof(TiledArea).Name, node.Room.Color);
             schema.AddArea(area);
             ConstructArea(schema, node, node.Position);
 
@@ -88,7 +88,7 @@ namespace LBS.Tools.Transformer
                         posY = Mathf.Round(posY);
                     }
 
-                    area = new TiledArea(new List<LBSTile>(), child.ID, typeof(TiledArea).Name, child.Room.color); 
+                    area = new TiledArea(new List<LBSTile>(), child.ID, typeof(TiledArea).Name, child.Room.Color); 
                     schema.AddArea(area);
                     ConstructArea(schema, child, new Vector2Int((int)posX,(int) posY));
 
