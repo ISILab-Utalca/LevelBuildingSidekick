@@ -44,6 +44,7 @@ public class MainView : GraphView
         InitBound(4000,10000);
 
         AddElement(visualBound);
+
     }
 
     #endregion
@@ -135,7 +136,7 @@ public class MainView : GraphView
         base.AddElement(element);
     }
 
-    public Vector2 FixPos(Vector2 v) // (?) esto deberia estar aqui 
+    public Vector2 FixPos(Vector2 v) // (?) esto deberia estar aqui? 
     {
         var t = new Vector2(this.viewTransform.position.x, this.viewTransform.position.y);
         var vv = (v - t) / this.scale;
