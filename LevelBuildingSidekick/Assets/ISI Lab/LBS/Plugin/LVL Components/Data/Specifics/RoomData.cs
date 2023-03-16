@@ -1,6 +1,5 @@
 using Newtonsoft.Json;
 using System;
-using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,49 +22,37 @@ namespace LBS.Components.Specifics
         private List<string> tags = new List<string>();
 
         [SerializeField, JsonRequired]
-        public Color color = Color.gray;
+        private SerializableColor color = Color.gray.ToSerializable();
 
         #endregion
 
         #region PROPERTIES
+
+        [JsonIgnore]
+        public Color Color
+        {
+            get => color.ToColor();
+            set => color = value.ToSerializable();
+        }
+
         [JsonIgnore]
         public int Width
         {
-            get
-            {
-                return width;
-            }
-            set
-            {
-                width = Math.Max(value, 1);
-            }
+            get => width;
+            set => width = Math.Max(value, 1);
         }
 
         [JsonIgnore]
         public int Height
         {
-            get
-            {
-                return height;
-            }
-            set
-            {
-                height = Math.Max(value, 1);
-            }
+            get => height;
+            set => height = Math.Max(value, 1);
         }
 
         [JsonIgnore]
         public Vector2Int Size
         {
             get => new Vector2Int(Width, Height);
-            set
-            {
-                if (value.x >= 1 && value.y >= 1)
-                {
-                    width = value.x;
-                    height = value.y;
-                }
-            }
         }
 
         [JsonIgnore]
@@ -88,7 +75,7 @@ namespace LBS.Components.Specifics
             this.width = width;
             this.height = height;
             this.tags = tags;
-            this.color = color;
+            this.color = color.ToSerializable();
         }
 
         #endregion
@@ -128,10 +115,11 @@ namespace LBS.Components.Specifics
 
         public object Clone()
         {
-            return new RoomData(this.Width,this.Height,new List<string>(tags), this.color);
+            return new RoomData(this.width, this.height, new List<string>(tags), this.color.ToColor());
         }
 
         #endregion
     }
+
 }
 
