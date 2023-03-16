@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using LBS.Components.Graph;
 using Newtonsoft.Json;
+using System;
 
 namespace LBS.Components.Specifics
 {
@@ -27,7 +28,7 @@ namespace LBS.Components.Specifics
 
         public RoomNode(): base()
         {
-            room = new RoomData();
+            //room = new RoomData();
         }
 
         public RoomNode(string id, Vector2 position, RoomData room) : base(id, position)
@@ -41,7 +42,7 @@ namespace LBS.Components.Specifics
 
         public override object Clone()
         {
-            return new RoomNode(ID, Position, room.Clone() as RoomData);
+            return new RoomNode(this.ID, this.Position, this.room.Clone() as RoomData);
         }
 
         #endregion
