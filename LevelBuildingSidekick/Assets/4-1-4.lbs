@@ -1,0 +1,408 @@
+{
+  "$id": "1",
+  "$type": "LBSLevelData, Assembly-CSharp",
+  "tags": {
+    "$id": "2",
+    "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+    "$values": []
+  },
+  "maxWidth": 0,
+  "maxHeight": 0,
+  "layers": {
+    "$id": "3",
+    "$type": "System.Collections.Generic.List`1[[LBS.Components.LBSLayer, Assembly-CSharp]], mscorlib",
+    "$values": [
+      {
+        "$id": "4",
+        "$type": "LBS.Components.LBSLayer, Assembly-CSharp",
+        "id": "Interior",
+        "name": "New Layer",
+        "visible": true,
+        "iconPath": "Icons/interior-design",
+        "modules": {
+          "$id": "5",
+          "$type": "System.Collections.Generic.List`1[[LBS.Components.LBSModule, Assembly-CSharp]], mscorlib",
+          "$values": [
+            {
+              "$id": "6",
+              "$type": "LBS.Components.Graph.LBSRoomGraph, Assembly-CSharp",
+              "nodes": {
+                "$id": "7",
+                "$type": "System.Collections.Generic.List`1[[LBS.Components.Graph.LBSNode, Assembly-CSharp]], mscorlib",
+                "$values": [
+                  {
+                    "$id": "8",
+                    "$type": "LBS.Components.Specifics.RoomNode, Assembly-CSharp",
+                    "room": {
+                      "$id": "9",
+                      "$type": "LBS.Components.Specifics.RoomData, Assembly-CSharp",
+                      "width": 2,
+                      "height": 2,
+                      "tags": {
+                        "$id": "10",
+                        "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                        "$values": []
+                      },
+                      "color": {
+                        "$id": "11",
+                        "$type": "SerializableColor, Assembly-CSharp",
+                        "r": 0.5,
+                        "g": 0.5,
+                        "b": 0.5,
+                        "a": 1.0
+                      }
+                    },
+                    "x": 126,
+                    "y": 180,
+                    "width": 1.0,
+                    "height": 1.0,
+                    "id": "Node: 0"
+                  },
+                  {
+                    "$id": "12",
+                    "$type": "LBS.Components.Specifics.RoomNode, Assembly-CSharp",
+                    "room": {
+                      "$id": "13",
+                      "$type": "LBS.Components.Specifics.RoomData, Assembly-CSharp",
+                      "width": 3,
+                      "height": 3,
+                      "tags": {
+                        "$id": "14",
+                        "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                        "$values": []
+                      },
+                      "color": {
+                        "$id": "15",
+                        "$type": "SerializableColor, Assembly-CSharp",
+                        "r": 0.5,
+                        "g": 0.5,
+                        "b": 0.5,
+                        "a": 1.0
+                      }
+                    },
+                    "x": 241,
+                    "y": 180,
+                    "width": 1.0,
+                    "height": 1.0,
+                    "id": "Node: 1"
+                  },
+                  {
+                    "$id": "16",
+                    "$type": "LBS.Components.Specifics.RoomNode, Assembly-CSharp",
+                    "room": {
+                      "$id": "17",
+                      "$type": "LBS.Components.Specifics.RoomData, Assembly-CSharp",
+                      "width": 2,
+                      "height": 2,
+                      "tags": {
+                        "$id": "18",
+                        "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                        "$values": []
+                      },
+                      "color": {
+                        "$id": "19",
+                        "$type": "SerializableColor, Assembly-CSharp",
+                        "r": 0.5,
+                        "g": 0.5,
+                        "b": 0.5,
+                        "a": 1.0
+                      }
+                    },
+                    "x": 366,
+                    "y": 180,
+                    "width": 1.0,
+                    "height": 1.0,
+                    "id": "Node: 2"
+                  },
+                  {
+                    "$id": "20",
+                    "$type": "LBS.Components.Specifics.RoomNode, Assembly-CSharp",
+                    "room": {
+                      "$id": "21",
+                      "$type": "LBS.Components.Specifics.RoomData, Assembly-CSharp",
+                      "width": 3,
+                      "height": 3,
+                      "tags": {
+                        "$id": "22",
+                        "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                        "$values": []
+                      },
+                      "color": {
+                        "$id": "23",
+                        "$type": "SerializableColor, Assembly-CSharp",
+                        "r": 0.5,
+                        "g": 0.5,
+                        "b": 0.5,
+                        "a": 1.0
+                      }
+                    },
+                    "x": 482,
+                    "y": 180,
+                    "width": 1.0,
+                    "height": 1.0,
+                    "id": "Node: 3"
+                  },
+                  {
+                    "$id": "24",
+                    "$type": "LBS.Components.Specifics.RoomNode, Assembly-CSharp",
+                    "room": {
+                      "$id": "25",
+                      "$type": "LBS.Components.Specifics.RoomData, Assembly-CSharp",
+                      "width": 10,
+                      "height": 2,
+                      "tags": {
+                        "$id": "26",
+                        "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                        "$values": []
+                      },
+                      "color": {
+                        "$id": "27",
+                        "$type": "SerializableColor, Assembly-CSharp",
+                        "r": 0.5,
+                        "g": 0.5,
+                        "b": 0.5,
+                        "a": 1.0
+                      }
+                    },
+                    "x": 307,
+                    "y": 318,
+                    "width": 1.0,
+                    "height": 1.0,
+                    "id": "Node: 4"
+                  },
+                  {
+                    "$id": "28",
+                    "$type": "LBS.Components.Specifics.RoomNode, Assembly-CSharp",
+                    "room": {
+                      "$id": "29",
+                      "$type": "LBS.Components.Specifics.RoomData, Assembly-CSharp",
+                      "width": 3,
+                      "height": 3,
+                      "tags": {
+                        "$id": "30",
+                        "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                        "$values": []
+                      },
+                      "color": {
+                        "$id": "31",
+                        "$type": "SerializableColor, Assembly-CSharp",
+                        "r": 0.5,
+                        "g": 0.5,
+                        "b": 0.5,
+                        "a": 1.0
+                      }
+                    },
+                    "x": 126,
+                    "y": 448,
+                    "width": 1.0,
+                    "height": 1.0,
+                    "id": "Node: 5"
+                  },
+                  {
+                    "$id": "32",
+                    "$type": "LBS.Components.Specifics.RoomNode, Assembly-CSharp",
+                    "room": {
+                      "$id": "33",
+                      "$type": "LBS.Components.Specifics.RoomData, Assembly-CSharp",
+                      "width": 2,
+                      "height": 2,
+                      "tags": {
+                        "$id": "34",
+                        "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                        "$values": []
+                      },
+                      "color": {
+                        "$id": "35",
+                        "$type": "SerializableColor, Assembly-CSharp",
+                        "r": 0.5,
+                        "g": 0.5,
+                        "b": 0.5,
+                        "a": 1.0
+                      }
+                    },
+                    "x": 241,
+                    "y": 448,
+                    "width": 1.0,
+                    "height": 1.0,
+                    "id": "Node: 6"
+                  },
+                  {
+                    "$id": "36",
+                    "$type": "LBS.Components.Specifics.RoomNode, Assembly-CSharp",
+                    "room": {
+                      "$id": "37",
+                      "$type": "LBS.Components.Specifics.RoomData, Assembly-CSharp",
+                      "width": 3,
+                      "height": 3,
+                      "tags": {
+                        "$id": "38",
+                        "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                        "$values": []
+                      },
+                      "color": {
+                        "$id": "39",
+                        "$type": "SerializableColor, Assembly-CSharp",
+                        "r": 0.5,
+                        "g": 0.5,
+                        "b": 0.5,
+                        "a": 1.0
+                      }
+                    },
+                    "x": 366,
+                    "y": 448,
+                    "width": 1.0,
+                    "height": 1.0,
+                    "id": "Node: 7"
+                  },
+                  {
+                    "$id": "40",
+                    "$type": "LBS.Components.Specifics.RoomNode, Assembly-CSharp",
+                    "room": {
+                      "$id": "41",
+                      "$type": "LBS.Components.Specifics.RoomData, Assembly-CSharp",
+                      "width": 2,
+                      "height": 2,
+                      "tags": {
+                        "$id": "42",
+                        "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                        "$values": []
+                      },
+                      "color": {
+                        "$id": "43",
+                        "$type": "SerializableColor, Assembly-CSharp",
+                        "r": 0.5,
+                        "g": 0.5,
+                        "b": 0.5,
+                        "a": 1.0
+                      }
+                    },
+                    "x": 482,
+                    "y": 448,
+                    "width": 1.0,
+                    "height": 1.0,
+                    "id": "Node: 8"
+                  }
+                ]
+              },
+              "edges": {
+                "$id": "44",
+                "$type": "System.Collections.Generic.List`1[[LBS.Components.Graph.LBSEdge, Assembly-CSharp]], mscorlib",
+                "$values": [
+                  {
+                    "$id": "45",
+                    "$type": "LBS.Components.Graph.LBSEdge, Assembly-CSharp",
+                    "firstNode": {
+                      "$ref": "24"
+                    },
+                    "secondNode": {
+                      "$ref": "16"
+                    },
+                    "direction": 0
+                  },
+                  {
+                    "$id": "46",
+                    "$type": "LBS.Components.Graph.LBSEdge, Assembly-CSharp",
+                    "firstNode": {
+                      "$ref": "24"
+                    },
+                    "secondNode": {
+                      "$ref": "12"
+                    },
+                    "direction": 0
+                  },
+                  {
+                    "$id": "47",
+                    "$type": "LBS.Components.Graph.LBSEdge, Assembly-CSharp",
+                    "firstNode": {
+                      "$ref": "24"
+                    },
+                    "secondNode": {
+                      "$ref": "8"
+                    },
+                    "direction": 0
+                  },
+                  {
+                    "$id": "48",
+                    "$type": "LBS.Components.Graph.LBSEdge, Assembly-CSharp",
+                    "firstNode": {
+                      "$ref": "24"
+                    },
+                    "secondNode": {
+                      "$ref": "20"
+                    },
+                    "direction": 0
+                  },
+                  {
+                    "$id": "49",
+                    "$type": "LBS.Components.Graph.LBSEdge, Assembly-CSharp",
+                    "firstNode": {
+                      "$ref": "24"
+                    },
+                    "secondNode": {
+                      "$ref": "40"
+                    },
+                    "direction": 0
+                  },
+                  {
+                    "$id": "50",
+                    "$type": "LBS.Components.Graph.LBSEdge, Assembly-CSharp",
+                    "firstNode": {
+                      "$ref": "24"
+                    },
+                    "secondNode": {
+                      "$ref": "36"
+                    },
+                    "direction": 0
+                  },
+                  {
+                    "$id": "51",
+                    "$type": "LBS.Components.Graph.LBSEdge, Assembly-CSharp",
+                    "firstNode": {
+                      "$ref": "24"
+                    },
+                    "secondNode": {
+                      "$ref": "32"
+                    },
+                    "direction": 0
+                  },
+                  {
+                    "$id": "52",
+                    "$type": "LBS.Components.Graph.LBSEdge, Assembly-CSharp",
+                    "firstNode": {
+                      "$ref": "24"
+                    },
+                    "secondNode": {
+                      "$ref": "28"
+                    },
+                    "direction": 0
+                  }
+                ]
+              },
+              "key": "LBSRoomGraph",
+              "visible": false,
+              "changed": false
+            },
+            {
+              "$id": "53",
+              "$type": "LBS.Components.TileMap.LBSSchema, Assembly-CSharp",
+              "areas": {
+                "$id": "54",
+                "$type": "System.Collections.Generic.List`1[[LBS.Components.TileMap.TiledArea, Assembly-CSharp]], mscorlib",
+                "$values": []
+              },
+              "key": "LBSSchema",
+              "visible": false,
+              "changed": false
+            }
+          ]
+        },
+        "bundles": {
+          "$id": "55",
+          "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+          "$values": []
+        },
+        "assitant": ""
+      }
+    ]
+  }
+}
