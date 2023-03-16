@@ -19,4 +19,29 @@ public static class ColorExtension
         color = new Color(gray, gray, gray);
         return color;
     }
+
+    public static SerializableColor ToSerializable(this Color color)
+    {
+        return new SerializableColor(color.r, color.g, color.b, color.a);
+    }
+}
+
+
+[System.Serializable]
+public struct SerializableColor
+{
+    public float r, g, b, a;
+
+    public SerializableColor(float r, float g, float b, float a)
+    {
+        this.r = r;
+        this.g = g;
+        this.b = b;
+        this.a = a;
+    }
+
+    public Color ToColor()
+    {
+        return new Color(r, g, b, a);
+    }
 }
