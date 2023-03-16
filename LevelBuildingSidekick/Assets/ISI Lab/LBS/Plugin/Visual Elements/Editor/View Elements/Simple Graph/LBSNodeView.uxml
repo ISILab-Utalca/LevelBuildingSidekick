@@ -1,6 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <Style src="project://database/Assets/ISILab/Commons/GraphSystem/Node/NodeUSS.uss?fileID=7433441132597879392&amp;guid=77b90eb7f1e6cba4b95ceb49ea57c848&amp;type=3#NodeUSS" />
-    <ui:VisualElement picking-mode="Ignore" style="width: 100%; height: 100%;">
-        <ui:Label tabindex="-1" text="Label" display-tooltip-when-elided="true" name="Label" picking-mode="Ignore" />
-    </ui:VisualElement>
-</ui:UXML>
