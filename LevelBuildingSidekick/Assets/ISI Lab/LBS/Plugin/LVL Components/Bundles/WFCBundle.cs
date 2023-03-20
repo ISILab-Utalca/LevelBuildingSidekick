@@ -6,24 +6,16 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New exterior bundle", menuName = "ISILab/Bundles/Exterior")]
 public class WFCBundle : ScriptableObject // Parche
 {
-    public LBSCharacteristic foward;   // top
-    public LBSCharacteristic right;    // right
-    public LBSCharacteristic backward; // bottom
-    public LBSCharacteristic left;     // left
-
     [Range(0, 1)]
     public float weight = 1;
 
-    public GameObject Pref;
+    public LBSDirection directions = new LBSDirection();
+
+    public List<weightedTile> Pref;
 
     public string[] GetConnection(int rotation = 0)
     {
-        var conections = new List<string>() {
-            right.Label,
-            foward.Label,
-            left.Label,
-            backward.Label
-        };
+        var conections = directions.Connections;
 
         for (int i = 0; i < rotation; i++)
         {
@@ -48,5 +40,19 @@ public class WFCBundle : ScriptableObject // Parche
         }
 
         return toR;
+    }
+
+    [System.Serializable]
+    public struct weightedTile
+    {
+        [Range(0, 1)]
+        public float weight;
+        public GameObject gameObject;
+
+        public weightedTile(GameObject gameObject, float weight = 1)
+        {
+            this.weight = weight;
+            this.gameObject = gameObject;
+        }
     }
 }
