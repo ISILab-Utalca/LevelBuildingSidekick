@@ -67,9 +67,9 @@ namespace GeneticSharp.Domain.Crossovers
         /// <returns>
         /// The offspring (children) of the parents.
         /// </returns>
-        protected override IList<IOptimizable> PerformCross(IList<IOptimizable> parents)
+        protected override IList<IChromosome> PerformCross(IList<IChromosome> parents)
         {
-            var datas = parents.Select(p => (p as IChromosome).GetDataSquence<object>()).ToList();
+            var datas = parents.Select(p => p.GetDataSquence<object>()).ToList();
 
             var firstParent = datas[0];
             var secondParent = datas[1];
@@ -86,13 +86,13 @@ namespace GeneticSharp.Domain.Crossovers
             }
 
             var offsprings = CreateChildren(firstParent, secondParent);
-            List<IOptimizable> children = new List<IOptimizable>();
+            List<IChromosome> children = new List<IChromosome>();
 
             foreach(var data in offsprings)
             {
                 //Debug.Log(data.Length);
-                var child = parents[0].CreateNew();
-                (child as IChromosome).SetDataSequence(data);
+                var child = parents[0].CreateNew() as IChromosome;
+                child.SetDataSequence(data);
                 //Debug.Log(child.GetDataSquence<object>().Length);
                 children.Add(child);
             }

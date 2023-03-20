@@ -38,9 +38,9 @@ namespace GeneticSharp.Domain.Crossovers
         /// <returns>
         /// The offspring (children) of the parents.
         /// </returns>
-        protected override IList<IOptimizable> PerformCross(IList<IOptimizable> parents)
+        protected override IList<IChromosome> PerformCross(IList<IChromosome> parents)
         {
-            var datas = parents.Select(p => (p as IChromosome).GetDataSquence<object>()).ToList();
+            var datas = parents.Select(p => p.GetDataSquence<object>()).ToList();
 
             var parent1 = datas[0];
             var parent2 = datas[1];
@@ -49,13 +49,13 @@ namespace GeneticSharp.Domain.Crossovers
             var parent1Point = RandomizationProvider.Current.GetInt(1, parent1.Length) + 1;
             var parent2Point = RandomizationProvider.Current.GetInt(1, parent2.Length) + 1;
 
-            var offspring1 = parents[0].CreateNew();
-            var offspring2 = parents[0].CreateNew();
+            var offspring1 = parents[0].CreateNew() as IChromosome;
+            var offspring2 = parents[0].CreateNew() as IChromosome;
 
-            (offspring1 as IChromosome).SetDataSequence(CreateOffspring(parent1, parent2, parent1Point, parent2Point));
-            (offspring2 as IChromosome).SetDataSequence(CreateOffspring(parent2, parent1, parent2Point, parent1Point));
+            offspring1.SetDataSequence(CreateOffspring(parent1, parent2, parent1Point, parent2Point));
+            offspring2.SetDataSequence(CreateOffspring(parent2, parent1, parent2Point, parent1Point));
 
-            return new List<IOptimizable>() { offspring1, offspring2 };
+            return new List<IChromosome>() { offspring1, offspring2 };
         }
 
         private static object[] CreateOffspring(object[] leftParent, object[] rightParent, int leftParentPoint, int rightParentPoint)

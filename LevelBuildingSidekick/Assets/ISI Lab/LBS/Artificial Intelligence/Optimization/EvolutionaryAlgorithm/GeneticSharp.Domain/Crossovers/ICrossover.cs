@@ -44,7 +44,7 @@ namespace GeneticSharp.Domain.Crossovers
         /// </summary>
         /// <param name="parents">The parents chromosomes.</param>
         /// <returns>The offspring (children) of the parents.</returns>
-        IList<IOptimizable> Cross(IList<IOptimizable> parents);
+        IList<IChromosome> Cross(IList<IChromosome> parents);
         #endregion
     }
 }
