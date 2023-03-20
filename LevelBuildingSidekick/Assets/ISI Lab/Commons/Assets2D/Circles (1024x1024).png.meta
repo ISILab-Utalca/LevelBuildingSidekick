@@ -1,0 +1,488 @@
+fileFormatVersion: 2
+guid: 007a115828ea5814fa0b91a297fc16a3
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 0
+    wrapV: 0
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 0
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Circles (1024x1024)_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3200.25
+        width: 1066.75
+        height: 1066.75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 533, y: 533, z: 533, w: 534}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68325da67d4c8fe4ab2d6a1eb7e54f24
+      internalID: 2001633416
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Circles (1024x1024)_1
+      rect:
+        serializedVersion: 2
+        x: 1066
+        y: 3200
+        width: 1067
+        height: 1067
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 533, y: 533, z: 533, w: 534}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f06393db6cfbd54c883a9c54fd34934
+      internalID: 409979614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Circles (1024x1024)_2
+      rect:
+        serializedVersion: 2
+        x: 2132
+        y: 3200.25
+        width: 1066.75
+        height: 1066.75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 533, y: 533, z: 533, w: 534}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e6ec7a06a462e19408b32175a4f00990
+      internalID: 67227126
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Circles (1024x1024)_3
+      rect:
+        serializedVersion: 2
+        x: 3198
+        y: 3200.25
+        width: 1066.75
+        height: 1066.75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 533, y: 534, z: 534, w: 533}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 09a7d527bf2da9e48a712ee5b0787c93
+      internalID: -1149957296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Circles (1024x1024)_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2134.25
+        width: 1066.75
+        height: 1066.75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 533, y: 533, z: 533, w: 534}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c19356e3ab3bcb4da77926bebf681cc
+      internalID: 128569898
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Circles (1024x1024)_5
+      rect:
+        serializedVersion: 2
+        x: 1066
+        y: 2134.25
+        width: 1066.75
+        height: 1066.75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 34e883b1e36c3194986f0f248667f4a4
+      internalID: -1428348428
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Circles (1024x1024)_6
+      rect:
+        serializedVersion: 2
+        x: 2132
+        y: 2134.25
+        width: 1066.75
+        height: 1066.75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba2e243f36b15da48a707a326bc01035
+      internalID: -146417326
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Circles (1024x1024)_7
+      rect:
+        serializedVersion: 2
+        x: 3198
+        y: 2134.25
+        width: 1066.75
+        height: 1066.75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8507228138366bc4cb2a9afb53ea6a26
+      internalID: -783960302
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Circles (1024x1024)_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1068.25
+        width: 1066.75
+        height: 1066.75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e8a68a7da246594ca75ecedaae3c595
+      internalID: 1682619051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Circles (1024x1024)_9
+      rect:
+        serializedVersion: 2
+        x: 1066
+        y: 1068.25
+        width: 1066.75
+        height: 1066.75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 22659a1ebd1c12c4392f549525876ea7
+      internalID: -1270037324
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Circles (1024x1024)_10
+      rect:
+        serializedVersion: 2
+        x: 2132
+        y: 1068.25
+        width: 1066.75
+        height: 1066.75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3dc2b993169201488be650becac1bc8
+      internalID: 260555980
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Circles (1024x1024)_11
+      rect:
+        serializedVersion: 2
+        x: 3198
+        y: 1068.25
+        width: 1066.75
+        height: 1066.75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 346a97035c9fbc440a69d85e05a30e76
+      internalID: 1220865026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Circles (1024x1024)_12
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 6
+        width: 1067
+        height: 1067
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8181819ce62846e4da1facfa70e1667a
+      internalID: 656315344
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Circles (1024x1024)_13
+      rect:
+        serializedVersion: 2
+        x: 1066
+        y: 2.25
+        width: 1066.75
+        height: 1066.75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40e76e211e8f8b94e973d8472a8f2326
+      internalID: 261332641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Circles (1024x1024)_14
+      rect:
+        serializedVersion: 2
+        x: 2132
+        y: 2.25
+        width: 1066.75
+        height: 1066.75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f3bde9079e5ed57489bbaefea4de71fb
+      internalID: -638560312
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Circles (1024x1024)_15
+      rect:
+        serializedVersion: 2
+        x: 3198
+        y: 2.25
+        width: 1066.75
+        height: 1066.75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6eacc20d4a4c0c9469bc988f3882b2e7
+      internalID: 72667527
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 703a19ec3fb5b694cb5dc7dce2bc7854
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      Circles (1024x1024)_7: -783960302
+      Circles (1024x1024)_0: 2001633416
+      Circles (1024x1024)_5: -1428348428
+      Circles (1024x1024)_14: -638560312
+      Circles (1024x1024)_1: 409979614
+      Circles (1024x1024)_10: 260555980
+      Circles (1024x1024)_2: 67227126
+      Circles (1024x1024)_11: 1220865026
+      Circles (1024x1024)_8: 1682619051
+      Circles (1024x1024)_12: 656315344
+      Circles (1024x1024)_3: -1149957296
+      Circles (1024x1024)_4: 128569898
+      Circles (1024x1024)_9: -1270037324
+      Circles (1024x1024)_15: 72667527
+      Circles (1024x1024)_6: -146417326
+      Circles (1024x1024)_13: 261332641
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
