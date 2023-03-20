@@ -22,7 +22,7 @@
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement picking-mode="Ignore" style="flex-grow: 1; width: 250px; max-width: 250px; min-width: 250px;">
-                <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden" style="flex-grow: 1;">
+                <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.09);">
                     <ui:VisualElement name="ExtraPanel" picking-mode="Ignore" style="width: 250px; max-width: 250px; min-width: 200px; background-image: none; -unity-background-image-tint-color: rgba(0, 0, 0, 0); background-color: rgba(0, 0, 0, 0); padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; flex-grow: 1;" />
                 </ui:ScrollView>
             </ui:VisualElement>
