@@ -13,9 +13,8 @@ public class WaveFunctionCollapseManipulator<T> : ManipulateTileMap<T> where T :
         Vector2Int.right,
         Vector2Int.down,
         Vector2Int.left,
-        Vector2Int.up
+        Vector2Int.up,
     };
-
 
     private ConnectedTile first;
 
@@ -76,7 +75,7 @@ public class WaveFunctionCollapseManipulator<T> : ManipulateTileMap<T> where T :
 
     public void CalculateTile(ConnectedTile tile, List<WFCBundle> wfcTiles)
     {
-        var candidates = new List<Tuple<string[],WFCBundle>>();
+        var candidates = new List<Tuple<string[], WFCBundle>>();
 
         foreach (var wfc in wfcTiles)
         {
@@ -84,12 +83,12 @@ public class WaveFunctionCollapseManipulator<T> : ManipulateTileMap<T> where T :
             {
                 if (Compare(tile.Connections, wfc.GetConnection(i)))
                 {
-                    candidates.Add(new Tuple<string[], WFCBundle>(wfc.GetConnection(i),wfc));
+                    candidates.Add(new Tuple<string[], WFCBundle>(wfc.GetConnection(i), wfc));
                 }
             }
         }
 
-        if(candidates.Count <= 0)
+        if (candidates.Count <= 0)
         {
             Debug.LogWarning("[ISI Lab]: No valid candidates found.");
             return;
@@ -126,7 +125,7 @@ public class WaveFunctionCollapseManipulator<T> : ManipulateTileMap<T> where T :
         }
     }
 
-    public bool Compare(string[] a,string[] b)
+    public bool Compare(string[] a, string[] b)
     {
         for (int i = 0; i < a.Length; i++)
         {
