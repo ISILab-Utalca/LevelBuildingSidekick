@@ -28,8 +28,24 @@ namespace LBS.Generator
                 if (tuple == null)
                     continue;
 
-                var pref = tuple.Item1.Pref;
-                var go = GameObject.Instantiate(pref, mainPivot.transform);
+                var prefs = tuple.Item1.Pref;
+                GameObject selected = prefs[0].gameObject;
+
+                // rullete selector
+                var tWeight = prefs.Sum(w => w.weight);
+                var vWeigth = Random.Range(0f, tWeight);
+                var current = 0f;
+                for (int i = 0; i < prefs.Count; i++)
+                {
+                    current += prefs[i].weight; 
+                    if(vWeigth <= current)
+                    {
+                        selected = prefs[i].gameObject;
+                        break;
+                    }
+                }
+
+                var go = GameObject.Instantiate(selected, mainPivot.transform);
                 go.transform.position = new Vector3(tile.Position.x * scale.x, 0, -tile.Position.y * scale.y);
 
                 var rot = tuple.Item2;
