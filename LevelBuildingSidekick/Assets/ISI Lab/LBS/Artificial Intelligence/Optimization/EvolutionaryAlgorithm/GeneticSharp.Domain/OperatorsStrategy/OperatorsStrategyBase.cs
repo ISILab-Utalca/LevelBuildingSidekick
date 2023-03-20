@@ -21,7 +21,7 @@ namespace GeneticSharp.Domain
         /// <param name="crossoverProbability">The crossover probability.</param>
         /// <param name="parents">The parents.</param>
         /// <returns>The result chromosomes.</returns>
-        public abstract IList<IOptimizable> Cross(IPopulation population, ICrossover crossover, float crossoverProbability, IList<IOptimizable> parents);
+        public abstract IList<IChromosome> Cross(IPopulation population, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents);
 
         /// <summary>
         /// Mutate the specified chromosomes.
@@ -29,7 +29,7 @@ namespace GeneticSharp.Domain
         /// <param name="mutation">The mutation class.</param>
         /// <param name="mutationProbability">The mutation probability.</param>
         /// <param name="chromosomes">The chromosomes.</param>
-        public  abstract void Mutate(IMutation mutation, float mutationProbability, IList<IOptimizable> chromosomes);
+        public  abstract void Mutate(IMutation mutation, float mutationProbability, IList<IChromosome> chromosomes);
 
 
         /// <summary>
@@ -41,8 +41,8 @@ namespace GeneticSharp.Domain
         /// <param name="parents">The parents.</param>
         /// <param name="firstParentIndex">the index of the first parent selected for a crossover</param>
         /// <returns>children for the current crossover if it was performed, null otherwise</returns>
-        protected IList<IOptimizable> SelectParentsAndCross(IPopulation population, ICrossover crossover,
-            float crossoverProbability, IList< IOptimizable> parents, int firstParentIndex)
+        protected IList<IChromosome> SelectParentsAndCross(IPopulation population, ICrossover crossover,
+            float crossoverProbability, IList<IChromosome> parents, int firstParentIndex)
         {
             var selectedParents = parents.Skip(firstParentIndex).Take(crossover.ParentsNumber).ToList();
             // If match the probability cross is made, otherwise the offspring is an exact copy of the parents.

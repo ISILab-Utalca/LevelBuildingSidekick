@@ -1,15 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Populations;
+using GeneticSharp.Domain.Randomizations;
 
 namespace GeneticSharp.Domain
 {
     /// <summary>
-    /// Defines an operators strategy which use a linear execution
+    /// An IOperatorsStrategy's implmentation which use Task Parallel Library (TPL) for parallel execution.
     /// </summary>
-    public class DefaultOperatorsStrategy : OperatorsStrategyBase
+    public class TplOperatorsStrategy : OperatorsStrategyBase
     {
         /// <summary>
         /// Crosses the specified parents.
@@ -19,22 +23,21 @@ namespace GeneticSharp.Domain
         /// <param name="crossoverProbability">The crossover probability.</param>
         /// <param name="parents">The parents.</param>
         /// <returns>The result chromosomes.</returns>
-        public override IList<IOptimizable> Cross(IPopulation population, ICrossover crossover, float crossoverProbability, IList<IOptimizable> parents)
+        public override IList<IChromosome> Cross(IPopulation population, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
         {
-            var minSize = population.MinSize;
-            var offspring = new List<IOptimizable>(minSize);
+            var offspring = new ConcurrentBag<IChromosome>();
 
-            for (int i = 0; i < minSize; i += crossover.ParentsNumber)
+            Parallel.ForEach(Enumerable.Range(0, population.MinSize / crossover.ParentsNumber).Select(i => i * crossover.ParentsNumber), i =>
             {
                 var children = SelectParentsAndCross(population, crossover, crossoverProbability, parents, i);
                 if (children != null)
                 {
-                    offspring.AddRange(children);
+                    foreach (var item in children)
+                        offspring.Add(item);
                 }
-                
-            }
+            });
 
-            return offspring;
+            return offspring.ToList();
         }
 
         /// <summary>
@@ -43,12 +46,12 @@ namespace GeneticSharp.Domain
         /// <param name="mutation">The mutation class.</param>
         /// <param name="mutationProbability">The mutation probability.</param>
         /// <param name="chromosomes">The chromosomes.</param>
-        public override void Mutate(IMutation mutation, float mutationProbability, IList<IOptimizable> chromosomes)
+        public override void Mutate(IMutation mutation, float mutationProbability, IList<IChromosome> chromosomes)
         {
-            for (int i = 0; i < chromosomes.Count; i++)
+            Parallel.ForEach(chromosomes, c =>
             {
-                mutation.Mutate(chromosomes[i], mutationProbability);
-            }
+                mutation.Mutate(c, mutationProbability);
+            });
         }
     }
 }
