@@ -113,13 +113,13 @@ public class MapElites
     Action OnEvaluatorChanged;
 
     [SerializeReference]
-    IOptimizer optimizer;
+    BaseOptimizer optimizer;
 
     /// <summary>
     /// Gets or sets the optimizer to use.
     /// </summary>
     /// <value>The optimizer to use.</value>
-    public IOptimizer Optimizer
+    public BaseOptimizer Optimizer
     {
         get
         {

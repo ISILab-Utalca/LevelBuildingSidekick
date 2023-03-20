@@ -10,6 +10,8 @@ public class TaggedTileMap : LBSModule
 {
     [SerializeField, JsonRequired, SerializeReference]
     public Dictionary<LBSTile, BundleData> tiles;
+
+    public Rect Rect => new Rect();
     
     [JsonIgnore]
     protected Func<LBSTile, bool> OnAddTile;
@@ -42,7 +44,7 @@ public class TaggedTileMap : LBSModule
         var dir = new Dictionary<LBSTile, string>();
         foreach(var k in tiles.Keys)
         {
-            dir.Add(k, tiles[k].Clone() as string);
+            dir.Add(k.Clone() as LBSTile, tiles[k].Clone() as string);
         }
         return  new TaggedTileMap(key, tiles);
     }
@@ -65,6 +67,8 @@ public class TaggedTileMap : LBSModule
     {
         var tileMap = layer.GetModule<LBSTileMap>();
         tileMap.OnRemoveData -= RemoveTile;
+        tileMap.OnAddData -= AddEmpty;
+        OnAddTile -= tileMap.AddTile;
     }
 
     public override void Print()

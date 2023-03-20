@@ -269,7 +269,7 @@ public class LayerTemplateEditor : Editor
             "Population",
             //Change to pop
             //Check if 'PopulationTileMap<TiledArea> works
-            typeof(LBSTileMap), 
+            typeof(TaggedTileMap), 
             new DrawTaggedTileMap(),
             new List<LBSTool>() { tool1, tool2, tool3}
             );

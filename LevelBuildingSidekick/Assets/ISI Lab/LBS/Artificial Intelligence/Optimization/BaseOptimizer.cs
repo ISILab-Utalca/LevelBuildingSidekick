@@ -15,7 +15,7 @@ namespace Commons.Optimization
     public abstract class BaseOptimizer
     {
 
-        #region Fields
+        #region FIELDS
 
         protected Op_State state;
         protected Stopwatch clock;
@@ -37,7 +37,7 @@ namespace Commons.Optimization
         
         #endregion
 
-        #region Properties
+        #region PROPERTIES
 
         public int GenerationsNumber => Population.GenerationsNumber;
 
@@ -108,7 +108,7 @@ namespace Commons.Optimization
 
         #endregion
 
-        #region Events
+        #region EVENTS
         public Action OnGenerationRan { get; set; }
         public Action OnTerminationReached { get; set; }
         public Action OnStopped { get; set; }
@@ -116,6 +116,8 @@ namespace Commons.Optimization
         public Action OnPaused { get; set; }
         public Action OnStarted { get; set; }
         #endregion
+
+        #region CONSTRUCTOR
 
         public BaseOptimizer()
         {
@@ -132,6 +134,10 @@ namespace Commons.Optimization
             Termination = termination;
             Population = population;
         }
+
+        #endregion
+
+        #region METHODS
 
         public virtual void Pause()
         {
@@ -254,10 +260,7 @@ namespace Commons.Optimization
             }
         }
 
-        public void a()
-        {
-        }
-
+        #endregion
     }
 
     public enum Op_State
