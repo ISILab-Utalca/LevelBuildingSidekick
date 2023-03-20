@@ -19,7 +19,10 @@ public class DrawSimpleGraph : Drawer
         {
             var size = new Vector2(80, 80);
             var element = new LBSNodeView<RoomNode>(node, node.Position - (size/2f), new Vector2(80, 80));
+            
             element.label.text = node.ID;
+            element.background.style.backgroundColor = node.Room.Color;
+
             nViews.Add(element);
             view.AddElement(element);
         }

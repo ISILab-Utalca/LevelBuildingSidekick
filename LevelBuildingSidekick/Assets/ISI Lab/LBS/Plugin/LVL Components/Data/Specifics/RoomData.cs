@@ -9,6 +9,8 @@ namespace LBS.Components.Specifics
     [System.Serializable]
     public class RoomData : ICloneable
     {
+        static System.Random random = new System.Random();
+
         #region FIELDS
 
         [SerializeField, JsonRequired]
@@ -67,7 +69,17 @@ namespace LBS.Components.Specifics
 
         public RoomData()
         {
+            this.color = new Color(
+                (float)random.NextDouble()* 0.8f,
+                (float)random.NextDouble()* 0.8f,
+                (float)random.NextDouble()* 0.8f).ToSerializable();
 
+            /*
+            this.color = new Color(
+                UnityEngine.Random.Range(0f,1f),
+                UnityEngine.Random.Range(0f, 1f),
+                UnityEngine.Random.Range(0f, 1f)).ToSerializable();
+            */
         }
 
         public RoomData(int width, int height, List<string> tags, Color color)
