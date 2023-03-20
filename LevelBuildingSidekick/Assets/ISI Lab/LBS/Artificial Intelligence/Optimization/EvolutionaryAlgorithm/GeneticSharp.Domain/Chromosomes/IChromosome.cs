@@ -28,8 +28,8 @@ namespace GeneticSharp.Domain.Chromosomes
         /// </summary>
         /// <returns>The gene.</returns>
         /// <param name="geneIndex">Gene index.</param>
-        T GenerateGene<T>(int geneIndex);
-        object GenerateGene(int geneIndex);
+        T GenerateGene<T>();
+        object GenerateGene();
 
         /// <summary>
         /// Replaces the gene in the specified index.
@@ -88,6 +88,7 @@ namespace GeneticSharp.Domain.Chromosomes
         public T GetData<T>();
         public void SetDataSequence<T>(T[] data);
         public void SetData<T>(T data);
+        public void SetDeafult(int index);
         #endregion
     }
 }

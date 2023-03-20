@@ -7,8 +7,8 @@ namespace GeneticSharp.Domain.Chromosomes
     /// <summary>
     /// A base class for binary chromosome of 0 and 1 genes.
     /// </summary>
-    public abstract class BinaryChromosomeBase : ChromosomeBase<bool>, IBinaryChromosome
-    {
+    public abstract class BinaryChromosomeBase //: ChromosomeBase<bool>, IBinaryChromosome
+    {/*
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Chromosomes.BinaryChromosomeBase"/> class.
@@ -53,7 +53,7 @@ namespace GeneticSharp.Domain.Chromosomes
         {
             return String.Join (string.Empty, GetGenes<bool>().Select (g => g.ToString()).ToArray());
         }
-        #endregion
+        #endregion*/
     }
 }
 

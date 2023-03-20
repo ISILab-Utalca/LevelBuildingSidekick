@@ -10,8 +10,8 @@ namespace GeneticSharp.Domain.Chromosomes
     /// <summary>
     /// Integer chromosome with binary values (0 and 1).
     /// </summary>
-    public class IntegerChromosome : BinaryChromosomeBase
-    {
+    public class IntegerChromosome //: BinaryChromosomeBase
+    {/*
         private readonly int m_minValue;
         private readonly int m_maxValue;
         private readonly BitArray m_originalValue;
@@ -96,7 +96,7 @@ namespace GeneticSharp.Domain.Chromosomes
         public override Texture2D ToTexture()
         {
             return null;
-        }
+        }*/
     }
 }
 
