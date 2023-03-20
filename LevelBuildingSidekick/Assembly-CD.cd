@@ -113,14 +113,14 @@
     </TypeIdentifier>
   </Class>
   <Class Name="ConstraintSatisfactor&lt;T&gt;" Collapsed="true">
-    <Position X="26.25" Y="21.75" Width="1.5" />
+    <Position X="12.25" Y="18" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AgAAAAIAAAAAAQQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Constraint Satisfactions\WFC\ConstraintSatisfactor.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WaveFunctionCollapse&lt;T&gt;" Collapsed="true">
-    <Position X="26.25" Y="23" Width="1.5" />
+    <Position X="12.25" Y="19.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAQQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Constraint Satisfactions\WFC\WaveFunctionCollapse.cs</FileName>
@@ -265,7 +265,7 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="ChromosomeBase2D&lt;T&gt;" Collapsed="true">
-    <Position X="26.5" Y="14" Width="1.5" />
+    <Position X="24.5" Y="19.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAIAAAAAQEAAAAAAAAgAAAACAAAAAEAAAAAAAA=</HashCode>
       <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Chromosomes\ChromosomeBase2D.cs</FileName>
@@ -410,8 +410,8 @@
       <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\LBSLevelData.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="TaggedTileMap" Collapsed="true">
-    <Position X="11.75" Y="19" Width="1.5" />
+  <Class Name="TaggedTileMap">
+    <Position X="28.25" Y="19.75" Width="2" />
     <TypeIdentifier>
       <HashCode>CABAAAAAAAAQAABAAAAAAAAAAoAAAAAAAABBAABEABA=</HashCode>
       <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\Specifics\TaggedTileMap.cs</FileName>
@@ -441,15 +441,15 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="Exterior" Collapsed="true">
-    <Position X="20.75" Y="22" Width="1.5" />
+  <Class Name="Exterior">
+    <Position X="37.25" Y="33.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
       <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\Teselation\Exterior.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LBSTileMap" Collapsed="true">
-    <Position X="23" Y="22" Width="1.5" />
+  <Class Name="LBSTileMap">
+    <Position X="39.5" Y="33.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
       <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\Teselation\TileMap\Population\LBSTileMap.cs</FileName>
@@ -470,14 +470,14 @@
     </TypeIdentifier>
   </Class>
   <Class Name="LBSBoolCharacteristic" Collapsed="true">
-    <Position X="24.25" Y="18" Width="1.5" />
+    <Position X="17.75" Y="22.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAgAAAAAAA=</HashCode>
       <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Tags\LBSBoolCharacteristic.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LBSCharacteristic" Collapsed="true">
-    <Position X="25.5" Y="16.75" Width="1.5" />
+    <Position X="19" Y="21.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAEAAAABAAgAAAAAAAAAAAAIAAAAAAAAAAABA=</HashCode>
       <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Tags\LBSCharacteristic.cs</FileName>
@@ -492,7 +492,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="LBSIntCharacteristic" Collapsed="true">
-    <Position X="26.5" Y="18" Width="1.5" />
+    <Position X="20" Y="22.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAgAAAAAAA=</HashCode>
       <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Tags\LBSIntCharacteristic.cs</FileName>
@@ -555,7 +555,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="SchemaGenerator" Collapsed="true">
-    <Position X="18.75" Y="14" Width="1.5" />
+    <Position X="16.75" Y="19.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAABAAAAAAAAAAAAAAAAAAACAAABAAAAAACAEAAAAA=</HashCode>
       <FileName>Assets\ISI Lab\LBS\Plugin\LVL Tools\Generators3D\SchemaGenerator.cs</FileName>
@@ -674,7 +674,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="GeneticSharp.Domain.Chromosomes.BinaryChromosomeBase" Collapsed="true">
-    <Position X="24.25" Y="14" Width="1.5" />
+    <Position X="22.25" Y="19.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAIBAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Chromosomes\BinaryChromosomeBase.cs</FileName>
@@ -682,7 +682,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="GeneticSharp.Domain.Chromosomes.ChromosomeBase&lt;U&gt;" Collapsed="true">
-    <Position X="25.5" Y="12.75" Width="1.5" />
+    <Position X="23.5" Y="18.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAgAAhBEAACIAQAgAiAAgBAIEgBQIIAAAAAAAMABjA=</HashCode>
       <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Chromosomes\ChromosomeBase.cs</FileName>
@@ -697,7 +697,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="GeneticSharp.Domain.Chromosomes.IntegerChromosome" Collapsed="true">
-    <Position X="24.25" Y="15.5" Width="1.5" />
+    <Position X="22.25" Y="21" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAACIBAEAAAAAAAAAAAIAIIAAAAAAAIAAAA=</HashCode>
       <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Chromosomes\IntegerChromosome.cs</FileName>
@@ -1176,8 +1176,8 @@
       <FileName>Assets\ISI Lab\LBS\Plugin\Internal\Main\LevelBackUp.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LBS.Components.Graph.GraphModule&lt;T&gt;" Collapsed="true">
-    <Position X="14" Y="19" Width="1.5" />
+  <Class Name="LBS.Components.Graph.GraphModule&lt;T&gt;">
+    <Position X="30.5" Y="19.75" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAhEAAIAAIAAAAEACAAgAAAQEIAEAAAAAABBAABMIDA=</HashCode>
       <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\Graph\GraphModule.cs</FileName>
@@ -1199,8 +1199,8 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="LBS.Components.Graph.LBSRoomGraph" Collapsed="true">
-    <Position X="14" Y="20.5" Width="1.5" />
+  <Class Name="LBS.Components.Graph.LBSRoomGraph">
+    <Position X="30.75" Y="26" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
       <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\Graph\LBSRoomGraph.cs</FileName>
@@ -1214,8 +1214,8 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="LBS.Components.LBSModule" Collapsed="true">
-    <Position X="18.5" Y="17.75" Width="1.5" />
+  <Class Name="LBS.Components.LBSModule">
+    <Position X="29.75" Y="14.25" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AABAAACAAQAAEAQAIAAEAAQAAIAABCAAAAABCABEABA=</HashCode>
       <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\LBSModule.cs</FileName>
@@ -1237,8 +1237,8 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="LBS.Components.TileMap.AreaTileMap&lt;T&gt;" Collapsed="true">
-    <Position X="16.25" Y="20.5" Width="1.5" />
+  <Class Name="LBS.Components.TileMap.AreaTileMap&lt;T&gt;">
+    <Position X="33.5" Y="26" Width="2.25" />
     <TypeIdentifier>
       <HashCode>CBBAAAAAAAAYAAAgAAAAAIAAAICAAAAAAAAREABEABA=</HashCode>
       <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\Specifics\TileMap\AreaTileMap.cs</FileName>
@@ -1252,8 +1252,8 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="LBS.Components.TileMap.TiledArea" Collapsed="true">
-    <Position X="18.5" Y="22" Width="1.5" />
+  <Class Name="LBS.Components.TileMap.TiledArea">
+    <Position X="35.25" Y="33.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>CAACEABAAAAAgIAAAAAAIAACAAAAgICAAABAgACQAhA=</HashCode>
       <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\Specifics\TileMap\TiledArea.cs</FileName>
@@ -1266,8 +1266,8 @@
       <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\Teselation\TileMap\ConnectedTile.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LBS.Components.TileMap.LBSSchema" Collapsed="true">
-    <Position X="16.25" Y="22" Width="1.5" />
+  <Class Name="LBS.Components.TileMap.LBSSchema">
+    <Position X="33" Y="33.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
       <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\Teselation\TileMap\LBSSchema.cs</FileName>
@@ -1281,22 +1281,22 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="LBS.Components.TileMap.TileMapModule&lt;T&gt;" Collapsed="true">
-    <Position X="20.75" Y="20.5" Width="1.5" />
+  <Class Name="LBS.Components.TileMap.TileMapModule&lt;T&gt;">
+    <Position X="36" Y="26" Width="2.5" />
     <TypeIdentifier>
       <HashCode>CQBAAAAEBAA4gAAAAAAAAEAAAuQQAIIACAABAAhUABA=</HashCode>
       <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\Teselation\TileMap\TileMapModule.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LBS.Components.Teselation.AreaModule&lt;T&gt;" Collapsed="true">
-    <Position X="25.25" Y="20.5" Width="1.5" />
+  <Class Name="LBS.Components.Teselation.AreaModule&lt;T&gt;">
+    <Position X="38.75" Y="26" Width="2" />
     <TypeIdentifier>
       <HashCode>AABAAAAAAAAAAAAgAAAABIAAAIAAAAAACAABEABEABA=</HashCode>
       <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\Teselation\Area\AreaModule.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LBS.Components.Teselation.TeselationModule" Collapsed="true">
-    <Position X="20.75" Y="19" Width="1.5" />
+  <Class Name="LBS.Components.Teselation.TeselationModule">
+    <Position X="33.25" Y="19.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AABAAAAAAAAAAQAAAAAAAAAAAEAAAAAAAAAAAEAgAAA=</HashCode>
       <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\Teselation\TeselationModule.cs</FileName>
@@ -1310,14 +1310,14 @@
     </TypeIdentifier>
   </Class>
   <Class Name="LBS.Generator.ExteriorGenerator" Collapsed="true">
-    <Position X="21" Y="14" Width="1.5" />
+    <Position X="19" Y="19.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAGAAAAA=</HashCode>
       <FileName>Assets\ISI Lab\LBS\Plugin\LVL Tools\Generators3D\ExteriorGenerator.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LBS.Generator.Generator3D" Collapsed="true">
-    <Position X="18.75" Y="12.75" Width="1.5" />
+    <Position X="16.75" Y="18.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAACAAAgAgIAIAACAAAAAAAAAQACAEEAAAA=</HashCode>
       <FileName>Assets\ISI Lab\LBS\Plugin\LVL Tools\Generators3D\Generator3D.cs</FileName>
@@ -1331,7 +1331,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="LBS.Generator.PopulationGenerator" Collapsed="true">
-    <Position X="16.5" Y="14" Width="1.5" />
+    <Position X="14.5" Y="19.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAEAAAAA=</HashCode>
       <FileName>Assets\ISI Lab\LBS\Plugin\LVL Tools\Generators3D\PopulationGenerator.cs</FileName>

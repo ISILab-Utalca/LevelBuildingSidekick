@@ -21,16 +21,19 @@ public static class VisualElementExtensions
         element.style.paddingTop = value;
     }
 
-    public static void SetBorder(this VisualElement element, Color color, int value)
+    public static void SetBorder(this VisualElement element, Color color, int value = -1)
     {
         element.style.borderBottomColor = color;
         element.style.borderLeftColor = color;
         element.style.borderRightColor = color;
         element.style.borderTopColor = color;
 
-        element.style.borderBottomWidth = value;
-        element.style.borderLeftWidth = value;
-        element.style.borderRightWidth = value;
-        element.style.borderBottomWidth = value;
+        if (value >= 0)
+        {
+            element.style.borderBottomWidth = value;
+            element.style.borderLeftWidth = value;
+            element.style.borderRightWidth = value;
+            element.style.borderBottomWidth = value;
+        }
     }
 }

@@ -12,9 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95a9e63de28b9dc40aa55a3c1f124e76, type: 3}
   m_Name: New exterior bundle 11
   m_EditorClassIdentifier: 
-  foward: {fileID: 11400000, guid: 306085069d367f74ab2d9bd07892d15d, type: 2}
-  right: {fileID: 11400000, guid: 306085069d367f74ab2d9bd07892d15d, type: 2}
-  backward: {fileID: 11400000, guid: 306085069d367f74ab2d9bd07892d15d, type: 2}
-  left: {fileID: 11400000, guid: 306085069d367f74ab2d9bd07892d15d, type: 2}
+  directions:
+    label: Direcctions
+    tags:
+    - 
+    - 
+    - 
+    - 
   weight: 1
-  Pref: {fileID: 8151632068590299998, guid: cb81fbcd39558034eb9960c0279712a0, type: 3}
+  Pref:
+  - weight: 1
+    gameObject: {fileID: 0}

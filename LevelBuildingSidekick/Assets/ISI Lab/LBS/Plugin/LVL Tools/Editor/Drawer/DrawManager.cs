@@ -23,7 +23,6 @@ public class DrawManager
         // clear
         view.ClearView();
 
-        // draw others
         var _allLayers = new List<LBSLayer>(allLayers);
         foreach (var otherLayer in _allLayers)
         {
@@ -43,7 +42,5 @@ public class DrawManager
             }
         }
 
-        // draw selected
-        //mode.Drawer.Draw(ref _layer, view);
     }
 }

@@ -19,7 +19,7 @@ namespace Utility
             var jsonSerializerSettings = new JsonSerializerSettings()
             {
                 PreserveReferencesHandling = PreserveReferencesHandling.All,
-                ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
+                ReferenceLoopHandling = ReferenceLoopHandling.Error,
                 TypeNameHandling = TypeNameHandling.All,
                 Formatting = Formatting.Indented,
                 NullValueHandling = NullValueHandling.Ignore,
@@ -36,17 +36,10 @@ namespace Utility
 
             // generate json string
             string jsonString = "ERROR";
-            try
-            {
-                jsonString = JsonConvert.SerializeObject(
-                    data,
-                    jsonSerializerSettings
-                    );
-            }
-            catch
-            {
-                Debug.Log("AAAAAAAAAAAAAF");
-            }
+            jsonString = JsonConvert.SerializeObject(
+                data,
+                jsonSerializerSettings
+                );
 
             // write json in a file
             using StreamWriter writer = new StreamWriter(path);

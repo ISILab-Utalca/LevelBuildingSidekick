@@ -37,15 +37,18 @@ public class AddDoor<T, U> : ManipulateTiledArea<T, U> where T : TiledArea where
         var size = new Vector2(tile.style.width.value.value,tile.style.height.value.value);
 
         clicked = true;
+        /*
         feedback.Actualize(
             Color.yellow, 
             (first.Position * size * 0.5f).ToInt(),
             (first.Position * size * 0.5f).ToInt());
         mainView.AddElement(feedback);
+        */
     }
 
     protected override void OnMouseMove(MouseMoveEvent e)
     {
+        /*
         if (!clicked)
             return;
 
@@ -86,12 +89,13 @@ public class AddDoor<T, U> : ManipulateTiledArea<T, U> where T : TiledArea where
         {
             feedback.Actualize(Color.red, first.Position, e.mousePosition.ToInt());
         }
+        */
     }
 
     protected override void OnMouseUp(MouseUpEvent e)
     {
         // remove feedback
-        mainView.RemoveElement(feedback);
+        //mainView.RemoveElement(feedback);
 
         if (first == null)
             return;
