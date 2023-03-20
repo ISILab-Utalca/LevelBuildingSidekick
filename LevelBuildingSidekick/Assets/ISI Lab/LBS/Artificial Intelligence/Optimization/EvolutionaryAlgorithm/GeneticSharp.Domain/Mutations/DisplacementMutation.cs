@@ -60,12 +60,6 @@ namespace GeneticSharp.Domain.Mutations
         {
              return RandomizationProvider.Current.GetInt(0, maxCount) + 1;
         }
-
-        public override VisualElement CIGUI()
-        {
-            var content = new VisualElement();
-            return content;
-        }
         #endregion
     }
 }

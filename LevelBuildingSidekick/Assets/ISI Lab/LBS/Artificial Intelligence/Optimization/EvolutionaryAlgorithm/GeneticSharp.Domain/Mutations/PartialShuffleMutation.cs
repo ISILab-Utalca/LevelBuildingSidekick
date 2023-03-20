@@ -26,12 +26,6 @@ namespace GeneticSharp.Domain.Mutations
         {
             IsOrdered = true;
         }
-
-        public override VisualElement CIGUI()
-        {
-            var content = new VisualElement();
-            return content;
-        }
         #endregion
 
         #region Methods

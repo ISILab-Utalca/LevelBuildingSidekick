@@ -22,12 +22,6 @@ namespace GeneticSharp.Domain.Mutations
         {
             IsOrdered = true;
         }
-
-        public override VisualElement CIGUI()
-        {
-            var content = new VisualElement();
-            return content;
-        }
         #endregion
 
         #region Methods
@@ -36,9 +30,9 @@ namespace GeneticSharp.Domain.Mutations
         /// </summary>
         /// <param name="chromosome">The chromosome.</param>
         /// <param name="probability">The probability to mutate each chromosome.</param>
-        protected override void PerformMutate(IOptimizable evaluable, float probability)
+        protected override void PerformMutate(IChromosome evaluable, float probability)
         {
-            var data = (evaluable as IChromosome).GetDataSquence<object>();
+            var data = evaluable.GetDataSquence<object>();
             if (RandomizationProvider.Current.GetDouble() <= probability)
             {
                 var indexes = RandomizationProvider.Current.GetUniqueInts(2, 0, data.Length);
@@ -50,7 +44,7 @@ namespace GeneticSharp.Domain.Mutations
                 data[firstIndex] = secondGene;
                 data[secondIndex] = firstGene;
 
-                (evaluable as IChromosome).SetDataSequence(data);
+                evaluable.SetDataSequence(data);
             }
         }
         #endregion

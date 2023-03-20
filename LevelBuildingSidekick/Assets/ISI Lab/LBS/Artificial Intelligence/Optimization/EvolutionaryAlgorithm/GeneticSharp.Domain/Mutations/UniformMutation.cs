@@ -60,11 +60,11 @@ namespace GeneticSharp.Domain.Mutations
         /// </summary>
         /// <param name="chromosome">The chromosome.</param>
         /// <param name="probability">The probability to mutate each chromosome.</param>
-        protected override void PerformMutate(IOptimizable evaluable, float probability)
+        protected override void PerformMutate(IChromosome evaluable, float probability)
         {
             ExceptionHelper.ThrowIfNull("chromosome", evaluable);
 
-            var data = (evaluable as IChromosome).GetDataSquence<object>();
+            var data = evaluable.GetDataSquence<object>();
 
             var genesLength = data.Length;
 
@@ -91,45 +91,10 @@ namespace GeneticSharp.Domain.Mutations
 
                 if (RandomizationProvider.Current.GetDouble() <= probability)
                 {
-                    data[geneIndex] = (evaluable as IChromosome).GetSampleData<object>();
+                    data[geneIndex] = evaluable.GetSampleData<object>();
                 }
             }
-            (evaluable as IChromosome).SetDataSequence(data);
-        }
-
-        public override VisualElement CIGUI()
-        {
-            var content = new VisualElement();
-            var allMutableToggle = new Toggle("All Mutable ");
-            allMutableToggle.value = m_allGenesMutable;
-            allMutableToggle.RegisterCallback<ChangeEvent<bool>>(e => m_allGenesMutable = e.newValue);
-
-            var geneIndex = new ListView(
-                m_mutableGenesIndexes,
-                -1,
-                () => 
-                {
-                    var i = m_mutableGenesIndexes.Length;
-                    m_mutableGenesIndexes = m_mutableGenesIndexes.Resize(i + 1);
-                    var iF = new IntegerField("Element " + i, -1);
-                    iF.RegisterCallback<ChangeEvent<int>>(e => m_mutableGenesIndexes[i] = e.newValue);
-                    return iF;
-                },
-                (e, i) => (e as IntegerField).value = m_mutableGenesIndexes[i]
-                );
-            geneIndex.headerTitle = "Mutable Genes Indexes";
-            //Probably some USS already has all this, or XML
-            geneIndex.showBorder = true;
-            geneIndex.showFoldoutHeader = true;
-            geneIndex.showAddRemoveFooter = true;
-            geneIndex.showBoundCollectionSize = true;
-            geneIndex.fixedItemHeight = 20;
-            geneIndex.tooltip = "Use only if not all genes are mutable to specify which ones are";
-
-            content.Add(allMutableToggle);
-            content.Add(geneIndex);
-
-            return content;
+            evaluable.SetDataSequence(data);
         }
         #endregion
     }
