@@ -10,16 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 95a9e63de28b9dc40aa55a3c1f124e76, type: 3}
-  m_Name: New exterior bundle 6
+  m_Name: Grass
   m_EditorClassIdentifier: 
+  id: Path
+  characteristics: []
+  weight: 1
   directions:
     label: Direcctions
     tags:
-    - 
-    - 
-    - 
-    - 
-  weight: 1
+    - Grass
+    - Grass
+    - Grass
+    - Grass
   Pref:
   - weight: 1
-    gameObject: {fileID: 0}
+    gameObject: {fileID: 8151632068590299998, guid: cb81fbcd39558034eb9960c0279712a0, type: 3}
+  - weight: 0.2
+    gameObject: {fileID: 2878849239795905248, guid: 06a31a5443fca6a42a24d6cad03491f2, type: 3}
+  references:
+    version: 2
+    RefIds: []
