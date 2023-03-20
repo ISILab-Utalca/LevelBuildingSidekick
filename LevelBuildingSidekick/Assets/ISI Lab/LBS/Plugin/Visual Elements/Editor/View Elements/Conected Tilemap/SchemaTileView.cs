@@ -44,7 +44,6 @@ public class SchemaTileView : GraphElement
         this.data = connectedTile;
 
         SetConnections(data.Connections);
-
     }
 
     public void SetBackgroundColor(Color color)
