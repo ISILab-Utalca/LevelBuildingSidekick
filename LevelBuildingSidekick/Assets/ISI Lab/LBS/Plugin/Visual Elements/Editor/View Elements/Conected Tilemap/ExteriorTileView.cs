@@ -20,10 +20,15 @@ public class ExteriorTileView : GraphElement
     private VisualElement bottom;
     private VisualElement border;
 
+    private static VisualTreeAsset view;
+
     public ExteriorTileView(ConnectedTile connectedTile)
     {
-        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("ConnectedTile");
-        visualTree.CloneTree(this);
+        if (view == null)
+        {
+            ExteriorTileView.view = DirectoryTools.SearchAssetByName<VisualTreeAsset>("ConnectedTile");
+        }
+        ExteriorTileView.view.CloneTree(this);
 
         this.SetMargins(0);
         this.SetPaddings(0);
