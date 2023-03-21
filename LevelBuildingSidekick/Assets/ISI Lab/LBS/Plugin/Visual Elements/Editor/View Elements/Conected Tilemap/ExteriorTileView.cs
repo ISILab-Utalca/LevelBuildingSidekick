@@ -53,13 +53,6 @@ public class ExteriorTileView : GraphElement
 
     public void SetConnections(string[] tags)
     {
-        /*
-        right.style.display = (!tags[0].Equals("")) ? DisplayStyle.Flex : DisplayStyle.None;
-        top.style.display = (!tags[1].Equals("")) ? DisplayStyle.Flex : DisplayStyle.None;
-        left.style.display = (!tags[2].Equals("")) ? DisplayStyle.Flex : DisplayStyle.None;
-        bottom.style.display = (!tags[3].Equals("")) ? DisplayStyle.Flex : DisplayStyle.None;
-        */
-
         var tts = Utility.DirectoryTools.GetScriptables<LBSIdentifier>().ToList();
         if(!string.IsNullOrEmpty(tags[0]))
         {
@@ -100,8 +93,5 @@ public class ExteriorTileView : GraphElement
         {
             bottom.style.display = DisplayStyle.None;
         }
-        //top.style.backgroundColor = (!tags[1].Equals("")) ? DisplayStyle.Flex : DisplayStyle.None;
-        //left.style.backgroundColor = (!tags[2].Equals("")) ? DisplayStyle.Flex : DisplayStyle.None;
-        //bottom.style.backgroundColor = (!tags[3].Equals("")) ? DisplayStyle.Flex : DisplayStyle.None;
     }
 }
