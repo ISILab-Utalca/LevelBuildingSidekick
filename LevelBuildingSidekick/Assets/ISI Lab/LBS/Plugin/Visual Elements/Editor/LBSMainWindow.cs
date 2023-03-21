@@ -29,6 +29,7 @@ public class LBSMainWindow : EditorWindow
     private ModeSelector modeSelector;
     private MainView mainView;
     private Label selectedLabel;
+    private VisualElement floatingPanelContent;
 
     // Panels
     private LayersPanel layerPanel;
@@ -131,6 +132,9 @@ public class LBSMainWindow : EditorWindow
         // SelectedLabel
         selectedLabel = rootVisualElement.Q<Label>("SelectedLabel");
 
+        // FloatingPanelContent
+        floatingPanelContent = rootVisualElement.Q<VisualElement>("FloatingPanelContent");
+
         // Init Data
         levelData = LBSController.CurrentLevel.data;
         OnLevelDataChange(levelData);
@@ -179,6 +183,8 @@ public class LBSMainWindow : EditorWindow
         {
             var value = (layerPanel.style.display == DisplayStyle.None);
             layerPanel.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
+
+            TryCollapseMenuPanels();
         };
 
         // IAButton
@@ -188,6 +194,8 @@ public class LBSMainWindow : EditorWindow
             aiPanel.Init(ref _selectedLayer);
             var value = (aiPanel.style.display == DisplayStyle.None);
             aiPanel.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
+
+            TryCollapseMenuPanels();
         };
 
         // 3DButton
@@ -197,7 +205,23 @@ public class LBSMainWindow : EditorWindow
             gen3DPanel.Init(_selectedLayer);
             var value = (gen3DPanel.style.display == DisplayStyle.None);
             gen3DPanel.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
+
+            TryCollapseMenuPanels();
         };
+    }
+
+    private void TryCollapseMenuPanels()
+    {
+        if (layerPanel?.style.display == DisplayStyle.None &&
+            aiPanel?.style.display == DisplayStyle.None &&
+            gen3DPanel?.style.display == DisplayStyle.None)
+        {
+            floatingPanelContent.style.display = DisplayStyle.None;
+        }
+        else
+        {
+            floatingPanelContent.style.display = DisplayStyle.Flex;
+        }
     }
 
     private void RefreshWindow()
