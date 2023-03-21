@@ -46,7 +46,7 @@ public class TaggedTileMap : LBSModule
         {
             dir.Add(k.Clone() as LBSTile, tiles[k].Clone() as string);
         }
-        return  new TaggedTileMap(key, tiles);
+        return  new TaggedTileMap(key, new Dictionary<LBSTile, BundleData>(tiles));
     }
 
     public override bool IsEmpty()
