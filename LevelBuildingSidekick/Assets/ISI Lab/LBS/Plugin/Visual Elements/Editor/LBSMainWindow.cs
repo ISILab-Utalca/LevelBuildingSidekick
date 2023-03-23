@@ -132,6 +132,7 @@ public class LBSMainWindow : EditorWindow
         // SelectedLabel
         selectedLabel = rootVisualElement.Q<Label>("SelectedLabel");
 
+
         // FloatingPanelContent
         floatingPanelContent = rootVisualElement.Q<VisualElement>("FloatingPanelContent");
 
