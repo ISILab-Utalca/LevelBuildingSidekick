@@ -15,7 +15,7 @@ namespace LBS.Components.TileMap
         [SerializeField, JsonRequired]
         protected string id;
         [SerializeField, JsonRequired]
-        protected Color color;
+        protected SerializableColor color;
 
         #endregion
 
@@ -24,7 +24,7 @@ namespace LBS.Components.TileMap
         [JsonIgnore]
         public string ID => id;
         [JsonIgnore]
-        public Color Color => color;
+        public Color Color => color.ToColor();
 
         #endregion
 
@@ -41,7 +41,7 @@ namespace LBS.Components.TileMap
 
         public TiledArea(List<LBSTile> tiles, string id, string key, Color color) : base(tiles, key)
         {
-            this.color = color;
+            this.color = color.ToSerializable();
             this.id = id;
         }
 
@@ -265,7 +265,7 @@ namespace LBS.Components.TileMap
 
         public override object Clone()
         {
-            var tileMap = new TiledArea(tiles.Select(t => t.Clone() as LBSTile).ToList(),this.ID,this.key,this.color);
+            var tileMap = new TiledArea(tiles.Select(t => t.Clone() as LBSTile).ToList(),this.ID,this.key,this.color.ToColor());
             return tileMap;
         }
 
