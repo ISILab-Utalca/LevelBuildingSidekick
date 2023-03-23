@@ -34,6 +34,21 @@ public static class DrawToolHelper
 
     }
 
+    // Draw a Box
+    public static void DrawSelectionBox(this Painter2D paint2D, Vector2 pos1, Vector2 pos2, Color color, int width = 1)
+    {
+        var fillColor = color * new Color(1, 1, 1, 0.2f);
+        
+        var points = new List<Vector2>() 
+        { 
+            new Vector2(pos1.x, pos1.y),
+            new Vector2(pos2.x, pos1.y),
+            new Vector2(pos1.x, pos2.y),
+            new Vector2(pos2.x, pos2.y),
+        };
+        paint2D.DrawLine(points,color,fillColor,4);
+    }
+
     //Draw a circle
     public static void DrawCircle(this Painter2D paint2D, Vector2 pos, float radius, Color color)
     {
@@ -43,6 +58,7 @@ public static class DrawToolHelper
         paint2D.Arc(pos, radius, 0.0f, 360.0f);
         paint2D.Fill();
     }
+
     //Draw a line
     public static void DrawLine(this Painter2D paint2D, Vector2 iniPos, Vector2 endPos, Color color, Color border, bool dottedLine, float stroke = 3,int divs = 12)
     {
@@ -61,7 +77,7 @@ public static class DrawToolHelper
             {
                 if (i % 2 == 0)
                 {
-                    DrawLineWithList( paint2D,new List<Vector2>() { dots[i - 1], dots[i] }, color, border, 3);
+                    DrawLine( paint2D,new List<Vector2>() { dots[i - 1], dots[i] }, color, border, 3);
                 }
                 else
                 { 
@@ -71,11 +87,11 @@ public static class DrawToolHelper
         //If 'dottedLine' is false, just make a straight line
         else
         {
-            DrawLineWithList( paint2D,new List<Vector2>() { iniPos, endPos }, color, border, 3);
+            DrawLine( paint2D,new List<Vector2>() { iniPos, endPos }, color, border, 3);
         }
     }
     //Draw a line with List<Vector2> instead of just two points
-    public static void DrawLineWithList(this Painter2D paint2D, List<Vector2> point, Color color, Color border, float stroke = 1)
+    public static void DrawLine(this Painter2D paint2D, List<Vector2> point, Color color, Color border, float stroke = 1)
     {
         paint2D.strokeColor = border;
         paint2D.fillColor = color;
