@@ -18,18 +18,17 @@ namespace LBS.Generator
 
             var parent = new GameObject(objName);
 
-            foreach(var k in data.tiles.Keys)
+            foreach(var k in data.PairTiles.Select(x => x.tile))
             {
-                var sc = Utility.DirectoryTools.GetScriptables<SimpleBundle>().Find(b => b.ID.Label == data.tiles[k].BundleTag);
+                var sc = Utility.DirectoryTools.GetScriptables<SimpleBundle>().Find(b => b.ID.Label == data.GetPair(k).BundleTag);
 
-                var pref = sc.GetObject(Random.Range(0,sc.objects.Count));
+                var pref = sc.GetObject(Random.Range(0, sc.objects.Count));
 
                 var go = GameObject.Instantiate(pref, parent.transform);
                 go.transform.position = new Vector3(k.Position.x, 0, k.Position.y);
             }
 
             return parent;
-
         }
 
         public override void Init(LBSLayer layer)
