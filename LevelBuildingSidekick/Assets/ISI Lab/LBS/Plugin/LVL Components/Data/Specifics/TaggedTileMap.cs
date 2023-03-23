@@ -4,14 +4,20 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
+[System.Serializable]
 public class TaggedTileMap : LBSModule
 {
     [SerializeField, JsonRequired, SerializeReference]
-    public Dictionary<LBSTile, BundleData> tiles;
+    private List<pairTile> pairTiles = new List<pairTile>();
 
-    public Rect Rect => new Rect();
+    [JsonIgnore]
+    public List<pairTile> PairTiles => pairTiles; 
+
+    [JsonIgnore]
+    public Rect Rect => new Rect(); // (!!)
     
     [JsonIgnore]
     protected Func<LBSTile, bool> OnAddTile;
@@ -19,39 +25,44 @@ public class TaggedTileMap : LBSModule
     public TaggedTileMap() : base() 
     { 
         Key = GetType().Name;
-        tiles = new Dictionary<LBSTile, BundleData>();
     }
 
-    public TaggedTileMap(string key, Dictionary<LBSTile, BundleData> tiles) : base(key)
+    public TaggedTileMap(string key, List<pairTile> tiles) : base(key)
     {
-        this.tiles = tiles;
+        this.pairTiles = tiles;
     }
 
     public override void Clear()
     {
-        tiles.Clear();
+        pairTiles.Clear();
+    }
+
+    public BundleData GetPair(LBSTile tile)
+    {
+        return pairTiles.Find(x => x.tile == tile)?.bData;
     }
 
     public void AddTile(LBSTile tile, Bundle bundle)
     {
         OnAddTile?.Invoke(tile);
         var data = new BundleData(bundle.ID.Label, bundle.GetCharacteristics());
-        tiles.Add(tile, data);
+        pairTiles.Add(new pairTile(tile, data));
     }
 
     public override object Clone()
     {
-        var dir = new Dictionary<LBSTile, string>();
-        foreach(var k in tiles.Keys)
+        var dir = new List<pairTile>();
+        foreach (var pair in pairTiles)
         {
-            dir.Add(k.Clone() as LBSTile, tiles[k].Clone() as string);
+            dir.Add(new pairTile(pair.tile, pair.bData));
         }
-        return  new TaggedTileMap(key, new Dictionary<LBSTile, BundleData>(tiles));
+
+        return new TaggedTileMap(key, dir);
     }
 
     public override bool IsEmpty()
     {
-        return tiles.Count == 0;
+        return pairTiles.Count == 0;
     }
 
     public override void OnAttach(LBSLayer layer)
@@ -78,14 +89,36 @@ public class TaggedTileMap : LBSModule
 
     public void RemoveTile(object tile)
     {
-        tiles.Remove(tile as LBSTile);
+        var toR = tile as LBSTile;
+        var xx = pairTiles.Find(x => x.tile == toR);
+        pairTiles.Remove(xx);
     }
 
     public void AddEmpty(object tile)
     {
         var t = tile as LBSTile;
-        if(tiles.ContainsKey(t))
-            tiles.Add((t), new BundleData());
+        var xx = pairTiles.Find(x => x.tile == t);
+        if(xx != null)
+        {
+            RemoveTile(xx);
+            pairTiles.Add(new pairTile(t, new BundleData()));
+        }
+        //if (pairTiles.ContainsKey(t))
+        //    pairTiles.Add((t), new BundleData());
     }
 }
 
+[System.Serializable]
+public class pairTile
+{
+    [SerializeField]
+    public LBSTile tile;
+    [SerializeField]
+    public BundleData bData;
+
+    public pairTile(LBSTile tile, BundleData bData)
+    {
+        this.tile = tile;
+        this.bData = bData;
+    }
+}
