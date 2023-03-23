@@ -11,9 +11,9 @@ public class TaggedTileMapChromosome : ChromosomeBase2D
     {
         genes = new object[(int)(tileMap.Rect.width * tileMap.Rect.height)];
 
-        foreach(var t in tileMap.tiles.Keys)
+        foreach(var t in tileMap.PairTiles.Select(x => x.tile))
         {
-            ReplaceGene(ToIndex(t.Position), tileMap.tiles[t]);
+            ReplaceGene(ToIndex(t.Position), tileMap.GetPair(t));
         }
     }
 
