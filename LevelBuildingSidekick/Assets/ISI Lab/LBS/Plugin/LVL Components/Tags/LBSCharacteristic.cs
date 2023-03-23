@@ -2,14 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Newtonsoft.Json;
 
 [System.Serializable]
 [LBSCharacteristic("Basic Characteristic","")]
 public class LBSCharacteristic : ICloneable
 {
-    [SerializeField]
+    [JsonRequired, SerializeField]
     protected string label = "";
 
+    [JsonIgnore]
     public string Label
     {
         get => label;
