@@ -8,6 +8,9 @@ using UnityEngine.UIElements;
 
 public class WaveFunctionCollapseManipulator<T> : ManipulateTileMap<T> where T : LBSTile
 {
+    private DotedAreaFeedback feedback = new DotedAreaFeedback();
+    private Vector2 firstClick;
+
     private List<Vector2Int> dirs = new List<Vector2Int>() // (!) esto deberia estar en un lugar general
     {
         Vector2Int.right,
@@ -26,15 +29,27 @@ public class WaveFunctionCollapseManipulator<T> : ManipulateTileMap<T> where T :
             return;
 
         first = view.Data;
+
+        mainView.AddElement(feedback);
+        feedback.fixToTeselation = true;
+        firstClick = mainView.FixPos(e.localMousePosition);
+        feedback.ActualizePositions(firstClick.ToInt(), firstClick.ToInt());
     }
 
     protected override void OnMouseMove(MouseMoveEvent e)
     {
         //throw new System.NotImplementedException();
+        if (firstClick != null)
+        {
+            var pos = mainView.FixPos(e.localMousePosition);
+            feedback.ActualizePositions(firstClick.ToInt(), pos.ToInt());
+        }
     }
 
     protected override void OnMouseUp(MouseUpEvent e)
     {
+        mainView.RemoveElement(feedback);
+
         if (first == null)
             return;
 
@@ -69,6 +84,7 @@ public class WaveFunctionCollapseManipulator<T> : ManipulateTileMap<T> where T :
             toCalc.Remove(t);
 
         } while (toCalc.Count > 0);
+
 
         OnManipulationEnd?.Invoke();
     }
