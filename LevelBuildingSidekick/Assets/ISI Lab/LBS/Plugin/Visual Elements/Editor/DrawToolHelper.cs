@@ -46,7 +46,7 @@ public static class DrawToolHelper
             new Vector2(pos1.x, pos2.y),
             new Vector2(pos2.x, pos2.y),
         };
-        paint2D.DrawLine(points,color,fillColor,4);
+        paint2D.DrawPoligon(points,color,fillColor,4);
     }
 
     //Draw a circle
@@ -77,7 +77,7 @@ public static class DrawToolHelper
             {
                 if (i % 2 == 0)
                 {
-                    DrawLine( paint2D,new List<Vector2>() { dots[i - 1], dots[i] }, color, border, 3);
+                    DrawPoligon( paint2D,new List<Vector2>() { dots[i - 1], dots[i] }, color, border, 3);
                 }
                 else
                 { 
@@ -87,11 +87,11 @@ public static class DrawToolHelper
         //If 'dottedLine' is false, just make a straight line
         else
         {
-            DrawLine( paint2D,new List<Vector2>() { iniPos, endPos }, color, border, 3);
+            DrawPoligon( paint2D,new List<Vector2>() { iniPos, endPos }, color, border, 3);
         }
     }
     //Draw a line with List<Vector2> instead of just two points
-    public static void DrawLine(this Painter2D paint2D, List<Vector2> point, Color color, Color border, float stroke = 1)
+    public static void DrawPoligon(this Painter2D paint2D, List<Vector2> point, Color color, Color border, float stroke = 1,bool closed = false)
     {
         paint2D.strokeColor = border;
         paint2D.fillColor = color;
@@ -103,10 +103,14 @@ public static class DrawToolHelper
             paint2D.LineTo(point[i]);
         }
 
+        if(closed)
+            paint2D.LineTo(point[0]);
+
         paint2D.lineWidth = stroke;
         paint2D.Fill(FillRule.OddEven);
         paint2D.Stroke();
     }
+
     //Draw a square with differents points
     //in the example, just gave initial point and end point to make the entire square
     public static void DrawSquareGrid(this Painter2D paint2D, List<List<Vector2>> points, Color color, Color border, float stroke, float scale, float angle)
