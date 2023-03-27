@@ -4,7 +4,7 @@
     </ui:VisualElement>
     <ToolBarMain name="ToolBar" style="height: auto; border-bottom-color: rgb(99, 99, 99); border-bottom-width: 1px; max-height: 21px; min-height: 21px;" />
     <ui:VisualElement picking-mode="Ignore" style="flex-direction: row; flex-grow: 1;">
-        <ui:VisualElement picking-mode="Ignore" style="width: 65%; min-width: auto; min-height: auto; flex-direction: row; padding-left: 5px; padding-right: 2px; padding-top: 5px; padding-bottom: 5px;">
+        <ui:VisualElement picking-mode="Ignore" style="width: 65%; min-width: auto; min-height: auto; flex-direction: row; padding-left: 5px; padding-right: 2px; padding-top: 5px; padding-bottom: 0;">
             <ui:VisualElement name="NoLayerSign" style="position: absolute; width: 400px; height: 150px; top: 40%; left: 30%; border-left-color: rgb(75, 75, 75); border-right-color: rgb(63, 63, 63); border-top-color: rgb(63, 63, 63); border-bottom-color: rgb(48, 48, 48); background-color: rgb(55, 55, 55); flex-direction: row; align-items: stretch; border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px;">
                 <ui:VisualElement style="flex-direction: row; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px; border-left-color: rgba(0, 0, 0, 0.2); border-right-color: rgba(0, 0, 0, 0.2); border-top-color: rgba(0, 0, 0, 0.2); border-bottom-color: rgba(0, 0, 0, 0.2); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-top-left-radius: 4px; border-bottom-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; flex-grow: 1; align-items: center;">
                     <ui:VisualElement style="flex-grow: 1; background-image: url(&apos;project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Layers_Icon.png?fileID=2800000&amp;guid=06c081418decd754c906960b1e3c0fdd&amp;type=3#Layers_Icon&apos;); width: 60px; height: 60px; align-items: center; justify-content: flex-start; max-height: 60px; min-height: 60px; max-width: 60px; min-width: 60px; margin-left: 35px; margin-right: 35px; margin-top: 35px; margin-bottom: 35px;" />
@@ -18,7 +18,6 @@
                 <LBS.VisualElements.ButtonGroup name="ToolsGroup" style="flex-direction: row; padding-left: 0; padding-right: 3px; flex-wrap: wrap; align-items: center; padding-bottom: 3px;" />
                 <ui:VisualElement style="flex-direction: row; align-items: center;">
                     <ModeSelector name="ModeSelector" style="display: none;" />
-                    <ui:Label tabindex="-1" text="selected: -" display-tooltip-when-elided="true" name="SelectedLabel" style="color: rgba(255, 255, 255, 0.3);" />
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement picking-mode="Ignore" name="FloatingPanelContent" style="flex-grow: 1; width: 250px; max-width: 250px; min-width: 250px;">
@@ -39,5 +38,8 @@
             </ui:VisualElement>
             <ui:VisualElement name="Shadow" style="width: 5px; max-width: 5px; min-width: 5px; background-image: url(&apos;project://database/Assets/ISI%20Lab/Commons/Assets2D/Fade.png?fileID=2800000&amp;guid=a49e354fa998c454e9115ce30c3cba6d&amp;type=3#Fade&apos;); -unity-background-image-tint-color: rgba(2, 2, 2, 0.2); background-color: rgba(0, 0, 0, 0);" />
         </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement style="background-color: rgb(63, 62, 62); max-height: 18px; height: auto; min-height: 18px; border-left-color: rgba(0, 0, 0, 0.4); border-right-color: rgba(0, 0, 0, 0.4); border-top-color: rgba(0, 0, 0, 0.4); border-bottom-color: rgba(0, 0, 0, 0.4); border-top-width: 1px; justify-content: space-around;">
+        <ui:Label tabindex="-1" text="selected: -" display-tooltip-when-elided="true" name="SelectedLabel" style="color: rgba(255, 255, 255, 0.3); padding-left: 5px;" />
     </ui:VisualElement>
 </ui:UXML>
