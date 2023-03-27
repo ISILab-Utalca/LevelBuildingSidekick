@@ -11,7 +11,31 @@ using System.Threading;
 [System.Serializable]
 public class MapElites
 {
-    private int xSampleCount;
+    #region FIELDS
+
+    private int xSampleCount = 4;
+
+    private int ySampleCount = 4;
+
+    [Range(0, 0.5f)]
+    public double devest = 0.5;
+
+    [SerializeField, SerializeReference]
+    IRangedEvaluator xEvaluator;
+
+    [SerializeReference]
+    IRangedEvaluator yEvaluator;
+
+    [SerializeReference]
+    BaseOptimizer optimizer = new GeneticAlgorithm();
+
+    public List<int> changedSample;
+
+    private Thread thread;
+
+    #endregion
+
+    #region FIELDS
 
     /// <summary>
     /// Gets or sets the number of samples in the X dimension.
@@ -33,7 +57,6 @@ public class MapElites
         }
     }
 
-    private int ySampleCount;
 
     /// <summary>
     /// Gets or sets the number of samples in the Y dimension.
@@ -55,17 +78,7 @@ public class MapElites
         }
     }
 
-    Action OnSampleSizeChanged;
-
-    [Range(0, 0.5f)]
-    public double devest = 0.5;
-
     public IOptimizable Adam { get; set; }
-    public IOptimizable[,] BestSamples { get; private set; }
-    public List<int> changedSample;
-
-    [SerializeField ,SerializeReference]
-    IRangedEvaluator xEvaluator;
 
     /// <summary>
     /// Gets or sets the evaluator for the X dimension.
@@ -79,16 +92,13 @@ public class MapElites
         }
         set
         {
-            if(xEvaluator == null || !xEvaluator.Equals(value))
+            if (xEvaluator == null || !xEvaluator.Equals(value))
             {
                 xEvaluator = value;
                 OnEvaluatorChange();
             }
         }
     }
-
-    [SerializeReference]
-    IRangedEvaluator yEvaluator;
 
     /// <summary>
     /// Gets or sets the evaluator for the Y dimension.
@@ -102,7 +112,7 @@ public class MapElites
         }
         set
         {
-            if(yEvaluator == null || !yEvaluator.Equals(value))
+            if (yEvaluator == null || !yEvaluator.Equals(value))
             {
                 yEvaluator = value;
                 OnEvaluatorChange();
@@ -110,10 +120,7 @@ public class MapElites
         }
     }
 
-    Action OnEvaluatorChanged;
-
-    [SerializeReference]
-    BaseOptimizer optimizer;
+    public IOptimizable[,] BestSamples { get; private set; }
 
     /// <summary>
     /// Gets or sets the optimizer to use.
@@ -132,21 +139,30 @@ public class MapElites
         }
     }
 
-    public System.Action OnOptimizerChanged;
+    public bool Running => thread != null && thread.IsAlive && thread.ThreadState == ThreadState.Running;
+
+    #endregion
+
+    #region EVENTS
+
+    Action OnSampleSizeChanged;
+
+    Action OnEvaluatorChanged;
+
+    public Action OnOptimizerChanged;
 
     public Action<Vector2Int> OnSampleUpdated;
 
-    private Thread thread;
+    #endregion
 
-    public bool Running => thread != null && thread.IsAlive && thread.ThreadState == ThreadState.Running;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MapElites"/> class.
     /// </summary>
     public MapElites()
     {
-        xEvaluator = new Vertical2DSimetry();
-        yEvaluator = new Horizontal2DSimetry();
+        //xEvaluator = new Vertical2DSimetry();
+        //yEvaluator = new Horizontal2DSimetry();
         optimizer = new GeneticAlgorithm();
         xSampleCount = 5;
         ySampleCount = 5;
