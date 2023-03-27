@@ -66,7 +66,7 @@ public class Generator3DPanel : VisualElement
         objName = this.Q<TextField>(name: "ObjName");
 
         dropDown = this.Q<ClassDropDown>(name: "Generator");
-        dropDown.Label = "Gennerator";
+        dropDown.label = "Gennerator";
         dropDown.Type = typeof(Generator3D);
 
         destroyPrev = this.Q<Toggle>(name: "DestroyPrev");
