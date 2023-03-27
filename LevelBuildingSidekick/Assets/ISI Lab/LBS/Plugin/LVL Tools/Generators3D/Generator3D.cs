@@ -43,10 +43,7 @@ namespace LBS.Generator
         }
 
         public abstract GameObject Generate(LBSLayer layer);
-
         public abstract void Init(LBSLayer layer);
-
-        //public abstract void Init(Layer layer); // (!!) implementar
     }
 
     
