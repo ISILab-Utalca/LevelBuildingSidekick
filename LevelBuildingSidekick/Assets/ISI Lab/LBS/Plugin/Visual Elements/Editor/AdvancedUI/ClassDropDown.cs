@@ -14,8 +14,8 @@ public class ClassDropDown : VisualElement
 
     #region FIELDS
 
-    Label label;
-    DropdownField dropdown;
+    public Label label;
+    public DropdownField dropdown;
     Type type;
 
     bool FilterAbstract;
@@ -51,7 +51,6 @@ public class ClassDropDown : VisualElement
         }
     }
     #endregion
-
 
     public ClassDropDown() : base()
     {
