@@ -94,20 +94,5 @@ namespace GeneticSharp.Domain.Crossovers
 
             return new List<IChromosome> { child };
         }
-
-        public override VisualElement CIGUI()
-        {
-            var content = new VisualElement();
-
-            var parentsField = new IntegerField("Parents: ");
-            parentsField.value = ParentsNumber;
-            parentsField.RegisterCallback<ChangeEvent<int>>(e => ParentsNumber = e.newValue);
-
-            var thresholdField = new IntegerField("Threshold: ");
-            thresholdField.value = _threshold;
-            thresholdField.RegisterCallback<ChangeEvent<int>>(e => _threshold = e.newValue);
-
-            return content;
-        }
     }
 }

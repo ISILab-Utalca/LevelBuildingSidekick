@@ -127,15 +127,6 @@ namespace GeneticSharp.Domain.Crossovers
 
             return child;
         }
-
-        public override VisualElement CIGUI()
-        {
-            var content = new VisualElement();
-            var indexField = new IntegerField("Swap Point: ");
-            indexField.value = SwapPointIndex;
-            indexField.RegisterCallback<ChangeEvent<int>>(e => SwapPointIndex = e.newValue);
-            return content;
-        }
         #endregion
     }
 }

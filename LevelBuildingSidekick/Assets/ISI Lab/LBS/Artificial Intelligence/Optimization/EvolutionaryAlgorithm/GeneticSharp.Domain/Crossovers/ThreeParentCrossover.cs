@@ -67,12 +67,6 @@ namespace GeneticSharp.Domain.Crossovers
 
             return new List<IChromosome>() { child };
         }
-
-        public override VisualElement CIGUI()
-        {
-            var content = new VisualElement();
-            return content;
-        }
         #endregion
     }
 }

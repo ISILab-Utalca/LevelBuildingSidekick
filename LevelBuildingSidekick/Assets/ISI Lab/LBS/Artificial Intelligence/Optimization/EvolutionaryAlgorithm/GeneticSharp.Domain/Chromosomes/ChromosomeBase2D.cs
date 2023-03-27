@@ -12,6 +12,10 @@ public abstract class ChromosomeBase2D : ChromosomeBase//, ITileMap
         MatrixWidth = matrixWidth;
     }
 
+    protected ChromosomeBase2D() : base()
+    {
+    }
+
     /// <summary>
     /// Converts a 2D position to an index in a 1D array.
     /// </summary>

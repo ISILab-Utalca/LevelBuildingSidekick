@@ -101,11 +101,5 @@ namespace GeneticSharp.Domain.Crossovers
                 childGenesIndex++;
             }
         }
-
-        public override VisualElement CIGUI()
-        {
-            var content = new VisualElement();
-            return content;
-        }
     }
 }
