@@ -88,7 +88,7 @@ public class Generator3DPanel : VisualElement
 
     public void Execute()
     {
-        if(dropDown.dropdown.index <= 0)
+        if(dropDown.dropdown.index < 0)
         {
             Debug.LogWarning("[ISI LAB]: No has seleccionado un tipo de generador.");
             return;
@@ -99,7 +99,7 @@ public class Generator3DPanel : VisualElement
             var prev = GameObject.Find(objName.value);
             if(prev != null)
             {
-                GameObject.Destroy(prev);
+                GameObject.DestroyImmediate(prev);
             }
         }
 
