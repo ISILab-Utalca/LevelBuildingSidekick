@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 
 public class WaveFunctionCollapseManipulator<T> : ManipulateTileMap<T> where T : LBSTile
 {
-    private DotedAreaFeedback feedback = new DotedAreaFeedback();
+    private AreaFeedback feedback = new AreaFeedback();
     private Vector2 firstClick;
 
     private List<Vector2Int> dirs = new List<Vector2Int>() // (!) esto deberia estar en un lugar general
