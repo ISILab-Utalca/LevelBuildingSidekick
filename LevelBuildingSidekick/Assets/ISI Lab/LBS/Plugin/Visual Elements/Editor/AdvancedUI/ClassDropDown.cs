@@ -23,9 +23,6 @@ public class ClassDropDown : DropdownField
     }
 
     #region FIELDS
-
-    //Label label;
-    //DropdownField dropdown;
     Type type;
 
     bool filterAbstract;
@@ -52,7 +49,6 @@ public class ClassDropDown : DropdownField
             UpdateOptions();
         }
     }
-
 
     public bool FilterAbstract
     {

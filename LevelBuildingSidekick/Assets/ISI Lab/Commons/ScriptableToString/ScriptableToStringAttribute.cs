@@ -14,7 +14,7 @@ public class ScriptableToStringAttribute : PropertyAttribute
     public ScriptableToStringAttribute(Type type)
     {
         this.type = type;
-        //SOs = Resources.FindObjectsOfTypeAll(type).Select(o => o as ScriptableObject).ToList();
-        SOs = DirectoryTools.GetScriptables(type);
+        if (SOs == null || SOs.Count <= 0)
+            SOs = DirectoryTools.GetScriptables(type);
     }
 }

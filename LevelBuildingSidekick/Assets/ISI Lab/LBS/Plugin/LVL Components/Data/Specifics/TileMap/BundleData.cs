@@ -14,7 +14,7 @@ namespace LBS.Components.TileMap
         #region FIELDS
 
         [SerializeField, JsonRequired, SerializeReference]
-        protected List<LBSCharacteristic> characteristics;
+        protected List<LBSCharacteristic> characteristics = new List<LBSCharacteristic>();
 
         [SerializeField, JsonRequired]
         protected string bundleTag;
@@ -23,6 +23,7 @@ namespace LBS.Components.TileMap
 
         #region PROPERTIES
 
+        [JsonIgnore]
         public string BundleTag => bundleTag;
 
         #endregion
@@ -31,7 +32,6 @@ namespace LBS.Components.TileMap
 
         public BundleData()
         {
-            characteristics = new List<LBSCharacteristic>();
         }
 
         public BundleData(string bundle, List<LBSCharacteristic> characteristics)
@@ -39,16 +39,13 @@ namespace LBS.Components.TileMap
             this.bundleTag = bundle;
             this.characteristics = characteristics;
         }
+        #endregion
 
+        #region METHODS
         public object Clone()
         {
             return new BundleData(bundleTag, characteristics.Select(c => c.Clone() as LBSCharacteristic).ToList());
         }
-
-        #endregion
-
-        #region METHODS
-
         #endregion
     }
 }

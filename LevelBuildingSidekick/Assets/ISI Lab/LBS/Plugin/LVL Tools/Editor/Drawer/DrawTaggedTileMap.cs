@@ -1,6 +1,7 @@
 using LBS.Components;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class DrawTaggedTileMap : Drawer
@@ -10,9 +11,9 @@ public class DrawTaggedTileMap : Drawer
     {
         var tilemap = layer.GetModule<TaggedTileMap>();
 
-        foreach (var k in tilemap.tiles.Keys)
+        foreach (var k in tilemap.PairTiles.Select(x => x.tile))
         {
-            var bundle = tilemap.tiles[k];
+            var bundle = tilemap.GetPair(k);
             var tView = new TileView(k);
             tView.style.backgroundImage = Utility.DirectoryTools.GetScriptable<LBSIdentifier>(bundle.BundleTag).Icon;
             var size = view.TileSize;

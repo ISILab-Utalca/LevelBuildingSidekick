@@ -18,6 +18,7 @@ public class BundlePalleteInspector : LBSInspector
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("TagsPalleteInspector");
         visualTree.CloneTree(this);
 
+
         // Content
         content = this.Q<VisualElement>("Content");
 
@@ -53,7 +54,7 @@ public class BundlePalleteInspector : LBSInspector
             var btn = new Button();
             btn.style.width = btn.style.height = 64;
             btn.text = b.name;
-            btn.style.color = new Color(1f - b.ID.Color.r, 1f - b.ID.Color.g, 1f - b.ID.Color.b);
+            btn.style.color = b.ID.Color.Inverse();// + new Color(0.2f, 0.2f, 0.2f); //new Color(1f - b.ID.Color.r, 1f - b.ID.Color.g, 1f - b.ID.Color.b);
             btn.style.backgroundColor = b.ID.Color;
             if (b.ID.Icon != null)
                 btn.style.backgroundImage = b.ID.Icon;

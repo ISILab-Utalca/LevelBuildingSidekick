@@ -10,16 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 95a9e63de28b9dc40aa55a3c1f124e76, type: 3}
-  m_Name: New exterior bundle 3
+  m_Name: L-Path
   m_EditorClassIdentifier: 
+  id: Path
+  characteristics: []
+  weight: 0.4
   directions:
     label: Direcctions
     tags:
-    - 
-    - 
-    - 
-    - 
-  weight: 1
+    - Grass
+    - Path
+    - Path
+    - Grass
   Pref:
   - weight: 1
-    gameObject: {fileID: 0}
+    gameObject: {fileID: 8697051629104287967, guid: cace4bcb218bc3f47901183c0c7d69f7, type: 3}
+  references:
+    version: 2
+    RefIds: []

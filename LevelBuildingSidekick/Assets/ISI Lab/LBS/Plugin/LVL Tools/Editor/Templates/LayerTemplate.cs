@@ -58,7 +58,7 @@ public class LBSMode
     {
         get
         {
-            var x = Type.GetType(module); // (?!) me regreso un null y no se porque 
+            var x = Type.GetType(module);
             return x;
         }
         set => module = value.FullName;

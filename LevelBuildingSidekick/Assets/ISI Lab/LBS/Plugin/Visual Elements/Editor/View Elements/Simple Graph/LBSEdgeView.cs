@@ -56,27 +56,3 @@ public class LBSEdgeView<T,U> : GraphElement where T: LBSEdge where U :LBSNode
         this.MarkDirtyRepaint();
     }
 }
-
-public static class extVec
-{
-    public static Vector2Int Multiply(this Vector2Int vec, float value)
-    {
-        vec.x = (int)(vec.x * value);
-        vec.y = (int)(vec.y * value);
-        return vec;
-    }
-
-    public static Vector2Int Divided(this Vector2Int vec, float value)
-    {
-        vec.x = (int)(vec.x / value);
-        vec.y = (int)(vec.y / value);
-        return vec;
-    }
-
-    public static Vector2 Divided(this Vector2 vec, float value)
-    {
-        vec.x = (int)(vec.x / value);
-        vec.y = (int)(vec.y / value);
-        return vec;
-    }
-}

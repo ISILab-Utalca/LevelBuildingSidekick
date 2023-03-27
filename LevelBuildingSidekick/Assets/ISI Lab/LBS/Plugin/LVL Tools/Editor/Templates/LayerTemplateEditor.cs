@@ -126,7 +126,7 @@ public class LayerTemplateEditor : Editor
             "Erase",
             typeof(DeleteTileToAreaPoint<TiledArea, ConnectedTile>), // Removed<TiledArea<LBSTile>, LBSTile>,
             null
-        ); ;
+        );
 
         icon = Resources.Load<Texture2D>("Icons/open-exit-door");
         var tool8 = new LBSTool(icon, "Add door", typeof(AddDoor<TiledArea,ConnectedTile>), null, true);

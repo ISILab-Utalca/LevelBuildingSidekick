@@ -9,6 +9,7 @@ using UnityEngine;
 [LBSCharacteristic("Directions", "")]
 public class LBSDirection : LBSCharacteristic, ICloneable
 {
+    [Tooltip("4-Conected: 0: Foward, 1: Rigth, 2: Bottom, 3: Left")]
     [ScriptableToString(typeof(LBSIdentifier))]
     [SerializeField, JsonRequired]
     private List<string> tags = new List<string>();

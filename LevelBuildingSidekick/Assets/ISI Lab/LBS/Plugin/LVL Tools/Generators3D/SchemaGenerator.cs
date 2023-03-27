@@ -26,53 +26,27 @@ public class SchemaGenerator : Generator3D
             var node = graph.GetNode(i);
             var tags = node.Room.Tags;
 
-            // Debería sacarse del Schema, guardarse en un diccionario strig List<GameObject> y ser un ciclo
-            //Debería estar en una clase de ensamblado de tiles
-            var bundles = new Dictionary<string, List<GameObject>>();
+            var bundlesDictionary = new Dictionary<string, List<GameObject>>();
 
+            var bundlesSO = Utility.DirectoryTools.GetScriptables<CompositeBundle>();
             var temp = tags.Select(s => s.Clone() as string).ToList();
-            
-            bundles.Add("Wall", layer.Bundle.GetObjects("Wall",temp));
 
-
-            foreach(var obj in bundles["Wall"])
-            {
-                Debug.Log("Walls: " + obj.name);
-            }
-
-            temp = tags.Select(s => s.Clone() as string).ToList();
-            bundles.Add("Door", layer.Bundle.GetObjects("Door", temp));
-
-            foreach (var obj in bundles["Door"])
-            {
-                Debug.Log("Doors: " + obj.name);
-            }
-
-            temp = tags.Select(s => s.Clone() as string).ToList();
-            bundles.Add("Floor", layer.Bundle.GetObjects("Floor", temp));
-
-            foreach (var obj in bundles["Floor"])
-            {
-                Debug.Log("Floors: " + obj.name);
-            }
-
+            bundlesDictionary.Add("Wall", bundlesSO.SelectMany(b => b.GetObjects("Wall", temp)).ToList());
+            bundlesDictionary.Add("Door", bundlesSO.SelectMany(b => b.GetObjects("Door", temp)).ToList());
+            bundlesDictionary.Add("Floor", bundlesSO.SelectMany(b => b.GetObjects("Floor", temp)).ToList());
 
             var area = schema.GetArea(node.ID);
-
-            for(int j = 0; j < area.TileCount; j++)
+            for (int j = 0; j < area.TileCount; j++)
             {
                 var tile = area.GetTile(j) as ConnectedTile;
-
-                BuildTile(tile, bundles, mainPivot.transform);
+                BuildTile(tile, bundlesDictionary, mainPivot.transform);
             }
         }
 
         mainPivot.transform.position = position;
         //mainPivot.transform.localScale = new Vector3(resize.x, 1, resize.y);
 
-
         return mainPivot;
-
     }
 
     public void BuildTile(ConnectedTile tile, Dictionary<string, List<GameObject>> bundles, Transform parent)
@@ -84,8 +58,13 @@ public class SchemaGenerator : Generator3D
 
         var bases = bundles["Floor"];
 
+        if(bases.Count <= 0)
+        {
+            Debug.LogWarning("[ISI LAB]: uno o mas bundles continen '0' Gameobject");
+            return;
+        }
+
         var index = Random.Range(0, bases.Count);
-        Debug.Log(index);
         var floor = GameObject.Instantiate(bases[index], pivot.transform);
         //var floor = SceneView.Instantiate(bases[Random.Range(0, bases.Count)], pivot.transform);
 
@@ -95,6 +74,13 @@ public class SchemaGenerator : Generator3D
             if (bundles.ContainsKey(tag))
             {
                 var prefabs = bundles[tag];
+
+                if (prefabs.Count <= 0)
+                {
+                    Debug.LogWarning("[ISI LAB]: uno o mas bundles continen '0' Gameobject");
+                    return;
+                }
+
                 var wall =  GameObject.Instantiate(prefabs[Random.Range(0, prefabs.Count)], pivot.transform);
                 //var wall =  SceneView.Instantiate(prefabs[Random.Range(0, prefabs.Count)], pivot.transform);
                 wall.transform.position += new Vector3(sideDir[k].x*(scale.x/2), 0, sideDir[k].y*(scale.y/2));

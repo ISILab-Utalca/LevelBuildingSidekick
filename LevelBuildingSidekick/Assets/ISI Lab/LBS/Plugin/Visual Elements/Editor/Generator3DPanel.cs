@@ -66,6 +66,7 @@ public class Generator3DPanel : VisualElement
         objName = this.Q<TextField>(name: "ObjName");
 
         dropDown = this.Q<ClassDropDown>(name: "Generator");
+
         dropDown.label = "Gennerator";
         dropDown.Type = typeof(Generator3D);
 
@@ -88,12 +89,18 @@ public class Generator3DPanel : VisualElement
 
     public void Execute()
     {
+        if(dropDown.index < 0)
+        {
+            Debug.LogWarning("[ISI LAB]: No has seleccionado un tipo de generador.");
+            return;
+        }
+
         if (destroyPrev.value)
         {
             var prev = GameObject.Find(objName.value);
             if(prev != null)
             {
-                GameObject.Destroy(prev);
+                GameObject.DestroyImmediate(prev);
             }
         }
 
