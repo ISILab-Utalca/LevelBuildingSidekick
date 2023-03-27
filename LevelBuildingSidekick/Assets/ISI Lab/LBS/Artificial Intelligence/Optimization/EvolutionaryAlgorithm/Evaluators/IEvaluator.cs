@@ -10,7 +10,7 @@ namespace Commons.Optimization.Evaluator
     /// <see href="http://en.wikipedia.org/wiki/Fitness_function">Wikipedia</see>
     /// </remarks>
     /// </summary>
-    public interface IEvaluator : INameable//, IShowable
+    public interface IEvaluator //: INameable//, IShowable
     {
         /// <summary>
         /// Performs the evaluation against the specified chromosome.
