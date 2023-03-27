@@ -87,12 +87,19 @@ public class CompositeBundle : Bundle
         var ts = TrimCharacteristics(tags);
 
         List<GameObject> objects = new List<GameObject>();
-        foreach (Bundle bundle in bundles)
+        foreach (var bundle in bundles)
         {
+            if (bundle == null)
+                continue;
+
             if (bundle is CompositeBundle)
+            {
                 objects.AddRange((bundle as CompositeBundle).GetObjects(id, ts));
+            }
             else if (bundle.ID.Label == id)
+            {
                 objects.AddRange(bundle.GetObjects(ts));
+            }
         }
         return objects;
     }
