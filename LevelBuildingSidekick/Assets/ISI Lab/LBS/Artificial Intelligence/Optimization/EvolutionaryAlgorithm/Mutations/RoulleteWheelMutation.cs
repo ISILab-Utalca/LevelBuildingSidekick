@@ -6,17 +6,17 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeightedMutation : MutationBase
+public class RoulleteWheelMutation : MutationBase
 {
     [SerializeField]
     private List<Tuple<MutationBase, float>> mutations = new List<Tuple<MutationBase, float>>();
 
-    public WeightedMutation()
+    public RoulleteWheelMutation()
     {
 
     }
 
-    public WeightedMutation(List<Tuple<MutationBase, float>> mutations)
+    public RoulleteWheelMutation(List<Tuple<MutationBase, float>> mutations)
     {
         this.mutations = mutations;
     }

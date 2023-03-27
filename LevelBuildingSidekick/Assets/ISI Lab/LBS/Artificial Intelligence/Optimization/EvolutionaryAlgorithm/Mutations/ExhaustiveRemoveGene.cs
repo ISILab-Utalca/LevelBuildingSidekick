@@ -5,23 +5,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SetGene : MutationBase
+public class ExhaustiveRemoveGene : MutationBase
 {
     protected override void PerformMutate(IChromosome chromosome, float probability)
     {
         var r = RandomizationProvider.Current;
 
-        var i = r.GetInt(0, chromosome.Length);
 
-        while (i < chromosome.Length && chromosome.GetGene(i) == default)
+        for (int i = 0; i < chromosome.Length; i++)
         {
-            i++;
+            if (chromosome.GetGene(i) == default)
+            {
+                var d = r.GetDouble();
+                if (d < probability)
+                {
+                    chromosome.SetDeafult(i);
+                }
+            }
         }
-
-        if (i < chromosome.Length)
-        {
-            chromosome.ReplaceGene(i, chromosome.GenerateGene());
-        }
-
     }
 }
