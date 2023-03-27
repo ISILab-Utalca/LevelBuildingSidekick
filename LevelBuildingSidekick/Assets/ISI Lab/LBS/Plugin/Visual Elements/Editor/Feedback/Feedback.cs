@@ -114,11 +114,11 @@ public abstract class Feedback : GraphElement
     }
 }
 
-public class DotedAreaFeedback : Feedback
+public class AreaFeedback : Feedback
 {
-    public DotedAreaFeedback(Vector2Int p1, Vector2Int p2) : base(p1, p2) { }
+    public AreaFeedback(Vector2Int p1, Vector2Int p2) : base(p1, p2) { }
 
-    public DotedAreaFeedback() : base() { }
+    public AreaFeedback() : base() { }
 
     protected override void OnGenerateVisualContent(MeshGenerationContext mgc)
     {
