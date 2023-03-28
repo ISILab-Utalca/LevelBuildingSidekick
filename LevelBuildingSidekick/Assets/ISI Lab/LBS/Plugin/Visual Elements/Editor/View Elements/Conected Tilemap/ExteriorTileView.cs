@@ -133,14 +133,11 @@ public class ExteriorTileView : GraphElement
         border.style.backgroundColor = color;
     }
 
-    public static List<LBSIdentifier> tts;
 
     public void SetConnections(string[] tags)
     {
-        if(tts == null)
-        {
-            tts = Utility.DirectoryTools.GetScriptables<LBSIdentifier>().ToList();
-        }
+        var tts = LBSAssetsStorage.Instance.Tags;
+
 
         if (!string.IsNullOrEmpty(tags[0]))
         {
