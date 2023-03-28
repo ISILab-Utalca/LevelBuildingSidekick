@@ -28,9 +28,9 @@ namespace LBS.Components
         [SerializeField, JsonRequired, SerializeReference]
         private List<LBSModule> modules = new List<LBSModule>();
 
-        [SerializeField, JsonRequired]
-        [ScriptableToString(typeof(CompositeBundle))]
-        private List<string> bundles = new List<string>();
+        //[SerializeField, JsonRequired]
+        //[ScriptableToString(typeof(CompositeBundle))]
+        //private List<string> bundles = new List<string>();
 
         [SerializeField, JsonRequired]
         [ScriptableToString(typeof(LBSLayerAssistant))]
@@ -78,6 +78,7 @@ namespace LBS.Components
             }
         }
 
+        /*
         [JsonIgnore]
         public CompositeBundle Bundle
         {
@@ -93,6 +94,7 @@ namespace LBS.Components
                 return bundle;
             }
         }
+        */
 
         public event Action<LBSLayer> OnModuleChange 
         {   
@@ -103,14 +105,10 @@ namespace LBS.Components
         #endregion
 
         #region EVENTS
-
-        //[JsonIgnore]
         private event Action<LBSLayer> onModuleChange;
-
         #endregion
 
         #region  CONSTRUCTORS
-
         public LBSLayer()
         {
             modules = new List<LBSModule>();
@@ -130,11 +128,9 @@ namespace LBS.Components
             this.name = name;
             this.iconPath = iconPath;
         }
-
         #endregion
 
         #region  METHODS
-
         public bool AddModule(LBSModule module)
         {
             if(modules.Contains(module))
