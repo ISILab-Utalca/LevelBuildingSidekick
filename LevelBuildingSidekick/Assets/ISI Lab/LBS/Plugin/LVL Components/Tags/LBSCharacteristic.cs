@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 [LBSCharacteristic("Basic Characteristic","")]
 public class LBSCharacteristic : ICloneable
 {
-    [JsonRequired, SerializeField]
+    [JsonRequired]//, SerializeField]
     protected string label = "";
 
     [JsonIgnore]
