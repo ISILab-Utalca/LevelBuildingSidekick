@@ -68,12 +68,6 @@ namespace GeneticSharp.Domain.Crossovers
 
             return offspring;
         }
-
-        public override VisualElement CIGUI()
-        {
-            var content = new VisualElement();
-            return content;
-        }
         #endregion
     }
 }

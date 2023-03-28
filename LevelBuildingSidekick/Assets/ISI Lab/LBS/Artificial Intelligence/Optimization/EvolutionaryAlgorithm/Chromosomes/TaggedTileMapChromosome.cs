@@ -4,11 +4,20 @@ using UnityEngine;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
 using System.Linq;
+using LBS.Components;
 
+[ChromosomeFromModule(typeof(TaggedTileMap))]
 public class TaggedTileMapChromosome : ChromosomeBase2D
 {
-    public TaggedTileMapChromosome(TaggedTileMap tileMap) : base((int)tileMap.Rect.width)
+    public TaggedTileMapChromosome(LBSModule module) : base()
     {
+        var tileMap = module as TaggedTileMap;
+
+        if(module == null)
+        {
+            throw new System.Exception("[ISI Lab] Class must be TaggedTileMap");
+        }
+
         genes = new object[(int)(tileMap.Rect.width * tileMap.Rect.height)];
 
         foreach(var t in tileMap.PairTiles.Select(x => x.tile))

@@ -11,6 +11,13 @@ public class AddGene : MutationBase
     {
         var r = RandomizationProvider.Current;
 
+        var d = r.GetDouble();
+
+        if (d > probability)
+        {
+            return;
+        }
+
         var i = r.GetInt(0, chromosome.Length);
 
         while(i < chromosome.Length && chromosome.GetGene(i) != default)

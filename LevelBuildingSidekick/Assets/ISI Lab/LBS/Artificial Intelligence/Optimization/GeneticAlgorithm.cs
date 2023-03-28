@@ -101,9 +101,18 @@ public class GeneticAlgorithm : BaseOptimizer
 
         Selection = new RankSelection();
         Crossover = new UniformCrossover();
-        Mutation = new UniformMutation();
+
+        Mutation = new RoulleteWheelMutation(new List<Tuple<MutationBase, float>>()
+        { 
+            new Tuple<MutationBase, float>(new AddGene(), 25),
+            new Tuple<MutationBase, float>(new RemoveGene(), 25),
+            new Tuple<MutationBase, float>(new SwapGene(), 25),
+            new Tuple<MutationBase, float>(new RangedSwapGene(5), 25)
+        });
+
         Population = new Population();
         Termination = new GenerationNumberTermination();
+        Evaluator = null; //(!!!) FILL UP With new wvaluator
     }
 
     public override void RunOnce()

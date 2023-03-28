@@ -65,8 +65,6 @@ namespace GeneticSharp.Domain.Crossovers
         /// </summary>
         /// <value>The minimum length of the chromosome.</value>
         public int MinLength { get; protected set; }
-
-        public abstract VisualElement CIGUI();
         #endregion
 
         #region Methods        

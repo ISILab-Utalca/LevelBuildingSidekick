@@ -1,43 +1,42 @@
-using Commons.Optimization.Evaluator;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Utility;
 
-public class ClassDropDown : VisualElement
+public class ClassDropDown : DropdownField
 {
-    public new class UxmlFactory : UxmlFactory<ClassDropDown, VisualElement.UxmlTraits> { }
+    public new class UxmlFactory : UxmlFactory<ClassDropDown, UxmlTraits> { }
+
+    public new class UxmlTraits : DropdownField.UxmlTraits
+    {
+        private readonly UxmlStringAttributeDescription m_Label = new UxmlStringAttributeDescription { name = "label" };
+
+        public override void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
+        {
+            base.Init(ve, bag, cc);
+
+            ClassDropDown field = (ClassDropDown)ve;
+            field.label = m_Label.GetValueFromBag(bag, cc);
+        }
+    }
 
     #region FIELDS
-
-    public Label label;
-    public DropdownField dropdown;
     Type type;
 
-    bool FilterAbstract;
+    bool filterAbstract;
     private List<Type> types;
 
     #endregion
 
-    #region PROPERTIES
-
-    public string Label
-    {
-        get => label.text;
-        set => label.text = value;
-    }
-
     public string Value
     {
-        get => dropdown.value;
+        get => value;
         set
         {
-            if (dropdown.choices.Contains(value))
-                dropdown.value = value;
+            if (choices.Contains(value))
+                this.value = value;
         }
     }
 
@@ -50,55 +49,38 @@ public class ClassDropDown : VisualElement
             UpdateOptions();
         }
     }
-    #endregion
 
-    public ClassDropDown() : base()
+    public bool FilterAbstract
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("Dropdown");
-        visualTree.CloneTree(this);
-
-
-        label = this.Q<Label>();
-        dropdown = this.Q<DropdownField>();
-
-        FilterAbstract = true;
-
-        dropdown.RegisterCallback<MouseDownEvent>((e) => UpdateOptions());
-
+        get => filterAbstract;
+        set
+        {
+            filterAbstract = value;
+            UpdateOptions();
+        }
     }
 
-    public ClassDropDown(Type type, bool filterAbstract) : base()
+    public ClassDropDown()
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("Dropdown");
-        visualTree.CloneTree(this);
-
-
-        label = this.Q<Label>();
-        dropdown = this.Q<DropdownField>();
-
-        Type = type;
-        FilterAbstract = filterAbstract;
-
-        UpdateOptions();
-        dropdown.RegisterCallback<MouseDownEvent>((e) => UpdateOptions());
+        label = "Class DropDown";
     }
 
     void UpdateOptions()
     {
-        dropdown.choices.Clear();
+        choices.Clear();
 
         List<Type> types = null;
 
-        if(Type.IsClass)
+        if (Type.IsClass)
         {
             types = Utility.Reflection.GetAllSubClassOf(Type).ToList();
         }
-        else if(Type.IsInterface)
+        else if (Type.IsInterface)
         {
             types = Utility.Reflection.GetAllImplementationsOf(Type).ToList();
         }
 
-        if (FilterAbstract)
+        if (filterAbstract)
         {
             types = types.Where(t => !t.IsAbstract).ToList();
         }
@@ -106,14 +88,14 @@ public class ClassDropDown : VisualElement
         var options = types.Select(t => t.Name).ToList();
 
         this.types = types;
-        dropdown.choices = options;
+        choices = options;
     }
 
     public object GetChoiceInstance()
     {
         object obj = null;
-        var dv = dropdown.value;
-        var dx = dropdown.choices.IndexOf(dv);
+        var dv = value;
+        var dx = choices.IndexOf(dv);
         var t = types[dx];
         try
         {

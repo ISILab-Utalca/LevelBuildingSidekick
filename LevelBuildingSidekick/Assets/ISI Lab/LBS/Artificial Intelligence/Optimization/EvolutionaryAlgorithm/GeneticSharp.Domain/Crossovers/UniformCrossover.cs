@@ -74,15 +74,6 @@ namespace GeneticSharp.Domain.Crossovers
 
             return new List<IChromosome> { child1, child2 };
         }
-
-        public override VisualElement CIGUI()
-        {
-            var content = new VisualElement();
-            var mixProbField = new FloatField("Mix Probability: ");
-            mixProbField.value = MixProbability;
-            mixProbField.RegisterCallback<ChangeEvent<float>>(e => MixProbability = e.newValue);
-            return content;
-        }
         #endregion
     }
 }

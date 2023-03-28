@@ -12,114 +12,97 @@ using Utility;
 using Commons.Optimization;
 using GeneticSharp.Domain.Chromosomes;
 using System;
+using LBS.Components;
 
 namespace LBS.Windows
 {
     public class MapEliteWindow : EditorWindow
     {
-        // [MenuItem("ISILab/LBS plugin/MapEliteWindow", priority = 1)]
+        [MenuItem("ISILab/LBS plugin/MapEliteWindow", priority = 1)]
         public static void ShowWindow()
         {
             var window = GetWindow<MapEliteWindow>();
             window.titleContent = new GUIContent("Map Elite");
         }
 
-        private MapElites mapElites;
-
         public int ButtonSize = 128; //Should be a RangeSlider field(!!!)
 
         //public GenericLBSWindow populationWindow;
 
-        public Button CalculateButton;
-
-        public Vector2Field Partitions;
-
-        public Texture2D defaultButton;
         public ButtonWrapper[] Content;
         public VisualElement Container;
+        private List<Vector2Int> toUpdate;
 
+        public Vector2Field Partitions;
+        public Label labelX;
+        public Label labelY;
+
+        private Texture2D ButtonBackground;
+        public Texture2D defaultButton;
+
+        public ClassDropDown OptimizeCategory;
         public ClassDropDown EvaluatorFieldX; //Deberian ser su propia clase con un Type para actualizar opciones(!)
         public ClassDropDown EvaluatorFieldY;
 
-        public ClassDropDown IAField;
-
-        public SubPanel evaluatorXPanel;
-        public SubPanel evaluatorYPanel;
-        public SubPanel optimizerPanel;
-
-        private List<Vector2Int> toUpdate;
-        private Texture2D ButtonBackground;
+        public Button CalculateButton;
 
         private Color Paused;
         private Color Running;
         private object locker = new object();
 
-        public Label labelX;
-        public Label labelY;
+        private MapElites mapElites;
+        private LBSModule module;
+
 
         public void CreateGUI()
-        {/*
-            populationWindow = EditorWindow.GetWindow<LBSPopulationWindow>();
+        {
             toUpdate = new List<Vector2Int>();
             VisualElement root = rootVisualElement;
 
-            var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("MapEliteUXML");
+            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("MapEliteUXML");
             visualTree.CloneTree(root);
 
-            var styleSheet = Utility.DirectoryTools.SearchAssetByName<StyleSheet>("MapEliteUSS");
+            var styleSheet = DirectoryTools.SearchAssetByName<StyleSheet>("MapEliteUSS");
             root.styleSheets.Add(styleSheet);
 
             mapElites = new MapElites();
 
             this.Container = root.Q<VisualElement>("Content");
-            this.EvaluatorFieldX = new ClassDropDown(root.Q<DropdownField>("EvaluatorFieldX"), typeof(IRangedEvaluator), true);
-            this.EvaluatorFieldY = new ClassDropDown(root.Q<DropdownField>("EvaluatorFieldY"), typeof(IRangedEvaluator), true);
-            this.IAField = new ClassDropDown(root.Q<DropdownField>("IAField"), typeof(IOptimizer), true);
+
+            this.EvaluatorFieldX = root.Q<ClassDropDown>("EvaluatorFieldX");//new ClassDropDown(typeof(IRangedEvaluator), true);
+            EvaluatorFieldX.Type = typeof(IRangedEvaluator);
+            EvaluatorFieldX.FilterAbstract = true;
+
+            this.EvaluatorFieldY = root.Q<ClassDropDown>("EvaluatorFieldY");//new ClassDropDown(typeof(IRangedEvaluator), true);
+            EvaluatorFieldY.Type = typeof(IRangedEvaluator);
+            EvaluatorFieldY.FilterAbstract = true;
+
+            this.OptimizeCategory = root.Q<ClassDropDown>("BaseEvaluator");//new ClassDropDown(typeof(IEvaluator), true);
+            OptimizeCategory.Type = typeof(IRangedEvaluator);
+            OptimizeCategory.FilterAbstract = true;
+
             this.CalculateButton = root.Q<Button>("Calculate");
             this.Partitions = root.Q<Vector2Field>("Partitions");
 
             this.labelX = root.Q<Label>("LabelX");
             this.labelY = root.Q<Label>("LabelY");
 
-            this.evaluatorXPanel = root.Q<SubPanel>("EvaluatorX");
-            evaluatorXPanel.style.display = mapElites.XEvaluator == null ? DisplayStyle.None : DisplayStyle.Flex;
-            this.evaluatorYPanel = root.Q<SubPanel>("EvaluatorY");
-            evaluatorYPanel.style.display = mapElites.YEvaluator == null ? DisplayStyle.None : DisplayStyle.Flex;
-            this.optimizerPanel = root.Q<SubPanel>("Optimizer");
-            optimizerPanel.style.display = mapElites.Optimizer == null ? DisplayStyle.None : DisplayStyle.Flex;
-
             this.Partitions.RegisterValueChangedCallback(x => ChangePartitions(x.newValue));
 
             if(mapElites.XEvaluator!= null)
-                EvaluatorFieldX.Dropdown.value = mapElites.XEvaluator.ToString();
-            EvaluatorFieldX.Dropdown.RegisterCallback<ChangeEvent<string>>(e => {
+                EvaluatorFieldX.Value = mapElites.XEvaluator.ToString();
+            EvaluatorFieldX.RegisterCallback<ChangeEvent<string>>(e => {
                 labelX.text = (e!= null) ? e.newValue : "Evaluation X";
-                evaluatorXPanel.style.display = DisplayStyle.Flex;
                 var value = EvaluatorFieldX.GetChoiceInstance();
                 mapElites.XEvaluator = value as IRangedEvaluator;
-                if(value is IShowable)
-                    evaluatorXPanel.SetValue(value as IShowable, "Evaluator: " + mapElites.XEvaluator.GetName(), "(axis X)");
             });
 
             if (mapElites.YEvaluator != null)
-                EvaluatorFieldY.Dropdown.value = mapElites.YEvaluator.ToString();
-            EvaluatorFieldY.Dropdown.RegisterCallback<ChangeEvent<string>>(e => {
+                EvaluatorFieldY.value = mapElites.YEvaluator.ToString();
+            EvaluatorFieldY.RegisterCallback<ChangeEvent<string>>(e => {
                 labelY.text = (e != null) ? e.newValue : "Evaluation Y";
-                evaluatorYPanel.style.display = DisplayStyle.Flex;
                 var value = EvaluatorFieldY.GetChoiceInstance();
                 mapElites.YEvaluator = value as IRangedEvaluator;
-                if (value is IShowable)
-                    evaluatorYPanel.SetValue(value as IShowable, "Evaluator: " + mapElites.YEvaluator.GetName(), "(axis Y)");
-            });
-
-            if (mapElites.Optimizer != null)
-                IAField.Dropdown.value = mapElites.Optimizer.ToString();
-            IAField.Dropdown.RegisterCallback<ChangeEvent<string>>(e => {
-                optimizerPanel.style.display = DisplayStyle.Flex;
-                var value = IAField.GetChoiceInstance();
-                mapElites.Optimizer = value as IOptimizer;
-                if (value is IShowable)
-                    optimizerPanel.SetValue(value as IShowable,"Optimizer: " + mapElites.Optimizer.GetName());
             });
 
             mapElites.OnSampleUpdated += UpdateSample;
@@ -130,22 +113,23 @@ namespace LBS.Windows
 
             Paused = root.style.backgroundColor.value;
             Running = Color.blue;
-            */
+            
         }
 
         public void Run()
         {
-            /*
             Clear();
-            if(!(populationWindow.CurrentController is IChromosomable))
+
+            var adam = CreateAdam(module);
+
+            if(adam == null)
             {
-                return;
+                throw new Exception("[ISI Lab] There is no suitable chromosome for class: " + module.GetType().Name );
             }
 
-            StampTileMapChromosome.TileMap = populationWindow.GetController<LBSTileMapController>();
-            mapElites.Adam = (populationWindow.CurrentController as IChromosomable).ToChromosome();
+            mapElites.Adam = adam;
+
             mapElites.Run();
-            */
         }
 
         private void OnFocus()
@@ -260,6 +244,17 @@ namespace LBS.Windows
             return texture;
             */
             return null;
+        }
+
+        private IChromosome CreateAdam(LBSModule module)
+        {
+            var type = module.GetType();
+
+            var target = Reflection.GetClassesWith<ChromosomeFromModuleAttribute>().Where(t => t.Item2.Any(v => v.type == type)).First().Item1;
+
+            var chrom = Activator.CreateInstance(target, new object[] { module }) as IChromosome;
+
+            return chrom;
         }
 
         private void OnInspectorUpdate()

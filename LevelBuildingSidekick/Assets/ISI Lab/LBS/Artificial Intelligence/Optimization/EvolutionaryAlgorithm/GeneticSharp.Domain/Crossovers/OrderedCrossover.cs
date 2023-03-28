@@ -120,12 +120,6 @@ namespace GeneticSharp.Domain.Crossovers
                 return child;
             }
         }
-
-        public override VisualElement CIGUI()
-        {
-            var content = new VisualElement();
-            return content;
-        }
         #endregion
     }
 }
