@@ -60,7 +60,7 @@ public class SchemaGenerator : Generator3D
 
         if(bases.Count <= 0)
         {
-            Debug.LogWarning("[ISI LAB]: uno o mas bundles continen '0' Gameobject");
+            Debug.LogWarning("[ISI LAB]: uno o mas bundles continen '0' Gameobject.");
             return;
         }
 
@@ -77,7 +77,7 @@ public class SchemaGenerator : Generator3D
 
                 if (prefabs.Count <= 0)
                 {
-                    Debug.LogWarning("[ISI LAB]: uno o mas bundles continen '0' Gameobject");
+                    Debug.LogWarning("[ISI LAB]: uno o mas bundles continen '0' Gameobject.");
                     return;
                 }
 
