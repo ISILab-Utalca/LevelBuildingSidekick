@@ -59,6 +59,12 @@ public class WFCBundle : Bundle
 
     private string[] Rotate(string[] c)
     {
+        if(c.Count() <= 0)
+        {
+            Debug.LogWarning("[ISI LAB]: El tile tiene '0' conexiones.");
+            return c;
+        }
+
         var temp = c.ToList();
         var last = c.Last();
         temp.RemoveAt(temp.Count - 1);
