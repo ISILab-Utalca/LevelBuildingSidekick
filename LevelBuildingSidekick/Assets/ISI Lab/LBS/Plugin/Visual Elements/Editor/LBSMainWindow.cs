@@ -71,6 +71,12 @@ public class LBSMainWindow : EditorWindow
         // LayerTemplate
         layerTemplates = Utility.DirectoryTools.GetScriptablesByType<LayerTemplate>();
 
+        // SubPanelScrollView
+        var subPanelScrollView = rootVisualElement.Q<ScrollView>("SubPanelScrollView");
+        subPanelScrollView.Q<VisualElement>("unity-content-and-vertical-scroll-container").pickingMode = PickingMode.Ignore;
+        subPanelScrollView.Q<VisualElement>("unity-content-viewport").pickingMode = PickingMode.Ignore;
+        subPanelScrollView.Q<VisualElement>("unity-content-container").pickingMode = PickingMode.Ignore;
+
         // ToolPanel
         toolPanel = rootVisualElement.Q<ButtonGroup>("ToolsGroup");
 
@@ -166,10 +172,11 @@ public class LBSMainWindow : EditorWindow
         };
 
         // AIPanel
-        aiPanel = new AIPanel(() => {
-            drawManager.RefreshView(ref _selectedLayer,levelData.Layers, _selectedMode);
-            //Debug.Log("AI Ended");
-        });
+        aiPanel = new AIPanel();
+        aiPanel.OnAIExecute += () =>
+        {
+            drawManager.RefreshView(ref _selectedLayer, levelData.Layers, _selectedMode);
+        };
         extraPanel.Add(aiPanel);
         aiPanel.style.display = DisplayStyle.None;
         
