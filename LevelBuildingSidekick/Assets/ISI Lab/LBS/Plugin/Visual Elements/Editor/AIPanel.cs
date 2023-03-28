@@ -1,16 +1,6 @@
-using Commons.Optimization;
 using LBS.Components;
-using LBS.Components.Graph;
-using LBS.Components.TileMap;
-using NUnit.Framework;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using UnityEditor.SceneTemplate;
-using UnityEngine;
 using UnityEngine.UIElements;
-using Utility;
 
 public class AIPanel : VisualElement
 {
@@ -18,7 +8,7 @@ public class AIPanel : VisualElement
 
     VisualElement container;
 
-    public System.Action OnAIExecute;
+    public Action OnAIExecute;
 
     public AIPanel()
     {
@@ -28,18 +18,8 @@ public class AIPanel : VisualElement
         container = this.Q<VisualElement>(name: "Container");
     }
 
-    public AIPanel(System.Action OnAIExecute)
-    {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("AIPanel"); // Editor
-        visualTree.CloneTree(this);
-
-        container = this.Q<VisualElement>(name: "Container");
-        this.OnAIExecute = OnAIExecute;
-    }
-
     public void Init(ref LBSLayer layer)
     {
-
         container.Clear();
 
         var assist = layer.Assitant;
