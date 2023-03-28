@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public abstract class Bundle : ScriptableObject
+public abstract class Bundle : LBSScriptableObject
 {
 
     [SerializeField]
@@ -16,7 +16,7 @@ public abstract class Bundle : ScriptableObject
         set => id = value.name;
     }
 
-    [SerializeField, SerializeReference]
+    /*[SerializeField,*/[ SerializeReference, HideInInspector]
     protected List<LBSCharacteristic> characteristics;
 
     public abstract void Add(List<Bundle> data);
@@ -25,4 +25,8 @@ public abstract class Bundle : ScriptableObject
     public abstract GameObject GetObject(int index);
     public abstract List<GameObject> GetObjects(List<string> tags = null);
     public abstract void Remove(List<Bundle> data);
+}
+
+public abstract class LBSScriptableObject : ScriptableObject
+{ 
 }
