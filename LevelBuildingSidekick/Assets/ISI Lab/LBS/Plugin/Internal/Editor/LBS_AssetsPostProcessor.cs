@@ -33,6 +33,7 @@ public class LBS_AssetsPostProcessor : AssetPostprocessor
                 storage.AddBundle(obj as Bundle);
             }
         }
+        AssetDatabase.SaveAssets();
     }
 
     public static void OnPostDeleteProcess(string[] deletedAssets)
@@ -49,6 +50,7 @@ public class LBS_AssetsPostProcessor : AssetPostprocessor
 
             storage.CleanBundles();
         }
+        AssetDatabase.SaveAssets();
     }
 
     public static void OnPostMoveProcess(string[] movedAssets)

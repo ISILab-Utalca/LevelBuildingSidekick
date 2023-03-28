@@ -91,6 +91,7 @@ public class LBSAssetsStorage : ScriptableObject
     {
         bundles = Utility.DirectoryTools.GetScriptables<Bundle>();
         tags = Utility.DirectoryTools.GetScriptables<LBSIdentifier>();
+        AssetDatabase.SaveAssets();
     }
     #endregion
 }
