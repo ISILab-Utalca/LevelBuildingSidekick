@@ -46,7 +46,6 @@ public class Generator3DPanel : VisualElement
 
         Init(layer);
 
-
         action = this.Q<Button>(name: "Action");
         action.clicked += Execute;
     }
