@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Commons.Optimization.Evaluator;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
-using LBS.VisualElements;
 
 namespace GeneticSharp.Domain.Selections
 {

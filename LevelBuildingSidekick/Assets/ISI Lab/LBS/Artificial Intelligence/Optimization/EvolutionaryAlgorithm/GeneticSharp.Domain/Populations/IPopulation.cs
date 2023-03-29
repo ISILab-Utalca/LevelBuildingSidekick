@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
-using LBS.VisualElements;
 
 namespace GeneticSharp.Domain.Populations
 {

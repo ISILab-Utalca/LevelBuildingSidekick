@@ -6,7 +6,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-using LBS.Representation;
 using UnityEditor.PackageManager.UI;
 using LBS.Tools.Transformer;
 

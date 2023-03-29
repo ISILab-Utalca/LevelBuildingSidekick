@@ -1,6 +1,4 @@
 
-using LBS.VisualElements;
-
 namespace Commons.Optimization.Evaluator
 {
     /// <summary>

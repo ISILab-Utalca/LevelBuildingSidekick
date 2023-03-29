@@ -1,5 +1,4 @@
 using GeneticSharp.Domain.Chromosomes;
-using LBS.VisualElements;
 
 namespace GeneticSharp.Domain.Mutations
 {
