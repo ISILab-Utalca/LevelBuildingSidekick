@@ -37,7 +37,7 @@ public class ClassFoldout : Foldout
     public new class UxmlTraits : BindableElement.UxmlTraits
     {
         private readonly UxmlStringAttributeDescription m_Label = new UxmlStringAttributeDescription { name = "Text", defaultValue = "ClassDropDown" };
-        private readonly UxmlStringAttributeDescription m_icon = new UxmlStringAttributeDescription { name = "Icon Path", defaultValue = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Logo.png" };
+        private readonly UxmlStringAttributeDescription m_icon = new UxmlStringAttributeDescription { name = "Icon-Path", defaultValue = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Logo.png" };
         //private readonly UxmlStringAttributeDescription m_type = new UxmlStringAttributeDescription { name = "DropDown Type", defaultValue = "Type" };
 
         public override void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
@@ -49,7 +49,9 @@ public class ClassFoldout : Foldout
             instance.dropdown.label = m_Label.GetValueFromBag(bag, cc);
 
             var path = m_icon.GetValueFromBag(bag, cc);
-            instance.icon.style.backgroundImage = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+            var img = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+            if (img != null)
+                instance.icon.style.backgroundImage = img;
         }
     }
 

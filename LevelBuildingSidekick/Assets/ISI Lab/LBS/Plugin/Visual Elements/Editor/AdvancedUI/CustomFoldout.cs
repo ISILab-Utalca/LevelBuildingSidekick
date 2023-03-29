@@ -16,7 +16,7 @@ public class CustomFoldout : Foldout
 
             instance.icon = new VisualElement() { name = "Icon" };
 
-            instance.icon.style.width = instance.icon.style.height = 16;
+            instance.icon.style.width = instance.icon.style.height = 20;
             instance.icon.style.marginRight = 4;
             instance.icon.style.backgroundImage = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Logo.png");
 
@@ -32,7 +32,7 @@ public class CustomFoldout : Foldout
 
     public new class UxmlTraits : BindableElement.UxmlTraits
     {
-        private readonly UxmlStringAttributeDescription m_icon = new UxmlStringAttributeDescription { name = "Icon Path", defaultValue = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Logo.png" };
+        private readonly UxmlStringAttributeDescription m_icon = new UxmlStringAttributeDescription { name = "Icon-Path", defaultValue = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Logo.png" };
         private readonly UxmlStringAttributeDescription m_text = new UxmlStringAttributeDescription { name = "Text", defaultValue = "Foldout" };
 
         public override void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
@@ -42,7 +42,9 @@ public class CustomFoldout : Foldout
             CustomFoldout instance = (CustomFoldout)ve;
 
             var path = m_icon.GetValueFromBag(bag, cc);
-            instance.icon.style.backgroundImage = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+            var img = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+            if(img != null)
+                instance.icon.style.backgroundImage = img;
             instance.text = m_text.GetValueFromBag(bag, cc);
         }
     }
