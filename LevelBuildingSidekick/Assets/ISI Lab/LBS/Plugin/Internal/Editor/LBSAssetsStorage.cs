@@ -16,7 +16,14 @@ public class LBSAssetsStorage : ScriptableObject
         {
             if(instance == null)
             {
-                instance = Utility.DirectoryTools.GetScriptable<LBSAssetsStorage>();
+                instance = Utility.DirectoryTools.GetScriptable<LBSAssetsStorage>(); // si es nullo lo busco
+
+                if(instance == null)
+                {
+                    //instance = BLA // si sigue sindo nulo lo creo // implementar (!)
+                }
+
+                instance.SearchAllInProject();
             }
             return instance;
         }

@@ -184,6 +184,10 @@ public class LBSMainWindow : EditorWindow
         gen3DPanel = new Generator3DPanel();
         extraPanel.Add(gen3DPanel);
         gen3DPanel.style.display = DisplayStyle.None;
+        gen3DPanel.OnExecute = () =>
+        {
+            gen3DPanel.Init(_selectedLayer);
+        };
 
         // LayerButton
         var layerBtn = rootVisualElement.Q<Button>("LayerButton");
