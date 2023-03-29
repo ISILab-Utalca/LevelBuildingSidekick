@@ -1,6 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <ui:VisualElement name="LayerInfo" style="flex-direction: row;">
-        <ui:VisualElement name="IconElement" style="width: 11px; height: 14px; background-image: url(&apos;project://database/Assets/ISILab/LBS%20Plugin/Assets2D/Stamp_Icon.png?fileID=2800000&amp;guid=6c87f2ef86861b14c9d7af565ae313f2&amp;type=3#Stamp_Icon&apos;); -unity-background-scale-mode: scale-to-fit; margin-right: 4px; margin-bottom: 2px;" />
-        <ui:Label tabindex="-1" text="Label" display-tooltip-when-elided="true" name="NameElement" />
-    </ui:VisualElement>
-</ui:UXML>
