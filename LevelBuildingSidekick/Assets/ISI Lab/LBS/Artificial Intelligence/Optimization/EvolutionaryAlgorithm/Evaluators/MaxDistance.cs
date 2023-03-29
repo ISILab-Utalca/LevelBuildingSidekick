@@ -10,7 +10,7 @@ public class MaxDistance : IRangedEvaluator
 
     public float MinValue => 0;
 
-    public List<object> whiteList = new List<object>();
+    public List<Object> whiteList = new List<Object>();
 
     public DistanceType distType;
 

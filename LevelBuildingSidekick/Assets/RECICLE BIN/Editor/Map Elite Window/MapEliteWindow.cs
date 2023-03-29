@@ -40,9 +40,9 @@ namespace LBS.Windows
         private Texture2D ButtonBackground;
         public Texture2D defaultButton;
 
-        public ClassDropDown OptimizeCategory;
-        public ClassDropDown EvaluatorFieldX; //Deberian ser su propia clase con un Type para actualizar opciones(!)
-        public ClassDropDown EvaluatorFieldY;
+        public ClassFoldout OptimizeCategory;
+        public ClassFoldout EvaluatorFieldX; //Deberian ser su propia clase con un Type para actualizar opciones(!)
+        public ClassFoldout EvaluatorFieldY;
 
         public Button CalculateButton;
 
@@ -69,17 +69,17 @@ namespace LBS.Windows
 
             this.Container = root.Q<VisualElement>("Content");
 
-            this.EvaluatorFieldX = root.Q<ClassDropDown>("EvaluatorFieldX");//new ClassDropDown(typeof(IRangedEvaluator), true);
-            EvaluatorFieldX.Type = typeof(IRangedEvaluator);
-            EvaluatorFieldX.FilterAbstract = true;
+            this.EvaluatorFieldX = root.Q<ClassFoldout>("EvaluatorFieldX");//new ClassDropDown(typeof(IRangedEvaluator), true);
+            EvaluatorFieldX.dropdown.Type = typeof(IRangedEvaluator);
+            EvaluatorFieldX.dropdown.FilterAbstract = true;
 
-            this.EvaluatorFieldY = root.Q<ClassDropDown>("EvaluatorFieldY");//new ClassDropDown(typeof(IRangedEvaluator), true);
-            EvaluatorFieldY.Type = typeof(IRangedEvaluator);
-            EvaluatorFieldY.FilterAbstract = true;
+            this.EvaluatorFieldY = root.Q<ClassFoldout>("EvaluatorFieldY");//new ClassDropDown(typeof(IRangedEvaluator), true);
+            EvaluatorFieldY.dropdown.Type = typeof(IRangedEvaluator);
+            EvaluatorFieldY.dropdown.FilterAbstract = true;
 
-            this.OptimizeCategory = root.Q<ClassDropDown>("BaseEvaluator");//new ClassDropDown(typeof(IEvaluator), true);
-            OptimizeCategory.Type = typeof(IRangedEvaluator);
-            OptimizeCategory.FilterAbstract = true;
+            this.OptimizeCategory = root.Q<ClassFoldout>("Fitness");//new ClassDropDown(typeof(IEvaluator), true);
+            OptimizeCategory.dropdown.Type = typeof(IRangedEvaluator);
+            OptimizeCategory.dropdown.FilterAbstract = true;
 
             this.CalculateButton = root.Q<Button>("Calculate");
             this.Partitions = root.Q<Vector2Field>("Partitions");
@@ -90,18 +90,18 @@ namespace LBS.Windows
             this.Partitions.RegisterValueChangedCallback(x => ChangePartitions(x.newValue));
 
             if(mapElites.XEvaluator!= null)
-                EvaluatorFieldX.Value = mapElites.XEvaluator.ToString();
+                EvaluatorFieldX.dropdown.Value = mapElites.XEvaluator.ToString();
             EvaluatorFieldX.RegisterCallback<ChangeEvent<string>>(e => {
                 labelX.text = (e!= null) ? e.newValue : "Evaluation X";
-                var value = EvaluatorFieldX.GetChoiceInstance();
+                var value = EvaluatorFieldX.dropdown.GetChoiceInstance();
                 mapElites.XEvaluator = value as IRangedEvaluator;
             });
 
             if (mapElites.YEvaluator != null)
-                EvaluatorFieldY.value = mapElites.YEvaluator.ToString();
+                EvaluatorFieldY.dropdown.value = mapElites.YEvaluator.ToString();
             EvaluatorFieldY.RegisterCallback<ChangeEvent<string>>(e => {
                 labelY.text = (e != null) ? e.newValue : "Evaluation Y";
-                var value = EvaluatorFieldY.GetChoiceInstance();
+                var value = EvaluatorFieldY.dropdown.GetChoiceInstance();
                 mapElites.YEvaluator = value as IRangedEvaluator;
             });
 

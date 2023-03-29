@@ -16,14 +16,11 @@ public class CustomFoldout : Foldout
 
             instance.icon = new VisualElement() { name = "Icon" };
 
-            instance.icon.style.width = instance.icon.style.height = 20;
+            instance.icon.style.width = instance.icon.style.height = 12;
             instance.icon.style.marginRight = 4;
             bag.TryGetAttributeValue("Icon-Path", out string path);
             var img = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
             instance.icon.style.backgroundImage = img;
-
-            if (img == null)
-                instance.icon.style.display = DisplayStyle.None;
 
             ve.Add(instance.icon);
 
@@ -49,9 +46,6 @@ public class CustomFoldout : Foldout
             var path = m_icon.GetValueFromBag(bag, cc);
             var img = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
             instance.icon.style.backgroundImage = img;
-
-            if (img == null)
-                instance.icon.style.display = DisplayStyle.None;
 
             instance.text = m_text.GetValueFromBag(bag, cc);
         }

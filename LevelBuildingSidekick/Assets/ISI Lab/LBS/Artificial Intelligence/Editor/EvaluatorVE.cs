@@ -4,16 +4,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class EvaluatorFoldout : VisualElement
-{
-    IEvaluator evaluator;
 
-    public EvaluatorFoldout()
+public class EvaluatorVE : VisualElement
+{
+    protected IEvaluator evaluator;
+
+    public EvaluatorVE()
     {
 
     }
 
-    public EvaluatorFoldout(IEvaluator evaluator)
+    public EvaluatorVE(IEvaluator evaluator)
     {
         this.evaluator = evaluator;
     }

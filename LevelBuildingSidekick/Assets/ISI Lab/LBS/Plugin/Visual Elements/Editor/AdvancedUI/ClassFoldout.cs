@@ -15,12 +15,12 @@ public class ClassFoldout : Foldout
             var instance = base.Create(bag, cc) as ClassFoldout;
             var ve = instance.Q<VisualElement>(name: "unity-checkmark").parent;
 
-            ve.style.flexWrap = Wrap.Wrap;
+            ve.style.flexShrink = 1;
 
             instance.icon = new VisualElement() { name = "Icon" };
             instance.dropdown = new ClassDropDown() { name = "ClassDropDown" };
 
-            instance.icon.style.width = instance.icon.style.height = 20;
+            instance.icon.style.width = instance.icon.style.height = 12;
 
             bag.TryGetAttributeValue("Icon-Path", out string path);
             var img = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
@@ -30,11 +30,18 @@ public class ClassFoldout : Foldout
                 instance.icon.style.display = DisplayStyle.None;
 
             ve.Add(instance.icon);
+
+
             instance.dropdown.style.paddingLeft = 4;
             instance.dropdown.style.flexGrow = instance.dropdown.style.flexShrink = 1;
             //instance.dropdown.parent.style.flexWrap = Wrap.Wrap;
 
+            if (bag.TryGetAttributeValue("Text", out string label))
+                instance.dropdown.label = label;
+
             ve.Add(instance.dropdown);
+
+            instance.dropdown.RegisterValueChangedCallback(instance.UpdateView);
 
             return instance;
         }
@@ -57,9 +64,6 @@ public class ClassFoldout : Foldout
             var path = m_icon.GetValueFromBag(bag, cc);
             var img = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
             instance.icon.style.backgroundImage = img;
-
-            if (img == null)
-                instance.icon.style.display = DisplayStyle.None;
         }
     }
 
@@ -91,6 +95,7 @@ public class ClassFoldout : Foldout
 
     private void UpdateView(ChangeEvent<string> e)
     {
+
         var type = Utility.Reflection.GetType(e.newValue);
 
         if(type == null)
