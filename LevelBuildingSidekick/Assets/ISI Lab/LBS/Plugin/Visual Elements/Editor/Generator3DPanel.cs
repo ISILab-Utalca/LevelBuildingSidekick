@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 using LBS.Generator;
 using LBS.Components;
 using LBS;
+using System;
 
 public class Generator3DPanel : VisualElement
 {
@@ -20,6 +21,8 @@ public class Generator3DPanel : VisualElement
 
     LBSLayer layer;
 
+    public Action OnExecute;
+
     public Generator3D Generator
     {
         get => generator;
@@ -33,34 +36,13 @@ public class Generator3DPanel : VisualElement
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("Generator3DPanel"); // Editor
         visualTree.CloneTree(this);
 
-        Init();
-
-        action = this.Q<Button>(name: "Action");
-        action.clicked += Execute;
-    }
-
-    public Generator3DPanel(LBSLayer layer)
-    {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("Generator3DPanel"); // Editor
-        visualTree.CloneTree(this);
-
-        Init(layer);
-
-        action = this.Q<Button>(name: "Action");
-        action.clicked += Execute;
-    }
-
-    public void Init(LBSLayer layer = null)
-    {
-        this.layer = layer;
-
         position = this.Q<Vector3Field>(name: "Position");
 
         resize = this.Q<Vector2Field>(name: "Resize");
         resize.value = Vector2.one;
 
         scale = this.Q<Vector2Field>(name: "ReferenceSize");
-        scale.value = new Vector2(2,2);
+        scale.value = new Vector2(2, 2);
 
         objName = this.Q<TextField>(name: "ObjName");
 
@@ -70,6 +52,15 @@ public class Generator3DPanel : VisualElement
         dropDown.Type = typeof(Generator3D);
 
         destroyPrev = this.Q<Toggle>(name: "DestroyPrev");
+
+        action = this.Q<Button>(name: "Action");
+        action.clicked += OnExecute;
+        action.clicked += Execute;
+    }
+
+    public void Init(LBSLayer layer)
+    {
+        this.layer = layer;
 
         if(layer != null)
         {
@@ -94,6 +85,12 @@ public class Generator3DPanel : VisualElement
             return;
         }
 
+        if(this.layer == null)
+        {
+            Debug.LogError("[ISI LAB]: no se tiene referencia de ninguna layer para generar.");
+            return;
+        }
+
         if (destroyPrev.value)
         {
             var prev = GameObject.Find(objName.value);
@@ -113,7 +110,7 @@ public class Generator3DPanel : VisualElement
         generator.Resize = resize.value;
         generator.Scale = scale.value;
 
-        generator.Generate(layer);
+        generator.Generate(this.layer);
 
     }
 
