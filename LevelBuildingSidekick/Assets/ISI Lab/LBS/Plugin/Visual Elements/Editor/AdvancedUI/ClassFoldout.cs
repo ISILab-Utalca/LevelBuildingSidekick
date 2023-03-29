@@ -21,7 +21,13 @@ public class ClassFoldout : Foldout
             instance.dropdown = new ClassDropDown() { name = "ClassDropDown" };
 
             instance.icon.style.width = instance.icon.style.height = 20;
-            instance.icon.style.backgroundImage = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Logo.png");
+
+            bag.TryGetAttributeValue("Icon-Path", out string path);
+            var img = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+            instance.icon.style.backgroundImage = img;
+
+            if (img == null)
+                instance.icon.style.display = DisplayStyle.None;
 
             ve.Add(instance.icon);
             instance.dropdown.style.paddingLeft = 4;
@@ -50,8 +56,10 @@ public class ClassFoldout : Foldout
 
             var path = m_icon.GetValueFromBag(bag, cc);
             var img = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
-            if (img != null)
-                instance.icon.style.backgroundImage = img;
+            instance.icon.style.backgroundImage = img;
+
+            if (img == null)
+                instance.icon.style.display = DisplayStyle.None;
         }
     }
 

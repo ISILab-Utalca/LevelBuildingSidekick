@@ -19,16 +19,21 @@
                 <ui:Label tabindex="-1" text="Evaluation X" display-tooltip-when-elided="true" name="LabelX" style="flex-shrink: 1; flex-grow: 0;" />
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="BasicsPanel" style="margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px; background-color: rgb(48, 48, 48); border-top-left-radius: 4px; border-bottom-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px;">
+        <ui:VisualElement name="BasicsPanel" style="margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px; background-color: rgba(48, 48, 48, 0); border-top-left-radius: 4px; border-bottom-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px;">
             <ui:VisualElement style="background-color: rgb(41, 41, 41); border-top-left-radius: 4px; border-top-right-radius: 4px; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px;">
-                <ui:Label tabindex="-1" text="Basics" display-tooltip-when-elided="true" style="-unity-font-style: bold; border-top-left-radius: 4px; border-top-right-radius: 4px; font-size: 14px;" />
+                <ui:Label tabindex="-1" text="MapElites Settings" display-tooltip-when-elided="true" style="-unity-font-style: bold; border-top-left-radius: 4px; border-top-right-radius: 4px; font-size: 14px;" />
             </ui:VisualElement>
-            <CustomFoldout Text="General Settings" Icon-Path="Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Engranaje.png" />
-            <ClassDropDown index="-1" choices="System.Collections.Generic.List`1[System.String]" label="Optimize Criteria" name="BaseEvaluator" />
+            <CustomFoldout Text="General Settings" Icon-Path="Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Gear.png" Show-Icon="true" style="background-color: rgb(48, 48, 48); padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px; margin-bottom: 2px; margin-top: 2px;">
+                <ui:Vector2Field label="Partitions" x="1" y="1" name="Partitions" style="flex-shrink: 1; flex-basis: auto; margin-top: 3px;" />
+                <ui:DropdownField label="Dropdown" index="-1" choices="System.Collections.Generic.List`1[System.String]" />
+                <ClassDropDown index="-1" choices="System.Collections.Generic.List`1[System.String]" label="Optimize Criteria" name="BaseEvaluator" />
+                <ui:Button tabindex="-1" text="Calculate" display-tooltip-when-elided="true" name="Calculate" style="margin-top: 3px;" />
+            </CustomFoldout>
+            <CustomFoldout>
+                <ClassFoldout Text="Class DropDown" Icon-Path="none" />
+            </CustomFoldout>
             <ClassDropDown index="-1" choices="System.Collections.Generic.List`1[System.String]" label="Evaluator X" name="EvaluatorFieldX" />
             <ClassDropDown index="-1" choices="System.Collections.Generic.List`1[System.String]" label="Evaluator Y" name="EvaluatorFieldY" />
-            <ui:Vector2Field label="Partitions" x="1" y="1" name="Partitions" style="flex-shrink: 1; flex-basis: auto; margin-top: 3px;" />
-            <ui:Button tabindex="-1" text="Calculate" display-tooltip-when-elided="true" name="Calculate" style="margin-top: 3px;" />
         </ui:VisualElement>
     </ui:ScrollView>
 </ui:UXML>
