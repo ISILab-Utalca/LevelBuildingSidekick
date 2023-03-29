@@ -22,6 +22,8 @@ public class SchemaHCAgent : LBSAIAgent
     {
         OnStart?.Invoke();
 
+        this.Init(ref this.layer);
+
         hillClimbing.Run();
         var x = (hillClimbing.BestCandidate as OptimizableSchema).Schema;
         CalculateConnections.Operate(x);
