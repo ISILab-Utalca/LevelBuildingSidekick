@@ -11,14 +11,14 @@ public class ClassDropDown : DropdownField
 
     public new class UxmlTraits : DropdownField.UxmlTraits
     {
-        private readonly UxmlStringAttributeDescription m_Label = new UxmlStringAttributeDescription { name = "label" };
+        //private readonly UxmlStringAttributeDescription m_Label = new UxmlStringAttributeDescription { name = "Label", defaultValue = "Class DropDown" };
 
         public override void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
         {
             base.Init(ve, bag, cc);
 
             ClassDropDown field = (ClassDropDown)ve;
-            field.label = m_Label.GetValueFromBag(bag, cc);
+            //field.label = m_Label.GetValueFromBag(bag, cc);
         }
     }
 

@@ -255,6 +255,7 @@ namespace LBS.Windows
             var chrom = Activator.CreateInstance(target, new object[] { module }) as IChromosome;
 
             return chrom;
+
         }
 
         private void OnInspectorUpdate()

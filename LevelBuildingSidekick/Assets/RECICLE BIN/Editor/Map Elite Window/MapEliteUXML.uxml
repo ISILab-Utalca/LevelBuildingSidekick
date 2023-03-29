@@ -23,6 +23,7 @@
             <ui:VisualElement style="background-color: rgb(41, 41, 41); border-top-left-radius: 4px; border-top-right-radius: 4px; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px;">
                 <ui:Label tabindex="-1" text="Basics" display-tooltip-when-elided="true" style="-unity-font-style: bold; border-top-left-radius: 4px; border-top-right-radius: 4px; font-size: 14px;" />
             </ui:VisualElement>
+            <CustomFoldout Text="General Settings" Icon Path="Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Engranaje.png" />
             <ClassDropDown index="-1" choices="System.Collections.Generic.List`1[System.String]" label="Optimize Criteria" name="BaseEvaluator" />
             <ClassDropDown index="-1" choices="System.Collections.Generic.List`1[System.String]" label="Evaluator X" name="EvaluatorFieldX" />
             <ClassDropDown index="-1" choices="System.Collections.Generic.List`1[System.String]" label="Evaluator Y" name="EvaluatorFieldY" />
