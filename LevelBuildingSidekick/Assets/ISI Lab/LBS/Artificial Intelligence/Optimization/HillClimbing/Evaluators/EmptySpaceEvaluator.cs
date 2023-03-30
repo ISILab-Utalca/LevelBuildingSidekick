@@ -13,11 +13,6 @@ public class EmptySpaceEvaluator : IEvaluator
 
     public EmptySpaceEvaluator() { }
 
-    public VisualElement CIGUI()
-    {
-        throw new System.NotImplementedException();
-    }
-
     public float Evaluate(IOptimizable evaluable)
     {
         var schema = (evaluable as OptimizableSchema).Schema;
@@ -36,11 +31,6 @@ public class EmptySpaceEvaluator : IEvaluator
         }
 
         return value / (schema.AreaCount * 1f);
-    }
-
-    public string GetName()
-    {
-        throw new System.NotImplementedException();
     }
 
 }

@@ -34,7 +34,7 @@ namespace LBS.AI
             if (GetNeighbors == null)
                 throw new NullReferenceException();
 
-            var offsprings = GetNeighbors?.Invoke(best);
+            var offsprings = GetNeighbors.Invoke(best);
             //var offsprings = GetNeighbors?.Invoke(BestCandidate); // poner exepcion por si neigthbor es null (!!!)
 
             offsprings.ForEach(c =>

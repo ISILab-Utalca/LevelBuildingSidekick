@@ -31,8 +31,10 @@ public class SchemaHCAgent : LBSAIAgent
         layer.SetModule<LBSSchema>(x , x.Key);
 
         OnTermination?.Invoke();
-
     }
+
+
+
 
     public override VisualElement GetInspector()
     {
@@ -57,10 +59,10 @@ public class SchemaHCAgent : LBSAIAgent
         var termination = new FitnessStagnationTermination(100); // agregar termination de maximo local
         var evaluator = new WeightedEvaluator(new System.Tuple<IEvaluator, float>[] //agregar parametros necesarios a las clases de evaluación
         {
-            new System.Tuple<IEvaluator, float> (new AdjacenciesEvaluator(graph), 0.5f),
-            new System.Tuple<IEvaluator, float> (new AreasEvaluator(graph), 0.35f),
-            new System.Tuple<IEvaluator, float> (new EmptySpaceEvaluator(), 0.15f),
-
+            new System.Tuple<IEvaluator, float> (new AdjacenciesEvaluator(graph), 0.4f),
+            new System.Tuple<IEvaluator, float> (new AreasEvaluator(graph), 0.15f),
+            new System.Tuple<IEvaluator, float> (new EmptySpaceEvaluator(), 0.35f),
+           // new System.Tuple<IEvaluator, float> (new StrechEvaluator(), 0.1f),
         }) ;
         var population = new Population(1, 100, adam); // agregar parametros
 
@@ -78,7 +80,7 @@ public class SchemaHCAgent : LBSAIAgent
             var area = tileMap.GetArea(i);
             var vWalls = area.GetVerticalWalls();
             var hWalls = area.GetHorizontalWalls();
-            var walls = vWalls.Concat(hWalls);
+            var walls = vWalls.Concat(hWalls).ToList();
 
             // Add wall tiles in wall direction to the next gen
             foreach (var wall in walls)
@@ -90,6 +92,18 @@ public class SchemaHCAgent : LBSAIAgent
 
                 neighbours.Add(new OptimizableSchema(neighbour));
             }
+
+            // Add wall tiles in wall direction contraria a to the next gen
+            foreach (var wall in walls)
+            {
+                var neighbour = tileMap.Clone() as LBSSchema;
+
+                //var area = neighbour.GetArea(i);
+                wall.Tiles.ForEach(t => neighbour.AddTile(area.ID, new ConnectedTile(t - wall.Dir, area.ID, 4)));
+
+                neighbours.Add(new OptimizableSchema(neighbour));
+            }
+
 
             // remove wall to the next gen
             foreach (var wall in walls)

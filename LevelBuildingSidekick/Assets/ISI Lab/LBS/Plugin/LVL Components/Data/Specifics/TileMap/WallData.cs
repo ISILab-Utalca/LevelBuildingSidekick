@@ -39,6 +39,9 @@ internal class WallData : ICloneable // esto no corresponde a una muralla como t
     [JsonIgnore]
     public List<Vector2Int> Tiles => allTiles;
 
+    [JsonIgnore]
+    public float Length => (Last - First).magnitude; 
+
     #endregion
 
     #region CONSTRUCTOR

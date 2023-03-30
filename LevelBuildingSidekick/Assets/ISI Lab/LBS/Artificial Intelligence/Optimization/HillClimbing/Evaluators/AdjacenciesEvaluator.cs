@@ -52,12 +52,10 @@ public class AdjacenciesEvaluator : IEvaluator
             }
             else
             {
-                //var c = r1.TileCount;
-                var max1 = (r1.Width + r1.Height) / 2f;
-                var max2 = (r2.Width + r2.Height) / 2f;
+                var widthAverage = (r1.Width + r2.Width) / 2f;
+                var heightAverage = (r1.Height + r2.Height) / 2f;
 
-                distValue += 1 - (roomDist / (max1 + max2));
-                //distValue += 1/roomDist;
+                distValue += 1 - (roomDist / (widthAverage + heightAverage));
             }
         }
 

@@ -51,14 +51,6 @@ public class AreasEvaluator : IEvaluator
         return value / (schema.AreaCount * 1f);
     }
 
-    public string GetName()
-    {
-        throw new System.NotImplementedException();
-    }
 
-    public VisualElement CIGUI()
-    {
-        throw new System.NotImplementedException();
-    }
 
 }
