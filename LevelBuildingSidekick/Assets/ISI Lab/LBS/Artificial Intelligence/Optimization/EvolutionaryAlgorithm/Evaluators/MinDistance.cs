@@ -10,7 +10,7 @@ public class MinDistance : IRangedEvaluator
 
     public float MinValue => 0;
 
-    public List<object> whiteList = new List<object>();
+    public List<Object> whiteList = new List<Object>();
 
     public DistanceType distType;
 
@@ -27,7 +27,14 @@ public class MinDistance : IRangedEvaluator
 
         foreach(object o in whiteList)
         {
-            var indexes = ev.GetGenes().Where(e => e.Equals(o)).Select((e, i) => i).ToList();
+            var candidates = ev.GetGenes().Where(e => e.Equals(o));
+            if (candidates.Count() == 0)
+            {
+                fitness += MinValue;
+                continue;
+            }
+
+            var indexes = candidates.Select((e, i) => i).ToList();
 
             fitness += avgMin(indexes, ev);
         }

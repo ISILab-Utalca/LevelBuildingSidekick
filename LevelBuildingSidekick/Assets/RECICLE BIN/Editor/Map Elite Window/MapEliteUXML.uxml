@@ -30,8 +30,8 @@
                 <ui:Button tabindex="-1" text="Calculate" display-tooltip-when-elided="true" name="Calculate" style="margin-top: 3px;" />
             </CustomFoldout>
             <CustomFoldout Icon-Path="Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Grafico.png" style="background-color: rgb(48, 48, 48); padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px; margin-bottom: 2px; margin-top: 2px;">
-                <ClassFoldout Text="Evaluation X" Icon-Path="none" name="EvaluatorFieldX" style="flex-wrap: wrap;" />
-                <ClassFoldout Text="Evaluation Y" Icon-Path="none" name="EvaluatorFieldY" style="flex-wrap: wrap;" />
+                <ClassFoldout Text="Evaluation X" Icon-Path="none" name="EvaluatorFieldX" style="flex-wrap: nowrap; flex-direction: column;" />
+                <ClassFoldout Text="Evaluation Y" Icon-Path="none" name="EvaluatorFieldY" style="flex-wrap: nowrap;" />
             </CustomFoldout>
             <ClassFoldout Text="Fitness" Icon-Path="Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Grafico.png" name="Fitness" style="background-color: rgb(48, 48, 48); margin-bottom: 2px; margin-top: 2px; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px;" />
         </ui:VisualElement>

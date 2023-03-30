@@ -9,7 +9,7 @@ using System;
 using GeneticSharp.Domain.Chromosomes;
 
 [System.Serializable]
-public class SamplePresenceEvaluator : IRangedEvaluator
+public class SamplePresence : IRangedEvaluator
 { 
     public float MaxValue => 1;
 
@@ -23,14 +23,14 @@ public class SamplePresenceEvaluator : IRangedEvaluator
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="SamplePresenceEvaluator"/> class
+    /// Initializes a new instance of the <see cref="SamplePresence"/> class
     /// </summary>
-    public SamplePresenceEvaluator()
+    public SamplePresence()
     {
         Sample = default;
     }
 
-    public SamplePresenceEvaluator(object sample)
+    public SamplePresence(object sample)
     {
         Sample = sample;
     }

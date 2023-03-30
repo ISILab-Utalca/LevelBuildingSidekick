@@ -2,6 +2,7 @@ using LBS.Components;
 using LBS.Components.Graph;
 using LBS.Components.Specifics;
 using LBS.Components.TileMap;
+using LBS.Generator;
 using LBS.Tools.Transformer;
 using System.Collections;
 using System.Collections.Generic;
@@ -48,6 +49,11 @@ public class LayerTemplateEditor : Editor
     {
         // Basic data layer
         var layer = new LBSLayer();
+        var assist = ScriptableObject.CreateInstance<LBSLayerAssistant>();
+        assist.name = "SchemaAssitant";
+        assist.AddAgent(new SchemaHCAgent(layer, "SchemaHillClimbing"));
+        assist.Generator = new SchemaGenerator();
+        layer.Assitant = assist;
         layer.ID = "Interior";
         layer.Name = "Interior layer";
         layer.iconPath = "Icons/interior-design";
@@ -159,6 +165,8 @@ public class LayerTemplateEditor : Editor
     {
         // Basic data layer
         var layer = new LBSLayer();
+        layer.Assitant = ScriptableObject.CreateInstance<LBSLayerAssistant>();
+        layer.Assitant.Generator = new ExteriorGenerator();
         layer.ID = "Exterior";
         layer.Name = "Exterior layer";
         layer.iconPath = "Icons/pine-tree";

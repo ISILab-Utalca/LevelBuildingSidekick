@@ -14,8 +14,6 @@ using GeneticSharp.Domain.Chromosomes;
 using System;
 using LBS.Components;
 
-namespace LBS.Windows
-{
     public class MapEliteWindow : EditorWindow
     {
         [MenuItem("ISILab/LBS plugin/MapEliteWindow", priority = 1)]
@@ -50,8 +48,10 @@ namespace LBS.Windows
         private Color Running;
         private object locker = new object();
 
-        private MapElites mapElites;
+        public MapElites mapElites;
         private LBSModule module;
+
+        public LBSLayer layer;
 
 
         public void CreateGUI()
@@ -91,10 +91,11 @@ namespace LBS.Windows
 
             if(mapElites.XEvaluator!= null)
                 EvaluatorFieldX.dropdown.Value = mapElites.XEvaluator.ToString();
-            EvaluatorFieldX.RegisterCallback<ChangeEvent<string>>(e => {
-                labelX.text = (e!= null) ? e.newValue : "Evaluation X";
+            EvaluatorFieldX.dropdown.RegisterValueChangedCallback(e => {
+                labelX.text = (e.newValue != null) ? e.newValue : "Evaluation X";
                 var value = EvaluatorFieldX.dropdown.GetChoiceInstance();
                 mapElites.XEvaluator = value as IRangedEvaluator;
+                (EvaluatorFieldX.content as EvaluatorVE).SetLayer(layer);
             });
 
             if (mapElites.YEvaluator != null)
@@ -103,6 +104,7 @@ namespace LBS.Windows
                 labelY.text = (e != null) ? e.newValue : "Evaluation Y";
                 var value = EvaluatorFieldY.dropdown.GetChoiceInstance();
                 mapElites.YEvaluator = value as IRangedEvaluator;
+                (EvaluatorFieldY.content as EvaluatorVE).SetLayer(layer);
             });
 
             mapElites.OnSampleUpdated += UpdateSample;
@@ -284,4 +286,3 @@ namespace LBS.Windows
             }
         }
     }
-}

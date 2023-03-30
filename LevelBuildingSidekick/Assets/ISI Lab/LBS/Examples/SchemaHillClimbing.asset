@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 560040d1c9dfbf1418a5ed33df71ce47, type: 3}
-  m_Name: New LBS Layer Assistant
+  m_Name: SchemaHillClimbing
   m_EditorClassIdentifier: 
   generator:
     rid: -2

@@ -5,6 +5,7 @@ using UnityEngine;
 using LBS.Tools.Transformer;
 using System;
 using System.Linq;
+using LBS.AI;
 
 namespace LBS.Components
 {
@@ -31,10 +32,6 @@ namespace LBS.Components
         //[SerializeField, JsonRequired]
         //[ScriptableToString(typeof(CompositeBundle))]
         //private List<string> bundles = new List<string>();
-
-        [SerializeField, JsonRequired]
-        [ScriptableToString(typeof(LBSLayerAssistant))]
-        private string assitant = "";
 
         #endregion
 
@@ -68,15 +65,7 @@ namespace LBS.Components
         }
 
         [JsonIgnore]
-        public LBSLayerAssistant Assitant
-        {
-            get 
-            {
-                if (string.IsNullOrEmpty(assitant))
-                    assitant = Utility.DirectoryTools.GetScriptables<LBSLayerAssistant>()[0].name;
-                return Utility.DirectoryTools.GetScriptable<LBSLayerAssistant>(assitant);
-            }
-        }
+        public LBSLayerAssistant Assitant;
 
         /*
         [JsonIgnore]
@@ -265,6 +254,15 @@ namespace LBS.Components
                 }).ToList();
             //var transformers = this.GetTransformers(); // (??) usar clone en vez de pasar la lista?
             var layer = new LBSLayer(modules,/* transformers.Select(t => t.GetType()).ToList(),*/ this.id, this.visible, this.name, this.iconPath);
+            layer.Assitant = ScriptableObject.CreateInstance<LBSLayerAssistant>();
+            layer.Assitant.name = Assitant.name;
+            layer.Assitant.Generator = Assitant.Generator;
+
+            for(int i = 0; i < Assitant.AgentsCount; i++)
+            {
+                layer.Assitant.AddAgent(Assitant.GetAgent(i).Clone() as LBSAIAgent);
+            }
+
             return layer;
         }
 

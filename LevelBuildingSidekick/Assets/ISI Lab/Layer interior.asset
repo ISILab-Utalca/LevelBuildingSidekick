@@ -18,20 +18,19 @@ MonoBehaviour:
     visible: 1
     iconPath: Icons/interior-design
     modules:
-    - rid: 1776034847221874688
-    - rid: 1776034847221874689
-    bundles: []
-    assitant: New LBS Layer Assistant
+    - rid: 2747528523717804284
+    - rid: 2747528523717804285
+    Assitant: {fileID: 0}
   modes:
-  - rid: 1776034847221874690
-  - rid: 1776034847221874691
+  - rid: 2747528523717804286
+  - rid: 2747528523717804287
   transformers:
-  - rid: 1776034847221874692
-  - rid: 1776034847221874693
+  - rid: 2747528523717804288
+  - rid: 2747528523717804289
   references:
     version: 2
     RefIds:
-    - rid: 1776034847221874688
+    - rid: 2747528523717804284
       type: {class: LBSRoomGraph, ns: LBS.Components.Graph, asm: Assembly-CSharp}
       data:
         key: LBSRoomGraph
@@ -43,13 +42,12 @@ MonoBehaviour:
           visible: 1
           iconPath: Icons/interior-design
           modules:
-          - rid: 1776034847221874688
-          - rid: 1776034847221874689
-          bundles: []
-          assitant: 
+          - rid: 2747528523717804284
+          - rid: 2747528523717804285
+          Assitant: {fileID: 0}
         nodes: []
         edges: []
-    - rid: 1776034847221874689
+    - rid: 2747528523717804285
       type: {class: LBSSchema, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
       data:
         key: LBSSchema
@@ -61,12 +59,11 @@ MonoBehaviour:
           visible: 1
           iconPath: Icons/interior-design
           modules:
-          - rid: 1776034847221874688
-          - rid: 1776034847221874689
-          bundles: []
-          assitant: 
+          - rid: 2747528523717804284
+          - rid: 2747528523717804285
+          Assitant: {fileID: 0}
         areas: []
-    - rid: 1776034847221874690
+    - rid: 2747528523717804286
       type: {class: LBSMode, ns: , asm: Assembly-CSharp-Editor}
       data:
         name: Graph
@@ -74,11 +71,11 @@ MonoBehaviour:
         module: LBS.Components.Graph.GraphModule`1[[LBS.Components.Specifics.RoomNode,
           Assembly-CSharp, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null]]
         toolkit:
-        - rid: 1776034847221874694
-        - rid: 1776034847221874695
-        - rid: 1776034847221874696
-        - rid: 1776034847221874697
-    - rid: 1776034847221874691
+        - rid: 2747528523717804290
+        - rid: 2747528523717804291
+        - rid: 2747528523717804292
+        - rid: 2747528523717804293
+    - rid: 2747528523717804287
       type: {class: LBSMode, ns: , asm: Assembly-CSharp-Editor}
       data:
         name: Schema
@@ -86,40 +83,40 @@ MonoBehaviour:
         module: LBS.Components.TileMap.AreaTileMap`1[[LBS.Components.TileMap.TiledArea,
           Assembly-CSharp, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null]]
         toolkit:
-        - rid: 1776034847221874698
-        - rid: 1776034847221874699
-        - rid: 1776034847221874700
-        - rid: 1776034847221874701
-        - rid: 1776034847221874702
-    - rid: 1776034847221874692
+        - rid: 2747528523717804294
+        - rid: 2747528523717804295
+        - rid: 2747528523717804296
+        - rid: 2747528523717804297
+        - rid: 2747528523717804298
+    - rid: 2747528523717804288
       type: {class: GraphToArea, ns: LBS.Tools.Transformer, asm: Assembly-CSharp}
       data:
         from: LBS.Components.Graph.GraphModule`1[[LBS.Components.Specifics.RoomNode,
           Assembly-CSharp, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null]]
         to: LBS.Components.TileMap.AreaTileMap`1[[LBS.Components.TileMap.TiledArea,
           Assembly-CSharp, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null]]
-    - rid: 1776034847221874693
+    - rid: 2747528523717804289
       type: {class: AreaToGraph, ns: LBS.Tools.Transformer, asm: Assembly-CSharp}
       data:
         from: LBS.Components.TileMap.AreaTileMap`1[[LBS.Components.TileMap.TiledArea,
           Assembly-CSharp, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null]]
         to: LBS.Components.Graph.GraphModule`1[[LBS.Components.Specifics.RoomNode,
           Assembly-CSharp, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null]]
-    - rid: 1776034847221874694
+    - rid: 2747528523717804290
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: 771d36a714319204ea4ddcbecdc2006e, type: 3}
         name: Select
         manipulator: Select
         inspector: 
-    - rid: 1776034847221874695
+    - rid: 2747528523717804291
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: 1814194ea9fd1be43a29c944a0098295, type: 3}
         name: Add node
         manipulator: CreateNewRoomNode
         inspector: 
-    - rid: 1776034847221874696
+    - rid: 2747528523717804292
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: bd700db3dfe4b4d40be798aee555d7f7, type: 3}
@@ -127,7 +124,7 @@ MonoBehaviour:
         manipulator: CreateNewConnection`1[[LBS.Components.Specifics.RoomNode, Assembly-CSharp,
           Version=2.6.0.0, Culture=neutral, PublicKeyToken=null]]
         inspector: 
-    - rid: 1776034847221874697
+    - rid: 2747528523717804293
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: 79e9d4f49f5e9874c805015d2c334f0c, type: 3}
@@ -135,14 +132,14 @@ MonoBehaviour:
         manipulator: RemoveGraphNode`1[[LBS.Components.Specifics.RoomNode, Assembly-CSharp,
           Version=2.6.0.0, Culture=neutral, PublicKeyToken=null]]
         inspector: 
-    - rid: 1776034847221874698
+    - rid: 2747528523717804294
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: 771d36a714319204ea4ddcbecdc2006e, type: 3}
         name: Select
         manipulator: Select
         inspector: 
-    - rid: 1776034847221874699
+    - rid: 2747528523717804295
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: 5bcc511dcb487f24187b421ea2806d87, type: 3}
@@ -153,7 +150,7 @@ MonoBehaviour:
         inspector: RoomsPalleteInspector`2[[LBS.Components.TileMap.TiledArea, Assembly-CSharp,
           Version=2.6.0.0, Culture=neutral, PublicKeyToken=null],[LBS.Components.TileMap.ConnectedTile,
           Assembly-CSharp, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null]]
-    - rid: 1776034847221874700
+    - rid: 2747528523717804296
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: 8e8fbec1ef6d10c43a3cd708f17ea463, type: 3}
@@ -162,7 +159,7 @@ MonoBehaviour:
           Version=2.6.0.0, Culture=neutral, PublicKeyToken=null],[LBS.Components.TileMap.ConnectedTile,
           Assembly-CSharp, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null]]
         inspector: 
-    - rid: 1776034847221874701
+    - rid: 2747528523717804297
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: 91a86dd59e705db4394aa25f6081267a, type: 3}
@@ -171,7 +168,7 @@ MonoBehaviour:
           Version=2.6.0.0, Culture=neutral, PublicKeyToken=null],[LBS.Components.TileMap.ConnectedTile,
           Assembly-CSharp, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null]]
         inspector: 
-    - rid: 1776034847221874702
+    - rid: 2747528523717804298
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: 8e8fbec1ef6d10c43a3cd708f17ea463, type: 3}

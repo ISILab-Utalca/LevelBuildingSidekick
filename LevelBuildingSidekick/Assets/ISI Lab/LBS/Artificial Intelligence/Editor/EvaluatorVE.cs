@@ -1,4 +1,5 @@
 using Commons.Optimization.Evaluator;
+using LBS.Components;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ using UnityEngine.UIElements;
 public class EvaluatorVE : VisualElement
 {
     protected IEvaluator evaluator;
+    protected LBSLayer layer;
 
     public EvaluatorVE()
     {
@@ -19,4 +21,8 @@ public class EvaluatorVE : VisualElement
         this.evaluator = evaluator;
     }
 
+    public virtual void SetLayer(LBSLayer layer)
+    {
+        this.layer = layer;
+    }
 }

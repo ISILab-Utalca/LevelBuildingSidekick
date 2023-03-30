@@ -70,6 +70,7 @@ public class ClassFoldout : Foldout
 
     public VisualElement icon = new VisualElement() { name = "Icon" };
     public ClassDropDown dropdown = new ClassDropDown() { name = "ClassDropDown" };
+    public VisualElement content;
     //public VisualElement content = new VisualElement();
 
     
@@ -110,13 +111,15 @@ public class ClassFoldout : Foldout
             throw new Exception("[ISI Lab] No class marked as CustomVisualElement found for type: " + type);
         }
 
-        var ve = Activator.CreateInstance(ves.First().Item1, new object[] { dropdown.GetChoiceInstance() });
+        var ve = Activator.CreateInstance(ves.First().Item1, new object[] { dropdown.GetChoiceInstance()});
 
         if (!(ve is VisualElement))
         {
             throw new Exception("[ISI Lab] " + ve.GetType().GetType() +" is not a VisualElement ");
         }
 
+        contentContainer.Clear();
+        content = ve as VisualElement;
         contentContainer.Add(ve as VisualElement);
     }
 

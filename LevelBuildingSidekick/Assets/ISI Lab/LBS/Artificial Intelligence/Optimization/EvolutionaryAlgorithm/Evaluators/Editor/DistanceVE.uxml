@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:VisualElement style="padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px; flex-direction: column;">
+        <ui:DropdownField label="Distance Type" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="Dropdown" />
+        <ui:ListView focusable="true" name="ListView" show-add-remove-footer="true" show-foldout-header="true" header-title="White List" />
+    </ui:VisualElement>
+</ui:UXML>

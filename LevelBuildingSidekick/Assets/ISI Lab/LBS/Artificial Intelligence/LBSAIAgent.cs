@@ -4,11 +4,12 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
 using LBS.Components;
+using System;
 
 namespace LBS.AI
 {
     [System.Serializable]
-    public abstract class LBSAIAgent
+    public abstract class LBSAIAgent : ICloneable
     {
         protected LBSLayer layer;
 
@@ -50,6 +51,8 @@ namespace LBS.AI
         public abstract void Execute();
 
         public abstract VisualElement GetInspector();
+
+        public abstract object Clone();
     }
 }
 

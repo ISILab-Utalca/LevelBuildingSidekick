@@ -18,6 +18,11 @@ public class SchemaHCAgent : LBSAIAgent
 {
     HillClimbing hillClimbing;
 
+    public SchemaHCAgent(LBSLayer layer, string id): base(layer, id, "SchemaHillClimbing")
+    {
+
+    }
+
     public override void Execute()
     {
         Debug.Log("HillClimbing start!");
@@ -120,5 +125,10 @@ public class SchemaHCAgent : LBSAIAgent
         }
 
         return neighbours;
+    }
+
+    public override object Clone()
+    {
+        return new SchemaHCAgent(layer, id);
     }
 }

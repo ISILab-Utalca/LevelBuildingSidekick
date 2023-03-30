@@ -27,7 +27,14 @@ public class MaxDistance : IRangedEvaluator
 
         foreach (object o in whiteList)
         {
-            var indexes = ev.GetGenes().Where(e => e.Equals(o)).Select((e, i) => i).ToList();
+            var candidates = ev.GetGenes().Where(e => e.Equals(o));
+            if(candidates.Count() == 0)
+            {
+                fitness += MinValue;
+                continue;
+            }
+
+            var indexes = candidates.Select((e, i) => i).ToList();
 
             fitness += avgMax(indexes, ev);
         }
