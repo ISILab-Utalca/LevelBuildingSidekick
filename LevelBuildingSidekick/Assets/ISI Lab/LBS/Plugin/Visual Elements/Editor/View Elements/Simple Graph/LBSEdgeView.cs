@@ -42,11 +42,13 @@ public class LBSEdgeView<T,U> : GraphElement where T: LBSEdge where U :LBSNode
         var fPos1 = Vector2.zero;
         var fPos2 = pos2 - pos1;
         //var fPos2 = view.FixPos(pos2) - view.FixPos(pos1);
-        painter.DrawLine(fPos1, fPos2, Color.white, Color.white, true, 1);
+        painter.DrawDottedLine(fPos1, fPos2, Color.white);
 
-        var angle = Vector2.SignedAngle(Vector2.right,(fPos2 - fPos1).normalized); // (?) puede que no funcione
-        var middle = fPos2.Divided(2f);
-        painter.DrawPolygons(middle, 3, Color.white, Color.white, 0, angle, 10);
+        //var angle = Vector2.SignedAngle(Vector2.right,(fPos2 - fPos1).normalized); // (?) puede que no funcione
+        //var middle1 = fPos2.Multiply(0.45f);
+        //painter.DrawPolygons(middle1, 3, Color.white, Color.white, 0, angle + 180, 8);
+        //var middle2 = fPos2.Multiply(0.55f);
+        //painter.DrawPolygons(middle2, 3, Color.white, Color.white, 0, angle, 8);
     }
 
     private void ActualizePositions(Vector2Int pos1, Vector2Int pos2)

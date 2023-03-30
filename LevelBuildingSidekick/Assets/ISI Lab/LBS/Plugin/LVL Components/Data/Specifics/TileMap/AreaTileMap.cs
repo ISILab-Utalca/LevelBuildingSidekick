@@ -90,12 +90,10 @@ namespace LBS.Components.TileMap
 
         public void RemoveTile(Vector2Int pos)
         {
-            
             foreach (var r in areas)
             {
                 if (r.Contains(pos))
                 {
-
                     r.RemoveAt(pos);
                 }
             }
@@ -109,6 +107,17 @@ namespace LBS.Components.TileMap
                 return null;
 
             return pickedArea.GetTile(tile.Position + dir);
+        }
+
+        public void MoveArea(int index, Vector2Int dir)
+        {
+            var a = GetArea(index);
+            var tiles = a.Tiles.Select(t => t.Position);
+            a.RemoveTiles(a.Tiles);
+            foreach (var tv in tiles)
+            {
+                AddTile(a.ID, new ConnectedTile(tv - dir, a.ID, 4));
+            }
         }
 
         public TiledArea GetArea(string id)

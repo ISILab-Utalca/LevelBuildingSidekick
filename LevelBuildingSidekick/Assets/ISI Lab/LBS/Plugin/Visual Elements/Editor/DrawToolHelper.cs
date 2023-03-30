@@ -59,39 +59,38 @@ public static class DrawToolHelper
         paint2D.Fill();
     }
 
-    //Draw a line
-    public static void DrawLine(this Painter2D paint2D, Vector2 iniPos, Vector2 endPos, Color color, Color border, bool dottedLine, float stroke = 3,int divs = 12)
+    //Draw a dotted line
+    public static void DrawDottedLine(this Painter2D paint2D, Vector2 initPos, Vector2 endPos, Color color, float stroke = 5, float lineWidth = 15)
     {
-        //Dotted Line
-        if (dottedLine)
+        var dir = (endPos - initPos).normalized;
+        var distance = Vector2.Distance(initPos, endPos);
+        var divs = distance / lineWidth;
+
+        List<Vector2> dots = new List<Vector2>();
+
+        for (int i = 0; i < divs; i++)
         {
-            List<Vector2> dots = new List<Vector2>();
-
-            for (int i = 0; i < divs; i++)
-            {
-                Vector2 dotPosition = Vector2.Lerp(iniPos, endPos, (float)i / (divs - 1));
-                dots.Add(dotPosition);
-            }
-
-            for (int i = 1; i < dots.Count; i++)
-            {
-                if (i % 2 == 0)
-                {
-                    DrawPoligon( paint2D,new List<Vector2>() { dots[i - 1], dots[i] }, color, border, 3);
-                }
-                else
-                { 
-                }
-            }
+            Vector2 dotPosition = Vector2.Lerp(initPos, endPos, (float)i / (divs - 1));
+            dots.Add(dotPosition);
         }
-        //If 'dottedLine' is false, just make a straight line
-        else
+
+        for (int i = 1; i < dots.Count; i++)
         {
-            DrawPoligon( paint2D,new List<Vector2>() { iniPos, endPos }, color, border, 3);
+            if (i % 2 == 0)
+            {
+                DrawLine(paint2D,  dots[i - 1], dots[i] , color, stroke);
+            }
         }
     }
+
+    //Draw a line
+    public static void DrawLine(this Painter2D paint2D, Vector2 iniPos, Vector2 endPos, Color color, float stroke = 5)
+    {
+        DrawPoligon(paint2D, new List<Vector2>() { iniPos, endPos }, new Color(0, 0, 0, 0), color, stroke);
+    }
+
     //Draw a line with List<Vector2> instead of just two points
-    public static void DrawPoligon(this Painter2D paint2D, List<Vector2> point, Color color, Color border, float stroke = 1,bool closed = false)
+    public static void DrawPoligon(this Painter2D paint2D, List<Vector2> point, Color color, Color border, float stroke = 1, bool closed = false)
     {
         paint2D.strokeColor = border;
         paint2D.fillColor = color;

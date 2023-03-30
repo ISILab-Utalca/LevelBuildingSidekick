@@ -32,7 +32,7 @@ public class ConnectionFeedback : GraphElement
 
         var fPos1 = Vector2.zero;
         var fPos2 = pos2 - pos1;
-        painter.DrawLine(pos1, pos2, color, color, true, 1);
+        painter.DrawLine(pos1, pos2, color, 3);
         painter.DrawCircle(pos1, 10f, color);
         painter.DrawCircle(pos2, 10f, color);
     }

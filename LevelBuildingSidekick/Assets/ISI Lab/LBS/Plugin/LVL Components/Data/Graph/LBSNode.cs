@@ -22,7 +22,7 @@ namespace LBS.Components.Graph
         [HideInInspector, JsonRequired]
         private float width, height;
 
-        [HideInInspector, JsonRequired]
+        [SerializeField ,JsonRequired]
         private string id = ""; // "ID" or "name"
 
         #endregion

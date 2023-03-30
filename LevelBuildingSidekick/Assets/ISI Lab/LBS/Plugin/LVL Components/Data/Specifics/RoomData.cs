@@ -73,13 +73,6 @@ namespace LBS.Components.Specifics
                 (float)random.NextDouble()* 0.8f,
                 (float)random.NextDouble()* 0.8f,
                 (float)random.NextDouble()* 0.8f).ToSerializable();
-
-            /*
-            this.color = new Color(
-                UnityEngine.Random.Range(0f,1f),
-                UnityEngine.Random.Range(0f, 1f),
-                UnityEngine.Random.Range(0f, 1f)).ToSerializable();
-            */
         }
 
         public RoomData(int width, int height, List<string> tags, Color color)

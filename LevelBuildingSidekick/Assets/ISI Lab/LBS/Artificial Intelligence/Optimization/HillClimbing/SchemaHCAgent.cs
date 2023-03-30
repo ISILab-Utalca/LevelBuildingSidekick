@@ -20,6 +20,7 @@ public class SchemaHCAgent : LBSAIAgent
 
     public override void Execute()
     {
+        Debug.Log("HillClimbing start!");
         OnStart?.Invoke();
 
         this.Init(ref this.layer);
@@ -31,10 +32,8 @@ public class SchemaHCAgent : LBSAIAgent
         layer.SetModule<LBSSchema>(x , x.Key);
 
         OnTermination?.Invoke();
+        Debug.Log("HillClimbing finish!");
     }
-
-
-
 
     public override VisualElement GetInspector()
     {
@@ -44,9 +43,6 @@ public class SchemaHCAgent : LBSAIAgent
     public override void Init(ref LBSLayer layer)
     {
         name = "Schema HillClimbing";
-
-        OnStart += () => Debug.Log("HillClimbing start!");
-        OnTermination += () => Debug.Log("HillClimbing finish!");
 
         this.layer = layer;
 
@@ -62,7 +58,7 @@ public class SchemaHCAgent : LBSAIAgent
             new System.Tuple<IEvaluator, float> (new AdjacenciesEvaluator(graph), 0.4f),
             new System.Tuple<IEvaluator, float> (new AreasEvaluator(graph), 0.15f),
             new System.Tuple<IEvaluator, float> (new EmptySpaceEvaluator(), 0.35f),
-           // new System.Tuple<IEvaluator, float> (new StrechEvaluator(), 0.1f),
+            // new System.Tuple<IEvaluator, float> (new StretchEvaluator(), 0.1f),
         }) ;
         var population = new Population(1, 100, adam); // agregar parametros
 
@@ -87,7 +83,6 @@ public class SchemaHCAgent : LBSAIAgent
             {
                 var neighbour = tileMap.Clone() as LBSSchema;
 
-                //var area = neighbour.GetArea(i);
                 wall.Tiles.ForEach(t => neighbour.AddTile(area.ID, new ConnectedTile(t + wall.Dir, area.ID, 4)));
 
                 neighbours.Add(new OptimizableSchema(neighbour));
@@ -98,20 +93,27 @@ public class SchemaHCAgent : LBSAIAgent
             {
                 var neighbour = tileMap.Clone() as LBSSchema;
 
-                //var area = neighbour.GetArea(i);
                 wall.Tiles.ForEach(t => neighbour.AddTile(area.ID, new ConnectedTile(t - wall.Dir, area.ID, 4)));
 
                 neighbours.Add(new OptimizableSchema(neighbour));
             }
-
 
             // remove wall to the next gen
             foreach (var wall in walls)
             {
                 var neighbour = tileMap.Clone() as LBSSchema;
 
-                //var area = neighbour.GetArea(i);
                 wall.Tiles.ForEach(t => neighbour.RemoveTile(t));
+
+                neighbours.Add(new OptimizableSchema(neighbour));
+            }
+
+            var dirs = new List<Vector2Int>() { Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left };
+            foreach (var dir in dirs)
+            {
+                var neighbour = tileMap.Clone() as LBSSchema;
+
+                neighbour.MoveArea(i, dir);
 
                 neighbours.Add(new OptimizableSchema(neighbour));
             }
