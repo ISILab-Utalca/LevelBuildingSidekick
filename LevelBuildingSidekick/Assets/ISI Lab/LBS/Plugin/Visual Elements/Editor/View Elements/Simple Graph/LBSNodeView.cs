@@ -17,8 +17,8 @@ public class LBSNodeView<T> : GraphElement where T : LBSNode
     public Action<Vector2Int> OnMoving;
 
     // Visual elements
-    public Label label;
-    public VisualElement background;
+    private Label label;
+    private VisualElement background;
 
     public Color common = Color.white;
     public Color selcted = new Color(150 / 255f, 243 / 255f, 255 / 255f);
@@ -44,6 +44,24 @@ public class LBSNodeView<T> : GraphElement where T : LBSNode
         // Label
         label = this.Q<Label>();
         background = this.Q<VisualElement>("Background");
+
+        background.SetBorderRadius(size.x / 2f);
+
+    }
+
+    internal void SetColor(Color color)
+    {
+        background.style.backgroundColor = color;
+    }
+
+    internal void SetText(string text)
+    {
+        if(text.Length > 11)
+        {
+            text = text.Substring(0, 8) + "...";
+        }
+
+        label.text = text;
     }
 
     private void OnMouseDown(MouseDownEvent evt)

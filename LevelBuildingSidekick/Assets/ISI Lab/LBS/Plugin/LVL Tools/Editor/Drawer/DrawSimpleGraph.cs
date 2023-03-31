@@ -17,11 +17,11 @@ public class DrawSimpleGraph : Drawer
         var nViews = new List<LBSNodeView<RoomNode>>();
         foreach (var node in graph.GetNodes())
         {
-            var size = new Vector2(80, 80);
-            var element = new LBSNodeView<RoomNode>(node, node.Position - (size/2f), new Vector2(80, 80));
+            var size = new Vector2(120, 120);
+            var element = new LBSNodeView<RoomNode>(node, node.Position - (size/2f), size);
             
-            element.label.text = node.ID;
-            element.background.style.backgroundColor = node.Room.Color;
+            element.SetText(node.ID);
+            element.SetColor(node.Room.Color);
 
             nViews.Add(element);
             view.AddElement(element);

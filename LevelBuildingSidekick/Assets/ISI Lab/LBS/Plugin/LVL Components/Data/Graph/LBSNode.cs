@@ -30,7 +30,7 @@ namespace LBS.Components.Graph
         #region PROPERTIES
 
         [JsonIgnore]
-        public Vector2 Centroid => (Position + (new Vector2(width, height)/2));
+        public Vector2 Centroid => (Position + (new Vector2(width, height)/2f));
 
         [JsonIgnore]
         public Vector2Int Position

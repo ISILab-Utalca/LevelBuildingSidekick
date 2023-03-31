@@ -36,4 +36,12 @@ public static class VisualElementExtensions
             element.style.borderBottomWidth = value;
         }
     }
+
+    public static void SetBorderRadius(this VisualElement element, float value)
+    {
+        element.style.borderBottomLeftRadius = value;
+        element.style.borderBottomRightRadius = value;
+        element.style.borderTopLeftRadius = value;
+        element.style.borderTopRightRadius = value;
+    }
 }
