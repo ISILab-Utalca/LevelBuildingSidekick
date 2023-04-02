@@ -18,15 +18,15 @@ MonoBehaviour:
     visible: 1
     iconPath: Icons/pine-tree
     modules:
-    - rid: 1776035248773791829
+    - rid: 4424266623773835268
     Assitant: {fileID: 0}
   modes:
-  - rid: 1776035248773791830
+  - rid: 4424266623773835269
   transformers: []
   references:
     version: 2
     RefIds:
-    - rid: 1776035248773791829
+    - rid: 4424266623773835268
       type: {class: Exterior, ns: , asm: Assembly-CSharp}
       data:
         key: Exterior
@@ -38,30 +38,30 @@ MonoBehaviour:
           visible: 1
           iconPath: Icons/pine-tree
           modules:
-          - rid: 1776035248773791829
+          - rid: 4424266623773835268
           Assitant: {fileID: 0}
         tiles: []
-    - rid: 1776035248773791830
+    - rid: 4424266623773835269
       type: {class: LBSMode, ns: , asm: Assembly-CSharp-Editor}
       data:
         name: Exterior
         drawer: DrawExterior
         module: LBS.Components.TileMap.TiledArea
         toolkit:
-        - rid: 1776035248773791831
-        - rid: 1776035248773791832
-        - rid: 1776035248773791833
-        - rid: 1776035248773791834
-        - rid: 1776035248773791835
-        - rid: 1776035248773791836
-    - rid: 1776035248773791831
+        - rid: 4424266623773835270
+        - rid: 4424266623773835271
+        - rid: 4424266623773835272
+        - rid: 4424266623773835273
+        - rid: 4424266623773835274
+        - rid: 4424266623773835275
+    - rid: 4424266623773835270
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: 771d36a714319204ea4ddcbecdc2006e, type: 3}
         name: Select
         manipulator: Select
         inspector: 
-    - rid: 1776035248773791832
+    - rid: 4424266623773835271
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: b1704af221b60f64face13aea01f1b04, type: 3}
@@ -69,7 +69,7 @@ MonoBehaviour:
         manipulator: AddEmptyTile`1[[LBS.Components.TileMap.ConnectedTile, Assembly-CSharp,
           Version=2.6.0.0, Culture=neutral, PublicKeyToken=null]]
         inspector: 
-    - rid: 1776035248773791833
+    - rid: 4424266623773835272
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: b1704af221b60f64face13aea01f1b04, type: 3}
@@ -77,7 +77,7 @@ MonoBehaviour:
         manipulator: RemoveTileExterior`1[[LBS.Components.TileMap.ConnectedTile,
           Assembly-CSharp, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null]]
         inspector: 
-    - rid: 1776035248773791834
+    - rid: 4424266623773835273
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: bd700db3dfe4b4d40be798aee555d7f7, type: 3}
@@ -85,7 +85,7 @@ MonoBehaviour:
         manipulator: AddConnection`1[[LBS.Components.TileMap.ConnectedTile, Assembly-CSharp,
           Version=2.6.0.0, Culture=neutral, PublicKeyToken=null]]
         inspector: TagsPalleteInspector
-    - rid: 1776035248773791835
+    - rid: 4424266623773835274
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: 8e8fbec1ef6d10c43a3cd708f17ea463, type: 3}
@@ -93,7 +93,7 @@ MonoBehaviour:
         manipulator: RemoveConnection`1[[LBS.Components.TileMap.ConnectedTile, Assembly-CSharp,
           Version=2.6.0.0, Culture=neutral, PublicKeyToken=null]]
         inspector: 
-    - rid: 1776035248773791836
+    - rid: 4424266623773835275
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: 8e8fbec1ef6d10c43a3cd708f17ea463, type: 3}

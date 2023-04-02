@@ -12,16 +12,15 @@ namespace LBS.Components.TileMap
     {
         #region FIELDS
 
-        [SerializeField, JsonRequired, SerializeReference]
-        string[] connections;
+        [SerializeField, JsonRequired]
+        private List<string> connections = new List<string>();
 
         #endregion
 
         #region PROPERTIES
 
         [JsonIgnore]
-        public string[] Connections => connections.Select(s => s).ToArray();
-
+        public string[] Connections => new List<string>(connections).ToArray();
 
         #endregion
 
@@ -29,15 +28,15 @@ namespace LBS.Components.TileMap
 
         public ConnectedTile() : base ()
         {
-            connections = new string[Sides];
+            this.connections = new List<string>();
         }
 
         public ConnectedTile(Vector2 position, string id, int sides = 4, string[] connections = null) : base(position, id, sides)
         {
             if (connections == null)
-                this.connections = new string[Sides];
+                this.connections = new string[sides].ToList();
             else
-                this.connections = connections; 
+                this.connections = connections.ToList(); 
         }
 
         #endregion
@@ -48,7 +47,14 @@ namespace LBS.Components.TileMap
         {
             for (int i = 0; i < connections.Length; i++)
             {
-                this.connections[i] = connections[i];
+                if(this.connections.Count <= i)
+                {
+                    this.connections.Add(connections[i]);
+                }
+                else
+                {
+                    this.connections[i] = connections[i];
+                }
             }
         }
 

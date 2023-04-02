@@ -47,15 +47,16 @@ namespace LBS.Components.TileMap
 
         public LBSTile() 
         {
-            x = 0;
-            y = 0;
-            sides = 4; 
+            this.x = 0;
+            this.y = 0;
+            this.sides = 4;
+            this.id = "";
         }
 
         public LBSTile(Vector2 position, string id, int sides = 4) 
         {
-            x = (int)position.x;
-            y = (int)position.y;
+            this.x = (int)position.x;
+            this.y = (int)position.y;
             this.id = id;
             this.sides = sides; 
         }

@@ -25,6 +25,8 @@ namespace LBS.Components.TileMap
         public string ID => id;
         [JsonIgnore]
         public Color Color => color.ToColor();
+        [JsonIgnore]
+        public Vector2 Centroid => Rect.center;
 
         #endregion
 
@@ -37,7 +39,10 @@ namespace LBS.Components.TileMap
 
         #region CONSTRUCTORS
 
-        public TiledArea() : base() { Key = GetType().Name; }
+        public TiledArea() : base() 
+        { 
+            this.key = GetType().Name;
+        }
 
         public TiledArea(List<LBSTile> tiles, string id, string key, Color color) : base(tiles, key)
         {
@@ -89,8 +94,6 @@ namespace LBS.Components.TileMap
 
             return value;
         }
-
-        public Vector2 Centroid => Rect.center;
 
         public bool IsConvexCorner(Vector2 pos, List<Vector2> directions)
         {
