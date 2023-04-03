@@ -21,35 +21,33 @@ public class WaveFunctionCollapseManipulator<T> : ManipulateTileMap<T> where T :
 
     private ConnectedTile first;
 
-    protected override void OnMouseDown(MouseDownEvent e)
+    protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
     {
-        OnManipulationStart?.Invoke();
         var view = e.target as ExteriorTileView;
         if (view == null)
             return;
 
         first = view.Data;
 
-        mainView.AddElement(feedback);
-        feedback.fixToTeselation = true;
-        firstClick = mainView.FixPos(e.localMousePosition);
+        //MainView.AddElement(feedback);
+        //feedback.fixToTeselation = true;
+        firstClick = position;
+        //firstClick = MainView.FixPos(e.localMousePosition);
         feedback.ActualizePositions(firstClick.ToInt(), firstClick.ToInt());
     }
 
-    protected override void OnMouseMove(MouseMoveEvent e)
+    protected override void OnMouseMove(VisualElement target, Vector2Int position, MouseMoveEvent e)
     {
         //throw new System.NotImplementedException();
         if (firstClick != null)
         {
-            var pos = mainView.FixPos(e.localMousePosition);
+            var pos = MainView.FixPos(e.localMousePosition);
             feedback.ActualizePositions(firstClick.ToInt(), pos.ToInt());
         }
     }
 
-    protected override void OnMouseUp(MouseUpEvent e)
+    protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
     {
-        mainView.RemoveElement(feedback);
-
         if (first == null)
             return;
 
