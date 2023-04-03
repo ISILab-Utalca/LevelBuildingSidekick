@@ -13,80 +13,14 @@ MonoBehaviour:
   m_Name: Layer population
   m_EditorClassIdentifier: 
   layer:
-    id: Population
-    name: Population layer
+    id: LBSLayer
+    name: 
     visible: 1
-    iconPath: Icons/ghost
-    modules:
-    - rid: 3012263917099679750
-    - rid: 3012263917099679751
+    iconPath: 
+    modules: []
     Assitant: {fileID: 0}
-  modes:
-  - rid: 3012263917099679752
+  modes: []
   transformers: []
   references:
     version: 2
-    RefIds:
-    - rid: 3012263917099679750
-      type: {class: LBSTileMap, ns: , asm: Assembly-CSharp}
-      data:
-        key: LBSTileMap
-        visible: 0
-        changed: 0
-        Owner:
-          id: Population
-          name: Population layer
-          visible: 1
-          iconPath: Icons/ghost
-          modules:
-          - rid: 3012263917099679750
-          - rid: 3012263917099679751
-          Assitant: {fileID: 0}
-        tiles: []
-    - rid: 3012263917099679751
-      type: {class: TaggedTileMap, ns: , asm: Assembly-CSharp}
-      data:
-        key: TaggedTileMap
-        visible: 0
-        changed: 0
-        Owner:
-          id: Population
-          name: Population layer
-          visible: 1
-          iconPath: Icons/ghost
-          modules:
-          - rid: 3012263917099679750
-          - rid: 3012263917099679751
-          Assitant: {fileID: 0}
-        pairTiles: []
-    - rid: 3012263917099679752
-      type: {class: LBSMode, ns: , asm: Assembly-CSharp-Editor}
-      data:
-        name: Population
-        drawer: DrawTaggedTileMap
-        module: TaggedTileMap
-        toolkit:
-        - rid: 3012263917099679753
-        - rid: 3012263917099679754
-        - rid: 3012263917099679755
-    - rid: 3012263917099679753
-      type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
-      data:
-        icon: {fileID: 2800000, guid: 771d36a714319204ea4ddcbecdc2006e, type: 3}
-        name: Select
-        manipulator: Select
-        inspector: 
-    - rid: 3012263917099679754
-      type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
-      data:
-        icon: {fileID: 2800000, guid: 5bcc511dcb487f24187b421ea2806d87, type: 3}
-        name: Add Tile
-        manipulator: AddTaggedTile
-        inspector: BundlePalleteInspector
-    - rid: 3012263917099679755
-      type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
-      data:
-        icon: {fileID: 2800000, guid: 79e9d4f49f5e9874c805015d2c334f0c, type: 3}
-        name: Remove
-        manipulator: RemoveTile
-        inspector: 
+    RefIds: []
