@@ -10,6 +10,7 @@ using UnityEditor;
 
 namespace LBS.Generator
 {
+    [System.Serializable]
     public class PopulationGenerator : Generator3D
     {
         public override GameObject Generate(LBSLayer layer)

@@ -248,6 +248,10 @@ public class LayerTemplateEditor : Editor
     {
         // Basic data layer
         var layer = new LBSLayer();
+        layer.Assitant = ScriptableObject.CreateInstance<LBSLayerAssistant>();
+        layer.Assitant.name = "Population Map Elite";
+        layer.Assitant.Generator = new PopulationGenerator();
+        layer.Assitant.AddAgent(new PopulationMapEliteAgent(layer, "Population Map Elite"));
         layer.ID = "Population";
         layer.Name = "Population layer";
         layer.iconPath = "Icons/ghost";

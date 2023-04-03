@@ -8,6 +8,7 @@ using Utility;
 
 namespace LBS.Generator
 {
+    [System.Serializable]
     public class ExteriorGenerator : Generator3D //  (!!!) esta clase mescla lo que tiene que hacer la IA de WFC con generar 3d posteriormente
     {
         private Exterior exterior;

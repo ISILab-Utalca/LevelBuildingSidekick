@@ -5,9 +5,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+[System.Serializable]
 public class PopulationMapEliteAgent : LBSAIAgent
 {
-    MapElites mapElites;
+    MapEliteWindow mapElites;
+     
 
     public PopulationMapEliteAgent(LBSLayer layer, string id) : base(layer, id, "PopulationMapEliteAgent")
     {
@@ -16,7 +18,7 @@ public class PopulationMapEliteAgent : LBSAIAgent
 
     public override void Execute()
     {
-        var wnd = MapEliteWindow.GetWindow<MapEliteWindow>();
+        Init(ref layer);
     }
 
     public override VisualElement GetInspector()
@@ -26,7 +28,8 @@ public class PopulationMapEliteAgent : LBSAIAgent
 
     public override void Init(ref LBSLayer layer)
     {
-        throw new System.NotImplementedException();
+        mapElites = MapEliteWindow.GetWindow<MapEliteWindow>();
+        mapElites.SetLayer(layer);
     }
 
     public override object Clone()
