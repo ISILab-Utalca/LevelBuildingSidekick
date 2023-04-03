@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Reflection;
 
 namespace LBS.Components.Specifics
 {
@@ -70,9 +71,18 @@ namespace LBS.Components.Specifics
         public RoomData()
         {
             this.color = new Color(
-                (float)random.NextDouble()* 0.8f,
-                (float)random.NextDouble()* 0.8f,
-                (float)random.NextDouble()* 0.8f).ToSerializable();
+                (float)random.NextDouble() * 0.8f,
+                (float)random.NextDouble() * 0.8f,
+                (float)random.NextDouble() * 0.8f)
+                .ToSerializable();
+
+            /*
+            var ttt = typeof(RoomData).GetField("tags");
+            var atts = ttt.GetCustomAttributes(typeof(ScriptableToStringAttribute), false);
+            var att = atts[0];
+            var _default = (att as ScriptableToStringAttribute).SOs[0];
+            tags.Add((_default as LBSIdentifier).Label); // parche para que siempre entre con una tag por dafult (!!!)
+            */
         }
 
         public RoomData(int width, int height, List<string> tags, Color color)
