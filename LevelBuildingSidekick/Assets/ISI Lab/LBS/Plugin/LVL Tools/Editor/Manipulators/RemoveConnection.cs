@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 public class RemoveConnection<T> : ManipulateTileMap<T> where T : LBSTile
 {
-    private List<Vector2Int> dirs = new List<Vector2Int>() // (!) esto deberia estar en un lugar general
+    private readonly List<Vector2Int> dirs = new List<Vector2Int>() // (!) esto deberia estar en un lugar general
     {
         Vector2Int.right,
         Vector2Int.down,
@@ -16,10 +16,14 @@ public class RemoveConnection<T> : ManipulateTileMap<T> where T : LBSTile
 
     private ConnectedTile first;
 
-    protected override void OnMouseDown(MouseDownEvent e)
+    public RemoveConnection() : base()
     {
-        OnManipulationStart?.Invoke();
+        feedback = new ConectedLine();
+        feedback.fixToTeselation = true;
+    }
 
+    protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
+    {
         var tile = e.target as ExteriorTileView;
         if (tile == null)
             return;
@@ -27,12 +31,12 @@ public class RemoveConnection<T> : ManipulateTileMap<T> where T : LBSTile
         first = tile.Data;
     }
 
-    protected override void OnMouseMove(MouseMoveEvent e)
+    protected override void OnMouseMove(VisualElement target, Vector2Int position, MouseMoveEvent e)
     {
         //throw new System.NotImplementedException();
     }
 
-    protected override void OnMouseUp(MouseUpEvent e)
+    protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
     {
         if (first == null)
             return;
@@ -42,6 +46,9 @@ public class RemoveConnection<T> : ManipulateTileMap<T> where T : LBSTile
             return;
 
         var second = tile.Data;
+
+        if (second == first)
+            return;
 
         var dx = (first.Position.x - second.Position.x);
         var dy = (first.Position.y - second.Position.y);
