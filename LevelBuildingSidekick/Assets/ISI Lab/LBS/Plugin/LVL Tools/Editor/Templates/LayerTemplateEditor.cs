@@ -55,7 +55,7 @@ public class LayerTemplateEditor : Editor
         assist.Generator = new SchemaGenerator();
         layer.Assitant = assist;
         layer.ID = "Interior";
-        layer.Name = "Interior layer";
+        layer.Name = "Layer Interior";
         layer.iconPath = "Icons/interior-design";
         template.layer = layer;
 
@@ -168,7 +168,7 @@ public class LayerTemplateEditor : Editor
         layer.Assitant = ScriptableObject.CreateInstance<LBSLayerAssistant>();
         layer.Assitant.Generator = new ExteriorGenerator();
         layer.ID = "Exterior";
-        layer.Name = "Exterior layer";
+        layer.Name = "Layer Exterior";
         layer.iconPath = "Icons/pine-tree";
         template.layer = layer;
 
@@ -253,7 +253,7 @@ public class LayerTemplateEditor : Editor
         layer.Assitant.Generator = new PopulationGenerator();
         layer.Assitant.AddAgent(new PopulationMapEliteAgent(layer, "Population Map Elite"));
         layer.ID = "Population";
-        layer.Name = "Population layer";
+        layer.Name = "Layer Population";
         layer.iconPath = "Icons/ghost";
         template.layer = layer;
 
