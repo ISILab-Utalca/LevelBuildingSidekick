@@ -59,14 +59,14 @@ public class TagsPalleteInspector : LBSInspector
             btn.clicked += () => {
                 foreach (var manipulator in lBSManipulators)
                 {
-                    var mani = manipulator as ManipulateTileMap<ConnectedTile>;
+                    var mani = manipulator as AddConnection<ConnectedTile>;
                     mani.tagToSet = tag;
                 }
             };
 
             foreach (var manipulator in lBSManipulators)
             {
-                var mani = manipulator as ManipulateTileMap<ConnectedTile>;
+                var mani = manipulator as AddConnection<ConnectedTile>;
                 mani.tagToSet = tag;
             }
             content.Add(btn);
