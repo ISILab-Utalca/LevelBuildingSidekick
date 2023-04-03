@@ -35,7 +35,7 @@ public class StSDrawer : PropertyDrawer
         }
         else
         {
-            // Do nothing (??)
+            property.stringValue = list[0];
         }
     }
 }
