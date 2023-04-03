@@ -14,20 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   layer:
     id: Population
-    name: Population layer
+    name: Layer Population
     visible: 1
     iconPath: Icons/ghost
     modules:
-    - rid: 3012263917099679750
-    - rid: 3012263917099679751
-    Assitant: {fileID: 0}
+    - rid: 3012263918098972673
+    - rid: 3012263918098972674
+    Assitant: {fileID: 4524317005955951344}
   modes:
-  - rid: 3012263917099679752
+  - rid: 3012263918098972675
   transformers: []
   references:
     version: 2
     RefIds:
-    - rid: 3012263917099679750
+    - rid: 3012263918098972673
       type: {class: LBSTileMap, ns: , asm: Assembly-CSharp}
       data:
         key: LBSTileMap
@@ -35,15 +35,15 @@ MonoBehaviour:
         changed: 0
         Owner:
           id: Population
-          name: Population layer
+          name: Layer Population
           visible: 1
           iconPath: Icons/ghost
           modules:
-          - rid: 3012263917099679750
-          - rid: 3012263917099679751
-          Assitant: {fileID: 0}
+          - rid: 3012263918098972673
+          - rid: 3012263918098972674
+          Assitant: {fileID: 4524317005955951344}
         tiles: []
-    - rid: 3012263917099679751
+    - rid: 3012263918098972674
       type: {class: TaggedTileMap, ns: , asm: Assembly-CSharp}
       data:
         key: TaggedTileMap
@@ -51,42 +51,70 @@ MonoBehaviour:
         changed: 0
         Owner:
           id: Population
-          name: Population layer
+          name: Layer Population
           visible: 1
           iconPath: Icons/ghost
           modules:
-          - rid: 3012263917099679750
-          - rid: 3012263917099679751
-          Assitant: {fileID: 0}
+          - rid: 3012263918098972673
+          - rid: 3012263918098972674
+          Assitant: {fileID: 4524317005955951344}
         pairTiles: []
-    - rid: 3012263917099679752
+    - rid: 3012263918098972675
       type: {class: LBSMode, ns: , asm: Assembly-CSharp-Editor}
       data:
         name: Population
         drawer: DrawTaggedTileMap
         module: TaggedTileMap
         toolkit:
-        - rid: 3012263917099679753
-        - rid: 3012263917099679754
-        - rid: 3012263917099679755
-    - rid: 3012263917099679753
+        - rid: 3012263918098972676
+        - rid: 3012263918098972677
+        - rid: 3012263918098972678
+    - rid: 3012263918098972676
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: 771d36a714319204ea4ddcbecdc2006e, type: 3}
         name: Select
         manipulator: Select
         inspector: 
-    - rid: 3012263917099679754
+    - rid: 3012263918098972677
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: 5bcc511dcb487f24187b421ea2806d87, type: 3}
         name: Add Tile
         manipulator: AddTaggedTile
         inspector: BundlePalleteInspector
-    - rid: 3012263917099679755
+    - rid: 3012263918098972678
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: 79e9d4f49f5e9874c805015d2c334f0c, type: 3}
         name: Remove
         manipulator: RemoveTile
         inspector: 
+--- !u!114 &4524317005955951344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 560040d1c9dfbf1418a5ed33df71ce47, type: 3}
+  m_Name: PopulationAssitant
+  m_EditorClassIdentifier: 
+  generator:
+    rid: 3012263917099679876
+  aiAgents:
+  - rid: 3012263917099679877
+  references:
+    version: 2
+    RefIds:
+    - rid: 3012263917099679876
+      type: {class: PopulationGenerator, ns: LBS.Generator, asm: Assembly-CSharp}
+      data:
+        scale: {x: 0, y: 0}
+        resize: {x: 0, y: 0}
+        position: {x: 0, y: 0, z: 0}
+        objName: 
+    - rid: 3012263917099679877
+      type: {class: PopulationMapEliteAgent, ns: , asm: Assembly-CSharp-Editor}
