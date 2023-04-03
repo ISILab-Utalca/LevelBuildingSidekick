@@ -49,10 +49,18 @@ public class LayerTemplateEditor : Editor
     {
         // Basic data layer
         var layer = new LBSLayer();
-        var assist = ScriptableObject.CreateInstance<LBSLayerAssistant>();
-        assist.name = "SchemaAssitant";
-        assist.AddAgent(new SchemaHCAgent(layer, "SchemaHillClimbing"));
-        assist.Generator = new SchemaGenerator();
+        var assist = Utility.DirectoryTools.GetScriptable<LBSLayerAssistant>("SchemaAssitant");
+        if(assist == null)
+        {
+            assist = ScriptableObject.CreateInstance<LBSLayerAssistant>();
+            assist.name = "SchemaAssitant";
+            assist.AddAgent(new SchemaHCAgent(layer, "SchemaHillClimbing"));
+            assist.Generator = new SchemaGenerator();
+
+            AssetDatabase.AddObjectToAsset(assist, template);
+            AssetDatabase.SaveAssets();
+        }
+
         layer.Assitant = assist;
         layer.ID = "Interior";
         layer.Name = "Layer Interior";
@@ -165,8 +173,18 @@ public class LayerTemplateEditor : Editor
     {
         // Basic data layer
         var layer = new LBSLayer();
-        layer.Assitant = ScriptableObject.CreateInstance<LBSLayerAssistant>();
-        layer.Assitant.Generator = new ExteriorGenerator();
+        var assist = Utility.DirectoryTools.GetScriptable<LBSLayerAssistant>("ExteriorAsstant");
+        if (assist == null)
+        {
+            assist = ScriptableObject.CreateInstance<LBSLayerAssistant>();
+            assist.name = "ExteriorAsstant";
+            assist.Generator = new ExteriorGenerator();
+
+            AssetDatabase.AddObjectToAsset(assist, template);
+            AssetDatabase.SaveAssets();
+        }
+
+        layer.Assitant = assist;
         layer.ID = "Exterior";
         layer.Name = "Layer Exterior";
         layer.iconPath = "Icons/pine-tree";
@@ -248,10 +266,20 @@ public class LayerTemplateEditor : Editor
     {
         // Basic data layer
         var layer = new LBSLayer();
-        layer.Assitant = ScriptableObject.CreateInstance<LBSLayerAssistant>();
-        layer.Assitant.name = "Population Map Elite";
-        layer.Assitant.Generator = new PopulationGenerator();
-        layer.Assitant.AddAgent(new PopulationMapEliteAgent(layer, "Population Map Elite"));
+
+        var assist = Utility.DirectoryTools.GetScriptable<LBSLayerAssistant>("PopulationAssitant");
+        if (assist == null)
+        {
+            assist = ScriptableObject.CreateInstance<LBSLayerAssistant>();
+            assist.name = "PopulationAssitant";
+            assist.Generator = new PopulationGenerator();
+            assist.AddAgent(new PopulationMapEliteAgent(layer, "Population Map Elite"));
+
+            AssetDatabase.AddObjectToAsset(assist, template);
+            AssetDatabase.SaveAssets();
+        }
+
+        layer.Assitant = assist;
         layer.ID = "Population";
         layer.Name = "Layer Population";
         layer.iconPath = "Icons/ghost";

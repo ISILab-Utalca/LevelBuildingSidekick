@@ -1,5 +1,33 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7518866432929018229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 560040d1c9dfbf1418a5ed33df71ce47, type: 3}
+  m_Name: SchemaAssitant
+  m_EditorClassIdentifier: 
+  generator:
+    rid: 3012263917099679859
+  aiAgents:
+  - rid: 3012263917099679860
+  references:
+    version: 2
+    RefIds:
+    - rid: 3012263917099679859
+      type: {class: SchemaGenerator, ns: , asm: Assembly-CSharp}
+      data:
+        scale: {x: 0, y: 0}
+        resize: {x: 0, y: 0}
+        position: {x: 0, y: 0, z: 0}
+        objName: 
+    - rid: 3012263917099679860
+      type: {class: SchemaHCAgent, ns: , asm: Assembly-CSharp}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
