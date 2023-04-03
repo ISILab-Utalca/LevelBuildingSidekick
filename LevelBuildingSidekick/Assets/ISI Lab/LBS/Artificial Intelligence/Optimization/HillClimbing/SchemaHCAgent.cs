@@ -12,6 +12,7 @@ using Commons.Optimization.Evaluator;
 using Commons.Optimization.Terminations;
 using LBS.Components.Graph;
 using LBS.Tools.Transformer;
+using System;
 
 [System.Serializable]
 public class SchemaHCAgent : LBSAIAgent
@@ -36,6 +37,8 @@ public class SchemaHCAgent : LBSAIAgent
 
         layer.SetModule<LBSSchema>(x , x.Key);
 
+        SetDoors(layer.GetModule<LBSSchema>(), layer.GetModule<LBSRoomGraph>());
+
         OnTermination?.Invoke();
         Debug.Log("HillClimbing finish!");
     }
@@ -43,6 +46,59 @@ public class SchemaHCAgent : LBSAIAgent
     public override VisualElement GetInspector()
     {
         throw new System.NotImplementedException();
+    }
+
+    private void SetDoors(LBSSchema schema, LBSRoomGraph graph)
+    {
+        foreach (var area in schema.Areas)
+        {
+            foreach (var tile in area.Tiles)
+            {
+                var cTile = tile as ConnectedTile;
+                for (int i = 0; i < cTile.Connections.Length; i++)
+                {
+                    if (cTile.Connections[i].Contains("Door"))
+                    {
+                        cTile.SetConnection("Wall", i);
+                    }
+                }
+            }
+        }
+
+
+        for (int i = 0; i < graph.EdgeCount; i++)
+        {
+            var edge = graph.GetEdge(i);
+
+            var r1 = schema.GetArea(edge.FirstNode.ID);
+            var r2 = schema.GetArea(edge.SecondNode.ID);
+
+            if (r1.TileCount <= 0 || r2.TileCount <= 0) // signiofica que una de las dos areas desaparecio y no deberia aporta, de hecho podria ser negativo (!)
+                continue;
+
+            var pairs = new List<Tuple<ConnectedTile, ConnectedTile>>();
+            foreach (var t1 in r1.Tiles)
+            {
+                foreach (var t2 in r2.Tiles)
+                {
+                    var dist = Vector2Int.Distance(t1.Position, t2.Position);
+                    if(dist <= 1.1f)
+                    {
+                        pairs.Add(new Tuple<ConnectedTile, ConnectedTile>(t1 as ConnectedTile, t2 as ConnectedTile));
+                    }
+                }
+            }
+
+            var selc = pairs[UnityEngine.Random.Range(0, pairs.Count() - 1)];
+
+            var dir = selc.Item1.Position - selc.Item2.Position;
+
+            selc.Item1.SetConnection("Door", -dir);
+            selc.Item2.SetConnection("Door", dir);
+
+        }
+
+        
     }
 
     public override void Init(ref LBSLayer layer)
