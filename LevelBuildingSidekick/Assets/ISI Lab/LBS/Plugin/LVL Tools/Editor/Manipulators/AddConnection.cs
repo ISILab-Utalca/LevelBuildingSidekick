@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class AddConnection<T>: ManipulateTileMap<T> where T : LBSTile
+public class AddConnection<T> : ManipulateTileMap<T> where T : LBSTile
 {
+    public LBSIdentifier tagToSet;
+
     private List<Vector2Int> dirs = new List<Vector2Int>() // (!) esto deberia estar en un lugar general
     {
         Vector2Int.right,
@@ -16,7 +18,13 @@ public class AddConnection<T>: ManipulateTileMap<T> where T : LBSTile
 
     private ConnectedTile first;
 
-    protected override void OnMouseDown(MouseDownEvent e)
+    public AddConnection() : base()
+    {
+        feedback = new ConectedLine();
+        feedback.fixToTeselation = true;
+    }
+
+    protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
     {
         OnManipulationStart?.Invoke();
 
@@ -27,12 +35,12 @@ public class AddConnection<T>: ManipulateTileMap<T> where T : LBSTile
         first = tile.Data;
     }
 
-    protected override void OnMouseMove(MouseMoveEvent e)
+    protected override void OnMouseMove(VisualElement target, Vector2Int position, MouseMoveEvent e)
     {
         //throw new System.NotImplementedException();
     }
 
-    protected override void OnMouseUp(MouseUpEvent e)
+    protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
     {
         if (first == null)
             return;
