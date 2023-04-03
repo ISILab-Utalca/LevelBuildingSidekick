@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 public class RemoveTile : ManipulateTileMap<LBSTile>
 {
-    protected override void OnMouseDown(MouseDownEvent e)
+    protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
     {
         OnManipulationStart?.Invoke();
         var view = e.target as TileView;
@@ -23,12 +23,12 @@ public class RemoveTile : ManipulateTileMap<LBSTile>
         OnManipulationEnd?.Invoke();
     }
 
-    protected override void OnMouseMove(MouseMoveEvent e)
+    protected override void OnMouseMove(VisualElement target, Vector2Int position, MouseMoveEvent e)
     {
         //throw new System.NotImplementedException();
     }
 
-    protected override void OnMouseUp(MouseUpEvent e)
+    protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
     {
         //throw new System.NotImplementedException();
     }
