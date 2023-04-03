@@ -6,8 +6,9 @@ using UnityEngine.UIElements;
 
 public class RemoveTileExterior<T> : ManipulateTileMap<T> where T : LBSTile
 {
-    protected override void OnMouseDown(MouseDownEvent e)
+    protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
     {
+        /*
         OnManipulationStart?.Invoke();
         var view = e.target as ExteriorTileView;
         
@@ -20,15 +21,27 @@ public class RemoveTileExterior<T> : ManipulateTileMap<T> where T : LBSTile
         module.RemoveTile(tile as T);
 
         OnManipulationEnd?.Invoke();
+        */
     }
 
-    protected override void OnMouseMove(MouseMoveEvent e)
+    protected override void OnMouseMove(VisualElement target, Vector2Int position,  MouseMoveEvent e)
     {
         //throw new System.NotImplementedException();
     }
 
-    protected override void OnMouseUp(MouseUpEvent e)
+    protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
     {
-        //throw new System.NotImplementedException();
+        var min = Vector2Int.Min(StartPosition, EndPosition);
+        var max = Vector2Int.Max(StartPosition, EndPosition);
+
+        for (int i = min.x; i <= max.x; i++)
+        {
+            for (int j = min.y; j <= max.y; j++)
+            {
+                var pos = MainView.ToTileCords(new Vector2Int(i, j));
+                var tile = module.GetTile(pos);
+                module.RemoveTile(tile as T);
+            }
+        }
     }
 }
