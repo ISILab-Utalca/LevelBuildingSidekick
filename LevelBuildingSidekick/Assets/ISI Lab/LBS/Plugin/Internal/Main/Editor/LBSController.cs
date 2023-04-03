@@ -86,6 +86,7 @@ namespace LBS
             return null;
         }
 
+        /*
         public static bool FileExists(string name, string extension, out FileInfo toReturn)
         {
             var path = Application.dataPath;
@@ -98,7 +99,7 @@ namespace LBS
             //return fileInfo != null;
             toReturn = null;
             return false;
-        }
+        }*/
 
         public static void SaveFile()
         {
