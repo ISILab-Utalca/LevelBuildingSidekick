@@ -7,9 +7,13 @@ using UnityEngine;
 
 namespace LBS.Components.TileMap
 {
+
+
     [System.Serializable]
     public class ConnectedTile : LBSTile
     {
+        public readonly List<Vector2Int> dirs = new List<Vector2Int>() {Vector2Int.right, Vector2Int.down, Vector2Int.left, Vector2Int.up };
+
         #region FIELDS
 
         [SerializeField, JsonRequired]
@@ -60,20 +64,13 @@ namespace LBS.Components.TileMap
 
         public void SetConnection(string connection, int index)
         {
-            /*
-            if(!connections.ContainsIndex(index))
-            {
-                return false;
-            }
-
-            if(connections[index] == connection)
-            {
-                return false;
-            }
-            */
-
             connections[index] = connection;
-            //return true;
+        }
+
+        public void SetConnection(string connection, Vector2Int dir)
+        {
+            var i = dirs.IndexOf(dir);
+            SetConnection(connection, i);
         }
 
         public string GetConnection(int index)
