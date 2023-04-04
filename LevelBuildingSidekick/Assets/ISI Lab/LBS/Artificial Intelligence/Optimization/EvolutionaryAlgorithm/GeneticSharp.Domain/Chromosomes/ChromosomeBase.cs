@@ -16,7 +16,6 @@ namespace GeneticSharp.Domain.Chromosomes
     {
         #region Fields
         protected object[] genes;
-        private int length;
         #endregion
 
 
@@ -29,13 +28,11 @@ namespace GeneticSharp.Domain.Chromosomes
         {
             ValidateLength(length);
 
-            this.length = length;
             genes = new object[length];
         }
 
         protected ChromosomeBase()
         {
-            length = 0;
             genes = new object[0];
         }
 
@@ -51,7 +48,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// Gets the length, in genes, of the chromosome.
         /// </summary>
 
-        public int Length => length;
+        public int Length => genes.Length;
         #endregion
 
         #region Methods
@@ -178,7 +175,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <exception cref="System.ArgumentOutOfRangeException">index;There is no Gene on index {0} to be replaced..With(index)</exception>
         public virtual void ReplaceGene<T>(int index, T gene)
         {
-            if (index < 0 || index >= length)
+            if (index < 0 || index >= Length)
             {
                 throw new ArgumentOutOfRangeException(nameof(index), "There is no Gene on index {0} to be replaced.".With(index));
             }
@@ -208,14 +205,14 @@ namespace GeneticSharp.Domain.Chromosomes
 
             if (genes.Length > 0)
             {
-                if (startIndex < 0 || startIndex >= length)
+                if (startIndex < 0 || startIndex >= Length)
                 {
                     throw new ArgumentOutOfRangeException(nameof(startIndex), "There is no Gene on index {0} to be replaced.".With(startIndex));
                 }
 
                 var genesToBeReplacedLength = genes.Length;
 
-                var availableSpaceLength = length - startIndex;
+                var availableSpaceLength = Length - startIndex;
 
                 if (genesToBeReplacedLength > availableSpaceLength)
                 {
@@ -239,7 +236,6 @@ namespace GeneticSharp.Domain.Chromosomes
             ValidateLength(newLength);
 
             Array.Resize(ref genes, newLength);
-            length = newLength;
         }
 
         /// <summary>
@@ -378,7 +374,7 @@ namespace GeneticSharp.Domain.Chromosomes
 
         public object GetGene(int index)
         {
-            return GetGene(index);
+            return genes[index];
         }
 
         public object[] GetGenes()
@@ -432,10 +428,6 @@ namespace GeneticSharp.Domain.Chromosomes
 
         public T[] GetDataSquence<T>()
         {
-            if(!(genes[0] is T))
-            {
-                throw new TypeAccessException("Invalid type requested, " + GetType().ToString() + " does not have or implement a way to return a collection of type: " + typeof(T).ToString());
-            }
             return genes.Select(g => (T)g).ToArray();
         }
 

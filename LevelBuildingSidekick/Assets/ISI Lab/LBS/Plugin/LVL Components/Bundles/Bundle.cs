@@ -7,13 +7,12 @@ public abstract class Bundle : LBSScriptableObject
 {
 
     [SerializeField]
-    [ScriptableToString(typeof(LBSIdentifier))]
-    protected string id = "";
+    protected LBSIdentifier id;
 
     public LBSIdentifier ID
     {
-        get => Utility.DirectoryTools.GetScriptable<LBSIdentifier>(id);
-        set => id = value.name;
+        get => id;
+        set => id = value;
     }
 
     /*[SerializeField,*/[ SerializeReference, HideInInspector]

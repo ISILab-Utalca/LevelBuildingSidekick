@@ -32,7 +32,6 @@ public class MapElites
     public List<int> changedSample;
 
     private Thread thread;
-
     #endregion
 
     #region FIELDS
@@ -78,7 +77,11 @@ public class MapElites
         }
     }
 
-    public IOptimizable Adam { get; set; }
+    public IOptimizable Adam 
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the evaluator for the X dimension.

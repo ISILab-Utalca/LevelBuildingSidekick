@@ -6,9 +6,10 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 
-public class EvaluatorVE : VisualElement
+public abstract class EvaluatorVE : VisualElement
 {
     protected IEvaluator evaluator;
+    public IEvaluator Evaluator => evaluator;
     protected LBSLayer layer;
 
     public EvaluatorVE()
@@ -25,4 +26,6 @@ public class EvaluatorVE : VisualElement
     {
         this.layer = layer;
     }
+
+    public abstract void Init();
 }

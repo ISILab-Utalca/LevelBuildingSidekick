@@ -46,6 +46,19 @@ namespace LBS.Components.TileMap
         {
             return new BundleData(bundleTag, characteristics.Select(c => c.Clone() as LBSCharacteristic).ToList());
         }
+
+        public override bool Equals(object obj)
+        {
+            if(obj is BundleData)
+            {
+                return (obj as BundleData).BundleTag == BundleTag;
+            }
+            if(obj is Bundle)
+            {
+                return (obj as Bundle).ID.Label == BundleTag;
+            }
+            return base.Equals(obj);
+        }
         #endregion
     }
 }

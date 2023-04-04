@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1ca1a068b763d94ca8f120873012f03, type: 3}
   m_Name: CastleWalls
   m_EditorClassIdentifier: 
-  id: Wall
+  id: {fileID: 11400000, guid: 676b2525bf31dc6439be198604391b79, type: 2}
   characteristics: []
   objects:
   - {fileID: 1421577743583734271, guid: a121ddcf89e479d4f92634d1b354f644, type: 3}
+  references:
+    version: 2
+    RefIds: []

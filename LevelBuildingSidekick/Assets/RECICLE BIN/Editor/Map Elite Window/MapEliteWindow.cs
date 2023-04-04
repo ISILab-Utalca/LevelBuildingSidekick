@@ -108,18 +108,20 @@ public class MapEliteWindow : EditorWindow
             EvaluatorFieldX.dropdown.Value = mapElites.XEvaluator.ToString();
         EvaluatorFieldX.dropdown.RegisterValueChangedCallback(e => {
             labelX.text = (e.newValue != null) ? e.newValue : "Evaluation X";
-            var value = EvaluatorFieldX.dropdown.GetChoiceInstance();
+            var ve = (EvaluatorFieldX.content as EvaluatorVE);
+            var value = ve.Evaluator;
             mapElites.XEvaluator = value as IRangedEvaluator;
-            (EvaluatorFieldX.content as EvaluatorVE).SetLayer(layer);
+            ve.SetLayer(layer);
         });
 
         if (mapElites.YEvaluator != null)
             EvaluatorFieldY.dropdown.value = mapElites.YEvaluator.ToString();
-        EvaluatorFieldY.RegisterCallback<ChangeEvent<string>>(e => {
+        EvaluatorFieldY.dropdown.RegisterValueChangedCallback(e => {
             labelY.text = (e != null) ? e.newValue : "Evaluation Y";
-            var value = EvaluatorFieldY.dropdown.GetChoiceInstance();
+            var ve = (EvaluatorFieldY.content as EvaluatorVE);
+            var value = ve.Evaluator;
             mapElites.YEvaluator = value as IRangedEvaluator;
-            (EvaluatorFieldY.content as EvaluatorVE).SetLayer(layer);
+            ve.SetLayer(layer);
         });
 
         this.FitnessField = root.Q<ClassFoldout>("FitnessField");//new ClassDropDown(typeof(IEvaluator), true);
@@ -129,9 +131,10 @@ public class MapEliteWindow : EditorWindow
         if (mapElites.Optimizer != null && mapElites.Optimizer.Evaluator != null)
             FitnessField.dropdown.value = mapElites.Optimizer.Evaluator.ToString();
         FitnessField.dropdown.RegisterValueChangedCallback(e => {
-            var value = FitnessField.dropdown.GetChoiceInstance();
+            var ve = (FitnessField.content as EvaluatorVE);
+            var value = ve.Evaluator;
             mapElites.Optimizer.Evaluator = value as IRangedEvaluator;
-            (FitnessField.content as EvaluatorVE).SetLayer(layer);
+            ve.SetLayer(layer);
         });
 
 
@@ -152,6 +155,10 @@ public class MapEliteWindow : EditorWindow
         Clear();
 
         var module = layer.GetModule<LBSModule>(ModuleField.value);
+
+        (EvaluatorFieldX.content as EvaluatorVE).Init();
+        (EvaluatorFieldY.content as EvaluatorVE).Init();
+        (FitnessField.content as EvaluatorVE).Init();
 
         var adam = CreateAdam(module);
 

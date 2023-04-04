@@ -12,9 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b97f4a254b4f22943b7937bda87d5d2b, type: 3}
   m_Name: PrototypeCastle
   m_EditorClassIdentifier: 
-  tags:
-  - Prototype
+  id: {fileID: 11400000, guid: 3337092c1f153834bba3c2d519a9a86b, type: 2}
+  characteristics: []
   bundles:
   - {fileID: 11400000, guid: dc8851ff3cd66e64f9585a62e59ae678, type: 2}
   - {fileID: 11400000, guid: e08e71a91ae29824cb54c62c0f3159fe, type: 2}
   - {fileID: 11400000, guid: 5ec8da93d46b35940b793e9071b031d7, type: 2}
+  references:
+    version: 2
+    RefIds: []

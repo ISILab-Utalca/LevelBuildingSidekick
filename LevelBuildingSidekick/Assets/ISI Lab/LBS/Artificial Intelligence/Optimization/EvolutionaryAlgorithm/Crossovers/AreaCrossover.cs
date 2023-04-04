@@ -22,27 +22,22 @@ public class AreaCrossover : CrossoverBase
         {
             throw new CrossoverException("Parents must be ChromosomeBase2D");
         }
-        if (parent1.Length != parent2.Length)
+        if (parent1.Rect.size != parent2.Rect.size)
         {
-            throw new CrossoverException("Parents must be of same Length");
-        }
-        if (parent1.MatrixWidth != parent2.MatrixWidth)
-        {
-            throw new CrossoverException("Parents must be of same Width");
+            throw new CrossoverException("Parents must be of same Size");
         }
 
         var r = RandomizationProvider.Current;
 
-        var x = r.GetInt(0, (int)(parent1.MatrixWidth - (crossArea.x * parent1.MatrixWidth)));
-        int height = parent1.Length / parent1.MatrixWidth;
-        var y = r.GetInt(0, (int)(height - (crossArea.y * height)));
+        var x = r.GetInt(0, (int)(parent1.Rect.width - (crossArea.x * parent1.Rect.width)));
+        var y = r.GetInt(0, (int)(parent1.Rect.height - (crossArea.y * parent1.Rect.height)));
 
         var offspring1 = parent1.Clone() as ChromosomeBase2D;
         var offspring2 = parent2.Clone() as ChromosomeBase2D;
 
-        for (int j = 0; j < crossArea.y * height; j++)
+        for (int j = 0; j < crossArea.y * parent1.Rect.height; j++)
         {
-            for (int i = 0; i < crossArea.y * parent1.MatrixWidth; i++)
+            for (int i = 0; i < crossArea.y * parent1.Rect.width; i++)
             {
                 var index = offspring1.ToIndex(new Vector2(x + i, y + j));
                 var aux = offspring1.GetGene(index);

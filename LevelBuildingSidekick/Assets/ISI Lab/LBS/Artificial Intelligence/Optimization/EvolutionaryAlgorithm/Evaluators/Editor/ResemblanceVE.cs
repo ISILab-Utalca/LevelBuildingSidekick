@@ -18,7 +18,7 @@ public class ResemblanceVE : EvaluatorVE
     {
         dropdown = new DropdownField();
         dropdown.label = "Reference";
-        dropdown.RegisterValueChangedCallback(SetChromosome);
+        Add(dropdown);
     }
 
     private List<string> GetChromosomables()
@@ -34,12 +34,14 @@ public class ResemblanceVE : EvaluatorVE
             }
         }
 
+        dropdown.value = choices[0];
+
         return choices;
     }
 
-    private void SetChromosome(ChangeEvent<string> e)
+    private void SetChromosome(string mod)
     {
-        var module = layer.GetModule<LBSModule>(e.newValue);
+        var module = layer.GetModule<LBSModule>(mod);
 
         if(module == null)
         {
@@ -53,6 +55,8 @@ public class ResemblanceVE : EvaluatorVE
         var chrom = Activator.CreateInstance(target, new object[] { module }) as IChromosome;
 
         (evaluator as Resemblance).reference = chrom;
+
+
     }
 
     public override void SetLayer(LBSLayer layer)
@@ -60,5 +64,10 @@ public class ResemblanceVE : EvaluatorVE
         base.SetLayer(layer);
         if (dropdown != null)
             dropdown.choices = GetChromosomables();
+    }
+
+    public override void Init()
+    {
+        SetChromosome(dropdown.value);
     }
 }

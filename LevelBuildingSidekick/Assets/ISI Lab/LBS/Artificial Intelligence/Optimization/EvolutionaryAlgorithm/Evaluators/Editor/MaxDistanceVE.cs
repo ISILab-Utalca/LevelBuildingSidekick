@@ -74,4 +74,8 @@ public class MaxDistanceVE : EvaluatorVE
         var selected = objs.ToList()[0] as UnityEngine.Object;
         //OnSelectLayer?.Invoke(selected);
     }
+
+    public override void Init()
+    {
+    }
 }

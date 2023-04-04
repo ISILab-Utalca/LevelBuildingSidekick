@@ -5,6 +5,7 @@ using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
 using System.Linq;
 using LBS.Components;
+using LBS.Components.TileMap;
 
 [ChromosomeFromModule(typeof(TaggedTileMap))]
 public class TaggedTileMapChromosome : ChromosomeBase2D
@@ -18,36 +19,52 @@ public class TaggedTileMapChromosome : ChromosomeBase2D
             throw new System.Exception("[ISI Lab] Class must be TaggedTileMap");
         }
 
-        genes = new object[(int)(tileMap.Rect.width * tileMap.Rect.height)];
+        Rect = tileMap.Rect;
 
-        foreach(var t in tileMap.PairTiles.Select(x => x.tile))
+        genes = new object[(int)(Rect.width * Rect.height)];
+
+
+        var tiles = tileMap.PairTiles.Select(x => x.tile);
+
+        foreach (var t in tiles)
         {
-            ReplaceGene(ToIndex(t.Position), tileMap.GetPair(t));
+            var i = ToIndex(t.Position);
+            var data = tileMap.GetBundleData(t);
+            ReplaceGene(i, data);
         }
+
     }
 
-    public TaggedTileMapChromosome(int matrixWidth, int length) : base(matrixWidth)
+    public TaggedTileMapChromosome(Rect rect, int length) : base(rect)
     {
         genes = new object[length];
     }
 
     public override IChromosome CreateNewChromosome()
     {
-        return new TaggedTileMapChromosome(MatrixWidth, Length);
+        var chrom = new TaggedTileMapChromosome(Rect, Length);
+        for(int i = 0; i < Length; i++)
+        {
+            chrom.ReplaceGene(i, GenerateGene());
+        }
+        return chrom;
     }
 
     public override object GenerateGene()
     {
-        throw new System.NotImplementedException();
+        return (GetGene(RandomizationProvider.Current.GetInt(0, Length)) as BundleData)?.Clone();
     }
 
     public override void SetDeafult(int index)
     {
-        throw new System.NotImplementedException();
+        ReplaceGene<BundleData>(index, null);
     }
 
     public override Texture2D ToTexture()
     {
-        throw new System.NotImplementedException();
+        var t = new Texture2D(1,1);
+        t.SetPixel(0, 0, Color.red);
+        t.Apply();
+        return t;
     }
 }

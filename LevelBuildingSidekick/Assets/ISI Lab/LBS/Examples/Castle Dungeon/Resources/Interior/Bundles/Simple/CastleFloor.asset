@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1ca1a068b763d94ca8f120873012f03, type: 3}
   m_Name: CastleFloor
   m_EditorClassIdentifier: 
-  id: Floor
+  id: {fileID: 11400000, guid: 94b707ea81720694d8e3ac214351af91, type: 2}
   characteristics:
   - rid: -2
   objects:

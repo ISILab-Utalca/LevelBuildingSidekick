@@ -53,6 +53,8 @@ public class SamplePresence : IRangedEvaluator
 
         for(int i = 0; i < ev.Length; i++)
         {
+            if (ev.GetGene(i) == null)
+                continue;
             if (ev.GetGene(i).Equals(sample))
             {
                 presence++;

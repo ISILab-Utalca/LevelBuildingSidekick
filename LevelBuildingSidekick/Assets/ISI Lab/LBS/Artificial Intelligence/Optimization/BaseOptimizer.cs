@@ -220,6 +220,7 @@ namespace Commons.Optimization
             clock = new Stopwatch();
             clock.Start();
             Adam.Fitness = Evaluator.Evaluate(Adam);
+            Population.Adam = Adam;
             Population.CreateInitialGeneration();
             clock.Stop();
         }

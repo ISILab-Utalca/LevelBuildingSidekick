@@ -11,13 +11,24 @@ using UnityEngine;
 public class TaggedTileMap : LBSModule
 {
     [SerializeField, JsonRequired, SerializeReference]
-    private List<pairTile> pairTiles = new List<pairTile>();
+    private List<PairTB> pairTiles = new List<PairTB>();
 
     [JsonIgnore]
-    public List<pairTile> PairTiles => pairTiles; 
+    public List<PairTB> PairTiles => pairTiles; 
 
     [JsonIgnore]
-    public Rect Rect => new Rect(); // (!!)
+    public Rect Rect
+    {
+        get
+        {
+            var x = pairTiles.Min(p => p.tile.Position.x);
+            var y = pairTiles.Min(p => p.tile.Position.y);
+            var with = pairTiles.Max(p => p.tile.Position.x) - x + 1;
+            var height = pairTiles.Max(p => p.tile.Position.y) - y + 1;
+
+            return new Rect(x, y, with, height);
+        }
+    } // (!!)
     
     [JsonIgnore]
     protected Func<LBSTile, bool> OnAddTile;
@@ -27,7 +38,7 @@ public class TaggedTileMap : LBSModule
         Key = GetType().Name;
     }
 
-    public TaggedTileMap(string key, List<pairTile> tiles) : base(key)
+    public TaggedTileMap(string key, List<PairTB> tiles) : base(key)
     {
         this.pairTiles = tiles;
     }
@@ -37,7 +48,7 @@ public class TaggedTileMap : LBSModule
         pairTiles.Clear();
     }
 
-    public BundleData GetPair(LBSTile tile)
+    public BundleData GetBundleData(LBSTile tile)
     {
         return pairTiles.Find(x => x.tile == tile)?.bData;
     }
@@ -45,16 +56,26 @@ public class TaggedTileMap : LBSModule
     public void AddTile(LBSTile tile, Bundle bundle)
     {
         OnAddTile?.Invoke(tile);
-        var data = new BundleData(bundle.ID.Label, bundle.GetCharacteristics());
-        pairTiles.Add(new pairTile(tile, data));
+
+        var t = pairTiles.Find(p => p.tile.Equals(tile));
+
+        if(t == null)
+        {
+            var data = new BundleData(bundle.ID.Label, bundle.GetCharacteristics());
+            pairTiles.Add(new PairTB(tile, data));
+        }
+        else
+        {
+            t.bData = new BundleData(bundle.ID.Label, bundle.GetCharacteristics());
+        }
     }
 
     public override object Clone()
     {
-        var dir = new List<pairTile>();
+        var dir = new List<PairTB>();
         foreach (var pair in pairTiles)
         {
-            dir.Add(new pairTile(pair.tile, pair.bData));
+            dir.Add(new PairTB(pair.tile, pair.bData));
         }
 
         return new TaggedTileMap(key, dir);
@@ -101,7 +122,7 @@ public class TaggedTileMap : LBSModule
         if(xx != null)
         {
             RemoveTile(xx);
-            pairTiles.Add(new pairTile(t, new BundleData()));
+            pairTiles.Add(new PairTB(t, new BundleData()));
         }
         //if (pairTiles.ContainsKey(t))
         //    pairTiles.Add((t), new BundleData());
@@ -109,14 +130,14 @@ public class TaggedTileMap : LBSModule
 }
 
 [System.Serializable]
-public class pairTile
+public class PairTB
 {
     [SerializeField]
     public LBSTile tile;
     [SerializeField]
     public BundleData bData;
 
-    public pairTile(LBSTile tile, BundleData bData)
+    public PairTB(LBSTile tile, BundleData bData)
     {
         this.tile = tile;
         this.bData = bData;

@@ -19,4 +19,8 @@ public class SamplePresenceVE : EvaluatorVE
         });
         Add(objectField);
     }
+
+    public override void Init()
+    {
+    }
 }

@@ -43,7 +43,7 @@ namespace GeneticSharp.Domain.Crossovers
         /// </returns>
         protected override IList<IChromosome> PerformCross(IList<IChromosome> parents)
         {
-            var datas = parents.Select(p => p.GetDataSquence<object>()).ToList();
+            var datas = parents.Select(p => p.GetGenes()).ToList();
 
             if (datas.AnyHasRepeatedValue())
             {

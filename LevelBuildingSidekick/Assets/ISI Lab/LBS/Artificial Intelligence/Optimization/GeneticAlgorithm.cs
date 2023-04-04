@@ -90,6 +90,16 @@ public class GeneticAlgorithm : BaseOptimizer
     /// </summary>
     public float MutationProbability { get; set; }
 
+    public new IOptimizable Adam
+    {
+        get => adam;
+        set
+        {
+            adam = value;
+            Population.Adam = value;
+        }
+    }
+
     #endregion
 
     public GeneticAlgorithm()

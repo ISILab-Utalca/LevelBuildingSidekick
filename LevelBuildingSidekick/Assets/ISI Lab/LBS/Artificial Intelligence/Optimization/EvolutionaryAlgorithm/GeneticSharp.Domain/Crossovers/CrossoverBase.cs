@@ -85,7 +85,7 @@ namespace GeneticSharp.Domain.Crossovers
                 throw new ArgumentOutOfRangeException(nameof(parents), "The number of parents should be the same of ParentsNumber.");
             }
 
-            var firstParent = (parents[0] as IChromosome).GetDataSquence<object>();
+            var firstParent = parents[0].GetGenes();
 
             if(firstParent == null)
             {

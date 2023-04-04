@@ -5,11 +5,11 @@ using GeneticSharp.Domain.Chromosomes;
 
 public abstract class ChromosomeBase2D : ChromosomeBase//, ITileMap
 {
-    public int MatrixWidth { get; set; }
+    public Rect Rect { get; set; }
 
-    protected ChromosomeBase2D(int matrixWidth) : base()
+    protected ChromosomeBase2D(Rect rect) : base()
     {
-        MatrixWidth = matrixWidth;
+        Rect = rect;
     }
 
     protected ChromosomeBase2D() : base()
@@ -22,7 +22,8 @@ public abstract class ChromosomeBase2D : ChromosomeBase//, ITileMap
     /// <param name="pos">The 2D position to convert.</param>
     public int ToIndex(Vector2 pos)
     {
-        return (int)(pos.y * MatrixWidth + pos.x);
+        pos -= Rect.position;
+        return (int)(pos.y * Rect.width + pos.x);
     }
 
     /// <summary>
@@ -31,6 +32,6 @@ public abstract class ChromosomeBase2D : ChromosomeBase//, ITileMap
     /// <param name="index">The index in the 1D array to convert.</param>
     public Vector2Int ToMatrixPosition(int index)
     {
-        return new Vector2Int(index % MatrixWidth, index / MatrixWidth);
+        return new Vector2Int((int)(index % Rect.width), (int)(index / Rect.width));
     }
 }

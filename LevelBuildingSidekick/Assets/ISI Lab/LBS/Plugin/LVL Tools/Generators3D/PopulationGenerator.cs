@@ -21,7 +21,7 @@ namespace LBS.Generator
 
             foreach(var k in data.PairTiles.Select(x => x.tile))
             {
-                var sc = Utility.DirectoryTools.GetScriptables<SimpleBundle>().Find(b => b.ID.Label == data.GetPair(k).BundleTag);
+                var sc = Utility.DirectoryTools.GetScriptables<SimpleBundle>().Find(b => b.ID.Label == data.GetBundleData(k).BundleTag);
 
                 var pref = sc.GetObject(Random.Range(0, sc.objects.Count));
 

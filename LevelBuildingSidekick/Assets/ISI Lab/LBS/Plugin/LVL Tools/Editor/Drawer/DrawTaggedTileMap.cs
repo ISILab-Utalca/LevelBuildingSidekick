@@ -13,7 +13,7 @@ public class DrawTaggedTileMap : Drawer
 
         foreach (var k in tilemap.PairTiles.Select(x => x.tile))
         {
-            var bundle = tilemap.GetPair(k);
+            var bundle = tilemap.GetBundleData(k);
             var tView = new TileView(k);
             tView.style.backgroundImage = Utility.DirectoryTools.GetScriptable<LBSIdentifier>(bundle.BundleTag).Icon;
             var size = view.TileSize;

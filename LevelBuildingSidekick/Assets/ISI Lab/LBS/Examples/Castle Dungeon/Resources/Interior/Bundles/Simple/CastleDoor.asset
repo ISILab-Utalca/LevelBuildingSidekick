@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1ca1a068b763d94ca8f120873012f03, type: 3}
   m_Name: CastleDoor
   m_EditorClassIdentifier: 
-  id: Door
+  id: {fileID: 11400000, guid: d05b3c2ff0cdab94b92f355dc76947d8, type: 2}
   characteristics: []
   objects:
   - {fileID: 416386656469751746, guid: 54b6530d68b89fd469fb2679fd3d4c6a, type: 3}
+  references:
+    version: 2
+    RefIds: []
