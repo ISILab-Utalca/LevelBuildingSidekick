@@ -9,24 +9,8 @@ public class DeleteTileToAreaPoint<T, U> : ManipulateTiledArea<T, U> where T : T
 {
     protected override void OnMouseDown(MouseDownEvent e)
     {
-        OnManipulationStart?.Invoke();
-        var view = e.target as SchemaTileView;
-        if (view == null)
-        {
-            return;
-        }
+        
 
-        var tile = view.Data;
-        var area = module.GetArea(tile.Position);
-
-        if(area != null)
-        {
-            area.RemoveTile(tile);
-        }
-
-        CalculateConnections.Operate(module);
-
-        OnManipulationEnd?.Invoke();
     }
 
     protected override void OnMouseMove(MouseMoveEvent e)
@@ -36,6 +20,20 @@ public class DeleteTileToAreaPoint<T, U> : ManipulateTiledArea<T, U> where T : T
 
     protected override void OnMouseUp(MouseUpEvent e)
     {
-        //throw new System.NotImplementedException();
+        var view = e.target as SchemaTileView;
+        if (view == null)
+        {
+            return;
+        }
+
+        var tile = view.Data;
+        var area = module.GetArea(tile.Position);
+
+        if (area != null)
+        {
+            area.RemoveTile(tile);
+        }
+
+        CalculateConnections.Operate(module);
     }
 }
