@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class AddConnection<T> : ManipulateTileMap<T> where T : LBSTile
+public class AddConnection<T> : ManipulateTeselation<T> where T : LBSTile
 {
     public LBSIdentifier tagToSet;
 
@@ -26,7 +26,7 @@ public class AddConnection<T> : ManipulateTileMap<T> where T : LBSTile
 
     protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
     {
-        OnManipulationStart?.Invoke();
+        //OnManipulationStart?.Invoke();
 
         var tile = e.target as ExteriorTileView;
         if (tile == null)
@@ -66,6 +66,6 @@ public class AddConnection<T> : ManipulateTileMap<T> where T : LBSTile
         //var parche = new AreaToTileMap(); // (!!!!!) eliminar!!!
         //parche.ParcheDiParche(module);
 
-        OnManipulationEnd?.Invoke();
+        //OnManipulationEnd?.Invoke();
     }
 }

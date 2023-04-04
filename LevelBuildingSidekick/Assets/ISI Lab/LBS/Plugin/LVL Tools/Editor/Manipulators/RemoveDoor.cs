@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 public class RemoveDoor<T, U> : ManipulateTiledArea<T, U> where T : TiledArea where U : LBSTile
 {
-    private List<Vector2Int> dirs = new List<Vector2Int>() // (!) esto deberia estar en un lugar general
+    private readonly List<Vector2Int> dirs = new List<Vector2Int>() // (!) esto deberia estar en un lugar general
     {
         Vector2Int.right,
         Vector2Int.down,
@@ -16,10 +16,14 @@ public class RemoveDoor<T, U> : ManipulateTiledArea<T, U> where T : TiledArea wh
 
     private ConnectedTile first;
 
-    protected override void OnMouseDown(MouseDownEvent e)
+    public RemoveDoor() : base()
     {
-        OnManipulationStart?.Invoke();
+        feedback = new ConectedLine();
+        feedback.fixToTeselation = true;
+    }
 
+    protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
+    {
         var tile = e.target as SchemaTileView;
         if (tile == null)
             return;
@@ -27,12 +31,11 @@ public class RemoveDoor<T, U> : ManipulateTiledArea<T, U> where T : TiledArea wh
         first = tile.Data;
     }
 
-    protected override void OnMouseMove(MouseMoveEvent e)
+    protected override void OnMouseMove(VisualElement target, Vector2Int MovePosition, MouseMoveEvent e)
     {
-        //throw new System.NotImplementedException();
     }
 
-    protected override void OnMouseUp(MouseUpEvent e)
+    protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
     {
         if (first == null)
             return;
@@ -59,11 +62,5 @@ public class RemoveDoor<T, U> : ManipulateTiledArea<T, U> where T : TiledArea wh
 
         first.SetConnection("Wall", fDir);
         second.SetConnection("Wall", tDir);
-
-        //var parche = new AreaToTileMap(); // (!!!!!) eliminar!!!
-        //parche.ParcheDiParche(module);
-
-        OnManipulationEnd?.Invoke();
     }
-
 }

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public abstract class ManipulateTileMap<T> : LBSManipulator where T : LBSTile
+public abstract class ManipulateTeselation<T> : LBSManipulator where T : LBSTile
 {
     protected Feedback feedback = new AreaFeedback();
 
@@ -69,7 +69,7 @@ public abstract class ManipulateTileMap<T> : LBSManipulator where T : LBSTile
         }
     }
 
-    public ManipulateTileMap() : base() 
+    public ManipulateTeselation() : base() 
     {
         feedback.fixToTeselation = true;
     }

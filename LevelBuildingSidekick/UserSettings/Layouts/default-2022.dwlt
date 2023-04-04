@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 989
   m_ShowMode: 4
-  m_Title: Inspector
+  m_Title: Project
   m_RootView: {fileID: 6}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 81
+  controlID: 46
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -70,9 +70,9 @@ MonoBehaviour:
     height: 939
   m_MinSize: {x: 276, y: 71}
   m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 14}
+  m_ActualView: {fileID: 13}
   m_Panes:
-  - {fileID: 14}
+  - {fileID: 13}
   m_Selected: 0
   m_LastSelected: 0
 --- !u!114 &4
@@ -92,13 +92,13 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 363
-    height: 556
+    width: 317
+    height: 558
   m_MinSize: {x: 201, y: 221}
   m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 15}
+  m_ActualView: {fileID: 14}
   m_Panes:
-  - {fileID: 15}
+  - {fileID: 14}
   m_Selected: 0
   m_LastSelected: 0
 --- !u!114 &5
@@ -117,15 +117,15 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 556
+    y: 558
     width: 1466
-    height: 383
+    height: 381
   m_MinSize: {x: 231, y: 271}
   m_MaxSize: {x: 10001, y: 10021}
-  m_ActualView: {fileID: 13}
+  m_ActualView: {fileID: 12}
   m_Panes:
-  - {fileID: 13}
-  - {fileID: 18}
+  - {fileID: 12}
+  - {fileID: 17}
   m_Selected: 0
   m_LastSelected: 1
 --- !u!114 &6
@@ -223,7 +223,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 95
+  controlID: 47
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -244,11 +244,11 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 1466
-    height: 556
+    height: 558
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 40
+  controlID: 41
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -264,87 +264,20 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 363
+    x: 317
     y: 0
-    width: 1103
-    height: 556
-  m_MinSize: {x: 102, y: 121}
+    width: 1149
+    height: 558
+  m_MinSize: {x: 802, y: 421}
   m_MaxSize: {x: 4002, y: 4021}
-  m_ActualView: {fileID: 12}
+  m_ActualView: {fileID: 18}
   m_Panes:
+  - {fileID: 15}
   - {fileID: 16}
-  - {fileID: 17}
-  - {fileID: 12}
+  - {fileID: 18}
   m_Selected: 2
   m_LastSelected: 0
 --- !u!114 &12
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fcb1592969272242a5748278af8c58b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MinSize: {x: 100, y: 100}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_TitleContent:
-    m_Text: Level builder
-    m_Image: {fileID: 2800000, guid: 809c25c61768b1c41b1ed78f56c0d7da, type: 3}
-    m_Tooltip: 
-  m_Pos:
-    serializedVersion: 2
-    x: 363
-    y: 73
-    width: 1101
-    height: 535
-  m_ViewDataDictionary: {fileID: 0}
-  m_OverlayCanvas:
-    m_LastAppliedPresetName: Default
-    m_SaveData: []
-  levelData:
-    tags: []
-    maxWidth: 0
-    maxHeight: 0
-    layers:
-    - rid: 6781468272903323649
-  layerTemplates:
-  - {fileID: 11400000, guid: 8330276464924674daacd78ab766105d, type: 2}
-  - {fileID: 11400000, guid: d8cb1f933417caf44be32357853a68b7, type: 2}
-  - {fileID: 11400000, guid: 7b703953dfc0de846bf3eff4b60ddcdd, type: 2}
-  references:
-    version: 2
-    RefIds:
-    - rid: 6781468272903323649
-      type: {class: LBSLayer, ns: LBS.Components, asm: Assembly-CSharp}
-      data:
-        id: Exterior
-        name: New Layer
-        visible: 1
-        iconPath: Icons/pine-tree
-        modules:
-        - rid: 6781468272903323650
-        bundles: []
-        assitant: 
-    - rid: 6781468272903323650
-      type: {class: Exterior, ns: , asm: Assembly-CSharp}
-      data:
-        key: Exterior
-        visible: 0
-        changed: 0
-        Owner:
-          id: LBSLayer
-          name: 
-          visible: 1
-          iconPath: 
-          modules: []
-          bundles: []
-          assitant: 
-        tiles: []
---- !u!114 &13
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -365,15 +298,15 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 629
+    y: 631
     width: 1465
-    height: 362
+    height: 360
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
     m_SaveData: []
   m_SearchFilter:
-    m_NameFilter: 
+    m_NameFilter: delet
     m_ClassNames: []
     m_AssetLabels: []
     m_AssetBundleNames: []
@@ -385,22 +318,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets
+    - Assets/ISI Lab
     m_Globs: []
-    m_OriginalText: 
+    m_OriginalText: delet
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/ISILab OLD
+  - Assets/ISI Lab
   m_LastFoldersGridSize: 16
   m_LastProjectPath: C:\Users\Nicolas\Documents\GitHub\level-building-sidekick\LevelBuildingSidekick
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: a6620000
-    m_LastClickedID: 25254
-    m_ExpandedIDs: 00000000a0620000a2620000a4620000a6620000a8620000aa620000ac620000ae620000b0620000b2620000b4620000b6620000b8620000ba620000c0620000c2620000c4620000c6620000c8620000ca620000cc620000ce620000d0620000d2620000d4620000d6620000d8620000da620000dc620000de620000e0620000e2620000e4620000e6620000e8620000ea620000ec620000ee620000f0620000f2620000086500001265000000ca9a3b
+    m_SelectedIDs: 34670000
+    m_LastClickedID: 26420
+    m_ExpandedIDs: 00000000326700003467000036670000386700003a6700003c6700003e6700004067000042670000446700004667000048670000d8680000ea680000ec680000c87000002276000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -428,7 +361,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000a0620000a2620000a4620000a6620000a8620000aa620000ac620000ae620000b0620000b2620000b4620000b6620000b8620000ba620000bc620000be620000c0620000c2620000c4620000c6620000c8620000ca620000cc620000ce620000d0620000d2620000d4620000d6620000d8620000da620000dc620000de620000e0620000e2620000e4620000e6620000e8620000ea620000ec620000ee620000f0620000f2620000
+    m_ExpandedIDs: 00000000326700003467000036670000386700003a6700003c6700003e6700004067000042670000446700004667000048670000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -455,22 +388,22 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c6230000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: AddTileToTiledAreaAtPoint
+      m_OriginalName: AddTileToTiledAreaAtPoint
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: 8620
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 5}
     m_CreateAssetUtility:
@@ -484,7 +417,7 @@ MonoBehaviour:
     m_GridSize: 16
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 295
---- !u!114 &14
+--- !u!114 &13
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -525,7 +458,7 @@ MonoBehaviour:
   m_LockTracker:
     m_IsLocked: 0
   m_PreviewWindow: {fileID: 0}
---- !u!114 &15
+--- !u!114 &14
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -547,8 +480,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 73
-    width: 362
-    height: 535
+    width: 316
+    height: 537
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
@@ -556,9 +489,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: c8f9ffff
+      m_SelectedIDs: fc270000
       m_LastClickedID: 0
-      m_ExpandedIDs: 1efbffff
+      m_ExpandedIDs: d6adffff28fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -582,7 +515,7 @@ MonoBehaviour:
       m_IsLocked: 0
     m_CurrentSortingName: TransformSorting
   m_WindowGUID: 4c969a2b90040154d917609493e03593
---- !u!114 &16
+--- !u!114 &15
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -602,10 +535,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 363
-    y: 73
-    width: 1101
-    height: 535
+    x: -2076
+    y: -717
+    width: 1469
+    height: 749
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
@@ -616,8 +549,8 @@ MonoBehaviour:
       collapsed: 0
       displayed: 1
       snapOffset: {x: 0, y: 0}
-      snapOffsetDelta: {x: -176, y: -26}
-      snapCorner: 3
+      snapOffsetDelta: {x: 0, y: 0}
+      snapCorner: 0
       id: Tool Settings
       index: 0
       layout: 1
@@ -873,9 +806,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 43.22264, y: 7.4445076, z: -48.06682}
+    m_Target: {x: 75.50934, y: -54.166916, z: -96.72627}
     speed: 2
-    m_Value: {x: 43.22264, y: 7.4445076, z: -48.06682}
+    m_Value: {x: 75.50934, y: -54.166916, z: -96.72627}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -921,17 +854,17 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.6372384, y: -0.0045863474, z: 0.003868554, w: 0.77068466}
+    m_Target: {x: 0.44091192, y: -0.030952258, z: 0.015222157, w: 0.8969056}
     speed: 2
-    m_Value: {x: -0.63723844, y: 0.0045863474, z: -0.0038685543, w: -0.77068466}
+    m_Value: {x: 0.4409047, y: -0.030951753, z: 0.015221909, w: 0.89689094}
   m_Size:
-    m_Target: 46.90684
+    m_Target: 104.26022
     speed: 2
-    m_Value: 46.90684
+    m_Value: 104.26022
   m_Ortho:
-    m_Target: 1
+    m_Target: 0
     speed: 2
-    m_Value: 1
+    m_Value: 0
   m_CameraSettings:
     m_Speed: 1
     m_SpeedNormalized: 0.5
@@ -952,7 +885,7 @@ MonoBehaviour:
   m_SceneVisActive: 1
   m_LastLockedObject: {fileID: 0}
   m_ViewIsLockedToObject: 0
---- !u!114 &17
+--- !u!114 &16
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -972,10 +905,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 507
-    y: 94
-    width: 1532
-    height: 790
+    x: -2076
+    y: -717
+    width: 1469
+    height: 749
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
@@ -986,10 +919,10 @@ MonoBehaviour:
   m_ShowGizmos: 0
   m_TargetDisplay: 0
   m_ClearColor: {r: 0, g: 0, b: 0, a: 0}
-  m_TargetSize: {x: 1532, y: 769}
+  m_TargetSize: {x: 1469, y: 728}
   m_TextureFilterMode: 0
   m_TextureHideFlags: 61
-  m_RenderIMGUI: 0
+  m_RenderIMGUI: 1
   m_EnterPlayModeBehavior: 0
   m_fullscreenMonitorIdx: 0
   m_playModeBehaviorIdx: 0
@@ -1006,10 +939,10 @@ MonoBehaviour:
     m_VRangeLocked: 0
     hZoomLockedByDefault: 0
     vZoomLockedByDefault: 0
-    m_HBaseRangeMin: -766
-    m_HBaseRangeMax: 766
-    m_VBaseRangeMin: -384.5
-    m_VBaseRangeMax: 384.5
+    m_HBaseRangeMin: -734.5
+    m_HBaseRangeMax: 734.5
+    m_VBaseRangeMin: -364
+    m_VBaseRangeMax: 364
     m_HAllowExceedBaseRangeMin: 1
     m_HAllowExceedBaseRangeMax: 1
     m_VAllowExceedBaseRangeMin: 1
@@ -1027,23 +960,23 @@ MonoBehaviour:
       serializedVersion: 2
       x: 0
       y: 21
-      width: 1532
-      height: 769
+      width: 1469
+      height: 728
     m_Scale: {x: 1, y: 1}
-    m_Translation: {x: 766, y: 384.5}
+    m_Translation: {x: 734.5, y: 364}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -766
-      y: -384.5
-      width: 1532
-      height: 769
+      x: -734.5
+      y: -364
+      width: 1469
+      height: 728
     m_MinimalGUI: 1
   m_defaultScale: 1
-  m_LastWindowPixelSize: {x: 1532, y: 790}
+  m_LastWindowPixelSize: {x: 1469, y: 749}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000000000000
@@ -1051,7 +984,7 @@ MonoBehaviour:
   m_RenderTexture: {fileID: 0}
   m_showToolbar: 1
   m_showToolbarOnFullscreen: 0
---- !u!114 &18
+--- !u!114 &17
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1071,11 +1004,1116 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: -2560
-    y: 52
-    width: 1954
-    height: 509
+    x: 0
+    y: 631
+    width: 1465
+    height: 360
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
     m_SaveData: []
+--- !u!114 &18
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fcb1592969272242a5748278af8c58b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MinSize: {x: 800, y: 400}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_TitleContent:
+    m_Text: Level builder
+    m_Image: {fileID: 2800000, guid: 809c25c61768b1c41b1ed78f56c0d7da, type: 3}
+    m_Tooltip: 
+  m_Pos:
+    serializedVersion: 2
+    x: 317
+    y: 73
+    width: 1147
+    height: 537
+  m_ViewDataDictionary: {fileID: 0}
+  m_OverlayCanvas:
+    m_LastAppliedPresetName: Default
+    m_SaveData: []
+  levelData:
+    tags: []
+    maxWidth: 0
+    maxHeight: 0
+    layers:
+    - rid: 4424266668413550654
+  layerTemplates:
+  - {fileID: 11400000, guid: 8330276464924674daacd78ab766105d, type: 2}
+  - {fileID: 11400000, guid: d8cb1f933417caf44be32357853a68b7, type: 2}
+  - {fileID: 11400000, guid: 7b703953dfc0de846bf3eff4b60ddcdd, type: 2}
+  references:
+    version: 2
+    RefIds:
+    - rid: 4424266668413550654
+      type: {class: LBSLayer, ns: LBS.Components, asm: Assembly-CSharp}
+      data:
+        id: Interior
+        name: New Layer 1
+        visible: 1
+        iconPath: Icons/interior-design
+        modules:
+        - rid: 4424266668413550655
+        - rid: 4424266668413550656
+        Assitant: {fileID: 0}
+    - rid: 4424266668413550655
+      type: {class: LBSRoomGraph, ns: LBS.Components.Graph, asm: Assembly-CSharp}
+      data:
+        key: LBSRoomGraph
+        visible: 0
+        changed: 0
+        Owner:
+          id: Interior
+          name: New Layer 1
+          visible: 1
+          iconPath: Icons/interior-design
+          modules:
+          - rid: 4424266668413550655
+          - rid: 4424266668413550656
+          Assitant: {fileID: 0}
+        nodes:
+        - rid: 4424266668413550657
+        - rid: 4424266668413550658
+        - rid: 4424266668413550659
+        edges:
+        - rid: 4424266668413550660
+        - rid: 4424266668413550661
+    - rid: 4424266668413550656
+      type: {class: LBSSchema, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        key: LBSSchema
+        visible: 0
+        changed: 0
+        Owner:
+          id: LBSLayer
+          name: 
+          visible: 1
+          iconPath: 
+          modules: []
+          Assitant: {fileID: 0}
+        areas:
+        - rid: 4424266668413550662
+        - rid: 4424266668413550663
+        - rid: 4424266668413550664
+    - rid: 4424266668413550657
+      type: {class: RoomNode, ns: LBS.Components.Specifics, asm: Assembly-CSharp}
+      data:
+        id: 'Node: 0'
+        room:
+          width: 5
+          height: 5
+          tags: []
+          color:
+            r: 0.45832476
+            g: 0.7234891
+            b: 0.54952216
+            a: 1
+    - rid: 4424266668413550658
+      type: {class: RoomNode, ns: LBS.Components.Specifics, asm: Assembly-CSharp}
+      data:
+        id: 'Node: 1'
+        room:
+          width: 4
+          height: 4
+          tags: []
+          color:
+            r: 0.4069808
+            g: 0.7236207
+            b: 0.27001902
+            a: 1
+    - rid: 4424266668413550659
+      type: {class: RoomNode, ns: LBS.Components.Specifics, asm: Assembly-CSharp}
+      data:
+        id: 'Node: 2'
+        room:
+          width: 3
+          height: 3
+          tags: []
+          color:
+            r: 0.21082604
+            g: 0.5502891
+            b: 0.67035407
+            a: 1
+    - rid: 4424266668413550660
+      type: {class: LBSEdge, ns: LBS.Components.Graph, asm: Assembly-CSharp}
+      data:
+        firstNode:
+          id: 'Node: 0'
+        secondNode:
+          id: 'Node: 2'
+        direction: 0
+        thikness: 5
+    - rid: 4424266668413550661
+      type: {class: LBSEdge, ns: LBS.Components.Graph, asm: Assembly-CSharp}
+      data:
+        firstNode:
+          id: 'Node: 0'
+        secondNode:
+          id: 'Node: 1'
+        direction: 0
+        thikness: 5
+    - rid: 4424266668413550662
+      type: {class: TiledArea, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        key: TiledArea
+        visible: 0
+        changed: 0
+        Owner:
+          id: LBSLayer
+          name: 
+          visible: 1
+          iconPath: 
+          modules: []
+          Assitant: {fileID: 0}
+        tiles:
+        - rid: 4424266668413550665
+        - rid: 4424266668413550666
+        - rid: 4424266668413550667
+        - rid: 4424266668413550668
+        - rid: 4424266668413550669
+        - rid: 4424266668413550670
+        - rid: 4424266668413550671
+        - rid: 4424266668413550672
+        - rid: 4424266668413550673
+        - rid: 4424266668413550674
+        - rid: 4424266668413550675
+        - rid: 4424266668413550676
+        - rid: 4424266668413550677
+        - rid: 4424266668413550678
+        - rid: 4424266668413550679
+        - rid: 4424266668413550680
+        - rid: 4424266668413550681
+        - rid: 4424266668413550682
+        - rid: 4424266668413550683
+        - rid: 4424266668413550684
+        - rid: 4424266668413550685
+        - rid: 4424266668413550686
+        - rid: 4424266668413550687
+        - rid: 4424266668413550688
+        - rid: 4424266668413550689
+        - rid: 4424266668413550690
+        - rid: 4424266668413550691
+        id: 'Node: 0'
+        color:
+          r: 0.45832476
+          g: 0.7234891
+          b: 0.54952216
+          a: 1
+    - rid: 4424266668413550663
+      type: {class: TiledArea, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        key: TiledArea
+        visible: 0
+        changed: 0
+        Owner:
+          id: LBSLayer
+          name: 
+          visible: 1
+          iconPath: 
+          modules: []
+          Assitant: {fileID: 0}
+        tiles:
+        - rid: 4424266668413550692
+        - rid: 4424266668413550693
+        - rid: 4424266668413550694
+        - rid: 4424266668413550695
+        - rid: 4424266668413550696
+        - rid: 4424266668413550697
+        - rid: 4424266668413550698
+        - rid: 4424266668413550699
+        - rid: 4424266668413550700
+        - rid: 4424266668413550701
+        - rid: 4424266668413550702
+        - rid: 4424266668413550703
+        - rid: 4424266668413550704
+        - rid: 4424266668413550705
+        id: 'Node: 2'
+        color:
+          r: 0.21082604
+          g: 0.5502891
+          b: 0.67035407
+          a: 1
+    - rid: 4424266668413550664
+      type: {class: TiledArea, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        key: TiledArea
+        visible: 0
+        changed: 0
+        Owner:
+          id: LBSLayer
+          name: 
+          visible: 1
+          iconPath: 
+          modules: []
+          Assitant: {fileID: 0}
+        tiles:
+        - rid: 4424266668413550706
+        - rid: 4424266668413550707
+        - rid: 4424266668413550708
+        - rid: 4424266668413550709
+        - rid: 4424266668413550710
+        - rid: 4424266668413550711
+        - rid: 4424266668413550712
+        - rid: 4424266668413550713
+        - rid: 4424266668413550714
+        - rid: 4424266668413550715
+        - rid: 4424266668413550716
+        - rid: 4424266668413550717
+        - rid: 4424266668413550718
+        - rid: 4424266668413550719
+        - rid: 4424266668413550720
+        - rid: 4424266668413550721
+        - rid: 4424266668413550722
+        - rid: 4424266668413550723
+        - rid: 4424266668413550724
+        - rid: 4424266668413550725
+        - rid: 4424266668413550726
+        - rid: 4424266668413550727
+        - rid: 4424266668413550728
+        - rid: 4424266668413550729
+        - rid: 4424266668413550730
+        - rid: 4424266668413550731
+        - rid: 4424266668413550732
+        - rid: 4424266668413550733
+        id: 'Node: 1'
+        color:
+          r: 0.4069808
+          g: 0.7236207
+          b: 0.27001902
+          a: 1
+    - rid: 4424266668413550665
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 3
+        y: 2
+        sides: 4
+        id: 'Node: 0'
+        connections:
+        - Empty
+        - Wall
+        - Wall
+        - Empty
+    - rid: 4424266668413550666
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 4
+        y: 2
+        sides: 4
+        id: 'Node: 0'
+        connections:
+        - Empty
+        - Wall
+        - Empty
+        - Empty
+    - rid: 4424266668413550667
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 5
+        y: 2
+        sides: 4
+        id: 'Node: 0'
+        connections:
+        - Empty
+        - Wall
+        - Empty
+        - Empty
+    - rid: 4424266668413550668
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 6
+        y: 2
+        sides: 4
+        id: 'Node: 0'
+        connections:
+        - Empty
+        - Wall
+        - Empty
+        - Empty
+    - rid: 4424266668413550669
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 7
+        y: 2
+        sides: 4
+        id: 'Node: 0'
+        connections:
+        - Wall
+        - Wall
+        - Empty
+        - Empty
+    - rid: 4424266668413550670
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 3
+        y: 3
+        sides: 4
+        id: 'Node: 0'
+        connections:
+        - Empty
+        - Empty
+        - Wall
+        - Empty
+    - rid: 4424266668413550671
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 4
+        y: 3
+        sides: 4
+        id: 'Node: 0'
+        connections:
+        - Empty
+        - Empty
+        - Empty
+        - Empty
+    - rid: 4424266668413550672
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 5
+        y: 3
+        sides: 4
+        id: 'Node: 0'
+        connections:
+        - Empty
+        - Empty
+        - Empty
+        - Empty
+    - rid: 4424266668413550673
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 6
+        y: 3
+        sides: 4
+        id: 'Node: 0'
+        connections:
+        - Empty
+        - Empty
+        - Empty
+        - Empty
+    - rid: 4424266668413550674
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 7
+        y: 3
+        sides: 4
+        id: 'Node: 0'
+        connections:
+        - Door
+        - Empty
+        - Empty
+        - Empty
+    - rid: 4424266668413550675
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 3
+        y: 4
+        sides: 4
+        id: 'Node: 0'
+        connections:
+        - Empty
+        - Empty
+        - Wall
+        - Empty
+    - rid: 4424266668413550676
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 4
+        y: 4
+        sides: 4
+        id: 'Node: 0'
+        connections:
+        - Empty
+        - Empty
+        - Empty
+        - Empty
+    - rid: 4424266668413550677
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 5
+        y: 4
+        sides: 4
+        id: 'Node: 0'
+        connections:
+        - Empty
+        - Empty
+        - Empty
+        - Empty
+    - rid: 4424266668413550678
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 6
+        y: 4
+        sides: 4
+        id: 'Node: 0'
+        connections:
+        - Empty
+        - Empty
+        - Empty
+        - Empty
+    - rid: 4424266668413550679
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 7
+        y: 4
+        sides: 4
+        id: 'Node: 0'
+        connections:
+        - Wall
+        - Empty
+        - Empty
+        - Empty
+    - rid: 4424266668413550680
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 3
+        y: 5
+        sides: 4
+        id: 'Node: 0'
+        connections:
+        - Empty
+        - Empty
+        - Wall
+        - Empty
+    - rid: 4424266668413550681
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 4
+        y: 5
+        sides: 4
+        id: 'Node: 0'
+        connections:
+        - Empty
+        - Empty
+        - Empty
+        - Empty
+    - rid: 4424266668413550682
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 5
+        y: 5
+        sides: 4
+        id: 'Node: 0'
+        connections:
+        - Empty
+        - Empty
+        - Empty
+        - Empty
+    - rid: 4424266668413550683
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 6
+        y: 5
+        sides: 4
+        id: 'Node: 0'
+        connections:
+        - Empty
+        - Empty
+        - Empty
+        - Empty
+    - rid: 4424266668413550684
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 7
+        y: 5
+        sides: 4
+        id: 'Node: 0'
+        connections:
+        - Wall
+        - Empty
+        - Empty
+        - Empty
+    - rid: 4424266668413550685
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 3
+        y: 6
+        sides: 4
+        id: 'Node: 0'
+        connections:
+        - Empty
+        - Empty
+        - Wall
+        - Door
+    - rid: 4424266668413550686
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 4
+        y: 6
+        sides: 4
+        id: 'Node: 0'
+        connections:
+        - Empty
+        - Empty
+        - Empty
+        - Wall
+    - rid: 4424266668413550687
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 5
+        y: 6
+        sides: 4
+        id: 'Node: 0'
+        connections:
+        - Empty
+        - Empty
+        - Empty
+        - Wall
+    - rid: 4424266668413550688
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 6
+        y: 6
+        sides: 4
+        id: 'Node: 0'
+        connections:
+        - Empty
+        - Empty
+        - Empty
+        - Empty
+    - rid: 4424266668413550689
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 7
+        y: 6
+        sides: 4
+        id: 'Node: 0'
+        connections:
+        - Wall
+        - Empty
+        - Empty
+        - Empty
+    - rid: 4424266668413550690
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 6
+        y: 7
+        sides: 4
+        id: 'Node: 0'
+        connections:
+        - Empty
+        - Empty
+        - Wall
+        - Wall
+    - rid: 4424266668413550691
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 7
+        y: 7
+        sides: 4
+        id: 'Node: 0'
+        connections:
+        - Wall
+        - Empty
+        - Empty
+        - Wall
+    - rid: 4424266668413550692
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 3
+        y: 7
+        sides: 4
+        id: 'Node: 2'
+        connections:
+        - Empty
+        - Door
+        - Wall
+        - Empty
+    - rid: 4424266668413550693
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 4
+        y: 7
+        sides: 4
+        id: 'Node: 2'
+        connections:
+        - Empty
+        - Wall
+        - Empty
+        - Empty
+    - rid: 4424266668413550694
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 5
+        y: 7
+        sides: 4
+        id: 'Node: 2'
+        connections:
+        - Wall
+        - Wall
+        - Empty
+        - Empty
+    - rid: 4424266668413550695
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 3
+        y: 8
+        sides: 4
+        id: 'Node: 2'
+        connections:
+        - Empty
+        - Empty
+        - Wall
+        - Empty
+    - rid: 4424266668413550696
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 4
+        y: 8
+        sides: 4
+        id: 'Node: 2'
+        connections:
+        - Empty
+        - Empty
+        - Empty
+        - Empty
+    - rid: 4424266668413550697
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 3
+        y: 9
+        sides: 4
+        id: 'Node: 2'
+        connections:
+        - Empty
+        - Empty
+        - Wall
+        - Wall
+    - rid: 4424266668413550698
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 4
+        y: 9
+        sides: 4
+        id: 'Node: 2'
+        connections:
+        - Empty
+        - Empty
+        - Empty
+        - Wall
+    - rid: 4424266668413550699
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 5
+        y: 8
+        sides: 4
+        id: 'Node: 2'
+        connections:
+        - Empty
+        - Empty
+        - Empty
+        - Empty
+    - rid: 4424266668413550700
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 5
+        y: 9
+        sides: 4
+        id: 'Node: 2'
+        connections:
+        - Empty
+        - Empty
+        - Empty
+        - Wall
+    - rid: 4424266668413550701
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 6
+        y: 8
+        sides: 4
+        id: 'Node: 2'
+        connections:
+        - Wall
+        - Wall
+        - Empty
+        - Empty
+    - rid: 4424266668413550702
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 6
+        y: 9
+        sides: 4
+        id: 'Node: 2'
+        connections:
+        - Empty
+        - Empty
+        - Empty
+        - Wall
+    - rid: 4424266668413550703
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 7
+        y: 9
+        sides: 4
+        id: 'Node: 2'
+        connections:
+        - Wall
+        - Wall
+        - Empty
+        - Wall
+    - rid: 4424266668413550704
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 9
+        y: 8
+        sides: 4
+        id: 'Node: 2'
+        connections:
+        - Wall
+        - Wall
+        - Wall
+        - Empty
+    - rid: 4424266668413550705
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 9
+        y: 9
+        sides: 4
+        id: 'Node: 2'
+        connections:
+        - Wall
+        - Empty
+        - Wall
+        - Wall
+    - rid: 4424266668413550706
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 8
+        y: 2
+        sides: 4
+        id: 'Node: 1'
+        connections:
+        - Empty
+        - Wall
+        - Wall
+        - Empty
+    - rid: 4424266668413550707
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 9
+        y: 2
+        sides: 4
+        id: 'Node: 1'
+        connections:
+        - Empty
+        - Wall
+        - Empty
+        - Empty
+    - rid: 4424266668413550708
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 10
+        y: 2
+        sides: 4
+        id: 'Node: 1'
+        connections:
+        - Empty
+        - Wall
+        - Empty
+        - Empty
+    - rid: 4424266668413550709
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 11
+        y: 2
+        sides: 4
+        id: 'Node: 1'
+        connections:
+        - Wall
+        - Wall
+        - Empty
+        - Empty
+    - rid: 4424266668413550710
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 8
+        y: 3
+        sides: 4
+        id: 'Node: 1'
+        connections:
+        - Empty
+        - Empty
+        - Door
+        - Empty
+    - rid: 4424266668413550711
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 9
+        y: 3
+        sides: 4
+        id: 'Node: 1'
+        connections:
+        - Empty
+        - Empty
+        - Empty
+        - Empty
+    - rid: 4424266668413550712
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 10
+        y: 3
+        sides: 4
+        id: 'Node: 1'
+        connections:
+        - Empty
+        - Empty
+        - Empty
+        - Empty
+    - rid: 4424266668413550713
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 11
+        y: 3
+        sides: 4
+        id: 'Node: 1'
+        connections:
+        - Wall
+        - Empty
+        - Empty
+        - Empty
+    - rid: 4424266668413550714
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 8
+        y: 4
+        sides: 4
+        id: 'Node: 1'
+        connections:
+        - Empty
+        - Empty
+        - Wall
+        - Empty
+    - rid: 4424266668413550715
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 9
+        y: 4
+        sides: 4
+        id: 'Node: 1'
+        connections:
+        - Empty
+        - Empty
+        - Empty
+        - Empty
+    - rid: 4424266668413550716
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 10
+        y: 4
+        sides: 4
+        id: 'Node: 1'
+        connections:
+        - Empty
+        - Empty
+        - Empty
+        - Empty
+    - rid: 4424266668413550717
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 11
+        y: 4
+        sides: 4
+        id: 'Node: 1'
+        connections:
+        - Wall
+        - Empty
+        - Empty
+        - Empty
+    - rid: 4424266668413550718
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 8
+        y: 5
+        sides: 4
+        id: 'Node: 1'
+        connections:
+        - Empty
+        - Empty
+        - Wall
+        - Empty
+    - rid: 4424266668413550719
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 9
+        y: 5
+        sides: 4
+        id: 'Node: 1'
+        connections:
+        - Empty
+        - Empty
+        - Empty
+        - Empty
+    - rid: 4424266668413550720
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 10
+        y: 5
+        sides: 4
+        id: 'Node: 1'
+        connections:
+        - Empty
+        - Empty
+        - Empty
+        - Empty
+    - rid: 4424266668413550721
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 11
+        y: 5
+        sides: 4
+        id: 'Node: 1'
+        connections:
+        - Wall
+        - Empty
+        - Empty
+        - Empty
+    - rid: 4424266668413550722
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 8
+        y: 6
+        sides: 4
+        id: 'Node: 1'
+        connections:
+        - Empty
+        - Empty
+        - Wall
+        - Empty
+    - rid: 4424266668413550723
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 8
+        y: 7
+        sides: 4
+        id: 'Node: 1'
+        connections:
+        - Empty
+        - Empty
+        - Wall
+        - Wall
+    - rid: 4424266668413550724
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 9
+        y: 6
+        sides: 4
+        id: 'Node: 1'
+        connections:
+        - Empty
+        - Empty
+        - Empty
+        - Empty
+    - rid: 4424266668413550725
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 9
+        y: 7
+        sides: 4
+        id: 'Node: 1'
+        connections:
+        - Empty
+        - Empty
+        - Empty
+        - Wall
+    - rid: 4424266668413550726
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 10
+        y: 6
+        sides: 4
+        id: 'Node: 1'
+        connections:
+        - Empty
+        - Empty
+        - Empty
+        - Empty
+    - rid: 4424266668413550727
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 10
+        y: 7
+        sides: 4
+        id: 'Node: 1'
+        connections:
+        - Empty
+        - Empty
+        - Empty
+        - Empty
+    - rid: 4424266668413550728
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 11
+        y: 6
+        sides: 4
+        id: 'Node: 1'
+        connections:
+        - Wall
+        - Empty
+        - Empty
+        - Empty
+    - rid: 4424266668413550729
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 11
+        y: 7
+        sides: 4
+        id: 'Node: 1'
+        connections:
+        - Wall
+        - Empty
+        - Empty
+        - Empty
+    - rid: 4424266668413550730
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 10
+        y: 8
+        sides: 4
+        id: 'Node: 1'
+        connections:
+        - Empty
+        - Empty
+        - Wall
+        - Empty
+    - rid: 4424266668413550731
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 10
+        y: 9
+        sides: 4
+        id: 'Node: 1'
+        connections:
+        - Empty
+        - Empty
+        - Wall
+        - Wall
+    - rid: 4424266668413550732
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 11
+        y: 8
+        sides: 4
+        id: 'Node: 1'
+        connections:
+        - Wall
+        - Empty
+        - Empty
+        - Empty
+    - rid: 4424266668413550733
+      type: {class: ConnectedTile, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
+      data:
+        x: 11
+        y: 9
+        sides: 4
+        id: 'Node: 1'
+        connections:
+        - Wall
+        - Empty
+        - Empty
+        - Wall
