@@ -33,7 +33,7 @@ public class RemoveConnection<T> : ManipulateTileMap<T> where T : LBSTile
 
     protected override void OnMouseMove(VisualElement target, Vector2Int position, MouseMoveEvent e)
     {
-        //throw new System.NotImplementedException();
+
     }
 
     protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
@@ -48,6 +48,9 @@ public class RemoveConnection<T> : ManipulateTileMap<T> where T : LBSTile
         var second = tile.Data;
 
         if (second == first)
+            return;
+
+        if (first == second)
             return;
 
         var dx = (first.Position.x - second.Position.x);
