@@ -1,11 +1,14 @@
+using LBS.Components;
+using LBS.Components.Teselation;
 using LBS.Components.TileMap;
 using LBS.Tools.Transformer;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class DeleteTileToAreaPoint<T, U> : ManipulateTiledArea<T, U> where T : TiledArea where U : LBSTile
+public class AddTileToTiledArea<T,U> : ManipulateTiledArea<T, U> where T : TiledArea where U : LBSTile
 {
     protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
     {
@@ -24,21 +27,17 @@ public class DeleteTileToAreaPoint<T, U> : ManipulateTiledArea<T, U> where T : T
         {
             for (int j = min.y; j <= max.y; j++)
             {
-                var pos = new Vector2Int(i, j);
-                var area = module.GetArea(pos);
+                var tile = Activator.CreateInstance(typeof(U)) as U;
+                tile.Position = new Vector2Int(i, j);
+                tile.ID = areaToSet.ID;
+                this.module.AddTile(areaToSet.ID,tile);
+                (tile as ConnectedTile).SetConnections("Wall", "Wall", "Wall", "Wall");
 
-                if (area == null)
-                    continue;
-
-                var tile = area.GetTile(pos);
-
-                if (tile == null)
-                    continue;
-
-                area.RemoveTile(tile);
             }
         }
 
+        var module = this.module;
         CalculateConnections.Operate(module);
+
     }
 }

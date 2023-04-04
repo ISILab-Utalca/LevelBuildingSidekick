@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class AddEmptyTile<T> : ManipulateTileMap<T> where T : LBSTile
+public class AddEmptyTile<T> : ManipulateTeselation<T> where T : LBSTile
 {
     protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
     {

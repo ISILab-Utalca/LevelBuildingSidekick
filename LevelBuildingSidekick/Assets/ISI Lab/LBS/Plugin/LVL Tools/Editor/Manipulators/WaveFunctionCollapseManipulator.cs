@@ -6,7 +6,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class WaveFunctionCollapseManipulator<T> : ManipulateTileMap<T> where T : LBSTile
+public class WaveFunctionCollapseManipulator<T> : ManipulateTeselation<T> where T : LBSTile
 {
     private List<Vector2Int> dirs = new List<Vector2Int>() // (!) esto deberia estar en un lugar general
     {

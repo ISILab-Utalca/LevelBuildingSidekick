@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class RemoveTile : ManipulateTileMap<LBSTile>
+public class RemoveTile : ManipulateTeselation<LBSTile>
 {
     protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
     {

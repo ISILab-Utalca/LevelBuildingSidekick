@@ -11,7 +11,7 @@ using LBS.Tools.Transformer;
 
 public class AddDoor<T, U> : ManipulateTiledArea<T, U> where T : TiledArea where U : LBSTile
 {
-    private List<Vector2Int> dirs = new List<Vector2Int>() // (!) esto deberia estar en un lugar general
+    private readonly List<Vector2Int> dirs = new List<Vector2Int>() // (!) esto deberia estar en un lugar general
     {
         Vector2Int.right,
         Vector2Int.down,
@@ -21,81 +21,27 @@ public class AddDoor<T, U> : ManipulateTiledArea<T, U> where T : TiledArea where
 
     private ConnectedTile first;
 
-    private ConnectionFeedback feedback = new ConnectionFeedback();
-    private bool clicked = false;
-
-    protected override void OnMouseDown(MouseDownEvent e)
+    public AddDoor() : base()
     {
-        OnManipulationStart?.Invoke();
+        feedback = new ConectedLine();
+        feedback.fixToTeselation = true;
+    }
 
+    protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
+    {
         var tile = e.target as SchemaTileView;
         if (tile == null)
             return;
 
         first = tile.Data;
-        var size = new Vector2(tile.style.width.value.value,tile.style.height.value.value);
-
-        clicked = true;
-        /*
-        feedback.Actualize(
-            Color.yellow, 
-            (first.Position * size * 0.5f).ToInt(),
-            (first.Position * size * 0.5f).ToInt());
-        mainView.AddElement(feedback);
-        */
     }
 
-    protected override void OnMouseMove(MouseMoveEvent e)
+    protected override void OnMouseMove(VisualElement target, Vector2Int MovePosition, MouseMoveEvent e)
     {
-        /*
-        if (!clicked)
-            return;
-
-        var tile = e.target as SchemaTileView;
-        if (tile != null)
-        {
-            var over = tile.Data;
-            var size = new Vector2(tile.style.width.value.value, tile.style.height.value.value);
-
-            if (over == first)
-            {
-                feedback.Actualize(
-                    Color.yellow,
-                    (first.Position * size * 0.5f).ToInt(),
-                    (first.Position * size * 0.5f).ToInt());
-                return;
-            }
-
-            var dx = (first.Position.x - over.Position.x);
-            var dy = (first.Position.y - over.Position.y);
-            if (Mathf.Abs(dx) + Mathf.Abs(dy) > 1f)
-            {
-                feedback.Actualize(Color.yellow, first.Position, over.Position);
-                return;
-            }
-
-            var r1 = module.GetArea(first.Position);
-            var r2 = module.GetArea(over.Position);
-            if (!r1.Equals(r2))
-            {
-                feedback.Actualize(Color.green, first.Position, over.Position);
-                return;
-            }
-
-            
-        }
-        else
-        {
-            feedback.Actualize(Color.red, first.Position, e.mousePosition.ToInt());
-        }
-        */
     }
 
-    protected override void OnMouseUp(MouseUpEvent e)
+    protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
     {
-        // remove feedback
-        //mainView.RemoveElement(feedback);
-
         if (first == null)
             return;
 
@@ -112,7 +58,7 @@ public class AddDoor<T, U> : ManipulateTiledArea<T, U> where T : TiledArea where
 
         var dx = (first.Position.x - second.Position.x);
         var dy = (first.Position.y - second.Position.y);
-        
+
         if (Mathf.Abs(dx) + Mathf.Abs(dy) > 1f)
             return;
 
@@ -121,10 +67,5 @@ public class AddDoor<T, U> : ManipulateTiledArea<T, U> where T : TiledArea where
 
         first.SetConnection("Door", fDir);
         second.SetConnection("Door", tDir);
-
-        clicked = false;
-
-        OnManipulationEnd?.Invoke();
     }
-
 }

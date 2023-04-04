@@ -114,7 +114,7 @@ public class LayerTemplateEditor : Editor
         var tool6 = new LBSTool(
             icon,
             "Paint tile",
-            typeof(AddTileToTiledAreaAtPoint<TiledArea, ConnectedTile>),
+            typeof(AddTileToTiledArea<TiledArea, ConnectedTile>),
             typeof(RoomsPalleteInspector<TiledArea, ConnectedTile>),
             true);
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class RemoveConnection<T> : ManipulateTileMap<T> where T : LBSTile
+public class RemoveConnection<T> : ManipulateTeselation<T> where T : LBSTile
 {
     private readonly List<Vector2Int> dirs = new List<Vector2Int>() // (!) esto deberia estar en un lugar general
     {
