@@ -1,4 +1,5 @@
 using LBS.Components;
+using LBS.Components.Graph;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,18 +22,32 @@ public class Select : ClickSelector , IManipulatorLBS
     {
         base.RegisterCallbacksOnTarget();
         target.RegisterCallback<MouseDownEvent>(_OnMouseDown);
+        target.RegisterCallback<MouseMoveEvent>(_OnMouseMove);
+        target.RegisterCallback<MouseUpEvent>(_OnMouseUp);
     }
 
     protected override void UnregisterCallbacksFromTarget()
     {
         base.UnregisterCallbacksFromTarget();
         target.UnregisterCallback<MouseDownEvent>(_OnMouseDown);
+        target.UnregisterCallback<MouseMoveEvent>(_OnMouseMove);
+        target.UnregisterCallback<MouseUpEvent>(_OnMouseUp);
     }
 
     private void _OnMouseDown(MouseDownEvent evt)
     {
         OnManipulationStart?.Invoke();
-        // Do nothing
+
+    }
+
+    private void _OnMouseMove(MouseMoveEvent evt)
+    {
+
+    }
+
+    private void _OnMouseUp(MouseUpEvent evt)
+    {
+
         OnManipulationEnd?.Invoke();
     }
 
