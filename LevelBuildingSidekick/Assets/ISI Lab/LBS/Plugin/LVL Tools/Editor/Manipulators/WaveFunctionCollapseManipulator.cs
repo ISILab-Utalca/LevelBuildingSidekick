@@ -8,9 +8,6 @@ using UnityEngine.UIElements;
 
 public class WaveFunctionCollapseManipulator<T> : ManipulateTileMap<T> where T : LBSTile
 {
-    private AreaFeedback feedback = new AreaFeedback();
-    private Vector2 firstClick;
-
     private List<Vector2Int> dirs = new List<Vector2Int>() // (!) esto deberia estar en un lugar general
     {
         Vector2Int.right,
@@ -21,46 +18,31 @@ public class WaveFunctionCollapseManipulator<T> : ManipulateTileMap<T> where T :
 
     private ConnectedTile first;
 
+    public WaveFunctionCollapseManipulator() : base()
+    {
+
+    }
+
     protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
     {
-        var view = e.target as ExteriorTileView;
-        if (view == null)
-            return;
 
-        first = view.Data;
-
-        //MainView.AddElement(feedback);
-        //feedback.fixToTeselation = true;
-        firstClick = position;
-        //firstClick = MainView.FixPos(e.localMousePosition);
-        feedback.ActualizePositions(firstClick.ToInt(), firstClick.ToInt());
     }
 
     protected override void OnMouseMove(VisualElement target, Vector2Int position, MouseMoveEvent e)
     {
-        //throw new System.NotImplementedException();
-        if (firstClick != null)
-        {
-            var pos = MainView.FixPos(e.localMousePosition);
-            feedback.ActualizePositions(firstClick.ToInt(), pos.ToInt());
-        }
+
     }
 
     protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
     {
-        if (first == null)
-            return;
+        var min = MainView.ToTileCords(Vector2Int.Min(StartPosition, EndPosition));
+        var max = MainView.ToTileCords(Vector2Int.Max(StartPosition, EndPosition));
 
-        var tile = e.target as ExteriorTileView;
-        if (tile == null)
-            return;
-
-        var second = tile.Data;
-
-        var min = Vector2Int.Min(first.Position, second.Position);
-        var max = Vector2Int.Max(first.Position, second.Position);
-
-        var tiles = Utility.DirectoryTools.GetScriptables<WFCBundle>();
+        var tiles = LBSAssetsStorage.Instance.Bundles
+            .Where(b =>  b.GetType() == typeof(WFCBundle))
+            .Select(b => b as WFCBundle)
+            .ToList();
+        //var tiles = Utility.DirectoryTools.GetScriptables<WFCBundle>();
 
         var toCalc = new List<ConnectedTile>();
         for (int i = min.x; i <= max.x; i++)
@@ -70,21 +52,20 @@ public class WaveFunctionCollapseManipulator<T> : ManipulateTileMap<T> where T :
                 var t = module.GetTile(new Vector2Int(i, j)) as ConnectedTile;
                 if (t == null)
                     continue;
-
                 toCalc.Add(t);
             }
         }
 
-        do
+        while(toCalc.Count > 0)
         {
-            var t = toCalc[UnityEngine.Random.Range(0, toCalc.Count)];
+            var t = toCalc[UnityEngine.Random.Range(0, toCalc.Count -1)];
+
+            if (e.ctrlKey)
+                t.SetConnections(new string[4] {"", "", "", ""});
+
             CalculateTile(t, tiles);
             toCalc.Remove(t);
-
-        } while (toCalc.Count > 0);
-
-
-        OnManipulationEnd?.Invoke();
+        } 
     }
 
     public void CalculateTile(ConnectedTile tile, List<WFCBundle> wfcTiles)
