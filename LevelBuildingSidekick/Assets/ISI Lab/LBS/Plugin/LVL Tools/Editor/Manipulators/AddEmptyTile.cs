@@ -17,15 +17,15 @@ public class AddEmptyTile<T> : ManipulateTileMap<T> where T : LBSTile
 
     protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
     {
-        var min = Vector2Int.Min(StartPosition, EndPosition);
-        var max = Vector2Int.Max(StartPosition, EndPosition);
+        var min = MainView.ToTileCords(Vector2Int.Min(StartPosition, EndPosition));
+        var max = MainView.ToTileCords(Vector2Int.Max(StartPosition, EndPosition));
 
         for (int i = min.x; i <= max.x; i++)
         {
             for (int j = min.y; j <= max.y; j++)
             {
                 var tile = Activator.CreateInstance(typeof(T)) as T;
-                tile.Position = MainView.ToTileCords(new Vector2Int(i, j));
+                tile.Position = new Vector2Int(i, j);
                 (tile as ConnectedTile).SetConnections("", "", "", "");
                 module.AddTile(tile);
             }
