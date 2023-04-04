@@ -24,7 +24,6 @@ public class LayerTemplateEditor : Editor
 
         if(GUILayout.Button("Set as interior")) 
         {
-            
             InteriorConstruct(template);
         }
 
@@ -138,7 +137,7 @@ public class LayerTemplateEditor : Editor
         var tool7 = new LBSTool(
             icon,
             "Erase",
-            typeof(DeleteTileToAreaPoint<TiledArea, ConnectedTile>), // Removed<TiledArea<LBSTile>, LBSTile>,
+            typeof(DeleteTile<TiledArea, ConnectedTile>), // Removed<TiledArea<LBSTile>, LBSTile>,
             null
         );
 

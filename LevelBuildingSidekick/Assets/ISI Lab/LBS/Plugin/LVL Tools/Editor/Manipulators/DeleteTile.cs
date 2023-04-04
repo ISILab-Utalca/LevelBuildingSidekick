@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class DeleteTileToAreaPoint<T, U> : ManipulateTiledArea<T, U> where T : TiledArea where U : LBSTile
+public class DeleteTile<T, U> : ManipulateTiledArea<T, U> where T : TiledArea where U : LBSTile
 {
     protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
     {
