@@ -41,6 +41,10 @@ public class RoomCutEvaluator : IEvaluator
             var tiles = room.Tiles;
             var check = new List<LBSTile>();
             var uncheck = new List<LBSTile>();
+
+            if (tiles.Count <= 0)
+                continue;
+
             uncheck.Add(tiles[0]);
 
             do
