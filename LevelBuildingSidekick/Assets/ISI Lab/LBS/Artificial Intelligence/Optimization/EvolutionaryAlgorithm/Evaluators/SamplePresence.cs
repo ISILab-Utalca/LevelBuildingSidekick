@@ -42,7 +42,6 @@ public class SamplePresence : IRangedEvaluator
     /// <returns> A value between <see cref="MinValue"/> and <see cref="MaxValue"/> </returns>
     public float Evaluate(IOptimizable evaluable)
     {
-        float presence = 0;
 
         if (!(evaluable is IChromosome))
         {
@@ -51,17 +50,9 @@ public class SamplePresence : IRangedEvaluator
 
         var ev = evaluable as IChromosome;
 
-        for(int i = 0; i < ev.Length; i++)
-        {
-            if (ev.GetGene(i) == null)
-                continue;
-            if (ev.GetGene(i).Equals(sample))
-            {
-                presence++;
-            }
-        }
+        float presence = ev.GetGenes().Count(e => e != null && e.Equals(sample));
 
-        presence /= ev.Length;
+        presence /= ev.Length*1f;
 
         return MinValue + ((MaxValue - MinValue) * presence);
     }

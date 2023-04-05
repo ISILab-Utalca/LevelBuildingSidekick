@@ -21,13 +21,13 @@ public class Resemblance : IRangedEvaluator
         if (ev.Length != reference.Length)
             return MinValue;
 
-        float threshold = MaxValue - MaxValue;
+        float threshold = MaxValue - MinValue;
         int diff = 0;
         for(int i = 0; i < reference.Length; i++)
         {
             if(reference.GetGene(i) == null)
             {
-                if(ev.GetGene(i) == null)
+                if(ev.GetGene(i) != null)
                 {
                     diff++;
                     continue;
@@ -38,6 +38,8 @@ public class Resemblance : IRangedEvaluator
                 diff++;
         }
 
-        return MinValue + threshold*((reference.Length - diff) / reference.Length);
+        var fit = MinValue + threshold * (((reference.Length*1f) - (diff*1f)) / (reference.Length*1f));
+
+        return fit;
     }
 }
