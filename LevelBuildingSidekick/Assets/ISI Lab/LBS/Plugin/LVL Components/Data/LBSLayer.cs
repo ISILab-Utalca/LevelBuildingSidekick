@@ -33,6 +33,10 @@ namespace LBS.Components
         //[ScriptableToString(typeof(CompositeBundle))]
         //private List<string> bundles = new List<string>();
 
+        [SerializeField, JsonRequired]
+        [ScriptableToString(typeof(LBSLayerAssistant))]
+        private string assistant;
+
         #endregion
 
         #region PROPERTIES
@@ -65,7 +69,11 @@ namespace LBS.Components
         }
 
         [JsonIgnore]
-        public LBSLayerAssistant Assitant;
+        public LBSLayerAssistant Assitant
+        {
+            get => Utility.DirectoryTools.GetScriptable<LBSLayerAssistant>(assistant);
+            set => assistant = value.name;
+        }
 
         /*
         [JsonIgnore]
