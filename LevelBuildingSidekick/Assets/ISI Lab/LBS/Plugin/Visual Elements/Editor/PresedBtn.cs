@@ -6,7 +6,6 @@ using UnityEngine.UIElements;
 
 namespace LBS.VisualElements
 {
-
     public class PresedBtn : Button, IGrupable
     {
         public new class UxmlFactory : UxmlFactory<PresedBtn, UxmlTraits> { }
