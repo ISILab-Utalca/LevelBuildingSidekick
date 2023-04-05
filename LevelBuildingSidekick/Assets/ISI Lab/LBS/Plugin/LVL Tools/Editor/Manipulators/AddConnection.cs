@@ -66,9 +66,5 @@ public class AddConnection<T> : ManipulateTeselation<T> where T : LBSTile
         first.SetConnection(tagToSet.Label, fDir);
         second.SetConnection(tagToSet.Label, tDir);
 
-        //var parche = new AreaToTileMap(); // (!!!!!) eliminar!!!
-        //parche.ParcheDiParche(module);
-
-        //OnManipulationEnd?.Invoke();
     }
 }

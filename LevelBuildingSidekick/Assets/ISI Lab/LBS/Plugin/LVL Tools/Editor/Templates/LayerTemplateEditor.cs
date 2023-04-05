@@ -234,7 +234,7 @@ public class LayerTemplateEditor : Editor
             null, 
             false);
 
-        icon = Resources.Load<Texture2D>("Icons/erased");
+        icon = Resources.Load<Texture2D>("Icons/Collapse_Icon");
         var tool6 = new LBSTool(
             icon, 
             "Collapse connection area", 
