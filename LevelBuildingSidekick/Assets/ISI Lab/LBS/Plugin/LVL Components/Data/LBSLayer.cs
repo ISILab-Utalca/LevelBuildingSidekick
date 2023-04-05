@@ -33,6 +33,10 @@ namespace LBS.Components
         //[ScriptableToString(typeof(CompositeBundle))]
         //private List<string> bundles = new List<string>();
 
+        [SerializeField, JsonRequired]
+        [ScriptableToString(typeof(LBSLayerAssistant))]
+        private string assistant;
+
         #endregion
 
         #region PROPERTIES
@@ -65,7 +69,11 @@ namespace LBS.Components
         }
 
         [JsonIgnore]
-        public LBSLayerAssistant Assitant;
+        public LBSLayerAssistant Assitant
+        {
+            get => Utility.DirectoryTools.GetScriptable<LBSLayerAssistant>(assistant);
+            set => assistant = value.name;
+        }
 
         /*
         [JsonIgnore]
@@ -254,14 +262,7 @@ namespace LBS.Components
                 }).ToList();
             //var transformers = this.GetTransformers(); // (??) usar clone en vez de pasar la lista?
             var layer = new LBSLayer(modules,/* transformers.Select(t => t.GetType()).ToList(),*/ this.id, this.visible, this.name, this.iconPath);
-            layer.Assitant = ScriptableObject.CreateInstance<LBSLayerAssistant>();
-            layer.Assitant.name = Assitant.name;
-            layer.Assitant.Generator = Assitant.Generator;
-
-            for(int i = 0; i < Assitant.AgentsCount; i++)
-            {
-                layer.Assitant.AddAgent(Assitant.GetAgent(i).Clone() as LBSAIAgent);
-            }
+            layer.Assitant = Assitant;
 
             return layer;
         }
