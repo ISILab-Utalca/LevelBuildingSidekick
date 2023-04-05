@@ -51,6 +51,9 @@ public class AddConnection<T> : ManipulateTeselation<T> where T : LBSTile
 
         var second = tile.Data;
 
+        if (first == second)
+            return;
+
         var dx = (first.Position.x - second.Position.x);
         var dy = (first.Position.y - second.Position.y);
 
