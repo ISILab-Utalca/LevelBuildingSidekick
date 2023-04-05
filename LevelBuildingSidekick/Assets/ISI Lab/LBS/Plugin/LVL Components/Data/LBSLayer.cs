@@ -262,14 +262,7 @@ namespace LBS.Components
                 }).ToList();
             //var transformers = this.GetTransformers(); // (??) usar clone en vez de pasar la lista?
             var layer = new LBSLayer(modules,/* transformers.Select(t => t.GetType()).ToList(),*/ this.id, this.visible, this.name, this.iconPath);
-            layer.Assitant = ScriptableObject.CreateInstance<LBSLayerAssistant>();
-            layer.Assitant.name = Assitant.name;
-            layer.Assitant.Generator = Assitant.Generator;
-
-            for(int i = 0; i < Assitant.AgentsCount; i++)
-            {
-                layer.Assitant.AddAgent(Assitant.GetAgent(i).Clone() as LBSAIAgent);
-            }
+            layer.Assitant = Assitant;
 
             return layer;
         }
