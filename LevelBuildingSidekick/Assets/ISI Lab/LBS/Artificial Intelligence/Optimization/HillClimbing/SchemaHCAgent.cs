@@ -119,6 +119,7 @@ public class SchemaHCAgent : LBSAIAgent
             new System.Tuple<IEvaluator, float> (new AdjacenciesEvaluator(graph), 0.4f),
             new System.Tuple<IEvaluator, float> (new AreasEvaluator(graph), 0.15f),
             new System.Tuple<IEvaluator, float> (new EmptySpaceEvaluator(), 0.35f),
+            new System.Tuple<IEvaluator, float> (new RoomCutEvaluator(graph), 1f),
             // new System.Tuple<IEvaluator, float> (new StretchEvaluator(), 0.1f),
         }) ;
         var population = new Population(1, 100, adam); // agregar parametros

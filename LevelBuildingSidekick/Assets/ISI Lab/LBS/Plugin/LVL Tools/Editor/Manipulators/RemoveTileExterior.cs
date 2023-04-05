@@ -31,8 +31,8 @@ public class RemoveTileExterior<T> : ManipulateTeselation<T> where T : LBSTile
 
     protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
     {
-        var min = Vector2Int.Min(StartPosition, EndPosition);
-        var max = Vector2Int.Max(StartPosition, EndPosition);
+        var min = MainView.ToTileCords(Vector2Int.Min(StartPosition, EndPosition));
+        var max = MainView.ToTileCords(Vector2Int.Max(StartPosition, EndPosition));
 
         for (int i = min.x; i <= max.x; i++)
         {

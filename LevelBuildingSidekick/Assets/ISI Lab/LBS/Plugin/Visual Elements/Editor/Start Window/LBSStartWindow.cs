@@ -14,6 +14,7 @@ namespace LBS.Windows
 {
     public class LBSStartWindow : EditorWindow
     {
+        /*
         #region Selection
         PresedBtn newLvlBtn;
         PresedBtn loadLvlBtn;
@@ -164,7 +165,6 @@ namespace LBS.Windows
                 }
                 catch { }
             }
-            */
         }
 
         void OpenNewLevel()
@@ -192,6 +192,7 @@ namespace LBS.Windows
             }
             
         }
+        */
     }
 }
 
