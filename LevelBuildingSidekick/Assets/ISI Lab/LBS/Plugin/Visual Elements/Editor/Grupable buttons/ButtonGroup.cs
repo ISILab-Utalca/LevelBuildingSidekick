@@ -14,8 +14,8 @@ namespace LBS.VisualElements
 
         public new class UxmlTraits : VisualElement.UxmlTraits
         {
-            UxmlColorAttributeDescription m_Color = new UxmlColorAttributeDescription { name = "color-attr", defaultValue = Color.blue };
-            UxmlColorAttributeDescription m_Selected = new UxmlColorAttributeDescription { name = "color-attr-2", defaultValue = Color.red };
+            UxmlColorAttributeDescription m_BaseColor = new UxmlColorAttributeDescription { name = "base-color", defaultValue = Color.blue };
+            UxmlColorAttributeDescription m_SelectedColor = new UxmlColorAttributeDescription { name = "selected-color", defaultValue = Color.red };
 
             public override IEnumerable<UxmlChildElementDescription> uxmlChildElementsDescription
             {
@@ -26,12 +26,9 @@ namespace LBS.VisualElements
             {
                 base.Init(ve, bag, cc);
                 ButtonGroup btn = ve as ButtonGroup;
-                //btn.Clear();
 
-                btn.selected = m_Selected.GetValueFromBag(bag, cc);
-                //btn.Add(new ColorField("Selected") { value = btn.selected });
-                btn.color = m_Color.GetValueFromBag(bag, cc);
-                //btn.Add(new ColorField("Color") { value = btn.color });
+                btn.selected = m_SelectedColor.GetValueFromBag(bag, cc);
+                btn.color = m_BaseColor.GetValueFromBag(bag, cc);
             }
         };
 
