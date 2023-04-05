@@ -68,7 +68,10 @@ namespace LBS.Components.TileMap
         public override bool Equals(object obj)
         {
             if(obj is LBSTile)
-                return Position == (obj as LBSTile).Position;
+            {
+                var b = Position.Equals((obj as LBSTile).Position);
+                return b;
+            }
             return false;
         }
 
