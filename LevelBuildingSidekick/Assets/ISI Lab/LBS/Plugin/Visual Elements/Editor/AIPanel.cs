@@ -9,6 +9,7 @@ public class AIPanel : VisualElement
     VisualElement container;
 
     public Action OnAIExecute;
+    public Action OnEndExecute;
 
     public AIPanel()
     {
@@ -28,6 +29,7 @@ public class AIPanel : VisualElement
         {
             var agent = assist.GetAgent(i);
             agent.OnTermination = OnAIExecute;
+            agent.OnTermination = OnEndExecute;
             agent.Init(ref layer);
             container.Add(new AIAgentPanel(ref agent));
 

@@ -178,6 +178,11 @@ public class LBSMainWindow : EditorWindow
         {
             drawManager.RefreshView(ref _selectedLayer, levelData.Layers, _selectedMode);
         };
+        aiPanel.OnEndExecute += () =>
+        {
+            OnSelectedLayerChange2(_selectedLayer);
+        };
+
         extraPanel.Add(aiPanel);
         aiPanel.style.display = DisplayStyle.None;
         
@@ -299,12 +304,19 @@ public class LBSMainWindow : EditorWindow
         OnSelectedModeChange(modes.Keys.First(), _selectedLayer);
 
         selectedLabel.text = "selected: " + layer.Name;
+    }
 
-        // (!) Actualize IAs?
-        //aiPanel.Init(ref layer);
+    public void OnSelectedLayerChange2(LBSLayer layer) // esto es un parche se deberia ir cuando se mejore el paso de selected layer y los comportamientos
+    {
+        _selectedLayer = layer;
 
-        // (!) Actualize gen3D?
-        //gen3DPanel.Init(layer);
+        // actualize modes
+        var modes = _selectedLayer.GetToolkit(layerTemplates);
+        modeSelector.SetChoices(modes);
+        modeSelector.Index = modes.Count -1;
+        modeSelector.style.display = DisplayStyle.Flex;
+        OnSelectedModeChange(modes.Keys.Last(), _selectedLayer);
 
+        selectedLabel.text = "selected: " + layer.Name;
     }
 }
