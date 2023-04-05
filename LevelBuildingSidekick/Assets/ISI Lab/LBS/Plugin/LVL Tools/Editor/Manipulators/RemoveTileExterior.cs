@@ -38,7 +38,7 @@ public class RemoveTileExterior<T> : ManipulateTeselation<T> where T : LBSTile
         {
             for (int j = min.y; j <= max.y; j++)
             {
-                var pos = MainView.ToTileCords(new Vector2Int(i, j));
+                var pos = new Vector2Int(i, j);
                 var tile = module.GetTile(pos);
                 module.RemoveTile(tile as T);
             }
