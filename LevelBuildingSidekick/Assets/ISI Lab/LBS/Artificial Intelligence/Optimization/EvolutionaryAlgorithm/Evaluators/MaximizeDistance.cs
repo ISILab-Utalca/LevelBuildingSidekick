@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class MinDistance : IRangedEvaluator
+public class MaximizeDistance : IRangedEvaluator
 {
     public float MaxValue => 1;
 
@@ -27,14 +27,21 @@ public class MinDistance : IRangedEvaluator
 
         foreach(object o in whiteList)
         {
-            var candidates = ev.GetGenes().Where(e => e.Equals(o));
-            if (candidates.Count() == 0)
+            var genes = ev.GetGenes();
+            var indexes = new List<int>();
+
+            for (int i = 0; i < genes.Length; i++)
+            {
+                if (genes[i] != null && genes[i].Equals(o))
+                    indexes.Add(i);
+            }
+
+
+            if (indexes.Count == 0)
             {
                 fitness += MinValue;
                 continue;
             }
-
-            var indexes = candidates.Select((e, i) => i).ToList();
 
             fitness += avgMin(indexes, ev);
         }
@@ -48,9 +55,9 @@ public class MinDistance : IRangedEvaluator
         var dist = 2f;
         switch(distType)
         {
-            case DistanceType.MANHATTAN: dist = 2; break;
+            case DistanceType.MANHATTAN: dist = 2f; break;
             case DistanceType.EUCLIDEAN: dist = 1.4f; break;
-            case DistanceType.CHESS: dist = 1; break;
+            case DistanceType.CHESS: dist = 1f; break;
         }
 
         var max = Distance(dist, chr.ToMatrixPosition(chr.Length - 1));
@@ -72,7 +79,7 @@ public class MinDistance : IRangedEvaluator
             avgMin += min;
         }
 
-        return MinValue + MaxValue * (avgMin / max * indexes.Count);
+        return MinValue + MaxValue * (avgMin / (max * indexes.Count));
     }
 
     public float Distance(float diag, Vector2Int point)
@@ -86,7 +93,7 @@ public class MinDistance : IRangedEvaluator
 
 public enum DistanceType
 {
-    MANHATTAN,
     EUCLIDEAN,
+    MANHATTAN,
     CHESS
 }

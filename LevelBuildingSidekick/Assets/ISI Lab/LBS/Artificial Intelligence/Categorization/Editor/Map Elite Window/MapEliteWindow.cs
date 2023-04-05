@@ -234,56 +234,10 @@ public class MapEliteWindow : EditorWindow
 
     private Texture2D BackgroundTexture()
     {
-        /*
-        int tsize = 16;
-        var tmc = (populationWindow.GetController<LBSTileMapController>());
-        var rooms = (tmc.GetData() as LBSSchemaData).GetRooms();
-        var tiles = rooms.SelectMany(r => r.TilesPositions);
-
-        var x1 = tiles.Min(t => t.x);
-        var x2 = tiles.Max(t => t.x);
-
-        var y1 = tiles.Min(t => t.y);
-        var y2 = tiles.Max(t => t.y);
-
-        int width = (x2 - x1) + 1;
-        int height = (y2 - y1) + 1;
-
-        var size = width > height ? width : height;
-        var offset = new Vector2Int(x1, y1);
-
-        var pref = Resources.Load<Texture2D>("Floor");
-        var texture = new Texture2D((size * tsize), (size * tsize));
-        var pixels = texture.GetPixels();
-        for(int i = 0; i < pixels.Length; i++)
-        {
-            pixels[i] = new Color(0, 0, 0, 0);
-        }
-        texture.SetPixels(0, 0, (size * tsize), (size * tsize), pixels);
-        texture.Apply();
-
-        foreach (var r in rooms)
-        {
-            var aux = new Texture2D(pref.width, pref.height);
-            pixels = pref.GetPixels();
-            var color = r.Color;
-            for(int i = 0; i < pixels.Length; i++)
-            {
-                pixels[i] = new Color(pixels[i].r * color.r, pixels[i].g * color.g, pixels[i].b * color.b);
-            }
-            aux.SetPixels(pixels);
-            aux.Apply();
-            foreach(var tp in r.TilesPositions)
-            {
-                var pos = tp;
-                texture.InsertTextureInRect(aux, ((pos.x - offset.x) * tsize), ((height - 1 - (pos.y - offset.y)) * tsize), tsize, tsize);
-            }
-        }
-        texture.Apply();
-
-        return texture;
-        */
-        return null;
+        var t = new Texture2D(1, 1);
+        t.SetPixel(0,0,Color.gray);
+        t.Apply();
+        return t;
     }
 
     private IChromosome CreateAdam(LBSModule module)

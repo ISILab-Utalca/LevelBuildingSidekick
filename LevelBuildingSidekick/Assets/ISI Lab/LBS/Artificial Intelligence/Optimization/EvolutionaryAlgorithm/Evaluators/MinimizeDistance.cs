@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class MaxDistance : IRangedEvaluator
+public class MinimizeDistance : IRangedEvaluator
 {
     public float MaxValue => 1;
 
@@ -28,47 +28,52 @@ public class MaxDistance : IRangedEvaluator
         foreach (object o in whiteList)
         {
             var genes = ev.GetGenes();
-            var candidates = genes.Where(e => e != null && e.Equals(o)).ToList();
+            var indexes = new List<int>();
+
+            for(int i = 0; i < genes.Length; i++)
+            {
+                if (genes[i] != null && genes[i].Equals(o))
+                    indexes.Add(i);
+            }
 
 
-            if(candidates.Count == 0)
+            if(indexes.Count == 0)
             {
                 fitness += MinValue;
                 continue;
             }
 
-            var indexes = candidates.Select((e, i) => i).ToList();
 
-            fitness += avgMax(indexes, ev);
+            fitness += avgMin(indexes, ev);
         }
 
         return MaxValue - fitness / whiteList.Count;
 
     }
 
-    private float avgMax(List<int> indexes, ChromosomeBase2D chr)
+    private float avgMin(List<int> indexes, ChromosomeBase2D chr)
     {
 
-        var absMax = Distance(distType, chr.ToMatrixPosition(chr.Length - 1));
+        var absMax = Distance(distType, new Vector2Int((int)chr.Rect.size.x, (int)chr.Rect.size.y));
 
-        var avgMax = 0f;
+        var avgMin = 0f;
 
         foreach (var i in indexes)
         {
-            var max = 0f;
+            var min = absMax;
             foreach (var j in indexes)
             {
                 if (i != j)
                 {
                     var d = Distance(distType, chr.ToMatrixPosition(i) - chr.ToMatrixPosition(j));
-                    if (max < d)
-                        max = d;
+                    if (min > d)
+                        min = d;
                 }
             }
-            avgMax += max;
+            avgMin += min;
         }
 
-        return MinValue + MaxValue * (avgMax / absMax * indexes.Count);
+        return MinValue + MaxValue * (avgMin / (absMax * indexes.Count));
     }
 
     public float Distance(DistanceType diag, Vector2Int point)

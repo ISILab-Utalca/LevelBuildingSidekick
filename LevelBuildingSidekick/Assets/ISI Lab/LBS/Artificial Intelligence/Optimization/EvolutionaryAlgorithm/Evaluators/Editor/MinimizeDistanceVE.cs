@@ -8,13 +8,13 @@ using UnityEngine.UIElements;
 using Utility;
 using UnityEditor.UIElements;
 
-[CustomVisualElement(typeof(MaxDistance))]
-public class MaxDistanceVE : EvaluatorVE
+[CustomVisualElement(typeof(MinimizeDistance))]
+public class MinimizeDistanceVE : EvaluatorVE
 {
     DropdownField dropdown;
     ListView listView;
 
-    public MaxDistanceVE(IEvaluator evaluator) : base(evaluator)
+    public MinimizeDistanceVE(IEvaluator evaluator) : base(evaluator)
     {
 
         var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("DistanceVE");
@@ -27,7 +27,7 @@ public class MaxDistanceVE : EvaluatorVE
         listView = this.Q<ListView>(name: "ListView");
 
         listView.fixedItemHeight = 20;
-        listView.itemsSource = (evaluator as MaxDistance).whiteList;
+        listView.itemsSource = (evaluator as MinimizeDistance).whiteList;
         listView.makeItem = MakeItem;
         //listView.onItemsChosen += OnItemChosen;
         //listView.onSelectionChange += OnSelectionChange;
@@ -39,9 +39,9 @@ public class MaxDistanceVE : EvaluatorVE
             view.RegisterValueChangedCallback(
                 (e) => 
                 {
-                    (evaluator as MaxDistance).whiteList[index] = e.newValue;
+                    (evaluator as MinimizeDistance).whiteList[index] = e.newValue;
                 });
-            var data = (evaluator as MaxDistance).whiteList;
+            var data = (evaluator as MinimizeDistance).whiteList;
             view.value = data[index];
         };
     }
@@ -52,13 +52,13 @@ public class MaxDistanceVE : EvaluatorVE
 
         if(Enum.TryParse(typeof(DistanceType), val, out object result))
         {
-            (evaluator as MaxDistance).distType = (DistanceType)result;
+            (evaluator as MinimizeDistance).distType = (DistanceType)result;
         }
     }
 
     public VisualElement MakeItem()
     {
-        var obj = new ObjectField("Element " + (evaluator as MaxDistance).whiteList.Count);
+        var obj = new ObjectField("Element " + (evaluator as MinimizeDistance).whiteList.Count);
         obj.objectType = typeof(Bundle);
         //(evaluator as MaxDistance).whiteList.Add(null);
         return obj;
