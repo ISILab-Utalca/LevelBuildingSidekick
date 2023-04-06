@@ -8,20 +8,6 @@ public class GrupalbeButton : Button, IGrupable
 {
     public new class UxmlFactory : UxmlFactory<GrupalbeButton, Button.UxmlTraits> { }
 
-    /*
-    public new class UxmlTraits : Button.UxmlTraits
-    {
-        public override void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
-        {
-            base.Init(ve, bag, cc);
-
-            GrupalbeButton btn = ve as GrupalbeButton;
-            btn.text = "Grupable Button";
-            //btn.DataTemplatePath = dataTemplatePath.GetValueFromBag(bag, cc);
-        }
-    };
-    */
-
     private Color color = new Color(1, 0, 0);
     private Color selected = new Color(0, 0, 1);
 
@@ -38,6 +24,16 @@ public class GrupalbeButton : Button, IGrupable
     {
         add => OnBlurEvent += value;
         remove => OnBlurEvent -= value;
+    }
+
+    public GrupalbeButton()
+    {
+
+    }
+
+    public GrupalbeButton(string text )
+    {
+        this.text = text;
     }
 
     public void AddGroupEvent(Action action)
