@@ -13,47 +13,16 @@ public class LBSInspectorPanel : VisualElement
 
     private List<LBSInspector> inspectors = new List<LBSInspector>();
 
-    private ButtonGroup globalSubTab;
-    private ButtonGroup localSubTabs;
-    private ButtonGroup advancedSubTabs;
+    private ButtonGroup subTabs;
 
     public LBSInspectorPanel() 
     {
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSInspectorPanel");
         visualTree.CloneTree(this);
 
-        // G subTab
-        globalSubTab = this.Q<ButtonGroup>("GlobalSubTabs");
-        globalSubTab.Init();
-
-        // L subTab
-        localSubTabs = this.Q<ButtonGroup>("LocalSubTabs");
-        localSubTabs.Init();
-
-        // A subTab
-        advancedSubTabs = this.Q<ButtonGroup>("AdvancedSubTabs");
-        advancedSubTabs.Init();
-
-        // LocalTab
-        var localTab = this.Q<GrupalbeButton>("LocalTab");
-        localTab.clicked += () =>
-        {
-            ShowSubSet(localSubTabs);
-        };
-
-        // GlobalTab
-        var globalTab = this.Q<GrupalbeButton>("GlobalTab");
-        globalTab.clicked += () =>
-        {
-            ShowSubSet(globalSubTab);
-        };
-
-        // AdvancedTab
-        var advancedTab = this.Q<GrupalbeButton>("AdvancedTab");
-        advancedTab.clicked += () =>
-        {
-            ShowSubSet(advancedSubTabs);
-        };
+        // SubTabs
+        subTabs = this.Q<ButtonGroup>("SubTabs");
+        subTabs.Init();
 
         // MainButtonGroup
         var mainTab = this.Q<ButtonGroup>("MainTabs");
@@ -61,15 +30,6 @@ public class LBSInspectorPanel : VisualElement
 
         // Content
         content = this.Q<VisualElement>("InspectorContent");
-
-        ShowSubSet(localSubTabs);
-    }
-
-    private void ShowSubSet(ButtonGroup target)
-    {
-        globalSubTab.style.display = (globalSubTab == target) ? DisplayStyle.Flex : DisplayStyle.None;
-        localSubTabs.style.display = (localSubTabs == target) ? DisplayStyle.Flex : DisplayStyle.None;
-        advancedSubTabs.style.display = (advancedSubTabs == target) ? DisplayStyle.Flex : DisplayStyle.None;
     }
 
     public LBSInspectorPanel(ref MainView mainView, VisualElement content)
