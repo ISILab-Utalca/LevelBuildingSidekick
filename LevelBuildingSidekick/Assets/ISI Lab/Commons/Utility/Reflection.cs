@@ -32,7 +32,17 @@ namespace Utility
                 let attributes = type.GetCustomAttributes(typeof(T), true)
                 where attributes != null && attributes.Length > 0
                 select new Tuple<Type, IEnumerable<T>>(type, attributes.Cast<T>());
-            //select new { Type = type, Attributes = attributes.Cast<T>() } as dynamic;
+
+            return toR.ToList();
+        }
+
+        public static List<Tuple<Type, IEnumerable<Attribute>>> GetClassesWith(Type type)
+        {
+            var toR = from assembly in AppDomain.CurrentDomain.GetAssemblies()
+                      from _type in assembly.GetTypes()
+                      let attributes = _type.GetCustomAttributes(type, true)
+                      where attributes != null && attributes.Length > 0
+                      select new Tuple<Type, IEnumerable<Attribute>>(_type, attributes as Attribute[]);
 
             return toR.ToList();
         }
