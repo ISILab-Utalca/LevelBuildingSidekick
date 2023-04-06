@@ -26,7 +26,7 @@ public class LBSSearchAttribute : LBSAttribute
     private string iconPath;
 
     public string Name => name;
-    public Texture2D Icon => throw new NotImplementedException();
+    public Texture2D Icon => null; // implementar icon (!!!)
 
     public LBSSearchAttribute(string name, string iconPath)
     {
