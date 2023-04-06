@@ -6,15 +6,25 @@ using UnityEngine.UIElements;
 using System.Reflection;
 using System.Linq;
 
-public class ComplexDropdown<T> : VisualElement where T : LBSSearchAttribute
+public class ComplexDropdown : VisualElement
 {
     #region FIELDS
 
-    public T target; // parche (!!!) esto tiene que estar con un tipo T o algo asi
-    private List<ComplexDropdownElement> elements;
+    private Type target = null;
+    private List<ComplexDropdownElement> elements = new List<ComplexDropdownElement>();
 
     private VisualElement content;
     private TextField searchfield;
+
+    #endregion
+
+    #region PROPERTIES
+
+    public Type Target
+    {
+        get => target;
+        set => target = value;
+    }
 
     #endregion
 
@@ -22,10 +32,6 @@ public class ComplexDropdown<T> : VisualElement where T : LBSSearchAttribute
 
     public delegate Action dropdownEvent(Type type);
     private dropdownEvent onSelectOption;
-
-    #endregion
-
-    #region PROPERTIES
 
     public event dropdownEvent OnSelectOption
     {
@@ -35,7 +41,7 @@ public class ComplexDropdown<T> : VisualElement where T : LBSSearchAttribute
 
     #endregion
 
-    //public new class UxmlFactory : UxmlFactory<ComplexDropdown<T>, VisualElement.UxmlTraits> { }
+    public new class UxmlFactory : UxmlFactory<ComplexDropdown, VisualElement.UxmlTraits> { }
 
     public ComplexDropdown()
     {
@@ -49,19 +55,28 @@ public class ComplexDropdown<T> : VisualElement where T : LBSSearchAttribute
             Actualize(e.newValue);
         });
 
-        Init();
+        Init(target);
     }
 
-    private void Init()
+    private void Init(Type type)
     {
-        var tuples = Utility.Reflection.GetClassesWith<T>();
+        if (type == null)
+            return;
 
+        var tuples = Utility.Reflection.GetClassesWith(type);
+        elements.Clear();
         foreach (var tuple in tuples)
         {
-            var att = tuple.Item2.ToList().Find(att => att.GetType().Equals(typeof(T)));
+            var atts = tuple.Item2.ToList();
+
+            if (atts.Count <= 0)
+                continue;
+
+            var att = atts[0] as LBSSearchAttribute;
+            //var att = tuple.Item2.ToList().Find(at => at.GetType().Equals(target)) as LBSSearchAttribute;
 
             var element = new ComplexDropdownElement();
-            element.SetAction(() => { onSelectOption(tuple.Item1); });
+            element.SetAction(() => { onSelectOption?.Invoke(tuple.Item1); });
             element.SetInfo(att.Name, att.Icon);
             elements.Add(element);
         }
