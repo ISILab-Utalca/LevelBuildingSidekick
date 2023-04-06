@@ -66,6 +66,7 @@ namespace LBS.VisualElements
         private Color selectedColor = new Color(215f / 255f, 127f / 255f, 45f / 255f);
         private int index = -1;
         private string choices = "";
+        private int choiceCount = 0;
 
         public Color BaseColor
         {
@@ -93,6 +94,12 @@ namespace LBS.VisualElements
                 choices = value;
                 SetChoices(value);
             }
+        }
+
+        public int ChoiceCount
+        {
+            get => choiceCount;
+            set => choiceCount = value;
         }
 
         public ButtonGroup()
@@ -123,14 +130,21 @@ namespace LBS.VisualElements
         public void SetChoices(string choices)
         {
             var cs = choices.Split(",");
+            this.Clear();
+            var count = 0;
             foreach (var choice in cs)
             {
                 if (choice == "")
                     continue;
 
+                count++;
                 var cv = new GrupalbeButton(choice);
-
+                cv.SetColorGroup(baseColor, selectedColor);
+                cv.style.flexGrow = 1;
+                this.Add(cv);
             }
+            ChoiceCount = count;
+            this.Init();
         }
 
         private void ChangeActive(IGrupable active)
