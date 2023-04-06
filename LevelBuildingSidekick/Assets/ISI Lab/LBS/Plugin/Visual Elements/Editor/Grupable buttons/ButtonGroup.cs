@@ -14,12 +14,36 @@ namespace LBS.VisualElements
 
         public new class UxmlTraits : VisualElement.UxmlTraits
         {
-            UxmlColorAttributeDescription m_BaseColor = new UxmlColorAttributeDescription { name = "base-color", defaultValue = Color.blue };
-            UxmlColorAttributeDescription m_SelectedColor = new UxmlColorAttributeDescription { name = "selected-color", defaultValue = Color.red };
+            UxmlColorAttributeDescription m_BaseColor = new UxmlColorAttributeDescription 
+            { 
+                name = "base-color",
+                defaultValue = new Color(72f / 255f, 72f / 255f, 72f / 255f)
+            };
+
+            UxmlColorAttributeDescription m_SelectedColor = new UxmlColorAttributeDescription 
+            { 
+                name = "selected-color", 
+                defaultValue = new Color(215f / 255f, 127f / 255f, 45f / 255f)
+            };
+
+            UxmlIntAttributeDescription m_Index = new UxmlIntAttributeDescription
+            {
+                name = "index",
+                defaultValue = -1
+            };
+
+            UxmlStringAttributeDescription m_choices = new UxmlStringAttributeDescription
+            {
+                name = "choices",
+                defaultValue = ""
+            };
 
             public override IEnumerable<UxmlChildElementDescription> uxmlChildElementsDescription
             {
-                get { yield break; }
+                get
+                {
+                    yield return new UxmlChildElementDescription(typeof(VisualElement));
+                }
             }
 
             public override void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
@@ -27,8 +51,10 @@ namespace LBS.VisualElements
                 base.Init(ve, bag, cc);
                 ButtonGroup btn = ve as ButtonGroup;
 
-                btn.selected = m_SelectedColor.GetValueFromBag(bag, cc);
-                btn.color = m_BaseColor.GetValueFromBag(bag, cc);
+                btn.SelectedColor = m_SelectedColor.GetValueFromBag(bag, cc);
+                btn.BaseColor = m_BaseColor.GetValueFromBag(bag, cc);
+                btn.Index = m_Index.GetValueFromBag(bag, cc);
+                btn.SetChoices(m_choices.GetValueFromBag(bag, cc));
             }
         };
 
@@ -36,8 +62,38 @@ namespace LBS.VisualElements
         private List<IGrupable> group = new List<IGrupable>();
         private IGrupable current;
 
-        private Color selected = new Color(255f/ 255f, 189f/ 255f, 0);
-        private Color color = new Color(0,0,0,0.2f);
+        private Color baseColor = new Color(72f / 255f, 72f / 255f, 72f / 255f);
+        private Color selectedColor = new Color(215f / 255f, 127f / 255f, 45f / 255f);
+        private int index = -1;
+        private string choices = "";
+
+        public Color BaseColor
+        {
+            get => baseColor;
+            set => baseColor = value;
+        }
+
+        public Color SelectedColor
+        {
+            get => selectedColor;
+            set => selectedColor = value;
+        }
+
+        public int Index
+        {
+            get => index;
+            set => index = value;
+        }
+
+        public string Choices
+        {
+            get => choices;
+            set
+            {
+                choices = value;
+                SetChoices(value);
+            }
+        }
 
         public ButtonGroup()
         {
@@ -51,7 +107,7 @@ namespace LBS.VisualElements
 
             // les añade el metodo "Active"
             group.ForEach(b => b.AddGroupEvent(() => {
-                b.SetColorGroup(color, selected);
+                b.SetColorGroup(baseColor, selectedColor);
                 Active(b); 
             }));
 
@@ -61,6 +117,19 @@ namespace LBS.VisualElements
                 current = group[0];
                 current.OnFocus();
                 Active(current);
+            }
+        }
+
+        public void SetChoices(string choices)
+        {
+            var cs = choices.Split(",");
+            foreach (var choice in cs)
+            {
+                if (choice == "")
+                    continue;
+
+                var cv = new GrupalbeButton(choice);
+
             }
         }
 
