@@ -13,7 +13,6 @@ public class CustomFoldout : Foldout
             var instance = base.Create(bag, cc) as CustomFoldout;
             var ve = instance.Q<VisualElement>(name: "unity-checkmark").parent;
 
-
             instance.icon = new VisualElement() { name = "Icon" };
             instance.icon.style.width = instance.icon.style.height = 12;
             instance.icon.style.marginRight = 6;
