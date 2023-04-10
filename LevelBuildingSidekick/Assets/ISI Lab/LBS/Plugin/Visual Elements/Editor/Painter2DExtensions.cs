@@ -109,7 +109,7 @@ public static class Painter2DExtensions
     }
 
     /// <summary>
-    /// 
+    /// Draw a line with given points, color and stroke.
     /// </summary>
     /// <param name="paint2D"></param>
     /// <param name="iniPos"></param>
@@ -142,7 +142,8 @@ public static class Painter2DExtensions
             paint2D.LineTo(point[i]);
         }
 
-        paint2D.ClosePath();
+        if(closed)
+            paint2D.ClosePath();
 
         paint2D.lineWidth = stroke;
         paint2D.Fill(FillRule.OddEven);
