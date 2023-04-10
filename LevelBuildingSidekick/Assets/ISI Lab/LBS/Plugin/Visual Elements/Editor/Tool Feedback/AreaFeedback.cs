@@ -23,7 +23,7 @@ public class AreaFeedback : Feedback
             new Vector2(endPosition.x, endPosition.y),
             new Vector2(endPosition.x, startPosition.y),
         };
-        painter.DrawPoligon(points, fillColor, currentColor, 4, true);
+        painter.DrawPolygon(points, fillColor, currentColor, 4, true);
     }
 
     public override void ActualizePositions(Vector2Int p1, Vector2Int p2)

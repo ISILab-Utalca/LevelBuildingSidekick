@@ -16,7 +16,7 @@ public class ConectedLine : Feedback
     {
         var painter = mgc.painter2D;
         var line = new List<Vector2>() { startPosition, endPosition };
-        painter.DrawPoligon(line, new Color(0, 0, 0, 0), currentColor, 4, false);
+        painter.DrawPolygon(line, new Color(0, 0, 0, 0), currentColor, 4, false);
         painter.DrawCircle(startPosition, 16, currentColor);
         painter.DrawCircle(endPosition, 16, currentColor);
     }
