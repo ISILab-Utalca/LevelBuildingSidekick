@@ -15,18 +15,19 @@ public class CustomFoldout : Foldout
 
 
             instance.icon = new VisualElement() { name = "Icon" };
-
             instance.icon.style.width = instance.icon.style.height = 12;
-            instance.icon.style.marginRight = 4;
+            instance.icon.style.marginRight = 6;
+
             bag.TryGetAttributeValue("Icon-Path", out string path);
             var img = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
             instance.icon.style.backgroundImage = img;
 
-            ve.Add(instance.icon);
+            //ve.Add(instance.icon);
 
             ve.Insert(1, instance.icon);
+            ve.style.alignItems = Align.Center;
 
-            
+
 
             return instance;
         }

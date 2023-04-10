@@ -21,6 +21,12 @@ public class ClassFoldout : Foldout
             instance.dropdown = new ClassDropDown() { name = "ClassDropDown" };
 
             instance.icon.style.width = instance.icon.style.height = 12;
+            instance.icon.style.marginRight = 6;
+            ve.style.alignItems = Align.Center;
+
+            instance.dropdown.Children().ToList()[0].style.marginLeft = 0;
+            instance.dropdown.SetMargins(0);
+            instance.dropdown.SetPaddings(0);
 
             bag.TryGetAttributeValue("Icon-Path", out string path);
             var img = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
@@ -32,7 +38,7 @@ public class ClassFoldout : Foldout
             ve.Add(instance.icon);
 
 
-            instance.dropdown.style.paddingLeft = 4;
+            //instance.dropdown.style.paddingLeft = 4;
             instance.dropdown.style.flexGrow = instance.dropdown.style.flexShrink = 1;
             //instance.dropdown.parent.style.flexWrap = Wrap.Wrap;
 
