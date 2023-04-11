@@ -115,7 +115,7 @@ namespace LBS.VisualElements
             // les añade el metodo "Active"
             group.ForEach(b => b.AddGroupEvent(() => {
                 b.SetColorGroup(baseColor, selectedColor);
-                Active(b); 
+                //Active(b);
             }));
 
             // inicia el grupo con el primero activo

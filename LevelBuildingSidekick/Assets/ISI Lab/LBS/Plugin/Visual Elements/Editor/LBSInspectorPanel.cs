@@ -45,7 +45,23 @@ public class LBSInspectorPanel : VisualElement
     {
         var tabs = mainTab.Children().Select(st => st as IGrupable).ToList();
 
-        //tabs[0].AddClickEvent =
+        tabs[0].OnFocusEvent += () =>
+        {
+            var btn = tabs[0] as GrupalbeButton;
+            Debug.Log(btn.text);
+        };
+
+        tabs[1].OnFocusEvent += () =>
+        {
+            var btn = tabs[1] as GrupalbeButton;
+            Debug.Log(btn.text);
+        };
+
+        tabs[2].OnFocusEvent += () =>
+        {
+            var btn = tabs[2] as GrupalbeButton;
+            Debug.Log(btn.text);
+        };
 
 
         subTabs.Choices = "Tags,Bundles,Assistants";
