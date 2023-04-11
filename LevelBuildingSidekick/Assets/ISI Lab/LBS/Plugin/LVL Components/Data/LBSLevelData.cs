@@ -77,6 +77,7 @@ public class LBSLevelData
 
         layers.Add(layer);
         layer.OnModuleChange += (l) => this.OnChanged(this);
+        layer.Parent = this;
         this.OnChanged?.Invoke(this);
     }
 

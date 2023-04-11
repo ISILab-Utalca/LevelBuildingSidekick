@@ -6,6 +6,7 @@ using GeneticSharp.Domain.Randomizations;
 using System.Linq;
 using LBS.Components;
 using LBS.Components.TileMap;
+using Utility;
 
 [ChromosomeFromModule(typeof(TaggedTileMap))]
 public class TaggedTileMapChromosome : ChromosomeBase2D
@@ -62,9 +63,24 @@ public class TaggedTileMapChromosome : ChromosomeBase2D
 
     public override Texture2D ToTexture()
     {
-        var t = new Texture2D(1,1);
-        t.SetPixel(0, 0, Color.red);
-        t.Apply();
-        return t;
+        int tSize = 16;
+        var texture = new Texture2D((int)Rect.width* tSize, (int)Rect.height* tSize);
+        for(int i = 0; i < genes.Length; i++)
+        {
+            var pos = ToMatrixPosition(i);
+            if (genes[i] == null)
+            {
+                var t = new Texture2D(1, 1);
+                t.SetPixel(0, 0, new Color(0, 0, 0, 0));
+                texture.InsertTextureInRect(t, pos.x* tSize, pos.y* tSize, tSize, tSize);
+            }
+            else
+            {
+                var t = Utility.DirectoryTools.GetScriptable<LBSIdentifier>((genes[i] as BundleData).BundleTag).Icon;
+                texture.InsertTextureInRect(t, pos.x * tSize, pos.y * tSize, tSize, tSize);
+            }
+        }
+        texture.Apply();
+        return texture;
     }
 }

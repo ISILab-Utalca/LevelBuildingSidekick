@@ -29,6 +29,9 @@ namespace LBS.Components
         [SerializeField, JsonRequired, SerializeReference]
         private List<LBSModule> modules = new List<LBSModule>();
 
+        [SerializeField, JsonRequired, SerializeReference]
+        private LBSLevelData parent;
+
         //[SerializeField, JsonRequired]
         //[ScriptableToString(typeof(CompositeBundle))]
         //private List<string> bundles = new List<string>();
@@ -40,6 +43,13 @@ namespace LBS.Components
         #endregion
 
         #region PROPERTIES
+
+        [JsonIgnore]
+        public LBSLevelData Parent
+        {
+            get => parent;
+            set => parent = value;
+        }
 
         [JsonIgnore]
         public bool IsVisible
