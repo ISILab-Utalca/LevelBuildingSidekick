@@ -40,8 +40,8 @@ public static class DataExtensions
     {
         var x = (int) schema.Areas.Min(a => a.Rect.min.x);
         var y = (int) schema.Areas.Min(a => a.Rect.min.y);
-        var width = (int) schema.Areas.Min(a => a.Rect.max.x) - x;
-        var height = (int) schema.Areas.Min(a => a.Rect.max.y) - y;
+        var width = (int) schema.Areas.Max(a => a.Rect.max.x) - x;
+        var height = (int) schema.Areas.Max(a => a.Rect.max.y) - y;
         return new RectInt(x, y, width, height);
     }
     

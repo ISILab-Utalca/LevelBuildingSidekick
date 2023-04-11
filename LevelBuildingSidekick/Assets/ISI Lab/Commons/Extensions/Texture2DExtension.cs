@@ -62,39 +62,26 @@ namespace Utility
             origin.Apply();
         }
 
-        public static Texture2D Merge(this Texture2D origin, Texture2D other)
+        public static Texture2D MergeTextures(this Texture2D origin, Texture2D other)
         {
-            if(origin == null || other == null)
+            if (origin.width != other.width || origin.height != other.height)
             {
-                return origin;
+                throw new Exception("Textures do not have the same size");
             }
 
-            if(origin.width != other.width || origin.height != other.height)
-            {
-                return origin;
-            }
+            // Create a new texture to hold the merged result
+            Texture2D mergedTexture = new Texture2D(origin.width, origin.height, TextureFormat.RGBA32, false);
 
-            int width = origin.width < other.width ? origin.width : other.width;
-            int height = origin.height < other.height ? origin.height : other.height;
+            // Copy the contents of the first texture into the new texture
+            Graphics.CopyTexture(origin, 0, 0, mergedTexture, 0, 0);
 
-            var t = new Texture2D(origin.width, origin.height);
+            // Copy the contents of the second texture into the new texture, with blending
+            Graphics.CopyTexture(other, 0, 0, mergedTexture, 0, 0);
 
-            for(int j = 0; j < origin.height; j++)
-            {
-                for (int i = 0; i < origin.width; i++)
-                {
-                    if(other.GetPixel(i,j).a == 0)
-                    {
-                        t.SetPixel(i, j, origin.GetPixel(i, j));
-                    }
-                    else
-                    {
-                        t.SetPixel(i, j, other.GetPixel(i, j));
-                    }
-                }
-            }
-            t.Apply();
-            return t;
+            // Apply the changes to the new texture
+            mergedTexture.Apply();
+
+            return mergedTexture;
         }
     }
 }

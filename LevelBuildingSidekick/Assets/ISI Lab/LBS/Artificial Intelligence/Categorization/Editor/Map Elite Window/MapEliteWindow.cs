@@ -13,6 +13,7 @@ using Commons.Optimization;
 using GeneticSharp.Domain.Chromosomes;
 using System;
 using LBS.Components;
+using LBS.Components.TileMap;
 
 public class MapEliteWindow : EditorWindow
 {
@@ -21,6 +22,7 @@ public class MapEliteWindow : EditorWindow
     {
         var window = GetWindow<MapEliteWindow>();
         window.titleContent = new GUIContent("Map Elite");
+        window.Clear();
     }
 
 
@@ -37,6 +39,7 @@ public class MapEliteWindow : EditorWindow
 
     public Vector2Field Partitions;
     public DropdownField ModuleField;
+    public DropdownField BackgroundField;
     public ClassDropDown OptimizerField;
     public Button CalculateButton;
 
@@ -74,6 +77,7 @@ public class MapEliteWindow : EditorWindow
 
         this.Partitions = root.Q<Vector2Field>("Partitions");
         this.ModuleField = root.Q<DropdownField>(name: "ModuleField");
+        this.BackgroundField = root.Q<DropdownField>(name: "BackgroundField");
         this.OptimizerField = root.Q<ClassDropDown>(name: "OptimizerField");
         this.CalculateButton = root.Q<Button>("Calculate");
 
@@ -144,6 +148,7 @@ public class MapEliteWindow : EditorWindow
         this.Partitions.value = new Vector2(3,3);
 
         CalculateButton.clicked += Run;
+        toUpdate.Clear();
 
         Paused = root.style.backgroundColor.value;
         Running = Color.blue;
@@ -153,6 +158,7 @@ public class MapEliteWindow : EditorWindow
     public void Run()
     {
         Clear();
+        toUpdate.Clear();
 
         var module = layer.GetModule<LBSModule>(ModuleField.value);
 
@@ -180,7 +186,7 @@ public class MapEliteWindow : EditorWindow
 
     public void ChangePartitions(Vector2 partitions)
     {
-        ButtonBackground = BackgroundTexture();
+        //ButtonBackground = BackgroundTexture(layer.GetModule<LBSModule>(BackgroundField.value));
         if (partitions.x == mapElites.XSampleCount && partitions.y == mapElites.YSampleCount)
             return;
         mapElites.XSampleCount = (int)partitions.x;
@@ -225,18 +231,21 @@ public class MapEliteWindow : EditorWindow
 
     public void Clear()
     {
-        foreach(ButtonWrapper bw in Content)
+        Debug.Log(ButtonBackground.width + " - " + ButtonBackground.height);
+        foreach (ButtonWrapper bw in Content)
         {
             bw.style.backgroundImage = ButtonBackground;
+            Debug.Log(bw.style.width + " - " + bw.style.height);
             bw.Data = null;
         }
     }
 
-    private Texture2D BackgroundTexture()
+    private Texture2D BackgroundTexture(LBSModule mod)
     {
-        var t = new Texture2D(1, 1);
-        t.SetPixel(0,0,Color.gray);
-        t.Apply();
+        var target = Reflection.GetClassesWith<ModuleTexturizerAttribute>().Where(t => t.Item2.Any(v => v.type == mod.GetType())).First().Item1;
+        var texturizer = Activator.CreateInstance(target) as ModuleTexturizer;
+        var t = texturizer.ToTexture(mod);
+        
         return t;
     }
 
@@ -261,7 +270,7 @@ public class MapEliteWindow : EditorWindow
                 var v = toUpdate[i]; 
                 var index = (v.y * mapElites.XSampleCount + v.x);
                 var t = Content[index].GetTexture();
-                Content[index].SetTexture(ButtonBackground.Merge(t));
+                Content[index].SetTexture(ButtonBackground.MergeTextures(t));
                 Content[index].UpdateLabel();
             }
             toUpdate.Clear();
@@ -282,18 +291,40 @@ public class MapEliteWindow : EditorWindow
     public void SetLayer(LBSLayer layer)
     {
         this.layer = layer;
+        BackgroundField.choices = new List<string>();
 
-        List<string> options = new List<string>();
+        var mods = layer.Parent.Layers.SelectMany(l => l.Modules);
+
+        foreach (var m in mods)
+        {
+            if (Reflection.GetClassesWith<ModuleTexturizerAttribute>().Any(t => t.Item2.Any(v => v.type == m.GetType())))
+            {
+                BackgroundField.choices.Add(m.Key);
+            }
+        }
+
+        if(BackgroundField.choices.Count != 0)
+        {
+            BackgroundField.value = BackgroundField.choices[0];
+            BackgroundField.RegisterValueChangedCallback(e => ButtonBackground = BackgroundTexture(mods.ToList().Find(m => m.Key == e.newValue)));
+            var m = mods.ToList().Find(m => m.Key == BackgroundField.value);
+            Debug.Log((m as LBSSchema).GetRect());
+            ButtonBackground = BackgroundTexture(m);
+        }
+
+        ModuleField.choices = new List<string>();
 
         foreach (var m in layer.Modules)
         {
             if (Reflection.GetClassesWith<ChromosomeFromModuleAttribute>().Any(t => t.Item2.Any(v => v.type == m.GetType())))
             {
-                options.Add(m.Key);
+                ModuleField.choices.Add(m.Key);
             }
         }
 
-        ModuleField.choices = options;
-        ModuleField.value = options[0];
+        if (ModuleField.choices.Count != 0)
+        {
+            ModuleField.value = ModuleField.choices[0];
+        }
     }
 }
