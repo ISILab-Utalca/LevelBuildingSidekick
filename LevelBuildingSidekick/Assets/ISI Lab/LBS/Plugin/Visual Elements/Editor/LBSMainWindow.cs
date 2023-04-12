@@ -35,6 +35,7 @@ public class LBSMainWindow : EditorWindow
     private LayersPanel layerPanel;
     private AIPanel aiPanel;
     private Generator3DPanel gen3DPanel;
+    private LayerInspector layerInspector;
 
     // Manager
     private ToolkitManager toolkitManager;
@@ -80,6 +81,9 @@ public class LBSMainWindow : EditorWindow
 
         // ToolPanel
         toolPanel = rootVisualElement.Q<ButtonGroup>("ToolsGroup");
+
+        // LayerInspector
+        layerInspector = rootVisualElement.Q<LayerInspector>("LayerInspector");
 
         // ModeSelector
         modeSelector = rootVisualElement.Q<ModeSelector>("ModeSelector");

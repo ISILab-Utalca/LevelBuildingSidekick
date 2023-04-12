@@ -33,7 +33,7 @@ public static class VisualElementExtensions
             element.style.borderBottomWidth = value;
             element.style.borderLeftWidth = value;
             element.style.borderRightWidth = value;
-            element.style.borderBottomWidth = value;
+            element.style.borderTopWidth = value;
         }
     }
 
