@@ -1,5 +1,21 @@
 {
-    "dependencies": {
-      "newtonsoft.json": "3.0.2"
-    }
+  
+  "name": "ISILab",
+  "version": "0.1",
+  "displayName": "LevelBuildingSidekick",
+  "description": "A tool to create video game levels quickly and easily",
+  "unity": "2022.1",
+  "unityRelease": "0b5",
+  "keywords": [
+    "IA",
+    "Assistants"
+  ],
+  "author": {
+    "name": "Unity",
+    "email": "unity@example.com",
+    "url": "https://www.unity3d.com"
+  },
+  "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "3.0.2"
   }
+}
