@@ -8,7 +8,7 @@ public class GlobalInspector : VisualElement
 
     public GlobalInspector()
     {
-
+ 
     }
 
 }
