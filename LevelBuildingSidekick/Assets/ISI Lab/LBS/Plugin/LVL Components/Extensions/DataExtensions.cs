@@ -38,23 +38,20 @@ public static class DataExtensions
 
     public static RectInt GetRect<T>(this AreaTileMap<T> schema) where T : TiledArea
     {
-        var x = (int) schema.Areas.Min(a => a.Rect.min.x);
-        var y = (int) schema.Areas.Min(a => a.Rect.min.y);
-        var width = (int) schema.Areas.Max(a => a.Rect.max.x) - x;
-        var height = (int) schema.Areas.Max(a => a.Rect.max.y) - y;
-        return new RectInt(x, y, width, height);
+        var r = schema.GetBounds();
+        return new RectInt((int)r.x, (int)r.y, (int)r.width, (int)r.height);
     }
     
 
     public static Vector2Int RecalculateTilePos<T>(this AreaTileMap<T> schema) where T : TiledArea
     { 
-        var rect = schema.GetRect();
+        var rect = schema.GetBounds();
         var m = rect.min;
         for (int i = 0; i < schema.Areas.Count; i++)
         {
-            schema.GetArea(i).Move(-m);
+            schema.GetArea(i).Move(-new Vector2Int((int)m.x, (int)m.y));
         }
-        return -m;
+        return -new Vector2Int((int)m.x, (int)m.y);
     }
 
     public static bool CheckTilesRooms<T,U>(this AreaTileMap<T> schema) where T : TiledArea

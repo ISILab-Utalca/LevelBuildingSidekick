@@ -303,6 +303,11 @@ namespace LBS.Components.Graph
             //throw new System.NotImplementedException();
         }
 
+        public override Rect GetBounds()
+        {
+            throw new System.NotImplementedException();
+        }
+
         #endregion
     }
 }

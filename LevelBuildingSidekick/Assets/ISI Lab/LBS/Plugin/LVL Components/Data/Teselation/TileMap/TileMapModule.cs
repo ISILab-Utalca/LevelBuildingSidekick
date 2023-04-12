@@ -20,31 +20,12 @@ namespace LBS.Components.TileMap
         #region PROEPRTIES
 
         [JsonIgnore]
-        public Rect Rect
-        {
-            get
-            {
-                if (tiles == null || tiles.Count == 0)
-                {
-                    //Debug.LogWarning("Esta tilemap no tiene tiles!!!");
-                    return new Rect(Vector2.zero, Vector2.zero);
-                }
-
-                var x = tiles.Min(t => t.Position.x);
-                var y = tiles.Min(t => t.Position.y);
-                var width = tiles.Max(t => t.Position.x) - x + 1;
-                var height = tiles.Max(t => t.Position.y) - y + 1;
-                return new Rect(x, y, width, height);
-            }
-        }
-
-        [JsonIgnore]
         public Vector2 Origin
         {
-            get => Rect.position;
+            get => GetBounds().position;
             set
             {
-                var offset = value - Rect.position;
+                var offset = value - GetBounds().position;
                 foreach(var t in tiles)
                 {
                     t.Position += offset.ToInt();
@@ -60,7 +41,7 @@ namespace LBS.Components.TileMap
         }
 
         [JsonIgnore]
-        public Vector2 Size => Rect.size;
+        public Vector2 Size => GetBounds().size;
 
         [JsonIgnore]
         public int Width => (int)Size.x;
@@ -196,7 +177,7 @@ namespace LBS.Components.TileMap
 
         public T[,] ToMatrix()
         {
-            var rect = Rect;
+            var rect = GetBounds();
             var matrixIDs = new T[(int)rect.width, (int)rect.height];
             foreach (var tile in tiles)
             {
@@ -243,6 +224,21 @@ namespace LBS.Components.TileMap
         public override void OnDetach(LBSLayer layer)
         {
             throw new System.NotImplementedException();
+        }
+
+        public override Rect GetBounds()
+        {
+            if (tiles == null || tiles.Count == 0)
+            {
+                //Debug.LogWarning("Esta tilemap no tiene tiles!!!");
+                return new Rect(Vector2.zero, Vector2.zero);
+            }
+
+            var x = tiles.Min(t => t.Position.x);
+            var y = tiles.Min(t => t.Position.y);
+            var width = tiles.Max(t => t.Position.x) - x + 1;
+            var height = tiles.Max(t => t.Position.y) - y + 1;
+            return new Rect(x, y, width, height);
         }
 
         #endregion

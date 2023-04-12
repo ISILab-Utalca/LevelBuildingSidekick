@@ -57,6 +57,8 @@ public class MapEliteWindow : EditorWindow
 
     public MapElites mapElites;
 
+    public LBSModule backgroundModule;
+
     LBSLayer layer;
 
 
@@ -231,11 +233,10 @@ public class MapEliteWindow : EditorWindow
 
     public void Clear()
     {
-        Debug.Log(ButtonBackground.width + " - " + ButtonBackground.height);
+        ButtonBackground = BackgroundTexture(backgroundModule);
         foreach (ButtonWrapper bw in Content)
         {
             bw.style.backgroundImage = ButtonBackground;
-            Debug.Log(bw.style.width + " - " + bw.style.height);
             bw.Data = null;
         }
     }
@@ -306,9 +307,12 @@ public class MapEliteWindow : EditorWindow
         if(BackgroundField.choices.Count != 0)
         {
             BackgroundField.value = BackgroundField.choices[0];
-            BackgroundField.RegisterValueChangedCallback(e => ButtonBackground = BackgroundTexture(mods.ToList().Find(m => m.Key == e.newValue)));
+            BackgroundField.RegisterValueChangedCallback(e =>
+            {
+                backgroundModule = mods.ToList().Find(m => m.Key == e.newValue);
+                Clear();
+                });
             var m = mods.ToList().Find(m => m.Key == BackgroundField.value);
-            Debug.Log((m as LBSSchema).GetRect());
             ButtonBackground = BackgroundTexture(m);
         }
 

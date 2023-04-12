@@ -26,7 +26,7 @@ namespace LBS.Components.TileMap
         [JsonIgnore]
         public Color Color => color.ToColor();
         [JsonIgnore]
-        public Vector2 Centroid => Rect.center;
+        public Vector2 Centroid => GetBounds().center;
 
         #endregion
 

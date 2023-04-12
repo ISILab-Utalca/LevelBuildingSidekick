@@ -119,6 +119,11 @@ namespace LBS.Components.Teselation
             throw new System.NotImplementedException();
         }
 
+        public override Rect GetBounds()
+        {
+            throw new System.NotImplementedException();
+        }
+
         #endregion
 
     }

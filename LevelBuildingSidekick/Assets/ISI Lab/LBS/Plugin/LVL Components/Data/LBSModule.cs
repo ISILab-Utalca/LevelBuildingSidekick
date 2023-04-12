@@ -88,6 +88,8 @@ namespace LBS.Components
 
         public abstract object Clone();
 
+        public abstract Rect GetBounds();
+
         public abstract void OnAttach(LBSLayer layer);
 
         public abstract void OnDetach(LBSLayer layer);
