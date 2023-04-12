@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEditor;
+using Utility;
 
 [ModuleTexturizer(typeof(LBSSchema))]
 public class SchemaTexturizer : ModuleTexturizer
@@ -14,25 +15,22 @@ public class SchemaTexturizer : ModuleTexturizer
     {
         var schema = module as LBSSchema;
 
-        var rect = schema.GetRect();
+        var rect = schema.GetBounds();
         var areas = schema.Areas;
 
-        var texture = new Texture2D(rect.width*scale, rect.height*scale);
+        var texture = new Texture2D((int)rect.width*scale, (int)rect.height*scale);
 
         for (int j = 0; j < texture.height; j++)
         {
             for (int i = 0; i < texture.width; i++)
             {
-                texture.SetPixel(0, 0, new Color(0, 0, 0, 0));
+                texture.SetPixel(i, j, new Color(0.1f, 0.1f, 0.1f, 1));
             }
         }
 
         foreach(var area in areas)
         {
-            var pos = area.Rect.position;
             var tiles = area.Tiles;
-
-            Debug.Log(area.Color);
 
             foreach(var t in tiles)
             {
@@ -40,11 +38,13 @@ public class SchemaTexturizer : ModuleTexturizer
                 {
                     for (int i = 0; i < scale; i++)
                     {
-                        texture.SetPixel((int)(pos.x + t.Position.x) * scale + i, (int)(pos.y + t.Position.y) * scale + j, area.Color);
+                        texture.SetPixel((t.Position.x - (int)rect.position.x) * scale + i,  (t.Position.y - (int)rect.position.y) * scale + j, area.Color);
                     }
                 }
             }
         }
+
+        texture.MirrorY();
 
         texture.Apply();
 

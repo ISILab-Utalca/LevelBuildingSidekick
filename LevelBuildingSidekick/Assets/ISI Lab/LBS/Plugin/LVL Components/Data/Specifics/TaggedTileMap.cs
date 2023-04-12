@@ -15,20 +15,6 @@ public class TaggedTileMap : LBSModule
 
     [JsonIgnore]
     public List<PairTB> PairTiles => pairTiles; 
-
-    [JsonIgnore]
-    public Rect Rect
-    {
-        get
-        {
-            var x = pairTiles.Min(p => p.tile.Position.x);
-            var y = pairTiles.Min(p => p.tile.Position.y);
-            var with = pairTiles.Max(p => p.tile.Position.x) - x + 1;
-            var height = pairTiles.Max(p => p.tile.Position.y) - y + 1;
-
-            return new Rect(x, y, with, height);
-        }
-    } // (!!)
     
     [JsonIgnore]
     protected Func<LBSTile, bool> OnAddTile;
@@ -126,6 +112,16 @@ public class TaggedTileMap : LBSModule
         }
         //if (pairTiles.ContainsKey(t))
         //    pairTiles.Add((t), new BundleData());
+    }
+
+    public override Rect GetBounds()
+    {
+        var x = pairTiles.Min(p => p.tile.Position.x);
+        var y = pairTiles.Min(p => p.tile.Position.y);
+        var with = pairTiles.Max(p => p.tile.Position.x) - x + 1;
+        var height = pairTiles.Max(p => p.tile.Position.y) - y + 1;
+
+        return new Rect(x, y, with, height);
     }
 }
 

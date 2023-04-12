@@ -9,7 +9,7 @@ using LBS.Components.TileMap;
 using Utility;
 
 [ChromosomeFromModule(typeof(TaggedTileMap))]
-public class TaggedTileMapChromosome : ChromosomeBase2D
+public class TaggedTileMapChromosome : ChromosomeBase2D, IDrawable
 {
     public TaggedTileMapChromosome(LBSModule module) : base()
     {
@@ -20,7 +20,7 @@ public class TaggedTileMapChromosome : ChromosomeBase2D
             throw new System.Exception("[ISI Lab] Class must be TaggedTileMap");
         }
 
-        Rect = tileMap.Rect;
+        Rect = tileMap.GetBounds();
 
         genes = new object[(int)(Rect.width * Rect.height)];
 
@@ -65,6 +65,7 @@ public class TaggedTileMapChromosome : ChromosomeBase2D
     {
         int tSize = 16;
         var texture = new Texture2D((int)Rect.width* tSize, (int)Rect.height* tSize);
+
         for(int i = 0; i < genes.Length; i++)
         {
             var pos = ToMatrixPosition(i);

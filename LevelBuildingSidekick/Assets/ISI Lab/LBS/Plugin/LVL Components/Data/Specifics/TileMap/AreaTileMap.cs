@@ -194,6 +194,15 @@ namespace LBS.Components.TileMap
             //throw new NotImplementedException();
         }
 
+        public override Rect GetBounds()
+        {
+            var x = Areas.Min(a => a.GetBounds().min.x);
+            var y = Areas.Min(a => a.GetBounds().min.y);
+            var width = Areas.Max(a => a.GetBounds().max.x) - x + 1;
+            var height = Areas.Max(a => a.GetBounds().max.y) - y + 1;
+            return new Rect(x, y, width, height);
+        }
+
         #endregion
 
     }

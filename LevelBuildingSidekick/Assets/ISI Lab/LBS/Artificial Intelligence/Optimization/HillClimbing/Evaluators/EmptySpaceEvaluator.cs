@@ -25,7 +25,8 @@ public class EmptySpaceEvaluator : IEvaluator
         var value = 0f;
         foreach (var room in schema.Areas)
         {
-            var rectArea = room.Rect.width * room.Rect.height;
+            var rect = room.GetBounds();
+            var rectArea = rect.width * rect.height;
             var tc = room.TileCount;
             value += 1 - (MathF.Abs(rectArea - tc) / (tc * 1f));
         }
