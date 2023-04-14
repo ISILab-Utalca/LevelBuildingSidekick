@@ -15,6 +15,8 @@ namespace LBS.Generator
     {
         public override GameObject Generate(LBSLayer layer)
         {
+            Init(layer);
+
             var data = layer.GetModule<TaggedTileMap>();
 
             var parent = new GameObject(objName);
@@ -26,7 +28,10 @@ namespace LBS.Generator
                 var pref = sc.GetObject(Random.Range(0, sc.objects.Count));
 
                 var go = GameObject.Instantiate(pref, parent.transform);
-                go.transform.position = new Vector3(k.Position.x, 0, k.Position.y);
+                go.transform.position = new Vector3(
+                    scale.x * k.Position.x, 
+                    0,
+                    -scale.y * k.Position.y);
             }
 
             return parent;
@@ -37,4 +42,5 @@ namespace LBS.Generator
             //throw new System.NotImplementedException();
         }
     }
+
 }
