@@ -13,7 +13,14 @@ public class CreateNewRoomNode : LBSManipulator // where T: LBSNode  // (!) Crea
     private GraphModule<RoomNode> module;
     private MainView mainView;
 
-    public CreateNewRoomNode() : base() { }
+    private string prefix = "";
+    private string postfix = "";
+
+    public CreateNewRoomNode(/*string prefix = "", string postfix = ""*/) : base() 
+    {
+        this.prefix = "Node: ";
+        this.postfix = postfix;
+    }
 
     public override void Init(ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
     {
@@ -42,7 +49,7 @@ public class CreateNewRoomNode : LBSManipulator // where T: LBSNode  // (!) Crea
         var v = 0;
         do
         {
-            name = "Node: " + v;
+            name = prefix + v + postfix;
 
             var nn = module.GetNode(name);
             if (nn == null)

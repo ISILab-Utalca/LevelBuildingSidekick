@@ -22,24 +22,28 @@ public class LayerTemplateEditor : Editor
 
         var template = (LayerTemplate)target;
 
-        if(GUILayout.Button("Set as interior")) 
+        if(GUILayout.Button("Set as Interior")) 
         {
             InteriorConstruct(template);
         }
 
-        if (GUILayout.Button("Set as exterior"))
+        if (GUILayout.Button("Set as Exterior"))
         {
             ExteriorConstruct(template);
         }
 
-        if (GUILayout.Button("Set as population"))
+        if (GUILayout.Button("Set as Population"))
         {
             PopulationConstruct(template);
+        }
+
+        if (GUILayout.Button("Set as Quest"))
+        {
+            Questconstuct(template);
         }
     }
 
     /// <summary>
-    /// 
     /// This function adjust the icons, layout and labels of the system for Contructión in interior
     /// also call the manipulators to make functional buttons in the layout
     /// </summary>
@@ -116,22 +120,6 @@ public class LayerTemplateEditor : Editor
             typeof(AddTileToTiledArea<TiledArea, ConnectedTile>),
             typeof(RoomsPalleteInspector<TiledArea, ConnectedTile>),
             true);
-
-        /*
-        icon = Resources.Load<Texture2D>("Icons/paintbrush"); 
-        var tool6 = new LBSMultiTool(
-            icon,
-            "Paint tile",
-            new List<string>() { "point", "Line", "Grid","Free" },
-            new List<System.Type>() { 
-                typeof(AddTileToTiledAreaAtPoint<TiledArea,ConnectedTile>), // point // (!!) implementar
-                typeof(AddTileToTiledAreaAtLine<TiledArea,ConnectedTile>), // line // (!!) implementar
-                typeof(AddTileToTiledAreaAtGrid<TiledArea,ConnectedTile>), // grid // (!!) implementar
-                typeof(AddTileToTiledAreaAtFree<TiledArea,ConnectedTile>)  // free // (!!) implementar
-            },
-            typeof(RoomsPalleteInspector<TiledArea, ConnectedTile>)
-        );
-        */
 
         icon = Resources.Load<Texture2D>("Icons/erased");
         var tool7 = new LBSTool(
@@ -256,7 +244,6 @@ public class LayerTemplateEditor : Editor
     }
 
     /// <summary>
-    /// 
     /// This function adjust the icons, layout and labels of the Population system
     /// also call the manipulators to make functional buttons in the layout
     /// </summary>
@@ -311,6 +298,57 @@ public class LayerTemplateEditor : Editor
             typeof(TaggedTileMap), 
             new DrawTaggedTileMap(),
             new List<LBSTool>() { tool1, tool2, tool3}
+            );
+        template.modes.Add(mode1);
+
+        AssetDatabase.SaveAssets();
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="template"></param>
+    private void Questconstuct(LayerTemplate template)
+    {
+        // Basic data layer
+        var layer = new LBSLayer();
+
+        // asistant
+        var assist = Utility.DirectoryTools.GetScriptable<LBSLayerAssistant>("QuestAssitant");
+        if (assist == null)
+        {
+            assist = ScriptableObject.CreateInstance<LBSLayerAssistant>();
+            assist.name = "QuestAssitant";
+            //assist.AddAgent(new QuestAgent(layer, "Quest agent"));
+
+            AssetDatabase.AddObjectToAsset(assist, template);
+            AssetDatabase.SaveAssets();
+        }
+
+        layer.Assitant = assist;
+        layer.ID = "Quest";
+        layer.Name = "Layer Quest";
+        layer.iconPath = "Icons/Quest";
+        template.layer = layer;
+
+        // Modules
+        layer.AddModule(new LBSRoomGraph()); // (!)
+
+        // Mode 1
+        Texture2D icon = Resources.Load<Texture2D>("Icons/Select");
+        var tool1 = new LBSTool(icon, "Select", typeof(Select), null, true);
+        icon = Resources.Load<Texture2D>("Icons/Addnode");
+        var tool2 = new LBSTool(icon, "Add node", typeof(CreateNewRoomNode), null, false); // (!)
+        icon = Resources.Load<Texture2D>("Icons/AddConnection");
+        var tool3 = new LBSTool(icon, "Add conection", typeof(CreateNewConnection<RoomNode>), null, false); // (!)
+        icon = Resources.Load<Texture2D>("Icons/Trash");
+        var tool4 = new LBSTool(icon, "Remove", typeof(RemoveGraphNode<RoomNode>), null, false); // (!)
+
+        var mode1 = new LBSMode(
+            "Graph",
+            typeof(GraphModule<RoomNode>) // (!)
+            , new DrawSimpleGraph(), // (!)
+            new List<LBSTool>() { tool1, tool2, tool3, tool4 }
             );
         template.modes.Add(mode1);
 
