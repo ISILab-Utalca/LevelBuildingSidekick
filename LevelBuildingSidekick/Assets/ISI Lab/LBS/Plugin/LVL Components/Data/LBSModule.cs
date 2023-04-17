@@ -93,6 +93,8 @@ namespace LBS.Components
         public abstract void OnAttach(LBSLayer layer);
 
         public abstract void OnDetach(LBSLayer layer);
+
+        public abstract void Rewrite(LBSModule module);
         #endregion
     }
 }

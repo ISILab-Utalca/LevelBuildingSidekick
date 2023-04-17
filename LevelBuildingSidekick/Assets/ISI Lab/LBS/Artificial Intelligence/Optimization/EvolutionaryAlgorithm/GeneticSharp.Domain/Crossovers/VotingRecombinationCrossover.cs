@@ -55,7 +55,7 @@ namespace GeneticSharp.Domain.Crossovers
         /// </summary>
         /// <param name="parents">The parents chromosomes.</param>
         /// <returns>The offspring (children) of the parents.</returns>
-        protected override IList<IChromosome> PerformCross(IList<IChromosome> parents)
+        protected override IList<ChromosomeBase> PerformCross(IList<ChromosomeBase> parents)
         {
             var datas = parents.Select(p => p.GetGenes()).ToList();
 
@@ -82,7 +82,7 @@ namespace GeneticSharp.Domain.Crossovers
                 }
             }
 
-            var child = parents[0].CreateNew() as IChromosome;
+            var child = parents[0].CreateNewChromosome();
             child.SetDataSequence(data);
 
             // The remaining positions of the offspring are filled with mutations.
@@ -92,7 +92,7 @@ namespace GeneticSharp.Domain.Crossovers
                     .Mutate(child, 1);
             }
 
-            return new List<IChromosome> { child };
+            return new List<ChromosomeBase> { child };
         }
     }
 }

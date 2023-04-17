@@ -13,7 +13,6 @@ public class PopulationMapEliteAgent : LBSAIAgent
 
     public PopulationMapEliteAgent(LBSLayer layer, string id) : base(layer, id, "PopulationMapEliteAgent")
     {
-
     }
 
     public override void Execute()

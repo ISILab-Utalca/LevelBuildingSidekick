@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class AddGene : MutationBase
 {
-    protected override void PerformMutate(IChromosome chromosome, float probability)
+    protected override void PerformMutate(ChromosomeBase chromosome, float probability)
     {
         var r = RandomizationProvider.Current;
 

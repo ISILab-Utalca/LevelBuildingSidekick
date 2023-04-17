@@ -160,7 +160,7 @@ public class LBSMainWindow : EditorWindow
         layerPanel.style.display = DisplayStyle.Flex;
         layerPanel.OnSelectLayer += (layer) =>
         {
-            if(!layer.Equals(_selectedLayer))
+            if (!layer.Equals(_selectedLayer))
             {
                 OnSelectedLayerChange(layer);
             }
@@ -189,7 +189,7 @@ public class LBSMainWindow : EditorWindow
 
         extraPanel.Add(aiPanel);
         aiPanel.style.display = DisplayStyle.None;
-        
+
         // Gen3DPanel
         gen3DPanel = new Generator3DPanel();
         extraPanel.Add(gen3DPanel);
@@ -244,6 +244,12 @@ public class LBSMainWindow : EditorWindow
         {
             floatingPanelContent.style.display = DisplayStyle.Flex;
         }
+    }
+
+    public new void Repaint()
+    {
+        base.Repaint();
+        drawManager.RefreshView(ref _selectedLayer, levelData.Layers, _selectedMode);
     }
 
     private void RefreshWindow()

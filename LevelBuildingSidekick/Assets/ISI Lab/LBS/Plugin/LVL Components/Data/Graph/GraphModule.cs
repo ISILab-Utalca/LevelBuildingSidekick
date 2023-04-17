@@ -308,6 +308,11 @@ namespace LBS.Components.Graph
             throw new System.NotImplementedException();
         }
 
+        public override void Rewrite(LBSModule module)
+        {
+            throw new System.NotImplementedException();
+        }
+
         #endregion
     }
 }

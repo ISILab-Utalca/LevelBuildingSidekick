@@ -75,7 +75,7 @@ namespace GeneticSharp.Domain.Crossovers
         /// <returns>
         /// The offspring (children) of the parents.
         /// </returns>
-        public IList<IChromosome> Cross(IList<IChromosome> parents)
+        public IList<ChromosomeBase> Cross(IList<ChromosomeBase> parents)
         {
             ExceptionHelper.ThrowIfNull("parents", parents);
 
@@ -106,7 +106,7 @@ namespace GeneticSharp.Domain.Crossovers
         /// </summary>
         /// <param name="parents">The parents chromosomes.</param>
         /// <returns>The offspring (children) of the parents.</returns>
-        protected abstract IList<IChromosome> PerformCross(IList<IChromosome> parents);
+        protected abstract IList<ChromosomeBase> PerformCross(IList<ChromosomeBase> parents);
         #endregion        
     }
 }

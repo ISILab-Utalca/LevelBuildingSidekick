@@ -19,7 +19,7 @@ namespace GeneticSharp.Domain.Mutations
         /// </summary>
         /// <param name="chromosome">The chromosome.</param>
         /// <param name="probability">The probability to mutate each chromosome.</param>
-        protected override void PerformMutate(IChromosome evaluable, float probability)
+        protected override void PerformMutate(ChromosomeBase evaluable, float probability)
         {
             var sequence = evaluable.GetGenes();
 

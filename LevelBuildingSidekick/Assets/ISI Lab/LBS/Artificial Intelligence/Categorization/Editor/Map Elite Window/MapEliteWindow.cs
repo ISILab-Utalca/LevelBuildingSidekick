@@ -2,7 +2,6 @@ using LBS.VisualElements;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
-
 using UnityEngine;
 using UnityEngine.UIElements;
 using System.Linq;
@@ -14,6 +13,7 @@ using GeneticSharp.Domain.Chromosomes;
 using System;
 using LBS.Components;
 using LBS.Components.TileMap;
+using LBS.Components.Teselation;
 
 public class MapEliteWindow : EditorWindow
 {
@@ -57,7 +57,7 @@ public class MapEliteWindow : EditorWindow
 
     public MapElites mapElites;
 
-    public LBSModule backgroundModule;
+    public TeselationModule backgroundModule;
 
     LBSLayer layer;
 
@@ -75,11 +75,22 @@ public class MapEliteWindow : EditorWindow
 
         mapElites = new MapElites();
 
+
         this.Container = root.Q<VisualElement>("Content");
 
         this.Partitions = root.Q<Vector2Field>("Partitions");
         this.ModuleField = root.Q<DropdownField>(name: "ModuleField");
         this.BackgroundField = root.Q<DropdownField>(name: "BackgroundField");
+        BackgroundField.RegisterValueChangedCallback(e =>
+        {
+            var mods = layer.Parent.Layers.SelectMany(l => l.Modules);
+            backgroundModule = mods.ToList().Find(m => m.Key == e.newValue) as TeselationModule;
+            Clear();
+        });
+
+        if(layer != null)
+            SetLayer(layer);
+
         this.OptimizerField = root.Q<ClassDropDown>(name: "OptimizerField");
         this.CalculateButton = root.Q<Button>("Calculate");
 
@@ -88,8 +99,6 @@ public class MapEliteWindow : EditorWindow
 
         this.Partitions.RegisterValueChangedCallback(x => ChangePartitions(x.newValue));
 
-        if (layer != null)
-            SetLayer(layer);
 
         OptimizerField.Type = typeof(BaseOptimizer);
         OptimizerField.value = OptimizerField.choices[0];
@@ -148,13 +157,14 @@ public class MapEliteWindow : EditorWindow
         mapElites.OnSampleUpdated += UpdateSample;
 
         this.Partitions.value = new Vector2(3,3);
+        ButtonBackground = defaultButton;
+        ChangePartitions(Partitions.value);
 
         CalculateButton.clicked += Run;
         toUpdate.Clear();
 
         Paused = root.style.backgroundColor.value;
         Running = Color.blue;
-            
     }
 
     public void Run()
@@ -203,13 +213,27 @@ public class MapEliteWindow : EditorWindow
         {
             var b = new ButtonWrapper(null, new Vector2(ButtonSize, ButtonSize));
             b.text = (i + 1).ToString();
-            b.style.backgroundImage = defaultButton;
             b.clicked += () => 
             { 
                 if (b.Data != null)
                 {
-                    //(populationWindow.CurrentController as IChromosomable).FromChromosome(b.Data as IChromosome);
-                    //populationWindow.Repaint();
+                    var mod = layer.GetModule<LBSModule>(ModuleField.value);
+                    var chrom = b.Data as LBSChromosome;
+
+                    if(mod == null)
+                    {
+                        throw new Exception("[ISI Lab] Module " + ModuleField.value + " could not be found!");
+                    }
+
+                    if (chrom == null)
+                    {
+                        throw new Exception("[ISI Lab] Data " + b.Data.GetType().Name + " is not LBSChromosome!");
+                    }
+
+                    mod.Rewrite(chrom.ToModule());
+
+                    GetWindow<LBSMainWindow>().Repaint();
+
                 } 
             };
             Content[i] = b;
@@ -250,13 +274,15 @@ public class MapEliteWindow : EditorWindow
         return t;
     }
 
-    private IChromosome CreateAdam(LBSModule module)
+    private ChromosomeBase CreateAdam(LBSModule module)
     {
         var type = module.GetType();
 
         var target = Reflection.GetClassesWith<ChromosomeFromModuleAttribute>().Where(t => t.Item2.Any(v => v.type == type)).First().Item1;
 
-        var chrom = Activator.CreateInstance(target, new object[] { module }) as IChromosome;
+        var immutables = backgroundModule.EmptyIndexes().ToArray();
+
+        var chrom = Activator.CreateInstance(target, new object[] { module, backgroundModule.GetBounds(), immutables}) as ChromosomeBase;
 
         return chrom;
 
@@ -292,43 +318,55 @@ public class MapEliteWindow : EditorWindow
     public void SetLayer(LBSLayer layer)
     {
         this.layer = layer;
-        BackgroundField.choices = new List<string>();
-
-        var mods = layer.Parent.Layers.SelectMany(l => l.Modules);
-
-        foreach (var m in mods)
-        {
-            if (Reflection.GetClassesWith<ModuleTexturizerAttribute>().Any(t => t.Item2.Any(v => v.type == m.GetType())))
-            {
-                BackgroundField.choices.Add(m.Key);
-            }
-        }
+        BackgroundField.choices = GetTexturizables();
 
         if(BackgroundField.choices.Count != 0)
         {
             BackgroundField.value = BackgroundField.choices[0];
-            BackgroundField.RegisterValueChangedCallback(e =>
-            {
-                backgroundModule = mods.ToList().Find(m => m.Key == e.newValue);
-                Clear();
-                });
-            var m = mods.ToList().Find(m => m.Key == BackgroundField.value);
-            ButtonBackground = BackgroundTexture(m);
+            backgroundModule = this.layer.Parent.Layers.SelectMany(m => m.Modules).ToList().Find(m => m.Key == BackgroundField.value) as TeselationModule;
+
         }
 
-        ModuleField.choices = new List<string>();
+        Clear();
 
-        foreach (var m in layer.Modules)
-        {
-            if (Reflection.GetClassesWith<ChromosomeFromModuleAttribute>().Any(t => t.Item2.Any(v => v.type == m.GetType())))
-            {
-                ModuleField.choices.Add(m.Key);
-            }
-        }
+        ModuleField.choices = GetChromosomables();
 
         if (ModuleField.choices.Count != 0)
         {
             ModuleField.value = ModuleField.choices[0];
         }
+    }
+
+    private List<string> GetTexturizables()
+    {
+        List<string> choices = new List<string>();
+
+        var mods = layer.Parent.Layers.SelectMany(l => l.Modules);
+
+        foreach (var m in mods)
+        {
+            if (m is TeselationModule && Reflection.GetClassesWith<ModuleTexturizerAttribute>().Any(t => t.Item2.Any(v => v.type == m.GetType())))
+            {
+                choices.Add(m.Key);
+            }
+        }
+
+        return choices;
+    }
+
+    private List<string> GetChromosomables()
+    {
+        List<string> choices = new List<string>();
+
+        foreach (var m in layer.Modules)
+        {
+            var ves = Utility.Reflection.GetClassesWith<ChromosomeFromModuleAttribute>().Where(t => t.Item2.Any(v => v.type == m.GetType()));
+            if (ves.Count() != 0)
+            {
+                choices.Add(m.Key);
+            }
+        }
+
+        return choices;
     }
 }

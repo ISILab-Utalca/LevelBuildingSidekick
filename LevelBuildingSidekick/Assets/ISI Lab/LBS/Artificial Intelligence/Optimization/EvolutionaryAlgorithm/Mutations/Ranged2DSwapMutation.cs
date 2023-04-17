@@ -20,7 +20,7 @@ public class Ranged2DSwapMutation : MutationBase
         this.range = range;
     }
 
-    protected override void PerformMutate(IChromosome chromosome, float probability)
+    protected override void PerformMutate(ChromosomeBase chromosome, float probability)
     {
         var r = RandomizationProvider.Current;
 
@@ -45,7 +45,7 @@ public class Ranged2DSwapMutation : MutationBase
         }
 
         var pos = new Vector2Int(r.GetInt(-range, range), r.GetInt(-range, range));
-        var j = i + chr.ToIndex(pos);
+        var j = i + chr.WorldToIndex(pos);
 
         if (j < chr.Length)
         {

@@ -69,19 +69,26 @@ namespace Utility
                 throw new Exception("Textures do not have the same size");
             }
 
-            // Create a new texture to hold the merged result
-            Texture2D mergedTexture = new Texture2D(origin.width, origin.height, TextureFormat.RGBA32, false);
+            var t = new Texture2D(origin.width, origin.height);
 
-            // Copy the contents of the first texture into the new texture
-            Graphics.CopyTexture(origin, 0, 0, mergedTexture, 0, 0);
+            for (int j = 0; j < origin.height; j++)
+            {
+                for (int i = 0; i < origin.width; i++)
+                {
+                    if (other.GetPixel(i, j).a == 0)
+                    {
+                        t.SetPixel(i, j, origin.GetPixel(i, j));
+                    }
+                    else
+                    {
+                        t.SetPixel(i, j, other.GetPixel(i, j));
+                    }
+                }
+            }
 
-            // Copy the contents of the second texture into the new texture, with blending
-            Graphics.CopyTexture(other, 0, 0, mergedTexture, 0, 0);
+            t.Apply();
 
-            // Apply the changes to the new texture
-            mergedTexture.Apply();
-
-            return mergedTexture;
+            return t;
         }
     }
 }

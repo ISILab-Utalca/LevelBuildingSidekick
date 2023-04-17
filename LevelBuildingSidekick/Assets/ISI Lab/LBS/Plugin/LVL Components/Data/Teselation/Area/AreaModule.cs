@@ -124,6 +124,31 @@ namespace LBS.Components.Teselation
             throw new System.NotImplementedException();
         }
 
+        public override List<Vector2> OccupiedPositions()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override List<Vector2> EmptyPositions()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override List<int> OccupiedIndexes()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override List<int> EmptyIndexes()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void Rewrite(LBSModule module)
+        {
+            throw new System.NotImplementedException();
+        }
+
         #endregion
 
     }

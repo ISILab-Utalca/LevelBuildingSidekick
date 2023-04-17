@@ -9,9 +9,9 @@ using LBS.Components.TileMap;
 using Utility;
 
 [ChromosomeFromModule(typeof(TaggedTileMap))]
-public class TaggedTileMapChromosome : ChromosomeBase2D, IDrawable
+public class TaggedTileMapChromosome : LBSChromosome, IDrawable
 {
-    public TaggedTileMapChromosome(LBSModule module) : base()
+    public TaggedTileMapChromosome(LBSModule module, Rect rect, int[] immutables = null) : base(rect, immutables)
     {
         var tileMap = module as TaggedTileMap;
 
@@ -20,30 +20,38 @@ public class TaggedTileMapChromosome : ChromosomeBase2D, IDrawable
             throw new System.Exception("[ISI Lab] Class must be TaggedTileMap");
         }
 
-        Rect = tileMap.GetBounds();
-
-        genes = new object[(int)(Rect.width * Rect.height)];
-
-
         var tiles = tileMap.PairTiles.Select(x => x.tile);
 
         foreach (var t in tiles)
         {
-            var i = ToIndex(t.Position);
+            var i = WorldToIndex(t.Position);
             var data = tileMap.GetBundleData(t);
             ReplaceGene(i, data);
         }
 
     }
 
-    public TaggedTileMapChromosome(Rect rect, int length) : base(rect)
+    public TaggedTileMapChromosome(Rect rect, int length, int[] immutables = null) : base(rect, immutables)
     {
+        Rect = rect;
         genes = new object[length];
     }
 
-    public override IChromosome CreateNewChromosome()
+    public override ChromosomeBase CloneChromosome()
     {
-        var chrom = new TaggedTileMapChromosome(Rect, Length);
+        var chrom = new TaggedTileMapChromosome(Rect, Length, immutableIndexes);
+        for (int i = 0; i < Length; i++)
+        {
+            if (IsImmutable(i))
+                continue;
+            chrom.ReplaceGene(i, GetGene(i));
+        }
+        return chrom;
+    }
+
+    public override ChromosomeBase CreateNewChromosome()
+    {
+        var chrom = new TaggedTileMapChromosome(Rect, Length, immutableIndexes);
         for(int i = 0; i < Length; i++)
         {
             chrom.ReplaceGene(i, GenerateGene());
@@ -56,12 +64,37 @@ public class TaggedTileMapChromosome : ChromosomeBase2D, IDrawable
         return (GetGene(RandomizationProvider.Current.GetInt(0, Length)) as BundleData)?.Clone();
     }
 
+    public override bool IsValid()
+    {
+        throw new System.NotImplementedException();
+    }
+
     public override void SetDeafult(int index)
     {
         ReplaceGene<BundleData>(index, null);
     }
 
-    public override Texture2D ToTexture()
+    public override LBSModule ToModule()
+    {
+
+        var tiles = new List<PairTB>(); 
+
+        for(int i = 0; i < Length; i++)
+        {
+            if(genes[i] != null)
+            {
+                var pos = ToMatrixPosition(i) + Rect.position;
+                var t = new LBSTile(pos, "Tile: " + pos);
+                tiles.Add(new PairTB(t, genes[i] as BundleData));
+            }
+        }
+
+        var mod = new TaggedTileMap("C_TaggedTileMap",tiles);
+
+        return mod;
+    }
+
+    public Texture2D ToTexture()
     {
         int tSize = 16;
         var texture = new Texture2D((int)Rect.width* tSize, (int)Rect.height* tSize);
@@ -77,10 +110,15 @@ public class TaggedTileMapChromosome : ChromosomeBase2D, IDrawable
             }
             else
             {
-                var t = Utility.DirectoryTools.GetScriptable<LBSIdentifier>((genes[i] as BundleData).BundleTag).Icon;
+                var source = Utility.DirectoryTools.GetScriptable<LBSIdentifier>((genes[i] as BundleData).BundleTag).Icon;
+                var t = new Texture2D(source.width, source.height);
+                t.SetPixels(source.GetPixels());
+                t.MirrorY();
+                t.Apply();
                 texture.InsertTextureInRect(t, pos.x * tSize, pos.y * tSize, tSize, tSize);
             }
         }
+        texture.MirrorY();
         texture.Apply();
         return texture;
     }

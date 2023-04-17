@@ -7,19 +7,23 @@ using UnityEngine;
 
 public class ExhaustiveSwapGene : MutationBase
 {
-    protected override void PerformMutate(IChromosome chromosome, float probability)
+    protected override void PerformMutate(ChromosomeBase chromosome, float probability)
     {
         var r = RandomizationProvider.Current;
 
 
         for (int i = 0; i < chromosome.Length; i++)
         {
+            if (chromosome.IsImmutable(i))
+                continue;
             if (chromosome.GetGene(i) != default)
             {
                 var d = r.GetDouble();
                 if (d < probability)
                 {
                     var j = r.GetInt(0, chromosome.Length);
+                    if (chromosome.IsImmutable(j))
+                        continue;
 
                     var aux = chromosome.GetGene(i);
                     chromosome.ReplaceGene(i, chromosome.GetGene(j));

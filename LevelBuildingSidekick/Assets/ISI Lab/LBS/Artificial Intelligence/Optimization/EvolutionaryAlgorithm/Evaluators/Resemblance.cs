@@ -11,11 +11,11 @@ public class Resemblance : IRangedEvaluator
 
     public float MinValue => 0;
 
-    public IChromosome reference;
+    public ChromosomeBase reference;
 
     public float Evaluate(IOptimizable evaluable)
     {
-        var ev = evaluable as IChromosome;
+        var ev = evaluable as ChromosomeBase;
         if (ev is null)
             return MinValue;
         if (ev.Length != reference.Length)

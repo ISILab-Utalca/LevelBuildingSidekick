@@ -42,6 +42,12 @@ namespace LBS.Components.Teselation
             return matrixPosition;
         }
 
+        public Vector2Int ToMatrixPosition(int index)
+        {
+            var r = GetBounds();
+            return new Vector2Int((int)(index % r.width), (int)(index / r.width));
+        }
+
         public Vector2 ToWorldPosition(Vector2Int matrixPosition)
         {
             Vector2 worldPosition = new Vector2(
@@ -50,6 +56,21 @@ namespace LBS.Components.Teselation
             );
             return worldPosition;
         }
+
+        public int ToIndex(Vector2 matrixPosition)
+        {
+            var r = GetBounds();
+            var pos = matrixPosition - r.position;
+            return (int)(pos.y * r.width + pos.x);
+        }
+
+        public abstract List<Vector2> OccupiedPositions();
+
+        public abstract List<Vector2> EmptyPositions();
+
+        public abstract List<int> OccupiedIndexes();
+
+        public abstract List<int> EmptyIndexes();
 
         public override abstract bool IsEmpty();
 

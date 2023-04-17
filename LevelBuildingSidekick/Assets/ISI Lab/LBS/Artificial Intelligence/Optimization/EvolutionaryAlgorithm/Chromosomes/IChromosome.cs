@@ -28,7 +28,6 @@ namespace GeneticSharp.Domain.Chromosomes
         /// </summary>
         /// <returns>The gene.</returns>
         /// <param name="geneIndex">Gene index.</param>
-        T GenerateGene<T>();
         object GenerateGene();
 
         /// <summary>
@@ -82,7 +81,6 @@ namespace GeneticSharp.Domain.Chromosomes
         IChromosome CloneChromosome();
 
         public bool IsValid();
-        public T GetSampleData<T>();
         public T[] GetDataSquence<T>();
 
         public T GetData<T>();

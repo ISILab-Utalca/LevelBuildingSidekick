@@ -16,7 +16,7 @@ public abstract class Bundle : LBSScriptableObject
     }
 
     /*[SerializeField,*/[ SerializeReference, HideInInspector]
-    protected List<LBSCharacteristic> characteristics;
+    protected List<LBSCharacteristic> characteristics = new List<LBSCharacteristic>();
 
     public abstract void Add(List<Bundle> data);
     public abstract LBSCharacteristic GetTag(int index);

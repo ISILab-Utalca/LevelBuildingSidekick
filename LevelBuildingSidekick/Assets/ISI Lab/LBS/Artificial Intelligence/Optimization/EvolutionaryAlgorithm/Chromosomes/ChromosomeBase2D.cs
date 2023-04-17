@@ -7,22 +7,29 @@ public abstract class ChromosomeBase2D : ChromosomeBase//, ITileMap
 {
     public Rect Rect { get; set; }
 
-    protected ChromosomeBase2D(Rect rect) : base()
+    protected ChromosomeBase2D(Rect rect, int[] immutables = null) : base((int)(rect.width*rect.height), immutables)
     {
         Rect = rect;
     }
 
     protected ChromosomeBase2D() : base()
     {
+        Rect = Rect.zero;
+        immutableIndexes = new int[0];
     }
 
     /// <summary>
     /// Converts a 2D position to an index in a 1D array.
     /// </summary>
     /// <param name="pos">The 2D position to convert.</param>
-    public int ToIndex(Vector2 pos)
+    public int WorldToIndex(Vector2 pos)
     {
         pos -= Rect.position;
+        return (int)(pos.y * Rect.width + pos.x);
+    }
+
+    public int MatrixToIndex(Vector2 pos)
+    {
         return (int)(pos.y * Rect.width + pos.x);
     }
 
