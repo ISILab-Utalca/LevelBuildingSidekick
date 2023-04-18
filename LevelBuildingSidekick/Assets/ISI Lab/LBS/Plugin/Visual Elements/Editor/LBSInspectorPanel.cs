@@ -7,8 +7,11 @@ using UnityEngine.UIElements;
 
 public class LBSInspectorPanel : VisualElement 
 {
+    #region FACTORY
     public new class UxmlFactory : UxmlFactory<LBSInspectorPanel, VisualElement.UxmlTraits> { }
+    #endregion
 
+    #region FIELDS
     private MainView view;
     private VisualElement content;
 
@@ -18,9 +21,9 @@ public class LBSInspectorPanel : VisualElement
     private ButtonGroup mainTab;
 
     private Dictionary<string, Dictionary<string, VisualElement>> VEs = new Dictionary<string, Dictionary<string, VisualElement>>();
+    #endregion
 
     #region CONSTRUCTORS
-
     public LBSInspectorPanel() 
     {
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSInspectorPanel");
@@ -42,23 +45,14 @@ public class LBSInspectorPanel : VisualElement
 
         //SetSubTab();
     }
-
-    /*
-    public LBSInspectorPanel(ref MainView mainView, VisualElement content)
-    {
-        this.view = mainView;
-        this.content = content;
-    }
-    */
-
     #endregion
 
+    #region METHODS
     private void InitTabs()
     {
-        var gt = new VisualElement();
-        gt.style.backgroundColor = Color.red;
-        gt.style.flexGrow = 1;
+        var gt = new LBSGlobalTagsInspector();
         AddTab("Global", "Tags", gt);
+
         var gb = new VisualElement();
         gb.style.backgroundColor = Color.blue;
         gb.style.flexGrow = 1;
@@ -127,7 +121,6 @@ public class LBSInspectorPanel : VisualElement
             btn.OnFocusEvent += () =>
             {
                 var btn2 = btn as GrupalbeButton;
-                Debug.Log(btn2.text);
                 SetSubTabs(btn2.text);
 
                 this.ClearContent();
@@ -177,7 +170,7 @@ public class LBSInspectorPanel : VisualElement
         if (inspector == null)
             return;
 
-        inspector.style.height = 30; // parche para ver lo que esta pasando (!!)
+        //inspector.style.height = 30; // parche para ver lo que esta pasando (!!)
         content.Add(inspector);
     }
 
@@ -193,16 +186,5 @@ public class LBSInspectorPanel : VisualElement
         if(content.Contains(inspector))
             content.Remove(inspector);
     }
-
-    private void ShowGlobalTagInspector()
-    {
-
-
-    }
-
-    private void ShowGlobalBundlesInspector()
-    {
-
-    }
-
+    #endregion
 }

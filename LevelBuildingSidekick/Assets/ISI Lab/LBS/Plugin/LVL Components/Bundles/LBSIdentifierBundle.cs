@@ -13,6 +13,16 @@ public class LBSIdentifierBundle : ScriptableObject
 
     public List<LBSIdentifier> Tags => tags.Select(t => Utility.DirectoryTools.GetScriptable<LBSIdentifier>(t)).ToList();
 
+    public void RemoveAt(int index)
+    {
+        tags.RemoveAt(index);
+    }
+
+    public void Remove (LBSIdentifier tag)
+    {
+        tags.Remove(tag.Label);
+    }
+
     public void AddTag(LBSIdentifier tag)
     {
         tags.Add(tag.Label);

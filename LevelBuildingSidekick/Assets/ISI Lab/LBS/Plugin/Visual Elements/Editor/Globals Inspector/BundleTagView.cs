@@ -13,7 +13,7 @@ public class BundleTagView : VisualElement
     private VisualElement content;
     private TextField addField;
     private Button addButton;
-    private List<TagView> tagViews;
+    private List<TagView> tagViews = new List<TagView>();
 
     public BundleTagView(LBSIdentifierBundle bundle)
     {
@@ -31,7 +31,7 @@ public class BundleTagView : VisualElement
         var tags = bundle.Tags;
         foreach (var tag in tags)
         {
-            var v = new TagView(tag);
+            var v = new TagView();
             tagViews.Add(v);
             content.Add(v);
         }

@@ -1,0 +1,5 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <CustomFoldout name="CustomFoldout" style="margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px; display: flex; visibility: visible;">
+        <ui:ListView focusable="true" show-add-remove-footer="true" header-title="asdfg" show-foldout-header="false" horizontal-scrolling="true" reorderable="false" show-border="true" />
+    </CustomFoldout>
+</ui:UXML>
