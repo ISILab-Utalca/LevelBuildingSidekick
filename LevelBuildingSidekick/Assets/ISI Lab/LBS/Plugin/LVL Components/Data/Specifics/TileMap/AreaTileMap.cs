@@ -198,9 +198,60 @@ namespace LBS.Components.TileMap
         {
             var x = Areas.Min(a => a.GetBounds().min.x);
             var y = Areas.Min(a => a.GetBounds().min.y);
-            var width = Areas.Max(a => a.GetBounds().max.x) - x + 1;
-            var height = Areas.Max(a => a.GetBounds().max.y) - y + 1;
+            var width = Areas.Max(a => a.GetBounds().max.x) - x;
+            var height = Areas.Max(a => a.GetBounds().max.y) - y;
             return new Rect(x, y, width, height);
+        }
+
+        public override List<Vector2> OccupiedPositions()
+        {
+            var occupied = new List<Vector2>();
+
+            foreach(var a in areas)
+            {
+                occupied.AddRange(a.OccupiedPositions());
+            }
+
+            return occupied;
+        }
+
+        public override List<Vector2> EmptyPositions()
+        {
+            var r = GetBounds();
+            var occupied = OccupiedPositions();
+
+            List<Vector2> empty = new List<Vector2>();
+
+            for (int j = 0; j < r.height; j++)
+            {
+                for (int i = 0; i < r.width; i++)
+                {
+                    var v = new Vector2(i, j) + r.position;
+                    if (!occupied.Contains(v))
+                    {
+                        empty.Add(v);
+                    }
+                }
+            }
+
+            return empty;
+        }
+
+        public override List<int> OccupiedIndexes()
+        {
+            var r = GetBounds();
+            return OccupiedPositions().Select(v => ToIndex(v)).ToList();
+        }
+
+        public override List<int> EmptyIndexes()
+        {
+            var r = GetBounds();
+            return EmptyPositions().Select(v => ToIndex(v)).ToList();
+        }
+
+        public override void Rewrite(LBSModule module)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

@@ -14,8 +14,10 @@ public class TaggedTileMap : LBSModule
     private List<PairTB> pairTiles = new List<PairTB>();
 
     [JsonIgnore]
-    public List<PairTB> PairTiles => pairTiles; 
-    
+    public List<PairTB> PairTiles => pairTiles;
+
+    public Func<LBSTile, bool> OnRemoveTile { get; private set; }
+
     [JsonIgnore]
     protected Func<LBSTile, bool> OnAddTile;
 
@@ -31,6 +33,10 @@ public class TaggedTileMap : LBSModule
 
     public override void Clear()
     {
+        for(int i = 0; i < pairTiles.Count; i++)
+        {
+            OnRemoveTile?.Invoke(pairTiles[i].tile);
+        }
         pairTiles.Clear();
     }
 
@@ -56,6 +62,7 @@ public class TaggedTileMap : LBSModule
         }
     }
 
+
     public override object Clone()
     {
         var dir = new List<PairTB>();
@@ -79,6 +86,7 @@ public class TaggedTileMap : LBSModule
         //Verificar posible recursividad
         tileMap.OnAddData += AddEmpty;
         OnAddTile += tileMap.AddTile;
+        OnRemoveTile += tileMap.RemoveTile;
     }
 
     public override void OnDetach(LBSLayer layer)
@@ -87,6 +95,7 @@ public class TaggedTileMap : LBSModule
         tileMap.OnRemoveData -= RemoveTile;
         tileMap.OnAddData -= AddEmpty;
         OnAddTile -= tileMap.AddTile;
+        OnRemoveTile -= tileMap.RemoveTile;
     }
 
     public override void Print()
@@ -122,6 +131,24 @@ public class TaggedTileMap : LBSModule
         var height = pairTiles.Max(p => p.tile.Position.y) - y + 1;
 
         return new Rect(x, y, with, height);
+    }
+
+    public override void Rewrite(LBSModule module)
+    {
+        var tileMap = module as TaggedTileMap;
+
+        if(tileMap == null)
+        {
+            throw new Exception("[ISI Lab] Modules have to be of the same type!");
+        }
+
+        Clear();
+
+        foreach(var p in tileMap.PairTiles)
+        {
+            pairTiles.Add(p);
+            OnAddTile?.Invoke(p.tile);
+        }
     }
 }
 

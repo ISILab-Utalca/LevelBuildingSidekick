@@ -13,30 +13,58 @@ using Utility;
 public class ResemblanceVE : EvaluatorVE
 {
     DropdownField dropdown;
+    DropdownField referenceRectField;
+
+    Rect rect;
 
     public ResemblanceVE(IEvaluator evaluator) : base(evaluator)
     {
         dropdown = new DropdownField();
         dropdown.label = "Reference";
+        referenceRectField = new DropdownField();
+        referenceRectField.label = "Bounds Reference";
+        referenceRectField.RegisterValueChangedCallback(e =>
+        {
+            var mods = this.layer.Parent.Layers.SelectMany(l => l.Modules);
+            rect = mods.ToList().Find(m => m.Key == e.newValue).GetBounds();
+        });
         Add(dropdown);
+        Add(referenceRectField);
     }
 
-    private List<string> GetChromosomables()
+    private void GetChromosomables()
     {
-        List<string> choices = new List<string>();
+        dropdown.choices = new List<string>();
 
         foreach(var m in layer.Modules)
         {
             var ves = Utility.Reflection.GetClassesWith<ChromosomeFromModuleAttribute>().Where(t => t.Item2.Any(v => v.type == m.GetType()));
             if(ves.Count() != 0)
             {
-                choices.Add(m.Key);
+                dropdown.choices.Add(m.Key);
             }
         }
 
-        dropdown.value = choices[0];
+        dropdown.value = dropdown.choices[0];
+    }
 
-        return choices;
+
+    private void GetTexturizables()
+    {
+        referenceRectField.choices = new List<string>();
+
+        var mods = layer.Parent.Layers.SelectMany(l => l.Modules);
+
+        foreach (var m in mods)
+        {
+            if (Reflection.GetClassesWith<ModuleTexturizerAttribute>().Any(t => t.Item2.Any(v => v.type == m.GetType())))
+            {
+                referenceRectField.choices.Add(m.Key);
+            }
+        }
+
+        referenceRectField.value = referenceRectField.choices[0];
+        rect = mods.ToList().Find(m => m.Key == referenceRectField.value).GetBounds();
     }
 
     private void SetChromosome(string mod)
@@ -52,7 +80,7 @@ public class ResemblanceVE : EvaluatorVE
 
         var target = Reflection.GetClassesWith<ChromosomeFromModuleAttribute>().Where(t => t.Item2.Any(v => v.type == type)).First().Item1;
 
-        var chrom = Activator.CreateInstance(target, new object[] { module }) as IChromosome;
+        var chrom = Activator.CreateInstance(target, new object[] { module, rect, null }) as ChromosomeBase;
 
         (evaluator as Resemblance).reference = chrom;
 
@@ -62,8 +90,10 @@ public class ResemblanceVE : EvaluatorVE
     public override void SetLayer(LBSLayer layer)
     {
         base.SetLayer(layer);
-        if (dropdown != null)
-            dropdown.choices = GetChromosomables();
+
+        GetChromosomables();
+
+        GetTexturizables();
     }
 
     public override void Init()

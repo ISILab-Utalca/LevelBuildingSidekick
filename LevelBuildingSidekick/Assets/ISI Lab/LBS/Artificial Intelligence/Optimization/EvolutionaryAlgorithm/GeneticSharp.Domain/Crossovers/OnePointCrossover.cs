@@ -65,7 +65,7 @@ namespace GeneticSharp.Domain.Crossovers
         /// <returns>
         /// The offspring (children) of the parents.
         /// </returns>
-        protected override IList<IChromosome> PerformCross(IList<IChromosome> parents)
+        protected override IList<ChromosomeBase> PerformCross(IList<ChromosomeBase> parents)
         {
             var datas = parents.Select(p => p.GetGenes()).ToList();
 
@@ -81,12 +81,12 @@ namespace GeneticSharp.Domain.Crossovers
                     "The swap point index is {0}, but there is only {1} genes. The swap should result at least one gene to each side.".With(SwapPointIndex, firstParent.Length));
             }
 
-            List<IChromosome> children = new List<IChromosome>();
+            List<ChromosomeBase> children = new List<ChromosomeBase>();
             var offspring = CreateChildren(firstParent, secondParent);
 
             foreach(var data in offspring)
             {
-                var child = parents[0].CreateNew() as IChromosome;
+                var child = parents[0].CreateNewChromosome();
                 child.SetDataSequence(data);
                 children.Add(child);
             }

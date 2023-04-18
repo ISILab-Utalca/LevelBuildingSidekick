@@ -123,7 +123,6 @@ namespace LBS.Components.TileMap
             return neighbors;
         }
 
-
         public T GetTileNeighbor(T tile, Vector2Int direction)
         {
             List<T> neighbors = new List<T>();
@@ -239,6 +238,48 @@ namespace LBS.Components.TileMap
             var width = tiles.Max(t => t.Position.x) - x + 1;
             var height = tiles.Max(t => t.Position.y) - y + 1;
             return new Rect(x, y, width, height);
+        }
+
+        public override List<Vector2> OccupiedPositions()
+        {
+            return tiles.Select(t => (Vector2)t.Position).ToList();
+        }
+
+        public override List<Vector2> EmptyPositions()
+        {
+            var r = GetBounds();
+            var occupied = OccupiedPositions();
+
+            List<Vector2> empty = new List<Vector2>();
+
+            for(int j = 0; j < r.height; j++)
+            {
+                for(int i = 0; i < r.width; i++)
+                {
+                    var v = new Vector2(i, j);
+                    if (!occupied.Contains(v))
+                    {
+                        empty.Add(v);
+                    }
+                }
+            }
+
+            return empty;
+        }
+
+        public override List<int> OccupiedIndexes()
+        {
+            return OccupiedPositions().Select(v => ToIndex(v)).ToList();
+        }
+
+        public override List<int> EmptyIndexes()
+        {
+            return EmptyPositions().Select(v => ToIndex(v)).ToList();
+        }
+
+        public override void Rewrite(LBSModule module)
+        {
+            throw new System.NotImplementedException();
         }
 
         #endregion

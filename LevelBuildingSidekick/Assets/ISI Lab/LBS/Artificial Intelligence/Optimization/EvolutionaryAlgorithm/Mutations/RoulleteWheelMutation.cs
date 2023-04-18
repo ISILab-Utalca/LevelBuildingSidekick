@@ -21,7 +21,7 @@ public class RoulleteWheelMutation : MutationBase
         this.mutations = mutations;
     }
 
-    protected override void PerformMutate(IChromosome chromosome, float probability)
+    protected override void PerformMutate(ChromosomeBase chromosome, float probability)
     {
         var r = RandomizationProvider.Current;
 

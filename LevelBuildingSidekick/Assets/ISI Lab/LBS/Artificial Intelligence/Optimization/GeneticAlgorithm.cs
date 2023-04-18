@@ -110,14 +110,15 @@ public class GeneticAlgorithm : BaseOptimizer
         OperatorsStrategy = new DefaultOperatorsStrategy();
 
         Selection = new RankSelection();
-        Crossover = new UniformCrossover();
+        Crossover = new AreaCrossover();
+        //Crossover = new UniformCrossover();
 
         Mutation = new RoulleteWheelMutation(new List<Tuple<MutationBase, float>>()
         { 
-            new Tuple<MutationBase, float>(new AddGene(), 25),
-            new Tuple<MutationBase, float>(new RemoveGene(), 25),
-            new Tuple<MutationBase, float>(new SwapGene(), 25),
-            new Tuple<MutationBase, float>(new RangedSwapGene(5), 25)
+            new Tuple<MutationBase, float>(new ExhaustiveAddGene(), 25),
+            new Tuple<MutationBase, float>(new ExhaustiveRemoveGene(), 25),
+            new Tuple<MutationBase, float>(new ExhaustiveSwapGene(), 25),
+            new Tuple<MutationBase, float>(new ExhaustiveRanged2DSwap(5), 25)
         });
 
         Population = new Population();
@@ -128,7 +129,8 @@ public class GeneticAlgorithm : BaseOptimizer
     public override void RunOnce()
     {
         var parents = SelectParents();
-        var offspring = Cross(parents.Select(p => p as IChromosome).ToList());
+        var p = parents.Select(p => p as ChromosomeBase).ToList();
+        var offspring = Cross(p);
         Mutate(offspring);
         var newGenerationChromosomes = Reinsert(offspring.Select(p => p as IOptimizable).ToList(), parents);
         Population.CreateNewGeneration(newGenerationChromosomes);
@@ -182,7 +184,7 @@ public class GeneticAlgorithm : BaseOptimizer
     /// </summary>
     /// <param name="parents">The parents.</param>
     /// <returns>The result chromosomes.</returns>
-    private IList<IChromosome> Cross(IList<IChromosome> parents)
+    private IList<ChromosomeBase> Cross(IList<ChromosomeBase> parents)
     {
         return OperatorsStrategy.Cross(Population, Crossover, CrossoverProbability, parents);
     }
@@ -191,7 +193,7 @@ public class GeneticAlgorithm : BaseOptimizer
     /// Mutate the specified chromosomes.
     /// </summary>
     /// <param name="chromosomes">The chromosomes.</param>
-    private void Mutate(IList<IChromosome> chromosomes)
+    private void Mutate(IList<ChromosomeBase> chromosomes)
     {
         OperatorsStrategy.Mutate(Mutation, MutationProbability, chromosomes);
     }

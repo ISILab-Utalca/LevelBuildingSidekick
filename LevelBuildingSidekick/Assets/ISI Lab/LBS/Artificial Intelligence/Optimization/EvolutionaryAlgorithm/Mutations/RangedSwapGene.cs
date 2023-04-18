@@ -19,7 +19,7 @@ public class RangedSwapGene : MutationBase
         this.range = range;
     }
 
-    protected override void PerformMutate(IChromosome chromosome, float probability)
+    protected override void PerformMutate(ChromosomeBase chromosome, float probability)
     {
         var r = RandomizationProvider.Current;
 

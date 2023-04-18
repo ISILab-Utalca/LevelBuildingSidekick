@@ -43,12 +43,12 @@ public class SamplePresence : IRangedEvaluator
     public float Evaluate(IOptimizable evaluable)
     {
 
-        if (!(evaluable is IChromosome))
+        if (!(evaluable is ChromosomeBase))
         {
             return MinValue;
         }
 
-        var ev = evaluable as IChromosome;
+        var ev = evaluable as ChromosomeBase;
 
         float presence = ev.GetGenes().Count(e => e != null && e.Equals(sample));
 

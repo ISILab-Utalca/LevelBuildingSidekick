@@ -12,28 +12,33 @@ namespace GeneticSharp.Domain.Chromosomes
     /// </summary>
     [DebuggerDisplay("Fitness:{Fitness}, Genes:{Length}")]
     [Serializable]
-    public abstract class ChromosomeBase : IChromosome
+    public abstract class ChromosomeBase : IOptimizable
     {
         #region Fields
         protected object[] genes;
+        protected int[] immutableIndexes;
         #endregion
-
 
         #region Constructors        
         /// <summary>
         /// Initializes a new instance of the <see cref="ChromosomeBase"/> class.
         /// </summary>
         /// <param name="length">The length, in genes, of the chromosome.</param>
-        protected ChromosomeBase(int length)
+        protected ChromosomeBase(int length, int[] immutables = null)
         {
             ValidateLength(length);
-
             genes = new object[length];
+
+            immutableIndexes = immutables;
+            if (immutableIndexes == null)
+                immutableIndexes = new int[0];
+
         }
 
         protected ChromosomeBase()
         {
             genes = new object[0];
+            immutableIndexes = new int[0];
         }
 
         #endregion
@@ -130,42 +135,16 @@ namespace GeneticSharp.Domain.Chromosomes
         }
 
         /// <summary>
-        /// Generates the gene for the specified index.
-        /// </summary>
-        /// <param name="geneIndex">Gene index.</param>
-        /// <returns>The gene generated at the specified index.</returns>
-        public T GenerateGene<T>()
-        {
-            var gene = GenerateGene();
-            try
-            {
-                return (T)gene;
-            }
-            catch
-            {
-                throw new TypeAccessException("Incorrect Type T for " + GetType().Name);
-            }
-        }
-
-
-        /// <summary>
         /// Creates a new chromosome using the same structure of this.
         /// </summary>
         /// <returns>The new chromosome.</returns>
-        public abstract IChromosome CreateNewChromosome();
+        public abstract ChromosomeBase CreateNewChromosome();
 
         /// <summary>
         /// Creates a clone.
         /// </summary>
         /// <returns>The chromosome clone.</returns>
-        public virtual IChromosome CloneChromosome()
-        {
-            var clone = CreateNewChromosome();
-            clone.ReplaceGenes(0, genes);
-            clone.Fitness = Fitness;
-
-            return clone;
-        }
+        public abstract ChromosomeBase CloneChromosome();
 
         /// <summary>
         /// Replaces the gene in the specified index.
@@ -175,11 +154,12 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <exception cref="System.ArgumentOutOfRangeException">index;There is no Gene on index {0} to be replaced..With(index)</exception>
         public virtual void ReplaceGene<T>(int index, T gene)
         {
+            if (IsImmutable(index))
+                return;
             if (index < 0 || index >= Length)
             {
                 throw new ArgumentOutOfRangeException(nameof(index), "There is no Gene on index {0} to be replaced.".With(index));
             }
-
             try
             {
                 genes[index] = gene; 
@@ -278,7 +258,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// </summary>
         /// <returns>The to.</returns>
         /// <param name="other">The other chromosome.</param>
-        public int CompareTo(IChromosome other)
+        public int CompareTo(ChromosomeBase other)
         {
             if (other == null)
             {
@@ -303,7 +283,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <see cref="GeneticSharp.Domain.Chromosomes.ChromosomeBase"/>; otherwise, <c>false</c>.</returns>
         public override bool Equals(object obj)
         {
-            var other = obj as IChromosome;
+            var other = obj as ChromosomeBase;
 
             if (other == null)
             {
@@ -395,10 +375,7 @@ namespace GeneticSharp.Domain.Chromosomes
             return CloneChromosome();
         }
 
-        public bool IsValid()
-        {
-            return this.ValidateGenes();
-        }
+        public abstract bool IsValid();
 
         public void SetDataSequence<T>(T[] data)
         {
@@ -421,11 +398,6 @@ namespace GeneticSharp.Domain.Chromosomes
             return (T)(object)(this);
         }
 
-        public T GetSampleData<T>()
-        {
-            return GenerateGene<T>();
-        }
-
         public T[] GetDataSquence<T>()
         {
             return genes.Select(g => (T)g).ToArray();
@@ -436,7 +408,11 @@ namespace GeneticSharp.Domain.Chromosomes
             throw new NotImplementedException();
         }
 
-        public abstract UnityEngine.Texture2D ToTexture();
+        public bool IsImmutable(int index)
+        {
+            return immutableIndexes.Contains(index);
+        }
+
         public abstract void SetDeafult(int index);
         #endregion
     }

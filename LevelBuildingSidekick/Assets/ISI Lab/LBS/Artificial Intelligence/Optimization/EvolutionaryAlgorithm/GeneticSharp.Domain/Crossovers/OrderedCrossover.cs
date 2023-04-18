@@ -60,7 +60,7 @@ namespace GeneticSharp.Domain.Crossovers
         /// </summary>
         /// <param name="parents">The parents chromosomes.</param>
         /// <returns>The offspring (children) of the parents.</returns>
-        protected override IList<IChromosome> PerformCross(IList<IChromosome> parents)
+        protected override IList<ChromosomeBase> PerformCross(IList<ChromosomeBase> parents)
         {
             var datas = parents.Select(p => p.GetGenes()).ToList();
 
@@ -77,13 +77,13 @@ namespace GeneticSharp.Domain.Crossovers
             var middleSectionBeginIndex = middleSectionIndexes[0];
             var middleSectionEndIndex = middleSectionIndexes[1];
 
-            var firstChild = parents[0].CreateNew() as IChromosome;
-            var secondChild = parents[0].CreateNew() as IChromosome;
+            var firstChild = parents[0].CreateNewChromosome();
+            var secondChild = parents[0].CreateNewChromosome();
 
             firstChild.SetDataSequence(CreateChild(parentOne, parentTwo, middleSectionBeginIndex, middleSectionEndIndex));
             secondChild.SetDataSequence(CreateChild(parentTwo, parentOne, middleSectionBeginIndex, middleSectionEndIndex));
 
-            return new List<IChromosome>() { firstChild, secondChild };
+            return new List<ChromosomeBase>() { firstChild, secondChild };
         }
 
         /// <summary>

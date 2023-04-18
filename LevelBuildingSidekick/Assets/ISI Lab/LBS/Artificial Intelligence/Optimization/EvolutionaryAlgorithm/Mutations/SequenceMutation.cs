@@ -11,7 +11,7 @@ public class SequenceMutation : MutationBase
     [SerializeField]
     private List<MutationBase> mutations = new List<MutationBase>();
 
-    protected override void PerformMutate(IChromosome chromosome, float probability)
+    protected override void PerformMutate(ChromosomeBase chromosome, float probability)
     {
         foreach(var m in mutations)
         {

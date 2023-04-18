@@ -18,7 +18,7 @@ namespace GeneticSharp.Domain
         /// <param name="crossoverProbability">The crossover probability.</param>
         /// <param name="parents">The parents.</param>
         /// <returns>The result chromosomes.</returns>
-        IList<IChromosome> Cross(IPopulation population, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents);
+        IList<ChromosomeBase> Cross(IPopulation population, ICrossover crossover, float crossoverProbability, IList<ChromosomeBase> parents);
 
         /// <summary>
         /// Mutate the specified chromosomes.
@@ -26,6 +26,6 @@ namespace GeneticSharp.Domain
         /// <param name="mutation">The mutation class.</param>
         /// <param name="mutationProbability">The mutation probability.</param>
         /// <param name="chromosomes">The chromosomes.</param>
-        void Mutate(IMutation mutation, float mutationProbability, IList<IChromosome> chromosomes);
+        void Mutate(IMutation mutation, float mutationProbability, IList<ChromosomeBase> chromosomes);
     }
 }
