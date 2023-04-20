@@ -1,3 +1,4 @@
+using LBS.Settings;
 using LBS.Windows;
 using System.Collections;
 using System.Collections.Generic;
@@ -24,7 +25,12 @@ public class Startup
 
     private static void Start()
     {
-        //LBSStartWindow.ShowWindow();
+        // aqui podemos abrir una ventana que se abra al inicio del uso de unity
+        // y que te lleve a novedades y o tutoriales de la herramienta
+
+        // busca y setea la instancia de "LBS Settings" en su singleton
+        SettingsEditor.SearchSettingsInstance();
+
         EditorApplication.update -= Start;
     }
 }
