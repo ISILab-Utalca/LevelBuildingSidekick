@@ -9,20 +9,21 @@ public class TagBundleView : VisualElement
 {
     public LBSIdentifierBundle target;
 
+    public VisualElement box;
+    private Toggle toggle;
+    private TextField groupNameField;
     private ListView list;
-    private CustomFoldout foldout;
 
-    public TagBundleView(LBSIdentifierBundle tagBundle)
+    public TagBundleView()
     {
-        target = tagBundle;
-
-        if (target == null)
-            return;
-
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("TagBundleView");
         visualTree.CloneTree(this);
 
-        foldout = this.Q<CustomFoldout>();
+        this.box = this.Q<VisualElement>("Box");
+        this.toggle = this.Q<Toggle>();
+        this.groupNameField = this.Q<TextField>();
+        groupNameField.RegisterCallback<ChangeEvent<string>>(e => OnTextChange(e.newValue));
+
 
         list = this.Q<ListView>();
 
@@ -31,19 +32,37 @@ public class TagBundleView : VisualElement
             return new TagView();
         };
 
+        list.fixedItemHeight = 22;
+        list.makeItem += makeItem;
+        list.onItemsChosen += OnItemChosen;
+        list.onSelectionChange += OnSelectionChange;
+        list.style.flexGrow = 1.0f;
+    }
+
+    private void OnTextChange(string value)
+    {
+        target.name = value;
+    }
+
+
+    public void SetInfo(LBSIdentifierBundle tagBundle)
+    {
+        target = tagBundle;
+
+        groupNameField.value = target.name;
+
         list.bindItem += (item, index) =>
         {
             var view = (item as TagView);
+        
+            if (index >= this.target.Tags.Count())
+                return;
+
             var tag = this.target.GetTag(index);
             view.SetInfo(tag);
         };
 
-        list.fixedItemHeight = 20;
         list.itemsSource = this.target.Tags;
-        list.makeItem += makeItem;
-        list.onItemsChosen += OnItemChosen;
-        list.onSelectionChange += OnSelectionChange;
-
 
     }
 
