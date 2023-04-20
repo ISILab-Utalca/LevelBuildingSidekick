@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 public class BundleTagView : VisualElement
 {
-    public LBSIdentifierBundle tagsBundle;
+    public LBSIdentifierBundle target;
 
     // VisualElements
     private TextField bundleNameField;
@@ -17,7 +17,7 @@ public class BundleTagView : VisualElement
 
     public BundleTagView(LBSIdentifierBundle bundle)
     {
-        this.tagsBundle = bundle;
+        this.target = bundle;
 
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("BundleTagView"); // Editor
         visualTree.CloneTree(this);
@@ -54,7 +54,7 @@ public class BundleTagView : VisualElement
 
     private void OnTextChange(string value)
     {
-        tagsBundle.name = value;
+        target.name = value;
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
     }
@@ -63,7 +63,7 @@ public class BundleTagView : VisualElement
     {
         var so = ScriptableObject.CreateInstance<LBSIdentifier>();
         so.Label = name;
-        tagsBundle.AddTag(so);
+        target.AddTag(so);
 
         string path = "Assets/" + name + "_Tag" + ".asset";
         AssetDatabase.CreateAsset(so, path);
