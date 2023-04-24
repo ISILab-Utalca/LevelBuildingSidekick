@@ -12,8 +12,9 @@ public class TagBundleView : VisualElement
 {
     public LBSIdentifierBundle target;
 
-    public VisualElement box;
-    private Toggle toggle;
+    public  VisualElement box;
+    private Foldout foldout;
+    private VisualElement content;
     private TextField groupNameField;
     private ListView list;
     private Button addBtn;
@@ -27,9 +28,12 @@ public class TagBundleView : VisualElement
         visualTree.CloneTree(this);
 
         this.box = this.Q<VisualElement>("Box");
-        this.toggle = this.Q<Toggle>();
-        this.groupNameField = this.Q<TextField>();
+        this.content = this.Q<VisualElement>("Content");
+        
+        this.foldout = this.Q<Foldout>();
+        foldout.RegisterCallback<ChangeEvent<bool>>(e => OnFoldout(e.newValue));
 
+        this.groupNameField = this.Q<TextField>();
         groupNameField.RegisterCallback<BlurEvent>(e => OnTextChange(groupNameField.value));
         //groupNameField.RegisterCallback<ChangeEvent<string>>(e => OnTextChange(e.newValue));
 
@@ -46,6 +50,11 @@ public class TagBundleView : VisualElement
         addBtn.clicked += CreateTag;
         removeBtn = this.Q<Button>("Remove");
         removeBtn.clicked += RemoveTag;
+    }
+
+    private void OnFoldout(bool value)
+    {
+        content.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
     }
 
     private VisualElement MakeItem()
