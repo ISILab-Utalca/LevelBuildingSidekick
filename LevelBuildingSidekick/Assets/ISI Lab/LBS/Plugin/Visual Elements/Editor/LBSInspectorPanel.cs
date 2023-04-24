@@ -53,9 +53,7 @@ public class LBSInspectorPanel : VisualElement
         var gt = new LBSGlobalTagsInspector();
         AddTab("Global", "Tags", gt);
 
-        var gb = new VisualElement();
-        gb.style.backgroundColor = Color.blue;
-        gb.style.flexGrow = 1;
+        var gb = new LBSGlobalBundlesInspector();
         AddTab("Global", "Bundles", gb);
 
 
@@ -170,7 +168,6 @@ public class LBSInspectorPanel : VisualElement
         if (inspector == null)
             return;
 
-        //inspector.style.height = 30; // parche para ver lo que esta pasando (!!)
         content.Add(inspector);
     }
 
