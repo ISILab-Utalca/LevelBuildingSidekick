@@ -11,7 +11,21 @@ public class LBSIdentifierBundle : ScriptableObject
     [ScriptableToString(typeof(LBSIdentifier))]
     protected List<string> tags = new List<string>();
 
-    public List<LBSIdentifier> Tags => tags.Select(t => Utility.DirectoryTools.GetScriptable<LBSIdentifier>(t)).ToList();
+    public List<LBSIdentifier> Tags
+    {
+        get
+        {
+            var tt = Utility.DirectoryTools.GetScriptables<LBSIdentifier>().ToList();
+            List<LBSIdentifier> toR = new List<LBSIdentifier>();
+            foreach (var tag in tags)
+            {
+                var x = tt.Find(v => v.Label == tag);
+                if (x != null)
+                    toR.Add(x);
+            }
+            return toR;
+        }
+    }
 
     public void RemoveAt(int index)
     {
@@ -30,8 +44,13 @@ public class LBSIdentifierBundle : ScriptableObject
 
     public LBSIdentifier GetTag(int index)
     {
-        var t = tags[index];
-        return Utility.DirectoryTools.GetScriptable<LBSIdentifier>(t);
+        var current = tags[index];
+
+        var ttags = Utility.DirectoryTools.GetScriptables<LBSIdentifier>();  // esto lagea la interfaz de GlobalTag (!!!)
+        var toR = ttags.Find(t => t.Label == current);
+
+        return toR;
+        //return (t == null)? null : Utility.DirectoryTools.GetScriptable<LBSIdentifier>(t);
     }
 
     public List<LBSIdentifier> GetTags()
