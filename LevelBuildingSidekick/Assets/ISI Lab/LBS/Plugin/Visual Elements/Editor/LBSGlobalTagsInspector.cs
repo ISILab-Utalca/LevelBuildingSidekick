@@ -78,8 +78,10 @@ public class LBSGlobalTagsInspector : VisualElement
         AssetDatabase.SaveAssets();
 
         targets = Utility.DirectoryTools.GetScriptables<LBSIdentifierBundle>().ToList();
+        list.itemsSource = targets;
+
         list.Rebuild();
-        list.RefreshItems();
+        //list.RefreshItems();
     }
 
     private void CreateBundle()
@@ -94,8 +96,10 @@ public class LBSGlobalTagsInspector : VisualElement
         AssetDatabase.SaveAssets();
 
         targets = Utility.DirectoryTools.GetScriptables<LBSIdentifierBundle>().ToList();
+        list.itemsSource = targets;
+
         list.Rebuild();
-        list.RefreshItems();
+        //list.RefreshItems();
     }
 
     private void OnItemChosen(IEnumerable<object> objects)
