@@ -39,7 +39,9 @@ public class TagView : VisualElement
     public void OnTextChange(string value)
     {
         target.Label = value;
-        AssetDatabase.SaveAssets();
+        target.name = value;
+        AssetDatabase.RenameAsset(AssetDatabase.GetAssetPath(target), target.name);
+        EditorUtility.SetDirty(target);
     }
 
     public void OnColorChange(Color color)
