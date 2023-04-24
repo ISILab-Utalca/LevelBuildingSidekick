@@ -104,7 +104,7 @@ public class LBSGlobalTagsInspector : VisualElement
 
     private void OnItemChosen(IEnumerable<object> objects)
     {
-        //Debug.Log(objects);
+
     }
 
     private void OnSelectionChange(IEnumerable<object> objects)
