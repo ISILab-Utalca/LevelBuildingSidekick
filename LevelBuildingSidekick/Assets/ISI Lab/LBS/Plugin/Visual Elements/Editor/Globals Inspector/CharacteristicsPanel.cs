@@ -1,18 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
-public class CharacteristicsPanel : MonoBehaviour
+public class CharacteristicsPanel : VisualElement
 {
-    // Start is called before the first frame update
-    void Start()
+    #region FACTORY
+    public new class UxmlFactory : UxmlFactory<CharacteristicsPanel, VisualElement.UxmlTraits> { }
+    #endregion
+
+    public CharacteristicsPanel()
     {
-        
+        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("CharacteristicsPanel");
+        visualTree.CloneTree(this);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetInfo(Bundle target)
     {
-        
+
     }
 }
