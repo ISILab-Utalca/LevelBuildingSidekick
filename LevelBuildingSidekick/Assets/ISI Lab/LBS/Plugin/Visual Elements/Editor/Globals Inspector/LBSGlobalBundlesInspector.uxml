@@ -19,6 +19,7 @@
                 <ui:ListView focusable="true" show-add-remove-footer="false" show-foldout-header="false" horizontal-scrolling="false" show-border="false" virtualization-method="DynamicHeight" show-bound-collection-size="true" show-alternating-row-backgrounds="ContentOnly" name="BundleList" style="padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; border-top-left-radius: 0; border-bottom-left-radius: 3px; border-top-right-radius: 0; border-bottom-right-radius: 3px; background-color: rgba(0, 0, 0, 0);" />
             </ui:VisualElement>
         </ui:VisualElement>
-        <GeneralBundlesPanel name="GeneralPanel" />
+        <GeneralBundlesPanel name="GeneralPanel" style="margin-bottom: 4px;" />
+        <CharacteristicsPanel name="CharacteristicsPanel" style="margin-bottom: 4px;" />
     </ui:VisualElement>
 </ui:UXML>
