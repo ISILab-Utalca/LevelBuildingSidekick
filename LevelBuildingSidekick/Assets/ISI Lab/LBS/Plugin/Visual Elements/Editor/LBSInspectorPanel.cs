@@ -56,29 +56,28 @@ public class LBSInspectorPanel : VisualElement
         var gb = new LBSGlobalBundlesInspector();
         AddTab("Global", "Bundles", gb);
 
-
-        var l1 = new VisualElement();
-        l1.style.backgroundColor = Color.magenta;
-        l1.style.flexGrow = 1;
+        var l1 = new LBSLocalCurrent();
         AddTab("Local", "Current data", l1);
-        var l2 = new VisualElement();
-        l2.style.backgroundColor = Color.gray;
-        l2.style.flexGrow = 1;
+
+        var l2 = new LBSLocalBehaviours();
         AddTab("Local", "Behaviours", l2);
-        var l3 = new VisualElement();
-        l3.style.backgroundColor = Color.yellow;
-        l3.style.flexGrow = 1;
+
+        var l3 = new LBSLocalAssistants();
+
         AddTab("Local", "Assistants", l3);
 
 
         var aset = new VisualElement();
         aset.style.backgroundColor = Color.green;
         aset.style.flexGrow = 1;
+        aset.style.height = 30;
         AddTab("Advanced", "Settings", aset);
+
         var aset2 = new VisualElement();
         aset2.style.backgroundColor = Color.cyan;
         aset2.style.flexGrow = 1;
-        AddTab("Advanced", "Settings", aset2);
+        aset2.style.height = 30;
+        AddTab("Advanced", "Settings2", aset2);
     }
 
     private void AddTab(string mainTabName, string subTabName, VisualElement element)
