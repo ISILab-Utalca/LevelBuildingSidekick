@@ -1,4 +1,5 @@
 using LBS.Settings;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ public class LBSGlobalBundlesInspector : VisualElement
     public new class UxmlFactory : UxmlFactory<LBSGlobalBundlesInspector, VisualElement.UxmlTraits> { }
     #endregion
 
-    private List<Bundle> targets;
+    private List<Tuple<Bundle, int>> targets;
 
     private ListView list;
     private Button AddBtn;
@@ -27,9 +28,9 @@ public class LBSGlobalBundlesInspector : VisualElement
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSGlobalBundlesInspector");
         visualTree.CloneTree(this);
 
-        this.targets = Utility.DirectoryTools.GetScriptables<Bundle>().ToList();
-        //var all = Utility.DirectoryTools.GetScriptables<Bundle>().ToList();
-        //this.targets = GetRoots(all);
+        //this.targets = Utility.DirectoryTools.GetScriptables<Bundle>().ToList();
+        var all = Utility.DirectoryTools.GetScriptables<Bundle>().ToList();
+        this.targets = OrderList(all, 0, new List<Tuple<Bundle, int>>());
 
         list = this.Q<ListView>("BundleList");
         list.itemsSource = targets;
@@ -47,11 +48,35 @@ public class LBSGlobalBundlesInspector : VisualElement
         this.generalPanel = this.Q<GeneralBundlesPanel>("GeneralPanel");
         this.characteristicsPanel = this.Q<CharacteristicsPanel>("CharacteristicsPanel");
 
-        if(selected == null)
+        if (selected == null)
         {
             this.generalPanel.style.display = DisplayStyle.None;
             this.characteristicsPanel.style.display = DisplayStyle.None;
         }
+    }
+
+    private List<Tuple<Bundle,int>> OrderList(List<Bundle> bundles, int currentValue, List<Tuple<Bundle, int>> closed)
+    {
+        var roots = GetRoots(bundles);
+
+        foreach (var root in roots)
+        {
+            if(closed.Select(t => t.Item1).Contains(root))
+            {
+                continue;
+            }
+
+            closed.Add(new Tuple<Bundle,int>(root, currentValue));
+
+            var bb = root as CompositeBundle;
+            if(bb != null && bb.Bundles.Count() > 0)
+            {
+                var nextValue = currentValue + 1;
+                var tempClosed = OrderList(bb.Bundles,nextValue, closed);
+            }
+        }
+
+        return closed;
     }
 
     private List<Bundle> GetRoots(List<Bundle> bundles)
@@ -81,7 +106,7 @@ public class LBSGlobalBundlesInspector : VisualElement
             return;
 
         var view = (ve as BundleAssetView);
-        view.SetInfo(targets[index]);
+        view.SetInfo(targets[index].Item1, targets[index].Item2);
     }
 
     private void OnItemChosen(IEnumerable<object> objects)
@@ -105,12 +130,13 @@ public class LBSGlobalBundlesInspector : VisualElement
 
         var settings = LBSSettings.Instance;
 
-        var name = ISILab.Commons.Commons.CheckNameFormat(targets.Select(b => b.name), "Asset bundle");
+        var name = ISILab.Commons.Commons.CheckNameFormat(targets.Select(b => b.Item1.name), "Asset bundle");
 
         AssetDatabase.CreateAsset(nSO, settings.bundleFolderPath + "/" + name + ".asset");
         AssetDatabase.SaveAssets();
 
-        targets = Utility.DirectoryTools.GetScriptables<Bundle>().ToList();
+        var all = Utility.DirectoryTools.GetScriptables<Bundle>().ToList();
+        this.targets = OrderList(all, 0, new List<Tuple<Bundle, int>>());
         list.itemsSource = targets;
 
         list.Rebuild();
@@ -125,7 +151,8 @@ public class LBSGlobalBundlesInspector : VisualElement
         AssetDatabase.DeleteAsset(path);
         AssetDatabase.SaveAssets();
 
-        targets = Utility.DirectoryTools.GetScriptables<Bundle>().ToList();
+        var all = Utility.DirectoryTools.GetScriptables<Bundle>().ToList();
+        this.targets = OrderList(all, 0, new List<Tuple<Bundle, int>>());
         list.itemsSource = targets;
 
         list.Rebuild();

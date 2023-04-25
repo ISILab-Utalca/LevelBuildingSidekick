@@ -13,12 +13,8 @@ public class BundleAssetView : VisualElement
     private Label label;
     private VisualElement icon;
     private VisualElement tab;
-    private ListView childList;
-    private VisualElement contentChild;
 
     private Bundle target;
-
-    private Bundle selected;
 
     public BundleAssetView()
     {
@@ -28,61 +24,18 @@ public class BundleAssetView : VisualElement
         this.label = this.Q<Label>("Name");
         this.icon = this.Q<VisualElement>("Icon");
         this.tab = this.Q<VisualElement>("Tab");
-        this.contentChild = this.Q<VisualElement>("ContentChild");
-
-        this.childList = this.Q<ListView>("ChildList");
-        childList.makeItem = MakeItem;
-        childList.bindItem = BindItem;
-        childList.onItemsChosen += OnItemChosen;
-        childList.onSelectionChange += OnSelectionChange;
-        childList.style.flexGrow = 1.0f;
     }
 
-    private VisualElement MakeItem()
-    {
-        return new BundleAssetView();
-    }
-
-    private void BindItem(VisualElement ve, int index)
-    {
-        var b = (CompositeBundle)target;
-
-        if (index >= b.Bundles.Count)
-            return;
-
-        var view = (ve as BundleAssetView);
-        view.SetInfo(b.Bundles[index]);
-    }
-
-    private void OnItemChosen(IEnumerable<object> objects)
-    {
-
-    }
-
-    private void OnSelectionChange(IEnumerable<object> objects)
-    {
-        selected = objects.ToList()[0] as Bundle;
-
-        // this.generalPanel.style.display = DisplayStyle.Flex;
-        // this.characteristicsPanel.style.display = DisplayStyle.Flex;
-        // this.generalPanel.SetInfo(selected);
-        // this.characteristicsPanel.SetInfo(selected);
-    }
-
-    public void SetInfo(Bundle target)
+    public void SetInfo(Bundle target,int value)
     {
         this.target = target;
 
         this.label.text = target.name;
-        this.icon.style.backgroundImage = target.ID.Icon;
 
-        if(target.GetType() == typeof(CompositeBundle))
-        {
-            childList.itemsSource = ((CompositeBundle)target).Bundles;
-        }
-        else
-        {
-            contentChild.style.display = DisplayStyle.None;
-        }
+        if(target.ID != null)
+            this.icon.style.backgroundImage = target.ID.Icon;
+
+        tab.style.width =  20 * value;
+        Debug.Log(tab.style.width);
     }
 }
