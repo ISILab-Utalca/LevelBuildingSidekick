@@ -23,4 +23,9 @@ public class GeneralBundlesPanel : VisualElement
         this.textField = this.Q<TextField>("NameField");
         this.colorField = this.Q<ColorField>("ColorField");
     }
+
+    public void SetInfo(Bundle target)
+    {
+
+    }
 }
