@@ -3,29 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Speech.Recognition.SrgsGrammar;
 using System;
+using System.Linq;
 
+[System.Serializable]
 public class GrammarTree
 {
-    public Dictionary<string, TerminalNode> Terminals = new Dictionary<string, TerminalNode>();
-    public Dictionary<string, NonTerminalNode> NonTerminals = new Dictionary<string, NonTerminalNode>();
-    public Dictionary<string, ProductionNode> Productions = new Dictionary<string, ProductionNode>();
-    public Dictionary<string, GrammarNode> Actions = new Dictionary<string, GrammarNode>();
+    [SerializeField]
+    public List<GrammarTerminal> Terminals = new List<GrammarTerminal>();
+    [SerializeField]
+    public List<GrammarNonTerminal> NonTerminals = new List<GrammarNonTerminal>();
+    [SerializeField]
+    public List<GrammarProduction> Productions = new List<GrammarProduction>();
 
-    private GrammarNode root;
-    public GrammarNode Root { 
+    [SerializeField, SerializeReference]
+    private GrammarElement root;
+    public GrammarElement Root { 
         get => root;
         set 
         {
             root = value;
             UpdateRoot();
         } 
+
     }
 
     public GrammarTree()
     {
     }
 
-    public GrammarTree(GrammarNode root)
+    public GrammarTree(GrammarElement root)
     {
         Root = root;
     }
@@ -34,68 +40,66 @@ public class GrammarTree
     {
         while (true)
         {
-            //Debug.Log(root.GetType().Name);
-            if (root is TerminalNode)
+            if (root is GrammarTerminal)
                 break;
-            if (root is ProductionNode)
+            if (root is GrammarProduction)
             {
-                var node = (root as ProductionNode);
+                var node = (root as GrammarProduction);
                 if (node.Nodes.Count > 1)
                 {
-                    //Debug.Log(Root.ID);
                     break;
                 }
                 root = node.Nodes[0];
-                //Debug.Log("Out");
                 continue;
             }
-            if (root is NonTerminalNode)
+            if (root is GrammarNonTerminal)
             {
-                var node = (root as NonTerminalNode);
+                var node = (root as GrammarNonTerminal);
                 if (node.Nodes.Count > 1)
                 {
-                    //Debug.Log(root.ID);
                     break;
                 }
                 root = node.Nodes[0];
-                //Debug.Log("Out");
                 continue;
-            }
-        }
-
-        Actions.Clear();
-
-        if (root is NonTerminalNode)
-        {
-            var nodes = (root as NonTerminalNode).Nodes;
-            foreach (var node in nodes)
-            {
-                Actions.Add(node.ID, node);
-            }
-        }
-        else if (root is ProductionNode)
-        {
-            var nodes = (root as ProductionNode).Nodes;
-            foreach (var node in nodes)
-            {
-                Actions.Add(node.ID, node);
             }
         }
     }
 
-    internal GrammarNode GetGrammarElement(string grammarKey)
+    public List<GrammarElement> GetActions()
     {
-        if (Terminals.ContainsKey(grammarKey))
+        var actions = new List<GrammarElement>();
+        if (root is GrammarNonTerminal)
         {
-            return Terminals[grammarKey];
+            var nodes = (root as GrammarNonTerminal).Nodes;
+            foreach (var node in nodes)
+            {
+                actions.Add(node);
+            }
         }
-        else if (NonTerminals.ContainsKey(grammarKey))
+        else if (root is GrammarProduction)
         {
-            return NonTerminals[grammarKey];
+            var nodes = (root as GrammarProduction).Nodes;
+            foreach (var node in nodes)
+            {
+                actions.Add(node);
+            }
         }
-        else if(Productions.ContainsKey(grammarKey))
+        return actions;
+    }
+
+    internal GrammarElement GetGrammarElement(string grammarKey)
+    {
+        if (Terminals.Any(g => g.ID == grammarKey))
         {
-            return Productions[grammarKey];
+            return Terminals.Find(g => g.ID == grammarKey);
+        }
+        else if (NonTerminals.Any(g => g.ID == grammarKey))
+        {
+            return NonTerminals.Find(g => g.ID == grammarKey);
+        }
+        else if(Productions.Any(g => g.ID == grammarKey))
+        {
+            return Productions.Find(g => g.ID == grammarKey);
         }
         return null;
 
@@ -106,7 +110,7 @@ public class GrammarTree
         return Root.GetText();
     }
 
-    public List<GrammarNode> NodeSentence()
+    public List<GrammarElement> NodeSentence()
     {
         return Root.GetTerminals();
     }

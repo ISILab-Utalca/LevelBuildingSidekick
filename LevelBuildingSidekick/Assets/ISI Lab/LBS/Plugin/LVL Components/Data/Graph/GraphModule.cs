@@ -79,6 +79,7 @@ namespace LBS.Components.Graph
             {
                 RemoveEdges(node);
                 nodes.Remove(node);
+                OnRemoveData?.Invoke(node);
                 OnChanged?.Invoke(this);
                 return true;
             }
@@ -127,6 +128,7 @@ namespace LBS.Components.Graph
             {
                 nodes.Add(node);
                 OnChanged?.Invoke(this);
+                OnAddData?.Invoke(node);
                 return true;
             }
 
@@ -314,6 +316,18 @@ namespace LBS.Components.Graph
         }
 
         #endregion
+    }
+
+    public class LBSGraph : GraphModule<LBSNode>
+    {
+        public LBSGraph() : base() {}
+
+        public LBSGraph(List<LBSNode> nodes, List<LBSEdge> edges, string key) : base(nodes, edges, key) {}
+
+        public override object Clone()
+        {
+            return new LBSGraph(nodes.Select(n => n.Clone() as LBSNode).ToList(), edges.Select(e => e.Clone() as LBSEdge).ToList(), key);
+        }
     }
 }
 

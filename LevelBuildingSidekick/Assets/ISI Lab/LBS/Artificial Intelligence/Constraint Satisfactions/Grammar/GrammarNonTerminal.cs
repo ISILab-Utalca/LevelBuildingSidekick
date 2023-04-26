@@ -1,24 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public class NonTerminalNode : GrammarNode
-{
-    List<GrammarNode> nodes;
-    public List<GrammarNode> Nodes => nodes;
 
-    public NonTerminalNode(string id, List<GrammarNode> alternations)
+[System.Serializable]
+public class GrammarNonTerminal : GrammarElement
+{
+    [SerializeField, SerializeReference]
+    List<GrammarElement> nodes;
+    public List<GrammarElement> Nodes => nodes;
+
+    public GrammarNonTerminal(string id, List<GrammarElement> alternations)
     {
         ID = id;
         nodes = alternations;
     }
-    public NonTerminalNode(string id)
+    public GrammarNonTerminal(string id)
     {
         ID = id;
-        nodes = new List<GrammarNode>();
+        nodes = new List<GrammarElement>();
     }
 
-    public override List<GrammarNode> GetTerminals()
+    public override List<GrammarElement> GetTerminals()
     {
         return nodes[Random.Range(0, nodes.Count - 1)].GetTerminals();
     }
@@ -27,7 +31,7 @@ public class NonTerminalNode : GrammarNode
     {
         return nodes[Random.Range(0, nodes.Count - 1)].GetText();
     }
-    public void AppendNode(GrammarNode node)
+    public void AppendNode(GrammarElement node)
     {
         nodes.Add(node);
     }
@@ -50,7 +54,7 @@ public class NonTerminalNode : GrammarNode
         return expansions;
     }
 
-    public override List<GrammarNode> GetExpansion(int index)
+    public override List<GrammarElement> GetExpansion(int index)
     {
         if (index < 0 || index >= nodes.Count)
         {
@@ -69,5 +73,10 @@ public class NonTerminalNode : GrammarNode
     public override string ToString()
     {
         return base.ToString();
+    }
+
+    public override object Clone()
+    {
+        return new GrammarNonTerminal(ID, Nodes.Select(e => e.Clone() as GrammarElement).ToList());
     }
 }

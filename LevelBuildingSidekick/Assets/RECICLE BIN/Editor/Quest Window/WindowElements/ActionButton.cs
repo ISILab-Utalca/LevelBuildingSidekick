@@ -10,7 +10,7 @@ public class ActionButton : VisualElement
     public Button ActionBtn;
     public Button AddBtn;
 
-    public GrammarNode grammarElement;
+    public GrammarElement grammarElement;
 
     public ActionButton()
     {
@@ -21,7 +21,7 @@ public class ActionButton : VisualElement
         AddBtn = this.Q<Button>(name: "AddBtn");
     }
 
-    public ActionButton(string label, GrammarNode grammarElement)
+    public ActionButton(string label, GrammarElement grammarElement)
     {
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("ActionButtonUXML");
         visualTree.CloneTree(this);
