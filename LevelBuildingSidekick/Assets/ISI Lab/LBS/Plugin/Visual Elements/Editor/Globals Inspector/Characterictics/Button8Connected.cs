@@ -28,6 +28,10 @@ public class Button8Connected : VisualElement
     private Button cxn4;
     private Button cxn8;
 
+    private VisualElement connection1;
+    private VisualElement connection4;
+    private VisualElement connection8;
+
     public Button8Connected()
     {
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("Button8Connected");
@@ -44,6 +48,10 @@ public class Button8Connected : VisualElement
         bottomLeft = this.Q<Button>("BottomLeft");
         bottom = this.Q<Button>("Bottom");
         bottomRight = this.Q<Button>("BottomRight");
+
+        connection1 = this.Q<VisualElement>("Connection1");
+        connection4 = this.Q<VisualElement>("Connection4");
+        connection8 = this.Q<VisualElement>("Connection8");
 
     }
 
