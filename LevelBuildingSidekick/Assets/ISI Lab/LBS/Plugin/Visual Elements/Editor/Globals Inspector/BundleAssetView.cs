@@ -36,6 +36,5 @@ public class BundleAssetView : VisualElement
             this.icon.style.backgroundImage = target.ID.Icon;
 
         tab.style.width =  20 * value;
-        Debug.Log(tab.style.width);
     }
 }
