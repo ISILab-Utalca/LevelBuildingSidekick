@@ -77,7 +77,7 @@ public class TaggedTileMapChromosome : LBSChromosome, IDrawable
     public override LBSModule ToModule()
     {
 
-        var tiles = new List<PairTB>(); 
+        var tiles = new List<TileBundlePair>(); 
 
         for(int i = 0; i < Length; i++)
         {
@@ -85,7 +85,7 @@ public class TaggedTileMapChromosome : LBSChromosome, IDrawable
             {
                 var pos = ToMatrixPosition(i) + Rect.position;
                 var t = new LBSTile(pos, "Tile: " + pos);
-                tiles.Add(new PairTB(t, genes[i] as BundleData));
+                tiles.Add(new TileBundlePair(t, genes[i] as BundleData));
             }
         }
 

@@ -54,6 +54,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// </summary>
 
         public int Length => genes.Length;
+        public int ImmutablesCount => immutableIndexes.Length;
         #endregion
 
         #region Methods

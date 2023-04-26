@@ -11,10 +11,10 @@ using UnityEngine;
 public class TaggedTileMap : LBSModule
 {
     [SerializeField, JsonRequired, SerializeReference]
-    private List<PairTB> pairTiles = new List<PairTB>();
+    private List<TileBundlePair> pairTiles = new List<TileBundlePair>();
 
     [JsonIgnore]
-    public List<PairTB> PairTiles => pairTiles;
+    public List<TileBundlePair> PairTiles => pairTiles;
 
     public Func<LBSTile, bool> OnRemoveTile { get; private set; }
 
@@ -26,7 +26,7 @@ public class TaggedTileMap : LBSModule
         Key = GetType().Name;
     }
 
-    public TaggedTileMap(string key, List<PairTB> tiles) : base(key)
+    public TaggedTileMap(string key, List<TileBundlePair> tiles) : base(key)
     {
         this.pairTiles = tiles;
     }
@@ -54,7 +54,7 @@ public class TaggedTileMap : LBSModule
         if(t == null)
         {
             var data = new BundleData(bundle.ID.Label, bundle.GetCharacteristics());
-            pairTiles.Add(new PairTB(tile, data));
+            pairTiles.Add(new TileBundlePair(tile, data));
         }
         else
         {
@@ -65,10 +65,10 @@ public class TaggedTileMap : LBSModule
 
     public override object Clone()
     {
-        var dir = new List<PairTB>();
+        var dir = new List<TileBundlePair>();
         foreach (var pair in pairTiles)
         {
-            dir.Add(new PairTB(pair.tile, pair.bData));
+            dir.Add(new TileBundlePair(pair.tile, pair.bData));
         }
 
         return new TaggedTileMap(key, dir);
@@ -117,8 +117,8 @@ public class TaggedTileMap : LBSModule
         if(xx != null)
         {
             RemoveTile(xx);
-            pairTiles.Add(new PairTB(t, new BundleData()));
         }
+        pairTiles.Add(new TileBundlePair(t, new BundleData()));
         //if (pairTiles.ContainsKey(t))
         //    pairTiles.Add((t), new BundleData());
     }
@@ -153,14 +153,14 @@ public class TaggedTileMap : LBSModule
 }
 
 [System.Serializable]
-public class PairTB
+public class TileBundlePair
 {
     [SerializeField]
     public LBSTile tile;
     [SerializeField]
     public BundleData bData;
 
-    public PairTB(LBSTile tile, BundleData bData)
+    public TileBundlePair(LBSTile tile, BundleData bData)
     {
         this.tile = tile;
         this.bData = bData;

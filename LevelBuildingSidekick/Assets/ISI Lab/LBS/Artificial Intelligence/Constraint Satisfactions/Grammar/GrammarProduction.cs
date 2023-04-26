@@ -1,32 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public class ProductionNode : GrammarNode
-{
-    List<GrammarNode> nodes;
-    public List<GrammarNode> Nodes => nodes;
 
-    public ProductionNode(string id, List<GrammarNode> rhs)
+[System.Serializable]
+public class GrammarProduction : GrammarElement
+{
+    [SerializeField, SerializeReference]
+    List<GrammarElement> nodes;
+    public List<GrammarElement> Nodes => nodes;
+
+    public GrammarProduction(string id, List<GrammarElement> rhs)
     {
         ID = id;
         nodes = rhs;
     }
 
-    public ProductionNode(string id)
+    public GrammarProduction(string id)
     {
         ID = id;
-        nodes = new List<GrammarNode>();
+        nodes = new List<GrammarElement>();
     }
 
-    public ProductionNode()
+    public GrammarProduction()
     {
-        nodes = new List<GrammarNode>();
+        nodes = new List<GrammarElement>();
     }
 
-    public override List<GrammarNode> GetTerminals()
+    public override List<GrammarElement> GetTerminals()
     {
-        var list = new List<GrammarNode>();
+        var list = new List<GrammarElement>();
         foreach (var n in nodes)
         {
             list.AddRange(n.GetTerminals());
@@ -44,16 +48,16 @@ public class ProductionNode : GrammarNode
         return text;
     }
 
-    public void AppendNode(GrammarNode node)
+    public void AppendNode(GrammarElement node)
     {
         nodes.Add(node);
     }
 
     public override List<string> GetExpansionsText()
     {
-        if (nodes.Count == 1 && nodes[0] is NonTerminalNode)
+        if (nodes.Count == 1 && nodes[0] is GrammarNonTerminal)
         {
-            if (nodes[0] is NonTerminalNode)
+            if (nodes[0] is GrammarNonTerminal)
             {
                 return nodes[0].GetExpansionsText();
             }
@@ -73,15 +77,20 @@ public class ProductionNode : GrammarNode
         return new List<string>() { expansion };
     }
 
-    public override List<GrammarNode> GetExpansion(int index)
+    public override List<GrammarElement> GetExpansion(int index)
     {
 
-        if (nodes.Count == 1 && nodes[0] is NonTerminalNode)
+        if (nodes.Count == 1 && nodes[0] is GrammarNonTerminal)
         {
             return nodes[0].GetExpansion(index);
         }
 
 
         return nodes;
+    }
+
+    public override object Clone()
+    {
+        return new GrammarProduction(ID, nodes.Select(e => e.Clone() as GrammarElement).ToList());
     }
 }

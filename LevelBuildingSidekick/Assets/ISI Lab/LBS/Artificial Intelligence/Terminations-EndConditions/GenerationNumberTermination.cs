@@ -21,7 +21,7 @@ namespace Commons.Optimization.Terminations
         /// </remarks>
         public GenerationNumberTermination()
         {
-            ExpectedGenerationNumber = 100;
+            ExpectedGenerationNumber = 500;
         }
 
         /// <summary>

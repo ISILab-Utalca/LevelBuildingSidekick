@@ -1,0 +1,563 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 413f9f532ddefee4cb50a01f79231155, type: 3}
+  m_Name: TestGrammar
+  m_EditorClassIdentifier: 
+  grammarTree:
+    Terminals:
+    - id: explore
+      terminal: explore
+    - id: listen
+      terminal: listen
+    - id: stealth take
+      terminal: stealth take
+    - id: kill
+      terminal: kill
+    - id: take
+      terminal: take
+    - id: gather
+      terminal: gather
+    - id: exchange
+      terminal: exchange
+    - id: read
+      terminal: read
+    - id: give listen
+      terminal: give listen
+    - id: go to
+      terminal: go to
+    - id: capture
+      terminal: capture
+    - id: spy
+      terminal: spy
+    - id: report
+      terminal: report
+    NonTerminals:
+    - id: Quest.0
+      nodes:
+      - rid: 3012264418169585727
+      - rid: 3012264418169585728
+      - rid: 3012264418169585729
+      - rid: 3012264418169585730
+      - rid: 3012264418169585731
+      - rid: 3012264418169585732
+      - rid: 3012264418169585733
+      - rid: 3012264418169585734
+    - id: Subquest.0
+      nodes:
+      - rid: 3012264418169585735
+      - rid: 3012264418169585736
+    - id: Goto.0
+      nodes:
+      - rid: 3012264418169585737
+      - rid: 3012264418169585738
+      - rid: 3012264418169585739
+      - rid: 3012264418169585740
+    - id: Learn.0
+      nodes:
+      - rid: 3012264418169585741
+      - rid: 3012264418169585742
+      - rid: 3012264418169585743
+      - rid: 3012264418169585744
+    - id: Get.0
+      nodes:
+      - rid: 3012264418169585745
+      - rid: 3012264418169585746
+      - rid: 3012264418169585747
+      - rid: 3012264418169585748
+    - id: Steal.0
+      nodes:
+      - rid: 3012264418169585749
+      - rid: 3012264418169585750
+    - id: Kill.0
+      nodes:
+      - rid: 3012264418169585751
+    - id: Capture.0
+      nodes:
+      - rid: 3012264418169585752
+    - id: Spy.0
+      nodes:
+      - rid: 3012264418169585753
+    Productions:
+    - id: Quest
+      nodes:
+      - rid: 3012264418169585754
+    - id: Subquest
+      nodes:
+      - rid: 3012264418169585755
+    - id: Subquest.0.0
+      nodes:
+      - rid: 3012264418169585728
+    - id: Goto
+      nodes:
+      - rid: 3012264418169585756
+    - id: Goto.0.0
+      nodes: []
+    - id: Goto.0.1
+      nodes:
+      - rid: 3012264418169585757
+    - id: Goto.0.2
+      nodes:
+      - rid: 3012264418169585729
+      - rid: 3012264418169585758
+    - id: Learn
+      nodes:
+      - rid: 3012264418169585759
+    - id: Learn.0.0
+      nodes: []
+    - id: Learn.0.1
+      nodes:
+      - rid: 3012264418169585728
+      - rid: 3012264418169585727
+      - rid: 3012264418169585760
+    - id: Learn.0.2
+      nodes:
+      - rid: 3012264418169585728
+      - rid: 3012264418169585730
+      - rid: 3012264418169585761
+    - id: Get
+      nodes:
+      - rid: 3012264418169585762
+    - id: Get.0.0
+      nodes: []
+    - id: Get.0.1
+      nodes:
+      - rid: 3012264418169585731
+    - id: Steal
+      nodes:
+      - rid: 3012264418169585763
+    - id: Steal.0.0
+      nodes:
+      - rid: 3012264418169585728
+      - rid: 3012264418169585764
+    - id: Steal.0.1
+      nodes:
+      - rid: 3012264418169585728
+      - rid: 3012264418169585732
+      - rid: 3012264418169585765
+    - id: Kill
+      nodes:
+      - rid: 3012264418169585766
+    - id: Kill.0.0
+      nodes:
+      - rid: 3012264418169585728
+      - rid: 3012264418169585767
+    - id: Get.0.2
+      nodes:
+      - rid: 3012264418169585728
+      - rid: 3012264418169585768
+    - id: Get.0.3
+      nodes:
+      - rid: 3012264418169585728
+      - rid: 3012264418169585730
+      - rid: 3012264418169585728
+      - rid: 3012264418169585727
+      - rid: 3012264418169585769
+    - id: Learn.0.3
+      nodes:
+      - rid: 3012264418169585730
+      - rid: 3012264418169585727
+      - rid: 3012264418169585770
+    - id: Goto.0.3
+      nodes:
+      - rid: 3012264418169585758
+    - id: Subquest.0.1
+      nodes:
+      - rid: 3012264418169585728
+      - rid: 3012264418169585771
+      - rid: 3012264418169585758
+    - id: Capture
+      nodes:
+      - rid: 3012264418169585772
+    - id: Capture.0.0
+      nodes:
+      - rid: 3012264418169585730
+      - rid: 3012264418169585728
+      - rid: 3012264418169585773
+    - id: Spy
+      nodes:
+      - rid: 3012264418169585774
+    - id: Spy.0.0
+      nodes:
+      - rid: 3012264418169585728
+      - rid: 3012264418169585775
+      - rid: 3012264418169585728
+      - rid: 3012264418169585776
+    root:
+      rid: 3012264418169585754
+  actions:
+  - grammarElement:
+      rid: 3012264418169585757
+    targets: []
+  - grammarElement:
+      rid: 3012264418169585760
+    targets: []
+  - grammarElement:
+      rid: 3012264418169585764
+    targets: []
+  - grammarElement:
+      rid: 3012264418169585767
+    targets: []
+  - grammarElement:
+      rid: 3012264418169585765
+    targets: []
+  - grammarElement:
+      rid: 3012264418169585768
+    targets: []
+  - grammarElement:
+      rid: 3012264418169585769
+    targets: []
+  - grammarElement:
+      rid: 3012264418169585761
+    targets: []
+  - grammarElement:
+      rid: 3012264418169585770
+    targets: []
+  - grammarElement:
+      rid: 3012264418169585758
+    targets: []
+  - grammarElement:
+      rid: 3012264418169585773
+    targets: []
+  - grammarElement:
+      rid: 3012264418169585775
+    targets: []
+  - grammarElement:
+      rid: 3012264418169585776
+    targets: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 3012264418169585727
+      type: {class: GrammarProduction, ns: , asm: Assembly-CSharp}
+      data:
+        id: Subquest
+        nodes:
+        - rid: 3012264418169585755
+    - rid: 3012264418169585728
+      type: {class: GrammarProduction, ns: , asm: Assembly-CSharp}
+      data:
+        id: Goto
+        nodes:
+        - rid: 3012264418169585756
+    - rid: 3012264418169585729
+      type: {class: GrammarProduction, ns: , asm: Assembly-CSharp}
+      data:
+        id: Learn
+        nodes:
+        - rid: 3012264418169585759
+    - rid: 3012264418169585730
+      type: {class: GrammarProduction, ns: , asm: Assembly-CSharp}
+      data:
+        id: Get
+        nodes:
+        - rid: 3012264418169585762
+    - rid: 3012264418169585731
+      type: {class: GrammarProduction, ns: , asm: Assembly-CSharp}
+      data:
+        id: Steal
+        nodes:
+        - rid: 3012264418169585763
+    - rid: 3012264418169585732
+      type: {class: GrammarProduction, ns: , asm: Assembly-CSharp}
+      data:
+        id: Kill
+        nodes:
+        - rid: 3012264418169585766
+    - rid: 3012264418169585733
+      type: {class: GrammarProduction, ns: , asm: Assembly-CSharp}
+      data:
+        id: Capture
+        nodes:
+        - rid: 3012264418169585772
+    - rid: 3012264418169585734
+      type: {class: GrammarProduction, ns: , asm: Assembly-CSharp}
+      data:
+        id: Spy
+        nodes:
+        - rid: 3012264418169585774
+    - rid: 3012264418169585735
+      type: {class: GrammarProduction, ns: , asm: Assembly-CSharp}
+      data:
+        id: Subquest.0.0
+        nodes:
+        - rid: 3012264418169585728
+    - rid: 3012264418169585736
+      type: {class: GrammarProduction, ns: , asm: Assembly-CSharp}
+      data:
+        id: Subquest.0.1
+        nodes:
+        - rid: 3012264418169585728
+        - rid: 3012264418169585771
+        - rid: 3012264418169585758
+    - rid: 3012264418169585737
+      type: {class: GrammarProduction, ns: , asm: Assembly-CSharp}
+      data:
+        id: Goto.0.0
+        nodes: []
+    - rid: 3012264418169585738
+      type: {class: GrammarProduction, ns: , asm: Assembly-CSharp}
+      data:
+        id: Goto.0.1
+        nodes:
+        - rid: 3012264418169585757
+    - rid: 3012264418169585739
+      type: {class: GrammarProduction, ns: , asm: Assembly-CSharp}
+      data:
+        id: Goto.0.2
+        nodes:
+        - rid: 3012264418169585729
+        - rid: 3012264418169585758
+    - rid: 3012264418169585740
+      type: {class: GrammarProduction, ns: , asm: Assembly-CSharp}
+      data:
+        id: Goto.0.3
+        nodes:
+        - rid: 3012264418169585758
+    - rid: 3012264418169585741
+      type: {class: GrammarProduction, ns: , asm: Assembly-CSharp}
+      data:
+        id: Learn.0.0
+        nodes: []
+    - rid: 3012264418169585742
+      type: {class: GrammarProduction, ns: , asm: Assembly-CSharp}
+      data:
+        id: Learn.0.1
+        nodes:
+        - rid: 3012264418169585728
+        - rid: 3012264418169585727
+        - rid: 3012264418169585760
+    - rid: 3012264418169585743
+      type: {class: GrammarProduction, ns: , asm: Assembly-CSharp}
+      data:
+        id: Learn.0.2
+        nodes:
+        - rid: 3012264418169585728
+        - rid: 3012264418169585730
+        - rid: 3012264418169585761
+    - rid: 3012264418169585744
+      type: {class: GrammarProduction, ns: , asm: Assembly-CSharp}
+      data:
+        id: Learn.0.3
+        nodes:
+        - rid: 3012264418169585730
+        - rid: 3012264418169585727
+        - rid: 3012264418169585770
+    - rid: 3012264418169585745
+      type: {class: GrammarProduction, ns: , asm: Assembly-CSharp}
+      data:
+        id: Get.0.0
+        nodes: []
+    - rid: 3012264418169585746
+      type: {class: GrammarProduction, ns: , asm: Assembly-CSharp}
+      data:
+        id: Get.0.1
+        nodes:
+        - rid: 3012264418169585731
+    - rid: 3012264418169585747
+      type: {class: GrammarProduction, ns: , asm: Assembly-CSharp}
+      data:
+        id: Get.0.2
+        nodes:
+        - rid: 3012264418169585728
+        - rid: 3012264418169585768
+    - rid: 3012264418169585748
+      type: {class: GrammarProduction, ns: , asm: Assembly-CSharp}
+      data:
+        id: Get.0.3
+        nodes:
+        - rid: 3012264418169585728
+        - rid: 3012264418169585730
+        - rid: 3012264418169585728
+        - rid: 3012264418169585727
+        - rid: 3012264418169585769
+    - rid: 3012264418169585749
+      type: {class: GrammarProduction, ns: , asm: Assembly-CSharp}
+      data:
+        id: Steal.0.0
+        nodes:
+        - rid: 3012264418169585728
+        - rid: 3012264418169585764
+    - rid: 3012264418169585750
+      type: {class: GrammarProduction, ns: , asm: Assembly-CSharp}
+      data:
+        id: Steal.0.1
+        nodes:
+        - rid: 3012264418169585728
+        - rid: 3012264418169585732
+        - rid: 3012264418169585765
+    - rid: 3012264418169585751
+      type: {class: GrammarProduction, ns: , asm: Assembly-CSharp}
+      data:
+        id: Kill.0.0
+        nodes:
+        - rid: 3012264418169585728
+        - rid: 3012264418169585767
+    - rid: 3012264418169585752
+      type: {class: GrammarProduction, ns: , asm: Assembly-CSharp}
+      data:
+        id: Capture.0.0
+        nodes:
+        - rid: 3012264418169585730
+        - rid: 3012264418169585728
+        - rid: 3012264418169585773
+    - rid: 3012264418169585753
+      type: {class: GrammarProduction, ns: , asm: Assembly-CSharp}
+      data:
+        id: Spy.0.0
+        nodes:
+        - rid: 3012264418169585728
+        - rid: 3012264418169585775
+        - rid: 3012264418169585728
+        - rid: 3012264418169585776
+    - rid: 3012264418169585754
+      type: {class: GrammarNonTerminal, ns: , asm: Assembly-CSharp}
+      data:
+        id: Quest.0
+        nodes:
+        - rid: 3012264418169585727
+        - rid: 3012264418169585728
+        - rid: 3012264418169585729
+        - rid: 3012264418169585730
+        - rid: 3012264418169585731
+        - rid: 3012264418169585732
+        - rid: 3012264418169585733
+        - rid: 3012264418169585734
+    - rid: 3012264418169585755
+      type: {class: GrammarNonTerminal, ns: , asm: Assembly-CSharp}
+      data:
+        id: Subquest.0
+        nodes:
+        - rid: 3012264418169585735
+        - rid: 3012264418169585736
+    - rid: 3012264418169585756
+      type: {class: GrammarNonTerminal, ns: , asm: Assembly-CSharp}
+      data:
+        id: Goto.0
+        nodes:
+        - rid: 3012264418169585737
+        - rid: 3012264418169585738
+        - rid: 3012264418169585739
+        - rid: 3012264418169585740
+    - rid: 3012264418169585757
+      type: {class: GrammarTerminal, ns: , asm: Assembly-CSharp}
+      data:
+        id: explore
+        terminal: explore
+    - rid: 3012264418169585758
+      type: {class: GrammarTerminal, ns: , asm: Assembly-CSharp}
+      data:
+        id: go to
+        terminal: go to
+    - rid: 3012264418169585759
+      type: {class: GrammarNonTerminal, ns: , asm: Assembly-CSharp}
+      data:
+        id: Learn.0
+        nodes:
+        - rid: 3012264418169585741
+        - rid: 3012264418169585742
+        - rid: 3012264418169585743
+        - rid: 3012264418169585744
+    - rid: 3012264418169585760
+      type: {class: GrammarTerminal, ns: , asm: Assembly-CSharp}
+      data:
+        id: listen
+        terminal: listen
+    - rid: 3012264418169585761
+      type: {class: GrammarTerminal, ns: , asm: Assembly-CSharp}
+      data:
+        id: read
+        terminal: read
+    - rid: 3012264418169585762
+      type: {class: GrammarNonTerminal, ns: , asm: Assembly-CSharp}
+      data:
+        id: Get.0
+        nodes:
+        - rid: 3012264418169585745
+        - rid: 3012264418169585746
+        - rid: 3012264418169585747
+        - rid: 3012264418169585748
+    - rid: 3012264418169585763
+      type: {class: GrammarNonTerminal, ns: , asm: Assembly-CSharp}
+      data:
+        id: Steal.0
+        nodes:
+        - rid: 3012264418169585749
+        - rid: 3012264418169585750
+    - rid: 3012264418169585764
+      type: {class: GrammarTerminal, ns: , asm: Assembly-CSharp}
+      data:
+        id: stealth take
+        terminal: stealth take
+    - rid: 3012264418169585765
+      type: {class: GrammarTerminal, ns: , asm: Assembly-CSharp}
+      data:
+        id: take
+        terminal: take
+    - rid: 3012264418169585766
+      type: {class: GrammarNonTerminal, ns: , asm: Assembly-CSharp}
+      data:
+        id: Kill.0
+        nodes:
+        - rid: 3012264418169585751
+    - rid: 3012264418169585767
+      type: {class: GrammarTerminal, ns: , asm: Assembly-CSharp}
+      data:
+        id: kill
+        terminal: kill
+    - rid: 3012264418169585768
+      type: {class: GrammarTerminal, ns: , asm: Assembly-CSharp}
+      data:
+        id: gather
+        terminal: gather
+    - rid: 3012264418169585769
+      type: {class: GrammarTerminal, ns: , asm: Assembly-CSharp}
+      data:
+        id: exchange
+        terminal: exchange
+    - rid: 3012264418169585770
+      type: {class: GrammarTerminal, ns: , asm: Assembly-CSharp}
+      data:
+        id: give listen
+        terminal: give listen
+    - rid: 3012264418169585771
+      type: {class: GrammarProduction, ns: , asm: Assembly-CSharp}
+      data:
+        id: Quest
+        nodes:
+        - rid: 3012264418169585754
+    - rid: 3012264418169585772
+      type: {class: GrammarNonTerminal, ns: , asm: Assembly-CSharp}
+      data:
+        id: Capture.0
+        nodes:
+        - rid: 3012264418169585752
+    - rid: 3012264418169585773
+      type: {class: GrammarTerminal, ns: , asm: Assembly-CSharp}
+      data:
+        id: capture
+        terminal: capture
+    - rid: 3012264418169585774
+      type: {class: GrammarNonTerminal, ns: , asm: Assembly-CSharp}
+      data:
+        id: Spy.0
+        nodes:
+        - rid: 3012264418169585753
+    - rid: 3012264418169585775
+      type: {class: GrammarTerminal, ns: , asm: Assembly-CSharp}
+      data:
+        id: spy
+        terminal: spy
+    - rid: 3012264418169585776
+      type: {class: GrammarTerminal, ns: , asm: Assembly-CSharp}
+      data:
+        id: report
+        terminal: report

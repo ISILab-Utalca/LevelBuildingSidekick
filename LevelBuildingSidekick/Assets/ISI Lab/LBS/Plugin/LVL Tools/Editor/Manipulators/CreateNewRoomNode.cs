@@ -19,7 +19,6 @@ public class CreateNewRoomNode : LBSManipulator // where T: LBSNode  // (!) Crea
     public CreateNewRoomNode(/*string prefix = "", string postfix = ""*/) : base() 
     {
         this.prefix = "Node: ";
-        this.postfix = postfix;
     }
 
     public override void Init(ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
