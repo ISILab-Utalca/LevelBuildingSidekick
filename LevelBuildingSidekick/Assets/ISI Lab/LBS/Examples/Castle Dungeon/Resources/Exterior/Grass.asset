@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95a9e63de28b9dc40aa55a3c1f124e76, type: 3}
   m_Name: Grass
   m_EditorClassIdentifier: 
-  id: Path
+  id: {fileID: 7445535258627721920}
   characteristics: []
   weight: 1
   directions:
-    label: Direcctions
     tags:
     - Grass
     - Grass
@@ -30,3 +29,18 @@ MonoBehaviour:
   references:
     version: 2
     RefIds: []
+--- !u!114 &7445535258627721920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 991b9c5ba138ec24298c266c695cad3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  label: 
+  icon: {fileID: 0}
+  color: {r: 0, g: 0, b: 0, a: 0}
