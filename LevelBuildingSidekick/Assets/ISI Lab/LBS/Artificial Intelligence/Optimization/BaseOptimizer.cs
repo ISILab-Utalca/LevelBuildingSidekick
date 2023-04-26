@@ -177,20 +177,46 @@ namespace Commons.Optimization
             lock (m_lock)
             {
                 stopRequested = false;
-                pauseRequested = false;
+                pauseRequested = false; State = Op_State.Started;
+                clock = new Stopwatch();
+                clock.Start();
+                Adam.Fitness = Evaluator.Evaluate(Adam);
+                Population.Adam = Adam;
+                Population.CreateInitialGeneration();
+                EvaluateFitness(Population.CurrentGeneration.Evaluables);
+                clock.Stop();
+            }
+
+            Run();
+        }
+
+        public virtual void Restart()
+        {
+            OnStarted?.Invoke();
+            lock (m_lock)
+            {
+                
+                stopRequested = false;
+                pauseRequested = false; 
                 State = Op_State.Started;
-                clock = Stopwatch.StartNew();
+                clock = new Stopwatch();
+                clock.Start();
+                var best = BestCandidate;
+                var generation = Population.CurrentGeneration;
+                Population = new Population(Population.MinSize, Population.MaxSize, best);
+                Population.CreateNewGeneration(generation.Evaluables);
+                clock.Stop();
             }
 
             Run();
         }
 
         public abstract void RunOnce ();
+        public abstract void EvaluateFitness(IList<IOptimizable> optimizables);
 
         public void Run()
         {
             int iterations = 0;
-            Init();
             while(!TerminationReached() && !(State == Op_State.Paused || State == Op_State.Stopped) && iterations < 1000)
             {
                 if (stopRequested)
@@ -214,16 +240,6 @@ namespace Commons.Optimization
             }
         }
 
-        void Init()
-        {
-            State = Op_State.Started;
-            clock = new Stopwatch();
-            clock.Start();
-            Adam.Fitness = Evaluator.Evaluate(Adam);
-            Population.Adam = Adam;
-            Population.CreateInitialGeneration();
-            clock.Stop();
-        }
 
         /// <summary>
         /// Determines if the optimizer has reached a termination condition.

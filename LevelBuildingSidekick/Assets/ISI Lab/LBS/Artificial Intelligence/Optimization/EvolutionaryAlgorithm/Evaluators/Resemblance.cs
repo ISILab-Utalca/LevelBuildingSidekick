@@ -38,7 +38,9 @@ public class Resemblance : IRangedEvaluator
                 diff++;
         }
 
-        var fit = MinValue + threshold * (((reference.Length*1f) - (diff*1f)) / (reference.Length*1f));
+        float count = (reference.Length - ev.ImmutablesCount * 1f);
+
+        var fit = MinValue + threshold * ((count - (diff*1f)) / count);
 
         return fit;
     }

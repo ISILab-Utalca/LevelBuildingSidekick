@@ -42,7 +42,7 @@ public class MapEliteWindow : EditorWindow
     public DropdownField BackgroundField;
     public ClassDropDown OptimizerField;
     public Button CalculateButton;
-
+    private Button ContinueButton;
     private Texture2D ButtonBackground;
     public Texture2D defaultButton;
 
@@ -93,6 +93,7 @@ public class MapEliteWindow : EditorWindow
 
         this.OptimizerField = root.Q<ClassDropDown>(name: "OptimizerField");
         this.CalculateButton = root.Q<Button>("Calculate");
+        this.ContinueButton = root.Q<Button>("Continue");
 
         this.labelX = root.Q<Label>("LabelX");
         this.labelY = root.Q<Label>("LabelY");
@@ -161,6 +162,7 @@ public class MapEliteWindow : EditorWindow
         ChangePartitions(Partitions.value);
 
         CalculateButton.clicked += Run;
+        ContinueButton.clicked += Continue;
         toUpdate.Clear();
 
         Paused = root.style.backgroundColor.value;
@@ -188,6 +190,18 @@ public class MapEliteWindow : EditorWindow
         mapElites.Adam = adam;
 
         mapElites.Run();
+    }
+
+    public void Continue()
+    {
+        if(mapElites.Optimizer.State == Op_State.TerminationReached)
+        {
+            (EvaluatorFieldX.content as EvaluatorVE).Init();
+            (EvaluatorFieldY.content as EvaluatorVE).Init();
+            (FitnessField.content as EvaluatorVE).Init();
+
+            mapElites.Restart();
+        }
     }
 
     private void OnFocus()
@@ -245,7 +259,11 @@ public class MapEliteWindow : EditorWindow
 
     public void UpdateSample(Vector2Int coords)
     {
-        var index = (coords.y * mapElites.XSampleCount + coords.x);
+        var index = (coords.y * mapElites.XSampleCount + coords.x); // C# matrixes are transposed :C
+        if(Content[index].Data != null && (Content[index].Data as IOptimizable).Fitness > mapElites.BestSamples[coords.x, coords.y].Fitness)
+        {
+            return;
+        }
         Content[index].Data = mapElites.BestSamples[coords.x, coords.y];
         Content[index].Text =  ((decimal)mapElites.BestSamples[coords.x, coords.y].Fitness).ToString("f4");
         lock (locker)
@@ -262,6 +280,8 @@ public class MapEliteWindow : EditorWindow
         {
             bw.style.backgroundImage = ButtonBackground;
             bw.Data = null;
+            bw.Text = "";
+            bw.UpdateLabel();
         }
     }
 

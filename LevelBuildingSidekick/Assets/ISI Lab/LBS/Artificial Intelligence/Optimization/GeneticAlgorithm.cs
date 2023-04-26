@@ -132,7 +132,9 @@ public class GeneticAlgorithm : BaseOptimizer
         var p = parents.Select(p => p as ChromosomeBase).ToList();
         var offspring = Cross(p);
         Mutate(offspring);
-        var newGenerationChromosomes = Reinsert(offspring.Select(p => p as IOptimizable).ToList(), parents);
+        var children = offspring.Select(p => p as IOptimizable).ToList();
+        EvaluateFitness(children);
+        var newGenerationChromosomes = Reinsert(children, parents);
         Population.CreateNewGeneration(newGenerationChromosomes);
         EndCurrentGeneration();
     }
@@ -157,7 +159,6 @@ public class GeneticAlgorithm : BaseOptimizer
     /// <returns><c>true</c>, if current generation was ended, <c>false</c> otherwise.</returns>
     private bool EndCurrentGeneration()
     {
-        EvaluateFitness();
         Population.EndCurrentGeneration();
 
         OnGenerationRan?.Invoke();
@@ -210,14 +211,14 @@ public class GeneticAlgorithm : BaseOptimizer
     /// <summary>
     /// Evaluates the fitness.
     /// </summary>
-    private void EvaluateFitness()
+    public override void EvaluateFitness(IList<IOptimizable> optimizables)
     {
         try
         {
 
-            for (int i = 0; i < Population.CurrentGeneration.Evaluables.Count; i++)
+            for (int i = 0; i < optimizables.Count; i++)
             {
-                var c = Population.CurrentGeneration.Evaluables[i];
+                var c = optimizables[i];
 
                 TaskExecutor.Add(() =>
                 {
@@ -236,7 +237,7 @@ public class GeneticAlgorithm : BaseOptimizer
             TaskExecutor.Clear();
         }
 
-        Population.CurrentGeneration.Evaluables = Population.CurrentGeneration.Evaluables.OrderByDescending(c => c.Fitness).ToList();
+        optimizables = optimizables.OrderByDescending(c => c.Fitness).ToList();
     }
 
     /// <summary>

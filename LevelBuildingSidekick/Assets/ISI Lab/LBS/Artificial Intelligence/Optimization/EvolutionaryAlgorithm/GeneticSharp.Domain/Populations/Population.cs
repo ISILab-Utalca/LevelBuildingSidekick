@@ -22,8 +22,8 @@ namespace GeneticSharp.Domain.Populations
             CreationDate = DateTime.Now;
             Generations = new List<Generation>();
             GenerationStrategy = new PerformanceGenerationStrategy(10);
-            MinSize = 5;
-            MaxSize = 5;
+            MinSize = 10;
+            MaxSize = 10;
         }
 
         /// <summary>
@@ -163,6 +163,7 @@ namespace GeneticSharp.Domain.Populations
             if(BestCandidate == null || BestCandidate.Fitness == double.NaN || BestCandidate.Fitness < best.Fitness)
             {
                 BestCandidate = best;
+                OnBestcandidateChanged?.Invoke();
             }
         }
 

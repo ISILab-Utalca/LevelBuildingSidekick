@@ -226,7 +226,13 @@ public class MapElites
 
         };
         thread = new Thread(Optimizer.Start);
-        thread.Start(); 
+        thread.Start();
+    }
+
+    public void Restart()
+    {
+        thread = new Thread(Optimizer.Restart);
+        thread.Start();
     }
 
     /// <summary>
