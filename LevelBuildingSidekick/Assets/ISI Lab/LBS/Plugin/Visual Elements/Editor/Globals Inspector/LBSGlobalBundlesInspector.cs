@@ -116,7 +116,7 @@ public class LBSGlobalBundlesInspector : VisualElement
 
     private void OnSelectionChange(IEnumerable<object> objects)
     {
-        selected = objects.ToList()[0] as Bundle;
+        selected = (objects.ToList()[0] as Tuple<Bundle, int>).Item1;
 
         this.generalPanel.style.display = DisplayStyle.Flex;
         this.characteristicsPanel.style.display = DisplayStyle.Flex;
