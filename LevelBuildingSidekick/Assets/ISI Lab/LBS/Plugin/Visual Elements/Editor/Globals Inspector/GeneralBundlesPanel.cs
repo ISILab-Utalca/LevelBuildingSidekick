@@ -13,16 +13,23 @@ public class GeneralBundlesPanel : VisualElement
     public new class UxmlFactory : UxmlFactory<GeneralBundlesPanel, VisualElement.UxmlTraits> { }
     #endregion
 
+    // Main content
+    private VisualElement mainContent;
+    private Foldout mainFoldout;
+
+    // Basic info
     private ObjectField iconField;
-    private TextField textField;
+    private TextField nameField;
     private ColorField colorField;
 
-    private Foldout extraFoldout;
-    private VisualElement extraContent;
-
+    // Extra info
     private ListView childList;
     private ObjectField fatherField;
 
+    // Assets list
+    private ListView assetsList;
+
+    // Target
     private Bundle target;
 
     public GeneralBundlesPanel()
@@ -30,19 +37,63 @@ public class GeneralBundlesPanel : VisualElement
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("GeneralBundlesPanel");
         visualTree.CloneTree(this);
 
+        // Main content
+        this.mainContent = this.Q<VisualElement>("MainContent");
+        this.mainFoldout = this.Q<Foldout>("MainFoldout");
+        this.mainFoldout.RegisterCallback<ChangeEvent<bool>>( e => mainContent.SetDisplay(e.newValue));
+
+        // Basic info
         this.iconField = this.Q<ObjectField>("IconField");
         iconField.RegisterCallback<ChangeEvent<Object>>( t => target.ID.Icon = t.newValue as Texture2D);
 
-        this.textField = this.Q<TextField>("NameField");
-        textField.RegisterCallback<ChangeEvent<string>>(t => target.ID.Label = target.ID.name = t.newValue);
+        this.nameField = this.Q<TextField>("NameField");
+        nameField.RegisterCallback<ChangeEvent<string>>(t => target.ID.Label = target.ID.name = t.newValue);
 
         this.colorField = this.Q<ColorField>("ColorField");
         colorField.RegisterCallback<ChangeEvent<Color>>(t => target.ID.Color = t.newValue);
 
-        this.extraFoldout = this.Q<Foldout>("ExtraFoldout");
-        extraFoldout.RegisterCallback<ChangeEvent<bool>>(t => extraContent.style.display = (t.newValue)? DisplayStyle.Flex : DisplayStyle.None);
+        // Extra info
+        this.childList = this.Q<ListView>("ChildsList");
+        InitChildList();
+        //childList.RegisterCallback<ChangeEvent<object>>(e => target.Father() = e.newValue);
+        this.fatherField = this.Q<ObjectField>("FatherField");
 
-        this.extraContent = this.Q<VisualElement>("ExtraContent");
+        // Assets list
+        this.assetsList = this.Q<ListView>("AssetsList");
+        //InitAssetsList();
+
+       
+    }
+
+    private void InitChildList()
+    {
+        // IMPLEMENTAR (!!!)
+    }
+
+    private void InitAssetsList()
+    {
+        assetsList.makeItem += () =>
+        {
+            return new ObjectField();
+        };
+
+        assetsList.bindItem = (item, index) =>
+        {
+            var list = (target as SimpleBundle).Assets;
+            if (index >= list.Count)
+                (target as SimpleBundle).Add(null);
+
+            var view = (item as ObjectField);
+            var t = list[index];
+            view.value = t;
+        };
+
+        /*
+        assetsList.Q<Button>("unity-list-view__add-button").clickable = new Clickable(() =>
+        {
+            Debug.Log("AA");
+        });
+        */
     }
 
     public void SetInfo(Bundle target)
@@ -55,8 +106,10 @@ public class GeneralBundlesPanel : VisualElement
         }
 
         iconField.value = target.ID.Icon;
-        textField.value = target.ID.Label;
+        nameField.value = target.ID.Label;
         colorField.value = target.ID.Color;
+     
+        assetsList.itemsSource = (target as SimpleBundle).Assets;
     }
 
     private LBSIdentifier CreateID()
