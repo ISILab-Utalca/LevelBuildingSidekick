@@ -1,0 +1,95 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement style="flex-direction: row; padding-bottom: 8px;">
+        <Button8Connected style="width: 50px; height: 50px;" />
+        <ui:VisualElement style="flex-grow: 1; flex-direction: column-reverse; justify-content: space-around; margin-left: 4px; margin-right: 4px; margin-top: 4px; margin-bottom: 4px;">
+            <ui:VisualElement style="flex-shrink: 0; flex-direction: row;">
+                <ui:Button tabindex="-1" text="1 CXN" display-tooltip-when-elided="true" style="flex-grow: 1; background-color: rgb(39, 39, 39); border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0;" />
+                <ui:Button tabindex="-1" text="4 CXN" display-tooltip-when-elided="true" style="flex-grow: 1; background-color: rgb(39, 39, 39); border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0;" />
+                <ui:Button tabindex="-1" text="8 CXN" display-tooltip-when-elided="true" style="flex-grow: 1; background-color: rgb(39, 39, 39); border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0;" />
+            </ui:VisualElement>
+            <ui:Label tabindex="-1" text="Connections" display-tooltip-when-elided="true" style="padding-left: 4px;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement style="border-left-color: rgba(0, 0, 0, 0); border-right-color: rgba(0, 0, 0, 0); border-top-color: rgba(0, 0, 0, 0); border-bottom-color: rgba(0, 0, 0, 0); background-color: rgba(0, 0, 0, 0.2); flex-direction: row; width: auto; height: auto; align-items: center; justify-content: space-between; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px;">
+        <ui:VisualElement style="flex-direction: row; align-items: center;">
+            <ui:VisualElement style="width: 12px; height: 12px; background-image: resource(&apos;Icons/Tag_Folder&apos;); margin-left: 4px; margin-right: 4px; margin-top: 4px; margin-bottom: 4px; -unity-background-image-tint-color: rgb(247, 196, 64);" />
+            <ui:Label tabindex="-1" text="Label" display-tooltip-when-elided="true" />
+        </ui:VisualElement>
+        <ui:DropdownField index="-1" choices="System.Collections.Generic.List`1[System.String]" style="flex-grow: 0; flex-basis: 50%;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="Connection1">
+        <ui:VisualElement style="border-left-color: rgba(0, 0, 0, 0); border-right-color: rgba(0, 0, 0, 0); border-top-color: rgba(0, 0, 0, 0); border-bottom-color: rgba(0, 0, 0, 0); background-color: rgba(0, 0, 0, 0); flex-direction: column; width: auto; height: auto; align-items: flex-start; justify-content: flex-start; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px;">
+            <ui:VisualElement style="flex-direction: row; align-items: center; flex-grow: 1;">
+                <ui:VisualElement style="width: 12px; height: 12px; background-image: resource(&apos;Icons/Tag_Folder&apos;); margin-left: 4px; margin-right: 4px; margin-top: 4px; margin-bottom: 4px; -unity-background-image-tint-color: rgb(163, 160, 251);" />
+                <ui:Label tabindex="-1" text="Connection" display-tooltip-when-elided="true" />
+            </ui:VisualElement>
+            <ui:DropdownField index="-1" choices="System.Collections.Generic.List`1[System.String]" name="DD1" style="flex-grow: 1; flex-basis: auto;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="Connection8" style="flex-wrap: nowrap;">
+        <ui:VisualElement style="flex-direction: row; flex-grow: 1;">
+            <ui:VisualElement style="border-left-color: rgba(0, 0, 0, 0); border-right-color: rgba(0, 0, 0, 0); border-top-color: rgba(0, 0, 0, 0); border-bottom-color: rgba(0, 0, 0, 0); background-color: rgba(0, 0, 0, 0); flex-direction: column; width: auto; height: auto; align-items: flex-start; justify-content: flex-start; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px; flex-grow: 1;">
+                <ui:VisualElement style="flex-direction: row; align-items: center; flex-grow: 1;">
+                    <ui:VisualElement style="width: 12px; height: 12px; background-image: resource(&apos;Icons/Tag_Folder&apos;); margin-left: 4px; margin-right: 4px; margin-top: 4px; margin-bottom: 4px; -unity-background-image-tint-color: rgb(163, 160, 251);" />
+                    <ui:Label tabindex="-1" text="Up" display-tooltip-when-elided="true" />
+                </ui:VisualElement>
+                <ui:DropdownField index="-1" choices="System.Collections.Generic.List`1[System.String]" name="DD4_up" style="flex-grow: 1; flex-basis: auto;" />
+            </ui:VisualElement>
+            <ui:VisualElement style="border-left-color: rgba(0, 0, 0, 0); border-right-color: rgba(0, 0, 0, 0); border-top-color: rgba(0, 0, 0, 0); border-bottom-color: rgba(0, 0, 0, 0); background-color: rgba(0, 0, 0, 0); flex-direction: column; width: auto; height: auto; align-items: flex-start; justify-content: flex-start; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px; flex-grow: 1;">
+                <ui:VisualElement style="flex-direction: row; align-items: center; flex-grow: 1;">
+                    <ui:VisualElement style="width: 12px; height: 12px; background-image: resource(&apos;Icons/Tag_Folder&apos;); margin-left: 4px; margin-right: 4px; margin-top: 4px; margin-bottom: 4px; -unity-background-image-tint-color: rgb(163, 160, 251);" />
+                    <ui:Label tabindex="-1" text="Right" display-tooltip-when-elided="true" />
+                </ui:VisualElement>
+                <ui:DropdownField index="-1" choices="System.Collections.Generic.List`1[System.String]" name="DD8_Right" style="flex-grow: 1; flex-basis: auto;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-direction: row; flex-grow: 1;">
+            <ui:VisualElement style="border-left-color: rgba(0, 0, 0, 0); border-right-color: rgba(0, 0, 0, 0); border-top-color: rgba(0, 0, 0, 0); border-bottom-color: rgba(0, 0, 0, 0); background-color: rgba(0, 0, 0, 0); flex-direction: column; width: auto; height: auto; align-items: flex-start; justify-content: flex-start; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px; flex-grow: 1;">
+                <ui:VisualElement style="flex-direction: row; align-items: center; flex-grow: 1;">
+                    <ui:VisualElement style="width: 12px; height: 12px; background-image: resource(&apos;Icons/Tag_Folder&apos;); margin-left: 4px; margin-right: 4px; margin-top: 4px; margin-bottom: 4px; -unity-background-image-tint-color: rgb(163, 160, 251);" />
+                    <ui:Label tabindex="-1" text="Down" display-tooltip-when-elided="true" />
+                </ui:VisualElement>
+                <ui:DropdownField index="-1" choices="System.Collections.Generic.List`1[System.String]" name="DD8_Down" style="flex-grow: 1; flex-basis: auto;" />
+            </ui:VisualElement>
+            <ui:VisualElement style="border-left-color: rgba(0, 0, 0, 0); border-right-color: rgba(0, 0, 0, 0); border-top-color: rgba(0, 0, 0, 0); border-bottom-color: rgba(0, 0, 0, 0); background-color: rgba(0, 0, 0, 0); flex-direction: column; width: auto; height: auto; align-items: flex-start; justify-content: flex-start; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px; flex-grow: 1;">
+                <ui:VisualElement style="flex-direction: row; align-items: center; flex-grow: 1;">
+                    <ui:VisualElement style="width: 12px; height: 12px; background-image: resource(&apos;Icons/Tag_Folder&apos;); margin-left: 4px; margin-right: 4px; margin-top: 4px; margin-bottom: 4px; -unity-background-image-tint-color: rgb(163, 160, 251);" />
+                    <ui:Label tabindex="-1" text="Left" display-tooltip-when-elided="true" />
+                </ui:VisualElement>
+                <ui:DropdownField index="-1" choices="System.Collections.Generic.List`1[System.String]" name="DD8_Left" style="flex-grow: 1; flex-basis: auto;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-direction: row; flex-grow: 1;">
+            <ui:VisualElement style="border-left-color: rgba(0, 0, 0, 0); border-right-color: rgba(0, 0, 0, 0); border-top-color: rgba(0, 0, 0, 0); border-bottom-color: rgba(0, 0, 0, 0); background-color: rgba(0, 0, 0, 0); flex-direction: column; width: auto; height: auto; align-items: flex-start; justify-content: flex-start; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px; flex-grow: 1;">
+                <ui:VisualElement style="flex-direction: row; align-items: center; flex-grow: 1;">
+                    <ui:VisualElement style="width: 12px; height: 12px; background-image: resource(&apos;Icons/Tag_Folder&apos;); margin-left: 4px; margin-right: 4px; margin-top: 4px; margin-bottom: 4px; -unity-background-image-tint-color: rgb(163, 160, 251);" />
+                    <ui:Label tabindex="-1" text="Up-Left" display-tooltip-when-elided="true" />
+                </ui:VisualElement>
+                <ui:DropdownField index="-1" choices="System.Collections.Generic.List`1[System.String]" name="DD8_up-left" style="flex-grow: 1; flex-basis: auto;" />
+            </ui:VisualElement>
+            <ui:VisualElement style="border-left-color: rgba(0, 0, 0, 0); border-right-color: rgba(0, 0, 0, 0); border-top-color: rgba(0, 0, 0, 0); border-bottom-color: rgba(0, 0, 0, 0); background-color: rgba(0, 0, 0, 0); flex-direction: column; width: auto; height: auto; align-items: flex-start; justify-content: flex-start; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px; flex-grow: 1;">
+                <ui:VisualElement style="flex-direction: row; align-items: center; flex-grow: 1;">
+                    <ui:VisualElement style="width: 12px; height: 12px; background-image: resource(&apos;Icons/Tag_Folder&apos;); margin-left: 4px; margin-right: 4px; margin-top: 4px; margin-bottom: 4px; -unity-background-image-tint-color: rgb(163, 160, 251);" />
+                    <ui:Label tabindex="-1" text="Up-Right" display-tooltip-when-elided="true" />
+                </ui:VisualElement>
+                <ui:DropdownField index="-1" choices="System.Collections.Generic.List`1[System.String]" name="DD8_up-right" style="flex-grow: 1; flex-basis: auto;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-direction: row; flex-grow: 1;">
+            <ui:VisualElement style="border-left-color: rgba(0, 0, 0, 0); border-right-color: rgba(0, 0, 0, 0); border-top-color: rgba(0, 0, 0, 0); border-bottom-color: rgba(0, 0, 0, 0); background-color: rgba(0, 0, 0, 0); flex-direction: column; width: auto; height: auto; align-items: flex-start; justify-content: flex-start; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px; flex-grow: 1;">
+                <ui:VisualElement style="flex-direction: row; align-items: center; flex-grow: 1;">
+                    <ui:VisualElement style="width: 12px; height: 12px; background-image: resource(&apos;Icons/Tag_Folder&apos;); margin-left: 4px; margin-right: 4px; margin-top: 4px; margin-bottom: 4px; -unity-background-image-tint-color: rgb(163, 160, 251);" />
+                    <ui:Label tabindex="-1" text="Down-Left" display-tooltip-when-elided="true" />
+                </ui:VisualElement>
+                <ui:DropdownField index="-1" choices="System.Collections.Generic.List`1[System.String]" name="DD8_down-left" style="flex-grow: 1; flex-basis: auto;" />
+            </ui:VisualElement>
+            <ui:VisualElement style="border-left-color: rgba(0, 0, 0, 0); border-right-color: rgba(0, 0, 0, 0); border-top-color: rgba(0, 0, 0, 0); border-bottom-color: rgba(0, 0, 0, 0); background-color: rgba(0, 0, 0, 0); flex-direction: column; width: auto; height: auto; align-items: flex-start; justify-content: flex-start; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px; flex-grow: 1;">
+                <ui:VisualElement style="flex-direction: row; align-items: center; flex-grow: 1;">
+                    <ui:VisualElement style="width: 12px; height: 12px; background-image: resource(&apos;Icons/Tag_Folder&apos;); margin-left: 4px; margin-right: 4px; margin-top: 4px; margin-bottom: 4px; -unity-background-image-tint-color: rgb(163, 160, 251);" />
+                    <ui:Label tabindex="-1" text="Down-Right" display-tooltip-when-elided="true" />
+                </ui:VisualElement>
+                <ui:DropdownField index="-1" choices="System.Collections.Generic.List`1[System.String]" name="DD8_down-Right" style="flex-grow: 1; flex-basis: auto;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

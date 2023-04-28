@@ -6,18 +6,18 @@ using UnityEngine.UIElements;
 
 public class BundleTagView : VisualElement
 {
-    public LBSIdentifierBundle tagsBundle;
+    public LBSIdentifierBundle target;
 
     // VisualElements
     private TextField bundleNameField;
     private VisualElement content;
     private TextField addField;
     private Button addButton;
-    private List<TagView> tagViews;
+    private List<TagView> tagViews = new List<TagView>();
 
     public BundleTagView(LBSIdentifierBundle bundle)
     {
-        this.tagsBundle = bundle;
+        this.target = bundle;
 
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("BundleTagView"); // Editor
         visualTree.CloneTree(this);
@@ -31,7 +31,7 @@ public class BundleTagView : VisualElement
         var tags = bundle.Tags;
         foreach (var tag in tags)
         {
-            var v = new TagView(tag);
+            var v = new TagView();
             tagViews.Add(v);
             content.Add(v);
         }
@@ -54,7 +54,7 @@ public class BundleTagView : VisualElement
 
     private void OnTextChange(string value)
     {
-        tagsBundle.name = value;
+        target.name = value;
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
     }
@@ -63,7 +63,7 @@ public class BundleTagView : VisualElement
     {
         var so = ScriptableObject.CreateInstance<LBSIdentifier>();
         so.Label = name;
-        tagsBundle.AddTag(so);
+        target.AddTag(so);
 
         string path = "Assets/" + name + "_Tag" + ".asset";
         AssetDatabase.CreateAsset(so, path);

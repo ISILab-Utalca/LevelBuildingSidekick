@@ -5,6 +5,11 @@ using UnityEngine.UIElements;
 
 public static class VisualElementExtensions
 {
+    public static void SetDisplay(this VisualElement element,bool value)
+    {
+        element.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
+    }
+
     public static void SetMargins(this VisualElement element, int value)
     {
         element.style.marginBottom = value;

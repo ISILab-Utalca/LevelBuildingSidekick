@@ -7,8 +7,11 @@ using UnityEngine.UIElements;
 
 public class LBSInspectorPanel : VisualElement 
 {
+    #region FACTORY
     public new class UxmlFactory : UxmlFactory<LBSInspectorPanel, VisualElement.UxmlTraits> { }
+    #endregion
 
+    #region FIELDS
     private MainView view;
     private VisualElement content;
 
@@ -18,9 +21,9 @@ public class LBSInspectorPanel : VisualElement
     private ButtonGroup mainTab;
 
     private Dictionary<string, Dictionary<string, VisualElement>> VEs = new Dictionary<string, Dictionary<string, VisualElement>>();
+    #endregion
 
     #region CONSTRUCTORS
-
     public LBSInspectorPanel() 
     {
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSInspectorPanel");
@@ -42,51 +45,35 @@ public class LBSInspectorPanel : VisualElement
 
         //SetSubTab();
     }
-
-    /*
-    public LBSInspectorPanel(ref MainView mainView, VisualElement content)
-    {
-        this.view = mainView;
-        this.content = content;
-    }
-    */
-
     #endregion
 
+    #region METHODS
     private void InitTabs()
     {
-        var gt = new VisualElement();
-        gt.style.backgroundColor = Color.red;
-        gt.style.flexGrow = 1;
+        var gt = new LBSGlobalTagsInspector();
         AddTab("Global", "Tags", gt);
-        var gb = new VisualElement();
-        gb.style.backgroundColor = Color.blue;
-        gb.style.flexGrow = 1;
+
+        var gb = new LBSGlobalBundlesInspector();
         AddTab("Global", "Bundles", gb);
 
-
-        var l1 = new VisualElement();
-        l1.style.backgroundColor = Color.magenta;
-        l1.style.flexGrow = 1;
+        //var l1 = new LBSLocalCurrent();
+        var l1 = new Wip();
         AddTab("Local", "Current data", l1);
-        var l2 = new VisualElement();
-        l2.style.backgroundColor = Color.gray;
-        l2.style.flexGrow = 1;
+
+        //var l2 = new LBSLocalBehaviours();
+        var l2 = new Wip();
         AddTab("Local", "Behaviours", l2);
-        var l3 = new VisualElement();
-        l3.style.backgroundColor = Color.yellow;
-        l3.style.flexGrow = 1;
+
+        //var l3 = new LBSLocalAssistants();
+        var l3 = new Wip();
         AddTab("Local", "Assistants", l3);
 
 
-        var aset = new VisualElement();
-        aset.style.backgroundColor = Color.green;
-        aset.style.flexGrow = 1;
+        var aset = new Wip();
         AddTab("Advanced", "Settings", aset);
-        var aset2 = new VisualElement();
-        aset2.style.backgroundColor = Color.cyan;
-        aset2.style.flexGrow = 1;
-        AddTab("Advanced", "Settings", aset2);
+
+        var aset2 = new Wip();
+        AddTab("Advanced", "Settings2", aset2);
     }
 
     private void AddTab(string mainTabName, string subTabName, VisualElement element)
@@ -127,7 +114,6 @@ public class LBSInspectorPanel : VisualElement
             btn.OnFocusEvent += () =>
             {
                 var btn2 = btn as GrupalbeButton;
-                Debug.Log(btn2.text);
                 SetSubTabs(btn2.text);
 
                 this.ClearContent();
@@ -177,7 +163,6 @@ public class LBSInspectorPanel : VisualElement
         if (inspector == null)
             return;
 
-        inspector.style.height = 30; // parche para ver lo que esta pasando (!!)
         content.Add(inspector);
     }
 
@@ -193,16 +178,5 @@ public class LBSInspectorPanel : VisualElement
         if(content.Contains(inspector))
             content.Remove(inspector);
     }
-
-    private void ShowGlobalTagInspector()
-    {
-
-
-    }
-
-    private void ShowGlobalBundlesInspector()
-    {
-
-    }
-
+    #endregion
 }

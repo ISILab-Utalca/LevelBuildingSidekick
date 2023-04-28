@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement style="flex-direction: row; height: auto; align-items: stretch; justify-content: flex-start; margin-left: 3px; margin-right: 3px; margin-top: 1px; margin-bottom: 1px;">
+        <ui:VisualElement name="Icon" style="width: 16px; height: 16px; background-image: resource(&apos;Icons/Tag_Icon&apos;); margin-left: 1px; margin-right: 1px; margin-top: 1px; margin-bottom: 1px; background-color: rgba(0, 0, 0, 0); -unity-background-image-tint-color: rgb(234, 187, 63);" />
+        <ui:TextField picking-mode="Ignore" text="filler text" style="flex-grow: 1; flex-shrink: 0; margin-right: 0;" />
+        <uie:ColorField hdr="false" show-eye-dropper="true" name="ColorField" style="width: 38px; height: 18px; border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; margin-left: 0;" />
+    </ui:VisualElement>
+</ui:UXML>

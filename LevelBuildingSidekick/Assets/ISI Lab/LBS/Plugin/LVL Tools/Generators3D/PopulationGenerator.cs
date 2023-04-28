@@ -25,7 +25,7 @@ namespace LBS.Generator
             {
                 var sc = Utility.DirectoryTools.GetScriptables<SimpleBundle>().Find(b => b.ID.Label == data.GetBundleData(k).BundleTag);
 
-                var pref = sc.GetObject(Random.Range(0, sc.objects.Count));
+                var pref = sc.GetObject(Random.Range(0, sc.Assets.Count));
 
                 var go = GameObject.Instantiate(pref, parent.transform);
                 go.transform.position = new Vector3(

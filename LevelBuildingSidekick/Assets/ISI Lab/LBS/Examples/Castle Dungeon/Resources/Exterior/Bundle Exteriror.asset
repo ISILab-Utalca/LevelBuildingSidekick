@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b97f4a254b4f22943b7937bda87d5d2b, type: 3}
   m_Name: Bundle Exteriror
   m_EditorClassIdentifier: 
-  id: Grass
+  id: {fileID: 11400000, guid: 7b50473da997421478a0310dee75eb25, type: 2}
   characteristics: []
   bundles:
   - {fileID: 11400000, guid: fcfdaf44230c7f042b3075d6533dae48, type: 2}

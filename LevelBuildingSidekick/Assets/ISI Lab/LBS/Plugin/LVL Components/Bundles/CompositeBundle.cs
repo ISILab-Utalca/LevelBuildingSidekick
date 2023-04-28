@@ -8,7 +8,9 @@ using System.Linq;
 public class CompositeBundle : Bundle
 {
     [SerializeReference]
-    List<Bundle> bundles = new List<Bundle>();
+    private List<Bundle> bundles = new List<Bundle>();
+
+    public List<Bundle> Bundles => new List<Bundle>(bundles);
 
     public override void Add(List<Bundle> data)
     {

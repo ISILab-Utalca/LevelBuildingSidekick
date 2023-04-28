@@ -26,6 +26,11 @@ namespace LBS.AI
             GetNeighbors = getNeighbors;
         }
 
+        public override void EvaluateFitness(IList<IOptimizable> optimizables)
+        {
+            //throw new NotImplementedException();
+        }
+
         public override void RunOnce()
         {
             var last = Population.Generations.Last();

@@ -7,7 +7,17 @@ using System.Linq;
 [System.Serializable]
 public class SimpleBundle : Bundle
 {
-    public List<GameObject> objects = new List<GameObject>();
+    private List<GameObject> assets = new List<GameObject>();
+
+    public List<GameObject> Assets
+    {
+        get => new List<GameObject>(assets);
+    }
+
+    public void Add(GameObject gameObject)
+    {
+        assets.Add(gameObject);
+    }
 
     public override void Add(List<Bundle> data)
     {
@@ -25,9 +35,9 @@ public class SimpleBundle : Bundle
             var objs = bundle.GetObjects();
             foreach (GameObject o in objs)
             {
-                if (!objects.Contains(o))
+                if (!assets.Contains(o))
                 {
-                    objects.Add(o);
+                    assets.Add(o);
                 }
             }
         }
@@ -35,19 +45,19 @@ public class SimpleBundle : Bundle
 
     public override GameObject GetObject(int index)
     {
-        return objects[index];
+        return assets[index];
     }
 
     public override List<GameObject> GetObjects(List<string> tags = null)
     {
         if(tags == null)
-            return objects;
+            return assets;
         foreach(var t in tags)
         {
             if (!this.characteristics.Any(c => c.Label == t))
                 return new List<GameObject>();
         }
-        return objects;
+        return assets;
     }
 
     public override LBSCharacteristic GetTag(int index)
@@ -65,7 +75,7 @@ public class SimpleBundle : Bundle
         foreach (Bundle bundle in data)
         {
             characteristics.RemoveAll(t => bundle.GetCharacteristics().Any(c => c == t));
-            objects.RemoveAll(o => bundle.GetObjects().Contains(o));
+            assets.RemoveAll(o => bundle.GetObjects().Contains(o));
         }
     }
 }

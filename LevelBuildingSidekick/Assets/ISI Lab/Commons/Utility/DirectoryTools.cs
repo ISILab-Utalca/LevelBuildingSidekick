@@ -36,7 +36,14 @@ namespace Utility
         public static List<T> GetScriptables<T>(string name = "") where T : ScriptableObject
         {
             var posibles = GetScriptablesByType<T>();
-            return posibles.Where(so => so.name.Contains(name)).ToList();
+            if (name == "")
+            {
+                return posibles;
+            }
+            else
+            {
+                return posibles.Where(so => so.name.Contains(name)).ToList();
+            }
         }
 
         public static List<ScriptableObject> GetScriptables(Type type, string name = "")

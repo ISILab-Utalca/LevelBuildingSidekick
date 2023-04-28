@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95a9e63de28b9dc40aa55a3c1f124e76, type: 3}
   m_Name: E-Path
   m_EditorClassIdentifier: 
-  id: Path
+  id: {fileID: 7877107690822309797}
   characteristics: []
   weight: 0.4
   directions:
-    label: Direcctions
     tags:
     - Grass
     - Grass
@@ -30,3 +29,18 @@ MonoBehaviour:
   references:
     version: 2
     RefIds: []
+--- !u!114 &7877107690822309797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 991b9c5ba138ec24298c266c695cad3e, type: 3}
+  m_Name: hola
+  m_EditorClassIdentifier: 
+  label: hola
+  icon: {fileID: 2800000, guid: b2d98f54996544507ade581c727c1c51, type: 3}
+  color: {r: 1, g: 0.0047169924, b: 0.0047169924, a: 1}
