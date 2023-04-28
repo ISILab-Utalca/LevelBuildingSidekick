@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 991b9c5ba138ec24298c266c695cad3e, type: 3}
-  m_Name: Testing
+  m_Name: Test Tag
   m_EditorClassIdentifier: 
   label: Test Tag
   icon: {fileID: 2800000, guid: e2c573f07f6d7471d9cad8cb2a5fece0, type: 3}
