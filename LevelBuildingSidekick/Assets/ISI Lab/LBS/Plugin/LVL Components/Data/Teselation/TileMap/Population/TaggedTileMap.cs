@@ -45,7 +45,7 @@ public class TaggedTileMap : LBSModule
         return pairTiles.Find(x => x.tile == tile)?.bData;
     }
 
-    public void AddTile(LBSTile tile, Bundle bundle)
+    public void AddTile(LBSTile tile, Bundle_Old bundle)
     {
         OnAddTile?.Invoke(tile);
 

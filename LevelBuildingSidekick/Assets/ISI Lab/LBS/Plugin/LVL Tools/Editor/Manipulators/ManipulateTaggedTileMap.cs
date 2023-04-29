@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 public abstract class ManipulateTaggedTileMap : LBSManipulator
 {
-    public Bundle bundleToSet; 
+    public Bundle_Old bundleToSet; 
     protected TaggedTileMap module;
     protected MainView mainView;
 

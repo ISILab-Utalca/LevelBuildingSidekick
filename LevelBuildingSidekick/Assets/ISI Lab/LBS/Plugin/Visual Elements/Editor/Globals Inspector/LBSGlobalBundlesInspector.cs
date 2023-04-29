@@ -13,7 +13,7 @@ public class LBSGlobalBundlesInspector : VisualElement
     public new class UxmlFactory : UxmlFactory<LBSGlobalBundlesInspector, VisualElement.UxmlTraits> { }
     #endregion
 
-    private List<Tuple<Bundle, int>> targets;
+    private List<Tuple<Bundle_Old, int>> targets;
 
     private ListView list;
     private Button AddBtn;
@@ -21,7 +21,7 @@ public class LBSGlobalBundlesInspector : VisualElement
     private GeneralBundlesPanel generalPanel;
     private CharacteristicsPanel characteristicsPanel;
 
-    private Bundle selected;
+    private Bundle_Old selected;
 
     public LBSGlobalBundlesInspector()
     {
@@ -29,8 +29,8 @@ public class LBSGlobalBundlesInspector : VisualElement
         visualTree.CloneTree(this);
 
         //this.targets = Utility.DirectoryTools.GetScriptables<Bundle>().ToList();
-        var all = Utility.DirectoryTools.GetScriptables<Bundle>().ToList();
-        this.targets = OrderList(all, 0, new List<Tuple<Bundle, int>>());
+        var all = Utility.DirectoryTools.GetScriptables<Bundle_Old>().ToList();
+        this.targets = OrderList(all, 0, new List<Tuple<Bundle_Old, int>>());
 
         list = this.Q<ListView>("BundleList");
         list.itemsSource = targets;
@@ -55,7 +55,7 @@ public class LBSGlobalBundlesInspector : VisualElement
         }
     }
 
-    private List<Tuple<Bundle,int>> OrderList(List<Bundle> bundles, int currentValue, List<Tuple<Bundle, int>> closed)
+    private List<Tuple<Bundle_Old,int>> OrderList(List<Bundle_Old> bundles, int currentValue, List<Tuple<Bundle_Old, int>> closed)
     {
         var roots = GetRoots(bundles);
 
@@ -66,7 +66,7 @@ public class LBSGlobalBundlesInspector : VisualElement
                 continue;
             }
 
-            closed.Add(new Tuple<Bundle,int>(root, currentValue));
+            closed.Add(new Tuple<Bundle_Old,int>(root, currentValue));
 
             var bb = root as CompositeBundle;
             if(bb != null && bb.Bundles.Count() > 0)
@@ -79,9 +79,9 @@ public class LBSGlobalBundlesInspector : VisualElement
         return closed;
     }
 
-    private List<Bundle> GetRoots(List<Bundle> bundles)
+    private List<Bundle_Old> GetRoots(List<Bundle_Old> bundles)
     {
-        var toR = new List<Bundle>(bundles);
+        var toR = new List<Bundle_Old>(bundles);
 
         foreach (var b in bundles)
         {
@@ -116,7 +116,7 @@ public class LBSGlobalBundlesInspector : VisualElement
 
     private void OnSelectionChange(IEnumerable<object> objects)
     {
-        selected = (objects.ToList()[0] as Tuple<Bundle, int>).Item1;
+        selected = (objects.ToList()[0] as Tuple<Bundle_Old, int>).Item1;
 
         this.generalPanel.style.display = DisplayStyle.Flex;
         this.characteristicsPanel.style.display = DisplayStyle.Flex;
@@ -126,7 +126,7 @@ public class LBSGlobalBundlesInspector : VisualElement
 
     private void CreateBundle()
     {
-        var nSO = ScriptableObject.CreateInstance<Bundle>();
+        var nSO = ScriptableObject.CreateInstance<Bundle_Old>();
 
         var settings = LBSSettings.Instance;
 
@@ -135,8 +135,8 @@ public class LBSGlobalBundlesInspector : VisualElement
         AssetDatabase.CreateAsset(nSO, settings.bundleFolderPath + "/" + name + ".asset");
         AssetDatabase.SaveAssets();
 
-        var all = Utility.DirectoryTools.GetScriptables<Bundle>().ToList();
-        this.targets = OrderList(all, 0, new List<Tuple<Bundle, int>>());
+        var all = Utility.DirectoryTools.GetScriptables<Bundle_Old>().ToList();
+        this.targets = OrderList(all, 0, new List<Tuple<Bundle_Old, int>>());
         list.itemsSource = targets;
 
         list.Rebuild();
@@ -151,8 +151,8 @@ public class LBSGlobalBundlesInspector : VisualElement
         AssetDatabase.DeleteAsset(path);
         AssetDatabase.SaveAssets();
 
-        var all = Utility.DirectoryTools.GetScriptables<Bundle>().ToList();
-        this.targets = OrderList(all, 0, new List<Tuple<Bundle, int>>());
+        var all = Utility.DirectoryTools.GetScriptables<Bundle_Old>().ToList();
+        this.targets = OrderList(all, 0, new List<Tuple<Bundle_Old, int>>());
         list.itemsSource = targets;
 
         list.Rebuild();

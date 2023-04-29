@@ -59,7 +59,7 @@ public class MaximizeDistanceVE : EvaluatorVE
     public VisualElement MakeItem()
     {
         var obj = new ObjectField("Element " + (evaluator as MaximizeDistance).whiteList.Count);
-        obj.objectType = typeof(Bundle);
+        obj.objectType = typeof(Bundle_Old);
         return obj;
     }
 

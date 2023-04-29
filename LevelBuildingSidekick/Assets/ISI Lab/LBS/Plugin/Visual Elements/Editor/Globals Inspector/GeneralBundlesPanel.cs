@@ -30,7 +30,7 @@ public class GeneralBundlesPanel : VisualElement
     private ListView assetsList;
 
     // Target
-    private Bundle target;
+    private Bundle_Old target;
 
     public GeneralBundlesPanel()
     {
@@ -96,7 +96,7 @@ public class GeneralBundlesPanel : VisualElement
         */
     }
 
-    public void SetInfo(Bundle target)
+    public void SetInfo(Bundle_Old target)
     {
         this.target = target;
 

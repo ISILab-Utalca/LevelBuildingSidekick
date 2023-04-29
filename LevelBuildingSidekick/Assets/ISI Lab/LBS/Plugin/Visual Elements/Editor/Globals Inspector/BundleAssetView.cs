@@ -14,7 +14,7 @@ public class BundleAssetView : VisualElement
     private VisualElement icon;
     private VisualElement tab;
 
-    private Bundle target;
+    private Bundle_Old target;
 
     public BundleAssetView()
     {
@@ -26,7 +26,7 @@ public class BundleAssetView : VisualElement
         this.tab = this.Q<VisualElement>("Tab");
     }
 
-    public void SetInfo(Bundle target,int value)
+    public void SetInfo(Bundle_Old target,int value)
     {
         this.target = target;
 

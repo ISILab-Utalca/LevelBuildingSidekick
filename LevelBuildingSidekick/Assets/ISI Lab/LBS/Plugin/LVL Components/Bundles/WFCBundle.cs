@@ -6,7 +6,7 @@ using UnityEngine;
 // Parche (!!!), esta clase en vez de tener un objeto "LBSDirection" deberia añadirlo dentro de su lista de characteristic
 // pero aun no se puede hacer hasta que se sobreescriba la parte visual y se pueda añadir uno especifico
 [CreateAssetMenu(fileName = "New exterior bundle", menuName = "ISILab/Bundles/Exterior")]
-public class WFCBundle : Bundle  
+public class WFCBundle : Bundle_Old  
 {
     [Range(0, 1)]
     public float weight = 1;
@@ -15,7 +15,7 @@ public class WFCBundle : Bundle
 
     public List<weightedTile> Pref = new List<weightedTile>();
 
-    public override void Add(List<Bundle> data)
+    public override void Add(List<Bundle_Old> data)
     {
         throw new System.NotImplementedException();
     }
@@ -52,7 +52,7 @@ public class WFCBundle : Bundle
         return this.characteristics[index];
     }
 
-    public override void Remove(List<Bundle> data)
+    public override void Remove(List<Bundle_Old> data)
     {
         throw new System.NotImplementedException();
     }

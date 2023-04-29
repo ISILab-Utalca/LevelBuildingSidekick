@@ -53,9 +53,9 @@ namespace LBS.Components.TileMap
             {
                 return (obj as BundleData).BundleTag == BundleTag;
             }
-            if(obj is Bundle)
+            if(obj is Bundle_Old)
             {
-                return (obj as Bundle).ID.Label == BundleTag;
+                return (obj as Bundle_Old).ID.Label == BundleTag;
             }
             return base.Equals(obj);
         }

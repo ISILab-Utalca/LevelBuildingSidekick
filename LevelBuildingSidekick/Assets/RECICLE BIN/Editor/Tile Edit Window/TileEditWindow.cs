@@ -65,7 +65,7 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
             this.content.Clear();
             EditorPrefs.SetString("TileEditorWindow", "");
             this.content.Add(addButton);
-            var tc = DirectoryTools.GetScriptables<Bundle>(); // (!!) FIX FIX FIX FIX FIX FIX FIX FIX FIX FIX 
+            var tc = DirectoryTools.GetScriptables<Bundle_Old>(); // (!!) FIX FIX FIX FIX FIX FIX FIX FIX FIX FIX 
             var paths = tc.Select(so => AssetDatabase.GetAssetPath(so)).ToList();
             paths.ForEach(p => AssetDatabase.DeleteAsset(p));
         });
@@ -133,7 +133,7 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
     /// <returns></returns>
     public TileConnectWFC[,] SolveMap()
     {
-        var samples = DirectoryTools.GetScriptables<Bundle>();
+        var samples = DirectoryTools.GetScriptables<Bundle_Old>();
         var x = new TileConnectWFC[mapSize.value.x, mapSize.value.y];
         //return solverWFC.Solve(samples, x);
         return null; // (!!) FIX FIX FIX FIX FIX FIX FIX FIX FIX FIX 
@@ -262,7 +262,7 @@ public class TileEditWindow : EditorWindow, IHasCustomMenu
 
     private void LoadButtons()
     {
-        var tiles = DirectoryTools.GetScriptables<Bundle>(); // (!!) FIX FIX FIX FIX FIX FIX FIX FIX FIX FIX 
+        var tiles = DirectoryTools.GetScriptables<Bundle_Old>(); // (!!) FIX FIX FIX FIX FIX FIX FIX FIX FIX FIX 
         foreach (var data in tiles)
         {
             //var img = AssetPreview.GetAssetPreview(data.Tile);

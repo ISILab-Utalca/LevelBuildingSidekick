@@ -58,7 +58,7 @@ public class LBSIdentifierBundle : ScriptableObject
         return Tags;
     }
 
-    public void Add(List<Bundle> data)
+    public void Add(List<Bundle_Old> data)
     {
         var tags = data.Select(b => b.ID);
 
@@ -69,7 +69,7 @@ public class LBSIdentifierBundle : ScriptableObject
         }
     }
 
-    public virtual void Remove(List<Bundle> data)
+    public virtual void Remove(List<Bundle_Old> data)
     {
         var tags = data.Select(b => b.ID);
 

@@ -15,7 +15,7 @@ public class CharacteristicsPanel : VisualElement
         visualTree.CloneTree(this);
     }
 
-    public void SetInfo(Bundle target)
+    public void SetInfo(Bundle_Old target)
     {
 
     }

@@ -59,7 +59,7 @@ public class MinimizeDistanceVE : EvaluatorVE
     public VisualElement MakeItem()
     {
         var obj = new ObjectField("Element " + (evaluator as MinimizeDistance).whiteList.Count);
-        obj.objectType = typeof(Bundle);
+        obj.objectType = typeof(Bundle_Old);
         //(evaluator as MaxDistance).whiteList.Add(null);
         return obj;
     }

@@ -5,19 +5,19 @@ using System.Linq;
 
 [CreateAssetMenu(fileName = "New Composite bundle", menuName = "ISILab/Composite bundle")]
 [System.Serializable]
-public class CompositeBundle : Bundle
+public class CompositeBundle : Bundle_Old
 {
     [SerializeReference]
-    private List<Bundle> bundles = new List<Bundle>();
+    private List<Bundle_Old> bundles = new List<Bundle_Old>();
 
-    public List<Bundle> Bundles => new List<Bundle>(bundles);
+    public List<Bundle_Old> Bundles => new List<Bundle_Old>(bundles);
 
-    public override void Add(List<Bundle> data)
+    public override void Add(List<Bundle_Old> data)
     {
         bundles.AddRange(data);
     }
 
-    public void Add(Bundle data)
+    public void Add(Bundle_Old data)
     {
         bundles.Add(data);
     }
@@ -42,7 +42,7 @@ public class CompositeBundle : Bundle
         var ts = TrimTags(tags);
 
         List<GameObject> objects = new List<GameObject>();
-        foreach (Bundle bundle in bundles)
+        foreach (Bundle_Old bundle in bundles)
         {
             objects.AddRange(bundle.GetObjects(ts));
         }
@@ -52,7 +52,7 @@ public class CompositeBundle : Bundle
     public override LBSCharacteristic GetTag(int index)
     {
         int currentIndex = 0;
-        foreach (Bundle bundle in bundles)
+        foreach (Bundle_Old bundle in bundles)
         {
             List<LBSCharacteristic> currentTags = bundle.GetCharacteristics();
             if (currentIndex + currentTags.Count > index)
@@ -67,19 +67,19 @@ public class CompositeBundle : Bundle
     public override List<LBSCharacteristic> GetCharacteristics()
     {
         List<LBSCharacteristic> allTags = new List<LBSCharacteristic>();
-        foreach (Bundle bundle in bundles)
+        foreach (Bundle_Old bundle in bundles)
         {
             allTags.AddRange(bundle.GetCharacteristics());
         }
         return allTags;
     }
 
-    public override void Remove(List<Bundle> data)
+    public override void Remove(List<Bundle_Old> data)
     {
         throw new System.NotImplementedException();
     }
 
-    public List<Bundle> GetBundles(string id)
+    public List<Bundle_Old> GetBundles(string id)
     {
         return bundles.Where(b => b.ID.Label == id).ToList();
     }

@@ -32,19 +32,19 @@ public class LBSAssetsStorage : ScriptableObject
 
     #region FIELDS
     [SerializeField]
-    private List<Bundle> bundles = new List<Bundle>();
+    private List<Bundle_Old> bundles = new List<Bundle_Old>();
 
     [SerializeField]
     private List<LBSIdentifier> tags = new List<LBSIdentifier>();
     #endregion
 
     #region PROPERTIES
-    public List<Bundle> Bundles
+    public List<Bundle_Old> Bundles
     {
         get
         {
             CleanBundles();
-            return new List<Bundle>(bundles);
+            return new List<Bundle_Old>(bundles);
         }
     }
 
@@ -71,7 +71,7 @@ public class LBSAssetsStorage : ScriptableObject
         tags.Remove(tag);
     }
 
-    public void AddBundle(Bundle bundle)
+    public void AddBundle(Bundle_Old bundle)
     {
         if(!bundles.Contains(bundle))
         {
@@ -79,7 +79,7 @@ public class LBSAssetsStorage : ScriptableObject
         }
     }
 
-    public void RemoveBundle(Bundle bundle)
+    public void RemoveBundle(Bundle_Old bundle)
     {
         bundles.Remove(bundle);
     }
@@ -96,7 +96,7 @@ public class LBSAssetsStorage : ScriptableObject
 
     public void SearchAllInProject()
     {
-        bundles = Utility.DirectoryTools.GetScriptables<Bundle>();
+        bundles = Utility.DirectoryTools.GetScriptables<Bundle_Old>();
         tags = Utility.DirectoryTools.GetScriptables<LBSIdentifier>();
         AssetDatabase.SaveAssets();
     }

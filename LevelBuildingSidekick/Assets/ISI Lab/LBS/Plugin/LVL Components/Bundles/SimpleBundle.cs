@@ -5,7 +5,7 @@ using System.Linq;
 
 [CreateAssetMenu(fileName = "New bundle", menuName = "ISILab/Bundle")]
 [System.Serializable]
-public class SimpleBundle : Bundle
+public class SimpleBundle : Bundle_Old
 {
     private List<GameObject> assets = new List<GameObject>();
 
@@ -19,9 +19,9 @@ public class SimpleBundle : Bundle
         assets.Add(gameObject);
     }
 
-    public override void Add(List<Bundle> data)
+    public override void Add(List<Bundle_Old> data)
     {
-        foreach (Bundle bundle in data)
+        foreach (Bundle_Old bundle in data)
         {
             var characts = bundle.GetCharacteristics();
             foreach (LBSCharacteristic c in characts)
@@ -70,9 +70,9 @@ public class SimpleBundle : Bundle
         return characteristics;
     }
 
-    public override void Remove(List<Bundle> data)
+    public override void Remove(List<Bundle_Old> data)
     {
-        foreach (Bundle bundle in data)
+        foreach (Bundle_Old bundle in data)
         {
             characteristics.RemoveAll(t => bundle.GetCharacteristics().Any(c => c == t));
             assets.RemoveAll(o => bundle.GetObjects().Contains(o));
