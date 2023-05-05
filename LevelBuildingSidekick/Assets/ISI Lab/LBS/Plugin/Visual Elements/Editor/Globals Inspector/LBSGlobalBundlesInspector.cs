@@ -13,24 +13,34 @@ public class LBSGlobalBundlesInspector : VisualElement
     public new class UxmlFactory : UxmlFactory<LBSGlobalBundlesInspector, VisualElement.UxmlTraits> { }
     #endregion
 
-    private List<Tuple<Bundle_Old, int>> targets;
-
+    // bundles panel
     private ListView list;
-    private Button AddBtn;
-    private Button RemoveBtn;
+    private Button addBrother;
+    private Button addChild;
+    private Button removeBtn;
+    private DropdownField typeField;
+
+    // General panel
     private GeneralBundlesPanel generalPanel;
+
+    // Characteristic panel
     private CharacteristicsPanel characteristicsPanel;
 
-    private Bundle_Old selected;
+    // Internal
+    private Bundle selected;
+    private List<Tuple<Bundle, int>> targets;
 
     public LBSGlobalBundlesInspector()
     {
+        
+
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSGlobalBundlesInspector");
         visualTree.CloneTree(this);
 
-        //this.targets = Utility.DirectoryTools.GetScriptables<Bundle>().ToList();
-        var all = Utility.DirectoryTools.GetScriptables<Bundle_Old>().ToList();
-        this.targets = OrderList(all, 0, new List<Tuple<Bundle_Old, int>>());
+        // Bundle list
+        var all = Utility.DirectoryTools.GetScriptables<Bundle>().Where( b => !b.isPreset).ToList();
+
+        this.targets = OrderList(all, 0, new List<Tuple<Bundle, int>>());
 
         list = this.Q<ListView>("BundleList");
         list.itemsSource = targets;
@@ -40,10 +50,19 @@ public class LBSGlobalBundlesInspector : VisualElement
         list.onSelectionChange += OnSelectionChange;
         list.style.flexGrow = 1.0f;
 
-        AddBtn = this.Q<Button>("Plus");
-        AddBtn.clicked += CreateBundle;
-        RemoveBtn = this.Q<Button>("Less");
-        RemoveBtn.clicked += DeleteBundle;
+        // select type to add
+        typeField = this.Q<DropdownField>("TypeToAdd");
+        //typeField.choices = 
+
+        // Add button
+        addBrother = this.Q<Button>("AddBrother");
+        addBrother.clicked += CreateBundle;
+        addChild = this.Q<Button>("AddChild");
+        addBrother.clicked += CreateBundle;
+
+        // remove button
+        removeBtn = this.Q<Button>("RemoveBtn");
+        removeBtn.clicked += DeleteBundle;
 
         this.generalPanel = this.Q<GeneralBundlesPanel>("GeneralPanel");
         this.characteristicsPanel = this.Q<CharacteristicsPanel>("CharacteristicsPanel");
@@ -55,41 +74,50 @@ public class LBSGlobalBundlesInspector : VisualElement
         }
     }
 
-    private List<Tuple<Bundle_Old,int>> OrderList(List<Bundle_Old> bundles, int currentValue, List<Tuple<Bundle_Old, int>> closed)
+    private List<Tuple<Bundle, int>> OrderList(List<Bundle> bundles, int currentValue, List<Tuple<Bundle, int>> closed)
     {
         var roots = GetRoots(bundles);
 
         foreach (var root in roots)
         {
+            if (root == null)
+                continue;
+
             if(closed.Select(t => t.Item1).Contains(root))
             {
                 continue;
             }
 
-            closed.Add(new Tuple<Bundle_Old,int>(root, currentValue));
+            closed.Add(new Tuple<Bundle, int>(root, currentValue));
 
-            var bb = root as CompositeBundle;
-            if(bb != null && bb.Bundles.Count() > 0)
+            if(root.ChildsBundles.Count() > 0)
             {
                 var nextValue = currentValue + 1;
-                var tempClosed = OrderList(bb.Bundles,nextValue, closed);
+                var tempClosed = OrderList(root.ChildsBundles, nextValue, closed);
             }
         }
 
         return closed;
     }
 
-    private List<Bundle_Old> GetRoots(List<Bundle_Old> bundles)
+    private List<Bundle> GetRoots(List<Bundle> bundles)
     {
-        var toR = new List<Bundle_Old>(bundles);
+        var toR = new List<Bundle>(bundles);
 
         foreach (var b in bundles)
         {
+            if (b.IsLeaf)
+            {
+                b.ChildsBundles.ForEach(c => toR.Remove(c));
+            }
+
+            /*
             var bb = b as CompositeBundle;
             if (bb != null)
             {
                 bb.Bundles.ForEach(c => toR.Remove(c));
             }
+            */
         }
 
         return toR;
@@ -116,7 +144,7 @@ public class LBSGlobalBundlesInspector : VisualElement
 
     private void OnSelectionChange(IEnumerable<object> objects)
     {
-        selected = (objects.ToList()[0] as Tuple<Bundle_Old, int>).Item1;
+        selected = (objects.ToList()[0] as Tuple<Bundle, int>).Item1;
 
         this.generalPanel.style.display = DisplayStyle.Flex;
         this.characteristicsPanel.style.display = DisplayStyle.Flex;
@@ -135,8 +163,8 @@ public class LBSGlobalBundlesInspector : VisualElement
         AssetDatabase.CreateAsset(nSO, settings.bundleFolderPath + "/" + name + ".asset");
         AssetDatabase.SaveAssets();
 
-        var all = Utility.DirectoryTools.GetScriptables<Bundle_Old>().ToList();
-        this.targets = OrderList(all, 0, new List<Tuple<Bundle_Old, int>>());
+        var all = Utility.DirectoryTools.GetScriptables<Bundle>().ToList();
+        this.targets = OrderList(all, 0, new List<Tuple<Bundle, int>>());
         list.itemsSource = targets;
 
         list.Rebuild();
@@ -151,8 +179,8 @@ public class LBSGlobalBundlesInspector : VisualElement
         AssetDatabase.DeleteAsset(path);
         AssetDatabase.SaveAssets();
 
-        var all = Utility.DirectoryTools.GetScriptables<Bundle_Old>().ToList();
-        this.targets = OrderList(all, 0, new List<Tuple<Bundle_Old, int>>());
+        var all = Utility.DirectoryTools.GetScriptables<Bundle>().ToList();
+        this.targets = OrderList(all, 0, new List<Tuple<Bundle, int>>());
         list.itemsSource = targets;
 
         list.Rebuild();

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(LBSGrammar))]
+[LBSCustomEditor(typeof(LBSGrammar))]
 public class LBSGrammarEditor : Editor
 {
     string path = "";

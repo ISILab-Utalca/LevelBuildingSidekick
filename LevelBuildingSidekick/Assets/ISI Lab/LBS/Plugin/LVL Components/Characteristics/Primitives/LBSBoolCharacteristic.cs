@@ -14,4 +14,19 @@ public class LBSBoolCharacteristic : LBSCharacteristic
         get => value;
         set => this.value = value;
     }
+
+    public LBSBoolCharacteristic(bool value)
+    {
+        this.value = value;
+    }
+
+    public override object Clone()
+    {
+        return new LBSBoolCharacteristic(this.value);
+    }
+
+    public override void OnEnable()
+    {
+       // throw new System.NotImplementedException();
+    }
 }

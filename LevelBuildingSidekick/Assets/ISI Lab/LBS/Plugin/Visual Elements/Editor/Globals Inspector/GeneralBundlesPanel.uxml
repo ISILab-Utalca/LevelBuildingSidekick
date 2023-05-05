@@ -7,15 +7,19 @@
         </ui:VisualElement>
         <ui:VisualElement name="MainContent" style="display: flex;">
             <ui:Foldout text="Basic Info" name="BasicFoldout" value="false" style="border-left-color: rgba(0, 0, 0, 0.39); border-right-color: rgba(0, 0, 0, 0.39); border-top-color: rgba(0, 0, 0, 0.39); border-bottom-color: rgba(0, 0, 0, 0.39); border-bottom-width: 1px; margin-right: 0;">
-                <ui:VisualElement name="NamePanel" style="background-color: rgba(255, 255, 255, 0.1); padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; margin-bottom: 4px; margin-right: 4px;">
-                    <ui:Label tabindex="-1" text="Name bundle" display-tooltip-when-elided="true" style="padding-left: 4px; padding-bottom: 2px;" />
+                <ui:VisualElement name="NamePanel" tooltip="asdfghjkl" style="background-color: rgba(255, 255, 255, 0.1); padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; margin-bottom: 4px; margin-right: 4px;">
+                    <ui:Label tabindex="-1" text="this is the name of the selected  bundle." display-tooltip-when-elided="true" style="padding-left: 4px; padding-bottom: 2px;" />
                     <ui:TextField picking-mode="Ignore" value="filler text" text="filler text" name="NameField" />
                 </ui:VisualElement>
-                <ui:VisualElement name="IconPanel" style="background-color: rgba(255, 255, 255, 0.1); padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; margin-bottom: 4px; margin-right: 4px;">
+                <ui:VisualElement name="TagPanel" tooltip="this is the tag identifier of the selected bundle." style="background-color: rgba(255, 255, 255, 0.1); padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; margin-bottom: 4px; margin-right: 4px;">
+                    <ui:Label tabindex="-1" text="Main Tag" display-tooltip-when-elided="true" style="padding-left: 4px; padding-bottom: 2px;" />
+                    <uie:ObjectField type="LBSIdentifier, Assembly-CSharp" name="TagField" />
+                </ui:VisualElement>
+                <ui:VisualElement name="IconPanel" style="background-color: rgba(255, 255, 255, 0.1); padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; margin-bottom: 4px; margin-right: 4px; display: none;">
                     <ui:Label tabindex="-1" text="Icon" display-tooltip-when-elided="true" style="padding-left: 4px; padding-bottom: 2px;" />
                     <uie:ObjectField type="UnityEngine.Texture2D, UnityEngine.CoreModule" name="IconField" />
                 </ui:VisualElement>
-                <ui:VisualElement name="ColorPanel" style="background-color: rgba(255, 255, 255, 0.1); padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; margin-bottom: 4px; margin-right: 4px;">
+                <ui:VisualElement name="ColorPanel" style="background-color: rgba(255, 255, 255, 0.1); padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; margin-bottom: 4px; margin-right: 4px; display: none;">
                     <uie:ColorField label="Color" name="ColorField" />
                 </ui:VisualElement>
             </ui:Foldout>

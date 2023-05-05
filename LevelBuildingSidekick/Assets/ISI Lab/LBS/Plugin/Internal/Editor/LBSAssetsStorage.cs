@@ -32,19 +32,19 @@ public class LBSAssetsStorage : ScriptableObject
 
     #region FIELDS
     [SerializeField]
-    private List<Bundle_Old> bundles = new List<Bundle_Old>();
+    private List<Bundle> bundles = new List<Bundle>();
 
     [SerializeField]
     private List<LBSIdentifier> tags = new List<LBSIdentifier>();
     #endregion
 
     #region PROPERTIES
-    public List<Bundle_Old> Bundles
+    public List<Bundle> Bundles
     {
         get
         {
             CleanBundles();
-            return new List<Bundle_Old>(bundles);
+            return new List<Bundle>(bundles);
         }
     }
 
@@ -71,7 +71,7 @@ public class LBSAssetsStorage : ScriptableObject
         tags.Remove(tag);
     }
 
-    public void AddBundle(Bundle_Old bundle)
+    public void AddBundle(Bundle bundle)
     {
         if(!bundles.Contains(bundle))
         {
@@ -79,7 +79,7 @@ public class LBSAssetsStorage : ScriptableObject
         }
     }
 
-    public void RemoveBundle(Bundle_Old bundle)
+    public void RemoveBundle(Bundle bundle)
     {
         bundles.Remove(bundle);
     }
@@ -96,26 +96,10 @@ public class LBSAssetsStorage : ScriptableObject
 
     public void SearchAllInProject()
     {
-        bundles = Utility.DirectoryTools.GetScriptables<Bundle_Old>();
+        bundles = Utility.DirectoryTools.GetScriptables<Bundle>();
         tags = Utility.DirectoryTools.GetScriptables<LBSIdentifier>();
         AssetDatabase.SaveAssets();
     }
     #endregion
 }
 
-[CustomEditor(typeof(LBSAssetsStorage))]
-public class LBSAssetsStorage_Editor : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
-
-        GUILayout.Space(20);
-
-        var storage = target as LBSAssetsStorage;
-        if(GUILayout.Button("Search all in Project"))
-        {
-            storage.SearchAllInProject();
-        }
-    }
-}

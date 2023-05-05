@@ -19,10 +19,10 @@ static class LBS_SettingsProvider
             {
                 var settings = LBSSettings.Instance;
 
-                // Header paths
+                // header Controller paths
                 EditorGUILayout.Space();
                 EditorStyles.boldLabel.fontSize = 14;
-                EditorGUILayout.LabelField("Paths", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField("Controller Paths", EditorStyles.boldLabel);
 
                 // Settings path
                 EditorGUILayout.BeginHorizontal();
@@ -46,6 +46,17 @@ static class LBS_SettingsProvider
                 }
                 EditorGUILayout.EndHorizontal();
 
+                // Pressets path
+                EditorGUILayout.BeginHorizontal();
+                settings.pressetsPath = EditorGUILayout.TextField("Presets path", settings.pressetsPath, EditorStyles.textField, GUILayout.Height(EditorGUIUtility.singleLineHeight));
+                if (GUILayout.Button("Find", GUILayout.MaxWidth(60)))
+                {
+                    var so = Utility.DirectoryTools.GetScriptable<LBSPresets>();
+                    var path = AssetDatabase.GetAssetPath(so);
+                    settings.pressetsPath = path;
+                }
+                EditorGUILayout.EndHorizontal();
+
                 // Find All button
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.Space();
@@ -61,6 +72,25 @@ static class LBS_SettingsProvider
                 }
                 EditorGUILayout.EndHorizontal();
 
+                // header Controller paths
+                EditorGUILayout.Space();
+                EditorStyles.boldLabel.fontSize = 14;
+                EditorGUILayout.LabelField("Extra Paths", EditorStyles.boldLabel);
+
+                // Storage path
+                EditorGUILayout.BeginHorizontal();
+                settings.iconPath = EditorGUILayout.TextField("Icons paths", settings.iconPath, EditorStyles.textField, GUILayout.Height(EditorGUIUtility.singleLineHeight));
+                EditorGUILayout.EndHorizontal();
+
+                // Set Default button
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.Space();
+                if (GUILayout.Button("Set default", GUILayout.MaxWidth(120)))
+                {
+                    var newSettings = new LBSSettings();
+                    settings.iconPath = newSettings.iconPath;
+                }
+                EditorGUILayout.EndHorizontal();
 
                 // Header foplders
                 EditorGUILayout.Space();

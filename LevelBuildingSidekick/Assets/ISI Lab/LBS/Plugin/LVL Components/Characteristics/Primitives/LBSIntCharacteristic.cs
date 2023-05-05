@@ -14,4 +14,19 @@ public class LBSIntCharacteristic : LBSCharacteristic
         get => value;
         set => this.value = value;
     }
+
+    public LBSIntCharacteristic(int value)
+    {
+        this.value = value;
+    }
+
+    public override object Clone()
+    {
+        return new LBSIntCharacteristic(this.value);
+    }
+
+    public override void OnEnable()
+    {
+       // throw new System.NotImplementedException();
+    }
 }

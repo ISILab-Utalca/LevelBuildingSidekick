@@ -37,15 +37,19 @@ namespace LBS.Settings
         }
         #endregion
 
-        // Paths
+        // Controller Paths
         public string settingsPath = "Assets/ISI Lab/LBS/Plugin/Internal/Settings/Resources/LBS Settings.asset";
         public string storagePath = "Assets/ISI Lab/LBS/Plugin/Internal/Editor/LBS Storage.asset";
+        public string pressetsPath = "Assets/ISI Lab/LBS/Presets/LBS Presets.asset";
 
-        // Folders storages
+        // Folders data storages
         public string bundleFolderPath = "Assets/ISI Lab/LBS/Data/Bundles";
         public string tagFolderPath = "Assets/ISI Lab/LBS/Data/Tags";
 
-        // Folder presets
+        // Folders extra storages
+        public string iconPath = "Assets/ISI Lab/LBS/Plugin/Internal/Icons";
+
+        // Folders presets
         public string layerPressetFolderPath = "Assets/ISI Lab/LBS/Presets/Layers";
         public string assistantPresetFolderPath = "Assets/ISI Lab/LBS/Presets/Assistants";
         public string Generator3DPresetFolderPath = "Assets/ISI Lab/LBS/Presets/Generators3D";

@@ -6,8 +6,13 @@ using Newtonsoft.Json;
 
 [System.Serializable]
 [LBSCharacteristic("Basic Characteristic","")]
-public class LBSCharacteristic : ICloneable
+public abstract class LBSCharacteristic : ICloneable
 {
+    [HideInInspector, JsonIgnore]
+    private Bundle owner;
+    [HideInInspector, JsonIgnore]
+    public Bundle Owner => owner;
+
     [JsonRequired]//, SerializeField]
     protected string label = "";
 
@@ -25,10 +30,7 @@ public class LBSCharacteristic : ICloneable
         this.label = label;
     }
 
-    public virtual object Clone()
-    {
-        return new LBSCharacteristic(this.label);
-    }
+    public abstract object Clone();
 
     public override bool Equals(object obj)
     {
@@ -39,4 +41,17 @@ public class LBSCharacteristic : ICloneable
     {
         return base.GetHashCode();
     }
+
+    /// <summary>
+    /// esta funcion es para que la characteristic tenga axeso a el bundle que lo posee
+    /// asi podemos tener acciones o itenracciones dentro bharacteristics
+    /// </summary>
+    public void Init(Bundle owner)
+    {
+        this.owner = owner;
+        OnEnable();
+    }
+
+    public abstract void OnEnable();
+
 }

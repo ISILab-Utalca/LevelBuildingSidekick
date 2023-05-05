@@ -39,10 +39,8 @@ public class WaveFunctionCollapseManipulator<T> : ManipulateTeselation<T> where 
         var max = MainView.ToTileCords(Vector2Int.Max(StartPosition, EndPosition));
 
         var tiles = LBSAssetsStorage.Instance.Bundles
-            .Where(b =>  b.GetType() == typeof(WFCBundle))
-            .Select(b => b as WFCBundle)
+            .Select(b =>  b.GetCharacteristic<LBSDirection>())
             .ToList();
-        //var tiles = Utility.DirectoryTools.GetScriptables<WFCBundle>();
 
         var toCalc = new List<ConnectedTile>();
         for (int i = min.x; i <= max.x; i++)
@@ -68,17 +66,17 @@ public class WaveFunctionCollapseManipulator<T> : ManipulateTeselation<T> where 
         } 
     }
 
-    public void CalculateTile(ConnectedTile tile, List<WFCBundle> wfcTiles)
+    public void CalculateTile(ConnectedTile tile, List<LBSDirection> connections)
     {
-        var candidates = new List<Tuple<string[], WFCBundle>>();
+        var candidates = new List<Tuple<string[], LBSDirection>>();
 
-        foreach (var wfc in wfcTiles)
+        foreach (var connection in connections)
         {
             for (int i = 0; i < 4; i++)
             {
-                if (Compare(tile.Connections, wfc.GetConnection(i)))
+                if (Compare(tile.Connections, connection.GetConnection(i)))
                 {
-                    candidates.Add(new Tuple<string[], WFCBundle>(wfc.GetConnection(i), wfc));
+                    candidates.Add(new Tuple<string[], LBSDirection>(connection.GetConnection(i), connection));
                 }
             }
         }
@@ -89,14 +87,15 @@ public class WaveFunctionCollapseManipulator<T> : ManipulateTeselation<T> where 
             return;
         }
 
-        var totalW = candidates.Sum(c => c.Item2.weight);
+
+        var totalW = candidates.Sum(c => c.Item2.TotalWeight);
         var rulleteValue = UnityEngine.Random.Range(0, totalW);
 
         var index = -1;
         var cur = 0f;
         for (int i = 0; i < candidates.Count; i++)
         {
-            cur += candidates[i].Item2.weight;
+            cur += candidates[i].Item2.TotalWeight;
             if (rulleteValue <= cur)
             {
                 index = i;

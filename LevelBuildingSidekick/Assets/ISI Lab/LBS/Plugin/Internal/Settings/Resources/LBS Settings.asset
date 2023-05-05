@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settingsPath: Assets/ISI Lab/LBS/Plugin/Internal/Settings/Resources/LBS Settings.asset
   storagePath: Assets/ISI Lab/LBS/Plugin/Internal/Editor/LBS Storage.asset
+  pressetsPath: Assets/ISI Lab/LBS/Presets/LBS Presets.asset
   bundleFolderPath: Assets/ISI Lab/LBS/Data/Bundles
   tagFolderPath: Assets/ISI Lab/LBS/Data/Tags
+  iconPath: Assets/ISI Lab/LBS/Plugin/Internal/Icons
   layerPressetFolderPath: Assets/ISI Lab/LBS/Presets/Layers
   assistantPresetFolderPath: Assets/ISI Lab/LBS/Presets/Assistants
   Generator3DPresetFolderPath: Assets/ISI Lab/LBS/Presets/Generators3D

@@ -15,7 +15,7 @@ public abstract class Bundle_Old : LBSScriptableObject
         set => id = value;
     }
 
-    /*[SerializeField,*/[ SerializeReference, HideInInspector]
+    [SerializeReference, HideInInspector]
     protected List<LBSCharacteristic> characteristics = new List<LBSCharacteristic>();
 
     public abstract void Add(List<Bundle_Old> data);

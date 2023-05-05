@@ -19,6 +19,7 @@ public class GeneralBundlesPanel : VisualElement
 
     // Basic info
     private ObjectField iconField;
+    private ObjectField tagField;
     private TextField nameField;
     private ColorField colorField;
 
@@ -30,7 +31,7 @@ public class GeneralBundlesPanel : VisualElement
     private ListView assetsList;
 
     // Target
-    private Bundle_Old target;
+    private Bundle target;
 
     public GeneralBundlesPanel()
     {
@@ -51,6 +52,9 @@ public class GeneralBundlesPanel : VisualElement
 
         this.colorField = this.Q<ColorField>("ColorField");
         colorField.RegisterCallback<ChangeEvent<Color>>(t => target.ID.Color = t.newValue);
+
+        this.tagField = this.Q<ObjectField>("TagField");
+        nameField.RegisterCallback<ChangeEvent<Object>>(t => target.ID = t.newValue as LBSIdentifier);
 
         // Extra info
         this.childList = this.Q<ListView>("ChildsList");
@@ -79,9 +83,9 @@ public class GeneralBundlesPanel : VisualElement
 
         assetsList.bindItem = (item, index) =>
         {
-            var list = (target as SimpleBundle).Assets;
+            var list = (target as Bundle).Assets;
             if (index >= list.Count)
-                (target as SimpleBundle).Add(null);
+                (target as Bundle).AddChild(null);
 
             var view = (item as ObjectField);
             var t = list[index];
@@ -96,7 +100,7 @@ public class GeneralBundlesPanel : VisualElement
         */
     }
 
-    public void SetInfo(Bundle_Old target)
+    public void SetInfo(Bundle target)
     {
         this.target = target;
 
@@ -109,7 +113,7 @@ public class GeneralBundlesPanel : VisualElement
         nameField.value = target.ID.Label;
         colorField.value = target.ID.Color;
      
-        assetsList.itemsSource = (target as SimpleBundle).Assets;
+        assetsList.itemsSource = (target as Bundle).Assets;
     }
 
     private LBSIdentifier CreateID()

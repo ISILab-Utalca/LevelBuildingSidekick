@@ -28,9 +28,9 @@ public class LBS_AssetsPostProcessor : AssetPostprocessor
 
             var obj = AssetDatabase.LoadAssetAtPath<Object>(asset);
 
-            if (obj is Bundle_Old)
+            if (obj is Bundle)
             {
-                storage.AddBundle(obj as Bundle_Old);
+                storage.AddBundle(obj as Bundle);
             }
         }
         AssetDatabase.SaveAssets();
