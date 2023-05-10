@@ -8,23 +8,11 @@ using System.Linq;
 public class LBSIdentifierBundle : ScriptableObject
 {
     [SerializeField]
-    [ScriptableToString(typeof(LBSIdentifier))]
-    protected List<string> tags = new List<string>();
+    private List<LBSIdentifier> tags = new List<LBSIdentifier>();
 
     public List<LBSIdentifier> Tags
     {
-        get
-        {
-            var tt = Utility.DirectoryTools.GetScriptables<LBSIdentifier>().ToList();
-            List<LBSIdentifier> toR = new List<LBSIdentifier>();
-            foreach (var tag in tags)
-            {
-                var x = tt.Find(v => v.Label == tag);
-                if (x != null)
-                    toR.Add(x);
-            }
-            return toR;
-        }
+        get => new List<LBSIdentifier>(tags);
     }
 
     public void RemoveAt(int index)
@@ -34,48 +22,33 @@ public class LBSIdentifierBundle : ScriptableObject
 
     public void Remove (LBSIdentifier tag)
     {
-        tags.Remove(tag.Label);
+        tags.Remove(tag);
     }
 
-    public void AddTag(LBSIdentifier tag)
+    public void Add(LBSIdentifier tag)
     {
-        tags.Add(tag.Label);
+        tags.Add(tag);
     }
 
-    public LBSIdentifier GetTag(int index)
-    {
-        var current = tags[index];
 
-        var ttags = Utility.DirectoryTools.GetScriptables<LBSIdentifier>();  // esto lagea la interfaz de GlobalTag (!!!)
-        var toR = ttags.Find(t => t.Label == current);
-
-        return toR;
-        //return (t == null)? null : Utility.DirectoryTools.GetScriptable<LBSIdentifier>(t);
-    }
-
-    public List<LBSIdentifier> GetTags()
-    {
-        return Tags;
-    }
-
-    public void Add(List<Bundle_Old> data)
+    public void Add(List<Bundle> data) // (?) por que existe este metodo?
     {
         var tags = data.Select(b => b.ID);
 
-        foreach (var t in tags)
+        foreach (var tag in tags)
         {
-            if(!this.tags.Contains(t.Label))
-                this.tags.Add(t.Label);
+            if(!this.tags.Contains(tag))
+                this.tags.Add(tag);
         }
     }
 
-    public virtual void Remove(List<Bundle_Old> data)
+    public virtual void Remove(List<Bundle> data) // (?) por que existe este metodo?
     {
         var tags = data.Select(b => b.ID);
 
-        foreach(var t in tags)
+        foreach(var tag in tags)
         {
-            this.tags.Remove(t.Label);
+            this.tags.Remove(tag);
         }    
     }
 }

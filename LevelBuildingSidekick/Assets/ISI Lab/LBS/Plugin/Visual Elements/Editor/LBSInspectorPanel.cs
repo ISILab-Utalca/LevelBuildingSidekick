@@ -68,7 +68,6 @@ public class LBSInspectorPanel : VisualElement
         var l3 = new Wip();
         AddTab("Local", "Assistants", l3);
 
-
         var aset = new Wip();
         AddTab("Advanced", "Settings", aset);
 

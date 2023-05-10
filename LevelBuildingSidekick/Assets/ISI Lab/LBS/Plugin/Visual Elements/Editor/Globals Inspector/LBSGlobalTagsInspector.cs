@@ -14,57 +14,80 @@ public class LBSGlobalTagsInspector : VisualElement
     public new class UxmlFactory : UxmlFactory<LBSGlobalTagsInspector, VisualElement.UxmlTraits> { }
     #endregion
 
-    private List<LBSIdentifierBundle> targets;
+    #region FIELDS
+    private LBSIdentifierBundle selected;
+    #endregion
 
+    #region VIEW FIELDS
     private ListView list;
     private Button AddBtn;
     private Button RemoveBtn;
+    private TagInfo tagInfo;
+    #endregion
 
-    private LBSIdentifierBundle selected;
+    #region PROPERTIES
+    private List<LBSIdentifierBundle> TagsBundles
+    {
+        get
+        {
+            var storage = LBSAssetsStorage.Instance;
+            var tagsBundles = storage.Get<LBSIdentifierBundle>();
+            return tagsBundles;
+        }
+    }
+    #endregion
 
+    #region CONSTRUCTORS
     public LBSGlobalTagsInspector()
     {
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSGlobalTagsInspector");
         visualTree.CloneTree(this);
 
-        this.targets = Utility.DirectoryTools.GetScriptables<LBSIdentifierBundle>().ToList();
-
-        list = this.Q<ListView>();
+        // Add Button
         AddBtn = this.Q<Button>("Plus");
         AddBtn.clicked += CreateBundle;
+
+        // Remove Button
         RemoveBtn = this.Q<Button>("Less");
         RemoveBtn.clicked += DeleteBundle;
 
-        list.itemsSource = targets;
+        // BundleList
+        list = this.Q<ListView>();
+        list.itemsSource = TagsBundles;
         list.makeItem = MakeItem;
         list.bindItem = BindItem;
-
-        //list.itemsAdded += OnItemAdded;
         list.onItemsChosen += OnItemChosen;
         list.onSelectionChange += OnSelectionChange;
         list.style.flexGrow = 1.0f;
 
-        list.RegisterCallback<GeometryChangedEvent>(evt => UpdateItemHeights(evt));
+        // TagInfo
+        tagInfo = this.Q<TagInfo>();
+        tagInfo.style.display = DisplayStyle.None;
     }
+    #endregion
 
+    #region METHODS
     private VisualElement MakeItem()
     {
-        return new TagBundleView();
+        var tbv = new TagBundleView();
+        tbv.OnSelectionChange += (tbv) => SelectedTagChange(tbv.selected);
+
+        return tbv;
     }
 
     private void BindItem(VisualElement ve, int index)
     {
-        if (index >= this.targets.Count())
+        if (index >= this.TagsBundles.Count())
             return;
 
         var view = (ve as TagBundleView);
-        view.SetInfo(targets[index]);
+        view.SetInfo(TagsBundles[index]);
 
-        if (index == targets.Count - 1)
+        if (index == TagsBundles.Count - 1)
         {
-            view.box.style.borderBottomLeftRadius = 3;
-            view.box.style.borderBottomRightRadius = 3;
-            view.box.SetBorder(Color.red, 0);
+            view.Children().ToList()[0].style.borderBottomLeftRadius = 3;
+            view.Children().ToList()[0].style.borderBottomRightRadius = 3;
+            view.Children().ToList()[0].SetBorder(Color.red, 0);
         }
     }
 
@@ -77,11 +100,10 @@ public class LBSGlobalTagsInspector : VisualElement
         AssetDatabase.DeleteAsset(path);
         AssetDatabase.SaveAssets();
 
-        targets = Utility.DirectoryTools.GetScriptables<LBSIdentifierBundle>().ToList();
-        list.itemsSource = targets;
+        //targets = Utility.DirectoryTools.GetScriptables<LBSIdentifierBundle>().ToList();
+        list.itemsSource = TagsBundles;
 
         list.Rebuild();
-        //list.RefreshItems();
     }
 
     private void CreateBundle()
@@ -90,16 +112,16 @@ public class LBSGlobalTagsInspector : VisualElement
 
         var settings = LBSSettings.Instance;
 
-        var name = ISILab.Commons.Commons.CheckNameFormat(targets.Select(b => b.name), "tagBundle");
+        var name = ISILab.Commons.Commons.CheckNameFormat(TagsBundles.Select(b => b.name), "tagBundle");
 
         AssetDatabase.CreateAsset(nSO, settings.tagFolderPath + "/" + name + ".asset");
         AssetDatabase.SaveAssets();
 
-        targets = Utility.DirectoryTools.GetScriptables<LBSIdentifierBundle>().ToList();
-        list.itemsSource = targets;
+        //targets = Utility.DirectoryTools.GetScriptables<LBSIdentifierBundle>().ToList();
+        list.itemsSource = TagsBundles;
 
         list.Rebuild();
-        //list.RefreshItems();
+
     }
 
     private void OnItemChosen(IEnumerable<object> objects)
@@ -112,8 +134,9 @@ public class LBSGlobalTagsInspector : VisualElement
         selected = objects.ToList()[0] as LBSIdentifierBundle;
     }
 
-    private void UpdateItemHeights(GeometryChangedEvent evt)
+    private void SelectedTagChange(LBSIdentifier tag)
     {
-
+        tagInfo.SetInfo(tag);
     }
+    #endregion
 }

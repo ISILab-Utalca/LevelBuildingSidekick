@@ -1,4 +1,4 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
     <ui:VisualElement style="flex-grow: 1; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 8px;">
         <ui:VisualElement name="Header" style="flex-direction: row; height: 18px; border-left-color: rgb(25, 25, 25); border-right-color: rgb(25, 25, 25); border-top-color: rgb(25, 25, 25); border-bottom-color: rgb(25, 25, 25); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; margin-bottom: 5px;">
             <ui:VisualElement style="background-color: rgb(42, 42, 42); flex-grow: 0.1; min-height: auto; align-items: center; justify-content: center;">
@@ -6,7 +6,7 @@
             </ui:VisualElement>
             <ui:Label tabindex="-1" text="Tags creation" display-tooltip-when-elided="true" style="padding-left: 5px;" />
         </ui:VisualElement>
-        <ui:VisualElement style="background-color: rgba(0, 0, 0, 0.2); padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 8px;">
+        <ui:VisualElement style="background-color: rgba(0, 0, 0, 0.2); padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 8px; margin-bottom: 4px; border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0; border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px;">
             <ui:VisualElement style="flex-direction: row; align-items: center; padding-bottom: 2px;">
                 <ui:VisualElement style="width: 12px; height: 12px; background-image: resource(&apos;Icons/Tag_Title&apos;); -unity-background-image-tint-color: rgb(247, 196, 64);" />
                 <ui:Label tabindex="-1" text="Tags list" display-tooltip-when-elided="true" style="padding-left: 4px;" />
@@ -19,5 +19,6 @@
                 <ui:ListView focusable="true" show-add-remove-footer="false" show-foldout-header="false" horizontal-scrolling="false" show-border="false" virtualization-method="DynamicHeight" show-bound-collection-size="true" show-alternating-row-backgrounds="ContentOnly" style="padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; border-top-left-radius: 0; border-bottom-left-radius: 3px; border-top-right-radius: 0; border-bottom-right-radius: 3px; background-color: rgba(0, 0, 0, 0);" />
             </ui:VisualElement>
         </ui:VisualElement>
+        <TagInfo />
     </ui:VisualElement>
 </ui:UXML>

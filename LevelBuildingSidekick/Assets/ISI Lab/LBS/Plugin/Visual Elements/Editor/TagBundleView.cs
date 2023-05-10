@@ -10,53 +10,62 @@ using static UnityEngine.UI.InputField;
 
 public class TagBundleView : VisualElement
 {
-    public LBSIdentifierBundle target;
+    #region FIELDS
+    private LBSIdentifierBundle target;
+    public LBSIdentifier selected;
+    #endregion
 
-    public  VisualElement box;
+    #region VIEW FIELDS
     private Foldout foldout;
     private VisualElement content;
     private TextField groupNameField;
     private ListView list;
     private Button addBtn;
     private Button removeBtn;
+    #endregion
 
-    private LBSIdentifier selected;
+    #region EVENTS
+    public delegate void TagBundleViewEvent(TagBundleView tbv);
+    public TagBundleViewEvent OnSelectionChange;
+    #endregion
 
+    #region CONSTRUCTORS
     public TagBundleView()
     {
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("TagBundleView");
         visualTree.CloneTree(this);
 
-        this.box = this.Q<VisualElement>("Box");
+        // Main Content
         this.content = this.Q<VisualElement>("Content");
         
+        // Main Foldout
         this.foldout = this.Q<Foldout>();
-        foldout.RegisterCallback<ChangeEvent<bool>>(e => OnFoldout(e.newValue));
+        foldout.RegisterCallback<ChangeEvent<bool>>(e => content.SetDisplay(e.newValue));
 
+        // Bundle Namefield
         this.groupNameField = this.Q<TextField>();
-        groupNameField.RegisterCallback<BlurEvent>(e => OnTextChange(groupNameField.value));
-        //groupNameField.RegisterCallback<ChangeEvent<string>>(e => OnTextChange(e.newValue));
+        groupNameField.RegisterCallback<BlurEvent>(e => TextChange(groupNameField.value));
 
+        // Tags List
         list = this.Q<ListView>();
-
         list.fixedItemHeight = 22;
         list.makeItem += MakeItem;
         list.bindItem += BindItem;
-        list.onItemsChosen += OnItemChosen;
-        list.onSelectionChange += OnSelectionChange;
+        list.onItemsChosen += ItemChosen;
+        list.onSelectionChange += SelectionChange;
         list.style.flexGrow = 1.0f;
 
+        // Add Button
         addBtn = this.Q<Button>("Add");
         addBtn.clicked += CreateTag;
+
+        // Remove Button
         removeBtn = this.Q<Button>("Remove");
         removeBtn.clicked += RemoveTag;
     }
+    #endregion
 
-    private void OnFoldout(bool value)
-    {
-        content.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
-    }
-
+    #region METHODS
     private VisualElement MakeItem()
     {
         return new TagView();
@@ -70,18 +79,16 @@ public class TagBundleView : VisualElement
         nTag.Init(name, new Color().RandomColor(), null);
 
         var settings = LBSSettings.Instance;
-
         AssetDatabase.CreateAsset(nTag, settings.tagFolderPath + "/" + name + ".asset");
         AssetDatabase.SaveAssets();
 
-        Debug.Log(target.GetInstanceID());
         if(!target.Tags.Contains(nTag))
-            target.AddTag(nTag); 
+            target.Add(nTag); 
 
         list.itemsSource = target.Tags;
 
         list.Rebuild();
-        list.RefreshItems();
+        //list.RefreshItems();
     }
 
     private void RemoveTag()
@@ -99,19 +106,18 @@ public class TagBundleView : VisualElement
         list.Rebuild();
     }
 
-    private void OnTextChange(string value)
+    private void TextChange(string value)
     {
         target.name = value;
         AssetDatabase.RenameAsset(AssetDatabase.GetAssetPath(target), target.name);
         EditorUtility.SetDirty(target);
     }
 
-
     public void SetInfo(LBSIdentifierBundle tagBundle)
     {
         target = tagBundle;
-        list.itemsSource = target.Tags;
 
+        list.itemsSource = target.Tags;
         groupNameField.value = target.name;
 
         list.Rebuild();
@@ -124,18 +130,19 @@ public class TagBundleView : VisualElement
         if (index >= this.target.Tags.Count())
             return;
 
-        var tag = this.target.GetTag(index);
+        var tag = this.target.Tags[index];
         view.SetInfo(tag);
     }
 
-
-    public void OnSelectionChange(IEnumerable<object> objs)
+    public void SelectionChange(IEnumerable<object> objs)
     {
         selected = objs.ToList()[0] as LBSIdentifier;
+        OnSelectionChange?.Invoke(this);
     }
 
-    public void OnItemChosen(IEnumerable<object> objs)
+    public void ItemChosen(IEnumerable<object> objs)
     {
         Debug.Log("OIC");
     }
+    #endregion
 }

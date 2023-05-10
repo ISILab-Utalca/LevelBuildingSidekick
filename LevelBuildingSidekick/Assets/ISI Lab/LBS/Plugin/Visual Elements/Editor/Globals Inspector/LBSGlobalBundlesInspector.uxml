@@ -22,7 +22,7 @@
             <ui:VisualElement style="margin-top: 0; border-left-color: rgba(255, 255, 255, 0); border-right-color: rgba(255, 255, 255, 0); border-top-color: rgba(255, 255, 255, 0); border-bottom-color: rgba(255, 255, 255, 0); background-color: rgba(255, 255, 255, 0.1); border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; padding-left: 3px; padding-right: 3px; padding-top: 3px; padding-bottom: 3px; margin-bottom: 4px;">
                 <ui:DropdownField label="Add new bundle" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="TypeToAdd" />
                 <ui:VisualElement style="flex-direction: row; flex-grow: 1;">
-                    <ui:Button tabindex="-1" text="Add as brother" display-tooltip-when-elided="true" name="AddBrother" style="flex-grow: 1;" />
+                    <ui:Button tabindex="-1" text="Add as root" display-tooltip-when-elided="true" name="AddBrother" style="flex-grow: 1;" />
                     <ui:Button tabindex="-1" text="Add as child" display-tooltip-when-elided="true" name="AddChild" style="flex-grow: 1;" />
                 </ui:VisualElement>
             </ui:VisualElement>

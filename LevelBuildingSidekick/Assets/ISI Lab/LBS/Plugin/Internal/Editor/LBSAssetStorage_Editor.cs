@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-[LBSCustomEditor(typeof(LBSAssetsStorage))]
+[CustomEditor(typeof(LBSAssetsStorage))]
 public class LBSAssetsStorage_Editor : Editor
 {
     public override void OnInspectorGUI()
@@ -12,10 +12,24 @@ public class LBSAssetsStorage_Editor : Editor
 
         GUILayout.Space(20);
 
-        var storage = target as LBSAssetsStorage;
         if(GUILayout.Button("Search all in Project"))
         {
-            storage.SearchAllInProject();
+            SearchAllInProject();
         }
+    }
+
+    private void SearchAllInProject()
+    {
+        var storage = (target as LBSAssetsStorage);
+        storage.Clear();
+
+        var SOs = Utility.DirectoryTools.GetScriptables<ScriptableObject>();
+        foreach (var s in SOs)
+        {
+            storage.AddElement(s);
+        }
+
+        EditorUtility.SetDirty(this);
+        AssetDatabase.SaveAssets();
     }
 }

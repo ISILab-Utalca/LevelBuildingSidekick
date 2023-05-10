@@ -63,7 +63,7 @@ public class BundleTagView : VisualElement
     {
         var so = ScriptableObject.CreateInstance<LBSIdentifier>();
         so.Label = name;
-        target.AddTag(so);
+        target.Add(so);
 
         string path = "Assets/" + name + "_Tag" + ".asset";
         AssetDatabase.CreateAsset(so, path);

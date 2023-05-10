@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 [CreateAssetMenu(fileName = "New Bundle", menuName = "ISILab/Bundle (*)")]
 [System.Serializable]
-public class Bundle : ScriptableObject
+public class Bundle : ScriptableObject , ICloneable
 {
     #region FIELDS
     public bool isPreset = false;
@@ -54,12 +55,16 @@ public class Bundle : ScriptableObject
     #region METHODS
     public void AddChild(Bundle child)
     {
+        Assert.IsTrue(IsRecursive(this, child), "[ISI Lab]: Bundle '" + this.name + "' is contained in bundle '" + child.name + "' or one of its child bundles.");
+
         childsBundles.Add(child);
         OnAddChild?.Invoke(child);
     }
 
     public void InsertChild(int index,Bundle child)
     {
+        Assert.IsTrue(IsRecursive(this, child), "[ISI Lab]: Bundle '" + this.name + "' is contained in bundle '" + child.name + "' or one of its child bundles.");
+
         childsBundles.Insert(index, child);
         OnAddChild?.Invoke(child);
     }
@@ -107,7 +112,7 @@ public class Bundle : ScriptableObject
         OnAddCharacteristic?.Invoke(characteristic);
     }
 
-    public void InsertAsset(int index, LBSCharacteristic characteristic)
+    public void InsertCharacteristic(int index, LBSCharacteristic characteristic)
     {
         characteristic.Init(this);
         characteristics.Insert(index, characteristic);
@@ -134,7 +139,73 @@ public class Bundle : ScriptableObject
 
         return default(T);
     }
+
+    public object Clone()
+    {
+        var other = ScriptableObject.CreateInstance<Bundle>();
+
+        foreach (var charc in this.characteristics)
+        {
+            other.AddCharacteristic(charc.Clone() as LBSCharacteristic);
+        }
+
+        foreach (var child in this.childsBundles)
+        {
+            var b = child.Clone() as Bundle; // (!) esto puede causar una recursion
+            other.AddChild(b);
+        }
+
+        foreach (var asset in assets)
+        {
+            other.AddAsset(asset);
+        }
+
+        other.ID = this.id;
+
+        return other;
+    }
+
     #endregion
 
+    #region STATIC FUNCTIONS
+    private static bool IsRecursive(Bundle parent, Bundle child)
+    {
+        if (child.ChildsBundles.Contains(parent))
+        {
+            return true;
+        }
+        else
+        {
+            foreach (var ch in child.ChildsBundles)
+            {
+                if (IsRecursive(parent, child))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+    #endregion
+}
+
+public static class BundleExtensions
+{
+    public static bool IsRoot(this Bundle bundle)
+    {
+        var x = Utility.DirectoryTools.GetScriptables<Bundle>().ToList();
+        var xx = x.Where(b => b.ChildsBundles.Contains(bundle)).ToList();
+        var b = xx.Count() <= 0;
+        return b;
+    }
+
+    public static Bundle[] Parents(this Bundle bundle)
+    {
+        var parents = Utility.DirectoryTools.GetScriptables<Bundle>()
+            .Where(b => b.ChildsBundles.Contains(bundle));
+
+        return (parents.Count() > 0) ? parents.ToArray() : null;
+    }
 }
 

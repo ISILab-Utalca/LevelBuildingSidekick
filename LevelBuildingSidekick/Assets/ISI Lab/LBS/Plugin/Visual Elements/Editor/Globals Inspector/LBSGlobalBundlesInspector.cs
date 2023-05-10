@@ -15,10 +15,12 @@ public class LBSGlobalBundlesInspector : VisualElement
 
     // bundles panel
     private ListView list;
-    private Button addBrother;
-    private Button addChild;
-    private Button removeBtn;
+    
     private DropdownField typeField;
+    private Button addRoot;
+    private Button addChild;
+
+    private Button removeBtn;
 
     // General panel
     private GeneralBundlesPanel generalPanel;
@@ -27,20 +29,21 @@ public class LBSGlobalBundlesInspector : VisualElement
     private CharacteristicsPanel characteristicsPanel;
 
     // Internal
+    private Bundle pressetSelected;
     private Bundle selected;
     private List<Tuple<Bundle, int>> targets;
 
     public LBSGlobalBundlesInspector()
     {
-        
-
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSGlobalBundlesInspector");
         visualTree.CloneTree(this);
 
         // Bundle list
-        var all = Utility.DirectoryTools.GetScriptables<Bundle>().Where( b => !b.isPreset).ToList();
+        var allBUndles = Utility.DirectoryTools.GetScriptables<Bundle>().ToList();
+        var presetsBundles = allBUndles.Where(b => b.isPreset && b.IsRoot()).ToList();
+        var bundles = allBUndles.Where( b => !b.isPreset).ToList();
 
-        this.targets = OrderList(all, 0, new List<Tuple<Bundle, int>>());
+        this.targets = OrderList(bundles, 0, new List<Tuple<Bundle, int>>());
 
         list = this.Q<ListView>("BundleList");
         list.itemsSource = targets;
@@ -52,13 +55,18 @@ public class LBSGlobalBundlesInspector : VisualElement
 
         // select type to add
         typeField = this.Q<DropdownField>("TypeToAdd");
-        //typeField.choices = 
+        typeField.choices = presetsBundles.Select( b => b.name).ToList();
+        typeField.RegisterCallback<ChangeEvent<string>>(e => {
+            pressetSelected = presetsBundles.Find(b => b.name.Equals(e.newValue));
+        });
+        typeField.value = presetsBundles[0].name;
+        pressetSelected = presetsBundles[0];
 
         // Add button
-        addBrother = this.Q<Button>("AddBrother");
-        addBrother.clicked += CreateBundle;
+        addRoot = this.Q<Button>("AddBrother");
+        addRoot.clicked += () => CreateBundle(selected?.Parents()[0]);
         addChild = this.Q<Button>("AddChild");
-        addBrother.clicked += CreateBundle;
+        addChild.clicked += () => CreateBundle(selected);
 
         // remove button
         removeBtn = this.Q<Button>("RemoveBtn");
@@ -152,7 +160,7 @@ public class LBSGlobalBundlesInspector : VisualElement
         this.characteristicsPanel.SetInfo(selected);
     }
 
-    private void CreateBundle()
+    private void CreateBundle(Bundle parent)
     {
         var nSO = ScriptableObject.CreateInstance<Bundle_Old>();
 

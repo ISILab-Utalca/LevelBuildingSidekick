@@ -45,7 +45,7 @@ public class BundlePalleteInspector : LBSInspector
         content.Clear();
 
         var bundles = Utility.DirectoryTools.GetScriptables<Bundle_Old>();
-        var tags = idBundles[index].GetTags();
+        var tags = idBundles[index].Tags;
         var ids = tags.Select(id => id.Label).ToList();
         bundles = bundles.Where(b => ids.Contains(b.ID?.Label)).ToList();
 

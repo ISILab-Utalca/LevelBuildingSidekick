@@ -28,13 +28,11 @@ public class LBS_AssetsPostProcessor : AssetPostprocessor
 
             var obj = AssetDatabase.LoadAssetAtPath<Object>(asset);
 
-            if (obj is Bundle)
-            {
-                storage.AddBundle(obj as Bundle);
-            }
+            storage.AddElement(obj);
         }
         AssetDatabase.SaveAssets();
     }
+
 
     public static void OnPostDeleteProcess(string[] deletedAssets)
     {
@@ -47,9 +45,9 @@ public class LBS_AssetsPostProcessor : AssetPostprocessor
 
             if (!asset.Contains(".asset"))
                 return;
-
-            storage.CleanBundles();
         }
+        storage.CleanAllEmpties();
+
         AssetDatabase.SaveAssets();
     }
 

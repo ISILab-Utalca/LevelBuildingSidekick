@@ -2,12 +2,27 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 [CreateAssetMenu(fileName = "New LBS Storage",menuName = "LBS/Internal/AssetStorage")]
 public class LBSAssetsStorage : ScriptableObject
 {
+    #region SUB GROUP
+    [System.Serializable]
+    public class TypeGroup
+    {
+        public string type;
+        public List<Object> items;
+
+        public TypeGroup(Type type, List<Object> items)
+        {
+            this.type = type.FullName;
+            this.items = items;
+        }
+    }
+    #endregion
+
     #region SINGLETON
     private static LBSAssetsStorage instance;
     public static LBSAssetsStorage Instance
@@ -23,7 +38,7 @@ public class LBSAssetsStorage : ScriptableObject
                     //instance = BLA // si sigue sindo nulo lo creo // implementar (!)
                 }
 
-                instance.SearchAllInProject();
+                //instance.SearchAllInProject();
             }
             return instance;
         }
@@ -32,74 +47,94 @@ public class LBSAssetsStorage : ScriptableObject
 
     #region FIELDS
     [SerializeField]
-    private List<Bundle> bundles = new List<Bundle>();
-
-    [SerializeField]
-    private List<LBSIdentifier> tags = new List<LBSIdentifier>();
-    #endregion
-
-    #region PROPERTIES
-    public List<Bundle> Bundles
-    {
-        get
-        {
-            CleanBundles();
-            return new List<Bundle>(bundles);
-        }
-    }
-
-    public List<LBSIdentifier> Tags
-    {
-        get
-        {
-            CleanBundles();
-            return new List<LBSIdentifier>(tags);
-        }
-    }
+    private List<TypeGroup> groups = new List<TypeGroup>();
     #endregion
 
     #region METHODS
-    public void AddTags(LBSIdentifier tag)
+    public List<T> Get<T>() where T : Object
     {
-        if(!tags.Contains(tag))
+        foreach (var group in groups)
         {
-            tags.Add(tag);
+            if(group.type.Equals(typeof(T).FullName))
+            {
+                return group.items.Cast<T>().ToList();
+            }
+        }
+        return null;
+    }
+
+    public void RemoveElement(Object obj)
+    {
+        foreach (var group in groups)
+        {
+            if(group.items.Remove(obj))
+            {
+                return;
+            }
         }
     }
-    public void RemoveTags(LBSIdentifier tag)
+
+    public void AddElement(Object obj)
     {
-        tags.Remove(tag);
+        var type = obj.GetType();
+
+        foreach (var group in groups)
+        {
+            if(group.type.Equals(type.FullName))
+            {
+                if(!group.items.Contains(obj))
+                    group.items.Add(obj);
+                return;
+            }
+        }
+        groups.Add(new TypeGroup(type, new List<Object>() { obj }));
     }
 
-    public void AddBundle(Bundle bundle)
+    public void ClearGroup<T>()
     {
-        if(!bundles.Contains(bundle))
+        foreach (var group in groups)
         {
-            bundles.Add(bundle);
+            if(group.type.Equals(typeof(T).FullName))
+            {
+                group.items.Clear();
+            }
         }
     }
 
-    public void RemoveBundle(Bundle bundle)
+    public void CleanEmpties<T>()
     {
-        bundles.Remove(bundle);
+        for (int i = 0; i < groups.Count; i++)
+        {
+            var current = groups[i];
+            
+            if (!current.type.Equals(typeof(T).FullName))
+                continue;
+            
+            current.items = current.items.Where(b => b != null).ToList();
+        }
     }
 
-    public void CleanBundles()
+    public void Clear()
     {
-        bundles = bundles.Where(b => b != null).ToList();
+        groups.Clear();
     }
 
-    public void CleanTags()
+    public void CleanAllEmpties()
     {
-        tags = tags.Where(b => b != null).ToList();
+        var toR = new List<TypeGroup>();
+        for (int i = 0; i < groups.Count; i++)
+        {
+            var current = groups[i].items;
+            current = current.Where(b => b != null).ToList();
+            groups[i].items = current;
+
+            if (groups[i].items.Count <= 0)
+                toR.Add(groups[i]);
+        }
+
+        toR.ForEach(t => groups.Remove(t));
     }
 
-    public void SearchAllInProject()
-    {
-        bundles = Utility.DirectoryTools.GetScriptables<Bundle>();
-        tags = Utility.DirectoryTools.GetScriptables<LBSIdentifier>();
-        AssetDatabase.SaveAssets();
-    }
     #endregion
 }
 

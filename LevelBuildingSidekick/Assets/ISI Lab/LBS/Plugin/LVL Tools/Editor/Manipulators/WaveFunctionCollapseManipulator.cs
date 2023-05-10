@@ -38,7 +38,7 @@ public class WaveFunctionCollapseManipulator<T> : ManipulateTeselation<T> where 
         var min = MainView.ToTileCords(Vector2Int.Min(StartPosition, EndPosition));
         var max = MainView.ToTileCords(Vector2Int.Max(StartPosition, EndPosition));
 
-        var tiles = LBSAssetsStorage.Instance.Bundles
+        var tiles = LBSAssetsStorage.Instance.Get<Bundle>()
             .Select(b =>  b.GetCharacteristic<LBSDirection>())
             .ToList();
 
