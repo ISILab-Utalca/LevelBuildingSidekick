@@ -27,6 +27,8 @@ public class TagBundleView : VisualElement
     #region EVENTS
     public delegate void TagBundleViewEvent(TagBundleView tbv);
     public TagBundleViewEvent OnSelectionChange;
+    public TagBundleViewEvent OnRemoveTag;
+    public TagBundleViewEvent OnAddTag;
     #endregion
 
     #region CONSTRUCTORS
@@ -104,6 +106,7 @@ public class TagBundleView : VisualElement
         
         list.itemsSource = target.Tags;
         list.Rebuild();
+        OnRemoveTag?.Invoke(this);
     }
 
     private void TextChange(string value)

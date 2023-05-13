@@ -13,25 +13,26 @@ public class GeneralBundlesPanel : VisualElement
     public new class UxmlFactory : UxmlFactory<GeneralBundlesPanel, VisualElement.UxmlTraits> { }
     #endregion
 
+    #region FILEDS VIEWS
     // Main content
     private VisualElement mainContent;
     private Foldout mainFoldout;
 
     // Basic info
-    private ObjectField iconField;
     private ObjectField tagField;
     private TextField nameField;
-    private ColorField colorField;
 
     // Extra info
-    private ListView childList;
     private ObjectField fatherField;
 
     // Assets list
     private ListView assetsList;
+    #endregion
 
+    #region FIELDS
     // Target
     private Bundle target;
+    #endregion
 
     public GeneralBundlesPanel()
     {
@@ -41,79 +42,76 @@ public class GeneralBundlesPanel : VisualElement
         // Main content
         this.mainContent = this.Q<VisualElement>("MainContent");
         this.mainFoldout = this.Q<Foldout>("MainFoldout");
-        this.mainFoldout.RegisterCallback<ChangeEvent<bool>>( e => mainContent.SetDisplay(e.newValue));
+        this.mainFoldout.RegisterCallback<ChangeEvent<bool>>(e => mainContent.SetDisplay(e.newValue));
 
         // Basic info
-        this.iconField = this.Q<ObjectField>("IconField");
-        iconField.RegisterCallback<ChangeEvent<Object>>( t => target.ID.Icon = t.newValue as Texture2D);
-
         this.nameField = this.Q<TextField>("NameField");
-        nameField.RegisterCallback<ChangeEvent<string>>(t => target.ID.Label = target.ID.name = t.newValue);
+        nameField.RegisterCallback<BlurEvent>(t => {
+            var all = LBSAssetsStorage.Instance.Get<Bundle>();
+            var name = ISILab.Commons.Commons.CheckNameFormat(all.Select(b => b.name), nameField.value);
+            target.name = name;
 
-        this.colorField = this.Q<ColorField>("ColorField");
-        colorField.RegisterCallback<ChangeEvent<Color>>(t => target.ID.Color = t.newValue);
+            AssetDatabase.RenameAsset(AssetDatabase.GetAssetPath(target), nameField.value);
+        });
 
         this.tagField = this.Q<ObjectField>("TagField");
-        nameField.RegisterCallback<ChangeEvent<Object>>(t => target.ID = t.newValue as LBSIdentifier);
+        tagField.RegisterCallback<ChangeEvent<Object>>(t =>
+        {
+            target.ID = t.newValue as LBSIdentifier;
+        });
 
         // Extra info
-        this.childList = this.Q<ListView>("ChildsList");
-        InitChildList();
-        //childList.RegisterCallback<ChangeEvent<object>>(e => target.Father() = e.newValue);
         this.fatherField = this.Q<ObjectField>("FatherField");
+        fatherField.RegisterCallback<ChangeEvent<Object>>(t =>{
+            var last = t.previousValue as Bundle;
+            if(last != null)
+            {
+                last.RemoveChild(target);
+                EditorUtility.SetDirty(last);
+            }
+
+            var current = t.newValue as Bundle;
+            if(current != null)
+            {
+                current.AddChild(target);
+                EditorUtility.SetDirty(current);
+            }
+            AssetDatabase.SaveAssets();
+        });
 
         // Assets list
         this.assetsList = this.Q<ListView>("AssetsList");
-        //InitAssetsList();
-
-       
+        assetsList.makeItem = MakeItem;
+        assetsList.bindItem = BindItem;
+        assetsList.onItemsChosen += (objs) => { };
+        assetsList.onSelectionChange += (objs) => { };
+        assetsList.style.flexGrow = 1.0f;
     }
 
-    private void InitChildList()
+    private VisualElement MakeItem()
     {
-        // IMPLEMENTAR (!!!)
+        var view = new ObjectField();
+        view.objectType = typeof(GameObject);
+        return view;
     }
 
-    private void InitAssetsList()
+    private void BindItem(VisualElement ve, int index)
     {
-        assetsList.makeItem += () =>
-        {
-            return new ObjectField();
-        };
-
-        assetsList.bindItem = (item, index) =>
-        {
-            var list = (target as Bundle).Assets;
-            if (index >= list.Count)
-                (target as Bundle).AddChild(null);
-
-            var view = (item as ObjectField);
-            var t = list[index];
-            view.value = t;
-        };
-
-        /*
-        assetsList.Q<Button>("unity-list-view__add-button").clickable = new Clickable(() =>
-        {
-            Debug.Log("AA");
-        });
-        */
+        var view = (ve as ObjectField);
+        var asset = target.Assets[index];
+        view.value = asset;
     }
 
     public void SetInfo(Bundle target)
     {
         this.target = target;
 
-        if(target.ID == null)
-        {
-            target.ID = CreateID();
-        }
+        nameField.SetValueWithoutNotify(target.name);
+        tagField.SetValueWithoutNotify(target.ID);
 
-        iconField.value = target.ID.Icon;
-        nameField.value = target.ID.Label;
-        colorField.value = target.ID.Color;
+        fatherField.SetValueWithoutNotify(target.Parent());
      
-        assetsList.itemsSource = (target as Bundle).Assets;
+        assetsList.itemsSource = target.Assets;
     }
 
     private LBSIdentifier CreateID()

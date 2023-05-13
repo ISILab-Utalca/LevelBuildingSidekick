@@ -34,11 +34,11 @@ public class TagInfo : VisualElement
 
         // LabelField
         labelField = this.Q<TextField>("LabelField");
-        labelField.RegisterCallback<ChangeEvent<string>>(e => target.Label = e.newValue);
+        labelField.RegisterCallback<BlurEvent>(e => target.Label = labelField.value);
 
         // ColorField
         colorField = this.Q<ColorField>("ColorField");
-        colorField.RegisterCallback<ChangeEvent<Color>>(e => target.Color = e.newValue);
+        colorField.RegisterCallback<BlurEvent>(e => target.Color = colorField.value);
 
         // IconField
         iconField = this.Q<ObjectField>("IconField");

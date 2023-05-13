@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
-  m_Name: New Bundle 1
+  m_Name: Elemental
   m_EditorClassIdentifier: 
+  isPreset: 0
   id: {fileID: 0}
   childsBundles: []
   assets: []

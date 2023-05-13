@@ -13,13 +13,12 @@ public class LBSGlobalBundlesInspector : VisualElement
     public new class UxmlFactory : UxmlFactory<LBSGlobalBundlesInspector, VisualElement.UxmlTraits> { }
     #endregion
 
+    #region FIELDS VIEWS
     // bundles panel
     private ListView list;
-    
     private DropdownField typeField;
     private Button addRoot;
     private Button addChild;
-
     private Button removeBtn;
 
     // General panel
@@ -27,12 +26,16 @@ public class LBSGlobalBundlesInspector : VisualElement
 
     // Characteristic panel
     private CharacteristicsPanel characteristicsPanel;
+    #endregion
 
+    #region FIELDS
     // Internal
     private Bundle pressetSelected;
     private Bundle selected;
     private List<Tuple<Bundle, int>> targets;
+    #endregion
 
+    #region CONSTRUCTORS
     public LBSGlobalBundlesInspector()
     {
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSGlobalBundlesInspector");
@@ -64,7 +67,7 @@ public class LBSGlobalBundlesInspector : VisualElement
 
         // Add button
         addRoot = this.Q<Button>("AddBrother");
-        addRoot.clicked += () => CreateBundle(selected?.Parents()[0]);
+        addRoot.clicked += () => CreateBundle(null);//selected?.Parent());
         addChild = this.Q<Button>("AddChild");
         addChild.clicked += () => CreateBundle(selected);
 
@@ -81,7 +84,9 @@ public class LBSGlobalBundlesInspector : VisualElement
             this.characteristicsPanel.style.display = DisplayStyle.None;
         }
     }
+    #endregion
 
+    #region METHODS
     private List<Tuple<Bundle, int>> OrderList(List<Bundle> bundles, int currentValue, List<Tuple<Bundle, int>> closed)
     {
         var roots = GetRoots(bundles);
@@ -114,18 +119,13 @@ public class LBSGlobalBundlesInspector : VisualElement
 
         foreach (var b in bundles)
         {
+            if (b == null)
+                continue;
+
             if (b.IsLeaf)
             {
                 b.ChildsBundles.ForEach(c => toR.Remove(c));
             }
-
-            /*
-            var bb = b as CompositeBundle;
-            if (bb != null)
-            {
-                bb.Bundles.ForEach(c => toR.Remove(c));
-            }
-            */
         }
 
         return toR;
@@ -162,16 +162,16 @@ public class LBSGlobalBundlesInspector : VisualElement
 
     private void CreateBundle(Bundle parent)
     {
-        var nSO = ScriptableObject.CreateInstance<Bundle_Old>();
-
         var settings = LBSSettings.Instance;
+        var storage = LBSAssetsStorage.Instance;
 
-        var name = ISILab.Commons.Commons.CheckNameFormat(targets.Select(b => b.Item1.name), "Asset bundle");
-
-        AssetDatabase.CreateAsset(nSO, settings.bundleFolderPath + "/" + name + ".asset");
+        var clone = pressetSelected.Clone() as Bundle;
+        var name = ISILab.Commons.Commons.CheckNameFormat(targets.Select(b => b.Item1.name), pressetSelected.name);
+        
+        AssetDatabase.CreateAsset(clone, settings.bundleFolderPath + "/" + name + ".asset");
         AssetDatabase.SaveAssets();
 
-        var all = Utility.DirectoryTools.GetScriptables<Bundle>().ToList();
+        var all = storage.Get<Bundle>().Where(b => !b.isPreset).ToList();//Utility.DirectoryTools.GetScriptables<Bundle>().ToList();
         this.targets = OrderList(all, 0, new List<Tuple<Bundle, int>>());
         list.itemsSource = targets;
 
@@ -183,14 +183,17 @@ public class LBSGlobalBundlesInspector : VisualElement
         if (selected == null)
             return;
 
+        var storage = LBSAssetsStorage.Instance;
+
         var path = AssetDatabase.GetAssetPath(selected);
         AssetDatabase.DeleteAsset(path);
         AssetDatabase.SaveAssets();
 
-        var all = Utility.DirectoryTools.GetScriptables<Bundle>().ToList();
+        var all = storage.Get<Bundle>().Where(b => !b.isPreset).ToList();
         this.targets = OrderList(all, 0, new List<Tuple<Bundle, int>>());
         list.itemsSource = targets;
 
         list.Rebuild();
     }
+    #endregion
 }

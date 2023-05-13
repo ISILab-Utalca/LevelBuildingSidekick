@@ -10,15 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
-  m_Name: New Bundle
+  m_Name: Empty Preset 2
   m_EditorClassIdentifier: 
-  id: {fileID: 0}
-  childsBundles: []
+  isPreset: 0
+  id: {fileID: 11400000, guid: 84b8d33e6e330c6439bda0dc54bdb76a, type: 2}
+  childsBundles:
+  - {fileID: 0}
   assets: []
-  characteristics:
-  - rid: 1700476139635212766
+  characteristics: []
   references:
     version: 2
-    RefIds:
-    - rid: 1700476139635212766
-      type: {class: LBSDirectionedGroup, ns: , asm: Assembly-CSharp}
+    RefIds: []

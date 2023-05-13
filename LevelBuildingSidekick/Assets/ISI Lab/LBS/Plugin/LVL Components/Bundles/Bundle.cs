@@ -55,7 +55,13 @@ public class Bundle : ScriptableObject , ICloneable
     #region METHODS
     public void AddChild(Bundle child)
     {
-        Assert.IsTrue(IsRecursive(this, child), "[ISI Lab]: Bundle '" + this.name + "' is contained in bundle '" + child.name + "' or one of its child bundles.");
+        if(IsRecursive(this, child))
+        {
+            Debug.Log("[ISI Lab]: Bundle '" +
+                this.name + "' is contained in bundle '" +
+                child.name + "' or one of its child bundles.");
+            return;
+        }
 
         childsBundles.Add(child);
         OnAddChild?.Invoke(child);
@@ -170,6 +176,9 @@ public class Bundle : ScriptableObject , ICloneable
     #region STATIC FUNCTIONS
     private static bool IsRecursive(Bundle parent, Bundle child)
     {
+        if (parent == child)
+            return true;
+
         if (child.ChildsBundles.Contains(parent))
         {
             return true;
@@ -200,12 +209,12 @@ public static class BundleExtensions
         return b;
     }
 
-    public static Bundle[] Parents(this Bundle bundle)
+    public static Bundle Parent(this Bundle bundle)
     {
-        var parents = Utility.DirectoryTools.GetScriptables<Bundle>()
-            .Where(b => b.ChildsBundles.Contains(bundle));
+        var parent = Utility.DirectoryTools.GetScriptables<Bundle>()
+            .Find(b => b.ChildsBundles.Contains(bundle));
 
-        return (parents.Count() > 0) ? parents.ToArray() : null;
+        return parent;
     }
 }
 

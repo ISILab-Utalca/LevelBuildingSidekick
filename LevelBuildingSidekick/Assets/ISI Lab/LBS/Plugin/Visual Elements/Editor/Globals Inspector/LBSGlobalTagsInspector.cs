@@ -53,12 +53,12 @@ public class LBSGlobalTagsInspector : VisualElement
 
         // BundleList
         list = this.Q<ListView>();
-        list.itemsSource = TagsBundles;
         list.makeItem = MakeItem;
         list.bindItem = BindItem;
         list.onItemsChosen += OnItemChosen;
         list.onSelectionChange += OnSelectionChange;
         list.style.flexGrow = 1.0f;
+        list.itemsSource = TagsBundles;
 
         // TagInfo
         tagInfo = this.Q<TagInfo>();
@@ -71,6 +71,7 @@ public class LBSGlobalTagsInspector : VisualElement
     {
         var tbv = new TagBundleView();
         tbv.OnSelectionChange += (tbv) => SelectedTagChange(tbv.selected);
+        tbv.OnRemoveTag += (tbv) => tagInfo.SetDisplay(false);
 
         return tbv;
     }
@@ -100,7 +101,6 @@ public class LBSGlobalTagsInspector : VisualElement
         AssetDatabase.DeleteAsset(path);
         AssetDatabase.SaveAssets();
 
-        //targets = Utility.DirectoryTools.GetScriptables<LBSIdentifierBundle>().ToList();
         list.itemsSource = TagsBundles;
 
         list.Rebuild();
@@ -117,7 +117,6 @@ public class LBSGlobalTagsInspector : VisualElement
         AssetDatabase.CreateAsset(nSO, settings.tagFolderPath + "/" + name + ".asset");
         AssetDatabase.SaveAssets();
 
-        //targets = Utility.DirectoryTools.GetScriptables<LBSIdentifierBundle>().ToList();
         list.itemsSource = TagsBundles;
 
         list.Rebuild();

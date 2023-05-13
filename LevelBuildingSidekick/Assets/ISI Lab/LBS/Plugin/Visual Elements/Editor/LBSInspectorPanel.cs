@@ -50,11 +50,11 @@ public class LBSInspectorPanel : VisualElement
     #region METHODS
     private void InitTabs()
     {
-        var gt = new LBSGlobalTagsInspector();
-        AddTab("Global", "Tags", gt);
-
         var gb = new LBSGlobalBundlesInspector();
         AddTab("Global", "Bundles", gb);
+
+        var gt = new LBSGlobalTagsInspector();
+        AddTab("Global", "Tags", gt);
 
         //var l1 = new LBSLocalCurrent();
         var l1 = new Wip();

@@ -37,19 +37,20 @@ public class TagView : VisualElement
         this.target = target;
 
         textfield.value = target.Label;
-        textfield.RegisterCallback<ChangeEvent<string>>(e => {
-            target.Label = e.newValue;
+        textfield.RegisterCallback<BlurEvent>(e => {
+            Debug.Log(textfield.value);
+            target.Label = textfield.value;
             EditorUtility.SetDirty(target);
         });
 
         colorfield.value = target.Color;
-        colorfield.RegisterCallback<ChangeEvent<Color>>(e => {
-            target.Color = e.newValue;
+        colorfield.RegisterCallback<BlurEvent>(e => {
+            target.Color = colorfield.value;
             EditorUtility.SetDirty(target);
         });
 
         target.OnChangeColor += (tag) => colorfield.value = tag.Color;
-        target.OnChangeText += (tag) => textfield.value = tag.Label;
+        target.OnChangeText += (tag) => { textfield.value = tag.Label;  };
         target.OnChangeIcon += (tag) => Debug.Log(tag.Icon);
     }
     #endregion
@@ -57,9 +58,10 @@ public class TagView : VisualElement
     #region VIEW METHODS
     public void TextChange(string value)
     {
+        AssetDatabase.RenameAsset(AssetDatabase.GetAssetPath(target), target.name);
+
         target.Label = value;
         target.name = value;
-        AssetDatabase.RenameAsset(AssetDatabase.GetAssetPath(target), target.name);
         EditorUtility.SetDirty(target); // (!) ojo
     }
 
