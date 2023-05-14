@@ -16,12 +16,19 @@ namespace GeneticSharp.Domain.Reinsertions
     [DisplayName("Elitist")]
     public class ElitistReinsertion : ReinsertionBase
     {
+        int ParentReinsertions = 1;
+
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Reinsertions.ElitistReinsertion"/> class.
         /// </summary>
         public ElitistReinsertion() : base(false, true)
         {
+        }
+
+        public ElitistReinsertion(int parentReinsertions) : base(false, true)
+        {
+            ParentReinsertions = parentReinsertions;
         }
         #endregion
 
@@ -35,19 +42,32 @@ namespace GeneticSharp.Domain.Reinsertions
         /// <param name="parents">The parents.</param>
         protected override IList<IOptimizable> PerformSelectChromosomes(IPopulation population, IList<IOptimizable> offspring, IList<IOptimizable> parents)
         {
-            var diff = population.MinSize - offspring.Count;
+            var aux = parents.Distinct().OrderByDescending(p => p.Fitness).ToList();
+            var bestParents = offspring.OrderByDescending(p => p.Fitness).ToList();
 
-            if (diff > 0)
+            for(int i = 0; i < ParentReinsertions; i++)
             {
-                var bestParents = parents.OrderByDescending(p => p.Fitness).Take(diff).ToList();
-
-                for (int i = 0; i < bestParents.Count; i++)
+                if (aux.Count == 0)
+                    break;
+                if(bestParents.Count < population.MaxSize)
                 {
-                    offspring.Add(bestParents[i]);
+                    bestParents.Insert(0, aux[0]);
+                    aux.RemoveAt(0);
                 }
+
+                if(bestParents[^1].Fitness < aux[0].Fitness)
+                {
+                    bestParents.RemoveAt(bestParents.Count - 1);
+                    bestParents.Insert(0, aux[0]);
+                    aux.RemoveAt(0);
+                }
+                else
+                    break;
             }
 
-            return offspring;
+            var count = population.MaxSize < bestParents.Count ? population.MaxSize : bestParents.Count;
+
+            return bestParents.Take(count).ToList();
         }
         #endregion
     }
