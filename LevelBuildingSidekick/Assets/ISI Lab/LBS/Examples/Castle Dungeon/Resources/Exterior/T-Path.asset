@@ -12,16 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95a9e63de28b9dc40aa55a3c1f124e76, type: 3}
   m_Name: T-Path
   m_EditorClassIdentifier: 
-  id: Path
+  id: {fileID: 0}
   characteristics: []
   weight: 0.4
   directions:
-    label: Direcctions
     tags:
-    - Path
+    - hola
     - Grass
-    - Path
-    - Path
+    - hola
+    - hola
   Pref:
   - weight: 1
     gameObject: {fileID: 6451810950947566407, guid: e0b42a5f5c9cd1146b13c8edad8a536f, type: 3}
