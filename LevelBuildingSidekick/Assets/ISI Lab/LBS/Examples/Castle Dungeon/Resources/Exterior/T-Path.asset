@@ -17,10 +17,10 @@ MonoBehaviour:
   weight: 0.4
   directions:
     tags:
-    - hola
+    - Path_
     - Grass
-    - hola
-    - hola
+    - Path_
+    - Path_
   Pref:
   - weight: 1
     gameObject: {fileID: 6451810950947566407, guid: e0b42a5f5c9cd1146b13c8edad8a536f, type: 3}

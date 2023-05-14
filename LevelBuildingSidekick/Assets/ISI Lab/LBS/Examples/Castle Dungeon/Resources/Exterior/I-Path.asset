@@ -18,9 +18,9 @@ MonoBehaviour:
   directions:
     tags:
     - Grass
-    - hola
+    - Path_
     - Grass
-    - hola
+    - Path_
   Pref:
   - weight: 1
     gameObject: {fileID: 1466049723841294769, guid: e1f4d416b604c014c8f14257b18fb264, type: 3}

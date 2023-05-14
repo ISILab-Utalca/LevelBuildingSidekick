@@ -18,8 +18,8 @@ MonoBehaviour:
   directions:
     tags:
     - Grass
-    - hola
-    - hola
+    - Path_
+    - Path_
     - Grass
   Pref:
   - weight: 1

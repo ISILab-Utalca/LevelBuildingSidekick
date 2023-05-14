@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 95a9e63de28b9dc40aa55a3c1f124e76, type: 3}
-  m_Name: Path
+  m_Name: E-Path
   m_EditorClassIdentifier: 
   id: {fileID: 7877107690822309797}
   characteristics: []
@@ -20,7 +20,7 @@ MonoBehaviour:
     - Grass
     - Grass
     - Grass
-    - hola
+    - Path_
   Pref:
   - weight: 1
     gameObject: {fileID: 4795462058950841808, guid: a3c0ba4899a764942a31450c0a4c1b00, type: 3}
@@ -43,4 +43,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   label: Path
   icon: {fileID: 2800000, guid: b2d98f54996544507ade581c727c1c51, type: 3}
-  color: {r: 0.9928824, g: 1, b: 0.0039215684, a: 1}
+  color: {r: 1, g: 0.032882694, b: 0.0039215684, a: 1}
