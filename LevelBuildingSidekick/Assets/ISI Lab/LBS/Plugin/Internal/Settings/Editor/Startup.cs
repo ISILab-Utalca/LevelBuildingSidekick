@@ -31,6 +31,8 @@ public class Startup
         // busca y setea la instancia de "LBS Settings" en su singleton
         SettingsEditor.SearchSettingsInstance();
 
+        //var storage = LBSAssetsStorage.Instance;
+
         EditorApplication.update -= Start;
     }
 }

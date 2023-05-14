@@ -48,7 +48,7 @@ namespace LBS.AI
             });
 
             Population.CreateNewGeneration(offsprings);
-
+            Population.EndCurrentGeneration();
 
         }
 

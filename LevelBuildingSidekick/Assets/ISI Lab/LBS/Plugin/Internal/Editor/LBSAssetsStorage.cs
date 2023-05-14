@@ -12,10 +12,12 @@ public class LBSAssetsStorage : ScriptableObject
     [System.Serializable]
     public class TypeGroup
     {
+        [SerializeField]
         public string type;
-        public List<Object> items;
+        [SerializeField]
+        public List<ScriptableObject> items;
 
-        public TypeGroup(Type type, List<Object> items)
+        public TypeGroup(Type type, List<ScriptableObject> items)
         {
             this.type = type.FullName;
             this.items = items;
@@ -24,7 +26,9 @@ public class LBSAssetsStorage : ScriptableObject
     #endregion
 
     #region SINGLETON
+    [System.NonSerialized]
     private static LBSAssetsStorage instance;
+
     public static LBSAssetsStorage Instance
     {
         get
@@ -63,7 +67,7 @@ public class LBSAssetsStorage : ScriptableObject
         return null;
     }
 
-    public void RemoveElement(Object obj)
+    public void RemoveElement(ScriptableObject obj)
     {
         foreach (var group in groups)
         {
@@ -74,7 +78,7 @@ public class LBSAssetsStorage : ScriptableObject
         }
     }
 
-    public void AddElement(Object obj)
+    public void AddElement(ScriptableObject obj)
     {
         var type = obj.GetType();
 
@@ -87,7 +91,7 @@ public class LBSAssetsStorage : ScriptableObject
                 return;
             }
         }
-        groups.Add(new TypeGroup(type, new List<Object>() { obj }));
+        groups.Add(new TypeGroup(type, new List<ScriptableObject>() { obj }));
     }
 
     public void ClearGroup<T>()

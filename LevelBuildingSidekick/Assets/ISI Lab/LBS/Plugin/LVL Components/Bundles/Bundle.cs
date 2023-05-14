@@ -99,6 +99,13 @@ public class Bundle : ScriptableObject , ICloneable
         OnAddAsset?.Invoke(asset);
     }
 
+    public void ReplaceAsset(int index, GameObject asset)
+    {
+        OnRemoveAsset?.Invoke(assets[index]);
+        assets[index] = asset;
+        OnAddAsset?.Invoke(asset);
+    }
+
     public void InsertAsset(int index, GameObject asset)
     {
         assets.Insert(index, asset);
@@ -123,6 +130,13 @@ public class Bundle : ScriptableObject , ICloneable
         characteristic.Init(this);
         characteristics.Insert(index, characteristic);
         OnAddCharacteristic?.Invoke(characteristic);
+    }
+
+    public void RemoveAssetAt(int index)
+    {
+        var asset = assets[index];
+        assets.RemoveAt(index);
+        OnRemoveAsset?.Invoke(asset);
     }
 
     public void RemoveCharacteristic(LBSCharacteristic characterictic)

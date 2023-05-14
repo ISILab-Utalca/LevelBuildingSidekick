@@ -26,7 +26,7 @@ public class LBS_AssetsPostProcessor : AssetPostprocessor
             if (!asset.Contains(".asset"))
                 return;
 
-            var obj = AssetDatabase.LoadAssetAtPath<Object>(asset);
+            var obj = AssetDatabase.LoadAssetAtPath<ScriptableObject>(asset);
 
             storage.AddElement(obj);
         }

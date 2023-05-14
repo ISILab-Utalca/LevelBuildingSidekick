@@ -10,19 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
-  m_Name: Wall_Brick
+  m_Name: Exterior Presset
   m_EditorClassIdentifier: 
-  isPreset: 0
-  id: {fileID: 11400000, guid: 676b2525bf31dc6439be198604391b79, type: 2}
-  childsBundles: []
-  assets:
-  - {fileID: 1726982005513051170, guid: fd8abdffaeeb4214bb10d5f90c11a0ca, type: 3}
+  isPreset: 1
+  id: {fileID: 0}
+  childsBundles:
+  - {fileID: 11400000, guid: 0c10b3020fa82d14abd56a1a20d7a7f6, type: 2}
+  assets: []
   characteristics:
-  - rid: 1700476139635212334
+  - rid: 1700476431717105965
   references:
     version: 2
     RefIds:
-    - rid: 1700476139635212334
-      type: {class: LBSTagsCharacteristic, ns: , asm: Assembly-CSharp}
+    - rid: 1700476431717105965
+      type: {class: LBSDirectionedGroup, ns: , asm: Assembly-CSharp}
       data:
-        value: {fileID: 11400000, guid: 676b2525bf31dc6439be198604391b79, type: 2}
+        Weights:
+        - target: {fileID: 11400000, guid: 0c10b3020fa82d14abd56a1a20d7a7f6, type: 2}
+          weigth: 1

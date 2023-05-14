@@ -58,6 +58,8 @@ public class GeneralBundlesPanel : VisualElement
         tagField.RegisterCallback<ChangeEvent<Object>>(t =>
         {
             target.ID = t.newValue as LBSIdentifier;
+            EditorUtility.SetDirty(target);
+            AssetDatabase.SaveAssets();
         });
 
         // Extra info
@@ -86,17 +88,42 @@ public class GeneralBundlesPanel : VisualElement
         assetsList.onItemsChosen += (objs) => { };
         assetsList.onSelectionChange += (objs) => { };
         assetsList.style.flexGrow = 1.0f;
+
+        assetsList.Q<Button>("unity-list-view__add-button").clickable = new Clickable(() =>
+        {
+            var index = assetsList.selectedIndex;
+            target.AddAsset(null);
+            assetsList.RefreshItems();
+            assetsList.Rebuild();
+
+        });
+
+        assetsList.Q<Button>("unity-list-view__remove-button").clickable = new Clickable(() =>
+        {
+            var index = assetsList.selectedIndex;
+            target.RemoveAssetAt(index);
+            assetsList.RefreshItems();
+            assetsList.Rebuild();
+        });
     }
 
     private VisualElement MakeItem()
     {
         var view = new ObjectField();
         view.objectType = typeof(GameObject);
+        view.RegisterCallback<ChangeEvent<Object>>(t => {
+            var index = assetsList.selectedIndex;
+            target.ReplaceAsset(index,t.newValue as GameObject);
+        });
+
         return view;
     }
 
     private void BindItem(VisualElement ve, int index)
     {
+        if (index >= target.Assets.Count())
+            return;
+
         var view = (ve as ObjectField);
         var asset = target.Assets[index];
         view.value = asset;

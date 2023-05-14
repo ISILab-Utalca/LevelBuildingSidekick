@@ -8,12 +8,13 @@ using UnityEngine;
 [CustomEditor(typeof(Bundle))]
 public class BundleEditor : Editor
 {
-
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
 
         var bundle = target as Bundle;
+
+        GUILayout.Label("inDev Tools: presset");
 
         if (GUILayout.Button("Set default interior"))
         {
@@ -26,6 +27,51 @@ public class BundleEditor : Editor
             SetDefaultExterior(bundle);
             AssetDatabase.SaveAssets();
         }
+
+        GUILayout.Space(20);
+        GUILayout.Label("inDev Tools: characteristics");
+
+        if(GUILayout.Button("Add Connection GROUP Charac"))
+        {
+            AddConnGroupCharc(bundle);
+            AssetDatabase.SaveAssets();
+        }
+
+        if (GUILayout.Button("Add Connection Characteristic"))
+        {
+            AddConnectionCharacteristic(bundle);
+            AssetDatabase.SaveAssets();
+        }
+
+        if (GUILayout.Button("Add Tag characteristic"))
+        {
+            AddTagCharc(bundle);
+            AssetDatabase.SaveAssets();
+        }
+    }
+
+    private void AddConnGroupCharc(Bundle bundle)
+    {
+        var charc = new LBSDirectionedGroup();
+        bundle.AddCharacteristic(charc);
+
+        EditorUtility.SetDirty(bundle);
+    }
+
+    private void AddTagCharc(Bundle bundle)
+    {
+        var charc = new LBSTagsCharacteristic(null);
+        bundle.AddCharacteristic(charc);
+
+        EditorUtility.SetDirty(bundle);
+    }
+
+    private void AddConnectionCharacteristic(Bundle bundle)
+    {
+        var charc = new LBSDirection("Connections", new List<string>() { "", "", "", "" });
+        bundle.AddCharacteristic(charc);
+
+        EditorUtility.SetDirty(bundle);
     }
 
     private void SetDefaultinterior(Bundle bundle)

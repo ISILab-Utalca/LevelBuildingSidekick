@@ -10,9 +10,10 @@ public class LBSDirectionedGroup : LBSCharacteristic, ICloneable
 {
     #region SUB-STRUCTURE
     [System.Serializable]
-    public struct weigthStruct
+    public class WeigthStruct
     {
-        public GameObject target;
+        [SerializeField]
+        public Bundle target;
 
         [Range(0f, 1f)]
         public float weigth;
@@ -20,7 +21,10 @@ public class LBSDirectionedGroup : LBSCharacteristic, ICloneable
     #endregion
     // falta ver cuando se elmine un hijo sacara de esta lista interna
 
-    [JsonIgnore]
+    [SerializeField]
+    public List<WeigthStruct> Weights = new List<WeigthStruct>();
+
+    [JsonIgnore,System.NonSerialized]
     private List<Tuple<Bundle, LBSDirection>> connections = new List<Tuple<Bundle, LBSDirection>>();
 
     [JsonIgnore]

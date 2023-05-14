@@ -12,8 +12,9 @@ public class LBSDirection : LBSCharacteristic, ICloneable
 {
     #region SUB-STRUCTURE
     [System.Serializable]
-    public struct weightStruct
+    public class weightStruct
     {
+        [SerializeField]
         public GameObject target;
 
         [Range(0f, 1f)]
@@ -27,16 +28,17 @@ public class LBSDirection : LBSCharacteristic, ICloneable
     [SerializeField, JsonRequired]
     private List<string> connections = new List<string>();
 
-    [JsonRequired]
+    [JsonRequired,SerializeField]
     private int connectionAmount = 4;
 
-    [JsonIgnore]
+    [JsonIgnore, SerializeField]
     private List<weightStruct> weights = new List<weightStruct>();
     #endregion
 
     #region PROPERTIES
     public List<string> Connections => new List<string>(connections);
 
+    [SerializeField]
     public List<weightStruct> Weights => new List<weightStruct>(weights); 
 
     public float TotalWeight => weights.Sum( w => w.weigth);

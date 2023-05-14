@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: Door_Brick
   m_EditorClassIdentifier: 
+  isPreset: 0
   id: {fileID: 11400000, guid: d05b3c2ff0cdab94b92f355dc76947d8, type: 2}
   childsBundles: []
   assets:

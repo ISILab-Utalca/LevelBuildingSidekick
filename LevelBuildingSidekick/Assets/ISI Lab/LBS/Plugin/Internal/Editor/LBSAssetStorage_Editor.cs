@@ -29,7 +29,24 @@ public class LBSAssetsStorage_Editor : Editor
             storage.AddElement(s);
         }
 
-        EditorUtility.SetDirty(this);
+        EditorUtility.SetDirty(storage);
+        AssetDatabase.SaveAssets();
+    }
+}
+
+public static class StorageExtension
+{
+    public static void SearchInProject(this LBSAssetsStorage storage)
+    {
+        storage.Clear();
+
+        var SOs = Utility.DirectoryTools.GetScriptables<ScriptableObject>();
+        foreach (var s in SOs)
+        {
+            storage.AddElement(s);
+        }
+
+        EditorUtility.SetDirty(storage);
         AssetDatabase.SaveAssets();
     }
 }
