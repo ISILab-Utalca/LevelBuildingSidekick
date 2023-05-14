@@ -11,6 +11,10 @@ public class Resemblance : IRangedEvaluator
 
     public float MinValue => 0;
 
+    public float LocalMax => 0.75f;
+
+    public float LocalMin => 0.25f;
+
     public ChromosomeBase reference;
 
     public float Evaluate(IOptimizable evaluable)
