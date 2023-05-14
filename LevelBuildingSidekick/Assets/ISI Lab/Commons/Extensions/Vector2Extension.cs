@@ -108,6 +108,23 @@ public static class Vector2Extension
         vec.y = (int)(vec.y / value);
         return vec;
     }
+
+    public static float Distance(this Vector2 vec, DistanceType distType)
+    {
+
+        var dist = 2f;
+        switch (distType)
+        {
+            case DistanceType.MANHATTAN: dist = 2f; break;
+            case DistanceType.EUCLIDEAN: dist = 1.4f; break;
+            case DistanceType.CHESS: dist = 1f; break;
+        }
+
+        var min = Mathf.Abs(vec.x) < Mathf.Abs(vec.y) ? Mathf.Abs(vec.x) : Mathf.Abs(vec.y);
+        var max = Mathf.Abs(vec.x) > Mathf.Abs(vec.y) ? Mathf.Abs(vec.x) : Mathf.Abs(vec.y);
+
+        return (max - min) + min * dist;
+    }
 }
 
 public enum Orientation
@@ -115,4 +132,11 @@ public enum Orientation
     COLINEAR,
     CLOCKWISE,
     ANTICLOCKWISE
+}
+
+public enum DistanceType
+{
+    EUCLIDEAN,
+    MANHATTAN,
+    CHESS
 }
