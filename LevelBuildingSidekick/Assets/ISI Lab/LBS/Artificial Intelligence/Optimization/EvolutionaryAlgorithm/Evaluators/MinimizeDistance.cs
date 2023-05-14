@@ -10,6 +10,10 @@ public class MinimizeDistance : IRangedEvaluator
 
     public float MinValue => 0;
 
+    public float LocalMax => 0.75f;
+
+    public float LocalMin => 0.25f;
+
     public List<Object> whiteList = new List<Object>();
 
     public DistanceType distType;
