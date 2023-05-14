@@ -37,10 +37,10 @@ public class ExhaustiveRanged2DSwap : MutationBase
                 {
                     var pos = new Vector2Int(r.GetInt(-range, range), r.GetInt(-range, range));
                     var j = i + chr.WorldToIndex(pos);
-                    if (chromosome.IsImmutable(j))
-                        continue;
-                    if (j < chr.Length)
+                    if (j < chr.Length && j >= 0)
                     {
+                        if (chromosome.IsImmutable(j))
+                            continue;
                         var aux = chr.GetGene(i);
                         chr.ReplaceGene(i, chr.GetGene(j));
                         chr.ReplaceGene(j, aux);
