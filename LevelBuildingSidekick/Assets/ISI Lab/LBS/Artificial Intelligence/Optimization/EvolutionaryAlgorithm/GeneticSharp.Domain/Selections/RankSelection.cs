@@ -48,15 +48,15 @@ namespace GeneticSharp.Domain.Selections
         /// <param name="number">The number.</param>
         /// <param name="chromosomes">The chromosomes.</param>
         /// <param name="rankWheel">The rank wheel.</param>
-        /// <param name="getPointer">The get pointer.</param>
+        /// <param name="GetPointer">The get pointer.</param>
         /// <returns>The selected chromosomes.</returns>
-        protected static IList<IOptimizable> SelectFromWheel(int number, IList<IOptimizable> chromosomes, IList<double> rankWheel, Func<double> getPointer)
+        protected static IList<IOptimizable> SelectFromWheel(int number, IList<IOptimizable> chromosomes, IList<double> rankWheel, Func<double> GetPointer)
         {
             var selected = new List<IOptimizable>();
 
             for (int i = 0; i < number; i++)
             {
-                var pointer = getPointer();
+                var pointer = GetPointer();
 
                 var chromosome = rankWheel
                                         .Select((value, index) => new { Value = value, Index = index })
