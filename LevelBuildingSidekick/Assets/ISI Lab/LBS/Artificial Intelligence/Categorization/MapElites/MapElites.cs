@@ -142,7 +142,7 @@ public class MapElites
         }
     }
 
-    public bool Running => thread != null && thread.IsAlive && thread.ThreadState == ThreadState.Running;
+    public bool Running => Optimizer.State != Op_State.TerminationReached && Optimizer.State != Op_State.Stopped && Optimizer.State != Op_State.Paused && Optimizer.State != Op_State.NotStarted;
 
     #endregion
 
@@ -197,24 +197,30 @@ public class MapElites
     /// </summary>
     public void Run()
     {
+        if (Optimizer.State != Op_State.NotStarted && Optimizer.State != Op_State.TerminationReached)
+        {
+            Debug.LogWarning("[ISI Lab] Process Already Running");
+            return;
+        }
+
         Optimizer.Adam = Adam;
-        var fitness = Optimizer.Evaluator.Evaluate(Adam);
+        //Adam.Fitness = Optimizer.Evaluator.Evaluate(Adam);
         Clear();
-        Optimizer.OnGenerationRan += () =>
+        Optimizer.OnGenerationRan = () =>
         { 
             UpdateSamples(Optimizer.LastGeneration); 
         };
-        Optimizer.OnTerminationReached += () =>
+        Optimizer.OnTerminationReached = () =>
         {
             int c = 0;
             for (int j = 0; j < BestSamples.GetLength(1); j++)
             {
                 for (int i = 0; i < BestSamples.GetLength(0); i++)
                 {
-                    if(BestSamples[i,j] != null)
+                    if(BestSamples[j,i] != null)
                     {
                         c++;
-                        UpdateSample(i,j,BestSamples[i,j]);
+                        UpdateSample(i,j,BestSamples[j,i]);
                     }
                 }
             }
@@ -222,6 +228,7 @@ public class MapElites
             {
                 thread.Join();
             }
+            //Optimizer.State = Op_State.TerminationReached;
             Debug.Log("Finished: " + c);
 
         };
@@ -232,6 +239,31 @@ public class MapElites
     public void Restart()
     {
         thread = new Thread(Optimizer.Restart);
+        Optimizer.OnGenerationRan = () =>
+        {
+            UpdateSamples(Optimizer.LastGeneration);
+        };
+        Optimizer.OnTerminationReached = () =>
+        {
+            int c = 0;
+            for (int j = 0; j < BestSamples.GetLength(1); j++)
+            {
+                for (int i = 0; i < BestSamples.GetLength(0); i++)
+                {
+                    if (BestSamples[j, i] != null)
+                    {
+                        c++;
+                        UpdateSample(i, j, BestSamples[j, i]);
+                    }
+                }
+            }
+            if (Running)
+            {
+                thread.Join();
+            }
+            Debug.Log("Finished: " + c);
+
+        };
         thread.Start();
     }
 
@@ -241,16 +273,18 @@ public class MapElites
     /// <param name="samples">The array of evaluables to update the map with.</param>
     public void UpdateSamples(IOptimizable[] samples)
     {
+        var max = samples.Select(o => o.Fitness).OrderBy(n => n).ToArray();
         
         var evaluables = MapSamples(samples);
-
-        float xStep = Mathf.Abs(XEvaluator.MaxValue - XEvaluator.MinValue) / XSampleCount;
-        float yStep = Mathf.Abs(YEvaluator.MaxValue - YEvaluator.MinValue) / YSampleCount;
+        float xT = Mathf.Abs(XEvaluator.MaxValue - XEvaluator.MinValue);
+        float xStep =  (xT*XEvaluator.LocalMax - xT*XEvaluator.LocalMin)/ XSampleCount;
+        float yT = Mathf.Abs(YEvaluator.MaxValue - YEvaluator.MinValue);
+        float yStep = (yT * YEvaluator.LocalMax - yT * YEvaluator.LocalMin) / YSampleCount;
 
         foreach (var me in evaluables)
         {
-            var xPos = (me.xFitness - XEvaluator.MinValue) / xStep;
-            var yPos = (me.yFitness - YEvaluator.MinValue) / yStep;
+            var xPos = (me.xFitness - XEvaluator.MinValue * (1 + XEvaluator.LocalMin)) / xStep;
+            var yPos = (me.yFitness - YEvaluator.MinValue * (1 + YEvaluator.LocalMin)) / yStep;
 
 
             var tileXPos = (int)xPos;
@@ -262,8 +296,8 @@ public class MapElites
 
             if (dx <= devest && dy <= devest)
             {
-                tileXPos = tileXPos >= XSampleCount ? tileXPos - 1 : tileXPos;
-                tileYPos = tileYPos >= YSampleCount ? tileYPos - 1 : tileYPos;
+                tileXPos = tileXPos >= XSampleCount ? XSampleCount - 1 : tileXPos;
+                tileYPos = tileYPos >= YSampleCount ? YSampleCount - 1 : tileYPos;
                 UpdateSample(tileXPos, tileYPos, me.evaluable);
             }
 
@@ -280,16 +314,16 @@ public class MapElites
     /// <returns>Boolean value indicating if the update was successful or not.
     public bool UpdateSample(int x, int y, IOptimizable evaluable)
     {
-        if (BestSamples[x,y] == null)
+        if (BestSamples[y,x] == null)
         {
-            BestSamples[x, y] = evaluable;
+            BestSamples[y, x] = evaluable;
             OnSampleUpdated?.Invoke(new Vector2Int(x,y));
             return true;
         }
 
-        if(BestSamples[x,y].Fitness <= evaluable.Fitness)
+        if(BestSamples[y,x].Fitness <= evaluable.Fitness)
         {
-            BestSamples[x, y] = evaluable;
+            BestSamples[y, x] = evaluable;
             OnSampleUpdated?.Invoke(new Vector2Int(x, y));
             return true;
         }

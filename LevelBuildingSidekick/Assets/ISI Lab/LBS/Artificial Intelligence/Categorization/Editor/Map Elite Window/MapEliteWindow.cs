@@ -259,13 +259,13 @@ public class MapEliteWindow : EditorWindow
 
     public void UpdateSample(Vector2Int coords)
     {
-        var index = (coords.y * mapElites.XSampleCount + coords.x); // C# matrixes are transposed :C
-        if(Content[index].Data != null && (Content[index].Data as IOptimizable).Fitness > mapElites.BestSamples[coords.x, coords.y].Fitness)
+        var index = (coords.y * mapElites.XSampleCount + coords.x);
+        if(Content[index].Data != null && (Content[index].Data as IOptimizable).Fitness > mapElites.BestSamples[coords.y, coords.x].Fitness)
         {
             return;
         }
-        Content[index].Data = mapElites.BestSamples[coords.x, coords.y];
-        Content[index].Text =  ((decimal)mapElites.BestSamples[coords.x, coords.y].Fitness).ToString("f4");
+        Content[index].Data = mapElites.BestSamples[coords.y, coords.x];
+        Content[index].Text =  ((decimal)mapElites.BestSamples[coords.y, coords.x].Fitness).ToString("f4");
         lock (locker)
         {
             if (!toUpdate.Contains(coords))
