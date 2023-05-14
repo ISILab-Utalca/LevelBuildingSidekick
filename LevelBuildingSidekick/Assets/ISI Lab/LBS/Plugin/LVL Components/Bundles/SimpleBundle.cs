@@ -7,6 +7,7 @@ using System.Linq;
 [System.Serializable]
 public class SimpleBundle : Bundle
 {
+    [SerializeField]
     private List<GameObject> assets = new List<GameObject>();
 
     public List<GameObject> Assets
