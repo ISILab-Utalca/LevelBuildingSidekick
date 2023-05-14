@@ -180,10 +180,11 @@ namespace Commons.Optimization
                 pauseRequested = false; State = Op_State.Started;
                 clock = new Stopwatch();
                 clock.Start();
-                Adam.Fitness = Evaluator.Evaluate(Adam);
+                //Adam.Fitness = Evaluator.Evaluate(Adam);
                 Population.Adam = Adam;
                 Population.CreateInitialGeneration();
                 EvaluateFitness(Population.CurrentGeneration.Evaluables);
+                OnGenerationRan?.Invoke();
                 clock.Stop();
             }
 
@@ -195,9 +196,9 @@ namespace Commons.Optimization
             OnStarted?.Invoke();
             lock (m_lock)
             {
-                
+
                 stopRequested = false;
-                pauseRequested = false; 
+                pauseRequested = false;
                 State = Op_State.Started;
                 clock = new Stopwatch();
                 clock.Start();
@@ -205,6 +206,7 @@ namespace Commons.Optimization
                 var generation = Population.CurrentGeneration;
                 Population = new Population(Population.MinSize, Population.MaxSize, best);
                 Population.CreateNewGeneration(generation.Evaluables);
+                OnGenerationRan?.Invoke();
                 clock.Stop();
             }
 
@@ -249,6 +251,7 @@ namespace Commons.Optimization
         {
             if (Termination.HasReached(this))
             {
+                State = Op_State.TerminationReached;
                 OnTerminationReached?.Invoke();
                 return true;
             }
