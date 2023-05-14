@@ -174,7 +174,7 @@ namespace GeneticSharp.Domain.Populations
         {
             CurrentGeneration.End(MaxSize);
 
-            if (BestCandidate != CurrentGeneration.BestCandidate)
+            if (BestCandidate != CurrentGeneration.BestCandidate && BestCandidate.Fitness <= CurrentGeneration.BestCandidate.Fitness)
             {
                 BestCandidate = CurrentGeneration.BestCandidate;
 
