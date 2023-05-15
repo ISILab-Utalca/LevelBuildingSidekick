@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c1ca1a068b763d94ca8f120873012f03, type: 3}
-  m_Name: Goblin
+  m_Name: Hammer
   m_EditorClassIdentifier: 
-  id: {fileID: 11400000, guid: 560e713e6c53d0b4f9ae9a9a5d8d18bf, type: 2}
+  id: {fileID: 11400000, guid: 1b5f81de2f3a4ac40a031e0d2f7ddd0b, type: 2}
   characteristics: []
   assets:
-  - {fileID: 4697017240656324050, guid: f019b5a5580837b4184a3701130fb9f6, type: 3}
+  - {fileID: 3895385195090632927, guid: 1acbb84ab32a1184b986c3496a00b805, type: 3}
   references:
     version: 2
     RefIds: []
