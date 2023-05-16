@@ -40,6 +40,8 @@ public class RemoveTileExterior<T> : ManipulateTeselation<T> where T : LBSTile
             {
                 var pos = new Vector2Int(i, j);
                 var tile = module.GetTile(pos);
+                if (tile == null)
+                    continue;
                 module.RemoveTile(tile as T);
             }
         }

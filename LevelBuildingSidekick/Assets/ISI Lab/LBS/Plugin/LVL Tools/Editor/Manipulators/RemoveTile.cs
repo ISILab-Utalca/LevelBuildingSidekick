@@ -17,6 +17,11 @@ public class RemoveTile : ManipulateTeselation<LBSTile>
         }
         var tile = view.Data;
 
+        if (tile == null)
+        {
+            return;
+        }
+
         module.RemoveTile(tile);
         Debug.Log("M: " + module);
 
