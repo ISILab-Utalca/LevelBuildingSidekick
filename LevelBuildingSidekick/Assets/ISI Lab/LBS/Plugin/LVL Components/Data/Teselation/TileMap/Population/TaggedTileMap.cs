@@ -47,19 +47,17 @@ public class TaggedTileMap : LBSModule
 
     public void AddTile(LBSTile tile, Bundle bundle)
     {
-        OnAddTile?.Invoke(tile);
 
         var t = pairTiles.Find(p => p.tile.Equals(tile));
+        var data = new BundleData(bundle.ID.Label, bundle.GetCharacteristics());
 
-        if(t == null)
+        if (t == null)
         {
-            var data = new BundleData(bundle.ID.Label, bundle.GetCharacteristics());
-            pairTiles.Add(new TileBundlePair(tile, data));
+            OnAddTile?.Invoke(tile);
+            t = pairTiles.Find(p => p.tile.Equals(tile));
+            //pairTiles.Add(new TileBundlePair(tile, data));
         }
-        else
-        {
-            t.bData = new BundleData(bundle.ID.Label, bundle.GetCharacteristics());
-        }
+        t.bData = new BundleData(bundle.ID.Label, bundle.GetCharacteristics());
     }
 
 
@@ -106,19 +104,21 @@ public class TaggedTileMap : LBSModule
     public void RemoveTile(object tile)
     {
         var toR = tile as LBSTile;
-        var xx = pairTiles.Find(x => x.tile == toR);
+        var xx = pairTiles.Find(x => x.tile.Equals(toR));
         pairTiles.Remove(xx);
     }
 
     public void AddEmpty(object tile)
     {
         var t = tile as LBSTile;
-        var xx = pairTiles.Find(x => x.tile == t);
+        var xx = pairTiles.Find(x => x.tile.Equals(t));
         if(xx != null)
         {
-            RemoveTile(xx);
+            xx.bData = null;
+            //RemoveTile(xx);
+            return;
         }
-        pairTiles.Add(new TileBundlePair(t, new BundleData()));
+        pairTiles.Add(new TileBundlePair(t, null));
         //if (pairTiles.ContainsKey(t))
         //    pairTiles.Add((t), new BundleData());
     }
