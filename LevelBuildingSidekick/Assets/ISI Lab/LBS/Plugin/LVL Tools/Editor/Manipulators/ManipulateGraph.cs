@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 
 public abstract class ManipulateGraph<T> : LBSManipulator where T : LBSNode
 {
-    protected Feedback feedback = new ConectedLine();
+    protected Feedback feedback;
 
     protected GraphModule<T> module;
     private MainView mainView;

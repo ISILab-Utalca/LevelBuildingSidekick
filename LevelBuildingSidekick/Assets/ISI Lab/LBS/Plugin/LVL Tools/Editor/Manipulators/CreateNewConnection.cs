@@ -7,24 +7,27 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class CreateNewConnection<T> : LBSManipulator where T : LBSNode
+public class CreateNewConnection<T> : ManipulateGraph<T> where T : LBSNode
 {
-    private GraphModule<T> module;
+    private LBSNode first;
 
-    private LBSNodeView<T> first;
-
-    public override void Init(ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
+    public CreateNewConnection()
     {
-        this.module = layer.GetModule<GraphModule<T>>();
+        feedback = new ConectedLine();
     }
 
     protected override void RegisterCallbacksOnTarget()
     {
-        target.RegisterCallback<MouseDownEvent>(OnMouseDown);
-        target.RegisterCallback<MouseMoveEvent>(OnMouseMove);
-        target.RegisterCallback<MouseUpEvent>(OnMouseUp);
+        base.RegisterCallbacksOnTarget();
         target.RegisterCallback<MouseOverEvent>(OnMouseEnter);
         target.RegisterCallback<MouseOutEvent>(OnMouseExit);
+    }
+
+    protected override void UnregisterCallbacksFromTarget()
+    {
+        base.UnregisterCallbacksFromTarget();
+        target.UnregisterCallback<MouseOverEvent>(OnMouseEnter);
+        target.UnregisterCallback<MouseOutEvent>(OnMouseExit);
     }
 
     private void OnMouseEnter(MouseOverEvent evt)
@@ -32,7 +35,6 @@ public class CreateNewConnection<T> : LBSManipulator where T : LBSNode
         var node = evt.target as LBSNodeView<T>;
         if (node != null)
             node.capabilities -= 8;
-        Debug.Log(evt.target);
     }
 
     private void OnMouseExit(MouseOutEvent evt)
@@ -44,44 +46,30 @@ public class CreateNewConnection<T> : LBSManipulator where T : LBSNode
         node.capabilities += 8;
     }
 
-    protected override void UnregisterCallbacksFromTarget()
+    protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
     {
-        target.UnregisterCallback<MouseDownEvent>(OnMouseDown);
-        target.UnregisterCallback<MouseMoveEvent>(OnMouseMove);
-        target.UnregisterCallback<MouseUpEvent>(OnMouseUp);
-        target.UnregisterCallback<MouseOverEvent>(OnMouseEnter);
-        target.UnregisterCallback<MouseOutEvent>(OnMouseExit);
-    }
-
-    private void OnMouseDown(MouseDownEvent e)
-    {
-        OnManipulationStart?.Invoke();
         var node = e.target as LBSNodeView<T>;
         if (node == null)
             return;
 
-        //node.capabilities -= 8;
-
-        first = node;
+        first = node.Data;
     }
 
-    private void OnMouseMove(MouseMoveEvent e)
+    protected override void OnMouseMove(VisualElement target, Vector2Int MovePosition, MouseMoveEvent e)
     {
-        //Debug.Log("Move drag");
+        //throw new NotImplementedException();
     }
 
-    private void OnMouseUp(MouseUpEvent e)
+    protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
     {
         if (first == null)
             return;
-        //first.capabilities += 8;
 
         var node = e.target as LBSNodeView<T>;
         if (node == null)
             return;
 
-        var edge = new LBSEdge(first.Data, node.Data);
+        var edge = new LBSEdge(first, node.Data);
         module.AddEdge(edge);
-        OnManipulationEnd?.Invoke();
     }
 }
