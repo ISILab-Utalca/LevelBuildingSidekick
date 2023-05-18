@@ -9,13 +9,11 @@ using System.Linq;
 public class ComplexDropdown : VisualElement
 {
     #region FIELDS
-
     private Type target = null;
     private List<ComplexDropdownElement> elements = new List<ComplexDropdownElement>();
 
     private VisualElement content;
     private TextField searchfield;
-
     #endregion
 
     #region PROPERTIES
