@@ -64,16 +64,16 @@ public class GeneralBundlesPanel : VisualElement
 
         // Extra info
         this.fatherField = this.Q<ObjectField>("FatherField");
-        fatherField.RegisterCallback<ChangeEvent<Object>>(t =>{
+        fatherField.RegisterCallback<ChangeEvent<Object>>(t => {
             var last = t.previousValue as Bundle;
-            if(last != null)
+            if (last != null)
             {
                 last.RemoveChild(target);
                 EditorUtility.SetDirty(last);
             }
 
             var current = t.newValue as Bundle;
-            if(current != null)
+            if (current != null)
             {
                 current.AddChild(target);
                 EditorUtility.SetDirty(current);
@@ -84,49 +84,44 @@ public class GeneralBundlesPanel : VisualElement
         // Assets list
         this.assetsList = this.Q<ListView>("AssetsList");
         assetsList.makeItem = MakeItem;
-        assetsList.bindItem = BindItem;
-        assetsList.onItemsChosen += (objs) => { };
-        assetsList.onSelectionChange += (objs) => { };
+        assetsList.bindItem = (view, i) => BindItem(view as ObjectField, i);
         assetsList.style.flexGrow = 1.0f;
 
-        assetsList.Q<Button>("unity-list-view__add-button").clickable = new Clickable(() =>
+        assetsList.Q<Button>("unity-list-view__add-button").clicked += () =>
         {
-            var index = assetsList.selectedIndex;
-            target.AddAsset(null);
-            assetsList.RefreshItems();
-            assetsList.Rebuild();
+            target.Assets = assetsList.itemsSource.Cast<GameObject>().ToList();
+            AssetDatabase.SaveAssets();
+        };
 
-        });
-
-        assetsList.Q<Button>("unity-list-view__remove-button").clickable = new Clickable(() =>
+        assetsList.Q<Button>("unity-list-view__remove-button").clicked += () =>
         {
-            var index = assetsList.selectedIndex;
-            target.RemoveAssetAt(index);
-            assetsList.RefreshItems();
-            assetsList.Rebuild();
-        });
+            target.Assets = assetsList.itemsSource.Cast<GameObject>().ToList();
+            AssetDatabase.SaveAssets();
+        };
     }
 
     private VisualElement MakeItem()
     {
         var view = new ObjectField();
         view.objectType = typeof(GameObject);
-        view.RegisterCallback<ChangeEvent<Object>>(t => {
-            var index = assetsList.selectedIndex;
-            target.ReplaceAsset(index,t.newValue as GameObject);
-        });
-
+        view.allowSceneObjects = true;
         return view;
     }
 
-    private void BindItem(VisualElement ve, int index)
+    private void BindItem(VisualElement view, int index)
     {
-        if (index >= target.Assets.Count())
-            return;
+        var field = (view as ObjectField);
 
-        var view = (ve as ObjectField);
-        var asset = target.Assets[index];
-        view.value = asset;
+        var item = assetsList.itemsSource[index];
+        field.value = item as GameObject;
+
+        field.RegisterValueChangedCallback((value) =>
+        {
+            assetsList.itemsSource[index] = value.newValue;
+            target.Assets = assetsList.itemsSource.Cast<GameObject>().ToList();
+            AssetDatabase.SaveAssets();
+        });
+
     }
 
     public void SetInfo(Bundle target)

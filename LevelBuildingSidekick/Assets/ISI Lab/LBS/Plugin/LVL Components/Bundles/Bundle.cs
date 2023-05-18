@@ -6,7 +6,7 @@ using UnityEngine.Assertions;
 
 [CreateAssetMenu(fileName = "New Bundle", menuName = "ISILab/Bundle (*)")]
 [System.Serializable]
-public class Bundle : ScriptableObject , ICloneable
+public class Bundle : ScriptableObject, ICloneable
 {
     #region FIELDS
     public bool isPreset = false;
@@ -44,7 +44,11 @@ public class Bundle : ScriptableObject , ICloneable
 
     public List<Bundle> ChildsBundles => new List<Bundle>(childsBundles);
 
-    public List<GameObject> Assets => new List<GameObject>(assets);
+    public List<GameObject> Assets
+    {
+        get => new List<GameObject>(assets);
+        set => assets = value;
+    }
 
     public List<LBSCharacteristic> Characteristics => new List<LBSCharacteristic>(characteristics);
 
@@ -101,6 +105,9 @@ public class Bundle : ScriptableObject , ICloneable
 
     public void ReplaceAsset(int index, GameObject asset)
     {
+        if (index == -1)
+            return;
+
         OnRemoveAsset?.Invoke(assets[index]);
         assets[index] = asset;
         OnAddAsset?.Invoke(asset);
