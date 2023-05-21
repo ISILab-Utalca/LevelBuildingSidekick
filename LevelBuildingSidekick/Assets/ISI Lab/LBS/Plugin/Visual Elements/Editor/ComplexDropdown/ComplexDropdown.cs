@@ -5,29 +5,42 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System.Reflection;
 using System.Linq;
+using UnityEditor.UIElements;
+using UnityEditor;
 
 public class ComplexDropdown : VisualElement
 {
+    public class Asdf
+    {
+        public string name;
+        public Texture icon;
+        public Type type;
+
+        public Asdf(string name, Texture icon,Type type)
+        {
+            this.name = name;
+            this.icon = icon;
+            this.type = type;
+        }
+    }
+    public List<Asdf> elements = new List<Asdf>();
+
     #region FIELDS
     private Type target = null;
-    private List<ComplexDropdownElement> elements = new List<ComplexDropdownElement>();
 
-    private VisualElement content;
+    private ListView content;
     private TextField searchfield;
     #endregion
 
     #region PROPERTIES
-
     public Type Target
     {
         get => target;
         set => target = value;
     }
-
     #endregion
 
     #region EVENTS
-
     public delegate Action dropdownEvent(Type type);
     private dropdownEvent onSelectOption;
 
@@ -36,7 +49,6 @@ public class ComplexDropdown : VisualElement
         add => onSelectOption += value;
         remove => onSelectOption -= value;
     }
-
     #endregion
 
     public new class UxmlFactory : UxmlFactory<ComplexDropdown, VisualElement.UxmlTraits> { }
@@ -46,22 +58,33 @@ public class ComplexDropdown : VisualElement
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("ComplexDropdown"); // Editor
         visualTree.CloneTree(this);
 
-        content = this.Q<VisualElement>("Content");
+        content = this.Q<ListView>("Content");
+        content.makeItem += () => { return new ComplexDropdownElement(); };
+        content.bindItem += (view, index) => 
+        {
+            var field = view as ComplexDropdownElement;
+            var item = content.itemsSource[index];
+            field.SetInfo("", null, false);
+        };
 
         searchfield = this.Q<TextField>("Searchfield");
         searchfield.RegisterCallback<ChangeEvent<string>> ((e) => {
             Actualize(e.newValue);
         });
 
-        Init(target);
+        searchfield.RegisterCallback<FocusEvent>((e) =>
+        {
+            Actualize("");
+        });
     }
 
-    private void Init(Type type)
+    public void Init(Type type)
     {
         if (type == null)
             return;
 
         var tuples = Utility.Reflection.GetClassesWith(type);
+
         elements.Clear();
         foreach (var tuple in tuples)
         {
@@ -71,12 +94,7 @@ public class ComplexDropdown : VisualElement
                 continue;
 
             var att = atts[0] as LBSSearchAttribute;
-            //var att = tuple.Item2.ToList().Find(at => at.GetType().Equals(target)) as LBSSearchAttribute;
-
-            var element = new ComplexDropdownElement();
-            element.SetAction(() => { onSelectOption?.Invoke(tuple.Item1); });
-            element.SetInfo(att.Name, att.Icon);
-            elements.Add(element);
+            elements.Add(new Asdf(att.Name, att.Icon, tuple.Item1));
         }
 
         Actualize("");
@@ -86,8 +104,9 @@ public class ComplexDropdown : VisualElement
     {
         content.Clear();
 
-        var elms = elements.Where( e => e.name.Contains(text)).ToList();
-        elms.ForEach(e => content.Add(e));
+        var elements = this.elements.Where( e => e.name.Contains(text)).ToList();
+
+        content.itemsSource = elements;
     }
 }
 

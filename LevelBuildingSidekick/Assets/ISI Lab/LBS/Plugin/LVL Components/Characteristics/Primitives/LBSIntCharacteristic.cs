@@ -4,6 +4,7 @@ using UnityEngine;
 
 
 [System.Serializable]
+[LBSCharacteristic("Integer number","")]
 public class LBSIntCharacteristic : LBSCharacteristic
 {
     [SerializeField]

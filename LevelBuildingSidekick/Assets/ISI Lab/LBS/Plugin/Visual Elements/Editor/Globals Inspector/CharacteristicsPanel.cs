@@ -13,6 +13,7 @@ public class CharacteristicsPanel : VisualElement
     #endregion
 
     private VisualElement content;
+    private ComplexDropdown search;
 
     public CharacteristicsPanel()
     {
@@ -20,6 +21,9 @@ public class CharacteristicsPanel : VisualElement
         visualTree.CloneTree(this);
 
         content = this.Q<VisualElement>("Content");
+
+        search = this.Q<ComplexDropdown>();
+        search.Init(typeof(LBSCharacteristicAttribute));
     }
 
     public void SetInfo(Bundle target)

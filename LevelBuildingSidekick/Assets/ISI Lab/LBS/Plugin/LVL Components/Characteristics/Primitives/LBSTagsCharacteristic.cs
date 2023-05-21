@@ -4,6 +4,7 @@ using UnityEngine;
 
 
 [System.Serializable]
+[LBSCharacteristic("Tags","")]
 public class LBSTagsCharacteristic : LBSCharacteristic
 {
     [SerializeField]

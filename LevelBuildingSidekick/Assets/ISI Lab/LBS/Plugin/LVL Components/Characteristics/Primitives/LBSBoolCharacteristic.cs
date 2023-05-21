@@ -4,6 +4,7 @@ using UnityEngine;
 
 
 [System.Serializable]
+[LBSCharacteristic("Boolean","")]
 public class LBSBoolCharacteristic : LBSCharacteristic
 {
     [SerializeField]

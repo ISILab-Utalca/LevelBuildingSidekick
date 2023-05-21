@@ -5,7 +5,7 @@ using System;
 using Newtonsoft.Json;
 
 [System.Serializable]
-[LBSCharacteristic("Basic Characteristic","")]
+//[LBSCharacteristic("Basic Characteristic","")]
 public abstract class LBSCharacteristic : ICloneable
 {
     [HideInInspector, JsonIgnore]

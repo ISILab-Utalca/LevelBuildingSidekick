@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
+[LBSCharacteristic("Connection group","")]
 public class LBSDirectionedGroup : LBSCharacteristic, ICloneable
 {
     #region SUB-STRUCTURE

@@ -3,7 +3,7 @@
         <ui:TextField picking-mode="Ignore" value="filler text" name="Searchfield" style="flex-shrink: 1; flex-grow: 1;" />
         <ui:VisualElement style="width: 18px; height: 16px; background-image: url(&apos;project://database/Packages/com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/search-dark@2x.png?fileID=2800000&amp;guid=09996e28fa830fb4283b19f26584c9f2&amp;type=3#search-dark@2x&apos;);" />
     </ui:VisualElement>
-    <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1">
-        <ui:VisualElement name="Content" />
-    </ui:ScrollView>
+    <ui:VisualElement style="max-height: 50px; height: auto; background-color: rgba(255, 255, 255, 0.1);">
+        <ui:ListView focusable="true" name="Content" />
+    </ui:VisualElement>
 </ui:UXML>
