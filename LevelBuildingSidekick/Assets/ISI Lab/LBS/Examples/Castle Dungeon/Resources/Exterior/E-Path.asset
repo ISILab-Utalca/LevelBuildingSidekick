@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95a9e63de28b9dc40aa55a3c1f124e76, type: 3}
+  m_Name: E-Path
+  m_EditorClassIdentifier: 
+  id: {fileID: 7877107690822309797}
+  characteristics: []
+  weight: 0.4
+  directions:
+    tags:
+    - Grass
+    - Grass
+    - Grass
+    - Path_
+  Pref:
+  - weight: 1
+    gameObject: {fileID: 4795462058950841808, guid: a3c0ba4899a764942a31450c0a4c1b00, type: 3}
+  - weight: 0.2
+    gameObject: {fileID: 3597224035337477666, guid: 26947302039fa164099ecb85001e9456, type: 3}
+  references:
+    version: 2
+    RefIds: []
+--- !u!114 &7877107690822309797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 991b9c5ba138ec24298c266c695cad3e, type: 3}
+  m_Name: Path
+  m_EditorClassIdentifier: 
+  label: Path
+  icon: {fileID: 2800000, guid: b2d98f54996544507ade581c727c1c51, type: 3}
+  color: {r: 1, g: 0.032882694, b: 0.0039215684, a: 1}
