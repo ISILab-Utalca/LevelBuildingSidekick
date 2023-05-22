@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Utility;
 
 public class LBSGlobalBundlesInspector : VisualElement
 {
@@ -52,7 +53,6 @@ public class LBSGlobalBundlesInspector : VisualElement
         list.itemsSource = targets;
         list.makeItem = MakeItem;
         list.bindItem = BindItem;
-        list.onItemsChosen += OnItemChosen;
         list.onSelectionChange += OnSelectionChange;
         list.style.flexGrow = 1.0f;
 
@@ -145,11 +145,6 @@ public class LBSGlobalBundlesInspector : VisualElement
         view.SetInfo(targets[index].Item1, targets[index].Item2);
     }
 
-    private void OnItemChosen(IEnumerable<object> objects)
-    {
-
-    }
-
     private void OnSelectionChange(IEnumerable<object> objects)
     {
         selected = (objects.ToList()[0] as Tuple<Bundle, int>).Item1;
@@ -158,6 +153,8 @@ public class LBSGlobalBundlesInspector : VisualElement
         this.characteristicsPanel.style.display = DisplayStyle.Flex;
         this.generalPanel.SetInfo(selected);
         this.characteristicsPanel.SetInfo(selected);
+
+        Selection.SetActiveObjectWithContext(selected, selected);
     }
 
     private void CreateBundle(Bundle parent)
