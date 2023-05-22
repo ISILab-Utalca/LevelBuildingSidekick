@@ -8,6 +8,7 @@ using LBS.Components.TileMap;
 using LBS.Components;
 using System;
 using System.Linq;
+using LBS.Settings;
 
 namespace LBS.Tools.Transformer
 {
@@ -50,7 +51,7 @@ namespace LBS.Tools.Transformer
             var node = parent;
             var area = new TiledArea(new List<LBSTile>(), node.ID, typeof(TiledArea).Name, node.Room.Color);
             schema.AddArea(area);
-            ConstructArea(schema, node, node.Position);
+            ConstructArea(schema, node, schema.ToMatrixPosition(node.Position/LBSSettings.Instance.TileSize));
 
             int exit = 0;
 
@@ -100,7 +101,7 @@ namespace LBS.Tools.Transformer
 
             }
 
-            schema.RecalculateTilePos();
+            //schema.RecalculateTilePos();
         }
 
         private void EditDataFrom()
