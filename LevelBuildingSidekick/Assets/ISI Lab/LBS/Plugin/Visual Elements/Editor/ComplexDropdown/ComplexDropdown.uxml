@@ -3,7 +3,7 @@
         <ui:TextField picking-mode="Ignore" value="filler text" name="Searchfield" style="flex-shrink: 1; flex-grow: 1;" />
         <ui:VisualElement style="width: 18px; height: 16px; background-image: url(&apos;project://database/Packages/com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/search-dark@2x.png?fileID=2800000&amp;guid=09996e28fa830fb4283b19f26584c9f2&amp;type=3#search-dark@2x&apos;);" />
     </ui:VisualElement>
-    <ui:VisualElement style="max-height: 50px; height: auto; background-color: rgba(255, 255, 255, 0.1);">
-        <ui:ListView focusable="true" name="Content" />
+    <ui:VisualElement style="max-height: 300px; height: auto; background-color: rgba(255, 255, 255, 0.1); margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px; border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px;">
+        <ui:ListView focusable="true" name="Content" virtualization-method="DynamicHeight" show-bound-collection-size="true" show-add-remove-footer="false" show-foldout-header="false" horizontal-scrolling="false" reorderable="false" show-border="true" show-alternating-row-backgrounds="All" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0;" />
     </ui:VisualElement>
 </ui:UXML>

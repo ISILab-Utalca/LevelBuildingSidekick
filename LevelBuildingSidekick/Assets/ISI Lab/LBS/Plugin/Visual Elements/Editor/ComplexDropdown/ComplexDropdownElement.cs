@@ -10,7 +10,7 @@ public class ComplexDropdownElement : VisualElement
 
     public readonly Texture2D defaultIcon = new Texture2D(16,16); // poner una textura default (!!)
 
-    private Button button;
+    private VisualElement content;
     private VisualElement icon;
     private Label nameLabel;
     private VisualElement arrow;
@@ -20,21 +20,16 @@ public class ComplexDropdownElement : VisualElement
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("ComplexDropdownElement"); // Editor
         visualTree.CloneTree(this);
 
-        button = this.Q<Button>("Button");
+        content = this.Q<VisualElement>("Content");
         icon = this.Q<VisualElement>("Icon");
         nameLabel = this.Q<Label>("Name");
         arrow = this.Q<VisualElement>("Arrow");
-    }
-
-    public void SetAction(Action action)
-    {
-        button.clicked += action;
     }
 
     public void SetInfo(string name,Texture2D icon = null, bool needArrow = false)
     {
         this.nameLabel.text = name;
         this.icon.style.backgroundImage = (icon == null) ? defaultIcon : icon;
-        this.arrow.style.display = (needArrow) ? DisplayStyle.Flex : DisplayStyle.None;
+        this.arrow.SetDisplay(needArrow);
     }
 }

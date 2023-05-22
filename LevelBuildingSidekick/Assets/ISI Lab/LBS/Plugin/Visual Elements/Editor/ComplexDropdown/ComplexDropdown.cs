@@ -10,20 +10,20 @@ using UnityEditor;
 
 public class ComplexDropdown : VisualElement
 {
-    public class Asdf
+    public class listElement
     {
         public string name;
-        public Texture icon;
+        public Texture2D icon;
         public Type type;
 
-        public Asdf(string name, Texture icon,Type type)
+        public listElement(string name, Texture2D icon,Type type)
         {
             this.name = name;
             this.icon = icon;
             this.type = type;
         }
     }
-    public List<Asdf> elements = new List<Asdf>();
+    public List<listElement> elements = new List<listElement>();
 
     #region FIELDS
     private Type target = null;
@@ -59,22 +59,33 @@ public class ComplexDropdown : VisualElement
         visualTree.CloneTree(this);
 
         content = this.Q<ListView>("Content");
-        content.makeItem += () => { return new ComplexDropdownElement(); };
-        content.bindItem += (view, index) => 
+        content.makeItem = () => { return new ComplexDropdownElement(); };
+        content.bindItem = (view, index) => 
         {
             var field = view as ComplexDropdownElement;
-            var item = content.itemsSource[index];
-            field.SetInfo("", null, false);
+            var item = content.itemsSource[index] as listElement;
+            field.SetInfo(item.name, item.icon, false);
+        };
+
+        content.onSelectionChange += (e) =>
+        {
+            Debug.Log("AAA");
         };
 
         searchfield = this.Q<TextField>("Searchfield");
-        searchfield.RegisterCallback<ChangeEvent<string>> ((e) => {
+        searchfield.RegisterValueChangedCallback((e) =>
+        {
+            Actualize(e.newValue);
+        });
+
+        searchfield.RegisterCallback<ChangeEvent<string>> ((e) =>
+        {
             Actualize(e.newValue);
         });
 
         searchfield.RegisterCallback<FocusEvent>((e) =>
         {
-            Actualize("");
+            Actualize(searchfield.value);
         });
     }
 
@@ -94,17 +105,25 @@ public class ComplexDropdown : VisualElement
                 continue;
 
             var att = atts[0] as LBSSearchAttribute;
-            elements.Add(new Asdf(att.Name, att.Icon, tuple.Item1));
+            elements.Add(new listElement(att.Name, att.Icon, tuple.Item1));
         }
-
-        Actualize("");
     }
 
-    private void Actualize(string text)
+    public void Actualize(string text)
     {
-        content.Clear();
+        content.ClearClassList();
+        content.makeItem = () => { return new ComplexDropdownElement(); };
+        content.bindItem = (view, index) =>
+        {
+            var field = view as ComplexDropdownElement;
+            var item = content.itemsSource[index] as listElement;
+            field.SetInfo(item.name, item.icon, false);
+        };
 
-        var elements = this.elements.Where( e => e.name.Contains(text)).ToList();
+        var elements = this.elements.Where(e => 
+        e.name.ToLower()
+        .Contains(text.ToLower()))
+        .ToList();
 
         content.itemsSource = elements;
     }
