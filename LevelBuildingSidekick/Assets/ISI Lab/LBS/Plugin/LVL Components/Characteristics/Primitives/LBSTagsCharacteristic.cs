@@ -21,6 +21,11 @@ public class LBSTagsCharacteristic : LBSCharacteristic
         this.value = value;
     }
 
+    public LBSTagsCharacteristic()
+    {
+        this.value = null;
+    }
+
     public override object Clone()
     {
         return new LBSTagsCharacteristic(this.value);

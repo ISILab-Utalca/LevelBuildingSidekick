@@ -26,7 +26,7 @@ public class ComplexDropdown : VisualElement
     public List<listElement> elements = new List<listElement>();
 
     #region FIELDS
-    private Type target = null;
+    private Type targetType = null;
 
     private ListView content;
     private TextField searchfield;
@@ -35,8 +35,8 @@ public class ComplexDropdown : VisualElement
     #region PROPERTIES
     public Type Target
     {
-        get => target;
-        set => target = value;
+        get => targetType;
+        set => targetType = value;
     }
     #endregion
 
@@ -52,6 +52,8 @@ public class ComplexDropdown : VisualElement
     #endregion
 
     public new class UxmlFactory : UxmlFactory<ComplexDropdown, VisualElement.UxmlTraits> { }
+
+    public Action<object> OnSelected;
 
     public ComplexDropdown()
     {
@@ -69,7 +71,16 @@ public class ComplexDropdown : VisualElement
 
         content.onSelectionChange += (e) =>
         {
-            Debug.Log("AAA");
+            var index = content.selectedIndex;
+            var selected = content.itemsSource[index] as listElement;
+            try
+            {
+                OnSelected?.Invoke(Activator.CreateInstance(selected.type));
+            }
+            catch(Exception ex)
+            {
+                Debug.Log("[ISI Lab]: The '" + selected.type + "' class does not have a base parameterless constructor.");
+            }
         };
 
         searchfield = this.Q<TextField>("Searchfield");
@@ -81,12 +92,21 @@ public class ComplexDropdown : VisualElement
         searchfield.RegisterCallback<ChangeEvent<string>> ((e) =>
         {
             Actualize(e.newValue);
+            content.SetDisplay(true);
         });
 
         searchfield.RegisterCallback<FocusEvent>((e) =>
         {
             Actualize(searchfield.value);
+            content.SetDisplay(true);
         });
+
+        searchfield.RegisterCallback<BlurEvent>((e) =>
+        {
+            content.SetDisplay(false);
+        });
+
+        content.SetDisplay(false);
     }
 
     public void Init(Type type)

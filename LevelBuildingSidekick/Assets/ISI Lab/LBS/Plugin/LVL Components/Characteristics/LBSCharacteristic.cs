@@ -4,6 +4,9 @@ using UnityEngine;
 using System;
 using Newtonsoft.Json;
 
+/// <summary>
+/// Requiere que las cosas que hereden de el tengan un contructor por defecto sin parametros
+/// </summary>
 [System.Serializable]
 //[LBSCharacteristic("Basic Characteristic","")]
 public abstract class LBSCharacteristic : ICloneable

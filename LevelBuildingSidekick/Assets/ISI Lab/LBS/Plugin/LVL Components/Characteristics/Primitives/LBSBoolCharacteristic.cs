@@ -21,6 +21,11 @@ public class LBSBoolCharacteristic : LBSCharacteristic
         this.value = value;
     }
 
+    public LBSBoolCharacteristic()
+    {
+        this.value = false;
+    }
+
     public override object Clone()
     {
         return new LBSBoolCharacteristic(this.value);

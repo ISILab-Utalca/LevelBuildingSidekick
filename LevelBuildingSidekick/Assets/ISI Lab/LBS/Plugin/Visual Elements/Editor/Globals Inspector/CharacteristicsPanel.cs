@@ -15,6 +15,8 @@ public class CharacteristicsPanel : VisualElement
     private VisualElement content;
     private ComplexDropdown search;
 
+    private Bundle target;
+
     public CharacteristicsPanel()
     {
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("CharacteristicsPanel");
@@ -24,10 +26,19 @@ public class CharacteristicsPanel : VisualElement
 
         search = this.Q<ComplexDropdown>();
         search.Init(typeof(LBSCharacteristicAttribute));
+        search.OnSelected = (e) => {
+            var x = e as LBSCharacteristic;
+            target.AddCharacteristic(x);
+            SetInfo(target);
+            Debug.Log("On add charac");
+            AssetDatabase.SaveAssets();
+        };
     }
 
     public void SetInfo(Bundle target)
     {
+        this.target = target;
+
         content.Clear();
         var characs = target.Characteristics;
 
@@ -43,5 +54,7 @@ public class CharacteristicsPanel : VisualElement
             editor.SetInfo(charac);
             content.Add(editor);
         }
+        
+
     }
 }

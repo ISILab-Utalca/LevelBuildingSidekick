@@ -21,6 +21,11 @@ public class LBSIntCharacteristic : LBSCharacteristic
         this.value = value;
     }
 
+    public LBSIntCharacteristic()
+    {
+        this.value = 0;
+    }
+
     public override object Clone()
     {
         return new LBSIntCharacteristic(this.value);
