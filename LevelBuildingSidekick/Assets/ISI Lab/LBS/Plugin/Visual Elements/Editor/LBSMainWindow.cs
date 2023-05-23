@@ -27,7 +27,7 @@ public class LBSMainWindow : EditorWindow
     private VisualElement extraPanel;
     private VisualElement noLayerSign;
     private ModeSelector modeSelector;
-    private MainView mainView;
+    private MainView mainView; // work canvas
     private Label selectedLabel;
     private VisualElement floatingPanelContent;
 
