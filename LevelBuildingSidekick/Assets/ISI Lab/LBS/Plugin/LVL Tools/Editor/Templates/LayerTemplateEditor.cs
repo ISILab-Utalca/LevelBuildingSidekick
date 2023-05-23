@@ -52,6 +52,7 @@ public class LayerTemplateEditor : Editor
     {
         // Basic data layer
         var layer = new LBSLayer();
+        layer.TileSize *= 2;
         var assist = Utility.DirectoryTools.GetScriptable<LBSLayerAssistant>("SchemaAssitant");
         if(assist == null)
         {
@@ -160,6 +161,7 @@ public class LayerTemplateEditor : Editor
     {
         // Basic data layer
         var layer = new LBSLayer();
+        layer.TileSize *= 20;
         var assist = Utility.DirectoryTools.GetScriptable<LBSLayerAssistant>("ExteriorAsstant");
         if (assist == null)
         {
@@ -252,6 +254,7 @@ public class LayerTemplateEditor : Editor
     {
         // Basic data layer
         var layer = new LBSLayer();
+        layer.TileSize *= 2;
 
         var assist = Utility.DirectoryTools.GetScriptable<LBSLayerAssistant>("PopulationAssitant");
         if (assist == null)

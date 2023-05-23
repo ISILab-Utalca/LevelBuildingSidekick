@@ -17,13 +17,9 @@ public class MainView : GraphView
     
     private ExternalBounds visualBound;
     private List<Manipulator> manipulators = new List<Manipulator>();
-    private Vector2 tileSize = new Vector2(100, 100);
     
     #endregion
 
-    #region PROPERTIES
-    public Vector2 TileSize => tileSize;
-    #endregion
 
     #region EVENTS
 
@@ -154,19 +150,6 @@ public class MainView : GraphView
         var t = new Vector2(this.viewTransform.position.x, this.viewTransform.position.y);
         var vv = (v - t) / this.scale;
         return vv;
-    }
-
-    public Vector2Int ToTileCords(Vector2 vec)
-    {
-        var nPos = new Vector2Int((int)(vec.x / tileSize.x), (int)(vec.y / tileSize.y));
-
-        if (vec.x < 0)
-            nPos.x -= 1;
-
-        if (vec.y < 0)
-            nPos.y -= 1;
-
-        return nPos;
     }
 
     private void InitBound(int interior, int exterior)

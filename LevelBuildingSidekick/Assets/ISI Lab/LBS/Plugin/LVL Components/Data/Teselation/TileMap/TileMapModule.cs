@@ -33,13 +33,6 @@ namespace LBS.Components.TileMap
             }
         }
 
-
-        [JsonIgnore]
-        public new Vector2 CellSize
-        {
-            get => TeselationModule.CellSize;
-        }
-
         [JsonIgnore]
         public Vector2 Size => GetBounds().size;
 

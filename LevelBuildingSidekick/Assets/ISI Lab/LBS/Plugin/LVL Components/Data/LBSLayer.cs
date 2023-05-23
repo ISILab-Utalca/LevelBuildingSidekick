@@ -6,6 +6,7 @@ using LBS.Tools.Transformer;
 using System;
 using System.Linq;
 using LBS.AI;
+using LBS.Settings;
 
 namespace LBS.Components
 {
@@ -22,6 +23,22 @@ namespace LBS.Components
 
         [SerializeField, JsonRequired]
         private bool visible;
+
+        [SerializeField, JsonRequired]
+        private Vector2Int tileSize = Vector2Int.one;
+
+        public Vector2Int ToFixedPosition(Vector2 position)
+        {
+            Vector2 pos = position / (TileSize * LBSSettings.Instance.TileSize);
+
+            if (pos.x < 0)
+                pos.x -= 1;
+
+            if (pos.y < 0)
+                pos.y -= 1;
+
+            return pos.ToInt();
+        }
 
         [SerializeField, JsonRequired]
         public string iconPath; // (?) esto tiene que estar en la layertemplate
@@ -63,6 +80,13 @@ namespace LBS.Components
         {
             get => id;
             set => id = value;
+        }
+
+        [JsonIgnore]
+        public Vector2Int TileSize
+        {
+            get => tileSize;
+            set => tileSize = value;
         }
 
         [JsonIgnore]
@@ -273,6 +297,7 @@ namespace LBS.Components
             //var transformers = this.GetTransformers(); // (??) usar clone en vez de pasar la lista?
             var layer = new LBSLayer(modules,/* transformers.Select(t => t.GetType()).ToList(),*/ this.id, this.visible, this.name, this.iconPath);
             layer.Assitant = Assitant;
+            layer.TileSize = TileSize;
 
             return layer;
         }

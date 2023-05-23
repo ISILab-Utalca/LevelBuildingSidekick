@@ -51,7 +51,7 @@ namespace LBS.Tools.Transformer
             var node = parent;
             var area = new TiledArea(new List<LBSTile>(), node.ID, typeof(TiledArea).Name, node.Room.Color);
             schema.AddArea(area);
-            ConstructArea(schema, node, schema.ToMatrixPosition(node.Position/LBSSettings.Instance.TileSize));
+            ConstructArea(schema, node, schema.Owner.ToFixedPosition(node.Position));
 
             int exit = 0;
 

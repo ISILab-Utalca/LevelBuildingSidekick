@@ -35,8 +35,8 @@ public class WaveFunctionCollapseManipulator<T> : ManipulateTeselation<T> where 
 
     protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
     {
-        var min = MainView.ToTileCords(Vector2Int.Min(StartPosition, EndPosition));
-        var max = MainView.ToTileCords(Vector2Int.Max(StartPosition, EndPosition));
+        var min = this.module.Owner.ToFixedPosition(Vector2Int.Min(StartPosition, EndPosition));
+        var max = this.module.Owner.ToFixedPosition(Vector2Int.Max(StartPosition, EndPosition));
 
         var tiles = LBSAssetsStorage.Instance.Bundles
             .Where(b =>  b.GetType() == typeof(WFCBundle))

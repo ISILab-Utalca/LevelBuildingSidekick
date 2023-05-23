@@ -1,3 +1,5 @@
+using LBS.Settings;
+using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +11,11 @@ namespace LBS.Components.Teselation
     {
         #region FIELDS
 
-        public static Vector2 CellSize;
+        [JsonIgnore]
+        public Vector2 CellSize
+        {
+            get => Owner.TileSize;
+        }
 
         #endregion
 
@@ -22,25 +28,6 @@ namespace LBS.Components.Teselation
         #endregion
 
         #region METHODS
-
-        public Vector2 SnapPosition(Vector2 position)
-        {
-            Vector2 snappedPosition = new Vector2(
-                Mathf.Round(position.x / CellSize.x) * CellSize.x,
-                Mathf.Round(position.y / CellSize.y) * CellSize.y
-            );
-            return snappedPosition;
-        }
-
-        public Vector2Int ToMatrixPosition(Vector2 position)
-        {
-            Vector2 snappedPosition = SnapPosition(position);
-            Vector2Int matrixPosition = new Vector2Int(
-                Mathf.RoundToInt(snappedPosition.x / CellSize.x),
-                Mathf.RoundToInt(snappedPosition.y / CellSize.y)
-            );
-            return matrixPosition;
-        }
 
         public Vector2Int ToMatrixPosition(int index)
         {
