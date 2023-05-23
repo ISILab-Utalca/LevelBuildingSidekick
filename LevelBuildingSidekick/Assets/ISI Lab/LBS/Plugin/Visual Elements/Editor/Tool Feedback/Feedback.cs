@@ -1,3 +1,4 @@
+using LBS.Settings;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
@@ -28,10 +29,10 @@ public abstract class Feedback : GraphElement
     #endregion
 
     #region PROPERTIES
-    protected Vector2Int TeselationSize
+    public Vector2Int TeselationSize
     {
         get => teselationSize;
-        set => teselationSize = value;
+        set => teselationSize = (LBSSettings.Instance.TileSize * value).ToInt();
     }
 
     protected Vector2Int StartOffset

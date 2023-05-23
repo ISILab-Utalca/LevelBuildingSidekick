@@ -27,19 +27,6 @@ namespace LBS.Components
         [SerializeField, JsonRequired]
         private Vector2Int tileSize = Vector2Int.one;
 
-        public Vector2Int ToFixedPosition(Vector2 position)
-        {
-            Vector2 pos = position / (TileSize * LBSSettings.Instance.TileSize);
-
-            if (pos.x < 0)
-                pos.x -= 1;
-
-            if (pos.y < 0)
-                pos.y -= 1;
-
-            return pos.ToInt();
-        }
-
         [SerializeField, JsonRequired]
         public string iconPath; // (?) esto tiene que estar en la layertemplate
 
@@ -86,7 +73,14 @@ namespace LBS.Components
         public Vector2Int TileSize
         {
             get => tileSize;
-            set => tileSize = value;
+            set
+            {
+                if(tileSize != value)
+                {
+                    tileSize = value;
+                    OnTileSizeChange?.Invoke(value);
+                }
+            }
         }
 
         [JsonIgnore]
@@ -137,6 +131,7 @@ namespace LBS.Components
 
         #region EVENTS
         private event Action<LBSLayer> onModuleChange;
+        public event Action<Vector2Int> OnTileSizeChange;
         #endregion
 
         #region  CONSTRUCTORS
@@ -288,6 +283,18 @@ namespace LBS.Components
             modules[index].OnAttach(this);
         }
 
+        public Vector2Int ToFixedPosition(Vector2 position)
+        {
+            Vector2 pos = position / (TileSize * LBSSettings.Instance.TileSize);
+
+            if (pos.x < 0)
+                pos.x -= 1;
+
+            if (pos.y < 0)
+                pos.y -= 1;
+
+            return pos.ToInt();
+        }
         public object Clone()
         {
             var modules = this.modules.Select(m => {
