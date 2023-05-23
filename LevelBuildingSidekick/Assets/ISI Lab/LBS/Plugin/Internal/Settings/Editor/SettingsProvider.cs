@@ -145,7 +145,7 @@ static class LBS_SettingsProvider
             label = "Modules",
             guiHandler = (searchContext) =>
             {
-                var settings = LBSSettings.Instance.modules;
+                var settings = LBSSettings.Instance;
 
                 // Header teselation
                 EditorGUILayout.Space();
@@ -154,7 +154,7 @@ static class LBS_SettingsProvider
 
                 // Bundles folder
                 EditorGUILayout.BeginHorizontal();
-                settings.tileSize = EditorGUILayout.Vector2Field("Tile size", settings.tileSize, GUILayout.Height(EditorGUIUtility.singleLineHeight));
+                settings.TileSize = EditorGUILayout.Vector2Field("Tile size", settings.TileSize, GUILayout.Height(EditorGUIUtility.singleLineHeight));
                 EditorGUILayout.EndHorizontal();
 
 
