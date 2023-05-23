@@ -8,6 +8,32 @@ using UnityEngine;
 static class LBS_SettingsProvider
 {
     [SettingsProvider]
+    public static SettingsProvider ToolsSettingProvider()
+    {
+        // First parameter is the path in the Settings window.
+        // Second parameter is the scope of this setting: it only appears in the Project Settings window.
+        var provider = new SettingsProvider("LBS/Tools", SettingsScope.Project)
+        {
+            label = "Tools",
+            guiHandler = (searchContext) =>
+            {
+                var settings = LBSSettings.Instance;
+
+                EditorGUILayout.Space();
+                EditorStyles.boldLabel.fontSize = 14;
+                EditorGUILayout.LabelField("Zoom", EditorStyles.boldLabel);
+
+                settings.general.OnChangeZoomValue(settings.general.zoomMin, settings.general.zoomMax);
+                settings.general.zoomMin = EditorGUILayout.FloatField("Min",settings.general.zoomMin);
+                settings.general.zoomMax = EditorGUILayout.FloatField("Max", settings.general.zoomMax);
+            },
+            keywords = new HashSet<string>(new[] { "LBS", "Tools" })
+        };
+        return provider;
+    }
+
+
+    [SettingsProvider]
     public static SettingsProvider GeneralSettingProvider()
     {
         // First parameter is the path in the Settings window.

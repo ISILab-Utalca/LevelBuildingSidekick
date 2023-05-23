@@ -1,4 +1,5 @@
 using LBS.Components;
+using LBS.Settings;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -41,7 +42,7 @@ public class MainView : GraphView
         style.flexGrow = 1;
 
         SetBasicManipulators();
-        InitBound(4000,10000);
+        InitBound(4000,90000);
 
         AddElement(visualBound);
 
@@ -53,12 +54,24 @@ public class MainView : GraphView
 
     public void SetBasicManipulators() // necesario aqui (?)
     {
-        var manis = new List<Manipulator>() {
-                new ContentZoomer(),
-                new ContentDragger(),
-                new SelectionDragger(),
-            };
+        var setting = LBSSettings.Instance.general;
 
+        var zoomer = new ContentZoomer();
+
+        setting.OnChangeZoomValue = (min, max) =>
+        {
+            Debug.Log("change zoom");
+            zoomer.maxScale = setting.zoomMax;
+            zoomer.minScale = setting.zoomMin;
+        };
+
+        zoomer.maxScale = setting.zoomMax;
+        zoomer.minScale = setting.zoomMin;
+
+        var cDragger = new ContentDragger();
+        var sDragger = new SelectionDragger();
+
+        var manis = new List<Manipulator>() { zoomer, cDragger, sDragger };
         SetManipulators(manis);
     }
 
