@@ -10,10 +10,6 @@ public class Dispersion : IRangedEvaluator
 
     public float MinValue => 0;
 
-    public float LocalMax => 0.75f;
-
-    public float LocalMin => 0.25f;
-
     int clusterCount = 1;
 
     public int ClusterCount

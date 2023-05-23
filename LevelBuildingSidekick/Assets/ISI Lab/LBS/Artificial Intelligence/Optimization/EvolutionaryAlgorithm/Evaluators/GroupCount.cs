@@ -17,10 +17,6 @@ public class GroupCount : IRangedEvaluator
         set => distThreshold = value;
     }
 
-    public float LocalMax => 0.75f;
-
-    public float LocalMin => 0.25f;
-
     DistanceType distType;
     public DistanceType DistType 
     { 

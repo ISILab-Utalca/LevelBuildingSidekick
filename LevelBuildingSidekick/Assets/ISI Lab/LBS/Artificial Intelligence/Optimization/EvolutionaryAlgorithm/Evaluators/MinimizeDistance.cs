@@ -10,10 +10,6 @@ public class MinimizeDistance : IRangedEvaluator
 
     public float MinValue => 0;
 
-    public float LocalMax => 0.75f;
-
-    public float LocalMin => 0.25f;
-
     public List<Object> whiteList = new List<Object>();
 
     public DistanceType distType;
@@ -34,66 +30,39 @@ public class MinimizeDistance : IRangedEvaluator
             var genes = ev.GetGenes();
             var indexes = new List<int>();
 
-            for(int i = 0; i < genes.Length; i++)
+            for (int i = 0; i < genes.Length; i++)
             {
                 if (genes[i] != null && genes[i].Equals(o))
                     indexes.Add(i);
             }
 
 
-            if(indexes.Count == 0)
+            if (indexes.Count == 0)
             {
                 fitness += MinValue;
                 continue;
             }
 
-
             fitness += avgMin(indexes, ev);
         }
 
-        return MaxValue - fitness / whiteList.Count;
+        return MinValue + ((MaxValue - MinValue) * (fitness / whiteList.Count));
 
     }
 
     private float avgMin(List<int> indexes, ChromosomeBase2D chr)
     {
 
-        var absMax = Distance(distType, new Vector2Int((int)chr.Rect.size.x, (int)chr.Rect.size.y));
+        var side = Mathf.Sqrt(indexes.Count);
 
-        var avgMin = 0f;
+        var max = ((Vector2)chr.ToMatrixPosition(chr.Length - 1)).Distance(distType);
 
-        foreach (var i in indexes)
-        {
-            var min = absMax;
-            foreach (var j in indexes)
-            {
-                if (i != j)
-                {
-                    var d = Distance(distType, chr.ToMatrixPosition(i) - chr.ToMatrixPosition(j));
-                    if (min > d)
-                        min = d;
-                }
-            }
-            avgMin += min;
-        }
+        var avgMin = indexes.Average(i => indexes.Where(j => j != i).Min(j => ((Vector2)(chr.ToMatrixPosition(i) - chr.ToMatrixPosition(j))).Distance(distType)));
 
-        return MinValue + MaxValue * (avgMin / (absMax * indexes.Count));
-    }
+        avgMin = (max - avgMin)/max;
 
-    public float Distance(DistanceType diag, Vector2Int point)
-    {
+        float val = avgMin < 1 ? avgMin : 1;
 
-        var dist = 2f;
-        switch (distType)
-        {
-            case DistanceType.MANHATTAN: dist = 2; break;
-            case DistanceType.EUCLIDEAN: dist = 1.4f; break;
-            case DistanceType.CHESS: dist = 1; break;
-        }
-
-        var min = Mathf.Abs(point.x) < Mathf.Abs(point.y) ? Mathf.Abs(point.x) : Mathf.Abs(point.y);
-        var max = Mathf.Abs(point.x) > Mathf.Abs(point.y) ? Mathf.Abs(point.x) : Mathf.Abs(point.y);
-
-        return (max - min) + min * dist;
+        return val;
     }
 }

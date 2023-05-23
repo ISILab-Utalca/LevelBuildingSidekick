@@ -26,16 +26,18 @@
             <CustomFoldout Text="General Settings" Icon-Path="Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Gear.png" Show-Icon="true" style="background-color: rgb(48, 48, 48); padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px; margin-bottom: 2px; margin-top: 2px;">
                 <ui:Vector2Field label="Partitions" x="1" y="1" name="Partitions" style="flex-shrink: 1; flex-basis: auto; margin-top: 3px;" />
                 <ui:DropdownField label="Module" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="ModuleField" style="display: none; visibility: visible;" />
-                <ui:DropdownField label="BackgroundModule" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="BackgroundField" style="display: flex; visibility: visible;" />
+                <ui:DropdownField label="BackgroundModule" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="BackgroundField" style="display: none; visibility: visible;" />
                 <ClassDropDown index="-1" choices="System.Collections.Generic.List`1[System.String]" label="Optimizer&#10;" name="OptimizerField" style="display: none; visibility: visible;" />
                 <ui:Button tabindex="-1" text="Calculate" display-tooltip-when-elided="true" name="Calculate" style="margin-top: 3px;" />
-                <ui:Button tabindex="-1" text="Continue" display-tooltip-when-elided="true" name="Continue" style="margin-top: 3px;" />
-            </CustomFoldout>
-            <CustomFoldout Icon-Path="Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Grafico.png" style="background-color: rgb(48, 48, 48); padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px; margin-bottom: 2px; margin-top: 2px;">
-                <ClassFoldout Text="Evaluation X" Icon-Path="none" name="EvaluatorFieldX" style="flex-wrap: nowrap; flex-direction: column;" />
-                <ClassFoldout Text="Evaluation Y" Icon-Path="none" name="EvaluatorFieldY" style="flex-wrap: nowrap;" />
+                <ui:Button tabindex="-1" text="Continue" display-tooltip-when-elided="true" name="Continue" style="margin-top: 3px; display: none;" />
             </CustomFoldout>
             <ClassFoldout Text="Fitness" Icon-Path="Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Grafico.png" name="FitnessField" style="background-color: rgb(48, 48, 48); margin-bottom: 2px; margin-top: 2px; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px;" />
+            <CustomFoldout Icon-Path="Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Grafico.png" style="background-color: rgb(48, 48, 48); padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px; margin-bottom: 2px; margin-top: 2px;">
+                <ClassFoldout Text="Sort X Axis By" Icon-Path="none" name="EvaluatorFieldX" style="flex-wrap: nowrap; flex-direction: column;" />
+                <ui:MinMaxSlider picking-mode="Ignore" label="X Axis Scope" min-value="0.25" max-value="0.75" low-limit="0" high-limit="1" name="XThreshold" style="display: none;" />
+                <ClassFoldout Text="Sort Y Axis By" Icon-Path="none" name="EvaluatorFieldY" style="flex-wrap: nowrap;" />
+                <ui:MinMaxSlider picking-mode="Ignore" label="Y Axis Scope" min-value="0.25" max-value="0.75" low-limit="0" high-limit="1" name="YThreshold" style="display: none;" />
+            </CustomFoldout>
         </ui:VisualElement>
     </ui:ScrollView>
 </ui:UXML>

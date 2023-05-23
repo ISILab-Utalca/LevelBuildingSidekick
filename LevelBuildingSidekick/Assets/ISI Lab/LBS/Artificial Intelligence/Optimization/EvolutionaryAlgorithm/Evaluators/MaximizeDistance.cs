@@ -10,10 +10,6 @@ public class MaximizeDistance : IRangedEvaluator
 
     public float MinValue => 0;
 
-    public float LocalMax => 0.75f;
-
-    public float LocalMin => 0.25f;
-
 
     public List<Object> whiteList = new List<Object>();
 
@@ -59,11 +55,13 @@ public class MaximizeDistance : IRangedEvaluator
     {
         var side = Mathf.Sqrt(indexes.Count);
 
-        var max = ((Vector2)chr.ToMatrixPosition(chr.Length - 1) / side).Distance(distType);
+        var max = ((Vector2)chr.ToMatrixPosition(chr.Length - 1)).Distance(distType);
 
-        var avgMin = indexes.Average(i => indexes.Min(j => ((Vector2)(chr.ToMatrixPosition(i) - chr.ToMatrixPosition(j))).Distance(distType)));
+        var avgMin = indexes.Average(i => indexes.Where(j => j != i).Min(j => ((Vector2)(chr.ToMatrixPosition(i) - chr.ToMatrixPosition(j))).Distance(distType)));
+
+        avgMin /= max;
         
-        float val = avgMin < max ? avgMin : 1;
+        float val = avgMin < 1 ? avgMin : 1;
 
         return val;
     }

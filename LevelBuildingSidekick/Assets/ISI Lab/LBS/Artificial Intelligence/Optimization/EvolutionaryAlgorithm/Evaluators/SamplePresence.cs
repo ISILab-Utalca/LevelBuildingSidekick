@@ -15,10 +15,6 @@ public class SamplePresence : IRangedEvaluator
 
     public float MinValue => 0;
 
-    public float LocalMax => 0.75f;
-
-    public float LocalMin => 0.25f;
-
     private object sample;
     public object Sample
     {

@@ -47,8 +47,11 @@ public class MapEliteWindow : EditorWindow
     public Texture2D defaultButton;
 
     public ClassFoldout FitnessField;
-    public ClassFoldout EvaluatorFieldX; //Deberian ser su propia clase con un Type para actualizar opciones(!)
+    public ClassFoldout EvaluatorFieldX;
     public ClassFoldout EvaluatorFieldY;
+
+    public MinMaxSlider XThreshold;
+    public MinMaxSlider YThreshold;
 
 
     private Color Paused;
@@ -99,6 +102,17 @@ public class MapEliteWindow : EditorWindow
         this.labelY = root.Q<Label>("LabelY");
 
         this.Partitions.RegisterValueChangedCallback(x => ChangePartitions(x.newValue));
+
+        this.XThreshold = root.Q<MinMaxSlider>("XThreshold");
+        XThreshold.minValue = mapElites.XThreshold.x;
+        XThreshold.maxValue = mapElites.XThreshold.y;
+        XThreshold.RegisterValueChangedCallback((evt) => mapElites.XThreshold = evt.newValue);
+
+
+        this.YThreshold = root.Q<MinMaxSlider>("YThreshold");
+        YThreshold.minValue = mapElites.YThreshold.x;
+        YThreshold.maxValue = mapElites.YThreshold.y;
+        YThreshold.RegisterValueChangedCallback((evt) => mapElites.YThreshold = evt.newValue);
 
 
         OptimizerField.Type = typeof(BaseOptimizer);

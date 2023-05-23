@@ -22,9 +22,11 @@ public class MapElites
 
     [SerializeField, SerializeReference]
     IRangedEvaluator xEvaluator;
+    Vector2 xThreshold = new Vector2(0.25f, 0.75f);
 
     [SerializeReference]
     IRangedEvaluator yEvaluator;
+    Vector2 yThreshold = new Vector2(0.25f, 0.75f);
 
     [SerializeReference]
     BaseOptimizer optimizer = new GeneticAlgorithm();
@@ -103,6 +105,22 @@ public class MapElites
         }
     }
 
+    public Vector2 XThreshold
+    {
+        get => xThreshold;
+        set
+        {
+            var v = value;
+            v.x = v.x < 0 ? 0 : v.x;
+            v.y = v.y < 0 ? 0 : v.y;
+            v.x = v.x > 1 ? 1 : v.x;
+            v.y = v.y > 1 ? 1 : v.y;
+            v.x = v.x > v.y ? v.y : v.x;
+
+            xThreshold = v;
+        }
+    }
+
     /// <summary>
     /// Gets or sets the evaluator for the Y dimension.
     /// </summary>
@@ -120,6 +138,22 @@ public class MapElites
                 yEvaluator = value;
                 OnEvaluatorChange();
             }
+        }
+    }
+
+    public Vector2 YThreshold
+    {
+        get => yThreshold;
+        set
+        {
+            var v = value;
+            v.x = v.x < 0 ? 0 : v.x;
+            v.y = v.y < 0 ? 0 : v.y;
+            v.x = v.x > 1 ? 1 : v.x;
+            v.y = v.y > 1 ? 1 : v.y;
+            v.x = v.x > v.y ? v.y : v.x;
+
+            yThreshold = v;
         }
     }
 
@@ -277,14 +311,14 @@ public class MapElites
         
         var evaluables = MapSamples(samples);
         float xT = Mathf.Abs(XEvaluator.MaxValue - XEvaluator.MinValue);
-        float xStep =  (xT*XEvaluator.LocalMax - xT*XEvaluator.LocalMin)/ XSampleCount;
+        float xStep =  (xT*XThreshold.y - xT*XThreshold.x)/ XSampleCount;
         float yT = Mathf.Abs(YEvaluator.MaxValue - YEvaluator.MinValue);
-        float yStep = (yT * YEvaluator.LocalMax - yT * YEvaluator.LocalMin) / YSampleCount;
+        float yStep = (yT * YThreshold.y - yT * YThreshold.x) / YSampleCount;
 
         foreach (var me in evaluables)
         {
-            var xPos = (me.xFitness - XEvaluator.MinValue * (1 + XEvaluator.LocalMin)) / xStep;
-            var yPos = (me.yFitness - YEvaluator.MinValue * (1 + YEvaluator.LocalMin)) / yStep;
+            var xPos = (me.xFitness - XEvaluator.MinValue * (1 + XThreshold.x)) / xStep;
+            var yPos = (me.yFitness - YEvaluator.MinValue * (1 + YThreshold.y)) / yStep;
 
 
             var tileXPos = (int)xPos;
