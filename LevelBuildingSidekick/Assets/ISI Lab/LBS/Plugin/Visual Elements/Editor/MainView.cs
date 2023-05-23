@@ -38,7 +38,7 @@ public class MainView : GraphView
         style.flexGrow = 1;
 
         SetBasicManipulators();
-        InitBound(4000,90000);
+        InitBound(20000,int.MaxValue/2);
 
         AddElement(visualBound);
 
@@ -154,15 +154,14 @@ public class MainView : GraphView
 
     private void InitBound(int interior, int exterior)
     {
-        var dif = exterior - interior;
         this.visualBound = new ExternalBounds(
             new Rect(
                 new Vector2(-interior, -interior),
-                new Vector2(interior, interior)
+                new Vector2(interior * 2, interior * 2)
                 ),
             new Rect(
                 new Vector2(-exterior, -exterior),
-                new Vector2(exterior, exterior)
+                new Vector2(exterior * 2, exterior * 2)
                 )
             );
     }

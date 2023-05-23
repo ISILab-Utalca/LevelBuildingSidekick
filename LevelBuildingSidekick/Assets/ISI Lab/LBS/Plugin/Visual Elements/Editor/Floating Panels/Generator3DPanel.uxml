@@ -6,11 +6,11 @@
             <ui:Vector3Field label="Position" name="Position" />
             <ui:Vector2Field label="Reference Size" name="ReferenceSize" />
             <ui:Vector2Field label="Resize" name="Resize" style="display: none;" />
-            <ui:Label tabindex="-1" text="Prefab Configuration" display-tooltip-when-elided="true" />
+            <ui:Label tabindex="-1" text="Prefab Configuration" display-tooltip-when-elided="true" style="display: none;" />
         </ui:VisualElement>
         <ui:VisualElement style="margin-left: 4px; margin-right: 4px; margin-top: 8px; margin-bottom: 8px;">
-            <ui:Label tabindex="-1" text="Generator Configuration" display-tooltip-when-elided="true" />
-            <ClassDropDown name="Generator" />
+            <ui:Label tabindex="-1" text="Generator Configuration" display-tooltip-when-elided="true" style="display: none;" />
+            <ClassDropDown name="Generator" style="display: none;" />
             <ui:Toggle label="Destroy previous" name="DestroyPrev" style="flex-grow: 1;" />
             <ui:Button tabindex="-1" text="Generate" display-tooltip-when-elided="true" name="Action" />
         </ui:VisualElement>
