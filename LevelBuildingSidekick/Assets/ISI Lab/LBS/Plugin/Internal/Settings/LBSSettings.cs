@@ -56,11 +56,18 @@ namespace LBS.Settings
         public Generators3D generator3D = new Generators3D();
         public Assisstants assisstent = new Assisstants();
 
+        [SerializeField]
+        Vector2 tileSize = new Vector2(50, 50);
+        public Vector2 TileSize
+        {
+            get => tileSize;
+            set => tileSize = value;
+        }
+
         [System.Serializable]
         public class Modules
         {
             //Teselation
-            public Vector2 tileSize = new Vector2(100,100);
         }
 
         [System.Serializable]
