@@ -17,6 +17,8 @@ public class LayerView : VisualElement
     private Button showButton;
     private Button hideButton;
 
+    public VisualElement _base;
+
     private Action onVisibilityChange;
 
     public event Action OnVisibilityChange
@@ -29,6 +31,8 @@ public class LayerView : VisualElement
     {
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LayerView"); // Editor
         visualTree.CloneTree(this);
+
+        this._base = this.Q<VisualElement>("Base");
 
         // LayerName
         this.layerName = this.Q<TextField>("LayerName");
