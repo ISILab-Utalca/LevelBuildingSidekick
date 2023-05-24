@@ -281,6 +281,7 @@ namespace LBS.Components
             modules[index].OnDetach(this);
             modules[index] = module;
             modules[index].OnAttach(this);
+            modules[index].Owner = this;
         }
 
         public Vector2Int ToFixedPosition(Vector2 position)
