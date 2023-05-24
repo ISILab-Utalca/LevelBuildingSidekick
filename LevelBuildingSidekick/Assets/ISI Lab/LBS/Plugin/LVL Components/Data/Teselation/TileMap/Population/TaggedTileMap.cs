@@ -48,8 +48,12 @@ public class TaggedTileMap : LBSModule
     public void AddTile(LBSTile tile, Bundle bundle)
     {
 
-        var t = pairTiles.Find(p => p.tile.Equals(tile));
         var data = new BundleData(bundle.ID.Label, bundle.GetCharacteristics());
+        AddTile(tile, data);
+    }
+    public void AddTile(LBSTile tile, BundleData data)
+    {
+        var t = pairTiles.Find(p => p.tile.Equals(tile));
 
         if (t == null)
         {
@@ -57,9 +61,8 @@ public class TaggedTileMap : LBSModule
             t = pairTiles.Find(p => p.tile.Equals(tile));
             //pairTiles.Add(new TileBundlePair(tile, data));
         }
-        t.bData = new BundleData(bundle.ID.Label, bundle.GetCharacteristics());
+        t.bData = data;
     }
-
 
     public override object Clone()
     {
@@ -146,8 +149,7 @@ public class TaggedTileMap : LBSModule
 
         foreach(var p in tileMap.PairTiles)
         {
-            pairTiles.Add(p);
-            OnAddTile?.Invoke(p.tile);
+            AddTile(p.tile, p.bData);
         }
     }
 }

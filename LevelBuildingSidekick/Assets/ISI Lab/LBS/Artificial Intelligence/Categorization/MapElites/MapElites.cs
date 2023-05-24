@@ -22,11 +22,11 @@ public class MapElites
 
     [SerializeField, SerializeReference]
     IRangedEvaluator xEvaluator;
-    Vector2 xThreshold = new Vector2(0.25f, 0.75f);
+    Vector2 xThreshold = new Vector2(0.2f, 0.8f);
 
     [SerializeReference]
     IRangedEvaluator yEvaluator;
-    Vector2 yThreshold = new Vector2(0.25f, 0.75f);
+    Vector2 yThreshold = new Vector2(0.2f, 0.8f);
 
     [SerializeReference]
     BaseOptimizer optimizer = new GeneticAlgorithm();
@@ -293,7 +293,7 @@ public class MapElites
             }
             if (Running)
             {
-                thread.Join();
+                thread.Abort();
             }
             Debug.Log("Finished: " + c);
 

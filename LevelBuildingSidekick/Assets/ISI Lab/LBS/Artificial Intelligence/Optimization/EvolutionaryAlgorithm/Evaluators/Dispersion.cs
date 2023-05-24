@@ -19,7 +19,7 @@ public class Dispersion : IRangedEvaluator
     }
 
     public float Evaluate(IOptimizable evaluable)
-    {
+    {/*
         var chr = evaluable as LBSChromosome;
         var genes = chr.GetGenes();
         var points = genes.Select((g, i) => new { g, i }).Where(x => x.g != null).Select(x => (Vector2)chr.ToMatrixPosition(x.i)).ToList();
@@ -35,6 +35,7 @@ public class Dispersion : IRangedEvaluator
         var disp = kmeans.Dispersion();
         var max = kmeans.MaxDispersion(points);
 
-        return MinValue + (MaxValue - MinValue) * (disp.SelectMany(d => d.Select(f => f)).Average()/max);
+        return MinValue + (MaxValue - MinValue) * (disp.SelectMany(d => d.Select(f => f)).Average()/max);*/
+        return 0;
     }
 }

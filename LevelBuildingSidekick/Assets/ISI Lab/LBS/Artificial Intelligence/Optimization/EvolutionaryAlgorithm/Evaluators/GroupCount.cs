@@ -85,14 +85,14 @@ public class GroupCount : IRangedEvaluator
             closed.Add(parent);
             var pos = chrom.ToMatrixPosition(parent);
             var children = new List<int>();
-            for (float j = pos.y - distThreshold; j < pos.y + distThreshold; j++)
+            for (float j = pos.y - distThreshold; j <= pos.y + distThreshold; j++)
             {
-                for (float i = pos.x - distThreshold; i < pos.x + distThreshold; i++)
+                for (float i = pos.x - distThreshold; i <= pos.x + distThreshold; i++)
                 {
                     var c_pos = new Vector2(i, j);
-                    if ((c_pos - pos).Distance(distType) <= distThreshold)
+                    if ((c_pos - pos).Distance(distType) > distThreshold)
                     {
-
+                        continue;
                     }
 
                     var id = chrom.MatrixToIndex(c_pos);

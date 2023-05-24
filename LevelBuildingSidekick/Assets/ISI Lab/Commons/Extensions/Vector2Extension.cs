@@ -115,9 +115,9 @@ public static class Vector2Extension
         var dist = 2f;
         switch (distType)
         {
-            case DistanceType.MANHATTAN: dist = 2f; break;
-            case DistanceType.EUCLIDEAN: dist = 1.4f; break;
-            case DistanceType.CHESS: dist = 1f; break;
+            case DistanceType.CONNECT_4: dist = 2f; break;
+            //case DistanceType.EUCLIDEAN: dist = 1.4f; break;
+            case DistanceType.CONNECT_8: dist = 1f; break;
         }
 
         var min = Mathf.Abs(vec.x) < Mathf.Abs(vec.y) ? Mathf.Abs(vec.x) : Mathf.Abs(vec.y);
@@ -136,7 +136,6 @@ public enum Orientation
 
 public enum DistanceType
 {
-    EUCLIDEAN,
-    MANHATTAN,
-    CHESS
+    CONNECT_4,
+    CONNECT_8
 }

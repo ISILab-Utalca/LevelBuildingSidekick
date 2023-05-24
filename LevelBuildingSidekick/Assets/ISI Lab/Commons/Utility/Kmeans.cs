@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 public class Kmeans
-{
+{/*
     List<List<Vector2>> clusters = new List<List<Vector2>>();
     public List<List<Vector2>> Clusters => clusters;
 
@@ -102,5 +102,5 @@ public class Kmeans
     {
         return Mathf.Pow(MaxDispersion(points), 2) / (2 * k * Mathf.Log(points.Count));
     }
-
+    */
 }

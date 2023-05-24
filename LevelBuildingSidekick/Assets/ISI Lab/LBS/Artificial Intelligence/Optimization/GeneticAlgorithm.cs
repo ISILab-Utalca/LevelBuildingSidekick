@@ -126,7 +126,7 @@ public class GeneticAlgorithm : BaseOptimizer
         });
 
         Population = new Population();
-        Termination = new GenerationNumberTermination();
+        Termination = new GenerationNumberTermination(20);
         Evaluator = null; //(!!!) FILL UP With new wvaluator
     }
 
