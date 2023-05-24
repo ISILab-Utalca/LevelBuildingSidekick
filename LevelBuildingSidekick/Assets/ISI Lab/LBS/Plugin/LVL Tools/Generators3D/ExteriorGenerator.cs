@@ -23,6 +23,8 @@ namespace LBS.Generator
             var mainPivot = new GameObject(objName);
             foreach (var tile in l.Tiles.Select(t => t as ConnectedTile))
             {
+
+
                 var tuple = tiles.Get(tile.Connections);
 
                 if (tuple == null)
@@ -45,8 +47,10 @@ namespace LBS.Generator
                     }
                 }
 
+                
+
                 var go = GameObject.Instantiate(selected, mainPivot.transform);
-                go.transform.position = new Vector3(tile.Position.x * scale.x, 0,-tile.Position.y * scale.y);
+                go.transform.position = new Vector3((tile.Position.x) * scale.x, 0,-(tile.Position.y) * scale.y) + new Vector3(scale.x, 0, -scale.y) / 2;
 
                 var rot = tuple.Item2;
                 //rot -= 1;

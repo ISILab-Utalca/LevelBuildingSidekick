@@ -15,8 +15,8 @@ MonoBehaviour:
   id: {fileID: 0}
   characteristics: []
   bundles:
-  - {fileID: 11400000, guid: fcfdaf44230c7f042b3075d6533dae48, type: 2}
   - {fileID: 11400000, guid: 69ecf8fdd3b2d9b47b32feaeeeb1f0f4, type: 2}
+  - {fileID: 11400000, guid: fcfdaf44230c7f042b3075d6533dae48, type: 2}
   - {fileID: 11400000, guid: 36e474c4af9cd7a429ece75fc45a4c0c, type: 2}
   - {fileID: 11400000, guid: 0a1ce1fb6fb48124baa4bb6f70626986, type: 2}
   - {fileID: 11400000, guid: 9042cff679024a84db721c55545e6587, type: 2}

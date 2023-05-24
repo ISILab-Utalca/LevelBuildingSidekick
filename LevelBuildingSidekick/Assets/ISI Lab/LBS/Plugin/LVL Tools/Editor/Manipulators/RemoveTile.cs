@@ -23,7 +23,7 @@ public class RemoveTile : ManipulateTeselation<LBSTile>
         }
 
         module.RemoveTile(tile);
-        Debug.Log("M: " + module);
+        //Debug.Log("M: " + module);
 
         OnManipulationEnd?.Invoke();
     }
