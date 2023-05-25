@@ -71,7 +71,8 @@ public class Generator3DPanel : VisualElement
                 scale.value = layer.TileSize;
                 //scale.value = generator.Resize;
                 position.value = generator.Position;
-                objName.value = generator.ObjName;
+                objName.value = layer.Name + " G.O.";
+                //objName.value = generator.ObjName;
                 resize.value = generator.Resize;
             }
         }
