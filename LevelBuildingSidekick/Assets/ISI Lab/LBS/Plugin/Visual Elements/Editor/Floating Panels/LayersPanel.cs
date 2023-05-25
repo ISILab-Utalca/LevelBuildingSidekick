@@ -52,6 +52,9 @@ public class LayersPanel : VisualElement
 
         list.bindItem += (item, index) =>
         {
+            if (index >= this.data.LayerCount)
+                return;
+
             var view = (item as LayerView);
             var layer = this.data.GetLayer(index);
             view.SetInfo(layer);
