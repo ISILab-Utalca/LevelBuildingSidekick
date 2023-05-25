@@ -1,3 +1,4 @@
+using LBS.Components;
 using LBS.Components.TileMap;
 using System;
 using System.Collections;
@@ -7,6 +8,22 @@ using UnityEngine;
 
 public static class DataExtensions
 {
+    public static void RemoveEmptyLayers(this LBSLevelData data)
+    {
+        var x = 0;
+        var layers = data.Layers;
+        for (int i = layers.Count - 1; i >= 0; i--)
+        {
+            if (layers[i] == null)
+            {
+                x++;
+                data.RemoveAt(i);
+            }
+        }
+        Debug.Log("[ISI Lab]: Remove");
+    }
+
+
     public static bool Compare(this string[] a, string[] b)
     {
         for (int i = 0; i < a.Length; i++)
@@ -42,7 +59,6 @@ public static class DataExtensions
         return new RectInt((int)r.x, (int)r.y, (int)r.width, (int)r.height);
     }
     
-
     public static Vector2Int RecalculateTilePos<T>(this AreaTileMap<T> schema) where T : TiledArea
     { 
         var rect = schema.GetBounds();
