@@ -44,7 +44,8 @@ MonoBehaviour:
     id: Interior
     name: Layer Interior
     visible: 1
-    tileSize: {x: 2, y: 2}
+    tileSizeX: 2
+    tileSizeY: 2
     iconPath: Icons/interior-design
     modules:
     - rid: 5729019051077534338
@@ -73,7 +74,8 @@ MonoBehaviour:
           id: Interior
           name: Layer Interior
           visible: 1
-          tileSize: {x: 2, y: 2}
+          tileSizeX: 1
+          tileSizeY: 1
           iconPath: Icons/interior-design
           modules:
           - rid: 5729019051077534338
@@ -93,7 +95,8 @@ MonoBehaviour:
           id: Interior
           name: Layer Interior
           visible: 1
-          tileSize: {x: 2, y: 2}
+          tileSizeX: 1
+          tileSizeY: 1
           iconPath: Icons/interior-design
           modules:
           - rid: 5729019051077534338
