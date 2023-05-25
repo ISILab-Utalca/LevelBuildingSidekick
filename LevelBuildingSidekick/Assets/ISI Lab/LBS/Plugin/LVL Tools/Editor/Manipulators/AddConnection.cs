@@ -45,6 +45,22 @@ public class AddConnection<T> : ManipulateTeselation<T> where T : LBSTile
         if (first == null)
             return;
 
+        var pos = module.Owner.ToFixedPosition(position);
+
+        var dx = (first.Position.x - pos.x);
+        var dy = (first.Position.y - pos.y);
+        var fDir = dirs.FindIndex(d => d.Equals(-new Vector2Int(dx, dy)));
+
+        if (fDir < 0 || fDir >= dirs.Count)
+            return;
+
+
+        if (e.target is MainView)
+        {
+            first.SetConnection(tagToSet.Label, fDir);
+            return;
+        }
+
         var tile = e.target as ExteriorTileView;
         if (tile == null)
             return;
@@ -54,13 +70,9 @@ public class AddConnection<T> : ManipulateTeselation<T> where T : LBSTile
         if (first == second)
             return;
 
-        var dx = (first.Position.x - second.Position.x);
-        var dy = (first.Position.y - second.Position.y);
-
         if (Mathf.Abs(dx) + Mathf.Abs(dy) > 1f)
             return;
 
-        var fDir = dirs.FindIndex(d => d.Equals(-new Vector2Int(dx, dy)));
         var tDir = dirs.FindIndex(d => d.Equals(new Vector2Int(dx, dy)));
 
         first.SetConnection(tagToSet.Label, fDir);
