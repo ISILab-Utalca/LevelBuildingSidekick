@@ -12,6 +12,7 @@ public class AddTileToTiledArea<T,U> : ManipulateTiledArea<T, U> where T : Tiled
 {
     protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
     {
+
     }
 
     protected override void OnMouseMove(VisualElement target, Vector2Int MovePosition, MouseMoveEvent e)
@@ -22,6 +23,7 @@ public class AddTileToTiledArea<T,U> : ManipulateTiledArea<T, U> where T : Tiled
     {
         var min = this.module.Owner.ToFixedPosition(Vector2Int.Min(StartPosition, EndPosition));
         var max = this.module.Owner.ToFixedPosition(Vector2Int.Max(StartPosition, EndPosition));
+
 
         for (int i = min.x; i <= max.x; i++)
         {
