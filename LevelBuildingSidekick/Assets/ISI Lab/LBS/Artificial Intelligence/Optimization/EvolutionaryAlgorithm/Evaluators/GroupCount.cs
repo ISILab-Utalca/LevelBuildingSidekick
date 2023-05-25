@@ -39,7 +39,14 @@ public class GroupCount : IRangedEvaluator
         var chr = evaluable as LBSChromosome;
         var genes = chr.GetGenes();
 
-        var toRemove = genes.Select((g, i) => new { g, i }).Where(x => x.g != null && whiteList.Contains(x.g)).Select(x => x.i).ToList();
+        var selected = genes.Select((g, i) => new { g, i }).Where(x => x.g != null && whiteList.Contains(x.g));
+
+        if(selected.Count() == 0)
+        {
+            return 0;
+        }
+
+        var toRemove = selected.Select(x => x.i).ToList();
 
         float max = (chr.Length - chr.ImmutablesCount - toRemove.Count) / ((distThreshold + 1) * (distThreshold + 1));
 

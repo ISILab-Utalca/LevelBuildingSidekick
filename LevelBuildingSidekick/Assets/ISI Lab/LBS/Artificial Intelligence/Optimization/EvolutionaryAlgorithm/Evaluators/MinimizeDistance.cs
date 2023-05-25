@@ -53,9 +53,10 @@ public class MinimizeDistance : IRangedEvaluator
     private float avgMin(List<int> indexes, ChromosomeBase2D chr)
     {
 
-        var side = Mathf.Sqrt(indexes.Count);
-
         var max = ((Vector2)chr.ToMatrixPosition(chr.Length - 1)).Distance(distType);
+
+        if (indexes.Count == 0)
+            return 0;
 
         var avgMin = indexes.Average(i => indexes.Where(j => j != i).Min(j => ((Vector2)(chr.ToMatrixPosition(i) - chr.ToMatrixPosition(j))).Distance(distType)));
 

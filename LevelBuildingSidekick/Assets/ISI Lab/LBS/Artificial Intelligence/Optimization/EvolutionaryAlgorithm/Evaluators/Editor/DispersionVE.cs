@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-[CustomVisualElement(typeof(Dispersion))]
+//[CustomVisualElement(typeof(Dispersion))]
 public class DispersionVE : EvaluatorVE
 {
     IntegerField intField;
