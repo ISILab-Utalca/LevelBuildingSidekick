@@ -55,7 +55,7 @@ public class MinimizeDistance : IRangedEvaluator
 
         var max = ((Vector2)chr.ToMatrixPosition(chr.Length - 1)).Distance(distType);
 
-        if (indexes.Count == 0)
+        if (indexes.Count <= 1)
             return 0;
 
         var avgMin = indexes.Average(i => indexes.Where(j => j != i).Min(j => ((Vector2)(chr.ToMatrixPosition(i) - chr.ToMatrixPosition(j))).Distance(distType)));
