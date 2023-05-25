@@ -25,6 +25,7 @@ public class LBSLevelData
     #region PROPERTIES
 
     [JsonIgnore]
+    //public List<LBSLayer> Layers => new List<LBSLayer>(layers);
     public List<LBSLayer> Layers => layers;
 
     [JsonIgnore]
@@ -48,21 +49,19 @@ public class LBSLevelData
     public Action<LBSLevelData> OnChanged;
 
     #region METHODS
+    public void Reload()
+    {
+        foreach (var layer in layers)
+        {
+            layer.Reload();
+            layer.OnModuleChange += (l) => this.OnChanged(this);
+            layer.Parent = this;
+        }
+    }
 
     public LBSLayer GetLayer(int index)
     {
         return layers[index];
-    }
-
-    public void RemoveNullLayers() // (!) parche, no deberia poder añadirse nulls
-    {
-        var r = new List<LBSLayer>();
-        foreach (var layer in layers)
-        {
-            if (layer != null)
-                r.Add(layer);
-        }
-        layers = r;
     }
 
     /// <summary>
