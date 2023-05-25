@@ -161,7 +161,7 @@ public class LayerTemplateEditor : Editor
     {
         // Basic data layer
         var layer = new LBSLayer();
-        layer.TileSize *= 20;
+        layer.TileSize *= 10;
         var assist = Utility.DirectoryTools.GetScriptable<LBSLayerAssistant>("ExteriorAsstant");
         if (assist == null)
         {
