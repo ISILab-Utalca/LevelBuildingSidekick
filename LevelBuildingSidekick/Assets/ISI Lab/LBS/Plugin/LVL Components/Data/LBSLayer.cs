@@ -25,7 +25,11 @@ namespace LBS.Components
         private bool visible;
 
         [SerializeField, JsonRequired]
-        private Vector2Int tileSize = Vector2Int.one;
+        private int tileSizeX = 1;
+
+        [SerializeField, JsonRequired]
+        private int tileSizeY = 1;
+
 
         [SerializeField, JsonRequired]
         public string iconPath; // (?) esto tiene que estar en la layertemplate
@@ -72,14 +76,15 @@ namespace LBS.Components
         [JsonIgnore]
         public Vector2Int TileSize
         {
-            get => tileSize;
+            get
+            { 
+                return new Vector2Int(tileSizeX, tileSizeY); 
+            }
             set
             {
-                if(tileSize != value)
-                {
-                    tileSize = value;
-                    OnTileSizeChange?.Invoke(value);
-                }
+                tileSizeX = value.x;
+                tileSizeY = value.y;
+                OnTileSizeChange?.Invoke(value);
             }
         }
 
@@ -119,19 +124,20 @@ namespace LBS.Components
                 return bundle;
             }
         }
+
         */
-
-        public event Action<LBSLayer> OnModuleChange 
-        {   
-            add => onModuleChange += value;
-            remove => onModuleChange -= value; 
-        }
-
         #endregion
 
         #region EVENTS
         private event Action<LBSLayer> onModuleChange;
         public event Action<Vector2Int> OnTileSizeChange;
+
+        public event Action<LBSLayer> OnModuleChange
+        {
+            add => onModuleChange += value;
+            remove => onModuleChange -= value;
+        }
+
         #endregion
 
         #region  CONSTRUCTORS
@@ -143,7 +149,7 @@ namespace LBS.Components
             ID = GetType().Name;
         }
 
-        public LBSLayer(List<LBSModule> modules, string ID, bool visible, string name, string iconPath)
+        public LBSLayer(List<LBSModule> modules, string ID, bool visible, string name, string iconPath, Vector2Int tileSize)
         {
             modules.ForEach(m => {
                 AddModule(m);
@@ -153,10 +159,24 @@ namespace LBS.Components
             IsVisible = visible;
             this.name = name;
             this.iconPath = iconPath;
+            this.TileSize = tileSize;
         }
         #endregion
 
         #region  METHODS
+        public void Reload()
+        {
+            foreach (var module in modules)
+            {
+                module.OnReload(this);
+                module.Owner = this;
+                module.OnChanged = (mo) =>
+                {
+                    this.onModuleChange?.Invoke(this);
+                };
+            }
+        }
+
         public bool AddModule(LBSModule module)
         {
             if(modules.Contains(module))
@@ -284,7 +304,7 @@ namespace LBS.Components
             modules[index].Owner = this;
         }
 
-        public Vector2Int ToFixedPosition(Vector2 position)
+        public Vector2Int ToFixedPosition(Vector2 position) // esto tiene que ir en una extension
         {
             Vector2 pos = position / (TileSize * LBSSettings.Instance.TileSize);
 
@@ -296,16 +316,17 @@ namespace LBS.Components
 
             return pos.ToInt();
         }
+
         public object Clone()
         {
             var modules = this.modules.Select(m => {
                 var module = m.Clone() as LBSModule;
                 return module;
                 }).ToList();
-            //var transformers = this.GetTransformers(); // (??) usar clone en vez de pasar la lista?
-            var layer = new LBSLayer(modules,/* transformers.Select(t => t.GetType()).ToList(),*/ this.id, this.visible, this.name, this.iconPath);
+
+            var layer = new LBSLayer(modules, this.id, this.visible, this.name, this.iconPath,this.TileSize);
             layer.Assitant = Assitant;
-            layer.TileSize = TileSize;
+           // layer.TileSize = TileSize;
 
             return layer;
         }
