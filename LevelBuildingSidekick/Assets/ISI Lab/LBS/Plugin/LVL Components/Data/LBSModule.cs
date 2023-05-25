@@ -21,11 +21,24 @@ namespace LBS.Components
         protected bool changed;
 
         [JsonIgnore, HideInInspector]
-        public LBSLayer Owner;
+        private LBSLayer _owner;
 
         #endregion
 
         #region PROPERTIES
+
+        [JsonIgnore]
+        public LBSLayer Owner
+        {
+            get
+            {
+                return _owner;
+            }
+            set
+            {
+                _owner = value;
+            }
+        }
 
         [JsonIgnore]
         public bool IsVisible
@@ -89,6 +102,8 @@ namespace LBS.Components
         public abstract object Clone();
 
         public abstract Rect GetBounds();
+
+        public abstract void OnReload(LBSLayer layer);
 
         public abstract void OnAttach(LBSLayer layer);
 

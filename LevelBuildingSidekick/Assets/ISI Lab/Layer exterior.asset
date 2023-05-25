@@ -65,8 +65,9 @@ MonoBehaviour:
   layer:
     id: Exterior
     name: Layer Exterior
-    visible: 1
-    tileSize: {x: 10, y: 10}
+    visible: 1}
+    tileSizeX: 10
+    tileSizeY: 10
     iconPath: Icons/pine-tree
     modules:
     - rid: 5729019051077534330
@@ -91,7 +92,8 @@ MonoBehaviour:
           id: Exterior
           name: Layer Exterior
           visible: 1
-          tileSize: {x: 20, y: 20}
+          tileSizeX: 1
+          tileSizeY: 1
           iconPath: Icons/pine-tree
           modules:
           - rid: 5729019051077534330

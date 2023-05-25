@@ -128,6 +128,11 @@ public class LBSGrammarGraph : LBSModule
         }
 
     }
+
+    public override void OnReload(LBSLayer layer)
+    {
+        OnAttach(layer);
+    }
 }
 
 [System.Serializable]

@@ -16,7 +16,8 @@ MonoBehaviour:
     id: Population
     name: Layer Population
     visible: 1
-    tileSize: {x: 2, y: 2}
+    tileSizeX: 2
+    tileSizeY: 2
     iconPath: Icons/ghost
     modules:
     - rid: 5729019051077534353
@@ -42,7 +43,8 @@ MonoBehaviour:
           id: Population
           name: Layer Population
           visible: 1
-          tileSize: {x: 2, y: 2}
+          tileSizeX: 1
+          tileSizeY: 1
           iconPath: Icons/ghost
           modules:
           - rid: 5729019051077534353
@@ -61,7 +63,8 @@ MonoBehaviour:
           id: Population
           name: Layer Population
           visible: 1
-          tileSize: {x: 2, y: 2}
+          tileSizeX: 1
+          tileSizeY: 1
           iconPath: Icons/ghost
           modules:
           - rid: 5729019051077534353

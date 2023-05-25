@@ -297,12 +297,12 @@ namespace LBS.Components.Graph
 
         public override void OnAttach(LBSLayer layer)
         {
-            //throw new System.NotImplementedException();
+
         }
 
         public override void OnDetach(LBSLayer layer)
         {
-            //throw new System.NotImplementedException();
+
         }
 
         public override Rect GetBounds()
@@ -313,6 +313,11 @@ namespace LBS.Components.Graph
         public override void Rewrite(LBSModule module)
         {
             throw new System.NotImplementedException();
+        }
+
+        public override void OnReload(LBSLayer layer)
+        {
+
         }
 
         #endregion

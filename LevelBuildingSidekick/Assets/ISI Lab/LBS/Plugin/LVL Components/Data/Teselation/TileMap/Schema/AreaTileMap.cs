@@ -205,12 +205,12 @@ namespace LBS.Components.TileMap
 
         public override void OnAttach(LBSLayer layer)
         {
-            //throw new NotImplementedException();
+
         }
 
         public override void OnDetach(LBSLayer layer)
         {
-            //throw new NotImplementedException();
+
         }
 
         public override Rect GetBounds()
@@ -271,6 +271,11 @@ namespace LBS.Components.TileMap
         public override void Rewrite(LBSModule module)
         {
             throw new NotImplementedException();
+        }
+
+        public override void OnReload(LBSLayer layer)
+        {
+
         }
 
         #endregion

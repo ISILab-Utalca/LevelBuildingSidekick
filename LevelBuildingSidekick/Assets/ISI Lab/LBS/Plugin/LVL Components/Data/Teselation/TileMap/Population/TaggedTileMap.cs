@@ -152,6 +152,11 @@ public class TaggedTileMap : LBSModule
             AddTile(p.tile, p.bData);
         }
     }
+
+    public override void OnReload(LBSLayer layer)
+    {
+        OnAttach(layer);
+    }
 }
 
 [System.Serializable]
