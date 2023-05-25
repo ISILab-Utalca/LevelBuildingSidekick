@@ -11,11 +11,6 @@ using System.Linq;
 
 namespace LBS
 {
-    public static class Globals
-    {
-
-    }
-
     // change name "LBSController" to "LBS" or "LBSCore" or "LBSMain" or "LBSManager" (!) 
     // esta clase podria ser estatica completamente (??)
     public static class LBSController 
@@ -51,6 +46,7 @@ namespace LBS
             var fileInfo = new System.IO.FileInfo(path);
             var data = Utility.JSONDataManager.LoadData<LBSLevelData>(fileInfo.DirectoryName,fileInfo.Name);
             CurrentLevel = new LoadedLevel(data, fileInfo.FullName);
+            CurrentLevel.data.Reload();
         }
 
         public static LoadedLevel LoadFile()
@@ -72,6 +68,7 @@ namespace LBS
                     fileInfo = new System.IO.FileInfo(path);
                     data = Utility.JSONDataManager.LoadData<LBSLevelData>(fileInfo.DirectoryName, fileInfo.Name);
                     CurrentLevel = new LoadedLevel(data, fileInfo.FullName);
+                    CurrentLevel.data.Reload();
                     return CurrentLevel;
 
                 case 1: // Discard
@@ -81,6 +78,7 @@ namespace LBS
                     fileInfo = new System.IO.FileInfo(path);
                     data = Utility.JSONDataManager.LoadData<LBSLevelData>(fileInfo.DirectoryName, fileInfo.Name);
                     CurrentLevel = new LoadedLevel(data, fileInfo.FullName);
+                    CurrentLevel.data.Reload();
                     return CurrentLevel;
             }
             return null;
@@ -157,6 +155,7 @@ namespace LBS
             //data.Size = size;
             //data.AddRepresentation(new LBSGraphData());
             CurrentLevel = loaded;
+            CurrentLevel.data.Reload();
             return CurrentLevel;
         }
 
