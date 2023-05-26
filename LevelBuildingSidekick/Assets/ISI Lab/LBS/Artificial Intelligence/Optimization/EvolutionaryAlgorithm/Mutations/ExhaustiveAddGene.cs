@@ -14,6 +14,9 @@ public class ExhaustiveAddGene : MutationBase
         var r = RandomizationProvider.Current;
         var genes = chromosome.GetGenes().Where(g => g != null).Distinct().ToList(); //Distinct is not doing anything
 
+        if (genes.Count == 0)
+            return;
+
         for (int i = 0; i < chromosome.Length; i++)
         {
             if (chromosome.IsImmutable(i))
@@ -23,7 +26,9 @@ public class ExhaustiveAddGene : MutationBase
                 var d = r.GetDouble();
                 if (d < probability)
                 {
-                    chromosome.ReplaceGene(i, (genes[r.GetInt(0, genes.Count)] as ICloneable).Clone());
+                    var index = r.GetInt(0, genes.Count);
+                    var gen = (genes[index] as ICloneable).Clone();
+                    chromosome.ReplaceGene(i, gen);
                 }
             }
         }
