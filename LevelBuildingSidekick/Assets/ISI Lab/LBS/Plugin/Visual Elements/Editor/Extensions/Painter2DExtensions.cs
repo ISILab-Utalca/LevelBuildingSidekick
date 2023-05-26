@@ -2,7 +2,6 @@ using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.Overlays;
 using UnityEngine;

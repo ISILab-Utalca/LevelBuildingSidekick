@@ -9,8 +9,8 @@ using System.Reflection;
 using System.IO;
 using Utility;
 
-namespace LBS.Windows
-{
+//namespace LBS.Windows
+//{
     public class LBSStartWindow : EditorWindow
     {
         /*
@@ -193,5 +193,5 @@ namespace LBS.Windows
         }
         */
     }
-}
+//}
 

@@ -14,7 +14,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GeneticAlgorithm : BaseOptimizer
