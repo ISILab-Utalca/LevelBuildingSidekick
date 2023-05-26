@@ -21,7 +21,7 @@ public class GroupCountVE : EvaluatorVE
         var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("DistanceVE");
         visualTree.CloneTree(this);
 
-        floatField = new FloatField();
+        floatField = new FloatField("In Group Distance");
         floatField.value = (evaluator as GroupCount).DistThreshold;
         floatField.RegisterValueChangedCallback((ev) => { (evaluator as GroupCount).DistThreshold = ev.newValue; });
 
