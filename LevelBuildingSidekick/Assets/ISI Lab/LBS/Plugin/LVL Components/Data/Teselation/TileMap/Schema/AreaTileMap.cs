@@ -215,6 +215,11 @@ namespace LBS.Components.TileMap
 
         public override Rect GetBounds()
         {
+            if(Areas.Count() <= 0)
+            {
+                return new Rect(0,0,1,1);
+            }
+
             var x = Areas.Min(a => a.GetBounds().min.x);
             var y = Areas.Min(a => a.GetBounds().min.y);
             var width = Areas.Max(a => a.GetBounds().max.x) - x;

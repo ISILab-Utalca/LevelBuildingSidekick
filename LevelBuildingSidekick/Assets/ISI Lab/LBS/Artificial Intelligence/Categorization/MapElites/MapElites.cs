@@ -182,6 +182,8 @@ public class MapElites
 
     #region EVENTS
 
+    public Action OnEnd; 
+
     Action OnSampleSizeChanged;
 
     Action OnEvaluatorChanged;
@@ -264,6 +266,7 @@ public class MapElites
             }
             //Optimizer.State = Op_State.TerminationReached;
             Debug.Log("Finished: " + c);
+            OnEnd?.Invoke();
 
         };
         thread = new Thread(Optimizer.Start);
@@ -296,6 +299,7 @@ public class MapElites
                 thread.Abort();
             }
             Debug.Log("Finished: " + c);
+            OnEnd?.Invoke();
 
         };
         thread.Start();

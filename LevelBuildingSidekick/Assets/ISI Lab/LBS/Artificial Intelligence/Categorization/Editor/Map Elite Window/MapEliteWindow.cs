@@ -25,6 +25,8 @@ public class MapEliteWindow : EditorWindow
         window.Clear();
     }
 
+    public Texture2D img, img2, img3;
+
 
     public int ButtonSize = 128; //Should be a RangeSlider field(!!!)
 
@@ -67,6 +69,10 @@ public class MapEliteWindow : EditorWindow
 
     public void CreateGUI()
     {
+        img = DirectoryTools.SearchAssetByName<Texture2D>("ButtonWrapper (1)");
+        img2 = DirectoryTools.SearchAssetByName<Texture2D>("ButtonWrapper (2)");
+        img3 = DirectoryTools.SearchAssetByName<Texture2D>("ButtonWrapper (3)");
+
         toUpdate = new List<Vector2Int>();
         VisualElement root = rootVisualElement;
 
@@ -174,6 +180,20 @@ public class MapEliteWindow : EditorWindow
 
         mapElites.OnSampleUpdated += UpdateSample;
 
+        
+        mapElites.OnEnd += () =>
+        {
+            // set all wrapper to loading icon
+            foreach (ButtonWrapper bw in Content)
+            {
+                if (bw.Data == null)
+                {
+                    bw.style.backgroundImage = img2;
+                }
+            }
+        };
+        
+
         this.Partitions.value = new Vector2(3,3);
         ButtonBackground = defaultButton;
         ChangePartitions(Partitions.value);
@@ -183,13 +203,23 @@ public class MapEliteWindow : EditorWindow
         toUpdate.Clear();
 
         Paused = root.style.backgroundColor.value;
-        Running = Color.blue;
+        Running = new Color(0.22f,0.22f,0.36f);//Color.blue;
     }
 
     public void Run()
     {
         Clear();
         toUpdate.Clear();
+
+        // set all wrapper to loading icon
+        foreach (ButtonWrapper bw in Content)
+        {
+            bw.style.backgroundImage = img3;
+            bw.Data = null;
+            bw.Text = "";
+            bw.UpdateLabel();
+        }
+
 
         var module = layer.GetModule<LBSModule>(ModuleField.value);
 
@@ -271,7 +301,7 @@ public class MapEliteWindow : EditorWindow
             Container.Add(b);
         }
 
-        Content.ToList().ForEach(b => b.style.backgroundImage = ButtonBackground);
+        Content.ToList().ForEach(b => b.style.backgroundImage = img);
     }
 
     public void UpdateSample(Vector2Int coords)
@@ -283,6 +313,9 @@ public class MapEliteWindow : EditorWindow
         }
         Content[index].Data = mapElites.BestSamples[coords.y, coords.x];
         Content[index].Text =  ((decimal)mapElites.BestSamples[coords.y, coords.x].Fitness).ToString("f4");
+
+
+
         lock (locker)
         {
             if (!toUpdate.Contains(coords))
@@ -292,6 +325,12 @@ public class MapEliteWindow : EditorWindow
 
     public void Clear()
     {
+        foreach (var button in Content)
+        {
+            button.style.backgroundImage = img;
+        }
+
+        /*
         ButtonBackground = BackgroundTexture(backgroundModule);
         foreach (ButtonWrapper bw in Content)
         {
@@ -300,6 +339,7 @@ public class MapEliteWindow : EditorWindow
             bw.Text = "";
             bw.UpdateLabel();
         }
+        */
     }
 
     private Texture2D BackgroundTexture(LBSModule mod)
@@ -334,7 +374,15 @@ public class MapEliteWindow : EditorWindow
                 var v = toUpdate[i]; 
                 var index = (v.y * mapElites.XSampleCount + v.x);
                 var t = Content[index].GetTexture();
-                Content[index].SetTexture(ButtonBackground.MergeTextures(t));
+                if (Content[index].Data != null)
+                {
+                    ButtonBackground = BackgroundTexture(backgroundModule);
+                    Content[index].SetTexture(ButtonBackground.MergeTextures(t));
+                }
+                else
+                {
+                    Content[index].SetTexture(img3);
+                }
                 Content[index].UpdateLabel();
             }
             toUpdate.Clear();
@@ -349,6 +397,9 @@ public class MapEliteWindow : EditorWindow
         {
             rootVisualElement.style.backgroundColor = Paused;
         }
+
+        
+        
     }
 
 
