@@ -24,6 +24,8 @@ public class TaggedTileMapChromosome : LBSChromosome, IDrawable
 
         foreach (var t in tiles)
         {
+            if (!rect.Contains(t.Position))
+                continue;
             var i = WorldToIndex(t.Position);
             var data = tileMap.GetBundleData(t);
             ReplaceGene(i, data);
