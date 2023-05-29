@@ -16,7 +16,7 @@ public class ExhaustiveRemoveGene : MutationBase
         {
             if (chromosome.IsImmutable(i))
                 continue;
-            if (chromosome.GetGene(i) == default)
+            if (chromosome.GetGene(i) != default)
             {
                 var d = r.GetDouble();
                 if (d < probability)
