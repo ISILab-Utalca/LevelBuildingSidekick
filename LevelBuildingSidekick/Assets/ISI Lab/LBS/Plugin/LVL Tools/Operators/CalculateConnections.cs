@@ -26,9 +26,12 @@ public static class CalculateConnections
                 {
                     var nei = m.GetTileNeighbor(tile as ConnectedTile, dirs[i]);
 
-                    if (nei == null)
+                    if (nei == null) 
                     {
-                        (tile as ConnectedTile).SetConnection("Wall", i);
+                        if((tile as ConnectedTile).Connections[i] != "Door")
+                        {
+                            (tile as ConnectedTile).SetConnection("Wall", i);
+                        }
                     }
                     else if (area.Contains(nei.Position))
                     {
