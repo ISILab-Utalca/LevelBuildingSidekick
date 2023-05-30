@@ -6,6 +6,7 @@ using LBS.Tools.Transformer;
 using System;
 using System.Linq;
 using LBS.AI;
+using LBS.Settings;
 
 namespace LBS.Components
 {
@@ -22,6 +23,13 @@ namespace LBS.Components
 
         [SerializeField, JsonRequired]
         private bool visible;
+
+        [SerializeField, JsonRequired]
+        private int tileSizeX = 1;
+
+        [SerializeField, JsonRequired]
+        private int tileSizeY = 1;
+
 
         [SerializeField, JsonRequired]
         public string iconPath; // (?) esto tiene que estar en la layertemplate
@@ -66,6 +74,21 @@ namespace LBS.Components
         }
 
         [JsonIgnore]
+        public Vector2Int TileSize
+        {
+            get
+            { 
+                return new Vector2Int(tileSizeX, tileSizeY); 
+            }
+            set
+            {
+                tileSizeX = value.x;
+                tileSizeY = value.y;
+                OnTileSizeChange?.Invoke(value);
+            }
+        }
+
+        [JsonIgnore]
         public string Name
         {
             get => name;
@@ -101,18 +124,20 @@ namespace LBS.Components
                 return bundle;
             }
         }
+
         */
-
-        public event Action<LBSLayer> OnModuleChange 
-        {   
-            add => onModuleChange += value;
-            remove => onModuleChange -= value; 
-        }
-
         #endregion
 
         #region EVENTS
         private event Action<LBSLayer> onModuleChange;
+        public event Action<Vector2Int> OnTileSizeChange;
+
+        public event Action<LBSLayer> OnModuleChange
+        {
+            add => onModuleChange += value;
+            remove => onModuleChange -= value;
+        }
+
         #endregion
 
         #region  CONSTRUCTORS
@@ -124,7 +149,7 @@ namespace LBS.Components
             ID = GetType().Name;
         }
 
-        public LBSLayer(List<LBSModule> modules, string ID, bool visible, string name, string iconPath)
+        public LBSLayer(List<LBSModule> modules, string ID, bool visible, string name, string iconPath, Vector2Int tileSize)
         {
             modules.ForEach(m => {
                 AddModule(m);
@@ -134,10 +159,24 @@ namespace LBS.Components
             IsVisible = visible;
             this.name = name;
             this.iconPath = iconPath;
+            this.TileSize = tileSize;
         }
         #endregion
 
         #region  METHODS
+        public void Reload()
+        {
+            foreach (var module in modules)
+            {
+                module.OnReload(this);
+                module.Owner = this;
+                module.OnChanged = (mo) =>
+                {
+                    this.onModuleChange?.Invoke(this);
+                };
+            }
+        }
+
         public bool AddModule(LBSModule module)
         {
             if(modules.Contains(module))
@@ -262,6 +301,20 @@ namespace LBS.Components
             modules[index].OnDetach(this);
             modules[index] = module;
             modules[index].OnAttach(this);
+            modules[index].Owner = this;
+        }
+
+        public Vector2Int ToFixedPosition(Vector2 position) // esto tiene que ir en una extension
+        {
+            Vector2 pos = position / (TileSize * LBSSettings.Instance.TileSize);
+
+            if (pos.x < 0)
+                pos.x -= 1;
+
+            if (pos.y < 0)
+                pos.y -= 1;
+
+            return pos.ToInt();
         }
 
         public object Clone()
@@ -270,9 +323,10 @@ namespace LBS.Components
                 var module = m.Clone() as LBSModule;
                 return module;
                 }).ToList();
-            //var transformers = this.GetTransformers(); // (??) usar clone en vez de pasar la lista?
-            var layer = new LBSLayer(modules,/* transformers.Select(t => t.GetType()).ToList(),*/ this.id, this.visible, this.name, this.iconPath);
+
+            var layer = new LBSLayer(modules, this.id, this.visible, this.name, this.iconPath,this.TileSize);
             layer.Assitant = Assitant;
+           // layer.TileSize = TileSize;
 
             return layer;
         }
