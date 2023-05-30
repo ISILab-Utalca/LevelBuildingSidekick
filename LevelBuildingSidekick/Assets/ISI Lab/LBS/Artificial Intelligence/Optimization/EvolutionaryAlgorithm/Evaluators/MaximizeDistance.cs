@@ -10,6 +10,7 @@ public class MaximizeDistance : IRangedEvaluator
 
     public float MinValue => 0;
 
+
     public List<Object> whiteList = new List<Object>();
 
     public DistanceType distType;
@@ -46,54 +47,23 @@ public class MaximizeDistance : IRangedEvaluator
             fitness += avgMin(indexes, ev);
         }
 
-        return fitness / whiteList.Count;
+        return MinValue + ((MaxValue - MinValue) * (fitness / whiteList.Count));
 
     }
 
     private float avgMin(List<int> indexes, ChromosomeBase2D chr)
     {
-        var dist = 2f;
-        switch(distType)
-        {
-            case DistanceType.MANHATTAN: dist = 2f; break;
-            case DistanceType.EUCLIDEAN: dist = 1.4f; break;
-            case DistanceType.CHESS: dist = 1f; break;
-        }
+        var max = ((Vector2)chr.ToMatrixPosition(chr.Length - 1)).Distance(distType);
 
-        var max = Distance(dist, chr.ToMatrixPosition(chr.Length - 1));
+        if (indexes.Count <= 1)
+            return 0;
 
-        var avgMin = 0f;
+        var avgMin = indexes.Average(i => indexes.Where(j => j != i).Min(j => ((Vector2)(chr.ToMatrixPosition(i) - chr.ToMatrixPosition(j))).Distance(distType)));
 
-        foreach(var i in indexes)
-        {
-            var min = max;
-            foreach(var j in indexes)
-            {
-                if(i != j)
-                {
-                    var d = Distance(dist, chr.ToMatrixPosition(i) - chr.ToMatrixPosition(j));
-                    if (min > d)
-                        min = d;
-                }
-            }
-            avgMin += min;
-        }
+        avgMin /= max;
+        
+        float val = avgMin < 1 ? avgMin : 1;
 
-        return MinValue + MaxValue * (avgMin / (max * indexes.Count));
+        return val;
     }
-
-    public float Distance(float diag, Vector2Int point)
-    {
-        var min = Mathf.Abs(point.x) < Mathf.Abs(point.y) ? Mathf.Abs(point.x) : Mathf.Abs(point.y);
-        var max = Mathf.Abs(point.x) > Mathf.Abs(point.y) ? Mathf.Abs(point.x) : Mathf.Abs(point.y);
-
-        return (max - min) + min * diag;
-    }
-}
-
-public enum DistanceType
-{
-    EUCLIDEAN,
-    MANHATTAN,
-    CHESS
 }
