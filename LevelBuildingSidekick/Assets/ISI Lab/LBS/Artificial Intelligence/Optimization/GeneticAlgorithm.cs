@@ -14,7 +14,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GeneticAlgorithm : BaseOptimizer
@@ -30,13 +29,13 @@ public class GeneticAlgorithm : BaseOptimizer
     /// The default crossover probability.
     /// </summary>
     [SerializeField, SerializeReference]
-    public float crossoverProbability = 0.75f;
+    public float crossoverProbability = 1f;
 
     /// <summary>
     /// The default mutation probability.
     /// </summary>
     [SerializeField, SerializeReference]
-    public float mutationProbability = 0.25f;
+    public float mutationProbability = 0.05f;
 
     #endregion
 
@@ -88,7 +87,11 @@ public class GeneticAlgorithm : BaseOptimizer
     /// <summary>
     /// Gets or sets the mutation probability.
     /// </summary>
-    public float MutationProbability { get; set; }
+    public float MutationProbability
+    {
+        get => mutationProbability;
+        set => mutationProbability = value;
+    }
 
     public new IOptimizable Adam
     {
@@ -104,25 +107,25 @@ public class GeneticAlgorithm : BaseOptimizer
 
     public GeneticAlgorithm()
     {
-        Reinsertion = new ElitistReinsertion();
+        Reinsertion = new ElitistReinsertion(3);
         State = Op_State.NotStarted;
         TaskExecutor = new LinearTaskExecutor();
         OperatorsStrategy = new DefaultOperatorsStrategy();
 
-        Selection = new RankSelection();
+        Selection = new TournamentSelection(2);
         Crossover = new AreaCrossover();
         //Crossover = new UniformCrossover();
 
         Mutation = new RoulleteWheelMutation(new List<Tuple<MutationBase, float>>()
         { 
             new Tuple<MutationBase, float>(new ExhaustiveAddGene(), 25),
-            new Tuple<MutationBase, float>(new ExhaustiveRemoveGene(), 25),
-            new Tuple<MutationBase, float>(new ExhaustiveSwapGene(), 25),
-            new Tuple<MutationBase, float>(new ExhaustiveRanged2DSwap(5), 25)
+            new Tuple<MutationBase, float>(new ExhaustiveRemoveGene(), 0),
+            new Tuple<MutationBase, float>(new ExhaustiveSwapGene(), 0),
+            new Tuple<MutationBase, float>(new ExhaustiveRanged2DSwap(5), 0)
         });
 
         Population = new Population();
-        Termination = new GenerationNumberTermination();
+        Termination = new GenerationNumberTermination(20);
         Evaluator = null; //(!!!) FILL UP With new wvaluator
     }
 
