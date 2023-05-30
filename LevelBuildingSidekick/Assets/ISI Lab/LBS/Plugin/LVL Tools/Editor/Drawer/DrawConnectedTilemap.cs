@@ -1,5 +1,6 @@
 using LBS.Components;
 using LBS.Components.TileMap;
+using LBS.Settings;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,7 +20,7 @@ public class DrawConnectedTilemap : Drawer // DrawSchema
                 var tView = new SchemaTileView(cTile);
                 tView.SetBackgroundColor(area.Color);
                 tView.SetConnections(cTile.Connections);
-                var size = view.TileSize;
+                var size = LBSSettings.Instance.TileSize*layer.TileSize;
                 tView.SetPosition(new Rect(tile.Position * size, size));
                 view.AddElement(tView);
             }
