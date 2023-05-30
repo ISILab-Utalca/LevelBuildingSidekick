@@ -266,6 +266,14 @@ namespace LBS.Components.TileMap
             return walls;
         }
 
+        public List<WallData> GetWalls()
+        {
+            var horizontal = GetHorizontalWalls();
+            var vertical = GetVerticalWalls();
+
+            return horizontal.Concat(vertical).ToList();
+        }
+
         public override object Clone()
         {
             var tileMap = new TiledArea(tiles.Select(t => t.Clone() as LBSTile).ToList(),this.ID,this.key,this.color.ToColor());
