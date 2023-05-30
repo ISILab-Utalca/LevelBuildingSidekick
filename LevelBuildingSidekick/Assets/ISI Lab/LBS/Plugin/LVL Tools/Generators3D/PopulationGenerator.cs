@@ -31,7 +31,7 @@ namespace LBS.Generator
                 go.transform.position = new Vector3(
                     scale.x * k.Position.x, 
                     0,
-                    -scale.y * k.Position.y);
+                    -scale.y * k.Position.y) + new Vector3(scale.x, 0, -scale.y)/2;
             }
 
             return parent;
