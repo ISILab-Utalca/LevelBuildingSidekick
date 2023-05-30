@@ -22,5 +22,8 @@ MonoBehaviour:
   assistantPresetFolderPath: Assets/ISI Lab/LBS/Presets/Assistants
   Generator3DPresetFolderPath: Assets/ISI Lab/LBS/Presets/Generators3D
   bundlesPresetFolderPath: Assets/ISI Lab/LBS/Presets/Bundles
+  general:
+    zoomMax: 10
+    zoomMin: 0.1
   modules:
     tileSize: {x: 100, y: 100}
