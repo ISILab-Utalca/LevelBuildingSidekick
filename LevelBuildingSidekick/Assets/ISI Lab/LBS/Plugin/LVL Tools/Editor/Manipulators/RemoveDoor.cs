@@ -40,24 +40,39 @@ public class RemoveDoor<T, U> : ManipulateTiledArea<T, U> where T : TiledArea wh
         if (first == null)
             return;
 
+
+        var r1 = module.GetArea(first.Position);
+
+        var pos = module.Owner.ToFixedPosition(endPosition);
+
+        var dx = (first.Position.x - pos.x);
+        var dy = (first.Position.y - pos.y);
+        var fDir = dirs.FindIndex(d => d.Equals(-new Vector2Int(dx, dy)));
+
+        if (fDir < 0 || fDir >= dirs.Count)
+            return;
+
+        if (e.target is MainView)
+        {
+            first.SetConnection("Wall", fDir);
+            return;
+        }
+
         var tile = e.target as SchemaTileView;
+
         if (tile == null)
             return;
 
         var second = tile.Data;
 
-        var r1 = module.GetArea(first.Position);
         var r2 = module.GetArea(second.Position);
         if (r1.Equals(r2))
             return;
 
-        var dx = (first.Position.x - second.Position.x);
-        var dy = (first.Position.y - second.Position.y);
 
         if (Mathf.Abs(dx) + Mathf.Abs(dy) > 1f)
             return;
 
-        var fDir = dirs.FindIndex(d => d.Equals(-new Vector2Int(dx, dy)));
         var tDir = dirs.FindIndex(d => d.Equals(new Vector2Int(dx, dy)));
 
         first.SetConnection("Wall", fDir);
