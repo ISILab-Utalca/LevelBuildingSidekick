@@ -25,6 +25,8 @@ public class MapEliteWindow : EditorWindow
         window.Clear();
     }
 
+    public Texture2D img, img2, img3;
+
 
     public int ButtonSize = 128; //Should be a RangeSlider field(!!!)
 
@@ -47,8 +49,11 @@ public class MapEliteWindow : EditorWindow
     public Texture2D defaultButton;
 
     public ClassFoldout FitnessField;
-    public ClassFoldout EvaluatorFieldX; //Deberian ser su propia clase con un Type para actualizar opciones(!)
+    public ClassFoldout EvaluatorFieldX;
     public ClassFoldout EvaluatorFieldY;
+
+    public MinMaxSlider XThreshold;
+    public MinMaxSlider YThreshold;
 
 
     private Color Paused;
@@ -64,6 +69,10 @@ public class MapEliteWindow : EditorWindow
 
     public void CreateGUI()
     {
+        img = DirectoryTools.SearchAssetByName<Texture2D>("ButtonWrapper (1)");
+        img2 = DirectoryTools.SearchAssetByName<Texture2D>("ButtonWrapper (2)");
+        img3 = DirectoryTools.SearchAssetByName<Texture2D>("ButtonWrapper (3)");
+
         toUpdate = new List<Vector2Int>();
         VisualElement root = rootVisualElement;
 
@@ -100,6 +109,17 @@ public class MapEliteWindow : EditorWindow
 
         this.Partitions.RegisterValueChangedCallback(x => ChangePartitions(x.newValue));
 
+        this.XThreshold = root.Q<MinMaxSlider>("XThreshold");
+        XThreshold.minValue = mapElites.XThreshold.x;
+        XThreshold.maxValue = mapElites.XThreshold.y;
+        XThreshold.RegisterValueChangedCallback((evt) => mapElites.XThreshold = evt.newValue);
+
+
+        this.YThreshold = root.Q<MinMaxSlider>("YThreshold");
+        YThreshold.minValue = mapElites.YThreshold.x;
+        YThreshold.maxValue = mapElites.YThreshold.y;
+        YThreshold.RegisterValueChangedCallback((evt) => mapElites.YThreshold = evt.newValue);
+
 
         OptimizerField.Type = typeof(BaseOptimizer);
         OptimizerField.value = OptimizerField.choices[0];
@@ -130,6 +150,7 @@ public class MapEliteWindow : EditorWindow
             ve.SetLayer(layer);
         });
 
+        /*
         if (mapElites.YEvaluator != null)
             EvaluatorFieldY.dropdown.value = mapElites.YEvaluator.ToString();
         EvaluatorFieldY.dropdown.RegisterValueChangedCallback(e => {
@@ -138,7 +159,7 @@ public class MapEliteWindow : EditorWindow
             var value = ve.Evaluator;
             mapElites.YEvaluator = value as IRangedEvaluator;
             ve.SetLayer(layer);
-        });
+        });*/
 
         this.FitnessField = root.Q<ClassFoldout>("FitnessField");//new ClassDropDown(typeof(IEvaluator), true);
         FitnessField.dropdown.Type = typeof(IRangedEvaluator);
@@ -147,15 +168,31 @@ public class MapEliteWindow : EditorWindow
         if (mapElites.Optimizer != null && mapElites.Optimizer.Evaluator != null)
             FitnessField.dropdown.value = mapElites.Optimizer.Evaluator.ToString();
         FitnessField.dropdown.RegisterValueChangedCallback(e => {
+            labelY.text = (e != null) ? e.newValue : "Fitness";
             var ve = (FitnessField.content as EvaluatorVE);
             var value = ve.Evaluator;
             mapElites.Optimizer.Evaluator = value as IRangedEvaluator;
+            mapElites.YEvaluator = value as IRangedEvaluator;
             ve.SetLayer(layer);
         });
 
 
 
         mapElites.OnSampleUpdated += UpdateSample;
+
+        
+        mapElites.OnEnd += () =>
+        {
+            // set all wrapper to loading icon
+            foreach (ButtonWrapper bw in Content)
+            {
+                if (bw.Data == null)
+                {
+                    bw.style.backgroundImage = img2;
+                }
+            }
+        };
+        
 
         this.Partitions.value = new Vector2(3,3);
         ButtonBackground = defaultButton;
@@ -166,7 +203,7 @@ public class MapEliteWindow : EditorWindow
         toUpdate.Clear();
 
         Paused = root.style.backgroundColor.value;
-        Running = Color.blue;
+        Running = new Color(0.22f,0.22f,0.36f);//Color.blue;
     }
 
     public void Run()
@@ -174,10 +211,20 @@ public class MapEliteWindow : EditorWindow
         Clear();
         toUpdate.Clear();
 
+        // set all wrapper to loading icon
+        foreach (ButtonWrapper bw in Content)
+        {
+            bw.style.backgroundImage = img3;
+            bw.Data = null;
+            bw.Text = "";
+            bw.UpdateLabel();
+        }
+
+
         var module = layer.GetModule<LBSModule>(ModuleField.value);
 
         (EvaluatorFieldX.content as EvaluatorVE).Init();
-        (EvaluatorFieldY.content as EvaluatorVE).Init();
+        //(EvaluatorFieldY.content as EvaluatorVE).Init();
         (FitnessField.content as EvaluatorVE).Init();
 
         var adam = CreateAdam(module);
@@ -254,18 +301,21 @@ public class MapEliteWindow : EditorWindow
             Container.Add(b);
         }
 
-        Content.ToList().ForEach(b => b.style.backgroundImage = ButtonBackground);
+        Content.ToList().ForEach(b => b.style.backgroundImage = img);
     }
 
     public void UpdateSample(Vector2Int coords)
     {
-        var index = (coords.y * mapElites.XSampleCount + coords.x); // C# matrixes are transposed :C
-        if(Content[index].Data != null && (Content[index].Data as IOptimizable).Fitness > mapElites.BestSamples[coords.x, coords.y].Fitness)
+        var index = (coords.y * mapElites.XSampleCount + coords.x);
+        if(Content[index].Data != null && (Content[index].Data as IOptimizable).Fitness > mapElites.BestSamples[coords.y, coords.x].Fitness)
         {
             return;
         }
-        Content[index].Data = mapElites.BestSamples[coords.x, coords.y];
-        Content[index].Text =  ((decimal)mapElites.BestSamples[coords.x, coords.y].Fitness).ToString("f4");
+        Content[index].Data = mapElites.BestSamples[coords.y, coords.x];
+        Content[index].Text =  ((decimal)mapElites.BestSamples[coords.y, coords.x].Fitness).ToString("f4");
+
+
+
         lock (locker)
         {
             if (!toUpdate.Contains(coords))
@@ -275,6 +325,12 @@ public class MapEliteWindow : EditorWindow
 
     public void Clear()
     {
+        foreach (var button in Content)
+        {
+            button.style.backgroundImage = img;
+        }
+
+        /*
         ButtonBackground = BackgroundTexture(backgroundModule);
         foreach (ButtonWrapper bw in Content)
         {
@@ -283,6 +339,7 @@ public class MapEliteWindow : EditorWindow
             bw.Text = "";
             bw.UpdateLabel();
         }
+        */
     }
 
     private Texture2D BackgroundTexture(LBSModule mod)
@@ -317,7 +374,15 @@ public class MapEliteWindow : EditorWindow
                 var v = toUpdate[i]; 
                 var index = (v.y * mapElites.XSampleCount + v.x);
                 var t = Content[index].GetTexture();
-                Content[index].SetTexture(ButtonBackground.MergeTextures(t));
+                if (Content[index].Data != null)
+                {
+                    ButtonBackground = BackgroundTexture(backgroundModule);
+                    Content[index].SetTexture(ButtonBackground.MergeTextures(t));
+                }
+                else
+                {
+                    Content[index].SetTexture(img3);
+                }
                 Content[index].UpdateLabel();
             }
             toUpdate.Clear();
@@ -332,6 +397,9 @@ public class MapEliteWindow : EditorWindow
         {
             rootVisualElement.style.backgroundColor = Paused;
         }
+
+        
+        
     }
 
 
