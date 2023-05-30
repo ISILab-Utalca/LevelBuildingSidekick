@@ -34,6 +34,8 @@ namespace LBS.Generator
                     -scale.y * k.Position.y) + new Vector3(scale.x, 0, -scale.y)/2;
             }
 
+            parent.transform.position = position;
+
             return parent;
         }
 
