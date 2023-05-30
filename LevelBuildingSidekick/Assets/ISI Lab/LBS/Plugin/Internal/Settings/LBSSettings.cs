@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -55,16 +56,33 @@ namespace LBS.Settings
         public string Generator3DPresetFolderPath = "Assets/ISI Lab/LBS/Presets/Generators3D";
         public string bundlesPresetFolderPath = "Assets/ISI Lab/LBS/Presets/Bundles";
 
+        public General general = new General();
         public Modules modules = new Modules();
         public Layers layers = new Layers();
         public Generators3D generator3D = new Generators3D();
         public Assisstants assisstent = new Assisstants();
 
+        [SerializeField]
+        Vector2 tileSize = new Vector2(50, 50);
+        public Vector2 TileSize
+        {
+            get => tileSize;
+            set => tileSize = value;
+        }
+
+        [System.Serializable]
+        public class General
+        {
+            public float zoomMax = 10;
+            public float zoomMin = 0.1f;
+
+            public Action<float, float> OnChangeZoomValue;
+        }
+
         [System.Serializable]
         public class Modules
         {
             //Teselation
-            public Vector2 tileSize = new Vector2(100,100);
         }
 
         [System.Serializable]
