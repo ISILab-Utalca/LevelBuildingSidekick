@@ -77,6 +77,8 @@ public abstract class ManipulateTeselation<T> : LBSManipulator where T : LBSTile
     public override void Init(ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
     {
         this.module = layer.GetModule<TileMapModule<T>>();
+        feedback.TeselationSize = layer.TileSize;
+        layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
         this.mainView = view;
     }
 
