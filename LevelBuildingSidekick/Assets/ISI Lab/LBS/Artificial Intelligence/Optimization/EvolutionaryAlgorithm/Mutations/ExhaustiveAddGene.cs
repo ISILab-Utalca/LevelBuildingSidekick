@@ -12,18 +12,23 @@ public class ExhaustiveAddGene : MutationBase
     protected override void PerformMutate(ChromosomeBase chromosome, float probability)
     {
         var r = RandomizationProvider.Current;
-        var genes = chromosome.GetGenes().Where(g => g != null).Distinct().ToList();
+        var genes = chromosome.GetGenes().Where(g => g != null).Distinct().ToList(); //Distinct is not doing anything
+
+        if (genes.Count == 0)
+            return;
 
         for (int i = 0; i < chromosome.Length; i++)
         {
             if (chromosome.IsImmutable(i))
                 continue;
-            if(chromosome.GetGene(i) != default)
+            if(chromosome.GetGene(i) == default)
             {
                 var d = r.GetDouble();
                 if (d < probability)
                 {
-                    chromosome.ReplaceGene(i, (genes[r.GetInt(0, genes.Count)] as ICloneable).Clone());
+                    var index = r.GetInt(0, genes.Count);
+                    var gen = (genes[index] as ICloneable).Clone();
+                    chromosome.ReplaceGene(i, gen);
                 }
             }
         }
