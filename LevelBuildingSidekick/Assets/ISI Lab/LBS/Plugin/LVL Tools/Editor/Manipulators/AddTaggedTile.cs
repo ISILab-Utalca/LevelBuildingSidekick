@@ -10,7 +10,7 @@ public class AddTaggedTile : ManipulateTaggedTileMap
     {
         OnManipulationStart?.Invoke();
 
-        var pos = mainView.ToTileCords(mainView.FixPos(e.localMousePosition));
+        var pos = this.module.Owner.ToFixedPosition(mainView.FixPos(e.localMousePosition));
         var t = new LBSTile(pos, "Tile: " + pos);
         module.AddTile(t, bundleToSet);
 
