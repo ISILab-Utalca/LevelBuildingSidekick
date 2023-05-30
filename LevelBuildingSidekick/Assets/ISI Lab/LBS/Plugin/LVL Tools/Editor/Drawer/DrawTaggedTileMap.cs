@@ -1,4 +1,5 @@
 using LBS.Components;
+using LBS.Settings;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ public class DrawTaggedTileMap : Drawer
             var bundle = tilemap.GetBundleData(k);
             var tView = new TileView(k);
             tView.style.backgroundImage = Utility.DirectoryTools.GetScriptable<LBSIdentifier>(bundle.BundleTag).Icon;
-            var size = view.TileSize;
+            var size = LBSSettings.Instance.TileSize * layer.TileSize;
             tView.SetPosition(new Rect(k.Position * size, size));
             view.AddElement(tView);
         }
