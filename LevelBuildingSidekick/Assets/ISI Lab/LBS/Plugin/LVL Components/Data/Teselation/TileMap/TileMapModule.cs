@@ -33,13 +33,6 @@ namespace LBS.Components.TileMap
             }
         }
 
-
-        [JsonIgnore]
-        public new Vector2 CellSize
-        {
-            get => TeselationModule.CellSize;
-        }
-
         [JsonIgnore]
         public Vector2 Size => GetBounds().size;
 
@@ -217,12 +210,12 @@ namespace LBS.Components.TileMap
 
         public override void OnAttach(LBSLayer layer)
         {
-            //throw new System.NotImplementedException();
+
         }
 
         public override void OnDetach(LBSLayer layer)
         {
-            throw new System.NotImplementedException();
+
         }
 
         public override Rect GetBounds()
@@ -280,6 +273,11 @@ namespace LBS.Components.TileMap
         public override void Rewrite(LBSModule module)
         {
             throw new System.NotImplementedException();
+        }
+
+        public override void OnReload(LBSLayer layer)
+        {
+
         }
 
         #endregion
