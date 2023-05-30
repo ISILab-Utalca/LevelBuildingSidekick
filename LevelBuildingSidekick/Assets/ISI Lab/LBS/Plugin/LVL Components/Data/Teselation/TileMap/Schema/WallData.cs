@@ -7,7 +7,7 @@ using UnityEngine;
 
 
 [Serializable]
-internal class WallData : ICloneable // esto no corresponde a una muralla como tal sino que a los tiles de borde de una habitacion
+public class WallData : ICloneable // esto no corresponde a una muralla como tal sino que a los tiles de borde de una habitacion
 {
     #region FIELDS
 
