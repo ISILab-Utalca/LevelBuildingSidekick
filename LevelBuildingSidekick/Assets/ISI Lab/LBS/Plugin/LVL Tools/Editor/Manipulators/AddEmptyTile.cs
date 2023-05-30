@@ -17,8 +17,8 @@ public class AddEmptyTile<T> : ManipulateTeselation<T> where T : LBSTile
 
     protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
     {
-        var min = MainView.ToTileCords(Vector2Int.Min(StartPosition, EndPosition));
-        var max = MainView.ToTileCords(Vector2Int.Max(StartPosition, EndPosition));
+        var min = this.module.Owner.ToFixedPosition(Vector2Int.Min(StartPosition, EndPosition));
+        var max = this.module.Owner.ToFixedPosition(Vector2Int.Max(StartPosition, EndPosition));
 
         for (int i = min.x; i <= max.x; i++)
         {
