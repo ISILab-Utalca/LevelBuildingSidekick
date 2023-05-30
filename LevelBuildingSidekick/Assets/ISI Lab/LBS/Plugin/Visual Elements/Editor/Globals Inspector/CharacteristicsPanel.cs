@@ -42,19 +42,11 @@ public class CharacteristicsPanel : VisualElement
         content.Clear();
         var characs = target.Characteristics;
 
-        var cs = Utility.Reflection.GetClassesWith<LBSCustomEditorAttribute>();
-        foreach (var charac in characs)
+        foreach (var characteristic in characs)
         {
-            var relation = cs.Find(t => t.Item2.ToList()[0].type == charac.GetType());
-            var editor = Activator.CreateInstance(relation.Item1) as LBSCustomEditor;
-
-            if (editor == null)
-                editor = new LBSNullEditor();
-
-            var _base = new CharacteristicsBaseView();
-            editor.SetInfo(charac);
-            _base.SetContent(target,editor);
-            content.Add(_base);
+            var view = new CharacteristicsBaseView();
+            view.SetContent(characteristic);
+            content.Add(view);
         }
     }
 }
