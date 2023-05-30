@@ -8,21 +8,27 @@ using UnityEngine.UIElements;
 
 public class LayersPanel : VisualElement
 {
+    #region FACTORY
     public new class UxmlFactory : UxmlFactory<LayersPanel, VisualElement.UxmlTraits> { }
+    #endregion
 
+    #region FIELDS
     public LBSLevelData data;
-
-    private ListView list;
-    private TextField nameField;
-    private DropdownField typeDropdown;
-
-    // Events
-    public event Action<LBSLayer> OnAddLayer;
-    public event Action<LBSLayer> OnRemoveLayer;
-    public event Action<LBSLayer> OnSelectLayer;
 
     // templates
     private List<LayerTemplate> templates;
+    #endregion
+
+    #region FIELD VIEW
+    private ListView list;
+    private TextField nameField;
+    private DropdownField typeDropdown;
+    #endregion
+
+    #region EVENTS
+    public event Action<LBSLayer> OnAddLayer;
+    public event Action<LBSLayer> OnRemoveLayer;
+    public event Action<LBSLayer> OnSelectLayer;
 
     private Action onLayerVisibilityChange;
 
@@ -31,7 +37,9 @@ public class LayersPanel : VisualElement
         add => onLayerVisibilityChange += value;
         remove => onLayerVisibilityChange += value;
     }
+    #endregion
 
+    #region CONSTRUCTORS
     public LayersPanel() { }
 
     public LayersPanel(ref LBSLevelData data, ref List<LayerTemplate> templates)
@@ -52,6 +60,9 @@ public class LayersPanel : VisualElement
 
         list.bindItem += (item, index) =>
         {
+            if (index >= this.data.LayerCount)
+                return;
+
             var view = (item as LayerView);
             var layer = this.data.GetLayer(index);
             view.SetInfo(layer);
@@ -80,7 +91,9 @@ public class LayersPanel : VisualElement
         var RemoveSelectedBtn = this.Q<Button>("RemoveSelectedButton");
         RemoveSelectedBtn.clicked += RemoveSelectedLayer;
     }
+    #endregion
 
+    #region METHODS
     private LBSLayer CreateLayer(int index)
     {
         var layers = templates.Select(t => t.layer).ToList();
@@ -135,4 +148,5 @@ public class LayersPanel : VisualElement
     {
         Debug.Log("OIC");
     }
+    #endregion
 }
