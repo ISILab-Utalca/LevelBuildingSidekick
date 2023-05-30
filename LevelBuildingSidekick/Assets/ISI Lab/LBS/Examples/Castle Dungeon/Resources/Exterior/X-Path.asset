@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95a9e63de28b9dc40aa55a3c1f124e76, type: 3}
+  m_Name: X-Path
+  m_EditorClassIdentifier: 
+  id: {fileID: 0}
+  characteristics: []
+  weight: 0.4
+  directions:
+    tags:
+    - Path_
+    - Path_
+    - Path_
+    - Path_
+  Pref:
+  - weight: 1
+    gameObject: {fileID: 8985262968786123863, guid: bb8975f35fa81ca489fe0b77709396b3, type: 3}
+  - weight: 1
+    gameObject: {fileID: 5591715555237077460, guid: 735e42e8c63962c4fa02cc3b8c851097, type: 3}
+  - weight: 0.2
+    gameObject: {fileID: 2728034937134865143, guid: 3f298bb8743ba7448b324c55d856c573, type: 3}
+  - weight: 0.2
+    gameObject: {fileID: 2207120468864375576, guid: 47f5616e8d3cd6f45a6accd62874a284, type: 3}
+  references:
+    version: 2
+    RefIds: []

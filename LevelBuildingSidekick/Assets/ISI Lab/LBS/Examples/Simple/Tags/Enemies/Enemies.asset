@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: Enemies
   m_EditorClassIdentifier: 
   tags:
-  - {fileID: 11400000, guid: 560e713e6c53d0b4f9ae9a9a5d8d18bf, type: 2}
+  - Goblin
+  - Kobold
+  - Troll
