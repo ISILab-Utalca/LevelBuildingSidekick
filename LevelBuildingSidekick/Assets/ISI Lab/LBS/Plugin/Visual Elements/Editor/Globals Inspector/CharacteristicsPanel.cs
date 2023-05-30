@@ -46,15 +46,15 @@ public class CharacteristicsPanel : VisualElement
         foreach (var charac in characs)
         {
             var relation = cs.Find(t => t.Item2.ToList()[0].type == charac.GetType());
-            var editor = Activator.CreateInstance(cs[0].Item1) as LBSCustomEditor;
+            var editor = Activator.CreateInstance(relation.Item1) as LBSCustomEditor;
 
             if (editor == null)
                 editor = new LBSNullEditor();
 
+            var _base = new CharacteristicsBaseView();
             editor.SetInfo(charac);
-            content.Add(editor);
+            _base.SetContent(target,editor);
+            content.Add(_base);
         }
-        
-
     }
 }

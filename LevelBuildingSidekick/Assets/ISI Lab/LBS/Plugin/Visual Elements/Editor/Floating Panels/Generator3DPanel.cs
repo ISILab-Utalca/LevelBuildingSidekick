@@ -6,6 +6,7 @@ using LBS.Generator;
 using LBS.Components;
 using LBS;
 using System;
+using UnityEditor;
 
 public class Generator3DPanel : VisualElement
 {
@@ -110,8 +111,8 @@ public class Generator3DPanel : VisualElement
         generator.Resize = resize.value;
         generator.Scale = scale.value;
 
-        generator.Generate(this.layer);
-
+        var obj = generator.Generate(this.layer);
+        Undo.RegisterCreatedObjectUndo(obj, "Create my GameObject");
     }
 
 
