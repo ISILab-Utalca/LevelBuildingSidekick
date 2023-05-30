@@ -66,12 +66,14 @@ public class Generator3DPanel : VisualElement
         if(layer != null)
         {
             generator = layer.Assitant.Generator;
-            if(generator != null)
+            if (generator != null)
             {
                 dropDown.Value = generator.GetType().Name;
-                scale.value = generator.Resize;
+                scale.value = layer.TileSize;
+                //scale.value = generator.Resize;
                 position.value = generator.Position;
-                objName.value = generator.ObjName;
+                objName.value = layer.Name + " G.O.";
+                //objName.value = generator.ObjName;
                 resize.value = generator.Resize;
             }
         }
