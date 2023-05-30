@@ -1,4 +1,5 @@
 using LBS.Components;
+using LBS.Settings;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,13 +17,9 @@ public class MainView : GraphView
     
     private ExternalBounds visualBound;
     private List<Manipulator> manipulators = new List<Manipulator>();
-    private Vector2 tileSize = new Vector2(100, 100);
     
     #endregion
 
-    #region PROPERTIES
-    public Vector2 TileSize => tileSize;
-    #endregion
 
     #region EVENTS
 
@@ -41,7 +38,7 @@ public class MainView : GraphView
         style.flexGrow = 1;
 
         SetBasicManipulators();
-        InitBound(4000,10000);
+        InitBound(20000,int.MaxValue/2);
 
         AddElement(visualBound);
 
@@ -53,12 +50,24 @@ public class MainView : GraphView
 
     public void SetBasicManipulators() // necesario aqui (?)
     {
-        var manis = new List<Manipulator>() {
-                new ContentZoomer(),
-                new ContentDragger(),
-                new SelectionDragger(),
-            };
+        var setting = LBSSettings.Instance.general;
 
+        var zoomer = new ContentZoomer();
+
+        setting.OnChangeZoomValue = (min, max) =>
+        {
+            Debug.Log("change zoom");
+            zoomer.maxScale = setting.zoomMax;
+            zoomer.minScale = setting.zoomMin;
+        };
+
+        zoomer.maxScale = setting.zoomMax;
+        zoomer.minScale = setting.zoomMin;
+
+        var cDragger = new ContentDragger();
+        var sDragger = new SelectionDragger();
+
+        var manis = new List<Manipulator>() { zoomer, cDragger, sDragger };
         SetManipulators(manis);
     }
 
@@ -143,30 +152,16 @@ public class MainView : GraphView
         return vv;
     }
 
-    public Vector2Int ToTileCords(Vector2 vec)
-    {
-        var nPos = new Vector2Int((int)(vec.x / tileSize.x), (int)(vec.y / tileSize.y));
-
-        if (vec.x < 0)
-            nPos.x -= 1;
-
-        if (vec.y < 0)
-            nPos.y -= 1;
-
-        return nPos;
-    }
-
     private void InitBound(int interior, int exterior)
     {
-        var dif = exterior - interior;
         this.visualBound = new ExternalBounds(
             new Rect(
                 new Vector2(-interior, -interior),
-                new Vector2(interior, interior)
+                new Vector2(interior * 2, interior * 2)
                 ),
             new Rect(
                 new Vector2(-exterior, -exterior),
-                new Vector2(exterior, exterior)
+                new Vector2(exterior * 2, exterior * 2)
                 )
             );
     }
