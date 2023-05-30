@@ -37,7 +37,7 @@ public class AreaFeedback : Feedback
             endPosition = CalcFixTeselation(endPosition);
 
             startPosition = (startPosition * TeselationSize) + StartOffset;
-            endPosition = (endPosition * TeselationSize) + EndOffset;
+            endPosition = ((endPosition) * TeselationSize) + TeselationSize;
         }
 
         this.MarkDirtyRepaint();
