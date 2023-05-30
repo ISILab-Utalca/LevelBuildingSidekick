@@ -27,7 +27,7 @@ public class LBSMainWindow : EditorWindow
     private VisualElement extraPanel;
     private VisualElement noLayerSign;
     private ModeSelector modeSelector;
-    private MainView mainView;
+    private MainView mainView; // work canvas
     private Label selectedLabel;
     private VisualElement floatingPanelContent;
 
@@ -133,7 +133,6 @@ public class LBSMainWindow : EditorWindow
             drawManager.RefreshView(ref _selectedLayer, levelData.Layers, _selectedMode);
         };
 
-
         // ExtraPanel
         extraPanel = rootVisualElement.Q<VisualElement>("ExtraPanel");
 
@@ -163,6 +162,7 @@ public class LBSMainWindow : EditorWindow
             if (!layer.Equals(_selectedLayer))
             {
                 OnSelectedLayerChange(layer);
+                gen3DPanel.Init(layer);
             }
 
             if (_selectedLayer != null)
