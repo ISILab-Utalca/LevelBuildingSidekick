@@ -31,8 +31,8 @@ public class ConectedLine : Feedback
             startPosition = CalcFixTeselation(startPosition);
             endPosition = CalcFixTeselation(endPosition);
 
-            startPosition = (startPosition * TeselationSize) + StartOffset;
-            endPosition = (endPosition * TeselationSize) + EndOffset;
+            startPosition = (startPosition * TeselationSize) + TeselationSize.Multiply(0.5f);
+            endPosition = (endPosition * TeselationSize) + TeselationSize.Multiply(0.5f);
         }
 
         this.MarkDirtyRepaint();
