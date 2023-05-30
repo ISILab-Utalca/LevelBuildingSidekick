@@ -195,7 +195,7 @@ public class Bundle : ScriptableObject, ICloneable
     #endregion
 
     #region STATIC FUNCTIONS
-    private static bool IsRecursive(Bundle parent, Bundle child)
+    private static bool IsRecursive(Bundle parent, Bundle child) // mover a extensions (!)
     {
         if (parent == child)
             return true;
