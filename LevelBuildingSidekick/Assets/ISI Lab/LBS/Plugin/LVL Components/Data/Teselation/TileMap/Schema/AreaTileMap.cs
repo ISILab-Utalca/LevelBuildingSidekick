@@ -140,11 +140,30 @@ namespace LBS.Components.TileMap
             return areas.Remove(area);
         }
 
-        public int GetRoomDistance(string r1, string r2) // O2 - manhattan
+        public float GetRoomDistance(string r1, string r2) // O2 - manhattan
         {
-            var lessDist = int.MaxValue;
+            var lessDist = float.MaxValue;
+            
             var room1 = GetArea(r1);
             var room2 = GetArea(r2);
+
+            /*
+            var tileWalls1 = room1.GetWalls().SelectMany(x => x.Tiles).ToList();
+            var tileWalls2 = room2.GetWalls().SelectMany(x => x.Tiles).ToList();
+
+            for (int i = 0; i < tileWalls1.Count; i++)
+            {
+                for (int j = 0; j < tileWalls2.Count; j++)
+                {
+                    var dist = Vector2Int.Distance(tileWalls1[i], tileWalls2[j]);
+                    if (dist <= lessDist)
+                    {
+                        lessDist = dist;
+                    }
+                }
+            }
+            return lessDist;
+            */
             for (int i = 0; i < room1.TileCount; i++)
             {
                 var dist = room2.GetDistance(room1.GetTile(i).Position);
@@ -175,7 +194,7 @@ namespace LBS.Components.TileMap
         public override object Clone()
         {
             var atm = new AreaTileMap<T>();
-            var nAreas = areas.Select(a => a.Clone() as T).ToList();// el "as" puede causar problemas
+            var nAreas = areas.Cast<T>(); // el "as" puede causar problemas
             foreach (var nArea in nAreas)
             {
                 atm.AddArea(nArea);
@@ -186,16 +205,21 @@ namespace LBS.Components.TileMap
 
         public override void OnAttach(LBSLayer layer)
         {
-            //throw new NotImplementedException();
+
         }
 
         public override void OnDetach(LBSLayer layer)
         {
-            //throw new NotImplementedException();
+
         }
 
         public override Rect GetBounds()
         {
+            if(Areas.Count() <= 0)
+            {
+                return new Rect(0,0,1,1);
+            }
+
             var x = Areas.Min(a => a.GetBounds().min.x);
             var y = Areas.Min(a => a.GetBounds().min.y);
             var width = Areas.Max(a => a.GetBounds().max.x) - x;
@@ -252,6 +276,11 @@ namespace LBS.Components.TileMap
         public override void Rewrite(LBSModule module)
         {
             throw new NotImplementedException();
+        }
+
+        public override void OnReload(LBSLayer layer)
+        {
+
         }
 
         #endregion
