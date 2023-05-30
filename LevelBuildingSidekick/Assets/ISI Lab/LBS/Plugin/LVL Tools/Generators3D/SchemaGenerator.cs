@@ -87,7 +87,7 @@ public class SchemaGenerator : Generator3D
                 wall.transform.rotation = Quaternion.Euler(0, -(90 * (k + 1)) % 360, 0);
             }
         }
-        pivot.transform.position = new Vector3(scale.x * tile.Position.x, 0, -scale.y * tile.Position.y);
+        pivot.transform.position = new Vector3(scale.x * tile.Position.x, 0, -scale.y * tile.Position.y) + new Vector3(scale.x, 0, -scale.y) / 2;
     }
 
     public override void Init(LBSLayer layer)
