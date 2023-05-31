@@ -76,10 +76,12 @@ public class ComplexDropdown : VisualElement
             try
             {
                 OnSelected?.Invoke(Activator.CreateInstance(selected.type));
+
             }
             catch(Exception ex)
             {
-                Debug.Log("[ISI Lab]: The '" + selected.type + "' class does not have a base parameterless constructor.");
+                var x = ex.Message;
+                Debug.LogWarning("<color=#ff0000ff><b>[ISI Lab]</b></color>: The '" + selected.type + "' class does not have a base parameterless constructor.");
             }
         };
 
