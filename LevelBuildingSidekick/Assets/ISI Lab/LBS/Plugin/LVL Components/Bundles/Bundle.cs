@@ -53,10 +53,23 @@ public class Bundle : ScriptableObject, ICloneable
     public List<LBSCharacteristic> Characteristics => new List<LBSCharacteristic>(characteristics);
 
     [SerializeField]
-    public bool IsLeaf => childsBundles.Count <= 0;
+    public bool IsLeaf => (childsBundles.Count <= 0);
     #endregion
 
     #region METHODS
+    public void Reload()
+    {
+        foreach (var child in childsBundles)
+        {
+            child.Reload();
+        }
+
+        foreach (var characteristic in characteristics)
+        {
+            characteristic.Init(this);
+        }
+    }
+
     public void AddChild(Bundle child)
     {
         if(IsRecursive(this, child))
