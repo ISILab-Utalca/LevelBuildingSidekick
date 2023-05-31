@@ -31,6 +31,11 @@ public class LBSDirectionedGroup : LBSCharacteristic, ICloneable
     [JsonIgnore]
     public List<LBSDirection> Connections => connections.Select( t=> t.Item2).ToList();
 
+    public LBSDirectionedGroup()
+    {
+
+    }
+
     public override void OnEnable()
     {
         Owner.OnAddChild += OnAddAssetToOwner;
