@@ -26,11 +26,11 @@ public class CharacteristicsPanel : VisualElement
 
         search = this.Q<ComplexDropdown>();
         search.Init(typeof(LBSCharacteristicAttribute));
-        search.OnSelected = (e) => {
+        search.OnSelected = (e) => 
+        {
             var x = e as LBSCharacteristic;
             target.AddCharacteristic(x);
             SetInfo(target);
-            Debug.Log("On add charac");
             AssetDatabase.SaveAssets();
         };
     }
