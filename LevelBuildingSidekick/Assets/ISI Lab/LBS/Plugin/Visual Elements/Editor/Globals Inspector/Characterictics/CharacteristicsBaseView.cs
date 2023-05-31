@@ -35,6 +35,7 @@ public class CharacteristicsBaseView : VisualElement
         {
             var bundle = characteristic.Owner;
             bundle.RemoveCharacteristic(characteristic);
+            this.parent.Remove(this);
         };
 
         nameLabel = this.Q<Label>("Name");
