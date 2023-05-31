@@ -16,7 +16,7 @@ public abstract class LBSCharacteristic : ICloneable
     [HideInInspector, JsonIgnore]
     public Bundle Owner => owner;
 
-    [JsonRequired]//, SerializeField]
+    [JsonRequired, SerializeField]
     protected string label = "";
 
     [JsonIgnore]
