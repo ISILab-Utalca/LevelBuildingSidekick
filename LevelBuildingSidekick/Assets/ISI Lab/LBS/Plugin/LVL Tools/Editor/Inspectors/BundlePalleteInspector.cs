@@ -43,10 +43,10 @@ public class BundlePalleteInspector : LBSInspector
     public void RefreshPallete(int index, List<IManipulatorLBS> lBSManipulators)
     {
         content.Clear();
-
-        var bundles = Utility.DirectoryTools.GetScriptables<Bundle_Old>();
+        var storage = LBSAssetsStorage.Instance;
+        var bundles = storage.Get<Bundle>();
         var tags = idBundles[index].Tags;
-        var ids = tags.Select(id => id.Label).ToList();
+        var ids = tags.Select(id => id?.Label).ToList();
         bundles = bundles.Where(b => ids.Contains(b.ID?.Label)).ToList();
 
         foreach (var b in bundles)
