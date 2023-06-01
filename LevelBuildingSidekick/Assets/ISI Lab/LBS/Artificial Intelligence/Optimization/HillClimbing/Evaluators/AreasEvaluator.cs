@@ -20,18 +20,20 @@ public class AreasEvaluator : IEvaluator
 
     private float EvaluateBySize(RoomNode node, TiledArea room)
     {
-        var DeltaW = node.Room.Width;
-        var DeltaH = node.Room.Height;
         var vw = 1f;
-        if (room.Width < DeltaW - delta.x || room.Width > DeltaW + delta.x)
+        if (room.Width != node.Room.Width)
         {
-            vw -= (Mathf.Abs(node.Room.Width - room.Width) / ((float)node.Room.Width * 1f));
+            vw = room.Width / (float)node.Room.Width;
+            if (vw > 1)
+                vw = 1 / vw;
         }
 
         var vh = 1f;
-        if (room.Height < DeltaH - delta.y || room.Height > DeltaH + delta.y)
+        if (room.Height != node.Room.Height)
         {
-            vh -= (Mathf.Abs(node.Room.Height - room.Height) / ((float)node.Room.Height * 1f));
+            vh = room.Height / (float)node.Room.Height;
+            if (vh > 1)
+                vh = 1 / vh;
         }
 
         return (vw + vh) / 2f;
