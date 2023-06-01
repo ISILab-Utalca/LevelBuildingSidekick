@@ -14,6 +14,7 @@ public class CharacteristicsPanel : VisualElement
 
     private VisualElement content;
     private ComplexDropdown search;
+    private Foldout foldout;
 
     private Bundle target;
 
@@ -23,6 +24,11 @@ public class CharacteristicsPanel : VisualElement
         visualTree.CloneTree(this);
 
         content = this.Q<VisualElement>("Content");
+
+        foldout = this.Q<Foldout>();
+        foldout.RegisterCallback<ChangeEvent<bool>>(e => {
+            content.SetDisplay(e.newValue);
+        });
 
         search = this.Q<ComplexDropdown>();
         search.Init(typeof(LBSCharacteristicAttribute));
