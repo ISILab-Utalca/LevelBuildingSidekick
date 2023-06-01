@@ -55,7 +55,12 @@ public class LBSDirectionedGroup : LBSCharacteristic, ICloneable
 
     public override object Clone()
     {
-        Owner.ChildsBundles.ForEach( b => AddTilesChild(b, b.GetCharacteristic<LBSDirection>()));
+        var childs = Owner.ChildsBundles;
+        childs.ForEach( b => 
+        {
+            var c = b.GetCharacteristic<LBSDirection>();
+            AddTilesChild(b, c);
+        });
         return new LBSDirectionedGroup();
     }
 
