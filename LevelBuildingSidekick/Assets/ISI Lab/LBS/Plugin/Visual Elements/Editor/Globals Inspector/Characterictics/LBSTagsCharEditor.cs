@@ -4,15 +4,15 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-[LBSCustomEditor(typeof(LBSTagsCharacteristic))]
-public class TagsCharEditor : LBSCustomEditor
+[LBSCustomEditor("Tag identifier", typeof(LBSTagsCharacteristic))]
+public class LBSTagsCharEditor : LBSCustomEditor
 {
     public TextField labelField;
     public DropdownField dropdownField;
 
     public LBSTagsCharacteristic target;
 
-    public TagsCharEditor()
+    public LBSTagsCharEditor()
     {
         var storage = LBSAssetsStorage.Instance;
 
@@ -22,7 +22,7 @@ public class TagsCharEditor : LBSCustomEditor
             target.Label = labelField.value;
         });
 
-        dropdownField = new DropdownField();
+        dropdownField = new DropdownField("Value:");
         this.Add(dropdownField);
         var tags = storage.Get<LBSIdentifier>();
         dropdownField.choices = tags.Select(t => t.Label).ToList();

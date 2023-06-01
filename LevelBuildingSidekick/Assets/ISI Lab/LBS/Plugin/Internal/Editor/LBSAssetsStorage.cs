@@ -57,6 +57,7 @@ public class LBSAssetsStorage : ScriptableObject
     #region METHODS
     public List<T> Get<T>() where T : Object
     {
+        CleanAllEmpties();
         foreach (var group in groups)
         {
             if(group.type.Equals(typeof(T).FullName))

@@ -36,7 +36,7 @@ public abstract class LBSCharacteristic : ICloneable
 
     public override bool Equals(object obj)
     {
-        return obj is LBSCharacteristic && (obj as LBSCharacteristic)?.label == label;
+        return base.Equals(obj); //obj is LBSCharacteristic && (obj as LBSCharacteristic)?.label == label;
     }
 
     public override int GetHashCode()

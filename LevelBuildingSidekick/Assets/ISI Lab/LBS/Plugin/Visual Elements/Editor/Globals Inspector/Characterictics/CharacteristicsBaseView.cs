@@ -71,7 +71,7 @@ public class CharacteristicsBaseView : VisualElement
         else
         {
             editor = Activator.CreateInstance(relation.Item1) as LBSCustomEditor;
-            this.nameLabel.text = relation.Item1.Name;
+            this.nameLabel.text = relation.Item2.ToList()[0].name;
             this.icon.style.backgroundImage = null; // implementar esto en LBSCustomEditorAttribute (!!!)
         }
 

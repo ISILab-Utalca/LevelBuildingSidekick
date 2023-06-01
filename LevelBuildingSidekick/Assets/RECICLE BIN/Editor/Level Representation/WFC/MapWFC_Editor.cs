@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-[LBSCustomEditor(typeof(MapWFC))]
+[LBSCustomEditor("Map WFC", typeof(MapWFC))]
 public class MapWFC_Editor : Editor
 {
     public Texture locked, unlocked,free;

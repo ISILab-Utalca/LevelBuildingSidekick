@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-[LBSCustomEditor(typeof(LayerTemplate))]
+[LBSCustomEditor("Layer template",typeof(LayerTemplate))]
 public class LayerTemplateEditor : Editor
 {
     void OnEnable()

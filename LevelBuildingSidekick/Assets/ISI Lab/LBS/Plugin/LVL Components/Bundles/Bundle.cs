@@ -161,7 +161,7 @@ public class Bundle : ScriptableObject, ICloneable
 
     public void RemoveCharacteristic(LBSCharacteristic characterictic)
     {
-        if(characteristics.Remove(characterictic))
+        if (characteristics.Remove(characterictic))
         {
             OnRemoveCharacteristic?.Invoke(characterictic);
         }

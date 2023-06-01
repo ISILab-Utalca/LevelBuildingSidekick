@@ -6,9 +6,11 @@ using UnityEngine;
 public class LBSCustomEditorAttribute : LBSAttribute
 {
     public Type type;
+    public string name;
 
-    public LBSCustomEditorAttribute(Type type)
+    public LBSCustomEditorAttribute(string name,Type type)
     {
+        this.name = name;
         this.type = type;
     }
 

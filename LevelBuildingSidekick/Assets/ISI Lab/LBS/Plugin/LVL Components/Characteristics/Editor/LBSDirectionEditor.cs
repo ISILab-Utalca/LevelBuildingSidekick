@@ -9,7 +9,7 @@ public abstract class LBSCustomEditor : VisualElement
     public abstract void SetInfo(object target);
 }
 
-[LBSCustomEditorAttribute(typeof(LBSDirection))]
+[LBSCustomEditorAttribute("Weigths", typeof(LBSDirection))]
 public class LBSDirectionEditor : LBSCustomEditor
 {
     public LBSDirectionEditor()
