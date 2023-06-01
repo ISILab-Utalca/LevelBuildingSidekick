@@ -43,12 +43,14 @@ namespace LBS.Components.TileMap
             areas = new List<TiledArea>();
         }
 
-        public AreaTileMap(List<TiledArea> areas, string key) : base(key)
+        public AreaTileMap(IEnumerable<TiledArea> areas, string key) : base(key)
         {
             this.areas = new List<TiledArea>();
-            areas.ForEach(a => {
-                AddArea(a as T);
-            });
+            var ars = areas.Cast<T>();
+            foreach(var a in ars)
+            {
+                AddArea(a);
+            }
         }
 
         #endregion
@@ -79,13 +81,7 @@ namespace LBS.Components.TileMap
 
         public void RemoveTile(LBSTile t)
         {
-            foreach(var r in areas)
-            {
-                if(r.Contains(t.Position))
-                {
-                    r.RemoveTile(t);
-                }
-            }
+            RemoveTile(t.Position);
         }
 
         public void RemoveTile(Vector2Int pos)
@@ -111,12 +107,14 @@ namespace LBS.Components.TileMap
 
         public void MoveArea(int index, Vector2Int dir)
         {
-            var a = GetArea(index);
-            var tiles = a.Tiles.Select(t => t.Position);
-            a.RemoveTiles(a.Tiles);
-            foreach (var tv in tiles)
+            var area = areas[index];
+            area.Centroid += dir;
+            foreach(var a in areas)
             {
-                AddTile(a.ID, new ConnectedTile(tv - dir, a.ID, 4));
+                if(a.ID != area.ID)
+                {
+                    a.RemoveTiles(area.Tiles);
+                }
             }
         }
 
@@ -142,7 +140,7 @@ namespace LBS.Components.TileMap
 
         public float GetRoomDistance(string r1, string r2) // O2 - manhattan
         {
-            var lessDist = float.MaxValue;
+            //var lessDist = float.MaxValue;
             
             var room1 = GetArea(r1);
             var room2 = GetArea(r2);
@@ -164,7 +162,8 @@ namespace LBS.Components.TileMap
             }
             return lessDist;
             */
-            for (int i = 0; i < room1.TileCount; i++)
+            var lessDist = room1.Tiles.Min(t => room2.GetDistance(t.Position));
+            /*for (int i = 0; i < room1.TileCount; i++)
             {
                 var dist = room2.GetDistance(room1.GetTile(i).Position);
 
@@ -172,7 +171,7 @@ namespace LBS.Components.TileMap
                 {
                     lessDist = dist;
                 }
-            }
+            }*/
             return lessDist;
         }
 
