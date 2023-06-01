@@ -26,8 +26,18 @@ namespace LBS.Components.TileMap
         [JsonIgnore]
         public Color Color => color.ToColor();
         [JsonIgnore]
-        public Vector2 Centroid => GetBounds().center;
-
+        public Vector2 Centroid
+        {
+            get => GetBounds().center;
+            set
+            {
+                foreach(var t in tiles)
+                {
+                    t.Position += new Vector2Int((int)value.x, (int)value.y);
+                }
+            }
+        }
+        
         #endregion
 
         #region EVENTS
@@ -64,7 +74,7 @@ namespace LBS.Components.TileMap
 
         public int GetDistance(Vector2 pos)
         {
-            var lessDist = int.MaxValue;
+            /*var lessDist = int.MaxValue;
             for (int i = 0; i < TileCount; i++)
             {
                 var t2 = tiles[i].Position;
@@ -77,7 +87,9 @@ namespace LBS.Components.TileMap
                 }
             }
 
-            return lessDist;
+            return lessDist;*/
+
+            return  (int)tiles.Min(t => (t.Position - pos).Distance(DistanceType.CONNECT_4));
         }
 
         private int NeighborhoodValue(Vector2Int position, List<Vector2> directions) // (!) el nombre es malisimo mejorar, esta tambien es de la clase de las tablas del gabo
