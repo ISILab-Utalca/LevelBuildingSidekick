@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Corner SubPreset
   m_EditorClassIdentifier: 
   isPreset: 1
-  id: {fileID: 11400000, guid: 2eca723ea45c6304da386654d7022906, type: 2}
+  id: {fileID: 11400000, guid: dd9524b2f4de22c40ae2e90107719374, type: 2}
   childsBundles: []
   assets: []
   characteristics:
@@ -24,4 +24,5 @@ MonoBehaviour:
     - rid: 1700476139635212331
       type: {class: LBSTagsCharacteristic, ns: , asm: Assembly-CSharp}
       data:
-        value: {fileID: 11400000, guid: 2eca723ea45c6304da386654d7022906, type: 2}
+        label: 
+        value: {fileID: 11400000, guid: dd9524b2f4de22c40ae2e90107719374, type: 2}
