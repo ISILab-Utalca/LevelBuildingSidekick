@@ -38,9 +38,14 @@ public class WaveFunctionCollapseManipulator<T> : ManipulateTeselation<T> where 
         var min = this.module.Owner.ToFixedPosition(Vector2Int.Min(StartPosition, EndPosition));
         var max = this.module.Owner.ToFixedPosition(Vector2Int.Max(StartPosition, EndPosition));
 
-        var tiles = LBSAssetsStorage.Instance.Get<Bundle>()
-            .Select(b =>  b.GetCharacteristic<LBSDirection>())
-            .ToList();
+        var storage = LBSAssetsStorage.Instance.Get<Bundle>();
+        var tiles = storage.Select(b => b.GetCharacteristic<LBSDirection>()).Where(e => e != null).ToList();
+
+        if(tiles.Count <= 0)
+        {
+            Debug.Log("[ISI Lab]: no se encontraron bundles que tubieran la caracteristica de 'LBSDirection'.");
+            return;
+        }
 
         var toCalc = new List<ConnectedTile>();
         for (int i = min.x; i <= max.x; i++)
