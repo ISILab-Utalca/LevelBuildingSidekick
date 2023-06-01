@@ -49,6 +49,8 @@ namespace LBS.Components.TileMap
 
         public override bool Equals(object obj)
         {
+            return base.Equals(obj);
+            /*
             if(obj is BundleData)
             {
                 return (obj as BundleData).BundleTag == BundleTag;
@@ -58,6 +60,7 @@ namespace LBS.Components.TileMap
                 return (obj as Bundle_Old).ID.Label == BundleTag;
             }
             return base.Equals(obj);
+            */
         }
         #endregion
     }
