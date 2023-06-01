@@ -218,8 +218,7 @@ namespace Commons.Optimization
 
         public void Run()
         {
-            int iterations = 0;
-            while(!TerminationReached() && !(State == Op_State.Paused || State == Op_State.Stopped) && iterations < 1000)
+            while(!TerminationReached() && !(State == Op_State.Paused || State == Op_State.Stopped))
             {
                 if (stopRequested)
                 {
@@ -237,8 +236,6 @@ namespace Commons.Optimization
                 clock.Stop();
                 OnGenerationRan?.Invoke();
                 State = Op_State.Running;
-
-                iterations++;
             }
         }
 
