@@ -10,16 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 991b9c5ba138ec24298c266c695cad3e, type: 3}
-<<<<<<<< HEAD:LevelBuildingSidekick/Assets/ISI Lab/LBS/Examples/Simple/Tags/Schema/Corner.asset
-  m_Name: Corner
-  m_EditorClassIdentifier: 
-  label: Corner
-  icon: {fileID: 2800000, guid: 9cd59278b22b02e4f8fae95c437c6859, type: 3}
-  color: {r: 0.4627451, g: 0.4627451, b: 0.4627451, a: 1}
-========
   m_Name: Path_
   m_EditorClassIdentifier: 
   label: Path_
   icon: {fileID: 2800000, guid: 340fe6996435ba44e8c1dba93d2aa7b5, type: 3}
   color: {r: 1, g: 0.9398438, b: 0, a: 1}
->>>>>>>> Refactor:LevelBuildingSidekick/Assets/ISI Lab/LBS/Examples/Castle Dungeon/Resources/Exterior/Path_.asset
