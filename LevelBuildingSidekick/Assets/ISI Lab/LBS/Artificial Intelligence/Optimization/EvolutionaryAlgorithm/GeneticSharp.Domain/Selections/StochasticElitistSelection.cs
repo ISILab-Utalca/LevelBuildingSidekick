@@ -1,26 +1,22 @@
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
+using GeneticSharp.Domain.Randomizations;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace GeneticSharp.Domain.Selections
 {
-    /// <summary>
-    /// Selects the chromosomes with the best fitness.
-    /// </summary>
-    /// <remarks>
-    /// Also know as: Truncation Selection.
-    /// </remarks>    
-    [DisplayName("Elite")]
-    public sealed class EliteSelection : SelectionBase
+
+    public class StochasticElitistSelection : SelectionBase
     {
+        double last = 0;
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Selections.EliteSelection"/> class.
         /// </summary>
-        public EliteSelection() : base()
+        public StochasticElitistSelection() : base()
         {
         }
         #endregion
@@ -34,8 +30,11 @@ namespace GeneticSharp.Domain.Selections
         /// <returns>The select chromosomes.</returns>
         protected override IList<IOptimizable> PerformSelectEvaluables(int number, Generation generation)
         {
-            var ordered = generation.Evaluables.OrderByDescending(c => c.Fitness);
-            return ordered.Take(number).ToList();
+            var r = RandomizationProvider.Current;
+            var ordered = generation.Evaluables.Where(c => c.Fitness >= last).OrderBy(c => r.GetDouble());
+            if(ordered.Count() > 0)
+                last = ordered.First().Fitness;
+            return ordered.Take(number).ToList();   
         }
 
         #endregion

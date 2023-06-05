@@ -33,8 +33,6 @@ namespace GeneticSharp.Domain.Selections
         {
             m_minNumberChromosomes = 2;
         }
-
-        public abstract VisualElement CIGUI();
         #endregion
 
         #region ISelection implementation

@@ -101,12 +101,6 @@ namespace GeneticSharp.Domain.Selections
 
             return SelectFromWheel(number, chromosomes, rouletteWheel, () => rnd.GetDouble());
         }
-
-        public override VisualElement CIGUI()
-        {
-            var contennt = new VisualElement();
-            return contennt;
-        }
         #endregion
     }
 }
