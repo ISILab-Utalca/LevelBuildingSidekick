@@ -11,35 +11,37 @@ using UnityEditor;
 namespace LBS.Generator
 {
     [System.Serializable]
-    public class PopulationGenerator : Generator3D
+    public class PopulationGenerator : GeneratorRule // PopulationGenerator -> TaggedTileMapGenerator (?)
     {
-        public override GameObject Generate(LBSLayer layer)
+        public override bool CheckIfIsPosible(LBSLayer layer)
         {
-            Init(layer);
-
             var data = layer.GetModule<TaggedTileMap>();
+            return (data != null);
+        }
 
-            var parent = new GameObject(objName);
+        public override GameObject Generate(LBSLayer layer, Generator3D.Settings settings)
+        {
+            var data = layer.GetModule<TaggedTileMap>();
+            var bundles = Utility.DirectoryTools.GetScriptables<SimpleBundle>();
+            var scale = settings.scale;
 
-            foreach(var k in data.PairTiles.Select(x => x.tile))
+            var parent = new GameObject("Population");
+            var tiles = data.PairTiles.Select(x => x.tile);
+            foreach (var tile in tiles)
             {
-                var sc = Utility.DirectoryTools.GetScriptables<SimpleBundle>().Find(b => b.ID.Label == data.GetBundleData(k).BundleTag);
+                var tag = data.GetBundleData(tile).BundleTag;
+                var bundle = bundles.Find(b => b.ID.Label == tag);
 
-                var pref = sc.GetObject(Random.Range(0, sc.Assets.Count));
+                var pref = bundle.GetObject(Random.Range(0, bundle.Assets.Count));
 
                 var go = GameObject.Instantiate(pref, parent.transform);
                 go.transform.position = new Vector3(
-                    scale.x * k.Position.x, 
+                    scale.x * tile.Position.x,
                     0,
-                    -scale.y * k.Position.y) + new Vector3(scale.x, 0, -scale.y)/2;
+                    -scale.y * tile.Position.y) + new Vector3(scale.x, 0, -scale.y) / 2;
             }
 
             return parent;
-        }
-
-        public override void Init(LBSLayer layer)
-        {
-            //throw new System.NotImplementedException();
         }
     }
 
