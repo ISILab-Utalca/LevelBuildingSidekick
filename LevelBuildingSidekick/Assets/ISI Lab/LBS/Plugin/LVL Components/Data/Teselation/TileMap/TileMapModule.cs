@@ -58,9 +58,12 @@ namespace LBS.Components.TileMap
             Key = GetType().Name;
         }
 
-        public TileMapModule(List<T> tiles, string key) : base(key)
+        public TileMapModule(IEnumerable<T> tiles, string key) : base(key)
         {
-            AddTiles(tiles);
+            foreach(var t in tiles)
+            {
+                AddTile(t);
+            }
             //this.tiles = new List<LBSTile>(tiles);
         }
 

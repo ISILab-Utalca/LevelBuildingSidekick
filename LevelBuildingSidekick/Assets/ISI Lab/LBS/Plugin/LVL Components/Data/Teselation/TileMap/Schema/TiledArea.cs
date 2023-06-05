@@ -54,7 +54,7 @@ namespace LBS.Components.TileMap
             this.key = GetType().Name;
         }
 
-        public TiledArea(List<LBSTile> tiles, string id, string key, Color color) : base(tiles, key)
+        public TiledArea(IEnumerable<LBSTile> tiles, string id, string key, Color color) : base(tiles, key)
         {
             this.color = color.ToSerializable();
             this.id = id;
@@ -288,8 +288,7 @@ namespace LBS.Components.TileMap
 
         public override object Clone()
         {
-            var tileMap = new TiledArea(tiles.Select(t => t.Clone() as LBSTile).ToList(),this.ID,this.key,this.color.ToColor());
-            return tileMap;
+            return new TiledArea(tiles.Select(t => t.Clone()).Cast<LBSTile>(), this.ID, this.key, this.color.ToColor());
         }
 
         #endregion

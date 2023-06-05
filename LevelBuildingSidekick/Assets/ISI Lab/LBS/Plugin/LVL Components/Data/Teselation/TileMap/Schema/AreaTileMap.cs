@@ -192,14 +192,8 @@ namespace LBS.Components.TileMap
 
         public override object Clone()
         {
-            var atm = new AreaTileMap<T>();
-            var nAreas = areas.Cast<T>(); // el "as" puede causar problemas
-            foreach (var nArea in nAreas)
-            {
-                atm.AddArea(nArea);
-            }
-            
-            return atm;
+            var nAreas = areas.Select(a => a.Clone()).Cast<T>();
+            return new AreaTileMap<T>(nAreas, key);
         }
 
         public override void OnAttach(LBSLayer layer)
