@@ -38,12 +38,14 @@
                     "room": {
                       "$id": "9",
                       "$type": "LBS.Components.Specifics.RoomData, Assembly-CSharp",
-                      "width": 1,
-                      "height": 1,
+                      "width": 4,
+                      "height": 8,
                       "tags": {
                         "$id": "10",
                         "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
-                        "$values": []
+                        "$values": [
+                          "SimpleCastle"
+                        ]
                       },
                       "color": {
                         "$id": "11",
@@ -55,7 +57,7 @@
                       }
                     },
                     "x": 298,
-                    "y": 299,
+                    "y": 298,
                     "width": 1.0,
                     "height": 1.0,
                     "id": "Living/Comedor"
@@ -66,12 +68,14 @@
                     "room": {
                       "$id": "13",
                       "$type": "LBS.Components.Specifics.RoomData, Assembly-CSharp",
-                      "width": 1,
-                      "height": 1,
+                      "width": 2,
+                      "height": 5,
                       "tags": {
                         "$id": "14",
                         "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
-                        "$values": []
+                        "$values": [
+                          "SimpleCastle"
+                        ]
                       },
                       "color": {
                         "$id": "15",
@@ -94,12 +98,14 @@
                     "room": {
                       "$id": "17",
                       "$type": "LBS.Components.Specifics.RoomData, Assembly-CSharp",
-                      "width": 1,
-                      "height": 1,
+                      "width": 6,
+                      "height": 3,
                       "tags": {
                         "$id": "18",
                         "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
-                        "$values": []
+                        "$values": [
+                          "SimpleCastle"
+                        ]
                       },
                       "color": {
                         "$id": "19",
@@ -122,12 +128,14 @@
                     "room": {
                       "$id": "21",
                       "$type": "LBS.Components.Specifics.RoomData, Assembly-CSharp",
-                      "width": 1,
-                      "height": 1,
+                      "width": 3,
+                      "height": 4,
                       "tags": {
                         "$id": "22",
                         "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
-                        "$values": []
+                        "$values": [
+                          "SimpleCastle"
+                        ]
                       },
                       "color": {
                         "$id": "23",
@@ -150,12 +158,14 @@
                     "room": {
                       "$id": "25",
                       "$type": "LBS.Components.Specifics.RoomData, Assembly-CSharp",
-                      "width": 1,
-                      "height": 1,
+                      "width": 2,
+                      "height": 3,
                       "tags": {
                         "$id": "26",
                         "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
-                        "$values": []
+                        "$values": [
+                          "SimpleCastle"
+                        ]
                       },
                       "color": {
                         "$id": "27",
@@ -178,12 +188,14 @@
                     "room": {
                       "$id": "29",
                       "$type": "LBS.Components.Specifics.RoomData, Assembly-CSharp",
-                      "width": 1,
-                      "height": 1,
+                      "width": 6,
+                      "height": 3,
                       "tags": {
                         "$id": "30",
                         "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
-                        "$values": []
+                        "$values": [
+                          "SimpleCastle"
+                        ]
                       },
                       "color": {
                         "$id": "31",
@@ -206,12 +218,14 @@
                     "room": {
                       "$id": "33",
                       "$type": "LBS.Components.Specifics.RoomData, Assembly-CSharp",
-                      "width": 1,
-                      "height": 1,
+                      "width": 2,
+                      "height": 3,
                       "tags": {
                         "$id": "34",
                         "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
-                        "$values": []
+                        "$values": [
+                          "SimpleCastle"
+                        ]
                       },
                       "color": {
                         "$id": "35",
@@ -234,12 +248,14 @@
                     "room": {
                       "$id": "37",
                       "$type": "LBS.Components.Specifics.RoomData, Assembly-CSharp",
-                      "width": 1,
-                      "height": 1,
+                      "width": 6,
+                      "height": 2,
                       "tags": {
                         "$id": "38",
                         "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
-                        "$values": []
+                        "$values": [
+                          "SimpleCastle"
+                        ]
                       },
                       "color": {
                         "$id": "39",
@@ -250,7 +266,7 @@
                         "a": 1.0
                       }
                     },
-                    "x": -52,
+                    "x": -50,
                     "y": 299,
                     "width": 1.0,
                     "height": 1.0,
@@ -262,12 +278,14 @@
                     "room": {
                       "$id": "41",
                       "$type": "LBS.Components.Specifics.RoomData, Assembly-CSharp",
-                      "width": 1,
-                      "height": 1,
+                      "width": 2,
+                      "height": 2,
                       "tags": {
                         "$id": "42",
                         "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
-                        "$values": []
+                        "$values": [
+                          "SimpleCastle"
+                        ]
                       },
                       "color": {
                         "$id": "43",
@@ -290,12 +308,14 @@
                     "room": {
                       "$id": "45",
                       "$type": "LBS.Components.Specifics.RoomData, Assembly-CSharp",
-                      "width": 1,
-                      "height": 1,
+                      "width": 2,
+                      "height": 2,
                       "tags": {
                         "$id": "46",
                         "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
-                        "$values": []
+                        "$values": [
+                          "SimpleCastle"
+                        ]
                       },
                       "color": {
                         "$id": "47",
@@ -318,12 +338,14 @@
                     "room": {
                       "$id": "49",
                       "$type": "LBS.Components.Specifics.RoomData, Assembly-CSharp",
-                      "width": 1,
-                      "height": 1,
+                      "width": 5,
+                      "height": 2,
                       "tags": {
                         "$id": "50",
                         "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
-                        "$values": []
+                        "$values": [
+                          "SimpleCastle"
+                        ]
                       },
                       "color": {
                         "$id": "51",
@@ -346,12 +368,14 @@
                     "room": {
                       "$id": "53",
                       "$type": "LBS.Components.Specifics.RoomData, Assembly-CSharp",
-                      "width": 1,
-                      "height": 1,
+                      "width": 4,
+                      "height": 3,
                       "tags": {
                         "$id": "54",
                         "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
-                        "$values": []
+                        "$values": [
+                          "SimpleCastle"
+                        ]
                       },
                       "color": {
                         "$id": "55",
@@ -363,7 +387,7 @@
                       }
                     },
                     "x": -340,
-                    "y": 266,
+                    "y": 269,
                     "width": 1.0,
                     "height": 1.0,
                     "id": "Room2"
@@ -374,12 +398,14 @@
                     "room": {
                       "$id": "57",
                       "$type": "LBS.Components.Specifics.RoomData, Assembly-CSharp",
-                      "width": 1,
-                      "height": 1,
+                      "width": 3,
+                      "height": 2,
                       "tags": {
                         "$id": "58",
                         "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
-                        "$values": []
+                        "$values": [
+                          "SimpleCastle"
+                        ]
                       },
                       "color": {
                         "$id": "59",
@@ -402,12 +428,14 @@
                     "room": {
                       "$id": "61",
                       "$type": "LBS.Components.Specifics.RoomData, Assembly-CSharp",
-                      "width": 1,
-                      "height": 1,
+                      "width": 2,
+                      "height": 2,
                       "tags": {
                         "$id": "62",
                         "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
-                        "$values": []
+                        "$values": [
+                          "SimpleCastle"
+                        ]
                       },
                       "color": {
                         "$id": "63",
