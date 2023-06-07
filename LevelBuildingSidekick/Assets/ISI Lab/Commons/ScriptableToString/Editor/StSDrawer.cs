@@ -5,12 +5,12 @@ using UnityEditor;
 using UnityEngine;
 
 
-[CustomPropertyDrawer(typeof(ScriptableToStringAttribute))]
+[CustomPropertyDrawer(typeof(ScriptableObjectReferenceAttribute))]
 public class StSDrawer : PropertyDrawer
 {
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
-        var att = attribute as ScriptableToStringAttribute;
+        var att = attribute as ScriptableObjectReferenceAttribute;
         if (att == null)
         {
             GUILayout.Label("[Error StS Atribute]");
@@ -20,7 +20,11 @@ public class StSDrawer : PropertyDrawer
 
         var list = att.SOs.Select(so => so.name).ToList();
         var v = property.stringValue;
-        var n = list.IndexOf(v);
+
+        var n = 0;
+        
+        if (v != default(string))
+            n = list.IndexOf(v);
 
         EditorGUI.BeginProperty(position, label, property);
 
