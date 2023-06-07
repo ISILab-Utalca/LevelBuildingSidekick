@@ -61,7 +61,7 @@ public class Bundle : ScriptableObject, ICloneable
     {
         foreach (var child in childsBundles)
         {
-            child.Reload();
+            //child. Reload();  //FIX
         }
 
         foreach (var characteristic in characteristics)
