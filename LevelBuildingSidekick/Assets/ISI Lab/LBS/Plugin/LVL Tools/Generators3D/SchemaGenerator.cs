@@ -10,17 +10,38 @@ using System.Linq;
 //using UnityEditor;
 
 [System.Serializable]
-public class SchemaGenerator : Generator3D
+public class SchemaGenerator : GeneratorRule
 {
     LBSSchema schema;
     LBSRoomGraph graph;
 
-    public override GameObject Generate(LBSLayer layer)
+    public override bool CheckIfIsPosible(LBSLayer layer, out string msg)
     {
-        Init(layer);
+        msg = "";
 
-        var mainPivot = new GameObject(objName);
+        schema = layer.GetModule<LBSSchema>();
+        graph = layer.GetModule<LBSRoomGraph>();
+        if (schema == null)
+        {
+            msg = "The layer does not contain any module corresponding to 'LBSSchema'.";
+            return false;
+        }
+        if (graph == null)
+        {
+            msg = "The layer does not contain any module corresponding to 'LBSRoomGraph'.";
+            return false;
+        }
+        return true;
+    }
 
+    public override GameObject Generate(LBSLayer layer, Generator3D.Settings settings)
+    {   
+        schema = layer.GetModule<LBSSchema>();
+        graph = layer.GetModule<LBSRoomGraph>();
+
+        var mainPivot = new GameObject("Schema");
+
+        var position = settings.position;
         for(int i = 0; i < graph.NodeCount; i++)
         {
             var node = graph.GetNode(i);
@@ -39,18 +60,18 @@ public class SchemaGenerator : Generator3D
             for (int j = 0; j < area.TileCount; j++)
             {
                 var tile = area.GetTile(j) as ConnectedTile;
-                BuildTile(tile, bundlesDictionary, mainPivot.transform);
+                BuildTile(tile, bundlesDictionary, mainPivot.transform,settings);
             }
         }
 
         mainPivot.transform.position = position;
-        //mainPivot.transform.localScale = new Vector3(resize.x, 1, resize.y);
 
         return mainPivot;
     }
 
-    public void BuildTile(ConnectedTile tile, Dictionary<string, List<GameObject>> bundles, Transform parent)
+    private void BuildTile(ConnectedTile tile, Dictionary<string, List<GameObject>> bundles, Transform parent, Generator3D.Settings settings)
     {
+        var scale = settings.scale;
         var sideDir = new List<Vector2>() { Vector2.right, Vector2.up, Vector2.left, Vector2.down };
 
         var pivot = new GameObject("Tile: " + tile.Position);
@@ -90,9 +111,4 @@ public class SchemaGenerator : Generator3D
         pivot.transform.position = new Vector3(scale.x * tile.Position.x, 0, -scale.y * tile.Position.y) + new Vector3(scale.x, 0, -scale.y) / 2;
     }
 
-    public override void Init(LBSLayer layer)
-    {
-        schema = layer.GetModule<LBSSchema>();
-        graph = layer.GetModule<LBSRoomGraph>();
-    }
 }
