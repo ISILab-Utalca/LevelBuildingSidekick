@@ -13,9 +13,12 @@ namespace LBS.Generator
     [System.Serializable]
     public class PopulationGenerator : GeneratorRule // PopulationGenerator -> TaggedTileMapGenerator (?)
     {
-        public override bool CheckIfIsPosible(LBSLayer layer)
+        public override bool CheckIfIsPosible(LBSLayer layer,out string msg)
         {
+            msg = "The layer does not contain any module corresponding to 'TaggedTileMap'.";
+
             var data = layer.GetModule<TaggedTileMap>();
+
             return (data != null);
         }
 
@@ -41,6 +44,7 @@ namespace LBS.Generator
                     -scale.y * tile.Position.y) + new Vector3(scale.x, 0, -scale.y) / 2;
             }
 
+            parent.transform.position += settings.position;
             return parent;
         }
     }
