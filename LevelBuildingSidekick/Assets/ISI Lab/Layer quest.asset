@@ -22,6 +22,11 @@ MonoBehaviour:
     - rid: 3012264405666103346
     parent:
       rid: -2
+    settingsGen3D:
+      scale: {x: 1, y: 1}
+      resize: {x: 0, y: 0}
+      position: {x: 0, y: 0, z: 0}
+      name: Quest Layer
     assistant: QuestAssitant
   modes:
   - rid: 3012264405666103347
@@ -37,17 +42,6 @@ MonoBehaviour:
         key: LBSGraph
         visible: 0
         changed: 0
-        Owner:
-          id: Quest
-          name: Layer Quest
-          visible: 1
-          iconPath: Icons/Quest
-          modules:
-          - rid: 3012264405666103345
-          - rid: 3012264405666103346
-          parent:
-            rid: -2
-          assistant: QuestAssitant
         nodes: []
         edges: []
     - rid: 3012264405666103346
@@ -56,17 +50,7 @@ MonoBehaviour:
         key: LBSGrammarGraph
         visible: 0
         changed: 0
-        Owner:
-          id: Quest
-          name: Layer Quest
-          visible: 1
-          iconPath: Icons/Quest
-          modules:
-          - rid: 3012264405666103345
-          - rid: 3012264405666103346
-          parent:
-            rid: -2
-          assistant: QuestAssitant
+        questNodes: []
     - rid: 3012264405666103347
       type: {class: LBSMode, ns: , asm: Assembly-CSharp-Editor}
       data:

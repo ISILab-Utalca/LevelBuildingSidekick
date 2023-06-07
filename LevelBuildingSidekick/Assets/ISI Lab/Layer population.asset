@@ -16,14 +16,17 @@ MonoBehaviour:
     id: Population
     name: Layer Population
     visible: 1
-    tileSizeX: 2
-    tileSizeY: 2
     iconPath: Icons/ghost
     modules:
     - rid: 5729019051077534353
     - rid: 5729019051077534354
     parent:
       rid: -2
+    settingsGen3D:
+      scale: {x: 2, y: 2}
+      resize: {x: 0, y: 0}
+      position: {x: 0, y: 0, z: 0}
+      name: Population Layer
     assistant: PopulationAssitant
   modes:
   - rid: 5729019051077534355
@@ -39,19 +42,6 @@ MonoBehaviour:
         key: LBSTileMap
         visible: 0
         changed: 0
-        Owner:
-          id: Population
-          name: Layer Population
-          visible: 1
-          tileSizeX: 1
-          tileSizeY: 1
-          iconPath: Icons/ghost
-          modules:
-          - rid: 5729019051077534353
-          - rid: 5729019051077534354
-          parent:
-            rid: -2
-          assistant: PopulationAssitant
         tiles: []
     - rid: 5729019051077534354
       type: {class: TaggedTileMap, ns: , asm: Assembly-CSharp}
@@ -59,19 +49,6 @@ MonoBehaviour:
         key: TaggedTileMap
         visible: 0
         changed: 0
-        Owner:
-          id: Population
-          name: Layer Population
-          visible: 1
-          tileSizeX: 1
-          tileSizeY: 1
-          iconPath: Icons/ghost
-          modules:
-          - rid: 5729019051077534353
-          - rid: 5729019051077534354
-          parent:
-            rid: -2
-          assistant: PopulationAssitant
         pairTiles: []
     - rid: 5729019051077534355
       type: {class: LBSMode, ns: , asm: Assembly-CSharp-Editor}
@@ -125,10 +102,5 @@ MonoBehaviour:
     RefIds:
     - rid: 3012263917099679876
       type: {class: PopulationGenerator, ns: LBS.Generator, asm: Assembly-CSharp}
-      data:
-        scale: {x: 0, y: 0}
-        resize: {x: 0, y: 0}
-        position: {x: 0, y: 0, z: 0}
-        objName: 
     - rid: 3012263917099679877
       type: {class: PopulationMapEliteAgent, ns: , asm: Assembly-CSharp-Editor}

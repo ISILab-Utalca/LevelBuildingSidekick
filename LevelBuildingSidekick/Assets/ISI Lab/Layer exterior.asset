@@ -20,11 +20,6 @@ MonoBehaviour:
     RefIds:
     - rid: 3012263917099679849
       type: {class: ExteriorGenerator, ns: LBS.Generator, asm: Assembly-CSharp}
-      data:
-        scale: {x: 20, y: 20}
-        resize: {x: 0, y: 0}
-        position: {x: 0, y: 0, z: 0}
-        objName: default
 --- !u!114 &-1866034714636336461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45,11 +40,6 @@ MonoBehaviour:
     RefIds:
     - rid: 3012263962227245500
       type: {class: ExteriorGenerator, ns: LBS.Generator, asm: Assembly-CSharp}
-      data:
-        scale: {x: 0, y: 0}
-        resize: {x: 0, y: 0}
-        position: {x: 0, y: 0, z: 0}
-        objName: 
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65,14 +55,17 @@ MonoBehaviour:
   layer:
     id: Exterior
     name: Layer Exterior
-    visible: 1}
-    tileSizeX: 10
-    tileSizeY: 10
+    visible: 1
     iconPath: Icons/pine-tree
     modules:
     - rid: 5729019051077534330
-    parent:
-      rid: -2
+    settingsGen3D:
+      scale: {x: 10, y: 10}
+      resize: {x: 0, y: 0}
+      position: {x: 0, y: 0, z: 0}
+      name: Exterior layer
+    behaviours: []
+    assitantsAI: []
     assistant: ExteriorAsstant
   modes:
   - rid: 5729019051077534331
@@ -80,26 +73,12 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
     - rid: 5729019051077534330
       type: {class: Exterior, ns: , asm: Assembly-CSharp}
       data:
         key: Exterior
         visible: 0
         changed: 0
-        Owner:
-          id: Exterior
-          name: Layer Exterior
-          visible: 1
-          tileSizeX: 1
-          tileSizeY: 1
-          iconPath: Icons/pine-tree
-          modules:
-          - rid: 5729019051077534330
-          parent:
-            rid: -2
-          assistant: ExteriorAsstant
         tiles: []
     - rid: 5729019051077534331
       type: {class: LBSMode, ns: , asm: Assembly-CSharp-Editor}
