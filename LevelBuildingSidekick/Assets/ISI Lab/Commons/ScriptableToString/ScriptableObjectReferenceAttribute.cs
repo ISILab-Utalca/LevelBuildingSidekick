@@ -6,12 +6,12 @@ using UnityEditor;
 using UnityEngine;
 using Utility;
 
-public class ScriptableToStringAttribute : PropertyAttribute
+public class ScriptableObjectReferenceAttribute : PropertyAttribute
 {
-    public List<ScriptableObject> SOs;
+    public List<ScriptableObject> SOs = new List<ScriptableObject>();
     public Type type;
 
-    public ScriptableToStringAttribute(Type type)
+    public ScriptableObjectReferenceAttribute(Type type)
     {
         this.type = type;
         if (SOs == null || SOs.Count <= 0)
