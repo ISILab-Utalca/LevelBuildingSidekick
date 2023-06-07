@@ -20,7 +20,7 @@ namespace LBS.Components.Specifics
         [SerializeField, JsonRequired]
         private int height = 1;
 
-        [ScriptableToString(typeof(LBSIdentifier))]
+        [ScriptableObjectReference(typeof(LBSIdentifier))]
         [SerializeField, JsonRequired]
         private List<string> tags = new List<string>();
 
