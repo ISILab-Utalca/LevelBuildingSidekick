@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class LBSLocalBehaviours : VisualElement
+public class LBSLocalBehaviours : VisualElement // panel
 {
     #region FACTORY
     public new class UxmlFactory : UxmlFactory<LBSLocalBehaviours, VisualElement.UxmlTraits> { }
