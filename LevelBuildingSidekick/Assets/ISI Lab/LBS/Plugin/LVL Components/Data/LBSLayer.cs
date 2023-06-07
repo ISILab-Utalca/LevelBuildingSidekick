@@ -7,6 +7,7 @@ using System;
 using System.Linq;
 using LBS.AI;
 using LBS.Settings;
+using LBS.Generator;
 
 namespace LBS.Components
 {
@@ -14,7 +15,6 @@ namespace LBS.Components
     public class LBSLayer : ICloneable
     {
         #region FIELDS
-
         [SerializeField, JsonRequired]
         private string id;
 
@@ -25,32 +25,43 @@ namespace LBS.Components
         private bool visible;
 
         [SerializeField, JsonRequired]
-        private int tileSizeX = 1;
-
-        [SerializeField, JsonRequired]
-        private int tileSizeY = 1;
-
-
-        [SerializeField, JsonRequired]
-        public string iconPath; // (?) esto tiene que estar en la layertemplate
+        public string iconPath; // esto tiene que estar en la layerTemplate (?)
 
         [SerializeField, JsonRequired, SerializeReference]
         private List<LBSModule> modules = new List<LBSModule>();
 
-        [SerializeField, JsonRequired, SerializeReference]
+        [JsonRequired]//[SerializeField, JsonRequired, SerializeReference] // SerializeReference (?), SerializeField (?)
         private LBSLevelData parent;
 
-        //[SerializeField, JsonRequired]
-        //[ScriptableToString(typeof(CompositeBundle))]
-        //private List<string> bundles = new List<string>();
+        [SerializeField, JsonRequired]
+        public Generator3D.Settings settingsGen3D;
+
+        [SerializeField, JsonRequired, SerializeReference]
+        private List<LBSBehaviour> behaviours = new List<LBSBehaviour>();
+
+        [SerializeField, JsonRequired, SerializeReference]
+        [ScriptableObjectReference(typeof(LBSLayerAssistant))]
+        private List<string> assitantsAI = new List<string>(); // por que uso un string cuando puedo usar la clase (???)
 
         [SerializeField, JsonRequired]
-        [ScriptableToString(typeof(LBSLayerAssistant))]
+        [ScriptableObjectReference(typeof(LBSLayerAssistant))]
         private string assistant;
 
         #endregion
 
         #region PROPERTIES
+        [JsonIgnore]
+        public List<LBSBehaviour> Behaviours // array (?)
+        {
+            get => new List<LBSBehaviour>(behaviours);
+        }
+
+        [JsonIgnore]
+        public List<string> AssitantAI
+        {
+            get => new List<string>(assitantsAI); // cambiar de string al objeto
+        }
+
 
         [JsonIgnore]
         public LBSLevelData Parent
@@ -78,12 +89,12 @@ namespace LBS.Components
         {
             get
             { 
-                return new Vector2Int(tileSizeX, tileSizeY); 
+                return new Vector2Int((int)settingsGen3D.scale.x, (int)settingsGen3D.scale.y); 
             }
             set
             {
-                tileSizeX = value.x;
-                tileSizeY = value.y;
+                settingsGen3D.scale.x = value.x;
+                settingsGen3D.scale.y = value.y;
                 OnTileSizeChange?.Invoke(value);
             }
         }
@@ -107,37 +118,17 @@ namespace LBS.Components
             get => Utility.DirectoryTools.GetScriptable<LBSLayerAssistant>(assistant);
             set => assistant = value.name;
         }
-
-        /*
-        [JsonIgnore]
-        public CompositeBundle Bundle
-        {
-            get
-            {
-                var bundle = ScriptableObject.CreateInstance<CompositeBundle>();
-
-                foreach(var b in bundles)
-                {
-                    bundle.Add(Utility.DirectoryTools.GetScriptable<Bundle>(b));
-                }
-
-                return bundle;
-            }
-        }
-
-        */
         #endregion
 
         #region EVENTS
-        private event Action<LBSLayer> onModuleChange;
         public event Action<Vector2Int> OnTileSizeChange;
 
+        private event Action<LBSLayer> onModuleChange;
         public event Action<LBSLayer> OnModuleChange
         {
             add => onModuleChange += value;
             remove => onModuleChange -= value;
         }
-
         #endregion
 
         #region  CONSTRUCTORS
@@ -164,6 +155,33 @@ namespace LBS.Components
         #endregion
 
         #region  METHODS
+        public void AddBehaviour(LBSBehaviour behaviour)
+        {
+            if (this.behaviours.Contains(behaviour))
+            {
+                Debug.Log("[ISI Lab]: This layer already contains the behavior " + behaviour.GetType().Name + ".");
+                return;
+            }
+
+            this.behaviours.Add(behaviour);
+
+            var reqModules = behaviour.GetRequieredModules();
+            foreach (var type in reqModules)
+            {
+                // aqui podria ser importante preguntar por una key en particular por si
+                // existen dos modulos del mismo tipo pero para cosas diferetnes (!!)
+                if (!modules.Any(e => e.GetType() == type))         
+                {
+                    this.AddModule(Activator.CreateInstance(type) as LBSModule);
+                }
+            }
+        }
+
+        public void RemoveBehaviour(LBSBehaviour behaviour)
+        {
+            this.behaviours.Remove(behaviour);
+        }
+
         public void Reload()
         {
             foreach (var module in modules)
