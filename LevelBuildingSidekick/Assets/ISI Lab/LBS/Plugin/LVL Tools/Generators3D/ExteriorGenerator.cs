@@ -9,22 +9,26 @@ using Utility;
 namespace LBS.Generator
 {
     [System.Serializable]
-    public class ExteriorGenerator : Generator3D //  (!!!) esta clase mescla lo que tiene que hacer la IA de WFC con generar 3d posteriormente
+    public class ExteriorGenerator : GeneratorRule //  (!!!) esta clase mescla lo que tiene que hacer la IA de WFC con generar 3d posteriormente
     {
-        private Exterior exterior;
-
-        public override GameObject Generate(LBSLayer layer)
+        public override bool CheckIfIsPosible(LBSLayer layer, out string msg)
         {
-            Init(layer);
+            var module = layer.GetModule<Exterior>();
 
-            var l = layer.GetModule<Exterior>();
+            msg = "The layer does not contain any module corresponding to 'Exterior'.";
+
+            return (module != null);
+        }
+
+        public override GameObject Generate(LBSLayer layer, Generator3D.Settings settings)
+        {
+            var modulo = layer.GetModule<Exterior>();
             var tiles = Utility.DirectoryTools.GetScriptables<WFCBundle>();
 
-            var mainPivot = new GameObject(objName);
-            foreach (var tile in l.Tiles.Select(t => t as ConnectedTile))
+            var mainPivot = new GameObject("Exterior");
+            var scale = settings.scale;
+            foreach (var tile in modulo.Tiles.Select(t => t as ConnectedTile))
             {
-
-
                 var tuple = tiles.Get(tile.Connections);
 
                 if (tuple == null)
@@ -47,29 +51,18 @@ namespace LBS.Generator
                     }
                 }
 
-                
-
                 var go = GameObject.Instantiate(selected, mainPivot.transform);
                 go.transform.position = new Vector3((tile.Position.x) * scale.x, 0,-(tile.Position.y) * scale.y) + new Vector3(scale.x, 0, -scale.y) / 2;
 
                 var rot = tuple.Item2;
-                //rot -= 1;
-                //if (rot % 2 > 0) // parche, debido a mirror en eje Y
-                //    rot += 2;
 
-                //go.transform.Rotate(new Vector3(0, -1, 0), 90); // (!!!) esto es un ´parche por que el WFC empieza con Right a la derecha y estpo empieza con Top a la derecha
                 go.transform.localScale = new Vector3(1,1,-1);
                 go.transform.rotation = Quaternion.Euler(0, -90 + (-90 * (rot)) % 360, 0);
-                //for (int k = 0; k < rot; k++)
-                //    go.transform.Rotate(new Vector3(0, 1, 0), 90); //
+
             }
-            mainPivot.transform.position += position;
+            mainPivot.transform.position += settings.position;
             return mainPivot;
         }
 
-        public override void Init(LBSLayer layer)
-        {
-            exterior = layer.GetModule<Exterior>();
-        }
     }
 }
