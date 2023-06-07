@@ -4,17 +4,44 @@ using LBS.Components.Specifics;
 using LBS.Components.TileMap;
 using LBS.Generator;
 using LBS.Tools.Transformer;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
+public static class LayerTemplateExtension
+{
+    public static void Clear(this LayerTemplate template)
+    {
+        template.layer = new LBSLayer();
+        template.modes.Clear();
+        template.transformers.Clear();
+    }
+}
+
+public static class TypeExtensions
+{
+    public static IEnumerable<Type> GetDerivedTypes(this Type baseType)
+    {
+        return AppDomain.CurrentDomain.GetAssemblies()
+            .SelectMany(assembly => assembly.GetTypes())
+            .Where(type => baseType.IsAssignableFrom(type) && type != baseType);
+    }
+}
+
 [LBSCustomEditor("Layer template",typeof(LayerTemplate))]
+[CustomEditor(typeof(LayerTemplate))]
 public class LayerTemplateEditor : Editor
 {
     void OnEnable()
     {
+        opciones = typeof(LBSBehaviour).GetDerivedTypes().ToList();
     }
+
+    private int behaviourIndex = 0;
+    private List<Type> opciones;
 
     public override void OnInspectorGUI()
     {
@@ -22,7 +49,29 @@ public class LayerTemplateEditor : Editor
 
         var template = (LayerTemplate)target;
 
-        if(GUILayout.Button("Set as Interior")) 
+        GUILayout.Space(20);
+        GUILayout.BeginHorizontal();
+        behaviourIndex = EditorGUILayout.Popup("Type:", behaviourIndex, opciones.Select(e => e.Name).ToArray());
+        var selected = opciones[behaviourIndex];
+        if (GUILayout.Button("Add behaviour"))
+        {
+            var bh = Activator.CreateInstance(selected);
+            template.layer.AddBehaviour(bh as LBSBehaviour);
+        }
+        GUILayout.EndHorizontal();
+        
+        GUILayout.BeginHorizontal();
+        behaviourIndex = EditorGUILayout.Popup("Type:", behaviourIndex, opciones.Select(e => e.Name).ToArray());
+        var selected2 = opciones[behaviourIndex];
+        if (GUILayout.Button("Add Assistent"))
+        {
+            var bh = Activator.CreateInstance(selected2);
+            //template.layer.addAssist(bh as LBSBehaviour);
+        }
+        GUILayout.EndHorizontal();
+        GUILayout.Space(20);
+
+        if (GUILayout.Button("Set as Interior")) 
         {
             InteriorConstruct(template);
         }
@@ -43,6 +92,7 @@ public class LayerTemplateEditor : Editor
         }
     }
 
+
     /// <summary>
     /// This function adjust the icons, layout and labels of the system for Contructión in interior
     /// also call the manipulators to make functional buttons in the layout
@@ -50,16 +100,27 @@ public class LayerTemplateEditor : Editor
     /// <param name="template"></param>
     private void InteriorConstruct(LayerTemplate template)
     {
+        template.Clear();
+
         // Basic data layer
-        var layer = new LBSLayer();
-        layer.TileSize = new Vector2Int(2,2);
+        var layer = template.layer;
+        //layer.TileSize = new Vector2Int(2,2);
+        layer.settingsGen3D = new Generator3D.Settings()
+        {
+            scale = new Vector2Int(2, 2),
+            resize = new Vector2(0, 0),
+            position = new Vector3(0, 0, 0),
+            name = "Interior",
+        };
         var assist = Utility.DirectoryTools.GetScriptable<LBSLayerAssistant>("SchemaAssitant");
         if(assist == null)
         {
             assist = ScriptableObject.CreateInstance<LBSLayerAssistant>();
             assist.name = "SchemaAssitant";
             assist.AddAgent(new SchemaHCAgent(layer, "SchemaHillClimbing"));
-            assist.Generator = new SchemaGenerator();
+
+            assist.Generator = new Generator3D();
+            assist.Generator.AddRule(new SchemaGenerator());
 
             AssetDatabase.AddObjectToAsset(assist, template);
             AssetDatabase.SaveAssets();
@@ -91,6 +152,8 @@ public class LayerTemplateEditor : Editor
                 typeof(GraphModule<RoomNode>)
                 )
             );
+
+        layer.AddBehaviour(new SchemaBehaviour());
 
         // Mode 1
         Texture2D icon = Resources.Load<Texture2D>("Icons/Select");
@@ -159,15 +222,27 @@ public class LayerTemplateEditor : Editor
     /// <param name="template"></param>
     private void ExteriorConstruct(LayerTemplate template)
     {
+        template.Clear();
+
         // Basic data layer
-        var layer = new LBSLayer();
-        layer.TileSize = new Vector2Int(10, 10);
+        var layer = template.layer;
+
+        //layer.TileSize = new Vector2Int(10, 10);
+        layer.settingsGen3D = new Generator3D.Settings()
+        {
+            scale = new Vector2Int(10, 10),
+            resize = new Vector2(0, 0),
+            position = new Vector3(0, 0, 0),
+            name = "Exteriror",
+        };
         var assist = Utility.DirectoryTools.GetScriptable<LBSLayerAssistant>("ExteriorAsstant");
         if (assist == null)
         {
             assist = ScriptableObject.CreateInstance<LBSLayerAssistant>();
             assist.name = "ExteriorAsstant";
-            assist.Generator = new ExteriorGenerator();
+            
+            assist.Generator = new Generator3D();
+            assist.Generator.AddRule(new ExteriorGenerator());
 
             AssetDatabase.AddObjectToAsset(assist, template);
             AssetDatabase.SaveAssets();
@@ -252,16 +327,29 @@ public class LayerTemplateEditor : Editor
     /// <param name="template"></param>
     private void PopulationConstruct(LayerTemplate template)
     {
-        // Basic data layer
-        var layer = new LBSLayer();
-        layer.TileSize = new Vector2Int(2, 2);
+        template.Clear();
 
+        // Basic data layer
+        var layer = template.layer;
+
+        //layer.TileSize = new Vector2Int(2, 2);
+        layer.settingsGen3D = new Generator3D.Settings()
+        {
+            scale = new Vector2Int(2, 2),
+            resize = new Vector2(0, 0),
+            position = new Vector3(0, 0, 0),
+            name = "Population",
+        };
         var assist = Utility.DirectoryTools.GetScriptable<LBSLayerAssistant>("PopulationAssitant");
         if (assist == null)
         {
             assist = ScriptableObject.CreateInstance<LBSLayerAssistant>();
             assist.name = "PopulationAssitant";
-            assist.Generator = new PopulationGenerator();
+
+            assist.Generator = new Generator3D();
+            assist.Generator.AddRule(new PopulationGenerator());
+
+            //(assist.Generator = new PopulationGenerator();
             assist.AddAgent(new PopulationMapEliteAgent(layer, "Population Map Elite"));
 
             AssetDatabase.AddObjectToAsset(assist, template);
@@ -313,9 +401,18 @@ public class LayerTemplateEditor : Editor
     /// <param name="template"></param>
     private void Questconstuct(LayerTemplate template)
     {
-        // Basic data layer
-        var layer = new LBSLayer();
+        template.Clear();
 
+        // Basic data layer
+        var layer = template.layer;
+
+        layer.settingsGen3D = new Generator3D.Settings()
+        {
+            scale = new Vector2Int(2, 2),
+            resize = new Vector2(0, 0),
+            position = new Vector3(0, 0, 0),
+            name = "Quest",
+        };
         // asistant
         var assist = Utility.DirectoryTools.GetScriptable<LBSLayerAssistant>("QuestAssitant");
         if (assist == null)
