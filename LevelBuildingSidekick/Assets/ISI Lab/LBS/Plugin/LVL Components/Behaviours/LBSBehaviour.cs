@@ -28,9 +28,9 @@ public abstract class LBSBehaviour
 
         foreach (var att in atts)
         {
-            if (att is RequieredBehavioursAttribute)
+            if (att is RequieredModuleAttribute)
             {
-                toR.AddRange((att as RequieredBehavioursAttribute).types);
+                toR.AddRange((att as RequieredModuleAttribute).types);
             }
         }
         return toR;
@@ -38,34 +38,19 @@ public abstract class LBSBehaviour
 }
 
 [System.Serializable]
-[RequieredBehaviours(typeof(Exterior))]
+[RequieredModule(typeof(Exterior))]
 public class SimpleConectedBehaviour : LBSBehaviour
 {
 
 }
 
 [System.Serializable]
-[RequieredBehaviours(typeof(LBSRoomGraph),typeof(LBSSchema))]
+[RequieredModule(typeof(LBSRoomGraph),typeof(LBSSchema))]
 public class SchemaBehaviour : LBSBehaviour
 {
     public string TEST2 = "Adios mundo :C";
 }
 
 
-public class RequieredBehavioursAttribute : Attribute
-{
-    public List<Type> types;
 
-    public RequieredBehavioursAttribute(params Type[] types)
-    {
-        this.types = types.GetDerivedTypes(typeof(LBSBehaviour)).ToList();
-    }
-}
 
-public static class TypeExtensions
-{
-    public static IEnumerable<Type> GetDerivedTypes(this IEnumerable<Type> types, Type baseType)
-    {
-        return types.Where(t => baseType.IsAssignableFrom(t) && t != baseType);
-    }
-}
