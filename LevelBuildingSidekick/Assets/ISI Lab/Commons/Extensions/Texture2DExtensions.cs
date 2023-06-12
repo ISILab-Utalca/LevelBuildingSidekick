@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Utility
 {
-    public static class Texture2DExtension
+    public static class Texture2DExtensions
     {
         public static void InsertTexture(this Texture2D origin, Texture2D other, int x, int y)
         {
