@@ -344,6 +344,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6628867746535193803}
+  - component: {fileID: 6040905080255764806}
   m_Layer: 0
   m_Name: 2_Camino_X 3
   m_TagString: Untagged
@@ -373,8 +374,21 @@ Transform:
   - {fileID: 6628867746089331626}
   - {fileID: 8889832874166199892}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &6040905080255764806
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6628867746535193802}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5.9761786, y: 0.14743719, z: 5.9993925}
+  m_Center: {x: 0.0060698986, y: -0.06602423, z: 0.00031614304}
 --- !u!1 &6628867746645574909
 GameObject:
   m_ObjectHideFlags: 0
