@@ -9,7 +9,7 @@ using System;
 namespace LBS.AI
 {
     [System.Serializable]
-    public abstract class LBSAIAgent : ICloneable
+    public abstract class LBSAIAgent : ICloneable // unused (!!!)
     {
         protected LBSLayer layer;
 
