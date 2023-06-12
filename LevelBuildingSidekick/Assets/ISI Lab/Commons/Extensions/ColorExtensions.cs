@@ -5,7 +5,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public static class ColorExtension
+public static class ColorExtensions
 {
     public static Color RandomColor(this Color color)
     {
