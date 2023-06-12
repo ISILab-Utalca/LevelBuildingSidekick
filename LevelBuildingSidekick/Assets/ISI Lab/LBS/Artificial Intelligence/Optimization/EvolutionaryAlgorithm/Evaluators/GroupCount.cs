@@ -39,30 +39,19 @@ public class GroupCount : IRangedEvaluator
         var chr = evaluable as LBSChromosome;
         var genes = chr.GetGenes();
 
-        var selected = genes.Select((g, i) => new { g, i }).Where(x => x.g != null && whiteList.Contains(x.g));
+        var selected = genes.Select((g, i) => new { g, i }).Where(x => x.g != null && whiteList.Any(s => x.g.Equals(s)));
 
         if(selected.Count() == 0)
         {
             return 0;
         }
 
-        var toRemove = selected.Select(x => x.i).ToList();
-
-        float max = (chr.Length - chr.ImmutablesCount - toRemove.Count) / ((distThreshold + 1) * (distThreshold + 1));
-
-        var indexes = new List<int>();
-
-
-        for (int i = 0; i < genes.Length; i++)
-        {
-            if (genes[i] != null && !toRemove.Contains(i))
-                indexes.Add(i);
-        }
+        var indexes = selected.Select(x => x.i).ToList();
 
         if (indexes.Count == 0)
             return MinValue;
 
-        int groups = 0;
+        float groups = 0;
 
         while(indexes.Count > 0)
         {
@@ -75,7 +64,9 @@ public class GroupCount : IRangedEvaluator
             }
         }
 
-        fitness = groups / max;
+        float max = (chr.Length - chr.ImmutablesCount) / ((distThreshold + 1) * (distThreshold + 1)); // Debería ser basado en el distance Type
+
+        fitness = (groups / max) > 1 ? 1 : (groups / max); // parche
 
 
         return MinValue + (MaxValue - MinValue) * fitness;

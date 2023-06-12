@@ -110,26 +110,6 @@ namespace GeneticSharp.Domain.Selections
 
             return selected;
         }
-
-        public override VisualElement CIGUI()
-        {
-            var content = new VisualElement();
-
-            var sizeField = new IntegerField("Tournament Size: ");
-            sizeField.value = Size;
-            sizeField.RegisterCallback<ChangeEvent<int>>(e => Size = e.newValue);
-
-            var winnerCompeteToggle = new Toggle("Direct Win");
-            winnerCompeteToggle.tooltip = "True: Elements must win only once to be selected \n " +
-                                            "False: Elements must keep competing to in each round";
-            winnerCompeteToggle.value = AllowWinnerCompeteNextTournament;
-            winnerCompeteToggle.RegisterCallback<ChangeEvent<bool>>(e => AllowWinnerCompeteNextTournament = !e.newValue);
-
-            content.Add(sizeField);
-            content.Add(winnerCompeteToggle);
-
-            return content;
-        }
         #endregion
     }
 }

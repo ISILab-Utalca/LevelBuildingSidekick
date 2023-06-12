@@ -23,13 +23,6 @@ namespace GeneticSharp.Domain.Selections
         public EliteSelection() : base()
         {
         }
-
-        public override VisualElement CIGUI()
-        {
-            var content = new VisualElement();
-
-            return content;
-        }
         #endregion
 
         #region ISelection implementation

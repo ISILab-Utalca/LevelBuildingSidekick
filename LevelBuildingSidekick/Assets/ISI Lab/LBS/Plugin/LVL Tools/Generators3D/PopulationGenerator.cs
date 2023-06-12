@@ -45,6 +45,7 @@ namespace LBS.Generator
             }
 
             parent.transform.position += settings.position;
+
             return parent;
         }
     }

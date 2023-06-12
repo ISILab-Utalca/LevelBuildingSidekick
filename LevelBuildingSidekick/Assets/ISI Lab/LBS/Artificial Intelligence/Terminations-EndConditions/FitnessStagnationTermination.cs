@@ -72,7 +72,7 @@ namespace Commons.Optimization.Terminations
 
             m_lastFitness = bestFitness;
 
-            return m_stagnantGenerationsCount >= ExpectedStagnantGenerationsNumber;
+            return m_stagnantGenerationsCount > ExpectedStagnantGenerationsNumber;
         }
 
         public override VisualElement CIGUI()

@@ -26,8 +26,18 @@ namespace LBS.Components.TileMap
         [JsonIgnore]
         public Color Color => color.ToColor();
         [JsonIgnore]
-        public Vector2 Centroid => GetBounds().center;
-
+        public Vector2 Centroid
+        {
+            get => GetBounds().center;
+            set
+            {
+                foreach(var t in tiles)
+                {
+                    t.Position += new Vector2Int((int)value.x, (int)value.y);
+                }
+            }
+        }
+        
         #endregion
 
         #region EVENTS
@@ -44,7 +54,7 @@ namespace LBS.Components.TileMap
             this.key = GetType().Name;
         }
 
-        public TiledArea(List<LBSTile> tiles, string id, string key, Color color) : base(tiles, key)
+        public TiledArea(IEnumerable<LBSTile> tiles, string id, string key, Color color) : base(tiles, key)
         {
             this.color = color.ToSerializable();
             this.id = id;
@@ -64,7 +74,7 @@ namespace LBS.Components.TileMap
 
         public int GetDistance(Vector2 pos)
         {
-            var lessDist = int.MaxValue;
+            /*var lessDist = int.MaxValue;
             for (int i = 0; i < TileCount; i++)
             {
                 var t2 = tiles[i].Position;
@@ -77,7 +87,9 @@ namespace LBS.Components.TileMap
                 }
             }
 
-            return lessDist;
+            return lessDist;*/
+
+            return  (int)tiles.Min(t => (t.Position - pos).Distance(DistanceType.CONNECT_4));
         }
 
         private int NeighborhoodValue(Vector2Int position, List<Vector2> directions) // (!) el nombre es malisimo mejorar, esta tambien es de la clase de las tablas del gabo
@@ -276,8 +288,7 @@ namespace LBS.Components.TileMap
 
         public override object Clone()
         {
-            var tileMap = new TiledArea(tiles.Select(t => t.Clone() as LBSTile).ToList(),this.ID,this.key,this.color.ToColor());
-            return tileMap;
+            return new TiledArea(tiles.Select(t => t.Clone()).Cast<LBSTile>(), this.ID, this.key, this.color.ToColor());
         }
 
         #endregion

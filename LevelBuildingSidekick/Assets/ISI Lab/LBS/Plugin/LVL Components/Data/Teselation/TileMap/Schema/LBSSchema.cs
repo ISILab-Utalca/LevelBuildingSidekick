@@ -13,11 +13,11 @@ namespace LBS.Components.TileMap
             areas = new List<TiledArea>();
         }
 
-        public LBSSchema(List<TiledArea> areas, string key) : base(areas, key) { }
+        public LBSSchema(IEnumerable<TiledArea> areas, string key) : base(areas, key) { }
 
         public override object Clone()
         {
-            var x = areas.Select(a => a.Clone() as TiledArea).ToList();
+            var x = areas.Select(a => a.Clone()).Cast<TiledArea>();
             return new LBSSchema(x, key);
         }
     }

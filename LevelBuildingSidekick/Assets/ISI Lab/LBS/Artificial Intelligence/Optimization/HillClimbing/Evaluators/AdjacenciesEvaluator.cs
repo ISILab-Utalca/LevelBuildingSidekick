@@ -33,7 +33,7 @@ public class AdjacenciesEvaluator : IEvaluator
             return 1;
         }
 
-        var distValue = 0f;
+        float distValue = 0f;
         for (int i = 0; i < graph.EdgeCount; i++)
         {
             var edge = graph.GetEdge(i);
@@ -41,11 +41,13 @@ public class AdjacenciesEvaluator : IEvaluator
             var r1 = schema.GetArea(edge.FirstNode.ID);
             var r2 = schema.GetArea(edge.SecondNode.ID);
 
-            if (r1.TileCount <= 0 || r2.TileCount <= 0) // signiofica que una de las dos areas desaparecio y no deberia aporta, de hecho podria ser negativo (!)
+            if (r1.TileCount < 1 || r2.TileCount < 1) // signiofica que una de las dos areas desaparecio y no deberia aporta, de hecho podria ser negativo (!)
                 continue;
 
-            var roomDist = schema.GetRoomDistance(r1.ID, r2.ID);  // este metodo podria recivir una funcion de calculo de distancia en ved de estar fija (?)
-            if (roomDist <= 1)
+            float roomDist = schema.GetRoomDistance(r1.ID, r2.ID);  // este metodo podria recivir una funcion de calculo de distancia en ved de estar fija (?)
+
+            distValue += 1 / roomDist;
+            /*if (roomDist <= 1)
             {
                 distValue++;
             }
@@ -55,10 +57,10 @@ public class AdjacenciesEvaluator : IEvaluator
                 var heightAverage = (r1.Height + r2.Height) / 2f;
 
                 distValue += 1 - (roomDist / (widthAverage + heightAverage));
-            }
+            }*/
         }
 
-        return distValue / (float)graph.EdgeCount;
+        return distValue / graph.EdgeCount;
     }
 
     public string GetName()
