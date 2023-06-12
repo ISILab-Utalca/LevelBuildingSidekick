@@ -13,34 +13,41 @@ using Commons.Optimization.Terminations;
 using LBS.Components.Graph;
 using LBS.Tools.Transformer;
 using System;
+using System.Diagnostics;
+using UnityEditor;
 
 [System.Serializable]
 public class SchemaHCAgent : LBSAIAgent
 {
     HillClimbing hillClimbing;
+    Stopwatch clock = new Stopwatch();
 
-    public SchemaHCAgent(LBSLayer layer, string id): base(layer, id, "SchemaHillClimbing")
+    public SchemaHCAgent(LBSLayer layer, string id) : base(layer, id, "SchemaHillClimbing")
     {
-
     }
 
     public override void Execute()
     {
-        Debug.Log("HillClimbing start!");
+        clock = new Stopwatch();
+
+        UnityEngine.Debug.Log("HillClimbing start!");
         OnStart?.Invoke();
 
-        this.Init(ref this.layer);
+        //this.Init(ref this.layer);
 
+        clock.Start();
         hillClimbing.Start();
+        clock.Stop();
+
         var x = (hillClimbing.BestCandidate as OptimizableSchema).Schema;
         CalculateConnections.Operate(x);
 
-        layer.SetModule<LBSSchema>(x , x.Key);
+        SetDoors(x, layer.GetModule<LBSRoomGraph>());
 
-        SetDoors(layer.GetModule<LBSSchema>(), layer.GetModule<LBSRoomGraph>());
+        layer.SetModule(x, x.Key);
 
         OnTermination?.Invoke();
-        Debug.Log("HillClimbing finish!");
+        UnityEngine.Debug.Log("HillClimbing finish!");
     }
 
     public override VisualElement GetInspector()
@@ -81,7 +88,7 @@ public class SchemaHCAgent : LBSAIAgent
                 foreach (var t2 in r2.Tiles)
                 {
                     var dist = Vector2Int.Distance(t1.Position, t2.Position);
-                    if(dist <= 1.1f)
+                    if (dist <= 1.1f)
                     {
                         pairs.Add(new Tuple<ConnectedTile, ConnectedTile>(t1 as ConnectedTile, t2 as ConnectedTile));
                     }
@@ -92,7 +99,7 @@ public class SchemaHCAgent : LBSAIAgent
                 continue;
 
             var selc = pairs.GetRandom();
-           // var selc = pairs[UnityEngine.Random.Range(0, pairs.Count() - 1)];
+            // var selc = pairs[UnityEngine.Random.Range(0, pairs.Count() - 1)];
 
             var dir = selc.Item1.Position - selc.Item2.Position;
 
@@ -101,7 +108,7 @@ public class SchemaHCAgent : LBSAIAgent
 
         }
 
-        
+
     }
 
     public override void Init(ref LBSLayer layer)
@@ -115,20 +122,19 @@ public class SchemaHCAgent : LBSAIAgent
         var schema = layer.GetModule<LBSSchema>();
         var adam = new OptimizableSchema(schema);
 
-        var selection = new EliteSelection();
-        var termination = new FitnessStagnationTermination(100); // agregar termination de maximo local
+        var selection = new StochasticElitistSelection();
+        var termination = new GenerationNumberTermination(1); // agregar termination de maximo local
         var evaluator = new WeightedEvaluator(new System.Tuple<IEvaluator, float>[] //agregar parametros necesarios a las clases de evaluación
         {
             new System.Tuple<IEvaluator, float> (new AdjacenciesEvaluator(graph), 0.4f),
             new System.Tuple<IEvaluator, float> (new AreasEvaluator(graph), 0.15f),
             new System.Tuple<IEvaluator, float> (new EmptySpaceEvaluator(), 0.35f),
-            //new System.Tuple<IEvaluator, float> (new RoomCutEvaluator(graph), 1f),
-            // new System.Tuple<IEvaluator, float> (new StretchEvaluator(), 0.1f),
-        }) ;
+            new System.Tuple<IEvaluator, float> (new RoomCutEvaluator(graph), 1f),
+            //new System.Tuple<IEvaluator, float> (new StretchEvaluator(), 0.1f),
+        });
         var population = new Population(1, 100, adam); // agregar parametros
 
         hillClimbing = new HillClimbing(population, evaluator, selection, GetNeighbors, termination); // asignar Adam
-
     }
 
     public List<IOptimizable> GetNeighbors(IOptimizable Adam)
@@ -136,12 +142,20 @@ public class SchemaHCAgent : LBSAIAgent
         var tileMap = (Adam as OptimizableSchema).Schema;
         var neighbours = new List<IOptimizable>();
 
+        //string s = "";
+
         for (int i = 0; i < tileMap.AreaCount; i++)
         {
             var area = tileMap.GetArea(i);
             var vWalls = area.GetVerticalWalls();
             var hWalls = area.GetHorizontalWalls();
             var walls = vWalls.Concat(hWalls).ToList();
+            /*
+            foreach(var e in walls)
+            {
+                var neighbour = tileMap.Clone() as LBSSchema;
+
+            }*/
 
             // Add wall tiles in wall direction to the next gen
             foreach (var wall in walls)
@@ -184,11 +198,73 @@ public class SchemaHCAgent : LBSAIAgent
             }
         }
 
+
         return neighbours;
     }
 
     public override object Clone()
     {
         return new SchemaHCAgent(layer, id);
+    }
+
+    public void RunExperiment()
+    {
+        var elitistLog = SchemaHCLog.CreateInstance("SchemaHCLog") as SchemaHCLog;
+        elitistLog.name = "Elitist Log";
+        clock = new Stopwatch();
+        int experimentCount = 20;
+        int stochasticRuns = 10;
+
+
+        var schema = layer.GetModule<LBSSchema>().Clone() as LBSSchema;
+
+        Init(ref this.layer);
+        hillClimbing.OnGenerationRan += () => {
+            var log = new HCLog();
+            log.result = (hillClimbing.BestCandidate as OptimizableSchema).Schema;
+            log.time = clock.ElapsedMilliseconds;
+            log.evaluationTime = hillClimbing.Elog;
+            log.neighborTime = hillClimbing.Nlog;
+            log.neighborCount = hillClimbing.NNlog;
+            log.bestFitness = hillClimbing.BestCandidate.Fitness;
+            elitistLog.log.Add(log);
+        };
+        hillClimbing.Selection = new EliteSelection();
+        clock.Restart();
+        hillClimbing.Start();
+        clock.Stop();
+
+        for (int i = 1; i <= experimentCount; i++)
+        {
+            hillClimbing.Termination = new GenerationNumberTermination(i);
+            clock.Restart();
+            hillClimbing.Run();
+            clock.Stop();
+        }
+
+        AssetDatabase.CreateAsset(elitistLog, "Assets/ElitistLog.asset" );
+        AssetDatabase.SaveAssets();
+
+        var x = (hillClimbing.BestCandidate as OptimizableSchema).Schema;
+        CalculateConnections.Operate(x);
+
+        SetDoors(x, layer.GetModule<LBSRoomGraph>());
+
+        layer.SetModule(x, x.Key);
+        OnTermination?.Invoke();
+
+        /*
+        for (int j = 0; j < stochasticRuns; j++)
+        {
+            layer.SetModule(schema, schema.Key);
+            Init(ref this.layer);
+            hillClimbing.Selection = new StochasticElitistSelection();
+            for (int i = 1; i <= experimentCount; i++)
+            {
+                hillClimbing.Termination = new GenerationNumberTermination(i);
+
+            }
+        }*/
+
     }
 }

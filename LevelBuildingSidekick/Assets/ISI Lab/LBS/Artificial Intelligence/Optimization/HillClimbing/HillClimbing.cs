@@ -20,6 +20,9 @@ namespace LBS.AI
     public class HillClimbing : BaseOptimizer
     {
         Func<IOptimizable, List<IOptimizable>> GetNeighbors;
+        public double Nlog = 0;
+        public double NNlog = 0;
+        public double Elog = 0;
 
         public HillClimbing(IPopulation population, IEvaluator evaluator, ISelection selection, Func<IOptimizable, List<IOptimizable>> getNeighbors,  ITermination termination) : base( population, evaluator, selection, termination)
         {
@@ -28,28 +31,43 @@ namespace LBS.AI
 
         public override void EvaluateFitness(IList<IOptimizable> optimizables)
         {
-            //throw new NotImplementedException();
+            foreach(var o in optimizables)
+            {
+                o.Fitness = Evaluator.Evaluate(o);
+            }
         }
 
         public override void RunOnce()
         {
+            var clock = new Stopwatch();
+
             var last = Population.Generations.Last();
-            var best = this.Selection.SelectEvaluables(1, last).First();
+            var selection = this.Selection.SelectEvaluables(1, last);
+
+            if(selection.Count == 0)
+            {
+                Stop();
+            }
+
+            var best = selection.First();
 
             if (GetNeighbors == null)
                 throw new NullReferenceException();
 
+            clock.Restart();
             var offsprings = GetNeighbors.Invoke(best);
+            clock.Stop();
+            Nlog = clock.ElapsedMilliseconds;
+            NNlog= offsprings.Count;
             //var offsprings = GetNeighbors?.Invoke(BestCandidate); // poner exepcion por si neigthbor es null (!!!)
 
-            offsprings.ForEach(c =>
-            {
-                c.Fitness =  Evaluator.Evaluate(c);
-            });
+            clock.Restart();
+            EvaluateFitness(offsprings);
+            clock.Stop();
+            Elog = clock.ElapsedMilliseconds;
 
             Population.CreateNewGeneration(offsprings);
             Population.EndCurrentGeneration();
-
         }
 
         

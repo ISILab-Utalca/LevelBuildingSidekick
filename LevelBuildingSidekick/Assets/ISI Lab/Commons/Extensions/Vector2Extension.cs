@@ -102,6 +102,23 @@ public static class Vector2Extension
         return vec;
     }
 
+    public static float DistanceToLine(this Vector2 point, Vector2 lineStart, Vector2 lineEnd)
+    {
+
+        float dist = Vector2.Distance(lineStart, lineEnd);
+        if (dist == 0)
+        {
+            return Vector2.Distance(point, lineStart);
+        }
+
+
+        float perc = Vector2.Dot((point - lineStart) / dist, (lineEnd - lineStart) / dist);
+
+        Vector2 v = lineStart + ((lineEnd - lineStart) * perc);
+
+        return Vector2.Distance(v, point);
+    }
+
     public static Vector2 Divided(this Vector2 vec, float value)
     {
         vec.x = (int)(vec.x / value);
