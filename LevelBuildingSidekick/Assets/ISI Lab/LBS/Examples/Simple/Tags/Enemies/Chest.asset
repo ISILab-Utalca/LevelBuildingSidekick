@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 991b9c5ba138ec24298c266c695cad3e, type: 3}
-  m_Name: Troll
+  m_Name: Chest
   m_EditorClassIdentifier: 
-  label: Troll
-  icon: {fileID: 2800000, guid: b4db1424c27f6444bb8260cb56dc992f, type: 3}
-  color: {r: 0.14017446, g: 0.53542286, b: 0.6603774, a: 1}
+  label: Chest
+  icon: {fileID: 2800000, guid: ab083e0ff52cb46439052feb93796e57, type: 3}
+  color: {r: 0.8490566, g: 0.76895016, b: 0.11534349, a: 1}
