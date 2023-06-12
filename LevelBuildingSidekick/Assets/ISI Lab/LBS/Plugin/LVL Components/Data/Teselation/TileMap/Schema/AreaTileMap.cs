@@ -133,6 +133,17 @@ namespace LBS.Components.TileMap
             return areas[index];
         }
 
+        public LBSTile GetTile(Vector2Int position)
+        {
+            foreach(var a in areas)
+            {
+                var t = a.GetTile(position);
+                if (t != null)
+                    return t;
+            }
+            return null;
+        }
+
         public bool RemoveArea(T area)
         { 
             return areas.Remove(area);
