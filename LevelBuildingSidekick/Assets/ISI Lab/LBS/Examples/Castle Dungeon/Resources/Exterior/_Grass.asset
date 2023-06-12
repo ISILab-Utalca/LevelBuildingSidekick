@@ -23,7 +23,7 @@ MonoBehaviour:
     - Grass
   Pref:
   - weight: 1
-    gameObject: {fileID: 8151632068590299998, guid: cb81fbcd39558034eb9960c0279712a0, type: 3}
+    gameObject: {fileID: 8151632068590299998, guid: 6424d885230d0824e907b5f1ea0d258c, type: 3}
   - weight: 0.2
     gameObject: {fileID: 2878849239795905248, guid: 06a31a5443fca6a42a24d6cad03491f2, type: 3}
   references:

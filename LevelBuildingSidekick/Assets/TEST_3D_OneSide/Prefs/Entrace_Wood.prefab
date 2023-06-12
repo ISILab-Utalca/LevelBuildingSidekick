@@ -9,6 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1905805182414072270}
+  - component: {fileID: 3442902921403960031}
+  - component: {fileID: 1248360678471174014}
+  - component: {fileID: 6173866016413660406}
   m_Layer: 0
   m_Name: Entrace_Wood
   m_TagString: Untagged
@@ -30,8 +33,47 @@ Transform:
   m_Children:
   - {fileID: 1425844156452709750}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &3442902921403960031
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4078510376417414385}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.3494848, y: 2.1953833, z: 0.22315979}
+  m_Center: {x: 0.84914905, y: 1.1076916, z: 0.09194183}
+--- !u!65 &1248360678471174014
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4078510376417414385}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.3494848, y: 2.1953833, z: 0.22315979}
+  m_Center: {x: -0.82, y: 1.1076916, z: 0.09194183}
+--- !u!65 &6173866016413660406
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4078510376417414385}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.0276108, y: 0.77450514, z: 0.21601105}
+  m_Center: {x: 0.01794815, y: 2.60835, z: 0.09656143}
 --- !u!1001 &1460051153341596317
 PrefabInstance:
   m_ObjectHideFlags: 0
