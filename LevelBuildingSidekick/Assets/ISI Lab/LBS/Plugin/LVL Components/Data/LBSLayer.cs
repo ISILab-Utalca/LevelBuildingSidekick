@@ -25,6 +25,7 @@ namespace LBS.Components
         private bool visible;
 
         [SerializeField, JsonRequired]
+        [PathTexture]
         public string iconPath; // esto tiene que estar en la layerTemplate (?)
 
         [SerializeField, JsonRequired, SerializeReference]
