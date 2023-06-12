@@ -23,7 +23,7 @@ MonoBehaviour:
     - Path_
   Pref:
   - weight: 1
-    gameObject: {fileID: 6451810950947566407, guid: e0b42a5f5c9cd1146b13c8edad8a536f, type: 3}
+    gameObject: {fileID: 6451810950947566407, guid: 939c57b8e7c6c1346af7e1f68434407a, type: 3}
   - weight: 0.2
     gameObject: {fileID: 7830321114213857928, guid: 86671e7b457fb5e4d9b7db08372ee8a2, type: 3}
   references:
