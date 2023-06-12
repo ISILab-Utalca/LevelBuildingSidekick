@@ -13,7 +13,7 @@ public class AIAgentPanel : VisualElement
     Button details;
     Button execute;
 
-    LBSAIAgent agent;
+    LBSAssistantAI agent;
 
     public AIAgentPanel()
     {
@@ -25,11 +25,11 @@ public class AIAgentPanel : VisualElement
         execute = this.Q<Button>(name: "Execute");
     }
 
-    public AIAgentPanel(ref LBSAIAgent agent) : this()
+    public AIAgentPanel(ref LBSAssistantAI agent) : this()
     {
         this.agent = agent;
 
-        label.text = agent.Name;
+        label.text = agent.GetType().Name; //fix sacar de metadata (!!)
         details.clicked += () => Debug.LogWarning("Not Implemented");
         execute.clicked += () =>
         {
