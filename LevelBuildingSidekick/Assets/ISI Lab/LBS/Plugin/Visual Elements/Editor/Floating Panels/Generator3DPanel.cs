@@ -80,10 +80,13 @@ public class Generator3DPanel : VisualElement
         }
 
         this.layer = layer;
-        this.generator = layer.Assitant.Generator;
+        this.generator = new Generator3D();
+
+        generator.settings = settings;
         this.settings = layer.settingsGen3D;
 
-        generator = layer.Assitant.Generator;
+        /*
+        this.generator = layer.Assitant.Generator;
         if (generator != null)
         {
             dropDownField.Value = generator.GetType().Name;
@@ -96,15 +99,18 @@ public class Generator3DPanel : VisualElement
             //resize.value = generator.settings.resize;
             resizeField.value = settings.resize;
         }
+        */
     }
 
     public void Execute()
     {
+        /*
         if (dropDownField.index < 0) // quitar ya no sirve (!)
         {
             Debug.LogWarning("[ISI LAB]: No has seleccionado un tipo de generador.");
             return;
         }
+        */
 
         if (this.layer == null) // quitar ya no sirve (!)
         {
@@ -121,7 +127,7 @@ public class Generator3DPanel : VisualElement
             }
         }
 
-        if (generator == null || !generator.GetType().Name.Equals(dropDownField.Value))
+        if (generator == null)// || !generator.GetType().Name.Equals(dropDownField.Value))
         {
             generator = dropDownField.GetChoiceInstance() as Generator3D;
         }
@@ -133,7 +139,7 @@ public class Generator3DPanel : VisualElement
             scale = scaleField.value,
         };
 
-        var obj = generator.Generate(this.layer, settings);
+        var obj = generator.Generate(this.layer, this.layer.GeneratorRules, settings);
         Undo.RegisterCreatedObjectUndo(obj, "Create my GameObject");
     }
 
