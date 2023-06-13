@@ -29,8 +29,10 @@ public class ToolBarMain : VisualElement // esto puede ser directamente toolbar
         fileMenu.menu.AppendAction("Save", SaveLevel);
         fileMenu.menu.AppendAction("Save as", SaveAsLevel);
 
+        var keyMapBtn = this.Q<ToolbarButton>("KeyMapBtn");
+        keyMapBtn.clicked += () => { KeyMapWindow.ShowWindow(); };
         // search object in current window
-        var search = this.Q<ToolbarPopupSearchField>("SearchField"); // (!) Implementar
+        //var search = this.Q<ToolbarPopupSearchField>("SearchField"); // (!) Implementar
 
         // file name label
         var label = this.Q<Label>("IsSavedLabel"); // (!) Implementar

@@ -21,6 +21,7 @@ MonoBehaviour:
     - {fileID: 9197481963319205126, guid: 7344b190f1d3f70438826c29269d4429, type: 3}
     - {fileID: 9197481963319205126, guid: 4628a95e6d8a2ae45a54f6b49355d4df, type: 3}
     - {fileID: 9197481963319205126, guid: cc8fc84d9736b834f92f6f182a95fb6a, type: 3}
+    - {fileID: 9197481963319205126, guid: 06dcf28803fc6284b889ea7ce7e3cf0d, type: 3}
     - {fileID: 9197481963319205126, guid: 03dc252bec05aeb44b72ddb383ad918b, type: 3}
     - {fileID: 9197481963319205126, guid: f3fe65e789ea3f54f89a080b7462e7a3, type: 3}
     - {fileID: 9197481963319205126, guid: 0598b9fb932cfed4e99e9d2058ad1aeb, type: 3}
@@ -319,6 +320,10 @@ MonoBehaviour:
   - type: LBSAssetsStorage
     items:
     - {fileID: 11400000}
+  - type: LBS.LevelBackUp
+    items:
+    - {fileID: 11400000, guid: 2474e118fc6712042816c39c6b20248c, type: 2}
+    - {fileID: 11400000, guid: c9fa946110f092a4780913ba067f072f, type: 2}
   - type: LBS.Settings.LBSSettings
     items:
     - {fileID: 11400000, guid: 29abd09f3cff7644da7097258d0ae978, type: 2}
@@ -328,9 +333,6 @@ MonoBehaviour:
   - type: Borodar.RainbowFolders.ProjectRuleset
     items:
     - {fileID: 11400000, guid: 5e41b3c1212089d44971f715d8388de8, type: 2}
-  - type: LBS.LevelBackUp
-    items:
-    - {fileID: 11400000, guid: c9fa946110f092a4780913ba067f072f, type: 2}
   - type: UnityEngine.U2D.SpriteShape
     items:
     - {fileID: 11400000, guid: f24cddf7c09a6442abbce710a6fd7397, type: 2}
