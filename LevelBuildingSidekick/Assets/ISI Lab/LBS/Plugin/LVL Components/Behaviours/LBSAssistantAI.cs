@@ -6,24 +6,40 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [System.Serializable]
-public abstract class LBSAssistantAI
+public abstract class LBSAssistantAI: ICloneable 
 {
     [JsonIgnore]
     protected LBSLayer Owner;
 
-    public LBSAssistantAI()
-    {
+    public Action OnStart;
+    public Action OnTermination;
 
+
+    public LBSAssistantAI(){ }
+
+    public void InternalInit(ref LBSLayer layer)
+    {
+        Owner = layer;
+        Init(ref layer);
     }
+
+    public abstract void Init(ref LBSLayer layer);
+
+    public abstract void Execute();
+
+    public abstract VisualElement GetInspector(); // tiene que estar aqui (???d)
+
+    public abstract object Clone();
 
     public List<Type> GetRequieredModules()
     {
         var toR = new List<Type>();
-        Type tipo = this.GetType();
+        Type type = this.GetType();
 
-        object[] atts = tipo.GetCustomAttributes(true);
+        object[] atts = type.GetCustomAttributes(true);
 
         foreach (var att in atts)
         {
@@ -34,18 +50,21 @@ public abstract class LBSAssistantAI
         }
         return toR;
     }
+
+    public Metadata GetMetaData()
+    {
+        Type type = this.GetType();
+        object[] atts = type.GetCustomAttributes(true);
+
+        foreach (var att in atts)
+        {
+            var attribute = att as MetadataAttribute;
+            if(attribute !=null)
+            {
+                return attribute.metadata;
+            }
+        }
+        return default(Metadata);
+    }
 }
 
-[System.Serializable]
-[RequieredModule(typeof(Exterior))]
-public class AssistantWFC : LBSAssistantAI
-{
-
-}
-
-[System.Serializable]
-[RequieredModule(typeof(LBSRoomGraph), typeof(LBSSchema))]
-public class AssistantHillClimbing : LBSAssistantAI
-{
-
-}
