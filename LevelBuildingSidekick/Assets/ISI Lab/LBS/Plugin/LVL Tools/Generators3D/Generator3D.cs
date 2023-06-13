@@ -6,6 +6,7 @@ using LBS.Components;
 using LBS.Generator;
 using Newtonsoft.Json;
 using System;
+using Utility;
 
 namespace LBS.Generator
 {
@@ -16,10 +17,13 @@ namespace LBS.Generator
         public struct Settings
         {
             [SerializeField]
+            [JsonConverter(typeof(Vector2Converter))]
             public Vector2 scale;
             [SerializeField]
+            [JsonConverter(typeof(Vector2Converter))]
             public Vector2 resize;
             [SerializeField]
+            [JsonConverter(typeof(Vector3Converter))]
             public Vector3 position;
             [SerializeField]
             public string name;
