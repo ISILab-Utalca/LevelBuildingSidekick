@@ -28,7 +28,10 @@ namespace LBS.Components
         private bool blocked = false; // meta info
 
         [SerializeField, JsonRequired]
+        public string selectedMode; // meta info
+
         [PathTexture]
+        [SerializeField, JsonRequired]
         public string iconPath; // esto tiene que estar en la layerTemplate (?)
 
         [SerializeField, JsonRequired, SerializeReference]

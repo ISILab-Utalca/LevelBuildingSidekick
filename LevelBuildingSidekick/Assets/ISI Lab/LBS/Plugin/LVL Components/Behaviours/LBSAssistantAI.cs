@@ -30,7 +30,7 @@ public abstract class LBSAssistantAI: ICloneable
 
     public abstract void Execute();
 
-    public abstract VisualElement GetInspector(); // tiene que estar aqui (???d)
+    public abstract VisualElement GetInspector(); // tiene que estar aqui (???)
 
     public abstract object Clone();
 

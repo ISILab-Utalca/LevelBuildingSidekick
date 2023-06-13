@@ -24,8 +24,10 @@ public class DrawManager
         view.ClearView();
 
         var _allLayers = new List<LBSLayer>(allLayers);
-        foreach (var otherLayer in _allLayers)
+        for (int i = _allLayers.Count - 1; i >= 0; i--)
         {
+            var otherLayer = _allLayers[i];
+
             if (!otherLayer.IsVisible)
                 continue;
 
@@ -41,6 +43,5 @@ public class DrawManager
                 oMode.Drawer.Draw(ref _other, view);
             }
         }
-
     }
 }

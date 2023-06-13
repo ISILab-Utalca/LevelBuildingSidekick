@@ -17,10 +17,18 @@ public class CreateNewGrammarNode : ManipulateGrammarGraph // where T: LBSNode  
         this.prefix = "";
     }
 
-    protected override void OnMouseDown(MouseDownEvent e)
+    protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
     {
-        OnManipulationStart?.Invoke();
-        var pos = mainView.FixPos(e.localMousePosition);
+    }
+
+    protected override void OnMouseMove(VisualElement target, Vector2Int movePosition, MouseMoveEvent e)
+    {
+        //throw new NotImplementedException();
+    }
+
+    protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
+    {
+        var pos = MainView.FixPos(e.localMousePosition);
         //var pos = e.localMousePosition;
 
         var name = "";
@@ -37,16 +45,5 @@ public class CreateNewGrammarNode : ManipulateGrammarGraph // where T: LBSNode  
         var a = new QuestStep(actionToSet); //var n = Activator.CreateInstance<T>();
         var n = new LBSNode(name, pos);
         module.AddNode(n, a);
-        this.OnManipulationEnd?.Invoke();
-    }
-
-    protected override void OnMouseMove(MouseMoveEvent e)
-    {
-        //throw new NotImplementedException();
-    }
-
-    protected override void OnMouseUp(MouseUpEvent e)
-    {
-        //throw new NotImplementedException();
     }
 }
