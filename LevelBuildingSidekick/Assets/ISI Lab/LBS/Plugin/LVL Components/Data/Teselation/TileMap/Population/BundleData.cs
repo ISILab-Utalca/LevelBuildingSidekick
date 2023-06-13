@@ -50,17 +50,16 @@ namespace LBS.Components.TileMap
         public override bool Equals(object obj)
         {
             return base.Equals(obj);
-            /*
-            if(obj is BundleData)
-            {
-                return (obj as BundleData).BundleTag == BundleTag;
-            }
-            if(obj is Bundle_Old)
-            {
-                return (obj as Bundle_Old).ID.Label == BundleTag;
-            }
-            return base.Equals(obj);
-            */
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return base.ToString();
         }
         #endregion
     }
