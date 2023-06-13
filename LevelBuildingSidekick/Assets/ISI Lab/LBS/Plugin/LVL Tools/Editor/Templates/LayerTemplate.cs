@@ -17,6 +17,13 @@ public class LayerTemplate : ScriptableObject
     public List<LBSMode> modes = new List<LBSMode>();
     [JsonRequired, SerializeReference]
     public List<Transformer> transformers = new List<Transformer>();
+
+    public void Clear()
+    {
+        this.layer = new LBSLayer();
+        this.modes.Clear();
+        this.transformers.Clear();
+    }
 }
 
 [System.Serializable]
@@ -71,5 +78,6 @@ public class LBSMode
         this.Drawer = drawer;
         this.toolkit = toolkit;
     }
+
 
 }
