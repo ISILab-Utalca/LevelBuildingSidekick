@@ -162,17 +162,19 @@ public class LayerTemplateEditor : Editor
         Texture2D icon = Resources.Load<Texture2D>("Icons/Select");
         var tool1 = new LBSTool(icon, "Select", typeof(Select), null, true);
         icon = Resources.Load<Texture2D>("Icons/Addnode");
-        var tool2 = new LBSTool(icon, "Add node", typeof(CreateNewRoomNode), null, false);
+        var tool2 = new LBSTool(icon, "Add Node", typeof(CreateNewRoomNode), null, false);
         icon = Resources.Load<Texture2D>("Icons/AddConnection");
         var tool3 = new LBSTool(icon, "Add conection", typeof(CreateNewConnection<RoomNode>), null, false);
         icon = Resources.Load<Texture2D>("Icons/Trash");
-        var tool4 = new LBSTool(icon, "Remove", typeof(RemoveGraphNode<RoomNode>), null, false);
+        var tool4 = new LBSTool(icon, "Remove Node", typeof(RemoveGraphNode<RoomNode>), null, false);
+        icon = Resources.Load<Texture2D>("Icons/Trash");
+        var tool10 = new LBSTool(icon, "Remove Connection", typeof(RemoveGraphConnection), null, false);
 
         var mode1 = new LBSMode(
             "Graph",
             typeof(GraphModule<RoomNode>)
             , new DrawSimpleGraph(),
-            new List<LBSTool>() { tool1, tool2, tool3, tool4 }
+            new List<LBSTool>() { tool1, tool2, tool3, tool4, tool10 }
             );
         template.modes.Add(mode1);
 

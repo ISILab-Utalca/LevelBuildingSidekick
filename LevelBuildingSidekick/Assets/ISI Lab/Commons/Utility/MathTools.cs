@@ -7,29 +7,7 @@ namespace Utility
 {
     public static class MathTools
     {
-        public static float PointToLineDistance(Vector2 point, Vector2 lineStart, Vector2 lineEnd)
-        {
-
-            float dist = Vector2.Distance(lineStart, lineEnd);
-            if (dist == 0)
-            {
-                return Vector2.Distance(point, lineStart);
-            }
-
-            /*float m = lineEnd.y - lineStart.y / (lineEnd.x - lineStart.x);
-
-            Vector2 p1 = new Vector2(point.x, m * point.x);
-            Vector2 p2 = new Vector2(point.y / m, point.y);*/
-
-
-            float perc = Vector2.Dot((point - lineStart)/dist, (lineEnd - lineStart)/dist);
-            
-            Vector2 v = lineStart + ((lineEnd - lineStart) * perc);
-
-            //Debug.Log("S: " + lineStart + " - E: " + lineEnd + " - P:" + point + " - Perc:" + perc + " - P_SE: " + v + " - D: " + Vector2.Distance(v, point));
-
-            return Vector2.Distance(v,point);
-        }
+        
 
         public static int GetAngleD15(Vector2 v1, Vector2 v2)
         {

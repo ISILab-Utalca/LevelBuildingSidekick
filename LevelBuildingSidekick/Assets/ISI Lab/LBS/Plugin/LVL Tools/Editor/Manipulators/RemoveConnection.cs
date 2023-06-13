@@ -24,11 +24,12 @@ public class RemoveConnection<T> : ManipulateTeselation<T> where T : LBSTile
 
     protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
     {
-        var tile = e.target as ExteriorTileView;
+        var pos = module.Owner.ToFixedPosition(position);
+        var tile = module.GetTile(pos) as ConnectedTile;
         if (tile == null)
             return;
 
-        first = tile.Data;
+        first = tile;
     }
 
     protected override void OnMouseMove(VisualElement target, Vector2Int position, MouseMoveEvent e)
@@ -50,23 +51,20 @@ public class RemoveConnection<T> : ManipulateTeselation<T> where T : LBSTile
         if (fDir < 0 || fDir >= dirs.Count)
             return;
 
+        var tile = module.GetTile(pos);
 
-        if (e.target is MainView)
+        if (tile == null)
         {
             first.SetConnection("", fDir);
             return;
         }
 
-        var tile = e.target as ExteriorTileView;
-        if (tile == null)
-            return;
+        var second = tile as ConnectedTile;
 
-        var second = tile.Data;
+        if (second == null)
+            return;
 
         if (second == first)
-            return;
-
-        if (first == second)
             return;
 
         if (Mathf.Abs(dx) + Mathf.Abs(dy) > 1f)
@@ -75,8 +73,6 @@ public class RemoveConnection<T> : ManipulateTeselation<T> where T : LBSTile
 
         first.SetConnection("", fDir);
         second.SetConnection("", tDir);
-
-        OnManipulationEnd?.Invoke();
     }
 
 

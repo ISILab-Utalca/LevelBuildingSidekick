@@ -33,7 +33,9 @@ public class CreateNewConnection<T> : ManipulateGraph<T> where T : LBSNode
     private void OnMouseEnter(MouseOverEvent evt)
     {
         var node = evt.target as LBSNodeView<T>;
-        if (node != null)
+        if (node == null)
+            return;
+        if ((node.capabilities & Capabilities.Movable) != 0)
             node.capabilities -= 8;
     }
 
@@ -43,21 +45,21 @@ public class CreateNewConnection<T> : ManipulateGraph<T> where T : LBSNode
         if (node == null)
             return;
 
-        node.capabilities += 8;
+        if ((node.capabilities & Capabilities.Movable) == 0)
+            node.capabilities += 8;
     }
 
     protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
     {
-        var node = e.target as LBSNodeView<T>;
+        var node = module.GetNode(startPosition);
         if (node == null)
             return;
 
-        first = node.Data;
+        first = node;
     }
 
     protected override void OnMouseMove(VisualElement target, Vector2Int MovePosition, MouseMoveEvent e)
     {
-        //throw new NotImplementedException();
     }
 
     protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
@@ -65,11 +67,11 @@ public class CreateNewConnection<T> : ManipulateGraph<T> where T : LBSNode
         if (first == null)
             return;
 
-        var node = e.target as LBSNodeView<T>;
+        var node = module.GetNode(endPosition);
         if (node == null)
             return;
 
-        var edge = new LBSEdge(first, node.Data);
+        var edge = new LBSEdge(first, node);
         module.AddEdge(edge);
     }
 }

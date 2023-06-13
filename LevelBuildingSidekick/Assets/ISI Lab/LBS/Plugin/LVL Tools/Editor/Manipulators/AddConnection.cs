@@ -27,12 +27,14 @@ public class AddConnection<T> : ManipulateTeselation<T> where T : LBSTile
     protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
     {
         //OnManipulationStart?.Invoke();
+        var pos = module.Owner.ToFixedPosition(position);
+        var tile = module.GetTile(pos) as ConnectedTile;
 
-        var tile = e.target as ExteriorTileView;
+        //var tile = e.target as ExteriorTileView;
         if (tile == null)
             return;
 
-        first = tile.Data;
+        first = tile;
     }
 
     protected override void OnMouseMove(VisualElement target, Vector2Int position, MouseMoveEvent e)
@@ -54,18 +56,20 @@ public class AddConnection<T> : ManipulateTeselation<T> where T : LBSTile
         if (fDir < 0 || fDir >= dirs.Count)
             return;
 
+        var tile = module.GetTile(pos);
 
-        if (e.target is MainView)
+        if (tile == null)
         {
             first.SetConnection(tagToSet.Label, fDir);
             return;
         }
 
-        var tile = e.target as ExteriorTileView;
-        if (tile == null)
-            return;
+        var second = tile as ConnectedTile;
 
-        var second = tile.Data;
+        if (second == null)
+        {
+            return;
+        }
 
         if (first == second)
             return;

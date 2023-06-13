@@ -106,6 +106,11 @@ namespace LBS.Components.Graph
             return nodes[index] as T;
         }
 
+        public T GetNode(Vector2Int position)
+        {
+            return nodes.Find(n => (new Rect(n.Position - Vector2Int.one*60, Vector2Int.one*120)).Contains(position)) as T;
+        }
+
         /// <summary>
         /// Return a list of nodes.
         /// </summary>
@@ -165,6 +170,17 @@ namespace LBS.Components.Graph
         public LBSEdge GetEdge(int index)
         {
             return edges[index];
+        }
+
+        public LBSEdge GetEdge(Vector2 position, float delta)
+        {
+            foreach(var e in edges)
+            {
+                var dist = position.DistanceToLine(e.FirstNode.Position, e.SecondNode.Position);
+                if (dist < delta)
+                    return e;
+            }
+            return null;
         }
 
         /// <summary>

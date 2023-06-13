@@ -3,6 +3,7 @@ using LBS.Components.Graph;
 using LBS.Components.Specifics;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEditor.PackageManager.UI;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -32,7 +33,9 @@ public class RemoveGraphNode<T> : ManipulateGraph<T> where T : LBSNode
     private void OnMouseEnter(MouseOverEvent evt)
     {
         var node = evt.target as LBSNodeView<T>;
-        if (node != null)
+        if (node == null)
+            return;
+        if ((node.capabilities & Capabilities.Movable) != 0)
             node.capabilities -= 8;
     }
 
@@ -42,19 +45,20 @@ public class RemoveGraphNode<T> : ManipulateGraph<T> where T : LBSNode
         if (node == null)
             return;
 
-        node.capabilities += 8;
+        if ((node.capabilities & Capabilities.Movable) != 0)
+            node.capabilities += 8;
     }
 
     protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
     {
-        var node = e.target as LBSNodeView<T>;
+        var node = module.GetNode(startPosition);
 
         if (node == null)
         {
             return;
         }
 
-        selected = node.Data;
+        selected = node;
     }
 
     protected override void OnMouseMove(VisualElement target, Vector2Int MovePosition, MouseMoveEvent e)
@@ -64,15 +68,15 @@ public class RemoveGraphNode<T> : ManipulateGraph<T> where T : LBSNode
 
     protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
     {
-        var node = e.target as LBSNodeView<T>;
+        var node = module.GetNode(endPosition);
 
-        if (node == null || !node.Data.Equals(selected))
+        if (node == null || !node.Equals(selected))
         {
             selected = null;
             return;
         }
 
-        module.RemoveNode(node.Data);
+        module.RemoveNode(node);
 
     }
 }

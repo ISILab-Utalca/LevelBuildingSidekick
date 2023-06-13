@@ -29,11 +29,12 @@ public class AddDoor<T, U> : ManipulateTiledArea<T, U> where T : TiledArea where
 
     protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
     {
-        var tile = e.target as SchemaTileView;
+        var pos = module.Owner.ToFixedPosition(startPosition);
+        var tile = module.GetTile(pos) as ConnectedTile;
         if (tile == null)
             return;
 
-        first = tile.Data;
+        first = tile;
     }
 
     protected override void OnMouseMove(VisualElement target, Vector2Int MovePosition, MouseMoveEvent e)
@@ -56,18 +57,19 @@ public class AddDoor<T, U> : ManipulateTiledArea<T, U> where T : TiledArea where
         if (fDir < 0 || fDir >= dirs.Count)
             return;
 
+        var tile = module.GetTile(pos);
 
-        if (e.target is MainView)
+        if (tile == null)
         {
             first.SetConnection("Door", fDir);
             return;
         }
 
-        var tile = e.target as SchemaTileView;
+        var second = tile as ConnectedTile;
+
         if (tile == null)
             return;
 
-        var second = tile.Data;
 
         var r2 = module.GetArea(second.Position);
         if (r1.Equals(r2))
