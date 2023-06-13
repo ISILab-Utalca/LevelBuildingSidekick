@@ -2,6 +2,7 @@ using LBS.Components;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -58,9 +59,10 @@ public class LayerView : VisualElement
         layerName.value = name;
     }
 
-    private void SetIcon(string name)
+    private void SetIcon(string path)
     {
-        var texture = Resources.Load<Texture2D>(name);
+        var texture = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+        //var texture = Resources.Load<Texture2D>(name);
         layerIcon.style.backgroundImage = texture;
     }
 
