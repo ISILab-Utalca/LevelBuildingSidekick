@@ -56,51 +56,55 @@ MonoBehaviour:
     id: Exterior
     name: Layer Exterior
     visible: 1
-    iconPath: Icons/pine-tree
+    blocked: 0
+    iconPath: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/pine-tree.png
     modules:
-    - rid: 5729019051077534330
+    - rid: 3767989250450784862
+    behaviours: []
+    assitantsAI:
+    - rid: 3767989250450784863
+    generatorRules: []
     settingsGen3D:
       scale: {x: 10, y: 10}
       resize: {x: 0, y: 0}
       position: {x: 0, y: 0, z: 0}
-      name: Exterior layer
-    behaviours: []
-    assitantsAI: []
-    assistant: ExteriorAsstant
+      name: Exteriror
   modes:
-  - rid: 5729019051077534331
+  - rid: 3767989250450784864
   transformers: []
   references:
     version: 2
     RefIds:
-    - rid: 5729019051077534330
+    - rid: 3767989250450784862
       type: {class: Exterior, ns: , asm: Assembly-CSharp}
       data:
         key: Exterior
         visible: 0
         changed: 0
         tiles: []
-    - rid: 5729019051077534331
+    - rid: 3767989250450784863
+      type: {class: AssitantWFC, ns: , asm: Assembly-CSharp-Editor}
+    - rid: 3767989250450784864
       type: {class: LBSMode, ns: , asm: Assembly-CSharp-Editor}
       data:
         name: Exterior
         drawer: DrawExterior
         module: LBS.Components.TileMap.TiledArea
         toolkit:
-        - rid: 5729019051077534332
-        - rid: 5729019051077534333
-        - rid: 5729019051077534334
-        - rid: 5729019051077534335
-        - rid: 5729019051077534336
-        - rid: 5729019051077534337
-    - rid: 5729019051077534332
+        - rid: 3767989250450784865
+        - rid: 3767989250450784866
+        - rid: 3767989250450784867
+        - rid: 3767989250450784868
+        - rid: 3767989250450784869
+        - rid: 3767989250450784870
+    - rid: 3767989250450784865
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: 771d36a714319204ea4ddcbecdc2006e, type: 3}
         name: Select
         manipulator: Select
         inspector: 
-    - rid: 5729019051077534333
+    - rid: 3767989250450784866
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: b1704af221b60f64face13aea01f1b04, type: 3}
@@ -108,7 +112,7 @@ MonoBehaviour:
         manipulator: AddEmptyTile`1[[LBS.Components.TileMap.ConnectedTile, Assembly-CSharp,
           Version=2.6.0.0, Culture=neutral, PublicKeyToken=null]]
         inspector: 
-    - rid: 5729019051077534334
+    - rid: 3767989250450784867
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: b1704af221b60f64face13aea01f1b04, type: 3}
@@ -116,7 +120,7 @@ MonoBehaviour:
         manipulator: RemoveTileExterior`1[[LBS.Components.TileMap.ConnectedTile,
           Assembly-CSharp, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null]]
         inspector: 
-    - rid: 5729019051077534335
+    - rid: 3767989250450784868
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: bd700db3dfe4b4d40be798aee555d7f7, type: 3}
@@ -124,7 +128,7 @@ MonoBehaviour:
         manipulator: AddConnection`1[[LBS.Components.TileMap.ConnectedTile, Assembly-CSharp,
           Version=2.6.0.0, Culture=neutral, PublicKeyToken=null]]
         inspector: TagsPalleteInspector
-    - rid: 5729019051077534336
+    - rid: 3767989250450784869
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: 8e8fbec1ef6d10c43a3cd708f17ea463, type: 3}
@@ -132,7 +136,7 @@ MonoBehaviour:
         manipulator: RemoveConnection`1[[LBS.Components.TileMap.ConnectedTile, Assembly-CSharp,
           Version=2.6.0.0, Culture=neutral, PublicKeyToken=null]]
         inspector: 
-    - rid: 5729019051077534337
+    - rid: 3767989250450784870
       type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
       data:
         icon: {fileID: 2800000, guid: d1efc50fafb6a5a429b2727a75b526eb, type: 3}
