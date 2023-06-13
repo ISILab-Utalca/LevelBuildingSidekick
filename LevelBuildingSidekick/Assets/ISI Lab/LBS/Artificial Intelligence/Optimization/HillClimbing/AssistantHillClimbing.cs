@@ -15,21 +15,24 @@ using LBS.Tools.Transformer;
 using System;
 
 [System.Serializable]
-public class SchemaHCAgent : LBSAIAgent
+[RequieredModule(typeof(LBSRoomGraph), typeof(LBSSchema))]
+[Metadata(
+    "Hill climbing algorithm",
+    "THIS/IS/A/FAKE/PATH/ICON", // Implementar bien (!!!)
+    "Hill Climbing is an optimization algorithm that iteratively improves a" +
+    " solution by exploring neighboring options.")]
+public class AssistantHillClimbing : LBSAssistantAI
 {
     HillClimbing hillClimbing;
 
-    public SchemaHCAgent(LBSLayer layer, string id): base(layer, id, "SchemaHillClimbing")
-    {
-
-    }
+    public AssistantHillClimbing() {}
 
     public override void Execute()
     {
         Debug.Log("HillClimbing start!");
         OnStart?.Invoke();
 
-        this.Init(ref this.layer);
+        var layer = this.Owner;
 
         hillClimbing.Start();
         var x = (hillClimbing.BestCandidate as OptimizableSchema).Schema;
@@ -45,7 +48,8 @@ public class SchemaHCAgent : LBSAIAgent
 
     public override VisualElement GetInspector()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("No implemntado HillClimbing");
+        return new Label("No implementado");
     }
 
     private void SetDoors(LBSSchema schema, LBSRoomGraph graph)
@@ -106,10 +110,6 @@ public class SchemaHCAgent : LBSAIAgent
 
     public override void Init(ref LBSLayer layer)
     {
-        name = "Schema HillClimbing";
-
-        this.layer = layer;
-
         var graph = layer.GetModule<LBSRoomGraph>();
 
         var schema = layer.GetModule<LBSSchema>();
@@ -189,6 +189,6 @@ public class SchemaHCAgent : LBSAIAgent
 
     public override object Clone()
     {
-        return new SchemaHCAgent(layer, id);
+        return new AssistantHillClimbing();
     }
 }
