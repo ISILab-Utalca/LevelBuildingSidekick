@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-[CustomVisualElement(typeof(SchemaHCAgent))]
+[CustomVisualElement(typeof(AssistantHillClimbing))]
 public class SchemaHCVE : VisualElement
 {
-    SchemaHCAgent agent;
+    AssistantHillClimbing agent;
     VisualElement log = new VisualElement();
 
     static double Nlog = 0;
@@ -16,9 +16,9 @@ public class SchemaHCVE : VisualElement
     static double generationsRun = 0;
     static double totalTime = 0;
 
-    public SchemaHCVE(LBSAIAgent agent)
+    public SchemaHCVE(LBSAssistantAI agent)
     {
-        this.agent = agent as SchemaHCAgent;
+        this.agent = agent as AssistantHillClimbing;
         if (this.agent == null)
             return;
 
