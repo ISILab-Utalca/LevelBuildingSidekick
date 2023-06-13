@@ -11,7 +11,7 @@ using UnityEditor;
 namespace LBS.Generator
 {
     [System.Serializable]
-    public class PopulationGenerator : GeneratorRule // PopulationGenerator -> TaggedTileMapGenerator (?)
+    public class PopulationRuleGenerator : LBSGeneratorRule // PopulationGenerator -> TaggedTileMapGenerator (?)
     {
         public override bool CheckIfIsPosible(LBSLayer layer,out string msg)
         {
@@ -20,6 +20,11 @@ namespace LBS.Generator
             var data = layer.GetModule<TaggedTileMap>();
 
             return (data != null);
+        }
+
+        public override object Clone()
+        {
+            return new PopulationRuleGenerator();
         }
 
         public override GameObject Generate(LBSLayer layer, Generator3D.Settings settings)

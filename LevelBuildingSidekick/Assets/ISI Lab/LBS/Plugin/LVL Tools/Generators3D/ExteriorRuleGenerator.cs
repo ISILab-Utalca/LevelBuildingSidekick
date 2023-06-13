@@ -9,7 +9,7 @@ using Utility;
 namespace LBS.Generator
 {
     [System.Serializable]
-    public class ExteriorGenerator : GeneratorRule //  (!!!) esta clase mescla lo que tiene que hacer la IA de WFC con generar 3d posteriormente
+    public class ExteriorRuleGenerator : LBSGeneratorRule //  (!!!) esta clase mescla lo que tiene que hacer la IA de WFC con generar 3d posteriormente
     {
         public override bool CheckIfIsPosible(LBSLayer layer, out string msg)
         {
@@ -18,6 +18,11 @@ namespace LBS.Generator
             msg = "The layer does not contain any module corresponding to 'Exterior'.";
 
             return (module != null);
+        }
+
+        public override object Clone()
+        {
+            return new ExteriorRuleGenerator();
         }
 
         public override GameObject Generate(LBSLayer layer, Generator3D.Settings settings)

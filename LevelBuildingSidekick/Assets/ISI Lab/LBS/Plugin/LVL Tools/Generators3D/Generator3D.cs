@@ -5,6 +5,7 @@ using UnityEngine;
 using LBS.Components;
 using LBS.Generator;
 using Newtonsoft.Json;
+using System;
 
 namespace LBS.Generator
 {
@@ -29,7 +30,7 @@ namespace LBS.Generator
         #endregion
 
         [SerializeReference]
-        private List<GeneratorRule> rules = new List<GeneratorRule>();
+        private List<LBSGeneratorRule> rules = new List<LBSGeneratorRule>();
 
         #region PROPERTIES
         /*
@@ -60,13 +61,13 @@ namespace LBS.Generator
         #endregion
 
         #region METHODS
-        public void AddRule(GeneratorRule rule)
+        public void AddRule(LBSGeneratorRule rule)
         {
             rules.Add(rule);
             rule.generator3D = this;
         }
 
-        public void RemoveRule(GeneratorRule rule)
+        public void RemoveRule(LBSGeneratorRule rule)
         {
             if (rules.Remove(rule))
                 rule.generator3D = null;
@@ -86,18 +87,19 @@ namespace LBS.Generator
             return true;
         }
 
-        public GameObject Generate(LBSLayer layer, Settings settings)
+        public GameObject Generate(LBSLayer layer,List<LBSGeneratorRule> rules, Settings settings)
         {
             var name = settings.name;
             var parent = new GameObject(name);
+            this.rules = rules;
 
-            if (rules.Count <= 0)
+            if (this.rules.Count <= 0)
             {
                 Debug.Log("[ISILab]: Generator contain 0 rules to generate map");
                 return parent;
             }
 
-            for (int i = 0; i < rules.Count; i++)
+            for (int i = 0; i < this.rules.Count; i++)
             {
                 var ruleParent = new GameObject("sub_" + name + "_" + i);
                 ruleParent = rules[i].Generate(layer, settings);
@@ -109,27 +111,6 @@ namespace LBS.Generator
         #endregion
 
 
-    }
-
-    [SerializeField]
-    public abstract class GeneratorRule
-    {
-        [JsonIgnore]
-        internal Generator3D generator3D;
-
-        public GeneratorRule() { }
-
-        public abstract GameObject Generate(LBSLayer layer, Generator3D.Settings settings);
-
-        public abstract bool CheckIfIsPosible(LBSLayer layer, out string msg); // mejorar nombre (!!!)
-    }
-}
-
-public static class GameObjectExtension
-{
-    public static void SetParent(this GameObject gameObjct, GameObject other)
-    {
-        gameObjct.transform.parent = other.transform;
     }
 }
 

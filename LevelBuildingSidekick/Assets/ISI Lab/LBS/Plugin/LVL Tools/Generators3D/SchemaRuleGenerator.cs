@@ -10,7 +10,7 @@ using System.Linq;
 //using UnityEditor;
 
 [System.Serializable]
-public class SchemaGenerator : GeneratorRule
+public class SchemaRuleGenerator : LBSGeneratorRule
 {
     LBSSchema schema;
     LBSRoomGraph graph;
@@ -32,6 +32,11 @@ public class SchemaGenerator : GeneratorRule
             return false;
         }
         return true;
+    }
+
+    public override object Clone()
+    {
+        return new SchemaRuleGenerator();
     }
 
     public override GameObject Generate(LBSLayer layer, Generator3D.Settings settings)
