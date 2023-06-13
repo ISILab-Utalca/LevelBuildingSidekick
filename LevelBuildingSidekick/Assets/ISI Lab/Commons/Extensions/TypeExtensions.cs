@@ -10,4 +10,12 @@ public static class TypeExtensions
     {
         return types.Where(t => baseType.IsAssignableFrom(t) && t != baseType);
     }
+
+    public static IEnumerable<Type> GetDerivedTypes(this Type baseType)
+    {
+        return AppDomain.CurrentDomain.GetAssemblies()
+            .SelectMany(assembly => assembly.GetTypes())
+            .Where(type => baseType.IsAssignableFrom(type) && type != baseType);
+    }
 }
+
