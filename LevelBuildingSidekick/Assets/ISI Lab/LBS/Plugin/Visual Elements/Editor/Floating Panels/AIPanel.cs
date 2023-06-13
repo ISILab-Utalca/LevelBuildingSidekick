@@ -29,22 +29,21 @@ public class AIPanel : VisualElement
         for (int i = 0; i < assistants.Count; i++)
         {
             var ass = assistants[i];
-            ass.OnTermination = OnAIExecute;
-            ass.OnTermination = OnEndExecute;
+            ass.OnTermination = OnFinish;
             ass.Init(ref layer);
-            container.Add(GetAgentPanel(agent));
+            container.Add(GetAgentPanel(ass));
             //container.Add(new AIAgentPanel(ref ass));
 
 /*
             var agent = assist.GetAgent(i);
-            agent.OnTermination = OnFinish;
+            
             agent.Init(ref layer);
             container.Add(GetAgentPanel(agent));
             */
         }
     }
 
-    private VisualElement GetAgentPanel(LBSAIAgent agent)
+    private VisualElement GetAgentPanel(LBSAssistantAI agent)
     {
         var candidates = Utility.Reflection.GetClassesWith<CustomVisualElementAttribute>();
         if (candidates.Count <= 0)
