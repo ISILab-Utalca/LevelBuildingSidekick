@@ -16,13 +16,16 @@ namespace LBS.Components
     {
         #region FIELDS
         [SerializeField, JsonRequired]
-        private string id;
+        private string id = "Default ID"; // asegurarse que se usa (!)
 
         [SerializeField, JsonRequired]
-        private string name;
+        private string name = "Layer name";
 
         [SerializeField, JsonRequired]
-        private bool visible;
+        private bool visible = true; // meta info
+
+        [SerializeField, JsonRequired]
+        private bool blocked = false; // meta info
 
         [SerializeField, JsonRequired]
         [PathTexture]
@@ -34,19 +37,24 @@ namespace LBS.Components
         [JsonRequired]//[SerializeField, JsonRequired, SerializeReference] // SerializeReference (?), SerializeField (?)
         private LBSLevelData parent;
 
-        [SerializeField, JsonRequired]
-        public Generator3D.Settings settingsGen3D;
-
         [SerializeField, JsonRequired, SerializeReference]
         private List<LBSBehaviour> behaviours = new List<LBSBehaviour>();
 
         [SerializeField, JsonRequired, SerializeReference]
-        [ScriptableObjectReference(typeof(LBSLayerAssistant))]
-        private List<string> assitantsAI = new List<string>(); // por que uso un string cuando puedo usar la clase (???)
+        //[ScriptableObjectReference(typeof(LBSAssistantAI))]
+        private List<LBSAssistantAI> assitantsAI = new List<LBSAssistantAI>(); // por que uso un string cuando puedo usar la clase (???)
 
-        [SerializeField, JsonRequired]
+        /*
+        [SerializeField, JsonRequired, SerializeReference]
         [ScriptableObjectReference(typeof(LBSLayerAssistant))]
         private string assistant;
+        */
+
+        [SerializeField, JsonRequired, SerializeReference]
+        private List<LBSGeneratorRule> generatorRules = new List<LBSGeneratorRule>();
+
+        [SerializeField, JsonRequired]
+        public Generator3D.Settings settingsGen3D;
 
         #endregion
 
@@ -58,11 +66,16 @@ namespace LBS.Components
         }
 
         [JsonIgnore]
-        public List<string> AssitantAI
+        public List<LBSAssistantAI> Assitants
         {
-            get => new List<string>(assitantsAI); // cambiar de string al objeto
+            get => new List<LBSAssistantAI>(assitantsAI); // cambiar de string al objeto
         }
 
+        [JsonIgnore]
+        public List<LBSGeneratorRule> GeneratorRules
+        {
+            get => new List<LBSGeneratorRule>(generatorRules);
+        }
 
         [JsonIgnore]
         public LBSLevelData Parent
@@ -113,12 +126,14 @@ namespace LBS.Components
             get => new List<LBSModule>(modules);
         }
 
+        /*
         [JsonIgnore]
         public LBSLayerAssistant Assitant
         {
             get => Utility.DirectoryTools.GetScriptable<LBSLayerAssistant>(assistant);
             set => assistant = value.name;
         }
+        */
         #endregion
 
         #region EVENTS
@@ -141,7 +156,11 @@ namespace LBS.Components
             ID = GetType().Name;
         }
 
-        public LBSLayer(List<LBSModule> modules, string ID, bool visible, string name, string iconPath, Vector2Int tileSize)
+        public LBSLayer(
+            List<LBSModule> modules,
+            List<LBSAssistantAI> assistant,
+            List<LBSGeneratorRule> rules,
+            string ID, bool visible, string name, string iconPath, Vector2Int tileSize)
         {
             modules.ForEach(m => {
                 AddModule(m);
@@ -156,6 +175,19 @@ namespace LBS.Components
         #endregion
 
         #region  METHODS
+        public void Reload()
+        {
+            foreach (var module in modules)
+            {
+                module.OnReload(this);
+                module.Owner = this;
+                module.OnChanged = (mo) =>
+                {
+                    this.onModuleChange?.Invoke(this);
+                };
+            }
+        }
+
         public void AddBehaviour(LBSBehaviour behaviour)
         {
             if (this.behaviours.Contains(behaviour))
@@ -183,17 +215,35 @@ namespace LBS.Components
             this.behaviours.Remove(behaviour);
         }
 
-        public void Reload()
+        public void AddGeneratorRule(LBSGeneratorRule rule)
         {
-            foreach (var module in modules)
+            this.generatorRules.Add(rule);
+        }
+
+        public bool RemoveGeneratorRule(LBSGeneratorRule rule)
+        {
+            return this.generatorRules.Remove(rule);
+        }
+
+        public void AddAssistant(LBSAssistantAI assistant)
+        {
+            if (this.assitantsAI.Find( a => assistant.GetType().Equals(a.GetType())) != null)
             {
-                module.OnReload(this);
-                module.Owner = this;
-                module.OnChanged = (mo) =>
-                {
-                    this.onModuleChange?.Invoke(this);
-                };
+                Debug.Log("[ISI Lab]: This layer already contains the assistant " + assistant.GetType().Name + ".");
+                return;
             }
+
+            this.assitantsAI.Add(assistant);
+        }
+
+        public bool RemoveAssitant(LBSAssistantAI assistant)
+        {
+            return this.assitantsAI.Remove(assistant);
+        }
+
+        public LBSAssistantAI GetAssistant(int index)
+        {
+            return assitantsAI[index];
         }
 
         public bool AddModule(LBSModule module)
@@ -212,6 +262,19 @@ namespace LBS.Components
             return true;
         }
 
+        public bool RemoveModule(LBSModule module)
+        {
+            var removed = modules.Remove(module);
+            if (removed)
+            {
+                module.Owner = null;
+                module.OnChanged -= (mo) => { this.onModuleChange(this); };
+            }
+            module.OnDetach(this);
+            return removed;
+        }
+
+        /*
         public bool InsertModule(int index, LBSModule module)
         {
             if (modules.Contains(module))
@@ -227,18 +290,7 @@ namespace LBS.Components
             module.OnChanged += (mo) => { this.onModuleChange(this); };
             return true;
         }
-
-        public bool RemoveModule(LBSModule module)
-        {
-            var removed = modules.Remove(module);
-            if(removed)
-            {
-                module.Owner = null;
-                module.OnChanged -= (mo) => { this.onModuleChange(this); };
-            }
-            module.OnDetach(this);
-            return removed;
-        }
+        */
 
         public LBSModule RemoveModuleAt(int index)
         {
@@ -284,6 +336,7 @@ namespace LBS.Components
 
         }
 
+        /*
         public List<T> GetModules<T>(string ID = "") where T : LBSModule  // (?) sobra?
         {
             List<T> mods = new List<T>();
@@ -294,16 +347,22 @@ namespace LBS.Components
             }
             return mods;
         }
+        */
+
+        public void BlockLayer(bool value)
+        {
+            blocked = value;
+        }
 
         public void HideModule(int index)
         {
             modules[index].IsVisible = false;
-        }
+        } // HideModule y ShowModule podria ser un metodo solamente (!)
 
         public void ShowModule(int index)
         {
             modules[index].IsVisible = true;
-        }
+        } // HideModule y ShowModule podria ser un metodo solamente (!)
 
         internal void SetModule<T>(T module, string key = "") where T : LBSModule
         {
@@ -323,7 +382,7 @@ namespace LBS.Components
             modules[index].Owner = this;
         }
 
-        public Vector2Int ToFixedPosition(Vector2 position) // esto tiene que ir en una extension
+        public Vector2Int ToFixedPosition(Vector2 position) // esto tiene que ir en una extension (?)
         {
             Vector2 pos = position / (TileSize * LBSSettings.Instance.TileSize);
 
@@ -338,14 +397,13 @@ namespace LBS.Components
 
         public object Clone()
         {
-            var modules = this.modules.Select(m => {
-                var module = m.Clone() as LBSModule;
-                return module;
-                }).ToList();
+            var modules = this.modules.Select(m => m.Clone() as LBSModule).ToList();
+            var assistants = this.assitantsAI.Select(a => a.Clone() as LBSAssistantAI).ToList();
+            var rules = this.generatorRules.Select(r => r.Clone() as LBSGeneratorRule).ToList();
 
-            var layer = new LBSLayer(modules, this.id, this.visible, this.name, this.iconPath,this.TileSize);
-            layer.Assitant = Assitant;
-           // layer.TileSize = TileSize;
+            var layer = new LBSLayer(modules, assistants, rules, this.id, this.visible, this.name, this.iconPath, this.TileSize);
+            // layer.Assitant = Assitant;
+            // layer.TileSize = TileSize;
 
             return layer;
         }
