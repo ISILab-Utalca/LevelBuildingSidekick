@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using LBS.AI;
 using System;
 
+/*
 [CreateAssetMenu(fileName = "New LBS Layer Assistant", menuName = "ISILab/LBS Layer Assistant")]
 [System.Serializable]
 public class LBSLayerAssistant : ScriptableObject
@@ -98,3 +99,4 @@ public class LBSLayerAssistant : ScriptableObject
         return agents;
     }
 }
+*/
