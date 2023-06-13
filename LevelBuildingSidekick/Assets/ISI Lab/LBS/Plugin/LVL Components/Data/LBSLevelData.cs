@@ -74,7 +74,7 @@ public class LBSLevelData
         if (layer == null || layers.Contains(layer))
             return;
 
-        layers.Add(layer);
+        layers.Insert(0, layer);
         layer.OnModuleChange += (l) => this.OnChanged(this);
         layer.Parent = this;
         this.OnChanged?.Invoke(this);

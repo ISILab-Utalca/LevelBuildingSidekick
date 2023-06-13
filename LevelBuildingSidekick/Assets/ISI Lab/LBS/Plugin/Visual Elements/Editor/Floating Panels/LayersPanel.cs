@@ -138,13 +138,15 @@ public class LayersPanel : VisualElement
         list.Rebuild();
     }
 
-    public void OnSelectionChange(IEnumerable<object> objs)
+    // Simple Click over element
+    public void OnSelectionChange(IEnumerable<object> objs) 
     {
         var selected = objs.ToList()[0] as LBSLayer;
         OnSelectLayer?.Invoke(selected);
     }
 
-    public void OnItemChosen(IEnumerable<object> objs)
+    // Double Click over element
+    public void OnItemChosen(IEnumerable<object> objs) 
     {
         Debug.Log("OIC");
     }
