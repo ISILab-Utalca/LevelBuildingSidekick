@@ -23,15 +23,15 @@ public class AIPanel : VisualElement
     {
         container.Clear();
 
-        var assist = layer.Assitant;
-
-        for(int i = 0; i < assist.AgentsCount; i++)
+        //var assist = layer.Assitant;
+        var assistants = layer.Assitants;
+        for (int i = 0; i < assistants.Count; i++)
         {
-            var agent = assist.GetAgent(i);
-            agent.OnTermination = OnAIExecute;
-            agent.OnTermination = OnEndExecute;
-            agent.Init(ref layer);
-            container.Add(new AIAgentPanel(ref agent));
+            var ass = assistants[i];
+            ass.OnTermination = OnAIExecute;
+            ass.OnTermination = OnEndExecute;
+            ass.Init(ref layer);
+            container.Add(new AIAgentPanel(ref ass));
 
         }
     }
