@@ -130,7 +130,7 @@ public class LayersPanel : VisualElement
             return;
 
         var index = list.selectedIndex;
-        if (index <= 0)
+        if (index < 0)
             return;
 
         var layer = data.RemoveAt(index);
