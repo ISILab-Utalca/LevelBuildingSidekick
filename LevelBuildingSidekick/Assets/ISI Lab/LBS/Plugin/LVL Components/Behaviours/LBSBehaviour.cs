@@ -9,15 +9,14 @@ using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
-public abstract class LBSBehaviour
+public abstract class LBSBehaviour : ICloneable
 {
     [JsonIgnore]
     protected LBSLayer Owner; // no se si esto tenggo que inicializarlo con un Init() o en el constructor (?)
 
-    public LBSBehaviour()
-    {
+    public LBSBehaviour(){ }
 
-    }
+    public abstract object Clone();
 
     public List<Type> GetRequieredModules ()
     {
@@ -35,20 +34,33 @@ public abstract class LBSBehaviour
         }
         return toR;
     }
+
+
 }
 
 [System.Serializable]
 [RequieredModule(typeof(Exterior))]
 public class SimpleConectedBehaviour : LBSBehaviour
 {
+    public string label = "Aqui deberia ir una paleta de tipo de conecciones.";
 
+    public override object Clone()
+    {
+        return new SimpleConectedBehaviour();
+    }
 }
 
 [System.Serializable]
 [RequieredModule(typeof(LBSRoomGraph),typeof(LBSSchema))]
 public class SchemaBehaviour : LBSBehaviour
 {
-    public string TEST2 = "Adios mundo :C";
+    public bool ShowNode = true;
+    public string label = "Aqui deberia ir una paleta de habitaciones.";
+
+    public override object Clone()
+    {
+        return new SchemaBehaviour();
+    }
 }
 
 
