@@ -23,6 +23,11 @@ namespace LBS.Tools.Transformer
             this.schema = schema;
         }
 
+        public override void ReCalculate(ref LBSLayer layer)
+        {
+            throw new NotImplementedException();
+        }
+
         public override void Switch(ref LBSLayer layer)
         {
             schema = layer.GetModule(From) as AreaTileMap<TiledArea>;

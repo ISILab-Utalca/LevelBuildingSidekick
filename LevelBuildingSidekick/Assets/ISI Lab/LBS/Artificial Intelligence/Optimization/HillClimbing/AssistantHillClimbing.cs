@@ -61,7 +61,7 @@ public class AssistantHillClimbing : LBSAssistantAI
 
     public override VisualElement GetInspector()
     {
-        Debug.Log("No implemntado HillClimbing");
+        UnityEngine.Debug.Log("No implemntado HillClimbing");
         return new Label("No implementado");
     }
 
@@ -222,9 +222,9 @@ public class AssistantHillClimbing : LBSAssistantAI
         int stochasticRuns = 10;
 
 
-        var schema = layer.GetModule<LBSSchema>().Clone() as LBSSchema;
+        var schema = Owner.GetModule<LBSSchema>().Clone() as LBSSchema;
 
-        Init(ref this.layer);
+        Init(ref this.Owner);
         hillClimbing.OnGenerationRan += () => {
             var log = new HCLog();
             log.result = (hillClimbing.BestCandidate as OptimizableSchema).Schema;
@@ -254,9 +254,9 @@ public class AssistantHillClimbing : LBSAssistantAI
         var x = (hillClimbing.BestCandidate as OptimizableSchema).Schema;
         CalculateConnections.Operate(x);
 
-        SetDoors(x, layer.GetModule<LBSRoomGraph>());
+        SetDoors(x, Owner.GetModule<LBSRoomGraph>());
 
-        layer.SetModule(x, x.Key);
+        Owner.SetModule(x, x.Key);
         OnTermination?.Invoke();
 
         /*

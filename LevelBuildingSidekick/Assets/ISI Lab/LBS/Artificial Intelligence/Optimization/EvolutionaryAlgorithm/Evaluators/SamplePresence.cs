@@ -43,6 +43,9 @@ public class SamplePresence : IRangedEvaluator
     public float Evaluate(IOptimizable evaluable)
     {
 
+        if (sample == null)
+            return MinValue;
+
         if (!(evaluable is ChromosomeBase))
         {
             return MinValue;

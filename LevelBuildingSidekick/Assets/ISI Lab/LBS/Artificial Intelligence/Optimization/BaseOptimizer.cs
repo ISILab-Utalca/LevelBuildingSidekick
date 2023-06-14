@@ -184,6 +184,7 @@ namespace Commons.Optimization
                 Population.Adam = Adam;
                 Population.CreateInitialGeneration();
                 EvaluateFitness(Population.CurrentGeneration.Evaluables);
+                Population.EndCurrentGeneration();
                 OnGenerationRan?.Invoke();
                 clock.Stop();
             }

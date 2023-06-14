@@ -92,6 +92,10 @@ public class LBSMainWindow : EditorWindow
             OnApplyTrasformers(_selectedMode, mode);
             OnSelectedModeChange(mode, _selectedLayer);
         };
+        modeSelector.OnUpdateMode += () =>
+        {
+            OnModeUpdate(_selectedLayer);
+        };
 
         // MainView 
         mainView = rootVisualElement.Q<MainView>("MainView");
@@ -280,6 +284,21 @@ public class LBSMainWindow : EditorWindow
         {
             trans.Switch(ref _selectedLayer);
         }
+    }
+
+    public void OnModeUpdate(LBSLayer layer)
+    {
+        var transformers = layer.GetTrasformers(layerTemplates);
+        if (transformers.Count <= 0)
+            return;
+        var t = transformers.First();
+        t.ReCalculate(ref layer);
+
+        var m = layer.Modules.Find(m => m.GetType() == t.To);
+
+        //modeSelector.Index = modeSelector.GetChoiceIndex(m);
+        OnApplyTrasformers(_selectedMode, m.Key);
+        OnSelectedModeChange(m.Key, _selectedLayer);
     }
 
     public void OnSelectedModeChange(string mode, LBSLayer layer)

@@ -140,6 +140,15 @@ namespace LBS.Tools.Transformer
             //return area;
         }
 
+        public override void ReCalculate(ref LBSLayer layer)
+        {
+            graph = layer.GetModule(From) as GraphModule<RoomNode>;
+            schema = layer.GetModule(To) as AreaTileMap<TiledArea>;
+
+            schema.Clear();
+            CreateDataFrom(schema);
+            CalculateConnections.Operate(schema);
+        }
     }
 }
 

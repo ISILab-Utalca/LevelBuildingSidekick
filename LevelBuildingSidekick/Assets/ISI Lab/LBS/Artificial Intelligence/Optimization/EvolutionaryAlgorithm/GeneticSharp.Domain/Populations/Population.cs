@@ -104,7 +104,7 @@ namespace GeneticSharp.Domain.Populations
         /// Gets or sets the best chromosome.
         /// </summary>
         /// <value>The best chromosome.</value>
-        public IOptimizable BestCandidate { get; set; }
+        public IOptimizable BestCandidate => Generations.Select(g => g.BestCandidate).OrderByDescending(b => b.Fitness).First();
 
         /// <summary>
         /// Gets or sets the generation strategy.
@@ -157,14 +157,6 @@ namespace GeneticSharp.Domain.Populations
             CurrentGeneration = new Generation(++GenerationsNumber, optimizables);
             Generations.Add(CurrentGeneration);
             GenerationStrategy.RegisterNewGeneration(this);
-
-            var best = optimizables.OrderByDescending(o => o.Fitness).First();
-
-            if(BestCandidate == null || BestCandidate.Fitness == double.NaN || BestCandidate.Fitness < best.Fitness)
-            {
-                BestCandidate = best;
-                OnBestcandidateChanged?.Invoke();
-            }
         }
 
         /// <summary>
@@ -173,13 +165,6 @@ namespace GeneticSharp.Domain.Populations
         public virtual void EndCurrentGeneration()
         {
             CurrentGeneration.End(MaxSize);
-
-            if (BestCandidate != CurrentGeneration.BestCandidate && BestCandidate.Fitness <= CurrentGeneration.BestCandidate.Fitness)
-            {
-                BestCandidate = CurrentGeneration.BestCandidate;
-
-                OnBestcandidateChanged?.Invoke();
-            }
         }
 
         public VisualElement CIGUI()

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GeneticSharp.Domain.Randomizations;
 
-public class ConstantE : IRangedEvaluator
+public class ConstantE
 {
     public float MaxValue => 1;
 
