@@ -15,6 +15,8 @@ using LBS.Tools.Transformer;
 using System;
 using System.Diagnostics;
 using UnityEditor;
+using Debug = UnityEngine.Debug;
+using Newtonsoft.Json;
 
 [System.Serializable]
 [RequieredModule(typeof(LBSRoomGraph), typeof(LBSSchema))]
@@ -25,8 +27,13 @@ using UnityEditor;
     " solution by exploring neighboring options.")]
 public class AssistantHillClimbing : LBSAssistantAI
 {
-    HillClimbing hillClimbing;
-    Stopwatch clock = new Stopwatch();
+    [JsonIgnore, NonSerialized]
+    private HillClimbing hillClimbing;
+    [JsonIgnore, NonSerialized]
+    private Stopwatch clock = new Stopwatch();
+
+    [NonSerialized]
+    private LBSLayer layer;
 
     public AssistantHillClimbing() {}
     /*
@@ -42,7 +49,7 @@ public class AssistantHillClimbing : LBSAssistantAI
         UnityEngine.Debug.Log("HillClimbing start!");
         OnStart?.Invoke();
 
-        var layer = this.Owner;
+        layer = this.Owner;
 
         clock.Start();
         hillClimbing.Start();
@@ -214,13 +221,12 @@ public class AssistantHillClimbing : LBSAssistantAI
     }
 
     public void RunExperiment()
-    {
+    { 
         var elitistLog = SchemaHCLog.CreateInstance("SchemaHCLog") as SchemaHCLog;
         elitistLog.name = "Elitist Log";
         clock = new Stopwatch();
         int experimentCount = 20;
         int stochasticRuns = 10;
-
 
         var schema = Owner.GetModule<LBSSchema>().Clone() as LBSSchema;
 
@@ -259,18 +265,17 @@ public class AssistantHillClimbing : LBSAssistantAI
         Owner.SetModule(x, x.Key);
         OnTermination?.Invoke();
 
-        /*
         for (int j = 0; j < stochasticRuns; j++)
         {
-            layer.SetModule(schema, schema.Key);
-            Init(ref this.layer);
+            Owner.SetModule(schema, schema.Key);
+            Init(ref this.Owner);
             hillClimbing.Selection = new StochasticElitistSelection();
             for (int i = 1; i <= experimentCount; i++)
             {
                 hillClimbing.Termination = new GenerationNumberTermination(i);
 
             }
-        }*/
+        }
 
     }
 }
