@@ -32,8 +32,7 @@ namespace GeneticSharp.Domain.Selections
         {
             var r = RandomizationProvider.Current;
             var ordered = generation.Evaluables.Where(c => c.Fitness >= last).OrderBy(c => r.GetDouble());
-            if(ordered.Count() > 0)
-                last = ordered.First().Fitness;
+            last = ordered.First().Fitness;
             return ordered.Take(number).ToList();   
         }
 

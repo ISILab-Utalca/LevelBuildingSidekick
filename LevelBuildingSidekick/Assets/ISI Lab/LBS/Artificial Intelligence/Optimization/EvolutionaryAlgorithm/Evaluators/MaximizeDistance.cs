@@ -28,6 +28,9 @@ public class MaximizeDistance : IRangedEvaluator
 
         foreach(object o in whiteList)
         {
+            if (o == null)
+                continue;
+
             var genes = ev.GetGenes();
             var indexes = new List<int>();
 

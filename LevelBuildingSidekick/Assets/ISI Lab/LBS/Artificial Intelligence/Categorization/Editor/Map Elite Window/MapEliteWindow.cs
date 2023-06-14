@@ -273,7 +273,6 @@ public class MapEliteWindow : EditorWindow
         for (int i = 0; i < Content.Length; i++)
         {
             var b = new ButtonWrapper(null, new Vector2(ButtonSize, ButtonSize));
-            b.text = (i + 1).ToString();
             b.clicked += () => 
             { 
                 if (b.Data != null)

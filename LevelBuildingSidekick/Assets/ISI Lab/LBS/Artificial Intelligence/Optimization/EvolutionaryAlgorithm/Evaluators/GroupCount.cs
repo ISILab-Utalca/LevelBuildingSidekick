@@ -39,16 +39,19 @@ public class GroupCount : IRangedEvaluator
         var chr = evaluable as LBSChromosome;
         var genes = chr.GetGenes();
 
-        var selected = genes.Select((g, i) => new { g, i }).Where(x => x.g != null && whiteList.Any(s => x.g.Equals(s)));
+        if (whiteList.Count <= 0)
+            return MinValue;
+
+        var selected = genes.Select((g, i) => new { g, i }).Where(x => x.g != null && whiteList.Any(s => s !=null && x.g.Equals(s)));
 
         if(selected.Count() == 0)
         {
-            return 0;
+            return MinValue;
         }
 
         var indexes = selected.Select(x => x.i).ToList();
 
-        if (indexes.Count == 0)
+        if (indexes.Count <= 0)
             return MinValue;
 
         float groups = 0;
