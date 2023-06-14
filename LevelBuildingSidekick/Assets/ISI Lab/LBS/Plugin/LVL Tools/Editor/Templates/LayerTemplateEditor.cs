@@ -132,14 +132,12 @@ public class LayerTemplateEditor : Editor
 
         layer.ID = "Interior";
         layer.Name = "Layer Interior";
-        layer.iconPath = "Icons/interior-design";
+        layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/interior-design.png";
         template.layer = layer;
 
         // Modules
         layer.AddModule(new LBSRoomGraph());    // GraphModule<RoomNode>
         layer.AddModule(new LBSSchema());       // AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile>
-        //layer.AddModule(new GraphModule<RoomNode>());
-        //layer.AddModule(new LBSSchema());
 
         // Transformers
         template.transformers.Add(
@@ -260,7 +258,7 @@ public class LayerTemplateEditor : Editor
 
         layer.ID = "Exterior";
         layer.Name = "Layer Exterior";
-        layer.iconPath = "Icons/pine-tree";
+        layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/pine-tree.png";
         template.layer = layer;
 
         // Modules
@@ -372,7 +370,7 @@ public class LayerTemplateEditor : Editor
 
         layer.ID = "Population";
         layer.Name = "Layer Population";
-        layer.iconPath = "Icons/ghost";
+        layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/ghost.png";
         template.layer = layer;
 
         // Modules
@@ -442,7 +440,7 @@ public class LayerTemplateEditor : Editor
 
         layer.ID = "Quest";
         layer.Name = "Layer Quest";
-        layer.iconPath = "Icons/Quest";
+        layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Quest.png";
         template.layer = layer;
 
         // Modules
