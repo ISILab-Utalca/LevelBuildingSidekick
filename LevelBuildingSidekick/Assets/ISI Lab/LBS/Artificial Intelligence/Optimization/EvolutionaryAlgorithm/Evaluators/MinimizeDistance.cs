@@ -27,6 +27,8 @@ public class MinimizeDistance : IRangedEvaluator
 
         foreach (object o in whiteList)
         {
+            if (o == null)
+                continue;
             var genes = ev.GetGenes();
             var indexes = new List<int>();
 
