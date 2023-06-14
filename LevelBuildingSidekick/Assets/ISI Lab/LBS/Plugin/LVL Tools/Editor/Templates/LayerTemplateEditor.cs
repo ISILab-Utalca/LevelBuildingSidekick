@@ -91,7 +91,6 @@ public class LayerTemplateEditor : Editor
         }
     }
 
-
     /// <summary>
     /// This function adjust the icons, layout and labels of the system for Contructión in interior
     /// also call the manipulators to make functional buttons in the layout
