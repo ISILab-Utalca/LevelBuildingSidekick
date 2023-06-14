@@ -149,12 +149,12 @@ public class LayerTemplateEditor : Editor
                 )
             );
 
-        template.transformers.Add(
+        /*template.transformers.Add(
             new AreaToGraph(
                 typeof(AreaTileMap<TiledArea>),
                 typeof(GraphModule<RoomNode>)
                 )
-            );
+            );*/
 
         layer.AddBehaviour(new SchemaBehaviour());
 

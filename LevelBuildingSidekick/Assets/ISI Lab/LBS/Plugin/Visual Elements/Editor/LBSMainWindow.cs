@@ -294,11 +294,32 @@ public class LBSMainWindow : EditorWindow
         var t = transformers.First();
         t.ReCalculate(ref layer);
 
-        var m = layer.Modules.Find(m => m.GetType() == t.To);
+        var templates = layerTemplates.Where(l => l.layer.ID == _selectedLayer.ID).ToList();
+        var allModes = templates.SelectMany(l => l.modes).ToList();
 
-        //modeSelector.Index = modeSelector.GetChoiceIndex(m);
-        OnApplyTrasformers(_selectedMode, m.Key);
-        OnSelectedModeChange(m.Key, _selectedLayer);
+        /*var modes = new List<LBSMode>();
+
+        foreach(var mod in allModes)
+        {
+            if(mod.module == t.To.FullName)
+            {
+                modes.Add(mod);
+            }
+        }*/
+
+        var modes = allModes.Where(m => m.module == t.To.FullName).ToList();
+        var modesID = modes.Where(m => m.name != _selectedMode).Select(m => m.name).ToList();
+
+        if (modesID.Count() <= 0)
+        {
+            drawManager.RefreshView(ref _selectedLayer, levelData.Layers, _selectedMode);
+            return;
+        }
+
+        var m = modesID.First();
+        
+
+        modeSelector.Index = modeSelector.GetChoiceIndex(m);
     }
 
     public void OnSelectedModeChange(string mode, LBSLayer layer)
