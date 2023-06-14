@@ -175,7 +175,7 @@ public class LBSMainWindow : EditorWindow
                 Selection.SetActiveObjectWithContext(il, il);
             }
         };
-        layerPanel.OnLayerVisibilityChange += () =>
+        layerPanel.OnLayerVisibilityChange += (l) =>
         {
             drawManager.RefreshView(ref _selectedLayer, levelData.Layers, _selectedMode);
         };
