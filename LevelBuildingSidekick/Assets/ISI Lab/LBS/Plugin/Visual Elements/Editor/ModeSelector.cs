@@ -51,7 +51,6 @@ public class ModeSelector : VisualElement
         // Button
         button = this.Q<Button>();
         button.clicked += () => OnUpdateMode.Invoke();
-        button.clicked += () => Debug.Log("Hi");
 
         // Dropdown
         dropdown = this.Q<DropdownField>();
