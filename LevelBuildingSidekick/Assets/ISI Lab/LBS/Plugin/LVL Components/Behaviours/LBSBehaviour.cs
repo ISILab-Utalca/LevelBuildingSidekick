@@ -16,6 +16,12 @@ public abstract class LBSBehaviour : ICloneable
 
     public LBSBehaviour(){ }
 
+    public void InternalInit(LBSLayer layer)
+    {
+        Owner = layer;
+    }
+    public abstract void Init(LBSLayer layer);
+
     public abstract object Clone();
 
     public List<Type> GetRequieredModules ()
@@ -48,6 +54,11 @@ public class SimpleConectedBehaviour : LBSBehaviour
     {
         return new SimpleConectedBehaviour();
     }
+
+    public override void Init(LBSLayer layer)
+    {
+       // throw new NotImplementedException();
+    }
 }
 
 [System.Serializable]
@@ -60,6 +71,11 @@ public class SchemaBehaviour : LBSBehaviour
     public override object Clone()
     {
         return new SchemaBehaviour();
+    }
+
+    public override void Init(LBSLayer layer)
+    {
+       // throw new NotImplementedException();
     }
 }
 
