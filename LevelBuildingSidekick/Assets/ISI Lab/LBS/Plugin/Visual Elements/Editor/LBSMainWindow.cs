@@ -178,12 +178,9 @@ public class LBSMainWindow : EditorWindow
 
         // AIPanel
         aiPanel = new AIPanel();
-        aiPanel.OnAIExecute += () =>
+        aiPanel.OnFinish += () =>
         {
             drawManager.RefreshView(ref _selectedLayer, levelData.Layers, _selectedMode);
-        };
-        aiPanel.OnEndExecute += () =>
-        {
             OnSelectedLayerChange2(_selectedLayer);
         };
 
