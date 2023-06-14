@@ -29,8 +29,14 @@ public class AdjacenciesEvaluator : IEvaluator
 
         if (graph.EdgeCount <= 0)
         {
-            Debug.LogWarning("Cannot calculate the adjacency of a map are nodes that are not connected.");
+            Debug.Log("Cannot calculate the adjacency of a map are nodes that are not connected.");
             return 1;
+        }
+
+        if(schema.Areas.Count <= 0)
+        {
+            Debug.Log("[ISI Lab]: the schema you are trying to evaluate does not have areas.");
+            return 0;
         }
 
         float distValue = 0f;
