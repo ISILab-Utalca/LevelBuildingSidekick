@@ -20,7 +20,7 @@ public abstract class LBSAssistantAI: ICloneable
 
     public LBSAssistantAI(){ }
 
-    public void InternalInit(ref LBSLayer layer)
+    public void InternalInit(LBSLayer layer)
     {
         Owner = layer;
         Init(ref layer);
