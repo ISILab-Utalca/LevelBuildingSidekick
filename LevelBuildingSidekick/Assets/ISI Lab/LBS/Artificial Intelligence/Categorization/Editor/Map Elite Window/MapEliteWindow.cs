@@ -80,6 +80,8 @@ public class MapEliteWindow : EditorWindow
         visualTree.CloneTree(root);
 
         var styleSheet = DirectoryTools.SearchAssetByName<StyleSheet>("MapEliteUSS");
+        var s2 = EditorGUIUtility.Load("DefaultCommonDark.uss") as StyleSheet;
+        root.styleSheets.Add(s2);
         root.styleSheets.Add(styleSheet);
 
         mapElites = new MapElites();
