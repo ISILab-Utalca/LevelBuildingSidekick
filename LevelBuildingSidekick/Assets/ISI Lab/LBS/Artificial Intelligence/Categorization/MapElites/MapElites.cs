@@ -17,20 +17,21 @@ public class MapElites
 
     private int ySampleCount = 4;
 
-    [Range(0, 0.5f)]
+    [Range(0, 0.5f), HideInInspector]
     public double devest = 0.5;
 
-    [SerializeField, SerializeReference]
+    [SerializeField, SerializeReference, HideInInspector]
     IRangedEvaluator xEvaluator;
     Vector2 xThreshold = new Vector2(0.2f, 0.8f);
 
-    [SerializeReference]
+    [SerializeReference, HideInInspector]
     IRangedEvaluator yEvaluator;
     Vector2 yThreshold = new Vector2(0.2f, 0.8f);
 
-    [SerializeReference]
+    [SerializeReference, HideInInspector]
     BaseOptimizer optimizer = new GeneticAlgorithm();
 
+    [HideInInspector]
     public List<int> changedSample;
 
     private Thread thread;
