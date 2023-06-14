@@ -169,6 +169,14 @@ namespace LBS.Components
                 AddModule(m);
             });
 
+            assistant.ForEach(a => {
+                AddAssistant(a);
+            });
+
+            rules.ForEach(r => {
+                AddGeneratorRule(r);
+            });
+
             this.ID = ID;
             IsVisible = visible;
             this.name = name;
@@ -237,6 +245,7 @@ namespace LBS.Components
             }
 
             this.assitantsAI.Add(assistant);
+            assistant.InternalInit(this);
         }
 
         public bool RemoveAssitant(LBSAssistantAI assistant)
