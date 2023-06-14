@@ -27,6 +27,7 @@ public class ModeSelector : VisualElement
     #region EVENTS
 
     public event Action<string> OnSelectionChange;
+    public event Action OnUpdateMode;
 
     #endregion
 
@@ -49,6 +50,8 @@ public class ModeSelector : VisualElement
 
         // Button
         button = this.Q<Button>();
+        button.clicked += () => OnUpdateMode.Invoke();
+        button.clicked += () => Debug.Log("Hi");
 
         // Dropdown
         dropdown = this.Q<DropdownField>();
@@ -63,6 +66,11 @@ public class ModeSelector : VisualElement
     {
         this.objects = objects;
         dropdown.choices = objects.Select(o => o.Key).ToList();
+    }
+
+    public int GetChoiceIndex(string choice)
+    {
+        return dropdown.choices.FindIndex(c => c == choice);
     }
 
     public object GetSelection(string name)

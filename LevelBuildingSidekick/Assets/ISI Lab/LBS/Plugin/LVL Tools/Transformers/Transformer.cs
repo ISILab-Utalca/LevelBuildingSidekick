@@ -35,6 +35,7 @@ namespace LBS.Tools.Transformer
         }
 
         public abstract void Switch(ref LBSLayer layer);
+        public abstract void ReCalculate(ref LBSLayer layer);
     }
 }
 
