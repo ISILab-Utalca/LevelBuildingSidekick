@@ -13,7 +13,6 @@ namespace LBS.Components.Specifics
         static System.Random random = new System.Random();
 
         #region FIELDS
-
         [SerializeField, JsonRequired]
         private int width = 1;
 

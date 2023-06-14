@@ -28,7 +28,6 @@ namespace LBS.Components.Specifics
 
         public RoomNode(): base()
         {
-            //room = new RoomData();
         }
 
         public RoomNode(string id, Vector2 position, RoomData room) : base(id, position)
