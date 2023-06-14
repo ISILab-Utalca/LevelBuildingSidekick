@@ -56,16 +56,16 @@ public class LBSInspectorPanel : VisualElement
         var gt = new LBSGlobalTagsInspector();
         AddTab("Global", "Tags", gt);
 
-        //var l1 = new LBSLocalCurrent();
-        var l1 = new Wip();
+        var l1 = new LBSLocalCurrent();
+        //var l1 = new Wip();
         AddTab("Local", "Current data", l1);
 
-        //var l2 = new LBSLocalBehaviours();
-        var l2 = new Wip();
+        var l2 = new LBSLocalBehaviours();
+        //var l2 = new Wip();
         AddTab("Local", "Behaviours", l2);
 
-        //var l3 = new LBSLocalAssistants();
-        var l3 = new Wip();
+        var l3 = new LBSLocalAssistants();
+        //var l3 = new Wip();
         AddTab("Local", "Assistants", l3);
 
         var aset = new Wip();
