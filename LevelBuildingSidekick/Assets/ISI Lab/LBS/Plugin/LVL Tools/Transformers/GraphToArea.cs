@@ -30,15 +30,29 @@ namespace LBS.Tools.Transformer
 
             if(schema.IsEmpty())
             {
-                CreateDataFrom(schema);
+                CreateDataFrom2(schema);
                 CalculateConnections.Operate(schema);
             }
             else
             {
-
-                Debug.LogWarning("[ISI Lab]: Implementar bien 'GraphToArea' cuando el objetivo no esta vacio");
+                //Debug.LogWarning("[ISI Lab]: Implementar bien 'GraphToArea' cuando el objetivo no esta vacio");
                 //EditDataFrom();
             }
+        }
+
+        private void CreateDataFrom2(AreaTileMap<TiledArea> schema)
+        {
+            var nodes = graph.GetNodes();
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                var currentNode = nodes[i];
+                var area = new TiledArea(new List<LBSTile>(), currentNode.ID, typeof(TiledArea).Name, currentNode.Room.Color);
+                schema.AddArea(area);
+
+                var fixedPos = schema.Owner.ToFixedPosition(currentNode.Position);
+                ConstructArea(schema, currentNode, fixedPos);
+            }
+
         }
 
         private void CreateDataFrom(AreaTileMap<TiledArea> schema)

@@ -295,12 +295,14 @@ namespace LBS.Components
         }
         */
 
+        /*
         public LBSModule RemoveModuleAt(int index)
         {
             var module = modules[index];
             RemoveModule(module);
             return module;
         }
+        */
 
         public LBSModule GetModule(int index)
         {
@@ -405,12 +407,8 @@ namespace LBS.Components
             var rules = this.generatorRules.Select(r => r.Clone() as LBSGeneratorRule).ToList();
 
             var layer = new LBSLayer(modules, assistants, rules, this.id, this.visible, this.name, this.iconPath, this.TileSize);
-            // layer.Assitant = Assitant;
-            // layer.TileSize = TileSize;
-
             return layer;
         }
-
         #endregion
     }
 }

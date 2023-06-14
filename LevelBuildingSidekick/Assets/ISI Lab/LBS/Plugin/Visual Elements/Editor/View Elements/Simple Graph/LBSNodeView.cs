@@ -23,6 +23,8 @@ public class LBSNodeView<T> : GraphElement where T : LBSNode
     public Color common = Color.white;
     public Color selcted = new Color(150 / 255f, 243 / 255f, 255 / 255f);
 
+    public Action<MeshGenerationContext> OnGVC;
+
     public LBSNodeView(T data, Vector2 position, Vector2 size)
     {
         var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("NodeUxml");
@@ -46,7 +48,12 @@ public class LBSNodeView<T> : GraphElement where T : LBSNode
         background = this.Q<VisualElement>("Background");
 
         background.SetBorderRadius(size.x / 2f);
+        this.generateVisualContent += OnGenerateVisualContent;
+    }
 
+    private void OnGenerateVisualContent(MeshGenerationContext mgc)
+    {
+        OnGVC?.Invoke(mgc);
     }
 
     internal void SetColor(Color color)
@@ -85,6 +92,7 @@ public class LBSNodeView<T> : GraphElement where T : LBSNode
         var nPos = new Vector2Int((int)center.x, (int)center.y);
         Data.Position = nPos;
         OnMoving?.Invoke(nPos);
+        this.MarkDirtyRepaint(); 
     }
 
     public override void OnSelected()
