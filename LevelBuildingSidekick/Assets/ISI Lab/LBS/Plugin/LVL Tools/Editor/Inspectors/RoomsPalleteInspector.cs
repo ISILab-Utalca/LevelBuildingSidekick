@@ -34,9 +34,15 @@ public class RoomsPalleteInspector<T,U> : LBSInspector where T: TiledArea where 
         var areas = tiledArea.Areas;
         foreach (var area in areas)
         {
+            var cont = new VisualElement();
+            var label = new Label();
             var btn = new Button();
+            cont.Add(btn);
+            cont.Add(label);
+
+            label.text = area.ID;
+            label.style.unityTextAlign = TextAnchor.MiddleCenter;
             btn.style.width = btn.style.height = 64;
-            btn.text = area.ID;
             btn.style.backgroundColor = area.Color;
 
             btn.clicked += () => {
@@ -55,7 +61,7 @@ public class RoomsPalleteInspector<T,U> : LBSInspector where T: TiledArea where 
                 mani.areaToSet = _area;
             }
 
-            content.Add(btn);
+            content.Add(cont);
         }
     }
 }

@@ -51,10 +51,16 @@ public class BundlePalleteInspector : LBSInspector
 
         foreach (var b in bundles)
         {
+            var cont = new VisualElement();
+            var label = new Label();
             var btn = new Button();
+            cont.Add(btn);
+            cont.Add(label);
+
+            label.text = b.name;
+            label.style.unityTextAlign = TextAnchor.MiddleCenter;
+
             btn.style.width = btn.style.height = 64;
-            btn.text = b.name;
-            btn.style.color = b.ID.Color.Inverse();// + new Color(0.2f, 0.2f, 0.2f); //new Color(1f - b.ID.Color.r, 1f - b.ID.Color.g, 1f - b.ID.Color.b);
             btn.style.backgroundColor = b.ID.Color;
             if (b.ID.Icon != null)
                 btn.style.backgroundImage = b.ID.Icon;
@@ -72,7 +78,7 @@ public class BundlePalleteInspector : LBSInspector
                 var mani = manipulator as ManipulateTaggedTileMap;
                 mani.bundleToSet = b;
             }
-            content.Add(btn);
+            content.Add(cont);
         }
 
     }
