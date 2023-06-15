@@ -46,6 +46,7 @@ public class CreateNewRoomNode : ManipulateGraph<RoomNode> // where T: LBSNode  
         } while (loop);
 
         var n = new RoomNode(name, pos.ToInt(), new RoomData()); //var n = Activator.CreateInstance<T>();
+        n.Height = n.Width = 3;
         module.AddNode(n);
     }
 

@@ -32,7 +32,8 @@ public class DrawSimpleGraph : Drawer
             element.SetText(node.ID);
             element.SetColor(node.Room.Color);
             element.OnGVC += (mgc) => { DrawArea(mgc, element.GetPosition().size, node.Room.Size, pixelSize); };
-
+            
+            /*
             // Slider Width
             var sliderW = new SliderInt(1, 32);
             sliderW.style.flexGrow = 1f;
@@ -69,14 +70,15 @@ public class DrawSimpleGraph : Drawer
             contH.Add(sliderH);
             contH.style.flexDirection = FlexDirection.Row;
             contH.style.height = 16;
+            */
 
             nViews.Add(element);
 
             var mainCont = new VisualElement();
             mainCont.style.minHeight = 32f;
             mainCont.style.marginLeft = mainCont.style.marginRight = 10;
-            mainCont.Add(contW);
-            mainCont.Add(contH);
+            //mainCont.Add(contW);
+            //mainCont.Add(contH);
             element.Add(mainCont);
             view.AddElement(element);
         }

@@ -1,3 +1,4 @@
+using LBS;
 using LBS.Components.Graph;
 using System;
 using System.Collections;
@@ -102,6 +103,8 @@ public class LBSNodeView<T> : GraphElement where T : LBSNode
         background.SetBorder(selcted, 8);
 
         var il = Reflection.MakeGenericScriptable(Data);
+
+        LBSEvents.OnSelectElementInWorkSpace?.Invoke(il);
         Selection.SetActiveObjectWithContext(il, il);
     }
 

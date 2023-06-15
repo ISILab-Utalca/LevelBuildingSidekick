@@ -1,10 +1,11 @@
 using LBS.Components;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class LBSLocalBehaviours : VisualElement // panel
+public class LBSLocalBehaviours : LBSInspector 
 {
     #region FACTORY
     public new class UxmlFactory : UxmlFactory<LBSLocalBehaviours, VisualElement.UxmlTraits> { }
@@ -12,6 +13,7 @@ public class LBSLocalBehaviours : VisualElement // panel
 
     private VisualElement content;
     private VisualElement noContentPanel;
+    private VisualElement contentBehaviour;
 
     private LBSLayer target;
 
@@ -22,10 +24,48 @@ public class LBSLocalBehaviours : VisualElement // panel
 
         content = this.Q<VisualElement>("Content");
         this.noContentPanel = this.Q<VisualElement>("NoContentPanel");
+        this.contentBehaviour = this.Q<VisualElement>("ContentBehaviour");
     }
 
     public void SetInfo(LBSLayer target)
     {
-        //this.target = target.Assitant.
+        contentBehaviour.Clear();
+
+        this.target = target;
+
+        if (target.Assitants.Count <= 0)
+        {
+            noContentPanel.SetDisplay(true);
+        }
+
+        foreach (var behaviour in target.Behaviours)
+        {
+            var so = Utility.Reflection.MakeGenericScriptable(behaviour);
+            var editor = Editor.CreateEditor(so);
+
+            var cont = new VisualElement();
+            cont.style.backgroundColor = new Color(0, 0, 0, 0.1f);
+            cont.SetBorder(new Color(0, 0, 0, 0.6f), 1);
+            cont.SetBorderRadius(3);
+            cont.SetPaddings(4);
+
+            var inspector = new IMGUIContainer(() =>
+            {
+                editor.OnInspectorGUI();
+            });
+
+            cont.Add(inspector);
+            contentBehaviour.Add(cont);
+        }
+    }
+
+    public override void Init(List<IManipulatorLBS> lBSManipulators, ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
+    {
+
+    }
+
+    public override void OnLayerChange(LBSLayer layer)
+    {
+        SetInfo(layer);
     }
 }

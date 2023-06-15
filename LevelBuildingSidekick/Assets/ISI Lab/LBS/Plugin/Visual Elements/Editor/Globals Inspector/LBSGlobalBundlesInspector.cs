@@ -1,3 +1,4 @@
+using LBS.Components;
 using LBS.Settings;
 using System;
 using System.Collections;
@@ -8,7 +9,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Utility;
 
-public class LBSGlobalBundlesInspector : VisualElement
+public class LBSGlobalBundlesInspector : LBSInspector
 {
     #region FACTORY
     public new class UxmlFactory : UxmlFactory<LBSGlobalBundlesInspector, VisualElement.UxmlTraits> { }
@@ -191,6 +192,16 @@ public class LBSGlobalBundlesInspector : VisualElement
         list.itemsSource = targets;
 
         list.Rebuild();
+    }
+
+    public override void Init(List<IManipulatorLBS> lBSManipulators, ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void OnLayerChange(LBSLayer layer)
+    {
+        Debug.Log("Actualizacion de layer Global/Bundles inspector");
     }
     #endregion
 }

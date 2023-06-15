@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class LBSLocalAssistants : VisualElement
+public class LBSLocalAssistants : LBSInspector
 {
     #region FACTORY
     public new class UxmlFactory : UxmlFactory<LBSLocalAssistants, VisualElement.UxmlTraits> { }
@@ -29,6 +29,8 @@ public class LBSLocalAssistants : VisualElement
 
     public void SetInfo(LBSLayer target)
     {
+        contentAssist.Clear();
+
         this.target = target;
 
         if(target.Assitants.Count <= 0)
@@ -39,8 +41,31 @@ public class LBSLocalAssistants : VisualElement
         foreach (var assist in target.Assitants)
         {
             var so = Utility.Reflection.MakeGenericScriptable(assist);
-            var inspector = Editor.CreateEditor(so).CreateInspectorGUI();
-            contentAssist.Add(inspector);
+            var editor = Editor.CreateEditor(so);
+
+            var cont = new VisualElement();
+            cont.style.backgroundColor = new Color(0, 0, 0, 0.1f);
+            cont.SetBorder(new Color(0, 0, 0, 0.6f), 1);
+            cont.SetBorderRadius(3);
+            cont.SetPaddings(4);
+
+            var inspector = new IMGUIContainer(() =>
+            {
+                editor.OnInspectorGUI();
+            });
+
+            cont.Add(inspector);
+            contentAssist.Add(cont);
         }
+    }
+
+    public override void Init(List<IManipulatorLBS> lBSManipulators, ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
+    {
+
+    }
+
+    public override void OnLayerChange(LBSLayer layer)
+    {
+        SetInfo(layer);
     }
 }

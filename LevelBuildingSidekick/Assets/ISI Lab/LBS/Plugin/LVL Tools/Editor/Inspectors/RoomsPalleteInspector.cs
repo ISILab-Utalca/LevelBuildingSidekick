@@ -64,4 +64,9 @@ public class RoomsPalleteInspector<T,U> : LBSInspector where T: TiledArea where 
             content.Add(cont);
         }
     }
+
+    public override void OnLayerChange(LBSLayer layer)
+    {
+        throw new NotImplementedException();
+    }
 }

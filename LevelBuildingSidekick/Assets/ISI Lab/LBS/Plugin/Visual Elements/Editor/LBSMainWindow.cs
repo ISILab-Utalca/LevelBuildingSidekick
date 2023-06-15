@@ -265,7 +265,6 @@ public class LBSMainWindow : EditorWindow
     public void OnLevelDataChange(LBSLevelData levelData)
     {
         noLayerSign.style.display = (levelData.Layers.Count <= 0) ? DisplayStyle.Flex : DisplayStyle.None;
-        //modeSelector.style.display = (levelData.Layers.Count <= 0) ? DisplayStyle.None : DisplayStyle.Flex;
     }
 
     public void OnApplyTrasformers(string modeFrom, string modeTo)
@@ -276,11 +275,7 @@ public class LBSMainWindow : EditorWindow
         var transformers = _selectedLayer.GetTrasformers(layerTemplates);
         var trans = transformers.Find(t => t.From.FullName.Equals(ModuleFrom) && t.To.FullName.Equals(ModuleTo)); // (!) lo de los fullname es parche ya que ".ModuleType no funciona"
         
-        if(trans == null)
-        {
-            //Debug.LogWarning("No existe trasformador que trasforme de '" + ModuleFrom + "' a '" + ModuleTo); // (!!!)
-        }
-        else
+        if(trans != null)
         {
             trans.Switch(ref _selectedLayer);
         }
@@ -349,6 +344,7 @@ public class LBSMainWindow : EditorWindow
         modeSelector.SetChoices(modes);
         modeSelector.Index = 0;
         modeSelector.style.display = DisplayStyle.Flex;
+        inspectorManager.OnSelectedLayerChange(layer);
         OnSelectedModeChange(modes.Keys.First(), _selectedLayer);
 
         selectedLabel.text = "selected: " + layer.Name;
