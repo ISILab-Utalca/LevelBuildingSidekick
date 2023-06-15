@@ -208,6 +208,7 @@ namespace LBS.Components
             }
 
             this.behaviours.Add(behaviour);
+            behaviour.Init(this);
 
             var reqModules = behaviour.GetRequieredModules();
             foreach (var type in reqModules)
