@@ -35,6 +35,8 @@ public class AssistantHillClimbing : LBSAssistantAI
     [NonSerialized]
     private LBSLayer layer;
 
+    public string test = "Hola mundo";
+
     public AssistantHillClimbing() {}
     /*
     public SchemaHCAgent(LBSLayer layer, string id) : base(layer, id, "SchemaHillClimbing")
