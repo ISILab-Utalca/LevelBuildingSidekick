@@ -31,5 +31,6 @@
                 <ui:VisualElement name="IconPanel" style="background-color: rgba(255, 255, 255, 0.1); padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; margin-bottom: 4px;" />
             </ui:VisualElement>
         </ui:VisualElement>
+        <ui:VisualElement name="CurrentContent" style="background-color: rgba(0, 0, 0, 0.2); padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 8px; border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; margin-bottom: 4px;" />
     </ui:VisualElement>
 </ui:UXML>
