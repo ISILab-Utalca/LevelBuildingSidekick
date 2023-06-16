@@ -15,6 +15,6 @@ public class ScriptableObjectReferenceAttribute : PropertyAttribute
     {
         this.type = type;
         if (SOs == null || SOs.Count <= 0)
-            SOs = DirectoryTools.GetScriptables(type);
+            SOs = LBSAssetsStorage.Instance.Get(type);
     }
 }

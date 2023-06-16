@@ -128,6 +128,7 @@ public class LayerTemplateEditor : Editor
         layer.Assitant = assist;
         */
         layer.AddAssistant(new AssistantHillClimbing());
+        layer.AddGeneratorRule(new SchemaRuleGenerator());
 
         layer.ID = "Interior";
         layer.Name = "Layer Interior";
@@ -254,6 +255,7 @@ public class LayerTemplateEditor : Editor
         layer.Assitant = assist;
         */
         layer.AddAssistant(new AssitantWFC());
+        layer.AddGeneratorRule(new ExteriorRuleGenerator());
 
         layer.ID = "Exterior";
         layer.Name = "Layer Exterior";
@@ -366,6 +368,7 @@ public class LayerTemplateEditor : Editor
         layer.Assitant = assist;
         */
         layer.AddAssistant(new AssistantMapElite());
+        layer.AddGeneratorRule(new PopulationRuleGenerator());
 
         layer.ID = "Population";
         layer.Name = "Layer Population";

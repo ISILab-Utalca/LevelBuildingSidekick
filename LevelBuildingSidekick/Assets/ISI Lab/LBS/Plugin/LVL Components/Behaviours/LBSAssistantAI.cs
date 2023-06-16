@@ -23,10 +23,10 @@ public abstract class LBSAssistantAI: ICloneable
     public void InternalInit(LBSLayer layer)
     {
         Owner = layer;
-        Init(ref layer);
+        Init(layer);
     }
 
-    public abstract void Init(ref LBSLayer layer);
+    public abstract void Init(LBSLayer layer);
 
     public abstract void Execute();
 
@@ -50,7 +50,7 @@ public abstract class LBSAssistantAI: ICloneable
         }
         return toR;
     }
-
+    /*
     public Metadata GetMetaData()
     {
         Type type = this.GetType();
@@ -65,6 +65,6 @@ public abstract class LBSAssistantAI: ICloneable
             }
         }
         return default(Metadata);
-    }
+    }*/
 }
 

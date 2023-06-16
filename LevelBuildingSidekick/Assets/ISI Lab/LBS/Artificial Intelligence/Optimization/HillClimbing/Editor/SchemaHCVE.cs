@@ -25,8 +25,8 @@ public class SchemaHCVE : VisualElement
         var label = new Label(agent.GetType().Name);
 
 
-        var button = new Button(this.agent.RunExperiment);
-        button.text = "Run Experiment";
+        var button = new Button(this.agent.Execute);
+        button.text = "Run";
 
         this.Add(label);
         this.Add(button);

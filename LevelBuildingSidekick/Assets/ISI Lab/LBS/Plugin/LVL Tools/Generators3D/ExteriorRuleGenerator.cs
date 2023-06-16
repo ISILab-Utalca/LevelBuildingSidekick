@@ -3,6 +3,7 @@ using LBS.Components.TileMap;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using Utility;
 
@@ -28,7 +29,7 @@ namespace LBS.Generator
         public override GameObject Generate(LBSLayer layer, Generator3D.Settings settings)
         {
             var modulo = layer.GetModule<Exterior>();
-            var tiles = Utility.DirectoryTools.GetScriptables<WFCBundle>();
+            var tiles = LBSAssetsStorage.Instance.Get<WFCBundle>();
 
             var mainPivot = new GameObject("Exterior");
             var scale = settings.scale;
@@ -55,8 +56,11 @@ namespace LBS.Generator
                         break;
                     }
                 }
-
+#if UNITY_EDITOR
+                var go = PrefabUtility.InstantiatePrefab(selected, mainPivot.transform) as GameObject;
+#else
                 var go = GameObject.Instantiate(selected, mainPivot.transform);
+#endif
                 go.transform.position = new Vector3((tile.Position.x) * scale.x, 0,-(tile.Position.y) * scale.y) + new Vector3(scale.x, 0, -scale.y) / 2;
 
                 var rot = tuple.Item2;

@@ -60,12 +60,11 @@ MonoBehaviour:
     - {fileID: 9197481963319205126, guid: e3033cf897472f34bb44b09751185180, type: 3}
     - {fileID: 9197481963319205126, guid: 352a58bb499307540a1e69ea48063f29, type: 3}
     - {fileID: 9197481963319205126, guid: 3257e01b040bcc545a93ac657ddf173a, type: 3}
-    - {fileID: 9197481963319205126, guid: 51fea5b4134d6b840a156856da240257, type: 3}
     - {fileID: 9197481963319205126, guid: 4187713e2f06c5d458709949e48cf627, type: 3}
     - {fileID: 9197481963319205126, guid: c0b70c7504a1ff046a0984bd29b59171, type: 3}
     - {fileID: 9197481963319205126, guid: 5605b83b058b7e34594290ca24999fd6, type: 3}
-    - {fileID: 9197481963319205126, guid: 0d84831cf09ed87499c4fce8f831f5ab, type: 3}
     - {fileID: 9197481963319205126, guid: cd2fca478af5181438dde73d5dccea0b, type: 3}
+    - {fileID: 9197481963319205126, guid: 0d84831cf09ed87499c4fce8f831f5ab, type: 3}
     - {fileID: 9197481963319205126, guid: fac803c83f90d094e95aa73893794f9f, type: 3}
     - {fileID: 9197481963319205126, guid: 1603a4e79ba953642830087769590603, type: 3}
     - {fileID: 9197481963319205126, guid: 3a50f338943d36b4890351f0bd1db08c, type: 3}
@@ -73,7 +72,6 @@ MonoBehaviour:
     - {fileID: 9197481963319205126, guid: 83a1e3112f3c40d4fb2b9e7fe9ea7bda, type: 3}
     - {fileID: 9197481963319205126, guid: 6432f423ecf67e64aaf2a521b816ae3a, type: 3}
     - {fileID: 9197481963319205126, guid: d6b7aec2f91505f42a4283a8816e8bcc, type: 3}
-    - {fileID: 9197481963319205126, guid: a9bc3d246a342c84b9fe894d298566dd, type: 3}
     - {fileID: 9197481963319205126, guid: a0573d1ee775943adb00717b348bf967, type: 3}
     - {fileID: 11400000, guid: 46c8e0bde8bfa5a4eadb9b33d3543bcd, type: 3}
     - {fileID: 11400000, guid: 1b45e34b5d565204db1307b88755e76d, type: 3}
@@ -143,7 +141,6 @@ MonoBehaviour:
     - {fileID: 7433441132597879392, guid: 1d40f9ca95bb1ef428483c9a9bf3977a, type: 3}
     - {fileID: 7433441132597879392, guid: 585bed622d428f948b14ad7ef652428a, type: 3}
     - {fileID: 7433441132597879392, guid: baf797a3e9a0a71409baaf0310a798de, type: 3}
-    - {fileID: 7433441132597879392, guid: 06a1af0c66b876f488863d8916c097fa, type: 3}
     - {fileID: 7433441132597879392, guid: 2623f92de99ca4b3d94e818d816553fb, type: 3}
     - {fileID: 11400000, guid: 4cb62f324c9e68643acade726b44b815, type: 3}
     - {fileID: 11400000, guid: f3a7eea6e0f5acb479ae4e70f8f25d95, type: 3}
@@ -321,10 +318,6 @@ MonoBehaviour:
   - type: LBSAssetsStorage
     items:
     - {fileID: 11400000}
-  - type: LBS.LevelBackUp
-    items:
-    - {fileID: 11400000, guid: 2474e118fc6712042816c39c6b20248c, type: 2}
-    - {fileID: 11400000, guid: c9fa946110f092a4780913ba067f072f, type: 2}
   - type: LBS.Settings.LBSSettings
     items:
     - {fileID: 11400000, guid: 29abd09f3cff7644da7097258d0ae978, type: 2}
@@ -334,6 +327,9 @@ MonoBehaviour:
   - type: Borodar.RainbowFolders.ProjectRuleset
     items:
     - {fileID: 11400000, guid: 5e41b3c1212089d44971f715d8388de8, type: 2}
+  - type: LBS.LevelBackUp
+    items:
+    - {fileID: 11400000, guid: 9f5d3b4092ecdd94c917ece4357cfec7, type: 2}
   - type: UnityEngine.U2D.SpriteShape
     items:
     - {fileID: 11400000, guid: f24cddf7c09a6442abbce710a6fd7397, type: 2}

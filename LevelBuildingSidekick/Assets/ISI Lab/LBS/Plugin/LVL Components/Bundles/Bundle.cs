@@ -237,7 +237,7 @@ public static class BundleExtensions
 {
     public static bool IsRoot(this Bundle bundle)
     {
-        var x = Utility.DirectoryTools.GetScriptables<Bundle>().ToList();
+        var x = LBSAssetsStorage.Instance.Get<Bundle>().ToList();
         var xx = x.Where(b => b.ChildsBundles.Contains(bundle)).ToList();
         var b = xx.Count() <= 0;
         return b;
@@ -245,7 +245,7 @@ public static class BundleExtensions
 
     public static Bundle Parent(this Bundle bundle)
     {
-        var parent = Utility.DirectoryTools.GetScriptables<Bundle>()
+        var parent = LBSAssetsStorage.Instance.Get<Bundle>()
             .Find(b => b.ChildsBundles.Contains(bundle));
 
         return parent;

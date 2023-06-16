@@ -101,6 +101,8 @@ public class TaggedTileMapChromosome : LBSChromosome, IDrawable
         int tSize = 16;
         var texture = new Texture2D((int)Rect.width* tSize, (int)Rect.height* tSize);
 
+        var Identifiers = LBSAssetsStorage.Instance.Get<LBSIdentifier>();
+
         for(int i = 0; i < genes.Length; i++)
         {
             var pos = ToMatrixPosition(i);
@@ -112,7 +114,7 @@ public class TaggedTileMapChromosome : LBSChromosome, IDrawable
             }
             else
             {
-                var source = Utility.DirectoryTools.GetScriptable<LBSIdentifier>((genes[i] as BundleData).BundleTag).Icon;
+                var source = Identifiers.Find( id => id.Label.Equals((genes[i] as BundleData).BundleTag)).Icon;
                 var t = new Texture2D(source.width, source.height);
                 t.SetPixels(source.GetPixels());
                 t.MirrorY();

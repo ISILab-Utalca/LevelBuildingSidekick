@@ -215,7 +215,7 @@ public class LBSMainWindow : EditorWindow
         var IABtn = rootVisualElement.Q<Button>("AIButton");
         IABtn.clicked += () =>
         {
-            aiPanel.Init(ref _selectedLayer);
+            aiPanel.Init(_selectedLayer);
             var value = (aiPanel.style.display == DisplayStyle.None);
             aiPanel.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
 

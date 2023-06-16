@@ -34,10 +34,11 @@ public class LBSAssetsStorage : ScriptableObject
         get
         {
             if(instance == null)
-            {
-                instance = Utility.DirectoryTools.GetScriptable<LBSAssetsStorage>(); // si es nullo lo busco
+            { 
+                instance = Resources.Load<LBSAssetsStorage>("LBS Storage");
+                //instance = Utility.DirectoryTools.GetScriptable<LBSAssetsStorage>(); // si es nullo lo busco
 
-                if(instance == null)
+            if (instance == null)
                 {
                     //instance = BLA // si sigue sindo nulo lo creo // implementar (!)
                 }
@@ -55,6 +56,16 @@ public class LBSAssetsStorage : ScriptableObject
     #endregion
 
     #region METHODS
+    private void Awake()
+    {
+        instance = this;
+    }
+
+    private void OnEnable()
+    {
+        instance = this;
+    }
+
     public List<T> Get<T>() where T : Object
     {
         CleanAllEmpties();
@@ -63,6 +74,19 @@ public class LBSAssetsStorage : ScriptableObject
             if(group.type.Equals(typeof(T).FullName))
             {
                 return group.items.Cast<T>().ToList();
+            }
+        }
+        return null;
+    }
+
+    public List<ScriptableObject> Get(Type t)
+    {
+        CleanAllEmpties();
+        foreach (var group in groups)
+        {
+            if (group.type.Equals(t.FullName))
+            {
+                return group.items.ToList();
             }
         }
         return null;

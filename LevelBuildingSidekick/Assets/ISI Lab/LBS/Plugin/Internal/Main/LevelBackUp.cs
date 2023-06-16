@@ -10,7 +10,7 @@ namespace LBS
     [CreateAssetMenu(menuName = "ISILab/LBS plugin/Back Up", fileName ="LBSBackUp.asset")]
     public class LevelBackUp : ScriptableObject
     {
-        private static readonly string defaultPath = "Assets/Resources/ISI Lab/LBS/Plugin/Internal/Resources/BackUp"; // esto podria ser peligroso (!)
+        private static readonly string defaultPath = "Assets/Resources/ISI Lab/LBS/Plugin/Internal/Editor/Resources/"; // esto podria ser peligroso (!)
         private static readonly string defaultName = "LBSBackUp.asset";
 
         public static LevelBackUp instance;

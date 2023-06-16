@@ -146,7 +146,7 @@ namespace LBS.Tools.Transformer
             schema = layer.GetModule(To) as AreaTileMap<TiledArea>;
 
             schema.Clear();
-            CreateDataFrom(schema);
+            CreateDataFrom2(schema);
             CalculateConnections.Operate(schema);
         }
     }

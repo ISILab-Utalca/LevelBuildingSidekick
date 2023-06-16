@@ -30,7 +30,7 @@ namespace LBS.Generator
         public override GameObject Generate(LBSLayer layer, Generator3D.Settings settings)
         {
             var data = layer.GetModule<TaggedTileMap>();
-            var bundles = Utility.DirectoryTools.GetScriptables<SimpleBundle>();
+            var bundles = LBSAssetsStorage.Instance.Get<SimpleBundle>();
             var scale = settings.scale;
 
             var parent = new GameObject("Population");
@@ -41,8 +41,12 @@ namespace LBS.Generator
                 var bundle = bundles.Find(b => b.ID.Label == tag);
 
                 var pref = bundle.GetObject(Random.Range(0, bundle.Assets.Count));
-
+#if UNITY_EDITOR
+                var go = PrefabUtility.InstantiatePrefab(pref, parent.transform) as GameObject;
+#else
                 var go = GameObject.Instantiate(pref, parent.transform);
+#endif
+
                 go.transform.position = new Vector3(
                     scale.x * tile.Position.x,
                     0,

@@ -7,6 +7,7 @@ using LBS.Components.Graph;
 using LBS.Components.TileMap;
 using LBS.Components.Specifics;
 using System.Linq;
+using UnityEditor;
 //using UnityEditor;
 
 [System.Serializable]
@@ -54,7 +55,8 @@ public class SchemaRuleGenerator : LBSGeneratorRule
 
             var bundlesDictionary = new Dictionary<string, List<GameObject>>();
 
-            var bundlesSO = Utility.DirectoryTools.GetScriptables<CompositeBundle>();
+            var bundlesSO = LBSAssetsStorage.Instance.Get<CompositeBundle>();
+            //var bundlesSO = Utility.DirectoryTools.GetScriptables<CompositeBundle>();
             var temp = tags.Select(s => s.Clone() as string).ToList();
 
             bundlesDictionary.Add("Wall", bundlesSO.SelectMany(b => b.GetObjects("Wall", temp)).ToList());
@@ -91,7 +93,12 @@ public class SchemaRuleGenerator : LBSGeneratorRule
         }
 
         var index = Random.Range(0, bases.Count);
+
+#if UNITY_EDITOR
+        var floor = PrefabUtility.InstantiatePrefab(bases[index], pivot.transform);
+#else
         var floor = GameObject.Instantiate(bases[index], pivot.transform);
+#endif
         //var floor = SceneView.Instantiate(bases[Random.Range(0, bases.Count)], pivot.transform);
 
         for (int k = 0; k < tile.Sides; k++)
@@ -106,8 +113,11 @@ public class SchemaRuleGenerator : LBSGeneratorRule
                     Debug.LogWarning("[ISI LAB]: uno o mas bundles continen '0' Gameobject.");
                     return;
                 }
-
+#if UNITY_EDITOR
+                var wall = PrefabUtility.InstantiatePrefab(prefabs[Random.Range(0, prefabs.Count)], pivot.transform) as GameObject;
+#else
                 var wall =  GameObject.Instantiate(prefabs[Random.Range(0, prefabs.Count)], pivot.transform);
+#endif
                 //var wall =  SceneView.Instantiate(prefabs[Random.Range(0, prefabs.Count)], pivot.transform);
                 wall.transform.position += new Vector3(sideDir[k].x*(scale.x/2), 0, sideDir[k].y*(scale.y/2));
                 wall.transform.rotation = Quaternion.Euler(0, -(90 * (k + 1)) % 360, 0);
