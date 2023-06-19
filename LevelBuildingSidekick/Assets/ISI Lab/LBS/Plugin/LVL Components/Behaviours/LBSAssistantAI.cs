@@ -14,7 +14,9 @@ public abstract class LBSAssistantAI: ICloneable
     [JsonIgnore]
     protected LBSLayer Owner;
 
+    [JsonIgnore]
     public Action OnStart;
+    [JsonIgnore]
     public Action OnTermination;
 
 
