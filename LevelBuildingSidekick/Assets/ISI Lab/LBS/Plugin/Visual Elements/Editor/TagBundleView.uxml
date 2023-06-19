@@ -3,6 +3,7 @@
         <ui:VisualElement style="flex-direction: row; padding-bottom: 2px;">
             <ui:Foldout />
             <ui:TextField picking-mode="Ignore" value="filler text" text="filler text" style="flex-grow: 1;" />
+            <ui:EnumField type="LBSIdentifierBundle+TagType, Assembly-CSharp" name="TypeDropdown" />
         </ui:VisualElement>
         <ui:VisualElement name="Content" style="padding-bottom: 5px;">
             <ui:ListView focusable="true" show-add-remove-footer="false" show-foldout-header="false" horizontal-scrolling="false" reorderable="false" show-border="true" show-bound-collection-size="false" virtualization-method="DynamicHeight" show-alternating-row-backgrounds="None" style="background-color: rgb(88, 88, 88); border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px;" />

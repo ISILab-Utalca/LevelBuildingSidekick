@@ -22,6 +22,7 @@ public class TagBundleView : VisualElement
     private ListView list;
     private Button addBtn;
     private Button removeBtn;
+    private EnumField typeDropdown;
     #endregion
 
     #region EVENTS
@@ -47,6 +48,13 @@ public class TagBundleView : VisualElement
         // Bundle Namefield
         this.groupNameField = this.Q<TextField>();
         groupNameField.RegisterCallback<BlurEvent>(e => TextChange(groupNameField.value));
+
+        typeDropdown = this.Q<EnumField>("TypeDropdown");
+        typeDropdown.RegisterCallback<ChangeEvent<Enum>>((evt) =>
+        {
+            target.type = (LBSIdentifierBundle.TagType) evt.newValue;
+            AssetDatabase.SaveAssets();
+        }); 
 
         // Tags List
         list = this.Q<ListView>();
@@ -122,6 +130,7 @@ public class TagBundleView : VisualElement
 
         list.itemsSource = target.Tags;
         groupNameField.value = target.name;
+        typeDropdown.value = target.type;
 
         list.Rebuild();
     }

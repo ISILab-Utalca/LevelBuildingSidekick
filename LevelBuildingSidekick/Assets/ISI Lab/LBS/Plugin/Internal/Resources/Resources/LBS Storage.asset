@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: LBS Storage
   m_EditorClassIdentifier: 
   groups:
+  - type: SchemaHCLog
+    items:
+    - {fileID: 11400000, guid: 1c54a6de870919941be7a0a045672a25, type: 2}
   - type: UnityEngine.UIElements.VisualTreeAsset
     items:
     - {fileID: 9197481963319205126, guid: bd29f327871d53d4993912efc8ad419a, type: 3}
@@ -315,6 +318,9 @@ MonoBehaviour:
   - type: LBSGrammar
     items:
     - {fileID: 11400000, guid: cb5456d229f5ca14caf96261bd9db45e, type: 2}
+  - type: LBS.LevelBackUp
+    items:
+    - {fileID: 11400000, guid: 2474e118fc6712042816c39c6b20248c, type: 2}
   - type: LBSAssetsStorage
     items:
     - {fileID: 11400000}
@@ -327,9 +333,6 @@ MonoBehaviour:
   - type: Borodar.RainbowFolders.ProjectRuleset
     items:
     - {fileID: 11400000, guid: 5e41b3c1212089d44971f715d8388de8, type: 2}
-  - type: LBS.LevelBackUp
-    items:
-    - {fileID: 11400000, guid: 9f5d3b4092ecdd94c917ece4357cfec7, type: 2}
   - type: UnityEngine.U2D.SpriteShape
     items:
     - {fileID: 11400000, guid: f24cddf7c09a6442abbce710a6fd7397, type: 2}
