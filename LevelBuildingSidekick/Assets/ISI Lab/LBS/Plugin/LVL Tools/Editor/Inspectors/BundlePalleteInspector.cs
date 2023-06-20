@@ -40,6 +40,11 @@ public class BundlePalleteInspector : LBSInspector
         RefreshPallete(dropdownBundles.index, lBSManipulators);
     }
 
+    public override void OnLayerChange(LBSLayer layer)
+    {
+
+    }
+
     public void RefreshPallete(int index, List<IManipulatorLBS> lBSManipulators)
     {
         content.Clear();

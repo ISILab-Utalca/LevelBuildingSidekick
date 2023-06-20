@@ -28,7 +28,7 @@ namespace LBS.Components
         private bool blocked = false; // meta info
 
         [SerializeField, JsonRequired]
-        public string selectedMode; // meta info
+        public string selectedMode = ""; // meta info
 
         [PathTexture]
         [SerializeField, JsonRequired]
@@ -169,6 +169,14 @@ namespace LBS.Components
                 AddModule(m);
             });
 
+            assistant.ForEach(a => {
+                AddAssistant(a);
+            });
+
+            rules.ForEach(r => {
+                AddGeneratorRule(r);
+            });
+
             this.ID = ID;
             IsVisible = visible;
             this.name = name;
@@ -189,6 +197,11 @@ namespace LBS.Components
                     this.onModuleChange?.Invoke(this);
                 };
             }
+
+            foreach(var assistant in assitantsAI)
+            {
+                assistant.Owner = this;
+            }
         }
 
         public void AddBehaviour(LBSBehaviour behaviour)
@@ -200,6 +213,7 @@ namespace LBS.Components
             }
 
             this.behaviours.Add(behaviour);
+            behaviour.Init(this);
 
             var reqModules = behaviour.GetRequieredModules();
             foreach (var type in reqModules)
@@ -237,10 +251,12 @@ namespace LBS.Components
             }
 
             this.assitantsAI.Add(assistant);
+            assistant.Owner = this;
         }
 
         public bool RemoveAssitant(LBSAssistantAI assistant)
         {
+            assistant.Owner = null;
             return this.assitantsAI.Remove(assistant);
         }
 
@@ -295,12 +311,14 @@ namespace LBS.Components
         }
         */
 
+        /*
         public LBSModule RemoveModuleAt(int index)
         {
             var module = modules[index];
             RemoveModule(module);
             return module;
         }
+        */
 
         public LBSModule GetModule(int index)
         {
@@ -405,12 +423,8 @@ namespace LBS.Components
             var rules = this.generatorRules.Select(r => r.Clone() as LBSGeneratorRule).ToList();
 
             var layer = new LBSLayer(modules, assistants, rules, this.id, this.visible, this.name, this.iconPath, this.TileSize);
-            // layer.Assitant = Assitant;
-            // layer.TileSize = TileSize;
-
             return layer;
         }
-
         #endregion
     }
 }

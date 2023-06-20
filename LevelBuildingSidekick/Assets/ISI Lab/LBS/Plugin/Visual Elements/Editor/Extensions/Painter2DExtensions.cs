@@ -75,6 +75,16 @@ public static class Painter2DExtensions
         paint2D.Fill();
     }
 
+    public static void DrawDottedBox(this Painter2D painter2D, Vector2 pos1, Vector2 pos2, Color color, int width = 1)
+    {
+        float lineWidth = width;
+
+        painter2D.DrawDottedLine(pos1, new Vector2(pos2.x, pos1.y), color, lineWidth);
+        painter2D.DrawDottedLine(new Vector2(pos2.x, pos1.y), pos2, color, lineWidth);
+        painter2D.DrawDottedLine(pos2, new Vector2(pos1.x, pos2.y), color, lineWidth);
+        painter2D.DrawDottedLine(new Vector2(pos1.x, pos2.y), pos1, color, lineWidth);
+    }
+
     /// <summary>
     /// Draws a dotted line on a 2D canvas between two given positions with the given color, stroke and line width.
     /// </summary>

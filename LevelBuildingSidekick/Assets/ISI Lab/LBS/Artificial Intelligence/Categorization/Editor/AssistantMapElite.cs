@@ -9,7 +9,6 @@ using UnityEngine.UIElements;
 [RequieredModule(typeof(TaggedTileMap))]
 public class AssistantMapElite : LBSAssistantAI
 {
-    MapEliteWindow mapElites;
      
     public AssistantMapElite(){ }
 
@@ -23,10 +22,8 @@ public class AssistantMapElite : LBSAssistantAI
         return new Label("Inspector MapElite");
     }
 
-    public override void Init(ref LBSLayer layer)
+    public override void Init(LBSLayer layer)
     {
-        mapElites = MapEliteWindow.GetWindow<MapEliteWindow>();
-        mapElites.SetLayer(layer);
     }
 
     public override object Clone()
@@ -54,7 +51,7 @@ public class AssitantWFC : LBSAssistantAI
         return new Label("No implementado");
     }
 
-    public override void Init(ref LBSLayer layer)
+    public override void Init(LBSLayer layer)
     {
         Debug.Log("No implementado WFC 'Init(layer)'");
     }
@@ -79,7 +76,7 @@ public class AssistentGrammar : LBSAssistantAI
         return new Label("No implementado");
     }
 
-    public override void Init(ref LBSLayer layer)
+    public override void Init(LBSLayer layer)
     {
         Debug.Log("No implementado Grammar 'Init(layer)'");
     }

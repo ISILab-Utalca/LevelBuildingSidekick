@@ -13,7 +13,6 @@ namespace LBS.Components.Specifics
         static System.Random random = new System.Random();
 
         #region FIELDS
-
         [SerializeField, JsonRequired]
         private int width = 1;
 
@@ -22,10 +21,14 @@ namespace LBS.Components.Specifics
 
         [ScriptableObjectReference(typeof(LBSIdentifier))]
         [SerializeField, JsonRequired]
-        private List<string> tags = new List<string>();
+        private List<string> interiorTags = new List<string>();
 
+        [ScriptableObjectReference(typeof(LBSIdentifier))]
         [SerializeField, JsonRequired]
-        private SerializableColor color = Color.gray.ToSerializable();
+        private List<string> exteriorTags = new List<string>();
+
+        [SerializeField, JsonRequired, JsonConverter(typeof(ColorConverter))]
+        private Color color = Color.gray;
 
         #endregion
 
@@ -34,8 +37,8 @@ namespace LBS.Components.Specifics
         [JsonIgnore]
         public Color Color
         {
-            get => color.ToColor();
-            set => color = value.ToSerializable();
+            get => color;
+            set => color = value;
         }
 
         [JsonIgnore]
@@ -58,11 +61,12 @@ namespace LBS.Components.Specifics
             get => new Vector2Int(Width, Height);
         }
 
-        [JsonIgnore]
-        public int TagCount => tags.Count;
 
         [JsonIgnore]
-        public List<string> Tags => new List<string>(tags);
+        public List<string> InteriorTags => new List<string>(interiorTags);
+
+        [JsonIgnore]
+        public List<string> ExteriorTags => new List<string>(exteriorTags);
 
         #endregion
 
@@ -73,8 +77,7 @@ namespace LBS.Components.Specifics
             this.color = new Color(
                 (float)random.NextDouble() * 0.8f,
                 (float)random.NextDouble() * 0.8f,
-                (float)random.NextDouble() * 0.8f)
-                .ToSerializable();
+                (float)random.NextDouble() * 0.8f);
 
             /*
             var ttt = typeof(RoomData).GetField("tags");
@@ -89,8 +92,9 @@ namespace LBS.Components.Specifics
         {
             this.width = width;
             this.height = height;
-            this.tags = tags;
-            this.color = color.ToSerializable();
+
+            this.interiorTags = tags;
+            this.color = color;
         }
 
         #endregion
@@ -99,38 +103,38 @@ namespace LBS.Components.Specifics
 
         public bool AddTag(string tag)
         {
-            if (tags.Contains(tag))
+            if (interiorTags.Contains(tag))
             {
                 return false;
             }
-            tags.Add(tag);
+            interiorTags.Add(tag);
             return true;
         }
 
         public string GetTag(int index)
         {
-            if (tags.ContainsIndex(index))
-                return tags[index];
+            if (interiorTags.ContainsIndex(index))
+                return interiorTags[index];
             return null;
         }
 
         public bool Remove(string tag)
         {
-            return tags.Remove(tag);
+            return interiorTags.Remove(tag);
         }
 
         public string RemoveAt(int index)
         {
-            if (!tags.ContainsIndex(index))
+            if (!interiorTags.ContainsIndex(index))
                 return null;
-            var t = tags[index];
-            tags.RemoveAt(index);
+            var t = interiorTags[index];
+            interiorTags.RemoveAt(index);
             return t;
         }
 
         public object Clone()
         {
-            return new RoomData(this.width, this.height, new List<string>(tags), this.color.ToColor());
+            return new RoomData(this.width, this.height, new List<string>(interiorTags), this.color);
         }
 
         #endregion

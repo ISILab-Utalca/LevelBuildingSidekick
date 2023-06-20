@@ -28,15 +28,9 @@ public class LayersPanel : VisualElement
     #region EVENTS
     public event Action<LBSLayer> OnAddLayer;
     public event Action<LBSLayer> OnRemoveLayer;
-    public event Action<LBSLayer> OnSelectLayer;
-
-    private Action onLayerVisibilityChange;
-
-    public event Action OnLayerVisibilityChange
-    {
-        add => onLayerVisibilityChange += value;
-        remove => onLayerVisibilityChange += value;
-    }
+    public event Action<LBSLayer> OnSelectLayer; // click simple (!)
+    public event Action<LBSLayer> OnDoubleSelectLayer; // doble click (!)
+    public event Action<LBSLayer> OnLayerVisibilityChange;
     #endregion
 
     #region CONSTRUCTORS
@@ -66,7 +60,7 @@ public class LayersPanel : VisualElement
             var view = (item as LayerView);
             var layer = this.data.GetLayer(index);
             view.SetInfo(layer);
-            view.OnVisibilityChange += onLayerVisibilityChange;
+            view.OnVisibilityChange += () => { OnLayerVisibilityChange(layer); };
         };
 
         list.fixedItemHeight = 20;
@@ -139,16 +133,17 @@ public class LayersPanel : VisualElement
     }
 
     // Simple Click over element
-    public void OnSelectionChange(IEnumerable<object> objs) 
+    private void OnSelectionChange(IEnumerable<object> objs) 
     {
         var selected = objs.ToList()[0] as LBSLayer;
         OnSelectLayer?.Invoke(selected);
     }
 
     // Double Click over element
-    public void OnItemChosen(IEnumerable<object> objs) 
+    private void OnItemChosen(IEnumerable<object> objs) 
     {
-        Debug.Log("OIC");
+        var selected = objs.ToList()[0] as LBSLayer;
+        OnDoubleSelectLayer?.Invoke(selected);
     }
     #endregion
 }

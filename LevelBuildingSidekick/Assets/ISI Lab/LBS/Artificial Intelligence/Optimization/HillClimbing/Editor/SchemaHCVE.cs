@@ -8,13 +8,6 @@ using UnityEngine.UIElements;
 public class SchemaHCVE : VisualElement
 {
     AssistantHillClimbing agent;
-    VisualElement log = new VisualElement();
-
-    static double Nlog = 0;
-    static double NNlog = 0;
-    static double Elog = 0;
-    static double generationsRun = 0;
-    static double totalTime = 0;
 
     public SchemaHCVE(LBSAssistantAI agent)
     {
@@ -25,8 +18,8 @@ public class SchemaHCVE : VisualElement
         var label = new Label(agent.GetType().Name);
 
 
-        var button = new Button(this.agent.RunExperiment);
-        button.text = "Run Experiment";
+        var button = new Button(this.agent.Execute);
+        button.text = "Run";
 
         this.Add(label);
         this.Add(button);

@@ -20,7 +20,7 @@ public class AIPanel : VisualElement
         container = this.Q<VisualElement>(name: "Container");
     }
 
-    public void Init(ref LBSLayer layer)
+    public void Init(LBSLayer layer)
     {
         container.Clear();
 
@@ -30,7 +30,7 @@ public class AIPanel : VisualElement
         {
             var ass = assistants[i];
             ass.OnTermination = OnFinish;
-            ass.Init(ref layer);
+            ass.Init(layer);
             container.Add(GetAgentPanel(ass));
             //container.Add(new AIAgentPanel(ref ass));
 

@@ -122,5 +122,10 @@ namespace LBS.Tools.Transformer
            }
            */
         }
+
+        public override void ReCalculate(ref LBSLayer layer)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

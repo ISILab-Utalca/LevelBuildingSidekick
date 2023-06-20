@@ -92,6 +92,10 @@ public class LBSMainWindow : EditorWindow
             OnApplyTrasformers(_selectedMode, mode);
             OnSelectedModeChange(mode, _selectedLayer);
         };
+        modeSelector.OnUpdateMode += () =>
+        {
+            OnModeUpdate(_selectedLayer);
+        };
 
         // MainView 
         mainView = rootVisualElement.Q<MainView>("MainView");
@@ -171,7 +175,7 @@ public class LBSMainWindow : EditorWindow
                 Selection.SetActiveObjectWithContext(il, il);
             }
         };
-        layerPanel.OnLayerVisibilityChange += () =>
+        layerPanel.OnLayerVisibilityChange += (l) =>
         {
             drawManager.RefreshView(ref _selectedLayer, levelData.Layers, _selectedMode);
         };
@@ -211,7 +215,7 @@ public class LBSMainWindow : EditorWindow
         var IABtn = rootVisualElement.Q<Button>("AIButton");
         IABtn.clicked += () =>
         {
-            aiPanel.Init(ref _selectedLayer);
+            aiPanel.Init(_selectedLayer);
             var value = (aiPanel.style.display == DisplayStyle.None);
             aiPanel.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
 
@@ -261,7 +265,6 @@ public class LBSMainWindow : EditorWindow
     public void OnLevelDataChange(LBSLevelData levelData)
     {
         noLayerSign.style.display = (levelData.Layers.Count <= 0) ? DisplayStyle.Flex : DisplayStyle.None;
-        //modeSelector.style.display = (levelData.Layers.Count <= 0) ? DisplayStyle.None : DisplayStyle.Flex;
     }
 
     public void OnApplyTrasformers(string modeFrom, string modeTo)
@@ -272,14 +275,46 @@ public class LBSMainWindow : EditorWindow
         var transformers = _selectedLayer.GetTrasformers(layerTemplates);
         var trans = transformers.Find(t => t.From.FullName.Equals(ModuleFrom) && t.To.FullName.Equals(ModuleTo)); // (!) lo de los fullname es parche ya que ".ModuleType no funciona"
         
-        if(trans == null)
-        {
-            //Debug.LogWarning("No existe trasformador que trasforme de '" + ModuleFrom + "' a '" + ModuleTo); // (!!!)
-        }
-        else
+        if(trans != null)
         {
             trans.Switch(ref _selectedLayer);
         }
+    }
+
+    public void OnModeUpdate(LBSLayer layer)
+    {
+        var transformers = layer.GetTrasformers(layerTemplates);
+        if (transformers.Count <= 0)
+            return;
+        var t = transformers.First();
+        t.ReCalculate(ref layer);
+
+        var templates = layerTemplates.Where(l => l.layer.ID == _selectedLayer.ID).ToList();
+        var allModes = templates.SelectMany(l => l.modes).ToList();
+
+        /*var modes = new List<LBSMode>();
+
+        foreach(var mod in allModes)
+        {
+            if(mod.module == t.To.FullName)
+            {
+                modes.Add(mod);
+            }
+        }*/
+
+        var modes = allModes.Where(m => m.module == t.To.FullName).ToList();
+        var modesID = modes.Where(m => m.name != _selectedMode).Select(m => m.name).ToList();
+
+        if (modesID.Count() <= 0)
+        {
+            drawManager.RefreshView(ref _selectedLayer, levelData.Layers, _selectedMode);
+            return;
+        }
+
+        var m = modesID.First();
+        
+
+        modeSelector.Index = modeSelector.GetChoiceIndex(m);
     }
 
     public void OnSelectedModeChange(string mode, LBSLayer layer)
@@ -302,6 +337,7 @@ public class LBSMainWindow : EditorWindow
 
     public void OnSelectedLayerChange(LBSLayer layer)
     {
+        modeSelector.Disable();
         _selectedLayer = layer;
         
         // actualize modes
@@ -309,22 +345,26 @@ public class LBSMainWindow : EditorWindow
         modeSelector.SetChoices(modes);
         modeSelector.Index = 0;
         modeSelector.style.display = DisplayStyle.Flex;
+        inspectorManager.OnSelectedLayerChange(layer);
         OnSelectedModeChange(modes.Keys.First(), _selectedLayer);
 
         selectedLabel.text = "selected: " + layer.Name;
+        modeSelector.Enable();
     }
 
     public void OnSelectedLayerChange2(LBSLayer layer) // esto es un parche se deberia ir cuando se mejore el paso de selected layer y los comportamientos
     {
+        modeSelector.Disable();
         _selectedLayer = layer;
 
         // actualize modes
-        var modes = _selectedLayer.GetToolkit(layerTemplates);
+        var modes = _selectedLayer.GetToolkit(layerTemplates);     
         modeSelector.SetChoices(modes);
         modeSelector.Index = modes.Count -1;
         modeSelector.style.display = DisplayStyle.Flex;
         OnSelectedModeChange(modes.Keys.Last(), _selectedLayer);
 
         selectedLabel.text = "selected: " + layer.Name;
+        modeSelector.Enable();
     }
 }

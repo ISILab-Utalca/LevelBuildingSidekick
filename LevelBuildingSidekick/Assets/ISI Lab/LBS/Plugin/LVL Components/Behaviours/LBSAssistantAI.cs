@@ -11,22 +11,30 @@ using UnityEngine.UIElements;
 [System.Serializable]
 public abstract class LBSAssistantAI: ICloneable 
 {
-    [JsonIgnore]
-    protected LBSLayer Owner;
+    private LBSLayer owner;
 
+    [JsonIgnore]
+    public LBSLayer Owner
+    {
+        get => owner;
+        set => owner = value;
+    }
+
+    [JsonIgnore]
     public Action OnStart;
+    [JsonIgnore]
     public Action OnTermination;
 
 
     public LBSAssistantAI(){ }
 
-    public void InternalInit(ref LBSLayer layer)
+    public void InternalInit(LBSLayer layer)
     {
         Owner = layer;
-        Init(ref layer);
+        Init(layer);
     }
 
-    public abstract void Init(ref LBSLayer layer);
+    public abstract void Init(LBSLayer layer);
 
     public abstract void Execute();
 
@@ -50,7 +58,7 @@ public abstract class LBSAssistantAI: ICloneable
         }
         return toR;
     }
-
+    /*
     public Metadata GetMetaData()
     {
         Type type = this.GetType();
@@ -65,6 +73,6 @@ public abstract class LBSAssistantAI: ICloneable
             }
         }
         return default(Metadata);
-    }
+    }*/
 }
 

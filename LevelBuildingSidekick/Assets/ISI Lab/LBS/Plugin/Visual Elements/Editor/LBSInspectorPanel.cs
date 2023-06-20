@@ -1,4 +1,6 @@
+using LBS.Components;
 using LBS.VisualElements;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +22,9 @@ public class LBSInspectorPanel : VisualElement
     private ButtonGroup subTab;
     private ButtonGroup mainTab;
 
-    private Dictionary<string, Dictionary<string, VisualElement>> VEs = new Dictionary<string, Dictionary<string, VisualElement>>();
+    private Dictionary<string, Dictionary<string, LBSInspector>> VEs = new Dictionary<string, Dictionary<string, LBSInspector>>();
+    
+    
     #endregion
 
     #region CONSTRUCTORS
@@ -56,16 +60,16 @@ public class LBSInspectorPanel : VisualElement
         var gt = new LBSGlobalTagsInspector();
         AddTab("Global", "Tags", gt);
 
-        //var l1 = new LBSLocalCurrent();
-        var l1 = new Wip();
+        var l1 = new LBSLocalCurrent();
+        //var l1 = new Wip();
         AddTab("Local", "Current data", l1);
 
-        //var l2 = new LBSLocalBehaviours();
-        var l2 = new Wip();
+        var l2 = new LBSLocalBehaviours();
+        //var l2 = new Wip();
         AddTab("Local", "Behaviours", l2);
 
-        //var l3 = new LBSLocalAssistants();
-        var l3 = new Wip();
+        var l3 = new LBSLocalAssistants();
+        //var l3 = new Wip();
         AddTab("Local", "Assistants", l3);
 
         var aset = new Wip();
@@ -75,7 +79,7 @@ public class LBSInspectorPanel : VisualElement
         AddTab("Advanced", "Settings2", aset2);
     }
 
-    private void AddTab(string mainTabName, string subTabName, VisualElement element)
+    private void AddTab(string mainTabName, string subTabName, LBSInspector element)
     {
         if(VEs.ContainsKey(mainTabName))
         {
@@ -91,7 +95,7 @@ public class LBSInspectorPanel : VisualElement
         }
         else
         {
-            var newDic = new Dictionary<string, VisualElement>();
+            var newDic = new Dictionary<string, LBSInspector>();
             newDic.Add(subTabName, element);
             VEs.Add(mainTabName, newDic);
         }
@@ -176,6 +180,18 @@ public class LBSInspectorPanel : VisualElement
         inspectors.Remove(inspector);
         if(content.Contains(inspector))
             content.Remove(inspector);
+    }
+
+    internal void OnSelectedLayerChange(LBSLayer layer)
+    {
+        foreach (var ve in VEs)
+        {
+            foreach (var ve2 in ve.Value)
+            {
+                var inspector = ve2.Value;
+                inspector.OnLayerChange(layer);
+            }
+        }
     }
     #endregion
 }

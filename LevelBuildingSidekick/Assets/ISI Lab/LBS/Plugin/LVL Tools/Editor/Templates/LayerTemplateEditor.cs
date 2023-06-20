@@ -91,7 +91,6 @@ public class LayerTemplateEditor : Editor
         }
     }
 
-
     /// <summary>
     /// This function adjust the icons, layout and labels of the system for Contructión in interior
     /// also call the manipulators to make functional buttons in the layout
@@ -129,30 +128,23 @@ public class LayerTemplateEditor : Editor
         layer.Assitant = assist;
         */
         layer.AddAssistant(new AssistantHillClimbing());
+        layer.AddGeneratorRule(new SchemaRuleGenerator());
+        layer.AddGeneratorRule(new SchemaRuleGeneratorExteriror());
 
         layer.ID = "Interior";
         layer.Name = "Layer Interior";
-        layer.iconPath = "Icons/interior-design";
+        layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/interior-design.png";
         template.layer = layer;
 
         // Modules
         layer.AddModule(new LBSRoomGraph());    // GraphModule<RoomNode>
         layer.AddModule(new LBSSchema());       // AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile>
-        //layer.AddModule(new GraphModule<RoomNode>());
-        //layer.AddModule(new LBSSchema());
 
         // Transformers
         template.transformers.Add(
             new GraphToArea(
                 typeof(GraphModule<RoomNode>),
                 typeof(AreaTileMap<TiledArea>)
-                )
-            );
-
-        template.transformers.Add(
-            new AreaToGraph(
-                typeof(AreaTileMap<TiledArea>),
-                typeof(GraphModule<RoomNode>)
                 )
             );
 
@@ -257,10 +249,11 @@ public class LayerTemplateEditor : Editor
         layer.Assitant = assist;
         */
         layer.AddAssistant(new AssitantWFC());
+        layer.AddGeneratorRule(new ExteriorRuleGenerator());
 
         layer.ID = "Exterior";
         layer.Name = "Layer Exterior";
-        layer.iconPath = "Icons/pine-tree";
+        layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/pine-tree.png";
         template.layer = layer;
 
         // Modules
@@ -369,10 +362,11 @@ public class LayerTemplateEditor : Editor
         layer.Assitant = assist;
         */
         layer.AddAssistant(new AssistantMapElite());
+        layer.AddGeneratorRule(new PopulationRuleGenerator());
 
         layer.ID = "Population";
         layer.Name = "Layer Population";
-        layer.iconPath = "Icons/ghost";
+        layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/ghost.png";
         template.layer = layer;
 
         // Modules
@@ -442,7 +436,7 @@ public class LayerTemplateEditor : Editor
 
         layer.ID = "Quest";
         layer.Name = "Layer Quest";
-        layer.iconPath = "Icons/Quest";
+        layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Quest.png";
         template.layer = layer;
 
         // Modules

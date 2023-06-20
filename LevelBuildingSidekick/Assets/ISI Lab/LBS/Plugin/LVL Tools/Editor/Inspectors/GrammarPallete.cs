@@ -43,6 +43,11 @@ public class GrammarPallete : LBSInspector
         RefreshPallete(dropdownBundles.index, lBSManipulators);
     }
 
+    public override void OnLayerChange(LBSLayer layer)
+    {
+
+    }
+
     public void RefreshPallete(int i, List<IManipulatorLBS> lBSManipulators)
     {
         content.Clear();

@@ -7,8 +7,9 @@ using UnityEditor;
 using UnityEngine;
 using ISILab.Commons;
 using UnityEngine.UIElements;
+using LBS.Components;
 
-public class LBSGlobalTagsInspector : VisualElement
+public class LBSGlobalTagsInspector : LBSInspector
 {
     #region FACTORY
     public new class UxmlFactory : UxmlFactory<LBSGlobalTagsInspector, VisualElement.UxmlTraits> { }
@@ -136,6 +137,16 @@ public class LBSGlobalTagsInspector : VisualElement
     private void SelectedTagChange(LBSIdentifier tag)
     {
         tagInfo.SetInfo(tag);
+    }
+
+    public override void Init(List<IManipulatorLBS> lBSManipulators, ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
+    {
+        //throw new NotImplementedException();
+    }
+
+    public override void OnLayerChange(LBSLayer layer)
+    {
+        Debug.Log("Actualizacion de layer Global/Tags inspector");
     }
     #endregion
 }

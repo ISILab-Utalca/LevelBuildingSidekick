@@ -15,18 +15,27 @@ using LBS.Tools.Transformer;
 using System;
 using System.Diagnostics;
 using UnityEditor;
+using Debug = UnityEngine.Debug;
+using Newtonsoft.Json;
 
 [System.Serializable]
 [RequieredModule(typeof(LBSRoomGraph), typeof(LBSSchema))]
-[Metadata(
+/*[Metadata(
     "Hill climbing algorithm",
     "THIS/IS/A/FAKE/PATH/ICON", // Implementar bien (!!!)
     "Hill Climbing is an optimization algorithm that iteratively improves a" +
-    " solution by exploring neighboring options.")]
+    " solution by exploring neighboring options.")]*/
 public class AssistantHillClimbing : LBSAssistantAI
 {
-    HillClimbing hillClimbing;
-    Stopwatch clock = new Stopwatch();
+    [JsonIgnore, NonSerialized]
+    private HillClimbing hillClimbing;
+    [JsonIgnore, NonSerialized]
+    private Stopwatch clock = new Stopwatch();
+
+    [NonSerialized]
+    private LBSLayer layer;
+
+    public string test = "Hola mundo";
 
     public AssistantHillClimbing() {}
     /*
@@ -42,7 +51,7 @@ public class AssistantHillClimbing : LBSAssistantAI
         UnityEngine.Debug.Log("HillClimbing start!");
         OnStart?.Invoke();
 
-        var layer = this.Owner;
+        Init(Owner);
 
         clock.Start();
         hillClimbing.Start();
@@ -51,9 +60,9 @@ public class AssistantHillClimbing : LBSAssistantAI
         var x = (hillClimbing.BestCandidate as OptimizableSchema).Schema;
         CalculateConnections.Operate(x);
 
-        SetDoors(x, layer.GetModule<LBSRoomGraph>());
+        SetDoors(x, Owner.GetModule<LBSRoomGraph>());
 
-        layer.SetModule(x, x.Key);
+        Owner.SetModule(x, x.Key);
 
         OnTermination?.Invoke();
         UnityEngine.Debug.Log("HillClimbing finish!");
@@ -121,15 +130,15 @@ public class AssistantHillClimbing : LBSAssistantAI
 
     }
 
-    public override void Init(ref LBSLayer layer)
+    public override void Init(LBSLayer layer)
     {
         var graph = layer.GetModule<LBSRoomGraph>();
 
         var schema = layer.GetModule<LBSSchema>();
         var adam = new OptimizableSchema(schema);
 
-        var selection = new StochasticElitistSelection();
-        var termination = new GenerationNumberTermination(1); // agregar termination de maximo local
+        var selection = new EliteSelection();
+        var termination = new FitnessStagnationTermination(1); // agregar termination de maximo local
         var evaluator = new WeightedEvaluator(new System.Tuple<IEvaluator, float>[] //agregar parametros necesarios a las clases de evaluaci�n
         {
             new System.Tuple<IEvaluator, float> (new AdjacenciesEvaluator(graph), 0.4f),
@@ -141,6 +150,28 @@ public class AssistantHillClimbing : LBSAssistantAI
         var population = new Population(1, 100, adam); // agregar parametros
 
         hillClimbing = new HillClimbing(population, evaluator, selection, GetNeighbors, termination); // asignar Adam
+    }
+
+    private StochasticHillClimbing InitStochastic(LBSLayer layer)
+    {
+        var graph = layer.GetModule<LBSRoomGraph>();
+
+        var schema = layer.GetModule<LBSSchema>();
+        var adam = new OptimizableSchema(schema);
+
+        var selection = new EliteSelection();
+        var termination = new FitnessStagnationTermination(1); // agregar termination de maximo local
+        var evaluator = new WeightedEvaluator(new System.Tuple<IEvaluator, float>[] //agregar parametros necesarios a las clases de evaluaci�n
+        {
+            new System.Tuple<IEvaluator, float> (new AdjacenciesEvaluator(graph), 0.4f),
+            new System.Tuple<IEvaluator, float> (new AreasEvaluator(graph), 0.15f),
+            new System.Tuple<IEvaluator, float> (new EmptySpaceEvaluator(), 0.35f),
+            new System.Tuple<IEvaluator, float> (new RoomCutEvaluator(graph), 1f),
+            //new System.Tuple<IEvaluator, float> (new StretchEvaluator(), 0.1f),
+        });
+        var population = new Population(1, 100, adam); // agregar parametros
+
+        return new StochasticHillClimbing(population, evaluator, selection, GetNeighbors, termination); // asignar Adam
     }
 
     public List<IOptimizable> GetNeighbors(IOptimizable Adam)
@@ -214,20 +245,14 @@ public class AssistantHillClimbing : LBSAssistantAI
     }
 
     public void RunExperiment()
-    {
+    { 
         var elitistLog = SchemaHCLog.CreateInstance("SchemaHCLog") as SchemaHCLog;
-        elitistLog.name = "Elitist Log";
+        elitistLog.name = Owner.Name + "Elitist Log";
         clock = new Stopwatch();
-        int experimentCount = 20;
-        int stochasticRuns = 10;
 
-
-        var schema = Owner.GetModule<LBSSchema>().Clone() as LBSSchema;
-
-        Init(ref this.Owner);
+        //Init(Owner);
         hillClimbing.OnGenerationRan += () => {
             var log = new HCLog();
-            log.result = (hillClimbing.BestCandidate as OptimizableSchema).Schema;
             log.time = clock.ElapsedMilliseconds;
             log.evaluationTime = hillClimbing.Elog;
             log.neighborTime = hillClimbing.Nlog;
@@ -236,19 +261,12 @@ public class AssistantHillClimbing : LBSAssistantAI
             elitistLog.log.Add(log);
         };
         hillClimbing.Selection = new EliteSelection();
+
         clock.Restart();
         hillClimbing.Start();
         clock.Stop();
-
-        for (int i = 1; i <= experimentCount; i++)
-        {
-            hillClimbing.Termination = new GenerationNumberTermination(i);
-            clock.Restart();
-            hillClimbing.Run();
-            clock.Stop();
-        }
-
-        AssetDatabase.CreateAsset(elitistLog, "Assets/ElitistLog.asset" );
+        
+        AssetDatabase.CreateAsset(elitistLog, "Assets/Experiments/" + Owner.Name + "ElitistLog.asset" );
         AssetDatabase.SaveAssets();
 
         var x = (hillClimbing.BestCandidate as OptimizableSchema).Schema;
@@ -259,18 +277,47 @@ public class AssistantHillClimbing : LBSAssistantAI
         Owner.SetModule(x, x.Key);
         OnTermination?.Invoke();
 
-        /*
-        for (int j = 0; j < stochasticRuns; j++)
-        {
-            layer.SetModule(schema, schema.Key);
-            Init(ref this.layer);
-            hillClimbing.Selection = new StochasticElitistSelection();
-            for (int i = 1; i <= experimentCount; i++)
-            {
-                hillClimbing.Termination = new GenerationNumberTermination(i);
+    }
 
-            }
-        }*/
+    public void RunStochasticExperiment()
+    {
+        var sch = Owner.GetModule<LBSSchema>().Clone() as LBSSchema;
+        for(int i = 0; i < 10; i++)
+        {
+            Owner.SetModule<LBSSchema>(sch);
+            var hc = InitStochastic(Owner);
+            var Log = SchemaHCLog.CreateInstance("SchemaHCLog") as SchemaHCLog;
+            Log.name = Owner.Name + "S" + (i + 1) + "Stochastic Log";
+            clock = new Stopwatch();
+
+            //Init(Owner);
+            hc.OnGenerationRan += () => {
+                var log = new HCLog();
+                log.time = clock.ElapsedMilliseconds;
+                log.evaluationTime = hc.Elog;
+                log.neighborTime = hc.Nlog;
+                log.neighborCount = hc.NNlog;
+                log.bestFitness = hc.BestCandidate.Fitness;
+                Log.log.Add(log);
+            };
+            //hc.Selection = new StochasticElitistSelection();
+
+            clock.Restart();
+            hc.Start();
+            clock.Stop();
+
+            AssetDatabase.CreateAsset(Log, "Assets/Experiments/" + Owner.Name + "S" + (i + 1) +  "StochasticLog.asset");
+            AssetDatabase.SaveAssets();
+
+            var x = (hc.BestCandidate as OptimizableSchema).Schema;
+            CalculateConnections.Operate(x);
+
+            SetDoors(x, Owner.GetModule<LBSRoomGraph>());
+
+            Owner.SetModule(x, x.Key);
+            OnTermination?.Invoke();
+        }
+        
 
     }
 }

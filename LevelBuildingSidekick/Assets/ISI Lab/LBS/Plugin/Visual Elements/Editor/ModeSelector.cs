@@ -27,6 +27,7 @@ public class ModeSelector : VisualElement
     #region EVENTS
 
     public event Action<string> OnSelectionChange;
+    public event Action OnUpdateMode;
 
     #endregion
 
@@ -49,10 +50,10 @@ public class ModeSelector : VisualElement
 
         // Button
         button = this.Q<Button>();
+        button.clicked += () => OnUpdateMode.Invoke();
 
         // Dropdown
         dropdown = this.Q<DropdownField>();
-        dropdown.RegisterCallback<ChangeEvent<string>>(e => OnSelectionChange?.Invoke(e.newValue));
     }
 
     #endregion
@@ -63,6 +64,26 @@ public class ModeSelector : VisualElement
     {
         this.objects = objects;
         dropdown.choices = objects.Select(o => o.Key).ToList();
+    }
+
+    public void Disable()
+    {
+        dropdown.UnregisterCallback<ChangeEvent<string>>(SelectionChanged);
+    }
+
+    public void Enable()
+    {
+        dropdown.RegisterCallback<ChangeEvent<string>>(SelectionChanged);
+    }
+
+    private void SelectionChanged(ChangeEvent<string> e)
+    {
+        OnSelectionChange?.Invoke(e.newValue);
+    }
+
+    public int GetChoiceIndex(string choice)
+    {
+        return dropdown.choices.FindIndex(c => c == choice);
     }
 
     public object GetSelection(string name)

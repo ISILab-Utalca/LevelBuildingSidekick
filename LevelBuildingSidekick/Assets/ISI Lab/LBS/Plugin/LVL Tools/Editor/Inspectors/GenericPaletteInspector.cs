@@ -38,4 +38,9 @@ public class GenericPalleteInspector<T, U> : LBSInspector where T : TiledArea wh
             content.Add(btn);
         }
     }
+
+    public override void OnLayerChange(LBSLayer layer)
+    {
+
+    }
 }

@@ -105,8 +105,7 @@ namespace LBS.Generator
 
             for (int i = 0; i < this.rules.Count; i++)
             {
-                var ruleParent = new GameObject("sub_" + name + "_" + i);
-                ruleParent = rules[i].Generate(layer, settings);
+                var ruleParent = rules[i].Generate(layer, settings); 
                 ruleParent.SetParent(parent);
             }
 
