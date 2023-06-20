@@ -14,8 +14,8 @@ namespace LBS.Components.TileMap
 
         [SerializeField, JsonRequired]
         protected string id;
-        [SerializeField, JsonRequired]
-        protected SerializableColor color;
+        [SerializeField, JsonRequired, JsonConverter(typeof(ColorConverter))]
+        protected Color color;
 
         #endregion
 
@@ -24,7 +24,7 @@ namespace LBS.Components.TileMap
         [JsonIgnore]
         public string ID => id;
         [JsonIgnore]
-        public Color Color => color.ToColor();
+        public Color Color => color;
         [JsonIgnore]
         public Vector2 Centroid
         {
@@ -56,7 +56,7 @@ namespace LBS.Components.TileMap
 
         public TiledArea(IEnumerable<LBSTile> tiles, string id, string key, Color color) : base(tiles, key)
         {
-            this.color = color.ToSerializable();
+            this.color = color;
             this.id = id;
         }
 
@@ -288,7 +288,7 @@ namespace LBS.Components.TileMap
 
         public override object Clone()
         {
-            return new TiledArea(tiles.Select(t => t.Clone()).Cast<LBSTile>(), this.ID, this.key, this.color.ToColor());
+            return new TiledArea(tiles.Select(t => t.Clone()).Cast<LBSTile>(), this.ID, this.key, this.color);
         }
 
         #endregion

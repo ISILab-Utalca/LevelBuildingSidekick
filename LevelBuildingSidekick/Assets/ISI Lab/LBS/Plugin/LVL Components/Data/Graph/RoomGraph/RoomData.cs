@@ -23,8 +23,8 @@ namespace LBS.Components.Specifics
         [SerializeField, JsonRequired]
         private List<string> tags = new List<string>();
 
-        [SerializeField, JsonRequired]
-        private SerializableColor color = Color.gray.ToSerializable();
+        [SerializeField, JsonRequired, JsonConverter(typeof(ColorConverter))]
+        private Color color = Color.gray;
 
         #endregion
 
@@ -33,8 +33,8 @@ namespace LBS.Components.Specifics
         [JsonIgnore]
         public Color Color
         {
-            get => color.ToColor();
-            set => color = value.ToSerializable();
+            get => color;
+            set => color = value;
         }
 
         [JsonIgnore]
@@ -72,8 +72,7 @@ namespace LBS.Components.Specifics
             this.color = new Color(
                 (float)random.NextDouble() * 0.8f,
                 (float)random.NextDouble() * 0.8f,
-                (float)random.NextDouble() * 0.8f)
-                .ToSerializable();
+                (float)random.NextDouble() * 0.8f);
 
             /*
             var ttt = typeof(RoomData).GetField("tags");
@@ -89,7 +88,7 @@ namespace LBS.Components.Specifics
             this.width = width;
             this.height = height;
             this.tags = tags;
-            this.color = color.ToSerializable();
+            this.color = color;
         }
 
         #endregion
@@ -129,7 +128,7 @@ namespace LBS.Components.Specifics
 
         public object Clone()
         {
-            return new RoomData(this.width, this.height, new List<string>(tags), this.color.ToColor());
+            return new RoomData(this.width, this.height, new List<string>(tags), this.color);
         }
 
         #endregion
