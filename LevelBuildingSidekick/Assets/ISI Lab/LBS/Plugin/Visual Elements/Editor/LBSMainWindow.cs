@@ -47,7 +47,7 @@ public class LBSMainWindow : EditorWindow
     public static void ShowWindow()
     {
         var window = GetWindow<LBSMainWindow>();
-        Texture icon = Resources.Load<Texture>("Icons/Logo");
+        Texture icon = Resources.Load<Texture>("Icons/LBS_Logo1");
         window.titleContent = new GUIContent("Level builder", icon);
         window.minSize = new Vector2(800, 400);
     }
@@ -55,7 +55,7 @@ public class LBSMainWindow : EditorWindow
     private static LBSMainWindow _ShowWindow()
     {
         var window = GetWindow<LBSMainWindow>();
-        Texture icon = Resources.Load<Texture>("Icons/Logo");
+        Texture icon = Resources.Load<Texture>("Icons/LBS_Logo1");
         window.titleContent = new GUIContent("Level builder", icon);
         return window;
     }
