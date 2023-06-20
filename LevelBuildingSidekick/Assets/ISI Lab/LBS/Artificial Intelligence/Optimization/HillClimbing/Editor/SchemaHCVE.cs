@@ -8,13 +8,6 @@ using UnityEngine.UIElements;
 public class SchemaHCVE : VisualElement
 {
     AssistantHillClimbing agent;
-    VisualElement log = new VisualElement();
-
-    static double Nlog = 0;
-    static double NNlog = 0;
-    static double Elog = 0;
-    static double generationsRun = 0;
-    static double totalTime = 0;
 
     public SchemaHCVE(LBSAssistantAI agent)
     {
