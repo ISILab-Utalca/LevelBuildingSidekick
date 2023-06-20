@@ -56,18 +56,14 @@ namespace Commons.Optimization.Terminations
         protected override bool PerformHasReached(BaseOptimizer optimizer)
         {
             var bestFitness = optimizer.BestCandidate.Fitness;
-            //parche
-            if(m_lastFitness == double.NaN)
+
+            if (m_lastFitness < bestFitness)
             {
                 m_stagnantGenerationsCount = 1;
-            }
-            if (m_lastFitness <= bestFitness)
-            {
-                m_stagnantGenerationsCount++;
             }
             else
             {
-                m_stagnantGenerationsCount = 1;
+                m_stagnantGenerationsCount++;
             }
 
             m_lastFitness = bestFitness;
