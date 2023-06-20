@@ -7,21 +7,22 @@ using LBS.Components.Graph;
 using LBS.Components.TileMap;
 using LBS.Components.Specifics;
 using System.Linq;
+#if UNITY_EDITOR
 using UnityEditor;
-//using UnityEditor;
+#endif
 
 [System.Serializable]
 public class SchemaRuleGenerator : LBSGeneratorRule
 {
-    LBSSchema schema;
-    LBSRoomGraph graph;
+    private LBSSchema schema;
+    private LBSRoomGraph graph;
 
     public override bool CheckIfIsPosible(LBSLayer layer, out string msg)
     {
         msg = "";
 
-        schema = layer.GetModule<LBSSchema>();
-        graph = layer.GetModule<LBSRoomGraph>();
+        var schema = layer.GetModule<LBSSchema>();
+        var graph = layer.GetModule<LBSRoomGraph>();
         if (schema == null)
         {
             msg = "The layer does not contain any module corresponding to 'LBSSchema'.";
@@ -47,21 +48,48 @@ public class SchemaRuleGenerator : LBSGeneratorRule
 
         var mainPivot = new GameObject("Schema");
 
+        var allBundles = LBSAssetsStorage.Instance.Get<Bundle>().Where(b => !b.isPreset).ToList(); // obtengo todos los bundles
+        var rootBundles = allBundles.Where(b => b.IsRoot()).ToList();// obtengo todos los bundles root
+
         var position = settings.position;
-        for(int i = 0; i < graph.NodeCount; i++)
+        for(int i = 0; i < graph.NodeCount; i++) // recorro los cuartos
         {
             var node = graph.GetNode(i);
-            var tags = node.Room.Tags;
+            var tags = new List<string>(node.Room.InteriorTags);
+
+            var currentRoots = new List<Bundle>();
+            if (tags.Count > 0)
+            {
+                foreach (var bundle in rootBundles)
+                {
+                    if (bundle.ID == null)
+                        continue;
+
+                    if(tags.Contains(bundle.ID.Label))
+                    {
+                        currentRoots.Add(bundle);
+                    }
+                }
+                //currentRoots = rootBundles.Where(b => tags.Contains(b.ID.Label)).ToList(); // obtengo los root de los tags correspondientes
+            }
+            else
+                currentRoots = rootBundles.ToList();
+
+            var childs = currentRoots.SelectMany(b => b.ChildsBundles).ToList().RemoveEmpties(); // obtengo todos sus hijos
 
             var bundlesDictionary = new Dictionary<string, List<GameObject>>();
 
-            var bundlesSO = LBSAssetsStorage.Instance.Get<CompositeBundle>();
-            //var bundlesSO = Utility.DirectoryTools.GetScriptables<CompositeBundle>();
-            var temp = tags.Select(s => s.Clone() as string).ToList();
+            var wallBundles = childs.Where(b => b.ID.Label.Equals("Wall")).ToList(); // obtengo todos los bundles con la tag Wall
+            bundlesDictionary.Add("Wall", wallBundles.SelectMany(b => b.Assets).ToList());
 
-            bundlesDictionary.Add("Wall", bundlesSO.SelectMany(b => b.GetObjects("Wall", temp)).ToList());
-            bundlesDictionary.Add("Door", bundlesSO.SelectMany(b => b.GetObjects("Door", temp)).ToList());
-            bundlesDictionary.Add("Floor", bundlesSO.SelectMany(b => b.GetObjects("Floor", temp)).ToList());
+            var doorBundles = childs.Where(b => b.ID.Label.Equals("Door")).ToList(); // obtengo todos los bundles con la tag Door
+            bundlesDictionary.Add("Door", doorBundles.SelectMany(b => b.Assets).ToList());
+
+            var floorBundles = childs.Where(b => b.ID.Label.Equals("Floor")); // obtengo todos los bundles con la tag Floor
+            bundlesDictionary.Add("Floor", floorBundles.SelectMany(b => b.Assets).ToList());
+
+            var cornerBundles = childs.Where(b => b.ID.Label.Equals("Corner")).ToList(); // obtengo todos los bundles con la tag Corner
+            bundlesDictionary.Add("Corner", cornerBundles.SelectMany(b => b.Assets).ToList());
 
             var area = schema.GetArea(node.ID);
             for (int j = 0; j < area.TileCount; j++)
