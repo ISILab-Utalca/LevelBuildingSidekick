@@ -28,7 +28,7 @@ namespace LBS.Components
         private bool blocked = false; // meta info
 
         [SerializeField, JsonRequired]
-        public string selectedMode; // meta info
+        public string selectedMode = ""; // meta info
 
         [PathTexture]
         [SerializeField, JsonRequired]
@@ -197,6 +197,11 @@ namespace LBS.Components
                     this.onModuleChange?.Invoke(this);
                 };
             }
+
+            foreach(var assistant in assitantsAI)
+            {
+                assistant.Owner = this;
+            }
         }
 
         public void AddBehaviour(LBSBehaviour behaviour)
@@ -246,11 +251,12 @@ namespace LBS.Components
             }
 
             this.assitantsAI.Add(assistant);
-            assistant.InternalInit(this);
+            assistant.Owner = this;
         }
 
         public bool RemoveAssitant(LBSAssistantAI assistant)
         {
+            assistant.Owner = null;
             return this.assitantsAI.Remove(assistant);
         }
 
