@@ -57,13 +57,13 @@ public class LBSDirection : LBSCharacteristic, ICloneable
     public string[] GetConnection(int rotation = 0)
     {
         var conections = connections;
-
+        var toR = new List<string>(connections);
         for (int i = 0; i < rotation; i++)
         {
-            conections = conections.Rotate();
+            toR = toR.Rotate();
         }
 
-        return conections.ToArray();
+        return toR.ToArray();
     }
 
     public override object Clone()

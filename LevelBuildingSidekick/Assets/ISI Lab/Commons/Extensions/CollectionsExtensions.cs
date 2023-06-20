@@ -1,12 +1,37 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public static class CollectionsExtensions
 {
     #region LIST
 
+    public static T Rullete<T>(this List<T> list,Func<T,float> predicate)
+    {
+        var pairs = new List<Tuple<T, float>>();
+        for (int i = 0; i < list.Count(); i++)
+        {
+            var value = predicate(list[i]);
+            pairs.Add(new Tuple<T, float>(list[i], value));
+        }
+
+        var total = pairs.Sum(p => p.Item2);
+        var rand = Random.Range(0,total);
+
+        var cur = 0f;
+        for (int i = 0; i < pairs.Count; i++)
+        {
+            cur += pairs[i].Item2;
+            if (rand <= cur)
+            {
+                return pairs[i].Item1;
+            }
+        }
+        return default(T);
+    }
 
     public static bool ContainsIndex<T>(this List<T> list, int index)
     {
@@ -32,32 +57,10 @@ public static class CollectionsExtensions
 
         var temp = toR.Last();
         toR.Remove(temp);
-        toR.Add(temp);
+        toR.Insert(0, temp);
 
         return toR;
     }
-
-    /*
-    private static T[] Rotate<T>(this T[] array)
-    {
-        if (array.Length <= 0)
-            return array;
-
-        var temp = array.ToList();
-        var last = array.Last();
-        temp.RemoveAt(temp.Count - 1);
-        var r = new List<T>() { last };
-        r.AddRange(temp);
-
-        var toR = new T[array.Length];
-        for (int i = 0; i < array.Length; i++)
-        {
-            toR[i] = r[i];
-        }
-
-        return toR;
-    }
-    */
 
     public static List<T> RemoveEmpties<T>(this List<T> list)
     {

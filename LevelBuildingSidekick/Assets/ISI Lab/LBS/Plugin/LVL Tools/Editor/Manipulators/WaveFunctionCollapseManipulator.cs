@@ -5,9 +5,17 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Random = UnityEngine.Random;
 
 public class WaveFunctionCollapseManipulator<T> : ManipulateTeselation<T> where T : LBSTile
 {
+    private struct Candidate
+    {
+        public string[] array;
+        public float weight;
+    }
+
+
     private List<Vector2Int> dirs = new List<Vector2Int>() // (!) esto deberia estar en un lugar general
     {
         Vector2Int.right,
@@ -38,12 +46,18 @@ public class WaveFunctionCollapseManipulator<T> : ManipulateTeselation<T> where 
         var min = this.module.Owner.ToFixedPosition(Vector2Int.Min(StartPosition, EndPosition));
         var max = this.module.Owner.ToFixedPosition(Vector2Int.Max(StartPosition, EndPosition));
 
-        var storage = LBSAssetsStorage.Instance.Get<Bundle>();
-        var tiles = storage.Select(b => b.GetCharacteristic<LBSDirection>()).Where(e => e != null).ToList();
+        var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
+        var fathers = bundles
+            .Select(b => b.GetCharacteristic<LBSDirectionedGroup>())    // obtiene todos los bundles que tengan DirsGroup
+            .Where(e => e != null)                                      // que no sean nulls
+            .Where(e => !e.Owner.isPreset)                              // ni pressets;
+            .ToList();
 
-        if(tiles.Count <= 0)
+        var father = fathers[0];
+
+        if(fathers.Count <= 0)
         {
-            Debug.Log("[ISI Lab]: no se encontraron bundles que tubieran la caracteristica de 'LBSDirection'.");
+            Debug.Log("[ISI Lab]: There are no structured bundles available for this tool.");
             return;
         }
 
@@ -52,75 +66,131 @@ public class WaveFunctionCollapseManipulator<T> : ManipulateTeselation<T> where 
         {
             for (int j = min.y; j <= max.y; j++)
             {
-                var t = module.GetTile(new Vector2Int(i, j)) as ConnectedTile;
-                if (t == null)
+                var current = module.GetTile(new Vector2Int(i, j)) as ConnectedTile;
+                if (current == null)
                     continue;
-                toCalc.Add(t);
+
+                if (e.ctrlKey)
+                {
+                    current.SetConnections(new string[4] { "", "", "", "" });
+                }
+                toCalc.Add(current);
             }
         }
 
-        while(toCalc.Count > 0)
+        while (toCalc.Count > 0)
         {
-            var t = toCalc[UnityEngine.Random.Range(0, toCalc.Count -1)];
+            var currentCalcs = new List<Tuple<ConnectedTile, List<Candidate>>>();
+            foreach (var tile in toCalc)
+            {
+                var candidates = CalcCandidates(tile, father);
 
-            if (e.ctrlKey)
-                t.SetConnections(new string[4] {"", "", "", ""});
+                var cTile = new Tuple<ConnectedTile, List<Candidate>>(tile, candidates);
+                currentCalcs.Add(cTile);
+            }
 
-            CalculateTile(t, tiles);
-            toCalc.Remove(t);
-        } 
+            var current = currentCalcs.OrderBy(e => e.Item2.Count).First();
+
+            if (currentCalcs.Count <= 0)
+            {
+                toCalc.Remove(current.Item1);
+                continue;
+            }
+
+            // collapse
+            var selected = current.Item2.Rullete(c => c.weight);
+            current.Item1.SetConnections(selected.array);
+
+            var neigs = module.GetTileNeighbors(current.Item1 as T, dirs).Select(t => t as ConnectedTile);
+            SetConnectionNei(current.Item1.Connections,neigs.ToArray());
+
+            toCalc.Remove(current.Item1);
+        }
+
     }
 
-    public void CalculateTile(ConnectedTile tile, List<LBSDirection> connections)
+    private List<Candidate> CalcCandidates(ConnectedTile tile, LBSDirectionedGroup group)
     {
-        var candidates = new List<Tuple<string[], LBSDirection>>();
+        var candidates = new List<Candidate>();
 
-        foreach (var connection in connections)
+        for (int i = 0; i < group.Weights.Count; i++)
         {
-            for (int i = 0; i < 4; i++)
+            var weigth = group.Weights[i].weigth;
+            var sBundle = group.Weights[i].target.GetCharacteristic<LBSDirection>();
+            for (int j = 0; j < 4; j++) // esto deberia ser por numero de conexiones y no directamente un 4 (!!)
             {
-                if (Compare(tile.Connections, connection.GetConnection(i)))
+                var array = sBundle.GetConnection(j);
+                if (Compare(tile.Connections, array))
                 {
-                    candidates.Add(new Tuple<string[], LBSDirection>(connection.GetConnection(i), connection));
+                    var c = new Candidate()
+                    {
+                        array = array,
+                        weight = weigth,
+                    };
+
+                    candidates.Add(c);
                 }
             }
         }
 
-        if (candidates.Count <= 0)
+        return candidates;
+    }
+
+    /*
+    public void CalculateTile(ConnectedTile tile, LBSDirectionedGroup group)
+    {
+        var candidates = new List<Tuple<string[], float, LBSDirection>>();
+
+        for (int i = 0; i < group.Weights.Count; i++)
         {
-            Debug.LogWarning("[ISI Lab]: No valid candidates found.");
-            return;
+            var weigth = group.Weights[i].weigth;
+            var sBundle = group.Weights[i].target.GetCharacteristic<LBSDirection>();
+            for (int j = 0; j < 4; j++) // esto deberia ser por numero de conexiones y no directamente un 4 (!!)
+            {
+                var array = sBundle.GetConnection(j);
+                if (Compare(tile.Connections, array)) 
+                {
+                    candidates.Add(new Tuple<string[], float, LBSDirection>(array, weigth, sBundle));
+                }
+            }
         }
 
-
-        var totalW = candidates.Sum(c => c.Item2.TotalWeight);
-        var rulleteValue = UnityEngine.Random.Range(0, totalW);
+        var totalW = candidates.Sum(c => c.Item2);
+        var rulleteValue = Random.Range(0, totalW);
 
         var index = -1;
         var cur = 0f;
-        for (int i = 0; i < candidates.Count; i++)
+        for (int j = 0; j < candidates.Count; j++)
         {
-            cur += candidates[i].Item2.TotalWeight;
+            cur += candidates[j].Item2;
             if (rulleteValue <= cur)
             {
-                index = i;
+                index = j;
                 break;
             }
         }
-        var candidate = candidates[index];
 
-        //var candidate = candidates[UnityEngine.Random.Range(0, candidates.Count)];
-        tile.SetConnections(candidate.Item1);
-        var neis = module.GetTileNeighbors(tile as T, dirs).Select(t => t as ConnectedTile);
-        SetConnectionNei(tile.Connections, neis.ToArray());
+        if (index == -1)
+        {
+            Debug.Log("AAAA");
+            return;
+        }
+
+        var candidate = candidates[index].Item1;
+        tile.SetConnections(candidate);
+        var neighbors = module.GetTileNeighbors(tile as T, dirs).Select(t => t as ConnectedTile);
+        SetConnectionNei(tile.Connections, neighbors.ToArray());
     }
-
+    */
     public void SetConnectionNei(string[] oring, ConnectedTile[] neis)
     {
         for (int i = 0; i < neis.Length; i++)
         {
+            if (neis[i] == null)
+                continue;
+
             var idir = dirs.FindIndex(d => d.Equals(-dirs[i]));
-            neis[i]?.SetConnection(oring[i], idir);
+            neis[i].SetConnection(oring[i], idir);
         }
     }
 
