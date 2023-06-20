@@ -129,6 +129,7 @@ public class LayerTemplateEditor : Editor
         */
         layer.AddAssistant(new AssistantHillClimbing());
         layer.AddGeneratorRule(new SchemaRuleGenerator());
+        layer.AddGeneratorRule(new SchemaRuleGeneratorExteriror());
 
         layer.ID = "Interior";
         layer.Name = "Layer Interior";
@@ -146,13 +147,6 @@ public class LayerTemplateEditor : Editor
                 typeof(AreaTileMap<TiledArea>)
                 )
             );
-
-        /*template.transformers.Add(
-            new AreaToGraph(
-                typeof(AreaTileMap<TiledArea>),
-                typeof(GraphModule<RoomNode>)
-                )
-            );*/
 
         layer.AddBehaviour(new SchemaBehaviour());
 

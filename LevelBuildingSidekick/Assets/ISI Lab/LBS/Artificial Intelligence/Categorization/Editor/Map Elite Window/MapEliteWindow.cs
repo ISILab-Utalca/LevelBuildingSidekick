@@ -398,9 +398,6 @@ public class MapEliteWindow : EditorWindow
         {
             rootVisualElement.style.backgroundColor = Paused;
         }
-
-        
-        
     }
 
 

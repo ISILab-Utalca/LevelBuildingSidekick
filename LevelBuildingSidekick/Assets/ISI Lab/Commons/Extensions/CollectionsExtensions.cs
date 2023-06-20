@@ -7,6 +7,7 @@ public static class CollectionsExtensions
 {
     #region LIST
 
+
     public static bool ContainsIndex<T>(this List<T> list, int index)
     {
         return index >= 0 && index < list.Count;
@@ -58,9 +59,21 @@ public static class CollectionsExtensions
     }
     */
 
-    public static void RemoveEmpties<T>(this List<T> list)
+    public static List<T> RemoveEmpties<T>(this List<T> list)
     {
         list = list.Where(b => b != null).ToList();
+        return list;
+    }
+
+    public static List<T> RemoveDuplicates<T>(this List<T> list)
+    {
+        var toR = new List<T>();
+        foreach (var item in list)
+        {
+            if (!toR.Contains(item))
+                toR.Add(item);
+        }
+        return toR;
     }
 
     #endregion
