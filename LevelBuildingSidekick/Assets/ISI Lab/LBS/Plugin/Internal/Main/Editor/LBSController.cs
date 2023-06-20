@@ -141,9 +141,12 @@ namespace LBS
 
             if (path != "")
             {
-                Debug.Log("Save file on: '" + path + "'.");
+                var parts = path.Split("/");
+                var filename = parts[^1];
+                var directory = path.Substring(0,path.Length - filename.Length);
+                Debug.Log("Save file on: '" + directory + filename + "'.");
                 //Debug.Log(fileInfo + " - " + CurrentLevel);
-                Utility.JSONDataManager.SaveData(CurrentLevel.FileInfo.DirectoryName, CurrentLevel.FileInfo.Name, CurrentLevel.data);
+                Utility.JSONDataManager.SaveData(directory, filename, CurrentLevel.data);
                 LevelBackUp.Instance().level.fullName = path;
             }
         }
