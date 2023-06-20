@@ -9,7 +9,6 @@ using UnityEngine.UIElements;
 [RequieredModule(typeof(TaggedTileMap))]
 public class AssistantMapElite : LBSAssistantAI
 {
-    MapEliteWindow mapElites;
      
     public AssistantMapElite(){ }
 
@@ -25,8 +24,6 @@ public class AssistantMapElite : LBSAssistantAI
 
     public override void Init(LBSLayer layer)
     {
-        mapElites = MapEliteWindow.GetWindow<MapEliteWindow>();
-        mapElites.SetLayer(layer);
     }
 
     public override object Clone()
