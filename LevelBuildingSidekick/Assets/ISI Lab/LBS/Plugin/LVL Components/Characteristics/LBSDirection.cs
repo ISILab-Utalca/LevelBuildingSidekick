@@ -58,10 +58,14 @@ public class LBSDirection : LBSCharacteristic, ICloneable
     {
         var conections = connections;
         var toR = new List<string>(connections);
+
+        toR = toR.Rotate(rotation);
+        /*
         for (int i = 0; i < rotation; i++)
         {
             toR = toR.Rotate();
         }
+        */
 
         return toR.ToArray();
     }

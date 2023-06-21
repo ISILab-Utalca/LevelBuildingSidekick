@@ -47,6 +47,28 @@ public static class CollectionsExtensions
 
         return list[UnityEngine.Random.Range(0, list.Count - 1)];
     }
+    public static List<T> Rotate<T>(this List<T> list, int count)
+    {
+        if (count <= 0 || count >= list.Count)
+        {
+            return list; // No es necesario rotar
+        }
+
+        int rotationIndex = list.Count - count;
+        List<T> rotatedList = new List<T>();
+
+        for (int i = rotationIndex; i < list.Count; i++)
+        {
+            rotatedList.Add(list[i]);
+        }
+
+        for (int i = 0; i < rotationIndex; i++)
+        {
+            rotatedList.Add(list[i]);
+        }
+
+        return rotatedList;
+    }
 
     public static List<T> Rotate<T>(this List<T> list)
     {
