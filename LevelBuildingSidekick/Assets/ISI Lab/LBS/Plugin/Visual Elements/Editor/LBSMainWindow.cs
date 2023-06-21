@@ -47,7 +47,7 @@ public class LBSMainWindow : EditorWindow
     public static void ShowWindow()
     {
         var window = GetWindow<LBSMainWindow>();
-        Texture icon = Resources.Load<Texture>("Icons/Logo");
+        Texture icon = Resources.Load<Texture>("Icons/LBS_Logo1");
         window.titleContent = new GUIContent("Level builder", icon);
         window.minSize = new Vector2(800, 400);
     }
@@ -55,7 +55,7 @@ public class LBSMainWindow : EditorWindow
     private static LBSMainWindow _ShowWindow()
     {
         var window = GetWindow<LBSMainWindow>();
-        Texture icon = Resources.Load<Texture>("Icons/Logo");
+        Texture icon = Resources.Load<Texture>("Icons/LBS_Logo1");
         window.titleContent = new GUIContent("Level builder", icon);
         return window;
     }
@@ -337,6 +337,7 @@ public class LBSMainWindow : EditorWindow
 
     public void OnSelectedLayerChange(LBSLayer layer)
     {
+        modeSelector.Disable();
         _selectedLayer = layer;
         
         // actualize modes
@@ -348,19 +349,22 @@ public class LBSMainWindow : EditorWindow
         OnSelectedModeChange(modes.Keys.First(), _selectedLayer);
 
         selectedLabel.text = "selected: " + layer.Name;
+        modeSelector.Enable();
     }
 
     public void OnSelectedLayerChange2(LBSLayer layer) // esto es un parche se deberia ir cuando se mejore el paso de selected layer y los comportamientos
     {
+        modeSelector.Disable();
         _selectedLayer = layer;
 
         // actualize modes
-        var modes = _selectedLayer.GetToolkit(layerTemplates);
+        var modes = _selectedLayer.GetToolkit(layerTemplates);     
         modeSelector.SetChoices(modes);
         modeSelector.Index = modes.Count -1;
         modeSelector.style.display = DisplayStyle.Flex;
         OnSelectedModeChange(modes.Keys.Last(), _selectedLayer);
 
         selectedLabel.text = "selected: " + layer.Name;
+        modeSelector.Enable();
     }
 }
