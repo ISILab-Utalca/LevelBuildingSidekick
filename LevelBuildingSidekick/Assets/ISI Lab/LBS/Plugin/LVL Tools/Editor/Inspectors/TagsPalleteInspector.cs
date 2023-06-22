@@ -29,7 +29,8 @@ public class TagsPalleteInspector : LBSInspector
 
     public override void Init(List<IManipulatorLBS> lBSManipulators, ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
     {
-        bundles = Utility.DirectoryTools.GetScriptables<LBSIdentifierBundle>();
+        var c = Utility.DirectoryTools.GetScriptables<LBSIdentifierBundle>();
+        bundles = c.Where(b => b.type == LBSIdentifierBundle.TagType.Aesthetic).ToList();
 
         dropdownBundles.choices = bundles.Select(b => b.name).ToList();
         dropdownBundles.index = 0;

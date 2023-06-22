@@ -28,8 +28,9 @@ public class BundlePalleteInspector : LBSInspector
     public override void Init(List<IManipulatorLBS> lBSManipulators, ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
     {
         // Una mejor opción podría buscar identifier bundles y sacar los bundles que tengan esos identifiers.
-        idBundles = Utility.DirectoryTools.GetScriptables<LBSIdentifierBundle>();
-        
+        var c = Utility.DirectoryTools.GetScriptables<LBSIdentifierBundle>();
+        idBundles = c.Where(b => b.type == LBSIdentifierBundle.TagType.Element).ToList();
+
         dropdownBundles.choices = idBundles.Select(b => b.name).ToList();
         dropdownBundles.index = 0;
         dropdownBundles.RegisterCallback<ChangeEvent<string>>(e => {
