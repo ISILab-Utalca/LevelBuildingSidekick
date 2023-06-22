@@ -33,20 +33,22 @@ namespace LBS.Generator
 
             foreach (var dirChar in directionChars)
             {
-                var curDir = new List<string>(dirChar.Connections);
+                var intiDir = new List<string>(dirChar.Connections);
                 for (int i = 0; i < 4; i++)
                 {
-                    curDir = curDir.Rotate(i);
+                    var curDir = intiDir.Rotate(i);
                     if (curDir.SequenceEqual(conections))
                     {
                         return new Tuple<LBSDirection, int>(dirChar, i);
                     }
+
                 }
 
             }
             return null;
         }
 
+        
         public override GameObject Generate(LBSLayer layer, Generator3D.Settings settings)
         {
             var storage = LBSAssetsStorage.Instance;
@@ -78,12 +80,11 @@ namespace LBS.Generator
                 var rot = pair.Item2;
 
                 go.transform.localScale = new Vector3(1, 1, -1);
-                go.transform.rotation = Quaternion.Euler(0, -90 + (90 * (rot)) % 360, 0);
+                go.transform.rotation = Quaternion.Euler(0, -90 + (-90 * (rot)) % 360, 0);
             }
             mainPivot.transform.position += settings.position;
             return mainPivot;
         }
-
 
         /*
         public override GameObject Generate(LBSLayer layer, Generator3D.Settings settings)
@@ -97,17 +98,17 @@ namespace LBS.Generator
             var mirrs = new List<Vector3>() {
                  new Vector3(1, 1, 1),
                  new Vector3(1, 1, -1),
-                 new Vector3(1, -1, 1),
+                 //new Vector3(1, -1, 1),
                  new Vector3(-1, 1, 1),
-                 new Vector3(1, -1, -1),
+                 //new Vector3(1, -1, -1),
                  new Vector3(-1, 1, -1),
-                 new Vector3(-1, -1, 1),
-                 new Vector3(-1, -1, -1),
+                 //new Vector3(-1, -1, 1),
+                 //new Vector3(-1, -1, -1),
             };
 
             var sts = new List<int>()
             {
-                0,90,-90,-180,180
+                0,90,-90
             };
 
             var rots = new List<int>()
@@ -115,9 +116,8 @@ namespace LBS.Generator
                 90,-90
             };
 
-
             var all = new GameObject("all");
-            var d = 100;
+            var d = 70;
             int cx = 0, cy = 0, cz = 0;
             foreach (var _rot in rots)
             {
@@ -142,22 +142,21 @@ namespace LBS.Generator
 #if UNITY_EDITOR
                             var go = PrefabUtility.InstantiatePrefab(pref, mainPivot.transform) as GameObject;
 #else
-                var go = GameObject.Instantiate(pref, mainPivot.transform);
+                            var go = GameObject.Instantiate(pref, mainPivot.transform);
 #endif
 
                             go.transform.position = new Vector3((tile.Position.x) * scale.x, 0, -(tile.Position.y) * scale.y) + new Vector3(scale.x, 0, -scale.y) / 2;
 
                             var rot = pair.Item2;
 
-                            mainPivot.name = "mir: " + _mirr + ",sts: " + _sts + ",rot: " + _rot + ",r: " + rot;
+                            go.name = "mir: " + _mirr + ",sts: " + _sts + ",rot: " + _rot + ",r: " + rot;
+                            go.transform.localRotation = Quaternion.Euler(0, _sts + ((_rot * rot) % 360), 0);
                             go.transform.localScale = _mirr;
-                            go.transform.rotation = Quaternion.Euler(0, _sts + (_rot * (rot)) % 360, 0);
-                            //go.transform.localScale = new Vector3(1, 1, -1);
-                            //go.transform.rotation = Quaternion.Euler(0, -90 + (90 * (rot)) % 360, 0);
+
                         }
                         mainPivot.transform.position += settings.position;
 
-                        mainPivot.transform.position += new Vector3(cx,cy,cz) * d;
+                        mainPivot.transform.position += new Vector3(cx,cy*2f,cz) * d;
                         cx++;
                     }
                     cz++;
@@ -168,6 +167,6 @@ namespace LBS.Generator
             
             return all;
         }
-         */
+        */
     }
 }
