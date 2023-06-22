@@ -7,9 +7,18 @@ using UnityEngine.UIElements;
 public class AssistantMapEliteVE : VisualElement
 {
     MapEliteWindow mapElites;
+    AssistantMapElite assitant;
+
     public AssistantMapEliteVE(LBSAssistantAI agent)
     {
-        var assitant = agent as AssistantMapElite;
+        assitant = agent as AssistantMapElite;
+        var button = new Button(OpenAssitant);
+        button.text = "Map Elites";
+        Add(button);
+    }
+
+    public void OpenAssitant()
+    {
         var mapElites = MapEliteWindow.GetWindow<MapEliteWindow>();
         mapElites.SetLayer(assitant.Owner);
     }

@@ -352,6 +352,10 @@ public class LBSMainWindow : EditorWindow
         inspectorManager.OnSelectedLayerChange(layer);
         OnSelectedModeChange(modes.Keys.First(), _selectedLayer);
 
+        //Actualiza AI Panel
+        aiPanel.Clear();
+        aiPanel.Init(layer);
+
         selectedLabel.text = "selected: " + layer.Name;
         modeSelector.Enable();
     }
