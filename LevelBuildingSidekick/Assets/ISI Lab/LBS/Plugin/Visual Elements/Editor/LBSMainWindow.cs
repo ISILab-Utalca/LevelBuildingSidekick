@@ -232,6 +232,10 @@ public class LBSMainWindow : EditorWindow
 
             TryCollapseMenuPanels();
         };
+
+        LBSController.OnLoadLevel += (l) => _selectedLayer = null;
+        //levelData.OnReload += (l) => _selectedLayer = null;
+        //levelData.OnReload += (l) => Debug.Log(_selectedLayer);
     }
 
     private void TryCollapseMenuPanels()
@@ -347,6 +351,10 @@ public class LBSMainWindow : EditorWindow
         modeSelector.style.display = DisplayStyle.Flex;
         inspectorManager.OnSelectedLayerChange(layer);
         OnSelectedModeChange(modes.Keys.First(), _selectedLayer);
+
+        //Actualiza AI Panel
+        aiPanel.Clear();
+        aiPanel.Init(layer);
 
         selectedLabel.text = "selected: " + layer.Name;
         modeSelector.Enable();
