@@ -9,13 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1ca1a068b763d94ca8f120873012f03, type: 3}
-  m_Name: Hammer
+  m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
+  m_Name: Axe
   m_EditorClassIdentifier: 
-  id: {fileID: 11400000, guid: 1b5f81de2f3a4ac40a031e0d2f7ddd0b, type: 2}
-  characteristics: []
+  isPreset: 0
+  id: {fileID: 11400000, guid: 90c0458b7a8ee514d9c7ba0ace177f05, type: 2}
+  childsBundles: []
   assets:
-  - {fileID: 3895385195090632927, guid: 1acbb84ab32a1184b986c3496a00b805, type: 3}
+  - {fileID: 5985913672691555782, guid: 858cdd6efc6ca4e46869f4233b09a479, type: 3}
+  characteristics: []
   references:
     version: 2
     RefIds: []

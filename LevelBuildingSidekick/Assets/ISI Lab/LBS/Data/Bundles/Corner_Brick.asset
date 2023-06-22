@@ -15,7 +15,8 @@ MonoBehaviour:
   isPreset: 0
   id: {fileID: 11400000, guid: dd9524b2f4de22c40ae2e90107719374, type: 2}
   childsBundles: []
-  assets: []
+  assets:
+  - {fileID: 5730892847846253857, guid: c308d694c5b728446983d21295ca6638, type: 3}
   characteristics: []
   references:
     version: 2

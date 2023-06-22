@@ -9,13 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1ca1a068b763d94ca8f120873012f03, type: 3}
-  m_Name: Troll
+  m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
+  m_Name: furniture
   m_EditorClassIdentifier: 
-  id: {fileID: 11400000, guid: e94eb94d523de7348afb9d9ce769352f, type: 2}
-  characteristics: []
+  isPreset: 0
+  id: {fileID: 11400000, guid: f34ea2bda3e03b44fad1047a0050c860, type: 2}
+  childsBundles: []
   assets:
-  - {fileID: 4697017240656324050, guid: ef3ee8e9532db8c40b265a28af26e99e, type: 3}
+  - {fileID: 8387792330663407722, guid: 9d4bf19186c69e34aaddff0a97f62e9c, type: 3}
+  characteristics: []
   references:
     version: 2
     RefIds: []

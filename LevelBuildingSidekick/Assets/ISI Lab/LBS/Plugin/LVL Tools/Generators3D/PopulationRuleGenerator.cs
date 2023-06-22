@@ -30,7 +30,7 @@ namespace LBS.Generator
         public override GameObject Generate(LBSLayer layer, Generator3D.Settings settings)
         {
             var data = layer.GetModule<TaggedTileMap>();
-            var bundles = LBSAssetsStorage.Instance.Get<SimpleBundle>();
+            var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
             var scale = settings.scale;
 
             var parent = new GameObject("Population");
@@ -38,9 +38,24 @@ namespace LBS.Generator
             foreach (var tile in tiles)
             {
                 var tag = data.GetBundleData(tile).BundleTag;
-                var bundle = bundles.Find(b => b.ID.Label == tag);
+                Bundle current = null;
+                foreach (var b in bundles)
+                {
+                    var id = b.ID;
+                    if (id == null)
+                        continue;
 
-                var pref = bundle.GetObject(Random.Range(0, bundle.Assets.Count));
+                    if (id.Label.Equals(tag))
+                        current = b;
+                }
+
+                if(bundles == null)
+                {
+                    Debug.Log("[ISI Lab]: no exite ningun asset asignado a ");
+                    continue;
+                }
+
+                var pref = current.Assets[Random.Range(0, current.Assets.Count)];
 #if UNITY_EDITOR
                 var go = PrefabUtility.InstantiatePrefab(pref, parent.transform) as GameObject;
 #else

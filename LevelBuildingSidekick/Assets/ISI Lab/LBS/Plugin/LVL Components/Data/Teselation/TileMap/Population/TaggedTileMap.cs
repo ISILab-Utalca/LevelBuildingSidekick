@@ -47,10 +47,10 @@ public class TaggedTileMap : LBSModule
 
     public void AddTile(LBSTile tile, Bundle bundle)
     {
-
         var data = new BundleData(bundle.ID.Label, bundle.Characteristics);
         AddTile(tile, data);
     }
+
     public void AddTile(LBSTile tile, BundleData data)
     {
         var t = pairTiles.Find(p => p.tile.Equals(tile));

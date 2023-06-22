@@ -27,10 +27,6 @@ public class AddTaggedTile : ManipulateTaggedTileMap
                 var pos = new Vector2Int(i, j);
                 var t = new LBSTile(pos, "Tile: " + pos);
                 module.AddTile(t, bundleToSet);
-                /*var tile = Activator.CreateInstance(typeof(T)) as T;
-                tile.Position = new Vector2Int(i, j);
-                (tile as ConnectedTile).SetConnections("", "", "", "");
-                module.AddTile(tile);*/
             }
         }
     }
