@@ -17,6 +17,9 @@ public class DrawManager
     public void RefreshView(ref LBSLayer layer,List<LBSLayer> allLayers, string modeName)
     {
         var _layer = layer;
+        if (_layer == null)
+            return;
+
         var template = templates.Find(t => t.layer.ID.Equals(_layer.ID));
         var mode = template.modes.Find(m => m.name.Equals(modeName));
 

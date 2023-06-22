@@ -23,6 +23,8 @@ namespace LBS
 
         private static readonly string defaultName = "New file";
 
+        public static Action<LBSLevelData> OnLoadLevel;
+
         public static LoadedLevel CurrentLevel
         {
             get
@@ -79,6 +81,7 @@ namespace LBS
                     data = Utility.JSONDataManager.LoadData<LBSLevelData>(fileInfo.DirectoryName, fileInfo.Name);
                     CurrentLevel = new LoadedLevel(data, fileInfo.FullName);
                     CurrentLevel.data.Reload();
+                    OnLoadLevel?.Invoke(CurrentLevel.data);
                     return CurrentLevel;
             }
             return null;

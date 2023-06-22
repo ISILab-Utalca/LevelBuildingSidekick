@@ -23,6 +23,8 @@ public class AIPanel : VisualElement
     public void Init(LBSLayer layer)
     {
         container.Clear();
+        if (layer == null)
+            return;
 
         //var assist = layer.Assitant;
         var assistants = layer.Assitants;
@@ -41,6 +43,11 @@ public class AIPanel : VisualElement
             container.Add(GetAgentPanel(agent));
             */
         }
+    }
+
+    public new void Clear()
+    {
+        container.Clear();
     }
 
     private VisualElement GetAgentPanel(LBSAssistantAI agent)

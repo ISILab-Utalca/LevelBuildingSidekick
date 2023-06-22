@@ -232,6 +232,10 @@ public class LBSMainWindow : EditorWindow
 
             TryCollapseMenuPanels();
         };
+
+        LBSController.OnLoadLevel += (l) => _selectedLayer = null;
+        //levelData.OnReload += (l) => _selectedLayer = null;
+        //levelData.OnReload += (l) => Debug.Log(_selectedLayer);
     }
 
     private void TryCollapseMenuPanels()
