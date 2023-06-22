@@ -85,21 +85,15 @@ public class Generator3DPanel : VisualElement
         generator.settings = settings;
         this.settings = layer.settingsGen3D;
 
-        /*
-        this.generator = layer.Assitant.Generator;
+        
         if (generator != null)
         {
             dropDownField.Value = generator.GetType().Name;
-            //scale.value = layer.TileSize;
             scaleField.value = settings.scale;
-            //position.value = generator.settings.position;
             positionField.value = settings.position;
-            //objName.value = layer.Name + " G.O.";
-            nameField.value = layer.Name + "("+settings.name+")";
-            //resize.value = generator.settings.resize;
+            nameField.value = layer.Name;//+ "("+settings.name+")";
             resizeField.value = settings.resize;
         }
-        */
     }
 
     public void Execute()

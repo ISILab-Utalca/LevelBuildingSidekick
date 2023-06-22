@@ -98,7 +98,7 @@ public class WaveFunctionCollapseManipulator<T> : ManipulateTeselation<T> where 
             }
 
             // collapse
-            var selected = current.Item2.Rullete(c => c.weight);
+            var selected = current.Item2.RandomRullete(c => c.weight);
             current.Item1.SetConnections(selected.array);
 
             var neigs = module.GetTileNeighbors(current.Item1 as T, dirs).Select(t => t as ConnectedTile);
@@ -136,52 +136,6 @@ public class WaveFunctionCollapseManipulator<T> : ManipulateTeselation<T> where 
         return candidates;
     }
 
-    /*
-    public void CalculateTile(ConnectedTile tile, LBSDirectionedGroup group)
-    {
-        var candidates = new List<Tuple<string[], float, LBSDirection>>();
-
-        for (int i = 0; i < group.Weights.Count; i++)
-        {
-            var weigth = group.Weights[i].weigth;
-            var sBundle = group.Weights[i].target.GetCharacteristic<LBSDirection>();
-            for (int j = 0; j < 4; j++) // esto deberia ser por numero de conexiones y no directamente un 4 (!!)
-            {
-                var array = sBundle.GetConnection(j);
-                if (Compare(tile.Connections, array)) 
-                {
-                    candidates.Add(new Tuple<string[], float, LBSDirection>(array, weigth, sBundle));
-                }
-            }
-        }
-
-        var totalW = candidates.Sum(c => c.Item2);
-        var rulleteValue = Random.Range(0, totalW);
-
-        var index = -1;
-        var cur = 0f;
-        for (int j = 0; j < candidates.Count; j++)
-        {
-            cur += candidates[j].Item2;
-            if (rulleteValue <= cur)
-            {
-                index = j;
-                break;
-            }
-        }
-
-        if (index == -1)
-        {
-            Debug.Log("AAAA");
-            return;
-        }
-
-        var candidate = candidates[index].Item1;
-        tile.SetConnections(candidate);
-        var neighbors = module.GetTileNeighbors(tile as T, dirs).Select(t => t as ConnectedTile);
-        SetConnectionNei(tile.Connections, neighbors.ToArray());
-    }
-    */
     public void SetConnectionNei(string[] oring, ConnectedTile[] neis)
     {
         for (int i = 0; i < neis.Length; i++)

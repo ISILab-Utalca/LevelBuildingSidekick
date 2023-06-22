@@ -251,7 +251,6 @@ MonoBehaviour:
     items:
     - {fileID: 11400000, guid: 531e915267477db4e886c2e6401c4372, type: 2}
     - {fileID: 11400000, guid: 253f372750fae784d9a42445a8e08fcc, type: 2}
-    - {fileID: 11400000, guid: d8cb1f933417caf44be32357853a68b7, type: 2}
     - {fileID: 11400000, guid: 38df1e9b46712e5468556438d376626d, type: 2}
     - {fileID: 11400000, guid: e7f2683aca07d6a439989f2bb37e7487, type: 2}
   - type: LBSIdentifier

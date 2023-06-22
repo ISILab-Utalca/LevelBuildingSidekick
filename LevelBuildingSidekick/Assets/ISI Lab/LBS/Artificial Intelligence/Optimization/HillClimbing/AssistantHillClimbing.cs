@@ -117,7 +117,7 @@ public class AssistantHillClimbing : LBSAssistantAI
             if (pairs.Count <= 0)
                 continue;
 
-            var selc = pairs.GetRandom();
+            var selc = pairs.Random();
             // var selc = pairs[UnityEngine.Random.Range(0, pairs.Count() - 1)];
 
             var dir = selc.Item1.Position - selc.Item2.Position;

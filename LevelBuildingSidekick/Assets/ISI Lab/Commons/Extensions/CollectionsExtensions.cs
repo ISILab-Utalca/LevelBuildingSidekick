@@ -3,14 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Random = UnityEngine.Random;
+using uRandom = UnityEngine.Random;
 
 public static class CollectionsExtensions
 {
     #region LIST
 
-    public static T Rullete<T>(this List<T> list,Func<T,float> predicate)
+    public static T RandomRullete<T>(this List<T> list,Func<T,float> predicate)
     {
+        if(list.Count <= 0)
+        {
+            return default(T);
+        }
+
         var pairs = new List<Tuple<T, float>>();
         for (int i = 0; i < list.Count(); i++)
         {
@@ -19,7 +24,7 @@ public static class CollectionsExtensions
         }
 
         var total = pairs.Sum(p => p.Item2);
-        var rand = Random.Range(0,total);
+        var rand = uRandom.Range((float)0, total);
 
         var cur = 0f;
         for (int i = 0; i < pairs.Count; i++)
@@ -37,7 +42,8 @@ public static class CollectionsExtensions
     {
         return index >= 0 && index < list.Count;
     }
-    public static T GetRandom<T>(this List<T> list)
+
+    public static T Random<T>(this List<T> list)
     {
         if (list.Count <= 0)
         {
@@ -47,25 +53,21 @@ public static class CollectionsExtensions
 
         return list[UnityEngine.Random.Range(0, list.Count - 1)];
     }
+
     public static List<T> Rotate<T>(this List<T> list, int count)
     {
-        if (count <= 0 || count >= list.Count)
-        {
-            return list; // No es necesario rotar
-        }
+        if (count <= 0)
+            return list;
 
-        int rotationIndex = list.Count - count;
+        var c = count % list.Count;
+        int rotationIndex = list.Count - c;
         List<T> rotatedList = new List<T>();
 
         for (int i = rotationIndex; i < list.Count; i++)
-        {
             rotatedList.Add(list[i]);
-        }
 
         for (int i = 0; i < rotationIndex; i++)
-        {
             rotatedList.Add(list[i]);
-        }
 
         return rotatedList;
     }
