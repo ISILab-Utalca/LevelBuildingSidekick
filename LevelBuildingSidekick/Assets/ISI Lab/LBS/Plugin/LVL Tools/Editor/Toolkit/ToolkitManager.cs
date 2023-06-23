@@ -43,7 +43,7 @@ public class ToolkitManager
                 var insp = tool.InitInspector(view, ref level, ref layer, ref module);
                 insp.style.flexGrow = 1;
                 btn.OnFocusEvent += () => {
-                    InspectorManager.AddInspector(insp); 
+                    InspectorManager.AddInspector(insp,0); 
                 };
                 btn.OnBlurEvent += () => {
                     InspectorManager.RemoveInspector(insp);

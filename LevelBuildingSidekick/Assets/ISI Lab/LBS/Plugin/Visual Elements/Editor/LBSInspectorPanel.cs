@@ -169,10 +169,18 @@ public class LBSInspectorPanel : VisualElement
         content.Add(inspector);
     }
 
-    public void AddInspector(LBSInspector inspector) // relacionado con toolkit (!!!)
+    public void AddInspector(LBSInspector inspector, int index = -1) // relacionado con toolkit (!!!)
     {
         inspectors.Add(inspector);
-        content.Add(inspector);
+        if (index == -1)
+        {
+            content.Add(inspector);
+        }
+        else
+        {
+            content.Insert(index, inspector);
+        }
+       
     }
 
     public void RemoveInspector(LBSInspector inspector) // relacionado con toolkit (!!!)
