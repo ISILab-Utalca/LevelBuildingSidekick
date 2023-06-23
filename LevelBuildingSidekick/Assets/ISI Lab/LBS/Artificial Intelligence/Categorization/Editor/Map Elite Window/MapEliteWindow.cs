@@ -181,19 +181,6 @@ public class MapEliteWindow : EditorWindow
 
 
         mapElites.OnSampleUpdated += UpdateSample;
-
-        
-        mapElites.OnEnd += () =>
-        {
-            // set all wrapper to loading icon
-            foreach (ButtonWrapper bw in Content)
-            {
-                if (bw.Data == null)
-                {
-                    bw.style.backgroundImage = img2;
-                }
-            }
-        };
         
 
         this.Partitions.value = new Vector2(3,3);
@@ -388,16 +375,19 @@ public class MapEliteWindow : EditorWindow
             }
             toUpdate.Clear();
         }
-            
+        
+        if(mapElites.Finished)
+        {
+            foreach (ButtonWrapper bw in Content)
+            {
+                if (bw.Data == null)
+                {
+                    bw.style.backgroundImage = img2;
+                }
+            }
+        }
 
-        if (mapElites.Running)
-        {
-            rootVisualElement.style.backgroundColor = Running;
-        }
-        else
-        {
-            rootVisualElement.style.backgroundColor = Paused;
-        }
+
     }
 
 

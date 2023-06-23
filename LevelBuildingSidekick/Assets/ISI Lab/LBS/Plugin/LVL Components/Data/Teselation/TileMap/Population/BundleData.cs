@@ -49,6 +49,11 @@ namespace LBS.Components.TileMap
 
         public override bool Equals(object obj)
         {
+            if(obj is Bundle)
+            {
+                var b = obj as Bundle;
+                return b.ID.Label == this.BundleTag;
+            }
             return base.Equals(obj);
         }
 

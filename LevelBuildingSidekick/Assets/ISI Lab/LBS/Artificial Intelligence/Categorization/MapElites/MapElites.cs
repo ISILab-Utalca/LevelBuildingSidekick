@@ -179,6 +179,8 @@ public class MapElites
 
     public bool Running => Optimizer.State != Op_State.TerminationReached && Optimizer.State != Op_State.Stopped && Optimizer.State != Op_State.Paused && Optimizer.State != Op_State.NotStarted;
 
+    public bool Finished => Optimizer.State == Op_State.TerminationReached;
+
     #endregion
 
     #region EVENTS

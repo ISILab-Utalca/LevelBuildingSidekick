@@ -42,7 +42,7 @@ public class GroupCount : IRangedEvaluator
         if (whiteList.Count <= 0)
             return MinValue;
 
-        var selected = genes.Select((g, i) => new { g, i }).Where(x => x.g != null && whiteList.Any(s => s !=null && x.g.Equals(s)));
+        var selected = genes.Select((g, i) => new { g, i }).Where(x => x.g != null && whiteList.Any(s => s !=null && s.Equals(x.g)));
 
         if(selected.Count() == 0)
         {
