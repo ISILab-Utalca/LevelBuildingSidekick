@@ -19,11 +19,11 @@ namespace LBS.Components.Specifics
         [SerializeField, JsonRequired]
         private int height = 1;
 
-        [ScriptableObjectReference(typeof(LBSIdentifier))]
+        [ScriptableObjectReference(typeof(LBSIdentifier), "PARCHE")]
         [SerializeField, JsonRequired]
         private List<string> interiorTags = new List<string>();
 
-        [ScriptableObjectReference(typeof(LBSIdentifier))]
+        [ScriptableObjectReference(typeof(LBSIdentifier), "PARCHE")]
         [SerializeField, JsonRequired]
         private List<string> exteriorTags = new List<string>();
 
