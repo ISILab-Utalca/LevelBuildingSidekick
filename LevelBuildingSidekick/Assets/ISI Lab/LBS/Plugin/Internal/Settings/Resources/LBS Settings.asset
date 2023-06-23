@@ -25,5 +25,4 @@ MonoBehaviour:
   general:
     zoomMax: 10
     zoomMin: 0.1
-  modules:
-    tileSize: {x: 100, y: 100}
+  tileSize: {x: 50, y: 50}
