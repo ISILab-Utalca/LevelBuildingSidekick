@@ -110,23 +110,7 @@ public class LayerTemplateEditor : Editor
             position = new Vector3(0, 0, 0),
             name = "Interior",
         };
-        /*
-        var assist = Utility.DirectoryTools.GetScriptable<LBSLayerAssistant>("SchemaAssitant");
-        if(assist == null)
-        {
-            assist = ScriptableObject.CreateInstance<LBSLayerAssistant>();
-            assist.name = "SchemaAssitant";
-            assist.AddAgent(new AssistantHillClimbing(layer, "SchemaHillClimbing"));
 
-            assist.Generator = new Generator3D();
-            assist.Generator.AddRule(new SchemaRuleGenerator());
-
-            AssetDatabase.AddObjectToAsset(assist, template);
-            AssetDatabase.SaveAssets();
-        }
-
-        layer.Assitant = assist;
-        */
         layer.AddAssistant(new AssistantHillClimbing());
         layer.AddGeneratorRule(new SchemaRuleGenerator());
         layer.AddGeneratorRule(new SchemaRuleGeneratorExteriror());
@@ -209,6 +193,7 @@ public class LayerTemplateEditor : Editor
             );
         template.modes.Add(mode2);
 
+        Debug.Log("Set Interior Default");
         AssetDatabase.SaveAssets();
     }
 
@@ -232,22 +217,7 @@ public class LayerTemplateEditor : Editor
             position = new Vector3(0, 0, 0),
             name = "Exteriror",
         };
-        /*
-        var assist = Utility.DirectoryTools.GetScriptable<LBSLayerAssistant>("ExteriorAsstant");
-        if (assist == null)
-        {
-            assist = ScriptableObject.CreateInstance<LBSLayerAssistant>();
-            assist.name = "ExteriorAsstant";
-            
-            assist.Generator = new Generator3D();
-            assist.Generator.AddRule(new ExteriorRuleGenerator());
 
-            AssetDatabase.AddObjectToAsset(assist, template);
-            AssetDatabase.SaveAssets();
-        }
-
-        layer.Assitant = assist;
-        */
         layer.AddAssistant(new AssitantWFC());
         layer.AddGeneratorRule(new ExteriorRuleGenerator());
 
@@ -319,6 +289,7 @@ public class LayerTemplateEditor : Editor
 
         template.modes.Add(mode1);
 
+        Debug.Log("Set Exterior Default");
         AssetDatabase.SaveAssets();
     }
 
@@ -342,25 +313,7 @@ public class LayerTemplateEditor : Editor
             position = new Vector3(0, 0, 0),
             name = "Population",
         };
-        /*
-        var assist = Utility.DirectoryTools.GetScriptable<LBSLayerAssistant>("PopulationAssitant");
-        if (assist == null)
-        {
-            assist = ScriptableObject.CreateInstance<LBSLayerAssistant>();
-            assist.name = "PopulationAssitant";
 
-            assist.Generator = new Generator3D();
-            assist.Generator.AddRule(new PopulationRuleGenerator());
-
-            //(assist.Generator = new PopulationGenerator();
-            assist.AddAgent(new AssistantMapElite(layer, "Population Map Elite"));
-
-            AssetDatabase.AddObjectToAsset(assist, template);
-            AssetDatabase.SaveAssets();
-        }
-
-        layer.Assitant = assist;
-        */
         layer.AddAssistant(new AssistantMapElite());
         layer.AddGeneratorRule(new PopulationRuleGenerator());
 
@@ -396,6 +349,7 @@ public class LayerTemplateEditor : Editor
             );
         template.modes.Add(mode1);
 
+        Debug.Log("Set Population Default");
         AssetDatabase.SaveAssets();
     }
 
@@ -417,21 +371,6 @@ public class LayerTemplateEditor : Editor
             position = new Vector3(0, 0, 0),
             name = "Quest",
         };
-        /*
-        // asistant
-        var assist = Utility.DirectoryTools.GetScriptable<LBSLayerAssistant>("QuestAssitant");
-        if (assist == null)
-        {
-            assist = ScriptableObject.CreateInstance<LBSLayerAssistant>();
-            assist.name = "QuestAssitant";
-            //assist.AddAgent(new QuestAgent(layer, "Quest agent"));
-
-            AssetDatabase.AddObjectToAsset(assist, template);
-            AssetDatabase.SaveAssets();
-        }
-
-        layer.Assitant = assist;
-        */
         //layer.AddAssistant(new AssistentGrammar());
 
         layer.ID = "Quest";
@@ -461,6 +400,7 @@ public class LayerTemplateEditor : Editor
             );
         template.modes.Add(mode1);
 
+        Debug.Log("Set Quest Default");
         AssetDatabase.SaveAssets();
     }
 }
