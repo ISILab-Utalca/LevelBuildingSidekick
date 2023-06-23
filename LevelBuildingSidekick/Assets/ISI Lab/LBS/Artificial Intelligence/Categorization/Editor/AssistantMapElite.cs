@@ -9,7 +9,6 @@ using UnityEngine.UIElements;
 [RequieredModule(typeof(TaggedTileMap))]
 public class AssistantMapElite : LBSAssistantAI
 {
-     
     public AssistantMapElite(){ }
 
     public override void Execute()
@@ -32,52 +31,4 @@ public class AssistantMapElite : LBSAssistantAI
     }
 }
 
-[System.Serializable]
-[RequieredModule(typeof(Exterior))]
-public class AssitantWFC : LBSAssistantAI
-{
-    public override object Clone()
-    {
-        return new AssitantWFC();
-    }
 
-    public override void Execute()
-    {
-        Debug.Log("No implementado WFC 'Execute()'");
-    }
-
-    public override VisualElement GetInspector()
-    {
-        return new Label("No implementado");
-    }
-
-    public override void Init(LBSLayer layer)
-    {
-        Debug.Log("No implementado WFC 'Init(layer)'");
-    }
-}
-
-[System.Serializable]
-//[RequieredModule(typeof(XXX))]
-public class AssistentGrammar : LBSAssistantAI
-{
-    public override object Clone()
-    {
-        return new AssistentGrammar();
-    }
-
-    public override void Execute()
-    {
-        Debug.Log("No implementado Grammar 'Execute()'");
-    }
-
-    public override VisualElement GetInspector()
-    {
-        return new Label("No implementado");
-    }
-
-    public override void Init(LBSLayer layer)
-    {
-        Debug.Log("No implementado Grammar 'Init(layer)'");
-    }
-}

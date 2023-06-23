@@ -22,8 +22,7 @@ MonoBehaviour:
     modules:
     - rid: 6244923097482002451
     behaviours: []
-    assitantsAI:
-    - rid: 6244923097482002452
+    assitantsAI: []
     generatorRules:
     - rid: 6244923097482002453
     settingsGen3D:
@@ -44,8 +43,6 @@ MonoBehaviour:
         visible: 0
         changed: 0
         tiles: []
-    - rid: 6244923097482002452
-      type: {class: AssitantWFC, ns: , asm: Assembly-CSharp-Editor}
     - rid: 6244923097482002453
       type: {class: ExteriorRuleGenerator, ns: LBS.Generator, asm: Assembly-CSharp}
       data:
