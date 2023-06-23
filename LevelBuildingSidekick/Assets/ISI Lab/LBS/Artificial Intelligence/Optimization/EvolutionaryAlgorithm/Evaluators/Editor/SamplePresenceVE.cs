@@ -15,7 +15,7 @@ public class SamplePresenceVE : EvaluatorVE
     public SamplePresenceVE(IEvaluator evaluator) : base(evaluator)
     {
         objectField = new ObjectField("Sample");
-        objectField.objectType = typeof(Bundle_Old);
+        objectField.objectType = typeof(Bundle);
         objectField.RegisterValueChangedCallback(e => (evaluator as SamplePresence).Sample = e.newValue);
         Add(objectField);
 
