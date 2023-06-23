@@ -48,7 +48,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 37
+  controlID: 102
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ProjectBrowser
+  m_Name: ConsoleWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -120,14 +120,14 @@ MonoBehaviour:
     y: 569
     width: 1518
     height: 370
-  m_MinSize: {x: 231, y: 271}
-  m_MaxSize: {x: 10001, y: 10021}
-  m_ActualView: {fileID: 13}
+  m_MinSize: {x: 101, y: 121}
+  m_MaxSize: {x: 4001, y: 4021}
+  m_ActualView: {fileID: 18}
   m_Panes:
   - {fileID: 13}
   - {fileID: 18}
-  m_Selected: 0
-  m_LastSelected: 1
+  m_Selected: 1
+  m_LastSelected: 0
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -399,9 +399,9 @@ MonoBehaviour:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 566d0000
-    m_LastClickedID: 27990
-    m_ExpandedIDs: 00000000e46c0000e66c0000e86c0000ea6c0000ec6c0000ee6c0000f06c0000f26c0000f46c0000f66c0000f86c0000fa6c0000fc6c0000fe6c0000006d0000026d0000046d0000066d0000086d00000a6d00000c6d00000e6d0000106d0000126d0000146d0000166d0000186d00001a6d00001c6d00001e6d0000206d0000226d0000246d0000266d0000286d00002a6d00002c6d00002e6d0000306d000000ca9a3b
+    m_SelectedIDs: 70700000
+    m_LastClickedID: 28784
+    m_ExpandedIDs: 0000000000700000027000000470000006700000087000000a7000000c7000000e70000010700000127000001470000016700000187000001a7000001c7000001e70000020700000227000002470000026700000287000002a7000002c7000002e70000030700000327000003470000036700000387000003a7000003c7000003e70000040700000427000004470000046700000487000004a7000004c70000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -429,7 +429,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000e46c0000e66c0000e86c0000ea6c0000ec6c0000ee6c0000f06c0000f26c0000f46c0000f66c0000f86c0000fa6c0000fc6c0000fe6c0000006d0000026d0000046d0000066d0000086d00000a6d00000c6d00000e6d0000106d0000126d0000146d0000166d0000186d00001a6d00001c6d00001e6d0000206d0000226d0000246d0000266d0000286d00002a6d00002c6d00002e6d0000306d0000
+    m_ExpandedIDs: 0000000000700000027000000470000006700000087000000a7000000c7000000e70000010700000127000001470000016700000187000001a7000001c7000001e70000020700000227000002470000026700000287000002a7000002c7000002e70000030700000327000003470000036700000387000003a7000003c7000003e70000040700000427000004470000046700000487000004a7000004c700000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -569,9 +569,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 5e2c0000
+      m_SelectedIDs: e8fefeff
       m_LastClickedID: 0
-      m_ExpandedIDs: 02fbffff
+      m_ExpandedIDs: 4003ffff02fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -964,9 +964,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 5.1970744, y: -3.3194704, z: -12.060829}
+    m_Target: {x: 10.802184, y: -4.1463013, z: -1.416688}
     speed: 2
-    m_Value: {x: 5.1970744, y: -3.3194704, z: -12.060829}
+    m_Value: {x: 10.802184, y: -4.1463013, z: -1.416688}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1012,13 +1012,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.12136887, y: 0.87196845, z: -0.38814595, w: -0.27260628}
+    m_Target: {x: -0.0048821713, y: 0.84171337, z: -0.53987813, w: -0.007577857}
     speed: 2
-    m_Value: {x: -0.121367, y: 0.87195504, z: -0.38814, w: -0.27260208}
+    m_Value: {x: -0.004893456, y: 0.8408896, z: -0.5411317, w: -0.0075704083}
   m_Size:
-    m_Target: 9.844716
+    m_Target: 18.519447
     speed: 2
-    m_Value: 9.844716
+    m_Value: 18.519447
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -1213,11 +1213,7 @@ MonoBehaviour:
     tags: []
     maxWidth: 0
     maxHeight: 0
-    layers:
-    - rid: 3767989506628386843
-    - rid: 3767989506628386844
-    - rid: 3767989506628386845
-    - rid: 3767989506628386846
+    layers: []
   layerTemplates:
   - {fileID: 11400000, guid: 531e915267477db4e886c2e6401c4372, type: 2}
   - {fileID: 11400000, guid: 253f372750fae784d9a42445a8e08fcc, type: 2}
@@ -1225,183 +1221,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e7f2683aca07d6a439989f2bb37e7487, type: 2}
   references:
     version: 2
-    RefIds:
-    - rid: 3767989506628386843
-      type: {class: LBSLayer, ns: LBS.Components, asm: Assembly-CSharp}
-      data:
-        id: Population
-        name: filler text 3
-        visible: 1
-        blocked: 0
-        selectedMode: 
-        iconPath: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/ghost.png
-        modules:
-        - rid: 3767989506628386847
-        - rid: 3767989506628386848
-        behaviours: []
-        assitantsAI: []
-        generatorRules:
-        - rid: 3767989506628386849
-        settingsGen3D:
-          scale: {x: 2, y: 2}
-          resize: {x: 0, y: 0}
-          position: {x: 0, y: 0, z: 0}
-          name: 
-    - rid: 3767989506628386844
-      type: {class: LBSLayer, ns: LBS.Components, asm: Assembly-CSharp}
-      data:
-        id: Quest
-        name: filler text 2
-        visible: 1
-        blocked: 0
-        selectedMode: 
-        iconPath: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Quest.png
-        modules:
-        - rid: 3767989506628386850
-        - rid: 3767989506628386851
-        behaviours: []
-        assitantsAI: []
-        generatorRules: []
-        settingsGen3D:
-          scale: {x: 2, y: 2}
-          resize: {x: 0, y: 0}
-          position: {x: 0, y: 0, z: 0}
-          name: 
-    - rid: 3767989506628386845
-      type: {class: LBSLayer, ns: LBS.Components, asm: Assembly-CSharp}
-      data:
-        id: Interior
-        name: filler text 1
-        visible: 1
-        blocked: 0
-        selectedMode: 
-        iconPath: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/interior-design.png
-        modules:
-        - rid: 3767989506628386852
-        - rid: 3767989506628386853
-        behaviours: []
-        assitantsAI:
-        - rid: 3767989506628386854
-        generatorRules:
-        - rid: 3767989506628386855
-        - rid: 3767989506628386856
-        settingsGen3D:
-          scale: {x: 2, y: 2}
-          resize: {x: 0, y: 0}
-          position: {x: 0, y: 0, z: 0}
-          name: 
-    - rid: 3767989506628386846
-      type: {class: LBSLayer, ns: LBS.Components, asm: Assembly-CSharp}
-      data:
-        id: Exterior
-        name: filler text
-        visible: 1
-        blocked: 0
-        selectedMode: 
-        iconPath: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/pine-tree.png
-        modules:
-        - rid: 3767989506628386857
-        behaviours: []
-        assitantsAI: []
-        generatorRules:
-        - rid: 3767989506628386858
-        settingsGen3D:
-          scale: {x: 10, y: 10}
-          resize: {x: 0, y: 0}
-          position: {x: 0, y: 0, z: 0}
-          name: 
-    - rid: 3767989506628386847
-      type: {class: LBSTileMap, ns: , asm: Assembly-CSharp}
-      data:
-        key: LBSTileMap
-        visible: 0
-        changed: 0
-        tiles: []
-    - rid: 3767989506628386848
-      type: {class: TaggedTileMap, ns: , asm: Assembly-CSharp}
-      data:
-        key: TaggedTileMap
-        visible: 0
-        changed: 0
-        pairTiles: []
-    - rid: 3767989506628386849
-      type: {class: PopulationRuleGenerator, ns: LBS.Generator, asm: Assembly-CSharp}
-      data:
-        generator3D:
-          settings:
-            scale: {x: 0, y: 0}
-            resize: {x: 0, y: 0}
-            position: {x: 0, y: 0, z: 0}
-            name: 
-          rules: []
-    - rid: 3767989506628386850
-      type: {class: LBSGraph, ns: LBS.Components.Graph, asm: Assembly-CSharp}
-      data:
-        key: LBSGraph
-        visible: 0
-        changed: 0
-        nodes: []
-        edges: []
-    - rid: 3767989506628386851
-      type: {class: LBSGrammarGraph, ns: , asm: Assembly-CSharp}
-      data:
-        key: LBSGrammarGraph
-        visible: 0
-        changed: 0
-        questNodes: []
-    - rid: 3767989506628386852
-      type: {class: LBSRoomGraph, ns: LBS.Components.Graph, asm: Assembly-CSharp}
-      data:
-        key: LBSRoomGraph
-        visible: 0
-        changed: 0
-        nodes: []
-        edges: []
-    - rid: 3767989506628386853
-      type: {class: LBSSchema, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
-      data:
-        key: LBSSchema
-        visible: 0
-        changed: 0
-        areas: []
-    - rid: 3767989506628386854
-      type: {class: AssistantHillClimbing, ns: , asm: Assembly-CSharp}
-      data:
-        test: Hola mundo
-    - rid: 3767989506628386855
-      type: {class: SchemaRuleGenerator, ns: , asm: Assembly-CSharp}
-      data:
-        generator3D:
-          settings:
-            scale: {x: 0, y: 0}
-            resize: {x: 0, y: 0}
-            position: {x: 0, y: 0, z: 0}
-            name: 
-          rules: []
-    - rid: 3767989506628386856
-      type: {class: SchemaRuleGeneratorExteriror, ns: , asm: Assembly-CSharp}
-      data:
-        generator3D:
-          settings:
-            scale: {x: 0, y: 0}
-            resize: {x: 0, y: 0}
-            position: {x: 0, y: 0, z: 0}
-            name: 
-          rules: []
-    - rid: 3767989506628386857
-      type: {class: Exterior, ns: , asm: Assembly-CSharp}
-      data:
-        key: Exterior
-        visible: 0
-        changed: 0
-        tiles: []
-    - rid: 3767989506628386858
-      type: {class: ExteriorRuleGenerator, ns: LBS.Generator, asm: Assembly-CSharp}
-      data:
-        generator3D:
-          settings:
-            scale: {x: 0, y: 0}
-            resize: {x: 0, y: 0}
-            position: {x: 0, y: 0, z: 0}
-            name: 
-          rules: []
+    RefIds: []
