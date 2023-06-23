@@ -76,6 +76,7 @@ public class SchemaRuleGenerator : LBSGeneratorRule
                 currentRoots = rootBundles.ToList();
 
             var childs = currentRoots.SelectMany(b => b.ChildsBundles).ToList().RemoveEmpties(); // obtengo todos sus hijos
+            childs = childs.Where(b => b.ID != null).ToList(); // parche (?)
 
             var bundlesDictionary = new Dictionary<string, List<GameObject>>();
 

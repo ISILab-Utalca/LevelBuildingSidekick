@@ -23,8 +23,7 @@ MonoBehaviour:
     - rid: 6244923097559072768
     - rid: 6244923097559072769
     behaviours: []
-    assitantsAI:
-    - rid: 6244923097559072770
+    assitantsAI: []
     generatorRules:
     - rid: 6244923097559072771
     settingsGen3D:
@@ -52,8 +51,6 @@ MonoBehaviour:
         visible: 0
         changed: 0
         pairTiles: []
-    - rid: 6244923097559072770
-      type: {class: AssistantMapElite, ns: , asm: Assembly-CSharp-Editor}
     - rid: 6244923097559072771
       type: {class: PopulationRuleGenerator, ns: LBS.Generator, asm: Assembly-CSharp}
       data:

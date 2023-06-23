@@ -77,6 +77,7 @@ public class SchemaRuleGeneratorExteriror : LBSGeneratorRule
             }
 
             var childs = currentRoots.SelectMany(b => b.ChildsBundles).ToList().RemoveEmpties(); // obtengo todos sus hijos
+            childs = childs.Where(b => b.ID != null).ToList(); // parche (?)
 
             var bundlesDictionary = new Dictionary<string, List<GameObject>>();
 
@@ -89,8 +90,8 @@ public class SchemaRuleGeneratorExteriror : LBSGeneratorRule
             var floorBundles = childs.Where(b => b.ID.Label.Equals("Floor")); // obtengo todos los bundles con la tag Floor
             bundlesDictionary.Add("Floor", floorBundles.SelectMany(b => b.Assets).ToList());
 
-            var cornerBundles = childs.Where(b => b.ID.Label.Equals("Corner")).ToList(); // obtengo todos los bundles con la tag Corner
-            bundlesDictionary.Add("Corner", cornerBundles.SelectMany(b => b.Assets).ToList());
+           // var cornerBundles = childs.Where(b => b.ID.Label.Equals("Corner")).ToList(); // obtengo todos los bundles con la tag Corner
+           // bundlesDictionary.Add("Corner", cornerBundles.SelectMany(b => b.Assets).ToList());
 
             var wallsTile = schema.GetArea(node.ID).GetWalls().SelectMany(w => w.Tiles).ToList().RemoveDuplicates();
             var tiles = wallsTile.Select(w => schema.GetTile(w) as ConnectedTile).ToList();

@@ -11,7 +11,7 @@ using UnityEngine.UIElements;
 [System.Serializable]
 public abstract class LBSAssistantAI: ICloneable 
 {
-    [SerializeField, HideInInspector]
+    [HideInInspector,JsonIgnore]
     private LBSLayer owner;
 
     [JsonIgnore]
