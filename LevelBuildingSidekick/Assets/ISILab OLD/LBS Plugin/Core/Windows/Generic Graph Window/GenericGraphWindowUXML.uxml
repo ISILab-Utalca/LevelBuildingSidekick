@@ -1,3 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <LBS.ElementView.MainView focusable="true" style="flex-grow: 1;" />
-</ui:UXML>

@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement style="background-color: rgb(56, 56, 56); border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; padding-left: 3px; padding-right: 3px; padding-top: 5px; padding-bottom: 5px; border-left-color: rgb(36, 36, 36); border-right-color: rgb(36, 36, 36); border-top-color: rgb(36, 36, 36); border-bottom-color: rgb(36, 36, 36); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; margin-bottom: 7px;">
+        <ui:Label tabindex="-1" text="IA assistance" display-tooltip-when-elided="true" style="border-bottom-width: 1px; border-bottom-color: rgba(0, 0, 0, 0.4); -unity-font-style: bold; padding-bottom: 8px;" />
+        <ui:VisualElement name="Container" />
+    </ui:VisualElement>
+</ui:UXML>

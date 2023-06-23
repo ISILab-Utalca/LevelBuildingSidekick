@@ -25,6 +25,28 @@ namespace Utility
             return null;
         }
 
+        public static List<Tuple<Type, IEnumerable<T>>> GetClassesWith<T>() where T : LBSAttribute
+        {
+            var toR = from assembly in AppDomain.CurrentDomain.GetAssemblies()
+                from type in assembly.GetTypes()
+                let attributes = type.GetCustomAttributes(typeof(T), true)
+                where attributes != null && attributes.Length > 0
+                select new Tuple<Type, IEnumerable<T>>(type, attributes.Cast<T>());
+
+            return toR.ToList();
+        }
+
+        public static List<Tuple<Type, IEnumerable<Attribute>>> GetClassesWith(Type type)
+        {
+            var toR = from assembly in AppDomain.CurrentDomain.GetAssemblies()
+                      from _type in assembly.GetTypes()
+                      let attributes = _type.GetCustomAttributes(type, true)
+                      where attributes != null && attributes.Length > 0
+                      select new Tuple<Type, IEnumerable<Attribute>>(_type, attributes as Attribute[]);
+
+            return toR.ToList();
+        }
+
         public static ScriptableObject MakeGenericScriptable(object obj)
         {
             return MakeGenericWraper<ScriptableObject>(obj);
@@ -98,6 +120,19 @@ namespace Utility
             return toReturn;
         }
 
+        public static bool IsSubclassOfRawGeneric(Type generic, Type toCheck)
+        {
+            while (toCheck != null && toCheck != typeof(object))
+            {
+                var cur = toCheck.GetTypeInfo().IsGenericType ? toCheck.GetGenericTypeDefinition() : toCheck;
+                if (generic.Equals(cur)  || generic.Equals(toCheck))
+                {
+                    return true;
+                }
+                toCheck = toCheck.GetTypeInfo().BaseType;
+            }
+            return false;
+        }
     }
 }
 

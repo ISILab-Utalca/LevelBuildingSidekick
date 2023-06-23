@@ -1,6 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <ui:VisualElement name="NameLayer" style="flex-direction: row; align-items: flex-start;">
-        <ui:VisualElement name="IconLayer" style="width: 16px; height: 13px; background-image: url(&apos;project://database/Assets/ISILab/LBS%20Plugin/Assets2D/Layers_Icon.png?fileID=2800000&amp;guid=06c081418decd754c906960b1e3c0fdd&amp;type=3#Layers_Icon&apos;); -unity-background-scale-mode: scale-to-fit; margin-top: 4px;" />
-        <ui:Foldout text="Foldout" name="LayerDetail" />
-    </ui:VisualElement>
-</ui:UXML>

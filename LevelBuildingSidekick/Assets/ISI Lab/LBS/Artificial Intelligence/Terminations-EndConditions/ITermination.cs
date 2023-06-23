@@ -1,4 +1,3 @@
-using LBS.VisualElements;
 
 namespace Commons.Optimization.Terminations
 {
@@ -8,7 +7,7 @@ namespace Commons.Optimization.Terminations
     /// <remarks>
     /// <see href="http://en.wikipedia.org/wiki/Genetic_algorithm#Termination">Wikipedia</see> 
     /// </remarks>
-    public interface ITermination : IShowable
+    public interface ITermination //: IShowable
     {
         #region Methods
         /// <summary>
@@ -16,7 +15,7 @@ namespace Commons.Optimization.Terminations
         /// </summary>
         /// <returns>True if termination has been reached, otherwise false.</returns>
         /// <param name="geneticAlgorithm">The genetic algorithm.</param>
-        bool HasReached(IOptimizer optimizer);
+        bool HasReached(BaseOptimizer optimizer);
         #endregion
     }
 }

@@ -1,6 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <ui:VisualElement name="Right" picking-mode="Ignore" style="height: 33%; width: 66%; align-items: center; justify-content: center; transform-origin: right; right: 0; background-color: rgb(186, 61, 61); position: absolute; left: auto; display: flex; flex-grow: 1; top: 50%; translate: 0 -50%;" />
-    <ui:VisualElement name="Top" picking-mode="Ignore" style="height: 66%; width: 33%; align-items: center; justify-content: center; transform-origin: top; right: auto; background-color: rgb(186, 61, 61); position: absolute; left: 50%; flex-grow: 1; flex-direction: column; translate: -50% 0; top: 0;" />
-    <ui:VisualElement name="Bottom" picking-mode="Ignore" style="height: 66%; width: 33%; align-items: center; justify-content: center; transform-origin: bottom; right: auto; background-color: rgb(186, 61, 61); position: absolute; left: 50%; bottom: 0; translate: -50% 0;" />
-    <ui:VisualElement name="Left" picking-mode="Ignore" style="height: 33%; width: 66%; align-items: center; justify-content: center; transform-origin: left; right: auto; background-color: rgb(186, 61, 61); position: absolute; left: 0; top: 50%; translate: 0 -50%;" />
-</ui:UXML>

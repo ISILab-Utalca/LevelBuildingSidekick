@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="Content" style="flex-direction: row;">
+        <ui:VisualElement style="flex-direction: row; flex-grow: 1;">
+            <ui:VisualElement name="Icon" style="background-image: url(&apos;project://database/Packages/com.unity.ai.navigation/Gizmos/NavMeshModifierVolume%20Icon.png?fileID=2800000&amp;guid=cc7b9475dbddf4f9088d327d6e10ab77&amp;type=3#NavMeshModifierVolume Icon&apos;); width: 16px; height: 16px;" />
+            <ui:Label tabindex="-1" text="Label" display-tooltip-when-elided="true" name="Name" style="flex-shrink: 1; flex-grow: 1; align-items: flex-start; padding-left: 4px;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Arrow" style="background-image: resource(&apos;Icons/image4&apos;); width: 16px; height: 16px; display: flex;" />
+    </ui:VisualElement>
+</ui:UXML>

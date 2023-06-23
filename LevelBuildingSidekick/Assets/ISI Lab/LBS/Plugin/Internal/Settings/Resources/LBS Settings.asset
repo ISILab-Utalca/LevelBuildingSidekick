@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6b738addc7fdb346a753be66842cf18, type: 3}
+  m_Name: LBS Settings
+  m_EditorClassIdentifier: 
+  settingsPath: Assets/ISI Lab/LBS/Plugin/Internal/Settings/Resources/LBS Settings.asset
+  storagePath: Assets/ISI Lab/LBS/Plugin/Internal/Editor/LBS Storage.asset
+  pressetsPath: Assets/ISI Lab/LBS/Presets/LBS Presets.asset
+  bundleFolderPath: Assets/ISI Lab/LBS/Data/Bundles
+  tagFolderPath: Assets/ISI Lab/LBS/Data/Tags
+  iconPath: Assets/ISI Lab/LBS/Plugin/Internal/Icons
+  layerPressetFolderPath: Assets/ISI Lab/LBS/Presets/Layers
+  assistantPresetFolderPath: Assets/ISI Lab/LBS/Presets/Assistants
+  Generator3DPresetFolderPath: Assets/ISI Lab/LBS/Presets/Generators3D
+  bundlesPresetFolderPath: Assets/ISI Lab/LBS/Presets/Bundles
+  general:
+    zoomMax: 10
+    zoomMin: 0.1
+  tileSize: {x: 50, y: 50}

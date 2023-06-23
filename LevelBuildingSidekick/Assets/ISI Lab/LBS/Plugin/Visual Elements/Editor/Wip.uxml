@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement name="NoContentPanel" style="border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-left-color: rgba(255, 255, 255, 0.59); border-right-color: rgba(255, 255, 255, 0.59); border-top-color: rgba(255, 255, 255, 0.59); border-bottom-color: rgba(255, 255, 255, 0.59); flex-direction: column; align-items: stretch; padding-left: 1px; padding-right: 1px; padding-top: 1px; padding-bottom: 1px; flex-grow: 0;">
+        <ui:VisualElement style="border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-left-color: rgba(255, 255, 255, 0.2); border-right-color: rgba(255, 255, 255, 0.2); border-top-color: rgba(255, 255, 255, 0.2); border-bottom-color: rgba(255, 255, 255, 0.2); flex-direction: column; align-items: center; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; flex-grow: 0; -unity-text-align: upper-left;">
+            <ui:VisualElement style="background-image: url(&apos;project://database/Assets/ISI%20Lab/wip.png?fileID=2800000&amp;guid=8b7ee73921de7b449b8f342959e2bd0f&amp;type=3#wip&apos;); width: 128px; height: 128px;" />
+            <ui:Label tabindex="-1" text="Work in progress" display-tooltip-when-elided="true" style="-unity-text-align: middle-left; flex-grow: 0; flex-wrap: wrap; white-space: normal; flex-shrink: 1; padding-left: 4px;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

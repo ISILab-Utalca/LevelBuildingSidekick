@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement style="flex-direction: row; justify-content: space-around; align-items: center;">
+        <ui:TextField picking-mode="Ignore" name="Searchfield" style="flex-shrink: 1; flex-grow: 1;" />
+        <ui:VisualElement style="width: 18px; height: 16px; background-image: url(&apos;project://database/Packages/com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/search-dark@2x.png?fileID=2800000&amp;guid=09996e28fa830fb4283b19f26584c9f2&amp;type=3#search-dark@2x&apos;);" />
+    </ui:VisualElement>
+    <ui:ListView focusable="true" name="Content" virtualization-method="DynamicHeight" show-bound-collection-size="true" show-add-remove-footer="false" show-foldout-header="false" horizontal-scrolling="false" reorderable="false" show-border="true" show-alternating-row-backgrounds="All" style="margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0;" />
+</ui:UXML>

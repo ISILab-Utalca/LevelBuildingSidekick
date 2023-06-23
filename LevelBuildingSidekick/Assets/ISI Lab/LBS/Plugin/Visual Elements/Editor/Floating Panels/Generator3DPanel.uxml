@@ -1,0 +1,18 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement style="background-color: rgb(56, 56, 56); border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; padding-left: 3px; padding-right: 3px; padding-top: 5px; padding-bottom: 5px; border-left-color: rgb(48, 48, 48); border-right-color: rgb(48, 48, 48); border-top-color: rgb(48, 48, 48); border-bottom-color: rgb(48, 48, 48); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; margin-bottom: 7px;">
+        <ui:Label tabindex="-1" text="Generator 3D" display-tooltip-when-elided="true" style="border-bottom-width: 1px; border-bottom-color: rgba(0, 0, 0, 0.4); -unity-font-style: bold; font-size: 12px; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0;" />
+        <ui:VisualElement style="margin-left: 4px; margin-right: 4px; margin-top: 8px; margin-bottom: 8px;">
+            <ui:TextField picking-mode="Ignore" label="Name" value="Default Name" text="Default Name" name="ObjName" tooltip="GameObject name in hierarchy" />
+            <ui:Vector3Field label="Position" name="Position" tooltip="Position of the 3D model in the scene" />
+            <ui:Vector2Field label="Reference Size" name="ReferenceSize" />
+            <ui:Vector2Field label="Resize" name="Resize" style="display: none;" />
+            <ui:Label tabindex="-1" text="Prefab Configuration" display-tooltip-when-elided="true" style="display: none;" />
+        </ui:VisualElement>
+        <ui:VisualElement style="margin-left: 4px; margin-right: 4px; margin-top: 8px; margin-bottom: 8px;">
+            <ui:Label tabindex="-1" text="Generator Configuration" display-tooltip-when-elided="true" style="display: none;" />
+            <ClassDropDown name="Generator" style="display: none;" />
+            <ui:Toggle label="Destroy previous" name="DestroyPrev" tooltip="Destroy the previously generated 3D model with the same name" style="flex-grow: 1;" />
+            <ui:Button tabindex="-1" text="Generate" display-tooltip-when-elided="true" name="Action" tooltip="Generate 3D models in the scene" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

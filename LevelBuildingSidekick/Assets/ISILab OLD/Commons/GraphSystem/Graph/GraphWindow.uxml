@@ -1,9 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <Style src="project://database/Assets/LBS%20Plugin/Level%20Representation/Graph/USS/GraphWindow.uss?fileID=7433441132597879392&amp;guid=bc4229f168ace7049b18ec22c155151e&amp;type=3#GraphWindow" />
-    <ui:VisualElement name="VisualElement" style="flex-direction: row; flex-grow: 1; height: auto; width: auto;">
-        <LevelBuildingSidekick.Graph.LBSGraphView focusable="true" name="LBSGraphView" class="GridBackground" style="flex-grow: 1; height: auto;" />
-        <ui:VisualElement style="width: 132px;">
-            <ui:Button tabindex="-1" text="Generate Schema" display-tooltip-when-elided="true" name="GenerateBtn" />
-        </ui:VisualElement>
-    </ui:VisualElement>
-</ui:UXML>

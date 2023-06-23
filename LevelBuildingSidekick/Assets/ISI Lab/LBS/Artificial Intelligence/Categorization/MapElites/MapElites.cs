@@ -11,7 +11,33 @@ using System.Threading;
 [System.Serializable]
 public class MapElites
 {
-    private int xSampleCount;
+    #region FIELDS
+
+    private int xSampleCount = 4;
+
+    private int ySampleCount = 4;
+
+    [Range(0, 0.5f), HideInInspector]
+    public double devest = 0.5;
+
+    [SerializeField, SerializeReference, HideInInspector]
+    IRangedEvaluator xEvaluator;
+    Vector2 xThreshold = new Vector2(0.2f, 0.8f);
+
+    [SerializeReference, HideInInspector]
+    IRangedEvaluator yEvaluator;
+    Vector2 yThreshold = new Vector2(0.2f, 0.8f);
+
+    [SerializeReference, HideInInspector]
+    BaseOptimizer optimizer = new GeneticAlgorithm();
+
+    [HideInInspector]
+    public List<int> changedSample;
+
+    private Thread thread;
+    #endregion
+
+    #region FIELDS
 
     /// <summary>
     /// Gets or sets the number of samples in the X dimension.
@@ -33,7 +59,6 @@ public class MapElites
         }
     }
 
-    private int ySampleCount;
 
     /// <summary>
     /// Gets or sets the number of samples in the Y dimension.
@@ -55,17 +80,11 @@ public class MapElites
         }
     }
 
-    Action OnSampleSizeChanged;
-
-    [Range(0, 0.5f)]
-    public double devest = 0.5;
-
-    public IEvaluable Adam { get; set; }
-    public IEvaluable[,] BestSamples { get; private set; }
-    public List<int> changedSample;
-
-    [SerializeField ,SerializeReference]
-    IRangedEvaluator xEvaluator;
+    public IOptimizable Adam 
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the evaluator for the X dimension.
@@ -79,7 +98,7 @@ public class MapElites
         }
         set
         {
-            if(xEvaluator == null || !xEvaluator.Equals(value))
+            if (xEvaluator == null || !xEvaluator.Equals(value))
             {
                 xEvaluator = value;
                 OnEvaluatorChange();
@@ -87,8 +106,21 @@ public class MapElites
         }
     }
 
-    [SerializeReference]
-    IRangedEvaluator yEvaluator;
+    public Vector2 XThreshold
+    {
+        get => xThreshold;
+        set
+        {
+            var v = value;
+            v.x = v.x < 0 ? 0 : v.x;
+            v.y = v.y < 0 ? 0 : v.y;
+            v.x = v.x > 1 ? 1 : v.x;
+            v.y = v.y > 1 ? 1 : v.y;
+            v.x = v.x > v.y ? v.y : v.x;
+
+            xThreshold = v;
+        }
+    }
 
     /// <summary>
     /// Gets or sets the evaluator for the Y dimension.
@@ -102,7 +134,7 @@ public class MapElites
         }
         set
         {
-            if(yEvaluator == null || !yEvaluator.Equals(value))
+            if (yEvaluator == null || !yEvaluator.Equals(value))
             {
                 yEvaluator = value;
                 OnEvaluatorChange();
@@ -110,16 +142,29 @@ public class MapElites
         }
     }
 
-    Action OnEvaluatorChanged;
+    public Vector2 YThreshold
+    {
+        get => yThreshold;
+        set
+        {
+            var v = value;
+            v.x = v.x < 0 ? 0 : v.x;
+            v.y = v.y < 0 ? 0 : v.y;
+            v.x = v.x > 1 ? 1 : v.x;
+            v.y = v.y > 1 ? 1 : v.y;
+            v.x = v.x > v.y ? v.y : v.x;
 
-    [SerializeReference]
-    IOptimizer optimizer;
+            yThreshold = v;
+        }
+    }
+
+    public IOptimizable[,] BestSamples { get; private set; }
 
     /// <summary>
     /// Gets or sets the optimizer to use.
     /// </summary>
     /// <value>The optimizer to use.</value>
-    public IOptimizer Optimizer
+    public BaseOptimizer Optimizer
     {
         get
         {
@@ -132,26 +177,39 @@ public class MapElites
         }
     }
 
-    public System.Action OnOptimizerChanged;
+    public bool Running => Optimizer.State != Op_State.TerminationReached && Optimizer.State != Op_State.Stopped && Optimizer.State != Op_State.Paused && Optimizer.State != Op_State.NotStarted;
+
+    public bool Finished => Optimizer.State == Op_State.TerminationReached;
+
+    #endregion
+
+    #region EVENTS
+
+    public Action OnEnd; 
+
+    Action OnSampleSizeChanged;
+
+    Action OnEvaluatorChanged;
+
+    public Action OnOptimizerChanged;
 
     public Action<Vector2Int> OnSampleUpdated;
 
-    private Thread thread;
+    #endregion
 
-    public bool Running => thread != null && thread.IsAlive && thread.ThreadState == ThreadState.Running;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MapElites"/> class.
     /// </summary>
     public MapElites()
     {
-        xEvaluator = new Vertical2DSimetry();
-        yEvaluator = new Horizontal2DSimetry();
+        //xEvaluator = new Vertical2DSimetry();
+        //yEvaluator = new Horizontal2DSimetry();
         optimizer = new GeneticAlgorithm();
         xSampleCount = 5;
         ySampleCount = 5;
         devest = 0.5;
-        BestSamples = new IEvaluable[xSampleCount, ySampleCount];
+        BestSamples = new IOptimizable[xSampleCount, ySampleCount];
     }
 
     /// <summary>
@@ -167,7 +225,7 @@ public class MapElites
         xSampleCount = 5;
         ySampleCount = 5;
         devest = 0.5;
-        BestSamples = new IEvaluable[xSampleCount, ySampleCount];
+        BestSamples = new IOptimizable[xSampleCount, ySampleCount];
     }
 
     /// <summary>
@@ -178,24 +236,30 @@ public class MapElites
     /// </summary>
     public void Run()
     {
+        if (Optimizer.State != Op_State.NotStarted && Optimizer.State != Op_State.TerminationReached)
+        {
+            Debug.LogWarning("[ISI Lab] Process Already Running");
+            return;
+        }
+
         Optimizer.Adam = Adam;
-        var fitness = Optimizer.Evaluator.Evaluate(Adam);
+        //Adam.Fitness = Optimizer.Evaluator.Evaluate(Adam);
         Clear();
-        Optimizer.OnGenerationRan += () =>
+        Optimizer.OnGenerationRan = () =>
         { 
             UpdateSamples(Optimizer.LastGeneration); 
         };
-        Optimizer.OnTerminationReached += () =>
+        Optimizer.OnTerminationReached = () =>
         {
             int c = 0;
             for (int j = 0; j < BestSamples.GetLength(1); j++)
             {
                 for (int i = 0; i < BestSamples.GetLength(0); i++)
                 {
-                    if(BestSamples[i,j] != null)
+                    if(BestSamples[j,i] != null)
                     {
                         c++;
-                        UpdateSample(i,j,BestSamples[i,j]);
+                        UpdateSample(i,j,BestSamples[j,i]);
                     }
                 }
             }
@@ -203,29 +267,65 @@ public class MapElites
             {
                 thread.Join();
             }
+            //Optimizer.State = Op_State.TerminationReached;
             Debug.Log("Finished: " + c);
+            OnEnd?.Invoke();
 
         };
         thread = new Thread(Optimizer.Start);
-        thread.Start(); 
+        thread.Start();
+    }
+
+    public void Restart()
+    {
+        thread = new Thread(Optimizer.Restart);
+        Optimizer.OnGenerationRan = () =>
+        {
+            UpdateSamples(Optimizer.LastGeneration);
+        };
+        Optimizer.OnTerminationReached = () =>
+        {
+            int c = 0;
+            for (int j = 0; j < BestSamples.GetLength(1); j++)
+            {
+                for (int i = 0; i < BestSamples.GetLength(0); i++)
+                {
+                    if (BestSamples[j, i] != null)
+                    {
+                        c++;
+                        UpdateSample(i, j, BestSamples[j, i]);
+                    }
+                }
+            }
+            if (Running)
+            {
+                thread.Abort();
+            }
+            Debug.Log("Finished: " + c);
+            OnEnd?.Invoke();
+
+        };
+        thread.Start();
     }
 
     /// <summary>
     /// Updates the best samples in the map with the provided array of evaluables.
     /// </summary>
     /// <param name="samples">The array of evaluables to update the map with.</param>
-    public void UpdateSamples(IEvaluable[] samples)
+    public void UpdateSamples(IOptimizable[] samples)
     {
+        var max = samples.Select(o => o.Fitness).OrderBy(n => n).ToArray();
         
         var evaluables = MapSamples(samples);
-
-        float xStep = Mathf.Abs(XEvaluator.MaxValue - XEvaluator.MinValue) / XSampleCount;
-        float yStep = Mathf.Abs(YEvaluator.MaxValue - YEvaluator.MinValue) / YSampleCount;
+        float xT = Mathf.Abs(XEvaluator.MaxValue - XEvaluator.MinValue);
+        float xStep =  (xT*XThreshold.y - xT*XThreshold.x)/ XSampleCount;
+        float yT = Mathf.Abs(YEvaluator.MaxValue - YEvaluator.MinValue);
+        float yStep = (yT * YThreshold.y - yT * YThreshold.x) / YSampleCount;
 
         foreach (var me in evaluables)
         {
-            var xPos = (me.xFitness - XEvaluator.MinValue) / xStep;
-            var yPos = (me.yFitness - YEvaluator.MinValue) / yStep;
+            var xPos = (me.xFitness - XEvaluator.MinValue * (1 + XThreshold.x)) / xStep;
+            var yPos = (me.yFitness - YEvaluator.MinValue * (1 + YThreshold.y)) / yStep;
 
 
             var tileXPos = (int)xPos;
@@ -237,8 +337,8 @@ public class MapElites
 
             if (dx <= devest && dy <= devest)
             {
-                tileXPos = tileXPos >= XSampleCount ? tileXPos - 1 : tileXPos;
-                tileYPos = tileYPos >= YSampleCount ? tileYPos - 1 : tileYPos;
+                tileXPos = tileXPos >= XSampleCount ? XSampleCount - 1 : tileXPos;
+                tileYPos = tileYPos >= YSampleCount ? YSampleCount - 1 : tileYPos;
                 UpdateSample(tileXPos, tileYPos, me.evaluable);
             }
 
@@ -253,18 +353,18 @@ public class MapElites
     /// <param name="y">Y index of element to update in the "BestSamples" array.</param>
     /// <param name="evaluable">Evaluable object to update in the "BestSamples" array.</param>
     /// <returns>Boolean value indicating if the update was successful or not.
-    public bool UpdateSample(int x, int y, IEvaluable evaluable)
+    public bool UpdateSample(int x, int y, IOptimizable evaluable)
     {
-        if (BestSamples[x,y] == null)
+        if (BestSamples[y,x] == null)
         {
-            BestSamples[x, y] = evaluable;
+            BestSamples[y, x] = evaluable;
             OnSampleUpdated?.Invoke(new Vector2Int(x,y));
             return true;
         }
 
-        if(BestSamples[x,y].Fitness <= evaluable.Fitness)
+        if(BestSamples[y,x].Fitness <= evaluable.Fitness)
         {
-            BestSamples[x, y] = evaluable;
+            BestSamples[y, x] = evaluable;
             OnSampleUpdated?.Invoke(new Vector2Int(x, y));
             return true;
         }
@@ -276,7 +376,7 @@ public class MapElites
     /// </summary>
     /// <param name="samples">The array of evaluables to map.</param>
     /// <returns>A list of evaluables with x and y fitness values.</returns>
-    public List<MappedIEvaluable> MapSamples(IEvaluable[] samples)
+    public List<MappedIEvaluable> MapSamples(IOptimizable[] samples)
     {
         List<MappedIEvaluable> evaluables = new List<MappedIEvaluable>();
 
@@ -322,7 +422,7 @@ public class MapElites
     /// </summary>
     private void Clear()
     {
-        BestSamples = new IEvaluable[xSampleCount, ySampleCount];
+        BestSamples = new IOptimizable[xSampleCount, ySampleCount];
     }
 }
 
@@ -333,9 +433,9 @@ public struct MappedIEvaluable
 {
     public float xFitness;
     public float yFitness;
-    public IEvaluable evaluable;
+    public IOptimizable evaluable;
 
-    public MappedIEvaluable(IEvaluable evaluable, float xFitness, float yFitness)
+    public MappedIEvaluable(IOptimizable evaluable, float xFitness, float yFitness)
     {
         this.evaluable = evaluable;
         this.xFitness = xFitness;

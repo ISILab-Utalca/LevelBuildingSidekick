@@ -6,6 +6,7 @@ using System;
 using System.IO;
 using System.Xml;
 using UnityEngine.UI;
+using System.Linq;
 
 public class GrammarReader
 {
@@ -23,8 +24,7 @@ public class GrammarReader
         }
         catch
         {
-            Debug.LogError("Path does not lead to a SRGS Grammar: " + path);
-            return null;
+            throw new Exception("Path does not lead to a SRGS Grammar: " + path);
         }
     }
 
@@ -46,12 +46,12 @@ public class GrammarReader
     {
         var gt = new GrammarTree();
         ProcessSrgsRule(grammarDoc.Root, gt, grammarDoc);
-        gt.Root = gt.Productions[grammarDoc.Root.Id];
+        gt.Root = gt.Productions.Find(g => g.ID == grammarDoc.Root.Id);
         return gt;
     }
 
 
-    private static GrammarNode ProcessSrgsElement(SrgsElement element, GrammarTree grammar, SrgsDocument doc, string id)
+    private static GrammarElement ProcessSrgsElement(SrgsElement element, GrammarTree grammar, SrgsDocument doc, string id)
     {
         if (element is SrgsText)
         {
@@ -69,34 +69,35 @@ public class GrammarReader
         {
             return ProcessSrgsRuleRef(element as SrgsRuleRef, grammar, doc);
         }
-        return new TerminalNode("");
+        return new GrammarTerminal("");
     }
 
-    private static TerminalNode ProcessSrgsText(SrgsText text, GrammarTree grammar)
+    private static GrammarTerminal ProcessSrgsText(SrgsText text, GrammarTree grammar)
     {
-        if (!grammar.Terminals.ContainsKey(text.Text))
+
+        if (!grammar.Terminals.Any( g => g.ID == text.Text))
         {
-            grammar.Terminals.Add(text.Text, new TerminalNode(text.Text));
+            grammar.Terminals.Add(new GrammarTerminal(text.Text));
         }
-        return grammar.Terminals[text.Text];
+        return grammar.Terminals.Find(g => g.ID == text.Text);
     }
 
-    private static NonTerminalNode ProcessSrgsOneOf(SrgsOneOf oneOf, GrammarTree grammar, SrgsDocument doc, string id)
+    private static GrammarNonTerminal ProcessSrgsOneOf(SrgsOneOf oneOf, GrammarTree grammar, SrgsDocument doc, string id)
     {
-        if (!grammar.NonTerminals.ContainsKey(id))
+        if (!grammar.NonTerminals.Any(g => g.ID == id))
         {
-            var node = new NonTerminalNode(id);
-            grammar.NonTerminals.Add(id, node);
+            var node = new GrammarNonTerminal(id);
+            grammar.NonTerminals.Add(node);
             for (int i = 0; i < oneOf.Items.Count; i++)
             {
                 node.AppendNode(ProcessSrgsItem(oneOf.Items[i], grammar, doc, id + "." + i));
             }
         }
         
-        return grammar.NonTerminals[id];
+        return grammar.NonTerminals.Find(g => g.ID == id);
     }
 
-    private static GrammarNode ProcessSrgsItem(SrgsItem item, GrammarTree grammar, SrgsDocument doc, string id)
+    private static GrammarElement ProcessSrgsItem(SrgsItem item, GrammarTree grammar, SrgsDocument doc, string id)
     {
         bool b = id.StartsWith(doc.Root.Id.Trim('#')); // don not erase this line
 
@@ -106,39 +107,39 @@ public class GrammarReader
         }
 
 
-        if (!grammar.Productions.ContainsKey(id))
+        if (!grammar.Productions.Any(g => g.ID == id))
         {
-            var pn = new ProductionNode(id);
-            grammar.Productions.Add(id, pn);
+            var pn = new GrammarProduction(id);
+            grammar.Productions.Add(pn);
             for(int i = 0; i < item.Elements.Count; i++)
             {
                 pn.AppendNode(ProcessSrgsElement(item.Elements[i], grammar, doc, id + "." + i));
             }
         }
 
-        return grammar.Productions[id];
+        return grammar.Productions.Find(g => g.ID == id);
     }
 
-    private static ProductionNode ProcessSrgsRuleRef(SrgsRuleRef ruleRef, GrammarTree grammar, SrgsDocument doc)
+    private static GrammarProduction ProcessSrgsRuleRef(SrgsRuleRef ruleRef, GrammarTree grammar, SrgsDocument doc)
     {
         doc.Rules.TryGetValue(ruleRef.Uri.ToString().Trim('#'), out SrgsRule r);
 
         return ProcessSrgsRule(r, grammar, doc);
     }
 
-    private static ProductionNode ProcessSrgsRule(SrgsRule rule, GrammarTree grammar, SrgsDocument doc)
+    private static GrammarProduction ProcessSrgsRule(SrgsRule rule, GrammarTree grammar, SrgsDocument doc)
     {
-        if (!grammar.Productions.ContainsKey(rule.Id))
+        if (!grammar.Productions.Any(g => g.ID == rule.Id))
         {
-            var r = new ProductionNode(rule.Id);
-            grammar.Productions.Add(rule.Id, r);
+            var r = new GrammarProduction(rule.Id);
+            grammar.Productions.Add(r);
             for(int i = 0; i < rule.Elements.Count; i++)
             {
                 r.AppendNode(ProcessSrgsElement(rule.Elements[i], grammar, doc, rule.Id + "." + i));
             }
         }
 
-        return grammar.Productions[rule.Id];
+        return grammar.Productions.Find(g => g.ID == rule.Id);
     }
 
 }

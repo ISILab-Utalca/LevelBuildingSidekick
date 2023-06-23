@@ -27,7 +27,7 @@ namespace Commons.Optimization.Terminations
         /// <returns>
         /// True if termination has been reached, otherwise false.
         /// </returns>
-        protected override bool PerformHasReached(IOptimizer optimizer)
+        protected override bool PerformHasReached(BaseOptimizer optimizer)
         {
             return Terminations.All(t => t.HasReached(optimizer));
         }

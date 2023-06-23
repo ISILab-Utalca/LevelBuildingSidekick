@@ -1,0 +1,1594 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CollectionsExtensions" Collapsed="true">
+    <Position X="45" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\Commons\Extensions\CollectionsExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ColorExtension" Collapsed="true">
+    <Position X="29.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Assets\ISI Lab\Commons\Extensions\ColorExtension.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StringExtensions" Collapsed="true">
+    <Position X="39.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\Commons\Extensions\StringExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Vector2Extension" Collapsed="true">
+    <Position X="39.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAgAAAAQAAABAAAAAAAAACAAgAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\Commons\Extensions\Vector2Extension.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualElementExtensions" Collapsed="true">
+    <Position X="43.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAABAAAAAAAAAAAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\Commons\Extensions\VisualElementExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScriptableToStringAttribute" Collapsed="true">
+    <Position X="43.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\Commons\ScriptableToString\ScriptableToStringAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GenericScriptable&lt;T&gt;" Collapsed="true">
+    <Position X="45" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\Commons\Utility\GenericScriptable.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Parse" Collapsed="true">
+    <Position X="36.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Assets\ISI Lab\Commons\Utility\Parse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Watch" Collapsed="true">
+    <Position X="29.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAACAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\Commons\Utility\Parse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MapElites" Collapsed="true">
+    <Position X="45" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAUIAIjMACCAggUEIAIAAEAAAABAAAAIAAAgAABBACI=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Categorization\MapElites\MapElites.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GrammarNode" Collapsed="true">
+    <Position X="3.75" Y="27.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAgAAIAAAAAAAAAAQAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Constraint Satisfactions\Grammar\GrammarNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GrammarReader" Collapsed="true">
+    <Position X="31" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAgAAAAAQgAABAAAAgAAAAAAAACAAAAQAACAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Constraint Satisfactions\Grammar\GrammarReader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GrammarTree" Collapsed="true">
+    <Position X="32.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAEAMAAABCAAAAAgAAAAAAAAAAAAgAAACAAAACA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Constraint Satisfactions\Grammar\GrammarTree.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NonTerminalNode" Collapsed="true">
+    <Position X="1.5" Y="29" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAgAAAAEAAAAAAMAAAAAAAAAAQAAACAAAAAAAAAIAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Constraint Satisfactions\Grammar\NonTerminalNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProductionNode" Collapsed="true">
+    <Position X="3.75" Y="29" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAgAAAAEAAAAAAIAAAAAAAAAAQAAACAAAAAAAAAIAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Constraint Satisfactions\Grammar\ProductionNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TerminalNode" Collapsed="true">
+    <Position X="6" Y="29" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAIAAQAAAAAAAQAAACAAAAACAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Constraint Satisfactions\Grammar\TerminalNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ConstraintSatisfactor&lt;T&gt;" Collapsed="true">
+    <Position X="12.25" Y="18" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAIAAAAAAQQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Constraint Satisfactions\WFC\ConstraintSatisfactor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WaveFunctionCollapse&lt;T&gt;" Collapsed="true">
+    <Position X="12.25" Y="19.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Constraint Satisfactions\WFC\WaveFunctionCollapse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TileConnectWFC" Collapsed="true">
+    <Position X="32.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Constraint Satisfactions\WFC\WFCSolver.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WFCSolver" Collapsed="true">
+    <Position X="34.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Constraint Satisfactions\WFC\WFCSolver.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AverageHorizontalProgression" Collapsed="true">
+    <Position X="34.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Evaluators\AverageHorizontalProgression.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AverageVerticalProgression" Collapsed="true">
+    <Position X="36.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Evaluators\AverageVerticalProgression.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Horizontal2DProgresion" Collapsed="true">
+    <Position X="39.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Evaluators\Horizontal2DProgresion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Horizontal2DSimetry" Collapsed="true">
+    <Position X="26.5" Y="32" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAIAAABAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Evaluators\Horizontal2DSimetry.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LayoutEvaluator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="45" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAECAAAAAQAAgAAAAQAgAAAAAAAAAAAAAgAAAABAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Evaluators\LayoutEvaluator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Progression2DEvaluator" Collapsed="true">
+    <Position X="23.25" Y="33.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Evaluators\Progression2DEvaluator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Simetry2DEvaluator" Collapsed="true">
+    <Position X="25.5" Y="30.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAQAAgAAAAQAgAAAAAAAAAAAAggIAAABAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Evaluators\Simetry2DEvaluator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="StampPresenceEvaluator" Collapsed="true">
+    <Position X="31" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Evaluators\StampPresenceEvaluator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StampProportionFitness" Collapsed="true">
+    <Position X="32.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Evaluators\StampProportionFitness.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StampProportionFitnessByRoom" Collapsed="true">
+    <Position X="34.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Evaluators\StampProportionFitnessByRoom.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TagProportion" Collapsed="true">
+    <Position X="41.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Evaluators\TagProportion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TagProportionByRoom" Collapsed="true">
+    <Position X="43.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Evaluators\TagProportionByRoom.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ThresholdEvaluator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="31" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAQAAgAAAAQAgAAAAAAAAAAIAAgAAAABAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Evaluators\ThresholdEvaluator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="UniformEvaluator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="36.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAQAAgAAAAQAgAAAAAAAAAAAAAgAAAABAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Evaluators\UniformEvaluator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Vertical2DProgresion" Collapsed="true">
+    <Position X="23.25" Y="35" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Evaluators\Vertical2DProgresion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Vertical2DSimetry" Collapsed="true">
+    <Position X="24.25" Y="32" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAIAAABAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Evaluators\Vertical2DSimetry.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticAlgorithm" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="29.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACUhAAFCICgBAQgdAJISwABAACAAgDQAOADCBSgBRAE=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticAlgorithm.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="ChromosomeBase2D&lt;T&gt;" Collapsed="true">
+    <Position X="24.5" Y="19.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAIAAAAAQEAAAAAAAAgAAAACAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Chromosomes\ChromosomeBase2D.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IGenerator" Collapsed="true">
+    <Position X="41.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\IGenerator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TplPopulation" Collapsed="true">
+    <Position X="11.25" Y="34" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Populations\TplPopulation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AdjacenciesEvaluator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="29.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQAgAACAAAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\HillClimbing\Evaluators\AdjacenciesEvaluator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AreasEvaluator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="32.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQAgAACAAAAAAAAAAAAEAABBA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\HillClimbing\Evaluators\AreasEvaluator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EmptySpaceEvaluator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="38" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQAgAAAAAAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\HillClimbing\Evaluators\EmptySpaceEvaluator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="WeightedEvaluator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="31" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQAgAAAAEAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\HillClimbing\Evaluators\WeightedEvaluator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SchemaHCAgent" Collapsed="true">
+    <Position X="4.25" Y="35" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAIAAAAAAAQAAAAAAAAAAAAAAAAAAAACAAAAACA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\HillClimbing\SchemaHCAgent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HCSelector&lt;U&gt;" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="36.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAACAAAAAQAgAAAAAAgAABACAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\HillClimbing\Selections\HCSelector.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="HillClimbingOld" Collapsed="true">
+    <Position X="38" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAEAAAABAQAgAAAAIAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\HillClimbingOld.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OptimizableSchema" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="34.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAIAAAAAAAAAAAAgAEAAAABAAAAAAAAAAAABA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Wrappers\OptimizableSchema.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LBSBehaviour" Collapsed="true">
+    <Position X="7.25" Y="33.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Behaviours\LBSBehaviour.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WFCBehaviour" Collapsed="true">
+    <Position X="7.25" Y="35" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Behaviours\WFCBehaviour.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Bundle" Collapsed="true">
+    <Position X="19.5" Y="32.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ISIAAAAAAAAAoAAAAAAABAgAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Bundles\Bundle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CompositeBundle" Collapsed="true">
+    <Position X="18.25" Y="34.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ISIAAAAAAAAAIAAAAAAAFCAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Bundles\CompositeBundle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBSIdentifierBundle" Collapsed="true">
+    <Position X="32.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAIAAAAAQAAAAAEAAAAABAAAAAAAAEAAAABAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Bundles\LBSIdentifierBundle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SimpleBundle" Collapsed="true">
+    <Position X="20.5" Y="34.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ISIAAAAAAAAAIAAAAAAABAAAAQAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Bundles\SimpleBundle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WFCBundle" Collapsed="true">
+    <Position X="32.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAQAAAAAAAEAAIAAAgQAAAABAAgAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Bundles\WFCBundle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBSLayerAssistant" Collapsed="true">
+    <Position X="36.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAQAAAAAAEAAAAQAAgQAAEAAAAAAgAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\LBSLayerAssistant.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBSLevelData" Collapsed="true">
+    <Position X="38" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABQAAAAAQBAAAAAAABAAAQAAAAAAAAEigBAFAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\LBSLevelData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TaggedTileMap">
+    <Position X="28.25" Y="19.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>CABAAAAAAAAQAABAAAAAAAAAAoAAAAAAAABBAABEABA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\Specifics\TaggedTileMap.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WallData" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="45" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAACQAgAAAAAAAAAAAAEAIAAAACAAAIABA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\Specifics\TileMap\WallData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Area" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="31" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAMAAAAAgIEgAAAABAAAACAAACAACAAAAABAAhQ=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\Teselation\Area\Area.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Polygon" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="41.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAEAAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\Teselation\Area\Area.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Exterior">
+    <Position X="37.25" Y="33.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\Teselation\Exterior.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBSTileMap">
+    <Position X="39.5" Y="33.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\Teselation\TileMap\Population\LBSTileMap.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DataExtensions" Collapsed="true">
+    <Position X="34.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAICAAABAAAAQAAAAAAAAAAAAAABAAAAACAI=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Extensions\DataExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Rule" Collapsed="true">
+    <Position X="41.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Rules\Rule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBSBoolCharacteristic" Collapsed="true">
+    <Position X="17.75" Y="22.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAgAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Tags\LBSBoolCharacteristic.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBSCharacteristic" Collapsed="true">
+    <Position X="19" Y="21.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAABAAgAAAAAAAAAAAAIAAAAAAAAAAABA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Tags\LBSCharacteristic.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LBSIdentifier" Collapsed="true">
+    <Position X="31" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAABAAAAAAAAAAAAAAAACAAQAAgAEAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Tags\LBSIdentifier.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBSIntCharacteristic" Collapsed="true">
+    <Position X="20" Y="22.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAgAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Tags\LBSIntCharacteristic.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBSAttribute" Collapsed="true">
+    <Position X="7.25" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Tools\Attributes\LBSAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBSWindowAttribute" Collapsed="true">
+    <Position X="1.75" Y="15.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Tools\Attributes\LBSAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBSSearchAttribute" Collapsed="true">
+    <Position X="7.25" Y="15.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAEABAAAAAAAAEAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Tools\Attributes\LBSAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBSBehaviourAttribute" Collapsed="true">
+    <Position X="4" Y="16.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Tools\Attributes\LBSAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBSRuleAttribute" Collapsed="true">
+    <Position X="6.25" Y="16.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Tools\Attributes\LBSAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBSModificadorAttribute" Collapsed="true">
+    <Position X="8.5" Y="16.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Tools\Attributes\LBSAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBSCharacteristicAttribute" Collapsed="true">
+    <Position X="10.75" Y="16.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Tools\Attributes\LBSAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StringEnumAttribute" Collapsed="true">
+    <Position X="38" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Tools\Attributes\StringEnumAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SchemaGenerator" Collapsed="true">
+    <Position X="16.75" Y="19.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAAAAAAAAAACAAABAAAAAACAEAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Tools\Generators3D\SchemaGenerator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CalculateConnections" Collapsed="true">
+    <Position X="41.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Tools\Operators\CalculateConnections.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StampTileMapChromosome" Collapsed="true">
+    <Position X="36.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\OLD\Chromosomes\StampTileMapChromosome.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Utility.Texture2DExtension" Collapsed="true">
+    <Position X="29.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAAAAAAAAAAAAAAAQQAAAAAAAgAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\Commons\Extensions\Texture2DExtension.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Utility.DirectoryTools" Collapsed="true">
+    <Position X="36.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAgAAAAAgAgAAAAAAAAAAAQAAAAAAgAAA=</HashCode>
+      <FileName>Assets\ISI Lab\Commons\Utility\DirectoryTools.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Utility.Graphs" Collapsed="true">
+    <Position X="34.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\Commons\Utility\Graphs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Utility.JSONDataManager" Collapsed="true">
+    <Position X="43.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAIAAAAEAQAAAAAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>Assets\ISI Lab\Commons\Utility\JSONDataManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Utility.Vector3Converter" Collapsed="true">
+    <Position X="41.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQQAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Assets\ISI Lab\Commons\Utility\JSONDataManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Utility.Vector2Converter" Collapsed="true">
+    <Position X="38" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQQAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Assets\ISI Lab\Commons\Utility\JSONDataManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Utility.LBSTagConverter" Collapsed="true">
+    <Position X="39.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQQAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Assets\ISI Lab\Commons\Utility\JSONDataManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Utility.MathTools" Collapsed="true">
+    <Position X="29.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAAACAAAAAAACAAAAAAAAACAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\Commons\Utility\MathTools.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Utility.Reflection" Collapsed="true">
+    <Position X="32.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAIAgAEAAAAAQAAEAAAABAAAIAAA=</HashCode>
+      <FileName>Assets\ISI Lab\Commons\Utility\Reflection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Utility.Resizer" Collapsed="true">
+    <Position X="38" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\Commons\Utility\Resizer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Commons.Optimization.Evaluator.FitnessException" Collapsed="true">
+    <Position X="41.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Evaluators\FitnessException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBS.AI.LBSAIAgent" Collapsed="true">
+    <Position X="4.25" Y="33.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAQAEAAAAAQAAAAEAAAEAEACBAAAAiA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\LBSAIAgent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBS.AI.HillClimbing" Collapsed="true">
+    <Position X="1.25" Y="35" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\HillClimbing\HillClimbing.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Commons.Optimization.BaseOptimizer" Collapsed="true">
+    <Position X="1.25" Y="33.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAlAAFCACwCQggNAAICQAAAAgAAACAkcABCBCgASAI=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\BaseOptimizer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Chromosomes.BinaryChromosomeBase" Collapsed="true">
+    <Position X="22.25" Y="19.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIBAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Chromosomes\BinaryChromosomeBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="GeneticSharp.Domain.Chromosomes.ChromosomeBase&lt;U&gt;" Collapsed="true">
+    <Position X="23.5" Y="18.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAhBEAACIAQAgAiAAgBAIEgBQIIAAAAAAAMABjA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Chromosomes\ChromosomeBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="GeneticSharp.Domain.Chromosomes.ChromosomeExtensions" Collapsed="true">
+    <Position X="43.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Chromosomes\ChromosomeExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Chromosomes.IntegerChromosome" Collapsed="true">
+    <Position X="22.25" Y="21" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACIBAEAAAAAAAAAAAIAIIAAAAAAAIAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Chromosomes\IntegerChromosome.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Crossovers.AlternatingPositionCrossover">
+    <Position X="12.5" Y="4.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAAAAAAQEAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Crossovers\AlternatingPositionCrossover.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Crossovers.CrossoverBase">
+    <Position X="0.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAAQAAAAEABAAAAAAACAAAAAgIA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Crossovers\CrossoverBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="GeneticSharp.Domain.Crossovers.CrossoverException" Collapsed="true">
+    <Position X="31" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Crossovers\CrossoverException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Crossovers.CrossoverService" Collapsed="true">
+    <Position X="32.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAAAAgAAAAAAAAAABAAAAIAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Crossovers\CrossoverService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Crossovers.CutAndSpliceCrossover">
+    <Position X="17.75" Y="4.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQAIAAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Crossovers\CutAndSpliceCrossover.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Crossovers.CycleCrossover">
+    <Position X="20" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAAQAAAAEAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Crossovers\CycleCrossover.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Crossovers.OnePointCrossover">
+    <Position X="0.75" Y="4.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAIAAAAEAQAAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Crossovers\OnePointCrossover.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Crossovers.OrderBasedCrossover">
+    <Position X="2.75" Y="4.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAIAAAAAAQAAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Crossovers\OrderBasedCrossover.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Crossovers.OrderedCrossover">
+    <Position X="4.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAAAQAAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Crossovers\OrderedCrossover.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Crossovers.PartiallyMappedCrossover">
+    <Position X="6.5" Y="4.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAQAAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Crossovers\PartiallyMappedCrossover.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Crossovers.PositionBasedCrossover">
+    <Position X="2.75" Y="7.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Crossovers\PositionBasedCrossover.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Crossovers.ThreeParentCrossover">
+    <Position X="8.75" Y="4.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQAAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Crossovers\ThreeParentCrossover.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Crossovers.TwoPointCrossover">
+    <Position X="0.75" Y="7.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAACAAAAAAAEAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Crossovers\TwoPointCrossover.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Crossovers.UniformCrossover">
+    <Position X="10.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAQAAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Crossovers\UniformCrossover.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Crossovers.VotingRecombinationCrossover">
+    <Position X="15" Y="4.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQAAAAEAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Crossovers\VotingRecombinationCrossover.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.DefaultOperatorsStrategy" Collapsed="true">
+    <Position X="1.25" Y="32" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACACAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\OperatorsStrategy\DefaultOperatorsStrategy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.OperatorsStrategyBase" Collapsed="true">
+    <Position X="2.5" Y="30.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACICAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\OperatorsStrategy\OperatorsStrategyBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="GeneticSharp.Domain.TplOperatorsStrategy" Collapsed="true">
+    <Position X="3.5" Y="32" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACACAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\OperatorsStrategy\TplOperatorsStrategy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Mutations.DisplacementMutation" Collapsed="true">
+    <Position X="12" Y="29.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAASAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Mutations\DisplacementMutation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Mutations.FlipBitMutation" Collapsed="true">
+    <Position X="9.75" Y="28" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQAAAAAAAAAABQAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Mutations\FlipBitMutation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Mutations.InsertionMutation" Collapsed="true">
+    <Position X="12" Y="31" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Mutations\InsertionMutation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Mutations.MutationBase" Collapsed="true">
+    <Position X="15.25" Y="26.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQAAAAAAAAAABACAAAAAAAAIA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Mutations\MutationBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="GeneticSharp.Domain.Mutations.MutationException" Collapsed="true">
+    <Position X="31" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Mutations\MutationException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Mutations.MutationService" Collapsed="true">
+    <Position X="32.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAQAAAAgAEEAAAAAAAAAAAAACAAAAAAAEAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Mutations\MutationService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Mutations.PartialShuffleMutation" Collapsed="true">
+    <Position X="14.25" Y="29.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Mutations\PartialShuffleMutation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Mutations.ReverseSequenceMutation" Collapsed="true">
+    <Position X="16.5" Y="29.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Mutations\ReverseSequenceMutation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Mutations.SequenceMutationBase" Collapsed="true">
+    <Position X="14.25" Y="28" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAAAAAAAAAAAAAAAAAABBAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Mutations\SequenceMutationBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Mutations.TworsMutation" Collapsed="true">
+    <Position X="18.75" Y="28" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Mutations\TworsMutation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Mutations.UniformMutation" Collapsed="true">
+    <Position X="21" Y="28" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQgAAAAAAAAABAAAAAAAAAEAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Mutations\UniformMutation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Populations.Generation" Collapsed="true">
+    <Position X="43.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAIAgAAAAAAAAAAEAEAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Populations\Generation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Populations.PerformanceGenerationStrategy" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="38" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Populations\PerformanceGenerationStrategy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="GeneticSharp.Domain.Populations.Population" Collapsed="true">
+    <Position X="11.25" Y="32.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAKAAAFAAAAAAAAEABCRQCAAAIAAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Populations\Population.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="GeneticSharp.Domain.Populations.PopulationService" Collapsed="true">
+    <Position X="43.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAEAAAAAAAAAgAAIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Populations\PopulationService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Populations.TrackingGenerationStrategy" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="34.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Populations\TrackingGenerationStrategy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="GeneticSharp.Domain.Randomizations.BasicRandomization" Collapsed="true">
+    <Position X="19.25" Y="31" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgACAAAAAAAAAAAAABAAAIAAAQQAAAAACAACA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Randomizations\BasicRandomization.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Randomizations.FastRandomRandomization" Collapsed="true">
+    <Position X="21.5" Y="31" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAgACAAAAAAAAAAAAABAAAIAAAAQAAAAACAACA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Randomizations\FastRandomRandomization.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Randomizations.RandomizationBase" Collapsed="true">
+    <Position X="20.5" Y="29.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgACAgAAAAAAAAAAAAAAAEAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Randomizations\RandomizationBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="GeneticSharp.Domain.Randomizations.RandomizationExtensions" Collapsed="true">
+    <Position X="29.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Randomizations\RandomizationExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Randomizations.RandomizationProvider" Collapsed="true">
+    <Position X="31" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Randomizations\RandomizationProvider.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SharpNeatLib.Maths.FastRandom" Collapsed="true">
+    <Position X="39.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAhgAYAIqAE=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Randomizations\Externals\FastRandom.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Reinsertions.ElitistReinsertion" Collapsed="true">
+    <Position X="13.75" Y="25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Reinsertions\ElitistReinsertion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Reinsertions.FitnessBasedReinsertion" Collapsed="true">
+    <Position X="16" Y="25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Reinsertions\FitnessBasedReinsertion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Reinsertions.PureReinsertion" Collapsed="true">
+    <Position X="18.25" Y="25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Reinsertions\PureReinsertion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Reinsertions.ReinsertionBase" Collapsed="true">
+    <Position X="14.75" Y="23.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAgAAAAAAAAAAAIAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Reinsertions\ReinsertionBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="GeneticSharp.Domain.Reinsertions.ReinsertionException" Collapsed="true">
+    <Position X="34.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAgAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Reinsertions\ReinsertionException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Reinsertions.ReinsertionService" Collapsed="true">
+    <Position X="36.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAAQAACAAAAAAAAAAAIA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Reinsertions\ReinsertionService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Reinsertions.UniformReinsertion" Collapsed="true">
+    <Position X="11.5" Y="25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Reinsertions\UniformReinsertion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Selections.EliteSelection" Collapsed="true">
+    <Position X="1.5" Y="25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Selections\EliteSelection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Selections.RankSelection" Collapsed="true">
+    <Position X="3.75" Y="25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAABAAAAAQAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Selections\RankSelection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Selections.RouletteWheelSelection" Collapsed="true">
+    <Position X="6" Y="25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAQAAAQAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Selections\RouletteWheelSelection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Selections.SelectionBase" Collapsed="true">
+    <Position X="4.75" Y="23.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAQAgAAAAAAAQAAAIAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Selections\SelectionBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="GeneticSharp.Domain.Selections.SelectionException" Collapsed="true">
+    <Position X="45" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Selections\SelectionException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Selections.SelectionService" Collapsed="true">
+    <Position X="29.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAIAAAABAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Selections\SelectionService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Selections.StochasticUniversalSamplingSelection" Collapsed="true">
+    <Position X="6" Y="26.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Selections\StochasticUniversalSamplingSelection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Selections.TournamentSelection" Collapsed="true">
+    <Position X="8.25" Y="25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAQAAAAQAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Selections\TournamentSelection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Commons.Optimization.Terminations.AndTermination" Collapsed="true">
+    <Position X="23.5" Y="25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Terminations-EndConditions\AndTermination.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Commons.Optimization.Terminations.FitnessStagnationTermination" Collapsed="true">
+    <Position X="8.25" Y="22" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAAABAAAQMAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Terminations-EndConditions\FitnessStagnationTermination.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Commons.Optimization.Terminations.FitnessThresholdTermination" Collapsed="true">
+    <Position X="1.5" Y="22" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQIAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Terminations-EndConditions\FitnessThresholdTermination.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Commons.Optimization.Terminations.GenerationNumberTermination" Collapsed="true">
+    <Position X="3.75" Y="22" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQIAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Terminations-EndConditions\GenerationNumberTermination.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Commons.Optimization.Terminations.LogicalOperatorTerminationBase" Collapsed="true">
+    <Position X="22.5" Y="23.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAAAEAAASIAAAAAgAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Terminations-EndConditions\LogicalOperatorTerminationBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Commons.Optimization.Terminations.OrTermination" Collapsed="true">
+    <Position X="21.25" Y="25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Terminations-EndConditions\OrTermination.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Commons.Optimization.Terminations.TerminationBase" Collapsed="true">
+    <Position X="4.75" Y="20.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAQIAAAAAgAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Terminations-EndConditions\TerminationBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Commons.Optimization.Terminations.TerminationService" Collapsed="true">
+    <Position X="45" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAEAAAAACA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Terminations-EndConditions\TerminationService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Commons.Optimization.Terminations.TimeEvolvingTermination" Collapsed="true">
+    <Position X="6" Y="22" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQIAAAAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Terminations-EndConditions\TimeEvolvingTermination.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBS.LevelBackUp" Collapsed="true">
+    <Position X="41.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAFAAAAAQAAAAAKAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\Internal\Main\LevelBackUp.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBS.LoadedLevel" Collapsed="true">
+    <Position X="43.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAEAQAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\Internal\Main\LevelBackUp.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBS.Components.Graph.GraphModule&lt;T&gt;">
+    <Position X="30.5" Y="19.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAhEAAIAAIAAAAEACAAgAAAQEIAEAAAAAABBAABMIDA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\Graph\GraphModule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBS.Components.Graph.LBSEdge" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="29.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIgAAACAAAAAIAAAACgAAAAAAAAAQABI=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\Graph\LBSEdge.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LBS.Components.Graph.LBSNode" Collapsed="true">
+    <Position X="11.25" Y="20.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABQAAgIQgwAAAAEAAAAAAAIAAAABgAAAAAhA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\Graph\LBSNode.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LBS.Components.Graph.LBSRoomGraph">
+    <Position X="30.75" Y="26" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\Graph\LBSRoomGraph.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBS.Components.LBSLayer" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="34.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAIkBAAABIQFAQwAgFEABIAAIIACAAAChA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\LBSLayer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LBS.Components.LBSModule">
+    <Position X="29.75" Y="14.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AABAAACAAQAAEAQAIAAEAAQAAIAABCAAAAABCABEABA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\LBSModule.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LBS.Components.Specifics.RoomNode" Collapsed="true">
+    <Position X="11.25" Y="22" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAQAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\Specifics\Graph\RoomNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBS.Components.Specifics.RoomData" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="39.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAABAAAgAUAQAIABEAAAAAAAECACABAAAAAABA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\Specifics\RoomData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LBS.Components.TileMap.AreaTileMap&lt;T&gt;">
+    <Position X="33.5" Y="26" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>CBBAAAAAAAAYAAAgAAAAAIAAAICAAAAAAAAREABEABA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\Specifics\TileMap\AreaTileMap.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBS.Components.TileMap.BundleData" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="38" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAABAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\Specifics\TileMap\BundleData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LBS.Components.TileMap.TiledArea">
+    <Position X="35.25" Y="33.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>CAACEABAAAAAgIAAAAAAIAACAAAAgICAAABAgACQAhA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\Specifics\TileMap\TiledArea.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBS.Components.TileMap.ConnectedTile" Collapsed="true">
+    <Position X="10.25" Y="14" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAIAABADABABA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\Teselation\TileMap\ConnectedTile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBS.Components.TileMap.LBSSchema">
+    <Position X="33" Y="33.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\Teselation\TileMap\LBSSchema.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBS.Components.TileMap.LBSTile" Collapsed="true">
+    <Position X="10.25" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAgAQggAAAAAAAAAAAAIAAAABgAAAAAhA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\Teselation\TileMap\LBSTile.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LBS.Components.TileMap.TileMapModule&lt;T&gt;">
+    <Position X="36" Y="26" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>CQBAAAAEBAA4gAAAAAAAAEAAAuQQAIIACAABAAhUABA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\Teselation\TileMap\TileMapModule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBS.Components.Teselation.AreaModule&lt;T&gt;">
+    <Position X="38.75" Y="26" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAgAAAABIAAAIAAAAAACAABEABEABA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\Teselation\Area\AreaModule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBS.Components.Teselation.TeselationModule">
+    <Position X="33.25" Y="19.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAQAAAAAAAAAAAEAAAAAAAAAAAEAgAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\Teselation\TeselationModule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBS.Attributes.LBSTrackVariable" Collapsed="true">
+    <Position X="13" Y="15.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Tools\Attributes\LBSTrackVariable.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBS.Generator.ExteriorGenerator" Collapsed="true">
+    <Position X="19" Y="19.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAGAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Tools\Generators3D\ExteriorGenerator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBS.Generator.Generator3D" Collapsed="true">
+    <Position X="16.75" Y="18.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAgAgIAIAACAAAAAAAAAQACAEEAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Tools\Generators3D\Generator3D.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBS.Generator.PhysicStepGenerator" Collapsed="true">
+    <Position X="39.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Tools\Generators3D\PhysicStepGenerator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBS.Generator.PopulationGenerator" Collapsed="true">
+    <Position X="14.5" Y="19.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAEAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Tools\Generators3D\PopulationGenerator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBS.Tools.Transformer.AreaToGraph" Collapsed="true">
+    <Position X="1.5" Y="19" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAAAAACAAABAAAQACAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Tools\Transformers\AreaToGraph.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBS.Tools.Transformer.AreaToTileMap" Collapsed="true">
+    <Position X="3.75" Y="19" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAgAAAIAAAAAAAAAAAAAAAAAAQAKAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Tools\Transformers\AreaToTileMap.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBS.Tools.Transformer.GraphToArea" Collapsed="true">
+    <Position X="6" Y="19" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAgAAABACAAARAAAQACAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Tools\Transformers\GraphToArea.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBS.Tools.Transformer.TileMapToArea" Collapsed="true">
+    <Position X="8.25" Y="19" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAgAAAIAAAAAAIAAAAAAAAAAAAAIAAAAQBAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Tools\Transformers\TileMapToArea.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBS.Tools.Transformer.Transformer" Collapsed="true">
+    <Position X="4.75" Y="17.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAIAAAAAAIAAAAAAAAgAAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Tools\Transformers\Transformer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBS.VisualElements.ButtonGroupOld" Collapsed="true">
+    <Position X="39.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QABAAAAAAAAAAAAAAAAABAAAgQAAAAAgAAACAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\OLD\ViewElement\ButtonGroupOld.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LBS.VisualElements.PresedBtnOld" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="45" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAJAAAAAAAAAAAAAAAAAAAAAAoEAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\OLD\ViewElement\PresedBtnOld.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Struct Name="IntRange" Collapsed="true">
+    <Position X="29.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\Commons\Utility\IntRange.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="MappedIEvaluable" Collapsed="true">
+    <Position X="32.75" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Categorization\MapElites\MapElites.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Utility.Links" Collapsed="true">
+    <Position X="31" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\Commons\Utility\Graphs.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Interface Name="DirectionalSystem" Collapsed="true">
+    <Position X="29.25" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAEAAAAAAABAAAAAAAAIA=</HashCode>
+      <FileName>Assets\ISI Lab\Commons\Utility\DirectionalSystem\DirectionalSystem.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IOptimizable" Collapsed="true">
+    <Position X="15.25" Y="30.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAEAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Evaluators\IOptimizable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IChromosomable" Collapsed="true">
+    <Position X="31" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Chromosomes\IChromosomable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Commons.Optimization.Evaluator.IEvaluator" Collapsed="true">
+    <Position X="26.5" Y="28" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Evaluators\IEvaluator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Commons.Optimization.Evaluator.INameable" Collapsed="true">
+    <Position X="25.5" Y="26.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Evaluators\IEvaluator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Commons.Optimization.Evaluator.IRangedEvaluator" Collapsed="true">
+    <Position X="26.5" Y="29.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Evaluators\IRangedEvaluator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Commons.Optimization.IOptimizer" Collapsed="true">
+    <Position X="24.25" Y="28" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAhAAFCACAAAAgNAAICQAAAAAAAACAAIAACBCgAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\IOptimizer.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="GeneticSharp.Domain.Chromosomes.IBinaryChromosome" Collapsed="true">
+    <Position X="15.25" Y="33.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Chromosomes\IBinaryChromosome.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="GeneticSharp.Domain.Chromosomes.IChromosome" Collapsed="true">
+    <Position X="15.25" Y="32.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABEAAAIAAAAAgAAgBAIAABQAIAAAAAAAMABAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Chromosomes\IChromosome.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="GeneticSharp.Domain.Chromosomes.IChromosomeOperator" Collapsed="true">
+    <Position X="7.5" Y="30.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Chromosomes\IChromosomeOperator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="GeneticSharp.Domain.Crossovers.ICrossover" Collapsed="true">
+    <Position X="6.25" Y="32" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAAAAAAAAABAAAAAAACAAAAAgAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Crossovers\ICrossover.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="GeneticSharp.Domain.IGeneticAlgorithm" Collapsed="true">
+    <Position X="24.25" Y="29.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\IGeneticAlgorithm.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="GeneticSharp.Domain.IOperatorsStrategy" Collapsed="true">
+    <Position X="36.25" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACACAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\OperatorsStrategy\IOperatorsStrategy.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="GeneticSharp.Domain.Mutations.IMutation" Collapsed="true">
+    <Position X="8.5" Y="32" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Mutations\IMutation.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="GeneticSharp.Domain.Populations.IGenerationStrategy" Collapsed="true">
+    <Position X="32.75" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Populations\IGenerationStrategy.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="GeneticSharp.Domain.Populations.IPopulation" Collapsed="true">
+    <Position X="38" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAKAAAFAAAAAAAAEABCBQCAAAIAAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Populations\IPopulation.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="GeneticSharp.Domain.Randomizations.IRandomization" Collapsed="true">
+    <Position X="39.75" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgACAgAAAAAAAAAAAAAAAEAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Randomizations\IRandomization.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="GeneticSharp.Domain.Reinsertions.IReinsertion" Collapsed="true">
+    <Position X="41.5" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAgAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Reinsertions\IReinsertion.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="GeneticSharp.Domain.Selections.ISelection" Collapsed="true">
+    <Position X="43.25" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\GeneticSharp\GeneticSharp.Domain\Selections\ISelection.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Commons.Optimization.Terminations.ITermination" Collapsed="true">
+    <Position X="45" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Terminations-EndConditions\ITermination.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LBS.VisualElements.IGrupableOld" Collapsed="true">
+    <Position X="34.5" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\OLD\ViewElement\ButtonGroupOld.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Orientation" Collapsed="true">
+    <Position X="34.5" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAQAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\Commons\Extensions\Vector2Extension.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Commons.Optimization.Op_State" Collapsed="true">
+    <Position X="31" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAkAAAAAAIAAAAAAAAAAAAAAAIAAAAIgAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\BaseOptimizer.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Commons.Optimization.OptimizerState" Collapsed="true">
+    <Position X="32.75" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAkAAAAAAIAAAAAAAAAAAAAAAIAAAAIgAAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Artificial Intelligence\Optimization\IOptimizer.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="LBS.Components.Graph.EdgeDirection" Collapsed="true">
+    <Position X="29.25" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Components\Data\Graph\LBSEdge.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="LBS.Generator.PivotType" Collapsed="true">
+    <Position X="36.25" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Assets\ISI Lab\LBS\Plugin\LVL Tools\Generators3D\PhysicStepGenerator.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

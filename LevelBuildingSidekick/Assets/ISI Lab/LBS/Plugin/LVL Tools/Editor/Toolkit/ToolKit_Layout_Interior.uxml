@@ -1,0 +1,40 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="GraphToolkit" style="flex-direction: row;">
+        <ui:Button tabindex="-1" display-tooltip-when-elided="true" name="SelectButton" class="RoundedButton" style="border-top-left-radius: 14px; border-bottom-left-radius: 14px; border-top-right-radius: 14px; border-bottom-right-radius: 14px; background-color: rgb(72, 72, 72); padding-left: 10px; padding-right: 10px; padding-top: 4px; padding-bottom: 4px; min-width: auto; min-height: auto; flex-direction: row; background-image: none; align-items: center;">
+            <ui:VisualElement style="width: 16px; height: 16px; background-image: url(&apos;project://database/Assets/ISI%20Lab/Commons/Assets2D/cursor.png?fileID=2800000&amp;guid=8f86e0b0900d0714b9432040fbc47ce3&amp;type=3#cursor&apos;); -unity-background-image-tint-color: rgb(196, 196, 196);" />
+            <ui:Label tabindex="-1" text="Select" display-tooltip-when-elided="true" style="padding-left: 3px; width: 41px;" />
+        </ui:Button>
+        <ui:Button tabindex="-1" display-tooltip-when-elided="true" name="AddNodeButton" class="RoundedButton" style="border-top-left-radius: 14px; border-bottom-left-radius: 14px; border-top-right-radius: 14px; border-bottom-right-radius: 14px; background-color: rgb(72, 72, 72); padding-left: 10px; padding-right: 10px; padding-top: 4px; padding-bottom: 4px; min-width: auto; min-height: auto; flex-direction: row; align-items: center;">
+            <ui:VisualElement style="width: 16px; height: 16px; background-image: url(&apos;project://database/Assets/ISI%20Lab/LBS/Plugin/Assets2D/node.png?fileID=2800000&amp;guid=1814194ea9fd1be43a29c944a0098295&amp;type=3#node&apos;);" />
+            <ui:Label tabindex="-1" text="Add node" display-tooltip-when-elided="true" style="padding-left: 5px;" />
+        </ui:Button>
+        <ui:Button tabindex="-1" display-tooltip-when-elided="true" name="AddConnectionButton" class="RoundedButton" style="border-top-left-radius: 14px; border-bottom-left-radius: 14px; border-top-right-radius: 14px; border-bottom-right-radius: 14px; background-color: rgb(72, 72, 72); padding-left: 10px; padding-right: 10px; padding-top: 4px; padding-bottom: 4px; flex-direction: row; align-items: center;">
+            <ui:VisualElement style="width: 16px; height: 16px; background-image: url(&apos;project://database/Assets/ISI%20Lab/LBS/Plugin/Assets2D/connection.png?fileID=2800000&amp;guid=bd700db3dfe4b4d40be798aee555d7f7&amp;type=3#connection&apos;);" />
+            <ui:Label tabindex="-1" text="Add connection" display-tooltip-when-elided="true" style="padding-left: 5px;" />
+        </ui:Button>
+        <ui:Button tabindex="-1" display-tooltip-when-elided="true" name="RemoveButton" class="RoundedButton" style="border-top-left-radius: 14px; border-bottom-left-radius: 14px; border-top-right-radius: 14px; border-bottom-right-radius: 14px; background-color: rgb(72, 72, 72); padding-left: 10px; padding-right: 10px; padding-top: 4px; padding-bottom: 4px; flex-direction: row; align-items: center;">
+            <ui:VisualElement style="width: 16px; height: 16px; background-image: url(&apos;project://database/Assets/ISI%20Lab/Commons/Assets2D/Trash.png?fileID=2800000&amp;guid=79e9d4f49f5e9874c805015d2c334f0c&amp;type=3#Trash&apos;); -unity-background-image-tint-color: rgb(196, 196, 196);" />
+            <ui:Label tabindex="-1" text="Remove" display-tooltip-when-elided="true" style="padding-left: 5px;" />
+        </ui:Button>
+    </ui:VisualElement>
+    <ui:VisualElement name="SchemaToolkit" style="flex-direction: row;">
+        <ui:Button tabindex="-1" display-tooltip-when-elided="true" name="SelectButton" class="RoundedButton" style="border-top-left-radius: 14px; border-bottom-left-radius: 14px; border-top-right-radius: 14px; border-bottom-right-radius: 14px; background-color: rgb(72, 72, 72); padding-left: 10px; padding-right: 10px; padding-top: 4px; padding-bottom: 4px; min-width: auto; min-height: auto; flex-direction: row; background-image: none; align-items: center;">
+            <ui:VisualElement style="width: 16px; height: 16px; background-image: url(&apos;project://database/Assets/ISI%20Lab/Commons/Assets2D/paintbrush.png?fileID=2800000&amp;guid=5bcc511dcb487f24187b421ea2806d87&amp;type=3#paintbrush&apos;); -unity-background-image-tint-color: rgb(196, 196, 196); flex-grow: 0;" />
+            <ui:Label tabindex="-1" text="Paint by tile" display-tooltip-when-elided="true" style="padding-left: 3px;" />
+            <ui:DropdownField index="-1" choices="Point,Line,Square,Free" />
+        </ui:Button>
+        <ui:Button tabindex="-1" display-tooltip-when-elided="true" name="AddNodeButton" class="RoundedButton" style="border-top-left-radius: 14px; border-bottom-left-radius: 14px; border-top-right-radius: 14px; border-bottom-right-radius: 14px; background-color: rgb(72, 72, 72); padding-left: 10px; padding-right: 10px; padding-top: 4px; padding-bottom: 4px; min-width: auto; min-height: auto; flex-direction: row; background-image: none; align-items: center;">
+            <ui:VisualElement style="width: 16px; height: 16px; background-image: url(&apos;project://database/Assets/ISI%20Lab/Commons/Assets2D/erased.png?fileID=2800000&amp;guid=8e8fbec1ef6d10c43a3cd708f17ea463&amp;type=3#erased&apos;);" />
+            <ui:Label tabindex="-1" text="Erase" display-tooltip-when-elided="true" style="padding-left: 5px;" />
+            <ui:DropdownField index="-1" choices="Point,Line,Square,Free" />
+        </ui:Button>
+        <ui:Button tabindex="-1" display-tooltip-when-elided="true" name="AddConnectionButton" class="RoundedButton" style="border-top-left-radius: 14px; border-bottom-left-radius: 14px; border-top-right-radius: 14px; border-bottom-right-radius: 14px; background-color: rgb(72, 72, 72); padding-left: 10px; padding-right: 10px; padding-top: 4px; padding-bottom: 4px; flex-direction: row; align-items: center;">
+            <ui:VisualElement style="width: 16px; height: 16px; background-image: url(&apos;project://database/Assets/ISI%20Lab/LBS/Plugin/Assets2D/open-exit-door.png?fileID=2800000&amp;guid=91a86dd59e705db4394aa25f6081267a&amp;type=3#open-exit-door&apos;); -unity-background-image-tint-color: rgb(195, 196, 195);" />
+            <ui:Label tabindex="-1" text="Add door" display-tooltip-when-elided="true" style="padding-left: 5px;" />
+        </ui:Button>
+        <ui:Button tabindex="-1" display-tooltip-when-elided="true" name="RemoveButton" class="RoundedButton" style="border-top-left-radius: 14px; border-bottom-left-radius: 14px; border-top-right-radius: 14px; border-bottom-right-radius: 14px; background-color: rgb(72, 72, 72); padding-left: 10px; padding-right: 10px; padding-top: 4px; padding-bottom: 4px; flex-direction: row; align-items: center;">
+            <ui:VisualElement style="width: 16px; height: 16px; background-image: url(&apos;project://database/Assets/ISI%20Lab/Commons/Assets2D/Trash.png?fileID=2800000&amp;guid=79e9d4f49f5e9874c805015d2c334f0c&amp;type=3#Trash&apos;); -unity-background-image-tint-color: rgb(195, 196, 195);" />
+            <ui:Label tabindex="-1" text="Remove door" display-tooltip-when-elided="true" enable-rich-text="true" style="padding-left: 5px;" />
+        </ui:Button>
+    </ui:VisualElement>
+</ui:UXML>

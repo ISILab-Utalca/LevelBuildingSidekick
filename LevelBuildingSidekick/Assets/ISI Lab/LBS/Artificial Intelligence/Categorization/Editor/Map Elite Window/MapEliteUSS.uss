@@ -1,0 +1,50 @@
+.map {
+    width: 72px;
+    height: 72px;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-left: 0;
+    margin-right: 10px;
+    margin-top: 8px;
+    margin-bottom: 0;
+    color: rgb(224, 224, 224);
+}
+
+.unity-button {
+    background-color: rgb(80, 80, 80);
+    border-color: rgb(32,32,32);
+    color: rgb(224, 224, 224);
+    -unity-font-style: bold;
+    -unity-text-align: lower-left;
+}
+
+.unity-label {
+    color: rgb(224, 224, 224);
+}
+
+.unity-base-text-field__input {
+    background-color: rgb(32,32,32);
+    border-color: rgb(8, 8, 8);
+    color: rgb(224, 224, 224);
+}
+
+.unity-base-popup-field__input {
+    background-color: rgb(80, 80, 80);
+    border-color: rgb(32,32,32);
+    color: rgb(224, 224, 224);
+}
+
+.unity-base-popup-field__input>.unity-base-popup-field__arrow>#.unity-toggle__input
+{
+    -unity-background-image-tint-color: rgb(224, 224, 224);
+    border-color: rgb(224, 224, 224);
+    color: rgb(224, 224, 224);
+    background-color: rgb(224, 224, 224);
+
+}

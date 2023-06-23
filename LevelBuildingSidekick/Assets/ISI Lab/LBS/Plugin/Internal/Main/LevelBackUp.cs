@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -9,8 +10,8 @@ namespace LBS
     [CreateAssetMenu(menuName = "ISILab/LBS plugin/Back Up", fileName ="LBSBackUp.asset")]
     public class LevelBackUp : ScriptableObject
     {
-        private static readonly string defaultPath = "Assets/ISILab OLD/LBS Plugin/Resources/BackUp"; // esto podria ser peligroso (!)
-        private static readonly string defaultName = "/LBSBackUp.asset";
+        private static readonly string defaultPath = "Assets/Resources/ISI Lab/LBS/Plugin/Internal/Resources/"; // esto podria ser peligroso (!)
+        private static readonly string defaultName = "LBSBackUp.asset";
 
         public static LevelBackUp instance;
 
@@ -18,6 +19,9 @@ namespace LBS
 
         public static LevelBackUp Instance() // Singleton
         {
+
+
+
             // si la instancia ya esta registrada la retorna
             if (instance != null)
             {
@@ -25,7 +29,7 @@ namespace LBS
             }
 
             // si la instancia no esta registrada la busca y la retorna
-            List<LevelBackUp> lbus = Utility.DirectoryTools.GetScriptablesByType<LevelBackUp>();
+            List<LevelBackUp> lbus = Resources.FindObjectsOfTypeAll<LevelBackUp>().Select(lbu => lbu as LevelBackUp).ToList();//Utility.DirectoryTools.GetScriptablesByType<LevelBackUp>();
             if (lbus.Count > 0)
             {
                 instance = lbus[0];
@@ -35,12 +39,15 @@ namespace LBS
 
             // si no encuentra la instancia, la crea y la retorna
             var backUp = ScriptableObject.CreateInstance<LevelBackUp>();
+#if UNITY_EDITOR
             if (!Directory.Exists(defaultPath))
+            {
                 Directory.CreateDirectory(defaultPath);
+            }
 
-            EditorUtility.SetDirty(instance);
             AssetDatabase.CreateAsset(backUp, defaultPath + defaultName);
             AssetDatabase.SaveAssets();
+#endif
             instance = backUp;
             return instance;
 
@@ -51,7 +58,7 @@ namespace LBS
     public class LoadedLevel
     {
         public string fullName = "";
-        public LevelData data;
+        public LBSLevelData data;
 
         public FileInfo FileInfo
         {
@@ -69,7 +76,7 @@ namespace LBS
             }
         }
 
-        public LoadedLevel(LevelData data, string fullName)
+        public LoadedLevel(LBSLevelData data, string fullName)
         {
             this.fullName = fullName;
             this.data = data;

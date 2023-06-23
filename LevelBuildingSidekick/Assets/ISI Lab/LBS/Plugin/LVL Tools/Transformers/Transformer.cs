@@ -1,15 +1,41 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using LBS.Components;
+using System;
+using Newtonsoft.Json;
 
-namespace LBS.Transformers
+namespace LBS.Tools.Transformer
 {
-    public abstract class Transformer<T,U>
-        where T : LBSRepresentationData
-        where U : LBSRepresentationData
+    [System.Serializable]
+    public abstract class Transformer
     {
-        public abstract U Transform(T representation);
-    }
+        [SerializeField]
+        private string from;
+        [SerializeField]
+        private string to;
 
+        [JsonIgnore]
+        public Type From
+        {
+            get => Type.GetType(this.from);
+            set => from = value?.FullName;
+        }
+        [JsonIgnore]
+        public Type To
+        {
+            get => Type.GetType(this.to);
+            set => to = value?.FullName;
+        }
+
+        public Transformer(Type from, Type to) 
+        {
+            this.From = from;
+            this.To = to;
+        }
+
+        public abstract void Switch(ref LBSLayer layer);
+        public abstract void ReCalculate(ref LBSLayer layer);
+    }
 }
 

@@ -1,0 +1,2343 @@
+{
+  "$id": "1",
+  "$type": "LBSLevelData, Assembly-CSharp",
+  "tags": {
+    "$id": "2",
+    "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+    "$values": []
+  },
+  "maxWidth": 0,
+  "maxHeight": 0,
+  "layers": {
+    "$id": "3",
+    "$type": "System.Collections.Generic.List`1[[LBS.Components.LBSLayer, Assembly-CSharp]], mscorlib",
+    "$values": [
+      {
+        "$id": "4",
+        "$type": "LBS.Components.LBSLayer, Assembly-CSharp",
+        "id": "Interior",
+        "name": "Tutorial",
+        "visible": true,
+        "tileSize": {
+          "$id": "5",
+          "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+          "x": 2,
+          "y": 2,
+          "magnitude": 2.828427,
+          "sqrMagnitude": 8
+        },
+        "iconPath": "Icons/interior-design",
+        "modules": {
+          "$id": "6",
+          "$type": "System.Collections.Generic.List`1[[LBS.Components.LBSModule, Assembly-CSharp]], mscorlib",
+          "$values": [
+            {
+              "$id": "7",
+              "$type": "LBS.Components.Graph.LBSRoomGraph, Assembly-CSharp",
+              "nodes": {
+                "$id": "8",
+                "$type": "System.Collections.Generic.List`1[[LBS.Components.Graph.LBSNode, Assembly-CSharp]], mscorlib",
+                "$values": [
+                  {
+                    "$id": "9",
+                    "$type": "LBS.Components.Specifics.RoomNode, Assembly-CSharp",
+                    "room": {
+                      "$id": "10",
+                      "$type": "LBS.Components.Specifics.RoomData, Assembly-CSharp",
+                      "width": 5,
+                      "height": 4,
+                      "tags": {
+                        "$id": "11",
+                        "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                        "$values": [
+                          "SimpleCastle"
+                        ]
+                      },
+                      "color": {
+                        "$id": "12",
+                        "$type": "SerializableColor, Assembly-CSharp",
+                        "r": 0.6666667,
+                        "g": 0.2784314,
+                        "b": 0.192156866,
+                        "a": 1.0
+                      }
+                    },
+                    "x": 452,
+                    "y": 289,
+                    "width": 1.0,
+                    "height": 1.0,
+                    "id": "Node: 0"
+                  },
+                  {
+                    "$id": "13",
+                    "$type": "LBS.Components.Specifics.RoomNode, Assembly-CSharp",
+                    "room": {
+                      "$id": "14",
+                      "$type": "LBS.Components.Specifics.RoomData, Assembly-CSharp",
+                      "width": 3,
+                      "height": 3,
+                      "tags": {
+                        "$id": "15",
+                        "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                        "$values": [
+                          "SimpleCastle"
+                        ]
+                      },
+                      "color": {
+                        "$id": "16",
+                        "$type": "SerializableColor, Assembly-CSharp",
+                        "r": 0.25735423,
+                        "g": 0.6914486,
+                        "b": 0.056928765,
+                        "a": 1.0
+                      }
+                    },
+                    "x": 710,
+                    "y": 289,
+                    "width": 1.0,
+                    "height": 1.0,
+                    "id": "Node: 1"
+                  },
+                  {
+                    "$id": "17",
+                    "$type": "LBS.Components.Specifics.RoomNode, Assembly-CSharp",
+                    "room": {
+                      "$id": "18",
+                      "$type": "LBS.Components.Specifics.RoomData, Assembly-CSharp",
+                      "width": 5,
+                      "height": 3,
+                      "tags": {
+                        "$id": "19",
+                        "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                        "$values": [
+                          "SimpleCastle"
+                        ]
+                      },
+                      "color": {
+                        "$id": "20",
+                        "$type": "SerializableColor, Assembly-CSharp",
+                        "r": 0.160784319,
+                        "g": 0.6039216,
+                        "b": 0.5529412,
+                        "a": 1.0
+                      }
+                    },
+                    "x": 433,
+                    "y": 478,
+                    "width": 1.0,
+                    "height": 1.0,
+                    "id": "Node: 2"
+                  }
+                ]
+              },
+              "edges": {
+                "$id": "21",
+                "$type": "System.Collections.Generic.List`1[[LBS.Components.Graph.LBSEdge, Assembly-CSharp]], mscorlib",
+                "$values": [
+                  {
+                    "$id": "22",
+                    "$type": "LBS.Components.Graph.LBSEdge, Assembly-CSharp",
+                    "firstNode": {
+                      "$ref": "9"
+                    },
+                    "secondNode": {
+                      "$ref": "13"
+                    },
+                    "direction": 0
+                  },
+                  {
+                    "$id": "23",
+                    "$type": "LBS.Components.Graph.LBSEdge, Assembly-CSharp",
+                    "firstNode": {
+                      "$ref": "9"
+                    },
+                    "secondNode": {
+                      "$ref": "17"
+                    },
+                    "direction": 0
+                  }
+                ]
+              },
+              "key": "LBSRoomGraph",
+              "visible": false,
+              "changed": false
+            },
+            {
+              "$id": "24",
+              "$type": "LBS.Components.TileMap.LBSSchema, Assembly-CSharp",
+              "areas": {
+                "$id": "25",
+                "$type": "System.Collections.Generic.List`1[[LBS.Components.TileMap.TiledArea, Assembly-CSharp]], mscorlib",
+                "$values": [
+                  {
+                    "$id": "26",
+                    "$type": "LBS.Components.TileMap.TiledArea, Assembly-CSharp",
+                    "id": "Node: 0",
+                    "color": {
+                      "$id": "27",
+                      "$type": "SerializableColor, Assembly-CSharp",
+                      "r": 0.6666667,
+                      "g": 0.2784314,
+                      "b": 0.192156866,
+                      "a": 1.0
+                    },
+                    "tiles": {
+                      "$id": "28",
+                      "$type": "System.Collections.Generic.List`1[[LBS.Components.TileMap.LBSTile, Assembly-CSharp]], mscorlib",
+                      "$values": [
+                        {
+                          "$id": "29",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "30",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "31",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "32",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "33",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "34",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Empty",
+                              "Wall",
+                              "Wall",
+                              "Wall"
+                            ]
+                          },
+                          "x": 9,
+                          "y": 4,
+                          "sides": 4,
+                          "id": "Node: 0"
+                        },
+                        {
+                          "$id": "35",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "36",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "37",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "38",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "39",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "40",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Empty",
+                              "Wall",
+                              "Wall",
+                              "Empty"
+                            ]
+                          },
+                          "x": 7,
+                          "y": 6,
+                          "sides": 4,
+                          "id": "Node: 0"
+                        },
+                        {
+                          "$id": "41",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "42",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "43",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "44",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "45",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "46",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Empty",
+                              "Empty",
+                              "Wall",
+                              "Door"
+                            ]
+                          },
+                          "x": 7,
+                          "y": 7,
+                          "sides": 4,
+                          "id": "Node: 0"
+                        },
+                        {
+                          "$id": "47",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "48",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "49",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "50",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "51",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "52",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Empty",
+                              "Wall",
+                              "Empty",
+                              "Door"
+                            ]
+                          },
+                          "x": 9,
+                          "y": 7,
+                          "sides": 4,
+                          "id": "Node: 0"
+                        },
+                        {
+                          "$id": "53",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "54",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "55",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "56",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "57",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "58",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Empty",
+                              "Wall",
+                              "Empty",
+                              "Empty"
+                            ]
+                          },
+                          "x": 10,
+                          "y": 4,
+                          "sides": 4,
+                          "id": "Node: 0"
+                        },
+                        {
+                          "$id": "59",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "60",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "61",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "62",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "63",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "64",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Empty",
+                              "Empty",
+                              "Wall",
+                              "Empty"
+                            ]
+                          },
+                          "x": 10,
+                          "y": 5,
+                          "sides": 4,
+                          "id": "Node: 0"
+                        },
+                        {
+                          "$id": "65",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "66",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "67",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "68",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "69",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "70",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Empty",
+                              "Empty",
+                              "Wall",
+                              "Empty"
+                            ]
+                          },
+                          "x": 10,
+                          "y": 6,
+                          "sides": 4,
+                          "id": "Node: 0"
+                        },
+                        {
+                          "$id": "71",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "72",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "73",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "74",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "75",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "76",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Empty",
+                              "Empty",
+                              "Empty",
+                              "Wall"
+                            ]
+                          },
+                          "x": 10,
+                          "y": 7,
+                          "sides": 4,
+                          "id": "Node: 0"
+                        },
+                        {
+                          "$id": "77",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "78",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "79",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "80",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "81",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "82",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Door",
+                              "Wall",
+                              "Empty",
+                              "Empty"
+                            ]
+                          },
+                          "x": 11,
+                          "y": 4,
+                          "sides": 4,
+                          "id": "Node: 0"
+                        },
+                        {
+                          "$id": "83",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "84",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "85",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "86",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "87",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "88",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Wall",
+                              "Empty",
+                              "Empty",
+                              "Empty"
+                            ]
+                          },
+                          "x": 11,
+                          "y": 5,
+                          "sides": 4,
+                          "id": "Node: 0"
+                        },
+                        {
+                          "$id": "89",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "90",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "91",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "92",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "93",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "94",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Wall",
+                              "Empty",
+                              "Empty",
+                              "Empty"
+                            ]
+                          },
+                          "x": 11,
+                          "y": 6,
+                          "sides": 4,
+                          "id": "Node: 0"
+                        },
+                        {
+                          "$id": "95",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "96",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "97",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "98",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "99",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "100",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Wall",
+                              "Empty",
+                              "Empty",
+                              "Wall"
+                            ]
+                          },
+                          "x": 11,
+                          "y": 7,
+                          "sides": 4,
+                          "id": "Node: 0"
+                        },
+                        {
+                          "$id": "101",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "102",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "103",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "104",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "105",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "106",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Wall",
+                              "Wall",
+                              "Empty",
+                              "Empty"
+                            ]
+                          },
+                          "x": 8,
+                          "y": 6,
+                          "sides": 4,
+                          "id": "Node: 0"
+                        },
+                        {
+                          "$id": "107",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "108",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "109",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "110",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "111",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "112",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Empty",
+                              "Empty",
+                              "Empty",
+                              "Wall"
+                            ]
+                          },
+                          "x": 8,
+                          "y": 7,
+                          "sides": 4,
+                          "id": "Node: 0"
+                        }
+                      ]
+                    },
+                    "key": "TiledArea",
+                    "visible": false,
+                    "changed": false
+                  },
+                  {
+                    "$id": "113",
+                    "$type": "LBS.Components.TileMap.TiledArea, Assembly-CSharp",
+                    "id": "Node: 1",
+                    "color": {
+                      "$id": "114",
+                      "$type": "SerializableColor, Assembly-CSharp",
+                      "r": 0.25735423,
+                      "g": 0.6914486,
+                      "b": 0.056928765,
+                      "a": 1.0
+                    },
+                    "tiles": {
+                      "$id": "115",
+                      "$type": "System.Collections.Generic.List`1[[LBS.Components.TileMap.LBSTile, Assembly-CSharp]], mscorlib",
+                      "$values": [
+                        {
+                          "$id": "116",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "117",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "118",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "119",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "120",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "121",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Empty",
+                              "Wall",
+                              "Door",
+                              "Empty"
+                            ]
+                          },
+                          "x": 12,
+                          "y": 4,
+                          "sides": 4,
+                          "id": "Node: 1"
+                        },
+                        {
+                          "$id": "122",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "123",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "124",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "125",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "126",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "127",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Empty",
+                              "Wall",
+                              "Empty",
+                              "Empty"
+                            ]
+                          },
+                          "x": 13,
+                          "y": 4,
+                          "sides": 4,
+                          "id": "Node: 1"
+                        },
+                        {
+                          "$id": "128",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "129",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "130",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "131",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "132",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "133",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Wall",
+                              "Wall",
+                              "Empty",
+                              "Empty"
+                            ]
+                          },
+                          "x": 14,
+                          "y": 4,
+                          "sides": 4,
+                          "id": "Node: 1"
+                        },
+                        {
+                          "$id": "134",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "135",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "136",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "137",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "138",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "139",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Empty",
+                              "Empty",
+                              "Wall",
+                              "Empty"
+                            ]
+                          },
+                          "x": 12,
+                          "y": 5,
+                          "sides": 4,
+                          "id": "Node: 1"
+                        },
+                        {
+                          "$id": "140",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "141",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "142",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "143",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "144",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "145",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Empty",
+                              "Empty",
+                              "Empty",
+                              "Empty"
+                            ]
+                          },
+                          "x": 13,
+                          "y": 5,
+                          "sides": 4,
+                          "id": "Node: 1"
+                        },
+                        {
+                          "$id": "146",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "147",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "148",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "149",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "150",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "151",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Wall",
+                              "Empty",
+                              "Empty",
+                              "Empty"
+                            ]
+                          },
+                          "x": 14,
+                          "y": 5,
+                          "sides": 4,
+                          "id": "Node: 1"
+                        },
+                        {
+                          "$id": "152",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "153",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "154",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "155",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "156",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "157",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Empty",
+                              "Empty",
+                              "Wall",
+                              "Wall"
+                            ]
+                          },
+                          "x": 12,
+                          "y": 6,
+                          "sides": 4,
+                          "id": "Node: 1"
+                        },
+                        {
+                          "$id": "158",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "159",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "160",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "161",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "162",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "163",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Empty",
+                              "Empty",
+                              "Empty",
+                              "Wall"
+                            ]
+                          },
+                          "x": 13,
+                          "y": 6,
+                          "sides": 4,
+                          "id": "Node: 1"
+                        },
+                        {
+                          "$id": "164",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "165",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "166",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "167",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "168",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "169",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Wall",
+                              "Empty",
+                              "Empty",
+                              "Wall"
+                            ]
+                          },
+                          "x": 14,
+                          "y": 6,
+                          "sides": 4,
+                          "id": "Node: 1"
+                        }
+                      ]
+                    },
+                    "key": "TiledArea",
+                    "visible": false,
+                    "changed": false
+                  },
+                  {
+                    "$id": "170",
+                    "$type": "LBS.Components.TileMap.TiledArea, Assembly-CSharp",
+                    "id": "Node: 2",
+                    "color": {
+                      "$id": "171",
+                      "$type": "SerializableColor, Assembly-CSharp",
+                      "r": 0.160784319,
+                      "g": 0.6039216,
+                      "b": 0.5529412,
+                      "a": 1.0
+                    },
+                    "tiles": {
+                      "$id": "172",
+                      "$type": "System.Collections.Generic.List`1[[LBS.Components.TileMap.LBSTile, Assembly-CSharp]], mscorlib",
+                      "$values": [
+                        {
+                          "$id": "173",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "174",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "175",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "176",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "177",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "178",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Empty",
+                              "Wall",
+                              "Wall",
+                              "Empty"
+                            ]
+                          },
+                          "x": 5,
+                          "y": 8,
+                          "sides": 4,
+                          "id": "Node: 2"
+                        },
+                        {
+                          "$id": "179",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "180",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "181",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "182",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "183",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "184",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Empty",
+                              "Wall",
+                              "Empty",
+                              "Empty"
+                            ]
+                          },
+                          "x": 6,
+                          "y": 8,
+                          "sides": 4,
+                          "id": "Node: 2"
+                        },
+                        {
+                          "$id": "185",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "186",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "187",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "188",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "189",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "190",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Empty",
+                              "Door",
+                              "Empty",
+                              "Empty"
+                            ]
+                          },
+                          "x": 7,
+                          "y": 8,
+                          "sides": 4,
+                          "id": "Node: 2"
+                        },
+                        {
+                          "$id": "191",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "192",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "193",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "194",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "195",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "196",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Empty",
+                              "Wall",
+                              "Empty",
+                              "Empty"
+                            ]
+                          },
+                          "x": 8,
+                          "y": 8,
+                          "sides": 4,
+                          "id": "Node: 2"
+                        },
+                        {
+                          "$id": "197",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "198",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "199",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "200",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "201",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "202",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Wall",
+                              "Door",
+                              "Empty",
+                              "Empty"
+                            ]
+                          },
+                          "x": 9,
+                          "y": 8,
+                          "sides": 4,
+                          "id": "Node: 2"
+                        },
+                        {
+                          "$id": "203",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "204",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "205",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "206",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "207",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "208",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Empty",
+                              "Empty",
+                              "Wall",
+                              "Empty"
+                            ]
+                          },
+                          "x": 5,
+                          "y": 9,
+                          "sides": 4,
+                          "id": "Node: 2"
+                        },
+                        {
+                          "$id": "209",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "210",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "211",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "212",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "213",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "214",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Empty",
+                              "Empty",
+                              "Empty",
+                              "Empty"
+                            ]
+                          },
+                          "x": 6,
+                          "y": 9,
+                          "sides": 4,
+                          "id": "Node: 2"
+                        },
+                        {
+                          "$id": "215",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "216",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "217",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "218",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "219",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "220",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Empty",
+                              "Empty",
+                              "Empty",
+                              "Empty"
+                            ]
+                          },
+                          "x": 7,
+                          "y": 9,
+                          "sides": 4,
+                          "id": "Node: 2"
+                        },
+                        {
+                          "$id": "221",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "222",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "223",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "224",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "225",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "226",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Empty",
+                              "Empty",
+                              "Empty",
+                              "Empty"
+                            ]
+                          },
+                          "x": 8,
+                          "y": 9,
+                          "sides": 4,
+                          "id": "Node: 2"
+                        },
+                        {
+                          "$id": "227",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "228",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "229",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "230",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "231",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "232",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Wall",
+                              "Empty",
+                              "Empty",
+                              "Empty"
+                            ]
+                          },
+                          "x": 9,
+                          "y": 9,
+                          "sides": 4,
+                          "id": "Node: 2"
+                        },
+                        {
+                          "$id": "233",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "234",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "235",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "236",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "237",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "238",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Empty",
+                              "Empty",
+                              "Wall",
+                              "Wall"
+                            ]
+                          },
+                          "x": 5,
+                          "y": 10,
+                          "sides": 4,
+                          "id": "Node: 2"
+                        },
+                        {
+                          "$id": "239",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "240",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "241",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "242",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "243",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "244",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Empty",
+                              "Empty",
+                              "Empty",
+                              "Wall"
+                            ]
+                          },
+                          "x": 6,
+                          "y": 10,
+                          "sides": 4,
+                          "id": "Node: 2"
+                        },
+                        {
+                          "$id": "245",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "246",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "247",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "248",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "249",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "250",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Empty",
+                              "Empty",
+                              "Empty",
+                              "Wall"
+                            ]
+                          },
+                          "x": 7,
+                          "y": 10,
+                          "sides": 4,
+                          "id": "Node: 2"
+                        },
+                        {
+                          "$id": "251",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "252",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "253",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "254",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "255",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "256",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Empty",
+                              "Empty",
+                              "Empty",
+                              "Wall"
+                            ]
+                          },
+                          "x": 8,
+                          "y": 10,
+                          "sides": 4,
+                          "id": "Node: 2"
+                        },
+                        {
+                          "$id": "257",
+                          "$type": "LBS.Components.TileMap.ConnectedTile, Assembly-CSharp",
+                          "dirs": {
+                            "$type": "System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "258",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "259",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": -1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "260",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": -1,
+                                "y": 0,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              },
+                              {
+                                "$id": "261",
+                                "$type": "UnityEngine.Vector2Int, UnityEngine.CoreModule",
+                                "x": 0,
+                                "y": 1,
+                                "magnitude": 1.0,
+                                "sqrMagnitude": 1
+                              }
+                            ]
+                          },
+                          "connections": {
+                            "$id": "262",
+                            "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                            "$values": [
+                              "Wall",
+                              "Empty",
+                              "Empty",
+                              "Wall"
+                            ]
+                          },
+                          "x": 9,
+                          "y": 10,
+                          "sides": 4,
+                          "id": "Node: 2"
+                        }
+                      ]
+                    },
+                    "key": "TiledArea",
+                    "visible": false,
+                    "changed": false
+                  }
+                ]
+              },
+              "key": "LBSSchema",
+              "visible": false,
+              "changed": false
+            }
+          ]
+        },
+        "parent": {
+          "$ref": "1"
+        },
+        "assistant": "SchemaAssitant"
+      }
+    ]
+  }
+}

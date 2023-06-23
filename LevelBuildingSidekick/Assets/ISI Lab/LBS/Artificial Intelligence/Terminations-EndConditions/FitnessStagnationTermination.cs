@@ -53,22 +53,22 @@ namespace Commons.Optimization.Terminations
         /// </summary>
         /// <returns>True if termination has been reached, otherwise false.</returns>
         /// <param name="optimizer">The genetic algorithm.</param>
-        protected override bool PerformHasReached(IOptimizer optimizer)
+        protected override bool PerformHasReached(BaseOptimizer optimizer)
         {
-            var bestFitness = optimizer.BestCandidate.Fitness.Value;
+            var bestFitness = optimizer.BestCandidate.Fitness;
 
-            if (m_lastFitness == bestFitness)
+            if (m_lastFitness < bestFitness)
             {
-                m_stagnantGenerationsCount++;
+                m_stagnantGenerationsCount = 1;
             }
             else
             {
-                m_stagnantGenerationsCount = 1;
+                m_stagnantGenerationsCount++;
             }
 
             m_lastFitness = bestFitness;
 
-            return m_stagnantGenerationsCount >= ExpectedStagnantGenerationsNumber;
+            return m_stagnantGenerationsCount > ExpectedStagnantGenerationsNumber;
         }
 
         public override VisualElement CIGUI()

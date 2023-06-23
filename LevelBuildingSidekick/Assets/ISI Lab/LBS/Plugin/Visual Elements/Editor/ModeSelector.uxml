@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement style="flex-direction: row;">
+        <ui:Button tabindex="-1" text="&#10;" display-tooltip-when-elided="true" focusable="false" style="background-image: none; width: auto; height: auto; max-width: none; max-height: none; min-width: auto; min-height: auto; align-items: center; justify-content: center; padding-left: 3px; padding-right: 3px; margin-right: 0;">
+            <ui:VisualElement name="Icon" picking-mode="Ignore" style="background-image: resource(&apos;Icons/Refresh&apos;); width: 16px; height: 16px; max-width: 16px; max-height: 16px; min-width: 16px; min-height: 16px;" />
+        </ui:Button>
+        <ui:DropdownField index="0" choices="Test 1,Test 2" style="-unity-slice-left: 0; -unity-slice-top: 0; -unity-slice-right: 0; -unity-slice-bottom: 0;" />
+    </ui:VisualElement>
+</ui:UXML>

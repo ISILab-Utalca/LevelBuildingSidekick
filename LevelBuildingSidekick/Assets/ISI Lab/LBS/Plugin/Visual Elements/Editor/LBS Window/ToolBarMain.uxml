@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <uie:Toolbar name="MainToolBar" style="background-color: rgb(58, 58, 58);">
+        <uie:ToolbarMenu tabindex="-1" display-tooltip-when-elided="true" text="File" name="ToolBarMenu" />
+        <uie:ToolbarButton tabindex="-1" text="Key map" name="KeyMapBtn" focusable="false" />
+        <ui:Label tabindex="-1" text="Unsaved file *" display-tooltip-when-elided="true" name="IsSavedLabel" style="-unity-text-align: middle-center; background-color: rgba(255, 255, 255, 0); color: rgb(159, 159, 159); padding-left: 16px;" />
+    </uie:Toolbar>
+</ui:UXML>

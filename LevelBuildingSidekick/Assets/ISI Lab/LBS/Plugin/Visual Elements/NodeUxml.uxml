@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/Visual%20Elements/NodeUSS.uss?fileID=7433441132597879392&amp;guid=afa2cfcdd1f21a240afd8be6009458ab&amp;type=3#NodeUSS" />
+    <ui:VisualElement picking-mode="Ignore" name="Background" class="Node">
+        <ui:Label tabindex="-1" text="Label" display-tooltip-when-elided="true" name="Label" picking-mode="Ignore" style="flex-grow: 1; align-items: center; justify-content: center; -unity-text-align: middle-center;" />
+    </ui:VisualElement>
+</ui:UXML>

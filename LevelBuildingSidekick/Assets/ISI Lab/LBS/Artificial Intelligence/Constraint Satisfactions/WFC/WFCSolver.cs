@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 
 public class TileConnectWFC
 {
+    /*
     private TileConections tile;
     private int rotation; // max 3 (*90)
 
@@ -45,10 +46,12 @@ public class TileConnectWFC
         }
         return "";
     }
+    */
 }
 
 public class WFCSolver
 {
+    /*
     public static WFCTags tags;
 
     // samples son las piezas que se puden utilizar
@@ -305,5 +308,5 @@ public class WFCSolver
         }
         return neighbors;
     }
-
+    */
 }
