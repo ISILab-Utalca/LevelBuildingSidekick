@@ -22,10 +22,8 @@ MonoBehaviour:
     modules:
     - rid: 3767989506628386816
     - rid: 3767989506628386817
-    - rid: 3767989506628386824
-    - rid: 3767989506628386825
     behaviours:
-    - rid: 3767989506628386826
+    - rid: 3767989507672768535
     assitantsAI:
     - rid: 3767989506628386818
     generatorRules:
@@ -100,23 +98,5 @@ MonoBehaviour:
         name: Remove
         manipulator: RemoveTile
         inspector: 
-    - rid: 3767989506628386824
-      type: {class: LBSRoomGraph, ns: LBS.Components.Graph, asm: Assembly-CSharp}
-      data:
-        key: LBSRoomGraph
-        visible: 0
-        changed: 0
-        nodes: []
-        edges: []
-    - rid: 3767989506628386825
-      type: {class: LBSSchema, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
-      data:
-        key: LBSSchema
-        visible: 0
-        changed: 0
-        areas: []
-    - rid: 3767989506628386826
-      type: {class: SchemaBehaviour, ns: , asm: Assembly-CSharp}
-      data:
-        ShowNode: 1
-        label: Aqui deberia ir una paleta de habitaciones.
+    - rid: 3767989507672768535
+      type: {class: WFCBehaviour, ns: , asm: Assembly-CSharp}
