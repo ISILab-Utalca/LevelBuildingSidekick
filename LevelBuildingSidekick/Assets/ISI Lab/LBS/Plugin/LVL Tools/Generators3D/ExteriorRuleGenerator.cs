@@ -53,7 +53,10 @@ namespace LBS.Generator
         {
             var storage = LBSAssetsStorage.Instance;
             var modulo = layer.GetModule<Exterior>();
-            var bundles = storage.Get<Bundle>().Select(b => b.GetCharacteristic<LBSDirectionedGroup>()).ToList();
+            var bundles = storage.Get<Bundle>()
+                .Where(b => b.GetCharacteristic<LBSDirectionedGroup>() != null && !b.isPreset)
+                .Select(b => b.GetCharacteristic<LBSDirectionedGroup>())
+                .ToList();
             
             var selectedBundle = bundles[0]; // esto tiene que ser seleccionado en la interfaz y no sacar el primero que pilla (!!!)
 

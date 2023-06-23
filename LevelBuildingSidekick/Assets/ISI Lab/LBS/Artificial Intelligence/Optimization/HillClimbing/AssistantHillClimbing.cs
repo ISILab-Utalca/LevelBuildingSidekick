@@ -14,7 +14,6 @@ using LBS.Components.Graph;
 using LBS.Tools.Transformer;
 using System;
 using System.Diagnostics;
-using UnityEditor;
 using Debug = UnityEngine.Debug;
 using Newtonsoft.Json;
 
@@ -38,11 +37,6 @@ public class AssistantHillClimbing : LBSAssistantAI
     public string test = "Hola mundo";
 
     public AssistantHillClimbing() {}
-    /*
-    public SchemaHCAgent(LBSLayer layer, string id) : base(layer, id, "SchemaHillClimbing")
-    {
-    }
-    */
 
     public override void Execute()
     {
@@ -244,6 +238,7 @@ public class AssistantHillClimbing : LBSAssistantAI
         return new AssistantHillClimbing();
     }
 
+    /*
     public void RunExperiment()
     { 
         var elitistLog = SchemaHCLog.CreateInstance("SchemaHCLog") as SchemaHCLog;
@@ -278,7 +273,9 @@ public class AssistantHillClimbing : LBSAssistantAI
         OnTermination?.Invoke();
 
     }
+    */
 
+    /*
     public void RunStochasticExperiment()
     {
         var sch = Owner.GetModule<LBSSchema>().Clone() as LBSSchema;
@@ -320,4 +317,5 @@ public class AssistantHillClimbing : LBSAssistantAI
         
 
     }
+    */
 }
