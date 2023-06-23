@@ -30,6 +30,7 @@ namespace LBS.Generator
         }
 
         #region FIELDS
+        [SerializeField]
         public Settings settings;
         #endregion
 

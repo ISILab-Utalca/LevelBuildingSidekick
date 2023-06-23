@@ -7,10 +7,10 @@ using UnityEngine;
 
 namespace LBS.Generator
 {
-    [SerializeField, System.Serializable]
+    [System.Serializable]
     public abstract class LBSGeneratorRule : ICloneable
     {
-        [JsonIgnore]
+        [JsonIgnore, SerializeField]
         internal Generator3D generator3D;
 
         public LBSGeneratorRule() { }

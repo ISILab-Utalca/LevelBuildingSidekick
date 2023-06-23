@@ -432,7 +432,7 @@ public class LayerTemplateEditor : Editor
 
         layer.Assitant = assist;
         */
-        layer.AddAssistant(new AssistentGrammar());
+        //layer.AddAssistant(new AssistentGrammar());
 
         layer.ID = "Quest";
         layer.Name = "Layer Quest";
