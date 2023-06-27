@@ -51,16 +51,6 @@ namespace Commons.Optimization.Terminations
         {
             return optimizer.BestCandidate.Fitness >= ExpectedFitness;
         }
-
-        public override VisualElement CIGUI()
-        {
-            var content = new VisualElement();
-            var stagField = new DoubleField("Fitness Threshold: ");
-            stagField.value = ExpectedFitness;
-            stagField.RegisterCallback<ChangeEvent<int>>(e => ExpectedFitness = e.newValue);
-            content.Add(stagField);
-            return content;
-        }
         #endregion
     }
 }

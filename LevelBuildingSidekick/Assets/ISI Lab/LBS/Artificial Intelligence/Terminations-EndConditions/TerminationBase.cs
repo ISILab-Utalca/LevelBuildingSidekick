@@ -11,8 +11,6 @@ namespace Commons.Optimization.Terminations
     {
         #region Fields
         private bool m_hasReached;
-
-        public abstract VisualElement CIGUI();
         #endregion
 
         #region Methods
