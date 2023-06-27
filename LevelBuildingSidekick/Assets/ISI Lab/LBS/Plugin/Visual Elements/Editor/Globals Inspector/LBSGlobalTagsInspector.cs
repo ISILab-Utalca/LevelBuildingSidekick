@@ -56,8 +56,8 @@ public class LBSGlobalTagsInspector : LBSInspector
         list = this.Q<ListView>();
         list.makeItem = MakeItem;
         list.bindItem = BindItem;
-        list.onItemsChosen += OnItemChosen;
-        list.onSelectionChange += OnSelectionChange;
+        list.itemsChosen += OnItemChosen;
+        list.selectionChanged += OnSelectionChange;
         list.style.flexGrow = 1.0f;
         list.itemsSource = TagsBundles;
 
@@ -146,7 +146,7 @@ public class LBSGlobalTagsInspector : LBSInspector
 
     public override void OnLayerChange(LBSLayer layer)
     {
-        Debug.Log("Actualizacion de layer Global/Tags inspector");
+        //Debug.Log("Actualizacion de layer Global/Tags inspector");
     }
     #endregion
 }

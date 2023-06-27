@@ -69,7 +69,7 @@ public class ComplexDropdown : VisualElement
             field.SetInfo(item.name, item.icon, false);
         };
 
-        content.onSelectionChange += (e) =>
+        content.selectionChanged += (e) =>
         {
             var index = content.selectedIndex;
             var selected = content.itemsSource[index] as listElement;

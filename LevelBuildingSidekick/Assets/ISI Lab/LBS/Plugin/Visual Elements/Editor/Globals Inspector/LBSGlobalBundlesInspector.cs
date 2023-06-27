@@ -54,7 +54,7 @@ public class LBSGlobalBundlesInspector : LBSInspector
         list.itemsSource = targets;
         list.makeItem = MakeItem;
         list.bindItem = BindItem;
-        list.onSelectionChange += OnSelectionChange;
+        list.selectionChanged += OnSelectionChange;
         list.style.flexGrow = 1.0f;
 
         // select type to add
@@ -201,7 +201,7 @@ public class LBSGlobalBundlesInspector : LBSInspector
 
     public override void OnLayerChange(LBSLayer layer)
     {
-        Debug.Log("Actualizacion de layer Global/Bundles inspector");
+        //Debug.Log("Actualizacion de layer Global/Bundles inspector");
     }
     #endregion
 }

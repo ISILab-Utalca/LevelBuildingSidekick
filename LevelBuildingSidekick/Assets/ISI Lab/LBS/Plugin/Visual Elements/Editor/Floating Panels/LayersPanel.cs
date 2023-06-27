@@ -66,8 +66,8 @@ public class LayersPanel : VisualElement
         list.fixedItemHeight = 20;
         list.itemsSource = data.Layers;
         list.makeItem += makeItem;
-        list.onItemsChosen += OnItemChosen;
-        list.onSelectionChange += OnSelectionChange;
+        list.itemsChosen += OnItemChosen;
+        list.selectionChanged += OnSelectionChange;
 
         // NameField
         nameField = this.Q<TextField>("NameField");
@@ -114,6 +114,7 @@ public class LayersPanel : VisualElement
         }
 
         data.AddLayer(layer);
+        list.selectedIndex = 0;
         OnAddLayer?.Invoke(layer);
         list.Rebuild();
     }

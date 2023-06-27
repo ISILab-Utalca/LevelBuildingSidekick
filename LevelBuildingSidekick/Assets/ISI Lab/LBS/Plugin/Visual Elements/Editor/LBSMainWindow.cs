@@ -179,6 +179,20 @@ public class LBSMainWindow : EditorWindow
         {
             drawManager.RefreshView(ref _selectedLayer, levelData.Layers, _selectedMode);
         };
+        layerPanel.OnAddLayer += (layer) =>
+        {
+            if (!layer.Equals(_selectedLayer))
+            {
+                OnSelectedLayerChange(layer);
+                gen3DPanel.Init(layer);
+            }
+
+            if (_selectedLayer != null)
+            {
+                var il = Reflection.MakeGenericScriptable(_selectedLayer);
+                Selection.SetActiveObjectWithContext(il, il);
+            }
+        };
 
         // AIPanel
         aiPanel = new AIPanel();

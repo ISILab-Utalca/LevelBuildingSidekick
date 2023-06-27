@@ -201,5 +201,6 @@ public class LBSInspectorPanel : VisualElement
             }
         }
     }
+
     #endregion
 }
