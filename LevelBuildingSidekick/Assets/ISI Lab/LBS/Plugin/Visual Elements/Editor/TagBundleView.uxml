@@ -1,4 +1,4 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
     <ui:VisualElement style="padding-left: 3px; padding-right: 3px; padding-top: 3px; padding-bottom: 3px; border-bottom-width: 1px; border-bottom-color: rgba(0, 0, 0, 0.78);">
         <ui:VisualElement style="flex-direction: row; padding-bottom: 2px;">
             <ui:Foldout />

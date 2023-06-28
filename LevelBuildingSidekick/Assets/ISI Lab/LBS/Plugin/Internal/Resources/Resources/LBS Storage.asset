@@ -15,7 +15,7 @@ MonoBehaviour:
   groups:
   - type: LBSGrammar
     items:
-    - {fileID: 11400000, guid: cb5456d229f5ca14caf96261bd9db45e, type: 2}
+    - {fileID: 11400000, guid: 63ab688b53411154db5edd0ec7171c42, type: 2}
   - type: LBSIdentifier
     items:
     - {fileID: 11400000, guid: 8a34055ce679db44ba6d35e49b129a63, type: 2}
@@ -58,7 +58,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 7a32c908bcc56b143af54bfa703d76de, type: 2}
     - {fileID: 11400000, guid: 5eb94e0f345637744a6e6ca227f8a754, type: 2}
     - {fileID: 11400000, guid: 94eb9d25a6848ee4a83677c8cebbd146, type: 2}
-    - {fileID: 11400000, guid: 997a2c4f34ca6c24d8a75dee2b680a94, type: 2}
     - {fileID: 11400000, guid: 68a6b8a7d0fc2004c9d17fe39c37a1c5, type: 2}
     - {fileID: 11400000, guid: cb460c6ce44590347afa406cfa6450c0, type: 2}
     - {fileID: 11400000, guid: f165a46bac1fc294887ab889baa0650f, type: 2}
@@ -239,7 +238,7 @@ MonoBehaviour:
     - {fileID: 7433441132597879392, guid: 90945345530e7174eb4f0575a0bec0bf, type: 3}
   - type: LBS.LevelBackUp
     items:
-    - {fileID: 11400000, guid: 2474e118fc6712042816c39c6b20248c, type: 2}
+    - {fileID: 11400000, guid: 0d56a6de6ed439f4fa6db533a02b367e, type: 2}
   - type: LBSAssetsStorage
     items:
     - {fileID: 11400000}
