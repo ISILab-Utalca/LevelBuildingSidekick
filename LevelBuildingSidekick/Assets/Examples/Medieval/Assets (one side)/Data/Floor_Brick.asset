@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Floor_Brick
   m_EditorClassIdentifier: 
   isPreset: 0
-  id: {fileID: 11400000, guid: 8a34055ce679db44ba6d35e49b129a63, type: 2}
+  id: {fileID: 11400000, guid: 94b707ea81720694d8e3ac214351af91, type: 2}
   childsBundles: []
   assets:
   - {fileID: 3340211634435293643, guid: 7a68f3748ea3f56469f668b4a78e63bf, type: 3}
@@ -29,4 +29,4 @@ MonoBehaviour:
       type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
       data:
         label: 
-        value: {fileID: 11400000, guid: 8a34055ce679db44ba6d35e49b129a63, type: 2}
+        value: {fileID: 11400000, guid: 94b707ea81720694d8e3ac214351af91, type: 2}
