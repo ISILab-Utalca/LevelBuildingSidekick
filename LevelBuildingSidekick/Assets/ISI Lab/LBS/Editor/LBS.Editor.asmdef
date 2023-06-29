@@ -1,0 +1,20 @@
+{
+    "name": "LBS.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:b9e6130d7875ef849b6f19082a07df4b",
+        "GUID:0ceef3439e5df2445b24b3b2fa811aa2",
+        "GUID:e60498a611515b34dad156cea5ecc4f6"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
