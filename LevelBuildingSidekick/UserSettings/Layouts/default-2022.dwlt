@@ -48,7 +48,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 99
+  controlID: 91
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -64,15 +64,15 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 2023
+    x: 1867
     y: 0
-    width: 537
+    width: 693
     height: 1299
   m_MinSize: {x: 275, y: 50}
   m_MaxSize: {x: 4000, y: 4000}
-  m_ActualView: {fileID: 15}
+  m_ActualView: {fileID: 14}
   m_Panes:
-  - {fileID: 15}
+  - {fileID: 14}
   m_Selected: 0
   m_LastSelected: 0
 --- !u!114 &4
@@ -92,13 +92,13 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 349
-    height: 787
-  m_MinSize: {x: 201, y: 221}
-  m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 16}
+    width: 322
+    height: 793
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_ActualView: {fileID: 15}
   m_Panes:
-  - {fileID: 16}
+  - {fileID: 15}
   m_Selected: 0
   m_LastSelected: 0
 --- !u!114 &5
@@ -117,15 +117,15 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 787
-    width: 2023
-    height: 512
+    y: 793
+    width: 1867
+    height: 506
   m_MinSize: {x: 231, y: 271}
   m_MaxSize: {x: 10001, y: 10021}
-  m_ActualView: {fileID: 14}
+  m_ActualView: {fileID: 13}
   m_Panes:
-  - {fileID: 14}
-  - {fileID: 19}
+  - {fileID: 13}
+  - {fileID: 18}
   m_Selected: 0
   m_LastSelected: 1
 --- !u!114 &6
@@ -218,12 +218,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 2023
+    width: 1867
     height: 1299
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 38
+  controlID: 45
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -243,8 +243,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 2023
-    height: 787
+    width: 1867
+    height: 793
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
@@ -264,68 +264,21 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 349
+    x: 322
     y: 0
-    width: 1674
-    height: 787
+    width: 1545
+    height: 793
   m_MinSize: {x: 800, y: 400}
   m_MaxSize: {x: 4000, y: 4000}
-  m_ActualView: {fileID: 12}
+  m_ActualView: {fileID: 19}
   m_Panes:
+  - {fileID: 16}
   - {fileID: 17}
-  - {fileID: 18}
-  - {fileID: 13}
   - {fileID: 12}
+  - {fileID: 19}
   m_Selected: 3
-  m_LastSelected: 2
+  m_LastSelected: 0
 --- !u!114 &12
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fcb1592969272242a5748278af8c58b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MinSize: {x: 800, y: 400}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_TitleContent:
-    m_Text: Level builder
-    m_Image: {fileID: 2800000, guid: 38f8bfd562374224d8fab8c37de9cb69, type: 3}
-    m_Tooltip: 
-  m_Pos:
-    serializedVersion: 2
-    x: -2211
-    y: -717
-    width: 1672
-    height: 766
-  m_SerializedDataModeController:
-    m_DataMode: 0
-    m_PreferredDataMode: 0
-    m_SupportedDataModes: 
-    isAutomatic: 1
-  m_ViewDataDictionary: {fileID: 0}
-  m_OverlayCanvas:
-    m_LastAppliedPresetName: Default
-    m_SaveData: []
-    m_OverlaysVisible: 1
-  levelData:
-    tags: []
-    maxWidth: 0
-    maxHeight: 0
-    layers: []
-  layerTemplates:
-  - {fileID: 11400000, guid: 531e915267477db4e886c2e6401c4372, type: 2}
-  - {fileID: 11400000, guid: 253f372750fae784d9a42445a8e08fcc, type: 2}
-  - {fileID: 11400000, guid: 38df1e9b46712e5468556438d376626d, type: 2}
-  - {fileID: 11400000, guid: e7f2683aca07d6a439989f2bb37e7487, type: 2}
-  references:
-    version: 2
-    RefIds: []
---- !u!114 &13
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -386,7 +339,7 @@ MonoBehaviour:
       m_IsRenamingFilename: 0
       m_ClientGUIView: {fileID: 0}
     m_SearchString: conf
---- !u!114 &14
+--- !u!114 &13
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -407,9 +360,9 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: -2560
-    y: 70
-    width: 2022
-    height: 491
+    y: 76
+    width: 1866
+    height: 485
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -431,7 +384,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Examples/Medieval/Data/Bundles
+    - Assets/ISI Lab/LBS
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -439,16 +392,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Examples/Medieval/Data/Bundles
+  - Assets/ISI Lab/LBS
   m_LastFoldersGridSize: 16
   m_LastProjectPath: C:\Users\Nicolas\Documents\GitHub\level-building-sidekick\LevelBuildingSidekick
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 95}
-    m_SelectedIDs: 246d0000
-    m_LastClickedID: 27940
-    m_ExpandedIDs: 00000000e26c0000e46c0000e66c0000e86c0000ea6c0000ee6c0000f06c0000f26c0000f46c0000f66c0000f86c0000fa6c0000fc6c0000fe6c0000006d0000026d0000046d0000066d0000086d00000a6d00000c6d00000e6d0000106d0000126d0000146d0000166d0000186d00001a6d00001c6d00001e6d0000206d0000226d0000246d0000266d0000286d00002a6d00002c6d00002e6d0000626d0000646d0000f0700000f270000000ca9a3b
+    scrollPos: {x: 0, y: 0}
+    m_SelectedIDs: c26f0000
+    m_LastClickedID: 28610
+    m_ExpandedIDs: 00000000c06f0000c26f0000c46f0000c66f0000dc6f0000927d000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -476,7 +429,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000e26c0000e46c0000e66c0000e86c0000ea6c0000ec6c0000ee6c0000f06c0000f26c0000f46c0000f66c0000f86c0000fa6c0000fc6c0000fe6c0000006d0000026d0000046d0000066d0000086d00000a6d00000c6d00000e6d0000106d0000126d0000146d0000166d0000186d00001a6d00001c6d00001e6d0000206d0000226d0000246d0000266d0000286d00002a6d00002c6d00002e6d0000
+    m_ExpandedIDs: 00000000c06f0000c26f0000c46f0000c66f0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -507,18 +460,18 @@ MonoBehaviour:
     m_ExpandedInstanceIDs: c6230000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: Bundles
-      m_OriginalName: Bundles
+      m_Name: 
+      m_OriginalName: 
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 27940
+      m_UserData: 0
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 0
+      m_OriginalEventType: 11
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 5}
     m_CreateAssetUtility:
@@ -532,7 +485,7 @@ MonoBehaviour:
     m_GridSize: 16
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 426
---- !u!114 &15
+--- !u!114 &14
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -552,9 +505,9 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: -537
+    x: -693
     y: -717
-    width: 536
+    width: 692
     height: 1278
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -579,7 +532,7 @@ MonoBehaviour:
   m_LockTracker:
     m_IsLocked: 0
   m_PreviewWindow: {fileID: 0}
---- !u!114 &16
+--- !u!114 &15
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -601,8 +554,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: -2560
     y: -717
-    width: 348
-    height: 766
+    width: 321
+    height: 772
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -642,7 +595,7 @@ MonoBehaviour:
       m_IsLocked: 0
     m_CurrentSortingName: TransformSorting
   m_WindowGUID: 4c969a2b90040154d917609493e03593
---- !u!114 &17
+--- !u!114 &16
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -662,10 +615,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 262
-    y: 73
-    width: 1253
-    height: 548
+    x: -2211
+    y: -717
+    width: 1672
+    height: 774
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1011,9 +964,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 10.802184, y: -4.1463013, z: -1.416688}
+    m_Target: {x: 10.559565, y: -1.360076, z: -6.094825}
     speed: 2
-    m_Value: {x: 10.802184, y: -4.1463013, z: -1.416688}
+    m_Value: {x: 10.559565, y: -1.360076, z: -6.094825}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1059,13 +1012,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.0048821713, y: 0.84171337, z: -0.53987813, w: -0.007577857}
+    m_Target: {x: 0.10790937, y: 0.86545295, z: -0.44105113, w: 0.21178605}
     speed: 2
-    m_Value: {x: -0.004882096, y: 0.8417003, z: -0.5398698, w: -0.0075777397}
+    m_Value: {x: 0.1079076, y: 0.8654388, z: -0.4410439, w: 0.21178259}
   m_Size:
-    m_Target: 18.519447
+    m_Target: 8.4693575
     speed: 2
-    m_Value: 18.519447
+    m_Value: 8.4693575
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -1090,7 +1043,7 @@ MonoBehaviour:
   m_SceneVisActive: 1
   m_LastLockedObject: {fileID: 0}
   m_ViewIsLockedToObject: 0
---- !u!114 &18
+--- !u!114 &17
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1188,7 +1141,7 @@ MonoBehaviour:
   m_LowResolutionForAspectRatios: 01000000000000000000
   m_XRRenderMode: 0
   m_RenderTexture: {fileID: 0}
---- !u!114 &19
+--- !u!114 &18
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1209,9 +1162,9 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: -2560
-    y: 70
-    width: 2022
-    height: 491
+    y: 76
+    width: 1866
+    height: 485
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1222,3 +1175,241 @@ MonoBehaviour:
     m_LastAppliedPresetName: Default
     m_SaveData: []
     m_OverlaysVisible: 1
+--- !u!114 &19
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fcb1592969272242a5748278af8c58b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MinSize: {x: 800, y: 400}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_TitleContent:
+    m_Text: Level builder
+    m_Image: {fileID: 2800000, guid: 38f8bfd562374224d8fab8c37de9cb69, type: 3}
+    m_Tooltip: 
+  m_Pos:
+    serializedVersion: 2
+    x: -2238
+    y: -717
+    width: 1543
+    height: 772
+  m_SerializedDataModeController:
+    m_DataMode: 0
+    m_PreferredDataMode: 0
+    m_SupportedDataModes: 
+    isAutomatic: 1
+  m_ViewDataDictionary: {fileID: 0}
+  m_OverlayCanvas:
+    m_LastAppliedPresetName: Default
+    m_SaveData: []
+    m_OverlaysVisible: 1
+  levelData:
+    tags: []
+    maxWidth: 0
+    maxHeight: 0
+    layers:
+    - rid: 3767989637922684938
+    - rid: 3767989637922684939
+    - rid: 3767989637922684940
+    - rid: 3767989637922684941
+  layerTemplates:
+  - {fileID: 11400000, guid: 531e915267477db4e886c2e6401c4372, type: 2}
+  - {fileID: 11400000, guid: 253f372750fae784d9a42445a8e08fcc, type: 2}
+  - {fileID: 11400000, guid: 38df1e9b46712e5468556438d376626d, type: 2}
+  - {fileID: 11400000, guid: e7f2683aca07d6a439989f2bb37e7487, type: 2}
+  references:
+    version: 2
+    RefIds:
+    - rid: 3767989637922684938
+      type: {class: LBSLayer, ns: LBS.Components, asm: LBS}
+      data:
+        id: Quest
+        name: filler text 3
+        visible: 1
+        blocked: 0
+        selectedMode: 
+        iconPath: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Quest.png
+        modules:
+        - rid: 3767989637922684942
+        - rid: 3767989637922684943
+        behaviours: []
+        assitantsAI: []
+        generatorRules: []
+        settingsGen3D:
+          scale: {x: 2, y: 2}
+          resize: {x: 0, y: 0}
+          position: {x: 0, y: 0, z: 0}
+          name: 
+    - rid: 3767989637922684939
+      type: {class: LBSLayer, ns: LBS.Components, asm: LBS}
+      data:
+        id: Population
+        name: filler text 2
+        visible: 1
+        blocked: 0
+        selectedMode: 
+        iconPath: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/ghost.png
+        modules:
+        - rid: 3767989637922684944
+        - rid: 3767989637922684945
+        behaviours: []
+        assitantsAI:
+        - rid: 3767989637922684946
+        generatorRules:
+        - rid: 3767989637922684947
+        settingsGen3D:
+          scale: {x: 2, y: 2}
+          resize: {x: 0, y: 0}
+          position: {x: 0, y: 0, z: 0}
+          name: 
+    - rid: 3767989637922684940
+      type: {class: LBSLayer, ns: LBS.Components, asm: LBS}
+      data:
+        id: Interior
+        name: filler text 1
+        visible: 1
+        blocked: 0
+        selectedMode: 
+        iconPath: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/interior-design.png
+        modules:
+        - rid: 3767989637922684948
+        - rid: 3767989637922684949
+        behaviours: []
+        assitantsAI:
+        - rid: 3767989637922684950
+        generatorRules:
+        - rid: 3767989637922684951
+        - rid: 3767989637922684952
+        settingsGen3D:
+          scale: {x: 2, y: 2}
+          resize: {x: 0, y: 0}
+          position: {x: 0, y: 0, z: 0}
+          name: 
+    - rid: 3767989637922684941
+      type: {class: LBSLayer, ns: LBS.Components, asm: LBS}
+      data:
+        id: Exterior
+        name: filler text
+        visible: 1
+        blocked: 0
+        selectedMode: 
+        iconPath: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/pine-tree.png
+        modules:
+        - rid: 3767989637922684953
+        behaviours: []
+        assitantsAI:
+        - rid: 3767989637922684954
+        generatorRules:
+        - rid: 3767989637922684955
+        settingsGen3D:
+          scale: {x: 10, y: 10}
+          resize: {x: 0, y: 0}
+          position: {x: 0, y: 0, z: 0}
+          name: 
+    - rid: 3767989637922684942
+      type: {class: LBSGraph, ns: LBS.Components.Graph, asm: LBS}
+      data:
+        key: LBSGraph
+        visible: 0
+        changed: 0
+        nodes: []
+        edges: []
+    - rid: 3767989637922684943
+      type: {class: LBSGrammarGraph, ns: , asm: LBS}
+      data:
+        key: LBSGrammarGraph
+        visible: 0
+        changed: 0
+        questNodes: []
+    - rid: 3767989637922684944
+      type: {class: LBSTileMap, ns: , asm: LBS}
+      data:
+        key: LBSTileMap
+        visible: 0
+        changed: 0
+        tiles: []
+    - rid: 3767989637922684945
+      type: {class: TaggedTileMap, ns: , asm: LBS}
+      data:
+        key: TaggedTileMap
+        visible: 0
+        changed: 0
+        pairTiles: []
+    - rid: 3767989637922684946
+      type: {class: AssistantMapElite, ns: , asm: LBS}
+      data:
+        AAAA: AAAAA
+    - rid: 3767989637922684947
+      type: {class: PopulationRuleGenerator, ns: LBS.Generator, asm: LBS}
+      data:
+        generator3D:
+          settings:
+            scale: {x: 0, y: 0}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: 
+          rules: []
+    - rid: 3767989637922684948
+      type: {class: LBSRoomGraph, ns: LBS.Components.Graph, asm: LBS}
+      data:
+        key: LBSRoomGraph
+        visible: 0
+        changed: 0
+        nodes: []
+        edges: []
+    - rid: 3767989637922684949
+      type: {class: LBSSchema, ns: LBS.Components.TileMap, asm: LBS}
+      data:
+        key: LBSSchema
+        visible: 0
+        changed: 0
+        areas: []
+    - rid: 3767989637922684950
+      type: {class: AssistantHillClimbing, ns: , asm: LBS}
+      data:
+        test: Hola mundo
+    - rid: 3767989637922684951
+      type: {class: SchemaRuleGenerator, ns: , asm: LBS}
+      data:
+        generator3D:
+          settings:
+            scale: {x: 0, y: 0}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: 
+          rules: []
+    - rid: 3767989637922684952
+      type: {class: SchemaRuleGeneratorExteriror, ns: , asm: LBS}
+      data:
+        generator3D:
+          settings:
+            scale: {x: 0, y: 0}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: 
+          rules: []
+    - rid: 3767989637922684953
+      type: {class: Exterior, ns: , asm: LBS}
+      data:
+        key: Exterior
+        visible: 0
+        changed: 0
+        tiles: []
+    - rid: 3767989637922684954
+      type: {class: AssitantWFC, ns: , asm: LBS}
+    - rid: 3767989637922684955
+      type: {class: ExteriorRuleGenerator, ns: LBS.Generator, asm: LBS}
+      data:
+        generator3D:
+          settings:
+            scale: {x: 0, y: 0}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: 
+          rules: []
