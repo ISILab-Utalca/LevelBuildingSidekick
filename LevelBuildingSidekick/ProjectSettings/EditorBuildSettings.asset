@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/ISI Lab/LBS/Examples/Castle Dungeon/Scenes/CasttleDungeon Map Example.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/ISI Lab/LBS/Examples/Simple/Scenes/Simple Map Example.unity
+    guid: 290f412982d2e6b479c68984f719ba8e
   m_configObjects: {}

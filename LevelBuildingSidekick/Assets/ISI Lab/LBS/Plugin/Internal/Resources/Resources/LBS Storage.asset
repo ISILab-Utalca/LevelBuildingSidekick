@@ -239,6 +239,7 @@ MonoBehaviour:
   - type: LBS.LevelBackUp
     items:
     - {fileID: 11400000, guid: 0d56a6de6ed439f4fa6db533a02b367e, type: 2}
+    - {fileID: 11400000, guid: 3182671ddc447534a897bed2c5f7eac0, type: 2}
   - type: LBSAssetsStorage
     items:
     - {fileID: 11400000}
