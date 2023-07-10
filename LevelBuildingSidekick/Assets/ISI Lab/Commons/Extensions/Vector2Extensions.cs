@@ -10,6 +10,16 @@ public static class Vector2Extensions
         return new Vector2Int((int)vector.x, (int)vector.y);
     }
 
+    public static List<Vector2> AsComponents(this Vector2 vector)
+    {
+        return new List<Vector2>() { new Vector2(vector.x, 0), new Vector2(0, vector.y) };
+    }
+
+    public static List<Vector2Int> AsComponents(this Vector2Int vector)
+    {
+        return new List<Vector2Int>() { new Vector2Int(vector.x, 0), new Vector2Int(0, vector.y) };
+    }
+
     public static List<Vector2Int> Get4Connected(this Vector2Int vector)
     {
         var toR = new List<Vector2Int>();

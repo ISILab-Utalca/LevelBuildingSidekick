@@ -74,21 +74,6 @@ namespace LBS.Components.TileMap
 
         public int GetDistance(Vector2 pos)
         {
-            /*var lessDist = int.MaxValue;
-            for (int i = 0; i < TileCount; i++)
-            {
-                var t2 = tiles[i].Position;
-
-                var dist = Mathf.Abs(pos.x - t2.x) + Mathf.Abs(pos.y - t2.y); // manhattan
-
-                if (dist <= lessDist)
-                {
-                    lessDist = (int)dist;
-                }
-            }
-
-            return lessDist;*/
-
             return  (int)tiles.Min(t => (t.Position - pos).Distance(DistanceType.CONNECT_4));
         }
 
@@ -107,7 +92,7 @@ namespace LBS.Components.TileMap
             return value;
         }
 
-        public bool IsConvexCorner(Vector2 pos, List<Vector2> directions)
+        private bool IsConvexCorner(Vector2 pos, List<Vector2> directions)
         {
             var s = NeighborhoodValue(pos.ToInt(), directions);
             if (s != 0)
@@ -118,24 +103,54 @@ namespace LBS.Components.TileMap
             return false;
         }
 
-        public bool IsConcaveCorner(Vector2 pos, List<Vector2> directions)
+        private bool IsConcaveCorner(Vector2 pos, List<Vector2> directions)
+        {
+            foreach (var dirs in directions)
+            {
+                var comps = dirs.ToInt().AsComponents();
+                var x = false;
+                foreach (var comp in comps)
+                {
+                    var xx = pos.ToInt() + comp;
+                    x = this.Contains(xx);
+
+                    if (x == false)
+                        break;
+                }
+
+                if (x == true)
+                    return true;
+            }
+
+            return false;
+
+            /*
+            var s = NeighborhoodValue(pos.ToInt(), directions); // NO ESTA FUNCANDO (!!)
+            if (s == 1 || s == 2 || s == 4 || s == 8)
+                return true;
+            return false;
+            */
+        }
+
+        private bool IsWall(Vector2 pos, List<Vector2> directions)
         {
             var s = NeighborhoodValue(pos.ToInt(), directions);
             if (s == 1 || s == 2 || s == 4 || s == 8)
                 return true;
             return false;
+
         }
 
-        public bool IsWall(Vector2 pos, List<Vector2> directions)
+        public List<LBSTile> GetCorners()
         {
-            var s = NeighborhoodValue(pos.ToInt(), directions);
-            if (s == 1 || s == 2 || s == 4 || s == 8)
-                return true;
-            return false;
+            var corners = GetConvexCorners();
+            var concave = GetConcaveCorners();
+            corners.AddRange(concave);
 
+            return corners;
         }
 
-        internal List<LBSTile> GetConvexCorners() // (??)  esto solo funciona para "4 conected", deberia estar en una clase aparte?, si en la clase de las tablas del gabo
+        public List<LBSTile> GetConvexCorners() // (??)  esto solo funciona para "4 conected", deberia estar en una clase aparte?, si en la clase de las tablas del gabo
         {
             var sideDir = new List<Vector2>() { Vector2.right, Vector2.up, Vector2.left, Vector2.down };
             var corners = new List<LBSTile>();
@@ -143,14 +158,13 @@ namespace LBS.Components.TileMap
             {
                 if (IsConvexCorner(t.Position, sideDir))
                 {
-                    //corners.Add(t);
                     corners.Add(t.Clone() as LBSTile);
                 }
             }
             return corners;
         }
 
-        internal List<LBSTile> GetConcaveCorners() // (!) Tambien es de la clase de las tablas del gabo 
+        public List<LBSTile> GetConcaveCorners() // (!) Tambien es de la clase de las tablas del gabo 
         {
             var diagDir = new List<Vector2>() { Vector2.right + Vector2.up, Vector2.up + Vector2.left, Vector2.left + Vector2.down, Vector2.down + Vector2.right };
             var sideDir = new List<Vector2>() { Vector2.right, Vector2.up, Vector2.left, Vector2.down };
@@ -159,19 +173,9 @@ namespace LBS.Components.TileMap
 
             foreach (var t in tiles)
             {
-                if (!IsConcaveCorner(t.Position, diagDir))
-                    continue;
-
-                for (int i = 0; i < sideDir.Count; i++)
+                if (IsConcaveCorner(t.Position, diagDir))
                 {
-                    var other = GetTile((t.Position + sideDir[i]).ToInt());
-                    if (other == null)
-                        continue;
-                    if (IsWall(other.Position, sideDir))
-                    {
-                        //corners.Add(other);
-                        corners.Add(other.Clone() as LBSTile);
-                    }
+                    corners.Add(t.Clone() as LBSTile);
                 }
             }
             return corners;

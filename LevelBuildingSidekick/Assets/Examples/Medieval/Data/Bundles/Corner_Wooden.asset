@@ -16,7 +16,7 @@ MonoBehaviour:
   id: {fileID: 11400000, guid: dd9524b2f4de22c40ae2e90107719374, type: 2}
   childsBundles: []
   assets:
-  - {fileID: 5730892847846253857, guid: c308d694c5b728446983d21295ca6638, type: 3}
+  - {fileID: 5730892847846253857, guid: df3d2085806ab0344b57edd354677c90, type: 3}
   characteristics:
   - rid: 3767989640458666226
   references:

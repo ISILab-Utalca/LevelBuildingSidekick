@@ -10,7 +10,7 @@ using Utility;
 
 namespace LBS.Generator
 {
-    [System.Serializable]
+     
     public class ExteriorRuleGenerator : LBSGeneratorRule //  (!!!) esta clase mescla lo que tiene que hacer la IA de WFC con generar 3d posteriormente
     {
         public override bool CheckIfIsPosible(LBSLayer layer, out string msg)
