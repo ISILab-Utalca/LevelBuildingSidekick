@@ -33,7 +33,7 @@ public static class CalculateConnections
                             (tile as ConnectedTile).SetConnection("Wall", i);
                         }
                     }
-                    else if (area.Contains(nei.Position))
+                    else if (area.GetTile(nei.Position) != null)
                     {
                         (tile as ConnectedTile).SetConnection("Empty", i);
                     }

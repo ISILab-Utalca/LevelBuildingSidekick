@@ -18,7 +18,7 @@ namespace LBS.Components.TileMap
         public override object Clone()
         {
             var x = areas.Select(a => a.Clone()).Cast<TiledArea>();
-            return new LBSSchema(x, key);
+            return new LBSSchema(x, id);
         }
     }
 

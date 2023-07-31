@@ -11,4 +11,6 @@ public abstract class Drawer
     public Drawer() { }
 
     public abstract void Draw(ref LBSLayer layer, MainView view);
+
+    public abstract void Draw(LBSBehaviour behaviour, MainView view);
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class LBSTileMap : TileMapModule<LBSTile>
+public class LBSTileMap : TileMapModule
 {
     public LBSTileMap() : base() { }
 
@@ -12,6 +12,6 @@ public class LBSTileMap : TileMapModule<LBSTile>
 
     public override object Clone()
     {
-        return new LBSTileMap(tiles.Select(t => t.Clone() as LBSTile).ToList(), key);
+        return new LBSTileMap(tiles.Select(t => t.Clone() as LBSTile).ToList(), id);
     }
 }

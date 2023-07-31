@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 [System.Serializable]
-public class Exterior : TileMapModule<ConnectedTile>
+public class Exterior : TileMapModule
 {
     public Exterior() : base() { }
 
@@ -13,6 +13,6 @@ public class Exterior : TileMapModule<ConnectedTile>
 
     public override object Clone()
     {
-        return new Exterior(this.tiles.Select(t => t.Clone() as ConnectedTile).ToList(), this.key);
+        return new Exterior(this.tiles.Select(t => t.Clone() as ConnectedTile).ToList(), this.id);
     }
 }

@@ -17,7 +17,7 @@ public class LBSGrammarGraph : LBSModule
     public Func<LBSNode, bool> OnAddNode { get; private set; }
     public Func<LBSNode, bool> OnRemoveNode { get; private set; }
 
-    public LBSGrammarGraph() : base() { Key = GetType().Name; }
+    public LBSGrammarGraph() : base() { ID = GetType().Name; }
     public LBSGrammarGraph(string key, List<NodeActionPair> nodes) : base(key)
     {
         this.questNodes = nodes;
@@ -30,7 +30,7 @@ public class LBSGrammarGraph : LBSModule
 
     public override object Clone()
     {
-        return new LBSGrammarGraph(key, questNodes.Select(n => n.Clone() as NodeActionPair).ToList());
+        return new LBSGrammarGraph(id, questNodes.Select(n => n.Clone() as NodeActionPair).ToList());
     }
 
     public override Rect GetBounds()
@@ -74,8 +74,6 @@ public class LBSGrammarGraph : LBSModule
     {
         var graph = layer.GetModule<LBSGraph>();
         //Verificar posible recursividad
-        graph.OnRemoveData += RemoveNode;
-        graph.OnAddData += AddEmpty;
         OnAddNode += graph.AddNode;
         OnRemoveNode += graph.RemoveNode;
     }
@@ -102,8 +100,6 @@ public class LBSGrammarGraph : LBSModule
     {
         var graph = layer.GetModule<LBSGraph>();
         //Verificar posible recursividad
-        graph.OnRemoveData -= RemoveNode;
-        graph.OnAddData -= AddEmpty;
         OnAddNode -= graph.AddNode;
         OnRemoveNode -= graph.RemoveNode;
     }
@@ -124,7 +120,6 @@ public class LBSGrammarGraph : LBSModule
         foreach(var n in other.QuestNodes)
         {
             questNodes.Add(n);
-            OnAddData?.Invoke(n.Node);
         }
 
     }

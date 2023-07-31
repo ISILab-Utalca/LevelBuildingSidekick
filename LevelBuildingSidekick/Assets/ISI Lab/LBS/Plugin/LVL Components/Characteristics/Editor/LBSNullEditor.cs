@@ -18,4 +18,9 @@ public class LBSNullEditor : LBSCustomEditor
         label.style.whiteSpace = WhiteSpace.Normal;
         this.Add(label);
     }
+
+    protected override VisualElement CreateVisualElement()
+    {
+        throw new System.NotImplementedException();
+    }
 }

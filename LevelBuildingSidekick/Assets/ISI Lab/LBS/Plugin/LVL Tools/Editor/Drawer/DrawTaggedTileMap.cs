@@ -22,4 +22,9 @@ public class DrawTaggedTileMap : Drawer
             view.AddElement(tView);
         }
     }
+
+    public override void Draw(LBSBehaviour behaviour, MainView view)
+    {
+        throw new System.NotImplementedException();
+    }
 }

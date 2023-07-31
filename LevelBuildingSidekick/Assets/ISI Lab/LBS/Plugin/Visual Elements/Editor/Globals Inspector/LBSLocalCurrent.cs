@@ -1,6 +1,8 @@
 using LBS.Components;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -42,6 +44,25 @@ public class LBSLocalCurrent : LBSInspector
 
     public void SetInfo(LBSLayer target)
     {
+        contentContainer.Clear();
+        foreach(var b in target.Behaviours)
+        {
+            var type = b.GetType();
+            var ves = Utility.Reflection.GetClassesWith<LBSCustomEditorAttribute>().Where(t => t.Item2.Any(v => v.type == type)); 
+            if (ves.Count() == 0)
+            {
+                throw new Exception("[ISI Lab] No class marked as LBSCustomEditor found for type: " + type);
+            }
+
+            var ve = Activator.CreateInstance(ves.First().Item1, new object[] { b });
+            if (!(ve is VisualElement))
+            {
+                throw new Exception("[ISI Lab] " + ve.GetType() + " is not a VisualElement ");
+            }
+
+            contentContainer.Add(ve as VisualElement);
+        }
+
         /*
         contentAssist.Clear();
 
@@ -74,7 +95,7 @@ public class LBSLocalCurrent : LBSInspector
         */
     }
 
-    public override void Init(List<IManipulatorLBS> lBSManipulators, ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
+    public override void Init(List<IManipulatorLBS> lBSManipulators, MainView view, LBSLayer layer, LBSBehaviour behaviour)
     {
     }
 

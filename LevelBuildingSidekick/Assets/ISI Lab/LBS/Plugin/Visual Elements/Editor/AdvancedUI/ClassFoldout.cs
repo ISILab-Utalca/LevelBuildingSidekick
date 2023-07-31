@@ -121,7 +121,7 @@ public class ClassFoldout : Foldout
 
         if (!(ve is VisualElement))
         {
-            throw new Exception("[ISI Lab] " + ve.GetType().GetType() +" is not a VisualElement ");
+            throw new Exception("[ISI Lab] " + ve.GetType() +" is not a VisualElement ");
         }
 
         contentContainer.Clear();

@@ -17,6 +17,11 @@ public class CreateNewGrammarNode : ManipulateGrammarGraph // where T: LBSNode  
         this.prefix = "";
     }
 
+    public override void Init(MainView view, LBSLayer layer, LBSBehaviour behaviour)
+    {
+        throw new NotImplementedException();
+    }
+
     protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
     {
     }

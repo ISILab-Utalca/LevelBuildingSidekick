@@ -160,22 +160,31 @@ namespace LBS.Components
         }
 
         public LBSLayer(
-            List<LBSModule> modules,
-            List<LBSAssistantAI> assistant,
-            List<LBSGeneratorRule> rules,
+            IEnumerable<LBSModule> modules,
+            IEnumerable<LBSAssistantAI> assistant,
+            IEnumerable<LBSGeneratorRule> rules,
+            IEnumerable<LBSBehaviour> behaviours,
             string ID, bool visible, string name, string iconPath, Vector2Int tileSize)
         {
-            modules.ForEach(m => {
+            foreach (var m in modules)
+            {
                 AddModule(m);
-            });
+            }
 
-            assistant.ForEach(a => {
+            foreach(var a in assistant)
+            {
                 AddAssistant(a);
-            });
+            }
 
-            rules.ForEach(r => {
+            foreach(var r in rules)
+            {
                 AddGeneratorRule(r);
-            });
+            }
+
+            foreach(var b in behaviours)
+            {
+                AddBehaviour(b);
+            }
 
             this.ID = ID;
             IsVisible = visible;
@@ -332,7 +341,7 @@ namespace LBS.Components
             {
                 if (module is T || Utility.Reflection.IsSubclassOfRawGeneric(t,module.GetType()))
                 {
-                    if(ID.Equals("") || module.Key.Equals(ID))
+                    if(ID.Equals("") || module.ID.Equals(ID))
                     {
                         return module as T;
                     }
@@ -347,7 +356,7 @@ namespace LBS.Components
             {
                 if (module.GetType().Equals(type) || Utility.Reflection.IsSubclassOfRawGeneric(type, module.GetType()))
                 {
-                    if (ID.Equals("") || module.Key.Equals(ID))
+                    if (ID.Equals("") || module.ID.Equals(ID))
                     {
                         return module;
                     }
@@ -395,7 +404,7 @@ namespace LBS.Components
                 return;
             }
 
-            index = modules.FindIndex(m => m is T && m.Key.Equals(key));
+            index = modules.FindIndex(m => m is T && m.ID.Equals(key));
 
             modules[index].OnDetach(this);
             modules[index] = module;
@@ -418,11 +427,12 @@ namespace LBS.Components
 
         public object Clone()
         {
-            var modules = this.modules.Select(m => m.Clone() as LBSModule).ToList();
-            var assistants = this.assitantsAI.Select(a => a.Clone() as LBSAssistantAI).ToList();
-            var rules = this.generatorRules.Select(r => r.Clone() as LBSGeneratorRule).ToList();
+            var modules = this.modules.Select(m => m.Clone() as LBSModule);
+            var assistants = this.assitantsAI.Select(a => a.Clone() as LBSAssistantAI);
+            var rules = this.generatorRules.Select(r => r.Clone() as LBSGeneratorRule);
+            var behaviours = this.behaviours.Select(b => b.Clone() as LBSBehaviour);
 
-            var layer = new LBSLayer(modules, assistants, rules, this.id, this.visible, this.name, this.iconPath, this.TileSize);
+            var layer = new LBSLayer(modules, assistants, rules, behaviours, this.id, this.visible, this.name, this.iconPath, this.TileSize);
             return layer;
         }
         #endregion

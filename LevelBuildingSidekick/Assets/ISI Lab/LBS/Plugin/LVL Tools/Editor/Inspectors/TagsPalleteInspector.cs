@@ -27,7 +27,7 @@ public class TagsPalleteInspector : LBSInspector
         dropdownBundles = this.Q<DropdownField>("DropdownBundles");
     }
 
-    public override void Init(List<IManipulatorLBS> lBSManipulators, ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
+    public override void Init(List<IManipulatorLBS> lBSManipulators, MainView view, LBSLayer layer, LBSBehaviour behaviour)
     {
         var c = Utility.DirectoryTools.GetScriptables<LBSIdentifierBundle>();
         bundles = c.Where(b => b.type == LBSIdentifierBundle.TagType.Aesthetic).ToList();
@@ -41,7 +41,7 @@ public class TagsPalleteInspector : LBSInspector
 
         RefreshPallete(dropdownBundles.index, lBSManipulators);
     }
-
+    
     public override void OnLayerChange(LBSLayer layer)
     {
 
@@ -49,7 +49,7 @@ public class TagsPalleteInspector : LBSInspector
 
     public void RefreshPallete(int i, List<IManipulatorLBS> lBSManipulators)
     {
-        content.Clear();
+        /*content.Clear();
         var bundle = bundles[i].Tags;
 
         foreach (var tag in bundle)
@@ -83,7 +83,7 @@ public class TagsPalleteInspector : LBSInspector
                 mani.tagToSet = tag;
             }
             content.Add(cont);
-        }
+        }*/
 
     }
 

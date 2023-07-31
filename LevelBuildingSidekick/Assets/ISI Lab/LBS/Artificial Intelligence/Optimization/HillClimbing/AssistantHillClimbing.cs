@@ -18,7 +18,7 @@ using Debug = UnityEngine.Debug;
 using Newtonsoft.Json;
 
 [System.Serializable]
-[RequieredModule(typeof(LBSRoomGraph), typeof(LBSSchema))]
+//[RequieredModule(typeof(LBSRoomGraph), typeof(LBSSchema))]
 /*[Metadata(
     "Hill climbing algorithm",
     "THIS/IS/A/FAKE/PATH/ICON", // Implementar bien (!!!)
@@ -56,7 +56,7 @@ public class AssistantHillClimbing : LBSAssistantAI
 
         SetDoors(x, Owner.GetModule<LBSRoomGraph>());
 
-        Owner.SetModule(x, x.Key);
+        Owner.SetModule(x, x.ID);
 
         OnTermination?.Invoke();
         UnityEngine.Debug.Log("HillClimbing finish!");

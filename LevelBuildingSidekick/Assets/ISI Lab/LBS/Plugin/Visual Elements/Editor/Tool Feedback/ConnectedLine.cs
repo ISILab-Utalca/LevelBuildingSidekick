@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class ConectedLine : Feedback
+public class ConnectedLine : Feedback
 {
-    public ConectedLine(Vector2Int p1, Vector2Int p2) : base(p1, p2) { }
-    public ConectedLine() : base()
+    public ConnectedLine(Vector2Int p1, Vector2Int p2) : base(p1, p2) { }
+    public ConnectedLine() : base()
     {
         this.StartOffset = (TeselationSize.Multiply(0.5f));
         this.EndOffset = (TeselationSize.Multiply(0.5f));

@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public abstract class ManipulateTeselation<T> : LBSManipulator where T : LBSTile
+public abstract class ManipulateTeselation : LBSManipulator
 {
 
-    protected TileMapModule<T> module;
+    protected TileMapModule module;
 
     public ManipulateTeselation() : base() 
     {
@@ -16,9 +16,9 @@ public abstract class ManipulateTeselation<T> : LBSManipulator where T : LBSTile
         feedback.fixToTeselation = true;
     }
 
-    public override void Init(ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
+    public override void Init(MainView view, LBSLayer layer, LBSBehaviour behaviour)
     {
-        this.module = layer.GetModule<TileMapModule<T>>();
+        this.module = layer.GetModule<TileMapModule>();
         feedback.TeselationSize = layer.TileSize;
         layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
         this.MainView = view;

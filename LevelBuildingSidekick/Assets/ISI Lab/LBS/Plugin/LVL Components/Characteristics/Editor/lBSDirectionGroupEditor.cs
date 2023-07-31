@@ -5,13 +5,13 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 [LBSCustomEditor("Connections group", typeof(LBSDirectionedGroup))]
-public class lBSDirectionGroupEditor : LBSCustomEditor
+public class LBSDirectionGroupEditor : LBSCustomEditor
 {
     public TextField labelField;
     public VisualElement content;
 
     private LBSDirectionedGroup target;
-    public lBSDirectionGroupEditor()
+    public LBSDirectionGroupEditor()
     {
 
     }
@@ -49,5 +49,8 @@ public class lBSDirectionGroupEditor : LBSCustomEditor
         }
     }
 
-
+    protected override VisualElement CreateVisualElement()
+    {
+        throw new System.NotImplementedException();
+    }
 }

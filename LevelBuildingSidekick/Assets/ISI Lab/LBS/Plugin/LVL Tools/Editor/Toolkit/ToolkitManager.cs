@@ -18,14 +18,14 @@ public class ToolkitManager
     // event
     public event Action OnEndSomeAction;
 
-    public ToolkitManager(ref ButtonGroup toolPanel,ref ModeSelector modeSelector, ref MainView view, ref LBSInspectorPanel inspectorManager , ref List<LayerTemplate> templates)
+    public ToolkitManager(ref ButtonGroup toolPanel, ref MainView view, ref LBSInspectorPanel inspectorManager , ref List<LayerTemplate> templates)
     {
         this.toolPanel = toolPanel;
         this.view = view;
         this.InspectorManager = inspectorManager;
     }
 
-    public void SetTools(object tools, ref LBSLevelData level ,ref LBSLayer layer, ref LBSModule module)
+    public void SetTools(object tools, ref LBSLayer layer, ref LBSBehaviour behaviour)
     {
         ClearTools();
 
@@ -34,13 +34,13 @@ public class ToolkitManager
         {
             tool.OnEndAction += OnEndSomeAction;
 
-            var btn = tool.InitButton(view, ref level, ref layer, ref module);
+            var btn = tool.InitButton(view, layer, behaviour);
             btn.style.flexGrow = 1;
             toolPanel.Add(btn);
 
             if (!string.IsNullOrEmpty(tool.inspector))
             {
-                var insp = tool.InitInspector(view, ref level, ref layer, ref module);
+                var insp = tool.InitInspector(view, layer, behaviour);
                 insp.style.flexGrow = 1;
                 btn.OnFocusEvent += () => {
                     InspectorManager.AddInspector(insp,0); 

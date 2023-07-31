@@ -12,7 +12,7 @@ public class DrawExterior : Drawer
 
     public override void Draw(ref LBSLayer layer, MainView view)
     {
-        var tilemap = layer.GetModule<TileMapModule<ConnectedTile>>();
+        var tilemap = layer.GetModule<TileMapModule>();
 
         foreach (var tile in tilemap.Tiles)
         {
@@ -24,5 +24,10 @@ public class DrawExterior : Drawer
             tView.SetPosition(new Rect(tile.Position * size, size));
             view.AddElement(tView);
         }
+    }
+
+    public override void Draw(LBSBehaviour behaviour, MainView view)
+    {
+        throw new System.NotImplementedException();
     }
 }

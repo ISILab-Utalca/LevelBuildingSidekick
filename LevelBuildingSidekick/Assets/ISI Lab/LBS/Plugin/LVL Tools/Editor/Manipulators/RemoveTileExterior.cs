@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class RemoveTileExterior<T> : ManipulateTeselation<T> where T : LBSTile
+public class RemoveTileExterior : ManipulateTeselation
 {
     protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
     {
@@ -42,7 +42,7 @@ public class RemoveTileExterior<T> : ManipulateTeselation<T> where T : LBSTile
                 var tile = module.GetTile(pos);
                 if (tile == null)
                     continue;
-                module.RemoveTile(tile as T);
+                module.RemoveTile(tile);
             }
         }
     }
