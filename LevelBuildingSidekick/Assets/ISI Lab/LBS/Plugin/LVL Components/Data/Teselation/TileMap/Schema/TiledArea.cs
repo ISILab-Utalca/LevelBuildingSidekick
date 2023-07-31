@@ -87,6 +87,13 @@ public class TiledArea : ICloneable
 
     #region METHODS
 
+    public List<LBSTile> GetCorners()
+    {
+        var x = GetConcaveCorners();
+        var xx = GetConvexCorners();
+        x.AddRange(xx);
+        return x;
+    }
 
     public virtual bool AddTile(LBSTile tile)
     {
@@ -388,9 +395,9 @@ public class TiledArea : ICloneable
         return new TiledArea(tiles.Select(t => t.Clone()).Cast<LBSTile>(), this.ID, this.color);
     }
 */
-    public override object Clone()
+    public object Clone()
     {
-        return new TiledArea(tiles.Select(t => t.Clone()).Cast<LBSTile>(), this.ID, this.key, this.color);
+        return new TiledArea(tiles.Select(t => t.Clone()).Cast<LBSTile>(), this.ID, this.color);
     }
 
     #endregion
