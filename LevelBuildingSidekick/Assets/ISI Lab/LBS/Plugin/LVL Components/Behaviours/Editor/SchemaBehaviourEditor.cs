@@ -9,7 +9,7 @@ using UnityEngine.UIElements;
 public class SchemaBehaviourEditor : LBSCustomEditor
 {
     SchemaBehaviour schema;
-    public List<LBSManipulator> manipulators;
+    public List<LBSManipulator> manipulators = new List<LBSManipulator>();
 
     public SchemaBehaviourEditor()
     {
@@ -55,7 +55,9 @@ public class SchemaBehaviourEditor : LBSCustomEditor
             var ves = Utility.Reflection.GetClassesWith<LBSCustomEditorAttribute>().Where(t => t.Item2.Any(v => v.type == type));
             if (ves.Count() == 0)
             {
-                throw new Exception("[ISI Lab] No class marked as LBSCustomEditor found for type: " + type);
+                //throw new Exception("[ISI Lab] No class marked as LBSCustomEditor found for type: " + type);
+                contentContainer.Add(new Label("[ISI Lab] No class marked as LBSCustomEditor found for type: " + type));
+                continue;
             }
 
             var ve = Activator.CreateInstance(ves.First().Item1, new object[] { m });

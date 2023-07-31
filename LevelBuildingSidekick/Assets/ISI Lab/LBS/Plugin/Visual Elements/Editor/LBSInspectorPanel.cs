@@ -65,7 +65,7 @@ public class LBSInspectorPanel : VisualElement
         AddTab("Local", "Current data", l1);
 
         //var l2 = new LBSLocalBehaviours();
-        var l2 = new Wip();
+        var l2 = new LBSLocalBehaviours();
         AddTab("Local", "Behaviours", l2);
 
         //var l3 = new LBSLocalAssistants();

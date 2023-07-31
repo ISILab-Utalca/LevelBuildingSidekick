@@ -342,6 +342,8 @@ public class LBSMainWindow : EditorWindow
     public void OnSelectedLayerChange(LBSLayer layer)
     {
         _selectedLayer = layer;
+        inspectorManager.OnSelectedLayerChange(layer);
+        toolkitManager.OnSelectedLayerChange(layer);
         //OnSelectedModeChange(modes.Keys.First(), _selectedLayer);
 
         //Actualiza AI Panel

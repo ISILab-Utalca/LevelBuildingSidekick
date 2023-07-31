@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement>
+        <ui:VisualElement style="flex-direction: row; border-left-color: rgba(0, 0, 0, 0.39); border-right-color: rgba(0, 0, 0, 0.39); border-top-color: rgba(0, 0, 0, 0.39); border-bottom-color: rgba(0, 0, 0, 0.39); border-bottom-width: 1px; padding-bottom: 4px; padding-left: 4px; padding-right: 4px; padding-top: 4px;">
+            <ui:VisualElement name="Tab" style="flex-shrink: 0;" />
+            <ui:VisualElement name="Icon" style="width: 16px; height: 16px; background-image: resource(&apos;Icons/Bundl_Interface/Characteristics_V2&apos;);" />
+            <ui:Label tabindex="-1" text="Label" display-tooltip-when-elided="true" name="Name" style="padding-left: 6px;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

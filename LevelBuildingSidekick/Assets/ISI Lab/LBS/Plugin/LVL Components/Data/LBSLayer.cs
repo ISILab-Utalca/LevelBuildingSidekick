@@ -56,6 +56,11 @@ namespace LBS.Components
         [SerializeField, JsonRequired, SerializeReference]
         private List<LBSGeneratorRule> generatorRules = new List<LBSGeneratorRule>();
 
+        public object SelectMany()
+        {
+            throw new NotImplementedException();
+        }
+
         [SerializeField, JsonRequired]
         public Generator3D.Settings settingsGen3D;
 

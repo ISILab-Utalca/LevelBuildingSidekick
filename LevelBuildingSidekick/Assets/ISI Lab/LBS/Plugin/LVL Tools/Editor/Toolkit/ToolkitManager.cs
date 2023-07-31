@@ -62,4 +62,10 @@ public class ToolkitManager
         toolPanel.Clear();
     }
 
+    internal void OnSelectedLayerChange(LBSLayer layer)
+    {
+        ClearTools();
+        //var manipulators = layer.Behaviours.SelectMany(b => b.);
+       
+    }
 }

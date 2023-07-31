@@ -1,0 +1,14 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement style="background-color: rgba(0, 0, 0, 0.1); padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px;">
+        <ui:VisualElement style="flex-direction: row; align-items: center; padding-bottom: 5px; padding-left: 5px; padding-right: 5px; padding-top: 5px;">
+            <ui:Foldout />
+            <ui:VisualElement style="width: 16px; height: 16px; background-image: url(&apos;project://database/Assets/ISI%20Lab/Commons/Assets2D/Circle.png?fileID=2800000&amp;guid=73c09260c6959914db1487561f45b881&amp;type=3#Circle&apos;); -unity-background-image-tint-color: rgb(163, 160, 251);" />
+            <ui:Label tabindex="-1" text="Characteristics" display-tooltip-when-elided="true" style="padding-left: 4px;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Content" style="padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; flex-wrap: wrap; background-color: rgba(255, 255, 255, 0.1); border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px;" />
+        <ui:VisualElement style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; border-top-width: 1px; border-left-color: rgba(0, 0, 0, 0.39); border-right-color: rgba(0, 0, 0, 0.39); border-top-color: rgba(0, 0, 0, 0.39); border-bottom-color: rgba(0, 0, 0, 0.39); padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px;">
+            <ui:Label tabindex="-1" text="Add Characteristic" display-tooltip-when-elided="true" style="-unity-text-align: upper-center;" />
+            <ComplexDropdown style="padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
