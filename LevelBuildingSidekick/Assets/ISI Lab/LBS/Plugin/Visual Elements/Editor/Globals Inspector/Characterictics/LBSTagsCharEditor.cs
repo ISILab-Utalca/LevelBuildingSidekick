@@ -39,4 +39,9 @@ public class LBSTagsCharEditor : LBSCustomEditor
         labelField.value = this.target?.Label;
         dropdownField.value = this.target?.Value?.Label;
     }
+
+    protected override VisualElement CreateVisualElement()
+    {
+        throw new System.NotImplementedException();
+    }
 }

@@ -6,7 +6,14 @@ using UnityEngine.UIElements;
 
 public abstract class LBSCustomEditor : VisualElement
 {
+    object target;
+    public LBSCustomEditor() { }
+
+    public LBSCustomEditor(object target) { this.target = target; }
+
     public abstract void SetInfo(object target);
+
+    protected abstract VisualElement CreateVisualElement();
 }
 
 [LBSCustomEditorAttribute("Weigths", typeof(LBSDirection))]
@@ -42,5 +49,10 @@ public class LBSDirectionEditor : LBSCustomEditor
             foldout.Add(slider);
         }
 
+    }
+
+    protected override VisualElement CreateVisualElement()
+    {
+        throw new System.NotImplementedException();
     }
 }

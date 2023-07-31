@@ -120,6 +120,8 @@ public class LayerTemplateEditor : Editor
         layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/interior-design.png";
         template.layer = layer;
 
+        layer.AddBehaviour(new SchemaBehaviour(layer));
+        /*
         // Modules
         layer.AddModule(new LBSRoomGraph());    // GraphModule<RoomNode>
         layer.AddModule(new LBSSchema());       // AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile>
@@ -191,7 +193,7 @@ public class LayerTemplateEditor : Editor
             new DrawConnectedTilemap(),
             new List<LBSTool>() { tool5, tool6, tool7, tool8, tool9 }
             );
-        template.modes.Add(mode2);
+        template.modes.Add(mode2);*/
 
         Debug.Log("Set Interior Default");
         AssetDatabase.SaveAssets();
@@ -243,7 +245,7 @@ public class LayerTemplateEditor : Editor
         var tool2 = new LBSTool(
             icon,
             "Add empty tile",
-            typeof(AddEmptyTile<ConnectedTile>),
+            typeof(AddSchemaTile),
             null,
             false);
 
@@ -251,7 +253,7 @@ public class LayerTemplateEditor : Editor
         var tool3 = new LBSTool(
             icon,
             "Remove tile",
-            typeof(RemoveTileExterior<ConnectedTile>),
+            typeof(RemoveTileExterior),
             null,
             false);
 
@@ -259,7 +261,7 @@ public class LayerTemplateEditor : Editor
         var tool4 = new LBSTool(
             icon,
             "Set connection",
-            typeof(AddConnection<ConnectedTile>),
+            typeof(AddConnection),
             typeof(TagsPalleteInspector), //typeof(RoomsPalleteInspector<TiledArea, ConnectedTile>),
             false);
 
@@ -267,7 +269,7 @@ public class LayerTemplateEditor : Editor
         var tool5 = new LBSTool(
             icon,
             "Remove connection",
-            typeof(RemoveConnection<ConnectedTile>), 
+            typeof(RemoveAreaConnection), 
             null, 
             false);
 
@@ -275,7 +277,7 @@ public class LayerTemplateEditor : Editor
         var tool6 = new LBSTool(
             icon, 
             "Collapse connection area", 
-            typeof(WaveFunctionCollapseManipulator<ConnectedTile>), 
+            typeof(WaveFunctionCollapseManipulator), 
             null, 
             false);
 
