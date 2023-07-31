@@ -9,7 +9,7 @@ namespace LBS.Components.Teselation
     [System.Serializable]
     public abstract class TeselationModule : LBSModule
     {
-        #region FIELDS
+        #region PROPERTIES
 
         [JsonIgnore]
         public Vector2 CellSize
