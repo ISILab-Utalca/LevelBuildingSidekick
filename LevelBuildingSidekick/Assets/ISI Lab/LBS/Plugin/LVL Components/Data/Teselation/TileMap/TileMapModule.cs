@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 namespace LBS.Components.TileMap
 {
     [System.Serializable]
-    public class TileMapModule<T> : TeselationModule where T : LBSTile
+    public class TileMapModule : LBSModule
     {
         #region FIELDS
 
@@ -20,6 +20,12 @@ namespace LBS.Components.TileMap
         #region PROEPRTIES
 
         [JsonIgnore]
+        public Vector2 CellSize
+        {
+            get => Owner.TileSize;
+        }
+
+        [JsonIgnore]
         public Vector2 Origin
         {
             get => GetBounds().position;
@@ -29,6 +35,19 @@ namespace LBS.Components.TileMap
                 foreach(var t in tiles)
                 {
                     t.Position += offset.ToInt();
+                }
+            }
+        }
+
+        [JsonIgnore]
+        public Vector2 Centroid
+        {
+            get => GetBounds().center;
+            set
+            {
+                foreach (var t in tiles)
+                {
+                    t.Position += new Vector2Int((int)value.x, (int)value.y);
                 }
             }
         }
@@ -55,10 +74,10 @@ namespace LBS.Components.TileMap
         public TileMapModule() : base()
         {
             tiles = new List<LBSTile>();
-            Key = GetType().Name;
+            ID = GetType().Name;
         }
 
-        public TileMapModule(IEnumerable<T> tiles, string key) : base(key)
+        public TileMapModule(IEnumerable<LBSTile> tiles, string key) : base(key)
         {
             foreach(var t in tiles)
             {
@@ -71,19 +90,18 @@ namespace LBS.Components.TileMap
 
         #region METHODS
 
-        public virtual bool AddTile(T tile)
+        public virtual bool AddTile(LBSTile tile)
         {
             var t = GetTile(tile.Position);
             if (t != null)
                 tiles.Remove(t);
 
-            tiles.Add(tile as LBSTile);
-            OnAddData?.Invoke(tile);
+            tiles.Add(tile);
             OnChanged?.Invoke(this);
             return true;
         }
 
-        public void AddTiles(List<T> tiles)
+        public void AddTiles(List<LBSTile> tiles)
         {
             foreach(var t in tiles)
             {
@@ -91,78 +109,47 @@ namespace LBS.Components.TileMap
             }
         }
 
-        public T GetTile(Vector2Int pos)
+        public LBSTile GetTile(Vector2Int pos)
         {
-            var tile = tiles.Find(t => t.Position == pos) as T;
+            var tile = tiles.Find(t => t.Position == pos);
             return tile;
         }
 
-        public T GetTile(int index)
+        public LBSTile GetTile(int index)
         {
-            return tiles[index] as T;
+            return tiles[index];
         }
 
-        public bool Contains(Vector2 pos)
-        {
-            return tiles.Any(t => t.Position.x == (int)pos.x && t.Position.y == (int)pos.y);
-        }
-
-        public List<T> GetTileNeighbors(T tile, List<Vector2Int> directions)
-        {
-            List<T> neighbors = new List<T>();
-            for (int i = 0; i < directions.Count; i++)
-            {
-                var nei = GetTileNeighbor(tile, directions[i]);
-                neighbors.Add(nei);
-            }
-           
-            return neighbors;
-        }
-
-        public T GetTileNeighbor(T tile, Vector2Int direction)
-        {
-            List<T> neighbors = new List<T>();
-            var pos = tile.Position + direction;
-            return this.GetTile(pos);
-        }
-
-        public bool RemoveTile(T tile)
+        public bool RemoveTile(LBSTile tile)
         {
             if(tiles.Remove(tile))
             {
-                OnRemoveData?.Invoke(tile);
                 OnChanged?.Invoke(this);
                 return true;
             }
             return false;
         }
 
-        public T RemoveAt(int index)
+        public LBSTile RemoveAt(int index)
         {
-            if (!tiles.ContainsIndex(index))
-            {
-                return null;
-            }
-            var t = tiles[index] as T;
+            var t = tiles[index];
             tiles.Remove(t);
-            OnRemoveData?.Invoke(t);
             OnChanged?.Invoke(this);
             return t;
         }
 
-        public T RemoveAt(Vector2Int position)
+        public LBSTile RemoveAt(Vector2Int position)
         {
             var tile = GetTile(position);
             if (tile != null)
             {
                 tiles.Remove(tile);
-                OnRemoveData?.Invoke(tile);
                 OnChanged?.Invoke(this);
             }
             return tile;
         }
 
-        public void RemoveTiles(List<T> tiles)
+        public void RemoveTiles(List<LBSTile> tiles)
         {
             foreach(var t in tiles)
             {
@@ -170,55 +157,9 @@ namespace LBS.Components.TileMap
             }
         }
 
-        public T[,] ToMatrix()
-        {
-            var rect = GetBounds();
-            var matrixIDs = new T[(int)rect.width, (int)rect.height];
-            foreach (var tile in tiles)
-            {
-                var p = tile.Position;
-                var pos = p - rect.min;
-                matrixIDs[(int)pos.x, (int)pos.y] = tile as T;
-            }
-            return matrixIDs;
-        }
-
-        public override void Clear()
-        {
-            tiles.Clear();
-            OnChanged?.Invoke(this);
-        }
-
-        public override void Print()
-        {
-            string s = "TileMap Module: " + Key + "\n\n";
-            foreach(var t in tiles)
-            {
-                s += "t - " + t.Position + "\n";
-            }
-            Debug.Log(s);
-        }
-
         public override bool IsEmpty()
         {
-            return (tiles.Count() <= 0);
-        }
-
-        public override object Clone()
-        {
-            var tileMap = new TileMapModule<T>();
-            tileMap.tiles = tiles.Select(t => t.Clone() as LBSTile).ToList(); //new List<LBSTile>(tiles);
-            return tileMap;
-        }
-
-        public override void OnAttach(LBSLayer layer)
-        {
-
-        }
-
-        public override void OnDetach(LBSLayer layer)
-        {
-
+            return (tiles.Count <= 0);
         }
 
         public override Rect GetBounds()
@@ -236,6 +177,121 @@ namespace LBS.Components.TileMap
             return new Rect(x, y, width, height);
         }
 
+        public Vector2Int ToMatrixPosition(int index)
+        {
+            var r = GetBounds();
+            return new Vector2Int((int)(index % r.width), (int)(index / r.width));
+        }
+
+        public Vector2 ToWorldPosition(Vector2Int matrixPosition)
+        {
+            Vector2 worldPosition = new Vector2(
+                matrixPosition.x * CellSize.x,
+                matrixPosition.y * CellSize.y
+            );
+            return worldPosition;
+        }
+
+        public int ToIndex(Vector2 matrixPosition)
+        {
+            var r = GetBounds();
+            var pos = matrixPosition - r.position;
+            return (int)(pos.y * r.width + pos.x);
+        }
+
+        public LBSTile GetTileNeighbor(LBSTile tile, Vector2Int direction)
+        {
+            List<LBSTile> neighbors = new List<LBSTile>();
+            var pos = tile.Position + direction;
+            return this.GetTile(pos);
+        }
+
+        public List<LBSTile> GetTileNeighbors(LBSTile tile, List<Vector2Int> directions)
+        {
+            List<LBSTile> neighbors = new List<LBSTile>();
+            for (int i = 0; i < directions.Count; i++)
+            {
+                var nei = GetTileNeighbor(tile, directions[i]);
+                neighbors.Add(nei);
+            }
+
+            return neighbors;
+        }
+
+        public bool Contains(Vector2 pos)
+        {
+            return IsEmpty() && tiles.Any(t => t.Position.x == (int)pos.x && t.Position.y == (int)pos.y);
+        }
+
+        public override void Clear()
+        {
+            tiles.Clear();
+            OnChanged?.Invoke(this);
+        }
+
+        public override void Rewrite(LBSModule module)
+        {
+            if (module == null)
+            {
+                return;
+            }
+
+            var tm = module as TileMapModule;
+
+            if (tm == null)
+            {
+                return;
+            }
+
+            tiles.Clear();
+
+            AddTiles(tm.Tiles);
+        }
+
+        public override object Clone()
+        {
+            var tileMap = new TileMapModule();
+            tileMap.tiles = tiles.Select(t => t.Clone() as LBSTile).ToList(); //new List<LBSTile>(tiles);
+            return tileMap;
+        }
+
+        public override void Print()
+        {
+            string s = "TileMap Module: " + ID + "\n\n";
+            foreach (var t in tiles)
+            {
+                s += "t - " + t.Position + "\n";
+            }
+            Debug.Log(s);
+        }
+
+        public override void OnAttach(LBSLayer layer)
+        {
+            Owner = layer;
+        }
+
+        public override void OnDetach(LBSLayer layer)
+        {
+            Owner = null;
+        }
+
+        public override void OnReload(LBSLayer layer)
+        {
+            Owner = layer;
+        }
+
+        /*
+        public override List<int> OccupiedIndexes()
+        {
+            return OccupiedPositions().Select(v => ToIndex(v)).ToList();
+        }
+
+        public override List<int> EmptyIndexes()
+        {
+            return EmptyPositions().Select(v => ToIndex(v)).ToList();
+        }*/
+
+        /*
         public override List<Vector2> OccupiedPositions()
         {
             return tiles.Select(t => (Vector2)t.Position).ToList();
@@ -261,27 +317,7 @@ namespace LBS.Components.TileMap
             }
 
             return empty;
-        }
-
-        public override List<int> OccupiedIndexes()
-        {
-            return OccupiedPositions().Select(v => ToIndex(v)).ToList();
-        }
-
-        public override List<int> EmptyIndexes()
-        {
-            return EmptyPositions().Select(v => ToIndex(v)).ToList();
-        }
-
-        public override void Rewrite(LBSModule module)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override void OnReload(LBSLayer layer)
-        {
-
-        }
+        }*/
 
         #endregion
     }

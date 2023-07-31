@@ -23,7 +23,7 @@ public class TaggedTileMap : LBSModule
 
     public TaggedTileMap() : base() 
     { 
-        Key = GetType().Name;
+        ID = GetType().Name;
     }
 
     public TaggedTileMap(string key, List<TileBundlePair> tiles) : base(key)
@@ -72,7 +72,7 @@ public class TaggedTileMap : LBSModule
             dir.Add(new TileBundlePair(pair.tile, pair.bData));
         }
 
-        return new TaggedTileMap(key, dir);
+        return new TaggedTileMap(id, dir);
     }
 
     public override bool IsEmpty()
@@ -83,9 +83,6 @@ public class TaggedTileMap : LBSModule
     public override void OnAttach(LBSLayer layer)
     {
         var tileMap = layer.GetModule<LBSTileMap>();
-        tileMap.OnRemoveData += RemoveTile;
-        //Verificar posible recursividad
-        tileMap.OnAddData += AddEmpty;
         OnAddTile += tileMap.AddTile;
         OnRemoveTile += tileMap.RemoveTile;
     }
@@ -93,8 +90,6 @@ public class TaggedTileMap : LBSModule
     public override void OnDetach(LBSLayer layer)
     {
         var tileMap = layer.GetModule<LBSTileMap>();
-        tileMap.OnRemoveData -= RemoveTile;
-        tileMap.OnAddData -= AddEmpty;
         OnAddTile -= tileMap.AddTile;
         OnRemoveTile -= tileMap.RemoveTile;
     }

@@ -1,168 +1,126 @@
+using LBS.Components;
+using LBS.Components.TileMap;
+using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
-using System;
-using Newtonsoft.Json;
-using LBS.Components.TileMap;
+using UnityEngine;
 
-[System.Serializable]
-public class TiledArea : ICloneable
+public class SectorizedTileMapModule : LBSModule
 {
     #region FIELDS
 
     [SerializeField, JsonRequired]
-    protected string id = "Area";
-    [SerializeField, JsonRequired, JsonConverter(typeof(ColorConverter))]
-    protected Color color;
-    [SerializeField, JsonRequired, JsonConverter(typeof(ColorConverter))]
-    protected List<LBSTile> tiles;
+    protected List<TileZonePair> tiles = new List<TileZonePair>();
 
     #endregion
 
     #region PROPERTIES
 
     [JsonIgnore]
-    public string ID => id;
+    public List<TileZonePair> Tiles => new List<TileZonePair>(tiles);
 
     [JsonIgnore]
-    public Color Color => color;
-
-    [JsonIgnore]
-    public Vector2 Origin
-    {
-        get => GetBounds().position;
-        set
-        {
-            var offset = value - GetBounds().position;
-            foreach (var t in tiles)
-            {
-                t.Position += offset.ToInt();
-            }
-        }
-    }
-
-    [JsonIgnore]
-    public Vector2 Centroid
-    {
-        get => GetBounds().center;
-        set
-        {
-            foreach (var t in tiles)
-            {
-                t.Position += new Vector2Int((int)value.x, (int)value.y);
-            }
-        }
-    }
-
-    [JsonIgnore]
-    public Vector2 Size => GetBounds().size;
-
-    [JsonIgnore]
-    public int Width => (int)Size.x;
-
-    [JsonIgnore]
-    public int Height => (int)Size.y;
-
-    [JsonIgnore]
-    public int TileCount => tiles.Count;
-
-    [JsonIgnore]
-    public List<LBSTile> Tiles => new List<LBSTile>(tiles);
+    public List<Zone> Areas => tiles.Select(t => t.Zone).Distinct().ToList();
 
     #endregion
 
     #region CONSTRUCTORS
 
-    public TiledArea() : base() 
-    { 
+    public SectorizedTileMapModule()
+    {
+
     }
 
-    public TiledArea(IEnumerable<LBSTile> tiles, string id, Color color)
+    public SectorizedTileMapModule(IEnumerable<TileZonePair> tiles, string id = "TilesToAreaModule") : base(id)
     {
-        this.color = color;
-        this.id = id;
-        foreach (var t in tiles)
+        foreach(var t in tiles)
+        {
             AddTile(t);
+        }
     }
 
     #endregion
 
     #region METHODS
 
-
-    public virtual bool AddTile(LBSTile tile)
+    public void AddTile(TileZonePair tile)
     {
-        var t = GetTile(tile.Position);
+        var t = GetTile(tile.Tile);
         if (t != null)
+        {
             tiles.Remove(t);
-
+        }
         tiles.Add(tile);
-        return true;
-    }
-    public LBSTile GetTile(Vector2Int pos)
-    {
-        var tile = tiles.Find(t => t.Position == pos);
-        return tile;
+
     }
 
-    public LBSTile GetTile(int index)
+    public void AddTile(LBSTile tile, Zone zone)
     {
-        return tiles[index];
+        AddTile(new TileZonePair(tile, zone));
     }
 
-    public bool RemoveTile(LBSTile tile)
+    public TileZonePair GetTile(LBSTile tile)
     {
-        if (tiles.Remove(tile))
-        {
-            return true;
-        }
-        return false;
+        if (tiles.Count <= 0)
+            return null;
+        return tiles.Find(t => t.Tile.Equals(tile));
+
     }
 
-    public LBSTile RemoveAt(int index)
+    private TileZonePair GetTile(Vector2Int pos)
     {
-        var t = tiles[index];
+        return tiles.Find(t => t.Tile.Position == pos);
+    }
+
+    public void RemoveTile(LBSTile tile)
+    {
+        var t = GetTile(tile);
         tiles.Remove(t);
-        return t;
     }
 
-    public LBSTile RemoveAt(Vector2Int position)
+    public void RemoveTile(int index)
     {
-        var tile = GetTile(position);
-        if (tile != null)
+        tiles.RemoveAt(index);
+    }
+
+    public bool Contains(LBSTile tile)
+    {
+        if (tiles.Count <= 0)
+            return false;
+        return tiles.Any(t => t.Tile.Equals(tile));
+    }
+
+    public Zone InZone(LBSTile tile)
+    {
+        var t = GetTile(tile);
+        if (t == null)
+            return null;
+        return t.Zone;
+    }
+
+    public List<LBSTile> GetZoneTiles(Zone zone)
+    {
+        var tiles = this.tiles.Where(t => t.Zone.Equals(zone));
+        if(tiles.Count() > 0)
         {
-            tiles.Remove(tile);
+            return tiles.Select(t => t.Tile).ToList();
         }
-        return tile;
+        return new List<LBSTile>();
     }
 
-    public int GetDistance(Vector2 pos)
+    public Rect GetZoneBounds(Zone zone)
     {
-        return  (int)tiles.Min(t => (t.Position - pos).Distance(DistanceType.CONNECT_4));
+        return GetZoneTiles(zone).GetBounds();
     }
 
-    public bool IsEmpty()
+    public Vector2 ZoneCentroid(Zone zone)
     {
-        return (tiles.Count <= 0);
+        return GetZoneBounds(zone).center;
     }
 
-    public Rect GetBounds()
-    {
-        if (tiles == null || tiles.Count == 0)
-        {
-            //Debug.LogWarning("Esta tilemap no tiene tiles!!!");
-            return new Rect(Vector2.zero, Vector2.zero);
-        }
-
-        var x = tiles.Min(t => t.Position.x);
-        var y = tiles.Min(t => t.Position.y);
-        var width = tiles.Max(t => t.Position.x) - x + 1;
-        var height = tiles.Max(t => t.Position.y) - y + 1;
-        return new Rect(x, y, width, height);
-    }
-
-    private List<bool> CheckNeighbors(Vector2Int position, List<Vector2> directions)
+    private List<bool> CheckNeighborhood(Vector2Int position, List<Vector2> directions)
     {
         var neighborhood = new List<bool>();
         for (int i = 0; i < directions.Count; i++)
@@ -173,13 +131,81 @@ public class TiledArea : ICloneable
         return neighborhood;
     }
 
-    private int NeighborhoodValue(Vector2Int position, List<Vector2> directions) // (!) el nombre es malisimo mejorar, esta tambien es de la clase de las tablas del gabo
+    private List<Zone> CheckZonesInNeighborhood(Vector2Int position, List<Vector2> directions)
     {
-        var value = 0;
+        var neighborhood = new List<Zone>();
         for (int i = 0; i < directions.Count; i++)
         {
             var otherPos = position + directions[i];
-            if (GetTile(otherPos.ToInt()) == null)
+            var t = GetTile(otherPos.ToInt());
+            if (t == null)
+                neighborhood.Add(null);
+            else
+                neighborhood.Add(t.Zone);
+        }
+        return neighborhood;
+    }
+
+    public override Rect GetBounds()
+    {
+        if (tiles == null || tiles.Count == 0)
+        {
+            //Debug.LogWarning("Esta tilemap no tiene tiles!!!");
+            return new Rect(Vector2.zero, Vector2.zero);
+        }
+        return tiles.Select(t => t.Tile).GetBounds();
+    }
+
+    public override bool IsEmpty()
+    {
+        return tiles.Count <= 0;
+    }
+
+    public override void Clear()
+    {
+        tiles.Clear();
+    }
+
+    public override object Clone()
+    {
+        return new SectorizedTileMapModule(tiles.Select(t => t.Clone()).Cast<TileZonePair>(), ID);
+    }
+
+    public override void Rewrite(LBSModule module)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void OnAttach(LBSLayer layer)
+    {
+    }
+
+    public override void OnDetach(LBSLayer layer)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void OnReload(LBSLayer layer)
+    {
+        Owner = layer;
+    }
+
+    public override void Print()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    private int NeighborhoodValue(Vector2Int position, List<Vector2> directions) // (!) el nombre es malisimo mejorar, esta tambien es de la clase de las tablas del gabo
+    {
+        var value = 0;
+        var t = GetTile(position);
+        if (t == null)
+            return -1;
+        var zones = CheckZonesInNeighborhood(position, directions);
+        for (int i = 0; i < directions.Count; i++)
+        {
+            var otherPos = position + directions[i];
+            if (zones[i] == null || !zones[i].Equals(t.Zone))
             {
                 value += Mathf.RoundToInt(Mathf.Pow(2, i));
             }
@@ -222,7 +248,7 @@ public class TiledArea : ICloneable
         var corners = new List<LBSTile>();
         foreach (var t in tiles)
         {
-            if (IsConvexCorner(t.Position, sideDir))
+            if (IsConvexCorner(t.Tile.Position, sideDir))
             {
                 //corners.Add(t);
                 corners.Add(t.Clone() as LBSTile);
@@ -240,15 +266,15 @@ public class TiledArea : ICloneable
 
         foreach (var t in tiles)
         {
-            if (!IsConcaveCorner(t.Position, diagDir))
+            if (!IsConcaveCorner(t.Tile.Position, diagDir))
                 continue;
 
             for (int i = 0; i < sideDir.Count; i++)
             {
-                var other = GetTile((t.Position + sideDir[i]).ToInt());
+                var other = GetTile((t.Tile.Position + sideDir[i]).ToInt());
                 if (other == null)
                     continue;
-                if (IsWall(other.Position, sideDir))
+                if (IsWall(other.Tile.Position, sideDir))
                 {
                     //corners.Add(other);
                     corners.Add(other.Clone() as LBSTile);
@@ -301,7 +327,7 @@ public class TiledArea : ICloneable
             {
                 wallTiles.Add(new Vector2Int(current.Position.x, start + i));
             }
-            var dir = (current.Position.x >= Centroid.x) ? Vector2Int.right : Vector2Int.left;
+            var dir = (current.Position.x >= ZoneCentroid(InZone(current)).x) ? Vector2Int.right : Vector2Int.left;
 
             var wall = new WallData(this.id, dir, wallTiles);
             walls.Add(wall);
@@ -309,7 +335,7 @@ public class TiledArea : ICloneable
         return walls;
     }
 
-    internal List<WallData> GetHorizontalWalls() 
+    internal List<WallData> GetHorizontalWalls()
     {
         var walls = new List<WallData>();
 
@@ -352,7 +378,7 @@ public class TiledArea : ICloneable
             {
                 wallTiles.Add(new Vector2Int(start + i, current.Position.y));
             }
-            var dir = (current.Position.y >= Centroid.y) ? Vector2Int.up : Vector2Int.down;
+            var dir = (current.Position.y >= ZoneCentroid(InZone(current)).y) ? Vector2Int.up : Vector2Int.down;
             var wall = new WallData(this.id, dir, wallTiles);
             walls.Add(wall);
         }
@@ -367,11 +393,50 @@ public class TiledArea : ICloneable
         return horizontal.Concat(vertical).ToList();
     }
 
-    public object Clone()
-    {
-        return new TiledArea(tiles.Select(t => t.Clone()).Cast<LBSTile>(), this.ID, this.color);
-    }
-
     #endregion
 }
 
+public class TileZonePair : ICloneable
+{
+    #region FIELDS
+
+    [SerializeField, JsonRequired, SerializeReference]
+    LBSTile tile;
+    [SerializeField, JsonRequired, SerializeReference]
+    Zone zone;
+
+    #endregion
+
+    #region PROEPRTIES
+
+    [JsonIgnore]
+    public LBSTile Tile => tile;
+    [JsonIgnore]
+    public Zone Zone
+    {
+        get => zone;
+        set => zone = value;
+    }
+
+    #endregion
+
+    #region CONSTRUCTORS
+
+    public TileZonePair(LBSTile tile, Zone zone)
+    {
+        this.tile = tile;
+        this.zone = zone;
+    }
+
+    #endregion
+
+    #region METHODS
+
+    public object Clone()
+    {
+        return new TileZonePair(tile, zone);
+    }
+
+    #endregion
+
+}

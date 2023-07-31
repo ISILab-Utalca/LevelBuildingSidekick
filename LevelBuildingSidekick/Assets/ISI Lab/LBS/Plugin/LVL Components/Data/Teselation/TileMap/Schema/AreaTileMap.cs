@@ -10,7 +10,7 @@ using System;
 namespace LBS.Components.TileMap
 {
     [System.Serializable]
-    public class AreaTileMap<T> : TeselationModule where T : TiledArea
+    public class AreaTileMap<T> : LBSModule where T : TiledArea
     {
         #region FIELDS
 
@@ -65,11 +65,6 @@ namespace LBS.Components.TileMap
                 return;
             }
             areas.Add(area);
-            area.Owner = this.Owner;
-            area.OnAddTile = (t) => 
-            {
-                RemoveTile(t);
-            };
         }
 
         public void AddTile(string areaID, LBSTile tile)
@@ -88,7 +83,7 @@ namespace LBS.Components.TileMap
         {
             foreach (var r in areas)
             {
-                if (r.Contains(pos))
+                if (r.GetTile(pos) != null)
                 {
                     r.RemoveAt(pos);
                 }
@@ -97,7 +92,7 @@ namespace LBS.Components.TileMap
 
         public LBSTile GetTileNeighbor(LBSTile tile, Vector2Int dir)
         {
-            var pickedArea = areas.Find(a => a.Contains(tile.Position + dir));
+            var pickedArea = areas.Find(a => a.GetTile(tile.Position + dir) != null);
 
             if (pickedArea == null)
                 return null;
@@ -113,7 +108,10 @@ namespace LBS.Components.TileMap
             {
                 if(a.ID != area.ID)
                 {
-                    a.RemoveTiles(area.Tiles);
+                    foreach(var t in a.Tiles)
+                    {
+                        a.RemoveTile(t);
+                    }
                 }
             }
         }
@@ -125,7 +123,7 @@ namespace LBS.Components.TileMap
 
         public TiledArea GetArea(Vector2Int tilePos)
         {
-            return areas.Find(r => r.Contains(tilePos));
+            return areas.Find(r => r.GetTile(tilePos) != null);
         }
 
         public TiledArea GetArea(int index)
@@ -204,7 +202,7 @@ namespace LBS.Components.TileMap
         public override object Clone()
         {
             var nAreas = areas.Select(a => a.Clone()).Cast<T>();
-            return new AreaTileMap<T>(nAreas, key);
+            return new AreaTileMap<T>(nAreas, id);
         }
 
         public override void OnAttach(LBSLayer layer)
@@ -231,19 +229,19 @@ namespace LBS.Components.TileMap
             return new Rect(x, y, width, height);
         }
 
-        public override List<Vector2> OccupiedPositions()
+        public List<Vector2> OccupiedPositions()
         {
             var occupied = new List<Vector2>();
 
-            foreach(var a in areas)
+            /*foreach(var a in areas)
             {
                 occupied.AddRange(a.OccupiedPositions());
-            }
+            }*/
 
             return occupied;
         }
 
-        public override List<Vector2> EmptyPositions()
+        public List<Vector2> EmptyPositions()
         {
             var r = GetBounds();
             var occupied = OccupiedPositions();
@@ -265,16 +263,16 @@ namespace LBS.Components.TileMap
             return empty;
         }
 
-        public override List<int> OccupiedIndexes()
+        public List<int> OccupiedIndexes()
         {
             var r = GetBounds();
-            return OccupiedPositions().Select(v => ToIndex(v)).ToList();
+            return OccupiedPositions().Select((v,x) => x).ToList();
         }
 
-        public override List<int> EmptyIndexes()
+        public List<int> EmptyIndexes()
         {
             var r = GetBounds();
-            return EmptyPositions().Select(v => ToIndex(v)).ToList();
+            return EmptyPositions().Select((v, x) => x).ToList();
         }
 
         public override void Rewrite(LBSModule module)
