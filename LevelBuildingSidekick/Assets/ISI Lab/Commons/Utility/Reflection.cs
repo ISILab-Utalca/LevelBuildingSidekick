@@ -25,7 +25,7 @@ namespace Utility
             return null;
         }
 
-        public static List<Tuple<Type, IEnumerable<T>>> GetClassesWith<T>() where T : LBSAttribute
+        public static List<Tuple<Type, IEnumerable<T>>> GetClassesWith<T>() where T : Attribute
         {
             var toR = from assembly in AppDomain.CurrentDomain.GetAssemblies()
                 from type in assembly.GetTypes()

@@ -34,4 +34,9 @@ public class LBSIntCharEditor : LBSCustomEditor
         labelField.value = this.target?.Label;
         input.value = this.target.Value;
     }
+
+    protected override VisualElement CreateVisualElement()
+    {
+        throw new System.NotImplementedException();
+    }
 }

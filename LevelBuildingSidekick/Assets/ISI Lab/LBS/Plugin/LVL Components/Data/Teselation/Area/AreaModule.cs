@@ -7,7 +7,7 @@ using UnityEngine;
 namespace LBS.Components.Teselation
 {
     [System.Serializable]
-    public class AreaModule<T> : TeselationModule where T : Area
+    public class AreaModule<T> : LBSModule where T : Area
     {
         #region FIELDS
 
@@ -25,7 +25,7 @@ namespace LBS.Components.Teselation
 
         #region CONSTRUCTOR
 
-        public AreaModule() : base() { Key = GetType().Name; }
+        public AreaModule() : base() { ID = GetType().Name; }
 
         public AreaModule(List<T> areas, string key) : base(key)
         {
@@ -120,26 +120,6 @@ namespace LBS.Components.Teselation
         }
 
         public override Rect GetBounds()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override List<Vector2> OccupiedPositions()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override List<Vector2> EmptyPositions()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override List<int> OccupiedIndexes()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override List<int> EmptyIndexes()
         {
             throw new System.NotImplementedException();
         }

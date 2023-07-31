@@ -2,7 +2,11 @@ using LBS;
 using LBS.Settings;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEditor;
+using UnityEditor.Callbacks;
+using UnityEditor.PackageManager;
+using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 
 [InitializeOnLoad]

@@ -26,7 +26,7 @@ public class ResemblanceVE : EvaluatorVE
         referenceRectField.RegisterValueChangedCallback(e =>
         {
             var mods = this.layer.Parent.Layers.SelectMany(l => l.Modules);
-            rect = mods.ToList().Find(m => m.Key == e.newValue).GetBounds();
+            rect = mods.ToList().Find(m => m.ID == e.newValue).GetBounds();
         });
         Add(dropdown);
         Add(referenceRectField);
@@ -41,7 +41,7 @@ public class ResemblanceVE : EvaluatorVE
             var ves = Utility.Reflection.GetClassesWith<ChromosomeFromModuleAttribute>().Where(t => t.Item2.Any(v => v.type == m.GetType()));
             if(ves.Count() != 0)
             {
-                dropdown.choices.Add(m.Key);
+                dropdown.choices.Add(m.ID);
             }
         }
 
@@ -59,12 +59,12 @@ public class ResemblanceVE : EvaluatorVE
         {
             if (Reflection.GetClassesWith<ModuleTexturizerAttribute>().Any(t => t.Item2.Any(v => v.type == m.GetType())))
             {
-                referenceRectField.choices.Add(m.Key);
+                referenceRectField.choices.Add(m.ID);
             }
         }
 
         referenceRectField.value = referenceRectField.choices[0];
-        rect = mods.ToList().Find(m => m.Key == referenceRectField.value).GetBounds();
+        rect = mods.ToList().Find(m => m.ID == referenceRectField.value).GetBounds();
     }
 
     private void SetChromosome(string mod)

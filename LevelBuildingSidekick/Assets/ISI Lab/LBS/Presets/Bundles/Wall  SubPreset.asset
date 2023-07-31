@@ -17,11 +17,12 @@ MonoBehaviour:
   childsBundles: []
   assets: []
   characteristics:
-  - rid: 1700476139635212334
+  - rid: 3767989614650065816
   references:
     version: 2
     RefIds:
-    - rid: 1700476139635212334
-      type: {class: LBSTagsCharacteristic, ns: , asm: Assembly-CSharp}
+    - rid: 3767989614650065816
+      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
       data:
+        label: 
         value: {fileID: 11400000, guid: 676b2525bf31dc6439be198604391b79, type: 2}

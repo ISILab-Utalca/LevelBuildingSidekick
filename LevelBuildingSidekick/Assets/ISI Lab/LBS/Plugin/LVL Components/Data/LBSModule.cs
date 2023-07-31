@@ -12,7 +12,7 @@ namespace LBS.Components
         #region FIELDS
 
         [SerializeField, JsonRequired]
-        protected string key;
+        protected string id;
 
         [SerializeField, JsonRequired]
         protected bool visible;
@@ -55,10 +55,10 @@ namespace LBS.Components
         }
 
         [JsonIgnore]
-        public string Key
+        public string ID
         {
-            get => key;
-            set => key = value;
+            get => id;
+            set => id = value;
         }
 
         #endregion
@@ -68,19 +68,13 @@ namespace LBS.Components
         [JsonIgnore]
         public Action<LBSModule> OnChanged;
 
-        [JsonIgnore]
-        public Action<object> OnAddData;
-
-        [JsonIgnore]
-        public Action<object> OnRemoveData;
-
         #endregion
 
         #region CONSTRUCTOR
 
-        public LBSModule() { Key = GetType().Name; }
+        public LBSModule() { ID = GetType().Name; }
 
-        public LBSModule(string key) { Key = key; }
+        public LBSModule(string key) { ID = key; }
 
         #endregion
 

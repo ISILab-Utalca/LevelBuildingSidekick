@@ -50,7 +50,7 @@ public class RoomCutEvaluator : IEvaluator
             do
             {
                 var current = uncheck.First();
-                var neis = room.GetTileNeighbors(current, dirs);
+                var neis = room.Tiles;// GetTileNeighbors(current, dirs);
                 foreach (var nei in neis)
                 {
                     if (nei == null)

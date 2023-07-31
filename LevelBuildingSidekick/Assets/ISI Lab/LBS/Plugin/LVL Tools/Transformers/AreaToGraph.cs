@@ -70,14 +70,14 @@ namespace LBS.Tools.Transformer
             for (int i = 0; i < schema.AreaCount; i++)
             {
                 var area = schema.GetArea(i);
-                ids.Add(area.Key);
-                var node = graph.GetNode(area.Key);
+                ids.Add(area.ID);
+                var node = graph.GetNode(area.ID);
                 if (node != null)
                 {
                     node.Position = area.Centroid.ToInt();
                     continue;
                 }
-                node = new RoomNode(area.Key, area.Centroid, new RoomData());
+                node = new RoomNode(area.ID, area.Centroid, new RoomData());
                 graph.AddNode(node);
             }
 

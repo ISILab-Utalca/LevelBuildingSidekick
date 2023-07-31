@@ -80,7 +80,7 @@ public abstract class LBSManipulator : MouseManipulator, IManipulatorLBS
     {
     }
 
-    public abstract void Init(ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module);
+    public abstract void Init(MainView view, LBSLayer layer, LBSBehaviour behaviour);
 
     protected override void RegisterCallbacksOnTarget()
     {
@@ -212,5 +212,5 @@ public interface IManipulatorLBS
     public void RemoveManipulationUpdate(Action action);
     public void RemoveManipulationEnd(Action action);
 
-    public void Init(ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module);
+    public void Init(MainView view, LBSLayer layer, LBSBehaviour behaviour);
 }

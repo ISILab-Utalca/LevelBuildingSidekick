@@ -41,8 +41,8 @@ public class CustomList : VisualElement // terminar de implementar para que func
         content.bindItem += BindItem;
         //content.fixedItemHeight = 160;
         content.makeItem += MakeItem;
-        content.onItemsChosen += OnItemChosen;
-        content.onSelectionChange += OnSelectionChange;
+        content.itemsChosen += OnItemChosen;
+        content.selectionChanged += OnSelectionChange;
         content.style.flexGrow = 1.0f;
     }
 

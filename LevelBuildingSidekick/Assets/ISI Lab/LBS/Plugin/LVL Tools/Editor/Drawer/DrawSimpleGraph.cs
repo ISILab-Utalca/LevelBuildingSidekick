@@ -93,6 +93,11 @@ public class DrawSimpleGraph : Drawer
         }
     }
 
+    public override void Draw(LBSBehaviour behaviour, MainView view)
+    {
+        throw new System.NotImplementedException();
+    }
+
     private void DrawArea(MeshGenerationContext mgc,Vector2 nodeSize,Vector2 tileSize,Vector2 pixelSize)
     {
         var painter = mgc.painter2D;

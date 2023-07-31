@@ -25,11 +25,11 @@ public class LBSMultiTool : LBSTool
         }
     }
 
-    public override LBSGrupableButton InitButton(MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
+    public override LBSGrupableButton InitButton(MainView view, LBSLayer layer, LBSBehaviour behaviour)
     {
         _manipulators = new List<IManipulatorLBS>();
         Debug.Log("MULTITOOL");
-        base.InitButton(view, ref level, ref layer, ref module); // (?) inecesario?
+        base.InitButton(view, layer, behaviour); // (?) inecesario?
         foreach (var manipulator in manipulators)
         {
             var mType = Type.GetType(manipulator);
@@ -39,7 +39,7 @@ public class LBSMultiTool : LBSTool
             current.AddManipulationEnd(OnEndAction);
             current.AddManipulationEnd(() => Debug.Log("Mani: " + _manipulator.GetType().ToString()));
 
-            current.Init(ref view, ref level, ref layer, ref module);
+            current.Init(view, layer, behaviour);
             _manipulators.Add(current);
 
             Debug.Log("Init multitool: " +current.ToString());
@@ -64,11 +64,11 @@ public class LBSMultiTool : LBSTool
         return btn;
     }
 
-    public override LBSInspector InitInspector(MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
+    public override LBSInspector InitInspector(MainView view, LBSLayer layer, LBSBehaviour behaviour)
     {
         var iType = Type.GetType(this.inspector);
         _inspector = Activator.CreateInstance(iType) as LBSInspector;
-        _inspector.Init(new List<IManipulatorLBS>(_manipulators), ref view, ref level, ref layer, ref module);
+        _inspector.Init(new List<IManipulatorLBS>(_manipulators), view, layer, behaviour);
 
         return _inspector;
     }

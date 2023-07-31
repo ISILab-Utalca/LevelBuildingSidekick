@@ -150,12 +150,5 @@ namespace Utility
 
             return jsonFiles;
         }
-
-        public static void LoadConverters()
-        {
-            var converterTypes = Utility.Reflection.GetAllSubClassOf(typeof(JsonConverter));
-            //converterTypes.Where(c => c.);
-            throw new Exception("***");
-        }
     }
 }

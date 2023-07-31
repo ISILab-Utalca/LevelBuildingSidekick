@@ -26,4 +26,9 @@ public class DrawConnectedTilemap : Drawer // DrawSchema
             }
         }
     }
+
+    public override void Draw(LBSBehaviour behaviour, MainView view)
+    {
+        throw new System.NotImplementedException();
+    }
 }

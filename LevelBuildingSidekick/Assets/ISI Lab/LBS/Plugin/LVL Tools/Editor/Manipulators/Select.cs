@@ -13,9 +13,9 @@ public class Select : ClickSelector , IManipulatorLBS
     public Action OnManipulationUpdate;
     public Action OnManipulationEnd;
 
-    public void Init(ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
+
+    public void Init(MainView view, LBSLayer layer, LBSBehaviour behaviour)
     {
-        // do nothing
     }
 
     protected override void RegisterCallbacksOnTarget()

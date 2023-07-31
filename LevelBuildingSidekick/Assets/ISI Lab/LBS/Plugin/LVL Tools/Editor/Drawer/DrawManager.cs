@@ -1,6 +1,8 @@
 using LBS.Components;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class DrawManager
@@ -46,5 +48,57 @@ public class DrawManager
                 oMode.Drawer.Draw(ref _other, view);
             }
         }
+    }
+
+    public void Draw(LBSLevelData level, MainView view)
+    {
+        if (view == null)
+            return;
+
+        if (level == null)
+            return;
+
+        var layers = level.Layers;
+
+        foreach(var l in layers)
+        {
+            if (l == null)
+                continue;
+
+            if (!l.IsVisible)
+                continue;
+
+            var behaviours = l.Behaviours;
+
+            foreach(var b in behaviours)
+            {
+                if (b == null)
+                    continue;
+
+                var classes = Utility.Reflection.GetClassesWith<DrawerAttribute>();
+                if (classes.Count == 0)
+                    continue;
+
+                var drawers = classes.Where(t => t.Item2.Any(v => v.type == b.GetType()));
+
+                if (drawers.Count() == 0)
+                    continue;
+
+                var drawer = Activator.CreateInstance(drawers.First().Item1) as Drawer; // shold be registering it instead of instantiation each time it will paint
+                drawer.Draw(b, view);
+            }
+        }
+    }
+
+    public void Redraw(LBSLevelData level, MainView view)
+    {
+        if (view == null)
+            return;
+
+        if (level == null)
+            return;
+
+        view.Clear();
+        Draw(level, view);
     }
 }

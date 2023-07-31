@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 public class Kmeans
-{/*
+{
     List<List<Vector2>> clusters = new List<List<Vector2>>();
     public List<List<Vector2>> Clusters => clusters;
 
@@ -29,7 +29,7 @@ public class Kmeans
             }
             foreach (Vector2 point in points)
             {
-                var closestCentroid = centroids.Select((c,i) => new { c, i }).OrderBy((x) => (point - x.c).Distance(DistanceType.EUCLIDEAN)).First().i;
+                var closestCentroid = centroids.Select((c,i) => new { c, i }).OrderBy((x) => (point - x.c).Distance(DistanceType.CONNECT_4)).First().i; //DistanceType.EUCLIDEAN
                 clusters[closestCentroid].Add(point);
             }
             List<Vector2> newCentroids = new List<Vector2>();
@@ -61,7 +61,7 @@ public class Kmeans
         {
             Init(points, k);
 
-            var sumDistances = points.Sum(p => centroids.Min(c => (p - c).Distance(DistanceType.EUCLIDEAN)));
+            var sumDistances = points.Sum(p => centroids.Min(c => (p - c).Distance(DistanceType.CONNECT_4))); //DistanceType.EUCLIDEAN
             distances.Add(sumDistances);
         }
         double maxDistanceReduction = 0;
@@ -86,7 +86,7 @@ public class Kmeans
             deviations.Add(new List<float>());
             foreach (Vector2 point in Clusters[i])
             {
-                float distance = (point - Centroids[i]).Distance(DistanceType.EUCLIDEAN);
+                float distance = (point - Centroids[i]).Distance(DistanceType.CONNECT_4); //DistanceType.EUCLIDEAN
                 deviations[i].Add(distance);
             }
         }
@@ -95,12 +95,12 @@ public class Kmeans
 
     public float MaxDispersion(List<Vector2> points)
     {
-        return points.Max(p1 => points.Max(p2 => (p1 - p2).Distance(DistanceType.EUCLIDEAN)));
+        return points.Max(p1 => points.Max(p2 => (p1 - p2).Distance(DistanceType.CONNECT_4)));//DistanceType.EUCLIDEAN
     }  
 
     public float MinDispersion(List<Vector2> points, int k)
     {
         return Mathf.Pow(MaxDispersion(points), 2) / (2 * k * Mathf.Log(points.Count));
     }
-    */
+    
 }

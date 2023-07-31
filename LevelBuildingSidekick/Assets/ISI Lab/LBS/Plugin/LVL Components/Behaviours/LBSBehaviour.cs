@@ -12,15 +12,23 @@ using UnityEngine;
 public abstract class LBSBehaviour : ICloneable
 {
     [JsonIgnore]
-    protected LBSLayer Owner; // no se si esto tenggo que inicializarlo con un Init() o en el constructor (?)
+    protected LBSLayer owner; // no se si esto tenggo que inicializarlo con un Init() o en el constructor (?)
+    public LBSLayer Owner
+    {
+        get => owner;
+    }
 
     public LBSBehaviour(){ }
 
-    public void InternalInit(LBSLayer layer)
+    public LBSBehaviour(LBSLayer layer)
     {
-        Owner = layer;
+        Init(layer);
     }
-    public abstract void Init(LBSLayer layer);
+
+    public virtual void Init(LBSLayer layer)
+    {
+        owner = layer;
+    }
 
     public abstract object Clone();
 
@@ -50,6 +58,8 @@ public class SimpleConectedBehaviour : LBSBehaviour
 {
     public string label = "Aqui deberia ir una paleta de tipo de conecciones.";
 
+
+
     public override object Clone()
     {
         return new SimpleConectedBehaviour();
@@ -61,23 +71,7 @@ public class SimpleConectedBehaviour : LBSBehaviour
     }
 }
 
-[System.Serializable]
-[RequieredModule(typeof(LBSRoomGraph),typeof(LBSSchema))]
-public class SchemaBehaviour : LBSBehaviour
-{
-    public bool ShowNode = true;
-    public string label = "Aqui deberia ir una paleta de habitaciones.";
 
-    public override object Clone()
-    {
-        return new SchemaBehaviour();
-    }
-
-    public override void Init(LBSLayer layer)
-    {
-       // throw new NotImplementedException();
-    }
-}
 
 
 

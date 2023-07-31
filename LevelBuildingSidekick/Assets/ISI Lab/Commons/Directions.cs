@@ -101,7 +101,7 @@ public static class Directions
     /// </summary>
     public static class Bidimencional
     {
-        public readonly static List<Vector2Int> edges = new List<Vector2Int>()
+        private readonly static List<Vector2Int> edges = new List<Vector2Int>()
         {
             new Vector2Int(0, 1),    // Arriba
             new Vector2Int(-1, 0),   // Izquierda
@@ -109,7 +109,7 @@ public static class Directions
             new Vector2Int(1, 0),    // Derecha
         };
 
-        public readonly static List<Vector2Int> diagonals = new List<Vector2Int>()
+        private readonly static List<Vector2Int> diagonals = new List<Vector2Int>()
         {
             new Vector2Int(-1, 1),   // Diagonal superior izquierda
             new Vector2Int(1, 1),    // Diagonal superior derecha
@@ -117,7 +117,7 @@ public static class Directions
             new Vector2Int(1, -1)    // Diagonal inferior derecha
         };
 
-        public readonly static List<Vector2Int> all = new List<Vector2Int>()
+        private readonly static List<Vector2Int> all = new List<Vector2Int>()
         {
             new Vector2Int(0, 1),     // Arriba
             new Vector2Int(-1, 1),    // Diagonal superior izquierda

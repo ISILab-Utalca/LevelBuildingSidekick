@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
-public class WaveFunctionCollapseManipulator<T> : ManipulateTeselation<T> where T : LBSTile
+public class WaveFunctionCollapseManipulator : ManipulateTeselation
 {
     private struct Candidate
     {
@@ -101,8 +101,8 @@ public class WaveFunctionCollapseManipulator<T> : ManipulateTeselation<T> where 
             var selected = current.Item2.RandomRullete(c => c.weight);
             current.Item1.SetConnections(selected.array);
 
-            var neigs = module.GetTileNeighbors(current.Item1 as T, dirs).Select(t => t as ConnectedTile);
-            SetConnectionNei(current.Item1.Connections,neigs.ToArray());
+            //var neigs = module.GetTileNeighbors(current.Item1 as T, dirs).Select(t => t as ConnectedTile);
+            //SetConnectionNei(current.Item1.Connections,neigs.ToArray());
 
             toCalc.Remove(current.Item1);
         }

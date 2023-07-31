@@ -13,7 +13,7 @@ public class CreateNewConnection<T> : ManipulateGraph<T> where T : LBSNode
 
     public CreateNewConnection()
     {
-        feedback = new ConectedLine();
+        feedback = new ConnectedLine();
     }
 
     protected override void RegisterCallbacksOnTarget()

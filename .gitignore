@@ -73,6 +73,10 @@ crashlytics-build.properties
 "Library/*" 
 "Venv/*"
 
+# User settings
+/[Uu]serSettings/
+[Uu]serSettings/
+
 # ISILab
 LBSBackUp.asset
 LBSBackUp.asset.meta

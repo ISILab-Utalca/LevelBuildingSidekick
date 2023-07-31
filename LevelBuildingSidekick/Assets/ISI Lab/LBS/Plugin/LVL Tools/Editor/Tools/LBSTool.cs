@@ -35,7 +35,7 @@ public class LBSTool
         this.inspector = inspector?.FullName;
     }
 
-    public virtual LBSGrupableButton InitButton(MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module) // (!)
+    public virtual LBSGrupableButton InitButton(MainView view, LBSLayer layer, LBSBehaviour behaviour) // (!)
     {
         var mType = Type.GetType(this.manipulator);
         _manipulator = Activator.CreateInstance(mType) as IManipulatorLBS;
@@ -43,7 +43,7 @@ public class LBSTool
         _manipulator.AddManipulationUpdate(OnUpdateAction);
         _manipulator.AddManipulationEnd(OnEndAction);
 
-        _manipulator.Init(ref view,ref level, ref layer, ref module);
+        _manipulator.Init(view, layer, behaviour);
 
         var btn = new BasicToolButton(this.icon, this.name);
 
@@ -57,11 +57,11 @@ public class LBSTool
         return btn;
     }
 
-    public virtual LBSInspector InitInspector(MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
+    public virtual LBSInspector InitInspector(MainView view, LBSLayer layer, LBSBehaviour behaviour)
     {
         var iType = Type.GetType(this.inspector);
         _inspector = Activator.CreateInstance(iType) as LBSInspector;
-        _inspector.Init(new List<IManipulatorLBS>() { _manipulator }, ref view, ref level, ref layer, ref module);
+        _inspector.Init(new List<IManipulatorLBS>() { _manipulator }, view, layer, behaviour);
 
         return _inspector;
     }

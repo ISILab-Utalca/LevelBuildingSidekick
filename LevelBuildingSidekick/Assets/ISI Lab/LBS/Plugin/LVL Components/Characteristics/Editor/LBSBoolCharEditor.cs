@@ -35,5 +35,8 @@ public class LBSBoolCharEditor : LBSCustomEditor
         toogle.value = this.target.Value;
     }
 
-
+    protected override VisualElement CreateVisualElement()
+    {
+        throw new System.NotImplementedException();
+    }
 }

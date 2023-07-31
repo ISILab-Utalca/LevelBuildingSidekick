@@ -70,16 +70,6 @@ namespace Commons.Optimization.Terminations
 
             return m_stagnantGenerationsCount > ExpectedStagnantGenerationsNumber;
         }
-
-        public override VisualElement CIGUI()
-        {
-            var content = new VisualElement();
-            var stagField = new IntegerField("Max Generations: ");
-            stagField.value = ExpectedStagnantGenerationsNumber;
-            stagField.RegisterCallback<ChangeEvent<int>>(e => ExpectedStagnantGenerationsNumber = e.newValue);
-            content.Add(stagField);
-            return content;
-        }
         #endregion
     }
 }

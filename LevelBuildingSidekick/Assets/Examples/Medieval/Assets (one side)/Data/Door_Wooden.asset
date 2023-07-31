@@ -18,11 +18,12 @@ MonoBehaviour:
   assets:
   - {fileID: 4078510376417414385, guid: 04f4bfcd588140f43b4a65bee82ed0fe, type: 3}
   characteristics:
-  - rid: 1700476139635212331
+  - rid: 3767989614650065814
   references:
     version: 2
     RefIds:
-    - rid: 1700476139635212331
-      type: {class: LBSTagsCharacteristic, ns: , asm: Assembly-CSharp}
+    - rid: 3767989614650065814
+      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
       data:
+        label: 
         value: {fileID: 11400000, guid: d05b3c2ff0cdab94b92f355dc76947d8, type: 2}

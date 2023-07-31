@@ -9,12 +9,12 @@ namespace LBS.Components.Graph
     [System.Serializable]
     public class LBSRoomGraph : GraphModule<RoomNode>
     {
-        public LBSRoomGraph() : base() { Key = GetType().Name; }
+        public LBSRoomGraph() : base() { ID = GetType().Name; }
         public LBSRoomGraph(List<RoomNode> nodes, List<LBSEdge> edges, string key) : base(nodes, edges, key) { }
 
         public override object Clone()
         {
-            return new LBSRoomGraph(nodes.Select(n => n.Clone() as RoomNode).ToList(), edges.Select(e => e.Clone() as LBSEdge).ToList(), key);
+            return new LBSRoomGraph(nodes.Select(n => n.Clone() as RoomNode).ToList(), edges.Select(e => e.Clone() as LBSEdge).ToList(), id);
         }
     }
 }

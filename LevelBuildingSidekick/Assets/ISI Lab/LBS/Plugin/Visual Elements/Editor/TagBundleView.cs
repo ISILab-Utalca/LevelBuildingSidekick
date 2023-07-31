@@ -61,8 +61,8 @@ public class TagBundleView : VisualElement
         list.fixedItemHeight = 22;
         list.makeItem += MakeItem;
         list.bindItem += BindItem;
-        list.onItemsChosen += ItemChosen;
-        list.onSelectionChange += SelectionChange;
+        list.itemsChosen += ItemChosen;
+        list.selectionChanged += SelectionChange;
         list.style.flexGrow = 1.0f;
 
         // Add Button

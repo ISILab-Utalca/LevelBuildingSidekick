@@ -44,6 +44,7 @@ namespace Commons.Optimization.Terminations
         public TimeSpan MaxTime { get; set; }
 
 
+        #endregion
         #region implemented abstract members of TerminationBase
         /// <summary>
         /// Determines whether the specified geneticAlgorithm reached the termination condition.
@@ -54,23 +55,6 @@ namespace Commons.Optimization.Terminations
         {
             return optimizer.TimeEvolving >= MaxTime;
         }
-
-        public override VisualElement CIGUI()
-        {
-            var content = new VisualElement();
-            var stagField = new Vector3IntField("Min/Sec/Millis : ");
-            stagField.value = new Vector3Int(MaxTime.Minutes, MaxTime.Seconds, MaxTime.Milliseconds);
-            stagField.RegisterCallback<ChangeEvent<Vector3Int>>(e =>
-            {
-                double time = e.newValue.x;
-                time += e.newValue.y / 60.0f;
-                time += e.newValue.z / 60000.0f;
-                MaxTime = TimeSpan.FromMinutes(time);
-            });
-            content.Add(stagField);
-            return content;
-        }
-        #endregion
         #endregion
     }
 }

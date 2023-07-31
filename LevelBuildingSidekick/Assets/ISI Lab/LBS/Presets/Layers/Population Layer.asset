@@ -20,47 +20,44 @@ MonoBehaviour:
     selectedMode: 
     iconPath: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/ghost.png
     modules:
-    - rid: 3767989506628386816
-    - rid: 3767989506628386817
-    - rid: 3767989506628386824
-    - rid: 3767989506628386825
-    behaviours:
-    - rid: 3767989506628386826
+    - rid: 9157593232956194825
+    - rid: 9157593232956194826
+    behaviours: []
     assitantsAI:
-    - rid: 3767989506628386818
+    - rid: 9157593232956194827
     generatorRules:
-    - rid: 3767989506628386819
+    - rid: 9157593232956194828
     settingsGen3D:
       scale: {x: 2, y: 2}
       resize: {x: 0, y: 0}
       position: {x: 0, y: 0, z: 0}
       name: Population
   modes:
-  - rid: 3767989506628386820
+  - rid: 9157593232956194829
   transformers: []
   references:
     version: 2
     RefIds:
-    - rid: 3767989506628386816
-      type: {class: LBSTileMap, ns: , asm: Assembly-CSharp}
+    - rid: 9157593232956194825
+      type: {class: LBSTileMap, ns: , asm: LBS}
       data:
-        key: LBSTileMap
+        id: LBSTileMap
         visible: 0
         changed: 0
         tiles: []
-    - rid: 3767989506628386817
-      type: {class: TaggedTileMap, ns: , asm: Assembly-CSharp}
+    - rid: 9157593232956194826
+      type: {class: TaggedTileMap, ns: , asm: LBS}
       data:
-        key: TaggedTileMap
+        id: TaggedTileMap
         visible: 0
         changed: 0
         pairTiles: []
-    - rid: 3767989506628386818
-      type: {class: AssistantMapElite, ns: , asm: Assembly-CSharp-Editor}
+    - rid: 9157593232956194827
+      type: {class: AssistantMapElite, ns: , asm: LBS.Editor}
       data:
         AAAA: AAAAA
-    - rid: 3767989506628386819
-      type: {class: PopulationRuleGenerator, ns: LBS.Generator, asm: Assembly-CSharp}
+    - rid: 9157593232956194828
+      type: {class: PopulationRuleGenerator, ns: LBS.Generator, asm: LBS}
       data:
         generator3D:
           settings:
@@ -69,54 +66,34 @@ MonoBehaviour:
             position: {x: 0, y: 0, z: 0}
             name: 
           rules: []
-    - rid: 3767989506628386820
-      type: {class: LBSMode, ns: , asm: Assembly-CSharp-Editor}
+    - rid: 9157593232956194829
+      type: {class: LBSMode, ns: , asm: LBS.Editor}
       data:
         name: Population
         drawer: DrawTaggedTileMap
         module: TaggedTileMap
         toolkit:
-        - rid: 3767989506628386821
-        - rid: 3767989506628386822
-        - rid: 3767989506628386823
-    - rid: 3767989506628386821
-      type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
+        - rid: 9157593232956194830
+        - rid: 9157593232956194831
+        - rid: 9157593232956194832
+    - rid: 9157593232956194830
+      type: {class: LBSTool, ns: , asm: LBS.Editor}
       data:
         icon: {fileID: 2800000, guid: 771d36a714319204ea4ddcbecdc2006e, type: 3}
         name: Select
         manipulator: Select
         inspector: 
-    - rid: 3767989506628386822
-      type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
+    - rid: 9157593232956194831
+      type: {class: LBSTool, ns: , asm: LBS.Editor}
       data:
         icon: {fileID: 2800000, guid: 5bcc511dcb487f24187b421ea2806d87, type: 3}
         name: Add Tile
         manipulator: AddTaggedTile
         inspector: BundlePalleteInspector
-    - rid: 3767989506628386823
-      type: {class: LBSTool, ns: , asm: Assembly-CSharp-Editor}
+    - rid: 9157593232956194832
+      type: {class: LBSTool, ns: , asm: LBS.Editor}
       data:
         icon: {fileID: 2800000, guid: 79e9d4f49f5e9874c805015d2c334f0c, type: 3}
         name: Remove
         manipulator: RemoveTile
         inspector: 
-    - rid: 3767989506628386824
-      type: {class: LBSRoomGraph, ns: LBS.Components.Graph, asm: Assembly-CSharp}
-      data:
-        key: LBSRoomGraph
-        visible: 0
-        changed: 0
-        nodes: []
-        edges: []
-    - rid: 3767989506628386825
-      type: {class: LBSSchema, ns: LBS.Components.TileMap, asm: Assembly-CSharp}
-      data:
-        key: LBSSchema
-        visible: 0
-        changed: 0
-        areas: []
-    - rid: 3767989506628386826
-      type: {class: SchemaBehaviour, ns: , asm: Assembly-CSharp}
-      data:
-        ShowNode: 1
-        label: Aqui deberia ir una paleta de habitaciones.

@@ -12,9 +12,9 @@ namespace LBS.Tools.Transformer
     public class TileMapToArea : Transformer
     {
         AreaModule<Area> areaModule;
-        TileMapModule<ConnectedTile> tileMap;
+        TileMapModule tileMap;
 
-        public TileMapToArea(TileMapModule<ConnectedTile> tileMap, AreaModule<Area> area): base(tileMap.GetType(),area.GetType())
+        public TileMapToArea(TileMapModule tileMap, AreaModule<Area> area): base(tileMap.GetType(),area.GetType())
         {
             this.areaModule = area;
             this.tileMap = tileMap;

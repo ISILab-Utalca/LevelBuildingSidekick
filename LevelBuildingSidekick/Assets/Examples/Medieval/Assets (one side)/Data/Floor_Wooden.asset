@@ -21,11 +21,12 @@ MonoBehaviour:
   - {fileID: 4506225093705001793, guid: 92311860c8c187d41a8281547a752763, type: 3}
   - {fileID: 5600215542615774154, guid: b5c0bcf85e3a9b1448b613dcd8c592eb, type: 3}
   characteristics:
-  - rid: 1700476139635212333
+  - rid: 3767989614650065807
   references:
     version: 2
     RefIds:
-    - rid: 1700476139635212333
-      type: {class: LBSTagsCharacteristic, ns: , asm: Assembly-CSharp}
+    - rid: 3767989614650065807
+      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
       data:
+        label: 
         value: {fileID: 11400000, guid: 94b707ea81720694d8e3ac214351af91, type: 2}
