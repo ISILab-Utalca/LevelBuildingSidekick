@@ -15,7 +15,8 @@ public class StretchEvaluator : IEvaluator
         var borderMax = 0f;
         foreach (var area in schema.Areas)
         {
-            totalArea.AddTiles(area.Tiles);
+            foreach(var t in area.Tiles)
+                totalArea.AddTile(t);
 
             var areaWalls = area.GetHorizontalWalls().Concat(area.GetVerticalWalls()).ToList();
             foreach (var wall in areaWalls)

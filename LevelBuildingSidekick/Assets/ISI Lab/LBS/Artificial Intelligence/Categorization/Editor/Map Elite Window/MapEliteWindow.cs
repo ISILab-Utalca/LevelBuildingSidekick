@@ -62,7 +62,7 @@ public class MapEliteWindow : EditorWindow
 
     public MapElites mapElites;
 
-    public TeselationModule backgroundModule;
+    public TileMapModule backgroundModule;
 
     LBSLayer layer;
 
@@ -95,7 +95,7 @@ public class MapEliteWindow : EditorWindow
         BackgroundField.RegisterValueChangedCallback(e =>
         {
             var mods = layer.Parent.Layers.SelectMany(l => l.Modules);
-            backgroundModule = mods.ToList().Find(m => m.Key == e.newValue) as TeselationModule;
+            backgroundModule = mods.ToList().Find(m => m.ID == e.newValue) as TileMapModule;
             Clear();
         });
 
@@ -345,9 +345,9 @@ public class MapEliteWindow : EditorWindow
 
         var target = Reflection.GetClassesWith<ChromosomeFromModuleAttribute>().Where(t => t.Item2.Any(v => v.type == type)).First().Item1;
 
-        var immutables = backgroundModule.EmptyIndexes().ToArray();
+        //var immutables = backgroundModule.EmptyIndexes().ToArray();
 
-        var chrom = Activator.CreateInstance(target, new object[] { module, backgroundModule.GetBounds(), immutables}) as ChromosomeBase;
+        var chrom = Activator.CreateInstance(target, new object[] { module, backgroundModule.GetBounds()}) as ChromosomeBase;
 
         return chrom;
 
@@ -399,7 +399,7 @@ public class MapEliteWindow : EditorWindow
         if(BackgroundField.choices.Count != 0)
         {
             BackgroundField.value = BackgroundField.choices[0];
-            backgroundModule = this.layer.Parent.Layers.SelectMany(m => m.Modules).ToList().Find(m => m.Key == BackgroundField.value) as TeselationModule;
+            backgroundModule = this.layer.Parent.Layers.SelectMany(m => m.Modules).ToList().Find(m => m.ID == BackgroundField.value) as TileMapModule;
 
         }
 
@@ -421,9 +421,9 @@ public class MapEliteWindow : EditorWindow
 
         foreach (var m in mods)
         {
-            if (m is TeselationModule && Reflection.GetClassesWith<ModuleTexturizerAttribute>().Any(t => t.Item2.Any(v => v.type == m.GetType())))
+            if (m is TileMapModule && Reflection.GetClassesWith<ModuleTexturizerAttribute>().Any(t => t.Item2.Any(v => v.type == m.GetType())))
             {
-                choices.Add(m.Key);
+                choices.Add(m.ID);
             }
         }
 
@@ -439,7 +439,7 @@ public class MapEliteWindow : EditorWindow
             var ves = Utility.Reflection.GetClassesWith<ChromosomeFromModuleAttribute>().Where(t => t.Item2.Any(v => v.type == m.GetType()));
             if (ves.Count() != 0)
             {
-                choices.Add(m.Key);
+                choices.Add(m.ID);
             }
         }
 
