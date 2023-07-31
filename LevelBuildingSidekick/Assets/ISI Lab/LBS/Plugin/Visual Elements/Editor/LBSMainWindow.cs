@@ -17,7 +17,6 @@ public class LBSMainWindow : EditorWindow
 
     // Selected
     private LBSLayer _selectedLayer;
-    private string _selectedMode; // (??) esto deberia ser mas que un string?
 
     // Templates
     public List<LayerTemplate> layerTemplates;
@@ -26,7 +25,6 @@ public class LBSMainWindow : EditorWindow
     private ButtonGroup toolPanel;
     private VisualElement extraPanel;
     private VisualElement noLayerSign;
-    private ModeSelector modeSelector;
     private MainView mainView; // work canvas
     private Label selectedLabel;
     private VisualElement floatingPanelContent;
@@ -85,18 +83,6 @@ public class LBSMainWindow : EditorWindow
         // LayerInspector
         layerInspector = rootVisualElement.Q<LayerInspector>("LayerInspector");
 
-        // ModeSelector
-        modeSelector = rootVisualElement.Q<ModeSelector>("ModeSelector");
-        modeSelector.OnSelectionChange += (mode) =>
-        {
-            OnApplyTrasformers(_selectedMode, mode);
-            OnSelectedModeChange(mode, _selectedLayer);
-        };
-        modeSelector.OnUpdateMode += () =>
-        {
-            OnModeUpdate(_selectedLayer);
-        };
-
         // MainView 
         mainView = rootVisualElement.Q<MainView>("MainView");
         mainView.OnClearSelection = () =>
@@ -115,10 +101,10 @@ public class LBSMainWindow : EditorWindow
         inspectorManager = rootVisualElement.Q<LBSInspectorPanel>("InpectorPanel");
 
         // ToolKitManager
-        toolkitManager = new ToolkitManager(ref toolPanel, ref modeSelector, ref mainView, ref inspectorManager, ref layerTemplates);
+        toolkitManager = new ToolkitManager(ref toolPanel, ref mainView, ref inspectorManager, ref layerTemplates);
         toolkitManager.OnEndSomeAction += () =>
         {
-            drawManager.RefreshView(ref _selectedLayer, levelData.Layers, _selectedMode);
+            drawManager.Redraw(levelData, mainView);
         };
 
         // ToolBar
@@ -134,7 +120,7 @@ public class LBSMainWindow : EditorWindow
             LevelBackUp.Instance().level = data;
             levelData = LevelBackUp.Instance().level.data;
             RefreshWindow();
-            drawManager.RefreshView(ref _selectedLayer, levelData.Layers, _selectedMode);
+            drawManager.Redraw(levelData, mainView);
         };
 
         // ExtraPanel
@@ -177,7 +163,7 @@ public class LBSMainWindow : EditorWindow
         };
         layerPanel.OnLayerVisibilityChange += (l) =>
         {
-            drawManager.RefreshView(ref _selectedLayer, levelData.Layers, _selectedMode);
+            drawManager.Redraw(levelData, mainView);
         };
         layerPanel.OnAddLayer += (layer) =>
         {
@@ -198,9 +184,8 @@ public class LBSMainWindow : EditorWindow
         aiPanel = new AIPanel();
         aiPanel.OnFinish += () =>
         {
-            _selectedLayer.selectedMode = _selectedMode;
-            drawManager.RefreshView(ref _selectedLayer, levelData.Layers, _selectedMode);
-            OnSelectedLayerChange2(_selectedLayer);
+            drawManager.Redraw(levelData, mainView);
+            OnSelectedLayerChange(_selectedLayer);
         };
 
         extraPanel.Add(aiPanel);
@@ -269,7 +254,7 @@ public class LBSMainWindow : EditorWindow
     public new void Repaint()
     {
         base.Repaint();
-        drawManager.RefreshView(ref _selectedLayer, levelData.Layers, _selectedMode);
+        drawManager.Redraw(levelData, mainView);
     }
 
     private void RefreshWindow()
@@ -287,6 +272,7 @@ public class LBSMainWindow : EditorWindow
 
     public void OnApplyTrasformers(string modeFrom, string modeTo)
     {
+        /*
         var ModuleFrom = _selectedLayer.GetMode(layerTemplates, modeFrom).module;
         var ModuleTo = _selectedLayer.GetMode(layerTemplates, modeTo).module;
 
@@ -296,9 +282,9 @@ public class LBSMainWindow : EditorWindow
         if(trans != null)
         {
             trans.Switch(ref _selectedLayer);
-        }
+        }*/
     }
-
+    /*
     public void OnModeUpdate(LBSLayer layer)
     {
         var transformers = layer.GetTrasformers(layerTemplates);
@@ -318,7 +304,7 @@ public class LBSMainWindow : EditorWindow
             {
                 modes.Add(mod);
             }
-        }*/
+        }
 
         var modes = allModes.Where(m => m.module == t.To.FullName).ToList();
         var modesID = modes.Where(m => m.name != _selectedMode).Select(m => m.name).ToList();
@@ -333,8 +319,8 @@ public class LBSMainWindow : EditorWindow
         
 
         modeSelector.Index = modeSelector.GetChoiceIndex(m);
-    }
-
+    }*/
+    /*
     public void OnSelectedModeChange(string mode, LBSLayer layer)
     {
         _selectedLayer = layer;
@@ -351,42 +337,17 @@ public class LBSMainWindow : EditorWindow
         modeSelector.style.display = (levelData.Layers.Count <= 0) ? DisplayStyle.None : DisplayStyle.Flex;
 
         drawManager.RefreshView(ref _selectedLayer,levelData.Layers, _selectedMode);
-    }
+    }*/
 
     public void OnSelectedLayerChange(LBSLayer layer)
     {
-        modeSelector.Disable();
         _selectedLayer = layer;
-        
-        // actualize modes
-        var modes = _selectedLayer.GetToolkit(layerTemplates);
-        modeSelector.SetChoices(modes);
-        modeSelector.Index = 0;
-        modeSelector.style.display = DisplayStyle.Flex;
-        inspectorManager.OnSelectedLayerChange(layer);
-        OnSelectedModeChange(modes.Keys.First(), _selectedLayer);
+        //OnSelectedModeChange(modes.Keys.First(), _selectedLayer);
 
         //Actualiza AI Panel
         aiPanel.Clear();
         aiPanel.Init(layer);
 
         selectedLabel.text = "selected: " + layer.Name;
-        modeSelector.Enable();
-    }
-
-    public void OnSelectedLayerChange2(LBSLayer layer) // esto es un parche se deberia ir cuando se mejore el paso de selected layer y los comportamientos
-    {
-        modeSelector.Disable();
-        _selectedLayer = layer;
-
-        // actualize modes
-        var modes = _selectedLayer.GetToolkit(layerTemplates);     
-        modeSelector.SetChoices(modes);
-        modeSelector.Index = modes.Count -1;
-        modeSelector.style.display = DisplayStyle.Flex;
-        OnSelectedModeChange(modes.Keys.Last(), _selectedLayer);
-
-        selectedLabel.text = "selected: " + layer.Name;
-        modeSelector.Enable();
     }
 }
