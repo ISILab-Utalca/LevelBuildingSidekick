@@ -138,7 +138,7 @@ public class LBSGlobalTagsInspector : LBSInspector
         tagInfo.SetInfo(tag);
     }
 
-    public override void Init(List<IManipulatorLBS> lBSManipulators, ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
+    public override void Init(List<IManipulatorLBS> lBSManipulators, MainView view, LBSLayer layer, LBSBehaviour behaviour)
     {
         //throw new NotImplementedException();
     }
