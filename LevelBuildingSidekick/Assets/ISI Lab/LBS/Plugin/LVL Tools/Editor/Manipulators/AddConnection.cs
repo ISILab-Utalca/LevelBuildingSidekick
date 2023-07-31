@@ -1,12 +1,14 @@
+using LBS.Components;
 using LBS.Components.TileMap;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class AddConnection<T> : ManipulateTeselation<T> where T : LBSTile
+public class AddConnection : LBSManipulator
 {
     public LBSIdentifier tagToSet;
+    public ConnectedTileMapModule module;
 
     private List<Vector2Int> dirs = new List<Vector2Int>() // (!) esto deberia estar en un lugar general
     {
@@ -16,19 +18,27 @@ public class AddConnection<T> : ManipulateTeselation<T> where T : LBSTile
         Vector2Int.up
     };
 
-    private ConnectedTile first;
+    private TileConnectionsPair first;
 
     public AddConnection() : base()
     {
-        feedback = new ConectedLine();
+        feedback = new ConnectedLine();
         feedback.fixToTeselation = true;
+    }
+
+    public override void Init(MainView view, LBSLayer layer, LBSBehaviour behaviour)
+    {
+        this.module = layer.GetModule<ConnectedTileMapModule>();
+        feedback.TeselationSize = layer.TileSize;
+        layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
+        this.MainView = view;
     }
 
     protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
     {
         //OnManipulationStart?.Invoke();
         var pos = module.Owner.ToFixedPosition(position);
-        var tile = module.GetTile(pos) as ConnectedTile;
+        var tile = module.Tiles.Find(t => t.Tile.Position == pos);
 
         //var tile = e.target as ExteriorTileView;
         if (tile == null)
@@ -49,29 +59,22 @@ public class AddConnection<T> : ManipulateTeselation<T> where T : LBSTile
 
         var pos = module.Owner.ToFixedPosition(position);
 
-        var dx = (first.Position.x - pos.x);
-        var dy = (first.Position.y - pos.y);
+        var dx = (first.Tile.Position.x - pos.x);
+        var dy = (first.Tile.Position.y - pos.y);
         var fDir = dirs.FindIndex(d => d.Equals(-new Vector2Int(dx, dy)));
 
         if (fDir < 0 || fDir >= dirs.Count)
             return;
 
-        var tile = module.GetTile(pos);
+        var tile = module.Tiles.Find(t => t.Tile.Position == pos);
 
         if (tile == null)
         {
-            first.SetConnection(tagToSet.Label, fDir);
+            first.SetConnection(fDir, tagToSet.Label);
             return;
         }
 
-        var second = tile as ConnectedTile;
-
-        if (second == null)
-        {
-            return;
-        }
-
-        if (first == second)
+        if (first == tile)
             return;
 
         if (Mathf.Abs(dx) + Mathf.Abs(dy) > 1f)
@@ -79,8 +82,8 @@ public class AddConnection<T> : ManipulateTeselation<T> where T : LBSTile
 
         var tDir = dirs.FindIndex(d => d.Equals(new Vector2Int(dx, dy)));
 
-        first.SetConnection(tagToSet.Label, fDir);
-        second.SetConnection(tagToSet.Label, tDir);
+        first.SetConnection(fDir, tagToSet.Label);
+        tile.SetConnection(tDir, tagToSet.Label);
 
     }
 }

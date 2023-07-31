@@ -9,7 +9,7 @@ public abstract class ManipulateGraph<T> : LBSManipulator where T : LBSNode
 {
     protected GraphModule<T> module;
 
-    public override void Init(ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
+    public override void Init(MainView view, LBSLayer layer, LBSBehaviour behaviour)
     {
         this.module = layer.GetModule<GraphModule<T>>();
         this.MainView = view;
