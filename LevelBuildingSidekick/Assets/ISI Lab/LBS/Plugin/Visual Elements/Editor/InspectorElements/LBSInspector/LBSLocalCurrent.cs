@@ -44,6 +44,7 @@ public class LBSLocalCurrent : LBSInspector
 
     public void SetInfo(LBSLayer target)
     {
+        /*
         contentContainer.Clear();
         foreach(var b in target.Behaviours)
         {
@@ -61,7 +62,7 @@ public class LBSLocalCurrent : LBSInspector
             }
 
             contentContainer.Add(ve as VisualElement);
-        }
+        }*/
 
         /*
         contentAssist.Clear();
