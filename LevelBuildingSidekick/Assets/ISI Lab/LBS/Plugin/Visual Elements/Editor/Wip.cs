@@ -12,7 +12,7 @@ public class Wip : LBSInspector
         visualTree.CloneTree(this);
     }
 
-    public override void Init(List<IManipulatorLBS> lBSManipulators, ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
+    public override void Init(List<IManipulatorLBS> lBSManipulators, MainView view, LBSLayer layer, LBSBehaviour behaviour)
     {
         //throw new System.NotImplementedException();
     }
