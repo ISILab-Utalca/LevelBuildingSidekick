@@ -52,7 +52,7 @@ namespace LBS.Tools.Transformer
             var nAreas = new List<TiledArea>();
             foreach (var area in areaModule.Areas)
             {
-                var nArea = new TiledArea(new List<LBSTile>(), area.ID, area.Key, area.Color);
+                var nArea = new TiledArea(new List<LBSTile>(), area.ID, area.Color);
 
                 foreach (var tile in area.Tiles)
                 {
@@ -66,7 +66,7 @@ namespace LBS.Tools.Transformer
                         {
                             ct.SetConnection("Wall", i);
                         }
-                        else if (area.Contains(nei.Position))
+                        else if (area.GetTile(nei.Position) != null)
                         {
                             ct.SetConnection("Empty", i);
                         }
