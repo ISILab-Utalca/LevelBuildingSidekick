@@ -39,7 +39,15 @@ public class SchemaBehaviour : LBSBehaviour
     #endregion
 
     #region PROEPRTIES
-
+    public List<Zone> Areas
+    {
+        get
+        {
+            if(areas != null)
+                return areas.Areas; //?
+            return new List<Zone>();
+        }
+    }
     #endregion
 
     #region CONSTRUCTORS
@@ -48,7 +56,7 @@ public class SchemaBehaviour : LBSBehaviour
 
     }
 
-    public SchemaBehaviour(LBSLayer layer) : base(layer)
+    public SchemaBehaviour(Texture2D icon, string name) : base(icon, name)
     {
 
     }
@@ -245,7 +253,7 @@ public class SchemaBehaviour : LBSBehaviour
 
     public override object Clone()
     {
-        return new SchemaBehaviour();
+        return new SchemaBehaviour(this.icon, this.name);
     }
     #endregion
 }
