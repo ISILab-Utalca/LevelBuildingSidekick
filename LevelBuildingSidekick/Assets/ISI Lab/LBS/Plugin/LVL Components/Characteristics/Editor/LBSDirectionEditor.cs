@@ -6,14 +6,27 @@ using UnityEngine.UIElements;
 
 public abstract class LBSCustomEditor : VisualElement
 {
+    #region FIELDS
     object target;
+    #endregion
+
+    #region CONSTRUCTORS
     public LBSCustomEditor() { }
 
-    public LBSCustomEditor(object target) { this.target = target; }
+    public LBSCustomEditor(object target) 
+    { 
+        this.target = target; 
+    }
+    #endregion
+
+    #region METHODS
+    public virtual void ContextMenu(ContextualMenuPopulateEvent evt) { }
 
     public abstract void SetInfo(object target);
 
     protected abstract VisualElement CreateVisualElement();
+    #endregion
+
 }
 
 [LBSCustomEditorAttribute("Weigths", typeof(LBSDirection))]
