@@ -102,7 +102,29 @@ public class LayerTemplateEditor : Editor
 
         // Basic data layer
         var layer = template.layer;
-        //layer.TileSize = new Vector2Int(2,2);
+        layer.ID = "Interior";
+        layer.Name = "Layer Interior";
+        layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/interior-design.png";
+        template.layer = layer;
+
+        // Modules
+        // layer.AddModule(new LBSRoomGraph());    // GraphModule<RoomNode>
+        // layer.AddModule(new LBSSchema());        // AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile>
+
+        // Behaviours
+        var bhIcon = Resources.Load<Texture2D>("Icons/Select");
+        var sch = new SchemaBehaviour(bhIcon, "Schema behaviour");
+        sch.Init(layer);
+        layer.AddBehaviour(sch);
+
+        // Assistants
+        layer.AddAssistant(new AssistantHillClimbing());
+        
+        // Generators
+        layer.AddGeneratorRule(new SchemaRuleGenerator());
+        layer.AddGeneratorRule(new SchemaRuleGeneratorExteriror());
+
+        // Seting Generator
         layer.settingsGen3D = new Generator3D.Settings()
         {
             scale = new Vector2Int(2, 2),
@@ -111,21 +133,7 @@ public class LayerTemplateEditor : Editor
             name = "Interior",
         };
 
-        layer.AddAssistant(new AssistantHillClimbing());
-        layer.AddGeneratorRule(new SchemaRuleGenerator());
-        layer.AddGeneratorRule(new SchemaRuleGeneratorExteriror());
-
-        layer.ID = "Interior";
-        layer.Name = "Layer Interior";
-        layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/interior-design.png";
-        template.layer = layer;
-
-        layer.AddBehaviour(new SchemaBehaviour(layer));
         /*
-        // Modules
-        layer.AddModule(new LBSRoomGraph());    // GraphModule<RoomNode>
-        layer.AddModule(new LBSSchema());       // AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile>
-
         // Transformers
         template.transformers.Add(
             new GraphToArea(
@@ -237,6 +245,7 @@ public class LayerTemplateEditor : Editor
         //
 
         // Mode 1
+        /*
         Texture2D icon = Resources.Load<Texture2D>("Icons/Select");
         var tool1 = new LBSTool(icon, "Select", typeof(Select), null, true);
 
@@ -280,12 +289,12 @@ public class LayerTemplateEditor : Editor
             typeof(WaveFunctionCollapseManipulator), 
             null, 
             false);
-
+        */
         var mode1 = new LBSMode(
             "Exterior",
             typeof(TiledArea), // (!!!) implentar la correcta
             new DrawExterior(),
-            new List<LBSTool>() { tool1, tool2, tool3, tool4, tool5, tool6 }
+            new List<LBSTool>() { }// tool1, tool2, tool3, tool4, tool5, tool6 }
             );
 
 
@@ -328,6 +337,7 @@ public class LayerTemplateEditor : Editor
         layer.AddModule(new LBSTileMap());
         layer.AddModule(new TaggedTileMap());
 
+        /*
         // Select
         Texture2D icon = Resources.Load<Texture2D>("Icons/Select");
         var tool1 = new LBSTool(icon, "Select", typeof(Select), null, true);
@@ -339,7 +349,7 @@ public class LayerTemplateEditor : Editor
         //Remove
         icon = Resources.Load<Texture2D>("Icons/Trash");
         var tool3 = new LBSTool(icon, "Remove", typeof(RemoveTile), null, false);
-        
+        */
 
         var mode1 = new LBSMode(
             "Population",
@@ -347,7 +357,7 @@ public class LayerTemplateEditor : Editor
             //Check if 'PopulationTileMap<TiledArea> works
             typeof(TaggedTileMap), 
             new DrawTaggedTileMap(),
-            new List<LBSTool>() { tool1, tool2, tool3}
+            new List<LBSTool>() { }// tool1, tool2, tool3}
             );
         template.modes.Add(mode1);
 
@@ -385,6 +395,7 @@ public class LayerTemplateEditor : Editor
         layer.AddModule(new LBSGrammarGraph()); // (!)
 
         // Mode 1
+        /*
         Texture2D icon = Resources.Load<Texture2D>("Icons/Select");
         var tool1 = new LBSTool(icon, "Select", typeof(Select), null, true);
         icon = Resources.Load<Texture2D>("Icons/Addnode");
@@ -393,12 +404,12 @@ public class LayerTemplateEditor : Editor
         var tool3 = new LBSTool(icon, "Add conection", typeof(CreateNewConnection<LBSNode>), null, false); // (!)
         icon = Resources.Load<Texture2D>("Icons/Trash");
         var tool4 = new LBSTool(icon, "Remove", typeof(RemoveGraphNode<LBSNode>), null, false); // (!)
-
+        */
         var mode1 = new LBSMode(
             "Graph",
             typeof(LBSGraph),
             new DrawGrammarGraph(), // (!)
-            new List<LBSTool>() { tool1, tool2, tool3, tool4 }
+            new List<LBSTool>() { }//tool1, tool2, tool3, tool4 }
             );
         template.modes.Add(mode1);
 
