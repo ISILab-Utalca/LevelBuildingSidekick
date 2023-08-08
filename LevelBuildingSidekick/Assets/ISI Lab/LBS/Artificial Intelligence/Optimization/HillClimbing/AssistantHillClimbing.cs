@@ -6,10 +6,11 @@ using UnityEngine.UIElements;
 using LBS.Components;
 using LBS.Components.TileMap;
 using System.Linq;
-using GeneticSharp.Domain.Selections;
-using GeneticSharp.Domain.Populations;
+using ISILab.AI.Optimization.Selections;
+using ISILab.AI.Optimization.Populations;
 using Commons.Optimization.Evaluator;
-using Commons.Optimization.Terminations;
+using ISILab.AI.Optimization.Terminations;
+using ISILab.AI.Optimization;
 using LBS.Components.Graph;
 using LBS.Tools.Transformer;
 using System;
@@ -60,12 +61,6 @@ public class AssistantHillClimbing : LBSAssistantAI
 
         OnTermination?.Invoke();
         UnityEngine.Debug.Log("HillClimbing finish!");
-    }
-
-    public override VisualElement GetInspector()
-    {
-        UnityEngine.Debug.Log("No implemntado HillClimbing");
-        return new Label("No implementado");
     }
 
     private void SetDoors(LBSSchema schema, LBSRoomGraph graph)

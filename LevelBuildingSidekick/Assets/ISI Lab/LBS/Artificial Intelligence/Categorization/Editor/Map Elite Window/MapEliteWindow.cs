@@ -8,7 +8,7 @@ using System.Linq;
 using GeneticSharp.Domain;
 using Commons.Optimization.Evaluator;
 using Utility;
-using Commons.Optimization;
+using ISILab.AI.Optimization;
 using GeneticSharp.Domain.Chromosomes;
 using System;
 using LBS.Components;
@@ -69,14 +69,20 @@ public class MapEliteWindow : EditorWindow
 
     public void CreateGUI()
     {
-        img = DirectoryTools.SearchAssetByName<Texture2D>("ButtonWrapper (1)");
-        img2 = DirectoryTools.SearchAssetByName<Texture2D>("ButtonWrapper (2)");
-        img3 = DirectoryTools.SearchAssetByName<Texture2D>("ButtonWrapper (3)");
+        VisualElement root = rootVisualElement;
+        var assitant = new AssistantMapElite();
+        var ve = new AssistantMapEliteVE(assitant);
+        root.Add(ve);
+
+
+        /*img = DirectoryTools.SearchAssetByName<Texture2D>("PausedProcess");
+        img2 = DirectoryTools.SearchAssetByName<Texture2D>("LoadingContent");
+        img3 = DirectoryTools.SearchAssetByName<Texture2D>("ContentNotFound");
 
         toUpdate = new List<Vector2Int>();
         VisualElement root = rootVisualElement;
 
-        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("MapEliteUXML");
+        var visualTree = LBSAssetsStorage.Instance.Get<VisualTreeAsset>().Find(o => o.name == "MapEliteUXML");
         visualTree.CloneTree(root);
 
         var styleSheet = DirectoryTools.SearchAssetByName<StyleSheet>("MapEliteUSS");
@@ -161,7 +167,7 @@ public class MapEliteWindow : EditorWindow
             var value = ve.Evaluator;
             mapElites.YEvaluator = value as IRangedEvaluator;
             ve.SetLayer(layer);
-        });*/
+        });
 
         this.FitnessField = root.Q<ClassFoldout>("FitnessField");//new ClassDropDown(typeof(IEvaluator), true);
         FitnessField.dropdown.Type = typeof(IRangedEvaluator);
@@ -192,8 +198,10 @@ public class MapEliteWindow : EditorWindow
         toUpdate.Clear();
 
         Paused = root.style.backgroundColor.value;
-        Running = new Color(0.22f,0.22f,0.36f);//Color.blue;
+        Running = new Color(0.22f,0.22f,0.36f);//Color.blue;*/
     }
+
+    #region Done
 
     public void Run()
     {
@@ -218,34 +226,15 @@ public class MapEliteWindow : EditorWindow
 
         var adam = CreateAdam(module);
 
-        if(adam == null)
+        if (adam == null)
         {
-            throw new Exception("[ISI Lab] There is no suitable chromosome for class: " + module.GetType().Name );
+            throw new Exception("[ISI Lab] There is no suitable chromosome for class: " + module.GetType().Name);
         }
 
         mapElites.Adam = adam;
 
         mapElites.Run();
     }
-
-    public void Continue()
-    {
-        if(mapElites.Optimizer.State == Op_State.TerminationReached)
-        {
-            (EvaluatorFieldX.content as EvaluatorVE).Init();
-            (EvaluatorFieldY.content as EvaluatorVE).Init();
-            (FitnessField.content as EvaluatorVE).Init();
-
-            mapElites.Restart();
-        }
-    }
-
-    private void OnFocus()
-    {
-        var il = Reflection.MakeGenericScriptable(mapElites);
-        Selection.SetActiveObjectWithContext(il, il);
-    }
-
     public void ChangePartitions(Vector2 partitions)
     {
         //ButtonBackground = BackgroundTexture(layer.GetModule<LBSModule>(BackgroundField.value));
@@ -262,14 +251,14 @@ public class MapEliteWindow : EditorWindow
         for (int i = 0; i < Content.Length; i++)
         {
             var b = new ButtonWrapper(null, new Vector2(ButtonSize, ButtonSize));
-            b.clicked += () => 
-            { 
+            b.clicked += () =>
+            {
                 if (b.Data != null)
                 {
                     var mod = layer.GetModule<LBSModule>(ModuleField.value);
                     var chrom = b.Data as LBSChromosome;
 
-                    if(mod == null)
+                    if (mod == null)
                     {
                         throw new Exception("[ISI Lab] Module " + ModuleField.value + " could not be found!");
                     }
@@ -283,7 +272,7 @@ public class MapEliteWindow : EditorWindow
 
                     GetWindow<LBSMainWindow>().Repaint();
 
-                } 
+                }
             };
             Content[i] = b;
             Container.Add(b);
@@ -291,16 +280,15 @@ public class MapEliteWindow : EditorWindow
 
         Content.ToList().ForEach(b => b.style.backgroundImage = img);
     }
-
     public void UpdateSample(Vector2Int coords)
     {
         var index = (coords.y * mapElites.XSampleCount + coords.x);
-        if(Content[index].Data != null && (Content[index].Data as IOptimizable).Fitness > mapElites.BestSamples[coords.y, coords.x].Fitness)
+        if (Content[index].Data != null && (Content[index].Data as IOptimizable).Fitness > mapElites.BestSamples[coords.y, coords.x].Fitness)
         {
             return;
         }
         Content[index].Data = mapElites.BestSamples[coords.y, coords.x];
-        Content[index].Text =  ((decimal)mapElites.BestSamples[coords.y, coords.x].Fitness).ToString("f4");
+        Content[index].Text = ((decimal)mapElites.BestSamples[coords.y, coords.x].Fitness).ToString("f4");
 
 
 
@@ -310,9 +298,59 @@ public class MapEliteWindow : EditorWindow
                 toUpdate.Add(coords);
         }
     }
+    private void OnInspectorUpdate()
+    {/*
+        lock (locker)
+        {
+            for (int i = 0; i < toUpdate.Count; i++)
+            {
+                var v = toUpdate[i];
+                var index = (v.y * mapElites.XSampleCount + v.x);
+                var t = Content[index].GetTexture();
+                if (Content[index].Data != null)
+                {
+                    ButtonBackground = BackgroundTexture(backgroundModule);
+                    Content[index].SetTexture(ButtonBackground.MergeTextures(t));
+                }
+                else
+                {
+                    Content[index].SetTexture(img3);
+                }
+                Content[index].UpdateLabel();
+            }
+            toUpdate.Clear();
+        }
+
+        if (mapElites.Finished)
+        {
+            foreach (ButtonWrapper bw in Content)
+            {
+                if (bw.Data == null)
+                {
+                    bw.style.backgroundImage = img2;
+                }
+            }
+        }
+
+        */
+    }
+
+    #endregion
+
+    public void Continue()
+    {
+        if(mapElites.Optimizer.State == Op_State.TerminationReached)
+        {
+            (EvaluatorFieldX.content as EvaluatorVE).Init();
+            (EvaluatorFieldY.content as EvaluatorVE).Init();
+            (FitnessField.content as EvaluatorVE).Init();
+
+            mapElites.Restart();
+        }
+    }
 
     public void Clear()
-    {
+    {/*
         foreach (var button in Content)
         {
             button.style.backgroundImage = img;
@@ -353,42 +391,6 @@ public class MapEliteWindow : EditorWindow
 
     }
 
-    private void OnInspectorUpdate()
-    {
-        lock(locker)
-        {
-            for (int i = 0; i < toUpdate.Count; i++)
-            {
-                var v = toUpdate[i]; 
-                var index = (v.y * mapElites.XSampleCount + v.x);
-                var t = Content[index].GetTexture();
-                if (Content[index].Data != null)
-                {
-                    ButtonBackground = BackgroundTexture(backgroundModule);
-                    Content[index].SetTexture(ButtonBackground.MergeTextures(t));
-                }
-                else
-                {
-                    Content[index].SetTexture(img3);
-                }
-                Content[index].UpdateLabel();
-            }
-            toUpdate.Clear();
-        }
-        
-        if(mapElites.Finished)
-        {
-            foreach (ButtonWrapper bw in Content)
-            {
-                if (bw.Data == null)
-                {
-                    bw.style.backgroundImage = img2;
-                }
-            }
-        }
-
-
-    }
 
 
     public void SetLayer(LBSLayer layer)

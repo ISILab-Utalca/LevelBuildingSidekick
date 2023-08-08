@@ -18,11 +18,6 @@ public class AssitantWFC : LBSAssistantAI
         Debug.Log("No implementado WFC 'Execute()'");
     }
 
-    public override VisualElement GetInspector()
-    {
-        return new Label("No implementado");
-    }
-
     public override void Init(LBSLayer layer)
     {
         Debug.Log("No implementado WFC 'Init(layer)'");

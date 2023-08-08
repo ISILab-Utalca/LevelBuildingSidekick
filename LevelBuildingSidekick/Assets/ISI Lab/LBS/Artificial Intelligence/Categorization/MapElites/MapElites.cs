@@ -5,7 +5,7 @@ using Commons.Optimization.Evaluator;
 using System.Linq;
 using System;
 using UnityEngine.UIElements;
-using Commons.Optimization;
+using ISILab.AI.Optimization;
 using System.Threading;
 
 [System.Serializable]
@@ -13,7 +13,7 @@ public class MapElites
 {
     #region FIELDS
 
-    private int xSampleCount = 4;
+    private int xSampleCount = 4;   
 
     private int ySampleCount = 4;
 

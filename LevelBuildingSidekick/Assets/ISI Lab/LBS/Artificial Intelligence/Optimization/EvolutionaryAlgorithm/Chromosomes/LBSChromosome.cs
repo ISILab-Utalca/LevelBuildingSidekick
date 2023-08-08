@@ -10,5 +10,6 @@ public abstract class LBSChromosome : ChromosomeBase2D
     protected LBSChromosome() : base() { }
 
     public abstract LBSModule ToModule();
-    
+    public virtual List<LBSModule> ToModules() { return null; }
+
 }

@@ -2,7 +2,7 @@
 using UnityEngine;
 using System;
 using Commons.Optimization.Evaluator;
-using Commons.Optimization.Terminations;
+using ISILab.AI.Optimization.Terminations;
 using Commons.Optimization;
 using LBS;
 using System.Linq;
@@ -10,10 +10,10 @@ using LBS.Components.TileMap;
 using UnityEditor;
 using LBS.Components.Graph;
 using System.Diagnostics;
-using GeneticSharp.Domain.Selections;
-using GeneticSharp.Domain.Populations;
+using ISILab.AI.Optimization.Selections;
+using ISILab.AI.Optimization.Populations;
 
-namespace LBS.AI
+namespace ISILab.AI.Optimization
 {
     //Todo esto esta siendo usado en el panel AITest, cambiar nombre o reemplazar lo de la clase HillClimbing por esta.
     //Division de los metodos y estados basados en el Genetic.

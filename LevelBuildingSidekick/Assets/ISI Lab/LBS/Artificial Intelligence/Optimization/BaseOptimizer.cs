@@ -1,16 +1,16 @@
 ﻿using Commons.Optimization.Evaluator;
-using Commons.Optimization.Terminations;
+using ISILab.AI.Optimization.Terminations;
 using System;
-using GeneticSharp.Domain.Populations;
+using ISILab.AI.Optimization.Populations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System.Diagnostics;
 using Commons.Optimization;
-using GeneticSharp.Domain.Selections;
+using ISILab.AI.Optimization.Selections;
 
-namespace Commons.Optimization
+namespace ISILab.AI.Optimization
 {
     public abstract class BaseOptimizer
     {
