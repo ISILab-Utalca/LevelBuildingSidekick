@@ -15,7 +15,7 @@ namespace LBS.Generator
     {
         public override bool CheckIfIsPosible(LBSLayer layer, out string msg)
         {
-            var module = layer.GetModule<Exterior>();
+            var module = layer.GetModule<ExteriorModule>();
 
             msg = "The layer does not contain any module corresponding to 'Exterior'.";
 
@@ -52,7 +52,7 @@ namespace LBS.Generator
         public override GameObject Generate(LBSLayer layer, Generator3D.Settings settings)
         {
             var storage = LBSAssetsStorage.Instance;
-            var modulo = layer.GetModule<Exterior>();
+            var modulo = layer.GetModule<ExteriorModule>();
             var bundles = storage.Get<Bundle>()
                 .Where(b => b.GetCharacteristic<LBSDirectionedGroup>() != null && !b.isPreset)
                 .Select(b => b.GetCharacteristic<LBSDirectionedGroup>())
