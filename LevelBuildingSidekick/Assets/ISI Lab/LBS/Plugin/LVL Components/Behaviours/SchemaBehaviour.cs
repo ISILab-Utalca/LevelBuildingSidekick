@@ -8,12 +8,12 @@ using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
-[RequieredModule(typeof(LBSTileMap), typeof(ConnectedTileMapModule), typeof(SectorizedTileMapModule), typeof(ConnectedZonesModule))]
+[RequieredModule(typeof(TileMapModule), typeof(ConnectedTileMapModule), typeof(SectorizedTileMapModule), typeof(ConnectedZonesModule))]
 public class SchemaBehaviour : LBSBehaviour
 {
     #region FIELDS
     [JsonIgnore]
-    LBSTileMap tileMap;
+    TileMapModule tileMap;
     [JsonIgnore]
     ConnectedTileMapModule tileConnections;
     [JsonIgnore]
