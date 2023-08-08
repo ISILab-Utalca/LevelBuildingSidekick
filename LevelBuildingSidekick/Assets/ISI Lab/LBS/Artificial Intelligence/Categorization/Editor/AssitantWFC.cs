@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 [System.Serializable]
-[RequieredModule(typeof(Exterior))]
+[RequieredModule(typeof(ExteriorModule))]
 public class AssitantWFC : LBSAssistantAI
 {
     public override object Clone()
