@@ -38,7 +38,7 @@ public class MainView : GraphView
         style.flexGrow = 1;
 
         SetBasicManipulators();
-        InitBound(20000,int.MaxValue/2);
+        InitBound(20000, int.MaxValue / 2);
 
         AddElement(visualBound);
 
