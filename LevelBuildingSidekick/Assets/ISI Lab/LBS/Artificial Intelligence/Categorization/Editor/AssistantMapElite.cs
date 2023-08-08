@@ -8,10 +8,10 @@ using UnityEngine.UIElements;
 using Newtonsoft.Json;
 using LBS.Components.TileMap;
 using System.Linq;
-using GeneticSharp.Domain.Selections;
-using GeneticSharp.Domain.Populations;
+using ISILab.AI.Optimization.Selections;
+using ISILab.AI.Optimization.Populations;
 using Commons.Optimization.Evaluator;
-using Commons.Optimization.Terminations;
+using ISILab.AI.Optimization.Terminations;
 using LBS.Components.Graph;
 using LBS.Tools.Transformer;
 using System.Diagnostics;
@@ -22,25 +22,83 @@ using Debug = UnityEngine.Debug;
 //[RequieredModule(typeof(TaggedTileMap))]
 public class AssistantMapElite : LBSAssistantAI
 {
+    MapElites mapElites;
 
-    public string AAAA = "AAAAA";
+    public bool Finished => mapElites.Finished;
+    public int SampleWidth
+    {
+        get => mapElites.XSampleCount;
+        set => mapElites.XSampleCount = value;
+    }
+    public int SampleHeight
+    {
+        get => mapElites.YSampleCount;
+        set => mapElites.YSampleCount = value;
+    }
 
-    public AssistantMapElite(){ }
+    public IOptimizable[,] Samples => mapElites.BestSamples;
+
+    public AssistantMapElite()
+    {
+        mapElites = new MapElites();
+    }
+
+    public AssistantMapElite(MapElites mapElites)
+    {
+        this.mapElites = mapElites;
+    }
 
     public override void Execute()
     {
-        // esto deveria ejecutarse pero como esta e n una ventana mejor no (!!)
+        (mapElites.XEvaluator as EvaluatorVE).Init();// IS WRONG Check !!
+        (mapElites.YEvaluator as EvaluatorVE).Init();// IS WRONG Check !!
+        (mapElites.Optimizer.Evaluator as EvaluatorVE).Init();// IS WRONG Check !!
+        mapElites.Run();
     }
 
-    public override VisualElement GetInspector()
+    public void Continue() 
     {
-        return new Label("Inspector MapElite");
+        
     }
 
     public override void Init(LBSLayer layer)
     {
     }
 
+    public void ApplySuggestion(object data)
+    {
+        var chrom = data as LBSChromosome;
+
+        if (chrom == null)
+        {
+            throw new Exception("[ISI Lab] Data " + data.GetType().Name + " is not LBSChromosome!");
+        }
+
+        var modules = chrom.ToModules();
+
+        foreach (var m in modules) //GOTTA CHANGE THIS
+        {
+            var mod = Owner.GetModule<LBSModule>(m.ID);
+            mod.Rewrite(chrom.ToModule());
+        }
+    }
+
+    public void LoadPresset(MAPElitesPresset presset)
+    {
+        mapElites.Optimizer = presset.optimizer;
+        mapElites.XEvaluator = presset.xEvaluator;
+        mapElites.YEvaluator = presset.yEvaluator;
+        mapElites.XThreshold = presset.xThreshold;
+        mapElites.YThreshold = presset.yThreshold;
+        mapElites.XSampleCount = presset.xSampleCount;
+        mapElites.YSampleCount = presset.ySampleCount;
+        mapElites.devest = presset.devest;
+    }
+
+    public void SetAdam(Rect rect)
+    {
+        throw new Exception("Not implemented");
+    }
     public override object Clone()
     {
         return new AssistantMapElite();
