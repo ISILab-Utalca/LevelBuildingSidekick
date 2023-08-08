@@ -24,7 +24,6 @@ public class LayerTemplateEditor : Editor
     private int ruleIndex = 0;
     private List<Type> ruleOptions; 
 
-
     void OnEnable()
     {
         behaviourOptions = typeof(LBSBehaviour).GetDerivedTypes().ToList();
@@ -113,9 +112,9 @@ public class LayerTemplateEditor : Editor
 
         // Behaviours
         var bhIcon = Resources.Load<Texture2D>("Icons/Select");
-        var sch = new SchemaBehaviour(bhIcon, "Schema behaviour");
-        sch.Init(layer);
-        layer.AddBehaviour(sch);
+        var bh = new SchemaBehaviour(bhIcon, "Schema behaviour");
+        bh.Init(layer);
+        layer.AddBehaviour(bh);
 
         // Assistants
         layer.AddAssistant(new AssistantHillClimbing());
@@ -218,6 +217,15 @@ public class LayerTemplateEditor : Editor
 
         // Basic data layer
         var layer = template.layer;
+        layer.ID = "Exterior";
+        layer.Name = "Layer Exterior";
+        layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/pine-tree.png";
+        template.layer = layer;
+
+        var bhIcon = Resources.Load<Texture2D>("Icons/Select");
+        var bh = new ExteriorBehaviour(bhIcon, "Schema behaviour");
+        bh.Init(layer);
+        layer.AddBehaviour(bh);
 
         //layer.TileSize = new Vector2Int(10, 10);
         layer.settingsGen3D = new Generator3D.Settings()
@@ -231,14 +239,9 @@ public class LayerTemplateEditor : Editor
         layer.AddAssistant(new AssitantWFC());
         layer.AddGeneratorRule(new ExteriorRuleGenerator());
 
-        layer.ID = "Exterior";
-        layer.Name = "Layer Exterior";
-        layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/pine-tree.png";
-        template.layer = layer;
-
         // Modules
-        var x = new Exterior();
-        layer.AddModule(x);
+        //var x = new ExteriorModule();
+        //layer.AddModule(x);
 
         // Transformers
         //
@@ -315,6 +318,10 @@ public class LayerTemplateEditor : Editor
 
         // Basic data layer
         var layer = template.layer;
+        layer.ID = "Population";
+        layer.Name = "Layer Population";
+        layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/ghost.png";
+        template.layer = layer;
 
         //layer.TileSize = new Vector2Int(2, 2);
         layer.settingsGen3D = new Generator3D.Settings()
@@ -327,11 +334,6 @@ public class LayerTemplateEditor : Editor
 
         layer.AddAssistant(new AssistantMapElite());
         layer.AddGeneratorRule(new PopulationRuleGenerator());
-
-        layer.ID = "Population";
-        layer.Name = "Layer Population";
-        layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/ghost.png";
-        template.layer = layer;
 
         // Modules
         layer.AddModule(new TileMapModule());
@@ -375,6 +377,10 @@ public class LayerTemplateEditor : Editor
 
         // Basic data layer
         var layer = template.layer;
+        layer.ID = "Quest";
+        layer.Name = "Layer Quest";
+        layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Quest.png";
+        template.layer = layer;
 
         layer.settingsGen3D = new Generator3D.Settings()
         {
@@ -383,16 +389,17 @@ public class LayerTemplateEditor : Editor
             position = new Vector3(0, 0, 0),
             name = "Quest",
         };
+
+        var bhIcon = Resources.Load<Texture2D>("Icons/Select");
+        var bh = new QuestBehaviour(bhIcon, "Quest behaviour");
+        bh.Init(layer);
+        layer.AddBehaviour(bh);
+
         //layer.AddAssistant(new AssistentGrammar());
 
-        layer.ID = "Quest";
-        layer.Name = "Layer Quest";
-        layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Quest.png";
-        template.layer = layer;
-
         // Modules
-        layer.AddModule(new LBSGraph());
-        layer.AddModule(new LBSGrammarGraph()); // (!)
+        //layer.AddModule(new LBSGraph());
+        //layer.AddModule(new LBSGrammarGraph()); // (!)
 
         // Mode 1
         /*
