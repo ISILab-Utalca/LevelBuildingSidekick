@@ -74,7 +74,7 @@ public abstract class LBSBehaviour : ICloneable
 }
 
 [System.Serializable]
-[RequieredModule(typeof(Exterior))]
+[RequieredModule(typeof(ExteriorModule))]
 public class SimpleConectedBehaviour : LBSBehaviour
 {
     public string label = "Aqui deberia ir una paleta de tipo de conecciones.";
