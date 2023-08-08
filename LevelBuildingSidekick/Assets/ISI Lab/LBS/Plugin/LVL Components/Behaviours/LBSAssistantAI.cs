@@ -14,7 +14,7 @@ public abstract class LBSAssistantAI: ICloneable
     #region FIELDS
     [NonSerialized, HideInInspector, JsonIgnore]
     private LBSLayer owner;
-    [SerializeField]
+    [NonSerialized, HideInInspector, JsonIgnore]//[SerializeField]
     public Texture2D icon;
     [SerializeField]
     public string name;
@@ -45,6 +45,7 @@ public abstract class LBSAssistantAI: ICloneable
     {
         Owner = layer;
         Init(layer);
+
     }
 
     public abstract void Init(LBSLayer layer);
