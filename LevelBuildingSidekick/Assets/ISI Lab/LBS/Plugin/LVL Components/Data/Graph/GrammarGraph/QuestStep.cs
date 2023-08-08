@@ -14,7 +14,6 @@ public class QuestStep : ICloneable
     public GrammarElement GrammarElement => grammarElement;
 
     #region CONSTRUCTOR
-
     public QuestStep()
     {
     }
@@ -23,15 +22,12 @@ public class QuestStep : ICloneable
     {
         this.grammarElement = grammarElement;
     }
-
     #endregion;
 
     #region METHODS
-
     public object Clone()
     {
         return new QuestStep(grammarElement.Clone() as GrammarElement);
     }
-
     #endregion
 }
