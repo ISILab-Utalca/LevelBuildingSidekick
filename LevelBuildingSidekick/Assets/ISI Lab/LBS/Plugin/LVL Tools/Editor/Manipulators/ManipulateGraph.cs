@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public abstract class ManipulateGraph<T> : LBSManipulator where T : LBSNode
+public class ManipulateGraph<T> : LBSManipulator where T : LBSNode
 {
     protected GraphModule<T> module;
 
@@ -13,5 +13,20 @@ public abstract class ManipulateGraph<T> : LBSManipulator where T : LBSNode
     {
         this.module = layer.GetModule<GraphModule<T>>();
         this.MainView = view;
+    }
+
+    protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    protected override void OnMouseMove(VisualElement target, Vector2Int movePosition, MouseMoveEvent e)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
+    {
+        throw new System.NotImplementedException();
     }
 }

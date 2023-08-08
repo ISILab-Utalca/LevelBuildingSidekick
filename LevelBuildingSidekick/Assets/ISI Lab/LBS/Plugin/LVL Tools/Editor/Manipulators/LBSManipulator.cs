@@ -10,6 +10,7 @@ public abstract class LBSManipulator : MouseManipulator, IManipulatorLBS
 {
     protected Feedback feedback;
 
+    public Action OnManipulationUnpressed;
     public Action OnManipulationStart;
     public Action OnManipulationUpdate;
     public Action OnManipulationEnd;
@@ -28,7 +29,7 @@ public abstract class LBSManipulator : MouseManipulator, IManipulatorLBS
     private Vector2Int moveClickPosition = Vector2Int.zero;
     private Vector2Int endClickPosition = Vector2Int.zero;
 
-    public Vector2Int StartPosition // estos nombres podrian ser mas descriptivos por que "movePos" es como poco claro (!) 
+    public Vector2Int StartPosition 
     {
         get
         {
@@ -44,7 +45,7 @@ public abstract class LBSManipulator : MouseManipulator, IManipulatorLBS
         }
     }
 
-    public Vector2Int MovePosition // estos nombres podrian ser mas descriptivos por que "movePos" es como poco claro (!) 
+    public Vector2Int CurrentPosition 
     {
         get
         {
@@ -60,7 +61,7 @@ public abstract class LBSManipulator : MouseManipulator, IManipulatorLBS
         }
     }
 
-    public Vector2Int EndPosition // estos nombres podrian ser mas descriptivos por que "movePos" es como poco claro (!) 
+    public Vector2Int EndPosition 
     {
         get
         {
@@ -78,6 +79,7 @@ public abstract class LBSManipulator : MouseManipulator, IManipulatorLBS
 
     public LBSManipulator()
     {
+
     }
 
     public abstract void Init(MainView view, LBSLayer layer, LBSBehaviour behaviour);
@@ -185,6 +187,11 @@ public abstract class LBSManipulator : MouseManipulator, IManipulatorLBS
         OnManipulationEnd += action;
     }
 
+    public void AddManipulationUnpressed(Action action)
+    {
+        OnManipulationUnpressed += action;
+    }
+
     public void RemoveManipulationStart(Action action)
     {
         OnManipulationStart -= action;
@@ -198,6 +205,11 @@ public abstract class LBSManipulator : MouseManipulator, IManipulatorLBS
     public void RemoveManipulationEnd(Action action)
     {
         OnManipulationEnd -= action;
+    }
+
+    public void RemoveManipulationUnpressed(Action action)
+    {
+        OnManipulationUnpressed -= action;
     }
 }
 

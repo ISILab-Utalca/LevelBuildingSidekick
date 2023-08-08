@@ -11,20 +11,41 @@ using UnityEngine;
 [System.Serializable]
 public abstract class LBSBehaviour : ICloneable
 {
+    #region FIELDS
+    [NonSerialized, HideInInspector, JsonIgnore]
+    protected LBSLayer owner;
+    [SerializeField]
+    public Texture2D icon;
+    [SerializeField]
+    public string name;
+    #endregion
+
+    #region PROPERTIES
     [JsonIgnore]
-    protected LBSLayer owner; // no se si esto tenggo que inicializarlo con un Init() o en el constructor (?)
     public LBSLayer Owner
     {
         get => owner;
     }
+    #endregion
 
-    public LBSBehaviour(){ }
+    #region EVENTS
+    
+    #endregion
 
-    public LBSBehaviour(LBSLayer layer)
+    #region CONSTRUCTORS
+    public LBSBehaviour()
     {
-        Init(layer);
+
     }
 
+    public LBSBehaviour(Texture2D icon, string name)
+    {
+        this.icon = icon;
+        this.name = name;
+    }
+    #endregion
+
+    #region METHODS
     public virtual void Init(LBSLayer layer)
     {
         owner = layer;
@@ -48,7 +69,7 @@ public abstract class LBSBehaviour : ICloneable
         }
         return toR;
     }
-
+    #endregion
 
 }
 
@@ -57,8 +78,6 @@ public abstract class LBSBehaviour : ICloneable
 public class SimpleConectedBehaviour : LBSBehaviour
 {
     public string label = "Aqui deberia ir una paleta de tipo de conecciones.";
-
-
 
     public override object Clone()
     {

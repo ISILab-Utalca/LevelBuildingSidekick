@@ -10,10 +10,12 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Utility;
 
+
+
 public class LBSMainWindow : EditorWindow
 {
     // Data
-    public LBSLevelData levelData;
+    private LBSLevelData levelData;
 
     // Selected
     private LBSLayer _selectedLayer;
@@ -36,13 +38,13 @@ public class LBSMainWindow : EditorWindow
     private LayerInspector layerInspector;
 
     // Manager
-    private ToolkitManager toolkitManager;
+    //private ToolkitManager toolkitManager;
     private DrawManager drawManager;
     private LBSInspectorPanel inspectorManager;
 
 
     [MenuItem("ISILab/Level Building Sidekick", priority = 0)]
-    public static void ShowWindow()
+    private static void ShowWindow()
     {
         var window = GetWindow<LBSMainWindow>();
         Texture icon = Resources.Load<Texture>("Icons/LBS_Logo1");
@@ -63,7 +65,7 @@ public class LBSMainWindow : EditorWindow
         Init();
     }
 
-    public void Init()
+    private void Init()
     {
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSMainWindow");
         visualTree.CloneTree(rootVisualElement);
@@ -101,11 +103,13 @@ public class LBSMainWindow : EditorWindow
         inspectorManager = rootVisualElement.Q<LBSInspectorPanel>("InpectorPanel");
 
         // ToolKitManager
+        /*
         toolkitManager = new ToolkitManager(ref toolPanel, ref mainView, ref inspectorManager, ref layerTemplates);
         toolkitManager.OnEndSomeAction += () =>
         {
             drawManager.Redraw(levelData, mainView);
         };
+        */
 
         // ToolBar
         var toolbar = rootVisualElement.Q<ToolBarMain>("ToolBar");
@@ -147,38 +151,12 @@ public class LBSMainWindow : EditorWindow
         layerPanel = new LayersPanel(ref levelData, ref layerTemplates);
         extraPanel.Add(layerPanel);
         layerPanel.style.display = DisplayStyle.Flex;
-        layerPanel.OnSelectLayer += (layer) =>
-        {
-            if (!layer.Equals(_selectedLayer))
-            {
-                OnSelectedLayerChange(layer);
-                gen3DPanel.Init(layer);
-            }
-
-            if (_selectedLayer != null)
-            {
-                var il = Reflection.MakeGenericScriptable(_selectedLayer);
-                Selection.SetActiveObjectWithContext(il, il);
-            }
-        };
         layerPanel.OnLayerVisibilityChange += (l) =>
         {
             drawManager.Redraw(levelData, mainView);
         };
-        layerPanel.OnAddLayer += (layer) =>
-        {
-            if (!layer.Equals(_selectedLayer))
-            {
-                OnSelectedLayerChange(layer);
-                gen3DPanel.Init(layer);
-            }
-
-            if (_selectedLayer != null)
-            {
-                var il = Reflection.MakeGenericScriptable(_selectedLayer);
-                Selection.SetActiveObjectWithContext(il, il);
-            }
-        };
+        layerPanel.OnSelectLayer += ShowinfoLayer;
+        layerPanel.OnAddLayer += ShowinfoLayer;
 
         // AIPanel
         aiPanel = new AIPanel();
@@ -237,6 +215,21 @@ public class LBSMainWindow : EditorWindow
         //levelData.OnReload += (l) => Debug.Log(_selectedLayer);
     }
 
+    private void ShowinfoLayer(LBSLayer layer)
+    {
+        if (!layer.Equals(_selectedLayer))
+        {
+            OnSelectedLayerChange(layer);
+            gen3DPanel.Init(layer);
+        }
+
+        if (_selectedLayer != null)
+        {
+            var il = Reflection.MakeGenericScriptable(_selectedLayer);
+            Selection.SetActiveObjectWithContext(il, il);
+        }
+    }
+
     private void TryCollapseMenuPanels()
     {
         if (layerPanel?.style.display == DisplayStyle.None &&
@@ -251,7 +244,7 @@ public class LBSMainWindow : EditorWindow
         }
     }
 
-    public new void Repaint()
+    private new void Repaint()
     {
         base.Repaint();
         drawManager.Redraw(levelData, mainView);
@@ -265,12 +258,12 @@ public class LBSMainWindow : EditorWindow
         mainView.OnClearSelection?.Invoke();
     }
 
-    public void OnLevelDataChange(LBSLevelData levelData)
+    private void OnLevelDataChange(LBSLevelData levelData)
     {
         noLayerSign.style.display = (levelData.Layers.Count <= 0) ? DisplayStyle.Flex : DisplayStyle.None;
     }
 
-    public void OnApplyTrasformers(string modeFrom, string modeTo)
+    private void OnApplyTrasformers(string modeFrom, string modeTo)
     {
         /*
         var ModuleFrom = _selectedLayer.GetMode(layerTemplates, modeFrom).module;
@@ -339,11 +332,11 @@ public class LBSMainWindow : EditorWindow
         drawManager.RefreshView(ref _selectedLayer,levelData.Layers, _selectedMode);
     }*/
 
-    public void OnSelectedLayerChange(LBSLayer layer)
+    private void OnSelectedLayerChange(LBSLayer layer)
     {
         _selectedLayer = layer;
         inspectorManager.OnSelectedLayerChange(layer);
-        toolkitManager.OnSelectedLayerChange(layer);
+        //toolkitManager.OnSelectedLayerChange(layer);
         //OnSelectedModeChange(modes.Keys.First(), _selectedLayer);
 
         //Actualiza AI Panel

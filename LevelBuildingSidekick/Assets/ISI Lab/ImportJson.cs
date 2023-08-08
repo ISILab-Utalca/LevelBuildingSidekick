@@ -23,17 +23,15 @@ public static class ImportJson
 
     static void Add()
     {
-        Debug.Log("AAAAAAAA");
         if(!IsPackageInstalled("com.unity.nuget.newtonsoft-json"))
         {
             Request = Client.Add("com.unity.nuget.newtonsoft-json");
             EditorApplication.update += Progress;
             LRequest = Client.List();
             EditorApplication.update += LProgress;
-
         }
-
     }
+
     public static bool IsPackageInstalled(string packageId)
     {
         if (!File.Exists("Packages/manifest.json"))
