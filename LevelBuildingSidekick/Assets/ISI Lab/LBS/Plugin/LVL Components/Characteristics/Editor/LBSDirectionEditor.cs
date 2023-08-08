@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 public abstract class LBSCustomEditor : VisualElement
 {
-    object target;
+    protected object target;
     public LBSCustomEditor() { }
 
     public LBSCustomEditor(object target) { this.target = target; }
