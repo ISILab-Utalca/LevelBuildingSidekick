@@ -1,5 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
-    <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);">
+    <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-shrink: 0;">
         <ui:VisualElement name="Header" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; height: -63px; align-self: auto; align-items: center; margin-left: 4px; margin-right: 4px; margin-top: 4px; margin-bottom: 4px;">
             <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); background-image: resource(&apos;Icons/Gear&apos;); -unity-background-image-tint-color: rgb(194, 246, 113); width: 16px; height: 16px; max-width: 16px; max-height: 16px; min-width: 4px; min-height: 4px; justify-content: flex-start; transform-origin: left; translate: 0 0; margin-left: 4px; margin-right: 4px; margin-top: 4px; margin-bottom: 4px;" />
             <ui:Label tabindex="-1" text="Title..." display-tooltip-when-elided="true" style="font-size: 18px; -unity-font-style: bold;" />
