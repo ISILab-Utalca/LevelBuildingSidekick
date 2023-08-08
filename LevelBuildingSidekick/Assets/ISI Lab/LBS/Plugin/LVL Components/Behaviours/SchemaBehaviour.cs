@@ -68,10 +68,10 @@ public class SchemaBehaviour : LBSBehaviour
     {
         base.Init(layer);
 
-        var tileMap = Owner.GetModule<LBSTileMap>();
+        var tileMap = Owner.GetModule<TileMapModule>();
         if (tileMap == null)
         {
-            this.tileMap = new LBSTileMap();
+            this.tileMap = new TileMapModule();
             Owner.AddModule(this.tileMap);
         }
         else
@@ -116,7 +116,7 @@ public class SchemaBehaviour : LBSBehaviour
 
     public void CheckModules()
     {
-        var tileMap = Owner.GetModule<LBSTileMap>();
+        var tileMap = Owner.GetModule<TileMapModule>();
         var tileConnections = Owner.GetModule<ConnectedTileMapModule>();
         var areas = Owner.GetModule<SectorizedTileMapModule>();
         var graph = Owner.GetModule<ConnectedZonesModule>();

@@ -34,7 +34,7 @@ namespace LBS.Generator
             var scale = settings.scale;
 
             var parent = new GameObject("Population");
-            var tiles = data.PairTiles.Select(x => x.tile);
+            var tiles = data.PairTiles.Select(x => x.Tile);
             foreach (var tile in tiles)
             {
                 var tag = data.GetBundleData(tile).BundleTag;

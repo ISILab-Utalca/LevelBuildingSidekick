@@ -334,7 +334,7 @@ public class LayerTemplateEditor : Editor
         template.layer = layer;
 
         // Modules
-        layer.AddModule(new LBSTileMap());
+        layer.AddModule(new TileMapModule());
         layer.AddModule(new TaggedTileMap());
 
         /*

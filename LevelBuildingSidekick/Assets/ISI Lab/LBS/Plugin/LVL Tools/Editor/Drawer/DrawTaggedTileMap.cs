@@ -12,7 +12,7 @@ public class DrawTaggedTileMap : Drawer
     {
         var tilemap = layer.GetModule<TaggedTileMap>();
 
-        foreach (var k in tilemap.PairTiles.Select(x => x.tile))
+        foreach (var k in tilemap.PairTiles.Select(x => x.Tile))
         {
             var bundle = tilemap.GetBundleData(k);
             var tView = new TileView(k);

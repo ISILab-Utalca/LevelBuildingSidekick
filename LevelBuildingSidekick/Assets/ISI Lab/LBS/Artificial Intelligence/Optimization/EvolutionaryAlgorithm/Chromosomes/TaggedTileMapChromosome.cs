@@ -20,7 +20,7 @@ public class TaggedTileMapChromosome : LBSChromosome, IDrawable
             throw new System.Exception("[ISI Lab] Class must be TaggedTileMap");
         }
 
-        var tiles = tileMap.PairTiles.Select(x => x.tile);
+        var tiles = tileMap.PairTiles.Select(x => x.Tile);
 
         foreach (var t in tiles)
         {

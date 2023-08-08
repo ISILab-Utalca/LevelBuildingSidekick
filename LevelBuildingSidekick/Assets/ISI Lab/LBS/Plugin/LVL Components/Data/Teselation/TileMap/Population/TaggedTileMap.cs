@@ -35,14 +35,14 @@ public class TaggedTileMap : LBSModule
     {
         for(int i = 0; i < pairTiles.Count; i++)
         {
-            OnRemoveTile?.Invoke(pairTiles[i].tile);
+            OnRemoveTile?.Invoke(pairTiles[i].Tile);
         }
         pairTiles.Clear();
     }
 
     public BundleData GetBundleData(LBSTile tile)
     {
-        return pairTiles.Find(x => x.tile == tile)?.bData;
+        return pairTiles.Find(x => x.Tile == tile)?.BundleData;
     }
 
     public void AddTile(LBSTile tile, Bundle bundle)
@@ -53,15 +53,15 @@ public class TaggedTileMap : LBSModule
 
     public void AddTile(LBSTile tile, BundleData data)
     {
-        var t = pairTiles.Find(p => p.tile.Equals(tile));
+        var t = pairTiles.Find(p => p.Tile.Equals(tile));
 
         if (t == null)
         {
             OnAddTile?.Invoke(tile);
-            t = pairTiles.Find(p => p.tile.Equals(tile));
+            t = pairTiles.Find(p => p.Tile.Equals(tile));
             //pairTiles.Add(new TileBundlePair(tile, data));
         }
-        t.bData = data;
+        t.BundleData = data;
     }
 
     public override object Clone()
@@ -69,7 +69,7 @@ public class TaggedTileMap : LBSModule
         var dir = new List<TileBundlePair>();
         foreach (var pair in pairTiles)
         {
-            dir.Add(new TileBundlePair(pair.tile, pair.bData));
+            dir.Add(new TileBundlePair(pair.Tile, pair.BundleData));
         }
 
         return new TaggedTileMap(id, dir);
@@ -102,17 +102,17 @@ public class TaggedTileMap : LBSModule
     public void RemoveTile(object tile)
     {
         var toR = tile as LBSTile;
-        var xx = pairTiles.Find(x => x.tile.Equals(toR));
+        var xx = pairTiles.Find(x => x.Tile.Equals(toR));
         pairTiles.Remove(xx);
     }
 
     public void AddEmpty(object tile)
     {
         var t = tile as LBSTile;
-        var xx = pairTiles.Find(x => x.tile.Equals(t));
+        var xx = pairTiles.Find(x => x.Tile.Equals(t));
         if(xx != null)
         {
-            xx.bData = null;
+            xx.BundleData = null;
             //RemoveTile(xx);
             return;
         }
@@ -123,10 +123,10 @@ public class TaggedTileMap : LBSModule
 
     public override Rect GetBounds()
     {
-        var x = pairTiles.Min(p => p.tile.Position.x);
-        var y = pairTiles.Min(p => p.tile.Position.y);
-        var with = pairTiles.Max(p => p.tile.Position.x) - x + 1;
-        var height = pairTiles.Max(p => p.tile.Position.y) - y + 1;
+        var x = pairTiles.Min(p => p.Tile.Position.x);
+        var y = pairTiles.Min(p => p.Tile.Position.y);
+        var with = pairTiles.Max(p => p.Tile.Position.x) - x + 1;
+        var height = pairTiles.Max(p => p.Tile.Position.y) - y + 1;
 
         return new Rect(x, y, with, height);
     }
@@ -144,7 +144,7 @@ public class TaggedTileMap : LBSModule
 
         foreach(var p in tileMap.PairTiles)
         {
-            AddTile(p.tile, p.bData);
+            AddTile(p.Tile, p.BundleData);
         }
     }
 
