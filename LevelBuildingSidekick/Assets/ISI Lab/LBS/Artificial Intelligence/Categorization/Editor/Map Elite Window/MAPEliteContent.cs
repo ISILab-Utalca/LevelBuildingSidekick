@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Utility;
@@ -27,6 +28,16 @@ public class MAPEliteContent : VisualElement
 
     public MAPEliteContent(AssistantMapElite assistant)
     {
+        var visualTree = LBSAssetsStorage.Instance.Get<VisualTreeAsset>().Find(e => e.name == "MAPEliteContent");
+        //var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("MAPEliteContent");
+        visualTree.CloneTree(this);
+
+        var s2 = EditorGUIUtility.Load("DefaultCommonDark.uss") as StyleSheet;
+        styleSheets.Add(s2);
+
+
+        this.Container = this.Q<VisualElement>("Content");
+
         this.assistant = assistant;
         CreateGUI();
     }
