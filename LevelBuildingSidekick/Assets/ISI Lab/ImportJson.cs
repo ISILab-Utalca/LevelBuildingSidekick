@@ -23,7 +23,6 @@ public static class ImportJson
 
     static void Add()
     {
-        Debug.Log("AAAAAAAA");
         if(!IsPackageInstalled("com.unity.nuget.newtonsoft-json"))
         {
             Request = Client.Add("com.unity.nuget.newtonsoft-json");
