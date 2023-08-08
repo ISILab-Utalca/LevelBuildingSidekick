@@ -23,6 +23,7 @@ public class MAPEliteConfiguration : VisualElement
     {
 
         var visualTree = LBSAssetsStorage.Instance.Get<VisualTreeAsset>().Find(e => e.name == "MAPEliteConfiguration");
+        //var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("MAPEliteConfiguration");
         visualTree.CloneTree(this);
 
         undoBtn = this.Q<Button>(name : "UndoBtn");
