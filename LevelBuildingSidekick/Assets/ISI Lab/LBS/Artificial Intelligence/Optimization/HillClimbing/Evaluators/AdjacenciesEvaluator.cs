@@ -18,11 +18,6 @@ public class AdjacenciesEvaluator : IEvaluator
         this.graph = graph;
     }
 
-    public VisualElement CIGUI()
-    {
-        throw new System.NotImplementedException();
-    }
-
     public float Evaluate(IOptimizable evaluable)
     {
         var schema = (evaluable as OptimizableSchema).Schema;
@@ -53,17 +48,6 @@ public class AdjacenciesEvaluator : IEvaluator
             float roomDist = schema.GetRoomDistance(r1.ID, r2.ID);  // este metodo podria recivir una funcion de calculo de distancia en ved de estar fija (?)
 
             distValue += 1 / roomDist;
-            /*if (roomDist <= 1)
-            {
-                distValue++;
-            }
-            else
-            {
-                var widthAverage = (r1.Width + r2.Width) / 2f;
-                var heightAverage = (r1.Height + r2.Height) / 2f;
-
-                distValue += 1 - (roomDist / (widthAverage + heightAverage));
-            }*/
         }
 
         return distValue / graph.EdgeCount;

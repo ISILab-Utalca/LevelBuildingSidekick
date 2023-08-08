@@ -29,10 +29,9 @@ public static class ImportJson
             EditorApplication.update += Progress;
             LRequest = Client.List();
             EditorApplication.update += LProgress;
-
         }
-
     }
+
     public static bool IsPackageInstalled(string packageId)
     {
         if (!File.Exists("Packages/manifest.json"))

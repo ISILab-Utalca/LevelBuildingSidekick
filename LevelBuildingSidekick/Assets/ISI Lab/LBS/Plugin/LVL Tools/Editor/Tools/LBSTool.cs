@@ -6,64 +6,59 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-[System.Serializable]
 public class LBSTool
 {
-    [SerializeField]
-    public Texture2D icon;
-    [SerializeField]
-    public string name;
-    [SerializeField]
-    public string manipulator;
-    [SerializeField]
-    public string inspector;
+    #region FIELDS
+    private Texture2D icon;
+    private string name;
+    private LBSManipulator manipulator;
+    #endregion
 
-    [NonSerialized]
-    protected IManipulatorLBS _manipulator;
-    [NonSerialized]
-    protected LBSInspector _inspector;
+    #region PROPERTIES
+    public Texture2D Icon => icon;
+    public string Name => name;
+    #endregion
 
-    public Action OnStartAction;
-    public Action OnUpdateAction;
-    public Action OnEndAction;
+    #region EVENTS
+    public event Action OnStart;
+    public event Action OnPressed;
+    public event Action  OnEnd;
+    #endregion
 
-    public LBSTool(Texture2D icon, string name, Type manipulator, Type inspector, bool useUnitySelector = false)
+    #region CONSTRUCTORS
+    public LBSTool(Texture2D icon, string name, LBSManipulator manipulator,
+        Feedback feedback = null,
+        Action OnStart = null,
+        Action OnUpdate = null,
+        Action OnEnd = null)
     {
         this.icon = icon;
         this.name = name;
-        this.manipulator = manipulator.FullName;
-        this.inspector = inspector?.FullName;
+        this.manipulator = manipulator;
     }
+    #endregion
 
-    public virtual LBSGrupableButton InitButton(MainView view, LBSLayer layer, LBSBehaviour behaviour) // (!)
+    #region METHODS
+    public virtual void Init(MainView view, LBSLayer layer, LBSBehaviour behaviour)
     {
-        var mType = Type.GetType(this.manipulator);
-        _manipulator = Activator.CreateInstance(mType) as IManipulatorLBS;
-        _manipulator.AddManipulationStart(OnStartAction);
-        _manipulator.AddManipulationUpdate(OnUpdateAction);
-        _manipulator.AddManipulationEnd(OnEndAction);
+        manipulator.AddManipulationStart(OnStart);
+        manipulator.AddManipulationUpdate(OnPressed);
+        manipulator.AddManipulationEnd(OnEnd);
 
-        _manipulator.Init(view, layer, behaviour);
+        manipulator.Init(view, layer, behaviour);
 
-        var btn = new BasicToolButton(this.icon, this.name);
-
-        btn.OnFocusEvent += () => { 
-            view.AddManipulator(_manipulator as Manipulator);
-        };
-        btn.OnBlurEvent += () => { 
-            view.RemoveManipulator(_manipulator as Manipulator); 
-        };
-
-        return btn;
     }
 
-    public virtual LBSInspector InitInspector(MainView view, LBSLayer layer, LBSBehaviour behaviour)
+    /*
+    public void Link(LBSGrupableButton button)
     {
-        var iType = Type.GetType(this.inspector);
-        _inspector = Activator.CreateInstance(iType) as LBSInspector;
-        _inspector.Init(new List<IManipulatorLBS>() { _manipulator }, view, layer, behaviour);
-
-        return _inspector;
+        button.OnFocusEvent += () => {
+            view.AddManipulator(tool.manipulator);
+        };
+        button.OnBlurEvent += () => {
+            view.RemoveManipulator(manipulator);
+        };
     }
-
+    */
+    #endregion;
 }

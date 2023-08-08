@@ -157,7 +157,7 @@ public class ConnectedTileMapModule : LBSModule
 
     public override void OnReload(LBSLayer layer)
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 
     public override void Print()

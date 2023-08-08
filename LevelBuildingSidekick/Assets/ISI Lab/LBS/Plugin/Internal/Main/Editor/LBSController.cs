@@ -16,14 +16,11 @@ namespace LBS
     public static class LBSController 
     {
         private class LevelScriptable : GenericScriptable<LBSLevelData> { };
-        //[CustomEditor(typeof(LevelScriptable)),CanEditMultipleObjects]
-        //private class LevelScriptableEditor : GenericScriptableEditor { };
-
-        //private static LevelBackUp backUp;
 
         private static readonly string defaultName = "New file";
 
         public static Action<LBSLevelData> OnLoadLevel;
+        public static Action<LBSLevelData> OnSaveLevel;
 
         public static LoadedLevel CurrentLevel
         {
@@ -43,14 +40,27 @@ namespace LBS
             }
         }
 
+        /// <summary>
+        /// Loads a file from the specified path and initializes a new level based on the data obtained.
+        /// </summary>
+        /// <param name="path">The path of the file to be loaded.</param>
         public static void LoadFile(string path)
         {
             var fileInfo = new System.IO.FileInfo(path);
             var data = Utility.JSONDataManager.LoadData<LBSLevelData>(fileInfo.DirectoryName,fileInfo.Name);
             CurrentLevel = new LoadedLevel(data, fileInfo.FullName);
             CurrentLevel.data.Reload();
+            OnLoadLevel?.Invoke(CurrentLevel.data);
+            Debug.Log("[ISI Lab]: The level '" + fileInfo.Name + "' has been loaded successfully.");
         }
 
+        /// <summary>
+        /// Prompts the user with a dialog to open a file and loads the level data based on the user's choice.
+        /// </summary>
+        /// <returns>
+        /// The loaded level as a <see cref="LoadedLevel"/> object, 
+        /// or null if the operation is canceled or no file is selected.
+        /// </returns>
         public static LoadedLevel LoadFile()
         {
             var answer = EditorUtility.DisplayDialogComplex(
@@ -83,24 +93,13 @@ namespace LBS
                     CurrentLevel.data.Reload();
                     OnLoadLevel?.Invoke(CurrentLevel.data);
                     return CurrentLevel;
+
+                case 2: //do nothing
+                default:
+                    return null; 
             }
-            return null;
         }
 
-        /*
-        public static bool FileExists(string name, string extension, out FileInfo toReturn)
-        {
-            var path = Application.dataPath;
-            System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(path);
-            //var files = Utility.DirectoryTools.GetAllFilesByExtension(extension, dir);
-
-            //var fileInfo = files.Find(f => f.Name.Contains(name));
-
-            //toReturn = fileInfo;
-            //return fileInfo != null;
-            toReturn = null;
-            return false;
-        }*/
 
         public static void SaveFile()
         {

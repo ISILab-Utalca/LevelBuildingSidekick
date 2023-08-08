@@ -10,18 +10,15 @@ using LBS.Components.TileMap;
 public class TiledArea : ICloneable
 {
     #region FIELDS
-
     [SerializeField, JsonRequired]
     protected string id = "Area";
     [SerializeField, JsonRequired, JsonConverter(typeof(ColorConverter))]
     protected Color color;
     [SerializeField, JsonRequired, JsonConverter(typeof(ColorConverter))]
     protected List<LBSTile> tiles;
-
     #endregion
 
     #region PROPERTIES
-
     [JsonIgnore]
     public string ID => id;
 
@@ -31,7 +28,7 @@ public class TiledArea : ICloneable
     [JsonIgnore]
     public Vector2 Origin
     {
-        get => GetBounds().position;
+        get => GetBounds().position; //GetBounds().center;
         set
         {
             var offset = value - GetBounds().position;
@@ -90,6 +87,13 @@ public class TiledArea : ICloneable
 
     #region METHODS
 
+    public List<LBSTile> GetCorners()
+    {
+        var x = GetConcaveCorners();
+        var xx = GetConvexCorners();
+        x.AddRange(xx);
+        return x;
+    }
 
     public virtual bool AddTile(LBSTile tile)
     {
@@ -231,6 +235,24 @@ public class TiledArea : ICloneable
         return corners;
     }
 
+    public List<LBSTile> GetConcaveCorners() // (!) Tambien es de la clase de las tablas del gabo 
+    {
+        var diagDir = new List<Vector2>() { Vector2.right + Vector2.up, Vector2.up + Vector2.left, Vector2.left + Vector2.down, Vector2.down + Vector2.right };
+        var sideDir = new List<Vector2>() { Vector2.right, Vector2.up, Vector2.left, Vector2.down };
+
+        var corners = new List<LBSTile>();
+
+        foreach (var t in tiles)
+        {
+            if (IsConcaveCorner(t.Position, diagDir))
+            {
+                corners.Add(t.Clone() as LBSTile);
+            }
+        }
+        return corners;
+    }
+
+    /*
     internal List<LBSTile> GetConcaveCorners() // (!) Tambien es de la clase de las tablas del gabo 
     {
         var diagDir = new List<Vector2>() { Vector2.right + Vector2.up, Vector2.up + Vector2.left, Vector2.left + Vector2.down, Vector2.down + Vector2.right };
@@ -257,6 +279,7 @@ public class TiledArea : ICloneable
         }
         return corners;
     }
+    */
 
     internal List<WallData> GetVerticalWalls() // (!) Tambien es de la clase de las tablas del gabo 
     {
@@ -366,7 +389,12 @@ public class TiledArea : ICloneable
 
         return horizontal.Concat(vertical).ToList();
     }
-
+/*
+    public object Clone()
+    {
+        return new TiledArea(tiles.Select(t => t.Clone()).Cast<LBSTile>(), this.ID, this.color);
+    }
+*/
     public object Clone()
     {
         return new TiledArea(tiles.Select(t => t.Clone()).Cast<LBSTile>(), this.ID, this.color);

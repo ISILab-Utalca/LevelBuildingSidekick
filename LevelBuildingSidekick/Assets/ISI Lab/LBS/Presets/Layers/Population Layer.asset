@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Population Layer
   m_EditorClassIdentifier: 
   layer:
-    id: Population
-    name: Layer Population
+    id: LBSLayer
+    name: Layer name
     visible: 1
     blocked: 0
     selectedMode: 
@@ -28,7 +28,7 @@ MonoBehaviour:
     generatorRules:
     - rid: 9157593232956194828
     settingsGen3D:
-      scale: {x: 2, y: 2}
+      scale: {x: 0, y: 0}
       resize: {x: 0, y: 0}
       position: {x: 0, y: 0, z: 0}
       name: Population

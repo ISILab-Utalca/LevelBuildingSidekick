@@ -8,8 +8,9 @@ using UnityEngine.UIElements;
 
 namespace LBS.VisualElements
 {
-    public class ButtonGroup : VisualElement // (!!) mejorar clase
+    public class ButtonGroup : VisualElement
     {
+        #region FACTORY
         public new class UxmlFactory : UxmlFactory<ButtonGroup, UxmlTraits> { }
 
         public new class UxmlTraits : VisualElement.UxmlTraits
@@ -57,7 +58,9 @@ namespace LBS.VisualElements
                 btn.SetChoices(m_choices.GetValueFromBag(bag, cc));
             }
         };
+        #endregion
 
+        #region FIELDS
         public bool allowSwitchOff = false;
         private List<IGrupable> group = new List<IGrupable>();
         private IGrupable current;
@@ -67,7 +70,9 @@ namespace LBS.VisualElements
         private int index = -1;
         private string choices = "";
         private int choiceCount = 0;
+        #endregion
 
+        #region PROPERTIES
         public Color BaseColor
         {
             get => baseColor;
@@ -101,12 +106,16 @@ namespace LBS.VisualElements
             get => choiceCount;
             set => choiceCount = value;
         }
+        #endregion
 
+        #region CONSTRUCTORS
         public ButtonGroup()
         {
             Init();
         }
+        #endregion
 
+        #region METHODS
         public void Init()
         {
             // busca todos los botones dentro de si mismo
@@ -147,12 +156,20 @@ namespace LBS.VisualElements
             this.Init();
         }
 
-        private void ChangeActive(IGrupable active)
+        public void ChangeActive(IGrupable active)
         {
             current?.OnBlur();
             current = active;
             current.OnFocus();
         }
+
+        public void ChangeActive(int index)
+        {
+            current?.OnBlur();
+            current = group[index];
+            current.OnFocus();
+        }
+
 
         private void Active(IGrupable active)
         {
@@ -175,7 +192,6 @@ namespace LBS.VisualElements
                 }
             }
         }
-
 
         public new void Remove(VisualElement element)
         {
@@ -211,5 +227,6 @@ namespace LBS.VisualElements
             group.Clear();
             base.Clear();
         }
+        #endregion
     }
 }

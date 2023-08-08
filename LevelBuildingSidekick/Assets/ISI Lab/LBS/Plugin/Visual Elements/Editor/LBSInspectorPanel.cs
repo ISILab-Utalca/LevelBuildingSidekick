@@ -22,9 +22,11 @@ public class LBSInspectorPanel : VisualElement
     private ButtonGroup subTab;
     private ButtonGroup mainTab;
 
-    private Dictionary<string, Dictionary<string, LBSInspector>> VEs = new Dictionary<string, Dictionary<string, LBSInspector>>();
-    
-    
+    private LBSLocalCurrent current;
+    private LBSLocalBehaviours behaviours;
+    private LBSLocalAssistants assistants;
+
+    private Dictionary<string, Dictionary<string, LBSInspector>> VEs = new ();
     #endregion
 
     #region CONSTRUCTORS
@@ -54,29 +56,20 @@ public class LBSInspectorPanel : VisualElement
     #region METHODS
     private void InitTabs()
     {
-        var gb = new LBSGlobalBundlesInspector();
+        var gb = new LBSGlobalBundlesInspector(); 
         AddTab("Global", "Bundles", gb);
 
         var gt = new LBSGlobalTagsInspector();
         AddTab("Global", "Tags", gt);
 
         var l1 = new LBSLocalCurrent();
-        //var l1 = new Wip();
         AddTab("Local", "Current data", l1);
 
-        //var l2 = new LBSLocalBehaviours();
-        var l2 = new LBSLocalBehaviours();
-        AddTab("Local", "Behaviours", l2);
+        this.behaviours = new LBSLocalBehaviours();
+        AddTab("Local", "Behaviours", behaviours);
 
-        //var l3 = new LBSLocalAssistants();
-        var l3 = new Wip();
-        AddTab("Local", "Assistants", l3);
-
-        var aset = new Wip();
-        AddTab("Advanced", "Settings", aset);
-
-        var aset2 = new Wip();
-        AddTab("Advanced", "Settings2", aset2);
+        this.assistants = new LBSLocalAssistants();
+        AddTab("Local", "Assistants", assistants);
     }
 
     private void AddTab(string mainTabName, string subTabName, LBSInspector element)

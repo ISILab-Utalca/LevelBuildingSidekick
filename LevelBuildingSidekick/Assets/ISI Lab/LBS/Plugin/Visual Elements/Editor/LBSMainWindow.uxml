@@ -4,7 +4,7 @@
     </ui:VisualElement>
     <ToolBarMain name="ToolBar" style="height: auto; border-bottom-color: rgb(36, 36, 36); border-bottom-width: 1px; max-height: 21px; min-height: 21px;" />
     <SplitView picking-mode="Ignore" fixed-pane-index="1" fixed-pane-initial-dimension="400">
-        <ui:VisualElement picking-mode="Ignore" style="flex-grow: 1; display: flex;">
+        <ui:VisualElement picking-mode="Ignore" style="flex-grow: 1; display: flex; flex-shrink: 1;">
             <LBS.VisualElements.LayerInspector name="LayerInspector" style="background-color: rgba(60, 60, 60, 0.39); max-height: 18px; min-height: 18px; border-bottom-width: 1px; border-bottom-color: rgba(0, 0, 0, 0.59); display: none; flex-direction: row;" />
             <ui:VisualElement picking-mode="Ignore" style="width: auto; min-width: auto; min-height: auto; flex-direction: row; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; flex-grow: 1;">
                 <ui:VisualElement name="NoLayerSign" style="position: absolute; width: 400px; height: 150px; top: 40%; left: 30%; border-left-color: rgb(75, 75, 75); border-right-color: rgb(63, 63, 63); border-top-color: rgb(63, 63, 63); border-bottom-color: rgb(48, 48, 48); background-color: rgb(55, 55, 55); flex-direction: row; align-items: stretch; border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px;">
@@ -16,8 +16,8 @@
                         </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:VisualElement picking-mode="Ignore" style="flex-grow: 1;">
-                    <LBS.VisualElements.ButtonGroup name="ToolsGroup" picking-mode="Ignore" style="flex-direction: row; padding-left: 0; padding-right: 3px; flex-wrap: wrap; align-items: center; padding-bottom: 3px;" />
+                <ui:VisualElement picking-mode="Ignore" style="flex-grow: 1; flex-direction: row;">
+                    <LBS.VisualElements.ToolKit name="ToolsGroup" />
                     <ui:VisualElement picking-mode="Ignore" style="flex-direction: row; align-items: center;">
                         <ModeSelector name="ModeSelector" style="display: none;" />
                     </ui:VisualElement>
@@ -29,7 +29,7 @@
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement picking-mode="Ignore" style="width: auto; height: auto; overflow: hidden; position: relative; flex-direction: row-reverse; flex-wrap: nowrap; flex-shrink: 1; align-items: stretch; justify-content: flex-start; flex-grow: 1;">
+        <ui:VisualElement picking-mode="Ignore" style="width: auto; height: auto; overflow: visible; position: relative; flex-direction: row-reverse; flex-wrap: nowrap; flex-shrink: 1; align-items: stretch; justify-content: flex-start; flex-grow: 1;">
             <LBSInspectorPanel name="InpectorPanel" style="flex-grow: 1; width: 350px;" />
             <ui:VisualElement name="ExtraToolsBar" style="overflow: visible; position: relative; height: auto; width: 45px; top: auto; left: auto; display: flex; visibility: visible; flex-grow: 1; flex-shrink: 1; border-left-width: 1px; border-right-width: 1px; border-left-color: rgba(0, 0, 0, 0.4); border-right-color: rgba(0, 0, 0, 0.4); border-top-color: rgba(0, 0, 0, 0.4); border-bottom-color: rgba(0, 0, 0, 0.4); flex-basis: auto; max-width: 45px; min-width: 45px; background-color: rgb(67, 67, 67); align-items: stretch;">
                 <ui:VisualElement style="flex-grow: 0; border-bottom-width: 1px; height: 8px; border-bottom-color: rgba(0, 0, 0, 0.4); background-color: rgb(72, 72, 72);" />
