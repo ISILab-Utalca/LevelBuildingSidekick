@@ -82,14 +82,14 @@ public class TaggedTileMap : LBSModule
 
     public override void OnAttach(LBSLayer layer)
     {
-        var tileMap = layer.GetModule<LBSTileMap>();
+        var tileMap = layer.GetModule<TileMapModule>();
         OnAddTile += tileMap.AddTile;
         OnRemoveTile += tileMap.RemoveTile;
     }
 
     public override void OnDetach(LBSLayer layer)
     {
-        var tileMap = layer.GetModule<LBSTileMap>();
+        var tileMap = layer.GetModule<TileMapModule>();
         OnAddTile -= tileMap.AddTile;
         OnRemoveTile -= tileMap.RemoveTile;
     }
@@ -151,20 +151,5 @@ public class TaggedTileMap : LBSModule
     public override void OnReload(LBSLayer layer)
     {
         OnAttach(layer);
-    }
-}
-
-[System.Serializable]
-public class TileBundlePair
-{
-    [SerializeField]
-    public LBSTile tile;
-    [SerializeField]
-    public BundleData bData;
-
-    public TileBundlePair(LBSTile tile, BundleData bData)
-    {
-        this.tile = tile;
-        this.bData = bData;
     }
 }
