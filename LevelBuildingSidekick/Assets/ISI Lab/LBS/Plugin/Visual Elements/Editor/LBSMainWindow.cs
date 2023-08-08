@@ -63,7 +63,7 @@ public class LBSMainWindow : EditorWindow
     public virtual void CreateGUI()
     {
         Init();
-    }
+    } 
 
     private void Init()
     {
