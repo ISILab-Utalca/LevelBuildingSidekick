@@ -10,8 +10,6 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Utility;
 
-
-
 public class LBSMainWindow : EditorWindow
 {
     // Data
