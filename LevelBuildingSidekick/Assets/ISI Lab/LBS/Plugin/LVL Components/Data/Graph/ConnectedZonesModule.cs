@@ -89,7 +89,7 @@ public class ConnectedZonesModule : LBSModule
     {
     }
 
-    public override void OnReload(LBSLayer layer)
+    public override void Reload(LBSLayer layer)
     {
         //throw new System.NotImplementedException();
     }
