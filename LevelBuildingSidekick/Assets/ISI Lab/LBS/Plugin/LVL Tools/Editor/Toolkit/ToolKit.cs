@@ -27,11 +27,20 @@ namespace LBS.VisualElements
         }
         #endregion
 
+        #region FIELDS
         private List<LBSTool> currentTools = new List<LBSTool>();
+        #endregion
 
-        // View
+        #region FIELDS VIEW
         private VisualElement content;
+        #endregion
 
+        #region EVENTS
+        public event Action OnEndAction;
+        public event Action OnStartAction;
+        #endregion
+
+        #region CONSTRUCTORS
         public ToolKit()
         {
             var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("ToolKit");
@@ -39,10 +48,13 @@ namespace LBS.VisualElements
 
             this.content = this.Q<VisualElement>("Content");
 
+            // Singleton
             if (instance != this)
                 instance = this;
         }
+        #endregion
 
+        #region METHODS
         public void AddSubTools(LBSTool[] tool, int index = -1)
         {
             throw new NotImplementedException();
@@ -55,6 +67,9 @@ namespace LBS.VisualElements
             var button = new ToolButton(tool);
             this.Add(button);
             //this.content.Add(button);
+
+            tool.OnStart += OnStartAction;
+            tool.OnEnd += OnEndAction;
 
         }
 
@@ -72,6 +87,7 @@ namespace LBS.VisualElements
             base.Clear();
             //this.content.Clear();
         }
+        #endregion
     }
 }
 
