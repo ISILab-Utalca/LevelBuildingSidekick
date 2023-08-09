@@ -114,7 +114,7 @@ public class TaggedTileMapChromosome : LBSChromosome, IDrawable
             }
             else
             {
-                var source = Identifiers.Find( id => id.Label.Equals((genes[i] as BundleData).BundleTag)).Icon;
+                var source = (genes[i] as BundleData).Identifier.Icon; //Identifiers.Find( id => id.Label.Equals((genes[i] as BundleData).BundleTag)).Icon;
                 var t = new Texture2D(source.width, source.height);
                 t.SetPixels(source.GetPixels());
                 t.MirrorY();

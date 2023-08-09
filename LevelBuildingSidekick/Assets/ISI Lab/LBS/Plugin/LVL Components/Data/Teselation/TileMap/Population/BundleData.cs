@@ -24,7 +24,7 @@ namespace LBS.Components.TileMap
         #region PROPERTIES
 
         [JsonIgnore]
-        public string BundleTag => bundleTag;
+        public LBSIdentifier Identifier => LBSAssetsStorage.Instance.Get<LBSIdentifier>().Find(s => s.Label == bundleTag);
 
         #endregion
 
@@ -39,6 +39,11 @@ namespace LBS.Components.TileMap
             this.bundleTag = bundle;
             this.characteristics = characteristics;
         }
+
+        public BundleData(Bundle bundle) : this(bundle.ID.Label, bundle.Characteristics)
+        {
+        }
+
         #endregion
 
         #region METHODS
@@ -52,9 +57,20 @@ namespace LBS.Components.TileMap
             if(obj is Bundle)
             {
                 var b = obj as Bundle;
-                return b.ID.Label == this.BundleTag;
+                return b.ID.Label == bundleTag;
             }
             return base.Equals(obj);
+        }
+
+        public LBSCharacteristic GetCharasteristic(Type type)
+        {
+            return characteristics.Find(c => c.GetType() == type);
+        }
+
+        public T GetCharasteristic<T>() where T : LBSCharacteristic
+        {
+            var type = typeof(T);
+            return (T)characteristics.Find(c => c.GetType() == type);
         }
 
         public override int GetHashCode()
