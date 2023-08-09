@@ -56,7 +56,6 @@ public class MainView : GraphView
 
         setting.OnChangeZoomValue = (min, max) =>
         {
-            Debug.Log("change zoom");
             zoomer.maxScale = setting.zoomMax;
             zoomer.minScale = setting.zoomMin;
         };
