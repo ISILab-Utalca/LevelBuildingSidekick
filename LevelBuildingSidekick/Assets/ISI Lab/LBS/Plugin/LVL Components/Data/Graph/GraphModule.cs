@@ -329,7 +329,7 @@ namespace LBS.Components.Graph
             throw new System.NotImplementedException();
         }
 
-        public override void OnReload(LBSLayer layer)
+        public override void Reload(LBSLayer layer)
         {
 
         }
