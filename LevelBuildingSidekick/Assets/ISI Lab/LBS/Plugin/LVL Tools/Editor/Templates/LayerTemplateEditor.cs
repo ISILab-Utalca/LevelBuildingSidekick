@@ -294,12 +294,6 @@ public class LayerTemplateEditor : Editor
             null, 
             false);
         */
-        var mode1 = new LBSMode(
-            "Exterior",
-            typeof(TiledArea), // (!!!) implentar la correcta
-            new DrawExterior(),
-            new List<LBSTool>() { }// tool1, tool2, tool3, tool4, tool5, tool6 }
-            );
 
         Debug.Log("Set Exterior Default");
         AssetDatabase.SaveAssets();
@@ -354,15 +348,6 @@ public class LayerTemplateEditor : Editor
         icon = Resources.Load<Texture2D>("Icons/Trash");
         var tool3 = new LBSTool(icon, "Remove", typeof(RemoveTile), null, false);
         */
-
-        var mode1 = new LBSMode(
-            "Population",
-            //Change to pop
-            //Check if 'PopulationTileMap<TiledArea> works
-            typeof(TaggedTileMap), 
-            new DrawTaggedTileMap(),
-            new List<LBSTool>() { }// tool1, tool2, tool3}
-            );
         //template.modes.Add(mode1);
 
         Debug.Log("Set Population Default");
@@ -414,12 +399,6 @@ public class LayerTemplateEditor : Editor
         icon = Resources.Load<Texture2D>("Icons/Trash");
         var tool4 = new LBSTool(icon, "Remove", typeof(RemoveGraphNode<LBSNode>), null, false); // (!)
         */
-        var mode1 = new LBSMode(
-            "Graph",
-            typeof(LBSGraph),
-            new DrawGrammarGraph(), // (!)
-            new List<LBSTool>() { }//tool1, tool2, tool3, tool4 }
-            );
         //template.modes.Add(mode1);
 
         Debug.Log("Set Quest Default");
