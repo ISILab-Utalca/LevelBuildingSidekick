@@ -31,7 +31,7 @@ public class LBSTool
         Feedback feedback = null,
         Action OnStart = null,
         Action OnUpdate = null,
-        Action OnEnd = null)
+        Action OnEnd = null) // el feedback y los eventos no se estan usando (!)
     {
         this.icon = icon;
         this.name = name;
@@ -50,16 +50,16 @@ public class LBSTool
 
     }
 
-    /*
-    public void Link(LBSGrupableButton button)
+    public void BindButton(LBSGrupableButton button)
     {
+        var canvas = MainView.Instance;
+
         button.OnFocusEvent += () => {
-            view.AddManipulator(tool.manipulator);
+            canvas.AddManipulator(this.manipulator);
         };
         button.OnBlurEvent += () => {
-            view.RemoveManipulator(manipulator);
+            canvas.RemoveManipulator(this.manipulator);
         };
     }
-    */
     #endregion;
 }
