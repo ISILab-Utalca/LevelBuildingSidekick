@@ -185,7 +185,7 @@ public class SectorizedTileMapModule : LBSModule
         throw new System.NotImplementedException();
     }
 
-    public override void OnReload(LBSLayer layer)
+    public override void Reload(LBSLayer layer)
     {
         Owner = layer;
     }

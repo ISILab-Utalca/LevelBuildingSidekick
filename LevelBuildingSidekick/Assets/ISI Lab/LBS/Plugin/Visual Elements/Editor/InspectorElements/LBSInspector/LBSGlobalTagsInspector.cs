@@ -7,6 +7,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using LBS.Components;
+using LBS.Behaviours;
 
 public class LBSGlobalTagsInspector : LBSInspector
 {

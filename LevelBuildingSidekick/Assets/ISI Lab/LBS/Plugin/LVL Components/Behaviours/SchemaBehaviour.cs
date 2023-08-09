@@ -1,3 +1,4 @@
+using LBS.Behaviours;
 using LBS.Components;
 using LBS.Components.Graph;
 using LBS.Components.TileMap;
@@ -11,35 +12,37 @@ using UnityEngine;
 [RequieredModule(typeof(TileMapModule), typeof(ConnectedTileMapModule), typeof(SectorizedTileMapModule), typeof(ConnectedZonesModule))]
 public class SchemaBehaviour : LBSBehaviour
 {
-    #region FIELDS
+    #region READONLY-FIELD
     [JsonIgnore]
-    TileMapModule tileMap;
-    [JsonIgnore]
-    ConnectedTileMapModule tileConnections;
-    [JsonIgnore]
-    SectorizedTileMapModule areas;
-    [JsonIgnore]
-    ConnectedZonesModule graph;
-
-    public readonly List<string> Connections = new List<string>()
+    public readonly List<string> Connections = new()
     {
-        "Wall",
-        "Door",
-        "Empty"
+        "Wall", "Door", "Empty"
     };
 
-    public readonly List<Vector2> Directions = new List<Vector2>() 
-    { 
+    [JsonIgnore]
+    public readonly List<Vector2> Directions = new() // esto deberia sacarse de la clase estatica de Directions (!)
+    {
         Vector2Int.right,
         Vector2Int.down,
         Vector2Int.left,
         Vector2Int.up
     };
+    #endregion
 
+    #region FIELDS
+    [JsonIgnore]
+    private TileMapModule tileMap;
+    [JsonIgnore]
+    private ConnectedTileMapModule tileConnections;
+    [JsonIgnore]
+    private SectorizedTileMapModule areas;
+    [JsonIgnore]
+    private ConnectedZonesModule graph;
     #endregion
 
     #region PROEPRTIES
-    public List<Zone> Areas
+    [JsonIgnore]
+    public List<Zone> Areas // esta clase deberia ser la que entrega las areas? (?)
     {
         get
         {
@@ -51,16 +54,7 @@ public class SchemaBehaviour : LBSBehaviour
     #endregion
 
     #region CONSTRUCTORS
-    public SchemaBehaviour() : base()
-    {
-
-    }
-
-    public SchemaBehaviour(Texture2D icon, string name) : base(icon, name)
-    {
-
-    }
-
+    public SchemaBehaviour(Texture2D icon, string name) : base(icon, name) { }
     #endregion
 
     #region METHODS
@@ -114,7 +108,7 @@ public class SchemaBehaviour : LBSBehaviour
         }
     }
 
-    public void CheckModules()
+    public void CheckModules() // sobra (?)
     {
         var tileMap = Owner.GetModule<TileMapModule>();
         var tileConnections = Owner.GetModule<ConnectedTileMapModule>();
@@ -166,9 +160,6 @@ public class SchemaBehaviour : LBSBehaviour
         var tile = new LBSTile(position, "Tile: " + position.ToString());
         tileMap.AddTile(tile);
         areas.AddTile(tile, zone);
-
-        //Calculate connections
-        //tileConnections.AddTile(tile, connections);
     }
 
     public void AddZone(Vector2Int position)
@@ -228,6 +219,7 @@ public class SchemaBehaviour : LBSBehaviour
         CheckModules();
         return areas.GetTile(tile).Zone;
     }
+
     public Zone GetZone(Vector2 position)
     {
         CheckModules();
@@ -253,7 +245,7 @@ public class SchemaBehaviour : LBSBehaviour
 
     public override object Clone()
     {
-        return new SchemaBehaviour(this.icon, this.name);
+        return new SchemaBehaviour(this.Icon, this.Name);
     }
     #endregion
 }

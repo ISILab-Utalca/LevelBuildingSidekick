@@ -132,7 +132,7 @@ public class BundleTileMap : LBSModule
         throw new System.NotImplementedException();
     }
 
-    public override void OnReload(LBSLayer layer)
+    public override void Reload(LBSLayer layer)
     {
         //throw new System.NotImplementedException();
     }

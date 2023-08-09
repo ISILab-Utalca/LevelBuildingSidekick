@@ -16,10 +16,10 @@ using LBS.Components.Graph;
 using LBS.Tools.Transformer;
 using System.Diagnostics;
 using Debug = UnityEngine.Debug;
-
+using LBS.Assisstants;
 
 [System.Serializable]
-//[RequieredModule(typeof(TaggedTileMap))]
+[RequieredModule(typeof(TaggedTileMap))]
 public class AssistantMapElite : LBSAssistantAI
 {
     MapElites mapElites;

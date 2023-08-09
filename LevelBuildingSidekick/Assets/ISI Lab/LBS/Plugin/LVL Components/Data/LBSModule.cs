@@ -97,7 +97,7 @@ namespace LBS.Components
 
         public abstract Rect GetBounds();
 
-        public abstract void OnReload(LBSLayer layer);
+        public abstract void Reload(LBSLayer layer);
 
         public abstract void OnAttach(LBSLayer layer);
 

@@ -1,3 +1,4 @@
+using LBS.Behaviours;
 using LBS.Components;
 using LBS.Components.Graph;
 using LBS.Components.Specifics;
@@ -33,45 +34,6 @@ public class DrawSimpleGraph : Drawer
             element.SetColor(node.Room.Color);
             element.OnGVC += (mgc) => { DrawArea(mgc, element.GetPosition().size, node.Room.Size, pixelSize); };
             
-            /*
-            // Slider Width
-            var sliderW = new SliderInt(1, 32);
-            sliderW.style.flexGrow = 1f;
-            sliderW.style.height = 16;
-            var labelW = new Label();
-            sliderW.RegisterCallback<ChangeEvent<int>>(e => {
-                labelW.text = "W: "+ e.newValue.ToString();
-                node.Room.Width = e.newValue;
-                element.MarkDirtyRepaint();
-            });
-            sliderW.value = node.Room.Width;
-            labelW.text = "W: " + node.Room.Width.ToString();
-            var contW = new VisualElement();
-            contW.Add(labelW);
-            contW.Add(sliderW);
-            contW.style.flexDirection = FlexDirection.Row;
-            contW.style.height = 16;
-
-            // Slider Height
-            var sliderH = new SliderInt(1, 32);
-            sliderH.style.flexGrow = 1f;
-            sliderH.style.height = 16;
-
-            var labelH = new Label();
-            sliderH.RegisterCallback<ChangeEvent<int>>(e => {
-                labelH.text = "H: " + e.newValue.ToString();
-                node.Room.Height = e.newValue;
-                element.MarkDirtyRepaint();
-            });
-            sliderH.value = node.Room.Height;
-            labelH.text = "H: " + node.Room.Height.ToString();
-            var contH = new VisualElement();
-            contH.Add(labelH);
-            contH.Add(sliderH);
-            contH.style.flexDirection = FlexDirection.Row;
-            contH.style.height = 16;
-            */
-
             nViews.Add(element);
 
             var mainCont = new VisualElement();

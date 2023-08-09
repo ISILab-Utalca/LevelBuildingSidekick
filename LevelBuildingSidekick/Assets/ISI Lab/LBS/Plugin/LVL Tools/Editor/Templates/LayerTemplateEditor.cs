@@ -1,3 +1,5 @@
+using LBS.Assisstants;
+using LBS.Behaviours;
 using LBS.Components;
 using LBS.Components.Graph;
 using LBS.Components.Specifics;
@@ -124,7 +126,7 @@ public class LayerTemplateEditor : Editor
         layer.AddGeneratorRule(new SchemaRuleGeneratorExteriror());
 
         // Seting Generator
-        layer.settingsGen3D = new Generator3D.Settings()
+        layer.Settings = new Generator3D.Settings()
         {
             scale = new Vector2Int(2, 2),
             resize = new Vector2(0, 0),
@@ -227,8 +229,7 @@ public class LayerTemplateEditor : Editor
         bh.Init(layer);
         layer.AddBehaviour(bh);
 
-        //layer.TileSize = new Vector2Int(10, 10);
-        layer.settingsGen3D = new Generator3D.Settings()
+        layer.Settings = new Generator3D.Settings()
         {
             scale = new Vector2Int(10, 10),
             resize = new Vector2(0, 0),
@@ -300,9 +301,6 @@ public class LayerTemplateEditor : Editor
             new List<LBSTool>() { }// tool1, tool2, tool3, tool4, tool5, tool6 }
             );
 
-
-        template.modes.Add(mode1);
-
         Debug.Log("Set Exterior Default");
         AssetDatabase.SaveAssets();
     }
@@ -324,7 +322,7 @@ public class LayerTemplateEditor : Editor
         template.layer = layer;
 
         //layer.TileSize = new Vector2Int(2, 2);
-        layer.settingsGen3D = new Generator3D.Settings()
+        layer.Settings = new Generator3D.Settings()
         {
             scale = new Vector2Int(2, 2),
             resize = new Vector2(0, 0),
@@ -361,7 +359,7 @@ public class LayerTemplateEditor : Editor
             new DrawTaggedTileMap(),
             new List<LBSTool>() { }// tool1, tool2, tool3}
             );
-        template.modes.Add(mode1);
+        //template.modes.Add(mode1);
 
         Debug.Log("Set Population Default");
         AssetDatabase.SaveAssets();
@@ -382,7 +380,7 @@ public class LayerTemplateEditor : Editor
         layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Quest.png";
         template.layer = layer;
 
-        layer.settingsGen3D = new Generator3D.Settings()
+        layer.Settings = new Generator3D.Settings()
         {
             scale = new Vector2Int(2, 2),
             resize = new Vector2(0, 0),
@@ -418,7 +416,7 @@ public class LayerTemplateEditor : Editor
             new DrawGrammarGraph(), // (!)
             new List<LBSTool>() { }//tool1, tool2, tool3, tool4 }
             );
-        template.modes.Add(mode1);
+        //template.modes.Add(mode1);
 
         Debug.Log("Set Quest Default");
         AssetDatabase.SaveAssets();

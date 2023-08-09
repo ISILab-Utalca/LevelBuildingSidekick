@@ -17,14 +17,10 @@ using System;
 using System.Diagnostics;
 using Debug = UnityEngine.Debug;
 using Newtonsoft.Json;
+using LBS.Assisstants;
 
 [System.Serializable]
-//[RequieredModule(typeof(LBSRoomGraph), typeof(LBSSchema))]
-/*[Metadata(
-    "Hill climbing algorithm",
-    "THIS/IS/A/FAKE/PATH/ICON", // Implementar bien (!!!)
-    "Hill Climbing is an optimization algorithm that iteratively improves a" +
-    " solution by exploring neighboring options.")]*/
+[RequieredModule(typeof(LBSRoomGraph), typeof(LBSSchema))]
 public class AssistantHillClimbing : LBSAssistantAI
 {
     [JsonIgnore, NonSerialized]

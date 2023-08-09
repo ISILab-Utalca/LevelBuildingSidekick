@@ -1,3 +1,4 @@
+using LBS.Behaviours;
 using LBS.Components;
 using LBS.Components.Graph;
 using System.Collections;
@@ -14,7 +15,7 @@ public class QuestBehaviour : LBSBehaviour
 
     public override object Clone()
     {
-        return new QuestBehaviour(this.icon, this.name);
+        return new QuestBehaviour(this.Icon, this.Name);
     }
 
     public override void Init(LBSLayer layer)

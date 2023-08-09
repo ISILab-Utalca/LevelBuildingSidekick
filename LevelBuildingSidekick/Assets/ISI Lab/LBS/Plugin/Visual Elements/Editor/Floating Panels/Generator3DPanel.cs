@@ -83,7 +83,7 @@ public class Generator3DPanel : VisualElement
         this.generator = new Generator3D();
 
         generator.settings = settings;
-        this.settings = layer.settingsGen3D;
+        this.settings = layer.Settings;
 
         
         if (generator != null)

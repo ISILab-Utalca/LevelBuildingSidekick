@@ -1,3 +1,4 @@
+using LBS.Behaviours;
 using LBS.Components;
 using LBS.VisualElements;
 using System;
@@ -75,7 +76,7 @@ public class LBSLocalBehaviours : LBSInspector
 
             toolkit.ChangeActive(0);
 
-            var content = new BehaviourContent(ve as LBSCustomEditor, behaviour.name, behaviour.icon, colorBH);
+            var content = new BehaviourContent(ve as LBSCustomEditor, behaviour.Name, behaviour.Icon, colorBH);
             contentContainer.Add(content);
 
         }

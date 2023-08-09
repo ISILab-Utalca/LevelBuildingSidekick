@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.PackageManager.UI;
 using LBS.Tools.Transformer;
+using LBS.Behaviours;
 
 public class AddAreaConnection : LBSManipulator
 {

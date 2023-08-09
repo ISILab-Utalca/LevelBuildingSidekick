@@ -8,84 +8,69 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-[System.Serializable]
-public abstract class LBSAssistantAI: ICloneable 
+namespace LBS.Assisstants
 {
-    #region FIELDS
-    [NonSerialized, HideInInspector, JsonIgnore]
-    private LBSLayer owner;
-    [NonSerialized, HideInInspector, JsonIgnore]//[SerializeField]
-    public Texture2D icon;
-    [SerializeField]
-    public string name;
-    #endregion
-
-    #region PROPERTIES
-    [JsonIgnore]
-    public LBSLayer Owner
+    [System.Serializable]
+    public abstract class LBSAssistantAI : ICloneable
     {
-        get => owner;
-        set => owner = value;
-    }
-    #endregion
+        #region FIELDS
+        [NonSerialized, HideInInspector, JsonIgnore]
+        private LBSLayer owner;
+        [NonSerialized, HideInInspector, JsonIgnore]//[SerializeField]
+        public Texture2D icon;
+        [SerializeField]
+        public string name;
+        #endregion
 
-    #region EVENTS
-    [JsonIgnore]
-    public Action OnStart;
-    [JsonIgnore]
-    public Action OnTermination;
-    #endregion
-
-    #region CONSTRUCTORS
-    public LBSAssistantAI(){ }
-    #endregion
-
-    #region METHODS
-    public void InternalInit(LBSLayer layer)
-    {
-        Owner = layer;
-        Init(layer);
-
-    }
-
-    public abstract void Init(LBSLayer layer);
-
-    public abstract void Execute();
-
-    public abstract object Clone();
-
-    public List<Type> GetRequieredModules()
-    {
-        var toR = new List<Type>();
-        Type type = this.GetType();
-
-        object[] atts = type.GetCustomAttributes(true);
-
-        foreach (var att in atts)
+        #region PROPERTIES
+        [JsonIgnore]
+        public LBSLayer Owner
         {
-            if (att is RequieredModuleAttribute)
-            {
-                toR.AddRange((att as RequieredModuleAttribute).types);
-            }
+            get => owner;
+            set => owner = value;
         }
-        return toR;
-    }
-    #endregion
-    /*
-    public Metadata GetMetaData()
-    {
-        Type type = this.GetType();
-        object[] atts = type.GetCustomAttributes(true);
+        #endregion
 
-        foreach (var att in atts)
+        #region EVENTS
+        [JsonIgnore]
+        public Action OnStart;
+        [JsonIgnore]
+        public Action OnTermination;
+        #endregion
+
+        #region CONSTRUCTORS
+        public LBSAssistantAI() { }
+        #endregion
+
+        #region METHODS
+        public void InternalInit(LBSLayer layer)
         {
-            var attribute = att as MetadataAttribute;
-            if(attribute !=null)
-            {
-                return attribute.metadata;
-            }
+            Owner = layer;
+            Init(layer);
         }
-        return default(Metadata);
-    }*/
+
+        public abstract void Init(LBSLayer layer);
+
+        public abstract void Execute();
+
+        public abstract object Clone();
+
+        public List<Type> GetRequieredModules()
+        {
+            var toR = new List<Type>();
+            Type type = this.GetType();
+
+            object[] atts = type.GetCustomAttributes(true);
+
+            foreach (var att in atts)
+            {
+                if (att is RequieredModuleAttribute)
+                {
+                    toR.AddRange((att as RequieredModuleAttribute).types);
+                }
+            }
+            return toR;
+        }
+        #endregion
+    }
 }
-

@@ -8,90 +8,77 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[System.Serializable]
-public abstract class LBSBehaviour : ICloneable
+namespace LBS.Behaviours
 {
-    #region FIELDS
-    [NonSerialized, HideInInspector, JsonIgnore]
-    protected LBSLayer owner;
-    [SerializeField]
-    public Texture2D icon;
-    [SerializeField]
-    public string name;
-    #endregion
-
-    #region PROPERTIES
-    [JsonIgnore]
-    public LBSLayer Owner
+    [System.Serializable]
+    public abstract class LBSBehaviour : ICloneable
     {
-        get => owner;
-    }
-    #endregion
+        #region FIELDS
+        [NonSerialized, HideInInspector, JsonIgnore]
+        protected LBSLayer owner;
+        [SerializeField]
+        private Texture2D icon;
+        [SerializeField]
+        private string name;
+        #endregion
 
-    #region EVENTS
-    
-    #endregion
-
-    #region CONSTRUCTORS
-    public LBSBehaviour()
-    {
-
-    }
-
-    public LBSBehaviour(Texture2D icon, string name)
-    {
-        this.icon = icon;
-        this.name = name;
-    }
-    #endregion
-
-    #region METHODS
-    public virtual void Init(LBSLayer layer)
-    {
-        owner = layer;
-    }
-
-    public abstract object Clone();
-
-    public List<Type> GetRequieredModules ()
-    {
-        var toR = new List<Type>();
-        Type tipo = this.GetType();
-
-        object[] atts = tipo.GetCustomAttributes(true);
-
-        foreach (var att in atts)
+        #region PROPERTIES
+        [JsonIgnore]
+        public LBSLayer Owner
         {
-            if (att is RequieredModuleAttribute)
-            {
-                toR.AddRange((att as RequieredModuleAttribute).types);
-            }
+            get => owner;
+            set => owner = value;
         }
-        return toR;
-    }
-    #endregion
 
+        [JsonIgnore]
+        public Texture2D Icon
+        {
+            get => icon;
+        }
+
+        [JsonIgnore]
+        public string Name
+        {
+            get => name;
+        }
+        #endregion
+
+        #region EVENTS
+
+        #endregion
+
+        #region CONSTRUCTORS
+        public LBSBehaviour(Texture2D icon, string name)
+        {
+            this.icon = icon;
+            this.name = name;
+        }
+        #endregion
+
+        #region METHODS
+        public virtual void Init(LBSLayer layer)
+        {
+            owner = layer;
+        }
+
+        public List<Type> GetRequieredModules()
+        {
+            var toR = new List<Type>();
+            Type tipo = this.GetType();
+
+            object[] atts = tipo.GetCustomAttributes(true);
+
+            foreach (var att in atts)
+            {
+                if (att is RequieredModuleAttribute)
+                {
+                    toR.AddRange((att as RequieredModuleAttribute).types);
+                }
+            }
+            return toR;
+        }
+
+        public abstract object Clone();
+        #endregion
+    }
 }
-
-[System.Serializable]
-[RequieredModule(typeof(ExteriorModule))]
-public class SimpleConectedBehaviour : LBSBehaviour
-{
-    public string label = "Aqui deberia ir una paleta de tipo de conecciones.";
-
-    public override object Clone()
-    {
-        return new SimpleConectedBehaviour();
-    }
-
-    public override void Init(LBSLayer layer)
-    {
-       // throw new NotImplementedException();
-    }
-}
-
-
-
-
-
-

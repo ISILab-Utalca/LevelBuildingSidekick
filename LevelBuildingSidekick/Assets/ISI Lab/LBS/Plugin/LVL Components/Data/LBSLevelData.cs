@@ -10,15 +10,16 @@ using UnityEngine;
 public class LBSLevelData
 {
     #region FIELDS
-
     [SerializeField, JsonRequired]
-    private List<string> tags = new List<string>(); // (?) unnused
-
+    private int width;
     [SerializeField, JsonRequired]
-    private int maxWidth, maxHeight;
+    private int height;
 
     [SerializeField, JsonRequired, SerializeReference]
     private List<LBSLayer> layers = new List<LBSLayer>();
+
+    [SerializeField, JsonRequired, SerializeReference]
+    private List<LBSQuest> quest = new List<LBSQuest>();
 
     #endregion
 
@@ -31,22 +32,21 @@ public class LBSLevelData
     [JsonIgnore]
     public Vector2Int MaxSize
     {
-        get => new Vector2Int(maxWidth, maxHeight);
+        get => new Vector2Int(width, height);
         set
         {
-            maxWidth = (int)value.x;
-            maxHeight = (int)value.y;
+            width = (int)value.x;
+            height = (int)value.y;
         }
     }
 
     [JsonIgnore]
     public int LayerCount => layers.Count;
-
     #endregion
 
-    //EVENTS
-    [JsonIgnore]
-    public Action<LBSLevelData> OnChanged;
+    #region EVENTS
+    public event Action<LBSLevelData> OnChanged;
+    #endregion
 
     #region METHODS
     public void Reload()
@@ -54,7 +54,7 @@ public class LBSLevelData
         foreach (var layer in layers)
         {
             layer.Reload();
-            layer.OnModuleChange += (l) => this.OnChanged(this);
+            layer.onModuleChange += (l) => this.OnChanged(this);
             layer.Parent = this;
         }
     }
@@ -75,7 +75,7 @@ public class LBSLevelData
             return;
 
         layers.Insert(0, layer);
-        layer.OnModuleChange += (l) => this.OnChanged(this);
+        layer.onModuleChange += (l) => this.OnChanged(this);
         layer.Parent = this;
         this.OnChanged?.Invoke(this);
     }
@@ -88,7 +88,7 @@ public class LBSLevelData
     public void RemoveLayer(LBSLayer layer)
     {
         layers.Remove(layer);
-        layer.OnModuleChange -= (l) => this.OnChanged(this);
+        layer.onModuleChange -= (l) => this.OnChanged(this);
         this.OnChanged?.Invoke(this);
     }
 
@@ -96,7 +96,7 @@ public class LBSLevelData
     {
         var layer = layers[index];
         layers.RemoveAt(index);
-        layer.OnModuleChange -= (l) => this.OnChanged(this);
+        layer.onModuleChange -= (l) => this.OnChanged(this);
         this.OnChanged?.Invoke(this);
         return layer;
     }
@@ -121,7 +121,6 @@ public class LBSLevelData
 
         return null;
     }
-
     #endregion
 }
 

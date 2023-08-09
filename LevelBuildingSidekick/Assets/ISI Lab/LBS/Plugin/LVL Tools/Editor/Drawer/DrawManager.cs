@@ -22,8 +22,9 @@ public class DrawManager
         if (_layer == null)
             return;
 
+
         var template = templates.Find(t => t.layer.ID.Equals(_layer.ID));
-        var mode = template.modes.Find(m => m.name.Equals(modeName));
+        //var mode = template.modes.Find(m => m.name.Equals(modeName));
 
         // clear
         view.ClearView();
@@ -38,14 +39,14 @@ public class DrawManager
 
             if (otherLayer == _layer)
             {
-                mode.Drawer.Draw(ref _layer, view);
+                //mode.Drawer.Draw(ref _layer, view);
             }
             else
             {
                 var oTemplate = templates.Find(t => t.layer.ID.Equals(otherLayer.ID));
-                var oMode = oTemplate.modes[^1];
+                //var oMode = oTemplate.modes[^1];
                 var _other = otherLayer;
-                oMode.Drawer.Draw(ref _other, view);
+                //oMode.Drawer.Draw(ref _other, view);
             }
         }
     }

@@ -14,7 +14,7 @@ namespace LBS.Generator
     public class Generator3D
     {
         [System.Serializable]
-        public struct Settings
+        public struct Settings // Esto puede estar fuera de generator3D y ser setting de layers en general (!)
         {
             [SerializeField]
             [JsonConverter(typeof(Vector2Converter))]

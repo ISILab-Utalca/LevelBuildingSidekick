@@ -1,3 +1,4 @@
+using LBS.Behaviours;
 using LBS.Components;
 using LBS.Components.TileMap;
 using System.Collections;
@@ -18,7 +19,7 @@ public class ExteriorBehaviour : LBSBehaviour
 
     public override object Clone()
     {
-        return new ExteriorBehaviour(this.icon, this.name);
+        return new ExteriorBehaviour(this.Icon, this.Name);
     }
 
     public override void Init(LBSLayer layer)

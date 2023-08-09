@@ -280,7 +280,7 @@ namespace LBS.Components.TileMap
             throw new NotImplementedException();
         }
 
-        public override void OnReload(LBSLayer layer)
+        public override void Reload(LBSLayer layer)
         {
 
         }

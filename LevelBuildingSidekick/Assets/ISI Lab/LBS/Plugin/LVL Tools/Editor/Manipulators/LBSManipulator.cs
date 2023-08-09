@@ -1,3 +1,4 @@
+using LBS.Behaviours;
 using LBS.Components;
 using System;
 using System.Collections;
@@ -213,7 +214,8 @@ public abstract class LBSManipulator : MouseManipulator, IManipulatorLBS
     }
 }
 
-
+[Obsolete("las referencias que se usaban atravez de la interfaz ahora se" +
+    " realizan directamente con la calse LBSManipulator o unity.Manipulators")]
 public interface IManipulatorLBS
 {
     public void AddManipulationStart(Action action);

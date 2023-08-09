@@ -275,7 +275,7 @@ namespace LBS.Components.TileMap
             Owner = null;
         }
 
-        public override void OnReload(LBSLayer layer)
+        public override void Reload(LBSLayer layer)
         {
             Owner = layer;
         }

@@ -1,3 +1,5 @@
+using LBS.Assisstants;
+using LBS.Behaviours;
 using LBS.Components;
 using System;
 using System.Collections;
@@ -9,13 +11,13 @@ public class RequieredModuleAttribute : Attribute
 {
     public List<Type> types;
 
-    public RequieredModuleAttribute(params Type[] types) // cmabiar estos a solo un tipo LBSRequiredAtt (??)
+    public RequieredModuleAttribute(params Type[] types)
     {
         this.types = types.GetDerivedTypes(typeof(LBSModule)).ToList();
     }
 }
 
-public class RequieredBehaviourAttribute : Attribute // cmabiar estos a solo un tipo LBSRequiredAtt (??)
+public class RequieredBehaviourAttribute : Attribute
 {
     public List<Type> types;
 
@@ -29,7 +31,7 @@ public class RequieredAssistantAttribute : Attribute
 {
     public List<Type> types;
 
-    public RequieredAssistantAttribute(params Type[] type) // cmabiar estos a solo un tipo LBSRequiredAtt (??)
+    public RequieredAssistantAttribute(params Type[] type)
     {
         this.types = type.GetDerivedTypes(typeof(LBSAssistantAI)).ToList();
     }
