@@ -330,12 +330,16 @@ public class LayerTemplateEditor : Editor
             name = "Population",
         };
 
+        layer.ID = "Population";
+        layer.Name = "Layer Population";
+        layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/ghost.png";
+        template.layer = layer;
+
+        var Icon = Resources.Load<Texture2D>("Icons/Select");
+        layer.AddBehaviour(new PopulationBehaviour(Icon, "Population Behavior"));
+
         layer.AddAssistant(new AssistantMapElite());
         layer.AddGeneratorRule(new PopulationRuleGenerator());
-
-        // Modules
-        layer.AddModule(new TileMapModule());
-        layer.AddModule(new TaggedTileMap());
 
         /*
         // Select
