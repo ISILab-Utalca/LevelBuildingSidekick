@@ -7,29 +7,32 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class MainView : GraphView
+public class MainView : GraphView // Canvas or WorkSpace
 {
     #region UXML_FACTORY
     public new class UxmlFactory : UxmlFactory<MainView, GraphView.UxmlTraits> { }
     #endregion
 
+    #region SINGLETON
+    private static MainView instance;
+    public static MainView Instance
+    {
+        get => instance;
+    }
+    #endregion
+
     #region FIELDS
-    
-    private ExternalBounds visualBound;
+    private ExternalBounds bound;
     private List<Manipulator> manipulators = new List<Manipulator>();
-    
     #endregion
 
 
     #region EVENTS
-
-    public Action<ContextualMenuPopulateEvent> OnBuild;
-    public Action OnClearSelection;
-
+    public event Action<ContextualMenuPopulateEvent> OnBuild;
+    public event Action OnClearSelection;
     #endregion
 
     #region CONSTRUCTORS
-
     public MainView()
     {
         Insert(0, new GridBackground());
@@ -40,14 +43,15 @@ public class MainView : GraphView
         SetBasicManipulators();
         InitBound(20000, int.MaxValue / 2);
 
-        AddElement(visualBound);
+        AddElement(bound);
 
+        // Singleton
+        if (instance != this)
+            instance = this;
     }
-
     #endregion
 
     #region METHODS
-
     public void SetBasicManipulators() // necesario aqui (?)
     {
         var setting = LBSSettings.Instance.general;
@@ -136,7 +140,7 @@ public class MainView : GraphView
     public void ClearView()
     {
         this.graphElements.ForEach(e => this.RemoveElement(e));
-        AddElement(visualBound);
+        AddElement(bound);
     }
 
     public new void AddElement(GraphElement element)
@@ -153,7 +157,7 @@ public class MainView : GraphView
 
     private void InitBound(int interior, int exterior)
     {
-        this.visualBound = new ExternalBounds(
+        this.bound = new ExternalBounds(
             new Rect(
                 new Vector2(-interior, -interior),
                 new Vector2(interior * 2, interior * 2)
