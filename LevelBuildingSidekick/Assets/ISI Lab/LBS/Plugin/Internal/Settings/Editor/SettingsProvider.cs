@@ -23,7 +23,7 @@ static class LBS_SettingsProvider
                 EditorStyles.boldLabel.fontSize = 14;
                 EditorGUILayout.LabelField("Zoom", EditorStyles.boldLabel);
 
-                settings.general.OnChangeZoomValue(settings.general.zoomMin, settings.general.zoomMax);
+                settings.general.OnChangeZoomValue?.Invoke(settings.general.zoomMin, settings.general.zoomMax);
                 settings.general.zoomMin = EditorGUILayout.FloatField("Min",settings.general.zoomMin);
                 settings.general.zoomMax = EditorGUILayout.FloatField("Max", settings.general.zoomMax);
             },
