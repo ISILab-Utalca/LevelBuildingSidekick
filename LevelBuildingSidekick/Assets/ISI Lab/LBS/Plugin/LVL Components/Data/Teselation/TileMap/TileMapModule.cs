@@ -11,14 +11,11 @@ namespace LBS.Components.TileMap
     public class TileMapModule : LBSModule
     {
         #region FIELDS
-
         [SerializeField, JsonRequired, SerializeReference]
         protected List<LBSTile> tiles = new List<LBSTile>();
-
         #endregion
 
         #region PROEPRTIES
-
         [JsonIgnore]
         public Vector2 CellSize
         {
@@ -89,7 +86,6 @@ namespace LBS.Components.TileMap
         #endregion
 
         #region METHODS
-
         public virtual bool AddTile(LBSTile tile)
         {
             var t = GetTile(tile.Position);
