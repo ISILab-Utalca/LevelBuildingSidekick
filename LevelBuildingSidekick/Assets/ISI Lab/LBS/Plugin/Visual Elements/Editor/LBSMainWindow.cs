@@ -36,7 +36,7 @@ public class LBSMainWindow : EditorWindow
     private LayerInspector layerInspector;
 
     // Manager
-    //private ToolkitManager toolkitManager;
+    private ToolKit toolkit;
     private DrawManager drawManager;
     private LBSInspectorPanel inspectorManager;
 
@@ -85,7 +85,7 @@ public class LBSMainWindow : EditorWindow
 
         // MainView 
         mainView = rootVisualElement.Q<MainView>("MainView");
-        mainView.OnClearSelection = () =>
+        mainView.OnClearSelection += () =>
         {
             if (_selectedLayer != null)
             {
@@ -101,13 +101,11 @@ public class LBSMainWindow : EditorWindow
         inspectorManager = rootVisualElement.Q<LBSInspectorPanel>("InpectorPanel");
 
         // ToolKitManager
-        /*
-        toolkitManager = new ToolkitManager(ref toolPanel, ref mainView, ref inspectorManager, ref layerTemplates);
-        toolkitManager.OnEndSomeAction += () =>
+        toolkit = rootVisualElement.Q<ToolKit>();
+        toolkit.OnEndAction += () =>
         {
             drawManager.Redraw(levelData, mainView);
         };
-        */
 
         // ToolBar
         var toolbar = rootVisualElement.Q<ToolBarMain>("ToolBar");
@@ -253,7 +251,7 @@ public class LBSMainWindow : EditorWindow
         mainView.Clear();
         this.rootVisualElement.Clear();
         Init();
-        mainView.OnClearSelection?.Invoke();
+        //mainView.OnClearSelection?.Invoke();
     }
 
     private void OnLevelDataChange(LBSLevelData levelData)
