@@ -37,7 +37,7 @@ namespace LBS.Generator
             var tiles = data.PairTiles.Select(x => x.Tile);
             foreach (var tile in tiles)
             {
-                var tag = data.GetBundleData(tile).BundleTag;
+                var tag = data.GetBundleData(tile).Identifier.Label;
                 Bundle current = null;
                 foreach (var b in bundles)
                 {
