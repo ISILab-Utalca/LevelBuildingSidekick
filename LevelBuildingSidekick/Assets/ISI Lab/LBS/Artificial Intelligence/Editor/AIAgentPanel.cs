@@ -1,4 +1,5 @@
 using LBS.AI;
+using LBS.Assisstants;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,14 +8,21 @@ using Utility;
 
 public class AIAgentPanel : VisualElement
 {
+    #region FACTORY
     public new class UxmlFactory : UxmlFactory<AIAgentPanel, VisualElement.UxmlTraits> { }
+    #endregion
 
-    Label label;
-    Button details;
-    Button execute;
+    #region VIEW FIELDS
+    private Label label;
+    private Button details;
+    private Button execute;
+    #endregion
 
-    LBSAssistantAI agent;
+    #region FIELDS
+    private LBSAssistantAI agent;
+    #endregion
 
+    #region CONSTRUCTORS
     public AIAgentPanel()
     {
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("AIAgentPanel"); // Editor
@@ -24,17 +32,5 @@ public class AIAgentPanel : VisualElement
         details = this.Q<Button>(name: "Details");
         execute = this.Q<Button>(name: "Execute");
     }
-
-    public AIAgentPanel(ref LBSAssistantAI agent) : this()
-    {
-        this.agent = agent;
-
-        label.text = agent.GetType().Name; //fix sacar de metadata (!!)
-        details.clicked += () => Debug.LogWarning("Not Implemented");
-        execute.clicked += () =>
-        {
-            this.agent.Execute();
-        };
-
-    }
+    #endregion
 }
