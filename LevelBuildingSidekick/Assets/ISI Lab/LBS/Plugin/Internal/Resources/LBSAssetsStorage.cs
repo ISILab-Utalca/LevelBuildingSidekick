@@ -36,14 +36,6 @@ public class LBSAssetsStorage : ScriptableObject
             if(instance == null)
             { 
                 instance = Resources.Load<LBSAssetsStorage>("LBS Storage");
-                //instance = Utility.DirectoryTools.GetScriptable<LBSAssetsStorage>(); // si es nullo lo busco
-
-            if (instance == null)
-                {
-                    //instance = BLA // si sigue sindo nulo lo creo // implementar (!)
-                }
-
-                //instance.SearchAllInProject();
             }
             return instance;
         }
@@ -79,12 +71,12 @@ public class LBSAssetsStorage : ScriptableObject
         return null;
     }
 
-    public List<ScriptableObject> Get(Type t)
+    public List<ScriptableObject> Get(Type type)
     {
         CleanAllEmpties();
         foreach (var group in groups)
         {
-            if (group.type.Equals(t.FullName))
+            if (group.type.Equals(type.FullName))
             {
                 return group.items.ToList();
             }
