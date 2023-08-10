@@ -13,15 +13,9 @@ public class LayerTemplate : ScriptableObject
 {
     [JsonRequired, SerializeField]
     public LBSLayer layer;
-    //[JsonRequired, SerializeReference]
-    //public List<LBSMode> modes = new List<LBSMode>();
-    //[JsonRequired, SerializeReference]
-    //public List<Transformer> transformers = new List<Transformer>();
 
     public void Clear()
     {
         this.layer = new LBSLayer();
-        //this.modes.Clear();
-        //this.transformers.Clear();
     }
 }
