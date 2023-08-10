@@ -391,15 +391,9 @@ namespace LBS.Components
             blocked = value;
         }
 
-        public void HideModule(int index)
         {
-            modules[index].IsVisible = false;
-        } // HideModule y ShowModule podria ser un metodo solamente (!)
-
-        public void ShowModule(int index)
-        {
-            modules[index].IsVisible = true;
-        } // HideModule y ShowModule podria ser un metodo solamente (!)
+            modules[index].IsVisible = value;
+        }
 
         internal void SetModule<T>(T module, string key = "") where T : LBSModule
         {
