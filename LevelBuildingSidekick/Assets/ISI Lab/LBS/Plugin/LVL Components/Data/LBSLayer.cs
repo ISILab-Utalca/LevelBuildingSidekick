@@ -391,6 +391,7 @@ namespace LBS.Components
             blocked = value;
         }
 
+        public void ShowModule(int index,bool value)
         {
             modules[index].IsVisible = value;
         }
