@@ -15,7 +15,7 @@ namespace LBS.Behaviours
     {
         #region FIELDS
         [NonSerialized, HideInInspector, JsonIgnore]
-        protected LBSLayer owner;
+        private LBSLayer owner;
         [SerializeField]
         private Texture2D icon;
         [SerializeField]
