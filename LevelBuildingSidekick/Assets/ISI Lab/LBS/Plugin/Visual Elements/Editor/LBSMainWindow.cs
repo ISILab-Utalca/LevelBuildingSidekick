@@ -83,6 +83,7 @@ public class LBSMainWindow : EditorWindow
         // LayerInspector
         layerInspector = rootVisualElement.Q<LayerInspector>("LayerInspector");
 
+
         // MainView 
         mainView = rootVisualElement.Q<MainView>("MainView");
         mainView.OnClearSelection += () =>
@@ -151,8 +152,8 @@ public class LBSMainWindow : EditorWindow
         {
             drawManager.Redraw(levelData, mainView);
         };
-        layerPanel.OnSelectLayer += ShowinfoLayer;
-        layerPanel.OnAddLayer += ShowinfoLayer;
+        //layerPanel.OnSelectLayer += ShowinfoLayer;
+        //layerPanel.OnAddLayer += ShowinfoLayer;
 
         // AIPanel
         aiPanel = new AIPanel();
@@ -258,75 +259,6 @@ public class LBSMainWindow : EditorWindow
     {
         noLayerSign.style.display = (levelData.Layers.Count <= 0) ? DisplayStyle.Flex : DisplayStyle.None;
     }
-
-    private void OnApplyTrasformers(string modeFrom, string modeTo)
-    {
-        /*
-        var ModuleFrom = _selectedLayer.GetMode(layerTemplates, modeFrom).module;
-        var ModuleTo = _selectedLayer.GetMode(layerTemplates, modeTo).module;
-
-        var transformers = _selectedLayer.GetTrasformers(layerTemplates);
-        var trans = transformers.Find(t => t.From.FullName.Equals(ModuleFrom) && t.To.FullName.Equals(ModuleTo)); // (!) lo de los fullname es parche ya que ".ModuleType no funciona"
-        
-        if(trans != null)
-        {
-            trans.Switch(ref _selectedLayer);
-        }*/
-    }
-    /*
-    public void OnModeUpdate(LBSLayer layer)
-    {
-        var transformers = layer.GetTrasformers(layerTemplates);
-        if (transformers.Count <= 0)
-            return;
-        var t = transformers.First();
-        t.ReCalculate(ref layer);
-
-        var templates = layerTemplates.Where(l => l.layer.ID == _selectedLayer.ID).ToList();
-        var allModes = templates.SelectMany(l => l.modes).ToList();
-
-        /*var modes = new List<LBSMode>();
-
-        foreach(var mod in allModes)
-        {
-            if(mod.module == t.To.FullName)
-            {
-                modes.Add(mod);
-            }
-        }
-
-        var modes = allModes.Where(m => m.module == t.To.FullName).ToList();
-        var modesID = modes.Where(m => m.name != _selectedMode).Select(m => m.name).ToList();
-
-        if (modesID.Count() <= 0)
-        {
-            drawManager.RefreshView(ref _selectedLayer, levelData.Layers, _selectedMode);
-            return;
-        }
-
-        var m = modesID.First();
-        
-
-        modeSelector.Index = modeSelector.GetChoiceIndex(m);
-    }*/
-    /*
-    public void OnSelectedModeChange(string mode, LBSLayer layer)
-    {
-        _selectedLayer = layer;
-
-        var oldMode = _selectedMode;
-        _selectedMode = mode;
-        var modes = _selectedLayer.GetToolkit(layerTemplates);
-
-        // Init tools
-        object tools = null;
-        modes.TryGetValue(mode,out tools);
-        var module = layer.GetModule(0); // (!!) implementar cuando se pueda seleccionar un modulo
-        toolkitManager.SetTools(tools, ref levelData, ref layer, ref module);
-        modeSelector.style.display = (levelData.Layers.Count <= 0) ? DisplayStyle.None : DisplayStyle.Flex;
-
-        drawManager.RefreshView(ref _selectedLayer,levelData.Layers, _selectedMode);
-    }*/
 
     private void OnSelectedLayerChange(LBSLayer layer)
     {
