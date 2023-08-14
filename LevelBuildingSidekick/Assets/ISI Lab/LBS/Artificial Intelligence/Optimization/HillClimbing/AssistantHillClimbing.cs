@@ -28,9 +28,10 @@ public class AssistantHillClimbing : LBSAssistantAI
     [JsonIgnore, NonSerialized]
     private Stopwatch clock = new Stopwatch();
 
-    [NonSerialized]
+    [JsonIgnore, NonSerialized]
     private LBSLayer layer;
 
+    [JsonRequired]
     public string test = "Hola mundo";
 
     public AssistantHillClimbing() {}
