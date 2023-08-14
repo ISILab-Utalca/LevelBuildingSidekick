@@ -214,10 +214,12 @@ namespace LBS.Components
                 // Implement Reload and SetOwner ??
             }
 
+            
             foreach (var behaviour in behaviours)
             {
                 behaviour.Owner = this;
             }
+
         }
 
         public void AddBehaviour(LBSBehaviour behaviour)
