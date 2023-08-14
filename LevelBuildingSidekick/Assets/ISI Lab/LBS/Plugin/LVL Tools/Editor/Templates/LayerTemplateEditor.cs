@@ -45,7 +45,7 @@ public class LayerTemplateEditor : Editor
         var selected = behaviourOptions[behaviourIndex];
         if (GUILayout.Button("Add behaviour"))
         {
-            var bh = Activator.CreateInstance(selected);
+            var bh = Activator.CreateInstance(selected, null, "Default Name");
             template.layer.AddBehaviour(bh as LBSBehaviour);
         }
         GUILayout.EndHorizontal();
