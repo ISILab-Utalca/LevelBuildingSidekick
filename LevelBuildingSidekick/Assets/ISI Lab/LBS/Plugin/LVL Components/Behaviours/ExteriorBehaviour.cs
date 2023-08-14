@@ -1,5 +1,6 @@
 using LBS.Behaviours;
 using LBS.Components;
+using Newtonsoft.Json;
 using LBS.Components.TileMap;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,7 +11,8 @@ using UnityEngine;
 public class ExteriorBehaviour : LBSBehaviour
 {
     #region FIELDS
-
+    [JsonRequired, SerializeField]
+    private string aaa = "a";
     #endregion
 
     #region CONSTRUCTORS
@@ -24,6 +26,6 @@ public class ExteriorBehaviour : LBSBehaviour
 
     public override void Init(LBSLayer layer)
     {
-
+        base.Init(layer);
     }
 }
