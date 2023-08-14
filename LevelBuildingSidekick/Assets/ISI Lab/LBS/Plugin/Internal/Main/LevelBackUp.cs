@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -19,9 +20,6 @@ namespace LBS
 
         public static LevelBackUp Instance() // Singleton
         {
-
-
-
             // si la instancia ya esta registrada la retorna
             if (instance != null)
             {
@@ -57,7 +55,9 @@ namespace LBS
     [System.Serializable]
     public class LoadedLevel
     {
+        [JsonRequired]
         public string fullName = "";
+        [JsonRequired]
         public LBSLevelData data;
 
         public FileInfo FileInfo
