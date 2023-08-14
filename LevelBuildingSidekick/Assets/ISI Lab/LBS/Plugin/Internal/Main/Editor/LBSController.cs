@@ -166,9 +166,11 @@ namespace LBS
 
         public static void ShowLevelInspector()
         {
-            var s = ScriptableObject.CreateInstance<LevelScriptable>();
+            /*
+            var s = ScriptableObject.CreateInstance<LevelScriptable>(); //////////////////////////////////////////////////////////////////
             s.data = CurrentLevel.data;
             Selection.SetActiveObjectWithContext(s, s);
+            */
 
         }
 
