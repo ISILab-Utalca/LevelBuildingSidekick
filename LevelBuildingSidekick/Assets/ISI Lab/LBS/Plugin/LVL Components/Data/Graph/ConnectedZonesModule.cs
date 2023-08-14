@@ -9,12 +9,17 @@ using UnityEngine;
 [System.Serializable]
 public class ConnectedZonesModule : LBSModule
 {
+    #region FIELDS
     [SerializeField, JsonRequired]
     List<ZoneEdge> edges = new List<ZoneEdge>();
+    #endregion
 
+    #region PROPERTIES
     [JsonIgnore]
     public List<ZoneEdge> Edges => new List<ZoneEdge>(edges);
+    #endregion
 
+    #region CONSTRUCTORS
     public ConnectedZonesModule() { }
     public ConnectedZonesModule(IEnumerable<ZoneEdge> edges) 
     { 
@@ -23,16 +28,18 @@ public class ConnectedZonesModule : LBSModule
             AddEdge(e);
         }
     }
+    #endregion
 
+    #region METHODS
     public void AddEdge(ZoneEdge edge)
     {
-        //check if already exist
-        edges.Add(edge);
+        if (!edges.Contains(edge))
+            edges.Add(edge);
     }
 
     public void AddEdge(Zone first, Zone second)
     {
-        //check if already exist
+        //check if already exist (?)
         edges.Add(new ZoneEdge(first, second));
     }
 
@@ -119,6 +126,7 @@ public class ConnectedZonesModule : LBSModule
     {
         edges.Remove(edge);
     }
+    #endregion
 }
 
 [System.Serializable]
@@ -141,11 +149,6 @@ public class ZoneEdge : ICloneable
     {
         get => second;
         set => second = value;
-    }
-
-    public ZoneEdge()
-    {
-
     }
 
     public ZoneEdge(Zone first, Zone second)
