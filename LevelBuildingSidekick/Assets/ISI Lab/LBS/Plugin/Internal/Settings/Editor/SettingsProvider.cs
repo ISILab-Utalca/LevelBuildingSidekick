@@ -19,13 +19,25 @@ static class LBS_SettingsProvider
             {
                 var settings = LBSSettings.Instance;
 
+                // Header Camera
                 EditorGUILayout.Space();
                 EditorStyles.boldLabel.fontSize = 14;
                 EditorGUILayout.LabelField("Zoom", EditorStyles.boldLabel);
 
+                // XX
                 settings.general.OnChangeZoomValue?.Invoke(settings.general.zoomMin, settings.general.zoomMax);
                 settings.general.zoomMin = EditorGUILayout.FloatField("Min",settings.general.zoomMin);
                 settings.general.zoomMax = EditorGUILayout.FloatField("Max", settings.general.zoomMax);
+
+                // Header teselation
+                EditorGUILayout.Space();
+                EditorStyles.boldLabel.fontSize = 14;
+                EditorGUILayout.LabelField("Teselation", EditorStyles.boldLabel);
+
+                // Bundles folder
+                EditorGUILayout.BeginHorizontal();
+                settings.general.TileSize = EditorGUILayout.Vector2Field("Tile size", settings.general.TileSize, GUILayout.Height(EditorGUIUtility.singleLineHeight));
+                EditorGUILayout.EndHorizontal();
             },
             keywords = new HashSet<string>(new[] { "LBS", "Tools" })
         };
@@ -52,34 +64,34 @@ static class LBS_SettingsProvider
 
                 // Settings path
                 EditorGUILayout.BeginHorizontal();
-                settings.settingsPath = EditorGUILayout.TextField("Settings path",settings.settingsPath, EditorStyles.textField, GUILayout.Height(EditorGUIUtility.singleLineHeight));
-                if(GUILayout.Button("Find", GUILayout.MaxWidth(60)))
+                settings.paths.settingsPath = EditorGUILayout.TextField("Settings path", settings.paths.settingsPath, EditorStyles.textField, GUILayout.Height(EditorGUIUtility.singleLineHeight));
+                if (GUILayout.Button("Find", GUILayout.MaxWidth(60)))
                 {
                     var so = Utility.DirectoryTools.GetScriptable<LBSSettings>();
                     var path = AssetDatabase.GetAssetPath(so);
-                    settings.settingsPath = path;
+                    settings.paths.settingsPath = path;
                 }
                 EditorGUILayout.EndHorizontal();
 
                 // Storage path
                 EditorGUILayout.BeginHorizontal();
-                settings.storagePath = EditorGUILayout.TextField("Storage path", settings.storagePath, EditorStyles.textField, GUILayout.Height(EditorGUIUtility.singleLineHeight));
+                settings.paths.storagePath = EditorGUILayout.TextField("Storage path", settings.paths.storagePath, EditorStyles.textField, GUILayout.Height(EditorGUIUtility.singleLineHeight));
                 if (GUILayout.Button("Find", GUILayout.MaxWidth(60)))
                 {
                     var so = Utility.DirectoryTools.GetScriptable<LBSAssetsStorage>();
                     var path = AssetDatabase.GetAssetPath(so);
-                    settings.storagePath = path;
+                    settings.paths.storagePath = path;
                 }
                 EditorGUILayout.EndHorizontal();
 
                 // Pressets path
                 EditorGUILayout.BeginHorizontal();
-                settings.pressetsPath = EditorGUILayout.TextField("Presets path", settings.pressetsPath, EditorStyles.textField, GUILayout.Height(EditorGUIUtility.singleLineHeight));
+                settings.paths.pressetsPath = EditorGUILayout.TextField("Presets path", settings.paths.pressetsPath, EditorStyles.textField, GUILayout.Height(EditorGUIUtility.singleLineHeight));
                 if (GUILayout.Button("Find", GUILayout.MaxWidth(60)))
                 {
                     var so = Utility.DirectoryTools.GetScriptable<LBSPresets>();
                     var path = AssetDatabase.GetAssetPath(so);
-                    settings.pressetsPath = path;
+                    settings.paths.pressetsPath = path;
                 }
                 EditorGUILayout.EndHorizontal();
 
@@ -90,11 +102,11 @@ static class LBS_SettingsProvider
                 {
                     var so = Utility.DirectoryTools.GetScriptable<LBSSettings>();
                     var path = AssetDatabase.GetAssetPath(so);
-                    settings.settingsPath = path;
+                    settings.paths.settingsPath = path;
 
                     var so2 = Utility.DirectoryTools.GetScriptable<LBSAssetsStorage>();
                     var path2 = AssetDatabase.GetAssetPath(so2);
-                    settings.storagePath = path2;
+                    settings.paths.storagePath = path2;
                 }
                 EditorGUILayout.EndHorizontal();
 
@@ -105,7 +117,7 @@ static class LBS_SettingsProvider
 
                 // Storage path
                 EditorGUILayout.BeginHorizontal();
-                settings.iconPath = EditorGUILayout.TextField("Icons paths", settings.iconPath, EditorStyles.textField, GUILayout.Height(EditorGUIUtility.singleLineHeight));
+                settings.paths.iconPath = EditorGUILayout.TextField("Icons paths", settings.paths.iconPath, EditorStyles.textField, GUILayout.Height(EditorGUIUtility.singleLineHeight));
                 EditorGUILayout.EndHorizontal();
 
                 // Set Default button
@@ -114,7 +126,7 @@ static class LBS_SettingsProvider
                 if (GUILayout.Button("Set default", GUILayout.MaxWidth(120)))
                 {
                     var newSettings = new LBSSettings();
-                    settings.iconPath = newSettings.iconPath;
+                    settings.paths.iconPath = newSettings.paths.iconPath;
                 }
                 EditorGUILayout.EndHorizontal();
 
@@ -125,12 +137,12 @@ static class LBS_SettingsProvider
 
                 // Bundles folder
                 EditorGUILayout.BeginHorizontal();
-                settings.bundleFolderPath = EditorGUILayout.TextField("Bundles folder", settings.bundleFolderPath, EditorStyles.textField, GUILayout.Height(EditorGUIUtility.singleLineHeight));
+                settings.paths.bundleFolderPath = EditorGUILayout.TextField("Bundles folder", settings.paths.bundleFolderPath, EditorStyles.textField, GUILayout.Height(EditorGUIUtility.singleLineHeight));
                 EditorGUILayout.EndHorizontal();
 
                 // Tag folder
                 EditorGUILayout.BeginHorizontal();
-                settings.tagFolderPath = EditorGUILayout.TextField("Tags folder", settings.tagFolderPath, EditorStyles.textField, GUILayout.Height(EditorGUIUtility.singleLineHeight));
+                settings.paths.tagFolderPath = EditorGUILayout.TextField("Tags folder", settings.paths.tagFolderPath, EditorStyles.textField, GUILayout.Height(EditorGUIUtility.singleLineHeight));
                 EditorGUILayout.EndHorizontal();
 
                 // Set Default button
@@ -139,8 +151,8 @@ static class LBS_SettingsProvider
                 if (GUILayout.Button("Set default", GUILayout.MaxWidth(120)))
                 {
                     var newSettings = new LBSSettings();
-                    settings.bundleFolderPath = newSettings.bundleFolderPath;
-                    settings.tagFolderPath = newSettings.tagFolderPath;
+                    settings.paths.bundleFolderPath = newSettings.paths.bundleFolderPath;
+                    settings.paths.tagFolderPath = newSettings.paths.tagFolderPath;
                 }
                 EditorGUILayout.EndHorizontal();
 
@@ -152,22 +164,22 @@ static class LBS_SettingsProvider
 
                 // Bundles pressets folder
                 EditorGUILayout.BeginHorizontal();
-                settings.bundlesPresetFolderPath = EditorGUILayout.TextField("Bundles pressets", settings.bundlesPresetFolderPath, EditorStyles.textField, GUILayout.Height(EditorGUIUtility.singleLineHeight));
+                settings.paths.bundlesPresetFolderPath = EditorGUILayout.TextField("Bundles pressets", settings.paths.bundlesPresetFolderPath, EditorStyles.textField, GUILayout.Height(EditorGUIUtility.singleLineHeight));
                 EditorGUILayout.EndHorizontal();
 
                 // Generator3D presset folder
                 EditorGUILayout.BeginHorizontal();
-                settings.Generator3DPresetFolderPath = EditorGUILayout.TextField("Generator3D presset", settings.Generator3DPresetFolderPath, EditorStyles.textField, GUILayout.Height(EditorGUIUtility.singleLineHeight));
+                settings.paths.Generator3DPresetFolderPath = EditorGUILayout.TextField("Generator3D presset", settings.paths.Generator3DPresetFolderPath, EditorStyles.textField, GUILayout.Height(EditorGUIUtility.singleLineHeight));
                 EditorGUILayout.EndHorizontal();
 
                 // Assisstants presset folder
                 EditorGUILayout.BeginHorizontal();
-                settings.assistantPresetFolderPath = EditorGUILayout.TextField("Assisstants pressets", settings.assistantPresetFolderPath, EditorStyles.textField, GUILayout.Height(EditorGUIUtility.singleLineHeight));
+                settings.paths.assistantPresetFolderPath = EditorGUILayout.TextField("Assisstants pressets", settings.paths.assistantPresetFolderPath, EditorStyles.textField, GUILayout.Height(EditorGUIUtility.singleLineHeight));
                 EditorGUILayout.EndHorizontal();
 
                 // Layer presset folder
                 EditorGUILayout.BeginHorizontal();
-                settings.layerPressetFolderPath = EditorGUILayout.TextField("Layer presset", settings.layerPressetFolderPath, EditorStyles.textField, GUILayout.Height(EditorGUIUtility.singleLineHeight));
+                settings.paths.layerPressetFolderPath = EditorGUILayout.TextField("Layer presset", settings.paths.layerPressetFolderPath, EditorStyles.textField, GUILayout.Height(EditorGUIUtility.singleLineHeight));
                 EditorGUILayout.EndHorizontal();
 
                 // Set Default button
@@ -176,10 +188,10 @@ static class LBS_SettingsProvider
                 if (GUILayout.Button("Set default", GUILayout.MaxWidth(120)))
                 {
                     var newSettings = new LBSSettings();
-                    settings.bundlesPresetFolderPath = newSettings.bundlesPresetFolderPath;
-                    settings.Generator3DPresetFolderPath = newSettings.Generator3DPresetFolderPath;
-                    settings.assistantPresetFolderPath = newSettings.assistantPresetFolderPath;
-                    settings.layerPressetFolderPath = newSettings.layerPressetFolderPath;
+                    settings.paths.bundlesPresetFolderPath = newSettings.paths.bundlesPresetFolderPath;
+                    settings.paths.Generator3DPresetFolderPath = newSettings.paths.Generator3DPresetFolderPath;
+                    settings.paths.assistantPresetFolderPath = newSettings.paths.assistantPresetFolderPath;
+                    settings.paths.layerPressetFolderPath = newSettings.paths.layerPressetFolderPath;
                 }
                 EditorGUILayout.EndHorizontal();
 
@@ -191,114 +203,31 @@ static class LBS_SettingsProvider
         return provider;
     }
 
+
     [SettingsProvider]
-    public static SettingsProvider ModulesSettingsProvider()
+    public static SettingsProvider InterfaceSettingsProvider()
     {
         // First parameter is the path in the Settings window.
         // Second parameter is the scope of this setting: it only appears in the Project Settings window.
-        var provider = new SettingsProvider("LBS/Modules", SettingsScope.Project)
+        var provider = new SettingsProvider("LBS/Interface", SettingsScope.Project)
         {
-            label = "Modules",
+            label = "Interface",
             guiHandler = (searchContext) =>
             {
                 var settings = LBSSettings.Instance;
 
-                // Header teselation
+                // Header Camera
                 EditorGUILayout.Space();
                 EditorStyles.boldLabel.fontSize = 14;
-                EditorGUILayout.LabelField("Teselation", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField("Zoom", EditorStyles.boldLabel);
 
-                // Bundles folder
+                // Toolkit color
                 EditorGUILayout.BeginHorizontal();
-                settings.TileSize = EditorGUILayout.Vector2Field("Tile size", settings.TileSize, GUILayout.Height(EditorGUIUtility.singleLineHeight));
+                settings.@interface.toolkitSelected = EditorGUILayout.ColorField("Toolkit selected",settings.@interface.toolkitSelected);
                 EditorGUILayout.EndHorizontal();
-
-
-                // Header graph
-                EditorGUILayout.Space();
-                EditorStyles.boldLabel.fontSize = 14;
-                EditorGUILayout.LabelField("Graph", EditorStyles.boldLabel);
-                // IMPLEMENTAR (!!!)
-
-            },
-            keywords = new HashSet<string>(new[] { "LBS", "Modules", "Teselation", "Graph" })
-
-        };
-        return provider;
-    }
-
-    [SettingsProvider]
-    public static SettingsProvider AssisstantsSettingsProvider()
-    {
-        // First parameter is the path in the Settings window.
-        // Second parameter is the scope of this setting: it only appears in the Project Settings window.
-        var provider = new SettingsProvider("LBS/Assistants", SettingsScope.Project)
-        {
-            label = "Assistants",
-            guiHandler = (searchContext) =>
-            {
-                var settings = LBSSettings.Instance;
-
-                // Header base optimizer
-                EditorGUILayout.Space();
-                EditorStyles.boldLabel.fontSize = 14;
-                EditorGUILayout.LabelField("Base optimizer", EditorStyles.boldLabel);
-                // IMPLEMENTAR (!!!)
-
-                // Header map elite
-                EditorGUILayout.Space();
-                EditorStyles.boldLabel.fontSize = 14;
-                EditorGUILayout.LabelField("Map elite", EditorStyles.boldLabel);
-                // IMPLEMENTAR (!!!)
-
-                // Header WFC
-                EditorGUILayout.Space();
-                EditorStyles.boldLabel.fontSize = 14;
-                EditorGUILayout.LabelField("Wave Function Collapse", EditorStyles.boldLabel);
-                // IMPLEMENTAR (!!!)
-            },
-
-            keywords = new HashSet<string>(new[] { "LBS", "Assistants" })
-
-        };
-        return provider;
-    }
-
-    [SettingsProvider]
-    public static SettingsProvider LayersSettingsProvider()
-    {
-        // First parameter is the path in the Settings window.
-        // Second parameter is the scope of this setting: it only appears in the Project Settings window.
-        var provider = new SettingsProvider("LBS/Layers", SettingsScope.Project)
-        {
-            label = "Layers",
-            guiHandler = (searchContext) =>
-            {
-                var settings = LBSSettings.Instance;
-
             },
 
             keywords = new HashSet<string>(new[] { "LBS", "Layers" })
-
-        };
-        return provider;
-    }
-
-    [SettingsProvider]
-    public static SettingsProvider Generators3DSettingsProvider()
-    {
-        // First parameter is the path in the Settings window.
-        // Second parameter is the scope of this setting: it only appears in the Project Settings window.
-        var provider = new SettingsProvider("LBS/3D generators", SettingsScope.Project)
-        {
-            label = "3D Generators",
-            guiHandler = (searchContext) =>
-            {
-                var settings = LBSSettings.Instance;
-
-            },
-
-            keywords = new HashSet<string>(new[] { "LBS", "Generators", "3D" })
 
         };
         return provider;
