@@ -115,7 +115,7 @@ public class LBSGlobalTagsInspector : LBSInspector
 
         var name = ISILab.Commons.Commons.CheckNameFormat(TagsBundles.Select(b => b.name), "tagBundle");
 
-        AssetDatabase.CreateAsset(nSO, settings.tagFolderPath + "/" + name + ".asset");
+        AssetDatabase.CreateAsset(nSO, settings.paths.tagFolderPath + "/" + name + ".asset");
         AssetDatabase.SaveAssets();
 
         list.itemsSource = TagsBundles;
