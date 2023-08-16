@@ -21,7 +21,7 @@ public class DrawSimpleGraph : Drawer
     {
         var graph = layer.GetModule<GraphModule<RoomNode>>();
 
-        var pixelSize = layer.TileSize * LBSSettings.Instance.TileSize;
+        var pixelSize = layer.TileSize * LBSSettings.Instance.general.TileSize;
 
         var nViews = new List<LBSNodeView<RoomNode>>();
         foreach (var node in graph.GetNodes())
