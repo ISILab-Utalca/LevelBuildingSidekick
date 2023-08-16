@@ -25,7 +25,7 @@ public class PopulationDrawer : Drawer
         foreach(var t in population.TileMap.Tiles)
         {
             var v = new PopulationTileView(t);
-            v.SetPosition(new Rect(t.Tile.Position, behaviour.Owner.TileSize * LBSSettings.Instance.TileSize));
+            v.SetPosition(new Rect(t.Tile.Position, behaviour.Owner.TileSize * LBSSettings.Instance.general.TileSize));
             view.Add(v);
         }
 
