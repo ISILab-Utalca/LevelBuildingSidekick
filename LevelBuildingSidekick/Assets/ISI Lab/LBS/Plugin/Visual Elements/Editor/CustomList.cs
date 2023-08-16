@@ -70,7 +70,7 @@ public class CustomList : VisualElement // terminar de implementar para que func
     public void CreateElement()
     {
         var settings = LBSSettings.Instance;
-        var path = settings.tagFolderPath;
+        var path = settings.paths.tagFolderPath;
 
         var name = "/" + "LBSTagsbundles.asset";
         var bundle = ScriptableObject.CreateInstance<LBSIdentifierBundle>();
