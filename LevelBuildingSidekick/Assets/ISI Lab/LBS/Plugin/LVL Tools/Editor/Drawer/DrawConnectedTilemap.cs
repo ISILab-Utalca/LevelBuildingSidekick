@@ -21,7 +21,7 @@ public class DrawConnectedTilemap : Drawer // DrawSchema
                 var tView = new SchemaTileView(cTile);
                 tView.SetBackgroundColor(area.Color);
                 tView.SetConnections(cTile.Connections);
-                var size = LBSSettings.Instance.TileSize*layer.TileSize;
+                var size = LBSSettings.Instance.general.TileSize * layer.TileSize;
                 tView.SetPosition(new Rect(tile.Position * size, size));
                 view.AddElement(tView);
             }
