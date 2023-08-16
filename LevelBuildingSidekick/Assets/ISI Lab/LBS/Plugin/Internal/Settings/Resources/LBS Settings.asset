@@ -12,17 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6b738addc7fdb346a753be66842cf18, type: 3}
   m_Name: LBS Settings
   m_EditorClassIdentifier: 
-  settingsPath: Assets/ISI Lab/LBS/Plugin/Internal/Settings/Resources/LBS Settings.asset
-  storagePath: Assets/ISI Lab/LBS/Plugin/Internal/Editor/LBS Storage.asset
-  pressetsPath: Assets/ISI Lab/LBS/Presets/LBS Presets.asset
-  bundleFolderPath: Assets/ISI Lab/LBS/Data/Bundles
-  tagFolderPath: Assets/ISI Lab/LBS/Data/Tags
-  iconPath: Assets/ISI Lab/LBS/Plugin/Internal/Icons
-  layerPressetFolderPath: Assets/ISI Lab/LBS/Presets/Layers
-  assistantPresetFolderPath: Assets/ISI Lab/LBS/Presets/Assistants
-  Generator3DPresetFolderPath: Assets/ISI Lab/LBS/Presets/Generators3D
-  bundlesPresetFolderPath: Assets/ISI Lab/LBS/Presets/Bundles
+  paths:
+    settingsPath: Assets/ISI Lab/LBS/Plugin/Internal/Settings/Resources/LBS Settings.asset
+    storagePath: Assets/ISI Lab/LBS/Plugin/Internal/Editor/LBS Storage.asset
+    pressetsPath: Assets/ISI Lab/LBS/Presets/LBS Presets.asset
+    bundleFolderPath: Assets/ISI Lab/LBS/Data/Bundles
+    tagFolderPath: Assets/ISI Lab/LBS/Data/Tags
+    iconPath: Assets/ISI Lab/LBS/Plugin/Internal/Icons
+    layerPressetFolderPath: Assets/ISI Lab/LBS/Presets/Layers
+    assistantPresetFolderPath: Assets/ISI Lab/LBS/Presets/Assistants
+    Generator3DPresetFolderPath: Assets/ISI Lab/LBS/Presets/Generators3D
+    bundlesPresetFolderPath: Assets/ISI Lab/LBS/Presets/Bundles
   general:
     zoomMax: 10
     zoomMin: 0.1
-  tileSize: {x: 50, y: 50}
+    tileSize: {x: 50, y: 50}
+  interface:
+    toolkitSelected: {r: 0.99607843, g: 0.4627451, b: 0.4117647, a: 1}
