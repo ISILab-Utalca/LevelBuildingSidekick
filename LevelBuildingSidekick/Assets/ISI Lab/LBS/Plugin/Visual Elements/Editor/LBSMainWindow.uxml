@@ -17,7 +17,7 @@
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement picking-mode="Ignore" style="flex-grow: 1; flex-direction: row;">
-                    <LBS.VisualElements.ToolKit name="ToolsGroup" />
+                    <LBS.VisualElements.ToolKit />
                     <ui:VisualElement picking-mode="Ignore" style="flex-direction: row; align-items: center;">
                         <ModeSelector name="ModeSelector" style="display: none;" />
                     </ui:VisualElement>
