@@ -145,7 +145,7 @@ public class GeneralBundlesPanel : VisualElement
 
         var name = ISILab.Commons.Commons.CheckNameFormat(all.Select(b => b.name), "new ID");
 
-        AssetDatabase.CreateAsset(nSO, settings.tagFolderPath + "/" + name + ".asset");
+        AssetDatabase.CreateAsset(nSO, settings.paths.tagFolderPath + "/" + name + ".asset");
         // nSO.name = name;
         // AssetDatabase.AddObjectToAsset(nSO, target);
         AssetDatabase.SaveAssets();
