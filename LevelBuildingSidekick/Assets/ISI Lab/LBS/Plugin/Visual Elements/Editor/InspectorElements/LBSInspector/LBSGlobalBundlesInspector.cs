@@ -167,7 +167,7 @@ public class LBSGlobalBundlesInspector : LBSInspector
         var clone = pressetSelected.Clone() as Bundle;
         var name = ISILab.Commons.Commons.CheckNameFormat(targets.Select(b => b.Item1.name), pressetSelected.name);
         
-        AssetDatabase.CreateAsset(clone, settings.bundleFolderPath + "/" + name + ".asset");
+        AssetDatabase.CreateAsset(clone, settings.paths.bundleFolderPath + "/" + name + ".asset");
         AssetDatabase.SaveAssets();
 
         var all = storage.Get<Bundle>().Where(b => !b.isPreset).ToList();//Utility.DirectoryTools.GetScriptables<Bundle>().ToList();
