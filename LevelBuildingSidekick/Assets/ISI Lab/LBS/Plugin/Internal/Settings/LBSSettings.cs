@@ -87,6 +87,12 @@ namespace LBS.Settings
         public class Interface
         {
             public Color toolkitSelected = new Color(254f / 255f, 118f / 255f, 105f / 255f);
+
+            public Color behavioursColor = new Color(135f / 255f, 215f / 255f, 246f / 255f);
+            public Color assitantsColor = new Color(0f / 255f, 0f / 255f, 0f / 255f);
+
+            public Color bundlesColor = new Color(0f / 255f, 0f / 255f, 0f / 255f);
+            public Color tagsColor = new Color(0f / 255f, 0f / 255f, 0f / 255f);
         }
     }
 
