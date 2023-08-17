@@ -136,6 +136,9 @@ public class LayersPanel : VisualElement
     // Simple Click over element
     private void OnSelectionChange(IEnumerable<object> objs) 
     {
+        if (objs.Count() <= 0)
+            return;
+
         var selected = objs.ToList()[0] as LBSLayer;
         OnSelectLayer?.Invoke(selected);
     }
@@ -143,6 +146,9 @@ public class LayersPanel : VisualElement
     // Double Click over element
     private void OnItemChosen(IEnumerable<object> objs) 
     {
+        if (objs.Count() <= 0)
+            return;
+
         var selected = objs.ToList()[0] as LBSLayer;
         OnDoubleSelectLayer?.Invoke(selected);
     }

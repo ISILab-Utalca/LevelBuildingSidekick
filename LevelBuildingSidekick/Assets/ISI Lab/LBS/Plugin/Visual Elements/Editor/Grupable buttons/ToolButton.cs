@@ -6,11 +6,23 @@ using UnityEngine.UIElements;
 
 public class ToolButton : VisualElement, IGrupable
 {
-    // View
+    #region FIELDS
+    public Color color = new Color(72f / 255f, 72f / 255f, 72f / 255f);
+    public Color selected = new Color(161f / 255f, 81f / 255f, 21f / 255f);
+    #endregion
+
+    #region FIELDS VIEW
     private Button button;
     private VisualElement icon;
+    #endregion
 
-    public ToolButton(LBSTool tool): base()
+    #region EVENTS
+    public event Action OnFocusEvent;
+    public event Action OnBlurEvent;
+    #endregion
+
+    #region CONSTRUCTORS
+    public ToolButton(LBSTool tool)
     {
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("ToolButton");
         visualTree.CloneTree(this);
@@ -24,10 +36,9 @@ public class ToolButton : VisualElement, IGrupable
 
         this.tooltip = tool.Name;
     }
+    #endregion
 
-    public event Action OnFocusEvent;
-    public event Action OnBlurEvent;
-
+    #region IGRUPABLE
     public void AddGroupEvent(Action action)
     {
         button.clicked += action;
@@ -35,19 +46,20 @@ public class ToolButton : VisualElement, IGrupable
 
     public void OnBlur()
     {
-        //button.style.backgroundColor = color;
+        button.style.backgroundColor = color;
         OnBlurEvent?.Invoke();
     }
 
     public void OnFocus()
     {
-        //button.style.backgroundColor = selected;
+        button.style.backgroundColor = selected;
         OnFocusEvent?.Invoke();
     }
 
-    public void SetColorGroup(Color color, Color select)
+    public void SetColorGroup(Color color, Color selected)
     {
-        throw new NotImplementedException();
+        this.color = color;
+        this.selected = selected;
     }
+    #endregion
 }
-

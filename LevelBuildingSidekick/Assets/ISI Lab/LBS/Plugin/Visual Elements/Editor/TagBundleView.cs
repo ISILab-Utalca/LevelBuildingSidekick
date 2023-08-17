@@ -89,7 +89,7 @@ public class TagBundleView : VisualElement
         nTag.Init(name, new Color().RandomColor(), null);
 
         var settings = LBSSettings.Instance;
-        AssetDatabase.CreateAsset(nTag, settings.tagFolderPath + "/" + name + ".asset");
+        AssetDatabase.CreateAsset(nTag, settings.paths.tagFolderPath + "/" + name + ".asset");
         AssetDatabase.SaveAssets();
 
         if(!target.Tags.Contains(nTag))

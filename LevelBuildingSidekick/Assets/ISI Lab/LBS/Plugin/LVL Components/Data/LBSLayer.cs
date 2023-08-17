@@ -418,7 +418,7 @@ namespace LBS.Components
 
         public Vector2Int ToFixedPosition(Vector2 position) // esto tiene que ir en una extension (?)
         {
-            Vector2 pos = position / (TileSize * LBSSettings.Instance.TileSize);
+            Vector2 pos = position / (TileSize * LBSSettings.Instance.general.TileSize);
 
             if (pos.x < 0)
                 pos.x -= 1;

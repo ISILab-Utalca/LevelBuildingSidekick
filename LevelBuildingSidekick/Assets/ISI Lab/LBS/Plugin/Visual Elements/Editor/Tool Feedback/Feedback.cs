@@ -32,7 +32,7 @@ public abstract class Feedback : GraphElement
     public Vector2Int TeselationSize
     {
         get => teselationSize;
-        set => teselationSize = (LBSSettings.Instance.TileSize * value).ToInt();
+        set => teselationSize = (LBSSettings.Instance.general.TileSize * value).ToInt();
     }
 
     protected Vector2Int StartOffset

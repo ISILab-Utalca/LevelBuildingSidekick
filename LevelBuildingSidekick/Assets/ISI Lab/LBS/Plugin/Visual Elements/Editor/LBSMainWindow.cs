@@ -152,8 +152,8 @@ public class LBSMainWindow : EditorWindow
         {
             drawManager.Redraw(levelData, mainView);
         };
-        //layerPanel.OnSelectLayer += ShowinfoLayer;
-        //layerPanel.OnAddLayer += ShowinfoLayer;
+        layerPanel.OnSelectLayer += ShowinfoLayer;
+        layerPanel.OnAddLayer += ShowinfoLayer;
 
         // AIPanel
         aiPanel = new AIPanel();
@@ -217,14 +217,14 @@ public class LBSMainWindow : EditorWindow
         if (!layer.Equals(_selectedLayer))
         {
             OnSelectedLayerChange(layer);
-            gen3DPanel.Init(layer);
         }
-
+        /*
         if (_selectedLayer != null)
         {
             var il = Reflection.MakeGenericScriptable(_selectedLayer);
             Selection.SetActiveObjectWithContext(il, il);
         }
+        */
     }
 
     private void TryCollapseMenuPanels()
@@ -263,14 +263,22 @@ public class LBSMainWindow : EditorWindow
     private void OnSelectedLayerChange(LBSLayer layer)
     {
         _selectedLayer = layer;
-        inspectorManager.OnSelectedLayerChange(layer);
-        //toolkitManager.OnSelectedLayerChange(layer);
-        //OnSelectedModeChange(modes.Keys.First(), _selectedLayer);
 
-        //Actualiza AI Panel
+        // Actualize ToolKit
+        toolkit.Clear();
+        toolkit.Init(layer); // esto no estas implementado (C:) se esta haciendo en inspectorManager.OnSelectedLayerChange(layer);
+
+        // Actualize Inspector panel 
+        inspectorManager.OnSelectedLayerChange(layer);
+
+        // Actualize AI panel
         aiPanel.Clear();
         aiPanel.Init(layer);
 
+        // Actualize 3D panel
+        gen3DPanel.Init(layer);
+
+        // Actualize Bottom text
         selectedLabel.text = "selected: " + layer.Name;
     }
 }
