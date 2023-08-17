@@ -22,7 +22,7 @@ public class PopulationDrawer : Drawer
             return;
         }
 
-        foreach(var t in population.TileMap.Tiles)
+        foreach(var t in population.Tilemap)
         {
             var v = new PopulationTileView(t);
             v.SetPosition(new Rect(t.Tile.Position, behaviour.Owner.TileSize * LBSSettings.Instance.TileSize));
