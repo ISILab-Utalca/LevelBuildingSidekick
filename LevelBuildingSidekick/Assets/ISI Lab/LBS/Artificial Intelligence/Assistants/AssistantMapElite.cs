@@ -19,7 +19,7 @@ using Debug = UnityEngine.Debug;
 using LBS.Assisstants;
 
 [System.Serializable]
-[RequieredModule(typeof(TaggedTileMap))]
+[RequieredModule(typeof(BundleTileMap))]
 public class AssistantMapElite : LBSAssistantAI
 {
     MapElites mapElites;
@@ -50,9 +50,9 @@ public class AssistantMapElite : LBSAssistantAI
 
     public override void Execute()
     {
-        (mapElites.XEvaluator as EvaluatorVE).Init();// IS WRONG Check !!
-        (mapElites.YEvaluator as EvaluatorVE).Init();// IS WRONG Check !!
-        (mapElites.Optimizer.Evaluator as EvaluatorVE).Init();// IS WRONG Check !!
+        //(mapElites.XEvaluator as EvaluatorVE).Init();// IS WRONG Check !!
+        //(mapElites.YEvaluator as EvaluatorVE).Init();// IS WRONG Check !!
+        //(mapElites.Optimizer.Evaluator as EvaluatorVE).Init();// IS WRONG Check !!
         mapElites.Run();
     }
 
@@ -61,8 +61,9 @@ public class AssistantMapElite : LBSAssistantAI
         
     }
 
-    public override void Init(LBSLayer layer)
+    public override void OnAdd(LBSLayer layer)
     {
+        Owner = layer;
     }
 
     public void ApplySuggestion(object data)
@@ -74,12 +75,26 @@ public class AssistantMapElite : LBSAssistantAI
             throw new Exception("[ISI Lab] Data " + data.GetType().Name + " is not LBSChromosome!");
         }
 
-        var modules = chrom.ToModules();
+        var population = Owner.Behaviours.Find(b => b.GetType().Equals(typeof(PopulationBehaviour))) as PopulationBehaviour;
 
-        foreach (var m in modules) //GOTTA CHANGE THIS
+        var rect = chrom.Rect;
+
+        for(int j = 0; j < rect.height; j++)
         {
-            var mod = Owner.GetModule<LBSModule>(m.ID);
-            mod.Rewrite(chrom.ToModule());
+            for (int i = 0; i < rect.width; i++)
+            {
+                population.RemoveTile(new Vector2(i,j).ToInt());
+            }
+        }
+
+        for(int i = 0; i < chrom.Length; i++)
+        {
+            var pos = chrom.ToMatrixPosition(i) + rect.position.ToInt();
+            population.RemoveTile(pos);
+            var gene = chrom.GetGene(i);
+            if (gene == null)
+                continue;
+            population.AddTile(pos, gene as BundleData);
         }
     }
 
@@ -97,8 +112,12 @@ public class AssistantMapElite : LBSAssistantAI
 
     public void SetAdam(Rect rect)
     {
-        throw new Exception("Not implemented");
+        var tm = Owner.GetModule<BundleTileMap>();
+        var chrom = new BundleTilemapChromosome(tm, rect);
+        mapElites.Adam = chrom;
     }
+
+
     public override object Clone()
     {
         return new AssistantMapElite();
