@@ -7,12 +7,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-[RequieredModule(typeof(ExteriorModule))]
+[RequieredModule(typeof(TileMapModule), typeof(ConnectedTileMapModule))]
 public class ExteriorBehaviour : LBSBehaviour
 {
     #region FIELDS
     [JsonRequired, SerializeField]
-    private string aaa = "a";
+    private TileMapModule tileMap;
+    [JsonRequired, SerializeField]
+    private ConnectedTileMapModule connections;
+    #endregion
+
+    #region PROPERTIES
+    
     #endregion
 
     #region CONSTRUCTORS
@@ -24,8 +30,11 @@ public class ExteriorBehaviour : LBSBehaviour
         return new ExteriorBehaviour(this.Icon, this.Name);
     }
 
-    public override void Init(LBSLayer layer)
+    public override void OnAdd(LBSLayer layer)
     {
-        base.Init(layer);
+        Owner = layer;
+
+        tileMap = Owner.GetModule<TileMapModule>();
+        connections = Owner.GetModule<ConnectedTileMapModule>();
     }
 }
