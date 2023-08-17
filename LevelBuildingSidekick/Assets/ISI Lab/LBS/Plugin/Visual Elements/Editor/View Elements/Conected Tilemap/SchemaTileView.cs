@@ -10,7 +10,12 @@ public class SchemaTileView : GraphElement
 {
     private ConnectedTile data;
 
+    TileConnectionsPair connections;
+    TileZonePair zone;
+
     public ConnectedTile Data => data;
+    public TileConnectionsPair Connections => connections;
+    public TileZonePair Zone => zone;
 
     // VisualElements
     private VisualElement left;
@@ -43,6 +48,33 @@ public class SchemaTileView : GraphElement
         this.data = connectedTile;
 
         SetConnections(data.Connections);
+    }
+
+    public SchemaTileView(TileConnectionsPair connections, TileZonePair zone)
+    {
+        if (view == null)
+        {
+            SchemaTileView.view = DirectoryTools.SearchAssetByName<VisualTreeAsset>("SchemaTile");
+        }
+        SchemaTileView.view.CloneTree(this);
+
+        this.SetMargins(0);
+        this.SetPaddings(0);
+        this.SetBorder(Color.black, 1);
+
+        // conecctions
+        left = this.Q<VisualElement>("Left");
+        right = this.Q<VisualElement>("Right");
+        top = this.Q<VisualElement>("Top");
+        bottom = this.Q<VisualElement>("Bottom");
+        border = this.Q<VisualElement>("Border");
+
+        this.zone = zone;
+        this.connections = connections;
+
+
+        SetBackgroundColor(zone.Zone.Color);
+        SetConnections(connections.Connections.ToArray());
     }
 
     public void SetBackgroundColor(Color color)
