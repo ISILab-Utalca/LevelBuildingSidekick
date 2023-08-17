@@ -268,7 +268,7 @@ public class MapEliteWindow : EditorWindow
                         throw new Exception("[ISI Lab] Data " + b.Data.GetType().Name + " is not LBSChromosome!");
                     }
 
-                    mod.Rewrite(chrom.ToModule());
+                    //mod.Rewrite(chrom.ToModule());
 
                     GetWindow<LBSMainWindow>().Repaint();
 
@@ -381,13 +381,14 @@ public class MapEliteWindow : EditorWindow
     {
         var type = module.GetType();
 
-        var target = Reflection.GetClassesWith<ChromosomeFromModuleAttribute>().Where(t => t.Item2.Any(v => v.type == type)).First().Item1;
+        /*var target = Reflection.GetClassesWith<ChromosomeFromBehaviourAttribute>().Where(t => t.Item2.Any(v => v.type == type)).First().Item1;
 
         //var immutables = backgroundModule.EmptyIndexes().ToArray();
 
         var chrom = Activator.CreateInstance(target, new object[] { module, backgroundModule.GetBounds()}) as ChromosomeBase;
 
-        return chrom;
+        return chrom;*/
+        return null;
 
     }
 
@@ -438,11 +439,11 @@ public class MapEliteWindow : EditorWindow
 
         foreach (var m in layer.Modules)
         {
-            var ves = Utility.Reflection.GetClassesWith<ChromosomeFromModuleAttribute>().Where(t => t.Item2.Any(v => v.type == m.GetType()));
+            /*var ves = Utility.Reflection.GetClassesWith<ChromosomeFromBehaviourAttribute>().Where(t => t.Item2.Any(v => v.type == m.GetType()));
             if (ves.Count() != 0)
             {
                 choices.Add(m.ID);
-            }
+            }*/
         }
 
         return choices;

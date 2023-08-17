@@ -36,7 +36,7 @@ public class ExhaustiveRanged2DSwap : MutationBase
                 if (d < probability)
                 {
                     var pos = new Vector2Int(r.GetInt(-range, range), r.GetInt(-range, range));
-                    var j = i + chr.WorldToIndex(pos);
+                    var j = i + chr.ToIndex(pos);
                     if (j < chr.Length && j >= 0)
                     {
                         if (chromosome.IsImmutable(j))

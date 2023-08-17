@@ -38,11 +38,11 @@ public class ResemblanceVE : EvaluatorVE
 
         foreach(var m in layer.Modules)
         {
-            var ves = Utility.Reflection.GetClassesWith<ChromosomeFromModuleAttribute>().Where(t => t.Item2.Any(v => v.type == m.GetType()));
+            /*var ves = Utility.Reflection.GetClassesWith<ChromosomeFromBehaviourAttribute>().Where(t => t.Item2.Any(v => v.type == m.GetType()));
             if(ves.Count() != 0)
             {
                 dropdown.choices.Add(m.ID);
-            }
+            }*/
         }
 
         dropdown.value = dropdown.choices[0];
@@ -78,11 +78,11 @@ public class ResemblanceVE : EvaluatorVE
 
         var type = module.GetType();
 
-        var target = Reflection.GetClassesWith<ChromosomeFromModuleAttribute>().Where(t => t.Item2.Any(v => v.type == type)).First().Item1;
+        /*var target = Reflection.GetClassesWith<ChromosomeFromBehaviourAttribute>().Where(t => t.Item2.Any(v => v.type == type)).First().Item1;
 
         var chrom = Activator.CreateInstance(target, new object[] { module, rect, null }) as ChromosomeBase;
 
-        (evaluator as Resemblance).reference = chrom;
+        (evaluator as Resemblance).reference = chrom;*/
 
 
     }

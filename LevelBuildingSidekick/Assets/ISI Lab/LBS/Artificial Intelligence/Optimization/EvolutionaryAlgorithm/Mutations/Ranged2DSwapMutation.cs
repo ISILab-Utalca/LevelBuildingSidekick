@@ -45,7 +45,7 @@ public class Ranged2DSwapMutation : MutationBase
         }
 
         var pos = new Vector2Int(r.GetInt(-range, range), r.GetInt(-range, range));
-        var j = i + chr.WorldToIndex(pos);
+        var j = i + chr.ToIndex(pos);
 
         if (j < chr.Length)
         {

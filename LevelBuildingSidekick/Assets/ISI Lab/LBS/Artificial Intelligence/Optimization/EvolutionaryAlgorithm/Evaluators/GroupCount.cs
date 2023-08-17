@@ -96,7 +96,7 @@ public class GroupCount : IRangedEvaluator
                         continue;
                     }
 
-                    var id = chrom.MatrixToIndex(c_pos);
+                    var id = chrom.ToIndex(c_pos);
                     if (indexes.Contains(id))
                     {
                         children.Add(id);

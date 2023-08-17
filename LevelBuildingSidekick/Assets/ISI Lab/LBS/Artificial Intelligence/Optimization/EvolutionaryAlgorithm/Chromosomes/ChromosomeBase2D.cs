@@ -22,13 +22,7 @@ public abstract class ChromosomeBase2D : ChromosomeBase//, ITileMap
     /// Converts a 2D position to an index in a 1D array.
     /// </summary>
     /// <param name="pos">The 2D position to convert.</param>
-    public int WorldToIndex(Vector2 pos)
-    {
-        pos -= Rect.position;
-        return (int)(pos.y * Rect.width + pos.x);
-    }
-
-    public int MatrixToIndex(Vector2 pos)
+    public int ToIndex(Vector2 pos)
     {
         return (int)(pos.y * Rect.width + pos.x);
     }
