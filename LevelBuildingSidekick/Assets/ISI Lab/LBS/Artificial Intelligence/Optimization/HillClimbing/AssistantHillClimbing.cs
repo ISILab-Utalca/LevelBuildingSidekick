@@ -43,7 +43,7 @@ public class AssistantHillClimbing : LBSAssistantAI
         UnityEngine.Debug.Log("HillClimbing start!");
         OnStart?.Invoke();
 
-        Init(Owner);
+        OnAdd(Owner);
 
         clock.Start();
         hillClimbing.Start();
@@ -116,7 +116,7 @@ public class AssistantHillClimbing : LBSAssistantAI
 
     }
 
-    public override void Init(LBSLayer layer)
+    public override void OnAdd(LBSLayer layer)
     {
         var graph = layer.GetModule<LBSRoomGraph>();
 
