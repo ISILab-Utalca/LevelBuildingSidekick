@@ -33,7 +33,7 @@ public class AIPanel : VisualElement
         {
             var ass = assistants[i];
             ass.OnTermination = OnFinish;
-            ass.Init(layer);
+            ass.OnAdd(layer);
             container.Add(GetAgentPanel(ass));
             //container.Add(new AIAgentPanel(ref ass));
 
