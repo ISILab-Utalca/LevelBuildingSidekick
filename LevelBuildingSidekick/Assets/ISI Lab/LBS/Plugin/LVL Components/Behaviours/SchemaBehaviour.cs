@@ -46,11 +46,13 @@ public class SchemaBehaviour : LBSBehaviour
     {
         get
         {
-            if(areas != null)
+            if (areas != null)
                 return areas.Areas; //?
             return new List<Zone>();
         }
     }
+
+    public List<LBSTile> Tiles => tileMap.Tiles;
     #endregion
 
     #region CONSTRUCTORS
@@ -58,105 +60,18 @@ public class SchemaBehaviour : LBSBehaviour
     #endregion
 
     #region METHODS
-    public override void Init(LBSLayer layer)
+    public override void OnAdd(LBSLayer layer)
     {
-        base.Init(layer);
+        Owner = layer;
 
-        var tileMap = Owner.GetModule<TileMapModule>();
-        if (tileMap == null)
-        {
-            this.tileMap = new TileMapModule();
-            Owner.AddModule(this.tileMap);
-        }
-        else
-        {
-            this.tileMap = tileMap;
-        } 
-
-        var tileConnections = Owner.GetModule<ConnectedTileMapModule>();
-        if (tileConnections == null)
-        {
-            this.tileConnections = new ConnectedTileMapModule();
-            Owner.AddModule(this.tileConnections);
-        }
-        else
-        {
-            this.tileConnections = tileConnections;
-        }
-
-        var areas = Owner.GetModule<SectorizedTileMapModule>();
-        if (areas == null)
-        {
-            this.areas = new SectorizedTileMapModule();
-            Owner.AddModule(this.areas);
-        }
-        else
-        {
-            this.areas = areas;
-        }
-
-
-        var graph = Owner.GetModule<ConnectedZonesModule>();
-        if (graph == null)
-        {
-            this.graph = new ConnectedZonesModule();
-            Owner.AddModule(this.areas);
-        }
-        else
-        {
-            this.graph = graph;
-        }
-    }
-
-    public void CheckModules() // sobra (?)
-    {
-        var tileMap = Owner.GetModule<TileMapModule>();
-        var tileConnections = Owner.GetModule<ConnectedTileMapModule>();
-        var areas = Owner.GetModule<SectorizedTileMapModule>();
-        var graph = Owner.GetModule<ConnectedZonesModule>();
-
-        if (tileMap == null)
-        {
-            Debug.LogError("[ISILab] TileMap has been removed from Layer");
-            return;
-        }
-        if (tileConnections == null)
-        {
-            Debug.LogError("[ISILab] Connections Module has been removed from Layer");
-            return;
-        }
-        if (areas == null)
-        {
-            Debug.LogError("[ISILab] Sectorized Tile Map Module has been removed from Layer");
-            return;
-        }
-        if (graph == null)
-        {
-            Debug.LogError("[ISILab] Connected Zones Module has been removed from Layer");
-            return;
-        }
-
-        if (!tileMap.Equals(this.tileMap))
-        {
-            this.tileMap = tileMap;
-        }
-        if (!tileConnections.Equals(this.tileConnections))
-        {
-            this.tileConnections = tileConnections;
-        }
-        if (!areas.Equals(this.areas))
-        {
-            this.areas = areas;
-        }
-        if (!graph.Equals(this.graph))
-        {
-            this.graph = graph;
-        }
+        tileMap = Owner.GetModule<TileMapModule>();
+        tileConnections = Owner.GetModule<ConnectedTileMapModule>();
+        areas = Owner.GetModule<SectorizedTileMapModule>();
+        graph = Owner.GetModule<ConnectedZonesModule>();
     }
 
     public void AddTile(Vector2Int position, Zone zone)
     {
-        CheckModules();
         var tile = new LBSTile(position, "Tile: " + position.ToString());
         tileMap.AddTile(tile);
         areas.AddTile(tile, zone);
@@ -164,7 +79,6 @@ public class SchemaBehaviour : LBSBehaviour
 
     public void AddZone(Vector2Int position)
     {
-        CheckModules();
         string prefix = "Zone: ";
         int counter = 0;
         string name = prefix + counter;
@@ -188,7 +102,6 @@ public class SchemaBehaviour : LBSBehaviour
 
     public void RemoveTile(Vector2Int position)
     {
-        CheckModules();
         var tile = tileMap.GetTile(position);
         tileMap.RemoveTile(tile);
         tileConnections.RemoveTile(tile);
@@ -197,33 +110,28 @@ public class SchemaBehaviour : LBSBehaviour
 
     public void SetConnection(LBSTile tile, int direction, string connection)
     {
-        CheckModules();
         var t = tileConnections.GetTile(tile);
         t.SetConnection(direction, connection);
     }
 
     public LBSTile GetTile(Vector2Int position)
     {
-        CheckModules();
         return tileMap.GetTile(position);
     }
 
     public TileConnectionsPair GetConnections(LBSTile tile)
     {
-        CheckModules();
         return tileConnections.GetTile(tile);
     }
 
-    public Zone GetZone(LBSTile tile)
+    public TileZonePair GetZone(LBSTile tile)
     {
-        CheckModules();
-        return areas.GetTile(tile).Zone;
+        return areas.GetTile(tile);
     }
 
-    public Zone GetZone(Vector2 position)
+    public TileZonePair GetZone(Vector2 position)
     {
-        CheckModules();
-        throw new System.NotImplementedException();
+        return GetZone(GetTile(position.ToInt()));
     }
 
     public void ConnectZones(Zone first, Zone second)
