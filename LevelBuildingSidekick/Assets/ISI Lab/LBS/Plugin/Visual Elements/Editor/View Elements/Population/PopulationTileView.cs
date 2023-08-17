@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Utility;
 
 public class PopulationTileView : GraphElement
 {
@@ -12,10 +13,16 @@ public class PopulationTileView : GraphElement
 
     VisualElement icon;
 
+    private static VisualTreeAsset view;
+
     public PopulationTileView(TileBundlePair tile)
     {
-        var visualTreeAsset = LBSAssetsStorage.Instance.Get<VisualTreeAsset>().Find(v => v.name == "PopulationTile");
-        visualTreeAsset.CloneTree(this);
+        if (view == null)
+        {
+            PopulationTileView.view = DirectoryTools.SearchAssetByName<VisualTreeAsset>("PopulationTile");
+            //PopulationTileView.view = LBSAssetsStorage.Instance.Get<VisualTreeAsset>().Find(v => v.name == "PopulationTile");
+        }
+        PopulationTileView.view.CloneTree(this);
 
         arrows.Add(this.Q<VisualElement>(name: "Right"));
         arrows.Add(this.Q<VisualElement>(name: "Up")); 
