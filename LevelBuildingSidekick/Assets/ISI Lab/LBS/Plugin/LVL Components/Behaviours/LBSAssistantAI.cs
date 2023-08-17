@@ -43,13 +43,7 @@ namespace LBS.Assisstants
         #endregion
 
         #region METHODS
-        public void InternalInit(LBSLayer layer)
-        {
-            Owner = layer;
-            Init(layer);
-        }
-
-        public abstract void Init(LBSLayer layer);
+        public abstract void OnAdd(LBSLayer layer);
 
         public abstract void Execute();
 
