@@ -56,10 +56,7 @@ namespace LBS.Behaviours
         #endregion
 
         #region METHODS
-        public virtual void Init(LBSLayer layer)
-        {
-            owner = layer;
-        }
+        public abstract void OnAdd(LBSLayer layer);
 
         public List<Type> GetRequieredModules()
         {
