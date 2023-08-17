@@ -115,7 +115,7 @@ public class LayerTemplateEditor : Editor
         // Behaviours
         var bhIcon = Resources.Load<Texture2D>("Icons/Select");
         var bh = new SchemaBehaviour(bhIcon, "Schema behaviour");
-        bh.Init(layer);
+        bh.OnAdd(layer);
         layer.AddBehaviour(bh);
 
         // Assistants
@@ -226,7 +226,7 @@ public class LayerTemplateEditor : Editor
 
         var bhIcon = Resources.Load<Texture2D>("Icons/Select");
         var bh = new ExteriorBehaviour(bhIcon, "Schema behaviour");
-        bh.Init(layer);
+        bh.OnAdd(layer);
         layer.AddBehaviour(bh);
 
         layer.Settings = new Generator3D.Settings()
@@ -379,7 +379,7 @@ public class LayerTemplateEditor : Editor
 
         var bhIcon = Resources.Load<Texture2D>("Icons/Select");
         var bh = new QuestBehaviour(bhIcon, "Quest behaviour");
-        bh.Init(layer);
+        bh.OnAdd(layer);
         layer.AddBehaviour(bh);
 
         //layer.AddAssistant(new AssistentGrammar());
