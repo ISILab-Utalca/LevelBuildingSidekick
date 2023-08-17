@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using static LBS.Settings.LBSSettings;
 
 // Register a SettingsProvider using IMGUI for the drawing framework:
 static class LBS_SettingsProvider
@@ -216,14 +217,55 @@ static class LBS_SettingsProvider
             {
                 var settings = LBSSettings.Instance;
 
-                // Header Camera
+                // Header Tools
                 EditorGUILayout.Space();
                 EditorStyles.boldLabel.fontSize = 14;
-                EditorGUILayout.LabelField("Zoom", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField("Tools", EditorStyles.boldLabel);
 
-                // Toolkit color
+                // Toolkit Color
                 EditorGUILayout.BeginHorizontal();
-                settings.@interface.toolkitSelected = EditorGUILayout.ColorField("Toolkit selected",settings.@interface.toolkitSelected);
+                settings.@interface.toolkitSelected = EditorGUILayout.ColorField("Toolkit selected", settings.@interface.toolkitSelected);
+                EditorGUILayout.EndHorizontal();
+
+                // Header Inspectors
+                EditorGUILayout.Space();
+                EditorStyles.boldLabel.fontSize = 14;
+                EditorGUILayout.LabelField("Inspectors", EditorStyles.boldLabel);
+
+                // Bundles Color
+                EditorGUILayout.BeginHorizontal();
+                settings.@interface.bundlesColor = EditorGUILayout.ColorField("Bundles color", settings.@interface.bundlesColor);
+                EditorGUILayout.EndHorizontal();
+
+                // Tags Color
+                EditorGUILayout.BeginHorizontal();
+                settings.@interface.tagsColor = EditorGUILayout.ColorField("Tags color", settings.@interface.tagsColor);
+                EditorGUILayout.EndHorizontal();
+
+                // Behaviours Color
+                EditorGUILayout.BeginHorizontal();
+                settings.@interface.behavioursColor = EditorGUILayout.ColorField("Behaviours color", settings.@interface.behavioursColor);
+                EditorGUILayout.EndHorizontal();
+
+                // Assistants Color
+                EditorGUILayout.BeginHorizontal();
+                settings.@interface.assitantsColor = EditorGUILayout.ColorField("Assistants color", settings.@interface.assitantsColor);
+                EditorGUILayout.EndHorizontal();
+
+                // Set Default button
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.Space();
+                if (GUILayout.Button("Set default", GUILayout.MaxWidth(120)))
+                {
+                    var newSettings = new LBSSettings();
+
+                    settings.@interface.toolkitSelected = newSettings.@interface.toolkitSelected;
+
+                    settings.@interface.bundlesColor = newSettings.@interface.bundlesColor;
+                    settings.@interface.tagsColor = newSettings.@interface.tagsColor;
+                    settings.@interface.behavioursColor = newSettings.@interface.behavioursColor;
+                    settings.@interface.assitantsColor = newSettings.@interface.assitantsColor;
+                }
                 EditorGUILayout.EndHorizontal();
             },
 
