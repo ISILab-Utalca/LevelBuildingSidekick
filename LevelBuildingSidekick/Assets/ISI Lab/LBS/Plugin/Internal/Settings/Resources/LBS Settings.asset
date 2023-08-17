@@ -28,4 +28,8 @@ MonoBehaviour:
     zoomMin: 0.1
     tileSize: {x: 50, y: 50}
   interface:
-    toolkitSelected: {r: 0.99607843, g: 0.4627451, b: 0.4117647, a: 1}
+    toolkitSelected: {r: 0, g: 0, b: 0, a: 1}
+    behavioursColor: {r: 0.5294118, g: 0.84313726, b: 0.9647059, a: 1}
+    assitantsColor: {r: 0, g: 0, b: 0, a: 1}
+    bundlesColor: {r: 0, g: 0, b: 0, a: 1}
+    tagsColor: {r: 0, g: 0, b: 0, a: 1}
