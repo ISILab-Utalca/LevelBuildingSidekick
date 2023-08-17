@@ -64,6 +64,6 @@ public class AddAreaConnection : LBSManipulator
         if (z1.Equals(z2))
             return;
 
-        schema.ConnectZones(z1,z2);
+        schema.ConnectZones(z1.Zone,z2.Zone);
     }
 }
