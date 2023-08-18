@@ -71,6 +71,7 @@ static class LBS_SettingsProvider
                     var so = Utility.DirectoryTools.GetScriptable<LBSSettings>();
                     var path = AssetDatabase.GetAssetPath(so);
                     settings.paths.settingsPath = path;
+                    EditorUtility.SetDirty(settings);
                 }
                 EditorGUILayout.EndHorizontal();
 
@@ -82,6 +83,7 @@ static class LBS_SettingsProvider
                     var so = Utility.DirectoryTools.GetScriptable<LBSAssetsStorage>();
                     var path = AssetDatabase.GetAssetPath(so);
                     settings.paths.storagePath = path;
+                    EditorUtility.SetDirty(settings);
                 }
                 EditorGUILayout.EndHorizontal();
 
@@ -93,6 +95,7 @@ static class LBS_SettingsProvider
                     var so = Utility.DirectoryTools.GetScriptable<LBSPresets>();
                     var path = AssetDatabase.GetAssetPath(so);
                     settings.paths.pressetsPath = path;
+                    EditorUtility.SetDirty(settings);
                 }
                 EditorGUILayout.EndHorizontal();
 
@@ -108,6 +111,7 @@ static class LBS_SettingsProvider
                     var so2 = Utility.DirectoryTools.GetScriptable<LBSAssetsStorage>();
                     var path2 = AssetDatabase.GetAssetPath(so2);
                     settings.paths.storagePath = path2;
+                    EditorUtility.SetDirty(settings);
                 }
                 EditorGUILayout.EndHorizontal();
 
@@ -128,6 +132,7 @@ static class LBS_SettingsProvider
                 {
                     var newSettings = new LBSSettings();
                     settings.paths.iconPath = newSettings.paths.iconPath;
+                    EditorUtility.SetDirty(settings);
                 }
                 EditorGUILayout.EndHorizontal();
 
@@ -154,6 +159,7 @@ static class LBS_SettingsProvider
                     var newSettings = new LBSSettings();
                     settings.paths.bundleFolderPath = newSettings.paths.bundleFolderPath;
                     settings.paths.tagFolderPath = newSettings.paths.tagFolderPath;
+                    EditorUtility.SetDirty(settings);
                 }
                 EditorGUILayout.EndHorizontal();
 
@@ -193,10 +199,11 @@ static class LBS_SettingsProvider
                     settings.paths.Generator3DPresetFolderPath = newSettings.paths.Generator3DPresetFolderPath;
                     settings.paths.assistantPresetFolderPath = newSettings.paths.assistantPresetFolderPath;
                     settings.paths.layerPressetFolderPath = newSettings.paths.layerPressetFolderPath;
+                    EditorUtility.SetDirty(settings);
                 }
                 EditorGUILayout.EndHorizontal();
 
-                EditorUtility.SetDirty(settings);
+                
             },
             keywords = new HashSet<string>(new[] { "LBS", "General" })
 
@@ -224,7 +231,7 @@ static class LBS_SettingsProvider
 
                 // Toolkit Color
                 EditorGUILayout.BeginHorizontal();
-                settings.@interface.toolkitSelected = EditorGUILayout.ColorField("Toolkit selected", settings.@interface.toolkitSelected);
+                settings.view.toolkitSelected = EditorGUILayout.ColorField("Toolkit selected", settings.view.toolkitSelected);
                 EditorGUILayout.EndHorizontal();
 
                 // Header Inspectors
@@ -234,22 +241,22 @@ static class LBS_SettingsProvider
 
                 // Bundles Color
                 EditorGUILayout.BeginHorizontal();
-                settings.@interface.bundlesColor = EditorGUILayout.ColorField("Bundles color", settings.@interface.bundlesColor);
+                settings.view.bundlesColor = EditorGUILayout.ColorField("Bundles color", settings.view.bundlesColor);
                 EditorGUILayout.EndHorizontal();
 
                 // Tags Color
                 EditorGUILayout.BeginHorizontal();
-                settings.@interface.tagsColor = EditorGUILayout.ColorField("Tags color", settings.@interface.tagsColor);
+                settings.view.tagsColor = EditorGUILayout.ColorField("Tags color", settings.view.tagsColor);
                 EditorGUILayout.EndHorizontal();
 
                 // Behaviours Color
                 EditorGUILayout.BeginHorizontal();
-                settings.@interface.behavioursColor = EditorGUILayout.ColorField("Behaviours color", settings.@interface.behavioursColor);
+                settings.view.behavioursColor = EditorGUILayout.ColorField("Behaviours color", settings.view.behavioursColor);
                 EditorGUILayout.EndHorizontal();
 
                 // Assistants Color
                 EditorGUILayout.BeginHorizontal();
-                settings.@interface.assitantsColor = EditorGUILayout.ColorField("Assistants color", settings.@interface.assitantsColor);
+                settings.view.assitantsColor = EditorGUILayout.ColorField("Assistants color", settings.view.assitantsColor);
                 EditorGUILayout.EndHorizontal();
 
                 // Set Default button
@@ -259,12 +266,13 @@ static class LBS_SettingsProvider
                 {
                     var newSettings = new LBSSettings();
 
-                    settings.@interface.toolkitSelected = newSettings.@interface.toolkitSelected;
+                    settings.view.toolkitSelected = newSettings.view.toolkitSelected;
 
-                    settings.@interface.bundlesColor = newSettings.@interface.bundlesColor;
-                    settings.@interface.tagsColor = newSettings.@interface.tagsColor;
-                    settings.@interface.behavioursColor = newSettings.@interface.behavioursColor;
-                    settings.@interface.assitantsColor = newSettings.@interface.assitantsColor;
+                    settings.view.bundlesColor = newSettings.view.bundlesColor;
+                    settings.view.tagsColor = newSettings.view.tagsColor;
+                    settings.view.behavioursColor = newSettings.view.behavioursColor;
+                    settings.view.assitantsColor = newSettings.view.assitantsColor;
+                    EditorUtility.SetDirty(settings);
                 }
                 EditorGUILayout.EndHorizontal();
             },
