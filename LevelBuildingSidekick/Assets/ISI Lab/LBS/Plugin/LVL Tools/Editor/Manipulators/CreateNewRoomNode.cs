@@ -7,24 +7,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class CreateNewRoomNode : ManipulateGraph<RoomNode> // where T: LBSNode  // (!) CreateNewNode<T>
+public class CreateNewRoomNode : ManipulateGraph<RoomNode> 
 {
     private string prefix = "";
     private string postfix = "";
 
-    public CreateNewRoomNode(/*string prefix = "", string postfix = ""*/) : base() 
+    public CreateNewRoomNode() : base() 
     {
         this.prefix = "Node: ";
     }
 
     protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
     {
-        //throw new NotImplementedException();
+
     }
 
     protected override void OnMouseMove(VisualElement target, Vector2Int MovePosition, MouseMoveEvent e)
     {
-        //throw new NotImplementedException();
+
     }
 
     protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
