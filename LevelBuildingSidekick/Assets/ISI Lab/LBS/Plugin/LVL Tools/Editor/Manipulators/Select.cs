@@ -15,7 +15,7 @@ public class Select : ClickSelector , IManipulatorLBS
     public Action OnManipulationEnd;
 
 
-    public void Init(MainView view, LBSLayer layer, LBSBehaviour behaviour)
+    public void Init(LBSLayer layer, LBSBehaviour behaviour)
     {
     }
 
