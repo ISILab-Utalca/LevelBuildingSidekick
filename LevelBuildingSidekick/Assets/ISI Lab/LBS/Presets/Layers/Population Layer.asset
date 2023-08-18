@@ -13,50 +13,52 @@ MonoBehaviour:
   m_Name: Population Layer
   m_EditorClassIdentifier: 
   layer:
-    id: LBSLayer
-    name: Layer name
     visible: 1
     blocked: 0
-    selectedMode: 
     iconPath: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/ghost.png
+    id: Population
+    name: Layer Population
     modules:
-    - rid: 9157593232956194825
-    - rid: 9157593232956194826
-    behaviours: []
-    assitantsAI:
-    - rid: 9157593232956194827
+    - rid: 5082763384728322061
+    - rid: 5082763384728322062
+    behaviours:
+    - rid: 5082763384728322063
+    assitants:
+    - rid: 5082763384728322064
     generatorRules:
-    - rid: 9157593232956194828
-    settingsGen3D:
-      scale: {x: 0, y: 0}
+    - rid: 5082763384728322065
+    settings:
+      scale: {x: 2, y: 2}
       resize: {x: 0, y: 0}
       position: {x: 0, y: 0, z: 0}
       name: Population
-  modes:
-  - rid: 9157593232956194829
-  transformers: []
   references:
     version: 2
     RefIds:
-    - rid: 9157593232956194825
-      type: {class: LBSTileMap, ns: , asm: LBS}
+    - rid: 5082763384728322061
+      type: {class: TileMapModule, ns: LBS.Components.TileMap, asm: LBS}
       data:
-        id: LBSTileMap
+        id: TileMapModule
         visible: 0
         changed: 0
         tiles: []
-    - rid: 9157593232956194826
-      type: {class: TaggedTileMap, ns: , asm: LBS}
+    - rid: 5082763384728322062
+      type: {class: BundleTileMap, ns: , asm: LBS}
       data:
-        id: TaggedTileMap
+        id: BundleTileMap
         visible: 0
         changed: 0
-        pairTiles: []
-    - rid: 9157593232956194827
-      type: {class: AssistantMapElite, ns: , asm: LBS.Editor}
+        tiles: []
+    - rid: 5082763384728322063
+      type: {class: PopulationBehaviour, ns: , asm: LBS}
       data:
-        AAAA: AAAAA
-    - rid: 9157593232956194828
+        icon: {fileID: 2800000, guid: 771d36a714319204ea4ddcbecdc2006e, type: 3}
+        name: Population Behavior
+    - rid: 5082763384728322064
+      type: {class: AssistantMapElite, ns: , asm: LBS}
+      data:
+        name: 
+    - rid: 5082763384728322065
       type: {class: PopulationRuleGenerator, ns: LBS.Generator, asm: LBS}
       data:
         generator3D:
@@ -66,34 +68,3 @@ MonoBehaviour:
             position: {x: 0, y: 0, z: 0}
             name: 
           rules: []
-    - rid: 9157593232956194829
-      type: {class: LBSMode, ns: , asm: LBS.Editor}
-      data:
-        name: Population
-        drawer: DrawTaggedTileMap
-        module: TaggedTileMap
-        toolkit:
-        - rid: 9157593232956194830
-        - rid: 9157593232956194831
-        - rid: 9157593232956194832
-    - rid: 9157593232956194830
-      type: {class: LBSTool, ns: , asm: LBS.Editor}
-      data:
-        icon: {fileID: 2800000, guid: 771d36a714319204ea4ddcbecdc2006e, type: 3}
-        name: Select
-        manipulator: Select
-        inspector: 
-    - rid: 9157593232956194831
-      type: {class: LBSTool, ns: , asm: LBS.Editor}
-      data:
-        icon: {fileID: 2800000, guid: 5bcc511dcb487f24187b421ea2806d87, type: 3}
-        name: Add Tile
-        manipulator: AddTaggedTile
-        inspector: BundlePalleteInspector
-    - rid: 9157593232956194832
-      type: {class: LBSTool, ns: , asm: LBS.Editor}
-      data:
-        icon: {fileID: 2800000, guid: 79e9d4f49f5e9874c805015d2c334f0c, type: 3}
-        name: Remove
-        manipulator: RemoveTile
-        inspector: 
