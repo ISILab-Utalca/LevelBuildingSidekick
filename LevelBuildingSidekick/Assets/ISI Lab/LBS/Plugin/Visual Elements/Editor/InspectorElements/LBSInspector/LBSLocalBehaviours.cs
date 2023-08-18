@@ -1,5 +1,6 @@
 using LBS.Behaviours;
 using LBS.Components;
+using LBS.Settings;
 using LBS.VisualElements;
 using System;
 using System.Collections;
@@ -15,7 +16,7 @@ public class LBSLocalBehaviours : LBSInspector
     public new class UxmlFactory : UxmlFactory<LBSLocalBehaviours, VisualElement.UxmlTraits> { }
     #endregion
 
-    private Color colorBH = new Color(135f / 255f, 215f / 255f, 246f / 255f);
+    private Color colorBH;
 
     private VisualElement content;
     private VisualElement noContentPanel;
@@ -34,6 +35,8 @@ public class LBSLocalBehaviours : LBSInspector
         this.noContentPanel = this.Q<VisualElement>("NoContentPanel");
         this.contentBehaviour = this.Q<VisualElement>("ContentBehaviour");
 
+        colorBH = LBSSettings.Instance.view.behavioursColor;
+
         toolkit = ToolKit.Instance;
     }
 
@@ -48,6 +51,8 @@ public class LBSLocalBehaviours : LBSInspector
             noContentPanel.SetDisplay(true);
             return;
         }
+
+        noContentPanel.SetDisplay(false);
 
         foreach (var behaviour in target.Behaviours)
         {
@@ -76,7 +81,7 @@ public class LBSLocalBehaviours : LBSInspector
 
 
             var content = new BehaviourContent(ve as LBSCustomEditor, behaviour.Name, behaviour.Icon, colorBH);
-            contentContainer.Add(content);
+            contentBehaviour.Add(content);
 
         }
     }
