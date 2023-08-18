@@ -12,7 +12,7 @@ using UnityEngine;
 [RequieredModule(typeof(TileMapModule), typeof(ConnectedTileMapModule), typeof(SectorizedTileMapModule), typeof(ConnectedZonesModule))]
 public class SchemaBehaviour : LBSBehaviour
 {
-    #region READONLY-FIELD
+    #region READONLY-FIELDS
     [JsonIgnore]
     public readonly List<string> Connections = new()
     {
@@ -46,9 +46,7 @@ public class SchemaBehaviour : LBSBehaviour
     {
         get
         {
-            if (areas != null)
-                return areas.Areas; //?
-            return new List<Zone>();
+            return areas.Zones;
         }
     }
 
@@ -82,7 +80,7 @@ public class SchemaBehaviour : LBSBehaviour
         string prefix = "Zone: ";
         int counter = 0;
         string name = prefix + counter;
-        IEnumerable<string> names = areas.Areas.Select(z => z.ID);
+        IEnumerable<string> names = areas.Zones.Select(z => z.ID);
         while(names.Contains(name))
         {
             counter++;
@@ -93,11 +91,11 @@ public class SchemaBehaviour : LBSBehaviour
         int g = (int)((Random.value * (256 - 32)) / 16);
         int b = (int)((Random.value * (256 - 32)) / 16);
 
-        var c = new Color(r*16,g*16,b*16);
+        var c = new Color(r * 16 / 256f, g * 16 / 256f, b * 16 / 256f);
 
         var zone = new Zone(name, c);
 
-        AddTile(position, zone);
+        areas.AddZone(zone);
     }
 
     public void RemoveTile(Vector2Int position)
@@ -126,7 +124,7 @@ public class SchemaBehaviour : LBSBehaviour
 
     public TileZonePair GetZone(LBSTile tile)
     {
-        return areas.GetTile(tile);
+        return areas.GetPairTile(tile);
     }
 
     public TileZonePair GetZone(Vector2 position)
@@ -141,7 +139,7 @@ public class SchemaBehaviour : LBSBehaviour
 
     public void RemoveZoneConnection(Vector2Int position, float delta)
     {
-        ZoneEdge edge= graph.GetEdge(position, delta);
+        ZoneEdge edge = graph.GetEdge(position, delta);
         graph.RemoveEdge(edge);
         throw new System.NotImplementedException();
     }
