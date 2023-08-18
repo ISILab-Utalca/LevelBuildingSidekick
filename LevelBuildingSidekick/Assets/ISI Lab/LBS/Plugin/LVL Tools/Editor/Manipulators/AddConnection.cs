@@ -27,12 +27,11 @@ public class AddConnection : LBSManipulator
         feedback.fixToTeselation = true;
     }
 
-    public override void Init(MainView view, LBSLayer layer, LBSBehaviour behaviour)
+    public override void Init(LBSLayer layer, LBSBehaviour behaviour)
     {
         this.module = layer.GetModule<ConnectedTileMapModule>();
         feedback.TeselationSize = layer.TileSize;
         layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
-        this.MainView = view;
     }
 
     protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
