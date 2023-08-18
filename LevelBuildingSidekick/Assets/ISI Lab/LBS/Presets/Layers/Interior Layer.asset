@@ -13,42 +13,39 @@ MonoBehaviour:
   m_Name: Interior Layer
   m_EditorClassIdentifier: 
   layer:
-    id: Interior
-    name: Layer Interior
     visible: 1
     blocked: 0
-    selectedMode: 
     iconPath: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/interior-design.png
+    id: Interior
+    name: Layer Interior
     modules:
-    - rid: 9157593232956195047
-    - rid: 9157593232956195048
-    - rid: 9157593232956195049
-    - rid: 9157593232956195050
+    - rid: 5082763399122911232
+    - rid: 5082763399122911233
+    - rid: 5082763399122911234
+    - rid: 5082763399122911235
     behaviours:
-    - rid: 9157593232956195051
-    assitantsAI:
-    - rid: 9157593232956195052
+    - rid: 5082763399122911236
+    assitants:
+    - rid: 5082763399122911237
     generatorRules:
-    - rid: 9157593232956195053
-    - rid: 9157593232956195054
-    settingsGen3D:
+    - rid: 5082763399122911238
+    - rid: 5082763399122911239
+    settings:
       scale: {x: 2, y: 2}
       resize: {x: 0, y: 0}
       position: {x: 0, y: 0, z: 0}
       name: Interior
-  modes: []
-  transformers: []
   references:
     version: 2
     RefIds:
-    - rid: 9157593232956195047
-      type: {class: LBSTileMap, ns: , asm: LBS}
+    - rid: 5082763399122911232
+      type: {class: TileMapModule, ns: LBS.Components.TileMap, asm: LBS}
       data:
-        id: LBSTileMap
+        id: TileMapModule
         visible: 0
         changed: 0
         tiles: []
-    - rid: 9157593232956195048
+    - rid: 5082763399122911233
       type: {class: ConnectedTileMapModule, ns: , asm: LBS}
       data:
         id: ConnectedTileMapModule
@@ -56,26 +53,31 @@ MonoBehaviour:
         changed: 0
         connectedDirections: 4
         tiles: []
-    - rid: 9157593232956195049
+    - rid: 5082763399122911234
       type: {class: SectorizedTileMapModule, ns: , asm: LBS}
       data:
         id: SectorizedTileMapModule
         visible: 0
         changed: 0
-    - rid: 9157593232956195050
+        zones: []
+    - rid: 5082763399122911235
       type: {class: ConnectedZonesModule, ns: , asm: LBS}
       data:
         id: ConnectedZonesModule
         visible: 0
         changed: 0
         edges: []
-    - rid: 9157593232956195051
+    - rid: 5082763399122911236
       type: {class: SchemaBehaviour, ns: , asm: LBS}
-    - rid: 9157593232956195052
+      data:
+        icon: {fileID: 2800000, guid: 771d36a714319204ea4ddcbecdc2006e, type: 3}
+        name: Schema behaviour
+    - rid: 5082763399122911237
       type: {class: AssistantHillClimbing, ns: , asm: LBS}
       data:
+        name: 
         test: Hola mundo
-    - rid: 9157593232956195053
+    - rid: 5082763399122911238
       type: {class: SchemaRuleGenerator, ns: , asm: LBS}
       data:
         generator3D:
@@ -85,7 +87,7 @@ MonoBehaviour:
             position: {x: 0, y: 0, z: 0}
             name: 
           rules: []
-    - rid: 9157593232956195054
+    - rid: 5082763399122911239
       type: {class: SchemaRuleGeneratorExteriror, ns: , asm: LBS}
       data:
         generator3D:
