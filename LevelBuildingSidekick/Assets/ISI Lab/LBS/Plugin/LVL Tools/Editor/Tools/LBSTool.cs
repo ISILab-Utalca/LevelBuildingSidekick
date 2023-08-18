@@ -18,6 +18,7 @@ public class LBSTool
     #region PROPERTIES
     public Texture2D Icon => icon;
     public string Name => name;
+    public LBSManipulator Manipulator => manipulator;
     #endregion
 
     #region EVENTS
@@ -40,17 +41,17 @@ public class LBSTool
     #endregion
 
     #region METHODS
-    public virtual void Init(MainView view, LBSLayer layer, LBSBehaviour behaviour)
+    public virtual void Init(LBSLayer layer, LBSBehaviour behaviour)
     {
         manipulator.AddManipulationStart(OnStart);
         manipulator.AddManipulationUpdate(OnPressed);
         manipulator.AddManipulationEnd(OnEnd);
 
-        manipulator.Init(view, layer, behaviour);
+        manipulator.Init(layer, behaviour);
 
     }
 
-    public void BindButton(LBSGrupableButton button)
+    public void BindButton(ToolButton button)
     {
         var canvas = MainView.Instance;
 
