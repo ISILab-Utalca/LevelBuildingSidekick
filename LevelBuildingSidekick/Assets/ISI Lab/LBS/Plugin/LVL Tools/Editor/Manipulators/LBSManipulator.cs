@@ -16,11 +16,9 @@ public abstract class LBSManipulator : MouseManipulator, IManipulatorLBS
     public Action OnManipulationUpdate;
     public Action OnManipulationEnd;
 
-    private MainView mainView;
     protected MainView MainView
     {
-        get => mainView;
-        set => mainView = value;
+        get => MainView.Instance;
     }
 
     private bool started = false;
@@ -83,7 +81,7 @@ public abstract class LBSManipulator : MouseManipulator, IManipulatorLBS
 
     }
 
-    public abstract void Init(MainView view, LBSLayer layer, LBSBehaviour behaviour);
+    public abstract void Init(LBSLayer layer, LBSBehaviour behaviour);
 
     protected override void RegisterCallbacksOnTarget()
     {
@@ -226,5 +224,5 @@ public interface IManipulatorLBS
     public void RemoveManipulationUpdate(Action action);
     public void RemoveManipulationEnd(Action action);
 
-    public void Init(MainView view, LBSLayer layer, LBSBehaviour behaviour);
+    public void Init(LBSLayer layer, LBSBehaviour behaviour);
 }
