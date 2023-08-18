@@ -1,5 +1,6 @@
 using LBS.Components.Specifics;
 using LBS.Components.TileMap;
+using LBS.Settings;
 using LBS.VisualElements;
 using System;
 using System.Collections;
@@ -22,7 +23,7 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
     private List<LBSTool> tools = new List<LBSTool>();
 
     // Manipulators
-    private CreateNewRoomNode createNewRoomNode;
+    private AddSchemaTile createNewRoomNode;
     private AddTileToTiledArea<TiledArea, ConnectedTile> addTileToTiledArea;
 
     // View
@@ -49,8 +50,6 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
         manipulators.Add(new SetTileConnection());
         */
 
-        Init();
-
         CreateVisualElement();
     }
 
@@ -60,8 +59,9 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
         //  var tool1 = new LBSTool(icon, "Select", typeof(Select), null, true);
 
         icon = Resources.Load<Texture2D>("Icons/Addnode");
-        this.createNewRoomNode = new CreateNewRoomNode();
-        var t1 = new LBSTool(icon, "Add Node", createNewRoomNode);
+        this.createNewRoomNode = new AddSchemaTile();
+        var t1 = new LBSTool(icon, "Add Zone", createNewRoomNode);
+        t1.Init(schema.Owner, schema);
         toolKit.AddTool(t1);
 
         icon = Resources.Load<Texture2D>("Icons/AddConnection");
@@ -111,13 +111,6 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
         evt.menu.AppendAction("Opción 3", action => Debug.Log("Seleccionaste la opción 3"));
     }
 
-    public void Init()
-    {
-        foreach(var m in tools)
-        {
-            //m.Init( ,schema.Owner, schema);
-        }
-    }
 
     public override void SetInfo(object target)
     {
@@ -131,10 +124,6 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
 
         // Area Pallete
         this.areaPallete = this.Q<SimplePallete>();
-        areaPallete.ShowGroups = false;
-        areaPallete.SetName("Rooms");
-        var icon = Resources.Load<Texture2D>("Icons/BrushIcon");
-        areaPallete.SetIcon(icon, new Color(135f / 255f, 215f / 255f, 246f / 255f));
         SetAreaPallete();
 
         return this;
@@ -142,6 +131,12 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
 
     private void SetAreaPallete()
     {
+        areaPallete.ShowGroups = false;
+        areaPallete.SetName("Rooms");
+        var icon = Resources.Load<Texture2D>("Icons/BrushIcon");
+        var BHcolor = LBSSettings.Instance.view.behavioursColor;
+        areaPallete.SetIcon(icon, BHcolor);
+
         var areas = schema.Areas;
         var options = new object[areas.Count];
 
@@ -160,11 +155,18 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
         areaPallete.OnSelectOption += (selected) => {
             var tk = ToolKit.Instance;
 
+            // tk.SetActive(selected);
+            Debug.Log("AAA " + selected.GetType());
         };
 
         areaPallete.OnAddOption += () =>
         {
             schema.AddZone(new Vector2Int(0, 0));
+            areaPallete.Options = new object[schema.Areas.Count];
+            for (int i = 0; i < areas.Count; i++)
+            {
+                areaPallete.Options[i] = schema.Areas[i];
+            }
             areaPallete.Repaint();
         };
 
