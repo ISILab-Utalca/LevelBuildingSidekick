@@ -205,6 +205,7 @@ public class LayerTemplateEditor : Editor
         template.modes.Add(mode2);*/
 
         Debug.Log("Set Interior Default");
+        EditorUtility.SetDirty(target);
         AssetDatabase.SaveAssets();
     }
 
@@ -296,6 +297,7 @@ public class LayerTemplateEditor : Editor
         */
 
         Debug.Log("Set Exterior Default");
+        EditorUtility.SetDirty(target);
         AssetDatabase.SaveAssets();
     }
 
@@ -351,6 +353,7 @@ public class LayerTemplateEditor : Editor
         //template.modes.Add(mode1);
 
         Debug.Log("Set Population Default");
+        EditorUtility.SetDirty(target);
         AssetDatabase.SaveAssets();
     }
 
@@ -402,6 +405,7 @@ public class LayerTemplateEditor : Editor
         //template.modes.Add(mode1);
 
         Debug.Log("Set Quest Default");
+        EditorUtility.SetDirty(target);
         AssetDatabase.SaveAssets();
     }
 }
