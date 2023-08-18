@@ -147,6 +147,15 @@ namespace LBS.VisualElements
             
             current = tools[index];
             current.Item2.OnFocus();
+
+            var m = current.Item1.Manipulator;
+            MainView.Instance.AddManipulator(m);
+        }
+
+        public void SetActive()
+        {
+            if (tools.Count <= 0)
+                return;
         }
 
         public void AddSubTools(LBSTool[] tool, int index = -1)
@@ -158,6 +167,7 @@ namespace LBS.VisualElements
         {
             var button = new ToolButton(tool);
             (LBSTool, ToolButton) t = new(tool, button);
+            tool.BindButton(button);
 
             this.content.Add(button);
             tools.Add(t);
@@ -168,7 +178,7 @@ namespace LBS.VisualElements
                 var index = i;
                 SetActive(index);
             });
-            button.SetColorGroup(baseColor, LBSSettings.Instance.@interface.toolkitSelected);
+            button.SetColorGroup(baseColor, LBSSettings.Instance.view.toolkitSelected);
 
             tool.OnStart += OnStartAction;
             tool.OnEnd += OnEndAction;
