@@ -40,7 +40,7 @@ namespace LBS.Settings
 
         public Paths paths = new Paths();
         public General general = new General();
-        public Interface @interface = new Interface();
+        public Interface view = new Interface();
 
         [System.Serializable]
         public class General
