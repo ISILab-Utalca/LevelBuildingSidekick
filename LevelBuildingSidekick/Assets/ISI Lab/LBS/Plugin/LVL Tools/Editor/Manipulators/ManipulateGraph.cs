@@ -10,10 +10,9 @@ public class ManipulateGraph<T> : LBSManipulator where T : LBSNode
 {
     protected GraphModule<T> module;
 
-    public override void Init(MainView view, LBSLayer layer, LBSBehaviour behaviour)
+    public override void Init(LBSLayer layer, LBSBehaviour behaviour)
     {
         this.module = layer.GetModule<GraphModule<T>>();
-        this.MainView = view;
     }
 
     protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
