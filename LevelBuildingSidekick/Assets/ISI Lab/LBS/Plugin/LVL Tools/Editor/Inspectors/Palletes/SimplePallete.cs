@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Utility;
+using static UnityEditor.Progress;
 
 namespace LBS.VisualElements
 {
@@ -14,6 +15,8 @@ namespace LBS.VisualElements
         #endregion
 
         private OptionView[] optionViews;
+        private object[] options;
+        private Action<OptionView, object> onSetView;
 
         // View
         private VisualElement content;
@@ -24,10 +27,15 @@ namespace LBS.VisualElements
         private Button addButton;
 
         // Events
-        public Action<ChangeEvent<string>> OnChangeGroup;
-        public Action<object> OnSelectOption;
-        public Action OnAddOption;
-        // public Action OnRemoveOption;    // Implementar (!)
+        public event Action<ChangeEvent<string>> OnChangeGroup;
+        public event Action<object> OnSelectOption;
+        public event Action OnAddOption;
+
+        public object[] Options
+        {
+            get => options;
+            set => options = value;
+        }
 
         public bool ShowGroups
         {
@@ -66,27 +74,8 @@ namespace LBS.VisualElements
 
         public void SetOptions(object[] options, Action<OptionView, object> onSetView)
         {
-            content.Clear();
-
-            if (options.Length > 0)
-            {
-                //noElement.SetDisplay(false);
-
-                this.optionViews = new OptionView[options.Length];
-
-                for (int i = 0; i < options.Length; i++)
-                {
-                    var option = options[i];
-                    var view = new OptionView(option, OnSelectOption, onSetView);
-                    optionViews[i] = view;
-                    content.Add(view);
-                }
-            }
-            else
-            {
-                content.Add(noElement);
-                //noElement.SetDisplay(true);
-            }
+            this.options = options;
+            this.onSetView = onSetView;
         }
 
         public void SetIcon(Texture2D icon, Color color)
@@ -102,7 +91,24 @@ namespace LBS.VisualElements
 
         public void Repaint()
         {
-            //throw new NotImplementedException();
+            content.Clear();
+
+            if (options.Length > 0)
+            {
+                this.optionViews = new OptionView[options.Length];
+
+                for (int i = 0; i < options.Length; i++)
+                {
+                    var option = options[i];
+                    var view = new OptionView(option, OnSelectOption, onSetView);
+                    optionViews[i] = view;
+                    content.Add(view);
+                }
+            }
+            else
+            {
+                content.Add(noElement);
+            }
         }
     }
 
