@@ -9,8 +9,17 @@ using UnityEngine.UIElements;
 
 public class AddSchemaTile : LBSManipulator
 {
-    Zone toSet;
-    SchemaBehaviour schema;
+    private readonly List<Vector2Int> directions = Directions.Bidimencional.Edges;
+
+    private Zone toSet;
+    
+    private SchemaBehaviour schema;
+
+    public Zone ToSet
+    {
+        get => toSet;
+        set => toSet = value;
+    }
 
     public AddSchemaTile() : base()
     {
@@ -35,6 +44,12 @@ public class AddSchemaTile : LBSManipulator
 
     protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
     {
+        if(toSet == null)
+        {
+            Debug.LogWarning("No tienens ninguna zona seleccionada para colocar.");
+            return;
+        }
+
         var min = schema.Owner.ToFixedPosition(Vector2Int.Min(StartPosition, EndPosition));
         var max = schema.Owner.ToFixedPosition(Vector2Int.Max(StartPosition, EndPosition));
 
@@ -42,7 +57,50 @@ public class AddSchemaTile : LBSManipulator
         {
             for (int j = min.y; j <= max.y; j++)
             {
-                schema.AddTile(new Vector2Int(i, j), toSet);
+                var tile = schema.AddTile(new Vector2Int(i, j), toSet);
+                schema.AddConnections(tile, new List<string>() { "", "", "", "" });
+            }
+        }
+
+        RecalculateWalls();
+
+    }
+
+    private void RecalculateWalls()
+    {
+        foreach (var tile in schema.Tiles)
+        {
+            var currZone = schema.GetZone(tile);
+
+            var currConnects = schema.GetConnections(tile);
+            var neigs = schema.GetTileNeighbors(tile, directions);
+
+            for (int i = 0; i < directions.Count; i++)
+            {
+
+                if (neigs[i] == null)
+                {
+                    if(currConnects[i] != "Door")
+                    {
+                        schema.SetConnection(tile, i, "Wall");
+                    }
+                    continue;
+                }
+
+                var otherZone = schema.GetZone(neigs[i]);
+                if(otherZone == currZone)
+                {
+                    
+
+                    schema.SetConnection(tile, i, "Empty");
+                }
+                else
+                {
+                    if (currConnects[i] != "Door")
+                    {
+                        schema.SetConnection(tile, i, "Wall");
+                    }
+                }
             }
         }
     }
