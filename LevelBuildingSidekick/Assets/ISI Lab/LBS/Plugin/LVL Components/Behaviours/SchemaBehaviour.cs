@@ -68,11 +68,12 @@ public class SchemaBehaviour : LBSBehaviour
         graph = Owner.GetModule<ConnectedZonesModule>();
     }
 
-    public void AddTile(Vector2Int position, Zone zone)
+    public LBSTile AddTile(Vector2Int position, Zone zone)
     {
         var tile = new LBSTile(position, "Tile: " + position.ToString());
         tileMap.AddTile(tile);
         areas.AddTile(tile, zone);
+        return tile;
     }
 
     public void AddZone(Vector2Int position)
@@ -108,8 +109,14 @@ public class SchemaBehaviour : LBSBehaviour
 
     public void SetConnection(LBSTile tile, int direction, string connection)
     {
-        var t = tileConnections.GetTile(tile);
+        var t = tileConnections.GetPair(tile);
         t.SetConnection(direction, connection);
+    }
+
+    public void AddConnections(LBSTile tile, List<string> connections)
+    {
+        var t = new TileConnectionsPair(tile,connections);
+        tileConnections.AddTile(t);
     }
 
     public LBSTile GetTile(Vector2Int position)
@@ -117,17 +124,19 @@ public class SchemaBehaviour : LBSBehaviour
         return tileMap.GetTile(position);
     }
 
-    public TileConnectionsPair GetConnections(LBSTile tile)
+    public List<string> GetConnections(LBSTile tile)
     {
-        return tileConnections.GetTile(tile);
+        var pair = tileConnections.GetPair(tile);
+        return pair.Connections;
     }
 
-    public TileZonePair GetZone(LBSTile tile)
+    public Zone GetZone(LBSTile tile)
     {
-        return areas.GetPairTile(tile);
+        var pair = areas.GetPairTile(tile);
+        return pair.Zone;
     }
 
-    public TileZonePair GetZone(Vector2 position)
+    public Zone GetZone(Vector2 position)
     {
         return GetZone(GetTile(position.ToInt()));
     }
@@ -147,6 +156,17 @@ public class SchemaBehaviour : LBSBehaviour
     public void DisconnectZones(Zone first, Zone second)
     {
         graph.RemoveEdge(first, second);
+    }
+
+    public List<LBSTile> GetTileNeighbors(LBSTile tile, List<Vector2Int> dirs)
+    {
+        var tor = new List<LBSTile>();
+        foreach (var dir in dirs)
+        {
+            var t = GetTile(dir + tile.Position);
+            tor.Add(t);
+        }
+        return tor;
     }
 
     public override object Clone()
