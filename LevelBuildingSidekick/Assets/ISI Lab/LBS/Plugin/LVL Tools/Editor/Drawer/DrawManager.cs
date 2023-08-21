@@ -53,12 +53,6 @@ public class DrawManager
 
     public void Draw(LBSLevelData level, MainView view)
     {
-        if (view == null)
-            return;
-
-        if (level == null)
-            return;
-
         var layers = level.Layers;
 
         foreach(var l in layers)
@@ -86,20 +80,14 @@ public class DrawManager
                     continue;
 
                 var drawer = Activator.CreateInstance(drawers.First().Item1) as Drawer; // shold be registering it instead of instantiation each time it will paint
-                drawer.Draw(b, view);
+                drawer.Draw(b, view, l.TileSize);
             }
         }
     }
 
     public void Redraw(LBSLevelData level, MainView view)
     {
-        if (view == null)
-            return;
-
-        if (level == null)
-            return;
-
-        view.Clear();
+        view.ClearView();
         Draw(level, view);
     }
 }
