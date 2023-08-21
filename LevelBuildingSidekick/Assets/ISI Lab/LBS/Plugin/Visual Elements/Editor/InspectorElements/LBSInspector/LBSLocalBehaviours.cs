@@ -68,6 +68,7 @@ public class LBSLocalBehaviours : LBSInspector
 
             var ovg = ves.First().Item1;
             var ve = Activator.CreateInstance(ovg, new object[] { behaviour });
+            //var ve = Activator.CreateInstance(ovg, behaviour);
             if (!(ve is VisualElement))
             {
                 Debug.LogWarning("[ISI Lab] " + ve.GetType() + " is not a VisualElement ");
