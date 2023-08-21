@@ -4,6 +4,7 @@ using LBS.Settings;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 [Drawer(typeof(PopulationBehaviour))]
 public class PopulationDrawer : Drawer
@@ -13,21 +14,20 @@ public class PopulationDrawer : Drawer
         throw new System.NotImplementedException();
     }
 
-    public override void Draw(LBSBehaviour behaviour, MainView view)
+    public override void Draw(object target, MainView view, Vector2 teselationSize)
     {
-        var population = behaviour as PopulationBehaviour;
+        var population = target as PopulationBehaviour;
 
         if (population == null)
         {
             return;
         }
 
-        foreach(var t in population.Tilemap)
+        foreach (var t in population.Tilemap)
         {
             var v = new PopulationTileView(t);
-            v.SetPosition(new Rect(t.Tile.Position, behaviour.Owner.TileSize * LBSSettings.Instance.general.TileSize));
+            v.SetPosition(new Rect(t.Tile.Position, population.Owner.TileSize * LBSSettings.Instance.general.TileSize));
             view.Add(v);
         }
-
     }
 }
