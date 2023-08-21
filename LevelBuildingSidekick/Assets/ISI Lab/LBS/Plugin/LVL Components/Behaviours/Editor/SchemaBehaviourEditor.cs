@@ -156,6 +156,7 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
             var tk = ToolKit.Instance;
 
             // tk.SetActive(selected);
+            createNewRoomNode.ToSet = selected as Zone;
             Debug.Log("AAA " + selected.GetType());
         };
 
