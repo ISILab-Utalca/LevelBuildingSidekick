@@ -66,7 +66,7 @@ public class ConnectedTileMapModule : LBSModule
             tile.ReplaceConnections(tile.Connections.Take(connectedDirections));
         }
 
-        var t = GetTile(tile.Tile);
+        var t = GetPair(tile.Tile);
         if(t != null)
         {
             tiles.Remove(t);
@@ -80,7 +80,7 @@ public class ConnectedTileMapModule : LBSModule
         AddTile(new TileConnectionsPair(tile, connections));
     }
 
-    public TileConnectionsPair GetTile(LBSTile tile)
+    public TileConnectionsPair GetPair(LBSTile tile)
     { 
         if (tiles.Count <= 0)
             return null;
@@ -90,7 +90,7 @@ public class ConnectedTileMapModule : LBSModule
 
     public void RemoveTile(LBSTile tile)
     {
-        var t = GetTile(tile);
+        var t = GetPair(tile);
         tiles.Remove(t);
     }
 
@@ -171,7 +171,7 @@ public class ConnectedTileMapModule : LBSModule
 }
 
 [System.Serializable]
-public class TileConnectionsPair : ICloneable
+public class TileConnectionsPair : ICloneable // esto puede ser TAG/BUNDLE en vez de string (!!)
 {
     #region FIELDS
 
@@ -224,6 +224,11 @@ public class TileConnectionsPair : ICloneable
     public void SetConnection(int index, string connection)
     {
         connections[index] = connection;
+    }
+
+    public void SetConnections(List<string> connections)
+    {
+        this.connections = connections;
     }
 
     public object Clone()
