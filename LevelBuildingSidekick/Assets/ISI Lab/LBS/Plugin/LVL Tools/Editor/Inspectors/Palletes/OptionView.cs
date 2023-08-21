@@ -52,6 +52,7 @@ namespace LBS.VisualElements
             // Init View
             this.label = this.Q<Label>();
             this.button = this.Q<Button>();
+            button.clicked += () => { this.OnSelect?.Invoke(target); };
 
             // Init Fields
             this.target = target;
