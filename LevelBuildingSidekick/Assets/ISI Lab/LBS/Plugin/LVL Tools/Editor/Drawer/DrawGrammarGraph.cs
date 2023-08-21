@@ -37,7 +37,8 @@ public class DrawGrammarGraph : Drawer
         }
     }
 
-    public override void Draw(LBSBehaviour behaviour, MainView view)
+
+    public override void Draw(object target, MainView view, Vector2 teselationSize)
     {
         throw new System.NotImplementedException();
     }
