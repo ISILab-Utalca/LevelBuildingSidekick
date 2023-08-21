@@ -19,13 +19,19 @@ public class MainView : GraphView // Canvas or WorkSpace
     {
         get => instance;
     }
+
+    public Vector2 FixPos(Vector2 v) // (?) esto deberia estar aqui? // poner estatico
+    {
+        var t = new Vector2(this.viewTransform.position.x, this.viewTransform.position.y);
+        var newPos = (v - t) / this.scale;
+        return newPos;
+    }
     #endregion
 
     #region FIELDS
     private ExternalBounds bound;
     private List<Manipulator> manipulators = new List<Manipulator>();
     #endregion
-
 
     #region EVENTS
     public event Action<ContextualMenuPopulateEvent> OnBuild;
@@ -146,13 +152,6 @@ public class MainView : GraphView // Canvas or WorkSpace
     public new void AddElement(GraphElement element)
     {
         base.AddElement(element);
-    }
-
-    public Vector2 FixPos(Vector2 v) // (?) esto deberia estar aqui? 
-    {
-        var t = new Vector2(this.viewTransform.position.x, this.viewTransform.position.y);
-        var vv = (v - t) / this.scale;
-        return vv;
     }
 
     private void InitBound(int interior, int exterior)
