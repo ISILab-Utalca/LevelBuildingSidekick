@@ -76,11 +76,6 @@ public abstract class LBSManipulator : MouseManipulator, IManipulatorLBS
         }
     }
 
-    public LBSManipulator()
-    {
-
-    }
-
     public abstract void Init(LBSLayer layer, LBSBehaviour behaviour);
 
     protected override void RegisterCallbacksOnTarget()
