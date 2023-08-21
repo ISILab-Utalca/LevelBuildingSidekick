@@ -43,12 +43,15 @@ public class LBSTool
     #region METHODS
     public virtual void Init(LBSLayer layer, LBSBehaviour behaviour)
     {
-        manipulator.AddManipulationStart(OnStart);
-        manipulator.AddManipulationUpdate(OnPressed);
-        manipulator.AddManipulationEnd(OnEnd);
+        manipulator.OnManipulationStart += () => { OnStart?.Invoke(); };
+        manipulator.OnManipulationUpdate += () => { OnPressed?.Invoke(); };
+        manipulator.OnManipulationEnd += () => { OnEnd?.Invoke(); };
+
+        //manipulator.AddManipulationStart(OnStart);
+        //manipulator.AddManipulationUpdate(OnPressed);
+        //manipulator.AddManipulationEnd(OnEnd);
 
         manipulator.Init(layer, behaviour);
-
     }
 
     public void BindButton(ToolButton button)
