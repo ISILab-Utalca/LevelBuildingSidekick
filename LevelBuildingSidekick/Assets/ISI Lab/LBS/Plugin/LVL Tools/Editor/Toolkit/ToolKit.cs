@@ -181,7 +181,7 @@ namespace LBS.VisualElements
             button.SetColorGroup(baseColor, LBSSettings.Instance.view.toolkitSelected);
 
             tool.OnStart += OnStartAction;
-            tool.OnEnd += OnEndAction;
+            tool.OnEnd += () => { OnEndAction(); };
 
         }
 
@@ -218,7 +218,8 @@ public class ToolkitManager
     // event
     public event Action OnEndSomeAction;
 
-    public ToolkitManager(ref ButtonGroup toolPanel, ref MainView view, ref LBSInspectorPanel inspectorManager , ref List<LayerTemplate> templates)
+    public ToolkitManager(ref ButtonGroup toolPanel,
+        ref MainView view, ref LBSInspectorPanel inspectorManager , ref List<LayerTemplate> templates)
     {
         this.toolPanel = toolPanel;
         this.view = view;
