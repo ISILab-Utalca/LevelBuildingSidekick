@@ -11,15 +11,15 @@ using UnityEngine.UIElements;
 namespace LBS.Assisstants
 {
     [System.Serializable]
-    public abstract class LBSAssistantAI : ICloneable
+    public abstract class LBSAssistant : ICloneable
     {
         #region FIELDS
         [NonSerialized, HideInInspector, JsonIgnore]
         private LBSLayer owner;
-        [NonSerialized, HideInInspector, JsonIgnore]//[SerializeField]
-        public Texture2D icon;
+        [NonSerialized, HideInInspector, JsonIgnore]
+        private Texture2D icon;
         [SerializeField]
-        public string name;
+        private string name;
         #endregion
 
         #region PROPERTIES
@@ -28,6 +28,18 @@ namespace LBS.Assisstants
         {
             get => owner;
             set => owner = value;
+        }
+
+        [JsonIgnore]
+        public Texture2D Icon
+        {
+            get => icon;
+        }
+
+        [JsonIgnore]
+        public string Name
+        {
+            get => name;
         }
         #endregion
 
@@ -39,15 +51,17 @@ namespace LBS.Assisstants
         #endregion
 
         #region CONSTRUCTORS
-        public LBSAssistantAI() { }
+        public LBSAssistant(Texture2D icon, string name)
+        {
+            this.icon = icon;
+            this.name = name;
+        }
         #endregion
 
         #region METHODS
         public abstract void OnAdd(LBSLayer layer);
 
         public abstract void Execute();
-
-        public abstract object Clone();
 
         public List<Type> GetRequieredModules()
         {
@@ -65,6 +79,8 @@ namespace LBS.Assisstants
             }
             return toR;
         }
+
+        public abstract object Clone();
         #endregion
     }
 }
