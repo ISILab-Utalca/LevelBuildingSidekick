@@ -9,23 +9,17 @@ using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
-[RequieredModule(typeof(TileMapModule), typeof(ConnectedTileMapModule), typeof(SectorizedTileMapModule), typeof(ConnectedZonesModule))]
+[RequieredModule(typeof(TileMapModule),
+    typeof(ConnectedTileMapModule),
+    typeof(SectorizedTileMapModule),
+    typeof(ConnectedZonesModule))]
 public class SchemaBehaviour : LBSBehaviour
 {
     #region READONLY-FIELDS
     [JsonIgnore]
-    public readonly List<string> Connections = new()
+    private static List<string> connections = new List<string>() // esto puede ser remplazado despues (!)
     {
         "Wall", "Door", "Empty"
-    };
-
-    [JsonIgnore]
-    public readonly List<Vector2> Directions = new() // esto deberia sacarse de la clase estatica de Directions (!)
-    {
-        Vector2Int.right,
-        Vector2Int.down,
-        Vector2Int.left,
-        Vector2Int.up
     };
     #endregion
 
@@ -36,21 +30,24 @@ public class SchemaBehaviour : LBSBehaviour
     private ConnectedTileMapModule tileConnections;
     [JsonIgnore]
     private SectorizedTileMapModule areas;
-    [JsonIgnore]
-    private ConnectedZonesModule graph;
+    //[JsonIgnore]
+    //private ConnectedZonesModule graph;
     #endregion
 
     #region PROEPRTIES
     [JsonIgnore]
-    public List<Zone> Areas // esta clase deberia ser la que entrega las areas? (?)
-    {
-        get
-        {
-            return areas.Zones;
-        }
-    }
+    public List<Zone> Zones => areas.Zones; // esta clase deberia ser la que entrega las areas? (?)
 
+    [JsonIgnore]
+    public List<Zone> ZonesWhitTiles => areas.ZonesWithTiles;
+
+    [JsonIgnore]
     public List<LBSTile> Tiles => tileMap.Tiles;
+
+    public List<string> Connections => connections;
+
+    [JsonIgnore]
+    public List<Vector2Int> Directions => global::Directions.Bidimencional.Edges;
     #endregion
 
     #region CONSTRUCTORS
@@ -65,7 +62,7 @@ public class SchemaBehaviour : LBSBehaviour
         tileMap = Owner.GetModule<TileMapModule>();
         tileConnections = Owner.GetModule<ConnectedTileMapModule>();
         areas = Owner.GetModule<SectorizedTileMapModule>();
-        graph = Owner.GetModule<ConnectedZonesModule>();
+        //graph = Owner.GetModule<ConnectedZonesModule>();
     }
 
     public LBSTile AddTile(Vector2Int position, Zone zone)
@@ -76,7 +73,7 @@ public class SchemaBehaviour : LBSBehaviour
         return tile;
     }
 
-    public void AddZone(Vector2Int position)
+    public void AddZone()
     {
         string prefix = "Zone: ";
         int counter = 0;
@@ -107,21 +104,30 @@ public class SchemaBehaviour : LBSBehaviour
         areas.RemoveTile(tile);
     }
 
-    public void SetConnection(LBSTile tile, int direction, string connection)
+    public void SetConnection(LBSTile tile, int direction, string connection, bool editedByIA)
     {
         var t = tileConnections.GetPair(tile);
-        t.SetConnection(direction, connection);
+        t.SetConnection(direction, connection,editedByIA);
     }
 
-    public void AddConnections(LBSTile tile, List<string> connections)
+    public void AddConnections(LBSTile tile, List<string> connections, List<bool> editedByIA)
     {
-        var t = new TileConnectionsPair(tile,connections);
-        tileConnections.AddTile(t);
+        tileConnections.AddTile(tile, connections, editedByIA);
     }
 
     public LBSTile GetTile(Vector2Int position)
     {
         return tileMap.GetTile(position);
+    }
+
+    public List<LBSTile> GetTiles(Zone zone)
+    {
+        return areas.GetTiles(zone);
+    }
+
+    public Rect GetBound(Zone zone)
+    {
+        return areas.GetZoneBounds(zone);
     }
 
     public List<string> GetConnections(LBSTile tile)
@@ -136,27 +142,34 @@ public class SchemaBehaviour : LBSBehaviour
         return pair.Zone;
     }
 
+
     public Zone GetZone(Vector2 position)
     {
         return GetZone(GetTile(position.ToInt()));
     }
 
+    /*
     public void ConnectZones(Zone first, Zone second)
     {
         graph.AddEdge(first, second);
     }
+    */
 
+    /*
     public void RemoveZoneConnection(Vector2Int position, float delta)
     {
         ZoneEdge edge = graph.GetEdge(position, delta);
         graph.RemoveEdge(edge);
         throw new System.NotImplementedException();
     }
+    */
 
+    /*
     public void DisconnectZones(Zone first, Zone second)
     {
         graph.RemoveEdge(first, second);
     }
+    */
 
     public List<LBSTile> GetTileNeighbors(LBSTile tile, List<Vector2Int> dirs)
     {
@@ -167,6 +180,49 @@ public class SchemaBehaviour : LBSBehaviour
             tor.Add(t);
         }
         return tor;
+    }
+
+    public void RecalculateWalls()
+    {
+        foreach (var tile in Tiles)
+        {
+            var currZone = GetZone(tile);
+
+            var currConnects = GetConnections(tile);
+            var neigs = GetTileNeighbors(tile, Directions);
+
+            var edt = tileConnections.GetPair(tile).EditedByIA;
+
+            for (int i = 0; i < Directions.Count; i++)
+            {
+                if (!edt[i])
+                    continue;
+
+                if (neigs[i] == null)
+                {
+                    if (currConnects[i] != "Door")
+                    {
+                        SetConnection(tile, i, "Wall",true);
+                    }
+                    continue;
+                }
+
+                var otherZone = GetZone(neigs[i]);
+                if (otherZone == currZone)
+                {
+
+
+                    SetConnection(tile, i, "Empty", true);
+                }
+                else
+                {
+                    if (currConnects[i] != "Door")
+                    {
+                        SetConnection(tile, i, "Wall", true);
+                    }
+                }
+            }
+        }
     }
 
     public override object Clone()
