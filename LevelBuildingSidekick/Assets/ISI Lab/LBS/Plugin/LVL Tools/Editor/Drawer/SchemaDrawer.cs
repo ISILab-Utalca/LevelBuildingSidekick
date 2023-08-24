@@ -5,10 +5,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEditor.Experimental.GraphView.GraphView;
 using UnityEngine.EventSystems;
+using LBS.Components.Specifics;
 
 [Drawer(typeof(SchemaBehaviour))]
 public class SchemaDrawer : Drawer
 {
+    private readonly Vector2 nodeSize = new Vector2(100, 100);
+
     public override void Draw(ref LBSLayer layer, MainView view)
     {
         throw new System.NotImplementedException();
@@ -20,8 +23,6 @@ public class SchemaDrawer : Drawer
 
         foreach (var t in schema.Tiles)
         {
-            //var z = schema.GetZone(t);
-            //var c = schema.GetConnections(t);
             var tView = new SchemaTileView();
             var size = DefalutSize * teselationSize;
             tView.SetPosition(new Rect(t.Position * size, size));
@@ -33,6 +34,20 @@ public class SchemaDrawer : Drawer
             tView.SetConnections(conections.ToArray());
 
             view.AddElement(tView);
+        }
+
+        var zones = schema.ZonesWhitTiles;
+        foreach (var zone in zones)
+        {
+            var nView = new LBSNodeView();
+            
+            var bound = schema.GetTiles(zone).GetBounds();
+
+            nView.SetPosition(new Rect(bound.center * nodeSize - (nodeSize / 2f), nodeSize));
+            nView.SetText(zone.ID);
+            nView.SetColor(zone.Color);
+
+            view.AddElement(nView);
         }
     }
 }
