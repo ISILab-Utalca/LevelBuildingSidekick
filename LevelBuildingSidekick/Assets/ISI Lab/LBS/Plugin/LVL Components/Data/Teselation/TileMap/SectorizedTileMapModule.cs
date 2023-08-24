@@ -15,13 +15,11 @@ public class SectorizedTileMapModule : LBSModule
     protected List<Zone> zones = new List<Zone>();
 
 
-    [SerializeField, JsonRequired]
+    [SerializeField, JsonRequired, SerializeReference]
     protected List<TileZonePair> pairTiles = new List<TileZonePair>();
-
     #endregion
 
     #region PROPERTIES
-
     [JsonIgnore]
     public List<TileZonePair> PairTiles => new List<TileZonePair>(pairTiles);
 
@@ -29,25 +27,22 @@ public class SectorizedTileMapModule : LBSModule
     public List<Zone> Zones => zones;
 
     [JsonIgnore]
-    public List<Zone> AreasWithTiles => pairTiles.Select(t => t.Zone).Distinct().ToList();
-
+    public List<Zone> ZonesWithTiles => pairTiles.Select(t => t.Zone).Distinct().ToList();
     #endregion
 
     #region CONSTRUCTORS
-
     public SectorizedTileMapModule()
     {
 
     }
 
-    public SectorizedTileMapModule(IEnumerable<TileZonePair> tiles, string id = "TilesToAreaModule") : base(id)
+    public SectorizedTileMapModule(List<TileZonePair> tiles, string id = "TilesToAreaModule") : base(id)
     {
         foreach(var t in tiles)
         {
             AddTile(t);
         }
     }
-
     #endregion
 
     #region METHODS
@@ -60,7 +55,6 @@ public class SectorizedTileMapModule : LBSModule
             pairTiles.Remove(t);
         }
         pairTiles.Add(tile);
-
     }
 
     public void AddTile(LBSTile tile, Zone zone)
@@ -197,7 +191,11 @@ public class SectorizedTileMapModule : LBSModule
 
     public override object Clone()
     {
-        return new SectorizedTileMapModule(pairTiles.Select(t => t.Clone()).Cast<TileZonePair>(), ID);
+        return new SectorizedTileMapModule(
+            pairTiles.Select(t => t.Clone())
+                .Cast<TileZonePair>()
+                .ToList(),
+            ID);
     }
 
     public override void Rewrite(LBSModule module)
@@ -425,47 +423,42 @@ public class SectorizedTileMapModule : LBSModule
     #endregion
 }
 
+[System.Serializable]
 public class TileZonePair : ICloneable
 {
     #region FIELDS
-
     [SerializeField, JsonRequired, SerializeReference]
-    LBSTile tile;
+    private LBSTile tile;
     [SerializeField, JsonRequired, SerializeReference]
-    Zone zone;
+    private Zone zone;
 
     #endregion
 
     #region PROEPRTIES
-
     [JsonIgnore]
     public LBSTile Tile => tile;
+
     [JsonIgnore]
     public Zone Zone
     {
         get => zone;
         set => zone = value;
     }
-
     #endregion
 
     #region CONSTRUCTORS
-
     public TileZonePair(LBSTile tile, Zone zone)
     {
         this.tile = tile;
         this.zone = zone;
     }
-
     #endregion
 
     #region METHODS
-
     public object Clone()
     {
         return new TileZonePair(tile, zone);
     }
-
     #endregion
 
 }
