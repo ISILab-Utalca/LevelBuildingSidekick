@@ -15,6 +15,13 @@ public class HillClimbingAssistantEditor : LBSCustomEditor , IToolProvider
     // Manipulators
     //private SetZoneConnection
 
+    public HillClimbingAssistantEditor(object target) : base(target)
+    {
+        this.hillClimbing = target as HillClimbingAssistant;
+
+        CreateVisualElement();
+    }
+
     public override void SetInfo(object target)
     {
         throw new System.NotImplementedException();
@@ -22,11 +29,12 @@ public class HillClimbingAssistantEditor : LBSCustomEditor , IToolProvider
 
     public void SetTools(ToolKit group)
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 
     protected override VisualElement CreateVisualElement()
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
+        return new Label("No implementado");
     }
 }
