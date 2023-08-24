@@ -41,7 +41,7 @@ public class LBSTool
     #endregion
 
     #region METHODS
-    public virtual void Init(LBSLayer layer, LBSBehaviour behaviour)
+    public virtual void Init(LBSLayer layer, object behaviour)
     {
         manipulator.OnManipulationStart += () => { OnStart?.Invoke(); };
         manipulator.OnManipulationUpdate += () => { OnPressed?.Invoke(); };
