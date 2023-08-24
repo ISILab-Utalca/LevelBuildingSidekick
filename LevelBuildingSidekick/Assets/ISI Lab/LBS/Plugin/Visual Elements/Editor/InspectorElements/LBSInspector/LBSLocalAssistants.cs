@@ -58,7 +58,8 @@ public class LBSLocalAssistants : LBSInspector
                 continue;
             }
 
-            var ve = Activator.CreateInstance(ves.First().Item1, new object[] { assist });
+            var ovg = ves.First().Item1;
+            var ve = Activator.CreateInstance(ovg, new object[] { assist });
             if (!(ve is VisualElement))
             {
                 Debug.LogWarning("[ISI Lab] " + ve.GetType() + " is not a VisualElement ");
@@ -71,7 +72,7 @@ public class LBSLocalAssistants : LBSInspector
             }
 
 
-            var content = new BehaviourContent(ve as LBSCustomEditor, assist.name, assist.icon, colorAS);
+            var content = new BehaviourContent(ve as LBSCustomEditor, assist.Name, assist.Icon, colorAS);
             contentContainer.Add(content);
 
             /*
