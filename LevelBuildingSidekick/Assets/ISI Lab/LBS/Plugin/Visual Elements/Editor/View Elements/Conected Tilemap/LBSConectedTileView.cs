@@ -1,4 +1,5 @@
 using LBS.Components.TileMap;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
@@ -6,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Utility;
 
+[Obsolete]
 public class LBSConectedTileView : GraphElement
 {
     private ConnectedTile data;
