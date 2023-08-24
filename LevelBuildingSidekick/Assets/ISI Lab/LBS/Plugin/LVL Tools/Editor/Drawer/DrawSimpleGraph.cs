@@ -23,12 +23,12 @@ public class DrawSimpleGraph : Drawer
 
         var pixelSize = layer.TileSize * LBSSettings.Instance.general.TileSize;
 
-        var nViews = new List<LBSNodeView<RoomNode>>();
+        var nViews = new List<LBSNodeView_Old<RoomNode>>();
         foreach (var node in graph.GetNodes())
         {
             // Node
             var size = new Vector2(120, 120);
-            var element = new LBSNodeView<RoomNode>(node, node.Position - (size / 2f), size);
+            var element = new LBSNodeView_Old<RoomNode>(node, node.Position - (size / 2f), size);
 
             element.SetText(node.ID);
             element.SetColor(node.Room.Color);
