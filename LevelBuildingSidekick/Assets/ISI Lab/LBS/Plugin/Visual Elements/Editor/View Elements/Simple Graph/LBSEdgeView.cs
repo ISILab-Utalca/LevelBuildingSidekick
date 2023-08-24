@@ -9,13 +9,13 @@ using Utility;
 public class LBSEdgeView<T,U> : GraphElement where T: LBSEdge where U :LBSNode
 {
     private Vector2Int pos1, pos2;
-    private LBSNodeView<U> node1, node2; // sobra (?)
+    private LBSNodeView_Old<U> node1, node2; // sobra (?)
 
     private T data;
 
     public T Data => data;
 
-    public LBSEdgeView(T data, LBSNodeView<U> node1, LBSNodeView<U> node2, int l, int stroke)
+    public LBSEdgeView(T data, LBSNodeView_Old<U> node1, LBSNodeView_Old<U> node2, int l, int stroke)
     {
         this.data = data;
         this.node1 = node1;
