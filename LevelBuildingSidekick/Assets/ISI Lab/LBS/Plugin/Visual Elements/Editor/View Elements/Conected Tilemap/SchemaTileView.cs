@@ -1,4 +1,5 @@
 using LBS.Components.TileMap;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
@@ -8,24 +9,37 @@ using Utility;
 
 public class SchemaTileView : GraphElement
 {
-    private ConnectedTile data;
+    #region VIEW FIELDS
+    private static VisualTreeAsset view;
 
-    TileConnectionsPair connections;
-    TileZonePair zone;
-
-    public ConnectedTile Data => data;
-    public TileConnectionsPair Connections => connections;
-    public TileZonePair Zone => zone;
-
-    // VisualElements
     private VisualElement left;
     private VisualElement right;
     private VisualElement top;
     private VisualElement bottom;
     private VisualElement border;
+    #endregion
 
-    private static VisualTreeAsset view;
+    public SchemaTileView()
+    {
+        if (view == null)
+        {
+            SchemaTileView.view = DirectoryTools.SearchAssetByName<VisualTreeAsset>("SchemaTileView");
+        }
+        SchemaTileView.view.CloneTree(this);
 
+        left = this.Q<VisualElement>("Left");
+        right = this.Q<VisualElement>("Right");
+        top = this.Q<VisualElement>("Top");
+        bottom = this.Q<VisualElement>("Bottom");
+        border = this.Q<VisualElement>("Border");
+
+        this.SetMargins(0);
+        this.SetPaddings(0);
+        this.SetBorderRadius(0);
+        this.SetBorder(Color.black, 1);
+    }
+
+    [Obsolete]
     public SchemaTileView(ConnectedTile connectedTile)
     {
         if(view == null)
@@ -45,11 +59,12 @@ public class SchemaTileView : GraphElement
         bottom = this.Q<VisualElement>("Bottom");
         border = this.Q<VisualElement>("Border");
 
-        this.data = connectedTile;
+        //this.data = connectedTile;
 
-        SetConnections(data.Connections);
+        //SetConnections(data.Connections);
     }
 
+    [Obsolete]
     public SchemaTileView(TileConnectionsPair connections, TileZonePair zone)
     {
         if (view == null)
@@ -69,8 +84,8 @@ public class SchemaTileView : GraphElement
         bottom = this.Q<VisualElement>("Bottom");
         border = this.Q<VisualElement>("Border");
 
-        this.zone = zone;
-        this.connections = connections;
+        //this.zone = zone;
+        //this.connections = connections;
 
 
         SetBackgroundColor(zone.Zone.Color);
@@ -88,15 +103,15 @@ public class SchemaTileView : GraphElement
 
     public void SetConnections(string[] tags)
     {
-        right.style.display = (tags[0].Equals("Door"))? DisplayStyle.Flex : DisplayStyle.None;
-        top.style.display = (tags[1].Equals("Door")) ? DisplayStyle.Flex : DisplayStyle.None;
-        left.style.display = (tags[2].Equals("Door")) ? DisplayStyle.Flex : DisplayStyle.None;
-        bottom.style.display = (tags[3].Equals("Door")) ? DisplayStyle.Flex : DisplayStyle.None;
+        right.SetDisplay(tags[0].Equals("Door"));
+        bottom.SetDisplay(tags[1].Equals("Door"));
+        left.SetDisplay(tags[2].Equals("Door"));
+        top.SetDisplay(tags[3].Equals("Door"));
 
         border.style.borderRightWidth = (tags[0].Equals("Empty")) ? 0f : 8f;
-        border.style.borderTopWidth = (tags[1].Equals("Empty")) ? 0f : 8f;
+        border.style.borderBottomWidth = (tags[1].Equals("Empty")) ? 0f : 8f;
         border.style.borderLeftWidth = (tags[2].Equals("Empty")) ? 0f : 8f;
-        border.style.borderBottomWidth = (tags[3].Equals("Empty")) ? 0f : 8f;
+        border.style.borderTopWidth = (tags[3].Equals("Empty")) ? 0f : 8f;
     }
 
 }
