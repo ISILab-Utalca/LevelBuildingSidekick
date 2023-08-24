@@ -1,3 +1,4 @@
+using LBS.Components;
 using LBS.Components.TileMap;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,6 +7,11 @@ using UnityEngine.UIElements;
 
 public class RemoveTile : ManipulateTeselation
 {
+    public override void Init(LBSLayer layer, object behaviour)
+    {
+        throw new System.NotImplementedException();
+    }
+
     protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
     {
         

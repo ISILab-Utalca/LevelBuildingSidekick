@@ -18,7 +18,7 @@ public abstract class ManipulateTiledArea<T, U> : LBSManipulator where T : Tiled
         feedback.fixToTeselation = true;
     }
 
-    public override void Init(LBSLayer layer, LBSBehaviour behaviour)
+    public override void Init(LBSLayer layer, object behaviour)
     {
         this.module = layer.GetModule<AreaTileMap<T>>();
     }

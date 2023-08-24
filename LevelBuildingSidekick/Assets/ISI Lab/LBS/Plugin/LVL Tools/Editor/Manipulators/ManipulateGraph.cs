@@ -10,7 +10,7 @@ public class ManipulateGraph<T> : LBSManipulator where T : LBSNode
 {
     protected GraphModule<T> module;
 
-    public override void Init(LBSLayer layer, LBSBehaviour behaviour)
+    public override void Init(LBSLayer layer, object behaviour)
     {
         this.module = layer.GetModule<GraphModule<T>>();
     }

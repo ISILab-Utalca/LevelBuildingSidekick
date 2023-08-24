@@ -16,9 +16,9 @@ public class RemoveAreaConnection : LBSManipulator
         //feedback.fixToTeselation = true;
     }
 
-    public override void Init(LBSLayer layer, LBSBehaviour behaviour)
+    public override void Init(LBSLayer layer, object owner)
     {
-        schema = behaviour as SchemaBehaviour;
+        schema = owner as SchemaBehaviour;
         feedback.TeselationSize = layer.TileSize;
         layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
     }
@@ -34,7 +34,7 @@ public class RemoveAreaConnection : LBSManipulator
 
     protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
     {
-        schema.RemoveZoneConnection(position, 15);
+        //schema.RemoveZoneConnection(position, 15);
     }
 
 

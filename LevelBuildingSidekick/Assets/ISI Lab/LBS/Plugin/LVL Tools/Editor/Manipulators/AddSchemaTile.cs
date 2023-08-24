@@ -9,7 +9,6 @@ using UnityEngine.UIElements;
 
 public class AddSchemaTile : LBSManipulator
 {
-    private readonly List<Vector2Int> directions = Directions.Bidimencional.Edges;
 
     private Zone toSet;
     
@@ -27,9 +26,9 @@ public class AddSchemaTile : LBSManipulator
         feedback.fixToTeselation = true;
     }
 
-    public override void Init(LBSLayer layer, LBSBehaviour behaviour)
+    public override void Init(LBSLayer layer, object owner)
     {
-        schema = behaviour as SchemaBehaviour;
+        schema = owner as SchemaBehaviour;
         feedback.TeselationSize = layer.TileSize;
         layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
     }
@@ -58,50 +57,14 @@ public class AddSchemaTile : LBSManipulator
             for (int j = min.y; j <= max.y; j++)
             {
                 var tile = schema.AddTile(new Vector2Int(i, j), toSet);
-                schema.AddConnections(tile, new List<string>() { "", "", "", "" });
+                schema.AddConnections(
+                    tile,
+                    new List<string>() { "", "", "", "" },
+                    new List<bool> { true, true, true, true }
+                    );
             }
         }
 
-        RecalculateWalls();
-
-    }
-
-    private void RecalculateWalls()
-    {
-        foreach (var tile in schema.Tiles)
-        {
-            var currZone = schema.GetZone(tile);
-
-            var currConnects = schema.GetConnections(tile);
-            var neigs = schema.GetTileNeighbors(tile, directions);
-
-            for (int i = 0; i < directions.Count; i++)
-            {
-
-                if (neigs[i] == null)
-                {
-                    if(currConnects[i] != "Door")
-                    {
-                        schema.SetConnection(tile, i, "Wall");
-                    }
-                    continue;
-                }
-
-                var otherZone = schema.GetZone(neigs[i]);
-                if(otherZone == currZone)
-                {
-                    
-
-                    schema.SetConnection(tile, i, "Empty");
-                }
-                else
-                {
-                    if (currConnects[i] != "Door")
-                    {
-                        schema.SetConnection(tile, i, "Wall");
-                    }
-                }
-            }
-        }
+        schema.RecalculateWalls();
     }
 }

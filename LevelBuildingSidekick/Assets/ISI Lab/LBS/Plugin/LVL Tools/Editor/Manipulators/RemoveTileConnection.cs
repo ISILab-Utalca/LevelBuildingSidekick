@@ -1,27 +1,18 @@
 using LBS.Behaviours;
 using LBS.Components;
-using LBS.Components.TileMap;
-using LBS.Tools.Transformer;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class SetTileConnection : LBSManipulator
+public class RemoveTileConnection : LBSManipulator
 {
-    private List<Vector2Int> Directions => global::Directions.Bidimencional.Edges; 
+    private List<Vector2Int> Directions => global::Directions.Bidimencional.Edges;
 
-    private string toSet;
     private SchemaBehaviour schema;
     private Vector2Int first;
 
-    public string ToSet
-    {
-        get => toSet;
-        set => toSet = value;
-    }
-
-    public SetTileConnection() : base()
+    public RemoveTileConnection() : base()
     {
         feedback = new ConnectedLine();
         feedback.fixToTeselation = true;
@@ -39,7 +30,7 @@ public class SetTileConnection : LBSManipulator
         first = schema.Owner.ToFixedPosition(position);
     }
 
-    protected override void OnMouseMove(VisualElement target, Vector2Int movePosition, MouseMoveEvent e)
+    protected override void OnMouseMove(VisualElement target, Vector2Int position, MouseMoveEvent e)
     {
     }
 
@@ -64,7 +55,7 @@ public class SetTileConnection : LBSManipulator
 
         if (t2 == null)
         {
-            schema.SetConnection(t1, fDir, toSet, false);
+            schema.SetConnection(t1, fDir, "", true);
             return;
         }
 
@@ -76,8 +67,8 @@ public class SetTileConnection : LBSManipulator
 
         var tDir = schema.Directions.FindIndex(d => d.Equals(new Vector2Int(dx, dy)));
 
-        schema.SetConnection(t1, fDir, toSet, false);
-        schema.SetConnection(t2, tDir, toSet, false);
+        schema.SetConnection(t1, fDir, "", true);
+        schema.SetConnection(t2, tDir, "", true);
+        schema.RecalculateWalls();
     }
 }
-

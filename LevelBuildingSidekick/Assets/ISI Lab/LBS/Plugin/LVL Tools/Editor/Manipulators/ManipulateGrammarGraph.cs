@@ -10,7 +10,7 @@ public abstract class ManipulateGrammarGraph : LBSManipulator
     public GrammarElement actionToSet;
     protected LBSGrammarGraph module;
 
-    public override void Init(LBSLayer layer, LBSBehaviour behaviour)
+    public override void Init(LBSLayer layer, object behaviour)
     {
         this.module = layer.GetModule<LBSGrammarGraph>();
     }

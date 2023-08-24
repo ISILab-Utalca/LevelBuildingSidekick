@@ -16,7 +16,7 @@ public abstract class ManipulateTaggedTileMap : LBSManipulator
         feedback.fixToTeselation = true;
     }
 
-    public override void Init(LBSLayer layer, LBSBehaviour behaviour)
+    public override void Init(LBSLayer layer, object owner)
     {
         this.module = layer.GetModule<TaggedTileMap>();
         feedback.TeselationSize = layer.TileSize;

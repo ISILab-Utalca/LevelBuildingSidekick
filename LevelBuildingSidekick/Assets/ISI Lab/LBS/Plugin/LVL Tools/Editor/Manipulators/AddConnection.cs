@@ -27,7 +27,7 @@ public class AddConnection : LBSManipulator
         feedback.fixToTeselation = true;
     }
 
-    public override void Init(LBSLayer layer, LBSBehaviour behaviour)
+    public override void Init(LBSLayer layer, object owner)
     {
         this.module = layer.GetModule<ConnectedTileMapModule>();
         feedback.TeselationSize = layer.TileSize;
@@ -38,7 +38,7 @@ public class AddConnection : LBSManipulator
     {
         //OnManipulationStart?.Invoke();
         var pos = module.Owner.ToFixedPosition(position);
-        var tile = module.Tiles.Find(t => t.Tile.Position == pos);
+        var tile = module.Pairs.Find(t => t.Tile.Position == pos);
 
         //var tile = e.target as ExteriorTileView;
         if (tile == null)
@@ -66,11 +66,11 @@ public class AddConnection : LBSManipulator
         if (fDir < 0 || fDir >= dirs.Count)
             return;
 
-        var tile = module.Tiles.Find(t => t.Tile.Position == pos);
+        var tile = module.Pairs.Find(t => t.Tile.Position == pos);
 
         if (tile == null)
         {
-            first.SetConnection(fDir, tagToSet.Label);
+            first.SetConnection(fDir, tagToSet.Label, false);
             return;
         }
 
@@ -82,8 +82,8 @@ public class AddConnection : LBSManipulator
 
         var tDir = dirs.FindIndex(d => d.Equals(new Vector2Int(dx, dy)));
 
-        first.SetConnection(fDir, tagToSet.Label);
-        tile.SetConnection(tDir, tagToSet.Label);
+        first.SetConnection(fDir, tagToSet.Label, false);
+        tile.SetConnection(tDir, tagToSet.Label, false);
 
     }
 }

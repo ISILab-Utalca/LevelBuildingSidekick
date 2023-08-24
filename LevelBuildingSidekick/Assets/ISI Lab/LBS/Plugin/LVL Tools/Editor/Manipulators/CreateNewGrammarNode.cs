@@ -18,7 +18,7 @@ public class CreateNewGrammarNode : ManipulateGrammarGraph // where T: LBSNode  
         this.prefix = "";
     }
 
-    public override void Init(LBSLayer layer, LBSBehaviour behaviour)
+    public override void Init(LBSLayer layer, object behaviour)
     {
         throw new NotImplementedException();
     }

@@ -16,9 +16,9 @@ public class RemoveSchemaTile : LBSManipulator
         feedback.fixToTeselation = true;
     }
 
-    public override void Init(LBSLayer layer, LBSBehaviour behaviour)
+    public override void Init(LBSLayer layer, object owner)
     {
-        schema = behaviour as SchemaBehaviour;
+        schema = owner as SchemaBehaviour;
         feedback.TeselationSize = layer.TileSize;
         layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
     }
@@ -44,5 +44,7 @@ public class RemoveSchemaTile : LBSManipulator
                 schema.RemoveTile(new Vector2Int(i, j));
             }
         }
+
+        schema.RecalculateWalls();
     }
 }

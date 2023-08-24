@@ -17,7 +17,7 @@ public abstract class ManipulateTeselation : LBSManipulator
         feedback.fixToTeselation = true;
     }
 
-    public override void Init(LBSLayer layer, LBSBehaviour behaviour)
+    public override void Init(LBSLayer layer, object behaviour)
     {
         this.module = layer.GetModule<TileMapModule>();
         feedback.TeselationSize = layer.TileSize;

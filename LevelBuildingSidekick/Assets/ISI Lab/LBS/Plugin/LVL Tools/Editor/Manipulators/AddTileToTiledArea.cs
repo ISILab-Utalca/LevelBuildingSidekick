@@ -8,8 +8,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+[Obsolete]
 public class AddTileToTiledArea<T,U> : ManipulateTiledArea<T, U> where T : TiledArea where U : LBSTile
 {
+    public override void Init(LBSLayer layer, object behaviour)
+    {
+        throw new NotImplementedException();
+    }
+
     protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
     {
 

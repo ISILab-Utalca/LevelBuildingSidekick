@@ -32,7 +32,7 @@ public class RemoveGraphNode<T> : ManipulateGraph<T> where T : LBSNode
 
     private void OnMouseEnter(MouseOverEvent evt)
     {
-        var node = evt.target as LBSNodeView<T>;
+        var node = evt.target as LBSNodeView_Old<T>;
         if (node == null)
             return;
         if ((node.capabilities & Capabilities.Movable) != 0)
@@ -41,7 +41,7 @@ public class RemoveGraphNode<T> : ManipulateGraph<T> where T : LBSNode
 
     private void OnMouseExit(MouseOutEvent evt)
     {
-        var node = evt.target as LBSNodeView<T>;
+        var node = evt.target as LBSNodeView_Old<T>;
         if (node == null)
             return;
 

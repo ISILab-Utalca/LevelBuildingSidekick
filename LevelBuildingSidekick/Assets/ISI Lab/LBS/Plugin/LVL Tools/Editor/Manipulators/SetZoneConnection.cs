@@ -10,52 +10,56 @@ using UnityEditor.PackageManager.UI;
 using LBS.Tools.Transformer;
 using LBS.Behaviours;
 
-public class AddAreaConnection : LBSManipulator
+public class SetZoneConnection : LBSManipulator
 {
-    SchemaBehaviour schema;
-    Vector2Int first;
+    private LBSLayer layer;
+    private HillClimbingAssistant assistant;
+    private Vector2Int first;
 
-    public AddAreaConnection() : base()
+    public SetZoneConnection() : base()
     {
         feedback = new ConnectedLine();
         feedback.fixToTeselation = false;
     }
 
-    public override void Init(LBSLayer layer, LBSBehaviour behaviour)
+    public override void Init(LBSLayer layer, object provider)
     {
-        schema = behaviour as SchemaBehaviour;
+        this.layer = layer;
+        this.assistant = provider as HillClimbingAssistant;
+
         feedback.TeselationSize = layer.TileSize;
         layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
     }
 
     protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
     {
-        first = position;
+        first = layer.ToFixedPosition(position);
     }
 
     protected override void OnMouseMove(VisualElement target, Vector2Int position, MouseMoveEvent e)
     {
-        throw new NotImplementedException();
+
     }
 
     protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
     {
-        var z1 = schema.GetZone(first);
+        /*
+        var z1 = assistant.GetZone(first);
         if (z1 == null)
         {
-            var pos = schema.Owner.ToFixedPosition(first);
-            var t = schema.GetTile(pos);
-            z1 = schema.GetZone(t);
+            var pos = assistant.Owner.ToFixedPosition(first);
+            var t = assistant.GetTile(pos);
+            z1 = assistant.GetZone(t);
         }
         if (z1 == null)
             return;
 
-        var z2 = schema.GetZone(position);
+        var z2 = assistant.GetZone(position);
         if (z2 == null)
         {
-            var pos = schema.Owner.ToFixedPosition(position);
-            var t = schema.GetTile(pos);
-            z2 = schema.GetZone(t);
+            var pos = assistant.Owner.ToFixedPosition(position);
+            var t = assistant.GetTile(pos);
+            z2 = assistant.GetZone(t);
         }
         if (z2 == null)
             return;
@@ -63,6 +67,7 @@ public class AddAreaConnection : LBSManipulator
         if (z1.Equals(z2))
             return;
 
-        schema.ConnectZones(z1, z2);
+        assistant.ConnectZones(z1, z2);
+        */
     }
 }

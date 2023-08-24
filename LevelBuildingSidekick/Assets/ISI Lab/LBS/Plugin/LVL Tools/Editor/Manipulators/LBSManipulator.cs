@@ -1,13 +1,19 @@
 using LBS.Behaviours;
 using LBS.Components;
+using LBS.VisualElements;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+public interface IToolProvider
+{
+    public void SetTools(ToolKit group);
+}
+
 [System.Serializable]
-public abstract class LBSManipulator : MouseManipulator, IManipulatorLBS
+public abstract class LBSManipulator : MouseManipulator
 {
     protected Feedback feedback;
 
@@ -76,7 +82,7 @@ public abstract class LBSManipulator : MouseManipulator, IManipulatorLBS
         }
     }
 
-    public abstract void Init(LBSLayer layer, LBSBehaviour behaviour);
+    public abstract void Init(LBSLayer layer, object provider);
 
     protected override void RegisterCallbacksOnTarget()
     {
