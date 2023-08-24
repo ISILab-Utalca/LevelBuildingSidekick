@@ -51,7 +51,7 @@ public class AIPanel : VisualElement
         container.Clear();
     }
 
-    private VisualElement GetAgentPanel(LBSAssistantAI agent)
+    private VisualElement GetAgentPanel(LBSAssistant agent)
     {
         var candidates = Utility.Reflection.GetClassesWith<CustomVisualElementAttribute>();
         if (candidates.Count <= 0)
