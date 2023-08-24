@@ -20,8 +20,12 @@ using Newtonsoft.Json;
 using LBS.Assisstants;
 
 [System.Serializable]
-[RequieredModule(typeof(LBSRoomGraph), typeof(LBSSchema))]
-public class AssistantHillClimbing : LBSAssistantAI
+[RequieredModule(typeof(TileMapModule),
+    typeof(ConnectedTileMapModule),
+    typeof(SectorizedTileMapModule),
+    typeof(ConnectedTileMapModule))]
+//[RequieredModule(typeof(LBSRoomGraph), typeof(LBSSchema))]
+public class HillClimbingAssistant : LBSAssistant
 {
     [JsonIgnore, NonSerialized]
     private HillClimbing hillClimbing;
@@ -31,10 +35,11 @@ public class AssistantHillClimbing : LBSAssistantAI
     [JsonIgnore, NonSerialized]
     private LBSLayer layer;
 
-    [JsonRequired]
-    public string test = "Hola mundo";
+    public HillClimbingAssistant(Texture2D icon, string name) : base(icon, name)
+    {
+    }
 
-    public AssistantHillClimbing() {}
+    //public HillClimbingAssistant() {}
 
     public override void Execute()
     {
@@ -227,7 +232,7 @@ public class AssistantHillClimbing : LBSAssistantAI
 
     public override object Clone()
     {
-        return new AssistantHillClimbing();
+        return new HillClimbingAssistant(this.Icon, this.Name);
     }
 
     /*
