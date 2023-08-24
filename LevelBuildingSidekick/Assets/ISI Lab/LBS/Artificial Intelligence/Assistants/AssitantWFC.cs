@@ -7,11 +7,15 @@ using UnityEngine.UIElements;
 
 [System.Serializable]
 [RequieredModule(typeof(ExteriorModule))]
-public class AssitantWFC : LBSAssistantAI
+public class AssitantWFC : LBSAssistant
 {
+    public AssitantWFC(Texture2D icon, string name) : base(icon, name)
+    {
+    }
+
     public override object Clone()
     {
-        return new AssitantWFC();
+        return new AssitantWFC(this.Icon,this.Name);
     }
 
     public override void Execute()
