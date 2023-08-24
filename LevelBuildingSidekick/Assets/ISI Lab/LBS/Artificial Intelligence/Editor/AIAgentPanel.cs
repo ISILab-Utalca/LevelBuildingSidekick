@@ -19,7 +19,7 @@ public class AIAgentPanel : VisualElement
     #endregion
 
     #region FIELDS
-    private LBSAssistantAI agent;
+    private LBSAssistant agent;
     #endregion
 
     #region CONSTRUCTORS
