@@ -17,10 +17,11 @@ using LBS.Tools.Transformer;
 using System.Diagnostics;
 using Debug = UnityEngine.Debug;
 using LBS.Assisstants;
+using System.Xml.Linq;
 
 [System.Serializable]
 [RequieredModule(typeof(BundleTileMap))]
-public class AssistantMapElite : LBSAssistantAI
+public class AssistantMapElite : LBSAssistant
 {
     MapElites mapElites;
 
@@ -38,12 +39,12 @@ public class AssistantMapElite : LBSAssistantAI
 
     public IOptimizable[,] Samples => mapElites.BestSamples;
 
-    public AssistantMapElite()
+    public AssistantMapElite(Texture2D icon, string name) : base(icon, name)
     {
         mapElites = new MapElites();
     }
 
-    public AssistantMapElite(MapElites mapElites)
+    public AssistantMapElite(MapElites mapElites, Texture2D icon, string name) : base(icon, name)
     {
         this.mapElites = mapElites;
     }
@@ -120,7 +121,7 @@ public class AssistantMapElite : LBSAssistantAI
 
     public override object Clone()
     {
-        return new AssistantMapElite();
+        return new AssistantMapElite(this.Icon,this.Name);
     }
 }
 
