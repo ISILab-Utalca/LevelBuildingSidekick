@@ -29,7 +29,7 @@ public class LayerTemplateEditor : Editor
     void OnEnable()
     {
         behaviourOptions = typeof(LBSBehaviour).GetDerivedTypes().ToList();
-        assistantOptions = typeof(LBSAssistantAI).GetDerivedTypes().ToList();
+        assistantOptions = typeof(LBSAssistant).GetDerivedTypes().ToList();
         ruleOptions = typeof(LBSGeneratorRule).GetDerivedTypes().ToList();
     }
 
@@ -56,7 +56,7 @@ public class LayerTemplateEditor : Editor
         if (GUILayout.Button("Add Assistent"))
         {
             var ass = Activator.CreateInstance(selected2);
-            template.layer.AddAssistant(ass as LBSAssistantAI);
+            template.layer.AddAssistant(ass as LBSAssistant);
         }
         GUILayout.EndHorizontal();
 
@@ -119,7 +119,10 @@ public class LayerTemplateEditor : Editor
         layer.AddBehaviour(bh);
 
         // Assistants
-        layer.AddAssistant(new AssistantHillClimbing());
+        var assIcon = Resources.Load<Texture2D>("Icons/Select");
+        var ass = new HillClimbingAssistant(assIcon,"HillClimbing");
+        ass.OnAdd(layer);
+        layer.AddAssistant(ass);
         
         // Generators
         layer.AddGeneratorRule(new SchemaRuleGenerator());
@@ -238,8 +241,10 @@ public class LayerTemplateEditor : Editor
             name = "Exteriror",
         };
 
-        layer.AddAssistant(new AssitantWFC());
-        layer.AddGeneratorRule(new ExteriorRuleGenerator());
+        var assIcon = Resources.Load<Texture2D>("Icons/Select");
+        var ass = new AssitantWFC(assIcon, "Ass WFC");
+        ass.OnAdd(layer);
+        layer.AddAssistant(ass);
 
         // Modules
         //var x = new ExteriorModule();
@@ -331,10 +336,17 @@ public class LayerTemplateEditor : Editor
         layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/ghost.png";
         template.layer = layer;
 
+        // Behaviours
         var Icon = Resources.Load<Texture2D>("Icons/Select");
         layer.AddBehaviour(new PopulationBehaviour(Icon, "Population Behavior"));
 
-        layer.AddAssistant(new AssistantMapElite());
+        // Assistants
+        var assIcon = Resources.Load<Texture2D>("Icons/Select");
+        var ass = new AssistantMapElite(assIcon, "A");
+        ass.OnAdd(layer);
+        layer.AddAssistant(ass);
+
+        // Rules
         layer.AddGeneratorRule(new PopulationRuleGenerator());
 
         /*
