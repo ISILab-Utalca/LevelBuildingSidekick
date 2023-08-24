@@ -14,11 +14,11 @@ public class DrawGrammarGraph : Drawer
     {
         var graph = layer.GetModule<LBSGraph>();
 
-        var nViews = new List<LBSNodeView<LBSNode>>();
+        var nViews = new List<LBSNodeView_Old<LBSNode>>();
         foreach (var node in graph.GetNodes())
         {
             var size = new Vector2(300, 100);
-            var element = new LBSNodeView<LBSNode>(node, node.Position - (size / 2f), size);
+            var element = new LBSNodeView_Old<LBSNode>(node, node.Position - (size / 2f), size);
 
             element.SetText(node.ID);
             //element.SetColor(node.Room.Color);
