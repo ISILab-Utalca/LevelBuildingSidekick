@@ -33,6 +33,6 @@ public class RequieredAssistantAttribute : Attribute
 
     public RequieredAssistantAttribute(params Type[] type)
     {
-        this.types = type.GetDerivedTypes(typeof(LBSAssistantAI)).ToList();
+        this.types = type.GetDerivedTypes(typeof(LBSAssistant)).ToList();
     }
 }
