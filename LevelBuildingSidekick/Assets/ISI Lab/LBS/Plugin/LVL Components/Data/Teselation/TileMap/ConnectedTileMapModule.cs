@@ -16,7 +16,7 @@ public class ConnectedTileMapModule : LBSModule
     protected int connectedDirections = 4;
 
     [SerializeField, JsonRequired]
-    protected List<TileConnectionsPair> tiles = new List<TileConnectionsPair>();
+    protected List<TileConnectionsPair> pairs = new List<TileConnectionsPair>();
 
     #endregion
 
@@ -28,7 +28,7 @@ public class ConnectedTileMapModule : LBSModule
         set => connectedDirections = value;
     }
 
-    public List<TileConnectionsPair> Tiles => new List<TileConnectionsPair>(tiles);
+    public List<TileConnectionsPair> Pairs => new List<TileConnectionsPair>(pairs);
 
     #endregion
 
@@ -44,7 +44,7 @@ public class ConnectedTileMapModule : LBSModule
         this.connectedDirections = connectedDirections;
         foreach(var t in tiles)
         {
-            AddTile(t);
+            AddTile(t.Tile, t.Connections, t.EditedByIA);
         }
     }
 
@@ -52,6 +52,7 @@ public class ConnectedTileMapModule : LBSModule
 
     #region METHODS
 
+    /*
     public void AddTile(TileConnectionsPair tile)
     {
         if(tile.Connections.Count < connectedDirections)
@@ -63,72 +64,79 @@ public class ConnectedTileMapModule : LBSModule
         }
         else
         {
-            tile.ReplaceConnections(tile.Connections.Take(connectedDirections));
+            tile.SetConnections(tile.Connections.Take(connectedDirections));
         }
 
         var t = GetPair(tile.Tile);
         if(t != null)
         {
-            tiles.Remove(t);
+            pairs.Remove(t);
         }
-        tiles.Add(tile);
+        pairs.Add(tile);
 
     }
+    */
 
-    public void AddTile(LBSTile tile, List<string> connections)
+    public void AddTile(LBSTile tile, List<string> connections , List<bool> editedByIA)
     {
-        AddTile(new TileConnectionsPair(tile, connections));
+        var pair = new TileConnectionsPair(tile, connections, editedByIA);
+        var t = GetPair(pair.Tile);
+        if (t != null)
+        {
+            pairs.Remove(t);
+        }
+        pairs.Add(pair);
     }
 
     public TileConnectionsPair GetPair(LBSTile tile)
     { 
-        if (tiles.Count <= 0)
+        if (pairs.Count <= 0)
             return null;
-        return tiles.Find(t => t.Tile.Equals(tile));
+        return pairs.Find(t => t.Tile.Equals(tile));
 
     }
 
     public void RemoveTile(LBSTile tile)
     {
         var t = GetPair(tile);
-        tiles.Remove(t);
+        pairs.Remove(t);
     }
 
     public void RemoveTile(int index)
     {
-        tiles.RemoveAt(index);
+        pairs.RemoveAt(index);
     }
 
     public bool Contains(LBSTile tile)
     {
-        if (tiles.Count <= 0)
+        if (pairs.Count <= 0)
             return false;
-        return tiles.Any(t => t.Tile.Equals(tile));
+        return pairs.Any(t => t.Tile.Equals(tile));
     }
 
     public override Rect GetBounds()
     {
-        if (tiles == null || tiles.Count == 0)
+        if (pairs == null || pairs.Count == 0)
         {
             //Debug.LogWarning("Esta tilemap no tiene tiles!!!");
             return new Rect(Vector2.zero, Vector2.zero);
         }
-        return tiles.Select(t => t.Tile).GetBounds();
+        return pairs.Select(t => t.Tile).GetBounds();
     }
 
     public override bool IsEmpty()
     {
-        return tiles.Count <= 0;
+        return pairs.Count <= 0;
     }
 
     public override void Clear()
     {
-        tiles.Clear();
+        pairs.Clear();
     }
 
     public override object Clone()
     {
-        return new ConnectedTileMapModule(tiles.Select(t => t.Clone()).Cast<TileConnectionsPair>(), connectedDirections, ID);
+        return new ConnectedTileMapModule(pairs.Select(t => t.Clone()).Cast<TileConnectionsPair>(), connectedDirections, ID);
     }
 
     public override void Rewrite(LBSModule module)
@@ -140,9 +148,9 @@ public class ConnectedTileMapModule : LBSModule
         }
         Clear();
         connectedDirections = connectedTileMap.connectedDirections;
-        foreach(var t in connectedTileMap.tiles)
+        foreach(var t in connectedTileMap.pairs)
         {
-            AddTile(t);
+            AddTile(t.Tile, t.Connections, t.EditedByIA);
         }
 
     }
@@ -174,17 +182,17 @@ public class ConnectedTileMapModule : LBSModule
 public class TileConnectionsPair : ICloneable // esto puede ser TAG/BUNDLE en vez de string (!!)
 {
     #region FIELDS
-
     [SerializeField, JsonRequired, SerializeReference]
-    LBSTile tile;
+    private LBSTile tile;
 
     [SerializeField, JsonRequired]
-    List<string> connections = new List<string>();
+    private List<string> connections = new List<string>();
 
+    [SerializeField, JsonRequired]
+    private List<bool> editedByIA = new List<bool>();
     #endregion
 
     #region PROEPRTIES
-
     [JsonIgnore]
     public LBSTile Tile
     {
@@ -197,45 +205,46 @@ public class TileConnectionsPair : ICloneable // esto puede ser TAG/BUNDLE en ve
         get => connections;
     }
 
+    public List<bool> EditedByIA => editedByIA;
     #endregion
 
     #region CONSTRUCTORS
-
-    public TileConnectionsPair(LBSTile tile, IEnumerable<string> connections)
+    public TileConnectionsPair(LBSTile tile, IEnumerable<string> connections, List<bool> editedByIA)
     {
         this.tile = tile;
         this.connections = connections.ToList();
+        this.editedByIA = editedByIA;
     }
-
     #endregion
 
     #region METHODS
-
-    public void ReplaceConnections(IEnumerable<string> connections)
+    public void SetConnections(IEnumerable<string> connections, List<bool> editedByIA)
     {
         this.connections = new List<string>(connections);
+        this.editedByIA = new List<bool>(editedByIA);
     }
 
+    /*
     public void AddConnection(string connection)
     {
         connections.Add(connection);
     }
+    */
 
-    public void SetConnection(int index, string connection)
+    public void SetConnection(int index, string connection, bool editedByIA)
     {
-        connections[index] = connection;
-    }
-
-    public void SetConnections(List<string> connections)
-    {
-        this.connections = connections;
+        this.connections[index] = connection;
+        this.editedByIA[index] = editedByIA;
     }
 
     public object Clone()
     {
-        return new TileConnectionsPair(tile, connections.Select(c => c.Clone()).Cast<string>());
+        return new TileConnectionsPair(
+            tile,
+            connections.Select(c => c.Clone()).Cast<string>(),
+            new List<bool>(editedByIA)
+            );
     }
-
     #endregion
 
 }
