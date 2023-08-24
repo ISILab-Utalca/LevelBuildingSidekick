@@ -5,14 +5,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-[CustomVisualElement(typeof(AssistantHillClimbing))]
+[CustomVisualElement(typeof(HillClimbingAssistant))]
 public class SchemaHCVE : VisualElement
 {
-    AssistantHillClimbing agent;
+    HillClimbingAssistant agent;
 
-    public SchemaHCVE(LBSAssistantAI agent)
+    public SchemaHCVE(LBSAssistant agent)
     {
-        this.agent = agent as AssistantHillClimbing;
+        this.agent = agent as HillClimbingAssistant;
         if (this.agent == null)
             return;
 
