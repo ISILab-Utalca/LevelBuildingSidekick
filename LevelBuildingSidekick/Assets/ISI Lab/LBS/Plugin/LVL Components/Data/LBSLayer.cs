@@ -45,7 +45,7 @@ namespace LBS.Components
         private List<LBSBehaviour> behaviours = new List<LBSBehaviour>();
 
         [SerializeField, JsonRequired, SerializeReference]
-        private List<LBSAssistantAI> assitants = new List<LBSAssistantAI>();
+        private List<LBSAssistant> assitants = new List<LBSAssistant>();
 
         [SerializeField, JsonRequired, SerializeReference]
         private List<LBSGeneratorRule> generatorRules = new List<LBSGeneratorRule>();
@@ -105,9 +105,9 @@ namespace LBS.Components
         }
 
         [JsonIgnore]
-        public List<LBSAssistantAI> Assitants
+        public List<LBSAssistant> Assitants
         {
-            get => new List<LBSAssistantAI>(assitants);
+            get => new List<LBSAssistant>(assitants);
         }
 
         [JsonIgnore]
@@ -157,7 +157,7 @@ namespace LBS.Components
 
         public LBSLayer(
             IEnumerable<LBSModule> modules,
-            IEnumerable<LBSAssistantAI> assistant,
+            IEnumerable<LBSAssistant> assistant,
             IEnumerable<LBSGeneratorRule> rules,
             IEnumerable<LBSBehaviour> behaviours,
             string ID, bool visible, string name, string iconPath, Vector2Int tileSize)
@@ -260,7 +260,7 @@ namespace LBS.Components
             return this.generatorRules.Remove(rule);
         }
 
-        public void AddAssistant(LBSAssistantAI assistant)
+        public void AddAssistant(LBSAssistant assistant)
         {
             if (this.assitants.Find( a => assistant.GetType().Equals(a.GetType())) != null)
             {
@@ -272,13 +272,13 @@ namespace LBS.Components
             assistant.Owner = this;
         }
 
-        public bool RemoveAssitant(LBSAssistantAI assistant)
+        public bool RemoveAssitant(LBSAssistant assistant)
         {
             assistant.Owner = null;
             return this.assitants.Remove(assistant);
         }
 
-        public LBSAssistantAI GetAssistant(int index)
+        public LBSAssistant GetAssistant(int index)
         {
             return assitants[index];
         }
@@ -432,7 +432,7 @@ namespace LBS.Components
         public object Clone()
         {
             var modules = this.modules.Select(m => m.Clone() as LBSModule);
-            var assistants = this.assitants.Select(a => a.Clone() as LBSAssistantAI);
+            var assistants = this.assitants.Select(a => a.Clone() as LBSAssistant);
             var rules = this.generatorRules.Select(r => r.Clone() as LBSGeneratorRule);
             var behaviours = this.behaviours.Select(b => b.Clone() as LBSBehaviour);
 
