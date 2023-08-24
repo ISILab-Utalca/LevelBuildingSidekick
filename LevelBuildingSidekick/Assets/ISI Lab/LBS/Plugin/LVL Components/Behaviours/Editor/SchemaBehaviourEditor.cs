@@ -10,32 +10,25 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Utility;
 
-public interface IToolProvider
-{
-    public void SetTools(ToolKit group);
-}
+
 
 [LBSCustomEditor("SchemaBehaviour", typeof(SchemaBehaviour))]
 public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
 {
+    private readonly Color BHcolor = LBSSettings.Instance.view.behavioursColor;
+    
     private SchemaBehaviour schema;
-
-    private List<LBSTool> tools = new List<LBSTool>();
 
     // Manipulators
     private AddSchemaTile createNewRoomNode;
-    private AddTileToTiledArea<TiledArea, ConnectedTile> addTileToTiledArea;
+    private RemoveSchemaTile removeSchemaTile;
+
+    private SetTileConnection setTileConnection;
+    private RemoveTileConnection removeTileConnection;
 
     // View
     private SimplePallete areaPallete;
-
-    /*
-    public SchemaBehaviourEditor()
-    {
-        //manipulators.Add(new AddConnection());
-        //manipulators.Add(new RemoveTile());
-    }
-    */
+    private SimplePallete connectionPallete;
 
     public SchemaBehaviourEditor(object target) : base(target)
     {
@@ -58,12 +51,38 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
         Texture2D icon;
         //  var tool1 = new LBSTool(icon, "Select", typeof(Select), null, true);
 
+        // Add Zone Tiles
         icon = Resources.Load<Texture2D>("Icons/Addnode");
         this.createNewRoomNode = new AddSchemaTile();
-        var t1 = new LBSTool(icon, "Add Zone", createNewRoomNode);
+        var t1 = new LBSTool(icon, "Paint Zone", createNewRoomNode);
         t1.Init(schema.Owner, schema);
         toolKit.AddTool(t1);
 
+        // Remove Tiles
+        icon = Resources.Load<Texture2D>("Icons/Trash");
+        this.removeSchemaTile = new RemoveSchemaTile();
+        var t2 = new LBSTool(icon, "Remove Tile", removeSchemaTile);
+        t2.Init(schema.Owner, schema);
+        toolKit.AddTool(t2);
+
+        toolKit.AddSeparator(10);
+
+        // Add Tile connection
+        icon = Resources.Load<Texture2D>("Icons/open-exit-door");
+        this.setTileConnection = new SetTileConnection();
+        var t3 = new LBSTool(icon, "Set connection", setTileConnection);
+        t3.Init(schema.Owner, schema);
+        toolKit.AddTool(t3);
+
+        // Remove Tile connection
+        icon = Resources.Load<Texture2D>("Icons/open-exit-door");
+        this.removeTileConnection = new RemoveTileConnection();
+        var t4 = new LBSTool(icon,"Clean connection", removeTileConnection);
+        t4.Init(schema.Owner, schema);
+        toolKit.AddTool(t4);
+
+
+        /*
         icon = Resources.Load<Texture2D>("Icons/AddConnection");
         var t2 = new LBSTool(icon, "Add connection", new CreateNewConnection<RoomNode>());
         toolKit.AddTool(t2);
@@ -75,13 +94,12 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
         icon = Resources.Load<Texture2D>("Icons/Trash");
         var t4 = new LBSTool(icon, "Remove Connection", new RemoveGraphConnection());
         toolKit.AddTool(t4);
+        */
 
-        toolKit.AddSeparator(10);
-
-        icon = Resources.Load<Texture2D>("Icons/paintbrush");
-        this.addTileToTiledArea = new AddTileToTiledArea<TiledArea, ConnectedTile>();
-        var tool6 = new LBSTool(icon, "Paint tile", addTileToTiledArea);
-        toolKit.AddTool(tool6);
+        //icon = Resources.Load<Texture2D>("Icons/paintbrush");
+        //this.addTileToTiledArea = new AddTileToTiledArea<TiledArea, ConnectedTile>();
+        //var tool6 = new LBSTool(icon, "Paint tile", addTileToTiledArea);
+        //toolKit.AddTool(tool6);
 
         /*
         icon = Resources.Load<Texture2D>("Icons/erased");
@@ -115,6 +133,7 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
     public override void SetInfo(object target)
     {
 
+
     }
 
     protected override VisualElement CreateVisualElement()
@@ -123,8 +142,12 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
         visualTree.CloneTree(this);
 
         // Area Pallete
-        this.areaPallete = this.Q<SimplePallete>();
+        this.areaPallete = this.Q<SimplePallete>("ZonePallete");
         SetAreaPallete();
+
+        // Connection Pallete
+        this.connectionPallete = this.Q<SimplePallete>("ConnectionPallete");
+        SetConnectionPallete();
 
         return this;
     }
@@ -132,46 +155,81 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
     private void SetAreaPallete()
     {
         areaPallete.ShowGroups = false;
-        areaPallete.SetName("Rooms");
+        areaPallete.SetName("Zones");
         var icon = Resources.Load<Texture2D>("Icons/BrushIcon");
-        var BHcolor = LBSSettings.Instance.view.behavioursColor;
         areaPallete.SetIcon(icon, BHcolor);
 
-        var areas = schema.Areas;
-        var options = new object[areas.Count];
-
-        for (int i = 0; i < areas.Count; i++)
+        var zones = schema.Zones;
+        var options = new object[zones.Count];
+        for (int i = 0; i < zones.Count; i++)
         {
-            options[i] = areas;
+            options[i] = zones[i];
         }
 
-        areaPallete.SetOptions(options, (optionView, option) => 
+        // Select option event
+        areaPallete.OnSelectOption += (selected) => {
+            // var tk = ToolKit.Instance;
+            createNewRoomNode.ToSet = selected as Zone;
+        };
+
+        // OnAdd option event
+        areaPallete.OnAddOption += () =>
+        {
+            schema.AddZone();
+            areaPallete.Options = new object[schema.Zones.Count];
+            for (int i = 0; i < zones.Count; i++)
+            {
+                areaPallete.Options[i] = schema.Zones[i];
+            }
+            areaPallete.Repaint();
+        };
+
+        // Init options
+        areaPallete.SetOptions(options, (optionView, option) =>
         {
             var area = (Zone)option;
             optionView.Label = area.ID; // ID or name (??)
             optionView.Color = area.Color;
         });
 
-        areaPallete.OnSelectOption += (selected) => {
-            var tk = ToolKit.Instance;
-
-            // tk.SetActive(selected);
-            createNewRoomNode.ToSet = selected as Zone;
-            Debug.Log("AAA " + selected.GetType());
-        };
-
-        areaPallete.OnAddOption += () =>
-        {
-            schema.AddZone(new Vector2Int(0, 0));
-            areaPallete.Options = new object[schema.Areas.Count];
-            for (int i = 0; i < areas.Count; i++)
-            {
-                areaPallete.Options[i] = schema.Areas[i];
-            }
-            areaPallete.Repaint();
-        };
-
         areaPallete.Repaint();
     }
 
+    private void SetConnectionPallete()
+    {
+        connectionPallete.ShowGroups = false;
+        connectionPallete.SetName("Connections");
+        var icon = Resources.Load<Texture2D>("Icons/BrushIcon");
+        connectionPallete.SetIcon(icon, BHcolor);
+
+        var connections = schema.Connections;
+        var options = new object[connections.Count];
+        for (int i = 0; i < connections.Count; i++)
+        {
+            options[i] = connections[i];
+        }
+
+        // Select option event
+        connectionPallete.OnSelectOption += (selected) => {
+            // var tk = ToolKit.Instance;
+            setTileConnection.ToSet = selected as string;
+        };
+
+        // OnAdd option event
+        connectionPallete.OnAddOption += () =>
+        {
+            Debug.LogWarning("Por ahora esta herramienta no permite agregar nuevos tipos de conexiones");
+        };
+
+        // Init options
+        connectionPallete.SetOptions(options, (optionView, option) =>
+        {
+            var conencts = (string)option;
+            optionView.Label = conencts; 
+            optionView.Color = Color.black;
+        });
+
+        connectionPallete.Repaint();
+
+    }
 }
