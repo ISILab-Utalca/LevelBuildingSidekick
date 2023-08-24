@@ -210,6 +210,8 @@ public class LBSMainWindow : EditorWindow
         LBSController.OnLoadLevel += (l) => _selectedLayer = null;
         //levelData.OnReload += (l) => _selectedLayer = null;
         //levelData.OnReload += (l) => Debug.Log(_selectedLayer);
+
+        drawManager.Redraw(levelData, mainView);
     }
 
     private void ShowinfoLayer(LBSLayer layer)
@@ -280,5 +282,6 @@ public class LBSMainWindow : EditorWindow
 
         // Actualize Bottom text
         selectedLabel.text = "selected: " + layer.Name;
+
     }
 }
