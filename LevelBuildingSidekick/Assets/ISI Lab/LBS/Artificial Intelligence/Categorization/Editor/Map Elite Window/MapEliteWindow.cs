@@ -70,7 +70,7 @@ public class MapEliteWindow : EditorWindow
     public void CreateGUI()
     {
         VisualElement root = rootVisualElement;
-        var assitant = new AssistantMapElite();
+        var assitant = new AssistantMapElite(null,"A");
         var ve = new AssistantMapEliteVE(assitant);
         root.Add(ve);
 
