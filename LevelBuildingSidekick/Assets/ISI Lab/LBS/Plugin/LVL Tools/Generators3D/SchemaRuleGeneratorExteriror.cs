@@ -180,9 +180,11 @@ public class SchemaRuleGeneratorExteriror : LBSGeneratorRule
         pivot.transform.parent = parent;
 
         var sideNeigths = sideDir.Select(dir => schema.GetTileNeighbor(tile, dir.ToInt())).ToList();
-        for (int i = 0; i < tile.Sides; i++)
+
+        //for (int i = 0; i < tile.Sides; i++)
+        for (int i = 0; i < 4; i++)
         {
-            if (sideNeigths[i] != null)
+                if (sideNeigths[i] != null)
                 continue;
 
             var tag = tile.GetConnection(i);
