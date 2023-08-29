@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace LBS.Components.TileMap
 {
@@ -10,16 +11,14 @@ namespace LBS.Components.TileMap
     public class LBSTile : ICloneable
     {
         #region FIELDS
-
         [SerializeField, JsonRequired]
         protected int x, y;
 
-        [SerializeField, JsonRequired]
-        protected int sides = 4;
+        //[SerializeField, JsonRequired]
+        //protected int sides = 4;
 
-        [SerializeField, JsonRequired]
-        protected string id;
-
+        //[SerializeField, JsonRequired]
+        //protected string id;
         #endregion
 
         #region PROPERTIES
@@ -31,40 +30,30 @@ namespace LBS.Components.TileMap
             set { x = value.x; y = value.y; }
         }
 
-        [JsonIgnore]
-        public int Sides => sides;
+        //[JsonIgnore]
+        //public int Sides => sides;
 
-        [JsonIgnore]
-        public string ID // yo creo que la id en tile es inesesaria ya que el area ya sabe coales son sus tiles
-        {
-            get => id;
-            set => id = value;
-        }
+        //[JsonIgnore]
+        //public string ID // yo creo que la id en tile es inesesaria ya que el area ya sabe coales son sus tiles
+        //{
+        //    get => id;
+        //    set => id = value;
+        //}
 
         #endregion
 
         #region COSNTRUCTORS
 
-        public LBSTile() 
-        {
-            this.x = 0;
-            this.y = 0;
-            this.sides = 4;
-            this.id = "";
-        }
-
-        public LBSTile(Vector2 position, string id, int sides = 4) 
+        public LBSTile(Vector2 position)//, string id, int sides = 4) 
         {
             this.x = (int)position.x;
             this.y = (int)position.y;
-            this.id = id;
-            this.sides = sides; 
+            //this.id = id;
+            //this.sides = sides; 
         }
-
         #endregion
 
         #region METHODS
-
         public override bool Equals(object obj)
         {
             if(obj is LBSTile)
@@ -82,7 +71,9 @@ namespace LBS.Components.TileMap
 
         public virtual object Clone()
         {
-            return new LBSTile(this.Position,this.ID,this.sides);
+            var clone = CloneRefs.Get(this) as LBSTile;
+
+            return (clone != null) ? clone : new LBSTile(this.Position);
         }
         #endregion
     }
