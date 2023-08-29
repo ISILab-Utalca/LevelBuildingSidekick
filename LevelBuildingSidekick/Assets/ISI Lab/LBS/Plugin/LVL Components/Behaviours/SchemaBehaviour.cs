@@ -67,7 +67,7 @@ public class SchemaBehaviour : LBSBehaviour
 
     public LBSTile AddTile(Vector2Int position, Zone zone)
     {
-        var tile = new LBSTile(position, "Tile: " + position.ToString());
+        var tile = new LBSTile(position);//, "Tile: " + position.ToString());
         tileMap.AddTile(tile);
         areas.AddTile(tile, zone);
         return tile;
@@ -127,7 +127,7 @@ public class SchemaBehaviour : LBSBehaviour
 
     public Rect GetBound(Zone zone)
     {
-        return areas.GetZoneBounds(zone);
+        return areas.GetBounds(zone);
     }
 
     public List<string> GetConnections(LBSTile tile)
