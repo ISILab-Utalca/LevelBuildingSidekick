@@ -43,7 +43,7 @@ public class SetZoneConnection : LBSManipulator
 
     protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
     {
-        /*
+        
         var z1 = assistant.GetZone(first);
         if (z1 == null)
         {
@@ -68,6 +68,6 @@ public class SetZoneConnection : LBSManipulator
             return;
 
         assistant.ConnectZones(z1, z2);
-        */
+        
     }
 }
