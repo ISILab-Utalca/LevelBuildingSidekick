@@ -8,8 +8,10 @@ using System;
 
 namespace LBS.Tools.Transformer
 {
-    public class AreaToTileMap : Transformer
+    [Obsolete("Los trasformar ya no suan devido a que la implentacion no era trivial")]
+    public class AreaToTileMap //: Transformer
     {
+        /*
         private List<Vector2Int> dirs = new List<Vector2Int>() // (!) esto deberia estar en un lugar general
         {
             Vector2Int.right,
@@ -120,12 +122,12 @@ namespace LBS.Tools.Transformer
                    }
                }
            }
-           */
         }
 
         public override void ReCalculate(ref LBSLayer layer)
         {
             throw new NotImplementedException();
         }
+        */
     }
 }
