@@ -1,3 +1,4 @@
+using ISILab.AI.Optimization;
 using LBS.Behaviours;
 using LBS.Components;
 using LBS.Components.TileMap;
@@ -8,17 +9,17 @@ using UnityEngine.UIElements;
 
 public class RemoveAreaConnection : LBSManipulator
 {
-    SchemaBehaviour schema;
+    HillClimbingAssistant hillclimbing;
 
     public RemoveAreaConnection() : base()
     {
-        //feedback = new ConnectedLine();
-        //feedback.fixToTeselation = true;
+        feedback = new ConnectedLine();
+        feedback.fixToTeselation = true;
     }
 
     public override void Init(LBSLayer layer, object owner)
     {
-        schema = owner as SchemaBehaviour;
+        hillclimbing = owner as HillClimbingAssistant;
         feedback.TeselationSize = layer.TileSize;
         layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
     }
@@ -34,7 +35,8 @@ public class RemoveAreaConnection : LBSManipulator
 
     protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
     {
-        //schema.RemoveZoneConnection(position, 15);
+        
+        hillclimbing.RemoveZoneConnection(position, 15);
     }
 
 
