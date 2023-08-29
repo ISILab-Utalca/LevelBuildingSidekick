@@ -77,6 +77,12 @@ public class ConnectedTileMapModule : LBSModule
     }
     */
 
+    public void SetConnection(LBSTile tile, int direction, string connection, bool editedByIA)
+    {
+        var t = GetPair(tile);
+        t.SetConnection(direction, connection, editedByIA);
+    }
+
     public void AddTile(LBSTile tile, List<string> connections , List<bool> editedByIA)
     {
         var pair = new TileConnectionsPair(tile, connections, editedByIA);
@@ -94,6 +100,12 @@ public class ConnectedTileMapModule : LBSModule
             return null;
         return pairs.Find(t => t.Tile.Equals(tile));
 
+    }
+
+    public List<string> GetConnections(LBSTile tile)
+    {
+        var p = GetPair(tile);
+        return p.Connections;
     }
 
     public void RemoveTile(LBSTile tile)
