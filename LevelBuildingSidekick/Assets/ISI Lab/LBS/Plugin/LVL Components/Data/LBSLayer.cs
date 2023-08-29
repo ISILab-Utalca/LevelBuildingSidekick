@@ -10,6 +10,8 @@ using LBS.Settings;
 using LBS.Generator;
 using LBS.Behaviours;
 using LBS.Assisstants;
+using UnityEngine.EventSystems;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 namespace LBS.Components
 {
@@ -191,6 +193,13 @@ namespace LBS.Components
         #endregion
 
         #region  METHODS
+        public void ReplaceModule(LBSModule oldModule, LBSModule newModule)
+        {
+            var index = modules.IndexOf(oldModule);
+            RemoveModule(oldModule);
+            modules.Insert(index, newModule);
+            //this.OnChanged?.Invoke(this);
+        }
         public void Reload()
         {
             foreach (var module in modules)
@@ -231,7 +240,7 @@ namespace LBS.Components
             }
 
             this.behaviours.Add(behaviour);
-            behaviour.OnAdd(this);
+            behaviour.Owner = this;
 
             var reqModules = behaviour.GetRequieredModules();
             foreach (var type in reqModules)
@@ -243,6 +252,8 @@ namespace LBS.Components
                     this.AddModule(Activator.CreateInstance(type) as LBSModule);
                 }
             }
+
+            behaviour.OnAdd(this);
         }
 
         public void RemoveBehaviour(LBSBehaviour behaviour)
@@ -270,6 +281,19 @@ namespace LBS.Components
 
             this.assitants.Add(assistant);
             assistant.Owner = this;
+
+            var reqModules = assistant.GetRequieredModules();
+            foreach (var type in reqModules)
+            {
+                // aqui podria ser importante preguntar por una key en particular por si
+                // existen dos modulos del mismo tipo pero para cosas diferetnes (!!)
+                if (!modules.Any(e => e.GetType() == type))
+                {
+                    this.AddModule(Activator.CreateInstance(type) as LBSModule);
+                }
+            }
+
+            assistant.OnAdd(this);
         }
 
         public bool RemoveAssitant(LBSAssistant assistant)
@@ -341,6 +365,16 @@ namespace LBS.Components
         public LBSModule GetModule(int index)
         {
             return modules[index];
+        }
+
+        public LBSModule GetModule(string ID)
+        {
+            foreach (var module in modules)
+            {
+                if(module.ID == ID)
+                    return module;
+            }
+            return null;
         }
 
         public T GetModule<T>(string ID = "") where T : LBSModule
