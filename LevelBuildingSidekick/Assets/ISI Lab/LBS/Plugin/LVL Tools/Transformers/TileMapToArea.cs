@@ -9,8 +9,10 @@ using LBS.Components;
 
 namespace LBS.Tools.Transformer
 {
-    public class TileMapToArea : Transformer
+    [Obsolete("Los trasformar ya no suan devido a que la implentacion no era trivial")]
+    public class TileMapToArea //: Transformer
     {
+        /*
         AreaModule<Area> areaModule;
         TileMapModule tileMap;
 
@@ -123,6 +125,7 @@ namespace LBS.Tools.Transformer
         {
             throw new NotImplementedException();
         }
+        */
     }
 }
 
