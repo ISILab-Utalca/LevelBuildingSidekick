@@ -25,7 +25,7 @@ public class AddTaggedTile : ManipulateTaggedTileMap
             for (int j = min.y; j <= max.y; j++)
             {
                 var pos = new Vector2Int(i, j);
-                var t = new LBSTile(pos, "Tile: " + pos);
+                var t = new LBSTile(pos);//, "Tile: " + pos);
                 module.AddTile(t, bundleToSet);
             }
         }
