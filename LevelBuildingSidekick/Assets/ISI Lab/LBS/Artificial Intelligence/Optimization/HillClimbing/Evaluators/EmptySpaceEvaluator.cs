@@ -1,4 +1,5 @@
 ﻿using Commons.Optimization.Evaluator;
+using LBS.Components;
 using LBS.Components.Graph;
 using LBS.Components.Specifics;
 using LBS.Components.TileMap;
@@ -9,22 +10,28 @@ using UnityEngine.UIElements;
 
 public class EmptySpaceEvaluator : IEvaluator
 {
+    private LBSLayer original;
 
-    public EmptySpaceEvaluator() { }
+    public EmptySpaceEvaluator(LBSLayer layer)
+    {
+        this.original = layer;
+    }
 
     public float Evaluate(IOptimizable evaluable)
     {
-        var schema = (evaluable as OptimizableSchema).Schema;
+        var layer = (evaluable as OptimizableModules).Modules;
+        var zones = layer.GetModule<SectorizedTileMapModule>();
 
-        if(schema.AreaCount <= 0)
+        if(zones.ZonesWithTiles.Count <= 0)
         {
             return 0;
         }
 
-        return schema.Areas.Average((r) => 
-        { 
-            var rect = r.GetBounds(); 
-            return r.TileCount / (float)(rect.width * rect.height); 
+        return zones.ZonesWithTiles.Average((z) => 
+        {
+            var tiles = zones.GetTiles(z);
+            var rect = tiles.GetBounds(); 
+            return tiles.Count / (float)(rect.width * rect.height); 
         });
     }
 
