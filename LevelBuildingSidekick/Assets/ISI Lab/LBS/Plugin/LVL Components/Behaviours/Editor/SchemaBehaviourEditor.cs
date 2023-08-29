@@ -34,15 +34,6 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
     {
         this.schema = target as SchemaBehaviour;
 
-        /*
-        this.addSchemaTile = new AddSchemaTile();
-        manipulators.Add(addSchemaTile);
-        manipulators.Add(new RemoveSchemaTile());
-        manipulators.Add(new AddAreaConnection());
-        manipulators.Add(new RemoveAreaConnection());
-        manipulators.Add(new SetTileConnection());
-        */
-
         CreateVisualElement();
     }
 
@@ -80,45 +71,6 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
         var t4 = new LBSTool(icon,"Clean connection", removeTileConnection);
         t4.Init(schema.Owner, schema);
         toolKit.AddTool(t4);
-
-
-        /*
-        icon = Resources.Load<Texture2D>("Icons/AddConnection");
-        var t2 = new LBSTool(icon, "Add connection", new CreateNewConnection<RoomNode>());
-        toolKit.AddTool(t2);
-
-        icon = Resources.Load<Texture2D>("Icons/Trash");
-        var t3 = new LBSTool(icon, "Remove Node", new RemoveGraphNode<RoomNode>());
-        toolKit.AddTool(t3);
-
-        icon = Resources.Load<Texture2D>("Icons/Trash");
-        var t4 = new LBSTool(icon, "Remove Connection", new RemoveGraphConnection());
-        toolKit.AddTool(t4);
-        */
-
-        //icon = Resources.Load<Texture2D>("Icons/paintbrush");
-        //this.addTileToTiledArea = new AddTileToTiledArea<TiledArea, ConnectedTile>();
-        //var tool6 = new LBSTool(icon, "Paint tile", addTileToTiledArea);
-        //toolKit.AddTool(tool6);
-
-        /*
-        icon = Resources.Load<Texture2D>("Icons/erased");
-        var tool7 = new LBSTool(icon,"Erase",
-            new RemoveTile<TiledArea, ConnectedTile>(), // Removed<TiledArea<LBSTile>, LBSTile>,
-            null
-        );
-
-        icon = Resources.Load<Texture2D>("Icons/open-exit-door");
-        var tool8 = new LBSTool(icon, "Add door", new AddDoor<TiledArea, ConnectedTile>());
-
-        icon = Resources.Load<Texture2D>("Icons/erased");
-        var tool9 = new LBSTool(
-            icon,
-            "Remove door",
-            typeof(RemoveDoor<TiledArea, ConnectedTile>), //typeof(RemoveDoor<TiledArea,ConnectedTile>),
-            null,
-            true);
-        */
     }
 
     public override void ContextMenu(ContextualMenuPopulateEvent evt)
@@ -132,8 +84,7 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
 
     public override void SetInfo(object target)
     {
-
-
+        throw new System.NotImplementedException();
     }
 
     protected override VisualElement CreateVisualElement()
