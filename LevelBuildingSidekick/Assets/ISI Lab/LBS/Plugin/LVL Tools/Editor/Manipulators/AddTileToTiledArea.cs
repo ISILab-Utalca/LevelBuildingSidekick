@@ -35,11 +35,13 @@ public class AddTileToTiledArea<T,U> : ManipulateTiledArea<T, U> where T : Tiled
         {
             for (int j = min.y; j <= max.y; j++)
             {
+                /*
                 var tile = Activator.CreateInstance(typeof(U)) as U;
                 tile.Position = new Vector2Int(i, j);
                 tile.ID = areaToSet.ID;
                 this.module.AddTile(areaToSet.ID,tile);
                 (tile as ConnectedTile).SetConnections("Wall", "Wall", "Wall", "Wall");
+                */
 
             }
         }
