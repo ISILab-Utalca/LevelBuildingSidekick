@@ -24,7 +24,7 @@ public class PopulationBehaviour : LBSBehaviour
     #region METHODS
     public void AddTile(Vector2Int position, Bundle bundle)
     {
-        var tile = new LBSTile(position, "Tile: " + position.ToString());
+        var tile = new LBSTile(position);//, "Tile: " + position.ToString());
         tileMap.AddTile(tile);
         bundleTileMap.AddTile(tile, new BundleData(bundle));
 
@@ -34,7 +34,7 @@ public class PopulationBehaviour : LBSBehaviour
 
     public void AddTile(Vector2Int position, BundleData bundle)
     {
-        var tile = new LBSTile(position, "Tile: " + position.ToString());
+        var tile = new LBSTile(position);//, "Tile: " + position.ToString());
         tileMap.AddTile(tile);
         bundleTileMap.AddTile(tile, bundle);
 
