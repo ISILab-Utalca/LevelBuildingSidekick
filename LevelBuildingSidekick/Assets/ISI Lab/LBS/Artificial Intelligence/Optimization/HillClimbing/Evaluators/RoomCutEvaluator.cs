@@ -1,4 +1,5 @@
 using Commons.Optimization.Evaluator;
+using LBS.Components;
 using LBS.Components.Graph;
 using LBS.Components.Specifics;
 using LBS.Components.TileMap;
@@ -10,35 +11,29 @@ using UnityEngine.UIElements;
 
 public class RoomCutEvaluator : IEvaluator
 {
-    private readonly List<Vector2Int> dirs = new List<Vector2Int>()
-    {
-        Vector2Int.up,
-        Vector2Int.right,
-        Vector2Int.down,
-        Vector2Int.left
-    };
+    LBSLayer original;
 
-    LBSRoomGraph graph;
+    private readonly List<Vector2Int> dirs = Directions.Bidimencional.Edges;
 
     Vector2 delta;
 
-    public RoomCutEvaluator() { }
-
-    public RoomCutEvaluator(LBSRoomGraph graph)
+    public RoomCutEvaluator(LBSLayer layer)
     {
-        this.graph = graph;
+        this.original = layer;
     }
 
     public float Evaluate(IOptimizable evaluable)
     {
-        var schema = (evaluable as OptimizableSchema).Schema;
-        var value = 0f;
-        for (int i = 0; i < graph.NodeCount; i++)
-        {
-            var node = graph.GetNode(i);
-            var room = schema.GetArea(node.ID);
+        var layer = (evaluable as OptimizableModules).Modules;
+        var zones = layer.GetModule<SectorizedTileMapModule>();
+        var tilesModule = layer.GetModule<TileMapModule>();
 
-            var tiles = room.Tiles;
+        var value = 0f;
+        for (int i = 0; i < zones.ZonesWithTiles.Count; i++)
+        {
+            var zone = zones.ZonesWithTiles[i];
+
+            var tiles = zones.GetTiles(zone);
             var check = new List<LBSTile>();
             var uncheck = new List<LBSTile>();
 
@@ -50,7 +45,7 @@ public class RoomCutEvaluator : IEvaluator
             do
             {
                 var current = uncheck.First();
-                var neis = room.Tiles;// GetTileNeighbors(current, dirs);
+                var neis = tilesModule.GetTileNeighbors(current,dirs); //room.Tiles;// GetTileNeighbors(current, dirs);
                 foreach (var nei in neis)
                 {
                     if (nei == null)
@@ -69,7 +64,7 @@ public class RoomCutEvaluator : IEvaluator
             value = (tiles.Count > check.Count) ? 0 : 1;
         }
 
-        return value / (float)graph.NodeCount;
+        return value / (float)zones.ZonesWithTiles.Count;
 
     }
 
