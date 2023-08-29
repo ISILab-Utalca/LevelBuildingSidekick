@@ -33,6 +33,8 @@ public class LBSLocalAssistants : LBSInspector
         this.content = this.Q<VisualElement>("Content");
         this.noContentPanel = this.Q<VisualElement>("NoContentPanel");
         this.contentAssist = this.Q<VisualElement>("ContentAssist");
+
+        toolkit = ToolKit.Instance;
     }
 
     public void SetInfo(LBSLayer target)
