@@ -10,6 +10,9 @@ using UnityEngine;
 [System.Serializable]
 public class SectorizedTileMapModule : LBSModule
 {
+    private List<Vector2Int> dirs = Directions.Bidimencional.Edges;
+    private List<Vector2Int> dirsDiag = Directions.Bidimencional.Diagonals;
+
     #region FIELDS
     [SerializeField, JsonRequired, SerializeReference]
     protected List<Zone> zones = new List<Zone>();
@@ -46,6 +49,31 @@ public class SectorizedTileMapModule : LBSModule
     #endregion
 
     #region METHODS
+    public void MoveArea(Zone zone, Vector2Int dir)
+    {
+        var tiles = GetTiles(zone);
+
+        var poss = new List<Vector2Int>();
+        foreach (var t in tiles)
+        {
+            t.Position += new Vector2Int(dir.x, dir.y);
+            poss.Add(t.Position + dir);
+        }
+
+        foreach (var otherZone in zones)
+        {
+            if (zone.ID != otherZone.ID)
+            {
+                var otherTiles = GetTiles(otherZone);
+
+                foreach (var t in otherTiles)
+                {   
+                    if(poss.Contains(t.Position))
+                        RemoveTile(t);
+                }
+            }
+        }
+    }
 
     public void AddTile(TileZonePair tile)
     {
@@ -133,14 +161,14 @@ public class SectorizedTileMapModule : LBSModule
         return new List<LBSTile>();
     }
 
-    public Rect GetZoneBounds(Zone zone)
+    public Rect GetBounds(Zone zone)
     {
         return GetTiles(zone).GetBounds();
     }
 
     public Vector2 ZoneCentroid(Zone zone)
     {
-        return GetZoneBounds(zone).center;
+        return GetBounds(zone).center;
     }
 
     private List<bool> CheckNeighborhood(Vector2Int position, List<Vector2> directions)
@@ -154,13 +182,13 @@ public class SectorizedTileMapModule : LBSModule
         return neighborhood;
     }
 
-    private List<Zone> CheckZonesInNeighborhood(Vector2Int position, List<Vector2> directions)
+    private List<Zone> CheckZonesInNeighborhood(Vector2Int position, List<Vector2Int> directions)
     {
         var neighborhood = new List<Zone>();
         for (int i = 0; i < directions.Count; i++)
         {
             var otherPos = position + directions[i];
-            var t = GetPairTile(otherPos.ToInt());
+            var t = GetPairTile(otherPos);
             if (t == null)
                 neighborhood.Add(null);
             else
@@ -178,6 +206,7 @@ public class SectorizedTileMapModule : LBSModule
         }
         return pairTiles.Select(t => t.Tile).GetBounds();
     }
+
 
     public override bool IsEmpty()
     {
@@ -222,7 +251,7 @@ public class SectorizedTileMapModule : LBSModule
         throw new System.NotImplementedException();
     }
 
-    private int NeighborhoodValue(Vector2Int position, List<Vector2> directions) // (!) el nombre es malisimo mejorar, esta tambien es de la clase de las tablas del gabo
+    private int NeighborhoodValue(Vector2Int position, List<Vector2Int> directions) // (!) el nombre es malisimo mejorar, esta tambien es de la clase de las tablas del gabo
     {
         var value = 0;
         var t = GetPairTile(position);
@@ -241,7 +270,7 @@ public class SectorizedTileMapModule : LBSModule
         return value;
     }
 
-    public bool IsConvexCorner(Vector2 pos, List<Vector2> directions)
+    public bool IsConvexCorner(Vector2 pos, List<Vector2Int> directions)
     {
         var s = NeighborhoodValue(pos.ToInt(), directions);
         if (s != 0)
@@ -252,7 +281,7 @@ public class SectorizedTileMapModule : LBSModule
         return false;
     }
 
-    public bool IsConcaveCorner(Vector2 pos, List<Vector2> directions)
+    public bool IsConcaveCorner(Vector2 pos, List<Vector2Int> directions)
     {
         var s = NeighborhoodValue(pos.ToInt(), directions);
         if (s == 1 || s == 2 || s == 4 || s == 8)
@@ -260,7 +289,7 @@ public class SectorizedTileMapModule : LBSModule
         return false;
     }
 
-    public bool IsWall(Vector2 pos, List<Vector2> directions)
+    public bool IsWall(Vector2 pos, List<Vector2Int> directions)
     {
         var s = NeighborhoodValue(pos.ToInt(), directions);
         if (s == 1 || s == 2 || s == 4 || s == 8)
@@ -269,54 +298,57 @@ public class SectorizedTileMapModule : LBSModule
 
     }
 
-    internal List<LBSTile> GetConvexCorners() // (??)  esto solo funciona para "4 conected", deberia estar en una clase aparte?, si en la clase de las tablas del gabo
+    internal List<LBSTile> GetConvexCorners(Zone zone) // (??)  esto solo funciona para "4 conected", deberia estar en una clase aparte?, si en la clase de las tablas del gabo
     {
-        var sideDir = new List<Vector2>() { Vector2.right, Vector2.up, Vector2.left, Vector2.down };
         var corners = new List<LBSTile>();
         foreach (var t in pairTiles)
         {
-            if (IsConvexCorner(t.Tile.Position, sideDir))
+            if (t.Zone != zone)
+                continue;
+
+            if (IsConvexCorner(t.Tile.Position, dirs))
             {
-                //corners.Add(t);
-                corners.Add(t.Clone() as LBSTile);
+                corners.Add(t.Tile);
+                //corners.Add(t.Clone() as LBSTile);
             }
         }
         return corners;
     }
 
-    internal List<LBSTile> GetConcaveCorners() // (!) Tambien es de la clase de las tablas del gabo 
+    internal List<LBSTile> GetConcaveCorners(Zone zone) // (!) Tambien es de la clase de las tablas del gabo 
     {
-        var diagDir = new List<Vector2>() { Vector2.right + Vector2.up, Vector2.up + Vector2.left, Vector2.left + Vector2.down, Vector2.down + Vector2.right };
-        var sideDir = new List<Vector2>() { Vector2.right, Vector2.up, Vector2.left, Vector2.down };
 
         var corners = new List<LBSTile>();
 
         foreach (var t in pairTiles)
         {
-            if (!IsConcaveCorner(t.Tile.Position, diagDir))
+            if (t.Zone != zone)
                 continue;
 
-            for (int i = 0; i < sideDir.Count; i++)
+            if (!IsConcaveCorner(t.Tile.Position, dirsDiag))
+                continue;
+
+            for (int i = 0; i < dirs.Count; i++)
             {
-                var other = GetPairTile((t.Tile.Position + sideDir[i]).ToInt());
+                var other = GetPairTile(t.Tile.Position + dirs[i]);
                 if (other == null)
                     continue;
-                if (IsWall(other.Tile.Position, sideDir))
+                if (IsWall(other.Tile.Position, dirs))
                 {
-                    //corners.Add(other);
-                    corners.Add(other.Clone() as LBSTile);
+                    corners.Add(other.Tile);
+                    //corners.Add(other.Clone() as LBSTile);
                 }
             }
         }
         return corners;
     }
 
-    internal List<WallData> GetVerticalWalls() // (!) Tambien es de la clase de las tablas del gabo 
+    internal List<WallData> GetVerticalWalls(Zone zone) // (!) Tambien es de la clase de las tablas del gabo 
     {
         var walls = new List<WallData>();
 
-        var convexCorners = GetConvexCorners();
-        var allCorners = GetConcaveCorners();
+        var convexCorners = GetConvexCorners(zone);
+        var allCorners = GetConcaveCorners(zone);
         allCorners.AddRange(convexCorners);
 
         foreach (var current in convexCorners)
@@ -362,12 +394,12 @@ public class SectorizedTileMapModule : LBSModule
         return walls;
     }
 
-    internal List<WallData> GetHorizontalWalls()
+    internal List<WallData> GetHorizontalWalls(Zone zone)
     {
         var walls = new List<WallData>();
 
-        var convexCorners = GetConvexCorners();
-        var allCorners = GetConcaveCorners();
+        var convexCorners = GetConvexCorners(zone);
+        var allCorners = GetConcaveCorners(zone);
         allCorners.AddRange(convexCorners);
 
         foreach (var current in convexCorners)
@@ -412,12 +444,47 @@ public class SectorizedTileMapModule : LBSModule
         return walls;
     }
 
-    public List<WallData> GetWalls()
+    public float GetRoomDistance(Zone r1, Zone r2) // O2 - manhattan
     {
-        var horizontal = GetHorizontalWalls();
-        var vertical = GetVerticalWalls();
+        var lessDist = float.MaxValue;
+
+        var tiles1 = GetTiles(r1);
+        var tiles2 = GetTiles(r2);
+
+        //var tileWalls1 = room1.GetWalls().SelectMany(x => x.Tiles).ToList();
+        //var tileWalls2 = room2.GetWalls().SelectMany(x => x.Tiles).ToList();
+
+        for (int i = 0; i < tiles1.Count; i++)
+        {
+            for (int j = 0; j < tiles2.Count; j++)
+            {
+                var dist = Vector2Int.Distance(tiles1[i].Position, tiles2[j].Position);
+                if (dist <= lessDist)
+                {
+                    lessDist = dist;
+                }
+            }
+        }
+
+        return lessDist;
+    }
+
+    public List<WallData> GetWalls(Zone zone)
+    {
+        var horizontal = GetHorizontalWalls(zone);
+        var vertical = GetVerticalWalls(zone);
 
         return horizontal.Concat(vertical).ToList();
+    }
+
+    internal Zone GetZone(string name)
+    {
+        foreach (var zone in zones)
+        {
+            if(zone.ID == name)
+                return zone;
+        }
+        return null;
     }
 
     #endregion
