@@ -115,14 +115,14 @@ public class LayerTemplateEditor : Editor
         // Behaviours
         var bhIcon = Resources.Load<Texture2D>("Icons/Select");
         var bh = new SchemaBehaviour(bhIcon, "Schema behaviour");
-        bh.OnAdd(layer);
         layer.AddBehaviour(bh);
+        //bh.OnAdd(layer);
 
         // Assistants
         var assIcon = Resources.Load<Texture2D>("Icons/Select");
         var ass = new HillClimbingAssistant(assIcon,"HillClimbing");
-        ass.OnAdd(layer);
         layer.AddAssistant(ass);
+        //ass.OnAdd(layer);
         
         // Generators
         layer.AddGeneratorRule(new SchemaRuleGenerator());
