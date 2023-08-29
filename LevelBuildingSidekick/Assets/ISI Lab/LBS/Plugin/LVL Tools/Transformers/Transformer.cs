@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 namespace LBS.Tools.Transformer
 {
     [System.Serializable]
+    [Obsolete("Los trasformar ya no suan devido a que la implentacion no era trivial")]
     public abstract class Transformer
     {
         [SerializeField]
