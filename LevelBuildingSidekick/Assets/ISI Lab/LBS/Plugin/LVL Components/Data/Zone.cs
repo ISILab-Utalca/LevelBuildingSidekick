@@ -59,7 +59,9 @@ public class Zone : ICloneable
 
     public object Clone()
     {
-        return new Zone(id, color);
+        var clone = CloneRefs.Get(this) as Zone;
+
+        return (clone != null)? clone : new Zone(id, color);
     }
 
     #endregion
