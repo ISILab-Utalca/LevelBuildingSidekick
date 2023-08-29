@@ -12,8 +12,19 @@ using UnityEditor;
 #endif
 
 [System.Serializable]
+[RequieredModule(typeof(TileMapModule),
+    typeof(ConnectedTileMapModule),
+    typeof(SectorizedTileMapModule),
+    typeof(ConnectedZonesModule))]
 public class SchemaRuleGenerator : LBSGeneratorRule
 {
+    private List<Vector2Int> Dirs = Directions.Bidimencional.Edges;
+    private List<Vector2Int> DirDiags = Directions.Bidimencional.Diagonals;
+
+    private ConnectedTileMapModule connectedTiles;
+    private SectorizedTileMapModule sectorized;
+    private ConnectedZonesModule connectedZones;
+
     private LBSSchema schema;
     private LBSRoomGraph graph;
 
@@ -198,7 +209,8 @@ public class SchemaRuleGenerator : LBSGeneratorRule
 
         var floor = CreateObject(bases[Random.Range(0, bases.Count)], pivot.transform);
 
-        for (int i = 0; i < tile.Sides; i++)
+        //for (int i = 0; i < tile.Sides; i++)
+        for (int i = 0; i < 4; i++)
         {
             var tag = tile.GetConnection(i);
             if (bundles.ContainsKey(tag))
