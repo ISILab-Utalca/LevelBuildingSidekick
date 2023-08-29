@@ -10,6 +10,7 @@ namespace LBS.Components.TileMap
 
 
     [System.Serializable]
+    [Obsolete("Ahora solo se utiliza LBStile")]
     public class ConnectedTile : LBSTile
     {
         public readonly List<Vector2Int> dirs = new List<Vector2Int>() {Vector2Int.right, Vector2Int.down, Vector2Int.left, Vector2Int.up };
@@ -30,12 +31,12 @@ namespace LBS.Components.TileMap
 
         #region CONSTRUCTOR
 
-        public ConnectedTile() : base ()
+        public ConnectedTile() : base (new Vector2(0,0))
         {
             this.connections = new List<string>();
         }
 
-        public ConnectedTile(Vector2 position, string id, int sides = 4, string[] connections = null) : base(position, id, sides)
+        public ConnectedTile(Vector2 position, string id, int sides = 4, string[] connections = null) : base(position)//, id, sides)
         {
             if (connections == null)
                 this.connections = new string[sides].ToList();
@@ -89,9 +90,9 @@ namespace LBS.Components.TileMap
 
         public override object Clone()
         {
-            return new ConnectedTile(this.Position, this.ID, this.sides, new List<string>(this.connections).ToArray());
+            
+            return new ConnectedTile(this.Position, " ", -1, new List<string>(this.connections).ToArray());
         }
-
         #endregion
     }
 }
