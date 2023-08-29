@@ -90,6 +90,7 @@ public class ConnectedZonesModule : LBSModule
 
     public override void OnAttach(LBSLayer layer)
     {
+
     }
 
     public override void OnDetach(LBSLayer layer)
