@@ -10,7 +10,6 @@ namespace LBS.Components
     public abstract class LBSModule : ICloneable
     {
         #region FIELDS
-
         [SerializeField, JsonRequired]
         protected string id;
 
@@ -21,8 +20,7 @@ namespace LBS.Components
         protected bool changed;
 
         [JsonIgnore, HideInInspector]
-        private LBSLayer _owner;
-
+        private LBSLayer owner;
         #endregion
 
         #region PROPERTIES
@@ -32,11 +30,11 @@ namespace LBS.Components
         {
             get
             {
-                return _owner;
+                return owner;
             }
             set
             {
-                _owner = value;
+                owner = value;
             }
         }
 
