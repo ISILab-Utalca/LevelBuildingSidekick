@@ -92,6 +92,14 @@ public class LBSLevelData
         this.OnChanged?.Invoke(this);
     }
 
+    public void ReplaceLayer(LBSLayer oldLayer,LBSLayer newLayer)
+    {
+        var index = layers.IndexOf(oldLayer);
+        RemoveLayer(oldLayer);
+        layers.Insert(index, newLayer);
+        this.OnChanged?.Invoke(this);
+    }
+
     public LBSLayer RemoveAt(int index)
     {
         var layer = layers[index];
