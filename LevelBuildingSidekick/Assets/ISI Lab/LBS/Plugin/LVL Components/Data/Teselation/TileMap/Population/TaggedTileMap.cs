@@ -1,3 +1,4 @@
+using LBS.Bundles;
 using LBS.Components;
 using LBS.Components.TileMap;
 using Newtonsoft.Json;
@@ -8,6 +9,7 @@ using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
+[Obsolete("??")]
 public class TaggedTileMap : LBSModule
 {
     [SerializeField, JsonRequired, SerializeReference]

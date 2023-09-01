@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Utility;
 using UnityEditor.UIElements;
+using LBS.Bundles;
 
 [CustomVisualElement(typeof(MinimizeDistance))]
 public class MinimizeDistanceVE : EvaluatorVE

@@ -1,5 +1,6 @@
 using LBS.Behaviours;
 using LBS.Components;
+using LBS.Settings;
 using LBS.VisualElements;
 using System;
 using System.Collections;
@@ -15,7 +16,7 @@ public class LBSLocalAssistants : LBSInspector
     public new class UxmlFactory : UxmlFactory<LBSLocalAssistants, VisualElement.UxmlTraits> { }
     #endregion
 
-    private Color colorAS = new Color(135f / 255f, 215f / 255f, 246f / 255f);
+    private readonly Color colorAS = LBSSettings.Instance.view.assitantsColor;// new Color(135f / 255f, 215f / 255f, 246f / 255f);
 
     private VisualElement content;
     private VisualElement noContentPanel;
@@ -46,7 +47,10 @@ public class LBSLocalAssistants : LBSInspector
         if(target.Assitants.Count <= 0)
         {
             noContentPanel.SetDisplay(true);
+            return;
         }
+
+        noContentPanel.SetDisplay(false);
 
         foreach (var assist in target.Assitants)
         {
@@ -75,26 +79,8 @@ public class LBSLocalAssistants : LBSInspector
 
 
             var content = new BehaviourContent(ve as LBSCustomEditor, assist.Name, assist.Icon, colorAS);
-            contentContainer.Add(content);
+            contentAssist.Add(content);
 
-            /*
-            var so = Utility.Reflection.MakeGenericScriptable(assist);
-            var editor = Editor.CreateEditor(so);
-
-            var cont = new VisualElement();
-            cont.style.backgroundColor = new Color(0, 0, 0, 0.1f);
-            cont.SetBorder(new Color(0, 0, 0, 0.6f), 1);
-            cont.SetBorderRadius(3);
-            cont.SetPaddings(4);
-
-            var inspector = new IMGUIContainer(() =>
-            {
-                editor.OnInspectorGUI();
-            });
-
-            cont.Add(inspector);
-            contentAssist.Add(cont);
-            */
         }
     }
 

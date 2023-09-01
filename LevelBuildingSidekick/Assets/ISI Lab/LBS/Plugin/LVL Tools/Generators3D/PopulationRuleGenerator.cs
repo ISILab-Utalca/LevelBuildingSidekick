@@ -7,6 +7,7 @@ using System.Linq;
 //using UnityEditor;
 using LBS.Components;
 using UnityEditor;
+using LBS.Bundles;
 
 namespace LBS.Generator
 {
@@ -57,7 +58,7 @@ namespace LBS.Generator
 
                 var pref = current.Assets[Random.Range(0, current.Assets.Count)];
 #if UNITY_EDITOR
-                var go = PrefabUtility.InstantiatePrefab(pref, parent.transform) as GameObject;
+                var go = PrefabUtility.InstantiatePrefab(pref.obj, parent.transform) as GameObject;
 #else
                 var go = GameObject.Instantiate(pref, parent.transform);
 #endif

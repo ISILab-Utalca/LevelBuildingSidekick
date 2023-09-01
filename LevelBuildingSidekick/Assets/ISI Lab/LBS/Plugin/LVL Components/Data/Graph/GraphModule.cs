@@ -5,10 +5,12 @@ using Newtonsoft.Json;
 using System.Linq;
 using LBS.Components.Specifics;
 using LBS.Components.TileMap;
+using System;
 
 namespace LBS.Components.Graph
 {
     [System.Serializable]
+    [Obsolete("obsolete")]
     public class GraphModule<T> : LBSModule where T : LBSNode //REVISAR CLASE PARA IMPLEMENTAR METODOS Y TIPO T (!!!)
     {
         #region FIELDS
@@ -333,7 +335,6 @@ namespace LBS.Components.Graph
         {
 
         }
-
         #endregion
     }
 

@@ -15,11 +15,11 @@ public class SectorizedTileMapModule : LBSModule
 
     #region FIELDS
     [SerializeField, JsonRequired, SerializeReference]
-    protected List<Zone> zones = new List<Zone>();
+    private List<Zone> zones = new List<Zone>();
 
 
     [SerializeField, JsonRequired, SerializeReference]
-    protected List<TileZonePair> pairTiles = new List<TileZonePair>();
+    private List<TileZonePair> pairTiles = new List<TileZonePair>();
     #endregion
 
     #region PROPERTIES
@@ -143,7 +143,7 @@ public class SectorizedTileMapModule : LBSModule
         return pairTiles.Any(t => t.Tile.Equals(tile));
     }
 
-    public Zone InZone(LBSTile tile)
+    public Zone GetZone(LBSTile tile)
     {
         var p = GetPairTile(tile);
         if (p == null)
@@ -386,7 +386,7 @@ public class SectorizedTileMapModule : LBSModule
             {
                 wallTiles.Add(new Vector2Int(current.Position.x, start + i));
             }
-            var dir = (current.Position.x >= ZoneCentroid(InZone(current)).x) ? Vector2Int.right : Vector2Int.left;
+            var dir = (current.Position.x >= ZoneCentroid(GetZone(current)).x) ? Vector2Int.right : Vector2Int.left;
 
             var wall = new WallData(this.id, dir, wallTiles);
             walls.Add(wall);
@@ -437,7 +437,7 @@ public class SectorizedTileMapModule : LBSModule
             {
                 wallTiles.Add(new Vector2Int(start + i, current.Position.y));
             }
-            var dir = (current.Position.y >= ZoneCentroid(InZone(current)).y) ? Vector2Int.up : Vector2Int.down;
+            var dir = (current.Position.y >= ZoneCentroid(GetZone(current)).y) ? Vector2Int.up : Vector2Int.down;
             var wall = new WallData(this.id, dir, wallTiles);
             walls.Add(wall);
         }

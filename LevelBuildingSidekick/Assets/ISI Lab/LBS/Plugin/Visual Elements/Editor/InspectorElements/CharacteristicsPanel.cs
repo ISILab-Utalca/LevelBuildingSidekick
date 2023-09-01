@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 using UnityEditor;
 using System.Linq;
 using System;
+using LBS.Bundles;
 
 public class CharacteristicsPanel : VisualElement
 {

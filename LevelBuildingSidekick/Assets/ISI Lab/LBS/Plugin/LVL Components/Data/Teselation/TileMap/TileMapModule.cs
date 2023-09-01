@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 namespace LBS.Components.TileMap
 {
     [System.Serializable]
-    public class TileMapModule : LBSModule
+    public class TileMapModule : LBSModule , ISelectable
     {
         #region FIELDS
         [SerializeField, JsonRequired, SerializeReference]
@@ -87,10 +87,6 @@ namespace LBS.Components.TileMap
         #endregion
 
         #region METHODS
-
-
-
-
         public virtual bool AddTile(LBSTile tile)
         {
             var t = GetTile(tile.Position);
@@ -279,6 +275,19 @@ namespace LBS.Components.TileMap
         public override void Reload(LBSLayer layer)
         {
             Owner = layer;
+        }
+
+        public List<object> GetSelected(Vector2Int position)
+        {
+            var r = new List<object>();
+            var tile = GetTile(position);
+            
+            if (tile != null)
+            {
+                r.Add(tile);
+            }
+
+            return r;
         }
 
         /*

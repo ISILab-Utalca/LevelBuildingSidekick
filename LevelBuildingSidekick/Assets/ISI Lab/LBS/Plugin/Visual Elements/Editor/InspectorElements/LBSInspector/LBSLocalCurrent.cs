@@ -1,18 +1,25 @@
 using LBS.Behaviours;
 using LBS.Components;
+using LBS.Settings;
+using LBS.VisualElements;
+using NUnit.Framework.Internal;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class LBSLocalCurrent : LBSInspector
+public class LBSLocalCurrent : LBSInspector, IToolProvider
 {
     #region FACTORY
     public new class UxmlFactory : UxmlFactory<LBSLocalCurrent, VisualElement.UxmlTraits> { }
     #endregion
+
+    private LBSLayer layer;
+    private UnityEngine.Color colorCurrent => LBSSettings.Instance.view.behavioursColor;
 
     public VisualElement currentContent;
 
@@ -21,7 +28,7 @@ public class LBSLocalCurrent : LBSInspector
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSLocalCurrent");
         visualTree.CloneTree(this);
 
-        LBSEvents.OnSelectElementInWorkSpace += SetCurrentInfo;
+        //LBSEvents.OnSelectElementInWorkSpace += SetCurrentInfo;
 
         currentContent = this.Q<VisualElement>("CurrentContent");
     }
@@ -45,6 +52,18 @@ public class LBSLocalCurrent : LBSInspector
 
     public void SetInfo(LBSLayer target)
     {
+        // SetLayer reference
+        this.layer = target;
+
+        // Set basic Tool
+        SetTools(ToolKit.Instance);
+
+        currentContent.Clear();
+        foreach (var module in target.Modules)
+        {
+
+        }
+
         /*
         contentContainer.Clear();
         foreach(var b in target.Behaviours)
@@ -104,5 +123,49 @@ public class LBSLocalCurrent : LBSInspector
     public override void OnLayerChange(LBSLayer layer)
     {
         SetInfo(layer);
+    }
+
+    public void SetTools(ToolKit toolkit)
+    {
+        var icon = Resources.Load<Texture2D>("Icons/Select");
+        var selectTool = new Select();
+        var t1 = new LBSTool(icon, "Select", selectTool);
+        t1.Init(layer, this);
+        ToolKit.Instance.AddTool(t1);
+    }
+
+    public void SetSelectedVE(List<object> objs)
+    {
+        // Clear previous view
+        currentContent.Clear();
+
+        foreach (var obj in objs)
+        {
+            // Get type of element
+            var type = obj.GetType();
+
+            // Get the editors of the selectable elements
+            var ves = Utility.Reflection.GetClassesWith<LBSCustomEditorAttribute>()
+                    .Where(t => t.Item2.Any(v => v.type == type)).ToList();
+
+            if (ves.Count <= 0)
+            {
+                // Add basic label if no have specific editor
+                currentContent.Add(new Label("'"+type+ "' does not contain a visualization."));
+                continue;
+            }
+
+            // Get editor class
+            var edtr = ves.First().Item1;
+
+            // Instantiate editor class
+            var ve = Activator.CreateInstance(edtr) as LBSCustomEditor;
+
+            // set target info on visual element
+            ve.SetInfo(obj);
+
+            // Add custom editor
+            currentContent.Add(ve as VisualElement);
+        }
     }
 }

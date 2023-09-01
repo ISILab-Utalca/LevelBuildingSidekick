@@ -3,6 +3,7 @@ using UnityEngine;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
+using LBS.Bundles;
 
 namespace LBS.Components.TileMap
 {

@@ -7,6 +7,9 @@ using LBS.Components.Graph;
 using LBS.Components.TileMap;
 using LBS.Components.Specifics;
 using System.Linq;
+using UnityEngine.UIElements;
+using static UnityEditor.Experimental.GraphView.GraphView;
+using LBS.Bundles;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -18,18 +21,38 @@ using UnityEditor;
     typeof(ConnectedZonesModule))]
 public class SchemaRuleGenerator : LBSGeneratorRule
 {
-    private List<Vector2Int> Dirs = Directions.Bidimencional.Edges;
-    private List<Vector2Int> DirDiags = Directions.Bidimencional.Diagonals;
+    #region FIELDS
+    private float deltaWall = 1;
+    #endregion
 
-    private ConnectedTileMapModule connectedTiles;
-    private SectorizedTileMapModule sectorized;
-    private ConnectedZonesModule connectedZones;
+    #region INTERNAL FIELDS
+    private TileMapModule tilesMod;
+    private ConnectedTileMapModule connectedTilesMod;
+    private SectorizedTileMapModule zonesMod;
+    private Generator3D.Settings settings;
+    #endregion
 
-    private LBSSchema schema;
-    private LBSRoomGraph graph;
+    #region PPROPERTIES
+    private List<Vector2Int> Dirs => Directions.Bidimencional.Edges;
+    private List<Vector2Int> DirDiags => Directions.Bidimencional.Diagonals;
+    #endregion
+
+    #region CONSTRUCTORS
+    public SchemaRuleGenerator() { }
+    #endregion
+
+    #region METHODS
+    public void Init(LBSLayer layer, Generator3D.Settings settings)
+    {
+        this.tilesMod = layer.GetModule<TileMapModule>();
+        this.connectedTilesMod = layer.GetModule<ConnectedTileMapModule>();
+        this.zonesMod = layer.GetModule<SectorizedTileMapModule>();
+        this.settings = settings;
+    }
 
     public override bool CheckIfIsPosible(LBSLayer layer, out string msg)
     {
+        /*
         msg = "";
 
         var schema = layer.GetModule<LBSSchema>();
@@ -44,6 +67,8 @@ public class SchemaRuleGenerator : LBSGeneratorRule
             msg = "The layer does not contain any module corresponding to 'LBSRoomGraph'.";
             return false;
         }
+        */
+        msg = "";
         return true;
     }
 
@@ -52,17 +77,122 @@ public class SchemaRuleGenerator : LBSGeneratorRule
         return new SchemaRuleGenerator();
     }
 
-    public override GameObject Generate(LBSLayer layer, Generator3D.Settings settings)
-    {   
-        schema = layer.GetModule<LBSSchema>();
-        graph = layer.GetModule<LBSRoomGraph>();
+    private GameObject GenerateCenters(GameObject pivot ,List<Bundle> bundles)
+    {
+        // Get "Center" bundles 
+        var currents = new List<Bundle>();
+        foreach (var bundle in bundles)
+        {
+            currents = bundle.GetChildrensByTag("Center");
+        }
 
+        // Get random bundle
+        var current = currents.Random();
+
+        // Get random by weight
+        var pref = current.Assets.RandomRullete(a => a.probability).obj;
+        
+        // Create part
+        CreateObject(pref, pivot.transform);
+
+        return pivot;
+    }
+
+    private GameObject GenerateEdges(GameObject pivot, List<Bundle> bundles, List<string> connections)
+    {
+        // Get "Edge" bundles
+        var currents = new List<Bundle>();
+        foreach (var bundle in bundles)
+        {
+            currents = bundle.GetChildrensByTag("Edge");
+        }
+
+        for (var i = 0;i < connections.Count; i++)
+        {
+            // Get random bundle with respctive "connection tag"
+            var current = currents.Where(b => b.ID.Label == connections[i])
+                                .ToList().Random();
+
+            // Get random by weight
+            var pref = current.Assets.RandomRullete(a => a.probability).obj;
+
+            // Create part
+            var obj = CreateObject(pref, pivot.transform);
+
+            // Set rotation orientation
+            obj.transform.rotation = Quaternion.Euler(0, (90 * i) % 360, 0);
+
+            // Set delta position
+            obj.transform.position = new Vector3(
+                settings.scale.x * obj.transform.forward.x,
+                0,
+                settings.scale.y * obj.transform.forward.y) * deltaWall;
+
+        }
+
+        return pivot;
+    }
+
+    private GameObject GenerateCorners(GameObject pivot, List<Bundle> bundles)
+    {
+        var currents = new List<Bundle>();
+        foreach (var bundle in bundles)
+        {
+            currents = bundle.GetChildrensByTag("Corner");
+        }
+
+        var current = currents.Random();
+        var pref = current.Assets.RandomRullete(a => a.probability).obj;
+
+        return pivot;
+    }
+
+    public override GameObject Generate(LBSLayer layer, Generator3D.Settings settings)
+    {
+        // Init values
+        Init(layer, settings);
+
+        // Get bundles
+        var allBundles = LBSAssetsStorage.Instance.Get<Bundle>().Where(b => !b.isPreset).ToList();
+        var rootBundles = allBundles.Where(b => b.IsRoot()).ToList();
+
+        // Create pivot
         var mainPivot = new GameObject("Schema");
 
-        var allBundles = LBSAssetsStorage.Instance.Get<Bundle>().Where(b => !b.isPreset).ToList(); // obtengo todos los bundles
-        var rootBundles = allBundles.Where(b => b.IsRoot()).ToList();// obtengo todos los bundles root
+        foreach (var tile in tilesMod.Tiles)
+        {
+            // Get zone
+            var zone = zonesMod.GetZone(tile);
 
+            // Get bundle from current tile
+            var bundles = zone.GetBundles();
 
+            // Get connections
+            var connections = connectedTilesMod.GetConnections(tile);
+
+            //Generate tile
+            var tileObj = new GameObject(tile.Position.ToString());
+
+            // Add pref part to pivot
+            GenerateCenters(tileObj, bundles);
+            GenerateEdges(tileObj, bundles, connections);
+            GenerateCorners(tileObj, bundles);
+
+            // Set position
+            tileObj.transform.position =
+                settings.position +
+                new Vector3(settings.scale.x, 0, settings.scale.y) +
+                new Vector3(tile.Position.x, 0, tile.Position.y) +
+                (new Vector3(settings.scale.x, 0, settings.scale.y) / 2f);
+
+            // Set mainPivot as the parent of tileObj
+            tileObj.transform.parent = mainPivot.transform;
+
+        }
+
+        return mainPivot;
+
+        /*
         var aaas = new List<int>() { -1, 0, 1 };
         //for (int aa = 0; aa < aaas.Count; aa++)
         {
@@ -137,11 +267,20 @@ public class SchemaRuleGenerator : LBSGeneratorRule
                     //mainPivot.transform.position = position;
                 }
             }
-        }
+        }*/
 
-        return mainPivot;
     }
 
+    private GameObject CreateObject(GameObject pref, Transform pivot)
+    {
+#if UNITY_EDITOR
+        var obj = PrefabUtility.InstantiatePrefab(pref, pivot) as GameObject;
+#else
+        var obj =  GameObject.Instantiate(pref, pivot);
+#endif
+        return obj;
+    }
+    /*
     private void BuildCorner(TiledArea area ,ConnectedTile tile, Dictionary<string, List<GameObject>> bundles, Transform parent, Generator3D.Settings settings, int fff, int ddd, int aaa)
     {
         var scale = settings.scale;
@@ -234,15 +373,7 @@ public class SchemaRuleGenerator : LBSGeneratorRule
         pivot.transform.position = new Vector3(scale.x * tile.Position.x, 0, -scale.y * tile.Position.y) + new Vector3(scale.x, 0, -scale.y) / 2;
     }
     
-    private GameObject CreateObject(GameObject pref, Transform pivot)
-    {
-#if UNITY_EDITOR
-        var obj = PrefabUtility.InstantiatePrefab(pref, pivot) as GameObject;
-#else
-        var obj =  GameObject.Instantiate(pref, pivot);
-#endif
-        return obj;
-    }
+
 
     private GameObject FixOrientation(GameObject obj, Vector2 dir, Vector2 scale, int rotation)
     {
@@ -257,5 +388,6 @@ public class SchemaRuleGenerator : LBSGeneratorRule
         obj.transform.position += new Vector3(dir.x * (scale.x / 2), 0, -dir.y * (scale.y / 2));
         obj.transform.rotation = Quaternion.Euler(0, (ddd * (90 * (rotation + aaa)) % 360) + fff, 0); // -90 * (r + 1) los numeros son parche de la direnecia de orden de las direcciones (!)
         return obj;
-    }
+    }*/
+    #endregion
 }

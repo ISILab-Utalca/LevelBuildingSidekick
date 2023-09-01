@@ -9,7 +9,7 @@ using UnityEngine.UIElements;
 
 public interface IToolProvider
 {
-    public void SetTools(ToolKit group);
+    public void SetTools(ToolKit toolkit);
 }
 
 [System.Serializable]

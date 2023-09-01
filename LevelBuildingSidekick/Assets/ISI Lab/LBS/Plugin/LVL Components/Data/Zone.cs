@@ -1,7 +1,10 @@
+using LBS.Bundles;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 [System.Serializable]
@@ -16,6 +19,9 @@ public class Zone : ICloneable
     [SerializeField, JsonRequired, JsonConverter(typeof(Vector2))]
     protected Vector2 pivot;
 
+    [ScriptableObjectReference(typeof(LBSIdentifier), "Interior Styles")]
+    [SerializeField, JsonRequired]
+    private List<string> tagsBundles = new List<string>();
     #endregion
 
     #region PROPERTIES
@@ -41,6 +47,12 @@ public class Zone : ICloneable
         set => pivot = value;
     }
 
+    [JsonIgnore]
+    public List<string> TagsBundles
+    {
+        get => tagsBundles;
+        set => tagsBundles = value;
+    }
     #endregion
 
     #region CONSTRUCTORS
@@ -65,4 +77,18 @@ public class Zone : ICloneable
     }
 
     #endregion
+}
+
+public static class ZoneExtension
+{
+    public static List<Bundle> GetBundles(this Zone zone)
+    {
+        var bundles = new List<Bundle>();
+        var allBundles = LBSAssetsStorage.Instance.Get<Bundle>().Where(b => !b.isPreset).ToList();
+        foreach (var tags in zone.TagsBundles)
+        {
+            bundles.Add( allBundles.Find(b => b.ID.Label == tags));
+        }
+        return bundles;
+    }
 }

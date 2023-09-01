@@ -1,3 +1,4 @@
+using LBS.Bundles;
 using LBS.Settings;
 using System.Collections;
 using System.Collections.Generic;
@@ -89,13 +90,13 @@ public class GeneralBundlesPanel : VisualElement
 
         assetsList.Q<Button>("unity-list-view__add-button").clicked += () =>
         {
-            target.Assets = assetsList.itemsSource.Cast<GameObject>().ToList();
+            target.Assets = assetsList.itemsSource.Cast<Asset>().ToList();
             AssetDatabase.SaveAssets();
         };
 
         assetsList.Q<Button>("unity-list-view__remove-button").clicked += () =>
         {
-            target.Assets = assetsList.itemsSource.Cast<GameObject>().ToList();
+            target.Assets = assetsList.itemsSource.Cast<Asset>().ToList();
             AssetDatabase.SaveAssets();
         };
     }
@@ -118,7 +119,7 @@ public class GeneralBundlesPanel : VisualElement
         field.RegisterValueChangedCallback((value) =>
         {
             assetsList.itemsSource[index] = value.newValue;
-            target.Assets = assetsList.itemsSource.Cast<GameObject>().ToList();
+            target.Assets = assetsList.itemsSource.Cast<Asset>().ToList();
             AssetDatabase.SaveAssets();
         });
 

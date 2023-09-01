@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Newtonsoft.Json;
+using LBS.Bundles;
 
 /// <summary>
 /// Requiere que las cosas que hereden de el tengan un contructor por defecto sin parametros

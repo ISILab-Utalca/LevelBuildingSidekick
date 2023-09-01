@@ -38,7 +38,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 7477dcc07dbd7bc429215a7a9891a779, type: 2}
     - {fileID: 11400000, guid: 94b707ea81720694d8e3ac214351af91, type: 2}
     - {fileID: 11400000, guid: 676b2525bf31dc6439be198604391b79, type: 2}
-  - type: Bundle
+  - type: LBS.Bundles.Bundle
     items:
     - {fileID: 11400000, guid: c0e28f3a70727474a81b860669e32870, type: 2}
     - {fileID: 11400000, guid: c61b774ce5ee4c640b93988da7937edc, type: 2}

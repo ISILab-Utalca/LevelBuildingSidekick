@@ -5,6 +5,7 @@ using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using UnityEditor;
 using UnityEngine;
+using LBS.Bundles;
 
 [CustomVisualElement(typeof(SamplePresence))]
 public class SamplePresenceVE : EvaluatorVE

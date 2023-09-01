@@ -62,7 +62,6 @@ public class ConstrainsZonesModule : LBSModule
         }
     }
 
-
     public override void Print()
     {
         throw new System.NotImplementedException();
@@ -90,7 +89,7 @@ public class ConstrainsZonesModule : LBSModule
 
     public override void Reload(LBSLayer layer)
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 
     public override void OnAttach(LBSLayer layer)
@@ -108,7 +107,6 @@ public class ConstrainsZonesModule : LBSModule
         throw new System.NotImplementedException();
     }
     #endregion
-
 }
 
 

@@ -16,16 +16,22 @@ public class LBSLocalBehaviours : LBSInspector
     public new class UxmlFactory : UxmlFactory<LBSLocalBehaviours, VisualElement.UxmlTraits> { }
     #endregion
 
-    private Color colorBH;
+    #region FIELDS
+    private LBSLayer target;
+    #endregion
 
+    #region VIEW FIELDS
     private VisualElement content;
     private VisualElement noContentPanel;
     private VisualElement contentBehaviour;
+    #endregion
 
-    private LBSLayer target;
+    #region PROPERTIES
+    private Color ColorBH => LBSSettings.Instance.view.behavioursColor;
+    private ToolKit toolkit => ToolKit.Instance;
+    #endregion
 
-    private ToolKit toolkit;
-
+    #region CONSTRUCTORS
     public LBSLocalBehaviours()
     {
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSLocalBehaviours");
@@ -34,12 +40,10 @@ public class LBSLocalBehaviours : LBSInspector
         content = this.Q<VisualElement>("Content");
         this.noContentPanel = this.Q<VisualElement>("NoContentPanel");
         this.contentBehaviour = this.Q<VisualElement>("ContentBehaviour");
-
-        colorBH = LBSSettings.Instance.view.behavioursColor;
-
-        toolkit = ToolKit.Instance;
     }
+    #endregion
 
+    #region METHODS
     public void SetInfo(LBSLayer target)
     {
         contentBehaviour.Clear();
@@ -79,8 +83,7 @@ public class LBSLocalBehaviours : LBSInspector
                 ((IToolProvider)ve).SetTools(toolkit);
             }
 
-
-            var content = new BehaviourContent(ve as LBSCustomEditor, behaviour.Name, behaviour.Icon, colorBH);
+            var content = new BehaviourContent(ve as LBSCustomEditor, behaviour.Name, behaviour.Icon, ColorBH);
             contentBehaviour.Add(content);
 
         }
@@ -89,6 +92,7 @@ public class LBSLocalBehaviours : LBSInspector
     public override void Init(List<IManipulatorLBS> lBSManipulators, MainView view, LBSLayer layer, LBSBehaviour behaviour)
     {
 
+
     }
 
     public override void OnLayerChange(LBSLayer layer)
@@ -96,4 +100,5 @@ public class LBSLocalBehaviours : LBSInspector
         SetInfo(layer);
         toolkit.SetActive(0);
     }
+    #endregion
 }

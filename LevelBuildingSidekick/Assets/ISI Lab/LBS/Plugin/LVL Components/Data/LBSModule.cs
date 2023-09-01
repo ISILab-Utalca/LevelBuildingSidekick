@@ -6,6 +6,11 @@ using UnityEngine;
 
 namespace LBS.Components
 {
+    public interface ISelectable
+    {
+        public List<object> GetSelected(Vector2Int position);
+    }
+
     [System.Serializable]
     public abstract class LBSModule : ICloneable
     {
@@ -24,7 +29,6 @@ namespace LBS.Components
         #endregion
 
         #region PROPERTIES
-
         [JsonIgnore]
         public LBSLayer Owner
         {
@@ -69,11 +73,15 @@ namespace LBS.Components
         #endregion
 
         #region CONSTRUCTOR
+        public LBSModule() 
+        { 
+            ID = GetType().Name; 
+        }
 
-        public LBSModule() { ID = GetType().Name; }
-
-        public LBSModule(string key) { ID = key; }
-
+        public LBSModule(string key) 
+        { 
+            ID = key; 
+        }
         #endregion
 
         #region METHODS

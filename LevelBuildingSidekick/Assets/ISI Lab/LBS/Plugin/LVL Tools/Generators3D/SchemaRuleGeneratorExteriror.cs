@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using LBS.Bundles;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -93,16 +94,16 @@ public class SchemaRuleGeneratorExteriror : LBSGeneratorRule
                         var bundlesDictionary = new Dictionary<string, List<GameObject>>();
 
                         var wallBundles = childs.Where(b => b.ID.Label.Equals("Wall")).ToList(); // obtengo todos los bundles con la tag Wall
-                        bundlesDictionary.Add("Wall", wallBundles.SelectMany(b => b.Assets).ToList());
+                        bundlesDictionary.Add("Wall", wallBundles.SelectMany(b => b.Assets).ToList().Select(a => a.obj).ToList());
 
                         var doorBundles = childs.Where(b => b.ID.Label.Equals("Door")).ToList(); // obtengo todos los bundles con la tag Door
-                        bundlesDictionary.Add("Door", doorBundles.SelectMany(b => b.Assets).ToList());
+                        bundlesDictionary.Add("Door", doorBundles.SelectMany(b => b.Assets).ToList().Select(a => a.obj).ToList());
 
                         var floorBundles = childs.Where(b => b.ID.Label.Equals("Floor")); // obtengo todos los bundles con la tag Floor
-                        bundlesDictionary.Add("Floor", floorBundles.SelectMany(b => b.Assets).ToList());
+                        bundlesDictionary.Add("Floor", floorBundles.SelectMany(b => b.Assets).ToList().Select(a => a.obj).ToList());
 
                         var cornerBundles = childs.Where(b => b.ID.Label.Equals("Corner")).ToList(); // obtengo todos los bundles con la tag Corner
-                        bundlesDictionary.Add("Corner", cornerBundles.SelectMany(b => b.Assets).ToList());
+                        bundlesDictionary.Add("Corner", cornerBundles.SelectMany(b => b.Assets).ToList().Select(a => a.obj).ToList());
 
                         var area = schema.GetArea(node.ID);
                         for (int j = 0; j < area.TileCount; j++)

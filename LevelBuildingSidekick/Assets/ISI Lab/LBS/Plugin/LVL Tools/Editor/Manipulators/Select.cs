@@ -1,84 +1,54 @@
-using LBS.Behaviours;
 using LBS.Components;
-using LBS.Components.Graph;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Select : ClickSelector , IManipulatorLBS
+public class Select : LBSManipulator
 {
-    public Action OnManipulationStart;
-    public Action OnManipulationUpdate;
-    public Action OnManipulationEnd;
+    private LBSLayer layer;
+    private LBSLocalCurrent current;
 
-
-    public void Init(LBSLayer layer, LBSBehaviour behaviour)
+    public Select()
     {
+        // Unset feedback
+        feedback = null;
     }
 
-    protected override void RegisterCallbacksOnTarget()
+    public override void Init(LBSLayer layer, object provider)
     {
-        base.RegisterCallbacksOnTarget();
-        target.RegisterCallback<MouseDownEvent>(_OnMouseDown);
-        target.RegisterCallback<MouseMoveEvent>(_OnMouseMove);
-        target.RegisterCallback<MouseUpEvent>(_OnMouseUp);
-    }
+        // Set layer reference
+        this.layer = layer;
 
-    protected override void UnregisterCallbacksFromTarget()
-    {
-        base.UnregisterCallbacksFromTarget();
-        target.UnregisterCallback<MouseDownEvent>(_OnMouseDown);
-        target.UnregisterCallback<MouseMoveEvent>(_OnMouseMove);
-        target.UnregisterCallback<MouseUpEvent>(_OnMouseUp);
-    }
-
-    private void _OnMouseDown(MouseDownEvent evt)
-    {
-        OnManipulationStart?.Invoke();
+        // Set provider reference
+        current = provider as LBSLocalCurrent;
 
     }
 
-    private void _OnMouseMove(MouseMoveEvent evt)
+    protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
     {
-
     }
 
-    private void _OnMouseUp(MouseUpEvent evt)
+    protected override void OnMouseMove(VisualElement target, Vector2Int position, MouseMoveEvent e)
     {
-
-        OnManipulationEnd?.Invoke();
     }
 
-    public void AddManipulationEnd(Action action)
+    protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
     {
-        OnManipulationEnd += action;
-    }
+        // Get fixed position
+        var pos = layer.ToFixedPosition(position);
 
-    public void AddManipulationStart(Action action)
-    {
-        OnManipulationStart += action;
-    }
+        // Get selectable elements
+        var selected = new List<object>();
+        foreach (var module in layer.Modules)
+        {
+            if(module is ISelectable)
+            {
+                selected.AddRange((module as ISelectable).GetSelected(pos));
+            }
+        }
 
-    public void AddManipulationUpdate(Action action)
-    {
-        OnManipulationUpdate += action;
-    }
-
-    public void RemoveManipulationEnd(Action action)
-    {
-        OnManipulationEnd -= action;
-    }
-
-    public void RemoveManipulationStart(Action action)
-    {
-        OnManipulationStart -= action;
-    }
-
-    public void RemoveManipulationUpdate(Action action)
-    {
-        OnManipulationUpdate -= action;
+        current.SetSelectedVE(selected);
     }
 }

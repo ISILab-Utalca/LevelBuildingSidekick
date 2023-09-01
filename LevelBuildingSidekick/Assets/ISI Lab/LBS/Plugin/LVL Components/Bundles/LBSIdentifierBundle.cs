@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using LBS.Bundles;
 
 [CreateAssetMenu(fileName = "NewIDBundle", menuName = "ISILab/Identifiers Bundle")]
 public class LBSIdentifierBundle : ScriptableObject

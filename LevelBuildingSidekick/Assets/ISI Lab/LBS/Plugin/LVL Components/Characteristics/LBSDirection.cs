@@ -77,6 +77,7 @@ public class LBSDirection : LBSCharacteristic, ICloneable
 
     public override void OnEnable()
     {
+        /*
         foreach (var asset in Owner.Assets)
         {
             weights.Add(new weightStruct() 
@@ -94,6 +95,7 @@ public class LBSDirection : LBSCharacteristic, ICloneable
                     weigth = 1f
                 });
             };
+        */
     }
     #endregion
 
