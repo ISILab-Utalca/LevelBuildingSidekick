@@ -61,7 +61,7 @@ public class HillClimbingAssistantEditor : LBSCustomEditor, IToolProvider
 
     protected override VisualElement CreateVisualElement()
     {
-        return this;
+        return this; // (!!!!!!!!)
 
         var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("HillClimbingEditor");
         visualTree.CloneTree(this);
