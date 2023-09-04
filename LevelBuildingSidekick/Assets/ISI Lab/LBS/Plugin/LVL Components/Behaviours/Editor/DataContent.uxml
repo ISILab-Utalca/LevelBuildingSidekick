@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <ui:VisualElement style="flex-grow: 0; background-color: rgba(0, 0, 0, 0.22); min-height: auto; min-width: auto; flex-direction: row; align-self: auto; justify-content: space-between; align-items: center; margin-top: 0; margin-bottom: 0; margin-left: 0; margin-right: 0; padding-bottom: 2px; padding-top: 2px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 0; border-bottom-width: 1px;">
+        <ui:VisualElement style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); min-width: auto; min-height: auto; flex-direction: row; align-items: center;">
+            <ui:Foldout style="margin-right: -4px;" />
+            <ui:Label tabindex="-1" text="Label" display-tooltip-when-elided="true" style="padding-left: 3px;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="Content" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); padding-left: 4px; padding-right: 4px; padding-top: 4px; padding-bottom: 4px; border-top-color: rgba(0, 0, 0, 0); border-bottom-width: 1px; border-bottom-color: rgb(0, 0, 0);" />
+</ui:UXML>
