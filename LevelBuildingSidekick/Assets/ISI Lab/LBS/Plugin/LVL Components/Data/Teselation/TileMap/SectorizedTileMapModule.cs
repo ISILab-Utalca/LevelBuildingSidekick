@@ -8,10 +8,9 @@ using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
-public class SectorizedTileMapModule : LBSModule
+public class SectorizedTileMapModule : LBSModule, ISelectable
 {
-    private List<Vector2Int> dirs = Directions.Bidimencional.Edges;
-    private List<Vector2Int> dirsDiag = Directions.Bidimencional.Diagonals;
+
 
     #region FIELDS
     [SerializeField, JsonRequired, SerializeReference]
@@ -19,18 +18,24 @@ public class SectorizedTileMapModule : LBSModule
 
 
     [SerializeField, JsonRequired, SerializeReference]
-    private List<TileZonePair> pairTiles = new List<TileZonePair>();
+    private List<TileZonePair> pairs = new List<TileZonePair>();
     #endregion
 
     #region PROPERTIES
     [JsonIgnore]
-    public List<TileZonePair> PairTiles => new List<TileZonePair>(pairTiles);
+    public List<TileZonePair> PairTiles => new List<TileZonePair>(pairs);
 
     [JsonIgnore]
     public List<Zone> Zones => zones;
 
     [JsonIgnore]
-    public List<Zone> ZonesWithTiles => pairTiles.Select(t => t.Zone).Distinct().ToList();
+    public List<Zone> ZonesWithTiles => pairs.Select(t => t.Zone).Distinct().ToList();
+
+    [JsonIgnore]
+    private List<Vector2Int> Dirs => Directions.Bidimencional.Edges;
+    
+    [JsonIgnore]
+    private List<Vector2Int> DirsDiag => Directions.Bidimencional.Diagonals;
     #endregion
 
     #region CONSTRUCTORS
@@ -80,9 +85,9 @@ public class SectorizedTileMapModule : LBSModule
         var t = GetPairTile(tile.Tile);
         if (t != null)
         {
-            pairTiles.Remove(t);
+            pairs.Remove(t);
         }
-        pairTiles.Add(tile);
+        pairs.Add(tile);
     }
 
     public void AddTile(LBSTile tile, Zone zone)
@@ -97,15 +102,15 @@ public class SectorizedTileMapModule : LBSModule
 
     public TileZonePair GetPairTile(LBSTile tile)
     {
-        if (pairTiles.Count <= 0)
+        if (pairs.Count <= 0)
             return null;
 
-        return pairTiles.Find(t => t.Tile.Equals(tile));
+        return pairs.Find(t => t.Tile.Equals(tile));
     }
 
     private TileZonePair GetPairTile(Vector2Int pos)
     {
-        return pairTiles.Find(t => t.Tile.Position == pos);
+        return pairs.Find(t => t.Tile.Position == pos);
     }
 
     public void RemoveZone(Zone zone)
@@ -113,7 +118,7 @@ public class SectorizedTileMapModule : LBSModule
         zones.Remove(zone);
 
         var toRemove = new List<TileZonePair>();
-        foreach (var pair in pairTiles)
+        foreach (var pair in pairs)
         {
             if (pair.Zone == zone)
                 toRemove.Add(pair);
@@ -121,26 +126,26 @@ public class SectorizedTileMapModule : LBSModule
 
         foreach (var pair in toRemove)
         {
-            pairTiles.Remove(pair);
+            pairs.Remove(pair);
         }
     }
 
     public void RemoveTile(LBSTile tile)
     {
         var t = GetPairTile(tile);
-        pairTiles.Remove(t);
+        pairs.Remove(t);
     }
 
     public void RemoveTile(int index)
     {
-        pairTiles.RemoveAt(index);
+        pairs.RemoveAt(index);
     }
 
     public bool Contains(LBSTile tile)
     {
-        if (pairTiles.Count <= 0)
+        if (pairs.Count <= 0)
             return false;
-        return pairTiles.Any(t => t.Tile.Equals(tile));
+        return pairs.Any(t => t.Tile.Equals(tile));
     }
 
     public Zone GetZone(LBSTile tile)
@@ -153,7 +158,7 @@ public class SectorizedTileMapModule : LBSModule
 
     public List<LBSTile> GetTiles(Zone zone)
     {
-        var tiles = this.pairTiles.Where(t => t.Zone.Equals(zone));
+        var tiles = this.pairs.Where(t => t.Zone.Equals(zone));
         if(tiles.Count() > 0)
         {
             return tiles.Select(t => t.Tile).ToList();
@@ -199,29 +204,29 @@ public class SectorizedTileMapModule : LBSModule
 
     public override Rect GetBounds()
     {
-        if (pairTiles == null || pairTiles.Count == 0)
+        if (pairs == null || pairs.Count == 0)
         {
             //Debug.LogWarning("Esta tilemap no tiene tiles!!!");
             return new Rect(Vector2.zero, Vector2.zero);
         }
-        return pairTiles.Select(t => t.Tile).GetBounds();
+        return pairs.Select(t => t.Tile).GetBounds();
     }
 
 
     public override bool IsEmpty()
     {
-        return pairTiles.Count <= 0;
+        return pairs.Count <= 0;
     }
 
     public override void Clear()
     {
-        pairTiles.Clear();
+        pairs.Clear();
     }
 
     public override object Clone()
     {
         return new SectorizedTileMapModule(
-            pairTiles.Select(t => t.Clone())
+            pairs.Select(t => t.Clone())
                 .Cast<TileZonePair>()
                 .ToList(),
             ID);
@@ -301,12 +306,12 @@ public class SectorizedTileMapModule : LBSModule
     internal List<LBSTile> GetConvexCorners(Zone zone) // (??)  esto solo funciona para "4 conected", deberia estar en una clase aparte?, si en la clase de las tablas del gabo
     {
         var corners = new List<LBSTile>();
-        foreach (var t in pairTiles)
+        foreach (var t in pairs)
         {
             if (t.Zone != zone)
                 continue;
 
-            if (IsConvexCorner(t.Tile.Position, dirs))
+            if (IsConvexCorner(t.Tile.Position, Dirs))
             {
                 corners.Add(t.Tile);
                 //corners.Add(t.Clone() as LBSTile);
@@ -320,20 +325,20 @@ public class SectorizedTileMapModule : LBSModule
 
         var corners = new List<LBSTile>();
 
-        foreach (var t in pairTiles)
+        foreach (var t in pairs)
         {
             if (t.Zone != zone)
                 continue;
 
-            if (!IsConcaveCorner(t.Tile.Position, dirsDiag))
+            if (!IsConcaveCorner(t.Tile.Position, DirsDiag))
                 continue;
 
-            for (int i = 0; i < dirs.Count; i++)
+            for (int i = 0; i < Dirs.Count; i++)
             {
-                var other = GetPairTile(t.Tile.Position + dirs[i]);
+                var other = GetPairTile(t.Tile.Position + Dirs[i]);
                 if (other == null)
                     continue;
-                if (IsWall(other.Tile.Position, dirs))
+                if (IsWall(other.Tile.Position, Dirs))
                 {
                     corners.Add(other.Tile);
                     //corners.Add(other.Clone() as LBSTile);
@@ -477,7 +482,7 @@ public class SectorizedTileMapModule : LBSModule
         return horizontal.Concat(vertical).ToList();
     }
 
-    internal Zone GetZone(string name)
+    public Zone GetZone(string name)
     {
         foreach (var zone in zones)
         {
@@ -485,6 +490,32 @@ public class SectorizedTileMapModule : LBSModule
                 return zone;
         }
         return null;
+    }
+
+    public Zone GetZone(Vector2Int position)
+    {
+        foreach(var pair in pairs)
+        {
+            if(pair.Tile.Position == position)
+            {
+                return pair.Zone;
+            }
+        }
+
+        return null;
+    }
+
+    public List<object> GetSelected(Vector2Int position)
+    {
+        var r = new List<object>();
+        var zone = GetZone(position);
+
+        if (zone != null)
+        {
+            r.Add(zone);
+        }
+
+        return r;
     }
 
     #endregion
