@@ -31,7 +31,6 @@ public class GeneralBundlesPanel : VisualElement
     #endregion
 
     #region FIELDS
-    // Target
     private Bundle target;
     #endregion
 
