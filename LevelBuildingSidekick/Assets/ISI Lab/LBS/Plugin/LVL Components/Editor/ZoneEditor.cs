@@ -1,4 +1,6 @@
+using LBS.Bundles;
 using LBS.Components.TileMap;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.UIElements;
@@ -11,29 +13,65 @@ public class ZoneEditor : LBSCustomEditor
 {
     private Zone target;
 
+    private TextField nameField;
+    private ColorField colorField;
+
+    private ListView bundleList;
+    private List<string> bundlesRef; // ?
+
+    public ZoneEditor() 
+    {
+        CreateVisualElement();
+    }
+
     public override void SetInfo(object target)
     {
         this.target = target as Zone;
+
+        nameField.value = this.target.ID;
+        colorField.value = this.target.Color;
+        bundlesRef = this.target.TagsBundles;
     }
 
     protected override VisualElement CreateVisualElement()
     {
-        var content = new VisualElement();
-        
-        var nameFiled = new TextField();
-        nameFiled.RegisterCallback<ChangeEvent<string>>(evt =>
+        // NameField
+        this.nameField = new TextField("Name");
+        nameField.RegisterCallback<ChangeEvent<string>>(evt =>
         {
             target.ID = evt.newValue;
-        }); 
-        
-        var colorField = new ColorField();
+        });
+        this.Add(nameField);
+
+        // ColorField
+        this.colorField = new ColorField("Color");
         colorField.RegisterCallback<ChangeEvent<Color>>(evt => 
         {
             target.Color = evt.newValue;
         });
+        this.Add(colorField);
 
-        return content;
+        //BundleList
+        this.bundleList = new ListView();
+        bundleList.itemsSource = bundlesRef;
+        bundleList.makeItem = MakeItem;
+        bundleList.bindItem = BindItem;
+        this.Add(bundleList);
+
+        return this;
+
     }
 
+    private VisualElement MakeItem()
+    {
+        var field = new ObjectField();
+        field.objectType = typeof(Bundle);
+        return field;
+    }
+
+    private void BindItem(VisualElement ve, int index)
+    {
+
+    }
 
 }
