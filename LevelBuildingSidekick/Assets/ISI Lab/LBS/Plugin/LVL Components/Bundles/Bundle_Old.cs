@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public abstract class Bundle_Old : LBSScriptableObject
+public abstract class Bundle_Old : ScriptableObject
 {
 
     [SerializeField]
@@ -24,8 +24,4 @@ public abstract class Bundle_Old : LBSScriptableObject
     public abstract GameObject GetObject(int index);
     public abstract List<GameObject> GetObjects(List<string> tags = null);
     public abstract void Remove(List<Bundle_Old> data);
-}
-
-public abstract class LBSScriptableObject : ScriptableObject
-{ 
 }
