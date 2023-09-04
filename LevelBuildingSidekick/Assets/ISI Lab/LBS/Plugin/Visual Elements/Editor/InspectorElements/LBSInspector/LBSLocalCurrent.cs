@@ -21,7 +21,8 @@ public class LBSLocalCurrent : LBSInspector, IToolProvider
     private LBSLayer layer;
     private UnityEngine.Color colorCurrent => LBSSettings.Instance.view.behavioursColor;
 
-    public VisualElement currentContent;
+    private VisualElement layerContent;
+    private VisualElement selectedContent;
 
     public LBSLocalCurrent()
     {
@@ -30,12 +31,14 @@ public class LBSLocalCurrent : LBSInspector, IToolProvider
 
         //LBSEvents.OnSelectElementInWorkSpace += SetCurrentInfo;
 
-        currentContent = this.Q<VisualElement>("CurrentContent");
+        layerContent = this.Q<VisualElement>("LayerContent");
+
+        selectedContent = this.Q<VisualElement>("SelectedContent");
     }
 
     public void SetCurrentInfo(object obj)
     {
-        currentContent.Clear();
+        selectedContent.Clear();
 
         var so = (ScriptableObject)obj;
 
@@ -47,7 +50,7 @@ public class LBSLocalCurrent : LBSInspector, IToolProvider
             editor.OnInspectorGUI();
         });
 
-        currentContent.Add(inspector);
+        selectedContent.Add(inspector);
     }
 
     public void SetInfo(LBSLayer target)
@@ -58,7 +61,7 @@ public class LBSLocalCurrent : LBSInspector, IToolProvider
         // Set basic Tool
         SetTools(ToolKit.Instance);
 
-        currentContent.Clear();
+        selectedContent.Clear();
         foreach (var module in target.Modules)
         {
 
@@ -132,15 +135,24 @@ public class LBSLocalCurrent : LBSInspector, IToolProvider
         var t1 = new LBSTool(icon, "Select", selectTool);
         t1.Init(layer, this);
         ToolKit.Instance.AddTool(t1);
+
+        toolkit.AddSeparator();
     }
 
     public void SetSelectedVE(List<object> objs)
     {
         // Clear previous view
-        currentContent.Clear();
+        selectedContent.Clear();
 
         foreach (var obj in objs)
         {
+            // Check if obj is valid
+            if(obj == null)
+            {
+                selectedContent.Add(new Label("[NULL]"));
+                continue;
+            }
+
             // Get type of element
             var type = obj.GetType();
 
@@ -151,7 +163,7 @@ public class LBSLocalCurrent : LBSInspector, IToolProvider
             if (ves.Count <= 0)
             {
                 // Add basic label if no have specific editor
-                currentContent.Add(new Label("'"+type+ "' does not contain a visualization."));
+                selectedContent.Add(new Label("'" + type + "' does not contain a visualization."));
                 continue;
             }
 
@@ -164,8 +176,11 @@ public class LBSLocalCurrent : LBSInspector, IToolProvider
             // set target info on visual element
             ve.SetInfo(obj);
 
+            // create content container
+            var container = new DataContent(ve,ves.First().Item2.First().name);
+
             // Add custom editor
-            currentContent.Add(ve as VisualElement);
+            selectedContent.Add(container);
         }
     }
 }
