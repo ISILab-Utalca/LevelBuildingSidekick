@@ -11,18 +11,27 @@ public class TileEditor : LBSCustomEditor
 {
     private LBSTile target;
 
+    private Vector2Field field;
+
+    public TileEditor()
+    {
+        CreateVisualElement();
+    }
+
     public override void SetInfo(object target)
     {
         this.target = target as LBSTile;
+
+        field.value = this.target.Position;
+
     }
 
     protected override VisualElement CreateVisualElement()
     {
-        var field = new Vector2Field("Position");
+        field = new Vector2Field("Position");
         field.SetEnabled(false);
-        field.value = target.Position;
-
         this.Add(field);
+        this.style.flexGrow = 1;
 
         return this;
     }
