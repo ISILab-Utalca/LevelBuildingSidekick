@@ -3,6 +3,7 @@ using LBS.Components;
 using LBS.Components.Graph;
 using LBS.Components.Specifics;
 using LBS.Settings;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
@@ -10,6 +11,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 [System.Serializable]
+[Obsolete("AAA")]
 public class DrawSimpleGraph : Drawer
 {
     public Color color1 = new Color(244f / 255f, 129f / 255f, 88f / 255f);
@@ -49,9 +51,9 @@ public class DrawSimpleGraph : Drawer
         {
             var n1 = nViews.Find(v => v.Data.Equals(edge.FirstNode));
             var n2 = nViews.Find(v => v.Data.Equals(edge.SecondNode));
-            var element = new LBSEdgeView<LBSEdge, RoomNode>(edge, n1, n2, 10, 3);
-            view.AddElement(element);
-            element.SendToBack();
+            //var element = new LBSEdgeView<LBSEdge, RoomNode>(edge, n1, n2, 10, 3);
+            //view.AddElement(element);
+            //element.SendToBack();
         }
     }
 
