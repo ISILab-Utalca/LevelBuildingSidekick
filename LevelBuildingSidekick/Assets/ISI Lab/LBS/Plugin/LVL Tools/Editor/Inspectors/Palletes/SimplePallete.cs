@@ -45,6 +45,16 @@ namespace LBS.VisualElements
             }
         }
 
+        private void OnInternalSelectOption(object obj)
+        {
+            OnSelectOption?.Invoke(obj);
+
+            foreach (var optV in optionViews)
+            {
+                optV.SetSelected(false);
+            }
+        }
+
         public SimplePallete()
         {
             var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("SimplePallete");
@@ -100,7 +110,7 @@ namespace LBS.VisualElements
                 for (int i = 0; i < options.Length; i++)
                 {
                     var option = options[i];
-                    var view = new OptionView(option, OnSelectOption, onSetView);
+                    var view = new OptionView(option, OnInternalSelectOption, onSetView);
                     optionViews[i] = view;
                     content.Add(view);
                 }
