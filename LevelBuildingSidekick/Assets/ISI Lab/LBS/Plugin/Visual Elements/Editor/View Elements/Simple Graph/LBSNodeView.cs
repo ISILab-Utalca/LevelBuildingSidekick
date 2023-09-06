@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -16,6 +17,10 @@ public class LBSNodeView : GraphElement
 
     private Label label;
     private VisualElement background;
+    #endregion
+
+    #region EVENTS
+    public Action<Rect> OnMoving;
     #endregion
 
     public LBSNodeView() 
@@ -50,7 +55,12 @@ public class LBSNodeView : GraphElement
 
     public override void SetPosition(Rect newPos)
     {
+        // Set new Rect position
         base.SetPosition(newPos);
+
+        // call movement event
+        OnMoving?.Invoke(newPos);
+
         this.MarkDirtyRepaint();
     }
 
