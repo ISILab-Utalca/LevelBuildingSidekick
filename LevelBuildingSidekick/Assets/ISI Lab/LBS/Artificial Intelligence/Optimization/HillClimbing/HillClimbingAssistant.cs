@@ -44,6 +44,7 @@ public class HillClimbingAssistant : LBSAssistant
     [JsonIgnore, NonSerialized]
     private LBSLayer layer;
 
+    /*
     [JsonIgnore]
     private ConnectedZonesModule graph;
     [JsonIgnore]
@@ -52,10 +53,17 @@ public class HillClimbingAssistant : LBSAssistant
     private TileMapModule tileMap;
     [JsonIgnore]
     private ConstrainsZonesModule constrainsZones;
+    */
     #endregion
 
     #region PROPERTIES
-    public object Constraints => constrainsZones.Constraints;
+    [JsonIgnore]
+    public List<Zone> ZonesWhitTiles => Owner.GetModule<SectorizedTileMapModule>().ZonesWithTiles;
+
+    public TileMapModule TileMapMod => Owner.GetModule<TileMapModule>();
+    public SectorizedTileMapModule AreasMod => Owner.GetModule<SectorizedTileMapModule>();
+    public ConnectedZonesModule GraphMod => Owner.GetModule<ConnectedZonesModule>();
+    public ConstrainsZonesModule ConstrainsZonesMod => Owner.GetModule<ConstrainsZonesModule>();
     #endregion
 
     #region CONSTRUCTORS
@@ -143,68 +151,91 @@ public class HillClimbingAssistant : LBSAssistant
 
     private void SetDoors(List<LBSModule> layer)
     {
-        var zones = layer.GetModule<SectorizedTileMapModule>();
+        // Get Modules
+        var tilesMod = layer.GetModule<TileMapModule>();
+        var zonesMod = layer.GetModule<SectorizedTileMapModule>();
         var connectedZones = layer.GetModule<ConnectedZonesModule>();
         var connectedTiles = layer.GetModule<ConnectedTileMapModule>();
 
-        foreach (var area in zones.Zones)
+        foreach (var tile in tilesMod.Tiles)
         {
-            foreach (var tile in zones.GetTiles(area))
+            // Get connection for each tile
+            var connection = connectedTiles.GetConnections(tile);
+            for (int i = 0; i < connection.Count; i++)
             {
-                var cTile = tile as ConnectedTile;
-                for (int i = 0; i < cTile.Connections.Length; i++)
-                {
-                    if (cTile.Connections[i].Contains("Door"))
-                    {
-                        cTile.SetConnection("Wall", i);
-                    }
-                }
+                if (connection[i] == "Door")
+                    connection[i] = "Wall";
             }
         }
 
-        var edges = connectedZones.Edges;
-        for (int i = 0; i < edges.Count; i++)
+        foreach (var edge in connectedZones.Edges)
         {
-            var edge = edges[i];
-
+            // Get zones
             var zone1 = edge.First;
             var zone2 = edge.Second;
 
-            var tilesZ1 = zones.GetTiles(zone1);
-            var tilesZ2 = zones.GetTiles(zone2);
-            if (tilesZ1.Count <= 0 || tilesZ2.Count <= 0) // signiofica que una de las dos areas desaparecio y no deberia aporta, de hecho podria ser negativo (!)
+            // Get tiles form both zones
+            var tilesZ1 = zonesMod.GetTiles(zone1);
+            var tilesZ2 = zonesMod.GetTiles(zone2);
+
+            // Cheack if both zones contain tiles
+            if (tilesZ1.Count <= 0 || tilesZ2.Count <= 0)
                 continue;
 
-            var pairs = new List<Tuple<ConnectedTile, ConnectedTile>>();
+            // Create list of posibles pair tiles
+            var pairs = new List<(LBSTile, LBSTile)>();
             foreach (var t1 in tilesZ1)
             {
                 foreach (var t2 in tilesZ2)
                 {
+                    // Calculate dist between tiles
                     var dist = Vector2Int.Distance(t1.Position, t2.Position);
-                    if (dist <= 1.1f)
+
+                    // If tiles are neightbors
+                    if(dist <= 1.1f)
                     {
-                        pairs.Add(new Tuple<ConnectedTile, ConnectedTile>(t1 as ConnectedTile, t2 as ConnectedTile));
+                        pairs.Add((t1, t2));
                     }
                 }
             }
 
+            // Cheack if contians posibles pair
             if (pairs.Count <= 0)
                 continue;
 
+            // Select a random pair
             var selc = pairs.Random();
-            // var selc = pairs[UnityEngine.Random.Range(0, pairs.Count() - 1)];
 
+            // Get direction indexs
             var dir = selc.Item1.Position - selc.Item2.Position;
+            var indx1 = Directions.Bidimencional.Edges.IndexOf(dir);
+            var indx2 = Directions.Bidimencional.Edges.IndexOf(-dir);
 
-            selc.Item1.SetConnection("Door", -dir);
-            selc.Item2.SetConnection("Door", dir);
+            // Get direction pairs
+            var p1 = connectedTiles.GetPair(selc.Item1);
+            var p2 = connectedTiles.GetPair(selc.Item2);
 
+            // Set connections
+            p1.SetConnection(indx1, "Door", true);
+            p2.SetConnection(indx2, "Door", true);
         }
-
-
     }
 
+    public List<ZoneEdge> GetEdges()
+    {
+        return GraphMod.Edges;
+    }
 
+    public List<LBSTile> GetTiles(Zone zone)
+    {
+        return AreasMod.GetTiles(zone);
+    }
+
+    public void RecalculateConstraint()
+    { 
+        var zoneModule = Owner.GetModule<SectorizedTileMapModule>();
+        ConstrainsZonesMod.RecalculateConstraint(zoneModule.Zones);
+    }
 
     public override void OnAdd(LBSLayer layer)
     {
@@ -214,15 +245,9 @@ public class HillClimbingAssistant : LBSAssistant
         // Modules
         var modules = layer.Modules;
 
-        // Set Module references
-        tileMap = Owner.GetModule<TileMapModule>();
-        graph = Owner.GetModule<ConnectedZonesModule>();
-        constrainsZones = Owner.GetModule<ConstrainsZonesModule>();
-
-
         // Set constraint
         var zoneModule = layer.GetModule<SectorizedTileMapModule>();
-        constrainsZones.RecalculateConstraint(zoneModule.Zones);
+        ConstrainsZonesMod.RecalculateConstraint(zoneModule.Zones);
 
 
         var adam = new OptimizableModules(modules);
@@ -247,11 +272,6 @@ public class HillClimbingAssistant : LBSAssistant
     {
         // Set Owner
         Owner = layer;
-
-        // Set Module references
-        tileMap = Owner.GetModule<TileMapModule>();
-        graph = Owner.GetModule<ConnectedZonesModule>();
-        constrainsZones = Owner.GetModule<ConstrainsZonesModule>();
 
         var adam = new OptimizableModules(new List<LBSModule>(layer.Modules));//(layer.Clone() as LBSLayer);
 
@@ -406,30 +426,35 @@ public class HillClimbingAssistant : LBSAssistant
 
     public void RemoveZoneConnection(Vector2Int position, float delta)
     {
-        ZoneEdge edge = graph.GetEdge(position, delta);
-        graph.RemoveEdge(edge);
+        ZoneEdge edge = GraphMod.GetEdge(position, delta);
+        GraphMod.RemoveEdge(edge);
         throw new System.NotImplementedException();
     }
 
     public Zone GetZone(LBSTile tile)
     {
-        var pair = areas.GetPairTile(tile);
+        // Check if tile is valid
+        if(tile == null)
+            return null;
+
+        var pair = AreasMod.GetPairTile(tile);
         return pair.Zone;
     }
 
     public Zone GetZone(Vector2 position)
     {
-        return GetZone(GetTile(position.ToInt()));
+        var tile = GetTile(position.ToInt());
+        return GetZone(tile);
     }
 
     public LBSTile GetTile(Vector2Int position)
     {
-        return tileMap.GetTile(position);
+        return TileMapMod.GetTile(position);
     }
 
     public void ConnectZones(Zone first, Zone second)
     {
-        graph.AddEdge(first, second);
+        GraphMod.AddEdge(first, second);
     }
 
     public override object Clone()
