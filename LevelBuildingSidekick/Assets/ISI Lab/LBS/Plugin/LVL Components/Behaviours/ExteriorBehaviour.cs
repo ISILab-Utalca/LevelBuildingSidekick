@@ -7,24 +7,30 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-[RequieredModule(typeof(TileMapModule), typeof(ConnectedTileMapModule))]
+[RequieredModule(typeof(TileMapModule),
+                typeof(ConnectedTileMapModule))]
 public class ExteriorBehaviour : LBSBehaviour
 {
     #region FIELDS
     [JsonRequired, SerializeField]
     private TileMapModule tileMap;
+    
     [JsonRequired, SerializeField]
     private ConnectedTileMapModule connections;
+    
+    [JsonRequired, SerializeField]
+    public string targetBundle;
     #endregion
 
     #region PROPERTIES
-    
+
     #endregion
 
     #region CONSTRUCTORS
     public ExteriorBehaviour(Texture2D icon, string name) : base(icon, name) { }
     #endregion
 
+    #region METHODS
     public override object Clone()
     {
         return new ExteriorBehaviour(this.Icon, this.Name);
@@ -37,4 +43,5 @@ public class ExteriorBehaviour : LBSBehaviour
         tileMap = Owner.GetModule<TileMapModule>();
         connections = Owner.GetModule<ConnectedTileMapModule>();
     }
+    #endregion
 }
