@@ -6,11 +6,19 @@ using UnityEngine.Assertions;
 
 namespace LBS.Bundles
 {
+    [System.Serializable]
+    public enum Positioning
+    {
+        Center,
+        Edge,
+        Corner
+    }
 
     [System.Serializable]
     public class Asset : ICloneable
     {
         public GameObject obj;
+        [Range(0f,1f)]
         public float probability;
 
         public Asset(GameObject obj, float probability)
@@ -43,6 +51,9 @@ namespace LBS.Bundles
 
         [SerializeField, SerializeReference]
         private List<LBSCharacteristic> characteristics = new List<LBSCharacteristic>();
+
+        [SerializeField]
+        private Positioning positioning = Positioning.Center;
         #endregion
 
         #region EVENTS
@@ -75,9 +86,24 @@ namespace LBS.Bundles
 
         [SerializeField]
         public bool IsLeaf => (childsBundles.Count <= 0);
+
+        public Positioning Positioning => positioning;
         #endregion
 
         #region METHODS
+        public List<Bundle> GetChildrenByPositioning(Positioning positioning)
+        {
+            var r = new List<Bundle>();
+            foreach (var child in childsBundles)
+            {
+                if(child.positioning == positioning)
+                    r.Add(child);
+
+                r.AddRange(child.GetChildrenByPositioning(positioning));
+            }
+            return r;
+        }
+
         internal List<Bundle> GetChildrensByTag(string tag)
         {
             var r = new List<Bundle>();
@@ -208,17 +234,32 @@ namespace LBS.Bundles
             }
         }
 
-        public T GetCharacteristic<T>()
+        public List<T> GetChildrenCharacteristics<T>() where T : LBSCharacteristic
         {
+            var chars = new List<T>();
+
+            chars.AddRange(GetCharacteristics<T>());
+
+            foreach (var child in childsBundles)
+            {
+                var subChars = child.GetChildrenCharacteristics<T>();
+                chars.AddRange(subChars);
+            }
+            return chars;
+        }
+
+        public List<T> GetCharacteristics<T>() where T : LBSCharacteristic
+        {
+            var list = new List<T>();
             foreach (object item in characteristics)
             {
                 if (item is T)
                 {
-                    return (T)item;
+                    list.Add((T)item);
                 }
             }
 
-            return default(T);
+            return list;
         }
 
         public object Clone()
