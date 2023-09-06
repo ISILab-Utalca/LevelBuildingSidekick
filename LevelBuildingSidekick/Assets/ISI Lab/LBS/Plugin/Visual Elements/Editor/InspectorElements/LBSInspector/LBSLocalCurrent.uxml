@@ -44,6 +44,5 @@
         </ui:VisualElement>
         <ui:VisualElement name="Line" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 1px;" />
         <ui:VisualElement name="SelectedContent" />
-        <ui:VisualElement name="Line" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 1px;" />
     </ui:ScrollView>
 </ui:UXML>
