@@ -45,27 +45,26 @@ public class SetZoneConnection : LBSManipulator
     {
         
         var z1 = assistant.GetZone(first);
-        if (z1 == null)
-        {
-            var pos = assistant.Owner.ToFixedPosition(first);
-            var t = assistant.GetTile(pos);
-            z1 = assistant.GetZone(t);
-        }
-        if (z1 == null)
-            return;
 
-        var z2 = assistant.GetZone(position);
+        if (z1 == null)
+        {
+            Debug.Log("No seleccionaste ninguna zona de comienzo");
+            return;
+        }
+
+        var pos = layer.ToFixedPosition(position);
+        var z2 = assistant.GetZone(pos);
         if (z2 == null)
         {
-            var pos = assistant.Owner.ToFixedPosition(position);
-            var t = assistant.GetTile(pos);
-            z2 = assistant.GetZone(t);
-        }
-        if (z2 == null)
+            Debug.Log("No seleccionaste ninguna zona de final");
             return;
+        }
 
         if (z1.Equals(z2))
+        {
+            Debug.Log("No puedes conectar una zona con sigo misma");
             return;
+        }
 
         assistant.ConnectZones(z1, z2);
         
