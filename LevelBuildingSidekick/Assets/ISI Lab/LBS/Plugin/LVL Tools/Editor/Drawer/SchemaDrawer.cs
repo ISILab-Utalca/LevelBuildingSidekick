@@ -10,7 +10,7 @@ using LBS.Components.Specifics;
 [Drawer(typeof(SchemaBehaviour))]
 public class SchemaDrawer : Drawer
 {
-    private readonly Vector2 nodeSize = new Vector2(100, 100);
+    
 
     public override void Draw(ref LBSLayer layer, MainView view)
     {
@@ -34,20 +34,6 @@ public class SchemaDrawer : Drawer
             tView.SetConnections(conections.ToArray());
 
             view.AddElement(tView);
-        }
-
-        var zones = schema.ZonesWhitTiles;
-        foreach (var zone in zones)
-        {
-            var nView = new LBSNodeView();
-            
-            var bound = schema.GetTiles(zone).GetBounds();
-
-            nView.SetPosition(new Rect(bound.center * nodeSize - (nodeSize / 2f), nodeSize));
-            nView.SetText(zone.ID);
-            nView.SetColor(zone.Color);
-
-            view.AddElement(nView);
         }
     }
 }
