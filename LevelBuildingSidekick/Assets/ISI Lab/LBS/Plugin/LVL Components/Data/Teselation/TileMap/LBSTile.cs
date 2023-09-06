@@ -71,9 +71,18 @@ namespace LBS.Components.TileMap
 
         public virtual object Clone()
         {
-            var clone = CloneRefs.Get(this) as LBSTile;
+            LBSTile clone;
+            try
+            {
+                clone = CloneRefs.tryGet(this) as LBSTile;
+            }
+            catch(Exception e)
+            {
+                clone = new LBSTile(this.Position);
+                CloneRefs.Add(this, clone);
+            }
 
-            return (clone != null) ? clone : new LBSTile(this.Position);
+            return clone;
         }
         #endregion
     }
