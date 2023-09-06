@@ -16,12 +16,17 @@ MonoBehaviour:
   id: {fileID: 11400000, guid: 94b707ea81720694d8e3ac214351af91, type: 2}
   childsBundles: []
   assets:
-  - {fileID: 3340211634435293643, guid: 7a68f3748ea3f56469f668b4a78e63bf, type: 3}
-  - {fileID: 8898804249963617590, guid: 51399b9513e241040acdbf67d3ba479c, type: 3}
-  - {fileID: 4506225093705001793, guid: 92311860c8c187d41a8281547a752763, type: 3}
-  - {fileID: 5600215542615774154, guid: b5c0bcf85e3a9b1448b613dcd8c592eb, type: 3}
+  - obj: {fileID: 3340211634435293643, guid: 7a68f3748ea3f56469f668b4a78e63bf, type: 3}
+    probability: 1
+  - obj: {fileID: 8898804249963617590, guid: 51399b9513e241040acdbf67d3ba479c, type: 3}
+    probability: 0.1
+  - obj: {fileID: 4506225093705001793, guid: 92311860c8c187d41a8281547a752763, type: 3}
+    probability: 0.1
+  - obj: {fileID: 5600215542615774154, guid: b5c0bcf85e3a9b1448b613dcd8c592eb, type: 3}
+    probability: 0.1
   characteristics:
   - rid: 3767989614650065806
+  positioning: 0
   references:
     version: 2
     RefIds:

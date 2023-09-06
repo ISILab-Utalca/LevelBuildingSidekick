@@ -10,15 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
-  m_Name: Corner_Wooden 1
+  m_Name: Corner_Wooden
   m_EditorClassIdentifier: 
   isPreset: 0
   id: {fileID: 11400000, guid: dd9524b2f4de22c40ae2e90107719374, type: 2}
   childsBundles: []
   assets:
-  - {fileID: 5730892847846253857, guid: df3d2085806ab0344b57edd354677c90, type: 3}
+  - obj: {fileID: 5730892847846253857, guid: df3d2085806ab0344b57edd354677c90, type: 3}
+    probability: 0.5
   characteristics:
   - rid: 3767989640458666226
+  positioning: 2
   references:
     version: 2
     RefIds:
