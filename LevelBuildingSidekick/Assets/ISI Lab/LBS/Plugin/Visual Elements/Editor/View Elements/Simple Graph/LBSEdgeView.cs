@@ -6,25 +6,26 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Utility;
 
-public class LBSEdgeView<T,U> : GraphElement where T: LBSEdge where U :LBSNode
+public class LBSEdgeView : GraphElement
 {
     private Vector2Int pos1, pos2;
-    private LBSNodeView_Old<U> node1, node2; // sobra (?)
+    private LBSNodeView node1, node2; // sobra (?)
 
-    private T data;
+    private ZoneEdge data;
 
-    public T Data => data;
-
-    public LBSEdgeView(T data, LBSNodeView_Old<U> node1, LBSNodeView_Old<U> node2, int l, int stroke)
+    public LBSEdgeView(ZoneEdge data, LBSNodeView node1, LBSNodeView node2, int l, int stroke)
     {
         this.data = data;
         this.node1 = node1;
-        node1.OnMoving += (pos) => {
+        node1.OnMoving += (rect) => {
             this.SetPosition(new Rect(pos1, new Vector2(10, 10)));
-            ActualizePositions(pos, pos2); 
+            ActualizePositions(rect.center.ToInt(), pos2); 
         };
         this.node2 = node2;
-        node2.OnMoving += (pos) => { ActualizePositions(pos1, pos); };
+        node2.OnMoving += (rect) => 
+        {
+            ActualizePositions(pos1, rect.center.ToInt()); 
+        };
         
         var sPos1 = new Vector2Int((int)node1.GetPosition().center.x, (int)node1.GetPosition().center.y);
         var sPos2 = new Vector2Int((int)node2.GetPosition().center.x, (int)node2.GetPosition().center.y);
