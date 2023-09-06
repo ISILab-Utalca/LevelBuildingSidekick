@@ -66,7 +66,7 @@ public static class CloneRefs
         dictionary[original] = clone;
     }
 
-    public static object Get(object original)
+    public static object tryGet(object original)
     {
         if (!cicloDeClonado)
         {
