@@ -22,7 +22,7 @@ using UnityEditor;
 public class SchemaRuleGenerator : LBSGeneratorRule
 {
     #region FIELDS
-    private float deltaWall = 1;
+    private float deltaWall = 1f;
     #endregion
 
     #region INTERNAL FIELDS
@@ -83,11 +83,11 @@ public class SchemaRuleGenerator : LBSGeneratorRule
         var currents = new List<Bundle>();
         foreach (var bundle in bundles)
         {
-            currents = bundle.GetChildrensByTag("Center");
+            currents = bundle.GetChildrenByPositioning(Positioning.Center);
         }
 
         // Get random bundle
-        var current = currents.Random();
+         var current = currents.Random();
 
         // Get random by weight
         var pref = current.Assets.RandomRullete(a => a.probability).obj;
@@ -104,14 +104,21 @@ public class SchemaRuleGenerator : LBSGeneratorRule
         var currents = new List<Bundle>();
         foreach (var bundle in bundles)
         {
-            currents = bundle.GetChildrensByTag("Edge");
+            currents = bundle.GetChildrenByPositioning(Positioning.Edge);
         }
 
-        for (var i = 0;i < connections.Count; i++)
+        for (var i = 0; i < connections.Count; i++)
         {
             // Get random bundle with respctive "connection tag"
             var current = currents.Where(b => b.ID.Label == connections[i])
                                 .ToList().Random();
+
+            // check if current is valid
+            if (current == null)
+            {
+                Debug.Log("Los bundles no contienen elemetos con la tag: '" + connections[i] + "'");
+                continue;
+            }
 
             // Get random by weight
             var pref = current.Assets.RandomRullete(a => a.probability).obj;
@@ -120,13 +127,16 @@ public class SchemaRuleGenerator : LBSGeneratorRule
             var obj = CreateObject(pref, pivot.transform);
 
             // Set rotation orientation
-            obj.transform.rotation = Quaternion.Euler(0, (90 * i) % 360, 0);
+            if (i % 2 == 0) 
+                obj.transform.rotation = Quaternion.Euler(0, (90 * (i - 1)) % 360 , 0); // if parche? (?)
+            else
+                obj.transform.rotation = Quaternion.Euler(0, (90 * (i - 3)) % 360, 0);
 
             // Set delta position
             obj.transform.position = new Vector3(
-                settings.scale.x * obj.transform.forward.x,
+                settings.scale.x / 2f * -obj.transform.forward.x,
                 0,
-                settings.scale.y * obj.transform.forward.y) * deltaWall;
+                settings.scale.y / 2f * -obj.transform.forward.z) * deltaWall;
 
         }
 
@@ -138,7 +148,7 @@ public class SchemaRuleGenerator : LBSGeneratorRule
         var currents = new List<Bundle>();
         foreach (var bundle in bundles)
         {
-            currents = bundle.GetChildrensByTag("Corner");
+            currents = bundle.GetChildrenByPositioning(Positioning.Corner);
         }
 
         var current = currents.Random();
@@ -181,94 +191,14 @@ public class SchemaRuleGenerator : LBSGeneratorRule
             // Set position
             tileObj.transform.position =
                 settings.position +
-                new Vector3(settings.scale.x, 0, settings.scale.y) +
-                new Vector3(tile.Position.x, 0, tile.Position.y) +
-                (new Vector3(settings.scale.x, 0, settings.scale.y) / 2f);
+                new Vector3(tile.Position.x * settings.scale.x, 0, tile.Position.y * settings.scale.y) +
+                - (new Vector3(settings.scale.x, 0, settings.scale.y) / 2f);
 
             // Set mainPivot as the parent of tileObj
             tileObj.transform.parent = mainPivot.transform;
-
         }
 
         return mainPivot;
-
-        /*
-        var aaas = new List<int>() { -1, 0, 1 };
-        //for (int aa = 0; aa < aaas.Count; aa++)
-        {
-            var ddds = new List<int>() { 1, -1 };
-            //for (int dd = 0; dd < ddds.Count; dd++)
-            {
-                var fffs = new List<int>() { 0, 1, 2, 3 };
-                //for (int ff = 0; ff < fffs.Count; ff++)
-                {
-                    var subMain = new GameObject("d: " + 0 + ",f: " + 1 + ",a: " + 0);
-
-                    var position = settings.position;
-                    for (int i = 0; i < graph.NodeCount; i++) // recorro los cuartos
-                    {
-                        var node = graph.GetNode(i);
-                        var tags = new List<string>(node.Room.InteriorTags);
-
-                        var currentRoots = new List<Bundle>();
-                        if (tags.Count > 0)
-                        {
-                            foreach (var bundle in rootBundles)
-                            {
-                                if (bundle.ID == null)
-                                    continue;
-
-                                if (tags.Contains(bundle.ID.Label))
-                                {
-                                    currentRoots.Add(bundle);
-                                }
-                            }
-                            //currentRoots = rootBundles.Where(b => tags.Contains(b.ID.Label)).ToList(); // obtengo los root de los tags correspondientes
-                        }
-                        else
-                        {
-                            currentRoots = rootBundles.ToList();
-                        }
-
-                        var childs = currentRoots.SelectMany(b => b.ChildsBundles).ToList().RemoveEmpties(); // obtengo todos sus hijos
-                        childs = childs.Where(b => b.ID != null).ToList(); // parche (?)
-
-                        var bundlesDictionary = new Dictionary<string, List<GameObject>>();
-
-                        var wallBundles = childs.Where(b => b.ID.Label.Equals("Wall")).ToList(); // obtengo todos los bundles con la tag Wall
-                        bundlesDictionary.Add("Wall", wallBundles.SelectMany(b => b.Assets).ToList());
-
-                        var doorBundles = childs.Where(b => b.ID.Label.Equals("Door")).ToList(); // obtengo todos los bundles con la tag Door
-                        bundlesDictionary.Add("Door", doorBundles.SelectMany(b => b.Assets).ToList());
-
-                        var floorBundles = childs.Where(b => b.ID.Label.Equals("Floor")); // obtengo todos los bundles con la tag Floor
-                        bundlesDictionary.Add("Floor", floorBundles.SelectMany(b => b.Assets).ToList());
-
-                        var cornerBundles = childs.Where(b => b.ID.Label.Equals("Corner")).ToList(); // obtengo todos los bundles con la tag Corner
-                        bundlesDictionary.Add("Corner", cornerBundles.SelectMany(b => b.Assets).ToList());
-
-                        var area = schema.GetArea(node.ID);
-                        for (int j = 0; j < area.TileCount; j++)
-                        {
-                            var tile = area.GetTile(j) as ConnectedTile;
-                            BuildWall(tile, bundlesDictionary, subMain.transform, settings);
-                        }
-
-                        var corns = area.GetCorners();
-                        var cc = corns.RemoveDuplicates();
-                        var cornerTiles = cc.Select(w => w as ConnectedTile).ToList();
-                        foreach (var tile in cornerTiles)
-                        {
-                            BuildCorner(area, tile, bundlesDictionary, subMain.transform, settings, fffs[1], ddds[0], aaas[0]);
-                        }
-                    }
-                    subMain.transform.position = position;// + new Vector3(ff * 30, dd * 30, aa * 30);
-                    subMain.transform.parent = mainPivot.transform;
-                    //mainPivot.transform.position = position;
-                }
-            }
-        }*/
-
     }
 
     private GameObject CreateObject(GameObject pref, Transform pivot)
