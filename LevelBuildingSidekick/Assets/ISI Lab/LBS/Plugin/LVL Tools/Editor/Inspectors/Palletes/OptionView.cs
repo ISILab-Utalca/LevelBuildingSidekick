@@ -9,8 +9,13 @@ namespace LBS.VisualElements
 {
     public class OptionView : VisualElement
     {
+        private Color selected = new Color(1,1,1,0.1f);
+        private Color nonSelected = new Color(1, 1, 1, 0f);
+
         private Label label;
         private Button button;
+        private VisualElement icon;
+        private VisualElement border;
 
         private object target;
 
@@ -35,7 +40,7 @@ namespace LBS.VisualElements
 
         public Texture2D Icon
         {
-            set => button.style.backgroundImage = value;
+            set => icon.style.backgroundImage = value;
         }
 
         public Color Color
@@ -51,8 +56,13 @@ namespace LBS.VisualElements
 
             // Init View
             this.label = this.Q<Label>();
+            this.icon = this.Q<VisualElement>("Icon");
+            this.border = this.Q<VisualElement>("Border");
             this.button = this.Q<Button>();
-            button.clicked += () => { this.OnSelect?.Invoke(target); };
+            button.clicked += () => { 
+                this.OnSelect?.Invoke(target);
+                SetSelected(true);
+            };
 
             // Init Fields
             this.target = target;
@@ -62,6 +72,20 @@ namespace LBS.VisualElements
 
             this.OnSetView = onSetView;
             OnSetView?.Invoke(this, target);
+        }
+
+        public void SetSelected(bool value)
+        {
+            if(value)
+            {
+                border.SetBorder(selected, 4);
+                border.style.backgroundColor = selected;
+            }
+            else
+            {
+                border.SetBorder(nonSelected, 0);
+                border.style.backgroundColor = nonSelected;
+            }
         }
     }
 }
