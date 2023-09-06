@@ -64,7 +64,6 @@ public class DrawManager
                 continue;
 
             var behaviours = l.Behaviours;
-
             foreach(var b in behaviours)
             {
                 if (b == null)
@@ -81,6 +80,25 @@ public class DrawManager
 
                 var drawer = Activator.CreateInstance(drawers.First().Item1) as Drawer; // shold be registering it instead of instantiation each time it will paint
                 drawer.Draw(b, view, l.TileSize);
+            }
+
+            var assistants = l.Assitants;
+            foreach (var a in assistants)
+            {
+                if (a == null)
+                    continue;
+
+                var classes = Utility.Reflection.GetClassesWith<DrawerAttribute>();
+                if (classes.Count == 0)
+                    continue;
+
+                var drawers = classes.Where(t => t.Item2.Any(v => v.type == a.GetType()));
+
+                if (drawers.Count() <= 0)
+                    continue;
+
+                var drawer = Activator.CreateInstance(drawers.First().Item1) as Drawer; // shold be registering it instead of instantiation each time it will paint
+                drawer.Draw(a, view, l.TileSize);
             }
         }
     }
