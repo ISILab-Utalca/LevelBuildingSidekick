@@ -59,8 +59,8 @@ public class LBSDirectionedGroup : LBSCharacteristic, ICloneable
         var childs = Owner.ChildsBundles;
         childs.ForEach( b => 
         {
-            var c = b.GetCharacteristic<LBSDirection>();
-            AddTilesChild(b, c);
+            var c = b.GetCharacteristics<LBSDirection>();
+            AddTilesChild(b, c[0]);
         });
         return new LBSDirectionedGroup();
     }
