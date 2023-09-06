@@ -9,45 +9,56 @@ using UnityEngine;
 [CustomEditor(typeof(Bundle))]
 public class BundleEditor : Editor
 {
+    public bool showDevOptions = false;
+
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
 
         var bundle = target as Bundle;
 
-        GUILayout.Label("inDev Tools: presset");
-
-        if (GUILayout.Button("Set default interior"))
-        {
-            SetDefaultinterior(bundle);
-            AssetDatabase.SaveAssets();
-        }
-
-        if (GUILayout.Button("Set default Exterior"))
-        {
-            SetDefaultExterior(bundle);
-            AssetDatabase.SaveAssets();
-        }
+        // Create GUI Style
+        var style = new GUIStyle();
+        style.border.bottom = style.border.top = style.border.left = style.border.right = 3;
 
         GUILayout.Space(20);
-        GUILayout.Label("inDev Tools: characteristics");
-
-        if(GUILayout.Button("Add Connection GROUP Charac"))
+        this.showDevOptions = EditorGUILayout.Foldout(showDevOptions, "DEVS TOOLS");
+        if (showDevOptions)
         {
-            AddConnGroupCharc(bundle);
-            AssetDatabase.SaveAssets();
-        }
+            GUILayout.Label("Presset");
 
-        if (GUILayout.Button("Add Connection Characteristic"))
-        {
-            AddConnectionCharacteristic(bundle);
-            AssetDatabase.SaveAssets();
-        }
+            if (GUILayout.Button("Set default interior"))
+            {
+                SetDefaultinterior(bundle);
+                AssetDatabase.SaveAssets();
+            }
 
-        if (GUILayout.Button("Add Tag characteristic"))
-        {
-            AddTagCharc(bundle);
-            AssetDatabase.SaveAssets();
+            if (GUILayout.Button("Set default Exterior"))
+            {
+                SetDefaultExterior(bundle);
+                AssetDatabase.SaveAssets();
+            }
+
+            GUILayout.Space(20);
+            GUILayout.Label("Characteristics");
+
+            if(GUILayout.Button("Add Connection GROUP Charac"))
+            {
+                AddConnGroupCharc(bundle);
+                AssetDatabase.SaveAssets();
+            }
+
+            if (GUILayout.Button("Add Connection Characteristic"))
+            {
+                AddConnectionCharacteristic(bundle);
+                AssetDatabase.SaveAssets();
+            }
+
+            if (GUILayout.Button("Add Tag characteristic"))
+            {
+                AddTagCharc(bundle);
+                AssetDatabase.SaveAssets();
+            }
         }
     }
 
