@@ -30,7 +30,7 @@ namespace LBS.Generator
 
         private Tuple<LBSDirection,int> GetBundle(LBSDirectionedGroup group, string[] conections)
         {
-            var directionChars = group.Weights.Select(w => w.target.GetCharacteristic<LBSDirection>()).ToList();
+            var directionChars = group.Weights.Select(w => w.target.GetCharacteristics<LBSDirection>()).ToList()[0];
 
             foreach (var dirChar in directionChars)
             {
@@ -55,9 +55,9 @@ namespace LBS.Generator
             var storage = LBSAssetsStorage.Instance;
             var modulo = layer.GetModule<ExteriorModule>();
             var bundles = storage.Get<Bundle>()
-                .Where(b => b.GetCharacteristic<LBSDirectionedGroup>() != null && !b.isPreset)
-                .Select(b => b.GetCharacteristic<LBSDirectionedGroup>())
-                .ToList();
+                .Where(b => b.GetCharacteristics<LBSDirectionedGroup>() != null && !b.isPreset)
+                .Select(b => b.GetCharacteristics<LBSDirectionedGroup>())
+                .ToList()[0];
             
             var selectedBundle = bundles[0]; // esto tiene que ser seleccionado en la interfaz y no sacar el primero que pilla (!!!)
 
