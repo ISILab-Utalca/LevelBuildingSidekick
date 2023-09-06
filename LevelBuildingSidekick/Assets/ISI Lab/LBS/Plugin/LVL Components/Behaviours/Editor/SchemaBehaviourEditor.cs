@@ -10,25 +10,27 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Utility;
 
-
-
-[LBSCustomEditor("SchemaBehaviour", typeof(SchemaBehaviour))]
+[LBSCustomEditor("Schema Behaviour", typeof(SchemaBehaviour))]
 public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
 {
-    private readonly Color BHcolor = LBSSettings.Instance.view.behavioursColor;
-    
+    #region FIELDS
     private SchemaBehaviour schema;
 
-    // Manipulators
     private AddSchemaTile createNewRoomNode;
     private RemoveSchemaTile removeSchemaTile;
 
     private SetTileConnection setTileConnection;
     private RemoveTileConnection removeTileConnection;
+    #endregion
 
-    // View
+    #region VIEW FIELDS
     private SimplePallete areaPallete;
     private SimplePallete connectionPallete;
+    #endregion
+
+    #region PROPERTIES
+    private Color BHcolor => LBSSettings.Instance.view.behavioursColor;
+    #endregion
 
     public SchemaBehaviourEditor(object target) : base(target)
     {
@@ -40,7 +42,9 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
     public void SetTools(ToolKit toolKit)
     {
         Texture2D icon;
-        //  var tool1 = new LBSTool(icon, "Select", typeof(Select), null, true);
+
+        // Move Tile
+        // [Implementar]
 
         // Add Zone Tiles
         icon = Resources.Load<Texture2D>("Icons/Addnode");
