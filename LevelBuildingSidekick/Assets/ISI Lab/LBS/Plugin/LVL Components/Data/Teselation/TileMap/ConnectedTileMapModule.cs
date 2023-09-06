@@ -173,7 +173,7 @@ public class ConnectedTileMapModule : LBSModule
 
     public override void OnDetach(LBSLayer layer)
     {
-        throw new System.NotImplementedException();
+
     }
 
     public override void Reload(LBSLayer layer)
