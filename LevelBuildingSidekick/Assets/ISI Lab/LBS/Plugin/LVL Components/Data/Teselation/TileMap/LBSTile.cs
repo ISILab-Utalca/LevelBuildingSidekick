@@ -71,12 +71,9 @@ namespace LBS.Components.TileMap
 
         public virtual object Clone()
         {
-            LBSTile clone;
-            try
-            {
-                clone = CloneRefs.tryGet(this) as LBSTile;
-            }
-            catch(Exception e)
+            LBSTile clone = CloneRefs.Get(this) as LBSTile;
+
+            if(clone == null)
             {
                 clone = new LBSTile(this.Position);
                 CloneRefs.Add(this, clone);
