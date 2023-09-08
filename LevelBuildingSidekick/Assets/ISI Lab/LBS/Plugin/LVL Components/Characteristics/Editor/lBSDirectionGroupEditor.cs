@@ -10,21 +10,25 @@ public class LBSDirectionGroupEditor : LBSCustomEditor
     public TextField labelField;
     public VisualElement content;
 
-    private LBSDirectionedGroup target;
+    //ListView weights<>
+
     public LBSDirectionGroupEditor()
     {
 
     }
 
+    public LBSDirectionGroupEditor(object target) : base(target)
+    {
+        Add(CreateVisualElement());
+        SetInfo(target);
+    }
+
     public override void SetInfo(object obj)
     {
-        this.target = obj as LBSDirectionedGroup;
+        this.target = obj;
+        var target = obj as LBSDirectionedGroup;
 
-        labelField = new TextField();
-        this.Add(labelField);
-        labelField.RegisterCallback<BlurEvent>(e => {
-            target.Label = labelField.value;
-        });
+        labelField.value = target.Label;
 
         content = new VisualElement();
         this.Add(content);
@@ -51,6 +55,15 @@ public class LBSDirectionGroupEditor : LBSCustomEditor
 
     protected override VisualElement CreateVisualElement()
     {
-        throw new System.NotImplementedException();
+        var target = this.target as LBSDirectionedGroup;
+
+        var ve = new VisualElement();
+        labelField = new TextField();
+        labelField.RegisterCallback<BlurEvent>(e => {
+            target.Label = labelField.value;
+        });
+
+        ve.Add(labelField);
+        return ve;
     }
 }

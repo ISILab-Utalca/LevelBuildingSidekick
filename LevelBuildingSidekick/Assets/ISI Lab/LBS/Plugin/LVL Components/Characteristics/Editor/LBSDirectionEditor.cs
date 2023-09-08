@@ -4,30 +4,6 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
 
-public abstract class LBSCustomEditor : VisualElement
-{
-    #region FIELDS
-    protected object target;
-    #endregion
-
-    #region CONSTRUCTORS
-    public LBSCustomEditor() { }
-
-    public LBSCustomEditor(object target) 
-    { 
-        this.target = target; 
-    }
-    #endregion
-
-    #region METHODS
-    public virtual void ContextMenu(ContextualMenuPopulateEvent evt) { }
-
-    public abstract void SetInfo(object target);
-
-    protected abstract VisualElement CreateVisualElement();
-    #endregion
-
-}
 
 [LBSCustomEditorAttribute("Weigths", typeof(LBSDirection))]
 public class LBSDirectionEditor : LBSCustomEditor
@@ -35,6 +11,11 @@ public class LBSDirectionEditor : LBSCustomEditor
     public LBSDirectionEditor()
     {
 
+    }
+
+    public LBSDirectionEditor(object target) : base(target)
+    {
+        SetInfo(target);
     }
 
     public override void SetInfo(object obj)

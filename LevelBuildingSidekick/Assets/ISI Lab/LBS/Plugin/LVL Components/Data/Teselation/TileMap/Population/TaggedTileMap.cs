@@ -71,7 +71,7 @@ public class TaggedTileMap : LBSModule
         var dir = new List<TileBundlePair>();
         foreach (var pair in pairTiles)
         {
-            dir.Add(new TileBundlePair(pair.Tile, pair.BundleData));
+            dir.Add(new TileBundlePair(pair.Tile, pair.BundleData, pair.Rotation));
         }
 
         return new TaggedTileMap(id, dir);
@@ -118,7 +118,7 @@ public class TaggedTileMap : LBSModule
             //RemoveTile(xx);
             return;
         }
-        pairTiles.Add(new TileBundlePair(t, null));
+        pairTiles.Add(new TileBundlePair(t, null, Vector2.right));
         //if (pairTiles.ContainsKey(t))
         //    pairTiles.Add((t), new BundleData());
     }

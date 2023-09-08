@@ -10,38 +10,45 @@ public class LBSTagsCharEditor : LBSCustomEditor
     public TextField labelField;
     public DropdownField dropdownField;
 
-    public LBSTagsCharacteristic target;
-
     public LBSTagsCharEditor()
     {
+        Add(CreateVisualElement());
+    }
+
+    public LBSTagsCharEditor(object target) : base(target)
+    {
+        Add(CreateVisualElement());
+        SetInfo(target);
+    }
+
+    public override void SetInfo(object target)
+    {
+        this.target = target;
+        var tc = target as LBSTagsCharacteristic;
+
+        labelField.value = tc?.Label;
+        dropdownField.value = tc?.Value?.Label;
+    }
+
+    protected override VisualElement CreateVisualElement()
+    {
+        var ve = new VisualElement();
         var storage = LBSAssetsStorage.Instance;
+        var target = this.target as LBSTagsCharacteristic;
 
         labelField = new TextField();
-        this.Add(labelField);
+        ve.Add(labelField);
         labelField.RegisterCallback<BlurEvent>(e => {
             target.Label = labelField.value;
         });
 
         dropdownField = new DropdownField("Value:");
-        this.Add(dropdownField);
+        ve.Add(dropdownField);
         var tags = storage.Get<LBSIdentifier>();
         dropdownField.choices = tags.Select(t => t.Label).ToList();
         dropdownField.RegisterCallback<ChangeEvent<string>>(e => {
             target.Value = tags.Find(t => t.Label == e.newValue);
         });
-
-    }
-
-    public override void SetInfo(object target)
-    {
-        this.target = target as LBSTagsCharacteristic;
-
-        labelField.value = this.target?.Label;
-        dropdownField.value = this.target?.Value?.Label;
-    }
-
-    protected override VisualElement CreateVisualElement()
-    {
-        throw new System.NotImplementedException();
+        return ve;
     }
 }
