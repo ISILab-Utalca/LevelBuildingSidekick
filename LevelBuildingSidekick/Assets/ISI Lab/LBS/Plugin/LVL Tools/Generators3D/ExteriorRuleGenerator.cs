@@ -55,7 +55,7 @@ namespace LBS.Generator
             var storage = LBSAssetsStorage.Instance;
             var modulo = layer.GetModule<ExteriorModule>();
             var bundles = storage.Get<Bundle>()
-                .Where(b => b.GetCharacteristics<LBSDirectionedGroup>() != null && !b.isPreset)
+                .Where(b => b.GetCharacteristics<LBSDirectionedGroup>() != null && !b.IsPresset)
                 .Select(b => b.GetCharacteristics<LBSDirectionedGroup>())
                 .ToList()[0];
             

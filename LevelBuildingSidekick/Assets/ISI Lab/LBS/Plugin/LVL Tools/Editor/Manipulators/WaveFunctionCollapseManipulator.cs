@@ -51,7 +51,7 @@ public class WaveFunctionCollapseManipulator : ManipulateTeselation
         var fathers = bundles
             .Select(b => b.GetCharacteristics<LBSDirectionedGroup>()[0])    // obtiene todos los bundles que tengan DirsGroup
             .Where(e => e != null)                                      // que no sean nulls
-            .Where(e => !e.Owner.isPreset)                              // ni pressets;
+            .Where(e => !e.Owner.IsPresset)                              // ni pressets;
             .ToList();
 
         var father = fathers[0];
