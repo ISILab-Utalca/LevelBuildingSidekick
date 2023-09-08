@@ -465,7 +465,8 @@ namespace LBS.Components
 
         public object Clone()
         {
-            var modules = this.modules.Select(m => m.Clone() as LBSModule);
+            var modules = this.modules.Clone();
+            //var modules = this.modules.Select(m => m.Clone() as LBSModule);
             var assistants = this.assitants.Select(a => a.Clone() as LBSAssistant);
             var rules = this.generatorRules.Select(r => r.Clone() as LBSGeneratorRule);
             var behaviours = this.behaviours.Select(b => b.Clone() as LBSBehaviour);

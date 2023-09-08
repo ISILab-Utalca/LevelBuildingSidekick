@@ -12,6 +12,7 @@ public class DrawGrammarGraph : Drawer
 
     public override void Draw(ref LBSLayer layer, MainView view)
     {
+        /*
         var graph = layer.GetModule<LBSGraph>();
 
         var nViews = new List<LBSNodeView_Old<LBSNode>>();
@@ -35,6 +36,7 @@ public class DrawGrammarGraph : Drawer
             view.AddElement(element);
             element.SendToBack();
         }
+        */
     }
 
 

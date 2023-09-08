@@ -10,12 +10,9 @@ using UnityEngine;
 [System.Serializable]
 public class SectorizedTileMapModule : LBSModule, ISelectable
 {
-
-
     #region FIELDS
     [SerializeField, JsonRequired, SerializeReference]
     private List<Zone> zones = new List<Zone>();
-
 
     [SerializeField, JsonRequired, SerializeReference]
     private List<TileZonePair> pairs = new List<TileZonePair>();
@@ -158,12 +155,15 @@ public class SectorizedTileMapModule : LBSModule, ISelectable
 
     public List<LBSTile> GetTiles(Zone zone)
     {
-        var tiles = this.pairs.Where(t => t.Zone.Equals(zone));
-        if(tiles.Count() > 0)
+        var tiles = new List<LBSTile>();
+        foreach (var pair in pairs)
         {
-            return tiles.Select(t => t.Tile).ToList();
+            if(pair.Zone == zone)
+            {
+                tiles.Add(pair.Tile);
+            }
         }
-        return new List<LBSTile>();
+        return tiles;
     }
 
     public Rect GetBounds(Zone zone)
@@ -243,7 +243,7 @@ public class SectorizedTileMapModule : LBSModule, ISelectable
 
     public override void OnDetach(LBSLayer layer)
     {
-        throw new System.NotImplementedException();
+
     }
 
     public override void Reload(LBSLayer layer)
@@ -555,7 +555,10 @@ public class TileZonePair : ICloneable
     #region METHODS
     public object Clone()
     {
-        return new TileZonePair(tile, zone);
+        var cTile = CloneRefs.tryGet(tile) as LBSTile;
+        var cZone = CloneRefs.tryGet(zone) as Zone;
+
+        return new TileZonePair(cTile, cZone);
     }
     #endregion
 

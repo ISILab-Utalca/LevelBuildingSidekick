@@ -13,12 +13,14 @@ MonoBehaviour:
   m_Name: plains_T_Path
   m_EditorClassIdentifier: 
   isPreset: 0
-  id: {fileID: 0}
+  id: {fileID: 11400000, guid: 29bb7522bbb9fa249819f016dc0d4b13, type: 2}
   childsBundles: []
   assets:
-  - {fileID: 6451810950947566407, guid: e0b42a5f5c9cd1146b13c8edad8a536f, type: 3}
+  - obj: {fileID: 0}
+    probability: 0
   characteristics:
   - rid: 3767989597796302928
+  positioning: 0
   references:
     version: 2
     RefIds:

@@ -20,6 +20,8 @@ public class HillClimbingAssistantEditor : LBSCustomEditor, IToolProvider
     private Button revert;
     private Button execute;
 
+    private Button recalculate;
+
     private LBSLayer tempLayer;
 
     // Manipulators
@@ -61,8 +63,6 @@ public class HillClimbingAssistantEditor : LBSCustomEditor, IToolProvider
 
     protected override VisualElement CreateVisualElement()
     {
-        return this; // (!!!!!!!!)
-
         var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("HillClimbingEditor");
         visualTree.CloneTree(this);
 
@@ -85,7 +85,20 @@ public class HillClimbingAssistantEditor : LBSCustomEditor, IToolProvider
         this.execute = this.Q<Button>("Execute");
         this.execute.clicked += OnExecute;
 
-
+        // Recalculate
+        this.recalculate = new Button();
+        recalculate.text = "Recalculate Constraint";
+        recalculate.clicked += () => {
+            hillClimbing.RecalculateConstraint();
+            foreach (var constraint in moduleConstr.Constraints)
+            {
+                var view = new ConstraintView();
+                view.SetData(constraint);
+                foldout.Add(view);
+            }
+        };
+        this.Add(recalculate);
+        
         return this;
     }
 
@@ -99,7 +112,7 @@ public class HillClimbingAssistantEditor : LBSCustomEditor, IToolProvider
     {
         if (tempLayer == null)
         {
-            Debug.Log("|no existe version para revertir.");
+            Debug.Log("No existe version para revertir.");
             return;
         }
 

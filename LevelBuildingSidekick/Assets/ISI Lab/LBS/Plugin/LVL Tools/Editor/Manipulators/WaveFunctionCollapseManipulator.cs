@@ -49,7 +49,7 @@ public class WaveFunctionCollapseManipulator : ManipulateTeselation
 
         var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
         var fathers = bundles
-            .Select(b => b.GetCharacteristic<LBSDirectionedGroup>())    // obtiene todos los bundles que tengan DirsGroup
+            .Select(b => b.GetCharacteristics<LBSDirectionedGroup>()[0])    // obtiene todos los bundles que tengan DirsGroup
             .Where(e => e != null)                                      // que no sean nulls
             .Where(e => !e.Owner.isPreset)                              // ni pressets;
             .ToList();
@@ -117,7 +117,7 @@ public class WaveFunctionCollapseManipulator : ManipulateTeselation
         for (int i = 0; i < group.Weights.Count; i++)
         {
             var weigth = group.Weights[i].weigth;
-            var sBundle = group.Weights[i].target.GetCharacteristic<LBSDirection>();
+            var sBundle = group.Weights[i].target.GetCharacteristics<LBSDirection>()[0];
             for (int j = 0; j < 4; j++) // esto deberia ser por numero de conexiones y no directamente un 4 (!!)
             {
                 var array = sBundle.GetConnection(j);

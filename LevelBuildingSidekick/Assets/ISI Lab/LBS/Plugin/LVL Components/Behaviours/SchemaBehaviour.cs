@@ -142,7 +142,6 @@ public class SchemaBehaviour : LBSBehaviour
         return pair.Zone;
     }
 
-
     public Zone GetZone(Vector2 position)
     {
         return GetZone(GetTile(position.ToInt()));
