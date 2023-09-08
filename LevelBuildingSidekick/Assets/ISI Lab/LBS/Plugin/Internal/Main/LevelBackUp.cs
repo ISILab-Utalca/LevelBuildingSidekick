@@ -34,7 +34,6 @@ namespace LBS
                 return instance;
             }
 
-
             // si no encuentra la instancia, la crea y la retorna
             var backUp = ScriptableObject.CreateInstance<LevelBackUp>();
 #if UNITY_EDITOR
@@ -82,5 +81,4 @@ namespace LBS
             this.data = data;
         }
     }
-
 }
