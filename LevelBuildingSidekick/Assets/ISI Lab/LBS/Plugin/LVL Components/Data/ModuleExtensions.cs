@@ -1,4 +1,5 @@
 using LBS.Components;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -66,7 +67,7 @@ public static class CloneRefs
         dictionary[original] = clone;
     }
 
-    public static object tryGet(object original)
+    public static object Get(object original)
     {
         if (!cicloDeClonado)
         {
@@ -74,7 +75,14 @@ public static class CloneRefs
             return null;
         }
 
-        return dictionary[original];
+        try
+        {
+            return dictionary[original];
+        }
+        catch(Exception e)
+        {
+            return null;
+        }
     }
 
 }
