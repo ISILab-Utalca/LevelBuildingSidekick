@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 [System.Serializable]
 [Obsolete("AAA")]
@@ -19,8 +20,10 @@ public class DrawSimpleGraph : Drawer
 
     public DrawSimpleGraph() : base() { }
 
-    public override void Draw(ref LBSLayer layer, MainView view)
+
+    public override void Draw(object target, MainView view, Vector2 teselationSize)
     {
+        /*
         var graph = layer.GetModule<GraphModule<RoomNode>>();
 
         var pixelSize = layer.TileSize * LBSSettings.Instance.general.TileSize;
@@ -35,7 +38,7 @@ public class DrawSimpleGraph : Drawer
             element.SetText(node.ID);
             element.SetColor(node.Room.Color);
             element.OnGVC += (mgc) => { DrawArea(mgc, element.GetPosition().size, node.Room.Size, pixelSize); };
-            
+
             nViews.Add(element);
 
             var mainCont = new VisualElement();
@@ -55,11 +58,7 @@ public class DrawSimpleGraph : Drawer
             //view.AddElement(element);
             //element.SendToBack();
         }
-    }
-
-    public override void Draw(object target, MainView view, Vector2 teselationSize)
-    {
-        throw new System.NotImplementedException();
+        */
     }
 
     private void DrawArea(MeshGenerationContext mgc,Vector2 nodeSize,Vector2 tileSize,Vector2 pixelSize)
