@@ -8,10 +8,6 @@ using UnityEngine.UIElements;
 using Utility;
 public class ExteriorTileView : GraphElement
 {
-    private ConnectedTile data;
-
-    public ConnectedTile Data => data;
-
     // VisualElements
     private VisualElement left;
     private VisualElement right;
@@ -21,7 +17,7 @@ public class ExteriorTileView : GraphElement
 
     private static VisualTreeAsset view;
 
-    public ExteriorTileView(ConnectedTile connectedTile)
+    public ExteriorTileView(List<string> connections)
     {
         if (view == null)
         {
@@ -40,9 +36,8 @@ public class ExteriorTileView : GraphElement
         bottom = this.Q<VisualElement>("Bottom");
         border = this.Q<VisualElement>("Border");
 
-        this.data = connectedTile;
 
-        SetConnections(data.Connections);
+        SetConnections(connections.ToArray());
     }
 
     public void SetBackgroundColor(Color color)
@@ -54,7 +49,6 @@ public class ExteriorTileView : GraphElement
     public void SetConnections(string[] tags)
     {
         var tts = LBSAssetsStorage.Instance.Get<LBSIdentifier>();
-
 
         if (!string.IsNullOrEmpty(tags[0]))
         {
