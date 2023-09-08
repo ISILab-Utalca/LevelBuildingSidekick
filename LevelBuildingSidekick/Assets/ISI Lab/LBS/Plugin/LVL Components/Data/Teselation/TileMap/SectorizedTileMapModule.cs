@@ -41,8 +41,13 @@ public class SectorizedTileMapModule : LBSModule, ISelectable
 
     }
 
-    public SectorizedTileMapModule(List<TileZonePair> tiles, string id = "TilesToAreaModule") : base(id)
+    public SectorizedTileMapModule(List<Zone> zones, List<TileZonePair> tiles, string id = "TilesToAreaModule") : base(id)
     {
+        foreach (var zone in zones)
+        {
+            AddZone(zone);
+        }
+
         foreach(var t in tiles)
         {
             AddTile(t);
@@ -62,6 +67,7 @@ public class SectorizedTileMapModule : LBSModule, ISelectable
             poss.Add(t.Position + dir);
         }
 
+        var tor = new List<LBSTile>();
         foreach (var otherZone in zones)
         {
             if (zone.ID != otherZone.ID)
@@ -71,15 +77,22 @@ public class SectorizedTileMapModule : LBSModule, ISelectable
                 foreach (var t in otherTiles)
                 {   
                     if(poss.Contains(t.Position))
-                        RemoveTile(t);
+                    {
+                        tor.Add(t);
+                    }
                 }
             }
+        }
+
+        foreach (var t in tor)
+        {
+            RemoveTile(t);
         }
     }
 
     public void AddTile(TileZonePair tile)
     {
-        var t = GetPairTile(tile.Tile);
+        var t = GetPairTile(tile.Tile.Position);
         if (t != null)
         {
             pairs.Remove(t);
@@ -102,7 +115,13 @@ public class SectorizedTileMapModule : LBSModule, ISelectable
         if (pairs.Count <= 0)
             return null;
 
-        return pairs.Find(t => t.Tile.Equals(tile));
+        foreach (var pair in pairs)
+        {
+            if (pair.Tile == tile)
+                return pair;
+        }
+        return null;
+        //return pairs.Find(t => t.Tile.Equals(tile));
     }
 
     private TileZonePair GetPairTile(Vector2Int pos)
@@ -212,7 +231,6 @@ public class SectorizedTileMapModule : LBSModule, ISelectable
         return pairs.Select(t => t.Tile).GetBounds();
     }
 
-
     public override bool IsEmpty()
     {
         return pairs.Count <= 0;
@@ -225,11 +243,12 @@ public class SectorizedTileMapModule : LBSModule, ISelectable
 
     public override object Clone()
     {
-        return new SectorizedTileMapModule(
-            pairs.Select(t => t.Clone())
-                .Cast<TileZonePair>()
-                .ToList(),
-            ID);
+        var zones = this.zones.Select(t => t.Clone()).Cast<Zone>().ToList();
+        var pairs = this.pairs.Select(t => t.Clone()).Cast<TileZonePair>().ToList();
+
+        var clone = new SectorizedTileMapModule(zones, pairs, this.id);
+
+        return clone;
     }
 
     public override void Rewrite(LBSModule module)
@@ -525,11 +544,11 @@ public class SectorizedTileMapModule : LBSModule, ISelectable
 public class TileZonePair : ICloneable
 {
     #region FIELDS
-    [SerializeField, JsonRequired, SerializeReference]
+    [SerializeField, SerializeReference, JsonRequired]
     private LBSTile tile;
-    [SerializeField, JsonRequired, SerializeReference]
-    private Zone zone;
 
+    [SerializeField, SerializeReference, JsonRequired]
+    private Zone zone;
     #endregion
 
     #region PROEPRTIES
@@ -555,8 +574,8 @@ public class TileZonePair : ICloneable
     #region METHODS
     public object Clone()
     {
-        var cTile = CloneRefs.tryGet(tile) as LBSTile;
-        var cZone = CloneRefs.tryGet(zone) as Zone;
+        var cTile = CloneRefs.Get(tile) as LBSTile;
+        var cZone = CloneRefs.Get(zone) as Zone;
 
         return new TileZonePair(cTile, cZone);
     }
