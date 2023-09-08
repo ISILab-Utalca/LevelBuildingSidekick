@@ -1,3 +1,4 @@
+using LBS.Components;
 using LBS.Components.TileMap;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,43 +7,39 @@ using UnityEngine.UIElements;
 
 public class RemoveTileExterior : ManipulateTeselation
 {
+    private ExteriorBehaviour exterior;
+
+    public override void Init(LBSLayer layer, object owner)
+    {
+        base.Init(layer, owner);
+
+        exterior = owner as ExteriorBehaviour;
+    }
+
     protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
     {
-        /*
-        OnManipulationStart?.Invoke();
-        var view = e.target as ExteriorTileView;
-        
-        if (view == null)
-        {
-            return;
-        }
-        var tile = view.Data;
 
-        module.RemoveTile(tile as T);
-
-        OnManipulationEnd?.Invoke();
-        */
     }
 
     protected override void OnMouseMove(VisualElement target, Vector2Int position,  MouseMoveEvent e)
     {
-        //throw new System.NotImplementedException();
+
     }
 
     protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
     {
-        var min = this.module.Owner.ToFixedPosition(Vector2Int.Min(StartPosition, EndPosition));
-        var max = this.module.Owner.ToFixedPosition(Vector2Int.Max(StartPosition, EndPosition));
+        var min = exterior.Owner.ToFixedPosition(Vector2Int.Min(StartPosition, EndPosition));
+        var max = exterior.Owner.ToFixedPosition(Vector2Int.Max(StartPosition, EndPosition));
 
         for (int i = min.x; i <= max.x; i++)
         {
             for (int j = min.y; j <= max.y; j++)
             {
                 var pos = new Vector2Int(i, j);
-                var tile = module.GetTile(pos);
+                var tile = exterior.GetTile(pos);
                 if (tile == null)
                     continue;
-                module.RemoveTile(tile);
+                exterior.RemoveTile(tile);
             }
         }
     }
