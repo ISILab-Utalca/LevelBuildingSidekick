@@ -21,12 +21,13 @@ using LBS.Assisstants;
 using UnityEditor.Graphs;
 using UnityEngine.Tilemaps;
 using System.Reflection;
+using UnityEditor.MemoryProfiler;
 
 [System.Serializable]
 [RequieredModule(typeof(TileMapModule),
     typeof(ConnectedTileMapModule),
     typeof(SectorizedTileMapModule),
-    typeof(ConnectedTileMapModule),
+    typeof(ConnectedZonesModule),
     typeof(ConstrainsZonesModule))]
 //[RequieredModule(typeof(LBSRoomGraph), typeof(LBSSchema))]
 public class HillClimbingAssistant : LBSAssistant
@@ -105,12 +106,12 @@ public class HillClimbingAssistant : LBSAssistant
     public void RecalculateWalls(List<LBSModule> layer)
     {
         var tileModule = layer.GetModule<TileMapModule>();
-        var zones = layer.GetModule<SectorizedTileMapModule>();
+        var zonesMod = layer.GetModule<SectorizedTileMapModule>();
         var connection = layer.GetModule<ConnectedTileMapModule>();
 
         foreach (var tile in tileModule.Tiles)
         {
-            var currZone = GetZone(tile);
+            var currZone = zonesMod.GetZone(tile);
 
             var currConnects = connection.GetConnections(tile);
             var neigs = tileModule.GetTileNeighbors(tile, Dirs);// GetTileNeighbors(tile, Directions);
@@ -131,11 +132,9 @@ public class HillClimbingAssistant : LBSAssistant
                     continue;
                 }
 
-                var otherZone = GetZone(neigs[i]);
+                var otherZone = zonesMod.GetZone(neigs[i]);
                 if (otherZone == currZone)
                 {
-
-
                     connection.SetConnection(tile, i, "Empty", true);
                 }
                 else
@@ -163,6 +162,7 @@ public class HillClimbingAssistant : LBSAssistant
             var connection = connectedTiles.GetConnections(tile);
             for (int i = 0; i < connection.Count; i++)
             {
+                // set all DOORS to WALLS
                 if (connection[i] == "Door")
                     connection[i] = "Wall";
             }
@@ -208,8 +208,8 @@ public class HillClimbingAssistant : LBSAssistant
 
             // Get direction indexs
             var dir = selc.Item1.Position - selc.Item2.Position;
-            var indx1 = Directions.Bidimencional.Edges.IndexOf(dir);
-            var indx2 = Directions.Bidimencional.Edges.IndexOf(-dir);
+            var indx1 = Directions.Bidimencional.Edges.IndexOf(-dir);
+            var indx2 = Directions.Bidimencional.Edges.IndexOf(dir);
 
             // Get direction pairs
             var p1 = connectedTiles.GetPair(selc.Item1);
@@ -330,12 +330,14 @@ public class HillClimbingAssistant : LBSAssistant
                 neighbours.Add(neigth);
             }
 
+            /*
             // Create optimizalbe moving zones
             foreach( var dir in Dirs)
             {
                 var neigth = GetNeigthByMove(adam,zone.ID, dir);
                 neighbours.Add(neigth);
             }
+            */
         }
 
         return neighbours;
@@ -360,6 +362,7 @@ public class HillClimbingAssistant : LBSAssistant
         // Get relative modules
         var zonesMod = modules.GetModule<SectorizedTileMapModule>();
         var tilesMod = modules.GetModule<TileMapModule>();
+        var connectMod = modules.GetModule<ConnectedTileMapModule>();
 
         foreach (var pos in walls)
         {
@@ -367,6 +370,7 @@ public class HillClimbingAssistant : LBSAssistant
             var nTile = new LBSTile(pos + dir);
             tilesMod.AddTile(nTile);
             zonesMod.AddTile(nTile, zone);
+            connectMod.AddTile(nTile, new List<string>() { "", "", "", "" }, new List<bool>() { true, true, true, true });
         }
 
         // return neigthbour
@@ -387,6 +391,7 @@ public class HillClimbingAssistant : LBSAssistant
         // Get relative modules
         var zonesMod = modules.GetModule<SectorizedTileMapModule>();
         var tilesMod = modules.GetModule<TileMapModule>();
+        var connectMod = modules.GetModule<ConnectedTileMapModule>();
 
         foreach (var pos in walls)
         {
@@ -394,6 +399,7 @@ public class HillClimbingAssistant : LBSAssistant
             var tile = tilesMod.GetTile(pos);
             tilesMod.RemoveTile(tile);
             zonesMod.RemoveTile(tile);
+            connectMod.RemoveTile(tile);
         }
 
         // return neigthbour
@@ -438,6 +444,18 @@ public class HillClimbingAssistant : LBSAssistant
             return null;
 
         var pair = AreasMod.GetPairTile(tile);
+
+
+        if (pair == null || pair.Zone == null)
+        {
+            var msg = "";
+            AreasMod.PairTiles.ForEach(p => msg += p.Tile.GetHashCode() + "\n");
+            msg += "=====\n";
+            msg += tile.GetHashCode();
+            Debug.Log(msg);
+            return null;
+        }
+
         return pair.Zone;
     }
 
