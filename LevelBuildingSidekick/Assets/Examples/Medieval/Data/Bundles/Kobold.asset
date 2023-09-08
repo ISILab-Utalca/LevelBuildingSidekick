@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: Kobold
   m_EditorClassIdentifier: 
   isPreset: 0
+  type: 2
   id: {fileID: 11400000, guid: cd8b94b9c8790d34cba1f8a51e0aa7e2, type: 2}
   childsBundles: []
   assets:
-  - {fileID: 4697017240656324050, guid: ef3ee8e9532db8c40b265a28af26e99e, type: 3}
+  - obj: {fileID: 0}
+    probability: 0
   characteristics: []
   references:
     version: 2

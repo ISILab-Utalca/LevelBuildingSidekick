@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: Axe
   m_EditorClassIdentifier: 
   isPreset: 0
+  type: 2
   id: {fileID: 11400000, guid: 90c0458b7a8ee514d9c7ba0ace177f05, type: 2}
   childsBundles: []
   assets:
-  - {fileID: 5985913672691555782, guid: 858cdd6efc6ca4e46869f4233b09a479, type: 3}
+  - obj: {fileID: 0}
+    probability: 0
   characteristics: []
   references:
     version: 2
