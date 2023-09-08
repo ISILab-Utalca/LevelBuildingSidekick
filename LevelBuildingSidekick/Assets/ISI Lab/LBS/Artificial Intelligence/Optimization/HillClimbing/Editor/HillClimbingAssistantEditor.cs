@@ -85,7 +85,7 @@ public class HillClimbingAssistantEditor : LBSCustomEditor, IToolProvider
         this.execute = this.Q<Button>("Execute");
         this.execute.clicked += OnExecute;
 
-        // Recalculate
+        // Recalculate //parche(!)
         this.recalculate = new Button();
         recalculate.text = "Recalculate Constraint";
         recalculate.clicked += () => {
@@ -98,13 +98,30 @@ public class HillClimbingAssistantEditor : LBSCustomEditor, IToolProvider
             }
         };
         this.Add(recalculate);
-        
+
+        // parche (!)
+        var clear = new Button();
+        clear.text = "Clear Constraints";
+        clear.clicked += () =>
+        {
+            moduleConstr.Constraints.Clear();
+            this.Paint();
+        };
+        this.Add(clear);
+
         return this;
     }
 
+    private void Paint()
+    {
+        this.Clear();
+        CreateVisualElement();
+    }
+
+
     private void OnExecute()
     {
-        tempLayer = hillClimbing.Owner.Clone() as LBSLayer;
+        //tempLayer = hillClimbing.Owner.Clone() as LBSLayer; // (!!)
         hillClimbing.Execute();
     }
 
