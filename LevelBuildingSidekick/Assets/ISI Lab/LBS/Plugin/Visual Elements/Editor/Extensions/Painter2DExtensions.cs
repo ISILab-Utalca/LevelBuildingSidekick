@@ -48,15 +48,15 @@ public static class Painter2DExtensions
     public static void DrawSelectionBox(this Painter2D paint2D, Vector2 pos1, Vector2 pos2, Color color, int width = 1)
     {
         var fillColor = color * new Color(1, 1, 1, 0.2f);
-        
-        var points = new List<Vector2>() 
-        { 
+
+        var points = new List<Vector2>()
+        {
             new Vector2(pos1.x, pos1.y),
             new Vector2(pos2.x, pos1.y),
             new Vector2(pos1.x, pos2.y),
             new Vector2(pos2.x, pos2.y),
         };
-        paint2D.DrawPolygon(points,color,fillColor,4);
+        paint2D.DrawPolygon(points, color, fillColor, 4);
     }
 
     /// <summary>
@@ -111,7 +111,7 @@ public static class Painter2DExtensions
         {
             if (i % 2 == 0)
             {
-                DrawLine(paint2D,  dots[i - 1], dots[i] , color, stroke);
+                DrawLine(paint2D, dots[i - 1], dots[i], color, stroke);
             }
         }
     }
@@ -127,6 +127,19 @@ public static class Painter2DExtensions
     public static void DrawLine(this Painter2D paint2D, Vector2 iniPos, Vector2 endPos, Color color, float stroke = 5)
     {
         DrawPolygon(paint2D, new List<Vector2>() { iniPos, endPos }, new Color(0, 0, 0, 0), color, stroke);
+    }
+
+    public static void DrawDottedPolygon(this Painter2D paint2D, List<Vector2> point, Color color, float stroke = 1, bool closed = false)
+    {
+        for (int i = 1; i < point.Count; i++)
+        {
+            paint2D.DrawDottedLine(point[i - 1], point[i], color, stroke);
+        }
+
+        if (closed)
+        {
+            paint2D.DrawDottedLine(point[point.Count - 1], point[0], color, stroke);
+        }
     }
 
     /// <summary>
