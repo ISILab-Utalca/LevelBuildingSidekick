@@ -74,7 +74,7 @@ public class SchemaBehaviour : LBSBehaviour
     }
 
     public void AddZone()
-    {
+    { 
         string prefix = "Zone: ";
         int counter = 0;
         string name = prefix + counter;
