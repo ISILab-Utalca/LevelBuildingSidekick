@@ -6,31 +6,30 @@ using UnityEngine;
 using static UnityEditor.Experimental.GraphView.GraphView;
 using UnityEngine.EventSystems;
 using LBS.Components.Specifics;
+using LBS.Components.TileMap;
 
 [Drawer(typeof(SchemaBehaviour))]
 public class SchemaDrawer : Drawer
 {
-    
-
-    public override void Draw(ref LBSLayer layer, MainView view)
-    {
-        throw new System.NotImplementedException();
-    }
-
     public override void Draw(object target, MainView view, Vector2 teselationSize)
     {
         var schema = target as SchemaBehaviour;
+        var layer = schema.Owner;
 
-        foreach (var t in schema.Tiles)
+        var tilesMod = layer.GetModule<TileMapModule>();
+        var zonesMod = layer.GetModule<SectorizedTileMapModule>();
+        var connectionsMod = layer.GetModule<ConnectedTileMapModule>();
+
+        foreach (var t in tilesMod.Tiles)
         {
             var tView = new SchemaTileView();
             var size = DefalutSize * teselationSize;
             tView.SetPosition(new Rect(t.Position * size, size));
 
-            var zone = schema.GetZone(t);
+            var zone = zonesMod.GetZone(t);
             tView.SetBackgroundColor(zone.Color);
 
-            var conections = schema.GetConnections(t);
+            var conections = connectionsMod.GetConnections(t);
             tView.SetConnections(conections.ToArray());
 
             view.AddElement(tView);
