@@ -51,8 +51,14 @@ public class ConstraintView : VisualElement
 
     public void SetData(ConstraintPair pair)
     {
-        SetName(pair.zone.ID);
-        this.constraint = pair.constraint;
+        SetName(pair.Zone.ID);
+        this.constraint = pair.Constraint;
+
+        widthMin.value = pair.Constraint.minWidth;
+        widthMax.value = pair.Constraint.maxWidth;
+
+        heightMin.value = pair.Constraint.minHeight;
+        heightMax.value = pair.Constraint.maxHeight;
     }
     #endregion
 }
