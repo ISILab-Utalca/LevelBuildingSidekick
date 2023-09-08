@@ -36,9 +36,9 @@ public class ConstrainsZonesModule : LBSModule
     {
         foreach (var pair in pairs)
         {
-            if(pair.zone == zone)
+            if(pair.Zone == zone)
             {
-                return pair.constraint;
+                return pair.Constraint;
             }
         }
         return null;
@@ -50,9 +50,9 @@ public class ConstrainsZonesModule : LBSModule
         pairs.Clear();
         foreach (var zone in zones)
         {
-            if (temp.Any(t => t.zone == zone))
+            if (temp.Any(t => t.Zone == zone))
             {
-                var x = temp.Find(t => t.zone == zone);
+                var x = temp.Find(t => t.Zone == zone);
                 pairs.Add(x);
                 continue;
             }
@@ -79,7 +79,10 @@ public class ConstrainsZonesModule : LBSModule
 
     public override object Clone()
     {
-        return new ConstrainsZonesModule(pairs.Select(c => c.Clone()).Cast<ConstraintPair>().ToList());
+        var clone = new ConstrainsZonesModule();
+        clone.pairs = this.pairs.Select(c => c.Clone()).Cast<ConstraintPair>().ToList();
+
+        return clone;
     }
 
     public override Rect GetBounds()
@@ -113,10 +116,21 @@ public class ConstrainsZonesModule : LBSModule
 [System.Serializable]
 public class ConstraintPair : ICloneable
 {
-    [SerializeField, JsonRequired, SerializeReference]
-    public Zone zone;
-    [SerializeField, JsonRequired]
-    public Constraint constraint;
+    #region FIELDS
+    [SerializeField, SerializeReference, JsonRequired]
+    private Zone zone;
+    [SerializeField, SerializeReference, JsonRequired]
+    private Constraint constraint;
+    #endregion
+
+    #region
+    [JsonIgnore]
+    public Zone Zone => zone;
+
+    [JsonIgnore]
+    public Constraint Constraint => constraint;
+    #endregion
+
     public ConstraintPair(Zone zone, Constraint constraint)
     {
         this.zone = zone;
