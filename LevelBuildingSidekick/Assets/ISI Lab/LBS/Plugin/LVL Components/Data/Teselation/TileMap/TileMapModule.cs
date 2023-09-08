@@ -108,8 +108,16 @@ namespace LBS.Components.TileMap
 
         public LBSTile GetTile(Vector2Int pos)
         {
-            var tile = tiles.Find(t => t.Position == pos);
-            return tile;
+            foreach (var tile in tiles)
+            {
+                if (tile.Position == pos)
+                    return tile;
+            }
+
+            return null;
+
+            //var tile = tiles.Find(t => t.Position == pos);
+            //return tile;
         }
 
         public LBSTile GetTile(int index)
@@ -248,7 +256,7 @@ namespace LBS.Components.TileMap
         public override object Clone()
         {
             var tileMap = new TileMapModule();
-            tileMap.tiles = tiles.Select(t => t.Clone() as LBSTile).ToList(); //new List<LBSTile>(tiles);
+            tileMap.tiles = tiles.Select(t => t.Clone() as LBSTile).ToList();
             return tileMap;
         }
 
