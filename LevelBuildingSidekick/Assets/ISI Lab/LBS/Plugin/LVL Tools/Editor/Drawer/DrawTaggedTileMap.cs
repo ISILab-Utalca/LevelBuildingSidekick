@@ -5,12 +5,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class DrawTaggedTileMap : Drawer
 {
 
-    public override void Draw(ref LBSLayer layer, MainView view)
+
+    public override void Draw(object target, MainView view, Vector2 teselationSize)
     {
+        /*
         var tilemap = layer.GetModule<TaggedTileMap>();
 
         foreach (var k in tilemap.PairTiles.Select(x => x.Tile))
@@ -22,10 +25,6 @@ public class DrawTaggedTileMap : Drawer
             tView.SetPosition(new Rect(k.Position * size, size));
             view.AddElement(tView);
         }
-    }
-
-    public override void Draw(object target, MainView view, Vector2 teselationSize)
-    {
-        throw new System.NotImplementedException();
+        */
     }
 }
