@@ -68,17 +68,13 @@ public class Zone : ICloneable
     #endregion
 
     #region METHODS
-
     public object Clone()
     {
-        Zone clone;
-        try
+        Zone clone = CloneRefs.Get(this) as Zone;
+
+        if (clone == null)
         {
-            clone = CloneRefs.tryGet(this) as Zone;
-        }
-        catch (Exception e)
-        {
-            clone = new Zone(id, color);
+            clone = new Zone(this.id, this.color);
             CloneRefs.Add(this, clone);
         }
 
