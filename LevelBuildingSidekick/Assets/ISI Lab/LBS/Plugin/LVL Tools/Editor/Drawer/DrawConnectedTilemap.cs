@@ -5,12 +5,15 @@ using LBS.Settings;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 [System.Serializable]
 public class DrawConnectedTilemap : Drawer // DrawSchema
 {
-    public override void Draw(ref LBSLayer layer, MainView view)
+
+    public override void Draw(object target, MainView view, Vector2 teselationSize)
     {
+        /*
         var tilemap = layer.GetModule<AreaTileMap<TiledArea>>();
 
         foreach (var area in tilemap.Areas)
@@ -26,10 +29,6 @@ public class DrawConnectedTilemap : Drawer // DrawSchema
                 view.AddElement(tView);
             }
         }
-    }
-
-    public override void Draw(object target, MainView view, Vector2 teselationSize)
-    {
-        throw new System.NotImplementedException();
+        */
     }
 }
