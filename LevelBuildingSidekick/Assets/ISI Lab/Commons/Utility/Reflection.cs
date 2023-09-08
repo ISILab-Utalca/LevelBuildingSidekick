@@ -88,14 +88,14 @@ namespace Utility
 
         public static IEnumerable<Type> GetAllSubClassOf(Type baseType)
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            return assembly.GetTypes().Where(t => t.IsSubclassOf(baseType));
+            var toR = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes().Where(t => t.IsSubclassOf(baseType)));
+            return toR;
         }
 
         public static IEnumerable<Type> GetAllImplementationsOf(Type baseType)
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            return assembly.GetTypes().Where(t => t.GetInterface(baseType.Name) != null);
+            var toR = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes().Where(t => t.GetInterface(baseType.Name) != null));
+            return toR;
         }
 
         public static void PrintDerivedTypes(Type baseType)
