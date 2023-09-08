@@ -10,7 +10,7 @@ using UnityEngine;
 public class ConnectedZonesModule : LBSModule
 {
     #region FIELDS
-    [SerializeField, JsonRequired]
+    [SerializeField, JsonRequired, SerializeReference]
     List<ZoneEdge> edges = new List<ZoneEdge>();
     #endregion
 
@@ -133,8 +133,15 @@ public class ConnectedZonesModule : LBSModule
 [System.Serializable]
 public class ZoneEdge : ICloneable
 {
-    [SerializeField, JsonRequired]
-    Zone first;
+    #region FIELDS
+    [SerializeField, SerializeReference, JsonRequired]
+    private Zone first;
+
+    [SerializeField, SerializeReference, JsonRequired]
+    private Zone second;
+    #endregion
+
+    #region PROPERTIES
     [JsonIgnore]
     public Zone First
     {
@@ -142,24 +149,26 @@ public class ZoneEdge : ICloneable
         set => first = value;
     }
 
-
-    [SerializeField, JsonRequired]
-    Zone second;
     [JsonIgnore]
     public Zone Second
     {
         get => second;
         set => second = value;
     }
+    #endregion
 
+    #region CONSTRUCTORS
     public ZoneEdge(Zone first, Zone second)
     {
         this.first = first;
         this.second = second;
     }
+    #endregion
 
+    #region METHODS
     public object Clone()
     {
         return new ZoneEdge(first.Clone() as Zone, second.Clone() as Zone);
     }
+    #endregion
 }
