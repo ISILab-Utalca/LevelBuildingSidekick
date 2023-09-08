@@ -17,6 +17,10 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
 
     private List<LBSIdentifierBundle> Groups;
     private object[] options;
+
+    private AddEmptyTile addEmptyTile;
+    private RemoveTileExterior removeTile;
+    private SetTileConnection setTileConnection;
     #endregion
 
     #region VIEW FIELDS
@@ -56,15 +60,32 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
         this.exterior = target as ExteriorBehaviour;
     }
 
-    public void SetTools(ToolKit toolkit)
+    public void SetTools(ToolKit toolKit)
     {
         Texture2D icon;
 
         // Set empty tile
+        icon = Resources.Load<Texture2D>("Icons/Addnode");
+        this.addEmptyTile = new AddEmptyTile();
+        var t1 = new LBSTool(icon,"Add Empty Tile", addEmptyTile);
+        t1.Init(exterior.Owner,exterior);
+        toolKit.AddTool(t1);
 
         // Remove tile
+        icon = Resources.Load<Texture2D>("Icons/Trash");
+        this.removeTile = new RemoveTileExterior();
+        var t2 = new LBSTool(icon, "Remove Tile", removeTile);
+        t2.Init(exterior.Owner, exterior);
+        toolKit.AddTool(t2);
+
+        toolKit.AddSeparator(10);
 
         // Set connection
+        icon = Resources.Load<Texture2D>("Icons/open-exit-door");
+        this.setTileConnection = new SetTileConnection();
+        var t3 = new LBSTool(icon, "Set connection", setTileConnection);
+        t3.Init(exterior.Owner, exterior);
+        toolKit.AddTool(t3);
 
         // Wave function collapse
     }
