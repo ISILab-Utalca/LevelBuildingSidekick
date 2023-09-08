@@ -10,11 +10,14 @@ using UnityEngine.EventSystems;
 [Drawer(typeof(PopulationBehaviour))]
 public class PopulationDrawer : Drawer
 {
+<<<<<<< Updated upstream
     [Obsolete]
     public override void Draw(ref LBSLayer layer, MainView view)
     {
         throw new System.NotImplementedException();
     }
+=======
+>>>>>>> Stashed changes
 
     public override void Draw(object target, MainView view, Vector2 teselationSize)
     {
