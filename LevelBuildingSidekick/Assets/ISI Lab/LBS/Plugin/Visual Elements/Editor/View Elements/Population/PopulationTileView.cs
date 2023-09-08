@@ -9,7 +9,7 @@ using Utility;
 
 public class PopulationTileView : GraphElement
 {
-    List<VisualElement> arrows;
+    List<VisualElement> arrows = new List<VisualElement>();
 
     VisualElement icon;
 
@@ -25,16 +25,16 @@ public class PopulationTileView : GraphElement
         PopulationTileView.view.CloneTree(this);
 
         arrows.Add(this.Q<VisualElement>(name: "Right"));
-        arrows.Add(this.Q<VisualElement>(name: "Up")); 
-        arrows.Add(this.Q<VisualElement>(name: "Left"));
         arrows.Add(this.Q<VisualElement>(name: "Down")); 
+        arrows.Add(this.Q<VisualElement>(name: "Left"));
+        arrows.Add(this.Q<VisualElement>(name: "Up")); 
 
         icon = this.Q<VisualElement>(name: "Icon");
 
         var id = tile.BundleData.Identifier;
         SetColor(id.Color);
         SetImage(id.Icon);
-        SetDirection(tile.BundleData.GetCharasteristic<LBSRotationCharacteristic>().Rotation);
+        SetDirection(tile.Rotation);
 
     }
 
@@ -42,8 +42,8 @@ public class PopulationTileView : GraphElement
     {
         var dir = Directions.Bidimencional.Edges.Select((d, i) => new { d, i }).OrderBy(o => (vector - o.d).magnitude).First().i;
 
-        arrows.ForEach(v => v.SetDisplay(false));
-        arrows[0].SetDisplay(true);
+        arrows.ForEach(v => v.visible = false);
+        arrows[dir].visible = true;
     }
 
     public void SetColor(Color color)

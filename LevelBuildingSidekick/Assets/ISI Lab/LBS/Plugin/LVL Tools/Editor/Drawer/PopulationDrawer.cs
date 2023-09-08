@@ -1,6 +1,7 @@
 using LBS.Behaviours;
 using LBS.Components;
 using LBS.Settings;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,7 @@ using UnityEngine.EventSystems;
 [Drawer(typeof(PopulationBehaviour))]
 public class PopulationDrawer : Drawer
 {
+    [Obsolete]
     public override void Draw(ref LBSLayer layer, MainView view)
     {
         throw new System.NotImplementedException();
@@ -26,8 +28,10 @@ public class PopulationDrawer : Drawer
         foreach (var t in population.Tilemap)
         {
             var v = new PopulationTileView(t);
-            v.SetPosition(new Rect(t.Tile.Position, population.Owner.TileSize * LBSSettings.Instance.general.TileSize));
-            view.Add(v);
+            var size = population.Owner.TileSize * LBSSettings.Instance.general.TileSize;
+            v.SetPosition(new Rect(t.Tile.Position * size, size));
+            view.AddElement(v);
+
         }
     }
 }

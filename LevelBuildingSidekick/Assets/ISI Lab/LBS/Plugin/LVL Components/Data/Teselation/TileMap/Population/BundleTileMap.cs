@@ -52,9 +52,9 @@ public class BundleTileMap : LBSModule
 
     }
 
-    public void AddTile(LBSTile tile, BundleData bundleData)
+    public void AddTile(LBSTile tile, BundleData bundleData, Vector2 rotation)
     {
-        AddTile(new TileBundlePair(tile, bundleData));
+        AddTile(new TileBundlePair(tile, bundleData, rotation));
     }
 
     public TileBundlePair GetTile(LBSTile tile)
@@ -152,6 +152,8 @@ public class TileBundlePair : ICloneable
     LBSTile tile;
     [SerializeField, JsonRequired]
     BundleData bData;
+    [SerializeField, JsonRequired]
+    Vector2 rotation;
 
     [JsonIgnore]
     public LBSTile Tile
@@ -167,14 +169,21 @@ public class TileBundlePair : ICloneable
         set => bData = value;
     }
 
-    public TileBundlePair(LBSTile tile, BundleData bData)
+    public Vector2 Rotation
+    {
+        get => rotation;
+        set => rotation = value;
+    }
+
+    public TileBundlePair(LBSTile tile, BundleData bData, Vector2 rotation)
     {
         this.tile = tile;
         this.bData = bData;
+        this.rotation = rotation;
     }
 
     public object Clone()
     {
-        return new TileBundlePair(tile.Clone() as LBSTile, bData.Clone() as BundleData);
+        return new TileBundlePair(tile.Clone() as LBSTile, bData.Clone() as BundleData, rotation);
     }
 }

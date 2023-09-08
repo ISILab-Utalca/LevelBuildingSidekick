@@ -24,7 +24,7 @@ namespace LBS.Components.TileMap
 
         [JsonIgnore]
         public LBSIdentifier Identifier => LBSAssetsStorage.Instance.Get<LBSIdentifier>().Find(s => s.Label == bundleTag);
-
+        public List<LBSCharacteristic> Characteristics => new List<LBSCharacteristic>(characteristics);
         #endregion
 
         #region CONSTRUCTOR
