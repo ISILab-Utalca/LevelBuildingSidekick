@@ -9,9 +9,9 @@ public static class LBSTileExtensions
     
     public static Rect GetBounds(this IEnumerable<LBSTile> tiles)
     {
-        if (tiles == null || tiles.Count() == 0)
+        if (tiles.Count() == 0)
         {
-            //Debug.LogWarning("Esta tilemap no tiene tiles!!!");
+            Debug.LogWarning("Esta tilemap no tiene tiles!!!");
             return new Rect(Vector2.zero, Vector2.zero);
         }
 
