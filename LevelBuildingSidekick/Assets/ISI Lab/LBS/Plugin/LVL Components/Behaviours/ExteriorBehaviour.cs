@@ -5,6 +5,7 @@ using LBS.Components.TileMap;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 [System.Serializable]
 [RequieredModule(typeof(TileMapModule),
@@ -23,7 +24,8 @@ public class ExteriorBehaviour : LBSBehaviour
     #endregion
 
     #region PROPERTIES
-
+    [JsonIgnore]
+    public List<LBSTile> Tiles => tileMap.Tiles;
     #endregion
 
     #region CONSTRUCTORS
@@ -42,6 +44,23 @@ public class ExteriorBehaviour : LBSBehaviour
 
         tileMap = Owner.GetModule<TileMapModule>();
         connections = Owner.GetModule<ConnectedTileMapModule>();
+    }
+
+    public LBSTile GetTile(Vector2Int pos)
+    {
+        return tileMap.GetTile(pos);
+    }
+
+    public void RemoveTile(LBSTile tile)
+    {
+        tileMap.RemoveTile(tile);
+        connections.RemoveTile(tile);
+    }
+
+    public void AddTile(LBSTile tile)
+    {
+        tileMap.AddTile(tile);
+        connections.AddTile(tile, new List<string> { "", "", "", "" }, new List<bool> { false, false, false, false });
     }
     #endregion
 }
