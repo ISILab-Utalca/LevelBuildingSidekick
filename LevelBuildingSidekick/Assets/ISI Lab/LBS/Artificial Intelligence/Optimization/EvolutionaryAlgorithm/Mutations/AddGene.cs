@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class AddGene : MutationBase
 {
+    public List<object> blackList = new List<object>();
+
     protected override void PerformMutate(ChromosomeBase chromosome, float probability)
     {
         var r = RandomizationProvider.Current;
@@ -20,7 +22,7 @@ public class AddGene : MutationBase
 
         var i = r.GetInt(0, chromosome.Length);
 
-        while(i < chromosome.Length && chromosome.GetGene(i) != default)
+        while(i < chromosome.Length && (chromosome.GetGene(i) != default || blackList.Contains(chromosome.GetGene(i))))
         {
             i++;
         }

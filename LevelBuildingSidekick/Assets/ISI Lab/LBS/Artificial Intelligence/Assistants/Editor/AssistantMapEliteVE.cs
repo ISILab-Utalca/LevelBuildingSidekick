@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-[CustomVisualElement(typeof(AssistantMapElite))]
+[LBSCustomEditor("AssistantMapElite", typeof(AssistantMapElite))]
 public class AssistantMapEliteVE : LBSCustomEditor
 {
     MAPEliteConfiguration config;

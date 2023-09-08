@@ -6,11 +6,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExhaustiveRanged2DSwap : MutationBase
+[System.Serializable]
+public class ExhaustiveMoveGene : MutationBase
 {
     int range = 1;
+    public int Range
+    {
+        get => range;
+        set
+        {
+            if (value <= 1)
+                range = 1;
+            range = value;
+        }
+    }
+    public List<object> blackList = new List<object>();
 
-    public ExhaustiveRanged2DSwap(int range)
+    public ExhaustiveMoveGene()
+    {
+        this.range = 1;
+    }
+
+    public ExhaustiveMoveGene(int range)
     {
         this.range = range;
     }
@@ -30,6 +47,8 @@ public class ExhaustiveRanged2DSwap : MutationBase
         {
             if (chromosome.IsImmutable(i))
                 continue;
+            if (!blackList.Contains(chromosome.GetGene(i)))
+                continue;
             if (chr.GetGene(i) != default)
             {
                 var d = r.GetDouble();
@@ -41,9 +60,10 @@ public class ExhaustiveRanged2DSwap : MutationBase
                     {
                         if (chromosome.IsImmutable(j))
                             continue;
+
                         var aux = chr.GetGene(i);
-                        chr.ReplaceGene(i, chr.GetGene(j));
-                        chr.ReplaceGene(j, aux);
+                        chr.ReplaceGene(j, chr.GetGene(i));
+                        chr.SetDeafult(i);
                     }
                 }
             }

@@ -3,8 +3,10 @@ using Commons.Optimization.Evaluator;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 [System.Serializable]
+[CreateAssetMenu(menuName = "ISILab/LBS/MapElitePresset")]
 public class MAPElitesPresset : ScriptableObject
 {
     public int xSampleCount = 4;
@@ -27,5 +29,21 @@ public class MAPElitesPresset : ScriptableObject
     public Vector2 yThreshold = new Vector2(0.2f, 0.8f);
 
     [SerializeField, SerializeReference]
-    public BaseOptimizer optimizer = new GeneticAlgorithm();
+    public BaseOptimizer optimizer;
+
+    private void OnDisable()
+    {
+#if UNITY_EDITOR
+        EditorUtility.SetDirty(this);
+        //AssetsDatabase.SaveAssets();
+#endif
+    }
+
+    private void OnDestroy()
+    {
+#if UNITY_EDITOR
+        EditorUtility.SetDirty(this);
+        //AssetsDatabase.SaveAssets();
+#endif
+    }
 }

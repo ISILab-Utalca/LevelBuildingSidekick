@@ -1,0 +1,18 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:TextField picking-mode="Ignore" label="Name" value="Presset" name="Name" style="-unity-font-style: bold; font-size: 14px; margin-bottom: 4px;" />
+    <ui:Vector2Field label="Sample Count" name="Samples" />
+    <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); margin-left: 8px; margin-top: 2px;">
+        <ClassDropDown label="Evaluator X" index="-1" choices="System.Collections.Generic.List`1[System.String]" Label="Evaluator X" name="XDropdown" />
+        <ui:Vector2Field label="Threshold" name="XThreshold" />
+        <ui:VisualElement name="XContent" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);" />
+    </ui:VisualElement>
+    <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); margin-left: 8px; margin-bottom: 2px;">
+        <ClassDropDown label="Evaluator Y" index="-1" choices="System.Collections.Generic.List`1[System.String]" Label="Evaluator Y" name="YDropdown" />
+        <ui:Vector2Field label="Threshold" name="YThreshold" />
+        <ui:VisualElement name="YContent" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);" />
+    </ui:VisualElement>
+    <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); margin-left: 8px; padding-bottom: 2px; padding-top: 0; margin-bottom: 2px; margin-top: 2px;">
+        <ClassDropDown label="Optimizer" index="-1" choices="System.Collections.Generic.List`1[System.String]" Label="Optimizer" name="ODropdown" />
+        <ui:VisualElement name="OContent" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);" />
+    </ui:VisualElement>
+</ui:UXML>

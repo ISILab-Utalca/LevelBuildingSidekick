@@ -6,10 +6,12 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class RoulleteWheelMutation : MutationBase
 {
     [SerializeField]
-    private List<Tuple<MutationBase, float>> mutations = new List<Tuple<MutationBase, float>>();
+    public List<Tuple<MutationBase, float>> mutations = new List<Tuple<MutationBase, float>>();
+
 
     public RoulleteWheelMutation()
     {
@@ -36,4 +38,6 @@ public class RoulleteWheelMutation : MutationBase
             }
         }
     }
+
+
 }
