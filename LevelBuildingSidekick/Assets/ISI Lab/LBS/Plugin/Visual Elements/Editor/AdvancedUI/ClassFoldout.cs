@@ -19,8 +19,11 @@ public class ClassFoldout : Foldout
 
             instance.icon = new VisualElement() { name = "Icon" };
             instance.dropdown = new ClassDropDown() { name = "ClassDropDown" };
+            instance.content = new VisualElement() { name = "Content" };
+            instance.content.style.flexGrow = 1;
 
             instance.icon.style.width = instance.icon.style.height = 12;
+            instance.icon.style.minHeight = instance.icon.style.minWidth = 12;
             instance.icon.style.marginRight = 6;
             ve.style.alignItems = Align.Center;
 
@@ -38,16 +41,15 @@ public class ClassFoldout : Foldout
             ve.Add(instance.icon);
 
 
-            //instance.dropdown.style.paddingLeft = 4;
-            instance.dropdown.style.flexGrow = instance.dropdown.style.flexShrink = 1;
+            instance.dropdown.style.marginRight = 4;
+            instance.dropdown.style.flexShrink = 1;
+            instance.dropdown.style.flexGrow = 1;
             //instance.dropdown.parent.style.flexWrap = Wrap.Wrap;
 
             if (bag.TryGetAttributeValue("Text", out string label))
                 instance.dropdown.label = label;
 
             ve.Add(instance.dropdown);
-
-            instance.dropdown.RegisterValueChangedCallback(instance.UpdateView);
 
             return instance;
         }
@@ -76,10 +78,10 @@ public class ClassFoldout : Foldout
 
     public VisualElement icon = new VisualElement() { name = "Icon" };
     public ClassDropDown dropdown = new ClassDropDown() { name = "ClassDropDown" };
-    public VisualElement content;
-    //public VisualElement content = new VisualElement();
+    public VisualElement content = new VisualElement();
 
-    
+    object data = null;
+
     public new string text
     {
         get => dropdown?.label;
@@ -90,43 +92,31 @@ public class ClassFoldout : Foldout
         }
     }
 
+    public object Data => data;
+    public Action OnSelectChoice;
+
+    public Type Type
+    {
+        get => dropdown.Type;
+        set => dropdown.Type = value;
+    }
+
     public ClassFoldout()
     {
-        dropdown.RegisterValueChangedCallback(UpdateView);
     }
 
     public ClassFoldout(Type type) : this()
     {
-
-    }
-
-    private void UpdateView(ChangeEvent<string> e)
-    {
-
-        var type = Utility.Reflection.GetType(e.newValue);
-
-        if(type == null)
-        {
-            throw new Exception("[ISI Lab] Class type not found");
-        }
-
-        var ves = Utility.Reflection.GetClassesWith<CustomVisualElementAttribute>().Where(t => t.Item2.Any(v => v.type == type));
-
-        if(ves.Count() == 0)
-        {
-            throw new Exception("[ISI Lab] No class marked as CustomVisualElement found for type: " + type);
-        }
-
-        var ve = Activator.CreateInstance(ves.First().Item1, new object[] { dropdown.GetChoiceInstance()});
-
-        if (!(ve is VisualElement))
-        {
-            throw new Exception("[ISI Lab] " + ve.GetType() +" is not a VisualElement ");
-        }
-
-        contentContainer.Clear();
-        content = ve as VisualElement;
-        contentContainer.Add(ve as VisualElement);
+        this.dropdown.Type = type;
     }
 
 }
+
+/*
+public class  ClassFoldout : VisualElement
+{
+    public ClassFoldout() 
+    {
+        
+    }
+}*/

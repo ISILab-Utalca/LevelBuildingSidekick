@@ -37,8 +37,21 @@ namespace LBS.Bundles
     [System.Serializable]
     public class Bundle : ScriptableObject, ICloneable
     {
+        public enum TagType
+        {
+            Aesthetic, // (Style)Ej: Castle, Spaceship,
+            Structural, // Ej: Door, Wall, Corner,Stair
+            Element, // Ej: Furniture, Enemies, 
+                     // Distinction, // (characteristics)Ej: Destroyed, Blooded, Dirty,
+        }
+
+
         #region FIELDS
-        public bool isPreset = false;
+        [SerializeField]
+        private bool isPreset = false;
+
+        [SerializeField]
+        private TagType type;
 
         [SerializeField]
         private LBSIdentifier id;
@@ -88,6 +101,19 @@ namespace LBS.Bundles
         public bool IsLeaf => (childsBundles.Count <= 0);
 
         public Positioning Positioning => positioning;
+
+        public bool IsPresset
+        {
+            get => isPreset; 
+            set => isPreset = value;
+        }
+
+        public TagType Type
+        {
+            get => type;
+            set => type = value;
+        }
+
         #endregion
 
         #region METHODS

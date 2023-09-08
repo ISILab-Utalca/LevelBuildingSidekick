@@ -163,7 +163,7 @@ public class SchemaRuleGenerator : LBSGeneratorRule
         Init(layer, settings);
 
         // Get bundles
-        var allBundles = LBSAssetsStorage.Instance.Get<Bundle>().Where(b => !b.isPreset).ToList();
+        var allBundles = LBSAssetsStorage.Instance.Get<Bundle>().Where(b => !b.IsPresset).ToList();
         var rootBundles = allBundles.Where(b => b.IsRoot()).ToList();
 
         // Create pivot

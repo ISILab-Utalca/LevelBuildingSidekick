@@ -9,34 +9,39 @@ public class LBSBoolCharEditor : LBSCustomEditor
     public TextField labelField;
     public Toggle toogle;
 
-    public LBSBoolCharacteristic target;
-
-    public LBSBoolCharEditor()
+    public LBSBoolCharEditor(object target) : base(target)
     {
+        Add(CreateVisualElement());
+        SetInfo(target);
+    }
+
+    public override void SetInfo(object obj)
+    {
+        this.target = obj;
+        var target = obj as LBSBoolCharacteristic;
+
+        labelField.value = target?.Label;
+        toogle.value = target.Value;
+    }
+
+    protected override VisualElement CreateVisualElement()
+    {
+        var ve = new VisualElement();
+        var target = this.target as LBSBoolCharacteristic;
+
         labelField = new TextField();
-        this.Add(labelField);
+        ve.Add(labelField);
         labelField.RegisterCallback<BlurEvent>(e => {
             target.Label = labelField.value;
         });
 
         toogle = new Toggle("Value:");
-        this.Add(toogle);
+        ve.Add(toogle);
         toogle.RegisterCallback<ChangeEvent<bool>>(e =>
         {
             target.Value = e.newValue;
         });
-    }
 
-    public override void SetInfo(object obj)
-    {
-        this.target = obj as LBSBoolCharacteristic;
-
-        labelField.value = this.target?.Label;
-        toogle.value = this.target.Value;
-    }
-
-    protected override VisualElement CreateVisualElement()
-    {
-        throw new System.NotImplementedException();
+        return ve;
     }
 }

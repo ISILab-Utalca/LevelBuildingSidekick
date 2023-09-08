@@ -48,7 +48,7 @@ public class SchemaRuleGeneratorExteriror : LBSGeneratorRule
 
         var mainPivot = new GameObject("Schema Exterior");
 
-        var allBundles = LBSAssetsStorage.Instance.Get<Bundle>().Where(b => !b.isPreset).ToList(); // obtengo todos los bundles
+        var allBundles = LBSAssetsStorage.Instance.Get<Bundle>().Where(b => !b.IsPresset).ToList(); // obtengo todos los bundles
         var rootBundles = allBundles.Where(b => b.IsRoot()).ToList();// obtengo todos los bundles root
 
         var aaas = new List<int>() { -1, 0, 1};

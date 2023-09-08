@@ -17,7 +17,7 @@ using UnityEngine;
 
 namespace ISILab.AI.Optimization
 {
-
+    [System.Serializable]
     public class GeneticAlgorithm : BaseOptimizer
     {
         #region FIELDS
@@ -31,13 +31,13 @@ namespace ISILab.AI.Optimization
         /// The default crossover probability.
         /// </summary>
         [SerializeField, SerializeReference]
-        public float crossoverProbability = 1f;
+        float crossoverProbability = 1f;
 
         /// <summary>
         /// The default mutation probability.
         /// </summary>
         [SerializeField, SerializeReference]
-        public float mutationProbability = 0.05f;
+        float mutationProbability = 0.05f;
 
         #endregion
 
@@ -123,7 +123,7 @@ namespace ISILab.AI.Optimization
             new Tuple<MutationBase, float>(new ExhaustiveAddGene(), 25),
             new Tuple<MutationBase, float>(new ExhaustiveRemoveGene(), 0),
             new Tuple<MutationBase, float>(new ExhaustiveSwapGene(), 0),
-            new Tuple<MutationBase, float>(new ExhaustiveRanged2DSwap(5), 0)
+            new Tuple<MutationBase, float>(new ExhaustiveMoveGene(5), 0)
         });
 
             Population = new Population();

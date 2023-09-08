@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: Hammer
   m_EditorClassIdentifier: 
   isPreset: 0
+  type: 2
   id: {fileID: 11400000, guid: 1b5f81de2f3a4ac40a031e0d2f7ddd0b, type: 2}
   childsBundles: []
   assets:
-  - {fileID: 3895385195090632927, guid: 1acbb84ab32a1184b986c3496a00b805, type: 3}
+  - obj: {fileID: 0}
+    probability: 0
   characteristics: []
   references:
     version: 2

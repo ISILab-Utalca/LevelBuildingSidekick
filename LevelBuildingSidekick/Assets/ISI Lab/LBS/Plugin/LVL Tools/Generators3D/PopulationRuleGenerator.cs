@@ -30,15 +30,15 @@ namespace LBS.Generator
 
         public override GameObject Generate(LBSLayer layer, Generator3D.Settings settings)
         {
-            var data = layer.GetModule<TaggedTileMap>();
+            var data = layer.GetModule<BundleTileMap>();
             var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
             var scale = settings.scale;
 
             var parent = new GameObject("Population");
-            var tiles = data.PairTiles.Select(x => x.Tile);
+            var tiles = data.Tiles;
             foreach (var tile in tiles)
             {
-                var tag = data.GetBundleData(tile).Identifier.Label;
+                var tag = tile.BundleData.Identifier.Label;
                 Bundle current = null;
                 foreach (var b in bundles)
                 {
@@ -64,9 +64,15 @@ namespace LBS.Generator
 #endif
 
                 go.transform.position = new Vector3(
-                    scale.x * tile.Position.x,
+                    scale.x * tile.Tile.Position.x,
                     0,
-                    -scale.y * tile.Position.y) + new Vector3(scale.x, 0, -scale.y) / 2;
+                    -scale.y * tile.Tile.Position.y) + new Vector3(scale.x, 0, -scale.y) / 2;
+                var r = Directions.Bidimencional.Edges.FindIndex(v => v == tile.Rotation);
+                if(r % 2 == 0)
+                    go.transform.rotation = Quaternion.Euler(0, -90 * (r - 1), 0);
+                else
+                    go.transform.rotation = Quaternion.Euler(0, -90 * (r - 3), 0);
+
             }
 
             parent.transform.position += settings.position;

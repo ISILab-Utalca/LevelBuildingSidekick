@@ -12,6 +12,7 @@ using ISILab.AI.Optimization.Selections;
 
 namespace ISILab.AI.Optimization
 {
+    [System.Serializable]
     public abstract class BaseOptimizer
     {
 

@@ -27,7 +27,7 @@ public class PopulationBehaviour : LBSBehaviour
     {
         var tile = new LBSTile(position);//, "Tile: " + position.ToString());
         tileMap.AddTile(tile);
-        bundleTileMap.AddTile(tile, new BundleData(bundle));
+        bundleTileMap.AddTile(tile, new BundleData(bundle), Vector2.right);
 
         //Calculate connections
         //tileConnections.AddTile(tile, connections);
@@ -37,7 +37,7 @@ public class PopulationBehaviour : LBSBehaviour
     {
         var tile = new LBSTile(position);//, "Tile: " + position.ToString());
         tileMap.AddTile(tile);
-        bundleTileMap.AddTile(tile, bundle);
+        bundleTileMap.AddTile(tile, bundle, Vector2.right);
 
         //Calculate connections
         //tileConnections.AddTile(tile, connections);
@@ -61,9 +61,22 @@ public class PopulationBehaviour : LBSBehaviour
         return tileMap.GetTile(position);
     }
 
+    public TileBundlePair GetTileBundle(Vector2Int position)
+    {
+        return bundleTileMap.GetTile(GetTile(position));
+    }
+
     public BundleData GetBundleData(LBSTile tile)
     {
         return bundleTileMap.GetTile(tile).BundleData;
+    }
+
+    public void RotateTile(Vector2Int pos, Vector2 rotation)
+    {
+        var t = GetTileBundle(pos);
+        if (t == null)
+            return;
+        t.Rotation = rotation;
     }
 
     public BundleData GetBundleData(Vector2 position)

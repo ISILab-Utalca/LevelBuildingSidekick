@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: furniture
   m_EditorClassIdentifier: 
   isPreset: 0
+  type: 2
   id: {fileID: 11400000, guid: f34ea2bda3e03b44fad1047a0050c860, type: 2}
   childsBundles: []
   assets:
-  - {fileID: 8387792330663407722, guid: 9d4bf19186c69e34aaddff0a97f62e9c, type: 3}
+  - obj: {fileID: 919132149155446097, guid: a20abce8e4655294886742eb9bb5c382, type: 3}
+    probability: 1
   characteristics: []
   references:
     version: 2

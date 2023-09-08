@@ -5,8 +5,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class ExhaustiveRemoveGene : MutationBase
 {
+    public List<object> blackList = new List<object>();
+
     protected override void PerformMutate(ChromosomeBase chromosome, float probability)
     {
         var r = RandomizationProvider.Current;
@@ -21,7 +24,8 @@ public class ExhaustiveRemoveGene : MutationBase
                 var d = r.GetDouble();
                 if (d < probability)
                 {
-                    chromosome.SetDeafult(i);
+                    if(!blackList.Contains(chromosome.GetGene(i)))
+                        chromosome.SetDeafult(i);
                 }
             }
         }

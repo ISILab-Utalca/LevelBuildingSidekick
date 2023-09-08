@@ -343,7 +343,7 @@ public class LayerTemplateEditor : Editor
         // Assistants
         var assIcon = Resources.Load<Texture2D>("Icons/Select");
         var ass = new AssistantMapElite(assIcon, "A");
-        ass.OnAdd(layer);
+        //ass.OnAdd(layer);
         layer.AddAssistant(ass);
 
         // Rules
