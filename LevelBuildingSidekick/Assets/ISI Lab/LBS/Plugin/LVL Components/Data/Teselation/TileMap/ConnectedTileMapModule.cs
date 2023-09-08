@@ -194,7 +194,7 @@ public class ConnectedTileMapModule : LBSModule
 public class TileConnectionsPair : ICloneable // esto puede ser TAG/BUNDLE en vez de string (!!)
 {
     #region FIELDS
-    [SerializeField, JsonRequired, SerializeReference]
+    [SerializeField, SerializeReference, JsonRequired]
     private LBSTile tile;
 
     [SerializeField, JsonRequired]
