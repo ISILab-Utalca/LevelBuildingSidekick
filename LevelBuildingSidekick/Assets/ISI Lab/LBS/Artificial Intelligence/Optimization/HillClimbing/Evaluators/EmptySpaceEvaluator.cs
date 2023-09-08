@@ -27,12 +27,13 @@ public class EmptySpaceEvaluator : IEvaluator
             return 0;
         }
 
-        return zones.ZonesWithTiles.Average((z) => 
+        var avg = zones.ZonesWithTiles.Average((z) =>
         {
             var tiles = zones.GetTiles(z);
-            var rect = tiles.GetBounds(); 
-            return tiles.Count / (float)(rect.width * rect.height); 
+            var rect = tiles.GetBounds();
+            return tiles.Count / (float)(rect.width * rect.height);
         });
+        return avg;
     }
 
 }
