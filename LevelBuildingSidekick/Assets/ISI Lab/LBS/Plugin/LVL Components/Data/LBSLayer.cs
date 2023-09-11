@@ -409,27 +409,9 @@ namespace LBS.Components
 
         }
 
-        /*
-        public List<T> GetModules<T>(string ID = "") where T : LBSModule  // (?) sobra?
-        {
-            List<T> mods = new List<T>();
-            foreach (var mod in modules)
-            {
-                if (ID.Equals("") || mod.Key.Equals(ID))
-                    mods.Add(mod as T);
-            }
-            return mods;
-        }
-        */
-
         public void BlockLayer(bool value)
         {
             blocked = value;
-        }
-
-        public void ShowModule(int index,bool value)
-        {
-            modules[index].IsVisible = value;
         }
 
         internal void SetModule<T>(T module, string key = "") where T : LBSModule
@@ -450,7 +432,8 @@ namespace LBS.Components
             modules[index].Owner = this;
         }
 
-        public Vector2Int ToFixedPosition(Vector2 position) // esto tiene que ir en una extension (?)
+        // esto tiene que ir en una extension (?)
+        public Vector2Int ToFixedPosition(Vector2 position) 
         {
             Vector2 pos = position / (TileSize * LBSSettings.Instance.general.TileSize);
 
@@ -465,8 +448,7 @@ namespace LBS.Components
 
         public object Clone()
         {
-            var modules = this.modules.Clone();
-            //var modules = this.modules.Select(m => m.Clone() as LBSModule);
+            var modules = this.modules.Clone(); // CloneRef
             var assistants = this.assitants.Select(a => a.Clone() as LBSAssistant);
             var rules = this.generatorRules.Select(r => r.Clone() as LBSGeneratorRule);
             var behaviours = this.behaviours.Select(b => b.Clone() as LBSBehaviour);
