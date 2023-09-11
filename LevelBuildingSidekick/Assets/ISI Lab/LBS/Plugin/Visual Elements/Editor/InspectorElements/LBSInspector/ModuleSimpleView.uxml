@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <ui:VisualElement name="ModuleSimpleView" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; border-left-color: rgba(0, 0, 0, 0.31); border-right-color: rgba(0, 0, 0, 0.31); border-top-color: rgba(0, 0, 0, 0.31); border-bottom-color: rgba(0, 0, 0, 0.31); border-bottom-width: 1px; flex-shrink: 1; padding-left: 6px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px;">
+        <ui:VisualElement name="Icon" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); background-image: resource(&apos;Icons/Extra_8&apos;); width: 16px; height: 16px;" />
+        <ui:Label tabindex="-1" text="Label" display-tooltip-when-elided="true" name="LabelName" />
+        <ui:Label tabindex="-1" text="Label" display-tooltip-when-elided="true" name="LabelID" style="color: rgba(210, 210, 210, 0.35); padding-left: 7px;" />
+    </ui:VisualElement>
+</ui:UXML>
