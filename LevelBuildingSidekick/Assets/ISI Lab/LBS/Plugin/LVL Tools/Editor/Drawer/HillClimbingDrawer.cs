@@ -1,4 +1,5 @@
 using LBS.Components;
+using LBS.Settings;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,16 +44,19 @@ public class HillClimbingDrawer : Drawer
             // add node view to list
             nViews.Add(nView);
 
-            /*
-            if (consts.Count > 0) // parche
-            {
-                var pair = consts.First(p => p.zone == zone);
-                cViews.AddRange(CreateFeedBackAreas(pair, bound.center, teselationSize));
-            }
-            */
-
             // Add to reference dictionary
             viewRefs.Add(zone, nView);
+
+            // Get pair info
+            foreach (var pair in consts)
+            {
+                if(pair.Zone == zone)
+                {
+                    // Create feedback view
+                    cViews.AddRange(CreateFeedBackAreas(viewRefs[zone], pair, teselationSize));
+                    break;
+                }
+            }
         }
 
         // Get edges
@@ -77,26 +81,57 @@ public class HillClimbingDrawer : Drawer
         nViews.ForEach(n => view.AddElement(n));
     }
 
-    private List<DottedAreaFeedback> CreateFeedBackAreas(ConstraintPair pair,Vector2 center, Vector2 size)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="pair"></param>
+    /// <param name="center_old"></param>
+    /// <param name="size"></param>
+    /// <returns></returns>
+    private List<DottedAreaFeedback> CreateFeedBackAreas(LBSNodeView nodeView, ConstraintPair pair, Vector2 size)
     {
+        var settings = LBSSettings.Instance;
+        var tileSize = settings.general.TileSize;
+
         List<DottedAreaFeedback> cViews = new();
 
         var constr = pair.Constraint;
 
+        // Get points from first dotted area
         var maxV1 = new Vector2(-constr.maxHeight / 2f, -constr.maxWidth / 2f);
         var maxV2 = new Vector2(constr.maxHeight / 2f, constr.maxWidth / 2f);
+
+        // Create first dotted area
         var c1 = new DottedAreaFeedback();
-        c1.ActualizePositions(((maxV1 + center) * (size * 100)).ToInt(),(( maxV2 + center) * (size * 100)).ToInt());
+
+        // Get center position
+        var center = nodeView.GetPosition().center;
+
+        // Set values to first doted area
+        c1.SetPosition(new Rect(center, new Vector2(10, 10)));
+        c1.ActualizePositions((maxV1 * size * tileSize).ToInt(),(maxV2 * size * tileSize).ToInt());
         c1.SetColor(Color.red);
 
+        // Get points from second dotted area
         var minV1 = new Vector2(-constr.minHeight / 2f, -constr.minWidth / 2f);
         var minV2 = new Vector2(constr.minHeight / 2f, constr.minWidth / 2f);
+
+        // Create second dotted area
         var c2 = new DottedAreaFeedback();
-        c2.ActualizePositions(minV1.ToInt(),minV2.ToInt());
+
+        // Set value to second dotted area
+        c2.SetPosition(new Rect(center, new Vector2(10, 10)));
+        c2.ActualizePositions((minV1 * size * tileSize).ToInt(), (minV2 * size * tileSize).ToInt());
+        c2.SetColor(Color.blue);
 
         // add constraint to list
         cViews.Add(c1);
         cViews.Add(c2);
+
+        nodeView.OnMoving += (rect) =>
+        {
+
+        };
 
         return cViews;
     }
