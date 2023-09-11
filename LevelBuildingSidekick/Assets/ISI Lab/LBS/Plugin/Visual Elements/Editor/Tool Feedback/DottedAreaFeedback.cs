@@ -15,7 +15,7 @@ public class DottedAreaFeedback : Feedback
     protected override void OnGenerateVisualContent(MeshGenerationContext mgc)
     {
         var painter = mgc.painter2D;
-        var color = currentColor * new Color(1, 1, 1, 1f);
+        var color = currentColor * new Color(1, 1, 1, 0.5f);
 
         var points = new List<Vector2>()
         {
