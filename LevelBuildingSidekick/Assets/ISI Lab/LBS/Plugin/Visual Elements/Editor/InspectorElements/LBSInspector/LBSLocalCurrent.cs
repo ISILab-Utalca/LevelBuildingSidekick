@@ -23,6 +23,9 @@ public class LBSLocalCurrent : LBSInspector, IToolProvider
 
     private VisualElement layerContent;
     private VisualElement selectedContent;
+    private ModulesPanel modulesPanel;
+    private LayerInfoView layerInfoView;
+
 
     public LBSLocalCurrent()
     {
@@ -34,23 +37,9 @@ public class LBSLocalCurrent : LBSInspector, IToolProvider
         layerContent = this.Q<VisualElement>("LayerContent");
 
         selectedContent = this.Q<VisualElement>("SelectedContent");
-    }
 
-    public void SetCurrentInfo(object obj)
-    {
-        selectedContent.Clear();
-
-        var so = (ScriptableObject)obj;
-
-        var editor = Editor.CreateEditor(so);
-
-
-        var inspector = new IMGUIContainer(() =>
-        {
-            editor.OnInspectorGUI();
-        });
-
-        selectedContent.Add(inspector);
+        modulesPanel = this.Q<ModulesPanel>();
+        layerInfoView = this.Q<LayerInfoView>();
     }
 
     public void SetInfo(LBSLayer target)
@@ -61,62 +50,11 @@ public class LBSLocalCurrent : LBSInspector, IToolProvider
         // Set basic Tool
         SetTools(ToolKit.Instance);
 
-        selectedContent.Clear();
-        foreach (var module in target.Modules)
-        {
+        // Set simple module info
+        modulesPanel.SetInfo(target.Modules);
 
-        }
-
-        /*
-        contentContainer.Clear();
-        foreach(var b in target.Behaviours)
-        {
-            var type = b.GetType();
-            var ves = Utility.Reflection.GetClassesWith<LBSCustomEditorAttribute>().Where(t => t.Item2.Any(v => v.type == type)); 
-            if (ves.Count() == 0)
-            {
-                throw new Exception("[ISI Lab] No class marked as LBSCustomEditor found for type: " + type);
-            }
-
-            var ve = Activator.CreateInstance(ves.First().Item1, new object[] { b });
-            if (!(ve is VisualElement))
-            {
-                throw new Exception("[ISI Lab] " + ve.GetType() + " is not a VisualElement ");
-            }
-
-            contentContainer.Add(ve as VisualElement);
-        }*/
-
-        /*
-        contentAssist.Clear();
-
-        this.target = target;
-
-        if (target.Assitants.Count <= 0)
-        {
-            noContentPanel.SetDisplay(true);
-        }
-
-        foreach (var assist in target.Assitants)
-        {
-            var so = Utility.Reflection.MakeGenericScriptable(assist);
-            var editor = Editor.CreateEditor(so);
-
-            var cont = new VisualElement();
-            cont.style.backgroundColor = new Color(0, 0, 0, 0.1f);
-            cont.SetBorder(new Color(0, 0, 0, 0.6f), 1);
-            cont.SetBorderRadius(3);
-            cont.SetPaddings(4);
-
-            var inspector = new IMGUIContainer(() =>
-            {
-                editor.OnInspectorGUI();
-            });
-
-            cont.Add(inspector);
-            contentAssist.Add(cont);
-        }
-        */
+        // Set basic layer info
+        layerInfoView.SetInfo(target);
     }
 
     public override void Init(List<IManipulatorLBS> lBSManipulators, MainView view, LBSLayer layer, LBSBehaviour behaviour)
