@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="Title" style="flex-direction: row; align-items: center; padding-bottom: 2px; border-top-width: 1px; border-bottom-width: 1px; border-left-color: rgba(0, 0, 0, 0.35); border-right-color: rgba(0, 0, 0, 0.35); border-top-color: rgba(0, 0, 0, 0.35); border-bottom-color: rgba(0, 0, 0, 0.35); background-color: rgb(45, 45, 45);">
+        <ui:Foldout />
+        <ui:VisualElement name="Icon" style="width: 16px; height: 16px; background-image: url(&apos;project://database/Packages/com.unity.2d.psdimporter/Editor/Assets/Icons/Selected/Layers%20Mixed@8x.png?fileID=2800000&amp;guid=3492e9eb6292141eb942d0c9beface29&amp;type=3#Layers Mixed@8x&apos;); -unity-background-image-tint-color: rgb(246, 130, 88);" />
+        <ui:Label tabindex="-1" text="Modules" display-tooltip-when-elided="true" style="padding-left: 4px;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="Content" style="padding-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0;" />
+</ui:UXML>
