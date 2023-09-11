@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <ui:VisualElement name="Title" style="flex-direction: row; align-items: center; padding-bottom: 2px; border-top-width: 1px; border-bottom-width: 1px; border-left-color: rgba(0, 0, 0, 0.35); border-right-color: rgba(0, 0, 0, 0.35); border-top-color: rgba(0, 0, 0, 0.35); border-bottom-color: rgba(0, 0, 0, 0.35); background-color: rgb(45, 45, 45);">
+        <ui:Foldout />
+        <ui:VisualElement name="Icon" style="width: 16px; height: 16px; background-image: resource(&apos;Icons/Layers_Icon&apos;); -unity-background-image-tint-color: rgb(246, 130, 88);" />
+        <ui:Label tabindex="-1" text="Layer Info" display-tooltip-when-elided="true" style="padding-left: 4px;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="Content" style="padding-bottom: 4px; padding-left: 0; padding-right: 0; padding-top: 2px;">
+        <ui:TextField picking-mode="Ignore" label="Name" value="default name" />
+        <uie:ObjectField label="Icon" type="UnityEngine.Texture2D, UnityEngine.CoreModule" />
+        <ui:Vector2IntField label="Tile size" x="2" y="2" focusable="true" />
+    </ui:VisualElement>
+</ui:UXML>
