@@ -15,12 +15,17 @@ public class LBSEdgeView : GraphElement
 
     public LBSEdgeView(ZoneEdge data, LBSNodeView node1, LBSNodeView node2, int l, int stroke)
     {
+        // Set Data
         this.data = data;
+
+        // Set first node
         this.node1 = node1;
         node1.OnMoving += (rect) => {
             this.SetPosition(new Rect(pos1, new Vector2(10, 10)));
             ActualizePositions(rect.center.ToInt(), pos2); 
         };
+
+        // Set second node
         this.node2 = node2;
         node2.OnMoving += (rect) => 
         {
