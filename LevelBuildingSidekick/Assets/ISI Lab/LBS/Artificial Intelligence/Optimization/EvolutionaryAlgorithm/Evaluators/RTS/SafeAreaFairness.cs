@@ -13,6 +13,7 @@ public class SafeAreaFairness : IRangedEvaluator
 
     public float MinValue => 0;
 
+    [SerializeField, SerializeReference]
     public LBSCharacteristic playerCharacteristc;
 
 
