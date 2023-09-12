@@ -111,7 +111,7 @@ public class GeneticAlgorithmVE : LBSCustomEditor
         #endregion
 
         #region Mutation
-        mutation = new DynamicFoldout(typeof(ICrossover));
+        mutation = new DynamicFoldout(typeof(IMutation));
         mutation.Label = "Mutation";
         if (genetic != null && genetic.Mutation != null)
         {
