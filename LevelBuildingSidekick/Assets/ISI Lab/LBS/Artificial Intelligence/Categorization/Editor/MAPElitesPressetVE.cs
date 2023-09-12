@@ -11,7 +11,7 @@ using UnityEngine.UIElements;
 [LBSCustomEditor("MAPElitesPresset", typeof(MAPElitesPresset))]
 public class MAPElitesPressetVE : LBSCustomEditor
 {
-    TextField name;
+    TextField nameField;
     Vector2Field samples;
 
     ClassDropDown evaluatorX;
@@ -28,12 +28,35 @@ public class MAPElitesPressetVE : LBSCustomEditor
     public MAPElitesPressetVE(object target) : base(target)
     {
         Add(CreateVisualElement());
-        InitialValues();
+        SetInfo(target);
     }
 
     public override void SetInfo(object target)
     {
-        throw new System.NotImplementedException();
+        var presset = target as MAPElitesPresset;
+        nameField.value = presset.name;
+        samples.value = new Vector2(presset.xSampleCount, presset.ySampleCount);
+
+        if (presset.xEvaluator != null)
+        {
+            evaluatorX.value = presset.xEvaluator.GetType().Name;
+            LoadEditor(contentX, presset.xEvaluator);
+        }
+        thresholdX.value = presset.xThreshold;
+
+
+        if (presset.yEvaluator != null)
+        {
+            evaluatorY.value = presset.yEvaluator.GetType().Name;
+            LoadEditor(contentY, presset.yEvaluator);
+        }
+        thresholdY.value = presset.yThreshold;
+
+        if (presset.optimizer != null)
+        {
+            optimizer.value = presset.optimizer.GetType().Name;
+            LoadEditor(contentO, presset.optimizer);
+        }
     }
 
     protected override VisualElement CreateVisualElement()
@@ -44,8 +67,8 @@ public class MAPElitesPressetVE : LBSCustomEditor
 
         var presset = target as MAPElitesPresset;
 
-        name = ve.Q<TextField>(name: "Name");
-        name.RegisterValueChangedCallback(
+        nameField = ve.Q<TextField>(name: "Name");
+        nameField.RegisterValueChangedCallback(
             evt => 
             {
                 presset.name = evt.newValue;
@@ -117,30 +140,7 @@ public class MAPElitesPressetVE : LBSCustomEditor
 
     private void InitialValues()
     {
-        var presset = target as MAPElitesPresset;
-        name.value = presset.name;
-        samples.value = new Vector2(presset.xSampleCount, presset.ySampleCount);
-
-        if (presset.xEvaluator != null)
-        {
-            evaluatorX.value = presset.xEvaluator.GetType().Name;
-            LoadEditor(contentX, presset.xEvaluator);
-        }
-        thresholdX.value = presset.xThreshold;
-
-
-        if (presset.yEvaluator != null)
-        {
-            evaluatorY.value = presset.yEvaluator.GetType().Name;
-            LoadEditor(contentY, presset.yEvaluator);
-        }
-        thresholdY.value = presset.yThreshold;
-
-        if (presset.optimizer != null)
-        {
-            optimizer.value = presset.optimizer.GetType().Name;
-            LoadEditor(contentO, presset.optimizer);
-        }
+        
 
     }
 
@@ -166,6 +166,12 @@ public class MAPElitesPressetVE : LBSCustomEditor
         var ve = Activator.CreateInstance(ves.First().Item1, new object [] {target}) as VisualElement;
 
         container.Add(ve);
+    }
+
+
+    public void Print()
+    {
+
     }
 
 }
