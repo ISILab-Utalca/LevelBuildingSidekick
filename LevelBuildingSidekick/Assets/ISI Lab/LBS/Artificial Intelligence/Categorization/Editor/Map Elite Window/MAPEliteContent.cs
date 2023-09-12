@@ -26,6 +26,8 @@ public class MAPEliteContent : VisualElement
 
     public Action<object> OnSelectOption;
 
+    Vector2 partitions = Vector2.one;
+
     public MAPEliteContent(AssistantMapElite assistant)
     {
         var visualTree = LBSAssetsStorage.Instance.Get<VisualTreeAsset>().Find(e => e.name == "MAPEliteContent");
@@ -42,25 +44,20 @@ public class MAPEliteContent : VisualElement
         CreateGUI();
     }
 
-    public void Empty()
+    public void Reset()
     {
         toUpdate.Clear();
 
         // set all wrapper to loading icon
-        foreach (ButtonWrapper bw in Content)
-        {
-            bw.style.backgroundImage = standbyImg;
-            bw.Data = null;
-            bw.Text = "";
-            bw.UpdateLabel();
-        }
+        ChangePartitions(new Vector2(assistant.SampleWidth, assistant.SampleHeight));
     }
 
     public void ChangePartitions(Vector2 partitions)
     {
         //ButtonBackground = BackgroundTexture(layer.GetModule<LBSModule>(BackgroundField.value));
-        if (partitions.x == assistant.SampleWidth && partitions.y == assistant.SampleHeight)
+        if (partitions == this.partitions)
             return;
+        this.partitions = partitions;
         assistant.SampleWidth = (int)partitions.x;
         assistant.SampleHeight = (int)partitions.y;
 
