@@ -13,6 +13,7 @@ public class Exploration : IRangedEvaluator
 
     public float MinValue => 0;
 
+    [SerializeField, SerializeReference]
     public LBSCharacteristic colliderCharacteristic;
 
     public float Evaluate(IOptimizable evaluable)
