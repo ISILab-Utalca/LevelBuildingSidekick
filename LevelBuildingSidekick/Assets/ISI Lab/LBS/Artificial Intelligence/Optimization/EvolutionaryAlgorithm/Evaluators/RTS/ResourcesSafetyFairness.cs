@@ -13,8 +13,10 @@ public class ResourcesSafetyFairness : IRangedEvaluator
 
     public float MinValue => 0;
 
+    [SerializeField, SerializeReference]
     public LBSCharacteristic playerCharacteristc;
 
+    [SerializeField, SerializeReference]
     public List<LBSCharacteristic> resourceCharactersitic = new List<LBSCharacteristic>(); // Could be a list
 
 

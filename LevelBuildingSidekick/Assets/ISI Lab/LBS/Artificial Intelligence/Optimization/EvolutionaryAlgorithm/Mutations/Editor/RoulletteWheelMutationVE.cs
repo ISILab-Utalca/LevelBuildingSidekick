@@ -67,12 +67,12 @@ public class RoulletteWheelMutationVE : LBSCustomEditor
             if (eval.mutations[index] != null)
             {
                 //Debug.Log(eval.resourceCharactersitic[index]);
-                cf.Data = eval.mutations[index].Item1;
+                cf.Data = eval.mutations[index].mutation;
                 cf.Label = "Mutation " + index + ":";
-                ff.value = eval.mutations[index].Item2;
+                ff.value = eval.mutations[index].weight;
             }
-            cf.OnChoiceSelection = () => { eval.mutations[index] = new System.Tuple<MutationBase, float>(cf.Data as MutationBase, ff.value); };
-            ff.RegisterValueChangedCallback(e => { eval.mutations[index] = new System.Tuple<MutationBase, float>(cf.Data as MutationBase, e.newValue); });
+            cf.OnChoiceSelection = () => { eval.mutations[index] = new WeightedMutation(cf.Data as MutationBase, ff.value); };
+            ff.RegisterValueChangedCallback(e => { eval.mutations[index] = new WeightedMutation(cf.Data as MutationBase, e.newValue); });
         }
     }
 }

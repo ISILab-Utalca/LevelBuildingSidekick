@@ -9,6 +9,7 @@ using UnityEngine;
 [System.Serializable]
 public class ExhaustiveMoveGene : MutationBase
 {
+    [SerializeField]
     int range = 1;
     public int Range
     {
@@ -20,6 +21,8 @@ public class ExhaustiveMoveGene : MutationBase
             range = value;
         }
     }
+
+    [SerializeField, SerializeReference]
     public List<object> blackList = new List<object>();
 
     public ExhaustiveMoveGene()

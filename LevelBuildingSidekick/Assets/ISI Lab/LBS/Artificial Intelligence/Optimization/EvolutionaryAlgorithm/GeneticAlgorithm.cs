@@ -118,14 +118,6 @@ namespace ISILab.AI.Optimization
             Crossover = new AreaCrossover();
             //Crossover = new UniformCrossover();
 
-            Mutation = new RoulleteWheelMutation(new List<Tuple<MutationBase, float>>()
-        {
-            new Tuple<MutationBase, float>(new ExhaustiveAddGene(), 25),
-            new Tuple<MutationBase, float>(new ExhaustiveRemoveGene(), 0),
-            new Tuple<MutationBase, float>(new ExhaustiveSwapGene(), 0),
-            new Tuple<MutationBase, float>(new ExhaustiveMoveGene(5), 0)
-        });
-
             Population = new Population();
             Termination = new GenerationNumberTermination(20);
             Evaluator = null; //(!!!) FILL UP With new wvaluator

@@ -14,8 +14,10 @@ public class SecurityFairness : IRangedEvaluator
 
     public float MinValue => 0;
 
+    [SerializeField, SerializeReference]
     public LBSCharacteristic playerCharacteristic;
 
+    [SerializeField, SerializeReference]
     public LBSCharacteristic colliderCharacteristic;
 
 

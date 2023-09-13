@@ -14,10 +14,13 @@ public class MAPEliteConfiguration : VisualElement
     Button undoBtn;
     Button continueBtn;
     Button calculateBtn;
+    Button editPresset;
 
     public Action OnCalculate;
     public Action OnContinue;
     public Action OnUndo;
+
+    public Action<string> OnPressetChange;
 
     public MAPEliteConfiguration()
     {
@@ -35,7 +38,13 @@ public class MAPEliteConfiguration : VisualElement
         calculateBtn = this.Q<Button>(name: "CalculateBtn");
         calculateBtn.clicked += Continue;
 
+        editPresset = this.Q<Button>(name: "EditPresset");
+
+        var menu = new ContextualMenuManipulator(EditPresset);
+        menu.target = editPresset;
+
         dropdown = this.Q<DropdownField>(name: "PressetDropDown");
+        dropdown.RegisterValueChangedCallback(e => OnPressetChange?.Invoke(e.newValue));
         UpdateDropdown();
 
         var s2 = EditorGUIUtility.Load("DefaultCommonDark.uss") as StyleSheet;
@@ -75,5 +84,17 @@ public class MAPEliteConfiguration : VisualElement
     public MAPElitesPresset GetPresset()
     {
         return LBSAssetsStorage.Instance.Get<MAPElitesPresset>().Find(p => p.name == dropdown.value);
+    }
+
+    public void EditPresset(ContextualMenuPopulateEvent evt)
+    {
+        evt.menu.AppendAction("New Presset", (a) => { OpenPressetWindow(null);});
+        evt.menu.AppendAction("Copy Presset", (a) => { OpenPressetWindow(GetPresset().Clone() as MAPElitesPresset); });
+        evt.menu.AppendAction("Edit Presset", (a) => { OpenPressetWindow(GetPresset()); });
+    }
+
+    void OpenPressetWindow(MAPElitesPresset presst)
+    {
+
     }
 }

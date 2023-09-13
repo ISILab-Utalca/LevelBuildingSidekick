@@ -10,6 +10,7 @@ using UnityEngine;
 [System.Serializable]
 public class ExhaustiveAddGene : MutationBase
 {
+    [SerializeField, SerializeReference]
     public List<object> blackList = new List<object>();
 
     protected override void PerformMutate(ChromosomeBase chromosome, float probability)

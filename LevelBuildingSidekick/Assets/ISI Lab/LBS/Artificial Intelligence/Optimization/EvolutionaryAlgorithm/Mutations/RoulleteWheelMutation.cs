@@ -9,8 +9,8 @@ using UnityEngine;
 [System.Serializable]
 public class RoulleteWheelMutation : MutationBase
 {
-    [SerializeField]
-    public List<Tuple<MutationBase, float>> mutations = new List<Tuple<MutationBase, float>>();
+    [SerializeField, SerializeReference]
+    public List<WeightedMutation> mutations = new List<WeightedMutation>();
 
 
     public RoulleteWheelMutation()
@@ -18,7 +18,7 @@ public class RoulleteWheelMutation : MutationBase
 
     }
 
-    public RoulleteWheelMutation(List<Tuple<MutationBase, float>> mutations)
+    public RoulleteWheelMutation(List<WeightedMutation> mutations)
     {
         this.mutations = mutations;
     }
@@ -27,17 +27,32 @@ public class RoulleteWheelMutation : MutationBase
     {
         var r = RandomizationProvider.Current;
 
-        var i = r.GetFloat(0, mutations.Sum(m => m.Item2));
+        var i = r.GetFloat(0, mutations.Sum(m => m.weight));
 
         foreach(var t in mutations)
         {
-            i -= t.Item2;
+            i -= t.weight;
             if(i < 0)
             {
-                t.Item1.Mutate(chromosome, probability);
+                t.mutation.Mutate(chromosome, probability);
             }
         }
     }
+}
 
+[System.Serializable]
+public class WeightedMutation
+{
+    [SerializeField, SerializeReference]
+    public MutationBase mutation;
+    [SerializeField]
+    public float weight = 1;
+
+    public WeightedMutation() { }
+    public WeightedMutation(MutationBase mutation, float weight) 
+    {
+        this.mutation = mutation;
+        this.weight = weight;
+    }
 
 }

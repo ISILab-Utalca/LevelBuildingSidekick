@@ -1,0 +1,148 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3351c2964037b7439c00aa92e9bfd32, type: 3}
+  m_Name: RTSPresset
+  m_EditorClassIdentifier: 
+  xSampleCount: 4
+  ySampleCount: 4
+  devest: 0.5
+  xEvaluator:
+    rid: 6963788378744815622
+  xThreshold: {x: 0.2, y: 0.8}
+  yEvaluator:
+    rid: 6963788378956890118
+  yThreshold: {x: 0.2, y: 0.8}
+  optimizer:
+    rid: 6963788378956890119
+  references:
+    version: 2
+    RefIds:
+    - rid: 1429379693629931586
+      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+      data:
+        label: Collider
+        value: {fileID: 11400000, guid: 261af09a46f50a647b4fb33a0e989c66, type: 2}
+    - rid: 1429379694285815808
+      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+      data:
+        label: Collider
+        value: {fileID: 11400000, guid: 261af09a46f50a647b4fb33a0e989c66, type: 2}
+    - rid: 1429379694285815809
+      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+      data:
+        label: Player
+        value: {fileID: 11400000, guid: 975a57a1811d3f743838422b5c87c58a, type: 2}
+    - rid: 1429379694285815810
+      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+      data:
+        label: Player
+        value: {fileID: 11400000, guid: 975a57a1811d3f743838422b5c87c58a, type: 2}
+    - rid: 1429379694285815817
+      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+      data:
+        label: Coins
+        value: {fileID: 11400000, guid: 0ce19f5583699394b811faa9674b6877, type: 2}
+    - rid: 1429379694535901190
+      type: {class: RoulleteWheelMutation, ns: , asm: LBS}
+      data:
+        mutations:
+        - rid: 1429379694727004162
+        - rid: 1429379694727004163
+        - rid: 1429379694727004165
+        - rid: 1429379694727004167
+    - rid: 1429379694535901192
+      type: {class: ExhaustiveAddGene, ns: , asm: LBS}
+      data:
+        blackList: []
+    - rid: 1429379694535901194
+      type: {class: ExhaustiveMoveGene, ns: , asm: LBS}
+      data:
+        range: 1
+        blackList: []
+    - rid: 1429379694727004162
+      type: {class: WeightedMutation, ns: , asm: LBS}
+      data:
+        mutation:
+          rid: 1429379694535901192
+        weight: 1
+    - rid: 1429379694727004163
+      type: {class: WeightedMutation, ns: , asm: LBS}
+      data:
+        mutation:
+          rid: 1429379694535901194
+        weight: 1
+    - rid: 1429379694727004165
+      type: {class: WeightedMutation, ns: , asm: LBS}
+      data:
+        mutation:
+          rid: 1429379694727004166
+        weight: 1
+    - rid: 1429379694727004166
+      type: {class: ExhaustiveRemoveGene, ns: , asm: LBS}
+      data:
+        blackList: []
+    - rid: 1429379694727004167
+      type: {class: WeightedMutation, ns: , asm: LBS}
+      data:
+        mutation:
+          rid: 1429379694727004168
+        weight: 0
+    - rid: 1429379694727004168
+      type: {class: ExhaustiveSwapGene, ns: , asm: LBS}
+      data:
+        blackList: []
+    - rid: 6963788378744815622
+      type: {class: Exploration, ns: , asm: LBS}
+      data:
+        colliderCharacteristic:
+          rid: 1429379693629931586
+    - rid: 6963788378956890118
+      type: {class: SecurityFairness, ns: , asm: LBS}
+      data:
+        playerCharacteristic:
+          rid: 1429379694285815809
+        colliderCharacteristic:
+          rid: 1429379694285815808
+    - rid: 6963788378956890119
+      type: {class: GeneticAlgorithm, ns: ISILab.AI.Optimization, asm: LBS}
+      data:
+        population:
+          rid: 6963788378956890120
+        evaluator:
+          rid: 6963788378956890125
+        selection:
+          rid: 6963788378956890121
+        termination:
+          rid: 6963788378956890122
+        crossover:
+          rid: 6963788378956890123
+        mutation:
+          rid: 1429379694535901190
+        crossoverProbability: 1
+        mutationProbability: 0.05
+    - rid: 6963788378956890120
+      type: {class: Population, ns: ISILab.AI.Optimization.Populations, asm: LBS}
+    - rid: 6963788378956890121
+      type: {class: TournamentSelection, ns: ISILab.AI.Optimization.Selections, asm: LBS}
+      data:
+        m_minNumberChromosomes: 2
+    - rid: 6963788378956890122
+      type: {class: GenerationNumberTermination, ns: ISILab.AI.Optimization.Terminations, asm: LBS}
+    - rid: 6963788378956890123
+      type: {class: AreaCrossover, ns: , asm: LBS}
+    - rid: 6963788378956890125
+      type: {class: ResourcesSafetyFairness, ns: , asm: LBS}
+      data:
+        playerCharacteristc:
+          rid: 1429379694285815810
+        resourceCharactersitic:
+        - rid: 1429379694285815817
