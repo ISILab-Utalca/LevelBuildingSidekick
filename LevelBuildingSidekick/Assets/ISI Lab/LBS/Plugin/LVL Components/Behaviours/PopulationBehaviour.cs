@@ -12,9 +12,9 @@ using UnityEngine;
 public class PopulationBehaviour : LBSBehaviour
 {
     #region FIELDS
-    [JsonIgnore]
+    [SerializeField, JsonIgnore]
     TileMapModule tileMap;
-    [JsonIgnore]
+    [SerializeField, JsonIgnore]
     BundleTileMap bundleTileMap;
     #endregion
 
