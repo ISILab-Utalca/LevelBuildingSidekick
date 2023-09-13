@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,7 @@ using UnityEngine;
 namespace LBS.Components.Teselation
 {
     [System.Serializable]
+    [Obsolete("OLD")]
     public class AreaModule<T> : LBSModule where T : Area
     {
         #region FIELDS
@@ -41,7 +43,7 @@ namespace LBS.Components.Teselation
             if (areas.Contains(area))
                 return false;
             areas.Add(area);
-            OnChanged?.Invoke(this);
+            //OnChanged?.Invoke(this);
             return true;
         }
 
@@ -61,7 +63,7 @@ namespace LBS.Components.Teselation
         {
             if(areas.Remove(area))
             {
-                OnChanged?.Invoke(this);
+               // OnChanged?.Invoke(this);
                 return true;
             }
             return false;
@@ -73,7 +75,7 @@ namespace LBS.Components.Teselation
                 return null;
             var a = areas[index];
             areas.Remove(a);
-            OnChanged?.Invoke(this);
+            //OnChanged?.Invoke(this);
             return a as T;
         }
 
