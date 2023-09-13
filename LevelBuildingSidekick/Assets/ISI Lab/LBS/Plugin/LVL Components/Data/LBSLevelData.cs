@@ -54,7 +54,7 @@ public class LBSLevelData
         foreach (var layer in layers)
         {
             layer.Reload();
-            layer.onModuleChange += (l) => this.OnChanged(this);
+            layer.OnAddModule += (layer, module) => this.OnChanged(this);
             layer.Parent = this;
         }
     }
@@ -75,7 +75,7 @@ public class LBSLevelData
             return;
 
         layers.Insert(0, layer);
-        layer.onModuleChange += (l) => this.OnChanged(this);
+        layer.OnAddModule += (layer, module) => this.OnChanged(this);
         layer.Parent = this;
         this.OnChanged?.Invoke(this);
     }
@@ -88,7 +88,7 @@ public class LBSLevelData
     public void RemoveLayer(LBSLayer layer)
     {
         layers.Remove(layer);
-        layer.onModuleChange -= (l) => this.OnChanged(this);
+        layer.OnAddModule -= (layer, module) => this.OnChanged(this);
         this.OnChanged?.Invoke(this);
     }
 
@@ -104,7 +104,7 @@ public class LBSLevelData
     {
         var layer = layers[index];
         layers.RemoveAt(index);
-        layer.onModuleChange -= (l) => this.OnChanged(this);
+        layer.OnAddModule -= (layer, module) => this.OnChanged(this);
         this.OnChanged?.Invoke(this);
         return layer;
     }
