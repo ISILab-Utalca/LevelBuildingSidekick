@@ -74,6 +74,13 @@ namespace LBS.Components
 
         #region PROPERTIES
         [JsonIgnore]
+        public bool IsLocked
+        {
+            get => blocked;
+            set => blocked = value;
+        }
+
+        [JsonIgnore]
         public LBSLevelData Parent
         {
             get => parent;
@@ -145,7 +152,8 @@ namespace LBS.Components
 
         #region EVENTS
         public event Action<Vector2Int> OnTileSizeChange;
-        public event Action<LBSLayer> onModuleChange;
+        public event Action<LBSLayer, LBSModule> OnAddModule;
+        public event Action<LBSLayer, LBSModule> OnRemoveModule;
         #endregion
 
         #region  CONSTRUCTORS
@@ -198,37 +206,30 @@ namespace LBS.Components
             var index = modules.IndexOf(oldModule);
             RemoveModule(oldModule);
             modules.Insert(index, newModule);
-            //this.OnChanged?.Invoke(this);
+            OnAddModule?.Invoke(this, newModule);
         }
+
         public void Reload()
         {
             foreach (var module in modules)
             {
-                module.Reload(this);
-                module.Owner = this;
-                module.OnChanged = (mo) =>
-                {
-                    this.onModuleChange?.Invoke(this);
-                };
+                module.OnAttach(this);
             }
 
             foreach(var assistant in assitants)
             {
-                //assistant.Reload();
-                assistant.Owner = this;
+                assistant.OnAttachLayer(this);
             }
 
             foreach (var rule in generatorRules)
             {
-                // Implement Reload and SetOwner ??
+                // rule.OnAttachLayer(this);
             }
 
-            
             foreach (var behaviour in behaviours)
             {
-                behaviour.Owner = this;
+                behaviour.OnAttachLayer(this);
             }
-
         }
 
         public void AddBehaviour(LBSBehaviour behaviour)
@@ -240,8 +241,9 @@ namespace LBS.Components
             }
 
             this.behaviours.Add(behaviour);
-            behaviour.Owner = this;
+            behaviour.OnAttachLayer(this);
 
+            // check if the layer have necesarie 'Modules'
             var reqModules = behaviour.GetRequieredModules();
             foreach (var type in reqModules)
             {
@@ -253,17 +255,18 @@ namespace LBS.Components
                 }
             }
 
-            behaviour.OnAdd(this);
         }
 
         public void RemoveBehaviour(LBSBehaviour behaviour)
         {
             this.behaviours.Remove(behaviour);
+            behaviour.OnDetachLayer(this);
         }
 
         public void AddGeneratorRule(LBSGeneratorRule rule)
         {
             this.generatorRules.Add(rule);
+            //generatorRules.onAttachLayer(this);
         }
 
         public bool RemoveGeneratorRule(LBSGeneratorRule rule)
@@ -280,7 +283,7 @@ namespace LBS.Components
             }
 
             this.assitants.Add(assistant);
-            assistant.Owner = this;
+            assistant.OnAttachLayer(this);
 
             var reqModules = assistant.GetRequieredModules();
             foreach (var type in reqModules)
@@ -293,13 +296,12 @@ namespace LBS.Components
                 }
             }
 
-            assistant.OnAdd(this);
         }
 
-        public bool RemoveAssitant(LBSAssistant assistant)
+        public void RemoveAssitant(LBSAssistant assistant)
         {
-            assistant.Owner = null;
-            return this.assitants.Remove(assistant);
+            this.assitants.Remove(assistant);
+            assistant.OnDetachLayer(this);
         }
 
         public LBSAssistant GetAssistant(int index)
@@ -314,53 +316,18 @@ namespace LBS.Components
                 return false;
             }
             modules.Add(module);
-            module.Owner = this;
-            module.OnChanged += (mo) => 
-            { 
-                this.onModuleChange?.Invoke(this); 
-            };
             module.OnAttach(this);
+            OnAddModule?.Invoke(this, module);
             return true;
         }
 
         public bool RemoveModule(LBSModule module)
         {
             var removed = modules.Remove(module);
-            if (removed)
-            {
-                module.Owner = null;
-                module.OnChanged -= (mo) => { this.onModuleChange(this); };
-            }
             module.OnDetach(this);
+            OnRemoveModule?.Invoke(this,module);
             return removed;
         }
-
-        /*
-        public bool InsertModule(int index, LBSModule module)
-        {
-            if (modules.Contains(module))
-            {
-                return false;
-            }
-            if (!(modules.ContainsIndex(index) || index == modules.Count))
-            {
-                return false;
-            }
-            modules.Insert(index, module);
-            module.Owner = this;
-            module.OnChanged += (mo) => { this.onModuleChange(this); };
-            return true;
-        }
-        */
-
-        /*
-        public LBSModule RemoveModuleAt(int index)
-        {
-            var module = modules[index];
-            RemoveModule(module);
-            return module;
-        }
-        */
 
         public LBSModule GetModule(int index)
         {
@@ -409,10 +376,6 @@ namespace LBS.Components
 
         }
 
-        public void BlockLayer(bool value)
-        {
-            blocked = value;
-        }
 
         internal void SetModule<T>(T module, string key = "") where T : LBSModule
         {
@@ -456,6 +419,33 @@ namespace LBS.Components
             var layer = new LBSLayer(modules, assistants, rules, behaviours, this.id, this.visible, this.name, this.iconPath, this.TileSize);
             return layer;
         }
+
+        /*
+        public bool InsertModule(int index, LBSModule module)
+        {
+            if (modules.Contains(module))
+            {
+                return false;
+            }
+            if (!(modules.ContainsIndex(index) || index == modules.Count))
+            {
+                return false;
+            }
+            modules.Insert(index, module);
+            module.Owner = this;
+            module.OnChanged += (mo) => { this.onModuleChange(this); };
+            return true;
+        }
+        */
+
+        /*
+        public LBSModule RemoveModuleAt(int index)
+        {
+            var module = modules[index];
+            RemoveModule(module);
+            return module;
+        }
+        */
         #endregion
     }
 }
