@@ -30,7 +30,7 @@ public class ActOnRect : LBSManipulator
 
     protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
     {
-        start = layer.ToFixedPosition(startPosition);
+        start = startPosition;
     }
 
     protected override void OnMouseMove(VisualElement target, Vector2Int movePosition, MouseMoveEvent e)
@@ -39,7 +39,15 @@ public class ActOnRect : LBSManipulator
 
     protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
     {
-        var end = layer.ToFixedPosition(endPosition);
-        OnSelection?.Invoke(new Rect(start, end));
+        var end = endPosition;
+        var x = start.x < end.x ? start.x : end.x;
+        var y = start.y < end.y ? start.y : end.y;
+        var with = start.x > end.x ? start.x : end.x;
+        var height = start.y > end.y ? start.y : end.y;
+
+        var pos = layer.ToFixedPosition(new Vector2(x,y));
+        var size = layer.ToFixedPosition(new Vector2(with, height)) - pos + Vector2Int.one; 
+        var r = new Rect(pos, size);
+        OnSelection?.Invoke(r);
     }
 }
