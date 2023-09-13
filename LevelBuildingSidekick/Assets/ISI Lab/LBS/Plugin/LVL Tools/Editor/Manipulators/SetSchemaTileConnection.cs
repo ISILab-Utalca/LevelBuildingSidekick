@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class SetTileConnection : LBSManipulator
+public class SetSchemaTileConnection : LBSManipulator
 {
     private List<Vector2Int> Directions => global::Directions.Bidimencional.Edges; 
 
@@ -21,7 +21,7 @@ public class SetTileConnection : LBSManipulator
         set => toSet = value;
     }
 
-    public SetTileConnection() : base()
+    public SetSchemaTileConnection() : base()
     {
         feedback = new ConnectedLine();
         feedback.fixToTeselation = true;
@@ -45,21 +45,28 @@ public class SetTileConnection : LBSManipulator
 
     protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
     {
+        // Get tile in first position
         var t1 = schema.GetTile(first);
+
+        // Cheack if valid
         if (t1 == null)
             return;
 
+        // Get second fixed position
         var pos = schema.Owner.ToFixedPosition(position);
 
+        // Get vector direction
         var dx = (t1.Position.x - pos.x);
         var dy = (t1.Position.y - pos.y);
 
+        // Get index of direction
         var fDir = Directions.FindIndex(d => d.Equals(-new Vector2Int(dx, dy)));
-        //var fDir = schema.Connections.FindIndex(d => d.Equals(-new Vector2Int(dx, dy)));
 
+        // Check if index is validate
         if (fDir < 0 || fDir >= schema.Directions.Count)
             return;
 
+        // Get tile in second position
         var t2 = schema.GetTile(pos);
 
         if (t2 == null)
