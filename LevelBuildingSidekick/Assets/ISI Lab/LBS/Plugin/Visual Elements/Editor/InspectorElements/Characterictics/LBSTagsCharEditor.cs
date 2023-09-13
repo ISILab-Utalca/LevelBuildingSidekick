@@ -39,7 +39,7 @@ public class LBSTagsCharEditor : LBSCustomEditor
         labelField = new TextField();
         ve.Add(labelField);
         labelField.RegisterCallback<BlurEvent>(e => {
-            target.Label = labelField.value;
+            (this.target as LBSTagsCharacteristic).Label = labelField.value;
         });
 
         dropdownField = new DropdownField("Value:");
@@ -47,7 +47,7 @@ public class LBSTagsCharEditor : LBSCustomEditor
         var tags = storage.Get<LBSIdentifier>();
         dropdownField.choices = tags.Select(t => t.Label).ToList();
         dropdownField.RegisterCallback<ChangeEvent<string>>(e => {
-            target.Value = tags.Find(t => t.Label == e.newValue);
+            (this.target as LBSTagsCharacteristic).Value = tags.Find(t => t.Label == e.newValue);
         });
         return ve;
     }
