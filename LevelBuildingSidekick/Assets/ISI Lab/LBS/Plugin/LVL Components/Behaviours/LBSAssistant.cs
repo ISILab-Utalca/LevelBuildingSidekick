@@ -59,7 +59,15 @@ namespace LBS.Assisstants
         #endregion
 
         #region METHODS
-        public abstract void OnAdd(LBSLayer layer);
+        public virtual void OnAttachLayer(LBSLayer layer)
+        {
+            Owner = layer;
+        }
+
+        public virtual void OnDetachLayer(LBSLayer layer)
+        {
+            Owner = null;
+        }
 
         public abstract void Execute();
 
