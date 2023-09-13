@@ -19,7 +19,7 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
     private AddSchemaTile createNewRoomNode;
     private RemoveSchemaTile removeSchemaTile;
 
-    private SetTileConnection setTileConnection;
+    private SetSchemaTileConnection setTileConnection;
     private RemoveTileConnection removeTileConnection;
     #endregion
 
@@ -64,7 +64,7 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
 
         // Add Tile connection
         icon = Resources.Load<Texture2D>("Icons/open-exit-door");
-        this.setTileConnection = new SetTileConnection();
+        this.setTileConnection = new SetSchemaTileConnection();
         var t3 = new LBSTool(icon, "Set connection", setTileConnection);
         t3.Init(schema.Owner, schema);
         toolKit.AddTool(t3);
