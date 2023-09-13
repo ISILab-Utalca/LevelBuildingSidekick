@@ -237,20 +237,27 @@ public class HillClimbingAssistant : LBSAssistant
         ConstrainsZonesMod.RecalculateConstraint(zoneModule.Zones);
     }
 
-    public override void OnAdd(LBSLayer layer)
+    public override void OnAttachLayer(LBSLayer layer)
     {
-        // Set Owner
-        Owner = layer;
+        // Call base method
+        base.OnAttachLayer(layer);
 
-        // Modules
-        var modules = layer.Modules;
+        // Get modules
+        var zonesMod = layer.GetModule<SectorizedTileMapModule>();
+
+        // Set event
+        zonesMod.OnAddZone += (module, zone) => {
+            ConstrainsZonesMod.RecalculateConstraint(zonesMod.Zones);
+        };
+        zonesMod.OnRemoveZone += (module, zone) => { 
+            ConstrainsZonesMod.RecalculateConstraint(zonesMod.Zones);
+        };
 
         // Set constraint
-        var zoneModule = layer.GetModule<SectorizedTileMapModule>();
-        ConstrainsZonesMod.RecalculateConstraint(zoneModule.Zones);
+        ConstrainsZonesMod.RecalculateConstraint(zonesMod.Zones);
 
-
-        var adam = new OptimizableModules(modules);
+        // Set first population
+        var adam = new OptimizableModules(layer.Modules);
 
         var selection = new EliteSelection();
         var termination = new FitnessStagnationTermination(1); // agregar termination de maximo local
@@ -370,7 +377,7 @@ public class HillClimbingAssistant : LBSAssistant
             var nTile = new LBSTile(pos + dir);
             tilesMod.AddTile(nTile);
             zonesMod.AddTile(nTile, zone);
-            connectMod.AddTile(nTile, new List<string>() { "", "", "", "" }, new List<bool>() { true, true, true, true });
+            connectMod.AddPair(nTile, new List<string>() { "", "", "", "" }, new List<bool>() { true, true, true, true });
         }
 
         // return neigthbour
@@ -398,7 +405,7 @@ public class HillClimbingAssistant : LBSAssistant
             // Remove tile
             var tile = tilesMod.GetTile(pos);
             tilesMod.RemoveTile(tile);
-            zonesMod.RemoveTile(tile);
+            zonesMod.RemovePair(tile);
             connectMod.RemoveTile(tile);
         }
 
