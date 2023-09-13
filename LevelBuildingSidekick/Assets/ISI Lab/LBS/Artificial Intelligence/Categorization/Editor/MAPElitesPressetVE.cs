@@ -11,8 +11,7 @@ using UnityEngine.UIElements;
 [LBSCustomEditor("MAPElitesPresset", typeof(MAPElitesPresset))]
 public class MAPElitesPressetVE : LBSCustomEditor
 {
-    TextField nameField;
-    Vector2Field samples;
+    Vector2IntField samples;
 
     ClassDropDown evaluatorX;
     Vector2Field thresholdX;
@@ -34,28 +33,27 @@ public class MAPElitesPressetVE : LBSCustomEditor
     public override void SetInfo(object target)
     {
         var presset = target as MAPElitesPresset;
-        nameField.value = presset.name;
-        samples.value = new Vector2(presset.xSampleCount, presset.ySampleCount);
+        samples.value = presset.SampleCount;
 
-        if (presset.xEvaluator != null)
+        if (presset.XEvaluator != null)
         {
-            evaluatorX.value = presset.xEvaluator.GetType().Name;
-            LoadEditor(contentX, presset.xEvaluator);
+            evaluatorX.value = presset.XEvaluator.GetType().Name;
+            LoadEditor(contentX, presset.XEvaluator);
         }
-        thresholdX.value = presset.xThreshold;
+        thresholdX.value = presset.XThreshold;
 
 
-        if (presset.yEvaluator != null)
+        if (presset.YEvaluator != null)
         {
-            evaluatorY.value = presset.yEvaluator.GetType().Name;
-            LoadEditor(contentY, presset.yEvaluator);
+            evaluatorY.value = presset.YEvaluator.GetType().Name;
+            LoadEditor(contentY, presset.YEvaluator);
         }
-        thresholdY.value = presset.yThreshold;
+        thresholdY.value = presset.YThreshold;
 
-        if (presset.optimizer != null)
+        if (presset.Optimizer != null)
         {
-            optimizer.value = presset.optimizer.GetType().Name;
-            LoadEditor(contentO, presset.optimizer);
+            optimizer.value = presset.Optimizer.GetType().Name;
+            LoadEditor(contentO, presset.Optimizer);
         }
     }
 
@@ -67,19 +65,11 @@ public class MAPElitesPressetVE : LBSCustomEditor
 
         var presset = target as MAPElitesPresset;
 
-        nameField = ve.Q<TextField>(name: "Name");
-        nameField.RegisterValueChangedCallback(
-            evt => 
-            {
-                presset.name = evt.newValue;
-            });
-
-        samples = ve.Q<Vector2Field>(name: "Samples");
+        samples = ve.Q<Vector2IntField>(name: "Samples");
         samples.RegisterValueChangedCallback(
              evt =>
              {
-                 presset.xSampleCount = (int)evt.newValue.x;
-                 presset.ySampleCount = (int)evt.newValue.y;
+                 presset.SampleCount = evt.newValue;
              });
 
         evaluatorX = ve.Q<ClassDropDown>(name: "XDropdown");
@@ -87,7 +77,7 @@ public class MAPElitesPressetVE : LBSCustomEditor
         thresholdX.RegisterValueChangedCallback(
              evt =>
              {
-                 presset.xThreshold = evt.newValue;
+                 presset.XThreshold = evt.newValue;
              });
         contentX = ve.Q<VisualElement>(name: "XContent");
 
@@ -96,7 +86,7 @@ public class MAPElitesPressetVE : LBSCustomEditor
         thresholdY.RegisterValueChangedCallback(
              evt =>
              {
-                 presset.yThreshold = evt.newValue;
+                 presset.YThreshold = evt.newValue;
              });
         contentY = ve.Q<VisualElement>(name: "YContent");
 
@@ -111,7 +101,7 @@ public class MAPElitesPressetVE : LBSCustomEditor
             evt => 
             {
                 var obj = evaluatorX.GetChoiceInstance();
-                presset.xEvaluator = obj as IRangedEvaluator;
+                presset.XEvaluator = obj as IRangedEvaluator;
                 LoadEditor(contentX, obj);
             });
 
@@ -119,7 +109,7 @@ public class MAPElitesPressetVE : LBSCustomEditor
             evt =>
             {
                 var obj = evaluatorY.GetChoiceInstance();
-                presset.yEvaluator = obj as IRangedEvaluator;
+                presset.YEvaluator = obj as IRangedEvaluator;
                 LoadEditor(contentY, obj);
             });
 
@@ -127,7 +117,7 @@ public class MAPElitesPressetVE : LBSCustomEditor
             evt =>
             {
                 var obj = optimizer.GetChoiceInstance();
-                presset.optimizer = obj as BaseOptimizer;
+                presset.Optimizer = obj as BaseOptimizer;
                 LoadEditor(contentO, obj);
             });
 

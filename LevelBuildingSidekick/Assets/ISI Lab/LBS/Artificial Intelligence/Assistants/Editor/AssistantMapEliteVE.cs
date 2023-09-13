@@ -15,7 +15,6 @@ public class AssistantMapEliteVE : LBSCustomEditor, IToolProvider
 
     private object locker = new object();
 
-    public Rect Rect { get; set; }
 
     ActOnRect ActOnRect;
 
@@ -30,7 +29,7 @@ public class AssistantMapEliteVE : LBSCustomEditor, IToolProvider
         var assitant = target as AssistantMapElite;
         content.Reset();
         assitant.LoadPresset(config.GetPresset());
-        assitant.SetAdam(Rect); // GET RECT FROM TOOL
+        assitant.SetAdam(assitant.Rect); // GET RECT FROM TOOL
         assitant.Execute();
     }
 
@@ -92,7 +91,7 @@ public class AssistantMapEliteVE : LBSCustomEditor, IToolProvider
     {
         var assitant = target as AssistantMapElite;
         var icon = Resources.Load<Texture2D>("Icons/Select");
-        ActOnRect = new ActOnRect((r) => Rect = r);
+        ActOnRect = new ActOnRect((r) => assitant.Rect = r);
         var t1 = new LBSTool(icon, "Paint Zone", ActOnRect);
         t1.Init(assitant.Owner, assitant);
         toolkit.AddTool(t1);

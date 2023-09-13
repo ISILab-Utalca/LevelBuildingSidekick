@@ -9,15 +9,17 @@ using ISILab.AI.Optimization;
 using System.Threading;
 
 [System.Serializable]
-public class MapElites
+public class MapElites : ICloneable
 {
     #region FIELDS
 
-    private int xSampleCount = 4;   
+    [SerializeField]
+    private int xSampleCount = 4;
 
+    [SerializeField]
     private int ySampleCount = 4;
 
-    [Range(0, 0.5f), HideInInspector]
+    [SerializeField, Range(0, 0.5f), HideInInspector]
     public double devest = 0.5;
 
     [SerializeField, SerializeReference, HideInInspector]
@@ -205,7 +207,6 @@ public class MapElites
     {
         //xEvaluator = new Vertical2DSimetry();
         //yEvaluator = new Horizontal2DSimetry();
-        optimizer = new GeneticAlgorithm();
         xSampleCount = 5;
         ySampleCount = 5;
         devest = 0.5;
@@ -217,11 +218,11 @@ public class MapElites
     /// </summary>
     /// <param name="xEvaluator">The evaluator for the X dimension.</param>
     /// <param name="yEvaluator">The evaluator for the Y dimension.</param>
-    public MapElites(IRangedEvaluator xEvaluator, IRangedEvaluator yEvaluator)
+    public MapElites(IRangedEvaluator xEvaluator, IRangedEvaluator yEvaluator, BaseOptimizer optimizer)
     {
         this.xEvaluator = xEvaluator;
         this.yEvaluator = yEvaluator;
-        optimizer = new GeneticAlgorithm();
+        this.optimizer = optimizer;
         xSampleCount = 5;
         ySampleCount = 5;
         devest = 0.5;
@@ -236,9 +237,9 @@ public class MapElites
     /// </summary>
     public void Run()
     {
-        if (Optimizer.State != Op_State.NotStarted && Optimizer.State != Op_State.TerminationReached)
+        if (Optimizer.State != Op_State.NotStarted)
         {
-            Debug.LogWarning("[ISI Lab] Process Already Running");
+            Debug.LogWarning("[ISI Lab] Process Already Running. State: " + Optimizer.State);
             return;
         }
 
@@ -274,6 +275,7 @@ public class MapElites
         };
         thread = new Thread(Optimizer.Start);
         thread.Start();
+        Debug.Log("O Running");
     }
 
     public void Restart()
@@ -423,6 +425,20 @@ public class MapElites
     private void Clear()
     {
         BestSamples = new IOptimizable[xSampleCount, ySampleCount];
+    }
+
+    public object Clone()
+    {
+        var me = new MapElites();
+        me.optimizer = optimizer.Clone() as BaseOptimizer;
+        me.xSampleCount = xSampleCount; 
+        me.ySampleCount = ySampleCount;
+        me.XThreshold = XThreshold;
+        me.YThreshold = YThreshold;
+        me.devest = devest;
+        me.XEvaluator = xEvaluator.Clone() as IRangedEvaluator;
+        me.YEvaluator = yEvaluator.Clone() as IRangedEvaluator;
+        return me;
     }
 }
 

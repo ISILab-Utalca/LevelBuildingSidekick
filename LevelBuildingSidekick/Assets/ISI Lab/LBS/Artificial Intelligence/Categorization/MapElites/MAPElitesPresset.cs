@@ -3,39 +3,73 @@ using Commons.Optimization.Evaluator;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 [System.Serializable]
 [CreateAssetMenu(menuName = "ISILab/LBS/MapElitePresset")]
-public class MAPElitesPresset : ScriptableObject
+public class MAPElitesPresset : ScriptableObject, ICloneable
 {
-    public int xSampleCount = 4;
+    [SerializeField]
+    MapElites mapElites = new MapElites();
 
-    public int ySampleCount = 4;
+    public MapElites MapElites => mapElites?.Clone() as MapElites;
 
-    [Range(0, 0.5f), HideInInspector]
-    public double devest = 0.5;
+    public Vector2Int SampleCount
+    {
+        get => new Vector2Int(mapElites.XSampleCount, mapElites.YSampleCount);
+        set
+        {
+            mapElites.XSampleCount = value.x;
+            mapElites.YSampleCount = value.y;
+        }
+    }
 
-    [SerializeField, SerializeReference]
-    public IRangedEvaluator xEvaluator;
+    public double Devest
+    {
+        get => mapElites.devest;
+        set => mapElites.devest = value;    
+    }
+
+    public IRangedEvaluator XEvaluator
+    {
+        get => mapElites?.XEvaluator;
+        set => mapElites.XEvaluator = value;
+    }
+
+    public Vector2 XThreshold
+    {
+        get => mapElites.XThreshold;
+        set => mapElites.XThreshold = value;
+    }
+
+    public IRangedEvaluator YEvaluator
+    {
+        get => mapElites?.YEvaluator;
+        set => mapElites.YEvaluator = value;
+    }
 
     [SerializeField]
-    public Vector2 xThreshold = new Vector2(0.2f, 0.8f);
+    public Vector2 YThreshold
+    {
+        get => mapElites.YThreshold;
+        set => mapElites.YThreshold = value;
+    }
 
-    [SerializeField, SerializeReference]
-    public IRangedEvaluator yEvaluator;
-
-    [SerializeField]
-    public Vector2 yThreshold = new Vector2(0.2f, 0.8f);
-
-    [SerializeField, SerializeReference]
-    public BaseOptimizer optimizer;
+    public BaseOptimizer Optimizer
+    {
+        get => mapElites?.Optimizer;
+        set => mapElites.Optimizer = value;
+    }
 
     private void OnDisable()
     {
 #if UNITY_EDITOR
         EditorUtility.SetDirty(this);
-        //AssetsDatabase.SaveAssets();
+        AssetDatabase.SaveAssets();
 #endif
     }
 
@@ -43,7 +77,12 @@ public class MAPElitesPresset : ScriptableObject
     {
 #if UNITY_EDITOR
         EditorUtility.SetDirty(this);
-        //AssetsDatabase.SaveAssets();
+        AssetDatabase.SaveAssets();
 #endif
+    }
+
+    public object Clone()
+    {
+        throw new NotImplementedException();
     }
 }

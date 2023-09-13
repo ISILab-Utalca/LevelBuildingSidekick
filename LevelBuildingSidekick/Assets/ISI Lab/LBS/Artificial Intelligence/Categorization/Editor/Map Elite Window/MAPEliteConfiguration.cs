@@ -36,7 +36,7 @@ public class MAPEliteConfiguration : VisualElement
         continueBtn.clicked += Continue;
 
         calculateBtn = this.Q<Button>(name: "CalculateBtn");
-        calculateBtn.clicked += Continue;
+        calculateBtn.clicked += Calculate;
 
         editPresset = this.Q<Button>(name: "EditPresset");
 

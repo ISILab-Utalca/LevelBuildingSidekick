@@ -24,6 +24,7 @@ using System.Xml.Linq;
 public class AssistantMapElite : LBSAssistant
 {
     MapElites mapElites;
+    public Rect Rect { get; set; }
 
     public bool Finished => mapElites.Finished;
     public int SampleWidth
@@ -96,14 +97,7 @@ public class AssistantMapElite : LBSAssistant
 
     public void LoadPresset(MAPElitesPresset presset)
     {
-        mapElites.Optimizer = presset.optimizer;
-        mapElites.XEvaluator = presset.xEvaluator;
-        mapElites.YEvaluator = presset.yEvaluator;
-        mapElites.XThreshold = presset.xThreshold;
-        mapElites.YThreshold = presset.yThreshold;
-        mapElites.XSampleCount = presset.xSampleCount;
-        mapElites.YSampleCount = presset.ySampleCount;
-        mapElites.devest = presset.devest;
+        mapElites = presset.MapElites;
     }
 
     public void SetAdam(Rect rect)
