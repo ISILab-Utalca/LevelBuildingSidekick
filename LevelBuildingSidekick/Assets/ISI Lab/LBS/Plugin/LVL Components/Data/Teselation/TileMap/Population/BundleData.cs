@@ -36,7 +36,9 @@ namespace LBS.Components.TileMap
         public BundleData(string bundle, List<LBSCharacteristic> characteristics)
         {
             this.bundleTag = bundle;
-            this.characteristics = characteristics;
+            foreach(var c in characteristics)
+                this.characteristics.Add(c.Clone() as LBSCharacteristic);
+
         }
 
         public BundleData(Bundle bundle) : this(bundle.ID.Label, bundle.Characteristics)
