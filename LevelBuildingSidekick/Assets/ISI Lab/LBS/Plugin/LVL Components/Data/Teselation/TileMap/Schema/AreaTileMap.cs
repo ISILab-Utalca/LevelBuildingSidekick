@@ -10,6 +10,7 @@ using System;
 namespace LBS.Components.TileMap
 {
     [System.Serializable]
+    [Obsolete("UWU")]
     public class AreaTileMap<T> : LBSModule where T : TiledArea
     {
         #region FIELDS
