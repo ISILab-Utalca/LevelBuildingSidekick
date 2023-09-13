@@ -68,4 +68,9 @@ public class MinimizeDistance : IRangedEvaluator
 
         return val;
     }
+
+    public object Clone()
+    {
+        throw new System.NotImplementedException();
+    }
 }

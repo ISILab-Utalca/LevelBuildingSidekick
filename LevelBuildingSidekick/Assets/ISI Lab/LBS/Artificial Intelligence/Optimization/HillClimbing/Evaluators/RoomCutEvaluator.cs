@@ -68,6 +68,8 @@ public class RoomCutEvaluator : IEvaluator
 
     }
 
-
-
+    public object Clone()
+    {
+        throw new System.NotImplementedException();
+    }
 }

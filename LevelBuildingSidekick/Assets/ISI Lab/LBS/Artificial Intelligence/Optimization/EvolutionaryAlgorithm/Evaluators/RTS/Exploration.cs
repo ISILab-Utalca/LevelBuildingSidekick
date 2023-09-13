@@ -32,7 +32,7 @@ public class Exploration : IRangedEvaluator
 
         foreach (var g in genes)
         {
-            if (g.Characteristics.Contains(colliderCharacteristic))
+            if (g != null && g.Characteristics.Contains(colliderCharacteristic))
                 continue;
             fitness++;
         }
@@ -40,5 +40,12 @@ public class Exploration : IRangedEvaluator
         fitness /= genes.Count;
 
         return fitness;
+    }
+
+    public object Clone()
+    {
+        var e = new Exploration();
+        e.colliderCharacteristic = colliderCharacteristic;
+        return e;
     }
 }

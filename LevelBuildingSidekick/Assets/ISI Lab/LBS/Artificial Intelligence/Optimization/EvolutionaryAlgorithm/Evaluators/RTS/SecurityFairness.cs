@@ -34,7 +34,7 @@ public class SecurityFairness : IRangedEvaluator
 
         var genes = chrom.GetGenes().Cast<BundleData>().ToList();
 
-        var players = genes.Select((g, i) => new { g, i }).Where(p => p.g.Characteristics.Any(c => c.Equals(playerCharacteristic)));
+        var players = genes.Select((g, i) => new { g, i }).Where(p => p.g != null && p.g.Characteristics.Any(c => c.Equals(playerCharacteristic)));
 
         if (players.Count() < 2)
         {
@@ -58,5 +58,13 @@ public class SecurityFairness : IRangedEvaluator
         fitness = localFitness.Min() / localFitness.Max();
 
         return fitness;
+    }
+
+    public object Clone()
+    {
+        var e = new SecurityFairness();
+        e.playerCharacteristic = playerCharacteristic;
+        e.colliderCharacteristic = colliderCharacteristic;
+        return e;
     }
 }

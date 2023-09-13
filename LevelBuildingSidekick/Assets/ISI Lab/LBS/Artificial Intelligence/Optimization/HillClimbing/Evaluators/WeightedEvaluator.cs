@@ -17,6 +17,11 @@ public class WeightedEvaluator : IEvaluator
         throw new NotImplementedException();
     }
 
+    public object Clone()
+    {
+        throw new NotImplementedException();
+    }
+
     public float Evaluate(IOptimizable evaluable)
     {
         float totalWeight = 0;

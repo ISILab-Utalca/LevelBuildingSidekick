@@ -13,16 +13,16 @@ using ISILab.AI.Optimization.Selections;
 namespace ISILab.AI.Optimization
 {
     [System.Serializable]
-    public abstract class BaseOptimizer
+    public abstract class BaseOptimizer : ICloneable
     {
 
         #region FIELDS
 
-        protected Op_State state;
-        protected Stopwatch clock;
-        protected readonly object m_lock;
-        protected bool stopRequested;
-        protected bool pauseRequested;
+        protected Op_State state = Op_State.NotStarted;
+        protected Stopwatch clock = new Stopwatch();
+        protected readonly object m_lock = new object();
+        protected bool stopRequested = false;
+        protected bool pauseRequested = false;
 
         [SerializeField, SerializeReference]
         IPopulation population;
@@ -178,7 +178,8 @@ namespace ISILab.AI.Optimization
             lock (m_lock)
             {
                 stopRequested = false;
-                pauseRequested = false; State = Op_State.Started;
+                pauseRequested = false; 
+                State = Op_State.Started;
                 clock = new Stopwatch();
                 clock.Start();
                 //Adam.Fitness = Evaluator.Evaluate(Adam);
@@ -278,6 +279,8 @@ namespace ISILab.AI.Optimization
                 pauseRequested = true;
             }
         }
+
+        public abstract object Clone();
 
         #endregion
     }

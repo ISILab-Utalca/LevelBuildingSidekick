@@ -89,4 +89,9 @@ public class ExplorationFairnes : IRangedEvaluator
 
         return fitness;
     }
+
+    public object Clone()
+    {
+        throw new NotImplementedException();
+    }
 }

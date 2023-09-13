@@ -46,4 +46,9 @@ public class Resemblance : IRangedEvaluator
 
         return fit;
     }
+
+    public object Clone()
+    {
+        throw new System.NotImplementedException();
+    }
 }

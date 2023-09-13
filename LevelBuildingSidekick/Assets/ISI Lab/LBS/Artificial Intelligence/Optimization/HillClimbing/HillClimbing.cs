@@ -70,6 +70,9 @@ namespace ISILab.AI.Optimization
             Population.EndCurrentGeneration();
         }
 
-        
+        public override object Clone()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

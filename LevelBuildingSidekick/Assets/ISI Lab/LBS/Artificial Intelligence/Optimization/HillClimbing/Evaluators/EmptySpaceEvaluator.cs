@@ -17,6 +17,11 @@ public class EmptySpaceEvaluator : IEvaluator
         this.original = layer;
     }
 
+    public object Clone()
+    {
+        throw new System.NotImplementedException();
+    }
+
     public float Evaluate(IOptimizable evaluable)
     {
         var layer = (evaluable as OptimizableModules).Modules;

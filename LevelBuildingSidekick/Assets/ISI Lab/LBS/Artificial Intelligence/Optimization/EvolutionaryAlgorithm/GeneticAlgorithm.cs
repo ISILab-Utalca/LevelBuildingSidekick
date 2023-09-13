@@ -120,7 +120,6 @@ namespace ISILab.AI.Optimization
 
             Population = new Population();
             Termination = new GenerationNumberTermination(20);
-            Evaluator = null; //(!!!) FILL UP With new wvaluator
         }
 
         public override void RunOnce()
@@ -244,6 +243,17 @@ namespace ISILab.AI.Optimization
         private void RunEvaluateFitness(IOptimizable chromosome)
         {
             chromosome.Fitness = Evaluator.Evaluate(chromosome);
+        }
+
+        public override object Clone()
+        {
+            var ga = new GeneticAlgorithm();
+            ga.crossoverProbability = CrossoverProbability;
+            ga.mutationProbability = MutationProbability;
+            ga.crossover = Crossover;
+            ga.mutation = Mutation;
+            ga.Evaluator = Evaluator;
+            return ga;
         }
     }
 }

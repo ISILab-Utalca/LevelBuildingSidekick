@@ -33,14 +33,23 @@ public class ResourcesSafetyFairness : IRangedEvaluator
 
         var genes = chrom.GetGenes().Cast<BundleData>().ToList();
 
-        var players = genes.Select((g, i) => new { g, i }).Where(p => p.g.Characteristics.Any(c => c.Equals(playerCharacteristc)));
-        
-        if (players.Count() < 2)
+        List<int> playersPos = new();
+
+        for(int i = 0; i < genes.Count; i++)
         {
-            Debug.LogWarning("Map is not suitable for the evaluation, it must have at least 2 players");
+            if (genes[i] != null)
+            {
+                if (genes[i].Characteristics.Contains(playerCharacteristc))
+                {
+                    playersPos.Add(i);
+                }
+                else
+                {
+                    foreach (var c in genes[i].Characteristics)
+                        Debug.Log(c.Label);
+                }
+            }
         }
-            
-        var playersPos = players.Select(x => x.i);
 
 
         List<float> localFitness = new List<float>();
@@ -58,7 +67,7 @@ public class ResourcesSafetyFairness : IRangedEvaluator
                 {
                     var index = chrom.ToIndex(new Vector2(i, j));
 
-                    if (index < 0 || index >= genes.Count)
+                    if (index < 0 || index >= genes.Count || genes[index] == null)
                     {
                         continue;
                     }
@@ -76,5 +85,13 @@ public class ResourcesSafetyFairness : IRangedEvaluator
         fitness = localFitness.Min() / localFitness.Max();
 
         return fitness;
+    }
+
+    public object Clone()
+    { 
+        var e = new ResourcesSafetyFairness();
+        e.playerCharacteristc = playerCharacteristc;
+        e.resourceCharactersitic = new List<LBSCharacteristic>(resourceCharactersitic);
+        return e;
     }
 }

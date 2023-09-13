@@ -87,5 +87,9 @@ namespace ISILab.AI.Optimization
 
         }
 
+        public override object Clone()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

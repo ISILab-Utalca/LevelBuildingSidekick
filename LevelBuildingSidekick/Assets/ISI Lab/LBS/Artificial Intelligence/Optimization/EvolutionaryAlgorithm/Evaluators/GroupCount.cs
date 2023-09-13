@@ -116,4 +116,9 @@ public class GroupCount : IRangedEvaluator
 
         return closed;
     }
+
+    public object Clone()
+    {
+        throw new System.NotImplementedException();
+    }
 }

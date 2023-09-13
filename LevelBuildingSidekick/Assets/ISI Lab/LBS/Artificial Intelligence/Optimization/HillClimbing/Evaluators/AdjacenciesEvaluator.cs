@@ -20,6 +20,11 @@ public class AdjacenciesEvaluator : IEvaluator
         this.connectedZones = layer.GetModule<ConnectedZonesModule>();
     }
 
+    public object Clone()
+    {
+        throw new System.NotImplementedException();
+    }
+
     public float Evaluate(IOptimizable evaluable)
     {
         var layer = (evaluable as OptimizableModules).Modules;

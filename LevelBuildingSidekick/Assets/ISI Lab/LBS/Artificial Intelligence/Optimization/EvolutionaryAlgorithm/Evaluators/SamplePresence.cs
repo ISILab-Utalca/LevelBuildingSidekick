@@ -59,4 +59,9 @@ public class SamplePresence : IRangedEvaluator
 
         return MinValue + ((MaxValue - MinValue) * presence);
     }
+
+    public object Clone()
+    {
+        throw new NotImplementedException();
+    }
 }

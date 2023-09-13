@@ -55,4 +55,11 @@ public class SafeAreaFairness : IRangedEvaluator
 
         return fitness;
     }
+
+    public object Clone()
+    {
+        var e = new SafeAreaFairness();
+        e.playerCharacteristc = playerCharacteristc;
+        return e;
+    }
 }

@@ -19,7 +19,7 @@ public class BundleTilemapChromosome : ChromosomeBase2D, IDrawable
             if (!rect.Contains(t.Tile.Position))
                 continue;
             var i = ToIndex(t.Tile.Position - rect.position);
-            var data = t.BundleData;
+            var data = t.BundleData.Clone() as BundleData;
             ReplaceGene(i, data);
         }
     }

@@ -69,4 +69,9 @@ public class MaximizeDistance : IRangedEvaluator
 
         return val;
     }
+
+    public object Clone()
+    {
+        throw new System.NotImplementedException();
+    }
 }

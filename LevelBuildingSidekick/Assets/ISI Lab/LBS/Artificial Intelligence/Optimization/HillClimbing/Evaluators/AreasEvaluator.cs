@@ -65,6 +65,8 @@ public class AreasEvaluator : IEvaluator
         return value / (zones.ZonesWithTiles.Count * 1f);
     }
 
-
-
+    public object Clone()
+    {
+        throw new System.NotImplementedException();
+    }
 }
