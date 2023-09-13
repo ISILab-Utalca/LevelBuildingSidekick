@@ -89,12 +89,17 @@ public class PopulationBehaviour : LBSBehaviour
         return new PopulationBehaviour(this.Icon, this.Name);
     }
 
-    public override void OnAdd(LBSLayer layer)
+    public override void OnAttachLayer(LBSLayer layer)
     {
         Owner = layer;
 
         tileMap = Owner.GetModule<TileMapModule>();
         bundleTileMap = Owner.GetModule<BundleTileMap>();
+    }
+
+    public override void OnDetachLayer(LBSLayer layer)
+    {
+        throw new System.NotImplementedException();
     }
     #endregion
 }

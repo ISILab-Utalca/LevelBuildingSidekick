@@ -1,4 +1,5 @@
 using LBS.Bundles;
+using LBS.Components;
 using LBS.Components.TileMap;
 using System;
 using System.Collections;
@@ -16,24 +17,28 @@ public class WaveFunctionCollapseManipulator : ManipulateTeselation
         public float weight;
     }
 
+    private Vector2Int first;
 
-    private List<Vector2Int> dirs = new List<Vector2Int>() // (!) esto deberia estar en un lugar general
-    {
-        Vector2Int.right,
-        Vector2Int.down,
-        Vector2Int.left,
-        Vector2Int.up,
-    };
-
-    private ConnectedTile first;
+    private AssistantWFC assistant;
 
     public WaveFunctionCollapseManipulator() : base()
     {
+        feedback.fixToTeselation = true;
+    }
 
+    public override void Init(LBSLayer layer, object provider)
+    {
+        base.Init(layer, provider);
+
+        assistant = provider as AssistantWFC;
+        feedback.TeselationSize = layer.TileSize;
+        layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
     }
 
     protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
     {
+        var x = 1;
+        first = assistant.Owner.ToFixedPosition(position);
 
     }
 
@@ -44,9 +49,24 @@ public class WaveFunctionCollapseManipulator : ManipulateTeselation
 
     protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
     {
-        var min = this.module.Owner.ToFixedPosition(Vector2Int.Min(StartPosition, EndPosition));
-        var max = this.module.Owner.ToFixedPosition(Vector2Int.Max(StartPosition, EndPosition));
+        var min = this.assistant.Owner.ToFixedPosition(Vector2Int.Min(StartPosition, EndPosition));
+        var max = this.assistant.Owner.ToFixedPosition(Vector2Int.Max(StartPosition, EndPosition));
 
+        var positions = new List<Vector2Int>();
+        for (int i = min.x; i <= max.x; i++)
+        {
+            for (int j = min.y; j <= max.y; j++)
+            {
+                positions.Add(new Vector2Int(i, j));
+            }
+        }
+
+        assistant.Positions = positions;
+
+        assistant.OverrideValues = e.ctrlKey;
+
+        assistant.Execute();
+        /*
         var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
         var fathers = bundles
             .Select(b => b.GetCharacteristics<LBSDirectionedGroup>()[0])    // obtiene todos los bundles que tengan DirsGroup
@@ -107,58 +127,8 @@ public class WaveFunctionCollapseManipulator : ManipulateTeselation
 
             toCalc.Remove(current.Item1);
         }
-
+        */
     }
 
-    private List<Candidate> CalcCandidates(ConnectedTile tile, LBSDirectionedGroup group)
-    {
-        var candidates = new List<Candidate>();
 
-        for (int i = 0; i < group.Weights.Count; i++)
-        {
-            var weigth = group.Weights[i].weigth;
-            var sBundle = group.Weights[i].target.GetCharacteristics<LBSDirection>()[0];
-            for (int j = 0; j < 4; j++) // esto deberia ser por numero de conexiones y no directamente un 4 (!!)
-            {
-                var array = sBundle.GetConnection(j);
-                if (Compare(tile.Connections, array))
-                {
-                    var c = new Candidate()
-                    {
-                        array = array,
-                        weight = weigth,
-                    };
-
-                    candidates.Add(c);
-                }
-            }
-        }
-
-        return candidates;
-    }
-
-    public void SetConnectionNei(string[] oring, ConnectedTile[] neis)
-    {
-        for (int i = 0; i < neis.Length; i++)
-        {
-            if (neis[i] == null)
-                continue;
-
-            var idir = dirs.FindIndex(d => d.Equals(-dirs[i]));
-            neis[i].SetConnection(oring[i], idir);
-        }
-    }
-
-    public bool Compare(string[] a, string[] b)
-    {
-        for (int i = 0; i < a.Length; i++)
-        {
-            for (int j = 0; j < b.Length; j++)
-            {
-                if (a[i] != b[i] && !string.IsNullOrEmpty(a[i]) && !string.IsNullOrEmpty(a[i]))
-                    return false;
-            }
-        }
-        return true;
-    }
 }

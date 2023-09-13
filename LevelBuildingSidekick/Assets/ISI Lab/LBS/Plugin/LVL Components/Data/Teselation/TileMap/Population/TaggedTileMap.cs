@@ -85,14 +85,14 @@ public class TaggedTileMap : LBSModule
     public override void OnAttach(LBSLayer layer)
     {
         var tileMap = layer.GetModule<TileMapModule>();
-        OnAddTile += tileMap.AddTile;
+        //OnAddTile += tileMap.AddTile;
         OnRemoveTile += tileMap.RemoveTile;
     }
 
     public override void OnDetach(LBSLayer layer)
     {
         var tileMap = layer.GetModule<TileMapModule>();
-        OnAddTile -= tileMap.AddTile;
+        //OnAddTile -= tileMap.AddTile;
         OnRemoveTile -= tileMap.RemoveTile;
     }
 

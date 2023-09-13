@@ -20,7 +20,8 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
 
     private AddEmptyTile addEmptyTile;
     private RemoveTileExterior removeTile;
-    private SetTileConnection setTileConnection;
+    private SetExteriorTileConnection setTileConnection;
+
     #endregion
 
     #region VIEW FIELDS
@@ -43,7 +44,7 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
         var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
         foreach ( var bundle in bundles)
         {
-            if(bundle.ID?.Label == exterior.targetBundle)
+            if(bundle.ID?.Label == exterior.TargetBundle)
             {
                 this.targetBundle = bundle;
                 break;
@@ -82,12 +83,12 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
 
         // Set connection
         icon = Resources.Load<Texture2D>("Icons/open-exit-door");
-        this.setTileConnection = new SetTileConnection();
+        this.setTileConnection = new SetExteriorTileConnection();
         var t3 = new LBSTool(icon, "Set connection", setTileConnection);
         t3.Init(exterior.Owner, exterior);
         toolKit.AddTool(t3);
 
-        // Wave function collapse
+
     }
 
     private void OnTargetBundle() // mejorar nombre
@@ -122,7 +123,7 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
         bundleField.RegisterValueChangedCallback(evt =>
         {
             targetBundle = evt.newValue as Bundle;
-            exterior.targetBundle = targetBundle.ID?.Label;
+            exterior.TargetBundle = targetBundle.ID?.Label;
             OnTargetBundle();
         });
 
@@ -166,7 +167,7 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
         // Selected option event
         connectionPallete.OnSelectOption += (selected) => 
         {
-            Debug.LogWarning("Implementar TOOL");
+            setTileConnection.ToSet = selected as LBSIdentifier;
         };
 
         // OnAdd option event

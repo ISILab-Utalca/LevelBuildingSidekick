@@ -79,11 +79,11 @@ public class HillClimbingAssistantEditor : LBSCustomEditor, IToolProvider
 
         // Revert
         this.revert = this.Q<Button>("Revert");
-        this.revert.clicked += OnRevert;
+        this.revert.clicked += Revert;
 
         // Execute
         this.execute = this.Q<Button>("Execute");
-        this.execute.clicked += OnExecute;
+        this.execute.clicked += Execute;
 
         // Recalculate //parche(!)
         this.recalculate = new Button();
@@ -119,13 +119,13 @@ public class HillClimbingAssistantEditor : LBSCustomEditor, IToolProvider
     }
 
 
-    private void OnExecute()
+    private void Execute()
     {
         //tempLayer = hillClimbing.Owner.Clone() as LBSLayer; // (!!)
         hillClimbing.Execute();
     }
 
-    private void OnRevert()
+    private void Revert()
     {
         if (tempLayer == null)
         {

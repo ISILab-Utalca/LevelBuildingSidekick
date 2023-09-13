@@ -15,8 +15,13 @@ public class SimpleConectedBehaviour : LBSBehaviour
         return new SimpleConectedBehaviour(this.Icon, this.Name);
     }
 
-    public override void OnAdd(LBSLayer layer)
+    public override void OnAttachLayer(LBSLayer layer)
     {
         // throw new NotImplementedException();
+    }
+
+    public override void OnDetachLayer(LBSLayer layer)
+    {
+        throw new System.NotImplementedException();
     }
 }

@@ -35,6 +35,13 @@ public class SectorizedTileMapModule : LBSModule, ISelectable
     private List<Vector2Int> DirsDiag => Directions.Bidimencional.Diagonals;
     #endregion
 
+    #region EVENTS
+    public event Action<SectorizedTileMapModule, Zone> OnAddZone;
+    public event Action<SectorizedTileMapModule, Zone> OnRemoveZone;
+    public event Action<SectorizedTileMapModule, TileZonePair> OnAddPair;
+    public event Action<SectorizedTileMapModule, TileZonePair> OnRemovePair;
+    #endregion
+
     #region CONSTRUCTORS
     public SectorizedTileMapModule()
     {
@@ -50,13 +57,13 @@ public class SectorizedTileMapModule : LBSModule, ISelectable
 
         foreach(var t in tiles)
         {
-            AddTile(t);
+            AddPair(t);
         }
     }
     #endregion
 
     #region METHODS
-    public void MoveArea(Zone zone, Vector2Int dir)
+    public void MoveArea(Zone zone, Vector2Int dir) // BROKEN, FIX
     {
         var tiles = GetTiles(zone);
 
@@ -86,28 +93,59 @@ public class SectorizedTileMapModule : LBSModule, ISelectable
 
         foreach (var t in tor)
         {
-            RemoveTile(t);
+            RemovePair(t);
         }
     }
 
-    public void AddTile(TileZonePair tile)
+    public void AddPair(TileZonePair tile)
     {
-        var t = GetPairTile(tile.Tile.Position);
-        if (t != null)
+        var current = GetPairTile(tile.Tile.Position);
+        if (current != null)
         {
-            pairs.Remove(t);
+            pairs.Remove(current);
+            OnRemovePair?.Invoke(this, current);
         }
         pairs.Add(tile);
+        OnAddPair?.Invoke(this, tile);
     }
 
     public void AddTile(LBSTile tile, Zone zone)
     {
-        AddTile(new TileZonePair(tile, zone));
+        var pair = new TileZonePair(tile, zone);
+        AddPair(pair);
     }
 
     public void AddZone(Zone zone)
     {
         zones.Add(zone);
+        OnAddZone?.Invoke(this, zone);
+    }
+
+    public Zone GetZone(LBSTile tile)
+    {
+        var p = GetPairTile(tile);
+        if (p == null)
+            return null;
+        return p.Zone;
+    }
+
+    public void RemoveZone(Zone zone)
+    {
+        zones.Remove(zone);
+        OnRemoveZone?.Invoke(this, zone);
+
+        var toRemove = new List<TileZonePair>();
+        foreach (var pair in pairs)
+        {
+            if (pair.Zone == zone)
+                toRemove.Add(pair);
+        }
+
+        foreach (var pair in toRemove)
+        {
+            pairs.Remove(pair);
+            OnRemovePair?.Invoke(this, pair);
+        }
     }
 
     public TileZonePair GetPairTile(LBSTile tile)
@@ -129,32 +167,31 @@ public class SectorizedTileMapModule : LBSModule, ISelectable
         return pairs.Find(t => t.Tile.Position == pos);
     }
 
-    public void RemoveZone(Zone zone)
+    public List<LBSTile> GetTiles(Zone zone)
     {
-        zones.Remove(zone);
-
-        var toRemove = new List<TileZonePair>();
+        var tiles = new List<LBSTile>();
         foreach (var pair in pairs)
         {
             if (pair.Zone == zone)
-                toRemove.Add(pair);
+            {
+                tiles.Add(pair.Tile);
+            }
         }
-
-        foreach (var pair in toRemove)
-        {
-            pairs.Remove(pair);
-        }
+        return tiles;
     }
 
-    public void RemoveTile(LBSTile tile)
+    public void RemovePair(LBSTile tile)
     {
         var t = GetPairTile(tile);
         pairs.Remove(t);
+        OnRemovePair?.Invoke(this, t);
     }
 
-    public void RemoveTile(int index)
+    public void RemovePair(int index)
     {
+        var pair = pairs[index];
         pairs.RemoveAt(index);
+        OnRemovePair?.Invoke(this, pair);
     }
 
     public bool Contains(LBSTile tile)
@@ -162,27 +199,6 @@ public class SectorizedTileMapModule : LBSModule, ISelectable
         if (pairs.Count <= 0)
             return false;
         return pairs.Any(t => t.Tile.Equals(tile));
-    }
-
-    public Zone GetZone(LBSTile tile)
-    {
-        var p = GetPairTile(tile);
-        if (p == null)
-            return null;
-        return p.Zone;
-    }
-
-    public List<LBSTile> GetTiles(Zone zone)
-    {
-        var tiles = new List<LBSTile>();
-        foreach (var pair in pairs)
-        {
-            if(pair.Zone == zone)
-            {
-                tiles.Add(pair.Tile);
-            }
-        }
-        return tiles;
     }
 
     public Rect GetBounds(Zone zone)
@@ -219,60 +235,6 @@ public class SectorizedTileMapModule : LBSModule, ISelectable
                 neighborhood.Add(t.Zone);
         }
         return neighborhood;
-    }
-
-    public override Rect GetBounds()
-    {
-        if (pairs == null || pairs.Count == 0)
-        {
-            //Debug.LogWarning("Esta tilemap no tiene tiles!!!");
-            return new Rect(Vector2.zero, Vector2.zero);
-        }
-        return pairs.Select(t => t.Tile).GetBounds();
-    }
-
-    public override bool IsEmpty()
-    {
-        return pairs.Count <= 0;
-    }
-
-    public override void Clear()
-    {
-        pairs.Clear();
-    }
-
-    public override object Clone()
-    {
-        var zones = this.zones.Select(t => t.Clone()).Cast<Zone>().ToList();
-        var pairs = this.pairs.Select(t => t.Clone()).Cast<TileZonePair>().ToList();
-
-        var clone = new SectorizedTileMapModule(zones, pairs, this.id);
-
-        return clone;
-    }
-
-    public override void Rewrite(LBSModule module)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override void OnAttach(LBSLayer layer)
-    {
-    }
-
-    public override void OnDetach(LBSLayer layer)
-    {
-
-    }
-
-    public override void Reload(LBSLayer layer)
-    {
-        Owner = layer;
-    }
-
-    public override void Print()
-    {
-        throw new System.NotImplementedException();
     }
 
     private int NeighborhoodValue(Vector2Int position, List<Vector2Int> directions) // (!) el nombre es malisimo mejorar, esta tambien es de la clase de las tablas del gabo
@@ -537,6 +499,57 @@ public class SectorizedTileMapModule : LBSModule, ISelectable
         return r;
     }
 
+    public override Rect GetBounds()
+    {
+        if (pairs.Count == 0)
+        {
+            return default(Rect);
+        }
+
+        return pairs.Select(t => t.Tile).GetBounds();
+    }
+
+    public override bool IsEmpty()
+    {
+        return pairs.Count <= 0;
+    }
+
+    public override void Clear()
+    {
+        pairs.Clear();
+    }
+
+    public override object Clone()
+    {
+        var zones = this.zones.Select(t => t.Clone()).Cast<Zone>().ToList();
+        var pairs = this.pairs.Select(t => t.Clone()).Cast<TileZonePair>().ToList();
+
+        var clone = new SectorizedTileMapModule(zones, pairs, this.id);
+        return clone;
+    }
+
+    public override void Print()
+    {
+        string msg = "";
+        msg += "Type: " + GetType() + "\n";
+        msg += "Hash code: " + GetHashCode() + "\n";
+        msg += "ID: " + ID + "\n";
+        msg += "\n";
+        foreach (var zone in zones)
+        {
+            msg += zone.ID + "\n";
+            foreach (var tile in GetTiles(zone))
+            {
+                msg += "  " + tile.Position + "\n";
+            }
+        }
+        Debug.Log(msg);
+    }
+
+    public override void Rewrite(LBSModule other)
+    {
+        throw new NotImplementedException();
+    }
     #endregion
 }
 

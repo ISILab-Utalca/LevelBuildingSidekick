@@ -21,9 +21,4 @@ public class AssistentGrammar : LBSAssistant
     {
         Debug.Log("No implementado Grammar 'Execute()'");
     }
-
-    public override void OnAdd(LBSLayer layer)
-    {
-        Debug.Log("No implementado Grammar 'Init(layer)'");
-    }
 }

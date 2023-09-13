@@ -11,29 +11,31 @@ using UnityEngine;
 public class ConnectedTileMapModule : LBSModule
 {
     #region FIELDS
-
     [SerializeField, JsonRequired]
     protected int connectedDirections = 4;
 
-    [SerializeField, JsonRequired]
+    [SerializeField, JsonRequired, SerializeReference]
     protected List<TileConnectionsPair> pairs = new List<TileConnectionsPair>();
-
     #endregion
 
     #region PROPERTIES
-
+    [JsonIgnore]
     public int ConnecteDirections
     {
         get => connectedDirections;
         set => connectedDirections = value;
     }
 
+    [JsonIgnore]
     public List<TileConnectionsPair> Pairs => new List<TileConnectionsPair>(pairs);
+    #endregion
 
+    #region EVENTS
+    public event Action<ConnectedTileMapModule, TileConnectionsPair> OnAddPair;
+    public event Action<ConnectedTileMapModule, TileConnectionsPair> OnRemovePair;
     #endregion
 
     #region CONSTRUCTORS
-
     public ConnectedTileMapModule() : base()
     {
         id = GetType().Name;
@@ -44,13 +46,132 @@ public class ConnectedTileMapModule : LBSModule
         this.connectedDirections = connectedDirections;
         foreach(var t in tiles)
         {
-            AddTile(t.Tile, t.Connections, t.EditedByIA);
+            AddPair(t.Tile, t.Connections, t.EditedByIA);
         }
     }
-
     #endregion
 
     #region METHODS
+    public void SetConnection(LBSTile tile, int direction, string connection, bool editedByIA)
+    {
+        var pair = GetPair(tile);
+        pair.SetConnection(direction, connection, editedByIA);
+    }
+
+    public void SetConnections(LBSTile tile, List<string> connections, List<bool> canBeEditedByIA)
+    {
+        var pair = GetPair(tile);
+        pair.SetConnections(connections, canBeEditedByIA);
+    }
+
+    public void AddPair(LBSTile tile, List<string> connections, List<bool> canBeEditedByIA)
+    {
+        var pair = new TileConnectionsPair(tile, connections, canBeEditedByIA);
+        var current = GetPair(pair.Tile);
+        if (current != null)
+        {
+            pairs.Remove(current);
+            OnRemovePair?.Invoke(this, current);
+        }
+        pairs.Add(pair);
+        OnAddPair?.Invoke(this, pair);
+    }
+
+    public TileConnectionsPair GetPair(LBSTile tile)
+    { 
+        if (pairs.Count <= 0)
+            return null;
+        return pairs.Find(t => t.Tile.Equals(tile));
+    }
+
+    public List<string> GetConnections(LBSTile tile)
+    {
+        var p = GetPair(tile);
+        return p.Connections;
+    }
+
+    public void RemoveTile(LBSTile tile)
+    {
+        var pair = GetPair(tile);
+        pairs.Remove(pair);
+        OnRemovePair?.Invoke(this, pair);
+    }
+
+    public void RemoveTile(int index)
+    {
+        var pair = pairs[index];
+        pairs.RemoveAt(index);
+        OnRemovePair?.Invoke(this, pair);
+    }
+
+    /*
+    public bool Contains(LBSTile tile)
+    {
+        if (pairs.Count <= 0)
+            return false;
+        return pairs.Any(t => t.Tile.Equals(tile));
+    }
+    */
+
+    public override Rect GetBounds()
+    {
+        if (pairs.Count == 0)
+        {
+            return default(Rect);
+        }
+        return pairs.Select(t => t.Tile).GetBounds();
+    }
+
+    public override bool IsEmpty()
+    {
+        return pairs.Count <= 0;
+    }
+
+    public override void Clear()
+    {
+        pairs.Clear();
+    }
+
+    public override object Clone()
+    {
+        var pairs = this.pairs.Select(t => t.Clone()).Cast<TileConnectionsPair>();
+        var clone = new ConnectedTileMapModule(pairs, connectedDirections, ID);
+        return clone;
+    }
+
+    public override void Rewrite(LBSModule module)
+    {
+        var connectedTileMap = module as ConnectedTileMapModule;
+        if(connectedTileMap == null)
+        {
+            return;
+        }
+        Clear();
+        connectedDirections = connectedTileMap.connectedDirections;
+        foreach(var t in connectedTileMap.pairs)
+        {
+            AddPair(t.Tile, t.Connections, t.EditedByIA);
+        }
+    }
+
+    public override void Print()
+    {
+        string msg = "";
+        msg += "Type: " + GetType() + "\n";
+        msg += "Hash code: " + GetHashCode() + "\n";
+        msg += "ID: " + ID + "\n";
+        msg += "\n";
+        foreach (var pair in pairs)
+        {
+            msg += pair.Tile.Position + " - "; 
+            foreach (var connect in pair.Connections)
+            {
+                msg += connect + "| "; 
+            }
+            msg += "\n";
+        }
+        Debug.Log(msg);
+    }
 
     /*
     public void AddTile(TileConnectionsPair tile)
@@ -76,116 +197,6 @@ public class ConnectedTileMapModule : LBSModule
 
     }
     */
-
-    public void SetConnection(LBSTile tile, int direction, string connection, bool editedByIA)
-    {
-        var t = GetPair(tile);
-        t.SetConnection(direction, connection, editedByIA);
-    }
-
-    public void AddTile(LBSTile tile, List<string> connections , List<bool> editedByIA)
-    {
-        var pair = new TileConnectionsPair(tile, connections, editedByIA);
-        var t = GetPair(pair.Tile);
-        if (t != null)
-        {
-            pairs.Remove(t);
-        }
-        pairs.Add(pair);
-    }
-
-    public TileConnectionsPair GetPair(LBSTile tile)
-    { 
-        if (pairs.Count <= 0)
-            return null;
-        return pairs.Find(t => t.Tile.Equals(tile));
-
-    }
-
-    public List<string> GetConnections(LBSTile tile)
-    {
-        var p = GetPair(tile);
-        return p.Connections;
-    }
-
-    public void RemoveTile(LBSTile tile)
-    {
-        var t = GetPair(tile);
-        pairs.Remove(t);
-    }
-
-    public void RemoveTile(int index)
-    {
-        pairs.RemoveAt(index);
-    }
-
-    public bool Contains(LBSTile tile)
-    {
-        if (pairs.Count <= 0)
-            return false;
-        return pairs.Any(t => t.Tile.Equals(tile));
-    }
-
-    public override Rect GetBounds()
-    {
-        if (pairs == null || pairs.Count == 0)
-        {
-            //Debug.LogWarning("Esta tilemap no tiene tiles!!!");
-            return new Rect(Vector2.zero, Vector2.zero);
-        }
-        return pairs.Select(t => t.Tile).GetBounds();
-    }
-
-    public override bool IsEmpty()
-    {
-        return pairs.Count <= 0;
-    }
-
-    public override void Clear()
-    {
-        pairs.Clear();
-    }
-
-    public override object Clone()
-    {
-        return new ConnectedTileMapModule(pairs.Select(t => t.Clone()).Cast<TileConnectionsPair>(), connectedDirections, ID);
-    }
-
-    public override void Rewrite(LBSModule module)
-    {
-        var connectedTileMap = module as ConnectedTileMapModule;
-        if(connectedTileMap == null)
-        {
-            return;
-        }
-        Clear();
-        connectedDirections = connectedTileMap.connectedDirections;
-        foreach(var t in connectedTileMap.pairs)
-        {
-            AddTile(t.Tile, t.Connections, t.EditedByIA);
-        }
-
-    }
-
-    public override void OnAttach(LBSLayer layer)
-    {
-    }
-
-    public override void OnDetach(LBSLayer layer)
-    {
-
-    }
-
-    public override void Reload(LBSLayer layer)
-    {
-        //throw new System.NotImplementedException();
-    }
-
-    public override void Print()
-    {
-        throw new System.NotImplementedException();
-    }
-
     #endregion
 
 }
@@ -236,13 +247,6 @@ public class TileConnectionsPair : ICloneable // esto puede ser TAG/BUNDLE en ve
         this.editedByIA = new List<bool>(editedByIA);
     }
 
-    /*
-    public void AddConnection(string connection)
-    {
-        connections.Add(connection);
-    }
-    */
-
     public void SetConnection(int index, string connection, bool editedByIA)
     {
         this.connections[index] = connection;
@@ -257,6 +261,13 @@ public class TileConnectionsPair : ICloneable // esto puede ser TAG/BUNDLE en ve
             new List<bool>(editedByIA)
             );
     }
+
+    /*
+    public void AddConnection(string connection)
+    {
+        connections.Add(connection);
+    }
+    */
     #endregion
 
 }

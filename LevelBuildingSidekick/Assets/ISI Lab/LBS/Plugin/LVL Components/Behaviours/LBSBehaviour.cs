@@ -43,10 +43,6 @@ namespace LBS.Behaviours
         }
         #endregion
 
-        #region EVENTS
-
-        #endregion
-
         #region CONSTRUCTORS
         public LBSBehaviour(Texture2D icon, string name)
         {
@@ -56,8 +52,6 @@ namespace LBS.Behaviours
         #endregion
 
         #region METHODS
-        public abstract void OnAdd(LBSLayer layer);
-
         public List<Type> GetRequieredModules()
         {
             var toR = new List<Type>();
@@ -74,6 +68,10 @@ namespace LBS.Behaviours
             }
             return toR;
         }
+
+        public abstract void OnAttachLayer(LBSLayer layer);
+
+        public abstract void OnDetachLayer(LBSLayer layer);
 
         public abstract object Clone();
         #endregion

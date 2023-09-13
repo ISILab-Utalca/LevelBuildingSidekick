@@ -81,7 +81,7 @@ namespace LBS.Components.Graph
             {
                 RemoveEdges(node);
                 nodes.Remove(node);
-                OnChanged?.Invoke(this);
+                //OnChanged?.Invoke(this);
                 return true;
             }
             return false;
@@ -133,7 +133,7 @@ namespace LBS.Components.Graph
             if (!nodes.Any(n => n.ID == node.ID))
             {
                 nodes.Add(node);
-                OnChanged?.Invoke(this);
+                //OnChanged?.Invoke(this);
                 return true;
             }
 
@@ -147,7 +147,7 @@ namespace LBS.Components.Graph
             node.ID = tempName;
             nodes.Add(node);
 
-            OnChanged?.Invoke(this);
+            //OnChanged?.Invoke(this);
             return true;
         }
 
@@ -256,7 +256,7 @@ namespace LBS.Components.Graph
                 return;
             }
             edges.Add(edge);
-            OnChanged?.Invoke(this);
+            //OnChanged?.Invoke(this);
         }
 
         /// <summary>
@@ -294,7 +294,7 @@ namespace LBS.Components.Graph
         {
             edges.Clear();
             nodes.Clear();
-            OnChanged?.Invoke(this);
+            //OnChanged?.Invoke(this);
         }
 
 

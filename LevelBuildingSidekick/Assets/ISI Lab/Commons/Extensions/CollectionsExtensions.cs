@@ -8,6 +8,25 @@ using uRandom = UnityEngine.Random;
 public static class CollectionsExtensions
 {
     #region LIST
+    public static List<T> Clone<T>(this List<T> list) where T : class
+    {
+        var clone = new List<T>();
+
+        foreach (var item in list)
+        {
+            if(item is ICloneable)
+            {
+                var c = (item as ICloneable).Clone() as T;
+                clone.Add(c);
+            }
+            else
+            {
+                Debug.LogWarning("Item: '"+item+"' in '"+list+"' cannot be cloned.");
+                clone.Add(item);
+            }
+        }
+        return clone;
+    }
 
     public static T RandomRullete<T>(this List<T> list,Func<T,float> predicate)
     {

@@ -1,3 +1,4 @@
+using LBS.Components.TileMap;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -18,11 +19,8 @@ namespace LBS.Components
         [SerializeField, JsonRequired]
         protected string id;
 
-        [SerializeField, JsonRequired]
-        protected bool visible;
-
-        [SerializeField, JsonRequired]
-        protected bool changed;
+        //[SerializeField, JsonRequired]
+        //protected bool changed;
 
         [JsonIgnore, HideInInspector]
         private LBSLayer owner;
@@ -42,19 +40,14 @@ namespace LBS.Components
             }
         }
 
-        [JsonIgnore]
-        public bool IsVisible
-        {
-            get => visible;
-            set => visible = value;
-        }
-
+        /*
         [JsonIgnore]
         public bool HasChanged
         {
             get => changed;
             set => changed = value;
         }
+        */
 
         [JsonIgnore]
         public string ID
@@ -66,10 +59,8 @@ namespace LBS.Components
         #endregion
 
         #region EVENTS
-
-        [JsonIgnore]
-        public Action<LBSModule> OnChanged;
-
+        //[JsonIgnore]
+        //public Action<LBSModule> OnChanged;
         #endregion
 
         #region CONSTRUCTOR
@@ -85,31 +76,57 @@ namespace LBS.Components
         #endregion
 
         #region METHODS
+        public virtual void OnAttach(LBSLayer layer)
+        {
+            Owner = layer;
+        }
 
+        public virtual void OnDetach(LBSLayer layer)
+        {
+            Owner = null;
+        }
+
+        public virtual void Reload(LBSLayer layer)
+        {
+            Owner = layer;
+        }
+        #endregion
+
+        #region ABSTRACT METHODS
         /// <summary>
         /// prints by console basic information of 
         /// the representation.
         /// </summary>
-        public abstract void Print();
+        public abstract void Print(); // to string (??)
 
         /// <summary>
         /// Cleans all the information saved in.
         /// </summary>
         public abstract void Clear();
 
+        /// <summary>
+        /// Determines whether the representation is empty.
+        /// </summary>
+        /// <returns></returns>
         public abstract bool IsEmpty();
 
+        /// <summary>
+        /// Creates a copy of the representation.
+        /// </summary>
+        /// <returns></returns>
         public abstract object Clone();
 
+        /// <summary>
+        /// Gets the bounding rectangle of the representation.
+        /// </summary>
+        /// <returns></returns>
         public abstract Rect GetBounds();
 
-        public abstract void Reload(LBSLayer layer);
-
-        public abstract void OnAttach(LBSLayer layer);
-
-        public abstract void OnDetach(LBSLayer layer);
-
-        public abstract void Rewrite(LBSModule module);
+        /// <summary>
+        /// Rewrites the representation based on another LBSModule.
+        /// </summary>
+        /// <param name="other"></param>
+        public abstract void Rewrite(LBSModule other);
         #endregion
     }
 }

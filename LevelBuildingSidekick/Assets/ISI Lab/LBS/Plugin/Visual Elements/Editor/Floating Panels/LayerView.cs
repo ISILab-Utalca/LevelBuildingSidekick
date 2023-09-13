@@ -73,7 +73,7 @@ public class LayerView : VisualElement
         SetIcon(layer.iconPath);
         SetName(layer.Name);
 
-        layer.onModuleChange += (layer) => {
+        layer.OnAddModule += (layer, module) => {
             ShowModulesIcons();
         };
 

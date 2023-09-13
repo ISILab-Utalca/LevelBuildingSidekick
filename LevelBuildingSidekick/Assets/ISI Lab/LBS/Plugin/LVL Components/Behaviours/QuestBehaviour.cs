@@ -18,7 +18,12 @@ public class QuestBehaviour : LBSBehaviour
         return new QuestBehaviour(this.Icon, this.Name);
     }
 
-    public override void OnAdd(LBSLayer layer)
+    public override void OnAttachLayer(LBSLayer layer)
+    {
+
+    }
+
+    public override void OnDetachLayer(LBSLayer layer)
     {
 
     }

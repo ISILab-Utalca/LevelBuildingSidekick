@@ -19,6 +19,11 @@ public class ConstrainsZonesModule : LBSModule
     public List<ConstraintPair> Constraints => pairs;
     #endregion
 
+    #region EVENTS
+    public event Action<ConstrainsZonesModule, ConstraintPair> OnAddPair;
+    public event Action<ConstrainsZonesModule, ConstraintPair> OnRemovePair;
+    #endregion
+
     #region CONSTRUCTORS
     public ConstrainsZonesModule() : base()
     {
@@ -44,7 +49,27 @@ public class ConstrainsZonesModule : LBSModule
         return null;
     }
 
-    public void RecalculateConstraint(List<Zone> zones)
+    public void AddPair(Zone zone, Vector2 minArea, Vector2 maxArea)
+    {
+        var pair = new ConstraintPair(zone, new Constraint(minArea.x, minArea.y, maxArea.x, maxArea.y));
+        pairs.Add(pair);
+        OnAddPair?.Invoke(this, pair);
+    }
+
+    public void RemovePair(Zone zone)
+    {
+        foreach (var pair in pairs)
+        {
+            if(pair.Zone == zone)
+            {
+                pairs.Remove(pair);
+                OnRemovePair?.Invoke(this, pair);
+                return;
+            }
+        }
+    }
+
+    public void RecalculateConstraint(List<Zone> zones) // parche
     {
         var temp = new List<ConstraintPair>(pairs);
         pairs.Clear();
@@ -57,14 +82,27 @@ public class ConstrainsZonesModule : LBSModule
                 continue;
             }
 
-            var xx = new ConstraintPair(zone, new Constraint(3, 4,3, 4));
-            pairs.Add(xx);
+            var minArea = new Vector2(3,3);
+            var maxArea = new Vector2(4,4);
+            AddPair(zone,minArea,maxArea);
         }
     }
 
     public override void Print()
     {
-        throw new System.NotImplementedException();
+        string msg = "";
+        msg += "Type: " + GetType() + "\n";
+        msg += "Hash code: " + GetHashCode() + "\n";
+        msg += "ID: " + ID + "\n";
+        msg += "\n";
+        foreach (var pair in pairs)
+        {
+            msg += pair.Zone + "\n";
+            var c= pair.Constraint;
+            msg += "- (" + c.minWidth + "," + c.minHeight + ")\n";
+            msg += "- (" + c.maxWidth + "," + c.maxHeight + ")\n";
+        }
+        Debug.Log(msg);
     }
 
     public override void Clear()
@@ -77,6 +115,11 @@ public class ConstrainsZonesModule : LBSModule
         return pairs.Count <= 0;
     }
 
+    public override Rect GetBounds()
+    {
+        throw new System.NotImplementedException();
+    }
+
     public override object Clone()
     {
         var clone = new ConstrainsZonesModule();
@@ -85,25 +128,7 @@ public class ConstrainsZonesModule : LBSModule
         return clone;
     }
 
-    public override Rect GetBounds()
-    {
-        throw new System.NotImplementedException();
-    }
 
-    public override void Reload(LBSLayer layer)
-    {
-        //throw new System.NotImplementedException();
-    }
-
-    public override void OnAttach(LBSLayer layer)
-    {
-
-    }
-
-    public override void OnDetach(LBSLayer layer)
-    {
-
-    }
 
     public override void Rewrite(LBSModule module)
     {

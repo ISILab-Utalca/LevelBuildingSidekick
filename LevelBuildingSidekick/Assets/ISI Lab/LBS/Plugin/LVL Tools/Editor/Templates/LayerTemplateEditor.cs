@@ -116,19 +116,17 @@ public class LayerTemplateEditor : Editor
         var bhIcon = Resources.Load<Texture2D>("Icons/Select");
         var bh = new SchemaBehaviour(bhIcon, "Schema behaviour");
         layer.AddBehaviour(bh);
-        //bh.OnAdd(layer);
 
         // Assistants
         var assIcon = Resources.Load<Texture2D>("Icons/Select");
         var ass = new HillClimbingAssistant(assIcon,"HillClimbing");
         layer.AddAssistant(ass);
-        //ass.OnAdd(layer);
         
         // Generators
         layer.AddGeneratorRule(new SchemaRuleGenerator());
         layer.AddGeneratorRule(new SchemaRuleGeneratorExteriror());
 
-        // Seting Generator
+        // Seting generator
         layer.Settings = new Generator3D.Settings()
         {
             scale = new Vector2Int(2, 2),
@@ -137,76 +135,7 @@ public class LayerTemplateEditor : Editor
             name = "Interior",
         };
 
-        /*
-        // Transformers
-        template.transformers.Add(
-            new GraphToArea(
-                typeof(GraphModule<RoomNode>),
-                typeof(AreaTileMap<TiledArea>)
-                )
-            );
-
-        layer.AddBehaviour(new SchemaBehaviour());
-
-        // Mode 1
-        Texture2D icon = Resources.Load<Texture2D>("Icons/Select");
-        var tool1 = new LBSTool(icon, "Select", typeof(Select), null, true);
-        icon = Resources.Load<Texture2D>("Icons/Addnode");
-        var tool2 = new LBSTool(icon, "Add Node", typeof(CreateNewRoomNode), null, false);
-        icon = Resources.Load<Texture2D>("Icons/AddConnection");
-        var tool3 = new LBSTool(icon, "Add conection", typeof(CreateNewConnection<RoomNode>), null, false);
-        icon = Resources.Load<Texture2D>("Icons/Trash");
-        var tool4 = new LBSTool(icon, "Remove Node", typeof(RemoveGraphNode<RoomNode>), null, false);
-        icon = Resources.Load<Texture2D>("Icons/Trash");
-        var tool10 = new LBSTool(icon, "Remove Connection", typeof(RemoveGraphConnection), null, false);
-
-        var mode1 = new LBSMode(
-            "Graph",
-            typeof(GraphModule<RoomNode>)
-            , new DrawSimpleGraph(),
-            new List<LBSTool>() { tool1, tool2, tool3, tool4, tool10 }
-            );
-        template.modes.Add(mode1);
-
-        // Mode 2
-        icon = Resources.Load<Texture2D>("Icons/Select");
-        var tool5 = new LBSTool(icon, "Select", typeof(Select), null, true);
-
-        icon = Resources.Load<Texture2D>("Icons/paintbrush");
-        var tool6 = new LBSTool(
-            icon,
-            "Paint tile",
-            typeof(AddTileToTiledArea<TiledArea, ConnectedTile>),
-            typeof(RoomsPalleteInspector<TiledArea, ConnectedTile>),
-            true);
-
-        icon = Resources.Load<Texture2D>("Icons/erased");
-        var tool7 = new LBSTool(
-            icon,
-            "Erase",
-            typeof(DeleteTile<TiledArea, ConnectedTile>), // Removed<TiledArea<LBSTile>, LBSTile>,
-            null
-        );
-
-        icon = Resources.Load<Texture2D>("Icons/open-exit-door");
-        var tool8 = new LBSTool(icon, "Add door", typeof(AddDoor<TiledArea,ConnectedTile>), null, true);
-
-        icon = Resources.Load<Texture2D>("Icons/erased");
-        var tool9 = new LBSTool(
-            icon, 
-            "Remove door",
-            typeof(RemoveDoor<TiledArea,ConnectedTile>), //typeof(RemoveDoor<TiledArea,ConnectedTile>),
-            null, 
-            true);
-
-        var mode2 = new LBSMode(
-            "Schema",
-            typeof(AreaTileMap<TiledArea>),
-            new DrawConnectedTilemap(),
-            new List<LBSTool>() { tool5, tool6, tool7, tool8, tool9 }
-            );
-        template.modes.Add(mode2);*/
-
+        // Save scriptableObject
         Debug.Log("Set Interior Default");
         EditorUtility.SetDirty(target);
         AssetDatabase.SaveAssets();
@@ -228,11 +157,25 @@ public class LayerTemplateEditor : Editor
         layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/pine-tree.png";
         template.layer = layer;
 
+        // Modules
+        // XXX
+
+        // Behaviours
         var bhIcon = Resources.Load<Texture2D>("Icons/Select");
-        var bh = new ExteriorBehaviour(bhIcon, "Schema behaviour");
-        bh.OnAdd(layer);
+        var bh = new ExteriorBehaviour(bhIcon, "Exteriror behaviour");
+        bh.OnAttachLayer(layer);
         layer.AddBehaviour(bh);
 
+        // Assistant
+        var assIcon = Resources.Load<Texture2D>("Icons/Select");
+        var ass = new AssistantWFC(assIcon, "Assistant WFC");
+        ass.OnAttachLayer(layer);
+        layer.AddAssistant(ass);
+
+        // Generators
+        layer.AddGeneratorRule(new ExteriorRuleGenerator());
+
+        // Settings generator
         layer.Settings = new Generator3D.Settings()
         {
             scale = new Vector2Int(10, 10),
@@ -241,66 +184,7 @@ public class LayerTemplateEditor : Editor
             name = "Exteriror",
         };
 
-        var assIcon = Resources.Load<Texture2D>("Icons/Select");
-        var ass = new AssitantWFC(assIcon, "Ass WFC");
-        ass.OnAdd(layer);
-        layer.AddAssistant(ass);
-
-        // Modules
-        //var x = new ExteriorModule();
-        //layer.AddModule(x);
-
-        // Transformers
-        //
-        //
-
-        // Mode 1
-        /*
-        Texture2D icon = Resources.Load<Texture2D>("Icons/Select");
-        var tool1 = new LBSTool(icon, "Select", typeof(Select), null, true);
-
-
-        icon = Resources.Load<Texture2D>("Icons/RoomSelection");
-        var tool2 = new LBSTool(
-            icon,
-            "Add empty tile",
-            typeof(AddSchemaTile),
-            null,
-            false);
-
-        icon = Resources.Load<Texture2D>("Icons/RoomSelection");
-        var tool3 = new LBSTool(
-            icon,
-            "Remove tile",
-            typeof(RemoveTileExterior),
-            null,
-            false);
-
-        icon = Resources.Load<Texture2D>("Icons/AddConnection");
-        var tool4 = new LBSTool(
-            icon,
-            "Set connection",
-            typeof(AddConnection),
-            typeof(TagsPalleteInspector), //typeof(RoomsPalleteInspector<TiledArea, ConnectedTile>),
-            false);
-
-        icon = Resources.Load<Texture2D>("Icons/erased");
-        var tool5 = new LBSTool(
-            icon,
-            "Remove connection",
-            typeof(RemoveAreaConnection), 
-            null, 
-            false);
-
-        icon = Resources.Load<Texture2D>("Icons/Collapse_Icon");
-        var tool6 = new LBSTool(
-            icon, 
-            "Collapse connection area", 
-            typeof(WaveFunctionCollapseManipulator), 
-            null, 
-            false);
-        */
-
+        // Save scriptableObject
         Debug.Log("Set Exterior Default");
         EditorUtility.SetDirty(target);
         AssetDatabase.SaveAssets();
@@ -394,7 +278,7 @@ public class LayerTemplateEditor : Editor
 
         var bhIcon = Resources.Load<Texture2D>("Icons/Select");
         var bh = new QuestBehaviour(bhIcon, "Quest behaviour");
-        bh.OnAdd(layer);
+        bh.OnAttachLayer(layer);
         layer.AddBehaviour(bh);
 
         //layer.AddAssistant(new AssistentGrammar());

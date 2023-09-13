@@ -59,12 +59,7 @@ public class AssistantMapElite : LBSAssistant
 
     public void Continue() 
     {
-        
-    }
-
-    public override void OnAdd(LBSLayer layer)
-    {
-        Owner = layer;
+        throw new NotImplementedException();
     }
 
     public void ApplySuggestion(object data)
@@ -118,11 +113,11 @@ public class AssistantMapElite : LBSAssistant
         mapElites.Adam = chrom;
     }
 
-
     public override object Clone()
     {
         return new AssistantMapElite(this.Icon,this.Name);
     }
+
 }
 
 
