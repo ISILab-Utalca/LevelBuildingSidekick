@@ -5,6 +5,7 @@ using System.Linq;
 using LBS.Components.Teselation;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
 
 namespace LBS.Components.TileMap
 {
@@ -67,8 +68,12 @@ namespace LBS.Components.TileMap
 
         #endregion
 
-        #region CONSTRUCTOR
+        #region EVENTS
+        public event Action<TileMapModule,LBSTile> OnAddTile;
+        public event Action<TileMapModule,LBSTile> OnRemoveTile;
+        #endregion
 
+        #region CONSTRUCTOR
         public TileMapModule() : base()
         {
             tiles = new List<LBSTile>();
@@ -83,19 +88,25 @@ namespace LBS.Components.TileMap
             }
             //this.tiles = new List<LBSTile>(tiles);
         }
-
         #endregion
 
         #region METHODS
-        public virtual bool AddTile(LBSTile tile)
+        /*
+        public void InitEvents()
+        {
+            OnAddTile += (module, tile) => { OnChanged?.Invoke(module); };
+            OnRemoveTile += (module, tile) => { OnChanged?.Invoke(module); };
+        }
+        */
+
+        public virtual void AddTile(LBSTile tile)
         {
             var t = GetTile(tile.Position);
             if (t != null)
                 tiles.Remove(t);
 
             tiles.Add(tile);
-            OnChanged?.Invoke(this);
-            return true;
+            OnAddTile?.Invoke(this, tile);
         }
 
         public void AddTiles(List<LBSTile> tiles)
@@ -113,14 +124,10 @@ namespace LBS.Components.TileMap
                 if (tile.Position == pos)
                     return tile;
             }
-
             return null;
-
-            //var tile = tiles.Find(t => t.Position == pos);
-            //return tile;
         }
 
-        public LBSTile GetTile(int index)
+        public LBSTile GetTileAt(int index)
         {
             return tiles[index];
         }
@@ -129,7 +136,7 @@ namespace LBS.Components.TileMap
         {
             if(tiles.Remove(tile))
             {
-                OnChanged?.Invoke(this);
+                OnRemoveTile?.Invoke(this, tile);
                 return true;
             }
             return false;
@@ -137,10 +144,11 @@ namespace LBS.Components.TileMap
 
         public LBSTile RemoveAt(int index)
         {
-            var t = tiles[index];
-            tiles.Remove(t);
-            OnChanged?.Invoke(this);
-            return t;
+            var tile = tiles[index];
+            tiles.Remove(tile); 
+            OnRemoveTile?.Invoke(this, tile);
+
+            return tile;
         }
 
         public LBSTile RemoveAt(Vector2Int position)
@@ -148,8 +156,8 @@ namespace LBS.Components.TileMap
             var tile = GetTile(position);
             if (tile != null)
             {
-                tiles.Remove(tile);
-                OnChanged?.Invoke(this);
+                tiles.Remove(tile); 
+                OnRemoveTile?.Invoke(this, tile);
             }
             return tile;
         }
@@ -164,30 +172,28 @@ namespace LBS.Components.TileMap
 
         public override bool IsEmpty()
         {
-            return (tiles.Count <= 0);
+            return tiles.Count <= 0;
         }
 
         public override Rect GetBounds()
         {
-            if (tiles == null || tiles.Count == 0)
+            if (tiles.Count == 0)
             {
-                //Debug.LogWarning("Esta tilemap no tiene tiles!!!");
-                return new Rect(Vector2.zero, Vector2.zero);
+                return default(Rect);
             }
 
-            var x = tiles.Min(t => t.Position.x);
-            var y = tiles.Min(t => t.Position.y);
-            var width = tiles.Max(t => t.Position.x) - x + 1;
-            var height = tiles.Max(t => t.Position.y) - y + 1;
-            return new Rect(x, y, width, height);
+            return tiles.GetBounds();
         }
 
+        /*
         public Vector2Int ToMatrixPosition(int index)
         {
             var r = GetBounds();
             return new Vector2Int((int)(index % r.width), (int)(index / r.width));
         }
+        */
 
+        /*
         public Vector2 ToWorldPosition(Vector2Int matrixPosition)
         {
             Vector2 worldPosition = new Vector2(
@@ -196,13 +202,16 @@ namespace LBS.Components.TileMap
             );
             return worldPosition;
         }
+        */
 
+        /*
         public int ToIndex(Vector2 matrixPosition)
         {
             var r = GetBounds();
             var pos = matrixPosition - r.position;
             return (int)(pos.y * r.width + pos.x);
         }
+        */
 
         public LBSTile GetTileNeighbor(LBSTile tile, Vector2Int direction)
         {
@@ -223,34 +232,33 @@ namespace LBS.Components.TileMap
             return neighbors;
         }
 
-        public bool Contains(Vector2 pos)
+        public bool Contains(Vector2Int pos)
         {
-            return IsEmpty() && tiles.Any(t => t.Position.x == (int)pos.x && t.Position.y == (int)pos.y);
+            if (IsEmpty())
+                return false;
+
+            foreach (var tile in tiles)
+            {
+                if(tile.Position.Equals(pos))
+                    return true;
+            }
+
+            return false;
+
+            //return IsEmpty() && tiles.Any(t => t.Position.x == (int)pos.x && t.Position.y == (int)pos.y);
         }
 
         public override void Clear()
         {
             tiles.Clear();
-            OnChanged?.Invoke(this);
+            //OnChanged?.Invoke(this);
         }
 
-        public override void Rewrite(LBSModule module)
+        public override void Rewrite(LBSModule other) // esto es necesario (??)
         {
-            if (module == null)
-            {
-                return;
-            }
-
-            var tm = module as TileMapModule;
-
-            if (tm == null)
-            {
-                return;
-            }
-
+            var module = other as TileMapModule;
             tiles.Clear();
-
-            AddTiles(tm.Tiles);
+            AddTiles(module.Tiles);
         }
 
         public override object Clone()
@@ -262,27 +270,16 @@ namespace LBS.Components.TileMap
 
         public override void Print()
         {
-            string s = "TileMap Module: " + ID + "\n\n";
+            string msg = "";
+            msg += "Type: " + GetType() + "\n";
+            msg += "Hash code: " + GetHashCode() + "\n";
+            msg += "ID: " + ID + "\n";
+            msg += "\n";
             foreach (var t in tiles)
             {
-                s += "t - " + t.Position + "\n";
+                msg += t.Position + "\n";
             }
-            Debug.Log(s);
-        }
-
-        public override void OnAttach(LBSLayer layer)
-        {
-            Owner = layer;
-        }
-
-        public override void OnDetach(LBSLayer layer)
-        {
-            Owner = null;
-        }
-
-        public override void Reload(LBSLayer layer)
-        {
-            Owner = layer;
+            Debug.Log(msg);
         }
 
         public List<object> GetSelected(Vector2Int position)
@@ -294,7 +291,6 @@ namespace LBS.Components.TileMap
             {
                 r.Add(tile);
             }
-
             return r;
         }
 
@@ -307,7 +303,8 @@ namespace LBS.Components.TileMap
         public override List<int> EmptyIndexes()
         {
             return EmptyPositions().Select(v => ToIndex(v)).ToList();
-        }*/
+        }
+        */
 
         /*
         public override List<Vector2> OccupiedPositions()
@@ -335,8 +332,8 @@ namespace LBS.Components.TileMap
             }
 
             return empty;
-        }*/
-
+        }
+        */
         #endregion
     }
 }
