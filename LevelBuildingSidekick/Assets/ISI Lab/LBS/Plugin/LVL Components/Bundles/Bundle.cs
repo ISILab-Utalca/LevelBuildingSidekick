@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -152,7 +153,8 @@ namespace LBS.Bundles
 
             foreach (var characteristic in characteristics)
             {
-                characteristic.Init(this);
+                if(characteristic != null)
+                    characteristic.Init(this);
             }
         }
 
@@ -337,6 +339,22 @@ namespace LBS.Bundles
             }
 
             return false;
+        }
+
+        private void OnDisable()
+        {
+#if UNITY_EDITOR
+            EditorUtility.SetDirty(this);
+            AssetDatabase.SaveAssets();
+#endif
+        }
+
+        private void OnDestroy()
+        {
+#if UNITY_EDITOR
+            EditorUtility.SetDirty(this);
+            AssetDatabase.SaveAssets();
+#endif
         }
 
 
