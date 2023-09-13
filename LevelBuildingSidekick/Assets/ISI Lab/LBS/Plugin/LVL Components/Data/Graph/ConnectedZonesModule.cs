@@ -19,13 +19,17 @@ public class ConnectedZonesModule : LBSModule
     public List<ZoneEdge> Edges => new List<ZoneEdge>(edges);
     #endregion
 
+    #region EVENTS
+    public event Action<ConnectedZonesModule, ZoneEdge> OnAddEdge;
+    public event Action<ConnectedZonesModule, ZoneEdge> OnRemoveEdge;
+    #endregion
+
     #region CONSTRUCTORS
-    public ConnectedZonesModule() { }
     public ConnectedZonesModule(IEnumerable<ZoneEdge> edges) 
     { 
-        foreach(var e in edges)
+        foreach(var edge in edges)
         {
-            AddEdge(e);
+            AddEdge(edge);
         }
     }
     #endregion
@@ -33,30 +37,61 @@ public class ConnectedZonesModule : LBSModule
     #region METHODS
     public void AddEdge(ZoneEdge edge)
     {
-        if (!edges.Contains(edge))
-            edges.Add(edge);
+        edges.Add(edge);
+        OnAddEdge?.Invoke(this, edge);
     }
 
     public void AddEdge(Zone first, Zone second)
     {
-        //check if already exist (?)
-        edges.Add(new ZoneEdge(first, second));
+        var edge = new ZoneEdge(first, second);
+        edges.Add(edge);
+        OnAddEdge?.Invoke(this, edge);
     }
 
-    public ZoneEdge GetEdge(Zone first, Zone second)
+    public ZoneEdge GetEdge(Zone first, Zone second, bool bothDir = true)
     {
-        var edge = edges.Find(e => e.First.Equals(first) && e.Second.Equals(second));
-        if (edge != null)
-            return edge;
-        edge = edges.Find(e => e.First.Equals(second) && e.Second.Equals(first));
-        return edge;
+        foreach (var edge in edges)
+        {
+            if(edge.First.Equals(first) && edge.Second.Equals(second))
+                return edge;
+
+            if( bothDir && edge.Second.Equals(first) && edge.First.Equals(first))
+                return edge;
+        }
+        return null;
+
+        //var edge = edges.Find(e => e.First.Equals(first) && e.Second.Equals(second));
+        //if (edge != null)
+        //    return edge;
+        //edge = edges.Find(e => e.First.Equals(second) && e.Second.Equals(first));
+        //return edge;
+    }
+
+    [Obsolete("Deberia el 'modelo' hacer cosas relativas a distanias ??")]
+    public ZoneEdge GetEdge(Vector2 position, float delta)
+    {
+        foreach (var e in edges)
+        {
+            var dist = position.DistanceToLine(e.First.Pivot, e.Second.Pivot);
+            if (dist < delta)
+                return e;
+        }
+        return null;
     }
 
     public void RemoveEdge(Zone first, Zone second)
     {
         var edge = GetEdge(first, second);
         if (edge != null)
+        {
             edges.Remove(edge);
+            OnRemoveEdge?.Invoke(this, edge);
+        }
+    }
+    public void RemoveEdge(ZoneEdge edge)
+    {
+        edges.Remove(edge);
+        OnRemoveEdge?.Invoke(this,edge);
     }
 
     public void RemoveEdges(Zone zone)
@@ -88,44 +123,23 @@ public class ConnectedZonesModule : LBSModule
         return edges.Count <= 0;
     }
 
-    public override void OnAttach(LBSLayer layer)
-    {
-
-    }
-
-    public override void OnDetach(LBSLayer layer)
-    {
-    }
-
-    public override void Reload(LBSLayer layer)
-    {
-        //throw new System.NotImplementedException();
-    }
-
     public override void Print()
     {
-        throw new System.NotImplementedException();
+        string msg = "";
+        msg += "Type: " + GetType() + "\n";
+        msg += "Hash code: " + GetHashCode() + "\n";
+        msg += "ID: " + ID + "\n";
+        msg += "\n";
+        foreach (var edge in edges)
+        {
+            msg += edge.First.ID +" - "+ edge.Second.ID + "\n";
+        }
+        Debug.Log(msg);
     }
 
     public override void Rewrite(LBSModule module)
     {
         throw new System.NotImplementedException();
-    }
-
-    internal ZoneEdge GetEdge(Vector2 position, float delta)
-    {
-        foreach (var e in edges)
-        {
-            var dist = position.DistanceToLine(e.First.Pivot, e.Second.Pivot);
-            if (dist < delta)
-                return e;
-        }
-        return null;
-    }
-
-    internal void RemoveEdge(ZoneEdge edge)
-    {
-        edges.Remove(edge);
     }
     #endregion
 }

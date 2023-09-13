@@ -14,18 +14,28 @@ public class ExteriorBehaviour : LBSBehaviour
 {
     #region FIELDS
     [JsonRequired, SerializeField]
-    private TileMapModule tileMap;
-    
-    [JsonRequired, SerializeField]
-    private ConnectedTileMapModule connections;
-    
-    [JsonRequired, SerializeField]
-    public string targetBundle;
+    private string targetBundle;
     #endregion
 
     #region PROPERTIES
     [JsonIgnore]
-    public List<LBSTile> Tiles => tileMap.Tiles;
+    private TileMapModule TileMap => Owner.GetModule<TileMapModule>();
+
+    [JsonIgnore]
+    private ConnectedTileMapModule Connections => Owner.GetModule<ConnectedTileMapModule>();
+
+    [JsonIgnore]
+    public string TargetBundle
+    {
+        get => targetBundle;
+        set => targetBundle = value;
+    }
+
+    [JsonIgnore]
+    public List<LBSTile> Tiles => TileMap.Tiles;
+
+    [JsonIgnore]
+    public List<Vector2Int> Directions => global::Directions.Bidimencional.Edges;
     #endregion
 
     #region CONSTRUCTORS
@@ -38,29 +48,37 @@ public class ExteriorBehaviour : LBSBehaviour
         return new ExteriorBehaviour(this.Icon, this.Name);
     }
 
-    public override void OnAdd(LBSLayer layer)
+    public override void OnAttachLayer(LBSLayer layer)
     {
         Owner = layer;
-
-        tileMap = Owner.GetModule<TileMapModule>();
-        connections = Owner.GetModule<ConnectedTileMapModule>();
     }
 
     public LBSTile GetTile(Vector2Int pos)
     {
-        return tileMap.GetTile(pos);
+        return TileMap.GetTile(pos);
     }
 
     public void RemoveTile(LBSTile tile)
     {
-        tileMap.RemoveTile(tile);
-        connections.RemoveTile(tile);
+        Owner.GetModule<TileMapModule>().RemoveTile(tile);
+        Owner.GetModule<ConnectedTileMapModule>().RemoveTile(tile);
     }
 
     public void AddTile(LBSTile tile)
     {
-        tileMap.AddTile(tile);
-        connections.AddTile(tile, new List<string> { "", "", "", "" }, new List<bool> { false, false, false, false });
+        TileMap.AddTile(tile);
+        Connections.AddPair(tile, new List<string> { "", "", "", "" }, new List<bool> { false, false, false, false });
+    }
+
+    public void SetConnection(LBSTile tile, int direction, string connection, bool editedByIA)
+    {
+        var t = Owner.GetModule<ConnectedTileMapModule>() .GetPair(tile);
+        t.SetConnection(direction, connection, editedByIA);
+    }
+
+    public override void OnDetachLayer(LBSLayer layer)
+    {
+        throw new NotImplementedException();
     }
     #endregion
 }

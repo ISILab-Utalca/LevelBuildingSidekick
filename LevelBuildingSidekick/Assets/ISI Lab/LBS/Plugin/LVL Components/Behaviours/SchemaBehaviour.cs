@@ -55,7 +55,7 @@ public class SchemaBehaviour : LBSBehaviour
     #endregion
 
     #region METHODS
-    public override void OnAdd(LBSLayer layer)
+    public override void OnAttachLayer(LBSLayer layer)
     {
         Owner = layer;
 
@@ -101,7 +101,7 @@ public class SchemaBehaviour : LBSBehaviour
         var tile = tileMap.GetTile(position);
         tileMap.RemoveTile(tile);
         tileConnections.RemoveTile(tile);
-        areas.RemoveTile(tile);
+        areas.RemovePair(tile);
     }
 
     public void SetConnection(LBSTile tile, int direction, string connection, bool editedByIA)
@@ -112,7 +112,7 @@ public class SchemaBehaviour : LBSBehaviour
 
     public void AddConnections(LBSTile tile, List<string> connections, List<bool> editedByIA)
     {
-        tileConnections.AddTile(tile, connections, editedByIA);
+        tileConnections.AddPair(tile, connections, editedByIA);
     }
 
     public LBSTile GetTile(Vector2Int position)
@@ -227,6 +227,11 @@ public class SchemaBehaviour : LBSBehaviour
     public override object Clone()
     {
         return new SchemaBehaviour(this.Icon, this.Name);
+    }
+
+    public override void OnDetachLayer(LBSLayer layer)
+    {
+        throw new System.NotImplementedException();
     }
     #endregion
 }
