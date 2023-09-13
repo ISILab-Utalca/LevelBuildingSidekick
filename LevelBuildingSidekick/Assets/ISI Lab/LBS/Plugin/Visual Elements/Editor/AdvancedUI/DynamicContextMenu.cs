@@ -28,7 +28,7 @@ public class DynamicContextMenu : GraphElement
         Menu = this.Q<VisualElement>(name: "Menu");
     }
 
-    public DynamicContextMenu(List<Tuple<string, Action>> actions, Vector2 position)
+    public DynamicContextMenu(List<Tuple<string, Action>> actions, Vector2 position): this()
     {
         Update(actions, position);
     }
