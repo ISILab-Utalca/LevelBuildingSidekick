@@ -38,9 +38,18 @@ public class ZoneEditor : LBSCustomEditor
         nameField.value = this.target.ID;
         colorField.value = this.target.Color;
 
-        // Set parche value
+        // PARCHE (!)
         if (this.target.TagsBundles.Count > 0)
-            objectField.value = bundles.First(b => b.ID.Label == this.target.TagsBundles[0]);
+        {
+            foreach (var bundle in bundles)
+            {
+                if (bundle.ID.Label == this.target.TagsBundles[0])
+                {
+                    objectField.value = bundle;
+                    break;
+                }
+            } // objectField.value = bundles.First(b => b.ID.Label == this.target.TagsBundles[0]);
+        }
 
         bundlesRef = this.target.TagsBundles;
     }

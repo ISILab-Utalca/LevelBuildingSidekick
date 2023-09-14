@@ -22,9 +22,11 @@ public class SchemaDrawer : Drawer
 
         foreach (var t in tilesMod.Tiles)
         {
+            var pos = new Vector2(t.Position.x, -t.Position.y);
+
             var tView = new SchemaTileView();
             var size = DefalutSize * teselationSize;
-            tView.SetPosition(new Rect(t.Position * size, size));
+            tView.SetPosition(new Rect(pos * size, size));
 
             var zone = zonesMod.GetZone(t);
             tView.SetBackgroundColor(zone.Color);

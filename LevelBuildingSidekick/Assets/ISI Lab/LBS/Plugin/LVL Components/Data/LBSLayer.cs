@@ -12,6 +12,7 @@ using LBS.Behaviours;
 using LBS.Assisstants;
 using UnityEngine.EventSystems;
 using static UnityEditor.Experimental.GraphView.GraphView;
+using UnityEngine.UIElements;
 
 namespace LBS.Components
 {
@@ -376,7 +377,6 @@ namespace LBS.Components
 
         }
 
-
         internal void SetModule<T>(T module, string key = "") where T : LBSModule
         {
             var index = -1;
@@ -406,8 +406,28 @@ namespace LBS.Components
             if (pos.y < 0)
                 pos.y -= 1;
 
+            pos = new Vector2(pos.x, -pos.y);
+
             return pos.ToInt();
         }
+
+        
+        public (Vector2Int,Vector2Int) ToFixedPosition(Vector2 startPos, Vector2 endPos)
+        {
+            var sPos = ToFixedPosition(startPos);
+            var ePos = ToFixedPosition(endPos);
+
+            var min = new Vector2Int(
+                (sPos.x < ePos.x) ? sPos.x : ePos.x,
+                (sPos.y < ePos.y) ? sPos.y : ePos.y);
+
+            var max = new Vector2Int(
+                (sPos.x > ePos.x) ? sPos.x : ePos.x,
+                (sPos.y > ePos.y) ? sPos.y : ePos.y);
+
+            return (min, max);
+        }
+        
 
         public object Clone()
         {

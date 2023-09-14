@@ -104,14 +104,14 @@ public class SchemaTileView : GraphElement
     public void SetConnections(string[] tags)
     {
         right.SetDisplay(tags[0].Equals("Door"));
-        bottom.SetDisplay(tags[1].Equals("Door"));
+        top.SetDisplay(tags[1].Equals("Door"));
         left.SetDisplay(tags[2].Equals("Door"));
-        top.SetDisplay(tags[3].Equals("Door"));
+        bottom.SetDisplay(tags[3].Equals("Door"));
 
         border.style.borderRightWidth = (tags[0].Equals("Empty")) ? 0f : 8f;
-        border.style.borderBottomWidth = (tags[1].Equals("Empty")) ? 0f : 8f;
+        border.style.borderTopWidth = (tags[1].Equals("Empty")) ? 0f : 8f;
         border.style.borderLeftWidth = (tags[2].Equals("Empty")) ? 0f : 8f;
-        border.style.borderTopWidth = (tags[3].Equals("Empty")) ? 0f : 8f;
+        border.style.borderBottomWidth = (tags[3].Equals("Empty")) ? 0f : 8f;
     }
 
 }

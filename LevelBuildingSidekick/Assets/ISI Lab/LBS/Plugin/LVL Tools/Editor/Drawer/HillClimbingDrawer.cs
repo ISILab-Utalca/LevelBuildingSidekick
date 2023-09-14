@@ -36,8 +36,11 @@ public class HillClimbingDrawer : Drawer
             var tiles = assistant.GetTiles(zone);
             var bound = tiles.GetBounds();
 
+            // Set position
+            var pos = new Vector2(bound.center.x * nodeSize.x -(nodeSize.x /2f), -(bound.center.y * nodeSize.y - (nodeSize.y / 2f)));
+
             // Set view values
-            nView.SetPosition(new Rect(bound.center * nodeSize - (nodeSize / 2f), nodeSize));
+            nView.SetPosition(new Rect(pos, nodeSize));
             nView.SetText(zone.ID);
             nView.SetColor(zone.Color);
 
