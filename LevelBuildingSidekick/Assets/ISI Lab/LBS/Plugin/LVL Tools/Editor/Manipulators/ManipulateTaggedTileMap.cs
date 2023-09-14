@@ -1,11 +1,14 @@
+using LBS;
 using LBS.Behaviours;
 using LBS.Bundles;
 using LBS.Components;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+[Obsolete("OLD")]
 public abstract class ManipulateTaggedTileMap : LBSManipulator
 {
     public Bundle bundleToSet; 

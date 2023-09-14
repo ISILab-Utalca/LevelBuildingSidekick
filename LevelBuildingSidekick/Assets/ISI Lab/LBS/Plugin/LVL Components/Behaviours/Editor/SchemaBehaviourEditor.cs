@@ -1,3 +1,4 @@
+using LBS;
 using LBS.Components.Specifics;
 using LBS.Components.TileMap;
 using LBS.Settings;

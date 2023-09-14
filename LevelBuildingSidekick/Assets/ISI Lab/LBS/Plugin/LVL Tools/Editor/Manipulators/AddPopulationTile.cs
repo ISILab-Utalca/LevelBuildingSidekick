@@ -1,3 +1,4 @@
+using LBS;
 using LBS.Bundles;
 using LBS.Components;
 using LBS.Components.TileMap;

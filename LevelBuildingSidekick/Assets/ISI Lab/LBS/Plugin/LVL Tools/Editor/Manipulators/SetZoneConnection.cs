@@ -9,6 +9,7 @@ using UnityEngine.UIElements;
 using UnityEditor.PackageManager.UI;
 using LBS.Tools.Transformer;
 using LBS.Behaviours;
+using LBS;
 
 public class SetZoneConnection : LBSManipulator
 {

@@ -6,6 +6,7 @@ using LBS.Components;
 using LBS.Components.TileMap;
 using LBS.Tools.Transformer;
 using UnityEngine.UIElements;
+using LBS;
 
 public class SetExteriorTileConnection : LBSManipulator
 {

@@ -1,11 +1,14 @@
+using LBS;
 using LBS.Behaviours;
 using LBS.Components;
 using LBS.Components.Graph;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+[Obsolete("OLD")]
 public class ManipulateGraph<T> : LBSManipulator where T : LBSNode
 {
     protected GraphModule<T> module;

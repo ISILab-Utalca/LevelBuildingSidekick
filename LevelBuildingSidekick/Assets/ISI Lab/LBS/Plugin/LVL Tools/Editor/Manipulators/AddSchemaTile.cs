@@ -1,3 +1,4 @@
+using LBS;
 using LBS.Behaviours;
 using LBS.Components;
 using LBS.Components.TileMap;
@@ -49,12 +50,11 @@ public class AddSchemaTile : LBSManipulator
             return;
         }
 
-        var min = schema.Owner.ToFixedPosition(Vector2Int.Min(StartPosition, EndPosition));
-        var max = schema.Owner.ToFixedPosition(Vector2Int.Max(StartPosition, EndPosition));
+        var corners = schema.Owner.ToFixedPosition(StartPosition, EndPosition);
 
-        for (int i = min.x; i <= max.x; i++)
+        for (int i = corners.Item1.x; i <= corners.Item2.x; i++)
         {
-            for (int j = min.y; j <= max.y; j++)
+            for (int j = corners.Item1.y; j <= corners.Item2.y; j++)
             {
                 var tile = schema.AddTile(new Vector2Int(i, j), toSet);
                 schema.AddConnections(
@@ -68,3 +68,4 @@ public class AddSchemaTile : LBSManipulator
         schema.RecalculateWalls();
     }
 }
+
