@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Wall_Wooden
   m_EditorClassIdentifier: 
   isPreset: 0
+  type: 0
   id: {fileID: 11400000, guid: 676b2525bf31dc6439be198604391b79, type: 2}
   childsBundles: []
   assets:

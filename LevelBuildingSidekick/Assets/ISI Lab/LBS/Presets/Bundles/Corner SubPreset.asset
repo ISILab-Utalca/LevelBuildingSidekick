@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: Corner SubPreset
   m_EditorClassIdentifier: 
   isPreset: 1
+  type: 0
   id: {fileID: 11400000, guid: dd9524b2f4de22c40ae2e90107719374, type: 2}
   childsBundles: []
   assets: []
   characteristics:
   - rid: 3767989614650065818
+  positioning: 0
   references:
     version: 2
     RefIds:

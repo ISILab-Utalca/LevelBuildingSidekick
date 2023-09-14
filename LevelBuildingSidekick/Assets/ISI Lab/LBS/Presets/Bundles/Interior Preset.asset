@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Interior Preset
   m_EditorClassIdentifier: 
   isPreset: 1
+  type: 0
   id: {fileID: 11400000, guid: 8a34055ce679db44ba6d35e49b129a63, type: 2}
   childsBundles:
   - {fileID: 11400000, guid: 7c1fb8fb28461c349968afeb0500b1b3, type: 2}
@@ -21,6 +22,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 657557311ab7474439225e6f7123966b, type: 2}
   assets: []
   characteristics: []
+  positioning: 0
   references:
     version: 2
     RefIds: []

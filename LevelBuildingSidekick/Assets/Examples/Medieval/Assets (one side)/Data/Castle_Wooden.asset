@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Castle_Wooden
   m_EditorClassIdentifier: 
   isPreset: 0
+  type: 0
   id: {fileID: 11400000, guid: 80a27f8f6eb76ea4ea8ffb8a7f5254e2, type: 2}
   childsBundles:
   - {fileID: 11400000, guid: 98dd6db6b0c3878419630fed3e670245, type: 2}
@@ -21,6 +22,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 64171be29d3355f4683ca0691172b123, type: 2}
   assets: []
   characteristics: []
+  positioning: 0
   references:
     version: 2
     RefIds: []

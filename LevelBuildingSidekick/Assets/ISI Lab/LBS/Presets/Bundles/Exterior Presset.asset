@@ -13,12 +13,14 @@ MonoBehaviour:
   m_Name: Exterior Presset
   m_EditorClassIdentifier: 
   isPreset: 1
+  type: 0
   id: {fileID: 0}
   childsBundles:
   - {fileID: 11400000, guid: 0c10b3020fa82d14abd56a1a20d7a7f6, type: 2}
   assets: []
   characteristics:
   - rid: 3767989614650065815
+  positioning: 0
   references:
     version: 2
     RefIds:

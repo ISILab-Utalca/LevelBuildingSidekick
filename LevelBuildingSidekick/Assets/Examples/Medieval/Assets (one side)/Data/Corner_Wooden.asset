@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Corner_Wooden
   m_EditorClassIdentifier: 
   isPreset: 0
+  type: 0
   id: {fileID: 11400000, guid: dd9524b2f4de22c40ae2e90107719374, type: 2}
   childsBundles: []
   assets:

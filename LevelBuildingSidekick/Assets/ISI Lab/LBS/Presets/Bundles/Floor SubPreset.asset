@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: Floor SubPreset
   m_EditorClassIdentifier: 
   isPreset: 1
+  type: 0
   id: {fileID: 11400000, guid: 94b707ea81720694d8e3ac214351af91, type: 2}
   childsBundles: []
   assets: []
   characteristics:
   - rid: 3767989614650065820
+  positioning: 0
   references:
     version: 2
     RefIds:

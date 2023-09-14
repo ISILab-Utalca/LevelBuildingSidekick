@@ -20,6 +20,7 @@ MonoBehaviour:
   - obj: {fileID: 919132149155446097, guid: a20abce8e4655294886742eb9bb5c382, type: 3}
     probability: 1
   characteristics: []
+  positioning: 0
   references:
     version: 2
     RefIds: []

@@ -20,6 +20,7 @@ MonoBehaviour:
   - obj: {fileID: 0}
     probability: 0
   characteristics: []
+  positioning: 0
   references:
     version: 2
     RefIds: []

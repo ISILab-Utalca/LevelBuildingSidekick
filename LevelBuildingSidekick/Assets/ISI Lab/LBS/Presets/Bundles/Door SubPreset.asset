@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: Door SubPreset
   m_EditorClassIdentifier: 
   isPreset: 1
+  type: 0
   id: {fileID: 11400000, guid: d05b3c2ff0cdab94b92f355dc76947d8, type: 2}
   childsBundles: []
   assets: []
   characteristics:
   - rid: 3767989614650065813
+  positioning: 0
   references:
     version: 2
     RefIds:

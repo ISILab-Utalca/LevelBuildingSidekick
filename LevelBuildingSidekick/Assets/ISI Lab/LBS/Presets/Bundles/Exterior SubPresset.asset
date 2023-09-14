@@ -13,12 +13,15 @@ MonoBehaviour:
   m_Name: Exterior SubPresset
   m_EditorClassIdentifier: 
   isPreset: 1
+  type: 0
   id: {fileID: 0}
   childsBundles: []
   assets:
-  - {fileID: 0}
+  - obj: {fileID: 0}
+    probability: 0
   characteristics:
   - rid: 3767989597796302924
+  positioning: 0
   references:
     version: 2
     RefIds:

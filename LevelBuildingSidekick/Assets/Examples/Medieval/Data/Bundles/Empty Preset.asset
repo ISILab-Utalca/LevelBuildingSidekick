@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: Empty Preset
   m_EditorClassIdentifier: 
   isPreset: 1
+  type: 0
   id: {fileID: 0}
   childsBundles: []
   assets: []
   characteristics: []
+  positioning: 0
   references:
     version: 2
     RefIds: []
