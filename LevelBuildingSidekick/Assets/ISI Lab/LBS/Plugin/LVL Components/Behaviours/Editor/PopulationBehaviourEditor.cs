@@ -117,9 +117,9 @@ public class PopulationBehaviourEditor : LBSCustomEditor, IToolProvider
         bundlePallete.SetOptions(options, (optionView, option) =>
         {
             var bundle = (Bundle)option;
-            optionView.Label = bundle.ID.Label;
-            optionView.Color = bundle.ID.Color;
-            optionView.Icon = bundle.ID.Icon;
+            optionView.Label = bundle.name;
+            optionView.Color = bundle.Color;
+            optionView.Icon = bundle.Icon;
         });
 
         bundlePallete.Repaint();
@@ -146,7 +146,7 @@ public class PopulationBehaviourEditor : LBSCustomEditor, IToolProvider
         }
         else
         {
-            options = candidates.Where(b => b.ID.Label.Equals(tag) || b.Characteristics.Any(c => c is LBSTagsCharacteristic && c.Label.Equals(tag))).ToList();
+            options = candidates.Where(b => b.name.Equals(tag) || b.Characteristics.Any(c => c is LBSTagsCharacteristic && c.Label.Equals(tag))).ToList();
         }
 
         bundlePallete.OnSelectOption += (selected) => {
@@ -164,9 +164,9 @@ public class PopulationBehaviourEditor : LBSCustomEditor, IToolProvider
         bundlePallete.SetOptions(options.ToArray(), (optionView, option) =>
         {
             var bundle = (Bundle)option;
-            optionView.Label = bundle.ID.Label;
-            optionView.Color = bundle.ID.Color;
-            optionView.Icon = bundle.ID.Icon;
+            optionView.Label = bundle.Name;
+            optionView.Color = bundle.Color;
+            optionView.Icon = bundle.Icon;
         });
 
         bundlePallete.Repaint();
