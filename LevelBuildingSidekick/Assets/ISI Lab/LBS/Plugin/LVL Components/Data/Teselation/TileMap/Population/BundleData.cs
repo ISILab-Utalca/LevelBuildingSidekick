@@ -41,7 +41,7 @@ namespace LBS.Components.TileMap
 
         }
 
-        public BundleData(Bundle bundle) : this(bundle.ID.Label, bundle.Characteristics)
+        public BundleData(Bundle bundle) : this(bundle.name, bundle.Characteristics)
         {
         }
 
@@ -58,7 +58,7 @@ namespace LBS.Components.TileMap
             if(obj is Bundle)
             {
                 var b = obj as Bundle;
-                return b.ID.Label == bundleTag;
+                return b.name == bundleTag;
             }
             return base.Equals(obj);
         }
