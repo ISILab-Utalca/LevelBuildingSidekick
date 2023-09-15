@@ -74,10 +74,8 @@ public class SchemaRuleGeneratorExteriror : LBSGeneratorRule
                         {
                             foreach (var bundle in rootBundles)
                             {
-                                if (bundle.ID == null)
-                                    continue;
 
-                                if (tags.Contains(bundle.ID.Label))
+                                if (tags.Contains(bundle.name))
                                 {
                                     currentRoots.Add(bundle);
                                 }
@@ -89,20 +87,19 @@ public class SchemaRuleGeneratorExteriror : LBSGeneratorRule
                         }
 
                         var childs = currentRoots.SelectMany(b => b.ChildsBundles).ToList().RemoveEmpties(); // obtengo todos sus hijos
-                        childs = childs.Where(b => b.ID != null).ToList(); // parche (?)
 
                         var bundlesDictionary = new Dictionary<string, List<GameObject>>();
 
-                        var wallBundles = childs.Where(b => b.ID.Label.Equals("Wall")).ToList(); // obtengo todos los bundles con la tag Wall
+                        var wallBundles = childs.Where(b => b.name.Equals("Wall")).ToList(); // obtengo todos los bundles con la tag Wall
                         bundlesDictionary.Add("Wall", wallBundles.SelectMany(b => b.Assets).ToList().Select(a => a.obj).ToList());
 
-                        var doorBundles = childs.Where(b => b.ID.Label.Equals("Door")).ToList(); // obtengo todos los bundles con la tag Door
+                        var doorBundles = childs.Where(b => b.name.Equals("Door")).ToList(); // obtengo todos los bundles con la tag Door
                         bundlesDictionary.Add("Door", doorBundles.SelectMany(b => b.Assets).ToList().Select(a => a.obj).ToList());
 
-                        var floorBundles = childs.Where(b => b.ID.Label.Equals("Floor")); // obtengo todos los bundles con la tag Floor
+                        var floorBundles = childs.Where(b => b.name.Equals("Floor")); // obtengo todos los bundles con la tag Floor
                         bundlesDictionary.Add("Floor", floorBundles.SelectMany(b => b.Assets).ToList().Select(a => a.obj).ToList());
 
-                        var cornerBundles = childs.Where(b => b.ID.Label.Equals("Corner")).ToList(); // obtengo todos los bundles con la tag Corner
+                        var cornerBundles = childs.Where(b => b.name.Equals("Corner")).ToList(); // obtengo todos los bundles con la tag Corner
                         bundlesDictionary.Add("Corner", cornerBundles.SelectMany(b => b.Assets).ToList().Select(a => a.obj).ToList());
 
                         var area = schema.GetArea(node.ID);
