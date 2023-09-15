@@ -110,8 +110,9 @@ public class SchemaRuleGenerator : LBSGeneratorRule
         for (var i = 0; i < connections.Count; i++)
         {
             // Get random bundle with respctive "connection tag"
-            var current = currents.Where(b => b.ID.Label == connections[i])
-                                .ToList().Random();
+            var current = currents.Where(b => b.GetCharacteristics<LBSTagsCharacteristic>()
+                .Any(c => c.Value.name == connections[i]))
+                .ToList().Random();
 
             // check if current is valid
             if (current == null)
