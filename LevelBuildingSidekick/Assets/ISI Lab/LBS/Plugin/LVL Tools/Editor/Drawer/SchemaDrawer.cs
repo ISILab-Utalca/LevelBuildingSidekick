@@ -13,12 +13,13 @@ public class SchemaDrawer : Drawer
 {
     public override void Draw(object target, MainView view, Vector2 teselationSize)
     {
+        // Get behaviour
         var schema = target as SchemaBehaviour;
-        var layer = schema.Owner;
 
-        var tilesMod = layer.GetModule<TileMapModule>();
-        var zonesMod = layer.GetModule<SectorizedTileMapModule>();
-        var connectionsMod = layer.GetModule<ConnectedTileMapModule>();
+        // Get modules
+        var tilesMod = schema.Owner.GetModule<TileMapModule>();
+        var zonesMod = schema.Owner.GetModule<SectorizedTileMapModule>();
+        var connectionsMod = schema.Owner.GetModule<ConnectedTileMapModule>();
 
         foreach (var t in tilesMod.Tiles)
         {
