@@ -65,7 +65,7 @@ public class LBSAssetsStorage : ScriptableObject
         {
             if(group.type.Equals(typeof(T).FullName))
             {
-                return group.items.Cast<T>().ToList();
+                return new List<T>(group.items.Cast<T>());
             }
         }
         return null;

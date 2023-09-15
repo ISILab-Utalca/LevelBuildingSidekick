@@ -31,8 +31,8 @@ MonoBehaviour:
       data:
         label: Connections
         connections:
-        - Path
         - Grass
+        - Path
         - Path
         - Path
         connectionAmount: 4

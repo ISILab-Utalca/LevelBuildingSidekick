@@ -82,10 +82,13 @@ namespace LBS.Generator
 
                 go.transform.position = new Vector3((tile.Position.x) * scale.x, 0, (tile.Position.y) * scale.y) + new Vector3(scale.x, 0, scale.y) / 2;
 
-                if(pair.Item2 % 2 == 0)
-                    go.transform.rotation = Quaternion.Euler(0, 90 * (pair.Item2 -1) % 360, 0);
+                if (pair.Item2 % 2 == 0)
+                    go.transform.rotation = Quaternion.Euler(0, 90 * (pair.Item2 ) % 360, 0);
+                    //go.SetActive(false);
                 else
-                    go.transform.rotation = Quaternion.Euler(0, 90 * (pair.Item2 -3) % 360, 0);
+                    //go.SetActive(false);
+                    go.transform.rotation = Quaternion.Euler(0, 90 * (pair.Item2 -2) % 360, 0);
+
             }
 
             mainPivot.transform.position += settings.position;

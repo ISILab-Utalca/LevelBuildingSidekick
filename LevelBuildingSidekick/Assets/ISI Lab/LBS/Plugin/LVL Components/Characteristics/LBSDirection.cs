@@ -23,7 +23,7 @@ public class LBSDirection : LBSCharacteristic, ICloneable
     #endregion
 
     #region FIELDS
-    [Tooltip("4-Conected: 0: Foward, 1: Rigth, 2: Bottom, 3: Left")]
+    [Tooltip("4-Conected: 0: R, 1: T, 2: L, 3: D")]
     [ScriptableObjectReference(typeof(LBSIdentifier))]
     [SerializeField, JsonRequired]
     private List<string> connections = new List<string>();
