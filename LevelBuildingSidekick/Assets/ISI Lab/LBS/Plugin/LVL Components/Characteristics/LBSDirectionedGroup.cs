@@ -65,5 +65,14 @@ public class LBSDirectionedGroup : LBSCharacteristic, ICloneable
         return new LBSDirectionedGroup();
     }
 
+    public List<LBSDirection> GetDirs()
+    {
+        var r = new List<LBSDirection>();
+        foreach (var w in Weights)
+        {
+            r.Add(w.target.GetCharacteristics<LBSDirection>()[0]);
+        }
+        return r;
+    }
    
 }
