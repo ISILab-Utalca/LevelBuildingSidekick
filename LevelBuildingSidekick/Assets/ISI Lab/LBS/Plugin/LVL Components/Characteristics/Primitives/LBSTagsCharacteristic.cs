@@ -21,6 +21,11 @@ public class LBSTagsCharacteristic : LBSCharacteristic
         this.value = value;
     }
 
+    public LBSTagsCharacteristic(LBSIdentifier value, string label) : this(value)
+    {
+        Label = label;
+    }
+
     public LBSTagsCharacteristic()
     {
         this.value = null;
@@ -28,7 +33,7 @@ public class LBSTagsCharacteristic : LBSCharacteristic
 
     public override object Clone()
     {
-        return new LBSTagsCharacteristic(this.value);
+        return new LBSTagsCharacteristic(this.value, label);
     }
 
     public override bool Equals(object obj)
