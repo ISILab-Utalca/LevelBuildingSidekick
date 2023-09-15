@@ -28,12 +28,11 @@ public class AddEmptyTile : ManipulateTeselation
 
     protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
     {
-        var min = exterior.Owner.ToFixedPosition(Vector2Int.Min(StartPosition, EndPosition));
-        var max = exterior.Owner.ToFixedPosition(Vector2Int.Max(StartPosition, EndPosition));
+        var corners = exterior.Owner.ToFixedPosition(StartPosition, EndPosition);
 
-        for (int i = min.x; i <= max.x; i++)
+        for (int i = corners.Item1.x; i <= corners.Item2.x; i++)
         {
-            for (int j = min.y; j <= max.y; j++)
+            for (int j = corners.Item1.y; j <= corners.Item2.y; j++)
             {
                 var pos = new Vector2Int(i, j);
                 var tile = new LBSTile(pos);
