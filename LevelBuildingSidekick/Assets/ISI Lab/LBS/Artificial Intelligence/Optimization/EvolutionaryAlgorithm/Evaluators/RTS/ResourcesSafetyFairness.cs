@@ -33,7 +33,7 @@ public class ResourcesSafetyFairness : IRangedEvaluator
 
         var genes = chrom.GetGenes().Cast<BundleData>().ToList();
 
-        List<int> playersPos = new();
+        List<int> playersPos = new List<int>();
 
         for(int i = 0; i < genes.Count; i++)
         {
@@ -43,12 +43,13 @@ public class ResourcesSafetyFairness : IRangedEvaluator
                 {
                     playersPos.Add(i);
                 }
-                else
-                {
-                    foreach (var c in genes[i].Characteristics)
-                        Debug.Log(c.Label);
-                }
             }
+        }
+
+        if (playersPos.Count < 2)
+        {
+            Debug.LogWarning("Map is not suitable for the evaluation, it must have at least 2 players");
+            return MaxValue;
         }
 
 
@@ -81,6 +82,9 @@ public class ResourcesSafetyFairness : IRangedEvaluator
 
             localFitness.Add(res);
         }
+
+        if (localFitness.Max() <= 0)
+            return MaxValue;
 
         fitness = localFitness.Min() / localFitness.Max();
 
