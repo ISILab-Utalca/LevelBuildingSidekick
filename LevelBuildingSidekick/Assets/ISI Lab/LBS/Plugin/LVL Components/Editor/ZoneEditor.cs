@@ -43,7 +43,7 @@ public class ZoneEditor : LBSCustomEditor
         {
             foreach (var bundle in bundles)
             {
-                if (bundle.ID.Label == this.target.TagsBundles[0])
+                if (bundle.name == this.target.TagsBundles[0])
                 {
                     objectField.value = bundle;
                     break;
@@ -78,7 +78,7 @@ public class ZoneEditor : LBSCustomEditor
         objectField.RegisterValueChangedCallback(v => // objectField.RegisterCallback<ChangeEvent<ScriptableObject>>(evt => 
         {
             var bundle = v.newValue as Bundle;
-            target.TagsBundles = new List<string>() { bundle.ID.Label };
+            target.TagsBundles = new List<string>() { bundle.name };
         });
         this.Add(objectField);
 
@@ -107,7 +107,7 @@ public class ZoneEditor : LBSCustomEditor
         var field = (ve as ObjectField);
 
         var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
-        bundles = bundles.Where(b=> b.ID.Label == bundlesRef[index]).ToList();
+        bundles = bundles.Where(b=> b.Name == bundlesRef[index]).ToList();
 
         field.value = bundles[index];
     }
