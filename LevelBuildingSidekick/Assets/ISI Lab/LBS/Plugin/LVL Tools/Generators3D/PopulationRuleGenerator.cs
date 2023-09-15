@@ -42,11 +42,9 @@ namespace LBS.Generator
                 Bundle current = null;
                 foreach (var b in bundles)
                 {
-                    var id = b.ID;
-                    if (id == null)
-                        continue;
-
-                    if (id.Label.Equals(tag))
+                    var id = b.name;
+                    
+                    if (id.Equals(tag))
                         current = b;
                 }
 
