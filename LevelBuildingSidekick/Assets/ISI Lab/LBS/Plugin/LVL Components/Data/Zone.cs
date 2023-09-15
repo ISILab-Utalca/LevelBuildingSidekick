@@ -92,7 +92,7 @@ public static class ZoneExtension
         var allBundles = LBSAssetsStorage.Instance.Get<Bundle>().Where(b => !b.IsPresset).ToList();
         foreach (var tags in zone.TagsBundles)
         {
-            bundles.Add( allBundles.Find(b => b.ID.Label == tags));
+            bundles.Add(allBundles.Find(b => b.name.Equals(tags)));
         }
         return bundles;
     }
