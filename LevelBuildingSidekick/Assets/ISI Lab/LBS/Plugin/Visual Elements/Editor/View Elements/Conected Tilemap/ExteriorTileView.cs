@@ -62,12 +62,12 @@ public class ExteriorTileView : GraphElement
 
         if (!string.IsNullOrEmpty(tags[1]))
         {
-            bottom.style.backgroundColor = tts.Find(t => t.Label.Equals(tags[1])).Color;
-            bottom.style.display = DisplayStyle.Flex;
+            top.style.backgroundColor = tts.Find(t => t.Label.Equals(tags[1])).Color;
+            top.style.display = DisplayStyle.Flex;
         }
         else
         {
-            bottom.style.display = DisplayStyle.None;
+            top.style.display = DisplayStyle.None;
         }
 
         if (!string.IsNullOrEmpty(tags[2]))
@@ -82,12 +82,12 @@ public class ExteriorTileView : GraphElement
 
         if (!string.IsNullOrEmpty(tags[3]))
         {
-            top.style.backgroundColor = tts.Find(t => t.Label.Equals(tags[3])).Color;
-            top.style.display = DisplayStyle.Flex;
+            bottom.style.backgroundColor = tts.Find(t => t.Label.Equals(tags[3])).Color;
+            bottom.style.display = DisplayStyle.Flex;
         }
         else
         {
-            top.style.display = DisplayStyle.None;
+            bottom.style.display = DisplayStyle.None;
         }
     }
 }
