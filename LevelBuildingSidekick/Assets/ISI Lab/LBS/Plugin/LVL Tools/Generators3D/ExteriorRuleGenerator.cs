@@ -11,7 +11,6 @@ using Utility;
 
 namespace LBS.Generator
 {
-     
     public class ExteriorRuleGenerator : LBSGeneratorRule //  (!!!) esta clase mescla lo que tiene que hacer la IA de WFC con generar 3d posteriormente
     {
         public override bool CheckIfIsPosible(LBSLayer layer, out string msg)
@@ -30,21 +29,19 @@ namespace LBS.Generator
 
         private Tuple<LBSDirection,int> GetBundle(LBSDirectionedGroup group, string[] conections)
         {
-            var directionChars = group.Weights.Select(w => w.target.GetCharacteristics<LBSDirection>()).ToList()[0];
+            // Get connections
+            var connections = group.GetDirs();
 
-            foreach (var dirChar in directionChars)
+            foreach (var connection in connections)
             {
-                var intiDir = new List<string>(dirChar.Connections);
                 for (int i = 0; i < 4; i++)
                 {
-                    var curDir = intiDir.Rotate(i);
+                    var curDir = connection.Connections.Rotate(i);
                     if (curDir.SequenceEqual(conections))
                     {
-                        return new Tuple<LBSDirection, int>(dirChar, i);
+                        return new Tuple<LBSDirection, int>(connection, i);
                     }
-
                 }
-
             }
             return null;
         }
@@ -52,125 +49,47 @@ namespace LBS.Generator
         
         public override GameObject Generate(LBSLayer layer, Generator3D.Settings settings)
         {
-            var storage = LBSAssetsStorage.Instance;
-            var modulo = layer.GetModule<ExteriorModule>();
-            var bundles = storage.Get<Bundle>()
-                .Where(b => b.GetCharacteristics<LBSDirectionedGroup>() != null && !b.IsPresset)
-                .Select(b => b.GetCharacteristics<LBSDirectionedGroup>())
-                .ToList()[0];
-            
-            var selectedBundle = bundles[0]; // esto tiene que ser seleccionado en la interfaz y no sacar el primero que pilla (!!!)
+            // Get bundles
+            var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
 
+            // Get CharacteristicGroup bundles
+            bundles = bundles.Where(b => b.GetCharacteristics<LBSDirectionedGroup>().Count > 0 && !b.IsPresset).ToList();
             
+            var selected = bundles[0].GetCharacteristics<LBSDirectionedGroup>()[0];
+
+            // Create pivot
             var mainPivot = new GameObject("Exterior");
             var scale = settings.scale;
 
-            var tiles = modulo.Tiles.Select(t => t as ConnectedTile);
-            foreach (var tile in tiles)
-            {
-                var tileCon = tile.Connections;
-                var pair = GetBundle(selectedBundle, tileCon); // char y rotacion
+            // Get modules
+            var mapMod = layer.GetModule<TileMapModule>();
+            var connctMod = layer.GetModule<ConnectedTileMapModule>();
 
+            foreach (var tile in mapMod.Tiles)
+            {
+                // Get connection
+                var con = connctMod.GetConnections(tile);
+
+                // Get pref
+                var pair = GetBundle(selected, con.ToArray());
                 var pref = pair.Item1.Weights.RandomRullete(w => w.weigth).target;
 
 #if UNITY_EDITOR
                 var go = PrefabUtility.InstantiatePrefab(pref, mainPivot.transform) as GameObject;
 #else
-    var go = GameObject.Instantiate(pref, mainPivot.transform);
+                var go = GameObject.Instantiate(pref, mainPivot.transform);
 #endif
 
-                go.transform.position = new Vector3((tile.Position.x) * scale.x, 0, -(tile.Position.y) * scale.y) + new Vector3(scale.x, 0, -scale.y) / 2;
+                go.transform.position = new Vector3((tile.Position.x) * scale.x, 0, (tile.Position.y) * scale.y) + new Vector3(scale.x, 0, scale.y) / 2;
 
-                var rot = pair.Item2;
-
-                go.transform.localScale = new Vector3(1, 1, -1);
-                go.transform.rotation = Quaternion.Euler(0, -90 + (-90 * (rot)) % 360, 0);
+                if(pair.Item2 % 2 == 0)
+                    go.transform.rotation = Quaternion.Euler(0, 90 * (pair.Item2 -1) % 360, 0);
+                else
+                    go.transform.rotation = Quaternion.Euler(0, 90 * (pair.Item2 -3) % 360, 0);
             }
+
             mainPivot.transform.position += settings.position;
             return mainPivot;
         }
-
-        /*
-        public override GameObject Generate(LBSLayer layer, Generator3D.Settings settings)
-        {
-            var storage = LBSAssetsStorage.Instance;
-            var modulo = layer.GetModule<Exterior>();
-            var bundles = storage.Get<Bundle>().Select(b => b.GetCharacteristic<LBSDirectionedGroup>()).ToList();
-            
-            var selectedBundle = bundles[0]; // esto tiene que ser seleccionado en la interfaz y no sacar el primero que pilla (!!!)
-
-            var mirrs = new List<Vector3>() {
-                 new Vector3(1, 1, 1),
-                 new Vector3(1, 1, -1),
-                 //new Vector3(1, -1, 1),
-                 new Vector3(-1, 1, 1),
-                 //new Vector3(1, -1, -1),
-                 new Vector3(-1, 1, -1),
-                 //new Vector3(-1, -1, 1),
-                 //new Vector3(-1, -1, -1),
-            };
-
-            var sts = new List<int>()
-            {
-                0,90,-90
-            };
-
-            var rots = new List<int>()
-            {
-                90,-90
-            };
-
-            var all = new GameObject("all");
-            var d = 70;
-            int cx = 0, cy = 0, cz = 0;
-            foreach (var _rot in rots)
-            {
-                cz = 0;
-                foreach (var _sts in sts)
-                {
-                    cx = 0;
-                    foreach (var _mirr in mirrs)
-                    {
-                        var mainPivot = new GameObject("Exterior");
-                        mainPivot.SetParent(all);
-                        var scale = settings.scale;
-
-                        var tiles = modulo.Tiles.Select(t => t as ConnectedTile);
-                        foreach (var tile in tiles)
-                        {
-                            var tileCon = tile.Connections;
-                            var pair = GetBundle(selectedBundle, tileCon); // char y rotacion
-
-                            var pref = pair.Item1.Weights.RandomRullete(w => w.weigth).target;
-
-#if UNITY_EDITOR
-                            var go = PrefabUtility.InstantiatePrefab(pref, mainPivot.transform) as GameObject;
-#else
-                            var go = GameObject.Instantiate(pref, mainPivot.transform);
-#endif
-
-                            go.transform.position = new Vector3((tile.Position.x) * scale.x, 0, -(tile.Position.y) * scale.y) + new Vector3(scale.x, 0, -scale.y) / 2;
-
-                            var rot = pair.Item2;
-
-                            go.name = "mir: " + _mirr + ",sts: " + _sts + ",rot: " + _rot + ",r: " + rot;
-                            go.transform.localRotation = Quaternion.Euler(0, _sts + ((_rot * rot) % 360), 0);
-                            go.transform.localScale = _mirr;
-
-                        }
-                        mainPivot.transform.position += settings.position;
-
-                        mainPivot.transform.position += new Vector3(cx,cy*2f,cz) * d;
-                        cx++;
-                    }
-                    cz++;
-                }
-                cy++;
-            }
-
-            
-            return all;
-        }
-        */
     }
 }
