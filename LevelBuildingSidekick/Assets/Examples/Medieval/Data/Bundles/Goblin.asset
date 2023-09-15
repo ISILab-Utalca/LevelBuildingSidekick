@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPreset: 0
   type: 2
-  id: {fileID: 11400000, guid: 560e713e6c53d0b4f9ae9a9a5d8d18bf, type: 2}
+  color: {r: 0, g: 0, b: 0, a: 0}
+  icon: {fileID: 0}
   childsBundles: []
   assets:
   - obj: {fileID: 4697017240656324050, guid: f019b5a5580837b4184a3701130fb9f6, type: 3}
