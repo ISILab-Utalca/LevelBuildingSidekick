@@ -40,6 +40,8 @@ public class LBSMainWindow : EditorWindow
     private DrawManager drawManager;
     private LBSInspectorPanel inspectorManager;
 
+    public static Action OnWindowRepaint;
+
 
     [MenuItem("ISILab/Level Building Sidekick", priority = 0)]
     private static void ShowWindow()
@@ -283,5 +285,10 @@ public class LBSMainWindow : EditorWindow
         // Actualize Bottom text
         selectedLabel.text = "selected: " + layer.Name;
 
+    }
+
+    private void OnInspectorUpdate()
+    {
+        OnWindowRepaint?.Invoke();
     }
 }
