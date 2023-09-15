@@ -39,6 +39,7 @@ public class SecurityFairness : IRangedEvaluator
         if (players.Count() < 2)
         {
             Debug.LogWarning("Map is not suitable for the evaluation, it must have at least 2 players");
+            return MaxValue;
         }
 
         var playersPos = players.Select(x => x.i);
@@ -54,6 +55,9 @@ public class SecurityFairness : IRangedEvaluator
 
             localFitness.Add(dist);
         }
+
+        if(localFitness.Max() <= 0)
+            return MaxValue;
 
         fitness = localFitness.Min() / localFitness.Max();
 
