@@ -29,7 +29,7 @@ public class BundleEditor : Editor
 
             if (GUILayout.Button("Set default interior"))
             {
-                SetDefaultinterior(bundle);
+                SetDefaultInterior(bundle);
                 AssetDatabase.SaveAssets();
             }
 
@@ -86,7 +86,7 @@ public class BundleEditor : Editor
         EditorUtility.SetDirty(bundle);
     }
 
-    private void SetDefaultinterior(Bundle bundle)
+    private void SetDefaultInterior(Bundle bundle)
     {
         // Get settings
         var setting = LBSSettings.Instance;
@@ -107,13 +107,11 @@ public class BundleEditor : Editor
         id.Init(tagName, new Color().RandomColor(), null);
 
         // Init bundle
-        bundle.ID = id;
         bundle.ClearChilds();
         for (int i = 0; i < matchingTags.Count; i++)
         {
             // Set child bundle
             var b = ScriptableObject.CreateInstance<Bundle>();
-            b.ID = matchingTags[i];
             b.AddCharacteristic(new LBSTagsCharacteristic(matchingTags[i]));
             bundle.AddChild(b);
 
