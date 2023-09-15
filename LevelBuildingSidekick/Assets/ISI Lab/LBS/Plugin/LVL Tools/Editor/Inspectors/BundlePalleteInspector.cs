@@ -102,12 +102,9 @@ public class BundlePalleteInspector : LBSInspector
 
         foreach (var bundle in bundles)
         {
-            var id = bundle.ID;
-            if (id == null)
-                continue;
+            var id = bundle.Name;
 
-            var l = id.Label;
-            if (l.Equals(label))
+            if (id.Equals(label))
                 return bundle;
         }
         return null;
