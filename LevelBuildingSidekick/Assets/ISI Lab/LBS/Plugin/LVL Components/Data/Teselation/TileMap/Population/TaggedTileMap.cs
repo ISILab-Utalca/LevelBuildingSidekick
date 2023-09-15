@@ -49,7 +49,7 @@ public class TaggedTileMap : LBSModule
 
     public void AddTile(LBSTile tile, Bundle bundle)
     {
-        var data = new BundleData(bundle.ID.Label, bundle.Characteristics);
+        var data = new BundleData(bundle.name, bundle.Characteristics);
         AddTile(tile, data);
     }
 
