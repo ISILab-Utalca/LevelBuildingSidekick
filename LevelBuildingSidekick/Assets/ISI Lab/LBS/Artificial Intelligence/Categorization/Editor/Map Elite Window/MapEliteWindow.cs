@@ -235,6 +235,7 @@ public class MapEliteWindow : EditorWindow
 
         mapElites.Run();
     }
+
     public void ChangePartitions(Vector2 partitions)
     {
         //ButtonBackground = BackgroundTexture(layer.GetModule<LBSModule>(BackgroundField.value));

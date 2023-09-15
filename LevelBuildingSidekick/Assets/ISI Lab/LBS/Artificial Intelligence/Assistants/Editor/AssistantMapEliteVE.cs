@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 using UnityEngine.UIElements;
 
 [LBSCustomEditor("AssistantMapElite", typeof(AssistantMapElite))]
@@ -32,6 +33,17 @@ public class AssistantMapEliteVE : LBSCustomEditor, IToolProvider
         assitant.LoadPresset(config.GetPresset());
         assitant.SetAdam(assitant.Rect); // GET RECT FROM TOOL
         assitant.Execute();
+
+        LBSMainWindow.OnWindowRepaint += RepaintContent;
+    }
+
+    private void RepaintContent()
+    {
+
+        var assitant = target as AssistantMapElite;
+        content.UpdateContent();
+        if (assitant.Finished)
+            LBSMainWindow.OnWindowRepaint -= RepaintContent;
     }
 
     public void ChangePresset()
@@ -47,26 +59,9 @@ public class AssistantMapEliteVE : LBSCustomEditor, IToolProvider
         assitant.Continue();
     }
 
-    private void UpdateContent()
-    {
-        var assitant = target as AssistantMapElite;
-        lock (locker)
-        {
-            content.UpdateContent();
-        }
-
-        if (assitant.Finished)
-        {
-            content.MarkEmpties();
-        }
-    }
-
-
     public override void SetInfo(object target)
     {
     }
-
-    
 
     protected override VisualElement CreateVisualElement()
     {
@@ -83,6 +78,7 @@ public class AssistantMapEliteVE : LBSCustomEditor, IToolProvider
 
         content.OnSelectOption += assistant.ApplySuggestion;
 
+
         ve.Add(content);
         ve.Add(config);
         return ve;
@@ -97,4 +93,6 @@ public class AssistantMapEliteVE : LBSCustomEditor, IToolProvider
         t1.Init(assitant.Owner, assitant);
         toolkit.AddTool(t1);
     }
+
+    
 }

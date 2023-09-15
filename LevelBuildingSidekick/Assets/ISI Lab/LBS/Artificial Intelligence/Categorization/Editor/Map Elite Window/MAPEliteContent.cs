@@ -12,7 +12,6 @@ public class MAPEliteContent : VisualElement
 {
     AssistantMapElite assistant;
 
-    private List<Vector2Int> toUpdate = new List<Vector2Int>();
     public ButtonWrapper[] Content = new ButtonWrapper[1];
     public VisualElement Container;
     private int buttonSize = 128; //Should be a RangeSlider field(!!!)
@@ -46,8 +45,6 @@ public class MAPEliteContent : VisualElement
 
     public void Reset()
     {
-        toUpdate.Clear();
-
         // set all wrapper to loading icon
         ChangePartitions(new Vector2(assistant.SampleWidth, assistant.SampleHeight));
     }
@@ -83,12 +80,42 @@ public class MAPEliteContent : VisualElement
         Content.ToList().ForEach(b => b.style.backgroundImage = standbyImg);
     }
 
+    public void MarkEmpties()
+    {
+        foreach (ButtonWrapper bw in Content)
+        {
+            if (bw.Data == null)
+            {
+                bw.style.backgroundImage = notFoundImg;
+            }
+        }
+    }
+    /*
+    public void UpdateSample(Vector2Int coords)
+    {
+        var index = (coords.y * assistant.SampleWidth + coords.x);
+        if (Content[index].Data != null && (Content[index].Data as IOptimizable).Fitness > assistant.Samples[coords.y, coords.x].Fitness)
+        {
+            return;
+        }
+        Content[index].Data = assistant.Samples[coords.y, coords.x];
+        Content[index].Text = ((decimal)assistant.Samples[coords.y, coords.x].Fitness).ToString("f4");
+
+        lock (locker)
+        {
+            if (!assistant.toUpdate.Contains(coords))
+                assistant.toUpdate.Add(coords);
+        }
+    }*/
+
     public void UpdateContent()
     {
-        for (int i = 0; i < toUpdate.Count; i++)
+        for (int i = 0; i < assistant.toUpdate.Count; i++)
         {
-            var v = toUpdate[i];
-            var index = (v.y * assistant.SampleWidth + v.x);
+            var v = assistant.toUpdate[i];
+            var index = (int)(v.y * assistant.SampleWidth + v.x);
+            Content[index].Data = assistant.Samples[(int)v.y, (int)v.x];
+            Content[index].Text = ((decimal)assistant.Samples[(int)v.y, (int)v.x].Fitness).ToString("f4");
             var t = Content[index].GetTexture();
             if (Content[index].Data != null)
             {
@@ -100,37 +127,7 @@ public class MAPEliteContent : VisualElement
             }
             Content[index].UpdateLabel();
         }
-        toUpdate.Clear();
-    }
-
-    public void MarkEmpties()
-    {
-        foreach (ButtonWrapper bw in Content)
-        {
-            if (bw.Data == null)
-            {
-                bw.style.backgroundImage = notFoundImg;
-            }
-        }
-    }
-
-    public void UpdateSample(Vector2Int coords)
-    {
-        var index = (coords.y * assistant.SampleWidth + coords.x);
-        if (Content[index].Data != null && (Content[index].Data as IOptimizable).Fitness > assistant.Samples[coords.y, coords.x].Fitness)
-        {
-            return;
-        }
-        Content[index].Data = assistant.Samples[coords.y, coords.x];
-        Content[index].Text = ((decimal)assistant.Samples[coords.y, coords.x].Fitness).ToString("f4");
-
-
-
-        lock (locker)
-        {
-            if (!toUpdate.Contains(coords))
-                toUpdate.Add(coords);
-        }
+        assistant.toUpdate.Clear();
     }
 
     private void CreateGUI()

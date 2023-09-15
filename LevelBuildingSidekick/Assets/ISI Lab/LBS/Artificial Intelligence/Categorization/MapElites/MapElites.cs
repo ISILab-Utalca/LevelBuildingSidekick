@@ -248,7 +248,7 @@ public class MapElites : ICloneable
         Clear();
         Optimizer.OnGenerationRan = () =>
         { 
-            UpdateSamples(Optimizer.LastGeneration); 
+            UpdateSamples(Optimizer.LastGeneration);
         };
         Optimizer.OnTerminationReached = () =>
         {
@@ -275,7 +275,6 @@ public class MapElites : ICloneable
         };
         thread = new Thread(Optimizer.Start);
         thread.Start();
-        Debug.Log("O Running");
     }
 
     public void Restart()

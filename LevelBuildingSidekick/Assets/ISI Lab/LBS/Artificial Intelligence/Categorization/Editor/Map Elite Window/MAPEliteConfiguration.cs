@@ -22,10 +22,12 @@ public class MAPEliteConfiguration : VisualElement
 
     public Action<string> OnPressetChange;
 
+    private static VisualTreeAsset visualTree;
+
     public MAPEliteConfiguration()
     {
 
-        var visualTree = LBSAssetsStorage.Instance.Get<VisualTreeAsset>().Find(e => e.name == "MAPEliteConfiguration");
+        visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("MAPEliteConfiguration");
         //var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("MAPEliteConfiguration");
         visualTree.CloneTree(this);
 

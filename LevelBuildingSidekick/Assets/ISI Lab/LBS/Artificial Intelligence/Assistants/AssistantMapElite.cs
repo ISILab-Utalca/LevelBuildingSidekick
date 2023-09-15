@@ -40,6 +40,8 @@ public class AssistantMapElite : LBSAssistant
 
     public IOptimizable[,] Samples => mapElites.BestSamples;
 
+    public List<Vector2> toUpdate = new List<Vector2>();
+
     public AssistantMapElite(Texture2D icon, string name) : base(icon, name)
     {
         mapElites = new MapElites();
@@ -55,6 +57,8 @@ public class AssistantMapElite : LBSAssistant
         //(mapElites.XEvaluator as EvaluatorVE).Init();// IS WRONG Check !!
         //(mapElites.YEvaluator as EvaluatorVE).Init();// IS WRONG Check !!
         //(mapElites.Optimizer.Evaluator as EvaluatorVE).Init();// IS WRONG Check !!
+        toUpdate.Clear();
+        mapElites.OnSampleUpdated += (v) => { if (!toUpdate.Contains(v)) toUpdate.Add(v); };
         mapElites.Run();
     }
 
@@ -65,7 +69,7 @@ public class AssistantMapElite : LBSAssistant
 
     public void ApplySuggestion(object data)
     {
-        var chrom = data as LBSChromosome;
+        var chrom = data as BundleTilemapChromosome;
 
         if (chrom == null)
         {
@@ -75,14 +79,6 @@ public class AssistantMapElite : LBSAssistant
         var population = Owner.Behaviours.Find(b => b.GetType().Equals(typeof(PopulationBehaviour))) as PopulationBehaviour;
 
         var rect = chrom.Rect;
-
-        for(int j = 0; j < rect.height; j++)
-        {
-            for (int i = 0; i < rect.width; i++)
-            {
-                population.RemoveTile(new Vector2(i,j).ToInt());
-            }
-        }
 
         for(int i = 0; i < chrom.Length; i++)
         {
