@@ -49,13 +49,12 @@ public class WaveFunctionCollapseManipulator : ManipulateTeselation
 
     protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
     {
-        var min = this.assistant.Owner.ToFixedPosition(Vector2Int.Min(StartPosition, EndPosition));
-        var max = this.assistant.Owner.ToFixedPosition(Vector2Int.Max(StartPosition, EndPosition));
+        var corners = assistant.Owner.ToFixedPosition(StartPosition, EndPosition);
 
         var positions = new List<Vector2Int>();
-        for (int i = min.x; i <= max.x; i++)
+        for (int i = corners.Item1.x; i <= corners.Item2.x; i++)
         {
-            for (int j = min.y; j <= max.y; j++)
+            for (int j = corners.Item1.y; j <= corners.Item2.y; j++)
             {
                 positions.Add(new Vector2Int(i, j));
             }
@@ -66,6 +65,8 @@ public class WaveFunctionCollapseManipulator : ManipulateTeselation
         assistant.OverrideValues = e.ctrlKey;
 
         assistant.Execute();
+
+
         /*
         var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
         var fathers = bundles
