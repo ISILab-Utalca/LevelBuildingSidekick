@@ -45,7 +45,7 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
         var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
         foreach ( var bundle in bundles)
         {
-            if(bundle.ID?.Label == exterior.TargetBundle)
+            if(bundle.Name == exterior.TargetBundle)
             {
                 this.targetBundle = bundle;
                 break;
@@ -124,7 +124,7 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
         bundleField.RegisterValueChangedCallback(evt =>
         {
             targetBundle = evt.newValue as Bundle;
-            exterior.TargetBundle = targetBundle.ID?.Label;
+            exterior.TargetBundle = targetBundle.Name;
             OnTargetBundle();
         });
 
