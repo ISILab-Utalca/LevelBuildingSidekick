@@ -23,6 +23,8 @@ public class TagBundleView : VisualElement
     private Button addBtn;
     private Button removeBtn;
     private EnumField typeDropdown;
+
+    private static VisualTreeAsset visualTree;
     #endregion
 
     #region EVENTS
@@ -35,7 +37,7 @@ public class TagBundleView : VisualElement
     #region CONSTRUCTORS
     public TagBundleView()
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("TagBundleView");
+        visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("TagBundleView");
         visualTree.CloneTree(this);
 
         // Main Content
