@@ -46,14 +46,15 @@ public class LBSIdentifierBundle : ScriptableObject
         tags.Add(tag);
     }
 
+    /*
     public void Add(List<Bundle> data) // (?) por que existe este metodo?
     {
-        var tags = data.Select(b => b.ID);
+        var names = data.Select(b => b.name);
 
-        foreach (var tag in tags)
+        foreach (var name in names)
         {
-            if(!this.tags.Contains(tag))
-                this.tags.Add(tag);
+            if(!this.tags.Contains(name))
+                this.tags.Add(name);
         }
     }
 
@@ -66,5 +67,6 @@ public class LBSIdentifierBundle : ScriptableObject
             this.tags.Remove(tag);
         }    
     }
+    */
     #endregion
 }
