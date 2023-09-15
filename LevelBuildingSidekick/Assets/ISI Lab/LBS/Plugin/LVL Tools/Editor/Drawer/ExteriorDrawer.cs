@@ -29,9 +29,10 @@ public class ExteriorDrawer : Drawer
             tView.SetBackgroundColor(Color.gray);
             tView.SetConnections(connections.ToArray());
 
+            var pos = new Vector2(tile.Position.x, -tile.Position.y);
 
             var size = DefalutSize * teselationSize;
-            tView.SetPosition(new Rect(tile.Position * size, size));
+            tView.SetPosition(new Rect(pos * size, size));
             view.AddElement(tView);
         }
     }
