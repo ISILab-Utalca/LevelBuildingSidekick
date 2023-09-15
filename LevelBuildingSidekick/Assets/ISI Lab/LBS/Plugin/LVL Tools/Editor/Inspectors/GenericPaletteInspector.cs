@@ -8,9 +8,10 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Utility;
 
-public class GenericPalleteInspector<T, U> : LBSInspector where T : TiledArea where U : LBSTile
+[Obsolete("OLD")]
+public class GenericPalleteInspector<T, U> //: LBSInspector where T : TiledArea where U : LBSTile
 {
-
+    /*
     public Action<AreaTileMap<T>> OnSelectionChange;
 
     private VisualElement content;
@@ -44,4 +45,5 @@ public class GenericPalleteInspector<T, U> : LBSInspector where T : TiledArea wh
     {
 
     }
+    */
 }

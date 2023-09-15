@@ -1,15 +1,17 @@
 using LBS.Behaviours;
 using LBS.Bundles;
 using LBS.Components;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class BundlePalleteInspector : LBSInspector
+[Obsolete("OLD")]
+public class BundlePalleteInspector //: LBSInspector
 {
-
+    /*
     private VisualElement content;
     private DropdownField dropdownBundles;
 
@@ -104,9 +106,10 @@ public class BundlePalleteInspector : LBSInspector
         {
             var id = bundle.Name;
 
-            if (id.Equals(label))
+            if (d.Equals(label))
                 return bundle;
         }
         return null;
     }
+    */
 }
