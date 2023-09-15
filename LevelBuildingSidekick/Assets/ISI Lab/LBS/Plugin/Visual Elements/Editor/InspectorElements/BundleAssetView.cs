@@ -33,8 +33,7 @@ public class BundleAssetView : VisualElement
 
         this.label.text = target.name;
 
-        if(target.ID != null)
-            this.icon.style.backgroundImage = target.ID.Icon;
+        this.icon.style.backgroundImage = target.Icon;
 
         tab.style.width =  20 * value;
     }
