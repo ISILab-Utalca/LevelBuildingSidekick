@@ -10,10 +10,10 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Utility;
 
-
-public class GrammarPallete : LBSInspector
+[Obsolete("OLD")]
+public class GrammarPallete //: LBSInspector
 {
-
+    /*
     private VisualElement content;
     private DropdownField dropdownBundles;
 
@@ -80,4 +80,5 @@ public class GrammarPallete : LBSInspector
         }
 
     }
+    */
 }

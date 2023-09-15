@@ -92,7 +92,7 @@ public class BundleEditor : Editor
         var setting = LBSSettings.Instance;
 
         // Get current path
-        var path = AssetDatabase.GetAssetPath(bundle).Replace("/" + bundle.name + ".asset", "");
+        var path = AssetDatabase.GetAssetPath(bundle).Replace("/" + bundle.Name + ".asset", "");
         Debug.Log(bundle + " - " + path);
 
         // Get tags

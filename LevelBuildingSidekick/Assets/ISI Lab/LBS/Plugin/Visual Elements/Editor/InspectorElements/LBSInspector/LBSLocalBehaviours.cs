@@ -89,16 +89,15 @@ public class LBSLocalBehaviours : LBSInspector
         }
     }
 
-    public override void Init(List<IManipulatorLBS> lBSManipulators, MainView view, LBSLayer layer, LBSBehaviour behaviour)
-    {
-
-
-    }
-
     public override void OnLayerChange(LBSLayer layer)
     {
         SetInfo(layer);
         toolkit.SetActive(0);
+    }
+
+    public override void Init(MainView view, LBSLayer layer, LBSBehaviour behaviour)
+    {
+        throw new NotImplementedException();
     }
     #endregion
 }

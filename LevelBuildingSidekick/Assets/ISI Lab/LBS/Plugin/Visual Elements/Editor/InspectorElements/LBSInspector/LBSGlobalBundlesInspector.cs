@@ -196,7 +196,7 @@ public class LBSGlobalBundlesInspector : LBSInspector
         list.Rebuild();
     }
 
-    public override void Init(List<IManipulatorLBS> lBSManipulators, MainView view, LBSLayer layer, LBSBehaviour behaviour)
+    public override void Init(MainView view, LBSLayer layer, LBSBehaviour behaviour)
     {
         throw new NotImplementedException();
     }

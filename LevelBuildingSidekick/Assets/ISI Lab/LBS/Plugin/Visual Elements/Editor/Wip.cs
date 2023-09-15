@@ -1,12 +1,15 @@
 using LBS.Behaviours;
 using LBS.Components;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Wip : LBSInspector
+[Obsolete("OLD")]
+public class Wip //: LBSInspector
 {
+    /*
     public Wip()
     {
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("Wip");
@@ -22,4 +25,5 @@ public class Wip : LBSInspector
     {
         //throw new System.NotImplementedException();
     }
+    */
 }
