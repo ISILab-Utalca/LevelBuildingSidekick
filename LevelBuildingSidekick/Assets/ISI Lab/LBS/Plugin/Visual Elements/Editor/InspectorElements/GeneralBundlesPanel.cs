@@ -57,7 +57,7 @@ public class GeneralBundlesPanel : VisualElement
         this.tagField = this.Q<ObjectField>("TagField");
         tagField.RegisterCallback<ChangeEvent<Object>>(t =>
         {
-            target.ID = t.newValue as LBSIdentifier;
+            //target.ID = t.newValue as LBSIdentifier;
             EditorUtility.SetDirty(target);
             AssetDatabase.SaveAssets();
         });
@@ -129,7 +129,7 @@ public class GeneralBundlesPanel : VisualElement
         this.target = target;
 
         nameField.SetValueWithoutNotify(target.name);
-        tagField.SetValueWithoutNotify(target.ID);
+        //tagField.SetValueWithoutNotify(target.ID);
 
         fatherField.SetValueWithoutNotify(target.Parent());
      
