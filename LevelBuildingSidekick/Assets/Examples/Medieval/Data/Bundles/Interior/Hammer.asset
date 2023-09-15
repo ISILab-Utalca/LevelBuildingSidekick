@@ -14,14 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPreset: 0
   type: 2
-  color: {r: 0, g: 0, b: 0, a: 0}
-  icon: {fileID: 0}
+  id: {fileID: 11400000, guid: 1b5f81de2f3a4ac40a031e0d2f7ddd0b, type: 2}
   childsBundles: []
   assets:
   - obj: {fileID: 0}
     probability: 0
-  characteristics: []
+  characteristics:
+  - rid: 1429379739155169318
   positioning: 0
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 1429379739155169318
+      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+      data:
+        label: Player
+        value: {fileID: 11400000, guid: 975a57a1811d3f743838422b5c87c58a, type: 2}
