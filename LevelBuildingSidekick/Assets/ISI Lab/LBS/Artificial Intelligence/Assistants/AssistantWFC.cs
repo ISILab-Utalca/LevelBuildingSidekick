@@ -41,7 +41,7 @@ public class AssistantWFC : LBSAssistant
     public Bundle TargetBundle
     {
         get => GetBundle(targetBundle);
-        set => targetBundle = value.ID.Label;
+        set => targetBundle = value.name;
     }
     #endregion
 
@@ -91,6 +91,8 @@ public class AssistantWFC : LBSAssistant
             toCalc.Add(tile);
         }
 
+        var closed = new List<LBSTile>(); 
+
         // Run as long as you have tiles 
         while (toCalc.Count > 0)
         {
@@ -125,9 +127,12 @@ public class AssistantWFC : LBSAssistant
             // Get direction
             var dirs = Directions.Bidimencional.Edges;
 
+            // Ignore This tiles
+            closed.Add(current.Item1);
+
             // Collapse neigthbours connection 
             var neigth = map.GetTileNeighbors(current.Item1, dirs);
-            SetConnectionNei(current.Item1, neigth.ToArray());
+            SetConnectionNei(current.Item1, neigth.ToArray(), closed);
 
             // Remove from the list of tiles to calculate 
             toCalc.Remove(current.Item1);
@@ -170,7 +175,7 @@ public class AssistantWFC : LBSAssistant
         return candidates;
     }
 
-    public void SetConnectionNei(LBSTile origin, LBSTile[] neis)
+    public void SetConnectionNei(LBSTile origin, LBSTile[] neis, List<LBSTile> closed)
     {
         var connected = Owner.GetModule<ConnectedTileMapModule>();
 
@@ -183,9 +188,12 @@ public class AssistantWFC : LBSAssistant
             if (neis[i] == null)
                 continue;
 
-            var idir = dirs.FindIndex(d => d.Equals(dirs[i]));
+            if (closed.Contains(neis[i]))
+                continue;
 
-            connected.SetConnection(neis[i], idir, oring[idir], false);
+            var idir = dirs.FindIndex(d => d.Equals(-dirs[i]));
+
+            connected.SetConnection(neis[i], idir, oring[i], false);
         }
     }
 
@@ -208,7 +216,7 @@ public class AssistantWFC : LBSAssistant
         var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
         foreach (var bundle in bundles)
         {
-            if (bundle.ID?.Label == bundleID)
+            if (bundle.name == bundleID)
             {
                 return bundle;
             }
