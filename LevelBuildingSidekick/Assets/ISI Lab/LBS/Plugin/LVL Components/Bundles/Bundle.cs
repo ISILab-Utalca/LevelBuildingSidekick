@@ -46,7 +46,6 @@ namespace LBS.Bundles
                      // Distinction, // (characteristics)Ej: Destroyed, Blooded, Dirty,
         }
 
-
         #region FIELDS
         [SerializeField]
         private bool isPreset = false;
@@ -55,7 +54,10 @@ namespace LBS.Bundles
         private TagType type;
 
         [SerializeField]
-        private LBSIdentifier id;
+        private Color color;
+
+        [SerializeField]
+        private Texture2D icon;
 
         [SerializeField]
         private List<Bundle> childsBundles = new List<Bundle>();
@@ -70,23 +72,10 @@ namespace LBS.Bundles
         private Positioning positioning = Positioning.Center;
         #endregion
 
-        #region EVENTS
-        public event Action<Bundle> OnAddChild;
-        public event Action<Bundle> OnRemoveChild;
-
-        public event Action<Asset> OnAddAsset;
-        public event Action<Asset> OnRemoveAsset;
-
-        public event Action<LBSCharacteristic> OnAddCharacteristic;
-        public event Action<LBSCharacteristic> OnRemoveCharacteristic;
-        #endregion
-
         #region PROPERTIES
-        public LBSIdentifier ID
-        {
-            get => id;
-            set => id = value;
-        }
+        public Texture2D Icon => icon;
+        public Color Color => color;
+        public string Name => name;
 
         public List<Bundle> ChildsBundles => new List<Bundle>(childsBundles);
 
@@ -117,6 +106,17 @@ namespace LBS.Bundles
 
         #endregion
 
+        #region EVENTS
+        public event Action<Bundle> OnAddChild;
+        public event Action<Bundle> OnRemoveChild;
+
+        public event Action<Asset> OnAddAsset;
+        public event Action<Asset> OnRemoveAsset;
+
+        public event Action<LBSCharacteristic> OnAddCharacteristic;
+        public event Action<LBSCharacteristic> OnRemoveCharacteristic;
+        #endregion
+
         #region METHODS
         public List<Bundle> GetChildrenByPositioning(Positioning positioning)
         {
@@ -136,7 +136,7 @@ namespace LBS.Bundles
             var r = new List<Bundle>();
             foreach (var child in childsBundles)
             {
-                if (child.id.Label == tag)
+                if (child.name == tag)
                     r.Add(child);
 
                 r.AddRange(child.GetChildrensByTag(tag));
@@ -310,11 +310,11 @@ namespace LBS.Bundles
                 other.AddAsset(asset.Clone() as Asset);
             }
 
-            other.ID = this.id;
+            other.color = this.color;
+            other.icon = this.icon;
 
             return other;
         }
-
         #endregion
 
         #region STATIC FUNCTIONS
