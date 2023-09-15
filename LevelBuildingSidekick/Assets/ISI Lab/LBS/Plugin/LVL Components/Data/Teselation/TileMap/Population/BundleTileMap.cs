@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class BundleTileMap : LBSModule
+public class BundleTileMap : LBSModule, ISelectable
 {
     #region FIELDS
 
@@ -62,6 +62,14 @@ public class BundleTileMap : LBSModule
         if (tiles.Count <= 0)
             return null;
         return tiles.Find(t => t.Tile.Equals(tile));
+
+    }
+
+    public TileBundlePair GetTile(Vector2 pos)
+    {
+        if (tiles.Count <= 0)
+            return null;
+        return tiles.Find(t => t.Tile.Position == pos);
 
     }
 
@@ -141,8 +149,23 @@ public class BundleTileMap : LBSModule
     {
         throw new System.NotImplementedException();
     }
-    #endregion
+
+    public List<object> GetSelected(Vector2Int position)
+    {
+        var p = Owner.ToFixedPosition(position);
+        var r = new List<object>();
+        var tile = GetTile(position);
+
+        if (tile != null)
+        {
+            r.Add(tile.BundleData);
+        }
+
+        return r;
+    }
 }
+    #endregion
+
 
 
 [System.Serializable]
