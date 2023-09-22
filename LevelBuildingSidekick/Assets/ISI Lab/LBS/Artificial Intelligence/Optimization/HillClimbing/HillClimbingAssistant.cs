@@ -254,7 +254,7 @@ public class HillClimbingAssistant : LBSAssistant
         };
 
         // Set constraint
-        ConstrainsZonesMod.RecalculateConstraint(zonesMod.Zones);
+        // ConstrainsZonesMod.RecalculateConstraint(zonesMod.Zones);
 
         // Set first population
         var adam = new OptimizableModules(layer.Modules);
