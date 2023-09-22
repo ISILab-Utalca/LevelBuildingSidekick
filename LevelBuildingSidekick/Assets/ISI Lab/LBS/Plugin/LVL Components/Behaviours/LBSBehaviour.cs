@@ -14,7 +14,7 @@ namespace LBS.Behaviours
     public abstract class LBSBehaviour : ICloneable
     {
         #region FIELDS
-        [NonSerialized, HideInInspector, JsonIgnore]
+        [HideInInspector]//[NonSerialized, HideInInspector, JsonIgnore]
         private LBSLayer owner;
         [SerializeField]
         private Texture2D icon;
