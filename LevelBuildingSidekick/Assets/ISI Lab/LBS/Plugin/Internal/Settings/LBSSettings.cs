@@ -41,6 +41,13 @@ namespace LBS.Settings
         public Paths paths = new Paths();
         public General general = new General();
         public Interface view = new Interface();
+        public Test test = new Test();
+
+        [System.Serializable]
+        public class Test
+        {
+            public string TestFolderPath = "";
+        }
 
         [System.Serializable]
         public class General
@@ -68,6 +75,7 @@ namespace LBS.Settings
             public string settingsPath = "Assets/ISI Lab/LBS/Plugin/Internal/Settings/Resources/LBS Settings.asset";
             public string storagePath = "Assets/ISI Lab/LBS/Plugin/Internal/Editor/LBS Storage.asset";
             public string pressetsPath = "Assets/ISI Lab/LBS/Presets/LBS Presets.asset";
+            public string backUpPath = "Assets/ISI Lab/LBS/Plugin/Internal/Resources/BackUp/LBSBackUp.asset";
 
             // Folders data storages
             public string bundleFolderPath = "Assets/ISI Lab/LBS/Data/Bundles";
@@ -81,6 +89,7 @@ namespace LBS.Settings
             public string assistantPresetFolderPath = "Assets/ISI Lab/LBS/Presets/Assistants";
             public string Generator3DPresetFolderPath = "Assets/ISI Lab/LBS/Presets/Generators3D";
             public string bundlesPresetFolderPath = "Assets/ISI Lab/LBS/Presets/Bundles";
+
         }
 
         [System.Serializable]

@@ -365,7 +365,9 @@ namespace LBS.Bundles
     {
         public static bool IsRoot(this Bundle bundle)
         {
-            var x = LBSAssetsStorage.Instance.Get<Bundle>().ToList();
+            var storage = LBSAssetsStorage.Instance;
+
+            var x = storage.Get<Bundle>().ToList();
             var xx = x.Where(b => b.ChildsBundles.Contains(bundle)).ToList();
             var b = xx.Count() <= 0;
             return b;

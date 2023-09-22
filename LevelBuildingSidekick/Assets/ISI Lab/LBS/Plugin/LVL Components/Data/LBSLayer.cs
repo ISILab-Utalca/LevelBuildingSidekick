@@ -26,19 +26,19 @@ namespace LBS.Components
         [SerializeField, JsonRequired]
         private bool blocked = false;
 
-        [PathTexture]
+        [PathTexture] // ya no se usa (?)
         [SerializeField, JsonRequired]
         public string iconPath = "Icon/Default";
         #endregion
 
         #region FIELDS
         [SerializeField, JsonRequired]
-        private string id = "Default ID"; // asegurarse que se usa (!)
+        private string id = "Default ID";
 
         [SerializeField, JsonRequired]
         private string name = "Layer name";
 
-        [JsonRequired]
+        [JsonIgnore]//[SerializeField, JsonRequired]
         private LBSLevelData parent; // esto es ignorable??
 
         [SerializeField, JsonRequired, SerializeReference]
@@ -54,7 +54,7 @@ namespace LBS.Components
         private List<LBSGeneratorRule> generatorRules = new List<LBSGeneratorRule>();
 
         [SerializeField, JsonRequired]
-        private Generator3D.Settings settings;
+        private Generator3D.Settings settings = new Generator3D.Settings();
         #endregion
 
         #region META-PROPERTIES
@@ -231,6 +231,7 @@ namespace LBS.Components
             {
                 behaviour.OnAttachLayer(this);
             }
+
         }
 
         public void AddBehaviour(LBSBehaviour behaviour)
@@ -438,6 +439,91 @@ namespace LBS.Components
 
             var layer = new LBSLayer(modules, assistants, rules, behaviours, this.id, this.visible, this.name, this.iconPath, this.TileSize);
             return layer;
+        }
+
+        public override bool Equals(object obj)
+        {
+            var other = obj as LBSLayer;
+
+            // check if the same type
+            if (other == null) return false;
+
+            // check if have the same ID
+            if(other.id != this.id) return false;
+
+            // check if have the same name
+            if (other.name != this.name) return false;
+
+            // get amount of modules
+            var mCount = other.modules.Count;
+
+            // cheack amount of modules
+            if (this.modules.Count != mCount) return false;
+
+            for (int i = 0; i < mCount; i++)
+            {
+                var m1 = other.modules[i];
+                var m2 = this.modules[i];
+
+                if (!m1.Equals(m2)) return false;
+            }
+
+            // get amount of modules
+            var bCount = other.behaviours.Count;
+
+            // cheack amount of behaviours
+            if (this.behaviours.Count != bCount) return false;
+
+            for (int i = 0; i < bCount; i++)
+            {
+                var b1 = other.behaviours[i];
+                var b2 = this.behaviours[i];
+
+                if (!b1.Equals(b2)) return false;
+            }
+
+            // get amount of modules
+            var aCount = other.assitants.Count;
+
+            // cheack amount of behaviours
+            if (this.assitants.Count != aCount) return false;
+
+            for (int i = 0; i < aCount; i++)
+            {
+                var a1 = other.assitants[i];
+                var a2 = this.assitants[i];
+
+                if (!a1.Equals(a2)) return false;
+            }
+
+            // get amount of modules
+            var gCount = other.generatorRules.Count;
+
+            // cheack amount of behaviours
+            if (this.generatorRules.Count != gCount) return false;
+
+            for (int i = 0; i < gCount; i++)
+            {
+                var g1 = other.generatorRules[i];
+                var g2 = this.generatorRules[i];
+
+                if (!g1.Equals(g2)) return false;
+            }
+
+            // check if have EQUALS settings
+            if (!this.settings.Equals(other.settings)) return false;
+
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return base.ToString();
         }
 
         /*

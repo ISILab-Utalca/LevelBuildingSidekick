@@ -2,6 +2,7 @@ using LBS;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -42,7 +43,6 @@ public class ToolBarMain : VisualElement // esto puede ser directamente toolbar
     {
         var data = LBSController.CreateNewLevel("new file", new Vector3(100, 100, 100));
         OnNewLevel?.Invoke(data);
-        //GenericLBSWindow.RefeshAll(this);
     }
 
     public void LoadLevel(DropdownMenuAction dma)

@@ -25,12 +25,9 @@ public class ConnectedZonesModule : LBSModule
     #endregion
 
     #region CONSTRUCTORS
-    public ConnectedZonesModule(IEnumerable<ZoneEdge> edges) 
+    public ConnectedZonesModule() 
     { 
-        foreach(var edge in edges)
-        {
-            AddEdge(edge);
-        }
+
     }
     #endregion
 
@@ -110,7 +107,15 @@ public class ConnectedZonesModule : LBSModule
 
     public override object Clone()
     {
-        return new ConnectedZonesModule(edges.Select(e => e.Clone()).Cast<ZoneEdge>());
+        var clone = new ConnectedZonesModule();
+
+        var edgesClone = edges.Select(e => e.Clone()).Cast<ZoneEdge>();
+        foreach (var edge in edgesClone)
+        {
+            AddEdge(edge);
+        }
+
+        return clone;
     }
 
     public override Rect GetBounds()

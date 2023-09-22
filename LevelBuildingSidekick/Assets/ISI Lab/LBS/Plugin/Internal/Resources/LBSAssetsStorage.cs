@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -35,7 +36,7 @@ public class LBSAssetsStorage : ScriptableObject
         {
             if(instance == null)
             { 
-                instance = Resources.Load<LBSAssetsStorage>("LBS Storage");
+                instance = Resources.Load<LBSAssetsStorage>("Storage/LBS Storage");
             }
             return instance;
         }
@@ -58,9 +59,21 @@ public class LBSAssetsStorage : ScriptableObject
         instance = this;
     }
 
+    private void OnDisable()
+    {
+        EditorUtility.SetDirty(this);
+        AssetDatabase.SaveAssets();
+    }
+
+    private void OnDestroy()
+    {
+        EditorUtility.SetDirty(this);
+        AssetDatabase.SaveAssets();
+    }
+
     public List<T> Get<T>() where T : Object
     {
-        CleanAllEmpties();
+        //CleanAllEmpties();
         foreach (var group in groups)
         {
             if(group.type.Equals(typeof(T).FullName))
@@ -73,12 +86,12 @@ public class LBSAssetsStorage : ScriptableObject
 
     public List<ScriptableObject> Get(Type type)
     {
-        CleanAllEmpties();
+        //CleanAllEmpties();
         foreach (var group in groups)
         {
             if (group.type.Equals(type.FullName))
             {
-                return group.items.ToList();
+                return new List<ScriptableObject>(group.items);
             }
         }
         return null;

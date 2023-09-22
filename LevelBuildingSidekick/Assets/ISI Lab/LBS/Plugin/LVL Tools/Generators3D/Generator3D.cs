@@ -14,28 +14,63 @@ namespace LBS.Generator
     public class Generator3D
     {
         [System.Serializable]
-        public struct Settings // Esto puede estar fuera de generator3D y ser setting de layers en general (!)
+        public class Settings // Esto puede estar fuera de generator3D y ser setting de layers en general (!)
         {
             [SerializeField]
             [JsonConverter(typeof(Vector2Converter))]
-            public Vector2 scale;
+            public Vector2 scale = new Vector2(2, 2);
+
             [SerializeField]
             [JsonConverter(typeof(Vector2Converter))]
-            public Vector2 resize;
+            public Vector2 resize = new Vector2(0, 0);
+
             [SerializeField]
             [JsonConverter(typeof(Vector3Converter))]
-            public Vector3 position;
+            public Vector3 position = new Vector3(0, 0, 0);
+
             [SerializeField]
-            public string name;
+            public string name = "DEFAULT";
+
+            public override bool Equals(object obj)
+            {
+                var other = obj as Generator3D.Settings;
+
+                // check if other have the same type
+                if (other is not Generator3D.Settings) return false;
+
+                // cheack if scale is the same
+                if (!this.scale.Equals(other.scale)) return false;
+
+                // cheack if resize is the same
+                if (!this.resize.Equals(other.resize)) return false;
+
+                // cheack if position is the same
+                if (!this.position.Equals(other.position)) return false;
+
+                // cheack if name is the same
+                if (this.name != other.name) return false;
+
+                return true;
+            }
+
+            public override int GetHashCode()
+            {
+                return base.GetHashCode();
+            }
+
+            public override string ToString()
+            {
+                return base.ToString();
+            }
         }
 
         #region FIELDS
         [SerializeField]
         public Settings settings;
-        #endregion
 
-        [SerializeReference]
+        [JsonRequired, SerializeReference]
         private List<LBSGeneratorRule> rules = new List<LBSGeneratorRule>();
+        #endregion
 
         #region PROPERTIES
         /*
@@ -114,7 +149,5 @@ namespace LBS.Generator
         }
         #endregion
 
-
     }
 }
-

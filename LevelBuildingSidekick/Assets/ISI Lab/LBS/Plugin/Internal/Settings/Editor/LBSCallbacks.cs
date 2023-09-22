@@ -38,9 +38,9 @@ public class LBSCallbacks
     [UnityEditor.Callbacks.DidReloadScripts()]
     private static void OnScriptsReloaded() // <----
     {
-        ReloadStorage();
+        //ReloadStorage();
         ReloadCurrentLevel();
-        ReloadBundles();
+        //ReloadBundles();
     }
 
     public static void ReloadStorage()

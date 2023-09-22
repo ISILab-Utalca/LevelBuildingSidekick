@@ -10,35 +10,16 @@ using UnityEngine;
 public class LBSLevelData
 {
     #region FIELDS
-    [SerializeField, JsonRequired]
-    private int width;
-    [SerializeField, JsonRequired]
-    private int height;
-
     [SerializeField, JsonRequired, SerializeReference]
     private List<LBSLayer> layers = new List<LBSLayer>();
 
     [SerializeField, JsonRequired, SerializeReference]
-    private List<LBSQuest> quest = new List<LBSQuest>();
-
+    private List<LBSQuest> quests = new List<LBSQuest>();
     #endregion
 
     #region PROPERTIES
-
     [JsonIgnore]
-    //public List<LBSLayer> Layers => new List<LBSLayer>(layers);
     public List<LBSLayer> Layers => layers;
-
-    [JsonIgnore]
-    public Vector2Int MaxSize
-    {
-        get => new Vector2Int(width, height);
-        set
-        {
-            width = (int)value.x;
-            height = (int)value.y;
-        }
-    }
 
     [JsonIgnore]
     public int LayerCount => layers.Count;
@@ -62,6 +43,27 @@ public class LBSLevelData
     public LBSLayer GetLayer(int index)
     {
         return layers[index];
+    }
+
+    /// <summary>
+    /// Retrieves a representation from the list of layers by its ID
+    /// and returns it. If the representation is not found or an exception
+    /// is thrown, returns null.
+    /// </summary>
+    /// <param name="id">The ID of the representation to retrieve</param>
+    /// <returns>The representation with the specified ID or null</returns>
+    public LBSLayer GetLayer(string id)
+    {
+        try
+        {
+            return layers.Find(l => l.ID == id);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
+
+        return null;
     }
 
     /// <summary>
@@ -92,7 +94,7 @@ public class LBSLevelData
         this.OnChanged?.Invoke(this);
     }
 
-    public void ReplaceLayer(LBSLayer oldLayer,LBSLayer newLayer)
+    public void ReplaceLayer(LBSLayer oldLayer, LBSLayer newLayer)
     {
         var index = layers.IndexOf(oldLayer);
         RemoveLayer(oldLayer);
@@ -109,25 +111,49 @@ public class LBSLevelData
         return layer;
     }
 
-    /// <summary>
-    /// Retrieves a representation from the list of layers by its ID
-    /// and returns it. If the representation is not found or an exception
-    /// is thrown, returns null.
-    /// </summary>
-    /// <param name="id">The ID of the representation to retrieve</param>
-    /// <returns>The representation with the specified ID or null</returns>
-    public LBSLayer GetLayer(string id)
+    public override bool Equals(object obj)
     {
-        try
+        // cast other object
+        var other = obj as LBSLevelData;
+
+        // check if other object are the same type
+        if (other == null) return false;
+
+        // get amount of layers
+        var lCount = other.layers.Count;
+
+        // check if amount of layers are EQUALS
+        if (this.layers.Count != lCount) return false;
+
+        // check if contain EQUALS layers
+        for (int i = 0; i < lCount; i++)
         {
-            return layers.Find( l => l.ID == id);
-        }
-        catch (Exception e) 
-        {
-            Debug.LogError(e);
+            var l1 = this.layers[i];
+            var l2 = other.layers[i];
+
+            if (!l1.Equals(l2)) return false;
         }
 
-        return null;
+        // check if contain EQUALS quests
+        for (int i = 0; i < other.quests.Count; i++)
+        {
+            var q1 = this.quests[i];
+            var q2 = other.quests[i];
+
+            if (!q1.Equals(q2)) return false;
+        }
+
+        return true;
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
+
+    public override string ToString()
+    {
+        return base.ToString();
     }
     #endregion
 }

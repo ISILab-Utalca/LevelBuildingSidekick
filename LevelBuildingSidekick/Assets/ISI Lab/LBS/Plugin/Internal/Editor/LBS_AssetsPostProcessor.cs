@@ -21,15 +21,19 @@ public class LBS_AssetsPostProcessor : AssetPostprocessor
         foreach (var asset in importedAssets)
         {
             if (asset.Contains(".meta"))
-                return;
+                continue;
 
             if (!asset.Contains(".asset"))
-                return;
+                continue;
 
             var obj = AssetDatabase.LoadAssetAtPath<ScriptableObject>(asset);
 
+            if( obj == null)
+                continue;
+
             storage.AddElement(obj);
         }
+
         AssetDatabase.SaveAssets();
     }
 
@@ -46,6 +50,7 @@ public class LBS_AssetsPostProcessor : AssetPostprocessor
             if (!asset.Contains(".asset"))
                 return;
         }
+
         storage.CleanAllEmpties();
 
         AssetDatabase.SaveAssets();
