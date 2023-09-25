@@ -56,12 +56,6 @@ public class ConnectedZonesModule : LBSModule
                 return edge;
         }
         return null;
-
-        //var edge = edges.Find(e => e.First.Equals(first) && e.Second.Equals(second));
-        //if (edge != null)
-        //    return edge;
-        //edge = edges.Find(e => e.First.Equals(second) && e.Second.Equals(first));
-        //return edge;
     }
 
     [Obsolete("Deberia el 'modelo' hacer cosas relativas a distanias ??")]
@@ -85,6 +79,7 @@ public class ConnectedZonesModule : LBSModule
             OnRemoveEdge?.Invoke(this, edge);
         }
     }
+
     public void RemoveEdge(ZoneEdge edge)
     {
         edges.Remove(edge);
@@ -146,6 +141,33 @@ public class ConnectedZonesModule : LBSModule
     {
         throw new System.NotImplementedException();
     }
+
+    // override object.Equals
+    public override bool Equals(object obj)
+    {
+        var other = obj as ConnectedZonesModule;
+
+        if (other == null)  return false;
+
+        var eCount = other.edges.Count;
+
+        if (eCount != this.edges.Count) return false;
+
+        for (int i = 0; i < eCount; i++)
+        {
+            var e1 = this.edges[i];
+            var e2 = other.edges[i];
+
+            if (!e1.Equals(e2)) return false;
+        }
+
+        return true;
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
     #endregion
 }
 
@@ -188,6 +210,25 @@ public class ZoneEdge : ICloneable
     public object Clone()
     {
         return new ZoneEdge(first.Clone() as Zone, second.Clone() as Zone);
+    }
+
+    // override object.Equals
+    public override bool Equals(object obj)
+    {
+        var other = obj as ZoneEdge;
+
+        if (other == null) return false;
+
+        if(!this.first.Equals(other.first)) return false;
+
+        if(!this.second.Equals(other.second)) return false;
+
+        return true;
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
     }
     #endregion
 }

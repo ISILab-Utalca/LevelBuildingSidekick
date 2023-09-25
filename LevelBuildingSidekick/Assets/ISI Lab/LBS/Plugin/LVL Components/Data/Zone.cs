@@ -14,9 +14,9 @@ public class Zone : ICloneable
 
     [SerializeField, JsonRequired]
     protected string id = "Zone";
-    [SerializeField, JsonRequired, JsonConverter(typeof(Color))]
+    [SerializeField, JsonRequired]
     protected Color color;
-    [SerializeField, JsonRequired, JsonConverter(typeof(Vector2))]
+    [SerializeField, JsonRequired]
     protected Vector2 pivot;
 
     //[ScriptableObjectReference(typeof(LBSIdentifier), "Interior Styles")]

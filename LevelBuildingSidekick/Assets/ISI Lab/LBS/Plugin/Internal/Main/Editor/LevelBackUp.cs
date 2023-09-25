@@ -27,16 +27,14 @@ namespace LBS
                 return instance;
             }
 
-            // si la instancia no esta registrada la busca y la retorna
-            instance = Utility.DirectoryTools.GetScriptablesByType<LevelBackUp>()[0];
-            if (instance != null) { return instance; }
 
-            // List<LevelBackUp> lbus = Resources.FindObjectsOfTypeAll<LevelBackUp>().Select(lbu => lbu as LevelBackUp).ToList();
-            // if (lbus.Count > 0)
-            // {
-            //     instance = lbus[0];
-            //     return instance;
-            //}
+            var ins = Utility.DirectoryTools.GetScriptablesByType<LevelBackUp>();
+            if(ins.Count > 0)
+            {
+                instance = ins[0];
+            }
+
+            if (instance != null) { return instance; }
 
             // si no encuentra la instancia, la crea y la retorna
             var backUp = ScriptableObject.CreateInstance<LevelBackUp>();

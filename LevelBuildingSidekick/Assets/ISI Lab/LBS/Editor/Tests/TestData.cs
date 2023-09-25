@@ -10,6 +10,7 @@ using LBS.Settings;
 using System.Linq;
 using LBS.Components.TileMap;
 using UnityEngine.Tilemaps;
+using System;
 
 public class TestData
 {
@@ -146,13 +147,84 @@ public class TestData
         tileMap.AddTile(tile);
         var zone = new Zone("Zone-1", Color.red);
         sectoerized.AddZone(zone);
-        sectoerized.AddTile(tile, zone); 
-        
+        sectoerized.AddTile(tile, zone);
+
         // Save the level as JSON
         JSONDataManager.SaveData(path, "Layer_With_SectorizedTileMap.tst", lvl);
 
         // Load the level from JSON
         var loaded = JSONDataManager.LoadData<LBSLevelData>(path, "Layer_With_SectorizedTileMap.tst");
+
+        // Check if loaded level is not null
+        Assert.IsNotNull(loaded);
+
+        // Cheack if the new level and previously are equals
+        Assert.AreEqual(lvl, loaded);
+    }
+
+    [Test]
+    public void Save_And_Load_Connected_Zones()
+    {
+        // Create a level
+        var lvl = new LBSLevelData();
+
+        // Add an empty layer to it
+        var layer = new LBSLayer();
+        lvl.AddLayer(layer);
+
+        // Add Sectorized module
+        var sectoerized = new SectorizedTileMapModule();
+        layer.AddModule(sectoerized);
+
+        // Add Connected Zones
+        var connectedZones = new ConnectedZonesModule();
+        layer.AddModule(connectedZones);
+
+        // Add some data
+        var zone1 = new Zone("Zone-1", Color.red);
+        var zone2 = new Zone("Zone-2", Color.blue);
+        sectoerized.AddZone(zone1);
+        sectoerized.AddZone(zone2);
+        connectedZones.AddEdge(zone1,zone2);
+
+        // Save the level as JSON
+        JSONDataManager.SaveData(path, "Layer_With_ConnectedZones.tst", lvl);
+
+        // Load the level from JSON
+        var loaded = JSONDataManager.LoadData<LBSLevelData>(path, "Layer_With_ConnectedZones.tst");
+
+        // Check if loaded level is not null
+        Assert.IsNotNull(loaded);
+
+        // Cheack if the new level and previously are equals
+        Assert.AreEqual(lvl, loaded);
+    }
+
+    [Test]
+    public void Save_And_Load_Constraints_Zones()
+    {
+        // Create a level
+        var lvl = new LBSLevelData();
+
+        // Add an empty layer to it
+        var layer = new LBSLayer();
+        lvl.AddLayer(layer);
+
+        // Add Constraints zones
+        var constraint = new ConstrainsZonesModule();
+        layer.AddModule(constraint);
+
+        // Add some data
+        var zone1 = new Zone("Zone-1", Color.red);
+        var zone2 = new Zone("Zone-2", Color.blue);
+        constraint.AddPair(zone1, new Vector2(3, 3), new Vector2(4, 4));
+        constraint.AddPair(zone2, new Vector2(5, 5), new Vector2(6, 6));
+
+        // Save the level as JSON
+        JSONDataManager.SaveData(path, "Layer_With_ConstraintsZones.tst", lvl);
+
+        // Load the level from JSON
+        var loaded = JSONDataManager.LoadData<LBSLevelData>(path, "Layer_With_ConstraintsZones.tst");
 
         // Check if loaded level is not null
         Assert.IsNotNull(loaded);

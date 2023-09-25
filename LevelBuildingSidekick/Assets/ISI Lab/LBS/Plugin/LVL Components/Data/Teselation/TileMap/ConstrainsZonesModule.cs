@@ -128,11 +128,35 @@ public class ConstrainsZonesModule : LBSModule
         return clone;
     }
 
-
-
     public override void Rewrite(LBSModule module)
     {
         throw new System.NotImplementedException();
+    }
+
+    public override bool Equals(object obj)
+    {
+        var other = obj as ConstrainsZonesModule;
+
+        if (other == null) return false;
+        
+        var pCount = other.pairs.Count;
+
+        if (pCount != this.pairs.Count) return false;
+
+        for (int i = 0; i < pCount; i++)
+        {
+            var p1 = this.pairs[i];
+            var p2 = other.pairs[i];
+
+            if (!p1.Equals(p2)) return false;
+        }
+
+        return true;
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
     }
     #endregion
 }
@@ -167,6 +191,25 @@ public class ConstraintPair : ICloneable
         var clone = new ConstraintPair(zone.Clone() as Zone,constraint.Clone() as Constraint);
         return clone;
     }
+
+    // override object.Equals
+    public override bool Equals(object obj)
+    {
+        var other = obj as ConstraintPair;
+
+        if (other == null) return false;
+
+        if(!this.zone.Equals(other.zone)) return false;
+
+        if(!this.constraint.Equals(other.constraint)) return false;
+
+        return true;  
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
 }
 
 [System.Serializable]
@@ -177,7 +220,9 @@ public class Constraint : ICloneable
     public float maxWidth;
     public float maxHeight;
 
+    [JsonIgnore]
     public float WidthMid => (minWidth + maxWidth) / 2f;
+    [JsonIgnore]
     public float HeightMid => (minHeight + maxHeight) / 2f;
 
     public Constraint(float minWidth, float minHeight, float maxWidth, float maxHeight)
@@ -192,5 +237,25 @@ public class Constraint : ICloneable
     {
         var clone = new Constraint(minWidth, minHeight, maxWidth, maxHeight);
         return clone;
+    }
+
+    // override object.Equals
+    public override bool Equals(object obj)
+    {
+        var other = obj as Constraint;
+
+        if (other == null) return false;
+
+        if(this.minWidth != other.minWidth) return false;
+        if(this.minHeight != other.minHeight) return false;
+        if(this.maxWidth != other.maxWidth) return false;
+        if(this.maxHeight != other.maxHeight) return false;
+
+        return true;
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
     }
 }
