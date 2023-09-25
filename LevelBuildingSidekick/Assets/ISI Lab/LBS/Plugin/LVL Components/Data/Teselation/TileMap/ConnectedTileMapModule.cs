@@ -173,6 +173,37 @@ public class ConnectedTileMapModule : LBSModule
         Debug.Log(msg);
     }
 
+    public override bool Equals(object obj)
+    {
+        var other = obj as ConnectedTileMapModule;
+
+        if (other == null) return false;
+
+        if(other.connectedDirections != this.connectedDirections) return false;
+
+        var pCount = this.pairs.Count;
+
+        if(pCount != other.pairs.Count) return false;
+
+        for (int i = 0; i < pCount; i++)
+        {
+            var p1 = other.pairs[i];
+            var p2 = this.pairs[i];
+
+            if(!p1.Equals(p2))  return false;
+        }
+
+        return true;
+    }
+
+    // override object.GetHashCode
+    public override int GetHashCode()
+    {
+        // TODO: write your implementation of GetHashCode() here
+        throw new NotImplementedException();
+        return base.GetHashCode();
+    }
+
     /*
     public void AddTile(TileConnectionsPair tile)
     {
@@ -262,12 +293,41 @@ public class TileConnectionsPair : ICloneable // esto puede ser TAG/BUNDLE en ve
             );
     }
 
-    /*
-    public void AddConnection(string connection)
+    public override bool Equals(object obj)
     {
-        connections.Add(connection);
+        var other = obj as TileConnectionsPair;
+
+        if (other == null) return false;
+
+        if(!this.tile.Equals(other.tile)) return false;
+
+        var cCount = other.connections.Count;
+
+        for (int i = 0; i < cCount; i++)
+        {
+            var c1 = this.connections[i];
+            var c2 = other.connections[i];
+
+            if(!c1.Equals(c2)) return false;
+        }
+
+        var eCount = other.editedByIA.Count;
+
+        for (int i = 0; i < eCount; i++)
+        {
+            var e1 = this.editedByIA[i];
+            var e2 = other.editedByIA[i];
+
+            if(!e1.Equals(e2)) return false;
+        }
+
+        return true;
     }
-    */
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
     #endregion
 
 }

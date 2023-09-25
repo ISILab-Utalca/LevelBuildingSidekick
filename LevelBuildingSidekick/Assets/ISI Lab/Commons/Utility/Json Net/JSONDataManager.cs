@@ -28,6 +28,7 @@ namespace Utility
             // add converters to serializer
             jsonSerializerSettings.Converters.Add(new Vector3Converter());
             jsonSerializerSettings.Converters.Add(new Vector2Converter());
+            jsonSerializerSettings.Converters.Add(new ColorConverter());
 
             // generate json string
             string jsonString = "ERROR";
@@ -92,6 +93,7 @@ namespace Utility
             // add converters to serializer
             jsonSerializerSettings.Converters.Add(new Vector3Converter());
             jsonSerializerSettings.Converters.Add(new Vector2Converter());
+            jsonSerializerSettings.Converters.Add(new ColorConverter());
 
             // generate data from string
             var data = JsonConvert.DeserializeObject<T>(

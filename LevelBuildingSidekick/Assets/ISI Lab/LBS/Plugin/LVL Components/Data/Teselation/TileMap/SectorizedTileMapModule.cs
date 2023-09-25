@@ -550,6 +550,44 @@ public class SectorizedTileMapModule : LBSModule, ISelectable
     {
         throw new NotImplementedException();
     }
+
+    public override bool Equals(object obj)
+    {
+        var other = obj as SectorizedTileMapModule;
+
+        if(other == null) return false;
+
+        var zCount = other.zones.Count;
+
+        if(zCount != this.zones.Count) return false;
+
+        for (int i = 0; i < zCount; i++)
+        {
+            var z1 = this.zones[i];
+            var z2 = other.zones[i];
+
+            if(!z1.Equals(z2)) return false;
+        }
+
+        var pCount = other.pairs.Count;
+
+        if (pCount != this.pairs.Count) return false;
+
+        for (int i = 0; i < pCount; i++)
+        {
+            var p1 = this.pairs[i];
+            var p2 = other.pairs[i];
+
+            if (!p1.Equals(p2)) return false;
+        }
+
+        return true;
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
     #endregion
 }
 
@@ -557,10 +595,10 @@ public class SectorizedTileMapModule : LBSModule, ISelectable
 public class TileZonePair : ICloneable
 {
     #region FIELDS
-    [SerializeField, SerializeReference, JsonRequired]
+    [SerializeField, JsonRequired]
     private LBSTile tile;
 
-    [SerializeField, SerializeReference, JsonRequired]
+    [SerializeField, JsonRequired]
     private Zone zone;
     #endregion
 
@@ -591,6 +629,24 @@ public class TileZonePair : ICloneable
         var cZone = CloneRefs.Get(zone) as Zone;
 
         return new TileZonePair(cTile, cZone);
+    }
+
+    public override bool Equals(object obj)
+    {
+        var other = obj as TileZonePair;
+
+        if (other == null) return false;
+
+        if (!this.tile.Equals(other.tile)) return false;
+
+        if (!this.zone.Equals(other.zone)) return false;
+
+        return true;
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
     }
     #endregion
 

@@ -91,14 +91,6 @@ namespace LBS.Components.TileMap
         #endregion
 
         #region METHODS
-        /*
-        public void InitEvents()
-        {
-            OnAddTile += (module, tile) => { OnChanged?.Invoke(module); };
-            OnRemoveTile += (module, tile) => { OnChanged?.Invoke(module); };
-        }
-        */
-
         public virtual void AddTile(LBSTile tile)
         {
             var t = GetTile(tile.Position);
@@ -292,6 +284,32 @@ namespace LBS.Components.TileMap
                 r.Add(tile);
             }
             return r;
+        }
+
+        public override bool Equals(object obj)
+        {
+            var other = obj as TileMapModule;
+
+            if (other == null) return false;
+
+            var tileCount = other.tiles.Count;
+
+            if(this.tiles.Count != tileCount) return false;
+
+            for (int i = 0; i < tileCount; i++)
+            {
+                var t1 = this.tiles[i];
+                var t2 = other.tiles[i];
+
+                if (!t1.Equals(t2)) return false;
+            }
+
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
 
         /*

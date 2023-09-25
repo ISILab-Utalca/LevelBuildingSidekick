@@ -14,12 +14,12 @@ public class Zone : ICloneable
 
     [SerializeField, JsonRequired]
     protected string id = "Zone";
-    [SerializeField, JsonRequired, JsonConverter(typeof(ColorConverter))]
+    [SerializeField, JsonRequired, JsonConverter(typeof(Color))]
     protected Color color;
     [SerializeField, JsonRequired, JsonConverter(typeof(Vector2))]
     protected Vector2 pivot;
 
-    [ScriptableObjectReference(typeof(LBSIdentifier), "Interior Styles")]
+    //[ScriptableObjectReference(typeof(LBSIdentifier), "Interior Styles")]
     [SerializeField, JsonRequired]
     private List<string> tagsBundles = new List<string>();
     #endregion
@@ -81,6 +81,25 @@ public class Zone : ICloneable
         return clone;
     }
 
+    public override bool Equals(object obj)
+    {
+        var other = obj as Zone;
+
+        if (other == null) return false;
+
+        if(!id.Equals(other.id)) return false;
+
+        if(!color.Equals(other.color)) return false;
+
+        if(!pivot.Equals(other.pivot)) return false;
+
+        return true;  
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
     #endregion
 }
 
