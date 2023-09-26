@@ -164,7 +164,7 @@ public class ConstraintPair : ICloneable
 
     public object Clone()
     {
-        var clone = new ConstraintPair(zone.Clone() as Zone,constraint.Clone() as Constraint);
+        var clone = new ConstraintPair(CloneRefs.Get(zone) as Zone, CloneRefs.Get(constraint) as Constraint);
         return clone;
     }
 }

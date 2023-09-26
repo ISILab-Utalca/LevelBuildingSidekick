@@ -70,15 +70,7 @@ public class Zone : ICloneable
     #region METHODS
     public object Clone()
     {
-        Zone clone = CloneRefs.Get(this) as Zone;
-
-        if (clone == null)
-        {
-            clone = new Zone(this.id, this.color);
-            CloneRefs.Add(this, clone);
-        }
-
-        return clone;
+        return new Zone(this.id, this.color);
     }
 
     #endregion

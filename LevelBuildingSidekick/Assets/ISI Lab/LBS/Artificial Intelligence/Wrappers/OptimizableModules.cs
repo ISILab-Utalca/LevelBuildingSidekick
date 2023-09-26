@@ -33,7 +33,7 @@ public class OptimizableModules : IOptimizable
     #region METHODS
     public object Clone()
     {
-        var clone = new List<LBSModule>(this.modules);//.Clone();
+        var clone = new List<LBSModule>(this.modules.Clone());
         return clone;
     }
 

@@ -42,9 +42,6 @@ public class HillClimbingAssistant : LBSAssistant
     [JsonIgnore, NonSerialized]
     private Stopwatch clock = new Stopwatch();
 
-    [JsonIgnore, NonSerialized]
-    private LBSLayer layer;
-
     /*
     [JsonIgnore]
     private ConnectedZonesModule graph;
@@ -259,6 +256,7 @@ public class HillClimbingAssistant : LBSAssistant
         // Set first population
         var adam = new OptimizableModules(layer.Modules);
 
+
         var selection = new EliteSelection();
         var termination = new FitnessStagnationTermination(1); // agregar termination de maximo local
         var evaluator = new WeightedEvaluator(new System.Tuple<IEvaluator, float>[] //agregar parametros necesarios a las clases de evaluaci�n
@@ -272,6 +270,8 @@ public class HillClimbingAssistant : LBSAssistant
         var population = new Population(1, 100, adam); // agregar parametros
 
         hillClimbing = new HillClimbing(population, evaluator, selection, GetNeighbors, termination); // asignar Adam
+
+        hillClimbing.OnGenerationRan += () => Debug.Log(hillClimbing.BestCandidate.Fitness);
 
     }
 
@@ -309,12 +309,15 @@ public class HillClimbingAssistant : LBSAssistant
 
         // Init empty neigh group
         var neighbours = new List<IOptimizable>();
+        Debug.Log("z: " + zones.ZonesWithTiles.Count);
         foreach (var zone in zones.ZonesWithTiles)
         {
             // Get Schema walls for zones
             var vWalls = zones.GetVerticalWalls(zone);
             var hWalls = zones.GetHorizontalWalls(zone);
             var walls = vWalls.Concat(hWalls).ToList();
+
+            Debug.Log("w: " + walls.Count);
 
             // Create a new Optimizable for each wall
             foreach (var wall in walls)
@@ -337,14 +340,14 @@ public class HillClimbingAssistant : LBSAssistant
                 neighbours.Add(neigth);
             }
 
-            /*
+            
             // Create optimizalbe moving zones
             foreach( var dir in Dirs)
             {
                 var neigth = GetNeigthByMove(adam,zone.ID, dir);
                 neighbours.Add(neigth);
             }
-            */
+            
         }
 
         return neighbours;
@@ -370,6 +373,7 @@ public class HillClimbingAssistant : LBSAssistant
         var zonesMod = modules.GetModule<SectorizedTileMapModule>();
         var tilesMod = modules.GetModule<TileMapModule>();
         var connectMod = modules.GetModule<ConnectedTileMapModule>();
+
 
         foreach (var pos in walls)
         {
@@ -430,6 +434,7 @@ public class HillClimbingAssistant : LBSAssistant
         // Get relative modules
         var zonesMod = modules.GetModule<SectorizedTileMapModule>();
         var tilesMod = modules.GetModule<TileMapModule>();
+        var connectionMod = modules.GetModule<ConnectedTileMapModule>();
 
         zonesMod.MoveArea(zone, dir);
 

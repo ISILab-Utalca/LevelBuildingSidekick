@@ -81,6 +81,8 @@ public class ConnectedTileMapModule : LBSModule
     { 
         if (pairs.Count <= 0)
             return null;
+        if (tile == null)
+            Debug.Log("null");
         return pairs.Find(t => t.Tile.Equals(tile));
     }
 
@@ -256,8 +258,8 @@ public class TileConnectionsPair : ICloneable // esto puede ser TAG/BUNDLE en ve
     public object Clone()
     {
         return new TileConnectionsPair(
-            tile,
-            connections.Select(c => c.Clone()).Cast<string>(),
+            CloneRefs.Get(tile) as LBSTile,
+            connections.Select(c => c.Clone() as string),
             new List<bool>(editedByIA)
             );
     }

@@ -112,7 +112,7 @@ public class ConnectedZonesModule : LBSModule
         var edgesClone = edges.Select(e => e.Clone()).Cast<ZoneEdge>();
         foreach (var edge in edgesClone)
         {
-            AddEdge(edge);
+            clone.AddEdge(edge);
         }
 
         return clone;
@@ -187,7 +187,7 @@ public class ZoneEdge : ICloneable
     #region METHODS
     public object Clone()
     {
-        return new ZoneEdge(first.Clone() as Zone, second.Clone() as Zone);
+        return new ZoneEdge(CloneRefs.Get(first) as Zone, CloneRefs.Get(second) as Zone);
     }
     #endregion
 }

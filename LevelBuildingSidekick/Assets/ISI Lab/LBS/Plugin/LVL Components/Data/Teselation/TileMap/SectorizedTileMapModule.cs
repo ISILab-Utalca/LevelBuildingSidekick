@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [System.Serializable]
 public class SectorizedTileMapModule : LBSModule, ISelectable
@@ -172,7 +173,7 @@ public class SectorizedTileMapModule : LBSModule, ISelectable
         var tiles = new List<LBSTile>();
         foreach (var pair in pairs)
         {
-            if (pair.Zone == zone)
+            if (pair.Zone.Equals(zone))
             {
                 tiles.Add(pair.Tile);
             }
@@ -444,7 +445,8 @@ public class SectorizedTileMapModule : LBSModule, ISelectable
         {
             for (int j = 0; j < tiles2.Count; j++)
             {
-                var dist = Vector2Int.Distance(tiles1[i].Position, tiles2[j].Position);
+                var v = tiles1[i].Position - tiles2[j].Position;
+                var dist = Mathf.Abs(v.x) + Mathf.Abs(v.y);
                 if (dist <= lessDist)
                 {
                     lessDist = dist;
@@ -521,7 +523,7 @@ public class SectorizedTileMapModule : LBSModule, ISelectable
 
     public override object Clone()
     {
-        var zones = this.zones.Select(t => t.Clone()).Cast<Zone>().ToList();
+        var zones = this.zones.Select(z => CloneRefs.Get(z)).Cast<Zone>().ToList();
         var pairs = this.pairs.Select(t => t.Clone()).Cast<TileZonePair>().ToList();
 
         var clone = new SectorizedTileMapModule(zones, pairs, this.id);

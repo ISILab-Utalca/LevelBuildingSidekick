@@ -58,7 +58,7 @@ namespace LBS.Components.TileMap
         {
             if(obj is LBSTile)
             {
-                var b = Position.Equals((obj as LBSTile).Position);
+                var b = Position == (obj as LBSTile).Position;
                 return b;
             }
             return false;
@@ -71,15 +71,7 @@ namespace LBS.Components.TileMap
 
         public virtual object Clone()
         {
-            LBSTile clone = CloneRefs.Get(this) as LBSTile;
-
-            if(clone == null)
-            {
-                clone = new LBSTile(this.Position);
-                CloneRefs.Add(this, clone);
-            }
-
-            return clone;
+            return new LBSTile(Position);
         }
         #endregion
     }
