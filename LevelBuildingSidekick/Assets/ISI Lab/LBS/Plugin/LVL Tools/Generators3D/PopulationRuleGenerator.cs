@@ -38,13 +38,12 @@ namespace LBS.Generator
             var tiles = data.Tiles;
             foreach (var tile in tiles)
             {
-                var tag = tile.BundleData.Identifier.Label;
                 Bundle current = null;
                 foreach (var b in bundles)
                 {
                     var id = b.name;
                     
-                    if (id.Equals(tag))
+                    if (id.Equals(tile.BundleData.BundleName))
                         current = b;
                 }
 
@@ -64,7 +63,7 @@ namespace LBS.Generator
                 go.transform.position = new Vector3(
                     scale.x * tile.Tile.Position.x,
                     0,
-                    -scale.y * tile.Tile.Position.y) + new Vector3(scale.x, 0, -scale.y) / 2;
+                    scale.y * tile.Tile.Position.y) - new Vector3(scale.x, 0, scale.y) / 2;
                 var r = Directions.Bidimencional.Edges.FindIndex(v => v == tile.Rotation);
                 if(r % 2 == 0)
                     go.transform.rotation = Quaternion.Euler(0, -90 * (r - 1), 0);
