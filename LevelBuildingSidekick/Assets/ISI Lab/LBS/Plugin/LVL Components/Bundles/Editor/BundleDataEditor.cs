@@ -25,7 +25,8 @@ public class BundleDataEditor : LBSCustomEditor
     protected override VisualElement CreateVisualElement()
     {
         var data = target as BundleData;
-        this.Add(Editor.CreateEditor(data.Identifier).CreateInspectorGUI());
+
+        this.Add(new Label(data.BundleName));
 
 
         this.Add(new Label("Characteristics"));
