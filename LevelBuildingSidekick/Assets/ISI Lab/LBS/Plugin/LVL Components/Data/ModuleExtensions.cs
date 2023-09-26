@@ -44,7 +44,7 @@ public static class CloneRefs
     {
         if(cicloDeClonado)
         {
-            Debug.LogWarning("No puedes iniciar un ciclo de clona teneindo uno previamente iniciado");
+            throw new Exception("No puedes iniciar un ciclo de clona teneindo uno previamente iniciado");
         }
 
         cicloDeClonado = true;
@@ -60,8 +60,7 @@ public static class CloneRefs
     {
         if (!cicloDeClonado)
         {
-            Debug.LogWarning("No puedes añadir si no has iniciado un ciclo de clonado.");
-            return;
+            throw new Exception("No puedes añadir si no has iniciado un ciclo de clonado.");
         }
 
         dictionary[original] = clone;
@@ -71,17 +70,18 @@ public static class CloneRefs
     {
         if (!cicloDeClonado)
         {
-            Debug.LogWarning("No puedes obtener si no has iniciado un ciclo de clonado.");
-            return null;
+            throw new Exception("No puedes obtener si no has iniciado un ciclo de clonado.");
         }
 
-        try
+        if(dictionary.ContainsKey(original))
         {
             return dictionary[original];
         }
-        catch(Exception e)
+        else
         {
-            return null;
+            var clone = (original as ICloneable).Clone();
+            dictionary[original] = clone;
+            return clone;
         }
     }
 
