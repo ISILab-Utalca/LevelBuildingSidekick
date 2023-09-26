@@ -35,7 +35,7 @@ public class LBSLevelData
         foreach (var layer in layers)
         {
             layer.Reload();
-            layer.OnAddModule += (layer, module) => this.OnChanged(this);
+            layer.OnAddModule += (layer, module) => this.OnChanged?.Invoke(this);
             layer.Parent = this;
         }
     }
@@ -77,7 +77,7 @@ public class LBSLevelData
             return;
 
         layers.Insert(0, layer);
-        layer.OnAddModule += (layer, module) => this.OnChanged(this);
+        layer.OnAddModule += (layer, module) => this.OnChanged?.Invoke(this);
         layer.Parent = this;
         this.OnChanged?.Invoke(this);
     }

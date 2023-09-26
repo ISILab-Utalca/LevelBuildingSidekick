@@ -317,9 +317,12 @@ namespace LBS.Components
             {
                 return false;
             }
+
             modules.Add(module);
             module.OnAttach(this);
-            OnAddModule?.Invoke(this, module);
+
+            this.OnAddModule?.Invoke(this, module);
+
             return true;
         }
 

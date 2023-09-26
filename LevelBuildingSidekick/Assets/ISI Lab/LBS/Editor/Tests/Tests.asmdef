@@ -5,7 +5,9 @@
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "LBS",
-        "Commons"
+        "Commons",
+        "Commons.Editor",
+        "LBS.Editor"
     ],
     "includePlatforms": [
         "Editor"
