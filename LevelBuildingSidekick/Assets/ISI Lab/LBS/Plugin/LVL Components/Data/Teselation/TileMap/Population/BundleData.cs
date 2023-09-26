@@ -16,14 +16,19 @@ namespace LBS.Components.TileMap
         protected List<LBSCharacteristic> characteristics = new List<LBSCharacteristic>();
 
         [SerializeField, JsonRequired]
-        protected string bundleTag;
+        protected string bundleName;
 
         #endregion
 
         #region PROPERTIES
 
         [JsonIgnore]
-        public LBSIdentifier Identifier => LBSAssetsStorage.Instance.Get<LBSIdentifier>().Find(s => s.Label == bundleTag);
+        public string BundleName => bundleName;
+
+        [JsonIgnore]
+        public Bundle Bundle => LBSAssetsStorage.Instance.Get<Bundle>().Find(s => s.Name == bundleName);
+
+        [JsonIgnore]
         public List<LBSCharacteristic> Characteristics => new List<LBSCharacteristic>(characteristics);
         #endregion
 
@@ -35,7 +40,7 @@ namespace LBS.Components.TileMap
 
         public BundleData(string bundle, List<LBSCharacteristic> characteristics)
         {
-            this.bundleTag = bundle;
+            this.bundleName = bundle;
             foreach(var c in characteristics)
                 this.characteristics.Add(c.Clone() as LBSCharacteristic);
 
@@ -50,7 +55,7 @@ namespace LBS.Components.TileMap
         #region METHODS
         public object Clone()
         {
-            return new BundleData(bundleTag, characteristics.Select(c => c.Clone() as LBSCharacteristic).ToList());
+            return new BundleData(bundleName, characteristics.Select(c => c.Clone() as LBSCharacteristic).ToList());
         }
 
         public override bool Equals(object obj)
@@ -58,7 +63,7 @@ namespace LBS.Components.TileMap
             if(obj is Bundle)
             {
                 var b = obj as Bundle;
-                return b.name == bundleTag;
+                return b.name == bundleName;
             }
             return base.Equals(obj);
         }
