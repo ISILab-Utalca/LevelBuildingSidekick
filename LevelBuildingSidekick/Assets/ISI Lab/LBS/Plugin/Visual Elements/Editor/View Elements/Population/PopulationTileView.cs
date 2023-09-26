@@ -31,7 +31,7 @@ public class PopulationTileView : GraphElement
 
         icon = this.Q<VisualElement>(name: "Icon");
 
-        var id = tile.BundleData.Identifier;
+        var id = tile.BundleData.Bundle;
         SetColor(id.Color);
         SetImage(id.Icon);
         SetDirection(tile.Rotation);
