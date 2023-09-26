@@ -100,7 +100,7 @@ public class BundleTilemapChromosome : ChromosomeBase2D, IDrawable
             }
             else
             {
-                var source = (genes[i] as BundleData).Identifier.Icon;
+                var source = (genes[i] as BundleData).Bundle.Icon;
                 var t = new Texture2D(source.width, source.height);
                 t.SetPixels(source.GetPixels());
                 t.MirrorY();
