@@ -24,7 +24,8 @@ public class PopulationDrawer : Drawer
         {
             var v = new PopulationTileView(t);
             var size = population.Owner.TileSize * LBSSettings.Instance.general.TileSize;
-            v.SetPosition(new Rect(t.Tile.Position * size, size));
+            var p = new Vector2(t.Tile.Position.x, -t.Tile.Position.y);
+            v.SetPosition(new Rect(p * size, size));
             view.AddElement(v);
 
         }
