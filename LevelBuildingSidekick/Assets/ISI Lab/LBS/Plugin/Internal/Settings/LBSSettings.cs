@@ -75,7 +75,7 @@ namespace LBS.Settings
             public string settingsPath = "Assets/ISI Lab/LBS/Plugin/Internal/Settings/Resources/LBS Settings.asset";
             public string storagePath = "Assets/ISI Lab/LBS/Plugin/Internal/Editor/LBS Storage.asset";
             public string pressetsPath = "Assets/ISI Lab/LBS/Presets/LBS Presets.asset";
-            public string backUpPath = "Assets/ISI Lab/LBS/Plugin/Internal/Resources/BackUp/LBSBackUp.asset";
+            public string backUpPath = "Assets/ISI Lab/LBS/Plugin/Internal/Resources/LBSBackUp.asset";
 
             // Folders data storages
             public string bundleFolderPath = "Assets/ISI Lab/LBS/Data/Bundles";
