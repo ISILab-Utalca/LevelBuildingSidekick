@@ -28,4 +28,5 @@ MonoBehaviour:
       type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
       data:
         label: 
+        isSavableOnJSON: 1
         value: {fileID: 11400000, guid: 94b707ea81720694d8e3ac214351af91, type: 2}

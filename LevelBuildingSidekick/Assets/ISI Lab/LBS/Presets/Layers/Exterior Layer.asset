@@ -19,14 +19,14 @@ MonoBehaviour:
     id: Exterior
     name: Layer Exterior
     modules:
-    - rid: 6566551137805140000
-    - rid: 6566551137805140001
+    - rid: 6566551139516153865
+    - rid: 6566551139516153866
     behaviours:
-    - rid: 6566551137805140002
+    - rid: 6566551139516153867
     assitants:
-    - rid: 6566551137805140003
+    - rid: 6566551139516153868
     generatorRules:
-    - rid: 6566551137805140004
+    - rid: 6566551139516153869
     settings:
       scale: {x: 10, y: 10}
       resize: {x: 0, y: 0}
@@ -35,36 +35,36 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 6566551137805140000
+    - rid: 6566551139516153865
       type: {class: TileMapModule, ns: LBS.Components.TileMap, asm: LBS}
       data:
         id: TileMapModule
         tiles: []
-    - rid: 6566551137805140001
+    - rid: 6566551139516153866
       type: {class: ConnectedTileMapModule, ns: , asm: LBS}
       data:
         id: ConnectedTileMapModule
         connectedDirections: 4
         pairs: []
-    - rid: 6566551137805140002
+    - rid: 6566551139516153867
       type: {class: ExteriorBehaviour, ns: , asm: LBS}
       data:
         icon: {fileID: 2800000, guid: 771d36a714319204ea4ddcbecdc2006e, type: 3}
         name: Exteriror behaviour
         targetBundle: 
-    - rid: 6566551137805140003
+    - rid: 6566551139516153868
       type: {class: AssistantWFC, ns: , asm: LBS}
       data:
         name: Assistant WFC
         overrideValues: 0
         targetBundle: 
-    - rid: 6566551137805140004
+    - rid: 6566551139516153869
       type: {class: ExteriorRuleGenerator, ns: LBS.Generator, asm: LBS}
       data:
         generator3D:
           settings:
-            scale: {x: 0, y: 0}
+            scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
-            name: 
+            name: DEFAULT
           rules: []
