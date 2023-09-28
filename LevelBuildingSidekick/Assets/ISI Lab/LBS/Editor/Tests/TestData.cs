@@ -11,8 +11,9 @@ using System.Linq;
 using LBS.Components.TileMap;
 using UnityEngine.Tilemaps;
 using System;
+using LBS.Bundles;
 
-public class TestData
+public class Test_Simple_Module
 {
     // Test folder path
     private static string path = LBSSettings.Instance.test.TestFolderPath;
@@ -185,7 +186,7 @@ public class TestData
         var zone2 = new Zone("Zone-2", Color.blue);
         sectoerized.AddZone(zone1);
         sectoerized.AddZone(zone2);
-        connectedZones.AddEdge(zone1,zone2);
+        connectedZones.AddEdge(zone1, zone2);
 
         // Save the level as JSON
         JSONDataManager.SaveData(path, "Layer_With_ConnectedZones.tst", lvl);
@@ -233,6 +234,46 @@ public class TestData
         Assert.AreEqual(lvl, loaded);
     }
 
+    [Test]
+    public void Save_And_Load_Bundle_TileMap()
+    {
+        // Create a level
+        var lvl = new LBSLevelData();
+
+        // Add an empty layer to it
+        var layer = new LBSLayer();
+        lvl.AddLayer(layer);
+
+        // Add BundleTile
+        var bundleMap = new BundleTileMap();
+        layer.AddModule(bundleMap);
+
+        // Get some bundle
+        var bundle = LBSAssetsStorage.Instance.Get<Bundle>()[0];
+        var dir = Directions.Bidimencional.All[0];
+
+        // Add some data
+        var tile = new LBSTile(new Vector2(0, 0));
+        bundleMap.AddTile(tile, new BundleData("data", new List<LBSCharacteristic>(bundle.Characteristics)), dir);
+
+        // Save the level as JSON
+        JSONDataManager.SaveData(path, "Layer_With_BundleTileMap.tst", lvl);
+
+        // Load the level from JSON
+        var loaded = JSONDataManager.LoadData<LBSLevelData>(path, "Layer_With_BundleTileMap.tst");
+
+        // Check if loaded level is not null
+        Assert.IsNotNull(loaded);
+
+        // Cheack if the new level and previously are equals
+        Assert.AreEqual(lvl, loaded);
+    }
+}
+
+public class Test_Template_Layers
+{
+    // Test folder path
+    private static string path = LBSSettings.Instance.test.TestFolderPath;
 
     [Test]
     public void Save_And_Load_Interior_Layer()
@@ -254,10 +295,10 @@ public class TestData
         schemaBH.AddTile(new Vector2Int(0, 0), schemaBH.Zones[0]);
 
         // Save the level as JSON
-        JSONDataManager.SaveData(path, "Interiror_Layer.tst", lvl);
+        JSONDataManager.SaveData(path, "Interior_Layer.tst", lvl);
 
         // Load the level from JSON
-        var loaded = JSONDataManager.LoadData<LBSLevelData>(path, "Interiror_Layer.tst");
+        var loaded = JSONDataManager.LoadData<LBSLevelData>(path, "Interior_Layer.tst");
 
         // Check if loaded level is not null
         Assert.IsNotNull(loaded);
@@ -270,27 +311,70 @@ public class TestData
     [Test]
     public void Save_And_Load_Exterior_Layer()
     {
-        Assert.IsTrue(false);
+        // Create a level
+        var lvl = new LBSLevelData();
+
+        // Get interior presset
+        var template = LBSAssetsStorage.Instance.Get<LayerTemplate>().First(t => t.name.Contains("Exterior"));
+
+        // Clone Interior presset
+        var layer = template.layer.Clone() as LBSLayer;
+        lvl.AddLayer(layer);
+
+        // Get Bundle
+        var bundle = LBSAssetsStorage.Instance.Get<Bundle>().First(b => b.name.Contains("Exterior_Plains"));
+
+        // Add some data
+        var exteriorBH = layer.Behaviours[0] as ExteriorBehaviour;
+        exteriorBH.TargetBundle = bundle.Name;
+        var tile = new LBSTile(new Vector2(0, 0));
+        exteriorBH.AddTile(tile);
+        exteriorBH.SetConnection(tile, 0, "Grass", true);
+
+        // Save the level as JSON
+        JSONDataManager.SaveData(path, "Exterior_Layer.tst", lvl);
+
+        // Load the level from JSON
+        var loaded = JSONDataManager.LoadData<LBSLevelData>(path, "Exterior_Layer.tst");
+
+        // Check if loaded level is not null
+        Assert.IsNotNull(loaded);
+
+        // Cheack if the new level and previously are equals
+        Assert.AreEqual(lvl, loaded);
     }
 
     [Test]
     public void Save_And_Load_Population_Layer()
     {
-        Assert.IsTrue(false);
+        // Create a level
+        var lvl = new LBSLevelData();
+
+        // Get interior presset
+        var template = LBSAssetsStorage.Instance.Get<LayerTemplate>().First(t => t.name.Contains("Population"));
+
+        // Clone Interior presset
+        var layer = template.layer.Clone() as LBSLayer;
+        lvl.AddLayer(layer);
+
+        // Get Bundle
+        var bundle = LBSAssetsStorage.Instance.Get<Bundle>().First(b => b.name.Contains("Goblin"));
+
+        // Add some data
+        var populationBH = layer.Behaviours[0] as PopulationBehaviour;
+        populationBH.AddTile(new Vector2Int(0, 0), bundle);
+
+        // Save the level as JSON
+        JSONDataManager.SaveData(path, "Exterior_Layer.tst", lvl);
+
+        // Load the level from JSON
+        var loaded = JSONDataManager.LoadData<LBSLevelData>(path, "Exterior_Layer.tst");
+
+        // Check if loaded level is not null
+        Assert.IsNotNull(loaded);
+
+        // Cheack if the new level and previously are equals
+        Assert.AreEqual(lvl, loaded);
+
     }
-
-    [Test]
-    public void Save_And_Load_XXX_Layer()
-    {
-        Assert.IsTrue(false);
-    }
-
-    // [TEST] Chequear que las referencias entre modulos sigan funcionando
-    // [TEST] Cheaquear que los eventos esten conectados cuando corresponda
-    // [TEST] XXX
-    // [TEST] XXX
-    // [TEST] XXX
-    // [TEST] XXX
-    // [TEST] XXX
-
 }
