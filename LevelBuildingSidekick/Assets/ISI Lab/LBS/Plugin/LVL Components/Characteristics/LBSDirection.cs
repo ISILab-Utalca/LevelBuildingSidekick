@@ -97,6 +97,16 @@ public class LBSDirection : LBSCharacteristic, ICloneable
             };
         */
     }
+
+    public override bool Equals(object obj)
+    {
+        return false; // Implementar bien (!!)
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
     #endregion
 
 }

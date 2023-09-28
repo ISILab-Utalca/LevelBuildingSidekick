@@ -18,7 +18,7 @@ namespace LBS.Assisstants
         private LBSLayer owner;
         [NonSerialized, HideInInspector, JsonIgnore]
         private Texture2D icon;
-        [SerializeField]
+        [SerializeField, JsonRequired]
         private string name;
         #endregion
 

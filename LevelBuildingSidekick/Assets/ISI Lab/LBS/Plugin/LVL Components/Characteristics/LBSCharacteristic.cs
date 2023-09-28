@@ -11,13 +11,20 @@ using LBS.Bundles;
 [System.Serializable]
 public abstract class LBSCharacteristic : ICloneable
 {
+    #region FIELDS
     [HideInInspector, JsonIgnore]
     private Bundle owner;
-    [HideInInspector, JsonIgnore]
-    public Bundle Owner => owner;
 
     [JsonRequired, SerializeField]
     protected string label = "";
+
+    [JsonIgnore, SerializeField]
+    private bool isSavableOnJSON = true;
+    #endregion
+
+    #region PROPERTIES
+    [HideInInspector, JsonIgnore]
+    public Bundle Owner => owner;
 
     [JsonIgnore]
     public string Label
@@ -25,26 +32,18 @@ public abstract class LBSCharacteristic : ICloneable
         get => label;
         set => label = value;
     }
+    #endregion
 
+    #region CONSTRUCTORS
     public LBSCharacteristic() { }
 
     public LBSCharacteristic(string label)
     {
         this.label = label;
     }
+    #endregion
 
-    public abstract object Clone();
-
-    public override bool Equals(object obj)
-    {
-        return base.Equals(obj); //obj is LBSCharacteristic && (obj as LBSCharacteristic)?.label == label;
-    }
-
-    public override int GetHashCode()
-    {
-        return base.GetHashCode();
-    }
-
+    #region METHODS
     /// <summary>
     /// esta funcion es para que la characteristic tenga axeso a el bundle que lo posee
     /// asi podemos tener acciones o itenracciones dentro bharacteristics
@@ -56,5 +55,16 @@ public abstract class LBSCharacteristic : ICloneable
     }
 
     public abstract void OnEnable();
+
+    public abstract object Clone();
+
+
+    public abstract override bool Equals(object obj);
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
+    #endregion
 
 }

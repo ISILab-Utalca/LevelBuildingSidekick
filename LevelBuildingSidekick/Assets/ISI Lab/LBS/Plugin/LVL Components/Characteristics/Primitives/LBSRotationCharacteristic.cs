@@ -35,4 +35,21 @@ public class LBSRotationCharacteristic : LBSCharacteristic
     {
         throw new System.NotImplementedException();
     }
+
+    public override string ToString()
+    {
+        return base.ToString();
+    }
+
+    public override bool Equals(object obj)
+    {
+        var other = obj as LBSRotationCharacteristic;
+
+        return other.rotation.Equals(this.rotation);
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
 }

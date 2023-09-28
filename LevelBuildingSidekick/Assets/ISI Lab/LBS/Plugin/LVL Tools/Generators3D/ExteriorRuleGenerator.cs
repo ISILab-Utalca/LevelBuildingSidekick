@@ -22,11 +22,6 @@ namespace LBS.Generator
             return (module != null);
         }
 
-        public override object Clone()
-        {
-            return new ExteriorRuleGenerator();
-        }
-
         private Tuple<LBSDirection,int> GetBundle(LBSDirectionedGroup group, string[] conections)
         {
             // Get connections
@@ -46,7 +41,7 @@ namespace LBS.Generator
             return null;
         }
 
-        
+
         public override GameObject Generate(LBSLayer layer, Generator3D.Settings settings)
         {
             // Get bundles
@@ -54,7 +49,7 @@ namespace LBS.Generator
 
             // Get CharacteristicGroup bundles
             bundles = bundles.Where(b => b.GetCharacteristics<LBSDirectionedGroup>().Count > 0 && !b.IsPresset).ToList();
-            
+
             var selected = bundles[0].GetCharacteristics<LBSDirectionedGroup>()[0];
 
             // Create pivot
@@ -83,16 +78,35 @@ namespace LBS.Generator
                 go.transform.position = new Vector3((tile.Position.x) * scale.x, 0, (tile.Position.y) * scale.y) + new Vector3(scale.x, 0, scale.y) / 2;
 
                 if (pair.Item2 % 2 == 0)
-                    go.transform.rotation = Quaternion.Euler(0, 90 * (pair.Item2 ) % 360, 0);
-                    //go.SetActive(false);
+                    go.transform.rotation = Quaternion.Euler(0, 90 * (pair.Item2) % 360, 0);
+                //go.SetActive(false);
                 else
                     //go.SetActive(false);
-                    go.transform.rotation = Quaternion.Euler(0, 90 * (pair.Item2 -2) % 360, 0);
+                    go.transform.rotation = Quaternion.Euler(0, 90 * (pair.Item2 - 2) % 360, 0);
 
             }
 
             mainPivot.transform.position += settings.position;
             return mainPivot;
+        }
+
+        public override object Clone()
+        {
+            return new ExteriorRuleGenerator();
+        }
+
+        public override bool Equals(object obj)
+        {
+            var other = obj as ExteriorRuleGenerator;
+
+            if (other == null) return false;
+
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

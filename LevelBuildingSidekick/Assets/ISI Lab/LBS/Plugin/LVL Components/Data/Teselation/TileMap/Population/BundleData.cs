@@ -11,13 +11,16 @@ namespace LBS.Components.TileMap
     public class BundleData : ICloneable
     {
         #region FIELDS
-
         [SerializeField, JsonRequired, SerializeReference]
         protected List<LBSCharacteristic> characteristics = new List<LBSCharacteristic>();
 
         [SerializeField, JsonRequired]
+<<<<<<< Updated upstream
         protected string bundleName;
 
+=======
+        protected string bundleTag;
+>>>>>>> Stashed changes
         #endregion
 
         #region PROPERTIES
@@ -33,7 +36,6 @@ namespace LBS.Components.TileMap
         #endregion
 
         #region CONSTRUCTOR
-
         public BundleData()
         {
         }
@@ -49,7 +51,6 @@ namespace LBS.Components.TileMap
         public BundleData(Bundle bundle) : this(bundle.name, bundle.Characteristics)
         {
         }
-
         #endregion
 
         #region METHODS
@@ -58,6 +59,7 @@ namespace LBS.Components.TileMap
             return new BundleData(bundleName, characteristics.Select(c => c.Clone() as LBSCharacteristic).ToList());
         }
 
+<<<<<<< Updated upstream
         public override bool Equals(object obj)
         {
             if(obj is Bundle)
@@ -68,6 +70,8 @@ namespace LBS.Components.TileMap
             return base.Equals(obj);
         }
 
+=======
+>>>>>>> Stashed changes
         public LBSCharacteristic GetCharasteristic(Type type)
         {
             return characteristics.Find(c => c.GetType() == type);
@@ -87,6 +91,27 @@ namespace LBS.Components.TileMap
         public override string ToString()
         {
             return base.ToString();
+        }
+
+        public override bool Equals(object obj)
+        {
+            var other = obj as BundleData;
+
+            if(other == null) return false;
+
+            if(!this.bundleTag.Equals(other.bundleTag)) return false;
+
+            var cCount = other.characteristics.Count();
+
+            for (int i = 0; i < cCount; i++)
+            {
+                var c1 = this.characteristics[i];
+                var c2 = other.characteristics[i];
+
+                if(!c1.Equals(c2)) return false;
+            }
+
+            return true;
         }
         #endregion
     }

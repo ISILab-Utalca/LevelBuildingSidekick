@@ -30,8 +30,6 @@ public class SchemaBehaviour : LBSBehaviour
     private ConnectedTileMapModule tileConnections;
     [JsonIgnore]
     private SectorizedTileMapModule areas;
-    //[JsonIgnore]
-    //private ConnectedZonesModule graph;
     #endregion
 
     #region PROEPRTIES
@@ -63,6 +61,11 @@ public class SchemaBehaviour : LBSBehaviour
         tileConnections = Owner.GetModule<ConnectedTileMapModule>();
         areas = Owner.GetModule<SectorizedTileMapModule>();
         //graph = Owner.GetModule<ConnectedZonesModule>();
+    }
+
+    public override void OnDetachLayer(LBSLayer layer)
+    {
+        throw new System.NotImplementedException();
     }
 
     public LBSTile AddTile(Vector2Int position, Zone zone)
@@ -147,29 +150,6 @@ public class SchemaBehaviour : LBSBehaviour
         return GetZone(GetTile(position.ToInt()));
     }
 
-    /*
-    public void ConnectZones(Zone first, Zone second)
-    {
-        graph.AddEdge(first, second);
-    }
-    */
-
-    /*
-    public void RemoveZoneConnection(Vector2Int position, float delta)
-    {
-        ZoneEdge edge = graph.GetEdge(position, delta);
-        graph.RemoveEdge(edge);
-        throw new System.NotImplementedException();
-    }
-    */
-
-    /*
-    public void DisconnectZones(Zone first, Zone second)
-    {
-        graph.RemoveEdge(first, second);
-    }
-    */
-
     public List<LBSTile> GetTileNeighbors(LBSTile tile, List<Vector2Int> dirs)
     {
         var tor = new List<LBSTile>();
@@ -229,9 +209,20 @@ public class SchemaBehaviour : LBSBehaviour
         return new SchemaBehaviour(this.Icon, this.Name);
     }
 
-    public override void OnDetachLayer(LBSLayer layer)
+    public override bool Equals(object obj)
     {
-        throw new System.NotImplementedException();
+        var other = obj as SchemaBehaviour;
+
+        if (other == null) return false;
+
+        if(!this.Name.Equals(other.Name)) return false;
+
+        return true;
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
     }
     #endregion
 }

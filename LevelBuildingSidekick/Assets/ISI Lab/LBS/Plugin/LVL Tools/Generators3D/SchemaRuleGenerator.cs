@@ -5,11 +5,10 @@ using LBS.Generator;
 using LBS.Components;
 using LBS.Components.Graph;
 using LBS.Components.TileMap;
-using LBS.Components.Specifics;
 using System.Linq;
-using UnityEngine.UIElements;
-using static UnityEditor.Experimental.GraphView.GraphView;
 using LBS.Bundles;
+using Newtonsoft.Json;
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -22,18 +21,25 @@ using UnityEditor;
 public class SchemaRuleGenerator : LBSGeneratorRule
 {
     #region FIELDS
+    [JsonRequired]
     private float deltaWall = 1f;
     #endregion
 
     #region INTERNAL FIELDS
+    [JsonIgnore]
     private TileMapModule tilesMod;
+    [JsonIgnore]
     private ConnectedTileMapModule connectedTilesMod;
+    [JsonIgnore]
     private SectorizedTileMapModule zonesMod;
+    [JsonIgnore]
     private Generator3D.Settings settings;
     #endregion
 
     #region PPROPERTIES
+    [JsonIgnore]
     private List<Vector2Int> Dirs => Directions.Bidimencional.Edges;
+    [JsonIgnore]
     private List<Vector2Int> DirDiags => Directions.Bidimencional.Diagonals;
     #endregion
 
@@ -211,114 +217,21 @@ public class SchemaRuleGenerator : LBSGeneratorRule
 #endif
         return obj;
     }
-    /*
-    private void BuildCorner(TiledArea area ,ConnectedTile tile, Dictionary<string, List<GameObject>> bundles, Transform parent, Generator3D.Settings settings, int fff, int ddd, int aaa)
+
+    public override bool Equals(object obj)
     {
-        var scale = settings.scale;
-        var sideDir = new List<Vector2>() { Vector2Int.right, Vector2Int.down, Vector2Int.left, Vector2Int.up };
-        var diagDir = new List<Vector2>()
-        {
-            new Vector2(1, 1),     // Diagonal superior derecha
-            new Vector2(-1, 1),    // Diagonal superior izquierda
-            new Vector2(-1, -1),   // Diagonal inferior izquierda
-            new Vector2(1, -1),    // Diagonal inferior derecha
-        };
-        var pivot = new GameObject("Tile: " + tile.Position);
-        pivot.transform.parent = parent;
-         
+        var other = obj as SchemaRuleGenerator;
 
-        var diagNeigths = diagDir.Select(dir => schema.GetTileNeighbor(tile, dir.ToInt())).ToList();
-        for (int i = 0; i < diagDir.Count; i++)
-        {
-            if (diagNeigths[i] != null)// || area.Contains(diagNeigths[i].Position))
-                continue;
+        if (other == null) return false;
 
-            var comp = diagDir[i].AsComponents();
-            var others = comp.Select(dir => area.GetTile(tile.Position + dir.ToInt())).ToList();
-            //var others = comp.Select(dir => schema.GetTileNeighbor(tile, dir.ToInt())).ToList();
-            if (!others.All(t => t != null))// || !area.Contains(t.Position)))
-                continue;
+        if (!this.deltaWall.Equals(other.deltaWall)) return false;
 
-            var tag = "Corner";
-            if (bundles.ContainsKey(tag))
-            {
-                var prefabs = bundles[tag];
-
-                if (prefabs.Count <= 0)
-                {
-                    Debug.LogWarning("[ISI LAB]: uno o mas bundles continen '0' Gameobject.");
-                    continue;
-                }
-
-                var corner = CreateObject(prefabs[Random.Range(0, prefabs.Count)], pivot.transform);
-                corner = FixCornerOrientation(corner,  diagDir[i], scale, i, ddd, fff * 90, aaa);
-            }
-        }
-
-        pivot.transform.position = new Vector3(scale.x * tile.Position.x, 0, -scale.y * tile.Position.y) + new Vector3(scale.x, 0, -scale.y) / 2;
+        return true;
     }
 
-
-    private void BuildWall(ConnectedTile tile, Dictionary<string, List<GameObject>> bundles, Transform parent, Generator3D.Settings settings)
+    public override int GetHashCode()
     {
-        var scale = settings.scale;
-        var sideDir = new List<Vector2>() { Vector2.right, Vector2.up, Vector2.left, Vector2.down };
-
-        var pivot = new GameObject("Tile: " + tile.Position);
-        pivot.transform.parent = parent;
-
-        var bases = bundles["Floor"];
-
-        if(bases.Count <= 0)
-        {
-            Debug.LogWarning("[ISI LAB]: uno o mas bundles continen '0' Gameobject.");
-            return;
-        }
-
-        var index = Random.Range(0, bases.Count);
-
-        var floor = CreateObject(bases[Random.Range(0, bases.Count)], pivot.transform);
-
-        //for (int i = 0; i < tile.Sides; i++)
-        for (int i = 0; i < 4; i++)
-        {
-            var tag = tile.GetConnection(i);
-            if (bundles.ContainsKey(tag))
-            {
-                var prefabs = bundles[tag];
-
-                if (prefabs.Count <= 0)
-                {
-                    Debug.LogWarning("[ISI LAB]: uno o mas bundles continen '0' Gameobject.");
-                    return;
-                }
-
-                var wall = CreateObject(prefabs[Random.Range(0, prefabs.Count)], pivot.transform);
-                wall = FixOrientation(wall, sideDir[i], scale, i);
-
-                //var wall =  SceneView.Instantiate(prefabs[Random.Range(0, prefabs.Count)], pivot.transform);
-                //wall.transform.position += new Vector3(sideDir[i].x*(scale.x/2), 0, sideDir[i].y*(scale.y/2));
-                //wall.transform.rotation = Quaternion.Euler(0, -(90 * (i + 1)) % 360, 0);
-            }
-        }
-        pivot.transform.position = new Vector3(scale.x * tile.Position.x, 0, -scale.y * tile.Position.y) + new Vector3(scale.x, 0, -scale.y) / 2;
+        return base.GetHashCode();
     }
-    
-
-
-    private GameObject FixOrientation(GameObject obj, Vector2 dir, Vector2 scale, int rotation)
-    {
-        obj.transform.position += new Vector3(dir.x * (scale.x / 2), 0, dir.y * (scale.y / 2));
-        obj.transform.rotation = Quaternion.Euler(0, (-(90 * (rotation + 1)) % 360), 0); // -90 * (r + 1) los numeros son parche de la direnecia de orden de las direcciones (!)
-        return obj;
-    }
-
-    private GameObject FixCornerOrientation(GameObject obj, Vector2 dir, Vector2 scale, int rotation, int ddd, int fff, int aaa)
-    {
-        Debug.Log(obj.transform.parent.name + ", " + dir + ", " + rotation);
-        obj.transform.position += new Vector3(dir.x * (scale.x / 2), 0, -dir.y * (scale.y / 2));
-        obj.transform.rotation = Quaternion.Euler(0, (ddd * (90 * (rotation + aaa)) % 360) + fff, 0); // -90 * (r + 1) los numeros son parche de la direnecia de orden de las direcciones (!)
-        return obj;
-    }*/
     #endregion
 }

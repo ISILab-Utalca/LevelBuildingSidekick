@@ -22,8 +22,8 @@ public class AssistantWFC : LBSAssistant
     [SerializeField, JsonRequired]
     private bool overrideValues;
 
-    [JsonRequired, SerializeField]
-    private string targetBundle;
+    [SerializeField, JsonRequired]
+    private string targetBundle = "";
     #endregion
 
     #region PROPERTIES
@@ -222,6 +222,26 @@ public class AssistantWFC : LBSAssistant
             }
         }
         return null;
+    }
+
+    public override bool Equals(object obj)
+    {
+        var other = obj as AssistantWFC;
+
+        if (other == null) return false;
+
+        if(!other.Name.Equals(this.Name)) return false;
+
+        if(!other.targetBundle.Equals(this.targetBundle)) return false;
+
+        if(!other.overrideValues.Equals(this.overrideValues)) return false;
+
+        return true;
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
     }
     #endregion
 }

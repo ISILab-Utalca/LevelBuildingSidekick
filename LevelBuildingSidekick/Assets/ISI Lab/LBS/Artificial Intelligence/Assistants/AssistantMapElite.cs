@@ -1,21 +1,9 @@
 using LBS.AI;
-using LBS.Components;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 using Newtonsoft.Json;
 using LBS.Components.TileMap;
-using System.Linq;
-using ISILab.AI.Optimization.Selections;
-using ISILab.AI.Optimization.Populations;
-using Commons.Optimization.Evaluator;
-using ISILab.AI.Optimization.Terminations;
-using LBS.Components.Graph;
-using LBS.Tools.Transformer;
-using System.Diagnostics;
-using Debug = UnityEngine.Debug;
 using LBS.Assisstants;
 using System.Xml.Linq;
 
@@ -23,35 +11,46 @@ using System.Xml.Linq;
 [RequieredModule(typeof(BundleTileMap))]
 public class AssistantMapElite : LBSAssistant
 {
-    MapElites mapElites;
-    public Rect Rect { get; set; }
+    #region FIELDS
+    [JsonIgnore]
+    private MapElites mapElites = new MapElites();
+    [JsonIgnore]
+    public List<Vector2> toUpdate = new List<Vector2>();
+    #endregion
 
+    #region PROPERTIES
+    [JsonIgnore]
+    public Rect Rect { get; set; }
+    [JsonIgnore]
     public bool Finished => mapElites.Finished;
+    [JsonIgnore]
     public int SampleWidth
     {
         get => mapElites.XSampleCount;
         set => mapElites.XSampleCount = value;
     }
+    [JsonIgnore]
     public int SampleHeight
     {
         get => mapElites.YSampleCount;
         set => mapElites.YSampleCount = value;
     }
-
+    [JsonIgnore]
     public IOptimizable[,] Samples => mapElites.BestSamples;
+    #endregion
 
-    public List<Vector2> toUpdate = new List<Vector2>();
-
+    #region CONSTRUCTORS
     public AssistantMapElite(Texture2D icon, string name) : base(icon, name)
     {
-        mapElites = new MapElites();
     }
 
     public AssistantMapElite(MapElites mapElites, Texture2D icon, string name) : base(icon, name)
     {
         this.mapElites = mapElites;
     }
+    #endregion
 
+    #region METHODS
     public override void Execute()
     {
         //(mapElites.XEvaluator as EvaluatorVE).Init();// IS WRONG Check !!
@@ -108,6 +107,22 @@ public class AssistantMapElite : LBSAssistant
         return new AssistantMapElite(this.Icon,this.Name);
     }
 
+    public override bool Equals(object obj)
+    {
+        var other = obj as AssistantMapElite;
+        
+        if (other == null) return false;
+
+        if(!this.Name.Equals(other.Name)) return false;
+
+        return true;
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
+    #endregion
 }
 
 

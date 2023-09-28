@@ -74,5 +74,9 @@ public class LBSDirectionedGroup : LBSCharacteristic, ICloneable
         }
         return r;
     }
-   
+
+    public override bool Equals(object obj)
+    {
+        return false; // Implentar bien (!!)
+    }
 }

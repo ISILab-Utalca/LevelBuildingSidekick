@@ -10,20 +10,15 @@ using UnityEngine;
 public class BundleTileMap : LBSModule, ISelectable
 {
     #region FIELDS
-
     [SerializeField, JsonRequired]
     protected List<TileBundlePair> tiles = new List<TileBundlePair>();
-
     #endregion
 
     #region PROPERTIES
-
     public List<TileBundlePair> Tiles => new List<TileBundlePair>(tiles);
-
     #endregion
 
     #region CONSTRUCTORS
-
     public BundleTileMap() : base()
     {
         id = GetType().Name;
@@ -36,11 +31,9 @@ public class BundleTileMap : LBSModule, ISelectable
             AddTile(t);
         }
     }
-
     #endregion
 
     #region METHODS
-
     public void AddTile(TileBundlePair tile)
     {
         var t = GetTile(tile.Tile);
@@ -128,7 +121,6 @@ public class BundleTileMap : LBSModule, ISelectable
         {
             AddTile(t);
         }
-
     }
 
     public override void OnAttach(LBSLayer layer)
@@ -142,7 +134,6 @@ public class BundleTileMap : LBSModule, ISelectable
 
     public override void Reload(LBSLayer layer)
     {
-        //throw new System.NotImplementedException();
     }
 
     public override void Print()
@@ -163,10 +154,34 @@ public class BundleTileMap : LBSModule, ISelectable
 
         return r;
     }
-}
+
+    public override bool Equals(object obj)
+    {
+        var other = obj as BundleTileMap;
+
+        if (other == null)  return false;
+
+        var tCount = other.tiles.Count;
+
+        if (tCount != this.tiles.Count) return false;
+
+        for (int i = 0; i < tCount; i++)
+        {
+            var t1 = other.tiles[i];
+            var t2 = this.tiles[i];
+
+            if(!t1.Equals(t2)) return false;
+        }
+
+        return true;
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
     #endregion
-
-
+}
 
 [System.Serializable]
 public class TileBundlePair : ICloneable
@@ -208,5 +223,25 @@ public class TileBundlePair : ICloneable
     public object Clone()
     {
         return new TileBundlePair(tile.Clone() as LBSTile, bData.Clone() as BundleData, rotation);
+    }
+
+    public override bool Equals(object obj)
+    {
+        var other = obj as TileBundlePair;
+
+        if (other == null) return false;
+
+        if(!this.tile.Equals(other.tile)) return false;
+
+        if(!this.bData.Equals(other.bData)) return false;
+
+        if(!this.rotation.Equals(other.rotation)) return false;
+
+        return true;
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
     }
 }

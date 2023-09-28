@@ -33,6 +33,24 @@ public class LBSIntCharacteristic : LBSCharacteristic
 
     public override void OnEnable()
     {
-       // throw new System.NotImplementedException();
+    }
+
+    public override string ToString()
+    {
+        return base.ToString();
+    }
+
+    public override bool Equals(object obj)
+    {
+        var other = obj as LBSIntCharacteristic;
+
+        if (other == null)  return false;
+
+        return this.value == other.value;
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
     }
 }

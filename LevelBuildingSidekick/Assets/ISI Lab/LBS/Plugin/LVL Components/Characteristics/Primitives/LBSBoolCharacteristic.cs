@@ -33,6 +33,24 @@ public class LBSBoolCharacteristic : LBSCharacteristic
 
     public override void OnEnable()
     {
-       // throw new System.NotImplementedException();
+    }
+
+    public override bool Equals(object obj)
+    {
+        var other = obj as LBSBoolCharacteristic;
+
+        if (other == null) return false;
+
+        return other.value == this.value;
+    }
+
+    public override string ToString()
+    {
+        return base.ToString();
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
     }
 }

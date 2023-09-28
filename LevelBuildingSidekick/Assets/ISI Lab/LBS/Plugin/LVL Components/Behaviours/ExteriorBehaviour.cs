@@ -14,7 +14,7 @@ public class ExteriorBehaviour : LBSBehaviour
 {
     #region FIELDS
     [JsonRequired, SerializeField]
-    private string targetBundle;
+    private string targetBundle = "";
     #endregion
 
     #region PROPERTIES
@@ -43,14 +43,14 @@ public class ExteriorBehaviour : LBSBehaviour
     #endregion
 
     #region METHODS
-    public override object Clone()
-    {
-        return new ExteriorBehaviour(this.Icon, this.Name);
-    }
-
     public override void OnAttachLayer(LBSLayer layer)
     {
         Owner = layer;
+    }
+
+    public override void OnDetachLayer(LBSLayer layer)
+    {
+        throw new NotImplementedException();
     }
 
     public LBSTile GetTile(Vector2Int pos)
@@ -76,9 +76,25 @@ public class ExteriorBehaviour : LBSBehaviour
         t.SetConnection(direction, connection, editedByIA);
     }
 
-    public override void OnDetachLayer(LBSLayer layer)
+    public override object Clone()
     {
-        throw new NotImplementedException();
+        return new ExteriorBehaviour(this.Icon, this.Name);
+    }
+
+    public override bool Equals(object obj)
+    {
+        var other = obj as ExteriorBehaviour;
+
+        if (other == null) return false;
+
+        if(!this.targetBundle.Equals(other.targetBundle)) return false;
+
+        return true;
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
     }
     #endregion
 }

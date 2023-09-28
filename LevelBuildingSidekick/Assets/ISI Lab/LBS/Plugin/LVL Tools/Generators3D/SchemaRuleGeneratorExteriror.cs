@@ -227,4 +227,18 @@ public class SchemaRuleGeneratorExteriror : LBSGeneratorRule
         obj.transform.rotation = Quaternion.Euler(0, ( ddd * (90*(rotation + aaa)) % 360) + fff, 0); // -90 * (r + 1) los numeros son parche de la direnecia de orden de las direcciones (!)
         return obj;
     }
+
+    public override bool Equals(object obj)
+    {
+        var other = obj as SchemaRuleGeneratorExteriror;
+
+        if (other == null) return false;
+
+        return true;
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
 }

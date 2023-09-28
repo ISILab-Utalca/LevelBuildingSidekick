@@ -18,14 +18,19 @@ public class PopulationBehaviour : LBSBehaviour
     BundleTileMap bundleTileMap;
     #endregion
 
+    #region PROPERTIES
+    [JsonIgnore]
     public List<TileBundlePair> Tilemap => bundleTileMap.Tiles;
+    #endregion
 
+    #region CONSTRUCTORS
     public PopulationBehaviour(Texture2D icon, string name) : base(icon, name) { }
+    #endregion
 
     #region METHODS
     public void AddTile(Vector2Int position, Bundle bundle)
     {
-        var tile = new LBSTile(position);//, "Tile: " + position.ToString());
+        var tile = new LBSTile(position);
         tileMap.AddTile(tile);
         bundleTileMap.AddTile(tile, new BundleData(bundle), Vector2.right);
 
@@ -84,11 +89,6 @@ public class PopulationBehaviour : LBSBehaviour
         return GetBundleData(tileMap.GetTile(position.ToInt()));
     }
 
-    public override object Clone()
-    {
-        return new PopulationBehaviour(this.Icon, this.Name);
-    }
-
     public override void OnAttachLayer(LBSLayer layer)
     {
         Owner = layer;
@@ -100,6 +100,26 @@ public class PopulationBehaviour : LBSBehaviour
     public override void OnDetachLayer(LBSLayer layer)
     {
         throw new System.NotImplementedException();
+    }
+
+    public override object Clone()
+    {
+        return new PopulationBehaviour(this.Icon, this.Name);
+    }
+
+    // override object.Equals
+    public override bool Equals(object obj)
+    {
+        var other = obj as PopulationBehaviour;
+
+        if (other == null) return false;
+
+        return true;
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
     }
     #endregion
 }
