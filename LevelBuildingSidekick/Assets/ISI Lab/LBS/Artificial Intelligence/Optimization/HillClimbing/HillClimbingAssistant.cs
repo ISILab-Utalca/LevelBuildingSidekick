@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using LBS.AI;
-using UnityEngine.UIElements;
 using LBS.Components;
 using LBS.Components.TileMap;
 using System.Linq;
@@ -11,17 +9,12 @@ using ISILab.AI.Optimization.Populations;
 using Commons.Optimization.Evaluator;
 using ISILab.AI.Optimization.Terminations;
 using ISILab.AI.Optimization;
-using LBS.Components.Graph;
-using LBS.Tools.Transformer;
 using System;
 using System.Diagnostics;
 using Debug = UnityEngine.Debug;
 using Newtonsoft.Json;
 using LBS.Assisstants;
-using UnityEditor.Graphs;
-using UnityEngine.Tilemaps;
-using System.Reflection;
-using UnityEditor.MemoryProfiler;
+
 
 [System.Serializable]
 [RequieredModule(typeof(TileMapModule),
@@ -35,13 +28,13 @@ public class HillClimbingAssistant : LBSAssistant
     private List<Vector2Int> Dirs => Directions.Bidimencional.Edges;
 
     #region FIELDS
-
     [JsonIgnore, NonSerialized]
     private HillClimbing hillClimbing;
 
     [JsonIgnore, NonSerialized]
     private Stopwatch clock = new Stopwatch();
 
+<<<<<<< Updated upstream
     /*
     [JsonIgnore]
     private ConnectedZonesModule graph;
@@ -52,12 +45,15 @@ public class HillClimbingAssistant : LBSAssistant
     [JsonIgnore]
     private ConstrainsZonesModule constrainsZones;
     */
+=======
+    [JsonIgnore, NonSerialized]
+    private LBSLayer layer;
+>>>>>>> Stashed changes
     #endregion
 
     #region PROPERTIES
     [JsonIgnore]
     public List<Zone> ZonesWhitTiles => Owner.GetModule<SectorizedTileMapModule>().ZonesWithTiles;
-
     public TileMapModule TileMapMod => Owner.GetModule<TileMapModule>();
     public SectorizedTileMapModule AreasMod => Owner.GetModule<SectorizedTileMapModule>();
     public ConnectedZonesModule GraphMod => Owner.GetModule<ConnectedZonesModule>();
@@ -490,6 +486,22 @@ public class HillClimbingAssistant : LBSAssistant
     public override object Clone()
     {
         return new HillClimbingAssistant(this.Icon, this.Name);
+    }
+
+    public override bool Equals(object obj)
+    {
+        var other = obj as HillClimbingAssistant;
+
+        if (other == null) return false;
+
+        if(!this.Name.Equals(other.Name)) return false;
+
+        return true;
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
     }
 
     /*
