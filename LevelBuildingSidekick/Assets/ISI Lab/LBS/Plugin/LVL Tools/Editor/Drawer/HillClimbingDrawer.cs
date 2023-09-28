@@ -103,8 +103,8 @@ public class HillClimbingDrawer : Drawer
         var constr = pair.Constraint;
 
         // Get points from first dotted area
-        var maxV1 = new Vector2(-constr.maxHeight / 2f, -constr.maxWidth / 2f);
-        var maxV2 = new Vector2(constr.maxHeight / 2f, constr.maxWidth / 2f);
+        var maxV1 = new Vector2(-constr.maxWidth / 2f, -constr.maxHeight / 2f);
+        var maxV2 = new Vector2(constr.maxWidth / 2f, constr.maxHeight / 2f);
 
         // Create first dotted area
         var c1 = new DottedAreaFeedback();
@@ -118,8 +118,8 @@ public class HillClimbingDrawer : Drawer
         c1.SetColor(Color.red);
 
         // Get points from second dotted area
-        var minV1 = new Vector2(-constr.minHeight / 2f, -constr.minWidth / 2f);
-        var minV2 = new Vector2(constr.minHeight / 2f, constr.minWidth / 2f);
+        var minV1 = new Vector2(-constr.minWidth / 2f, -constr.minHeight / 2f);
+        var minV2 = new Vector2(constr.minWidth / 2f, constr.minHeight / 2f);
 
         // Create second dotted area
         var c2 = new DottedAreaFeedback();

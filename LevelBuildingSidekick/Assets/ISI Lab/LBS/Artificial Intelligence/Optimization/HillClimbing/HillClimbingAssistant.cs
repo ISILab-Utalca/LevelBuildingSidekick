@@ -92,6 +92,8 @@ public class HillClimbingAssistant : LBSAssistant
             this.Owner.ReplaceModule(old, module);
         }
 
+        Owner.Reload();
+
         OnTermination?.Invoke();
         UnityEngine.Debug.Log("HillClimbing finish!");
     }
@@ -266,8 +268,6 @@ public class HillClimbingAssistant : LBSAssistant
         var population = new Population(1, 100, adam); // agregar parametros
 
         hillClimbing = new HillClimbing(population, evaluator, selection, GetNeighbors, termination); // asignar Adam
-
-        hillClimbing.OnGenerationRan += () => Debug.Log(hillClimbing.BestCandidate.Fitness);
 
     }
 

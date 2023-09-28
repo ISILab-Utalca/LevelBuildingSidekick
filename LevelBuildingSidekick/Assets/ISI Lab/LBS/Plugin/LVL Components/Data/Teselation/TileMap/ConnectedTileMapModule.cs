@@ -81,8 +81,6 @@ public class ConnectedTileMapModule : LBSModule
     { 
         if (pairs.Count <= 0)
             return null;
-        if (tile == null)
-            Debug.Log("null");
         return pairs.Find(t => t.Tile.Equals(tile));
     }
 
