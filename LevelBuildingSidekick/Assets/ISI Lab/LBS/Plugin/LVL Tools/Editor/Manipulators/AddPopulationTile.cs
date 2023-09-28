@@ -48,12 +48,11 @@ public class AddPopulationTile : LBSManipulator
             return;
         }
 
-        var min = population.Owner.ToFixedPosition(Vector2Int.Min(StartPosition, EndPosition));
-        var max = population.Owner.ToFixedPosition(Vector2Int.Max(StartPosition, EndPosition));
+        var corners = population.Owner.ToFixedPosition(StartPosition, EndPosition);
 
-        for (int i = min.x; i <= max.x; i++)
+        for (int i = corners.Item1.x; i <= corners.Item2.x; i++)
         {
-            for (int j = min.y; j <= max.y; j++)
+            for (int j = corners.Item1.y; j <= corners.Item2.y; j++)
             {
                 population.AddTile(new Vector2Int(i, j), toSet);
             }

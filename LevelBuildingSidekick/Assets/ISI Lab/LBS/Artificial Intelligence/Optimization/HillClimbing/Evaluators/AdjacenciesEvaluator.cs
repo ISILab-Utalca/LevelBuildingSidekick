@@ -28,6 +28,8 @@ public class AdjacenciesEvaluator : IEvaluator
     public float Evaluate(IOptimizable evaluable)
     {
         var layer = (evaluable as OptimizableModules).Modules;
+        var connectedZones = layer.GetModule<ConnectedZonesModule>();
+        var zones = layer.GetModule<SectorizedTileMapModule>();
 
         var edgeCount = connectedZones.Edges.Count;
         if (edgeCount <= 0)
@@ -53,7 +55,7 @@ public class AdjacenciesEvaluator : IEvaluator
             if (r1.Count < 1 || r2.Count < 1) // signiofica que una de las dos areas desaparecio y no deberia aporta, de hecho podria ser negativo (!)
                 continue;
 
-            float roomDist = zones.GetRoomDistance(edge.First, edge.Second);  // este metodo podria recivir una funcion de calculo de distancia en ved de estar fija (?)
+            float roomDist = zones.GetRoomDistance(edge.First, edge.Second);  // este metodo podria recivir una funcion de calculo de distancia en ved de estar fija 
 
             distValue += 1 / roomDist;
         }

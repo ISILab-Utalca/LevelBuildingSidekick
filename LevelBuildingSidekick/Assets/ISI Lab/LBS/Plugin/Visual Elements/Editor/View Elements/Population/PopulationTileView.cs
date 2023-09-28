@@ -25,9 +25,9 @@ public class PopulationTileView : GraphElement
         PopulationTileView.view.CloneTree(this);
 
         arrows.Add(this.Q<VisualElement>(name: "Right"));
-        arrows.Add(this.Q<VisualElement>(name: "Down")); 
-        arrows.Add(this.Q<VisualElement>(name: "Left"));
         arrows.Add(this.Q<VisualElement>(name: "Up")); 
+        arrows.Add(this.Q<VisualElement>(name: "Left"));
+        arrows.Add(this.Q<VisualElement>(name: "Down")); 
 
         icon = this.Q<VisualElement>(name: "Icon");
 
