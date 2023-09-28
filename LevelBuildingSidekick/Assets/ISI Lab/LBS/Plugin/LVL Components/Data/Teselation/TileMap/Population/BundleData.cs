@@ -15,12 +15,7 @@ namespace LBS.Components.TileMap
         protected List<LBSCharacteristic> characteristics = new List<LBSCharacteristic>();
 
         [SerializeField, JsonRequired]
-<<<<<<< Updated upstream
         protected string bundleName;
-
-=======
-        protected string bundleTag;
->>>>>>> Stashed changes
         #endregion
 
         #region PROPERTIES
@@ -59,7 +54,7 @@ namespace LBS.Components.TileMap
             return new BundleData(bundleName, characteristics.Select(c => c.Clone() as LBSCharacteristic).ToList());
         }
 
-<<<<<<< Updated upstream
+        /*
         public override bool Equals(object obj)
         {
             if(obj is Bundle)
@@ -68,10 +63,8 @@ namespace LBS.Components.TileMap
                 return b.name == bundleName;
             }
             return base.Equals(obj);
-        }
+        }*/
 
-=======
->>>>>>> Stashed changes
         public LBSCharacteristic GetCharasteristic(Type type)
         {
             return characteristics.Find(c => c.GetType() == type);
@@ -92,16 +85,19 @@ namespace LBS.Components.TileMap
         {
             return base.ToString();
         }
-
+        
         public override bool Equals(object obj)
         {
             var other = obj as BundleData;
 
             if(other == null) return false;
 
-            if(!this.bundleTag.Equals(other.bundleTag)) return false;
+            if(!this.bundleName.Equals(other.bundleName)) return false;
 
-            var cCount = other.characteristics.Count();
+            if (this.characteristics.Count != other.characteristics.Count)
+                return false;
+
+            var cCount = other.characteristics.Count;
 
             for (int i = 0; i < cCount; i++)
             {

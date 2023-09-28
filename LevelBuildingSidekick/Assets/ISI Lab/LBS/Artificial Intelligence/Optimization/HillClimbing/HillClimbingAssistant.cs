@@ -34,7 +34,6 @@ public class HillClimbingAssistant : LBSAssistant
     [JsonIgnore, NonSerialized]
     private Stopwatch clock = new Stopwatch();
 
-<<<<<<< Updated upstream
     /*
     [JsonIgnore]
     private ConnectedZonesModule graph;
@@ -45,10 +44,8 @@ public class HillClimbingAssistant : LBSAssistant
     [JsonIgnore]
     private ConstrainsZonesModule constrainsZones;
     */
-=======
     [JsonIgnore, NonSerialized]
     private LBSLayer layer;
->>>>>>> Stashed changes
     #endregion
 
     #region PROPERTIES

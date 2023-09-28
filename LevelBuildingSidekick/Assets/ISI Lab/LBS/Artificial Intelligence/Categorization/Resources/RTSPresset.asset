@@ -62,6 +62,7 @@ MonoBehaviour:
       type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
       data:
         label: Collider
+        isSavableOnJSON: 1
         value: {fileID: 11400000, guid: 261af09a46f50a647b4fb33a0e989c66, type: 2}
     - rid: 1429379716160946414
       type: {class: SecurityFairness, ns: , asm: LBS}
@@ -74,11 +75,13 @@ MonoBehaviour:
       type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
       data:
         label: Colldier
+        isSavableOnJSON: 1
         value: {fileID: 11400000, guid: 261af09a46f50a647b4fb33a0e989c66, type: 2}
     - rid: 1429379716160946416
       type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
       data:
         label: Player
+        isSavableOnJSON: 1
         value: {fileID: 11400000, guid: 975a57a1811d3f743838422b5c87c58a, type: 2}
     - rid: 1429379716160946417
       type: {class: ResourcesSafetyFairness, ns: , asm: LBS}
@@ -91,11 +94,13 @@ MonoBehaviour:
       type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
       data:
         label: Player
+        isSavableOnJSON: 1
         value: {fileID: 11400000, guid: 975a57a1811d3f743838422b5c87c58a, type: 2}
     - rid: 1429379716160946419
       type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
       data:
         label: Coins
+        isSavableOnJSON: 1
         value: {fileID: 11400000, guid: 0ce19f5583699394b811faa9674b6877, type: 2}
     - rid: 1429379716160946420
       type: {class: RoulleteWheelMutation, ns: , asm: LBS}
