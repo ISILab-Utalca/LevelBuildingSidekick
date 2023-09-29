@@ -20,8 +20,14 @@ MonoBehaviour:
   assets:
   - obj: {fileID: 0}
     probability: 0
-  characteristics: []
+  characteristics:
+  - rid: 1429379739155169318
   positioning: 0
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 1429379739155169318
+      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+      data:
+        label: Player
+        value: {fileID: 11400000, guid: 975a57a1811d3f743838422b5c87c58a, type: 2}

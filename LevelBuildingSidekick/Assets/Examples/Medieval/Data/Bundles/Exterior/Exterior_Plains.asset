@@ -34,7 +34,6 @@ MonoBehaviour:
       type: {class: LBSDirectionedGroup, ns: , asm: LBS}
       data:
         label: 
-        isSavableOnJSON: 1
         Weights:
         - target: {fileID: 11400000, guid: 96e342b46785340458f3d9950e72f3c0, type: 2}
           weigth: 0.01
