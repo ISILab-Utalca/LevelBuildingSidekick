@@ -10,23 +10,35 @@ public class DrawManager
     private MainView view;
     private List<LayerTemplate> templates;
 
+    private LBSLevelData level;
+    private MainView mainView;
+
+    private static DrawManager instance;
+    public static DrawManager Instance
+    {
+        get { return instance; }
+    }
+
     public DrawManager(ref MainView view, ref List<LayerTemplate> templates)
     {
         this.view = view;
         this.templates = templates;
+
+        DrawManager.instance = this;
     }
 
-    public void RefreshView(ref LBSLayer layer,List<LBSLayer> allLayers, string modeName)
+    public static void ReDraw()
     {
-        var _layer = layer;
-        if (_layer == null)
+        instance.Redraw(instance.level, instance.mainView);
+    }
+
+    public void RefreshView(LBSLayer layer,List<LBSLayer> allLayers, string modeName)
+    {
+        if (layer == null)
             return;
 
+        var template = templates.Find(t => t.layer.ID.Equals((string)layer.ID));
 
-        var template = templates.Find(t => t.layer.ID.Equals(_layer.ID));
-        //var mode = template.modes.Find(m => m.name.Equals(modeName));
-
-        // clear
         view.ClearView();
 
         var _allLayers = new List<LBSLayer>(allLayers);
@@ -37,22 +49,19 @@ public class DrawManager
             if (!otherLayer.IsVisible)
                 continue;
 
-            if (otherLayer == _layer)
-            {
-                //mode.Drawer.Draw(ref _layer, view);
-            }
-            else
+            if (otherLayer != layer)
             {
                 var oTemplate = templates.Find(t => t.layer.ID.Equals(otherLayer.ID));
-                //var oMode = oTemplate.modes[^1];
                 var _other = otherLayer;
-                //oMode.Drawer.Draw(ref _other, view);
             }
         }
     }
 
-    public void Draw(LBSLevelData level, MainView view)
+    public void Draw(LBSLevelData level, MainView MainView)
     {
+        this.level = level;
+        this.mainView = MainView;
+
         var layers = level.Layers;
 
         foreach(var l in layers)
@@ -67,6 +76,9 @@ public class DrawManager
             foreach(var b in behaviours)
             {
                 if (b == null)
+                    continue;
+
+                if (!b.visible)
                     continue;
 
                 var classes = Utility.Reflection.GetClassesWith<DrawerAttribute>();
@@ -86,6 +98,9 @@ public class DrawManager
             foreach (var a in assistants)
             {
                 if (a == null)
+                    continue;
+
+                if (!a.visible)
                     continue;
 
                 var classes = Utility.Reflection.GetClassesWith<DrawerAttribute>();

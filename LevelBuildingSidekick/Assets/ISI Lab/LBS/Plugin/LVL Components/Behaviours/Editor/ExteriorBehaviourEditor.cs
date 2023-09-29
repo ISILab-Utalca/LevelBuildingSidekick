@@ -86,10 +86,9 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
         icon = Resources.Load<Texture2D>("Icons/open-exit-door");
         this.setTileConnection = new SetExteriorTileConnection();
         var t3 = new LBSTool(icon, "Set connection", setTileConnection);
+        t3.OnSelect += () => LBSInspectorPanel.ShowInspector("Local", "Behaviours");
         t3.Init(exterior.Owner, exterior);
         toolKit.AddTool(t3);
-
-
     }
 
     private void OnTargetBundle() // mejorar nombre

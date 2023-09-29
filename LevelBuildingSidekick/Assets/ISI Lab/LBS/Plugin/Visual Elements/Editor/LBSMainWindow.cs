@@ -85,7 +85,6 @@ public class LBSMainWindow : EditorWindow
         // LayerInspector
         layerInspector = rootVisualElement.Q<LayerInspector>("LayerInspector");
 
-
         // MainView 
         mainView = rootVisualElement.Q<MainView>("MainView");
         mainView.OnClearSelection += () =>

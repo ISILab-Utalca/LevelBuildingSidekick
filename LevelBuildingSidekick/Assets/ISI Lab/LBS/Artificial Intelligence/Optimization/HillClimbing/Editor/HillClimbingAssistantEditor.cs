@@ -20,6 +20,7 @@ public class HillClimbingAssistantEditor : LBSCustomEditor, IToolProvider
     private Foldout foldout;
     private Button revert;
     private Button execute;
+    private Toggle toggle;
 
     private Button recalculate;
 
@@ -51,6 +52,7 @@ public class HillClimbingAssistantEditor : LBSCustomEditor, IToolProvider
         icon = Resources.Load<Texture2D>("Icons/Addnode");
         this.setZoneConnection = new SetZoneConnection();
         var t1 = new LBSTool(icon, "Add zone connection", setZoneConnection);
+        t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Local", "Assistants");
         t1.Init(hillClimbing.Owner, hillClimbing);
         toolKit.AddTool(t1);
 
@@ -85,6 +87,15 @@ public class HillClimbingAssistantEditor : LBSCustomEditor, IToolProvider
         // Execute
         this.execute = this.Q<Button>("Execute");
         this.execute.clicked += Execute;
+
+        // Show Constraint
+        this.toggle = this.Q<Toggle>("ShowConstraintToggle");
+        this.toggle.value = hillClimbing.visibleConstraints;
+        toggle.RegisterCallback<ChangeEvent<bool>>( x =>
+        {
+            hillClimbing.visibleConstraints = x.newValue;
+            DrawManager.ReDraw();
+        });
 
         // Recalculate //parche(!)
         this.recalculate = new Button();

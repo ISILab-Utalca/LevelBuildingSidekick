@@ -44,7 +44,12 @@ public class AddSchemaTile : LBSManipulator
 
     protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
     {
-        if(toSet == null)
+        if(e.ctrlKey)
+        {
+            toSet = schema.AddZone();
+        }
+
+        if (toSet == null)
         {
             Debug.LogWarning("No tienens ninguna zona seleccionada para colocar.");
             return;

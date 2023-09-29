@@ -152,6 +152,12 @@ namespace LBS.VisualElements
             MainView.Instance.AddManipulator(m);
         }
 
+        public void SetActive(string value)
+        {
+            var index = tools.FindIndex(t => t.Item2.tooltip.Equals(value));
+            SetActive(index);
+        }
+
         public void SetActive()
         {
             if (tools.Count <= 0)
@@ -204,70 +210,3 @@ namespace LBS.VisualElements
         #endregion
     }
 }
-
-/*
-public class ToolkitManager
-{
-    private List<LBSTool> currentTools = new List<LBSTool>();
-
-    // VisualElement references
-    private ButtonGroup toolPanel;
-    private MainView view;
-    private LBSInspectorPanel InspectorManager;
-
-    // event
-    public event Action OnEndSomeAction;
-
-    public ToolkitManager(ref ButtonGroup toolPanel,
-        ref MainView view, ref LBSInspectorPanel inspectorManager , ref List<LayerTemplate> templates)
-    {
-        this.toolPanel = toolPanel;
-        this.view = view;
-        this.InspectorManager = inspectorManager;
-    }
-
-    public void SetTools(object tools, ref LBSLayer layer, ref LBSBehaviour behaviour)
-    {
-        ClearTools();
-
-        currentTools = tools as List<LBSTool>;
-        foreach (var tool in currentTools)
-        {
-            tool.OnEnd += OnEndSomeAction;
-
-            var btn = tool.Init(view, layer, behaviour);
-            btn.style.flexGrow = 1;
-            toolPanel.Add(btn);
-
-            if (!string.IsNullOrEmpty(tool.inspector))
-            {
-                var insp = tool.InitInspector(view, layer, behaviour);
-                insp.style.flexGrow = 1;
-                btn.OnFocusEvent += () => {
-                    InspectorManager.AddInspector(insp,0); 
-                };
-                btn.OnBlurEvent += () => {
-                    InspectorManager.RemoveInspector(insp);
-                };
-            }
-        }
-    }
-
-    public void ClearTools()
-    {
-        foreach (var tool in currentTools)
-        {
-            tool.OnEnd -= OnEndSomeAction;
-        }
-
-        toolPanel.Clear();
-    }
-
-    internal void OnSelectedLayerChange(LBSLayer layer)
-    {
-        ClearTools();
-        //var manipulators = layer.Behaviours.SelectMany(b => b.);
-       
-    }
-}
-*/

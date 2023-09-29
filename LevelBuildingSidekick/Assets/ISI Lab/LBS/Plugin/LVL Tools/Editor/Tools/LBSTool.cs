@@ -25,6 +25,8 @@ namespace LBS
         #endregion
 
         #region EVENTS
+        public event Action OnSelect;
+        public event Action OnDeselect;
         public event Action OnStart;
         public event Action OnPressed;
         public event Action OnEnd;
@@ -60,10 +62,12 @@ namespace LBS
             button.OnFocusEvent += () =>
             {
                 canvas.AddManipulator(this.manipulator);
+                OnSelect?.Invoke();
             };
             button.OnBlurEvent += () =>
             {
                 canvas.RemoveManipulator(this.manipulator);
+                OnDeselect?.Invoke();
             };
         }
         #endregion;

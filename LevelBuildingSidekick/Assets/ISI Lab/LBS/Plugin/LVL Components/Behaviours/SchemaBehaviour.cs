@@ -76,7 +76,7 @@ public class SchemaBehaviour : LBSBehaviour
         return tile;
     }
 
-    public void AddZone()
+    public Zone AddZone()
     { 
         string prefix = "Zone: ";
         int counter = 0;
@@ -97,6 +97,7 @@ public class SchemaBehaviour : LBSBehaviour
         var zone = new Zone(name, c);
 
         areas.AddZone(zone);
+        return zone;
     }
 
     public void RemoveTile(Vector2Int position)

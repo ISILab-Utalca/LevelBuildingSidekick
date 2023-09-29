@@ -82,7 +82,10 @@ public class HillClimbingDrawer : Drawer
 
         // print everything
         eViews.ForEach(e => view.AddElement(e));
-        cViews.ForEach(c => view.AddElement(c));
+
+        if(assistant.visibleConstraints)
+            cViews.ForEach(c => view.AddElement(c));
+
         nViews.ForEach(n => view.AddElement(n));
     }
 

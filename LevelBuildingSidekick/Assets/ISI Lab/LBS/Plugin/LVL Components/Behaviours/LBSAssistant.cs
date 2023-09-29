@@ -13,6 +13,11 @@ namespace LBS.Assisstants
     [System.Serializable]
     public abstract class LBSAssistant : ICloneable
     {
+        #region META-FIELDS
+        [SerializeField, JsonRequired]
+        public bool visible = true;
+        #endregion
+
         #region FIELDS
         [NonSerialized, HideInInspector, JsonIgnore]
         private LBSLayer owner;

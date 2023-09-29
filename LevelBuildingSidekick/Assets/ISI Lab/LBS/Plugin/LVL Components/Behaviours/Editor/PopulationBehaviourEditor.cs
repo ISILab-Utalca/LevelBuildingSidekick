@@ -46,6 +46,7 @@ public class PopulationBehaviourEditor : LBSCustomEditor, IToolProvider
         icon = Resources.Load<Texture2D>("Icons/Addnode");
         this.addPopulationTile = new AddPopulationTile();
         var t1 = new LBSTool(icon, "Paint Tile", addPopulationTile);
+        t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Local", "Behaviours");
         t1.Init(population.Owner, population);
         toolkit.AddTool(t1);
 
@@ -61,8 +62,6 @@ public class PopulationBehaviourEditor : LBSCustomEditor, IToolProvider
         var t2 = new LBSTool(icon, "Remove Tile", removePopulationTile);
         t2.Init(population.Owner, population);
         toolkit.AddTool(t2);
-
-
     }
 
     protected override VisualElement CreateVisualElement()

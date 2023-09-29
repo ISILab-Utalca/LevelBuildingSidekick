@@ -51,6 +51,8 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
         icon = Resources.Load<Texture2D>("Icons/Addnode");
         this.createNewRoomNode = new AddSchemaTile();
         var t1 = new LBSTool(icon, "Paint Zone", createNewRoomNode);
+        t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Local","Behaviours");
+        t1.OnEnd += ()=> SetAreaPallete();
         t1.Init(schema.Owner, schema);
         toolKit.AddTool(t1);
 
@@ -67,6 +69,7 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
         icon = Resources.Load<Texture2D>("Icons/open-exit-door");
         this.setTileConnection = new SetSchemaTileConnection();
         var t3 = new LBSTool(icon, "Set connection", setTileConnection);
+        t3.OnSelect += () => LBSInspectorPanel.ShowInspector("Local", "Behaviours");
         t3.Init(schema.Owner, schema);
         toolKit.AddTool(t3);
 
@@ -80,12 +83,9 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
 
     public override void ContextMenu(ContextualMenuPopulateEvent evt)
     {
-        evt.menu.AppendAction("Opción 1", action => Debug.Log("Seleccionaste la opción 1"));
-        evt.menu.AppendAction("Opción 2", action => Debug.Log("Seleccionaste la opción 2"));
-        evt.menu.AppendSeparator();
-        evt.menu.AppendAction("Opción 3", action => Debug.Log("Seleccionaste la opción 3"));
+        //evt.menu.AppendSeparator();
+        //evt.menu.AppendAction("Show view", action => schema.visible = true);
     }
-
 
     public override void SetInfo(object target)
     {
@@ -124,8 +124,8 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
 
         // Select option event
         areaPallete.OnSelectOption += (selected) => {
-            // var tk = ToolKit.Instance;
             createNewRoomNode.ToSet = selected as Zone;
+            ToolKit.Instance.SetActive("Paint Zone");
         };
 
         // OnAdd option event
@@ -169,6 +169,7 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
         connectionPallete.OnSelectOption += (selected) => {
             // var tk = ToolKit.Instance;
             setTileConnection.ToSet = selected as string;
+            ToolKit.Instance.SetActive("Set connection");
         };
 
         // OnAdd option event

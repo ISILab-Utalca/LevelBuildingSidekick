@@ -13,8 +13,13 @@ namespace LBS.Behaviours
     [System.Serializable]
     public abstract class LBSBehaviour : ICloneable
     {
+        #region META-FIELDS
+        [SerializeField, JsonRequired]
+        public bool visible = true;
+        #endregion
+
         #region FIELDS
-        [HideInInspector]//[NonSerialized, HideInInspector, JsonIgnore]
+        [HideInInspector]
         private LBSLayer owner;
         [SerializeField]
         private Texture2D icon;

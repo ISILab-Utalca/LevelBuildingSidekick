@@ -13,6 +13,17 @@ public class LBSInspectorPanel : VisualElement
     public new class UxmlFactory : UxmlFactory<LBSInspectorPanel, VisualElement.UxmlTraits> { }
     #endregion
 
+    #region SINGLETON
+    private static LBSInspectorPanel instance;
+    public static LBSInspectorPanel Instance
+    { 
+        get 
+        {
+            return instance; 
+        } 
+    }
+    #endregion
+
     #region FIELDS
     private MainView view;
     private VisualElement content;
@@ -49,7 +60,7 @@ public class LBSInspectorPanel : VisualElement
         InitTabs();
         SetTabs("Global");
 
-        //SetSubTab();
+        instance = this;
     }
     #endregion
 
@@ -194,6 +205,16 @@ public class LBSInspectorPanel : VisualElement
             }
         }
     }
+    #endregion
 
+    #region FUNCTIONS SINGLETON
+    public static void ShowInspector(string tab, string subTab)
+    {
+        var obj = LBSInspectorPanel.Instance;
+        obj.VEs.TryGetValue(tab, out var ve);
+        ve.TryGetValue(subTab, out var inspct);
+        obj.ClearContent();
+        obj.SetContent(inspct);
+    }
     #endregion
 }

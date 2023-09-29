@@ -27,6 +27,11 @@ public class HillClimbingAssistant : LBSAssistant
 {
     private List<Vector2Int> Dirs => Directions.Bidimencional.Edges;
 
+    #region META-FIELDS
+    [SerializeField, JsonRequired]
+    public bool visibleConstraints = true;
+    #endregion
+
     #region FIELDS
     [JsonIgnore, NonSerialized]
     private HillClimbing hillClimbing;

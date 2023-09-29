@@ -21,7 +21,7 @@ public class BehaviourContent : VisualElement
 
         // Foldout
         this.foldout = this.Q<Foldout>();
-        foldout.RegisterCallback<ChangeEvent<bool>>(OnFoldoutPressed);
+        foldout.RegisterCallback<ChangeEvent<bool>>(FoldoutPressed);
 
         // Icon
         this.icon = this.Q<VisualElement>("Icon");
@@ -31,6 +31,8 @@ public class BehaviourContent : VisualElement
         // Label
         this.label = this.Q<Label>();
         label.text = name;
+
+
 
         // Menu
         this.menu = this.Q<Button>();
@@ -43,7 +45,7 @@ public class BehaviourContent : VisualElement
         this.content.Add(content);
     }
 
-    private void OnFoldoutPressed(ChangeEvent<bool> evt)
+    private void FoldoutPressed(ChangeEvent<bool> evt)
     {
         content.SetDisplay(evt.newValue);
     }
