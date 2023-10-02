@@ -22,6 +22,8 @@ namespace LBS
         private Vector2Int startClickPosition = Vector2Int.zero;
         private Vector2Int moveClickPosition = Vector2Int.zero;
         private Vector2Int endClickPosition = Vector2Int.zero;
+
+        private bool altPressed = false;
         #endregion
 
         #region PROPERTIES
@@ -159,6 +161,8 @@ namespace LBS
 
             OnManipulationStart?.Invoke();
             OnMouseDown(e.target as VisualElement, startClickPosition, e);
+
+            
         }
 
         /// <summary>
@@ -190,8 +194,11 @@ namespace LBS
             this.endClickPosition = MainView.FixPos(e.localMousePosition).ToInt();
             EndFeedback();
 
-            OnMouseUp(e.target as VisualElement, endClickPosition, e);
-            OnManipulationEnd?.Invoke();
+            if (!e.altKey)
+            {
+                OnMouseUp(e.target as VisualElement, endClickPosition, e);
+                OnManipulationEnd?.Invoke();
+            }
 
             this.ended = this.started = false;
         }
@@ -212,19 +219,4 @@ namespace LBS
 public interface IToolProvider
 {
     public void SetTools(ToolKit toolkit);
-}
-
-[Obsolete("las referencias que se usaban atravez de la interfaz ahora se" +
-    " realizan directamente con la calse LBSManipulator o unity.Manipulators")]
-public interface IManipulatorLBS
-{
-    public void AddManipulationStart(Action action);
-    public void AddManipulationUpdate(Action action);
-    public void AddManipulationEnd(Action action);
-
-    public void RemoveManipulationStart(Action action);
-    public void RemoveManipulationUpdate(Action action);
-    public void RemoveManipulationEnd(Action action);
-
-    public void Init(LBSLayer layer, LBSBehaviour behaviour);
 }
