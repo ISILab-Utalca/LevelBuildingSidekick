@@ -96,18 +96,31 @@ public class SectorizedTileMapModule : LBSModule, ISelectable
         {
             RemovePair(t);
         }
+
+        RecalcPivotZone(zone);
     }
 
-    public void AddPair(TileZonePair tile)
+    private void RecalcPivotZone(Zone zone)
     {
-        var current = GetPairTile(tile.Tile.Position);
+        var tiles = GetTiles(zone);
+
+        var pos = tiles.GetBounds();
+
+        zone.Pivot = pos.center;
+    }
+
+    public void AddPair(TileZonePair pair)
+    {
+        var current = GetPairTile(pair.Tile.Position);
         if (current != null)
         {
             pairs.Remove(current);
             OnRemovePair?.Invoke(this, current);
         }
-        pairs.Add(tile);
-        OnAddPair?.Invoke(this, tile);
+        pairs.Add(pair);
+        OnAddPair?.Invoke(this, pair);
+
+        RecalcPivotZone(pair.Zone);
     }
 
     public void AddTile(LBSTile tile, Zone zone)
