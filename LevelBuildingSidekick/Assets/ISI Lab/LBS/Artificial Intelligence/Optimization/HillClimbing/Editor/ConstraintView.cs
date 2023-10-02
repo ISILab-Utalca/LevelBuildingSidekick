@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Utility;
 
-public class ConstraintView : VisualElement
+[LBSCustomEditor("Constraint", typeof(Constraint))]
+public class ConstraintView : LBSCustomEditor
 {
     #region FIELDS
     private Constraint constraint;
@@ -23,23 +24,7 @@ public class ConstraintView : VisualElement
     #region CONSTRUCTORS
     public ConstraintView()
     {
-        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("ConstraintView");
-        visualTree.CloneTree(this);
-
-        // Foldout
-        this.foldout = this.Q<Foldout>();
-
-        // Width input
-        this.widthMin = this.Q<FloatField>("WidthMin");
-        widthMin.RegisterCallback<ChangeEvent<float>>(evt => constraint.minWidth = evt.newValue);
-        this.widthMax = this.Q<FloatField>("WidthMax");
-        widthMax.RegisterCallback<ChangeEvent<float>>(evt => constraint.maxWidth = evt.newValue);
-
-        // Height input
-        this.heightMin = this.Q<FloatField>("HeightMin");
-        heightMin.RegisterCallback<ChangeEvent<float>>(evt => constraint.minHeight = evt.newValue);
-        this.heightMax = this.Q<FloatField>("HeightMax");
-        heightMax.RegisterCallback<ChangeEvent<float>>(evt => constraint.maxHeight = evt.newValue);
+        CreateVisualElement();
     }
     #endregion
 
@@ -59,6 +44,41 @@ public class ConstraintView : VisualElement
 
         heightMin.value = pair.Constraint.minHeight;
         heightMax.value = pair.Constraint.maxHeight;
+    }
+
+    public override void SetInfo(object target)
+    {
+        var t = target as Constraint;
+        constraint = t;
+
+        widthMin.value = t.minWidth;
+        widthMax.value = t.maxWidth;
+
+        heightMin.value = t.minHeight;
+        heightMax.value = t.maxHeight;
+    }
+
+    protected override VisualElement CreateVisualElement()
+    {
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("ConstraintView");
+        visualTree.CloneTree(this);
+
+        // Foldout
+        this.foldout = this.Q<Foldout>();
+
+        // Width input
+        this.widthMin = this.Q<FloatField>("WidthMin");
+        widthMin.RegisterCallback<ChangeEvent<float>>(evt => constraint.minWidth = evt.newValue);
+        this.widthMax = this.Q<FloatField>("WidthMax");
+        widthMax.RegisterCallback<ChangeEvent<float>>(evt => constraint.maxWidth = evt.newValue);
+
+        // Height input
+        this.heightMin = this.Q<FloatField>("HeightMin");
+        heightMin.RegisterCallback<ChangeEvent<float>>(evt => constraint.minHeight = evt.newValue);
+        this.heightMax = this.Q<FloatField>("HeightMax");
+        heightMax.RegisterCallback<ChangeEvent<float>>(evt => constraint.maxHeight = evt.newValue);
+
+        return this;
     }
     #endregion
 }
