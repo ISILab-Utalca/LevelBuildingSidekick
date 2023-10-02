@@ -30,13 +30,11 @@ MonoBehaviour:
       type: {class: LBSDirection, ns: , asm: LBS}
       data:
         label: Connections
-        isSavableOnJSON: 1
         connections:
         - Grass
         - Path
         - Path
         - Path
-        connectionAmount: 4
         weights:
         - target: {fileID: 6451810950947566407, guid: e0b42a5f5c9cd1146b13c8edad8a536f, type: 3}
           weigth: 1

@@ -30,13 +30,11 @@ MonoBehaviour:
       type: {class: LBSDirection, ns: , asm: LBS}
       data:
         label: Connections
-        isSavableOnJSON: 1
         connections:
         - Bricks Tag
         - Bricks Tag
         - Bricks Tag
         - Bricks Tag
-        connectionAmount: 4
         weights:
         - target: {fileID: 0}
           weigth: 1
