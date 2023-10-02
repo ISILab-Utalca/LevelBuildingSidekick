@@ -41,6 +41,8 @@ public class ClassDropDown : DropdownField
         }
     }
 
+    public Type TypeValue => types[choices.IndexOf(value)];
+
     public Type Type
     {
         get => type;

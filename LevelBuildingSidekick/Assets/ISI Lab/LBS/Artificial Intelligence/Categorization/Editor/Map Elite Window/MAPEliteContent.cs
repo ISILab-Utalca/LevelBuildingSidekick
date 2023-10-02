@@ -16,10 +16,13 @@ public class MAPEliteContent : VisualElement
     public VisualElement Container;
     private int buttonSize = 128; //Should be a RangeSlider field(!!!)
 
-    private Texture2D background;
+    public Texture2D background;
     private Texture2D standbyImg;
     private Texture2D loadingImg;
     private Texture2D notFoundImg;
+
+    private Label yAxis;
+    private Label xAxis;
 
     private object locker = new object();
 
@@ -38,6 +41,8 @@ public class MAPEliteContent : VisualElement
 
 
         this.Container = this.Q<VisualElement>("Content");
+        this.xAxis = this.Q<Label>(name: "LabelX");
+        this.yAxis = this.Q<Label>(name: "LabelY");
 
         this.assistant = assistant;
         CreateGUI();
@@ -46,6 +51,14 @@ public class MAPEliteContent : VisualElement
     public void Reset()
     {
         // set all wrapper to loading icon
+        if(assistant.YEvaluator != null)
+            yAxis.text = assistant.YEvaluator.GetType().Name;
+
+
+        if (assistant.XEvaluator != null)
+            xAxis.text = assistant.XEvaluator.GetType().Name;
+
+
         ChangePartitions(new Vector2(assistant.SampleWidth, assistant.SampleHeight));
     }
 
@@ -119,7 +132,8 @@ public class MAPEliteContent : VisualElement
             var t = Content[index].GetTexture();
             if (Content[index].Data != null)
             {
-                Content[index].SetTexture(t);
+                //Content[index].SetTexture(background.MergeTextures(t).FitSquare());
+                Content[index].SetTexture(background);
             }
             else
             {
@@ -136,6 +150,6 @@ public class MAPEliteContent : VisualElement
         loadingImg = DirectoryTools.SearchAssetByName<Texture2D>("LoadingContent");
         notFoundImg = DirectoryTools.SearchAssetByName<Texture2D>("ContentNotFound");
 
-        ChangePartitions(new Vector2(assistant.SampleWidth, assistant.SampleHeight));
+        ChangePartitions(new Vector2(2, 2));
     }
 }

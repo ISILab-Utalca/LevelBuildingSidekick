@@ -89,6 +89,11 @@ public class HillClimbingDrawer : Drawer
         nViews.ForEach(n => view.AddElement(n));
     }
 
+    public override Texture2D GetTexture(object target, Rect sourceRect, Vector2Int teselationSize)
+    {
+        throw new System.NotImplementedException();
+    }
+
     /// <summary>
     /// 
     /// </summary>

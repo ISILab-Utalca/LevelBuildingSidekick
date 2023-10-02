@@ -90,6 +90,42 @@ namespace Utility
 
             return t;
         }
+
+        public static Texture2D FitSquare(this Texture2D origin)
+        {
+
+            int size = (origin.width > origin.height ? origin.width : origin.height);
+            var ofsset = ((Vector2.one * size - new Vector2(origin.width, origin.height))/2).ToInt();
+            var texture = new Texture2D(size, size);
+
+            for (int j = 0; j < origin.height; j++)
+            {
+                for (int i = 0; i < origin.width; i++)
+                {
+                    texture.SetPixel(ofsset.x + i, ofsset.y + j, origin.GetPixel(i,j));
+                }
+            }
+            texture.Apply();
+
+            return texture;
+        }
+
+        public static Texture2D SubTexture(this Texture2D origin, int x, int y, int width, int height)
+        {
+            var texture = new Texture2D(width, height);
+
+            for (int j = 0; j < width; j++)
+            {
+                for (int i = 0; i < width; i++)
+                {
+                    texture.SetPixel(i, j, origin.GetPixel(x + i, y + j));
+                }
+            }
+
+            texture.Apply();
+
+            return texture;
+        }
     }
 }
 

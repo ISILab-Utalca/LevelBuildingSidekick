@@ -50,7 +50,7 @@ public class ResemblanceVE : EvaluatorVE
 
 
     private void GetTexturizables()
-    {
+    {/*
         referenceRectField.choices = new List<string>();
 
         var mods = layer.Parent.Layers.SelectMany(l => l.Modules);
@@ -64,7 +64,7 @@ public class ResemblanceVE : EvaluatorVE
         }
 
         referenceRectField.value = referenceRectField.choices[0];
-        rect = mods.ToList().Find(m => m.ID == referenceRectField.value).GetBounds();
+        rect = mods.ToList().Find(m => m.ID == referenceRectField.value).GetBounds();*/
     }
 
     private void SetChromosome(string mod)

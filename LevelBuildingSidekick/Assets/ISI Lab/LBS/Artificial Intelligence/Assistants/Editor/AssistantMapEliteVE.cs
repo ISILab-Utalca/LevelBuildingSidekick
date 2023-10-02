@@ -5,9 +5,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
 using UnityEngine.UIElements;
+using Utility;
+using static UnityEngine.UI.GridLayoutGroup;
 
 [LBSCustomEditor("AssistantMapElite", typeof(AssistantMapElite))]
 public class AssistantMapEliteVE : LBSCustomEditor, IToolProvider
@@ -31,9 +34,9 @@ public class AssistantMapEliteVE : LBSCustomEditor, IToolProvider
         var assitant = target as AssistantMapElite;
         content.Reset();
         assitant.LoadPresset(config.GetPresset());
-        assitant.SetAdam(assitant.Rect); // GET RECT FROM TOOL
+        SetBackgorundTexture(assitant.RawToolRect);
+        assitant.SetAdam(assitant.RawToolRect);
         assitant.Execute();
-
         LBSMainWindow.OnWindowRepaint += RepaintContent;
     }
 
@@ -90,11 +93,64 @@ public class AssistantMapEliteVE : LBSCustomEditor, IToolProvider
 
         var assitant = target as AssistantMapElite;
         var icon = Resources.Load<Texture2D>("Icons/Select");
-        ActOnRect = new ActOnRect((r) => assitant.Rect = r);
         var t1 = new LBSTool(icon, "Select area to evaluate", ActOnRect);
+        ActOnRect = new ActOnRect((r) => assitant.RawToolRect = r);
         t1.Init(assitant.Owner, assitant);
         toolkit.AddTool(t1);
     }
 
-    
+    public void SetBackgorundTexture(Rect rect)
+    {
+        var assitant = target as AssistantMapElite;
+        var behaviours = assitant.Owner.Parent.Layers.SelectMany(l => l.Behaviours);
+        var bh = assitant.Owner.Behaviours.Find(b => b is PopulationBehaviour);
+
+        var size = 16;
+
+        var textures = new List<Texture2D>();
+
+        foreach (var b in behaviours)
+        {
+            if (b == null)
+                continue;
+
+            if (bh != null && b.Equals(bh))
+                continue;
+
+            var classes = Utility.Reflection.GetClassesWith<DrawerAttribute>();
+            if (classes.Count == 0)
+                continue;
+
+            var drawers = classes.Where(t => t.Item2.Any(v => v.type == b.GetType()));
+
+            if (drawers.Count() == 0)
+                continue;
+
+            var drawer = Activator.CreateInstance(drawers.First().Item1) as Drawer;
+            Debug.Log(rect);
+            textures.Add(drawer.GetTexture(b, rect, Vector2Int.one * size));
+        }
+
+        var texture = new Texture2D((int)(rect.width * size), (int)(rect.height * size));
+
+        for (int j = 0; j < texture.height; j++)
+        {
+            for (int i = 0; i < texture.height; i++)
+            {
+                texture.SetPixel(i, j, new Color32(0, 0, 0, 0));
+            }
+        }
+
+        foreach(var t in textures)
+        {
+            Debug.Log("Textture: " + t.width + " - " + t.height);
+            texture.MergeTextures(t);
+        }
+
+        texture.FitSquare();
+        texture.Apply();
+
+        content.background = texture;
+
+    }
 }

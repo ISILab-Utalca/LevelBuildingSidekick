@@ -76,6 +76,11 @@ public class ExteriorBehaviour : LBSBehaviour
         t.SetConnection(direction, connection, canEditedByAI);
     }
 
+    public List<string> GetConnections(LBSTile tile)
+    {
+        return Connections.GetConnections(tile);
+    }
+
     public override object Clone()
     {
         return new ExteriorBehaviour(this.Icon, this.Name);

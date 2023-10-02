@@ -1,5 +1,6 @@
 using Commons.Optimization.Evaluator;
 using ISILab.AI.Optimization;
+using LBS.Behaviours;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -24,9 +25,11 @@ public class MAPElitesPressetVE : LBSCustomEditor
     ClassDropDown optimizer;
     VisualElement contentO;
 
+    ClassDropDown maskType;
+
     public MAPElitesPressetVE(object target) : base(target)
     {
-        Add(CreateVisualElement());
+        CreateVisualElement();
         SetInfo(target);
     }
 
@@ -55,43 +58,44 @@ public class MAPElitesPressetVE : LBSCustomEditor
             optimizer.value = presset.Optimizer.GetType().Name;
             LoadEditor(contentO, presset.Optimizer);
         }
+        if(presset.MaskType != null)
+            maskType.value = presset.MaskType.Name;
     }
 
     protected override VisualElement CreateVisualElement()
     {
-        var ve = new VisualElement();
         var vt = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("MAPElitesPresset");
-        vt.CloneTree(ve);
+        vt.CloneTree(this);
 
         var presset = target as MAPElitesPresset;
 
-        samples = ve.Q<Vector2IntField>(name: "Samples");
+        samples = this.Q<Vector2IntField>(name: "Samples");
         samples.RegisterValueChangedCallback(
              evt =>
              {
                  presset.SampleCount = evt.newValue;
              });
 
-        evaluatorX = ve.Q<ClassDropDown>(name: "XDropdown");
-        thresholdX = ve.Q<Vector2Field>(name: "XThreshold");
+        evaluatorX = this.Q<ClassDropDown>(name: "XDropdown");
+        thresholdX = this.Q<Vector2Field>(name: "XThreshold");
         thresholdX.RegisterValueChangedCallback(
              evt =>
              {
                  presset.XThreshold = evt.newValue;
              });
-        contentX = ve.Q<VisualElement>(name: "XContent");
+        contentX = this.Q<VisualElement>(name: "XContent");
 
-        evaluatorY = ve.Q<ClassDropDown>(name: "YDropdown");
-        thresholdY = ve.Q<Vector2Field>(name: "YThreshold");
+        evaluatorY = this.Q<ClassDropDown>(name: "YDropdown");
+        thresholdY = this.Q<Vector2Field>(name: "YThreshold");
         thresholdY.RegisterValueChangedCallback(
              evt =>
              {
                  presset.YThreshold = evt.newValue;
              });
-        contentY = ve.Q<VisualElement>(name: "YContent");
+        contentY = this.Q<VisualElement>(name: "YContent");
 
-        optimizer = ve.Q<ClassDropDown>(name: "ODropdown");
-        contentO = ve.Q<VisualElement>(name: "OContent");
+        optimizer = this.Q<ClassDropDown>(name: "ODropdown");
+        contentO = this.Q<VisualElement>(name: "OContent");
 
         evaluatorX.Type = typeof(IRangedEvaluator);
         evaluatorY.Type = typeof(IRangedEvaluator);
@@ -121,19 +125,18 @@ public class MAPElitesPressetVE : LBSCustomEditor
                 LoadEditor(contentO, obj);
             });
 
+        maskType = this.Q<ClassDropDown>(name: "BehaviourContext");
+        maskType.Type = typeof(LBSBehaviour);
 
-        InitialValues();
+        maskType.RegisterValueChangedCallback( 
+            evt =>
+            {
+                Debug.Log(maskType.TypeValue);
+                presset.MaskType = maskType.TypeValue;
+            }); 
 
-
-        return ve;
+        return this;
     }
-
-    private void InitialValues()
-    {
-        
-
-    }
-
 
     private void LoadEditor(VisualElement container, object target)
     {

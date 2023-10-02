@@ -88,11 +88,7 @@ public class BundleTilemapChromosome : ChromosomeBase2D, IDrawable
     {
         int tSize = 16;
 
-        int size = (int)(Rect.width > Rect.height ? Rect.width : Rect.height);
-
-        var texture = new Texture2D((int)size* tSize, (int)size* tSize);
-
-        var offset = new Vector2Int(size - (int)Rect.width, size - (int)Rect.height)/2;
+        var texture = new Texture2D((int)Rect.width * tSize, (int)Rect.height * tSize);
 
         for(int i = 0; i < genes.Length; i++)
         {
@@ -101,7 +97,7 @@ public class BundleTilemapChromosome : ChromosomeBase2D, IDrawable
             {
                 var t = new Texture2D(1, 1);
                 t.SetPixel(0, 0, new Color(0, 0, 0, 0));
-                texture.InsertTextureInRect(t, (offset.x + pos.x) * tSize, (offset.y + pos.y) * tSize, tSize, tSize);
+                texture.InsertTextureInRect(t, pos.x * tSize, pos.y * tSize, tSize, tSize);
             }
             else
             {
@@ -110,7 +106,7 @@ public class BundleTilemapChromosome : ChromosomeBase2D, IDrawable
                 t.SetPixels(source.GetPixels());
                 t.MirrorY();
                 t.Apply();
-                texture.InsertTextureInRect(t, (offset.x + pos.x) * tSize, (offset.y + pos.y) * tSize, tSize, tSize);
+                texture.InsertTextureInRect(t, pos.x * tSize, pos.y * tSize, tSize, tSize);
             }
         }
         texture.MirrorY();

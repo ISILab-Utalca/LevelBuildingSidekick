@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Newtonsoft.Json;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -16,7 +17,18 @@ public class MAPElitesPresset : ScriptableObject, ICloneable
     [SerializeField]
     MapElites mapElites = new MapElites();
 
+    [SerializeField]
+    string maskType = "";
+
+    [JsonIgnore]
     public MapElites MapElites => mapElites?.Clone() as MapElites;
+
+    [JsonIgnore]
+    public Type MaskType
+    {
+        get => Type.GetType(maskType);
+        set => maskType = value.FullName;
+    }
 
     public Vector2Int SampleCount
     {

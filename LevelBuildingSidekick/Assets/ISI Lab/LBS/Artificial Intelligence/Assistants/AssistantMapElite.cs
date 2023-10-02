@@ -6,6 +6,10 @@ using Newtonsoft.Json;
 using LBS.Components.TileMap;
 using LBS.Assisstants;
 using System.Xml.Linq;
+using System.Linq;
+using Commons.Optimization.Evaluator;
+using UnityEditor.Experimental.GraphView;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 [System.Serializable]
 [RequieredModule(typeof(BundleTileMap))]
@@ -20,7 +24,20 @@ public class AssistantMapElite : LBSAssistant
 
     #region PROPERTIES
     [JsonIgnore]
-    public Rect Rect { get; set; }
+    public Rect RawToolRect { get; set; }
+
+    [JsonIgnore]
+    public Rect Rect
+    {
+        get
+        {
+            var corners = Owner.ToFixedPosition(RawToolRect.min, RawToolRect.max);
+
+            var size = corners.Item2 - corners.Item1 + Vector2.one; 
+            return new Rect(corners.Item1, size);
+        }
+    }
+
     [JsonIgnore]
     public bool Finished => mapElites.Finished;
     [JsonIgnore]
@@ -35,8 +52,18 @@ public class AssistantMapElite : LBSAssistant
         get => mapElites.YSampleCount;
         set => mapElites.YSampleCount = value;
     }
+
     [JsonIgnore]
     public IOptimizable[,] Samples => mapElites.BestSamples;
+
+    [JsonIgnore]
+    public IEvaluator XEvaluator => mapElites.XEvaluator;
+
+    [JsonIgnore]
+    public IEvaluator YEvaluator => mapElites.YEvaluator;
+
+    private Type maskType;
+
     #endregion
 
     #region CONSTRUCTORS
@@ -93,13 +120,54 @@ public class AssistantMapElite : LBSAssistant
     public void LoadPresset(MAPElitesPresset presset)
     {
         mapElites = presset.MapElites;
+        maskType = presset.MaskType;
     }
 
     public void SetAdam(Rect rect)
     {
         var tm = Owner.GetModule<BundleTileMap>();
-        var chrom = new BundleTilemapChromosome(tm, rect);
+        var chrom = new BundleTilemapChromosome(tm, rect, CalcImmutables(rect));
         mapElites.Adam = chrom;
+    }
+
+    private int[] CalcImmutables(Rect rect)
+    {
+        int[] immutables = null;
+        if (maskType != null)
+        {
+            var layers = Owner.Parent.Layers.Where(l => l.Behaviours.Any(b => b.GetType().Equals(maskType)));
+            var im = new List<int>();
+            foreach (var l in layers)
+            {
+                var m = l.GetModule<TileMapModule>();
+
+                if (m == null)
+                    continue;
+
+                var tiles = m.Tiles;
+
+                foreach (var t in tiles)
+                {
+                    if (!rect.Contains(t.Position))
+                        continue;
+                    var pos = t.Position - rect.position;
+                    var i = (int)(pos.y * rect.width + pos.x);
+                    im.Add(i);
+                }
+
+            }
+            immutables = im.ToArray();
+        }
+
+        return immutables;
+    }
+
+    public Texture2D GetBackgroundTexture(Rect rect)
+    {
+        var text = new Texture2D((int)rect.width, (int)rect.height);
+
+
+        return text;
     }
 
     public override object Clone()
@@ -122,6 +190,7 @@ public class AssistantMapElite : LBSAssistant
     {
         return base.GetHashCode();
     }
+
     #endregion
 }
 

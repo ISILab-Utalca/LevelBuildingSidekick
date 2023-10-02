@@ -14,4 +14,9 @@ public class DrawGrammarGraph : Drawer
     {
         throw new System.NotImplementedException();
     }
+
+    public override Texture2D GetTexture(object target, Rect sourceRect, Vector2Int teselationSize)
+    {
+        throw new System.NotImplementedException();
+    }
 }

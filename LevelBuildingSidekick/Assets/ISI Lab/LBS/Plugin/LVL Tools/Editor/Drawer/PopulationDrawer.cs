@@ -30,4 +30,9 @@ public class PopulationDrawer : Drawer
 
         }
     }
+
+    public override Texture2D GetTexture(object target, Rect sourceRect, Vector2Int teselationSize)
+    {
+        throw new NotImplementedException();
+    }
 }

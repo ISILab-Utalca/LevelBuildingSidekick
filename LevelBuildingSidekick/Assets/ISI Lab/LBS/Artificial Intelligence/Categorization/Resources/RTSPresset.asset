@@ -23,6 +23,7 @@ MonoBehaviour:
     optimizer:
       rid: 1429379699903299956
     changedSample: 
+  maskType: 
   references:
     version: 2
     RefIds:
