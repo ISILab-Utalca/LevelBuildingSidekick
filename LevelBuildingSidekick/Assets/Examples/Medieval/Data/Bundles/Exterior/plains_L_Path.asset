@@ -31,6 +31,7 @@ MonoBehaviour:
       type: {class: LBSDirection, ns: , asm: LBS}
       data:
         label: Connections
+        isSavableOnJSON: 1
         connections:
         - Path
         - Grass
@@ -44,6 +45,7 @@ MonoBehaviour:
       type: {class: LBSDirection, ns: , asm: LBS}
       data:
         label: Connections
+        isSavableOnJSON: 1
         connections:
         - 
         - 
