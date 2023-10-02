@@ -72,10 +72,10 @@ public class LBSGrammarGraph : LBSModule
 
     public override void OnAttach(LBSLayer layer)
     {
-        var graph = layer.GetModule<LBSGraph>();
+        //var graph = layer.GetModule<LBSGraph>();
         //Verificar posible recursividad
-        OnAddNode += graph.AddNode;
-        OnRemoveNode += graph.RemoveNode;
+        //OnAddNode += graph.AddNode;
+        //OnRemoveNode += graph.RemoveNode;
     }
 
     private void RemoveNode(object obj)
@@ -98,10 +98,10 @@ public class LBSGrammarGraph : LBSModule
 
     public override void OnDetach(LBSLayer layer)
     {
-        var graph = layer.GetModule<LBSGraph>();
+        //var graph = layer.GetModule<LBSGraph>();
         //Verificar posible recursividad
-        OnAddNode -= graph.AddNode;
-        OnRemoveNode -= graph.RemoveNode;
+        //OnAddNode -= graph.AddNode;
+        //OnRemoveNode -= graph.RemoveNode;
     }
 
     public override void Print()

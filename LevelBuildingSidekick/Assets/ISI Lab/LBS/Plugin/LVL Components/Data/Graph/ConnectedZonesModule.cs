@@ -58,7 +58,7 @@ public class ConnectedZonesModule : LBSModule
         return null;
     }
 
-    [Obsolete("Deberia el 'modelo' hacer cosas relativas a distanias ??")]
+    //[Obsolete("¿Deberia el 'modelo' hacer cosas relativas a distanias?")]
     public ZoneEdge GetEdge(Vector2 position, float delta)
     {
         foreach (var e in edges)

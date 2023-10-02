@@ -17,10 +17,12 @@ namespace LBS.Generator
         public override bool CheckIfIsPosible(LBSLayer layer,out string msg)
         {
             msg = "The layer does not contain any module corresponding to 'TaggedTileMap'.";
-
+            return true;
+            /*
             var data = layer.GetModule<TaggedTileMap>();
 
             return (data != null);
+            */
         }
 
         public override object Clone()

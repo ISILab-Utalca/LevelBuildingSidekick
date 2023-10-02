@@ -22,8 +22,6 @@ namespace LBS
         private Vector2Int startClickPosition = Vector2Int.zero;
         private Vector2Int moveClickPosition = Vector2Int.zero;
         private Vector2Int endClickPosition = Vector2Int.zero;
-
-        private bool altPressed = false;
         #endregion
 
         #region PROPERTIES

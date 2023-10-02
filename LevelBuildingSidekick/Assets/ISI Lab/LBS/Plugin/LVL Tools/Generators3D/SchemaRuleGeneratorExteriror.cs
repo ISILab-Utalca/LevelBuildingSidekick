@@ -14,13 +14,15 @@ using UnityEditor;
 [System.Serializable]
 public class SchemaRuleGeneratorExteriror : LBSGeneratorRule
 {
-    private LBSSchema schema;
-    private LBSRoomGraph graph;
+    //private LBSSchema schema;
+    //private LBSRoomGraph graph;
 
     public override bool CheckIfIsPosible(LBSLayer layer, out string msg)
     {
         msg = "";
 
+        return true;
+        /*
         var schema = layer.GetModule<LBSSchema>();
         var graph = layer.GetModule<LBSRoomGraph>();
         if (schema == null)
@@ -32,8 +34,7 @@ public class SchemaRuleGeneratorExteriror : LBSGeneratorRule
         {
             msg = "The layer does not contain any module corresponding to 'LBSRoomGraph'.";
             return false;
-        }
-        return true;
+        }*/
     }
 
     public override object Clone()
@@ -43,6 +44,8 @@ public class SchemaRuleGeneratorExteriror : LBSGeneratorRule
 
     public override GameObject Generate(LBSLayer layer, Generator3D.Settings settings)
     {
+        return null;
+        /*
         schema = layer.GetModule<LBSSchema>();
         graph = layer.GetModule<LBSRoomGraph>();
 
@@ -124,10 +127,12 @@ public class SchemaRuleGeneratorExteriror : LBSGeneratorRule
         }
         
         return mainPivot;
+        */
     }
 
-    private void BuildCorner(ConnectedTile tile, Dictionary<string, List<GameObject>> bundles, Transform parent, Generator3D.Settings settings, int fff, int ddd,int aaa)
+    private void BuildCorner(LBSTile tile, Dictionary<string, List<GameObject>> bundles, Transform parent, Generator3D.Settings settings, int fff, int ddd,int aaa)
     {
+        /*
         var scale = settings.scale;
         var sideDir = new List<Vector2>() { Vector2Int.right, Vector2Int.down, Vector2Int.left, Vector2Int.up };
         var diagDir = new List<Vector2>()
@@ -168,10 +173,12 @@ public class SchemaRuleGeneratorExteriror : LBSGeneratorRule
         }
 
         pivot.transform.position = new Vector3(scale.x * tile.Position.x, 0, -scale.y * tile.Position.y) + new Vector3(scale.x, 0, -scale.y) / 2;
+        */
     }
 
-    private void BuildWall(ConnectedTile tile, Dictionary<string, List<GameObject>> bundles, Transform parent, Generator3D.Settings settings)
+    private void BuildWall(LBSTile tile, Dictionary<string, List<GameObject>> bundles, Transform parent, Generator3D.Settings settings)
     {
+        /*
         var scale = settings.scale;
         var sideDir = new List<Vector2>() { Vector2Int.right, Vector2Int.down, Vector2Int.left, Vector2Int.up };
         var pivot = new GameObject("Tile: " + tile.Position);
@@ -201,6 +208,7 @@ public class SchemaRuleGeneratorExteriror : LBSGeneratorRule
         }
         
         pivot.transform.position = new Vector3(scale.x * tile.Position.x, 0, -scale.y * tile.Position.y) + new Vector3(scale.x, 0, -scale.y) / 2;
+        */
     }
 
     private GameObject CreateObject(GameObject pref, Transform pivot)

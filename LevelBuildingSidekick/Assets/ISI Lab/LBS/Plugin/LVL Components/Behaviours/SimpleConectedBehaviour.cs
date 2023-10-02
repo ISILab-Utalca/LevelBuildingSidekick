@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-[RequieredModule(typeof(ExteriorModule))]
+[RequieredModule(typeof(ConnectedTileMapModule))]
 public class SimpleConectedBehaviour : LBSBehaviour
 {
     public SimpleConectedBehaviour(Texture2D icon, string name) : base(icon, name) { }

@@ -79,4 +79,14 @@ public class LBSDirectionedGroup : LBSCharacteristic, ICloneable
     {
         return false; // Implentar bien (!!)
     }
+
+    public override string ToString()
+    {
+        return base.ToString();
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
 }

@@ -28,8 +28,8 @@ public class LBSDirection : LBSCharacteristic, ICloneable
     [SerializeField, JsonRequired]
     private List<string> connections = new List<string>();
 
-    [JsonRequired,SerializeField]
-    private int connectionAmount = 4;
+    //[JsonRequired,SerializeField]
+    //private int connectionAmount = 4;
 
     [JsonIgnore, SerializeField]
     private List<weightStruct> weights = new List<weightStruct>();

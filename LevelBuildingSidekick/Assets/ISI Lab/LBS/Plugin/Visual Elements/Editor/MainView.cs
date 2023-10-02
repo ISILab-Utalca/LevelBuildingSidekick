@@ -34,7 +34,6 @@ public class MainView : GraphView // Canvas or WorkSpace
     #endregion
 
     #region EVENTS
-    public event Action<ContextualMenuPopulateEvent> OnBuild;
     public event Action OnClearSelection;
     #endregion
 

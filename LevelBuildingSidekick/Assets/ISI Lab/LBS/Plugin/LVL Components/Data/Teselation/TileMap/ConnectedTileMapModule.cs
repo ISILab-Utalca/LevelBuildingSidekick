@@ -196,11 +196,8 @@ public class ConnectedTileMapModule : LBSModule
         return true;
     }
 
-    // override object.GetHashCode
     public override int GetHashCode()
     {
-        // TODO: write your implementation of GetHashCode() here
-        throw new NotImplementedException();
         return base.GetHashCode();
     }
 

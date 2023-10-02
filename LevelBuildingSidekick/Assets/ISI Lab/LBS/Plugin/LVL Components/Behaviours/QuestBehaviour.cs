@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-[RequieredModule(typeof(LBSGraph), typeof(LBSGrammarGraph))]
+[RequieredModule(typeof(LBSGrammarGraph))]
 public class QuestBehaviour : LBSBehaviour
 {
     #region CONSTRUCTORS

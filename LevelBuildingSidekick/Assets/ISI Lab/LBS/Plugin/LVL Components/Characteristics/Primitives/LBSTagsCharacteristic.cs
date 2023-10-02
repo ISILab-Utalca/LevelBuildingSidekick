@@ -52,4 +52,14 @@ public class LBSTagsCharacteristic : LBSCharacteristic
     {
        // throw new System.NotImplementedException();
     }
+
+    public override string ToString()
+    {
+        return base.ToString();
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
 }

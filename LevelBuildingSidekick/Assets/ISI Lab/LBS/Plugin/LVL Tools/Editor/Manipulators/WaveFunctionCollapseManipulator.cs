@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
+
 public class WaveFunctionCollapseManipulator : ManipulateTeselation
 {
     private struct Candidate
@@ -37,9 +38,7 @@ public class WaveFunctionCollapseManipulator : ManipulateTeselation
 
     protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
     {
-        var x = 1;
         first = assistant.Owner.ToFixedPosition(position);
-
     }
 
     protected override void OnMouseMove(VisualElement target, Vector2Int position, MouseMoveEvent e)

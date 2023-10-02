@@ -9,8 +9,6 @@ using LBS.Components.TileMap;
 [LBSCustomEditor("Tile", typeof(LBSTile))]
 public class TileEditor : LBSCustomEditor
 {
-    private LBSTile target;
-
     private Vector2Field field;
 
     public TileEditor()
@@ -20,10 +18,10 @@ public class TileEditor : LBSCustomEditor
 
     public override void SetInfo(object target)
     {
-        this.target = target as LBSTile;
+        this.target = target;
+        var t = target as LBSTile;
 
-        field.value = this.target.Position;
-
+        field.value = t.Position;
     }
 
     protected override VisualElement CreateVisualElement()

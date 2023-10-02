@@ -15,11 +15,11 @@ namespace LBS.Generator
     {
         public override bool CheckIfIsPosible(LBSLayer layer, out string msg)
         {
-            var module = layer.GetModule<ExteriorModule>();
+            //var module = layer.GetModule<ExteriorModule>();
 
             msg = "The layer does not contain any module corresponding to 'Exterior'.";
 
-            return (module != null);
+            return false; //(module != null);
         }
 
         private Tuple<LBSDirection,int> GetBundle(LBSDirectionedGroup group, string[] conections)

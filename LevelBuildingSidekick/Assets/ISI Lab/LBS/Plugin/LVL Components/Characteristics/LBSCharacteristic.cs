@@ -18,8 +18,8 @@ public abstract class LBSCharacteristic : ICloneable
     [JsonRequired, SerializeField]
     protected string label = "";
 
-    [JsonIgnore, SerializeField]
-    private bool isSavableOnJSON = true;
+    //[JsonIgnore, SerializeField]
+    //private bool isSavableOnJSON = true;
     #endregion
 
     #region PROPERTIES
