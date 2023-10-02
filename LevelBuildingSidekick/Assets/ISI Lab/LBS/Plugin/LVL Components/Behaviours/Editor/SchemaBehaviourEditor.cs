@@ -48,7 +48,7 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
         // [Implementar]
 
         // Add Zone Tiles
-        icon = Resources.Load<Texture2D>("Icons/Addnode");
+        icon = Resources.Load<Texture2D>("Icons/Tools/Brush_interior_tile");
         this.createNewRoomNode = new AddSchemaTile();
         var t1 = new LBSTool(icon, "Paint Zone", createNewRoomNode);
         t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Local","Behaviours");
@@ -57,7 +57,7 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
         toolKit.AddTool(t1);
 
         // Remove Tiles
-        icon = Resources.Load<Texture2D>("Icons/Trash");
+        icon = Resources.Load<Texture2D>("Icons/Tools/Delete_interior_tile");
         this.removeSchemaTile = new RemoveSchemaTile();
         var t2 = new LBSTool(icon, "Remove Tile", removeSchemaTile);
         t2.Init(schema.Owner, schema);
@@ -66,7 +66,7 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
         toolKit.AddSeparator(10);
 
         // Add Tile connection
-        icon = Resources.Load<Texture2D>("Icons/open-exit-door");
+        icon = Resources.Load<Texture2D>("Icons/Tools/Set_Connection");
         this.setTileConnection = new SetSchemaTileConnection();
         var t3 = new LBSTool(icon, "Set connection", setTileConnection);
         t3.OnSelect += () => LBSInspectorPanel.ShowInspector("Local", "Behaviours");
@@ -74,7 +74,7 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
         toolKit.AddTool(t3);
 
         // Remove Tile connection
-        icon = Resources.Load<Texture2D>("Icons/open-exit-door");
+        icon = Resources.Load<Texture2D>("Icons/Tools/Delete_Set_Connection");
         this.removeTileConnection = new RemoveTileConnection();
         var t4 = new LBSTool(icon,"Clean connection", removeTileConnection);
         t4.Init(schema.Owner, schema);
