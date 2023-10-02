@@ -186,6 +186,7 @@ public class LBSMainWindow : EditorWindow
             TryCollapseMenuPanels();
         };
 
+        /*
         // IAButton
         var IABtn = rootVisualElement.Q<Button>("AIButton");
         IABtn.clicked += () =>
@@ -196,6 +197,7 @@ public class LBSMainWindow : EditorWindow
 
             TryCollapseMenuPanels();
         };
+        */
 
         // 3DButton
         var Gen3DBtn = rootVisualElement.Q<Button>("3DButton");

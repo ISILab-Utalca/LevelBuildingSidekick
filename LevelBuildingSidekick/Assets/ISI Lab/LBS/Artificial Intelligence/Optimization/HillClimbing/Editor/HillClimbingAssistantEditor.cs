@@ -49,7 +49,7 @@ public class HillClimbingAssistantEditor : LBSCustomEditor, IToolProvider
         toolKit.AddSeparator();
 
         // Add Zone connection
-        icon = Resources.Load<Texture2D>("Icons/Addnode");
+        icon = Resources.Load<Texture2D>("Icons/Tools/Node_connection");
         this.setZoneConnection = new SetZoneConnection();
         var t1 = new LBSTool(icon, "Add zone connection", setZoneConnection);
         t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Local", "Assistants");
@@ -57,7 +57,7 @@ public class HillClimbingAssistantEditor : LBSCustomEditor, IToolProvider
         toolKit.AddTool(t1);
 
         // Remove zone connections
-        icon = Resources.Load<Texture2D>("Icons/Addnode");
+        icon = Resources.Load<Texture2D>("Icons/Tools/Delete_node_connection");
         this.removeAreaConnection = new RemoveAreaConnection();
         var t2 = new LBSTool(icon,"Remove zone connection", removeAreaConnection);
         t2.Init(hillClimbing.Owner,hillClimbing);

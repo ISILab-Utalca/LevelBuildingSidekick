@@ -40,24 +40,24 @@ public class PopulationBehaviourEditor : LBSCustomEditor, IToolProvider
     public void SetTools(ToolKit toolkit)
     {
         Texture2D icon;
-        //  var tool1 = new LBSTool(icon, "Select", typeof(Select), null, true);
 
-        // Add Zone Tiles
-        icon = Resources.Load<Texture2D>("Icons/Addnode");
+        // Add element Tiles
+        icon = Resources.Load<Texture2D>("Icons/Tools/Population_Brush");
         this.addPopulationTile = new AddPopulationTile();
         var t1 = new LBSTool(icon, "Paint Tile", addPopulationTile);
         t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Local", "Behaviours");
         t1.Init(population.Owner, population);
         toolkit.AddTool(t1);
 
-        icon = Resources.Load<Texture2D>("Icons/Trash");
+        // Rotate element
+        icon = Resources.Load<Texture2D>("Icons/Tools/Rotation");
         this.rotatePopulationTile = new RotatePopulationTile();
         var t3 = new LBSTool(icon, "Rotate Tile", rotatePopulationTile);
         t3.Init(population.Owner, population);
         toolkit.AddTool(t3);
 
         // Remove Tiles
-        icon = Resources.Load<Texture2D>("Icons/Trash");
+        icon = Resources.Load<Texture2D>("Icons/Tools/Delete_population");
         this.removePopulationTile = new RemovePopulationTile();
         var t2 = new LBSTool(icon, "Remove Tile", removePopulationTile);
         t2.Init(population.Owner, population);

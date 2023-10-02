@@ -21,7 +21,11 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
 
     private AddEmptyTile addEmptyTile;
     private RemoveTileExterior removeTile;
-    private SetExteriorTileConnection setTileConnection;
+    private SetExteriorTileConnection setConnection;
+    private RemoveConnection removeConection;
+
+    //private SetConnectionArea setConnectionArea;
+    //private RemoveConectionArea removeConnectionArea;
 
     #endregion
 
@@ -67,14 +71,14 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
         Texture2D icon;
 
         // Set empty tile
-        icon = Resources.Load<Texture2D>("Icons/Addnode");
+        icon = Resources.Load<Texture2D>("Icons/Tools/Brush_interior_tile");
         this.addEmptyTile = new AddEmptyTile();
-        var t1 = new LBSTool(icon,"Add Empty Tile", addEmptyTile);
+        var t1 = new LBSTool(icon, "Add tile wihtout connection", addEmptyTile);
         t1.Init(exterior.Owner,exterior);
         toolKit.AddTool(t1);
 
         // Remove tile
-        icon = Resources.Load<Texture2D>("Icons/Trash");
+        icon = Resources.Load<Texture2D>("Icons/Tools/Delete_exterior_tile");
         this.removeTile = new RemoveTileExterior();
         var t2 = new LBSTool(icon, "Remove Tile", removeTile);
         t2.Init(exterior.Owner, exterior);
@@ -83,12 +87,25 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
         toolKit.AddSeparator(10);
 
         // Set connection
-        icon = Resources.Load<Texture2D>("Icons/open-exit-door");
-        this.setTileConnection = new SetExteriorTileConnection();
-        var t3 = new LBSTool(icon, "Set connection", setTileConnection);
+        icon = Resources.Load<Texture2D>("Icons/Tools/Exterior_connection");
+        this.setConnection = new SetExteriorTileConnection();
+        var t3 = new LBSTool(icon, "Set connection", setConnection);
         t3.OnSelect += () => LBSInspectorPanel.ShowInspector("Local", "Behaviours");
         t3.Init(exterior.Owner, exterior);
         toolKit.AddTool(t3);
+
+        // Remove connection
+        icon = Resources.Load<Texture2D>("Icon/Tools/Delete_exterior_connection");
+        this.removeConection = new RemoveConnection();
+        var t4 = new LBSTool(icon, "Remove connection", removeConection);
+        t4.Init(exterior.Owner,exterior);
+        toolKit.AddTool(t4);
+
+        /*
+        // Set Connection in area
+        icon = Resources.Load<Texture2D>("Icon/Tools/Delete_exterior_connection");
+        this.
+        */
     }
 
     private void OnTargetBundle() // mejorar nombre
@@ -167,7 +184,7 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
         // Selected option event
         connectionPallete.OnSelectOption += (selected) => 
         {
-            setTileConnection.ToSet = selected as LBSIdentifier;
+            setConnection.ToSet = selected as LBSIdentifier;
         };
 
         // OnAdd option event

@@ -70,10 +70,10 @@ public class ExteriorBehaviour : LBSBehaviour
         Connections.AddPair(tile, new List<string> { "", "", "", "" }, new List<bool> { false, false, false, false });
     }
 
-    public void SetConnection(LBSTile tile, int direction, string connection, bool editedByIA)
+    public void SetConnection(LBSTile tile, int direction, string connection, bool canEditedByAI)
     {
         var t = Owner.GetModule<ConnectedTileMapModule>() .GetPair(tile);
-        t.SetConnection(direction, connection, editedByIA);
+        t.SetConnection(direction, connection, canEditedByAI);
     }
 
     public override object Clone()
