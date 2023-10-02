@@ -7,7 +7,7 @@ using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
-public class ConstrainsZonesModule : LBSModule
+public class ConstrainsZonesModule : LBSModule , ISelectable
 {
     #region FIELDS
     [SerializeField, JsonRequired]
@@ -157,6 +157,25 @@ public class ConstrainsZonesModule : LBSModule
     public override int GetHashCode()
     {
         return base.GetHashCode();
+    }
+
+    public List<object> GetSelected(Vector2Int position)
+    {
+        var tor = new List<object>();
+        for (int i = 0; i < pairs.Count; i++)
+        {
+            var zone = pairs[i].Zone;
+            var size = new Vector2(pairs[i].Constraint.maxWidth, pairs[i].Constraint.maxHeight);
+
+            var pos = zone.Pivot - (size / 2f);
+            var rect = new Rect(pos, size);
+            if (rect.Contains(position))
+            {
+                tor.Add(pairs[i].Constraint);
+            }
+        }
+
+        return tor;
     }
     #endregion
 }
