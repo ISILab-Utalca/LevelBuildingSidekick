@@ -610,10 +610,10 @@ public class SectorizedTileMapModule : LBSModule, ISelectable
 public class TileZonePair : ICloneable
 {
     #region FIELDS
-    [SerializeField, JsonRequired]
+    [SerializeField, JsonRequired, SerializeReference]
     private LBSTile tile;
 
-    [SerializeField, JsonRequired]
+    [SerializeField, JsonRequired, SerializeReference]
     private Zone zone;
     #endregion
 
