@@ -68,10 +68,6 @@ public class ExteriorDrawer : Drawer
             }
         }
 
-        Debug.Log("R: " + sourceRect.width + " : " + sourceRect.height);
-        Debug.Log("T: " + texture.width + " : " + texture.height);
-        Debug.Log("TS: " + teselationSize);
-
         int c = 0;
         foreach (var t in tileMod.Tiles)
         {
@@ -89,8 +85,6 @@ public class ExteriorDrawer : Drawer
                 }
             }
         }
-
-        Debug.Log("Tiles: " + c);
 
         texture.Apply();
 
@@ -136,12 +130,17 @@ public class ExteriorDrawer : Drawer
                 else if (j > teselationSize.y * 0.66) // UP
                 {
 
-                    if (i < teselationSize.x * 0.33 || i > teselationSize.x * 0.33)
+                    if (i < teselationSize.x * 0.33 || i > teselationSize.x * 0.66)
                         continue;
                     var index = Directions.Bidimencional.Edges.FindIndex(v => v == Vector2.up);
                     var connection = connections[index];
                     var color = Identifiers.Find(t => t.Label.Equals(connection)).Color;
                     texture.SetPixel(i, j, color);
+                }
+
+                if((i < teselationSize.x * 0.33 || i > teselationSize.x * 0.66) && (j < teselationSize.y * 0.33 || j > teselationSize.y * 0.66))
+                {
+                    texture.SetPixel(i, j, Color.gray);
                 }
 
             }
