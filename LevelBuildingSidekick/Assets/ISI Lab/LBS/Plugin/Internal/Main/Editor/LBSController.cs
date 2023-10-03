@@ -15,8 +15,6 @@ namespace LBS
     // esta clase podria ser estatica completamente (??)
     public static class LBSController 
     {
-        private class LevelScriptable : GenericScriptable<LBSLevelData> { };
-
         private static readonly string defaultName = "New file";
 
         public static Action<LBSLevelData> OnLoadLevel;
@@ -26,17 +24,16 @@ namespace LBS
         {
             get
             {
-                var instance = LevelBackUp.Instance();
-                if (instance.level == null)
+                var level = LBS.loadedLevel;
+                if (level == null)
                 {
-                    instance.level =  new LoadedLevel(new LBSLevelData(), "");
+                    level =  new LoadedLevel(new LBSLevelData(), "");
                 }
-                return instance.level;
+                return level;
             }
             set
             {
-                var instance = LevelBackUp.Instance();
-                instance.level = value;
+                LBS.loadedLevel = value;
             }
         }
 
@@ -100,7 +97,6 @@ namespace LBS
             }
         }
 
-
         public static void SaveFile()
         {
             var fileInfo = CurrentLevel.FileInfo;
@@ -147,9 +143,8 @@ namespace LBS
                 var filename = parts[^1];
                 var directory = path.Substring(0,path.Length - filename.Length);
                 Debug.Log("Save file on: '" + directory + filename + "'.");
-                //Debug.Log(fileInfo + " - " + CurrentLevel);
                 Utility.JSONDataManager.SaveData(directory, filename, CurrentLevel.data);
-                LevelBackUp.Instance().level.fullName = path;
+                LBS.loadedLevel.fullName = path;
             }
         }
 
@@ -163,20 +158,5 @@ namespace LBS
             CurrentLevel.data.Reload();
             return CurrentLevel;
         }
-
-        public static void ShowLevelInspector()
-        {
-            /*
-            var s = ScriptableObject.CreateInstance<LevelScriptable>(); //////////////////////////////////////////////////////////////////
-            s.data = CurrentLevel.data;
-            Selection.SetActiveObjectWithContext(s, s);
-            */
-
-        }
-
     }
-
-    
 }
-
-
