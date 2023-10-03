@@ -229,9 +229,6 @@ MonoBehaviour:
   - type: MAPElitesPresset
     items:
     - {fileID: 11400000, guid: b90bb27f581fe354799c9c3b84f44eac, type: 2}
-  - type: LBS.LevelBackUp
-    items:
-    - {fileID: 11400000, guid: 49b3ce592bdd4dd49926e7bacef9bcec, type: 2}
   - type: LBSAssetsStorage
     items:
     - {fileID: 11400000}
