@@ -7,12 +7,13 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 using UnityEngine.UIElements;
 using Utility;
 using static UnityEngine.UI.GridLayoutGroup;
 
 [LBSCustomEditor("AssistantMapElite", typeof(AssistantMapElite))]
-public class AssistantMapEliteVE : LBSCustomEditor, IToolProvider // cambiar el nombre a "AssistantMapEliteEditor" PLS
+public class AssistantMapEliteEditor : LBSCustomEditor, IToolProvider
 {
     MAPEliteConfiguration config;
     MAPEliteContent content;
@@ -22,7 +23,7 @@ public class AssistantMapEliteVE : LBSCustomEditor, IToolProvider // cambiar el 
 
     ActOnRect ActOnRect;
 
-    public AssistantMapEliteVE(object target) : base(target)
+    public AssistantMapEliteEditor(object target) : base(target)
     {
         Add(CreateVisualElement());
         SetInfo(target);
@@ -126,7 +127,6 @@ public class AssistantMapEliteVE : LBSCustomEditor, IToolProvider // cambiar el 
                 continue;
 
             var drawer = Activator.CreateInstance(drawers.First().Item1) as Drawer;
-            Debug.Log(rect);
             textures.Add(drawer.GetTexture(b, rect, Vector2Int.one * size));
         }
 
@@ -136,18 +136,20 @@ public class AssistantMapEliteVE : LBSCustomEditor, IToolProvider // cambiar el 
         {
             for (int i = 0; i < texture.height; i++)
             {
-                texture.SetPixel(i, j, new Color32(0, 0, 0, 0));
+                texture.SetPixel(i, j, new UnityEngine.Color(0.1f, 0.1f, 0.1f, 1));
             }
         }
 
         foreach(var t in textures)
         {
-            Debug.Log("Textture: " + t.width + " - " + t.height);
-            texture.MergeTextures(t);
+            //Debug.Log("Texture::: " + t.width + " - " + t.height);
+            texture = texture.MergeTextures(t);
         }
 
-        texture.FitSquare();
         texture.Apply();
+
+
+        //texture.FitSquare();
 
         content.background = texture;
 

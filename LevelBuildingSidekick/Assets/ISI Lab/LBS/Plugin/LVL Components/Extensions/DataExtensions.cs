@@ -36,23 +36,6 @@ public static class DataExtensions
         return true;
     }
 
-    public static Tuple<WFCBundle,int> Get(this List<WFCBundle> tiles, string[] conections)
-    {
-        foreach (var tile in tiles)
-        {
-            for (int i = 0; i < 4; i++)
-            {
-                var cs = tile.GetConnection(i);
-                if(conections.Compare(cs))
-                {
-                    return new Tuple<WFCBundle, int>(tile,i);
-                }
-            }
-        }
-        return null;
-    }
-
-
     public static void Move(this TiledArea area, Vector2Int value)
     {
         for (int i = 0; i < area.Tiles.Count; i++)
