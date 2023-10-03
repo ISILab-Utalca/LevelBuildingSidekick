@@ -42,8 +42,12 @@ public class MAPEliteConfiguration : VisualElement
 
         editPresset = this.Q<Button>(name: "EditPresset");
 
+
         var menu = new ContextualMenuManipulator(EditPresset);
         menu.target = editPresset;
+
+        //editPresset.clicked += () => OpenPressetWindow(null);
+
 
         dropdown = this.Q<DropdownField>(name: "PressetDropDown");
         dropdown.RegisterValueChangedCallback(e => OnPressetChange?.Invoke(e.newValue));
@@ -95,8 +99,8 @@ public class MAPEliteConfiguration : VisualElement
         evt.menu.AppendAction("Edit Presset", (a) => { OpenPressetWindow(GetPresset()); });
     }
 
-    void OpenPressetWindow(MAPElitesPresset presst)
+    void OpenPressetWindow(MAPElitesPresset preset)
     {
-
+        ME_PressetEditWindow.OpenWindow(preset);
     }
 }

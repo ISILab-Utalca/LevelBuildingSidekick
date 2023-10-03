@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 [System.Serializable]
 public class SecurityFairness : IRangedEvaluator
@@ -49,11 +50,22 @@ public class SecurityFairness : IRangedEvaluator
 
         //Should use A* between all players
 
-        foreach (var pos in playersPos)
+        foreach (var p1 in playersPos)
         {
-            var dist = (int)playersPos.Where(p => p != pos).Min(p => (chrom.ToMatrixPosition(p) - chrom.ToMatrixPosition(pos)).magnitude);
+            foreach (var p2 in playersPos)
+            {
+                if (p1 == p2)
+                    continue;
 
-            localFitness.Add(dist);
+                var dist = AstarDistance(p1, p2, chrom);
+
+                if(dist < 0)
+                {
+                    localFitness.Add(chrom.Length);
+                }
+
+                localFitness.Add(dist);
+            }
         }
 
         if(localFitness.Max() <= 0)
@@ -70,5 +82,67 @@ public class SecurityFairness : IRangedEvaluator
         e.playerCharacteristic = playerCharacteristic;
         e.colliderCharacteristic = colliderCharacteristic;
         return e;
+    }
+
+    public float AstarDistance(int first, int second, BundleTilemapChromosome chrom)
+    {
+        var open = new Queue<int>(); 
+        var closed = new Dictionary<int, int>();
+        var openDic = new Dictionary<int, int>();
+
+        open.Enqueue(first);
+        openDic.Add(first, 0);
+
+        while(open.Count > 0)
+        {
+            var parent = open.Dequeue();
+            var g = openDic[parent];
+            openDic.Remove(parent);
+
+            if(parent == second)
+                return g;// should be pathLength
+
+            foreach (var dir in Directions.Bidimencional.Edges)
+            {
+                var pos = chrom.ToMatrixPosition(parent) + dir;
+                var index = chrom.ToIndex(pos);
+
+                if (index < 0 || index >= chrom.Length)
+                    continue;
+
+                var gen = chrom.GetGene(index) as BundleData;
+
+                if (gen.Characteristics.Contains(colliderCharacteristic))
+                    continue;
+
+                if (closed.ContainsKey(index))
+                    if(closed[index] < openDic[parent] + 1)
+                        continue;
+                    else
+                        closed.Remove(index);
+
+
+                if (openDic.ContainsKey(index))
+                    if (openDic[index] < openDic[parent] + 1)
+                        continue;
+                    else
+                        openDic.Remove(index);
+
+                open.Enqueue(index);
+                openDic.Add(index, parent + 1);
+
+            }
+
+            closed.Add(parent, g);
+            open.OrderBy(x => openDic[x] + FlatDistance(x, second, chrom));
+        }
+
+
+        return -1;
+    }
+
+    public float FlatDistance(int first, int second, BundleTilemapChromosome chrom)
+    {
+        return (chrom.ToMatrixPosition(first) - chrom.ToMatrixPosition(second)).magnitude;
     }
 }

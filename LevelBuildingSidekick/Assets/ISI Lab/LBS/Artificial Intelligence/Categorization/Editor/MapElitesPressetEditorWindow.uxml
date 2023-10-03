@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:TextField picking-mode="Ignore" label="Asset Path" value="filler text" name="Path" />
+    <ui:TextField picking-mode="Ignore" label="Presset Name" value="filler text" name="Name" />
+    <ui:ScrollView>
+        <ui:VisualElement name="Content" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);" />
+    </ui:ScrollView>
+    <ui:Button text="Save" display-tooltip-when-elided="true" name="Save" />
+</ui:UXML>
