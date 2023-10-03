@@ -95,7 +95,7 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
         toolKit.AddTool(t3);
 
         // Remove connection
-        icon = Resources.Load<Texture2D>("Icon/Tools/Delete_exterior_connection");
+        icon = Resources.Load<Texture2D>("Icons/Tools/Delete_exterior_connection");
         this.removeConection = new RemoveConnection();
         var t4 = new LBSTool(icon, "Remove connection", removeConection);
         t4.Init(exterior.Owner,exterior);

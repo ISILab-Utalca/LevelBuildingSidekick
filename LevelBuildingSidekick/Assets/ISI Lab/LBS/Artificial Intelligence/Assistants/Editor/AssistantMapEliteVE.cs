@@ -7,13 +7,12 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Assertions.Must;
 using UnityEngine.UIElements;
 using Utility;
 using static UnityEngine.UI.GridLayoutGroup;
 
 [LBSCustomEditor("AssistantMapElite", typeof(AssistantMapElite))]
-public class AssistantMapEliteVE : LBSCustomEditor, IToolProvider
+public class AssistantMapEliteVE : LBSCustomEditor, IToolProvider // cambiar el nombre a "AssistantMapEliteEditor" PLS
 {
     MAPEliteConfiguration config;
     MAPEliteContent content;
@@ -92,9 +91,9 @@ public class AssistantMapEliteVE : LBSCustomEditor, IToolProvider
         toolkit.AddSeparator();
 
         var assitant = target as AssistantMapElite;
-        var icon = Resources.Load<Texture2D>("Icons/Select");
-        var t1 = new LBSTool(icon, "Select area to evaluate", ActOnRect);
+        var icon = Resources.Load<Texture2D>("Icons/Tools/Area_MapElite");
         ActOnRect = new ActOnRect((r) => assitant.RawToolRect = r);
+        var t1 = new LBSTool(icon, "Select area to evaluate", ActOnRect);
         t1.Init(assitant.Owner, assitant);
         toolkit.AddTool(t1);
     }

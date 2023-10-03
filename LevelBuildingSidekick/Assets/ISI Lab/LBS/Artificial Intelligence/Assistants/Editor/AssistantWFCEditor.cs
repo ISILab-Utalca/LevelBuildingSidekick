@@ -35,7 +35,7 @@ public class AssistantWFCEditor : LBSCustomEditor, IToolProvider
         toolKit.AddSeparator(10);
 
         // Wave function collapse
-        icon = Resources.Load<Texture2D>("Icons/open-exit-door");
+        icon = Resources.Load<Texture2D>("Icons/Assistans/Assistans_WaveFunctionCollapse");
         this.collapseManipulator = new WaveFunctionCollapseManipulator();
         var t4 = new LBSTool(icon, "Wave function collapse", collapseManipulator);
         t4.Init(assistant.Owner, assistant);

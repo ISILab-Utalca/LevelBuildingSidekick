@@ -50,7 +50,7 @@ public class PopulationBehaviourEditor : LBSCustomEditor, IToolProvider
         toolkit.AddTool(t1);
 
         // Rotate element
-        icon = Resources.Load<Texture2D>("Icons/Tools/Rotation");
+        icon = Resources.Load<Texture2D>("Icons/Tools/Rotacion_population");
         this.rotatePopulationTile = new RotatePopulationTile();
         var t3 = new LBSTool(icon, "Rotate Tile", rotatePopulationTile);
         t3.Init(population.Owner, population);
