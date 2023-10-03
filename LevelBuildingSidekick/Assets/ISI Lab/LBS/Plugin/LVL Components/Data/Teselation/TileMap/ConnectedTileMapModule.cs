@@ -236,10 +236,10 @@ public class TileConnectionsPair : ICloneable // esto puede ser TAG/BUNDLE en ve
     [SerializeField, SerializeReference, JsonRequired]
     private LBSTile tile;
 
-    [SerializeField, JsonRequired]
+    [SerializeField, SerializeReference, JsonRequired]
     private List<string> connections = new List<string>();
 
-    [SerializeField, JsonRequired]
+    [SerializeField, SerializeReference, JsonRequired]
     private List<bool> editedByIA = new List<bool>();
     #endregion
 
