@@ -9,60 +9,14 @@ using UnityEngine;
 
 namespace LBS
 {
-    [CreateAssetMenu(menuName = "ISILab/LBS plugin/Internal/", fileName ="LBSBackUp.asset")]
-    public class LevelBackUp : ScriptableObject
+    public class BackUp : ScriptableObject
     {
-        public static LevelBackUp instance;
+        public LoadedLevel level;
+    }
 
-        public LoadedLevel level; // current
-
-        public static LevelBackUp Instance() // Singleton
-        {
-            var settings = LBSSettings.Instance;
-            var path = settings.paths.backUpPath;
-
-            // si la instancia ya esta registrada la retorna
-            if (instance != null)
-            {
-                return instance;
-            }
-
-
-            var ins = Utility.DirectoryTools.GetScriptablesByType<LevelBackUp>();
-            if(ins.Count > 0)
-            {
-                instance = ins[0];
-            }
-
-            if (instance != null) { return instance; }
-
-            // si no encuentra la instancia, la crea y la retorna
-            var backUp = ScriptableObject.CreateInstance<LevelBackUp>();
-
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-
-            AssetDatabase.CreateAsset(backUp, path);
-            AssetDatabase.SaveAssets();
-
-            instance = backUp;
-            return instance;
-
-        }
-
-        private void OnDisable()
-        {
-            EditorUtility.SetDirty(this);
-            AssetDatabase.SaveAssets();
-        }
-
-        private void OnDestroy()
-        {
-            EditorUtility.SetDirty(this);
-            AssetDatabase.SaveAssets();
-        }
+    public static class LBS
+    {
+        public static LoadedLevel loadedLevel;
     }
 
     [System.Serializable]
@@ -95,5 +49,4 @@ namespace LBS
             this.data = data;
         }
     }
-
 }
