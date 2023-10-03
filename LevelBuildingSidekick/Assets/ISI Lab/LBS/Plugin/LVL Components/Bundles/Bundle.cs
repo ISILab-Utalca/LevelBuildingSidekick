@@ -34,7 +34,7 @@ namespace LBS.Bundles
         }
     }
 
-    [CreateAssetMenu(fileName = "New Bundle", menuName = "ISILab/Bundle (*)")]
+    [CreateAssetMenu(fileName = "New Bundle", menuName = "ISILab/LBS/Bundle")]
     [System.Serializable]
     public class Bundle : ScriptableObject, ICloneable
     {

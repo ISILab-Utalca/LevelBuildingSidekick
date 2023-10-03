@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-[CreateAssetMenu(fileName = "New LBS Storage",menuName = "LBS/Internal/AssetStorage")]
+[CreateAssetMenu(fileName = "New LBS Storage",menuName = "ISILab/LBS/Internal/AssetStorage")]
 public class LBSAssetsStorage : ScriptableObject
 {
     #region SUB GROUP

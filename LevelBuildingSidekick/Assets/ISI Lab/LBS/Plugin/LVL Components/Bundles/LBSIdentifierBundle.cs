@@ -5,7 +5,7 @@ using UnityEngine;
 using System.Linq;
 using LBS.Bundles;
 
-[CreateAssetMenu(fileName = "NewIDBundle", menuName = "ISILab/Identifiers Bundle")]
+//[CreateAssetMenu(fileName = "NewIDBundle", menuName = "ISILab/Identifiers Bundle")]
 public class LBSIdentifierBundle : ScriptableObject
 {
     public enum TagType

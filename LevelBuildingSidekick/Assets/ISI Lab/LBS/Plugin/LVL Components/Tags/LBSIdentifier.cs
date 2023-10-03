@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewID", menuName = "ISILab/Identifier")]
+[CreateAssetMenu(fileName = "NewID", menuName = "ISILab/LBS/Identifier")]
 [System.Serializable]
 public class LBSIdentifier : ScriptableObject
 {

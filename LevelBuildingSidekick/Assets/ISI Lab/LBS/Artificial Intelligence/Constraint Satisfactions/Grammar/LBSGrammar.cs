@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "ISILab/Assets/LBSGrammar")]
+[CreateAssetMenu(menuName = "ISILab/LBS/LBSGrammar")]
 [System.Serializable]
 public class LBSGrammar : ScriptableObject
 {
