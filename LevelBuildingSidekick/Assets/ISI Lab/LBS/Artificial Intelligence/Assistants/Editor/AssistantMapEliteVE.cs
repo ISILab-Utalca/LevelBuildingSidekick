@@ -93,8 +93,8 @@ public class AssistantMapEliteVE : LBSCustomEditor, IToolProvider
 
         var assitant = target as AssistantMapElite;
         var icon = Resources.Load<Texture2D>("Icons/Select");
-        var t1 = new LBSTool(icon, "Select area to evaluate", ActOnRect);
         ActOnRect = new ActOnRect((r) => assitant.RawToolRect = r);
+        var t1 = new LBSTool(icon, "Select area to evaluate", ActOnRect);
         t1.Init(assitant.Owner, assitant);
         toolkit.AddTool(t1);
     }
@@ -127,7 +127,6 @@ public class AssistantMapEliteVE : LBSCustomEditor, IToolProvider
                 continue;
 
             var drawer = Activator.CreateInstance(drawers.First().Item1) as Drawer;
-            Debug.Log(rect);
             textures.Add(drawer.GetTexture(b, rect, Vector2Int.one * size));
         }
 
@@ -137,18 +136,20 @@ public class AssistantMapEliteVE : LBSCustomEditor, IToolProvider
         {
             for (int i = 0; i < texture.height; i++)
             {
-                texture.SetPixel(i, j, new Color32(0, 0, 0, 0));
+                texture.SetPixel(i, j, new UnityEngine.Color(0.1f, 0.1f, 0.1f, 1));
             }
         }
 
         foreach(var t in textures)
         {
-            Debug.Log("Textture: " + t.width + " - " + t.height);
-            texture.MergeTextures(t);
+            //Debug.Log("Texture::: " + t.width + " - " + t.height);
+            texture = texture.MergeTextures(t);
         }
 
-        texture.FitSquare();
         texture.Apply();
+
+
+        //texture.FitSquare();
 
         content.background = texture;
 
