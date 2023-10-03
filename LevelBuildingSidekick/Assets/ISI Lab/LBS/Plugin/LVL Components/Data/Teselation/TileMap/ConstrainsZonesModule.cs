@@ -10,7 +10,7 @@ using UnityEngine;
 public class ConstrainsZonesModule : LBSModule , ISelectable
 {
     #region FIELDS
-    [SerializeField, JsonRequired]
+    [SerializeField, SerializeReference, JsonRequired]
     private List<ConstraintPair> pairs = new();
     #endregion
 
