@@ -10,10 +10,11 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Utility;
 
+
 public class LBSMainWindow : EditorWindow
 {
     // Data
-    private LBSLevelData levelData;
+    private LBSLevelData levelData => LBS.LBS.loadedLevel.data;
 
     // Selected
     private LBSLayer _selectedLayer;
@@ -31,7 +32,6 @@ public class LBSMainWindow : EditorWindow
 
     // Panels
     private LayersPanel layerPanel;
-    private AIPanel aiPanel;
     private Generator3DPanel gen3DPanel;
     private LayerInspector layerInspector;
 
@@ -50,6 +50,8 @@ public class LBSMainWindow : EditorWindow
         Texture icon = Resources.Load<Texture>("Icons/LBS_Logo1");
         window.titleContent = new GUIContent("Level builder", icon);
         window.minSize = new Vector2(800, 400);
+
+        LBS.LBS.loadedLevel = new LoadedLevel(new LBSLevelData(), "New level");
     }
 
     private static LBSMainWindow _ShowWindow()
@@ -57,6 +59,8 @@ public class LBSMainWindow : EditorWindow
         var window = GetWindow<LBSMainWindow>();
         Texture icon = Resources.Load<Texture>("Icons/LBS_Logo1");
         window.titleContent = new GUIContent("Level builder", icon);
+
+        LBS.LBS.loadedLevel = new LoadedLevel(new LBSLevelData(), "New level");
         return window;
     }
 
@@ -67,6 +71,11 @@ public class LBSMainWindow : EditorWindow
 
     private void Init()
     {
+        if (LBS.LBS.loadedLevel == null)
+        {
+            LBS.LBS.loadedLevel = new LoadedLevel(new LBSLevelData(), "New level");
+        }
+
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSMainWindow");
         visualTree.CloneTree(rootVisualElement);
 
@@ -113,14 +122,12 @@ public class LBSMainWindow : EditorWindow
         var toolbar = rootVisualElement.Q<ToolBarMain>("ToolBar");
         toolbar.OnNewLevel += (data) =>
         {
-            LevelBackUp.Instance().level = data;
-            levelData = LevelBackUp.Instance().level.data;
+            LBS.LBS.loadedLevel = data;
             RefreshWindow();
         };
         toolbar.OnLoadLevel += (data) =>
         {
-            LevelBackUp.Instance().level = data;
-            levelData = LevelBackUp.Instance().level.data;
+            LBS.LBS.loadedLevel = data;
             RefreshWindow();
             drawManager.Redraw(levelData, mainView);
         };
@@ -139,14 +146,13 @@ public class LBSMainWindow : EditorWindow
         floatingPanelContent = rootVisualElement.Q<VisualElement>("FloatingPanelContent");
 
         // Init Data
-        levelData = LBSController.CurrentLevel.data;
         OnLevelDataChange(levelData);
         levelData.OnChanged += (lvl) => {
             OnLevelDataChange(lvl);
         };
 
         // LayerPanel
-        layerPanel = new LayersPanel(ref levelData, ref layerTemplates);
+        layerPanel = new LayersPanel(levelData, ref layerTemplates);
         extraPanel.Add(layerPanel);
         layerPanel.style.display = DisplayStyle.Flex;
         layerPanel.OnLayerVisibilityChange += (l) =>
@@ -155,17 +161,6 @@ public class LBSMainWindow : EditorWindow
         };
         layerPanel.OnSelectLayer += ShowinfoLayer;
         layerPanel.OnAddLayer += ShowinfoLayer;
-
-        // AIPanel
-        aiPanel = new AIPanel();
-        aiPanel.OnFinish += () =>
-        {
-            drawManager.Redraw(levelData, mainView);
-            OnSelectedLayerChange(_selectedLayer);
-        };
-
-        extraPanel.Add(aiPanel);
-        aiPanel.style.display = DisplayStyle.None;
 
         // Gen3DPanel
         gen3DPanel = new Generator3DPanel();
@@ -186,19 +181,6 @@ public class LBSMainWindow : EditorWindow
             TryCollapseMenuPanels();
         };
 
-        /*
-        // IAButton
-        var IABtn = rootVisualElement.Q<Button>("AIButton");
-        IABtn.clicked += () =>
-        {
-            aiPanel.Init(_selectedLayer);
-            var value = (aiPanel.style.display == DisplayStyle.None);
-            aiPanel.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
-
-            TryCollapseMenuPanels();
-        };
-        */
-
         // 3DButton
         var Gen3DBtn = rootVisualElement.Q<Button>("3DButton");
         Gen3DBtn.clicked += () =>
@@ -211,8 +193,6 @@ public class LBSMainWindow : EditorWindow
         };
 
         LBSController.OnLoadLevel += (l) => _selectedLayer = null;
-        //levelData.OnReload += (l) => _selectedLayer = null;
-        //levelData.OnReload += (l) => Debug.Log(_selectedLayer);
 
         drawManager.Redraw(levelData, mainView);
     }
@@ -223,19 +203,11 @@ public class LBSMainWindow : EditorWindow
         {
             OnSelectedLayerChange(layer);
         }
-        /*
-        if (_selectedLayer != null)
-        {
-            var il = Reflection.MakeGenericScriptable(_selectedLayer);
-            Selection.SetActiveObjectWithContext(il, il);
-        }
-        */
     }
 
     private void TryCollapseMenuPanels()
     {
         if (layerPanel?.style.display == DisplayStyle.None &&
-            aiPanel?.style.display == DisplayStyle.None &&
             gen3DPanel?.style.display == DisplayStyle.None)
         {
             floatingPanelContent.style.display = DisplayStyle.None;
@@ -257,7 +229,6 @@ public class LBSMainWindow : EditorWindow
         mainView.Clear();
         this.rootVisualElement.Clear();
         Init();
-        //mainView.OnClearSelection?.Invoke();
     }
 
     private void OnLevelDataChange(LBSLevelData levelData)
@@ -276,10 +247,6 @@ public class LBSMainWindow : EditorWindow
         // Actualize Inspector panel 
         inspectorManager.OnSelectedLayerChange(layer);
 
-        // Actualize AI panel
-        aiPanel.Clear();
-        aiPanel.Init(layer);
-
         // Actualize 3D panel
         gen3DPanel.Init(layer);
 
@@ -293,3 +260,5 @@ public class LBSMainWindow : EditorWindow
         OnWindowRepaint?.Invoke();
     }
 }
+
+
