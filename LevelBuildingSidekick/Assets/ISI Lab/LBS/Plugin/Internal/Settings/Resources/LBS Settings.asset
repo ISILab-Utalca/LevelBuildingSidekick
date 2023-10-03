@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paths:
     settingsPath: Assets/ISI Lab/LBS/Plugin/Internal/Settings/Resources/LBS Settings.asset
-    storagePath: Assets/ISI Lab/LBS/Plugin/Internal/Editor/LBS Storage.asset
+    storagePath: Assets/ISI Lab/LBS/Plugin/Internal/Resources/Storage/LBS Storage.asset
     pressetsPath: Assets/ISI Lab/LBS/Presets/LBS Presets.asset
+    backUpPath: Assets/ISI Lab/LBS/Plugin/Internal/Resources/BackUp/LBSBackUp.asset
     bundleFolderPath: Assets/ISI Lab/LBS/Data/Bundles
     tagFolderPath: Assets/ISI Lab/LBS/Data/Tags
     iconPath: Assets/ISI Lab/LBS/Plugin/Internal/Icons
