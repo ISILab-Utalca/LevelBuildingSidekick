@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace LBS
 {
-    [CreateAssetMenu(menuName = "ISILab/LBS plugin/", fileName ="LBSBackUp.asset")]
+    [CreateAssetMenu(menuName = "ISILab/LBS plugin/Internal/", fileName ="LBSBackUp.asset")]
     public class LevelBackUp : ScriptableObject
     {
         public static LevelBackUp instance;
