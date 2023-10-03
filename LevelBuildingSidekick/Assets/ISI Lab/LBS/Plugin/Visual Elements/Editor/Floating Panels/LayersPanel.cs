@@ -36,7 +36,7 @@ public class LayersPanel : VisualElement
     #region CONSTRUCTORS
     public LayersPanel() { }
 
-    public LayersPanel(ref LBSLevelData data, ref List<LayerTemplate> templates)
+    public LayersPanel(LBSLevelData data, ref List<LayerTemplate> templates)
     {
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LayersPanel"); // Editor
         visualTree.CloneTree(this);
