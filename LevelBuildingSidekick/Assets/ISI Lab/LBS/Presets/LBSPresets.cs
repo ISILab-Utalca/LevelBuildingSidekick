@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "LBS/Internal/BundlePresset(*)")]
+//[CreateAssetMenu(menuName = "LBS/Internal/BundlePresset(*)")]
 public class LBSPresets : ScriptableObject
 {
     public List<bundlePresset> bundlePresets;
