@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPreset: 0
   type: 2
-  color: {r: 0, g: 0, b: 0, a: 0}
-  icon: {fileID: 0}
+  color: {r: 0.088113785, g: 1, b: 0, a: 1}
+  icon: {fileID: 2800000, guid: 65a62d8bf42e8ea479b5a56f45462ff8, type: 3}
   childsBundles: []
   assets:
-  - obj: {fileID: 0}
-    probability: 0
+  - obj: {fileID: 355312524381552382, guid: b84d7ca3927758646a65731cc107aa76, type: 3}
+    probability: 1
   characteristics: []
   positioning: 0
   references:
