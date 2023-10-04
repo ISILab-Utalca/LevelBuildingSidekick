@@ -21,7 +21,10 @@ public class Zone : ICloneable
 
     //[ScriptableObjectReference(typeof(LBSIdentifier), "Interior Styles")]
     [SerializeField, JsonRequired]
-    private List<string> tagsBundles = new List<string>();
+    private List<string> insideStyles = new List<string>();
+
+    [SerializeField, JsonRequired]
+    private List<string> outsideStyles = new List<string>();
     #endregion
 
     #region PROPERTIES
@@ -48,10 +51,17 @@ public class Zone : ICloneable
     }
 
     [JsonIgnore]
-    public List<string> TagsBundles
+    public List<string> InsideStyles
     {
-        get => tagsBundles;
-        set => tagsBundles = value;
+        get => insideStyles;
+        set => insideStyles = value;
+    }
+
+    [JsonIgnore]
+    public List<string> OutsideStyles
+    {
+        get => outsideStyles;
+        set => outsideStyles = value;
     }
     #endregion
 
@@ -97,11 +107,22 @@ public class Zone : ICloneable
 
 public static class ZoneExtension
 {
-    public static List<Bundle> GetBundles(this Zone zone)
+    public static List<Bundle> GetInsideBundles(this Zone zone)
     {
         var bundles = new List<Bundle>();
         var allBundles = LBSAssetsStorage.Instance.Get<Bundle>().Where(b => !b.IsPresset).ToList();
-        foreach (var tags in zone.TagsBundles)
+        foreach (var tags in zone.InsideStyles)
+        {
+            bundles.Add(allBundles.Find(b => b.name.Equals(tags)));
+        }
+        return bundles;
+    }
+
+    public static List<Bundle> GetOutsideBundles(this Zone zone)
+    {
+        var bundles = new List<Bundle>();
+        var allBundles = LBSAssetsStorage.Instance.Get<Bundle>().Where(b => !b.IsPresset).ToList();
+        foreach (var tags in zone.OutsideStyles)
         {
             bundles.Add(allBundles.Find(b => b.name.Equals(tags)));
         }

@@ -78,9 +78,9 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 17f7f0e36427fcd4ea2c498f9c18ffa8, type: 2}
     - {fileID: 11400000, guid: 967a252404145764a8775eb4b8a87173, type: 2}
     - {fileID: 11400000, guid: 94de397d7c8504042826f4b9ad2d7e64, type: 2}
+    - {fileID: 11400000, guid: 47cffed4b41b15844bdff0772bf73bbf, type: 2}
     - {fileID: 11400000, guid: 40299847e26d39742a1a261417a6cac7, type: 2}
     - {fileID: 11400000, guid: 60038bb95f91b704c9bc546f917602cd, type: 2}
-    - {fileID: 11400000, guid: 47cffed4b41b15844bdff0772bf73bbf, type: 2}
   - type: LBSIdentifierBundle
     items:
     - {fileID: 11400000, guid: 9677f21f7b05c1644aa4ae3ec270eea4, type: 2}
@@ -256,6 +256,3 @@ MonoBehaviour:
   - type: UnityEngine.U2D.SpriteShape
     items:
     - {fileID: 11400000, guid: f24cddf7c09a6442abbce710a6fd7397, type: 2}
-  - type: LBS.LevelBackUp
-    items:
-    - {fileID: 11400000, guid: 9f5d3b4092ecdd94c917ece4357cfec7, type: 2}

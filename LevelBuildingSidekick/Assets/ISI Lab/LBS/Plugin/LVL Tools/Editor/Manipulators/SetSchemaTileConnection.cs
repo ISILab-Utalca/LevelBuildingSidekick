@@ -46,6 +46,12 @@ public class SetSchemaTileConnection : LBSManipulator
 
     protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
     {
+        if (toSet == null)
+        {
+            Debug.LogWarning("No tienens ninguna connecion seleccionada para colocar.");
+            return;
+        }
+
         // Get tile in first position
         var t1 = schema.GetTile(first);
 

@@ -182,7 +182,7 @@ public class SchemaRuleGenerator : LBSGeneratorRule
             var zone = zonesMod.GetZone(tile);
 
             // Get bundle from current tile
-            var bundles = zone.GetBundles();
+            var bundles = zone.GetInsideBundles();
 
             // Get connections
             var connections = connectedTilesMod.GetConnections(tile);

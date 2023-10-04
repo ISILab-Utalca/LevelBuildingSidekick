@@ -7,15 +7,47 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using LBS.Bundles;
+using Newtonsoft.Json;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
 [System.Serializable]
+[RequieredModule(typeof(TileMapModule),
+    typeof(ConnectedTileMapModule),
+    typeof(SectorizedTileMapModule),
+    typeof(ConnectedZonesModule))]
 public class SchemaRuleGeneratorExteriror : LBSGeneratorRule
 {
-    //private LBSSchema schema;
-    //private LBSRoomGraph graph;
+    #region INTERNAL FIELDS
+    [JsonIgnore]
+    private TileMapModule tilesMod;
+    [JsonIgnore]
+    private ConnectedTileMapModule connectedTilesMod;
+    [JsonIgnore]
+    private SectorizedTileMapModule zonesMod;
+    [JsonIgnore]
+    private Generator3D.Settings settings;
+    #endregion
+
+    #region PPROPERTIES
+    [JsonIgnore]
+    private List<Vector2Int> Dirs => Directions.Bidimencional.Edges;
+    [JsonIgnore]
+    private List<Vector2Int> DirDiags => Directions.Bidimencional.Diagonals;
+    #endregion
+
+    #region CONSTRUCTORS
+    public SchemaRuleGeneratorExteriror() { }
+    #endregion
+
+    public void Init(LBSLayer layer, Generator3D.Settings settings)
+    {
+        this.tilesMod = layer.GetModule<TileMapModule>();
+        this.connectedTilesMod = layer.GetModule<ConnectedTileMapModule>();
+        this.zonesMod = layer.GetModule<SectorizedTileMapModule>();
+        this.settings = settings;
+    }
 
     public override bool CheckIfIsPosible(LBSLayer layer, out string msg)
     {
@@ -34,7 +66,112 @@ public class SchemaRuleGeneratorExteriror : LBSGeneratorRule
         {
             msg = "The layer does not contain any module corresponding to 'LBSRoomGraph'.";
             return false;
-        }*/
+        }
+        */
+    }
+
+    private GameObject GenerateEdges(GameObject pivot, List<Bundle> bundles, List<string> connections)
+    {
+        // Get "Edge" bundles
+        var currents = new List<Bundle>();
+        foreach (var bundle in bundles)
+        {
+            currents = bundle.GetChildrenByPositioning(Positioning.Edge);
+        }
+
+        for (var i = 0; i < connections.Count; i++)
+        {
+            // Get random bundle with respctive "connection tag"
+            var current = currents.Where(b => b.GetCharacteristics<LBSTagsCharacteristic>()
+                .Any(c => c.Value.name == connections[i]))
+                .ToList().Random();
+
+            // check if current is valid
+            if (current == null)
+            {
+                Debug.Log("Los bundles no contienen elemetos con la tag: '" + connections[i] + "'");
+                continue;
+            }
+
+            // Get random by weight
+            var pref = current.Assets.RandomRullete(a => a.probability).obj;
+
+            // Create part
+            var obj = CreateObject(pref, pivot.transform);
+
+            // Set rotation orientation
+            if (i % 2 == 0)
+                obj.transform.rotation = Quaternion.Euler(0, (90 * (i - 1)) % 360, 0); // if parche? (?)
+            else
+                obj.transform.rotation = Quaternion.Euler(0, (90 * (i - 3)) % 360, 0);
+
+            // Set delta position
+            obj.transform.position = new Vector3(
+                settings.scale.x / 2f * -obj.transform.forward.x,
+                0,
+                settings.scale.y / 2f * -obj.transform.forward.z);
+
+            obj.transform.rotation = Quaternion.Euler(obj.transform.rotation.eulerAngles + new Vector3(0, 90 * 2, 0));
+        }
+
+        return pivot;
+    }
+
+    private GameObject GenerateCorners(GameObject pivot, List<Bundle> bundles)
+    {
+        var currents = new List<Bundle>();
+        foreach (var bundle in bundles)
+        {
+            currents = bundle.GetChildrenByPositioning(Positioning.Corner);
+        }
+
+        var current = currents.Random();
+        var pref = current.Assets.RandomRullete(a => a.probability).obj;
+
+        return pivot;
+    }
+
+    public override GameObject Generate(LBSLayer layer, Generator3D.Settings settings)
+    {
+        // Init values
+        Init(layer, settings);
+
+        // Get bundles
+        var allBundles = LBSAssetsStorage.Instance.Get<Bundle>().Where(b => !b.IsPresset).ToList();
+        var rootBundles = allBundles.Where(b => b.IsRoot()).ToList();
+
+        // Create pivot
+        var mainPivot = new GameObject("Schema outside");
+
+        foreach (var tile in tilesMod.Tiles)
+        {
+            // Get zone
+            var zone = zonesMod.GetZone(tile);
+
+            // Get bundle from current tile
+            var bundles = zone.GetOutsideBundles();
+
+            // Get connections
+            var connections = connectedTilesMod.GetConnections(tile);
+
+            //Generate tile
+            var tileObj = new GameObject(tile.Position.ToString());
+
+            // Add pref part to pivot
+            GenerateEdges(tileObj, bundles, connections);
+            GenerateCorners(tileObj, bundles);
+
+            // Set position
+            tileObj.transform.position =
+                settings.position +
+                new Vector3(tile.Position.x * settings.scale.x, 0, tile.Position.y * settings.scale.y) +
+                -(new Vector3(settings.scale.x, 0, settings.scale.y) / 2f);
+
+            // Set mainPivot as the parent of tileObj
+            tileObj.transform.parent = mainPivot.transform;
+        }
+
+        return mainPivot;
     }
 
     public override object Clone()
@@ -42,93 +179,95 @@ public class SchemaRuleGeneratorExteriror : LBSGeneratorRule
         return new SchemaRuleGeneratorExteriror();
     }
 
-    public override GameObject Generate(LBSLayer layer, Generator3D.Settings settings)
+    /*
+
+public override GameObject Generate(LBSLayer layer, Generator3D.Settings settings)
+{
+    return null;
+    schema = layer.GetModule<LBSSchema>();
+    graph = layer.GetModule<LBSRoomGraph>();
+
+    var mainPivot = new GameObject("Schema Exterior");
+
+    var allBundles = LBSAssetsStorage.Instance.Get<Bundle>().Where(b => !b.IsPresset).ToList(); // obtengo todos los bundles
+    var rootBundles = allBundles.Where(b => b.IsRoot()).ToList();// obtengo todos los bundles root
+
+    var aaas = new List<int>() { -1, 0, 1};
+    //for (int aa = 0; aa < aaas.Count; aa++)
     {
-        return null;
-        /*
-        schema = layer.GetModule<LBSSchema>();
-        graph = layer.GetModule<LBSRoomGraph>();
-
-        var mainPivot = new GameObject("Schema Exterior");
-
-        var allBundles = LBSAssetsStorage.Instance.Get<Bundle>().Where(b => !b.IsPresset).ToList(); // obtengo todos los bundles
-        var rootBundles = allBundles.Where(b => b.IsRoot()).ToList();// obtengo todos los bundles root
-
-        var aaas = new List<int>() { -1, 0, 1};
-        //for (int aa = 0; aa < aaas.Count; aa++)
+        var ddds = new List<int>() { 1, -1 };
+        //for (int dd = 0; dd < ddds.Count; dd++)
         {
-            var ddds = new List<int>() { 1, -1 };
-            //for (int dd = 0; dd < ddds.Count; dd++)
+            var fffs = new List<int>() { 0, 1, 2, 3 };
+            //for (int ff = 0; ff < fffs.Count; ff++)
             {
-                var fffs = new List<int>() { 0, 1, 2, 3 };
-                //for (int ff = 0; ff < fffs.Count; ff++)
+                var subMain = new GameObject("d: "+ 0 + ",f: " + 3 + ",a: " + 0);
+
+                var position = settings.position;
+                for (int i = 0; i < graph.NodeCount; i++) // recorro los cuartos
                 {
-                    var subMain = new GameObject("d: "+ 0 + ",f: " + 3 + ",a: " + 0);
 
-                    var position = settings.position;
-                    for (int i = 0; i < graph.NodeCount; i++) // recorro los cuartos
+                    var node = graph.GetNode(i);
+                    var tags = new List<string>(node.Room.ExteriorTags);
+
+                    var currentRoots = new List<Bundle>();
+                    if (tags.Count > 0)
                     {
-
-                        var node = graph.GetNode(i);
-                        var tags = new List<string>(node.Room.ExteriorTags);
-
-                        var currentRoots = new List<Bundle>();
-                        if (tags.Count > 0)
+                        foreach (var bundle in rootBundles)
                         {
-                            foreach (var bundle in rootBundles)
-                            {
 
-                                if (tags.Contains(bundle.name))
-                                {
-                                    currentRoots.Add(bundle);
-                                }
+                            if (tags.Contains(bundle.name))
+                            {
+                                currentRoots.Add(bundle);
                             }
                         }
-                        else
-                        {
-                            currentRoots = rootBundles.ToList();
-                        }
-
-                        var childs = currentRoots.SelectMany(b => b.ChildsBundles).ToList().RemoveEmpties(); // obtengo todos sus hijos
-
-                        var bundlesDictionary = new Dictionary<string, List<GameObject>>();
-
-                        var wallBundles = childs.Where(b => b.name.Equals("Wall")).ToList(); // obtengo todos los bundles con la tag Wall
-                        bundlesDictionary.Add("Wall", wallBundles.SelectMany(b => b.Assets).ToList().Select(a => a.obj).ToList());
-
-                        var doorBundles = childs.Where(b => b.name.Equals("Door")).ToList(); // obtengo todos los bundles con la tag Door
-                        bundlesDictionary.Add("Door", doorBundles.SelectMany(b => b.Assets).ToList().Select(a => a.obj).ToList());
-
-                        var floorBundles = childs.Where(b => b.name.Equals("Floor")); // obtengo todos los bundles con la tag Floor
-                        bundlesDictionary.Add("Floor", floorBundles.SelectMany(b => b.Assets).ToList().Select(a => a.obj).ToList());
-
-                        var cornerBundles = childs.Where(b => b.name.Equals("Corner")).ToList(); // obtengo todos los bundles con la tag Corner
-                        bundlesDictionary.Add("Corner", cornerBundles.SelectMany(b => b.Assets).ToList().Select(a => a.obj).ToList());
-
-                        var area = schema.GetArea(node.ID);
-                        for (int j = 0; j < area.TileCount; j++)
-                        {
-                            var tile = area.GetTile(j) as ConnectedTile;
-                            BuildWall(tile, bundlesDictionary, subMain.transform, settings);
-                        }
-
-                        var corns = area.GetCorners();
-                        var cc = corns.RemoveDuplicates();
-                        var cornerTiles = cc.Select(w => w as ConnectedTile).ToList();
-                        foreach (var tile in cornerTiles)
-                        {
-                            BuildCorner(tile, bundlesDictionary, subMain.transform, settings, fffs[3], ddds[0], aaas[0]);
-                        }
                     }
-                    subMain.transform.position = position;// + new Vector3(3 * 30, 0 * 30, 0 * 30);
-                    subMain.transform.parent = mainPivot.transform;
+                    else
+                    {
+                        currentRoots = rootBundles.ToList();
+                    }
+
+                    var childs = currentRoots.SelectMany(b => b.ChildsBundles).ToList().RemoveEmpties(); // obtengo todos sus hijos
+
+                    var bundlesDictionary = new Dictionary<string, List<GameObject>>();
+
+                    var wallBundles = childs.Where(b => b.name.Equals("Wall")).ToList(); // obtengo todos los bundles con la tag Wall
+                    bundlesDictionary.Add("Wall", wallBundles.SelectMany(b => b.Assets).ToList().Select(a => a.obj).ToList());
+
+                    var doorBundles = childs.Where(b => b.name.Equals("Door")).ToList(); // obtengo todos los bundles con la tag Door
+                    bundlesDictionary.Add("Door", doorBundles.SelectMany(b => b.Assets).ToList().Select(a => a.obj).ToList());
+
+                    var floorBundles = childs.Where(b => b.name.Equals("Floor")); // obtengo todos los bundles con la tag Floor
+                    bundlesDictionary.Add("Floor", floorBundles.SelectMany(b => b.Assets).ToList().Select(a => a.obj).ToList());
+
+                    var cornerBundles = childs.Where(b => b.name.Equals("Corner")).ToList(); // obtengo todos los bundles con la tag Corner
+                    bundlesDictionary.Add("Corner", cornerBundles.SelectMany(b => b.Assets).ToList().Select(a => a.obj).ToList());
+
+                    var area = schema.GetArea(node.ID);
+                    for (int j = 0; j < area.TileCount; j++)
+                    {
+                        var tile = area.GetTile(j) as ConnectedTile;
+                        BuildWall(tile, bundlesDictionary, subMain.transform, settings);
+                    }
+
+                    var corns = area.GetCorners();
+                    var cc = corns.RemoveDuplicates();
+                    var cornerTiles = cc.Select(w => w as ConnectedTile).ToList();
+                    foreach (var tile in cornerTiles)
+                    {
+                        BuildCorner(tile, bundlesDictionary, subMain.transform, settings, fffs[3], ddds[0], aaas[0]);
+                    }
                 }
+                subMain.transform.position = position;// + new Vector3(3 * 30, 0 * 30, 0 * 30);
+                subMain.transform.parent = mainPivot.transform;
             }
         }
-        
-        return mainPivot;
-        */
     }
+
+    return mainPivot;
+}
+    */
+
 
     private void BuildCorner(LBSTile tile, Dictionary<string, List<GameObject>> bundles, Transform parent, Generator3D.Settings settings, int fff, int ddd,int aaa)
     {
@@ -218,21 +357,6 @@ public class SchemaRuleGeneratorExteriror : LBSGeneratorRule
 #else
         var obj =  GameObject.Instantiate(pref, pivot);
 #endif
-        return obj;
-    }
-
-    private GameObject FixOrientation(GameObject obj, Vector2 dir, Vector2 scale, int rotation)
-    {
-        obj.transform.position += new Vector3(dir.x * (scale.x / 2), 0, -dir.y * (scale.y / 2));
-        obj.transform.rotation = Quaternion.Euler(0, (-(90 * (rotation + 1)) % 360) + 180, 0); // -90 * (r + 1) los numeros son parche de la direnecia de orden de las direcciones (!)
-        return obj;
-    }
-
-    private GameObject FixCornerOrientation(GameObject obj, Vector2 dir, Vector2 scale, int rotation, int ddd, int fff, int aaa)
-    {
-        Debug.Log(obj.transform.parent.name +", " + dir +", "+ rotation);
-        obj.transform.position += new Vector3(dir.x * (scale.x / 2), 0, -dir.y * (scale.y / 2));
-        obj.transform.rotation = Quaternion.Euler(0, ( ddd * (90*(rotation + aaa)) % 360) + fff, 0); // -90 * (r + 1) los numeros son parche de la direnecia de orden de las direcciones (!)
         return obj;
     }
 

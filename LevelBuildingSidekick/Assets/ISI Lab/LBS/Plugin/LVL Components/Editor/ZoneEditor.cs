@@ -17,6 +17,7 @@ public class ZoneEditor : LBSCustomEditor
     private TextField nameField;
     private ColorField colorField;
     private ObjectField objectField;
+    private ObjectField objectField2;
 
     private ListView bundleList;
     private List<string> bundlesRef; // ?
@@ -39,19 +40,32 @@ public class ZoneEditor : LBSCustomEditor
         colorField.value = this._target.Color;
 
         // PARCHE (!)
-        if (this._target.TagsBundles.Count > 0)
+        if (this._target.InsideStyles.Count > 0)
         {
             foreach (var bundle in bundles)
             {
-                if (bundle.name == this._target.TagsBundles[0])
+                if (bundle.name == this._target.InsideStyles[0])
                 {
                     objectField.value = bundle;
                     break;
                 }
-            } // objectField.value = bundles.First(b => b.ID.Label == this.target.TagsBundles[0]);
+            }
         }
 
-        bundlesRef = this._target.TagsBundles;
+        // PARCHE (!)
+        if (this._target.OutsideStyles.Count > 0)
+        {
+            foreach (var bundle in bundles)
+            {
+                if (bundle.name == this._target.OutsideStyles[0])
+                {
+                    objectField2.value = bundle;
+                    break;
+                }
+            }
+        }
+
+        bundlesRef = this._target.InsideStyles;
     }
 
     protected override VisualElement CreateVisualElement()
@@ -73,23 +87,24 @@ public class ZoneEditor : LBSCustomEditor
         this.Add(colorField);
 
         // ObjectField (Bundle)
-        this.objectField = new ObjectField("Bundle");
+        this.objectField = new ObjectField("Inside Style");
         this.objectField.objectType = typeof(Bundle);
-        objectField.RegisterValueChangedCallback(v => // objectField.RegisterCallback<ChangeEvent<ScriptableObject>>(evt => 
+        objectField.RegisterValueChangedCallback(v => 
         {
             var bundle = v.newValue as Bundle;
-            _target.TagsBundles = new List<string>() { bundle.name };
+            _target.InsideStyles = new List<string>() { bundle.name };
         });
         this.Add(objectField);
 
-        // BundleList
-        /*
-        this.bundleList = new ListView();
-        bundleList.itemsSource = bundlesRef;
-        bundleList.makeItem = MakeItem;
-        bundleList.bindItem = BindItem;
-        this.Add(bundleList);
-        */
+        // ObjectField (Bundle)
+        this.objectField2 = new ObjectField("Outside Style");
+        this.objectField2.objectType = typeof(Bundle);
+        objectField2.RegisterValueChangedCallback(v =>
+        {
+            var bundle = v.newValue as Bundle;
+            _target.OutsideStyles = new List<string>() { bundle.name };
+        });
+        this.Add(objectField2);
 
         return this;
 
