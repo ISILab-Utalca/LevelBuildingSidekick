@@ -23,8 +23,19 @@ namespace LBS.Components.TileMap
         [JsonIgnore]
         public string BundleName => bundleName;
 
+        [NonSerialized, JsonIgnore]
+        Bundle bundle;
+
         [JsonIgnore]
-        public Bundle Bundle => LBSAssetsStorage.Instance.Get<Bundle>().Find(s => s.Name == bundleName);
+        public Bundle Bundle
+        {
+            get
+            {
+                if (bundle == null)
+                    bundle = LBSAssetsStorage.Instance.Get<Bundle>().Find(b => b.name == bundleName);
+                return bundle;
+            }
+        }
 
         [JsonIgnore]
         public List<LBSCharacteristic> Characteristics => new List<LBSCharacteristic>(characteristics);
@@ -89,22 +100,44 @@ namespace LBS.Components.TileMap
         public override bool Equals(object obj)
         {
             var other = obj as BundleData;
+            
+            var characteristics = new List<LBSCharacteristic>();
 
-            if(other == null) return false;
+            if (other == null)
+            {
+                var bundle = obj as Bundle;
+                
+                if(bundle == null)
+                    return false;
+                
+                if(!this.bundleName.Equals(bundle.name))
+                    return false;
 
-            if(!this.bundleName.Equals(other.bundleName)) return false;
+                if (this.characteristics.Count != other.characteristics.Count)
+                    return false;
 
-            if (this.characteristics.Count != other.characteristics.Count)
-                return false;
+                characteristics = bundle.Characteristics;
 
-            var cCount = other.characteristics.Count;
+            }
+            else
+            {
+                if (!this.bundleName.Equals(other.bundleName)) 
+                    return false;
+
+                if (this.characteristics.Count != other.characteristics.Count)
+                    return false;
+
+                characteristics = other.characteristics;
+            }
+
+            var cCount = characteristics.Count;
 
             for (int i = 0; i < cCount; i++)
             {
                 var c1 = this.characteristics[i];
-                var c2 = other.characteristics[i];
+                var c2 = characteristics[i];
 
-                if(!c1.Equals(c2)) return false;
+                if (!c1.Equals(c2)) return false;
             }
 
             return true;
