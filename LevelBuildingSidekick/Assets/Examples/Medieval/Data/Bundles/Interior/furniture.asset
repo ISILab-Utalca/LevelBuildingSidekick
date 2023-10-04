@@ -20,8 +20,14 @@ MonoBehaviour:
   assets:
   - obj: {fileID: 919132149155446097, guid: a20abce8e4655294886742eb9bb5c382, type: 3}
     probability: 1
-  characteristics: []
+  characteristics:
+  - rid: 3832781074193712084
   positioning: 0
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 3832781074193712084
+      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+      data:
+        label: Collider
+        value: {fileID: 11400000, guid: 261af09a46f50a647b4fb33a0e989c66, type: 2}
