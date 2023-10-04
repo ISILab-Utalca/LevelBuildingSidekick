@@ -37,12 +37,12 @@ public class AIPanel : VisualElement
             container.Add(GetAgentPanel(ass));
             //container.Add(new AIAgentPanel(ref ass));
 
-/*
-            var agent = assist.GetAgent(i);
-            
-            agent.Init(ref layer);
-            container.Add(GetAgentPanel(agent));
-            */
+            /*
+                        var agent = assist.GetAgent(i);
+            Utility.JSONDataManager            
+                        agent.Init(ref layer);
+                        container.Add(GetAgentPanel(agent));
+                        */
         }
     }
 
