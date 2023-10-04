@@ -19,18 +19,18 @@ MonoBehaviour:
     id: Interior
     name: Layer Interior
     modules:
-    - rid: 3832781071789851234
-    - rid: 3832781071789851235
-    - rid: 3832781071789851236
-    - rid: 3832781071789851237
-    - rid: 3832781071789851238
+    - rid: 3832781074193711720
+    - rid: 3832781074193711721
+    - rid: 3832781074193711722
+    - rid: 3832781074193711723
+    - rid: 3832781074193711724
     behaviours:
-    - rid: 3832781071789851239
+    - rid: 3832781074193711725
     assitants:
-    - rid: 3832781071789851240
+    - rid: 3832781074193711726
     generatorRules:
-    - rid: 3832781071789851241
-    - rid: 3832781071789851242
+    - rid: 3832781074193711727
+    - rid: 3832781074193711728
     settings:
       scale: {x: 2, y: 2}
       resize: {x: 0, y: 0}
@@ -39,46 +39,46 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 3832781071789851234
+    - rid: 3832781074193711720
       type: {class: TileMapModule, ns: LBS.Components.TileMap, asm: LBS}
       data:
         id: TileMapModule
         tiles: []
-    - rid: 3832781071789851235
+    - rid: 3832781074193711721
       type: {class: ConnectedTileMapModule, ns: , asm: LBS}
       data:
         id: ConnectedTileMapModule
         connectedDirections: 4
         pairs: []
-    - rid: 3832781071789851236
+    - rid: 3832781074193711722
       type: {class: SectorizedTileMapModule, ns: , asm: LBS}
       data:
         id: SectorizedTileMapModule
         zones: []
         pairs: []
-    - rid: 3832781071789851237
+    - rid: 3832781074193711723
       type: {class: ConnectedZonesModule, ns: , asm: LBS}
       data:
         id: ConnectedZonesModule
         edges: []
-    - rid: 3832781071789851238
+    - rid: 3832781074193711724
       type: {class: ConstrainsZonesModule, ns: , asm: LBS}
       data:
         id: ConstrainsZonesModule
         pairs: []
-    - rid: 3832781071789851239
+    - rid: 3832781074193711725
       type: {class: SchemaBehaviour, ns: , asm: LBS}
       data:
         visible: 1
         icon: {fileID: 2800000, guid: 771d36a714319204ea4ddcbecdc2006e, type: 3}
         name: Schema behaviour
-    - rid: 3832781071789851240
+    - rid: 3832781074193711726
       type: {class: HillClimbingAssistant, ns: , asm: LBS}
       data:
         visible: 1
         name: HillClimbing
         visibleConstraints: 1
-    - rid: 3832781071789851241
+    - rid: 3832781074193711727
       type: {class: SchemaRuleGenerator, ns: , asm: LBS}
       data:
         generator3D:
@@ -88,7 +88,7 @@ MonoBehaviour:
             position: {x: 0, y: 0, z: 0}
             name: DEFAULT
           rules: []
-    - rid: 3832781071789851242
+    - rid: 3832781074193711728
       type: {class: SchemaRuleGeneratorExteriror, ns: , asm: LBS}
       data:
         generator3D:
