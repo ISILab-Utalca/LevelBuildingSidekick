@@ -14,7 +14,7 @@ public class ExteriorBehaviour : LBSBehaviour
 {
     #region FIELDS
     [JsonRequired, SerializeField]
-    private string targetBundle = "";
+    private string targetBundle = "Exterior_Plains";
     #endregion
 
     #region PROPERTIES

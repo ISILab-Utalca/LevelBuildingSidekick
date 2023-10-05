@@ -23,10 +23,6 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
     private RemoveTileExterior removeTile;
     private SetExteriorTileConnection setConnection;
     private RemoveConnection removeConection;
-
-    //private SetConnectionArea setConnectionArea;
-    //private RemoveConectionArea removeConnectionArea;
-
     #endregion
 
     #region VIEW FIELDS
