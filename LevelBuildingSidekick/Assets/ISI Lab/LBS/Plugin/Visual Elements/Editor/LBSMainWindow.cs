@@ -218,7 +218,7 @@ public class LBSMainWindow : EditorWindow
         }
     }
 
-    private new void Repaint()
+    public  new void Repaint()
     {
         base.Repaint();
         drawManager.Redraw(levelData, mainView);
