@@ -182,20 +182,8 @@ MonoBehaviour:
     IsBackgroundRecursive: 0
     IsHidden: 0
   - Type: 0
-    Key: Resources
-    Ordinal: 14
-    Priority: 0
-    IconType: 10
-    SmallIcon: {fileID: 0}
-    LargeIcon: {fileID: 0}
-    IsIconRecursive: 0
-    BackgroundType: 10
-    BackgroundTexture: {fileID: 0}
-    IsBackgroundRecursive: 0
-    IsHidden: 0
-  - Type: 0
     Key: Scenes
-    Ordinal: 15
+    Ordinal: 14
     Priority: 0
     IconType: 2150
     SmallIcon: {fileID: 0}
@@ -207,7 +195,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 0
     Key: Scripts
-    Ordinal: 16
+    Ordinal: 15
     Priority: 0
     IconType: 2160
     SmallIcon: {fileID: 0}
@@ -219,7 +207,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 0
     Key: Shaders
-    Ordinal: 17
+    Ordinal: 16
     Priority: 0
     IconType: 2170
     SmallIcon: {fileID: 0}
@@ -231,7 +219,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 0
     Key: Terrains
-    Ordinal: 18
+    Ordinal: 17
     Priority: 0
     IconType: 2180
     SmallIcon: {fileID: 0}
@@ -243,7 +231,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 0
     Key: Textures
-    Ordinal: 19
+    Ordinal: 18
     Priority: 0
     IconType: 2190
     SmallIcon: {fileID: 0}
@@ -255,7 +243,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 0
     Key: Physics
-    Ordinal: 20
+    Ordinal: 19
     Priority: 0
     IconType: 2090
     SmallIcon: {fileID: 0}
@@ -267,7 +255,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 0
     Key: Flares
-    Ordinal: 21
+    Ordinal: 20
     Priority: 0
     IconType: 2050
     SmallIcon: {fileID: 0}
@@ -279,7 +267,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 0
     Key: Android
-    Ordinal: 22
+    Ordinal: 21
     Priority: 0
     IconType: 3000
     SmallIcon: {fileID: 0}
@@ -291,7 +279,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 0
     Key: iOS
-    Ordinal: 23
+    Ordinal: 22
     Priority: 0
     IconType: 3010
     SmallIcon: {fileID: 0}
@@ -303,7 +291,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 0
     Key: Windows
-    Ordinal: 24
+    Ordinal: 23
     Priority: 0
     IconType: 3040
     SmallIcon: {fileID: 0}
@@ -315,7 +303,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 0
     Key: Mac
-    Ordinal: 25
+    Ordinal: 24
     Priority: 0
     IconType: 3020
     SmallIcon: {fileID: 0}
@@ -327,7 +315,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 0
     Key: WebGL
-    Ordinal: 26
+    Ordinal: 25
     Priority: 0
     IconType: 3030
     SmallIcon: {fileID: 0}
@@ -339,7 +327,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 1
     Key: Assets/LBS Plugin
-    Ordinal: 27
+    Ordinal: 26
     Priority: 0
     IconType: 50
     SmallIcon: {fileID: 0}
@@ -351,7 +339,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 1
     Key: Assets/ISI-Lab
-    Ordinal: 28
+    Ordinal: 27
     Priority: 0
     IconType: 30
     SmallIcon: {fileID: 0}
@@ -363,7 +351,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 1
     Key: Assets/ISI-Lab/LBS Plugin
-    Ordinal: 29
+    Ordinal: 28
     Priority: 0
     IconType: 50
     SmallIcon: {fileID: 0}
@@ -375,7 +363,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 1
     Key: Assets/ISI-Lab/LBS Levels
-    Ordinal: 30
+    Ordinal: 29
     Priority: 0
     IconType: 50
     SmallIcon: {fileID: 0}
@@ -387,7 +375,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 1
     Key: Assets/LBSLevels
-    Ordinal: 31
+    Ordinal: 30
     Priority: 0
     IconType: 50
     SmallIcon: {fileID: 0}
@@ -399,7 +387,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 1
     Key: Assets/ISILab
-    Ordinal: 32
+    Ordinal: 31
     Priority: 0
     IconType: 30
     SmallIcon: {fileID: 0}
@@ -411,7 +399,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 1
     Key: Assets/ISILab/LBS Plugin
-    Ordinal: 33
+    Ordinal: 32
     Priority: 0
     IconType: 50
     SmallIcon: {fileID: 0}
@@ -423,7 +411,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 1
     Key: Assets/ISILab/LBS Examples
-    Ordinal: 34
+    Ordinal: 33
     Priority: 0
     IconType: 50
     SmallIcon: {fileID: 0}
@@ -435,7 +423,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 1
     Key: Assets/GitIgnorable
-    Ordinal: 35
+    Ordinal: 34
     Priority: 0
     IconType: 10
     SmallIcon: {fileID: 0}
@@ -447,7 +435,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 1
     Key: Assets/ISI Lab
-    Ordinal: 36
+    Ordinal: 35
     Priority: 0
     IconType: 70
     SmallIcon: {fileID: 0}
@@ -459,7 +447,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 1
     Key: Assets/ISI Lab/LBS/Artificial Intelligence/Terminations-EndConditions
-    Ordinal: 37
+    Ordinal: 36
     Priority: 0
     IconType: 0
     SmallIcon: {fileID: 0}
@@ -471,7 +459,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 1
     Key: Assets/ISI Lab/LBS/Artificial Intelligence/Evaluators
-    Ordinal: 38
+    Ordinal: 37
     Priority: 0
     IconType: 0
     SmallIcon: {fileID: 0}
@@ -483,7 +471,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 1
     Key: Assets/ISILab OLD
-    Ordinal: 39
+    Ordinal: 38
     Priority: 0
     IconType: 0
     SmallIcon: {fileID: 0}
@@ -495,7 +483,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 1
     Key: Assets/ISI Lab/LBS/Examples/Castle Dungeon/Stamps
-    Ordinal: 40
+    Ordinal: 39
     Priority: 0
     IconType: 0
     SmallIcon: {fileID: 0}
@@ -507,7 +495,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 1
     Key: Assets/ISI Lab/LBS/Examples/Castle Dungeon/TileConnections
-    Ordinal: 41
+    Ordinal: 40
     Priority: 0
     IconType: 0
     SmallIcon: {fileID: 0}
@@ -519,7 +507,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 1
     Key: Assets/ISI Lab/LBS/Examples/Castle Dungeon/Room Bundles
-    Ordinal: 42
+    Ordinal: 41
     Priority: 0
     IconType: 0
     SmallIcon: {fileID: 0}
@@ -531,7 +519,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 1
     Key: Assets/ISI Lab/LBS/Plugin/Assets2D/Schema
-    Ordinal: 43
+    Ordinal: 42
     Priority: 0
     IconType: 0
     SmallIcon: {fileID: 0}
@@ -543,7 +531,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 1
     Key: Assets/TrashCan
-    Ordinal: 44
+    Ordinal: 43
     Priority: 0
     IconType: 10
     SmallIcon: {fileID: 0}
@@ -555,7 +543,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 1
     Key: Assets/ISI Lab/LBS/Plugin/LVL Tools/Attributes
-    Ordinal: 45
+    Ordinal: 44
     Priority: 0
     IconType: 0
     SmallIcon: {fileID: 0}
@@ -567,7 +555,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 1
     Key: Assets/ISI Lab/LBS/Plugin/Visual Elements/AdvancedUI
-    Ordinal: 46
+    Ordinal: 45
     Priority: 0
     IconType: 0
     SmallIcon: {fileID: 0}
@@ -579,7 +567,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 1
     Key: Assets/ISI Lab/LBS/Plugin/LVL Tools/Manipulators
-    Ordinal: 47
+    Ordinal: 46
     Priority: 0
     IconType: 0
     SmallIcon: {fileID: 0}
@@ -591,7 +579,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 1
     Key: Assets/ISI Lab/OLD
-    Ordinal: 48
+    Ordinal: 47
     Priority: 0
     IconType: 10
     SmallIcon: {fileID: 0}
@@ -603,7 +591,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 1
     Key: Assets/ISI Lab/LBS/Plugin/Visual Elements/Editor/AdvancedUI
-    Ordinal: 49
+    Ordinal: 48
     Priority: 0
     IconType: 0
     SmallIcon: {fileID: 0}
@@ -615,7 +603,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 1
     Key: Assets/OLD
-    Ordinal: 50
+    Ordinal: 49
     Priority: 0
     IconType: 10
     SmallIcon: {fileID: 0}
@@ -627,7 +615,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 1
     Key: Assets/RECICLE BIN
-    Ordinal: 51
+    Ordinal: 50
     Priority: 0
     IconType: 10
     SmallIcon: {fileID: 0}
@@ -639,7 +627,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 1
     Key: Assets/ISI Lab/LBS/Tags basales
-    Ordinal: 52
+    Ordinal: 51
     Priority: 0
     IconType: 30
     SmallIcon: {fileID: 0}
@@ -651,7 +639,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 1
     Key: Assets/Examples
-    Ordinal: 53
+    Ordinal: 52
     Priority: 0
     IconType: 160
     SmallIcon: {fileID: 0}
