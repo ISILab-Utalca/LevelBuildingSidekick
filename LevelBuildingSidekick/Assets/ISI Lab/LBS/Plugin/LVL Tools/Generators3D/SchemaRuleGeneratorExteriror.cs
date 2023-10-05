@@ -151,6 +151,14 @@ public class SchemaRuleGeneratorExteriror : LBSGeneratorRule
             // Get bundle from current tile
             var bundles = zone.GetOutsideBundles();
 
+            if (bundles.Count <= 0)
+            {
+                Debug.LogWarning("No se pudo finalizar la generacion de la zona '" + zone.ID + "'" +
+                    "ya que no contiene bundles que definan su estilo exterior");
+
+                continue;
+            }
+
             // Get connections
             var connections = connectedTilesMod.GetConnections(tile);
 

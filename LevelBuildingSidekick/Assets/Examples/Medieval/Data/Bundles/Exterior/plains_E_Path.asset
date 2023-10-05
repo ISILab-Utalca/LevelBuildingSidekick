@@ -18,7 +18,7 @@ MonoBehaviour:
   icon: {fileID: 0}
   childsBundles: []
   assets:
-  - obj: {fileID: 0}
+  - obj: {fileID: 4519498263793397138, guid: 8c36bfd8b3d1ef4409788f37c50ac16e, type: 3}
     probability: 0
   characteristics:
   - rid: 3767989597796302925

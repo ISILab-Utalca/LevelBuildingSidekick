@@ -19,7 +19,7 @@ MonoBehaviour:
     xEvaluator:
       rid: 1429379716160946411
     yEvaluator:
-      rid: 1429379716160946414
+      rid: 3832781074193712087
     optimizer:
       rid: 1429379699903299956
     changedSample: 
@@ -27,6 +27,8 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 1429379699903299956
       type: {class: GeneticAlgorithm, ns: ISILab.AI.Optimization, asm: LBS}
       data:
@@ -64,23 +66,6 @@ MonoBehaviour:
       data:
         label: Collider
         value: {fileID: 11400000, guid: 261af09a46f50a647b4fb33a0e989c66, type: 2}
-    - rid: 1429379716160946414
-      type: {class: SecurityFairness, ns: , asm: LBS}
-      data:
-        playerCharacteristic:
-          rid: 1429379716160946416
-        colliderCharacteristic:
-          rid: 1429379716160946415
-    - rid: 1429379716160946415
-      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
-      data:
-        label: Colldier
-        value: {fileID: 11400000, guid: 261af09a46f50a647b4fb33a0e989c66, type: 2}
-    - rid: 1429379716160946416
-      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
-      data:
-        label: Player
-        value: {fileID: 11400000, guid: 975a57a1811d3f743838422b5c87c58a, type: 2}
     - rid: 1429379716160946417
       type: {class: ResourcesSafetyFairness, ns: , asm: LBS}
       data:
@@ -147,3 +132,8 @@ MonoBehaviour:
       type: {class: ExhaustiveSwapGene, ns: , asm: LBS}
       data:
         blackList: []
+    - rid: 3832781074193712087
+      type: {class: SafeAreaFairness, ns: , asm: LBS}
+      data:
+        playerCharacteristc:
+          rid: -2

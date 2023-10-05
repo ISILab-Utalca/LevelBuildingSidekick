@@ -20,8 +20,14 @@ MonoBehaviour:
   assets:
   - obj: {fileID: 8837219279990917525, guid: 4b0a6fa21b1780846bd1b7cea7dd27b2, type: 3}
     probability: 1
-  characteristics: []
+  characteristics:
+  - rid: 3832781074193712085
   positioning: 0
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 3832781074193712085
+      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+      data:
+        label: Coins
+        value: {fileID: 11400000, guid: 0ce19f5583699394b811faa9674b6877, type: 2}
