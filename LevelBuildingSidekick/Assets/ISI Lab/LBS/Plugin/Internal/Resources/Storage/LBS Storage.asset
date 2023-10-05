@@ -256,3 +256,6 @@ MonoBehaviour:
   - type: UnityEngine.U2D.SpriteShape
     items:
     - {fileID: 11400000, guid: f24cddf7c09a6442abbce710a6fd7397, type: 2}
+  - type: Readme
+    items:
+    - {fileID: 11400000, guid: 447108942fa59f243b3e1f146cab91c2, type: 2}
