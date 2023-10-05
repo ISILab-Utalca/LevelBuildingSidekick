@@ -35,6 +35,10 @@ public class HillClimbingAssistantEditor : LBSCustomEditor, IToolProvider
         this.hillClimbing = target as HillClimbingAssistant;
 
         CreateVisualElement();
+
+        var wnd = LBSMainWindow.GetWindow<LBSMainWindow>();
+
+        hillClimbing.OnTermination += wnd.Repaint;
     }
 
     public override void SetInfo(object target)
@@ -98,7 +102,7 @@ public class HillClimbingAssistantEditor : LBSCustomEditor, IToolProvider
         });
 
         // Recalculate //parche(!)
-        this.recalculate = new Button();
+        /*this.recalculate = new Button();
         recalculate.text = "Recalculate Constraint";
         recalculate.clicked += () => {
             hillClimbing.RecalculateConstraint();
@@ -119,7 +123,7 @@ public class HillClimbingAssistantEditor : LBSCustomEditor, IToolProvider
             moduleConstr.Constraints.Clear();
             this.Paint();
         };
-        this.Add(clear);
+        this.Add(clear);*/
 
         return this;
     }

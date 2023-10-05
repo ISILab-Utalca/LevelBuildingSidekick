@@ -64,8 +64,10 @@ public class DrawManager
 
         var layers = level.Layers;
 
-        foreach(var l in layers)
+        for(int i = layers.Count - 1; i >= 0; i--)
         {
+            var l = layers[i];
+
             if (l == null)
                 continue;
 
