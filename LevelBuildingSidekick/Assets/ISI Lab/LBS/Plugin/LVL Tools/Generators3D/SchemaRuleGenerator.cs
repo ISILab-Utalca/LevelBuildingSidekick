@@ -13,6 +13,8 @@ using Newtonsoft.Json;
 using UnityEditor;
 #endif
 
+
+
 [System.Serializable]
 [RequieredModule(typeof(TileMapModule),
     typeof(ConnectedTileMapModule),
@@ -56,26 +58,31 @@ public class SchemaRuleGenerator : LBSGeneratorRule
         this.settings = settings;
     }
 
-    public override bool CheckIfIsPosible(LBSLayer layer, out string msg)
+    public override List<Message> CheckViability(LBSLayer layer)
     {
-        /*
-        msg = "";
+        var msgs = new List<Message>();
+        var zonesMod = layer.GetModule<SectorizedTileMapModule>();
 
-        var schema = layer.GetModule<LBSSchema>();
-        var graph = layer.GetModule<LBSRoomGraph>();
-        if (schema == null)
+        foreach (var zone in zonesMod.Zones)
         {
-            msg = "The layer does not contain any module corresponding to 'LBSSchema'.";
-            return false;
+            if(zone.OutsideStyles.Count <= 0)
+            {
+                msgs.Add(new Message(
+                    Message.Type.Warning,
+                    "La zona '" + zone + "' no contiene bundles de estilo para crear el outside."
+                    ));
+            }
+
+            if(zone.InsideStyles.Count <= 0)
+            {
+                msgs.Add(new Message(
+                    Message.Type.Warning,
+                    "La zona '" + zone + "' no contiene bundles de estilo para crear el inside."
+                    ));
+            }
         }
-        if (graph == null)
-        {
-            msg = "The layer does not contain any module corresponding to 'LBSRoomGraph'.";
-            return false;
-        }
-        */
-        msg = "";
-        return true;
+
+        return msgs;
     }
 
     public override object Clone()

@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using UnityEngine.UIElements;
 
+[Obsolete("OLD")]
 public class AIPanel : VisualElement
 {
     public new class UxmlFactory : UxmlFactory<AIPanel, VisualElement.UxmlTraits> { }

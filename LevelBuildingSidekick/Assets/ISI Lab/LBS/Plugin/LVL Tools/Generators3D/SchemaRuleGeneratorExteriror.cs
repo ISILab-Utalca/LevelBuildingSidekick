@@ -49,28 +49,15 @@ public class SchemaRuleGeneratorExteriror : LBSGeneratorRule
         this.settings = settings;
     }
 
-    public override bool CheckIfIsPosible(LBSLayer layer, out string msg)
+    public override List<Message> CheckViability(LBSLayer layer)
     {
-        msg = "";
+        var msgs = new List<Message>();
+        var zonesMod = layer.GetModule<SectorizedTileMapModule>();
 
-        return true;
-        /*
-        var schema = layer.GetModule<LBSSchema>();
-        var graph = layer.GetModule<LBSRoomGraph>();
-        if (schema == null)
-        {
-            msg = "The layer does not contain any module corresponding to 'LBSSchema'.";
-            return false;
-        }
-        if (graph == null)
-        {
-            msg = "The layer does not contain any module corresponding to 'LBSRoomGraph'.";
-            return false;
-        }
-        */
+        return msgs;
     }
 
-    private GameObject GenerateEdges(GameObject pivot, List<Bundle> bundles, List<string> connections)
+    private GameObject GenerateEdges(GameObject pivot, List<Bundle> bundles, List<string> connections, LBSTile tile)
     {
         // Get "Edge" bundles
         var currents = new List<Bundle>();
@@ -81,10 +68,14 @@ public class SchemaRuleGeneratorExteriror : LBSGeneratorRule
 
         for (var i = 0; i < connections.Count; i++)
         {
+            var neig = tilesMod.GetTileNeighbor(tile, Dirs[i]);
+            if (neig != null)
+                continue;
+
             // Get random bundle with respctive "connection tag"
             var current = currents.Where(b => b.GetCharacteristics<LBSTagsCharacteristic>()
-                .Any(c => c.Value.name == connections[i]))
-                .ToList().Random();
+            .Any(c => c.Value.name == connections[i]))
+            .ToList().Random();
 
             // check if current is valid
             if (current == null)
@@ -153,7 +144,7 @@ public class SchemaRuleGeneratorExteriror : LBSGeneratorRule
 
             if (bundles.Count <= 0)
             {
-                Debug.LogWarning("No se pudo finalizar la generacion de la zona '" + zone.ID + "'" +
+                Debug.LogWarning("No se pudo finalizar la generacion de la zona '" + zone.ID + "' " +
                     "ya que no contiene bundles que definan su estilo exterior");
 
                 continue;
@@ -166,7 +157,7 @@ public class SchemaRuleGeneratorExteriror : LBSGeneratorRule
             var tileObj = new GameObject(tile.Position.ToString());
 
             // Add pref part to pivot
-            GenerateEdges(tileObj, bundles, connections);
+            GenerateEdges(tileObj, bundles, connections, tile);
             GenerateCorners(tileObj, bundles);
 
             // Set position

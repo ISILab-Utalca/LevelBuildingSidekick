@@ -13,14 +13,6 @@ namespace LBS.Generator
 {
     public class ExteriorRuleGenerator : LBSGeneratorRule //  (!!!) esta clase mescla lo que tiene que hacer la IA de WFC con generar 3d posteriormente
     {
-        public override bool CheckIfIsPosible(LBSLayer layer, out string msg)
-        {
-            //var module = layer.GetModule<ExteriorModule>();
-
-            msg = "The layer does not contain any module corresponding to 'Exterior'.";
-
-            return false; //(module != null);
-        }
 
         private Tuple<LBSDirection,int> GetBundle(LBSDirectionedGroup group, string[] conections)
         {
@@ -79,9 +71,7 @@ namespace LBS.Generator
 
                 if (pair.Item2 % 2 == 0)
                     go.transform.rotation = Quaternion.Euler(0, 90 * (pair.Item2) % 360, 0);
-                //go.SetActive(false);
                 else
-                    //go.SetActive(false);
                     go.transform.rotation = Quaternion.Euler(0, 90 * (pair.Item2 - 2) % 360, 0);
 
             }
@@ -107,6 +97,11 @@ namespace LBS.Generator
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        public override List<Message> CheckViability(LBSLayer layer)
+        {
+            throw new NotImplementedException();
         }
     }
 }

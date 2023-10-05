@@ -14,15 +14,9 @@ namespace LBS.Generator
     [System.Serializable]
     public class PopulationRuleGenerator : LBSGeneratorRule // PopulationGenerator -> TaggedTileMapGenerator (?)
     {
-        public override bool CheckIfIsPosible(LBSLayer layer,out string msg)
+        public override List<Message> CheckViability(LBSLayer layer)
         {
-            msg = "The layer does not contain any module corresponding to 'TaggedTileMap'.";
-            return true;
-            /*
-            var data = layer.GetModule<TaggedTileMap>();
-
-            return (data != null);
-            */
+            throw new System.NotImplementedException();
         }
 
         public override object Clone()

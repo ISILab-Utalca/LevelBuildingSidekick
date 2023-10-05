@@ -17,7 +17,7 @@ namespace LBS.Generator
 
         public abstract GameObject Generate(LBSLayer layer, Generator3D.Settings settings);
 
-        public abstract bool CheckIfIsPosible(LBSLayer layer, out string msg); // mejorar nombre (!!!)
+        public abstract List<Message> CheckViability(LBSLayer layer);
 
         public abstract object Clone();
     }

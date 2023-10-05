@@ -118,7 +118,8 @@ namespace LBS.Generator
             foreach (var rule in rules)
             {
                 var msg = "";
-                if (!rule.CheckIfIsPosible(layer, out msg))
+                var msgs = rule.CheckViability(layer); 
+                if (msgs.Count > 0)
                 {
                     Debug.Log(msg);
                     return false;
