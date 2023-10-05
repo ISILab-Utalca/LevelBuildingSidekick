@@ -10,7 +10,6 @@ using UnityEngine.UIElements;
 
 public class AddSchemaTile : LBSManipulator
 {
-
     private Zone toSet;
     
     private SchemaBehaviour schema;

@@ -62,5 +62,10 @@ public class ToolButton : VisualElement, IGrupable
         this.color = color;
         this.selected = selected;
     }
+
+    public string GetLabel()
+    {
+        return this.tooltip;
+    }
     #endregion
 }

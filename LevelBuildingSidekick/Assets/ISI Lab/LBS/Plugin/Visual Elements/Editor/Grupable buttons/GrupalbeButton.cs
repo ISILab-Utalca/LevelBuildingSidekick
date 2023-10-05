@@ -8,6 +8,8 @@ public class GrupalbeButton : Button, IGrupable
 {
     public new class UxmlFactory : UxmlFactory<GrupalbeButton, Button.UxmlTraits> { }
 
+    public string label;
+
     private Color color = new Color(1, 0, 0);
     private Color selected = new Color(0, 0, 1);
 
@@ -54,6 +56,11 @@ public class GrupalbeButton : Button, IGrupable
     {
         this.color = color;
         this.selected = selected;
+    }
+
+    public string GetLabel()
+    {
+        return this.label;
     }
 }
 

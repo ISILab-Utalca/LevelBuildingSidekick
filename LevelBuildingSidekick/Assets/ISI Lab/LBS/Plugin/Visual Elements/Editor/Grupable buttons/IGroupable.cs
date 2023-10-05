@@ -10,6 +10,7 @@ public interface IGrupable
     public event Action OnFocusEvent;
     public event Action OnBlurEvent;
 
+    public string GetLabel();
     public void SetColorGroup(Color color, Color select);
     public void AddGroupEvent(Action action);
     public void OnBlur();

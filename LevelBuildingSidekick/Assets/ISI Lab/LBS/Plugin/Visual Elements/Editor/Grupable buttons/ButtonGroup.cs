@@ -170,6 +170,15 @@ namespace LBS.VisualElements
             current.OnFocus();
         }
 
+        public void ChangeActive(string label)
+        {
+            current?.OnBlur();
+            current = group.Find(b => b.GetLabel() == label);
+
+            group.ForEach(g => Debug.Log("Label: " + g.GetLabel()))
+                ;
+            current.OnFocus();
+        }
 
         private void Active(IGrupable active)
         {

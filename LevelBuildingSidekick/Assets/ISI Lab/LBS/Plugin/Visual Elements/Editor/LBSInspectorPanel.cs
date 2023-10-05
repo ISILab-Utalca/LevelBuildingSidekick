@@ -213,8 +213,15 @@ public class LBSInspectorPanel : VisualElement
         var obj = LBSInspectorPanel.Instance;
         obj.VEs.TryGetValue(tab, out var ve);
         ve.TryGetValue(subTab, out var inspct);
-        obj.ClearContent();
-        obj.SetContent(inspct);
+
+        var vv = obj.mainTab.Choices.Split(",").ToList();
+        obj.mainTab.ChangeActive(vv.FindIndex( v => v == tab));
+
+        var vvv = obj.subTab.Choices.Split(",").ToList();
+        obj.subTab.ChangeActive(vvv.FindIndex(v => v == subTab));
+
+        //obj.ClearContent();
+        //obj.SetContent(inspct);
     }
     #endregion
 }

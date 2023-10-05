@@ -47,4 +47,9 @@ public abstract class LBSGrupableButton : VisualElement, IGrupable
         this.color = color;
         this.selected = selected;
     }
+
+    public string GetLabel()
+    {
+        throw new NotImplementedException();
+    }
 }
