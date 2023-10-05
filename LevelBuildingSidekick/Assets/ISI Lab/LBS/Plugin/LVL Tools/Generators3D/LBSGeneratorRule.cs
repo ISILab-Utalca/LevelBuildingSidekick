@@ -23,3 +23,21 @@ namespace LBS.Generator
     }
 }
 
+public class Message
+{
+    public enum Type
+    {
+        Error,
+        Warning,
+        Info
+    }
+
+    public Type type;
+    public string msg;
+
+    public Message(Type type, string msg)
+    {
+        this.type = type;
+        this.msg = msg;
+    }
+}
