@@ -1,4 +1,5 @@
 using LBS;
+using LBS.Bundles;
 using LBS.Components.Specifics;
 using LBS.Components.TileMap;
 using LBS.Settings;
@@ -7,6 +8,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Utility;
@@ -104,6 +106,22 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
         // Connection Pallete
         this.connectionPallete = this.Q<SimplePallete>("ConnectionPallete");
         SetConnectionPallete();
+
+        // Inside Field
+        var insideField = this.Q<ObjectField>("InsideField");
+        insideField.value = schema.PressetInsideStyle;
+        insideField.RegisterValueChangedCallback(evt =>
+        {
+            schema.PressetOutsideStyle = evt.newValue as Bundle;
+        });
+
+        // Outside Field
+        var outsideField = this.Q<ObjectField>("OutsideField");
+        outsideField.value = schema.PressetOutsideStyle;
+        outsideField.RegisterValueChangedCallback(evt =>
+        {
+            schema.PressetOutsideStyle = evt.newValue as Bundle;
+        });
 
         return this;
     }

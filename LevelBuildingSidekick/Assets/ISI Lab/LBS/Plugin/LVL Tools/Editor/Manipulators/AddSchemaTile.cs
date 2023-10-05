@@ -46,7 +46,11 @@ public class AddSchemaTile : LBSManipulator
     {
         if(e.ctrlKey)
         {
-            toSet = schema.AddZone();
+            var newZone = schema.AddZone();
+            newZone.InsideStyles = new List<string>() { schema.PressetInsideStyle.Name };
+            newZone.OutsideStyles = new List<string>() { schema.PressetOutsideStyle.Name };
+
+            toSet = newZone;
         }
 
         if (toSet == null)

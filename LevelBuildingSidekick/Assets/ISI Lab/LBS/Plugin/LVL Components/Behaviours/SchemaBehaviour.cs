@@ -1,4 +1,5 @@
 using LBS.Behaviours;
+using LBS.Bundles;
 using LBS.Components;
 using LBS.Components.Graph;
 using LBS.Components.TileMap;
@@ -30,9 +31,28 @@ public class SchemaBehaviour : LBSBehaviour
     private ConnectedTileMapModule tileConnections;
     [JsonIgnore]
     private SectorizedTileMapModule areas;
+
+    [SerializeField]
+    private string pressetInsideStyle = "Castle_Wooden";
+    [SerializeField]
+    private string pressetOutsideStyle = "Castle_Brick";
     #endregion
 
     #region PROEPRTIES
+    [JsonIgnore]
+    public Bundle PressetInsideStyle
+    {
+        get => LBSAssetsStorage.Instance.Get<Bundle>().Find(b => b.Name == pressetInsideStyle);
+        set => pressetInsideStyle = value.Name;
+    }
+
+    [JsonIgnore]
+    public Bundle PressetOutsideStyle
+    {
+        get => LBSAssetsStorage.Instance.Get<Bundle>().Find(b => b.Name == pressetOutsideStyle);
+        set => pressetOutsideStyle = value.Name;
+    }
+
     [JsonIgnore]
     public List<Zone> Zones => areas.Zones; // esta clase deberia ser la que entrega las areas? (?)
 
