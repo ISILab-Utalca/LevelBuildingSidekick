@@ -29,7 +29,7 @@ public class HillClimbingAssistant : LBSAssistant
 
     #region META-FIELDS
     [SerializeField, JsonRequired]
-    public bool visibleConstraints = true;
+    public bool visibleConstraints = false;
     #endregion
 
     #region FIELDS
