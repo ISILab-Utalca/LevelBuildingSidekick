@@ -78,6 +78,12 @@ public class AssistantWFC : LBSAssistant
         {
             // Get tile inforamtion
             var tile = map.GetTile(position);
+
+            // Check if tile is null
+            if (tile == null)
+                continue;
+
+            // Get connections
             var connection = connected.GetConnections(tile);
 
             if (overrideValues)
