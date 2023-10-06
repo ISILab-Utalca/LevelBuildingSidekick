@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: RTSPresset
   m_EditorClassIdentifier: 
   mapElites:
-    xSampleCount: 5
-    ySampleCount: 5
+    xSampleCount: 3
+    ySampleCount: 3
     devest: 0.5
     xEvaluator:
       rid: 1429379716160946411
