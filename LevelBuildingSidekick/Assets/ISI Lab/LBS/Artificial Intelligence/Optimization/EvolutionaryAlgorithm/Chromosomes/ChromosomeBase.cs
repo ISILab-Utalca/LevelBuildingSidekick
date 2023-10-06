@@ -155,8 +155,6 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <exception cref="System.ArgumentOutOfRangeException">index;There is no Gene on index {0} to be replaced..With(index)</exception>
         public virtual void ReplaceGene<T>(int index, T gene)
         {
-            if (IsImmutable(index))
-                return;
             if (index < 0 || index >= Length)
             {
                 throw new ArgumentOutOfRangeException(nameof(index), "There is no Gene on index {0} to be replaced.".With(index));

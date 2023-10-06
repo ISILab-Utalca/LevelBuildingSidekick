@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -26,6 +27,8 @@ public class MAPElitesPressetVE : LBSCustomEditor
     VisualElement contentO;
 
     ClassDropDown maskType;
+
+    ListView blacklist;
 
     public MAPElitesPressetVE(object target) : base(target)
     {
@@ -133,7 +136,13 @@ public class MAPElitesPressetVE : LBSCustomEditor
             {
                 Debug.Log(maskType.TypeValue);
                 presset.MaskType = maskType.TypeValue;
-            }); 
+            });
+
+        blacklist = this.Q<ListView>(name: "BlackList");
+        blacklist.itemsSource = presset.blackList;
+
+        blacklist.makeItem = MakeItem;
+        blacklist.bindItem = BindItem;
 
         return this;
     }
@@ -165,6 +174,30 @@ public class MAPElitesPressetVE : LBSCustomEditor
     public void Print()
     {
 
+    }
+
+    VisualElement MakeItem()
+    {
+        var v = new ObjectField();
+        v.objectType = typeof(LBSIdentifier);
+        return v;
+    }
+
+    void BindItem(VisualElement element, int index)
+    {
+        var presset = target as MAPElitesPresset;
+        if (index < presset.blackList.Count)
+        {
+            var of = element as ObjectField;
+            //Debug.Log("Bind");
+            if (presset.blackList[index] != null)
+            {
+                //Debug.Log(eval.resourceCharactersitic[index]);
+                of.value = presset.blackList[index];
+            }
+            of.RegisterValueChangedCallback(e => { presset.blackList[index] = e.newValue as LBSIdentifier; });
+            of.label = "Element " + index + ":";
+        }
     }
 
 }

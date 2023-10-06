@@ -43,7 +43,7 @@ public class MAPEliteContent : VisualElement
         this.Container = this.Q<VisualElement>("Content");
         this.xAxis = this.Q<Label>(name: "LabelX");
         this.yAxis = this.Q<Label>(name: "LabelY");
-
+        
         this.assistant = assistant;
         CreateGUI();
     }
@@ -132,8 +132,8 @@ public class MAPEliteContent : VisualElement
             var t = Content[index].GetTexture();
             if (Content[index].Data != null)
             {
-                //Content[index].SetTexture(background.MergeTextures(t).FitSquare());
-                Content[index].SetTexture(background);
+                Content[index].SetTexture(background.MergeTextures(t).FitSquare());
+                //Content[index].SetTexture(background);
             }
             else
             {

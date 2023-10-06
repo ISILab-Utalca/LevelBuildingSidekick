@@ -31,8 +31,6 @@ public class BundleTilemapChromosome : ChromosomeBase2D, IDrawable
         var chrom = new BundleTilemapChromosome(Rect, immutableIndexes);
         for (int i = 0; i < Length; i++)
         {
-            if (IsImmutable(i))
-                continue;
             chrom.ReplaceGene(i, GetGene(i));
         }
         return chrom;
@@ -43,14 +41,24 @@ public class BundleTilemapChromosome : ChromosomeBase2D, IDrawable
         var chrom = new BundleTilemapChromosome(Rect, immutableIndexes);
         for(int i = 0; i < Length; i++)
         {
-            chrom.ReplaceGene(i, GenerateGene());
+            if (!IsImmutable(i))
+                chrom.ReplaceGene(i, GenerateGene());
+            else
+                chrom.ReplaceGene(i, GetGene(i));
         }
         return chrom;
     }
 
     public override object GenerateGene()
     {
-        return (GetGene(RandomizationProvider.Current.GetInt(0, Length)) as BundleData)?.Clone();
+        int index = -1;
+        do
+        {
+            index = RandomizationProvider.Current.GetInt(0, Length);
+        }
+        while (IsImmutable(index));
+
+        return (GetGene(index) as BundleData)?.Clone();
     }
 
     public override bool IsValid()
@@ -102,14 +110,14 @@ public class BundleTilemapChromosome : ChromosomeBase2D, IDrawable
             else
             {
                 var source = (genes[i] as BundleData).Bundle.Icon;
-                var t = new Texture2D(source.width, source.height);
-                t.SetPixels(source.GetPixels());
-                t.MirrorY();
-                t.Apply();
-                texture.InsertTextureInRect(t, pos.x * tSize, pos.y * tSize, tSize, tSize);
+                //var t = new Texture2D(source.width, source.height);
+                //t.SetPixels(source.GetPixels());
+                //t.MirrorY();
+                //t.Apply();
+                texture.InsertTextureInRect(source, pos.x * tSize, pos.y * tSize, tSize, tSize);
             }
         }
-        texture.MirrorY();
+        //texture.MirrorY();
         texture.Apply();
         return texture;
     }

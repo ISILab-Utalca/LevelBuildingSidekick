@@ -145,10 +145,10 @@ public class AssistantMapEliteEditor : LBSCustomEditor, IToolProvider
             }
         }
 
-        foreach(var t in textures)
+        for (int i = textures.Count - 1; i >= 0; i-- )
         {
             //Debug.Log("Texture::: " + t.width + " - " + t.height);
-            texture = texture.MergeTextures(t);
+            texture = texture.MergeTextures(textures[i]);
         }
 
         texture.Apply();

@@ -20,6 +20,8 @@ public class MAPElitesPresset : ScriptableObject, ICloneable
     [SerializeField]
     string maskType = "";
 
+    public List<LBSIdentifier> blackList = new List<LBSIdentifier>();
+
     [JsonIgnore]
     public MapElites MapElites => mapElites?.Clone() as MapElites;
 
@@ -30,6 +32,8 @@ public class MAPElitesPresset : ScriptableObject, ICloneable
         set => maskType = value.FullName;
     }
 
+
+
     public Vector2Int SampleCount
     {
         get => new Vector2Int(mapElites.XSampleCount, mapElites.YSampleCount);
@@ -39,6 +43,7 @@ public class MAPElitesPresset : ScriptableObject, ICloneable
             mapElites.YSampleCount = value.y;
         }
     }
+
 
     public double Devest
     {

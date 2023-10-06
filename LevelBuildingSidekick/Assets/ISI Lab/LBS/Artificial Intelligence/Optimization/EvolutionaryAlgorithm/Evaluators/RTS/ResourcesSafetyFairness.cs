@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 [System.Serializable]
 public class ResourcesSafetyFairness : IRangedEvaluator
@@ -48,7 +49,7 @@ public class ResourcesSafetyFairness : IRangedEvaluator
 
         if (playersPos.Count < 2)
         {
-            Debug.LogWarning("Map is not suitable for the evaluation, it must have at least 2 players");
+            Debug.LogWarning("Map is not suitable for the evaluation, player count: " + playersPos.Count() + " < 2");
             return MaxValue;
         }
 

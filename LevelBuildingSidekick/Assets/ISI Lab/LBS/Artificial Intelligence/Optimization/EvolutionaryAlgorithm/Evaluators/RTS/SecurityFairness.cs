@@ -39,7 +39,7 @@ public class SecurityFairness : IRangedEvaluator
 
         if (players.Count() < 2)
         {
-            Debug.LogWarning("Map is not suitable for the evaluation, it must have at least 2 players");
+            Debug.LogWarning("Map is not suitable for the evaluation, player count: " + players.Count() + " < 2");
             return MaxValue;
         }
 
@@ -86,16 +86,17 @@ public class SecurityFairness : IRangedEvaluator
 
     public float AstarDistance(int first, int second, BundleTilemapChromosome chrom)
     {
-        var open = new Queue<int>(); 
+        var open = new List<int>(); 
         var closed = new Dictionary<int, int>();
         var openDic = new Dictionary<int, int>();
 
-        open.Enqueue(first);
+        open.Add(first);
         openDic.Add(first, 0);
 
         while(open.Count > 0)
         {
-            var parent = open.Dequeue();
+            var parent = open[0];
+            open.RemoveAt(0);
             var g = openDic[parent];
             openDic.Remove(parent);
 
@@ -112,29 +113,29 @@ public class SecurityFairness : IRangedEvaluator
 
                 var gen = chrom.GetGene(index) as BundleData;
 
-                if (gen.Characteristics.Contains(colliderCharacteristic))
+                if (gen != null && gen.Characteristics.Contains(colliderCharacteristic))
                     continue;
 
                 if (closed.ContainsKey(index))
-                    if(closed[index] < openDic[parent] + 1)
+                    if(closed[index] < g + 1)
                         continue;
                     else
                         closed.Remove(index);
 
 
                 if (openDic.ContainsKey(index))
-                    if (openDic[index] < openDic[parent] + 1)
+                    if (openDic[index] < g + 1)
                         continue;
                     else
                         openDic.Remove(index);
 
-                open.Enqueue(index);
-                openDic.Add(index, parent + 1);
+                open.Add(index);
+                openDic.Add(index, g + 1);
 
             }
 
             closed.Add(parent, g);
-            open.OrderBy(x => openDic[x] + FlatDistance(x, second, chrom));
+            open = open.Distinct().OrderBy(x => openDic[x] + FlatDistance(x, second, chrom)).ToList();
         }
 
 
