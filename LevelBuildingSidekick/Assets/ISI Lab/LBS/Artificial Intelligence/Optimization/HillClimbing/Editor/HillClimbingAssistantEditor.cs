@@ -41,6 +41,18 @@ public class HillClimbingAssistantEditor : LBSCustomEditor, IToolProvider
         hillClimbing.OnTermination += wnd.Repaint;
     }
 
+    public override void Repaint()
+    {
+        var moduleConstr = hillClimbing.Owner.GetModule<ConstrainsZonesModule>();
+        foldout.Clear();
+        foreach (var constraint in moduleConstr.Constraints)
+        {
+            var view = new ConstraintView();
+            view.SetData(constraint);
+            foldout.Add(view);
+        }
+    }
+
     public override void SetInfo(object target)
     {
         throw new System.NotImplementedException();
@@ -100,30 +112,6 @@ public class HillClimbingAssistantEditor : LBSCustomEditor, IToolProvider
             hillClimbing.visibleConstraints = x.newValue;
             DrawManager.ReDraw();
         });
-
-        // Recalculate //parche(!)
-        /*this.recalculate = new Button();
-        recalculate.text = "Recalculate Constraint";
-        recalculate.clicked += () => {
-            hillClimbing.RecalculateConstraint();
-            foreach (var constraint in moduleConstr.Constraints)
-            {
-                var view = new ConstraintView();
-                view.SetData(constraint);
-                foldout.Add(view);
-            }
-        };
-        this.Add(recalculate);
-
-        // parche (!)
-        var clear = new Button();
-        clear.text = "Clear Constraints";
-        clear.clicked += () =>
-        {
-            moduleConstr.Constraints.Clear();
-            this.Paint();
-        };
-        this.Add(clear);*/
 
         return this;
     }

@@ -23,9 +23,13 @@ public abstract class LBSCustomEditor : VisualElement
     #region METHODS
     public virtual void ContextMenu(ContextualMenuPopulateEvent evt) { }
 
+    public virtual void Repaint() { }
+
+
     public abstract void SetInfo(object target);
 
     protected abstract VisualElement CreateVisualElement();
+
     #endregion
 
 }

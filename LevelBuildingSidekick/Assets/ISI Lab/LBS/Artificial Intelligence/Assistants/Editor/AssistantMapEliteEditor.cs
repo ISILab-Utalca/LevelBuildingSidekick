@@ -77,7 +77,11 @@ public class AssistantMapEliteEditor : LBSCustomEditor, IToolProvider
 
         config.OnCalculate += Run;
         config.OnContinue += Continue;
-        config.OnPressetChange += (p) => ChangePresset();
+        config.OnPressetChange += (p) =>
+        {
+            ChangePresset();
+            ToolKit.Instance.SetActive("Select area to evaluate");
+        };
 
         content.OnSelectOption += assistant.ApplySuggestion;
 

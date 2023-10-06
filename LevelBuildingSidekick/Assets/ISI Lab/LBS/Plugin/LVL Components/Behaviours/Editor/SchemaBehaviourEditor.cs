@@ -156,6 +156,7 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
             for (int i = 0; i < zones.Count; i++)
             {
                 areaPallete.Options[i] = schema.Zones[i];
+                ToolKit.Instance.SetActive("Paint Zone");
             }
             areaPallete.Repaint();
         };

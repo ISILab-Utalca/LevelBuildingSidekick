@@ -104,6 +104,7 @@ public class PopulationBehaviourEditor : LBSCustomEditor, IToolProvider
         bundlePallete.OnSelectOption += (selected) => {
             // var tk = ToolKit.Instance;
             addPopulationTile.ToSet = selected as Bundle;
+            ToolKit.Instance.SetActive("Paint Tile");
         };
 
         // OnAdd option event

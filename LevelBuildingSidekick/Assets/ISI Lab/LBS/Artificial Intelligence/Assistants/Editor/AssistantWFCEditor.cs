@@ -53,6 +53,7 @@ public class AssistantWFCEditor : LBSCustomEditor, IToolProvider
         field.RegisterValueChangedCallback(evt =>
         {
             assistant.TargetBundle = evt.newValue as Bundle;
+            ToolKit.Instance.SetActive("Wave function collapse");
         });
 
         return this;

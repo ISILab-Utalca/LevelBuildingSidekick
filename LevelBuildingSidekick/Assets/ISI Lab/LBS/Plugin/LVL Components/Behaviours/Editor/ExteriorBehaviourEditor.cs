@@ -138,6 +138,7 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
             targetBundle = evt.newValue as Bundle;
             exterior.TargetBundle = targetBundle.Name;
             OnTargetBundle();
+            ToolKit.Instance.SetActive("Set connection");
         });
 
         // Connection Pallete
@@ -181,6 +182,7 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
         connectionPallete.OnSelectOption += (selected) => 
         {
             setConnection.ToSet = selected as LBSIdentifier;
+            ToolKit.Instance.SetActive("Set connection");
         };
 
         // OnAdd option event
