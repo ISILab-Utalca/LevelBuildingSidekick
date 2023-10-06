@@ -149,11 +149,14 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
         // OnAdd option event
         areaPallete.OnAddOption += () =>
         {
-            schema.AddZone();
+            var newZone = schema.AddZone();
+            newZone.InsideStyles = new List<string>() { schema.PressetInsideStyle.Name };
+            newZone.OutsideStyles = new List<string>() { schema.PressetOutsideStyle.Name };
             areaPallete.Options = new object[schema.Zones.Count];
             for (int i = 0; i < zones.Count; i++)
             {
                 areaPallete.Options[i] = schema.Zones[i];
+                ToolKit.Instance.SetActive("Paint Zone");
             }
             areaPallete.Repaint();
         };

@@ -11,4 +11,6 @@ public abstract class LBSInspector : VisualElement // estaq clase deberia ser bu
     public abstract void Init(MainView view, LBSLayer layer, LBSBehaviour behaviour);
 
     public abstract void OnLayerChange(LBSLayer layer);
+
+    public virtual void Repaint() { }
 }

@@ -37,9 +37,10 @@ public class AssistantWFCEditor : LBSCustomEditor, IToolProvider
         // Wave function collapse
         icon = Resources.Load<Texture2D>("Icons/Assistans/Assistans_WaveFunctionCollapse");
         this.collapseManipulator = new WaveFunctionCollapseManipulator();
-        var t4 = new LBSTool(icon, "Wave function collapse", collapseManipulator);
-        t4.Init(assistant.Owner, assistant);
-        toolKit.AddTool(t4);
+        var t1 = new LBSTool(icon, "Wave function collapse", collapseManipulator);
+        t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Local", "Assistants");
+        t1.Init(assistant.Owner, assistant);
+        toolKit.AddTool(t1);
     }
 
     protected override VisualElement CreateVisualElement()
@@ -52,6 +53,7 @@ public class AssistantWFCEditor : LBSCustomEditor, IToolProvider
         field.RegisterValueChangedCallback(evt =>
         {
             assistant.TargetBundle = evt.newValue as Bundle;
+            ToolKit.Instance.SetActive("Wave function collapse");
         });
 
         return this;

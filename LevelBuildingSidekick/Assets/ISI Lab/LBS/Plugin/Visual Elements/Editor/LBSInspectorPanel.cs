@@ -171,6 +171,7 @@ public class LBSInspectorPanel : VisualElement
             return;
 
         content.Add(inspector);
+        ((LBSInspector)inspector).Repaint();
     }
 
     public void AddInspector(LBSInspector inspector, int index = -1) // relacionado con toolkit (!!!)
@@ -210,15 +211,15 @@ public class LBSInspectorPanel : VisualElement
     #region FUNCTIONS SINGLETON
     public static void ShowInspector(string tab, string subTab)
     {
-        var obj = LBSInspectorPanel.Instance;
-        obj.VEs.TryGetValue(tab, out var ve);
+        var panel = LBSInspectorPanel.Instance;
+        panel.VEs.TryGetValue(tab, out var ve);
         ve.TryGetValue(subTab, out var inspct);
 
-        var vv = obj.mainTab.Choices.Split(",").ToList();
-        obj.mainTab.ChangeActive(vv.FindIndex( v => v == tab));
+        var vv = panel.mainTab.Choices.Split(",").ToList();
+        panel.mainTab.ChangeActive(vv.FindIndex( v => v == tab));
 
-        var vvv = obj.subTab.Choices.Split(",").ToList();
-        obj.subTab.ChangeActive(vvv.FindIndex(v => v == subTab));
+        var vvv = panel.subTab.Choices.Split(",").ToList();
+        panel.subTab.ChangeActive(vvv.FindIndex(v => v == subTab));
 
         //obj.ClearContent();
         //obj.SetContent(inspct);

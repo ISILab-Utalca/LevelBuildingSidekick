@@ -22,6 +22,8 @@ public class LBSLocalAssistants : LBSInspector
     private VisualElement noContentPanel;
     private VisualElement contentAssist;
 
+    private List<LBSCustomEditor> editores = new List<LBSCustomEditor>();
+
     private LBSLayer target;
 
     private ToolKit toolkit;
@@ -72,6 +74,8 @@ public class LBSLocalAssistants : LBSInspector
                 continue;
             }
 
+            editores.Add(ve as LBSCustomEditor);
+
             if (ve is IToolProvider)
             {
                 ((IToolProvider)ve).SetTools(toolkit);
@@ -81,6 +85,14 @@ public class LBSLocalAssistants : LBSInspector
             var content = new BehaviourContent(ve as LBSCustomEditor, assist.Name, assist.Icon, colorAS);
             contentAssist.Add(content);
 
+        }
+    }
+
+    public override void Repaint()
+    {
+        foreach (var ve in editores)
+        {
+            ve?.Repaint();
         }
     }
 

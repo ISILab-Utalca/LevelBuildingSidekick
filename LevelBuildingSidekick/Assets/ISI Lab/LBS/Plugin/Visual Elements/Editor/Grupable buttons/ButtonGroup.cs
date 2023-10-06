@@ -124,7 +124,6 @@ namespace LBS.VisualElements
             // les añade el metodo "Active"
             group.ForEach(b => b.AddGroupEvent(() => {
                 b.SetColorGroup(baseColor, selectedColor);
-                //Active(b);
             }));
 
             // inicia el grupo con el primero activo
@@ -174,9 +173,6 @@ namespace LBS.VisualElements
         {
             current?.OnBlur();
             current = group.Find(b => b.GetLabel() == label);
-
-            group.ForEach(g => Debug.Log("Label: " + g.GetLabel()))
-                ;
             current.OnFocus();
         }
 

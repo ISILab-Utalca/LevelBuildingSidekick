@@ -23,10 +23,6 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
     private RemoveTileExterior removeTile;
     private SetExteriorTileConnection setConnection;
     private RemoveConnection removeConection;
-
-    //private SetConnectionArea setConnectionArea;
-    //private RemoveConectionArea removeConnectionArea;
-
     #endregion
 
     #region VIEW FIELDS
@@ -142,6 +138,7 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
             targetBundle = evt.newValue as Bundle;
             exterior.TargetBundle = targetBundle.Name;
             OnTargetBundle();
+            ToolKit.Instance.SetActive("Set connection");
         });
 
         // Connection Pallete
@@ -185,6 +182,7 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
         connectionPallete.OnSelectOption += (selected) => 
         {
             setConnection.ToSet = selected as LBSIdentifier;
+            ToolKit.Instance.SetActive("Set connection");
         };
 
         // OnAdd option event
