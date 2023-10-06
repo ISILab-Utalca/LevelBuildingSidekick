@@ -131,6 +131,8 @@ public class LayersPanel : VisualElement
         var layer = data.RemoveAt(index);
         OnRemoveLayer?.Invoke(layer);
         list.Rebuild();
+
+        DrawManager.ReDraw();
     }
 
     // Simple Click over element
