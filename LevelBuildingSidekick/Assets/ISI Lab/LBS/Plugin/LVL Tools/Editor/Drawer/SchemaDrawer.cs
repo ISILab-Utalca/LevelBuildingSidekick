@@ -59,6 +59,8 @@ public class SchemaDrawer : Drawer
 
             foreach (var t in tiles)
             {
+                if (!sourceRect.Contains(t.Position))
+                    continue;
                 for (int j = 0; j < teselationSize.y; j++)
                 {
                     for (int i = 0; i < teselationSize.x; i++)
@@ -70,7 +72,7 @@ public class SchemaDrawer : Drawer
             }
         }
 
-        texture.MirrorY();
+        //texture.MirrorY();
 
         texture.Apply();
 
