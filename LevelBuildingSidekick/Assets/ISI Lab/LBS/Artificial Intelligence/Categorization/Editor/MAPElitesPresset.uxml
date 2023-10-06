@@ -15,4 +15,5 @@
         <ui:VisualElement name="OContent" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);" />
     </ui:VisualElement>
     <ClassDropDown label="Behaviour Context" index="-1" choices="System.Collections.Generic.List`1[System.String]" Label="Behaviour Context" name="BehaviourContext" />
+    <ui:ListView focusable="true" show-add-remove-footer="true" horizontal-scrolling="false" show-foldout-header="true" header-title="Black List" show-border="true" virtualization-method="DynamicHeight" name="BlackList" />
 </ui:UXML>
