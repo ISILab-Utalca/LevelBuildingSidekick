@@ -1,9 +1,11 @@
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Randomizations;
+using LBS.Components.TileMap;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
@@ -22,9 +24,6 @@ public class ExhaustiveMoveGene : MutationBase
         }
     }
 
-    [SerializeField, SerializeReference]
-    public List<object> blackList = new List<object>();
-
     public ExhaustiveMoveGene()
     {
         this.range = 1;
@@ -39,7 +38,7 @@ public class ExhaustiveMoveGene : MutationBase
     {
         var r = RandomizationProvider.Current;
 
-        var chr = chromosome as ChromosomeBase2D;
+        var chr = chromosome as BundleTilemapChromosome;
 
         if (chr == null)
         {
@@ -49,8 +48,6 @@ public class ExhaustiveMoveGene : MutationBase
         for (int i = 0; i < chr.Length; i++)
         {
             if (chromosome.IsImmutable(i))
-                continue;
-            if (!blackList.Contains(chromosome.GetGene(i)))
                 continue;
             if (chr.GetGene(i) != default)
             {
@@ -64,7 +61,6 @@ public class ExhaustiveMoveGene : MutationBase
                         if (chromosome.IsImmutable(j))
                             continue;
 
-                        var aux = chr.GetGene(i);
                         chr.ReplaceGene(j, chr.GetGene(i));
                         chr.SetDeafult(i);
                     }

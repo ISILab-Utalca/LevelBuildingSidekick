@@ -1,6 +1,7 @@
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Randomizations;
+using LBS.Components.TileMap;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,13 +11,14 @@ using UnityEngine;
 [System.Serializable]
 public class ExhaustiveAddGene : MutationBase
 {
-    [SerializeField, SerializeReference]
-    public List<object> blackList = new List<object>();
 
     protected override void PerformMutate(ChromosomeBase chromosome, float probability)
     {
+        var bc = chromosome as BundleTilemapChromosome;
+
         var r = RandomizationProvider.Current;
-        var genes = chromosome.GetGenes().Where(g => g != null).Distinct().ToList(); //Distinct is not doing anything
+        var mutables = bc.GetGenes().Select((g, i) => new { g, i }).Where(x => x.g != null && !chromosome.IsImmutable(x.i));
+        var genes = mutables.Select(x => x.g).Distinct().Cast<BundleData>().ToList();
 
         if (genes.Count == 0)
             return;
@@ -25,18 +27,14 @@ public class ExhaustiveAddGene : MutationBase
         {
             if (chromosome.IsImmutable(i))
                 continue;
-            if(chromosome.GetGene(i) == default)
+            if(chromosome.GetGene(i) == null)
             {
                 var d = r.GetDouble();
                 if (d < probability)
                 {
                     var index = r.GetInt(0, genes.Count);
-                    var gen = (genes[index] as ICloneable).Clone();
-
-                    if (!blackList.Contains(gen))
-                    {
-                        chromosome.ReplaceGene(i, gen);
-                    }
+                    var gen = genes[index];
+                    chromosome.ReplaceGene(i, (gen as ICloneable).Clone());
                 }
             }
         }

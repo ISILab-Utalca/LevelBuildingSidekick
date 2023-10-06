@@ -51,6 +51,8 @@ public class AreaCrossover : CrossoverBase
             for (int i = 0; i < w; i++)
             {
                 var index = offspring1.ToIndex(new Vector2(x + i, y + j));
+                if (parent1.IsImmutable(index))
+                    continue;
                 var aux = offspring1.GetGene(index);
                 offspring1.ReplaceGene(index, offspring2.GetGene(index));
                 offspring2.ReplaceGene(index, aux);

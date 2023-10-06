@@ -63,6 +63,7 @@ public class AssistantMapElite : LBSAssistant
     public IEvaluator YEvaluator => mapElites.YEvaluator;
 
     private Type maskType;
+    private List<LBSIdentifier> blacklist;
 
     #endregion
 
@@ -121,6 +122,7 @@ public class AssistantMapElite : LBSAssistant
     {
         mapElites = presset.MapElites;
         maskType = presset.MaskType;
+        blacklist = presset.blackList;
     }
 
     public void SetAdam(Rect rect)
@@ -133,10 +135,10 @@ public class AssistantMapElite : LBSAssistant
     private int[] CalcImmutables(Rect rect)
     {
         int[] immutables = null;
+        var im = new List<int>();
         if (maskType != null)
         {
             var layers = Owner.Parent.Layers.Where(l => l.Behaviours.Any(b => b.GetType().Equals(maskType)));
-            var im = new List<int>();
             foreach (var l in layers)
             {
                 var m = l.GetModule<TileMapModule>();
@@ -146,19 +148,55 @@ public class AssistantMapElite : LBSAssistant
 
                 var tiles = m.Tiles;
 
-                foreach (var t in tiles)
+                for(int j = 0; j < rect.height; j++)
                 {
-                    if (!rect.Contains(t.Position))
-                        continue;
-                    var pos = t.Position - rect.position;
-                    var i = (int)(pos.y * rect.width + pos.x);
-                    im.Add(i);
+                    for (int i = 0; i < rect.width; i++)
+                    {
+                        var t = m.GetSelected(new Vector2Int(i, j));
+                        if (t != null)
+                            continue;
+                        var pos = new Vector2(i,j) - rect.position;
+                        var index = (int)(pos.y * rect.width + pos.x);
+                        im.Add(index);
+                    }
                 }
 
             }
-            immutables = im.ToArray();
         }
 
+        var tm = Owner.GetModule<BundleTileMap>();
+        foreach (var b in tm.Tiles)
+        {
+            if(rect.Contains(b.Tile.Position))
+            {
+                var characteristics = b.BundleData.Characteristics.Where(c => c is LBSTagsCharacteristic);
+
+                if (characteristics.Count() == 0)
+                    continue;
+
+                var tags = characteristics.Select(c => (c as LBSTagsCharacteristic).Value);
+
+                bool flag = false;
+                foreach (var tag in tags) 
+                {
+                    if(blacklist.Contains(tag))
+                    {
+                        flag = true;
+                        break;
+                    }
+                }
+
+                if(flag)
+                {
+                    var pos = b.Tile.Position - rect.position;
+                    var i = (int)(pos.y * rect.width + pos.x);
+                    im.Add(i);
+                } 
+            }
+        }
+
+
+        immutables = im.ToArray();
         return immutables;
     }
 
