@@ -74,6 +74,7 @@ public class LBSLocalCurrent : LBSInspector, IToolProvider
         var selectTool = new Select();
         var t1 = new LBSTool(icon, "Select", selectTool);
         t1.Init(layer, this);
+        t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Local", "Current data");
         ToolKit.Instance.AddTool(t1);
 
         toolkit.AddSeparator();

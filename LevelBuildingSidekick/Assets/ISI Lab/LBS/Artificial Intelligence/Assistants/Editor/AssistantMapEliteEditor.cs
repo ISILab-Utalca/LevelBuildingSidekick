@@ -95,6 +95,7 @@ public class AssistantMapEliteEditor : LBSCustomEditor, IToolProvider
         var icon = Resources.Load<Texture2D>("Icons/Tools/Area_MapElite");
         ActOnRect = new ActOnRect((r) => assitant.RawToolRect = r);
         var t1 = new LBSTool(icon, "Select area to evaluate", ActOnRect);
+        t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Local", "Assistants");
         t1.Init(assitant.Owner, assitant);
         toolkit.AddTool(t1);
     }
