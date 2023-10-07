@@ -48,11 +48,6 @@ public class LBSTagsCharacteristic : LBSCharacteristic
         return true;
     }
 
-    public override void OnEnable()
-    {
-       // throw new System.NotImplementedException();
-    }
-
     public override string ToString()
     {
         return base.ToString();

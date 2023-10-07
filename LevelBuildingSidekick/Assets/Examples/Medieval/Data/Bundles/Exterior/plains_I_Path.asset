@@ -18,7 +18,7 @@ MonoBehaviour:
   icon: {fileID: 0}
   childsBundles: []
   assets:
-  - obj: {fileID: 1466049723841294769, guid: e1f4d416b604c014c8f14257b18fb264, type: 3}
+  - obj: {fileID: 547950750093555803, guid: 4ff1153bb00bf3642a99a3d52fa21722, type: 3}
     probability: 0
   characteristics:
   - rid: 3767989597796302926
@@ -36,5 +36,5 @@ MonoBehaviour:
         - Path
         - Grass
         weights:
-        - target: {fileID: 1466049723841294769, guid: e1f4d416b604c014c8f14257b18fb264, type: 3}
+        - target: {fileID: 5449846719445656345, guid: 53da147aa8b2acd41b94de94bfd4f419, type: 3}
           weigth: 1

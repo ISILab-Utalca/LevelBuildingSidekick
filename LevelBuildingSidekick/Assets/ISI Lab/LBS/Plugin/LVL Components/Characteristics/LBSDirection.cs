@@ -75,29 +75,6 @@ public class LBSDirection : LBSCharacteristic, ICloneable
         return new LBSDirection(this.label, new List<string>(this.connections));
     }
 
-    public override void OnEnable()
-    {
-        /*
-        foreach (var asset in Owner.Assets)
-        {
-            weights.Add(new weightStruct() 
-            {
-                target = asset,
-                weigth = 1f 
-            });
-        }
-
-        Owner.OnAddAsset += (asset) =>
-            {
-                weights.Add(new weightStruct()
-                {
-                    target = asset,
-                    weigth = 1f
-                });
-            };
-        */
-    }
-
     public override bool Equals(object obj)
     {
         return false; // Implementar bien (!!)

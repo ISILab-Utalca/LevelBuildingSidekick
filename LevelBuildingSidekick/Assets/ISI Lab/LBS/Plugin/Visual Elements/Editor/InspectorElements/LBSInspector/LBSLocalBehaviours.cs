@@ -29,7 +29,7 @@ public class LBSLocalBehaviours : LBSInspector
     #endregion
 
     #region PROPERTIES
-    private Color ColorBH => LBSSettings.Instance.view.behavioursColor;
+    public Color color;//=> LBSSettings.Instance.view.behavioursColor;
     private ToolKit toolkit => ToolKit.Instance;
     #endregion
 
@@ -88,7 +88,7 @@ public class LBSLocalBehaviours : LBSInspector
                 ((IToolProvider)ve).SetTools(toolkit);
             }
 
-            var content = new BehaviourContent(ve as LBSCustomEditor, behaviour.Name, behaviour.Icon, ColorBH);
+            var content = new BehaviourContent(ve as LBSCustomEditor, behaviour.Name, behaviour.Icon, color);
             contentBehaviour.Add(content);
 
         }

@@ -11,7 +11,6 @@ using UnityEngine;
 public class Zone : ICloneable
 {
     #region FIELDS
-
     [SerializeField, JsonRequired]
     protected string id = "Zone";
     [SerializeField, JsonRequired]
@@ -80,7 +79,11 @@ public class Zone : ICloneable
     #region METHODS
     public object Clone()
     {
-        return new Zone(this.id, this.color);
+        var clone = new Zone(this.id, this.color);
+        clone.pivot = new Vector2(this.pivot.x, this.pivot.y);
+        clone.insideStyles = new List<string>(this.insideStyles);
+        clone.outsideStyles = new List<string>(this.outsideStyles);
+        return clone;
     }
 
     public override bool Equals(object obj)

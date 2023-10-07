@@ -54,7 +54,7 @@ public abstract class LBSCharacteristic : ICloneable
         OnEnable();
     }
 
-    public abstract void OnEnable();
+    public virtual void OnEnable() { }
 
     public abstract object Clone();
 

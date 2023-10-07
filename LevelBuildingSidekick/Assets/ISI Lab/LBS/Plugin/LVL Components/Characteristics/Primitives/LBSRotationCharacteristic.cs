@@ -31,11 +31,6 @@ public class LBSRotationCharacteristic : LBSCharacteristic
         return new LBSRotationCharacteristic(label, rotation);
     }
 
-    public override void OnEnable()
-    {
-        throw new System.NotImplementedException();
-    }
-
     public override string ToString()
     {
         return base.ToString();

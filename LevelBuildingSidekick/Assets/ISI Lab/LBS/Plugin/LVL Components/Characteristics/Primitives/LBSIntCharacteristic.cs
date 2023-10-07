@@ -31,10 +31,6 @@ public class LBSIntCharacteristic : LBSCharacteristic
         return new LBSIntCharacteristic(this.value);
     }
 
-    public override void OnEnable()
-    {
-    }
-
     public override string ToString()
     {
         return base.ToString();
