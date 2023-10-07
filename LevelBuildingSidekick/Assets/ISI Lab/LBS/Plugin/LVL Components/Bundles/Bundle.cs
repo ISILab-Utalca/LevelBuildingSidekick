@@ -153,8 +153,10 @@ namespace LBS.Bundles
 
             foreach (var characteristic in characteristics)
             {
-                if(characteristic != null)
+                if (characteristic != null)
+                {
                     characteristic.Init(this);
+                }
             }
         }
 
