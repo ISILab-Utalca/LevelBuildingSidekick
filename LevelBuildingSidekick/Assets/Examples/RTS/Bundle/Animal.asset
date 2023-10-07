@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
+  m_Name: Animal
+  m_EditorClassIdentifier: 
+  isPreset: 0
+  type: 2
+  color: {r: 0.89411765, g: 0.6047344, b: 0.21052866, a: 1}
+  icon: {fileID: 2800000, guid: de397b4445093b5468811f6651e798d0, type: 3}
+  childsBundles: []
+  assets:
+  - obj: {fileID: 3507746843320673371, guid: 4f9eebc977b93d641a58f15164948196, type: 3}
+    probability: 0.5
+  - obj: {fileID: 3084024626696190684, guid: f5c8b6dc56a8e634a8f2a0cfbee2941d, type: 3}
+    probability: 0.5
+  - obj: {fileID: 4077612351692668892, guid: 0322c9b0c4f4d93418d648ec9405b63d, type: 3}
+    probability: 0.5
+  - obj: {fileID: 7677146391431892031, guid: 7ac0f4727b8b02d4b8fd471d4dc47304, type: 3}
+    probability: 0.5
+  - obj: {fileID: 8185963723970810583, guid: c36cdfacfaab1584c887c605bc8e7b2f, type: 3}
+    probability: 0.5
+  - obj: {fileID: 1311290861401530, guid: 312b31977ed9b2d48a14849ebb8c7fb3, type: 3}
+    probability: 0.3
+  - obj: {fileID: 1767663768970106, guid: ca9fda2f4d77c4d4f88d4ed8b939f69b, type: 3}
+    probability: 0.05
+  characteristics:
+  - rid: 2204195511826382859
+  positioning: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 2204195511826382859
+      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+      data:
+        label: Food
+        value: {fileID: 11400000, guid: b354587b73f945f4188c7dc7026de4ef, type: 2}

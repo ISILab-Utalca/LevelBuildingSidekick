@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
+  m_Name: Rock
+  m_EditorClassIdentifier: 
+  isPreset: 0
+  type: 2
+  color: {r: 0.49056602, g: 0.45585614, b: 0.45585614, a: 1}
+  icon: {fileID: 2800000, guid: 16a716e143b08f84b80e84df098084d2, type: 3}
+  childsBundles: []
+  assets:
+  - obj: {fileID: 174596, guid: 41dcf1459594f434a8a9bae6ae03eab0, type: 3}
+    probability: 0.2
+  - obj: {fileID: 199114, guid: ace40d2a4a1290f4f96f01a7e4ecd7f7, type: 3}
+    probability: 0.25
+  - obj: {fileID: 183960, guid: 491333d4c0bd88148813a9dde7fe955b, type: 3}
+    probability: 0.15
+  - obj: {fileID: 139742, guid: e9cb95ee3e55d914bbd4e5eb2d0a510c, type: 3}
+    probability: 0.3
+  - obj: {fileID: 110398, guid: f584b275cfb132f48a2ec91fd9d1b576, type: 3}
+    probability: 0.1
+  characteristics:
+  - rid: 2204195511826382854
+  - rid: 2204195511826382855
+  positioning: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 2204195511826382854
+      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+      data:
+        label: Rock
+        value: {fileID: 11400000, guid: 8d03f9563098ae048a81b709940e56c0, type: 2}
+    - rid: 2204195511826382855
+      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+      data:
+        label: Collider
+        value: {fileID: 11400000, guid: 261af09a46f50a647b4fb33a0e989c66, type: 2}

@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 991b9c5ba138ec24298c266c695cad3e, type: 3}
-  m_Name: Collider
+  m_Name: Food
   m_EditorClassIdentifier: 
-  label: Collider
+  label: Food
   icon: {fileID: 0}
-  color: {r: 0, g: 0, b: 0, a: 1}
+  color: {r: 0.83137256, g: 0.53877586, b: 0.19579923, a: 1}
