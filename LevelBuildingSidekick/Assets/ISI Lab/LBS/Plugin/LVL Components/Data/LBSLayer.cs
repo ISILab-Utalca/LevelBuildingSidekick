@@ -154,6 +154,7 @@ namespace LBS.Components
         #region EVENTS
         public event Action<Vector2Int> OnTileSizeChange;
         public event Action<LBSLayer, LBSModule> OnAddModule;
+        public event Action<LBSLayer, LBSModule> OnReplaceModule;
         public event Action<LBSLayer, LBSModule> OnRemoveModule;
         #endregion
 
@@ -207,7 +208,7 @@ namespace LBS.Components
             var index = modules.IndexOf(oldModule);
             RemoveModule(oldModule);
             modules.Insert(index, newModule);
-            OnAddModule?.Invoke(this, newModule);
+            OnReplaceModule?.Invoke(this, newModule);
         }
 
         public void Reload()
