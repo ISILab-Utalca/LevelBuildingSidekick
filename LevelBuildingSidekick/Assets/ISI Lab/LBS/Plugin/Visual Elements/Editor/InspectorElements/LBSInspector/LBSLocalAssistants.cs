@@ -16,7 +16,7 @@ public class LBSLocalAssistants : LBSInspector
     public new class UxmlFactory : UxmlFactory<LBSLocalAssistants, VisualElement.UxmlTraits> { }
     #endregion
 
-    private readonly Color colorAS = LBSSettings.Instance.view.assitantsColor;// new Color(135f / 255f, 215f / 255f, 246f / 255f);
+    private Color color => LBSSettings.Instance.view.assitantsColor;
 
     private VisualElement content;
     private VisualElement noContentPanel;
@@ -26,7 +26,7 @@ public class LBSLocalAssistants : LBSInspector
 
     private LBSLayer target;
 
-    private ToolKit toolkit;
+    private ToolKit toolkit => ToolKit.Instance;
 
     public LBSLocalAssistants()
     {
@@ -36,8 +36,6 @@ public class LBSLocalAssistants : LBSInspector
         this.content = this.Q<VisualElement>("Content");
         this.noContentPanel = this.Q<VisualElement>("NoContentPanel");
         this.contentAssist = this.Q<VisualElement>("ContentAssist");
-
-        toolkit = ToolKit.Instance;
     }
 
     public void SetInfo(LBSLayer target)
@@ -81,10 +79,8 @@ public class LBSLocalAssistants : LBSInspector
                 ((IToolProvider)ve).SetTools(toolkit);
             }
 
-
-            var content = new BehaviourContent(ve as LBSCustomEditor, assist.Name, assist.Icon, colorAS);
+            var content = new BehaviourContent(ve as LBSCustomEditor, assist.Name, assist.Icon, color);
             contentAssist.Add(content);
-
         }
     }
 
