@@ -26,11 +26,11 @@ public class SchemaBehaviour : LBSBehaviour
 
     #region FIELDS
     [JsonIgnore]
-    private TileMapModule tileMap;
+    private TileMapModule tileMap => Owner.GetModule<TileMapModule>();
     [JsonIgnore]
-    private ConnectedTileMapModule tileConnections;
+    private ConnectedTileMapModule tileConnections => Owner.GetModule<ConnectedTileMapModule>();
     [JsonIgnore]
-    private SectorizedTileMapModule areas;
+    private SectorizedTileMapModule areas => Owner.GetModule<SectorizedTileMapModule>();
 
     [SerializeField]
     private string pressetInsideStyle = "Castle_Wooden";
@@ -76,11 +76,6 @@ public class SchemaBehaviour : LBSBehaviour
     public override void OnAttachLayer(LBSLayer layer)
     {
         Owner = layer;
-
-        tileMap = Owner.GetModule<TileMapModule>();
-        tileConnections = Owner.GetModule<ConnectedTileMapModule>();
-        areas = Owner.GetModule<SectorizedTileMapModule>();
-        //graph = Owner.GetModule<ConnectedZonesModule>();
     }
 
     public override void OnDetachLayer(LBSLayer layer)
@@ -118,6 +113,14 @@ public class SchemaBehaviour : LBSBehaviour
 
         areas.AddZone(zone);
         return zone;
+    }
+
+    public void RemoveZone(Zone zone)
+    {
+        var tiles = areas.GetTiles(zone);
+        tileMap.RemoveTiles(tiles);
+
+        areas.RemoveZone(zone);
     }
 
     public void RemoveTile(Vector2Int position)
@@ -247,4 +250,3 @@ public class SchemaBehaviour : LBSBehaviour
     }
     #endregion
 }
- 
