@@ -31,10 +31,6 @@ public class LBSBoolCharacteristic : LBSCharacteristic
         return new LBSBoolCharacteristic(this.value);
     }
 
-    public override void OnEnable()
-    {
-    }
-
     public override bool Equals(object obj)
     {
         var other = obj as LBSBoolCharacteristic;
