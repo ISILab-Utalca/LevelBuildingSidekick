@@ -307,7 +307,7 @@ public class HillClimbingAssistant : LBSAssistant
 
         // Init empty neigh group
         var neighbours = new List<IOptimizable>();
-        Debug.Log("z: " + zones.ZonesWithTiles.Count);
+        //Debug.Log("z: " + zones.ZonesWithTiles.Count);
         foreach (var zone in zones.ZonesWithTiles)
         {
             // Get Schema walls for zones
@@ -315,7 +315,7 @@ public class HillClimbingAssistant : LBSAssistant
             var hWalls = zones.GetHorizontalWalls(zone);
             var walls = vWalls.Concat(hWalls).ToList();
 
-            Debug.Log("w: " + walls.Count);
+            //Debug.Log("w: " + walls.Count);
 
             // Create a new Optimizable for each wall
             foreach (var wall in walls)
