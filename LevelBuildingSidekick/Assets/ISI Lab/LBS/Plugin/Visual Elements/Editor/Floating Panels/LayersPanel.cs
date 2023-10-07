@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -126,6 +127,14 @@ public class LayersPanel : VisualElement
 
         var index = list.selectedIndex;
         if (index < 0)
+            return;
+
+        var answer = EditorUtility.DisplayDialog("Caution",
+        "You are about to delete a layer. If you proceed with this action, all of its" +
+        " content will be permanently removed, and you won't be able to recover it. Are" +
+        " you sure you want to continue?", "Continue", "Cancel");
+
+        if (!answer)
             return;
 
         var layer = data.RemoveAt(index);

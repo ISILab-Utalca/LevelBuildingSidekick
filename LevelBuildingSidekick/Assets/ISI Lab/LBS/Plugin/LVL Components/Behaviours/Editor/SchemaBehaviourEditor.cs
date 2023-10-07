@@ -8,6 +8,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -54,7 +55,7 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
         this.createNewRoomNode = new AddSchemaTile();
         var t1 = new LBSTool(icon, "Paint Zone", createNewRoomNode);
         t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Local","Behaviours");
-        t1.OnEnd += ()=> SetAreaPallete();
+        t1.OnEnd += ()=> areaPallete.Repaint();
         t1.Init(schema.Owner, schema);
         toolKit.AddTool(t1);
 
@@ -156,8 +157,8 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
             for (int i = 0; i < zones.Count; i++)
             {
                 areaPallete.Options[i] = schema.Zones[i];
-                ToolKit.Instance.SetActive("Paint Zone");
             }
+            ToolKit.Instance.SetActive("Paint Zone");
             areaPallete.Repaint();
         };
 
@@ -169,12 +170,44 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
             optionView.Color = area.Color;
         });
 
+        areaPallete.OnRepaint += () =>
+        {
+            areaPallete.Options = new object[schema.Zones.Count];
+            for (int i = 0; i < zones.Count; i++)
+            {
+                areaPallete.Options[i] = schema.Zones[i];
+            }
+        };
+
+        areaPallete.OnRemoveOption += (option) =>
+        {
+            if (option == null)
+                return;
+
+            var answer = EditorUtility.DisplayDialog("Caution",
+                "You are about to delete a zone, which may be related" +
+                " to tiles on your map. If you delete the zone," +
+                " the corresponding tiles will also be removed." +
+                " Are you sure you want to proceed?", "Continue", "Cancel");
+
+            if (!answer)
+                return;
+
+            schema.RemoveZone(option as Zone);
+
+            DrawManager.ReDraw();
+            areaPallete.Repaint();
+        };
+
         areaPallete.Repaint();
     }
 
     private void SetConnectionPallete()
     {
         connectionPallete.ShowGroups = false;
+        connectionPallete.ShowRemoveButton = false;
+        connectionPallete.ShowAddButton = false;
+
         connectionPallete.SetName("Connections");
         var icon = Resources.Load<Texture2D>("Icons/BrushIcon");
         connectionPallete.SetIcon(icon, BHcolor);
@@ -191,12 +224,6 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
             // var tk = ToolKit.Instance;
             setTileConnection.ToSet = selected as string;
             ToolKit.Instance.SetActive("Set connection");
-        };
-
-        // OnAdd option event
-        connectionPallete.OnAddOption += () =>
-        {
-            Debug.LogWarning("Por ahora esta herramienta no permite agregar nuevos tipos de conexiones");
         };
 
         // Init options

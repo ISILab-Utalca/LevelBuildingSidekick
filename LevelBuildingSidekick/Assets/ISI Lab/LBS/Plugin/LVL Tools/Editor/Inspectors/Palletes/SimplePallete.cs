@@ -16,21 +16,28 @@ namespace LBS.VisualElements
 
         private OptionView[] optionViews;
         private object[] options;
+        private object selected;
         private Action<OptionView, object> onSetView;
 
-        // View
+        #region FIELS VIEW
         private VisualElement content;
         private DropdownField dropdownGroup;
         private VisualElement icon;
         private Label nameLabel;
         private Button noElement;
         private Button addButton;
+        private Button removeButton;
+        #endregion
 
-        // Events
+        #region EVENTS
         public event Action<ChangeEvent<string>> OnChangeGroup;
         public event Action<object> OnSelectOption;
+        public event Action<object> OnRemoveOption;
         public event Action OnAddOption;
+        public event Action OnRepaint;
+        #endregion
 
+        #region PROPERTIES
         public object[] Options
         {
             get => options;
@@ -39,22 +46,22 @@ namespace LBS.VisualElements
 
         public bool ShowGroups
         {
-            set
-            {
-                this.dropdownGroup.SetDisplay(value);
-            }
+            set => this.dropdownGroup.SetDisplay(value);
         }
 
-        private void OnInternalSelectOption(object obj)
+        public bool ShowRemoveButton
         {
-            OnSelectOption?.Invoke(obj);
-
-            foreach (var optV in optionViews)
-            {
-                optV.SetSelected(false);
-            }
+            set => this.removeButton.SetDisplay(value);
         }
 
+        public bool ShowAddButton
+        {
+            set => this.addButton.SetDisplay(value);
+        }
+        #endregion
+
+
+        #region CONSTRUCTORS
         public SimplePallete()
         {
             var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("SimplePallete");
@@ -74,12 +81,29 @@ namespace LBS.VisualElements
             this.addButton = this.Q<Button>("AddButton");
             addButton.clicked += () => OnAddOption?.Invoke();
 
+            // removeButton
+            this.removeButton = this.Q<Button>("DeleteButton");
+            removeButton.clicked += () => OnRemoveOption?.Invoke(selected);
+
             // NoElement
             this.noElement = this.Q<Button>("NoElement");
 
             // Icon
             this.icon = this.Q<VisualElement>("IconPallete");
             
+        }
+        #endregion
+
+        #region METHODS
+        private void OnInternalSelectOption(object obj)
+        {
+            OnSelectOption?.Invoke(obj);
+            selected = obj;
+
+            foreach (var optV in optionViews)
+            {
+                optV.SetSelected(false);
+            }
         }
 
         public void SetOptions(object[] options, Action<OptionView, object> onSetView)
@@ -101,6 +125,8 @@ namespace LBS.VisualElements
 
         public void Repaint()
         {
+            OnRepaint?.Invoke();
+
             content.Clear();
 
             if (options.Length > 0)
@@ -120,6 +146,7 @@ namespace LBS.VisualElements
                 content.Add(noElement);
             }
         }
+        #endregion
     }
 
 }

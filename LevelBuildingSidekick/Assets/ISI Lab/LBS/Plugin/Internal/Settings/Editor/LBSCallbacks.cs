@@ -77,11 +77,11 @@ public class LBSCallbacks
             AssetDatabase.CreateAsset(backUp, path);
             AssetDatabase.SaveAssets();
 
-            Debug.Log("[ISI Lab]: Save on BackUp");
+            //Debug.Log("[ISI Lab]: Save on BackUp");
         }
         else
         {
-            Debug.Log("[ISI Lab]: Error on save BackUp");
+            //Debug.Log("[ISI Lab]: Error on save BackUp");
         }
     }
 
@@ -102,13 +102,13 @@ public class LBSCallbacks
 
             // After loading the level, the backup is destroyed
             AssetDatabase.DeleteAsset(path);
-            Debug.Log("[ISI Lab]: Load from BackUp");
+            //Debug.Log("[ISI Lab]: Load from BackUp");
         }
         else
         {
             // if the backup is not found, a new level is created
             LBS.LBS.loadedLevel = new LoadedLevel(new LBSLevelData(), "New level");
-            Debug.Log("[ISI Lab]: Error on load BackUp");
+            //Debug.Log("[ISI Lab]: Error on load BackUp");
         }
     }
 
