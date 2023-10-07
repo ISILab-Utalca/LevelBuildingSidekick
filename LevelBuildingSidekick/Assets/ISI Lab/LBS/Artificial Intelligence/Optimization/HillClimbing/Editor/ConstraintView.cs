@@ -68,15 +68,15 @@ public class ConstraintView : LBSCustomEditor
 
         // Width input
         this.widthMin = this.Q<FloatField>("WidthMin");
-        widthMin.RegisterCallback<ChangeEvent<float>>(evt => constraint.minWidth = evt.newValue);
+        widthMin.RegisterCallback<ChangeEvent<float>>((evt) => { constraint.minWidth = evt.newValue; DrawManager.ReDraw(); });
         this.widthMax = this.Q<FloatField>("WidthMax");
-        widthMax.RegisterCallback<ChangeEvent<float>>(evt => constraint.maxWidth = evt.newValue);
+        widthMax.RegisterCallback<ChangeEvent<float>>((evt) => { constraint.maxWidth = evt.newValue; DrawManager.ReDraw(); });
 
         // Height input
         this.heightMin = this.Q<FloatField>("HeightMin");
-        heightMin.RegisterCallback<ChangeEvent<float>>(evt => constraint.minHeight = evt.newValue);
+        heightMin.RegisterCallback<ChangeEvent<float>>((evt) => { constraint.minHeight = evt.newValue; DrawManager.ReDraw(); });
         this.heightMax = this.Q<FloatField>("HeightMax");
-        heightMax.RegisterCallback<ChangeEvent<float>>(evt => constraint.maxHeight = evt.newValue);
+        heightMax.RegisterCallback<ChangeEvent<float>>((evt) => { constraint.maxHeight = evt.newValue; DrawManager.ReDraw(); });
 
         return this;
     }
