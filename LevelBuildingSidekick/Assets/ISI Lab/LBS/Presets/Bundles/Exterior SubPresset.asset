@@ -35,3 +35,6 @@ MonoBehaviour:
         - Grass
         - Grass
         - Grass
+        weights:
+        - target: {fileID: 0}
+          weigth: 1
