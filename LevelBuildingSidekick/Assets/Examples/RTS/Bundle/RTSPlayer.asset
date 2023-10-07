@@ -13,21 +13,13 @@ MonoBehaviour:
   m_Name: RTSPlayer
   m_EditorClassIdentifier: 
   isPreset: 0
-  type: 2
-  color: {r: 0.098039225, g: 0.12645052, b: 0.8980392, a: 1}
-  icon: {fileID: 2800000, guid: 4014b5e79aa53db4b9c939093310089d, type: 3}
+  type: 0
+  color: {r: 0.8962264, g: 0.097232126, b: 0.097232126, a: 1}
+  icon: {fileID: 2800000, guid: 10ce92a2c20e76f43a802f889a951cb5, type: 3}
   childsBundles: []
-  assets:
-  - obj: {fileID: 7823080364279856789, guid: 3bed9dd3c47ffb54e89795386e870bb4, type: 3}
-    probability: 0
-  characteristics:
-  - rid: 2204195511826382853
+  assets: []
+  characteristics: []
   positioning: 0
   references:
     version: 2
-    RefIds:
-    - rid: 2204195511826382853
-      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
-      data:
-        label: Player
-        value: {fileID: 11400000, guid: 975a57a1811d3f743838422b5c87c58a, type: 2}
+    RefIds: []
