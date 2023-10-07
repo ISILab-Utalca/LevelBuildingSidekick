@@ -18,11 +18,12 @@ MonoBehaviour:
   icon: {fileID: 0}
   childsBundles: []
   assets:
-  - obj: {fileID: 8894161286555823411, guid: afbbed75a40796c47965d5c2357d7666, type: 3}
+  - obj: {fileID: 8697051629104287967, guid: cace4bcb218bc3f47901183c0c7d69f7, type: 3}
     probability: 0.5
   characteristics:
   - rid: 3767989597796302927
   - rid: 6566550770550309026
+  - rid: 3832781165345112079
   positioning: 0
   references:
     version: 2
@@ -37,8 +38,18 @@ MonoBehaviour:
         - Grass
         - Path
         weights:
-        - target: {fileID: 3060374057905204227, guid: 816c1caa47209de438f7dd2c2d344e23, type: 3}
+        - target: {fileID: 8697051629104287967, guid: cace4bcb218bc3f47901183c0c7d69f7, type: 3}
           weigth: 1
+    - rid: 3832781165345112079
+      type: {class: LBSDirection, ns: , asm: LBS}
+      data:
+        label: Connections
+        connections:
+        - 
+        - 
+        - 
+        - 
+        weights: []
     - rid: 6566550770550309026
       type: {class: LBSDirection, ns: , asm: LBS}
       data:
