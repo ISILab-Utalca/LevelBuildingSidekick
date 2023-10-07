@@ -64,7 +64,7 @@ public class SectorizedTileMapModule : LBSModule, ISelectable
     #endregion
 
     #region METHODS
-    public void MoveArea(Zone zone, Vector2Int dir) // BROKEN, FIX
+    public void MoveArea(Zone zone, Vector2Int dir)
     {
         var tiles = GetTiles(zone);
 
