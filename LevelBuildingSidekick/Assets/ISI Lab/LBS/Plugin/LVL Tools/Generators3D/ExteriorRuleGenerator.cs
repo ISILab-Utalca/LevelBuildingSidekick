@@ -76,7 +76,7 @@ namespace LBS.Generator
 
             }
 
-            mainPivot.transform.position += settings.position - new Vector3(-1 * scale.x, 0, -1 * scale.y);
+            mainPivot.transform.position += settings.position - new Vector3(1* scale.x, 0, 1 * scale.y);
             return mainPivot;
         }
 
