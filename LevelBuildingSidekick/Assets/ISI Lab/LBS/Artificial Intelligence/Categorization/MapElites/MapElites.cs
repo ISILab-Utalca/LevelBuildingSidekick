@@ -269,7 +269,6 @@ public class MapElites : ICloneable
                 thread.Join();
             }
             //Optimizer.State = Op_State.TerminationReached;
-            Debug.Log("Finished: " + c);
             OnEnd?.Invoke();
 
         };
@@ -318,17 +317,37 @@ public class MapElites : ICloneable
         var max = samples.Select(o => o.Fitness).OrderBy(n => n).ToArray();
         
         var evaluables = MapSamples(samples);
+
         float xT = Mathf.Abs(XEvaluator.MaxValue - XEvaluator.MinValue);
-        float xStep =  (xT*XThreshold.y - xT*XThreshold.x)/ XSampleCount;
+        var xLowest = XEvaluator.MinValue + xT * xThreshold.x;
+        var xHighest = XEvaluator.MaxValue + xT * XThreshold.y;
+
+        var xStep = (xHighest - xLowest) / XSampleCount;
+
         float yT = Mathf.Abs(YEvaluator.MaxValue - YEvaluator.MinValue);
-        float yStep = (yT * YThreshold.y - yT * YThreshold.x) / YSampleCount;
+        var yLowest = YEvaluator.MinValue + yT * yThreshold.x;
+        var yHighest = YEvaluator.MaxValue + yT * YThreshold.y;
+
+        float yStep = (yHighest - yLowest) / YSampleCount;
+
 
         foreach (var me in evaluables)
         {
-            var xPos = (me.xFitness - XEvaluator.MinValue * (1 + XThreshold.x)) / xStep;
-            var yPos = (me.yFitness - YEvaluator.MinValue * (1 + YThreshold.y)) / yStep;
+            var xPos = (me.xFitness - xLowest) / xStep;
+            if(xPos < 0)
+                xPos = 0;
+            if(xPos >= xSampleCount)
+                xPos = xSampleCount - 1;
 
+            var yPos = (me.yFitness - yLowest) / yStep;
+            if(yPos < 0)
+                yPos = 0;
+            if(yPos >= ySampleCount)
+                yPos = ySampleCount - 1;
 
+            UpdateSample((int)xPos, (int)yPos, me.evaluable);
+
+            /*
             var tileXPos = (int)xPos;
             var tileYPos = (int)yPos;
 
@@ -341,7 +360,7 @@ public class MapElites : ICloneable
                 tileXPos = tileXPos >= XSampleCount ? XSampleCount - 1 : tileXPos;
                 tileYPos = tileYPos >= YSampleCount ? YSampleCount - 1 : tileYPos;
                 UpdateSample(tileXPos, tileYPos, me.evaluable);
-            }
+            }*/
 
             //Debug.Log(xPos + " - " + yPos);
         }

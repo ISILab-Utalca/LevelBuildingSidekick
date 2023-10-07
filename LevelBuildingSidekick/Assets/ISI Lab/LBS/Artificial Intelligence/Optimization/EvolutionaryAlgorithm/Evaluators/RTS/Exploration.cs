@@ -27,17 +27,21 @@ public class Exploration : IRangedEvaluator
 
         float fitness = 0;
 
-        var genes = chrom.GetGenes().Cast<BundleData>().ToList();
+        var genes = chrom.GetGenes().ToList();
 
 
         foreach (var g in genes)
         {
-            if (g != null && g.Characteristics.Contains(colliderCharacteristic))
+            if (g == null)
+            {
+                fitness++;
                 continue;
-            fitness++;
+            }
+            if (!(g as BundleData).Characteristics.Contains(colliderCharacteristic))
+                fitness++;
         }
 
-        fitness /= genes.Count;
+        fitness /= (float)genes.Count;
 
         return fitness;
     }

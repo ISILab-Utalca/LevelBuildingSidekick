@@ -152,7 +152,7 @@ public class AssistantMapElite : LBSAssistant
                 {
                     for (int i = 0; i < rect.width; i++)
                     {
-                        var t = m.GetSelected(new Vector2Int(i, j));
+                        var t = m.GetTile(new Vector2Int(i, j));
                         if (t != null)
                             continue;
                         var pos = new Vector2(i,j) - rect.position;

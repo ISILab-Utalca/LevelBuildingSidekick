@@ -8,7 +8,7 @@ using UnityEngine;
 using static UnityEditor.PlayerSettings;
 
 [System.Serializable]
-public class SecurityFairness : IRangedEvaluator
+public class SafetyFairness : IRangedEvaluator
 {
 
     public float MaxValue => 1;
@@ -78,7 +78,7 @@ public class SecurityFairness : IRangedEvaluator
 
     public object Clone()
     {
-        var e = new SecurityFairness();
+        var e = new SafetyFairness();
         e.playerCharacteristic = playerCharacteristic;
         e.colliderCharacteristic = colliderCharacteristic;
         return e;
@@ -113,8 +113,9 @@ public class SecurityFairness : IRangedEvaluator
 
                 var gen = chrom.GetGene(index) as BundleData;
 
-                if (gen != null && gen.Characteristics.Contains(colliderCharacteristic))
-                    continue;
+                if (gen != null)
+                    if (gen.Characteristics.Contains(colliderCharacteristic))
+                        continue;
 
                 if (closed.ContainsKey(index))
                     if(closed[index] < g + 1)

@@ -47,8 +47,6 @@ public class ActOnRect : LBSManipulator
 
         var size = corners.Item2 - corners.Item1 + Vector2.one; 
         var r = new Rect(corners.Item1, size);
-        //var r = new Rect(x, y, x2-x, y2-y);
-        Debug.Log(r);
         OnSelection?.Invoke(r);
     }
 }

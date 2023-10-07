@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-[LBSCustomEditor("SecurityFairness", typeof(SecurityFairness))]
-public class SecurityFairnessVE : LBSCustomEditor
+[LBSCustomEditor("SecurityFairness", typeof(SafetyFairness))]
+public class SafetyFairnessVE : LBSCustomEditor
 {
     DynamicFoldout colliderCharacteristic;
     DynamicFoldout playerCharacteristic;
 
-    public SecurityFairnessVE(object target) : base(target)
+    public SafetyFairnessVE(object target) : base(target)
     {
         Add(CreateVisualElement());
         SetInfo(target);
@@ -18,7 +18,7 @@ public class SecurityFairnessVE : LBSCustomEditor
     public override void SetInfo(object target)
     {
         this.target = target;
-        var eval = target as SecurityFairness;
+        var eval = target as SafetyFairness;
         if (eval.colliderCharacteristic != null)
         {
             colliderCharacteristic.SetInfo(eval.colliderCharacteristic);
@@ -32,7 +32,7 @@ public class SecurityFairnessVE : LBSCustomEditor
     protected override VisualElement CreateVisualElement()
     {
         var ve = new VisualElement();
-        var eval = target as SecurityFairness;
+        var eval = target as SafetyFairness;
 
         colliderCharacteristic = new DynamicFoldout(typeof(LBSCharacteristic));
         colliderCharacteristic.Label = "Collider Characteristic";
