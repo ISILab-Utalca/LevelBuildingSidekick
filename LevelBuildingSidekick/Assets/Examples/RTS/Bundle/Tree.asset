@@ -43,5 +43,5 @@ MonoBehaviour:
     - rid: 8287984689472865991
       type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
       data:
-        label: 
-        value: {fileID: 0}
+        label: Collider
+        value: {fileID: 11400000, guid: 261af09a46f50a647b4fb33a0e989c66, type: 2}

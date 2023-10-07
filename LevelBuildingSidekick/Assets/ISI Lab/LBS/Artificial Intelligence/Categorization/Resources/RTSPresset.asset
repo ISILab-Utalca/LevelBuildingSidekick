@@ -19,7 +19,7 @@ MonoBehaviour:
     xEvaluator:
       rid: 1429379716160946411
     yEvaluator:
-      rid: 2204195513552340292
+      rid: 8287984688947789829
     optimizer:
       rid: 1429379699903299956
     changedSample: 
@@ -73,6 +73,8 @@ MonoBehaviour:
           rid: 1429379716160946418
         resourceCharactersitic:
         - rid: 1429379716160946419
+        - rid: 8287984688947789832
+        - rid: 8287984688947789833
     - rid: 1429379716160946418
       type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
       data:
@@ -81,20 +83,20 @@ MonoBehaviour:
     - rid: 1429379716160946419
       type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
       data:
-        label: Coins
-        value: {fileID: 11400000, guid: 0ce19f5583699394b811faa9674b6877, type: 2}
+        label: Tree
+        value: {fileID: 11400000, guid: 0147d0d479179b04a8c825d8159e70ce, type: 2}
     - rid: 1429379716160946420
       type: {class: RoulleteWheelMutation, ns: , asm: LBS}
       data:
         mutations:
-        - rid: 2204195535733131135
-        - rid: 2204195535733131132
-        - rid: 2204195535733131130
+        - rid: 8287984689472865997
+        - rid: 8287984688947789843
+        - rid: 8287984689472865994
         - rid: 1429379716160946431
     - rid: 1429379716160946428
       type: {class: ExhaustiveMoveGene, ns: , asm: LBS}
       data:
-        range: 2
+        range: 1
     - rid: 1429379716160946431
       type: {class: WeightedMutation, ns: , asm: LBS}
       data:
@@ -103,42 +105,52 @@ MonoBehaviour:
         weight: 1
     - rid: 1429379716160946432
       type: {class: ExhaustiveSwapGene, ns: , asm: LBS}
-    - rid: 2204195513552340292
+    - rid: 8287984688947789829
       type: {class: SafetyFairness, ns: , asm: LBS}
       data:
         playerCharacteristic:
-          rid: 2204195513552340294
+          rid: 8287984688947789831
         colliderCharacteristic:
-          rid: 2204195513552340293
-    - rid: 2204195513552340293
+          rid: 8287984688947789830
+    - rid: 8287984688947789830
       type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
       data:
         label: Collider
         value: {fileID: 11400000, guid: 261af09a46f50a647b4fb33a0e989c66, type: 2}
-    - rid: 2204195513552340294
+    - rid: 8287984688947789831
       type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
       data:
         label: Player
         value: {fileID: 11400000, guid: 975a57a1811d3f743838422b5c87c58a, type: 2}
-    - rid: 2204195535733131129
-      type: {class: ExhaustiveRemoveGene, ns: , asm: LBS}
-    - rid: 2204195535733131130
-      type: {class: WeightedMutation, ns: , asm: LBS}
+    - rid: 8287984688947789832
+      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
       data:
-        mutation:
-          rid: 2204195535733131129
-        weight: 0.2
-    - rid: 2204195535733131132
+        label: Food
+        value: {fileID: 11400000, guid: b354587b73f945f4188c7dc7026de4ef, type: 2}
+    - rid: 8287984688947789833
+      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+      data:
+        label: Rock
+        value: {fileID: 11400000, guid: 8d03f9563098ae048a81b709940e56c0, type: 2}
+    - rid: 8287984688947789843
       type: {class: WeightedMutation, ns: , asm: LBS}
       data:
         mutation:
           rid: 1429379716160946428
         weight: 0.8
-    - rid: 2204195535733131134
-      type: {class: ExhaustiveAddGene, ns: , asm: LBS}
-    - rid: 2204195535733131135
+    - rid: 8287984689472865993
+      type: {class: ExhaustiveRemoveGene, ns: , asm: LBS}
+    - rid: 8287984689472865994
       type: {class: WeightedMutation, ns: , asm: LBS}
       data:
         mutation:
-          rid: 2204195535733131134
-        weight: 0.2
+          rid: 8287984689472865993
+        weight: 0.4
+    - rid: 8287984689472865996
+      type: {class: ExhaustiveAddGene, ns: , asm: LBS}
+    - rid: 8287984689472865997
+      type: {class: WeightedMutation, ns: , asm: LBS}
+      data:
+        mutation:
+          rid: 8287984689472865996
+        weight: 0.4
