@@ -32,6 +32,10 @@ public class AssistantMapEliteEditor : LBSCustomEditor, IToolProvider
     private void Run()
     {
         var assitant = target as AssistantMapElite;
+
+        if (!assitant.Running)
+            return;
+
         content.Reset();
         assitant.LoadPresset(config.GetPresset());
         SetBackgorundTexture(assitant.RawToolRect);

@@ -40,6 +40,10 @@ public class AssistantMapElite : LBSAssistant
 
     [JsonIgnore]
     public bool Finished => mapElites.Finished;
+
+
+    public bool Running => mapElites.Running;
+
     [JsonIgnore]
     public int SampleWidth
     {
