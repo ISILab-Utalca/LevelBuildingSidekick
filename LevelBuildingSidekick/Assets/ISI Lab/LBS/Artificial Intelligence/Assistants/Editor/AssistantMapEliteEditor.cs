@@ -33,7 +33,7 @@ public class AssistantMapEliteEditor : LBSCustomEditor, IToolProvider
     {
         var assitant = target as AssistantMapElite;
 
-        if (!assitant.Running)
+        if (assitant.Running)
             return;
 
         content.Reset();
