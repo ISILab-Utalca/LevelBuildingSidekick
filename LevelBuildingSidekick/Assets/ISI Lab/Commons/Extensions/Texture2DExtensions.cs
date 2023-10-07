@@ -126,6 +126,19 @@ namespace Utility
 
             return texture;
         }
+
+        public static void Set(this Texture2D texture, Color32 color)
+        {
+            for(int j = 0; j < texture.height; j++)
+            {
+                for (int i = 0; i < texture.width; i++)
+                {
+                    texture.SetPixel(i,j, color);
+                }
+            }
+
+            texture.Apply();
+        }
     }
 }
 

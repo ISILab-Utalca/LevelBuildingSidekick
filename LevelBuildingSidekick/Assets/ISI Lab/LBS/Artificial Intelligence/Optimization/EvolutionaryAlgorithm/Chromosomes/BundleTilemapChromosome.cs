@@ -110,11 +110,14 @@ public class BundleTilemapChromosome : ChromosomeBase2D, IDrawable
             else
             {
                 var source = (genes[i] as BundleData).Bundle.Icon;
-                //var t = new Texture2D(source.width, source.height);
+                var color = (genes[i] as BundleData).Bundle.Color;
+                var t = new Texture2D(source.width, source.height);
+                t.Set(color);
+                t = t.MergeTextures(source);
                 //t.SetPixels(source.GetPixels());
                 //t.MirrorY();
                 //t.Apply();
-                texture.InsertTextureInRect(source, pos.x * tSize, pos.y * tSize, tSize, tSize);
+                texture.InsertTextureInRect(t, pos.x * tSize, pos.y * tSize, tSize, tSize);
             }
         }
         //texture.MirrorY();

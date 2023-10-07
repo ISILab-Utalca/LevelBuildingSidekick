@@ -19,7 +19,7 @@ MonoBehaviour:
     xEvaluator:
       rid: 1429379716160946411
     yEvaluator:
-      rid: 1429379716160946414
+      rid: 2204195513552340292
     optimizer:
       rid: 1429379699903299956
     changedSample: 
@@ -66,23 +66,6 @@ MonoBehaviour:
       data:
         label: Collider
         value: {fileID: 11400000, guid: 261af09a46f50a647b4fb33a0e989c66, type: 2}
-    - rid: 1429379716160946414
-      type: {class: SecurityFairness, ns: , asm: LBS}
-      data:
-        playerCharacteristic:
-          rid: 1429379716160946416
-        colliderCharacteristic:
-          rid: 1429379716160946415
-    - rid: 1429379716160946415
-      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
-      data:
-        label: Colldier
-        value: {fileID: 11400000, guid: 261af09a46f50a647b4fb33a0e989c66, type: 2}
-    - rid: 1429379716160946416
-      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
-      data:
-        label: Player
-        value: {fileID: 11400000, guid: 975a57a1811d3f743838422b5c87c58a, type: 2}
     - rid: 1429379716160946417
       type: {class: ResourcesSafetyFairness, ns: , asm: LBS}
       data:
@@ -104,36 +87,14 @@ MonoBehaviour:
       type: {class: RoulleteWheelMutation, ns: , asm: LBS}
       data:
         mutations:
-        - rid: 1429379716160946425
-        - rid: 1429379716160946427
-        - rid: 1429379716160946429
+        - rid: 2204195535733131135
+        - rid: 2204195535733131132
+        - rid: 2204195535733131130
         - rid: 1429379716160946431
-    - rid: 1429379716160946425
-      type: {class: WeightedMutation, ns: , asm: LBS}
-      data:
-        mutation:
-          rid: 1429379716160946426
-        weight: 1
-    - rid: 1429379716160946426
-      type: {class: ExhaustiveAddGene, ns: , asm: LBS}
-    - rid: 1429379716160946427
-      type: {class: WeightedMutation, ns: , asm: LBS}
-      data:
-        mutation:
-          rid: 1429379716160946428
-        weight: 1
     - rid: 1429379716160946428
       type: {class: ExhaustiveMoveGene, ns: , asm: LBS}
       data:
-        range: 1
-    - rid: 1429379716160946429
-      type: {class: WeightedMutation, ns: , asm: LBS}
-      data:
-        mutation:
-          rid: 1429379716160946430
-        weight: 1
-    - rid: 1429379716160946430
-      type: {class: ExhaustiveRemoveGene, ns: , asm: LBS}
+        range: 2
     - rid: 1429379716160946431
       type: {class: WeightedMutation, ns: , asm: LBS}
       data:
@@ -142,3 +103,42 @@ MonoBehaviour:
         weight: 1
     - rid: 1429379716160946432
       type: {class: ExhaustiveSwapGene, ns: , asm: LBS}
+    - rid: 2204195513552340292
+      type: {class: SafetyFairness, ns: , asm: LBS}
+      data:
+        playerCharacteristic:
+          rid: 2204195513552340294
+        colliderCharacteristic:
+          rid: 2204195513552340293
+    - rid: 2204195513552340293
+      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+      data:
+        label: Collider
+        value: {fileID: 11400000, guid: 261af09a46f50a647b4fb33a0e989c66, type: 2}
+    - rid: 2204195513552340294
+      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+      data:
+        label: Player
+        value: {fileID: 11400000, guid: 975a57a1811d3f743838422b5c87c58a, type: 2}
+    - rid: 2204195535733131129
+      type: {class: ExhaustiveRemoveGene, ns: , asm: LBS}
+    - rid: 2204195535733131130
+      type: {class: WeightedMutation, ns: , asm: LBS}
+      data:
+        mutation:
+          rid: 2204195535733131129
+        weight: 0.2
+    - rid: 2204195535733131132
+      type: {class: WeightedMutation, ns: , asm: LBS}
+      data:
+        mutation:
+          rid: 1429379716160946428
+        weight: 0.8
+    - rid: 2204195535733131134
+      type: {class: ExhaustiveAddGene, ns: , asm: LBS}
+    - rid: 2204195535733131135
+      type: {class: WeightedMutation, ns: , asm: LBS}
+      data:
+        mutation:
+          rid: 2204195535733131134
+        weight: 0.2
