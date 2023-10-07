@@ -268,7 +268,7 @@ public class MapElites : ICloneable
             {
                 thread.Join();
             }
-            //Optimizer.State = Op_State.TerminationReached;
+            Optimizer.State = Op_State.TerminationReached;
             OnEnd?.Invoke();
 
         };
@@ -320,13 +320,18 @@ public class MapElites : ICloneable
 
         float xT = Mathf.Abs(XEvaluator.MaxValue - XEvaluator.MinValue);
         var xLowest = XEvaluator.MinValue + xT * xThreshold.x;
-        var xHighest = XEvaluator.MaxValue + xT * XThreshold.y;
+        var xHighest = XEvaluator.MinValue + xT * xThreshold.y;
+
+        //Debug.Log("XT: " + xLowest + " - " + xHighest);
 
         var xStep = (xHighest - xLowest) / XSampleCount;
 
         float yT = Mathf.Abs(YEvaluator.MaxValue - YEvaluator.MinValue);
         var yLowest = YEvaluator.MinValue + yT * yThreshold.x;
-        var yHighest = YEvaluator.MaxValue + yT * YThreshold.y;
+        var yHighest = YEvaluator.MinValue + yT * yThreshold.y;
+
+
+        //Debug.Log("XT: " + yLowest + " - " + yHighest);
 
         float yStep = (yHighest - yLowest) / YSampleCount;
 
@@ -344,6 +349,8 @@ public class MapElites : ICloneable
                 yPos = 0;
             if(yPos >= ySampleCount)
                 yPos = ySampleCount - 1;
+
+           // Debug.Log("M: " + me.xFitness + " - " + me.yFitness);
 
             UpdateSample((int)xPos, (int)yPos, me.evaluable);
 

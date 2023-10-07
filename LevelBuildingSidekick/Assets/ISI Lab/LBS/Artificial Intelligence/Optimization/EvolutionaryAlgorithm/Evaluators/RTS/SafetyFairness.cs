@@ -71,7 +71,7 @@ public class SafetyFairness : IRangedEvaluator
         if(localFitness.Max() <= 0)
             return MaxValue;
 
-        fitness = localFitness.Min() / localFitness.Max();
+        fitness = localFitness.Average() / localFitness.Max();
 
         return fitness;
     }
