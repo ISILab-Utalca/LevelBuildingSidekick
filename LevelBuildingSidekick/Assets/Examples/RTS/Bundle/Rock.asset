@@ -13,13 +13,35 @@ MonoBehaviour:
   m_Name: Stone
   m_EditorClassIdentifier: 
   isPreset: 0
-  type: 0
-  color: {r: 0, g: 0, b: 0, a: 0}
-  icon: {fileID: 0}
+  type: 2
+  color: {r: 0.3018868, g: 0.3018868, b: 0.3018868, a: 1}
+  icon: {fileID: 2800000, guid: 16a716e143b08f84b80e84df098084d2, type: 3}
   childsBundles: []
-  assets: []
-  characteristics: []
+  assets:
+  - obj: {fileID: 174596, guid: 41dcf1459594f434a8a9bae6ae03eab0, type: 3}
+    probability: 0.267
+  - obj: {fileID: 199114, guid: ace40d2a4a1290f4f96f01a7e4ecd7f7, type: 3}
+    probability: 0.657
+  - obj: {fileID: 183960, guid: 491333d4c0bd88148813a9dde7fe955b, type: 3}
+    probability: 0.4
+  - obj: {fileID: 139742, guid: e9cb95ee3e55d914bbd4e5eb2d0a510c, type: 3}
+    probability: 0.781
+  - obj: {fileID: 110398, guid: f584b275cfb132f48a2ec91fd9d1b576, type: 3}
+    probability: 0.419
+  characteristics:
+  - rid: 8287984688947789846
+  - rid: 8287984689472865990
   positioning: 0
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8287984688947789846
+      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+      data:
+        label: Rock
+        value: {fileID: 11400000, guid: 8d03f9563098ae048a81b709940e56c0, type: 2}
+    - rid: 8287984689472865990
+      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+      data:
+        label: Collider
+        value: {fileID: 11400000, guid: 261af09a46f50a647b4fb33a0e989c66, type: 2}

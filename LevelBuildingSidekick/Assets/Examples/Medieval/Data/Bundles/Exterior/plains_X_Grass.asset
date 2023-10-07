@@ -36,5 +36,5 @@ MonoBehaviour:
         - Grass
         - Grass
         weights:
-        - target: {fileID: 5489090585539047440, guid: 1d0ebeeaf8f29dc43a7948344998b3e1, type: 3}
+        - target: {fileID: 1056179647160978347, guid: 5daea10737442bb4694ac5a0279063c6, type: 3}
           weigth: 1

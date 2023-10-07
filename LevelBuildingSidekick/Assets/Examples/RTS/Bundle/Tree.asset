@@ -13,13 +13,35 @@ MonoBehaviour:
   m_Name: Tree
   m_EditorClassIdentifier: 
   isPreset: 0
-  type: 0
-  color: {r: 0.22469622, g: 0.7264151, b: 0.18160377, a: 1}
+  type: 2
+  color: {r: 0.17116207, g: 0.4528302, b: 0.1469562, a: 1}
   icon: {fileID: 2800000, guid: 3637e14fbda0c634781e2d8087dd774e, type: 3}
   childsBundles: []
-  assets: []
-  characteristics: []
+  assets:
+  - obj: {fileID: 108507113624723981, guid: eebb56c82efbd8d4bb0eb6bd925a0e9d, type: 3}
+    probability: 0
+  - obj: {fileID: 2222111361404534124, guid: 88f2fd29f58b9734683512546acec310, type: 3}
+    probability: 0
+  - obj: {fileID: 6941765000743290380, guid: c60edd51c065ceb46b345849a03bc106, type: 3}
+    probability: 0
+  - obj: {fileID: 9069115365609291303, guid: 60f79905accf3b24fa0114b941f1aac0, type: 3}
+    probability: 0
+  - obj: {fileID: 6387712853734197188, guid: ae9198954e0e0fd4bb61c07a00e61a33, type: 3}
+    probability: 0
+  characteristics:
+  - rid: 8287984688947789845
+  - rid: 8287984689472865991
   positioning: 0
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8287984688947789845
+      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+      data:
+        label: Tree
+        value: {fileID: 11400000, guid: 0147d0d479179b04a8c825d8159e70ce, type: 2}
+    - rid: 8287984689472865991
+      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+      data:
+        label: 
+        value: {fileID: 0}
