@@ -25,6 +25,7 @@ public class LBSDirectionEditor : LBSCustomEditor
         if (target == null)
             return;
 
+        /*
         var assetsW = target.Weights;
 
         for (int i = 0; i < assetsW.Count; i++)
@@ -41,7 +42,7 @@ public class LBSDirectionEditor : LBSCustomEditor
                 current.weigth = v.newValue;
             });
             foldout.Add(slider);
-        }
+        }*/
 
     }
 

@@ -31,10 +31,7 @@ MonoBehaviour:
       data:
         label: Connections
         connections:
-        - Bricks Tag
-        - Bricks Tag
-        - Bricks Tag
-        - Bricks Tag
-        weights:
-        - target: {fileID: 0}
-          weigth: 1
+        - Grass
+        - Grass
+        - Grass
+        - Grass
