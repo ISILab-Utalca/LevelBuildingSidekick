@@ -14,7 +14,7 @@ namespace LBS.Generator
     public class ExteriorRuleGenerator : LBSGeneratorRule //  (!!!) esta clase mescla lo que tiene que hacer la IA de WFC con generar 3d posteriormente
     {
 
-        private Tuple<LBSDirection,int> GetBundle(LBSDirectionedGroup group, string[] conections)
+        private Tuple<LBSDirection, int> GetBundle(LBSDirectionedGroup group, string[] conections)
         {
             // Get connections
             var connections = group.GetDirs();
@@ -76,7 +76,7 @@ namespace LBS.Generator
 
             }
 
-            mainPivot.transform.position += settings.position - new Vector3(-1, 0, -1);
+            mainPivot.transform.position += settings.position - new Vector3(-1 * scale.x, 0, -1 * scale.y);
             return mainPivot;
         }
 
