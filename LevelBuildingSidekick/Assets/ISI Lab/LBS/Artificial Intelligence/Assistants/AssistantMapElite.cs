@@ -120,6 +120,10 @@ public class AssistantMapElite : LBSAssistant
 
     public void LoadPresset(MAPElitesPresset presset)
     {
+        if(presset == null)
+        {
+            throw new Exception("[ISI Lab]: Map Elite Presset not selected or null");
+        }
         mapElites = presset.MapElites;
         maskType = presset.MaskType;
         blacklist = presset.blackList;

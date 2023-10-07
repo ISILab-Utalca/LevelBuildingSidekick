@@ -73,6 +73,8 @@ MonoBehaviour:
           rid: 1429379716160946418
         resourceCharactersitic:
         - rid: 1429379716160946419
+        - rid: 2204195535932359122
+        - rid: 2204195535932359123
     - rid: 1429379716160946418
       type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
       data:
@@ -81,8 +83,8 @@ MonoBehaviour:
     - rid: 1429379716160946419
       type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
       data:
-        label: Coins
-        value: {fileID: 11400000, guid: 0ce19f5583699394b811faa9674b6877, type: 2}
+        label: Food
+        value: {fileID: 11400000, guid: b354587b73f945f4188c7dc7026de4ef, type: 2}
     - rid: 1429379716160946420
       type: {class: RoulleteWheelMutation, ns: , asm: LBS}
       data:
@@ -142,3 +144,13 @@ MonoBehaviour:
         mutation:
           rid: 2204195535733131134
         weight: 0.2
+    - rid: 2204195535932359122
+      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+      data:
+        label: Tree
+        value: {fileID: 11400000, guid: 0147d0d479179b04a8c825d8159e70ce, type: 2}
+    - rid: 2204195535932359123
+      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+      data:
+        label: Rock
+        value: {fileID: 11400000, guid: 8d03f9563098ae048a81b709940e56c0, type: 2}
