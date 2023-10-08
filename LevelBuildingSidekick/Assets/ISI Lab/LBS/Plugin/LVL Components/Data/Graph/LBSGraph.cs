@@ -73,6 +73,16 @@ public class LBSGraph : LBSModule
         edges.Remove(edge);
     }
 
+    public LBSEdge RemoveEdge(Vector2 position, float delta)
+    {
+        foreach (var e in edges)
+        {
+            var dist = position.DistanceToLine(e.First.Position, e.Second.Position);
+            if (dist < delta)
+                return e;
+        }
+        return null;
+    }
 
     public override object Clone()
     {

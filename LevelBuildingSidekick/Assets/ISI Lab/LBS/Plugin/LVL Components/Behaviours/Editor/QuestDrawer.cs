@@ -1,6 +1,8 @@
+using LBS.Components.Graph;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Security.Policy;
 using UnityEngine;
 
 
@@ -9,8 +11,13 @@ public class QuestDrawer : Drawer
 {
     private Vector2 size = new Vector2(150, 100);
 
+    private Dictionary<LBSNode, QuestNodeView> viewRefs = new();
+
     public override void Draw(object target, MainView view, Vector2 teselationSize)
     {
+        // clear preview view refrences
+        viewRefs.Clear();
+
         var quest = target as QuestBehaviour;
 
         if (quest == null)
@@ -18,6 +25,7 @@ public class QuestDrawer : Drawer
             return;
         }
 
+        List<QuestNodeView> nViews = new();
         foreach (var t in quest.GetNodes())
         {
             var v = new QuestNodeView(t);
@@ -29,12 +37,25 @@ public class QuestDrawer : Drawer
 
             v.SetPosition(new Rect(pos, size));
 
-            view.AddElement(v);
+            nViews.Add(v);
+
+            // Add to reference dictionary
+            viewRefs.Add(t.Node, v);
         }
 
-        foreach (var t in quest.GetEdges())
+        List<EdgeQuestView> eViews = new();
+        foreach (var e in quest.GetEdges())
         {
-            // implemetar (!!!)
+            var n1 = viewRefs[e.First];
+            var n2 = viewRefs[e.Second];
+
+            var edge = new EdgeQuestView(e, n1, n2, 4, 4);
+
+            eViews.Add(edge);
         }
+
+        eViews.ForEach(e => view.AddElement(e));
+
+        nViews.ForEach(n => view.AddElement(n));
     }
 }

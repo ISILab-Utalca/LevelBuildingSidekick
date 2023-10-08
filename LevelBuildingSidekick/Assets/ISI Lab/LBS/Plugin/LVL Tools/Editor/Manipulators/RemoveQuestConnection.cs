@@ -36,7 +36,7 @@ public class RemoveQuestConnection : LBSManipulator
     {
         var pair = quest.GetNodes().OrderBy(n => (n.Node.Position - endPosition).magnitude).First();
 
-        quest.RemoveNode(pair);
+        quest.RemoveEdge(endPosition, 15);
 
     }
 }

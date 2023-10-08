@@ -1,18 +1,16 @@
-using LBS.Components.Graph;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Utility;
 
-public class LBSEdgeView : GraphElement
+public class EdgeQuestView : GraphElement
 {
     private Vector2Int pos1, pos2;
 
-    private ZoneEdge data;
+    private LBSEdge data;
 
-    public LBSEdgeView(ZoneEdge data, LBSNodeView node1, LBSNodeView node2, int l, int stroke)
+    public EdgeQuestView(LBSEdge data, QuestNodeView node1, QuestNodeView node2, int l, int stroke)
     {
         // Set Data
         this.data = data;
@@ -20,20 +18,20 @@ public class LBSEdgeView : GraphElement
         // Set first node
         node1.OnMoving += (rect) => {
             this.SetPosition(new Rect(pos1, new Vector2(10, 10)));
-            ActualizePositions(rect.center.ToInt(), pos2); 
+            ActualizePositions(rect.center.ToInt(), pos2);
         };
 
         // Set second node
-        node2.OnMoving += (rect) => 
+        node2.OnMoving += (rect) =>
         {
-            ActualizePositions(pos1, rect.center.ToInt()); 
+            ActualizePositions(pos1, rect.center.ToInt());
         };
-        
+
         var sPos1 = new Vector2Int((int)node1.GetPosition().center.x, (int)node1.GetPosition().center.y);
         var sPos2 = new Vector2Int((int)node2.GetPosition().center.x, (int)node2.GetPosition().center.y);
         ActualizePositions(sPos1, sPos2);
 
-        this.SetPosition(new Rect(pos1, new Vector2(10,10)));
+        this.SetPosition(new Rect(pos1, new Vector2(10, 10)));
         this.generateVisualContent += OnGenerateVisualContent;
     }
 

@@ -52,6 +52,12 @@ public class QuestBehaviour : LBSBehaviour
         graph.AddEdge(first.Node, second.Node);
     }
 
+    public void RemoveEdge(Vector2 pos, float dist)
+    {
+        graph.RemoveEdge(pos, dist);
+
+    }
+
     public List<NodeActionPair> GetNodes()
     {
         return graphPair.QuestNodes;
