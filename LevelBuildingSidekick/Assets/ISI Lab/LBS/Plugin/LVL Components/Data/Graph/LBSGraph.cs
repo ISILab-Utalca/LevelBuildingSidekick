@@ -9,7 +9,7 @@ using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
-public class LBSGraph : LBSBehaviour
+public class LBSGraph : LBSModule
 {
 
     [JsonRequired, SerializeReference]
@@ -23,11 +23,11 @@ public class LBSGraph : LBSBehaviour
     public List<LBSEdge> Edges => new List<LBSEdge>(edges);
 
 
-    public LBSGraph(Texture2D icon, string name) : base(icon, name)
+    public LBSGraph() 
     {
     }
 
-    public LBSGraph(Texture2D icon, string name, List<LBSNode> nodes, List<LBSEdge> edges) : base(icon, name)
+    public LBSGraph(List<LBSNode> nodes, List<LBSEdge> edges) 
     {
         this.nodes = nodes;
         this.edges = edges;
@@ -78,16 +78,30 @@ public class LBSGraph : LBSBehaviour
     {
         var nodes = this.nodes.Clone();
         var edges = this.edges.Clone();
-        return new LBSGraph(this.Icon, this.Name, nodes, edges);
-        
-
+        return new LBSGraph(nodes, edges);
     }
 
-    public override void OnAttachLayer(LBSLayer layer)
+    public override void Print()
     {
     }
 
-    public override void OnDetachLayer(LBSLayer layer)
+    public override void Clear()
+    {
+        nodes.Clear();
+        edges.Clear();
+    }
+
+    public override bool IsEmpty()
+    {
+        return nodes.Count == 0;
+    }
+
+    public override Rect GetBounds()
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Rewrite(LBSModule other)
     {
     }
 }

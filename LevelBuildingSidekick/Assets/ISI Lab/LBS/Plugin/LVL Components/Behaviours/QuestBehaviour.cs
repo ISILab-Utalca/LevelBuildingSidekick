@@ -1,6 +1,7 @@
 using LBS.Behaviours;
 using LBS.Components;
 using LBS.Components.Graph;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,11 @@ public class QuestBehaviour : LBSBehaviour
 {
     #region CONSTRUCTORS
     public QuestBehaviour(Texture2D icon, string name) : base(icon, name) { }
+
+    public void AddNode(LBSNode n, QuestStep a)
+    {
+        throw new NotImplementedException();
+    }
     #endregion
 
     public override object Clone()
