@@ -60,6 +60,7 @@ public class BundleEditor : Editor
                 AssetDatabase.SaveAssets();
             }
         }
+        serializedObject.ApplyModifiedProperties();
     }
 
     private void AddConnGroupCharc(Bundle bundle)
