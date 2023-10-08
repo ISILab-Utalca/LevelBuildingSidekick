@@ -84,7 +84,7 @@ public class MAPEliteContent : VisualElement
                 if (b.Data != null)
                 {
                     OnSelectOption?.Invoke(b.Data);
-                    EditorWindow.GetWindow<LBSMainWindow>().Repaint();
+                    DrawManager.ReDraw();
 
                 }
             };
