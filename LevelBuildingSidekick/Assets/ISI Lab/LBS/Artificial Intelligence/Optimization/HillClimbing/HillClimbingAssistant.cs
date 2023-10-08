@@ -466,11 +466,10 @@ public class HillClimbingAssistant : LBSAssistant
         return new OptimizableModules(modules);
     }
 
-    public void RemoveZoneConnection(Vector2Int position, float delta)
+    public void RemoveZoneConnection(Vector2 position, float delta)
     {
         ZoneEdge edge = GraphMod.GetEdge(position, delta);
         GraphMod.RemoveEdge(edge);
-        throw new System.NotImplementedException();
     }
 
     public Zone GetZone(LBSTile tile)
