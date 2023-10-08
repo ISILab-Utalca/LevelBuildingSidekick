@@ -9,6 +9,9 @@ public static class LBSTileExtensions
     
     public static Rect GetBounds(this IEnumerable<LBSTile> tiles)
     {
+        if(tiles.Count() == 0)
+            return new Rect();
+
         var x = tiles.Min(t => t.Position.x);
         var y = tiles.Min(t => t.Position.y);
         var width = tiles.Max(t => t.Position.x) - x + 1;
