@@ -231,7 +231,31 @@ public class HillClimbingAssistant : LBSAssistant
     public void RecalculateConstraint()
     { 
         var zoneModule = Owner.GetModule<SectorizedTileMapModule>();
-        ConstrainsZonesMod.RecalculateConstraint(zoneModule.Zones);
+        var zones = zoneModule.Zones;
+
+        ConstrainsZonesMod.Clear();
+
+        foreach( var zone in zones ) 
+        {
+            var bounds = zoneModule.GetBounds(zone);
+
+            var min = new Vector2(bounds.width - 2, bounds.height - 2);
+
+            if(min.x < 1)
+                min.x = 1;
+            if (min.y < 1)
+                min.y = 1;
+
+            var max = new Vector2(bounds.width + 2, bounds.height + 2);
+
+            if (max.x < min.x)
+                max.x = min.x + 1;
+            if (max.y < min.y)
+                max.y = min.y + 1;
+
+            ConstrainsZonesMod.AddPair(zone, min, max);
+
+        }
     }
 
     public override void OnAttachLayer(LBSLayer layer)
@@ -248,6 +272,8 @@ public class HillClimbingAssistant : LBSAssistant
         };
         zonesMod.OnRemoveZone += (module, zone) => { 
             ConstrainsZonesMod.RecalculateConstraint(zonesMod.Zones);
+            GraphMod.RemoveEdges(zone);
+
         };
 
         // Set constraint
