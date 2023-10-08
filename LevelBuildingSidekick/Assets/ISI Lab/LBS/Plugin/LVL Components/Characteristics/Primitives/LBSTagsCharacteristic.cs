@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,18 +8,32 @@ using UnityEngine;
 [LBSCharacteristic("Tags","")]
 public class LBSTagsCharacteristic : LBSCharacteristic
 {
-    [SerializeField]
+    [JsonRequired]
+    string tagName = "";
+
+    [SerializeField, JsonIgnore]
     protected LBSIdentifier value;
 
+    [JsonIgnore]
     public LBSIdentifier Value
     {
-        get => value;
-        set => this.value = value;
+        get
+        {
+            if(value == null || value.Label != tagName)
+                value = LBSAssetsStorage.Instance.Get<LBSIdentifier>().Find(i => i.Label == tagName);
+            return value;
+        }
+        set
+        {
+            this.value = value;
+            tagName = value.Label;
+        }
     }
 
     public LBSTagsCharacteristic(LBSIdentifier value)
     {
         this.value = value;
+        tagName = value.Label;
     }
 
     public LBSTagsCharacteristic(LBSIdentifier value, string label) : this(value)

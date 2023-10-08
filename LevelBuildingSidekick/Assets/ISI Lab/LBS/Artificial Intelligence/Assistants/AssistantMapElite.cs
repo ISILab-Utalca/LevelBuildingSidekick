@@ -75,11 +75,11 @@ public class AssistantMapElite : LBSAssistant
     public AssistantMapElite(Texture2D icon, string name) : base(icon, name)
     {
     }
-
+    /*
     public AssistantMapElite(MapElites mapElites, Texture2D icon, string name) : base(icon, name)
     {
         this.mapElites = mapElites;
-    }
+    }*/
     #endregion
 
     #region METHODS
