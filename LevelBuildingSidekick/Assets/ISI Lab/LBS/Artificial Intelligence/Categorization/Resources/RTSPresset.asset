@@ -45,7 +45,7 @@ MonoBehaviour:
         mutation:
           rid: 1429379716160946420
         crossoverProbability: 1
-        mutationProbability: 0.05
+        mutationProbability: 0.1
     - rid: 1429379699903299957
       type: {class: Population, ns: ISILab.AI.Optimization.Populations, asm: LBS}
     - rid: 1429379699903299958
