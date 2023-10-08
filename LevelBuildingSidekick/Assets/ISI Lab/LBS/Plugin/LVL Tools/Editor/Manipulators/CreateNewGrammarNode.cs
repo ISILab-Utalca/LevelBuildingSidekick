@@ -35,6 +35,7 @@ public class CreateNewGrammarNode : LBSManipulator // where T: LBSNode  // (!) C
 
     protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
     {
+        /*
         var pos = MainView.FixPos(e.localMousePosition);
         //var pos = e.localMousePosition;
 
@@ -52,5 +53,6 @@ public class CreateNewGrammarNode : LBSManipulator // where T: LBSNode  // (!) C
         var a = new QuestStep(actionToSet); //var n = Activator.CreateInstance<T>();
         var n = new LBSNode(name, pos);
         module.AddNode(n, a);
+        */
     }
 }
