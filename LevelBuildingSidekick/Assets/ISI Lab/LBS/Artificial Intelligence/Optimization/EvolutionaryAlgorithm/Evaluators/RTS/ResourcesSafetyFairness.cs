@@ -60,7 +60,7 @@ public class ResourcesSafetyFairness : IRangedEvaluator
 
         foreach (var pos in playersPos)
         {
-            var dist = (int)playersPos.Where(p => p != pos).Min(p => (chrom.ToMatrixPosition(p) - chrom.ToMatrixPosition(pos)).magnitude);
+            var dist = (int)playersPos.Where(p => p != pos).Min(p => (chrom.ToMatrixPosition(p) - chrom.ToMatrixPosition(pos)).magnitude)/2;
             float res = 0;
 
             for (int j = -dist; j <= dist; j++)
