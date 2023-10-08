@@ -35,6 +35,7 @@ namespace LBS.VisualElements
         public event Action<object> OnRemoveOption;
         public event Action OnAddOption;
         public event Action OnRepaint;
+        public event Func<object,string> OnSetTooltip;
         #endregion
 
         #region PROPERTIES
@@ -137,6 +138,7 @@ namespace LBS.VisualElements
                 {
                     var option = options[i];
                     var view = new OptionView(option, OnInternalSelectOption, onSetView);
+                    view.tooltip = OnSetTooltip?.Invoke(option);
                     optionViews[i] = view;
                     content.Add(view);
                 }
