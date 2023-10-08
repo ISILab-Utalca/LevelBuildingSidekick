@@ -172,7 +172,8 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
 
         areaPallete.OnRepaint += () =>
         {
-            areaPallete.Options = new object[schema.Zones.Count];
+            var zones = schema.Zones;
+            areaPallete.Options = new object[zones.Count];
             for (int i = 0; i < zones.Count; i++)
             {
                 areaPallete.Options[i] = schema.Zones[i];
