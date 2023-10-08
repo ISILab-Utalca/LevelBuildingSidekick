@@ -113,6 +113,14 @@ public class PopulationBehaviourEditor : LBSCustomEditor, IToolProvider
             Debug.LogWarning("Por ahora esta herramienta no permite agregar nuevos tipos de bundles");
         };
 
+        bundlePallete.OnSetTooltip += (option) =>
+        {
+            var b = (option as Bundle);
+            var tooltip = "Tags:";
+            b.Characteristics.ForEach(c => tooltip += "\n- "+c.Label);
+            return tooltip;
+        };
+
         // Init options
         bundlePallete.SetOptions(options, (optionView, option) =>
         {
