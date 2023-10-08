@@ -18,8 +18,8 @@ MonoBehaviour:
   icon: {fileID: 0}
   childsBundles: []
   assets:
-  - obj: {fileID: 174948975714971157, guid: eb20f414d47811a418d3ec8ec694fe36, type: 3}
-    probability: 0
+  - obj: {fileID: 4853449212101979177, guid: 06c791f0d6691414c8ae31f967b7c533, type: 3}
+    probability: 1
   characteristics:
   - rid: 3767989597796302928
   positioning: 0
@@ -35,6 +35,3 @@ MonoBehaviour:
         - Path
         - Path
         - Path
-        weights:
-        - target: {fileID: 4853449212101979177, guid: 06c791f0d6691414c8ae31f967b7c533, type: 3}
-          weigth: 1
