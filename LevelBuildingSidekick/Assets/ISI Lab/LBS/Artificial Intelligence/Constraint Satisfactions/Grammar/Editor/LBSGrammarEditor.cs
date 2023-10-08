@@ -41,11 +41,8 @@ public class LBSGrammarEditor : Editor
                         action.AddTarget(s);
                     }
                 }
-
-
             }
         }
-
 
         EditorGUILayout.Space();
         GUILayout.Label("Import Grammar", new GUIStyle(GUI.skin.label) { fontStyle = FontStyle.Bold});

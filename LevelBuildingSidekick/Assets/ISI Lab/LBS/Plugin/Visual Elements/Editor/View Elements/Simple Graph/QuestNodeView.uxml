@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement style="flex-grow: 0; background-color: rgba(255, 255, 255, 0); height: 128px; width: 256px; border-top-left-radius: 16px; border-bottom-left-radius: 16px; border-top-right-radius: 16px; border-bottom-right-radius: 16px; position: absolute; flex-direction: row; align-self: auto; background-image: resource(&apos;Icons/Quest icon/Quest_Node&apos;);">
+        <ui:VisualElement name="VisualElement" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); align-self: center; width: 20px; height: 26px; justify-content: center; margin-right: 0; margin-left: 0; position: absolute; top: 38px; left: 43px; background-image: resource(&apos;Icons/Quest icon/Action_indv_Quest&apos;); margin-top: 0; margin-bottom: 0;" />
+        <ui:Label tabindex="-1" text="Label" display-tooltip-when-elided="true" style="align-self: center; color: rgb(243, 243, 243); position: absolute; top: 45px; left: 92px; width: 98px; -unity-text-align: middle-center;" />
+    </ui:VisualElement>
+</ui:UXML>

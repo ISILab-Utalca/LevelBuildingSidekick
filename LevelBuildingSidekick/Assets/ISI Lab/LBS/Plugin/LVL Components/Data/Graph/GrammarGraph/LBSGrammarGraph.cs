@@ -73,6 +73,11 @@ public class LBSGrammarGraph : LBSModule
         //OnRemoveNode += graph.RemoveNode;
     }
 
+    public void RemovePair(NodeActionPair pair)
+    {
+        questNodes.Remove(pair);
+    }
+
     private void RemoveNode(object obj)
     {
         var toR = obj as LBSNode;
@@ -86,7 +91,7 @@ public class LBSGrammarGraph : LBSModule
         var xx = questNodes.Find(x => x.Node == t);
         if (xx != null)
         {
-            RemoveNode(xx);
+            RemovePair(xx);
         }
         questNodes.Add(new NodeActionPair(t, new QuestStep()));
     }

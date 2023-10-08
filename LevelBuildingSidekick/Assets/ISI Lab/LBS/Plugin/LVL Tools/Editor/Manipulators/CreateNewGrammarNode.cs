@@ -16,20 +16,17 @@ public class CreateNewGrammarNode : LBSManipulator // where T: LBSNode  // (!) C
 {
     QuestBehaviour quest;
     LBSGraph graph;
-    GrammarElement actionToSet;
+    public GrammarElement actionToSet;
 
     private string prefix = "";
-    public CreateNewGrammarNode(/*string prefix = "", string postfix = ""*/) : base()
+    public CreateNewGrammarNode() : base()
     {
-        this.prefix = "";
     }
 
     public override void Init(LBSLayer layer, object owner)
     {
         quest = owner as QuestBehaviour;
         graph = layer.GetModule<LBSGraph>();
-        feedback.TeselationSize = layer.TileSize;
-        layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
     }
 
     protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)

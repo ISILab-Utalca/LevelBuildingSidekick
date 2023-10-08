@@ -20,5 +20,5 @@ public abstract class Drawer
 
     public abstract void Draw(object target, MainView view, Vector2 teselationSize);
 
-    public abstract Texture2D GetTexture(object target, Rect sourceRect, Vector2Int teselationSize);
+    public virtual Texture2D GetTexture(object target, Rect sourceRect, Vector2Int teselationSize) { return null; }
 }

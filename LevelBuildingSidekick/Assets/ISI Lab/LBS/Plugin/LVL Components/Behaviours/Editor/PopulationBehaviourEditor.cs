@@ -116,8 +116,16 @@ public class PopulationBehaviourEditor : LBSCustomEditor, IToolProvider
         bundlePallete.OnSetTooltip += (option) =>
         {
             var b = (option as Bundle);
+
             var tooltip = "Tags:";
-            b.Characteristics.ForEach(c => tooltip += "\n- "+c.Label);
+            if (b.Characteristics.Count > 0)
+            {
+                b.Characteristics.ForEach(c => tooltip += "\n- " + c.Label);
+            }
+            else
+            {
+                tooltip += "\n[None]";
+            }
             return tooltip;
         };
 

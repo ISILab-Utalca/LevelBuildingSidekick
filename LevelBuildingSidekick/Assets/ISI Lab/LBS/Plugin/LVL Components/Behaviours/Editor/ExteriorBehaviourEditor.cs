@@ -152,6 +152,8 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
     {
         // Set init options
         connectionPallete.ShowGroups = false;
+        connectionPallete.ShowAddButton = false;
+        connectionPallete.ShowRemoveButton = false;
 
         // Get pallete icon 
         var icon = Resources.Load<Texture2D>("Icons/BrushIcon");
@@ -183,12 +185,6 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
         {
             setConnection.ToSet = selected as LBSIdentifier;
             ToolKit.Instance.SetActive("Set connection");
-        };
-
-        // OnAdd option event
-        connectionPallete.OnAddOption += () =>
-        {
-            Debug.LogWarning("Por ahora esta herramienta no permite agregar nuevos tipos de conexiones");
         };
 
         // Init options

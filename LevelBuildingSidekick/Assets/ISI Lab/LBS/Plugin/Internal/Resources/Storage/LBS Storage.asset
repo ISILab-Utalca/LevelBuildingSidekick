@@ -16,6 +16,7 @@ MonoBehaviour:
   - type: LBSGrammar
     items:
     - {fileID: 11400000, guid: 63ab688b53411154db5edd0ec7171c42, type: 2}
+    - {fileID: 11400000, guid: 24fefcca852caa144b297924e6b19692, type: 2}
   - type: LBSIdentifier
     items:
     - {fileID: 11400000, guid: 8a34055ce679db44ba6d35e49b129a63, type: 2}

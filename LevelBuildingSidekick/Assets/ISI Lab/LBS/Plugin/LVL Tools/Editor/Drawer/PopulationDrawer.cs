@@ -27,12 +27,6 @@ public class PopulationDrawer : Drawer
             var p = new Vector2(t.Tile.Position.x, -t.Tile.Position.y);
             v.SetPosition(new Rect(p * size, size));
             view.AddElement(v);
-
         }
-    }
-
-    public override Texture2D GetTexture(object target, Rect sourceRect, Vector2Int teselationSize)
-    {
-        throw new NotImplementedException();
     }
 }

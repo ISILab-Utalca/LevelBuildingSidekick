@@ -14,6 +14,8 @@ public class LBSGrammar : ScriptableObject
 
     public int ActionCount => actions.Count;
 
+    public List<ActionTargetDepiction> Actions => new List<ActionTargetDepiction>(actions);
+
     public GrammarTree GrammarTree
     {
         get => grammarTree;

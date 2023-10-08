@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 413f9f532ddefee4cb50a01f79231155, type: 3}
-  m_Name: TestGrammar
+  m_Name: TestGrammar 1
   m_EditorClassIdentifier: 
   grammarTree:
     Terminals:
