@@ -88,10 +88,10 @@ public class ConnectedZonesModule : LBSModule
 
     public void RemoveEdges(Zone zone)
     {
-        var toRemove = edges.Where(e => e.First.Equals(zone) || e.Second.Equals(zone));
-        foreach(var e in toRemove)
+        var toRemove = edges.Where(e => e.First.Equals(zone) || e.Second.Equals(zone)).ToList();
+        for(int i = 0; i < toRemove.Count; i++)
         {
-            edges.Remove(e);
+            edges.Remove(toRemove[i]);
         }
     }
 
