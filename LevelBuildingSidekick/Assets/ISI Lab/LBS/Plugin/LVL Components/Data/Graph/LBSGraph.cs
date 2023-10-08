@@ -2,8 +2,10 @@ using LBS.Behaviours;
 using LBS.Components;
 using LBS.Components.Graph;
 using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
@@ -25,50 +27,77 @@ public class LBSGraph : LBSBehaviour
     {
     }
 
+    public LBSGraph(Texture2D icon, string name, List<LBSNode> nodes, List<LBSEdge> edges) : base(icon, name)
+    {
+        this.nodes = nodes;
+        this.edges = edges;
+    }
+
     public void AddNode(LBSNode node)
     {
-
+        if (nodes.Contains(node))
+            return;
+        nodes.Add(node);
     }
 
     public void RemoveNode(LBSNode node)
     {
+        if (!nodes.Contains(node))
+            return;
+        nodes.Remove(node);
+        var toR = edges.Where(e => e.First.Equals(node) || e.Second.Equals(node));
 
+        foreach(var e in toR)
+        {
+            edges.Remove(e);
+        }
+               
     }
 
 
     public void AddEdge(LBSNode first, LBSNode second)
     {
+        if(!nodes.Contains(first) || !nodes.Contains(second))
+            return;
+        
+        if (edges.Any(e => e.First.Equals(first) && e.Second.Equals(second) || e.First.Equals(second) || e.Second.Equals(first)))
+            return;
 
+        edges.Add(new LBSEdge(first, second));
     }
 
     public void RemoveEdge(LBSEdge edge)
     {
-
+        if(!edges.Contains(edge))
+            return; 
+        edges.Remove(edge);
     }
 
 
     public override object Clone()
     {
-        throw new System.NotImplementedException();
+        var nodes = this.nodes.Clone();
+        var edges = this.edges.Clone();
+        return new LBSGraph(this.Icon, this.Name, nodes, edges);
+        
+
     }
 
     public override void OnAttachLayer(LBSLayer layer)
     {
-        throw new System.NotImplementedException();
     }
 
     public override void OnDetachLayer(LBSLayer layer)
     {
-        throw new System.NotImplementedException();
     }
 }
 
 [System.Serializable]
-public class LBSEdge
+public class LBSEdge : ICloneable
 {
-    [JsonRequired]
+    [JsonRequired, SerializeReference]
     LBSNode first;
-    [JsonRequired]
+    [JsonRequired, SerializeReference]
     LBSNode second;
 
     public LBSNode First
@@ -83,9 +112,14 @@ public class LBSEdge
         set => second = value;
     }
 
-    LBSEdge(LBSNode first, LBSNode second) 
+    public LBSEdge(LBSNode first, LBSNode second) 
     {
         this.first = first;
         this.second = second;
+    }
+
+    public object Clone()
+    {
+        return new LBSEdge(CloneRefs.Get(first) as LBSNode, CloneRefs.Get(second) as LBSNode);
     }
 }

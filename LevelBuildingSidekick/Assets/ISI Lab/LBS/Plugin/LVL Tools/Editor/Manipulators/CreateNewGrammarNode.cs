@@ -1,3 +1,4 @@
+using LBS;
 using LBS.Behaviours;
 using LBS.Components;
 using LBS.Components.Graph;
@@ -9,7 +10,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class CreateNewGrammarNode : ManipulateGrammarGraph // where T: LBSNode  // (!) CreateNewNode<T>
+public class CreateNewGrammarNode : LBSManipulator // where T: LBSNode  // (!) CreateNewNode<T>
 {
 
     private string prefix = "";

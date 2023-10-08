@@ -1,18 +1,31 @@
+using LBS.VisualElements;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
-public class QuestBehaviourEditor : MonoBehaviour
+[LBSCustomEditor("QuestBehaviour", typeof(QuestBehaviour))]
+public class QuestBehaviourEditor : LBSCustomEditor, IToolProvider
 {
-    // Start is called before the first frame update
-    void Start()
+    //AddQuestNode
+    //RemoveQuestNode
+    //ConnectNodes
+    //RemoveConnection
+
+
+
+    public override void SetInfo(object target)
     {
-        
+        throw new System.NotImplementedException();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetTools(ToolKit toolkit)
     {
-        
+        throw new System.NotImplementedException();
+    }
+
+    protected override VisualElement CreateVisualElement()
+    {
+        throw new System.NotImplementedException();
     }
 }

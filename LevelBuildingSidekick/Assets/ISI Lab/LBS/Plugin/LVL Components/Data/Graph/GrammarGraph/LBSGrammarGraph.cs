@@ -14,9 +14,6 @@ public class LBSGrammarGraph : LBSModule
 
     public List<NodeActionPair> QuestNodes => questNodes;
 
-    public Func<LBSNode, bool> OnAddNode { get; private set; }
-    public Func<LBSNode, bool> OnRemoveNode { get; private set; }
-
     public LBSGrammarGraph() : base() { ID = GetType().Name; }
     public LBSGrammarGraph(string key, List<NodeActionPair> nodes) : base(key)
     {
@@ -50,8 +47,6 @@ public class LBSGrammarGraph : LBSModule
 
     public void AddNode(LBSNode node, QuestStep action)
     {
-        OnAddNode?.Invoke(node);
-
         var t = questNodes.Find(p => p.Node.Equals(node));
 
         if (t == null)
@@ -136,24 +131,24 @@ public class NodeActionPair : ICloneable
     [SerializeField]
     LBSNode node;
     [SerializeField]
-    QuestStep action;
+    QuestStep questStep;
 
     public LBSNode Node => node;
     public QuestStep Action
     {
-        get => action;
-        set => action = value;
+        get => questStep;
+        set => questStep = value;
     }
 
     public NodeActionPair(LBSNode node, QuestStep action)
     {
         this.node = node;
-        this.action = action;
+        this.questStep = action;
     }
 
     public object Clone()
     {
-        return new NodeActionPair(node.Clone() as LBSNode, action.Clone() as QuestStep);
+        return new NodeActionPair(CloneRefs.Get(node) as LBSNode, CloneRefs.Get(questStep) as QuestStep);
     }
 }
 
