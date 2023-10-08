@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Utility;
@@ -112,6 +113,17 @@ public class HillClimbingAssistantEditor : LBSCustomEditor, IToolProvider
             hillClimbing.visibleConstraints = x.newValue;
             DrawManager.ReDraw();
         });
+
+        this.recalculate = new Button();
+        this.recalculate.text = "Recalculate Constraints";
+        this.recalculate.clicked += () =>
+        {
+            hillClimbing.RecalculateConstraint();
+            DrawManager.ReDraw();
+            Paint();
+        };
+
+        this.Add(recalculate);
 
         return this;
     }
