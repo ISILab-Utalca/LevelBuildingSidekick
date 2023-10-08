@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection.Emit;
@@ -14,6 +15,8 @@ public class QuestNodeView : GraphElement
     private Label label;
     private VisualElement icon;
 
+    public Action<Rect> OnMoving;
+
     public QuestNodeView(NodeActionPair node)
     {
         if (view == null)
@@ -29,6 +32,17 @@ public class QuestNodeView : GraphElement
         icon = this.Q<VisualElement>("Icon");
 
         SetText(node.Action.GrammarElement.ID);
+    }
+
+    public override void SetPosition(Rect newPos)
+    {
+        // Set new Rect position
+        base.SetPosition(newPos);
+
+        // call movement event
+        OnMoving?.Invoke(newPos);
+
+        this.MarkDirtyRepaint();
     }
 
     public void SetText(string text)
