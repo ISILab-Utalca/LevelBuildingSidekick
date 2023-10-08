@@ -151,6 +151,9 @@ public class AssistantMapEliteEditor : LBSCustomEditor, IToolProvider
 
         for (int i = textures.Count - 1; i >= 0; i-- )
         {
+            if (textures[i] == null)
+                continue;
+
             //Debug.Log("Texture::: " + t.width + " - " + t.height);
             texture = texture.MergeTextures(textures[i]);
         }
