@@ -49,7 +49,7 @@ public class LBSGraph : LBSModule
 
         OnRemoveNode?.Invoke(this, node);
         nodes.Remove(node);
-        var toR = edges.Where(e => e.First.Equals(node) || e.Second.Equals(node));
+        var toR = edges.Where(e => e.First.Equals(node) || e.Second.Equals(node)).ToList();
 
         foreach(var e in toR)
         {
