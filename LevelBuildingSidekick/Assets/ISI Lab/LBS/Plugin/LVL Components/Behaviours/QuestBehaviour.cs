@@ -40,6 +40,14 @@ public class QuestBehaviour : LBSBehaviour
     public override void OnAttachLayer(LBSLayer layer)
     {
         Owner = layer;
+
+        var graph = layer.GetModule<LBSGraph>();
+
+        graph.OnRemoveNode += (g, n) =>
+        {
+            var pair = graphPair.QuestNodes.FindAll(p => p.Node.Equals(n));
+            pair.ForEach(pair => graphPair.RemovePair(pair));
+        };
     }
 
     public override void OnDetachLayer(LBSLayer layer)
