@@ -78,8 +78,14 @@ public class LBSGraph : LBSModule
         foreach (var e in edges)
         {
             var dist = position.DistanceToLine(e.First.Position, e.Second.Position);
+            //Debug.Log(e.First.Position + " - " + e.Second.Position + " - " + position);
+            //Debug.Log(dist + " / " + delta);
             if (dist < delta)
+            {
+                edges.Remove(e);
                 return e;
+            }
+            
         }
         return null;
     }
