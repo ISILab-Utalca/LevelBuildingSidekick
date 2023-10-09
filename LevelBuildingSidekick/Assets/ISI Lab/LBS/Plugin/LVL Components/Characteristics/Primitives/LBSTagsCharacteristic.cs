@@ -19,7 +19,7 @@ public class LBSTagsCharacteristic : LBSCharacteristic
     {
         get
         {
-            if(value == null || value.Label != tagName)
+            if(value == null)//|| value.Label != tagName)
                 value = LBSAssetsStorage.Instance.Get<LBSIdentifier>().Find(i => i.Label == tagName);
             return value;
         }
