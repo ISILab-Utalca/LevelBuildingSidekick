@@ -244,7 +244,6 @@ namespace LBS.Components
             }
 
             this.behaviours.Add(behaviour);
-            behaviour.OnAttachLayer(this);
 
             // check if the layer have necesarie 'Modules'
             var reqModules = behaviour.GetRequieredModules();
@@ -258,6 +257,7 @@ namespace LBS.Components
                 }
             }
 
+            behaviour.OnAttachLayer(this);
         }
 
         public void RemoveBehaviour(LBSBehaviour behaviour)
