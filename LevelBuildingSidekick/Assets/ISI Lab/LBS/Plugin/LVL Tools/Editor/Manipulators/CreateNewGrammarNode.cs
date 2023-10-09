@@ -40,6 +40,12 @@ public class CreateNewGrammarNode : LBSManipulator // where T: LBSNode  // (!) C
 
     protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
     {
+        if(actionToSet == null)
+        {
+            Debug.LogWarning("No tienen nada seleccionado, asegurate de seleccionar" +
+                "una gramatica y una palabra para que funcione.");
+            return;
+        }
 
         var name = "";
         var loop = true;
