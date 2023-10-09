@@ -12,7 +12,7 @@ using UnityEditor;
 
 [System.Serializable]
 [CreateAssetMenu(menuName = "ISILab/LBS/MapElitePresset")]
-public class MAPElitesPresset : ScriptableObject, ICloneable
+public class MAPElitesPreset : ScriptableObject, ICloneable
 {
     [SerializeField]
     MapElites mapElites = new MapElites();

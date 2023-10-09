@@ -6,14 +6,14 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-[CustomEditor(typeof(MAPElitesPresset))]
-public class MAPElitesPressetEditor : Editor
+[CustomEditor(typeof(MAPElitesPreset))]
+public class MAPElitesPresetEditor : Editor
 {
 
     public override VisualElement CreateInspectorGUI()
     {
         //return base.CreateInspectorGUI();
-        return new MAPElitesPressetVE(target);
+        return new MAPElitesPresetVE(target);
     }
 
     /*public override void OnInspectorGUI()

@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace ISILab.AI.Optimization
 {
-    public class BaseOptimizerPresset : ScriptableObject
+    public class BaseOptimizerPreset : ScriptableObject
     {
         [SerializeField, SerializeReference]
         public IPopulation population;

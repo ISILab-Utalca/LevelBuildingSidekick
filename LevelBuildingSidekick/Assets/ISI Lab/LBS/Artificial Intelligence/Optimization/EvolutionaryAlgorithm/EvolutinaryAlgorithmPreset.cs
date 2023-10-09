@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace ISILab.AI.Optimization
 {
-    public class EvolutinaryAlgorithmPresset : BaseOptimizerPresset
+    public class EvolutinaryAlgorithmPreset : BaseOptimizerPreset
     {
 
         [SerializeField, SerializeReference]

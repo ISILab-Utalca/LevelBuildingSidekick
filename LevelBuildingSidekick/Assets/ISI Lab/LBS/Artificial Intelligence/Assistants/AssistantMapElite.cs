@@ -122,7 +122,7 @@ public class AssistantMapElite : LBSAssistant
         }
     }
 
-    public void LoadPresset(MAPElitesPresset presset)
+    public void LoadPresset(MAPElitesPreset presset)
     {
         if(presset == null)
         {
