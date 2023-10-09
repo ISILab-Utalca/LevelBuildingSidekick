@@ -178,7 +178,7 @@ public class LayerTemplateEditor : Editor
         // Settings generator
         layer.Settings = new Generator3D.Settings()
         {
-            scale = new Vector2Int(10, 10),
+            scale = new Vector2Int(2, 2),
             resize = new Vector2(0, 0),
             position = new Vector3(0, 0, 0),
             name = "Exteriror",
