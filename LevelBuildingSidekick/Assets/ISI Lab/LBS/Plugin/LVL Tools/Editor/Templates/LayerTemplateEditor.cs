@@ -278,8 +278,8 @@ public class LayerTemplateEditor : Editor
 
         var bhIcon = Resources.Load<Texture2D>("Icons/Select");
         var bh = new QuestBehaviour(bhIcon, "Quest behaviour");
-        bh.OnAttachLayer(layer);
         layer.AddBehaviour(bh);
+
 
         //layer.AddAssistant(new AssistentGrammar());
 
