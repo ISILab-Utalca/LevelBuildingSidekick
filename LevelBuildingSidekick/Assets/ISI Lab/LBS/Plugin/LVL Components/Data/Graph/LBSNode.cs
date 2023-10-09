@@ -13,7 +13,7 @@ namespace LBS.Components.Graph
     {
         #region FIELDS
 
-        [HideInInspector, JsonRequired]
+        [SerializeField, HideInInspector, JsonRequired]
         private int x, y;
 
         /// <summary>

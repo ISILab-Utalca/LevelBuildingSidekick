@@ -1,5 +1,6 @@
 using LBS.Components;
 using LBS.Components.Graph;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -133,9 +134,9 @@ public class LBSGrammarGraph : LBSModule
 [System.Serializable]
 public class NodeActionPair : ICloneable
 {
-    [SerializeField]
+    [SerializeField, SerializeReference, JsonRequired]
     LBSNode node;
-    [SerializeField]
+    [SerializeField, SerializeReference, JsonRequired]
     QuestStep questStep;
 
     public LBSNode Node => node;
