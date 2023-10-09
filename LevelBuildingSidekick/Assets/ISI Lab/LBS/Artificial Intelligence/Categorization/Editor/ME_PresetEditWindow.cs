@@ -5,9 +5,9 @@ using UnityEditor.PackageManager.UI;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class ME_PressetEditWindow : EditorWindow
+public class ME_PresetEditWindow : EditorWindow
 {
-    MAPElitesPresset mapElitesPresset;
+    MAPElitesPreset mapElitesPresset;
 
     string path = string.Empty;
 
@@ -19,9 +19,9 @@ public class ME_PressetEditWindow : EditorWindow
     VisualElement content;
     Button save;
 
-    public static void OpenWindow(MAPElitesPresset presset)
+    public static void OpenWindow(MAPElitesPreset presset)
     {
-        var wnd = GetWindow<ME_PressetEditWindow>();
+        var wnd = GetWindow<ME_PresetEditWindow>();
         Texture icon = Resources.Load<Texture>("Icons/Gear.png");
         wnd.titleContent = new GUIContent("MAP Elites Presset Editor", icon);
         wnd.minSize = new Vector2(800, 400);
@@ -55,14 +55,14 @@ public class ME_PressetEditWindow : EditorWindow
 
     }
 
-    private void LoadPreset(MAPElitesPresset presset)
+    private void LoadPreset(MAPElitesPreset presset)
     {
         mapElitesPresset = presset;
 
 
         if (mapElitesPresset == null)
         {
-            mapElitesPresset = CreateInstance<MAPElitesPresset>();
+            mapElitesPresset = CreateInstance<MAPElitesPreset>();
             mapElitesPresset.name = "New Presset";
             preexistant = false;
         }
@@ -78,7 +78,7 @@ public class ME_PressetEditWindow : EditorWindow
             path = "Assets/ISI Lab/LBS/Presets/Resources";
         }
 
-        content.Add(new MAPElitesPressetVE(mapElitesPresset));
+        content.Add(new MAPElitesPresetVE(mapElitesPresset));
 
         nameField.value = mapElitesPresset.name;
         pathField.value = path;

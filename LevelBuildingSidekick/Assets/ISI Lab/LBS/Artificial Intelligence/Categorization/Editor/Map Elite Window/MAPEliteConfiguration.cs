@@ -74,7 +74,7 @@ public class MAPEliteConfiguration : VisualElement
 
     private void UpdateDropdown()
     {
-        var pressets = LBSAssetsStorage.Instance.Get<MAPElitesPresset>();
+        var pressets = LBSAssetsStorage.Instance.Get<MAPElitesPreset>();
         if(pressets == null)
         {
             return;
@@ -87,20 +87,20 @@ public class MAPEliteConfiguration : VisualElement
         dropdown.choices = options;
     }
 
-    public MAPElitesPresset GetPresset()
+    public MAPElitesPreset GetPresset()
     {
-        return LBSAssetsStorage.Instance.Get<MAPElitesPresset>().Find(p => p.name == dropdown.value);
+        return LBSAssetsStorage.Instance.Get<MAPElitesPreset>().Find(p => p.name == dropdown.value);
     }
 
     public void EditPresset(ContextualMenuPopulateEvent evt)
     {
         evt.menu.AppendAction("New Presset", (a) => { OpenPressetWindow(null);});
-        evt.menu.AppendAction("Copy Presset", (a) => { OpenPressetWindow(GetPresset().Clone() as MAPElitesPresset); });
+        evt.menu.AppendAction("Copy Presset", (a) => { OpenPressetWindow(GetPresset().Clone() as MAPElitesPreset); });
         evt.menu.AppendAction("Edit Presset", (a) => { OpenPressetWindow(GetPresset()); });
     }
 
-    void OpenPressetWindow(MAPElitesPresset preset)
+    void OpenPressetWindow(MAPElitesPreset preset)
     {
-        ME_PressetEditWindow.OpenWindow(preset);
+        ME_PresetEditWindow.OpenWindow(preset);
     }
 }

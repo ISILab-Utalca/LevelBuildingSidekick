@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
-  m_Name: Exterior SubPresset
+  m_Name: Exterior SubPreset
   m_EditorClassIdentifier: 
   isPreset: 1
   type: 0

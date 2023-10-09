@@ -10,8 +10,8 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-[LBSCustomEditor("MAPElitesPresset", typeof(MAPElitesPresset))]
-public class MAPElitesPressetVE : LBSCustomEditor
+[LBSCustomEditor("MAPElitesPresset", typeof(MAPElitesPreset))]
+public class MAPElitesPresetVE : LBSCustomEditor
 {
     Vector2IntField samples;
 
@@ -30,7 +30,7 @@ public class MAPElitesPressetVE : LBSCustomEditor
 
     ListView blacklist;
 
-    public MAPElitesPressetVE(object target) : base(target)
+    public MAPElitesPresetVE(object target) : base(target)
     {
         CreateVisualElement();
         SetInfo(target);
@@ -38,7 +38,7 @@ public class MAPElitesPressetVE : LBSCustomEditor
 
     public override void SetInfo(object target)
     {
-        var presset = target as MAPElitesPresset;
+        var presset = target as MAPElitesPreset;
         samples.value = presset.SampleCount;
 
         if (presset.XEvaluator != null)
@@ -70,7 +70,7 @@ public class MAPElitesPressetVE : LBSCustomEditor
         var vt = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("MAPElitesPresset");
         vt.CloneTree(this);
 
-        var presset = target as MAPElitesPresset;
+        var presset = target as MAPElitesPreset;
 
         samples = this.Q<Vector2IntField>(name: "Samples");
         samples.RegisterValueChangedCallback(
@@ -185,7 +185,7 @@ public class MAPElitesPressetVE : LBSCustomEditor
 
     void BindItem(VisualElement element, int index)
     {
-        var presset = target as MAPElitesPresset;
+        var presset = target as MAPElitesPreset;
         if (index < presset.blackList.Count)
         {
             var of = element as ObjectField;
