@@ -23,6 +23,8 @@ public class LBSGraph : LBSModule
     public List<LBSEdge> Edges => new List<LBSEdge>(edges);
 
 
+    public event Action<LBSGraph, LBSNode> OnRemoveNode;
+
     public LBSGraph() 
     {
     }
@@ -44,6 +46,8 @@ public class LBSGraph : LBSModule
     {
         if (!nodes.Contains(node))
             return;
+
+        OnRemoveNode?.Invoke(this, node);
         nodes.Remove(node);
         var toR = edges.Where(e => e.First.Equals(node) || e.Second.Equals(node));
 
