@@ -42,7 +42,7 @@ public class QuestBehaviourEditor : LBSCustomEditor, IToolProvider
         Texture2D icon;
 
         // Add element Tiles
-        icon = Resources.Load<Texture2D>("Icons/Tools/Population_Brush");
+        icon = Resources.Load<Texture2D>("Icons/Quest icon/Add_Node_Quest");
         this.addQuest = new CreateNewGrammarNode();
         var t1 = new LBSTool(icon, "Add quest node", addQuest);
         t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Local", "Behaviours");
@@ -50,21 +50,21 @@ public class QuestBehaviourEditor : LBSCustomEditor, IToolProvider
         toolkit.AddTool(t1);
 
         // Remove element Tiles
-        icon = Resources.Load<Texture2D>("Icons/Tools/Population_Brush");
+        icon = Resources.Load<Texture2D>("Icons/Quest icon/Delete_Node_Quest");
         this.removeQuest = new RemoveNodeGrammar();
         var t2 = new LBSTool(icon, "Remove quest node", removeQuest);
         t2.Init(questBH.Owner, questBH);
         toolkit.AddTool(t2);
 
         // Connect Nodes    
-        icon = Resources.Load<Texture2D>("Icons/Tools/Population_Brush");
+        icon = Resources.Load<Texture2D>("Icons/Quest icon/Node_connection_Quest");
         this.connectQuest = new ConnectQuestNodes();
         var t3 = new LBSTool(icon, "Connect nodes", connectQuest);
         t3.Init(questBH.Owner, questBH);
         toolkit.AddTool(t3);
 
         // Remove Connection
-        icon = Resources.Load<Texture2D>("Icons/Tools/Population_Brush");
+        icon = Resources.Load<Texture2D>("Icons/Quest icon/Delete_node_connection_quest");
         this.removeConnection = new RemoveQuestConnection();
         var t4 = new LBSTool(icon, "Remove connection", removeConnection);
         t4.Init(questBH.Owner, questBH);
