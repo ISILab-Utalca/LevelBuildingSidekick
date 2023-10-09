@@ -34,9 +34,6 @@ public class RemoveQuestConnection : LBSManipulator
 
     protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
     {
-        var pair = quest.GetNodes().OrderBy(n => (n.Node.Position - endPosition).magnitude).First();
-
-        quest.RemoveEdge(endPosition, 15);
-
+        quest.RemoveEdge(endPosition, 20);
     }
 }
