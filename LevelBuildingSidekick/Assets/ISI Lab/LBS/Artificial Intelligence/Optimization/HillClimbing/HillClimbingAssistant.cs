@@ -15,7 +15,6 @@ using Debug = UnityEngine.Debug;
 using Newtonsoft.Json;
 using LBS.Assisstants;
 
-
 [System.Serializable]
 [RequieredModule(typeof(TileMapModule),
     typeof(ConnectedTileMapModule),
@@ -186,10 +185,10 @@ public class HillClimbingAssistant : LBSAssistant
                 foreach (var t2 in tilesZ2)
                 {
                     // Calculate dist between tiles
-                    var dist = Vector2Int.Distance(t1.Position, t2.Position);
+                    var dist = (t1.Position - t2.Position).magnitude;
 
                     // If tiles are neightbors
-                    if(dist <= 1.1f)
+                    if(dist == 1)
                     {
                         pairs.Add((t1, t2));
                     }
@@ -247,11 +246,6 @@ public class HillClimbingAssistant : LBSAssistant
                 min.y = 1;
 
             var max = new Vector2(bounds.width + 2, bounds.height + 2);
-
-            if (max.x < min.x)
-                max.x = min.x + 1;
-            if (max.y < min.y)
-                max.y = min.y + 1;
 
             ConstrainsZonesMod.AddPair(zone, min, max);
 
@@ -460,7 +454,28 @@ public class HillClimbingAssistant : LBSAssistant
         var tilesMod = modules.GetModule<TileMapModule>();
         var connectionMod = modules.GetModule<ConnectedTileMapModule>();
 
+
+        //make sure tiles don't overlapg
         zonesMod.MoveArea(zone, dir);
+        var tiles = zonesMod.GetTiles(zone);
+
+        var zones = zonesMod.Zones;
+
+        foreach (var z in zones)
+        {
+            if (z == zone)
+                continue;
+            var zTiles = zonesMod.GetTiles(z);
+            foreach (var tile in zTiles)
+            {
+                if(tiles.Any(t => t.Position == tile.Position))
+                {
+                    tilesMod.RemoveTile(tile);
+                    zonesMod.RemovePair(tile);
+                    connectionMod.RemoveTile(tile);
+                }
+            }
+        }
 
         // return neigthbour
         return new OptimizableModules(modules);

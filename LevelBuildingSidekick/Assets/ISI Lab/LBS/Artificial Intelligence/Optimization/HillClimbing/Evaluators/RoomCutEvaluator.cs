@@ -64,6 +64,9 @@ public class RoomCutEvaluator : IEvaluator
             value = (tiles.Count > check.Count) ? 0 : 1;
         }
 
+        if (zones.ZonesWithTiles.Count <= 0)
+            return 0;
+
         return value / (float)zones.ZonesWithTiles.Count;
 
     }

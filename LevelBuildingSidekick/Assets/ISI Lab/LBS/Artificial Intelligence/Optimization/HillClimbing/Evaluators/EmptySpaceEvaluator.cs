@@ -36,6 +36,9 @@ public class EmptySpaceEvaluator : IEvaluator
         {
             var tiles = zones.GetTiles(z);
             var rect = tiles.GetBounds();
+            if (rect.width <= 0 || rect.height <= 0)
+                return float.NegativeInfinity;
+
             return tiles.Count / (float)(rect.width * rect.height);
         });
         return avg;
