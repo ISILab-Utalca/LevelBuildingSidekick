@@ -8,13 +8,13 @@ using UnityEngine.UIElements;
 
 public class MAPEliteConfiguration : VisualElement
 {
-    AssistantMapElite assistant;
+    private AssistantMapElite assistant;
 
-    DropdownField dropdown;
-    Button undoBtn;
-    Button continueBtn;
-    Button calculateBtn;
-    Button editPresset;
+    private DropdownField dropdown;
+    private Button undoBtn;
+    private Button continueBtn;
+    private Button calculateBtn;
+    private Button editPresset;
 
     public Action OnCalculate;
     public Action OnContinue;
@@ -49,7 +49,7 @@ public class MAPEliteConfiguration : VisualElement
         //editPresset.clicked += () => OpenPressetWindow(null);
 
 
-        dropdown = this.Q<DropdownField>(name: "PressetDropDown");
+        dropdown = this.Q<DropdownField>(name: "PresetDropDown");
         dropdown.RegisterValueChangedCallback(e => OnPressetChange?.Invoke(e.newValue));
         UpdateDropdown();
 
@@ -94,9 +94,9 @@ public class MAPEliteConfiguration : VisualElement
 
     public void EditPresset(ContextualMenuPopulateEvent evt)
     {
-        evt.menu.AppendAction("New Presset", (a) => { OpenPressetWindow(null);});
-        evt.menu.AppendAction("Copy Presset", (a) => { OpenPressetWindow(GetPresset().Clone() as MAPElitesPreset); });
-        evt.menu.AppendAction("Edit Presset", (a) => { OpenPressetWindow(GetPresset()); });
+        evt.menu.AppendAction("New Preset", (a) => { OpenPressetWindow(null);});
+        evt.menu.AppendAction("Copy Preset", (a) => { OpenPressetWindow(GetPresset().Clone() as MAPElitesPreset); });
+        evt.menu.AppendAction("Edit Preset", (a) => { OpenPressetWindow(GetPresset()); });
     }
 
     void OpenPressetWindow(MAPElitesPreset preset)

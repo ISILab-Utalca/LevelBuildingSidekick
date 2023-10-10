@@ -12,7 +12,7 @@ using UnityEngine.UIElements;
 using Utility;
 using static UnityEngine.UI.GridLayoutGroup;
 
-[LBSCustomEditor("AssistantMapElite", typeof(AssistantMapElite))]
+[LBSCustomEditor("Assistant Map Elite", typeof(AssistantMapElite))]
 public class AssistantMapEliteEditor : LBSCustomEditor, IToolProvider
 {
     MAPEliteConfiguration config;
@@ -77,7 +77,6 @@ public class AssistantMapEliteEditor : LBSCustomEditor, IToolProvider
         var ve = new VisualElement();
         config = new MAPEliteConfiguration();
         content = new MAPEliteContent(assistant);
-
 
         config.OnCalculate += Run;
         config.OnContinue += Continue;
