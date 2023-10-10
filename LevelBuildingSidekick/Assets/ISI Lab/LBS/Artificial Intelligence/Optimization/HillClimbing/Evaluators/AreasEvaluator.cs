@@ -62,6 +62,10 @@ public class AreasEvaluator : IEvaluator
 
             value += EvaluateBySize(modules, zone);
         }
+
+        if (zones.ZonesWithTiles.Count <= 0)
+            return 0;
+
         return value / (zones.ZonesWithTiles.Count * 1f);
     }
 

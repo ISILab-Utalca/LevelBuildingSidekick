@@ -60,6 +60,12 @@ public class AdjacenciesEvaluator : IEvaluator
             distValue += 1 / roomDist;
         }
 
+        if(edgeCount <= 0)
+        {
+            Debug.Log("E: " + edgeCount);
+            return 0;
+        }
+
         return distValue / edgeCount;
     }
 
