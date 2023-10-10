@@ -19,6 +19,9 @@ using UnityEditor;
     typeof(ConnectedZonesModule))]
 public class SchemaRuleGeneratorExteriror : LBSGeneratorRule
 {
+    [JsonRequired]
+    private float deltaWall = 1f;
+
     #region INTERNAL FIELDS
     [JsonIgnore]
     private TileMapModule tilesMod;
@@ -108,7 +111,7 @@ public class SchemaRuleGeneratorExteriror : LBSGeneratorRule
         return pivot;
     }
 
-    private GameObject GenerateCorners(GameObject pivot, List<Bundle> bundles)
+    private GameObject GenerateCorners(GameObject pivot, List<Bundle> bundles, LBSTile tile)
     {
         var currents = new List<Bundle>();
         foreach (var bundle in bundles)
@@ -116,9 +119,39 @@ public class SchemaRuleGeneratorExteriror : LBSGeneratorRule
             currents = bundle.GetChildrenByPositioning(Positioning.Corner);
         }
 
-        var current = currents.Random();
-        var pref = current.Assets.RandomRullete(a => a.probability).obj;
+        var selfConnections = connectedTilesMod.GetConnections(tile);
+        for (int i = 0; i < Dirs.Count; i++)
+        {
+            // Get neigbors 
+            var d1 = Dirs[i];
+            var neigth = tilesMod.GetTileNeighbor(tile, d1);
+            var d2 = Dirs[(i + 1) % Dirs.Count];
+            var neigth2 = tilesMod.GetTileNeighbor(tile, d2);
+            var neigth3 = tilesMod.GetTileNeighbor(tile, d1 + d2);
 
+            if(neigth == null && neigth2 == null && neigth3 == null)
+            {
+                // Get random bundle with respctive "connection tag"
+                var current = currents.Random();
+
+                // get random by weight
+                var pref = current.Assets.RandomRullete(a => a.probability).obj;
+                var instance = CreateObject(pref, pivot.transform);
+
+                // Set delta position
+                var dir = d1 + d2;
+                instance.transform.position = new Vector3(
+                    settings.scale.x / 2f * dir.x,
+                    0,
+                    settings.scale.y / 2f * dir.y) * deltaWall;
+
+                // Set rotation orientation
+                var rot = (i -1) % Dirs.Count();
+                instance.name = "R:" + rot + " i:" + i;
+                instance.transform.rotation = Quaternion.Euler(0, -90 * rot, 0);
+            }
+        }
+        
         return pivot;
     }
 
@@ -158,7 +191,7 @@ public class SchemaRuleGeneratorExteriror : LBSGeneratorRule
 
             // Add pref part to pivot
             GenerateEdges(tileObj, bundles, connections, tile);
-            GenerateCorners(tileObj, bundles);
+            GenerateCorners(tileObj, bundles,tile);
 
             // Set position
             tileObj.transform.position =
