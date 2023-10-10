@@ -157,7 +157,7 @@ public class SchemaRuleGenerator : LBSGeneratorRule
         return pivot;
     }
 
-    private GameObject GenerateCorners(GameObject pivot, List<Bundle> bundles)
+    private GameObject GenerateCorners(GameObject pivot, List<Bundle> bundles, LBSTile tile)
     {
         var currents = new List<Bundle>();
         foreach (var bundle in bundles)
@@ -166,7 +166,76 @@ public class SchemaRuleGenerator : LBSGeneratorRule
         }
 
         var current = currents.Random();
-        var pref = current.Assets.RandomRullete(a => a.probability).obj;
+
+        var selfConnections = connectedTilesMod.GetConnections(tile);
+        for (int i = 0; i < Dirs.Count; i++)
+        {
+            var d1 = Dirs[i];
+
+            if (!selfConnections[i].Equals("Empty")) 
+                continue;
+
+            var neigth = tilesMod.GetTileNeighbor(tile, d1);
+
+            if (neigth == null)
+                continue;
+
+            // Get neigth connections
+            var neigthConnections = connectedTilesMod.GetConnections(neigth);
+
+            // Check if neigth connection is empty
+            var j = (i + 2) % Dirs.Count;
+            var k1 = (j + 1) % Dirs.Count;
+            if (neigthConnections[k1] != "Empty")
+            {
+                // Check if self is empty
+                if (!selfConnections[k1].Equals("Empty"))
+                    continue;
+
+                // Get random by weight
+                var pref = current.Assets.RandomRullete(a => a.probability).obj;
+                var instance = CreateObject(pref, pivot.transform);
+
+                // Set delta position
+                var dir = Dirs[i] + Dirs[k1];
+                instance.transform.position = new Vector3(
+                    settings.scale.x / 2f * dir.x,
+                    0,
+                    settings.scale.y / 2f * dir.y) * deltaWall;
+
+                // Set rotation orientation
+                var rot = (i) % Dirs.Count();
+                instance.transform.rotation = Quaternion.Euler(0, -90 * rot, 0);
+            }
+
+            /*
+            // Check if neigth connection is empty
+            var vv = (j - 1) % Dirs.Count;
+            var k2 = vv >= 0 ? vv : Dirs.Count - 1; 
+            if (neigthConnections[k2] != "empty")
+            {
+                // Check if self is empty
+                if (!selfConnections[k2].Equals("Empty"))
+                    continue;
+
+                // Get random by weight
+                var pref = current.Assets.RandomRullete(a => a.probability).obj;
+                var instance = CreateObject(pref, pivot.transform);
+
+                // Set delta position
+                var dir = Dirs[i] + Dirs[k2];
+                instance.transform.position = new Vector3(
+                    settings.scale.x / 2f * dir.x,
+                    0,
+                    settings.scale.y / 2f * dir.y) * deltaWall;
+
+                // Set rotation orientation
+                var rot = (i - 1) % Dirs.Count();
+                instance.transform.rotation = Quaternion.Euler(0, 90 * rot, 0);
+                instance.name = "R:"+ rot +" i:" + i;
+            }
+            */
+        }
 
         return pivot;
     }
@@ -208,7 +277,7 @@ public class SchemaRuleGenerator : LBSGeneratorRule
             // Add pref part to pivot
             GenerateCenters(tileObj, bundles);
             GenerateEdges(tileObj, bundles, connections);
-            GenerateCorners(tileObj, bundles);
+            GenerateCorners(tileObj, bundles, tile);
 
             // Set position
             tileObj.transform.position =
