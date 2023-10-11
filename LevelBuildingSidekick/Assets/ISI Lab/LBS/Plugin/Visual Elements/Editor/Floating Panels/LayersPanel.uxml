@@ -4,7 +4,7 @@
         <ui:ListView focusable="true" reorder-mode="Simple" reorderable="true" show-foldout-header="false" header-title="Layers" show-add-remove-footer="false" horizontal-scrolling="false" show-alternating-row-backgrounds="None" selection-type="Single" show-border="true" virtualization-method="DynamicHeight" name="LayerList" show-bound-collection-size="true" fixed-item-height="18" style="padding-left: 0; padding-right: 0; padding-top: 7px; padding-bottom: 5px; background-color: rgba(0, 0, 0, 0);" />
         <ui:VisualElement style="border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-left-color: rgb(36, 36, 36); border-right-color: rgb(36, 36, 36); border-top-color: rgb(36, 36, 36); border-bottom-color: rgb(36, 36, 36); padding-left: 3px; padding-right: 3px; padding-top: 3px; padding-bottom: 3px; margin-bottom: 4px; background-color: rgba(0, 0, 0, 0.2);">
             <ui:Label tabindex="-1" text="Add new layer" display-tooltip-when-elided="true" />
-            <ui:TextField picking-mode="Ignore" label="Name" value="filler text" text="New Layer" name="NameField" />
+            <ui:TextField picking-mode="Ignore" label="Name" value="New Layer" text="New Layer" name="NameField" />
             <ui:DropdownField label="Type" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="TypeDropdown" tooltip="Select the type of layer you need for your job" />
             <ui:Button tabindex="-1" text="Add" display-tooltip-when-elided="true" name="AddLayerButton" tooltip="Add selected layer type" />
         </ui:VisualElement>
