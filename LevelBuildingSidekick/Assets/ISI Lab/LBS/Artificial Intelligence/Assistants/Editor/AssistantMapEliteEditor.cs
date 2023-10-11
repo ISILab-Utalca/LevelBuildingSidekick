@@ -38,6 +38,11 @@ public class AssistantMapEliteEditor : LBSCustomEditor, IToolProvider
 
         content.Reset();
         assitant.LoadPresset(config.GetPresset());
+        if(assitant.RawToolRect.width == 0 || assitant.RawToolRect.height == 0)
+        {
+            Debug.LogError("[ISI Lab]: Selected evolution area height or with < 0");
+            return;
+        }
         SetBackgorundTexture(assitant.RawToolRect);
         assitant.SetAdam(assitant.RawToolRect);
         assitant.Execute();

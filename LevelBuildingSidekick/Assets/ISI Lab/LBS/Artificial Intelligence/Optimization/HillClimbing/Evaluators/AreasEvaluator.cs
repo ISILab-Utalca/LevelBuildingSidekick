@@ -27,6 +27,11 @@ public class AreasEvaluator : IEvaluator
         var bound = zones.GetBounds(zone);
         var limit = constrs.GetLimits(zone);
 
+        if (bound.width == 0 || bound.height == 0)
+            return 0;
+        if (limit == null)
+            return 0;
+
         var vw = 1f;
         if (bound.width > limit.maxWidth || bound.width < limit.minWidth)
         {

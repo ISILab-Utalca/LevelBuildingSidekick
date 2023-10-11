@@ -76,6 +76,16 @@ public class HillClimbingAssistant : LBSAssistant
         UnityEngine.Debug.Log("HillClimbing start!");
         OnStart?.Invoke();
 
+        foreach (var zone in ZonesWhitTiles)
+        {
+            if(ConstrainsZonesMod.GetLimits(zone) == null)
+            {
+                var bounds = AreasMod.GetBounds(zone);
+                ConstrainsZonesMod.AddPair(zone, bounds.size - Vector2.one, bounds.size + Vector2.one);
+            }
+        }
+
+
         //OnAdd(Owner);
 
         clock.Start();
