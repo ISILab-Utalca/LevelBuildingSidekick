@@ -33,6 +33,7 @@ public class LBSTagsCharacteristic : LBSCharacteristic
     public LBSTagsCharacteristic(LBSIdentifier value)
     {
         this.value = value;
+        if(value != null)
         tagName = value.Label;
     }
 
