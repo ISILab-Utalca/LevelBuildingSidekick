@@ -10,11 +10,12 @@ using UnityEngine;
 [System.Serializable]
 public class LBSGrammarGraph : LBSModule
 {
+    [SerializeField, JsonRequired, SerializeReference]
     List<LBSQuest> quests = new List<LBSQuest>();
 
     LBSQuest selectedQuest = null;
 
-    public List<LBSQuest> Quests => new List<LBSQuest>(quests);
+    public List<LBSQuest> Quests => quests;
 
     public LBSGrammarGraph() : base() { ID = GetType().Name; }
     public LBSGrammarGraph(string key, List<LBSQuest> quests) : base(key)
