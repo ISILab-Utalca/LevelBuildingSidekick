@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Utility;
 
 [LBSCustomEditor("QuestBehaviour", typeof(QuestBehaviour))]
 public class QuestBehaviourEditor : LBSCustomEditor, IToolProvider
@@ -14,7 +15,6 @@ public class QuestBehaviourEditor : LBSCustomEditor, IToolProvider
     public ConnectQuestNodes connectQuest;
     public RemoveQuestConnection removeConnection;
 
-    private QuestBehaviour questBH;
 
     //Palletes
     private SimplePallete grammarPallete;
@@ -25,9 +25,15 @@ public class QuestBehaviourEditor : LBSCustomEditor, IToolProvider
 
     private object[] options;
 
+    List<QuestPanelEditor> questPanels = new List<QuestPanelEditor>();
+
+    ListView quests;
+    Button add;
+    Button remove;
+
     public QuestBehaviourEditor(object target) : base(target)
     {
-        this.questBH = target as QuestBehaviour;
+        var questBH = target as QuestBehaviour;
 
         this.CreateVisualElement();
     }
@@ -39,6 +45,8 @@ public class QuestBehaviourEditor : LBSCustomEditor, IToolProvider
 
     public void SetTools(ToolKit toolkit)
     {
+        var questBH = target as QuestBehaviour;
+
         Texture2D icon;
 
         // Add element Tiles
@@ -73,6 +81,21 @@ public class QuestBehaviourEditor : LBSCustomEditor, IToolProvider
 
     protected override VisualElement CreateVisualElement()
     {
+
+        var questBH = target as QuestBehaviour;
+
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("QuestBehaviourEditor");
+        visualTree.CloneTree(this);
+
+        quests = this.Q<ListView>(name: "Quests");
+        add = this.Q<Button>(name: "Add");
+        add.clicked += AddQuest;
+        remove = this.Q<Button>(name: "Remove");
+        remove.clicked += RemoveQuest;
+
+        quests.itemsSource = questBH.Quests;
+
+
         // BundleField
         this.grammarField = new ObjectField();
         grammarField.objectType = typeof(LBSGrammar);
@@ -130,5 +153,22 @@ public class QuestBehaviourEditor : LBSCustomEditor, IToolProvider
         });
 
         grammarPallete.Repaint();
+    }
+
+    public void AddQuest()
+    {
+        var questBH = target as QuestBehaviour;
+
+        var quest = new LBSQuest();
+        var panel = new QuestPanelEditor(quest);
+
+        questPanels.Add(panel);
+        questBH.AddQuest(quest);
+
+    }
+
+    public void RemoveQuest() 
+    { 
+
     }
 }

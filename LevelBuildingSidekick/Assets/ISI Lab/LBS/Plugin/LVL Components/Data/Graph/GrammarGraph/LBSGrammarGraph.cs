@@ -10,60 +10,59 @@ using UnityEngine;
 [System.Serializable]
 public class LBSGrammarGraph : LBSModule
 {
-    [SerializeField]
-    List<NodeActionPair> questNodes = new List<NodeActionPair>();
+    List<LBSQuest> quests = new List<LBSQuest>();
 
-    public List<NodeActionPair> QuestNodes => questNodes;
+    LBSQuest selectedQuest = null;
+
+    public List<LBSQuest> Quests => new List<LBSQuest>(quests);
 
     public LBSGrammarGraph() : base() { ID = GetType().Name; }
-    public LBSGrammarGraph(string key, List<NodeActionPair> nodes) : base(key)
+    public LBSGrammarGraph(string key, List<LBSQuest> quests) : base(key)
     {
-        this.questNodes = nodes;
+        this.quests = quests;
     }
 
     public override void Clear()
     {
-        questNodes.Clear();
+        quests.Clear();
     }
 
     public override object Clone()
     {
-        return new LBSGrammarGraph(id, questNodes.Select(n => n.Clone() as NodeActionPair).ToList());
+        return new LBSGrammarGraph(id, quests.Select(n => n.Clone() as LBSQuest).ToList());
     }
 
     public override Rect GetBounds()
     {
-        var x = questNodes.Min(n => n.Node.Position.x);
-        var y = questNodes.Min(n => n.Node.Position.y);
-        var with = questNodes.Max(n => n.Node.Position.x + n.Node.Width) - x;
-        var height = questNodes.Max(n => n.Node.Position.y + n.Node.Height) - y;
+        var nodes = quests.SelectMany(q => q.QuestNodes);
+
+        var x = nodes.Min(n => n.Node.Position.x);
+        var y = nodes.Min(n => n.Node.Position.y);
+        var with = nodes.Max(n => n.Node.Position.x + n.Node.Width) - x;
+        var height = nodes.Max(n => n.Node.Position.y + n.Node.Height) - y;
 
         return new Rect(x, y, with, height);
+    }
+    public QuestStep GetQuesStep(LBSQuest quest, LBSNode node)
+    {
+        return quest.QuestNodes.Find(x => x.Node == node)?.Action;
     }
 
     public QuestStep GetQuesStep(LBSNode node)
     {
-        return questNodes.Find(x => x.Node == node)?.Action;
+        var nodes = quests.SelectMany(q => q.QuestNodes).ToList();
+
+        return nodes.Find(x => x.Node == node)?.Action;
     }
 
     public void AddNode(LBSNode node, QuestStep action)
     {
-        var t = questNodes.Find(p => p.Node.Equals(node));
-
-        if (t == null)
-        {
-            var data = new QuestStep(action.GrammarElement);
-            questNodes.Add(new NodeActionPair(node, data));
-        }
-        else
-        {
-            t.Action = new QuestStep(action.GrammarElement);
-        }
+        selectedQuest.AddNode(node, action);
     }
 
     public override bool IsEmpty()
     {
-        return questNodes.Count == 0;
+        return !quests.Any(q => q.IsEmpty() == false);
     }
 
     public override void OnAttach(LBSLayer layer)
@@ -76,25 +75,12 @@ public class LBSGrammarGraph : LBSModule
 
     public void RemovePair(NodeActionPair pair)
     {
-        questNodes.Remove(pair);
+        selectedQuest.RemovePair(pair);
     }
 
-    private void RemoveNode(object obj)
+    public void RemovePair(LBSNode node)
     {
-        var toR = obj as LBSNode;
-        var xx = questNodes.Find(x => x.Node == toR);
-        questNodes.Remove(xx);
-    }
-
-    private void AddEmpty(object obj)
-    {
-        var t = obj as LBSNode;
-        var xx = questNodes.Find(x => x.Node == t);
-        if (xx != null)
-        {
-            RemovePair(xx);
-        }
-        questNodes.Add(new NodeActionPair(t, new QuestStep()));
+        selectedQuest.RemovePair(node);
     }
 
     public override void OnDetach(LBSLayer layer)
@@ -118,9 +104,9 @@ public class LBSGrammarGraph : LBSModule
             throw new Exception("[ISI Lab] Modules have to be of the same type!");
         }
         Clear();
-        foreach(var n in other.QuestNodes)
+        foreach(var n in other.quests)
         {
-            questNodes.Add(n);
+            quests.Add(n);
         }
 
     }
@@ -129,32 +115,9 @@ public class LBSGrammarGraph : LBSModule
     {
         OnAttach(layer);
     }
-}
 
-[System.Serializable]
-public class NodeActionPair : ICloneable
-{
-    [SerializeField, SerializeReference, JsonRequired]
-    LBSNode node;
-    [SerializeField, SerializeReference, JsonRequired]
-    QuestStep questStep;
-
-    public LBSNode Node => node;
-    public QuestStep Action
+    internal void AddQuest(LBSQuest quest)
     {
-        get => questStep;
-        set => questStep = value;
-    }
-
-    public NodeActionPair(LBSNode node, QuestStep action)
-    {
-        this.node = node;
-        this.questStep = action;
-    }
-
-    public object Clone()
-    {
-        return new NodeActionPair(CloneRefs.Get(node) as LBSNode, CloneRefs.Get(questStep) as QuestStep);
+        quests.Add(quest);
     }
 }
-

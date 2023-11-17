@@ -1,6 +1,7 @@
 using LBS.Behaviours;
 using LBS.Components;
 using LBS.Components.Graph;
+using LBS.Settings;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -49,7 +50,7 @@ public class LBSGraph : LBSModule
 
         OnRemoveNode?.Invoke(this, node);
         nodes.Remove(node);
-        var toR = edges.Where(e => e.First.Equals(node) || e.Second.Equals(node)).ToList();
+        var toR = edges.Where(e => e.FirstNode.Equals(node) || e.SecondNode.Equals(node)).ToList();
 
         foreach(var e in toR)
         {
@@ -58,13 +59,24 @@ public class LBSGraph : LBSModule
                
     }
 
+    public LBSNode GetNode(Vector2 position)
+    {
+        foreach(var n in nodes)
+        {
+            var r = new Rect(n.Position, Owner.TileSize * LBSSettings.Instance.general.TileSize);
+
+            if (r.Contains(position))
+                return n;
+        }
+        return null;
+    }
 
     public void AddEdge(LBSNode first, LBSNode second)
     {
         if(!nodes.Contains(first) || !nodes.Contains(second))
             return;
         
-        if (edges.Any(e => e.First.Equals(first) && e.Second.Equals(second) || e.First.Equals(second) || e.Second.Equals(first)))
+        if (edges.Any(e => e.FirstNode.Equals(first) && e.SecondNode.Equals(second) || e.FirstNode.Equals(second) || e.SecondNode.Equals(first)))
             return;
 
         edges.Add(new LBSEdge(first, second));
@@ -81,7 +93,7 @@ public class LBSGraph : LBSModule
     {
         foreach (var e in edges)
         {
-            var dist = position.DistanceToLine(e.First.Position, e.Second.Position);
+            var dist = position.DistanceToLine(e.FirstNode.Position, e.SecondNode.Position);
             //Debug.Log(e.First.Position + " - " + e.Second.Position + " - " + position);
             //Debug.Log(dist + " / " + delta);
             if (dist < delta)
@@ -123,37 +135,5 @@ public class LBSGraph : LBSModule
 
     public override void Rewrite(LBSModule other)
     {
-    }
-}
-
-[System.Serializable]
-public class LBSEdge : ICloneable
-{
-    [JsonRequired, SerializeReference]
-    LBSNode first;
-    [JsonRequired, SerializeReference]
-    LBSNode second;
-
-    public LBSNode First
-    {
-        get => first; 
-        set => first = value;
-    }
-
-    public LBSNode Second
-    {
-        get => second; 
-        set => second = value;
-    }
-
-    public LBSEdge(LBSNode first, LBSNode second) 
-    {
-        this.first = first;
-        this.second = second;
-    }
-
-    public object Clone()
-    {
-        return new LBSEdge(CloneRefs.Get(first) as LBSNode, CloneRefs.Get(second) as LBSNode);
     }
 }

@@ -41,7 +41,7 @@ public class ConstrainsZonesModule : LBSModule , ISelectable
     {
         foreach (var pair in pairs)
         {
-            if(pair.Zone == zone)
+            if(pair.Zone.Equals(zone))
             {
                 return pair.Constraint;
             }

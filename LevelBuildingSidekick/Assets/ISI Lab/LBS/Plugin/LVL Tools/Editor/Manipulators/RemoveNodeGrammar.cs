@@ -34,9 +34,9 @@ public class RemoveNodeGrammar : LBSManipulator
 
     protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
     {
-        var pair = quest.GetNodes().OrderBy(n => (n.Node.Position - endPosition).magnitude).First();
+        var node = graph.GetNode(endPosition);
 
-        quest.RemoveNode(pair);
+        quest.RemoveNode(node);
 
     }
 }

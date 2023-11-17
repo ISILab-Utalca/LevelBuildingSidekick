@@ -96,7 +96,7 @@ public class Zone : ICloneable
 
         if(!color.Equals(other.color)) return false;
 
-        if(!pivot.Equals(other.pivot)) return false;
+        //if(!pivot.Equals(other.pivot)) return false;
 
         return true;  
     }

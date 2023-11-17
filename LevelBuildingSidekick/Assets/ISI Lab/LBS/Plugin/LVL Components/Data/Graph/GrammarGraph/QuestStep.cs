@@ -9,17 +9,23 @@ using UnityEngine;
 public class QuestStep : ICloneable
 {
     [SerializeField, SerializeReference, JsonRequired]
-    private GrammarElement grammarElement;
+    private GrammarTerminal grammarElement;
 
     [JsonIgnore]
-    public GrammarElement GrammarElement => grammarElement;
+    public GrammarTerminal GrammarElement => grammarElement;
+
+
+    [SerializeField, SerializeReference, JsonRequired]
+    object target;
+
+    public object Target => target;
 
     #region CONSTRUCTOR
     public QuestStep()
     {
     }
 
-    public QuestStep(GrammarElement grammarElement)
+    public QuestStep(GrammarTerminal grammarElement)
     {
         this.grammarElement = grammarElement;
     }
@@ -28,7 +34,7 @@ public class QuestStep : ICloneable
     #region METHODS
     public object Clone()
     {
-        return new QuestStep(grammarElement.Clone() as GrammarElement);
+        return new QuestStep(grammarElement.Clone() as GrammarTerminal);
     }
     #endregion
 }

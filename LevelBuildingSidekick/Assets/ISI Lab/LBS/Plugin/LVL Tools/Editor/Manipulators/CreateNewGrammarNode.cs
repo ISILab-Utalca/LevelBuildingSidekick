@@ -10,13 +10,12 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static UnityEngine.UI.GridLayoutGroup;
 
 public class CreateNewGrammarNode : LBSManipulator // where T: LBSNode  // (!) CreateNewNode<T>
 {
     QuestBehaviour quest;
     LBSGraph graph;
-    public GrammarElement actionToSet;
+    public GrammarTerminal actionToSet;
 
     private string prefix = "";
     public CreateNewGrammarNode() : base()

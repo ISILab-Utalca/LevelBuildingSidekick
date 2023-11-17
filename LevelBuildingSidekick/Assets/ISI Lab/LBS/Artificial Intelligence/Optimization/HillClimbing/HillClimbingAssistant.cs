@@ -76,6 +76,7 @@ public class HillClimbingAssistant : LBSAssistant
         UnityEngine.Debug.Log("HillClimbing start!");
         OnStart?.Invoke();
 
+        /*
         foreach (var zone in ZonesWhitTiles)
         {
             if(ConstrainsZonesMod.GetLimits(zone) == null)
@@ -83,7 +84,7 @@ public class HillClimbingAssistant : LBSAssistant
                 var bounds = AreasMod.GetBounds(zone);
                 ConstrainsZonesMod.AddPair(zone, bounds.size - Vector2.one, bounds.size + Vector2.one);
             }
-        }
+        }*/
 
 
         //OnAdd(Owner);
@@ -292,7 +293,7 @@ public class HillClimbingAssistant : LBSAssistant
         var termination = new FitnessStagnationTermination(1); // agregar termination de maximo local
         var evaluator = new WeightedEvaluator(new System.Tuple<IEvaluator, float>[] //agregar parametros necesarios a las clases de evaluaci�n
         {
-            new System.Tuple<IEvaluator, float> (new AdjacenciesEvaluator(layer), 0.4f),
+            new System.Tuple<IEvaluator, float> (new AdjacenciesEvaluator(layer), 4f),
             new System.Tuple<IEvaluator, float> (new AreasEvaluator(layer), 0.15f),
             new System.Tuple<IEvaluator, float> (new EmptySpaceEvaluator(layer), 0.35f),
             new System.Tuple<IEvaluator, float> (new RoomCutEvaluator(layer), 1f),
@@ -347,7 +348,7 @@ public class HillClimbingAssistant : LBSAssistant
             var walls = vWalls.Concat(hWalls).ToList();
 
             //Debug.Log("w: " + walls.Count);
-
+            
             // Create a new Optimizable for each wall
             foreach (var wall in walls)
             {
@@ -365,7 +366,7 @@ public class HillClimbingAssistant : LBSAssistant
             // Create optimizable for each wall removing this wall
             foreach(var wall in walls)
             {
-                var neigth = GetNeigthByExclusion(adam,wall.Tiles);
+                var neigth = GetNeigthByExclusion(adam, wall);
                 neighbours.Add(neigth);
             }
 
@@ -423,17 +424,32 @@ public class HillClimbingAssistant : LBSAssistant
     /// <param name="original"></param>
     /// <param name="walls"></param>
     /// <returns></returns>
-    private IOptimizable GetNeigthByExclusion(IOptimizable original, List<Vector2Int> walls)
+    private IOptimizable GetNeigthByExclusion(IOptimizable original, WallData walls)
     {
         // Generate clone
         var modules = (original as OptimizableModules).Modules.Clone();
+
+        var tiles = walls.Tiles;
+        var dir = walls.Dir;
+
 
         // Get relative modules
         var zonesMod = modules.GetModule<SectorizedTileMapModule>();
         var tilesMod = modules.GetModule<TileMapModule>();
         var connectMod = modules.GetModule<ConnectedTileMapModule>();
 
-        foreach (var pos in walls)
+        var zone = zonesMod.GetZone(tiles.First());
+
+        if (zonesMod.GetBounds(zone).width <= 1 && (dir == Vector2.up || dir == Vector2.down))
+        {
+            return new OptimizableModules(modules);
+        }
+        else if(zonesMod.GetBounds(zone).height <= 1 && (dir == Vector2.right || dir == Vector2.left))
+        {
+            return new OptimizableModules(modules);
+        }
+
+        foreach (var pos in tiles)
         {
             // Remove tile
             var tile = tilesMod.GetTile(pos);
@@ -467,7 +483,7 @@ public class HillClimbingAssistant : LBSAssistant
 
 
         //make sure tiles don't overlapg
-        zonesMod.MoveArea(zone, dir);
+        //
         var tiles = zonesMod.GetTiles(zone);
 
         var zones = zonesMod.Zones;
@@ -477,16 +493,31 @@ public class HillClimbingAssistant : LBSAssistant
             if (z == zone)
                 continue;
             var zTiles = zonesMod.GetTiles(z);
-            foreach (var tile in zTiles)
+            for (int i = 0; i < tiles.Count; i++)
             {
-                if(tiles.Any(t => t.Position == tile.Position))
+                var pos = tiles[i].Position + dir;
+                var t = zTiles.Find(t => t.Position == pos);
+                if (t != null)
                 {
-                    tilesMod.RemoveTile(tile);
-                    zonesMod.RemovePair(tile);
-                    connectionMod.RemoveTile(tile);
+                    if(zTiles.Count > 1)
+                    {
+                        zTiles.Remove(t);
+                        tilesMod.RemoveTile(t);
+                        zonesMod.RemovePair(t);
+                        connectionMod.RemoveTile(t);
+                    }
+                    else
+                    {
+                        tilesMod.RemoveTile(tiles[i]);
+                        zonesMod.RemovePair(tiles[i]);
+                        connectionMod.RemoveTile(tiles[i]);
+                        tiles.RemoveAt(i);
+                    }
                 }
             }
         }
+
+        zonesMod.MoveArea(zone, dir);
 
         // return neigthbour
         return new OptimizableModules(modules);

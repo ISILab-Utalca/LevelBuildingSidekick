@@ -6,11 +6,11 @@ using UnityEngine;
 public class ActionTargetDepiction
 {
     [SerializeField, SerializeReference]
-    private GrammarElement grammarElement;
+    private GrammarTerminal grammarElement;
     [SerializeField]
     private List<string> targets = new List<string>();
 
-    public GrammarElement GrammarElement
+    public GrammarTerminal GrammarElement
     {
         get => grammarElement;
         set => grammarElement = value;
@@ -23,7 +23,7 @@ public class ActionTargetDepiction
 
     }
 
-    public ActionTargetDepiction(GrammarElement grammarElement, List<string> characterisitcs)
+    public ActionTargetDepiction(GrammarTerminal grammarElement, List<string> characterisitcs)
     {
         this.grammarElement = grammarElement;
         this.targets = characterisitcs;

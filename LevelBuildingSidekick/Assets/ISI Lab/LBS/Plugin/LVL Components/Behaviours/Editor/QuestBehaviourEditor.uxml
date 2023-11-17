@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:Label tabindex="-1" text="Quest" display-tooltip-when-elided="true" />
+    <ui:ScrollView>
+        <ui:VisualElement name="Content" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);" />
+    </ui:ScrollView>
+    <ui:VisualElement style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row-reverse;">
+        <ui:Button display-tooltip-when-elided="true" name="Remove" style="background-image: resource(&apos;Icons/Layer_Window/Trash_Layer@32&apos;); background-color: rgb(88, 88, 88); width: 20px; height: 20px;" />
+        <ui:Button display-tooltip-when-elided="true" name="Add" style="width: 20px; height: 20px; background-image: resource(&apos;Icons/Layer_Window/Add_New_Layer@32&apos;);" />
+    </ui:VisualElement>
+</ui:UXML>

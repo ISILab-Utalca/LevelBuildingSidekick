@@ -5,6 +5,7 @@ using System;
 using System.Buffers;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
@@ -12,7 +13,11 @@ using UnityEngine;
 public class QuestBehaviour : LBSBehaviour
 {
     private LBSGraph graph => Owner.GetModule<LBSGraph>();
-    private LBSGrammarGraph graphPair => Owner.GetModule<LBSGrammarGraph>();
+    private LBSGrammarGraph questGraph => Owner.GetModule<LBSGrammarGraph>();
+
+    public List<LBSQuest> Quests => questGraph.Quests;
+
+    LBSQuest selectedQuest;
 
     #region CONSTRUCTORS
     public QuestBehaviour(Texture2D icon, string name) : base(icon, name) { }
@@ -23,13 +28,19 @@ public class QuestBehaviour : LBSBehaviour
     public void AddNode(LBSNode n, QuestStep a)
     {
         graph.AddNode(n);
-        graphPair.AddNode(n, a);
+        questGraph.AddNode(n, a);
     }
 
     public void RemoveNode(NodeActionPair nodePair)
     {
         graph.RemoveNode(nodePair.Node);
-        graphPair.RemovePair(nodePair);
+        questGraph.RemovePair(nodePair);
+    }
+
+    public void RemoveNode(LBSNode node)
+    {
+        graph.RemoveNode(node);
+        questGraph.RemovePair(node);
     }
 
     public override object Clone()
@@ -43,10 +54,12 @@ public class QuestBehaviour : LBSBehaviour
 
         var graph = layer.GetModule<LBSGraph>();
 
+        var nodes = GetNodes();
+
         graph.OnRemoveNode += (g, n) =>
         {
-            var pair = graphPair.QuestNodes.FindAll(p => p.Node.Equals(n));
-            pair.ForEach(pair => graphPair.RemovePair(pair));
+            var pair = nodes.FindAll(p => p.Node.Equals(n));
+            pair.ForEach(pair => questGraph.RemovePair(pair));
         };
     }
 
@@ -55,9 +68,9 @@ public class QuestBehaviour : LBSBehaviour
 
     }
 
-    public void AddConnection(NodeActionPair first, NodeActionPair second)
+    public void AddConnection(LBSNode first, LBSNode second)
     {
-        graph.AddEdge(first.Node, second.Node);
+        graph.AddEdge(first, second);
     }
 
     public void RemoveEdge(Vector2 pos, float dist)
@@ -68,12 +81,16 @@ public class QuestBehaviour : LBSBehaviour
 
     public List<NodeActionPair> GetNodes()
     {
-        return graphPair.QuestNodes;
+        return questGraph.Quests.SelectMany(q => q.QuestNodes).ToList();
     }
 
     public List<LBSEdge> GetEdges()
     {
         return graph.Edges;
-    }   
+    }
 
+    public void AddQuest(LBSQuest quest)
+    {
+        questGraph.AddQuest(quest);
+    }
 }

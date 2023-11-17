@@ -62,9 +62,10 @@ public class AdjacenciesEvaluator : IEvaluator
 
         if(edgeCount <= 0)
         {
-            Debug.Log("E: " + edgeCount);
             return 0;
         }
+
+        var tiles = layer.GetModule<TileMapModule>().Tiles;
 
         return distValue / edgeCount;
     }

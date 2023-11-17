@@ -12,8 +12,6 @@ public class AreasEvaluator : IEvaluator
 {
     private LBSLayer original;
 
-    Vector2 delta;
-
     public AreasEvaluator(LBSLayer layer) 
     {
         this.original = layer;
@@ -55,7 +53,7 @@ public class AreasEvaluator : IEvaluator
     {
         var modules = (evaluable as OptimizableModules).Modules;
 
-        var zones = modules.GetModule<SectorizedTileMapModule>();
+        var zones = original.GetModule<SectorizedTileMapModule>();
         var connected = modules.GetModule<ConnectedZonesModule>();
 
         var value = 0f;
@@ -63,13 +61,15 @@ public class AreasEvaluator : IEvaluator
 
         for (int i = 0; i < zones.ZonesWithTiles.Count; i++)
         {
-            var zone = zones.ZonesWithTiles[i];
+            Zone zone = zones.ZonesWithTiles[i];
 
             value += EvaluateBySize(modules, zone);
         }
 
         if (zones.ZonesWithTiles.Count <= 0)
+        {
             return 0;
+        }
 
         return value / (zones.ZonesWithTiles.Count * 1f);
     }

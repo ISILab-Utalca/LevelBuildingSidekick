@@ -1,4 +1,5 @@
 using LBS.Components.Graph;
+using LBS.Settings;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
@@ -9,7 +10,6 @@ using UnityEngine;
 [Drawer(typeof(QuestBehaviour))]
 public class QuestDrawer : Drawer
 {
-    private Vector2 size = new Vector2(150, 100);
 
     private Dictionary<LBSNode, QuestNodeView> viewRefs = new();
 
@@ -23,7 +23,9 @@ public class QuestDrawer : Drawer
         if (quest == null)
         {
             return;
-        }
+        } 
+
+        Vector2 size = quest.Owner.TileSize * LBSSettings.Instance.general.TileSize;
 
         List<QuestNodeView> nViews = new();
         foreach (var t in quest.GetNodes())
@@ -31,11 +33,11 @@ public class QuestDrawer : Drawer
             var v = new QuestNodeView(t);
             var p = new Vector2(t.Node.Position.x, t.Node.Position.y);
 
-            var pos = new Vector2(
+            /*var pos = new Vector2(
                 p.x - (size.x / 2f),
-                (p.y - (size.y / 2f)));
+                (p.y - (size.y / 2f)));*/
 
-            v.SetPosition(new Rect(pos, size));
+            v.SetPosition(new Rect(p, size));
 
             nViews.Add(v);
 
@@ -46,8 +48,8 @@ public class QuestDrawer : Drawer
         List<EdgeQuestView> eViews = new();
         foreach (var e in quest.GetEdges())
         {
-            var n1 = viewRefs[e.First];
-            var n2 = viewRefs[e.Second];
+            var n1 = viewRefs[e.FirstNode];       
+            var n2 = viewRefs[e.SecondNode];
 
             var edge = new EdgeQuestView(e, n1, n2, 4, 4);
 

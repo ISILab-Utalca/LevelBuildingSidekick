@@ -74,7 +74,7 @@ public class SectorizedTileMapModule : LBSModule, ISelectable
             t.Position += new Vector2Int(dir.x, dir.y);
             poss.Add(t.Position + dir);
         }
-
+        /*
         var tor = new List<LBSTile>();
         foreach (var otherZone in zones)
         {
@@ -95,7 +95,7 @@ public class SectorizedTileMapModule : LBSModule, ISelectable
         foreach (var t in tor)
         {
             RemovePair(t);
-        }
+        }*/
 
         RecalcPivotZone(zone);
     }
@@ -458,8 +458,9 @@ public class SectorizedTileMapModule : LBSModule, ISelectable
         {
             for (int j = 0; j < tiles2.Count; j++)
             {
-                var v = tiles1[i].Position - tiles2[j].Position;
-                var dist = Mathf.Abs(v.x) + Mathf.Abs(v.y);
+                //var v = tiles1[i].Position - tiles2[j].Position;
+                //var dist = Mathf.Abs(v.x) + Mathf.Abs(v.y);
+                var dist = Vector2.SqrMagnitude(tiles1[i].Position - tiles2[j].Position);
                 if (dist <= lessDist)
                 {
                     lessDist = dist;

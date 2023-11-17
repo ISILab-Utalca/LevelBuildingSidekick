@@ -1,5 +1,6 @@
 using LBS;
 using LBS.Components;
+using LBS.Components.Graph;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,11 @@ public class ConnectQuestNodes : LBSManipulator
     QuestBehaviour quest;
     LBSGraph graph;
 
-    public NodeActionPair first;
+    public LBSNode first;
 
     public ConnectQuestNodes() : base()
     {
-
+        feedback = new ConnectedLine();
     }
 
     public override void Init(LBSLayer layer, object provider)
@@ -26,7 +27,7 @@ public class ConnectQuestNodes : LBSManipulator
 
     protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
     {
-        first = quest.GetNodes().OrderBy(n => (n.Node.Position - startPosition).magnitude).First();
+        first = graph.GetNode(startPosition);
     }
 
     protected override void OnMouseMove(VisualElement target, Vector2Int movePosition, MouseMoveEvent e)
@@ -36,9 +37,9 @@ public class ConnectQuestNodes : LBSManipulator
 
     protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
     {
-        var pair = quest.GetNodes().OrderBy(n => (n.Node.Position - endPosition).magnitude).First();
-
-        quest.AddConnection(first, pair);
+        var second = graph.GetNode(endPosition);
+        Debug.Log(first + " - " + second);
+        quest.AddConnection(first, second);
 
     }
 
