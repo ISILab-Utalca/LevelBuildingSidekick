@@ -61,14 +61,18 @@ public class LBSAssetsStorage : ScriptableObject
 
     private void OnDisable()
     {
+#if UNITY_EDITOR
         EditorUtility.SetDirty(this);
         AssetDatabase.SaveAssets();
+#endif
     }
 
     private void OnDestroy()
     {
+#if UNITY_EDITOR
         EditorUtility.SetDirty(this);
         AssetDatabase.SaveAssets();
+#endif
     }
 
     public List<T> Get<T>() where T : Object

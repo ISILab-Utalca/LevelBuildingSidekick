@@ -53,7 +53,7 @@ namespace LBS.Generator
 #if UNITY_EDITOR
                 var go = PrefabUtility.InstantiatePrefab(pref.obj, parent.transform) as GameObject;
 #else
-                var go = GameObject.Instantiate(pref, parent.transform);
+                var go = GameObject.Instantiate(pref.obj, parent.transform);
 #endif
 
                 go.transform.position = new Vector3(
