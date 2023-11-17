@@ -6,15 +6,15 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 [System.Serializable]
-public class AssistentGrammar : LBSAssistant
+public class GrammarAssistant : LBSAssistant
 {
-    public AssistentGrammar(Texture2D icon, string name) : base(icon, name)
+    public GrammarAssistant(Texture2D icon, string name) : base(icon, name)
     {
     }
 
     public override object Clone()
     {
-        return new AssistentGrammar(this.Icon, this.Name);
+        return new GrammarAssistant(this.Icon, this.Name);
     }
 
     public override void Execute()
