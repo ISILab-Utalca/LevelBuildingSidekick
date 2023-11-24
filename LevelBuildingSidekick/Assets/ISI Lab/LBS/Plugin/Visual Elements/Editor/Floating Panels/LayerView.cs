@@ -36,13 +36,13 @@ public class LayerView : VisualElement
         this._base = this.Q<VisualElement>("Base");
 
         // LayerName
-        this.layerName = this.Q<TextField>("LayerName");
+        this.layerName = this.Q<TextField>("Name");
         this.layerName.RegisterCallback<ChangeEvent<string>>(e => {
             this.target.Name = e.newValue;
         });
 
         // LayerIcon
-        this.layerIcon = this.Q<VisualElement>("LayerIcon");
+        this.layerIcon = this.Q<VisualElement>("Icon");
 
         // IconsModules
         this.iconsModules = this.Q<VisualElement>("IconsModules");

@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 
 public class RemoveQuestConnection : LBSManipulator
 {
-    QuestBehaviour quest;
+    //QuestBehaviour quest;
     LBSGraph graph;
 
     public RemoveQuestConnection() : base()
@@ -18,7 +18,7 @@ public class RemoveQuestConnection : LBSManipulator
 
     public override void Init(LBSLayer layer, object provider)
     {
-        quest = provider as QuestBehaviour;
+        //quest = provider as QuestBehaviour;
         graph = layer.GetModule<LBSGraph>();
     }
 
@@ -34,6 +34,6 @@ public class RemoveQuestConnection : LBSManipulator
 
     protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
     {
-        quest.RemoveEdge(endPosition, 20);
+        //quest.RemoveEdge(endPosition, 20);
     }
 }

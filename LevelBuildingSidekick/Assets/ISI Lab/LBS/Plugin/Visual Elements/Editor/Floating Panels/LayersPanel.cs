@@ -46,7 +46,7 @@ public class LayersPanel : VisualElement
         this.templates = templates;
 
         // LayerList
-        list = this.Q<ListView>("LayerList");
+        list = this.Q<ListView>("List");
 
         Func<VisualElement> makeItem = () =>
         {

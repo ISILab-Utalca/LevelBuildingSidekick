@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class LBSQuest : ICloneable
+public class LBSQuestGraph : ICloneable
 {
     [SerializeField, JsonRequired]
     string name;
@@ -23,6 +23,7 @@ public class LBSQuest : ICloneable
 
     public List<NodeActionPair> QuestNodes => questNodes;
 
+    public bool IsVisible { get; set; }
 
     public QuestStep GetQuesStep(LBSNode node)
     {

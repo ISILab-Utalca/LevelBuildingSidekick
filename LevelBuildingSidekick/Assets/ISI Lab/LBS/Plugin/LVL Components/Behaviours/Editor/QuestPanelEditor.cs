@@ -17,14 +17,14 @@ public class QuestPanelEditor : LBSCustomEditor
 
     public override void SetInfo(object target)
     {
-        LBSQuest quest = target as LBSQuest;
+        LBSQuestGraph quest = target as LBSQuestGraph;
 
         questTitle.SetValueWithoutNotify(quest.Name);
     }
 
     protected override VisualElement CreateVisualElement()
     {
-        LBSQuest quest = target as LBSQuest;
+        LBSQuestGraph quest = target as LBSQuestGraph;
 
         questTitle = new TextField("Quest: ");
 

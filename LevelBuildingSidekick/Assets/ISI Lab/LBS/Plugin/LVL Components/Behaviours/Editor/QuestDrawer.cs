@@ -7,7 +7,7 @@ using System.Security.Policy;
 using UnityEngine;
 
 
-[Drawer(typeof(QuestBehaviour))]
+//[Drawer(typeof(QuestBehaviour))]
 public class QuestDrawer : Drawer
 {
 
@@ -15,6 +15,7 @@ public class QuestDrawer : Drawer
 
     public override void Draw(object target, MainView view, Vector2 teselationSize)
     {
+        /*
         // clear preview view refrences
         viewRefs.Clear();
 
@@ -35,7 +36,7 @@ public class QuestDrawer : Drawer
 
             /*var pos = new Vector2(
                 p.x - (size.x / 2f),
-                (p.y - (size.y / 2f)));*/
+                (p.y - (size.y / 2f)));
 
             v.SetPosition(new Rect(p, size));
 
@@ -58,6 +59,6 @@ public class QuestDrawer : Drawer
 
         eViews.ForEach(e => view.AddElement(e));
 
-        nViews.ForEach(n => view.AddElement(n));
+        nViews.ForEach(n => view.AddElement(n));*/
     }
 }

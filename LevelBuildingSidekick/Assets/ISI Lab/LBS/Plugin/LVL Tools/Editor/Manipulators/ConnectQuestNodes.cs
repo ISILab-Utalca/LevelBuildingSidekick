@@ -9,7 +9,7 @@ using UnityEngine.UIElements;
 
 public class ConnectQuestNodes : LBSManipulator
 {
-    QuestBehaviour quest;
+    //QuestBehaviour quest;
     LBSGraph graph;
 
     public LBSNode first;
@@ -21,7 +21,7 @@ public class ConnectQuestNodes : LBSManipulator
 
     public override void Init(LBSLayer layer, object provider)
     {
-        quest = provider as QuestBehaviour;
+        //quest = provider as QuestBehaviour;
         graph = layer.GetModule<LBSGraph>();
     }
 
@@ -39,7 +39,7 @@ public class ConnectQuestNodes : LBSManipulator
     {
         var second = graph.GetNode(endPosition);
         Debug.Log(first + " - " + second);
-        quest.AddConnection(first, second);
+        //quest.AddConnection(first, second);
 
     }
 

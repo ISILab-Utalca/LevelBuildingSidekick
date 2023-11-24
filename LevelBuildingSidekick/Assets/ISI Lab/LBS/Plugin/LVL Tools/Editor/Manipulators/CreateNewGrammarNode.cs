@@ -13,7 +13,7 @@ using UnityEngine.UIElements;
 
 public class CreateNewGrammarNode : LBSManipulator // where T: LBSNode  // (!) CreateNewNode<T>
 {
-    QuestBehaviour quest;
+    //QuestBehaviour quest;
     LBSGraph graph;
     public GrammarTerminal actionToSet;
 
@@ -24,7 +24,7 @@ public class CreateNewGrammarNode : LBSManipulator // where T: LBSNode  // (!) C
 
     public override void Init(LBSLayer layer, object owner)
     {
-        quest = owner as QuestBehaviour;
+        //quest = owner as QuestBehaviour;
         graph = layer.GetModule<LBSGraph>();
     }
 
@@ -59,7 +59,7 @@ public class CreateNewGrammarNode : LBSManipulator // where T: LBSNode  // (!) C
 
         var a = new QuestStep(actionToSet); //var n = Activator.CreateInstance<T>();
         var n = new LBSNode(name, EndPosition);
-        quest.AddNode(n, a);
+        //quest.AddNode(n, a);
         
     }
 }

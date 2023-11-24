@@ -14,16 +14,22 @@ public class LBSLevelData
     private List<LBSLayer> layers = new List<LBSLayer>();
 
     [SerializeField, JsonRequired, SerializeReference]
-    private List<LBSQuest> quests = new List<LBSQuest>();
+    private List<LBSQuestGraph> quests = new List<LBSQuestGraph>();
     #endregion
 
     #region PROPERTIES
     [JsonIgnore]
     public List<LBSLayer> Layers => layers;
 
+
+    [JsonIgnore]
+    public List<LBSQuestGraph> Quests => quests;
+
     [JsonIgnore]
     public int LayerCount => layers.Count;
     #endregion
+
+    
 
     #region EVENTS
     public event Action<LBSLevelData> OnChanged;

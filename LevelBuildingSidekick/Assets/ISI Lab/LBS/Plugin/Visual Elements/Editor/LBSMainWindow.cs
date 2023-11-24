@@ -51,7 +51,8 @@ public class LBSMainWindow : EditorWindow
         window.titleContent = new GUIContent("Level builder", icon);
         window.minSize = new Vector2(800, 400);
 
-        LBS.LBS.loadedLevel = new LoadedLevel(new LBSLevelData(), "New level");
+        
+        //window.RefreshWindow();
     }
 
     private static LBSMainWindow _ShowWindow()
@@ -60,7 +61,7 @@ public class LBSMainWindow : EditorWindow
         Texture icon = Resources.Load<Texture>("Icons/LBS_Logo1");
         window.titleContent = new GUIContent("Level builder", icon);
 
-        LBS.LBS.loadedLevel = new LoadedLevel(new LBSLevelData(), "New level");
+        LBS.LBS.loadedLevel = LBSController.CreateNewLevel("new file", new Vector3(100, 100, 100));
         return window;
     }
 
@@ -71,9 +72,10 @@ public class LBSMainWindow : EditorWindow
 
     private void Init()
     {
+        
         if (LBS.LBS.loadedLevel == null)
         {
-            LBS.LBS.loadedLevel = new LoadedLevel(new LBSLevelData(), "New level");
+            LBS.LBS.loadedLevel = LBSController.CreateNewLevel("new file", new Vector3(100, 100, 100));
         }
 
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSMainWindow");

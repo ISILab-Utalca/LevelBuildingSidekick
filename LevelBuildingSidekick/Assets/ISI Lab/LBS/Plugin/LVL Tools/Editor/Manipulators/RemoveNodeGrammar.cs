@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 
 public class RemoveNodeGrammar : LBSManipulator
 {
-    QuestBehaviour quest;
+    //QuestBehaviour quest;
     LBSGraph graph;
 
     public RemoveNodeGrammar() : base()
@@ -18,7 +18,7 @@ public class RemoveNodeGrammar : LBSManipulator
 
     public override void Init(LBSLayer layer, object provider)
     {
-        quest = provider as QuestBehaviour;
+        //quest = provider as QuestBehaviour;
         graph = layer.GetModule<LBSGraph>();
     }
 
@@ -36,7 +36,7 @@ public class RemoveNodeGrammar : LBSManipulator
     {
         var node = graph.GetNode(endPosition);
 
-        quest.RemoveNode(node);
+        //quest.RemoveNode(node);
 
     }
 }
