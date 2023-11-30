@@ -98,8 +98,8 @@ public class QuestsPanel : VisualElement
         if (objs.Count() <= 0)
             return;
 
-        var selected = objs.ToList()[0] as LBSLayer;
-        OnDoubleSelectLayer?.Invoke(selected);
+        var selected = objs.ToList()[0] as LBSQuestGraph;
+        OnDoubleSelectQuest?.Invoke(selected);
     }
 
 
