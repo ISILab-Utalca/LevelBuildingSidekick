@@ -4,8 +4,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class QuestsPanel : VisualElement
 {
@@ -28,7 +30,7 @@ public class QuestsPanel : VisualElement
 
     public QuestsPanel(LBSLevelData data)
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LayersPanel"); // Editor
+        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("QuestsPanel"); // Editor
         visualTree.CloneTree(this);
 
         this.data = data;
@@ -55,7 +57,7 @@ public class QuestsPanel : VisualElement
         };
 
         list.fixedItemHeight = 20;
-        list.itemsSource = data.Layers;
+        list.itemsSource = data.Quests;
         list.makeItem += makeItem;
         list.itemsChosen += OnItemChosen;
         list.selectionChanged += OnSelectionChange;
@@ -74,12 +76,45 @@ public class QuestsPanel : VisualElement
 
     private void RemoveSelectedQuest()
     {
-        throw new NotImplementedException();
+        if (data.Quests.Count <= 0)
+            return;
+
+        var index = list.selectedIndex;
+        if (index < 0)
+            return;
+
+        var answer = EditorUtility.DisplayDialog("Caution",
+        "You are about to delete a layer. If you proceed with this action, all of its" +
+        " content will be permanently removed, and you won't be able to recover it. Are" +
+        " you sure you want to continue?", "Continue", "Cancel");
+
+        if (!answer)
+            return;
+
+        var quest = data.RemoveQuestAt(index);
+        OnRemoveQuest?.Invoke(quest);
+
+        list.Rebuild();
+
+        //DrawManager.ReDraw();
     }
 
     private void AddQuest()
     {
-        throw new NotImplementedException();
+        var quest = new LBSQuestGraph();
+        quest.Name = nameField.text;
+
+        int i = 1;
+        while (data.Quests.Any(l => l.Name.Equals(quest.Name)))
+        {
+            quest.Name = nameField.text + " " + i;
+            i++;
+        }
+
+        data.AddQuest(quest);
+        list.selectedIndex = 0;
+        OnAddQuest?.Invoke(quest);
+        list.Rebuild();
     }
 
     // Simple Click over element

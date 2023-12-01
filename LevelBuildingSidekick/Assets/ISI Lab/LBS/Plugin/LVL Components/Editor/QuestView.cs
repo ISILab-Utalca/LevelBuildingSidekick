@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static UnityEditor.Experimental.GraphView.GraphView;
 using static UnityEngine.GraphicsBuffer;
 
 public class QuestView : VisualElement
@@ -31,17 +32,20 @@ public class QuestView : VisualElement
 
         // Show/Hide button
         this.showButton = this.Q<Button>("ShowButton");
-        this.showButton.clicked += () => { ShowLayer(true); };
+        this.showButton.clicked += () => { ShowQuest(true); };
         this.hideButton = this.Q<Button>("HideButton");
-        this.hideButton.clicked += () => ShowLayer(false);
+        this.hideButton.clicked += () => ShowQuest(false);
     }
 
     public void SetInfo(LBSQuestGraph questGraph)
     {
         quest = questGraph;
+        questName.value = quest.Name;
+
+        ShowQuest(quest.IsVisible);
     }
 
-    private void ShowLayer(bool value)
+    private void ShowQuest(bool value)
     {
         showButton.style.display = (!value) ? DisplayStyle.Flex : DisplayStyle.None;
         hideButton.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;

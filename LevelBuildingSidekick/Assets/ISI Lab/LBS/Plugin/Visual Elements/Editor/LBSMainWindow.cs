@@ -33,10 +33,12 @@ public class LBSMainWindow : EditorWindow
     // Panels
     private LayersPanel layerPanel;
     private Generator3DPanel gen3DPanel;
+    private QuestsPanel questsPanel;
     private LayerInspector layerInspector;
 
     // Manager
     private ToolKit toolkit;
+    private ToolKit questToolkit;
     private DrawManager drawManager;
     private LBSInspectorPanel inspectorManager;
 
@@ -114,11 +116,14 @@ public class LBSMainWindow : EditorWindow
         inspectorManager = rootVisualElement.Q<LBSInspectorPanel>("InpectorPanel");
 
         // ToolKitManager
-        toolkit = rootVisualElement.Q<ToolKit>();
+        toolkit = rootVisualElement.Q<ToolKit>(name: "Toolkit");
         toolkit.OnEndAction += () =>
         {
             drawManager.Redraw(levelData, mainView);
         };
+
+        //QuestToolkit
+        questToolkit = rootVisualElement.Q<ToolKit>(name: "QuestToolkit");
 
         // ToolBar
         var toolbar = rootVisualElement.Q<ToolBarMain>("ToolBar");
@@ -161,8 +166,8 @@ public class LBSMainWindow : EditorWindow
         {
             drawManager.Redraw(levelData, mainView);
         };
-        layerPanel.OnSelectLayer += ShowinfoLayer;
-        layerPanel.OnAddLayer += ShowinfoLayer;
+        layerPanel.OnSelectLayer += ShowInfoLayer;
+        layerPanel.OnAddLayer += ShowInfoLayer;
 
         // Gen3DPanel
         gen3DPanel = new Generator3DPanel();
@@ -172,6 +177,11 @@ public class LBSMainWindow : EditorWindow
         {
             gen3DPanel.Init(_selectedLayer);
         };
+
+        //QuestsPanel
+        questsPanel = new QuestsPanel(levelData);
+        extraPanel.Add(questsPanel);    
+        questsPanel.style.display = DisplayStyle.None;
 
         // LayerButton
         var layerBtn = rootVisualElement.Q<Button>("LayerButton");
@@ -194,12 +204,21 @@ public class LBSMainWindow : EditorWindow
             TryCollapseMenuPanels();
         };
 
+        var QuestBtn = rootVisualElement.Q<Button>("Quests");
+        QuestBtn.clicked += () =>
+        {
+            var value = (questsPanel.style.display == DisplayStyle.None);
+            questsPanel.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
+
+            TryCollapseMenuPanels();
+        };
+
         LBSController.OnLoadLevel += (l) => _selectedLayer = null;
 
         drawManager.Redraw(levelData, mainView);
     }
 
-    private void ShowinfoLayer(LBSLayer layer)
+    private void ShowInfoLayer(LBSLayer layer)
     {
         if (!layer.Equals(_selectedLayer))
         {

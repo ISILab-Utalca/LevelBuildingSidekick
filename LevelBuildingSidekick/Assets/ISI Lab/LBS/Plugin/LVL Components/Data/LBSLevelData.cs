@@ -161,6 +161,18 @@ public class LBSLevelData
     {
         return base.ToString();
     }
+
+    public void AddQuest(LBSQuestGraph quest)
+    {
+        quests.Add(quest);
+    }
+
+    public LBSQuestGraph RemoveQuestAt(int index)
+    {
+        var q = quests[index];
+        quests.RemoveAt(index);
+        return q;
+    }
     #endregion
 }
 

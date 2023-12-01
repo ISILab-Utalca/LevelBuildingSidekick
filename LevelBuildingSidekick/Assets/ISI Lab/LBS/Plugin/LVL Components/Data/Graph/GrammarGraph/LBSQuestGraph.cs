@@ -25,6 +25,11 @@ public class LBSQuestGraph : ICloneable
 
     public bool IsVisible { get; set; }
 
+    public LBSQuestGraph()
+    {
+        IsVisible = true;
+    }
+
     public QuestStep GetQuesStep(LBSNode node)
     {
         return questNodes.Find(x => x.Node == node)?.Action;
