@@ -12,7 +12,7 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 public class QuestsPanel : VisualElement
 {
 
-    public LBSLevelData data;
+    public LBSQuestManager data;
 
     private ListView list;
     private TextField nameField;
@@ -28,7 +28,7 @@ public class QuestsPanel : VisualElement
 
     public QuestsPanel() { }
 
-    public QuestsPanel(LBSLevelData data)
+    public QuestsPanel(LBSQuestManager data)
     {
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("QuestsPanel"); // Editor
         visualTree.CloneTree(this);

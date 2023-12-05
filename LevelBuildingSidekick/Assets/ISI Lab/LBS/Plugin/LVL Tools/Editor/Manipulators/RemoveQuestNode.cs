@@ -6,12 +6,12 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class RemoveNodeGrammar : LBSManipulator
+public class RemoveQuestNode : LBSManipulator
 {
     //QuestBehaviour quest;
     LBSGraph graph;
 
-    public RemoveNodeGrammar() : base()
+    public RemoveQuestNode() : base()
     {
 
     }

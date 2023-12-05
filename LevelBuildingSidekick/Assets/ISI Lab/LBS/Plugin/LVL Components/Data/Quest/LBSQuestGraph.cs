@@ -8,6 +8,10 @@ using UnityEngine;
 [System.Serializable]
 public class LBSQuestGraph : ICloneable
 {
+
+    [SerializeField, JsonRequired]
+    string grammarName;
+
     [SerializeField, JsonRequired]
     string name;
 
@@ -21,9 +25,39 @@ public class LBSQuestGraph : ICloneable
     [SerializeField]
     List<NodeActionPair> questNodes = new List<NodeActionPair>();
 
+
+
+    [JsonIgnore]
+    private LBSGrammar grammar;
+
+    [JsonIgnore]
+    public LBSGrammar Grammar
+    {
+        get
+        {
+            if(grammar != null && grammarName != null && grammar.name == grammarName)
+                return grammar;
+            else if(grammarName != null)
+            {
+                grammar = LBSAssetsStorage.Instance.Get<LBSGrammar>().Find(g => g.name == grammarName);
+                return grammar;
+            }
+            return null;
+        }
+        set
+        {
+            grammar = value;
+            grammarName = value.name;
+        }
+    }
+
+    [JsonIgnore]
     public List<NodeActionPair> QuestNodes => questNodes;
 
+
+    [JsonIgnore]
     public bool IsVisible { get; set; }
+
 
     public LBSQuestGraph()
     {

@@ -11,21 +11,26 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class CreateNewGrammarNode : LBSManipulator // where T: LBSNode  // (!) CreateNewNode<T>
+public class CreateQuestNode : LBSManipulator // where T: LBSNode  // (!) CreateNewNode<T>
 {
     //QuestBehaviour quest;
-    LBSGraph graph;
+    LBSQuestGraph quest;
     public GrammarTerminal actionToSet;
 
+    public LBSQuestGraph Quest
+    {
+        get => quest; 
+        set => quest = value;
+    }
+
+
     private string prefix = "";
-    public CreateNewGrammarNode() : base()
+    public CreateQuestNode() : base()
     {
     }
 
     public override void Init(LBSLayer layer, object owner)
     {
-        //quest = owner as QuestBehaviour;
-        graph = layer.GetModule<LBSGraph>();
     }
 
     protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
@@ -53,7 +58,7 @@ public class CreateNewGrammarNode : LBSManipulator // where T: LBSNode  // (!) C
         {
             name = prefix + actionToSet.ID + " (" + v + ")";
 
-            loop = graph.Nodes.Any(n => n.ID.Equals(name));
+            loop = quest.Nodes.Any(n => n.ID.Equals(name));
             v++;
         } while (loop);
 

@@ -13,17 +13,16 @@ public class LBSLevelData
     [SerializeField, JsonRequired, SerializeReference]
     private List<LBSLayer> layers = new List<LBSLayer>();
 
-    [SerializeField, JsonRequired, SerializeReference]
-    private List<LBSQuestGraph> quests = new List<LBSQuestGraph>();
+    [SerializeField, JsonRequired]
+    private LBSQuestManager questManager = new LBSQuestManager();
     #endregion
 
     #region PROPERTIES
     [JsonIgnore]
     public List<LBSLayer> Layers => layers;
 
-
     [JsonIgnore]
-    public List<LBSQuestGraph> Quests => quests;
+    public LBSQuestManager QuestManager => questManager;
 
     [JsonIgnore]
     public int LayerCount => layers.Count;
@@ -139,7 +138,7 @@ public class LBSLevelData
 
             if (!l1.Equals(l2)) return false;
         }
-
+        /*
         // check if contain EQUALS quests
         for (int i = 0; i < other.quests.Count; i++)
         {
@@ -147,7 +146,7 @@ public class LBSLevelData
             var q2 = other.quests[i];
 
             if (!q1.Equals(q2)) return false;
-        }
+        }*/
 
         return true;
     }
@@ -160,18 +159,6 @@ public class LBSLevelData
     public override string ToString()
     {
         return base.ToString();
-    }
-
-    public void AddQuest(LBSQuestGraph quest)
-    {
-        quests.Add(quest);
-    }
-
-    public LBSQuestGraph RemoveQuestAt(int index)
-    {
-        var q = quests[index];
-        quests.RemoveAt(index);
-        return q;
     }
     #endregion
 }

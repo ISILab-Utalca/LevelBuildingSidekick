@@ -179,7 +179,7 @@ public class LBSMainWindow : EditorWindow
         };
 
         //QuestsPanel
-        questsPanel = new QuestsPanel(levelData);
+        questsPanel = new QuestsPanel(levelData.QuestManager);
         extraPanel.Add(questsPanel);    
         questsPanel.style.display = DisplayStyle.None;
 
