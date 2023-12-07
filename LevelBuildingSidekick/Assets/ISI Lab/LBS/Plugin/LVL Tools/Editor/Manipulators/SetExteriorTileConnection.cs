@@ -57,14 +57,10 @@ public class SetExteriorTileConnection : LBSManipulator
         if (!e.ctrlKey)
         {
             this.SetFeedback(lineFeedback);
-            //feedback = lineFeedback;
-            //feedback.ActualizePositions(first, exterior.Owner.ToFixedPosition(movePosition));
         }
         else
         {
             this.SetFeedback(areaFeedback);
-            //feedback = areaFeedback;
-            //feedback.ActualizePositions(first, exterior.Owner.ToFixedPosition(movePosition));
         }
     }
 
@@ -87,53 +83,6 @@ public class SetExteriorTileConnection : LBSManipulator
         {
             AreaEffect(end, e);
         }
-
-        /*
-        // Get tile in first position
-        var t1 = exterior.GetTile(first);
-
-        // Cheack if valid
-        if (t1 == null)
-            return;
-
-        // Get second fixed position
-        var pos = exterior.Owner.ToFixedPosition(position);
-
-        // Get vector direction
-        var dx = (t1.Position.x - pos.x);
-        var dy = (t1.Position.y - pos.y);
-
-        // Get index of direction
-        var fDir = Directions.FindIndex(d => d.Equals(-new Vector2Int(dx, dy)));
-
-        if (fDir < 0 || fDir >= exterior.Directions.Count)
-            return;
-
-        var t2 = exterior.GetTile(pos);
-        if (t2 == null)
-        {
-            exterior.SetConnection(t1, fDir, toSet.Label, false);
-            return;
-        }
-
-        if (t1.Equals(t2))
-            return;
-
-        if (Mathf.Abs(dx) + Mathf.Abs(dy) > 1f)
-            return;
-
-        var tDir = exterior.Directions.FindIndex(d => d.Equals(new Vector2Int(dx, dy)));
-
-        // Cheack if label is null
-        if(toSet == null || toSet.Label == "")
-        {
-            Debug.LogWarning("NO tienes ninguna conexion seleccionada");
-            return;
-        }
-
-        exterior.SetConnection(t1, fDir, toSet.Label, false);
-        exterior.SetConnection(t2, tDir, toSet.Label, false);
-        */
     }
 
     public void LineEffect(Vector2Int end, MouseUpEvent e)

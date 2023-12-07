@@ -109,14 +109,11 @@ namespace LBS
 
         public void SetFeedback(Feedback feedback)
         {
-            if (feedback == this.feedback)
+            if (!started)
                 return;
 
-            if(this.feedback == null)
-            {
-                Debug.Log("NULL");
+            if (feedback == this.feedback)
                 return;
-            }
 
             MainView.RemoveElement(this.feedback);
             this.feedback = feedback;
@@ -157,7 +154,7 @@ namespace LBS
             if (feedback == null)
                 return;
 
-            MainView.RemoveElement(feedback);
+            MainView.RemoveElement(this.feedback);
         }
 
         /// <summary>
@@ -175,8 +172,6 @@ namespace LBS
 
             OnManipulationStart?.Invoke();
             OnMouseDown(e.target as VisualElement, startClickPosition, e);
-
-            
         }
 
         /// <summary>
