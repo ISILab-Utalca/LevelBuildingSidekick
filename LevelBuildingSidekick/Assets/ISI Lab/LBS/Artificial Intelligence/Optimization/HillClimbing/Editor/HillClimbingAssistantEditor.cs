@@ -137,7 +137,6 @@ public class HillClimbingAssistantEditor : LBSCustomEditor, IToolProvider
 
     private void Execute()
     {
-        //tempLayer = hillClimbing.Owner.Clone() as LBSLayer; // (!!)
         hillClimbing.Execute();
     }
 

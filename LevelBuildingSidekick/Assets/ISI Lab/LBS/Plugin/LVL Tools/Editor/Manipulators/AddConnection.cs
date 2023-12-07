@@ -12,7 +12,7 @@ public class AddConnection : LBSManipulator
     public LBSIdentifier tagToSet;
     public ConnectedTileMapModule module;
 
-    private List<Vector2Int> dirs = new List<Vector2Int>() // (!) esto deberia estar en un lugar general
+    private List<Vector2Int> dirs = new List<Vector2Int>() // (!!!) esto deberia estar en un lugar general
     {
         Vector2Int.right,
         Vector2Int.down,

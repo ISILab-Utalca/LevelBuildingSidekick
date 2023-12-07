@@ -39,7 +39,7 @@ public class ZoneEditor : LBSCustomEditor
         nameField.value = this._target.ID;
         colorField.value = this._target.Color;
 
-        // PARCHE (!)
+        // (!) PARCHE 
         if (this._target.InsideStyles.Count > 0)
         {
             foreach (var bundle in bundles)
@@ -52,7 +52,7 @@ public class ZoneEditor : LBSCustomEditor
             }
         }
 
-        // PARCHE (!)
+        // (!) PARCHE 
         if (this._target.OutsideStyles.Count > 0)
         {
             foreach (var bundle in bundles)

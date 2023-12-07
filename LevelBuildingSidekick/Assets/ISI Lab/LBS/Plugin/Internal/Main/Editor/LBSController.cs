@@ -11,8 +11,8 @@ using System.Linq;
 
 namespace LBS
 {
-    // change name "LBSController" to "LBS" or "LBSCore" or "LBSMain" or "LBSManager" (!) 
-    // esta clase podria ser estatica completamente (??)
+    // (!) change name "LBSController" to "LBS" or "LBSCore" or "LBSMain" or "LBSManager" 
+    // (??) esta clase podria ser estatica completamente 
     public static class LBSController 
     {
         private static readonly string defaultName = "New file";

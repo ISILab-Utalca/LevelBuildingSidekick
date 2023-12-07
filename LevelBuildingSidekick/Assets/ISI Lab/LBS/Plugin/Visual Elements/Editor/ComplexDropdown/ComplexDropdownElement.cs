@@ -8,7 +8,7 @@ public class ComplexDropdownElement : VisualElement
 {
     public new class UxmlFactory : UxmlFactory<ComplexDropdownElement, VisualElement.UxmlTraits> { }
 
-    public readonly Texture2D defaultIcon = new Texture2D(16,16); // poner una textura default (!!)
+    public readonly Texture2D defaultIcon = new Texture2D(16,16); // (!!) poner una textura default 
 
     private VisualElement content;
     private VisualElement icon;

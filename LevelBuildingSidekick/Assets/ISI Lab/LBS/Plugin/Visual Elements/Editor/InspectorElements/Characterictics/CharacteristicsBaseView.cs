@@ -54,8 +54,8 @@ public class CharacteristicsBaseView : VisualElement
     {
         this.target = characteristic;
 
-        var cs = Utility.Reflection.GetClassesWith<LBSCustomEditorAttribute>(); // esto puede ocurrir cuando se recompila en vez de cada vez (!!!)
-        
+        var cs = Utility.Reflection.GetClassesWith<LBSCustomEditorAttribute>(); // (!!!) esto puede ocurrir cuando se recompila en vez de cada vez 
+
         var relation = cs.Find((t) =>
         {
             return t.Item2.ToList()[0].type == characteristic.GetType();
@@ -66,13 +66,13 @@ public class CharacteristicsBaseView : VisualElement
         {
             editor = new LBSNullEditor();
             this.nameLabel.text = characteristic.GetType().Name; // default name
-            this.icon.style.backgroundImage = null; // default icon, implementar (!!!)
+            this.icon.style.backgroundImage = null; // (!!!) default icon, implementar 
         }
         else
         {
             editor = Activator.CreateInstance(relation.Item1) as LBSCustomEditor;
             this.nameLabel.text = relation.Item2.ToList()[0].name;
-            this.icon.style.backgroundImage = null; // implementar esto en LBSCustomEditorAttribute (!!!)
+            this.icon.style.backgroundImage = null; // (!!!) implementar esto en LBSCustomEditorAttribute 
         }
 
         //var e = Editor.CreateEditor(characteristic);

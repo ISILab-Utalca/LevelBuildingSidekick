@@ -174,7 +174,7 @@ public class LBSInspectorPanel : VisualElement
         ((LBSInspector)inspector).Repaint();
     }
 
-    public void AddInspector(LBSInspector inspector, int index = -1) // relacionado con toolkit (!!!)
+    public void AddInspector(LBSInspector inspector, int index = -1) // (!!!) relacionado con toolkit 
     {
         inspectors.Add(inspector);
         if (index == -1)
@@ -188,7 +188,7 @@ public class LBSInspectorPanel : VisualElement
        
     }
 
-    public void RemoveInspector(LBSInspector inspector) // relacionado con toolkit (!!!)
+    public void RemoveInspector(LBSInspector inspector) // (!!!) relacionado con toolkit 
     {
         inspectors.Remove(inspector);
         if(content.Contains(inspector))

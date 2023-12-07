@@ -161,13 +161,13 @@ public class LayerTemplateEditor : Editor
         // XXX
 
         // Behaviours
-        var bhIcon = Resources.Load<Texture2D>("Icons/Select");
+        var bhIcon = Resources.Load<Texture2D>("Icons/Select"); // TODO: Change icon
         var bh = new ExteriorBehaviour(bhIcon, "Exteriror behaviour");
         bh.OnAttachLayer(layer);
         layer.AddBehaviour(bh);
 
         // Assistant
-        var assIcon = Resources.Load<Texture2D>("Icons/Select");
+        var assIcon = Resources.Load<Texture2D>("Icons/Select"); // TODO: Change icon
         var ass = new AssistantWFC(assIcon, "Assistant WFC");
         ass.OnAttachLayer(layer);
         layer.AddAssistant(ass);
@@ -226,7 +226,7 @@ public class LayerTemplateEditor : Editor
 
         // Assistants
         var assIcon = Resources.Load<Texture2D>("Icons/Select");
-        var ass = new AssistantMapElite(assIcon, "A");
+        var ass = new AssistantMapElite(assIcon, "Map Elite - Genetic Algorithm");
         //ass.OnAdd(layer);
         layer.AddAssistant(ass);
 

@@ -107,6 +107,22 @@ namespace LBS
             target.UnregisterCallback<MouseUpEvent>(OnInternalMouseUp);
         }
 
+        public void SetFeedback(Feedback feedback)
+        {
+            if (feedback == this.feedback)
+                return;
+
+            if(this.feedback == null)
+            {
+                Debug.Log("NULL");
+                return;
+            }
+
+            MainView.RemoveElement(this.feedback);
+            this.feedback = feedback;
+            MainView.AddElement(feedback);
+        }
+
         /// <summary>
         /// Starts the feedback for the manipulation.
         /// </summary>
@@ -173,9 +189,10 @@ namespace LBS
                 return;
 
             this.moveClickPosition = MainView.FixPos(e.localMousePosition).ToInt();
-            UpdateFeedback();
 
             OnMouseMove(e.target as VisualElement, moveClickPosition, e);
+            UpdateFeedback();
+
             OnManipulationUpdate?.Invoke();
         }
 

@@ -57,7 +57,7 @@ public class MainView : GraphView // Canvas or WorkSpace
     #endregion
 
     #region METHODS
-    public void SetBasicManipulators() // necesario aqui (?)
+    public void SetBasicManipulators() // (?) necesario aqui 
     {
         var setting = LBSSettings.Instance.general;
 

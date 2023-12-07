@@ -13,127 +13,29 @@ MonoBehaviour:
   m_Name: RTSPreset
   m_EditorClassIdentifier: 
   mapElites:
-    xSampleCount: 3
-    ySampleCount: 3
+    xSampleCount: 5
+    ySampleCount: 5
     devest: 0.5
     xEvaluator:
-      rid: 1752707541142339873
+      rid: 9101597974233088000
     yEvaluator:
-      rid: 1752707541142339874
+      rid: 9101597974233088005
     optimizer:
       rid: 3832781230169915597
     changedSample: 
-  maskType: ExteriorBehaviour
+  maskType: SchemaBehaviour
   blackList:
   - {fileID: 11400000, guid: 975a57a1811d3f743838422b5c87c58a, type: 2}
   references:
     version: 2
     RefIds:
-    - rid: 1752707541142339873
-      type: {class: Exploration, ns: , asm: LBS}
-      data:
-        colliderCharacteristic:
-          rid: 1752707541142339875
-    - rid: 1752707541142339874
-      type: {class: SafetyFairness, ns: , asm: LBS}
-      data:
-        playerCharacteristic:
-          rid: 1752707541142339877
-        colliderCharacteristic:
-          rid: 1752707541142339876
-    - rid: 1752707541142339875
-      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
-      data:
-        label: Collider
-        value: {fileID: 11400000, guid: 261af09a46f50a647b4fb33a0e989c66, type: 2}
-    - rid: 1752707541142339876
-      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
-      data:
-        label: Collider
-        value: {fileID: 11400000, guid: 261af09a46f50a647b4fb33a0e989c66, type: 2}
-    - rid: 1752707541142339877
-      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
-      data:
-        label: Player
-        value: {fileID: 11400000, guid: 975a57a1811d3f743838422b5c87c58a, type: 2}
-    - rid: 1752707541142339878
-      type: {class: ResourcesSafetyFairness, ns: , asm: LBS}
-      data:
-        playerCharacteristc:
-          rid: 1752707541142339879
-        resourceCharactersitic:
-        - rid: 1752707541142339880
-        - rid: 1752707541142339881
-        - rid: 1752707541142339882
-    - rid: 1752707541142339879
-      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
-      data:
-        label: Player
-        value: {fileID: 11400000, guid: 975a57a1811d3f743838422b5c87c58a, type: 2}
-    - rid: 1752707541142339880
-      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
-      data:
-        label: Food
-        value: {fileID: 11400000, guid: b354587b73f945f4188c7dc7026de4ef, type: 2}
-    - rid: 1752707541142339881
-      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
-      data:
-        label: Rock
-        value: {fileID: 11400000, guid: 8d03f9563098ae048a81b709940e56c0, type: 2}
-    - rid: 1752707541142339882
-      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
-      data:
-        label: Tree
-        value: {fileID: 11400000, guid: 0147d0d479179b04a8c825d8159e70ce, type: 2}
-    - rid: 1752707541142339883
-      type: {class: RoulleteWheelMutation, ns: , asm: LBS}
-      data:
-        mutations:
-        - rid: 1752707541142339885
-        - rid: 1752707541142339888
-        - rid: 1752707541142339892
-        - rid: 1752707541142339894
-    - rid: 1752707541142339885
-      type: {class: WeightedMutation, ns: , asm: LBS}
-      data:
-        mutation:
-          rid: 1752707541142339886
-        weight: 0.2
-    - rid: 1752707541142339886
-      type: {class: ExhaustiveAddGene, ns: , asm: LBS}
-    - rid: 1752707541142339888
-      type: {class: WeightedMutation, ns: , asm: LBS}
-      data:
-        mutation:
-          rid: 1752707541142339889
-        weight: 0.2
-    - rid: 1752707541142339889
-      type: {class: ExhaustiveRemoveGene, ns: , asm: LBS}
-    - rid: 1752707541142339891
-      type: {class: ExhaustiveMoveGene, ns: , asm: LBS}
-      data:
-        range: 2
-    - rid: 1752707541142339892
-      type: {class: WeightedMutation, ns: , asm: LBS}
-      data:
-        mutation:
-          rid: 1752707541142339891
-        weight: 0.8
-    - rid: 1752707541142339894
-      type: {class: WeightedMutation, ns: , asm: LBS}
-      data:
-        mutation:
-          rid: 1752707541142339895
-        weight: 1
-    - rid: 1752707541142339895
-      type: {class: ExhaustiveSwapGene, ns: , asm: LBS}
     - rid: 3832781230169915597
       type: {class: GeneticAlgorithm, ns: ISILab.AI.Optimization, asm: LBS}
       data:
         population:
           rid: 3832781230169915598
         evaluator:
-          rid: 1752707541142339878
+          rid: 9101597974233088007
         selection:
           rid: 3832781230169915599
         termination:
@@ -141,7 +43,7 @@ MonoBehaviour:
         crossover:
           rid: 3832781230169915601
         mutation:
-          rid: 1752707541142339883
+          rid: 9101597974233088008
         crossoverProbability: 1
         mutationProbability: 0.05
     - rid: 3832781230169915598
@@ -154,3 +56,101 @@ MonoBehaviour:
       type: {class: GenerationNumberTermination, ns: ISILab.AI.Optimization.Terminations, asm: LBS}
     - rid: 3832781230169915601
       type: {class: AreaCrossover, ns: , asm: LBS}
+    - rid: 9101597974233088000
+      type: {class: ResourcesSafetyFairness, ns: , asm: LBS}
+      data:
+        playerCharacteristc:
+          rid: 9101597974233088001
+        resourceCharactersitic:
+        - rid: 9101597974233088002
+        - rid: 9101597974233088003
+        - rid: 9101597974233088004
+    - rid: 9101597974233088001
+      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+      data:
+        label: 
+        value: {fileID: 11400000, guid: 975a57a1811d3f743838422b5c87c58a, type: 2}
+    - rid: 9101597974233088002
+      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+      data:
+        label: 
+        value: {fileID: 11400000, guid: 0147d0d479179b04a8c825d8159e70ce, type: 2}
+    - rid: 9101597974233088003
+      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+      data:
+        label: 
+        value: {fileID: 11400000, guid: 8d03f9563098ae048a81b709940e56c0, type: 2}
+    - rid: 9101597974233088004
+      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+      data:
+        label: 
+        value: {fileID: 11400000, guid: b354587b73f945f4188c7dc7026de4ef, type: 2}
+    - rid: 9101597974233088005
+      type: {class: Exploration, ns: , asm: LBS}
+      data:
+        colliderCharacteristic:
+          rid: 9101597974233088006
+    - rid: 9101597974233088006
+      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+      data:
+        label: 
+        value: {fileID: 11400000, guid: 261af09a46f50a647b4fb33a0e989c66, type: 2}
+    - rid: 9101597974233088007
+      type: {class: SafetyFairness, ns: , asm: LBS}
+      data:
+        playerCharacteristic:
+          rid: 9101597974233088009
+        colliderCharacteristic:
+          rid: 9101597974233088010
+    - rid: 9101597974233088008
+      type: {class: RoulleteWheelMutation, ns: , asm: LBS}
+      data:
+        mutations:
+        - rid: 9101597974233088011
+        - rid: 9101597974233088012
+        - rid: 9101597974233088013
+        - rid: 9101597974233088014
+    - rid: 9101597974233088009
+      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+      data:
+        label: 
+        value: {fileID: 11400000, guid: 975a57a1811d3f743838422b5c87c58a, type: 2}
+    - rid: 9101597974233088010
+      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+      data:
+        label: 
+        value: {fileID: 11400000, guid: 261af09a46f50a647b4fb33a0e989c66, type: 2}
+    - rid: 9101597974233088011
+      type: {class: WeightedMutation, ns: , asm: LBS}
+      data:
+        mutation:
+          rid: 9101597974233088015
+        weight: 0.2
+    - rid: 9101597974233088012
+      type: {class: WeightedMutation, ns: , asm: LBS}
+      data:
+        mutation:
+          rid: 9101597974233088016
+        weight: 0.8
+    - rid: 9101597974233088013
+      type: {class: WeightedMutation, ns: , asm: LBS}
+      data:
+        mutation:
+          rid: 9101597974233088017
+        weight: 0.2
+    - rid: 9101597974233088014
+      type: {class: WeightedMutation, ns: , asm: LBS}
+      data:
+        mutation:
+          rid: 9101597974233088018
+        weight: 0.8
+    - rid: 9101597974233088015
+      type: {class: ExhaustiveAddGene, ns: , asm: LBS}
+    - rid: 9101597974233088016
+      type: {class: ExhaustiveMoveGene, ns: , asm: LBS}
+      data:
+        range: 1
+    - rid: 9101597974233088017
+      type: {class: ExhaustiveRemoveGene, ns: , asm: LBS}
+    - rid: 9101597974233088018
+      type: {class: ExhaustiveSwapGene, ns: , asm: LBS}

@@ -98,15 +98,7 @@ public class Generator3DPanel : VisualElement
 
     public void Execute()
     {
-        /*
-        if (dropDownField.index < 0) // quitar ya no sirve (!)
-        {
-            Debug.LogWarning("[ISI LAB]: No has seleccionado un tipo de generador.");
-            return;
-        }
-        */
-
-        if (this.layer == null) // quitar ya no sirve (!)
+        if (this.layer == null) // (!) quitar ya no sirve 
         {
             Debug.LogError("[ISI LAB]: no se tiene referencia de ninguna layer para generar.");
             return;
@@ -121,7 +113,7 @@ public class Generator3DPanel : VisualElement
             }
         }
 
-        if (generator == null)// || !generator.GetType().Name.Equals(dropDownField.Value))
+        if (generator == null)
         {
             generator = dropDownField.GetChoiceInstance() as Generator3D;
         }

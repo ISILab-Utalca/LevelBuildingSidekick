@@ -88,7 +88,7 @@ public class LayerView : VisualElement
         {
             var icon = new VisualElement();
             icon.style.height = icon.style.width = 16;
-            // Set "icon" background from "moduleAttribute" pathicon (implementar)(!!!)
+            // (!!!) Set "icon" background from "moduleAttribute" pathicon (implementar)
             iconsModules.Add(icon);
         }
     }

@@ -23,6 +23,7 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
     private RemoveTileExterior removeTile;
     private SetExteriorTileConnection setConnection;
     private RemoveConnection removeConection;
+    private RemoveConnectionInArea removeConnectionInArea;
     #endregion
 
     #region VIEW FIELDS
@@ -97,11 +98,6 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
         t4.Init(exterior.Owner,exterior);
         toolKit.AddTool(t4);
 
-        /*
-        // Set Connection in area
-        icon = Resources.Load<Texture2D>("Icon/Tools/Delete_exterior_connection");
-        this.
-        */
     }
 
     private void OnTargetBundle() // mejorar nombre

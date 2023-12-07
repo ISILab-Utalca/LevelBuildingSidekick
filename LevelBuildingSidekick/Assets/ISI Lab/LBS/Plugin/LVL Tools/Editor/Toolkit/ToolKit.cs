@@ -129,10 +129,11 @@ namespace LBS.VisualElements
                 return;
             }
 
-            // Esto lo esto sacando de LBSlocalBH y LBSLocalAss asi que 
+
+            // (!!!) Esto lo esto sacando de LBSlocalBH y LBSLocalAss asi que 
             // mejor que se quede asi por ahora (16/08/23) si despues queda
             // separado el temap de la creacion de isnpectores para los "BH"
-            // y los "Ass" entonces lo movere a aqui (!!!)
+            // y los "Ass" entonces lo movere a aqui 
         }
 
         public void SetActive(int index)

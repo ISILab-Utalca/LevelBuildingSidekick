@@ -16,7 +16,6 @@ MonoBehaviour:
   - type: LBSGrammar
     items:
     - {fileID: 11400000, guid: 63ab688b53411154db5edd0ec7171c42, type: 2}
-    - {fileID: 11400000, guid: 24fefcca852caa144b297924e6b19692, type: 2}
   - type: LBSIdentifier
     items:
     - {fileID: 11400000, guid: 8a34055ce679db44ba6d35e49b129a63, type: 2}
@@ -238,9 +237,6 @@ MonoBehaviour:
     - {fileID: 7433441132597879392, guid: 2a208840b98c7aa46a99ed3517e86d98, type: 3}
     - {fileID: 7433441132597879392, guid: 3eb99c80b411349188e1e5167887ac6c, type: 3}
     - {fileID: 7433441132597879392, guid: 63cb84b97408b4d25a6925daccffcd22, type: 3}
-  - type: MAPElitesPresset
-    items:
-    - {fileID: 11400000, guid: b90bb27f581fe354799c9c3b84f44eac, type: 2}
   - type: LBSAssetsStorage
     items:
     - {fileID: 11400000}
@@ -268,3 +264,6 @@ MonoBehaviour:
   - type: Readme
     items:
     - {fileID: 11400000, guid: 447108942fa59f243b3e1f146cab91c2, type: 2}
+  - type: MAPElitesPreset
+    items:
+    - {fileID: 11400000, guid: b90bb27f581fe354799c9c3b84f44eac, type: 2}

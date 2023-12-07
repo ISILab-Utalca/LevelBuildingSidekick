@@ -14,7 +14,7 @@ public class MAPEliteContent : VisualElement
 
     public ButtonWrapper[] Content = new ButtonWrapper[1];
     public VisualElement Container;
-    private int buttonSize = 128; //Should be a RangeSlider field(!!!)
+    private int buttonSize = 128; // (!!!) Should be a RangeSlider field
 
     public Texture2D background;
     private Texture2D standbyImg;

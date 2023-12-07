@@ -8,7 +8,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class CustomList : VisualElement // terminar de implementar para que funcion como "ListView" (!!!)
+public class CustomList : VisualElement // (!!!) terminar de implementar para que funcion como "ListView" 
 {
     #region FACTORY
     public new class UxmlFactory : UxmlFactory<CustomList, VisualElement.UxmlTraits> { }

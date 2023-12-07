@@ -37,7 +37,7 @@ namespace LBS
             Feedback feedback = null,
             Action OnStart = null,
             Action OnUpdate = null,
-            Action OnEnd = null) // el feedback y los eventos no se estan usando (!)
+            Action OnEnd = null) // (!) el feedback y los eventos no se estan usando 
         {
             this.icon = icon;
             this.name = name;
