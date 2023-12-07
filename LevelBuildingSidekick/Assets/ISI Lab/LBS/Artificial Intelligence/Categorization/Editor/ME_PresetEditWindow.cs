@@ -23,7 +23,7 @@ public class ME_PresetEditWindow : EditorWindow
     {
         var wnd = GetWindow<ME_PresetEditWindow>();
         Texture icon = Resources.Load<Texture>("Icons/Gear.png");
-        wnd.titleContent = new GUIContent("MAP Elites Presset Editor", icon);
+        wnd.titleContent = new GUIContent("MAP Elites Preset Editor", icon);
         wnd.minSize = new Vector2(800, 400);
         wnd.LoadPreset(presset);
     }
@@ -63,7 +63,7 @@ public class ME_PresetEditWindow : EditorWindow
         if (mapElitesPresset == null)
         {
             mapElitesPresset = CreateInstance<MAPElitesPreset>();
-            mapElitesPresset.name = "New Presset";
+            mapElitesPresset.name = "New Preset";
             preexistant = false;
         }
 
@@ -78,7 +78,8 @@ public class ME_PresetEditWindow : EditorWindow
             path = "Assets/ISI Lab/LBS/Presets/Resources";
         }
 
-        content.Add(new MAPElitesPresetVE(mapElitesPresset));
+        var mp = new MAPElitesPresetVE(mapElitesPresset);
+        content.Add(mp);
 
         nameField.value = mapElitesPresset.name;
         pathField.value = path;

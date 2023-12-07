@@ -6,6 +6,7 @@ using ISILab.AI.Optimization.Selections;
 using ISILab.AI.Optimization.Terminations;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -22,15 +23,14 @@ public class GeneticAlgorithmVE : LBSCustomEditor
     DynamicFoldout crossover;
     FloatField crossoverProbability;
 
-
-
-
     public GeneticAlgorithmVE(object target) : base(target)
     {
-        Add(CreateVisualElement());
+        var ve = CreateVisualElement();
+
+        Add(ve);
+
         SetInfo(target);
     }
-
 
     public override void SetInfo(object target)
     {
@@ -128,7 +128,6 @@ public class GeneticAlgorithmVE : LBSCustomEditor
         mutationProbability = new FloatField();
         mutationProbability.label = "Mutation Probability";
         mutationProbability.RegisterValueChangedCallback(e => { genetic.MutationProbability = e.newValue; });
-
 
         ve.Add(evaluator);
         ve.Add(selection);

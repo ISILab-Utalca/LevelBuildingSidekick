@@ -44,17 +44,24 @@ public class DynamicFoldout : VisualElement
 
     void UpdateView(Type type, object data)
     {
-        var ves = Utility.Reflection.GetClassesWith<LBSCustomEditorAttribute>().Where(t => t.Item2.Any(v => v.type == type));
+        //var ves = Utility.Reflection.GetClassesWith<LBSCustomEditorAttribute>().Where(t => t.Item2.Any(v => v.type == type));
 
-        if (ves.Count() == 0)
-        {
-            content.Clear();
-            content.Add(new Label("[ISI Lab] No class marked as CustomVisualElement found for type: " + type));
+        //if (ves.Count() == 0)
+        //{
+        //    content.Clear();
+        //    content.Add(new Label("[ISI Lab] No class marked as CustomVisualElement found for type: " + type));
+        //    return;
+        //throw new Exception("[ISI Lab] No class marked as CustomVisualElement found for type: " + type);
+        //}
+        var p = LBS_Editor.pairs;
+        var veType = LBS_Editor.GetEditor(type);
+
+        if (veType == null)
             return;
-            //throw new Exception("[ISI Lab] No class marked as CustomVisualElement found for type: " + type);
-        }
 
-        var ve = Activator.CreateInstance(ves.First().Item1, new object[] { data}) as LBSCustomEditor;//, new object[] { dropdown.GetChoiceInstance()});
+        //var ve = Activator.CreateInstance(ves.First().Item1, new object[] { data}) as LBSCustomEditor;//, new object[] { dropdown.GetChoiceInstance()});
+        var ve = Activator.CreateInstance(veType, new object[] { data }) as LBSCustomEditor;
+
         //ve.SetInfo(data);
 
         if (!(ve is VisualElement))

@@ -4,6 +4,8 @@ using LBS.Behaviours;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Diagnostics.Tracing;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.UIElements;
@@ -134,7 +136,7 @@ public class MAPElitesPresetVE : LBSCustomEditor
         maskType.RegisterValueChangedCallback( 
             evt =>
             {
-                Debug.Log(maskType.TypeValue);
+                UnityEngine.Debug.Log(maskType.TypeValue);
                 presset.MaskType = maskType.TypeValue;
             });
 
@@ -151,21 +153,14 @@ public class MAPElitesPresetVE : LBSCustomEditor
     {
         container.Clear();
 
-        var prosp = Utility.Reflection.GetClassesWith<LBSCustomEditorAttribute>();
+        var veType = LBS_Editor.GetEditor(target.GetType());
 
-        if (prosp.Count <= 0)
+        if (veType == null)
         {
             return;
         }
 
-        var ves = prosp.Where(t => t.Item2.Any(v => v.type == target.GetType()));
-
-        if(ves.Count() <= 0)
-        {
-            return;
-        }
-
-        var ve = Activator.CreateInstance(ves.First().Item1, new object [] {target}) as VisualElement;
+        var ve = Activator.CreateInstance(veType, new object [] {target}) as VisualElement;
 
         container.Add(ve);
     }
