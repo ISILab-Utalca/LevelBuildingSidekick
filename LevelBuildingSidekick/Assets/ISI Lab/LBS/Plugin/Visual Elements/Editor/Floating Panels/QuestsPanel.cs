@@ -1,4 +1,5 @@
 using LBS.Components;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using System;
 using System.Collections;
@@ -124,7 +125,11 @@ public class QuestsPanel : VisualElement
             return;
 
         var selected = objs.ToList()[0] as LBSQuestGraph;
-        OnSelectQuest?.Invoke(selected);
+        if (selected != null && (data.SelectedQuest == null || !selected.Equals(data.SelectedQuest)))
+        {
+            data.SelectedQuest = selected;
+            OnSelectQuest?.Invoke(selected);
+        }
     }
 
     // Double Click over element

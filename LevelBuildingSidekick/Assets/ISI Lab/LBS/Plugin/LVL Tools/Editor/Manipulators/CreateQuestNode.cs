@@ -14,8 +14,8 @@ using UnityEngine.UIElements;
 public class CreateQuestNode : LBSManipulator // where T: LBSNode  // (!) CreateNewNode<T>
 {
     //QuestBehaviour quest;
-    LBSQuestGraph quest;
     public GrammarTerminal actionToSet;
+    LBSQuestGraph quest;
 
     public LBSQuestGraph Quest
     {
@@ -58,13 +58,11 @@ public class CreateQuestNode : LBSManipulator // where T: LBSNode  // (!) Create
         {
             name = prefix + actionToSet.ID + " (" + v + ")";
 
-            loop = quest.Nodes.Any(n => n.ID.Equals(name));
+            loop = quest.QuestNodes.Any(n => n.ID.Equals(name));
             v++;
         } while (loop);
 
-        var a = new QuestStep(actionToSet); //var n = Activator.CreateInstance<T>();
-        var n = new LBSNode(name, EndPosition);
-        //quest.AddNode(n, a);
+        quest.AddNode(new QuestNode(name, EndPosition, actionToSet.ID));
         
     }
 }

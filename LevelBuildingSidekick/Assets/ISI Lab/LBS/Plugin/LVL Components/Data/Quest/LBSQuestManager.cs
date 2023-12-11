@@ -12,14 +12,24 @@ public class LBSQuestManager
     private List<LBSQuestGraph> quests = new List<LBSQuestGraph>();
 
     [JsonIgnore]
-    public LBSQuestGraph selectedQuest;
+    private LBSQuestGraph selectedQuest;
 
     [JsonIgnore]
-    public Action OnQuestSelect;
+    public Action<LBSQuestGraph> OnQuestSelect;
 
     [JsonIgnore]
     public List<LBSQuestGraph> Quests => quests;
 
+    [JsonIgnore]
+    public LBSQuestGraph SelectedQuest
+    { 
+        get => selectedQuest;
+        set
+        {
+            selectedQuest = value;
+            OnQuestSelect?.Invoke(selectedQuest);
+        }
+    }
 
     public void AddQuest(LBSQuestGraph quest)
     {
