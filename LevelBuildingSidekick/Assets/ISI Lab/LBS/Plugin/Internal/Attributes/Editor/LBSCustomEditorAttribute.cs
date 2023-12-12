@@ -19,21 +19,23 @@ public class LBSCustomEditorAttribute : LBSAttribute
 
 public static class LBS_Editor
 {
-    public static List<Tuple<Type,IEnumerable<LBSCustomEditorAttribute>>> pairs;
+    public static List<Tuple<Type,IEnumerable<LBSCustomEditorAttribute>>> pairsEditors;
+
+    public static List<Tuple<Type,IEnumerable<DrawerAttribute>>> pairDrawers;
 
     public static Type GetEditor<T>()
     {
         return GetEditor(typeof(T));
     }
 
-    public static Type GetEditor(Type type)
+    public static Type GetEditor(Type targetType)
     {
-        if (pairs == null)
-            pairs = Utility.Reflection.GetClassesWith<LBSCustomEditorAttribute>();
+        if (pairsEditors == null)
+            pairsEditors = Utility.Reflection.GetClassesWith<LBSCustomEditorAttribute>();
 
-        foreach (var pair in pairs)
+        foreach (var pair in pairsEditors)
         {
-            if (pair.Item2.ToList()[0].type == type)
+            if (pair.Item2.ToList()[0].type == targetType)
             {
                 return pair.Item1;
             }
@@ -41,4 +43,26 @@ public static class LBS_Editor
         return null;
 
     }
+
+    public static Type GetDrawer<T>()
+    {
+        return GetDrawer(typeof(T));
+    }
+
+    public static Type GetDrawer(Type targetType)
+    {
+        if(pairDrawers == null)
+            pairDrawers = Utility.Reflection.GetClassesWith<DrawerAttribute>();
+
+        foreach (var pair in pairDrawers)
+        {
+            var t = pair.Item2.ToList()[0].type;
+            if (t == targetType)
+            {
+                return pair.Item1;
+            }
+        }
+        return null;
+    }
+
 }
