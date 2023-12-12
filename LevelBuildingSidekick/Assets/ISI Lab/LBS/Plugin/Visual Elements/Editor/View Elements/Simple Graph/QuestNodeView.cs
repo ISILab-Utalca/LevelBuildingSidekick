@@ -17,7 +17,7 @@ public class QuestNodeView : GraphElement
 
     public Action<Rect> OnMoving;
 
-    public QuestNodeView(NodeActionPair node)
+    public QuestNodeView(QuestNode node)
     {
         if (view == null)
         {
@@ -31,7 +31,7 @@ public class QuestNodeView : GraphElement
         // Icon
         icon = this.Q<VisualElement>("Icon");
 
-        SetText(node.Action.GrammarElement.ID);
+        SetText(node.QuestAction);
     }
 
     public override void SetPosition(Rect newPos)

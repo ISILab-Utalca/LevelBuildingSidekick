@@ -23,7 +23,7 @@ public class LBSQuestGraph : ICloneable
     }
 
     [SerializeField]
-    List<NodeActionPair> questNodes = new List<NodeActionPair>();
+    List<QuestNode> questNodes = new List<QuestNode>();
 
 
 
@@ -52,7 +52,7 @@ public class LBSQuestGraph : ICloneable
     }
 
     [JsonIgnore]
-    public List<NodeActionPair> QuestNodes => questNodes;
+    public List<QuestNode> QuestNodes => questNodes;
 
 
     [JsonIgnore]
@@ -64,24 +64,20 @@ public class LBSQuestGraph : ICloneable
         IsVisible = true;
     }
 
-    public QuestStep GetQuesStep(LBSNode node)
+    public QuestNode GetQuesNode(Vector2 position)
     {
-        return questNodes.Find(x => x.Node == node)?.Action;
+        return questNodes.Find(x => x.Position == position);
     }
 
-    public void AddNode(LBSNode node, QuestStep action)
+    public void AddNode(string id, Vector2 position, string action)
     {
-        var t = questNodes.Find(p => p.Node.Equals(node));
+        var data = new QuestNode(id, position, action);
+        questNodes.Add(data);
+    }
 
-        if (t == null)
-        {
-            var data = new QuestStep(action.GrammarElement);
-            questNodes.Add(new NodeActionPair(node, data));
-        }
-        else
-        {
-            t.Action = new QuestStep(action.GrammarElement);
-        }
+    public void AddNode(QuestNode node)
+    {
+        questNodes.Add(node);
     }
 
     public bool IsEmpty()
@@ -90,65 +86,24 @@ public class LBSQuestGraph : ICloneable
     }
 
 
-    public void RemovePair(NodeActionPair pair)
+    public void RemoveQuestNode(QuestNode node)
     {
-        questNodes.Remove(pair);
-    }
-
-    public void RemovePair(LBSNode node)
-    {
-        var n = questNodes.Find(q => q.Node.Equals(node));
-        questNodes.Remove(n);
-    }
-
-    private void RemoveNode(object obj)
-    {
-        var toR = obj as LBSNode;
-        var xx = questNodes.Find(x => x.Node == toR);
-        questNodes.Remove(xx);
-    }
-
-    private void AddEmpty(object obj)
-    {
-        var t = obj as LBSNode;
-        var xx = questNodes.Find(x => x.Node == t);
-        if (xx != null)
-        {
-            RemovePair(xx);
-        }
-        questNodes.Add(new NodeActionPair(t, new QuestStep()));
+        questNodes.Remove(node);
     }
 
     public object Clone()
     {
         throw new NotImplementedException();
     }
-}
 
-[System.Serializable]
-public class NodeActionPair : ICloneable
-{
-    [SerializeField, SerializeReference, JsonRequired]
-    LBSNode node;
-    [SerializeField, SerializeReference, JsonRequired]
-    QuestStep questStep;
-
-    public LBSNode Node => node;
-    public QuestStep Action
+    public void AddConnection(QuestNode first, QuestNode second)
     {
-        get => questStep;
-        set => questStep = value;
+        throw new NotImplementedException();
     }
 
-    public NodeActionPair(LBSNode node, QuestStep action)
+    public void RemoveEdge(Vector2Int endPosition, int v)
     {
-        this.node = node;
-        this.questStep = action;
-    }
-
-    public object Clone()
-    {
-        return new NodeActionPair(CloneRefs.Get(node) as LBSNode, CloneRefs.Get(questStep) as QuestStep);
+        throw new NotImplementedException();
     }
 }
 
