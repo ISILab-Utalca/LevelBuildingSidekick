@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor.MemoryProfiler;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 using UnityEngine.UIElements;
 
 [System.Serializable]
@@ -43,6 +44,8 @@ public class AssistantWFC : LBSAssistant
         get => GetBundle(targetBundle);
         set => targetBundle = value.name;
     }
+
+    private List<Vector2Int> Dirs => Directions.Bidimencional.Edges;
     #endregion
 
     #region CONSTRUCTORS
@@ -61,8 +64,11 @@ public class AssistantWFC : LBSAssistant
         var bundle = GetBundle(targetBundle);
 
         // Cheack if can execute
-        if(bundle == null)
+        if (bundle == null)
+        {
+            Debug.LogWarning("NO tienes ningun bundle seleccionado");
             return;
+        }
 
         // Get bundles posible tiles
         var group = bundle.GetCharacteristics<LBSDirectionedGroup>()[0];
@@ -73,7 +79,95 @@ public class AssistantWFC : LBSAssistant
         var connected = Owner.GetModule<ConnectedTileMapModule>();
 
         // Get tiles to change
-        var toCalc = new List<LBSTile>();
+        var toCalc = GetTileToCalc(Positions,map, connected);
+
+        // Create auxiliar collections
+        var closed = new List<LBSTile>();
+        var reCalc = new List<LBSTile>();
+
+        //Init
+        var currentCalcs = new Dictionary<LBSTile, List<Candidate>>();
+        foreach (var tile in toCalc)
+        {
+            // Get candidates related to current tile
+            var candidates = CalcCandidates(tile, group);
+            currentCalcs.Add(tile, candidates);
+        }
+
+        // Run as long as you have tiles 
+        while (toCalc.Count > 0)
+        {
+            var _closed = new List<LBSTile>(closed);
+            while (reCalc.Count > 0) 
+            {
+                var tile = reCalc.First();
+
+                // Get candidates related to current tile
+                List<Candidate> lastCandidates;
+                currentCalcs.TryGetValue(tile,out lastCandidates);
+                var newCandidates = CalcCandidates(tile, group);
+
+                if( lastCandidates == null || newCandidates.Count < lastCandidates.Count)
+                {
+                    currentCalcs[tile] = newCandidates;
+
+                    // Get neigthbours
+                    var neigs = map.GetTileNeighbors(tile, Dirs).RemoveEmpties();
+                       
+                    // Add to reCalc list
+                    foreach (var nei in neigs)
+                    {
+                        // Check if tile is closed
+                        if (_closed.Contains(nei))
+                            continue;
+
+                        if (reCalc.Contains(nei))
+                            continue;
+
+                        reCalc.Add(nei);
+                    }
+                }
+                reCalc.Remove(tile);
+                _closed.Add(tile);
+            }
+
+            // Get tile with lees possibilities
+            var current = currentCalcs.Where(e => e.Value.Count > 1).OrderBy(e => e.Value.Count).First();
+
+            // cheack if curren tile have tile posibilities
+            if (current.Value.Count <= 0)
+            {
+                // Remove from the list of tiles to calculate 
+                Debug.Log(current.Key.Position + " no tiene posibles tile.");
+                toCalc.Remove(current.Key);
+                continue;
+            }
+
+            // Collapse posibilities
+            var selected = current.Value.RandomRullete(c => c.weigth);
+            var connections = selected.bundle.GetConnection(selected.rotation);
+            connected.SetConnections(current.Key, connections.ToList(), new List<bool>() { false, false, false, false });
+            currentCalcs[current.Key] = new List<Candidate>() { selected };
+
+            // Ignore This tiles
+            closed.Add(current.Key);
+
+            // Collapse neigthbours connection 
+            var neigth = map.GetTileNeighbors(current.Key, Dirs);
+            SetConnectionNei(current.Key, neigth.ToArray(), closed);
+
+            // Add to reCalc list
+            var neigthCalcs = neigth.RemoveEmpties().Where(n => currentCalcs.Any(c => c.Key == n)).ToList();
+            reCalc.AddRange(neigthCalcs);
+
+            // Remove from the list of tiles to calculate 
+            toCalc.Remove(current.Key);
+        }
+    }
+
+    private List<LBSTile> GetTileToCalc(List<Vector2Int> positions, TileMapModule map, ConnectedTileMapModule connected)
+    {
+        var toR = new List<LBSTile>();
         foreach (var position in Positions)
         {
             // Get tile inforamtion
@@ -94,55 +188,9 @@ public class AssistantWFC : LBSAssistant
                     new List<bool>() { false, false, false, false });
             }
 
-            toCalc.Add(tile);
+            toR.Add(tile);
         }
-
-        var closed = new List<LBSTile>(); 
-
-        // Run as long as you have tiles 
-        while (toCalc.Count > 0)
-        {
-            // Recalculate posibilities for each tile
-            var currentCalcs = new List<Tuple<LBSTile,List<Candidate>>>();
-            foreach (var tile in toCalc)
-            {
-                // Get candidates related to current tile
-                var candidates = CalcCandidates(tile, group);
-
-                var c = new Tuple<LBSTile, List<Candidate>>(tile, candidates);
-                currentCalcs.Add(c);
-            }
-
-            // Get tile with lees possibilities
-            var current = currentCalcs.OrderBy(e => e.Item2.Count).First();
-
-            // cheack if curren tile have tile posibilities
-            if (currentCalcs.Count <= 0)
-            {
-                // Remove from the list of tiles to calculate 
-                Debug.Log(current.Item1.Position + " no tiene posibles tile.");
-                toCalc.Remove(current.Item1);
-                continue;
-            }
-
-            // Collapse posibilities
-            var selected = current.Item2.RandomRullete(c => c.weigth);
-            var connections = selected.bundle.GetConnection(selected.rotation);
-            connected.SetConnections(current.Item1, connections.ToList(), new List<bool>() { false, false, false, false });
-
-            // Get direction
-            var dirs = Directions.Bidimencional.Edges;
-
-            // Ignore This tiles
-            closed.Add(current.Item1);
-
-            // Collapse neigthbours connection 
-            var neigth = map.GetTileNeighbors(current.Item1, dirs);
-            SetConnectionNei(current.Item1, neigth.ToArray(), closed);
-
-            // Remove from the list of tiles to calculate 
-            toCalc.Remove(current.Item1);
-        }
+        return toR;
     }
 
     private List<Candidate> CalcCandidates(LBSTile tile, LBSDirectionedGroup group)
