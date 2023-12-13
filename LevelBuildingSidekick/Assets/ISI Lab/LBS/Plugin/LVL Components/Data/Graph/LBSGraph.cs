@@ -12,11 +12,10 @@ using UnityEngine;
 [System.Serializable]
 public class LBSGraph : LBSModule
 {
-
     [JsonRequired, SerializeReference]
-    List<LBSNode> nodes = new List<LBSNode>();
+    private List<LBSNode> nodes = new List<LBSNode>();
     [JsonRequired, SerializeReference]
-    List<LBSEdge> edges = new List<LBSEdge>();
+    private List<LBSEdge> edges = new List<LBSEdge>();
 
     [JsonIgnore]
     public List<LBSNode> Nodes => new List<LBSNode>(nodes);
