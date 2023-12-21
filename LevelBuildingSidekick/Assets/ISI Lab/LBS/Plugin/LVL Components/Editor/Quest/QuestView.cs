@@ -1,3 +1,4 @@
+using LBS.Components;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using static UnityEngine.GraphicsBuffer;
 
 public class QuestView : VisualElement
 {
-    private LBSQuestGraph quest;
+    private LBSLayer layer;
     private TextField questName;
     private VisualElement questIcon;
     private Button showButton;
@@ -24,7 +25,7 @@ public class QuestView : VisualElement
         // LayerName
         this.questName = this.Q<TextField>("Name");
         this.questName.RegisterCallback<ChangeEvent<string>>(e => {
-            this.quest.Name = e.newValue;
+            this.layer.Name = e.newValue;
         });
 
         // LayerIcon
@@ -37,12 +38,12 @@ public class QuestView : VisualElement
         this.hideButton.clicked += () => ShowQuest(false);
     }
 
-    public void SetInfo(LBSQuestGraph questGraph)
+    public void SetInfo(LBSLayer layer)
     {
-        quest = questGraph;
-        questName.value = quest.Name;
+        this.layer = layer;
+        questName.value = layer.Name;
 
-        ShowQuest(quest.IsVisible);
+        ShowQuest(layer.IsVisible);
     }
 
     private void ShowQuest(bool value)
@@ -50,7 +51,7 @@ public class QuestView : VisualElement
         showButton.style.display = (!value) ? DisplayStyle.Flex : DisplayStyle.None;
         hideButton.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
 
-        quest.IsVisible = value;
+        layer.IsVisible = value;
         OnVisibilityChange?.Invoke();
     }
 }

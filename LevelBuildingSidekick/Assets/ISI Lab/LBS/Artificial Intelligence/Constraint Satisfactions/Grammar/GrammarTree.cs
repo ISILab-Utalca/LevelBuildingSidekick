@@ -114,4 +114,14 @@ public class GrammarTree
     {
         return Root.GetTerminals();
     }
+
+    public bool IsLegal(string text)
+    {
+        var legal = true;
+        var phrase = text.Split(" ");
+
+
+
+        return legal;
+    }
 }

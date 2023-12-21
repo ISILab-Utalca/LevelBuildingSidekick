@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); min-height: auto;">
+        <ui:DropdownField label="Grammar" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="Grammar" />
+        <ui:ScrollView>
+            <ui:VisualElement name="Content" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);" />
+        </ui:ScrollView>
+    </ui:VisualElement>
+</ui:UXML>

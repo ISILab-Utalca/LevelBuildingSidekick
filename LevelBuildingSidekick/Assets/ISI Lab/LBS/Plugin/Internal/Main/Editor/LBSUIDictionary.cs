@@ -10,10 +10,13 @@ public class LBSUIDictionary : MonoBehaviour
 {
     private static Dictionary<object, VisualElement> visualElements = new Dictionary<object, VisualElement>();
 
-    public static VisualElement GetVisualElement(object element)
+    public static LBSCustomEditor GetVisualElement(object element)
     {
         if (visualElements.ContainsKey(element))
-            return visualElements[element];
+            if(visualElements[element] is LBSCustomEditor)
+                return visualElements[element] as LBSCustomEditor;
+            else 
+                throw new Exception("[ISI Lab] " + visualElements[element].GetType() + " is not a LBSCustomEditor ");
 
         var type = element.GetType();
         var ves = Utility.Reflection.GetClassesWith<LBSCustomEditorAttribute>()
@@ -26,9 +29,9 @@ public class LBSUIDictionary : MonoBehaviour
 
         var ovg = ves.First().Item1;
         var ve = Activator.CreateInstance(ovg, new object[] { element });
-        if (!(ve is VisualElement))
+        if (!(ve is LBSCustomEditor))
         {
-            throw new Exception("[ISI Lab] " + ve.GetType() + " is not a VisualElement ");
+            throw new Exception("[ISI Lab] " + ve.GetType() + " is not a LBSCustomEditor ");
         }
 
         return ve as LBSCustomEditor;

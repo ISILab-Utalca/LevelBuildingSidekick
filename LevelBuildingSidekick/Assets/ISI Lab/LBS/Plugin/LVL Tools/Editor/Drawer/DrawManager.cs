@@ -63,8 +63,14 @@ public class DrawManager
         this.mainView = MainView;
 
         var layers = level.Layers;
+        var quests = level.Quests;
+        DrawLayers(layers, MainView);
+        DrawLayers(quests, MainView);
+    }
 
-        for(int i = layers.Count - 1; i >= 0; i--)
+    private void DrawLayers(List<LBSLayer> layers, MainView mainView)
+    {
+        for (int i = layers.Count - 1; i >= 0; i--)
         {
             var l = layers[i];
 
@@ -75,7 +81,7 @@ public class DrawManager
                 continue;
 
             var behaviours = l.Behaviours;
-            foreach(var b in behaviours)
+            foreach (var b in behaviours)
             {
                 if (b == null)
                     continue;
@@ -118,6 +124,7 @@ public class DrawManager
                 drawer.Draw(a, view, l.TileSize);
             }
         }
+
     }
 
     public void Redraw(LBSLevelData level, MainView view)

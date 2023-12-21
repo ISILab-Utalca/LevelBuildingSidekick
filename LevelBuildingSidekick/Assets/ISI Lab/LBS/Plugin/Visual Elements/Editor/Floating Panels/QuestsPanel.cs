@@ -13,23 +13,23 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 public class QuestsPanel : VisualElement
 {
 
-    public LBSQuestManager data;
+    public LBSLevelData data;
 
     private ListView list;
     private TextField nameField;
     private DropdownField typeDropdown;
 
     #region EVENTS
-    public event Action<LBSQuestGraph> OnAddQuest;
+    public event Action<LBSLayer> OnAddQuest;
     public event Action<LBSQuestGraph> OnRemoveQuest;
-    public event Action<LBSQuestGraph> OnSelectQuest; // click simple (!)
-    public event Action<LBSQuestGraph> OnDoubleSelectQuest; // doble click (!)
-    public event Action<LBSQuestGraph> OnQuestVisibilityChange;
+    public event Action<LBSLayer> OnSelectQuest; // click simple (!)
+    public event Action<LBSLayer> OnDoubleSelectQuest; // doble click (!)
+    public event Action<LBSLayer> OnQuestVisibilityChange;
     #endregion
 
     public QuestsPanel() { }
 
-    public QuestsPanel(LBSQuestManager data)
+    public QuestsPanel(LBSLevelData data)
     {
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("QuestsPanel"); // Editor
         visualTree.CloneTree(this);
@@ -102,19 +102,17 @@ public class QuestsPanel : VisualElement
 
     private void AddQuest()
     {
-        var quest = new LBSQuestGraph();
-        quest.Name = nameField.text;
+        var name = nameField.text;
 
         int i = 1;
-        while (data.Quests.Any(l => l.Name.Equals(quest.Name)))
+        while (data.Quests.Any(l => l.Name.Equals(name)))
         {
-            quest.Name = nameField.text + " " + i;
+            name = nameField.text + " " + i;
             i++;
         }
 
-        data.AddQuest(quest);
+        data.AddQuest(name);
         list.selectedIndex = 0;
-        OnAddQuest?.Invoke(quest);
         list.Rebuild();
     }
 
@@ -124,12 +122,8 @@ public class QuestsPanel : VisualElement
         if (objs.Count() <= 0)
             return;
 
-        var selected = objs.ToList()[0] as LBSQuestGraph;
-        if (selected != null && (data.SelectedQuest == null || !selected.Equals(data.SelectedQuest)))
-        {
-            data.SelectedQuest = selected;
-            OnSelectQuest?.Invoke(selected);
-        }
+        var selected = objs.ToList()[0] as LBSLayer;
+        OnSelectQuest?.Invoke(selected);
     }
 
     // Double Click over element
@@ -138,7 +132,7 @@ public class QuestsPanel : VisualElement
         if (objs.Count() <= 0)
             return;
 
-        var selected = objs.ToList()[0] as LBSQuestGraph;
+        var selected = objs.ToList()[0] as LBSLayer;
         OnDoubleSelectQuest?.Invoke(selected);
     }
 

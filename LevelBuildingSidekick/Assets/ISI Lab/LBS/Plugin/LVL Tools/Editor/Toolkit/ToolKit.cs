@@ -203,7 +203,6 @@ namespace LBS.VisualElements
         {
             if (tools.Count <= 0)
                 return;
-
             current.Item2.OnBlur();
             tools.Clear();
             this.content.Clear();

@@ -13,16 +13,17 @@ public class LBSLevelData
     [SerializeField, JsonRequired, SerializeReference]
     private List<LBSLayer> layers = new List<LBSLayer>();
 
-    [SerializeField, JsonRequired]
-    private LBSQuestManager questManager = new LBSQuestManager();
+    [SerializeField, JsonRequired, SerializeReference]
+    private List<LBSLayer> quests = new List<LBSLayer>();
     #endregion
+
 
     #region PROPERTIES
     [JsonIgnore]
     public List<LBSLayer> Layers => layers;
 
     [JsonIgnore]
-    public LBSQuestManager QuestManager => questManager;
+    public List<LBSLayer> Quests => quests;
 
     [JsonIgnore]
     public int LayerCount => layers.Count;
@@ -115,6 +116,33 @@ public class LBSLevelData
         this.OnChanged?.Invoke(this);
         return layer;
     }
+
+    public void AddQuest(string name)
+    {
+        var quest = new LBSLayer();
+
+        quest.ID = name;
+        quest.Name = name;
+        quest.iconPath = "Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Quest_Icon/Action_indv.png";
+        quest.TileSize = new Vector2Int(3,1);
+
+        
+        var grammarIcon = Resources.Load<Texture2D>("Icons/Quest");
+        var assistant = new GrammarAssistant(grammarIcon, "Grammar");
+        quest.AddAssistant(assistant);
+
+
+
+        quests.Add(quest);
+    }
+
+    public LBSQuestGraph RemoveQuestAt(int index)
+    {
+        var q = quests[index];
+        quests.RemoveAt(index);
+        return q.GetModule<LBSQuestGraph>();
+    }
+
 
     public override bool Equals(object obj)
     {

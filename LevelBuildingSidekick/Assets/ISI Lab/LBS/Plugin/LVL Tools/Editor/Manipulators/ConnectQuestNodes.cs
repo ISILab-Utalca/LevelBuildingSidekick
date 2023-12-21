@@ -12,12 +12,6 @@ public class ConnectQuestNodes : LBSManipulator
     //QuestBehaviour quest;
     LBSQuestGraph quest;
 
-    public LBSQuestGraph Quest
-    {
-        get => quest;
-        set => quest = value;
-    }
-
     public QuestNode first;
 
     public ConnectQuestNodes() : base()
@@ -27,7 +21,7 @@ public class ConnectQuestNodes : LBSManipulator
 
     public override void Init(LBSLayer layer, object provider)
     {
-        //quest = provider as QuestBehaviour;
+        quest = layer.GetModule<LBSQuestGraph>();
     }
 
     protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
@@ -43,7 +37,6 @@ public class ConnectQuestNodes : LBSManipulator
     protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
     {
         var second = quest.GetQuesNode(endPosition);
-        Debug.Log(first + " - " + second);
         quest.AddConnection(first, second);
 
     }

@@ -179,10 +179,10 @@ public class LBSMainWindow : EditorWindow
         };
 
         //QuestsPanel
-        questsPanel = new QuestsPanel(levelData.QuestManager);
+        questsPanel = new QuestsPanel(levelData);
         extraPanel.Add(questsPanel);    
         questsPanel.style.display = DisplayStyle.None;
-        questsPanel.OnSelectQuest += OnQuestSelect;
+        questsPanel.OnSelectQuest += OnSelectedLayerChange;
 
         // LayerButton
         var layerBtn = rootVisualElement.Q<Button>("LayerButton");
@@ -275,21 +275,6 @@ public class LBSMainWindow : EditorWindow
         // Actualize Bottom text
         selectedLabel.text = "selected: " + layer.Name;
 
-    }
-
-    private void OnQuestSelect(LBSQuestGraph quest)
-    {
-        toolkit.Clear();
-        var ve = LBSUIDictionary.GetVisualElement(levelData.QuestManager);
-        if (ve == null)
-        {
-            Debug.LogError("No VE");
-            return;
-        }
-        if(ve is IToolProvider)
-        {
-            (ve as IToolProvider).SetTools(toolkit);
-        }
     }
 
     private void OnInspectorUpdate()

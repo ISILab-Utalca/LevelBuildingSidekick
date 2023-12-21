@@ -17,12 +17,6 @@ public class CreateQuestNode : LBSManipulator // where T: LBSNode  // (!) Create
     public GrammarTerminal actionToSet;
     LBSQuestGraph quest;
 
-    public LBSQuestGraph Quest
-    {
-        get => quest; 
-        set => quest = value;
-    }
-
 
     private string prefix = "";
     public CreateQuestNode() : base()
@@ -31,6 +25,7 @@ public class CreateQuestNode : LBSManipulator // where T: LBSNode  // (!) Create
 
     public override void Init(LBSLayer layer, object owner)
     {
+        quest = layer.GetModule<LBSQuestGraph>();
     }
 
     protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)

@@ -16,8 +16,13 @@ public class QuestNode : ICloneable
 
     [SerializeField, JsonRequired]
     private string questAction = "";
-    #endregion
 
+    [SerializeField, JsonRequired]
+    private bool grammarCheck;
+
+    [SerializeField, JsonRequired]
+    private bool mapCheck;
+    #endregion
 
     #region PROPERTIES
     [JsonIgnore]
@@ -51,6 +56,20 @@ public class QuestNode : ICloneable
         {
             questAction = value;
         }
+    }
+
+    [JsonIgnore]
+    public bool GrammarCheck
+    {
+        get => grammarCheck;
+        set => grammarCheck = value;
+    }
+
+    [JsonIgnore]
+    public bool MapCheck
+    {
+        get => mapCheck;
+        set => mapCheck = value;
     }
     #endregion
 

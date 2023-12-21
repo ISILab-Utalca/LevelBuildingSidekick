@@ -11,12 +11,6 @@ public class RemoveQuestConnection : LBSManipulator
     //QuestBehaviour quest;
     LBSQuestGraph quest;
 
-    public LBSQuestGraph Quest
-    {
-        get => quest;
-        set => quest = value;
-    }
-
     public RemoveQuestConnection() : base()
     {
 
@@ -24,7 +18,7 @@ public class RemoveQuestConnection : LBSManipulator
 
     public override void Init(LBSLayer layer, object provider)
     {
-        //quest = provider as QuestBehaviour;
+        quest = layer.GetModule<LBSQuestGraph>();
     }
 
     protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)

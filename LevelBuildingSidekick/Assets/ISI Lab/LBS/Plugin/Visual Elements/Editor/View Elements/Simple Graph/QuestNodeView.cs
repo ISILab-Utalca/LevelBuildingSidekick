@@ -13,7 +13,6 @@ public class QuestNodeView : GraphElement
     private static VisualTreeAsset view;
 
     private Label label;
-    private VisualElement icon;
 
     public Action<Rect> OnMoving;
 
@@ -27,9 +26,6 @@ public class QuestNodeView : GraphElement
 
         // Label
         label = this.Q<Label>();
-
-        // Icon
-        icon = this.Q<VisualElement>("Icon");
 
         SetText(node.QuestAction);
     }
