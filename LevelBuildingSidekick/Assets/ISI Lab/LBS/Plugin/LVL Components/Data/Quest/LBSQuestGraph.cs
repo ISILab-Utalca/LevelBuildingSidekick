@@ -140,7 +140,44 @@ public class LBSQuestGraph : LBSModule, ICloneable
             return;
         }
 
-        questEdges.Add(new QuestEdge(first, second));
+        var edge = new QuestEdge(first, second);
+
+        if (Looped(edge))
+
+        questEdges.Add(edge);
+    }
+
+    private bool Looped(QuestEdge edge)
+    {
+
+        var list = new List<QuestNode>();
+        list.Add(edge.Second);
+
+        while (list.Count > 0) 
+        {
+            if(list.Contains(edge.First))
+                return true;
+
+            var candidates = new List<QuestNode>();
+            foreach (var node in list) 
+            {
+                var edges = GetEdges(node);
+                if (edges.Count == 0)
+                    continue;
+                candidates.AddRange(edges.Select(e => e.Second));
+            }
+
+            list = candidates;
+        }
+
+        return false;
+    }
+
+    private List<QuestEdge> GetEdges(QuestNode node)
+    {
+        if(questEdges.Count == 0)
+            return new List<QuestEdge>();
+        return questEdges.Where(e => e.First == node).ToList();
     }
 
     public void RemoveEdge(Vector2Int position, float delta)
