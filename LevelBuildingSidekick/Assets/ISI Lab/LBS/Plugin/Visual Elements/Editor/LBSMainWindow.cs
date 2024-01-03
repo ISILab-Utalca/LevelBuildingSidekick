@@ -117,9 +117,13 @@ public class LBSMainWindow : EditorWindow
 
         // ToolKitManager
         toolkit = rootVisualElement.Q<ToolKit>(name: "Toolkit");
-        toolkit.OnEndAction += () =>
+        toolkit.OnEndAction += (l) =>
         {
-            drawManager.Redraw(levelData, mainView);
+            // (!!) esta forma de dibujar, en donde se repinta todo, es la que no es eficiente,
+            // hay que cambiarla a que repinte solo lo que este relacionado a las posciones editadas,
+            // pero ahora quedo en que repintara, no todo, pero si toda la layer.
+            drawManager.RedrawLayer(l, mainView);
+            // drawManager.RedrawLevel(levelData, mainView); 
         };
 
         //QuestToolkit
@@ -136,7 +140,7 @@ public class LBSMainWindow : EditorWindow
         {
             LBS.LBS.loadedLevel = data;
             RefreshWindow();
-            drawManager.Redraw(levelData, mainView);
+            drawManager.RedrawLevel(levelData, mainView);
         };
 
         // ExtraPanel
@@ -164,10 +168,20 @@ public class LBSMainWindow : EditorWindow
         layerPanel.style.display = DisplayStyle.Flex;
         layerPanel.OnLayerVisibilityChange += (l) =>
         {
-            drawManager.Redraw(levelData, mainView);
+            drawManager.RedrawLevel(levelData, mainView);
         };
         layerPanel.OnSelectLayer += ShowInfoLayer;
         layerPanel.OnAddLayer += ShowInfoLayer;
+        layerPanel.OnAddLayer += (l) =>
+        {
+            foreach (var module in l.Modules)
+            {
+                module.OnChanged += (m, olds, news) =>
+                {
+                    DrawManager.Instance.RedrawElement(l, m, olds?.ToArray(), news?.ToArray());
+                };
+            }
+        };
 
         // Gen3DPanel
         gen3DPanel = new Generator3DPanel();
@@ -216,7 +230,7 @@ public class LBSMainWindow : EditorWindow
 
         LBSController.OnLoadLevel += (l) => _selectedLayer = null;
 
-        drawManager.Redraw(levelData, mainView);
+        drawManager.RedrawLevel(levelData, mainView);
     }
 
     private void ShowInfoLayer(LBSLayer layer)
@@ -243,7 +257,7 @@ public class LBSMainWindow : EditorWindow
     public new void Repaint()
     {
         base.Repaint();
-        drawManager.Redraw(levelData, mainView);
+        drawManager.RedrawLevel(levelData, mainView);
     }
 
     private void RefreshWindow()

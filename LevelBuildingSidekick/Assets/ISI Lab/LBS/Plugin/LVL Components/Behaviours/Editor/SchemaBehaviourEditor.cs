@@ -55,7 +55,7 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
         this.createNewRoomNode = new AddSchemaTile();
         var t1 = new LBSTool(icon, "Paint Zone", createNewRoomNode);
         t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Local","Behaviours");
-        t1.OnEnd += ()=> areaPallete.Repaint();
+        t1.OnEnd += (l)=> areaPallete.Repaint();
         t1.Init(schema.Owner, schema);
         toolKit.AddTool(t1);
 

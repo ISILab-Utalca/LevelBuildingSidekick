@@ -16,7 +16,7 @@ public class ConstrainsZonesModule : LBSModule , ISelectable
 
     #region PROPERTIES
     [JsonIgnore]
-    public List<ConstraintPair> Constraints => pairs;
+    public List<ConstraintPair> Constraints => new(pairs);
     #endregion
 
     #region EVENTS
@@ -53,6 +53,8 @@ public class ConstrainsZonesModule : LBSModule , ISelectable
     {
         var pair = new ConstraintPair(zone, new Constraint(minArea.x, minArea.y, maxArea.x, maxArea.y));
         pairs.Add(pair);
+
+        OnChanged?.Invoke(this, null, new List<object>() { pair });
         OnAddPair?.Invoke(this, pair);
     }
 
@@ -63,6 +65,7 @@ public class ConstrainsZonesModule : LBSModule , ISelectable
             if(pair.Zone == zone)
             {
                 pairs.Remove(pair);
+                OnChanged?.Invoke(this, new List<object>() { pair }, null);
                 OnRemovePair?.Invoke(this, pair);
                 return;
             }
@@ -86,6 +89,8 @@ public class ConstrainsZonesModule : LBSModule , ISelectable
             var maxArea = new Vector2(4,4);
             AddPair(zone,minArea,maxArea);
         }
+
+        OnChanged?.Invoke(this, temp.Cast<object>().ToList(), pairs.Cast<object>().ToList());
     }
 
     public override void Print()
@@ -191,7 +196,7 @@ public class ConstraintPair : ICloneable
     private Constraint constraint;
     #endregion
 
-    #region
+    #region PROPERTIES
     [JsonIgnore]
     public Zone Zone => zone;
 

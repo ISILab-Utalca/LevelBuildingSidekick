@@ -7,6 +7,34 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+public class LayerContainer
+{
+    private Dictionary<object, GraphElement> pairs = new();
+
+    public void AddElement(object obj,GraphElement element)
+    {
+        pairs.Add(obj, element);
+    }
+
+    public void Actualize(object obj, object other)
+    {
+
+    }
+
+    public void Repaint(object obj)
+    {
+        var ve = pairs[obj];
+        ve.MarkDirtyRepaint();
+    }
+
+    public List<GraphElement> Clear()
+    {
+        var elements = new List<GraphElement>(pairs.Values);
+        pairs.Clear();
+        return elements;
+    }
+}
+
 public class MainView : GraphView // Canvas or WorkSpace
 {
     #region UXML_FACTORY
@@ -31,6 +59,9 @@ public class MainView : GraphView // Canvas or WorkSpace
     #region FIELDS
     private ExternalBounds bound;
     private List<Manipulator> manipulators = new List<Manipulator>();
+
+    private LayerContainer defaultLayer = new LayerContainer();
+    private Dictionary<LBSLayer,LayerContainer> layers = new Dictionary<LBSLayer, LayerContainer>();
     #endregion
 
     #region EVENTS
@@ -56,7 +87,24 @@ public class MainView : GraphView // Canvas or WorkSpace
     }
     #endregion
 
-    #region METHODS
+    #region INTERNAL_METHODS
+    private void InitBound(int interior, int exterior)
+    {
+        this.bound = new ExternalBounds(
+            new Rect(
+                new Vector2(-interior, -interior),
+                new Vector2(interior * 2, interior * 2)
+                ),
+            new Rect(
+                new Vector2(-exterior, -exterior),
+                new Vector2(exterior * 2, exterior * 2)
+                )
+            );
+    }
+    #endregion
+
+    #region METHODS_MANIPULATORS
+
     public void SetBasicManipulators() // (?) necesario aqui 
     {
         var setting = LBSSettings.Instance.general;
@@ -142,30 +190,58 @@ public class MainView : GraphView // Canvas or WorkSpace
         }
     }
 
-    public void ClearView()
+    #endregion
+
+    #region METHODS_VIEW
+
+    public void ClearLevelView()
     {
         this.graphElements.ForEach(e => this.RemoveElement(e));
+        new List<LayerContainer>(this.layers.Values).ForEach(l => l.Clear());
+        defaultLayer.Clear();
         AddElement(bound);
     }
 
-    public new void AddElement(GraphElement element)
+    public void ClearLayerView(LBSLayer layer)
     {
+        var l = layers[layer];
+        var elements = l.Clear();
+        elements.ForEach(e => this.RemoveElement(e));
+    }
+
+    public void AddElement(object obj,GraphElement element)
+    {
+        defaultLayer.AddElement(obj, element);
         base.AddElement(element);
     }
 
-    private void InitBound(int interior, int exterior)
+    public void AddElement(LBSLayer layer, object obj, GraphElement element)
     {
-        this.bound = new ExternalBounds(
-            new Rect(
-                new Vector2(-interior, -interior),
-                new Vector2(interior * 2, interior * 2)
-                ),
-            new Rect(
-                new Vector2(-exterior, -exterior),
-                new Vector2(exterior * 2, exterior * 2)
-                )
-            );
+        LayerContainer container;
+        layers.TryGetValue(layer, out container);
+
+        if (container == null)
+        {
+            container = new LayerContainer();
+            layers.Add(layer, container);
+        }
+
+        container.AddElement(obj, element);
+        base.AddElement(element);
     }
 
+    public LayerContainer GetLayerContainer(LBSLayer layer)
+    {
+        LayerContainer container;
+        layers.TryGetValue(layer, out container);
+
+        if (container == null)
+        {
+            container = new LayerContainer();
+            layers.Add(layer, container);
+        }
+
+        return container;
+    }
     #endregion
 }

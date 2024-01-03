@@ -29,7 +29,7 @@ public class DrawManager
 
     public static void ReDraw()
     {
-        instance.Redraw(instance.level, instance.mainView);
+        instance.RedrawLevel(instance.level, instance.mainView);
     }
 
     public void RefreshView(LBSLayer layer,List<LBSLayer> allLayers, string modeName)
@@ -39,7 +39,7 @@ public class DrawManager
 
         var template = templates.Find(t => t.layer.ID.Equals((string)layer.ID));
 
-        view.ClearView();
+        view.ClearLevelView();
 
         var _allLayers = new List<LBSLayer>(allLayers);
         for (int i = _allLayers.Count - 1; i >= 0; i--)
@@ -57,7 +57,105 @@ public class DrawManager
         }
     }
 
-    public void Draw(LBSLevelData level, MainView MainView)
+    public void DrawLayer(LBSLayer layer, MainView mainView)
+    {
+        var l = layer;
+        if (l == null)
+            return;
+
+        if (!l.IsVisible)
+            return;
+
+        var behaviours = l.Behaviours;
+        foreach (var b in behaviours)
+        {
+            if (b == null)
+                continue;
+
+            if (!b.visible)
+                continue;
+
+            var drawerT = LBS_Editor.GetDrawer(b.GetType());
+            
+            if (drawerT == null)
+                continue;
+
+            var drawer = Activator.CreateInstance(drawerT) as Drawer;
+
+            drawer.Draw(b, view, l.TileSize);
+        }
+
+        var assistants = l.Assitants;
+        foreach (var a in assistants)
+        {
+            if (a == null)
+                continue;
+
+            if (!a.visible)
+                continue;
+
+            var drawerT = LBS_Editor.GetDrawer(a.GetType());
+
+            if (drawerT == null)
+                continue;
+
+            var drawer = Activator.CreateInstance(drawerT) as Drawer; 
+
+            drawer.Draw(a, view, l.TileSize);
+        }
+    }
+
+    private List<Type> GetDrawers(LBSLayer layer)
+    {
+        var toR = new List<Type>();
+        foreach (var b in layer.Behaviours)
+        {
+            if (b == null)
+                continue;
+
+            if (!b.visible)
+                continue;
+
+            var drawerT = LBS_Editor.GetDrawer(b.GetType());
+
+            if (drawerT == null)
+                continue;
+
+            toR.Add(drawerT);
+        }
+
+        foreach (var a in layer.Assitants)
+        {
+            if (a == null)
+                continue;
+
+            if (!a.visible)
+                continue;
+
+            var drawerT = LBS_Editor.GetDrawer(a.GetType());
+
+            if (drawerT == null)
+                continue;
+
+            toR.Add(drawerT);
+        }
+
+        return toR;
+    }
+
+    public void RedrawLayer(LBSLayer layer, MainView view)
+    {
+        view.ClearLayerView(layer);
+        DrawLayer(layer, view);
+    }
+
+    public void RedrawLevel(LBSLevelData level, MainView view)
+    {
+        view.ClearLevelView();
+        DrawLevel(level, view);
+    }
+
+    private void DrawLevel(LBSLevelData level, MainView MainView)
     {
         this.level = level;
         this.mainView = MainView;
@@ -72,6 +170,7 @@ public class DrawManager
     {
         for (int i = layers.Count - 1; i >= 0; i--)
         {
+            /*
             var l = layers[i];
 
             if (l == null)
@@ -123,13 +222,22 @@ public class DrawManager
                 var drawer = Activator.CreateInstance(drawers.First().Item1) as Drawer; // shold be registering it instead of instantiation each time it will paint
                 drawer.Draw(a, view, l.TileSize);
             }
+            */
+            DrawLayer(layers[i], mainView);
         }
-
     }
 
-    public void Redraw(LBSLevelData level, MainView view)
+    public void RedrawElement(LBSLayer layer, LBSModule module, object[] olds , object[] news)
     {
-        view.ClearView();
-        Draw(level, view);
+        var container = mainView.GetLayerContainer(layer);
+
+        // get drawers of layer
+        var drawersT = GetDrawers(layer);
+        foreach (var drawerT in drawersT)
+        {
+            var drawer = Activator.CreateInstance(drawerT) as Drawer;
+            drawer.ReDraw(layer, olds, news, view, layer.TileSize);
+        }
     }
+
 }

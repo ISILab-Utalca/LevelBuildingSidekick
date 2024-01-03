@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 namespace LBS
 {
@@ -27,9 +28,10 @@ namespace LBS
         #region EVENTS
         public event Action OnSelect;
         public event Action OnDeselect;
-        public event Action OnStart;
-        public event Action OnPressed;
-        public event Action OnEnd;
+
+        public event Action<LBSLayer> OnStart;
+        public event Action<LBSLayer> OnPressed;
+        public event Action<LBSLayer> OnEnd;
         #endregion
 
         #region CONSTRUCTORS
@@ -48,9 +50,9 @@ namespace LBS
         #region METHODS
         public virtual void Init(LBSLayer layer, object behaviour)
         {
-            manipulator.OnManipulationStart += () => { OnStart?.Invoke(); };
-            manipulator.OnManipulationUpdate += () => { OnPressed?.Invoke(); };
-            manipulator.OnManipulationEnd += () => { OnEnd?.Invoke(); };
+            manipulator.OnManipulationStart += () => { OnStart?.Invoke(layer); };
+            manipulator.OnManipulationUpdate += () => { OnPressed?.Invoke(layer); };
+            manipulator.OnManipulationEnd += () => { OnEnd?.Invoke(layer); };
 
             manipulator.Init(layer, behaviour);
         }

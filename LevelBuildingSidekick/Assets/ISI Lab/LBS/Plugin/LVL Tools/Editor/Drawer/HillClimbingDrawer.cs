@@ -26,8 +26,8 @@ public class HillClimbingDrawer : Drawer
         var consts = assistant.ConstrainsZonesMod.Constraints;
         var zones = assistant.ZonesWhitTiles;
 
-        List<LBSNodeView> nViews = new();
-        List<DottedAreaFeedback> cViews = new();
+        List<(object,LBSNodeView)> nViews = new();
+        List<(object,DottedAreaFeedback)> cViews = new();
         foreach (var zone in zones)
         {
             // Create node view
@@ -38,7 +38,7 @@ public class HillClimbingDrawer : Drawer
 
             // Set position
             var pos = new Vector2(
-                bound.center.x * nodeSize.x -(nodeSize.x /2f), 
+                bound.center.x * nodeSize.x - (nodeSize.x / 2f),
                 -(bound.center.y * nodeSize.y - (nodeSize.y / 2f)));
 
             // Set view values
@@ -47,7 +47,7 @@ public class HillClimbingDrawer : Drawer
             nView.SetColor(zone.Color);
 
             // add node view to list
-            nViews.Add(nView);
+            nViews.Add((zone, nView));
 
             // Add to reference dictionary
             viewRefs.Add(zone, nView);
@@ -55,10 +55,14 @@ public class HillClimbingDrawer : Drawer
             // Get pair info
             foreach (var pair in consts)
             {
-                if(pair.Zone == zone)
+                if (pair.Zone == zone)
                 {
                     // Create feedback view
-                    cViews.AddRange(CreateFeedBackAreas(viewRefs[zone], pair, teselationSize));
+                    var vws = CreateFeedBackAreas(nView, pair, teselationSize);
+                    foreach (var v in vws)
+                    {
+                        cViews.Add((pair, v));
+                    }
                     break;
                 }
             }
@@ -66,7 +70,7 @@ public class HillClimbingDrawer : Drawer
 
         // Get edges
         var edges = assistant.GetEdges();
-        List<LBSEdgeView> eViews = new();
+        List<(object, LBSEdgeView)> eViews = new();
         foreach (var edge in edges)
         {
             // Get view nodes
@@ -77,16 +81,16 @@ public class HillClimbingDrawer : Drawer
             var eView = new LBSEdgeView(edge, n1, n2, 4, 4);
 
             // Add element to the canvas
-            view.AddElement(eView);
+            eViews.Add((edge, eView));
         }
 
         // print everything
-        eViews.ForEach(e => view.AddElement(e));
+        eViews.ForEach(e => view.AddElement(assistant.Owner,e.Item1, e.Item2));
 
         if(assistant.visibleConstraints)
-            cViews.ForEach(c => view.AddElement(c));
+            cViews.ForEach(c => view.AddElement(assistant.Owner, c.Item1, c.Item2));
 
-        nViews.ForEach(n => view.AddElement(n));
+        nViews.ForEach(n => view.AddElement(assistant.Owner, n.Item1, n.Item2));
     }
 
     public override Texture2D GetTexture(object target, Rect sourceRect, Vector2Int teselationSize)

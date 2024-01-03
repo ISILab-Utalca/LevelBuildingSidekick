@@ -41,14 +41,13 @@ public class BundleTileMap : LBSModule, ISelectable
         {
             tiles.Remove(t);
         }
+
+        OnChanged?.Invoke(this, null, new List<object>() { tile });
         tiles.Add(tile);
 
     }
 
-    public void AddTile(LBSTile tile, BundleData bundleData, Vector2 rotation)
-    {
-        AddTile(new TileBundlePair(tile, bundleData, rotation));
-    }
+    public void AddTile(LBSTile tile, BundleData bundleData, Vector2 rotation) => AddTile(new TileBundlePair(tile, bundleData, rotation));
 
     public TileBundlePair GetTile(LBSTile tile)
     {
@@ -69,13 +68,13 @@ public class BundleTileMap : LBSModule, ISelectable
     public void RemoveTile(LBSTile tile)
     {
         var t = GetTile(tile);
+
+        OnChanged?.Invoke(this, new List<object>() { t }, null);
+
         tiles.Remove(t);
     }
 
-    public void RemoveTile(int index)
-    {
-        tiles.RemoveAt(index);
-    }
+    public void RemoveTile(int index) => RemoveTile(tiles[index].Tile);
 
     public bool Contains(LBSTile tile)
     {
@@ -116,6 +115,9 @@ public class BundleTileMap : LBSModule, ISelectable
         {
             return;
         }
+
+        OnChanged?.Invoke(this,new List<object>(tiles), new List<object>(map.tiles));
+
         Clear();
         foreach (var t in map.tiles)
         {

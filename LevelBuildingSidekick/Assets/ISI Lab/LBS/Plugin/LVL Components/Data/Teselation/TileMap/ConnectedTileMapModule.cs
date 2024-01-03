@@ -12,10 +12,10 @@ public class ConnectedTileMapModule : LBSModule
 {
     #region FIELDS
     [SerializeField, JsonRequired]
-    protected int connectedDirections = 4;
+    private int connectedDirections = 4;
 
     [SerializeField, JsonRequired, SerializeReference]
-    protected List<TileConnectionsPair> pairs = new List<TileConnectionsPair>();
+    private List<TileConnectionsPair> pairs = new List<TileConnectionsPair>();
     #endregion
 
     #region PROPERTIES
@@ -55,13 +55,23 @@ public class ConnectedTileMapModule : LBSModule
     public void SetConnection(LBSTile tile, int direction, string connection, bool editedByIA)
     {
         var pair = GetPair(tile);
+
+        var old = new TileConnectionsPair(tile,pair.Connections,pair.EditedByIA);
+
         pair.SetConnection(direction, connection, editedByIA);
+
+        OnChanged?.Invoke(this, new List<object>() { old }, new List<object>() { pair });
     }
 
     public void SetConnections(LBSTile tile, List<string> connections, List<bool> canBeEditedByIA)
     {
         var pair = GetPair(tile);
+
+        var old = new TileConnectionsPair(tile, pair.Connections, pair.EditedByIA);
+
         pair.SetConnections(connections, canBeEditedByIA);
+        
+        OnChanged?.Invoke(this, new List<object>() { old }, new List<object>() { pair });
     }
 
     public void AddPair(LBSTile tile, List<string> connections, List<bool> canBeEditedByIA)
@@ -74,6 +84,8 @@ public class ConnectedTileMapModule : LBSModule
             OnRemovePair?.Invoke(this, current);
         }
         pairs.Add(pair);
+
+        OnChanged?.Invoke(this, null, new List<object>() { pair });
         OnAddPair?.Invoke(this, pair);
     }
 
@@ -94,6 +106,7 @@ public class ConnectedTileMapModule : LBSModule
     {
         var pair = GetPair(tile);
         pairs.Remove(pair);
+        OnChanged?.Invoke(this, new List<object>() { pair }, null);
         OnRemovePair?.Invoke(this, pair);
     }
 
@@ -101,6 +114,8 @@ public class ConnectedTileMapModule : LBSModule
     {
         var pair = pairs[index];
         pairs.RemoveAt(index);
+
+        OnChanged?.Invoke(this, new List<object>() { pair }, null);
         OnRemovePair?.Invoke(this, pair);
     }
 
@@ -200,31 +215,6 @@ public class ConnectedTileMapModule : LBSModule
     {
         return base.GetHashCode();
     }
-
-    /*
-    public void AddTile(TileConnectionsPair tile)
-    {
-        if(tile.Connections.Count < connectedDirections)
-        {
-            for (int i = tile.Connections.Count; i < connectedDirections; i++)
-            {
-                tile.AddConnection("");
-            }
-        }
-        else
-        {
-            tile.SetConnections(tile.Connections.Take(connectedDirections));
-        }
-
-        var t = GetPair(tile.Tile);
-        if(t != null)
-        {
-            pairs.Remove(t);
-        }
-        pairs.Add(tile);
-
-    }
-    */
     #endregion
 
 }

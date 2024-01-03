@@ -66,8 +66,11 @@ public class ExteriorBehaviour : LBSBehaviour
 
     public void AddTile(LBSTile tile)
     {
-        TileMap.AddTile(tile);
-        Connections.AddPair(tile, new List<string> { "", "", "", "" }, new List<bool> { false, false, false, false });
+        Owner.GetModule<TileMapModule>()
+            .AddTile(tile);
+
+        Owner.GetModule<ConnectedTileMapModule>()
+            .AddPair(tile, new List<string> { "", "", "", "" }, new List<bool> { false, false, false, false });
     }
 
     public void SetConnection(LBSTile tile, int direction, string connection, bool canEditedByAI)

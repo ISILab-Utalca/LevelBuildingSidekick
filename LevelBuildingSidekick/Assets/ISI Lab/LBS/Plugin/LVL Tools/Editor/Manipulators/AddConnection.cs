@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class AddConnection : LBSManipulator
 {
@@ -85,6 +86,6 @@ public class AddConnection : LBSManipulator
 
         first.SetConnection(fDir, tagToSet.Label, false);
         tile.SetConnection(tDir, tagToSet.Label, false);
-
     }
+
 }

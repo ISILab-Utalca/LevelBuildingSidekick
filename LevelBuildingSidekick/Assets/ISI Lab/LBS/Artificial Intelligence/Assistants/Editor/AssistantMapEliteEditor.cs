@@ -130,16 +130,19 @@ public class AssistantMapEliteEditor : LBSCustomEditor, IToolProvider
             if (bh != null && b.Equals(bh))
                 continue;
 
-            var classes = Utility.Reflection.GetClassesWith<DrawerAttribute>();
-            if (classes.Count == 0)
-                continue;
+            
+            //var classes = Utility.Reflection.GetClassesWith<DrawerAttribute>();
+            //if (classes.Count == 0)
+            //    continue;
 
-            var drawers = classes.Where(t => t.Item2.Any(v => v.type == b.GetType()));
+            //var drawers = classes.Where(t => t.Item2.Any(v => v.type == b.GetType()));
 
-            if (drawers.Count() == 0)
-                continue;
+            //if (drawers.Count() == 0)
+            //    continue;
 
-            var drawer = Activator.CreateInstance(drawers.First().Item1) as Drawer;
+            var drawerT = LBS_Editor.GetDrawer(b.GetType());
+            //var drawer = Activator.CreateInstance(drawers.First().Item1) as Drawer;
+            var drawer = Activator.CreateInstance(drawerT) as Drawer;
             textures.Add(drawer.GetTexture(b, rect, Vector2Int.one * size));
         }
 

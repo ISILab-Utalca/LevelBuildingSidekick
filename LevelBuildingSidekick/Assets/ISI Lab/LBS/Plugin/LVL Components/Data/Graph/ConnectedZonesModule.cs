@@ -35,6 +35,7 @@ public class ConnectedZonesModule : LBSModule
     #region METHODS
     public void AddEdge(ZoneEdge edge)
     {
+        OnChanged?.Invoke(this, null, new List<object>() { edge });
         edges.Add(edge);
         OnAddEdge?.Invoke(this, edge);
     }
@@ -42,6 +43,7 @@ public class ConnectedZonesModule : LBSModule
     public void AddEdge(Zone first, Zone second)
     {
         var edge = new ZoneEdge(first, second);
+        OnChanged?.Invoke(this, null, new List<object>() { edge });
         edges.Add(edge);
         OnAddEdge?.Invoke(this, edge);
     }
@@ -81,6 +83,7 @@ public class ConnectedZonesModule : LBSModule
         var edge = GetEdge(first, second);
         if (edge != null)
         {
+            OnChanged?.Invoke(this, new List<object>() { edge }, null);
             edges.Remove(edge);
             OnRemoveEdge?.Invoke(this, edge);
         }
@@ -88,6 +91,7 @@ public class ConnectedZonesModule : LBSModule
 
     public void RemoveEdge(ZoneEdge edge)
     {
+        OnChanged?.Invoke(this, new List<object>() { edge }, null);
         edges.Remove(edge);
         OnRemoveEdge?.Invoke(this,edge);
     }
@@ -95,7 +99,8 @@ public class ConnectedZonesModule : LBSModule
     public void RemoveEdges(Zone zone)
     {
         var toRemove = edges.Where(e => e.First.Equals(zone) || e.Second.Equals(zone)).ToList();
-        for(int i = 0; i < toRemove.Count; i++)
+        OnChanged?.Invoke(this, toRemove.Cast<object>().ToList(), null);
+        for (int i = 0; i < toRemove.Count; i++)
         {
             edges.Remove(toRemove[i]);
         }

@@ -53,7 +53,8 @@ public class DynamicFoldout : VisualElement
         //    return;
         //throw new Exception("[ISI Lab] No class marked as CustomVisualElement found for type: " + type);
         //}
-        //var p = LBS_Editor.pairs;
+
+        var p = LBS_Editor.pairsEditors;
         var veType = LBS_Editor.GetEditor(type);
 
         if (veType == null)
