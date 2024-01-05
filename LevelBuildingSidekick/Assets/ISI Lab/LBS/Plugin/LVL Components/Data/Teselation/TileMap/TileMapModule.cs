@@ -98,11 +98,13 @@ namespace LBS.Components.TileMap
                 tiles.Remove(t);
 
             tiles.Add(tile);
+            OnChanged?.Invoke(this, new List<object>() { t }, new List<object>() { tile });
             OnAddTile?.Invoke(this, tile);
         }
 
         public void AddTiles(List<LBSTile> tiles)
         {
+            OnChanged?.Invoke(this, null, tiles.Cast<object>().ToList());
             foreach(var t in tiles)
             {
                 AddTile(t);
@@ -126,6 +128,7 @@ namespace LBS.Components.TileMap
 
         public bool RemoveTile(LBSTile tile)
         {
+            OnChanged?.Invoke(this, new List<object>() { tile }, null);
             if(tiles.Remove(tile))
             {
                 OnRemoveTile?.Invoke(this, tile);
@@ -139,7 +142,7 @@ namespace LBS.Components.TileMap
             var tile = tiles[index];
             tiles.Remove(tile); 
             OnRemoveTile?.Invoke(this, tile);
-
+            OnChanged?.Invoke(this, new List<object>() { tile }, null);
             return tile;
         }
 
@@ -156,6 +159,7 @@ namespace LBS.Components.TileMap
 
         public void RemoveTiles(List<LBSTile> tiles)
         {
+            OnChanged?.Invoke(this, tiles.Cast<object>().ToList(), null);
             foreach(var t in tiles)
             {
                 RemoveTile(t);

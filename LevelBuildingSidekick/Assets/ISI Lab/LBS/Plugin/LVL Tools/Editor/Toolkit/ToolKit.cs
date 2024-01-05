@@ -102,8 +102,8 @@ namespace LBS.VisualElements
         #endregion
 
         #region EVENTS
-        public event Action OnEndAction;
-        public event Action OnStartAction;
+        public event Action<LBSLayer> OnEndAction;
+        public event Action<LBSLayer> OnStartAction;
         #endregion
 
         #region CONSTRUCTORS
@@ -187,8 +187,8 @@ namespace LBS.VisualElements
             });
             button.SetColorGroup(baseColor, LBSSettings.Instance.view.toolkitSelected);
 
-            tool.OnStart += OnStartAction;
-            tool.OnEnd += () => { OnEndAction(); };
+            tool.OnStart += (l) => { OnStartAction?.Invoke(l); };
+            tool.OnEnd += (l) => { OnEndAction?.Invoke(l); };
 
         }
 

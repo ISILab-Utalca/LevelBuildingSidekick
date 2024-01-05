@@ -30,24 +30,9 @@ namespace LBS.Components
         [JsonIgnore]
         public LBSLayer Owner
         {
-            get
-            {
-                return owner;
-            }
-            set
-            {
-                owner = value;
-            }
+            get => owner;
+            set => owner = value;
         }
-
-        /*
-        [JsonIgnore]
-        public bool HasChanged
-        {
-            get => changed;
-            set => changed = value;
-        }
-        */
 
         [JsonIgnore]
         public string ID
@@ -59,8 +44,8 @@ namespace LBS.Components
         #endregion
 
         #region EVENTS
-        //[JsonIgnore]
-        //public Action<LBSModule> OnChanged;
+        [JsonIgnore]
+        public Action<LBSModule, List<object>, List<object>> OnChanged;
         #endregion
 
         #region CONSTRUCTOR
@@ -97,7 +82,7 @@ namespace LBS.Components
         /// prints by console basic information of 
         /// the representation.
         /// </summary>
-        public abstract void Print(); // to string (??)
+        public abstract void Print(); // (?) sto es equivalente a "toString()" ?  
 
         /// <summary>
         /// Cleans all the information saved in.
@@ -120,7 +105,7 @@ namespace LBS.Components
         /// Gets the bounding rectangle of the representation.
         /// </summary>
         /// <returns></returns>
-        public abstract Rect GetBounds();
+        public abstract Rect GetBounds(); // (?) meter esto a una interfaz IBoundeble ??
 
         /// <summary>
         /// Rewrites the representation based on another LBSModule.

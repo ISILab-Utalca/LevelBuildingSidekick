@@ -32,7 +32,49 @@ public class ExteriorDrawer : Drawer
 
             var tView = GetTileView(tile, connections, teselationSize);
 
-            view.AddElement(tView);
+            view.AddElement(exterior.Owner, tile, tView);
+        }
+    }
+
+    public override void ReDraw(LBSLayer layer, object[] olds, object[] news, MainView view, Vector2 teselationSize)
+    {
+        Debug.Log("REDRAW bit EXTERIOR");
+
+        // Get modules
+        var tileMod = layer.GetModule<TileMapModule>();
+        var connectMod = layer.GetModule<ConnectedTileMapModule>();
+
+        var c = Mathf.Max(olds.Length, news.Length);
+
+        for (int i = 0; i < c; i++)
+        {
+            var o = olds[i];
+            var n = news[i];
+
+            if(o != null && n != null)
+            {
+                // (!!!) implementar REPLACE
+            }
+            else if(o == null && n != null)
+            {
+                // (!!!) implementar ADD
+                if(n.GetType().Equals(typeof(LBSTile)))
+                {
+                    var tile = n as LBSTile;
+                    var connections = connectMod.GetConnections(tile);
+                    var ve = GetTileView(tile, connections, teselationSize);
+                    view.AddElement(layer, tile, ve);
+                }
+                else 
+                {
+
+                }
+
+            }
+            else if(o != null && n == null)
+            {
+                // (!!!) implementar REMOVE
+            }
         }
     }
 

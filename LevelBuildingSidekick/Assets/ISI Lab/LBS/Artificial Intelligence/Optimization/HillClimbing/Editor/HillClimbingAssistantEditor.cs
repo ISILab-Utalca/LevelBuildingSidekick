@@ -22,6 +22,8 @@ public class HillClimbingAssistantEditor : LBSCustomEditor, IToolProvider
     private Button revert;
     private Button execute;
     private Toggle toggle;
+    private Button executeOne;
+    private Toggle toggleTimer;
 
     private Button recalculate;
 
@@ -97,6 +99,13 @@ public class HillClimbingAssistantEditor : LBSCustomEditor, IToolProvider
             foldout.Add(view);
         }
 
+        // Print Timers
+        this.toggleTimer = this.Q<Toggle>("ShowTimerToggle");
+        this.toggleTimer.RegisterCallback<ChangeEvent<bool>>( x =>
+        {
+            hillClimbing.printClocks = x.newValue;
+        });
+
         // Revert
         this.revert = this.Q<Button>("Revert");
         this.revert.clicked += Revert;
@@ -104,6 +113,10 @@ public class HillClimbingAssistantEditor : LBSCustomEditor, IToolProvider
         // Execute
         this.execute = this.Q<Button>("Execute");
         this.execute.clicked += Execute;
+
+        // Execute 1 step
+        this.executeOne = this.Q<Button>("ExecuteOneStep");
+        this.executeOne.clicked += ExecuteOneStep;
 
         // Show Constraint
         this.toggle = this.Q<Toggle>("ShowConstraintToggle");
@@ -134,6 +147,10 @@ public class HillClimbingAssistantEditor : LBSCustomEditor, IToolProvider
         CreateVisualElement();
     }
 
+    private void ExecuteOneStep()
+    {
+        hillClimbing.ExecuteOneStep();
+    }
 
     private void Execute()
     {

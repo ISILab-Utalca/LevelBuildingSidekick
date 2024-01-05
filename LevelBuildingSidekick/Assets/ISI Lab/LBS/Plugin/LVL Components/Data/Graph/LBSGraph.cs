@@ -39,6 +39,8 @@ public class LBSGraph : LBSModule
     {
         if (nodes.Contains(node))
             return;
+
+        OnChanged?.Invoke(this, null, new List<object>() { node });
         nodes.Add(node);
     }
 
@@ -48,9 +50,11 @@ public class LBSGraph : LBSModule
             return;
 
         OnRemoveNode?.Invoke(this, node);
+        OnChanged?.Invoke(this, new List<object>() { node }, null);
         nodes.Remove(node);
         var toR = edges.Where(e => e.FirstNode.Equals(node) || e.SecondNode.Equals(node)).ToList();
 
+        OnChanged?.Invoke(this, new List<object>() { toR }, null);
         foreach(var e in toR)
         {
             edges.Remove(e);
@@ -78,6 +82,7 @@ public class LBSGraph : LBSModule
         if (edges.Any(e => e.FirstNode.Equals(first) && e.SecondNode.Equals(second) || e.FirstNode.Equals(second) || e.SecondNode.Equals(first)))
             return;
 
+        OnChanged?.Invoke(this, null, new List<object>() { new LBSEdge(first, second) });
         edges.Add(new LBSEdge(first, second));
     }
 
@@ -85,6 +90,8 @@ public class LBSGraph : LBSModule
     {
         if(!edges.Contains(edge))
             return; 
+
+        OnChanged?.Invoke(this, new List<object>() { edge }, null);
         edges.Remove(edge);
     }
 
@@ -97,6 +104,7 @@ public class LBSGraph : LBSModule
             //Debug.Log(dist + " / " + delta);
             if (dist < delta)
             {
+                OnChanged?.Invoke(this, new List<object>() { e }, null);
                 edges.Remove(e);
                 return e;
             }

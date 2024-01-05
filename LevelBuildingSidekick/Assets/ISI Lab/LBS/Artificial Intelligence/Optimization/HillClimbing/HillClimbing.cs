@@ -57,6 +57,7 @@ namespace ISILab.AI.Optimization
             clock.Restart();
             var offsprings = GetNeighbors.Invoke(best);
             clock.Stop();
+
             Nlog = clock.ElapsedMilliseconds;
             NNlog= offsprings.Count;
             //var offsprings = GetNeighbors?.Invoke(BestCandidate); // poner exepcion por si neigthbor es null (!!!)
@@ -73,6 +74,11 @@ namespace ISILab.AI.Optimization
         public override object Clone()
         {
             throw new NotImplementedException();
+        }
+
+        public override void PrintClocks()
+        {
+            UnityEngine.Debug.Log("CLOCKS");
         }
     }
 }

@@ -24,7 +24,7 @@ public class SectorizedTileMapModule : LBSModule, ISelectable
     public List<TileZonePair> PairTiles => new List<TileZonePair>(pairs);
 
     [JsonIgnore]
-    public List<Zone> Zones => zones;
+    public List<Zone> Zones => new (zones);
 
     [JsonIgnore]
     public List<Zone> ZonesWithTiles => pairs.Select(t => t.Zone).Distinct().ToList();
@@ -68,34 +68,17 @@ public class SectorizedTileMapModule : LBSModule, ISelectable
     {
         var tiles = GetTiles(zone);
 
+        var old = new List<LBSTile>();
+
         var poss = new List<Vector2Int>();
         foreach (var t in tiles)
         {
+            old.Add(t.Clone() as LBSTile);
             t.Position += new Vector2Int(dir.x, dir.y);
             poss.Add(t.Position + dir);
         }
-        /*
-        var tor = new List<LBSTile>();
-        foreach (var otherZone in zones)
-        {
-            if (zone.ID != otherZone.ID)
-            {
-                var otherTiles = GetTiles(otherZone);
 
-                foreach (var t in otherTiles)
-                {   
-                    if(poss.Contains(t.Position))
-                    {
-                        tor.Add(t);
-                    }
-                }
-            }
-        }
-
-        foreach (var t in tor)
-        {
-            RemovePair(t);
-        }*/
+        OnChanged?.Invoke(this, old.Cast<object>().ToList(), tiles.Cast<object>().ToList());
 
         RecalcPivotZone(zone);
     }
@@ -118,6 +101,8 @@ public class SectorizedTileMapModule : LBSModule, ISelectable
             OnRemovePair?.Invoke(this, current);
         }
         pairs.Add(pair);
+
+        OnChanged?.Invoke(this, null, new List<object>() { pair });
         OnAddPair?.Invoke(this, pair);
 
         RecalcPivotZone(pair.Zone);
@@ -126,12 +111,14 @@ public class SectorizedTileMapModule : LBSModule, ISelectable
     public void AddTile(LBSTile tile, Zone zone)
     {
         var pair = new TileZonePair(tile, zone);
+        OnChanged?.Invoke(this, null, new List<object>() { pair });
         AddPair(pair);
     }
 
     public void AddZone(Zone zone)
     {
         zones.Add(zone);
+        OnChanged?.Invoke(this, null, new List<object>() { zone });
         OnAddZone?.Invoke(this, zone);
     }
 
@@ -154,6 +141,7 @@ public class SectorizedTileMapModule : LBSModule, ISelectable
             if (pair.Zone == zone)
                 toRemove.Add(pair);
         }
+        OnChanged?.Invoke(this, toRemove.Cast<object>().ToList(), null);
 
         foreach (var pair in toRemove)
         {
@@ -198,6 +186,7 @@ public class SectorizedTileMapModule : LBSModule, ISelectable
     {
         var t = GetPairTile(tile);
         pairs.Remove(t);
+        OnChanged?.Invoke(this, new List<object>() { t }, null);
         OnRemovePair?.Invoke(this, t);
     }
 
@@ -205,6 +194,7 @@ public class SectorizedTileMapModule : LBSModule, ISelectable
     {
         var pair = pairs[index];
         pairs.RemoveAt(index);
+        OnChanged?.Invoke(this, new List<object>() { pair }, null);
         OnRemovePair?.Invoke(this, pair);
     }
 

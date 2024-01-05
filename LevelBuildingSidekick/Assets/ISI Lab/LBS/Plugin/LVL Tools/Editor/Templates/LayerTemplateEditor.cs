@@ -227,26 +227,12 @@ public class LayerTemplateEditor : Editor
         // Assistants
         var assIcon = Resources.Load<Texture2D>("Icons/Select");
         var ass = new AssistantMapElite(assIcon, "Map Elite - Genetic Algorithm");
+        ass.OnAttachLayer(layer);
         //ass.OnAdd(layer);
         layer.AddAssistant(ass);
 
         // Rules
         layer.AddGeneratorRule(new PopulationRuleGenerator());
-
-        /*
-        // Select
-        Texture2D icon = Resources.Load<Texture2D>("Icons/Select");
-        var tool1 = new LBSTool(icon, "Select", typeof(Select), null, true);
-
-        //Add
-        icon = Resources.Load<Texture2D>("Icons/paintbrush");
-        var tool2 = new LBSTool(icon, "Add Tile", typeof(AddTaggedTile), typeof(BundlePalleteInspector), false);
-
-        //Remove
-        icon = Resources.Load<Texture2D>("Icons/Trash");
-        var tool3 = new LBSTool(icon, "Remove", typeof(RemoveTile), null, false);
-        */
-        //template.modes.Add(mode1);
 
         Debug.Log("Set Population Default");
         EditorUtility.SetDirty(target);
