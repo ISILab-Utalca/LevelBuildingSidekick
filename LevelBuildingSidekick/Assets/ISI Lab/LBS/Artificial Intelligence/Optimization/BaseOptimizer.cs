@@ -15,9 +15,7 @@ namespace ISILab.AI.Optimization
     [System.Serializable]
     public abstract class BaseOptimizer : ICloneable
     {
-
         #region FIELDS
-
         protected Op_State state = Op_State.NotStarted;
         protected Stopwatch clock = new Stopwatch();
         protected readonly object m_lock = new object();
@@ -194,6 +192,28 @@ namespace ISILab.AI.Optimization
             Run();
         }
 
+        public virtual void StartOne()
+        {
+            OnStarted?.Invoke();
+            lock (m_lock)
+            {
+                stopRequested = false;
+                pauseRequested = false;
+                State = Op_State.Started;
+                clock = new Stopwatch();
+                clock.Start();
+                //Adam.Fitness = Evaluator.Evaluate(Adam);
+                Population.Adam = Adam;
+                Population.CreateInitialGeneration();
+                EvaluateFitness(Population.CurrentGeneration.Evaluables);
+                Population.EndCurrentGeneration();
+                OnGenerationRan?.Invoke();
+                clock.Stop();
+            }
+
+            RunOnce();
+        }
+
         public virtual void Restart()
         {
             OnStarted?.Invoke();
@@ -217,6 +237,7 @@ namespace ISILab.AI.Optimization
         }
 
         public abstract void RunOnce ();
+
         public abstract void EvaluateFitness(IList<IOptimizable> optimizables);
 
         public void Run()
@@ -280,7 +301,12 @@ namespace ISILab.AI.Optimization
             }
         }
 
-        public abstract object Clone();
+        public abstract object Clone(); // (!) Es necesario heredar esto
+
+        public virtual void PrintClocks() 
+        {
+            UnityEngine.Debug.Log("no implementado: " + this.GetType());
+        }
 
         #endregion
     }

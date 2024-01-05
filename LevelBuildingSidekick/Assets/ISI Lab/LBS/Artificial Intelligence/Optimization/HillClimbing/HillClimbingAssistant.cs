@@ -14,7 +14,8 @@ using System.Diagnostics;
 using Debug = UnityEngine.Debug;
 using Newtonsoft.Json;
 using LBS.Assisstants;
-
+using System.Threading.Tasks;
+using UnityEngine.XR;
 
 [System.Serializable]
 [RequieredModule(typeof(TileMapModule),
@@ -30,25 +31,14 @@ public class HillClimbingAssistant : LBSAssistant
     #region META-FIELDS
     [SerializeField, JsonRequired]
     public bool visibleConstraints = false;
+    [SerializeField, JsonRequired]
+    public bool printClocks = false;
     #endregion
 
     #region FIELDS
     [JsonIgnore, NonSerialized]
     private HillClimbing hillClimbing;
 
-    [JsonIgnore, NonSerialized]
-    private Stopwatch clock = new Stopwatch();
-
-    /*
-    [JsonIgnore]
-    private ConnectedZonesModule graph;
-    [JsonIgnore]
-    private SectorizedTileMapModule areas;
-    [JsonIgnore]
-    private TileMapModule tileMap;
-    [JsonIgnore]
-    private ConstrainsZonesModule constrainsZones;
-    */
     [JsonIgnore, NonSerialized]
     private LBSLayer layer;
     #endregion
@@ -71,23 +61,10 @@ public class HillClimbingAssistant : LBSAssistant
     #region METHODS
     public override void Execute()
     {
-        clock = new Stopwatch();
+        var clock = new Stopwatch();
 
         UnityEngine.Debug.Log("HillClimbing start!");
         OnStart?.Invoke();
-
-        /*
-        foreach (var zone in ZonesWhitTiles)
-        {
-            if(ConstrainsZonesMod.GetLimits(zone) == null)
-            {
-                var bounds = AreasMod.GetBounds(zone);
-                ConstrainsZonesMod.AddPair(zone, bounds.size - Vector2.one, bounds.size + Vector2.one);
-            }
-        }*/
-
-
-        //OnAdd(Owner);
 
         clock.Start();
         hillClimbing.Start();
@@ -108,7 +85,46 @@ public class HillClimbingAssistant : LBSAssistant
         Owner.Reload();
 
         OnTermination?.Invoke();
+
         UnityEngine.Debug.Log("HillClimbing finish!");
+        Debug.Log(
+            "Execute \n" +
+            "Time: " + clock.ElapsedMilliseconds/1000f + " s. \n" +
+            "Ticks: " + clock.ElapsedTicks);
+
+    }
+
+    public void  ExecuteOneStep()
+    {
+        var clock = new Stopwatch();
+        UnityEngine.Debug.Log("HillClimbing one step, start!");
+        OnStart?.Invoke();
+
+        clock.Start();
+        hillClimbing.StartOne();
+        clock.Stop();
+
+
+        var modules = (hillClimbing.BestCandidate as OptimizableModules).Modules;
+        var zones = modules.GetModule<SectorizedTileMapModule>();
+        RecalculateWalls(modules);
+
+        SetDoors(modules);
+
+        foreach (var module in modules)
+        {
+            var old = this.Owner.GetModule(module.ID);
+            this.Owner.ReplaceModule(old, module);
+        }
+
+        Owner.Reload();
+        OnTermination?.Invoke();
+
+        UnityEngine.Debug.Log("HillClimbing on step, finish!");
+        Debug.Log(
+            "One step \n"+
+            "Time: " + clock.ElapsedMilliseconds / 1000f + " s. \n" +
+            "Ticks " + clock.ElapsedTicks);
     }
 
     public void RecalculateWalls(List<LBSModule> layer)
@@ -334,6 +350,78 @@ public class HillClimbingAssistant : LBSAssistant
     /// <returns></returns>
     public List<IOptimizable> GetNeighbors(IOptimizable adam)
     {
+        return GetNeigSERIE(adam);
+        //return GetNeigPARALLEL(adam);
+    }
+
+
+    private List<IOptimizable> GetNeigPARALLEL(IOptimizable adam)
+    {
+        var modules = (adam as OptimizableModules).Modules;
+        var zones = modules.GetModule<SectorizedTileMapModule>();
+
+        // Init empty neighbors group
+        var neighbors = new List<IOptimizable>();
+
+        // Parallel.ForEach to iterate over zones in parallel
+        var tempZ = new List<IOptimizable>[zones.ZonesWithTiles.Count];
+        Parallel.For(0, zones.ZonesWithTiles.Count, i =>
+        {
+            var zone = zones.ZonesWithTiles[i];
+
+            // Get Schema walls for zones
+            var vWalls = zones.GetVerticalWalls(zone);
+            var hWalls = zones.GetHorizontalWalls(zone);
+            var walls = vWalls.Concat(hWalls).ToList();
+
+            // Create a new Optimizable for each wall
+            var temp = new IOptimizable[walls.Count];
+            Parallel.For(0, walls.Count, w =>
+            {
+                var wall = walls[w];
+
+                temp[w] = GetNeightByAdditive(adam, zone.ID, wall.Tiles, wall.Dir);
+                
+            });
+
+            // Create a new Optimizable for each wall with negative DIR
+            var temp2 = new IOptimizable[walls.Count];
+            Parallel.For(0, walls.Count, w =>
+            {
+                var wall = walls[w];
+
+                temp2[w] = GetNeightByAdditive(adam, zone.ID, wall.Tiles, -wall.Dir);
+            });
+
+            // Create optimizable for each wall removing this wall
+            var temp3 = new IOptimizable[walls.Count];
+            Parallel.For(0, walls.Count, w =>
+            {
+                var wall = walls[w];
+
+                temp3[w] = GetNeightByExclusion(adam, wall);
+            });
+
+            // Create optimizable moving zones
+            var temp4 = new IOptimizable[Dirs.Count];
+            Parallel.For(0, Dirs.Count, d =>
+            {
+                var dir = Dirs[d];
+
+                temp4[d] = GetNeightByMove(adam, zone.ID, dir);
+            });
+
+            tempZ[i] = temp.Concat(temp2).Concat(temp3).Concat(temp4).ToList();
+        });
+
+        neighbors = tempZ.SelectMany(x => x).ToList();
+
+        return neighbors;
+    }
+
+
+    private List<IOptimizable> GetNeigSERIE(IOptimizable adam)
+    {
         var modules = (adam as OptimizableModules).Modules;
         var zones = modules.GetModule<SectorizedTileMapModule>();
 
@@ -348,36 +436,36 @@ public class HillClimbingAssistant : LBSAssistant
             var walls = vWalls.Concat(hWalls).ToList();
 
             //Debug.Log("w: " + walls.Count);
-            
+
             // Create a new Optimizable for each wall
             foreach (var wall in walls)
             {
-                var neigth = GetNeigthByAdditive(adam, zone.ID, wall.Tiles, wall.Dir);
+                var neigth = GetNeightByAdditive(adam, zone.ID, wall.Tiles, wall.Dir);
                 neighbours.Add(neigth);
             }
 
             // Create a new Optimizable for each wall with negative DIR
             foreach (var wall in walls)
             {
-                var neigth = GetNeigthByAdditive(adam, zone.ID, wall.Tiles, - wall.Dir);
+                var neigth = GetNeightByAdditive(adam, zone.ID, wall.Tiles, -wall.Dir);
                 neighbours.Add(neigth);
             }
 
             // Create optimizable for each wall removing this wall
-            foreach(var wall in walls)
+            foreach (var wall in walls)
             {
-                var neigth = GetNeigthByExclusion(adam, wall);
+                var neigth = GetNeightByExclusion(adam, wall);
                 neighbours.Add(neigth);
             }
 
-            
+
             // Create optimizalbe moving zones
-            foreach( var dir in Dirs)
+            foreach (var dir in Dirs)
             {
-                var neigth = GetNeigthByMove(adam,zone.ID, dir);
+                var neigth = GetNeightByMove(adam, zone.ID, dir);
                 neighbours.Add(neigth);
             }
-            
+
         }
 
         return neighbours;
@@ -391,7 +479,7 @@ public class HillClimbingAssistant : LBSAssistant
     /// <param name="walls"></param>
     /// <param name="dir"></param>
     /// <returns></returns>
-    private IOptimizable GetNeigthByAdditive(IOptimizable original, string zoneName, List<Vector2Int> walls, Vector2Int dir)
+    private IOptimizable GetNeightByAdditive(IOptimizable original, string zoneName, List<Vector2Int> walls, Vector2Int dir)
     {
         // Generate clone
         var modules = (original as OptimizableModules).Modules.Clone();
@@ -424,14 +512,13 @@ public class HillClimbingAssistant : LBSAssistant
     /// <param name="original"></param>
     /// <param name="walls"></param>
     /// <returns></returns>
-    private IOptimizable GetNeigthByExclusion(IOptimizable original, WallData walls)
+    private IOptimizable GetNeightByExclusion(IOptimizable original, WallData walls)
     {
         // Generate clone
         var modules = (original as OptimizableModules).Modules.Clone();
 
         var tiles = walls.Tiles;
         var dir = walls.Dir;
-
 
         // Get relative modules
         var zonesMod = modules.GetModule<SectorizedTileMapModule>();
@@ -468,7 +555,7 @@ public class HillClimbingAssistant : LBSAssistant
     /// <param name="original"></param>
     /// <param name="dir"></param>
     /// <returns></returns>
-    private IOptimizable GetNeigthByMove(IOptimizable original, string zoneName, Vector2Int dir)
+    private IOptimizable GetNeightByMove(IOptimizable original, string zoneName, Vector2Int dir)
     {
         // Generate clone
         var modules = (original as OptimizableModules).Modules.Clone();
