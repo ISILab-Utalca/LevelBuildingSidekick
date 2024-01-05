@@ -19,14 +19,14 @@ MonoBehaviour:
     id: Population
     name: Layer Population
     modules:
-    - rid: 3832781189895684302
-    - rid: 3832781189895684303
+    - rid: 803818991122131138
+    - rid: 803818991122131139
     behaviours:
-    - rid: 3832781189895684304
+    - rid: 803818991122131140
     assitants:
-    - rid: 3832781189895684305
+    - rid: 803818991122131141
     generatorRules:
-    - rid: 3832781189895684306
+    - rid: 803818991122131142
     settings:
       scale: {x: 2, y: 2}
       resize: {x: 0, y: 0}
@@ -35,17 +35,17 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 3832781189895684302
+    - rid: 803818991122131138
       type: {class: TileMapModule, ns: LBS.Components.TileMap, asm: LBS}
       data:
         id: TileMapModule
         tiles: []
-    - rid: 3832781189895684303
+    - rid: 803818991122131139
       type: {class: BundleTileMap, ns: , asm: LBS}
       data:
         id: BundleTileMap
         tiles: []
-    - rid: 3832781189895684304
+    - rid: 803818991122131140
       type: {class: PopulationBehaviour, ns: , asm: LBS}
       data:
         visible: 1
@@ -54,13 +54,13 @@ MonoBehaviour:
         tileMap:
           id: TileMapModule
           tiles: []
-    - rid: 3832781189895684305
+    - rid: 803818991122131141
       type: {class: AssistantMapElite, ns: , asm: LBS}
       data:
         visible: 1
-        name: A
+        name: Map Elite - Genetic Algorithm
         toUpdate: []
-    - rid: 3832781189895684306
+    - rid: 803818991122131142
       type: {class: PopulationRuleGenerator, ns: LBS.Generator, asm: LBS}
       data:
         generator3D:
