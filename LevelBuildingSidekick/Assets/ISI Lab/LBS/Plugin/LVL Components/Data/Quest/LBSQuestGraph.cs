@@ -143,6 +143,10 @@ public class LBSQuestGraph : LBSModule, ICloneable
         var edge = new QuestEdge(first, second);
 
         if (Looped(edge))
+        {
+            Debug.LogWarning("Invalid connection, loop detected");
+            return;
+        }
 
         questEdges.Add(edge);
     }
@@ -161,7 +165,7 @@ public class LBSQuestGraph : LBSModule, ICloneable
             var candidates = new List<QuestNode>();
             foreach (var node in list) 
             {
-                var edges = GetEdges(node);
+                var edges = GetBranches(node);
                 if (edges.Count == 0)
                     continue;
                 candidates.AddRange(edges.Select(e => e.Second));
@@ -173,11 +177,18 @@ public class LBSQuestGraph : LBSModule, ICloneable
         return false;
     }
 
-    private List<QuestEdge> GetEdges(QuestNode node)
+    public List<QuestEdge> GetBranches(QuestNode node)
     {
         if(questEdges.Count == 0)
             return new List<QuestEdge>();
         return questEdges.Where(e => e.First == node).ToList();
+    }
+
+    public List<QuestEdge> GetRoots(QuestNode node)
+    {
+        if (questEdges.Count == 0)
+            return new List<QuestEdge>();
+        return questEdges.Where(e => e.Second == node).ToList();
     }
 
     public void RemoveEdge(Vector2Int position, float delta)

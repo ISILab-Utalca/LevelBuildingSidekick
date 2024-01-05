@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -40,6 +41,14 @@ public class LBSGrammar : ScriptableObject
         return actions[index];
     }
 
+    internal bool Validate(List<string> actions)
+    {
+        for(int i = 0; i < actions.Count; i++)
+        {
 
+        }
+
+        return true;
+    }
 }
 
