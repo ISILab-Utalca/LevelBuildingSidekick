@@ -1,0 +1,7 @@
+.unity-base-field__label {
+    padding-right: 21px;
+}
+
+.myTextSize PopupTextElement {
+    font-size: 12px;
+}
