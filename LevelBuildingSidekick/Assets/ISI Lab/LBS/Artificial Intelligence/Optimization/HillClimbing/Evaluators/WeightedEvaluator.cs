@@ -27,8 +27,23 @@ public class WeightedEvaluator : IEvaluator
 
     public float Evaluate(IOptimizable evaluable)
     {
-        return SerieEVA(evaluable);
-        //return ParallelEVA(evaluable);
+        var r = UnityEngine.Random.Range(0f, 1f);
+
+        /*
+        var clock = new Stopwatch();
+        clock.Start();
+        var fitness = SerieEVA(evaluable);
+        clock.Stop();
+        UnityEngine.Debug.Log("Fitness serie: ("+r+") " + clock.ElapsedMilliseconds / 1000f + "s.");
+        */
+
+        var clock = new Stopwatch();
+        clock.Restart();
+        var fitness2 = ParallelEVA(evaluable);
+        clock.Stop();
+        UnityEngine.Debug.Log("Fitness paralelo: ("+r+") " + clock.ElapsedMilliseconds / 1000f + "s.");
+
+        return fitness2;
     }
 
     private float SerieEVA(IOptimizable evaluable)
