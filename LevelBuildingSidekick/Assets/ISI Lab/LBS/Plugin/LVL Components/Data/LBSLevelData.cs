@@ -17,7 +17,6 @@ public class LBSLevelData
     private List<LBSLayer> quests = new List<LBSLayer>();
     #endregion
 
-
     #region PROPERTIES
     [JsonIgnore]
     public List<LBSLayer> Layers => layers;
@@ -28,8 +27,6 @@ public class LBSLevelData
     [JsonIgnore]
     public int LayerCount => layers.Count;
     #endregion
-
-    
 
     #region EVENTS
     public event Action<LBSLevelData> OnChanged;
@@ -100,6 +97,11 @@ public class LBSLevelData
         this.OnChanged?.Invoke(this);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="oldLayer"></param>
+    /// <param name="newLayer"></param>
     public void ReplaceLayer(LBSLayer oldLayer, LBSLayer newLayer)
     {
         var index = layers.IndexOf(oldLayer);
@@ -108,6 +110,11 @@ public class LBSLevelData
         this.OnChanged?.Invoke(this);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="index"></param>
+    /// <returns></returns>
     public LBSLayer RemoveAt(int index)
     {
         var layer = layers[index];
@@ -166,15 +173,6 @@ public class LBSLevelData
 
             if (!l1.Equals(l2)) return false;
         }
-        /*
-        // check if contain EQUALS quests
-        for (int i = 0; i < other.quests.Count; i++)
-        {
-            var q1 = this.quests[i];
-            var q2 = other.quests[i];
-
-            if (!q1.Equals(q2)) return false;
-        }*/
 
         return true;
     }
