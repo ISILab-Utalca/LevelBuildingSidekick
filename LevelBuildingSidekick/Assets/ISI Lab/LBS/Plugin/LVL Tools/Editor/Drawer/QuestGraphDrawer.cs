@@ -23,11 +23,20 @@ public class QuestGraphDrawer : Drawer
 
         foreach(var node in quest.QuestNodes)
         {
+            if(node.ID == "Start Node")
+            {
+                var v = new StartQNode();
+                v.SetPosition(new Rect(node.Position, LBSSettings.Instance.general.TileSize));
+                nodeViews.Add(node, v);
+                continue;
+            }
+
             var nodeView = new QuestNodeView(node);
 
             var size = assistant.Owner.TileSize * LBSSettings.Instance.general.TileSize;
 
             nodeView.SetPosition(new Rect(node.Position, size));
+            
 
             nodeViews.Add(node, nodeView);
         }
