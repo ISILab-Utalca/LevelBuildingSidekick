@@ -28,20 +28,28 @@ public class RoomCutEvaluator : IEvaluator
         var zones = layer.GetModule<SectorizedTileMapModule>();
         var tilesModule = layer.GetModule<TileMapModule>();
 
+
+       
+
         var value = 0f;
         for (int i = 0; i < zones.ZonesWithTiles.Count; i++)
         {
+
             var zone = zones.ZonesWithTiles[i];
 
             var tiles = zones.GetTiles(zone);
             var check = new List<LBSTile>();
-            var uncheck = new List<LBSTile>();
+            var uncheck = new Queue<LBSTile>();
 
             if (tiles.Count <= 0)
                 continue;
 
-            uncheck.Add(tiles[0]);
+            uncheck.Enqueue(tiles[0]);//Add(tiles[0]);
 
+            var clock = new System.Diagnostics.Stopwatch();
+            clock.Start();
+
+            var x = 0;
             do
             {
                 var current = uncheck.First();
@@ -53,16 +61,23 @@ public class RoomCutEvaluator : IEvaluator
 
                     if(!check.Contains(nei) && !uncheck.Contains(nei))
                     {
-                        uncheck.Add(nei);
+                        uncheck.Enqueue(nei);//Add(nei);
                     }
                 }
-                uncheck.Remove(current);
+                uncheck.Dequeue();//(current);
                 check.Add(current);
+                x++;
             }
             while (uncheck.Count > 0);
 
+
+            clock.Stop();
+            Debug.Log("B," + i + ": " + clock.ElapsedMilliseconds / 1000f + "s. ("+x+")");
+
             value = (tiles.Count > check.Count) ? 0 : 1;
         }
+
+         
 
         if (zones.ZonesWithTiles.Count <= 0)
             return 0;
