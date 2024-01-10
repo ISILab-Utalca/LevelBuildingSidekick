@@ -168,19 +168,28 @@ public class LBSMainWindow : EditorWindow
         layerPanel.style.display = DisplayStyle.Flex;
         layerPanel.OnLayerVisibilityChange += (l) =>
         {
-            drawManager.RedrawLevel(levelData, mainView);
+            DrawManager.Instance.RedrawLevel(levelData, mainView);
         };
         layerPanel.OnSelectLayer += ShowInfoLayer;
         layerPanel.OnAddLayer += ShowInfoLayer;
         layerPanel.OnAddLayer += (l) =>
         {
+
+            DrawManager.Instance.AddContainer(l);
+
+            /*
             foreach (var module in l.Modules)
             {
                 module.OnChanged += (m, olds, news) =>
                 {
+                    DrawManager.Instance.
                     DrawManager.Instance.RedrawElement(l, m, olds?.ToArray(), news?.ToArray());
                 };
-            }
+            }*/
+        };
+        layerPanel.OnRemoveLayer += (l) =>
+        {
+            drawManager.RemoveContainer(l);
         };
 
         // Gen3DPanel

@@ -27,6 +27,16 @@ public class DrawManager
         DrawManager.instance = this;
     }
 
+    public void AddContainer(LBSLayer layer)
+    {
+        view.AddContainer(layer);
+    }
+
+    public void RemoveContainer(LBSLayer layer)
+    {
+        view.RemoveContainer(layer);
+    }
+
     public static void ReDraw()
     {
         instance.RedrawLevel(instance.level, instance.mainView);

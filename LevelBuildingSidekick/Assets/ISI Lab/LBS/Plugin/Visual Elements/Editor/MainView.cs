@@ -207,8 +207,6 @@ public class MainView : GraphView // Canvas or WorkSpace
         if (layers.Keys.Count <= 0)
             return;
 
-
-
         if(!layers.TryGetValue(layer,out LayerContainer container))
         {
             return;
@@ -223,6 +221,16 @@ public class MainView : GraphView // Canvas or WorkSpace
     {
         defaultLayer.AddElement(obj, element);
         base.AddElement(element);
+    }
+
+    public void AddContainer(LBSLayer layer)
+    {
+        layers.Add(layer, new LayerContainer());
+    }
+
+    public void RemoveContainer(LBSLayer layer)
+    {
+        layers.Remove(layer);
     }
 
     public void AddElement(LBSLayer layer, object obj, GraphElement element)
