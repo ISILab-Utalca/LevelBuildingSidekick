@@ -350,8 +350,7 @@ public class HillClimbingAssistant : LBSAssistant
     /// <returns></returns>
     public List<IOptimizable> GetNeighbors(IOptimizable adam)
     {
-        return GetNeigSERIE(adam);
-        //return GetNeigPARALLEL(adam);
+        return GetNeigPARALLEL(adam); // 1:5 mejor
     }
 
 
@@ -418,7 +417,6 @@ public class HillClimbingAssistant : LBSAssistant
 
         return neighbors;
     }
-
 
     private List<IOptimizable> GetNeigSERIE(IOptimizable adam)
     {
