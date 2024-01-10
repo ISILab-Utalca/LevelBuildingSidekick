@@ -14,7 +14,8 @@ namespace LBS.Components.TileMap
     {
         #region FIELDS
         [SerializeField, JsonRequired, SerializeReference]
-        protected List<LBSTile> tiles = new List<LBSTile>();
+        private List<LBSTile> tiles = new List<LBSTile>();
+        private Dictionary<Vector2Int,LBSTile> _tileDic = new Dictionary<Vector2Int, LBSTile>();
         #endregion
 
         #region PROEPRTIES
@@ -86,7 +87,6 @@ namespace LBS.Components.TileMap
             {
                 AddTile(t);
             }
-            //this.tiles = new List<LBSTile>(tiles);
         }
         #endregion
 
@@ -98,13 +98,16 @@ namespace LBS.Components.TileMap
                 tiles.Remove(t);
 
             tiles.Add(tile);
+            
+            _tileDic[tile.Position] = tile;
+
             OnChanged?.Invoke(this, new List<object>() { t }, new List<object>() { tile });
             OnAddTile?.Invoke(this, tile);
         }
 
         public void AddTiles(List<LBSTile> tiles)
         {
-            OnChanged?.Invoke(this, null, tiles.Cast<object>().ToList());
+            //OnChanged?.Invoke(this, null, tiles.Cast<object>().ToList());
             foreach(var t in tiles)
             {
                 AddTile(t);
@@ -113,12 +116,17 @@ namespace LBS.Components.TileMap
 
         public LBSTile GetTile(Vector2Int pos)
         {
+            //_tileDic.TryGetValue(pos, out LBSTile tile);
+            //return tile;
+
+            ///*
             foreach (var tile in tiles)
             {
                 if (tile.Position == pos)
                     return tile;
             }
             return null;
+            //*/
         }
 
         public LBSTile GetTileAt(int index)
@@ -128,10 +136,13 @@ namespace LBS.Components.TileMap
 
         public bool RemoveTile(LBSTile tile)
         {
-            OnChanged?.Invoke(this, new List<object>() { tile }, null);
+            
             if(tiles.Remove(tile))
             {
                 OnRemoveTile?.Invoke(this, tile);
+                _tileDic.Remove(tile.Position);
+
+                OnChanged?.Invoke(this, new List<object>() { tile }, null);
                 return true;
             }
             return false;
@@ -141,6 +152,7 @@ namespace LBS.Components.TileMap
         {
             var tile = tiles[index];
             tiles.Remove(tile); 
+            _tileDic.Remove(tile.Position);
             OnRemoveTile?.Invoke(this, tile);
             OnChanged?.Invoke(this, new List<object>() { tile }, null);
             return tile;
@@ -151,7 +163,8 @@ namespace LBS.Components.TileMap
             var tile = GetTile(position);
             if (tile != null)
             {
-                tiles.Remove(tile); 
+                tiles.Remove(tile);
+                _tileDic.Remove(tile.Position);
                 OnRemoveTile?.Invoke(this, tile);
             }
             return tile;
@@ -159,7 +172,7 @@ namespace LBS.Components.TileMap
 
         public void RemoveTiles(List<LBSTile> tiles)
         {
-            OnChanged?.Invoke(this, tiles.Cast<object>().ToList(), null);
+            //OnChanged?.Invoke(this, tiles.Cast<object>().ToList(), null);
             foreach(var t in tiles)
             {
                 RemoveTile(t);
@@ -181,37 +194,8 @@ namespace LBS.Components.TileMap
             return tiles.GetBounds();
         }
 
-        /*
-        public Vector2Int ToMatrixPosition(int index)
-        {
-            var r = GetBounds();
-            return new Vector2Int((int)(index % r.width), (int)(index / r.width));
-        }
-        */
-
-        /*
-        public Vector2 ToWorldPosition(Vector2Int matrixPosition)
-        {
-            Vector2 worldPosition = new Vector2(
-                matrixPosition.x * CellSize.x,
-                matrixPosition.y * CellSize.y
-            );
-            return worldPosition;
-        }
-        */
-
-        /*
-        public int ToIndex(Vector2 matrixPosition)
-        {
-            var r = GetBounds();
-            var pos = matrixPosition - r.position;
-            return (int)(pos.y * r.width + pos.x);
-        }
-        */
-
         public LBSTile GetTileNeighbor(LBSTile tile, Vector2Int direction)
         {
-            List<LBSTile> neighbors = new List<LBSTile>();
             var pos = tile.Position + direction;
             return this.GetTile(pos);
         }
@@ -247,20 +231,22 @@ namespace LBS.Components.TileMap
         public override void Clear()
         {
             tiles.Clear();
+            _tileDic.Clear();
             //OnChanged?.Invoke(this);
         }
 
         public override void Rewrite(LBSModule other) // esto es necesario (??)
         {
             var module = other as TileMapModule;
-            tiles.Clear();
+            Clear();
             AddTiles(module.Tiles);
         }
 
         public override object Clone()
         {
             var tileMap = new TileMapModule();
-            tileMap.tiles = tiles.Select(t => CloneRefs.Get(t)).Cast<LBSTile>().ToList();
+            var newTiles = tiles.Select(t => CloneRefs.Get(t)).Cast<LBSTile>().ToList();
+            tileMap.AddTiles(newTiles);
             return tileMap;
         }
 
@@ -316,46 +302,6 @@ namespace LBS.Components.TileMap
             return base.GetHashCode();
         }
 
-        /*
-        public override List<int> OccupiedIndexes()
-        {
-            return OccupiedPositions().Select(v => ToIndex(v)).ToList();
-        }
-
-        public override List<int> EmptyIndexes()
-        {
-            return EmptyPositions().Select(v => ToIndex(v)).ToList();
-        }
-        */
-
-        /*
-        public override List<Vector2> OccupiedPositions()
-        {
-            return tiles.Select(t => (Vector2)t.Position).ToList();
-        }
-
-        public override List<Vector2> EmptyPositions()
-        {
-            var r = GetBounds();
-            var occupied = OccupiedPositions();
-
-            List<Vector2> empty = new List<Vector2>();
-
-            for(int j = 0; j < r.height; j++)
-            {
-                for(int i = 0; i < r.width; i++)
-                {
-                    var v = new Vector2(i, j);
-                    if (!occupied.Contains(v))
-                    {
-                        empty.Add(v);
-                    }
-                }
-            }
-
-            return empty;
-        }
-        */
         #endregion
     }
 }
