@@ -204,14 +204,19 @@ public class MainView : GraphView // Canvas or WorkSpace
 
     public void ClearLayerView(LBSLayer layer)
     {
-        try
-        {
+        if (layers.Keys.Count <= 0)
+            return;
 
-            var l = layers[layer];
-            var elements = l.Clear();
-            elements.ForEach(e => this.RemoveElement(e));
+
+
+        if(!layers.TryGetValue(layer,out LayerContainer container))
+        {
+            return;
         }
-        catch { }
+
+        var l = layers[layer];
+        var elements = l.Clear();
+        elements.ForEach(e => this.RemoveElement(e));
     }
 
     public void AddElement(object obj,GraphElement element)
