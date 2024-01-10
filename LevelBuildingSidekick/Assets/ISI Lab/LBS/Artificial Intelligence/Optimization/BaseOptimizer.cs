@@ -194,6 +194,9 @@ namespace ISILab.AI.Optimization
 
         public virtual void StartOne()
         {
+            var clock1 = new Stopwatch();
+            clock1.Start();
+
             OnStarted?.Invoke();
             lock (m_lock)
             {
@@ -210,8 +213,16 @@ namespace ISILab.AI.Optimization
                 OnGenerationRan?.Invoke();
                 clock.Stop();
             }
+            clock1.Stop();
+            //UnityEngine.Debug.Log("StartOne: " + clock1.ElapsedMilliseconds/1000f + "s."); // 2 seg
+
+            var clock2 = new Stopwatch();
+            clock2.Start();
 
             RunOnce();
+
+            clock2.Stop();
+            //UnityEngine.Debug.Log("RunOnce: " + clock2.ElapsedMilliseconds/1000f + "s."); 
         }
 
         public virtual void Restart()
