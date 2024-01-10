@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static UnityEngine.ParticleSystem;
 
 [System.Serializable]
 public class LBSQuestGraph : LBSModule, ICloneable
@@ -75,10 +74,22 @@ public class LBSQuestGraph : LBSModule, ICloneable
     public bool IsVisible { get; set; }
 
 
+    #region EVENTS
+    [JsonIgnore]
+    public Action<QuestNode> OnAddNode;
+    [JsonIgnore]
+    public Action<QuestNode> OnRemoveNode;
+    [JsonIgnore]
+    public Action<QuestEdge> OnAddEdge;
+    [JsonIgnore]
+    public Action<QuestEdge> OnRemoveEdge;
+    #endregion
+
     public LBSQuestGraph()
     {
         IsVisible = true;
-        root = new QuestNode("Start node", Vector2.zero, "r");
+        root = new QuestNode("Start Node", Vector2.zero, "Start Node");
+        questNodes.Add(root);
     }
 
     public QuestNode GetQuesNode(Vector2 position)
@@ -92,11 +103,13 @@ public class LBSQuestGraph : LBSModule, ICloneable
     {
         var data = new QuestNode(id, position, action);
         questNodes.Add(data);
+        OnAddNode?.Invoke(data);
     }
 
     public void AddNode(QuestNode node)
     {
         questNodes.Add(node);
+        OnAddNode?.Invoke(node);
     }
 
     public void RemoveQuestNode(QuestNode node)
@@ -109,6 +122,7 @@ public class LBSQuestGraph : LBSModule, ICloneable
         {
             questEdges.Remove(edges[i]);
         }
+        OnRemoveNode?.Invoke(node);
     }
 
     public void AddConnection(QuestNode first, QuestNode second)
@@ -149,6 +163,7 @@ public class LBSQuestGraph : LBSModule, ICloneable
         }
 
         questEdges.Add(edge);
+        OnAddEdge?.Invoke(edge);
     }
 
     private bool Looped(QuestEdge edge)
@@ -195,6 +210,7 @@ public class LBSQuestGraph : LBSModule, ICloneable
     {
         QuestEdge edge = GetEdge(position, delta);
         questEdges.Remove(edge);
+        OnAddEdge?.Invoke(edge);
     }
 
     private QuestEdge GetEdge(Vector2 position, float delta)
