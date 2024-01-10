@@ -283,7 +283,6 @@ namespace LBS.Components
             }
 
             this.assitants.Add(assistant);
-            assistant.OnAttachLayer(this);
 
             var reqModules = assistant.GetRequieredModules();
             foreach (var type in reqModules)
@@ -295,6 +294,7 @@ namespace LBS.Components
                     this.AddModule(Activator.CreateInstance(type) as LBSModule);
                 }
             }
+            assistant.OnAttachLayer(this);
 
         }
 
