@@ -16,12 +16,11 @@ public class GrammarAssistant : LBSAssistant
 
     public GrammarAssistant(Texture2D icon, string name) : base(icon, name)
     {
+
     }
 
-    public bool ValidateNodeGrammar(QuestNode node)
+    public void ValidateNodeGrammar(QuestNode node)
     {
-        var isValid = true;
-
         var grammar = Quest.Grammar;
 
         var root = Quest.Root;
@@ -31,7 +30,35 @@ public class GrammarAssistant : LBSAssistant
 
         var questLines = new List<List<QuestNode>>();
 
-        foreach ( var r in roots ) 
+        //Prune roots not connecting to startNode
+
+
+        foreach (var r in roots)
+        {
+            foreach(var n in r)
+            {
+                n.GrammarCheck = false;
+            }
+        }
+
+        foreach (var b in branches)
+        {
+            foreach (var n in b)
+            {
+                n.GrammarCheck = false;
+            }
+        }
+
+        var validRoots = new List<List<QuestNode>>();
+        foreach (var r in roots)
+        {
+            if (r[0].Equals(Quest.Root))
+            { 
+                validRoots.Add(r);
+            }
+        }
+
+        foreach ( var r in validRoots ) 
         {
             foreach(var b in branches )
             {
@@ -44,22 +71,116 @@ public class GrammarAssistant : LBSAssistant
             } 
         }
 
+        var candidates = new List<List<QuestNode>>();
 
-        foreach( var q in questLines)
+        foreach(var q in questLines)
         {
             //Check validity of each list
-            if (q == null || q.Count == 0)
+            if (q == null || q.Count == 0) // => ? should not happen
+            {
+                Debug.LogError("Validating QuestNode");
                 continue;
+            }
 
             var actions = q.Select(n => n.QuestAction).ToList();
 
-            if(Quest.Grammar.Validate(actions))
+            if(!Quest.Grammar.Validate(actions))
             {
+                continue;
+            }
 
+            candidates.Add(q);
+        }
+
+        foreach(var c in candidates)
+        {
+            foreach (var n in c)
+            {
+                n.GrammarCheck = true;
             }
         }
 
-        return isValid;
+    }
+
+    public void ValidateEdgeGrammar(QuestEdge edge)
+    {
+        var grammar = Quest.Grammar;
+
+        var root = Quest.Root;
+
+        var first = edge.First;
+        var second = edge.Second;   
+
+        var roots = RootLines(first);
+        var branches = BranchLines(second);
+
+        foreach (var r in roots)
+        {
+            foreach (var n in r)
+            {
+                n.GrammarCheck = false;
+            }
+        }
+
+        foreach (var b in branches)
+        {
+            foreach (var n in b)
+            {
+                n.GrammarCheck = false;
+            }
+        }
+
+        var validRoots = new List<List<QuestNode>>();
+        foreach (var r in roots)
+        {
+            if (r[0].Equals(Quest.Root))
+            {
+                validRoots.Add(r);
+            }
+        }
+
+        var questLines = new List<List<QuestNode>>();
+
+        foreach (var r in validRoots)
+        {
+            foreach (var b in branches)
+            {
+                var questLine = new List<QuestNode>();
+
+                questLine.AddRange(r);
+                questLine.AddRange(b);
+                questLines.Add(questLine);
+            }
+        }
+
+        var candidates = new List<List<QuestNode>>();
+
+        foreach (var q in questLines)
+        {
+            //Check validity of each list
+            if (q == null || q.Count == 0) // => ? should not happen
+            {
+                Debug.LogError("Validating QuestNode");
+                continue;
+            }
+
+            var actions = q.Select(n => n.QuestAction).ToList();
+
+            if (!Quest.Grammar.Validate(actions))
+            {
+                continue;
+            }
+
+            candidates.Add(q);
+        }
+
+        foreach (var c in candidates)
+        {
+            foreach (var n in c)
+            {
+                n.GrammarCheck = true;
+            }
+        }
     }
 
     private List<List<QuestNode>> RootLines(QuestNode node)
@@ -155,7 +276,14 @@ public class GrammarAssistant : LBSAssistant
 
     }
 
+    public List<string> GetSuggestions(QuestNode node)
+    {
+        var suggestions = new List<string>();
 
+
+
+        return suggestions;
+    }
 
     public void ValidateMap()
     {
@@ -174,6 +302,14 @@ public class GrammarAssistant : LBSAssistant
 
     public void CheckNode()
     {
+
+    }
+
+    public override void OnAttachLayer(LBSLayer layer)
+    {
+        base.OnAttachLayer(layer);
+        Quest.OnAddNode += ValidateNodeGrammar;
+        Quest.OnAddEdge += ValidateEdgeGrammar;
 
     }
 }
