@@ -12,9 +12,18 @@ public class QuestNodeView : GraphElement
 {
     private static VisualTreeAsset view;
 
+
     private Label label;
+    private VisualElement root;
 
     public Action<Rect> OnMoving;
+
+    public static Color32 GrammarWrong = Color.yellow;
+    public static Color32 MapWrong = Color.red;
+    public static Color32 Unchecked = Color.white;
+    public static Color32 Correct = Color.blue;
+
+    protected QuestNodeView() { }
 
     public QuestNodeView(QuestNode node)
     {
@@ -26,8 +35,20 @@ public class QuestNodeView : GraphElement
 
         // Label
         label = this.Q<Label>();
+        root = this.Q<VisualElement>(name: "root");
 
         SetText(node.QuestAction);
+        SetBorder(node);
+    }
+
+    private void SetBorder(QuestNode node)
+    {
+        if(!node.GrammarCheck)
+        {
+            root.SetBorder(GrammarWrong);
+        }
+
+        root.SetBorder(Correct);
     }
 
     public override void SetPosition(Rect newPos)
