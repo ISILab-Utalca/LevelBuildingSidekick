@@ -5,3 +5,10 @@
 .myTextSize PopupTextElement {
     font-size: 12px;
 }
+
+.LBSbackgroung {
+    background-color: rgb(48, 48, 48);
+    margin-left: 4px;
+    margin-right: 4px;
+    margin-bottom: 4px;
+}
