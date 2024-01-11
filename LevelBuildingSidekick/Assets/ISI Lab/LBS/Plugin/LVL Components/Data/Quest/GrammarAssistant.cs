@@ -104,6 +104,7 @@ public class GrammarAssistant : LBSAssistant
 
     public void ValidateEdgeGrammar(QuestEdge edge)
     {
+        
         var grammar = Quest.Grammar;
 
         var root = Quest.Root;
@@ -130,6 +131,7 @@ public class GrammarAssistant : LBSAssistant
             }
         }
 
+        
         var validRoots = new List<List<QuestNode>>();
         foreach (var r in roots)
         {
@@ -139,6 +141,7 @@ public class GrammarAssistant : LBSAssistant
             }
         }
 
+        
         var questLines = new List<List<QuestNode>>();
 
         foreach (var r in validRoots)
@@ -153,6 +156,7 @@ public class GrammarAssistant : LBSAssistant
             }
         }
 
+        
         var candidates = new List<List<QuestNode>>();
 
         foreach (var q in questLines)
@@ -165,7 +169,7 @@ public class GrammarAssistant : LBSAssistant
             }
 
             var actions = q.Select(n => n.QuestAction).ToList();
-
+            
             if (!Quest.Grammar.Validate(actions))
             {
                 continue;
@@ -174,13 +178,14 @@ public class GrammarAssistant : LBSAssistant
             candidates.Add(q);
         }
 
+        /*
         foreach (var c in candidates)
         {
             foreach (var n in c)
             {
                 n.GrammarCheck = true;
             }
-        }
+        }*/
     }
 
     private List<List<QuestNode>> RootLines(QuestNode node)

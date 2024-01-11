@@ -127,9 +127,12 @@ public class LBSQuestGraph : LBSModule, ICloneable
 
     public void AddConnection(QuestNode first, QuestNode second)
     {
+
         if (first == null || second == null)
         {
             Debug.LogWarning("NullNode");
+            Debug.Log("First " + first);
+            Debug.Log("Second " + second);
             return;
         }
 
@@ -163,6 +166,7 @@ public class LBSQuestGraph : LBSModule, ICloneable
         }
 
         questEdges.Add(edge);
+        
         OnAddEdge?.Invoke(edge);
     }
 
