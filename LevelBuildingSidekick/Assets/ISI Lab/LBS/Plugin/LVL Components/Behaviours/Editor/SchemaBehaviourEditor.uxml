@@ -1,10 +1,13 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <LBS.VisualElements.SimplePallete name="ZonePallete" style="border-left-color: rgba(0, 0, 0, 0.31); border-right-color: rgba(0, 0, 0, 0.31); border-top-color: rgba(0, 0, 0, 0.31); border-bottom-color: rgba(0, 0, 0, 0.31); border-bottom-width: 1px;" />
-    <LBS.VisualElements.SimplePallete name="ConnectionPallete" />
-    <ui:VisualElement name="VisualElement" style="flex-grow: 0; background-color: rgba(255, 255, 255, 0.13); margin-left: 4px; margin-right: 4px; margin-top: 4px; margin-bottom: 4px; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px; border-top-left-radius: 4px; border-bottom-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px;">
-        <ui:Foldout text="Default zone preset" value="false">
-            <uie:ObjectField label="Inside style" name="InsideField" />
-            <uie:ObjectField label="Outside style" name="OutsideField" />
-        </ui:Foldout>
+    <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/Visual%20Elements/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
+    <ui:VisualElement class="LBSbackgroung" style="flex-grow: 0; border-top-left-radius: 2px; border-bottom-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px;">
+        <LBS.VisualElements.SimplePallete name="ZonePallete" />
+        <ui:VisualElement name="VisualElement" class="SubBackground" style="flex-grow: 0; margin-left: 2px; margin-right: 2px; margin-top: 0; margin-bottom: 2px; padding-left: 2px; padding-right: 2px; padding-top: 0; padding-bottom: 2px; border-top-left-radius: 4px; border-bottom-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; color: rgb(255, 255, 255);">
+            <ui:Foldout text="Default zone preset" value="false">
+                <uie:ObjectField label="Inside style" name="InsideField" />
+                <uie:ObjectField label="Outside style" name="OutsideField" />
+            </ui:Foldout>
+        </ui:VisualElement>
     </ui:VisualElement>
+    <LBS.VisualElements.SimplePallete name="ConnectionPallete" style="border-top-width: 1px; border-left-color: rgba(0, 0, 0, 0.31); border-right-color: rgba(0, 0, 0, 0.31); border-top-color: rgba(0, 0, 0, 0.31); border-bottom-color: rgba(0, 0, 0, 0.31);" />
 </ui:UXML>

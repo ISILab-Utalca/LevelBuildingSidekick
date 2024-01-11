@@ -12,3 +12,7 @@
     margin-right: 4px;
     margin-bottom: 4px;
 }
+
+.SubBackground {
+    background-color: rgb(39, 39, 39);
+}
