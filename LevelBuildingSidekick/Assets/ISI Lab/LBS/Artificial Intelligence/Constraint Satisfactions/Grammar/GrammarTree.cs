@@ -27,6 +27,8 @@ public class GrammarTree
 
     }
 
+    public SrgsDocument SRGS { get; internal set; }
+
     public GrammarTree()
     {
     }

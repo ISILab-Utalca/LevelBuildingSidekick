@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "ISILab/LBS/LBSGrammar")]
@@ -43,6 +44,7 @@ public class LBSGrammar : ScriptableObject
 
     internal bool Validate(List<string> actions, out List<List<GrammarElement>> candidates)
     {
+        actions.RemoveAt(0);
 
         var root = grammarTree.Root;
 
@@ -69,6 +71,7 @@ public class LBSGrammar : ScriptableObject
             //Prunning non valid phrases
             foreach(var c in newCandidates)
             {
+                //Debug.Log(c[i].ID);
                 var text = (c[i] as GrammarTerminal).Text;
                 if (text == actions[i])
                 {
@@ -82,71 +85,115 @@ public class LBSGrammar : ScriptableObject
 
     private List<List<GrammarElement>> ProcessPhrase(int startIndex, int lastIndex, List<GrammarElement> phrase)
     {
-        var toProcess = new Queue<List<GrammarElement>>();
+        var toProcess = new List<List<GrammarElement>>();
         var processed = new List<List<GrammarElement>>();
 
-        toProcess.Enqueue(phrase);
 
-        while(toProcess.Count > 0)
+        var visited = new List<List<GrammarElement>>();
+
+        toProcess.Insert(0, phrase);
+
+        //Debug.Log(toProcess.Count);
+
+        int k = 0;
+
+        while(toProcess.Count > 0 && k < 100)
         {
-            var raw = toProcess.Dequeue();
+            var raw = toProcess[0];
+            toProcess.RemoveAt(0);
 
+            bool closed = visited.Any(r =>
+            {
+                if (r.Count != raw.Count)
+                    return false;
+                for (int i = 0; i < raw.Count; i++)
+                {
+                    if (!raw[i].Equals(r[i]))
+                        return false;
+                }
+                return true;
+            });
+
+            if (closed)
+                continue;
+
+            Debug.Log("Start " + startIndex + " - " + lastIndex);
             for (int i = startIndex; i <= lastIndex; i++)
             {
-                GrammarElement node;
-                try
+                do
                 {
-                    node = raw[i];
-                }
-                catch
-                {
-                    break;
-                }
-
-
-                if (node is GrammarTerminal)
-                {
-                    continue;
-                }
-
-                if (node is GrammarProduction)
-                {
-                    //replace for production
-                    var production = (node as GrammarProduction).Nodes;
-                    raw.RemoveAt(i);
-                    raw.InsertRange(i, production);
-                    i--;
-                    continue;
-                }
-
-                if (node is GrammarNonTerminal)
-                {
-                    var nonTerminal = (node as GrammarNonTerminal).Nodes;
-
-                    for(int j = 1; j < nonTerminal.Count; j++)
+                    k++;
+                    GrammarElement node;
+                    try
                     {
-                        var newRaw = new List<GrammarElement>(raw);
-                        newRaw.RemoveAt(i);
-                        newRaw.Insert(i, nonTerminal[j]);
-                        toProcess.Enqueue(newRaw);
+                        node = raw[i];
+                    }
+                    catch
+                    {
+                        break;
                     }
 
-                    raw.RemoveAt(i);
-                    raw.Insert(i, nonTerminal[0]);
-                    i--;
-                    continue;
+                    //Debug.Log("R: " + raw[i]);
+
+                    if (raw[i] is GrammarProduction)
+                    {
+                        //replace for production
+                        var production = (raw[i] as GrammarProduction).Nodes;
+                        raw.RemoveAt(i);
+                        raw.InsertRange(i, production);
+                        continue;
+                    }
+
+
+                    if (raw[i] is GrammarNonTerminal)
+                    {
+                        var nonTerminal = (raw[i] as GrammarNonTerminal).Nodes;
+
+                        for (int j = 1; j < nonTerminal.Count; j++)
+                        {
+                            var newRaw = new List<GrammarElement>(raw);
+                            newRaw.RemoveAt(i);
+                            newRaw.Insert(i, nonTerminal[j]);
+                            toProcess.Add(newRaw);
+                        }
+
+                        raw.RemoveAt(i);
+                        raw.Insert(i, nonTerminal[0]);
+                        continue;
+                    }
                 }
+                while (i < raw.Count && !(raw[i] is GrammarTerminal) && k < 100) ;
+
+                Debug.Log( i + " Iterations: " + k);
+
+                if (k > 100)
+                break;
             }
 
+            visited.Add(raw);
             if(lastIndex < raw.Count)
             {
                 processed.Add(raw);
             }
+
         }
-        
+        Debug.Log("VISITED: " + visited.Count);
+
+        foreach (var v in visited)
+        {
+            var s = "VISITED: ";
+            foreach(var g in v)
+            {
+                s += g.ID + " ; ";
+            }
+            Debug.Log(s);
+        }
+
+
         return processed;
     }
 
+    
     internal bool Validate(List<string> actions)
     {
         var output = new List<List<GrammarElement>>();

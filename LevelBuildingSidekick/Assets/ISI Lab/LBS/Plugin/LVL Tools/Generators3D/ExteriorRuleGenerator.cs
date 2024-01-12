@@ -42,7 +42,10 @@ namespace LBS.Generator
             // Get CharacteristicGroup bundles
             bundles = bundles.Where(b => b.GetCharacteristics<LBSDirectionedGroup>().Count > 0 && !b.IsPresset).ToList();
 
-            bundles[0].ChildsBundles.ForEach(b => b.Characteristics.ForEach(c => c.Init(b))); // PARCHE (!)
+            foreach (var bundle in bundles) // PARCHE (!)
+            {
+                bundle.ChildsBundles.ForEach(b => b.Characteristics.ForEach(c => c.Init(b))); // PARCHE (!)
+            }
 
             var selected = bundles[0].GetCharacteristics<LBSDirectionedGroup>()[0];
 

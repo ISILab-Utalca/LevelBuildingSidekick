@@ -43,9 +43,12 @@ public class QuestNodeView : GraphElement
 
     private void SetBorder(QuestNode node)
     {
-        if(!node.GrammarCheck)
+        root.SetBorder(Unchecked);
+
+        if (!node.GrammarCheck)
         {
             root.SetBorder(GrammarWrong);
+            return;
         }
 
         root.SetBorder(Correct);

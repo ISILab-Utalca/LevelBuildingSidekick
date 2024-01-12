@@ -45,6 +45,7 @@ public class GrammarReader
     public static GrammarTree ParseGrammar(SrgsDocument grammarDoc)
     {
         var gt = new GrammarTree();
+        gt.SRGS = grammarDoc;
         ProcessSrgsRule(grammarDoc.Root, gt, grammarDoc);
         gt.Root = gt.Productions.Find(g => g.ID == grammarDoc.Root.Id);
         return gt;
