@@ -130,11 +130,11 @@ public class LBSLevelData
 
         quest.ID = name;
         quest.Name = name;
-        quest.iconPath = "Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Quest_Icon/Action_indv.png";
+        quest.iconPath = "Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Quest_Icon/IconQuestTitle2.png";
         quest.TileSize = new Vector2Int(3,1);
 
         
-        var grammarIcon = Resources.Load<Texture2D>("Icons/Quest");
+        var grammarIcon = Resources.Load<Texture2D>("Icons/Quest_Icon/IconQuestTitle2");
         var assistant = new GrammarAssistant(grammarIcon, "Grammar");
         quest.AddAssistant(assistant);
 
