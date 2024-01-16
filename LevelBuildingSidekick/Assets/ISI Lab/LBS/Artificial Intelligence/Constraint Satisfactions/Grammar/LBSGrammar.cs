@@ -63,7 +63,7 @@ public class LBSGrammar : ScriptableObject
             //Partial exploration of grammar tree
             foreach(var c in candidates)
             {
-                newCandidates.AddRange(ProcessPhrase(i, i, c));
+                newCandidates.AddRange(ProcessPhrase(i, i, c, actions));
             }
 
             candidates.Clear();
@@ -83,7 +83,7 @@ public class LBSGrammar : ScriptableObject
         return true;
     }
 
-    private List<List<GrammarElement>> ProcessPhrase(int startIndex, int lastIndex, List<GrammarElement> phrase)
+    private List<List<GrammarElement>> ProcessPhrase(int startIndex, int lastIndex, List<GrammarElement> phrase, List<string> actions)
     {
         var toProcess = new List<List<GrammarElement>>();
         var processed = new List<List<GrammarElement>>();
@@ -118,33 +118,55 @@ public class LBSGrammar : ScriptableObject
                 continue;
 
             Debug.Log("Start " + startIndex + " - " + lastIndex);
-            for (int i = startIndex; i <= lastIndex; i++)
+            for (int i = 0; i < raw.Count; i++)
             {
+
+                //In theory should never enter the catch
+                try
+                {
+                    var node = raw[i];
+                }
+                catch
+                {
+                    Debug.Log("Raw: " + raw.Count + " - first: " + raw[0] + " - last: " + raw[^1]);
+                    break;
+                }
+
+
                 do
                 {
-                    k++;
-                    GrammarElement node;
-                    try
-                    {
-                        node = raw[i];
-                    }
-                    catch
-                    {
+                    //if option bigger than current, invalid option
+                    if (raw.Count > actions.Count)
                         break;
+
+                    //if option has element that current don't, invalid option
+                    bool unregisteredElement = false;
+                    foreach(var n in raw)
+                    {
+                        if(n is GrammarTerminal && !actions.Contains(n.ID))
+                        {
+                            unregisteredElement = true;
+                            break;
+                        }
                     }
 
-                    //Debug.Log("R: " + raw[i]);
+                    if (unregisteredElement)
+                        break;
 
+                    //If production replace node with expansion chain
                     if (raw[i] is GrammarProduction)
                     {
                         //replace for production
                         var production = (raw[i] as GrammarProduction).Nodes;
+                        Debug.Log(production.Count);
+                        Debug.Log("PR: " + raw[i].ID);
                         raw.RemoveAt(i);
                         raw.InsertRange(i, production);
+                        Debug.Log("PI: " + raw[i].ID);
                         continue;
                     }
 
-
+                    //If nonTerminal replace 
                     if (raw[i] is GrammarNonTerminal)
                     {
                         var nonTerminal = (raw[i] as GrammarNonTerminal).Nodes;
@@ -157,12 +179,15 @@ public class LBSGrammar : ScriptableObject
                             toProcess.Add(newRaw);
                         }
 
+                        Debug.Log("NTR: " + raw[i].ID);
                         raw.RemoveAt(i);
-                        raw.Insert(i, nonTerminal[0]);
+                        //Debug.Log(raw[i].ID);
+                        raw.Insert(i, nonTerminal[0]);  
+                        Debug.Log("NTI: " + raw[i].ID);
                         continue;
                     }
                 }
-                while (i < raw.Count && !(raw[i] is GrammarTerminal) && k < 100) ;
+                while (!(raw[i] is GrammarTerminal)) ;
 
                 Debug.Log( i + " Iterations: " + k);
 
