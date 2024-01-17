@@ -150,7 +150,7 @@ namespace LBS.VisualElements
 
                 if (i != null)
                 {
-                    var ve = Activator.CreateInstance(customEditor, new object[] { behaviour });
+                    var ve = LBSInspectorPanel.Instance.behaviours.CustomEditors.First( x => x.GetType() == customEditor);
                     ((IToolProvider)ve).SetTools(this);
                 }
             }
@@ -171,7 +171,7 @@ namespace LBS.VisualElements
 
                 if (i != null)
                 {
-                    var ve = Activator.CreateInstance(customEditor, new object[] { assist });
+                    var ve = LBSInspectorPanel.Instance.assistants.CustomEditors.First(x => x.GetType() == customEditor);
                     ((IToolProvider)ve).SetTools(this);
                 }
             }

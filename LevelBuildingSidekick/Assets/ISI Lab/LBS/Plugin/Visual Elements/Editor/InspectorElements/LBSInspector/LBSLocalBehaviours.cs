@@ -25,7 +25,7 @@ public class LBSLocalBehaviours : LBSInspector
     private VisualElement noContentPanel;
     private VisualElement contentBehaviour;
 
-    private List<LBSCustomEditor> editores = new List<LBSCustomEditor>();
+    public List<LBSCustomEditor> CustomEditors = new List<LBSCustomEditor>();
     #endregion
 
     #region PROPERTIES
@@ -80,7 +80,7 @@ public class LBSLocalBehaviours : LBSInspector
                 continue;
             }
 
-            editores.Add(ve as LBSCustomEditor);
+            CustomEditors.Add(ve as LBSCustomEditor);
 
             /*
             if (ve is IToolProvider)
@@ -103,7 +103,7 @@ public class LBSLocalBehaviours : LBSInspector
 
     public override void Repaint()
     {
-        foreach (var ve in editores)
+        foreach (var ve in CustomEditors)
         {
             ve?.Repaint();
         }

@@ -269,14 +269,16 @@ public class LBSMainWindow : EditorWindow
     {
         _selectedLayer = layer;
 
+
+        // Actualize Inspector panel 
+        inspectorManager.OnSelectedLayerChange(layer);
+        //inspectorManager.SetSelectedTab(layer.tabSelected);
+
         // Actualize ToolKit
         toolkit.Clear();
         toolkit.Init(layer); // esto no estas implementado (C:) se esta haciendo en inspectorManager.OnSelectedLayerChange(layer);
         toolkit.SetActiveWhithoutNotify(0);
 
-        // Actualize Inspector panel 
-        inspectorManager.OnSelectedLayerChange(layer);
-        //inspectorManager.SetSelectedTab(layer.tabSelected);
 
 
         // Actualize 3D panel

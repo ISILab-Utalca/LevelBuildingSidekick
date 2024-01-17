@@ -22,7 +22,7 @@ public class LBSLocalAssistants : LBSInspector
     private VisualElement noContentPanel;
     private VisualElement contentAssist;
 
-    private List<LBSCustomEditor> editores = new List<LBSCustomEditor>();
+    public List<LBSCustomEditor> CustomEditors = new List<LBSCustomEditor>();
 
     private LBSLayer target;
 
@@ -72,7 +72,7 @@ public class LBSLocalAssistants : LBSInspector
                 continue;
             }
 
-            editores.Add(ve as LBSCustomEditor);
+            CustomEditors.Add(ve as LBSCustomEditor);
 
             /*
             if (ve is IToolProvider)
@@ -88,7 +88,7 @@ public class LBSLocalAssistants : LBSInspector
 
     public override void Repaint()
     {
-        foreach (var ve in editores)
+        foreach (var ve in CustomEditors)
         {
             ve?.Repaint();
         }

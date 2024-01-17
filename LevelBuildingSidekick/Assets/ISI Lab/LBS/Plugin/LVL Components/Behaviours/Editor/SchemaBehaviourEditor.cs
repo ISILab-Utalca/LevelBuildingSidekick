@@ -17,6 +17,7 @@ using Utility;
 [LBSCustomEditor("Schema Behaviour", typeof(SchemaBehaviour))]
 public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
 {
+
     #region FIELDS
     private SchemaBehaviour schema;
 
@@ -46,9 +47,6 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
     public void SetTools(ToolKit toolKit)
     {
         Texture2D icon;
-
-        // Move Tile
-        // [Implementar]
 
         // Add Zone Tiles
         icon = Resources.Load<Texture2D>("Icons/Tools/Brush_interior_tile");

@@ -32,8 +32,8 @@ public class LBSInspectorPanel : VisualElement
     private List<LBSInspector> inspectors = new List<LBSInspector>();
 
     public LBSLocalCurrent current;
-    private LBSLocalBehaviours behaviours;
-    private LBSLocalAssistants assistants;
+    public LBSLocalBehaviours behaviours;
+    public LBSLocalAssistants assistants;
 
     private Dictionary<string, LBSInspector> VEs = new ();
     #endregion
