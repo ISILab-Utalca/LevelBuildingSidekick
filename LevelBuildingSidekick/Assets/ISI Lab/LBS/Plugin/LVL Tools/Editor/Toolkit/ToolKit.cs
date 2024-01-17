@@ -11,6 +11,7 @@ using System.Speech.Recognition;
 using static UnityEngine.GraphicsBuffer;
 using LBS.Settings;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 namespace LBS.VisualElements
 {
@@ -124,17 +125,58 @@ namespace LBS.VisualElements
         #region METHODS
         public void Init(LBSLayer layer)
         {
-            if (tools.Count > 0)
+            var icon = Resources.Load<Texture2D>("Icons/Select");
+            var selectTool = new Select();
+            var t1 = new LBSTool(icon, "Select", selectTool);
+            t1.Init(layer, this);
+            t1.OnSelect += () =>
             {
-                SetActive(0);
-                return;
+                LBSInspectorPanel.ShowInspector("Current data");
+            };
+            this.AddTool(t1);
+            this.AddSeparator();
+
+            foreach (var behaviour in layer.Behaviours)
+            {
+                var type = behaviour.GetType();
+                var customEditors = Utility.Reflection.GetClassesWith<LBSCustomEditorAttribute>()
+                    .Where(t => t.Item2.Any(v => v.type == type)).ToList();
+
+                if (customEditors.Count() == 0)
+                    return;
+
+                var customEditor = customEditors.First().Item1;
+                var i = customEditor.GetInterface(typeof(IToolProvider).Name);
+
+                if (i != null)
+                {
+                    var ve = Activator.CreateInstance(customEditor, new object[] { behaviour });
+                    ((IToolProvider)ve).SetTools(this);
+                }
+            }
+
+            this.AddSeparator();
+
+            foreach (var assist in layer.Assitants)
+            {
+                var type = assist.GetType();
+                var customEditors = Utility.Reflection.GetClassesWith<LBSCustomEditorAttribute>()
+                    .Where(t => t.Item2.Any(v => v.type == type)).ToList();
+
+                if (customEditors.Count() == 0)
+                    return;
+
+                var customEditor = customEditors.First().Item1;
+                var i = customEditor.GetInterface(typeof(IToolProvider).Name);
+
+                if (i != null)
+                {
+                    var ve = Activator.CreateInstance(customEditor, new object[] { assist });
+                    ((IToolProvider)ve).SetTools(this);
+                }
             }
 
 
-            // (!!!) Esto lo esto sacando de LBSlocalBH y LBSLocalAss asi que 
-            // mejor que se quede asi por ahora (16/08/23) si despues queda
-            // separado el temap de la creacion de isnpectores para los "BH"
-            // y los "Ass" entonces lo movere a aqui 
         }
 
         public void SetActive(int index)

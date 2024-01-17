@@ -15,6 +15,8 @@ public class Select : LBSManipulator
     {
         // Unset feedback
         feedback = null;
+
+        current = LBSInspectorPanel.Instance.current; // (?) parche ??
     }
 
     public override void Init(LBSLayer layer, object provider)
@@ -37,6 +39,8 @@ public class Select : LBSManipulator
 
     protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
     {
+        current = LBSInspectorPanel.Instance.current; // (?) parche ??
+
         // Get fixed position
         var pos = layer.ToFixedPosition(position);
 

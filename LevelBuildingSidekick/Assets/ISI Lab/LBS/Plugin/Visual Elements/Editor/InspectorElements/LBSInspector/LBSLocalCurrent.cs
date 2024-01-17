@@ -70,6 +70,7 @@ public class LBSLocalCurrent : LBSInspector, IToolProvider
 
     public void SetTools(ToolKit toolkit)
     {
+        /*
         var icon = Resources.Load<Texture2D>("Icons/Select");
         var selectTool = new Select();
         var t1 = new LBSTool(icon, "Select", selectTool);
@@ -81,6 +82,7 @@ public class LBSLocalCurrent : LBSInspector, IToolProvider
         ToolKit.Instance.AddTool(t1);
 
         toolkit.AddSeparator();
+        */
     }
 
     public void SetSelectedVE(List<object> objs)

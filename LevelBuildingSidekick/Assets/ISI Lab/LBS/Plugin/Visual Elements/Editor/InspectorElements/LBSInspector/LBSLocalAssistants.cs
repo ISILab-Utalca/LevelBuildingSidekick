@@ -74,10 +74,12 @@ public class LBSLocalAssistants : LBSInspector
 
             editores.Add(ve as LBSCustomEditor);
 
+            /*
             if (ve is IToolProvider)
             {
                 ((IToolProvider)ve).SetTools(toolkit);
             }
+            */
 
             var content = new BehaviourContent(ve as LBSCustomEditor, assist.Name, assist.Icon, color);
             contentAssist.Add(content);
@@ -100,6 +102,6 @@ public class LBSLocalAssistants : LBSInspector
     public override void OnLayerChange(LBSLayer layer)
     {
         SetInfo(layer);
-        ToolKit.Instance.SetActive(0);
+        //ToolKit.Instance.SetActiveWhithoutNotify(0);
     }
 }

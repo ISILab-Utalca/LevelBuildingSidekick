@@ -31,7 +31,7 @@ public class LBSInspectorPanel : VisualElement
 
     private List<LBSInspector> inspectors = new List<LBSInspector>();
 
-    private LBSLocalCurrent current;
+    public LBSLocalCurrent current;
     private LBSLocalBehaviours behaviours;
     private LBSLocalAssistants assistants;
 
