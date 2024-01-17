@@ -25,19 +25,21 @@ public class LBSInspectorPanel : VisualElement
     #endregion
 
     #region FIELDS
-    private MainView view;
     private VisualElement content;
+    private ButtonGroup tabsGroup;
+    private string selectedTab;
 
     private List<LBSInspector> inspectors = new List<LBSInspector>();
-
-    private ButtonGroup subTab;
-    private ButtonGroup mainTab;
 
     private LBSLocalCurrent current;
     private LBSLocalBehaviours behaviours;
     private LBSLocalAssistants assistants;
 
-    private Dictionary<string, Dictionary<string, LBSInspector>> VEs = new ();
+    private Dictionary<string, LBSInspector> VEs = new ();
+    #endregion
+
+    #region EVENTS
+    public event Action<string> OnChangeTab;
     #endregion
 
     #region CONSTRUCTORS
@@ -46,19 +48,14 @@ public class LBSInspectorPanel : VisualElement
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSInspectorPanel");
         visualTree.CloneTree(this);
 
-        // SubTabs
-        subTab = this.Q<ButtonGroup>("SubTabs");
-        subTab.Init();
-
-        // MainButtonGroup
-        mainTab = this.Q<ButtonGroup>("MainTabs");
-        mainTab.Init();
+        // Tabs
+        tabsGroup = this.Q<ButtonGroup>("SubTabs");
+        InitTabs();
 
         // Content
         content = this.Q<VisualElement>("InspectorContent");
 
-        InitTabs();
-        SetTabs("Global");
+        SetSelectedTab("Current data");
 
         instance = this;
     }
@@ -67,97 +64,45 @@ public class LBSInspectorPanel : VisualElement
     #region METHODS
     private void InitTabs()
     {
-        var gb = new LBSGlobalBundlesInspector(); 
-        AddTab("Global", "Bundles", gb);
-
-        var gt = new LBSGlobalTagsInspector();
-        AddTab("Global", "Tags", gt);
-
-        var l1 = new LBSLocalCurrent();
-        AddTab("Local", "Current data", l1);
+        this.current = new LBSLocalCurrent();
+        AddTab("Current data", current);
 
         this.behaviours = new LBSLocalBehaviours();
-        AddTab("Local", "Behaviours", behaviours);
+        AddTab("Behaviours", behaviours);
 
         this.assistants = new LBSLocalAssistants();
-        AddTab("Local", "Assistants", assistants);
+        AddTab("Assistants", assistants);
+
+        tabsGroup.OnChangeTab += (tab) =>
+        {
+            this.ClearContent();
+            VEs.TryGetValue(tab, out var inspct);
+            this.SetContent(inspct);
+
+            OnChangeTab?.Invoke(tab);
+        };
     }
 
-    private void AddTab(string mainTabName, string subTabName, LBSInspector element)
+    private void AddTab(string tab, LBSInspector element)
     {
-        if(VEs.ContainsKey(mainTabName))
+        VEs.Add(tab, element);
+
+        tabsGroup.AddChoice(tab, (btn) => 
         {
-            VEs.TryGetValue(mainTabName, out var dic);
-            if (dic.ContainsKey(subTabName))
-            {
-                VEs.TryGetValue(mainTabName, out var visualElement);
-            }
-            else
-            {
-                dic.Add(subTabName, element);
-            }
-        }
-        else
-        {
-            var newDic = new Dictionary<string, LBSInspector>();
-            newDic.Add(subTabName, element);
-            VEs.Add(mainTabName, newDic);
-        }
-
-        var mainTabs = mainTab.Children().ToList();
-        var subTabs = subTab.Children().ToList();
-
-        mainTabs.Select(s => s.name).Any();
-
+            var grupableBtn = btn as GrupalbeButton;
+            this.ClearContent();
+            VEs.TryGetValue(grupableBtn.text, out var inspct);
+            this.SetContent(inspct);
+        });
     }
 
-    private void SetTabs(string name)
+    public void SetSelectedTab(string name)
     {
-        mainTab.Choices = string.Join(",", VEs.Select(pv => pv.Key));
-
-        var mTabs = mainTab.Children().Select(st => st as IGrupable).ToList();
-        foreach (var btn in mTabs)
-        {
-            btn.OnFocusEvent += () =>
-            {
-                var btn2 = btn as GrupalbeButton;
-                SetSubTabs(btn2.text);
-
-                this.ClearContent();
-                VEs.TryGetValue(btn2.text, out var ve);
-                var xx = ve.Keys.ToList();
-                ve.TryGetValue(xx[0], out var inspct);
-                this.SetContent(inspct);
-            };
-        }
-
-        SetSubTabs(name);
-
         this.ClearContent();
         VEs.TryGetValue(name, out var ve);
-        var xx = ve.Keys.ToList();
-        ve.TryGetValue(xx[0], out var inspct);
-        this.SetContent(inspct);
-    }
+        this.SetContent(ve);
 
-    private void SetSubTabs(string name)
-    {
-        VEs.TryGetValue(name, out var ve);
-        subTab.Choices = string.Join(",", ve.Select(pv => pv.Key));
-
-        var sTabs = subTab.Children().Select(st => st as IGrupable).ToList();
-        for (int i = 0; i < sTabs.Count(); i++)
-        {
-            var btn = sTabs[i];
-
-            btn.OnFocusEvent += () =>
-            {
-                var btn2 = btn as GrupalbeButton;
-                this.ClearContent();
-                ve.TryGetValue(btn2.text,out var inspct);
-                this.SetContent(inspct);
-            };
-        }
+        OnChangeTab?.Invoke(name);
     }
 
     private void ClearContent()
@@ -171,58 +116,25 @@ public class LBSInspectorPanel : VisualElement
             return;
 
         content.Add(inspector);
-        ((LBSInspector)inspector).Repaint();
-    }
-
-    public void AddInspector(LBSInspector inspector, int index = -1) // (!!!) relacionado con toolkit 
-    {
-        inspectors.Add(inspector);
-        if (index == -1)
-        {
-            content.Add(inspector);
-        }
-        else
-        {
-            content.Insert(index, inspector);
-        }
-       
-    }
-
-    public void RemoveInspector(LBSInspector inspector) // (!!!) relacionado con toolkit 
-    {
-        inspectors.Remove(inspector);
-        if(content.Contains(inspector))
-            content.Remove(inspector);
+        (inspector as LBSInspector).Repaint();
     }
 
     internal void OnSelectedLayerChange(LBSLayer layer)
     {
         foreach (var ve in VEs)
         {
-            foreach (var ve2 in ve.Value)
-            {
-                var inspector = ve2.Value;
-                inspector.OnLayerChange(layer);
-            }
+            var inspector = ve.Value;
+            inspector.OnLayerChange(layer);
         }
     }
     #endregion
 
     #region FUNCTIONS SINGLETON
-    public static void ShowInspector(string tab, string subTab)
+    public static void ShowInspector(string tab)
     {
         var panel = LBSInspectorPanel.Instance;
         panel.VEs.TryGetValue(tab, out var ve);
-        ve.TryGetValue(subTab, out var inspct);
-
-        var vv = panel.mainTab.Choices.Split(",").ToList();
-        panel.mainTab.ChangeActive(vv.FindIndex( v => v == tab));
-
-        var vvv = panel.subTab.Choices.Split(",").ToList();
-        panel.subTab.ChangeActive(vvv.FindIndex(v => v == subTab));
-
-        //obj.ClearContent();
-        //obj.SetContent(inspct);
+        panel.tabsGroup.ChangeActive(tab);
     }
     #endregion
 }

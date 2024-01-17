@@ -54,7 +54,7 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
         icon = Resources.Load<Texture2D>("Icons/Tools/Brush_interior_tile");
         this.createNewRoomNode = new AddSchemaTile();
         var t1 = new LBSTool(icon, "Paint Zone", createNewRoomNode);
-        t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Local","Behaviours");
+        t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
         t1.OnEnd += (l)=> areaPallete.Repaint();
         t1.Init(schema.Owner, schema);
         toolKit.AddTool(t1);
@@ -72,7 +72,7 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
         icon = Resources.Load<Texture2D>("Icons/Tools/Set_Connection");
         this.setTileConnection = new SetSchemaTileConnection();
         var t3 = new LBSTool(icon, "Set connection", setTileConnection);
-        t3.OnSelect += () => LBSInspectorPanel.ShowInspector("Local", "Behaviours");
+        t3.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
         t3.Init(schema.Owner, schema);
         toolKit.AddTool(t3);
 

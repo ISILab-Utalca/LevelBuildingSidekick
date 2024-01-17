@@ -97,7 +97,7 @@ public class LBSLocalBehaviours : LBSInspector
     public override void OnLayerChange(LBSLayer layer)
     {
         SetInfo(layer);
-        toolkit.SetActive(0);
+        toolkit.SetActiveWhithoutNotify(0);
     }
 
     public override void Repaint()

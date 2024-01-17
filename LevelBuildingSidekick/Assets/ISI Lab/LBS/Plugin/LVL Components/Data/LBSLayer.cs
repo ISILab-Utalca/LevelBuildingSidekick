@@ -26,6 +26,9 @@ namespace LBS.Components
         [PathTexture] // ya no se usa (?)
         [SerializeField, JsonRequired]
         public string iconPath = "Icon/Default";
+
+        //[SerializeField, JsonRequired]
+        //public string tabSelected = "Current data"; // "Current data" | "Behaviours" | "Assistants"
         #endregion
 
         #region FIELDS

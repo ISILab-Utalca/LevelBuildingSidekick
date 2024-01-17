@@ -10,6 +10,7 @@ using UnityEditor;
 using System.Speech.Recognition;
 using static UnityEngine.GraphicsBuffer;
 using LBS.Settings;
+using UnityEngine.UI;
 
 namespace LBS.VisualElements
 {
@@ -138,16 +139,24 @@ namespace LBS.VisualElements
 
         public void SetActive(int index)
         {
-            if (tools.Count <= 0)
-                return;
-
             this.index = index;
 
             if(current != default((LBSTool,ToolButton)))
                 current.Item2.OnBlur();
             
             current = tools[index];
+
             current.Item2.OnFocus();
+
+            var m = current.Item1.Manipulator;
+            MainView.Instance.AddManipulator(m);
+        }
+
+        public void SetActiveWhithoutNotify(int index)
+        {
+            this.index = index;
+            current = tools[index];
+            current.Item2.OnFocusWithoutNotify();
 
             var m = current.Item1.Manipulator;
             MainView.Instance.AddManipulator(m);

@@ -15,6 +15,7 @@ public class LayersPanel : VisualElement
 
     #region FIELDS
     public LBSLevelData data;
+    private LBSLayer selectedLayer;
 
     // templates
     private List<LayerTemplate> templates;

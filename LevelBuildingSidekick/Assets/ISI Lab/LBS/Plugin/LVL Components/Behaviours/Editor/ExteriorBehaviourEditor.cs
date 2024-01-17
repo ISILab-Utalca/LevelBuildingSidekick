@@ -87,7 +87,7 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
         icon = Resources.Load<Texture2D>("Icons/Tools/Exterior_connection");
         this.setConnection = new SetExteriorTileConnection();
         var t3 = new LBSTool(icon, "Set connection", setConnection);
-        t3.OnSelect += () => LBSInspectorPanel.ShowInspector("Local", "Behaviours");
+        t3.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
         t3.Init(exterior.Owner, exterior);
         toolKit.AddTool(t3);
 

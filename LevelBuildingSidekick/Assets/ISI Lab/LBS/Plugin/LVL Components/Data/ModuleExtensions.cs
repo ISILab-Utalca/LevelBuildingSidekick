@@ -38,13 +38,13 @@ public static class ModuleExtensions
 
 public static class CloneRefs
 {
-    private static Dictionary<int, Dictionary<object,object>> directorys = new Dictionary<int, Dictionary<object, object>>();
+    private static Dictionary<int, Dictionary<object,object>> dictionary = new Dictionary<int, Dictionary<object, object>>();
 
     public static void Start()
     {
         int threadId = Thread.CurrentThread.ManagedThreadId;
         
-        var c = directorys.ContainsKey(threadId);
+        var c = dictionary.ContainsKey(threadId);
 
         if(c)
         {
@@ -52,9 +52,9 @@ public static class CloneRefs
         }
         else
         {
-            lock (directorys)
+            lock (dictionary)
             {
-                directorys[threadId] = new Dictionary<object, object>();
+                dictionary[threadId] = new Dictionary<object, object>();
             }
         }
     }
@@ -63,54 +63,23 @@ public static class CloneRefs
     {
         int threadId = Thread.CurrentThread.ManagedThreadId;
 
-        lock (directorys)
+        lock (dictionary)
         {
-            directorys.Remove(threadId);
+            dictionary.Remove(threadId);
         }
     }
-
-    public static void Add(object original, object clone)
-    {
-        /*
-        int threadId = Thread.CurrentThread.ManagedThreadId;
-        var x = cicloDeClonados.ContainsKey(threadId);
-
-        if (!x)
-        {
-            throw new Exception("No puedes añadir si no has iniciado un ciclo de clonado.");
-        }
-
-        lock (directorys)
-        {
-            directorys[threadId][original] = clone;
-        }
-        */
-        //dictionary[original] = clone;
-    }
-
 
     public static object Get(object original)
     {
         int threadId = Thread.CurrentThread.ManagedThreadId;
-        var c = directorys.ContainsKey(threadId);
+        var c = dictionary.ContainsKey(threadId);
 
         if (!c)
         {
             throw new Exception("No puedes obtener si no has iniciado un ciclo de clonado.");
         }
 
-        directorys.TryGetValue(threadId, out var dir);
-
-        /*
-        if(dir == null)
-        {
-            lock (directorys)
-            {
-                dir = new Dictionary<object, object>();
-                directorys[threadId] = dir;
-            }
-        }
-        */
+        dictionary.TryGetValue(threadId, out var dir);
 
         if (dir.ContainsKey(original))
         {
@@ -120,29 +89,15 @@ public static class CloneRefs
         {
             var clone = (original as ICloneable).Clone();
 
-            directorys.TryGetValue(threadId, out var dir2);
+            //dictionary.TryGetValue(threadId, out var dir2);
 
-            lock (directorys)
+            lock (dictionary)
             {
-               dir2[original] = clone;
+               dir[original] = clone;
             }
             
             return clone;
         }
-
-
-        /*
-        if(dictionary.ContainsKey(original))
-        {
-            return dictionary[original];
-        }
-        else
-        {
-            var clone = (original as ICloneable).Clone();
-            dictionary[original] = clone;
-            return clone;
-        }
-        */
     }
 
 }

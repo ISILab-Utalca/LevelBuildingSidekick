@@ -63,7 +63,7 @@ public class LayerTemplateEditor : Editor
         GUILayout.BeginHorizontal();
         ruleIndex = EditorGUILayout.Popup("Type:", ruleIndex, ruleOptions.Select(e => e.Name).ToArray());
         var selected3 = ruleOptions[ruleIndex];
-        if (GUILayout.Button("Add Assistent"))
+        if (GUILayout.Button("Add Generator"))
         {
             var rule = Activator.CreateInstance(selected3);
             template.layer.AddGeneratorRule(rule as LBSGeneratorRule);

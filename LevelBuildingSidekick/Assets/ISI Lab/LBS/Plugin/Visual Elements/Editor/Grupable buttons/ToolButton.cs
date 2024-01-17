@@ -57,6 +57,11 @@ public class ToolButton : VisualElement, IGrupable
         OnFocusEvent?.Invoke();
     }
 
+    public void OnFocusWithoutNotify()
+    {
+        button.style.backgroundColor = selected;
+    }
+
     public void SetColorGroup(Color color, Color selected)
     {
         this.color = color;

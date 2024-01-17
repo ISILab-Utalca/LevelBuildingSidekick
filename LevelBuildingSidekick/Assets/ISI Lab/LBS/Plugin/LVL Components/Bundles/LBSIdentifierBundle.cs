@@ -5,7 +5,7 @@ using UnityEngine;
 using System.Linq;
 using LBS.Bundles;
 
-//[CreateAssetMenu(fileName = "NewIDBundle", menuName = "ISILab/Identifiers Bundle")]
+[CreateAssetMenu(fileName = "New Tags Group", menuName = "ISILab/New Tags Group")]
 public class LBSIdentifierBundle : ScriptableObject
 {
     public enum TagType
@@ -45,28 +45,5 @@ public class LBSIdentifierBundle : ScriptableObject
     {
         tags.Add(tag);
     }
-
-    /*
-    public void Add(List<Bundle> data) // (?) por que existe este metodo?
-    {
-        var names = data.Select(b => b.name);
-
-        foreach (var name in names)
-        {
-            if(!this.tags.Contains(name))
-                this.tags.Add(name);
-        }
-    }
-
-    public virtual void Remove(List<Bundle> data) // (?) por que existe este metodo?
-    {
-        var tags = data.Select(b => b.ID);
-
-        foreach(var tag in tags)
-        {
-            this.tags.Remove(tag);
-        }    
-    }
-    */
     #endregion
 }

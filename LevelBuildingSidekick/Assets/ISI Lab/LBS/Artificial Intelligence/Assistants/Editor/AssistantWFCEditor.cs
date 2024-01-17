@@ -38,7 +38,7 @@ public class AssistantWFCEditor : LBSCustomEditor, IToolProvider
         icon = Resources.Load<Texture2D>("Icons/Assistans/Assistans_WaveFunctionCollapse");
         this.collapseManipulator = new WaveFunctionCollapseManipulator();
         var t1 = new LBSTool(icon, "Wave function collapse", collapseManipulator);
-        t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Local", "Assistants");
+        t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Assistants");
         t1.Init(assistant.Owner, assistant);
         toolKit.AddTool(t1);
     }
