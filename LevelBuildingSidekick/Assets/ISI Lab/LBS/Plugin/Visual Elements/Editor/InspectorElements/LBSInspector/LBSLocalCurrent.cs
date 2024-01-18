@@ -63,7 +63,7 @@ public class LBSLocalCurrent : LBSInspector, IToolProvider
         throw new NotImplementedException();
     }
 
-    public override void OnLayerChange(LBSLayer layer)
+    public override void SetTarget(LBSLayer layer)
     {
         SetInfo(layer);
     }

@@ -41,17 +41,19 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
     {
         // Set target Behaviour
         this.exterior = target as ExteriorBehaviour;
+        Debug.Log(this.GetHashCode() + "\n"+ this.ToString());
 
         // Get Target bundle
         var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
-        foreach ( var bundle in bundles)
-        {
-            if(bundle.Name == exterior.TargetBundle)
-            {
-                this.targetBundle = bundle;
-                break;
-            }
-        }
+
+        this.targetBundle = bundles.Find(b => b.Name == exterior.TargetBundle);
+        //foreach ( var bundle in bundles)
+        //{
+        //    if(bundle.Name == exterior.TargetBundle){
+        //        this.targetBundle = bundle;
+        //        break;
+        //    }
+        //}
 
         CreateVisualElement();
     }

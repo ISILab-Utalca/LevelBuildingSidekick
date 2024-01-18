@@ -95,7 +95,7 @@ public class LBSLocalBehaviours : LBSInspector
         }
     }
 
-    public override void OnLayerChange(LBSLayer layer)
+    public override void SetTarget(LBSLayer layer)
     {
         SetInfo(layer);
         //toolkit.SetActiveWhithoutNotify(0);
