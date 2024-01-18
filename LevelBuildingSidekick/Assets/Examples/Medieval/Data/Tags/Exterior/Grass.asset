@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   label: Grass
   icon: {fileID: 0}
-  color: {r: 0.16571736, g: 0.7169812, b: 0.181581, a: 1}
+  color: {r: 0.20000002, g: 0.36078432, b: 0.4039216, a: 1}
