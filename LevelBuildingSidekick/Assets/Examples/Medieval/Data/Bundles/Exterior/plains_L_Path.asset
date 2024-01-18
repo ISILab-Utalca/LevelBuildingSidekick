@@ -22,7 +22,6 @@ MonoBehaviour:
     probability: 1
   characteristics:
   - rid: 3767989597796302927
-  - rid: 6566550770550309026
   positioning: 0
   references:
     version: 2
@@ -36,12 +35,3 @@ MonoBehaviour:
         - Grass
         - Grass
         - Path
-    - rid: 6566550770550309026
-      type: {class: LBSDirection, ns: , asm: LBS}
-      data:
-        label: Connections
-        connections:
-        - Bricks Tag
-        - Bricks Tag
-        - Bricks Tag
-        - Bricks Tag
