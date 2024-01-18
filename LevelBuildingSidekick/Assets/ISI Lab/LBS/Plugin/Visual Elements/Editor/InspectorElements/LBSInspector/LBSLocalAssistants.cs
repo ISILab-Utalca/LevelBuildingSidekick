@@ -99,7 +99,7 @@ public class LBSLocalAssistants : LBSInspector
         throw new NotImplementedException();
     }
 
-    public override void OnLayerChange(LBSLayer layer)
+    public override void SetTarget(LBSLayer layer)
     {
         SetInfo(layer);
         //ToolKit.Instance.SetActiveWhithoutNotify(0);

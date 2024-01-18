@@ -171,11 +171,11 @@ public class LBSMainWindow : EditorWindow
         layerPanel.OnLayerVisibilityChange += (l) => {
             DrawManager.Instance.RedrawLevel(levelData, mainView);
         };
-        layerPanel.OnSelectLayer += (layer) => {
+        layerPanel.OnSelectLayer += (layer) => { // esto llama implicigtamente OnAddLayer
             OnSelectedLayerChange(layer);
         };
         layerPanel.OnAddLayer += (layer) => { 
-            OnSelectedLayerChange(layer);
+            //OnSelectedLayerChange(layer);
             DrawManager.Instance.AddContainer(layer);
         }; 
         layerPanel.OnRemoveLayer += (l) => {
@@ -271,7 +271,7 @@ public class LBSMainWindow : EditorWindow
 
 
         // Actualize Inspector panel 
-        inspectorManager.OnSelectedLayerChange(layer);
+        inspectorManager.SetTarget(layer);
         //inspectorManager.SetSelectedTab(layer.tabSelected);
 
         // Actualize ToolKit

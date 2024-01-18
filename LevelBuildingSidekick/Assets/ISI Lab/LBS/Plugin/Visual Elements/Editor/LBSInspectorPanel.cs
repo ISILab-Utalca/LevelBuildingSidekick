@@ -119,12 +119,12 @@ public class LBSInspectorPanel : VisualElement
         (inspector as LBSInspector).Repaint();
     }
 
-    internal void OnSelectedLayerChange(LBSLayer layer)
+    internal void SetTarget(LBSLayer layer)
     {
         foreach (var ve in VEs)
         {
             var inspector = ve.Value;
-            inspector.OnLayerChange(layer);
+            inspector.SetTarget(layer);
         }
     }
     #endregion

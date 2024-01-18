@@ -201,7 +201,7 @@ public class LBSGlobalBundlesInspector : LBSInspector
         throw new NotImplementedException();
     }
 
-    public override void OnLayerChange(LBSLayer layer)
+    public override void SetTarget(LBSLayer layer)
     {
         //Debug.Log("Actualizacion de layer Global/Bundles inspector");
     }
