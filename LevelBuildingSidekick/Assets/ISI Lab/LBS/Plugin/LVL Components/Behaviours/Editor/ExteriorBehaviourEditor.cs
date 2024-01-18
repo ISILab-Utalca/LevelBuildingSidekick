@@ -86,6 +86,7 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
         // Set connection
         icon = Resources.Load<Texture2D>("Icons/Tools/Exterior_connection");
         this.setConnection = new SetExteriorTileConnection();
+        Debug.Log(this.GetHashCode() + "\n" + this.ToString());
         var t3 = new LBSTool(icon, "Set connection", setConnection);
         t3.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
         t3.Init(exterior.Owner, exterior);
@@ -179,6 +180,7 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
         // Selected option event
         connectionPallete.OnSelectOption += (selected) => 
         {
+            Debug.Log(this.GetHashCode() + "\n" + this.ToString());
             setConnection.ToSet = selected as LBSIdentifier;
             ToolKit.Instance.SetActive("Set connection");
         };

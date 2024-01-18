@@ -180,59 +180,6 @@ public class DrawManager
     {
         for (int i = layers.Count - 1; i >= 0; i--)
         {
-            /*
-            var l = layers[i];
-
-            if (l == null)
-                continue;
-
-            if (!l.IsVisible)
-                continue;
-
-            var behaviours = l.Behaviours;
-            foreach (var b in behaviours)
-            {
-                if (b == null)
-                    continue;
-
-                if (!b.visible)
-                    continue;
-
-                var classes = Utility.Reflection.GetClassesWith<DrawerAttribute>();
-                if (classes.Count == 0)
-                    continue;
-
-                var drawers = classes.Where(t => t.Item2.Any(v => v.type == b.GetType()));
-
-                if (drawers.Count() == 0)
-                    continue;
-
-                var drawer = Activator.CreateInstance(drawers.First().Item1) as Drawer; // shold be registering it instead of instantiation each time it will paint
-                drawer.Draw(b, view, l.TileSize);
-            }
-
-            var assistants = l.Assitants;
-            foreach (var a in assistants)
-            {
-                if (a == null)
-                    continue;
-
-                if (!a.visible)
-                    continue;
-
-                var classes = Utility.Reflection.GetClassesWith<DrawerAttribute>();
-                if (classes.Count == 0)
-                    continue;
-
-                var drawers = classes.Where(t => t.Item2.Any(v => v.type == a.GetType()));
-
-                if (drawers.Count() <= 0)
-                    continue;
-
-                var drawer = Activator.CreateInstance(drawers.First().Item1) as Drawer; // shold be registering it instead of instantiation each time it will paint
-                drawer.Draw(a, view, l.TileSize);
-            }
-            */
             DrawLayer(layers[i], mainView);
         }
     }

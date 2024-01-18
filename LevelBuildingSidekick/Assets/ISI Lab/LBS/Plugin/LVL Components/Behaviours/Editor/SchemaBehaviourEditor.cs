@@ -111,7 +111,7 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
         insideField.value = schema.PressetInsideStyle;
         insideField.RegisterValueChangedCallback(evt =>
         {
-            schema.PressetOutsideStyle = evt.newValue as Bundle;
+            schema.PressetInsideStyle = evt.newValue as Bundle;
         });
 
         // Outside Field
