@@ -12,6 +12,8 @@ public class QuestGraphDrawer : Drawer
 {
     public QuestGraphDrawer() : base() { }
 
+
+    //TODO: se cae en un null de una key de un diccionario
     public override void Draw(object target, MainView view, Vector2 teselationSize)
     {
         var assistant = target as GrammarAssistant;
@@ -20,9 +22,9 @@ public class QuestGraphDrawer : Drawer
 
         var nodeViews = new Dictionary<QuestNode, QuestNodeView>();
 
-
         foreach(var node in quest.QuestNodes)
         {
+
             if(node.ID == "Start Node")
             {
                 var v = new StartQNode();
