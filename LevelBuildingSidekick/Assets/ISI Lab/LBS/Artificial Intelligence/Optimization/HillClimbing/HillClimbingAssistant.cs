@@ -298,6 +298,17 @@ public class HillClimbingAssistant : LBSAssistant
 
         };
 
+        zonesMod.OnRemovePair += (module, tile) =>
+        {
+            if (tile == null) return;
+
+            if(!module.ZonesWithTiles.Contains(tile.Zone))
+            {
+                GraphMod.RemoveEdges(tile.Zone);
+            }
+
+        };
+
         // Set constraint
         // ConstrainsZonesMod.RecalculateConstraint(zonesMod.Zones);
 
