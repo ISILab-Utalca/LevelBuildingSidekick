@@ -17,6 +17,7 @@ using Utility;
 [LBSCustomEditor("Schema Behaviour", typeof(SchemaBehaviour))]
 public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
 {
+
     #region FIELDS
     private SchemaBehaviour schema;
 
@@ -47,14 +48,11 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
     {
         Texture2D icon;
 
-        // Move Tile
-        // [Implementar]
-
         // Add Zone Tiles
         icon = Resources.Load<Texture2D>("Icons/Tools/Brush_interior_tile");
         this.createNewRoomNode = new AddSchemaTile();
         var t1 = new LBSTool(icon, "Paint Zone", createNewRoomNode);
-        t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Local","Behaviours");
+        t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
         t1.OnEnd += (l)=> areaPallete.Repaint();
         t1.Init(schema.Owner, schema);
         toolKit.AddTool(t1);
@@ -72,7 +70,7 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
         icon = Resources.Load<Texture2D>("Icons/Tools/Set_Connection");
         this.setTileConnection = new SetSchemaTileConnection();
         var t3 = new LBSTool(icon, "Set connection", setTileConnection);
-        t3.OnSelect += () => LBSInspectorPanel.ShowInspector("Local", "Behaviours");
+        t3.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
         t3.Init(schema.Owner, schema);
         toolKit.AddTool(t3);
 
@@ -113,7 +111,7 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
         insideField.value = schema.PressetInsideStyle;
         insideField.RegisterValueChangedCallback(evt =>
         {
-            schema.PressetOutsideStyle = evt.newValue as Bundle;
+            schema.PressetInsideStyle = evt.newValue as Bundle;
         });
 
         // Outside Field

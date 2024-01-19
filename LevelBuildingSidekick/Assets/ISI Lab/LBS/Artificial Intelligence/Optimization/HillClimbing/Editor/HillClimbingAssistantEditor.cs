@@ -71,7 +71,7 @@ public class HillClimbingAssistantEditor : LBSCustomEditor, IToolProvider
         icon = Resources.Load<Texture2D>("Icons/Tools/Node_connection");
         this.setZoneConnection = new SetZoneConnection();
         var t1 = new LBSTool(icon, "Add zone connection", setZoneConnection);
-        t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Local", "Assistants");
+        t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Assistants");
         t1.Init(hillClimbing.Owner, hillClimbing);
         toolKit.AddTool(t1);
 

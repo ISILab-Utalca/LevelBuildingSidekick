@@ -30,9 +30,9 @@ public class GrupalbeButton : Button, IGrupable
 
     public GrupalbeButton() { }
 
-    public GrupalbeButton(string text )
+    public GrupalbeButton(string text)
     {
-        this.text = text;
+        this.text = label = text;
     }
 
     public void AddGroupEvent(Action action)

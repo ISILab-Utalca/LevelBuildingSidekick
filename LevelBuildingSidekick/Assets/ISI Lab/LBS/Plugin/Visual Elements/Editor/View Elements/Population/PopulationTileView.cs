@@ -12,6 +12,7 @@ public class PopulationTileView : GraphElement
     List<VisualElement> arrows = new List<VisualElement>();
 
     VisualElement icon;
+    VisualElement bg;
 
     private static VisualTreeAsset view;
 
@@ -30,6 +31,7 @@ public class PopulationTileView : GraphElement
         arrows.Add(this.Q<VisualElement>(name: "Down")); 
 
         icon = this.Q<VisualElement>(name: "Icon");
+        bg = this.Q<VisualElement>(name: "Background");
 
         var id = tile.BundleData.Bundle;
         SetColor(id.Color);
@@ -48,7 +50,7 @@ public class PopulationTileView : GraphElement
 
     public void SetColor(Color color)
     {
-        icon.style.backgroundColor = color;
+        bg.style.backgroundColor = color;
     }
 
     public void SetImage(Texture2D image)

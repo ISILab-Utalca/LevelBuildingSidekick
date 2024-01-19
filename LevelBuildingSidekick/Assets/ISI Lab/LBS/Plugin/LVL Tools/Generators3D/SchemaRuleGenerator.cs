@@ -122,6 +122,7 @@ public class SchemaRuleGenerator : LBSGeneratorRule
 
         for (var i = 0; i < connections.Count; i++)
         {
+
             // Get random bundle with respctive "connection tag"
             var current = currents.Where(b => b.GetCharacteristics<LBSTagsCharacteristic>()
                 .Any(c => c.Value.name == connections[i]))
@@ -130,7 +131,7 @@ public class SchemaRuleGenerator : LBSGeneratorRule
             // check if current is valid
             if (current == null)
             {
-                Debug.Log("Los bundles no contienen elemetos con la tag: '" + connections[i] + "'");
+                //Debug.Log("Los bundles no contienen elemetos con la tag: '" + connections[i] + "'");
                 continue;
             }
 
@@ -142,7 +143,7 @@ public class SchemaRuleGenerator : LBSGeneratorRule
 
             // Set rotation orientation
             if (i % 2 == 0) 
-                obj.transform.rotation = Quaternion.Euler(0, (90 * (i - 1)) % 360 , 0); // if parche? (?)
+                obj.transform.rotation = Quaternion.Euler(0, (90 * (i - 1)) % 360 , 0); // (?) if parche? 
             else
                 obj.transform.rotation = Quaternion.Euler(0, (90 * (i - 3)) % 360, 0);
 
@@ -207,34 +208,6 @@ public class SchemaRuleGenerator : LBSGeneratorRule
                 var rot = (i) % Dirs.Count();
                 instance.transform.rotation = Quaternion.Euler(0, -90 * rot, 0);
             }
-
-            /*
-            // Check if neigth connection is empty
-            var vv = (j - 1) % Dirs.Count;
-            var k2 = vv >= 0 ? vv : Dirs.Count - 1; 
-            if (neigthConnections[k2] != "empty")
-            {
-                // Check if self is empty
-                if (!selfConnections[k2].Equals("Empty"))
-                    continue;
-
-                // Get random by weight
-                var pref = current.Assets.RandomRullete(a => a.probability).obj;
-                var instance = CreateObject(pref, pivot.transform);
-
-                // Set delta position
-                var dir = Dirs[i] + Dirs[k2];
-                instance.transform.position = new Vector3(
-                    settings.scale.x / 2f * dir.x,
-                    0,
-                    settings.scale.y / 2f * dir.y) * deltaWall;
-
-                // Set rotation orientation
-                var rot = (i - 1) % Dirs.Count();
-                instance.transform.rotation = Quaternion.Euler(0, 90 * rot, 0);
-                instance.name = "R:"+ rot +" i:" + i;
-            }
-            */
         }
 
         return pivot;

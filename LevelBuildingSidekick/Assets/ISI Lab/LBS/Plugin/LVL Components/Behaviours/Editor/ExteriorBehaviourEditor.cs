@@ -41,17 +41,19 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
     {
         // Set target Behaviour
         this.exterior = target as ExteriorBehaviour;
+        Debug.Log(this.GetHashCode() + "\n"+ this.ToString());
 
         // Get Target bundle
         var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
-        foreach ( var bundle in bundles)
-        {
-            if(bundle.Name == exterior.TargetBundle)
-            {
-                this.targetBundle = bundle;
-                break;
-            }
-        }
+
+        this.targetBundle = bundles.Find(b => b.Name == exterior.TargetBundle);
+        //foreach ( var bundle in bundles)
+        //{
+        //    if(bundle.Name == exterior.TargetBundle){
+        //        this.targetBundle = bundle;
+        //        break;
+        //    }
+        //}
 
         CreateVisualElement();
     }
@@ -86,8 +88,9 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
         // Set connection
         icon = Resources.Load<Texture2D>("Icons/Tools/Exterior_connection");
         this.setConnection = new SetExteriorTileConnection();
+        Debug.Log(this.GetHashCode() + "\n" + this.ToString());
         var t3 = new LBSTool(icon, "Set connection", setConnection);
-        t3.OnSelect += () => LBSInspectorPanel.ShowInspector("Local", "Behaviours");
+        t3.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
         t3.Init(exterior.Owner, exterior);
         toolKit.AddTool(t3);
 
@@ -179,6 +182,7 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
         // Selected option event
         connectionPallete.OnSelectOption += (selected) => 
         {
+            Debug.Log(this.GetHashCode() + "\n" + this.ToString());
             setConnection.ToSet = selected as LBSIdentifier;
             ToolKit.Instance.SetActive("Set connection");
         };

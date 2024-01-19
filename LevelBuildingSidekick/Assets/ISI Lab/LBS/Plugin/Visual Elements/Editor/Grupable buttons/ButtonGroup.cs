@@ -108,6 +108,10 @@ namespace LBS.VisualElements
         }
         #endregion
 
+        #region EVENTS
+        public event Action<string> OnChangeTab;
+        #endregion
+
         #region CONSTRUCTORS
         public ButtonGroup()
         {
@@ -160,20 +164,21 @@ namespace LBS.VisualElements
             current?.OnBlur();
             current = active;
             current.OnFocus();
+
+            OnChangeTab?.Invoke(current.GetLabel());
         }
 
-        public void ChangeActive(int index)
+        
+        public void ChangeActive(int index) 
         {
-            current?.OnBlur();
-            current = group[index];
-            current.OnFocus();
+            var current = group[index];
+            ChangeActive(current);
         }
 
         public void ChangeActive(string label)
         {
-            current?.OnBlur();
-            current = group.Find(b => b.GetLabel() == label);
-            current.OnFocus();
+            var current = group.Find(b => b.GetLabel() == label);
+            ChangeActive(current);
         }
 
         private void Active(IGrupable active)
@@ -223,6 +228,19 @@ namespace LBS.VisualElements
             }
 
             base.Add(element);
+        }
+
+        internal void AddChoice(string tab, Action<IGrupable> value)
+        {
+            var btn = new GrupalbeButton(tab);
+            btn.SetColorGroup(baseColor, selectedColor);
+            btn.style.flexGrow = 1;
+            btn.AddGroupEvent(() =>
+            {
+                value(btn);
+            });
+            this.Add(btn);
+            choiceCount++;
         }
 
         public new void Clear()

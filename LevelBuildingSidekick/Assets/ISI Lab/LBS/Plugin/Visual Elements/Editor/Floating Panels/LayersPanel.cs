@@ -15,6 +15,7 @@ public class LayersPanel : VisualElement
 
     #region FIELDS
     public LBSLevelData data;
+    private LBSLayer selectedLayer;
 
     // templates
     private List<LayerTemplate> templates;
@@ -67,8 +68,8 @@ public class LayersPanel : VisualElement
         list.fixedItemHeight = 20;
         list.itemsSource = data.Layers;
         list.makeItem += makeItem;
-        list.itemsChosen += OnItemChosen;
-        list.selectionChanged += OnSelectionChange;
+        list.itemsChosen += ItemChosen;
+        list.selectionChanged += SelectionChange;
 
         // NameField
         nameField = this.Q<TextField>("NameField");
@@ -145,7 +146,7 @@ public class LayersPanel : VisualElement
     }
 
     // Simple Click over element
-    private void OnSelectionChange(IEnumerable<object> objs) 
+    private void SelectionChange(IEnumerable<object> objs) 
     {
         if (objs.Count() <= 0)
             return;
@@ -155,7 +156,7 @@ public class LayersPanel : VisualElement
     }
 
     // Double Click over element
-    private void OnItemChosen(IEnumerable<object> objs) 
+    private void ItemChosen(IEnumerable<object> objs) 
     {
         if (objs.Count() <= 0)
             return;

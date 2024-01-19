@@ -9,6 +9,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Utility;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 
 public class LBSMainWindow : EditorWindow
@@ -52,9 +53,6 @@ public class LBSMainWindow : EditorWindow
         Texture icon = Resources.Load<Texture>("Icons/LBS_Logo1");
         window.titleContent = new GUIContent("Level builder", icon);
         window.minSize = new Vector2(800, 400);
-
-        
-        //window.RefreshWindow();
     }
 
     private static LBSMainWindow _ShowWindow()
@@ -74,7 +72,6 @@ public class LBSMainWindow : EditorWindow
 
     private void Init()
     {
-        
         if (LBS.LBS.loadedLevel == null)
         {
             LBS.LBS.loadedLevel = LBSController.CreateNewLevel("new file", new Vector3(100, 100, 100));
@@ -114,6 +111,10 @@ public class LBSMainWindow : EditorWindow
 
         // InspectorContent
         inspectorManager = rootVisualElement.Q<LBSInspectorPanel>("InpectorPanel");
+        inspectorManager.OnChangeTab += (s) =>
+        {
+            Debug.Log("inspectorManager.OnChangeTab");
+        };
 
         // ToolKitManager
         toolkit = rootVisualElement.Q<ToolKit>(name: "Toolkit");
@@ -122,8 +123,8 @@ public class LBSMainWindow : EditorWindow
             // (!!) esta forma de dibujar, en donde se repinta todo, es la que no es eficiente,
             // hay que cambiarla a que repinte solo lo que este relacionado a las posciones editadas,
             // pero ahora quedo en que repintara, no todo, pero si toda la layer.
-            drawManager.RedrawLayer(l, mainView);
-            // drawManager.RedrawLevel(levelData, mainView); 
+            //drawManager.RedrawLayer(l, mainView);
+            drawManager.RedrawLevel(levelData, mainView); 
         };
 
         //QuestToolkit
@@ -166,29 +167,18 @@ public class LBSMainWindow : EditorWindow
         layerPanel = new LayersPanel(levelData, ref layerTemplates);
         extraPanel.Add(layerPanel);
         layerPanel.style.display = DisplayStyle.Flex;
-        layerPanel.OnLayerVisibilityChange += (l) =>
-        {
+
+        layerPanel.OnLayerVisibilityChange += (l) => {
             DrawManager.Instance.RedrawLevel(levelData, mainView);
         };
-        layerPanel.OnSelectLayer += ShowInfoLayer;
-        layerPanel.OnAddLayer += ShowInfoLayer;
-        layerPanel.OnAddLayer += (l) =>
-        {
-
-            DrawManager.Instance.AddContainer(l);
-
-            /*
-            foreach (var module in l.Modules)
-            {
-                module.OnChanged += (m, olds, news) =>
-                {
-                    DrawManager.Instance.
-                    DrawManager.Instance.RedrawElement(l, m, olds?.ToArray(), news?.ToArray());
-                };
-            }*/
+        layerPanel.OnSelectLayer += (layer) => { // esto llama implicigtamente OnAddLayer
+            OnSelectedLayerChange(layer);
         };
-        layerPanel.OnRemoveLayer += (l) =>
-        {
+        layerPanel.OnAddLayer += (layer) => { 
+            //OnSelectedLayerChange(layer);
+            DrawManager.Instance.AddContainer(layer);
+        }; 
+        layerPanel.OnRemoveLayer += (l) => {
             drawManager.RemoveContainer(l);
         };
 
@@ -242,18 +232,12 @@ public class LBSMainWindow : EditorWindow
         drawManager.RedrawLevel(levelData, mainView);
     }
 
-    private void ShowInfoLayer(LBSLayer layer)
-    {
-        if (!layer.Equals(_selectedLayer))
-        {
-            OnSelectedLayerChange(layer);
-        }
-    }
 
     private void TryCollapseMenuPanels()
     {
         if (layerPanel?.style.display == DisplayStyle.None &&
-            gen3DPanel?.style.display == DisplayStyle.None)
+            gen3DPanel?.style.display == DisplayStyle.None &&
+            questsPanel?.style.display == DisplayStyle.None)
         {
             floatingPanelContent.style.display = DisplayStyle.None;
         }
@@ -285,12 +269,17 @@ public class LBSMainWindow : EditorWindow
     {
         _selectedLayer = layer;
 
+
+        // Actualize Inspector panel 
+        inspectorManager.SetTarget(layer);
+        //inspectorManager.SetSelectedTab(layer.tabSelected);
+
         // Actualize ToolKit
         toolkit.Clear();
         toolkit.Init(layer); // esto no estas implementado (C:) se esta haciendo en inspectorManager.OnSelectedLayerChange(layer);
+        toolkit.SetActiveWhithoutNotify(0);
 
-        // Actualize Inspector panel 
-        inspectorManager.OnSelectedLayerChange(layer);
+
 
         // Actualize 3D panel
         gen3DPanel.Init(layer);

@@ -45,7 +45,7 @@ public class PopulationBehaviourEditor : LBSCustomEditor, IToolProvider
         icon = Resources.Load<Texture2D>("Icons/Tools/Population_Brush");
         this.addPopulationTile = new AddPopulationTile();
         var t1 = new LBSTool(icon, "Paint Tile", addPopulationTile);
-        t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Local", "Behaviours");
+        t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
         t1.Init(population.Owner, population);
         toolkit.AddTool(t1);
 

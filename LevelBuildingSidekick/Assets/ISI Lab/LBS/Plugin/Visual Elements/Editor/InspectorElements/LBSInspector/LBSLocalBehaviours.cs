@@ -25,7 +25,7 @@ public class LBSLocalBehaviours : LBSInspector
     private VisualElement noContentPanel;
     private VisualElement contentBehaviour;
 
-    private List<LBSCustomEditor> editores = new List<LBSCustomEditor>();
+    public List<LBSCustomEditor> CustomEditors = new List<LBSCustomEditor>();
     #endregion
 
     #region PROPERTIES
@@ -80,13 +80,14 @@ public class LBSLocalBehaviours : LBSInspector
                 continue;
             }
 
-            editores.Add(ve as LBSCustomEditor);
+            CustomEditors.Add(ve as LBSCustomEditor);
 
-
+            /*
             if (ve is IToolProvider)
             {
                 ((IToolProvider)ve).SetTools(toolkit);
             }
+            */
 
             var content = new BehaviourContent(ve as LBSCustomEditor, behaviour.Name, behaviour.Icon, color);
             contentBehaviour.Add(content);
@@ -94,15 +95,15 @@ public class LBSLocalBehaviours : LBSInspector
         }
     }
 
-    public override void OnLayerChange(LBSLayer layer)
+    public override void SetTarget(LBSLayer layer)
     {
         SetInfo(layer);
-        toolkit.SetActive(0);
+        //toolkit.SetActiveWhithoutNotify(0);
     }
 
     public override void Repaint()
     {
-        foreach (var ve in editores)
+        foreach (var ve in CustomEditors)
         {
             ve?.Repaint();
         }

@@ -63,21 +63,26 @@ public class LBSLocalCurrent : LBSInspector, IToolProvider
         throw new NotImplementedException();
     }
 
-    public override void OnLayerChange(LBSLayer layer)
+    public override void SetTarget(LBSLayer layer)
     {
         SetInfo(layer);
     }
 
     public void SetTools(ToolKit toolkit)
     {
+        /*
         var icon = Resources.Load<Texture2D>("Icons/Select");
         var selectTool = new Select();
         var t1 = new LBSTool(icon, "Select", selectTool);
         t1.Init(layer, this);
-        t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Local", "Current data");
+        t1.OnSelect += () =>
+        {
+            LBSInspectorPanel.ShowInspector("Current data");
+        };
         ToolKit.Instance.AddTool(t1);
 
         toolkit.AddSeparator();
+        */
     }
 
     public void SetSelectedVE(List<object> objs)

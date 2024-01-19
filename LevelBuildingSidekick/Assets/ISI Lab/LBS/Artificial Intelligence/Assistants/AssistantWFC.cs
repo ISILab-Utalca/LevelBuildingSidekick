@@ -98,41 +98,14 @@ public class AssistantWFC : LBSAssistant
         while (toCalc.Count > 0)
         {
             var _closed = new List<LBSTile>(closed);
-            while (reCalc.Count > 0) 
-            {
-                var tile = reCalc.First();
 
-                // Get candidates related to current tile
-                List<Candidate> lastCandidates;
-                currentCalcs.TryGetValue(tile,out lastCandidates);
-                var newCandidates = CalcCandidates(tile, group);
-
-                if( lastCandidates == null || newCandidates.Count < lastCandidates.Count)
-                {
-                    currentCalcs[tile] = newCandidates;
-
-                    // Get neigthbours
-                    var neigs = map.GetTileNeighbors(tile, Dirs).RemoveEmpties();
-                       
-                    // Add to reCalc list
-                    foreach (var nei in neigs)
-                    {
-                        // Check if tile is closed
-                        if (_closed.Contains(nei))
-                            continue;
-
-                        if (reCalc.Contains(nei))
-                            continue;
-
-                        reCalc.Add(nei);
-                    }
-                }
-                reCalc.Remove(tile);
-                _closed.Add(tile);
-            }
+            // end condition
+            var xx = currentCalcs.Where(e => e.Value.Count > 1).ToList();
+            if (xx.Count <= 0)
+                break;
 
             // Get tile with lees possibilities
-            var current = currentCalcs.Where(e => e.Value.Count > 1).OrderBy(e => e.Value.Count).First();
+            var current = xx.OrderBy(e => e.Value.Count).First();
 
             // cheack if curren tile have tile posibilities
             if (current.Value.Count <= 0)
@@ -159,6 +132,39 @@ public class AssistantWFC : LBSAssistant
             // Add to reCalc list
             var neigthCalcs = neigth.RemoveEmpties().Where(n => currentCalcs.Any(c => c.Key == n)).ToList();
             reCalc.AddRange(neigthCalcs);
+
+            while (reCalc.Count > 0)
+            {
+                var tile = reCalc.First();
+
+                // Get candidates related to current tile
+                List<Candidate> lastCandidates;
+                currentCalcs.TryGetValue(tile, out lastCandidates);
+                var newCandidates = CalcCandidates(tile, group);
+
+                if (lastCandidates == null || newCandidates.Count < lastCandidates.Count)
+                {
+                    currentCalcs[tile] = newCandidates;
+
+                    // Get neigthbours
+                    var neigs = map.GetTileNeighbors(tile, Dirs).RemoveEmpties();
+
+                    // Add to reCalc list
+                    foreach (var nei in neigs)
+                    {
+                        // Check if tile is closed
+                        if (_closed.Contains(nei))
+                            continue;
+
+                        if (reCalc.Contains(nei))
+                            continue;
+
+                        reCalc.Add(nei);
+                    }
+                }
+                reCalc.Remove(tile);
+                _closed.Add(tile);
+            }
 
             // Remove from the list of tiles to calculate 
             toCalc.Remove(current.Key);
