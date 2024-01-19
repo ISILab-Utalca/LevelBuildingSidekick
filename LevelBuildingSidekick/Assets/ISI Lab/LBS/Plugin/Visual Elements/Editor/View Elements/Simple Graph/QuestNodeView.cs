@@ -60,7 +60,7 @@ public class QuestNodeView : GraphElement
         base.SetPosition(newPos);
 
         // call movement event
-        OnMoving?.Invoke(newPos);
+        OnMoving?.Invoke(newPos); 
 
         this.MarkDirtyRepaint();
     }
