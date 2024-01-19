@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using UnityEngine;
 
@@ -141,7 +142,6 @@ public class GrammarAssistant : LBSAssistant
             }
         }
 
-        
         var questLines = new List<List<QuestNode>>();
 
         foreach (var r in validRoots)
@@ -161,6 +161,7 @@ public class GrammarAssistant : LBSAssistant
 
         foreach (var q in questLines)
         {
+
             //Check validity of each list
             if (q == null || q.Count == 0) // => ? should not happen
             {
@@ -178,14 +179,14 @@ public class GrammarAssistant : LBSAssistant
             candidates.Add(q);
         }
 
-        /*
+        
         foreach (var c in candidates)
         {
             foreach (var n in c)
             {
                 n.GrammarCheck = true;
             }
-        }*/
+        }
     }
 
     private List<List<QuestNode>> RootLines(QuestNode node)
@@ -205,7 +206,7 @@ public class GrammarAssistant : LBSAssistant
 
             List<List<QuestNode>> newLines = new List<List<QuestNode>>();
 
-            for(int i = 1; i < rootLines.Count; i++)
+            for(int i = 0; i < rootLines.Count; i++)
             {
                 var line = rootLines[i];
 
@@ -253,7 +254,7 @@ public class GrammarAssistant : LBSAssistant
 
             List<List<QuestNode>> newLines = new List<List<QuestNode>>();
 
-            for (int i = 1; i < branchLines.Count; i++)
+            for (int i = 0; i < branchLines.Count; i++)
             {
                 var line = branchLines[i];
 
@@ -307,6 +308,7 @@ public class GrammarAssistant : LBSAssistant
 
     public void CheckNode()
     {
+
 
     }
 

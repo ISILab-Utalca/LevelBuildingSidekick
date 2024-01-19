@@ -55,15 +55,12 @@ public class LBSGrammar : ScriptableObject
 
         for(int i = 0; i < actions.Count; i++)
         {
-            if(candidates.Count == 0)
-                return false;
-
             var newCandidates = new List<List<GrammarElement>>();
 
             //Partial exploration of grammar tree
             foreach(var c in candidates)
             {
-                newCandidates.AddRange(ProcessPhrase(i, i, c, actions));
+                newCandidates.AddRange(ProcessPhrase(c, actions));
             }
 
             candidates.Clear();
@@ -71,7 +68,9 @@ public class LBSGrammar : ScriptableObject
             //Prunning non valid phrases
             foreach(var c in newCandidates)
             {
-                //Debug.Log(c[i].ID);
+                if (c.Count != actions.Count)
+                    continue;
+
                 var text = (c[i] as GrammarTerminal).Text;
                 if (text == actions[i])
                 {
@@ -80,10 +79,10 @@ public class LBSGrammar : ScriptableObject
             }
         }
 
-        return true;
+        return candidates.Count > 0;
     }
 
-    private List<List<GrammarElement>> ProcessPhrase(int startIndex, int lastIndex, List<GrammarElement> phrase, List<string> actions)
+    private List<List<GrammarElement>> ProcessPhrase(List<GrammarElement> phrase, List<string> actions)
     {
         var toProcess = new List<List<GrammarElement>>();
         var processed = new List<List<GrammarElement>>();
@@ -95,9 +94,7 @@ public class LBSGrammar : ScriptableObject
 
         //Debug.Log(toProcess.Count);
 
-        int k = 0;
-
-        while(toProcess.Count > 0 && k < 100)
+        while(toProcess.Count > 0)
         {
             var raw = toProcess[0];
             toProcess.RemoveAt(0);
@@ -117,7 +114,6 @@ public class LBSGrammar : ScriptableObject
             if (closed)
                 continue;
 
-            Debug.Log("Start " + startIndex + " - " + lastIndex);
             for (int i = 0; i < raw.Count; i++)
             {
 
@@ -158,11 +154,8 @@ public class LBSGrammar : ScriptableObject
                     {
                         //replace for production
                         var production = (raw[i] as GrammarProduction).Nodes;
-                        Debug.Log(production.Count);
-                        Debug.Log("PR: " + raw[i].ID);
                         raw.RemoveAt(i);
                         raw.InsertRange(i, production);
-                        Debug.Log("PI: " + raw[i].ID);
                         continue;
                     }
 
@@ -179,39 +172,22 @@ public class LBSGrammar : ScriptableObject
                             toProcess.Add(newRaw);
                         }
 
-                        Debug.Log("NTR: " + raw[i].ID);
                         raw.RemoveAt(i);
                         //Debug.Log(raw[i].ID);
                         raw.Insert(i, nonTerminal[0]);  
-                        Debug.Log("NTI: " + raw[i].ID);
                         continue;
                     }
                 }
                 while (!(raw[i] is GrammarTerminal)) ;
 
-                Debug.Log( i + " Iterations: " + k);
-
-                if (k > 100)
-                break;
             }
 
             visited.Add(raw);
-            if(lastIndex < raw.Count)
+            if(!raw.Any(n => !(n is GrammarTerminal)))
             {
                 processed.Add(raw);
             }
 
-        }
-        Debug.Log("VISITED: " + visited.Count);
-
-        foreach (var v in visited)
-        {
-            var s = "VISITED: ";
-            foreach(var g in v)
-            {
-                s += g.ID + " ; ";
-            }
-            Debug.Log(s);
         }
 
 

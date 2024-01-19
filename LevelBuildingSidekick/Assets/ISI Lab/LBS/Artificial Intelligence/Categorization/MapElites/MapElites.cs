@@ -273,7 +273,14 @@ public class MapElites : ICloneable
 
         };
         thread = new Thread(Optimizer.Start);
-        thread.Start();
+        try
+        { 
+            thread.Start();
+        }
+        catch
+        {
+            thread.Abort();
+        }
     }
 
     public void Restart()

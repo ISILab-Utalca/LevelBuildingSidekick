@@ -16,29 +16,18 @@ public class LBSQuestGraph : LBSModule, ICloneable
     [SerializeField, JsonRequired]
     string grammarName;
 
-    [SerializeField, JsonRequired]
-    string name;
-
-    [SerializeField, SerializeReference]
+    [SerializeField, SerializeReference, JsonRequired]
     List<QuestNode> questNodes = new List<QuestNode>();
 
-    [SerializeField, SerializeReference]
+    [SerializeField, SerializeReference, JsonRequired]
     List<QuestEdge> questEdges = new List<QuestEdge>();
 
-    [SerializeField, SerializeReference]
+    [SerializeField, SerializeReference, JsonRequired]
     QuestNode root;
 
 
     [JsonIgnore]
     public QuestNode Root { get => root; }
-
-    [JsonIgnore]
-    public string Name
-    {
-        get => name; 
-        set => name = value;
-    }
-
 
     [JsonIgnore]
     private LBSGrammar grammar;
@@ -286,15 +275,19 @@ public class LBSQuestGraph : LBSModule, ICloneable
 [System.Serializable]
 public class QuestEdge : ICloneable
 {
+    [SerializeField, SerializeReference, JsonRequired]
     QuestNode first;
+    [SerializeField, SerializeReference, JsonRequired]
     QuestNode second;
 
+    [JsonIgnore]
     public QuestNode First
     {
         get => first; 
         set => first = value;
     }
 
+    [JsonIgnore]
     public QuestNode Second
     {
         get => second;
