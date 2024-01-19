@@ -42,9 +42,6 @@ public class GrammarAssistantEditor : LBSCustomEditor, IToolProvider
         if (ass == null)
             return;
 
-        Debug.Log(ass);
-        Debug.Log(ass.Owner);
-
         var quest = ass.Owner.GetModule<LBSQuestGraph>();
 
         UpdateDropdown();
