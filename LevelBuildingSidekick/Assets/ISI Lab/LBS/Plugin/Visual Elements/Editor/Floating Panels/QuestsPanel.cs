@@ -97,7 +97,7 @@ public class QuestsPanel : VisualElement
 
         list.Rebuild();
 
-        //DrawManager.ReDraw();
+        DrawManager.ReDraw();
     }
 
     private void AddQuest()
@@ -114,6 +114,8 @@ public class QuestsPanel : VisualElement
         data.AddQuest(name);
         list.selectedIndex = 0;
         list.Rebuild();
+
+        DrawManager.ReDraw();
     }
 
     // Simple Click over element
