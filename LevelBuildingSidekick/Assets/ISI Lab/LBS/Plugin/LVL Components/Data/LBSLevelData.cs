@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 [System.Serializable]
 public class LBSLevelData
@@ -40,6 +41,13 @@ public class LBSLevelData
             layer.Reload();
             layer.OnAddModule += (layer, module) => this.OnChanged?.Invoke(this);
             layer.Parent = this;
+        }
+
+        foreach(var q in quests)
+        {
+            q.Reload();
+            q.OnAddModule += (layer, module) => this.OnChanged?.Invoke(this);
+            q.Parent = this;
         }
     }
 
