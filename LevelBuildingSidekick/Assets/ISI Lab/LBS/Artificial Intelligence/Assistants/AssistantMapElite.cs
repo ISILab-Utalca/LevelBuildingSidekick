@@ -139,6 +139,9 @@ public class AssistantMapElite : LBSAssistant
     {
         int[] immutables = null;
         var im = new List<int>();
+        var x = (int)rect.min.x;
+        var y = (int)rect.min.y;
+
         if (maskType != null)
         {
             var layers = Owner.Parent.Layers.Where(l => l.Behaviours.Any(b => b.GetType().Equals(maskType)));
@@ -149,15 +152,18 @@ public class AssistantMapElite : LBSAssistant
                 if (m == null)
                     continue;
 
-                var tiles = m.Tiles;
-
-                for(int j = 0; j < rect.height; j++)
+                //var tiles = m.Tiles;
+                for(int j = y; j < y + rect.height; j++)
                 {
-                    for (int i = 0; i < rect.width; i++)
+                    for (int i = x; i < x + rect.width; i++)
                     {
                         var t = m.GetTile(new Vector2Int(i, j));
                         if (t != null)
+                        {
+                            Debug.Log(t.Position);
                             continue;
+                        }
+
                         var pos = new Vector2(i,j) - rect.position;
                         var index = (int)(pos.y * rect.width + pos.x);
                         im.Add(index);
@@ -200,6 +206,7 @@ public class AssistantMapElite : LBSAssistant
 
 
         immutables = im.ToArray();
+        Debug.Log(immutables.Length);
         return immutables;
     }
 
