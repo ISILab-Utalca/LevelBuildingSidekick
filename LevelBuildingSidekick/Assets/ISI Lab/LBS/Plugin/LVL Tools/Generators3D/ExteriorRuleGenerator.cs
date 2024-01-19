@@ -40,11 +40,10 @@ namespace LBS.Generator
             // Get bundles
             var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
 
-
             var e = layer.Behaviours[0] as ExteriorBehaviour; // (!) parche
             var x = bundles.Find(b => b.name == e.TargetBundle);
 
-
+            /*
             // Get CharacteristicGroup bundles
             bundles = bundles.Where(b => b.GetCharacteristics<LBSDirectionedGroup>().Count > 0 && !b.IsPresset).ToList();
 
@@ -52,7 +51,7 @@ namespace LBS.Generator
             {
                 bundle.ChildsBundles.ForEach(b => b.Characteristics.ForEach(c => c.Init(b))); // PARCHE (!)
             }
-
+            */
             //var selected = bundles[0].GetCharacteristics<LBSDirectionedGroup>()[0];
             var selected = x.GetCharacteristics<LBSDirectionedGroup>()[0];
 
