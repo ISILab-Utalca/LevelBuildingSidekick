@@ -125,6 +125,17 @@ namespace LBS.VisualElements
         #region METHODS
         public void Init(LBSLayer layer)
         {
+            InitGeneralTools(layer);
+            this.AddSeparator();
+
+            InitBehavioursTools(layer);
+            this.AddSeparator();
+
+            InitAssistantsTools(layer);
+        }
+
+        private void InitGeneralTools(LBSLayer layer)
+        {
             var icon = Resources.Load<Texture2D>("Icons/Select");
             var selectTool = new Select();
             var t1 = new LBSTool(icon, "Select", selectTool);
@@ -134,7 +145,10 @@ namespace LBS.VisualElements
                 LBSInspectorPanel.ShowInspector("Current data");
             };
             this.AddTool(t1);
-            this.AddSeparator();
+        }
+
+        private void InitBehavioursTools(LBSLayer layer)
+        {
 
             foreach (var behaviour in layer.Behaviours)
             {
@@ -151,12 +165,14 @@ namespace LBS.VisualElements
                 if (i != null)
                 {
                     var ve = LBSInspectorPanel.Instance.behaviours.CustomEditors.First( x => x.GetType() == customEditor);
+                    ve.SetInfo(behaviour);
                     ((IToolProvider)ve).SetTools(this);
                 }
             }
+        }
 
-            this.AddSeparator();
-
+        private void InitAssistantsTools(LBSLayer layer)
+        {
             foreach (var assist in layer.Assitants)
             {
                 var type = assist.GetType();
@@ -172,11 +188,10 @@ namespace LBS.VisualElements
                 if (i != null)
                 {
                     var ve = LBSInspectorPanel.Instance.assistants.CustomEditors.First(x => x.GetType() == customEditor);
+                    ve.SetInfo(assist);
                     ((IToolProvider)ve).SetTools(this);
                 }
             }
-
-
         }
 
         public void SetActive(int index)
@@ -254,7 +269,8 @@ namespace LBS.VisualElements
         {
             if (tools.Count <= 0)
                 return;
-            current.Item2.OnBlur();
+
+            current.Item2?.OnBlur();
             tools.Clear();
             this.content.Clear();
         }

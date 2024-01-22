@@ -282,7 +282,6 @@ public class LBSMainWindow : EditorWindow
     {
         _selectedLayer = layer;
 
-
         // Actualize Inspector panel 
         inspectorManager.SetTarget(layer);
         //inspectorManager.SetSelectedTab(layer.tabSelected);
@@ -291,8 +290,6 @@ public class LBSMainWindow : EditorWindow
         toolkit.Clear();
         toolkit.Init(layer); // esto no estas implementado (C:) se esta haciendo en inspectorManager.OnSelectedLayerChange(layer);
         toolkit.SetActiveWhithoutNotify(0);
-
-
 
         // Actualize 3D panel
         gen3DPanel.Init(layer);
@@ -307,5 +304,4 @@ public class LBSMainWindow : EditorWindow
         OnWindowRepaint?.Invoke();
     }
 }
-
 

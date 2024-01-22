@@ -90,7 +90,7 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
 
     public override void SetInfo(object target)
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 
     protected override VisualElement CreateVisualElement()

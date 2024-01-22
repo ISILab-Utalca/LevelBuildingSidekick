@@ -41,7 +41,6 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
     {
         // Set target Behaviour
         this.exterior = target as ExteriorBehaviour;
-        Debug.Log(this.GetHashCode() + "\n"+ this.ToString());
 
         // Get Target bundle
         var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
@@ -63,10 +62,17 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
     public override void SetInfo(object target)
     {
         this.exterior = target as ExteriorBehaviour;
+
+        // Get Target bundle
+        var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
+
+        this.targetBundle = bundles.Find(b => b.Name == exterior.TargetBundle);
     }
 
     public void SetTools(ToolKit toolKit)
     {
+        Debug.Log(this.GetHashCode() + "\n" + this.ToString());
+
         Texture2D icon;
 
         // Set empty tile
@@ -88,7 +94,6 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
         // Set connection
         icon = Resources.Load<Texture2D>("Icons/Tools/Exterior_connection");
         this.setConnection = new SetExteriorTileConnection();
-        Debug.Log(this.GetHashCode() + "\n" + this.ToString());
         var t3 = new LBSTool(icon, "Set connection", setConnection);
         t3.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
         t3.Init(exterior.Owner, exterior);
@@ -122,9 +127,6 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
     {
         var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("ExteriorBehaviourEditor");
         visualTree.CloneTree(this);
-
-        // Move Tile
-        // [Implementar]
 
         // WarningPanel
         this.warningPanel = this.Q<WarningPanel>();

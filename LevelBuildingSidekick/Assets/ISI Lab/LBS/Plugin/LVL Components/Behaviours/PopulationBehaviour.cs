@@ -18,6 +18,11 @@ public class PopulationBehaviour : LBSBehaviour
     BundleTileMap bundleTileMap;
     #endregion
 
+    #region metaFields
+    [JsonIgnore]
+    public Bundle selectedToSet;
+    #endregion
+
     #region PROPERTIES
     [JsonIgnore]
     public List<TileBundlePair> Tilemap => bundleTileMap.Tiles;
