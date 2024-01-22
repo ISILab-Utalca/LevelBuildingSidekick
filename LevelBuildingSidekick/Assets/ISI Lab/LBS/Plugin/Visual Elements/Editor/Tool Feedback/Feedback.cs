@@ -100,3 +100,11 @@ public abstract class Feedback : GraphElement
         Error = 2
     }
 }
+
+public class Empty : GraphElement
+{
+    public Empty()
+    {
+        this.SetPosition(new Rect(Vector2.zero, new Vector2(0, 0)));
+    }
+}

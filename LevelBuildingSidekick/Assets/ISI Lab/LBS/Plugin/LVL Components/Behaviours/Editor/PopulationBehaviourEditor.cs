@@ -68,6 +68,8 @@ public class PopulationBehaviourEditor : LBSCustomEditor, IToolProvider
     {
         bundlePallete = new SimplePallete();
         this.Add(bundlePallete);
+        bundlePallete.SetName("Population");
+
         SetBundlePallete();
 
         return this;
@@ -177,6 +179,7 @@ public class PopulationBehaviourEditor : LBSCustomEditor, IToolProvider
         {
             Debug.LogWarning("Por ahora esta herramienta no permite agregar nuevos tipos de bundles");
         };
+
 
         // Init options
         bundlePallete.SetOptions(options.ToArray(), (optionView, option) =>

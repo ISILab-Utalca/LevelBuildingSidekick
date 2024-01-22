@@ -4,6 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Policy;
+using UnityEditor.Experimental.GraphView;
+using UnityEditor.Graphs;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -27,7 +29,8 @@ public class HillClimbingDrawer : Drawer
         var zones = assistant.ZonesWhitTiles;
 
         List<(object,LBSNodeView)> nViews = new();
-        List<(object,DottedAreaFeedback)> cViews = new();
+        //List<(object,DottedAreaFeedback)> cViews = new();
+        List<(object, Empty)> cViews = new();
         foreach (var zone in zones)
         {
             // Create node view
@@ -57,6 +60,17 @@ public class HillClimbingDrawer : Drawer
             {
                 if (pair.Zone == zone)
                 {
+                    var vws = CreateFeedBackAreas(nView, pair, teselationSize);
+                    var ve = new Empty();
+                    foreach (var v in vws)
+                    {
+                        ve.Add(v);
+                    }
+                    cViews.Add((pair, ve));
+
+                    break;
+                    /*
+
                     // Create feedback view
                     var vws = CreateFeedBackAreas(nView, pair, teselationSize);
                     foreach (var v in vws)
@@ -64,6 +78,7 @@ public class HillClimbingDrawer : Drawer
                         cViews.Add((pair, v));
                     }
                     break;
+                    */
                 }
             }
         }
