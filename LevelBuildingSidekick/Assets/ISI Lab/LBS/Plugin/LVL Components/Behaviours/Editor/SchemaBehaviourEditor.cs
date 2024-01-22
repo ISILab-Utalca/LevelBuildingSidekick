@@ -19,7 +19,7 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
 {
 
     #region FIELDS
-    private SchemaBehaviour schema;
+    private SchemaBehaviour target;
 
     private AddSchemaTile createNewRoomNode;
     private RemoveSchemaTile removeSchemaTile;
@@ -39,7 +39,7 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
 
     public SchemaBehaviourEditor(object target) : base(target)
     {
-        this.schema = target as SchemaBehaviour;
+        this.target = target as SchemaBehaviour;
 
         CreateVisualElement();
     }
@@ -54,14 +54,14 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
         var t1 = new LBSTool(icon, "Paint Zone", createNewRoomNode);
         t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
         t1.OnEnd += (l)=> areaPallete.Repaint();
-        t1.Init(schema.Owner, schema);
+        t1.Init(target.Owner, target);
         toolKit.AddTool(t1);
 
         // Remove Tiles
         icon = Resources.Load<Texture2D>("Icons/Tools/Delete_interior_tile");
         this.removeSchemaTile = new RemoveSchemaTile();
         var t2 = new LBSTool(icon, "Remove Tile", removeSchemaTile);
-        t2.Init(schema.Owner, schema);
+        t2.Init(target.Owner, target);
         toolKit.AddTool(t2);
 
         toolKit.AddSeparator(10);
@@ -71,14 +71,14 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
         this.setTileConnection = new SetSchemaTileConnection();
         var t3 = new LBSTool(icon, "Set connection", setTileConnection);
         t3.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
-        t3.Init(schema.Owner, schema);
+        t3.Init(target.Owner, target);
         toolKit.AddTool(t3);
 
         // Remove Tile connection
         icon = Resources.Load<Texture2D>("Icons/Tools/Delete_Set_Connection");
         this.removeTileConnection = new RemoveTileConnection();
         var t4 = new LBSTool(icon,"Clean connection", removeTileConnection);
-        t4.Init(schema.Owner, schema);
+        t4.Init(target.Owner, target);
         toolKit.AddTool(t4);
     }
 
@@ -90,6 +90,7 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
 
     public override void SetInfo(object target)
     {
+        this.target = target as SchemaBehaviour;
         //throw new System.NotImplementedException();
     }
 
@@ -108,18 +109,18 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
 
         // Inside Field
         var insideField = this.Q<ObjectField>("InsideField");
-        insideField.value = schema.PressetInsideStyle;
+        insideField.value = target.PressetInsideStyle;
         insideField.RegisterValueChangedCallback(evt =>
         {
-            schema.PressetInsideStyle = evt.newValue as Bundle;
+            target.PressetInsideStyle = evt.newValue as Bundle;
         });
 
         // Outside Field
         var outsideField = this.Q<ObjectField>("OutsideField");
-        outsideField.value = schema.PressetOutsideStyle;
+        outsideField.value = target.PressetOutsideStyle;
         outsideField.RegisterValueChangedCallback(evt =>
         {
-            schema.PressetOutsideStyle = evt.newValue as Bundle;
+            target.PressetOutsideStyle = evt.newValue as Bundle;
         });
 
         return this;
@@ -132,7 +133,7 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
         var icon = Resources.Load<Texture2D>("Icons/BrushIcon");
         areaPallete.SetIcon(icon, BHcolor);
 
-        var zones = schema.Zones;
+        var zones = target.Zones;
         var options = new object[zones.Count];
         for (int i = 0; i < zones.Count; i++)
         {
@@ -141,20 +142,21 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
 
         // Select option event
         areaPallete.OnSelectOption += (selected) => {
-            createNewRoomNode.ToSet = selected as Zone;
+            target.roomToSet = selected as Zone;
+            //createNewRoomNode.ToSet = selected as Zone;
             ToolKit.Instance.SetActive("Paint Zone");
         };
 
         // OnAdd option event
         areaPallete.OnAddOption += () =>
         {
-            var newZone = schema.AddZone();
-            newZone.InsideStyles = new List<string>() { schema.PressetInsideStyle.Name };
-            newZone.OutsideStyles = new List<string>() { schema.PressetOutsideStyle.Name };
-            areaPallete.Options = new object[schema.Zones.Count];
+            var newZone = target.AddZone();
+            newZone.InsideStyles = new List<string>() { target.PressetInsideStyle.Name };
+            newZone.OutsideStyles = new List<string>() { target.PressetOutsideStyle.Name };
+            areaPallete.Options = new object[target.Zones.Count];
             for (int i = 0; i < zones.Count; i++)
             {
-                areaPallete.Options[i] = schema.Zones[i];
+                areaPallete.Options[i] = target.Zones[i];
             }
             ToolKit.Instance.SetActive("Paint Zone");
             areaPallete.Repaint();
@@ -170,11 +172,11 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
 
         areaPallete.OnRepaint += () =>
         {
-            var zones = schema.Zones;
+            var zones = target.Zones;
             areaPallete.Options = new object[zones.Count];
             for (int i = 0; i < zones.Count; i++)
             {
-                areaPallete.Options[i] = schema.Zones[i];
+                areaPallete.Options[i] = target.Zones[i];
             }
         };
 
@@ -192,7 +194,7 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
             if (!answer)
                 return;
 
-            schema.RemoveZone(option as Zone);
+            target.RemoveZone(option as Zone);
 
             DrawManager.ReDraw();
             areaPallete.Repaint();
@@ -211,7 +213,7 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
         var icon = Resources.Load<Texture2D>("Icons/BrushIcon");
         connectionPallete.SetIcon(icon, BHcolor);
 
-        var connections = schema.Connections;
+        var connections = target.Connections;
         var options = new object[connections.Count];
         for (int i = 0; i < connections.Count; i++)
         {
@@ -221,7 +223,8 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
         // Select option event
         connectionPallete.OnSelectOption += (selected) => {
             // var tk = ToolKit.Instance;
-            setTileConnection.ToSet = selected as string;
+            target.conectionToSet = selected as string;
+            //setTileConnection.ToSet = selected as string;
             ToolKit.Instance.SetActive("Set connection");
         };
 

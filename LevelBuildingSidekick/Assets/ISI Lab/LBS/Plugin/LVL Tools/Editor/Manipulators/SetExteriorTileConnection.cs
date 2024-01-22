@@ -13,7 +13,6 @@ public class SetExteriorTileConnection : LBSManipulator
 {
     private List<Vector2Int> Directions => global::Directions.Bidimencional.Edges;
 
-    private LBSIdentifier toSet;
     private ExteriorBehaviour exterior;
     private Vector2Int first;
 
@@ -22,8 +21,8 @@ public class SetExteriorTileConnection : LBSManipulator
 
     public LBSIdentifier ToSet
     {
-        get => toSet;
-        set => toSet = value;
+        get => exterior.identifierToSet;
+        set => exterior.identifierToSet = value;
     }
 
     public SetExteriorTileConnection() : base()
@@ -66,7 +65,7 @@ public class SetExteriorTileConnection : LBSManipulator
 
     protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
     {
-        if(toSet == null || toSet.Label == "")
+        if(ToSet == null || ToSet.Label == "")
         {
             Debug.LogWarning("NO tienes ninguna conexion seleccionada");
             return;
@@ -123,7 +122,7 @@ public class SetExteriorTileConnection : LBSManipulator
 
             if (t1 != null)
             {
-                exterior.SetConnection(t1, fDir, toSet.Label, false);
+                exterior.SetConnection(t1, fDir, ToSet.Label, false);
             }
 
             var t2 = exterior.GetTile(path[i].Item2 + path[i].Item3);
@@ -131,7 +130,7 @@ public class SetExteriorTileConnection : LBSManipulator
 
             if (t2 != null)
             {
-                exterior.SetConnection(t2, dDir, toSet.Label, false);
+                exterior.SetConnection(t2, dDir, ToSet.Label, false);
             }
         }
     }
@@ -154,14 +153,14 @@ public class SetExteriorTileConnection : LBSManipulator
 
                 for (int k = 0; k < Directions.Count; k++)
                 {
-                    exterior.SetConnection(tile, k, toSet.Label, false);
+                    exterior.SetConnection(tile, k, ToSet.Label, false);
 
                     var dir = Directions[k];
                     var neig = exterior.GetTile(pos + dir);
 
                     if(neig != null)
                     {
-                        exterior.SetConnection(neig, (k + 2) % 4, toSet.Label, false);
+                        exterior.SetConnection(neig, (k + 2) % 4, ToSet.Label, false);
                     }
                 }
             }

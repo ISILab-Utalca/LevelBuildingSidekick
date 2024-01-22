@@ -17,6 +17,11 @@ public class ExteriorBehaviour : LBSBehaviour
     private string targetBundle = "Exterior_Plains";
     #endregion
 
+    #region META-FIELDS
+    [JsonIgnore]
+    public LBSIdentifier identifierToSet;
+    #endregion
+
     #region PROPERTIES
     [JsonIgnore]
     private TileMapModule TileMap => Owner.GetModule<TileMapModule>();

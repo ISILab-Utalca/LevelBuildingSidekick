@@ -10,14 +10,12 @@ using UnityEngine.UIElements;
 
 public class AddSchemaTile : LBSManipulator
 {
-    private Zone toSet;
-    
     private SchemaBehaviour schema;
 
     public Zone ToSet
     {
-        get => toSet;
-        set => toSet = value;
+        get => schema.roomToSet;
+        set => schema.roomToSet = value;
     }
 
     public AddSchemaTile() : base()
@@ -49,10 +47,10 @@ public class AddSchemaTile : LBSManipulator
             newZone.InsideStyles = new List<string>() { schema.PressetInsideStyle.Name };
             newZone.OutsideStyles = new List<string>() { schema.PressetOutsideStyle.Name };
 
-            toSet = newZone;
+            ToSet = newZone;
         }
 
-        if (toSet == null)
+        if (ToSet == null)
         {
             Debug.LogWarning("No tienens ninguna zona seleccionada para colocar.");
             return;
@@ -64,7 +62,7 @@ public class AddSchemaTile : LBSManipulator
         {
             for (int j = corners.Item1.y; j <= corners.Item2.y; j++)
             {
-                var tile = schema.AddTile(new Vector2Int(i, j), toSet);
+                var tile = schema.AddTile(new Vector2Int(i, j), ToSet);
                 schema.AddConnections(
                     tile,
                     new List<string>() { "", "", "", "" },

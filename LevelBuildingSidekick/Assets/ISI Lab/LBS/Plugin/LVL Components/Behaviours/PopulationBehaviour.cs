@@ -18,7 +18,7 @@ public class PopulationBehaviour : LBSBehaviour
     BundleTileMap bundleTileMap;
     #endregion
 
-    #region metaFields
+    #region META-FIELDS
     [JsonIgnore]
     public Bundle selectedToSet;
     #endregion

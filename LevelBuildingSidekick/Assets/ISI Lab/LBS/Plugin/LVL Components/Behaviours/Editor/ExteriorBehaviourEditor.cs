@@ -184,8 +184,8 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
         // Selected option event
         connectionPallete.OnSelectOption += (selected) => 
         {
-            Debug.Log(this.GetHashCode() + "\n" + this.ToString());
-            setConnection.ToSet = selected as LBSIdentifier;
+            exterior.identifierToSet = selected as LBSIdentifier;
+            //setConnection.ToSet = selected as LBSIdentifier;
             ToolKit.Instance.SetActive("Set connection");
         };
 

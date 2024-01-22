@@ -14,7 +14,7 @@ public class AddPopulationTile : LBSManipulator
 
     public Bundle ToSet
     {
-        get => population.selectedTo;
+        get => population.selectedToSet;
     }
 
     public AddPopulationTile() : base()

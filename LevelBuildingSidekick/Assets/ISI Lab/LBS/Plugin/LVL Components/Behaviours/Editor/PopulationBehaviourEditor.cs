@@ -103,7 +103,7 @@ public class PopulationBehaviourEditor : LBSCustomEditor, IToolProvider
 
         bundlePallete.OnSelectOption += (selected) => {
             // var tk = ToolKit.Instance;
-            target.selectedTo = selected as Bundle;
+            target.selectedToSet = selected as Bundle;
             //addPopulationTile.ToSet = selected as Bundle;
             ToolKit.Instance.SetActive("Paint Tile");
         };
@@ -168,7 +168,7 @@ public class PopulationBehaviourEditor : LBSCustomEditor, IToolProvider
 
         bundlePallete.OnSelectOption += (selected) => {
             // var tk = ToolKit.Instance;
-            target.selectedTo = selected as Bundle;
+            target.selectedToSet = selected as Bundle;
             //addPopulationTile.ToSet = selected as Bundle;
         };
 

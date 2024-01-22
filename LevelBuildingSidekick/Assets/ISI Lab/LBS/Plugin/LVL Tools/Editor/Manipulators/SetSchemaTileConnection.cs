@@ -12,14 +12,13 @@ public class SetSchemaTileConnection : LBSManipulator
 {
     private List<Vector2Int> Directions => global::Directions.Bidimencional.Edges; 
 
-    private string toSet;
     private SchemaBehaviour schema;
     private Vector2Int first;
 
     public string ToSet
     {
-        get => toSet;
-        set => toSet = value;
+        get => schema.conectionToSet;
+        set => schema.conectionToSet = value;
     }
 
     public SetSchemaTileConnection() : base()
@@ -46,7 +45,7 @@ public class SetSchemaTileConnection : LBSManipulator
 
     protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
     {
-        if (toSet == null)
+        if (ToSet == null)
         {
             Debug.LogWarning("No tienens ninguna connecion seleccionada para colocar.");
             return;
@@ -78,7 +77,7 @@ public class SetSchemaTileConnection : LBSManipulator
 
         if (t2 == null)
         {
-            schema.SetConnection(t1, fDir, toSet, false);
+            schema.SetConnection(t1, fDir, ToSet, false);
             return;
         }
 
@@ -90,8 +89,8 @@ public class SetSchemaTileConnection : LBSManipulator
 
         var tDir = schema.Directions.FindIndex(d => d.Equals(new Vector2Int(dx, dy)));
 
-        schema.SetConnection(t1, fDir, toSet, false);
-        schema.SetConnection(t2, tDir, toSet, false);
+        schema.SetConnection(t1, fDir, ToSet, false);
+        schema.SetConnection(t2, tDir, ToSet, false);
     }
 }
 

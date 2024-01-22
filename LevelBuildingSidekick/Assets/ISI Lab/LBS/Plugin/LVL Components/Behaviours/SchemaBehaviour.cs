@@ -38,6 +38,13 @@ public class SchemaBehaviour : LBSBehaviour
     private string pressetOutsideStyle = "Castle_Brick";
     #endregion
 
+    #region META-FIELDS
+    [JsonIgnore]
+    public Zone roomToSet;
+    [JsonIgnore]
+    public string conectionToSet;
+    #endregion
+
     #region PROEPRTIES
     [JsonIgnore]
     public Bundle PressetInsideStyle
