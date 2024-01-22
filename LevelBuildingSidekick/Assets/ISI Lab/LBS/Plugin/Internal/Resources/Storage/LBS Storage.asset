@@ -87,6 +87,15 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 42341a3540ac70c4facf9af69443846f, type: 2}
     - {fileID: 11400000, guid: 7b90f4d0252201846bd91e420b463ff8, type: 2}
     - {fileID: 11400000, guid: 61643f41efe2f834398a0c7b7e0dbaba, type: 2}
+    - {fileID: 11400000, guid: a9e1e7e087fd42a4f882dfc1ed325839, type: 2}
+    - {fileID: 11400000, guid: 5a84928513d1bf945bbcc2fbbeab66d4, type: 2}
+    - {fileID: 11400000, guid: 57b65ca6867fc8245b3f93609a47c392, type: 2}
+    - {fileID: 11400000, guid: b2d0755e3bf927b4bb7e2178b82e6f1d, type: 2}
+    - {fileID: 11400000, guid: e90184dc1083a36448255a0bd69ad420, type: 2}
+    - {fileID: 11400000, guid: 5e4b3a32054cb2e41ae006aa92a199a9, type: 2}
+    - {fileID: 11400000, guid: 6c332378994aa164c9522bef902072aa, type: 2}
+    - {fileID: 11400000, guid: 5635f64a02759b54cadb34e5d7b36185, type: 2}
+    - {fileID: 11400000, guid: a80a6b2a16178e74db6238514b0002c9, type: 2}
   - type: LBSIdentifierBundle
     items:
     - {fileID: 11400000, guid: 9677f21f7b05c1644aa4ae3ec270eea4, type: 2}
@@ -267,3 +276,10 @@ MonoBehaviour:
   - type: MAPElitesPreset
     items:
     - {fileID: 11400000, guid: b90bb27f581fe354799c9c3b84f44eac, type: 2}
+  - type: UnityEngine.Rendering.PostProcessing.PostProcessResources
+    items:
+    - {fileID: 11400000, guid: d82512f9c8e5d4a4d938b575d47f88d4, type: 2}
+  - type: UnityEngine.Rendering.PostProcessing.PostProcessProfile
+    items:
+    - {fileID: 11400000, guid: 7e715521dc22f2b4ca93fa148d2cf71e, type: 2}
+    - {fileID: 11400000, guid: 5e002c4490fc3a343bdd620f7b58383e, type: 2}
