@@ -139,6 +139,10 @@ public class QuestsPanel : VisualElement
     }
 
 
-
+    public void ResetSelection()
+    {
+        list.ClearSelection();
+        //list.RemoveFromSelection(list.selectedIndex);
+    }
 
 }

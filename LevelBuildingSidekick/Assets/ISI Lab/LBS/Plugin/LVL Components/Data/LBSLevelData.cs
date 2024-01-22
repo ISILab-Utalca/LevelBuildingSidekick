@@ -31,6 +31,8 @@ public class LBSLevelData
 
     #region EVENTS
     public event Action<LBSLevelData> OnChanged;
+
+    public Action OnReload;
     #endregion
 
     #region METHODS
@@ -49,6 +51,8 @@ public class LBSLevelData
             q.OnAddModule += (layer, module) => this.OnChanged?.Invoke(this);
             q.Parent = this;
         }
+
+        OnReload?.Invoke();
     }
 
     public LBSLayer GetLayer(int index)

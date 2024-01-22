@@ -164,5 +164,11 @@ public class LayersPanel : VisualElement
         var selected = objs.ToList()[0] as LBSLayer;
         OnDoubleSelectLayer?.Invoke(selected);
     }
+
+    public void ResetSelection()
+    {
+        list.ClearSelection();
+        //list.RemoveFromSelection(list.selectedIndex);
+    }
     #endregion
 }

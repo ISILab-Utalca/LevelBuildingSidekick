@@ -62,6 +62,8 @@ public class LBSMainWindow : EditorWindow
         window.titleContent = new GUIContent("Level builder", icon);
 
         LBS.LBS.loadedLevel = LBSController.CreateNewLevel("new file", new Vector3(100, 100, 100));
+
+        
         return window;
     }
 
@@ -76,6 +78,9 @@ public class LBSMainWindow : EditorWindow
         {
             LBS.LBS.loadedLevel = LBSController.CreateNewLevel("new file", new Vector3(100, 100, 100));
         }
+
+        levelData.OnReload += () => layerPanel.ResetSelection();
+        levelData.OnReload += () => questsPanel.ResetSelection();
 
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSMainWindow");
         visualTree.CloneTree(rootVisualElement);
@@ -227,9 +232,15 @@ public class LBSMainWindow : EditorWindow
             TryCollapseMenuPanels();
         };
 
+        layerPanel.OnSelectLayer += (l) => questsPanel.ResetSelection();
+        questsPanel.OnSelectQuest += (l) => layerPanel.ResetSelection();
+
+
         LBSController.OnLoadLevel += (l) => _selectedLayer = null;
 
         drawManager.RedrawLevel(levelData, mainView);
+
+
     }
 
 
@@ -263,6 +274,8 @@ public class LBSMainWindow : EditorWindow
     private void OnLevelDataChange(LBSLevelData levelData)
     {
         noLayerSign.style.display = (levelData.Layers.Count <= 0) ? DisplayStyle.Flex : DisplayStyle.None;
+        levelData.OnReload += () => layerPanel.ResetSelection();
+        levelData.OnReload += () => questsPanel.ResetSelection();
     }
 
     private void OnSelectedLayerChange(LBSLayer layer)
