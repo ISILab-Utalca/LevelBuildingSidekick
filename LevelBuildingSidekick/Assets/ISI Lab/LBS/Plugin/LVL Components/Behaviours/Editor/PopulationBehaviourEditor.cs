@@ -13,7 +13,7 @@ public class PopulationBehaviourEditor : LBSCustomEditor, IToolProvider
 {
     private readonly Color BHcolor = LBSSettings.Instance.view.behavioursColor;
 
-    private PopulationBehaviour population;
+    private PopulationBehaviour target;
 
     //Manipulators
     AddPopulationTile addPopulationTile;
@@ -26,7 +26,7 @@ public class PopulationBehaviourEditor : LBSCustomEditor, IToolProvider
 
     public PopulationBehaviourEditor(object target) : base(target)
     {
-        this.population = target as PopulationBehaviour;
+        this.target = target as PopulationBehaviour;
 
         this.CreateVisualElement();
     }
@@ -34,7 +34,7 @@ public class PopulationBehaviourEditor : LBSCustomEditor, IToolProvider
 
     public override void SetInfo(object target)
     {
-        throw new System.NotImplementedException();
+        this.target = target as PopulationBehaviour;
     }
 
     public void SetTools(ToolKit toolkit)
@@ -46,21 +46,21 @@ public class PopulationBehaviourEditor : LBSCustomEditor, IToolProvider
         this.addPopulationTile = new AddPopulationTile();
         var t1 = new LBSTool(icon, "Paint Tile", addPopulationTile);
         t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
-        t1.Init(population.Owner, population);
+        t1.Init(target.Owner, target);
         toolkit.AddTool(t1);
 
         // Rotate element
         icon = Resources.Load<Texture2D>("Icons/Tools/Rotacion_population");
         this.rotatePopulationTile = new RotatePopulationTile();
         var t3 = new LBSTool(icon, "Rotate Tile", rotatePopulationTile);
-        t3.Init(population.Owner, population);
+        t3.Init(target.Owner, target);
         toolkit.AddTool(t3);
 
         // Remove Tiles
         icon = Resources.Load<Texture2D>("Icons/Tools/Delete_population");
         this.removePopulationTile = new RemovePopulationTile();
         var t2 = new LBSTool(icon, "Remove Tile", removePopulationTile);
-        t2.Init(population.Owner, population);
+        t2.Init(target.Owner, target);
         toolkit.AddTool(t2);
     }
 
@@ -103,7 +103,8 @@ public class PopulationBehaviourEditor : LBSCustomEditor, IToolProvider
 
         bundlePallete.OnSelectOption += (selected) => {
             // var tk = ToolKit.Instance;
-            addPopulationTile.ToSet = selected as Bundle;
+            target.selectedTo = selected as Bundle;
+            //addPopulationTile.ToSet = selected as Bundle;
             ToolKit.Instance.SetActive("Paint Tile");
         };
 
@@ -167,7 +168,8 @@ public class PopulationBehaviourEditor : LBSCustomEditor, IToolProvider
 
         bundlePallete.OnSelectOption += (selected) => {
             // var tk = ToolKit.Instance;
-            addPopulationTile.ToSet = selected as Bundle;
+            target.selectedTo = selected as Bundle;
+            //addPopulationTile.ToSet = selected as Bundle;
         };
 
         // OnAdd option event

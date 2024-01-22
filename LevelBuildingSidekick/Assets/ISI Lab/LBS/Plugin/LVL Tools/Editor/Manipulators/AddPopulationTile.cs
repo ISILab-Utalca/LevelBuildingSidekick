@@ -9,14 +9,12 @@ using UnityEngine.UIElements;
 
 public class AddPopulationTile : LBSManipulator
 {
-    Bundle toSet;
 
     PopulationBehaviour population;
 
     public Bundle ToSet
     {
-        get => toSet;
-        set => toSet = value;
+        get => population.selectedTo;
     }
 
     public AddPopulationTile() : base()
@@ -42,7 +40,7 @@ public class AddPopulationTile : LBSManipulator
 
     protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
     {
-        if (toSet == null)
+        if (ToSet == null)
         {
             Debug.LogWarning("No tienens ninguna zona seleccionada para colocar.");
             return;
@@ -54,7 +52,7 @@ public class AddPopulationTile : LBSManipulator
         {
             for (int j = corners.Item1.y; j <= corners.Item2.y; j++)
             {
-                population.AddTile(new Vector2Int(i, j), toSet);
+                population.AddTile(new Vector2Int(i, j), ToSet);
             }
         }
     }

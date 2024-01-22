@@ -58,7 +58,7 @@ public class HillClimbingAssistantEditor : LBSCustomEditor, IToolProvider
 
     public override void SetInfo(object target)
     {
-        throw new System.NotImplementedException();
+        this.hillClimbing = target as HillClimbingAssistant;
     }
 
     public void SetTools(ToolKit toolKit)

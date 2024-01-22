@@ -25,7 +25,7 @@ public class AssistantWFCEditor : LBSCustomEditor, IToolProvider
 
     public override void SetInfo(object target)
     {
-        throw new System.NotImplementedException();
+        assistant = target as AssistantWFC;
     }
 
     public void SetTools(ToolKit toolKit)
