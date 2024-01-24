@@ -12,17 +12,27 @@ using Utility;
 using static UnityEditor.Experimental.GraphView.GraphView;
 
 
-public class LBSMainWindow : EditorWindow
+public class LBSMainWindow : EditorWindow // (!) Poner en un namespace
 {
-    // Data
+    #region PROPERTIES
     private LBSLevelData levelData => LBS.LBS.loadedLevel.data;
+    #endregion
 
+    #region FIELDS
     // Selected
     private LBSLayer _selectedLayer;
 
     // Templates
     public List<LayerTemplate> layerTemplates;
 
+    // Manager
+    private ToolKit toolkit;
+    private ToolKit questToolkit;
+    private DrawManager drawManager;
+    private LBSInspectorPanel inspectorManager;
+    #endregion
+
+    #region FIELDS-VIEWS
     // Visual Elements
     private ButtonGroup toolPanel;
     private VisualElement extraPanel;
@@ -36,16 +46,13 @@ public class LBSMainWindow : EditorWindow
     private Generator3DPanel gen3DPanel;
     private QuestsPanel questsPanel;
     private LayerInspector layerInspector;
+    #endregion
 
-    // Manager
-    private ToolKit toolkit;
-    private ToolKit questToolkit;
-    private DrawManager drawManager;
-    private LBSInspectorPanel inspectorManager;
-
+    #region EVENTS
     public static Action OnWindowRepaint;
+    #endregion
 
-
+    #region STATIC METHODS
     [MenuItem("ISILab/Level Building Sidekick", priority = 0)]
     private static void ShowWindow()
     {
@@ -54,23 +61,18 @@ public class LBSMainWindow : EditorWindow
         window.titleContent = new GUIContent("Level builder", icon);
         window.minSize = new Vector2(800, 400);
     }
+    #endregion
 
-    private static LBSMainWindow _ShowWindow()
-    {
-        var window = GetWindow<LBSMainWindow>();
-        Texture icon = Resources.Load<Texture>("Icons/LBS_Logo1");
-        window.titleContent = new GUIContent("Level builder", icon);
-
-        LBS.LBS.loadedLevel = LBSController.CreateNewLevel("new file", new Vector3(100, 100, 100));
-
-        
-        return window;
-    }
-
+    #region METHODS
     public virtual void CreateGUI()
     {
         Init();
-    } 
+    }
+
+    private void OnInspectorUpdate()
+    {
+        OnWindowRepaint?.Invoke();
+    }
 
     private void Init()
     {
@@ -243,7 +245,9 @@ public class LBSMainWindow : EditorWindow
 
     }
 
-
+    /// <summary>
+    /// Try to collapse the floating panel if all the subpanels are collapsed too.
+    /// </summary>
     private void TryCollapseMenuPanels()
     {
         if (layerPanel?.style.display == DisplayStyle.None &&
@@ -258,19 +262,29 @@ public class LBSMainWindow : EditorWindow
         }
     }
 
+    /// <summary>
+    /// Repaint the window.
+    /// </summary>
     public new void Repaint()
     {
         base.Repaint();
         drawManager.RedrawLevel(levelData, mainView);
     }
 
+    /// <summary>
+    /// Refresh the window.
+    /// </summary>
     private void RefreshWindow()
     {
         mainView.Clear();
         this.rootVisualElement.Clear();
         Init();
     }
-
+    
+    /// <summary>
+    /// Called when the level data is changed.
+    /// </summary>
+    /// <param name="levelData"></param>
     private void OnLevelDataChange(LBSLevelData levelData)
     {
         noLayerSign.style.display = (levelData.Layers.Count <= 0) ? DisplayStyle.Flex : DisplayStyle.None;
@@ -278,6 +292,10 @@ public class LBSMainWindow : EditorWindow
         levelData.OnReload += () => questsPanel.ResetSelection();
     }
 
+    /// <summary>
+    /// Called when the selected layer is changed.
+    /// </summary>
+    /// <param name="layer"></param>
     private void OnSelectedLayerChange(LBSLayer layer)
     {
         _selectedLayer = layer;
@@ -298,10 +316,6 @@ public class LBSMainWindow : EditorWindow
         selectedLabel.text = "selected: " + layer.Name;
 
     }
-
-    private void OnInspectorUpdate()
-    {
-        OnWindowRepaint?.Invoke();
-    }
+    #endregion
 }
 
