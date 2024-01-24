@@ -11,8 +11,9 @@ using UnityEngine.UIElements;
 using Utility;
 using static UnityEditor.Experimental.GraphView.GraphView;
 
-
-public class LBSMainWindow : EditorWindow // (!) Poner en un namespace
+// (!) Poner en un namespace
+// (?) Cambiar el nombre de la clase por uno mejor? 
+public class LBSMainWindow : EditorWindow 
 {
     #region PROPERTIES
     private LBSLevelData levelData => LBS.LBS.loadedLevel.data;
@@ -74,6 +75,9 @@ public class LBSMainWindow : EditorWindow // (!) Poner en un namespace
         OnWindowRepaint?.Invoke();
     }
 
+    /// <summary>
+    /// Initialize the window.
+    /// </summary>
     private void Init()
     {
         if (LBS.LBS.loadedLevel == null)
