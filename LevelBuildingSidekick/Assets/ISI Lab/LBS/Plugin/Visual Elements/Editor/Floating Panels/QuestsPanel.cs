@@ -111,9 +111,11 @@ public class QuestsPanel : VisualElement
             i++;
         }
 
-        data.AddQuest(name);
+        var q = data.AddQuest(name);
         list.selectedIndex = 0;
         list.Rebuild();
+
+        OnAddQuest?.Invoke(q);
 
         DrawManager.ReDraw();
     }
