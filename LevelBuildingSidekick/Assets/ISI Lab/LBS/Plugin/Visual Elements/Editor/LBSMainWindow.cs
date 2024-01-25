@@ -80,13 +80,17 @@ public class LBSMainWindow : EditorWindow
     /// </summary>
     private void Init()
     {
+
         if (LBS.LBS.loadedLevel == null)
         {
             LBS.LBS.loadedLevel = LBSController.CreateNewLevel("new file", new Vector3(100, 100, 100));
         }
 
-        levelData.OnReload += () => layerPanel.ResetSelection();
-        levelData.OnReload += () => questsPanel.ResetSelection();
+        levelData.OnReload += () =>
+        {
+            layerPanel.ResetSelection();
+            questsPanel.ResetSelection();
+        };
 
         var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSMainWindow");
         visualTree.CloneTree(rootVisualElement);
@@ -164,7 +168,6 @@ public class LBSMainWindow : EditorWindow
         // SelectedLabel
         selectedLabel = rootVisualElement.Q<Label>("SelectedLabel");
 
-
         // FloatingPanelContent
         floatingPanelContent = rootVisualElement.Q<VisualElement>("FloatingPanelContent");
 
@@ -182,10 +185,12 @@ public class LBSMainWindow : EditorWindow
         layerPanel.OnLayerVisibilityChange += (l) => {
             DrawManager.Instance.RedrawLevel(levelData, mainView);
         };
-        layerPanel.OnSelectLayer += (layer) => { // esto llama implicigtamente OnAddLayer
+        layerPanel.OnSelectLayer += (layer) => { // esto llama implicitamente OnAddLayer
+            Debug.Log("AAAA");
             OnSelectedLayerChange(layer);
         };
-        layerPanel.OnAddLayer += (layer) => { 
+        layerPanel.OnAddLayer += (layer) => {
+            Debug.Log("BBBB");
             //OnSelectedLayerChange(layer);
             DrawManager.Instance.AddContainer(layer);
         }; 
@@ -214,8 +219,6 @@ public class LBSMainWindow : EditorWindow
         {
             var value = (layerPanel.style.display == DisplayStyle.None);
             layerPanel.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
-
-            TryCollapseMenuPanels();
         };
 
         // 3DButton
@@ -225,8 +228,6 @@ public class LBSMainWindow : EditorWindow
             gen3DPanel.Init(_selectedLayer);
             var value = (gen3DPanel.style.display == DisplayStyle.None);
             gen3DPanel.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
-
-            TryCollapseMenuPanels();
         };
 
         var QuestBtn = rootVisualElement.Q<Button>("Quests");
@@ -234,8 +235,6 @@ public class LBSMainWindow : EditorWindow
         {
             var value = (questsPanel.style.display == DisplayStyle.None);
             questsPanel.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
-
-            TryCollapseMenuPanels();
         };
 
         layerPanel.OnSelectLayer += (l) => questsPanel.ResetSelection();
@@ -245,25 +244,6 @@ public class LBSMainWindow : EditorWindow
         LBSController.OnLoadLevel += (l) => _selectedLayer = null;
 
         drawManager.RedrawLevel(levelData, mainView);
-
-
-    }
-
-    /// <summary>
-    /// Try to collapse the floating panel if all the subpanels are collapsed too.
-    /// </summary>
-    private void TryCollapseMenuPanels()
-    {
-        if (layerPanel?.style.display == DisplayStyle.None &&
-            gen3DPanel?.style.display == DisplayStyle.None &&
-            questsPanel?.style.display == DisplayStyle.None)
-        {
-            floatingPanelContent.style.display = DisplayStyle.None;
-        }
-        else
-        {
-            floatingPanelContent.style.display = DisplayStyle.Flex;
-        }
     }
 
     /// <summary>
