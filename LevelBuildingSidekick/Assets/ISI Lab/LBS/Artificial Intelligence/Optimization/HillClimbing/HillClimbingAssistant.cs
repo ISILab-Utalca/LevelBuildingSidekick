@@ -323,7 +323,7 @@ public class HillClimbingAssistant : LBSAssistant
             new System.Tuple<IEvaluator, float> (new AdjacenciesEvaluator(layer), 4f),
             new System.Tuple<IEvaluator, float> (new AreasEvaluator(layer), 0.15f),
             new System.Tuple<IEvaluator, float> (new EmptySpaceEvaluator(layer), 0.35f),
-            new System.Tuple<IEvaluator, float> (new RoomCutEvaluator(layer), 1f),
+            //new System.Tuple<IEvaluator, float> (new RoomCutEvaluator(layer), 1f),
             //new System.Tuple<IEvaluator, float> (new StretchEvaluator(), 0.1f),
         });
         var population = new Population(1, 100, adam); // agregar parametros
