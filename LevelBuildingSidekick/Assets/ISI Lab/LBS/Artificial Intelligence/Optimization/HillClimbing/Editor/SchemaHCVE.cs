@@ -1,5 +1,6 @@
 using LBS.AI;
 using LBS.Assisstants;
+using LBS.VisualElements;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,6 +25,13 @@ public class SchemaHCVE : VisualElement
 
         this.Add(label);
         this.Add(button);
-        
+
+        agent.OnTermination += () =>
+        {
+            Debug.Log("AAAAAAAWWWW");
+            LBSInspectorPanel.Instance.InitTabs();
+        };
+
+
     }
 }
