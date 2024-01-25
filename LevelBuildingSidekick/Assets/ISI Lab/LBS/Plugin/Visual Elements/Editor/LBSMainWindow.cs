@@ -186,12 +186,10 @@ public class LBSMainWindow : EditorWindow
             DrawManager.Instance.RedrawLevel(levelData, mainView);
         };
         layerPanel.OnSelectLayer += (layer) => { // esto llama implicitamente OnAddLayer
-            Debug.Log("AAAA");
             OnSelectedLayerChange(layer);
         };
         layerPanel.OnAddLayer += (layer) => {
-            Debug.Log("BBBB");
-            //OnSelectedLayerChange(layer);
+            OnSelectedLayerChange(layer);
             DrawManager.Instance.AddContainer(layer);
         }; 
         layerPanel.OnRemoveLayer += (l) => {
@@ -239,7 +237,6 @@ public class LBSMainWindow : EditorWindow
 
         layerPanel.OnSelectLayer += (l) => questsPanel.ResetSelection();
         questsPanel.OnSelectQuest += (l) => layerPanel.ResetSelection();
-
 
         LBSController.OnLoadLevel += (l) => _selectedLayer = null;
 
