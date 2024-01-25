@@ -41,7 +41,7 @@ public class WeightedEvaluator : IEvaluator
         clock.Restart();
         var fitness2 = ParallelEVA(evaluable);
         clock.Stop();
-        UnityEngine.Debug.Log("Fitness paralelo: ("+r+") " + clock.ElapsedMilliseconds / 1000f + "s.");
+        //UnityEngine.Debug.Log("Fitness paralelo: ("+r+") " + clock.ElapsedMilliseconds / 1000f + "s.");
 
         return fitness2;
     }
