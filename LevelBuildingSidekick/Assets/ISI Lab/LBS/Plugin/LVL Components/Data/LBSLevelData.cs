@@ -136,7 +136,7 @@ public class LBSLevelData
         return layer;
     }
 
-    public void AddQuest(string name)
+    public LBSLayer AddQuest(string name)
     {
         var quest = new LBSLayer();
 
@@ -150,9 +150,9 @@ public class LBSLevelData
         var assistant = new GrammarAssistant(grammarIcon, "Grammar");
         quest.AddAssistant(assistant);
 
-
-
         quests.Add(quest);
+
+        return quest;
     }
 
     public LBSQuestGraph RemoveQuestAt(int index)
