@@ -71,8 +71,6 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
 
     public void SetTools(ToolKit toolKit)
     {
-        Debug.Log(this.GetHashCode() + "\n" + this.ToString());
-
         Texture2D icon;
 
         // Set empty tile
