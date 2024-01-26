@@ -83,6 +83,12 @@ public class LBSLocalAssistants : LBSInspector
 
             var content = new BehaviourContent(ve as LBSCustomEditor, assist.Name, assist.Icon, color);
             contentAssist.Add(content);
+
+            assist.OnTermination += () =>
+            {
+                LBSInspectorPanel.Instance.SetTarget(assist.Owner);
+                Debug.Log("OnTermination");
+            };
         }
     }
 
