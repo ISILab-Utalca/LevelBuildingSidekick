@@ -62,7 +62,7 @@ public class LBSInspectorPanel : VisualElement
     #endregion
 
     #region METHODS
-    private void InitTabs()
+    public void InitTabs()
     {
         this.current = new LBSLocalCurrent();
         AddTab("Current data", current);
