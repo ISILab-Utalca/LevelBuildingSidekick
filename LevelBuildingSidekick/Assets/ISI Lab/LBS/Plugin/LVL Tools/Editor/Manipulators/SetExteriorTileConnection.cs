@@ -8,10 +8,11 @@ using LBS.Tools.Transformer;
 using UnityEngine.UIElements;
 using LBS;
 using NUnit;
+using ISILab.Commons;
 
 public class SetExteriorTileConnection : LBSManipulator
 {
-    private List<Vector2Int> Directions => global::Directions.Bidimencional.Edges;
+    private List<Vector2Int> Directions => ISILab.Commons.Directions.Bidimencional.Edges;
 
     private ExteriorBehaviour exterior;
     private Vector2Int first;
