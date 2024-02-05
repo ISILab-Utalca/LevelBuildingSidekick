@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using ISILab.Commons;
 
 [System.Serializable]
 [RequieredModule(typeof(TileMapModule),
@@ -40,7 +41,7 @@ public class ExteriorBehaviour : LBSBehaviour
     public List<LBSTile> Tiles => TileMap.Tiles;
 
     [JsonIgnore]
-    public List<Vector2Int> Directions => global::Directions.Bidimencional.Edges;
+    public List<Vector2Int> Directions => ISILab.Commons.Directions.Bidimencional.Edges;
     #endregion
 
     #region CONSTRUCTORS

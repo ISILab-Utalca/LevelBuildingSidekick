@@ -1,3 +1,4 @@
+using ISILab.Commons;
 using LBS.Behaviours;
 using LBS.Bundles;
 using LBS.Components;
@@ -72,7 +73,7 @@ public class SchemaBehaviour : LBSBehaviour
     public List<string> Connections => connections;
 
     [JsonIgnore]
-    public List<Vector2Int> Directions => global::Directions.Bidimencional.Edges;
+    public List<Vector2Int> Directions => ISILab.Commons.Directions.Bidimencional.Edges;
     #endregion
 
     #region CONSTRUCTORS
