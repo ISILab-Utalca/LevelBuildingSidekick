@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 public class KeyMapWindow : EditorWindow
 {
-    [MenuItem("ISILab/Hints controller", priority = 0)]
+    [MenuItem("Window/ISILab/Hints controller", priority = 100)]
     public static void ShowWindow()
     {
         var window = GetWindow<KeyMapWindow>();
