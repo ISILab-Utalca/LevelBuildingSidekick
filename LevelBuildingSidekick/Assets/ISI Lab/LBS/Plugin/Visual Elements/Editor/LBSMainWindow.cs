@@ -54,7 +54,7 @@ public class LBSMainWindow : EditorWindow
     #endregion
 
     #region STATIC METHODS
-    [MenuItem("ISILab/Level Building Sidekick", priority = 0)]
+    [MenuItem("Window/ISILab/Level Building Sidekick", priority = 0)]
     private static void ShowWindow()
     {
         var window = GetWindow<LBSMainWindow>();
