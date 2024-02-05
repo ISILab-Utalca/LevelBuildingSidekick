@@ -1,11 +1,11 @@
 using Commons.Optimization.Evaluator;
+using ISILab.Commons;
 using LBS.Components.TileMap;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 [System.Serializable]
 public class SafetyFairness : IRangedEvaluator

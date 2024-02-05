@@ -16,6 +16,7 @@ using Newtonsoft.Json;
 using LBS.Assisstants;
 using System.Threading.Tasks;
 using UnityEngine.XR;
+using ISILab.Commons;
 
 [System.Serializable]
 [RequieredModule(typeof(TileMapModule),

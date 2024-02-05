@@ -12,6 +12,7 @@ using LBS.Components.TileMap;
 using UnityEngine.Tilemaps;
 using System;
 using LBS.Bundles;
+using ISILab.Commons;
 
 public class Test_Simple_Module
 {
