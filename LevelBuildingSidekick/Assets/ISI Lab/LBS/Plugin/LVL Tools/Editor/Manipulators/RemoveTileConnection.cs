@@ -1,3 +1,4 @@
+using ISILab.Commons;
 using LBS;
 using LBS.Behaviours;
 using LBS.Components;
@@ -8,7 +9,7 @@ using UnityEngine.UIElements;
 
 public class RemoveTileConnection : LBSManipulator
 {
-    private List<Vector2Int> Directions => global::Directions.Bidimencional.Edges;
+    private List<Vector2Int> Directions => ISILab.Commons.Directions.Bidimencional.Edges;
 
     private SchemaBehaviour schema;
     private Vector2Int first;

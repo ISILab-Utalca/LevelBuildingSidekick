@@ -8,6 +8,7 @@ using System.Linq;
 using LBS.Components;
 using UnityEditor;
 using LBS.Bundles;
+using ISILab.Commons;
 
 namespace LBS.Generator
 {

@@ -8,6 +8,7 @@ using System.Linq;
 using UnityEngine;
 using LBS.Bundles;
 using Newtonsoft.Json;
+using ISILab.Commons;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif

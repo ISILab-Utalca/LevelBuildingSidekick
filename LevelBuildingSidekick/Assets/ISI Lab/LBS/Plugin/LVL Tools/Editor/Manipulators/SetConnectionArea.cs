@@ -1,3 +1,4 @@
+using ISILab.Commons;
 using LBS;
 using LBS.Components;
 using LBS.Components.TileMap;
@@ -6,12 +7,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 // esta es una herramienta del behaviour de exterior !!!
 public class SetConnectionArea : LBSManipulator
 {
-    private List<Vector2Int> Directions => global::Directions.Bidimencional.Edges;
+    private List<Vector2Int> Directions => ISILab.Commons.Directions.Bidimencional.Edges;
 
     private LBSIdentifier toSet;
     private ExteriorBehaviour exterior;

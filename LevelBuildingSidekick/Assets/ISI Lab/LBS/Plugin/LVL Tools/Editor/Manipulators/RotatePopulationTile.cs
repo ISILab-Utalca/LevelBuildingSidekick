@@ -1,3 +1,4 @@
+using ISILab.Commons;
 using LBS;
 using LBS.Components;
 using System.Collections;
@@ -8,7 +9,7 @@ using UnityEngine.UIElements;
 
 public class RotatePopulationTile : LBSManipulator
 {
-    private List<Vector2Int> Directions => global::Directions.Bidimencional.Edges;
+    private List<Vector2Int> Directions => ISILab.Commons.Directions.Bidimencional.Edges;
 
     PopulationBehaviour population;
     private Vector2Int first;
