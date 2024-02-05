@@ -214,14 +214,14 @@ namespace LBS
         }
         #endregion
 
-        #region ABSTRACTS METHODS
+        #region VIRTUAL METHODS
         public abstract void Init(LBSLayer layer, object provider);
 
-        protected abstract void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e);
+        protected virtual void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e) { }
 
-        protected abstract void OnMouseMove(VisualElement target, Vector2Int movePosition, MouseMoveEvent e);
+        protected virtual void OnMouseMove(VisualElement target, Vector2Int movePosition, MouseMoveEvent e) { }
 
-        protected abstract void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e);
+        protected virtual void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e) { }
         #endregion
     }
 }
