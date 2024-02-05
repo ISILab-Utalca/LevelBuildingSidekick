@@ -1,3 +1,4 @@
+using ISILab.Commons;
 using LBS.Components;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,16 +13,6 @@ public class RemoveConnectionInArea : ManipulateTeselation
     {
         base.Init(layer, owner);
         exterior = (ExteriorBehaviour)owner;
-    }
-
-    protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
-    {
-        // throw new System.NotImplementedException();
-    }
-
-    protected override void OnMouseMove(VisualElement target, Vector2Int movePosition, MouseMoveEvent e)
-    {
-        // throw new System.NotImplementedException();
     }
 
     protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
