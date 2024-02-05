@@ -1,3 +1,4 @@
+using ISILab.Commons;
 using LBS;
 using LBS.Components;
 using LBS.Components.TileMap;
@@ -9,7 +10,7 @@ using UnityEngine.UIElements;
 
 public class RemoveConnection : LBSManipulator
 {
-    private List<Vector2Int> Directions => global::Directions.Bidimencional.Edges;
+    private List<Vector2Int> Directions => ISILab.Commons.Directions.Bidimencional.Edges;
 
     private ExteriorBehaviour exterior;
     private Vector2Int first;
