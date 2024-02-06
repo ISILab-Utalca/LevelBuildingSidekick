@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
+  m_Name: Bundle Alfombra Metalica
+  m_EditorClassIdentifier: 
+  isPreset: 0
+  type: 2
+  color: {r: 0, g: 0, b: 0, a: 1}
+  icon: {fileID: 2800000, guid: 4b1ed2f09a57c984baf4cba2d9b4e150, type: 3}
+  childsBundles: []
+  assets:
+  - obj: {fileID: 1310998008401079793, guid: 1e5ac32e95d49e74287797ded62ea04e, type: 3}
+    probability: 0.5
+  characteristics:
+  - rid: 2204195511826382861
+  positioning: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 2204195511826382861
+      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+      data:
+        label: Alfombra Metalica
+        value: {fileID: 11400000, guid: ee54ed1930aa4084790c53b0eae956d8, type: 2}

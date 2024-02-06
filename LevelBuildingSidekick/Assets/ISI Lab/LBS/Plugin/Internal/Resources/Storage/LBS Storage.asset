@@ -44,6 +44,9 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 1c34483075e8bb54d8aa70274f2eddfe, type: 2}
     - {fileID: 11400000, guid: 8d03f9563098ae048a81b709940e56c0, type: 2}
     - {fileID: 11400000, guid: b354587b73f945f4188c7dc7026de4ef, type: 2}
+    - {fileID: 11400000, guid: cbf06652175bf7947860e823fc2490b9, type: 2}
+    - {fileID: 11400000, guid: a493417858ade3b45a27ecb6e8021485, type: 2}
+    - {fileID: 11400000, guid: ee54ed1930aa4084790c53b0eae956d8, type: 2}
   - type: LBS.Bundles.Bundle
     items:
     - {fileID: 11400000, guid: c0e28f3a70727474a81b860669e32870, type: 2}
@@ -96,6 +99,23 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 6c332378994aa164c9522bef902072aa, type: 2}
     - {fileID: 11400000, guid: 5635f64a02759b54cadb34e5d7b36185, type: 2}
     - {fileID: 11400000, guid: a80a6b2a16178e74db6238514b0002c9, type: 2}
+    - {fileID: 11400000, guid: 9bba4b2f632ed5a498e6e89d841c358f, type: 2}
+    - {fileID: 11400000, guid: f22b922cc411be14d99a6c92b12d619d, type: 2}
+    - {fileID: 11400000, guid: 4e789120bbb0c654187c78eeb73de492, type: 2}
+    - {fileID: 11400000, guid: 218c2b101ae3b1d4fbc0472aae672a2b, type: 2}
+    - {fileID: 11400000, guid: e0f565cd78fce2c40804b20c6cbff48d, type: 2}
+    - {fileID: 11400000, guid: 3f0d3bf72b2180049ac3640000afd840, type: 2}
+    - {fileID: 11400000, guid: e9e3ecb3054d5c84fa165bc8ed6d95b6, type: 2}
+    - {fileID: 11400000, guid: 22e1fa0bf02fedb4c9e5725bd13884c9, type: 2}
+    - {fileID: 11400000, guid: f3711301554ae2949bd77f46478e60fa, type: 2}
+    - {fileID: 11400000, guid: 97f4ab7d9f89bc74aa27c6e144857da7, type: 2}
+    - {fileID: 11400000, guid: 3df41e25206f77d40b6ec1966f581ba2, type: 2}
+    - {fileID: 11400000, guid: 9d5e70310bf40a547b42320ef5694c72, type: 2}
+    - {fileID: 11400000, guid: e63514f628df8634691e1a4baab01b78, type: 2}
+    - {fileID: 11400000, guid: 67e691c435d326448a8dfb6043d41745, type: 2}
+    - {fileID: 11400000, guid: 759e2162c6c468d44a88712ebc056cad, type: 2}
+    - {fileID: 11400000, guid: dcb40326d0e52b246be780fe42451ea5, type: 2}
+    - {fileID: 11400000, guid: f537a2c1b820efe44a4da4b0aeb7d0e1, type: 2}
   - type: LBSIdentifierBundle
     items:
     - {fileID: 11400000, guid: 9677f21f7b05c1644aa4ae3ec270eea4, type: 2}
@@ -279,7 +299,3 @@ MonoBehaviour:
   - type: UnityEngine.Rendering.PostProcessing.PostProcessResources
     items:
     - {fileID: 11400000, guid: d82512f9c8e5d4a4d938b575d47f88d4, type: 2}
-  - type: UnityEngine.Rendering.PostProcessing.PostProcessProfile
-    items:
-    - {fileID: 11400000, guid: 7e715521dc22f2b4ca93fa148d2cf71e, type: 2}
-    - {fileID: 11400000, guid: 5e002c4490fc3a343bdd620f7b58383e, type: 2}
