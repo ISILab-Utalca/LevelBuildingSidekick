@@ -112,7 +112,7 @@ public class BundleTilemapChromosome : ChromosomeBase2D, IDrawable
                 var source = (genes[i] as BundleData).Bundle.Icon;
                 var color = (genes[i] as BundleData).Bundle.Color;
                 var t = new Texture2D(source.width, source.height);
-                t.Set(color);
+                t.SetAllPixels(color);
                 t = t.MergeTextures(source);
                 //t.SetPixels(source.GetPixels());
                 //t.MirrorY();
