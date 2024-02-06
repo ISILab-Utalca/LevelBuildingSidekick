@@ -1,3 +1,5 @@
+using ISILab.Commons.Utility;
+using ISILab.Commons.Utility.Editor;
 using LBS.Behaviours;
 using LBS.Components;
 using LBS.Settings;
@@ -30,7 +32,7 @@ public class LBSLocalAssistants : LBSInspector
 
     public LBSLocalAssistants()
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSLocalAssistants");
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSLocalAssistants");
         visualTree.CloneTree(this);
 
         this.content = this.Q<VisualElement>("Content");
@@ -55,7 +57,7 @@ public class LBSLocalAssistants : LBSInspector
         foreach (var assist in target.Assitants)
         {
             var type = assist.GetType();
-            var ves = Utility.Reflection.GetClassesWith<LBSCustomEditorAttribute>()
+            var ves = Reflection.GetClassesWith<LBSCustomEditorAttribute>()
                 .Where(t => t.Item2.Any(v => v.type == type));
 
             if (ves.Count() == 0)
@@ -91,11 +93,6 @@ public class LBSLocalAssistants : LBSInspector
         {
             ve?.Repaint();
         }
-    }
-
-    public override void Init( MainView view, LBSLayer layer, LBSBehaviour behaviour)
-    {
-        throw new NotImplementedException();
     }
 
     public override void SetTarget(LBSLayer layer)

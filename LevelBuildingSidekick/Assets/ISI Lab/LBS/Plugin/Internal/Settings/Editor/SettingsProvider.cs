@@ -1,3 +1,4 @@
+using ISILab.Commons.Utility.Editor;
 using LBS.Settings;
 using System.Collections;
 using System.Collections.Generic;
@@ -68,7 +69,7 @@ static class LBS_SettingsProvider
                 settings.paths.settingsPath = EditorGUILayout.TextField("Settings path", settings.paths.settingsPath, EditorStyles.textField, GUILayout.Height(EditorGUIUtility.singleLineHeight));
                 if (GUILayout.Button("Find", GUILayout.MaxWidth(60)))
                 {
-                    var so = Utility.DirectoryTools.GetScriptable<LBSSettings>();
+                    var so = DirectoryTools.GetScriptable<LBSSettings>();
                     var path = AssetDatabase.GetAssetPath(so);
                     settings.paths.settingsPath = path;
                     EditorUtility.SetDirty(settings);
@@ -80,7 +81,7 @@ static class LBS_SettingsProvider
                 settings.paths.storagePath = EditorGUILayout.TextField("Storage path", settings.paths.storagePath, EditorStyles.textField, GUILayout.Height(EditorGUIUtility.singleLineHeight));
                 if (GUILayout.Button("Find", GUILayout.MaxWidth(60)))
                 {
-                    var so = Utility.DirectoryTools.GetScriptable<LBSAssetsStorage>();
+                    var so = DirectoryTools.GetScriptable<LBSAssetsStorage>();
                     var path = AssetDatabase.GetAssetPath(so);
                     settings.paths.storagePath = path;
                     EditorUtility.SetDirty(settings);
@@ -92,7 +93,7 @@ static class LBS_SettingsProvider
                 settings.paths.pressetsPath = EditorGUILayout.TextField("Presets path", settings.paths.pressetsPath, EditorStyles.textField, GUILayout.Height(EditorGUIUtility.singleLineHeight));
                 if (GUILayout.Button("Find", GUILayout.MaxWidth(60)))
                 {
-                    var so = Utility.DirectoryTools.GetScriptable<LBSPresets>();
+                    var so = DirectoryTools.GetScriptable<LBSPresets>();
                     var path = AssetDatabase.GetAssetPath(so);
                     settings.paths.pressetsPath = path;
                     EditorUtility.SetDirty(settings);
@@ -104,11 +105,11 @@ static class LBS_SettingsProvider
                 EditorGUILayout.Space();
                 if (GUILayout.Button("Find All", GUILayout.MaxWidth(120)))
                 {
-                    var so = Utility.DirectoryTools.GetScriptable<LBSSettings>();
+                    var so = DirectoryTools.GetScriptable<LBSSettings>();
                     var path = AssetDatabase.GetAssetPath(so);
                     settings.paths.settingsPath = path;
 
-                    var so2 = Utility.DirectoryTools.GetScriptable<LBSAssetsStorage>();
+                    var so2 = DirectoryTools.GetScriptable<LBSAssetsStorage>();
                     var path2 = AssetDatabase.GetAssetPath(so2);
                     settings.paths.storagePath = path2;
                     EditorUtility.SetDirty(settings);

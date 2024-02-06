@@ -1,4 +1,5 @@
 using ISILab.Commons;
+using ISILab.Commons.Utility.Editor;
 using LBS.Components.TileMap;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,7 +23,6 @@ public class PopulationTileView : GraphElement
         if (view == null)
         {
             PopulationTileView.view = DirectoryTools.SearchAssetByName<VisualTreeAsset>("PopulationTile");
-            //PopulationTileView.view = LBSAssetsStorage.Instance.Get<VisualTreeAsset>().Find(v => v.name == "PopulationTile");
         }
         PopulationTileView.view.CloneTree(this);
 

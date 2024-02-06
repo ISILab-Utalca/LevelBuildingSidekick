@@ -7,6 +7,8 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
+using ISILab.Commons.Utility;
+using ISILab.Commons.Utility.Editor;
 
 public class GeneralBundlesPanel : VisualElement
 {
@@ -36,7 +38,7 @@ public class GeneralBundlesPanel : VisualElement
 
     public GeneralBundlesPanel()
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("GeneralBundlesPanel");
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("GeneralBundlesPanel");
         visualTree.CloneTree(this);
 
         // Main content
@@ -48,16 +50,14 @@ public class GeneralBundlesPanel : VisualElement
         this.nameField = this.Q<TextField>("NameField");
         nameField.RegisterCallback<BlurEvent>(t => {
             var all = LBSAssetsStorage.Instance.Get<Bundle>();
-            var name = ISILab.Commons.Commons.CheckNameFormat(all.Select(b => b.name), nameField.value);
+            var name = Format.CheckNameFormat(all.Select(b => b.name), nameField.value);
             target.name = name;
 
             AssetDatabase.RenameAsset(AssetDatabase.GetAssetPath(target), nameField.value);
         });
 
         this.tagField = this.Q<ObjectField>("TagField");
-        tagField.RegisterCallback<ChangeEvent<Object>>(t =>
-        {
-            //target.ID = t.newValue as LBSIdentifier;
+        tagField.RegisterCallback<ChangeEvent<Object>>(t => {
             EditorUtility.SetDirty(target);
             AssetDatabase.SaveAssets();
         });
@@ -129,8 +129,6 @@ public class GeneralBundlesPanel : VisualElement
         this.target = target;
 
         nameField.SetValueWithoutNotify(target.name);
-        //tagField.SetValueWithoutNotify(target.ID);
-
         fatherField.SetValueWithoutNotify(target.Parent());
      
         assetsList.itemsSource = target.Assets;
@@ -138,16 +136,14 @@ public class GeneralBundlesPanel : VisualElement
 
     private LBSIdentifier CreateID()
     {
-        var all = Utility.DirectoryTools.GetScriptables<LBSIdentifier>().ToList();
+        var all = DirectoryTools.GetScriptables<LBSIdentifier>().ToList();
         var nSO = ScriptableObject.CreateInstance<LBSIdentifier>();
 
         var settings = LBSSettings.Instance;
 
-        var name = ISILab.Commons.Commons.CheckNameFormat(all.Select(b => b.name), "new ID");
+        var name = Format.CheckNameFormat(all.Select(b => b.name), "new ID");
 
         AssetDatabase.CreateAsset(nSO, settings.paths.tagFolderPath + "/" + name + ".asset");
-        // nSO.name = name;
-        // AssetDatabase.AddObjectToAsset(nSO, target);
         AssetDatabase.SaveAssets();
 
         return nSO;

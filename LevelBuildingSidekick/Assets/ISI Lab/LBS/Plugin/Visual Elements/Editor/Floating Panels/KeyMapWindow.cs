@@ -1,3 +1,4 @@
+using ISILab.Commons.Utility.Editor;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -17,7 +18,7 @@ public class KeyMapWindow : EditorWindow
 
     public virtual void CreateGUI()
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("HintsController");
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("HintsController");
         visualTree.CloneTree(rootVisualElement);
 
     }

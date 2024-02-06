@@ -1,5 +1,6 @@
 using Commons.Optimization.Evaluator;
 using ISILab.AI.Optimization;
+using ISILab.Commons.Utility.Editor;
 using LBS.Behaviours;
 using System;
 using System.Collections;
@@ -69,7 +70,7 @@ public class MAPElitesPresetVE : LBSCustomEditor
 
     protected override VisualElement CreateVisualElement()
     {
-        var vt = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("MAPElitesPresset");
+        var vt = DirectoryTools.SearchAssetByName<VisualTreeAsset>("MAPElitesPresset");
         vt.CloneTree(this);
 
         var presset = target as MAPElitesPreset;

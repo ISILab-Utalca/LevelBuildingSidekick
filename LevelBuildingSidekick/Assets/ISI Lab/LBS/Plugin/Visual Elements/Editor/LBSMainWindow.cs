@@ -1,3 +1,5 @@
+using ISILab.Commons.Utility;
+using ISILab.Commons.Utility.Editor;
 using LBS;
 using LBS.Components;
 using LBS.VisualElements;
@@ -92,11 +94,11 @@ public class LBSMainWindow : EditorWindow
             questsPanel.ResetSelection();
         };
 
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSMainWindow");
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSMainWindow");
         visualTree.CloneTree(rootVisualElement);
 
         // LayerTemplate
-        layerTemplates = Utility.DirectoryTools.GetScriptablesByType<LayerTemplate>();
+        layerTemplates = DirectoryTools.GetScriptablesByType<LayerTemplate>();
 
         // SubPanelScrollView
         var subPanelScrollView = rootVisualElement.Q<ScrollView>("SubPanelScrollView");
@@ -128,7 +130,7 @@ public class LBSMainWindow : EditorWindow
         inspectorManager = rootVisualElement.Q<LBSInspectorPanel>("InpectorPanel");
         inspectorManager.OnChangeTab += (s) =>
         {
-            Debug.Log("inspectorManager.OnChangeTab");
+            //Debug.Log("inspectorManager.OnChangeTab");
         };
 
         // ToolKitManager
@@ -185,7 +187,7 @@ public class LBSMainWindow : EditorWindow
         layerPanel.OnLayerVisibilityChange += (l) => {
             DrawManager.Instance.RedrawLevel(levelData, mainView);
         };
-        layerPanel.OnSelectLayer += (layer) => { // esto llama implicitamente OnAddLayer
+        layerPanel.OnSelectLayer += (layer) => {
             OnSelectedLayerChange(layer);
         };
         layerPanel.OnAddLayer += (layer) => {

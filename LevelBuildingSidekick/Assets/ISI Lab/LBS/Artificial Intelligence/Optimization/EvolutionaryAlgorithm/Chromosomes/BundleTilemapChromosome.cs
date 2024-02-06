@@ -7,6 +7,7 @@ using System.Linq;
 using LBS.Components;
 using LBS.Components.TileMap;
 using Utility;
+using ISILab.Commons;
 
 public class BundleTilemapChromosome : ChromosomeBase2D, IDrawable
 {

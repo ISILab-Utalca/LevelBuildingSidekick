@@ -1,3 +1,5 @@
+using ISILab.Commons.Utility;
+using ISILab.Commons.Utility.Editor;
 using LBS;
 using LBS.Behaviours;
 using LBS.Components;
@@ -30,10 +32,8 @@ public class LBSLocalCurrent : LBSInspector, IToolProvider
 
     public LBSLocalCurrent()
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSLocalCurrent");
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSLocalCurrent");
         visualTree.CloneTree(this);
-
-        //LBSEvents.OnSelectElementInWorkSpace += SetCurrentInfo;
 
         layerContent = this.Q<VisualElement>("LayerContent");
 
@@ -58,11 +58,6 @@ public class LBSLocalCurrent : LBSInspector, IToolProvider
         layerInfoView.SetInfo(target);
     }
 
-    public override void Init( MainView view, LBSLayer layer, LBSBehaviour behaviour)
-    {
-        throw new NotImplementedException();
-    }
-
     public override void SetTarget(LBSLayer layer)
     {
         SetInfo(layer);
@@ -70,19 +65,7 @@ public class LBSLocalCurrent : LBSInspector, IToolProvider
 
     public void SetTools(ToolKit toolkit)
     {
-        /*
-        var icon = Resources.Load<Texture2D>("Icons/Select");
-        var selectTool = new Select();
-        var t1 = new LBSTool(icon, "Select", selectTool);
-        t1.Init(layer, this);
-        t1.OnSelect += () =>
-        {
-            LBSInspectorPanel.ShowInspector("Current data");
-        };
-        ToolKit.Instance.AddTool(t1);
-
-        toolkit.AddSeparator();
-        */
+        
     }
 
     public void SetSelectedVE(List<object> objs)
@@ -103,7 +86,7 @@ public class LBSLocalCurrent : LBSInspector, IToolProvider
             var type = obj.GetType();
 
             // Get the editors of the selectable elements
-            var ves = Utility.Reflection.GetClassesWith<LBSCustomEditorAttribute>()
+            var ves = Reflection.GetClassesWith<LBSCustomEditorAttribute>()
                     .Where(t => t.Item2.Any(v => v.type == type)).ToList();
 
             if (ves.Count <= 0)

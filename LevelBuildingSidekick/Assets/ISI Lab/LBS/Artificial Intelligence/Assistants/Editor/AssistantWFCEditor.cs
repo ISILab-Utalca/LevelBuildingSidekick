@@ -1,3 +1,4 @@
+using ISILab.Commons.Utility.Editor;
 using LBS;
 using LBS.Bundles;
 using LBS.VisualElements;
@@ -6,7 +7,6 @@ using System.Collections.Generic;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Utility;
 
 [LBSCustomEditor("Wave Function Collapse", typeof(AssistantWFC))]
 public class AssistantWFCEditor : LBSCustomEditor, IToolProvider

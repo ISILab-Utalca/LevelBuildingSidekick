@@ -1,3 +1,4 @@
+using ISILab.Commons.Utility.Editor;
 using LBS.VisualElements;
 using System;
 using System.Collections;
@@ -64,7 +65,6 @@ public class MAPEliteContent : VisualElement
 
     public void ChangePartitions(Vector2 partitions)
     {
-        //ButtonBackground = BackgroundTexture(layer.GetModule<LBSModule>(BackgroundField.value));
         if (partitions == this.partitions)
             return;
         this.partitions = partitions;
@@ -105,23 +105,6 @@ public class MAPEliteContent : VisualElement
             }
         }
     }
-    /*
-    public void UpdateSample(Vector2Int coords)
-    {
-        var index = (coords.y * assistant.SampleWidth + coords.x);
-        if (Content[index].Data != null && (Content[index].Data as IOptimizable).Fitness > assistant.Samples[coords.y, coords.x].Fitness)
-        {
-            return;
-        }
-        Content[index].Data = assistant.Samples[coords.y, coords.x];
-        Content[index].Text = ((decimal)assistant.Samples[coords.y, coords.x].Fitness).ToString("f4");
-
-        lock (locker)
-        {
-            if (!assistant.toUpdate.Contains(coords))
-                assistant.toUpdate.Add(coords);
-        }
-    }*/
 
     public void UpdateContent()
     {
@@ -135,7 +118,6 @@ public class MAPEliteContent : VisualElement
             if (Content[index].Data != null)
             {
                 Content[index].SetTexture(background.MergeTextures(t).FitSquare());
-                //Content[index].SetTexture(background);
             }
             else
             {

@@ -1,3 +1,4 @@
+using ISILab.Commons.Utility.Editor;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -27,8 +28,7 @@ public class MAPEliteConfiguration : VisualElement
     public MAPEliteConfiguration()
     {
 
-        visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("MAPEliteConfiguration");
-        //var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("MAPEliteConfiguration");
+        visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("MAPEliteConfiguration");
         visualTree.CloneTree(this);
 
         undoBtn = this.Q<Button>(name : "UndoBtn");
@@ -45,9 +45,6 @@ public class MAPEliteConfiguration : VisualElement
 
         var menu = new ContextualMenuManipulator(EditPresset);
         menu.target = editPresset;
-
-        //editPresset.clicked += () => OpenPressetWindow(null);
-
 
         dropdown = this.Q<DropdownField>(name: "PresetDropDown");
         dropdown.RegisterValueChangedCallback(e => OnPressetChange?.Invoke(e.newValue));

@@ -1,3 +1,4 @@
+using ISILab.Commons.Utility.Editor;
 using LBS.Components;
 using System;
 using System.Collections;
@@ -30,7 +31,7 @@ public class LayerView : VisualElement
 
     public LayerView()
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LayerView"); // Editor
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("LayerView");
         visualTree.CloneTree(this);
 
         this._base = this.Q<VisualElement>("Base");

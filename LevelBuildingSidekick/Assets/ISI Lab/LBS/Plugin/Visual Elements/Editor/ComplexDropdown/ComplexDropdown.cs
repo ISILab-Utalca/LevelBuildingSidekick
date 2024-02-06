@@ -7,6 +7,8 @@ using System.Reflection;
 using System.Linq;
 using UnityEditor.UIElements;
 using UnityEditor;
+using ISILab.Commons.Utility;
+using ISILab.Commons.Utility.Editor;
 
 public class ComplexDropdown : VisualElement
 {
@@ -57,7 +59,7 @@ public class ComplexDropdown : VisualElement
 
     public ComplexDropdown()
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("ComplexDropdown"); // Editor
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("ComplexDropdown");
         visualTree.CloneTree(this);
 
         content = this.Q<ListView>("Content");
@@ -116,7 +118,7 @@ public class ComplexDropdown : VisualElement
         if (type == null)
             return;
 
-        var tuples = Utility.Reflection.GetClassesWith(type);
+        var tuples = Reflection.GetClassesWith(type);
 
         elements.Clear();
         foreach (var tuple in tuples)

@@ -1,3 +1,4 @@
+using ISILab.Commons.Utility.Editor;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -12,7 +13,6 @@ public class ME_PresetEditWindow : EditorWindow
     string path = string.Empty;
 
     bool preexistant = true;
-
 
     TextField pathField;
     TextField nameField;
@@ -30,7 +30,7 @@ public class ME_PresetEditWindow : EditorWindow
 
     public virtual void CreateGUI()
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("MapElitesPressetEditorWindow");
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("MapElitesPressetEditorWindow");
         visualTree.CloneTree(rootVisualElement);
 
 
@@ -58,7 +58,6 @@ public class ME_PresetEditWindow : EditorWindow
     private void LoadPreset(MAPElitesPreset presset)
     {
         mapElitesPresset = presset;
-
 
         if (mapElitesPresset == null)
         {
@@ -106,9 +105,6 @@ public class ME_PresetEditWindow : EditorWindow
 
         Debug.Log(path);
     }
-
-
-
 }
 
 

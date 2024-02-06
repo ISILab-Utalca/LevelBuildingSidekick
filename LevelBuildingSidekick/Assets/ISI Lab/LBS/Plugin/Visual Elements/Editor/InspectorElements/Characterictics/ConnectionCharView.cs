@@ -1,3 +1,4 @@
+using ISILab.Commons.Utility.Editor;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,7 @@ public class ConnectionCharView : VisualElement
 
     public ConnectionCharView()
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("ConnectionCharView");
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("ConnectionCharView");
         visualTree.CloneTree(this);
 
         connected8 = this.Q<Button8Connected>();

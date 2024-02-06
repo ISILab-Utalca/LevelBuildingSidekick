@@ -1,3 +1,5 @@
+using ISILab.Commons.Utility;
+using ISILab.Commons.Utility.Editor;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,7 +25,7 @@ public class CharacteristicsBaseView : VisualElement
 
     public CharacteristicsBaseView()
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("CharacteristicsBaseView");
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("CharacteristicsBaseView");
         visualTree.CloneTree(this);
 
         content = this.Q<VisualElement>("Content");
@@ -54,7 +56,7 @@ public class CharacteristicsBaseView : VisualElement
     {
         this.target = characteristic;
 
-        var cs = Utility.Reflection.GetClassesWith<LBSCustomEditorAttribute>(); // (!!!) esto puede ocurrir cuando se recompila en vez de cada vez 
+        var cs = Reflection.GetClassesWith<LBSCustomEditorAttribute>();
 
         var relation = cs.Find((t) =>
         {
@@ -65,19 +67,15 @@ public class CharacteristicsBaseView : VisualElement
         if (relation == null)
         {
             editor = new LBSNullEditor();
-            this.nameLabel.text = characteristic.GetType().Name; // default name
-            this.icon.style.backgroundImage = null; // (!!!) default icon, implementar 
+            this.nameLabel.text = characteristic.GetType().Name;
+            this.icon.style.backgroundImage = null; // TODO: Implement default icon  
         }
         else
         {
             editor = Activator.CreateInstance(relation.Item1) as LBSCustomEditor;
             this.nameLabel.text = relation.Item2.ToList()[0].name;
-            this.icon.style.backgroundImage = null; // (!!!) implementar esto en LBSCustomEditorAttribute 
+            this.icon.style.backgroundImage = null;
         }
-
-        //var e = Editor.CreateEditor(characteristic);
-        //var ve = e.CreateInspectorGUI();
-        //this.content.Add(ve);
 
         editor.SetInfo(characteristic);
 

@@ -1,3 +1,4 @@
+using ISILab.Commons.Utility.Editor;
 using LBS.Components;
 using System;
 using System.Collections;
@@ -40,7 +41,7 @@ public class LayersPanel : VisualElement
 
     public LayersPanel(LBSLevelData data, ref List<LayerTemplate> templates)
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LayersPanel"); // Editor
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("LayersPanel");
         visualTree.CloneTree(this);
 
         this.data = data;

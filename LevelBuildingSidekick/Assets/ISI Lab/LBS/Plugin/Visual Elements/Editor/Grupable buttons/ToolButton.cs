@@ -1,3 +1,4 @@
+using ISILab.Commons.Utility.Editor;
 using LBS;
 using System;
 using System.Collections;
@@ -25,7 +26,7 @@ public class ToolButton : VisualElement, IGrupable
     #region CONSTRUCTORS
     public ToolButton(LBSTool tool)
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("ToolButton");
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("ToolButton");
         visualTree.CloneTree(this);
 
         // Button

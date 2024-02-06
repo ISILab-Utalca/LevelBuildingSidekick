@@ -1,4 +1,5 @@
 using Commons.Optimization.Evaluator;
+using ISILab.Commons.Utility.Editor;
 using LBS.Bundles;
 using System;
 using System.Collections;
@@ -37,8 +38,6 @@ public class GroupCountVE : EvaluatorVE
         listView.fixedItemHeight = 20;
         listView.itemsSource = (evaluator as GroupCount).WhiteList;
         listView.makeItem = MakeItem;
-        //listView.onItemsChosen += OnItemChosen;
-        //listView.onSelectionChange += OnSelectionChange;
 
         listView.bindItem += (item, index) =>
         {

@@ -1,3 +1,4 @@
+using ISILab.Commons.Utility.Editor;
 using LBS;
 using LBS.Bundles;
 using LBS.Components.Specifics;
@@ -84,14 +85,12 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
 
     public override void ContextMenu(ContextualMenuPopulateEvent evt)
     {
-        //evt.menu.AppendSeparator();
-        //evt.menu.AppendAction("Show view", action => schema.visible = true);
+
     }
 
     public override void SetInfo(object target)
     {
         this._target = target as SchemaBehaviour;
-        //throw new System.NotImplementedException();
     }
 
     protected override VisualElement CreateVisualElement()
@@ -143,7 +142,6 @@ public class SchemaBehaviourEditor : LBSCustomEditor, IToolProvider
         // Select option event
         areaPallete.OnSelectOption += (selected) => {
             _target.roomToSet = selected as Zone;
-            //createNewRoomNode.ToSet = selected as Zone;
             ToolKit.Instance.SetActive("Paint Zone");
         };
 

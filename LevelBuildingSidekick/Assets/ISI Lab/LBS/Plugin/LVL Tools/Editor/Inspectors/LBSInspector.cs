@@ -6,11 +6,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public abstract class LBSInspector : VisualElement // estaq clase deberia ser buscada por atributos
+public abstract class LBSInspector : VisualElement
 {
-    public abstract void Init(MainView view, LBSLayer layer, LBSBehaviour behaviour);
-
     public abstract void SetTarget(LBSLayer layer);
+
+    public virtual void Init(MainView view, LBSLayer layer, LBSBehaviour behaviour) { } // FIX: This function is not called anywhere, it is not working
 
     public virtual void Repaint() { }
 }

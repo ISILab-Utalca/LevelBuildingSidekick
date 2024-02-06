@@ -1,3 +1,5 @@
+using ISILab.Commons.Utility;
+using ISILab.Commons.Utility.Editor;
 using LBS.AI;
 using LBS.Assisstants;
 using LBS.Components;
@@ -16,7 +18,7 @@ public class AIPanel : VisualElement
 
     public AIPanel()
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("AIPanel"); // Editor
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("AIPanel"); // Editor
         visualTree.CloneTree(this);
 
         container = this.Q<VisualElement>(name: "Container");
@@ -28,7 +30,6 @@ public class AIPanel : VisualElement
         if (layer == null)
             return;
 
-        //var assist = layer.Assitant;
         var assistants = layer.Assitants;
         for (int i = 0; i < assistants.Count; i++)
         {
@@ -36,14 +37,6 @@ public class AIPanel : VisualElement
             ass.OnTermination = OnFinish;
             ass.OnAttachLayer(layer);
             container.Add(GetAgentPanel(ass));
-            //container.Add(new AIAgentPanel(ref ass));
-
-            /*
-                        var agent = assist.GetAgent(i);
-            Utility.JSONDataManager            
-                        agent.Init(ref layer);
-                        container.Add(GetAgentPanel(agent));
-                        */
         }
     }
 
@@ -54,7 +47,7 @@ public class AIPanel : VisualElement
 
     private VisualElement GetAgentPanel(LBSAssistant agent)
     {
-        var candidates = Utility.Reflection.GetClassesWith<CustomVisualElementAttribute>();
+        var candidates = Reflection.GetClassesWith<CustomVisualElementAttribute>();
         if (candidates.Count <= 0)
             return new Label("[ISI Lab] " + agent.GetType() + " does not have an associated VisualElement ");
         var ves = candidates.Where(t => t.Item2.Any(v => v.type == agent.GetType()));

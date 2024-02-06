@@ -1,3 +1,5 @@
+using ISILab.Commons.Utility;
+using ISILab.Commons.Utility.Editor;
 using LBS.Settings;
 using System;
 using System.Collections;
@@ -37,7 +39,7 @@ public class TagBundleView : VisualElement
     #region CONSTRUCTORS
     public TagBundleView()
     {
-        visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("TagBundleView");
+        visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("TagBundleView");
         visualTree.CloneTree(this);
 
         // Main Content
@@ -85,7 +87,7 @@ public class TagBundleView : VisualElement
 
     private void CreateTag()
     {
-        var name = ISILab.Commons.Commons.CheckNameFormat(target.Tags.Select(b => b.name), "new tag");
+        var name = Format.CheckNameFormat(target.Tags.Select(b => b.name), "new tag");
 
         var nTag = ScriptableObject.CreateInstance<LBSIdentifier>();
         nTag.Init(name, new Color().RandomColor(), null);
@@ -100,7 +102,6 @@ public class TagBundleView : VisualElement
         list.itemsSource = target.Tags;
 
         list.Rebuild();
-        //list.RefreshItems();
     }
 
     private void RemoveTag()
