@@ -5,6 +5,8 @@ using System.Linq;
 using System;
 using Newtonsoft.Json;
 using LBS.Components.TileMap;
+using ISILab.JsonNet.Coverters;
+using ISILab.Extensions;
 
 [System.Serializable]
 public class TiledArea : ICloneable
@@ -155,7 +157,6 @@ public class TiledArea : ICloneable
     {
         if (tiles == null || tiles.Count == 0)
         {
-            //Debug.LogWarning("Esta tilemap no tiene tiles!!!");
             return new Rect(Vector2.zero, Vector2.zero);
         }
 

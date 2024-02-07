@@ -6,14 +6,12 @@ using System;
 using System.Reflection;
 using System.IO;
 using System.Text;
-using Utility;
 using System.Linq;
+using ISILab.JsonNet;
 
 namespace LBS
 {
-    // (!) change name "LBSController" to "LBS" or "LBSCore" or "LBSMain" or "LBSManager" 
-    // (??) esta clase podria ser estatica completamente 
-    public static class LBSController 
+    public static class LBSController // FIX: Change name to a better name
     {
         private static readonly string defaultName = "New file";
 
@@ -44,7 +42,7 @@ namespace LBS
         public static void LoadFile(string path)
         {
             var fileInfo = new System.IO.FileInfo(path);
-            var data = Utility.JSONDataManager.LoadData<LBSLevelData>(fileInfo.DirectoryName,fileInfo.Name);
+            var data = JSONDataManager.LoadData<LBSLevelData>(fileInfo.DirectoryName,fileInfo.Name);
             CurrentLevel = new LoadedLevel(data, fileInfo.FullName);
             CurrentLevel.data.Reload();
             OnLoadLevel?.Invoke(CurrentLevel.data);
@@ -75,7 +73,7 @@ namespace LBS
                     SaveFile();
                     path = EditorUtility.OpenFilePanel("Load level data", "", "lbs");
                     fileInfo = new System.IO.FileInfo(path);
-                    data = Utility.JSONDataManager.LoadData<LBSLevelData>(fileInfo.DirectoryName, fileInfo.Name);
+                    data = JSONDataManager.LoadData<LBSLevelData>(fileInfo.DirectoryName, fileInfo.Name);
                     CurrentLevel = new LoadedLevel(data, fileInfo.FullName);
                     CurrentLevel.data.Reload();
                     return CurrentLevel;
@@ -85,7 +83,7 @@ namespace LBS
                     if (path == "")
                         return null;
                     fileInfo = new System.IO.FileInfo(path);
-                    data = Utility.JSONDataManager.LoadData<LBSLevelData>(fileInfo.DirectoryName, fileInfo.Name);
+                    data = JSONDataManager.LoadData<LBSLevelData>(fileInfo.DirectoryName, fileInfo.Name);
                     CurrentLevel = new LoadedLevel(data, fileInfo.FullName);
                     CurrentLevel.data.Reload();
                     OnLoadLevel?.Invoke(CurrentLevel.data);
@@ -97,6 +95,11 @@ namespace LBS
             }
         }
 
+        /// <summary>
+        /// Saves the current level data to the file it was loaded from,
+        /// or prompts the user to save it as a new file if it has not been
+        /// saved before.
+        /// </summary>
         public static void SaveFile()
         {
             var fileInfo = CurrentLevel.FileInfo;
@@ -110,10 +113,14 @@ namespace LBS
             }
             else
             {
-                Utility.JSONDataManager.SaveData(fileInfo.DirectoryName, fileInfo.Name, CurrentLevel.data);
+                JSONDataManager.SaveData(fileInfo.DirectoryName, fileInfo.Name, CurrentLevel.data);
             }
         }
 
+        /// <summary>
+        /// Saves the current level data to a new file,
+        /// prompting the user to choose the file path.
+        /// </summary>
         public static void SaveFileAs()
         {
             var path = "";
@@ -143,17 +150,21 @@ namespace LBS
                 var filename = parts[^1];
                 var directory = path.Substring(0,path.Length - filename.Length);
                 Debug.Log("Save file on: '" + directory + filename + "'.");
-                Utility.JSONDataManager.SaveData(directory, filename, CurrentLevel.data);
+                JSONDataManager.SaveData(directory, filename, CurrentLevel.data);
                 LBS.loadedLevel.fullName = path;
             }
         }
 
+        /// <summary>
+        /// Creates a new level with the specified name and size.
+        /// </summary>
+        /// <param name="levelName"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
         public static LoadedLevel CreateNewLevel(string levelName, Vector3 size)
         {
             var data = new LBSLevelData();
             var loaded = new LoadedLevel(data, null);
-            //data.Size = size;
-            //data.AddRepresentation(new LBSGraphData());
             CurrentLevel = loaded;
             CurrentLevel.data.Reload();
             return CurrentLevel;

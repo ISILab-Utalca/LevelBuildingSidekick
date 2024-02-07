@@ -5,10 +5,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Utility;
 using UnityEditor.UIElements;
 using LBS.Bundles;
 using ISILab.Commons.Utility.Editor;
+using ISILab.Extensions;
 
 [CustomVisualElement(typeof(MinimizeDistance))]
 public class MinimizeDistanceVE : EvaluatorVE

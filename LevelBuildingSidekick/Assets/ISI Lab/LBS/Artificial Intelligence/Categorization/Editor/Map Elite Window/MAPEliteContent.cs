@@ -7,7 +7,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Utility;
+using ISILab.Extensions;
 
 public class MAPEliteContent : VisualElement
 {
@@ -15,7 +15,7 @@ public class MAPEliteContent : VisualElement
 
     public ButtonWrapper[] Content = new ButtonWrapper[1];
     public VisualElement Container;
-    private int buttonSize = 128; // (!!!) Should be a RangeSlider field
+    private int buttonSize = 128; 
 
     public Texture2D background;
     private Texture2D standbyImg;
@@ -34,7 +34,6 @@ public class MAPEliteContent : VisualElement
     public MAPEliteContent(AssistantMapElite assistant)
     {
         var visualTree = LBSAssetsStorage.Instance.Get<VisualTreeAsset>().Find(e => e.name == "MAPEliteContent");
-        //var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("MAPEliteContent");
         visualTree.CloneTree(this);
 
         var s2 = EditorGUIUtility.Load("DefaultCommonDark.uss") as StyleSheet;
@@ -74,7 +73,7 @@ public class MAPEliteContent : VisualElement
         Content = new ButtonWrapper[assistant.SampleWidth * assistant.SampleHeight];
         Container.Clear();
 
-        Container.style.width = 6 + (buttonSize + 6) * assistant.SampleWidth; // & es un padding que le asigna de forma automatica, no se de donde saca el valor
+        Container.style.width = 6 + (buttonSize + 6) * assistant.SampleWidth;
 
         for (int i = 0; i < Content.Length; i++)
         {

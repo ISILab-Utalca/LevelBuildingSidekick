@@ -1,3 +1,4 @@
+using ISILab.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -61,12 +62,6 @@ public class LBSDirection : LBSCharacteristic, ICloneable
         var toR = new List<string>(connections);
 
         toR = toR.Rotate(rotation);
-        /*
-        for (int i = 0; i < rotation; i++)
-        {
-            toR = toR.Rotate();
-        }
-        */
 
         return toR.ToArray();
     }
@@ -78,7 +73,7 @@ public class LBSDirection : LBSCharacteristic, ICloneable
 
     public override bool Equals(object obj)
     {
-        return false; // Implementar bien (!!)
+        return false; // TODO: Implement
     }
 
     public override int GetHashCode()

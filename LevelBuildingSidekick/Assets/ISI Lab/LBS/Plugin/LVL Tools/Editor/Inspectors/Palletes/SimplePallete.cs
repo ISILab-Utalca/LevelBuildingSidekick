@@ -4,8 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Utility;
-using static UnityEditor.Progress;
+using ISILab.Extensions;
 
 namespace LBS.VisualElements
 {

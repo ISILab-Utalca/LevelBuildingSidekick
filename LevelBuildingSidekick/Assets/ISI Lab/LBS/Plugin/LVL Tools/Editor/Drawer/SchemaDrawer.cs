@@ -1,16 +1,7 @@
-using LBS.Behaviours;
-using LBS.Components;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
-using UnityEngine.EventSystems;
-using LBS.Components.Specifics;
 using LBS.Components.TileMap;
-using UnityEngine.UIElements;
-using static UnityEditor.PlayerSettings;
 using UnityEditor.Experimental.GraphView;
-using Utility;
 
 [Drawer(typeof(SchemaBehaviour))]
 public class SchemaDrawer : Drawer
@@ -71,8 +62,6 @@ public class SchemaDrawer : Drawer
                 }
             }
         }
-
-        //texture.MirrorY();
 
         texture.Apply();
 

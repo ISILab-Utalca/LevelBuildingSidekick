@@ -69,5 +69,10 @@ namespace LBS.VisualElements
         {
             text = Text;
         }
+
+        internal void SetTexture(object value)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

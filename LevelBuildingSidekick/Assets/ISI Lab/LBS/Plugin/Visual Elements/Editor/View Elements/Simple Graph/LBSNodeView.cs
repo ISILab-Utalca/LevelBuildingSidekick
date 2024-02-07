@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
+using ISILab.Extensions;
 
 public class LBSNodeView : GraphElement
 {

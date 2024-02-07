@@ -9,6 +9,7 @@ using UnityEngine;
 using LBS.Bundles;
 using Newtonsoft.Json;
 using ISILab.Commons;
+using ISILab.Extensions;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -78,8 +79,7 @@ public class SchemaRuleGeneratorExteriror : LBSGeneratorRule
 
             // Get random bundle with respctive "connection tag"
             var current = currents.Where(b => b.GetCharacteristics<LBSTagsCharacteristic>()
-            .Any(c => c.Value.name == connections[i]))
-            .ToList().Random();
+            .Any(c => c.Value.name == connections[i])).ToList().Random();
 
             // check if current is valid
             if (current == null)
@@ -96,7 +96,7 @@ public class SchemaRuleGeneratorExteriror : LBSGeneratorRule
 
             // Set rotation orientation
             if (i % 2 == 0)
-                obj.transform.rotation = Quaternion.Euler(0, (90 * (i - 1)) % 360, 0); // if parche? (?)
+                obj.transform.rotation = Quaternion.Euler(0, (90 * (i - 1)) % 360, 0);
             else
                 obj.transform.rotation = Quaternion.Euler(0, (90 * (i - 3)) % 360, 0);
 

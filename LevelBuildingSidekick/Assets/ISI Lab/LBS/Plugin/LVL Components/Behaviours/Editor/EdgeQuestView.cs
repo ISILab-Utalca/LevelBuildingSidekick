@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
+using ISILab.Extensions;
 
 public class EdgeQuestView : GraphElement
 {

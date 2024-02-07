@@ -8,7 +8,6 @@ using System.Drawing;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Utility;
 
 [LBSCustomEditor("GrammarAssistant", typeof(GrammarAssistant))]
 public class GrammarAssistantEditor : LBSCustomEditor, IToolProvider

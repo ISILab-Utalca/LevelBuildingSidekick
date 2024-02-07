@@ -8,7 +8,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static UnityEngine.UI.InputField;
+using ISILab.Extensions;
 
 public class TagBundleView : VisualElement
 {

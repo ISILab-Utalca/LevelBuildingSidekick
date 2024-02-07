@@ -1,3 +1,4 @@
+using ISILab.Extensions;
 using LBS.Components;
 using LBS.Components.Graph;
 using LBS.Settings;
@@ -211,9 +212,6 @@ public class LBSQuestGraph : LBSModule, ICloneable
         var size = Owner.TileSize * LBSSettings.Instance.general.TileSize;
         foreach (var e in questEdges)
         {
-            //var first = new Vector2(e.First.Pivot.x, - e.First.Pivot.y + 1) * Owner.TileSize * LBSSettings.Instance.general.TileSize;
-            //var second = new Vector2(e.Second.Pivot.x, - e.Second.Pivot.y + 1) * Owner.TileSize * LBSSettings.Instance.general.TileSize;
-
             var c1 = new Rect(e.First.Position, size).center;
             var c2 = new Rect(e.Second.Position, size).center;
 

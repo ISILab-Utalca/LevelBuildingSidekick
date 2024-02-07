@@ -1,3 +1,4 @@
+using ISILab.Extensions;
 using LBS.Components;
 using LBS.Settings;
 using Newtonsoft.Json;
@@ -61,14 +62,10 @@ public class ConnectedZonesModule : LBSModule
         return null;
     }
 
-    //[Obsolete("¿Deberia el 'modelo' hacer cosas relativas a distanias?")]
     public ZoneEdge GetEdge(Vector2 position, float delta)
     {
         foreach (var e in edges)
         {
-            //var first = new Vector2(e.First.Pivot.x, - e.First.Pivot.y + 1) * Owner.TileSize * LBSSettings.Instance.general.TileSize;
-            //var second = new Vector2(e.Second.Pivot.x, - e.Second.Pivot.y + 1) * Owner.TileSize * LBSSettings.Instance.general.TileSize;
-
             Debug.Log(e.First.Pivot + " - " + e.Second.Pivot + " - " + position);
 
             var dist = position.DistanceToLine(e.First.Pivot, e.Second.Pivot);

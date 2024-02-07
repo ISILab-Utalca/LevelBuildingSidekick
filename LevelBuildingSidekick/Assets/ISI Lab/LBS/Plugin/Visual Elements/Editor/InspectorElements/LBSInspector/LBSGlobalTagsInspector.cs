@@ -10,6 +10,7 @@ using LBS.Components;
 using LBS.Behaviours;
 using ISILab.Commons.Utility;
 using ISILab.Commons.Utility.Editor;
+using ISILab.Extensions;
 
 public class LBSGlobalTagsInspector : LBSInspector
 {

@@ -1,5 +1,6 @@
 using Commons.Optimization.Evaluator;
 using ISILab.Commons.Utility.Editor;
+using ISILab.Extensions;
 using LBS.Bundles;
 using System;
 using System.Collections;
@@ -8,7 +9,6 @@ using System.Linq;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Utility;
 
 [CustomVisualElement(typeof(GroupCount))]
 public class GroupCountVE : EvaluatorVE

@@ -9,8 +9,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
 using UnityEngine.UIElements;
-using Utility;
-using static UnityEngine.UI.GridLayoutGroup;
+using ISILab.Extensions;
 
 [LBSCustomEditor("Assistant Map Elite", typeof(AssistantMapElite))]
 public class AssistantMapEliteEditor : LBSCustomEditor, IToolProvider
@@ -19,7 +18,6 @@ public class AssistantMapEliteEditor : LBSCustomEditor, IToolProvider
     MAPEliteContent content;
 
     private object locker = new object();
-
 
     ActOnRect ActOnRect;
 
@@ -130,18 +128,7 @@ public class AssistantMapEliteEditor : LBSCustomEditor, IToolProvider
             if (bh != null && b.Equals(bh))
                 continue;
 
-            
-            //var classes = Utility.Reflection.GetClassesWith<DrawerAttribute>();
-            //if (classes.Count == 0)
-            //    continue;
-
-            //var drawers = classes.Where(t => t.Item2.Any(v => v.type == b.GetType()));
-
-            //if (drawers.Count() == 0)
-            //    continue;
-
             var drawerT = LBS_Editor.GetDrawer(b.GetType());
-            //var drawer = Activator.CreateInstance(drawers.First().Item1) as Drawer;
             var drawer = Activator.CreateInstance(drawerT) as Drawer;
             textures.Add(drawer.GetTexture(b, rect, Vector2Int.one * size));
         }
@@ -161,16 +148,11 @@ public class AssistantMapEliteEditor : LBSCustomEditor, IToolProvider
             if (textures[i] == null)
                 continue;
 
-            //Debug.Log("Texture::: " + t.width + " - " + t.height);
             texture = texture.MergeTextures(textures[i]);
         }
 
         texture.Apply();
 
-
-        //texture.FitSquare();
-
         content.background = texture;
-
     }
 }

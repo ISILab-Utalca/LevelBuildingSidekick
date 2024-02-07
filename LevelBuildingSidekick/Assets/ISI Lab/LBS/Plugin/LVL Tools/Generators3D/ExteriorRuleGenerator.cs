@@ -1,3 +1,4 @@
+using ISILab.Extensions;
 using LBS.Bundles;
 using LBS.Components;
 using LBS.Components.TileMap;
@@ -7,11 +8,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using Utility;
 
 namespace LBS.Generator
 {
-    public class ExteriorRuleGenerator : LBSGeneratorRule //  (!!!) esta clase mescla lo que tiene que hacer la IA de WFC con generar 3d posteriormente
+    public class ExteriorRuleGenerator : LBSGeneratorRule 
     {
 
         private Tuple<LBSDirection, int> GetBundle(LBSDirectionedGroup group, string[] conections)
@@ -43,16 +43,6 @@ namespace LBS.Generator
             var e = layer.Behaviours[0] as ExteriorBehaviour; // (!) parche
             var x = bundles.Find(b => b.name == e.TargetBundle);
 
-            /*
-            // Get CharacteristicGroup bundles
-            bundles = bundles.Where(b => b.GetCharacteristics<LBSDirectionedGroup>().Count > 0 && !b.IsPresset).ToList();
-
-            foreach (var bundle in bundles) // PARCHE (!)
-            {
-                bundle.ChildsBundles.ForEach(b => b.Characteristics.ForEach(c => c.Init(b))); // PARCHE (!)
-            }
-            */
-            //var selected = bundles[0].GetCharacteristics<LBSDirectionedGroup>()[0];
             var selected = x.GetCharacteristics<LBSDirectionedGroup>()[0];
 
             // Create pivot

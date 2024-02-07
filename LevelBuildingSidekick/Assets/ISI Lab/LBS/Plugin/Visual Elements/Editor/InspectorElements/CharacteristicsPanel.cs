@@ -7,6 +7,7 @@ using System.Linq;
 using System;
 using LBS.Bundles;
 using ISILab.Commons.Utility.Editor;
+using ISILab.Extensions;
 
 public class CharacteristicsPanel : VisualElement
 {

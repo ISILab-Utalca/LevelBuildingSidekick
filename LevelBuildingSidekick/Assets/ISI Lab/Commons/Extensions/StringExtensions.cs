@@ -3,22 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public static class StringExtensions
+namespace ISILab.Extensions
 {
-    private static string[] Rotate(this string[] group)
+    public static class StringExtensions
     {
-        var temp = group.ToList();
-        var last = group.Last();
-        temp.RemoveAt(temp.Count - 1);
-        var r = new List<string>() { last };
-        r.AddRange(temp);
-
-        var toR = new string[4];
-        for (int i = 0; i < 4; i++)
+        private static string[] Rotate(this string[] group)
         {
-            toR[i] = r[i];
-        }
+            var temp = group.ToList();
+            var last = group.Last();
+            temp.RemoveAt(temp.Count - 1);
+            var r = new List<string>() { last };
+            r.AddRange(temp);
 
-        return toR;
+            var toR = new string[4];
+            for (int i = 0; i < 4; i++)
+            {
+                toR[i] = r[i];
+            }
+
+            return toR;
+        }
     }
 }

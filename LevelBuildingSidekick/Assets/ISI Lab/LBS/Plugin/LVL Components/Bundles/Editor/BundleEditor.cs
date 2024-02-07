@@ -7,6 +7,8 @@ using UnityEditor;
 using UnityEngine;
 using ISILab.Commons.Utility;
 using ISILab.Commons.Utility.Editor;
+using ISILab.Extensions;
+
 
 [CustomEditor(typeof(Bundle))]
 public class BundleEditor : Editor

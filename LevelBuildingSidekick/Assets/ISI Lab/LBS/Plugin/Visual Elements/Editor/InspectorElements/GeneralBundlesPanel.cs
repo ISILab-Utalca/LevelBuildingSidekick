@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Commons.Utility;
 using ISILab.Commons.Utility.Editor;
+using ISILab.Extensions;
 
 public class GeneralBundlesPanel : VisualElement
 {

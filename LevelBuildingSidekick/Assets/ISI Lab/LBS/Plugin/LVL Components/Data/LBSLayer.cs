@@ -2,15 +2,14 @@ using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using LBS.Tools.Transformer;
 using System;
 using System.Linq;
-using LBS.AI;
 using LBS.Settings;
 using LBS.Generator;
 using LBS.Behaviours;
 using LBS.Assisstants;
 using ISILab.Commons.Utility;
+using ISILab.Extensions;
 
 namespace LBS.Components
 {
@@ -24,7 +23,6 @@ namespace LBS.Components
         [SerializeField, JsonRequired]
         private bool blocked = false;
 
-        [PathTexture] // ya no se usa (?)
         [SerializeField, JsonRequired]
         public string iconPath = "Icon/Default";
 

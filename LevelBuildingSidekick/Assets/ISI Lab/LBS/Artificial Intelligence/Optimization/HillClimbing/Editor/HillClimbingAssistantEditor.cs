@@ -10,7 +10,6 @@ using System.Drawing;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Utility;
 
 [LBSCustomEditor("HillClimbingAssistant", typeof(HillClimbingAssistant))]
 public class HillClimbingAssistantEditor : LBSCustomEditor, IToolProvider

@@ -1,4 +1,3 @@
-using LBS.AI;
 using LBS.Assisstants;
 using LBS.VisualElements;
 using System.Collections;
@@ -28,10 +27,7 @@ public class SchemaHCVE : VisualElement
 
         agent.OnTermination += () =>
         {
-            Debug.Log("AAAAAAAWWWW");
             LBSInspectorPanel.Instance.InitTabs();
         };
-
-
     }
 }

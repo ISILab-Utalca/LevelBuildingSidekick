@@ -6,8 +6,8 @@ using GeneticSharp.Domain.Randomizations;
 using System.Linq;
 using LBS.Components;
 using LBS.Components.TileMap;
-using Utility;
 using ISILab.Commons;
+using ISILab.Extensions;
 
 public class BundleTilemapChromosome : ChromosomeBase2D, IDrawable
 {
@@ -72,27 +72,6 @@ public class BundleTilemapChromosome : ChromosomeBase2D, IDrawable
         ReplaceGene<BundleData>(index, null);
     }
 
-    /*
-    public LBSModule ToModule()
-    {
-
-        var tiles = new List<TileBundlePair>(); 
-
-        for(int i = 0; i < Length; i++)
-        {
-            if(genes[i] != null)
-            {
-                var pos = ToMatrixPosition(i) + Rect.position;
-                var t = new LBSTile(pos, "Tile: " + pos);
-                tiles.Add(new TileBundlePair(t, genes[i] as BundleData));
-            }
-        }
-
-        var mod = new TaggedTileMap("C_TaggedTileMap",tiles);
-
-        return mod;
-    }*/
-
     public Texture2D ToTexture()
     {
         int tSize = 16;
@@ -115,13 +94,9 @@ public class BundleTilemapChromosome : ChromosomeBase2D, IDrawable
                 var t = new Texture2D(source.width, source.height);
                 t.SetAllPixels(color);
                 t = t.MergeTextures(source);
-                //t.SetPixels(source.GetPixels());
-                //t.MirrorY();
-                //t.Apply();
                 texture.InsertTextureInRect(t, pos.x * tSize, pos.y * tSize, tSize, tSize);
             }
         }
-        //texture.MirrorY();
         texture.Apply();
         return texture;
     }

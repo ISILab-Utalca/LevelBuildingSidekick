@@ -6,8 +6,8 @@ using System.Reflection.Emit;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Utility;
 using Label = UnityEngine.UIElements.Label;
+using ISILab.Extensions;
 
 public class QuestNodeView : GraphElement
 {

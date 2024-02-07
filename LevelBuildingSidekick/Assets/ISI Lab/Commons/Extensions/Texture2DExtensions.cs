@@ -5,7 +5,7 @@ using UnityEngine;
 using System.Linq;
 using ISILab.Commons.Utility;
 
-namespace Utility
+namespace ISILab.Extensions
 {
     public static class Texture2DExtensions
     {

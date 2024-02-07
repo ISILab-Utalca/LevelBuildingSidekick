@@ -7,7 +7,6 @@ using System.Linq;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Utility;
 
 public class PopulationTileView : GraphElement
 {
