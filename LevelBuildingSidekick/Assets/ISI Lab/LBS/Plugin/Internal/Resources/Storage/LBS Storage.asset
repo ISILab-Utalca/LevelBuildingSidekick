@@ -21,7 +21,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 29bb7522bbb9fa249819f016dc0d4b13, type: 2}
     - {fileID: 11400000, guid: e94eb94d523de7348afb9d9ce769352f, type: 2}
     - {fileID: 11400000, guid: 08dd0ea3801e02447b5d7dd01339fa26, type: 2}
-    - {fileID: 11400000, guid: 0ce19f5583699394b811faa9674b6877, type: 2}
     - {fileID: 11400000, guid: 560e713e6c53d0b4f9ae9a9a5d8d18bf, type: 2}
     - {fileID: 11400000, guid: cd8b94b9c8790d34cba1f8a51e0aa7e2, type: 2}
     - {fileID: 11400000, guid: b1c5ecf1473587a42ba9abcff06c1437, type: 2}
@@ -70,7 +69,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 68a6b8a7d0fc2004c9d17fe39c37a1c5, type: 2}
     - {fileID: 11400000, guid: cb460c6ce44590347afa406cfa6450c0, type: 2}
     - {fileID: 11400000, guid: f165a46bac1fc294887ab889baa0650f, type: 2}
-    - {fileID: 11400000, guid: 916ff3d38f18ca140bbf680042164fbb, type: 2}
     - {fileID: 11400000, guid: d5af553499fddd04dacff4f048c85d10, type: 2}
     - {fileID: 11400000, guid: c7e887d7f43ceb8418ebfffef01a17b6, type: 2}
     - {fileID: 11400000, guid: b27b53884401ce9458068046439a15d4, type: 2}
@@ -127,7 +125,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 2bf3c5dcf9db60848bd36df406db40ab, type: 2}
   - type: UnityEngine.UIElements.VisualTreeAsset
     items:
-    - {fileID: 9197481963319205126, guid: bd29f327871d53d4993912efc8ad419a, type: 3}
     - {fileID: 9197481963319205126, guid: 05390f970e90136498f38bb12f93e877, type: 3}
     - {fileID: 9197481963319205126, guid: 6a57adff30df39243a306d834995427d, type: 3}
     - {fileID: 9197481963319205126, guid: d5a68a1c0c085d548bad1181607affb0, type: 3}
@@ -226,7 +223,6 @@ MonoBehaviour:
     - {fileID: 9197481963319205126, guid: d6de7697d63d64fabbfb31425d93541e, type: 3}
   - type: UnityEngine.UIElements.StyleSheet
     items:
-    - {fileID: 7433441132597879392, guid: e97e2782ee6f5e144b4de32416183ab1, type: 3}
     - {fileID: 7433441132597879392, guid: ac773345d0f3bcc4392c29c0837c7f7e, type: 3}
     - {fileID: 7433441132597879392, guid: f3dd84d2f68c9ef408435b0b67c1b15c, type: 3}
     - {fileID: 7433441132597879392, guid: afa2cfcdd1f21a240afd8be6009458ab, type: 3}
