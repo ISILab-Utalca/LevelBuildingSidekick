@@ -6,13 +6,20 @@ using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using ISILab.JsonNet.Coverters;
 
-namespace Utility
+namespace ISILab.JsonNet
 {
     public static class JSONDataManager
     {
         public static List<JsonConverter> converters = new List<JsonConverter>();
 
+        /// <summary>
+        /// Save data in a file in the path.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="path"></param>
+        /// <param name="data"></param>
         private static void SaveData<T>(string path, T data)
         {
             // generate serializer setting
@@ -42,6 +49,13 @@ namespace Utility
             writer.Write(jsonString);
         }
 
+        /// <summary>
+        /// Save data in a file in the path.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="directoryName"></param>
+        /// <param name="fileName"></param>
+        /// <param name="data"></param>
         public static void SaveData<T>(string directoryName, string fileName, T data)
         {
             string directoryPath = directoryName;
@@ -58,6 +72,14 @@ namespace Utility
             SaveData(dataPath, data);
         }
 
+        /// <summary>
+        /// Save data in a file in the path.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="directoryName"></param>
+        /// <param name="fileName"></param>
+        /// <param name="format"></param>
+        /// <param name="data"></param>
         public static void SaveData<T>(string directoryName, string fileName, string format, T data)
         {
             string directoryPath = directoryName;
@@ -74,6 +96,12 @@ namespace Utility
             SaveData(dataPath, data);
         }
 
+        /// <summary>
+        /// Load data from a file in the path.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="path"></param>
+        /// <returns></returns>
         private static T LoadData<T>(string path)
         {
             // read file and obtain json string
@@ -107,6 +135,13 @@ namespace Utility
             return data;
         }
 
+        /// <summary>
+        /// Load data from a file in the path.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="directoryName"></param>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
         public static T LoadData<T>(string directoryName, string fileName)
         {
             string directoryPath = directoryName;
@@ -119,6 +154,14 @@ namespace Utility
             return LoadData<T>(dataPath);
         }
 
+        /// <summary>
+        /// Load data from a file in the path.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="directoryName"></param>
+        /// <param name="fileName"></param>
+        /// <param name="format"></param>
+        /// <returns></returns>
         public static T LoadData<T>(string directoryName, string fileName, string format)
         {
             string directoryPath = directoryName;
@@ -131,12 +174,16 @@ namespace Utility
             return LoadData<T>(dataPath);
         }
 
+        /// <summary>
+        /// Get all the json files in a directory.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         public static List<string> GetJSONFiles(string path)
         {
             if (!Directory.Exists(path))
             {
                 return null;
-                //return new List<string>(); // (??) return empty list
             }
 
             string[] files = System.IO.Directory.GetFiles(path);

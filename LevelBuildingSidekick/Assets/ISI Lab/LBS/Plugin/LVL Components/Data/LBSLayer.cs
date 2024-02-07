@@ -2,14 +2,14 @@ using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using LBS.Tools.Transformer;
 using System;
 using System.Linq;
-using LBS.AI;
 using LBS.Settings;
 using LBS.Generator;
 using LBS.Behaviours;
 using LBS.Assisstants;
+using ISILab.Commons.Utility;
+using ISILab.Extensions;
 
 namespace LBS.Components
 {
@@ -23,7 +23,6 @@ namespace LBS.Components
         [SerializeField, JsonRequired]
         private bool blocked = false;
 
-        [PathTexture] // ya no se usa (?)
         [SerializeField, JsonRequired]
         public string iconPath = "Icon/Default";
 
@@ -355,7 +354,7 @@ namespace LBS.Components
             var t = typeof(T);
             foreach (var module in modules)
             {
-                if (module is T || Utility.Reflection.IsSubclassOfRawGeneric(t,module.GetType()))
+                if (module is T || Reflection.IsSubclassOfRawGeneric(t,module.GetType()))
                 {
                     if(ID.Equals("") || module.ID.Equals(ID))
                     {
@@ -370,7 +369,7 @@ namespace LBS.Components
         {
             foreach (var module in modules)
             {
-                if (module.GetType().Equals(type) || Utility.Reflection.IsSubclassOfRawGeneric(type, module.GetType()))
+                if (module.GetType().Equals(type) || Reflection.IsSubclassOfRawGeneric(type, module.GetType()))
                 {
                     if (ID.Equals("") || module.ID.Equals(ID))
                     {

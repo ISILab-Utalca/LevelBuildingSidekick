@@ -8,6 +8,9 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using LBS.Components;
 using LBS.Behaviours;
+using ISILab.Commons.Utility;
+using ISILab.Commons.Utility.Editor;
+using ISILab.Extensions;
 
 public class LBSGlobalTagsInspector : LBSInspector
 {
@@ -41,7 +44,7 @@ public class LBSGlobalTagsInspector : LBSInspector
     #region CONSTRUCTORS
     public LBSGlobalTagsInspector()
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSGlobalTagsInspector");
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSGlobalTagsInspector");
         visualTree.CloneTree(this);
 
         // Add Button
@@ -113,7 +116,7 @@ public class LBSGlobalTagsInspector : LBSInspector
 
         var settings = LBSSettings.Instance;
 
-        var name = ISILab.Commons.Commons.CheckNameFormat(TagsBundles.Select(b => b.name), "tagBundle");
+        var name = Format.CheckNameFormat(TagsBundles.Select(b => b.name), "tagBundle");
 
         AssetDatabase.CreateAsset(nSO, settings.paths.tagFolderPath + "/" + name + ".asset");
         AssetDatabase.SaveAssets();
@@ -137,11 +140,6 @@ public class LBSGlobalTagsInspector : LBSInspector
     private void SelectedTagChange(LBSIdentifier tag)
     {
         tagInfo.SetInfo(tag);
-    }
-
-    public override void Init(MainView view, LBSLayer layer, LBSBehaviour behaviour)
-    {
-        throw new NotImplementedException();
     }
 
     public override void SetTarget(LBSLayer layer)

@@ -1,3 +1,4 @@
+using ISILab.Commons.Utility.Editor;
 using LBS.Components;
 using LBS.VisualElements;
 using System.Collections;
@@ -7,6 +8,8 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
+using ISILab.Extensions;
+
 
 namespace LBS.VisualElements
 {
@@ -25,7 +28,7 @@ namespace LBS.VisualElements
 
         public LayerInfoView()
         {
-            var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LayerInfoView");
+            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("LayerInfoView");
             visualTree.CloneTree(this);
 
             this.foldout = this.Q<Foldout>();

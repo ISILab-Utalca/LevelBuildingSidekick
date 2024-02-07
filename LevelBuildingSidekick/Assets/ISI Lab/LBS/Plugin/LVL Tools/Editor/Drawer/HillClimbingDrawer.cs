@@ -3,11 +3,9 @@ using LBS.Settings;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Policy;
-using UnityEditor.Experimental.GraphView;
-using UnityEditor.Graphs;
 using UnityEngine;
 using UnityEngine.UIElements;
+using ISILab.Extensions;
 
 [Drawer(typeof(HillClimbingAssistant))]
 public class HillClimbingDrawer : Drawer
@@ -69,16 +67,6 @@ public class HillClimbingDrawer : Drawer
                     cViews.Add((pair, ve));
 
                     break;
-                    /*
-
-                    // Create feedback view
-                    var vws = CreateFeedBackAreas(nView, pair, teselationSize);
-                    foreach (var v in vws)
-                    {
-                        cViews.Add((pair, v));
-                    }
-                    break;
-                    */
                 }
             }
         }

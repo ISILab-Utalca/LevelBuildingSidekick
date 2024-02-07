@@ -1,8 +1,10 @@
+using ISILab.Commons.Utility.Editor;
 using LBS.Components;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using ISILab.Extensions;
 
 namespace LBS.VisualElements
 {
@@ -17,7 +19,7 @@ namespace LBS.VisualElements
 
         public ModulesPanel()
         {
-            var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("ModulesPanel");
+            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("ModulesPanel");
             visualTree.CloneTree(this);
 
             this.foldout = this.Q<Foldout>();
@@ -30,7 +32,7 @@ namespace LBS.VisualElements
         }
 
         /// <summary>
-        /// 
+        /// Set the modules to be displayed in the panel.
         /// </summary>
         /// <param name="modules"></param>
         public void SetInfo(List<LBSModule> modules)

@@ -7,6 +7,7 @@ using LBS.Components;
 using LBS;
 using System;
 using UnityEditor;
+using ISILab.Commons.Utility.Editor;
 
 public class Generator3DPanel : VisualElement
 {
@@ -45,7 +46,7 @@ public class Generator3DPanel : VisualElement
     #region CONSTRUCTORS
     public Generator3DPanel() 
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("Generator3DPanel"); // Editor
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("Generator3DPanel");
         visualTree.CloneTree(this);
 
         positionField = this.Q<Vector3Field>(name: "Position");

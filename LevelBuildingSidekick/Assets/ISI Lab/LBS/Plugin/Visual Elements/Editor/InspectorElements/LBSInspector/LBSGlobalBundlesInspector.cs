@@ -1,3 +1,5 @@
+using ISILab.Commons.Utility;
+using ISILab.Commons.Utility.Editor;
 using LBS.Behaviours;
 using LBS.Bundles;
 using LBS.Components;
@@ -9,7 +11,6 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Utility;
 
 public class LBSGlobalBundlesInspector : LBSInspector
 {
@@ -42,11 +43,11 @@ public class LBSGlobalBundlesInspector : LBSInspector
     #region CONSTRUCTORS
     public LBSGlobalBundlesInspector()
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSGlobalBundlesInspector");
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSGlobalBundlesInspector");
         visualTree.CloneTree(this);
 
         // Bundle list
-        var allBUndles = Utility.DirectoryTools.GetScriptables<Bundle>().ToList();
+        var allBUndles = DirectoryTools.GetScriptables<Bundle>().ToList();
         var presetsBundles = allBUndles.Where(b => b.IsPresset && b.IsRoot()).ToList();
         var bundles = allBUndles.Where( b => !b.IsPresset).ToList();
 
@@ -166,7 +167,7 @@ public class LBSGlobalBundlesInspector : LBSInspector
         var storage = LBSAssetsStorage.Instance;
 
         var clone = pressetSelected.Clone() as Bundle;
-        var name = ISILab.Commons.Commons.CheckNameFormat(targets.Select(b => b.Item1.name), pressetSelected.name);
+        var name = Format.CheckNameFormat(targets.Select(b => b.Item1.name), pressetSelected.name);
         
         AssetDatabase.CreateAsset(clone, settings.paths.bundleFolderPath + "/" + name + ".asset");
         AssetDatabase.SaveAssets();
@@ -194,11 +195,6 @@ public class LBSGlobalBundlesInspector : LBSInspector
         list.itemsSource = targets;
 
         list.Rebuild();
-    }
-
-    public override void Init(MainView view, LBSLayer layer, LBSBehaviour behaviour)
-    {
-        throw new NotImplementedException();
     }
 
     public override void SetTarget(LBSLayer layer)

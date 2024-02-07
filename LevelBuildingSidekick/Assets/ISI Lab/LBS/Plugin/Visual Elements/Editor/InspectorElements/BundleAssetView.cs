@@ -1,3 +1,4 @@
+using ISILab.Commons.Utility.Editor;
 using LBS.Bundles;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ public class BundleAssetView : VisualElement
 
     public BundleAssetView()
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("BundleAssetView");
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("BundleAssetView");
         visualTree.CloneTree(this);
 
         this.label = this.Q<Label>("Name");

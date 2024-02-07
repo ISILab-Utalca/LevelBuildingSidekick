@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using LBS.Components.Teselation;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using ISILab.Extensions;
 
 namespace LBS.Components.TileMap
 {
@@ -119,14 +119,12 @@ namespace LBS.Components.TileMap
             //_tileDic.TryGetValue(pos, out LBSTile tile);
             //return tile;
 
-            ///*
             foreach (var tile in tiles)
             {
                 if (tile.Position == pos)
                     return tile;
             }
             return null;
-            //*/
         }
 
         public LBSTile GetTileAt(int index)
@@ -224,8 +222,6 @@ namespace LBS.Components.TileMap
             }
 
             return false;
-
-            //return IsEmpty() && tiles.Any(t => t.Position.x == (int)pos.x && t.Position.y == (int)pos.y);
         }
 
         public override void Clear()
@@ -235,7 +231,7 @@ namespace LBS.Components.TileMap
             //OnChanged?.Invoke(this);
         }
 
-        public override void Rewrite(LBSModule other) // esto es necesario (??)
+        public override void Rewrite(LBSModule other)
         {
             var module = other as TileMapModule;
             Clear();

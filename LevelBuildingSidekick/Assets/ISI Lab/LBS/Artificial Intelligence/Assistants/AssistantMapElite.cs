@@ -6,6 +6,7 @@ using LBS.Components.TileMap;
 using LBS.Assisstants;
 using System.Linq;
 using Commons.Optimization.Evaluator;
+using ISILab.Extensions;
 
 [System.Serializable]
 [RequieredModule(typeof(BundleTileMap))]
@@ -76,9 +77,6 @@ public class AssistantMapElite : LBSAssistant
     #region METHODS
     public override void Execute()
     {
-        //(mapElites.XEvaluator as EvaluatorVE).Init();// IS WRONG Check !!
-        //(mapElites.YEvaluator as EvaluatorVE).Init();// IS WRONG Check !!
-        //(mapElites.Optimizer.Evaluator as EvaluatorVE).Init();// IS WRONG Check !!
         toUpdate.Clear();
         mapElites.OnSampleUpdated += (v) => { if (!toUpdate.Contains(v)) toUpdate.Add(v); };
         mapElites.Run();
@@ -148,7 +146,6 @@ public class AssistantMapElite : LBSAssistant
                 if (m == null)
                     continue;
 
-                //var tiles = m.Tiles;
                 for(int j = y; j < y + rect.height; j++)
                 {
                     for (int i = x; i < x + rect.width; i++)

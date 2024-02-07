@@ -1,3 +1,4 @@
+using ISILab.Commons.Utility.Editor;
 using LBS.Settings;
 using System;
 using System.Collections;
@@ -8,7 +9,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class CustomList : VisualElement // (!!!) terminar de implementar para que funcion como "ListView" 
+public class CustomList : VisualElement 
 {
     #region FACTORY
     public new class UxmlFactory : UxmlFactory<CustomList, VisualElement.UxmlTraits> { }
@@ -24,7 +25,7 @@ public class CustomList : VisualElement // (!!!) terminar de implementar para qu
 
     public CustomList()
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("CustomList");
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("CustomList");
         visualTree.CloneTree(this);
 
         header = this.Q<VisualElement>("Header");
@@ -39,7 +40,6 @@ public class CustomList : VisualElement // (!!!) terminar de implementar para qu
 
 
         content.bindItem += BindItem;
-        //content.fixedItemHeight = 160;
         content.makeItem += MakeItem;
         content.itemsChosen += OnItemChosen;
         content.selectionChanged += OnSelectionChange;

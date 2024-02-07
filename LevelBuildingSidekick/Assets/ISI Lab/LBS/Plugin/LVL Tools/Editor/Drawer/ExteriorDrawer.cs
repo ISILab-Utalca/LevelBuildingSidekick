@@ -9,8 +9,6 @@ using UnityEditor.Experimental.GraphView;
 using UnityEditor.MemoryProfiler;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Utility;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 [Drawer(typeof(ExteriorBehaviour))]
 public class ExteriorDrawer : Drawer
@@ -54,11 +52,10 @@ public class ExteriorDrawer : Drawer
 
             if(o != null && n != null)
             {
-                // (!!!) implementar REPLACE
+                // TODO: add REPLACE action
             }
             else if(o == null && n != null)
             {
-                // (!!!) implementar ADD
                 if(n.GetType().Equals(typeof(LBSTile)))
                 {
                     var tile = n as LBSTile;
@@ -66,15 +63,10 @@ public class ExteriorDrawer : Drawer
                     var ve = GetTileView(tile, connections, teselationSize);
                     view.AddElement(layer, tile, ve);
                 }
-                else 
-                {
-
-                }
-
             }
             else if(o != null && n == null)
             {
-                // (!!!) implementar REMOVE
+                // TODO: add REMOVE action
             }
         }
     }

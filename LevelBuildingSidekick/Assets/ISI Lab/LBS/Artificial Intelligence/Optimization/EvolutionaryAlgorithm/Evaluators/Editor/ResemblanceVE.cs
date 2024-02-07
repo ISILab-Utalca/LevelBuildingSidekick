@@ -7,9 +7,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Utility;
+using ISILab.Extensions;
 
 [CustomVisualElement(typeof(Resemblance))]
+[Obsolete("Remove before publishing to the store.")]
 public class ResemblanceVE : EvaluatorVE
 {
     DropdownField dropdown;

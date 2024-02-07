@@ -1,3 +1,4 @@
+using ISILab.Commons.Utility.Editor;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,7 +12,7 @@ public class ModuleSimpleView : VisualElement
 
     public ModuleSimpleView()
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("ModuleSimpleView");
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("ModuleSimpleView");
         visualTree.CloneTree(this);
 
         this.labelName = this.Q<Label>("LabelName");

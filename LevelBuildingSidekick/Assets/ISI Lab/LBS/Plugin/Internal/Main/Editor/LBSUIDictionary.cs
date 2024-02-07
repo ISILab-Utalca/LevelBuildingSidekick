@@ -1,3 +1,4 @@
+using ISILab.Commons.Utility;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ public class LBSUIDictionary : MonoBehaviour
                 throw new Exception("[ISI Lab] " + visualElements[element].GetType() + " is not a LBSCustomEditor ");
 
         var type = element.GetType();
-        var ves = Utility.Reflection.GetClassesWith<LBSCustomEditorAttribute>()
+        var ves = Reflection.GetClassesWith<LBSCustomEditorAttribute>()
             .Where(t => t.Item2.Any(v => v.type == type)).ToList();
 
         if (ves.Count() == 0)

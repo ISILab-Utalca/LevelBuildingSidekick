@@ -1,3 +1,5 @@
+using ISILab.Commons.Utility;
+using ISILab.Commons.Utility.Editor;
 using LBS;
 using LBS.Components;
 using LBS.VisualElements;
@@ -8,11 +10,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Utility;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
-// (!) Poner en un namespace
-// (?) Cambiar el nombre de la clase por uno mejor? 
 public class LBSMainWindow : EditorWindow 
 {
     #region PROPERTIES
@@ -92,11 +90,11 @@ public class LBSMainWindow : EditorWindow
             questsPanel.ResetSelection();
         };
 
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSMainWindow");
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSMainWindow");
         visualTree.CloneTree(rootVisualElement);
 
         // LayerTemplate
-        layerTemplates = Utility.DirectoryTools.GetScriptablesByType<LayerTemplate>();
+        layerTemplates = DirectoryTools.GetScriptablesByType<LayerTemplate>();
 
         // SubPanelScrollView
         var subPanelScrollView = rootVisualElement.Q<ScrollView>("SubPanelScrollView");
@@ -128,7 +126,7 @@ public class LBSMainWindow : EditorWindow
         inspectorManager = rootVisualElement.Q<LBSInspectorPanel>("InpectorPanel");
         inspectorManager.OnChangeTab += (s) =>
         {
-            Debug.Log("inspectorManager.OnChangeTab");
+            //Debug.Log("inspectorManager.OnChangeTab");
         };
 
         // ToolKitManager
@@ -185,7 +183,7 @@ public class LBSMainWindow : EditorWindow
         layerPanel.OnLayerVisibilityChange += (l) => {
             DrawManager.Instance.RedrawLevel(levelData, mainView);
         };
-        layerPanel.OnSelectLayer += (layer) => { // esto llama implicitamente OnAddLayer
+        layerPanel.OnSelectLayer += (layer) => {
             OnSelectedLayerChange(layer);
         };
         layerPanel.OnAddLayer += (layer) => {
@@ -283,11 +281,10 @@ public class LBSMainWindow : EditorWindow
 
         // Actualize Inspector panel 
         inspectorManager.SetTarget(layer);
-        //inspectorManager.SetSelectedTab(layer.tabSelected);
 
         // Actualize ToolKit
         toolkit.Clear();
-        toolkit.Init(layer); // esto no estas implementado (C:) se esta haciendo en inspectorManager.OnSelectedLayerChange(layer);
+        toolkit.Init(layer);
         toolkit.SetActiveWhithoutNotify(0);
 
         // Actualize 3D panel

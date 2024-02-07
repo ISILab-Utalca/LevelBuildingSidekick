@@ -3,54 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Diagnostics;
 
-public static class Parse
+namespace ISILab.Commons.Utility
 {
-    /// <summary>
-    /// Get color from string whit "#f0f0f0f0" -> #RGBA format
-    /// </summary>
-    /// <returns></returns>
-    public static Color StrToColor(string s)
+    public static class Parse
     {
-        Color c;
-        if (ColorUtility.TryParseHtmlString("#" + s, out c))
+        /// <summary>
+        /// Parce string to Color.
+        /// </summary>
+        /// <returns></returns>
+        public static Color StrToColor(string s)
         {
-            return c;
+            Color c;
+            if (ColorUtility.TryParseHtmlString("#" + s, out c))
+            {
+                return c;
+            }
+            return Color.magenta;
         }
-        return Color.magenta;
-    }
 
-    public static string ColorTosStr(Color c)
-    {
-        return ColorUtility.ToHtmlStringRGB(c);
+        /// <summary>
+        /// Parse color to string.
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
+        public static string ColorTosStr(Color c)
+        {
+            return ColorUtility.ToHtmlStringRGB(c);
+        }
     }
-
 }
-
-public static class Watch
-{
-    private static Dictionary<string,Stopwatch> watches = new Dictionary<string,Stopwatch>();
-
-    public static void Start(string label = "")
-    {
-        watches[label] = Stopwatch.StartNew();
-    }
-
-    public static void End(string label ="")
-    {
-        Stopwatch w;
-        if (watches.TryGetValue(label, out w))
-        {
-            w.Stop();
-            var elapsedMs = w.ElapsedMilliseconds;
-            UnityEngine.Debug.Log(label+": " + elapsedMs);
-            watches.Remove(label);
-        }
-        else
-        {
-            UnityEngine.Debug.Log("No existe reloj con la label '"+label+"'.");
-        }
-    }
-
-}
-
-

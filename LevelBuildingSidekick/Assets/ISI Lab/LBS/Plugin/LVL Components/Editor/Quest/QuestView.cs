@@ -1,11 +1,10 @@
+using ISILab.Commons.Utility.Editor;
 using LBS.Components;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static UnityEditor.Experimental.GraphView.GraphView;
-using static UnityEngine.GraphicsBuffer;
 
 public class QuestView : VisualElement
 {
@@ -19,7 +18,7 @@ public class QuestView : VisualElement
 
     public QuestView() 
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LayerView"); // Editor
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("LayerView"); 
         visualTree.CloneTree(this);
 
         // LayerName

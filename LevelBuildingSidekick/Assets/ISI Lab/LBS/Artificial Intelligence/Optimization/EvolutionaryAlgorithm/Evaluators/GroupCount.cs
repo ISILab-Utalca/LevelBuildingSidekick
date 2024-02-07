@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using ISILab.Extensions;
 
 public class GroupCount : IRangedEvaluator
 {
@@ -67,9 +68,9 @@ public class GroupCount : IRangedEvaluator
             }
         }
 
-        float max = (chr.Length - chr.ImmutablesCount) / ((distThreshold + 1) * (distThreshold + 1)); // Debería ser basado en el distance Type
+        float max = (chr.Length - chr.ImmutablesCount) / ((distThreshold + 1) * (distThreshold + 1)); // FIX: Should be based on the distance type
 
-        fitness = (groups / max) > 1 ? 1 : (groups / max); // parche
+        fitness = (groups / max) > 1 ? 1 : (groups / max); 
 
 
         return MinValue + (MaxValue - MinValue) * fitness;

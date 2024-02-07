@@ -1,10 +1,6 @@
-using LBS.AI;
 using LBS.Assisstants;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.UIElements;
-using Utility;
+using ISILab.Commons.Utility.Editor; // FIX: See if this class should have access to editor stuff
 
 public class AIAgentPanel : VisualElement
 {
@@ -25,7 +21,7 @@ public class AIAgentPanel : VisualElement
     #region CONSTRUCTORS
     public AIAgentPanel()
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("AIAgentPanel"); // Editor
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("AIAgentPanel");
         visualTree.CloneTree(this);
 
         label = this.Q<Label>(name: "Name");

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System;
+using ISILab.Extensions;
 
 [System.Serializable]
 public class Area : ICloneable
@@ -181,8 +182,7 @@ public class Polygon : ICloneable
         do
         {
 
-            // Forming a line from two consecutive points of
-            // poly
+            // Forming a line from two consecutive points of poly
             if (point.LinesIntersect(externalPoint, Points[i], Points[(i + 1) % Points.Count]))
             {
 

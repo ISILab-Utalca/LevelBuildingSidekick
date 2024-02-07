@@ -3,6 +3,7 @@ using LBS.Settings;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ISILab.Extensions;
 
 [Drawer(typeof(AssistantMapElite))]
 public class MapElitesDrawer : Drawer

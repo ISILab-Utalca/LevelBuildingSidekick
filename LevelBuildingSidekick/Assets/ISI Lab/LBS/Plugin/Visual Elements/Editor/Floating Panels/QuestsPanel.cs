@@ -1,3 +1,4 @@
+using ISILab.Commons.Utility.Editor;
 using LBS.Components;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
@@ -8,7 +9,6 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class QuestsPanel : VisualElement
 {
@@ -22,8 +22,8 @@ public class QuestsPanel : VisualElement
     #region EVENTS
     public event Action<LBSLayer> OnAddQuest;
     public event Action<LBSQuestGraph> OnRemoveQuest;
-    public event Action<LBSLayer> OnSelectQuest; // click simple (!)
-    public event Action<LBSLayer> OnDoubleSelectQuest; // doble click (!)
+    public event Action<LBSLayer> OnSelectQuest;
+    public event Action<LBSLayer> OnDoubleSelectQuest; 
     public event Action<LBSLayer> OnQuestVisibilityChange;
     #endregion
 
@@ -31,7 +31,7 @@ public class QuestsPanel : VisualElement
 
     public QuestsPanel(LBSLevelData data)
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("QuestsPanel"); // Editor
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("QuestsPanel");
         visualTree.CloneTree(this);
 
         this.data = data;
@@ -144,7 +144,6 @@ public class QuestsPanel : VisualElement
     public void ResetSelection()
     {
         list.ClearSelection();
-        //list.RemoveFromSelection(list.selectedIndex);
     }
 
 }

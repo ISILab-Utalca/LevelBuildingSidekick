@@ -6,6 +6,7 @@ using LBS.Components.Specifics;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using ISILab.AI.Wrappers;
 
 public class AdjacenciesEvaluator : IEvaluator
 {

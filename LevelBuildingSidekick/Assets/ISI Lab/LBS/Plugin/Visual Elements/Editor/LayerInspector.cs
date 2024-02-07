@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using ISILab.Extensions;
 
 namespace LBS.VisualElements
 {
@@ -11,18 +12,12 @@ namespace LBS.VisualElements
         private readonly string path = "Assets/ISI Lab/Commons/Assets2D/Arrow.png";
         private readonly Texture2D arrow;
 
-        //private List<Button> buttons = new List<Button>();
-        //private List<VisualElement> arrows = new List<VisualElement>();
-
         public new class UxmlFactory : UxmlFactory<LayerInspector, UxmlTraits> { }
 
         public LayerInspector()
         {
             //var pre = Application.dataPath;
             arrow = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
-
-            //this.style.display = DisplayStyle.Flex;
-            //SetInfo(new string[] { "Hola", "Mundo" });
         }
 
         public void SetInfo(string[] text)

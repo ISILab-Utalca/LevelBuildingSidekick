@@ -1,9 +1,9 @@
+using ISILab.Commons.Utility.Editor;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Utility;
 
 public class ActionButton : VisualElement
 {
@@ -17,14 +17,11 @@ public class ActionButton : VisualElement
 
         text = this.Q<Label>(name: "Action");
         button = this.Q<Button>(name: "Button");
-
     }
 
     public ActionButton(string text, Action action) : this()
     {
-
         this.text.text = text;
         button.clicked += action;
     }
-
 }

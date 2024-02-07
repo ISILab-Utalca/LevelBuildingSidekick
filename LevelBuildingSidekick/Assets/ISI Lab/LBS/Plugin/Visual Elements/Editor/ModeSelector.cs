@@ -1,3 +1,4 @@
+using ISILab.Commons.Utility.Editor;
 using LBS;
 using System;
 using System.Collections;
@@ -45,7 +46,7 @@ public class ModeSelector : VisualElement
 
     public ModeSelector()
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("ModeSelector"); // Editor
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("ModeSelector");
         visualTree.CloneTree(this);
 
         // Button

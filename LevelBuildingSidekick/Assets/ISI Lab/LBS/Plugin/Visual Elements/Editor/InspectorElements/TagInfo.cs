@@ -1,8 +1,10 @@
+using ISILab.Commons.Utility.Editor;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
+using ISILab.Extensions;
 
 public class TagInfo : VisualElement
 {
@@ -19,7 +21,7 @@ public class TagInfo : VisualElement
 
     public TagInfo()
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("TagInfo");
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("TagInfo");
         visualTree.CloneTree(this);
 
         // ParentField

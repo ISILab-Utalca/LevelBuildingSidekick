@@ -1,3 +1,4 @@
+using ISILab.Commons.Utility.Editor;
 using LBS.Components;
 using LBS.VisualElements;
 using System;
@@ -45,7 +46,7 @@ public class LBSInspectorPanel : VisualElement
     #region CONSTRUCTORS
     public LBSInspectorPanel() 
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSInspectorPanel");
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSInspectorPanel");
         visualTree.CloneTree(this);
 
         // Tabs

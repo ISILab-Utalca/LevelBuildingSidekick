@@ -9,6 +9,7 @@ using System.Linq;
 using LBS.Bundles;
 using Newtonsoft.Json;
 using ISILab.Commons;
+using ISILab.Extensions;
 
 #if UNITY_EDITOR
 using UnityEditor;

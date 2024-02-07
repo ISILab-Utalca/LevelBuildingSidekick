@@ -6,6 +6,8 @@ using UnityEditor;
 using System.Linq;
 using System;
 using LBS.Bundles;
+using ISILab.Commons.Utility.Editor;
+using ISILab.Extensions;
 
 public class CharacteristicsPanel : VisualElement
 {
@@ -21,7 +23,7 @@ public class CharacteristicsPanel : VisualElement
 
     public CharacteristicsPanel()
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("CharacteristicsPanel");
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("CharacteristicsPanel");
         visualTree.CloneTree(this);
 
         content = this.Q<VisualElement>("Content");

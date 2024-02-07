@@ -1,8 +1,8 @@
+using ISILab.Commons.Utility.Editor;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Utility;
 
 [LBSCustomEditor("Constraint", typeof(Constraint))]
 public class ConstraintView : LBSCustomEditor

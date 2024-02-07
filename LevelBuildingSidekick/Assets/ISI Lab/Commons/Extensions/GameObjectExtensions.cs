@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class GameObjectExtensions
+namespace ISILab.Extensions
 {
-    public static void SetParent(this GameObject gameObjct, GameObject other)
+    public static class GameObjectExtensions
     {
-        gameObjct.transform.parent = other.transform;
+        public static void SetParent(this GameObject gameObjct, GameObject other)
+        {
+            gameObjct.transform.parent = other.transform;
+        }
     }
 }

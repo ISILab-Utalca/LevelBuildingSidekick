@@ -4,11 +4,9 @@ using UnityEngine;
 using LBS.Behaviours;
 using LBS.Components;
 using LBS.Components.TileMap;
-using LBS.Tools.Transformer;
 using UnityEngine.UIElements;
+using ISILab.Extensions;
 using LBS;
-using NUnit;
-using ISILab.Commons;
 
 public class SetExteriorTileConnection : LBSManipulator
 {

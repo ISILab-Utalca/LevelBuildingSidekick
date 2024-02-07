@@ -1,3 +1,4 @@
+using ISILab.Commons.Utility.Editor;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +14,11 @@ public class TagsInspector : VisualElement
 
     public TagsInspector()
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("BundleTagView"); // Editor
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("BundleTagView");
         visualTree.CloneTree(this);
 
         // Init tags bundle
-        var bundles = Utility.DirectoryTools.GetScriptablesByType<LBSIdentifierBundle>().ToList();
+        var bundles = DirectoryTools.GetScriptablesByType<LBSIdentifierBundle>().ToList();
 
         // Content
         var content = this.Q<VisualElement>("Content");
