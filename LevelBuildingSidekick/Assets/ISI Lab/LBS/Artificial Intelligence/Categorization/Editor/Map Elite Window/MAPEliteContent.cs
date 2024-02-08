@@ -8,6 +8,8 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
+using ISILab.LBS.AI.Assistants;
+using ISILab.LBS.VisualElements;
 
 public class MAPEliteContent : VisualElement
 {

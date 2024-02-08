@@ -1,7 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:editor="UnityEditor.UIElements" xmlns:engine="UnityEngine.UIElements" xmlns="UnityEditor.ShortcutManagement" elementFormDefault="qualified" targetNamespace="LBS.VisualElements" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema xmlns:editor="UnityEditor.UIElements" xmlns:engine="UnityEngine.UIElements" xmlns="UnityEditor.ShortcutManagement" elementFormDefault="qualified" targetNamespace="UnityEditor.U2D.Animation.SpriteLibraryEditor" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import schemaLocation="UnityEngine.UIElements.xsd" namespace="UnityEngine.UIElements" />
-  <xs:complexType name="LayerInfoViewType">
+  <xs:simpleType name="GridView_selection-type_Type">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="None" />
+      <xs:enumeration value="Single" />
+      <xs:enumeration value="Multiple" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="GridViewType">
+    <xs:complexContent mixed="false">
+      <xs:restriction base="engine:VisualElementType">
+        <xs:attribute default="" name="name" type="xs:string" use="optional" />
+        <xs:attribute default="" name="view-data-key" type="xs:string" use="optional" />
+        <xs:attribute default="Position" name="picking-mode" type="engine:VisualElement_picking-mode_Type" use="optional" />
+        <xs:attribute default="" name="tooltip" type="xs:string" use="optional" />
+        <xs:attribute default="None" name="usage-hints" type="engine:VisualElement_usage-hints_Type" use="optional" />
+        <xs:attribute default="0" name="tabindex" type="xs:int" use="optional" />
+        <xs:attribute default="false" name="focusable" type="xs:boolean" use="optional" />
+        <xs:attribute default="" name="class" type="xs:string" use="optional" />
+        <xs:attribute default="" name="content-container" type="xs:string" use="optional" />
+        <xs:attribute default="" name="style" type="xs:string" use="optional" />
+        <xs:attribute default="" name="binding-path" type="xs:string" use="optional" />
+        <xs:attribute default="30" name="item-height" type="xs:int" use="optional" />
+        <xs:attribute default="Single" name="selection-type" xmlns:q1="UnityEditor.U2D.Animation.SpriteLibraryEditor" type="q1:GridView_selection-type_Type" use="optional" />
+        <xs:attribute default="false" name="show-border" type="xs:boolean" use="optional" />
+        <xs:anyAttribute processContents="lax" />
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="GridView" substitutionGroup="engine:VisualElement" xmlns:q2="UnityEditor.U2D.Animation.SpriteLibraryEditor" type="q2:GridViewType" />
+  <xs:complexType name="EditorBottomToolbarType">
     <xs:complexContent mixed="false">
       <xs:restriction base="engine:VisualElementType">
         <xs:sequence minOccurs="0" maxOccurs="unbounded">
@@ -21,8 +50,8 @@
       </xs:restriction>
     </xs:complexContent>
   </xs:complexType>
-  <xs:element name="LayerInfoView" substitutionGroup="engine:VisualElement" xmlns:q1="LBS.VisualElements" type="q1:LayerInfoViewType" />
-  <xs:complexType name="ModulesPanelType">
+  <xs:element name="EditorBottomToolbar" substitutionGroup="engine:VisualElement" xmlns:q3="UnityEditor.U2D.Animation.SpriteLibraryEditor" type="q3:EditorBottomToolbarType" />
+  <xs:complexType name="EditorTopToolbarType">
     <xs:complexContent mixed="false">
       <xs:restriction base="engine:VisualElementType">
         <xs:sequence minOccurs="0" maxOccurs="unbounded">
@@ -42,8 +71,8 @@
       </xs:restriction>
     </xs:complexContent>
   </xs:complexType>
-  <xs:element name="ModulesPanel" substitutionGroup="engine:VisualElement" xmlns:q2="LBS.VisualElements" type="q2:ModulesPanelType" />
-  <xs:complexType name="ButtonWrapperType">
+  <xs:element name="EditorTopToolbar" substitutionGroup="engine:VisualElement" xmlns:q4="UnityEditor.U2D.Animation.SpriteLibraryEditor" type="q4:EditorTopToolbarType" />
+  <xs:complexType name="LabelsTabType">
     <xs:complexContent mixed="false">
       <xs:restriction base="engine:VisualElementType">
         <xs:sequence minOccurs="0" maxOccurs="unbounded">
@@ -63,8 +92,8 @@
       </xs:restriction>
     </xs:complexContent>
   </xs:complexType>
-  <xs:element name="ButtonWrapper" substitutionGroup="engine:VisualElement" xmlns:q3="LBS.VisualElements" type="q3:ButtonWrapperType" />
-  <xs:complexType name="SimplePalleteType">
+  <xs:element name="LabelsTab" substitutionGroup="engine:VisualElement" xmlns:q5="UnityEditor.U2D.Animation.SpriteLibraryEditor" type="q5:LabelsTabType" />
+  <xs:complexType name="CategoriesTabType">
     <xs:complexContent mixed="false">
       <xs:restriction base="engine:VisualElementType">
         <xs:sequence minOccurs="0" maxOccurs="unbounded">
@@ -84,30 +113,8 @@
       </xs:restriction>
     </xs:complexContent>
   </xs:complexType>
-  <xs:element name="SimplePallete" substitutionGroup="engine:VisualElement" xmlns:q4="LBS.VisualElements" type="q4:SimplePalleteType" />
-  <xs:complexType name="WarningPanelType">
-    <xs:complexContent mixed="false">
-      <xs:restriction base="engine:VisualElementType">
-        <xs:sequence minOccurs="0" maxOccurs="unbounded">
-          <xs:element ref="engine:VisualElement" />
-        </xs:sequence>
-        <xs:attribute default="" name="name" type="xs:string" use="optional" />
-        <xs:attribute default="" name="view-data-key" type="xs:string" use="optional" />
-        <xs:attribute default="Position" name="picking-mode" type="engine:VisualElement_picking-mode_Type" use="optional" />
-        <xs:attribute default="" name="tooltip" type="xs:string" use="optional" />
-        <xs:attribute default="None" name="usage-hints" type="engine:VisualElement_usage-hints_Type" use="optional" />
-        <xs:attribute default="0" name="tabindex" type="xs:int" use="optional" />
-        <xs:attribute default="false" name="focusable" type="xs:boolean" use="optional" />
-        <xs:attribute default="" name="class" type="xs:string" use="optional" />
-        <xs:attribute default="" name="content-container" type="xs:string" use="optional" />
-        <xs:attribute default="" name="style" type="xs:string" use="optional" />
-        <xs:attribute default="..." name="Text" type="xs:string" use="optional" />
-        <xs:anyAttribute processContents="lax" />
-      </xs:restriction>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:element name="WarningPanel" substitutionGroup="engine:VisualElement" xmlns:q5="LBS.VisualElements" type="q5:WarningPanelType" />
-  <xs:complexType name="LayerInspectorType">
+  <xs:element name="CategoriesTab" substitutionGroup="engine:VisualElement" xmlns:q6="UnityEditor.U2D.Animation.SpriteLibraryEditor" type="q6:CategoriesTabType" />
+  <xs:complexType name="EditorTabHeaderType">
     <xs:complexContent mixed="false">
       <xs:restriction base="engine:VisualElementType">
         <xs:sequence minOccurs="0" maxOccurs="unbounded">
@@ -127,8 +134,8 @@
       </xs:restriction>
     </xs:complexContent>
   </xs:complexType>
-  <xs:element name="LayerInspector" substitutionGroup="engine:VisualElement" xmlns:q6="LBS.VisualElements" type="q6:LayerInspectorType" />
-  <xs:complexType name="ToolKitType">
+  <xs:element name="EditorTabHeader" substitutionGroup="engine:VisualElement" xmlns:q7="UnityEditor.U2D.Animation.SpriteLibraryEditor" type="q7:EditorTabHeaderType" />
+  <xs:complexType name="EditorMainWindowType">
     <xs:complexContent mixed="false">
       <xs:restriction base="engine:VisualElementType">
         <xs:sequence minOccurs="0" maxOccurs="unbounded">
@@ -144,37 +151,9 @@
         <xs:attribute default="" name="class" type="xs:string" use="optional" />
         <xs:attribute default="" name="content-container" type="xs:string" use="optional" />
         <xs:attribute default="" name="style" type="xs:string" use="optional" />
-        <xs:attribute default="RGBA(0.282, 0.282, 0.282, 1.000)" name="base-color" type="xs:string" use="optional" />
-        <xs:attribute default="RGBA(0.843, 0.498, 0.176, 1.000)" name="selected-color" type="xs:string" use="optional" />
-        <xs:attribute default="0" name="index" type="xs:int" use="optional" />
         <xs:anyAttribute processContents="lax" />
       </xs:restriction>
     </xs:complexContent>
   </xs:complexType>
-  <xs:element name="ToolKit" substitutionGroup="engine:VisualElement" xmlns:q7="LBS.VisualElements" type="q7:ToolKitType" />
-  <xs:complexType name="ButtonGroupType">
-    <xs:complexContent mixed="false">
-      <xs:restriction base="engine:VisualElementType">
-        <xs:sequence minOccurs="0" maxOccurs="unbounded">
-          <xs:element ref="engine:VisualElement" />
-        </xs:sequence>
-        <xs:attribute default="" name="name" type="xs:string" use="optional" />
-        <xs:attribute default="" name="view-data-key" type="xs:string" use="optional" />
-        <xs:attribute default="Position" name="picking-mode" type="engine:VisualElement_picking-mode_Type" use="optional" />
-        <xs:attribute default="" name="tooltip" type="xs:string" use="optional" />
-        <xs:attribute default="None" name="usage-hints" type="engine:VisualElement_usage-hints_Type" use="optional" />
-        <xs:attribute default="0" name="tabindex" type="xs:int" use="optional" />
-        <xs:attribute default="false" name="focusable" type="xs:boolean" use="optional" />
-        <xs:attribute default="" name="class" type="xs:string" use="optional" />
-        <xs:attribute default="" name="content-container" type="xs:string" use="optional" />
-        <xs:attribute default="" name="style" type="xs:string" use="optional" />
-        <xs:attribute default="RGBA(0.282, 0.282, 0.282, 1.000)" name="base-color" type="xs:string" use="optional" />
-        <xs:attribute default="RGBA(0.843, 0.498, 0.176, 1.000)" name="selected-color" type="xs:string" use="optional" />
-        <xs:attribute default="-1" name="index" type="xs:int" use="optional" />
-        <xs:attribute default="" name="choices" type="xs:string" use="optional" />
-        <xs:anyAttribute processContents="lax" />
-      </xs:restriction>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:element name="ButtonGroup" substitutionGroup="engine:VisualElement" xmlns:q8="LBS.VisualElements" type="q8:ButtonGroupType" />
+  <xs:element name="EditorMainWindow" substitutionGroup="engine:VisualElement" xmlns:q8="UnityEditor.U2D.Animation.SpriteLibraryEditor" type="q8:EditorMainWindowType" />
 </xs:schema>
