@@ -42,7 +42,6 @@ public class Select : LBSManipulator
         current = LBSInspectorPanel.Instance.current; // (?) parche ??
 
         // Get fixed position
-        var pos = layer.ToFixedPosition(position);
 
         // Get selectable elements
         var selected = new List<object>();
@@ -50,7 +49,7 @@ public class Select : LBSManipulator
         {
             if(module is ISelectable)
             {
-                selected.AddRange((module as ISelectable).GetSelected(pos));
+                selected.AddRange((module as ISelectable).GetSelected(position));
             }
         }
 

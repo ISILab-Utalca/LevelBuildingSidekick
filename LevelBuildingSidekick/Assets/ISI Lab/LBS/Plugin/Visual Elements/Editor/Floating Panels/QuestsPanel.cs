@@ -14,6 +14,7 @@ namespace ISILab.LBS.VisualElements.Editor
 {
     public class QuestsPanel : VisualElement
     {
+
         public LBSLevelData data;
 
         private ListView list;
@@ -22,9 +23,9 @@ namespace ISILab.LBS.VisualElements.Editor
 
         #region EVENTS
         public event Action<LBSLayer> OnAddQuest;
-        public event Action<LBSQuestGraph> OnRemoveQuest;
-        public event Action<LBSLayer> OnSelectQuest;
-        public event Action<LBSLayer> OnDoubleSelectQuest;
+        public event Action<QuestGraph> OnRemoveQuest;
+        public event Action<LBSLayer> OnSelectQuest; // click simple (!)
+        public event Action<LBSLayer> OnDoubleSelectQuest; // doble click (!)
         public event Action<LBSLayer> OnQuestVisibilityChange;
         #endregion
 
