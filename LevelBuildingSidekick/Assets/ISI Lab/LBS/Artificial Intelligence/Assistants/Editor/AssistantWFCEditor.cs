@@ -1,4 +1,5 @@
 using ISILab.Commons.Utility.Editor;
+using ISILab.LBS.VisualElements;
 using LBS;
 using LBS.Bundles;
 using LBS.VisualElements;
@@ -23,7 +24,6 @@ namespace ISILab.LBS.AI.Assistants.Editor
 
             CreateVisualElement();
         }
-
 
         public override void SetInfo(object target)
         {

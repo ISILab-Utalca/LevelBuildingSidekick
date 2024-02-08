@@ -1,3 +1,4 @@
+using ISILab.LBS.VisualElements.Editor;
 using LBS.Behaviours;
 using LBS.Components;
 using LBS.Components.Graph;
@@ -12,8 +13,7 @@ public class QuestGraphDrawer : Drawer
 {
     public QuestGraphDrawer() : base() { }
 
-
-    //TODO: se cae en un null de una key de un diccionario
+    //TODO: Falls into a null for a key in a dictionary.
     public override void Draw(object target, MainView view, Vector2 teselationSize)
     {
         var assistant = target as GrammarAssistant;
@@ -56,10 +56,5 @@ public class QuestGraphDrawer : Drawer
         {
             view.AddElement(node);
         }
-    }
-
-    public override Texture2D GetTexture(object target, Rect sourceRect, Vector2Int teselationSize)
-    {
-        throw new System.NotImplementedException();
     }
 }
