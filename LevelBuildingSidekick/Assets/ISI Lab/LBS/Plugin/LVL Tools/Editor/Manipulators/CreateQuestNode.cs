@@ -14,8 +14,9 @@ using UnityEngine.UIElements;
 public class CreateQuestNode : LBSManipulator // where T: LBSNode  // (!) CreateNewNode<T>
 {
     //QuestBehaviour quest;
-    public GrammarTerminal actionToSet;
-    LBSQuestGraph quest;
+    QuestGraph quest;
+    QuestBehaviour behaviour;
+    public GrammarTerminal ActionToSet => behaviour.ToSet;
 
 
     private string prefix = "";
@@ -25,7 +26,8 @@ public class CreateQuestNode : LBSManipulator // where T: LBSNode  // (!) Create
 
     public override void Init(LBSLayer layer, object owner)
     {
-        quest = layer.GetModule<LBSQuestGraph>();
+        quest = layer.GetModule<QuestGraph>();
+        behaviour = layer.GetBehaviour<QuestBehaviour>();
     }
 
     protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
@@ -39,7 +41,7 @@ public class CreateQuestNode : LBSManipulator // where T: LBSNode  // (!) Create
 
     protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
     {
-        if(actionToSet == null)
+        if(ActionToSet == null)
         {
             Debug.LogWarning("No tienen nada seleccionado, asegurate de seleccionar" +
                 "una gramatica y una palabra para que funcione.");
@@ -51,13 +53,13 @@ public class CreateQuestNode : LBSManipulator // where T: LBSNode  // (!) Create
         var v = 0;
         do
         {
-            name = prefix + actionToSet.ID + " (" + v + ")";
+            name = prefix + ActionToSet.ID + " (" + v + ")";
 
             loop = quest.QuestNodes.Any(n => n.ID.Equals(name));
             v++;
         } while (loop);
 
-        quest.AddNode(new QuestNode(name, EndPosition, actionToSet.ID));
+        quest.AddNode(new QuestNode(name, EndPosition, ActionToSet.ID));
         
     }
 }

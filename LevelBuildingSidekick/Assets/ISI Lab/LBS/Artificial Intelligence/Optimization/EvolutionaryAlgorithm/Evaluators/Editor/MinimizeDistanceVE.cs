@@ -9,6 +9,7 @@ using UnityEditor.UIElements;
 using LBS.Bundles;
 using ISILab.Commons.Utility.Editor;
 using ISILab.Extensions;
+using ISILab.LBS.AI.VisualElements;
 
 [CustomVisualElement(typeof(MinimizeDistance))]
 public class MinimizeDistanceVE : EvaluatorVE

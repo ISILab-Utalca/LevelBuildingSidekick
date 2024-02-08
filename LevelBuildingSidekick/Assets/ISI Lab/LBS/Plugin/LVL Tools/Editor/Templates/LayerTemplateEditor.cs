@@ -12,6 +12,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using  ISILab.Extensions;
+using ISILab.LBS.AI.Assistants;
 
 [LBSCustomEditor("Layer template",typeof(LayerTemplate))]
 [CustomEditor(typeof(LayerTemplate))]

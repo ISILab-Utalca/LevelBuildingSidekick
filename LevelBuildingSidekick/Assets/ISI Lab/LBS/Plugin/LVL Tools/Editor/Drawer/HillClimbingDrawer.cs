@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
+using ISILab.LBS.VisualElements.Editor;
 
 [Drawer(typeof(HillClimbingAssistant))]
 public class HillClimbingDrawer : Drawer
@@ -27,7 +28,6 @@ public class HillClimbingDrawer : Drawer
         var zones = assistant.ZonesWhitTiles;
 
         List<(object,LBSNodeView)> nViews = new();
-        //List<(object,DottedAreaFeedback)> cViews = new();
         List<(object, Empty)> cViews = new();
         foreach (var zone in zones)
         {
@@ -96,11 +96,6 @@ public class HillClimbingDrawer : Drawer
         nViews.ForEach(n => view.AddElement(assistant.Owner, n.Item1, n.Item2));
     }
 
-    public override Texture2D GetTexture(object target, Rect sourceRect, Vector2Int teselationSize)
-    {
-        throw new System.NotImplementedException();
-    }
-
     /// <summary>
     /// 
     /// </summary>
@@ -147,11 +142,6 @@ public class HillClimbingDrawer : Drawer
         // add constraint to list
         cViews.Add(c1);
         cViews.Add(c2);
-
-        nodeView.OnMoving += (rect) =>
-        {
-
-        };
 
         return cViews;
     }

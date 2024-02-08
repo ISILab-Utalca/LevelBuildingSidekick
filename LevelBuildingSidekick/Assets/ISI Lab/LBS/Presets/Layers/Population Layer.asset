@@ -19,14 +19,14 @@ MonoBehaviour:
     id: Population
     name: Layer Population
     modules:
-    - rid: 803818991122131138
-    - rid: 803818991122131139
+    - rid: 279245340033417905
+    - rid: 279245340033417906
     behaviours:
-    - rid: 803818991122131140
+    - rid: 279245340033417907
     assitants:
-    - rid: 803818991122131141
+    - rid: 279245340033417908
     generatorRules:
-    - rid: 803818991122131142
+    - rid: 279245340033417909
     settings:
       scale: {x: 2, y: 2}
       resize: {x: 0, y: 0}
@@ -35,17 +35,17 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 803818991122131138
+    - rid: 279245340033417905
       type: {class: TileMapModule, ns: LBS.Components.TileMap, asm: LBS}
       data:
         id: TileMapModule
         tiles: []
-    - rid: 803818991122131139
+    - rid: 279245340033417906
       type: {class: BundleTileMap, ns: , asm: LBS}
       data:
         id: BundleTileMap
         tiles: []
-    - rid: 803818991122131140
+    - rid: 279245340033417907
       type: {class: PopulationBehaviour, ns: , asm: LBS}
       data:
         visible: 1
@@ -54,13 +54,14 @@ MonoBehaviour:
         tileMap:
           id: TileMapModule
           tiles: []
-    - rid: 803818991122131141
-      type: {class: AssistantMapElite, ns: , asm: LBS}
+        selectedToSet: {fileID: 0}
+    - rid: 279245340033417908
+      type: {class: AssistantMapElite, ns: ISILab.LBS.AI.Assistants, asm: LBS}
       data:
         visible: 1
         name: Map Elite - Genetic Algorithm
         toUpdate: []
-    - rid: 803818991122131142
+    - rid: 279245340033417909
       type: {class: PopulationRuleGenerator, ns: LBS.Generator, asm: LBS}
       data:
         generator3D:

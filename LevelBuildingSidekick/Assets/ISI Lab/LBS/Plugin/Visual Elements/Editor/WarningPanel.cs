@@ -1,12 +1,11 @@
 using ISILab.Commons.Utility.Editor;
-using LBS.VisualElements;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace LBS.VisualElements
+namespace ISILab.LBS.VisualElements
 {
     public class WarningPanel : VisualElement
     {

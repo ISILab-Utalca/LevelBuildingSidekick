@@ -10,7 +10,7 @@ using UnityEngine.UIElements;
 public class ConnectQuestNodes : LBSManipulator
 {
     //QuestBehaviour quest;
-    LBSQuestGraph quest;
+    QuestGraph quest;
 
     public QuestNode first;
 
@@ -21,7 +21,7 @@ public class ConnectQuestNodes : LBSManipulator
 
     public override void Init(LBSLayer layer, object provider)
     {
-        quest = layer.GetModule<LBSQuestGraph>();
+        quest = layer.GetModule<QuestGraph>();
     }
 
     protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)

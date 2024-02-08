@@ -1,3 +1,4 @@
+using ISILab.LBS.VisualElements;
 using LBS;
 using LBS.Components;
 using System.Collections;
@@ -16,7 +17,7 @@ public class Select : LBSManipulator
         // Unset feedback
         feedback = null;
 
-        current = LBSInspectorPanel.Instance.current; // (?) parche ??
+        current = LBSInspectorPanel.Instance.current; 
     }
 
     public override void Init(LBSLayer layer, object provider)
@@ -29,20 +30,11 @@ public class Select : LBSManipulator
 
     }
 
-    protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
-    {
-    }
-
-    protected override void OnMouseMove(VisualElement target, Vector2Int position, MouseMoveEvent e)
-    {
-    }
-
     protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
     {
-        current = LBSInspectorPanel.Instance.current; // (?) parche ??
+        current = LBSInspectorPanel.Instance.current;
 
         // Get fixed position
-        var pos = layer.ToFixedPosition(position);
 
         // Get selectable elements
         var selected = new List<object>();
@@ -50,7 +42,7 @@ public class Select : LBSManipulator
         {
             if(module is ISelectable)
             {
-                selected.AddRange((module as ISelectable).GetSelected(pos));
+                selected.AddRange((module as ISelectable).GetSelected(position));
             }
         }
 

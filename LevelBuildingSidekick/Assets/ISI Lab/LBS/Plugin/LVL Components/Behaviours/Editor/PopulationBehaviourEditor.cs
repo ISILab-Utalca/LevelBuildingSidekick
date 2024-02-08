@@ -1,3 +1,4 @@
+using ISILab.LBS.VisualElements;
 using LBS;
 using LBS.Bundles;
 using LBS.Settings;
@@ -19,7 +20,6 @@ public class PopulationBehaviourEditor : LBSCustomEditor, IToolProvider
     AddPopulationTile addPopulationTile;
     RemovePopulationTile removePopulationTile;
     RotatePopulationTile rotatePopulationTile;
-    //MoveTile?
 
     //Palletes
     private SimplePallete bundlePallete;
@@ -90,12 +90,6 @@ public class PopulationBehaviourEditor : LBSCustomEditor, IToolProvider
         if (candidates.Count == 0)
             return;
 
-        /*
-        var tags = candidates.SelectMany(b => b.Characteristics.Where(c => c is LBSTagsCharacteristic)).Distinct();
-        bundlePallete.SetGroups(tags.ToArray());
-        bundlePallete.OnChangeGroup += (e) => { if(e.previousValue != e.newValue) ChangeOptions(e.newValue); }; 
-        */
-
         bundlePallete.ShowGroups = false;
         var options = new object[candidates.Count];
         for (int i = 0; i < candidates.Count; i++)
@@ -104,9 +98,7 @@ public class PopulationBehaviourEditor : LBSCustomEditor, IToolProvider
         }
 
         bundlePallete.OnSelectOption += (selected) => {
-            // var tk = ToolKit.Instance;
             _target.selectedToSet = selected as Bundle;
-            //addPopulationTile.ToSet = selected as Bundle;
             ToolKit.Instance.SetActive("Paint Tile");
         };
 
@@ -169,9 +161,7 @@ public class PopulationBehaviourEditor : LBSCustomEditor, IToolProvider
         }
 
         bundlePallete.OnSelectOption += (selected) => {
-            // var tk = ToolKit.Instance;
             _target.selectedToSet = selected as Bundle;
-            //addPopulationTile.ToSet = selected as Bundle;
         };
 
         // OnAdd option event
@@ -179,7 +169,6 @@ public class PopulationBehaviourEditor : LBSCustomEditor, IToolProvider
         {
             Debug.LogWarning("Por ahora esta herramienta no permite agregar nuevos tipos de bundles");
         };
-
 
         // Init options
         bundlePallete.SetOptions(options.ToArray(), (optionView, option) =>

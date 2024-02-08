@@ -12,6 +12,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
+using ISILab.LBS.VisualElements.Editor;
 
 public class LBSLocalBehaviours : LBSInspector 
 {
@@ -94,7 +95,6 @@ public class LBSLocalBehaviours : LBSInspector
     public override void SetTarget(LBSLayer layer)
     {
         SetInfo(layer);
-        //toolkit.SetActiveWhithoutNotify(0);
     }
 
     public override void Repaint()
@@ -103,11 +103,6 @@ public class LBSLocalBehaviours : LBSInspector
         {
             ve?.Repaint();
         }
-    }
-
-    public override void Init(MainView view, LBSLayer layer, LBSBehaviour behaviour)
-    {
-        throw new NotImplementedException();
     }
     #endregion
 }

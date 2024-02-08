@@ -142,23 +142,24 @@ public class LBSLevelData
         quest.ID = name;
         quest.Name = name;
         quest.iconPath = "Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Quest_Icon/IconQuestTitle2.png";
-        quest.TileSize = new Vector2Int(3,1);
-
+        quest.TileSize = new Vector2Int(2,2);
+        quest.AddGeneratorRule(new QuestRuleGenerator());
         
         var grammarIcon = Resources.Load<Texture2D>("Icons/Quest_Icon/IconQuestTitle2");
+        var behaviour = new QuestBehaviour(grammarIcon, "Quest");
         var assistant = new GrammarAssistant(grammarIcon, "Grammar");
         quest.AddAssistant(assistant);
-
+        quest.AddBehaviour(behaviour);
         quests.Add(quest);
 
         return quest;
     }
 
-    public LBSQuestGraph RemoveQuestAt(int index)
+    public QuestGraph RemoveQuestAt(int index)
     {
         var q = quests[index];
         quests.RemoveAt(index);
-        return q.GetModule<LBSQuestGraph>();
+        return q.GetModule<QuestGraph>();
     }
 
 

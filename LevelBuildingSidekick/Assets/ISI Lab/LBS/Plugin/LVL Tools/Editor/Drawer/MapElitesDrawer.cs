@@ -1,9 +1,10 @@
-using ISILab.AI.Optimization.Populations;
 using LBS.Settings;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ISILab.Extensions;
+using ISILab.LBS.AI.Assistants;
+using ISILab.LBS.VisualElements.Editor;
 
 [Drawer(typeof(AssistantMapElite))]
 public class MapElitesDrawer : Drawer

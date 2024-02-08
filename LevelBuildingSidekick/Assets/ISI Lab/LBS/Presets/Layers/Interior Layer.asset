@@ -19,18 +19,18 @@ MonoBehaviour:
     id: Interior
     name: Layer Interior
     modules:
-    - rid: 3832781189895684307
-    - rid: 3832781189895684308
-    - rid: 3832781189895684309
-    - rid: 3832781189895684310
-    - rid: 3832781189895684311
+    - rid: 279245340033417896
+    - rid: 279245340033417897
+    - rid: 279245340033417898
+    - rid: 279245340033417899
+    - rid: 279245340033417900
     behaviours:
-    - rid: 3832781189895684312
+    - rid: 279245340033417901
     assitants:
-    - rid: 3832781189895684313
+    - rid: 279245340033417902
     generatorRules:
-    - rid: 3832781189895684314
-    - rid: 3832781189895684315
+    - rid: 279245340033417903
+    - rid: 279245340033417904
     settings:
       scale: {x: 2, y: 2}
       resize: {x: 0, y: 0}
@@ -39,34 +39,34 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 3832781189895684307
+    - rid: 279245340033417896
       type: {class: TileMapModule, ns: LBS.Components.TileMap, asm: LBS}
       data:
         id: TileMapModule
         tiles: []
-    - rid: 3832781189895684308
+    - rid: 279245340033417897
       type: {class: ConnectedTileMapModule, ns: , asm: LBS}
       data:
         id: ConnectedTileMapModule
         connectedDirections: 4
         pairs: []
-    - rid: 3832781189895684309
+    - rid: 279245340033417898
       type: {class: SectorizedTileMapModule, ns: , asm: LBS}
       data:
         id: SectorizedTileMapModule
         zones: []
         pairs: []
-    - rid: 3832781189895684310
+    - rid: 279245340033417899
       type: {class: ConnectedZonesModule, ns: , asm: LBS}
       data:
         id: ConnectedZonesModule
         edges: []
-    - rid: 3832781189895684311
+    - rid: 279245340033417900
       type: {class: ConstrainsZonesModule, ns: , asm: LBS}
       data:
         id: ConstrainsZonesModule
         pairs: []
-    - rid: 3832781189895684312
+    - rid: 279245340033417901
       type: {class: SchemaBehaviour, ns: , asm: LBS}
       data:
         visible: 1
@@ -74,13 +74,21 @@ MonoBehaviour:
         name: Schema behaviour
         pressetInsideStyle: Castle_Wooden
         pressetOutsideStyle: Castle_Brick
-    - rid: 3832781189895684313
+        roomToSet:
+          id: Zone
+          color: {r: 0, g: 0, b: 0, a: 0}
+          pivot: {x: 0, y: 0}
+          insideStyles: []
+          outsideStyles: []
+        conectionToSet: 
+    - rid: 279245340033417902
       type: {class: HillClimbingAssistant, ns: , asm: LBS}
       data:
         visible: 1
         name: HillClimbing
         visibleConstraints: 0
-    - rid: 3832781189895684314
+        printClocks: 0
+    - rid: 279245340033417903
       type: {class: SchemaRuleGenerator, ns: , asm: LBS}
       data:
         generator3D:
@@ -90,7 +98,7 @@ MonoBehaviour:
             position: {x: 0, y: 0, z: 0}
             name: DEFAULT
           rules: []
-    - rid: 3832781189895684315
+    - rid: 279245340033417904
       type: {class: SchemaRuleGeneratorExteriror, ns: , asm: LBS}
       data:
         generator3D:

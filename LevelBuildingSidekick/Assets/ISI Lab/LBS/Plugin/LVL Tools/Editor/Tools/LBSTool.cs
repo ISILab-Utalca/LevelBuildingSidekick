@@ -1,3 +1,4 @@
+using ISILab.LBS.VisualElements.Editor;
 using LBS;
 using LBS.Behaviours;
 using LBS.Components;
@@ -35,11 +36,7 @@ namespace LBS
         #endregion
 
         #region CONSTRUCTORS
-        public LBSTool(Texture2D icon, string name, LBSManipulator manipulator,
-            Feedback feedback = null,
-            Action OnStart = null,
-            Action OnUpdate = null,
-            Action OnEnd = null) // (!) el feedback y los eventos no se estan usando 
+        public LBSTool(Texture2D icon, string name, LBSManipulator manipulator)
         {
             this.icon = icon;
             this.name = name;

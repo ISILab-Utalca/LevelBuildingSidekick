@@ -9,7 +9,7 @@ using UnityEngine.UIElements;
 public class RemoveQuestNode : LBSManipulator
 {
     //QuestBehaviour quest;
-    LBSQuestGraph quest;
+    QuestGraph quest;
 
     public RemoveQuestNode() : base()
     {
@@ -18,7 +18,7 @@ public class RemoveQuestNode : LBSManipulator
 
     public override void Init(LBSLayer layer, object provider)
     {
-        quest = layer.GetModule<LBSQuestGraph>();
+        quest = layer.GetModule<QuestGraph>();
     }
 
     protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)

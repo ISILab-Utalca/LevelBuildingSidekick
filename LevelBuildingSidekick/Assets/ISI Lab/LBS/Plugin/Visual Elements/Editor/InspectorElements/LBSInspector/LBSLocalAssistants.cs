@@ -12,6 +12,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
+using ISILab.LBS.VisualElements;
 
 public class LBSLocalAssistants : LBSInspector
 {
@@ -28,8 +29,6 @@ public class LBSLocalAssistants : LBSInspector
     public List<LBSCustomEditor> CustomEditors = new List<LBSCustomEditor>();
 
     private LBSLayer target;
-
-    private ToolKit toolkit => ToolKit.Instance;
 
     public LBSLocalAssistants()
     {

@@ -145,9 +145,9 @@ public class BundleTileMap : LBSModule, ISelectable
 
     public List<object> GetSelected(Vector2Int position)
     {
-        //var p = Owner.ToFixedPosition(position);
+        var pos = Owner.ToFixedPosition(position);
         var r = new List<object>();
-        var tile = GetTile(position);
+        var tile = GetTile(pos);
 
         if (tile != null)
         {

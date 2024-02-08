@@ -25,6 +25,9 @@ public class QuestNode : ICloneable
     private bool mapCheck;
     #endregion
 
+    [SerializeField, JsonRequired, SerializeReference]
+    private QuestTarget target;
+
     #region PROPERTIES
     [JsonIgnore]
     public Vector2Int Position
@@ -72,6 +75,13 @@ public class QuestNode : ICloneable
         get => mapCheck;
         set => mapCheck = value;
     }
+
+    [JsonIgnore]
+    public QuestTarget Target
+    {
+        get => target;
+        set => target = value;
+    }
     #endregion
 
     #region CONSTRUCTOR
@@ -83,11 +93,45 @@ public class QuestNode : ICloneable
         x = (int)position.x;
         y = (int)position.y;
         this.questAction = action;
+        target = new QuestTarget();
     }
     #endregion
 
     public object Clone()
     {
-        return new QuestNode(ID, Position, QuestAction);
+        var node = new QuestNode(ID, Position, QuestAction);
+
+        node.target = target.Clone() as QuestTarget;
+
+        return node;
+    }
+}
+
+[System.Serializable]
+public class QuestTarget: ICloneable
+{
+    [SerializeField, JsonRequired, SerializeReference]
+    private Rect rect;
+    [SerializeField, JsonRequired, SerializeReference]
+    private List<LBSIdentifier> tags = new List<LBSIdentifier>();
+
+    [JsonIgnore]
+    public Rect Rect
+    {
+        get => rect;
+        set => rect = value;
+    }
+
+    [JsonIgnore]
+    public List<LBSIdentifier> Tags => tags;
+
+    public QuestTarget() { }
+
+    public object Clone()
+    {
+        var target = new QuestTarget();
+        target.tags = new List<LBSIdentifier>(tags);
+        target.rect = rect;
+        return target;
     }
 }

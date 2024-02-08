@@ -9,6 +9,7 @@ using ISILab.Extensions;
 using UnityEditor.UIElements;
 using LBS.Bundles;
 using ISILab.Commons.Utility.Editor;
+using ISILab.LBS.AI.VisualElements;
 
 [CustomVisualElement(typeof(MaximizeDistance))]
 public class MaximizeDistanceVE : EvaluatorVE

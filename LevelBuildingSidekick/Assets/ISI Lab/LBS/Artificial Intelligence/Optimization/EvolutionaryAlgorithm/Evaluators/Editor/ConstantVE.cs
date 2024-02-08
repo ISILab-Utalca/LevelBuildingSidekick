@@ -1,10 +1,10 @@
 using Commons.Optimization.Evaluator;
+using ISILab.LBS.AI.VisualElements;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-//[CustomVisualElement(typeof(ConstantE))]
 public class ConstantVE : EvaluatorVE
 {
     public FloatField field;

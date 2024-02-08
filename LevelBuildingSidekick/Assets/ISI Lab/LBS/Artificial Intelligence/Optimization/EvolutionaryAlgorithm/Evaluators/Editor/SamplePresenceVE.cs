@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 using UnityEditor;
 using UnityEngine;
 using LBS.Bundles;
+using ISILab.LBS.AI.VisualElements;
 
 [CustomVisualElement(typeof(SamplePresence))]
 public class SamplePresenceVE : EvaluatorVE

@@ -9,6 +9,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
+using ISILab.LBS.VisualElements;
 
 [LBSCustomEditor("Exteiror Behaviour", typeof(ExteriorBehaviour))]
 public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider

@@ -1,3 +1,4 @@
+using ISILab.LBS.VisualElements.Editor;
 using LBS.Behaviours;
 using LBS.Components;
 using LBS.Settings;
@@ -20,10 +21,11 @@ public abstract class Drawer
 
     public abstract void Draw(object target, MainView view, Vector2 teselationSize);
 
-    public virtual void ReDraw(LBSLayer layer, object[] olds, object[] news, MainView view, Vector2 teselationSize) { } // (!!!) quitar el virtual para obligar la herencia
+    public virtual void ReDraw(LBSLayer layer, object[] olds, object[] news, MainView view, Vector2 teselationSize) { }
 
     public virtual Texture2D GetTexture(object target, Rect sourceRect, Vector2Int teselationSize) 
     {
-        return null; // (!!!) hacer que retorne una textura por default que diga "Generacion de textura no implementada" o algo asi.
+        Debug.LogWarning("[ISI Lab]: Texture generation not implemented.");
+        return new Texture2D(16, 16);
     }
 }

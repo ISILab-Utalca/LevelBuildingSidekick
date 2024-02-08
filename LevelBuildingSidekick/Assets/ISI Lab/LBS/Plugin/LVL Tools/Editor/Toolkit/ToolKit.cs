@@ -14,6 +14,8 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using ISILab.Commons.Utility;
 using ISILab.Commons.Utility.Editor;
+using ISILab.LBS.VisualElements.Editor;
+using ISILab.LBS.VisualElements;
 
 namespace LBS.VisualElements
 {
@@ -231,11 +233,6 @@ namespace LBS.VisualElements
         {
             if (tools.Count <= 0)
                 return;
-        }
-
-        public void AddSubTools(LBSTool[] tool, int index = -1)
-        {
-            throw new NotImplementedException();
         }
 
         public void AddTool(LBSTool tool, int index = -1)

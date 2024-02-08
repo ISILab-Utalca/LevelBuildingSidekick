@@ -1,3 +1,4 @@
+using ISILab.LBS.VisualElements.Editor;
 using LBS.Components;
 using System;
 using System.Collections;
@@ -11,7 +12,6 @@ public class DrawManager
     private List<LayerTemplate> templates;
 
     private LBSLevelData level;
-    private MainView mainView;
 
     private static DrawManager instance;
     public static DrawManager Instance
@@ -39,7 +39,7 @@ public class DrawManager
 
     public static void ReDraw()
     {
-        instance.RedrawLevel(instance.level, instance.mainView);
+        instance.RedrawLevel(instance.level, instance.view);
     }
 
     public void RefreshView(LBSLayer layer,List<LBSLayer> allLayers, string modeName)
@@ -168,7 +168,7 @@ public class DrawManager
     private void DrawLevel(LBSLevelData level, MainView MainView)
     {
         this.level = level;
-        this.mainView = MainView;
+        this.view = MainView;
 
         var layers = level.Layers;
         var quests = level.Quests;
@@ -186,7 +186,7 @@ public class DrawManager
 
     public void RedrawElement(LBSLayer layer, LBSModule module, object[] olds , object[] news)
     {
-        var container = mainView.GetLayerContainer(layer);
+        var container = view.GetLayerContainer(layer);
 
         // get drawers of layer
         var drawersT = GetDrawers(layer);

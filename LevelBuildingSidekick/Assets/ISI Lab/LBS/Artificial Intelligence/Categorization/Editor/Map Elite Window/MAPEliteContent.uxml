@@ -10,7 +10,7 @@
                 <ui:VisualElement name="Guias" style="height: auto; width: auto; border-left-color: rgb(56, 56, 56); border-right-color: rgb(56, 56, 56); border-top-color: rgb(56, 56, 56); border-bottom-color: rgb(56, 56, 56); border-left-width: 2px; border-right-width: 0; border-top-width: 0; border-bottom-width: 0; border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; align-items: center; justify-content: flex-start; flex-grow: 1;">
                     <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" mode="VerticalAndHorizontal" focusable="false" vertical-page-size="-1" style="width: 100%; height: 100%; margin-left: 4px; margin-right: 4px; margin-top: 4px; margin-bottom: 4px; flex-direction: column; align-items: stretch; justify-content: flex-start; flex-grow: 1;">
                         <ui:VisualElement name="Content" class="unity-group-box" style="flex-wrap: wrap-reverse; flex-direction: row; margin-left: 4px; margin-right: 4px; margin-top: 4px; margin-bottom: 4px; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; flex-grow: 1; width: 385px;">
-                            <LBS.VisualElements.ButtonWrapper tabindex="-1" focusable="true" style="width: 64px; height: 64px;" />
+                            <ISILab.LBS.VisualElements.ButtonWrapper tabindex="-1" focusable="true" style="width: 64px; height: 64px;" />
                         </ui:VisualElement>
                     </ui:ScrollView>
                 </ui:VisualElement>

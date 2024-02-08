@@ -6,19 +6,19 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor;
 
-public class SplitView : TwoPaneSplitView
+namespace ISILab.Commons.VisualElements.Editor
 {
-    public new class UxmlFactory : UxmlFactory<SplitView, TwoPaneSplitView.UxmlTraits> { }
-
-    //private VisualElement dragLineAnchor;
-    //private VisualElement dragLine;
-
-    public SplitView()
+    public class SplitView : TwoPaneSplitView
     {
-        var content = this.Q<VisualElement>("unity-content-container");
-        content.pickingMode = PickingMode.Ignore;
+        public new class UxmlFactory : UxmlFactory<SplitView, TwoPaneSplitView.UxmlTraits> { }
 
-        var dragLineAnchor = this.Q<VisualElement>("unity-dragline-anchor");
-        var dragLine = this.Q<VisualElement>("unity-dragline");
+        public SplitView()
+        {
+            var content = this.Q<VisualElement>("unity-content-container");
+            content.pickingMode = PickingMode.Ignore;
+
+            var dragLineAnchor = this.Q<VisualElement>("unity-dragline-anchor");
+            var dragLine = this.Q<VisualElement>("unity-dragline");
+        }
     }
 }

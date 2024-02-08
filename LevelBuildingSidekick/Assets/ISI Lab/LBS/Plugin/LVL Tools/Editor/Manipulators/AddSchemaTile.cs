@@ -1,3 +1,4 @@
+using ISILab.LBS.VisualElements;
 using LBS;
 using LBS.Behaviours;
 using LBS.Components;
@@ -31,14 +32,6 @@ public class AddSchemaTile : LBSManipulator
         layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
     }
 
-    protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
-    {
-    }
-
-    protected override void OnMouseMove(VisualElement target, Vector2Int position, MouseMoveEvent e)
-    {
-    }
-
     protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
     {
         if(e.ctrlKey)
@@ -70,6 +63,8 @@ public class AddSchemaTile : LBSManipulator
                     );
             }
         }
+
+        LBSInspectorPanel.Instance.SetTarget(schema.Owner);
 
         schema.RecalculateWalls();
     }

@@ -9,11 +9,13 @@ using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
-[RequieredModule(typeof(LBSQuestGraph))]
+[RequieredModule(typeof(QuestGraph))]
 public class GrammarAssistant : LBSAssistant
 {
     [JsonIgnore]
-    public LBSQuestGraph Quest => Owner.GetModule<LBSQuestGraph>();
+    public QuestGraph Quest => Owner.GetModule<QuestGraph>();
+
+
 
     public GrammarAssistant(Texture2D icon, string name) : base(icon, name)
     {
