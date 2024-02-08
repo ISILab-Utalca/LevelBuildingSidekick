@@ -7,99 +7,102 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class LayerView : VisualElement
+namespace ISILab.LBS.VisualElements.Editor
 {
-    public new class UxmlFactory : UxmlFactory<LayerView, VisualElement.UxmlTraits> { }
-
-    private LBSLayer target;
-
-    private TextField layerName;
-    private VisualElement layerIcon;
-    private VisualElement iconsModules;
-    private Button showButton;
-    private Button hideButton;
-
-    public VisualElement _base;
-
-    private Action onVisibilityChange;
-
-    public event Action OnVisibilityChange
+    public class LayerView : VisualElement
     {
-        add => onVisibilityChange += value;
-        remove => onVisibilityChange -= value;
-    }
+        public new class UxmlFactory : UxmlFactory<LayerView, VisualElement.UxmlTraits> { }
 
-    public LayerView()
-    {
-        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("LayerView");
-        visualTree.CloneTree(this);
+        private LBSLayer target;
 
-        this._base = this.Q<VisualElement>("Base");
+        private TextField layerName;
+        private VisualElement layerIcon;
+        private VisualElement iconsModules;
+        private Button showButton;
+        private Button hideButton;
 
-        // LayerName
-        this.layerName = this.Q<TextField>("Name");
-        this.layerName.RegisterCallback<ChangeEvent<string>>(e => {
-            this.target.Name = e.newValue;
-        });
+        public VisualElement _base;
 
-        // LayerIcon
-        this.layerIcon = this.Q<VisualElement>("Icon");
+        private Action onVisibilityChange;
 
-        // IconsModules
-        this.iconsModules = this.Q<VisualElement>("IconsModules");
-
-        // Show/Hide button
-        this.showButton = this.Q<Button>("ShowButton");
-        this.showButton.clicked += () => { ShowLayer(true);};
-        this.hideButton = this.Q<Button>("HideButton");
-        this.hideButton.clicked += () => ShowLayer(false);
-    }
-
-    private void SetName(string name)
-    {
-        layerName.value = name;
-    }
-
-    private void SetIcon(string path)
-    {
-        var texture = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
-        //var texture = Resources.Load<Texture2D>(name);
-        layerIcon.style.backgroundImage = texture;
-    }
-
-    public void SetInfo(LBSLayer layer)
-    {
-        this.target = layer;
-
-        SetIcon(layer.iconPath);
-        SetName(layer.Name);
-
-        layer.OnAddModule += (layer, module) => {
-            ShowModulesIcons();
-        };
-
-        ShowLayer(layer.IsVisible);
-    }
-
-    private void ShowModulesIcons()
-    {
-        iconsModules.Clear();
-
-        foreach (var module in target.Modules)
+        public event Action OnVisibilityChange
         {
-            var icon = new VisualElement();
-            icon.style.height = icon.style.width = 16;
-            // (!!!) Set "icon" background from "moduleAttribute" pathicon (implementar)
-            iconsModules.Add(icon);
+            add => onVisibilityChange += value;
+            remove => onVisibilityChange -= value;
         }
-    }
 
-    private void ShowLayer(bool value)
-    {
-        showButton.style.display = (!value) ? DisplayStyle.Flex : DisplayStyle.None;
-        hideButton.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
+        public LayerView()
+        {
+            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("LayerView");
+            visualTree.CloneTree(this);
 
-        target.IsVisible = value;
-        onVisibilityChange?.Invoke();
+            this._base = this.Q<VisualElement>("Base");
+
+            // LayerName
+            this.layerName = this.Q<TextField>("Name");
+            this.layerName.RegisterCallback<ChangeEvent<string>>(e =>
+            {
+                this.target.Name = e.newValue;
+            });
+
+            // LayerIcon
+            this.layerIcon = this.Q<VisualElement>("Icon");
+
+            // IconsModules
+            this.iconsModules = this.Q<VisualElement>("IconsModules");
+
+            // Show/Hide button
+            this.showButton = this.Q<Button>("ShowButton");
+            this.showButton.clicked += () => { ShowLayer(true); };
+            this.hideButton = this.Q<Button>("HideButton");
+            this.hideButton.clicked += () => ShowLayer(false);
+        }
+
+        private void SetName(string name)
+        {
+            layerName.value = name;
+        }
+
+        private void SetIcon(string path)
+        {
+            var texture = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+            layerIcon.style.backgroundImage = texture;
+        }
+
+        public void SetInfo(LBSLayer layer)
+        {
+            this.target = layer;
+
+            SetIcon(layer.iconPath);
+            SetName(layer.Name);
+
+            layer.OnAddModule += (layer, module) =>
+            {
+                ShowModulesIcons();
+            };
+
+            ShowLayer(layer.IsVisible);
+        }
+
+        private void ShowModulesIcons()
+        {
+            iconsModules.Clear();
+
+            foreach (var module in target.Modules)
+            {
+                var icon = new VisualElement();
+                icon.style.height = icon.style.width = 16;
+                iconsModules.Add(icon);
+            }
+        }
+
+        private void ShowLayer(bool value)
+        {
+            showButton.style.display = (!value) ? DisplayStyle.Flex : DisplayStyle.None;
+            hideButton.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
+
+            target.IsVisible = value;
+            onVisibilityChange?.Invoke();
+        }
     }
 }

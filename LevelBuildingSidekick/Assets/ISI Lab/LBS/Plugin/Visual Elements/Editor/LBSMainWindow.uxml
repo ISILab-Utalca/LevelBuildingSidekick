@@ -2,7 +2,7 @@
     <ui:VisualElement style="flex-grow: 1; flex-direction: row; position: absolute; width: 100%; height: 100%;">
         <MainView focusable="true" name="MainView" style="flex-grow: 1; width: auto; height: auto;" />
     </ui:VisualElement>
-    <ToolBarMain name="ToolBar" style="height: auto; border-bottom-color: rgb(36, 36, 36); border-bottom-width: 1px; max-height: 21px; min-height: 21px;" />
+    <ISILab.LBS.VisualElements.Editor.ToolBarMain name="ToolBar" style="height: auto; border-bottom-color: rgb(36, 36, 36); border-bottom-width: 1px; max-height: 21px; min-height: 21px;" />
     <SplitView picking-mode="Ignore" fixed-pane-index="1" fixed-pane-initial-dimension="400">
         <ui:VisualElement picking-mode="Ignore" style="flex-grow: 1; display: flex; flex-shrink: 1;">
             <LBS.VisualElements.LayerInspector name="LayerInspector" style="background-color: rgba(60, 60, 60, 0.39); max-height: 18px; min-height: 18px; border-bottom-width: 1px; border-bottom-color: rgba(0, 0, 0, 0.59); display: none; flex-direction: row;" />
