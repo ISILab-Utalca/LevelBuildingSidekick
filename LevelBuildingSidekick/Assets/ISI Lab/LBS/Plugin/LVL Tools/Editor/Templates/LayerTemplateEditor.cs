@@ -5,13 +5,14 @@ using LBS.Components.Graph;
 using LBS.Components.Specifics;
 using LBS.Components.TileMap;
 using LBS.Generator;
-using LBS.Tools.Transformer;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using  ISILab.Extensions;
+using ISILab.LBS.AI.Assistants;
 
 [LBSCustomEditor("Layer template",typeof(LayerTemplate))]
 [CustomEditor(typeof(LayerTemplate))]

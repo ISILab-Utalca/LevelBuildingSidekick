@@ -1,11 +1,11 @@
-using LBS.VisualElements;
+using ISILab.Commons.Utility.Editor;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace LBS.VisualElements
+namespace ISILab.LBS.VisualElements
 {
     public class WarningPanel : VisualElement
     {
@@ -61,7 +61,7 @@ namespace LBS.VisualElements
         #region CONSTRUCTORS
         public WarningPanel()
         {
-            var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("WarningPanel");
+            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("WarningPanel");
             visualTree.CloneTree(this);
 
             this.label = this.Q<Label>("Text");

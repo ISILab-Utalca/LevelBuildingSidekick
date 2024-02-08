@@ -1,7 +1,9 @@
+using ISILab.Commons.Utility.Editor;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using ISILab.Extensions;
 
 public class Button8Connected : VisualElement
 {
@@ -34,7 +36,7 @@ public class Button8Connected : VisualElement
 
     public Button8Connected()
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("Button8Connected");
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("Button8Connected");
         visualTree.CloneTree(this);
 
         upperLeft = this.Q<Button>("UpperLeft");

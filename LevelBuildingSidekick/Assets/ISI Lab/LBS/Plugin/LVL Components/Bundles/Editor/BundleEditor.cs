@@ -5,6 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using ISILab.Commons.Utility;
+using ISILab.Commons.Utility.Editor;
+using ISILab.Extensions;
+
 
 [CustomEditor(typeof(Bundle))]
 public class BundleEditor : Editor
@@ -98,12 +102,12 @@ public class BundleEditor : Editor
 
         // Get tags
         var targets = new List<string>() { "Door", "Wall", "Floor", "Empty" };
-        var allTags = Utility.DirectoryTools.GetScriptables<LBSIdentifier>();
+        var allTags = DirectoryTools.GetScriptables<LBSIdentifier>();
         var matchingTags = allTags.Where(tag => targets.Contains(tag.Label)).ToList();
 
         // Create ID
         var id = ScriptableObject.CreateInstance<LBSIdentifier>();
-        var tagName = ISILab.Commons.Commons.CheckNameFormat(allTags.Select(t => t.Label), "Schema");
+        var tagName = Format.CheckNameFormat(allTags.Select(t => t.Label), "Schema");
         AssetDatabase.CreateAsset(id, path + "/" + tagName + ".asset");
         id.Init(tagName, new Color().RandomColor(), null);
 
@@ -117,8 +121,8 @@ public class BundleEditor : Editor
             bundle.AddChild(b);
 
             // Save child bundle
-            var nn = Utility.DirectoryTools.GetScriptables<Bundle>();
-            var name = ISILab.Commons.Commons.CheckNameFormat(nn.Select(t => t.name), "Sub bundle");
+            var nn = DirectoryTools.GetScriptables<Bundle>();
+            var name = Format.CheckNameFormat(nn.Select(t => t.name), "Sub bundle");
             AssetDatabase.CreateAsset(b, path + "/" + name + ".asset");
         }
 

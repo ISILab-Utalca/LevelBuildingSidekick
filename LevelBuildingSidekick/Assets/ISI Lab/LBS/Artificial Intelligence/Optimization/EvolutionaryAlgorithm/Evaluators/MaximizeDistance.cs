@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using ISILab.Extensions;
 
 public class MaximizeDistance : IRangedEvaluator
 {

@@ -1,3 +1,4 @@
+using ISILab.Commons.Utility.Editor;
 using LBS.Components;
 using LBS.Settings;
 using System;
@@ -48,7 +49,7 @@ public class MainView : GraphView // Canvas or WorkSpace
         get => instance;
     }
 
-    public Vector2 FixPos(Vector2 v) // (?) esto deberia estar aqui? // poner estatico
+    public Vector2 FixPos(Vector2 v) 
     {
         var t = new Vector2(this.viewTransform.position.x, this.viewTransform.position.y);
         var newPos = (v - t) / this.scale;
@@ -72,7 +73,7 @@ public class MainView : GraphView // Canvas or WorkSpace
     public MainView()
     {
         Insert(0, new GridBackground());
-        var styleSheet = Utility.DirectoryTools.SearchAssetByName<StyleSheet>("MainViewUSS");
+        var styleSheet = DirectoryTools.SearchAssetByName<StyleSheet>("MainViewUSS");
         styleSheets.Add(styleSheet);
         style.flexGrow = 1;
 

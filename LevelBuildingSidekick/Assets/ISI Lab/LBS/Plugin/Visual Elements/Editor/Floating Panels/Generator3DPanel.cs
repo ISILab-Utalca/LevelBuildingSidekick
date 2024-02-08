@@ -7,127 +7,132 @@ using LBS.Components;
 using LBS;
 using System;
 using UnityEditor;
+using ISILab.Commons.Utility.Editor;
 
-public class Generator3DPanel : VisualElement
+namespace ISILab.LBS.VisualElements.Editor
 {
-    #region UXMLFACTORY
-    public new class UxmlFactory : UxmlFactory<Generator3DPanel, VisualElement.UxmlTraits> { }
-    #endregion
-
-    #region VIEW ELEMENTS
-    private ClassDropDown dropDownField;
-    private Vector3Field positionField;
-    private Vector2Field scaleField;
-    private Vector2Field resizeField;
-    private TextField nameField;
-    private Button action;
-    private Toggle destroyPrev;
-    #endregion
-
-    #region FIELDS
-    private Generator3D generator;
-    private Generator3D.Settings settings;
-    private LBSLayer layer;
-    #endregion
-
-    #region EVENTS
-    public Action OnExecute;
-    #endregion
-
-    #region PROPERTIES
-    public Generator3D Generator
+    public class Generator3DPanel : VisualElement
     {
-        get => generator;
-        set => generator = value;
-    }
-    #endregion
+        #region UXMLFACTORY
+        public new class UxmlFactory : UxmlFactory<Generator3DPanel, VisualElement.UxmlTraits> { }
+        #endregion
 
-    #region CONSTRUCTORS
-    public Generator3DPanel() 
-    {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("Generator3DPanel"); // Editor
-        visualTree.CloneTree(this);
+        #region VIEW ELEMENTS
+        private ClassDropDown dropDownField;
+        private Vector3Field positionField;
+        private Vector2Field scaleField;
+        private Vector2Field resizeField;
+        private TextField nameField;
+        private Button action;
+        private Toggle destroyPrev;
+        #endregion
 
-        positionField = this.Q<Vector3Field>(name: "Position");
+        #region FIELDS
+        private Generator3D generator;
+        private Generator3D.Settings settings;
+        private LBSLayer layer;
+        #endregion
 
-        resizeField = this.Q<Vector2Field>(name: "Resize");
-        resizeField.value = Vector2.one;
+        #region EVENTS
+        public Action OnExecute;
+        #endregion
 
-        scaleField = this.Q<Vector2Field>(name: "ReferenceSize");
-        scaleField.value = new Vector2(2, 2);
-
-        nameField = this.Q<TextField>(name: "ObjName");
-
-        dropDownField = this.Q<ClassDropDown>(name: "Generator");
-
-        dropDownField.label = "Gennerator";
-        dropDownField.Type = typeof(Generator3D);
-
-        destroyPrev = this.Q<Toggle>(name: "DestroyPrev");
-
-        action = this.Q<Button>(name: "Action");
-        action.clicked += OnExecute;
-        action.clicked += Execute;
-    }
-    #endregion
-
-    public void Init(LBSLayer layer)
-    {
-        if (layer == null)
+        #region PROPERTIES
+        public Generator3D Generator
         {
-            Debug.LogWarning("[ISI Lab]: The layer being initialized is NULL.");
-            return;
+            get => generator;
+            set => generator = value;
         }
+        #endregion
 
-        this.layer = layer;
-        this.generator = new Generator3D();
-
-        generator.settings = settings;
-        this.settings = layer.Settings;
-
-        
-        if (generator != null)
+        #region CONSTRUCTORS
+        public Generator3DPanel()
         {
-            dropDownField.Value = generator.GetType().Name;
-            scaleField.value = settings.scale;
-            positionField.value = settings.position;
-            nameField.value = layer.Name;//+ "("+settings.name+")";
-            resizeField.value = settings.resize;
+            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("Generator3DPanel");
+            visualTree.CloneTree(this);
+
+            positionField = this.Q<Vector3Field>(name: "Position");
+
+            resizeField = this.Q<Vector2Field>(name: "Resize");
+            resizeField.value = Vector2.one;
+
+            scaleField = this.Q<Vector2Field>(name: "ReferenceSize");
+            scaleField.value = new Vector2(2, 2);
+
+            nameField = this.Q<TextField>(name: "ObjName");
+
+            dropDownField = this.Q<ClassDropDown>(name: "Generator");
+
+            dropDownField.label = "Gennerator";
+            dropDownField.Type = typeof(Generator3D);
+
+            destroyPrev = this.Q<Toggle>(name: "DestroyPrev");
+
+            action = this.Q<Button>(name: "Action");
+            action.clicked += OnExecute;
+            action.clicked += Execute;
         }
-    }
+        #endregion
 
-    public void Execute()
-    {
-        if (this.layer == null) // (!) quitar ya no sirve 
+        public void Init(LBSLayer layer)
         {
-            Debug.LogError("[ISI LAB]: no se tiene referencia de ninguna layer para generar.");
-            return;
-        }
-
-        if (destroyPrev.value)
-        {
-            var prev = GameObject.Find(nameField.value);
-            if (prev != null)
+            if (layer == null)
             {
-                GameObject.DestroyImmediate(prev);
+                Debug.LogWarning("[ISI Lab] Warning: You don't have any layer selected.");
+                return;
+            }
+
+            this.layer = layer;
+            this.generator = new Generator3D();
+
+            generator.settings = settings;
+            this.settings = layer.Settings;
+
+
+            if (generator != null)
+            {
+                dropDownField.Value = generator.GetType().Name;
+                scaleField.value = settings.scale;
+                positionField.value = settings.position;
+                nameField.value = layer.Name;
+                resizeField.value = settings.resize;
             }
         }
 
-        if (generator == null)
+        public void Execute()
         {
-            generator = dropDownField.GetChoiceInstance() as Generator3D;
+            if (this.layer == null)
+            {
+                Debug.LogError("[ISI LAB]: There is no reference for any layer to generate.");
+                return;
+            }
+
+            if (destroyPrev.value)
+            {
+                var prev = GameObject.Find(nameField.value);
+                if (prev != null)
+                {
+                    GameObject.DestroyImmediate(prev);
+                }
+            }
+
+            if (generator == null)
+            {
+                generator = dropDownField.GetChoiceInstance() as Generator3D;
+            }
+
+            var settings = new Generator3D.Settings
+            {
+                name = nameField.value,
+                position = positionField.value,
+                resize = resizeField.value,
+                scale = scaleField.value,
+            };
+
+            var obj = generator.Generate(this.layer, this.layer.GeneratorRules, settings);
+            Undo.RegisterCreatedObjectUndo(obj, "Create my GameObject");
         }
 
-        var settings = new Generator3D.Settings {
-            name = nameField.value,
-            position = positionField.value,
-            resize = resizeField.value,
-            scale = scaleField.value,
-        };
 
-        var obj = generator.Generate(this.layer, this.layer.GeneratorRules, settings);
-        Undo.RegisterCreatedObjectUndo(obj, "Create my GameObject");
     }
-
-
 }

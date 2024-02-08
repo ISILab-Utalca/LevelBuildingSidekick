@@ -12,6 +12,8 @@ using static UnityEngine.GraphicsBuffer;
 using LBS.Settings;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using ISILab.Commons.Utility;
+using ISILab.Commons.Utility.Editor;
 
 namespace LBS.VisualElements
 {
@@ -111,7 +113,7 @@ namespace LBS.VisualElements
         #region CONSTRUCTORS
         public ToolKit()
         {
-            var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("ToolKit");
+            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("ToolKit");
             visualTree.CloneTree(this);
 
             this.content = this.Q<VisualElement>("Content");
@@ -153,7 +155,7 @@ namespace LBS.VisualElements
             foreach (var behaviour in layer.Behaviours)
             {
                 var type = behaviour.GetType();
-                var customEditors = Utility.Reflection.GetClassesWith<LBSCustomEditorAttribute>()
+                var customEditors = Reflection.GetClassesWith<LBSCustomEditorAttribute>()
                     .Where(t => t.Item2.Any(v => v.type == type)).ToList();
 
                 if (customEditors.Count() == 0)
@@ -176,7 +178,7 @@ namespace LBS.VisualElements
             foreach (var assist in layer.Assitants)
             {
                 var type = assist.GetType();
-                var customEditors = Utility.Reflection.GetClassesWith<LBSCustomEditorAttribute>()
+                var customEditors = Reflection.GetClassesWith<LBSCustomEditorAttribute>()
                     .Where(t => t.Item2.Any(v => v.type == type)).ToList();
 
                 if (customEditors.Count() == 0)

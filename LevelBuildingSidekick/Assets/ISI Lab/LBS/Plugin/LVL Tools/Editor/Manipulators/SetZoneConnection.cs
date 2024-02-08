@@ -1,14 +1,9 @@
 using LBS.Components;
-using LBS.Components.Teselation;
-using LBS.Components.TileMap;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-using UnityEditor.PackageManager.UI;
-using LBS.Tools.Transformer;
-using LBS.Behaviours;
 using LBS;
 
 public class SetZoneConnection : LBSManipulator

@@ -1,3 +1,4 @@
+using ISILab.Commons.Utility.Editor;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -23,7 +24,7 @@ public class LBSAssetsStorageEditor : Editor
         var storage = (target as LBSAssetsStorage);
         storage.Clear();
 
-        var SOs = Utility.DirectoryTools.GetScriptables<ScriptableObject>();
+        var SOs = DirectoryTools.GetScriptables<ScriptableObject>();
         foreach (var s in SOs)
         {
             storage.AddElement(s);
@@ -40,7 +41,7 @@ public static class StorageExtension
     {
         storage.Clear();
 
-        var SOs = Utility.DirectoryTools.GetScriptables<ScriptableObject>();
+        var SOs = DirectoryTools.GetScriptables<ScriptableObject>();
         foreach (var s in SOs)
         {
             storage.AddElement(s);

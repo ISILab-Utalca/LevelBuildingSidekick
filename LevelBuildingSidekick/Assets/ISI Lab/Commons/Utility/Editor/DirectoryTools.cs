@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System;
 
-namespace Utility
+namespace ISILab.Commons.Utility.Editor
 {
     public static class DirectoryTools
     {
@@ -93,7 +93,7 @@ namespace Utility
             }
 
             System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(path);
-            var files = Utility.DirectoryTools.GetAllFilesByExtension(extension, dir);
+            var files = GetAllFilesByExtension(extension, dir);
             return files;
         }
 

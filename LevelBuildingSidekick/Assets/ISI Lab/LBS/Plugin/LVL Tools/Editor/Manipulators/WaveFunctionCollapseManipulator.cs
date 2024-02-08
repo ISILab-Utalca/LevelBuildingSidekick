@@ -1,3 +1,4 @@
+using ISILab.LBS.AI.Assistants;
 using LBS.Bundles;
 using LBS.Components;
 using LBS.Components.TileMap;

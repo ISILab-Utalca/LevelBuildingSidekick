@@ -1,3 +1,4 @@
+using ISILab.Commons.Utility.Editor;
 using LBS.Behaviours;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ public class BehaviourBaseView : VisualElement
 
     public BehaviourBaseView()
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("BehaviourBaseView");
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("BehaviourBaseView");
         visualTree.CloneTree(this);
 
         this.helpBtn = this.Q<Button>("HelpBtn");

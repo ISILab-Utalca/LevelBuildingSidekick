@@ -1,10 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using LBS.Representation;
-using Utility;
 using System.Linq;
-//using UnityEditor;
 using LBS.Components;
 using UnityEditor;
 using LBS.Bundles;
@@ -13,7 +10,7 @@ using ISILab.Commons;
 namespace LBS.Generator
 {
     [System.Serializable]
-    public class PopulationRuleGenerator : LBSGeneratorRule // PopulationGenerator -> TaggedTileMapGenerator (?)
+    public class PopulationRuleGenerator : LBSGeneratorRule // FIX: Change to a better name
     {
         public override List<Message> CheckViability(LBSLayer layer)
         {

@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 using UnityEditor;
 using UnityEditor.UIElements;
 using System;
+using ISILab.Commons.Utility.Editor;
 
 public class TagView : VisualElement
 {
@@ -18,7 +19,7 @@ public class TagView : VisualElement
     #region CONSTRUCTORS
     public TagView()
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("TagView"); // Editor
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("TagView");
         visualTree.CloneTree(this);
 
         // TextField

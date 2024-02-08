@@ -5,9 +5,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Utility;
+using ISILab.Extensions;
 using UnityEditor.UIElements;
 using LBS.Bundles;
+using ISILab.Commons.Utility.Editor;
+using ISILab.LBS.AI.VisualElements;
 
 [CustomVisualElement(typeof(MaximizeDistance))]
 public class MaximizeDistanceVE : EvaluatorVE
@@ -30,8 +32,6 @@ public class MaximizeDistanceVE : EvaluatorVE
         listView.fixedItemHeight = 20;
         listView.itemsSource = (evaluator as MaximizeDistance).whiteList;
         listView.makeItem = MakeItem;
-        //listView.onItemsChosen += OnItemChosen;
-        //listView.onSelectionChange += OnSelectionChange;
 
         listView.bindItem += (item, index) =>
         {
@@ -72,7 +72,6 @@ public class MaximizeDistanceVE : EvaluatorVE
     public void OnSelectionChange(IEnumerable<object> objs)
     {
         var selected = objs.ToList()[0] as UnityEngine.Object;
-        //OnSelectLayer?.Invoke(selected);
     }
 
     public override void Init()

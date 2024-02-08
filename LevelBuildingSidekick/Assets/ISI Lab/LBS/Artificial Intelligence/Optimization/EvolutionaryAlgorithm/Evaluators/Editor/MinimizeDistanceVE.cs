@@ -5,9 +5,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Utility;
 using UnityEditor.UIElements;
 using LBS.Bundles;
+using ISILab.Commons.Utility.Editor;
+using ISILab.Extensions;
+using ISILab.LBS.AI.VisualElements;
 
 [CustomVisualElement(typeof(MinimizeDistance))]
 public class MinimizeDistanceVE : EvaluatorVE
@@ -30,8 +32,6 @@ public class MinimizeDistanceVE : EvaluatorVE
         listView.fixedItemHeight = 20;
         listView.itemsSource = (evaluator as MinimizeDistance).whiteList;
         listView.makeItem = MakeItem;
-        //listView.onItemsChosen += OnItemChosen;
-        //listView.onSelectionChange += OnSelectionChange;
 
         listView.bindItem += (item, index) =>
         {
@@ -61,7 +61,6 @@ public class MinimizeDistanceVE : EvaluatorVE
     {
         var obj = new ObjectField("Element " + (evaluator as MinimizeDistance).whiteList.Count);
         obj.objectType = typeof(Bundle);
-        //(evaluator as MaxDistance).whiteList.Add(null);
         return obj;
     }
 
@@ -73,7 +72,6 @@ public class MinimizeDistanceVE : EvaluatorVE
     public void OnSelectionChange(IEnumerable<object> objs)
     {
         var selected = objs.ToList()[0] as UnityEngine.Object;
-        //OnSelectLayer?.Invoke(selected);
     }
 
     public override void Init()

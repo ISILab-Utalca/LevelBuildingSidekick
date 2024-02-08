@@ -1,3 +1,4 @@
+using ISILab.Commons.Utility.Editor;
 using LBS.Components;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
@@ -8,143 +9,142 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
-public class QuestsPanel : VisualElement
+namespace ISILab.LBS.VisualElements.Editor
 {
-
-    public LBSLevelData data;
-
-    private ListView list;
-    private TextField nameField;
-    private DropdownField typeDropdown;
-
-    #region EVENTS
-    public event Action<LBSLayer> OnAddQuest;
-    public event Action<LBSQuestGraph> OnRemoveQuest;
-    public event Action<LBSLayer> OnSelectQuest; // click simple (!)
-    public event Action<LBSLayer> OnDoubleSelectQuest; // doble click (!)
-    public event Action<LBSLayer> OnQuestVisibilityChange;
-    #endregion
-
-    public QuestsPanel() { }
-
-    public QuestsPanel(LBSLevelData data)
+    public class QuestsPanel : VisualElement
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("QuestsPanel"); // Editor
-        visualTree.CloneTree(this);
+        public LBSLevelData data;
 
-        this.data = data;
+        private ListView list;
+        private TextField nameField;
+        private DropdownField typeDropdown;
 
-        // LayerList
-        list = this.Q<ListView>("List");
+        #region EVENTS
+        public event Action<LBSLayer> OnAddQuest;
+        public event Action<LBSQuestGraph> OnRemoveQuest;
+        public event Action<LBSLayer> OnSelectQuest;
+        public event Action<LBSLayer> OnDoubleSelectQuest;
+        public event Action<LBSLayer> OnQuestVisibilityChange;
+        #endregion
 
-        list.itemsSource = this.data.Quests;
+        public QuestsPanel() { }
 
-        Func<VisualElement> makeItem = () =>
+        public QuestsPanel(LBSLevelData data)
         {
-            return new QuestView();
-        };
+            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("QuestsPanel");
+            visualTree.CloneTree(this);
 
-        list.bindItem += (item, index) =>
-        {
-            if (index >= this.data.Quests.Count)
-                return;
+            this.data = data;
 
-            var view = (item as QuestView);
-            var quest = this.data.Quests[index];
-            view.SetInfo(quest);
-            view.OnVisibilityChange += () => { OnQuestVisibilityChange(quest); };
-        };
+            // LayerList
+            list = this.Q<ListView>("List");
 
-        list.fixedItemHeight = 20;
-        list.itemsSource = data.Quests;
-        list.makeItem += makeItem;
-        list.itemsChosen += OnItemChosen;
-        list.selectionChanged += OnSelectionChange;
+            list.itemsSource = this.data.Quests;
 
-        // NameField
-        nameField = this.Q<TextField>("NameField");
+            Func<VisualElement> makeItem = () =>
+            {
+                return new QuestView();
+            };
 
-        // AddLayerButton
-        var addLayerBtn = this.Q<Button>("AddLayerButton");
-        addLayerBtn.clicked += AddQuest;
+            list.bindItem += (item, index) =>
+            {
+                if (index >= this.data.Quests.Count)
+                    return;
 
-        // RemoveSelectedButton
-        var RemoveSelectedBtn = this.Q<Button>("RemoveSelectedButton");
-        RemoveSelectedBtn.clicked += RemoveSelectedQuest;
-    }
+                var view = (item as QuestView);
+                var quest = this.data.Quests[index];
+                view.SetInfo(quest);
+                view.OnVisibilityChange += () => { OnQuestVisibilityChange(quest); };
+            };
 
-    private void RemoveSelectedQuest()
-    {
-        if (data.Quests.Count <= 0)
-            return;
+            list.fixedItemHeight = 20;
+            list.itemsSource = data.Quests;
+            list.makeItem += makeItem;
+            list.itemsChosen += OnItemChosen;
+            list.selectionChanged += OnSelectionChange;
 
-        var index = list.selectedIndex;
-        if (index < 0)
-            return;
+            // NameField
+            nameField = this.Q<TextField>("NameField");
 
-        var answer = EditorUtility.DisplayDialog("Caution",
-        "You are about to delete a layer. If you proceed with this action, all of its" +
-        " content will be permanently removed, and you won't be able to recover it. Are" +
-        " you sure you want to continue?", "Continue", "Cancel");
+            // AddLayerButton
+            var addLayerBtn = this.Q<Button>("AddLayerButton");
+            addLayerBtn.clicked += AddQuest;
 
-        if (!answer)
-            return;
-
-        var quest = data.RemoveQuestAt(index);
-        OnRemoveQuest?.Invoke(quest);
-
-        list.Rebuild();
-
-        DrawManager.ReDraw();
-    }
-
-    private void AddQuest()
-    {
-        var name = nameField.text;
-
-        int i = 1;
-        while (data.Quests.Any(l => l.Name.Equals(name)))
-        {
-            name = nameField.text + " " + i;
-            i++;
+            // RemoveSelectedButton
+            var RemoveSelectedBtn = this.Q<Button>("RemoveSelectedButton");
+            RemoveSelectedBtn.clicked += RemoveSelectedQuest;
         }
 
-        var q = data.AddQuest(name);
-        list.selectedIndex = 0;
-        list.Rebuild();
+        private void RemoveSelectedQuest()
+        {
+            if (data.Quests.Count <= 0)
+                return;
 
-        OnAddQuest?.Invoke(q);
+            var index = list.selectedIndex;
+            if (index < 0)
+                return;
 
-        DrawManager.ReDraw();
+            var answer = EditorUtility.DisplayDialog("Caution",
+            "You are about to delete a layer. If you proceed with this action, all of its" +
+            " content will be permanently removed, and you won't be able to recover it. Are" +
+            " you sure you want to continue?", "Continue", "Cancel");
+
+            if (!answer)
+                return;
+
+            var quest = data.RemoveQuestAt(index);
+            OnRemoveQuest?.Invoke(quest);
+
+            list.Rebuild();
+
+            DrawManager.ReDraw();
+        }
+
+        private void AddQuest()
+        {
+            var name = nameField.text;
+
+            int i = 1;
+            while (data.Quests.Any(l => l.Name.Equals(name)))
+            {
+                name = nameField.text + " " + i;
+                i++;
+            }
+
+            var q = data.AddQuest(name);
+            list.selectedIndex = 0;
+            list.Rebuild();
+
+            OnAddQuest?.Invoke(q);
+
+            DrawManager.ReDraw();
+        }
+
+        // Simple Click over element
+        private void OnSelectionChange(IEnumerable<object> objs)
+        {
+            if (objs.Count() <= 0)
+                return;
+
+            var selected = objs.ToList()[0] as LBSLayer;
+            OnSelectQuest?.Invoke(selected);
+        }
+
+        // Double Click over element
+        private void OnItemChosen(IEnumerable<object> objs)
+        {
+            if (objs.Count() <= 0)
+                return;
+
+            var selected = objs.ToList()[0] as LBSLayer;
+            OnDoubleSelectQuest?.Invoke(selected);
+        }
+
+        public void ResetSelection()
+        {
+            list.ClearSelection();
+        }
+
     }
-
-    // Simple Click over element
-    private void OnSelectionChange(IEnumerable<object> objs)
-    {
-        if (objs.Count() <= 0)
-            return;
-
-        var selected = objs.ToList()[0] as LBSLayer;
-        OnSelectQuest?.Invoke(selected);
-    }
-
-    // Double Click over element
-    private void OnItemChosen(IEnumerable<object> objs)
-    {
-        if (objs.Count() <= 0)
-            return;
-
-        var selected = objs.ToList()[0] as LBSLayer;
-        OnDoubleSelectQuest?.Invoke(selected);
-    }
-
-
-    public void ResetSelection()
-    {
-        list.ClearSelection();
-        //list.RemoveFromSelection(list.selectedIndex);
-    }
-
 }

@@ -1,3 +1,4 @@
+using ISILab.Commons.Utility;
 using LBS.Components;
 using System;
 using System.Collections;
@@ -15,7 +16,7 @@ public static class ModuleExtensions
         var t = typeof(T);
         foreach (var module in modules)
         {
-            if (module is T || Utility.Reflection.IsSubclassOfRawGeneric(t, module.GetType()))
+            if (module is T || Reflection.IsSubclassOfRawGeneric(t, module.GetType()))
             {
                 if (ID.Equals("") || module.ID.Equals(ID))
                 {

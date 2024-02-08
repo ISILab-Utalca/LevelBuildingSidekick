@@ -1,3 +1,4 @@
+using ISILab.Commons.Utility;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -31,7 +32,7 @@ public static class LBS_Editor
     public static Type GetEditor(Type targetType)
     {
         if (pairsEditors == null)
-            pairsEditors = Utility.Reflection.GetClassesWith<LBSCustomEditorAttribute>();
+            pairsEditors = Reflection.GetClassesWith<LBSCustomEditorAttribute>();
 
         foreach (var pair in pairsEditors)
         {
@@ -52,7 +53,7 @@ public static class LBS_Editor
     public static Type GetDrawer(Type targetType)
     {
         if(pairDrawers == null)
-            pairDrawers = Utility.Reflection.GetClassesWith<DrawerAttribute>();
+            pairDrawers = Reflection.GetClassesWith<DrawerAttribute>();
 
         foreach (var pair in pairDrawers)
         {

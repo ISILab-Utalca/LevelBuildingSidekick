@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Commons.Optimization.Evaluator;
+using ISILab.Commons.Utility;
 
 public class ClassDropDown : DropdownField
 {
@@ -76,11 +77,11 @@ public class ClassDropDown : DropdownField
 
         if (Type.IsClass)
         {
-            types = Utility.Reflection.GetAllSubClassOf(Type).ToList();
+            types = Reflection.GetAllSubClassOf(Type).ToList();
         }
         else if (Type.IsInterface)
         {
-            types = Utility.Reflection.GetAllImplementationsOf(Type).ToList();
+            types = Reflection.GetAllImplementationsOf(Type).ToList();
         }
 
         if (filterAbstract)

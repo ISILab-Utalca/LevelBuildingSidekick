@@ -17,6 +17,8 @@ using LBS.Assisstants;
 using System.Threading.Tasks;
 using UnityEngine.XR;
 using ISILab.Commons;
+using ISILab.Extensions;
+using ISILab.AI.Wrappers;
 
 [System.Serializable]
 [RequieredModule(typeof(TileMapModule),
@@ -24,7 +26,6 @@ using ISILab.Commons;
     typeof(SectorizedTileMapModule),
     typeof(ConnectedZonesModule),
     typeof(ConstrainsZonesModule))]
-//[RequieredModule(typeof(LBSRoomGraph), typeof(LBSSchema))]
 public class HillClimbingAssistant : LBSAssistant
 {
     private List<Vector2Int> Dirs => Directions.Bidimencional.Edges;
@@ -139,7 +140,7 @@ public class HillClimbingAssistant : LBSAssistant
             var currZone = zonesMod.GetZone(tile);
 
             var currConnects = connection.GetConnections(tile);
-            var neigs = tileModule.GetTileNeighbors(tile, Dirs);// GetTileNeighbors(tile, Directions);
+            var neigs = tileModule.GetTileNeighbors(tile, Dirs);
 
             var edt = connection.GetPair(tile).EditedByIA;
 
@@ -310,16 +311,13 @@ public class HillClimbingAssistant : LBSAssistant
 
         };
 
-        // Set constraint
-        // ConstrainsZonesMod.RecalculateConstraint(zonesMod.Zones);
-
         // Set first population
         var adam = new OptimizableModules(layer.Modules);
 
 
         var selection = new EliteSelection();
-        var termination = new FitnessStagnationTermination(1); // agregar termination de maximo local
-        var evaluator = new WeightedEvaluator(new System.Tuple<IEvaluator, float>[] //agregar parametros necesarios a las clases de evaluaci�n
+        var termination = new FitnessStagnationTermination(1); 
+        var evaluator = new WeightedEvaluator(new System.Tuple<IEvaluator, float>[] 
         {
             new System.Tuple<IEvaluator, float> (new AdjacenciesEvaluator(layer), 4f),
             new System.Tuple<IEvaluator, float> (new AreasEvaluator(layer), 0.15f),
@@ -329,7 +327,7 @@ public class HillClimbingAssistant : LBSAssistant
         });
         var population = new Population(1, 100, adam); // agregar parametros
 
-        hillClimbing = new HillClimbing(population, evaluator, selection, GetNeighbors, termination); // asignar Adam
+        hillClimbing = new HillClimbing(population, evaluator, selection, GetNeighbors, termination); 
 
     }
 
@@ -338,11 +336,11 @@ public class HillClimbingAssistant : LBSAssistant
         // Set Owner
         Owner = layer;
 
-        var adam = new OptimizableModules(new List<LBSModule>(layer.Modules));//(layer.Clone() as LBSLayer);
+        var adam = new OptimizableModules(new List<LBSModule>(layer.Modules));
 
         var selection = new EliteSelection();
-        var termination = new FitnessStagnationTermination(1); // agregar termination de maximo local
-        var evaluator = new WeightedEvaluator(new System.Tuple<IEvaluator, float>[] //agregar parametros necesarios a las clases de evaluaci�n
+        var termination = new FitnessStagnationTermination(1);
+        var evaluator = new WeightedEvaluator(new System.Tuple<IEvaluator, float>[] 
         {
             new System.Tuple<IEvaluator, float> (new AdjacenciesEvaluator(layer), 0.4f),
             new System.Tuple<IEvaluator, float> (new AreasEvaluator(layer), 0.15f),

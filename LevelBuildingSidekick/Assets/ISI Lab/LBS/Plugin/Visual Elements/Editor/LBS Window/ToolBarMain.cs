@@ -1,3 +1,4 @@
+using ISILab.Commons.Utility.Editor;
 using LBS;
 using System;
 using System.Collections;
@@ -7,59 +8,57 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class ToolBarMain : VisualElement // esto puede ser directamente toolbar
+namespace ISILab.LBS.VisualElements.Editor
 {
-    public new class UxmlFactory : UxmlFactory<ToolBarMain, VisualElement.UxmlTraits> { }
-
-    public LBSMainWindow window; // (!!) esta referencia solo existe por que actualmente tenemos la data con la que estamos trabajando en mainWindow 
-
-    //public event Action<LoadedLevel> OnChangeLevelData;
-
-    public event Action<LoadedLevel> OnLoadLevel;
-    public event Action<LoadedLevel> OnNewLevel;
-
-    public ToolBarMain()
+    public class ToolBarMain : VisualElement
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("ToolBarMain"); // Editor
-        visualTree.CloneTree(this);
+        public new class UxmlFactory : UxmlFactory<ToolBarMain, VisualElement.UxmlTraits> { }
 
-        // File menu option
-        var fileMenu = this.Q<ToolbarMenu>("ToolBarMenu");
-        fileMenu.menu.AppendAction("New", NewLevel);
-        fileMenu.menu.AppendAction("Load", LoadLevel);
-        fileMenu.menu.AppendAction("Save", SaveLevel);
-        fileMenu.menu.AppendAction("Save as", SaveAsLevel);
+        public LBSMainWindow window;
 
-        var keyMapBtn = this.Q<ToolbarButton>("KeyMapBtn");
-        keyMapBtn.clicked += () => { KeyMapWindow.ShowWindow(); };
-        // search object in current window
-        //var search = this.Q<ToolbarPopupSearchField>("SearchField"); // (!) Implementar
+        public event Action<LoadedLevel> OnLoadLevel;
+        public event Action<LoadedLevel> OnNewLevel;
 
-        // file name label
-        var label = this.Q<Label>("IsSavedLabel"); // (!) Implementar
-    }
+        public ToolBarMain()
+        {
+            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("ToolBarMain");
+            visualTree.CloneTree(this);
 
-    public void NewLevel(DropdownMenuAction dma)
-    {
-        var data = LBSController.CreateNewLevel("new file", new Vector3(100, 100, 100));
-        OnNewLevel?.Invoke(data);
-    }
+            // File menu option
+            var fileMenu = this.Q<ToolbarMenu>("ToolBarMenu");
+            fileMenu.menu.AppendAction("New", NewLevel);
+            fileMenu.menu.AppendAction("Load", LoadLevel);
+            fileMenu.menu.AppendAction("Save", SaveLevel);
+            fileMenu.menu.AppendAction("Save as", SaveAsLevel);
 
-    public void LoadLevel(DropdownMenuAction dma)
-    {
-        var data = LBSController.LoadFile();
-        if(data != null)
-            OnLoadLevel?.Invoke(data);
-        //GenericLBSWindow.RefeshAll(this);
-    }
+            var keyMapBtn = this.Q<ToolbarButton>("KeyMapBtn");
+            keyMapBtn.clicked += () => { KeyMapWindow.ShowWindow(); };
 
-    public void SaveLevel(DropdownMenuAction dma)
-    {
-        LBSController.SaveFile();
-    }
+            // file name label
+            var label = this.Q<Label>("IsSavedLabel"); // TODO: mark as unsaved when changes are made
+        }
 
-    public void SaveAsLevel(DropdownMenuAction dma)
-    {
-        LBSController.SaveFileAs();
+        public void NewLevel(DropdownMenuAction dma)
+        {
+            var data = LBSController.CreateNewLevel("new file", new Vector3(100, 100, 100));
+            OnNewLevel?.Invoke(data);
+        }
+
+        public void LoadLevel(DropdownMenuAction dma)
+        {
+            var data = LBSController.LoadFile();
+            if (data != null)
+                OnLoadLevel?.Invoke(data);
+        }
+
+        public void SaveLevel(DropdownMenuAction dma)
+        {
+            LBSController.SaveFile();
+        }
+
+        public void SaveAsLevel(DropdownMenuAction dma)
+        {
+            LBSController.SaveFileAs();
+        }
     }
 }

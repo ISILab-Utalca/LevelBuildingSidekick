@@ -1,3 +1,4 @@
+using ISILab.Commons.Utility;
 using LBS.Components.TileMap;
 using System;
 using System.Collections;
@@ -10,11 +11,6 @@ using UnityEngine.UIElements;
 [LBSCustomEditor("BundleData", typeof(BundleData))]
 public class BundleDataEditor : LBSCustomEditor
 {
-    /*public BundleDataEditor(object target) : base(target)
-    {
-        CreateVisualElement();
-        //SetInfo(target);
-    }*/
 
     public override void SetInfo(object target)
     {
@@ -43,7 +39,7 @@ public class BundleDataEditor : LBSCustomEditor
             var type = c.GetType();
 
             // Get the editors of the selectable elements
-            var ves = Utility.Reflection.GetClassesWith<LBSCustomEditorAttribute>()
+            var ves = Reflection.GetClassesWith<LBSCustomEditorAttribute>()
                     .Where(t => t.Item2.Any(v => v.type == type)).ToList();
 
             if (ves.Count <= 0)

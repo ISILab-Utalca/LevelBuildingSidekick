@@ -1,3 +1,5 @@
+using ISILab.Commons.Utility;
+using ISILab.Commons.Utility.Editor;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,7 +15,7 @@ public class DynamicFoldout : VisualElement
 
     private object data;
     
-    static readonly VisualTreeAsset visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("ClassFoldout");
+    static readonly VisualTreeAsset visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("ClassFoldout");
 
     public object Data
     {
@@ -38,32 +40,19 @@ public class DynamicFoldout : VisualElement
         dropdown = foldout.Q<ClassDropDown>();
         dropdown.RegisterValueChangedCallback(ApplyChoice);
         dropdown.Type = type;
-        //dropdown.RegisterValueChangedCallback(ApplyChoice);
         content = foldout.Q<VisualElement>(name: "unity-content");
     }
 
     void UpdateView(Type type, object data)
     {
-        //var ves = Utility.Reflection.GetClassesWith<LBSCustomEditorAttribute>().Where(t => t.Item2.Any(v => v.type == type));
-
-        //if (ves.Count() == 0)
-        //{
-        //    content.Clear();
-        //    content.Add(new Label("[ISI Lab] No class marked as CustomVisualElement found for type: " + type));
-        //    return;
-        //throw new Exception("[ISI Lab] No class marked as CustomVisualElement found for type: " + type);
-        //}
-
         var p = LBS_Editor.pairsEditors;
         var veType = LBS_Editor.GetEditor(type);
 
         if (veType == null)
             return;
 
-        //var ve = Activator.CreateInstance(ves.First().Item1, new object[] { data}) as LBSCustomEditor;//, new object[] { dropdown.GetChoiceInstance()});
         var ve = Activator.CreateInstance(veType, new object[] { data }) as LBSCustomEditor;
 
-        //ve.SetInfo(data);
 
         if (!(ve is VisualElement))
         {
@@ -86,24 +75,13 @@ public class DynamicFoldout : VisualElement
 
     public void ApplyChoice(ChangeEvent<string> e)
     {
-        var type = Utility.Reflection.GetType(e.newValue);
+        var type = Reflection.GetType(e.newValue);
 
         if (type == null)
         {
             return;
             throw new Exception("[ISI Lab] Class type not found");
         }
-        /*
-        if(data != null && data.GetType() == type)
-        {
-            Debug.Log("Nothing happens");
-            return;
-        }
-        else
-        {
-            Debug.Log(data + " - " + type);
-            
-        }*/
 
         data = dropdown.GetChoiceInstance();
         UpdateView(type, data);

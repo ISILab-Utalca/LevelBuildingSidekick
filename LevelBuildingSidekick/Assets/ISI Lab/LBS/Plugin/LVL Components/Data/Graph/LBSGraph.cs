@@ -1,3 +1,4 @@
+using ISILab.Extensions;
 using LBS.Behaviours;
 using LBS.Components;
 using LBS.Components.Graph;
@@ -100,8 +101,6 @@ public class LBSGraph : LBSModule
         foreach (var e in edges)
         {
             var dist = position.DistanceToLine(e.FirstNode.Position, e.SecondNode.Position);
-            //Debug.Log(e.First.Position + " - " + e.Second.Position + " - " + position);
-            //Debug.Log(dist + " / " + delta);
             if (dist < delta)
             {
                 OnChanged?.Invoke(this, new List<object>() { e }, null);

@@ -1,3 +1,4 @@
+using ISILab.Commons.Utility.Editor;
 using LBS;
 using LBS.Bundles;
 using LBS.Settings;
@@ -7,7 +8,8 @@ using System.Linq;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Utility;
+using ISILab.Extensions;
+using ISILab.LBS.VisualElements;
 
 [LBSCustomEditor("Exteiror Behaviour", typeof(ExteriorBehaviour))]
 public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
@@ -46,14 +48,6 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
         var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
 
         this.targetBundle = bundles.Find(b => b.Name == exterior.TargetBundle);
-        //foreach ( var bundle in bundles)
-        //{
-        //    if(bundle.Name == exterior.TargetBundle){
-        //        this.targetBundle = bundle;
-        //        break;
-        //    }
-        //}
-
         CreateVisualElement();
     }
     #endregion

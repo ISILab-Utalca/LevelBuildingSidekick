@@ -1,3 +1,4 @@
+using ISILab.Commons.Utility.Editor;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,7 +6,7 @@ using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Utility;
+using ISILab.Extensions;
 
 public class LBSNodeView : GraphElement
 {
@@ -68,10 +69,6 @@ public class LBSNodeView : GraphElement
     {
         base.OnSelected();
         background.SetBorder(selcted, 8);
-
-        // var il = Reflection.MakeGenericScriptable(Data);
-        // LBSEvents.OnSelectElementInWorkSpace?.Invoke(il);
-        // Selection.SetActiveObjectWithContext(il, il);
     }
 
     public override void OnUnselected()

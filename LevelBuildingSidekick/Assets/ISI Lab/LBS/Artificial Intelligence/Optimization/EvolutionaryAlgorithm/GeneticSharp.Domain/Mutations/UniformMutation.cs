@@ -6,7 +6,6 @@ using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Infrastructure.Framework.Texts;
 using GeneticSharp.Infrastructure.Framework.Commons;
 using UnityEngine.UIElements;
-using Utility;
 
 namespace GeneticSharp.Domain.Mutations
 {

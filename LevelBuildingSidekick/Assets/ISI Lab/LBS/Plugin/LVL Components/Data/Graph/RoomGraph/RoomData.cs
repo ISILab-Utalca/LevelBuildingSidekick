@@ -4,6 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Reflection;
+using ISILab.JsonNet.Coverters;
+using ISILab.Extensions;
 
 namespace LBS.Components.Specifics
 {
@@ -29,7 +31,6 @@ namespace LBS.Components.Specifics
 
         [SerializeField, JsonRequired, JsonConverter(typeof(ColorConverter))]
         private Color color = Color.gray;
-
         #endregion
 
         #region PROPERTIES

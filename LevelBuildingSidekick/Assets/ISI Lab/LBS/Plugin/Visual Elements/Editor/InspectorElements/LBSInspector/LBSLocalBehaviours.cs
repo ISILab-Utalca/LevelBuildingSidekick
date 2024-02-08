@@ -1,3 +1,5 @@
+using ISILab.Commons.Utility;
+using ISILab.Commons.Utility.Editor;
 using LBS.Behaviours;
 using LBS.Components;
 using LBS.Settings;
@@ -9,6 +11,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using ISILab.Extensions;
 
 public class LBSLocalBehaviours : LBSInspector 
 {
@@ -36,7 +39,7 @@ public class LBSLocalBehaviours : LBSInspector
     #region CONSTRUCTORS
     public LBSLocalBehaviours()
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSLocalBehaviours");
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSLocalBehaviours");
         visualTree.CloneTree(this);
 
         content = this.Q<VisualElement>("Content");
@@ -63,7 +66,7 @@ public class LBSLocalBehaviours : LBSInspector
         foreach (var behaviour in target.Behaviours)
         {
             var type = behaviour.GetType();
-            var ves = Utility.Reflection.GetClassesWith<LBSCustomEditorAttribute>()
+            var ves = Reflection.GetClassesWith<LBSCustomEditorAttribute>()
                 .Where(t => t.Item2.Any(v => v.type == type)).ToList();
 
             if (ves.Count() == 0)
@@ -81,13 +84,6 @@ public class LBSLocalBehaviours : LBSInspector
             }
 
             CustomEditors.Add(ve as LBSCustomEditor);
-
-            /*
-            if (ve is IToolProvider)
-            {
-                ((IToolProvider)ve).SetTools(toolkit);
-            }
-            */
 
             var content = new BehaviourContent(ve as LBSCustomEditor, behaviour.Name, behaviour.Icon, color);
             contentBehaviour.Add(content);

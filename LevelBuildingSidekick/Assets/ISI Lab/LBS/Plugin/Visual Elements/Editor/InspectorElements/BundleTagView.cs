@@ -1,3 +1,4 @@
+using ISILab.Commons.Utility.Editor;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -19,7 +20,7 @@ public class BundleTagView : VisualElement
     {
         this.target = bundle;
 
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("BundleTagView"); // Editor
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("BundleTagView");
         visualTree.CloneTree(this);
 
         // BundleNameField

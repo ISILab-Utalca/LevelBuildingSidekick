@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
+using ISILab.Commons.Utility.Editor;
 
 public class DynamicContextMenu : GraphElement
 {
@@ -23,7 +24,7 @@ public class DynamicContextMenu : GraphElement
 
     public DynamicContextMenu() 
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("DynamicContextMenu");
+        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("DynamicContextMenu");
         visualTree.CloneTree(this);
         Menu = this.Q<VisualElement>(name: "Menu");
     }

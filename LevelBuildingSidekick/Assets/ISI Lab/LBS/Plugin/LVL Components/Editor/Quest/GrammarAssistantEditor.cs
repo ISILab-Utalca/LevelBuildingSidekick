@@ -1,3 +1,4 @@
+using ISILab.Commons.Utility.Editor;
 using LBS;
 using LBS.VisualElements;
 using System;
@@ -7,7 +8,6 @@ using System.Drawing;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Utility;
 
 [LBSCustomEditor("GrammarAssistant", typeof(GrammarAssistant))]
 public class GrammarAssistantEditor : LBSCustomEditor, IToolProvider
