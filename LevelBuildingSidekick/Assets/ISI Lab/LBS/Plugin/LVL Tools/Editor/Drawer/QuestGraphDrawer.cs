@@ -6,9 +6,12 @@ using LBS.Components.Specifics;
 using LBS.Settings;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.UIElements;
+using ISILab.Extensions;
 
-[Drawer(typeof(GrammarAssistant))]
+[Drawer(typeof(QuestBehaviour))]
 public class QuestGraphDrawer : Drawer
 {
     public QuestGraphDrawer() : base() { }
@@ -16,9 +19,9 @@ public class QuestGraphDrawer : Drawer
     //TODO: Falls into a null for a key in a dictionary.
     public override void Draw(object target, MainView view, Vector2 teselationSize)
     {
-        var assistant = target as GrammarAssistant;
+        var behaviour = target as QuestBehaviour;
 
-        var quest = assistant.Quest;
+        var quest = behaviour.Graph;
 
         var nodeViews = new Dictionary<QuestNode, QuestNodeView>();
 
@@ -35,11 +38,25 @@ public class QuestGraphDrawer : Drawer
 
             var nodeView = new QuestNodeView(node);
 
-            var size = assistant.Owner.TileSize * LBSSettings.Instance.general.TileSize;
+            var size = LBSSettings.Instance.general.TileSize * behaviour.NodeSize;
 
             nodeView.SetPosition(new Rect(node.Position, size));
 
             nodeViews.Add(node, nodeView);
+
+            if(!(node.Target.Rect.width == 0 || node.Target.Rect.height == 0))
+            {
+                var rectView = new DottedAreaFeedback();
+
+                var rectSize = behaviour.Owner.TileSize * LBSSettings.Instance.general.TileSize;
+                var start = new Vector2(node.Target.Rect.min.x, -node.Target.Rect.min.y) * rectSize;
+                var end = new Vector2(node.Target.Rect.max.x, -node.Target.Rect.max.y) * rectSize;
+                rectView.SetPosition(Rect.zero);
+                rectView.ActualizePositions(start.ToInt(), end.ToInt());
+                rectView.SetColor(Color.blue);
+
+                view.AddElement(rectView);
+            }
         }
 
         foreach (var edge in quest.QuestEdges)
@@ -52,9 +69,9 @@ public class QuestGraphDrawer : Drawer
             view.AddElement(edgeView);
         }
 
-        foreach(var node in nodeViews.Values)
+        foreach(var nodeView in nodeViews.Values)
         {
-            view.AddElement(node);
+            view.AddElement(nodeView);
         }
     }
 }

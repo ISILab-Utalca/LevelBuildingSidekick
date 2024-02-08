@@ -11,7 +11,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 [System.Serializable]
-public class LBSQuestGraph : LBSModule, ICloneable
+public class QuestGraph : LBSModule, ICloneable, ISelectable
 {
 
     [SerializeField, JsonRequired]
@@ -28,7 +28,7 @@ public class LBSQuestGraph : LBSModule, ICloneable
 
 
     [JsonIgnore]
-    public QuestNode Root { get => root; }
+    public QuestNode Root => root; 
 
     [JsonIgnore]
     private LBSGrammar grammar;
@@ -75,7 +75,7 @@ public class LBSQuestGraph : LBSModule, ICloneable
     public Action<QuestEdge> OnRemoveEdge;
     #endregion
 
-    public LBSQuestGraph()
+    public QuestGraph()
     {
         IsVisible = true;
         root = new QuestNode("Start Node", Vector2.zero, "Start Node");
@@ -120,9 +120,6 @@ public class LBSQuestGraph : LBSModule, ICloneable
 
         if (first == null || second == null)
         {
-            Debug.LogWarning("NullNode");
-            Debug.Log("First " + first);
-            Debug.Log("Second " + second);
             return;
         }
 
@@ -190,7 +187,7 @@ public class LBSQuestGraph : LBSModule, ICloneable
     {
         if(questEdges.Count == 0)
             return new List<QuestEdge>();
-        return questEdges.Where(e => e.First == node).ToList();
+        return questEdges.Where(e => e.First.ID == node.ID).ToList();
     }
 
     public List<QuestEdge> GetRoots(QuestNode node)
@@ -249,24 +246,39 @@ public class LBSQuestGraph : LBSModule, ICloneable
 
     public override object Clone()
     {
-        var clone = new LBSQuestGraph();
+        var clone = new QuestGraph();
 
-        var nodes = questNodes.Select(n => n.Clone()).Cast<QuestNode>();
+        clone.questNodes.Clear();
+
+        var nodes = questNodes.Select(n => CloneRefs.Get(n)).Cast<QuestNode>();
 
         foreach (var node in nodes)
         {
             clone.questNodes.Add(node);
         }
 
-        var edgesClone = questEdges.Select(e => e.Clone()).Cast<QuestEdge>();
+        var edgesClone = questEdges.Select(e => CloneRefs.Get(e)).Cast<QuestEdge>();
         foreach (var edge in edgesClone)
         {
-            clone.QuestEdges.Add(edge);
+            clone.questEdges.Add(edge);
         }
 
-
+        clone.root = CloneRefs.Get(Root) as QuestNode;
 
         return clone;
+    }
+
+    public List<object> GetSelected(Vector2Int position)
+    { 
+        var selecteds = new List<object>();
+
+        var node = GetQuesNode(position);
+        if(node != null)
+            selecteds.Add(node);
+
+        Debug.Log("Select: " + node);
+
+        return selecteds;
     }
 }
 

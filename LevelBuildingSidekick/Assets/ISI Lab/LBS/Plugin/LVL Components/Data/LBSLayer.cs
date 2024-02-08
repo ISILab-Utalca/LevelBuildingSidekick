@@ -365,6 +365,22 @@ namespace LBS.Components
             return null;
         }
 
+        public T GetAssistant<T>(string ID = "") where T : LBSAssistant
+        {
+            var t = typeof(T);
+            foreach (var a in assitants)
+            {
+                if (a is T || Reflection.IsSubclassOfRawGeneric(t, a.GetType()))
+                {
+                    if (ID.Equals("") || a.Name.Equals(ID))
+                    {
+                        return a as T;
+                    }
+                }
+            }
+            return null;
+        }
+
         public object GetModule(Type type ,string ID = "")
         {
             foreach (var module in modules)
@@ -379,6 +395,21 @@ namespace LBS.Components
             }
             return null;
 
+        }
+        public T GetBehaviour<T>(string ID = "") where T : LBSBehaviour
+        {
+            var t = typeof(T);
+            foreach (var b in behaviours)
+            {
+                if (b is T || Reflection.IsSubclassOfRawGeneric(t, b.GetType()))
+                {
+                    if (ID.Equals("") || b.Name.Equals(ID))
+                    {
+                        return b as T;
+                    }
+                }
+            }
+            return null;
         }
 
         internal void SetModule<T>(T module, string key = "") where T : LBSModule
@@ -528,6 +559,7 @@ namespace LBS.Components
         {
             return base.ToString();
         }
+
 
         /*
         public bool InsertModule(int index, LBSModule module)

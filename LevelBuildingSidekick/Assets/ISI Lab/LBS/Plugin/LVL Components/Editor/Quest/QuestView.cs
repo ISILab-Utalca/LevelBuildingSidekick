@@ -30,6 +30,8 @@ public class QuestView : VisualElement
         // LayerIcon
         this.questIcon = this.Q<VisualElement>("Icon");
 
+        questIcon.style.backgroundImage = DirectoryTools.SearchAssetByName<Texture2D>("IconQuestMainWindw");
+
         // Show/Hide button
         this.showButton = this.Q<Button>("ShowButton");
         this.showButton.clicked += () => { ShowQuest(true); };
