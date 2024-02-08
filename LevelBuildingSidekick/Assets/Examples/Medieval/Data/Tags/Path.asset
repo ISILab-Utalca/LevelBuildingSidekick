@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Path
   m_EditorClassIdentifier: 
   label: Path
-  icon: {fileID: 2800000, guid: b2d98f54996544507ade581c727c1c51, type: 3}
+  icon: {fileID: 0}
   color: {r: 1, g: 0.7294118, b: 0.28627452, a: 1}
