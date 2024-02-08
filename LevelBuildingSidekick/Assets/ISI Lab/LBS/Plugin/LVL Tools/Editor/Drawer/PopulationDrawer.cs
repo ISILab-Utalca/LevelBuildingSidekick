@@ -1,3 +1,4 @@
+using ISILab.LBS.VisualElements.Editor;
 using LBS.Behaviours;
 using LBS.Components;
 using LBS.Settings;
@@ -10,7 +11,6 @@ using UnityEngine.EventSystems;
 [Drawer(typeof(PopulationBehaviour))]
 public class PopulationDrawer : Drawer
 {
-
     public override void Draw(object target, MainView view, Vector2 teselationSize)
     {
         var population = target as PopulationBehaviour;

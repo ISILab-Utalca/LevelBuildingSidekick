@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ISILab.Extensions;
 using ISILab.LBS.AI.Assistants;
+using ISILab.LBS.VisualElements.Editor;
 
 [Drawer(typeof(AssistantMapElite))]
 public class MapElitesDrawer : Drawer

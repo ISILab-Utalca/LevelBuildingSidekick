@@ -10,6 +10,7 @@ using UnityEngine;
 using UnityEngine.Assertions.Must;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
+using ISILab.LBS.VisualElements;
 
 namespace ISILab.LBS.AI.Assistants.Editor
 {

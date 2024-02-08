@@ -1,3 +1,4 @@
+using ISILab.LBS.VisualElements.Editor;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
@@ -28,7 +29,6 @@ public class ConnectionFeedback : GraphElement
     void OnGenerateVisualContent(MeshGenerationContext mgc)
     {
         var painter = mgc.painter2D;
-        var view = this.GetFirstAncestorOfType<MainView>();
 
         var fPos1 = Vector2.zero;
         var fPos2 = pos2 - pos1;
