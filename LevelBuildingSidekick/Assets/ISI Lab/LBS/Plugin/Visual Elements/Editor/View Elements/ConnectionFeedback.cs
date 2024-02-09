@@ -36,5 +36,4 @@ public class ConnectionFeedback : GraphElement
         painter.DrawCircle(pos1, 10f, color);
         painter.DrawCircle(pos2, 10f, color);
     }
-
 }
