@@ -1,6 +1,5 @@
-using ISILab.Commons;
-using LBS;
-using LBS.Behaviours;
+using ISILab.LBS.Behaviours;
+using ISILab.LBS.Manipulators;
 using LBS.Components;
 using LBS.Components.TileMap;
 using System.Collections;
@@ -37,10 +36,6 @@ public class SetSchemaTileConnection : LBSManipulator
     protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
     {
         first = schema.Owner.ToFixedPosition(position);
-    }
-
-    protected override void OnMouseMove(VisualElement target, Vector2Int movePosition, MouseMoveEvent e)
-    {
     }
 
     protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)

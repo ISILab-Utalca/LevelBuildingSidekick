@@ -4,8 +4,10 @@ using Newtonsoft.Json;
 using System;
 using System.Linq;
 using LBS.Bundles;
+using ISILab.LBS.Characteristics;
+using ISILab.LBS.Internal;
 
-namespace LBS.Components.TileMap
+namespace LBS.Components.TileMap // FIX: change namespace to ISILab.LBS.Bundle
 {
     [System.Serializable]
     public class BundleData : ICloneable

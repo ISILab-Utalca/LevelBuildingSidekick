@@ -7,7 +7,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace LBS
+namespace ISILab.LBS
 {
     public class BackUp : ScriptableObject
     {

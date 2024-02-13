@@ -5,7 +5,7 @@ using LBS.Components.Graph;
 using Newtonsoft.Json;
 using System;
 
-namespace LBS.Components.Specifics
+namespace ISILab.LBS.Components
 {
     [System.Serializable]
     public class RoomNode : LBSNode

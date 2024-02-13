@@ -1,3 +1,5 @@
+using ISILab.LBS.Characteristics;
+using ISILab.LBS.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -146,11 +148,6 @@ namespace LBS.Bundles
 
         public void Reload()
         {
-            foreach (var child in childsBundles)
-            {
-                //child. Reload();  //FIX
-            }
-
             foreach (var characteristic in characteristics)
             {
                 if (characteristic != null)
@@ -303,7 +300,7 @@ namespace LBS.Bundles
 
             foreach (var child in this.childsBundles)
             {
-                var b = child.Clone() as Bundle; // (!) esto puede causar una recursion
+                var b = child.Clone() as Bundle;
                 other.AddChild(b);
             }
 

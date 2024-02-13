@@ -6,6 +6,8 @@ using LBS.Components;
 using UnityEditor;
 using LBS.Bundles;
 using ISILab.Commons;
+using ISILab.LBS.Modules;
+using ISILab.LBS.Internal;
 
 namespace ISILab.LBS.Generators
 {

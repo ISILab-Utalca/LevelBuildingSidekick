@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace LBS.Assisstants
+namespace ISILab.LBS.Assistants
 {
     [System.Serializable]
     public abstract class LBSAssistant : ICloneable
@@ -73,8 +73,6 @@ namespace LBS.Assisstants
         {
             Owner = null;
         }
-
-        public abstract void Execute();
 
         public List<Type> GetRequieredModules()
         {

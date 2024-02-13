@@ -1,7 +1,6 @@
-using LBS;
-using LBS.Behaviours;
+using ISILab.LBS.Manipulators;
+using ISILab.LBS.Modules;
 using LBS.Components;
-using LBS.Components.TileMap;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

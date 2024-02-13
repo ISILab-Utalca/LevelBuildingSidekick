@@ -1,5 +1,4 @@
 using ISILab.Commons.Utility.Editor;
-using LBS.VisualElements;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,8 +7,10 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
-using ISILab.LBS.AI.Assistants;
 using ISILab.LBS.VisualElements;
+using ISILab.LBS.Assistants;
+using ISILab.LBS.Internal;
+using ISILab.LBS;
 
 public class MAPEliteContent : VisualElement
 {

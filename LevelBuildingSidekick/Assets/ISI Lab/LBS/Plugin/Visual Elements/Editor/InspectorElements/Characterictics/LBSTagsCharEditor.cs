@@ -1,3 +1,5 @@
+using ISILab.LBS.Characteristics;
+using ISILab.LBS.Internal;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;

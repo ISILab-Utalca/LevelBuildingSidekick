@@ -4,10 +4,10 @@ using UnityEngine;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
 using System.Linq;
-using LBS.Components;
 using LBS.Components.TileMap;
 using ISILab.Commons;
 using ISILab.Extensions;
+using ISILab.LBS.Modules;
 
 public class BundleTilemapChromosome : ChromosomeBase2D, IDrawable
 {

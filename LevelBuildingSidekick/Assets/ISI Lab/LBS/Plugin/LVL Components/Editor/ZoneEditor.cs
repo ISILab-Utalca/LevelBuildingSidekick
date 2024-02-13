@@ -1,3 +1,5 @@
+using ISILab.LBS.Components;
+using ISILab.LBS.Internal;
 using LBS.Bundles;
 using LBS.Components.TileMap;
 using System;
@@ -20,7 +22,7 @@ public class ZoneEditor : LBSCustomEditor
     private ObjectField objectField2;
 
     private ListView bundleList;
-    private List<string> bundlesRef; // ?
+    private List<string> bundlesRef; 
 
     public ZoneEditor() 
     {

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
+using ISILab.LBS.Modules;
 
 namespace LBS.VisualElements
 {

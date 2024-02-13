@@ -4,50 +4,53 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(LBSAssetsStorage))]
-public class LBSAssetsStorageEditor : Editor
+namespace ISILab.LBS.Internal.Editor
 {
-    public override void OnInspectorGUI()
+    [CustomEditor(typeof(LBSAssetsStorage))]
+    public class LBSAssetsStorageEditor : UnityEditor.Editor
     {
-        base.OnInspectorGUI();
-
-        GUILayout.Space(20);
-
-        if(GUILayout.Button("Search all in Project"))
+        public override void OnInspectorGUI()
         {
-            SearchAllInProject();
+            base.OnInspectorGUI();
+
+            GUILayout.Space(20);
+
+            if (GUILayout.Button("Search all in Project"))
+            {
+                SearchAllInProject();
+            }
+        }
+
+        private void SearchAllInProject()
+        {
+            var storage = (target as LBSAssetsStorage);
+            storage.Clear();
+
+            var SOs = DirectoryTools.GetScriptables<ScriptableObject>();
+            foreach (var s in SOs)
+            {
+                storage.AddElement(s);
+            }
+
+            EditorUtility.SetDirty(storage);
+            AssetDatabase.SaveAssets();
         }
     }
 
-    private void SearchAllInProject()
+    public static class StorageExtension
     {
-        var storage = (target as LBSAssetsStorage);
-        storage.Clear();
-
-        var SOs = DirectoryTools.GetScriptables<ScriptableObject>();
-        foreach (var s in SOs)
+        public static void SearchInProject(this LBSAssetsStorage storage)
         {
-            storage.AddElement(s);
+            storage.Clear();
+
+            var SOs = DirectoryTools.GetScriptables<ScriptableObject>();
+            foreach (var s in SOs)
+            {
+                storage.AddElement(s);
+            }
+
+            EditorUtility.SetDirty(storage);
+            AssetDatabase.SaveAssets();
         }
-
-        EditorUtility.SetDirty(storage);
-        AssetDatabase.SaveAssets();
-    }
-}
-
-public static class StorageExtension
-{
-    public static void SearchInProject(this LBSAssetsStorage storage)
-    {
-        storage.Clear();
-
-        var SOs = DirectoryTools.GetScriptables<ScriptableObject>();
-        foreach (var s in SOs)
-        {
-            storage.AddElement(s);
-        }
-
-        EditorUtility.SetDirty(storage);
-        AssetDatabase.SaveAssets();
     }
 }

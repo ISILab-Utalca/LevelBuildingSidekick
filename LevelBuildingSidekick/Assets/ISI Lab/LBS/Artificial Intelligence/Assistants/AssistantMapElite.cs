@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 using LBS.Components.TileMap;
-using LBS.Assisstants;
 using System.Linq;
 using Commons.Optimization.Evaluator;
 using ISILab.Extensions;
 using ISILab.LBS.AI.Categorization;
+using ISILab.LBS.Modules;
+using ISILab.LBS.Behaviours;
+using ISILab.LBS.Characteristics;
 
-namespace ISILab.LBS.AI.Assistants
+namespace ISILab.LBS.Assistants
 {
     [System.Serializable]
     [RequieredModule(typeof(BundleTileMap))]
@@ -78,7 +80,7 @@ namespace ISILab.LBS.AI.Assistants
         #endregion
 
         #region METHODS
-        public override void Execute()
+        public void Execute()
         {
             toUpdate.Clear();
             mapElites.OnSampleUpdated += (v) => { if (!toUpdate.Contains(v)) toUpdate.Add(v); };

@@ -1,12 +1,9 @@
 ﻿using Commons.Optimization.Evaluator;
 using LBS.Components;
-using LBS.Components.TileMap;
-using LBS.Components.Graph;
-using LBS.Components.Specifics;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.AI.Wrappers;
+using ISILab.LBS.Modules;
 
 public class AdjacenciesEvaluator : IEvaluator
 {
@@ -50,13 +47,13 @@ public class AdjacenciesEvaluator : IEvaluator
         {
             var edge = connectedZones.Edges[i];
 
-            var r1 = zones.GetTiles(edge.First); //schema.GetArea(edge.FirstNode.ID);
-            var r2 = zones.GetTiles(edge.Second); //schema.GetArea(edge.SecondNode.ID);
+            var r1 = zones.GetTiles(edge.First); 
+            var r2 = zones.GetTiles(edge.Second);
 
-            if (r1.Count < 1 || r2.Count < 1) // signiofica que una de las dos areas desaparecio y no deberia aporta, de hecho podria ser negativo (!)
+            if (r1.Count < 1 || r2.Count < 1)
                 continue;
 
-            float roomDist = zones.GetRoomDistance(edge.First, edge.Second);  // este metodo podria recivir una funcion de calculo de distancia en ved de estar fija 
+            float roomDist = zones.GetRoomDistance(edge.First, edge.Second); // TODO: Make it receive a distance calculation function.
 
             distValue += 1 / roomDist;
         }
@@ -69,10 +66,5 @@ public class AdjacenciesEvaluator : IEvaluator
         var tiles = layer.GetModule<TileMapModule>().Tiles;
 
         return distValue / edgeCount;
-    }
-
-    public string GetName()
-    {
-        throw new System.NotImplementedException();
     }
 }

@@ -1,4 +1,3 @@
-using ISILab.LBS.AI.Assistants;
 using ISILab.Commons.Utility.Editor;
 using System;
 using System.Collections;
@@ -9,6 +8,8 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.LBS.AI.Categorization;
 using ISILab.LBS.AI.Categorization.Editor;
+using ISILab.LBS.Assistants;
+using ISILab.LBS.Internal;
 
 namespace ISILab.LBS.AI.Assistants.Editor
 {

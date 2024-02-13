@@ -8,29 +8,27 @@ using UnityEngine;
 using ISILab.Commons.Utility;
 using ISILab.Commons.Utility.Editor;
 using ISILab.Extensions;
+using ISILab.LBS.Characteristics;
+using UnityEngine.UIElements;
 
-
-[CustomEditor(typeof(Bundle))]
-public class BundleEditor : Editor
+namespace ISILab.LBS.Editor
 {
-    public bool showDevOptions = false;
-
-    public override void OnInspectorGUI()
+    [CustomEditor(typeof(Bundle))]
+    public class BundleEditor : UnityEditor.Editor
     {
-        base.OnInspectorGUI();
-
-        var bundle = target as Bundle;
-
-        // Create GUI Style
-        var style = new GUIStyle();
-        style.border.bottom = style.border.top = style.border.left = style.border.right = 3;
-
-        GUILayout.Space(20);
-        this.showDevOptions = EditorGUILayout.Foldout(showDevOptions, "DEVS TOOLS");
-        if (showDevOptions)
+        public bool showDevOptions = false;
+        public override void OnInspectorGUI()
         {
-            GUILayout.Label("Presset");
+            base.OnInspectorGUI();
 
+            var bundle = target as Bundle;
+
+            // Create GUI Style
+            var style = new GUIStyle();
+            style.border.bottom = style.border.top = style.border.left = style.border.right = 3;
+
+            GUILayout.Space(20);
+            GUILayout.Label("Presset");
             if (GUILayout.Button("Set default interior"))
             {
                 SetDefaultInterior(bundle);
@@ -46,7 +44,7 @@ public class BundleEditor : Editor
             GUILayout.Space(20);
             GUILayout.Label("Characteristics");
 
-            if(GUILayout.Button("Add Connection GROUP Charac"))
+            if (GUILayout.Button("Add Connection GROUP Charac"))
             {
                 AddConnGroupCharc(bundle);
                 AssetDatabase.SaveAssets();
@@ -63,74 +61,74 @@ public class BundleEditor : Editor
                 AddTagCharc(bundle);
                 AssetDatabase.SaveAssets();
             }
+            serializedObject.ApplyModifiedProperties();
         }
-        serializedObject.ApplyModifiedProperties();
-    }
 
-    private void AddConnGroupCharc(Bundle bundle)
-    {
-        var charc = new LBSDirectionedGroup();
-        bundle.AddCharacteristic(charc);
-
-        EditorUtility.SetDirty(bundle);
-    }
-
-    private void AddTagCharc(Bundle bundle)
-    {
-        var charc = new LBSTagsCharacteristic(null);
-        bundle.AddCharacteristic(charc);
-
-        EditorUtility.SetDirty(bundle);
-    }
-
-    private void AddConnectionCharacteristic(Bundle bundle)
-    {
-        var charc = new LBSDirection("Connections", new List<string>() { "", "", "", "" });
-        bundle.AddCharacteristic(charc);
-
-        EditorUtility.SetDirty(bundle);
-    }
-
-    private void SetDefaultInterior(Bundle bundle)
-    {
-        // Get settings
-        var setting = LBSSettings.Instance;
-
-        // Get current path
-        var path = AssetDatabase.GetAssetPath(bundle).Replace("/" + bundle.Name + ".asset", "");
-        Debug.Log(bundle + " - " + path);
-
-        // Get tags
-        var targets = new List<string>() { "Door", "Wall", "Floor", "Empty" };
-        var allTags = DirectoryTools.GetScriptables<LBSIdentifier>();
-        var matchingTags = allTags.Where(tag => targets.Contains(tag.Label)).ToList();
-
-        // Create ID
-        var id = ScriptableObject.CreateInstance<LBSIdentifier>();
-        var tagName = Format.CheckNameFormat(allTags.Select(t => t.Label), "Schema");
-        AssetDatabase.CreateAsset(id, path + "/" + tagName + ".asset");
-        id.Init(tagName, new Color().RandomColor(), null);
-
-        // Init bundle
-        bundle.ClearChilds();
-        for (int i = 0; i < matchingTags.Count; i++)
+        private void AddConnGroupCharc(Bundle bundle)
         {
-            // Set child bundle
-            var b = ScriptableObject.CreateInstance<Bundle>();
-            b.AddCharacteristic(new LBSTagsCharacteristic(matchingTags[i]));
-            bundle.AddChild(b);
+            var charc = new LBSDirectionedGroup();
+            bundle.AddCharacteristic(charc);
 
-            // Save child bundle
-            var nn = DirectoryTools.GetScriptables<Bundle>();
-            var name = Format.CheckNameFormat(nn.Select(t => t.name), "Sub bundle");
-            AssetDatabase.CreateAsset(b, path + "/" + name + ".asset");
+            EditorUtility.SetDirty(bundle);
         }
 
-    }
+        private void AddTagCharc(Bundle bundle)
+        {
+            var charc = new LBSTagsCharacteristic(null);
+            bundle.AddCharacteristic(charc);
 
-    private void SetDefaultExterior(Bundle bundle)
-    {
-        var charac = new LBSDirectionedGroup();
-        bundle.AddCharacteristic(charac);
+            EditorUtility.SetDirty(bundle);
+        }
+
+        private void AddConnectionCharacteristic(Bundle bundle)
+        {
+            var charc = new LBSDirection("Connections", new List<string>() { "", "", "", "" });
+            bundle.AddCharacteristic(charc);
+
+            EditorUtility.SetDirty(bundle);
+        }
+
+        private void SetDefaultInterior(Bundle bundle)
+        {
+            // Get settings
+            var setting = LBSSettings.Instance;
+
+            // Get current path
+            var path = AssetDatabase.GetAssetPath(bundle).Replace("/" + bundle.Name + ".asset", "");
+            Debug.Log(bundle + " - " + path);
+
+            // Get tags
+            var targets = new List<string>() { "Door", "Wall", "Floor", "Empty" };
+            var allTags = DirectoryTools.GetScriptables<LBSIdentifier>();
+            var matchingTags = allTags.Where(tag => targets.Contains(tag.Label)).ToList();
+
+            // Create ID
+            var id = ScriptableObject.CreateInstance<LBSIdentifier>();
+            var tagName = Format.CheckNameFormat(allTags.Select(t => t.Label), "Schema");
+            AssetDatabase.CreateAsset(id, path + "/" + tagName + ".asset");
+            id.Init(tagName, new Color().RandomColor(), null);
+
+            // Init bundle
+            bundle.ClearChilds();
+            for (int i = 0; i < matchingTags.Count; i++)
+            {
+                // Set child bundle
+                var b = ScriptableObject.CreateInstance<Bundle>();
+                b.AddCharacteristic(new LBSTagsCharacteristic(matchingTags[i]));
+                bundle.AddChild(b);
+
+                // Save child bundle
+                var nn = DirectoryTools.GetScriptables<Bundle>();
+                var name = Format.CheckNameFormat(nn.Select(t => t.name), "Sub bundle");
+                AssetDatabase.CreateAsset(b, path + "/" + name + ".asset");
+            }
+
+        }
+
+        private void SetDefaultExterior(Bundle bundle)
+        {
+            var charac = new LBSDirectionedGroup();
+            bundle.AddCharacteristic(charac);
+        }
     }
 }

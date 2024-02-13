@@ -1,3 +1,4 @@
+using ISILab.LBS.Characteristics;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

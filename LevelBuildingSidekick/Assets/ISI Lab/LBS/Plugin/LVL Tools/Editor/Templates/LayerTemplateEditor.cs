@@ -1,9 +1,3 @@
-using LBS.Assisstants;
-using LBS.Behaviours;
-using LBS.Components;
-using LBS.Components.Graph;
-using LBS.Components.Specifics;
-using LBS.Components.TileMap;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,10 +7,11 @@ using UnityEngine;
 using  ISILab.Extensions;
 using ISILab.LBS.AI.Assistants;
 using ISILab.LBS.Generators;
+using ISILab.LBS.Behaviours;
+using ISILab.LBS.Assistants;
 
 namespace ISILab.LBS.Template.Editor
 {
-
     [LBSCustomEditor("Layer template", typeof(LayerTemplate))]
     [CustomEditor(typeof(LayerTemplate))]
     public class LayerTemplateEditor : UnityEditor.Editor

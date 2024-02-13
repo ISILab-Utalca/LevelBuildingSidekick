@@ -10,6 +10,10 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
 using ISILab.LBS.VisualElements;
+using ISILab.LBS.Manipulators;
+using ISILab.LBS.Behaviours;
+using ISILab.LBS.Internal;
+using ISILab.LBS.Characteristics;
 
 [LBSCustomEditor("Exteiror Behaviour", typeof(ExteriorBehaviour))]
 public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider

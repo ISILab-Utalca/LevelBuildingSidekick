@@ -4,7 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-using LBS;
+using ISILab.LBS.Manipulators;
+using ISILab.LBS.Assistants;
 
 public class SetZoneConnection : LBSManipulator
 {

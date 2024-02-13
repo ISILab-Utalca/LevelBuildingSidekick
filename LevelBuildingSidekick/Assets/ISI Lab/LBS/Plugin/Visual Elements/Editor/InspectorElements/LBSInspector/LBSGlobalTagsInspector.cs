@@ -7,10 +7,10 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using LBS.Components;
-using LBS.Behaviours;
 using ISILab.Commons.Utility;
 using ISILab.Commons.Utility.Editor;
 using ISILab.Extensions;
+using ISILab.LBS.Internal;
 
 public class LBSGlobalTagsInspector : LBSInspector
 {

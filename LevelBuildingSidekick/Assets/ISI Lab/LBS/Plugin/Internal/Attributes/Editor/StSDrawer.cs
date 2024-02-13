@@ -1,3 +1,4 @@
+using ISILab.LBS;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +30,6 @@ public class StSDrawer : PropertyDrawer
         EditorGUI.BeginProperty(position, label, property);
 
         var t = EditorGUI.Popup(position, att.type.Name, n, list.ToArray());
-        //var t = EditorGUILayout.Popup(n, list.ToArray());
 
         EditorGUI.EndProperty();
 

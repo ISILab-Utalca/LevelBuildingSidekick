@@ -1,4 +1,8 @@
 using ISILab.Commons.Utility.Editor;
+using ISILab.LBS.Behaviours;
+using ISILab.LBS.Internal;
+using ISILab.LBS.Manipulators;
+using ISILab.LBS.Modules;
 using ISILab.LBS.VisualElements;
 using LBS;
 using LBS.VisualElements;
@@ -105,7 +109,6 @@ public class QuestBehaviourEditor : LBSCustomEditor, IToolProvider
         grammarDropdown.choices = options.Select(s => s.name).ToList();
     }
 
-
     private void UpdateContent()
     {
         actionPallete.Clear();
@@ -131,7 +134,6 @@ public class QuestBehaviourEditor : LBSCustomEditor, IToolProvider
             actionPallete.Add(b);
         }
     }
-
 
     private void ChangeGrammar(string value)
     {

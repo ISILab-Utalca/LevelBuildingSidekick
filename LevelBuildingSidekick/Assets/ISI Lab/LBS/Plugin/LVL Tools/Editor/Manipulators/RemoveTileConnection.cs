@@ -1,6 +1,5 @@
-using ISILab.Commons;
-using LBS;
-using LBS.Behaviours;
+using ISILab.LBS.Behaviours;
+using ISILab.LBS.Manipulators;
 using LBS.Components;
 using System.Collections;
 using System.Collections.Generic;

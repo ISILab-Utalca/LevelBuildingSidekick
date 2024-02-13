@@ -1,4 +1,3 @@
-using LBS.Behaviours;
 using LBS.Components;
 using LBS.VisualElements;
 using System;
@@ -9,9 +8,9 @@ using UnityEngine.UIElements;
 using ISILab.Extensions;
 using ISILab.LBS.VisualElements.Editor;
 
-namespace LBS
+namespace ISILab.LBS.Manipulators
 {
-    [System.Serializable]
+    [Serializable]
     public abstract class LBSManipulator : MouseManipulator
     {
         #region FIELDS
@@ -37,7 +36,7 @@ namespace LBS
                 else
                 {
                     Debug.LogWarning("[ISI Lab]: no puedes axeder a la variable 'StartPosition' fuera de la accion.");
-                    return default(Vector2Int);
+                    return default;
                 }
             }
         }
@@ -53,7 +52,7 @@ namespace LBS
                 else
                 {
                     Debug.LogWarning("[ISI Lab]: no puedes axeder a la variable 'StartPosition' fuera de la accion.");
-                    return default(Vector2Int);
+                    return default;
                 }
             }
         }
@@ -69,7 +68,7 @@ namespace LBS
                 else
                 {
                     Debug.LogWarning("[ISI Lab]: no puedes axeder a la variable 'StartPosition' fuera de la accion.");
-                    return default(Vector2Int);
+                    return default;
                 }
             }
         }
@@ -155,7 +154,7 @@ namespace LBS
             if (feedback == null)
                 return;
 
-            MainView.RemoveElement(this.feedback);
+            MainView.RemoveElement(feedback);
         }
 
         /// <summary>
@@ -167,8 +166,8 @@ namespace LBS
             if (e.button != 0)
                 return;
 
-            this.started = true;
-            this.startClickPosition = MainView.FixPos(e.localMousePosition).ToInt();
+            started = true;
+            startClickPosition = MainView.FixPos(e.localMousePosition).ToInt();
             StartFeedback();
 
             OnManipulationStart?.Invoke();
@@ -184,7 +183,7 @@ namespace LBS
             if (e.button != 0)
                 return;
 
-            this.moveClickPosition = MainView.FixPos(e.localMousePosition).ToInt();
+            moveClickPosition = MainView.FixPos(e.localMousePosition).ToInt();
 
             OnMouseMove(e.target as VisualElement, moveClickPosition, e);
             UpdateFeedback();
@@ -201,8 +200,8 @@ namespace LBS
             if (e.button != 0)
                 return;
 
-            this.ended = true;
-            this.endClickPosition = MainView.FixPos(e.localMousePosition).ToInt();
+            ended = true;
+            endClickPosition = MainView.FixPos(e.localMousePosition).ToInt();
             EndFeedback();
 
             if (!e.altKey)
@@ -211,7 +210,7 @@ namespace LBS
                 OnManipulationEnd?.Invoke();
             }
 
-            this.ended = this.started = false;
+            ended = started = false;
         }
         #endregion
 

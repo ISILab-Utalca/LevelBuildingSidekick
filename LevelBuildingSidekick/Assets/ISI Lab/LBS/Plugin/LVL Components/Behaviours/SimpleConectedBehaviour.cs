@@ -1,27 +1,29 @@
-using LBS.Behaviours;
+using ISILab.LBS.Modules;
 using LBS.Components;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-[RequieredModule(typeof(ConnectedTileMapModule))]
-public class SimpleConectedBehaviour : LBSBehaviour
+namespace ISILab.LBS.Behaviours
 {
-    public SimpleConectedBehaviour(Texture2D icon, string name) : base(icon, name) { }
 
-    public override object Clone()
+    [System.Serializable]
+    [RequieredModule(typeof(ConnectedTileMapModule))]
+    public class SimpleConectedBehaviour : LBSBehaviour
     {
-        return new SimpleConectedBehaviour(this.Icon, this.Name);
-    }
+        public SimpleConectedBehaviour(Texture2D icon, string name) : base(icon, name) { }
 
-    public override void OnAttachLayer(LBSLayer layer)
-    {
-        // throw new NotImplementedException();
-    }
+        public override object Clone()
+        {
+            return new SimpleConectedBehaviour(this.Icon, this.Name);
+        }
 
-    public override void OnDetachLayer(LBSLayer layer)
-    {
-        throw new System.NotImplementedException();
+        public override void OnAttachLayer(LBSLayer layer)
+        {
+        }
+
+        public override void OnDetachLayer(LBSLayer layer)
+        {
+        }
     }
 }

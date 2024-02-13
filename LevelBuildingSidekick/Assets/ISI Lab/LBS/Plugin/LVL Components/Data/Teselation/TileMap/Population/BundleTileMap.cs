@@ -7,243 +7,245 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class BundleTileMap : LBSModule, ISelectable
+namespace ISILab.LBS.Modules
 {
-    #region FIELDS
-    [SerializeField, JsonRequired]
-    protected List<TileBundlePair> tiles = new List<TileBundlePair>();
-    #endregion
-
-    #region PROPERTIES
-    public List<TileBundlePair> Tiles => new List<TileBundlePair>(tiles);
-    #endregion
-
-    #region CONSTRUCTORS
-    public BundleTileMap() : base()
+    public class BundleTileMap : LBSModule, ISelectable
     {
-        id = GetType().Name;
-    }
+        #region FIELDS
+        [SerializeField, JsonRequired]
+        protected List<TileBundlePair> tiles = new List<TileBundlePair>();
+        #endregion
 
-    public BundleTileMap(IEnumerable<TileBundlePair> tiles, string id = "ConnectedTileMapModule") : base(id)
-    {
-        foreach (var t in tiles)
+        #region PROPERTIES
+        public List<TileBundlePair> Tiles => new List<TileBundlePair>(tiles);
+        #endregion
+
+        #region CONSTRUCTORS
+        public BundleTileMap() : base()
         {
-            AddTile(t);
+            id = GetType().Name;
         }
-    }
-    #endregion
 
-    #region METHODS
-    public void AddTile(TileBundlePair tile)
-    {
-        var t = GetTile(tile.Tile);
-        if (t != null)
+        public BundleTileMap(IEnumerable<TileBundlePair> tiles, string id = "ConnectedTileMapModule") : base(id)
         {
+            foreach (var t in tiles)
+            {
+                AddTile(t);
+            }
+        }
+        #endregion
+
+        #region METHODS
+        public void AddTile(TileBundlePair tile)
+        {
+            var t = GetTile(tile.Tile);
+            if (t != null)
+            {
+                tiles.Remove(t);
+            }
+
+            OnChanged?.Invoke(this, null, new List<object>() { tile });
+            tiles.Add(tile);
+
+        }
+
+        public void AddTile(LBSTile tile, BundleData bundleData, Vector2 rotation) => AddTile(new TileBundlePair(tile, bundleData, rotation));
+
+        public TileBundlePair GetTile(LBSTile tile)
+        {
+            if (tiles.Count <= 0)
+                return null;
+            return tiles.Find(t => t.Tile.Equals(tile));
+
+        }
+
+        public TileBundlePair GetTile(Vector2 pos)
+        {
+            if (tiles.Count <= 0)
+                return null;
+            return tiles.Find(t => t.Tile.Position == pos);
+
+        }
+
+        public void RemoveTile(LBSTile tile)
+        {
+            var t = GetTile(tile);
+
+            OnChanged?.Invoke(this, new List<object>() { t }, null);
+
             tiles.Remove(t);
         }
 
-        OnChanged?.Invoke(this, null, new List<object>() { tile });
-        tiles.Add(tile);
+        public void RemoveTile(int index) => RemoveTile(tiles[index].Tile);
 
-    }
-
-    public void AddTile(LBSTile tile, BundleData bundleData, Vector2 rotation) => AddTile(new TileBundlePair(tile, bundleData, rotation));
-
-    public TileBundlePair GetTile(LBSTile tile)
-    {
-        if (tiles.Count <= 0)
-            return null;
-        return tiles.Find(t => t.Tile.Equals(tile));
-
-    }
-
-    public TileBundlePair GetTile(Vector2 pos)
-    {
-        if (tiles.Count <= 0)
-            return null;
-        return tiles.Find(t => t.Tile.Position == pos);
-
-    }
-
-    public void RemoveTile(LBSTile tile)
-    {
-        var t = GetTile(tile);
-
-        OnChanged?.Invoke(this, new List<object>() { t }, null);
-
-        tiles.Remove(t);
-    }
-
-    public void RemoveTile(int index) => RemoveTile(tiles[index].Tile);
-
-    public bool Contains(LBSTile tile)
-    {
-        if (tiles.Count <= 0)
-            return false;
-        return tiles.Any(t => t.Tile.Equals(tile));
-    }
-
-    public override Rect GetBounds()
-    {
-        if (tiles == null || tiles.Count == 0)
+        public bool Contains(LBSTile tile)
         {
-            //Debug.LogWarning("Esta tilemap no tiene tiles!!!");
-            return new Rect(Vector2.zero, Vector2.zero);
-        }
-        return tiles.Select(t => t.Tile).GetBounds();
-    }
-
-    public override bool IsEmpty()
-    {
-        return tiles.Count <= 0;
-    }
-
-    public override void Clear()
-    {
-        tiles.Clear();
-    }
-
-    public override object Clone()
-    {
-        return new BundleTileMap(tiles.Select(t => t.Clone()).Cast<TileBundlePair>(), ID);
-    }
-
-    public override void Rewrite(LBSModule module)
-    {
-        var map = module as BundleTileMap;
-        if (map == null)
-        {
-            return;
+            if (tiles.Count <= 0)
+                return false;
+            return tiles.Any(t => t.Tile.Equals(tile));
         }
 
-        OnChanged?.Invoke(this,new List<object>(tiles), new List<object>(map.tiles));
-
-        Clear();
-        foreach (var t in map.tiles)
+        public override Rect GetBounds()
         {
-            AddTile(t);
-        }
-    }
-
-    public override void OnAttach(LBSLayer layer)
-    {
-    }
-
-    public override void OnDetach(LBSLayer layer)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override void Reload(LBSLayer layer)
-    {
-    }
-
-    public override void Print()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public List<object> GetSelected(Vector2Int position)
-    {
-        var pos = Owner.ToFixedPosition(position);
-        var r = new List<object>();
-        var tile = GetTile(pos);
-
-        if (tile != null)
-        {
-            r.Add(tile.BundleData);
+            if (tiles == null || tiles.Count == 0)
+            {
+                return new Rect(Vector2.zero, Vector2.zero);
+            }
+            return tiles.Select(t => t.Tile).GetBounds();
         }
 
-        return r;
-    }
-
-    public override bool Equals(object obj)
-    {
-        var other = obj as BundleTileMap;
-
-        if (other == null)  return false;
-
-        var tCount = other.tiles.Count;
-
-        if (tCount != this.tiles.Count) return false;
-
-        for (int i = 0; i < tCount; i++)
+        public override bool IsEmpty()
         {
-            var t1 = other.tiles[i];
-            var t2 = this.tiles[i];
-
-            if(!t1.Equals(t2)) return false;
+            return tiles.Count <= 0;
         }
 
-        return true;
+        public override void Clear()
+        {
+            tiles.Clear();
+        }
+
+        public override object Clone()
+        {
+            return new BundleTileMap(tiles.Select(t => t.Clone()).Cast<TileBundlePair>(), ID);
+        }
+
+        public override void Rewrite(LBSModule module)
+        {
+            var map = module as BundleTileMap;
+            if (map == null)
+            {
+                return;
+            }
+
+            OnChanged?.Invoke(this, new List<object>(tiles), new List<object>(map.tiles));
+
+            Clear();
+            foreach (var t in map.tiles)
+            {
+                AddTile(t);
+            }
+        }
+
+        public override void OnAttach(LBSLayer layer)
+        {
+        }
+
+        public override void OnDetach(LBSLayer layer)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void Reload(LBSLayer layer)
+        {
+        }
+
+        public override void Print()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public List<object> GetSelected(Vector2Int position)
+        {
+            var pos = Owner.ToFixedPosition(position);
+            var r = new List<object>();
+            var tile = GetTile(pos);
+
+            if (tile != null)
+            {
+                r.Add(tile.BundleData);
+            }
+
+            return r;
+        }
+
+        public override bool Equals(object obj)
+        {
+            var other = obj as BundleTileMap;
+
+            if (other == null) return false;
+
+            var tCount = other.tiles.Count;
+
+            if (tCount != this.tiles.Count) return false;
+
+            for (int i = 0; i < tCount; i++)
+            {
+                var t1 = other.tiles[i];
+                var t2 = this.tiles[i];
+
+                if (!t1.Equals(t2)) return false;
+            }
+
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+        #endregion
     }
 
-    public override int GetHashCode()
+    [System.Serializable]
+    public class TileBundlePair : ICloneable
     {
-        return base.GetHashCode();
-    }
-    #endregion
-}
+        [SerializeField, JsonRequired]
+        LBSTile tile;
+        [SerializeField, JsonRequired]
+        BundleData bData;
+        [SerializeField, JsonRequired]
+        Vector2 rotation;
 
-[System.Serializable]
-public class TileBundlePair : ICloneable
-{
-    [SerializeField, JsonRequired]
-    LBSTile tile;
-    [SerializeField, JsonRequired]
-    BundleData bData;
-    [SerializeField, JsonRequired]
-    Vector2 rotation;
+        [JsonIgnore]
+        public LBSTile Tile
+        {
+            get => tile;
+            set => tile = value;
+        }
 
-    [JsonIgnore]
-    public LBSTile Tile
-    {
-        get => tile;
-        set => tile = value;
-    }
+        [JsonIgnore]
+        public BundleData BundleData
+        {
+            get => bData;
+            set => bData = value;
+        }
 
-    [JsonIgnore]
-    public BundleData BundleData
-    {
-        get => bData;
-        set => bData = value;
-    }
+        public Vector2 Rotation
+        {
+            get => rotation;
+            set => rotation = value;
+        }
 
-    public Vector2 Rotation
-    {
-        get => rotation;
-        set => rotation = value;
-    }
+        public TileBundlePair(LBSTile tile, BundleData bData, Vector2 rotation)
+        {
+            this.tile = tile;
+            this.bData = bData;
+            this.rotation = rotation;
+        }
 
-    public TileBundlePair(LBSTile tile, BundleData bData, Vector2 rotation)
-    {
-        this.tile = tile;
-        this.bData = bData;
-        this.rotation = rotation;
-    }
+        public object Clone()
+        {
+            return new TileBundlePair(tile.Clone() as LBSTile, bData.Clone() as BundleData, rotation);
+        }
 
-    public object Clone()
-    {
-        return new TileBundlePair(tile.Clone() as LBSTile, bData.Clone() as BundleData, rotation);
-    }
+        public override bool Equals(object obj)
+        {
+            var other = obj as TileBundlePair;
 
-    public override bool Equals(object obj)
-    {
-        var other = obj as TileBundlePair;
+            if (other == null) return false;
 
-        if (other == null) return false;
+            if (!this.tile.Equals(other.tile)) return false;
 
-        if(!this.tile.Equals(other.tile)) return false;
+            if (!this.bData.Equals(other.bData)) return false;
 
-        if(!this.bData.Equals(other.bData)) return false;
+            if (!this.rotation.Equals(other.rotation)) return false;
 
-        if(!this.rotation.Equals(other.rotation)) return false;
+            return true;
+        }
 
-        return true;
-    }
-
-    public override int GetHashCode()
-    {
-        return base.GetHashCode();
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

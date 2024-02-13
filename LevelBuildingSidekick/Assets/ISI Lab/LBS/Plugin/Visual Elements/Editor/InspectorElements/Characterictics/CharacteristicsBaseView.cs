@@ -8,7 +8,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
-
+using ISILab.LBS.Characteristics;
 
 public class CharacteristicsBaseView : VisualElement
 {

@@ -1,5 +1,4 @@
-using LBS;
-using LBS.Behaviours;
+using ISILab.LBS.Manipulators;
 using LBS.Components;
 using LBS.Components.TileMap;
 using System;

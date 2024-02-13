@@ -6,8 +6,9 @@ using UnityEngine;
 using System.Reflection;
 using ISILab.JsonNet.Coverters;
 using ISILab.Extensions;
+using ISILab.LBS;
 
-namespace LBS.Components.Specifics
+namespace ISILab.LBS.Components
 {
     [System.Serializable]
     public class RoomData : ICloneable
@@ -140,6 +141,5 @@ namespace LBS.Components.Specifics
 
         #endregion
     }
-
 }
 

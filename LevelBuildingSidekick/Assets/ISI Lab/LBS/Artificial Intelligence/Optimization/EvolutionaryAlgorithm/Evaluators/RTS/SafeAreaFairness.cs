@@ -1,4 +1,5 @@
 using Commons.Optimization.Evaluator;
+using ISILab.LBS.Characteristics;
 using LBS.Components.TileMap;
 using System;
 using System.Collections;
@@ -8,14 +9,12 @@ using UnityEngine;
 
 public class SafeAreaFairness : IRangedEvaluator
 {
-
     public float MaxValue => 1;
 
     public float MinValue => 0;
 
     [SerializeField, SerializeReference]
     public LBSCharacteristic playerCharacteristc;
-
 
     public float Evaluate(IOptimizable evaluable)
     {
@@ -41,8 +40,6 @@ public class SafeAreaFairness : IRangedEvaluator
 
 
         List<float> localFitness = new List<float>();
-
-        //Should use voronoi
 
         foreach (var pos in playersPos)
         {

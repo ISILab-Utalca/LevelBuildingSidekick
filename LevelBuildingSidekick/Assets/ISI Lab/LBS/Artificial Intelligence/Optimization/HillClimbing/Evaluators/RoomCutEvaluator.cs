@@ -1,9 +1,8 @@
 using Commons.Optimization.Evaluator;
 using ISILab.AI.Wrappers;
 using ISILab.Commons;
+using ISILab.LBS.Modules;
 using LBS.Components;
-using LBS.Components.Graph;
-using LBS.Components.Specifics;
 using LBS.Components.TileMap;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,9 +29,6 @@ public class RoomCutEvaluator : IEvaluator
         var zones = layer.GetModule<SectorizedTileMapModule>();
         var tilesModule = layer.GetModule<TileMapModule>();
 
-
-       
-
         var value = 0f;
         for (int i = 0; i < zones.ZonesWithTiles.Count; i++)
         {
@@ -46,7 +42,7 @@ public class RoomCutEvaluator : IEvaluator
             if (tiles.Count <= 0)
                 continue;
 
-            uncheck.Enqueue(tiles[0]);//Add(tiles[0]);
+            uncheck.Enqueue(tiles[0]);
 
             var clock = new System.Diagnostics.Stopwatch();
             clock.Start();
@@ -55,7 +51,7 @@ public class RoomCutEvaluator : IEvaluator
             do
             {
                 var current = uncheck.First();
-                var neis = tilesModule.GetTileNeighbors(current,dirs); //room.Tiles;// GetTileNeighbors(current, dirs);
+                var neis = tilesModule.GetTileNeighbors(current,dirs);
                 foreach (var nei in neis)
                 {
                     if (nei == null)
@@ -63,10 +59,10 @@ public class RoomCutEvaluator : IEvaluator
 
                     if(!check.Contains(nei) && !uncheck.Contains(nei))
                     {
-                        uncheck.Enqueue(nei);//Add(nei);
+                        uncheck.Enqueue(nei);
                     }
                 }
-                uncheck.Dequeue();//(current);
+                uncheck.Dequeue();
                 check.Add(current);
                 x++;
             }
@@ -90,6 +86,6 @@ public class RoomCutEvaluator : IEvaluator
 
     public object Clone()
     {
-        throw new System.NotImplementedException();
+        throw new System.NotImplementedException(); // TODO: Implement Clone method 
     }
 }

@@ -1,5 +1,6 @@
 using ISILab.Commons;
-using LBS;
+using ISILab.LBS.Behaviours;
+using ISILab.LBS.Manipulators;
 using LBS.Components;
 using LBS.Components.TileMap;
 using System.Collections;

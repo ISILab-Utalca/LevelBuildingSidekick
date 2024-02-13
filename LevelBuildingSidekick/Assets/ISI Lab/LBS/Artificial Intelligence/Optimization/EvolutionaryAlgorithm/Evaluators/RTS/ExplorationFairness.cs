@@ -1,4 +1,5 @@
 using Commons.Optimization.Evaluator;
+using ISILab.LBS.Characteristics;
 using LBS.Components.TileMap;
 using System;
 using System.Collections;

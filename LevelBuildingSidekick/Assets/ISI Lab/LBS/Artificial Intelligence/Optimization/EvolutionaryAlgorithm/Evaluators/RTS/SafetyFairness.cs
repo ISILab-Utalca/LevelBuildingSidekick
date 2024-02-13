@@ -1,5 +1,6 @@
 using Commons.Optimization.Evaluator;
 using ISILab.Commons;
+using ISILab.LBS.Characteristics;
 using LBS.Components.TileMap;
 using System;
 using System.Collections;
@@ -10,7 +11,6 @@ using UnityEngine;
 [System.Serializable]
 public class SafetyFairness : IRangedEvaluator
 {
-
     public float MaxValue => 1;
 
     public float MinValue => 0;

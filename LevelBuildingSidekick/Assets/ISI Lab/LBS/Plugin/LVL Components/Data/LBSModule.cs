@@ -1,3 +1,4 @@
+using LBS.Components;
 using LBS.Components.TileMap;
 using Newtonsoft.Json;
 using System;
@@ -5,7 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace LBS.Components
+namespace ISILab.LBS.Modules
 {
     public interface ISelectable
     {
@@ -79,12 +80,6 @@ namespace LBS.Components
 
         #region ABSTRACT METHODS
         /// <summary>
-        /// prints by console basic information of 
-        /// the representation.
-        /// </summary>
-        public abstract void Print(); // (?) sto es equivalente a "toString()" ?  
-
-        /// <summary>
         /// Cleans all the information saved in.
         /// </summary>
         public abstract void Clear();
@@ -100,18 +95,41 @@ namespace LBS.Components
         /// </summary>
         /// <returns></returns>
         public abstract object Clone();
+        #endregion
+
+        #region VIRTUAL METHODS
+        /// <summary>
+        /// prints by console basic information of 
+        /// the representation.
+        /// </summary>
+        public virtual void Print() // TODO: Move this behaviour to a interface like "IPrintable"
+        {
+            Debug.Log(this.ToString());
+        }
 
         /// <summary>
         /// Gets the bounding rectangle of the representation.
         /// </summary>
         /// <returns></returns>
-        public abstract Rect GetBounds(); // (?) meter esto a una interfaz IBoundeble ??
+        public virtual Rect GetBounds() // TODO: Move this behaviour to a interface like "IBounded"
+        {
+            Debug.Log("This class does not have the GetBounds implemented." +
+                    " Override the 'GetBounds()' method in the class '" +
+                    this.GetType().ToString() + "' if it is necessary.");
+
+            return new Rect(0, 0, 0, 0);
+        }
 
         /// <summary>
         /// Rewrites the representation based on another LBSModule.
         /// </summary>
         /// <param name="other"></param>
-        public abstract void Rewrite(LBSModule other);
+        public virtual void Rewrite(LBSModule other)
+        {
+            Debug.Log("This class does not have the Rewrite implemented." +
+                " Override the 'Rewrite()' method in the class '" +
+                this.GetType().ToString() + "' if it is necessary.");
+        }
         #endregion
     }
 }

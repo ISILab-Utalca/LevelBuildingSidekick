@@ -1,5 +1,5 @@
 using ISILab.Commons;
-using LBS;
+using ISILab.LBS.Behaviours;
 using LBS.Components;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,49 +7,46 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 
-public class RotatePopulationTile : LBSManipulator
+namespace ISILab.LBS.Manipulators
 {
-    private List<Vector2Int> Directions => ISILab.Commons.Directions.Bidimencional.Edges;
-
-    PopulationBehaviour population;
-    private Vector2Int first;
-
-    public RotatePopulationTile()
+    public class RotatePopulationTile : LBSManipulator
     {
+        private List<Vector2Int> Directions => Commons.Directions.Bidimencional.Edges;
 
-        feedback = new ConnectedLine();
-        feedback.fixToTeselation = true;
-    }
+        PopulationBehaviour population;
+        private Vector2Int first;
 
-    public override void Init(LBSLayer layer, object provider)
-    {
-        population = provider as PopulationBehaviour;
-        feedback.TeselationSize = layer.TileSize;
-        layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
-    }
+        public RotatePopulationTile()
+        {
+            feedback = new ConnectedLine();
+            feedback.fixToTeselation = true;
+        }
 
-    protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
-    {
-        first = population.Owner.ToFixedPosition(startPosition);
-    }
+        public override void Init(LBSLayer layer, object provider)
+        {
+            population = provider as PopulationBehaviour;
+            feedback.TeselationSize = layer.TileSize;
+            layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
+        }
 
-    protected override void OnMouseMove(VisualElement target, Vector2Int movePosition, MouseMoveEvent e)
-    {
-    }
+        protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
+        {
+            first = population.Owner.ToFixedPosition(startPosition);
+        }
 
-    protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
-    {
-        var pos = population.Owner.ToFixedPosition(endPosition);
+        protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
+        {
+            var pos = population.Owner.ToFixedPosition(endPosition);
 
-        var dx = (first.x - pos.x);
-        var dy = (first.y - pos.y);
+            var dx = first.x - pos.x;
+            var dy = first.y - pos.y;
 
-        var fDir = Directions.FindIndex(d => d.Equals(-new Vector2Int(dx, dy)));
-        //var fDir = schema.Connections.FindIndex(d => d.Equals(-new Vector2Int(dx, dy)));
+            var fDir = Directions.FindIndex(d => d.Equals(-new Vector2Int(dx, dy)));
 
-        if (fDir < 0 || fDir >= Directions.Count)
-            return;
+            if (fDir < 0 || fDir >= Directions.Count)
+                return;
 
-        population.RotateTile(first, Directions[fDir]);
+            population.RotateTile(first, Directions[fDir]);
+        }
     }
 }

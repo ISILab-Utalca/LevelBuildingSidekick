@@ -1,4 +1,4 @@
-using LBS;
+using ISILab.LBS.Behaviours;
 using LBS.Bundles;
 using LBS.Components;
 using LBS.Components.TileMap;
@@ -7,52 +7,46 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class AddPopulationTile : LBSManipulator
+namespace ISILab.LBS.Manipulators
 {
-
-    PopulationBehaviour population;
-
-    public Bundle ToSet
+    public class AddPopulationTile : LBSManipulator
     {
-        get => population.selectedToSet;
-    }
+        PopulationBehaviour population;
 
-    public AddPopulationTile() : base()
-    {
-        feedback = new AreaFeedback();
-        feedback.fixToTeselation = true;
-    }
-
-    public override void Init(LBSLayer layer, object owner)
-    {
-        population = owner as PopulationBehaviour;
-        feedback.TeselationSize = layer.TileSize;
-        layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
-    }
-
-    protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
-    {
-    }
-
-    protected override void OnMouseMove(VisualElement target, Vector2Int movePosition, MouseMoveEvent e)
-    {
-    }
-
-    protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
-    {
-        if (ToSet == null)
+        public Bundle ToSet
         {
-            Debug.LogWarning("No tienens ninguna zona seleccionada para colocar.");
-            return;
+            get => population.selectedToSet;
         }
 
-        var corners = population.Owner.ToFixedPosition(StartPosition, EndPosition);
-
-        for (int i = corners.Item1.x; i <= corners.Item2.x; i++)
+        public AddPopulationTile() : base()
         {
-            for (int j = corners.Item1.y; j <= corners.Item2.y; j++)
+            feedback = new AreaFeedback();
+            feedback.fixToTeselation = true;
+        }
+
+        public override void Init(LBSLayer layer, object owner)
+        {
+            population = owner as PopulationBehaviour;
+            feedback.TeselationSize = layer.TileSize;
+            layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
+        }
+
+        protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
+        {
+            if (ToSet == null)
             {
-                population.AddTile(new Vector2Int(i, j), ToSet);
+                Debug.LogWarning("No tienens ninguna zona seleccionada para colocar.");
+                return;
+            }
+
+            var corners = population.Owner.ToFixedPosition(StartPosition, EndPosition);
+
+            for (int i = corners.Item1.x; i <= corners.Item2.x; i++)
+            {
+                for (int j = corners.Item1.y; j <= corners.Item2.y; j++)
+                {
+                    population.AddTile(new Vector2Int(i, j), ToSet);
+                }
             }
         }
     }

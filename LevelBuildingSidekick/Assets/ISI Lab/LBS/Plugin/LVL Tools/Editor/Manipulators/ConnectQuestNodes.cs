@@ -1,6 +1,6 @@
-using LBS;
+using ISILab.LBS.Manipulators;
+using ISILab.LBS.Modules;
 using LBS.Components;
-using LBS.Components.Graph;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,6 @@ using UnityEngine.UIElements;
 
 public class ConnectQuestNodes : LBSManipulator
 {
-    //QuestBehaviour quest;
     QuestGraph quest;
 
     public QuestNode first;

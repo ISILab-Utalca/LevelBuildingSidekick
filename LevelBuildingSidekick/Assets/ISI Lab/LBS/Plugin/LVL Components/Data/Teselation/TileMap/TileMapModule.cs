@@ -6,8 +6,10 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using ISILab.Extensions;
+using ISILab.LBS.Modules;
+using LBS.Components.TileMap;
 
-namespace LBS.Components.TileMap
+namespace ISILab.LBS.Modules
 {
     [System.Serializable]
     public class TileMapModule : LBSModule , ISelectable

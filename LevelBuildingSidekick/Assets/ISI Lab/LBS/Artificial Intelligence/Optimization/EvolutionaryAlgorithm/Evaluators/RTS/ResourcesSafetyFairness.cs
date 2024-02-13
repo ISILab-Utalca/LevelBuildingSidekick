@@ -1,4 +1,5 @@
 using Commons.Optimization.Evaluator;
+using ISILab.LBS.Characteristics;
 using LBS.Components.TileMap;
 using System;
 using System.Collections;
@@ -17,8 +18,7 @@ public class ResourcesSafetyFairness : IRangedEvaluator
     public LBSCharacteristic playerCharacteristc;
 
     [SerializeField, SerializeReference]
-    public List<LBSCharacteristic> resourceCharactersitic = new List<LBSCharacteristic>(); // Could be a list
-
+    public List<LBSCharacteristic> resourceCharactersitic = new List<LBSCharacteristic>();
 
     public float Evaluate(IOptimizable evaluable)
     {
@@ -52,10 +52,7 @@ public class ResourcesSafetyFairness : IRangedEvaluator
             return MaxValue;
         }
 
-
         List<float> localFitness = new List<float>();
-
-        //Should use voronoi
 
         foreach (var pos in playersPos)
         {

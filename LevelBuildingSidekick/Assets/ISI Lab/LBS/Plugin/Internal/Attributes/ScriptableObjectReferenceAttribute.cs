@@ -1,28 +1,32 @@
+using ISILab.LBS.Internal;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class ScriptableObjectReferenceAttribute : PropertyAttribute
+namespace ISILab.LBS
 {
-    public List<ScriptableObject> SOs = new List<ScriptableObject>();
-    public Type type;
-
-    public ScriptableObjectReferenceAttribute(Type type, string blackBoard = "")
+    public class ScriptableObjectReferenceAttribute : PropertyAttribute
     {
-        this.type = type;
+        public List<ScriptableObject> SOs = new List<ScriptableObject>();
+        public Type type;
 
-        if (blackBoard == "")
+        public ScriptableObjectReferenceAttribute(Type type, string blackBoard = "")
         {
-            if (SOs == null || SOs.Count <= 0)
-                SOs = LBSAssetsStorage.Instance.Get(type);
-        }
-        else
-        {
-            var xx = LBSAssetsStorage.Instance.Get(typeof(LBSIdentifierBundle));
-            var x = xx.Find(b => b.name.Equals(blackBoard)) as LBSIdentifierBundle;
-            SOs = x.Tags.Cast<ScriptableObject>().ToList();
+            this.type = type;
+
+            if (blackBoard == "")
+            {
+                if (SOs == null || SOs.Count <= 0)
+                    SOs = LBSAssetsStorage.Instance.Get(type);
+            }
+            else
+            {
+                var xx = LBSAssetsStorage.Instance.Get(typeof(LBSIdentifierBundle));
+                var x = xx.Find(b => b.name.Equals(blackBoard)) as LBSIdentifierBundle;
+                SOs = x.Tags.Cast<ScriptableObject>().ToList();
+            }
         }
     }
 }

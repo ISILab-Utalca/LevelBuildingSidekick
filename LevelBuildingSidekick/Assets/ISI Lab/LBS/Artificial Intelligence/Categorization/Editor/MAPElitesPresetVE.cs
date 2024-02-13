@@ -2,7 +2,7 @@ using Commons.Optimization.Evaluator;
 using ISILab.AI.Optimization;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.AI.Categorization;
-using LBS.Behaviours;
+using ISILab.LBS.Behaviours;
 using System;
 using System.Collections;
 using System.Collections.Generic;

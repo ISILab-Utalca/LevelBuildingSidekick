@@ -3,13 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System;
-using System.Reflection;
 using System.IO;
-using System.Text;
-using System.Linq;
 using ISILab.JsonNet;
 
-namespace LBS
+namespace ISILab.LBS
 {
     public static class LBSController // FIX: Change name to a better name
     {

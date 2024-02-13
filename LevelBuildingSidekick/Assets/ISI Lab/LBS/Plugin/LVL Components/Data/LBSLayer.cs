@@ -5,11 +5,13 @@ using UnityEngine;
 using System;
 using System.Linq;
 using LBS.Settings;
-using LBS.Behaviours;
-using LBS.Assisstants;
 using ISILab.Commons.Utility;
 using ISILab.Extensions;
 using ISILab.LBS.Generators;
+using ISILab.LBS.Modules;
+using ISILab.LBS.Behaviours;
+using ISILab.LBS.Assistants;
+using ISILab.LBS;
 
 namespace LBS.Components
 {
@@ -25,9 +27,6 @@ namespace LBS.Components
 
         [SerializeField, JsonRequired]
         public string iconPath = "Icon/Default";
-
-        //[SerializeField, JsonRequired]
-        //public string tabSelected = "Current data"; // "Current data" | "Behaviours" | "Assistants"
         #endregion
 
         #region FIELDS
@@ -37,8 +36,8 @@ namespace LBS.Components
         [SerializeField, JsonRequired]
         private string name = "Layer name";
 
-        [JsonIgnore]//[SerializeField, JsonRequired]
-        private LBSLevelData parent; // esto es ignorable??
+        [JsonIgnore]
+        private LBSLevelData parent;
 
         [SerializeField, JsonRequired, SerializeReference]
         private List<LBSModule> modules = new List<LBSModule>();
@@ -210,7 +209,7 @@ namespace LBS.Components
             OnReplaceModule?.Invoke(this, newModule);
         }
 
-        public void Reload() // (?) reload to Init ??
+        public void Reload()
         {
             foreach (var module in modules)
             {
@@ -231,7 +230,6 @@ namespace LBS.Components
             {
                 behaviour.OnAttachLayer(this);
             }
-
         }
 
         public void AddBehaviour(LBSBehaviour behaviour)
@@ -248,8 +246,6 @@ namespace LBS.Components
             var reqModules = behaviour.GetRequieredModules();
             foreach (var type in reqModules)
             {
-                // aqui podria ser importante preguntar por una key en particular por si
-                // existen dos modulos del mismo tipo pero para cosas diferetnes (!!)
                 if (!modules.Any(e => e.GetType() == type))         
                 {
                     this.AddModule(Activator.CreateInstance(type) as LBSModule);
@@ -268,7 +264,6 @@ namespace LBS.Components
         public void AddGeneratorRule(LBSGeneratorRule rule)
         {
             this.generatorRules.Add(rule);
-            //generatorRules.onAttachLayer(this);
         }
 
         public bool RemoveGeneratorRule(LBSGeneratorRule rule)
@@ -289,8 +284,6 @@ namespace LBS.Components
             var reqModules = assistant.GetRequieredModules();
             foreach (var type in reqModules)
             {
-                // aqui podria ser importante preguntar por una key en particular por si
-                // existen dos modulos del mismo tipo pero para cosas diferetnes (!!)
                 if (!modules.Any(e => e.GetType() == type))
                 {
                     this.AddModule(Activator.CreateInstance(type) as LBSModule);

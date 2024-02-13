@@ -1,4 +1,8 @@
 using ISILab.Extensions;
+using ISILab.LBS.Behaviours;
+using ISILab.LBS.Characteristics;
+using ISILab.LBS.Internal;
+using ISILab.LBS.Modules;
 using LBS.Bundles;
 using LBS.Components;
 using LBS.Components.TileMap;
@@ -13,7 +17,6 @@ namespace ISILab.LBS.Generators
 {
     public class ExteriorRuleGenerator : LBSGeneratorRule 
     {
-
         private Tuple<LBSDirection, int> GetBundle(LBSDirectionedGroup group, string[] conections)
         {
             // Get connections

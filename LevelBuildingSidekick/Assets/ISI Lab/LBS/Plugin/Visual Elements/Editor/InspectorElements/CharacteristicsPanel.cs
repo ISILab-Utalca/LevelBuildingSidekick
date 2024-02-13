@@ -8,6 +8,7 @@ using System;
 using LBS.Bundles;
 using ISILab.Commons.Utility.Editor;
 using ISILab.Extensions;
+using ISILab.LBS.Characteristics;
 
 public class CharacteristicsPanel : VisualElement
 {

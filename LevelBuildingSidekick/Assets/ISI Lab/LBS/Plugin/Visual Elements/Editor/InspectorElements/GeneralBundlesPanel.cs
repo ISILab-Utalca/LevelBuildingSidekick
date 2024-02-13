@@ -10,6 +10,7 @@ using UnityEngine.UIElements;
 using ISILab.Commons.Utility;
 using ISILab.Commons.Utility.Editor;
 using ISILab.Extensions;
+using ISILab.LBS.Internal;
 
 public class GeneralBundlesPanel : VisualElement
 {

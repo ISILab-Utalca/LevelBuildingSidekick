@@ -1,6 +1,4 @@
 using ISILab.AI.Optimization.Populations;
-using LBS;
-using LBS.Behaviours;
 using LBS.Components;
 using LBS.Components.Graph;
 using System;
@@ -10,43 +8,38 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class ActOnRect : LBSManipulator
+namespace ISILab.LBS.Manipulators
 {
-    Action<Rect> OnSelection;
-
-    private LBSLayer layer;
-
-    public ActOnRect(Action<Rect> action) 
+    public class ActOnRect : LBSManipulator
     {
-        feedback = new AreaFeedback();
-        feedback.fixToTeselation = true;
-        OnSelection = action;
-    }
+        Action<Rect> OnSelection;
 
-    public override void Init(LBSLayer layer, object provider)
-    {
-        this.layer = layer;
-    }
+        private LBSLayer layer;
 
-    protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
-    {
-    }
+        public ActOnRect(Action<Rect> action)
+        {
+            feedback = new AreaFeedback();
+            feedback.fixToTeselation = true;
+            OnSelection = action;
+        }
 
-    protected override void OnMouseMove(VisualElement target, Vector2Int movePosition, MouseMoveEvent e)
-    {
-    }
+        public override void Init(LBSLayer layer, object provider)
+        {
+            this.layer = layer;
+        }
 
-    protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
-    {
-        var corners = layer.ToFixedPosition(StartPosition, EndPosition);
+        protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
+        {
+            var corners = layer.ToFixedPosition(StartPosition, EndPosition);
 
-        var x = StartPosition.x < EndPosition.x ? StartPosition.x : EndPosition.x;
-        var y = StartPosition.y < EndPosition.y ? StartPosition.y : EndPosition.y;
-        var x2 = StartPosition.x > EndPosition.x ? StartPosition.x : EndPosition.x;
-        var y2 = StartPosition.y > EndPosition.y ? StartPosition.y : EndPosition.y;
+            var x = StartPosition.x < EndPosition.x ? StartPosition.x : EndPosition.x;
+            var y = StartPosition.y < EndPosition.y ? StartPosition.y : EndPosition.y;
+            var x2 = StartPosition.x > EndPosition.x ? StartPosition.x : EndPosition.x;
+            var y2 = StartPosition.y > EndPosition.y ? StartPosition.y : EndPosition.y;
 
-        var size = corners.Item2 - corners.Item1 + Vector2.one; 
-        var r = new Rect(corners.Item1, size);
-        OnSelection?.Invoke(r);
+            var size = corners.Item2 - corners.Item1 + Vector2.one;
+            var r = new Rect(corners.Item1, size);
+            OnSelection?.Invoke(r);
+        }
     }
 }

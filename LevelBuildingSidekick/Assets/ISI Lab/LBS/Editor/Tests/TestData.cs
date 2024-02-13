@@ -13,6 +13,12 @@ using System;
 using LBS.Bundles;
 using ISILab.Commons;
 using ISILab.JsonNet;
+using ISILab.LBS;
+using ISILab.LBS.Characteristics;
+using ISILab.LBS.Internal;
+using ISILab.LBS.Modules;
+using ISILab.LBS.Behaviours;
+using ISILab.LBS.Components;
 
 public class Test_Simple_Module
 {

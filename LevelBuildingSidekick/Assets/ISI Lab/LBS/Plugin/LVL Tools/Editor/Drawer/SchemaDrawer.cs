@@ -3,97 +3,103 @@ using UnityEngine;
 using LBS.Components.TileMap;
 using UnityEditor.Experimental.GraphView;
 using ISILab.LBS.VisualElements.Editor;
+using ISILab.LBS.Components;
+using ISILab.LBS.Modules;
+using ISILab.LBS.Behaviours;
 
-[Drawer(typeof(SchemaBehaviour))]
-public class SchemaDrawer : Drawer
+namespace ISILab.LBS.Drawers
 {
-    public override void Draw(object target, MainView view, Vector2 teselationSize)
+    [Drawer(typeof(SchemaBehaviour))]
+    public class SchemaDrawer : Drawer
     {
-        // Get behaviour
-        var schema = target as SchemaBehaviour;
-
-        // Get modules
-        var tilesMod = schema.Owner.GetModule<TileMapModule>();
-        var zonesMod = schema.Owner.GetModule<SectorizedTileMapModule>();
-        var connectionsMod = schema.Owner.GetModule<ConnectedTileMapModule>();
-
-        foreach (var t in tilesMod.Tiles)
+        public override void Draw(object target, MainView view, Vector2 teselationSize)
         {
-            var zone = zonesMod.GetZone(t);
+            // Get behaviour
+            var schema = target as SchemaBehaviour;
 
-            var conections = connectionsMod.GetConnections(t);
+            // Get modules
+            var tilesMod = schema.Owner.GetModule<TileMapModule>();
+            var zonesMod = schema.Owner.GetModule<SectorizedTileMapModule>();
+            var connectionsMod = schema.Owner.GetModule<ConnectedTileMapModule>();
 
-            var tView = GetTileView(t, zone, conections, teselationSize);
-
-            view.AddElement(tView);
-        }
-    }
-
-    public override Texture2D GetTexture(object target, Rect sourceRect, Vector2Int teselationSize)
-    {
-        var schema = target as SchemaBehaviour;
-        var zones = schema.Zones;
-
-        var texture = new Texture2D((int)(sourceRect.width * teselationSize.x), (int)(sourceRect.height * teselationSize.y));
-
-        for (int j = 0; j < texture.height; j++)
-        {
-            for (int i = 0; i < texture.width; i++)
+            foreach (var t in tilesMod.Tiles)
             {
-                texture.SetPixel(i, j, new Color(0f, 0f, 0f, 0));
+                var zone = zonesMod.GetZone(t);
+
+                var conections = connectionsMod.GetConnections(t);
+
+                var tView = GetTileView(t, zone, conections, teselationSize);
+
+                view.AddElement(tView);
             }
         }
 
-        foreach (var z in zones)
+        public override Texture2D GetTexture(object target, Rect sourceRect, Vector2Int teselationSize)
         {
-            var tiles = schema.GetTiles(z);
-            var text = GetTileTexture(teselationSize, z.Color);
+            var schema = target as SchemaBehaviour;
+            var zones = schema.Zones;
 
-            foreach (var t in tiles)
+            var texture = new Texture2D((int)(sourceRect.width * teselationSize.x), (int)(sourceRect.height * teselationSize.y));
+
+            for (int j = 0; j < texture.height; j++)
             {
-                if (!sourceRect.Contains(t.Position))
-                    continue;
-                for (int j = 0; j < teselationSize.y; j++)
+                for (int i = 0; i < texture.width; i++)
                 {
-                    for (int i = 0; i < teselationSize.x; i++)
+                    texture.SetPixel(i, j, new Color(0f, 0f, 0f, 0));
+                }
+            }
+
+            foreach (var z in zones)
+            {
+                var tiles = schema.GetTiles(z);
+                var text = GetTileTexture(teselationSize, z.Color);
+
+                foreach (var t in tiles)
+                {
+                    if (!sourceRect.Contains(t.Position))
+                        continue;
+                    for (int j = 0; j < teselationSize.y; j++)
                     {
-                        var pos = t.Position - sourceRect.position;
-                        texture.SetPixel((int)(pos.x * teselationSize.x) + i, (int)(pos.y * teselationSize.y) + j, text.GetPixel(i,j));
+                        for (int i = 0; i < teselationSize.x; i++)
+                        {
+                            var pos = t.Position - sourceRect.position;
+                            texture.SetPixel((int)(pos.x * teselationSize.x) + i, (int)(pos.y * teselationSize.y) + j, text.GetPixel(i, j));
+                        }
                     }
                 }
             }
+
+            texture.Apply();
+
+            return texture;
         }
 
-        texture.Apply();
-
-        return texture;
-    }
-
-    private GraphElement GetTileView(LBSTile tile, Zone zone, List<string> connections , Vector2 teselationSize)
-    {
-        var pos = new Vector2(tile.Position.x, -tile.Position.y);
-        var tView = new SchemaTileView();
-        var size = DefalutSize * teselationSize;
-        tView.SetPosition(new Rect(pos * size, size));
-
-        tView.SetBackgroundColor(zone.Color);
-
-        tView.SetConnections(connections.ToArray());
-        return tView;
-    }
-
-    private Texture2D GetTileTexture(Vector2Int size, Color color)
-    {
-        var t = new Texture2D(size.x, size.y);
-
-        for (int j = 0; j < size.y; j++)
+        private GraphElement GetTileView(LBSTile tile, Zone zone, List<string> connections, Vector2 teselationSize)
         {
-            for (int i = 0; i < size.x; i++)
-            {
-                t.SetPixel(i, j, color);
-            }
+            var pos = new Vector2(tile.Position.x, -tile.Position.y);
+            var tView = new SchemaTileView();
+            var size = DefalutSize * teselationSize;
+            tView.SetPosition(new Rect(pos * size, size));
+
+            tView.SetBackgroundColor(zone.Color);
+
+            tView.SetConnections(connections.ToArray());
+            return tView;
         }
 
-        return t;
+        private Texture2D GetTileTexture(Vector2Int size, Color color)
+        {
+            var t = new Texture2D(size.x, size.y);
+
+            for (int j = 0; j < size.y; j++)
+            {
+                for (int i = 0; i < size.x; i++)
+                {
+                    t.SetPixel(i, j, color);
+                }
+            }
+
+            return t;
+        }
     }
 }

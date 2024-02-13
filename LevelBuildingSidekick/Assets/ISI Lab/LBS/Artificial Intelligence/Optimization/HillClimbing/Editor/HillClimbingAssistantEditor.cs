@@ -1,4 +1,8 @@
 using ISILab.Commons.Utility.Editor;
+using ISILab.LBS;
+using ISILab.LBS.Assistants;
+using ISILab.LBS.Manipulators;
+using ISILab.LBS.Modules;
 using ISILab.LBS.VisualElements;
 using LBS;
 using LBS.Components;

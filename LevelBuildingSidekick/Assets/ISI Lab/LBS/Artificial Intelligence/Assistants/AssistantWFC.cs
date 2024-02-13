@@ -1,6 +1,8 @@
 using ISILab.Commons;
 using ISILab.Extensions;
-using LBS.Assisstants;
+using ISILab.LBS.Characteristics;
+using ISILab.LBS.Internal;
+using ISILab.LBS.Modules;
 using LBS.Bundles;
 using LBS.Components.TileMap;
 using Newtonsoft.Json;
@@ -8,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace ISILab.LBS.AI.Assistants
+namespace ISILab.LBS.Assistants
 {
     [System.Serializable]
     [RequieredModule(typeof(TileMapModule), typeof(ConnectedTileMapModule))]
@@ -53,7 +55,7 @@ namespace ISILab.LBS.AI.Assistants
             return new AssistantWFC(this.Icon, this.Name);
         }
 
-        public override void Execute()
+        public void Execute()
         {
             // Get Bundle
             var bundle = GetBundle(targetBundle);
@@ -61,7 +63,7 @@ namespace ISILab.LBS.AI.Assistants
             // Cheack if can execute
             if (bundle == null)
             {
-                Debug.LogWarning("NO tienes ningun bundle seleccionado");
+                Debug.LogWarning("No bundle is selected.");
                 return;
             }
 

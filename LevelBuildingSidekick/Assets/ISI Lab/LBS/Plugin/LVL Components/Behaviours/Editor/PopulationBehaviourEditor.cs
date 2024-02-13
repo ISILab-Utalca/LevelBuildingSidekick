@@ -1,3 +1,7 @@
+using ISILab.LBS.Behaviours;
+using ISILab.LBS.Characteristics;
+using ISILab.LBS.Internal;
+using ISILab.LBS.Manipulators;
 using ISILab.LBS.VisualElements;
 using LBS;
 using LBS.Bundles;

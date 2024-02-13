@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System.Linq;
+using ISILab.LBS.Characteristics;
 
 [LBSCustomEditor("ResourcesSafetyFairness", typeof(ResourcesSafetyFairness))]
 public class ResourceFairnessVE : LBSCustomEditor

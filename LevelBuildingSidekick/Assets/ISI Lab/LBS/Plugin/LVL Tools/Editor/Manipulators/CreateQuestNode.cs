@@ -1,9 +1,9 @@
 using ISILab.AI.Optimization.Populations;
-using LBS;
-using LBS.Behaviours;
+using ISILab.LBS.Behaviours;
+using ISILab.LBS.Manipulators;
+using ISILab.LBS.Modules;
 using LBS.Components;
 using LBS.Components.Graph;
-using LBS.Components.Specifics;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,9 +11,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class CreateQuestNode : LBSManipulator // where T: LBSNode  // (!) CreateNewNode<T>
+public class CreateQuestNode : LBSManipulator 
 {
-    //QuestBehaviour quest;
     QuestGraph quest;
     QuestBehaviour behaviour;
     public GrammarTerminal ActionToSet => behaviour.ToSet;
@@ -28,15 +27,6 @@ public class CreateQuestNode : LBSManipulator // where T: LBSNode  // (!) Create
     {
         quest = layer.GetModule<QuestGraph>();
         behaviour = layer.GetBehaviour<QuestBehaviour>();
-    }
-
-    protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
-    {
-    }
-
-    protected override void OnMouseMove(VisualElement target, Vector2Int movePosition, MouseMoveEvent e)
-    {
-        //throw new NotImplementedException();
     }
 
     protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)

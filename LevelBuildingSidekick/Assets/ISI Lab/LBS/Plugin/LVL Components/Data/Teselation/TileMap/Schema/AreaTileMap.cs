@@ -5,11 +5,12 @@ using System.Linq;
 using Newtonsoft.Json;
 using LBS.Components.TileMap;
 using System;
+using ISILab.LBS.Modules;
 
 namespace LBS.Components.TileMap
 {
     [System.Serializable]
-    [Obsolete("UWU")]
+    [Obsolete("Obsolete Class, Remove before upload")]
     public class AreaTileMap<T> : LBSModule where T : TiledArea
     {
         #region FIELDS
@@ -147,40 +148,17 @@ namespace LBS.Components.TileMap
             return areas.Remove(area);
         }
 
-        public float GetRoomDistance(string r1, string r2) // O2 - manhattan
+        /// <summary>
+        /// Get the distance between two rooms using 'Manhattan' distance.
+        /// </summary>
+        /// <param name="r1"></param>
+        /// <param name="r2"></param>
+        /// <returns></returns>
+        public float GetRoomDistance(string r1, string r2)
         {
-            //var lessDist = float.MaxValue;
-            
             var room1 = GetArea(r1);
             var room2 = GetArea(r2);
-
-            /*
-            var tileWalls1 = room1.GetWalls().SelectMany(x => x.Tiles).ToList();
-            var tileWalls2 = room2.GetWalls().SelectMany(x => x.Tiles).ToList();
-
-            for (int i = 0; i < tileWalls1.Count; i++)
-            {
-                for (int j = 0; j < tileWalls2.Count; j++)
-                {
-                    var dist = Vector2Int.Distance(tileWalls1[i], tileWalls2[j]);
-                    if (dist <= lessDist)
-                    {
-                        lessDist = dist;
-                    }
-                }
-            }
-            return lessDist;
-            */
             var lessDist = room1.Tiles.Min(t => room2.GetDistance(t.Position));
-            /*for (int i = 0; i < room1.TileCount; i++)
-            {
-                var dist = room2.GetDistance(room1.GetTile(i).Position);
-
-                if (dist <= lessDist)
-                {
-                    lessDist = dist;
-                }
-            }*/
             return lessDist;
         }
 
@@ -274,21 +252,7 @@ namespace LBS.Components.TileMap
             var r = GetBounds();
             return EmptyPositions().Select((v, x) => x).ToList();
         }
-
-        public override void Rewrite(LBSModule module)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Reload(LBSLayer layer)
-        {
-
-        }
-
         #endregion
-
     }
-
-
 }
 

@@ -1,4 +1,5 @@
 using ISILab.Commons.Utility.Editor;
+using ISILab.LBS.Modules;
 using LBS.Components;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
@@ -24,8 +25,8 @@ namespace ISILab.LBS.VisualElements.Editor
         #region EVENTS
         public event Action<LBSLayer> OnAddQuest;
         public event Action<QuestGraph> OnRemoveQuest;
-        public event Action<LBSLayer> OnSelectQuest; // click simple (!)
-        public event Action<LBSLayer> OnDoubleSelectQuest; // doble click (!)
+        public event Action<LBSLayer> OnSelectQuest; // click simple
+        public event Action<LBSLayer> OnDoubleSelectQuest; // doble click
         public event Action<LBSLayer> OnQuestVisibilityChange;
         #endregion
 

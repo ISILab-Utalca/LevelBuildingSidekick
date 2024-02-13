@@ -1,3 +1,4 @@
+using ISILab.LBS.Characteristics;
 using LBS.Bundles;
 using Newtonsoft.Json;
 using System;

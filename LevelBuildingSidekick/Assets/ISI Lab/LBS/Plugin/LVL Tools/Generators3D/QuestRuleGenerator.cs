@@ -1,3 +1,4 @@
+using ISILab.LBS.Modules;
 using LBS.Components;
 using System;
 using System.Collections;

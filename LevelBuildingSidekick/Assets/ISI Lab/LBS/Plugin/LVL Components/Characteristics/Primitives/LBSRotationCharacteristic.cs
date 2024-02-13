@@ -3,48 +3,51 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class LBSRotationCharacteristic : LBSCharacteristic
+namespace ISILab.LBS.Characteristics
 {
-    [SerializeField, JsonRequired]
-    Vector2 rotation = Vector2.right;
-
-    [JsonIgnore]
-    public Vector2 Rotation
+    [System.Serializable]
+    public class LBSRotationCharacteristic : LBSCharacteristic
     {
-        get => rotation;
-        set => rotation = value;
-    }
+        [SerializeField, JsonRequired]
+        Vector2 rotation = Vector2.right;
 
-    public LBSRotationCharacteristic() : base()
-    {
+        [JsonIgnore]
+        public Vector2 Rotation
+        {
+            get => rotation;
+            set => rotation = value;
+        }
 
-    }
+        public LBSRotationCharacteristic() : base()
+        {
 
-    public LBSRotationCharacteristic(string label, Vector2 vector) : base(label)
-    {
-        rotation = vector;
-    }
+        }
 
-    public override object Clone()
-    {
-        return new LBSRotationCharacteristic(label, rotation);
-    }
+        public LBSRotationCharacteristic(string label, Vector2 vector) : base(label)
+        {
+            rotation = vector;
+        }
 
-    public override string ToString()
-    {
-        return base.ToString();
-    }
+        public override object Clone()
+        {
+            return new LBSRotationCharacteristic(label, rotation);
+        }
 
-    public override bool Equals(object obj)
-    {
-        var other = obj as LBSRotationCharacteristic;
+        public override string ToString()
+        {
+            return base.ToString();
+        }
 
-        return other.rotation.Equals(this.rotation);
-    }
+        public override bool Equals(object obj)
+        {
+            var other = obj as LBSRotationCharacteristic;
 
-    public override int GetHashCode()
-    {
-        return base.GetHashCode();
+            return other.rotation.Equals(this.rotation);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

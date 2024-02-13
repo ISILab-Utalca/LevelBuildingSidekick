@@ -1,18 +1,12 @@
 using ISILab.Commons.Utility;
 using ISILab.Commons.Utility.Editor;
-using LBS;
-using LBS.Behaviours;
 using LBS.Components;
 using LBS.Settings;
 using LBS.VisualElements;
-using NUnit.Framework.Internal;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using UnityEditor;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 public class LBSLocalCurrent : LBSInspector, IToolProvider

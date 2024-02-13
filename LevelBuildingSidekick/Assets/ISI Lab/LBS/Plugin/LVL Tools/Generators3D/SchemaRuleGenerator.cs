@@ -9,6 +9,10 @@ using LBS.Bundles;
 using Newtonsoft.Json;
 using ISILab.Commons;
 using ISILab.Extensions;
+using ISILab.LBS.Modules;
+using ISILab.LBS.Characteristics;
+using ISILab.LBS.Internal;
+using ISILab.LBS.Components;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -16,7 +20,6 @@ using UnityEditor;
 
 namespace ISILab.LBS.Generators
 {
-
     [System.Serializable]
     [RequieredModule(typeof(TileMapModule),
         typeof(ConnectedTileMapModule),
@@ -124,7 +127,6 @@ namespace ISILab.LBS.Generators
 
             for (var i = 0; i < connections.Count; i++)
             {
-
                 // Get random bundle with respctive "connection tag"
                 var current = currents.Where(b => b.GetCharacteristics<LBSTagsCharacteristic>()
                     .Any(c => c.Value.name == connections[i]))
@@ -133,7 +135,6 @@ namespace ISILab.LBS.Generators
                 // check if current is valid
                 if (current == null)
                 {
-                    //Debug.Log("Los bundles no contienen elemetos con la tag: '" + connections[i] + "'");
                     continue;
                 }
 
@@ -145,7 +146,7 @@ namespace ISILab.LBS.Generators
 
                 // Set rotation orientation
                 if (i % 2 == 0)
-                    obj.transform.rotation = Quaternion.Euler(0, (90 * (i - 1)) % 360, 0); // (?) if parche? 
+                    obj.transform.rotation = Quaternion.Euler(0, (90 * (i - 1)) % 360, 0);
                 else
                     obj.transform.rotation = Quaternion.Euler(0, (90 * (i - 3)) % 360, 0);
 
@@ -154,7 +155,6 @@ namespace ISILab.LBS.Generators
                     settings.scale.x / 2f * -obj.transform.forward.x,
                     0,
                     settings.scale.y / 2f * -obj.transform.forward.z) * deltaWall;
-
             }
 
             return pivot;

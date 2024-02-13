@@ -1,4 +1,6 @@
 using ISILab.Extensions;
+using ISILab.LBS.Components;
+using ISILab.LBS.Modules;
 using LBS.Components;
 using LBS.Settings;
 using Newtonsoft.Json;
@@ -8,235 +10,241 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[System.Serializable]
-public class ConnectedZonesModule : LBSModule
+namespace ISILab.LBS.Modules
 {
-    #region FIELDS
-    [SerializeField, JsonRequired, SerializeReference]
-    List<ZoneEdge> edges = new List<ZoneEdge>();
-    #endregion
 
-    #region PROPERTIES
-    [JsonIgnore]
-    public List<ZoneEdge> Edges => new List<ZoneEdge>(edges);
-    #endregion
-
-    #region EVENTS
-    public event Action<ConnectedZonesModule, ZoneEdge> OnAddEdge;
-    public event Action<ConnectedZonesModule, ZoneEdge> OnRemoveEdge;
-    #endregion
-
-    #region CONSTRUCTORS
-    public ConnectedZonesModule() 
-    { 
-
-    }
-    #endregion
-
-    #region METHODS
-    public void AddEdge(ZoneEdge edge)
+    [System.Serializable]
+    public class ConnectedZonesModule : LBSModule
     {
-        OnChanged?.Invoke(this, null, new List<object>() { edge });
-        edges.Add(edge);
-        OnAddEdge?.Invoke(this, edge);
-    }
+        #region FIELDS
+        [SerializeField, JsonRequired, SerializeReference]
+        List<ZoneEdge> edges = new List<ZoneEdge>();
+        #endregion
 
-    public void AddEdge(Zone first, Zone second)
-    {
-        var edge = new ZoneEdge(first, second);
-        OnChanged?.Invoke(this, null, new List<object>() { edge });
-        edges.Add(edge);
-        OnAddEdge?.Invoke(this, edge);
-    }
+        #region PROPERTIES
+        [JsonIgnore]
+        public List<ZoneEdge> Edges => new List<ZoneEdge>(edges);
+        #endregion
 
-    public ZoneEdge GetEdge(Zone first, Zone second, bool bothDir = true)
-    {
-        foreach (var edge in edges)
+        #region EVENTS
+        public event Action<ConnectedZonesModule, ZoneEdge> OnAddEdge;
+        public event Action<ConnectedZonesModule, ZoneEdge> OnRemoveEdge;
+        #endregion
+
+        #region CONSTRUCTORS
+        public ConnectedZonesModule()
         {
-            if(edge.First.Equals(first) && edge.Second.Equals(second))
-                return edge;
 
-            if( bothDir && edge.Second.Equals(first) && edge.First.Equals(first))
-                return edge;
         }
-        return null;
-    }
+        #endregion
 
-    public ZoneEdge GetEdge(Vector2 position, float delta)
-    {
-        foreach (var e in edges)
+        #region METHODS
+        public void AddEdge(ZoneEdge edge)
         {
-            Debug.Log(e.First.Pivot + " - " + e.Second.Pivot + " - " + position);
-
-            var dist = position.DistanceToLine(e.First.Pivot, e.Second.Pivot);
-            if (dist < delta)
-                return e;
+            OnChanged?.Invoke(this, null, new List<object>() { edge });
+            edges.Add(edge);
+            OnAddEdge?.Invoke(this, edge);
         }
-        return null;
-    }
 
-    public void RemoveEdge(Zone first, Zone second)
-    {
-        var edge = GetEdge(first, second);
-        if (edge != null)
+        public void AddEdge(Zone first, Zone second)
+        {
+            var edge = new ZoneEdge(first, second);
+            OnChanged?.Invoke(this, null, new List<object>() { edge });
+            edges.Add(edge);
+            OnAddEdge?.Invoke(this, edge);
+        }
+
+        public ZoneEdge GetEdge(Zone first, Zone second, bool bothDir = true)
+        {
+            foreach (var edge in edges)
+            {
+                if (edge.First.Equals(first) && edge.Second.Equals(second))
+                    return edge;
+
+                if (bothDir && edge.Second.Equals(first) && edge.First.Equals(first))
+                    return edge;
+            }
+            return null;
+        }
+
+        public ZoneEdge GetEdge(Vector2 position, float delta)
+        {
+            foreach (var e in edges)
+            {
+                Debug.Log(e.First.Pivot + " - " + e.Second.Pivot + " - " + position);
+
+                var dist = position.DistanceToLine(e.First.Pivot, e.Second.Pivot);
+                if (dist < delta)
+                    return e;
+            }
+            return null;
+        }
+
+        public void RemoveEdge(Zone first, Zone second)
+        {
+            var edge = GetEdge(first, second);
+            if (edge != null)
+            {
+                OnChanged?.Invoke(this, new List<object>() { edge }, null);
+                edges.Remove(edge);
+                OnRemoveEdge?.Invoke(this, edge);
+            }
+        }
+
+        public void RemoveEdge(ZoneEdge edge)
         {
             OnChanged?.Invoke(this, new List<object>() { edge }, null);
             edges.Remove(edge);
             OnRemoveEdge?.Invoke(this, edge);
         }
-    }
 
-    public void RemoveEdge(ZoneEdge edge)
-    {
-        OnChanged?.Invoke(this, new List<object>() { edge }, null);
-        edges.Remove(edge);
-        OnRemoveEdge?.Invoke(this,edge);
-    }
-
-    public void RemoveEdges(Zone zone)
-    {
-        var toRemove = edges.Where(e => e.First.Equals(zone) || e.Second.Equals(zone)).ToList();
-        OnChanged?.Invoke(this, toRemove.Cast<object>().ToList(), null);
-        for (int i = 0; i < toRemove.Count; i++)
+        public void RemoveEdges(Zone zone)
         {
-            edges.Remove(toRemove[i]);
-        }
-    }
-
-    public override void Clear()
-    {
-        edges.Clear();
-    }
-
-    public override object Clone()
-    {
-        var clone = new ConnectedZonesModule();
-
-        var edgesClone = edges.Select(e => e.Clone()).Cast<ZoneEdge>();
-        foreach (var edge in edgesClone)
-        {
-            clone.AddEdge(edge);
+            var toRemove = edges.Where(e => e.First.Equals(zone) || e.Second.Equals(zone)).ToList();
+            OnChanged?.Invoke(this, toRemove.Cast<object>().ToList(), null);
+            for (int i = 0; i < toRemove.Count; i++)
+            {
+                edges.Remove(toRemove[i]);
+            }
         }
 
-        return clone;
-    }
-
-    public override Rect GetBounds()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override bool IsEmpty()
-    {
-        return edges.Count <= 0;
-    }
-
-    public override void Print()
-    {
-        string msg = "";
-        msg += "Type: " + GetType() + "\n";
-        msg += "Hash code: " + GetHashCode() + "\n";
-        msg += "ID: " + ID + "\n";
-        msg += "\n";
-        foreach (var edge in edges)
+        public override void Clear()
         {
-            msg += edge.First.ID +" - "+ edge.Second.ID + "\n";
-        }
-        Debug.Log(msg);
-    }
-
-    public override void Rewrite(LBSModule module)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    // override object.Equals
-    public override bool Equals(object obj)
-    {
-        var other = obj as ConnectedZonesModule;
-
-        if (other == null)  return false;
-
-        var eCount = other.edges.Count;
-
-        if (eCount != this.edges.Count) return false;
-
-        for (int i = 0; i < eCount; i++)
-        {
-            var e1 = this.edges[i];
-            var e2 = other.edges[i];
-
-            if (!e1.Equals(e2)) return false;
+            edges.Clear();
         }
 
-        return true;
-    }
+        public override object Clone()
+        {
+            var clone = new ConnectedZonesModule();
 
-    public override int GetHashCode()
-    {
-        return base.GetHashCode();
+            var edgesClone = edges.Select(e => e.Clone()).Cast<ZoneEdge>();
+            foreach (var edge in edgesClone)
+            {
+                clone.AddEdge(edge);
+            }
+
+            return clone;
+        }
+
+        public override Rect GetBounds()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override bool IsEmpty()
+        {
+            return edges.Count <= 0;
+        }
+
+        public override void Print()
+        {
+            string msg = "";
+            msg += "Type: " + GetType() + "\n";
+            msg += "Hash code: " + GetHashCode() + "\n";
+            msg += "ID: " + ID + "\n";
+            msg += "\n";
+            foreach (var edge in edges)
+            {
+                msg += edge.First.ID + " - " + edge.Second.ID + "\n";
+            }
+            Debug.Log(msg);
+        }
+
+        public override void Rewrite(LBSModule module)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override bool Equals(object obj)
+        {
+            var other = obj as ConnectedZonesModule;
+
+            if (other == null) return false;
+
+            var eCount = other.edges.Count;
+
+            if (eCount != this.edges.Count) return false;
+
+            for (int i = 0; i < eCount; i++)
+            {
+                var e1 = this.edges[i];
+                var e2 = other.edges[i];
+
+                if (!e1.Equals(e2)) return false;
+            }
+
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+        #endregion
     }
-    #endregion
 }
 
-[System.Serializable]
-public class ZoneEdge : ICloneable
+namespace ISILab.LBS.Components
 {
-    #region FIELDS
-    [SerializeField, SerializeReference, JsonRequired]
-    private Zone first;
-
-    [SerializeField, SerializeReference, JsonRequired]
-    private Zone second;
-    #endregion
-
-    #region PROPERTIES
-    [JsonIgnore]
-    public Zone First
+    [System.Serializable]
+    public class ZoneEdge : ICloneable
     {
-        get => first;
-        set => first = value;
+        #region FIELDS
+        [SerializeField, SerializeReference, JsonRequired]
+        private Zone first;
+
+        [SerializeField, SerializeReference, JsonRequired]
+        private Zone second;
+        #endregion
+
+        #region PROPERTIES
+        [JsonIgnore]
+        public Zone First
+        {
+            get => first;
+            set => first = value;
+        }
+
+        [JsonIgnore]
+        public Zone Second
+        {
+            get => second;
+            set => second = value;
+        }
+        #endregion
+
+        #region CONSTRUCTORS
+        public ZoneEdge(Zone first, Zone second)
+        {
+            this.first = first;
+            this.second = second;
+        }
+        #endregion
+
+        #region METHODS
+        public object Clone()
+        {
+            return new ZoneEdge(CloneRefs.Get(first) as Zone, CloneRefs.Get(second) as Zone);
+        }
+
+        // override object.Equals
+        public override bool Equals(object obj)
+        {
+            var other = obj as ZoneEdge;
+
+            if (other == null) return false;
+
+            if (!this.first.Equals(other.first)) return false;
+
+            if (!this.second.Equals(other.second)) return false;
+
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+        #endregion
     }
-
-    [JsonIgnore]
-    public Zone Second
-    {
-        get => second;
-        set => second = value;
-    }
-    #endregion
-
-    #region CONSTRUCTORS
-    public ZoneEdge(Zone first, Zone second)
-    {
-        this.first = first;
-        this.second = second;
-    }
-    #endregion
-
-    #region METHODS
-    public object Clone()
-    {
-        return new ZoneEdge(CloneRefs.Get(first) as Zone, CloneRefs.Get(second) as Zone);
-    }
-
-    // override object.Equals
-    public override bool Equals(object obj)
-    {
-        var other = obj as ZoneEdge;
-
-        if (other == null) return false;
-
-        if(!this.first.Equals(other.first)) return false;
-
-        if(!this.second.Equals(other.second)) return false;
-
-        return true;
-    }
-
-    public override int GetHashCode()
-    {
-        return base.GetHashCode();
-    }
-    #endregion
 }

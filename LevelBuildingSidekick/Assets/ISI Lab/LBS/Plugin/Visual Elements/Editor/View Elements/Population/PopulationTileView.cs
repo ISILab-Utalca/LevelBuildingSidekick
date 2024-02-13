@@ -1,6 +1,6 @@
 using ISILab.Commons;
 using ISILab.Commons.Utility.Editor;
-using LBS.Components.TileMap;
+using ISILab.LBS.Modules;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +10,12 @@ using UnityEngine.UIElements;
 
 public class PopulationTileView : GraphElement
 {
+    private static VisualTreeAsset view;
+
     List<VisualElement> arrows = new List<VisualElement>();
 
     VisualElement icon;
     VisualElement bg;
-
-    private static VisualTreeAsset view;
 
     public PopulationTileView(TileBundlePair tile)
     {

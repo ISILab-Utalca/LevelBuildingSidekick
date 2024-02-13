@@ -1,5 +1,5 @@
-using LBS;
-using LBS.Behaviours;
+using ISILab.LBS.Manipulators;
+using ISILab.LBS.Modules;
 using LBS.Bundles;
 using LBS.Components;
 using System;

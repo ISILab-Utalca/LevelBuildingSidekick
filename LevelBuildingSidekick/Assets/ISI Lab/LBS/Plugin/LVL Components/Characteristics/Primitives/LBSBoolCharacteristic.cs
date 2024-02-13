@@ -2,51 +2,53 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-[System.Serializable]
-[LBSCharacteristic("Boolean","")]
-public class LBSBoolCharacteristic : LBSCharacteristic
+namespace ISILab.LBS.Characteristics
 {
-    [SerializeField]
-    protected bool value;
-
-    public bool Value
+    [System.Serializable]
+    [LBSCharacteristic("Boolean", "")]
+    public class LBSBoolCharacteristic : LBSCharacteristic
     {
-        get => value;
-        set => this.value = value;
-    }
+        [SerializeField]
+        protected bool value;
 
-    public LBSBoolCharacteristic(bool value)
-    {
-        this.value = value;
-    }
+        public bool Value
+        {
+            get => value;
+            set => this.value = value;
+        }
 
-    public LBSBoolCharacteristic()
-    {
-        this.value = false;
-    }
+        public LBSBoolCharacteristic(bool value)
+        {
+            this.value = value;
+        }
 
-    public override object Clone()
-    {
-        return new LBSBoolCharacteristic(this.value);
-    }
+        public LBSBoolCharacteristic()
+        {
+            this.value = false;
+        }
 
-    public override bool Equals(object obj)
-    {
-        var other = obj as LBSBoolCharacteristic;
+        public override object Clone()
+        {
+            return new LBSBoolCharacteristic(this.value);
+        }
 
-        if (other == null) return false;
+        public override bool Equals(object obj)
+        {
+            var other = obj as LBSBoolCharacteristic;
 
-        return other.value == this.value;
-    }
+            if (other == null) return false;
 
-    public override string ToString()
-    {
-        return base.ToString();
-    }
+            return other.value == this.value;
+        }
 
-    public override int GetHashCode()
-    {
-        return base.GetHashCode();
+        public override string ToString()
+        {
+            return base.ToString();
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

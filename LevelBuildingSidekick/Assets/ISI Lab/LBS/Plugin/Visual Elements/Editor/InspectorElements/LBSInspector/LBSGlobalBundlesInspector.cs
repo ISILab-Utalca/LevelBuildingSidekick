@@ -1,6 +1,6 @@
 using ISILab.Commons.Utility;
 using ISILab.Commons.Utility.Editor;
-using LBS.Behaviours;
+using ISILab.LBS.Internal;
 using LBS.Bundles;
 using LBS.Components;
 using LBS.Settings;
@@ -172,7 +172,7 @@ public class LBSGlobalBundlesInspector : LBSInspector
         AssetDatabase.CreateAsset(clone, settings.paths.bundleFolderPath + "/" + name + ".asset");
         AssetDatabase.SaveAssets();
 
-        var all = storage.Get<Bundle>().Where(b => !b.IsPresset).ToList();//Utility.DirectoryTools.GetScriptables<Bundle>().ToList();
+        var all = storage.Get<Bundle>().Where(b => !b.IsPresset).ToList();
         this.targets = OrderList(all, 0, new List<Tuple<Bundle, int>>());
         list.itemsSource = targets;
 
@@ -199,7 +199,6 @@ public class LBSGlobalBundlesInspector : LBSInspector
 
     public override void SetTarget(LBSLayer layer)
     {
-        //Debug.Log("Actualizacion de layer Global/Bundles inspector");
     }
     #endregion
 }

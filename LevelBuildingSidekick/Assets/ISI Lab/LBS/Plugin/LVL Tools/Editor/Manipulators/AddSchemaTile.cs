@@ -1,6 +1,6 @@
+using ISILab.LBS.Behaviours;
+using ISILab.LBS.Components;
 using ISILab.LBS.VisualElements;
-using LBS;
-using LBS.Behaviours;
 using LBS.Components;
 using LBS.Components.TileMap;
 using System;
@@ -9,64 +9,66 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class AddSchemaTile : LBSManipulator
+namespace ISILab.LBS.Manipulators
 {
-    private SchemaBehaviour schema;
-
-    public Zone ToSet
+    public class AddSchemaTile : LBSManipulator
     {
-        get => schema.roomToSet;
-        set => schema.roomToSet = value;
-    }
+        private SchemaBehaviour schema;
 
-    public AddSchemaTile() : base()
-    {
-        feedback = new AreaFeedback();
-        feedback.fixToTeselation = true;
-    }
-
-    public override void Init(LBSLayer layer, object owner)
-    {
-        schema = owner as SchemaBehaviour;
-        feedback.TeselationSize = layer.TileSize;
-        layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
-    }
-
-    protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
-    {
-        if(e.ctrlKey)
+        public Zone ToSet
         {
-            var newZone = schema.AddZone();
-            newZone.InsideStyles = new List<string>() { schema.PressetInsideStyle.Name };
-            newZone.OutsideStyles = new List<string>() { schema.PressetOutsideStyle.Name };
-
-            ToSet = newZone;
+            get => schema.roomToSet;
+            set => schema.roomToSet = value;
         }
 
-        if (ToSet == null)
+        public AddSchemaTile() : base()
         {
-            Debug.LogWarning("No tienens ninguna zona seleccionada para colocar.");
-            return;
+            feedback = new AreaFeedback();
+            feedback.fixToTeselation = true;
         }
 
-        var corners = schema.Owner.ToFixedPosition(StartPosition, EndPosition);
-
-        for (int i = corners.Item1.x; i <= corners.Item2.x; i++)
+        public override void Init(LBSLayer layer, object owner)
         {
-            for (int j = corners.Item1.y; j <= corners.Item2.y; j++)
+            schema = owner as SchemaBehaviour;
+            feedback.TeselationSize = layer.TileSize;
+            layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
+        }
+
+        protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
+        {
+            if (e.ctrlKey)
             {
-                var tile = schema.AddTile(new Vector2Int(i, j), ToSet);
-                schema.AddConnections(
-                    tile,
-                    new List<string>() { "", "", "", "" },
-                    new List<bool> { true, true, true, true }
-                    );
+                var newZone = schema.AddZone();
+                newZone.InsideStyles = new List<string>() { schema.PressetInsideStyle.Name };
+                newZone.OutsideStyles = new List<string>() { schema.PressetOutsideStyle.Name };
+
+                ToSet = newZone;
             }
+
+            if (ToSet == null)
+            {
+                Debug.LogWarning("No tienens ninguna zona seleccionada para colocar.");
+                return;
+            }
+
+            var corners = schema.Owner.ToFixedPosition(StartPosition, EndPosition);
+
+            for (int i = corners.Item1.x; i <= corners.Item2.x; i++)
+            {
+                for (int j = corners.Item1.y; j <= corners.Item2.y; j++)
+                {
+                    var tile = schema.AddTile(new Vector2Int(i, j), ToSet);
+                    schema.AddConnections(
+                        tile,
+                        new List<string>() { "", "", "", "" },
+                        new List<bool> { true, true, true, true }
+                        );
+                }
+            }
+
+            LBSInspectorPanel.Instance.SetTarget(schema.Owner);
+
+            schema.RecalculateWalls();
         }
-
-        LBSInspectorPanel.Instance.SetTarget(schema.Owner);
-
-        schema.RecalculateWalls();
     }
 }
-
