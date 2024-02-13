@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 using ISILab.JsonNet.Coverters;
 using ISILab.Extensions;
 
-namespace LBS.Generator
+namespace ISILab.LBS.Generators
 {
     [System.Serializable]
     public class Generator3D

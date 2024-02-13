@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace LBS.Generator
+namespace ISILab.LBS.Generators
 {
     [System.Serializable]
     public abstract class LBSGeneratorRule : ICloneable
@@ -21,23 +21,23 @@ namespace LBS.Generator
 
         public abstract object Clone();
     }
-}
 
-public class Message
-{
-    public enum Type
+    public class Message
     {
-        Error,
-        Warning,
-        Info
-    }
+        public enum Type
+        {
+            Error,
+            Warning,
+            Info
+        }
 
-    public Type type;
-    public string msg;
+        public Type type;
+        public string msg;
 
-    public Message(Type type, string msg)
-    {
-        this.type = type;
-        this.msg = msg;
+        public Message(Type type, string msg)
+        {
+            this.type = type;
+            this.msg = msg;
+        }
     }
 }

@@ -9,7 +9,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace LBS.Generator
+namespace ISILab.LBS.Generators
 {
     public class ExteriorRuleGenerator : LBSGeneratorRule 
     {

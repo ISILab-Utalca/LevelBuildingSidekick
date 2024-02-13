@@ -5,11 +5,11 @@ using UnityEngine;
 using System;
 using System.Linq;
 using LBS.Settings;
-using LBS.Generator;
 using LBS.Behaviours;
 using LBS.Assisstants;
 using ISILab.Commons.Utility;
 using ISILab.Extensions;
+using ISILab.LBS.Generators;
 
 namespace LBS.Components
 {

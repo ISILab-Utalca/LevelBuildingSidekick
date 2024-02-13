@@ -7,7 +7,7 @@ using UnityEditor;
 using LBS.Bundles;
 using ISILab.Commons;
 
-namespace LBS.Generator
+namespace ISILab.LBS.Generators
 {
     [System.Serializable]
     public class PopulationRuleGenerator : LBSGeneratorRule // FIX: Change to a better name

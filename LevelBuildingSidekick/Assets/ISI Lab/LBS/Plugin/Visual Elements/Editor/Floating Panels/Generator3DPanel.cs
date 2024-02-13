@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-using LBS.Generator;
 using LBS.Components;
 using LBS;
 using System;
 using UnityEditor;
 using ISILab.Commons.Utility.Editor;
+using ISILab.LBS.Generators;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
