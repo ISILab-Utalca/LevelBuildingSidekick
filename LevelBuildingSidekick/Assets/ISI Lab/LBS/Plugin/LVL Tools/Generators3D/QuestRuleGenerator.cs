@@ -32,7 +32,7 @@ public class QuestRuleGenerator : LBSGeneratorRule
         var quest = layer.GetModule<QuestGraph>().Clone() as QuestGraph;
         CloneRefs.End();
 
-        var triggers = new List<Tuple<QuestNode, QuestTrigger>>();
+        var triggers = new List<QuestStep>();
 
         foreach (var node in quest.QuestNodes)
         {
@@ -49,7 +49,7 @@ public class QuestRuleGenerator : LBSGeneratorRule
 
             go.SetActive(false);
 
-            triggers.Add(new Tuple<QuestNode, QuestTrigger>(node, trigger));
+            triggers.Add(new QuestStep(node, trigger));
         }
 
         observer.Init(quest, triggers);
