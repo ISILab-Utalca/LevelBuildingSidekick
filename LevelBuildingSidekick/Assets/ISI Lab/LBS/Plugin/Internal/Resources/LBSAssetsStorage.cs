@@ -1,6 +1,8 @@
+using ISILab.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -18,9 +20,9 @@ namespace ISILab.LBS.Internal
             [SerializeField]
             public string type;
             [SerializeField]
-            public List<ScriptableObject> items;
+            public List<string> items;
 
-            public TypeGroup(Type type, List<ScriptableObject> items)
+            public TypeGroup(Type type, List<string> items)
             {
                 this.type = type.FullName;
                 this.items = items;
@@ -79,12 +81,20 @@ namespace ISILab.LBS.Internal
 
         public List<T> Get<T>() where T : Object
         {
-            //CleanAllEmpties();
+            var n = typeof(T).FullName;
+
             foreach (var group in groups)
             {
                 if (group.type.Equals(typeof(T).FullName))
                 {
-                    return new List<T>(group.items.Cast<T>());
+                    var r = new List<T>();
+                    foreach (var path in group.items)
+                    {
+                        var obj = AssetDatabase.LoadAssetAtPath(path, typeof(T)) as T;
+                        if (obj != null)
+                            r.Add(obj);
+                    }
+                    return r;
                 }
             }
             return null;
@@ -92,12 +102,19 @@ namespace ISILab.LBS.Internal
 
         public List<ScriptableObject> Get(Type type)
         {
-            //CleanAllEmpties();
             foreach (var group in groups)
             {
                 if (group.type.Equals(type.FullName))
                 {
-                    return new List<ScriptableObject>(group.items);
+                    var r = new List<ScriptableObject>();
+                    foreach (var path in group.items)
+                    {
+                        var obj = AssetDatabase.LoadAssetAtPath(path, type) as ScriptableObject;
+                        //var obj = Resources.Load(path) as ScriptableObject;
+                        if (obj != null)
+                            r.Add(obj);
+                    }
+                    return r;
                 }
             }
             return null;
@@ -107,27 +124,29 @@ namespace ISILab.LBS.Internal
         {
             foreach (var group in groups)
             {
-                if (group.items.Remove(obj))
-                {
+                var path = AssetDatabase.GetAssetPath(obj);
+
+                if (group.items.Remove(path))
                     return;
-                }
             }
         }
 
         public void AddElement(ScriptableObject obj)
         {
+            var path = AssetDatabase.GetAssetPath(obj);
+
             var type = obj.GetType();
 
             foreach (var group in groups)
             {
                 if (group.type.Equals(type.FullName))
                 {
-                    if (!group.items.Contains(obj))
-                        group.items.Add(obj);
+                    if (!group.items.Contains(path))
+                        group.items.Add(path);
                     return;
                 }
             }
-            groups.Add(new TypeGroup(type, new List<ScriptableObject>() { obj }));
+            groups.Add(new TypeGroup(type, new List<string>() { path }));
         }
 
         public void ClearGroup<T>()

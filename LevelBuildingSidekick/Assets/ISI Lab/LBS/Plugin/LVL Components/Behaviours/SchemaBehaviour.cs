@@ -55,7 +55,11 @@ namespace ISILab.LBS.Behaviours
         [JsonIgnore]
         public Bundle PressetInsideStyle
         {
-            get => LBSAssetsStorage.Instance.Get<Bundle>().Find(b => b.Name == pressetInsideStyle);
+            get{
+                var x = LBSAssetsStorage.Instance.Get<Bundle>();
+                var xx = x.Find(b => b.Name == pressetInsideStyle);
+                return xx;
+            }
             set => pressetInsideStyle = value.Name;
         }
 

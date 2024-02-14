@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
-  m_Name: Floor_Wooden
+  m_Name: Ceil_Wooden
   m_EditorClassIdentifier: 
   isPreset: 0
   type: 0
@@ -18,14 +18,8 @@ MonoBehaviour:
   icon: {fileID: 0}
   childsBundles: []
   assets:
-  - obj: {fileID: 3340211634435293643, guid: 7a68f3748ea3f56469f668b4a78e63bf, type: 3}
+  - obj: {fileID: 2804152555805628249, guid: 6bc6303d284ac1e45a7d4f0a150a6e26, type: 3}
     probability: 1
-  - obj: {fileID: 8898804249963617590, guid: 51399b9513e241040acdbf67d3ba479c, type: 3}
-    probability: 0.1
-  - obj: {fileID: 4506225093705001793, guid: 92311860c8c187d41a8281547a752763, type: 3}
-    probability: 0.1
-  - obj: {fileID: 5600215542615774154, guid: b5c0bcf85e3a9b1448b613dcd8c592eb, type: 3}
-    probability: 0.1
   characteristics:
   - rid: 279245503146229965
   positioning: 0
@@ -36,4 +30,4 @@ MonoBehaviour:
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         label: 
-        value: {fileID: 11400000, guid: 94b707ea81720694d8e3ac214351af91, type: 2}
+        value: {fileID: 11400000, guid: a493417858ade3b45a27ecb6e8021485, type: 2}

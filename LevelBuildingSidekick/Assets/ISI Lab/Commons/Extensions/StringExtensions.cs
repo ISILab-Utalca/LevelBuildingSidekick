@@ -23,5 +23,10 @@ namespace ISILab.Extensions
 
             return toR;
         }
+
+        public static string PathWhitoutExtension(this string path)
+        {
+            return path.Substring(0, path.LastIndexOf('.'));
+        }
     }
 }
