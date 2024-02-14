@@ -159,6 +159,60 @@ namespace ISILab.LBS.Generators
             return pivot;
         }
 
+        private GameObject _GenerateCorners(GameObject pivot, List<Bundle> bundles, LBSTile tile)
+        {
+            var currents = new List<Bundle>();
+            foreach (var bundle in bundles)
+            {
+                currents = bundle.GetChildrenByPositioning(Positioning.Corner);
+            }
+
+            var current = currents.Random();
+
+            var selfConnections = connectedTilesMod.GetConnections(tile);
+            for (int i = 0; i < Dirs.Count; i++)
+            {
+                var d1 = Dirs[i];
+                var d2 = Dirs[(i + 1) % Dirs.Count];
+
+                // if directions are NOT empty continue
+                if (!selfConnections[i].Equals("Empty") || !selfConnections[(i + 1)% Dirs.Count].Equals("Empty"))
+                    continue;
+
+                var neigth = tilesMod.GetTileNeighbor(tile, d1);
+                var neigth2 = tilesMod.GetTileNeighbor(tile, d2);
+
+                // if neigths are null continue
+                if (neigth == null || neigth2 == null)
+                    continue;
+
+                // Get neigth connections
+                var neigthConnections = connectedTilesMod.GetConnections(neigth);
+                var neigthConnections2 = connectedTilesMod.GetConnections(neigth2);
+
+                if (neigthConnections[(i + 1) % Dirs.Count] != "Empty" || neigthConnections2[i] != "Empty")
+                {
+                    // Get random by weight
+                    var pref = current.Assets.RandomRullete(a => a.probability).obj;
+                    var instance = CreateObject(pref, pivot.transform);
+
+                    // Set delta position
+                    var dir = Dirs[i] + Dirs[(i + 1) % Dirs.Count];
+                    instance.transform.position = new Vector3(
+                        settings.scale.x / 2f * dir.x,
+                        0,
+                        settings.scale.y / 2f * dir.y) * deltaWall;
+
+                    // Set rotation orientation
+                    var rot = (i) % Dirs.Count();
+                    instance.transform.rotation = Quaternion.Euler(0, -90 * (rot +1), 0);
+                }
+
+            }
+
+            return pivot;
+        }
+
         private GameObject GenerateCorners(GameObject pivot, List<Bundle> bundles, LBSTile tile)
         {
             var currents = new List<Bundle>();
@@ -252,7 +306,7 @@ namespace ISILab.LBS.Generators
                 // Add pref part to pivot
                 GenerateCenters(tileObj, bundles);
                 GenerateEdges(tileObj, bundles, connections);
-                GenerateCorners(tileObj, bundles, tile);
+                _GenerateCorners(tileObj, bundles, tile);
 
                 // Set position
                 tileObj.transform.position =
