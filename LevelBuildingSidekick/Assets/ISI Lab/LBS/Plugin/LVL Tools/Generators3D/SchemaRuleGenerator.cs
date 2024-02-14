@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using LBS.Components;
-using LBS.Components.Graph;
 using LBS.Components.TileMap;
 using System.Linq;
 using LBS.Bundles;
@@ -175,6 +174,7 @@ namespace ISILab.LBS.Generators
             {
                 var d1 = Dirs[i];
 
+                // if direction is NOT empty continue
                 if (!selfConnections[i].Equals("Empty"))
                     continue;
 
@@ -272,7 +272,7 @@ namespace ISILab.LBS.Generators
 #if UNITY_EDITOR
             var obj = PrefabUtility.InstantiatePrefab(pref, pivot) as GameObject;
 #else
-        var obj =  GameObject.Instantiate(pref, pivot);
+            var obj =  GameObject.Instantiate(pref, pivot);
 #endif
             return obj;
         }

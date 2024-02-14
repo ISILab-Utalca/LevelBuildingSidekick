@@ -119,7 +119,7 @@ public class PopulationBehaviourEditor : LBSCustomEditor, IToolProvider
             var tooltip = "Tags:";
             if (b.Characteristics.Count > 0)
             {
-                b.Characteristics.ForEach(c => tooltip += "\n- " + c.Label);
+                b.Characteristics.ForEach(c => tooltip += "\n- " + c?.Label);
             }
             else
             {
