@@ -33,7 +33,7 @@ public class RemoveQuestNode : LBSManipulator
 
     protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
     {
-        var node = quest.GetQuesNode(endPosition);
+        var node = quest.GetQuestNode(endPosition);
 
         quest.RemoveQuestNode(node);
 

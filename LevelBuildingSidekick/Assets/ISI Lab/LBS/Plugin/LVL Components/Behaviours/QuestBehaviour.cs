@@ -9,19 +9,14 @@ using UnityEngine;
 [RequieredModule(typeof(QuestGraph))]
 public class QuestBehaviour : LBSBehaviour
 {
-
-    private Vector2Int nodeSize = new Vector2Int(3,1);
-
-    [JsonIgnore]
+        [JsonIgnore]
     public GrammarTerminal ToSet { get; set; }
 
     public QuestGraph Graph => Owner.GetModule<QuestGraph>();
 
-    public Vector2Int NodeSize => nodeSize;
 
     public QuestBehaviour(Texture2D icon, string name) : base(icon, name)
     {
-        nodeSize = new Vector2Int(3,1);
     }
 
     public override object Clone()

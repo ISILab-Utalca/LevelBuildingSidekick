@@ -38,7 +38,7 @@ public class QuestGraphDrawer : Drawer
 
             var nodeView = new QuestNodeView(node);
 
-            var size = LBSSettings.Instance.general.TileSize * behaviour.NodeSize;
+            var size = LBSSettings.Instance.general.TileSize * quest.NodeSize;
 
             nodeView.SetPosition(new Rect(node.Position, size));
 

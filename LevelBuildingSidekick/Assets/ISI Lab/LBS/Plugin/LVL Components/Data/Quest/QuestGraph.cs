@@ -13,6 +13,8 @@ using UnityEngine.UIElements;
 [System.Serializable]
 public class QuestGraph : LBSModule, ICloneable, ISelectable
 {
+    [SerializeField, JsonRequired]
+    private Vector2Int nodeSize;
 
     [SerializeField, JsonRequired]
     string grammarName;
@@ -28,7 +30,10 @@ public class QuestGraph : LBSModule, ICloneable, ISelectable
 
 
     [JsonIgnore]
-    public QuestNode Root => root; 
+    public QuestNode Root => root;
+
+    [JsonIgnore]
+    public Vector2Int NodeSize => nodeSize;
 
     [JsonIgnore]
     private LBSGrammar grammar;
@@ -80,11 +85,12 @@ public class QuestGraph : LBSModule, ICloneable, ISelectable
         IsVisible = true;
         root = new QuestNode("Start Node", Vector2.zero, "Start Node");
         questNodes.Add(root);
+        nodeSize = new Vector2Int(3, 1);
     }
 
-    public QuestNode GetQuesNode(Vector2 position)
+    public QuestNode GetQuestNode(Vector2 position)
     {
-        var size = Owner.TileSize * LBSSettings.Instance.general.TileSize;
+        var size = nodeSize * LBSSettings.Instance.general.TileSize;
 
         return questNodes.Find(x => (new Rect(x.Position, size)).Contains(position));
     }
@@ -272,11 +278,9 @@ public class QuestGraph : LBSModule, ICloneable, ISelectable
     { 
         var selecteds = new List<object>();
 
-        var node = GetQuesNode(position);
+        var node = GetQuestNode(position);
         if(node != null)
             selecteds.Add(node);
-
-        Debug.Log("Select: " + node);
 
         return selecteds;
     }
