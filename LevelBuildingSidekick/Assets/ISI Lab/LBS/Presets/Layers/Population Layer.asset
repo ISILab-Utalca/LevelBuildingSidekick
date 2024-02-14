@@ -19,14 +19,14 @@ MonoBehaviour:
     id: Population
     name: Layer Population
     modules:
-    - rid: 279245340033417905
-    - rid: 279245340033417906
+    - rid: 279245475787309080
+    - rid: 279245475787309081
     behaviours:
-    - rid: 279245340033417907
+    - rid: 279245475787309082
     assitants:
-    - rid: 279245340033417908
+    - rid: 279245475787309083
     generatorRules:
-    - rid: 279245340033417909
+    - rid: 279245475787309084
     settings:
       scale: {x: 2, y: 2}
       resize: {x: 0, y: 0}
@@ -35,18 +35,18 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 279245340033417905
-      type: {class: TileMapModule, ns: LBS.Components.TileMap, asm: LBS}
+    - rid: 279245475787309080
+      type: {class: TileMapModule, ns: ISILab.LBS.Modules, asm: LBS}
       data:
         id: TileMapModule
         tiles: []
-    - rid: 279245340033417906
-      type: {class: BundleTileMap, ns: , asm: LBS}
+    - rid: 279245475787309081
+      type: {class: BundleTileMap, ns: ISILab.LBS.Modules, asm: LBS}
       data:
         id: BundleTileMap
         tiles: []
-    - rid: 279245340033417907
-      type: {class: PopulationBehaviour, ns: , asm: LBS}
+    - rid: 279245475787309082
+      type: {class: PopulationBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
       data:
         visible: 1
         icon: {fileID: 2800000, guid: 771d36a714319204ea4ddcbecdc2006e, type: 3}
@@ -55,14 +55,14 @@ MonoBehaviour:
           id: TileMapModule
           tiles: []
         selectedToSet: {fileID: 0}
-    - rid: 279245340033417908
-      type: {class: AssistantMapElite, ns: ISILab.LBS.AI.Assistants, asm: LBS}
+    - rid: 279245475787309083
+      type: {class: AssistantMapElite, ns: ISILab.LBS.Assistants, asm: LBS}
       data:
         visible: 1
         name: Map Elite - Genetic Algorithm
         toUpdate: []
-    - rid: 279245340033417909
-      type: {class: PopulationRuleGenerator, ns: LBS.Generator, asm: LBS}
+    - rid: 279245475787309084
+      type: {class: PopulationRuleGenerator, ns: ISILab.LBS.Generators, asm: LBS}
       data:
         generator3D:
           settings:

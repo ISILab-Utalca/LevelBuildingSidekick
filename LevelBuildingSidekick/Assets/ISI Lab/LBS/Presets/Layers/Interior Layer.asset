@@ -19,18 +19,18 @@ MonoBehaviour:
     id: Interior
     name: Layer Interior
     modules:
-    - rid: 279245340033417896
-    - rid: 279245340033417897
-    - rid: 279245340033417898
-    - rid: 279245340033417899
-    - rid: 279245340033417900
+    - rid: 279245475787309071
+    - rid: 279245475787309072
+    - rid: 279245475787309073
+    - rid: 279245475787309074
+    - rid: 279245475787309075
     behaviours:
-    - rid: 279245340033417901
+    - rid: 279245475787309076
     assitants:
-    - rid: 279245340033417902
+    - rid: 279245475787309077
     generatorRules:
-    - rid: 279245340033417903
-    - rid: 279245340033417904
+    - rid: 279245475787309078
+    - rid: 279245475787309079
     settings:
       scale: {x: 2, y: 2}
       resize: {x: 0, y: 0}
@@ -39,35 +39,35 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 279245340033417896
-      type: {class: TileMapModule, ns: LBS.Components.TileMap, asm: LBS}
+    - rid: 279245475787309071
+      type: {class: TileMapModule, ns: ISILab.LBS.Modules, asm: LBS}
       data:
         id: TileMapModule
         tiles: []
-    - rid: 279245340033417897
-      type: {class: ConnectedTileMapModule, ns: , asm: LBS}
+    - rid: 279245475787309072
+      type: {class: ConnectedTileMapModule, ns: ISILab.LBS.Modules, asm: LBS}
       data:
         id: ConnectedTileMapModule
         connectedDirections: 4
         pairs: []
-    - rid: 279245340033417898
-      type: {class: SectorizedTileMapModule, ns: , asm: LBS}
+    - rid: 279245475787309073
+      type: {class: SectorizedTileMapModule, ns: ISILab.LBS.Modules, asm: LBS}
       data:
         id: SectorizedTileMapModule
         zones: []
         pairs: []
-    - rid: 279245340033417899
-      type: {class: ConnectedZonesModule, ns: , asm: LBS}
+    - rid: 279245475787309074
+      type: {class: ConnectedZonesModule, ns: ISILab.LBS.Modules, asm: LBS}
       data:
         id: ConnectedZonesModule
         edges: []
-    - rid: 279245340033417900
-      type: {class: ConstrainsZonesModule, ns: , asm: LBS}
+    - rid: 279245475787309075
+      type: {class: ConstrainsZonesModule, ns: ISILab.LBS.Modules, asm: LBS}
       data:
         id: ConstrainsZonesModule
         pairs: []
-    - rid: 279245340033417901
-      type: {class: SchemaBehaviour, ns: , asm: LBS}
+    - rid: 279245475787309076
+      type: {class: SchemaBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
       data:
         visible: 1
         icon: {fileID: 2800000, guid: 771d36a714319204ea4ddcbecdc2006e, type: 3}
@@ -81,15 +81,15 @@ MonoBehaviour:
           insideStyles: []
           outsideStyles: []
         conectionToSet: 
-    - rid: 279245340033417902
-      type: {class: HillClimbingAssistant, ns: , asm: LBS}
+    - rid: 279245475787309077
+      type: {class: HillClimbingAssistant, ns: ISILab.LBS.Assistants, asm: LBS}
       data:
         visible: 1
         name: HillClimbing
         visibleConstraints: 0
         printClocks: 0
-    - rid: 279245340033417903
-      type: {class: SchemaRuleGenerator, ns: , asm: LBS}
+    - rid: 279245475787309078
+      type: {class: SchemaRuleGenerator, ns: ISILab.LBS.Generators, asm: LBS}
       data:
         generator3D:
           settings:
@@ -98,8 +98,8 @@ MonoBehaviour:
             position: {x: 0, y: 0, z: 0}
             name: DEFAULT
           rules: []
-    - rid: 279245340033417904
-      type: {class: SchemaRuleGeneratorExteriror, ns: , asm: LBS}
+    - rid: 279245475787309079
+      type: {class: SchemaRuleGeneratorExteriror, ns: ISILab.LBS.Generators, asm: LBS}
       data:
         generator3D:
           settings:
