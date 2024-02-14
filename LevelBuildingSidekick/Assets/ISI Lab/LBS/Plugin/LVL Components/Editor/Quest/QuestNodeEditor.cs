@@ -10,6 +10,7 @@ public class QuestNodeEditor : LBSCustomEditor
 {
     RectField rect;
     ListView tags;
+    Label label;
 
     public QuestNodeEditor()
     {
@@ -29,6 +30,7 @@ public class QuestNodeEditor : LBSCustomEditor
         if (node == null)
             return;
 
+        label.text = node.ID;
         rect.RegisterValueChangedCallback(evt => node.Target.Rect = evt.newValue);
 
         tags.itemsSource = node.Target.Tags;
@@ -45,6 +47,8 @@ public class QuestNodeEditor : LBSCustomEditor
 
         var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("QuestNodeEditor");
         visualTree.CloneTree(this);
+
+        label = this.Q<Label>();
 
         rect = this.Q<RectField>();
 

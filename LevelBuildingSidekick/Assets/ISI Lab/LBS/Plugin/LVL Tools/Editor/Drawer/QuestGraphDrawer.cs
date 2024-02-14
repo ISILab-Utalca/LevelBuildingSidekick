@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
 using ISILab.LBS.Behaviours;
+using ISILab.LBS.Modules;
 
 namespace ISILab.LBS.Drawers.Editor
 {
@@ -35,9 +36,10 @@ namespace ISILab.LBS.Drawers.Editor
                     continue;
                 }
 
+
                 var nodeView = new QuestNodeView(node);
 
-                var size = LBSSettings.Instance.general.TileSize * behaviour.NodeSize;
+                var size = LBSSettings.Instance.general.TileSize * quest.NodeSize;
 
                 nodeView.SetPosition(new Rect(node.Position, size));
 

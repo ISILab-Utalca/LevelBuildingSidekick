@@ -11,9 +11,7 @@ namespace ISILab.LBS.Generators
     public class QuestRuleGenerator : LBSGeneratorRule
     {
         public QuestRuleGenerator()
-        {
-
-        }
+        { }
 
         public override List<Message> CheckViability(LBSLayer layer)
         {
@@ -34,7 +32,7 @@ namespace ISILab.LBS.Generators
             var quest = layer.GetModule<QuestGraph>().Clone() as QuestGraph;
             CloneRefs.End();
 
-            var triggers = new List<Tuple<QuestNode, QuestTrigger>>();
+            var triggers = new List<QuestStep>();
 
             foreach (var node in quest.QuestNodes)
             {
@@ -51,7 +49,7 @@ namespace ISILab.LBS.Generators
 
                 go.SetActive(false);
 
-                triggers.Add(new Tuple<QuestNode, QuestTrigger>(node, trigger));
+                triggers.Add(new QuestStep(node, trigger));
             }
 
             observer.Init(quest, triggers);

@@ -25,7 +25,7 @@ public class ConnectQuestNodes : LBSManipulator
 
     protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
     {
-        first = quest.GetQuesNode(startPosition);
+        first = quest.GetQuestNode(startPosition);
     }
 
     protected override void OnMouseMove(VisualElement target, Vector2Int movePosition, MouseMoveEvent e)
@@ -35,7 +35,7 @@ public class ConnectQuestNodes : LBSManipulator
 
     protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
     {
-        var second = quest.GetQuesNode(endPosition);
+        var second = quest.GetQuestNode(endPosition);
         quest.AddConnection(first, second);
 
     }

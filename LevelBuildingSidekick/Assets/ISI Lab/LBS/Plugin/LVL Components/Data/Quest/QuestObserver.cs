@@ -9,11 +9,12 @@ using UnityEngine;
 public class QuestObserver : MonoBehaviour
 {
     [SerializeField, HideInInspector]
-    QuestGraph questGraph;
+    private QuestGraph questGraph;
 
-    [SerializeField, SerializeReference]
-    List<Tuple<QuestNode, QuestTrigger>> questTriggers;
+    [SerializeField, HideInInspector]
+    private List<QuestStep> questTriggers;
 
+    [SerializeField, SerializeReference, HideInInspector]
     private List<QuestTrigger> activeTriggers = new List<QuestTrigger>();
 
     public Action<QuestNode, QuestTrigger> OnQuestComplete;
@@ -24,6 +25,10 @@ public class QuestObserver : MonoBehaviour
 
     private Stack<QuestNode> fulfilledSteps = new Stack<QuestNode>();
 
+    private void Start()
+    {
+    }
+
     private void Update()
     {
         if(!questComplete)
@@ -32,6 +37,7 @@ public class QuestObserver : MonoBehaviour
             {
                 if (trigger.IsCompleted?.Invoke() == true)
                 {
+                    Debug.Log("Triggered");
                     ClearTriggers();
                     AdvanceQuest(trigger);
                     break;
@@ -54,7 +60,8 @@ public class QuestObserver : MonoBehaviour
     {
         activeTriggers.Clear();
 
-        var node = questTriggers.Find(t => t.Item2.Equals(trigger)).Item1;
+        var t = questTriggers.Find(t => t.Trigger.Equals(trigger));
+        var node = t.Node;
         fulfilledSteps.Push(node);
 
         var branches = questGraph.GetBranches(node);
@@ -67,7 +74,7 @@ public class QuestObserver : MonoBehaviour
 
         foreach (var edge in branches)
         {
-            var newTrigger = questTriggers.Find(t => t.Item1 == edge.Second).Item2;
+            var newTrigger = questTriggers.Find(t => t.Node == edge.Second).Trigger;
             newTrigger.gameObject.SetActive(true);
             activeTriggers.Add(newTrigger);
         }
@@ -89,15 +96,14 @@ public class QuestObserver : MonoBehaviour
         }
 
         var step = fulfilledSteps.Peek();
-        var trigger = questTriggers.Find(t => t.Item1 == step).Item2;
+        var trigger = questTriggers.Find(t => t.Node == step).Trigger;
         AdvanceQuest(trigger);
     }
 
-    public void Init(QuestGraph graph, List<Tuple<QuestNode, QuestTrigger>> triggers)
+    public void Init(QuestGraph graph, List<QuestStep> triggers)
     {
         questGraph = graph;
         questTriggers = triggers;
-
         StartQuest();
     }
 
@@ -106,9 +112,27 @@ public class QuestObserver : MonoBehaviour
         var branches = questGraph.GetBranches(questGraph.Root);
 
         var firstNode = branches[0].Second;
-        var trigger = questTriggers.Find(t => t.Item1 == firstNode).Item2;
+        var trigger = questTriggers.Find(t => t.Node == firstNode).Trigger;
 
         trigger.gameObject.SetActive(true);
         activeTriggers.Add(trigger);
+    }
+}
+
+[System.Serializable]
+public struct QuestStep
+{
+    [SerializeField, SerializeReference, HideInInspector]
+    QuestNode node;
+    [SerializeField, SerializeReference, HideInInspector]
+    QuestTrigger trigger;
+
+    public QuestNode Node => node;
+    public QuestTrigger Trigger => trigger;
+
+    public QuestStep(QuestNode node, QuestTrigger trigger)
+    {
+        this.node = node;
+        this.trigger = trigger;
     }
 }
