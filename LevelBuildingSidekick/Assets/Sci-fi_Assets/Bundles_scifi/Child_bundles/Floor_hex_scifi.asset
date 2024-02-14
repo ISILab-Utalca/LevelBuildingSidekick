@@ -26,6 +26,8 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 1104480385545535489
       type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
       data:

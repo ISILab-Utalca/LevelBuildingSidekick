@@ -21,13 +21,13 @@ MonoBehaviour:
   - obj: {fileID: 5449846719445656345, guid: 53da147aa8b2acd41b94de94bfd4f419, type: 3}
     probability: 1
   characteristics:
-  - rid: 3767989597796302926
+  - rid: 5085006314459627536
   positioning: 0
   references:
     version: 2
     RefIds:
-    - rid: 3767989597796302926
-      type: {class: LBSDirection, ns: , asm: LBS}
+    - rid: 5085006314459627536
+      type: {class: LBSDirection, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         label: Connections
         connections:
