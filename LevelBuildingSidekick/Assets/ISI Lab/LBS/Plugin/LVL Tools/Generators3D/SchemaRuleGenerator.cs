@@ -103,14 +103,23 @@ namespace ISILab.LBS.Generators
                 currents = bundle.GetChildrenByPositioning(Positioning.Center);
             }
 
-            // Get random bundle
-            var current = currents.Random();
+            var tChar = currents.SelectMany(b => b.GetCharacteristics<LBSTagsCharacteristic>()).ToList();
+            var tags = tChar.Select(s => s.Value.Label).ToList();
+            tags.RemoveDuplicates();
 
-            // Get random by weight
-            var pref = current.Assets.RandomRullete(a => a.probability).obj;
+            for (int i = 0; i < tags.Count; i++)
+            {
+                var xx = currents.Where(b => b.GetCharacteristics<LBSTagsCharacteristic>().Any(c => c.Value.name == tags[i])).ToList();
 
-            // Create part
-            CreateObject(pref, pivot.transform);
+                // Get random bundle
+                var current = xx.Random();
+
+                // Get random by weight
+                var pref = current.Assets.RandomRullete(a => a.probability).obj;
+
+                // Create part
+                CreateObject(pref, pivot.transform);
+            }
 
             return pivot;
         }
@@ -159,7 +168,7 @@ namespace ISILab.LBS.Generators
             return pivot;
         }
 
-        private GameObject _GenerateCorners(GameObject pivot, List<Bundle> bundles, LBSTile tile)
+        private GameObject GenerateCorners(GameObject pivot, List<Bundle> bundles, LBSTile tile)
         {
             var currents = new List<Bundle>();
             foreach (var bundle in bundles)
@@ -205,7 +214,7 @@ namespace ISILab.LBS.Generators
 
                     // Set rotation orientation
                     var rot = (i) % Dirs.Count();
-                    instance.transform.rotation = Quaternion.Euler(0, -90 * (rot +1), 0);
+                    instance.transform.rotation = Quaternion.Euler(0, -90 * (rot + 1), 0);
                 }
 
             }
@@ -250,7 +259,7 @@ namespace ISILab.LBS.Generators
                 // Add pref part to pivot
                 GenerateCenters(tileObj, bundles);
                 GenerateEdges(tileObj, bundles, connections);
-                _GenerateCorners(tileObj, bundles, tile);
+                GenerateCorners(tileObj, bundles, tile);
 
                 // Set position
                 tileObj.transform.position =
