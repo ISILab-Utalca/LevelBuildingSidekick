@@ -13,6 +13,7 @@ using ISILab.LBS.Components;
 using UnityEditor.UIElements;
 using LBS.Bundles;
 using System;
+using ISILab.LBS.AI.Categorization;
 
 namespace ISILab.LBS.Bundles.Editor
 {
@@ -48,6 +49,8 @@ namespace ISILab.LBS.Bundles.Editor
 
             root.Insert(root.childCount - 1, characteristics);
 
+            root.TrackSerializedObjectValue(serializedObject, Save);
+
             return root;
         }
 
@@ -75,26 +78,12 @@ namespace ISILab.LBS.Bundles.Editor
                 //cf.OnChoiceSelection += Save;
             }
         }
-
-        private void OnValidate()
-        {
-            Save();
-        }
-
-        private void OnDestroy()
-        {
-            Save();
-        }
-
-        private void OnDisable()
-        {
-            Save();
-        }
-
-        public void Save()
+        public void Save(SerializedObject serializedObject)
         {
             serializedObject.ApplyModifiedProperties();
-            EditorUtility.SetDirty(target);
+            var preset = serializedObject.targetObject as MAPElitesPreset;
+            //Debug.Log(EditorUtility.CopySerializedIfDifferent);
+            EditorUtility.SetDirty(preset);
         }
 
     }

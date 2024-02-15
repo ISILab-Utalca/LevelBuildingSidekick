@@ -4,6 +4,7 @@ using ISILab.LBS.AI.Categorization;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -13,6 +14,18 @@ public class MAPElitesPresetEditor : Editor
     public override VisualElement CreateInspectorGUI()
     {
         //return base.CreateInspectorGUI();
-        return new MAPElitesPresetVE(target);
+        var root = new MAPElitesPresetVE(target);
+
+        root.TrackSerializedObjectValue(serializedObject, Save);
+
+        return root;
+    }
+
+    public void Save(SerializedObject serializedObject)
+    {
+        serializedObject.ApplyModifiedProperties();
+        var preset = serializedObject.targetObject as MAPElitesPreset;
+        //Debug.Log(EditorUtility.CopySerializedIfDifferent);
+        EditorUtility.SetDirty(preset);
     }
 }
