@@ -2,40 +2,43 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FPSPlayerController : MonoBehaviour
+namespace ISILab.Examples
 {
-    public float movementSpeed = 5f;
-    public float mouseSensitivity = 2f;
-
-    private CharacterController controller;
-    private Camera playerCamera;
-    private float verticalRotation = 0f;
-
-    private void Start()
+    public class FPSPlayerController : MonoBehaviour
     {
-        controller = GetComponent<CharacterController>();
-        playerCamera = GetComponentInChildren<Camera>();
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-    }
+        public float movementSpeed = 5f;
+        public float mouseSensitivity = 2f;
 
-    private void Update()
-    {
-        // Movimiento del jugador
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
+        private CharacterController controller;
+        private Camera playerCamera;
+        private float verticalRotation = 0f;
 
-        Vector3 movement = transform.right * moveHorizontal + transform.forward * moveVertical;
-        controller.Move(movement * movementSpeed * Time.deltaTime);
+        private void Start()
+        {
+            controller = GetComponent<CharacterController>();
+            playerCamera = GetComponentInChildren<Camera>();
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
 
-        // Movimiento de la cámara
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
+        private void Update()
+        {
+            // Movimiento del jugador
+            float moveHorizontal = Input.GetAxis("Horizontal");
+            float moveVertical = Input.GetAxis("Vertical");
 
-        verticalRotation -= mouseY;
-        verticalRotation = Mathf.Clamp(verticalRotation, -90f, 90f);
+            Vector3 movement = transform.right * moveHorizontal + transform.forward * moveVertical;
+            controller.Move(movement * movementSpeed * Time.deltaTime);
 
-        playerCamera.transform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
-        transform.Rotate(Vector3.up * mouseX);
+            // Movimiento de la cámara
+            float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
+            float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
+
+            verticalRotation -= mouseY;
+            verticalRotation = Mathf.Clamp(verticalRotation, -90f, 90f);
+
+            playerCamera.transform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
+            transform.Rotate(Vector3.up * mouseX);
+        }
     }
 }

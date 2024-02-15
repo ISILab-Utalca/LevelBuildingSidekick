@@ -1,12 +1,16 @@
+using ISILab.LBS.Internal;
 using System;
 
-[AttributeUsage(AttributeTargets.Class)]
-public class CustomVisualElementAttribute : LBSAttribute
+namespace ISILab.LBS.Internal
 {
-    public Type type;
-
-    public CustomVisualElementAttribute(Type t)
+    [AttributeUsage(AttributeTargets.Class)]
+    public class CustomVisualElementAttribute : LBSAttribute
     {
-        type = t;
+        public Type type;
+
+        public CustomVisualElementAttribute(Type t)
+        {
+            type = t;
+        }
     }
 }

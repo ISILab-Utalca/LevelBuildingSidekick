@@ -1,3 +1,4 @@
+using ISILab.LBS;
 using ISILab.LBS.Characteristics;
 using LBS.Bundles;
 using Newtonsoft.Json;
@@ -8,7 +9,7 @@ using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
-[LBSCharacteristic("Connection group","")]
+[LBSCharacteristicAttribute("Connection group","")]
 public class LBSDirectionedGroup : LBSCharacteristic, ICloneable
 {
     #region SUB-STRUCTURE

@@ -9,71 +9,74 @@ using UnityEngine.UIElements;
 using Label = UnityEngine.UIElements.Label;
 using ISILab.Extensions;
 
-public class QuestNodeView : GraphElement
+namespace ISILab.LBS.VisualElements
 {
-    private static VisualTreeAsset view;
-
-
-    private Label label;
-    private VisualElement root;
-
-    public Action<Rect> OnMoving;
-
-    public static Color32 GrammarWrong = Color.yellow;
-    public static Color32 MapWrong = Color.red;
-    public static Color32 Unchecked = Color.white;
-    public static Color32 Correct = Color.blue;
-
-    protected QuestNodeView() { }
-
-    public QuestNodeView(QuestNode node)
+    public class QuestNodeView : GraphElement
     {
-        if (view == null)
+        private static VisualTreeAsset view;
+
+
+        private Label label;
+        private VisualElement root;
+
+        public Action<Rect> OnMoving;
+
+        public static Color32 GrammarWrong = Color.yellow;
+        public static Color32 MapWrong = Color.red;
+        public static Color32 Unchecked = Color.white;
+        public static Color32 Correct = Color.blue;
+
+        protected QuestNodeView() { }
+
+        public QuestNodeView(QuestNode node)
         {
-            QuestNodeView.view = DirectoryTools.SearchAssetByName<VisualTreeAsset>("QuestNodeView");
-        }
-        QuestNodeView.view.CloneTree(this);
+            if (view == null)
+            {
+                view = DirectoryTools.SearchAssetByName<VisualTreeAsset>("QuestNodeView");
+            }
+            view.CloneTree(this);
 
-        // Label
-        label = this.Q<Label>();
-        root = this.Q<VisualElement>(name: "root");
+            // Label
+            label = this.Q<Label>();
+            root = this.Q<VisualElement>(name: "root");
 
-        SetText(node.QuestAction);
-        SetBorder(node);
-    }
-
-    private void SetBorder(QuestNode node)
-    {
-        root.SetBorder(Unchecked);
-
-        if (!node.GrammarCheck)
-        {
-            root.SetBorder(GrammarWrong);
-            return;
+            SetText(node.QuestAction);
+            SetBorder(node);
         }
 
-        root.SetBorder(Correct);
-    }
-
-    public override void SetPosition(Rect newPos)
-    {
-        // Set new Rect position
-        base.SetPosition(newPos);
-
-        // call movement event
-        OnMoving?.Invoke(newPos); 
-
-        this.MarkDirtyRepaint();
-    }
-
-    public void SetText(string text)
-    {
-        if (text.Length > 11)
+        private void SetBorder(QuestNode node)
         {
-            text = text.Substring(0, 8) + "...";
+            root.SetBorder(Unchecked);
+
+            if (!node.GrammarCheck)
+            {
+                root.SetBorder(GrammarWrong);
+                return;
+            }
+
+            root.SetBorder(Correct);
         }
 
-        label.text = text;
-    }
+        public override void SetPosition(Rect newPos)
+        {
+            // Set new Rect position
+            base.SetPosition(newPos);
 
+            // call movement event
+            OnMoving?.Invoke(newPos);
+
+            MarkDirtyRepaint();
+        }
+
+        public void SetText(string text)
+        {
+            if (text.Length > 11)
+            {
+                text = text.Substring(0, 8) + "...";
+            }
+
+            label.text = text;
+        }
+
+    }
 }

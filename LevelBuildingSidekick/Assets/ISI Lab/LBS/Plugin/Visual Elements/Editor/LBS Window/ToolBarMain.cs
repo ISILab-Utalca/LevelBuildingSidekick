@@ -54,11 +54,13 @@ namespace ISILab.LBS.VisualElements.Editor
         public void SaveLevel(DropdownMenuAction dma)
         {
             LBSController.SaveFile();
+            AssetDatabase.Refresh();
         }
 
         public void SaveAsLevel(DropdownMenuAction dma)
         {
             LBSController.SaveFileAs();
+            AssetDatabase.Refresh();
         }
     }
 }

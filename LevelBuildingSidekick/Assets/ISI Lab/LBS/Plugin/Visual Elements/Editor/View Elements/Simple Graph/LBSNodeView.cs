@@ -8,72 +8,75 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
 
-public class LBSNodeView : GraphElement
+namespace ISILab.LBS.VisualElements
 {
-    public readonly Color unselected = Color.white;
-    public readonly Color selcted = new Color(150f / 255f, 243f / 255f, 255f / 255f);
-
-    #region VIEW FIELDS
-    private static VisualTreeAsset view;
-
-    private Label label;
-    private VisualElement background;
-    #endregion
-
-    #region EVENTS
-    public Action<Rect> OnMoving;
-    #endregion
-
-    public LBSNodeView() 
+    public class LBSNodeView : GraphElement
     {
-        if (view == null)
+        public readonly Color unselected = Color.white;
+        public readonly Color selcted = new Color(150f / 255f, 243f / 255f, 255f / 255f);
+
+        #region VIEW FIELDS
+        private static VisualTreeAsset view;
+
+        private Label label;
+        private VisualElement background;
+        #endregion
+
+        #region EVENTS
+        public Action<Rect> OnMoving;
+        #endregion
+
+        public LBSNodeView()
         {
-            LBSNodeView.view = DirectoryTools.SearchAssetByName<VisualTreeAsset>("NodeUxml");
-        }
-        LBSNodeView.view.CloneTree(this);
+            if (view == null)
+            {
+                view = DirectoryTools.SearchAssetByName<VisualTreeAsset>("NodeUxml");
+            }
+            view.CloneTree(this);
 
-        // Label
-        label = this.Q<Label>();
-        
-        // Background
-        background = this.Q<VisualElement>("Background");
-    }
+            // Label
+            label = this.Q<Label>();
 
-    public void SetColor(Color color)
-    {
-        background.style.backgroundColor = color;
-    }
-
-    public void SetText(string text)
-    {
-        if (text.Length > 11)
-        {
-            text = text.Substring(0, 8) + "...";
+            // Background
+            background = this.Q<VisualElement>("Background");
         }
 
-        label.text = text;
-    }
+        public void SetColor(Color color)
+        {
+            background.style.backgroundColor = color;
+        }
 
-    public override void SetPosition(Rect newPos)
-    {
-        // Set new Rect position
-        base.SetPosition(newPos);
+        public void SetText(string text)
+        {
+            if (text.Length > 11)
+            {
+                text = text.Substring(0, 8) + "...";
+            }
 
-        // call movement event
-        OnMoving?.Invoke(newPos);
+            label.text = text;
+        }
 
-        this.MarkDirtyRepaint();
-    }
+        public override void SetPosition(Rect newPos)
+        {
+            // Set new Rect position
+            base.SetPosition(newPos);
 
-    public override void OnSelected()
-    {
-        base.OnSelected();
-        background.SetBorder(selcted, 8);
-    }
+            // call movement event
+            OnMoving?.Invoke(newPos);
 
-    public override void OnUnselected()
-    {
-        base.OnUnselected();
-        background.SetBorder(unselected, 8);
+            MarkDirtyRepaint();
+        }
+
+        public override void OnSelected()
+        {
+            base.OnSelected();
+            background.SetBorder(selcted, 8);
+        }
+
+        public override void OnUnselected()
+        {
+            base.OnUnselected();
+            background.SetBorder(unselected, 8);
+        }
     }
 }

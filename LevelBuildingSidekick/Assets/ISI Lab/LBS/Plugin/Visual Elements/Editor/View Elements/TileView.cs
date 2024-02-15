@@ -7,19 +7,22 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class TileView : GraphElement
+namespace ISILab.LBS.VisualElements
 {
-    protected LBSTile data;
-
-    public LBSTile Data => data;
-
-    public TileView(LBSTile tile, string uxml = null)
+    public class TileView : GraphElement
     {
-        data = tile;
-        if (uxml != null)
+        protected LBSTile data;
+
+        public LBSTile Data => data;
+
+        public TileView(LBSTile tile, string uxml = null)
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>(uxml);
-            visualTree.CloneTree(this);
+            data = tile;
+            if (uxml != null)
+            {
+                var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>(uxml);
+                visualTree.CloneTree(this);
+            }
         }
     }
 }

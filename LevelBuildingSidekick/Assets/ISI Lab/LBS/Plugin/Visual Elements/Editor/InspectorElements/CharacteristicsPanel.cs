@@ -9,6 +9,7 @@ using LBS.Bundles;
 using ISILab.Commons.Utility.Editor;
 using ISILab.Extensions;
 using ISILab.LBS.Characteristics;
+using ISILab.LBS;
 
 public class CharacteristicsPanel : VisualElement
 {

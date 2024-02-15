@@ -2,25 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+namespace ISILab.Examples
 {
-    public float lifetime = 20f;
-    public int damageAmount = 10;
-
-    private void Start()
+    public class Projectile : MonoBehaviour
     {
-        Destroy(this.gameObject, lifetime);
-    }
+        public float lifetime = 20f;
+        public int damageAmount = 10;
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        Character character = collision.gameObject.GetComponent<Character>();
-
-        if (character != null)
+        private void Start()
         {
-            character.GetDamage(damageAmount);
+            Destroy(this.gameObject, lifetime);
         }
 
-        Destroy(gameObject);
+        private void OnCollisionEnter(Collision collision)
+        {
+            Character character = collision.gameObject.GetComponent<Character>();
+
+            if (character != null)
+            {
+                character.GetDamage(damageAmount);
+            }
+
+            Destroy(gameObject);
+        }
     }
 }

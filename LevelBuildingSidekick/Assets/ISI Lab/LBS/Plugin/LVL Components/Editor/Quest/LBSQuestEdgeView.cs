@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
 using ISILab.LBS.Modules;
+using ISILab.LBS.VisualElements;
 
 public class LBSQuestEdgeView : GraphElement
 {

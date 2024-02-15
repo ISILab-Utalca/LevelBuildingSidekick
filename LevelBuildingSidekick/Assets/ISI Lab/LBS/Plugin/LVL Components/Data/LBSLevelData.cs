@@ -13,7 +13,7 @@ using UnityEngine;
 namespace ISILab.LBS
 {
     [System.Serializable]
-    public class LBSLevelData
+    public class LBSLevelData 
     {
         #region FIELDS
         [SerializeField, JsonRequired, SerializeReference]

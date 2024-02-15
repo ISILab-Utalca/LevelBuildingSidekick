@@ -6,6 +6,7 @@ using LBS.Components.TileMap;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -36,6 +37,8 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
         {
+            //Undo.RecordObjects(schema., "transform selected objects");
+
             if (e.ctrlKey)
             {
                 var newZone = schema.AddZone();

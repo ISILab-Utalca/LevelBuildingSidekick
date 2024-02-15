@@ -3,15 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//[CreateAssetMenu(menuName = "LBS/Internal/BundlePresset(*)")]
-public class LBSPresets : ScriptableObject
+namespace ISILab.LBS
 {
-    public List<bundlePresset> bundlePresets;
-
-    [Serializable]
-    public struct bundlePresset
+    //[CreateAssetMenu(menuName = "LBS/Internal/BundlePresset(*)")]
+    public class LBSPresets : ScriptableObject
     {
-        public string name;
-        public ScriptableObject target;
+        public List<bundlePresset> bundlePresets;
+
+        [Serializable]
+        public struct bundlePresset
+        {
+            public string name;
+            public ScriptableObject target;
+        }
     }
 }

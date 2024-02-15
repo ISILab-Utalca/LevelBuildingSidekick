@@ -8,6 +8,7 @@ using UnityEngine.UIElements;
 using ISILab.Extensions;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Modules;
+using ISILab.LBS.VisualElements;
 
 namespace ISILab.LBS.Drawers.Editor
 {
