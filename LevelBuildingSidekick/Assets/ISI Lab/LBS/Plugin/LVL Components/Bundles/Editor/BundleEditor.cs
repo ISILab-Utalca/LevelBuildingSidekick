@@ -1,4 +1,3 @@
-using LBS.Bundles;
 using LBS.Settings;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,125 +10,66 @@ using ISILab.Extensions;
 using ISILab.LBS.Characteristics;
 using UnityEngine.UIElements;
 using ISILab.LBS.Components;
+using UnityEditor.UIElements;
+using LBS.Bundles;
+using System;
 
-namespace ISILab.LBS.Editor
+namespace ISILab.LBS.Bundles.Editor
 {
     [CustomEditor(typeof(Bundle))]
     public class BundleEditor : UnityEditor.Editor
     {
-        public bool showDevOptions = false;
-        public override void OnInspectorGUI()
+        ListView characteristics;
+
+
+        public override VisualElement CreateInspectorGUI()
         {
-            base.OnInspectorGUI();
+            var root = new VisualElement();
+            InspectorElement.FillDefaultInspector(root, this.serializedObject, this);
 
             var bundle = target as Bundle;
 
-            // Create GUI Style
-            var style = new GUIStyle();
-            style.border.bottom = style.border.top = style.border.left = style.border.right = 3;
+            //Bundle Characteristics Lists
+            characteristics = new ListView();
+            characteristics.headerTitle = "Characteristics";
+            characteristics.showAddRemoveFooter = true;
+            characteristics.showBorder = true;
+            characteristics.showFoldoutHeader = true;
+            characteristics.virtualizationMethod = CollectionVirtualizationMethod.DynamicHeight;
 
-            GUILayout.Space(20);
-            GUILayout.Label("Presset");
-            if (GUILayout.Button("Set default interior"))
-            {
-                SetDefaultInterior(bundle);
-                AssetDatabase.SaveAssets();
-            }
+            characteristics.makeItem = MakeItem;
+            characteristics.bindItem = BindItem;
 
-            if (GUILayout.Button("Set default Exterior"))
-            {
-                SetDefaultExterior(bundle);
-                AssetDatabase.SaveAssets();
-            }
+            characteristics.itemsSource = bundle.characteristics;
 
-            GUILayout.Space(20);
-            GUILayout.Label("Characteristics");
+            root.Insert(root.childCount - 1, characteristics);
 
-            if (GUILayout.Button("Add Connection GROUP Charac"))
-            {
-                AddConnGroupCharc(bundle);
-                AssetDatabase.SaveAssets();
-            }
-
-            if (GUILayout.Button("Add Connection Characteristic"))
-            {
-                AddConnectionCharacteristic(bundle);
-                AssetDatabase.SaveAssets();
-            }
-
-            if (GUILayout.Button("Add Tag characteristic"))
-            {
-                AddTagCharc(bundle);
-                AssetDatabase.SaveAssets();
-            }
-            serializedObject.ApplyModifiedProperties();
+            return root;
         }
 
-        private void AddConnGroupCharc(Bundle bundle)
+        VisualElement MakeItem()
         {
-            var charc = new LBSDirectionedGroup();
-            bundle.AddCharacteristic(charc);
-
-            EditorUtility.SetDirty(bundle);
+            var bundle = target as Bundle;
+            var v = new DynamicFoldout(typeof(LBSCharacteristic));
+            return v;
         }
 
-        private void AddTagCharc(Bundle bundle)
+        void BindItem(VisualElement ve, int index)
         {
-            var charc = new LBSTagsCharacteristic(null);
-            bundle.AddCharacteristic(charc);
-
-            EditorUtility.SetDirty(bundle);
-        }
-
-        private void AddConnectionCharacteristic(Bundle bundle)
-        {
-            var charc = new LBSDirection(new List<string>() { "", "", "", "" });
-            bundle.AddCharacteristic(charc);
-
-            EditorUtility.SetDirty(bundle);
-        }
-
-        private void SetDefaultInterior(Bundle bundle)
-        {
-            // Get settings
-            var setting = LBSSettings.Instance;
-
-            // Get current path
-            var path = AssetDatabase.GetAssetPath(bundle).Replace("/" + bundle.Name + ".asset", "");
-            Debug.Log(bundle + " - " + path);
-
-            // Get tags
-            var targets = new List<string>() { "Door", "Wall", "Floor", "Empty" };
-            var allTags = DirectoryTools.GetScriptables<LBSIdentifier>();
-            var matchingTags = allTags.Where(tag => targets.Contains(tag.Label)).ToList();
-
-            // Create ID
-            var id = ScriptableObject.CreateInstance<LBSIdentifier>();
-            var tagName = Format.CheckNameFormat(allTags.Select(t => t.Label), "Schema");
-            AssetDatabase.CreateAsset(id, path + "/" + tagName + ".asset");
-            id.Init(tagName, new Color().RandomColor(), null);
-
-            // Init bundle
-            bundle.ClearChilds();
-            for (int i = 0; i < matchingTags.Count; i++)
+            var bundle = target as Bundle;
+            if (index < bundle.characteristics.Count)
             {
-                // Set child bundle
-                var b = ScriptableObject.CreateInstance<Bundle>();
-                b.AddCharacteristic(new LBSTagsCharacteristic(matchingTags[i]));
-                bundle.AddChild(b);
-
-                // Save child bundle
-                var nn = DirectoryTools.GetScriptables<Bundle>();
-                var name = Format.CheckNameFormat(nn.Select(t => t.name), "Sub bundle");
-                AssetDatabase.CreateAsset(b, path + "/" + name + ".asset");
+                var cf = ve.Q<DynamicFoldout>();
+                cf.Label = "Characteristic " + index + ":";
+                //Debug.Log("Bind");
+                if (bundle.characteristics[index] != null)
+                {
+                    //Debug.Log(eval.resourceCharactersitic[index]);
+                    cf.Data = bundle.characteristics[index];
+                }
+                cf.OnChoiceSelection = () => { bundle.characteristics[index] = cf.Data as LBSCharacteristic; };
             }
-
         }
 
-        private void SetDefaultExterior(Bundle bundle)
-        {
-            var charac = new LBSDirectionedGroup();
-            bundle.AddCharacteristic(charac);
-        }
     }
 }

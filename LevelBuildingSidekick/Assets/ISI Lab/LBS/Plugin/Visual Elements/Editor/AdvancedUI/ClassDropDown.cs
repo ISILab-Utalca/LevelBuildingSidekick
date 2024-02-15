@@ -100,6 +100,10 @@ public class ClassDropDown : DropdownField
         object obj = null;
         var dv = value;
         var dx = choices.IndexOf(dv);
+
+        if (dx < 0)
+            return null;
+
         var t = types[dx];
         try
         {

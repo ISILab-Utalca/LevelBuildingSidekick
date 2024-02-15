@@ -67,8 +67,8 @@ namespace LBS.Bundles
         [SerializeField]
         private List<Asset> assets = new List<Asset>();
 
-        [SerializeField, SerializeReference]
-        private List<LBSCharacteristic> characteristics = new List<LBSCharacteristic>();
+        [SerializeField, SerializeReference, HideInInspector]
+        public List<LBSCharacteristic> characteristics = new List<LBSCharacteristic>();
 
         [SerializeField]
         private Positioning positioning = Positioning.Center;
@@ -339,23 +339,6 @@ namespace LBS.Bundles
 
             return false;
         }
-
-        private void OnDisable()
-        {
-#if UNITY_EDITOR
-            EditorUtility.SetDirty(this);
-            AssetDatabase.SaveAssets();
-#endif
-        }
-
-        private void OnDestroy()
-        {
-#if UNITY_EDITOR
-            EditorUtility.SetDirty(this);
-            AssetDatabase.SaveAssets();
-#endif
-        }
-
 
         #endregion
     }
