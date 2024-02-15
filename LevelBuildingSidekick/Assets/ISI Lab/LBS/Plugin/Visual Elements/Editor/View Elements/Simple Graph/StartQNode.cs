@@ -5,16 +5,19 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class StartQNode : QuestNodeView
+namespace ISILab.LBS.VisualElements
 {
-    private static VisualTreeAsset view;
-
-    public StartQNode()
+    public class StartQNode : QuestNodeView
     {
-        if (view == null)
+        private static VisualTreeAsset view;
+
+        public StartQNode()
         {
-            view = DirectoryTools.SearchAssetByName<VisualTreeAsset>("StartQNode");
+            if (view == null)
+            {
+                view = DirectoryTools.SearchAssetByName<VisualTreeAsset>("StartQNode");
+            }
+            view.CloneTree(this);
         }
-        view.CloneTree(this);
     }
 }

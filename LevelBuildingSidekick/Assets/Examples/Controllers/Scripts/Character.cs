@@ -2,21 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Character : MonoBehaviour
+namespace ISILab.Examples
 {
-    public float life = 100;
-
-    public void GetDamage(float damage)
+    public class Character : MonoBehaviour
     {
-        life -= damage;
-        if(life <= 0)
+        public float life = 100;
+
+        public void GetDamage(float damage)
         {
-            Death();
+            life -= damage;
+            if (life <= 0)
+            {
+                Death();
+            }
         }
-    }
 
-    public void Death()
-    {
-        Destroy(this.gameObject);
+        public void Death()
+        {
+            Destroy(this.gameObject);
+        }
     }
 }

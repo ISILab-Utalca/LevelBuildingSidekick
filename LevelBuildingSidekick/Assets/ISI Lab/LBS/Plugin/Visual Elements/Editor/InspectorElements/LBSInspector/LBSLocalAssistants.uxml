@@ -25,5 +25,5 @@
         </ui:VisualElement>
     </ui:VisualElement>
     <ui:VisualElement style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 1px;" />
-    <ui:Button text="Add Assistant" display-tooltip-when-elided="true" tooltip="[No Implementado]" style="padding-left: 3px; padding-right: 3px; padding-top: 3px; padding-bottom: 3px; margin-left: 20%; margin-right: 20%; margin-top: 5px; margin-bottom: 5px;" />
+    <ui:Button text="Add Assistant" display-tooltip-when-elided="true" tooltip="[This function is not working yet.]" name="Add" style="padding-left: 3px; padding-right: 3px; padding-top: 3px; padding-bottom: 3px; margin-left: 20%; margin-right: 20%; margin-top: 5px; margin-bottom: 5px;" />
 </ui:UXML>
