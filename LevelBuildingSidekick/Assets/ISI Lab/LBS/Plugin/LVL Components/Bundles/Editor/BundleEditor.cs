@@ -21,6 +21,10 @@ namespace ISILab.LBS.Bundles.Editor
     {
         ListView characteristics;
 
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+        }
 
         public override VisualElement CreateInspectorGUI()
         {
@@ -68,7 +72,29 @@ namespace ISILab.LBS.Bundles.Editor
                     cf.Data = bundle.characteristics[index];
                 }
                 cf.OnChoiceSelection = () => { bundle.characteristics[index] = cf.Data as LBSCharacteristic; };
+                //cf.OnChoiceSelection += Save;
             }
+        }
+
+        private void OnValidate()
+        {
+            Save();
+        }
+
+        private void OnDestroy()
+        {
+            Save();
+        }
+
+        private void OnDisable()
+        {
+            Save();
+        }
+
+        public void Save()
+        {
+            serializedObject.ApplyModifiedProperties();
+            EditorUtility.SetDirty(target);
         }
 
     }
