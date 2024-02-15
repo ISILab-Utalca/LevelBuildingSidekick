@@ -7,6 +7,7 @@ using UnityEngine;
 using System;
 using ISILab.Commons;
 using ISILab.LBS.Modules;
+using ISILab.LBS.Components;
 
 namespace ISILab.LBS.Behaviours
 {

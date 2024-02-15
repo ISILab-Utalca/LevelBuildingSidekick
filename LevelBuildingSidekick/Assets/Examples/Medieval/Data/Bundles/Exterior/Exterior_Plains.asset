@@ -33,7 +33,6 @@ MonoBehaviour:
     - rid: 3767989614650065810
       type: {class: LBSDirectionedGroup, ns: , asm: LBS}
       data:
-        label: 
         Weights:
         - target: {fileID: 11400000, guid: 96e342b46785340458f3d9950e72f3c0, type: 2}
           weigth: 0.01

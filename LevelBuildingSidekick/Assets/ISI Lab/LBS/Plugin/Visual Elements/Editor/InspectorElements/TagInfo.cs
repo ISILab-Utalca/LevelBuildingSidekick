@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
 using ISILab.LBS.Internal;
+using ISILab.LBS.Components;
 
 public class TagInfo : VisualElement
 {

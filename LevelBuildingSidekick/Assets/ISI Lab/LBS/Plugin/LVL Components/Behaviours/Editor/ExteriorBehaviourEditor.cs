@@ -15,6 +15,7 @@ using ISILab.LBS.Behaviours;
 using ISILab.LBS.Internal;
 using ISILab.LBS.Characteristics;
 using ISILab.LBS.Editor;
+using ISILab.LBS.Components;
 
 [LBSCustomEditor("Exteiror Behaviour", typeof(ExteriorBehaviour))]
 public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
@@ -182,7 +183,6 @@ public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
         connectionPallete.OnSelectOption += (selected) => 
         {
             exterior.identifierToSet = selected as LBSIdentifier;
-            //setConnection.ToSet = selected as LBSIdentifier;
             ToolKit.Instance.SetActive("Set connection");
         };
 

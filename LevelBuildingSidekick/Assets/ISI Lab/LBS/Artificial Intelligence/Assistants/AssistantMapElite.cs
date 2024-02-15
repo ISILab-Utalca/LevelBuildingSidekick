@@ -10,6 +10,7 @@ using ISILab.LBS.AI.Categorization;
 using ISILab.LBS.Modules;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Characteristics;
+using ISILab.LBS.Components;
 
 namespace ISILab.LBS.Assistants
 {

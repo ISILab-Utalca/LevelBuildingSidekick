@@ -31,7 +31,6 @@ MonoBehaviour:
     - rid: 5085006314459627532
       type: {class: LBSDirection, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
-        label: Connections
         connections:
         - Road
         - Fodder

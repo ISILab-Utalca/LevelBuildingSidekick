@@ -19,7 +19,9 @@ namespace ISILab.LBS
             if (blackBoard == "")
             {
                 if (SOs == null || SOs.Count <= 0)
+                {
                     SOs = LBSAssetsStorage.Instance.Get(type);
+                }
             }
             else
             {

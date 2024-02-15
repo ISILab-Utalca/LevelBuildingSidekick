@@ -1,11 +1,11 @@
 using ISILab.Commons;
 using ISILab.LBS.Behaviours;
+using ISILab.LBS.Components;
 using ISILab.LBS.Internal;
 using ISILab.LBS.Modules;
 using ISILab.LBS.VisualElements.Editor; // TODO: Search the reference to this namespace and remove it
 using LBS.Components;
 using LBS.Components.TileMap;
-using LBS.Settings;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;

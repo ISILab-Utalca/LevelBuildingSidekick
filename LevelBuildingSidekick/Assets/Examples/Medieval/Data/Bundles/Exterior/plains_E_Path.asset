@@ -29,7 +29,6 @@ MonoBehaviour:
     - rid: 5085006314459627535
       type: {class: LBSDirection, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
-        label: Connections
         connections:
         - Grass
         - Grass

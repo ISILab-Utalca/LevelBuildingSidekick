@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using LBS.Bundles;
+using ISILab.LBS.Components;
 
 [CreateAssetMenu(fileName = "New Tags Group", menuName = "ISILab/New Tags Group")]
 public class LBSIdentifierBundle : ScriptableObject

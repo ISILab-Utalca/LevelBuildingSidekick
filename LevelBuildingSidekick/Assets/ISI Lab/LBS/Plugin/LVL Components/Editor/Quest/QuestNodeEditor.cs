@@ -1,4 +1,5 @@
 using ISILab.Commons.Utility.Editor;
+using ISILab.LBS.Components;
 using ISILab.LBS.Editor;
 using System.Collections;
 using System.Collections.Generic;
@@ -37,8 +38,6 @@ public class QuestNodeEditor : LBSCustomEditor
         tags.itemsSource = node.Target.Tags;
         tags.Rebuild();
 
-        //Debug.Log(node.Target.Tags.Count);
-
         rect.value = node.Target.Rect;
     }
 
@@ -52,8 +51,6 @@ public class QuestNodeEditor : LBSCustomEditor
         label = this.Q<Label>();
 
         rect = this.Q<RectField>();
-
-        //rect.RegisterValueChangedCallback(evt => node.Target.Rect = evt.newValue);
 
         tags = this.Q<ListView>();
 

@@ -11,6 +11,7 @@ using ISILab.Commons.Utility;
 using ISILab.Commons.Utility.Editor;
 using ISILab.Extensions;
 using ISILab.LBS.Internal;
+using ISILab.LBS.Components;
 
 public class GeneralBundlesPanel : VisualElement
 {

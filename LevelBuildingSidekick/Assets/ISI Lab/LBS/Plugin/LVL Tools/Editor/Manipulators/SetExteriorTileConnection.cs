@@ -6,6 +6,7 @@ using LBS.Components.TileMap;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
 using ISILab.LBS.Behaviours;
+using ISILab.LBS.Components;
 
 namespace ISILab.LBS.Manipulators
 {

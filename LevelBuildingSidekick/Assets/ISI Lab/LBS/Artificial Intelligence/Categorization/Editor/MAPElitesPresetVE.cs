@@ -3,6 +3,7 @@ using ISILab.AI.Optimization;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.AI.Categorization;
 using ISILab.LBS.Behaviours;
+using ISILab.LBS.Components;
 using ISILab.LBS.Editor;
 using System;
 using System.Collections;
@@ -168,12 +169,6 @@ public class MAPElitesPresetVE : LBSCustomEditor
         container.Add(ve);
     }
 
-
-    public void Print()
-    {
-
-    }
-
     VisualElement MakeItem()
     {
         var v = new ObjectField();
@@ -187,10 +182,8 @@ public class MAPElitesPresetVE : LBSCustomEditor
         if (index < presset.blackList.Count)
         {
             var of = element as ObjectField;
-            //Debug.Log("Bind");
             if (presset.blackList[index] != null)
             {
-                //Debug.Log(eval.resourceCharactersitic[index]);
                 of.value = presset.blackList[index];
             }
             of.RegisterValueChangedCallback(e => { presset.blackList[index] = e.newValue as LBSIdentifier; });

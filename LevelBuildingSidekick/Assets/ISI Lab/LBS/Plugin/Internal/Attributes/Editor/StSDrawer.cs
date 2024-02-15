@@ -18,7 +18,6 @@ public class StSDrawer : PropertyDrawer
             return;
         }
 
-
         var list = att.SOs.Select(so => so.name).ToList();
         var v = property.stringValue;
 

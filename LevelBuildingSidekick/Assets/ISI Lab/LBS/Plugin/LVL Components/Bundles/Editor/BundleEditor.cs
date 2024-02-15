@@ -10,6 +10,7 @@ using ISILab.Commons.Utility.Editor;
 using ISILab.Extensions;
 using ISILab.LBS.Characteristics;
 using UnityEngine.UIElements;
+using ISILab.LBS.Components;
 
 namespace ISILab.LBS.Editor
 {
