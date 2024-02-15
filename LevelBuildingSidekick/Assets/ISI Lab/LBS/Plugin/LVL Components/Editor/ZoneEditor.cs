@@ -1,4 +1,5 @@
 using ISILab.LBS.Components;
+using ISILab.LBS.Editor;
 using ISILab.LBS.Internal;
 using LBS.Bundles;
 using LBS.Components.TileMap;

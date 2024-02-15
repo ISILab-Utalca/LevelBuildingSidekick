@@ -3,6 +3,7 @@ using ISILab.AI.Optimization;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.AI.Categorization;
 using ISILab.LBS.Behaviours;
+using ISILab.LBS.Editor;
 using System;
 using System.Collections;
 using System.Collections.Generic;

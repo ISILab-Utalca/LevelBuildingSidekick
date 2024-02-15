@@ -6,51 +6,47 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-[LBSCustomEditor("Tag identifier", typeof(LBSTagsCharacteristic))]
-public class LBSTagsCharEditor : LBSCustomEditor
+namespace ISILab.LBS.Editor
 {
-    public TextField labelField;
-    public DropdownField dropdownField;
-
-    public LBSTagsCharEditor()
+    [LBSCustomEditor("Tag identifier", typeof(LBSTagsCharacteristic))]
+    public class LBSTagsCharEditor : LBSCustomEditor
     {
-        Add(CreateVisualElement());
-    }
+        public DropdownField dropdownField;
 
-    public LBSTagsCharEditor(object target) : base(target)
-    {
-        Add(CreateVisualElement());
-        SetInfo(target);
-    }
+        public LBSTagsCharEditor()
+        {
+            Add(CreateVisualElement());
+        }
 
-    public override void SetInfo(object target)
-    {
-        this.target = target;
-        var tc = target as LBSTagsCharacteristic;
+        public LBSTagsCharEditor(object target) : base(target)
+        {
+            Add(CreateVisualElement());
+            SetInfo(target);
+        }
 
-        labelField.value = tc?.Label;
-        dropdownField.value = tc?.Value?.Label;
-    }
+        public override void SetInfo(object target)
+        {
+            this.target = target;
+            var tc = target as LBSTagsCharacteristic;
 
-    protected override VisualElement CreateVisualElement()
-    {
-        var ve = new VisualElement();
-        var storage = LBSAssetsStorage.Instance;
-        var target = this.target as LBSTagsCharacteristic;
+            dropdownField.value = tc?.Value?.Label;
+        }
 
-        labelField = new TextField();
-        ve.Add(labelField);
-        labelField.RegisterCallback<BlurEvent>(e => {
-            (this.target as LBSTagsCharacteristic).Label = labelField.value;
-        });
+        protected override VisualElement CreateVisualElement()
+        {
+            var ve = new VisualElement();
+            var storage = LBSAssetsStorage.Instance;
+            var target = this.target as LBSTagsCharacteristic;
 
-        dropdownField = new DropdownField("Value:");
-        ve.Add(dropdownField);
-        var tags = storage.Get<LBSIdentifier>();
-        dropdownField.choices = tags.Select(t => t.Label).ToList();
-        dropdownField.RegisterCallback<ChangeEvent<string>>(e => {
-            (this.target as LBSTagsCharacteristic).Value = tags.Find(t => t.Label == e.newValue);
-        });
-        return ve;
+            dropdownField = new DropdownField("Value:");
+            ve.Add(dropdownField);
+            var tags = storage.Get<LBSIdentifier>();
+            dropdownField.choices = tags.Select(t => t.Label).ToList();
+            dropdownField.RegisterCallback<ChangeEvent<string>>(e =>
+            {
+                (this.target as LBSTagsCharacteristic).Value = tags.Find(t => t.Label == e.newValue);
+            });
+            return ve;
+        }
     }
 }

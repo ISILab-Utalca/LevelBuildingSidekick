@@ -39,11 +39,6 @@ namespace ISILab.LBS.Characteristics
                 tagName = value.Label;
         }
 
-        public LBSTagsCharacteristic(LBSIdentifier value, string label) : this(value)
-        {
-            Label = label;
-        }
-
         public LBSTagsCharacteristic()
         {
             this.value = null;
@@ -51,7 +46,7 @@ namespace ISILab.LBS.Characteristics
 
         public override object Clone()
         {
-            return new LBSTagsCharacteristic(this.value, label);
+            return new LBSTagsCharacteristic(this.value);
         }
 
         public override bool Equals(object obj)

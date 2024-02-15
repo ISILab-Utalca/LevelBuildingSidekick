@@ -1,3 +1,4 @@
+using ISILab.LBS.Editor;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -7,10 +8,7 @@ using UnityEngine.UIElements;
 [LBSCustomEditor("Connections group", typeof(LBSDirectionedGroup))]
 public class LBSDirectionGroupEditor : LBSCustomEditor
 {
-    public TextField labelField;
     public VisualElement content;
-
-    //ListView weights<>
 
     public LBSDirectionGroupEditor()
     {
@@ -27,8 +25,6 @@ public class LBSDirectionGroupEditor : LBSCustomEditor
     {
         this.target = obj;
         var target = obj as LBSDirectionedGroup;
-
-        labelField.value = target.Label;
 
         content = new VisualElement();
         this.Add(content);
@@ -58,12 +54,8 @@ public class LBSDirectionGroupEditor : LBSCustomEditor
         var target = this.target as LBSDirectionedGroup;
 
         var ve = new VisualElement();
-        labelField = new TextField();
-        labelField.RegisterCallback<BlurEvent>(e => {
-            target.Label = labelField.value;
-        });
 
-        ve.Add(labelField);
+
         return ve;
     }
 }

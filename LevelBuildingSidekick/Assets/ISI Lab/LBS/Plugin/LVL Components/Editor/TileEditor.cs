@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 using LBS.Components.TileMap;
+using ISILab.LBS.Editor;
 
 [LBSCustomEditor("Tile", typeof(LBSTile))]
 public class TileEditor : LBSCustomEditor

@@ -23,14 +23,14 @@ namespace ISILab.LBS.Characteristics
 
         }
 
-        public LBSRotationCharacteristic(string label, Vector2 vector) : base(label)
+        public LBSRotationCharacteristic(Vector2 vector)
         {
             rotation = vector;
         }
 
         public override object Clone()
         {
-            return new LBSRotationCharacteristic(label, rotation);
+            return new LBSRotationCharacteristic(rotation);
         }
 
         public override string ToString()

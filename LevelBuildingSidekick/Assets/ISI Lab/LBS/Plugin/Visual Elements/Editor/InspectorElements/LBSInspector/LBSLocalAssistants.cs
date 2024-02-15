@@ -10,6 +10,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
 using ISILab.LBS.VisualElements;
+using ISILab.LBS.Editor;
 
 public class LBSLocalAssistants : LBSInspector
 {

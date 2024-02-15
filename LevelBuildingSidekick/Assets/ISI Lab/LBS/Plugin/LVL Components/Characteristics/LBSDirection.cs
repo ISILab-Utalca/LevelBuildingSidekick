@@ -47,7 +47,7 @@ namespace ISILab.LBS.Characteristics
         #region CONSTRUCTORS
         public LBSDirection() : base() { }
 
-        public LBSDirection(string label, List<string> tags) : base(label)
+        public LBSDirection(List<string> tags)
         {
             this.connections = tags;
         }
@@ -66,7 +66,7 @@ namespace ISILab.LBS.Characteristics
 
         public override object Clone()
         {
-            return new LBSDirection(this.label, new List<string>(this.connections));
+            return new LBSDirection(new List<string>(this.connections));
         }
 
         public override bool Equals(object obj)

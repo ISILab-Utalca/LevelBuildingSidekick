@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewID", menuName = "ISILab/LBS/Identifier")]
@@ -7,8 +8,8 @@ using UnityEngine;
 public class LBSIdentifier : ScriptableObject
 {
     #region FIELDS
-    [SerializeField]
-    protected string label;
+    [ReadOnly]
+    public string label;
     [SerializeField]
     protected Texture2D icon;
     [SerializeField]
@@ -64,11 +65,34 @@ public class LBSIdentifier : ScriptableObject
     #endregion
 
     #region METHODS
-    public void Init(string text,Color color,Texture2D icon)
+    public void Init(string text, Color color, Texture2D icon)
     {
         this.label = text;
         this.color = color;
         this.icon = icon;
     }
+
+    private void OnValidate()
+    {
+        label = this.name;
+    }
     #endregion
+}
+
+public class ReadOnlyAttribute : PropertyAttribute { }
+
+[CustomPropertyDrawer(typeof(ReadOnlyAttribute))]
+public class ReadOnlyDrawer : PropertyDrawer
+{
+    public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+    {
+        return EditorGUI.GetPropertyHeight(property, label, true);
+    }
+
+    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+    {
+        GUI.enabled = false;
+        EditorGUI.PropertyField(position, property, label, true);
+        GUI.enabled = true;
+    }
 }

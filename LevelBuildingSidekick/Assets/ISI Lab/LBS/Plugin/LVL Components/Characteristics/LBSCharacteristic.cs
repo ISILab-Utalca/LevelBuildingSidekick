@@ -16,33 +16,15 @@ namespace ISILab.LBS.Characteristics
         #region FIELDS
         [HideInInspector, JsonIgnore]
         private Bundle owner;
-
-        [JsonRequired, SerializeField]
-        protected string label = "";
-
-        //[JsonIgnore, SerializeField]
-        //private bool isSavableOnJSON = true;
         #endregion
 
         #region PROPERTIES
         [HideInInspector, JsonIgnore]
         public Bundle Owner => owner;
-
-        [JsonIgnore]
-        public string Label
-        {
-            get => label;
-            set => label = value;
-        }
         #endregion
 
         #region CONSTRUCTORS
         public LBSCharacteristic() { }
-
-        public LBSCharacteristic(string label)
-        {
-            this.label = label;
-        }
         #endregion
 
         #region METHODS

@@ -82,7 +82,7 @@ namespace ISILab.LBS.Editor
 
         private void AddConnectionCharacteristic(Bundle bundle)
         {
-            var charc = new LBSDirection("Connections", new List<string>() { "", "", "", "" });
+            var charc = new LBSDirection(new List<string>() { "", "", "", "" });
             bundle.AddCharacteristic(charc);
 
             EditorUtility.SetDirty(bundle);

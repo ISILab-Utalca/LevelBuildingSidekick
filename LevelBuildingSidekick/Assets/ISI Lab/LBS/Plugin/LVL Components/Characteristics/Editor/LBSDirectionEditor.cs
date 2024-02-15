@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
 using ISILab.LBS.Characteristics;
+using ISILab.LBS.Editor;
 
 [LBSCustomEditorAttribute("Weigths", typeof(LBSDirection))]
 public class LBSDirectionEditor : LBSCustomEditor

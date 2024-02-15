@@ -1,5 +1,6 @@
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Characteristics;
+using ISILab.LBS.Editor;
 using ISILab.LBS.Internal;
 using ISILab.LBS.Manipulators;
 using ISILab.LBS.VisualElements;
@@ -119,7 +120,7 @@ public class PopulationBehaviourEditor : LBSCustomEditor, IToolProvider
             var tooltip = "Tags:";
             if (b.Characteristics.Count > 0)
             {
-                b.Characteristics.ForEach(c => tooltip += "\n- " + c?.Label);
+                b.Characteristics.ForEach(c => tooltip += "\n- " + c?.GetType().ToString());
             }
             else
             {
@@ -154,14 +155,13 @@ public class PopulationBehaviourEditor : LBSCustomEditor, IToolProvider
 
         var options = new List<Bundle>();
 
-
         if (tag == "All")
         {
             options = candidates;
         }
         else
         {
-            options = candidates.Where(b => b.name.Equals(tag) || b.Characteristics.Any(c => c is LBSTagsCharacteristic && c.Label.Equals(tag))).ToList();
+            //options = candidates.Where(b => b.name.Equals(tag) || b.Characteristics.Any(c => c is LBSTagsCharacteristic && c.Label.Equals(tag))).ToList();
         }
 
         bundlePallete.OnSelectOption += (selected) => {

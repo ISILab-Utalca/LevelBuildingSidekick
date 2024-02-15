@@ -14,6 +14,7 @@ using ISILab.LBS.Manipulators;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Internal;
 using ISILab.LBS.Characteristics;
+using ISILab.LBS.Editor;
 
 [LBSCustomEditor("Exteiror Behaviour", typeof(ExteriorBehaviour))]
 public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
