@@ -5,40 +5,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class RemoveTile : ManipulateTeselation
+namespace ISILab.LBS.Manipulators
 {
-    public override void Init(LBSLayer layer, object behaviour)
+    public class RemoveTile : ManipulateTeselation
     {
-        throw new System.NotImplementedException();
-    }
-
-    protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
-    {
-        
-    }
-
-    protected override void OnMouseMove(VisualElement target, Vector2Int position, MouseMoveEvent e)
-    {
-        //throw new System.NotImplementedException();
-    }
-
-    protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
-    {
-        var min = this.module.Owner.ToFixedPosition(Vector2Int.Min(StartPosition, EndPosition));
-        var max = this.module.Owner.ToFixedPosition(Vector2Int.Max(StartPosition, EndPosition));
-
-        for (int i = min.x; i <= max.x; i++)
+        public override void Init(LBSLayer layer, object behaviour)
         {
-            for (int j = min.y; j <= max.y; j++)
+            throw new System.NotImplementedException();
+        }
+
+        protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
+        {
+            var min = module.Owner.ToFixedPosition(Vector2Int.Min(StartPosition, EndPosition));
+            var max = module.Owner.ToFixedPosition(Vector2Int.Max(StartPosition, EndPosition));
+
+            for (int i = min.x; i <= max.x; i++)
             {
-                var pos = new Vector2Int(i, j);
+                for (int j = min.y; j <= max.y; j++)
+                {
+                    var pos = new Vector2Int(i, j);
 
-                var tile = module.GetTile(pos);
+                    var tile = module.GetTile(pos);
 
-                if (tile == null)
-                    continue;
+                    if (tile == null)
+                        continue;
 
-                module.RemoveTile(tile);
+                    module.RemoveTile(tile);
+                }
             }
         }
     }

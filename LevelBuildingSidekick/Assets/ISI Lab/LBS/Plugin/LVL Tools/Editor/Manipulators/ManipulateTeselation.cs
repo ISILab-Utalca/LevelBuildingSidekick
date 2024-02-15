@@ -1,4 +1,3 @@
-using ISILab.LBS.Manipulators;
 using ISILab.LBS.Modules;
 using LBS.Components;
 using System.Collections;
@@ -6,22 +5,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public abstract class ManipulateTeselation : LBSManipulator
+namespace ISILab.LBS.Manipulators
 {
-
-    protected TileMapModule module;
-
-    public ManipulateTeselation() : base() 
+    public abstract class ManipulateTeselation : LBSManipulator
     {
-        feedback = new AreaFeedback();
-        feedback.fixToTeselation = true;
-    }
+        protected TileMapModule module;
 
-    public override void Init(LBSLayer layer, object owner)
-    {
-        this.module = layer.GetModule<TileMapModule>();
-        feedback.TeselationSize = layer.TileSize;
-        layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
-    }
+        public ManipulateTeselation() : base()
+        {
+            feedback = new AreaFeedback();
+            feedback.fixToTeselation = true;
+        }
 
+        public override void Init(LBSLayer layer, object owner)
+        {
+            module = layer.GetModule<TileMapModule>();
+            feedback.TeselationSize = layer.TileSize;
+            layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
+        }
+    }
 }

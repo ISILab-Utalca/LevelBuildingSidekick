@@ -1,6 +1,7 @@
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Assistants;
 using ISILab.LBS.Editor;
+using ISILab.LBS.Manipulators;
 using ISILab.LBS.VisualElements;
 using LBS;
 using LBS.Bundles;

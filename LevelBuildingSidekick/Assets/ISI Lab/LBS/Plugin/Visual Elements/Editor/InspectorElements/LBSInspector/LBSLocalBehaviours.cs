@@ -11,6 +11,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
 using ISILab.LBS.Editor;
+using ISILab.LBS.VisualElements;
 
 public class LBSLocalBehaviours : LBSInspector 
 {

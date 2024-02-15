@@ -1,91 +1,91 @@
 using ISILab.LBS.Behaviours;
-using ISILab.LBS.Manipulators;
 using LBS.Components;
-using LBS.Components.TileMap;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class SetSchemaTileConnection : LBSManipulator
+namespace ISILab.LBS.Manipulators
 {
-    private List<Vector2Int> Directions => ISILab.Commons.Directions.Bidimencional.Edges; 
-
-    private SchemaBehaviour schema;
-    private Vector2Int first;
-
-    public string ToSet
+    public class SetSchemaTileConnection : LBSManipulator
     {
-        get => schema.conectionToSet;
-        set => schema.conectionToSet = value;
-    }
+        private List<Vector2Int> Directions => Commons.Directions.Bidimencional.Edges;
 
-    public SetSchemaTileConnection() : base()
-    {
-        feedback = new ConnectedLine();
-        feedback.fixToTeselation = true;
-    }
+        private SchemaBehaviour schema;
+        private Vector2Int first;
 
-    public override void Init(LBSLayer layer, object behaviour)
-    {
-        schema = behaviour as SchemaBehaviour;
-        feedback.TeselationSize = layer.TileSize;
-        layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
-    }
-
-    protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
-    {
-        first = schema.Owner.ToFixedPosition(position);
-    }
-
-    protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
-    {
-        if (ToSet == null)
+        public string ToSet
         {
-            Debug.LogWarning("No tienens ninguna connecion seleccionada para colocar.");
-            return;
+            get => schema.conectionToSet;
+            set => schema.conectionToSet = value;
         }
 
-        // Get tile in first position
-        var t1 = schema.GetTile(first);
-
-        // Cheack if valid
-        if (t1 == null)
-            return;
-
-        // Get second fixed position
-        var pos = schema.Owner.ToFixedPosition(position);
-
-        // Get vector direction
-        var dx = (t1.Position.x - pos.x);
-        var dy = (t1.Position.y - pos.y);
-
-        // Get index of direction
-        var fDir = Directions.FindIndex(d => d.Equals(-new Vector2Int(dx, dy)));
-
-        // Check if index is validate
-        if (fDir < 0 || fDir >= schema.Directions.Count)
-            return;
-
-        // Get tile in second position
-        var t2 = schema.GetTile(pos);
-
-        if (t2 == null)
+        public SetSchemaTileConnection() : base()
         {
+            feedback = new ConnectedLine();
+            feedback.fixToTeselation = true;
+        }
+
+        public override void Init(LBSLayer layer, object behaviour)
+        {
+            schema = behaviour as SchemaBehaviour;
+            feedback.TeselationSize = layer.TileSize;
+            layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
+        }
+
+        protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
+        {
+            first = schema.Owner.ToFixedPosition(position);
+        }
+
+        protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
+        {
+            if (ToSet == null)
+            {
+                Debug.LogWarning("No tienens ninguna connecion seleccionada para colocar.");
+                return;
+            }
+
+            // Get tile in first position
+            var t1 = schema.GetTile(first);
+
+            // Cheack if valid
+            if (t1 == null)
+                return;
+
+            // Get second fixed position
+            var pos = schema.Owner.ToFixedPosition(position);
+
+            // Get vector direction
+            var dx = t1.Position.x - pos.x;
+            var dy = t1.Position.y - pos.y;
+
+            // Get index of direction
+            var fDir = Directions.FindIndex(d => d.Equals(-new Vector2Int(dx, dy)));
+
+            // Check if index is validate
+            if (fDir < 0 || fDir >= schema.Directions.Count)
+                return;
+
+            // Get tile in second position
+            var t2 = schema.GetTile(pos);
+
+            if (t2 == null)
+            {
+                schema.SetConnection(t1, fDir, ToSet, false);
+                return;
+            }
+
+            if (t1.Equals(t2))
+                return;
+
+            if (Mathf.Abs(dx) + Mathf.Abs(dy) > 1f)
+                return;
+
+            var tDir = schema.Directions.FindIndex(d => d.Equals(new Vector2Int(dx, dy)));
+
             schema.SetConnection(t1, fDir, ToSet, false);
-            return;
+            schema.SetConnection(t2, tDir, ToSet, false);
         }
-
-        if (t1.Equals(t2))
-            return;
-
-        if (Mathf.Abs(dx) + Mathf.Abs(dy) > 1f)
-            return;
-
-        var tDir = schema.Directions.FindIndex(d => d.Equals(new Vector2Int(dx, dy)));
-
-        schema.SetConnection(t1, fDir, ToSet, false);
-        schema.SetConnection(t2, tDir, ToSet, false);
     }
 }
-

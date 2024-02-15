@@ -224,9 +224,10 @@ namespace ISILab.LBS.Manipulators
         protected virtual void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e) { }
         #endregion
     }
+
+    public interface IToolProvider
+    {
+        public void SetTools(ToolKit toolkit);
+    }
 }
 
-public interface IToolProvider
-{
-    public void SetTools(ToolKit toolkit);
-}
