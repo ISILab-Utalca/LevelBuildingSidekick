@@ -76,16 +76,21 @@ public class DynamicFoldout : VisualElement
 
     public void ApplyChoice(ChangeEvent<string> e)
     {
+        /*
         var type = Reflection.GetType(e.newValue);
 
         if (type == null)
         {
             return;
             throw new Exception("[ISI Lab] Class type not found");
-        }
+        }*/
 
         data = dropdown.GetChoiceInstance();
-        UpdateView(type, data);
+
+        if (data == null)
+            return;
+
+        UpdateView(data.GetType(), data);
         OnChoiceSelection?.Invoke();
     }
 }
