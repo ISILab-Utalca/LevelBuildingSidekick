@@ -3,10 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ISILab.Extensions;
-using ISILab.LBS.AI.Assistants;
 using ISILab.LBS.VisualElements.Editor;
 using ISILab.LBS.Assistants;
-using ISILab.LBS;
+using ISILab.LBS.VisualElements;
 
 namespace ISILab.LBS.Drawers
 {
@@ -24,11 +23,6 @@ namespace ISILab.LBS.Drawers
             d.ActualizePositions(start.ToInt(), end.ToInt());
             d.SetColor(Color.red);
             view.AddElement(d);
-        }
-
-        public override Texture2D GetTexture(object target, Rect sourceRect, Vector2Int teselationSize)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

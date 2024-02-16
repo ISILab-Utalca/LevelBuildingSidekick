@@ -1,5 +1,6 @@
 using GeneticSharp.Domain.Mutations;
 using ISILab.LBS.Editor;
+using ISILab.LBS.VisualElements;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

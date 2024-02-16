@@ -1,4 +1,5 @@
 using ISILab.AI.Optimization.Populations;
+using ISILab.LBS.VisualElements;
 using LBS.Components;
 using LBS.Components.Graph;
 using System;

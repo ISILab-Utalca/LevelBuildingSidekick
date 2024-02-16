@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 using System.Linq;
 using ISILab.LBS.Characteristics;
 using ISILab.LBS.Editor;
+using ISILab.LBS.VisualElements;
 
 [LBSCustomEditor("ResourcesSafetyFairness", typeof(ResourcesSafetyFairness))]
 public class ResourceFairnessVE : LBSCustomEditor

@@ -4,30 +4,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class ModuleSimpleView : VisualElement
+namespace ISILab.LBS.VisualElements
 {
-    private Label labelName;
-    private Label labelID;
-    private VisualElement icon;
-
-    public ModuleSimpleView()
+    public class ModuleSimpleView : VisualElement
     {
-        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("ModuleSimpleView");
-        visualTree.CloneTree(this);
+        private Label labelName;
+        private Label labelID;
+        private VisualElement icon;
 
-        this.labelName = this.Q<Label>("LabelName");
-        this.icon = this.Q<VisualElement>("Icon");
-        this.labelID = this.Q<Label>("LabelID");
-    }
+        public ModuleSimpleView()
+        {
+            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("ModuleSimpleView");
+            visualTree.CloneTree(this);
 
-    public void SetInfo(string name,string id = "",Texture2D icon = null)
-    {
-        labelName.text = name;
+            labelName = this.Q<Label>("LabelName");
+            icon = this.Q<VisualElement>("Icon");
+            labelID = this.Q<Label>("LabelID");
+        }
+
+        public void SetInfo(string name, string id = "", Texture2D icon = null)
+        {
+            labelName.text = name;
 
 
-        labelID.text = (id == "") ? "" : "[" + id + "]";
+            labelID.text = id == "" ? "" : "[" + id + "]";
 
-        if(icon != null)
-            this.icon.style.backgroundImage = icon;
+            if (icon != null)
+                this.icon.style.backgroundImage = icon;
+        }
     }
 }

@@ -6,36 +6,39 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class BundleAssetView : VisualElement
+namespace ISILab.LBS.VisualElements
 {
-    #region FACTORY
-    public new class UxmlFactory : UxmlFactory<BundleAssetView, VisualElement.UxmlTraits> { }
-    #endregion
-
-    private Label label;
-    private VisualElement icon;
-    private VisualElement tab;
-
-    private Bundle target;
-
-    public BundleAssetView()
+    public class BundleAssetView : VisualElement
     {
-        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("BundleAssetView");
-        visualTree.CloneTree(this);
+        #region FACTORY
+        public new class UxmlFactory : UxmlFactory<BundleAssetView, UxmlTraits> { }
+        #endregion
 
-        this.label = this.Q<Label>("Name");
-        this.icon = this.Q<VisualElement>("Icon");
-        this.tab = this.Q<VisualElement>("Tab");
-    }
+        private Label label;
+        private VisualElement icon;
+        private VisualElement tab;
 
-    public void SetInfo(Bundle target,int value)
-    {
-        this.target = target;
+        private Bundle target;
 
-        this.label.text = target.name;
+        public BundleAssetView()
+        {
+            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("BundleAssetView");
+            visualTree.CloneTree(this);
 
-        this.icon.style.backgroundImage = target.Icon;
+            label = this.Q<Label>("Name");
+            icon = this.Q<VisualElement>("Icon");
+            tab = this.Q<VisualElement>("Tab");
+        }
 
-        tab.style.width =  20 * value;
+        public void SetInfo(Bundle target, int value)
+        {
+            this.target = target;
+
+            label.text = target.name;
+
+            icon.style.backgroundImage = target.Icon;
+
+            tab.style.width = 20 * value;
+        }
     }
 }

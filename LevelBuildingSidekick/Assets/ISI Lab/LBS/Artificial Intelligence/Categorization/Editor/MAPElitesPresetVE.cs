@@ -5,6 +5,7 @@ using ISILab.LBS.AI.Categorization;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
 using ISILab.LBS.Editor;
+using ISILab.LBS.VisualElements;
 using System;
 using System.Collections;
 using System.Collections.Generic;

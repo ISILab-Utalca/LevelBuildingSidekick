@@ -5,34 +5,37 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class BehaviourBaseView : VisualElement
+namespace ISILab.LBS.VisualElements
 {
-    #region FACTORY
-    public new class UxmlFactory : UxmlFactory<BehaviourBaseView, VisualElement.UxmlTraits> { }
-    #endregion
-
-    private LBSBehaviour target;
-
-    private Button helpBtn;
-    private Button settingBtn;
-    private Button extraOptions;
-
-    private VisualElement content;
-
-    public BehaviourBaseView()
+    public class BehaviourBaseView : VisualElement
     {
-        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("BehaviourBaseView");
-        visualTree.CloneTree(this);
+        #region FACTORY
+        public new class UxmlFactory : UxmlFactory<BehaviourBaseView, UxmlTraits> { }
+        #endregion
 
-        this.helpBtn = this.Q<Button>("HelpBtn");
-        this.settingBtn = this.Q<Button>("SettingBtn");
-        this.extraOptions = this.Q<Button>("ExtraOptions");
+        private LBSBehaviour target;
 
-        this.content = this.Q<VisualElement>("Content");
-    }
+        private Button helpBtn;
+        private Button settingBtn;
+        private Button extraOptions;
 
-    public void SetInfo(LBSBehaviour target)
-    {
-        this.target = target;
+        private VisualElement content;
+
+        public BehaviourBaseView()
+        {
+            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("BehaviourBaseView");
+            visualTree.CloneTree(this);
+
+            helpBtn = this.Q<Button>("HelpBtn");
+            settingBtn = this.Q<Button>("SettingBtn");
+            extraOptions = this.Q<Button>("ExtraOptions");
+
+            content = this.Q<VisualElement>("Content");
+        }
+
+        public void SetInfo(LBSBehaviour target)
+        {
+            this.target = target;
+        }
     }
 }

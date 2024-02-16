@@ -6,33 +6,35 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
 
-
-public class ComplexDropdownElement : VisualElement
+namespace ISILab.LBS.VisualElements
 {
-    public new class UxmlFactory : UxmlFactory<ComplexDropdownElement, VisualElement.UxmlTraits> { }
-
-    public readonly Texture2D defaultIcon = new Texture2D(16,16); // (!!) poner una textura default 
-
-    private VisualElement content;
-    private VisualElement icon;
-    private Label nameLabel;
-    private VisualElement arrow;
-
-    public ComplexDropdownElement()
+    public class ComplexDropdownElement : VisualElement
     {
-        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("ComplexDropdownElement"); // Editor
-        visualTree.CloneTree(this);
+        public new class UxmlFactory : UxmlFactory<ComplexDropdownElement, UxmlTraits> { }
 
-        content = this.Q<VisualElement>("Content");
-        icon = this.Q<VisualElement>("Icon");
-        nameLabel = this.Q<Label>("Name");
-        arrow = this.Q<VisualElement>("Arrow");
-    }
+        public readonly Texture2D defaultIcon = new Texture2D(16, 16);
 
-    public void SetInfo(string name,Texture2D icon = null, bool needArrow = false)
-    {
-        this.nameLabel.text = name;
-        this.icon.style.backgroundImage = (icon == null) ? defaultIcon : icon;
-        this.arrow.SetDisplay(needArrow);
+        private VisualElement content;
+        private VisualElement icon;
+        private Label nameLabel;
+        private VisualElement arrow;
+
+        public ComplexDropdownElement()
+        {
+            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("ComplexDropdownElement");
+            visualTree.CloneTree(this);
+
+            content = this.Q<VisualElement>("Content");
+            icon = this.Q<VisualElement>("Icon");
+            nameLabel = this.Q<Label>("Name");
+            arrow = this.Q<VisualElement>("Arrow");
+        }
+
+        public void SetInfo(string name, Texture2D icon = null, bool needArrow = false)
+        {
+            nameLabel.text = name;
+            this.icon.style.backgroundImage = icon == null ? defaultIcon : icon;
+            arrow.SetDisplay(needArrow);
+        }
     }
 }
