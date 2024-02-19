@@ -1,29 +1,9 @@
 fileFormatVersion: 2
-guid: a6debdb56be62114381c6c47bc3b886e
+guid: 819a19ae4f78aa5439a57e092a210c42
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Material.019
-    second: {fileID: 2100000, guid: 3e6b085794453fc4bb883b6b351298f7, type: 2}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: MurallaDraw
-    second: {fileID: 2800000, guid: 9ebedd016c02a134f95e02cf465850ec, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: TExtura_Draw
-    second: {fileID: 2800000, guid: 1af1801739d31e841991229018d19def, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: Textura_Draw2
-    second: {fileID: 2800000, guid: 09f04f3cc151ddc4aa5d044e9737398f, type: 3}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0

@@ -22,8 +22,22 @@ MonoBehaviour:
     probability: 0.5
   - obj: {fileID: 6239969156481229051, guid: b71b0f8d2f881c743a85228f3030d1cb, type: 3}
     probability: 0.5
-  characteristics: []
+  characteristics:
+  - rid: 2204195511826382858
+  - rid: 2204195511826382860
   positioning: 0
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 2204195511826382858
+      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+      data:
+        label: Decorative
+        value: {fileID: 11400000, guid: 7aa713c3187b559428c4b4b35324ad50, type: 2}
+    - rid: 2204195511826382860
+      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+      data:
+        label: Food
+        value: {fileID: 11400000, guid: b354587b73f945f4188c7dc7026de4ef, type: 2}
