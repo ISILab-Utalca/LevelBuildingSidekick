@@ -32,6 +32,9 @@ namespace ISILab.LBS.Generators
 
             var parent = new GameObject("Population");
             var tiles = data.Tiles;
+
+            var objects = new List<GameObject>();
+
             foreach (var tile in tiles)
             {
                 Bundle current = null;
@@ -51,9 +54,9 @@ namespace ISILab.LBS.Generators
 
                 var pref = current.Assets[Random.Range(0, current.Assets.Count)];
 #if UNITY_EDITOR
-                var go = PrefabUtility.InstantiatePrefab(pref.obj, parent.transform) as GameObject;
+                var go = PrefabUtility.InstantiatePrefab(pref.obj) as GameObject;
 #else
-                var go = GameObject.Instantiate(pref.obj, parent.transform);
+                var go = GameObject.Instantiate(pref.obj);
 #endif
 
                 go.transform.position = new Vector3(
@@ -66,6 +69,19 @@ namespace ISILab.LBS.Generators
                 else
                     go.transform.rotation = Quaternion.Euler(0, -90 * (r - 3), 0);
 
+
+                objects.Add(go);
+            }
+
+            var x = objects.Average(o => o.transform.position.x);
+            var y = objects.Min(o => o.transform.position.y);
+            var z = objects.Average(o => o.transform.position.z);
+
+            parent.transform.position = new Vector3 (x, y, z);
+
+            foreach (var obj in objects)
+            {
+                obj.transform.parent = parent.transform;
             }
 
             parent.transform.position += settings.position;

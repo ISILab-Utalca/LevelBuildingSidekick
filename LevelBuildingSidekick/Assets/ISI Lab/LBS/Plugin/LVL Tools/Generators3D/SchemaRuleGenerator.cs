@@ -234,6 +234,8 @@ namespace ISILab.LBS.Generators
             // Create pivot
             var mainPivot = new GameObject("Schema");
 
+            var tiles = new List<GameObject>();
+
             foreach (var tile in tilesMod.Tiles)
             {
                 // Get zone
@@ -268,8 +270,21 @@ namespace ISILab.LBS.Generators
                     -(new Vector3(settings.scale.x, 0, settings.scale.y) / 2f);
 
                 // Set mainPivot as the parent of tileObj
-                tileObj.transform.parent = mainPivot.transform;
+                tiles.Add(tileObj);
             }
+
+            var x = tiles.Average(t => t.transform.position.x);
+            var y = tiles.Min(t => t.transform.position.y);
+            var z = tiles.Average(t => t.transform.position.z);
+
+            mainPivot.transform.position = new Vector3(x,y,z);
+
+            foreach ( var tile in tiles ) 
+            {
+                tile.transform.parent = mainPivot.transform;
+            }
+
+            mainPivot.transform.position += settings.position;
 
             return mainPivot;
         }

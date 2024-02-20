@@ -44,9 +44,9 @@ namespace ISILab.LBS.Generators
             var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
 
             var e = layer.Behaviours[0] as ExteriorBehaviour; // (!) parche
-            var x = bundles.Find(b => b.name == e.TargetBundle);
+            var bundle = bundles.Find(b => b.name == e.TargetBundle);
 
-            var selected = x.GetCharacteristics<LBSDirectionedGroup>()[0];
+            var selected = bundle.GetCharacteristics<LBSDirectionedGroup>()[0];
 
             // Create pivot
             var mainPivot = new GameObject("Exterior");
@@ -55,6 +55,8 @@ namespace ISILab.LBS.Generators
             // Get modules
             var mapMod = layer.GetModule<TileMapModule>();
             var connctMod = layer.GetModule<ConnectedTileMapModule>();
+
+            var tiles = new List<GameObject>();
 
             foreach (var tile in mapMod.Tiles)
             {
@@ -78,9 +80,22 @@ namespace ISILab.LBS.Generators
                 else
                     go.transform.rotation = Quaternion.Euler(0, 90 * (pair.Item2 - 2) % 360, 0);
 
+                tiles.Add(go);
             }
 
-            mainPivot.transform.position += settings.position - new Vector3(1* scale.x, 0, 1 * scale.y);
+            var x = tiles.Average(t => t.transform.position.x);
+            var y = tiles.Min(t => t.transform.position.y);
+            var z = tiles.Average(t => t.transform.position.z);
+
+            mainPivot.transform.position = new Vector3(x, y, z);
+
+            foreach (var tile in tiles)
+            {
+                tile.transform.parent = mainPivot.transform;
+            }
+
+            mainPivot.transform.position += settings.position;
+
             return mainPivot;
         }
 
