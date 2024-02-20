@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 using System.Linq;
 using ISILab.LBS.Characteristics;
 using ISILab.LBS.Editor;
+using ISILab.AI.Categorization;
 
 namespace ISILab.LBS.VisualElements
 {

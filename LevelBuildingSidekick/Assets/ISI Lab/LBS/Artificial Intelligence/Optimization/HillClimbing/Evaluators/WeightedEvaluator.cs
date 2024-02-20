@@ -6,84 +6,76 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Threading;
 
-public class WeightedEvaluator : IEvaluator
+namespace ISILab.AI.Optimization
 {
-    Tuple<IEvaluator, float>[] evaluators;
-
-    public WeightedEvaluator(params Tuple<IEvaluator, float>[] evaluators)
+    public class WeightedEvaluator : IEvaluator
     {
-        this.evaluators = evaluators;
-    }
+        Tuple<IEvaluator, float>[] evaluators;
 
-    public VisualElement CIGUI()
-    {
-        throw new NotImplementedException();
-    }
-
-    public object Clone()
-    {
-        throw new NotImplementedException();
-    }
-
-    public float Evaluate(IOptimizable evaluable)
-    {
-        var r = UnityEngine.Random.Range(0f, 1f);
-
-        /*
-        var clock = new Stopwatch();
-        clock.Start();
-        var fitness = SerieEVA(evaluable);
-        clock.Stop();
-        UnityEngine.Debug.Log("Fitness serie: ("+r+") " + clock.ElapsedMilliseconds / 1000f + "s.");
-        */
-
-        var clock = new Stopwatch();
-        clock.Restart();
-        var fitness2 = ParallelEVA(evaluable);
-        clock.Stop();
-        //UnityEngine.Debug.Log("Fitness paralelo: ("+r+") " + clock.ElapsedMilliseconds / 1000f + "s.");
-
-        return fitness2;
-    }
-
-    private float SerieEVA(IOptimizable evaluable)
-    {
-        float totalWeight = 0;
-        float fitness = 0; 
-        
-        foreach (var t in evaluators)
+        public WeightedEvaluator(params Tuple<IEvaluator, float>[] evaluators)
         {
-            totalWeight += t.Item2;
-            fitness += t.Item1.Evaluate(evaluable) * t.Item2;
+            this.evaluators = evaluators;
         }
-        return fitness / totalWeight;
-    }
 
-    private float ParallelEVA(IOptimizable evaluable)
-    {
-
-        float fitness = 0;
-        float totalWeight = evaluators.ToList().Sum(e => e.Item2);
-
-        // Crear y ejecutar tareas en paralelo
-        Task[] tasks = new Task[evaluators.Count()];
-        float[] results = new float[evaluators.Count()];
-
-        Parallel.For(0, evaluators.Count(), i =>
+        public VisualElement CIGUI()
         {
-            var eva = evaluators[i];
+            throw new NotImplementedException(); // TODO: Implement CIGUI method
+        }
 
-            results[i] = eva.Item1.Evaluate(evaluable) * eva.Item2;
-        });
+        public object Clone()
+        {
+            throw new NotImplementedException(); // TODO: Implement Clone method
+        }
 
-        fitness = results.Sum();
+        public float Evaluate(IOptimizable evaluable)
+        {
+            var r = UnityEngine.Random.Range(0f, 1f);
 
-        return fitness / totalWeight;
-    }
+            var clock = new Stopwatch();
+            clock.Restart();
+            var fitness2 = ParallelEVA(evaluable);
+            clock.Stop();
 
+            return fitness2;
+        }
 
-    public string GetName()
-    {
-        throw new NotImplementedException();
+        private float SerieEVA(IOptimizable evaluable)
+        {
+            float totalWeight = 0;
+            float fitness = 0;
+
+            foreach (var t in evaluators)
+            {
+                totalWeight += t.Item2;
+                fitness += t.Item1.Evaluate(evaluable) * t.Item2;
+            }
+            return fitness / totalWeight;
+        }
+
+        private float ParallelEVA(IOptimizable evaluable)
+        {
+
+            float fitness = 0;
+            float totalWeight = evaluators.ToList().Sum(e => e.Item2);
+
+            Task[] tasks = new Task[evaluators.Count()];
+            float[] results = new float[evaluators.Count()];
+
+            Parallel.For(0, evaluators.Count(), i =>
+            {
+                var eva = evaluators[i];
+
+                results[i] = eva.Item1.Evaluate(evaluable) * eva.Item2;
+            });
+
+            fitness = results.Sum();
+
+            return fitness / totalWeight;
+        }
+
+        public string GetName()
+        {
+            throw new NotImplementedException(); // TODO: Implement GetName method
+        }
     }
 }

@@ -4,13 +4,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[AttributeUsage(AttributeTargets.Class)]
-public class DrawerAttribute : LBSAttribute
+namespace ISILab.LBS
 {
-    public Type type;
-
-    public DrawerAttribute(Type t)
+    [AttributeUsage(AttributeTargets.Class)]
+    public class DrawerAttribute : LBSAttribute
     {
-        type = t;
+        public Type type;
+
+        public DrawerAttribute(Type t)
+        {
+            type = t;
+        }
     }
 }

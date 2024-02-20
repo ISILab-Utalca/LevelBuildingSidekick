@@ -6,30 +6,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class ExhaustiveSwapGene : MutationBase
-{ 
-
-    protected override void PerformMutate(ChromosomeBase chromosome, float probability)
+namespace ISILab.AI.Categorization
+{
+    [System.Serializable]
+    public class ExhaustiveSwapGene : MutationBase
     {
-        var r = RandomizationProvider.Current;
-
-        for (int i = 0; i < chromosome.Length; i++)
+        protected override void PerformMutate(ChromosomeBase chromosome, float probability)
         {
-            if (chromosome.IsImmutable(i))
-                continue;
-            if (chromosome.GetGene(i) != default)
-            {
-                var d = r.GetDouble();
-                if (d < probability)
-                {
-                    var j = r.GetInt(0, chromosome.Length);
-                    if (chromosome.IsImmutable(j))
-                        continue;
+            var r = RandomizationProvider.Current;
 
-                    var aux = chromosome.GetGene(i);
-                    chromosome.ReplaceGene(i, chromosome.GetGene(j));
-                    chromosome.ReplaceGene(j, aux);
+            for (int i = 0; i < chromosome.Length; i++)
+            {
+                if (chromosome.IsImmutable(i))
+                    continue;
+                if (chromosome.GetGene(i) != default)
+                {
+                    var d = r.GetDouble();
+                    if (d < probability)
+                    {
+                        var j = r.GetInt(0, chromosome.Length);
+                        if (chromosome.IsImmutable(j))
+                            continue;
+
+                        var aux = chromosome.GetGene(i);
+                        chromosome.ReplaceGene(i, chromosome.GetGene(j));
+                        chromosome.ReplaceGene(j, aux);
+                    }
                 }
             }
         }

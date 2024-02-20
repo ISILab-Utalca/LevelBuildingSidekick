@@ -11,6 +11,8 @@ using ISILab.LBS.Modules;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Characteristics;
 using ISILab.LBS.Components;
+using ISILab.AI.Categorization;
+using ISILab.AI.Optimization;
 
 namespace ISILab.LBS.Assistants
 {

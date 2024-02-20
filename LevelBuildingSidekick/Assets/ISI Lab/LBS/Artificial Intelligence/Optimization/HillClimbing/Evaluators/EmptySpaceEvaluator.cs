@@ -1,4 +1,5 @@
 ﻿using Commons.Optimization.Evaluator;
+using ISILab.AI.Optimization;
 using ISILab.AI.Wrappers;
 using ISILab.Extensions;
 using ISILab.LBS.Modules;
@@ -8,40 +9,42 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class EmptySpaceEvaluator : IEvaluator
+namespace ISILab.AI.Optimization
 {
-    private LBSLayer original;
-
-    public EmptySpaceEvaluator(LBSLayer layer)
+    public class EmptySpaceEvaluator : IEvaluator
     {
-        this.original = layer;
-    }
+        private LBSLayer original;
 
-    public object Clone()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public float Evaluate(IOptimizable evaluable)
-    {
-        var layer = (evaluable as OptimizableModules).Modules;
-        var zones = layer.GetModule<SectorizedTileMapModule>();
-
-        if(zones.ZonesWithTiles.Count <= 0)
+        public EmptySpaceEvaluator(LBSLayer layer)
         {
-            return 0;
+            this.original = layer;
         }
 
-        var avg = zones.ZonesWithTiles.Average((z) =>
+        public object Clone()
         {
-            var tiles = zones.GetTiles(z);
-            var rect = tiles.GetBounds();
-            if (rect.width <= 0 || rect.height <= 0)
-                return float.NegativeInfinity;
+            throw new System.NotImplementedException(); // TODO: Implement this
+        }
 
-            return tiles.Count / (float)(rect.width * rect.height);
-        });
-        return avg;
+        public float Evaluate(IOptimizable evaluable)
+        {
+            var layer = (evaluable as OptimizableModules).Modules;
+            var zones = layer.GetModule<SectorizedTileMapModule>();
+
+            if (zones.ZonesWithTiles.Count <= 0)
+            {
+                return 0;
+            }
+
+            var avg = zones.ZonesWithTiles.Average((z) =>
+            {
+                var tiles = zones.GetTiles(z);
+                var rect = tiles.GetBounds();
+                if (rect.width <= 0 || rect.height <= 0)
+                    return float.NegativeInfinity;
+
+                return tiles.Count / (float)(rect.width * rect.height);
+            });
+            return avg;
+        }
     }
-
 }

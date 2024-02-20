@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using GeneticSharp.Domain.Chromosomes;
+using ISILab.AI.Optimization;
 using ISILab.AI.Optimization.Populations;
 
 namespace GeneticSharp.Domain.Reinsertions

@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
+using ISILab.AI.Categorization;
 
 namespace ISILab.AI.Optimization
 {
@@ -116,7 +117,6 @@ namespace ISILab.AI.Optimization
 
             Selection = new TournamentSelection(2);
             Crossover = new AreaCrossover();
-            //Crossover = new UniformCrossover();
 
             Population = new Population();
             Termination = new GenerationNumberTermination(20);

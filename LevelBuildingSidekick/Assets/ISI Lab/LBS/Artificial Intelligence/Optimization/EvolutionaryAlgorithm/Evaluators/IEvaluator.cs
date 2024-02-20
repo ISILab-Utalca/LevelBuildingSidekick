@@ -1,4 +1,5 @@
 
+using ISILab.AI.Optimization;
 using System;
 
 namespace Commons.Optimization.Evaluator

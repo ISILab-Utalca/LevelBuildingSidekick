@@ -11,6 +11,7 @@ using LBS.Bundles;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.AI.VisualElements;
 using ISILab.LBS.Internal;
+using ISILab.AI.Categorization;
 
 namespace ISILab.LBS.VisualElements
 {

@@ -6,23 +6,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class ExhaustiveRemoveGene : MutationBase
+namespace ISILab.AI.Categorization
 {
-    protected override void PerformMutate(ChromosomeBase chromosome, float probability)
+    [System.Serializable]
+    public class ExhaustiveRemoveGene : MutationBase
     {
-        var r = RandomizationProvider.Current;
-
-        for (int i = 0; i < chromosome.Length; i++)
+        protected override void PerformMutate(ChromosomeBase chromosome, float probability)
         {
-            if (chromosome.IsImmutable(i))
-                continue;
-            if (chromosome.GetGene(i) != default)
+            var r = RandomizationProvider.Current;
+
+            for (int i = 0; i < chromosome.Length; i++)
             {
-                var d = r.GetDouble();
-                if (d < probability)
+                if (chromosome.IsImmutable(i))
+                    continue;
+                if (chromosome.GetGene(i) != default)
                 {
-                    chromosome.SetDeafult(i);
+                    var d = r.GetDouble();
+                    if (d < probability)
+                    {
+                        chromosome.SetDeafult(i);
+                    }
                 }
             }
         }

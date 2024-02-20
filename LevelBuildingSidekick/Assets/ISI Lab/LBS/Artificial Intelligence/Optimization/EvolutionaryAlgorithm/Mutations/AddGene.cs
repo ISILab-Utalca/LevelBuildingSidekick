@@ -5,31 +5,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AddGene : MutationBase
+namespace ISILab.AI.Categorization
 {
-    public List<object> blackList = new List<object>();
-
-    protected override void PerformMutate(ChromosomeBase chromosome, float probability)
+    public class AddGene : MutationBase
     {
-        var r = RandomizationProvider.Current;
+        public List<object> blackList = new List<object>();
 
-        var d = r.GetDouble();
-
-        if (d > probability)
+        protected override void PerformMutate(ChromosomeBase chromosome, float probability)
         {
-            return;
-        }
+            var r = RandomizationProvider.Current;
 
-        var i = r.GetInt(0, chromosome.Length);
+            var d = r.GetDouble();
 
-        while(i < chromosome.Length && (chromosome.GetGene(i) != default || blackList.Contains(chromosome.GetGene(i))))
-        {
-            i++;
-        }
+            if (d > probability)
+            {
+                return;
+            }
 
-        if(i < chromosome.Length)
-        {
-            chromosome.ReplaceGene(i, chromosome.GenerateGene());
+            var i = r.GetInt(0, chromosome.Length);
+
+            while (i < chromosome.Length && (chromosome.GetGene(i) != default || blackList.Contains(chromosome.GetGene(i))))
+            {
+                i++;
+            }
+
+            if (i < chromosome.Length)
+            {
+                chromosome.ReplaceGene(i, chromosome.GenerateGene());
+            }
         }
     }
 }

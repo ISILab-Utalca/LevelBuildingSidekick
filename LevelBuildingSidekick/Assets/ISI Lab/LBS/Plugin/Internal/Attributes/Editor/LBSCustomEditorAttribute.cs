@@ -7,66 +7,67 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-
-public class LBSCustomEditorAttribute : LBSAttribute
+namespace ISILab.LBS
 {
-    public Type type;
-    public string name;
-
-    public LBSCustomEditorAttribute(string name,Type type)
+    public class LBSCustomEditorAttribute : LBSAttribute
     {
-        this.name = name;
-        this.type = type;
-    }
+        public Type type;
+        public string name;
 
-}
-
-public static class LBS_Editor
-{
-    public static List<Tuple<Type,IEnumerable<LBSCustomEditorAttribute>>> pairsEditors;
-
-    public static List<Tuple<Type,IEnumerable<DrawerAttribute>>> pairDrawers;
-
-    public static Type GetEditor<T>()
-    {
-        return GetEditor(typeof(T));
-    }
-
-    public static Type GetEditor(Type targetType)
-    {
-        if (pairsEditors == null)
-            pairsEditors = Reflection.GetClassesWith<LBSCustomEditorAttribute>();
-
-        foreach (var pair in pairsEditors)
+        public LBSCustomEditorAttribute(string name, Type type)
         {
-            if (pair.Item2.ToList()[0].type == targetType)
-            {
-                return pair.Item1;
-            }
+            this.name = name;
+            this.type = type;
         }
-        return null;
-
     }
 
-    public static Type GetDrawer<T>()
+    public static class LBS_Editor
     {
-        return GetDrawer(typeof(T));
-    }
+        public static List<Tuple<Type, IEnumerable<LBSCustomEditorAttribute>>> pairsEditors;
 
-    public static Type GetDrawer(Type targetType)
-    {
-        if(pairDrawers == null)
-            pairDrawers = Reflection.GetClassesWith<DrawerAttribute>();
+        public static List<Tuple<Type, IEnumerable<DrawerAttribute>>> pairDrawers;
 
-        foreach (var pair in pairDrawers)
+        public static Type GetEditor<T>()
         {
-            var t = pair.Item2.ToList()[0].type;
-            if (t == targetType)
-            {
-                return pair.Item1;
-            }
+            return GetEditor(typeof(T));
         }
-        return null;
-    }
 
+        public static Type GetEditor(Type targetType)
+        {
+            if (pairsEditors == null)
+                pairsEditors = Reflection.GetClassesWith<LBSCustomEditorAttribute>();
+
+            foreach (var pair in pairsEditors)
+            {
+                if (pair.Item2.ToList()[0].type == targetType)
+                {
+                    return pair.Item1;
+                }
+            }
+            return null;
+
+        }
+
+        public static Type GetDrawer<T>()
+        {
+            return GetDrawer(typeof(T));
+        }
+
+        public static Type GetDrawer(Type targetType)
+        {
+            if (pairDrawers == null)
+                pairDrawers = Reflection.GetClassesWith<DrawerAttribute>();
+
+            foreach (var pair in pairDrawers)
+            {
+                var t = pair.Item2.ToList()[0].type;
+                if (t == targetType)
+                {
+                    return pair.Item1;
+                }
+            }
+            return null;
+        }
+
+    }
 }

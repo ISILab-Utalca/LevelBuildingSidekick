@@ -1,10 +1,12 @@
+using ISILab.AI.Grammar;
+using ISILab.LBS.Components;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace ISILab.LBS.AI.ConstraintSatisfactions.Grammar.Editor
+namespace ISILab.LBS.VisualElements
 {
     [CustomEditor(typeof(LBSGrammar))]
     public class LBSGrammarEditor : UnityEditor.Editor

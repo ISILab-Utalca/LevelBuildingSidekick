@@ -1,3 +1,4 @@
+using ISILab.AI.Optimization;
 using ISILab.LBS.Modules;
 using LBS.Components;
 using LBS.Components.TileMap;

@@ -5,17 +5,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SequenceMutation : MutationBase
+namespace ISILab.AI.Categorization
 {
-
-    [SerializeField]
-    private List<MutationBase> mutations = new List<MutationBase>();
-
-    protected override void PerformMutate(ChromosomeBase chromosome, float probability)
+    public class SequenceMutation : MutationBase
     {
-        foreach(var m in mutations)
+        [SerializeField]
+        private List<MutationBase> mutations = new List<MutationBase>();
+
+        protected override void PerformMutate(ChromosomeBase chromosome, float probability)
         {
-            m.Mutate(chromosome, probability);
+            foreach (var m in mutations)
+            {
+                m.Mutate(chromosome, probability);
+            }
         }
     }
 }

@@ -4,6 +4,7 @@ using GeneticSharp.Infrastructure.Framework.Texts;
 using GeneticSharp.Infrastructure.Framework.Commons;
 using System.Linq;
 using System.Collections;
+using ISILab.AI.Optimization;
 
 namespace GeneticSharp.Domain.Chromosomes
 {

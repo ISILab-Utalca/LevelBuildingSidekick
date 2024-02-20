@@ -5,22 +5,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RemoveGene : MutationBase
+namespace ISILab.AI.Categorization
 {
-    protected override void PerformMutate(ChromosomeBase chromosome, float probability)
+    public class RemoveGene : MutationBase
     {
-        var r = RandomizationProvider.Current;
-
-        var i = r.GetInt(0, chromosome.Length);
-
-        while (i < chromosome.Length && chromosome.GetGene(i) == default)
+        protected override void PerformMutate(ChromosomeBase chromosome, float probability)
         {
-            i++;
-        }
+            var r = RandomizationProvider.Current;
 
-        if(i < chromosome.Length)
-        {
-            chromosome.SetDeafult(i);
+            var i = r.GetInt(0, chromosome.Length);
+
+            while (i < chromosome.Length && chromosome.GetGene(i) == default)
+            {
+                i++;
+            }
+
+            if (i < chromosome.Length)
+            {
+                chromosome.SetDeafult(i);
+            }
         }
     }
 }

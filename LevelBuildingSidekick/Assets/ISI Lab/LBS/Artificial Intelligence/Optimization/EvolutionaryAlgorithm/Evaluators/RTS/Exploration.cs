@@ -1,4 +1,5 @@
 using Commons.Optimization.Evaluator;
+using ISILab.AI.Optimization;
 using ISILab.LBS.Characteristics;
 using LBS.Components.TileMap;
 using System;
@@ -7,50 +8,53 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[System.Serializable]
-public class Exploration : IRangedEvaluator
+namespace ISILab.AI.Categorization
 {
-    public float MaxValue => 1;
-
-    public float MinValue => 0;
-
-    [SerializeField, SerializeReference]
-    public LBSCharacteristic colliderCharacteristic;
-
-    public float Evaluate(IOptimizable evaluable)
+    [System.Serializable]
+    public class Exploration : IRangedEvaluator
     {
-        var chrom = evaluable as BundleTilemapChromosome;
+        public float MaxValue => 1;
 
-        if (chrom == null)
+        public float MinValue => 0;
+
+        [SerializeField, SerializeReference]
+        public LBSCharacteristic colliderCharacteristic;
+
+        public float Evaluate(IOptimizable evaluable)
         {
-            throw new Exception("Wrong Chromosome Type");
-        }
+            var chrom = evaluable as BundleTilemapChromosome;
 
-        float fitness = 0;
-
-        var genes = chrom.GetGenes().ToList();
-
-
-        foreach (var g in genes)
-        {
-            if (g == null)
+            if (chrom == null)
             {
-                fitness++;
-                continue;
+                throw new Exception("Wrong Chromosome Type");
             }
-            if (!(g as BundleData).Characteristics.Contains(colliderCharacteristic))
-                fitness++;
+
+            float fitness = 0;
+
+            var genes = chrom.GetGenes().ToList();
+
+
+            foreach (var g in genes)
+            {
+                if (g == null)
+                {
+                    fitness++;
+                    continue;
+                }
+                if (!(g as BundleData).Characteristics.Contains(colliderCharacteristic))
+                    fitness++;
+            }
+
+            fitness /= (float)genes.Count;
+
+            return fitness;
         }
 
-        fitness /= (float)genes.Count;
-
-        return fitness;
-    }
-
-    public object Clone()
-    {
-        var e = new Exploration();
-        e.colliderCharacteristic = colliderCharacteristic;
-        return e;
+        public object Clone()
+        {
+            var e = new Exploration();
+            e.colliderCharacteristic = colliderCharacteristic;
+            return e;
+        }
     }
 }
