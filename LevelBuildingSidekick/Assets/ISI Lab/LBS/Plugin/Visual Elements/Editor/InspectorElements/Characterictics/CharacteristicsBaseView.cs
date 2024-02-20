@@ -11,77 +11,80 @@ using ISILab.Extensions;
 using ISILab.LBS.Characteristics;
 using ISILab.LBS.Editor;
 
-public class CharacteristicsBaseView : VisualElement
+namespace ISILab.LBS.VisualElements
 {
-    #region FACTORY
-    public new class UxmlFactory : UxmlFactory<CharacteristicsBaseView, VisualElement.UxmlTraits> { }
-    #endregion
-
-    private VisualElement content;
-    private Button removeBtn;
-    private Button menuBtn;
-    private Label nameLabel;
-    private VisualElement icon;
-    private Foldout foldout;
-
-    private LBSCharacteristic target;
-
-    public CharacteristicsBaseView()
+    public class CharacteristicsBaseView : VisualElement
     {
-        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("CharacteristicsBaseView");
-        visualTree.CloneTree(this);
+        #region FACTORY
+        public new class UxmlFactory : UxmlFactory<CharacteristicsBaseView, UxmlTraits> { }
+        #endregion
 
-        content = this.Q<VisualElement>("Content");
+        private VisualElement content;
+        private Button removeBtn;
+        private Button menuBtn;
+        private Label nameLabel;
+        private VisualElement icon;
+        private Foldout foldout;
 
-        menuBtn = this.Q<Button>("MenuBtn");
+        private LBSCharacteristic target;
 
-        removeBtn = this.Q<Button>("RemoveBtn");
-        removeBtn.clicked += () =>
+        public CharacteristicsBaseView()
         {
-            var bundle = target.Owner;
-            bundle.RemoveCharacteristic(target);
-            this.parent.Remove(this);
-        };
+            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("CharacteristicsBaseView");
+            visualTree.CloneTree(this);
 
-        nameLabel = this.Q<Label>("Name");
+            content = this.Q<VisualElement>("Content");
 
-        icon = this.Q<VisualElement>("Icon");
+            menuBtn = this.Q<Button>("MenuBtn");
 
-        foldout = this.Q<Foldout>("Foldout");
-        this.foldout.RegisterCallback<ChangeEvent<bool>>((e) => 
-        { 
-            content.SetDisplay(e.newValue);
-        });
+            removeBtn = this.Q<Button>("RemoveBtn");
+            removeBtn.clicked += () =>
+            {
+                var bundle = target.Owner;
+                bundle.RemoveCharacteristic(target);
+                parent.Remove(this);
+            };
 
-    }
+            nameLabel = this.Q<Label>("Name");
 
-    public void SetContent(LBSCharacteristic characteristic)
-    {
-        this.target = characteristic;
+            icon = this.Q<VisualElement>("Icon");
 
-        var cs = Reflection.GetClassesWith<LBSCustomEditorAttribute>();
+            foldout = this.Q<Foldout>("Foldout");
+            foldout.RegisterCallback<ChangeEvent<bool>>((e) =>
+            {
+                content.SetDisplay(e.newValue);
+            });
 
-        var relation = cs.Find((t) =>
-        {
-            return t.Item2.ToList()[0].type == characteristic.GetType();
-        });
-
-        LBSCustomEditor editor;
-        if (relation == null)
-        {
-            editor = new LBSNullEditor();
-            this.nameLabel.text = characteristic.GetType().Name;
-            this.icon.style.backgroundImage = null; // TODO: Implement default icon  
-        }
-        else
-        {
-            editor = Activator.CreateInstance(relation.Item1) as LBSCustomEditor;
-            this.nameLabel.text = relation.Item2.ToList()[0].name;
-            this.icon.style.backgroundImage = null;
         }
 
-        editor.SetInfo(characteristic);
+        public void SetContent(LBSCharacteristic characteristic)
+        {
+            target = characteristic;
 
-        this.content.Add(editor);
+            var cs = Reflection.GetClassesWith<LBSCustomEditorAttribute>();
+
+            var relation = cs.Find((t) =>
+            {
+                return t.Item2.ToList()[0].type == characteristic.GetType();
+            });
+
+            LBSCustomEditor editor;
+            if (relation == null)
+            {
+                editor = new LBSNullEditor();
+                nameLabel.text = characteristic.GetType().Name;
+                icon.style.backgroundImage = null; // TODO: Implement default icon  
+            }
+            else
+            {
+                editor = Activator.CreateInstance(relation.Item1) as LBSCustomEditor;
+                nameLabel.text = relation.Item2.ToList()[0].name;
+                icon.style.backgroundImage = null;
+            }
+
+            editor.SetInfo(characteristic);
+
+            content.Add(editor);
+        }
     }
 }

@@ -5,6 +5,7 @@ using ISILab.AI.Optimization;
 using ISILab.AI.Optimization.Selections;
 using ISILab.AI.Optimization.Terminations;
 using ISILab.LBS.Editor;
+using ISILab.LBS.VisualElements;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;

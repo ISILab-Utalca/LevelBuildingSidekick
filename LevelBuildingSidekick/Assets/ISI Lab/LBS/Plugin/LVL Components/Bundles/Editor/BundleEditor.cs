@@ -13,7 +13,7 @@ using ISILab.LBS.Components;
 using UnityEditor.UIElements;
 using LBS.Bundles;
 using System;
-using ISILab.LBS.AI.Categorization;
+using ISILab.LBS.VisualElements;
 
 namespace ISILab.LBS.Bundles.Editor
 {

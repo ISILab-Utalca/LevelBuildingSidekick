@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 using ISILab.Extensions;
 using UnityEngine.UIElements;
 using ISILab.LBS.Behaviours;
+using ISILab.LBS.VisualElements;
 
 namespace ISILab.LBS.Manipulators
 {

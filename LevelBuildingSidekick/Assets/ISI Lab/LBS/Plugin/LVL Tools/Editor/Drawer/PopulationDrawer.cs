@@ -1,11 +1,8 @@
 using ISILab.LBS.Behaviours;
+using ISILab.LBS.VisualElements;
 using ISILab.LBS.VisualElements.Editor;
 using LBS.Settings;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace ISILab.LBS.Drawers
 {

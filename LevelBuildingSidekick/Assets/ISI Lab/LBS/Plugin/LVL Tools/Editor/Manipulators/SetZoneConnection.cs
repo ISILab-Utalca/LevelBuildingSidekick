@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.LBS.Assistants;
+using ISILab.LBS.VisualElements;
 
 namespace ISILab.LBS.Manipulators
 {

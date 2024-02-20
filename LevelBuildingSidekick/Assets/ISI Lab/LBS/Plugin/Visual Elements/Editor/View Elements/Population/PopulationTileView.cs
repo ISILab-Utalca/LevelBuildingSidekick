@@ -8,53 +8,56 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class PopulationTileView : GraphElement
+namespace ISILab.LBS.VisualElements
 {
-    private static VisualTreeAsset view;
-
-    List<VisualElement> arrows = new List<VisualElement>();
-
-    VisualElement icon;
-    VisualElement bg;
-
-    public PopulationTileView(TileBundlePair tile)
+    public class PopulationTileView : GraphElement
     {
-        if (view == null)
+        private static VisualTreeAsset view;
+
+        List<VisualElement> arrows = new List<VisualElement>();
+
+        VisualElement icon;
+        VisualElement bg;
+
+        public PopulationTileView(TileBundlePair tile)
         {
-            PopulationTileView.view = DirectoryTools.SearchAssetByName<VisualTreeAsset>("PopulationTile");
+            if (view == null)
+            {
+                view = DirectoryTools.SearchAssetByName<VisualTreeAsset>("PopulationTile");
+            }
+            view.CloneTree(this);
+
+            arrows.Add(this.Q<VisualElement>(name: "Right"));
+            arrows.Add(this.Q<VisualElement>(name: "Up"));
+            arrows.Add(this.Q<VisualElement>(name: "Left"));
+            arrows.Add(this.Q<VisualElement>(name: "Down"));
+
+            icon = this.Q<VisualElement>(name: "Icon");
+            bg = this.Q<VisualElement>(name: "Background");
+
+            var id = tile.BundleData.Bundle;
+            SetColor(id.Color);
+            SetImage(id.Icon);
+            SetDirection(tile.Rotation);
+
         }
-        PopulationTileView.view.CloneTree(this);
 
-        arrows.Add(this.Q<VisualElement>(name: "Right"));
-        arrows.Add(this.Q<VisualElement>(name: "Up")); 
-        arrows.Add(this.Q<VisualElement>(name: "Left"));
-        arrows.Add(this.Q<VisualElement>(name: "Down")); 
+        public void SetDirection(Vector2 vector)
+        {
+            var dir = Directions.Bidimencional.Edges.Select((d, i) => new { d, i }).OrderBy(o => (vector - o.d).magnitude).First().i;
 
-        icon = this.Q<VisualElement>(name: "Icon");
-        bg = this.Q<VisualElement>(name: "Background");
+            arrows.ForEach(v => v.visible = false);
+            arrows[dir].visible = true;
+        }
 
-        var id = tile.BundleData.Bundle;
-        SetColor(id.Color);
-        SetImage(id.Icon);
-        SetDirection(tile.Rotation);
+        public void SetColor(Color color)
+        {
+            bg.style.backgroundColor = color;
+        }
 
-    }
-
-    public void SetDirection(Vector2 vector)
-    {
-        var dir = Directions.Bidimencional.Edges.Select((d, i) => new { d, i }).OrderBy(o => (vector - o.d).magnitude).First().i;
-
-        arrows.ForEach(v => v.visible = false);
-        arrows[dir].visible = true;
-    }
-
-    public void SetColor(Color color)
-    {
-        bg.style.backgroundColor = color;
-    }
-
-    public void SetImage(Texture2D image)
-    {
-        icon.style.backgroundImage = image;
+        public void SetImage(Texture2D image)
+        {
+            icon.style.backgroundImage = image;
+        }
     }
 }

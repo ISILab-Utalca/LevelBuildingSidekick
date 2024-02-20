@@ -7,12 +7,12 @@ using UnityEngine.UIElements;
 using ISILab.Extensions;
 using ISILab.LBS.Modules;
 
-namespace LBS.VisualElements
+namespace ISILab.LBS.VisualElements
 {
     public class ModulesPanel : VisualElement
     {
         #region FACTORY
-        public new class UxmlFactory : UxmlFactory<ModulesPanel, VisualElement.UxmlTraits> { }
+        public new class UxmlFactory : UxmlFactory<ModulesPanel, UxmlTraits> { }
         #endregion
 
         private Foldout foldout;
@@ -23,13 +23,13 @@ namespace LBS.VisualElements
             var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("ModulesPanel");
             visualTree.CloneTree(this);
 
-            this.foldout = this.Q<Foldout>();
+            foldout = this.Q<Foldout>();
             foldout.RegisterCallback<ChangeEvent<bool>>((evt) =>
             {
                 content.SetDisplay(evt.newValue);
             });
 
-            this.content = this.Q<VisualElement>("Content");
+            content = this.Q<VisualElement>("Content");
         }
 
         /// <summary>

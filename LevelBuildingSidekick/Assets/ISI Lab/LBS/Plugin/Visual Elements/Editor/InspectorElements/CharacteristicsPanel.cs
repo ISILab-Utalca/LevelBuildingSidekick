@@ -11,53 +11,57 @@ using ISILab.Extensions;
 using ISILab.LBS.Characteristics;
 using ISILab.LBS;
 
-public class CharacteristicsPanel : VisualElement
+namespace ISILab.LBS.VisualElements
 {
-    #region FACTORY
-    public new class UxmlFactory : UxmlFactory<CharacteristicsPanel, VisualElement.UxmlTraits> { }
-    #endregion
-
-    private VisualElement content;
-    private ComplexDropdown search;
-    private Foldout foldout;
-
-    private Bundle target;
-
-    public CharacteristicsPanel()
+    public class CharacteristicsPanel : VisualElement
     {
-        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("CharacteristicsPanel");
-        visualTree.CloneTree(this);
+        #region FACTORY
+        public new class UxmlFactory : UxmlFactory<CharacteristicsPanel, UxmlTraits> { }
+        #endregion
 
-        content = this.Q<VisualElement>("Content");
+        private VisualElement content;
+        private ComplexDropdown search;
+        private Foldout foldout;
 
-        foldout = this.Q<Foldout>();
-        foldout.RegisterCallback<ChangeEvent<bool>>(e => {
-            content.SetDisplay(e.newValue);
-        });
+        private Bundle target;
 
-        search = this.Q<ComplexDropdown>();
-        search.Init(typeof(LBSCharacteristicAttribute));
-        search.OnSelected = (e) => 
+        public CharacteristicsPanel()
         {
-            var x = e as LBSCharacteristic;
-            target.AddCharacteristic(x);
-            SetInfo(target);
-            AssetDatabase.SaveAssets();
-        };
-    }
+            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("CharacteristicsPanel");
+            visualTree.CloneTree(this);
 
-    public void SetInfo(Bundle target)
-    {
-        this.target = target;
+            content = this.Q<VisualElement>("Content");
 
-        content.Clear();
-        var characs = target.Characteristics;
+            foldout = this.Q<Foldout>();
+            foldout.RegisterCallback<ChangeEvent<bool>>(e =>
+            {
+                content.SetDisplay(e.newValue);
+            });
 
-        foreach (var characteristic in characs)
+            search = this.Q<ComplexDropdown>();
+            search.Init(typeof(LBSCharacteristicAttribute));
+            search.OnSelected = (e) =>
+            {
+                var x = e as LBSCharacteristic;
+                target.AddCharacteristic(x);
+                SetInfo(target);
+                AssetDatabase.SaveAssets();
+            };
+        }
+
+        public void SetInfo(Bundle target)
         {
-            var view = new CharacteristicsBaseView();
-            view.SetContent(characteristic);
-            content.Add(view);
+            this.target = target;
+
+            content.Clear();
+            var characs = target.Characteristics;
+
+            foreach (var characteristic in characs)
+            {
+                var view = new CharacteristicsBaseView();
+                view.SetContent(characteristic);
+                content.Add(view);
+            }
         }
     }
 }

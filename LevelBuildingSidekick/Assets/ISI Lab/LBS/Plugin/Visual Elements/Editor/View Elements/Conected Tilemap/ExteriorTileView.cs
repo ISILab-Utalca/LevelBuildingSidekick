@@ -10,88 +10,91 @@ using ISILab.Extensions;
 using ISILab.LBS.Internal;
 using ISILab.LBS.Components;
 
-public class ExteriorTileView : GraphElement
+namespace ISILab.LBS.VisualElements
 {
-    // VisualElements
-    private VisualElement left;
-    private VisualElement right;
-    private VisualElement top;
-    private VisualElement bottom;
-    private VisualElement border;
-
-    private static VisualTreeAsset view;
-
-    public ExteriorTileView(List<string> connections)
+    public class ExteriorTileView : GraphElement
     {
-        if (view == null)
+        // VisualElements
+        private VisualElement left;
+        private VisualElement right;
+        private VisualElement top;
+        private VisualElement bottom;
+        private VisualElement border;
+
+        private static VisualTreeAsset view;
+
+        public ExteriorTileView(List<string> connections)
         {
-            ExteriorTileView.view = DirectoryTools.SearchAssetByName<VisualTreeAsset>("ConnectedTile");
-        }
-        ExteriorTileView.view.CloneTree(this);
+            if (view == null)
+            {
+                view = DirectoryTools.SearchAssetByName<VisualTreeAsset>("ConnectedTile");
+            }
+            view.CloneTree(this);
 
-        this.SetMargins(0);
-        this.SetPaddings(0);
-        this.SetBorder(Color.black, 1);
+            this.SetMargins(0);
+            this.SetPaddings(0);
+            this.SetBorder(Color.black, 1);
 
-        // conecctions
-        left = this.Q<VisualElement>("Left");
-        right = this.Q<VisualElement>("Right");
-        top = this.Q<VisualElement>("Top");
-        bottom = this.Q<VisualElement>("Bottom");
-        border = this.Q<VisualElement>("Border");
-
-
-        SetConnections(connections.ToArray());
-    }
-
-    public void SetBackgroundColor(Color color)
-    {
-        border.style.backgroundColor = color;
-    }
+            // conecctions
+            left = this.Q<VisualElement>("Left");
+            right = this.Q<VisualElement>("Right");
+            top = this.Q<VisualElement>("Top");
+            bottom = this.Q<VisualElement>("Bottom");
+            border = this.Q<VisualElement>("Border");
 
 
-    public void SetConnections(string[] tags)
-    {
-        var tts = LBSAssetsStorage.Instance.Get<LBSIdentifier>();
-
-        if (!string.IsNullOrEmpty(tags[0]))
-        {
-            right.style.backgroundColor = tts.Find(t => t.Label.Equals(tags[0])).Color;
-            right.style.display = DisplayStyle.Flex;
-        }
-        else
-        {
-            right.style.display = DisplayStyle.None;
+            SetConnections(connections.ToArray());
         }
 
-        if (!string.IsNullOrEmpty(tags[1]))
+        public void SetBackgroundColor(Color color)
         {
-            top.style.backgroundColor = tts.Find(t => t.Label.Equals(tags[1])).Color;
-            top.style.display = DisplayStyle.Flex;
-        }
-        else
-        {
-            top.style.display = DisplayStyle.None;
+            border.style.backgroundColor = color;
         }
 
-        if (!string.IsNullOrEmpty(tags[2]))
-        {
-            left.style.backgroundColor = tts.Find(t => t.Label.Equals(tags[2])).Color;
-            left.style.display = DisplayStyle.Flex;
-        }
-        else
-        {
-            left.style.display = DisplayStyle.None;
-        }
 
-        if (!string.IsNullOrEmpty(tags[3]))
+        public void SetConnections(string[] tags)
         {
-            bottom.style.backgroundColor = tts.Find(t => t.Label.Equals(tags[3])).Color;
-            bottom.style.display = DisplayStyle.Flex;
-        }
-        else
-        {
-            bottom.style.display = DisplayStyle.None;
+            var tts = LBSAssetsStorage.Instance.Get<LBSIdentifier>();
+
+            if (!string.IsNullOrEmpty(tags[0]))
+            {
+                right.style.backgroundColor = tts.Find(t => t.Label.Equals(tags[0])).Color;
+                right.style.display = DisplayStyle.Flex;
+            }
+            else
+            {
+                right.style.display = DisplayStyle.None;
+            }
+
+            if (!string.IsNullOrEmpty(tags[1]))
+            {
+                top.style.backgroundColor = tts.Find(t => t.Label.Equals(tags[1])).Color;
+                top.style.display = DisplayStyle.Flex;
+            }
+            else
+            {
+                top.style.display = DisplayStyle.None;
+            }
+
+            if (!string.IsNullOrEmpty(tags[2]))
+            {
+                left.style.backgroundColor = tts.Find(t => t.Label.Equals(tags[2])).Color;
+                left.style.display = DisplayStyle.Flex;
+            }
+            else
+            {
+                left.style.display = DisplayStyle.None;
+            }
+
+            if (!string.IsNullOrEmpty(tags[3]))
+            {
+                bottom.style.backgroundColor = tts.Find(t => t.Label.Equals(tags[3])).Color;
+                bottom.style.display = DisplayStyle.Flex;
+            }
+            else
+            {
+                bottom.style.display = DisplayStyle.None;
+            }
         }
     }
 }
