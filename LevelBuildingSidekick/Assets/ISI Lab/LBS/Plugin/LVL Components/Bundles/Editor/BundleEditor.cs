@@ -14,6 +14,7 @@ using UnityEditor.UIElements;
 using LBS.Bundles;
 using System;
 using ISILab.LBS.VisualElements;
+using ISILab.LBS.AI.Categorization;
 
 namespace ISILab.LBS.Bundles.Editor
 {
@@ -68,21 +69,17 @@ namespace ISILab.LBS.Bundles.Editor
             {
                 var cf = ve.Q<DynamicFoldout>();
                 cf.Label = "Characteristic " + index + ":";
-                //Debug.Log("Bind");
                 if (bundle.characteristics[index] != null)
                 {
-                    //Debug.Log(eval.resourceCharactersitic[index]);
                     cf.Data = bundle.characteristics[index];
                 }
                 cf.OnChoiceSelection = () => { bundle.characteristics[index] = cf.Data as LBSCharacteristic; };
-                //cf.OnChoiceSelection += Save;
             }
         }
         public void Save(SerializedObject serializedObject)
         {
             serializedObject.ApplyModifiedProperties();
             var preset = serializedObject.targetObject as MAPElitesPreset;
-            //Debug.Log(EditorUtility.CopySerializedIfDifferent);
             EditorUtility.SetDirty(preset);
         }
 

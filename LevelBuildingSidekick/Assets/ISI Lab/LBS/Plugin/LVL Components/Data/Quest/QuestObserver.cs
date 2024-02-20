@@ -1,3 +1,4 @@
+using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
 using System;
 using System.Collections;
@@ -5,134 +6,137 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-[System.Serializable]
-public class QuestObserver : MonoBehaviour
+namespace ISILab.LBS
 {
-    [SerializeField, HideInInspector]
-    private QuestGraph questGraph;
-
-    [SerializeField, HideInInspector]
-    private List<QuestStep> questTriggers;
-
-    [SerializeField, SerializeReference, HideInInspector]
-    private List<QuestTrigger> activeTriggers = new List<QuestTrigger>();
-
-    public Action<QuestNode, QuestTrigger> OnQuestComplete;
-
-    bool questComplete = false;
-
-    public bool QuestComplete => questComplete;
-
-    private Stack<QuestNode> fulfilledSteps = new Stack<QuestNode>();
-
-    private void Start()
+    [System.Serializable]
+    public class QuestObserver : MonoBehaviour
     {
-    }
+        [SerializeField, HideInInspector]
+        private QuestGraph questGraph;
 
-    private void Update()
-    {
-        if(!questComplete)
+        [SerializeField, HideInInspector]
+        private List<QuestStep> questTriggers;
+
+        [SerializeField, SerializeReference, HideInInspector]
+        private List<QuestTrigger> activeTriggers = new List<QuestTrigger>();
+
+        public Action<QuestNode, QuestTrigger> OnQuestComplete;
+
+        bool questComplete = false;
+
+        public bool QuestComplete => questComplete;
+
+        private Stack<QuestNode> fulfilledSteps = new Stack<QuestNode>();
+
+        private void Start()
         {
-            foreach (var trigger in activeTriggers)
+        }
+
+        private void Update()
+        {
+            if (!questComplete)
             {
-                if (trigger.IsCompleted?.Invoke() == true)
+                foreach (var trigger in activeTriggers)
                 {
-                    Debug.Log("Triggered");
-                    ClearTriggers();
-                    AdvanceQuest(trigger);
-                    break;
+                    if (trigger.IsCompleted?.Invoke() == true)
+                    {
+                        Debug.Log("Triggered");
+                        ClearTriggers();
+                        AdvanceQuest(trigger);
+                        break;
+                    }
                 }
             }
         }
-    }
 
-    private void ClearTriggers()
-    {
-        foreach(var trigger in activeTriggers)
+        private void ClearTriggers()
         {
-            trigger.gameObject.SetActive(false);
+            foreach (var trigger in activeTriggers)
+            {
+                trigger.gameObject.SetActive(false);
+            }
+
+            activeTriggers.Clear();
         }
 
-        activeTriggers.Clear();
-    }
-
-    public void AdvanceQuest(QuestTrigger trigger)
-    {
-        activeTriggers.Clear();
-
-        var t = questTriggers.Find(t => t.Trigger.Equals(trigger));
-        var node = t.Node;
-        fulfilledSteps.Push(node);
-
-        var branches = questGraph.GetBranches(node);
-
-        if (branches.Count == 0)
+        public void AdvanceQuest(QuestTrigger trigger)
         {
-            questComplete = true;
-            OnQuestComplete?.Invoke(node, trigger);
+            activeTriggers.Clear();
+
+            var t = questTriggers.Find(t => t.Trigger.Equals(trigger));
+            var node = t.Node;
+            fulfilledSteps.Push(node);
+
+            var branches = questGraph.GetBranches(node);
+
+            if (branches.Count == 0)
+            {
+                questComplete = true;
+                OnQuestComplete?.Invoke(node, trigger);
+            }
+
+            foreach (var edge in branches)
+            {
+                var newTrigger = questTriggers.Find(t => t.Node == edge.Second).Trigger;
+                newTrigger.gameObject.SetActive(true);
+                activeTriggers.Add(newTrigger);
+            }
         }
 
-        foreach (var edge in branches)
+        public void RegressQuest()
         {
-            var newTrigger = questTriggers.Find(t => t.Node == edge.Second).Trigger;
-            newTrigger.gameObject.SetActive(true);
-            activeTriggers.Add(newTrigger);
+            if (fulfilledSteps.Count == 0)
+                return;
+
+            fulfilledSteps.Pop();
+
+            ClearTriggers();
+
+            if (fulfilledSteps.Count == 0)
+            {
+                StartQuest();
+                return;
+            }
+
+            var step = fulfilledSteps.Peek();
+            var trigger = questTriggers.Find(t => t.Node == step).Trigger;
+            AdvanceQuest(trigger);
         }
-    }
 
-    public void RegressQuest()
-    {
-        if (fulfilledSteps.Count == 0)
-            return;
-
-        fulfilledSteps.Pop();
-
-        ClearTriggers();
-
-        if (fulfilledSteps.Count == 0)
+        public void Init(QuestGraph graph, List<QuestStep> triggers)
         {
+            questGraph = graph;
+            questTriggers = triggers;
             StartQuest();
-            return;
         }
 
-        var step = fulfilledSteps.Peek();
-        var trigger = questTriggers.Find(t => t.Node == step).Trigger;
-        AdvanceQuest(trigger);
+        private void StartQuest()
+        {
+            var branches = questGraph.GetBranches(questGraph.Root);
+
+            var firstNode = branches[0].Second;
+            var trigger = questTriggers.Find(t => t.Node == firstNode).Trigger;
+
+            trigger.gameObject.SetActive(true);
+            activeTriggers.Add(trigger);
+        }
     }
 
-    public void Init(QuestGraph graph, List<QuestStep> triggers)
+    [System.Serializable]
+    public struct QuestStep
     {
-        questGraph = graph;
-        questTriggers = triggers;
-        StartQuest();
-    }
+        [SerializeField, SerializeReference, HideInInspector]
+        QuestNode node;
+        [SerializeField, SerializeReference, HideInInspector]
+        QuestTrigger trigger;
 
-    private void StartQuest()
-    {
-        var branches = questGraph.GetBranches(questGraph.Root);
+        public QuestNode Node => node;
+        public QuestTrigger Trigger => trigger;
 
-        var firstNode = branches[0].Second;
-        var trigger = questTriggers.Find(t => t.Node == firstNode).Trigger;
-
-        trigger.gameObject.SetActive(true);
-        activeTriggers.Add(trigger);
-    }
-}
-
-[System.Serializable]
-public struct QuestStep
-{
-    [SerializeField, SerializeReference, HideInInspector]
-    QuestNode node;
-    [SerializeField, SerializeReference, HideInInspector]
-    QuestTrigger trigger;
-
-    public QuestNode Node => node;
-    public QuestTrigger Trigger => trigger;
-
-    public QuestStep(QuestNode node, QuestTrigger trigger)
-    {
-        this.node = node;
-        this.trigger = trigger;
+        public QuestStep(QuestNode node, QuestTrigger trigger)
+        {
+            this.node = node;
+            this.trigger = trigger;
+        }
     }
 }

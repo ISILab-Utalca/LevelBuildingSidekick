@@ -1,48 +1,50 @@
 using ISILab.LBS.Characteristics;
 using ISILab.LBS.Editor;
-using ISILab.LBS.VisualElements;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-[LBSCustomEditor("Exploration", typeof(Exploration))]
-public class ExplorationVE : LBSCustomEditor
+namespace ISILab.LBS.VisualElements
 {
-    DynamicFoldout colliderCharacteristic;
-
-    public ExplorationVE(object target) : base(target)
+    [LBSCustomEditor("Exploration", typeof(Exploration))]
+    public class ExplorationVE : LBSCustomEditor
     {
-        Add(CreateVisualElement());
-        SetInfo(target);
-    }
+        DynamicFoldout colliderCharacteristic;
 
-    public override void SetInfo(object target)
-    {
-        this.target = target;
-        var eval = target as Exploration;
-        if (eval.colliderCharacteristic != null)
+        public ExplorationVE(object target) : base(target)
         {
-            colliderCharacteristic.SetInfo(eval.colliderCharacteristic);
-        }
-    }
-
-    protected override VisualElement CreateVisualElement()
-    {
-        var ve = new VisualElement();
-        var eval = target as Exploration;
-
-        colliderCharacteristic = new DynamicFoldout(typeof(LBSCharacteristic));
-        colliderCharacteristic.Label = "Collider Characteristic";
-
-        if (eval != null && eval.colliderCharacteristic != null)
-        {
-            colliderCharacteristic.Data = eval.colliderCharacteristic;
+            Add(CreateVisualElement());
+            SetInfo(target);
         }
 
-        colliderCharacteristic.OnChoiceSelection += () => { eval.colliderCharacteristic = colliderCharacteristic.Data as LBSCharacteristic; };
+        public override void SetInfo(object target)
+        {
+            this.target = target;
+            var eval = target as Exploration;
+            if (eval.colliderCharacteristic != null)
+            {
+                colliderCharacteristic.SetInfo(eval.colliderCharacteristic);
+            }
+        }
 
-        ve.Add(colliderCharacteristic);
-        return ve;
+        protected override VisualElement CreateVisualElement()
+        {
+            var ve = new VisualElement();
+            var eval = target as Exploration;
+
+            colliderCharacteristic = new DynamicFoldout(typeof(LBSCharacteristic));
+            colliderCharacteristic.Label = "Collider Characteristic";
+
+            if (eval != null && eval.colliderCharacteristic != null)
+            {
+                colliderCharacteristic.Data = eval.colliderCharacteristic;
+            }
+
+            colliderCharacteristic.OnChoiceSelection += () => { eval.colliderCharacteristic = colliderCharacteristic.Data as LBSCharacteristic; };
+
+            ve.Add(colliderCharacteristic);
+            return ve;
+        }
     }
 }

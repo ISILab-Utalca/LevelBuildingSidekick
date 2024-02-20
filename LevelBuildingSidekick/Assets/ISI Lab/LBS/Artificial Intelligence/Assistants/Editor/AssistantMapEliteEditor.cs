@@ -12,6 +12,7 @@ using ISILab.LBS.Manipulators;
 using ISILab.LBS.Assistants;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Editor;
+using ISILab.LBS.Drawers;
 
 namespace ISILab.LBS.AI.Assistants.Editor
 {

@@ -1,31 +1,30 @@
-using Commons.Optimization.Evaluator;
-using ISILab.AI.Optimization;
 using ISILab.LBS.AI.Categorization;
+using ISILab.LBS.VisualElements;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.UIElements;
-using UnityEngine;
 using UnityEngine.UIElements;
 
-[CustomEditor(typeof(MAPElitesPreset))]
-public class MAPElitesPresetEditor : Editor
+namespace ISILab.LBS.Editor
 {
-    public override VisualElement CreateInspectorGUI()
+    [CustomEditor(typeof(MAPElitesPreset))]
+    public class MAPElitesPresetEditor : UnityEditor.Editor
     {
-        //return base.CreateInspectorGUI();
-        var root = new MAPElitesPresetVE(target);
+        public override VisualElement CreateInspectorGUI()
+        {
+            var root = new MAPElitesPresetVE(target);
 
-        root.TrackSerializedObjectValue(serializedObject, Save);
+            root.TrackSerializedObjectValue(serializedObject, Save);
 
-        return root;
-    }
+            return root;
+        }
 
-    public void Save(SerializedObject serializedObject)
-    {
-        serializedObject.ApplyModifiedProperties();
-        var preset = serializedObject.targetObject as MAPElitesPreset;
-        //Debug.Log(EditorUtility.CopySerializedIfDifferent);
-        EditorUtility.SetDirty(preset);
+        public void Save(SerializedObject serializedObject)
+        {
+            serializedObject.ApplyModifiedProperties();
+            var preset = serializedObject.targetObject as MAPElitesPreset;
+            EditorUtility.SetDirty(preset);
+        }
     }
 }

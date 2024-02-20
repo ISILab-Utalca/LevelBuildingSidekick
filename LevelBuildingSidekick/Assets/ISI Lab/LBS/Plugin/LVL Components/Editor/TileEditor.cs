@@ -6,31 +6,34 @@ using UnityEngine.UIElements;
 using LBS.Components.TileMap;
 using ISILab.LBS.Editor;
 
-[LBSCustomEditor("Tile", typeof(LBSTile))]
-public class TileEditor : LBSCustomEditor
+namespace ISILab.LBS.VisualElements
 {
-    private Vector2Field field;
-
-    public TileEditor()
+    [LBSCustomEditor("Tile", typeof(LBSTile))]
+    public class TileEditor : LBSCustomEditor
     {
-        CreateVisualElement();
-    }
+        private Vector2Field field;
 
-    public override void SetInfo(object target)
-    {
-        this.target = target;
-        var t = target as LBSTile;
+        public TileEditor()
+        {
+            CreateVisualElement();
+        }
 
-        field.value = t.Position;
-    }
+        public override void SetInfo(object target)
+        {
+            this.target = target;
+            var t = target as LBSTile;
 
-    protected override VisualElement CreateVisualElement()
-    {
-        field = new Vector2Field("Position");
-        field.SetEnabled(false);
-        this.Add(field);
-        this.style.flexGrow = 1;
+            field.value = t.Position;
+        }
 
-        return this;
+        protected override VisualElement CreateVisualElement()
+        {
+            field = new Vector2Field("Position");
+            field.SetEnabled(false);
+            Add(field);
+            style.flexGrow = 1;
+
+            return this;
+        }
     }
 }
