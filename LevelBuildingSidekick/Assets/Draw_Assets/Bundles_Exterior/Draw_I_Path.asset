@@ -19,15 +19,15 @@ MonoBehaviour:
   childsBundles: []
   assets:
   - obj: {fileID: 8762447809779192002, guid: f5816315784d019499f7054633641e1d, type: 3}
-    probability: 0.687
+    probability: 0.05
   - obj: {fileID: 3932273227017046637, guid: ec464bdaf1cf58a4fb3f0f24e630bc5d, type: 3}
-    probability: 0.687
+    probability: 0.403
   - obj: {fileID: 1924427875594947383, guid: 3c72a5a0ac6697c4ca39a3ffb7f3adca, type: 3}
-    probability: 0.687
+    probability: 0.229
   - obj: {fileID: 4316767383107087537, guid: 052e0a3875d97434abd2672169dec04b, type: 3}
-    probability: 0.687
+    probability: 0.578
   - obj: {fileID: 5495854422311650968, guid: db17f36577fa1a745a088128ffd909f4, type: 3}
-    probability: 0.687
+    probability: 0.82
   characteristics:
   - rid: 5085006314459627530
   positioning: 0

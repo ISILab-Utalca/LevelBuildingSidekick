@@ -50,8 +50,6 @@ namespace ISILab.LBS.Bundles.Editor
 
             root.Insert(root.childCount - 1, characteristics);
 
-            root.TrackSerializedObjectValue(serializedObject, Save);
-
             return root;
         }
 
@@ -76,12 +74,19 @@ namespace ISILab.LBS.Bundles.Editor
                 cf.OnChoiceSelection = () => { bundle.characteristics[index] = cf.Data as LBSCharacteristic; };
             }
         }
-        public void Save(SerializedObject serializedObject)
+        public void Save()
         {
-            serializedObject.ApplyModifiedProperties();
-            var preset = serializedObject.targetObject as MAPElitesPreset;
-            EditorUtility.SetDirty(preset);
+            EditorUtility.SetDirty(target);
         }
 
+        private void OnDisable()
+        {
+            EditorUtility.SetDirty(target);
+        }
+
+        private void OnDestroy()
+        {
+            EditorUtility.SetDirty(target);
+        }
     }
 }
