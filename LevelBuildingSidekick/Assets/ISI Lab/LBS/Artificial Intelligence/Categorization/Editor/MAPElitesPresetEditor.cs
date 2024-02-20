@@ -16,16 +16,22 @@ public class MAPElitesPresetEditor : Editor
         //return base.CreateInspectorGUI();
         var root = new MAPElitesPresetVE(target);
 
-        root.TrackSerializedObjectValue(serializedObject, Save);
 
         return root;
     }
 
-    public void Save(SerializedObject serializedObject)
+    public void Save()
     {
-        serializedObject.ApplyModifiedProperties();
-        var preset = serializedObject.targetObject as MAPElitesPreset;
-        //Debug.Log(EditorUtility.CopySerializedIfDifferent);
-        EditorUtility.SetDirty(preset);
+        EditorUtility.SetDirty(target);
+    }
+
+    private void OnDestroy()
+    {
+        Save();
+    }
+
+    private void OnDisable()
+    {
+        Save();
     }
 }
