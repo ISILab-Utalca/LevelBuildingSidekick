@@ -78,22 +78,13 @@ namespace ISILab.LBS.VisualElements
 
         public void ApplyChoice(ChangeEvent<string> e)
         {
-            /*
-            var type = Reflection.GetType(e.newValue);
-
-            if (type == null)
-            {
-                return;
-                throw new Exception("[ISI Lab] Class type not found");
-            }*/
-
             data = dropdown.GetChoiceInstance();
 
             if (data == null)
                 return;
 
-            UpdateView(data.GetType(), data);
             OnChoiceSelection?.Invoke();
+            UpdateView(data.GetType(), data);
         }
     }
 }

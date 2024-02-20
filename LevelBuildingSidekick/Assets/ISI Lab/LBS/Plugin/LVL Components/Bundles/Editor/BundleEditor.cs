@@ -71,7 +71,12 @@ namespace ISILab.LBS.Bundles.Editor
                 {
                     cf.Data = bundle.characteristics[index];
                 }
-                cf.OnChoiceSelection = () => { bundle.characteristics[index] = cf.Data as LBSCharacteristic; };
+
+                cf.OnChoiceSelection = () =>
+                {
+                    bundle.characteristics[index] = cf.Data as LBSCharacteristic;
+                    (cf.Data as LBSCharacteristic).Init(bundle);
+                };
             }
         }
         public void Save()
