@@ -5,26 +5,28 @@ using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-//[LBSCustomEditor("ExhaustiveRemoveGene", typeof(ExhaustiveRemoveGene))]
-public class ExhaustiveRemoveGeneVE : LBSCustomEditor
+namespace ISILab.LBS.VisualElements
 {
-
-    public ExhaustiveRemoveGeneVE(object target) : base(target)
+    public class ExhaustiveRemoveGeneVE : LBSCustomEditor
     {
-        Add(CreateVisualElement());
-        SetInfo(target);
-    }
 
-    public override void SetInfo(object target)
-    {
-        this.target = target;
-        var mut = target as ExhaustiveRemoveGene;
-    }
+        public ExhaustiveRemoveGeneVE(object target) : base(target)
+        {
+            Add(CreateVisualElement());
+            SetInfo(target);
+        }
 
-    protected override VisualElement CreateVisualElement()
-    {
-        this.Add(new Label("Exhaustive Remove Gene"));
-        return this;
-    }
+        public override void SetInfo(object target)
+        {
+            this.target = target;
+            var mut = target as ExhaustiveRemoveGene;
+        }
 
+        protected override VisualElement CreateVisualElement()
+        {
+            Add(new Label("Exhaustive Remove Gene"));
+            return this;
+        }
+
+    }
 }

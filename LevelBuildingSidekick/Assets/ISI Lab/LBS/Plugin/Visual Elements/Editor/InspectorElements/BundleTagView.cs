@@ -6,72 +6,75 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class BundleTagView : VisualElement
+namespace ISILab.LBS.VisualElements
 {
-    public LBSIdentifierBundle target;
-
-    // VisualElements
-    private TextField bundleNameField;
-    private VisualElement content;
-    private TextField addField;
-    private Button addButton;
-    private List<TagView> tagViews = new List<TagView>();
-
-    public BundleTagView(LBSIdentifierBundle bundle)
+    public class BundleTagView : VisualElement
     {
-        this.target = bundle;
+        public LBSIdentifierBundle target;
 
-        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("BundleTagView");
-        visualTree.CloneTree(this);
+        // VisualElements
+        private TextField bundleNameField;
+        private VisualElement content;
+        private TextField addField;
+        private Button addButton;
+        private List<TagView> tagViews = new List<TagView>();
 
-        // BundleNameField
-        bundleNameField = this.Q<TextField>("BundleNameField");
-        bundleNameField.RegisterCallback<ChangeEvent<string>>(e => OnTextChange(e.newValue));
-
-        // Content
-        content = this.Q<VisualElement>("Content");
-        var tags = bundle.Tags;
-        foreach (var tag in tags)
+        public BundleTagView(LBSIdentifierBundle bundle)
         {
-            var v = new TagView();
-            tagViews.Add(v);
-            content.Add(v);
+            target = bundle;
+
+            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("BundleTagView");
+            visualTree.CloneTree(this);
+
+            // BundleNameField
+            bundleNameField = this.Q<TextField>("BundleNameField");
+            bundleNameField.RegisterCallback<ChangeEvent<string>>(e => OnTextChange(e.newValue));
+
+            // Content
+            content = this.Q<VisualElement>("Content");
+            var tags = bundle.Tags;
+            foreach (var tag in tags)
+            {
+                var v = new TagView();
+                tagViews.Add(v);
+                content.Add(v);
+            }
+
+            // AddField
+            addField = this.Q<TextField>("NewField");
+
+            // AddTagButton
+            addButton = this.Q<Button>("AddButton");
+            addButton.clicked += () =>
+            {
+                var v = addField.text;
+                if (v == null || v == "")
+                    return;
+
+                AddTag(v);
+            };
+
         }
 
-        // AddField
-        addField = this.Q<TextField>("NewField");
-
-        // AddTagButton
-        addButton = this.Q<Button>("AddButton");
-        addButton.clicked += () =>
+        private void OnTextChange(string value)
         {
-            var v = addField.text;
-            if (v == null || v == "")
-                return;
+            target.name = value;
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
 
-            AddTag(v);
-        }; 
+        private void AddTag(string name)
+        {
+            var so = ScriptableObject.CreateInstance<LBSIdentifier>();
+            so.Label = name;
+            target.Add(so);
 
-    }
-
-    private void OnTextChange(string value)
-    {
-        target.name = value;
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
-    }
-
-    private void AddTag(string name)
-    {
-        var so = ScriptableObject.CreateInstance<LBSIdentifier>();
-        so.Label = name;
-        target.Add(so);
-
-        string path = "Assets/" + name + "_Tag" + ".asset";
-        AssetDatabase.CreateAsset(so, path);
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
-        EditorUtility.FocusProjectWindow();
-        Selection.activeObject = so;
+            string path = "Assets/" + name + "_Tag" + ".asset";
+            AssetDatabase.CreateAsset(so, path);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+            EditorUtility.FocusProjectWindow();
+            Selection.activeObject = so;
+        }
     }
 }

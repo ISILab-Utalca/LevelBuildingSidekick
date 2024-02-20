@@ -5,32 +5,35 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
 
-public class DataContent : VisualElement
+namespace ISILab.LBS.VisualElements
 {
-    private Label label;
-    private Foldout foldout;
-    private VisualElement content;
-
-    public DataContent(VisualElement content, string name)
+    public class DataContent : VisualElement
     {
-        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("DataContent");
-        visualTree.CloneTree(this);
+        private Label label;
+        private Foldout foldout;
+        private VisualElement content;
 
-        // Foldout
-        this.foldout = this.Q<Foldout>();
-        foldout.RegisterCallback<ChangeEvent<bool>>(OnFoldoutPressed);
+        public DataContent(VisualElement content, string name)
+        {
+            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("DataContent");
+            visualTree.CloneTree(this);
 
-        // Label
-        this.label = this.Q<Label>();
-        label.text = name;
+            // Foldout
+            foldout = this.Q<Foldout>();
+            foldout.RegisterCallback<ChangeEvent<bool>>(OnFoldoutPressed);
 
-        // Content
-        this.content = this.Q<VisualElement>("Content");
-        this.content.Add(content);
-    }
+            // Label
+            label = this.Q<Label>();
+            label.text = name;
 
-    private void OnFoldoutPressed(ChangeEvent<bool> evt)
-    {
-        content.SetDisplay(evt.newValue);
+            // Content
+            this.content = this.Q<VisualElement>("Content");
+            this.content.Add(content);
+        }
+
+        private void OnFoldoutPressed(ChangeEvent<bool> evt)
+        {
+            content.SetDisplay(evt.newValue);
+        }
     }
 }

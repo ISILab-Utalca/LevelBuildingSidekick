@@ -1,5 +1,6 @@
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.AI.Categorization;
+using ISILab.LBS.VisualElements;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -9,7 +10,6 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.AI.Categorization.Editor
 {
-
     public class MapElitePresetEditorWindow : EditorWindow
     {
         MAPElitesPreset mapElitesPresset;

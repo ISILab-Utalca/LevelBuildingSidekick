@@ -1,44 +1,45 @@
-using ISILab.LBS;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-
-[CustomPropertyDrawer(typeof(ScriptableObjectReferenceAttribute))]
-public class StSDrawer : PropertyDrawer
+namespace ISILab.LBS
 {
-    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+    [CustomPropertyDrawer(typeof(ScriptableObjectReferenceAttribute))]
+    public class StSDrawer : PropertyDrawer
     {
-        var att = attribute as ScriptableObjectReferenceAttribute;
-        if (att == null)
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            GUILayout.Label("[Error StS Atribute]");
-            return;
-        }
+            var att = attribute as ScriptableObjectReferenceAttribute;
+            if (att == null)
+            {
+                GUILayout.Label("[Error StS Atribute]");
+                return;
+            }
 
-        var list = att.SOs.Select(so => so.name).ToList();
-        var v = property.stringValue;
+            var list = att.SOs.Select(so => so.name).ToList();
+            var v = property.stringValue;
 
-        var n = 0;
-        
-        if (v != default(string))
-            n = list.IndexOf(v);
+            var n = 0;
 
-        EditorGUI.BeginProperty(position, label, property);
+            if (v != default)
+                n = list.IndexOf(v);
 
-        var t = EditorGUI.Popup(position, att.type.Name, n, list.ToArray());
+            EditorGUI.BeginProperty(position, label, property);
 
-        EditorGUI.EndProperty();
+            var t = EditorGUI.Popup(position, att.type.Name, n, list.ToArray());
 
-        if (t < list.Count && t >= 0)
-        {
-            property.stringValue = list[t];
-        }
-        else
-        {
-            property.stringValue = list[0];
+            EditorGUI.EndProperty();
+
+            if (t < list.Count && t >= 0)
+            {
+                property.stringValue = list[t];
+            }
+            else
+            {
+                property.stringValue = list[0];
+            }
         }
     }
 }

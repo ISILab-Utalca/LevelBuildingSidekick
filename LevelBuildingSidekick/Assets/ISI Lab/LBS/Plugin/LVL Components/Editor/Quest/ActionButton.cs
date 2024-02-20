@@ -5,23 +5,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class ActionButton : VisualElement
+namespace ISILab.LBS.VisualElements
 {
-    Label text;
-    Button button;
-
-    public ActionButton()
+    public class ActionButton : VisualElement
     {
-        var visualtree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("ActionButton");
-        visualtree.CloneTree(this);
+        Label text;
+        Button button;
 
-        text = this.Q<Label>(name: "Action");
-        button = this.Q<Button>(name: "Button");
-    }
+        public ActionButton()
+        {
+            var visualtree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("ActionButton");
+            visualtree.CloneTree(this);
 
-    public ActionButton(string text, Action action) : this()
-    {
-        this.text.text = text;
-        button.clicked += action;
+            text = this.Q<Label>(name: "Action");
+            button = this.Q<Button>(name: "Button");
+        }
+
+        public ActionButton(string text, Action action) : this()
+        {
+            this.text.text = text;
+            button.clicked += action;
+        }
     }
 }

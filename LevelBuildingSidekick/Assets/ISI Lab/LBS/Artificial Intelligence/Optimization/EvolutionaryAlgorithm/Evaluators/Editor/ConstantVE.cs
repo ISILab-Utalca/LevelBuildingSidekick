@@ -5,18 +5,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class ConstantVE : EvaluatorVE
+namespace ISILab.LBS.VisualElements
 {
-    public FloatField field;
-    public ConstantVE(IEvaluator evaluator) : base(evaluator)
+    public class ConstantVE : EvaluatorVE
     {
-        field = new FloatField("Value");
-        field.value = (evaluator as ConstantE).val;
-        field.RegisterValueChangedCallback((evt) => (evaluator as ConstantE).val = evt.newValue);
-        this.Add(field);
-    }
+        public FloatField field;
+        public ConstantVE(IEvaluator evaluator) : base(evaluator)
+        {
+            field = new FloatField("Value");
+            field.value = (evaluator as ConstantE).val;
+            field.RegisterValueChangedCallback((evt) => (evaluator as ConstantE).val = evt.newValue);
+            Add(field);
+        }
 
-    public override void Init()
-    {
+        public override void Init()
+        {
+        }
     }
 }

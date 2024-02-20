@@ -12,70 +12,73 @@ using ISILab.Extensions;
 using ISILab.LBS.AI.VisualElements;
 using ISILab.LBS.Internal;
 
-[CustomVisualElement(typeof(MinimizeDistance))]
-public class MinimizeDistanceVE : EvaluatorVE
+namespace ISILab.LBS.VisualElements
 {
-    DropdownField dropdown;
-    ListView listView;
-
-    public MinimizeDistanceVE(IEvaluator evaluator) : base(evaluator)
+    [CustomVisualElement(typeof(MinimizeDistance))]
+    public class MinimizeDistanceVE : EvaluatorVE
     {
+        DropdownField dropdown;
+        ListView listView;
 
-        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("DistanceVE");
-        visualTree.CloneTree(this);
-
-        dropdown = this.Q<DropdownField>(name: "Dropdown");
-        dropdown.choices = Enum.GetNames(typeof(DistanceType)).ToList();
-        dropdown.RegisterValueChangedCallback(UpdateValue);
-
-        listView = this.Q<ListView>(name: "ListView");
-
-        listView.fixedItemHeight = 20;
-        listView.itemsSource = (evaluator as MinimizeDistance).whiteList;
-        listView.makeItem = MakeItem;
-
-        listView.bindItem += (item, index) =>
+        public MinimizeDistanceVE(IEvaluator evaluator) : base(evaluator)
         {
-            var view = (item as ObjectField);
-            view.label = "Element " + index;
-            view.RegisterValueChangedCallback(
-                (e) => 
-                {
-                    (evaluator as MinimizeDistance).whiteList[index] = e.newValue;
-                });
-            var data = (evaluator as MinimizeDistance).whiteList;
-            view.value = data[index];
-        };
-    }
 
-    public void UpdateValue(ChangeEvent<string> e)
-    {
-        var val = e.newValue;
+            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("DistanceVE");
+            visualTree.CloneTree(this);
 
-        if(Enum.TryParse(typeof(DistanceType), val, out object result))
-        {
-            (evaluator as MinimizeDistance).distType = (DistanceType)result;
+            dropdown = this.Q<DropdownField>(name: "Dropdown");
+            dropdown.choices = Enum.GetNames(typeof(DistanceType)).ToList();
+            dropdown.RegisterValueChangedCallback(UpdateValue);
+
+            listView = this.Q<ListView>(name: "ListView");
+
+            listView.fixedItemHeight = 20;
+            listView.itemsSource = (evaluator as MinimizeDistance).whiteList;
+            listView.makeItem = MakeItem;
+
+            listView.bindItem += (item, index) =>
+            {
+                var view = item as ObjectField;
+                view.label = "Element " + index;
+                view.RegisterValueChangedCallback(
+                    (e) =>
+                    {
+                        (evaluator as MinimizeDistance).whiteList[index] = e.newValue;
+                    });
+                var data = (evaluator as MinimizeDistance).whiteList;
+                view.value = data[index];
+            };
         }
-    }
 
-    public VisualElement MakeItem()
-    {
-        var obj = new ObjectField("Element " + (evaluator as MinimizeDistance).whiteList.Count);
-        obj.objectType = typeof(Bundle);
-        return obj;
-    }
+        public void UpdateValue(ChangeEvent<string> e)
+        {
+            var val = e.newValue;
 
-    public void OnItemChosen(IEnumerable<object> objs)
-    {
-        Debug.Log("OIC");
-    }
+            if (Enum.TryParse(typeof(DistanceType), val, out object result))
+            {
+                (evaluator as MinimizeDistance).distType = (DistanceType)result;
+            }
+        }
 
-    public void OnSelectionChange(IEnumerable<object> objs)
-    {
-        var selected = objs.ToList()[0] as UnityEngine.Object;
-    }
+        public VisualElement MakeItem()
+        {
+            var obj = new ObjectField("Element " + (evaluator as MinimizeDistance).whiteList.Count);
+            obj.objectType = typeof(Bundle);
+            return obj;
+        }
 
-    public override void Init()
-    {
+        public void OnItemChosen(IEnumerable<object> objs)
+        {
+            Debug.Log("OIC");
+        }
+
+        public void OnSelectionChange(IEnumerable<object> objs)
+        {
+            var selected = objs.ToList()[0] as UnityEngine.Object;
+        }
+
+        public override void Init()
+        {
+        }
     }
 }

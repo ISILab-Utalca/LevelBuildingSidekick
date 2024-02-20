@@ -1,12 +1,10 @@
 using ISILab.Commons.Attributes;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 namespace ISILab.LBS.Components
 {
-
     [CreateAssetMenu(fileName = "NewID", menuName = "ISILab/LBS/Identifier")]
     [System.Serializable]
     public class LBSIdentifier : ScriptableObject

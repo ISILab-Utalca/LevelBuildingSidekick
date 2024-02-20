@@ -6,53 +6,57 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class QuestView : VisualElement
+namespace ISILab.LBS.VisualElements
 {
-    private LBSLayer layer;
-    private TextField questName;
-    private VisualElement questIcon;
-    private Button showButton;
-    private Button hideButton;
-
-    public event Action OnVisibilityChange;
-
-    public QuestView() 
+    public class QuestView : VisualElement
     {
-        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("LayerView"); 
-        visualTree.CloneTree(this);
+        private LBSLayer layer;
+        private TextField questName;
+        private VisualElement questIcon;
+        private Button showButton;
+        private Button hideButton;
 
-        // LayerName
-        this.questName = this.Q<TextField>("Name");
-        this.questName.RegisterCallback<ChangeEvent<string>>(e => {
-            this.layer.Name = e.newValue;
-        });
+        public event Action OnVisibilityChange;
 
-        // LayerIcon
-        this.questIcon = this.Q<VisualElement>("Icon");
+        public QuestView()
+        {
+            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("LayerView");
+            visualTree.CloneTree(this);
 
-        questIcon.style.backgroundImage = DirectoryTools.SearchAssetByName<Texture2D>("IconQuestMainWindw");
+            // LayerName
+            questName = this.Q<TextField>("Name");
+            questName.RegisterCallback<ChangeEvent<string>>(e =>
+            {
+                layer.Name = e.newValue;
+            });
 
-        // Show/Hide button
-        this.showButton = this.Q<Button>("ShowButton");
-        this.showButton.clicked += () => { ShowQuest(true); };
-        this.hideButton = this.Q<Button>("HideButton");
-        this.hideButton.clicked += () => ShowQuest(false);
-    }
+            // LayerIcon
+            questIcon = this.Q<VisualElement>("Icon");
 
-    public void SetInfo(LBSLayer layer)
-    {
-        this.layer = layer;
-        questName.value = layer.Name;
+            questIcon.style.backgroundImage = DirectoryTools.SearchAssetByName<Texture2D>("IconQuestMainWindw");
 
-        ShowQuest(layer.IsVisible);
-    }
+            // Show/Hide button
+            showButton = this.Q<Button>("ShowButton");
+            showButton.clicked += () => { ShowQuest(true); };
+            hideButton = this.Q<Button>("HideButton");
+            hideButton.clicked += () => ShowQuest(false);
+        }
 
-    private void ShowQuest(bool value)
-    {
-        showButton.style.display = (!value) ? DisplayStyle.Flex : DisplayStyle.None;
-        hideButton.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
+        public void SetInfo(LBSLayer layer)
+        {
+            this.layer = layer;
+            questName.value = layer.Name;
 
-        layer.IsVisible = value;
-        OnVisibilityChange?.Invoke();
+            ShowQuest(layer.IsVisible);
+        }
+
+        private void ShowQuest(bool value)
+        {
+            showButton.style.display = !value ? DisplayStyle.Flex : DisplayStyle.None;
+            hideButton.style.display = value ? DisplayStyle.Flex : DisplayStyle.None;
+
+            layer.IsVisible = value;
+            OnVisibilityChange?.Invoke();
+        }
     }
 }

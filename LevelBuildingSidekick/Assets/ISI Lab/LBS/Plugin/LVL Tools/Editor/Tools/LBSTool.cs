@@ -1,4 +1,5 @@
 using ISILab.LBS.Manipulators;
+using ISILab.LBS.VisualElements;
 using ISILab.LBS.VisualElements.Editor;
 using LBS.Components;
 using System;

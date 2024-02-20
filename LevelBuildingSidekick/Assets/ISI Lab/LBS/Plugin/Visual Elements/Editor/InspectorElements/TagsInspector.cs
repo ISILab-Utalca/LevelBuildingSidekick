@@ -6,54 +6,58 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class TagsInspector : VisualElement
+namespace ISILab.LBS.VisualElements
 {
-    public new class UxmlFactory : UxmlFactory<TagsInspector, VisualElement.UxmlTraits> { }
-
-    private List<BundleTagView> bundleViews = new List<BundleTagView>();
-
-    public TagsInspector()
+    public class TagsInspector : VisualElement
     {
-        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("BundleTagView");
-        visualTree.CloneTree(this);
+        public new class UxmlFactory : UxmlFactory<TagsInspector, UxmlTraits> { }
 
-        // Init tags bundle
-        var bundles = DirectoryTools.GetScriptablesByType<LBSIdentifierBundle>().ToList();
+        private List<BundleTagView> bundleViews = new List<BundleTagView>();
 
-        // Content
-        var content = this.Q<VisualElement>("Content");
-        foreach (var bundle in bundles)
+        public TagsInspector()
         {
-            var v = new BundleTagView(bundle);
-            bundleViews.Add(v);
-            content.Add(v);
+            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("BundleTagView");
+            visualTree.CloneTree(this);
+
+            // Init tags bundle
+            var bundles = DirectoryTools.GetScriptablesByType<LBSIdentifierBundle>().ToList();
+
+            // Content
+            var content = this.Q<VisualElement>("Content");
+            foreach (var bundle in bundles)
+            {
+                var v = new BundleTagView(bundle);
+                bundleViews.Add(v);
+                content.Add(v);
+            }
+
+            // AddField
+            var addField = this.Q<TextField>("NewField");
+
+            // AddTagButton
+            var addButton = this.Q<Button>("AddButton");
+            addButton.clicked += () =>
+            {
+                var v = addField.text;
+                if (v == null || v == "")
+                    return;
+
+                AddBundle(v);
+            };
+
+
         }
 
-        // AddField
-        var addField = this.Q<TextField>("NewField");
-        
-        // AddTagButton
-        var addButton = this.Q<Button>("AddButton");
-        addButton.clicked += () => {
-            var v = addField.text;
-            if (v == null || v == "")
-                return;
+        private void AddBundle(string name)
+        {
+            var so = ScriptableObject.CreateInstance<LBSIdentifierBundle>();
 
-            AddBundle(v);
-        };
-
-
-    }
-
-    private void AddBundle(string name)
-    {
-        var so = ScriptableObject.CreateInstance<LBSIdentifierBundle>();
-
-        string path = "Assets/" + name + "_Tag" + ".asset";
-        AssetDatabase.CreateAsset(so, path);
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
-        EditorUtility.FocusProjectWindow();
-        Selection.activeObject = so;
+            string path = "Assets/" + name + "_Tag" + ".asset";
+            AssetDatabase.CreateAsset(so, path);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+            EditorUtility.FocusProjectWindow();
+            Selection.activeObject = so;
+        }
     }
 }
