@@ -2,25 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MyQuestChecker : MonoBehaviour
+namespace ISILab.LBS
 {
-    QuestTrigger quest;
-
-    public KeyCode key;
-
-    // Start is called before the first frame update
-    void Start()
+    public class MyQuestChecker : MonoBehaviour
     {
-        quest = GetComponent<QuestTrigger>();
-        quest.IsCompleted = QuestComplete;
-    }
+        QuestTrigger quest;
 
-    public bool QuestComplete()
-    {
-        if (Input.GetKeyDown(key))
+        public KeyCode key;
+
+        // Start is called before the first frame update
+        void Start()
         {
-            return true;
+            quest = GetComponent<QuestTrigger>();
+            quest.IsCompleted = QuestComplete;
         }
-        return false;
+
+        public bool QuestComplete()
+        {
+            if (Input.GetKeyDown(key))
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

@@ -5,34 +5,37 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-[LBSCustomEditor("GenerationNumberTermination", typeof(GenerationNumberTermination))]
-public class GenerationTerminationVE : LBSCustomEditor
+namespace ISILab.LBS.VisualElements
 {
-    IntegerField generations;
-
-    public GenerationTerminationVE(object target) : base(target)
+    [LBSCustomEditor("GenerationNumberTermination", typeof(GenerationNumberTermination))]
+    public class GenerationTerminationVE : LBSCustomEditor
     {
-        Add(CreateVisualElement());
-        SetInfo(target);
-    }
+        IntegerField generations;
 
-    public override void SetInfo(object target)
-    {
-        this.target = target;
-        var term = target as GenerationNumberTermination;
-        generations.value = term.ExpectedGenerationNumber;
-    }
+        public GenerationTerminationVE(object target) : base(target)
+        {
+            Add(CreateVisualElement());
+            SetInfo(target);
+        }
 
-    protected override VisualElement CreateVisualElement()
-    {
-        var term = target as GenerationNumberTermination;
-        var ve = new VisualElement();
+        public override void SetInfo(object target)
+        {
+            this.target = target;
+            var term = target as GenerationNumberTermination;
+            generations.value = term.ExpectedGenerationNumber;
+        }
 
-        generations = new IntegerField();
-        generations.label = "Generations Number";
+        protected override VisualElement CreateVisualElement()
+        {
+            var term = target as GenerationNumberTermination;
+            var ve = new VisualElement();
 
-        ve.Add(generations);
+            generations = new IntegerField();
+            generations.label = "Generations Number";
 
-        return ve;
+            ve.Add(generations);
+
+            return ve;
+        }
     }
 }

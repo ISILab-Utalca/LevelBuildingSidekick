@@ -6,29 +6,32 @@ using UnityEngine.UIElements;
 using ISILab.LBS.Characteristics;
 using ISILab.LBS.Editor;
 
-[LBSCustomEditorAttribute("Weigths", typeof(LBSDirection))]
-public class LBSDirectionEditor : LBSCustomEditor
+namespace ISILab.LBS.VisualElements
 {
-    public LBSDirectionEditor()
+    [LBSCustomEditor("Weigths", typeof(LBSDirection))]
+    public class LBSDirectionEditor : LBSCustomEditor
     {
+        public LBSDirectionEditor()
+        {
 
-    }
+        }
 
-    public LBSDirectionEditor(object target) : base(target)
-    {
-        SetInfo(target);
-    }
+        public LBSDirectionEditor(object target) : base(target)
+        {
+            SetInfo(target);
+        }
 
-    public override void SetInfo(object obj)
-    {
-        var target = obj as LBSDirection;
+        public override void SetInfo(object obj)
+        {
+            var target = obj as LBSDirection;
 
-        if (target == null)
-            return;
-    }
+            if (target == null)
+                return;
+        }
 
-    protected override VisualElement CreateVisualElement()
-    {
-        throw new System.NotImplementedException();
+        protected override VisualElement CreateVisualElement()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

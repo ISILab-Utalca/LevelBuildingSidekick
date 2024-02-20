@@ -9,22 +9,25 @@ using LBS.Bundles;
 using ISILab.LBS.AI.VisualElements;
 using ISILab.LBS.Internal;
 
-[CustomVisualElement(typeof(SamplePresence))]
-public class SamplePresenceVE : EvaluatorVE
+namespace ISILab.LBS.VisualElements
 {
-    ObjectField objectField;
-
-
-    public SamplePresenceVE(IEvaluator evaluator) : base(evaluator)
+    [CustomVisualElement(typeof(SamplePresence))]
+    public class SamplePresenceVE : EvaluatorVE
     {
-        objectField = new ObjectField("Sample");
-        objectField.objectType = typeof(Bundle);
-        objectField.RegisterValueChangedCallback(e => (evaluator as SamplePresence).Sample = e.newValue);
-        Add(objectField);
+        ObjectField objectField;
 
-    }
 
-    public override void Init()
-    {
+        public SamplePresenceVE(IEvaluator evaluator) : base(evaluator)
+        {
+            objectField = new ObjectField("Sample");
+            objectField.objectType = typeof(Bundle);
+            objectField.RegisterValueChangedCallback(e => (evaluator as SamplePresence).Sample = e.newValue);
+            Add(objectField);
+
+        }
+
+        public override void Init()
+        {
+        }
     }
 }

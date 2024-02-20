@@ -6,15 +6,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-[CreateAssetMenu(menuName = "ISILab/LBS/Layer Template")]
-public class LayerTemplate : ScriptableObject
+namespace ISILab.LBS.Template
 {
-    [JsonRequired, SerializeField]
-    public LBSLayer layer;
-
-    public void Clear()
+    [Serializable]
+    [CreateAssetMenu(menuName = "ISILab/LBS/Layer Template")]
+    public class LayerTemplate : ScriptableObject
     {
-        this.layer = new LBSLayer();
+        [JsonRequired, SerializeField]
+        public LBSLayer layer;
+
+        public void Clear()
+        {
+            layer = new LBSLayer();
+        }
     }
 }

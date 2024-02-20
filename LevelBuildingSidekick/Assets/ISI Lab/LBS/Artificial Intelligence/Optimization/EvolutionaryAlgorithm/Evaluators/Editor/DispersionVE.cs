@@ -5,22 +5,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class DispersionVE : EvaluatorVE
+namespace ISILab.LBS.VisualElements
 {
-    IntegerField intField;
-
-    public DispersionVE(IEvaluator evaluator) : base(evaluator)
+    public class DispersionVE : EvaluatorVE
     {
-        intField = new IntegerField("Cluster Count");
+        IntegerField intField;
 
-        intField.value = (evaluator as Dispersion).ClusterCount;
+        public DispersionVE(IEvaluator evaluator) : base(evaluator)
+        {
+            intField = new IntegerField("Cluster Count");
 
-        intField.RegisterValueChangedCallback(e => (evaluator as Dispersion).ClusterCount = e.newValue);
+            intField.value = (evaluator as Dispersion).ClusterCount;
 
-        this.Add(intField);
-    }
+            intField.RegisterValueChangedCallback(e => (evaluator as Dispersion).ClusterCount = e.newValue);
 
-    public override void Init()
-    {
+            Add(intField);
+        }
+
+        public override void Init()
+        {
+        }
     }
 }

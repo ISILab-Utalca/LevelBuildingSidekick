@@ -1,12 +1,8 @@
-using LBS.Components;
-using LBS.Components.TileMap;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+using ISILab.LBS;
+using ISILab.LBS.Components;
 using UnityEngine;
 
-namespace ISILab.LBS
+namespace ISILab.Extensions
 {
     public static class DataExtensions
     {

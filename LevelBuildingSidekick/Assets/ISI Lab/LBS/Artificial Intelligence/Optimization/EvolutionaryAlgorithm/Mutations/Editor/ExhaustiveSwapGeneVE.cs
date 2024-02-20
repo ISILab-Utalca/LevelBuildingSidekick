@@ -5,26 +5,28 @@ using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-//[LBSCustomEditor("ExhaustiveSwapGene", typeof(ExhaustiveSwapGene))]
-public class ExhaustiveSwapGeneVE : LBSCustomEditor
+namespace ISILab.LBS.VisualElements
 {
-
-    public ExhaustiveSwapGeneVE(object target) : base(target)
+    //[LBSCustomEditor("ExhaustiveSwapGene", typeof(ExhaustiveSwapGene))]
+    public class ExhaustiveSwapGeneVE : LBSCustomEditor
     {
-        Add(CreateVisualElement());
-        SetInfo(target);
-    }
 
-    public override void SetInfo(object target)
-    {
-        this.target = target;
-        var mut = target as ExhaustiveSwapGene;
-    }
+        public ExhaustiveSwapGeneVE(object target) : base(target)
+        {
+            Add(CreateVisualElement());
+            SetInfo(target);
+        }
 
-    protected override VisualElement CreateVisualElement()
-    {
-        this.Add(new Label("Exhaustive Swap Gene"));
-        return this;
-    }
+        public override void SetInfo(object target)
+        {
+            this.target = target;
+            var mut = target as ExhaustiveSwapGene;
+        }
 
+        protected override VisualElement CreateVisualElement()
+        {
+            Add(new Label("Exhaustive Swap Gene"));
+            return this;
+        }
+    }
 }

@@ -1,3 +1,4 @@
+using ISILab.LBS;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace LBS.VisualElements
+namespace ISILab.LBS.VisualElements
 {
     public class ButtonGroup : VisualElement
     {
@@ -15,15 +16,15 @@ namespace LBS.VisualElements
 
         public new class UxmlTraits : VisualElement.UxmlTraits
         {
-            UxmlColorAttributeDescription m_BaseColor = new UxmlColorAttributeDescription 
-            { 
+            UxmlColorAttributeDescription m_BaseColor = new UxmlColorAttributeDescription
+            {
                 name = "base-color",
                 defaultValue = new Color(72f / 255f, 72f / 255f, 72f / 255f)
             };
 
-            UxmlColorAttributeDescription m_SelectedColor = new UxmlColorAttributeDescription 
-            { 
-                name = "selected-color", 
+            UxmlColorAttributeDescription m_SelectedColor = new UxmlColorAttributeDescription
+            {
+                name = "selected-color",
                 defaultValue = new Color(215f / 255f, 127f / 255f, 45f / 255f)
             };
 
@@ -122,15 +123,16 @@ namespace LBS.VisualElements
         #region METHODS
         public void Init()
         {
-            // busca todos los botones dentro de si mismo
+            // Search all buttons inside itself
             group = this.Query<VisualElement>().ToList().Where(ve => ve is IGrupable).Select(ve => ve as IGrupable).ToList();
 
-            // les añade el metodo "Active"
-            group.ForEach(b => b.AddGroupEvent(() => {
+            // Add the event to all buttons
+            group.ForEach(b => b.AddGroupEvent(() =>
+            {
                 b.SetColorGroup(baseColor, selectedColor);
             }));
 
-            // inicia el grupo con el primero activo
+            // Init the group with the first active
             if (!allowSwitchOff && group.Count > 0)
             {
                 current = group[0];
@@ -142,7 +144,7 @@ namespace LBS.VisualElements
         public void SetChoices(string choices)
         {
             var cs = choices.Split(",");
-            this.Clear();
+            Clear();
             var count = 0;
             foreach (var choice in cs)
             {
@@ -153,10 +155,10 @@ namespace LBS.VisualElements
                 var cv = new GrupalbeButton(choice);
                 cv.SetColorGroup(baseColor, selectedColor);
                 cv.style.flexGrow = 1;
-                this.Add(cv);
+                Add(cv);
             }
             ChoiceCount = count;
-            this.Init();
+            Init();
         }
 
         public void ChangeActive(IGrupable active)
@@ -168,8 +170,8 @@ namespace LBS.VisualElements
             OnChangeTab?.Invoke(current.GetLabel());
         }
 
-        
-        public void ChangeActive(int index) 
+
+        public void ChangeActive(int index)
         {
             var current = group[index];
             ChangeActive(current);
@@ -183,7 +185,7 @@ namespace LBS.VisualElements
 
         private void Active(IGrupable active)
         {
-            if(!allowSwitchOff)
+            if (!allowSwitchOff)
             {
                 ChangeActive(active);
                 return;
@@ -213,7 +215,7 @@ namespace LBS.VisualElements
 
         public new void RemoveAt(int index)
         {
-            var childs = base.Children().ToList();
+            var childs = Children().ToList();
             var element = childs[index];
             base.Remove(element);
         }
@@ -239,7 +241,7 @@ namespace LBS.VisualElements
             {
                 value(btn);
             });
-            this.Add(btn);
+            Add(btn);
             choiceCount++;
         }
 

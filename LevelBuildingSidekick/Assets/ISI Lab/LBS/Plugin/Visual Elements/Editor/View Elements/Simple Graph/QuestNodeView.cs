@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Label = UnityEngine.UIElements.Label;
 using ISILab.Extensions;
+using ISILab.LBS.Components;
 
 namespace ISILab.LBS.VisualElements
 {

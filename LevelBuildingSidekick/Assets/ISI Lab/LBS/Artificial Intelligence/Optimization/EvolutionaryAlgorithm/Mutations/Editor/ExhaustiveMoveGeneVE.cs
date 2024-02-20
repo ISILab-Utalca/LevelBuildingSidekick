@@ -5,37 +5,40 @@ using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-[LBSCustomEditor("ExhaustiveMoveGene", typeof(ExhaustiveMoveGene))]
-public class ExhaustiveMoveGeneVE : LBSCustomEditor
+namespace ISILab.LBS.VisualElements
 {
-    IntegerField range;
-
-    public ExhaustiveMoveGeneVE(object target) : base(target)
+    [LBSCustomEditor("ExhaustiveMoveGene", typeof(ExhaustiveMoveGene))]
+    public class ExhaustiveMoveGeneVE : LBSCustomEditor
     {
-        CreateVisualElement();
-        SetInfo(target);
-    }
+        IntegerField range;
 
-    public override void SetInfo(object target)
-    {
-        this.target = target;
-        var mut = target as ExhaustiveMoveGene;
-
-        range.value = mut.Range;
-        range.RegisterValueChangedCallback(e => 
+        public ExhaustiveMoveGeneVE(object target) : base(target)
         {
-            if (e.newValue < 1)
-                range.SetValueWithoutNotify(1);
-            mut.Range = e.newValue; 
-        });
-    }
+            CreateVisualElement();
+            SetInfo(target);
+        }
 
-    protected override VisualElement CreateVisualElement()
-    {
-        range = new IntegerField();
-        range.label = "Movement Range";
-        this.Add(range);
+        public override void SetInfo(object target)
+        {
+            this.target = target;
+            var mut = target as ExhaustiveMoveGene;
 
-        return this;
+            range.value = mut.Range;
+            range.RegisterValueChangedCallback(e =>
+            {
+                if (e.newValue < 1)
+                    range.SetValueWithoutNotify(1);
+                mut.Range = e.newValue;
+            });
+        }
+
+        protected override VisualElement CreateVisualElement()
+        {
+            range = new IntegerField();
+            range.label = "Movement Range";
+            Add(range);
+
+            return this;
+        }
     }
 }
