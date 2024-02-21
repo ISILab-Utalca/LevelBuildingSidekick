@@ -1,3 +1,4 @@
+using ISILab.AI.Categorization;
 using ISILab.LBS.Editor;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,7 +8,6 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-    //[LBSCustomEditor("ExhaustiveAddGene", typeof(ExhaustiveAddGene))]
     public class ExhaustiveAddGeneVE : LBSCustomEditor
     {
         public ExhaustiveAddGeneVE(object target) : base(target)

@@ -44,6 +44,13 @@ namespace ISILab.LBS.Characteristics
         public override void OnEnable()
         {
             Owner.OnAddChild += OnAddAssetToOwner;
+
+            Debug.Log("ONENABLE");
+
+            foreach(var bundle in Owner.ChildsBundles)
+            {
+                Weights.Add(new WeigthStruct() { target = bundle, weigth = 0.5f});
+            }
         }
 
         private void OnAddAssetToOwner(Bundle child)

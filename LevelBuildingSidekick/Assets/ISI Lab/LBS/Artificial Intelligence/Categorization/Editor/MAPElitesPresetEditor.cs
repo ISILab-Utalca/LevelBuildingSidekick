@@ -15,8 +15,6 @@ namespace ISILab.LBS.Editor
         {
             var root = new MAPElitesPresetVE(target);
 
-            root.TrackSerializedObjectValue(serializedObject, Save);
-
             return root;
         }
 
@@ -25,6 +23,21 @@ namespace ISILab.LBS.Editor
             serializedObject.ApplyModifiedProperties();
             var preset = serializedObject.targetObject as MAPElitesPreset;
             EditorUtility.SetDirty(preset);
+        }
+
+        public void Save()
+        {
+            EditorUtility.SetDirty(target);
+        }
+
+        private void OnDestroy()
+        {
+            Save();
+        }
+
+        private void OnDisable()
+        {
+            Save();
         }
     }
 }

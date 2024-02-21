@@ -1,3 +1,4 @@
+using ISILab.AI.Grammar;
 using ISILab.AI.Optimization.Populations;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
@@ -35,8 +36,7 @@ namespace ISILab.LBS.Manipulators
         {
             if (ActionToSet == null)
             {
-                Debug.LogWarning("No tienen nada seleccionado, asegurate de seleccionar" +
-                    "una gramatica y una palabra para que funcione.");
+                Debug.LogWarning("They have nothing selected, make sure to select a grammar and a word for it to work.");
                 return;
             }
 

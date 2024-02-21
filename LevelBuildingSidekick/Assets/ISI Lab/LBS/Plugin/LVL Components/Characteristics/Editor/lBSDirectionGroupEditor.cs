@@ -3,6 +3,7 @@ using ISILab.LBS.Editor;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -20,7 +21,7 @@ namespace ISILab.LBS.VisualElements
 
         public LBSDirectionGroupEditor(object target) : base(target)
         {
-            Add(CreateVisualElement());
+            CreateVisualElement();
             SetInfo(target);
         }
 
@@ -57,10 +58,10 @@ namespace ISILab.LBS.VisualElements
         {
             var target = this.target as LBSDirectionedGroup;
 
-            var ve = new VisualElement();
+            content = new VisualElement();
 
 
-            return ve;
+            return this;
         }
     }
 }

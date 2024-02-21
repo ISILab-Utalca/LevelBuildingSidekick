@@ -1,4 +1,5 @@
 using Commons.Optimization.Evaluator;
+using ISILab.AI.Categorization;
 using ISILab.LBS.AI.VisualElements;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ namespace ISILab.LBS.VisualElements
             Add(intField);
         }
 
-        public override void Init()
+        public override void Init() // TODO: Implement DispersionVE.Init
         {
         }
     }

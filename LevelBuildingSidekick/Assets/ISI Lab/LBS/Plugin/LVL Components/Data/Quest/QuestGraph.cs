@@ -8,6 +8,7 @@ using System.Linq;
 using UnityEngine;
 using ISILab.LBS.Internal;
 using ISILab.LBS.Components;
+using ISILab.AI.Grammar;
 
 namespace ISILab.LBS.Modules
 {

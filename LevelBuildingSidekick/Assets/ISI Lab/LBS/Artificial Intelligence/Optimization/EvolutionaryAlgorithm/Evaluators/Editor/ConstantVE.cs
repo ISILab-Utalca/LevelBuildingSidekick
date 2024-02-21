@@ -1,4 +1,5 @@
 using Commons.Optimization.Evaluator;
+using ISILab.AI.Categorization;
 using ISILab.LBS.AI.VisualElements;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace ISILab.LBS.VisualElements
             Add(field);
         }
 
-        public override void Init()
+        public override void Init() // TODO: Implement ConstantVE.Init
         {
         }
     }

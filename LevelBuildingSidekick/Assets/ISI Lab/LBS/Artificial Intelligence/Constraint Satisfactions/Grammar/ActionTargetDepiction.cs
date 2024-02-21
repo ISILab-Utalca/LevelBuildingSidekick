@@ -1,46 +1,51 @@
+using ISILab.AI.Grammar;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class ActionTargetDepiction
+
+namespace ISILab.LBS.Assistants
 {
-    [SerializeField, SerializeReference]
-    private GrammarTerminal grammarElement;
-    [SerializeField]
-    private List<string> targets = new List<string>();
-
-    public GrammarTerminal GrammarElement
+    [System.Serializable]
+    public class ActionTargetDepiction
     {
-        get => grammarElement;
-        set => grammarElement = value;
-    }
+        [SerializeField, SerializeReference]
+        private GrammarTerminal grammarElement;
+        [SerializeField]
+        private List<string> targets = new List<string>();
 
-    public int TargetCount => targets.Count;
+        public GrammarTerminal GrammarElement
+        {
+            get => grammarElement;
+            set => grammarElement = value;
+        }
 
-    public ActionTargetDepiction()
-    {
+        public int TargetCount => targets.Count;
 
-    }
+        public ActionTargetDepiction()
+        {
 
-    public ActionTargetDepiction(GrammarTerminal grammarElement, List<string> characterisitcs)
-    {
-        this.grammarElement = grammarElement;
-        this.targets = characterisitcs;
-    }
+        }
 
-    public void SetTarget(int index, string target)
-    {
-        targets[index] = target;
-    }
+        public ActionTargetDepiction(GrammarTerminal grammarElement, List<string> characterisitcs)
+        {
+            this.grammarElement = grammarElement;
+            this.targets = characterisitcs;
+        }
 
-    public string GetTarget(int index)
-    {
-        return targets[index];
-    }
+        public void SetTarget(int index, string target)
+        {
+            targets[index] = target;
+        }
 
-    public void AddTarget(string target)
-    {
-        targets.Add(target);
+        public string GetTarget(int index)
+        {
+            return targets[index];
+        }
+
+        public void AddTarget(string target)
+        {
+            targets.Add(target);
+        }
     }
 }

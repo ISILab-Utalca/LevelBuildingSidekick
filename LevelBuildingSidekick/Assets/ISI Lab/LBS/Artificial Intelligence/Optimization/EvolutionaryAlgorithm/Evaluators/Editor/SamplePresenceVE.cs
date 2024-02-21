@@ -1,13 +1,10 @@
 using Commons.Optimization.Evaluator;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
-using UnityEditor;
-using UnityEngine;
 using LBS.Bundles;
 using ISILab.LBS.AI.VisualElements;
 using ISILab.LBS.Internal;
+using ISILab.AI.Categorization;
 
 namespace ISILab.LBS.VisualElements
 {

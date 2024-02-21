@@ -1,4 +1,5 @@
 using Commons.Optimization.Evaluator;
+using ISILab.AI.Optimization;
 using ISILab.LBS.Characteristics;
 using LBS.Components.TileMap;
 using System;
@@ -7,92 +8,95 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[System.Serializable]
-public class ResourcesSafetyFairness : IRangedEvaluator
+namespace ISILab.AI.Categorization
 {
-    public float MaxValue => 1;
-
-    public float MinValue => 0;
-
-    [SerializeField, SerializeReference]
-    public LBSCharacteristic playerCharacteristc;
-
-    [SerializeField, SerializeReference]
-    public List<LBSCharacteristic> resourceCharactersitic = new List<LBSCharacteristic>();
-
-    public float Evaluate(IOptimizable evaluable)
+    [System.Serializable]
+    public class ResourcesSafetyFairness : IRangedEvaluator
     {
-        var chrom = evaluable as BundleTilemapChromosome;
+        public float MaxValue => 1;
 
-        if (chrom == null)
+        public float MinValue => 0;
+
+        [SerializeField, SerializeReference]
+        public LBSCharacteristic playerCharacteristc;
+
+        [SerializeField, SerializeReference]
+        public List<LBSCharacteristic> resourceCharactersitic = new List<LBSCharacteristic>();
+
+        public float Evaluate(IOptimizable evaluable)
         {
-            throw new Exception("Wrong Chromosome Type");
-        }
+            var chrom = evaluable as BundleTilemapChromosome;
 
-        float fitness = 0;
-
-        var genes = chrom.GetGenes().Cast<BundleData>().ToList();
-
-        List<int> playersPos = new List<int>();
-
-        for(int i = 0; i < genes.Count; i++)
-        {
-            if (genes[i] != null)
+            if (chrom == null)
             {
-                if (genes[i].Characteristics.Contains(playerCharacteristc))
-                {
-                    playersPos.Add(i);
-                }
+                throw new Exception("Wrong Chromosome Type");
             }
-        }
 
-        if (playersPos.Count < 2)
-        {
-            Debug.LogWarning("Map is not suitable for the evaluation, player count: " + playersPos.Count() + " < 2");
-            return MaxValue;
-        }
+            float fitness = 0;
 
-        List<float> localFitness = new List<float>();
+            var genes = chrom.GetGenes().Cast<BundleData>().ToList();
 
-        foreach (var pos in playersPos)
-        {
-            var dist = (int)playersPos.Where(p => p != pos).Min(p => (chrom.ToMatrixPosition(p) - chrom.ToMatrixPosition(pos)).magnitude)/2;
-            float res = 0;
+            List<int> playersPos = new List<int>();
 
-            for (int j = -dist; j <= dist; j++)
+            for (int i = 0; i < genes.Count; i++)
             {
-                for (int i = -dist; i <= dist; i++)
+                if (genes[i] != null)
                 {
-                    var index = chrom.ToIndex(new Vector2(i, j));
-
-                    if (index < 0 || index >= genes.Count || genes[index] == null)
+                    if (genes[i].Characteristics.Contains(playerCharacteristc))
                     {
-                        continue;
-                    }
-
-                    if (genes[index].Characteristics.Any(c => resourceCharactersitic.Contains(c)))
-                    {
-                        res++;
+                        playersPos.Add(i);
                     }
                 }
             }
 
-            localFitness.Add(res);
+            if (playersPos.Count < 2)
+            {
+                Debug.LogWarning("Map is not suitable for the evaluation, player count: " + playersPos.Count() + " < 2");
+                return MaxValue;
+            }
+
+            List<float> localFitness = new List<float>();
+
+            foreach (var pos in playersPos)
+            {
+                var dist = (int)playersPos.Where(p => p != pos).Min(p => (chrom.ToMatrixPosition(p) - chrom.ToMatrixPosition(pos)).magnitude) / 2;
+                float res = 0;
+
+                for (int j = -dist; j <= dist; j++)
+                {
+                    for (int i = -dist; i <= dist; i++)
+                    {
+                        var index = chrom.ToIndex(new Vector2(i, j));
+
+                        if (index < 0 || index >= genes.Count || genes[index] == null)
+                        {
+                            continue;
+                        }
+
+                        if (genes[index].Characteristics.Any(c => resourceCharactersitic.Contains(c)))
+                        {
+                            res++;
+                        }
+                    }
+                }
+
+                localFitness.Add(res);
+            }
+
+            if (localFitness.Max() <= 0)
+                return MaxValue;
+
+            fitness = localFitness.Min() / localFitness.Max();
+
+            return fitness;
         }
 
-        if (localFitness.Max() <= 0)
-            return MaxValue;
-
-        fitness = localFitness.Min() / localFitness.Max();
-
-        return fitness;
-    }
-
-    public object Clone()
-    { 
-        var e = new ResourcesSafetyFairness();
-        e.playerCharacteristc = playerCharacteristc;
-        e.resourceCharactersitic = new List<LBSCharacteristic>(resourceCharactersitic);
-        return e;
+        public object Clone()
+        {
+            var e = new ResourcesSafetyFairness();
+            e.playerCharacteristc = playerCharacteristc;
+            e.resourceCharactersitic = new List<LBSCharacteristic>(resourceCharactersitic);
+            return e;
+        }
     }
 }

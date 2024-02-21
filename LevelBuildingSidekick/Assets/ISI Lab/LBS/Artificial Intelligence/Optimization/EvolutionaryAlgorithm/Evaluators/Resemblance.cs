@@ -4,51 +4,55 @@ using UnityEngine;
 using Commons.Optimization.Evaluator;
 using UnityEngine.UIElements;
 using GeneticSharp.Domain.Chromosomes;
+using ISILab.AI.Optimization;
 
-public class Resemblance : IRangedEvaluator
+namespace ISILab.AI.Categorization
 {
-    public float MaxValue => 1;
-
-    public float MinValue => 0;
-
-    public ChromosomeBase reference;
-
-    public float Evaluate(IOptimizable evaluable)
+    public class Resemblance : IRangedEvaluator
     {
-        var ev = evaluable as ChromosomeBase;
-        if (ev == null)
-            return MinValue;
-        if (reference == null)
-            return MinValue;
-        if (ev.Length != reference.Length)
-            return MinValue;
+        public float MaxValue => 1;
 
-        float threshold = MaxValue - MinValue;
-        int diff = 0;
-        for(int i = 0; i < reference.Length; i++)
+        public float MinValue => 0;
+
+        public ChromosomeBase reference;
+
+        public float Evaluate(IOptimizable evaluable)
         {
-            if(reference.GetGene(i) == null)
+            var ev = evaluable as ChromosomeBase;
+            if (ev == null)
+                return MinValue;
+            if (reference == null)
+                return MinValue;
+            if (ev.Length != reference.Length)
+                return MinValue;
+
+            float threshold = MaxValue - MinValue;
+            int diff = 0;
+            for (int i = 0; i < reference.Length; i++)
             {
-                if(ev.GetGene(i) != null)
+                if (reference.GetGene(i) == null)
                 {
-                    diff++;
+                    if (ev.GetGene(i) != null)
+                    {
+                        diff++;
+                        continue;
+                    }
                     continue;
                 }
-                continue;
+                if (!reference.GetGene(i).Equals(ev.GetGene(i)))
+                    diff++;
             }
-            if (!reference.GetGene(i).Equals(ev.GetGene(i)))
-                diff++;
+
+            float count = (reference.Length - ev.ImmutablesCount * 1f);
+
+            var fit = MinValue + threshold * ((count - (diff * 1f)) / count);
+
+            return fit;
         }
 
-        float count = (reference.Length - ev.ImmutablesCount * 1f);
-
-        var fit = MinValue + threshold * ((count - (diff*1f)) / count);
-
-        return fit;
-    }
-
-    public object Clone()
-    {
-        throw new System.NotImplementedException();
+        public object Clone()
+        {
+            throw new System.NotImplementedException(); // TODO: Implement Resemblance.Clone
+        }
     }
 }

@@ -1,3 +1,4 @@
+using ISILab.AI.Categorization;
 using ISILab.LBS.Characteristics;
 using ISILab.LBS.Editor;
 using System.Collections;
