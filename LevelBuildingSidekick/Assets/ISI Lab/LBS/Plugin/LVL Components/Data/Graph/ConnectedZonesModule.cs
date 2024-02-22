@@ -71,8 +71,6 @@ namespace ISILab.LBS.Modules
         {
             foreach (var e in edges)
             {
-                Debug.Log(e.First.Pivot + " - " + e.Second.Pivot + " - " + position);
-
                 var dist = position.DistanceToLine(e.First.Pivot, e.Second.Pivot);
                 if (dist < delta)
                     return e;
