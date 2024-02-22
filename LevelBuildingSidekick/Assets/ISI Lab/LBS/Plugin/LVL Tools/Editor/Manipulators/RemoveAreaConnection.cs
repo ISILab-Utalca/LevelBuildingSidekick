@@ -3,6 +3,7 @@ using LBS.Components;
 using LBS.Settings;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -24,10 +25,20 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
         {
+            var x = LBSController.CurrentLevel;
+            EditorGUI.BeginChangeCheck();
+            Undo.RegisterCompleteObjectUndo(x, "Remove Zone Conection");
+
             Vector2 pos = position / (hillclimbing.Owner.TileSize * LBSSettings.Instance.general.TileSize);
             pos = new Vector2(pos.x, -(pos.y - 1));
 
             hillclimbing.RemoveZoneConnection(pos, 0.2f);
+
+
+            if (EditorGUI.EndChangeCheck())
+            {
+                EditorUtility.SetDirty(x);
+            }
         }
     }
 }

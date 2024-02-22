@@ -39,7 +39,7 @@ namespace ISILab.LBS.Manipulators
         {
             var x = LBSController.CurrentLevel;
             EditorGUI.BeginChangeCheck();
-            Undo.RegisterCompleteObjectUndo(x, "transform selected objects");
+            Undo.RegisterCompleteObjectUndo(x, "Add Zone");
 
             if (e.ctrlKey)
             {

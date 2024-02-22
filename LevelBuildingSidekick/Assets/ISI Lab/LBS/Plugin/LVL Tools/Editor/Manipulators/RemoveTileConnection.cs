@@ -3,6 +3,7 @@ using ISILab.LBS.VisualElements;
 using LBS.Components;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -35,6 +36,10 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
         {
+            var x = LBSController.CurrentLevel;
+            EditorGUI.BeginChangeCheck();
+            Undo.RegisterCompleteObjectUndo(x, "Remove Connection between tile");
+
             var t1 = schema.GetTile(first);
             if (t1 == null)
                 return;
@@ -68,6 +73,11 @@ namespace ISILab.LBS.Manipulators
             schema.SetConnection(t1, fDir, "", true);
             schema.SetConnection(t2, tDir, "", true);
             schema.RecalculateWalls();
+
+            if (EditorGUI.EndChangeCheck())
+            {
+                EditorUtility.SetDirty(x);
+            }
         }
     }
 }

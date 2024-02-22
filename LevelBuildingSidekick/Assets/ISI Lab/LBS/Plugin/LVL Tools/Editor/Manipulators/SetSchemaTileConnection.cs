@@ -3,6 +3,7 @@ using ISILab.LBS.VisualElements;
 using LBS.Components;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -43,9 +44,13 @@ namespace ISILab.LBS.Manipulators
         {
             if (ToSet == null)
             {
-                Debug.LogWarning("No tienens ninguna connecion seleccionada para colocar.");
+                Debug.LogWarning("You don't have any selected connection to place.");
                 return;
             }
+
+            var x = LBSController.CurrentLevel;
+            EditorGUI.BeginChangeCheck();
+            Undo.RegisterCompleteObjectUndo(x, "Add Connection between tile");
 
             // Get tile in first position
             var t1 = schema.GetTile(first);
@@ -87,6 +92,11 @@ namespace ISILab.LBS.Manipulators
 
             schema.SetConnection(t1, fDir, ToSet, false);
             schema.SetConnection(t2, tDir, ToSet, false);
+
+            if (EditorGUI.EndChangeCheck())
+            {
+                EditorUtility.SetDirty(x);
+            }
         }
     }
 }

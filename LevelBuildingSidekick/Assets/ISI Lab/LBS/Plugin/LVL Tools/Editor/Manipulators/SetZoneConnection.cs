@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.LBS.Assistants;
 using ISILab.LBS.VisualElements;
+using UnityEditor;
 
 namespace ISILab.LBS.Manipulators
 {
@@ -60,8 +61,16 @@ namespace ISILab.LBS.Manipulators
                 return;
             }
 
+            var x = LBSController.CurrentLevel;
+            EditorGUI.BeginChangeCheck();
+            Undo.RegisterCompleteObjectUndo(x, "Add Zone Conections");
+
             assistant.ConnectZones(z1, z2);
 
+            if (EditorGUI.EndChangeCheck())
+            {
+                EditorUtility.SetDirty(x);
+            }
         }
     }
 }
