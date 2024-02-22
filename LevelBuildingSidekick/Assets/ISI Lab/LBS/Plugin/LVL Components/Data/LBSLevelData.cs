@@ -12,8 +12,16 @@ using UnityEngine;
 
 namespace ISILab.LBS
 {
+    /*
     [System.Serializable]
-    public class LBSLevelData //: UnityEngine.Object
+    public class LevelDataWraper : UnityEngine.Object
+    {
+        public LBSLevelData data;
+    }
+    */
+
+    [System.Serializable]
+    public class LBSLevelData
     {
         #region FIELDS
         [SerializeField, JsonRequired, SerializeReference]

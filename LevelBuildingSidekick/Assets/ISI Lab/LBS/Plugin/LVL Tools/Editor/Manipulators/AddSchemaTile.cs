@@ -37,7 +37,9 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
         {
-            //Undo.RecordObjects(schema., "transform selected objects");
+            var x = LBSController.CurrentLevel;
+            EditorGUI.BeginChangeCheck();
+            Undo.RegisterCompleteObjectUndo(x, "transform selected objects");
 
             if (e.ctrlKey)
             {
@@ -50,7 +52,7 @@ namespace ISILab.LBS.Manipulators
 
             if (ToSet == null)
             {
-                Debug.LogWarning("No tienens ninguna zona seleccionada para colocar.");
+                Debug.LogWarning("You don't have any selected area to place.");
                 return;
             }
 
@@ -72,6 +74,19 @@ namespace ISILab.LBS.Manipulators
             LBSInspectorPanel.Instance.SetTarget(schema.Owner);
 
             schema.RecalculateWalls();
+
+            if (EditorGUI.EndChangeCheck())
+            {
+                EditorUtility.SetDirty(x);
+            }
+
+            Undo.undoRedoPerformed += UNDO;
+        }
+
+        private void UNDO()
+        {
+            DrawManager.ReDraw();
+            Undo.undoRedoPerformed -= UNDO;
         }
     }
 }

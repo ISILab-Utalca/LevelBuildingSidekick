@@ -193,7 +193,6 @@ namespace ISILab.LBS.Template.Editor
             layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/ghost.png";
             template.layer = layer;
 
-            //layer.TileSize = new Vector2Int(2, 2);
             layer.Settings = new Generator3D.Settings()
             {
                 scale = new Vector2Int(2, 2),

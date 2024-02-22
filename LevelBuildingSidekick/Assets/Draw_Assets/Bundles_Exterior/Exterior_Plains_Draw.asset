@@ -30,6 +30,8 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 3767989614650065810
       type: {class: LBSDirectionedGroup, ns: , asm: LBS}
       data:

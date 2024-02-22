@@ -15,6 +15,8 @@ using LBS.Bundles;
 using System;
 using ISILab.LBS.VisualElements;
 using ISILab.LBS.AI.Categorization;
+using System.Reflection;
+using static UnityEngine.Rendering.VirtualTexturing.Debugging;
 
 namespace ISILab.LBS.Bundles.Editor
 {
@@ -26,6 +28,11 @@ namespace ISILab.LBS.Bundles.Editor
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
+
+            if (Event.current.commandName == "UndoRedoPerformed")
+            {
+                this.Repaint();
+            }
         }
 
         public override VisualElement CreateInspectorGUI()
@@ -48,9 +55,32 @@ namespace ISILab.LBS.Bundles.Editor
 
             characteristics.itemsSource = bundle.characteristics;
 
+            characteristics.itemsAdded += view =>
+            {
+                var x = bundle.characteristics.Last();
+                bundle.characteristics.RemoveAt(bundle.characteristics.Count - 1);
+
+                EditorGUI.BeginChangeCheck();
+                Undo.RegisterCompleteObjectUndo(bundle, "Add characteristics");
+                bundle.characteristics.Add(x);
+
+                if (EditorGUI.EndChangeCheck())
+                {
+                    EditorUtility.SetDirty(target);
+                }
+                Undo.undoRedoPerformed += UNDO;
+            };
+
+
             root.Insert(root.childCount - 1, characteristics);
 
             return root;
+        }
+
+        private void UNDO()
+        {
+            characteristics.Rebuild();
+            Undo.undoRedoPerformed -= UNDO;
         }
 
         VisualElement MakeItem()
@@ -79,6 +109,7 @@ namespace ISILab.LBS.Bundles.Editor
                 };
             }
         }
+
         public void Save()
         {
             EditorUtility.SetDirty(target);

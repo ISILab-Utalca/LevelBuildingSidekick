@@ -22,7 +22,9 @@ namespace ISILab.LBS
                 var level = LBS.loadedLevel;
                 if (level == null)
                 {
-                    level =  new LoadedLevel(new LBSLevelData(), "");
+                    level = ScriptableObject.CreateInstance<LoadedLevel>();
+                    level.data = new LBSLevelData();
+                    level.fullName = "";
                 }
                 return level;
             }
@@ -40,7 +42,7 @@ namespace ISILab.LBS
         {
             var fileInfo = new System.IO.FileInfo(path);
             var data = JSONDataManager.LoadData<LBSLevelData>(fileInfo.DirectoryName,fileInfo.Name);
-            CurrentLevel = new LoadedLevel(data, fileInfo.FullName);
+            CurrentLevel = LoadedLevel.CreateInstance(data, fileInfo.FullName);
             CurrentLevel.data.Reload();
             OnLoadLevel?.Invoke(CurrentLevel.data);
             Debug.Log("[ISI Lab]: The level '" + fileInfo.Name + "' has been loaded successfully.");
@@ -71,7 +73,7 @@ namespace ISILab.LBS
                     path = EditorUtility.OpenFilePanel("Load level data", "", "lbs");
                     fileInfo = new System.IO.FileInfo(path);
                     data = JSONDataManager.LoadData<LBSLevelData>(fileInfo.DirectoryName, fileInfo.Name);
-                    CurrentLevel = new LoadedLevel(data, fileInfo.FullName);
+                    CurrentLevel = LoadedLevel.CreateInstance(data, fileInfo.FullName);
                     CurrentLevel.data.Reload();
                     return CurrentLevel;
 
@@ -81,7 +83,7 @@ namespace ISILab.LBS
                         return null;
                     fileInfo = new System.IO.FileInfo(path);
                     data = JSONDataManager.LoadData<LBSLevelData>(fileInfo.DirectoryName, fileInfo.Name);
-                    CurrentLevel = new LoadedLevel(data, fileInfo.FullName);
+                    CurrentLevel = LoadedLevel.CreateInstance(data, fileInfo.FullName);
                     CurrentLevel.data.Reload();
                     OnLoadLevel?.Invoke(CurrentLevel.data);
                     return CurrentLevel;
@@ -158,10 +160,10 @@ namespace ISILab.LBS
         /// <param name="levelName"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-        public static LoadedLevel CreateNewLevel(string levelName, Vector3 size)
+        public static LoadedLevel CreateNewLevel(string levelName = "new file")
         {
             var data = new LBSLevelData();
-            var loaded = new LoadedLevel(data, null);
+            var loaded = LoadedLevel.CreateInstance(data, null);
             CurrentLevel = loaded;
             CurrentLevel.data.Reload();
             return CurrentLevel;

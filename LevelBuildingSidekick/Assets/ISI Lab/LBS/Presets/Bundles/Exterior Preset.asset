@@ -20,15 +20,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0c10b3020fa82d14abd56a1a20d7a7f6, type: 2}
   assets: []
   characteristics:
-  - rid: 3767989614650065815
+  - rid: 279245656627347715
   positioning: 0
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 3767989614650065815
-      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+    - rid: 279245656627347715
+      type: {class: LBSDirectionedGroup, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
-        label: 
-        value: {fileID: 0}
+        Weights:
+        - target: {fileID: 11400000, guid: 0c10b3020fa82d14abd56a1a20d7a7f6, type: 2}
+          weigth: 0.5
