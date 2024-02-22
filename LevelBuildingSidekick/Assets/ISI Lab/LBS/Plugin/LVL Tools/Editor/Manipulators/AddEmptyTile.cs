@@ -3,6 +3,7 @@ using LBS.Components;
 using LBS.Components.TileMap;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -21,6 +22,10 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
         {
+            var x = LBSController.CurrentLevel;
+            EditorGUI.BeginChangeCheck();
+            Undo.RegisterCompleteObjectUndo(x, "Add empty tiles");
+
             var corners = exterior.Owner.ToFixedPosition(StartPosition, EndPosition);
 
             for (int i = corners.Item1.x; i <= corners.Item2.x; i++)
@@ -31,6 +36,11 @@ namespace ISILab.LBS.Manipulators
                     var tile = new LBSTile(pos);
                     exterior.AddTile(tile);
                 }
+            }
+
+            if (EditorGUI.EndChangeCheck())
+            {
+                EditorUtility.SetDirty(x);
             }
         }
 

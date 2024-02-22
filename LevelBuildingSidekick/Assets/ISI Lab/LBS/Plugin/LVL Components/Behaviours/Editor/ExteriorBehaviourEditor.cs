@@ -107,7 +107,7 @@ namespace ISILab.LBS.VisualElements
 
         }
 
-        private void OnTargetBundle() // mejorar nombre
+        private void OnTargetBundle() // FIX: set a better name
         {
             if (targetBundle == null)
             {

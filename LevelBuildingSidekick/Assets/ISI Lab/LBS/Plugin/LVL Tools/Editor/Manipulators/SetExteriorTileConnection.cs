@@ -9,6 +9,7 @@ using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
 using ISILab.LBS.VisualElements;
 using ISILab.Commons.VisualElements;
+using UnityEditor;
 
 namespace ISILab.LBS.Manipulators
 {
@@ -70,9 +71,13 @@ namespace ISILab.LBS.Manipulators
         {
             if (ToSet == null || ToSet.Label == "")
             {
-                Debug.LogWarning("NO tienes ninguna conexion seleccionada");
+                Debug.LogWarning("You don't have any connection selected.");
                 return;
             }
+
+            var x = LBSController.CurrentLevel;
+            EditorGUI.BeginChangeCheck();
+            Undo.RegisterCompleteObjectUndo(x, "Add Conections");
 
             // Get end position
             var end = exterior.Owner.ToFixedPosition(position);
@@ -84,6 +89,11 @@ namespace ISILab.LBS.Manipulators
             else
             {
                 AreaEffect(end, e);
+            }
+
+            if (EditorGUI.EndChangeCheck())
+            {
+                EditorUtility.SetDirty(x);
             }
         }
 

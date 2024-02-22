@@ -9,6 +9,7 @@ using ISILab.Extensions;
 using UnityEngine.UIElements;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.VisualElements;
+using UnityEditor;
 
 namespace ISILab.LBS.Manipulators
 {
@@ -62,6 +63,10 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
         {
+            var x = LBSController.CurrentLevel;
+            EditorGUI.BeginChangeCheck();
+            Undo.RegisterCompleteObjectUndo(x, "remove conection");
+
             // Get end position
             var end = exterior.Owner.ToFixedPosition(position);
 
@@ -72,6 +77,12 @@ namespace ISILab.LBS.Manipulators
             else
             {
                 AreaEffect(end, e);
+            }
+
+
+            if (EditorGUI.EndChangeCheck())
+            {
+                EditorUtility.SetDirty(x);
             }
         }
 

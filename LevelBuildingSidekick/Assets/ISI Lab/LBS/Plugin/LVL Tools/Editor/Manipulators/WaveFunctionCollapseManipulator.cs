@@ -1,6 +1,7 @@
 using ISILab.LBS.Assistants;
 using LBS.Components;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -39,6 +40,10 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
         {
+            var x = LBSController.CurrentLevel;
+            EditorGUI.BeginChangeCheck();
+            Undo.RegisterCompleteObjectUndo(x, "WFC");
+
             var corners = assistant.Owner.ToFixedPosition(StartPosition, EndPosition);
 
             var positions = new List<Vector2Int>();
@@ -55,6 +60,11 @@ namespace ISILab.LBS.Manipulators
             assistant.OverrideValues = e.ctrlKey;
 
             assistant.Execute();
+
+            if (EditorGUI.EndChangeCheck())
+            {
+                EditorUtility.SetDirty(x);
+            }
         }
     }
 }
