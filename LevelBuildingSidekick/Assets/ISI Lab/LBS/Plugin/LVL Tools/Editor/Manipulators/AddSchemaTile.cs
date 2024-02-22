@@ -79,14 +79,6 @@ namespace ISILab.LBS.Manipulators
             {
                 EditorUtility.SetDirty(x);
             }
-
-            Undo.undoRedoPerformed += UNDO;
-        }
-
-        private void UNDO()
-        {
-            DrawManager.ReDraw();
-            Undo.undoRedoPerformed -= UNDO;
         }
     }
 }

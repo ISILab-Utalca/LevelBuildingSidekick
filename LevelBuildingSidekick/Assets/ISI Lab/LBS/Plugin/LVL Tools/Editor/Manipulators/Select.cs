@@ -19,7 +19,7 @@ namespace ISILab.LBS.Manipulators
             // Unset feedback
             feedback = null;
 
-            current = LBSInspectorPanel.Instance.current;
+            current = LBSInspectorPanel.Instance.data;
         }
 
         public override void Init(LBSLayer layer, object provider)
@@ -34,7 +34,7 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
         {
-            current = LBSInspectorPanel.Instance.current;
+            current = LBSInspectorPanel.Instance.data;
 
             // Get fixed position
 

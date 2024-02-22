@@ -31,9 +31,7 @@ namespace ISILab.LBS.VisualElements
         private ButtonGroup tabsGroup;
         private string selectedTab;
 
-        private List<LBSInspector> inspectors = new List<LBSInspector>();
-
-        public LBSLocalCurrent current;
+        public LBSLocalCurrent data;
         public LBSLocalBehaviours behaviours;
         public LBSLocalAssistants assistants;
 
@@ -66,8 +64,8 @@ namespace ISILab.LBS.VisualElements
         #region METHODS
         public void InitTabs()
         {
-            this.current = new LBSLocalCurrent();
-            AddTab("Current data", current);
+            this.data = new LBSLocalCurrent();
+            AddTab("Current data", data);
 
             this.behaviours = new LBSLocalBehaviours();
             AddTab("Behaviours", behaviours);
@@ -129,6 +127,15 @@ namespace ISILab.LBS.VisualElements
                 inspector.SetTarget(layer);
             }
         }
+
+        public void Repaint()
+        {
+            foreach (var ve in VEs)
+            {
+                var inspector = ve.Value;
+                inspector.Repaint();
+            }
+        }
         #endregion
 
         #region FUNCTIONS SINGLETON
@@ -137,6 +144,12 @@ namespace ISILab.LBS.VisualElements
             var panel = LBSInspectorPanel.Instance;
             panel.VEs.TryGetValue(tab, out var ve);
             panel.tabsGroup.ChangeActive(tab);
+        }
+
+        public static void ReDraw()
+        {
+            var panel = LBSInspectorPanel.Instance;
+            panel.Repaint();
         }
         #endregion
     }

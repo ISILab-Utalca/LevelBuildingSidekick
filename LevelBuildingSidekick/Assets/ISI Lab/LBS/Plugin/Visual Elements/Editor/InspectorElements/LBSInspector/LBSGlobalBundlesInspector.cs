@@ -14,6 +14,7 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
+    [Obsolete("OLD")]
     public class LBSGlobalBundlesInspector : LBSInspector
     {
         #region FACTORY

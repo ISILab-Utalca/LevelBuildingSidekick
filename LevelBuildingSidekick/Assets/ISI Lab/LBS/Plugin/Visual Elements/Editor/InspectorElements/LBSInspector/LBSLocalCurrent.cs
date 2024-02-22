@@ -61,6 +61,12 @@ namespace ISILab.LBS.VisualElements
             SetInfo(layer);
         }
 
+        public override void Repaint()
+        {
+            if(layer != null)
+                SetInfo(layer);
+        }
+
         public void SetTools(ToolKit toolkit)
         {
 

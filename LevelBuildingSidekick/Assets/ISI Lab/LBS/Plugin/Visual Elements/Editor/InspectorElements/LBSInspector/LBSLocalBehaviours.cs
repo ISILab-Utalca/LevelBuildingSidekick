@@ -105,6 +105,8 @@ namespace ISILab.LBS.VisualElements
             {
                 ve?.Repaint();
             }
+
+            SetInfo(target);
         }
         #endregion
     }
