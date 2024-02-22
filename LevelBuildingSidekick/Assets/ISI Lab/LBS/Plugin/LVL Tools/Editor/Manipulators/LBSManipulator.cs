@@ -73,11 +73,6 @@ namespace ISILab.LBS.Manipulators
                 }
             }
         }
-
-        protected MainView MainView
-        {
-            get => MainView.Instance;
-        }
         #endregion
 
         #region EVENTS
@@ -116,9 +111,9 @@ namespace ISILab.LBS.Manipulators
             if (feedback == this.feedback)
                 return;
 
-            MainView.RemoveElement(this.feedback);
+            MainView.Instance.RemoveElement(this.feedback);
             this.feedback = feedback;
-            MainView.AddElement(feedback);
+            MainView.Instance.AddElement(feedback);
         }
 
         /// <summary>
@@ -129,7 +124,7 @@ namespace ISILab.LBS.Manipulators
             if (feedback == null)
                 return;
 
-            MainView.AddElement(feedback);
+            MainView.Instance.AddElement(feedback);
             feedback.ActualizePositions(startClickPosition, startClickPosition);
         }
 
@@ -155,7 +150,7 @@ namespace ISILab.LBS.Manipulators
             if (feedback == null)
                 return;
 
-            MainView.RemoveElement(feedback);
+            MainView.Instance.RemoveElement(feedback);
         }
 
         /// <summary>
@@ -168,7 +163,7 @@ namespace ISILab.LBS.Manipulators
                 return;
 
             started = true;
-            startClickPosition = MainView.FixPos(e.localMousePosition).ToInt();
+            startClickPosition = MainView.Instance.FixPos(e.localMousePosition).ToInt();
             StartFeedback();
 
             OnManipulationStart?.Invoke();
@@ -184,7 +179,7 @@ namespace ISILab.LBS.Manipulators
             if (e.button != 0)
                 return;
 
-            moveClickPosition = MainView.FixPos(e.localMousePosition).ToInt();
+            moveClickPosition = MainView.Instance.FixPos(e.localMousePosition).ToInt();
 
             OnMouseMove(e.target as VisualElement, moveClickPosition, e);
             UpdateFeedback();
@@ -202,7 +197,7 @@ namespace ISILab.LBS.Manipulators
                 return;
 
             ended = true;
-            endClickPosition = MainView.FixPos(e.localMousePosition).ToInt();
+            endClickPosition = MainView.Instance.FixPos(e.localMousePosition).ToInt();
             EndFeedback();
 
             if (!e.altKey)

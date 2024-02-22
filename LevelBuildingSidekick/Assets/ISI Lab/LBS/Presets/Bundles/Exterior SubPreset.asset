@@ -21,19 +21,12 @@ MonoBehaviour:
   - obj: {fileID: 0}
     probability: 0
   characteristics:
-  - rid: 3767989597796302924
+  - rid: 279245660068773893
   positioning: 0
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 3767989597796302924
-      type: {class: LBSDirection, ns: , asm: LBS}
+    - rid: 279245660068773893
+      type: {class: LBSDirection, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
-        label: Connections
-        connections:
-        - Grass
-        - Grass
-        - Grass
-        - Grass
+        connections: []

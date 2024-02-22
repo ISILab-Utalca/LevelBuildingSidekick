@@ -40,7 +40,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
         public void NewLevel(DropdownMenuAction dma)
         {
-            var data = LBSController.CreateNewLevel("new file", new Vector3(100, 100, 100));
+            var data = LBSController.CreateNewLevel("new file");
             OnNewLevel?.Invoke(data);
         }
 

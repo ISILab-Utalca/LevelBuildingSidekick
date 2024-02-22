@@ -102,7 +102,7 @@ namespace ISILab.LBS.Internal.Editor
             else
             {
                 // if the backup is not found, a new level is created
-                LBS.loadedLevel = new LoadedLevel(new LBSLevelData(), "New level");
+                LBS.loadedLevel = LoadedLevel.CreateInstance(new LBSLevelData(), "New level");
             }
         }
 

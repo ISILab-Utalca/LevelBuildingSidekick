@@ -21,6 +21,7 @@ using ISILab.AI.Wrappers;
 using ISILab.LBS.Modules;
 using ISILab.LBS.Components;
 using ISILab.Commons.Utility;
+using ISILab.AI.Categorization;
 
 namespace ISILab.LBS.Assistants
 {

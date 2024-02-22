@@ -20,7 +20,7 @@ namespace ISILab.LBS
     }
 
     [System.Serializable]
-    public class LoadedLevel
+    public class LoadedLevel : ScriptableObject
     {
         [JsonRequired]
         public string fullName = "";
@@ -43,10 +43,12 @@ namespace ISILab.LBS
             }
         }
 
-        public LoadedLevel(LBSLevelData data, string fullName)
+        public static LoadedLevel CreateInstance(LBSLevelData data, string fullName)
         {
-            this.fullName = fullName;
-            this.data = data;
+            var level = ScriptableObject.CreateInstance<LoadedLevel>();
+            level.data = data;
+            level.fullName = fullName;
+            return level;
         }
     }
 }
