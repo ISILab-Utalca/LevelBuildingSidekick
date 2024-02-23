@@ -5,6 +5,7 @@ using LBS.Components;
 using LBS.Components.TileMap;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -36,9 +37,13 @@ namespace ISILab.LBS.Manipulators
         {
             if (ToSet == null)
             {
-                Debug.LogWarning("No tienens ninguna zona seleccionada para colocar.");
+                Debug.LogWarning("You don't have any selected item to place.");
                 return;
             }
+
+            var x = LBSController.CurrentLevel;
+            EditorGUI.BeginChangeCheck();
+            Undo.RegisterCompleteObjectUndo(x, "Add Element population");
 
             var corners = population.Owner.ToFixedPosition(StartPosition, EndPosition);
 
@@ -48,6 +53,11 @@ namespace ISILab.LBS.Manipulators
                 {
                     population.AddTile(new Vector2Int(i, j), ToSet);
                 }
+            }
+
+            if (EditorGUI.EndChangeCheck())
+            {
+                EditorUtility.SetDirty(x);
             }
         }
     }

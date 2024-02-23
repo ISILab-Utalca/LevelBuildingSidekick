@@ -5,6 +5,7 @@ using LBS.Components.Graph;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -31,6 +32,10 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
         {
+            var xx = LBSController.CurrentLevel;
+            EditorGUI.BeginChangeCheck();
+            Undo.RegisterCompleteObjectUndo(xx, "On Rect");
+
             var corners = layer.ToFixedPosition(StartPosition, EndPosition);
 
             var x = StartPosition.x < EndPosition.x ? StartPosition.x : EndPosition.x;
@@ -41,6 +46,11 @@ namespace ISILab.LBS.Manipulators
             var size = corners.Item2 - corners.Item1 + Vector2.one;
             var r = new Rect(corners.Item1, size);
             OnSelection?.Invoke(r);
+
+            if (EditorGUI.EndChangeCheck())
+            {
+                EditorUtility.SetDirty(xx);
+            }
         }
     }
 }
