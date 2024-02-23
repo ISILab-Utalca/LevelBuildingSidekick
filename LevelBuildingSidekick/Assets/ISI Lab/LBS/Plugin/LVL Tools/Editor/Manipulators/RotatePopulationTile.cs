@@ -4,6 +4,7 @@ using ISILab.LBS.VisualElements;
 using LBS.Components;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
@@ -37,6 +38,10 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
         {
+            var x = LBSController.CurrentLevel;
+            EditorGUI.BeginChangeCheck();
+            Undo.RegisterCompleteObjectUndo(x, "Rotate");
+
             var pos = population.Owner.ToFixedPosition(endPosition);
 
             var dx = first.x - pos.x;
@@ -48,6 +53,11 @@ namespace ISILab.LBS.Manipulators
                 return;
 
             population.RotateTile(first, Directions[fDir]);
+
+            if (EditorGUI.EndChangeCheck())
+            {
+                EditorUtility.SetDirty(x);
+            }
         }
     }
 }
