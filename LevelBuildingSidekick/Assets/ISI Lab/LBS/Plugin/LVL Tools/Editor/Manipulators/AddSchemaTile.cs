@@ -18,8 +18,8 @@ namespace ISILab.LBS.Manipulators
 
         public Zone ToSet
         {
-            get => schema.roomToSet;
-            set => schema.roomToSet = value;
+            get => schema.RoomToSet;
+            set => schema.RoomToSet = value;
         }
 
         public AddSchemaTile() : base()
@@ -38,8 +38,8 @@ namespace ISILab.LBS.Manipulators
         protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
         {
             var x = LBSController.CurrentLevel;
-            EditorGUI.BeginChangeCheck();
             Undo.RegisterCompleteObjectUndo(x, "Add Zone");
+            EditorGUI.BeginChangeCheck();
 
             if (e.ctrlKey)
             {
@@ -55,6 +55,7 @@ namespace ISILab.LBS.Manipulators
                 Debug.LogWarning("You don't have any selected area to place.");
                 return;
             }
+
 
             var corners = schema.Owner.ToFixedPosition(StartPosition, EndPosition);
 

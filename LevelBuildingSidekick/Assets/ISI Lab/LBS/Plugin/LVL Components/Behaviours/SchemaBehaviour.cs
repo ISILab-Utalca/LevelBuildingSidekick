@@ -45,8 +45,13 @@ namespace ISILab.LBS.Behaviours
         #endregion
 
         #region META-FIELDS
+        private Zone roomToSet;
         [JsonIgnore]
-        public Zone roomToSet;
+        public Zone RoomToSet
+        {
+            get => roomToSet; 
+            set => roomToSet = value; 
+        }
         [JsonIgnore]
         public string conectionToSet;
         #endregion

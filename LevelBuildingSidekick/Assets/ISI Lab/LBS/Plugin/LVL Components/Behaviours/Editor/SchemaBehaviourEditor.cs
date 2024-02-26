@@ -147,7 +147,7 @@ namespace ISILab.LBS.Behaviours.Editor
             // Select option event
             areaPallete.OnSelectOption += (selected) =>
             {
-                _target.roomToSet = selected as Zone;
+                _target.RoomToSet = selected as Zone;
                 ToolKit.Instance.SetActive("Paint Zone");
             };
 
