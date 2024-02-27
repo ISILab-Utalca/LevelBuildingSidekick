@@ -5,9 +5,9 @@ using UnityEngine;
 
 namespace ISILab.LBS.Components
 {
-    [CreateAssetMenu(fileName = "NewID", menuName = "ISILab/LBS/Identifier")]
+    [CreateAssetMenu(fileName = "NewID", menuName = "ISILab/LBS/Tag")]
     [System.Serializable]
-    public class LBSIdentifier : ScriptableObject
+    public class LBSTag : ScriptableObject
     {
         #region FIELDS
         [ReadOnly]
@@ -60,7 +60,7 @@ namespace ISILab.LBS.Components
         #endregion
 
         #region EVENTS
-        public delegate void TagEvent(LBSIdentifier tag);
+        public delegate void TagEvent(LBSTag tag);
         public TagEvent OnChangeText;
         public TagEvent OnChangeColor;
         public TagEvent OnChangeIcon;

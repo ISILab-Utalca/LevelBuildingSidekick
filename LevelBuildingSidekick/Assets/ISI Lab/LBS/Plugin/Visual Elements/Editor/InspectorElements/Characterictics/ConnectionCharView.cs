@@ -12,7 +12,7 @@ namespace ISILab.LBS.VisualElements
 
         public ConnectionCharView()
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("ConnectionCharView");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("ConnectionCharView");
             visualTree.CloneTree(this);
 
             connected8 = this.Q<Button8Connected>();

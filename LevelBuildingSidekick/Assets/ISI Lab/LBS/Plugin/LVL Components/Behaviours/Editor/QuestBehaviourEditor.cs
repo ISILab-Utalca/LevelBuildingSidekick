@@ -91,7 +91,7 @@ namespace ISILab.LBS.VisualElements
 
         protected override VisualElement CreateVisualElement()
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("GrammarAssistantEditor");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("GrammarAssistantEditor");
             visualTree.CloneTree(this);
 
             grammarDropdown = this.Q<DropdownField>(name: "Grammar");

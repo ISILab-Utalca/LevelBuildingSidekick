@@ -48,7 +48,7 @@ namespace ISILab.LBS.VisualElements.Editor
         #region CONSTRUCTORS
         public Generator3DPanel()
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("Generator3DPanel");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("Generator3DPanel");
             visualTree.CloneTree(this);
 
             positionField = this.Q<Vector3Field>(name: "Position");

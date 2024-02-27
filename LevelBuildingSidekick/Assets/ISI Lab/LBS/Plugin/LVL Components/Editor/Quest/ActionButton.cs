@@ -14,7 +14,7 @@ namespace ISILab.LBS.VisualElements
 
         public ActionButton()
         {
-            var visualtree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("ActionButton");
+            var visualtree = DirectoryTools.GetAssetByName<VisualTreeAsset>("ActionButton");
             visualtree.CloneTree(this);
 
             text = this.Q<Label>(name: "Action");

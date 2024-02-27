@@ -26,7 +26,7 @@ namespace ISILab.LBS.VisualElements
 
         public DynamicContextMenu()
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("DynamicContextMenu");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("DynamicContextMenu");
             visualTree.CloneTree(this);
             Menu = this.Q<VisualElement>(name: "Menu");
         }

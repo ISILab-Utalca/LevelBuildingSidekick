@@ -28,7 +28,7 @@ namespace LBS.VisualElements
 
         public LayerInfoView()
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("LayerInfoView");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("LayerInfoView");
             visualTree.CloneTree(this);
 
             this.foldout = this.Q<Foldout>();

@@ -26,7 +26,7 @@ namespace ISILab.LBS.VisualElements
         {
             if (view == null)
             {
-                view = DirectoryTools.SearchAssetByName<VisualTreeAsset>("SchemaTileView");
+                view = DirectoryTools.GetAssetByName<VisualTreeAsset>("SchemaTileView");
             }
             view.CloneTree(this);
 

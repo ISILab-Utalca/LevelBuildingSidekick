@@ -17,7 +17,7 @@ namespace ISILab.Commons.Utility.Editor
             return r;
         }
 
-        public static T SearchAssetByName<T>(string name)
+        public static T GetAssetByName<T>(string name)
         {
             var guids = AssetDatabase.FindAssets(name);
             object obj = null;

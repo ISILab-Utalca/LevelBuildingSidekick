@@ -38,7 +38,7 @@ namespace ISILab.LBS.VisualElements
 
         public Button8Connected()
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("Button8Connected");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("Button8Connected");
             visualTree.CloneTree(this);
 
             upperLeft = this.Q<Button>("UpperLeft");

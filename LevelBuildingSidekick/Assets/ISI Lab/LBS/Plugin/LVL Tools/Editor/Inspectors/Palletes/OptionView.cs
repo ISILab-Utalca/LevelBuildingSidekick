@@ -53,7 +53,7 @@ namespace LBS.VisualElements
 
         public OptionView(object target, Action<object> onSelect, Action<OptionView, object> onSetView)
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("OptionView");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("OptionView");
             visualTree.CloneTree(this);
 
             // Init View

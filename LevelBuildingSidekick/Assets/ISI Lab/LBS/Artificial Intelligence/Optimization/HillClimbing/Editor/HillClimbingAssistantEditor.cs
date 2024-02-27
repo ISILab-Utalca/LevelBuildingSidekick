@@ -92,7 +92,7 @@ namespace ISILab.LBS.VisualElements
 
         protected override VisualElement CreateVisualElement()
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("HillClimbingEditor");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("HillClimbingEditor");
             visualTree.CloneTree(this);
 
             var moduleConstr = hillClimbing.Owner.GetModule<ConstrainsZonesModule>();

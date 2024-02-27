@@ -20,7 +20,7 @@ namespace ISILab.LBS.VisualElements
 
         public QuestView()
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("LayerView");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("LayerView");
             visualTree.CloneTree(this);
 
             // LayerName
@@ -33,7 +33,7 @@ namespace ISILab.LBS.VisualElements
             // LayerIcon
             questIcon = this.Q<VisualElement>("Icon");
 
-            questIcon.style.backgroundImage = DirectoryTools.SearchAssetByName<Texture2D>("IconQuestMainWindw");
+            questIcon.style.backgroundImage = DirectoryTools.GetAssetByName<Texture2D>("IconQuestMainWindw");
 
             // Show/Hide button
             showButton = this.Q<Button>("ShowButton");

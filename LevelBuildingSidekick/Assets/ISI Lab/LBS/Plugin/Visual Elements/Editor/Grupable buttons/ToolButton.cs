@@ -28,7 +28,7 @@ namespace ISILab.LBS.VisualElements
         #region CONSTRUCTORS
         public ToolButton(LBSTool tool)
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("ToolButton");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("ToolButton");
             visualTree.CloneTree(this);
 
             // Button

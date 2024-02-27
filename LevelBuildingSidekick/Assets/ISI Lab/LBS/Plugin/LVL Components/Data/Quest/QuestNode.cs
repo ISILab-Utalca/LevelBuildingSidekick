@@ -116,7 +116,7 @@ namespace ISILab.LBS.Components
         [SerializeField, JsonRequired, SerializeReference]
         private Rect rect;
         [SerializeField, JsonRequired, SerializeReference]
-        private List<LBSIdentifier> tags = new List<LBSIdentifier>();
+        private List<LBSTag> tags = new List<LBSTag>();
 
         [JsonIgnore]
         public Rect Rect
@@ -126,14 +126,14 @@ namespace ISILab.LBS.Components
         }
 
         [JsonIgnore]
-        public List<LBSIdentifier> Tags => tags;
+        public List<LBSTag> Tags => tags;
 
         public QuestTarget() { }
 
         public object Clone()
         {
             var target = new QuestTarget();
-            target.tags = new List<LBSIdentifier>(tags);
+            target.tags = new List<LBSTag>(tags);
             target.rect = rect;
             return target;
         }

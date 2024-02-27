@@ -34,7 +34,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
         public QuestsPanel(LBSLevelData data)
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("QuestsPanel");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestsPanel");
             visualTree.CloneTree(this);
 
             this.data = data;

@@ -61,7 +61,7 @@ namespace ISILab.LBS.VisualElements
         #region CONSTRUCTORS
         public WarningPanel()
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("WarningPanel");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("WarningPanel");
             visualTree.CloneTree(this);
 
             this.label = this.Q<Label>("Text");

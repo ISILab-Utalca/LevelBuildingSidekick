@@ -28,7 +28,7 @@ namespace ISILab.LBS.VisualElements
 
         public ButtonWrapper()
         {
-            var styleSheet = DirectoryTools.SearchAssetByName<StyleSheet>("MapEliteUSS");
+            var styleSheet = DirectoryTools.GetAssetByName<StyleSheet>("MapEliteUSS");
             this.styleSheets.Add(styleSheet);
             text = "0";
         }
@@ -37,7 +37,7 @@ namespace ISILab.LBS.VisualElements
         {
             style.width = size.x;
             style.height = size.y;
-            var styleSheet = DirectoryTools.SearchAssetByName<StyleSheet>("MapEliteUSS");
+            var styleSheet = DirectoryTools.GetAssetByName<StyleSheet>("MapEliteUSS");
             this.styleSheets.Add(styleSheet);
             text = "0";
 

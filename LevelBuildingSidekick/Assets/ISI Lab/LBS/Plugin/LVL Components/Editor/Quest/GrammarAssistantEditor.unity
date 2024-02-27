@@ -276,6 +276,8 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 4305864887920493014
       type: {class: QuestNode, ns: , asm: LBS}
       data:

@@ -16,7 +16,7 @@ namespace ISILab.LBS.VisualElements
 
         public TagsInspector()
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("BundleTagView");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("BundleTagView");
             visualTree.CloneTree(this);
 
             // Init tags bundle

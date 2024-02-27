@@ -23,7 +23,7 @@ namespace ISILab.LBS.Manipulators
         private ConnectedConrnerLine lineFeedback = new ConnectedConrnerLine();
         private Feedback areaFeedback = new AreaFeedback();
 
-        public LBSIdentifier ToSet
+        public LBSTag ToSet
         {
             get => exterior.identifierToSet;
             set => exterior.identifierToSet = value;

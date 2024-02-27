@@ -27,7 +27,7 @@ namespace ISILab.LBS.VisualElements
         {
             if (view == null)
             {
-                view = DirectoryTools.SearchAssetByName<VisualTreeAsset>("ConnectedTile");
+                view = DirectoryTools.GetAssetByName<VisualTreeAsset>("ConnectedTile");
             }
             view.CloneTree(this);
 
@@ -54,7 +54,7 @@ namespace ISILab.LBS.VisualElements
 
         public void SetConnections(string[] tags)
         {
-            var tts = LBSAssetsStorage.Instance.Get<LBSIdentifier>();
+            var tts = LBSAssetsStorage.Instance.Get<LBSTag>();
 
             if (!string.IsNullOrEmpty(tags[0]))
             {

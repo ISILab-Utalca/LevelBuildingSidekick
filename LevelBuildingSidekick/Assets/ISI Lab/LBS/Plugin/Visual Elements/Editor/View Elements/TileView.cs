@@ -20,7 +20,7 @@ namespace ISILab.LBS.VisualElements
             data = tile;
             if (uxml != null)
             {
-                var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>(uxml);
+                var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>(uxml);
                 visualTree.CloneTree(this);
             }
         }

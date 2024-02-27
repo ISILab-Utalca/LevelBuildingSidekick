@@ -65,7 +65,7 @@ namespace ISILab.LBS.VisualElements
 
         protected override VisualElement CreateVisualElement()
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("ConstraintView");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("ConstraintView");
             visualTree.CloneTree(this);
 
             // Foldout

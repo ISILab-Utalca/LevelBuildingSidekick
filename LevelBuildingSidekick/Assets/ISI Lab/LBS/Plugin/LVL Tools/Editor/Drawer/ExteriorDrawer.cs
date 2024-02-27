@@ -19,7 +19,7 @@ namespace ISILab.LBS.Drawers
     [Drawer(typeof(ExteriorBehaviour))]
     public class ExteriorDrawer : Drawer
     {
-        private List<LBSIdentifier> Identifiers => LBSAssetsStorage.Instance.Get<LBSIdentifier>();
+        private List<LBSTag> Identifiers => LBSAssetsStorage.Instance.Get<LBSTag>();
         public ExteriorDrawer() : base() { }
 
         public override void Draw(object target, MainView view, Vector2 teselationSize)

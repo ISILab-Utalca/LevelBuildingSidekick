@@ -27,16 +27,16 @@ MonoBehaviour:
   - obj: {fileID: 903921997439312597, guid: 390ab74496491684a8d4405a742ee3ee, type: 3}
     probability: 0.861
   characteristics:
-  - rid: 5085006314459627529
+  - rid: 4305865179182923893
   positioning: 0
   references:
     version: 2
     RefIds:
-    - rid: 5085006314459627529
+    - rid: 4305865179182923893
       type: {class: LBSDirection, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         connections:
-        - Road
-        - Fodder
-        - Road
-        - Road
+        - 
+        - 
+        - 
+        - 

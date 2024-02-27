@@ -23,6 +23,7 @@ namespace ISILab.LBS.VisualElements
         {
             CreateVisualElement();
             SetInfo(target);
+
         }
 
         public override void SetInfo(object obj)
@@ -30,9 +31,15 @@ namespace ISILab.LBS.VisualElements
             this.target = obj;
             var target = obj as LBSDirectionedGroup;
 
+            if (target == null)
+                return;
+
+            target.Update();
+
             content = new VisualElement();
             Add(content);
             var weights = target.Weights;
+
             for (int i = 0; i < weights.Count; i++)
             {
                 var current = weights[i];
@@ -50,7 +57,6 @@ namespace ISILab.LBS.VisualElements
                 {
                     current.weigth = e.newValue;
                 });
-
             }
         }
 
@@ -59,7 +65,6 @@ namespace ISILab.LBS.VisualElements
             var target = this.target as LBSDirectionedGroup;
 
             content = new VisualElement();
-
 
             return this;
         }

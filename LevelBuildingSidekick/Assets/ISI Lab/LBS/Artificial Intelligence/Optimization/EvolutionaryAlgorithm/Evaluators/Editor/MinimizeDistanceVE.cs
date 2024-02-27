@@ -24,7 +24,7 @@ namespace ISILab.LBS.VisualElements
         public MinimizeDistanceVE(IEvaluator evaluator) : base(evaluator)
         {
 
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("DistanceVE");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("DistanceVE");
             visualTree.CloneTree(this);
 
             dropdown = this.Q<DropdownField>(name: "Dropdown");

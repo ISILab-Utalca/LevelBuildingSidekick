@@ -47,7 +47,7 @@ namespace ISILab.LBS.VisualElements
         {
             var node = target as QuestNode;
 
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("QuestNodeEditor");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNodeEditor");
             visualTree.CloneTree(this);
 
             label = this.Q<Label>();
@@ -56,7 +56,7 @@ namespace ISILab.LBS.VisualElements
 
             tags = this.Q<ListView>();
 
-            tags.itemsSource = new List<LBSIdentifier>();
+            tags.itemsSource = new List<LBSTag>();
 
             tags.makeItem = MakeTagItem;
             tags.bindItem = BindTagItem;
@@ -67,7 +67,7 @@ namespace ISILab.LBS.VisualElements
         public VisualElement MakeTagItem()
         {
             var of = new ObjectField("Tag: ");
-            of.objectType = typeof(LBSIdentifier);
+            of.objectType = typeof(LBSTag);
 
             return of;
         }
@@ -83,7 +83,7 @@ namespace ISILab.LBS.VisualElements
 
             of.value = node.Target.Tags[index];
 
-            of.RegisterValueChangedCallback(evt => node.Target.Tags[index] = evt.newValue as LBSIdentifier);
+            of.RegisterValueChangedCallback(evt => node.Target.Tags[index] = evt.newValue as LBSTag);
         }
 
 

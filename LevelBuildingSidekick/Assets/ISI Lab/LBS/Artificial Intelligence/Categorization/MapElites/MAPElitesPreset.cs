@@ -23,7 +23,7 @@ namespace ISILab.LBS.AI.Categorization
         [SerializeField]
         string maskType = "";
 
-        public List<LBSIdentifier> blackList = new List<LBSIdentifier>();
+        public List<LBSTag> blackList = new List<LBSTag>();
 
         [JsonIgnore]
         public MapElites MapElites => mapElites?.Clone() as MapElites;

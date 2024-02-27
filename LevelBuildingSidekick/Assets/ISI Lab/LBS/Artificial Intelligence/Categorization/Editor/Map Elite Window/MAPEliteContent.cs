@@ -133,9 +133,9 @@ namespace ISILab.LBS.VisualElements
 
         private void CreateGUI()
         {
-            standbyImg = DirectoryTools.SearchAssetByName<Texture2D>("PausedProcess");
-            loadingImg = DirectoryTools.SearchAssetByName<Texture2D>("LoadingContent");
-            notFoundImg = DirectoryTools.SearchAssetByName<Texture2D>("ContentNotFound");
+            standbyImg = DirectoryTools.GetAssetByName<Texture2D>("PausedProcess");
+            loadingImg = DirectoryTools.GetAssetByName<Texture2D>("LoadingContent");
+            notFoundImg = DirectoryTools.GetAssetByName<Texture2D>("ContentNotFound");
 
             ChangePartitions(new Vector2(2, 2));
         }

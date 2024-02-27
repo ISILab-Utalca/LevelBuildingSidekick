@@ -21,7 +21,7 @@ namespace ISILab.LBS.VisualElements
 
         public ComplexDropdownElement()
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("ComplexDropdownElement");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("ComplexDropdownElement");
             visualTree.CloneTree(this);
 
             content = this.Q<VisualElement>("Content");

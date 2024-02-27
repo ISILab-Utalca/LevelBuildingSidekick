@@ -117,7 +117,7 @@ namespace LBS.VisualElements
         #region CONSTRUCTORS
         public ToolKit()
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("ToolKit");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("ToolKit");
             visualTree.CloneTree(this);
 
             this.content = this.Q<VisualElement>("Content");

@@ -23,7 +23,7 @@ namespace ISILab.LBS.VisualElements
 
         public BehaviourBaseView()
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("BehaviourBaseView");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("BehaviourBaseView");
             visualTree.CloneTree(this);
 
             helpBtn = this.Q<Button>("HelpBtn");

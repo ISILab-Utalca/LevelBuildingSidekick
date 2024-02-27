@@ -69,7 +69,6 @@ namespace ISILab.LBS.Assistants
 
             // Get bundles posible tiles
             var group = bundle.GetCharacteristics<LBSDirectionedGroup>()[0];
-            var connectionsChars = group.Connections;
 
             // Get modules
             var map = Owner.GetModule<TileMapModule>();

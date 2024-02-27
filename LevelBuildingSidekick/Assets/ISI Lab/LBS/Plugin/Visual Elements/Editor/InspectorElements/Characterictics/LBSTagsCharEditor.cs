@@ -41,7 +41,7 @@ namespace ISILab.LBS.Editor
 
             dropdownField = new DropdownField("Value:");
             ve.Add(dropdownField);
-            var tags = storage.Get<LBSIdentifier>();
+            var tags = storage.Get<LBSTag>();
             dropdownField.choices = tags.Select(t => t.Label).ToList();
             dropdownField.RegisterCallback<ChangeEvent<string>>(e =>
             {

@@ -30,7 +30,7 @@ namespace ISILab.LBS.VisualElements
 
         public LBSLocalCurrent()
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSLocalCurrent");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("LBSLocalCurrent");
             visualTree.CloneTree(this);
 
             layerContent = this.Q<VisualElement>("LayerContent");

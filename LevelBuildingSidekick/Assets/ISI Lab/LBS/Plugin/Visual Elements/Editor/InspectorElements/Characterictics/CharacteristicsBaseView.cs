@@ -30,7 +30,7 @@ namespace ISILab.LBS.VisualElements
 
         public CharacteristicsBaseView()
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("CharacteristicsBaseView");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("CharacteristicsBaseView");
             visualTree.CloneTree(this);
 
             content = this.Q<VisualElement>("Content");

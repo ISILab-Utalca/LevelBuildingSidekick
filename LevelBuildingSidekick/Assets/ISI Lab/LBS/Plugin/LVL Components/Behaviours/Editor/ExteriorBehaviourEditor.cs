@@ -124,7 +124,7 @@ namespace ISILab.LBS.VisualElements
 
         protected override VisualElement CreateVisualElement()
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("ExteriorBehaviourEditor");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("ExteriorBehaviourEditor");
             visualTree.CloneTree(this);
 
             // WarningPanel
@@ -163,7 +163,7 @@ namespace ISILab.LBS.VisualElements
             connectionPallete.SetIcon(icon, BHcolor);
 
             // Get odentifiers
-            var indtifiers = LBSAssetsStorage.Instance.Get<LBSIdentifier>();
+            var indtifiers = LBSAssetsStorage.Instance.Get<LBSTag>();
 
             // Get current option
             var connections = bundle.GetChildrenCharacteristics<LBSDirection>();
@@ -183,14 +183,14 @@ namespace ISILab.LBS.VisualElements
             // Selected option event
             connectionPallete.OnSelectOption += (selected) =>
             {
-                exterior.identifierToSet = selected as LBSIdentifier;
+                exterior.identifierToSet = selected as LBSTag;
                 ToolKit.Instance.SetActive("Set connection");
             };
 
             // Init options
             connectionPallete.SetOptions(options, (optionView, option) =>
             {
-                var identifier = option as LBSIdentifier;
+                var identifier = option as LBSTag;
                 optionView.Label = identifier.Label;
                 optionView.Color = identifier.Color;
                 optionView.Icon = identifier.Icon;

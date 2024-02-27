@@ -33,7 +33,7 @@ namespace ISILab.LBS.VisualElements
         {
             if (view == null)
             {
-                view = DirectoryTools.SearchAssetByName<VisualTreeAsset>("QuestNodeView");
+                view = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNodeView");
             }
             view.CloneTree(this);
 

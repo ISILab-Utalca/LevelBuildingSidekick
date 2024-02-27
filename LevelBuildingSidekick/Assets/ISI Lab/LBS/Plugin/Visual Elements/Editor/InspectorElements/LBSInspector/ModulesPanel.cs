@@ -20,7 +20,7 @@ namespace ISILab.LBS.VisualElements
 
         public ModulesPanel()
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("ModulesPanel");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("ModulesPanel");
             visualTree.CloneTree(this);
 
             foldout = this.Q<Foldout>();

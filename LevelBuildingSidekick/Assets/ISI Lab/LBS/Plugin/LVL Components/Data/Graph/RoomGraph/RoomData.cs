@@ -22,11 +22,11 @@ namespace ISILab.LBS.Components
         [SerializeField, JsonRequired]
         private int height = 1;
 
-        [ScriptableObjectReference(typeof(LBSIdentifier), "Interior Styles")]
+        [ScriptableObjectReference(typeof(LBSTag), "Interior Styles")]
         [SerializeField, JsonRequired]
         private List<string> interiorTags = new List<string>();
 
-        [ScriptableObjectReference(typeof(LBSIdentifier), "Interior Styles")]
+        [ScriptableObjectReference(typeof(LBSTag), "Interior Styles")]
         [SerializeField, JsonRequired]
         private List<string> exteriorTags = new List<string>();
 

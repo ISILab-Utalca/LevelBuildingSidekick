@@ -72,7 +72,7 @@ namespace ISILab.LBS.Assistants
         public IEvaluator YEvaluator => mapElites.YEvaluator;
 
         private Type maskType;
-        private List<LBSIdentifier> blacklist;
+        private List<LBSTag> blacklist;
 
         #endregion
 

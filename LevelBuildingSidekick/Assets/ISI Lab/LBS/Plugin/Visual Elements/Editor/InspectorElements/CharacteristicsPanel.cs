@@ -27,7 +27,7 @@ namespace ISILab.LBS.VisualElements
 
         public CharacteristicsPanel()
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("CharacteristicsPanel");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("CharacteristicsPanel");
             visualTree.CloneTree(this);
 
             content = this.Q<VisualElement>("Content");

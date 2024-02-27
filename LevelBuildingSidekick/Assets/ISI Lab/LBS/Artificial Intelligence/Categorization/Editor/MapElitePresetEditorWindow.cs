@@ -34,7 +34,7 @@ namespace ISILab.LBS.AI.Categorization.Editor
 
         public virtual void CreateGUI()
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("MapElitesPresetEditorWindow");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("MapElitesPresetEditorWindow");
             visualTree.CloneTree(rootVisualElement);
 
 

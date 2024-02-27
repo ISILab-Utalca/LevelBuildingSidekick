@@ -18,7 +18,9 @@ namespace ISILab.LBS.VisualElements
 
         private object data;
 
-        static readonly VisualTreeAsset visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("ClassFoldout");
+        public Action OnRemoved;
+
+        static readonly VisualTreeAsset visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("ClassFoldout");
 
         public object Data
         {
@@ -86,5 +88,13 @@ namespace ISILab.LBS.VisualElements
             OnChoiceSelection?.Invoke();
             UpdateView(data.GetType(), data);
         }
+
+        public new void RemoveFromHierarchy()
+        {
+            OnRemoved?.Invoke();
+            base.RemoveFromHierarchy();
+        }
+
+
     }
 }

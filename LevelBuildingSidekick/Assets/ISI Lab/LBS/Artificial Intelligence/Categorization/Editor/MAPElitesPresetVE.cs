@@ -75,7 +75,7 @@ namespace ISILab.LBS.VisualElements
 
         protected override VisualElement CreateVisualElement()
         {
-            var vt = DirectoryTools.SearchAssetByName<VisualTreeAsset>("MAPElitesPresset");
+            var vt = DirectoryTools.GetAssetByName<VisualTreeAsset>("MAPElitesPresset");
             vt.CloneTree(this);
 
             var presset = target as MAPElitesPreset;
@@ -174,7 +174,7 @@ namespace ISILab.LBS.VisualElements
         VisualElement MakeItem()
         {
             var v = new ObjectField();
-            v.objectType = typeof(LBSIdentifier);
+            v.objectType = typeof(LBSTag);
             return v;
         }
 
@@ -188,7 +188,7 @@ namespace ISILab.LBS.VisualElements
                 {
                     of.value = presset.blackList[index];
                 }
-                of.RegisterValueChangedCallback(e => { presset.blackList[index] = e.newValue as LBSIdentifier; });
+                of.RegisterValueChangedCallback(e => { presset.blackList[index] = e.newValue as LBSTag; });
                 of.label = "Element " + index + ":";
             }
         }

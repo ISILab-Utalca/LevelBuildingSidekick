@@ -31,7 +31,7 @@ namespace ISILab.LBS.VisualElements
 
         public LBSLocalAssistants()
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSLocalAssistants");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("LBSLocalAssistants");
             visualTree.CloneTree(this);
 
             content = this.Q<VisualElement>("Content");

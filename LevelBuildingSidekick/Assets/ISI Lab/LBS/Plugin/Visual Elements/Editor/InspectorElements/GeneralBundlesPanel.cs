@@ -43,7 +43,7 @@ namespace ISILab.LBS.VisualElements
 
         public GeneralBundlesPanel()
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("GeneralBundlesPanel");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("GeneralBundlesPanel");
             visualTree.CloneTree(this);
 
             // Main content
@@ -142,10 +142,10 @@ namespace ISILab.LBS.VisualElements
             assetsList.itemsSource = target.Assets;
         }
 
-        private LBSIdentifier CreateID()
+        private LBSTag CreateID()
         {
-            var all = DirectoryTools.GetScriptables<LBSIdentifier>().ToList();
-            var nSO = ScriptableObject.CreateInstance<LBSIdentifier>();
+            var all = DirectoryTools.GetScriptables<LBSTag>().ToList();
+            var nSO = ScriptableObject.CreateInstance<LBSTag>();
 
             var settings = LBSSettings.Instance;
 

@@ -20,7 +20,7 @@ namespace ISILab.LBS.VisualElements
 
         public BehaviourContent(LBSCustomEditor content, string name, Texture2D icon, Color color)
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("BehaviourContent");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("BehaviourContent");
             visualTree.CloneTree(this);
 
             // Foldout

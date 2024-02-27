@@ -69,6 +69,7 @@ namespace ISILab.LBS.VisualElements
         public ClassDropDown()
         {
             label = "Class DropDown";
+            this.SetValueWithoutNotify("");
         }
 
         void UpdateOptions()

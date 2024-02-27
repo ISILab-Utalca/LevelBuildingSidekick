@@ -46,7 +46,7 @@ namespace ISILab.LBS.VisualElements
         #region CONSTRUCTORS
         public LBSGlobalBundlesInspector()
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSGlobalBundlesInspector");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("LBSGlobalBundlesInspector");
             visualTree.CloneTree(this);
 
             // Bundle list

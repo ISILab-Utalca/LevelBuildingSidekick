@@ -22,7 +22,7 @@ namespace ISILab.LBS.VisualElements
 
         public BundleAssetView()
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("BundleAssetView");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("BundleAssetView");
             visualTree.CloneTree(this);
 
             label = this.Q<Label>("Name");

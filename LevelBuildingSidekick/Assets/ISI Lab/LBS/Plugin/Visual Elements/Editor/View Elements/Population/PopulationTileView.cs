@@ -23,7 +23,7 @@ namespace ISILab.LBS.VisualElements
         {
             if (view == null)
             {
-                view = DirectoryTools.SearchAssetByName<VisualTreeAsset>("PopulationTile");
+                view = DirectoryTools.GetAssetByName<VisualTreeAsset>("PopulationTile");
             }
             view.CloneTree(this);
 

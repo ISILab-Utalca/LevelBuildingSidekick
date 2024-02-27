@@ -29,15 +29,32 @@ namespace ISILab.LBS.Characteristics
         #endregion
 
         #region FIELDS
-        [Tooltip("4-Conected: 0: R, 1: T, 2: L, 3: D")]
-        [ScriptableObjectReference(typeof(LBSIdentifier))]
+        [Tooltip("4-Conected: 0: Right, 1: Up, 2: Left, 3: Down")]
         [SerializeField, JsonRequired]
         private List<string> connections = new List<string>();
 
         #endregion
 
         #region PROPERTIES
+        [JsonIgnore]
         public List<string> Connections => new List<string>(connections);
+
+        [JsonIgnore]
+        public int Size
+        { 
+            get => connections.Count;
+            set
+            {
+                if(connections.Count < value)
+                {
+                    connections.AddRange(new string[value - connections.Count]);
+                }
+                else if(connections.Count > value)
+                {
+                    connections.RemoveRange(value - 1, value - connections.Count);
+                }
+            }
+        }
 
         //[SerializeField]
         //public List<weightStruct> Weights => new List<weightStruct>(weights); 
@@ -46,11 +63,12 @@ namespace ISILab.LBS.Characteristics
         #endregion
 
         #region CONSTRUCTORS
-        public LBSDirection() : base() { }
+        public LBSDirection() : base() { Size = 4; }
 
         public LBSDirection(List<string> tags)
         {
             this.connections = tags;
+            Size = tags.Count;
         }
         #endregion
 
@@ -63,6 +81,19 @@ namespace ISILab.LBS.Characteristics
             toR = toR.Rotate(rotation);
 
             return toR.ToArray();
+        }
+
+        public void SetConnection(LBSTag tag, int index)
+        {
+            try
+            {
+                connections[index] = tag.Label; 
+            }
+            catch
+            {
+                Debug.LogError("[ISILab] Index out of Range ");
+                return;
+            }
         }
 
         public override object Clone()

@@ -19,15 +19,12 @@ MonoBehaviour:
   childsBundles: []
   assets: []
   characteristics:
-  - rid: 3767989614650065816
+  - rid: 4305865163641716741
   positioning: 0
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 3767989614650065816
-      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+    - rid: 4305865163641716741
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
-        label: 
-        value: {fileID: 11400000, guid: 676b2525bf31dc6439be198604391b79, type: 2}
+        value: {fileID: 0}

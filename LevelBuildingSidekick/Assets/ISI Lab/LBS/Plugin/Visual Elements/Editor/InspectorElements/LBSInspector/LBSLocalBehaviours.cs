@@ -40,7 +40,7 @@ namespace ISILab.LBS.VisualElements
         #region CONSTRUCTORS
         public LBSLocalBehaviours()
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSLocalBehaviours");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("LBSLocalBehaviours");
             visualTree.CloneTree(this);
 
             content = this.Q<VisualElement>("Content");
@@ -57,6 +57,9 @@ namespace ISILab.LBS.VisualElements
             contentBehaviour.Clear();
 
             this.target = target;
+
+            if (target == null)
+                return;
 
             if (target.Behaviours.Count <= 0)
             {

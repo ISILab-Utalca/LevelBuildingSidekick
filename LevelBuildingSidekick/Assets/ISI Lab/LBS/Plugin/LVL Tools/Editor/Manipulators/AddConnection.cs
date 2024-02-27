@@ -11,7 +11,7 @@ namespace ISILab.LBS.Manipulators
 {
     public class AddConnection : LBSManipulator
     {
-        public LBSIdentifier tagToSet;
+        public LBSTag tagToSet;
         public ConnectedTileMapModule module;
 
         private List<Vector2Int> dirs = new List<Vector2Int>() // FIX: Use general directions from LBS

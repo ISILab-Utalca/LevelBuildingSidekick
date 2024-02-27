@@ -30,7 +30,7 @@ namespace ISILab.LBS.VisualElements
         {
             if (view == null)
             {
-                view = DirectoryTools.SearchAssetByName<VisualTreeAsset>("NodeUxml");
+                view = DirectoryTools.GetAssetByName<VisualTreeAsset>("NodeUxml");
             }
             view.CloneTree(this);
 

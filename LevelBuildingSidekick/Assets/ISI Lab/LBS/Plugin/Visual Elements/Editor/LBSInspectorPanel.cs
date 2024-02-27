@@ -45,7 +45,7 @@ namespace ISILab.LBS.VisualElements
         #region CONSTRUCTORS
         public LBSInspectorPanel()
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSInspectorPanel");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("LBSInspectorPanel");
             visualTree.CloneTree(this);
 
             // Tabs

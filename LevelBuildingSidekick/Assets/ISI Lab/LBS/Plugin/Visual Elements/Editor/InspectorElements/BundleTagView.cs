@@ -23,7 +23,7 @@ namespace ISILab.LBS.VisualElements
         {
             target = bundle;
 
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("BundleTagView");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("BundleTagView");
             visualTree.CloneTree(this);
 
             // BundleNameField
@@ -65,7 +65,7 @@ namespace ISILab.LBS.VisualElements
 
         private void AddTag(string name)
         {
-            var so = ScriptableObject.CreateInstance<LBSIdentifier>();
+            var so = ScriptableObject.CreateInstance<LBSTag>();
             so.Label = name;
             target.Add(so);
 

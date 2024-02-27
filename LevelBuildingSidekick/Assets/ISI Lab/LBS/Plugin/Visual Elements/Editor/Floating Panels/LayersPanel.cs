@@ -44,7 +44,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
         public LayersPanel(LBSLevelData data, ref List<LayerTemplate> templates)
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("LayersPanel");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("LayersPanel");
             visualTree.CloneTree(this);
 
             this.data = data;

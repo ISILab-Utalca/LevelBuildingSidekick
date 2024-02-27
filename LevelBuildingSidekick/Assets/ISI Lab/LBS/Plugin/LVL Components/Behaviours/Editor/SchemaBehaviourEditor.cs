@@ -100,7 +100,7 @@ namespace ISILab.LBS.Behaviours.Editor
 
         protected override VisualElement CreateVisualElement()
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("SchemaBehaviourEditor");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("SchemaBehaviourEditor");
             visualTree.CloneTree(this);
 
             // Area Pallete

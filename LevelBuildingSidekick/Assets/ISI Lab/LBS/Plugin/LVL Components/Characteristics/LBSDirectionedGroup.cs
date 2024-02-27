@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEngine.Rendering.VirtualTexturing.Debugging;
 
 
 namespace ISILab.LBS.Characteristics
@@ -17,7 +18,7 @@ namespace ISILab.LBS.Characteristics
     {
         #region SUB-STRUCTURE
         [System.Serializable]
-        public class WeigthStruct
+        public class WeightStruct
         {
             [SerializeField]
             public Bundle target;
@@ -28,13 +29,12 @@ namespace ISILab.LBS.Characteristics
         #endregion
 
         [SerializeField]
-        public List<WeigthStruct> Weights = new List<WeigthStruct>();
-
-        [JsonIgnore, System.NonSerialized]
-        private List<Tuple<Bundle, LBSDirection>> connections = new List<Tuple<Bundle, LBSDirection>>();
+        public List<WeightStruct> Weights = new List<WeightStruct>();
 
         [JsonIgnore]
-        public List<LBSDirection> Connections => connections.Select(t => t.Item2).ToList();
+        public Action OnAddOwnerChild;
+        [JsonIgnore]
+        public Action OnRemoveOwnerChild;
 
         public LBSDirectionedGroup()
         {
@@ -43,34 +43,66 @@ namespace ISILab.LBS.Characteristics
 
         public override void OnEnable()
         {
-            Owner.OnAddChild += OnAddAssetToOwner;
+            Owner.OnAddChild += OnAddChildToOwner;
+            Owner.OnRemoveChild += OnRemoveChildToOwner;
 
             foreach(var bundle in Owner.ChildsBundles)
             {
-                Weights.Add(new WeigthStruct() { target = bundle, weigth = 0.5f});
+                Weights.Add(new WeightStruct() { target = bundle, weigth = 0.5f});
             }
         }
 
-        private void OnAddAssetToOwner(Bundle child)
+        public void Update()
+        {
+            if (Owner == null)
+                return;
+
+            var bundles = Owner.ChildsBundles;
+
+            while(bundles.Count < Weights.Count)
+            {
+                for (int i = 0; i < Weights.Count; i++)
+                {
+                    if (!bundles.Equals(Weights[i].target))
+                    {
+                        Weights.RemoveAt(i);
+                        break;
+                    }
+                }
+            }
+            
+
+            for(int i = 0; i < bundles.Count; i++)
+            {
+                if (i == Weights.Count)
+                    Weights.Add(new WeightStruct() { target = bundles[i], weigth = 0.5f });
+
+                if (!bundles[i].Equals(Weights[i].target))
+                {
+                    Weights[i].target = bundles[i];
+                }
+            }
+
+            
+        }
+
+        private void OnAddChildToOwner(Bundle child)
         {
             var c = new LBSDirection();
             child.AddCharacteristic(c);
-            AddTilesChild(child, c);
+            Weights.Add(new WeightStruct() { target = child, weigth = 0.5f });
         }
 
-        public void AddTilesChild(Bundle bundle, LBSDirection connection)
+        private void OnRemoveChildToOwner(Bundle child)
         {
-            connections.Add(new Tuple<Bundle, LBSDirection>(bundle, connection));
+            var w = Weights.Find(w => w.target.Equals(child));
+
+            Weights.Remove(w);
         }
 
         public override object Clone()
         {
             var childs = Owner.ChildsBundles;
-            childs.ForEach(b =>
-            {
-                var c = b.GetCharacteristics<LBSDirection>();
-                AddTilesChild(b, c[0]);
-            });
             return new LBSDirectionedGroup();
         }
 

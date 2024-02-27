@@ -17,7 +17,7 @@ namespace ISILab.LBS.VisualElements
     {
         #region FIELDS
         private LBSIdentifierBundle target;
-        public LBSIdentifier selected;
+        public LBSTag selected;
         #endregion
 
         #region VIEW FIELDS
@@ -42,7 +42,7 @@ namespace ISILab.LBS.VisualElements
         #region CONSTRUCTORS
         public TagBundleView()
         {
-            visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("TagBundleView");
+            visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("TagBundleView");
             visualTree.CloneTree(this);
 
             // Main Content
@@ -92,7 +92,7 @@ namespace ISILab.LBS.VisualElements
         {
             var name = Format.CheckNameFormat(target.Tags.Select(b => b.name), "new tag");
 
-            var nTag = ScriptableObject.CreateInstance<LBSIdentifier>();
+            var nTag = ScriptableObject.CreateInstance<LBSTag>();
             nTag.Init(name, new Color().RandomColor(), null);
 
             var settings = LBSSettings.Instance;
@@ -154,7 +154,7 @@ namespace ISILab.LBS.VisualElements
 
         public void SelectionChange(IEnumerable<object> objs)
         {
-            selected = objs.ToList()[0] as LBSIdentifier;
+            selected = objs.ToList()[0] as LBSTag;
             OnSelectionChange?.Invoke(this);
         }
 

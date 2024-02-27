@@ -21,15 +21,15 @@ namespace ISILab.LBS
 
         #region FIELDS
         [SerializeField]
-        private List<LBSIdentifier> tags = new List<LBSIdentifier>();
+        private List<LBSTag> tags = new List<LBSTag>();
         [SerializeField]
         public TagType type;
         #endregion
 
         #region PROPERTIES
-        public List<LBSIdentifier> Tags
+        public List<LBSTag> Tags
         {
-            get => new List<LBSIdentifier>(tags);
+            get => new List<LBSTag>(tags);
         }
         #endregion
 
@@ -39,12 +39,12 @@ namespace ISILab.LBS
             tags.RemoveAt(index);
         }
 
-        public void Remove(LBSIdentifier tag)
+        public void Remove(LBSTag tag)
         {
             tags.Remove(tag);
         }
 
-        public void Add(LBSIdentifier tag)
+        public void Add(LBSTag tag)
         {
             tags.Add(tag);
         }

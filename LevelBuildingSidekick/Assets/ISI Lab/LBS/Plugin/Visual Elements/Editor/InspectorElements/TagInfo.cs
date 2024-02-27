@@ -16,7 +16,7 @@ namespace ISILab.LBS.VisualElements
         public new class UxmlFactory : UxmlFactory<TagInfo, UxmlTraits> { }
         #endregion
 
-        private LBSIdentifier target;
+        private LBSTag target;
 
         private ObjectField parentField;
         private TextField labelField;
@@ -25,7 +25,7 @@ namespace ISILab.LBS.VisualElements
 
         public TagInfo()
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("TagInfo");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("TagInfo");
             visualTree.CloneTree(this);
 
             // ParentField
@@ -52,7 +52,7 @@ namespace ISILab.LBS.VisualElements
             iconField.RegisterCallback<ChangeEvent<Object>>(e => target.Icon = e.newValue as Texture2D);
         }
 
-        public void SetInfo(LBSIdentifier target)
+        public void SetInfo(LBSTag target)
         {
             this.SetDisplay(target != null);
             this.target = target;

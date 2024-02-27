@@ -13,7 +13,7 @@ namespace ISILab.LBS.VisualElements
     public class TagView : VisualElement
     {
         #region FIELDS
-        private LBSIdentifier target;
+        private LBSTag target;
 
         private TextField textfield;
         private ColorField colorfield;
@@ -22,7 +22,7 @@ namespace ISILab.LBS.VisualElements
         #region CONSTRUCTORS
         public TagView()
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("TagView");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("TagView");
             visualTree.CloneTree(this);
 
             // TextField
@@ -36,7 +36,7 @@ namespace ISILab.LBS.VisualElements
         #endregion
 
         #region METHODS
-        public void SetInfo(LBSIdentifier target)
+        public void SetInfo(LBSTag target)
         {
             this.target = target;
 

@@ -15,15 +15,15 @@ namespace ISILab.LBS.Characteristics
         string tagName = "";
 
         [SerializeField, JsonIgnore]
-        protected LBSIdentifier value;
+        protected LBSTag value;
 
         [JsonIgnore]
-        public LBSIdentifier Value
+        public LBSTag Value
         {
             get
             {
                 if (value == null)
-                    value = LBSAssetsStorage.Instance.Get<LBSIdentifier>().Find(i => i.Label == tagName);
+                    value = LBSAssetsStorage.Instance.Get<LBSTag>().Find(i => i.Label == tagName);
                 return value;
             }
             set
@@ -33,7 +33,7 @@ namespace ISILab.LBS.Characteristics
             }
         }
 
-        public LBSTagsCharacteristic(LBSIdentifier value)
+        public LBSTagsCharacteristic(LBSTag value)
         {
             this.value = value;
             if (value != null)

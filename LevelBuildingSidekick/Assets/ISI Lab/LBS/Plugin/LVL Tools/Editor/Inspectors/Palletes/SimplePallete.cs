@@ -65,7 +65,7 @@ namespace LBS.VisualElements
         #region CONSTRUCTORS
         public SimplePallete()
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("SimplePallete");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("SimplePallete");
             visualTree.CloneTree(this);
 
             // Content

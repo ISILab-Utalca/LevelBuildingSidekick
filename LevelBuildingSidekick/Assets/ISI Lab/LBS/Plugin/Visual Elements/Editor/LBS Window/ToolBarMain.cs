@@ -21,7 +21,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
         public ToolBarMain()
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("ToolBarMain");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("ToolBarMain");
             visualTree.CloneTree(this);
 
             // File menu option

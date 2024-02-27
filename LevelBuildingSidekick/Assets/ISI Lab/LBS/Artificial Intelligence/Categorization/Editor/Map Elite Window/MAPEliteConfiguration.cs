@@ -34,7 +34,7 @@ namespace ISILab.LBS.AI.Assistants.Editor
         public MAPEliteConfiguration()
         {
 
-            visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("MAPEliteConfiguration");
+            visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("MAPEliteConfiguration");
             visualTree.CloneTree(this);
 
             undoBtn = this.Q<Button>(name: "UndoBtn");

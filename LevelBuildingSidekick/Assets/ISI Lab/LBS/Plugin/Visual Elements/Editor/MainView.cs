@@ -75,7 +75,7 @@ namespace ISILab.LBS.VisualElements.Editor
         public MainView()
         {
             Insert(0, new GridBackground());
-            var styleSheet = DirectoryTools.SearchAssetByName<StyleSheet>("MainViewUSS");
+            var styleSheet = DirectoryTools.GetAssetByName<StyleSheet>("MainViewUSS");
             styleSheets.Add(styleSheet);
             style.flexGrow = 1;
 

@@ -14,7 +14,7 @@ namespace ISILab.LBS.VisualElements
 
         public ModuleSimpleView()
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("ModuleSimpleView");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("ModuleSimpleView");
             visualTree.CloneTree(this);
 
             labelName = this.Q<Label>("LabelName");

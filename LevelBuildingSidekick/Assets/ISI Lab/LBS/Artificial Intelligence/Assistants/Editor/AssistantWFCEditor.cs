@@ -50,7 +50,7 @@ namespace ISILab.LBS.AI.Assistants.Editor
 
         protected override VisualElement CreateVisualElement()
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("AssistantWFCEditor");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("AssistantWFCEditor");
             visualTree.CloneTree(this);
 
             var field = this.Q<ObjectField>();

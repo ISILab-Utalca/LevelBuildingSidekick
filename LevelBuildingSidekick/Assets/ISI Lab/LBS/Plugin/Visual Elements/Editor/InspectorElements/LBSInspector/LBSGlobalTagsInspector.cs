@@ -47,7 +47,7 @@ namespace ISILab.LBS.VisualElements
         #region CONSTRUCTORS
         public LBSGlobalTagsInspector()
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSGlobalTagsInspector");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("LBSGlobalTagsInspector");
             visualTree.CloneTree(this);
 
             // Add Button
@@ -140,7 +140,7 @@ namespace ISILab.LBS.VisualElements
             selected = objects.ToList()[0] as LBSIdentifierBundle;
         }
 
-        private void SelectedTagChange(LBSIdentifier tag)
+        private void SelectedTagChange(LBSTag tag)
         {
             tagInfo.SetInfo(tag);
         }

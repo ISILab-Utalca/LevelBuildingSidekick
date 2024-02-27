@@ -33,7 +33,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
         public LayerView()
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("LayerView");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("LayerView");
             visualTree.CloneTree(this);
 
             this._base = this.Q<VisualElement>("Base");

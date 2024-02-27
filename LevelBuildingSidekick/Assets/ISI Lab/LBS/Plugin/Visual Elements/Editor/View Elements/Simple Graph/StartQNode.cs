@@ -15,7 +15,7 @@ namespace ISILab.LBS.VisualElements
         {
             if (view == null)
             {
-                view = DirectoryTools.SearchAssetByName<VisualTreeAsset>("StartQNode");
+                view = DirectoryTools.GetAssetByName<VisualTreeAsset>("StartQNode");
             }
             view.CloneTree(this);
         }

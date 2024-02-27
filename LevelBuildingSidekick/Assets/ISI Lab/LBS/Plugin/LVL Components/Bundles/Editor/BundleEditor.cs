@@ -17,6 +17,7 @@ using ISILab.LBS.VisualElements;
 using ISILab.LBS.AI.Categorization;
 using System.Reflection;
 using static UnityEngine.Rendering.VirtualTexturing.Debugging;
+using UnityEditor.TerrainTools;
 
 namespace ISILab.LBS.Bundles.Editor
 {
@@ -39,10 +40,8 @@ namespace ISILab.LBS.Bundles.Editor
         {
             var root = new VisualElement();
             InspectorElement.FillDefaultInspector(root, this.serializedObject, this);
-
             var bundle = target as Bundle;
 
-            //Bundle Characteristics Lists
             characteristics = new ListView();
             characteristics.headerTitle = "Characteristics";
             characteristics.showAddRemoveFooter = true;
@@ -57,12 +56,14 @@ namespace ISILab.LBS.Bundles.Editor
 
             characteristics.itemsAdded += view =>
             {
+
                 var x = bundle.characteristics.Last();
                 bundle.characteristics.RemoveAt(bundle.characteristics.Count - 1);
 
                 EditorGUI.BeginChangeCheck();
                 Undo.RegisterCompleteObjectUndo(bundle, "Add characteristics");
                 bundle.characteristics.Add(x);
+
 
                 if (EditorGUI.EndChangeCheck())
                 {
@@ -71,8 +72,15 @@ namespace ISILab.LBS.Bundles.Editor
                 Undo.undoRedoPerformed += UNDO;
             };
 
-
             root.Insert(root.childCount - 1, characteristics);
+
+            //ListView of ChildBundles
+            var lv = root.Children().ToList()[5] as PropertyField;
+            lv.TrackPropertyValue(serializedObject.FindProperty("childsBundles"), (sp) => 
+            { 
+                characteristics.RefreshItems(); Repaint(); 
+            });
+            //Debug.Log(lv.);
 
             return root;
         }
@@ -124,5 +132,6 @@ namespace ISILab.LBS.Bundles.Editor
         {
             EditorUtility.SetDirty(target);
         }
+
     }
 }

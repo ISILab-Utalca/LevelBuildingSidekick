@@ -20,7 +20,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
         public virtual void CreateGUI()
         {
-            var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("HintsController");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("HintsController");
             visualTree.CloneTree(rootVisualElement);
 
         }
