@@ -19,7 +19,7 @@ namespace LBS.VisualElements
         private VisualElement icon;
         private VisualElement border;
 
-        private object target;
+        public object target;
 
         public Action<object> OnSelect;
         private Action<OptionView, object> OnSetView;

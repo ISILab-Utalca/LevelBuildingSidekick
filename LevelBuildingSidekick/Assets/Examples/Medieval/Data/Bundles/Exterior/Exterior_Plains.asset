@@ -35,26 +35,14 @@ MonoBehaviour:
       data:
         Weights:
         - target: {fileID: 11400000, guid: 96e342b46785340458f3d9950e72f3c0, type: 2}
-          weigth: 0.5
+          weigth: 0.001
         - target: {fileID: 11400000, guid: 4ed3c9c9c7fa9294e9c89a02f2ee1a3e, type: 2}
-          weigth: 0.5
+          weigth: 0.3
         - target: {fileID: 11400000, guid: 7a32c908bcc56b143af54bfa703d76de, type: 2}
-          weigth: 0.5
+          weigth: 0.001
         - target: {fileID: 11400000, guid: 94eb9d25a6848ee4a83677c8cebbd146, type: 2}
-          weigth: 0.5
+          weigth: 0.001
         - target: {fileID: 11400000, guid: c481c305af5fdbf42ad799d7dc72aa59, type: 2}
-          weigth: 0.5
-        - target: {fileID: 11400000, guid: 5eb94e0f345637744a6e6ca227f8a754, type: 2}
-          weigth: 0.5
-        - target: {fileID: 11400000, guid: 96e342b46785340458f3d9950e72f3c0, type: 2}
-          weigth: 0.5
-        - target: {fileID: 11400000, guid: 4ed3c9c9c7fa9294e9c89a02f2ee1a3e, type: 2}
-          weigth: 0.5
-        - target: {fileID: 11400000, guid: 7a32c908bcc56b143af54bfa703d76de, type: 2}
-          weigth: 0.5
-        - target: {fileID: 11400000, guid: 94eb9d25a6848ee4a83677c8cebbd146, type: 2}
-          weigth: 0.5
-        - target: {fileID: 11400000, guid: c481c305af5fdbf42ad799d7dc72aa59, type: 2}
-          weigth: 0.5
+          weigth: 0.2
         - target: {fileID: 11400000, guid: 5eb94e0f345637744a6e6ca227f8a754, type: 2}
           weigth: 0.5

@@ -140,6 +140,8 @@ namespace ISILab.LBS.VisualElements
                 optionView.Icon = bundle.Icon;
             });
 
+            bundlePallete.OnRepaint += () => { bundlePallete.Selected = _target.selectedToSet; };
+
             bundlePallete.Repaint();
 
         }

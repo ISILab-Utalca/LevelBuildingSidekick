@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
+using System.Linq;
 
 namespace LBS.VisualElements
 {
@@ -39,6 +40,12 @@ namespace LBS.VisualElements
         #endregion
 
         #region PROPERTIES
+        public object Selected
+        {
+            get => selected;
+            set => selected = value;
+        }
+
         public object[] Options
         {
             get => options;
@@ -91,20 +98,20 @@ namespace LBS.VisualElements
 
             // Icon
             this.icon = this.Q<VisualElement>("IconPallete");
-            
         }
         #endregion
 
         #region METHODS
         private void OnInternalSelectOption(object obj)
         {
-            OnSelectOption?.Invoke(obj);
-            selected = obj;
 
             foreach (var optV in optionViews)
             {
                 optV.SetSelected(false);
             }
+            selected = obj;
+            OnSelectOption?.Invoke(obj);
+
         }
 
         public void SetOptions(object[] options, Action<OptionView, object> onSetView)
@@ -146,6 +153,13 @@ namespace LBS.VisualElements
             else
             {
                 content.Add(noElement);
+            }
+
+            if(selected != null)
+            {
+                var ov = optionViews.ToList().Find(o => o.target.Equals(selected));
+                if(ov != null)
+                    ov.SetSelected(true);
             }
         }
         #endregion

@@ -204,6 +204,8 @@ namespace ISILab.LBS.Behaviours.Editor
                 areaPallete.Repaint();
             };
 
+            areaPallete.OnRepaint += () => { areaPallete.Selected = _target.RoomToSet; };
+
             areaPallete.Repaint();
         }
 
@@ -240,6 +242,8 @@ namespace ISILab.LBS.Behaviours.Editor
                 optionView.Label = conencts;
                 optionView.Color = Color.black;
             });
+
+            connectionPallete.OnRepaint += () => { connectionPallete.Selected = _target.conectionToSet; };
 
             connectionPallete.Repaint();
 

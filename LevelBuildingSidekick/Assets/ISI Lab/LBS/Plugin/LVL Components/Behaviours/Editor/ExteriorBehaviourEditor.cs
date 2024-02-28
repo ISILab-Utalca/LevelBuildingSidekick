@@ -196,6 +196,8 @@ namespace ISILab.LBS.VisualElements
                 optionView.Icon = identifier.Icon;
             });
 
+            connectionPallete.OnRepaint += () => { connectionPallete.Selected = exterior.identifierToSet; };
+
             connectionPallete.Repaint();
         }
         #endregion
