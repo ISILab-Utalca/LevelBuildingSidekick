@@ -35,6 +35,7 @@ namespace ISILab.LBS.VisualElements
             mutations = new ListView();
             mutations.showAddRemoveFooter = true;
             mutations.showBorder = true;
+            mutations.headerTitle = "Mutations";
             mutations.showFoldoutHeader = true;
             mutations.virtualizationMethod = CollectionVirtualizationMethod.DynamicHeight;
 

@@ -17,9 +17,16 @@ MonoBehaviour:
   color: {r: 0, g: 0, b: 0, a: 0}
   icon: {fileID: 0}
   childsBundles: []
-  assets: []
-  characteristics: []
+  assets:
+  - obj: {fileID: 7823080364279856789, guid: 3bed9dd3c47ffb54e89795386e870bb4, type: 3}
+    probability: 0
+  characteristics:
+  - rid: 4305865204711817730
   positioning: 0
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 4305865204711817730
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        value: {fileID: 11400000, guid: 975a57a1811d3f743838422b5c87c58a, type: 2}

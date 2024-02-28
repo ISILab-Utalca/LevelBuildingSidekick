@@ -23,6 +23,7 @@ namespace ISILab.LBS.VisualElements
             this.target = target;
             var term = target as GenerationNumberTermination;
             generations.value = term.ExpectedGenerationNumber;
+            generations.RegisterValueChangedCallback(evt => term.ExpectedGenerationNumber = evt.newValue);
         }
 
         protected override VisualElement CreateVisualElement()

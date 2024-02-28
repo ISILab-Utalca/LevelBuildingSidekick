@@ -1,19 +1,19 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
     <ui:Vector2IntField label="Sample Count" name="Samples" />
     <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); margin-left: 8px; margin-top: 2px;">
-        <ClassDropDown label="Evaluator X" index="-1" choices="System.Collections.Generic.List`1[System.String]" Label="Evaluator X" name="XDropdown" />
+        <ISILab.LBS.VisualElements.ClassDropDown label="X Axis Evaluator" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="XDropdown" Label="X Axis Evaluator" />
         <ui:Vector2Field label="Threshold" name="XThreshold" />
         <ui:VisualElement name="XContent" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);" />
     </ui:VisualElement>
     <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); margin-left: 8px; margin-bottom: 2px;">
-        <ClassDropDown label="Evaluator Y" index="-1" choices="System.Collections.Generic.List`1[System.String]" Label="Evaluator Y" name="YDropdown" />
+        <ISILab.LBS.VisualElements.ClassDropDown label="Y Axis Evaluator" index="-1" choices="System.Collections.Generic.List`1[System.String]" Label="Y Axis Evaluator" name="YDropdown" />
         <ui:Vector2Field label="Threshold" name="YThreshold" />
         <ui:VisualElement name="YContent" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);" />
     </ui:VisualElement>
     <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); margin-left: 8px; padding-bottom: 2px; padding-top: 0; margin-bottom: 2px; margin-top: 2px;">
-        <ClassDropDown label="Optimizer" index="-1" choices="System.Collections.Generic.List`1[System.String]" Label="Optimizer" name="ODropdown" />
+        <ISILab.LBS.VisualElements.ClassDropDown label="Class DropDown" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="ODropdown" Label="Optimizer" />
         <ui:VisualElement name="OContent" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);" />
     </ui:VisualElement>
-    <ClassDropDown label="Behaviour Context" index="-1" choices="System.Collections.Generic.List`1[System.String]" Label="Behaviour Context" name="BehaviourContext" />
+    <ISILab.LBS.VisualElements.ClassDropDown label="Class DropDown" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="BehaviourContext" Label="Behaviour Context" />
     <ui:ListView focusable="true" show-add-remove-footer="true" horizontal-scrolling="false" show-foldout-header="true" header-title="Black List" show-border="true" virtualization-method="DynamicHeight" name="BlackList" />
 </ui:UXML>

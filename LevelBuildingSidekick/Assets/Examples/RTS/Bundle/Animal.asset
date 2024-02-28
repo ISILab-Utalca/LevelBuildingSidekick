@@ -17,9 +17,24 @@ MonoBehaviour:
   color: {r: 0, g: 0, b: 0, a: 0}
   icon: {fileID: 0}
   childsBundles: []
-  assets: []
-  characteristics: []
+  assets:
+  - obj: {fileID: 3507746843320673371, guid: 4f9eebc977b93d641a58f15164948196, type: 3}
+    probability: 1
+  - obj: {fileID: 3084024626696190684, guid: f5c8b6dc56a8e634a8f2a0cfbee2941d, type: 3}
+    probability: 1
+  - obj: {fileID: 4077612351692668892, guid: 0322c9b0c4f4d93418d648ec9405b63d, type: 3}
+    probability: 1
+  - obj: {fileID: 7677146391431892031, guid: 7ac0f4727b8b02d4b8fd471d4dc47304, type: 3}
+    probability: 1
+  - obj: {fileID: 8185963723970810583, guid: c36cdfacfaab1584c887c605bc8e7b2f, type: 3}
+    probability: 1
+  characteristics:
+  - rid: 4305865204711817724
   positioning: 0
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 4305865204711817724
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        value: {fileID: 11400000, guid: b354587b73f945f4188c7dc7026de4ef, type: 2}

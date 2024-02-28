@@ -51,6 +51,7 @@ namespace ISILab.LBS.VisualElements
             resourceChracteristics = new ListView();
             resourceChracteristics.showAddRemoveFooter = true;
             resourceChracteristics.showBorder = true;
+            resourceChracteristics.headerTitle = "Resource Characteristics";
             resourceChracteristics.showFoldoutHeader = true;
             resourceChracteristics.virtualizationMethod = CollectionVirtualizationMethod.DynamicHeight;
 
