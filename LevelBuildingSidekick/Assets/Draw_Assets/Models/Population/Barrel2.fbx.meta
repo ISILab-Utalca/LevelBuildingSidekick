@@ -3,7 +3,12 @@ guid: e29c8aa763a91c6458d3eabdec0f3081
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Barriles
+    second: {fileID: 2100000, guid: 2614bcffa5a4b43439787f31750fa019, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
