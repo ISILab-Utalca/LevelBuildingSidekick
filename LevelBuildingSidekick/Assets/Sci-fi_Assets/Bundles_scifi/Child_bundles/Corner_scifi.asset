@@ -13,23 +13,20 @@ MonoBehaviour:
   m_Name: Corner_scifi
   m_EditorClassIdentifier: 
   isPreset: 0
-  type: 0
+  type: 1
   color: {r: 0, g: 0, b: 0, a: 0}
   icon: {fileID: 0}
   childsBundles: []
   assets:
   - obj: {fileID: 2923813044562389876, guid: 0177ebc274752f14992e7d251d1f82c8, type: 3}
-    probability: 1
+    probability: 0.5
   characteristics:
-  - rid: 1104480385545535490
+  - rid: 279245815319625882
   positioning: 2
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 1104480385545535490
-      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+    - rid: 279245815319625882
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
-        label: 
         value: {fileID: 11400000, guid: dd9524b2f4de22c40ae2e90107719374, type: 2}

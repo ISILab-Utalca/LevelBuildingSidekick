@@ -13,23 +13,20 @@ MonoBehaviour:
   m_Name: Floor_scifi
   m_EditorClassIdentifier: 
   isPreset: 0
-  type: 0
+  type: 1
   color: {r: 0, g: 0, b: 0, a: 0}
   icon: {fileID: 0}
   childsBundles: []
   assets:
-  - obj: {fileID: 4360640326296158749, guid: 619229eb1dac4f244bb8c94d47d5fe62, type: 3}
-    probability: 1
+  - obj: {fileID: 4749066316690188929, guid: 871012863cf5d1644a33257df9a4e1aa, type: 3}
+    probability: 0.5
   characteristics:
-  - rid: 1104480385545535489
+  - rid: 279245815319625881
   positioning: 0
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 1104480385545535489
-      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+    - rid: 279245815319625881
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
-        label: 
         value: {fileID: 11400000, guid: 94b707ea81720694d8e3ac214351af91, type: 2}

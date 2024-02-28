@@ -18,16 +18,8 @@ MonoBehaviour:
   icon: {fileID: 0}
   childsBundles: []
   assets: []
-  characteristics:
-  - rid: 3767989614650065820
+  characteristics: []
   positioning: 0
   references:
     version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 3767989614650065820
-      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
-      data:
-        label: 
-        value: {fileID: 11400000, guid: 94b707ea81720694d8e3ac214351af91, type: 2}
+    RefIds: []
