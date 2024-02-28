@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Celling_scifi
   m_EditorClassIdentifier: 
   isPreset: 0
-  type: 2
+  type: 1
   color: {r: 0, g: 0, b: 0, a: 1}
   icon: {fileID: 2800000, guid: 497d733675f57de4ca54d01f9b788a5b, type: 3}
   childsBundles: []
@@ -23,15 +23,12 @@ MonoBehaviour:
   - obj: {fileID: 358828988675792148, guid: a69566193652f2e43b04792f15745084, type: 3}
     probability: 0.516
   characteristics:
-  - rid: 2204195511826382861
+  - rid: 279245815319625888
   positioning: 0
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 2204195511826382861
-      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+    - rid: 279245815319625888
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
-        label: Ceilling
         value: {fileID: 11400000, guid: a493417858ade3b45a27ecb6e8021485, type: 2}

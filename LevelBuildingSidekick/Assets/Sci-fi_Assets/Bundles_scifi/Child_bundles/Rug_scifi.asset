@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Rug_scifi
   m_EditorClassIdentifier: 
   isPreset: 0
-  type: 2
+  type: 1
   color: {r: 0, g: 0, b: 0, a: 1}
   icon: {fileID: 2800000, guid: 4b1ed2f09a57c984baf4cba2d9b4e150, type: 3}
   childsBundles: []
@@ -21,15 +21,12 @@ MonoBehaviour:
   - obj: {fileID: 4749066316690188929, guid: 871012863cf5d1644a33257df9a4e1aa, type: 3}
     probability: 1
   characteristics:
-  - rid: 2204195511826382861
+  - rid: 279245815319625891
   positioning: 0
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 2204195511826382861
-      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+    - rid: 279245815319625891
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
-        label: scifi_rug
-        value: {fileID: 11400000, guid: ee54ed1930aa4084790c53b0eae956d8, type: 2}
+        value: {fileID: 11400000, guid: 94b707ea81720694d8e3ac214351af91, type: 2}

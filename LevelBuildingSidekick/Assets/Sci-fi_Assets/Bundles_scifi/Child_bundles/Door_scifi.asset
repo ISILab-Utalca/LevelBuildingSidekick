@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Door_scifi
   m_EditorClassIdentifier: 
   isPreset: 0
-  type: 0
+  type: 1
   color: {r: 0, g: 0, b: 0, a: 0}
   icon: {fileID: 0}
   childsBundles: []
@@ -21,15 +21,12 @@ MonoBehaviour:
   - obj: {fileID: 26561501521106878, guid: 3069308efbfe1464ca2a631a7dc6d841, type: 3}
     probability: 1
   characteristics:
-  - rid: 1104480385545535491
+  - rid: 279245815319625890
   positioning: 1
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 1104480385545535491
-      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+    - rid: 279245815319625890
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
-        label: 
         value: {fileID: 11400000, guid: d05b3c2ff0cdab94b92f355dc76947d8, type: 2}

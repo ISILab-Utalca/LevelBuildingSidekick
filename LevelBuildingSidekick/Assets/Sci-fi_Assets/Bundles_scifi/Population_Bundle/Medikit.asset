@@ -21,15 +21,12 @@ MonoBehaviour:
   - obj: {fileID: 314868758777896127, guid: 8be33848cc8d6c248909718e1ac23727, type: 3}
     probability: 0.5
   characteristics:
-  - rid: 2204195511826382861
+  - rid: 279245815319625990
   positioning: 0
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 2204195511826382861
-      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+    - rid: 279245815319625990
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
-        label: Medikit
-        value: {fileID: 11400000, guid: cbf06652175bf7947860e823fc2490b9, type: 2}
+        value: {fileID: 11400000, guid: b354587b73f945f4188c7dc7026de4ef, type: 2}
