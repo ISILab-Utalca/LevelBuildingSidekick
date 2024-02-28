@@ -63,8 +63,6 @@ namespace ISILab.LBS.Bundles.Editor
                 EditorGUI.BeginChangeCheck();
                 Undo.RegisterCompleteObjectUndo(bundle, "Add characteristics");
                 bundle.characteristics.Add(x);
-                x.Init(bundle);
-
 
                 if (EditorGUI.EndChangeCheck())
                 {
