@@ -21,15 +21,12 @@ MonoBehaviour:
   - obj: {fileID: 5730892847846253857, guid: df3d2085806ab0344b57edd354677c90, type: 3}
     probability: 0.5
   characteristics:
-  - rid: 3767989640458666226
+  - rid: 279245815319625872
   positioning: 2
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 3767989640458666226
-      type: {class: LBSTagsCharacteristic, ns: , asm: LBS}
+    - rid: 279245815319625872
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
-        label: 
         value: {fileID: 11400000, guid: dd9524b2f4de22c40ae2e90107719374, type: 2}
