@@ -63,6 +63,7 @@ namespace ISILab.LBS.Bundles.Editor
                 EditorGUI.BeginChangeCheck();
                 Undo.RegisterCompleteObjectUndo(bundle, "Add characteristics");
                 bundle.characteristics.Add(x);
+                x.Init(bundle);
 
 
                 if (EditorGUI.EndChangeCheck())
@@ -81,6 +82,11 @@ namespace ISILab.LBS.Bundles.Editor
                 characteristics.RefreshItems(); Repaint(); 
             });
             //Debug.Log(lv.);
+
+            foreach (var characteristic in bundle.Characteristics)
+            {
+                characteristic.Init(bundle);    
+            }
 
             return root;
         }
@@ -108,6 +114,7 @@ namespace ISILab.LBS.Bundles.Editor
                 if (bundle.characteristics[index] != null)
                 {
                     cf.Data = bundle.characteristics[index];
+                    bundle.characteristics[index].Init(bundle);
                 }
 
                 cf.OnChoiceSelection = () =>

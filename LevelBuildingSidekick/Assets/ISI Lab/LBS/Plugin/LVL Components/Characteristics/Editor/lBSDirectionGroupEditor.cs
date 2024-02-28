@@ -49,13 +49,14 @@ namespace ISILab.LBS.VisualElements
                 box.Add(new Label(current.target.name));
 
                 var slider = new Slider();
+                slider.showInputField = true;
                 box.Add(slider);
                 slider.lowValue = 0;
                 slider.highValue = 1;
                 slider.value = current.weigth;
-                slider.RegisterCallback<ChangeEvent<float>>(e =>
+                slider.RegisterValueChangedCallback( evt =>
                 {
-                    current.weigth = e.newValue;
+                    current.weigth = evt.newValue;
                 });
             }
         }

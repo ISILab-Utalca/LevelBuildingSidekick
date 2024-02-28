@@ -46,10 +46,7 @@ namespace ISILab.LBS.Characteristics
             Owner.OnAddChild += OnAddChildToOwner;
             Owner.OnRemoveChild += OnRemoveChildToOwner;
 
-            foreach(var bundle in Owner.ChildsBundles)
-            {
-                Weights.Add(new WeightStruct() { target = bundle, weigth = 0.5f});
-            }
+            Update();
         }
 
         public void Update()

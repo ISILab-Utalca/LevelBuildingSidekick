@@ -20,7 +20,11 @@ namespace ISILab.LBS.Characteristics
 
         #region PROPERTIES
         [HideInInspector, JsonIgnore]
-        public Bundle Owner => owner;
+        public Bundle Owner
+        {
+            get => owner; 
+            set => owner = value;
+        }
         #endregion
 
         #region CONSTRUCTORS
