@@ -9,8 +9,8 @@ EditorBuildSettings:
     path: Assets/GitIgnorable/OpenNewLevelInfo.unity
     guid: 8014e068e21bc2d4e9d6c57039586cbd
   - enabled: 0
-    path: Assets/Arreglar_NewAssets 3D/Mini Simple Characters Skeleton Demo/Scenes/Mini
-      Simple Characters Skeleton Demo Scene.unity
+    path: Assets/GitIgnorable/Arreglar_NewAssets 3D/Mini Simple Characters Skeleton
+      Demo/Scenes/Mini Simple Characters Skeleton Demo Scene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 0
     path: Assets/ISI Lab/LBS/Examples/Simple/Scenes/Simple Map Example.unity
