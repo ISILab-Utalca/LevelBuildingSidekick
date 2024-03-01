@@ -79,11 +79,10 @@ namespace ISILab.LBS.Bundles.Editor
             { 
                 characteristics.RefreshItems(); Repaint(); 
             });
-            //Debug.Log(lv.);
 
             foreach (var characteristic in bundle.Characteristics)
             {
-                characteristic.Init(bundle);    
+                characteristic?.Init(bundle);    
             }
 
             return root;

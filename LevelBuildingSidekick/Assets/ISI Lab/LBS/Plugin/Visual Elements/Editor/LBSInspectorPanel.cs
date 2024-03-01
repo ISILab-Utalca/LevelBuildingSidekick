@@ -126,6 +126,8 @@ namespace ISILab.LBS.VisualElements
                 var inspector = ve.Value;
                 inspector.SetTarget(layer);
             }
+
+            // repaint current inspector
         }
 
         public void Repaint()

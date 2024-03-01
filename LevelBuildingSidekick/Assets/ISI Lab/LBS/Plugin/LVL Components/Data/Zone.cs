@@ -10,6 +10,7 @@ using UnityEngine;
 
 namespace ISILab.LBS.Components
 {
+
     [System.Serializable]
     public class Zone : ICloneable
     {

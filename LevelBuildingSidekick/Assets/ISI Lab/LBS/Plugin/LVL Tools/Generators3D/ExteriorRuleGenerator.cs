@@ -39,7 +39,6 @@ namespace ISILab.LBS.Generators
 
         public override GameObject Generate(LBSLayer layer, Generator3D.Settings settings)
         {
-
             // Get bundles
             var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
 
@@ -65,7 +64,16 @@ namespace ISILab.LBS.Generators
 
                 // Get pref
                 var pair = GetBundle(selected, con.ToArray());
-                var pref = pair.Item1.Owner.Assets.RandomRullete(w => w.probability).obj;
+
+                var pref = pair?.Item1?.Owner?.Assets?.RandomRullete(w => w.probability)?.obj;
+
+                if(pref == null)
+                {
+                    Debug.LogWarning("[ISILab]: Element generation has failed, " +
+                        "make sure you have properly configured and assigned " +
+                        "the Bundles you want to generate with.");
+                    continue;
+                }
 
 #if UNITY_EDITOR
                 var go = PrefabUtility.InstantiatePrefab(pref, mainPivot.transform) as GameObject;

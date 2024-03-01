@@ -4,10 +4,12 @@ using LBS.Components;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Debug = UnityEngine.Debug;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -120,8 +122,11 @@ namespace ISILab.LBS.VisualElements.Editor
             }
 
             data.AddLayer(layer);
-            list.selectedIndex = 0;
+
+            list.SetSelectionWithoutNotify(new List<int>() {0});
+
             OnAddLayer?.Invoke(layer);
+
             list.Rebuild();
         }
 
