@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using ISILab.JsonNet.Coverters;
+using ISILab.Extensions;
 
 namespace ISILab.JsonNet
 {
@@ -33,9 +34,18 @@ namespace ISILab.JsonNet
             };
 
             // add converters to serializer
-            jsonSerializerSettings.Converters.Add(new Vector3Converter());
-            jsonSerializerSettings.Converters.Add(new Vector2Converter());
-            jsonSerializerSettings.Converters.Add(new ColorConverter());
+            //jsonSerializerSettings.Converters.Add(new Vector3Converter());
+            //jsonSerializerSettings.Converters.Add(new Vector2Converter());
+            //jsonSerializerSettings.Converters.Add(new ColorConverter());
+
+            var derives = (typeof(JsonConverter)).GetDerivedTypes();
+            foreach (var derive in derives)
+            {
+                if (derive.GetConstructors().Any(c => c.GetParameters().Count() <= 0))
+                {
+                    jsonSerializerSettings.Converters.Add((JsonConverter)Activator.CreateInstance(derive));
+                }
+            }
 
             // generate json string
             string jsonString = "ERROR";
@@ -119,9 +129,18 @@ namespace ISILab.JsonNet
             };
 
             // add converters to serializer
-            jsonSerializerSettings.Converters.Add(new Vector3Converter());
-            jsonSerializerSettings.Converters.Add(new Vector2Converter());
-            jsonSerializerSettings.Converters.Add(new ColorConverter());
+            //jsonSerializerSettings.Converters.Add(new Vector3Converter());
+            //jsonSerializerSettings.Converters.Add(new Vector2Converter());
+            //jsonSerializerSettings.Converters.Add(new ColorConverter());
+
+            var derives = (typeof(JsonConverter)).GetDerivedTypes();
+            foreach (var derive in derives)
+            {
+                if (derive.GetConstructors().Any(c => c.GetParameters().Count() <= 0))
+                {
+                    jsonSerializerSettings.Converters.Add((JsonConverter)Activator.CreateInstance(derive));
+                }
+            }
 
             // generate data from string
             var data = JsonConvert.DeserializeObject<T>(
