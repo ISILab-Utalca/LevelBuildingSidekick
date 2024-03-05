@@ -13,6 +13,8 @@ using ISILab.LBS.Characteristics;
 using ISILab.LBS.Components;
 using ISILab.AI.Categorization;
 using ISILab.AI.Optimization;
+using UnityEditor;
+using LBS.Components;
 
 namespace ISILab.LBS.Assistants
 {
@@ -86,13 +88,18 @@ namespace ISILab.LBS.Assistants
         public void Execute()
         {
             toUpdate.Clear();
-            mapElites.OnSampleUpdated += (v) => { if (!toUpdate.Contains(v)) toUpdate.Add(v); };
+            mapElites.OnSampleUpdated += (v) => {
+                if (!toUpdate.Contains(v))
+                {
+                    toUpdate.Add(v);
+                }
+            };
             mapElites.Run();
         }
 
         public void Continue()
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException(); // TODO: Implement Continue method for AssistantMapElite class
         }
 
         public void ApplySuggestion(object data)
