@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: Exterior_Plains_Draw
   m_EditorClassIdentifier: 
-  isPreset: 0
   type: 0
+  anchorPosition: 0
   color: {r: 0, g: 0, b: 0, a: 0}
   icon: {fileID: 0}
   childsBundles:
@@ -25,7 +25,6 @@ MonoBehaviour:
   assets: []
   characteristics:
   - rid: 4305865179182923895
-  positioning: 0
   references:
     version: 2
     RefIds:

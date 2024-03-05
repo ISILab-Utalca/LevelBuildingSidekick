@@ -71,7 +71,7 @@ namespace ISILab.LBS.Bundles.Editor
                 Undo.undoRedoPerformed += UNDO;
             };
 
-            root.Insert(root.childCount - 1, characteristics);
+            root.Insert(root.childCount, characteristics);
 
             //ListView of ChildBundles
             var lv = root.Children().ToList()[5] as PropertyField;

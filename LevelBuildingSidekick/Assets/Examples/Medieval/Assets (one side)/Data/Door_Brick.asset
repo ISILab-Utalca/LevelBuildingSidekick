@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: Door_Brick
   m_EditorClassIdentifier: 
-  isPreset: 0
   type: 1
+  anchorPosition: 1
   color: {r: 0, g: 0, b: 0, a: 0}
   icon: {fileID: 0}
   childsBundles: []
@@ -22,7 +22,6 @@ MonoBehaviour:
     probability: 0.5
   characteristics:
   - rid: 279245815319625873
-  positioning: 1
   references:
     version: 2
     RefIds:

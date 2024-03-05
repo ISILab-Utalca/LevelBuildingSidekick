@@ -53,6 +53,9 @@ namespace LBS.Bundles
         private TagType type;
 
         [SerializeField]
+        private Positioning anchorPosition = Positioning.Center;
+
+        [SerializeField]
         private Color color;
 
         [SerializeField]
@@ -67,8 +70,6 @@ namespace LBS.Bundles
         [SerializeField, SerializeReference, HideInInspector]
         public List<LBSCharacteristic> characteristics = new List<LBSCharacteristic>();
 
-        [SerializeField]
-        private Positioning positioning = Positioning.Center;
         #endregion
 
         #region PROPERTIES
@@ -89,7 +90,7 @@ namespace LBS.Bundles
         [SerializeField]
         public bool IsLeaf => (childsBundles.Count <= 0);
 
-        public Positioning Positioning => positioning;
+        public Positioning Positioning => anchorPosition;
 
         public TagType Type
         {
@@ -116,7 +117,7 @@ namespace LBS.Bundles
             var r = new List<Bundle>();
             foreach (var child in childsBundles)
             {
-                if(child.positioning == positioning)
+                if(child.anchorPosition == positioning)
                     r.Add(child);
 
                 r.AddRange(child.GetChildrenByPositioning(positioning));

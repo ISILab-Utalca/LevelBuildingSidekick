@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: Castle_DrawPiso2
   m_EditorClassIdentifier: 
-  isPreset: 0
   type: 0
+  anchorPosition: 0
   color: {r: 0, g: 0, b: 0, a: 0}
   icon: {fileID: 0}
   childsBundles:
@@ -23,7 +23,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 69cae54a4a9d5b4448f4697db8f7fb93, type: 2}
   assets: []
   characteristics: []
-  positioning: 0
   references:
     version: 2
     RefIds: []

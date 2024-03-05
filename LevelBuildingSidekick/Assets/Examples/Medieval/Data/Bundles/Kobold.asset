@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: Kobold
   m_EditorClassIdentifier: 
-  isPreset: 0
   type: 2
+  anchorPosition: 0
   color: {r: 0.3019608, g: 0.5647059, b: 0.5568628, a: 1}
   icon: {fileID: 2800000, guid: 36612891cca70e046b0e30e5e2fc8bbc, type: 3}
   childsBundles: []
@@ -21,7 +21,6 @@ MonoBehaviour:
   - obj: {fileID: 4697017240656324050, guid: ef3ee8e9532db8c40b265a28af26e99e, type: 3}
     probability: 1
   characteristics: []
-  positioning: 0
   references:
     version: 2
     RefIds: []

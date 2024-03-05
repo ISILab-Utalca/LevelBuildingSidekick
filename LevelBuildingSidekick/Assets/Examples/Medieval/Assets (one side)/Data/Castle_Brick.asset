@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: Castle_Brick
   m_EditorClassIdentifier: 
-  isPreset: 0
   type: 1
+  anchorPosition: 0
   color: {r: 0.3773585, g: 0.3773585, b: 0.3773585, a: 1}
   icon: {fileID: 2800000, guid: 146195e7eaf582a41aa93648d18b6177, type: 3}
   childsBundles:
@@ -23,7 +23,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b3eedd0bc1bcdd34ca1ad871f3931db4, type: 2}
   assets: []
   characteristics: []
-  positioning: 0
   references:
     version: 2
     RefIds: []
