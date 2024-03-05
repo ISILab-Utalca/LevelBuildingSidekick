@@ -4,9 +4,7 @@ using UnityEngine;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
-using ISILab.JsonNet.Coverters;
 using ISILab.Extensions;
 
 namespace ISILab.JsonNet
@@ -33,11 +31,7 @@ namespace ISILab.JsonNet
                 NullValueHandling = NullValueHandling.Ignore,
             };
 
-            // add converters to serializer
-            //jsonSerializerSettings.Converters.Add(new Vector3Converter());
-            //jsonSerializerSettings.Converters.Add(new Vector2Converter());
-            //jsonSerializerSettings.Converters.Add(new ColorConverter());
-
+            // Get all the derived types of JsonConverter and add them to the settings
             var derives = (typeof(JsonConverter)).GetDerivedTypes();
             foreach (var derive in derives)
             {
@@ -128,11 +122,7 @@ namespace ISILab.JsonNet
                 NullValueHandling = NullValueHandling.Ignore,
             };
 
-            // add converters to serializer
-            //jsonSerializerSettings.Converters.Add(new Vector3Converter());
-            //jsonSerializerSettings.Converters.Add(new Vector2Converter());
-            //jsonSerializerSettings.Converters.Add(new ColorConverter());
-
+            // Get all the derived types of JsonConverter and add them to the settings
             var derives = (typeof(JsonConverter)).GetDerivedTypes();
             foreach (var derive in derives)
             {
