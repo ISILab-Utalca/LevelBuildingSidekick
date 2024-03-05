@@ -14,18 +14,14 @@ using System.Diagnostics;
 using Debug = UnityEngine.Debug;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
-using UnityEngine.XR;
 using ISILab.Commons;
 using ISILab.Extensions;
 using ISILab.AI.Wrappers;
 using ISILab.LBS.Modules;
 using ISILab.LBS.Components;
-using ISILab.Commons.Utility;
-using ISILab.AI.Categorization;
 
 namespace ISILab.LBS.Assistants
 {
-
     [System.Serializable]
     [RequieredModule(typeof(TileMapModule),
         typeof(ConnectedTileMapModule),
@@ -104,14 +100,8 @@ namespace ISILab.LBS.Assistants
 
         public void ExecuteOneStep()
         {
-            var clock = new Stopwatch();
             UnityEngine.Debug.Log("HillClimbing one step, start!");
-            OnStart?.Invoke();
-
-            clock.Start();
             hillClimbing.StartOne();
-            clock.Stop();
-
 
             var modules = (hillClimbing.BestCandidate as OptimizableModules).Modules;
             var zones = modules.GetModule<SectorizedTileMapModule>();
@@ -127,12 +117,7 @@ namespace ISILab.LBS.Assistants
 
             Owner.Reload();
             OnTermination?.Invoke();
-
             UnityEngine.Debug.Log("HillClimbing on step, finish!");
-            Debug.Log(
-                "One step \n" +
-                "Time: " + clock.ElapsedMilliseconds / 1000f + " s. \n" +
-                "Ticks " + clock.ElapsedTicks);
         }
 
         public void RecalculateWalls(List<LBSModule> layer)
