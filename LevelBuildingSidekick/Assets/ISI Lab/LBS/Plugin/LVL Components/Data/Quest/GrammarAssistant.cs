@@ -294,7 +294,7 @@ namespace ISILab.LBS.Assistants
 
         public override object Clone()
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException(); // TODO: Implement this method for GrammarAssistant class
         }
 
         public void CheckNode()
