@@ -75,7 +75,7 @@ namespace ISILab.LBS.VisualElements
 
             // Add button
             addRoot = this.Q<Button>("AddBrother");
-            addRoot.clicked += () => CreateBundle(null);//selected?.Parent());
+            addRoot.clicked += () => CreateBundle(null);
             addChild = this.Q<Button>("AddChild");
             addChild.clicked += () => CreateBundle(selected);
 
