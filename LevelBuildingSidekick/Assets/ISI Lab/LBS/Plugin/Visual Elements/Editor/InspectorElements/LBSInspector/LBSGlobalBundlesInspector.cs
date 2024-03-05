@@ -51,8 +51,8 @@ namespace ISILab.LBS.VisualElements
 
             // Bundle list
             var allBUndles = DirectoryTools.GetScriptables<Bundle>().ToList();
-            var presetsBundles = allBUndles.Where(b => b.IsPresset && b.IsRoot()).ToList();
-            var bundles = allBUndles.Where(b => !b.IsPresset).ToList();
+            var presetsBundles = allBUndles.Where(b => b.IsRoot()).ToList();
+            var bundles = allBUndles.ToList();
 
             targets = OrderList(bundles, 0, new List<Tuple<Bundle, int>>());
 
@@ -176,7 +176,7 @@ namespace ISILab.LBS.VisualElements
             AssetDatabase.CreateAsset(clone, settings.paths.bundleFolderPath + "/" + name + ".asset");
             AssetDatabase.SaveAssets();
 
-            var all = storage.Get<Bundle>().Where(b => !b.IsPresset).ToList();
+            var all = storage.Get<Bundle>().ToList();
             targets = OrderList(all, 0, new List<Tuple<Bundle, int>>());
             list.itemsSource = targets;
 
@@ -194,7 +194,7 @@ namespace ISILab.LBS.VisualElements
             AssetDatabase.DeleteAsset(path);
             AssetDatabase.SaveAssets();
 
-            var all = storage.Get<Bundle>().Where(b => !b.IsPresset).ToList();
+            var all = storage.Get<Bundle>().ToList();
             targets = OrderList(all, 0, new List<Tuple<Bundle, int>>());
             list.itemsSource = targets;
 

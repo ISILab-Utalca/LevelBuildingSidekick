@@ -117,7 +117,7 @@ namespace ISILab.LBS.Components
         public static List<Bundle> GetInsideBundles(this Zone zone)
         {
             var bundles = new List<Bundle>();
-            var allBundles = LBSAssetsStorage.Instance.Get<Bundle>().Where(b => !b.IsPresset).ToList();
+            var allBundles = LBSAssetsStorage.Instance.Get<Bundle>().ToList();
             foreach (var tags in zone.InsideStyles)
             {
                 bundles.Add(allBundles.Find(b => b.name.Equals(tags)));
@@ -128,7 +128,7 @@ namespace ISILab.LBS.Components
         public static List<Bundle> GetOutsideBundles(this Zone zone)
         {
             var bundles = new List<Bundle>();
-            var allBundles = LBSAssetsStorage.Instance.Get<Bundle>().Where(b => !b.IsPresset).ToList();
+            var allBundles = LBSAssetsStorage.Instance.Get<Bundle>().ToList();
             foreach (var tags in zone.OutsideStyles)
             {
                 bundles.Add(allBundles.Find(b => b.name.Equals(tags)));

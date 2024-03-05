@@ -50,9 +50,6 @@ namespace LBS.Bundles
 
         #region FIELDS
         [SerializeField]
-        private bool isPreset = false;
-
-        [SerializeField]
         private TagType type;
 
         [SerializeField]
@@ -93,12 +90,6 @@ namespace LBS.Bundles
         public bool IsLeaf => (childsBundles.Count <= 0);
 
         public Positioning Positioning => positioning;
-
-        public bool IsPresset
-        {
-            get => isPreset; 
-            set => isPreset = value;
-        }
 
         public TagType Type
         {
