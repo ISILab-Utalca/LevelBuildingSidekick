@@ -91,18 +91,6 @@ namespace ISILab.LBS.Settings
                     }
                     EditorGUILayout.EndHorizontal();
 
-                    // Pressets path
-                    EditorGUILayout.BeginHorizontal();
-                    settings.paths.pressetsPath = EditorGUILayout.TextField("Presets path", settings.paths.pressetsPath, EditorStyles.textField, GUILayout.Height(EditorGUIUtility.singleLineHeight));
-                    if (GUILayout.Button("Find", GUILayout.MaxWidth(60)))
-                    {
-                        var so = DirectoryTools.GetScriptable<LBSPresets>();
-                        var path = AssetDatabase.GetAssetPath(so);
-                        settings.paths.pressetsPath = path;
-                        EditorUtility.SetDirty(settings);
-                    }
-                    EditorGUILayout.EndHorizontal();
-
                     // Find All button
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.Space();
