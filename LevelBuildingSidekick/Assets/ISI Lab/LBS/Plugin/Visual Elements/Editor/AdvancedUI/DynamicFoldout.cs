@@ -1,5 +1,6 @@
 using ISILab.Commons.Utility;
 using ISILab.Commons.Utility.Editor;
+using ISILab.LBS.Characteristics;
 using ISILab.LBS.Editor;
 using System;
 using System.Collections;
@@ -50,7 +51,12 @@ namespace ISILab.LBS.VisualElements
 
         void UpdateView(Type type, object data)
         {
-            var p = LBS_Editor.pairsEditors;
+
+            if (data == null)
+                return;
+
+            content.Clear();
+
             var veType = LBS_Editor.GetEditor(type);
 
             if (veType == null)
@@ -58,14 +64,11 @@ namespace ISILab.LBS.VisualElements
 
             var ve = Activator.CreateInstance(veType, new object[] { data }) as LBSCustomEditor;
 
-
             if (!(ve is VisualElement))
             {
                 throw new Exception("[ISI Lab] " + ve.GetType() + " is not a VisualElement ");
             }
 
-            this.data = data;
-            content.Clear();
             content.Add(ve);
         }
 
@@ -73,20 +76,18 @@ namespace ISILab.LBS.VisualElements
         {
             if (data != null)
             {
-                dropdown.value = data.GetType().Name;
-                UpdateView(data.GetType(), data);
+                dropdown.SetValueWithoutNotify(data.GetType().Name);
+                this.data = data;
+                //OnChoiceSelection?.Invoke();
+                UpdateView(this.data?.GetType(), this.data);
             }
         }
 
         public void ApplyChoice(ChangeEvent<string> e)
         {
             data = dropdown.GetChoiceInstance();
-
-            if (data == null)
-                return;
-
             OnChoiceSelection?.Invoke();
-            UpdateView(data.GetType(), data);
+            UpdateView(data?.GetType(), data);
         }
 
         public new void RemoveFromHierarchy()
