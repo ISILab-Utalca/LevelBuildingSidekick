@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: Sci-fi_interior
   m_EditorClassIdentifier: 
-  isPreset: 0
   type: 0
+  anchorPosition: 0
   color: {r: 0, g: 0, b: 0, a: 0}
   icon: {fileID: 0}
   childsBundles:
@@ -24,7 +24,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9d5e70310bf40a547b42320ef5694c72, type: 2}
   assets: []
   characteristics: []
-  positioning: 0
   references:
     version: 2
     RefIds: []

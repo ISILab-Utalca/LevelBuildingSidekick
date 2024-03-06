@@ -12,17 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: RTSPlayer
   m_EditorClassIdentifier: 
-  isPreset: 0
   type: 2
-  color: {r: 0, g: 0, b: 0, a: 0}
-  icon: {fileID: 0}
+  anchorPosition: 0
+  color: {r: 0.2901961, g: 0.06666667, b: 0.43137258, a: 1}
+  icon: {fileID: 2800000, guid: 4014b5e79aa53db4b9c939093310089d, type: 3}
   childsBundles: []
   assets:
   - obj: {fileID: 7823080364279856789, guid: 3bed9dd3c47ffb54e89795386e870bb4, type: 3}
     probability: 0
   characteristics:
   - rid: 4305865204711817730
-  positioning: 0
   references:
     version: 2
     RefIds:

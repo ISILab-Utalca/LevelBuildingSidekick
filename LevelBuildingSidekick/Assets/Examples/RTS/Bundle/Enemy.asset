@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: Enemy
   m_EditorClassIdentifier: 
-  isPreset: 0
   type: 2
-  color: {r: 0, g: 0, b: 0, a: 0}
-  icon: {fileID: 0}
+  anchorPosition: 0
+  color: {r: 0.854902, g: 0.68235296, b: 0.5882353, a: 1}
+  icon: {fileID: 2800000, guid: 36612891cca70e046b0e30e5e2fc8bbc, type: 3}
   childsBundles: []
   assets:
   - obj: {fileID: 8272943599224061573, guid: 47b41978aba272c47ae5f4a2f7179c61, type: 3}
@@ -26,7 +26,6 @@ MonoBehaviour:
     probability: 1
   characteristics:
   - rid: 4305865204711817727
-  positioning: 0
   references:
     version: 2
     RefIds:

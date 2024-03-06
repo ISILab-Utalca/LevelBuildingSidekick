@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: Tree
   m_EditorClassIdentifier: 
-  isPreset: 0
   type: 2
-  color: {r: 0, g: 0, b: 0, a: 0}
-  icon: {fileID: 0}
+  anchorPosition: 0
+  color: {r: 0.47058827, g: 0.4901961, b: 0.38823533, a: 1}
+  icon: {fileID: 2800000, guid: db1973f0fca413845b0b0de7361a59ff, type: 3}
   childsBundles: []
   assets:
   - obj: {fileID: 4661435515762455780, guid: e289bf5debb17f6459818c207d781953, type: 3}
@@ -31,7 +31,6 @@ MonoBehaviour:
   characteristics:
   - rid: 4305865204711817731
   - rid: 4305865204711817732
-  positioning: 0
   references:
     version: 2
     RefIds:
