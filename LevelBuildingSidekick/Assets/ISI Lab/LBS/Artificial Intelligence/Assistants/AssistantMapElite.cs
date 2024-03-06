@@ -168,7 +168,6 @@ namespace ISILab.LBS.Assistants
                             var t = m.GetTile(new Vector2Int(i, j));
                             if (t != null)
                             {
-                                Debug.Log(t.Position);
                                 continue;
                             }
 
@@ -214,7 +213,6 @@ namespace ISILab.LBS.Assistants
 
 
             immutables = im.ToArray();
-            Debug.Log(immutables.Length);
             return immutables;
         }
 
