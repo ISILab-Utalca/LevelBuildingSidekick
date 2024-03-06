@@ -113,10 +113,6 @@ namespace ISILab.LBS.VisualElements
                 hillClimbing.printClocks = x.newValue;
             });
 
-            // Revert
-            revert = this.Q<Button>("Revert");
-            revert.clicked += Revert;
-
             // Execute
             execute = this.Q<Button>("Execute");
             execute.clicked += Execute;
@@ -138,7 +134,20 @@ namespace ISILab.LBS.VisualElements
             recalculate.text = "Recalculate Constraints";
             recalculate.clicked += () =>
             {
+                // Save history version to revert if necessary
+                var x = LBSController.CurrentLevel;
+                Undo.RegisterCompleteObjectUndo(x, "Recalculate Constraints");
+                EditorGUI.BeginChangeCheck();
+
+                // Recalculate constraints
                 hillClimbing.RecalculateConstraint();
+
+                // Mark as dirty
+                if (EditorGUI.EndChangeCheck())
+                {
+                    EditorUtility.SetDirty(x);
+                }
+
                 DrawManager.ReDraw();
                 Paint();
             };
@@ -156,24 +165,36 @@ namespace ISILab.LBS.VisualElements
 
         private void ExecuteOneStep()
         {
+            // Save history version to revert if necessary
+            var x = LBSController.CurrentLevel;
+            Undo.RegisterCompleteObjectUndo(x, "Execute One Step");
+            EditorGUI.BeginChangeCheck();
+
+            // Execute hill climbing one step
             hillClimbing.ExecuteOneStep();
+
+            // Mark as dirty
+            if (EditorGUI.EndChangeCheck())
+            {
+                EditorUtility.SetDirty(x);
+            }
         }
 
         private void Execute()
         {
+            // Save history version to revert if necessary
+            var x = LBSController.CurrentLevel;
+            Undo.RegisterCompleteObjectUndo(x, "Execute HillClimbing");
+            EditorGUI.BeginChangeCheck();
+
+            // Execute hill climbing
             hillClimbing.Execute();
-        }
 
-        private void Revert()
-        {
-            if (tempLayer == null)
+            // Mark as dirty
+            if (EditorGUI.EndChangeCheck())
             {
-                Debug.Log("No existe version para revertir.");
-                return;
+                EditorUtility.SetDirty(x);
             }
-
-            var lvl = hillClimbing.Owner.Parent;
-            lvl.ReplaceLayer(hillClimbing.Owner, tempLayer);
         }
     }
 }
