@@ -17,7 +17,7 @@ namespace ISILab.LBS.VisualElements
 
         public ResourceFairnessVE(object target) : base(target)
         {
-            Add(CreateVisualElement());
+            CreateVisualElement();
             SetInfo(target);
         }
 
@@ -35,7 +35,6 @@ namespace ISILab.LBS.VisualElements
         protected override VisualElement CreateVisualElement()
         {
             var eval = target as ResourcesSafetyFairness;
-            var ve = new VisualElement();
 
             playerCharacteristic = new DynamicFoldout(typeof(LBSCharacteristic));
             playerCharacteristic.Label = "Player Characteristic";
@@ -60,10 +59,10 @@ namespace ISILab.LBS.VisualElements
             //resourceChracteristics.destroyItem = DestroyItem;
             resourceChracteristics.itemsSource = eval.resourceCharactersitic;
 
-            ve.Add(playerCharacteristic);
-            ve.Add(resourceChracteristics);
+            this.Add(playerCharacteristic);
+            this.Add(resourceChracteristics);
 
-            return ve;
+            return this;
         }
 
         VisualElement MakeItem()
@@ -79,14 +78,15 @@ namespace ISILab.LBS.VisualElements
             if (index < eval.resourceCharactersitic.Count)
             {
                 var cf = ve.Q<DynamicFoldout>();
+                cf.Label = "Resource Characteristic " + index + ":";
                 //Debug.Log("Bind");
                 if (eval.resourceCharactersitic[index] != null)
                 {
-                    //Debug.Log(eval.resourceCharactersitic[index]);
                     cf.Data = eval.resourceCharactersitic[index];
+                    //Debug.Log(eval.resourceCharactersitic[index]);
                 }
-                cf.OnChoiceSelection = () => { eval.resourceCharactersitic[index] = cf.Data as LBSCharacteristic; };
-                cf.Label = "Resource Characteristic " + index + ":";
+                cf.OnChoiceSelection = () => {  eval.resourceCharactersitic[index] = cf.Data as LBSCharacteristic; };
+                //Debug.Log(eval.resourceCharactersitic[index] == cf.Data);
             }
         }
         /*
