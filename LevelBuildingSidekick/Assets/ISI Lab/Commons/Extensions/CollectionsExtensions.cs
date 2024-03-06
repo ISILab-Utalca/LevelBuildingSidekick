@@ -68,7 +68,7 @@ namespace ISILab.Extensions
         {
             if (list.Count <= 0)
             {
-                Debug.Log("[ISI Lab]: Error to try get a random element in '" + list + "' because is empty.");
+                //Debug.Log("[ISI Lab]: Error to try get a random element in '" + list + "' because is empty.");
                 return default(T);
             }
 

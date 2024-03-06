@@ -12,8 +12,9 @@ namespace ISILab.LBS.Generators
     [System.Serializable]
     public class Generator3D
     {
+       
         [System.Serializable]
-        public class Settings // Esto puede estar fuera de generator3D y ser setting de layers en general (!)
+        public class Settings // TODO: Setting can be outside of the class to be used as general settings
         {
             [SerializeField]
             [JsonConverter(typeof(Vector2Converter))]
@@ -61,7 +62,7 @@ namespace ISILab.LBS.Generators
             {
                 return base.ToString();
             }
-        }
+        }  
 
         #region FIELDS
         [SerializeField]

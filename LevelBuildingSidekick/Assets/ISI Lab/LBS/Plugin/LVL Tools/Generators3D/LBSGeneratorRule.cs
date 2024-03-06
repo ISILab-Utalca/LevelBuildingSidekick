@@ -15,10 +15,25 @@ namespace ISILab.LBS.Generators
 
         public LBSGeneratorRule() { }
 
+        /// <summary>
+        /// Generate the GameObject for the layer
+        /// </summary>
+        /// <param name="layer"></param>
+        /// <param name="settings"></param>
+        /// <returns></returns>
         public abstract GameObject Generate(LBSLayer layer, Generator3D.Settings settings);
 
+        /// <summary>
+        /// Check if the layer is viable to be generated
+        /// </summary>
+        /// <param name="layer"></param>
+        /// <returns></returns>
         public abstract List<Message> CheckViability(LBSLayer layer);
 
+        /// <summary>
+        /// Clone this object to obtain a new instance of this object
+        /// </summary>
+        /// <returns></returns>
         public abstract object Clone();
     }
 

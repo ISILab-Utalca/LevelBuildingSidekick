@@ -173,6 +173,7 @@ namespace ISILab.LBS.Generators
             // Create pivot
             var mainPivot = new GameObject("Schema outside");
 
+            var tiles = new List<GameObject>();
             foreach (var tile in tilesMod.Tiles)
             {
                 // Get zone
@@ -183,8 +184,8 @@ namespace ISILab.LBS.Generators
 
                 if (bundles.Count <= 0)
                 {
-                    Debug.LogWarning("No se pudo finalizar la generacion de la zona '" + zone.ID + "' " +
-                        "ya que no contiene bundles que definan su estilo exterior");
+                    Debug.LogWarning("Could not finish generating zone '" + zone.ID + "' " +
+                    "since it does not contain bundles defining its exterior style");
 
                     continue;
                 }
@@ -205,9 +206,21 @@ namespace ISILab.LBS.Generators
                     new Vector3(tile.Position.x * settings.scale.x, 0, tile.Position.y * settings.scale.y) +
                     -(new Vector3(settings.scale.x, 0, settings.scale.y) / 2f);
 
-                // Set mainPivot as the parent of tileObj
-                tileObj.transform.parent = mainPivot.transform;
+                tiles.Add(tileObj);
             }
+
+            var x = tiles.Average(t => t.transform.position.x);
+            var y = tiles.Min(t => t.transform.position.y);
+            var z = tiles.Average(t => t.transform.position.z);
+
+            mainPivot.transform.position = new Vector3(x, y, z);
+
+            foreach (var tile in tiles)
+            {
+                tile.transform.parent = mainPivot.transform;
+            }
+
+            mainPivot.transform.position += settings.position;
 
             return mainPivot;
         }

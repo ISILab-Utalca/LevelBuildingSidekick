@@ -76,18 +76,20 @@ namespace ISILab.LBS.Generators
                 }
 
 #if UNITY_EDITOR
-                var go = PrefabUtility.InstantiatePrefab(pref, mainPivot.transform) as GameObject;
+                var go = PrefabUtility.InstantiatePrefab(pref,null) as GameObject;
 #else
-                var go = GameObject.Instantiate(pref, mainPivot.transform);
+                var go = GameObject.Instantiate(pref,null);
 #endif
 
-                go.transform.position = new Vector3((tile.Position.x) * scale.x, 0, (tile.Position.y) * scale.y) + new Vector3(scale.x, 0, scale.y) / 2f;
+                var pos = new Vector3(tile.Position.x * scale.x, 0, tile.Position.y * scale.y);
+                var delta = (new Vector3(scale.x, 0, scale.y) / 2f);
+                go.transform.position = settings.position + pos - delta;
 
                 if (pair.Item2 % 2 == 0)
                     go.transform.rotation = Quaternion.Euler(0, 90 * (pair.Item2) % 360, 0);
                 else
                     go.transform.rotation = Quaternion.Euler(0, 90 * (pair.Item2 - 2) % 360, 0);
-
+                
                 tiles.Add(go);
             }
 
@@ -128,7 +130,7 @@ namespace ISILab.LBS.Generators
 
         public override List<Message> CheckViability(LBSLayer layer)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException(); // TODO: Implement this method to check if the rule is viable for the layer
         }
     }
 }

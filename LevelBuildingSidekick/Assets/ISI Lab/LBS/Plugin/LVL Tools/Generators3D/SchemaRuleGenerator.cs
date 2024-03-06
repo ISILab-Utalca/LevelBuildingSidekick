@@ -54,6 +54,27 @@ namespace ISILab.LBS.Generators
         #endregion
 
         #region METHODS
+        public override object Clone()
+        {
+            return new SchemaRuleGenerator();
+        }
+
+        public override bool Equals(object obj)
+        {
+            var other = obj as SchemaRuleGenerator;
+
+            if (other == null) return false;
+
+            if (!this.deltaWall.Equals(other.deltaWall)) return false;
+
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
         public void Init(LBSLayer layer, Generator3D.Settings settings)
         {
             this.tilesMod = layer.GetModule<TileMapModule>();
@@ -89,11 +110,12 @@ namespace ISILab.LBS.Generators
             return msgs;
         }
 
-        public override object Clone()
-        {
-            return new SchemaRuleGenerator();
-        }
-
+        /// <summary>
+        /// Geenerate elements correspoding to center in the bundle provided
+        /// </summary>
+        /// <param name="pivot"></param>
+        /// <param name="bundles"></param>
+        /// <returns></returns>
         private GameObject GenerateCenters(GameObject pivot, List<Bundle> bundles)
         {
             // Get "Center" bundles 
@@ -124,6 +146,13 @@ namespace ISILab.LBS.Generators
             return pivot;
         }
 
+        /// <summary>
+        /// Generate edges of the tile based on the connections of the tile with its neighbors
+        /// </summary>
+        /// <param name="pivot"></param>
+        /// <param name="bundles"></param>
+        /// <param name="connections"></param>
+        /// <returns></returns>
         private GameObject GenerateEdges(GameObject pivot, List<Bundle> bundles, List<string> connections)
         {
             // Get "Edge" bundles
@@ -168,6 +197,13 @@ namespace ISILab.LBS.Generators
             return pivot;
         }
 
+        /// <summary>
+        /// Generate corner based on bundles provided
+        /// </summary>
+        /// <param name="pivot"></param>
+        /// <param name="bundles"></param>
+        /// <param name="tile"></param>
+        /// <returns></returns>
         private GameObject GenerateCorners(GameObject pivot, List<Bundle> bundles, LBSTile tile)
         {
             var currents = new List<Bundle>();
@@ -222,6 +258,12 @@ namespace ISILab.LBS.Generators
             return pivot;
         }
 
+        /// <summary>
+        /// Generate in 3D the schema of the layer
+        /// </summary>
+        /// <param name="layer"></param>
+        /// <param name="settings"></param>
+        /// <returns></returns>
         public override GameObject Generate(LBSLayer layer, Generator3D.Settings settings)
         {
             // Init values
@@ -246,8 +288,8 @@ namespace ISILab.LBS.Generators
 
                 if (bundles.Count <= 0)
                 {
-                    Debug.LogWarning("No se pudo finalizar la generacion de la zona '" + zone.ID + "'" +
-                        "ya que no contiene bundles que definan su estilo interior");
+                    Debug.LogWarning("[ISI Lab]: Could not finish generating zone '" + zone.ID + "'" +
+                    " since it does not contain bundles defining its interior style");
 
                     continue;
                 }
@@ -263,11 +305,12 @@ namespace ISILab.LBS.Generators
                 GenerateEdges(tileObj, bundles, connections);
                 GenerateCorners(tileObj, bundles, tile);
 
-                // Set position
-                tileObj.transform.position =
-                    settings.position +
-                    new Vector3(tile.Position.x * settings.scale.x, 0, tile.Position.y * settings.scale.y) +
-                    -(new Vector3(settings.scale.x, 0, settings.scale.y) / 2f);
+                var basePos = settings.position;
+                var tilePos = new Vector3(tile.Position.x * settings.scale.x, 0, tile.Position.y * settings.scale.y);
+                var delta = new Vector3(settings.scale.x, 0, settings.scale.y) / 2f;
+                // Set General position
+                tileObj.transform.position = basePos + tilePos - delta;
+
 
                 // Set mainPivot as the parent of tileObj
                 tiles.Add(tileObj);
@@ -297,22 +340,6 @@ namespace ISILab.LBS.Generators
             var obj =  GameObject.Instantiate(pref, pivot);
 #endif
             return obj;
-        }
-
-        public override bool Equals(object obj)
-        {
-            var other = obj as SchemaRuleGenerator;
-
-            if (other == null) return false;
-
-            if (!this.deltaWall.Equals(other.deltaWall)) return false;
-
-            return true;
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
         }
         #endregion
     }

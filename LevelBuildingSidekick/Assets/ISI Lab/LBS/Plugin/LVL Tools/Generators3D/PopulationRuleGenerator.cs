@@ -16,7 +16,7 @@ namespace ISILab.LBS.Generators
     {
         public override List<Message> CheckViability(LBSLayer layer)
         {
-            throw new System.NotImplementedException();
+            throw new System.NotImplementedException(); // TODO: Implement CheckViability method
         }
 
         public override object Clone()
@@ -34,21 +34,21 @@ namespace ISILab.LBS.Generators
             var tiles = data.Tiles;
 
             var objects = new List<GameObject>();
-
             foreach (var tile in tiles)
             {
                 Bundle current = null;
                 foreach (var b in bundles)
                 {
                     var id = b.name;
-                    
+
                     if (id.Equals(tile.BundleData.BundleName))
                         current = b;
                 }
 
-                if(bundles == null)
+                if (bundles == null)
                 {
-                    Debug.Log("[ISI Lab]: no exite ningun asset asignado a ");
+                    Debug.LogWarning("[ISI Lab]: There is no asset named '" + tile.BundleData.BundleName +
+                    "'. Please verify the bundles present in the project or the elements assigned in the level.");
                     continue;
                 }
 
@@ -58,17 +58,24 @@ namespace ISILab.LBS.Generators
 #else
                 var go = GameObject.Instantiate(pref.obj);
 #endif
-
+                /*
                 go.transform.position = new Vector3(
                     scale.x * tile.Tile.Position.x,
                     0,
                     scale.y * tile.Tile.Position.y) - new Vector3(scale.x, 0, scale.y) / 2;
+
                 var r = Directions.Bidimencional.Edges.FindIndex(v => v == tile.Rotation);
-                if(r % 2 == 0)
+                if (r % 2 == 0)
                     go.transform.rotation = Quaternion.Euler(0, -90 * (r - 1), 0);
                 else
                     go.transform.rotation = Quaternion.Euler(0, -90 * (r - 3), 0);
+                */
 
+                // Set General position
+                go.transform.position =
+                    settings.position +
+                    new Vector3(tile.Tile.Position.x * settings.scale.x, 0, tile.Tile.Position.y * settings.scale.y) +
+                    -(new Vector3(settings.scale.x, 0, settings.scale.y) / 2f);
 
                 objects.Add(go);
             }
