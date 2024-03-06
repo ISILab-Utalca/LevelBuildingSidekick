@@ -21,7 +21,6 @@ namespace ISILab.LBS.AI.Assistants.Editor
         private Button undoBtn;
         private Button continueBtn;
         private Button calculateBtn;
-        private Button editPresset;
 
         public Action OnCalculate;
         public Action OnContinue;
@@ -45,12 +44,6 @@ namespace ISILab.LBS.AI.Assistants.Editor
 
             calculateBtn = this.Q<Button>(name: "CalculateBtn");
             calculateBtn.clicked += Calculate;
-
-            editPresset = this.Q<Button>(name: "EditPresset");
-
-
-            var menu = new ContextualMenuManipulator(EditPresset);
-            menu.target = editPresset;
 
             dropdown = this.Q<DropdownField>(name: "PresetDropDown");
             dropdown.RegisterValueChangedCallback(e => OnPressetChange?.Invoke(e.newValue));
@@ -93,18 +86,6 @@ namespace ISILab.LBS.AI.Assistants.Editor
         public MAPElitesPreset GetPresset()
         {
             return LBSAssetsStorage.Instance.Get<MAPElitesPreset>().Find(p => p.name == dropdown.value);
-        }
-
-        public void EditPresset(ContextualMenuPopulateEvent evt)
-        {
-            evt.menu.AppendAction("New Preset", (a) => { OpenPressetWindow(null); });
-            evt.menu.AppendAction("Copy Preset", (a) => { OpenPressetWindow(GetPresset().Clone() as MAPElitesPreset); });
-            evt.menu.AppendAction("Edit Preset", (a) => { OpenPressetWindow(GetPresset()); });
-        }
-
-        void OpenPressetWindow(MAPElitesPreset preset)
-        {
-            MapElitePresetEditorWindow.OpenWindow(preset);
         }
     }
 }
