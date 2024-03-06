@@ -15,37 +15,37 @@ namespace ISILab.LBS.VisualElements
 
         public ExplorationVE(object target) : base(target)
         {
-            Add(CreateVisualElement());
+            CreateVisualElement();
             SetInfo(target);
         }
 
         public override void SetInfo(object target)
         {
-            this.target = target;
+
             var eval = target as Exploration;
+            this.target = eval;
+
+            if (eval == null)
+                return;
+
             if (eval.colliderCharacteristic != null)
-            {
-                colliderCharacteristic.SetInfo(eval.colliderCharacteristic);
-            }
-        }
-
-        protected override VisualElement CreateVisualElement()
-        {
-            var ve = new VisualElement();
-            var eval = target as Exploration;
-
-            colliderCharacteristic = new DynamicFoldout(typeof(LBSCharacteristic));
-            colliderCharacteristic.Label = "Collider Characteristic";
-
-            if (eval != null && eval.colliderCharacteristic != null)
             {
                 colliderCharacteristic.Data = eval.colliderCharacteristic;
             }
 
             colliderCharacteristic.OnChoiceSelection += () => { eval.colliderCharacteristic = colliderCharacteristic.Data as LBSCharacteristic; };
+        }
 
-            ve.Add(colliderCharacteristic);
-            return ve;
+        protected override VisualElement CreateVisualElement()
+        {
+
+            colliderCharacteristic = new DynamicFoldout(typeof(LBSCharacteristic));
+            colliderCharacteristic.Label = "Collider Characteristic";
+
+            this.Add(colliderCharacteristic);
+
+
+            return this;
         }
     }
 }
