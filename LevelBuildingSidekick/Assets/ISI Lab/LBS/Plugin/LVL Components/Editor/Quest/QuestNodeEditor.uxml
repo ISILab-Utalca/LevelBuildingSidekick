@@ -2,6 +2,5 @@
     <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);">
         <ui:Label tabindex="-1" text="QuestNode" display-tooltip-when-elided="true" name="Label" style="-unity-font-style: bold;" />
         <ui:RectField label="Rect" name="Rect" />
-        <ui:ListView focusable="true" header-title="Tags" show-add-remove-footer="true" show-foldout-header="true" show-border="true" name="Tags" />
     </ui:VisualElement>
 </ui:UXML>
