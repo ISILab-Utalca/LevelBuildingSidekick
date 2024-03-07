@@ -127,24 +127,6 @@ namespace ISILab.LBS.Modules
             }
         }
 
-        public override void OnAttach(LBSLayer layer)
-        {
-        }
-
-        public override void OnDetach(LBSLayer layer)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override void Reload(LBSLayer layer)
-        {
-        }
-
-        public override void Print()
-        {
-            throw new System.NotImplementedException();
-        }
-
         public List<object> GetSelected(Vector2Int position)
         {
             var pos = Owner.ToFixedPosition(position);
