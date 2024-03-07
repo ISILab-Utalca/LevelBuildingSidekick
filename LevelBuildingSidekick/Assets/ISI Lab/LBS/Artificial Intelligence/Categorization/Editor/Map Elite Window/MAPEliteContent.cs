@@ -31,7 +31,7 @@ namespace ISILab.LBS.VisualElements
 
         private object locker = new object();
 
-        public Action<object> OnSelectOption;
+        public event Action<object> OnSelectOption;
 
         Vector2 partitions = Vector2.one;
 
