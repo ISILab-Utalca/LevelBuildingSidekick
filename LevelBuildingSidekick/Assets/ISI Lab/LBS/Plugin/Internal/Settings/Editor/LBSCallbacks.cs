@@ -115,7 +115,7 @@ namespace ISILab.LBS.Internal.Editor
         public static void ReloadCurrentLevel()
         {
             var data = LBS.loadedLevel.data;
-            data.Reload();
+            data?.Reload();
         }
 
         public static void ReloadBundles()
