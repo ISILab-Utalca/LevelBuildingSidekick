@@ -34,12 +34,23 @@ namespace ISILab.LBS.VisualElements
             if (target == null)
                 return;
 
-            target.Update();
+            target._Update();
 
             content = new VisualElement();
             Add(content);
             var weights = target.Weights;
 
+            // Show warning if there are no child bundles to add weights
+            if(weights.Count <= 0)
+            {
+                var wp = new WarningPanel();
+                wp.label.text = "This feature adds weights to the child bundles, " +
+                    "make sure to have child bundles for this feature to work.";
+                content.Add(wp);
+                return;
+            }
+
+            // Intance the weights of the child bundles
             for (int i = 0; i < weights.Count; i++)
             {
                 var current = weights[i];
