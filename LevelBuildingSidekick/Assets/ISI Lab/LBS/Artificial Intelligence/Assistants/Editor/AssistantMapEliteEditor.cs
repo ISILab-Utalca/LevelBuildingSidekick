@@ -13,6 +13,7 @@ using ISILab.LBS.Assistants;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Editor;
 using ISILab.LBS.Drawers;
+using UnityEditor;
 
 namespace ISILab.LBS.AI.Assistants.Editor
 {
@@ -46,10 +47,11 @@ namespace ISILab.LBS.AI.Assistants.Editor
                 Debug.LogError("[ISI Lab]: Selected evolution area height or with < 0");
                 return;
             }
+
             SetBackgorundTexture(assitant.RawToolRect);
             assitant.SetAdam(assitant.RawToolRect);
             assitant.Execute();
-            LBSMainWindow.OnWindowRepaint += RepaintContent;
+            LBSMainWindow.OnWindowRepaint += RepaintContent; 
         }
 
         private void RepaintContent()
@@ -94,7 +96,22 @@ namespace ISILab.LBS.AI.Assistants.Editor
                 ToolKit.Instance.SetActive("Select area to evaluate");
             };
 
-            content.OnSelectOption += assistant.ApplySuggestion;
+            content.OnSelectOption += (s) =>
+            {
+                // Save history version to revert
+                var x = LBSController.CurrentLevel;
+                Undo.RegisterCompleteObjectUndo(x, "Select Suggestion");
+                EditorGUI.BeginChangeCheck();
+
+                // Apply suggestion
+                assistant.ApplySuggestion(s);
+
+                // Mark as dirty
+                if (EditorGUI.EndChangeCheck())
+                {
+                    EditorUtility.SetDirty(x);
+                }
+            };
 
 
             ve.Add(content);
