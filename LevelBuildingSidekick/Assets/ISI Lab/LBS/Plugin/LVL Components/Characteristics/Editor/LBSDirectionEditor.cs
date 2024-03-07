@@ -46,9 +46,11 @@ namespace ISILab.LBS.VisualElements
 
                 fields[i].value = tag;
 
+                var index = i;
+
                 fields[i].RegisterValueChangedCallback(evt =>
                 {
-                    target.SetConnection(evt.newValue as LBSTag, i);
+                    target.SetConnection(evt.newValue as LBSTag, index);
                 });
             }
         }

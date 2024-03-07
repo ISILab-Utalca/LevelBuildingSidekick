@@ -81,7 +81,10 @@ MonoBehaviour:
       data:
         playerCharacteristc:
           rid: 4305865204711817742
-        resourceCharactersitic: []
+        resourceCharactersitic:
+        - rid: 4688719056639886050
+        - rid: 4688719056639886051
+        - rid: 4688719056639886052
     - rid: 4305865204711817742
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
@@ -132,3 +135,15 @@ MonoBehaviour:
       type: {class: GenerationNumberTermination, ns: ISILab.AI.Optimization.Terminations, asm: LBS}
     - rid: 4305865204711817765
       type: {class: AreaCrossover, ns: ISILab.AI.Categorization, asm: LBS}
+    - rid: 4688719056639886050
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        value: {fileID: 11400000, guid: 0147d0d479179b04a8c825d8159e70ce, type: 2}
+    - rid: 4688719056639886051
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        value: {fileID: 11400000, guid: 8d03f9563098ae048a81b709940e56c0, type: 2}
+    - rid: 4688719056639886052
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        value: {fileID: 11400000, guid: b354587b73f945f4188c7dc7026de4ef, type: 2}

@@ -4,6 +4,7 @@ using ISILab.LBS.Internal;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -16,38 +17,49 @@ namespace ISILab.LBS.Editor
 
         public LBSTagsCharEditor()
         {
-            Add(CreateVisualElement());
+            CreateVisualElement();
         }
 
         public LBSTagsCharEditor(object target) : base(target)
         {
-            Add(CreateVisualElement());
+            CreateVisualElement();
             SetInfo(target);
         }
 
         public override void SetInfo(object target)
         {
-            this.target = target;
             var tc = target as LBSTagsCharacteristic;
+            this.target = target;
+            var storage = LBSAssetsStorage.Instance;
 
-            dropdownField.value = tc?.Value?.Label;
+
+            if (tc == null)
+                return;
+
+            //Debug.Log(tc.Value);
+
+            var tags = storage.Get<LBSTag>();
+            dropdownField.choices = tags.Select(t => t.Label).ToList();
+
+            if (tc.Value != null)
+            {
+                dropdownField.SetValueWithoutNotify(tc.Value.name);
+            }
+            
+            dropdownField.RegisterValueChangedCallback(e =>
+            {
+                var tag = tags.Find(t => t.name == e.newValue);
+                tc.Value = tag;
+            });
         }
 
         protected override VisualElement CreateVisualElement()
         {
-            var ve = new VisualElement();
-            var storage = LBSAssetsStorage.Instance;
-            var target = this.target as LBSTagsCharacteristic;
-
             dropdownField = new DropdownField("Value:");
-            ve.Add(dropdownField);
-            var tags = storage.Get<LBSTag>();
-            dropdownField.choices = tags.Select(t => t.Label).ToList();
-            dropdownField.RegisterCallback<ChangeEvent<string>>(e =>
-            {
-                (this.target as LBSTagsCharacteristic).Value = tags.Find(t => t.Label == e.newValue);
-            });
-            return ve;
+           
+            this.Add(dropdownField);
+
+            return this;
         }
     }
 }

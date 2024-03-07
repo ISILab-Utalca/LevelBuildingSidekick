@@ -13,7 +13,7 @@ namespace ISILab.LBS.VisualElements
     public class QuestNodeEditor : LBSCustomEditor
     {
         RectField rect;
-        ListView tags;
+        //ListView tags;
         Label label;
 
         public QuestNodeEditor()
@@ -37,8 +37,8 @@ namespace ISILab.LBS.VisualElements
             label.text = node.ID;
             rect.RegisterValueChangedCallback(evt => node.Target.Rect = evt.newValue);
 
-            tags.itemsSource = node.Target.Tags;
-            tags.Rebuild();
+            /*tags.itemsSource = node.Target.Tags;
+            tags.Rebuild();*/
 
             rect.value = node.Target.Rect;
         }
@@ -54,12 +54,13 @@ namespace ISILab.LBS.VisualElements
 
             rect = this.Q<RectField>();
 
+            /*
             tags = this.Q<ListView>();
-
+                
             tags.itemsSource = new List<LBSTag>();
 
             tags.makeItem = MakeTagItem;
-            tags.bindItem = BindTagItem;
+            tags.bindItem = BindTagItem;*/
 
             return this;
         }

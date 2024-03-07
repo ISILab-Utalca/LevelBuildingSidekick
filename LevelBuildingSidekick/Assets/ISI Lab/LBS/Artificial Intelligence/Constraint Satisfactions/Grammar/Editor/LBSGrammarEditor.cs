@@ -31,8 +31,9 @@ namespace ISILab.LBS.VisualElements
                 for (int i = 0; i < grammar.ActionCount; i++)
                 {
                     var action = grammar.GetAction(i);
-                    actionFoldouts[i] = EditorGUILayout.Foldout(actionFoldouts[i], action.GrammarElement.ID);
-                    if (actionFoldouts[i])
+                    GUILayout.Label(action.GrammarElement.ID);
+                    //actionFoldouts[i] = EditorGUILayout.Foldout(actionFoldouts[i], action.GrammarElement.ID);
+                    /*if (actionFoldouts[i])
                     {
                         for (int j = 0; j < action.TargetCount; j++)
                         {
@@ -43,7 +44,7 @@ namespace ISILab.LBS.VisualElements
                         {
                             action.AddTarget(s);
                         }
-                    }
+                    }*/
                 }
             }
 
