@@ -1,5 +1,3 @@
-using ISILab.LBS;
-using ISILab.LBS.Characteristics;
 using LBS.Bundles;
 using Newtonsoft.Json;
 using System;
@@ -7,7 +5,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static UnityEngine.Rendering.VirtualTexturing.Debugging;
 
 
 namespace ISILab.LBS.Characteristics
@@ -46,15 +43,16 @@ namespace ISILab.LBS.Characteristics
             Owner.OnAddChild += OnAddChildToOwner;
             Owner.OnRemoveChild += OnRemoveChildToOwner;
 
-            Update();
+            _Update();
         }
 
-        public void Update()
+        public void _Update()
         {
             if (Owner == null)
                 return;
 
             var bundles = Owner.ChildsBundles;
+
 
             while(bundles.Count < Weights.Count)
             {
