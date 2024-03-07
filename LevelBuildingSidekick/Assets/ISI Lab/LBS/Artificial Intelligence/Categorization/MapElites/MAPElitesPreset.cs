@@ -14,7 +14,7 @@ using UnityEditor;
 namespace ISILab.LBS.AI.Categorization
 {
     [System.Serializable]
-    [CreateAssetMenu(menuName = "ISILab/LBS/MapElitePresset")]
+    [CreateAssetMenu(menuName = "ISILab/LBS/MapElitePreset")]
     public class MAPElitesPreset : ScriptableObject, ICloneable
     {
         [SerializeField]
