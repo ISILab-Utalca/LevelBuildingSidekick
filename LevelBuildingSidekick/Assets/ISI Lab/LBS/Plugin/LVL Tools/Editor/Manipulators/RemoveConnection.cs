@@ -1,83 +1,173 @@
+using ISILab.Commons;
+using LBS.Components;
 using LBS.Components.TileMap;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using ISILab.Extensions;
 using UnityEngine.UIElements;
+using ISILab.LBS.Behaviours;
+using ISILab.LBS.VisualElements;
+using UnityEditor;
 
-public class RemoveConnection<T> : ManipulateTeselation<T> where T : LBSTile
+namespace ISILab.LBS.Manipulators
 {
-    private readonly List<Vector2Int> dirs = new List<Vector2Int>() // (!) esto deberia estar en un lugar general
+    public class RemoveConnection : LBSManipulator
     {
-        Vector2Int.right,
-        Vector2Int.down,
-        Vector2Int.left,
-        Vector2Int.up
-    };
+        private List<Vector2Int> Directions => Commons.Directions.Bidimencional.Edges;
 
-    private ConnectedTile first;
+        private ExteriorBehaviour exterior;
+        private Vector2Int first;
 
-    public RemoveConnection() : base()
-    {
-        feedback = new ConectedLine();
-        feedback.fixToTeselation = true;
-    }
+        private ConnectedConrnerLine lineFeedback = new ConnectedConrnerLine();
+        private Feedback areaFeedback = new AreaFeedback();
 
-    protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
-    {
-        var tile = e.target as ExteriorTileView;
-        if (tile == null)
-            return;
-
-        first = tile.Data;
-    }
-
-    protected override void OnMouseMove(VisualElement target, Vector2Int position, MouseMoveEvent e)
-    {
-
-    }
-
-    protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
-    {
-        if (first == null)
-            return;
-
-        var pos = module.Owner.ToFixedPosition(position);
-
-        var dx = (first.Position.x - pos.x);
-        var dy = (first.Position.y - pos.y);
-        var fDir = dirs.FindIndex(d => d.Equals(-new Vector2Int(dx, dy)));
-
-        if (fDir < 0 || fDir >= dirs.Count)
-            return;
-
-
-        if (e.target is MainView)
+        public RemoveConnection() : base()
         {
-            first.SetConnection("", fDir);
-            return;
+            lineFeedback.fixToTeselation = true;
+            areaFeedback.fixToTeselation = true;
+            feedback = lineFeedback;
         }
 
-        var tile = e.target as ExteriorTileView;
-        if (tile == null)
-            return;
+        public override void Init(LBSLayer layer, object provider)
+        {
+            exterior = provider as ExteriorBehaviour;
+            lineFeedback.TeselationSize = layer.TileSize;
+            areaFeedback.TeselationSize = layer.TileSize;
+            layer.OnTileSizeChange += (val) =>
+            {
+                lineFeedback.TeselationSize = val;
+                areaFeedback.TeselationSize = val;
+            };
+        }
 
-        var second = tile.Data;
+        protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
+        {
+            first = exterior.Owner.ToFixedPosition(startPosition);
+        }
 
-        if (second == first)
-            return;
+        protected override void OnMouseMove(VisualElement target, Vector2Int movePosition, MouseMoveEvent e)
+        {
+            lineFeedback.LeftSide = e.shiftKey;
 
-        if (first == second)
-            return;
+            if (!e.ctrlKey)
+            {
+                SetFeedback(lineFeedback);
+            }
+            else
+            {
+                SetFeedback(areaFeedback);
+            }
+        }
 
-        if (Mathf.Abs(dx) + Mathf.Abs(dy) > 1f)
-            return;
-        var tDir = dirs.FindIndex(d => d.Equals(new Vector2Int(dx, dy)));
+        protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
+        {
+            var x = LBSController.CurrentLevel;
+            EditorGUI.BeginChangeCheck();
+            Undo.RegisterCompleteObjectUndo(x, "remove conection");
 
-        first.SetConnection("", fDir);
-        second.SetConnection("", tDir);
+            // Get end position
+            var end = exterior.Owner.ToFixedPosition(position);
 
-        OnManipulationEnd?.Invoke();
+            if (!e.ctrlKey)
+            {
+                LineEffect(end, e);
+            }
+            else
+            {
+                AreaEffect(end, e);
+            }
+
+
+            if (EditorGUI.EndChangeCheck())
+            {
+                EditorUtility.SetDirty(x);
+            }
+        }
+
+
+        public void LineEffect(Vector2Int end, MouseUpEvent e)
+        {
+            // Get corner position
+            var corner = e.shiftKey ?
+                new Vector2Int(first.x, end.y) :
+                new Vector2Int(end.x, first.y);
+
+            List<(LBSTile, Vector2Int, Vector2Int)> path = new();
+
+            // Get first path
+            Vector2Int current = first;
+            while (!current.Equals(corner))
+            {
+                var tile = exterior.GetTile(current);
+                var dir = ((Vector2)(corner - first)).normalized.ToInt();
+
+                path.Add((tile, new Vector2Int(current.x, current.y), dir));
+                current += dir;
+            }
+
+            // Get second path
+            current = corner;
+            while (!current.Equals(end))
+            {
+                var tile = exterior.GetTile(current);
+                var dir = ((Vector2)(end - corner)).normalized.ToInt();
+
+                path.Add((tile, new Vector2Int(current.x, current.y), dir));
+                current += dir;
+            }
+
+            for (int i = 0; i < path.Count; i++)
+            {
+                var t1 = path[i].Item1;
+                var fDir = Directions.FindIndex(d => d.Equals(path[i].Item3));
+
+                if (t1 != null)
+                {
+                    exterior.SetConnection(t1, fDir, "", false);
+                }
+
+                var t2 = exterior.GetTile(path[i].Item2 + path[i].Item3);
+                var dDir = Directions.FindIndex(d => d.Equals(-path[i].Item3));
+
+                if (t2 != null)
+                {
+                    exterior.SetConnection(t2, dDir, "", false);
+                }
+            }
+        }
+
+        public void AreaEffect(Vector2Int end, MouseUpEvent e)
+        {
+            var corners = exterior.Owner.ToFixedPosition(StartPosition, EndPosition);
+
+            for (int i = corners.Item1.x; i <= corners.Item2.x; i++)
+            {
+                for (int j = corners.Item1.y; j <= corners.Item2.y; j++)
+                {
+                    var pos = new Vector2Int(i, j);
+                    var tile = exterior.GetTile(pos);
+
+                    if (tile == null)
+                    {
+                        continue;
+                    }
+
+                    for (int k = 0; k < Directions.Count; k++)
+                    {
+                        exterior.SetConnection(tile, k, "", false);
+
+                        var dir = Directions[k];
+                        var neig = exterior.GetTile(pos + dir);
+
+                        if (neig != null)
+                        {
+                            exterior.SetConnection(neig, (k + 2) % 4, "", false);
+                        }
+                    }
+                }
+            }
+        }
     }
-
-
 }

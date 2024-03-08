@@ -3,79 +3,51 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using LBS.Bundles;
+using ISILab.LBS.Components;
 
-[CreateAssetMenu(fileName = "NewIDBundle", menuName = "ISILab/Identifiers Bundle")]
-public class LBSIdentifierBundle : ScriptableObject
+namespace ISILab.LBS
 {
-    [SerializeField]
-    [ScriptableToString(typeof(LBSIdentifier))]
-    protected List<string> tags = new List<string>();
-
-    public List<LBSIdentifier> Tags
+    [CreateAssetMenu(fileName = "New Tags Group", menuName = "ISILab/New Tags Group")]
+    public class LBSIdentifierBundle : ScriptableObject
     {
-        get
+        public enum TagType
         {
-            var tt = Utility.DirectoryTools.GetScriptables<LBSIdentifier>().ToList();
-            List<LBSIdentifier> toR = new List<LBSIdentifier>();
-            foreach (var tag in tags)
-            {
-                var x = tt.Find(v => v.Label == tag);
-                if (x != null)
-                    toR.Add(x);
-            }
-            return toR;
+            Aesthetic, // (Style)Ej: Castle, Spaceship,
+            Structural, // Ej: Door, Wall, Corner,Stair
+            Element, // Ej: Furniture, Enemies, 
+                     // Distinction, // (characteristics)Ej: Destroyed, Blooded, Dirty,
         }
-    }
 
-    public void RemoveAt(int index)
-    {
-        tags.RemoveAt(index);
-    }
+        #region FIELDS
+        [SerializeField]
+        private List<LBSTag> tags = new List<LBSTag>();
+        [SerializeField]
+        public TagType type;
+        #endregion
 
-    public void Remove (LBSIdentifier tag)
-    {
-        tags.Remove(tag.Label);
-    }
-
-    public void AddTag(LBSIdentifier tag)
-    {
-        tags.Add(tag.Label);
-    }
-
-    public LBSIdentifier GetTag(int index)
-    {
-        var current = tags[index];
-
-        var ttags = Utility.DirectoryTools.GetScriptables<LBSIdentifier>();  // esto lagea la interfaz de GlobalTag (!!!)
-        var toR = ttags.Find(t => t.Label == current);
-
-        return toR;
-        //return (t == null)? null : Utility.DirectoryTools.GetScriptable<LBSIdentifier>(t);
-    }
-
-    public List<LBSIdentifier> GetTags()
-    {
-        return Tags;
-    }
-
-    public void Add(List<Bundle> data)
-    {
-        var tags = data.Select(b => b.ID);
-
-        foreach (var t in tags)
+        #region PROPERTIES
+        public List<LBSTag> Tags
         {
-            if(!this.tags.Contains(t.Label))
-                this.tags.Add(t.Label);
+            get => new List<LBSTag>(tags);
         }
-    }
+        #endregion
 
-    public virtual void Remove(List<Bundle> data)
-    {
-        var tags = data.Select(b => b.ID);
-
-        foreach(var t in tags)
+        #region METHODS
+        public void RemoveAt(int index)
         {
-            this.tags.Remove(t.Label);
-        }    
+            tags.RemoveAt(index);
+        }
+
+        public void Remove(LBSTag tag)
+        {
+            tags.Remove(tag);
+        }
+
+        public void Add(LBSTag tag)
+        {
+            tags.Add(tag);
+        }
+        #endregion
     }
 }

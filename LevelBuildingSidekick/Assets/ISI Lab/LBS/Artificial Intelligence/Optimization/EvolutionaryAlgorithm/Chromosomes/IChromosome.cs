@@ -1,3 +1,4 @@
+using ISILab.AI.Optimization;
 using System;
 
 namespace GeneticSharp.Domain.Chromosomes

@@ -1,69 +1,72 @@
+using ISILab.LBS.Manipulators;
+using ISILab.LBS.VisualElements;
+using ISILab.LBS.VisualElements.Editor;
 using LBS.Components;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-[System.Serializable]
-public class LBSTool
+namespace LBS
 {
-    [SerializeField]
-    public Texture2D icon;
-    [SerializeField]
-    public string name;
-    [SerializeField]
-    public string manipulator;
-    [SerializeField]
-    public string inspector;
-
-    [NonSerialized]
-    protected IManipulatorLBS _manipulator;
-    [NonSerialized]
-    protected LBSInspector _inspector;
-
-    public Action OnStartAction;
-    public Action OnUpdateAction;
-    public Action OnEndAction;
-
-    public LBSTool(Texture2D icon, string name, Type manipulator, Type inspector, bool useUnitySelector = false)
+    public class LBSTool
     {
-        this.icon = icon;
-        this.name = name;
-        this.manipulator = manipulator.FullName;
-        this.inspector = inspector?.FullName;
+        #region FIELDS
+        private Texture2D icon;
+        private string name;
+        private LBSManipulator manipulator;
+        #endregion
+
+        #region PROPERTIES
+        public Texture2D Icon => icon;
+        public string Name => name;
+        public LBSManipulator Manipulator => manipulator;
+        #endregion
+
+        #region EVENTS
+        public event Action OnSelect;
+        public event Action OnDeselect;
+
+        public event Action<LBSLayer> OnStart;
+        public event Action<LBSLayer> OnPressed;
+        public event Action<LBSLayer> OnEnd;
+        #endregion
+
+        #region CONSTRUCTORS
+        public LBSTool(Texture2D icon, string name, LBSManipulator manipulator)
+        {
+            this.icon = icon;
+            this.name = name;
+            this.manipulator = manipulator;
+        }
+        #endregion
+
+        #region METHODS
+        public virtual void Init(LBSLayer layer, object behaviour)
+        {
+            manipulator.OnManipulationStart += () => { OnStart?.Invoke(layer); };
+            manipulator.OnManipulationUpdate += () => { OnPressed?.Invoke(layer); };
+            manipulator.OnManipulationEnd += () => { OnEnd?.Invoke(layer); };
+
+            manipulator.Init(layer, behaviour);
+        }
+
+        public void BindButton(ToolButton button)
+        {
+            var canvas = MainView.Instance;
+
+            button.OnFocusEvent += () =>
+            {
+                canvas.AddManipulator(this.manipulator);
+                OnSelect?.Invoke();
+            };
+            button.OnBlurEvent += () =>
+            {
+                canvas.RemoveManipulator(this.manipulator);
+                OnDeselect?.Invoke();
+            };
+        }
+        #endregion;
     }
-
-    public virtual LBSGrupableButton InitButton(MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module) // (!)
-    {
-        var mType = Type.GetType(this.manipulator);
-        _manipulator = Activator.CreateInstance(mType) as IManipulatorLBS;
-        _manipulator.AddManipulationStart(OnStartAction);
-        _manipulator.AddManipulationUpdate(OnUpdateAction);
-        _manipulator.AddManipulationEnd(OnEndAction);
-
-        _manipulator.Init(ref view,ref level, ref layer, ref module);
-
-        var btn = new BasicToolButton(this.icon, this.name);
-
-        btn.OnFocusEvent += () => { 
-            view.AddManipulator(_manipulator as Manipulator);
-        };
-        btn.OnBlurEvent += () => { 
-            view.RemoveManipulator(_manipulator as Manipulator); 
-        };
-
-        return btn;
-    }
-
-    public virtual LBSInspector InitInspector(MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
-    {
-        var iType = Type.GetType(this.inspector);
-        _inspector = Activator.CreateInstance(iType) as LBSInspector;
-        _inspector.Init(new List<IManipulatorLBS>() { _manipulator }, ref view, ref level, ref layer, ref module);
-
-        return _inspector;
-    }
-
 }

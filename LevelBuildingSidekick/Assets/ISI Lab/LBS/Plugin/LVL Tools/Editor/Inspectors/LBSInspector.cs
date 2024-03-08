@@ -1,11 +1,20 @@
+using ISILab.LBS.Behaviours;
+using ISILab.LBS.VisualElements.Editor;
 using LBS.Components;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public abstract class LBSInspector : VisualElement
+namespace ISILab.LBS.VisualElements
 {
-    public abstract void Init(List<IManipulatorLBS> lBSManipulators, ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module);
+    public abstract class LBSInspector : VisualElement
+    {
+        public abstract void SetTarget(LBSLayer layer);
+
+        public virtual void Init(MainView view, LBSLayer layer, LBSBehaviour behaviour) { } // FIX: This function is not called anywhere, it is not working
+
+        public virtual void Repaint() 
+        {
+            Debug.LogWarning("[ISILab]: The inspector (" + this.ToString() + ") does not implement repainting.");
+        }
+    }
 }

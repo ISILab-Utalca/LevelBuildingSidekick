@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class LBSChromosome : ChromosomeBase2D
+namespace ISILab.AI.Categorization
 {
-    protected LBSChromosome(Rect rect, int[] immutables = null) : base(rect, immutables) { }
+    public abstract class LBSChromosome : ChromosomeBase2D
+    {
+        protected LBSChromosome(Rect rect, int[] immutables = null) : base(rect, immutables) { }
 
-    protected LBSChromosome() : base() { }
-
-    public abstract LBSModule ToModule();
-    
+        protected LBSChromosome() : base() { }
+    }
 }

@@ -1,18 +1,20 @@
+using ISILab.Commons;
+using ISILab.Commons.Utility.Editor;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace LBS.VisualElements
+namespace ISILab.LBS.VisualElements
 {
     public class ButtonWrapper : Button
     {
         public new class UxmlFactory : UxmlFactory<ButtonWrapper, VisualElement.UxmlTraits> { }
 
         object data;
-        Label label;
         public string Text;
+
         public object Data { 
             get
             {
@@ -24,32 +26,20 @@ namespace LBS.VisualElements
             }
         }
 
-        public VisualElement Icon;
-
         public ButtonWrapper()
         {
-            var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("MapEliteElementUXML");
-            visualTree.CloneTree(this);
-            var styleSheet = Utility.DirectoryTools.SearchAssetByName<StyleSheet>("MapEliteUSS");
+            var styleSheet = DirectoryTools.GetAssetByName<StyleSheet>("MapEliteUSS");
             this.styleSheets.Add(styleSheet);
-            style.backgroundColor = new Color(0,0,0,0);
-            Icon = this.Q<VisualElement>("Icon");
-            label = this.Q<Label>("Fitness");
-            label.text = "0";
-            Icon.style.backgroundImage = default;
+            text = "0";
         }
 
         public ButtonWrapper(object data, Vector2 size)
         {
-            var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("MapEliteElementUXML");
-            visualTree.CloneTree(this);
-            var styleSheet = Utility.DirectoryTools.SearchAssetByName<StyleSheet>("MapEliteUSS");
-            this.styleSheets.Add(styleSheet);
-            Icon = this.Q<VisualElement>("Icon");
-            label = this.Q<Label>("Fitness");
-            label.text = "0";
             style.width = size.x;
             style.height = size.y;
+            var styleSheet = DirectoryTools.GetAssetByName<StyleSheet>("MapEliteUSS");
+            this.styleSheets.Add(styleSheet);
+            text = "0";
 
             Data = data;
         }
@@ -77,7 +67,12 @@ namespace LBS.VisualElements
 
         internal void UpdateLabel()
         {
-            label.text = Text;
+            text = Text;
+        }
+
+        internal void SetTexture(object value)
+        {
+            throw new NotImplementedException();
         }
     }
 }

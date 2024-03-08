@@ -1,3 +1,4 @@
+using ISILab.Commons.Utility.Editor;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -9,7 +10,7 @@ namespace LBS.Settings
     {
         public static void SearchSettingsInstance()
         {
-            LBSSettings.Instance = Utility.DirectoryTools.GetScriptable<LBSSettings>();
+            LBSSettings.Instance = DirectoryTools.GetScriptable<LBSSettings>();
         }
     }
 }

@@ -1,14 +1,20 @@
-using LBS.Components.TileMap;
+using ISILab.LBS.Components;
+using ISILab.LBS.Modules;
+using ISILab.LBS.VisualElements;
+using LBS.Components;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class AddConnection<T> : ManipulateTeselation<T> where T : LBSTile
+namespace ISILab.LBS.Manipulators
 {
-    public LBSIdentifier tagToSet;
+    public class AddConnection : LBSManipulator
+    {
+        public LBSTag tagToSet;
+        public ConnectedTileMapModule module;
 
-    private List<Vector2Int> dirs = new List<Vector2Int>() // (!) esto deberia estar en un lugar general
+        private List<Vector2Int> dirs = new List<Vector2Int>() // FIX: Use general directions from LBS
     {
         Vector2Int.right,
         Vector2Int.down,
@@ -16,67 +22,64 @@ public class AddConnection<T> : ManipulateTeselation<T> where T : LBSTile
         Vector2Int.up
     };
 
-    private ConnectedTile first;
+        private TileConnectionsPair first;
 
-    public AddConnection() : base()
-    {
-        feedback = new ConectedLine();
-        feedback.fixToTeselation = true;
-    }
-
-    protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
-    {
-        //OnManipulationStart?.Invoke();
-
-        var tile = e.target as ExteriorTileView;
-        if (tile == null)
-            return;
-
-        first = tile.Data;
-    }
-
-    protected override void OnMouseMove(VisualElement target, Vector2Int position, MouseMoveEvent e)
-    {
-        //throw new System.NotImplementedException();
-    }
-
-    protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
-    {
-        if (first == null)
-            return;
-
-        var pos = module.Owner.ToFixedPosition(position);
-
-        var dx = (first.Position.x - pos.x);
-        var dy = (first.Position.y - pos.y);
-        var fDir = dirs.FindIndex(d => d.Equals(-new Vector2Int(dx, dy)));
-
-        if (fDir < 0 || fDir >= dirs.Count)
-            return;
-
-
-        if (e.target is MainView)
+        public AddConnection() : base()
         {
-            first.SetConnection(tagToSet.Label, fDir);
-            return;
+            feedback = new ConnectedLine();
+            feedback.fixToTeselation = true;
         }
 
-        var tile = e.target as ExteriorTileView;
-        if (tile == null)
-            return;
+        public override void Init(LBSLayer layer, object owner)
+        {
+            module = layer.GetModule<ConnectedTileMapModule>();
+            feedback.TeselationSize = layer.TileSize;
+            layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
+        }
 
-        var second = tile.Data;
+        protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
+        {
+            var pos = module.Owner.ToFixedPosition(position);
+            var tile = module.Pairs.Find(t => t.Tile.Position == pos);
 
-        if (first == second)
-            return;
+            if (tile == null)
+                return;
 
-        if (Mathf.Abs(dx) + Mathf.Abs(dy) > 1f)
-            return;
+            first = tile;
+        }
 
-        var tDir = dirs.FindIndex(d => d.Equals(new Vector2Int(dx, dy)));
+        protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
+        {
+            if (first == null)
+                return;
 
-        first.SetConnection(tagToSet.Label, fDir);
-        second.SetConnection(tagToSet.Label, tDir);
+            var pos = module.Owner.ToFixedPosition(position);
 
+            var dx = first.Tile.Position.x - pos.x;
+            var dy = first.Tile.Position.y - pos.y;
+            var fDir = dirs.FindIndex(d => d.Equals(-new Vector2Int(dx, dy)));
+
+            if (fDir < 0 || fDir >= dirs.Count)
+                return;
+
+            var tile = module.Pairs.Find(t => t.Tile.Position == pos);
+
+            if (tile == null)
+            {
+                first.SetConnection(fDir, tagToSet.Label, false);
+                return;
+            }
+
+            if (first == tile)
+                return;
+
+            if (Mathf.Abs(dx) + Mathf.Abs(dy) > 1f)
+                return;
+
+            var tDir = dirs.FindIndex(d => d.Equals(new Vector2Int(dx, dy)));
+
+            first.SetConnection(fDir, tagToSet.Label, false);
+            tile.SetConnection(tDir, tagToSet.Label, false);
+        }
     }
 }

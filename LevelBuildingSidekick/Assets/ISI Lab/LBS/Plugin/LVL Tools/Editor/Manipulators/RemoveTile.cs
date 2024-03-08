@@ -1,40 +1,38 @@
+using LBS.Components;
 using LBS.Components.TileMap;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class RemoveTile : ManipulateTeselation<LBSTile>
+namespace ISILab.LBS.Manipulators
 {
-    protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
+    public class RemoveTile : ManipulateTeselation
     {
-        OnManipulationStart?.Invoke();
-        var view = e.target as TileView;
-
-        if (view == null)
+        public override void Init(LBSLayer layer, object behaviour)
         {
-            return;
-        }
-        var tile = view.Data;
-
-        if (tile == null)
-        {
-            return;
+            throw new System.NotImplementedException();
         }
 
-        module.RemoveTile(tile);
-        //Debug.Log("M: " + module);
+        protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
+        {
+            var min = module.Owner.ToFixedPosition(Vector2Int.Min(StartPosition, EndPosition));
+            var max = module.Owner.ToFixedPosition(Vector2Int.Max(StartPosition, EndPosition));
 
-        OnManipulationEnd?.Invoke();
-    }
+            for (int i = min.x; i <= max.x; i++)
+            {
+                for (int j = min.y; j <= max.y; j++)
+                {
+                    var pos = new Vector2Int(i, j);
 
-    protected override void OnMouseMove(VisualElement target, Vector2Int position, MouseMoveEvent e)
-    {
-        //throw new System.NotImplementedException();
-    }
+                    var tile = module.GetTile(pos);
 
-    protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
-    {
-        //throw new System.NotImplementedException();
+                    if (tile == null)
+                        continue;
+
+                    module.RemoveTile(tile);
+                }
+            }
+        }
     }
 }

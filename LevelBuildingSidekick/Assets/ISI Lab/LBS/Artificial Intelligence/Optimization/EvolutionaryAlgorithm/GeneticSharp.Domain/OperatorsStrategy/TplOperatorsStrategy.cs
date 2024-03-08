@@ -5,8 +5,7 @@ using System.Threading.Tasks;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Mutations;
-using GeneticSharp.Domain.Populations;
-using GeneticSharp.Domain.Randomizations;
+using ISILab.AI.Optimization.Populations;
 
 namespace GeneticSharp.Domain
 {

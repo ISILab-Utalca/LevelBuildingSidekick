@@ -1,68 +1,74 @@
 ﻿using Commons.Optimization.Evaluator;
 using LBS.Components;
-using LBS.Components.TileMap;
-using LBS.Components.Graph;
-using LBS.Components.Specifics;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using ISILab.AI.Wrappers;
+using ISILab.LBS.Modules;
+using ISILab.AI.Optimization;
 
-public class AdjacenciesEvaluator : IEvaluator
+namespace ISILab.AI.Optimization
 {
-    LBSRoomGraph graph;
-
-    public AdjacenciesEvaluator() {}
-
-    public AdjacenciesEvaluator(LBSRoomGraph graph) 
+    public class AdjacenciesEvaluator : IEvaluator
     {
-        this.graph = graph;
-    }
+        private SectorizedTileMapModule zones;
+        private ConnectedZonesModule connectedZones;
 
-    public VisualElement CIGUI()
-    {
-        throw new System.NotImplementedException();
-    }
+        public AdjacenciesEvaluator() { }
 
-    public float Evaluate(IOptimizable evaluable)
-    {
-        var schema = (evaluable as OptimizableSchema).Schema;
-
-        if (graph.EdgeCount <= 0)
+        public AdjacenciesEvaluator(LBSLayer layer)
         {
-            Debug.LogWarning("Cannot calculate the adjacency of a map are nodes that are not connected.");
-            return 1;
+            this.zones = layer.GetModule<SectorizedTileMapModule>();
+            this.connectedZones = layer.GetModule<ConnectedZonesModule>();
         }
 
-        var distValue = 0f;
-        for (int i = 0; i < graph.EdgeCount; i++)
+        public object Clone()
         {
-            var edge = graph.GetEdge(i);
-
-            var r1 = schema.GetArea(edge.FirstNode.ID);
-            var r2 = schema.GetArea(edge.SecondNode.ID);
-
-            if (r1.TileCount <= 0 || r2.TileCount <= 0) // signiofica que una de las dos areas desaparecio y no deberia aporta, de hecho podria ser negativo (!)
-                continue;
-
-            var roomDist = schema.GetRoomDistance(r1.ID, r2.ID);  // este metodo podria recivir una funcion de calculo de distancia en ved de estar fija (?)
-            if (roomDist <= 1)
-            {
-                distValue++;
-            }
-            else
-            {
-                var widthAverage = (r1.Width + r2.Width) / 2f;
-                var heightAverage = (r1.Height + r2.Height) / 2f;
-
-                distValue += 1 - (roomDist / (widthAverage + heightAverage));
-            }
+            throw new System.NotImplementedException();
         }
 
-        return distValue / (float)graph.EdgeCount;
-    }
+        public float Evaluate(IOptimizable evaluable)
+        {
+            var layer = (evaluable as OptimizableModules).Modules;
+            var connectedZones = layer.GetModule<ConnectedZonesModule>();
+            var zones = layer.GetModule<SectorizedTileMapModule>();
 
-    public string GetName()
-    {
-        throw new System.NotImplementedException();
+            var edgeCount = connectedZones.Edges.Count;
+            if (edgeCount <= 0)
+            {
+                Debug.Log("Cannot calculate the adjacency of a map are nodes that are not connected.");
+                return 1;
+            }
+
+            if (zones.ZonesWithTiles.Count <= 0)
+            {
+                Debug.Log("[ISI Lab]: the schema you are trying to evaluate does not have areas.");
+                return 0;
+            }
+
+            float distValue = 0f;
+            for (int i = 0; i < edgeCount; i++)
+            {
+                var edge = connectedZones.Edges[i];
+
+                var r1 = zones.GetTiles(edge.First);
+                var r2 = zones.GetTiles(edge.Second);
+
+                if (r1.Count < 1 || r2.Count < 1)
+                    continue;
+
+                float roomDist = zones.GetRoomDistance(edge.First, edge.Second); // TODO: Make it receive a distance calculation function.
+
+                distValue += 1 / roomDist;
+            }
+
+            if (edgeCount <= 0)
+            {
+                return 0;
+            }
+
+            var tiles = layer.GetModule<TileMapModule>().Tiles;
+
+            return distValue / edgeCount;
+        }
     }
 }

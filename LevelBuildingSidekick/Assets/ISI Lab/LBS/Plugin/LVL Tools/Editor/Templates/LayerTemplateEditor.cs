@@ -1,361 +1,229 @@
-using LBS.Components;
-using LBS.Components.Graph;
-using LBS.Components.Specifics;
-using LBS.Components.TileMap;
-using LBS.Generator;
-using LBS.Tools.Transformer;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using ISILab.Extensions;
+using ISILab.LBS.AI.Assistants;
+using ISILab.LBS.Generators;
+using ISILab.LBS.Behaviours;
+using ISILab.LBS.Assistants;
 
-[CustomEditor(typeof(LayerTemplate))]
-public class LayerTemplateEditor : Editor
+namespace ISILab.LBS.Template.Editor
 {
-    void OnEnable()
+    [LBSCustomEditor("Layer template", typeof(LayerTemplate))]
+    [CustomEditor(typeof(LayerTemplate))]
+    public class LayerTemplateEditor : UnityEditor.Editor
     {
-    }
+        private int behaviourIndex = 0;
+        private List<Type> behaviourOptions;
 
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
+        private int assitantIndex = 0;
+        private List<Type> assistantOptions;
 
-        var template = (LayerTemplate)target;
+        private int ruleIndex = 0;
+        private List<Type> ruleOptions;
 
-        if(GUILayout.Button("Set as Interior")) 
+        void OnEnable()
         {
-            InteriorConstruct(template);
+            behaviourOptions = typeof(LBSBehaviour).GetDerivedTypes().ToList();
+            assistantOptions = typeof(LBSAssistant).GetDerivedTypes().ToList();
+            ruleOptions = typeof(LBSGeneratorRule).GetDerivedTypes().ToList();
         }
 
-        if (GUILayout.Button("Set as Exterior"))
+        public override void OnInspectorGUI()
         {
-            ExteriorConstruct(template);
+            base.OnInspectorGUI();
+
+            var template = (LayerTemplate)target;
+
+            GUILayout.Space(20);
+            GUILayout.BeginHorizontal();
+            behaviourIndex = EditorGUILayout.Popup("Type:", behaviourIndex, behaviourOptions.Select(e => e.Name).ToArray());
+            var selected = behaviourOptions[behaviourIndex];
+            if (GUILayout.Button("Add behaviour"))
+            {
+                var bh = Activator.CreateInstance(selected, null, "Default Name");
+                template.layer.AddBehaviour(bh as LBSBehaviour);
+            }
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            assitantIndex = EditorGUILayout.Popup("Type:", assitantIndex, assistantOptions.Select(e => e.Name).ToArray());
+            var selected2 = assistantOptions[assitantIndex];
+            if (GUILayout.Button("Add Assistent"))
+            {
+                var ass = Activator.CreateInstance(selected2);
+                template.layer.AddAssistant(ass as LBSAssistant);
+            }
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            ruleIndex = EditorGUILayout.Popup("Type:", ruleIndex, ruleOptions.Select(e => e.Name).ToArray());
+            var selected3 = ruleOptions[ruleIndex];
+            if (GUILayout.Button("Add Generator"))
+            {
+                var rule = Activator.CreateInstance(selected3);
+                template.layer.AddGeneratorRule(rule as LBSGeneratorRule);
+            }
+            GUILayout.EndHorizontal();
+            GUILayout.Space(20);
+
+            if (GUILayout.Button("Set as Interior"))
+            {
+                InteriorConstruct(template);
+            }
+
+            if (GUILayout.Button("Set as Exterior"))
+            {
+                ExteriorConstruct(template);
+            }
+
+            if (GUILayout.Button("Set as Population"))
+            {
+                PopulationConstruct(template);
+            }
         }
 
-        if (GUILayout.Button("Set as Population"))
+        /// <summary>
+        /// This function adjust the icons, layout and labels of the system for Contructión in interior
+        /// also call the manipulators to make functional buttons in the layout
+        /// </summary>
+        /// <param name="template"></param>
+        private void InteriorConstruct(LayerTemplate template)
         {
-            PopulationConstruct(template);
-        }
+            template.Clear();
 
-        if (GUILayout.Button("Set as Quest"))
-        {
-            Questconstuct(template);
-        }
-    }
+            // Basic data layer
+            var layer = template.layer;
+            layer.ID = "Interior";
+            layer.Name = "Layer Interior";
+            layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/interior-design.png";
+            template.layer = layer;
 
-    /// <summary>
-    /// This function adjust the icons, layout and labels of the system for Contructión in interior
-    /// also call the manipulators to make functional buttons in the layout
-    /// </summary>
-    /// <param name="template"></param>
-    private void InteriorConstruct(LayerTemplate template)
-    {
-        // Basic data layer
-        var layer = new LBSLayer();
-        layer.TileSize = new Vector2Int(2,2);
-        var assist = Utility.DirectoryTools.GetScriptable<LBSLayerAssistant>("SchemaAssitant");
-        if(assist == null)
-        {
-            assist = ScriptableObject.CreateInstance<LBSLayerAssistant>();
-            assist.name = "SchemaAssitant";
-            assist.AddAgent(new SchemaHCAgent(layer, "SchemaHillClimbing"));
-            assist.Generator = new SchemaGenerator();
+            // Behaviours
+            var bhIcon = Resources.Load<Texture2D>("Icons/Select");
+            var bh = new SchemaBehaviour(bhIcon, "Schema behaviour");
+            layer.AddBehaviour(bh);
 
-            AssetDatabase.AddObjectToAsset(assist, template);
+            // Assistants
+            var assIcon = Resources.Load<Texture2D>("Icons/Select");
+            var ass = new HillClimbingAssistant(assIcon, "HillClimbing");
+            layer.AddAssistant(ass);
+
+            // Generators
+            layer.AddGeneratorRule(new SchemaRuleGenerator());
+            layer.AddGeneratorRule(new SchemaRuleGeneratorExteriror());
+
+            // Seting generator
+            layer.Settings = new Generator3D.Settings()
+            {
+                scale = new Vector2Int(2, 2),
+                resize = new Vector2(0, 0),
+                position = new Vector3(0, 0, 0),
+                name = "Interior",
+            };
+
+            // Save scriptableObject
+            Debug.Log("Set Interior Default");
+            EditorUtility.SetDirty(target);
             AssetDatabase.SaveAssets();
         }
 
-        layer.Assitant = assist;
-        layer.ID = "Interior";
-        layer.Name = "Layer Interior";
-        layer.iconPath = "Icons/interior-design";
-        template.layer = layer;
-
-        // Modules
-        layer.AddModule(new LBSRoomGraph());    // GraphModule<RoomNode>
-        layer.AddModule(new LBSSchema());       // AreaTileMap<TiledArea<ConnectedTile>, ConnectedTile>
-        //layer.AddModule(new GraphModule<RoomNode>());
-        //layer.AddModule(new LBSSchema());
-
-        // Transformers
-        template.transformers.Add(
-            new GraphToArea(
-                typeof(GraphModule<RoomNode>),
-                typeof(AreaTileMap<TiledArea>)
-                )
-            );
-
-        template.transformers.Add(
-            new AreaToGraph(
-                typeof(AreaTileMap<TiledArea>),
-                typeof(GraphModule<RoomNode>)
-                )
-            );
-
-        // Mode 1
-        Texture2D icon = Resources.Load<Texture2D>("Icons/Select");
-        var tool1 = new LBSTool(icon, "Select", typeof(Select), null, true);
-        icon = Resources.Load<Texture2D>("Icons/Addnode");
-        var tool2 = new LBSTool(icon, "Add node", typeof(CreateNewRoomNode), null, false);
-        icon = Resources.Load<Texture2D>("Icons/AddConnection");
-        var tool3 = new LBSTool(icon, "Add conection", typeof(CreateNewConnection<RoomNode>), null, false);
-        icon = Resources.Load<Texture2D>("Icons/Trash");
-        var tool4 = new LBSTool(icon, "Remove", typeof(RemoveGraphNode<RoomNode>), null, false);
-
-        var mode1 = new LBSMode(
-            "Graph",
-            typeof(GraphModule<RoomNode>)
-            , new DrawSimpleGraph(),
-            new List<LBSTool>() { tool1, tool2, tool3, tool4 }
-            );
-        template.modes.Add(mode1);
-
-        // Mode 2
-        icon = Resources.Load<Texture2D>("Icons/Select");
-        var tool5 = new LBSTool(icon, "Select", typeof(Select), null, true);
-
-        icon = Resources.Load<Texture2D>("Icons/paintbrush");
-        var tool6 = new LBSTool(
-            icon,
-            "Paint tile",
-            typeof(AddTileToTiledArea<TiledArea, ConnectedTile>),
-            typeof(RoomsPalleteInspector<TiledArea, ConnectedTile>),
-            true);
-
-        icon = Resources.Load<Texture2D>("Icons/erased");
-        var tool7 = new LBSTool(
-            icon,
-            "Erase",
-            typeof(DeleteTile<TiledArea, ConnectedTile>), // Removed<TiledArea<LBSTile>, LBSTile>,
-            null
-        );
-
-        icon = Resources.Load<Texture2D>("Icons/open-exit-door");
-        var tool8 = new LBSTool(icon, "Add door", typeof(AddDoor<TiledArea,ConnectedTile>), null, true);
-
-        icon = Resources.Load<Texture2D>("Icons/erased");
-        var tool9 = new LBSTool(
-            icon, 
-            "Remove door",
-            typeof(RemoveDoor<TiledArea,ConnectedTile>), //typeof(RemoveDoor<TiledArea,ConnectedTile>),
-            null, 
-            true);
-
-        var mode2 = new LBSMode(
-            "Schema",
-            typeof(AreaTileMap<TiledArea>),
-            new DrawConnectedTilemap(),
-            new List<LBSTool>() { tool5, tool6, tool7, tool8, tool9 }
-            );
-        template.modes.Add(mode2);
-
-        AssetDatabase.SaveAssets();
-    }
-
-    /// <summary>
-    /// This function adjust the icons, layout and labels of the system for Contructión in exterior
-    /// also call the manipulators to make functional buttons in the layout
-    /// </summary>
-    /// <param name="template"></param>
-    private void ExteriorConstruct(LayerTemplate template)
-    {
-        // Basic data layer
-        var layer = new LBSLayer();
-        layer.TileSize = new Vector2Int(10, 10);
-        var assist = Utility.DirectoryTools.GetScriptable<LBSLayerAssistant>("ExteriorAsstant");
-        if (assist == null)
+        /// <summary>
+        /// This function adjust the icons, layout and labels of the system for Contructión in exterior
+        /// also call the manipulators to make functional buttons in the layout
+        /// </summary>
+        /// <param name="template"></param>
+        private void ExteriorConstruct(LayerTemplate template)
         {
-            assist = ScriptableObject.CreateInstance<LBSLayerAssistant>();
-            assist.name = "ExteriorAsstant";
-            assist.Generator = new ExteriorGenerator();
+            template.Clear();
 
-            AssetDatabase.AddObjectToAsset(assist, template);
+            // Basic data layer
+            var layer = template.layer;
+            layer.ID = "Exterior";
+            layer.Name = "Layer Exterior";
+            layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/pine-tree.png";
+            template.layer = layer;
+
+            // Behaviours
+            var bhIcon = Resources.Load<Texture2D>("Icons/Select"); // TODO: Change icon
+            var bh = new ExteriorBehaviour(bhIcon, "Exteriror behaviour");
+            bh.OnAttachLayer(layer);
+            layer.AddBehaviour(bh);
+
+            // Assistant
+            var assIcon = Resources.Load<Texture2D>("Icons/Select"); // TODO: Change icon
+            var ass = new AssistantWFC(assIcon, "Assistant WFC");
+            ass.OnAttachLayer(layer);
+            layer.AddAssistant(ass);
+
+            // Generators
+            layer.AddGeneratorRule(new ExteriorRuleGenerator());
+
+            // Settings generator
+            layer.Settings = new Generator3D.Settings()
+            {
+                scale = new Vector2Int(2, 2),
+                resize = new Vector2(0, 0),
+                position = new Vector3(0, 0, 0),
+                name = "Exteriror",
+            };
+
+            // Save scriptableObject
+            Debug.Log("Set Exterior Default");
+            EditorUtility.SetDirty(target);
             AssetDatabase.SaveAssets();
         }
 
-        layer.Assitant = assist;
-        layer.ID = "Exterior";
-        layer.Name = "Layer Exterior";
-        layer.iconPath = "Icons/pine-tree";
-        template.layer = layer;
-
-        // Modules
-        var x = new Exterior();
-        layer.AddModule(x);
-
-        // Transformers
-        //
-        //
-
-        // Mode 1
-        Texture2D icon = Resources.Load<Texture2D>("Icons/Select");
-        var tool1 = new LBSTool(icon, "Select", typeof(Select), null, true);
-
-
-        icon = Resources.Load<Texture2D>("Icons/RoomSelection");
-        var tool2 = new LBSTool(
-            icon,
-            "Add empty tile",
-            typeof(AddEmptyTile<ConnectedTile>),
-            null,
-            false);
-
-        icon = Resources.Load<Texture2D>("Icons/RoomSelection");
-        var tool3 = new LBSTool(
-            icon,
-            "Remove tile",
-            typeof(RemoveTileExterior<ConnectedTile>),
-            null,
-            false);
-
-        icon = Resources.Load<Texture2D>("Icons/AddConnection");
-        var tool4 = new LBSTool(
-            icon,
-            "Set connection",
-            typeof(AddConnection<ConnectedTile>),
-            typeof(TagsPalleteInspector), //typeof(RoomsPalleteInspector<TiledArea, ConnectedTile>),
-            false);
-
-        icon = Resources.Load<Texture2D>("Icons/erased");
-        var tool5 = new LBSTool(
-            icon,
-            "Remove connection",
-            typeof(RemoveConnection<ConnectedTile>), 
-            null, 
-            false);
-
-        icon = Resources.Load<Texture2D>("Icons/Collapse_Icon");
-        var tool6 = new LBSTool(
-            icon, 
-            "Collapse connection area", 
-            typeof(WaveFunctionCollapseManipulator<ConnectedTile>), 
-            null, 
-            false);
-
-        var mode1 = new LBSMode(
-            "Exterior",
-            typeof(TiledArea), // (!!!) implentar la correcta
-            new DrawExterior(),
-            new List<LBSTool>() { tool1, tool2, tool3, tool4, tool5, tool6 }
-            );
-
-
-        template.modes.Add(mode1);
-
-        AssetDatabase.SaveAssets();
-    }
-
-    /// <summary>
-    /// This function adjust the icons, layout and labels of the Population system
-    /// also call the manipulators to make functional buttons in the layout
-    /// </summary>
-    /// <param name="template"></param>
-    private void PopulationConstruct(LayerTemplate template)
-    {
-        // Basic data layer
-        var layer = new LBSLayer();
-        layer.TileSize = new Vector2Int(2, 2);
-
-        var assist = Utility.DirectoryTools.GetScriptable<LBSLayerAssistant>("PopulationAssitant");
-        if (assist == null)
+        /// <summary>
+        /// This function adjust the icons, layout and labels of the Population system
+        /// also call the manipulators to make functional buttons in the layout
+        /// </summary>
+        /// <param name="template"></param>
+        private void PopulationConstruct(LayerTemplate template)
         {
-            assist = ScriptableObject.CreateInstance<LBSLayerAssistant>();
-            assist.name = "PopulationAssitant";
-            assist.Generator = new PopulationGenerator();
-            assist.AddAgent(new PopulationMapEliteAgent(layer, "Population Map Elite"));
+            template.Clear();
 
-            AssetDatabase.AddObjectToAsset(assist, template);
+            // Basic data layer
+            var layer = template.layer;
+            layer.ID = "Population";
+            layer.Name = "Layer Population";
+            layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/ghost.png";
+            template.layer = layer;
+
+            layer.Settings = new Generator3D.Settings()
+            {
+                scale = new Vector2Int(2, 2),
+                resize = new Vector2(0, 0),
+                position = new Vector3(0, 0, 0),
+                name = "Population",
+            };
+
+            layer.ID = "Population";
+            layer.Name = "Layer Population";
+            layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/ghost.png";
+            template.layer = layer;
+
+            // Behaviours
+            var Icon = Resources.Load<Texture2D>("Icons/Select");
+            layer.AddBehaviour(new PopulationBehaviour(Icon, "Population Behavior"));
+
+            // Assistants
+            var assIcon = Resources.Load<Texture2D>("Icons/Select");
+            var ass = new AssistantMapElite(assIcon, "Map Elite - Genetic Algorithm");
+            ass.OnAttachLayer(layer);
+            //ass.OnAdd(layer);
+            layer.AddAssistant(ass);
+
+            // Rules
+            layer.AddGeneratorRule(new PopulationRuleGenerator());
+
+            Debug.Log("Set Population Default");
+            EditorUtility.SetDirty(target);
             AssetDatabase.SaveAssets();
         }
 
-        layer.Assitant = assist;
-        layer.ID = "Population";
-        layer.Name = "Layer Population";
-        layer.iconPath = "Icons/ghost";
-        template.layer = layer;
-
-        // Modules
-        layer.AddModule(new LBSTileMap());
-        layer.AddModule(new TaggedTileMap());
-        // Transformers
-        //
-        //
-
-        // Select
-        Texture2D icon = Resources.Load<Texture2D>("Icons/Select");
-        var tool1 = new LBSTool(icon, "Select", typeof(Select), null, true);
-
-        //Add
-        icon = Resources.Load<Texture2D>("Icons/paintbrush");
-        var tool2 = new LBSTool(icon, "Add Tile", typeof(AddTaggedTile), typeof(BundlePalleteInspector), false);
-
-        //Remove
-        icon = Resources.Load<Texture2D>("Icons/Trash");
-        var tool3 = new LBSTool(icon, "Remove", typeof(RemoveTile), null, false);
-        
-
-        var mode1 = new LBSMode(
-            "Population",
-            //Change to pop
-            //Check if 'PopulationTileMap<TiledArea> works
-            typeof(TaggedTileMap), 
-            new DrawTaggedTileMap(),
-            new List<LBSTool>() { tool1, tool2, tool3}
-            );
-        template.modes.Add(mode1);
-
-        AssetDatabase.SaveAssets();
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="template"></param>
-    private void Questconstuct(LayerTemplate template)
-    {
-        // Basic data layer
-        var layer = new LBSLayer();
-
-        // asistant
-        var assist = Utility.DirectoryTools.GetScriptable<LBSLayerAssistant>("QuestAssitant");
-        if (assist == null)
-        {
-            assist = ScriptableObject.CreateInstance<LBSLayerAssistant>();
-            assist.name = "QuestAssitant";
-            //assist.AddAgent(new QuestAgent(layer, "Quest agent"));
-
-            AssetDatabase.AddObjectToAsset(assist, template);
-            AssetDatabase.SaveAssets();
-        }
-
-        layer.Assitant = assist;
-        layer.ID = "Quest";
-        layer.Name = "Layer Quest";
-        layer.iconPath = "Icons/Quest";
-        template.layer = layer;
-
-        // Modules
-        layer.AddModule(new LBSGraph());
-        layer.AddModule(new LBSGrammarGraph()); // (!)
-
-        // Mode 1
-        Texture2D icon = Resources.Load<Texture2D>("Icons/Select");
-        var tool1 = new LBSTool(icon, "Select", typeof(Select), null, true);
-        icon = Resources.Load<Texture2D>("Icons/Addnode");
-        var tool2 = new LBSTool(icon, "Add node", typeof(CreateNewGrammarNode), typeof(GrammarPallete), false); // (!)
-        icon = Resources.Load<Texture2D>("Icons/AddConnection");
-        var tool3 = new LBSTool(icon, "Add conection", typeof(CreateNewConnection<LBSNode>), null, false); // (!)
-        icon = Resources.Load<Texture2D>("Icons/Trash");
-        var tool4 = new LBSTool(icon, "Remove", typeof(RemoveGraphNode<LBSNode>), null, false); // (!)
-
-        var mode1 = new LBSMode(
-            "Graph",
-            typeof(LBSGraph),
-            new DrawGrammarGraph(), // (!)
-            new List<LBSTool>() { tool1, tool2, tool3, tool4 }
-            );
-        template.modes.Add(mode1);
-
-        AssetDatabase.SaveAssets();
     }
 }

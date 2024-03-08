@@ -1,8 +1,9 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <ui:VisualElement name="Box" style="padding-left: 3px; padding-right: 3px; padding-top: 3px; padding-bottom: 3px; border-bottom-width: 1px; border-bottom-color: rgba(0, 0, 0, 0.78);">
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:VisualElement style="padding-left: 3px; padding-right: 3px; padding-top: 3px; padding-bottom: 3px; border-bottom-width: 1px; border-bottom-color: rgba(0, 0, 0, 0.78);">
         <ui:VisualElement style="flex-direction: row; padding-bottom: 2px;">
             <ui:Foldout />
             <ui:TextField picking-mode="Ignore" value="filler text" text="filler text" style="flex-grow: 1;" />
+            <ui:EnumField type="LBSIdentifierBundle+TagType, Assembly-CSharp" name="TypeDropdown" />
         </ui:VisualElement>
         <ui:VisualElement name="Content" style="padding-bottom: 5px;">
             <ui:ListView focusable="true" show-add-remove-footer="false" show-foldout-header="false" horizontal-scrolling="false" reorderable="false" show-border="true" show-bound-collection-size="false" virtualization-method="DynamicHeight" show-alternating-row-backgrounds="None" style="background-color: rgb(88, 88, 88); border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px;" />

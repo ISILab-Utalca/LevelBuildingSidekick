@@ -2,7 +2,7 @@
 using UnityEngine;
 using System;
 using Commons.Optimization.Evaluator;
-using Commons.Optimization.Terminations;
+using ISILab.AI.Optimization.Terminations;
 using Commons.Optimization;
 using LBS;
 using System.Linq;
@@ -10,16 +10,22 @@ using LBS.Components.TileMap;
 using UnityEditor;
 using LBS.Components.Graph;
 using System.Diagnostics;
-using GeneticSharp.Domain.Selections;
-using GeneticSharp.Domain.Populations;
+using ISILab.AI.Optimization.Selections;
+using ISILab.AI.Optimization.Populations;
 
-namespace LBS.AI
+namespace ISILab.AI.Optimization
 {
     //Todo esto esta siendo usado en el panel AITest, cambiar nombre o reemplazar lo de la clase HillClimbing por esta.
     //Division de los metodos y estados basados en el Genetic.
     public class HillClimbing : BaseOptimizer
     {
         Func<IOptimizable, List<IOptimizable>> GetNeighbors;
+        public double Nlog = 0;
+        public double NNlog = 0;
+        public double Elog = 0;
+
+        public float _nbrsTimer = 0;
+        public float _fitTimer = 0;
 
         public HillClimbing(IPopulation population, IEvaluator evaluator, ISelection selection, Func<IOptimizable, List<IOptimizable>> getNeighbors,  ITermination termination) : base( population, evaluator, selection, termination)
         {
@@ -28,30 +34,62 @@ namespace LBS.AI
 
         public override void EvaluateFitness(IList<IOptimizable> optimizables)
         {
-            //throw new NotImplementedException();
+            foreach(var o in optimizables)
+            {
+                o.Fitness = Evaluator.Evaluate(o);
+            }
         }
 
         public override void RunOnce()
         {
+            var clock = new Stopwatch();
+
             var last = Population.Generations.Last();
-            var best = this.Selection.SelectEvaluables(1, last).First();
+            
+            clock.Restart();
+            var selection = this.Selection.SelectEvaluables(1, last);
+
+            if(selection.Count == 0)
+            {
+                Stop();
+            }
+
+            var best = selection.First();
+
 
             if (GetNeighbors == null)
                 throw new NullReferenceException();
 
+            clock.Restart();
             var offsprings = GetNeighbors.Invoke(best);
+            clock.Stop();
+            _nbrsTimer = clock.ElapsedMilliseconds / 1000f;
+
+            Nlog = clock.ElapsedMilliseconds;
+            NNlog= offsprings.Count;
             //var offsprings = GetNeighbors?.Invoke(BestCandidate); // poner exepcion por si neigthbor es null (!!!)
 
-            offsprings.ForEach(c =>
-            {
-                c.Fitness =  Evaluator.Evaluate(c);
-            });
+            clock.Restart();
+            EvaluateFitness(offsprings);
+            clock.Stop();
+            _fitTimer = clock.ElapsedMilliseconds / 1000f;
+
+            Elog = clock.ElapsedMilliseconds;
 
             Population.CreateNewGeneration(offsprings);
             Population.EndCurrentGeneration();
-
         }
 
-        
+        public override object Clone()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void PrintClocks()
+        {
+            UnityEngine.Debug.Log("Neighbors: " + _nbrsTimer + "s.");
+            UnityEngine.Debug.Log("Fitness: " + _fitTimer + "s.");
+
+        }
     }
 }

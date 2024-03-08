@@ -6,34 +6,52 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoulleteWheelMutation : MutationBase
+namespace ISILab.AI.Categorization
 {
-    [SerializeField]
-    private List<Tuple<MutationBase, float>> mutations = new List<Tuple<MutationBase, float>>();
-
-    public RoulleteWheelMutation()
+    [System.Serializable]
+    public class RoulleteWheelMutation : MutationBase
     {
+        [SerializeField, SerializeReference]
+        public List<WeightedMutation> mutations = new List<WeightedMutation>();
 
-    }
+        public RoulleteWheelMutation() { }
 
-    public RoulleteWheelMutation(List<Tuple<MutationBase, float>> mutations)
-    {
-        this.mutations = mutations;
-    }
-
-    protected override void PerformMutate(ChromosomeBase chromosome, float probability)
-    {
-        var r = RandomizationProvider.Current;
-
-        var i = r.GetFloat(0, mutations.Sum(m => m.Item2));
-
-        foreach(var t in mutations)
+        public RoulleteWheelMutation(List<WeightedMutation> mutations)
         {
-            i -= t.Item2;
-            if(i < 0)
+            this.mutations = mutations;
+        }
+
+        protected override void PerformMutate(ChromosomeBase chromosome, float probability)
+        {
+            var r = RandomizationProvider.Current;
+
+            var i = r.GetFloat(0, mutations.Sum(m => m.weight));
+
+            foreach (var t in mutations)
             {
-                t.Item1.Mutate(chromosome, probability);
+                i -= t.weight;
+                if (i < 0)
+                {
+                    t.mutation.Mutate(chromosome, probability);
+                }
             }
         }
+    }
+
+    [System.Serializable]
+    public class WeightedMutation
+    {
+        [SerializeField, SerializeReference]
+        public MutationBase mutation;
+        [SerializeField]
+        public float weight = 1;
+
+        public WeightedMutation() { }
+        public WeightedMutation(MutationBase mutation, float weight)
+        {
+            this.mutation = mutation;
+            this.weight = weight;
+        }
+
     }
 }

@@ -5,17 +5,19 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+/*
 public class StretchEvaluator : IEvaluator
 {
     public float Evaluate(IOptimizable evaluable)
     {
-        var schema = (evaluable as OptimizableSchema).Schema;
+        var schema = (evaluable as OptimizableModules).Modules;
 
         TiledArea totalArea = new TiledArea();
         var borderMax = 0f;
         foreach (var area in schema.Areas)
         {
-            totalArea.AddTiles(area.Tiles);
+            foreach(var t in area.Tiles)
+                totalArea.AddTile(t);
 
             var areaWalls = area.GetHorizontalWalls().Concat(area.GetVerticalWalls()).ToList();
             foreach (var wall in areaWalls)
@@ -38,3 +40,4 @@ public class StretchEvaluator : IEvaluator
     }
 
 }
+*/

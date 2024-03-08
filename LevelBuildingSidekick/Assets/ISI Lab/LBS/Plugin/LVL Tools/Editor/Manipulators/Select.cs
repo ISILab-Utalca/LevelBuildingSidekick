@@ -1,83 +1,54 @@
+using ISILab.LBS.Modules;
+using ISILab.LBS.VisualElements;
 using LBS.Components;
-using LBS.Components.Graph;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Select : ClickSelector , IManipulatorLBS
+namespace ISILab.LBS.Manipulators
 {
-    public Action OnManipulationStart;
-    public Action OnManipulationUpdate;
-    public Action OnManipulationEnd;
-
-    public void Init(ref MainView view, ref LBSLevelData level, ref LBSLayer layer, ref LBSModule module)
+    public class Select : LBSManipulator
     {
-        // do nothing
-    }
+        private LBSLayer layer;
+        private LBSLocalCurrent current;
 
-    protected override void RegisterCallbacksOnTarget()
-    {
-        base.RegisterCallbacksOnTarget();
-        target.RegisterCallback<MouseDownEvent>(_OnMouseDown);
-        target.RegisterCallback<MouseMoveEvent>(_OnMouseMove);
-        target.RegisterCallback<MouseUpEvent>(_OnMouseUp);
-    }
+        public Select()
+        {
+            // Unset feedback
+            feedback = null;
 
-    protected override void UnregisterCallbacksFromTarget()
-    {
-        base.UnregisterCallbacksFromTarget();
-        target.UnregisterCallback<MouseDownEvent>(_OnMouseDown);
-        target.UnregisterCallback<MouseMoveEvent>(_OnMouseMove);
-        target.UnregisterCallback<MouseUpEvent>(_OnMouseUp);
-    }
+            current = LBSInspectorPanel.Instance.data;
+        }
 
-    private void _OnMouseDown(MouseDownEvent evt)
-    {
-        OnManipulationStart?.Invoke();
+        public override void Init(LBSLayer layer, object provider)
+        {
+            // Set layer reference
+            this.layer = layer;
 
-    }
+            // Set provider reference
+            current = provider as LBSLocalCurrent;
 
-    private void _OnMouseMove(MouseMoveEvent evt)
-    {
+        }
 
-    }
+        protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
+        {
+            current = LBSInspectorPanel.Instance.data;
 
-    private void _OnMouseUp(MouseUpEvent evt)
-    {
+            // Get fixed position
 
-        OnManipulationEnd?.Invoke();
-    }
+            // Get selectable elements
+            var selected = new List<object>();
+            foreach (var module in layer.Modules)
+            {
+                if (module is ISelectable)
+                {
+                    selected.AddRange((module as ISelectable).GetSelected(position));
+                }
+            }
 
-    public void AddManipulationEnd(Action action)
-    {
-        OnManipulationEnd += action;
-    }
-
-    public void AddManipulationStart(Action action)
-    {
-        OnManipulationStart += action;
-    }
-
-    public void AddManipulationUpdate(Action action)
-    {
-        OnManipulationUpdate += action;
-    }
-
-    public void RemoveManipulationEnd(Action action)
-    {
-        OnManipulationEnd -= action;
-    }
-
-    public void RemoveManipulationStart(Action action)
-    {
-        OnManipulationStart -= action;
-    }
-
-    public void RemoveManipulationUpdate(Action action)
-    {
-        OnManipulationUpdate -= action;
+            current.SetSelectedVE(selected);
+        }
     }
 }

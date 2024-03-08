@@ -1,4 +1,4 @@
-using LBS.Components.Graph;
+using ISILab.Commons.Utility.Editor;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,101 +6,77 @@ using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Utility;
+using ISILab.Extensions;
 
-public class LBSNodeView<T> : GraphElement where T : LBSNode
+namespace ISILab.LBS.VisualElements
 {
-    private T data;
-
-    public T Data => data;
-
-    public Action<Vector2Int> OnMoving;
-
-    // Visual elements
-    private Label label;
-    private VisualElement background;
-
-    public Color common = Color.white;
-    public Color selcted = new Color(150 / 255f, 243 / 255f, 255 / 255f);
-
-    public LBSNodeView(T data, Vector2 position, Vector2 size)
+    public class LBSNodeView : GraphElement
     {
-        var visualTree = DirectoryTools.SearchAssetByName<VisualTreeAsset>("NodeUxml");
-        visualTree.CloneTree(this);
+        public readonly Color unselected = Color.white;
+        public readonly Color selcted = new Color(150f / 255f, 243f / 255f, 255f / 255f);
 
-        var ss = DirectoryTools.SearchAssetByName<StyleSheet>("NodeUSS");
-        this.styleSheets.Add(ss);
+        #region VIEW FIELDS
+        private static VisualTreeAsset view;
 
-        this.data = data;
+        private Label label;
+        private VisualElement background;
+        #endregion
 
-        capabilities |= Capabilities.Selectable | Capabilities.Movable | Capabilities.Ascendable | Capabilities.Copiable | Capabilities.Snappable | Capabilities.Groupable;
-        usageHints = UsageHints.DynamicTransform;
+        #region EVENTS
+        public Action<Rect> OnMoving;
+        #endregion
 
-        RegisterCallback<MouseDownEvent>(OnMouseDown);
-        RegisterCallback<MouseUpEvent>(OnMouseUp);
-
-        this.SetPosition(new Rect(position, size));
-
-        // Label
-        label = this.Q<Label>();
-        background = this.Q<VisualElement>("Background");
-
-        background.SetBorderRadius(size.x / 2f);
-
-    }
-
-    internal void SetColor(Color color)
-    {
-        background.style.backgroundColor = color;
-    }
-
-    internal void SetText(string text)
-    {
-        if(text.Length > 11)
+        public LBSNodeView()
         {
-            text = text.Substring(0, 8) + "...";
+            if (view == null)
+            {
+                view = DirectoryTools.GetAssetByName<VisualTreeAsset>("NodeUxml");
+            }
+            view.CloneTree(this);
+
+            // Label
+            label = this.Q<Label>();
+
+            // Background
+            background = this.Q<VisualElement>("Background");
         }
 
-        label.text = text;
+        public void SetColor(Color color)
+        {
+            background.style.backgroundColor = color;
+        }
+
+        public void SetText(string text)
+        {
+            if (text.Length > 11)
+            {
+                text = text.Substring(0, 8) + "...";
+            }
+
+            label.text = text;
+        }
+
+        public override void SetPosition(Rect newPos)
+        {
+            // Set new Rect position
+            base.SetPosition(newPos);
+
+            // call movement event
+            OnMoving?.Invoke(newPos);
+
+            MarkDirtyRepaint();
+        }
+
+        public override void OnSelected()
+        {
+            base.OnSelected();
+            background.SetBorder(selcted, 8);
+        }
+
+        public override void OnUnselected()
+        {
+            base.OnUnselected();
+            background.SetBorder(unselected, 8);
+        }
     }
-
-    private void OnMouseDown(MouseDownEvent evt)
-    {
-
-    }
-
-    private void OnMouseUp(MouseUpEvent evt)
-    {
-
-    }
-
-    /// <summary>
-    /// Set a new position by parameter.
-    /// </summary>
-    /// <param name="newPos"> New position given.</param>
-    public override void SetPosition(Rect newPos)
-    {
-        base.SetPosition(newPos);
-        var center = base.GetPosition().center;
-        var nPos = new Vector2Int((int)center.x, (int)center.y);
-        Data.Position = nPos;
-        OnMoving?.Invoke(nPos);
-    }
-
-    public override void OnSelected()
-    {
-        base.OnSelected();
-
-        background.SetBorder(selcted, 8);
-
-        var il = Reflection.MakeGenericScriptable(Data);
-        Selection.SetActiveObjectWithContext(il, il);
-    }
-
-    public override void OnUnselected()
-    {
-        base.OnUnselected();
-        background.SetBorder(common, 8);
-    }
-
 }

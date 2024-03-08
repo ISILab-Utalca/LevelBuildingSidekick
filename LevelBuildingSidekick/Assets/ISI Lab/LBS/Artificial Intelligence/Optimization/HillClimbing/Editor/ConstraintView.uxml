@@ -1,0 +1,28 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <ui:Foldout text="Name" name="Foldout">
+        <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row;">
+            <ui:VisualElement name="WidthPanel" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); padding-right: 5px;">
+                <ui:Label tabindex="-1" text="Width" display-tooltip-when-elided="true" style="-unity-font-style: bold;" />
+                <ui:VisualElement style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row;">
+                    <ui:Label tabindex="-1" text="Min" display-tooltip-when-elided="true" style="flex-grow: 1; -unity-text-align: middle-left;" />
+                    <ui:FloatField value="42,2" readonly="false" is-delayed="false" name="WidthMin" style="flex-grow: 1;" />
+                </ui:VisualElement>
+                <ui:VisualElement style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row;">
+                    <ui:Label tabindex="-1" text="Max" display-tooltip-when-elided="true" style="flex-grow: 1; -unity-text-align: middle-left;" />
+                    <ui:FloatField value="42,2" name="WidthMax" style="flex-grow: 1;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="HeightPanel" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);">
+                <ui:Label tabindex="-1" text="Height" display-tooltip-when-elided="true" style="-unity-font-style: bold;" />
+                <ui:VisualElement style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row;">
+                    <ui:Label tabindex="-1" text="Min" display-tooltip-when-elided="true" style="flex-grow: 1; -unity-text-align: middle-left;" />
+                    <ui:FloatField value="42,2" name="HeightMin" style="flex-grow: 1;" />
+                </ui:VisualElement>
+                <ui:VisualElement style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row;">
+                    <ui:Label tabindex="-1" text="Max" display-tooltip-when-elided="true" style="flex-grow: 1; -unity-text-align: middle-left;" />
+                    <ui:FloatField value="42,2" name="HeightMax" style="flex-grow: 1;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:Foldout>
+</ui:UXML>

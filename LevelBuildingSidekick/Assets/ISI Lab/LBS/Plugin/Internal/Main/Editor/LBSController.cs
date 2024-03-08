@@ -3,52 +3,58 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System;
-using System.Reflection;
 using System.IO;
-using System.Text;
-using Utility;
-using System.Linq;
+using ISILab.JsonNet;
 
-namespace LBS
+namespace ISILab.LBS
 {
-    // change name "LBSController" to "LBS" or "LBSCore" or "LBSMain" or "LBSManager" (!) 
-    // esta clase podria ser estatica completamente (??)
-    public static class LBSController 
+    public static class LBSController // FIX: Change name to a better name
     {
-        private class LevelScriptable : GenericScriptable<LBSLevelData> { };
-        //[CustomEditor(typeof(LevelScriptable)),CanEditMultipleObjects]
-        //private class LevelScriptableEditor : GenericScriptableEditor { };
-
-        //private static LevelBackUp backUp;
-
         private static readonly string defaultName = "New file";
+
+        public static Action<LBSLevelData> OnLoadLevel;
+        public static Action<LBSLevelData> OnSaveLevel;
 
         public static LoadedLevel CurrentLevel
         {
             get
             {
-                var instance = LevelBackUp.Instance();
-                if (instance.level == null)
+                var level = LBS.loadedLevel;
+                if (level == null)
                 {
-                    instance.level =  new LoadedLevel(new LBSLevelData(), "");
+                    level = ScriptableObject.CreateInstance<LoadedLevel>();
+                    level.data = new LBSLevelData();
+                    level.fullName = "";
                 }
-                return instance.level;
+                return level;
             }
             set
             {
-                var instance = LevelBackUp.Instance();
-                instance.level = value;
+                LBS.loadedLevel = value;
             }
         }
 
+        /// <summary>
+        /// Loads a file from the specified path and initializes a new level based on the data obtained.
+        /// </summary>
+        /// <param name="path">The path of the file to be loaded.</param>
         public static void LoadFile(string path)
         {
             var fileInfo = new System.IO.FileInfo(path);
-            var data = Utility.JSONDataManager.LoadData<LBSLevelData>(fileInfo.DirectoryName,fileInfo.Name);
-            CurrentLevel = new LoadedLevel(data, fileInfo.FullName);
+            var data = JSONDataManager.LoadData<LBSLevelData>(fileInfo.DirectoryName,fileInfo.Name);
+            CurrentLevel = LoadedLevel.CreateInstance(data, fileInfo.FullName);
             CurrentLevel.data.Reload();
+            OnLoadLevel?.Invoke(CurrentLevel.data);
+            Debug.Log("[ISI Lab]: The level '" + fileInfo.Name + "' has been loaded successfully.");
         }
 
+        /// <summary>
+        /// Prompts the user with a dialog to open a file and loads the level data based on the user's choice.
+        /// </summary>
+        /// <returns>
+        /// The loaded level as a <see cref="LoadedLevel"/> object, 
+        /// or null if the operation is canceled or no file is selected.
+        /// </returns>
         public static LoadedLevel LoadFile()
         {
             var answer = EditorUtility.DisplayDialogComplex(
@@ -66,8 +72,8 @@ namespace LBS
                     SaveFile();
                     path = EditorUtility.OpenFilePanel("Load level data", "", "lbs");
                     fileInfo = new System.IO.FileInfo(path);
-                    data = Utility.JSONDataManager.LoadData<LBSLevelData>(fileInfo.DirectoryName, fileInfo.Name);
-                    CurrentLevel = new LoadedLevel(data, fileInfo.FullName);
+                    data = JSONDataManager.LoadData<LBSLevelData>(fileInfo.DirectoryName, fileInfo.Name);
+                    CurrentLevel = LoadedLevel.CreateInstance(data, fileInfo.FullName);
                     CurrentLevel.data.Reload();
                     return CurrentLevel;
 
@@ -76,29 +82,23 @@ namespace LBS
                     if (path == "")
                         return null;
                     fileInfo = new System.IO.FileInfo(path);
-                    data = Utility.JSONDataManager.LoadData<LBSLevelData>(fileInfo.DirectoryName, fileInfo.Name);
-                    CurrentLevel = new LoadedLevel(data, fileInfo.FullName);
+                    data = JSONDataManager.LoadData<LBSLevelData>(fileInfo.DirectoryName, fileInfo.Name);
+                    CurrentLevel = LoadedLevel.CreateInstance(data, fileInfo.FullName);
                     CurrentLevel.data.Reload();
+                    OnLoadLevel?.Invoke(CurrentLevel.data);
                     return CurrentLevel;
+
+                case 2: //do nothing
+                default:
+                    return null; 
             }
-            return null;
         }
 
-        /*
-        public static bool FileExists(string name, string extension, out FileInfo toReturn)
-        {
-            var path = Application.dataPath;
-            System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(path);
-            //var files = Utility.DirectoryTools.GetAllFilesByExtension(extension, dir);
-
-            //var fileInfo = files.Find(f => f.Name.Contains(name));
-
-            //toReturn = fileInfo;
-            //return fileInfo != null;
-            toReturn = null;
-            return false;
-        }*/
-
+        /// <summary>
+        /// Saves the current level data to the file it was loaded from,
+        /// or prompts the user to save it as a new file if it has not been
+        /// saved before.
+        /// </summary>
         public static void SaveFile()
         {
             var fileInfo = CurrentLevel.FileInfo;
@@ -112,10 +112,14 @@ namespace LBS
             }
             else
             {
-                Utility.JSONDataManager.SaveData(fileInfo.DirectoryName, fileInfo.Name, CurrentLevel.data);
+                JSONDataManager.SaveData(fileInfo.DirectoryName, fileInfo.Name, CurrentLevel.data);
             }
         }
 
+        /// <summary>
+        /// Saves the current level data to a new file,
+        /// prompting the user to choose the file path.
+        /// </summary>
         public static void SaveFileAs()
         {
             var path = "";
@@ -141,35 +145,28 @@ namespace LBS
 
             if (path != "")
             {
-                Debug.Log("Save file on: '" + path + "'.");
-                //Debug.Log(fileInfo + " - " + CurrentLevel);
-                Utility.JSONDataManager.SaveData(CurrentLevel.FileInfo.DirectoryName, CurrentLevel.FileInfo.Name, CurrentLevel.data);
-                LevelBackUp.Instance().level.fullName = path;
+                var parts = path.Split("/");
+                var filename = parts[^1];
+                var directory = path.Substring(0,path.Length - filename.Length);
+                Debug.Log("Save file on: '" + directory + filename + "'.");
+                JSONDataManager.SaveData(directory, filename, CurrentLevel.data);
+                LBS.loadedLevel.fullName = path;
             }
         }
 
-        public static LoadedLevel CreateNewLevel(string levelName, Vector3 size)
+        /// <summary>
+        /// Creates a new level with the specified name and size.
+        /// </summary>
+        /// <param name="levelName"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        public static LoadedLevel CreateNewLevel(string levelName = "new file")
         {
             var data = new LBSLevelData();
-            var loaded = new LoadedLevel(data, null);
-            //data.Size = size;
-            //data.AddRepresentation(new LBSGraphData());
+            var loaded = LoadedLevel.CreateInstance(data, null);
             CurrentLevel = loaded;
             CurrentLevel.data.Reload();
             return CurrentLevel;
         }
-
-        public static void ShowLevelInspector()
-        {
-            var s = ScriptableObject.CreateInstance<LevelScriptable>();
-            s.data = CurrentLevel.data;
-            Selection.SetActiveObjectWithContext(s, s);
-
-        }
-
     }
-
-    
 }
-
-

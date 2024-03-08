@@ -2,22 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using LBS.Components.Teselation;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
+using ISILab.Extensions;
+using ISILab.LBS.Modules;
+using LBS.Components.TileMap;
 
-namespace LBS.Components.TileMap
+namespace ISILab.LBS.Modules
 {
     [System.Serializable]
-    public class TileMapModule<T> : TeselationModule where T : LBSTile
+    public class TileMapModule : LBSModule , ISelectable
     {
         #region FIELDS
-
         [SerializeField, JsonRequired, SerializeReference]
-        protected List<LBSTile> tiles = new List<LBSTile>();
-
+        private List<LBSTile> tiles = new List<LBSTile>();
+        private Dictionary<Vector2Int,LBSTile> _tileDic = new Dictionary<Vector2Int, LBSTile>();
         #endregion
 
         #region PROEPRTIES
+        [JsonIgnore]
+        public Vector2 CellSize
+        {
+            get => Owner.TileSize;
+        }
 
         [JsonIgnore]
         public Vector2 Origin
@@ -29,6 +37,19 @@ namespace LBS.Components.TileMap
                 foreach(var t in tiles)
                 {
                     t.Position += offset.ToInt();
+                }
+            }
+        }
+
+        [JsonIgnore]
+        public Vector2 Centroid
+        {
+            get => GetBounds().center;
+            set
+            {
+                foreach (var t in tiles)
+                {
+                    t.Position += new Vector2Int((int)value.x, (int)value.y);
                 }
             }
         }
@@ -50,237 +71,237 @@ namespace LBS.Components.TileMap
 
         #endregion
 
-        #region CONSTRUCTOR
+        #region EVENTS
+        public event Action<TileMapModule,LBSTile> OnAddTile;
+        public event Action<TileMapModule,LBSTile> OnRemoveTile;
+        #endregion
 
+        #region CONSTRUCTOR
         public TileMapModule() : base()
         {
             tiles = new List<LBSTile>();
-            Key = GetType().Name;
+            ID = GetType().Name;
         }
 
-        public TileMapModule(List<T> tiles, string key) : base(key)
-        {
-            AddTiles(tiles);
-            //this.tiles = new List<LBSTile>(tiles);
-        }
-
-        #endregion
-
-        #region METHODS
-
-        public virtual bool AddTile(T tile)
-        {
-            var t = GetTile(tile.Position);
-            if (t != null)
-                tiles.Remove(t);
-
-            tiles.Add(tile as LBSTile);
-            OnAddData?.Invoke(tile);
-            OnChanged?.Invoke(this);
-            return true;
-        }
-
-        public void AddTiles(List<T> tiles)
+        public TileMapModule(IEnumerable<LBSTile> tiles, string key) : base(key)
         {
             foreach(var t in tiles)
             {
                 AddTile(t);
             }
         }
+        #endregion
 
-        public T GetTile(Vector2Int pos)
+        #region METHODS
+        public virtual void AddTile(LBSTile tile)
         {
-            var tile = tiles.Find(t => t.Position == pos) as T;
-            return tile;
+            var t = GetTile(tile.Position);
+            if (t != null)
+                tiles.Remove(t);
+
+            tiles.Add(tile);
+            
+            _tileDic[tile.Position] = tile;
+
+            OnChanged?.Invoke(this, new List<object>() { t }, new List<object>() { tile });
+            OnAddTile?.Invoke(this, tile);
         }
 
-        public T GetTile(int index)
+        public void AddTiles(List<LBSTile> tiles)
         {
-            return tiles[index] as T;
-        }
-
-        public bool Contains(Vector2 pos)
-        {
-            return tiles.Any(t => t.Position.x == (int)pos.x && t.Position.y == (int)pos.y);
-        }
-
-        public List<T> GetTileNeighbors(T tile, List<Vector2Int> directions)
-        {
-            List<T> neighbors = new List<T>();
-            for (int i = 0; i < directions.Count; i++)
+            //OnChanged?.Invoke(this, null, tiles.Cast<object>().ToList());
+            foreach(var t in tiles)
             {
-                var nei = GetTileNeighbor(tile, directions[i]);
-                neighbors.Add(nei);
+                AddTile(t);
             }
-           
-            return neighbors;
         }
 
-        public T GetTileNeighbor(T tile, Vector2Int direction)
+        public LBSTile GetTile(Vector2Int pos)
         {
-            List<T> neighbors = new List<T>();
-            var pos = tile.Position + direction;
-            return this.GetTile(pos);
+            //_tileDic.TryGetValue(pos, out LBSTile tile);
+            //return tile;
+
+            foreach (var tile in tiles)
+            {
+                if (tile.Position == pos)
+                    return tile;
+            }
+            return null;
         }
 
-        public bool RemoveTile(T tile)
+        public LBSTile GetTileAt(int index)
         {
+            return tiles[index];
+        }
+
+        public bool RemoveTile(LBSTile tile)
+        {
+            
             if(tiles.Remove(tile))
             {
-                OnRemoveData?.Invoke(tile);
-                OnChanged?.Invoke(this);
+                OnRemoveTile?.Invoke(this, tile);
+                _tileDic.Remove(tile.Position);
+
+                OnChanged?.Invoke(this, new List<object>() { tile }, null);
                 return true;
             }
             return false;
         }
 
-        public T RemoveAt(int index)
+        public LBSTile RemoveAt(int index)
         {
-            if (!tiles.ContainsIndex(index))
-            {
-                return null;
-            }
-            var t = tiles[index] as T;
-            tiles.Remove(t);
-            OnRemoveData?.Invoke(t);
-            OnChanged?.Invoke(this);
-            return t;
+            var tile = tiles[index];
+            tiles.Remove(tile); 
+            _tileDic.Remove(tile.Position);
+            OnRemoveTile?.Invoke(this, tile);
+            OnChanged?.Invoke(this, new List<object>() { tile }, null);
+            return tile;
         }
 
-        public T RemoveAt(Vector2Int position)
+        public LBSTile RemoveAt(Vector2Int position)
         {
             var tile = GetTile(position);
             if (tile != null)
             {
                 tiles.Remove(tile);
-                OnRemoveData?.Invoke(tile);
-                OnChanged?.Invoke(this);
+                _tileDic.Remove(tile.Position);
+                OnRemoveTile?.Invoke(this, tile);
             }
             return tile;
         }
 
-        public void RemoveTiles(List<T> tiles)
+        public void RemoveTiles(List<LBSTile> tiles)
         {
+            //OnChanged?.Invoke(this, tiles.Cast<object>().ToList(), null);
             foreach(var t in tiles)
             {
                 RemoveTile(t);
             }
         }
 
-        public T[,] ToMatrix()
+        public override bool IsEmpty()
         {
-            var rect = GetBounds();
-            var matrixIDs = new T[(int)rect.width, (int)rect.height];
+            return tiles.Count <= 0;
+        }
+
+        public override Rect GetBounds()
+        {
+            if (tiles.Count == 0)
+            {
+                return default(Rect);
+            }
+
+            return tiles.GetBounds();
+        }
+
+        public LBSTile GetTileNeighbor(LBSTile tile, Vector2Int direction)
+        {
+            var pos = tile.Position + direction;
+            return this.GetTile(pos);
+        }
+
+        public List<LBSTile> GetTileNeighbors(LBSTile tile, List<Vector2Int> directions)
+        {
+            List<LBSTile> neighbors = new List<LBSTile>();
+            for (int i = 0; i < directions.Count; i++)
+            {
+                var nei = GetTileNeighbor(tile, directions[i]);
+                neighbors.Add(nei);
+            }
+
+            return neighbors;
+        }
+
+        public bool Contains(Vector2Int pos)
+        {
+            if (IsEmpty())
+                return false;
+
             foreach (var tile in tiles)
             {
-                var p = tile.Position;
-                var pos = p - rect.min;
-                matrixIDs[(int)pos.x, (int)pos.y] = tile as T;
+                if(tile.Position.Equals(pos))
+                    return true;
             }
-            return matrixIDs;
+
+            return false;
         }
 
         public override void Clear()
         {
             tiles.Clear();
-            OnChanged?.Invoke(this);
+            _tileDic.Clear();
+            //OnChanged?.Invoke(this);
         }
 
-        public override void Print()
+        public override void Rewrite(LBSModule other)
         {
-            string s = "TileMap Module: " + Key + "\n\n";
-            foreach(var t in tiles)
-            {
-                s += "t - " + t.Position + "\n";
-            }
-            Debug.Log(s);
-        }
-
-        public override bool IsEmpty()
-        {
-            return (tiles.Count() <= 0);
+            var module = other as TileMapModule;
+            Clear();
+            AddTiles(module.Tiles);
         }
 
         public override object Clone()
         {
-            var tileMap = new TileMapModule<T>();
-            tileMap.tiles = tiles.Select(t => t.Clone() as LBSTile).ToList(); //new List<LBSTile>(tiles);
+            var tileMap = new TileMapModule();
+            var newTiles = tiles.Select(t => CloneRefs.Get(t)).Cast<LBSTile>().ToList();
+            tileMap.AddTiles(newTiles);
             return tileMap;
         }
 
-        public override void OnAttach(LBSLayer layer)
+        public override void Print()
         {
-
-        }
-
-        public override void OnDetach(LBSLayer layer)
-        {
-
-        }
-
-        public override Rect GetBounds()
-        {
-            if (tiles == null || tiles.Count == 0)
+            string msg = "";
+            msg += "Type: " + GetType() + "\n";
+            msg += "Hash code: " + GetHashCode() + "\n";
+            msg += "ID: " + ID + "\n";
+            msg += "\n";
+            foreach (var t in tiles)
             {
-                //Debug.LogWarning("Esta tilemap no tiene tiles!!!");
-                return new Rect(Vector2.zero, Vector2.zero);
+                msg += t.Position + "\n";
+            }
+            Debug.Log(msg);
+        }
+
+        public List<object> GetSelected(Vector2Int position)
+        {
+            var pos = Owner.ToFixedPosition(position);
+
+            var r = new List<object>();
+            var tile = GetTile(pos);
+            
+            if (tile != null)
+            {
+                r.Add(tile);
+            }
+            return r;
+        }
+
+        public override bool Equals(object obj)
+        {
+            var other = obj as TileMapModule;
+
+            if (other == null) return false;
+
+            var tileCount = other.tiles.Count;
+
+            if(this.tiles.Count != tileCount) return false;
+
+            for (int i = 0; i < tileCount; i++)
+            {
+                var t1 = this.tiles[i];
+                var t2 = other.tiles[i];
+
+                if (!t1.Equals(t2)) return false;
             }
 
-            var x = tiles.Min(t => t.Position.x);
-            var y = tiles.Min(t => t.Position.y);
-            var width = tiles.Max(t => t.Position.x) - x + 1;
-            var height = tiles.Max(t => t.Position.y) - y + 1;
-            return new Rect(x, y, width, height);
+            return true;
         }
 
-        public override List<Vector2> OccupiedPositions()
+        public override int GetHashCode()
         {
-            return tiles.Select(t => (Vector2)t.Position).ToList();
-        }
-
-        public override List<Vector2> EmptyPositions()
-        {
-            var r = GetBounds();
-            var occupied = OccupiedPositions();
-
-            List<Vector2> empty = new List<Vector2>();
-
-            for(int j = 0; j < r.height; j++)
-            {
-                for(int i = 0; i < r.width; i++)
-                {
-                    var v = new Vector2(i, j);
-                    if (!occupied.Contains(v))
-                    {
-                        empty.Add(v);
-                    }
-                }
-            }
-
-            return empty;
-        }
-
-        public override List<int> OccupiedIndexes()
-        {
-            return OccupiedPositions().Select(v => ToIndex(v)).ToList();
-        }
-
-        public override List<int> EmptyIndexes()
-        {
-            return EmptyPositions().Select(v => ToIndex(v)).ToList();
-        }
-
-        public override void Rewrite(LBSModule module)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override void OnReload(LBSLayer layer)
-        {
-
+            return base.GetHashCode();
         }
 
         #endregion
     }
 }
-

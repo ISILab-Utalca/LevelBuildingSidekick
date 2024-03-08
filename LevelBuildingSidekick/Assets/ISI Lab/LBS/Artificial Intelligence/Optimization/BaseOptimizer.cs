@@ -1,27 +1,26 @@
 ﻿using Commons.Optimization.Evaluator;
-using Commons.Optimization.Terminations;
+using ISILab.AI.Optimization.Terminations;
 using System;
-using GeneticSharp.Domain.Populations;
+using ISILab.AI.Optimization.Populations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System.Diagnostics;
 using Commons.Optimization;
-using GeneticSharp.Domain.Selections;
+using ISILab.AI.Optimization.Selections;
 
-namespace Commons.Optimization
+namespace ISILab.AI.Optimization
 {
-    public abstract class BaseOptimizer
+    [System.Serializable]
+    public abstract class BaseOptimizer : ICloneable
     {
-
         #region FIELDS
-
-        protected Op_State state;
-        protected Stopwatch clock;
-        protected readonly object m_lock;
-        protected bool stopRequested;
-        protected bool pauseRequested;
+        protected Op_State state = Op_State.NotStarted;
+        protected Stopwatch clock = new Stopwatch();
+        protected readonly object m_lock = new object();
+        protected bool stopRequested = false;
+        protected bool pauseRequested = false;
 
         [SerializeField, SerializeReference]
         IPopulation population;
@@ -177,18 +176,53 @@ namespace Commons.Optimization
             lock (m_lock)
             {
                 stopRequested = false;
-                pauseRequested = false; State = Op_State.Started;
+                pauseRequested = false; 
+                State = Op_State.Started;
                 clock = new Stopwatch();
                 clock.Start();
                 //Adam.Fitness = Evaluator.Evaluate(Adam);
                 Population.Adam = Adam;
                 Population.CreateInitialGeneration();
                 EvaluateFitness(Population.CurrentGeneration.Evaluables);
+                Population.EndCurrentGeneration();
                 OnGenerationRan?.Invoke();
                 clock.Stop();
             }
 
             Run();
+        }
+
+        public virtual void StartOne()
+        {
+            var clock1 = new Stopwatch();
+            clock1.Start();
+
+            OnStarted?.Invoke();
+            lock (m_lock)
+            {
+                stopRequested = false;
+                pauseRequested = false;
+                State = Op_State.Started;
+                clock = new Stopwatch();
+                clock.Start();
+                //Adam.Fitness = Evaluator.Evaluate(Adam);
+                Population.Adam = Adam;
+                Population.CreateInitialGeneration();
+                EvaluateFitness(Population.CurrentGeneration.Evaluables);
+                Population.EndCurrentGeneration();
+                OnGenerationRan?.Invoke();
+                clock.Stop();
+            }
+            clock1.Stop();
+            //UnityEngine.Debug.Log("StartOne: " + clock1.ElapsedMilliseconds/1000f + "s."); // 2 seg
+
+            var clock2 = new Stopwatch();
+            clock2.Start();
+
+            RunOnce();
+
+            clock2.Stop();
+            //UnityEngine.Debug.Log("RunOnce: " + clock2.ElapsedMilliseconds/1000f + "s."); 
         }
 
         public virtual void Restart()
@@ -214,12 +248,12 @@ namespace Commons.Optimization
         }
 
         public abstract void RunOnce ();
+
         public abstract void EvaluateFitness(IList<IOptimizable> optimizables);
 
         public void Run()
         {
-            int iterations = 0;
-            while(!TerminationReached() && !(State == Op_State.Paused || State == Op_State.Stopped) && iterations < 1000)
+            while(!TerminationReached() && !(State == Op_State.Paused || State == Op_State.Stopped))
             {
                 if (stopRequested)
                 {
@@ -237,8 +271,6 @@ namespace Commons.Optimization
                 clock.Stop();
                 OnGenerationRan?.Invoke();
                 State = Op_State.Running;
-
-                iterations++;
             }
         }
 
@@ -278,6 +310,13 @@ namespace Commons.Optimization
             {
                 pauseRequested = true;
             }
+        }
+
+        public abstract object Clone(); // (!) Es necesario heredar esto
+
+        public virtual void PrintClocks() 
+        {
+            UnityEngine.Debug.Log("no implementado: " + this.GetType());
         }
 
         #endregion

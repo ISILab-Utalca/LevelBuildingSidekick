@@ -5,92 +5,155 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System.Reflection;
 using System.Linq;
+using UnityEditor.UIElements;
+using UnityEditor;
+using ISILab.Commons.Utility;
+using ISILab.Commons.Utility.Editor;
+using ISILab.Extensions;
+using ISILab.LBS;
 
-public class ComplexDropdown : VisualElement
+namespace ISILab.LBS.VisualElements
 {
-    #region FIELDS
-
-    private Type target = null;
-    private List<ComplexDropdownElement> elements = new List<ComplexDropdownElement>();
-
-    private VisualElement content;
-    private TextField searchfield;
-
-    #endregion
-
-    #region PROPERTIES
-
-    public Type Target
+    public class ComplexDropdown : VisualElement
     {
-        get => target;
-        set => target = value;
-    }
-
-    #endregion
-
-    #region EVENTS
-
-    public delegate Action dropdownEvent(Type type);
-    private dropdownEvent onSelectOption;
-
-    public event dropdownEvent OnSelectOption
-    {
-        add => onSelectOption += value;
-        remove => onSelectOption -= value;
-    }
-
-    #endregion
-
-    public new class UxmlFactory : UxmlFactory<ComplexDropdown, VisualElement.UxmlTraits> { }
-
-    public ComplexDropdown()
-    {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("ComplexDropdown"); // Editor
-        visualTree.CloneTree(this);
-
-        content = this.Q<VisualElement>("Content");
-
-        searchfield = this.Q<TextField>("Searchfield");
-        searchfield.RegisterCallback<ChangeEvent<string>> ((e) => {
-            Actualize(e.newValue);
-        });
-
-        Init(target);
-    }
-
-    private void Init(Type type)
-    {
-        if (type == null)
-            return;
-
-        var tuples = Utility.Reflection.GetClassesWith(type);
-        elements.Clear();
-        foreach (var tuple in tuples)
+        public class listElement
         {
-            var atts = tuple.Item2.ToList();
+            public string name;
+            public Texture2D icon;
+            public Type type;
 
-            if (atts.Count <= 0)
-                continue;
+            public listElement(string name, Texture2D icon, Type type)
+            {
+                this.name = name;
+                this.icon = icon;
+                this.type = type;
+            }
+        }
+        public List<listElement> elements = new List<listElement>();
 
-            var att = atts[0] as LBSSearchAttribute;
-            //var att = tuple.Item2.ToList().Find(at => at.GetType().Equals(target)) as LBSSearchAttribute;
+        #region FIELDS
+        private Type targetType = null;
 
-            var element = new ComplexDropdownElement();
-            element.SetAction(() => { onSelectOption?.Invoke(tuple.Item1); });
-            element.SetInfo(att.Name, att.Icon);
-            elements.Add(element);
+        private ListView content;
+        private TextField searchfield;
+        #endregion
+
+        #region PROPERTIES
+        public Type Target
+        {
+            get => targetType;
+            set => targetType = value;
+        }
+        #endregion
+
+        #region EVENTS
+        public delegate Action dropdownEvent(Type type);
+        private dropdownEvent onSelectOption;
+
+        public event dropdownEvent OnSelectOption
+        {
+            add => onSelectOption += value;
+            remove => onSelectOption -= value;
+        }
+        #endregion
+
+        public new class UxmlFactory : UxmlFactory<ComplexDropdown, UxmlTraits> { }
+
+        public Action<object> OnSelected;
+
+        public ComplexDropdown()
+        {
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("ComplexDropdown");
+            visualTree.CloneTree(this);
+
+            content = this.Q<ListView>("Content");
+            content.makeItem = () => { return new ComplexDropdownElement(); };
+            content.bindItem = (view, index) =>
+            {
+                var field = view as ComplexDropdownElement;
+                var item = content.itemsSource[index] as listElement;
+                field.SetInfo(item.name, item.icon, false);
+            };
+
+            content.selectionChanged += (e) =>
+            {
+                var index = content.selectedIndex;
+                var selected = content.itemsSource[index] as listElement;
+                try
+                {
+                    OnSelected?.Invoke(Activator.CreateInstance(selected.type));
+
+                }
+                catch (Exception ex)
+                {
+                    var x = ex.Message;
+                    Debug.LogWarning("<color=#ff0000ff><b>[ISI Lab]</b></color>: The '" + selected.type + "' class does not have a base parameterless constructor.");
+                }
+            };
+
+            searchfield = this.Q<TextField>("Searchfield");
+            searchfield.RegisterValueChangedCallback((e) =>
+            {
+                Actualize(e.newValue);
+            });
+
+            searchfield.RegisterCallback<ChangeEvent<string>>((e) =>
+            {
+                Actualize(e.newValue);
+                content.SetDisplay(true);
+            });
+
+            searchfield.RegisterCallback<FocusEvent>((e) =>
+            {
+                Actualize(searchfield.value);
+                content.SetDisplay(true);
+            });
+
+            searchfield.RegisterCallback<BlurEvent>((e) =>
+            {
+                content.SetDisplay(false);
+            });
+
+            content.SetDisplay(false);
         }
 
-        Actualize("");
-    }
+        public void Init(Type type)
+        {
+            if (type == null)
+                return;
 
-    private void Actualize(string text)
-    {
-        content.Clear();
+            var tuples = Reflection.GetClassesWith(type);
 
-        var elms = elements.Where( e => e.name.Contains(text)).ToList();
-        elms.ForEach(e => content.Add(e));
+            elements.Clear();
+            foreach (var tuple in tuples)
+            {
+                var atts = tuple.Item2.ToList();
+
+                if (atts.Count <= 0)
+                    continue;
+
+                var att = atts[0] as LBSSearchAttribute;
+                elements.Add(new listElement(att.Name, att.Icon, tuple.Item1));
+            }
+        }
+
+        public void Actualize(string text)
+        {
+            content.ClearClassList();
+            content.makeItem = () => { return new ComplexDropdownElement(); };
+            content.bindItem = (view, index) =>
+            {
+                var field = view as ComplexDropdownElement;
+                var item = content.itemsSource[index] as listElement;
+                field.SetInfo(item.name, item.icon, false);
+            };
+
+            var elements = this.elements.Where(e =>
+            e.name.ToLower()
+            .Contains(text.ToLower()))
+            .ToList();
+
+            content.itemsSource = elements;
+        }
     }
 }
-
-

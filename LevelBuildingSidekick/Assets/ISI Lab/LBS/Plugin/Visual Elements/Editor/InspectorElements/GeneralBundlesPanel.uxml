@@ -1,0 +1,42 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <ui:VisualElement style="background-color: rgba(0, 0, 0, 0.2); padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; height: auto;">
+        <ui:VisualElement name="Header" style="flex-direction: row; align-items: center; padding-bottom: 5px; padding-left: 5px; padding-right: 5px; padding-top: 5px; border-bottom-width: 1px; border-left-color: rgba(0, 0, 0, 0.39); border-right-color: rgba(0, 0, 0, 0.39); border-top-color: rgba(0, 0, 0, 0.39); border-bottom-color: rgba(0, 0, 0, 0.39); background-color: rgba(0, 0, 0, 0.2); border-top-left-radius: 3px; border-top-right-radius: 3px;">
+            <ui:Foldout name="MainFoldout" />
+            <ui:VisualElement style="width: 16px; height: 16px; background-image: resource(&apos;Icons/Gear&apos;); -unity-background-image-tint-color: rgb(163, 160, 251);" />
+            <ui:Label tabindex="-1" text="General settings" display-tooltip-when-elided="true" style="padding-left: 4px;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="MainContent" style="display: flex;">
+            <ui:Foldout text="Basic Info" name="BasicFoldout" value="true" style="border-left-color: rgba(0, 0, 0, 0.39); border-right-color: rgba(0, 0, 0, 0.39); border-top-color: rgba(0, 0, 0, 0.39); border-bottom-color: rgba(0, 0, 0, 0.39); border-bottom-width: 1px; margin-right: 0;">
+                <ui:VisualElement name="NamePanel" tooltip="this is the name of the selected  bundle." style="background-color: rgba(255, 255, 255, 0.1); padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; margin-bottom: 4px; margin-right: 4px;">
+                    <ui:Label tabindex="-1" text="Name" display-tooltip-when-elided="true" style="padding-left: 4px; padding-bottom: 2px;" />
+                    <ui:TextField picking-mode="Ignore" value="filler text" text="filler text" name="NameField" />
+                </ui:VisualElement>
+                <ui:VisualElement name="TagPanel" tooltip="this is the tag identifier of the selected bundle." style="background-color: rgba(255, 255, 255, 0.1); padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; margin-bottom: 4px; margin-right: 4px;">
+                    <ui:Label tabindex="-1" text="Main Tag" display-tooltip-when-elided="true" style="padding-left: 4px; padding-bottom: 2px;" />
+                    <uie:ObjectField type="LBSIdentifier, LBS" name="TagField" />
+                </ui:VisualElement>
+                <ui:VisualElement name="IconPanel" style="background-color: rgba(255, 255, 255, 0.1); padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; margin-bottom: 4px; margin-right: 4px; display: none;">
+                    <ui:Label tabindex="-1" text="Icon" display-tooltip-when-elided="true" style="padding-left: 4px; padding-bottom: 2px;" />
+                    <uie:ObjectField type="UnityEngine.Texture2D, UnityEngine.CoreModule" name="IconField" />
+                </ui:VisualElement>
+                <ui:VisualElement name="ColorPanel" style="background-color: rgba(255, 255, 255, 0.1); padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; margin-bottom: 4px; margin-right: 4px; display: none;">
+                    <uie:ColorField label="Color" name="ColorField" />
+                </ui:VisualElement>
+            </ui:Foldout>
+            <ui:Foldout text="Extra Info" name="ExtraFoldout" value="true" style="border-left-color: rgba(0, 0, 0, 0.39); border-right-color: rgba(0, 0, 0, 0.39); border-top-color: rgba(0, 0, 0, 0.39); border-bottom-color: rgba(0, 0, 0, 0.39); border-bottom-width: 1px;">
+                <ui:VisualElement name="ExtraContent" style="padding-left: 0; display: flex; padding-bottom: 0; padding-right: 0; padding-top: 0;">
+                    <ui:VisualElement name="FatherPanel" style="background-color: rgba(255, 255, 255, 0.1); padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; margin-bottom: 4px; margin-right: 4px;">
+                        <ui:Label tabindex="-1" text="Father bundles" display-tooltip-when-elided="true" style="padding-left: 4px; padding-bottom: 2px;" />
+                        <uie:ObjectField type="LBS.Bundles.Bundle, LBS" name="FatherField" focusable="true" style="flex-direction: row;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:Foldout>
+            <ui:Foldout text="Assets" name="Assets" value="true">
+                <ui:VisualElement tooltip="Add the necessary asset(s) to use. Remember that they need to be loaded beforehand in the Unity project." style="background-color: rgba(255, 255, 255, 0.1); padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; margin-bottom: 4px; margin-right: 4px;">
+                    <ui:ListView focusable="true" show-add-remove-footer="true" show-foldout-header="false" horizontal-scrolling="false" reorderable="false" show-bound-collection-size="true" show-border="true" name="AssetsList" virtualization-method="DynamicHeight" />
+                </ui:VisualElement>
+            </ui:Foldout>
+        </ui:VisualElement>
+        <ui:VisualElement name="Footer" style="flex-shrink: 1; height: 4px;" />
+    </ui:VisualElement>
+</ui:UXML>

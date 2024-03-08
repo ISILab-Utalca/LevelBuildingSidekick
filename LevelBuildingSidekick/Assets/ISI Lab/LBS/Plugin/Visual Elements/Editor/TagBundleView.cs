@@ -1,3 +1,5 @@
+using ISILab.Commons.Utility;
+using ISILab.Commons.Utility.Editor;
 using LBS.Settings;
 using System;
 using System.Collections;
@@ -6,136 +8,160 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static UnityEngine.UI.InputField;
+using ISILab.Extensions;
+using ISILab.LBS.Components;
 
-public class TagBundleView : VisualElement
+namespace ISILab.LBS.VisualElements
 {
-    public LBSIdentifierBundle target;
-
-    public  VisualElement box;
-    private Foldout foldout;
-    private VisualElement content;
-    private TextField groupNameField;
-    private ListView list;
-    private Button addBtn;
-    private Button removeBtn;
-
-    private LBSIdentifier selected;
-
-    public TagBundleView()
+    public class TagBundleView : VisualElement
     {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("TagBundleView");
-        visualTree.CloneTree(this);
+        #region FIELDS
+        private LBSIdentifierBundle target;
+        public LBSTag selected;
+        #endregion
 
-        this.box = this.Q<VisualElement>("Box");
-        this.content = this.Q<VisualElement>("Content");
-        
-        this.foldout = this.Q<Foldout>();
-        foldout.RegisterCallback<ChangeEvent<bool>>(e => OnFoldout(e.newValue));
+        #region VIEW FIELDS
+        private Foldout foldout;
+        private VisualElement content;
+        private TextField groupNameField;
+        private ListView list;
+        private Button addBtn;
+        private Button removeBtn;
+        private EnumField typeDropdown;
 
-        this.groupNameField = this.Q<TextField>();
-        groupNameField.RegisterCallback<BlurEvent>(e => OnTextChange(groupNameField.value));
-        //groupNameField.RegisterCallback<ChangeEvent<string>>(e => OnTextChange(e.newValue));
+        private static VisualTreeAsset visualTree;
+        #endregion
 
-        list = this.Q<ListView>();
+        #region EVENTS
+        public delegate void TagBundleViewEvent(TagBundleView tbv);
+        public TagBundleViewEvent OnSelectionChange;
+        public TagBundleViewEvent OnRemoveTag;
+        public TagBundleViewEvent OnAddTag;
+        #endregion
 
-        list.fixedItemHeight = 22;
-        list.makeItem += MakeItem;
-        list.bindItem += BindItem;
-        list.onItemsChosen += OnItemChosen;
-        list.onSelectionChange += OnSelectionChange;
-        list.style.flexGrow = 1.0f;
+        #region CONSTRUCTORS
+        public TagBundleView()
+        {
+            visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("TagBundleView");
+            visualTree.CloneTree(this);
 
-        addBtn = this.Q<Button>("Add");
-        addBtn.clicked += CreateTag;
-        removeBtn = this.Q<Button>("Remove");
-        removeBtn.clicked += RemoveTag;
-    }
+            // Main Content
+            content = this.Q<VisualElement>("Content");
 
-    private void OnFoldout(bool value)
-    {
-        content.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
-    }
+            // Main Foldout
+            foldout = this.Q<Foldout>();
+            foldout.RegisterCallback<ChangeEvent<bool>>(e => content.SetDisplay(e.newValue));
 
-    private VisualElement MakeItem()
-    {
-        return new TagView();
-    }
+            // Bundle Namefield
+            groupNameField = this.Q<TextField>();
+            groupNameField.RegisterCallback<BlurEvent>(e => TextChange(groupNameField.value));
 
-    private void CreateTag()
-    {
-        var name = ISILab.Commons.Commons.CheckNameFormat(target.Tags.Select(b => b.name), "new tag");
+            typeDropdown = this.Q<EnumField>("TypeDropdown");
+            typeDropdown.RegisterCallback<ChangeEvent<Enum>>((evt) =>
+            {
+                target.type = (LBSIdentifierBundle.TagType)evt.newValue;
+                AssetDatabase.SaveAssets();
+            });
 
-        var nTag = ScriptableObject.CreateInstance<LBSIdentifier>();
-        nTag.Init(name, new Color().RandomColor(), null);
+            // Tags List
+            list = this.Q<ListView>();
+            list.fixedItemHeight = 22;
+            list.makeItem += MakeItem;
+            list.bindItem += BindItem;
+            list.itemsChosen += ItemChosen;
+            list.selectionChanged += SelectionChange;
+            list.style.flexGrow = 1.0f;
 
-        var settings = LBSSettings.Instance;
+            // Add Button
+            addBtn = this.Q<Button>("Add");
+            addBtn.clicked += CreateTag;
 
-        AssetDatabase.CreateAsset(nTag, settings.tagFolderPath + "/" + name + ".asset");
-        AssetDatabase.SaveAssets();
+            // Remove Button
+            removeBtn = this.Q<Button>("Remove");
+            removeBtn.clicked += RemoveTag;
+        }
+        #endregion
 
-        Debug.Log(target.GetInstanceID());
-        if(!target.Tags.Contains(nTag))
-            target.AddTag(nTag); 
+        #region METHODS
+        private VisualElement MakeItem()
+        {
+            return new TagView();
+        }
 
-        list.itemsSource = target.Tags;
+        private void CreateTag()
+        {
+            var name = Format.CheckNameFormat(target.Tags.Select(b => b.name), "new tag");
 
-        list.Rebuild();
-        list.RefreshItems();
-    }
+            var nTag = ScriptableObject.CreateInstance<LBSTag>();
+            nTag.Init(name, new Color().RandomColor(), null);
 
-    private void RemoveTag()
-    {
-        if (selected == null)
-            return;
+            var settings = LBSSettings.Instance;
+            AssetDatabase.CreateAsset(nTag, settings.paths.tagFolderPath + "/" + name + ".asset");
+            AssetDatabase.SaveAssets();
 
-        target.Remove(selected);
+            if (!target.Tags.Contains(nTag))
+                target.Add(nTag);
 
-        var path = AssetDatabase.GetAssetPath(selected);
-        AssetDatabase.DeleteAsset(path);
-        AssetDatabase.SaveAssets();
-        
-        list.itemsSource = target.Tags;
-        list.Rebuild();
-    }
+            list.itemsSource = target.Tags;
 
-    private void OnTextChange(string value)
-    {
-        target.name = value;
-        AssetDatabase.RenameAsset(AssetDatabase.GetAssetPath(target), target.name);
-        EditorUtility.SetDirty(target);
-    }
+            list.Rebuild();
+        }
 
+        private void RemoveTag()
+        {
+            if (selected == null)
+                return;
 
-    public void SetInfo(LBSIdentifierBundle tagBundle)
-    {
-        target = tagBundle;
-        list.itemsSource = target.Tags;
+            target.Remove(selected);
 
-        groupNameField.value = target.name;
+            var path = AssetDatabase.GetAssetPath(selected);
+            AssetDatabase.DeleteAsset(path);
+            AssetDatabase.SaveAssets();
 
-        list.Rebuild();
-    }
+            list.itemsSource = target.Tags;
+            list.Rebuild();
+            OnRemoveTag?.Invoke(this);
+        }
 
-    public void BindItem(VisualElement ve, int index)
-    {
-        var view = (ve as TagView);
+        private void TextChange(string value)
+        {
+            target.name = value;
+            AssetDatabase.RenameAsset(AssetDatabase.GetAssetPath(target), target.name);
+            EditorUtility.SetDirty(target);
+        }
 
-        if (index >= this.target.Tags.Count())
-            return;
+        public void SetInfo(LBSIdentifierBundle tagBundle)
+        {
+            target = tagBundle;
 
-        var tag = this.target.GetTag(index);
-        view.SetInfo(tag);
-    }
+            list.itemsSource = target.Tags;
+            groupNameField.value = target.name;
+            typeDropdown.value = target.type;
 
+            list.Rebuild();
+        }
 
-    public void OnSelectionChange(IEnumerable<object> objs)
-    {
-        selected = objs.ToList()[0] as LBSIdentifier;
-    }
+        public void BindItem(VisualElement ve, int index)
+        {
+            var view = ve as TagView;
 
-    public void OnItemChosen(IEnumerable<object> objs)
-    {
-        Debug.Log("OIC");
+            if (index >= target.Tags.Count())
+                return;
+
+            var tag = target.Tags[index];
+            view.SetInfo(tag);
+        }
+
+        public void SelectionChange(IEnumerable<object> objs)
+        {
+            selected = objs.ToList()[0] as LBSTag;
+            OnSelectionChange?.Invoke(this);
+        }
+
+        public void ItemChosen(IEnumerable<object> objs)
+        {
+            Debug.Log("OIC");
+        }
+        #endregion
     }
 }

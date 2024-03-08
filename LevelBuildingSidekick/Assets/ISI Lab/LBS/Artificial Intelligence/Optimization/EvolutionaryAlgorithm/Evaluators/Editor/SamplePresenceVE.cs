@@ -1,27 +1,30 @@
 using Commons.Optimization.Evaluator;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
-using UnityEditor;
-using UnityEngine;
+using LBS.Bundles;
+using ISILab.LBS.AI.VisualElements;
+using ISILab.LBS.Internal;
+using ISILab.AI.Categorization;
 
-[CustomVisualElement(typeof(SamplePresence))]
-public class SamplePresenceVE : EvaluatorVE
+namespace ISILab.LBS.VisualElements
 {
-    ObjectField objectField;
-
-
-    public SamplePresenceVE(IEvaluator evaluator) : base(evaluator)
+    [CustomVisualElement(typeof(SamplePresence))]
+    public class SamplePresenceVE : EvaluatorVE
     {
-        objectField = new ObjectField("Sample");
-        objectField.objectType = typeof(Bundle);
-        objectField.RegisterValueChangedCallback(e => (evaluator as SamplePresence).Sample = e.newValue);
-        Add(objectField);
+        ObjectField objectField;
 
-    }
 
-    public override void Init()
-    {
+        public SamplePresenceVE(IEvaluator evaluator) : base(evaluator)
+        {
+            objectField = new ObjectField("Sample");
+            objectField.objectType = typeof(Bundle);
+            objectField.RegisterValueChangedCallback(e => (evaluator as SamplePresence).Sample = e.newValue);
+            Add(objectField);
+
+        }
+
+        public override void Init()
+        {
+        }
     }
 }

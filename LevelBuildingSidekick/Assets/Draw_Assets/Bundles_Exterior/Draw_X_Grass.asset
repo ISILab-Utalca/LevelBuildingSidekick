@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
+  m_Name: Draw_X_Grass
+  m_EditorClassIdentifier: 
+  type: 0
+  anchorPosition: 0
+  color: {r: 0, g: 0, b: 0, a: 0}
+  icon: {fileID: 0}
+  childsBundles: []
+  assets:
+  - obj: {fileID: 4588112811286258271, guid: ce2ef8e2c2c67c74fa0f22b0c07b7c7b, type: 3}
+    probability: 0.051
+  - obj: {fileID: 233220835034620700, guid: b01f87567d8543e4098fdaf4eb6bbe2d, type: 3}
+    probability: 0.748
+  - obj: {fileID: 5787296714742224891, guid: 907f625316a001c45ab4dfa604c1c05b, type: 3}
+    probability: 0.649
+  - obj: {fileID: 5992098893860235064, guid: 3050428813b05124fb5dd78531aeb1ac, type: 3}
+    probability: 0.849
+  characteristics:
+  - rid: 5085006314459627533
+  references:
+    version: 2
+    RefIds:
+    - rid: 5085006314459627533
+      type: {class: LBSDirection, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        connections:
+        - Fodder
+        - Fodder
+        - Fodder
+        - Fodder

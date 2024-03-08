@@ -4,57 +4,58 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Utility;
+using ISILab.Extensions;
+using ISILab.LBS.Components;
 
-public class LBSEdgeView<T,U> : GraphElement where T: LBSEdge where U :LBSNode
+namespace ISILab.LBS.VisualElements
 {
-    private Vector2Int pos1, pos2;
-    private LBSNodeView<U> node1, node2;
-
-    private T data;
-
-    public T Data => data;
-
-    public LBSEdgeView(T data, LBSNodeView<U> node1, LBSNodeView<U> node2, int l, int stroke)
+    public class LBSEdgeView : GraphElement
     {
-        this.data = data;
-        this.node1 = node1;
-        node1.OnMoving += (pos) => {
-            this.SetPosition(new Rect(pos1, new Vector2(10, 10)));
-            ActualizePositions(pos, pos2); 
-        };
-        this.node2 = node2;
-        node2.OnMoving += (pos) => { ActualizePositions(pos1, pos); };
-        
-        var sPos1 = new Vector2Int((int)node1.GetPosition().center.x, (int)node1.GetPosition().center.y);
-        var sPos2 = new Vector2Int((int)node2.GetPosition().center.x, (int)node2.GetPosition().center.y);
-        ActualizePositions(sPos1, sPos2);
+        private Vector2Int pos1, pos2;
 
-        this.SetPosition(new Rect(pos1, new Vector2(10,10)));
-        this.generateVisualContent += OnGenerateVisualContent;
-    }
+        private ZoneEdge data;
 
-    void OnGenerateVisualContent(MeshGenerationContext mgc)
-    {
-        var painter = mgc.painter2D;
-        var view = this.GetFirstAncestorOfType<MainView>();
+        public LBSEdgeView(ZoneEdge data, LBSNodeView node1, LBSNodeView node2, int l, int stroke)
+        {
+            // Set Data
+            this.data = data;
 
-        var fPos1 = Vector2.zero;
-        var fPos2 = pos2 - pos1;
-        //var fPos2 = view.FixPos(pos2) - view.FixPos(pos1);
-        painter.DrawDottedLine(fPos1, fPos2, Color.white);
+            // Set first node
+            node1.OnMoving += (rect) =>
+            {
+                SetPosition(new Rect(pos1, new Vector2(10, 10)));
+                ActualizePositions(rect.center.ToInt(), pos2);
+            };
 
-        //var angle = Vector2.SignedAngle(Vector2.right,(fPos2 - fPos1).normalized); // (?) puede que no funcione
-        //var middle1 = fPos2.Multiply(0.45f);
-        //painter.DrawPolygons(middle1, 3, Color.white, Color.white, 0, angle + 180, 8);
-        //var middle2 = fPos2.Multiply(0.55f);
-        //painter.DrawPolygons(middle2, 3, Color.white, Color.white, 0, angle, 8);
-    }
+            // Set second node
+            node2.OnMoving += (rect) =>
+            {
+                ActualizePositions(pos1, rect.center.ToInt());
+            };
 
-    private void ActualizePositions(Vector2Int pos1, Vector2Int pos2)
-    {
-        this.pos1 = pos1;
-        this.pos2 = pos2;
-        this.MarkDirtyRepaint();
+            var sPos1 = new Vector2Int((int)node1.GetPosition().center.x, (int)node1.GetPosition().center.y);
+            var sPos2 = new Vector2Int((int)node2.GetPosition().center.x, (int)node2.GetPosition().center.y);
+            ActualizePositions(sPos1, sPos2);
+
+            SetPosition(new Rect(pos1, new Vector2(10, 10)));
+            generateVisualContent += OnGenerateVisualContent;
+        }
+
+        void OnGenerateVisualContent(MeshGenerationContext mgc)
+        {
+            var painter = mgc.painter2D;
+            painter.DrawDottedLine(
+                Vector2.zero,
+                pos2 - pos1,
+                Color.white
+                );
+        }
+
+        private void ActualizePositions(Vector2Int pos1, Vector2Int pos2)
+        {
+            this.pos1 = pos1;
+            this.pos2 = pos2;
+            MarkDirtyRepaint();
+        }
     }
 }

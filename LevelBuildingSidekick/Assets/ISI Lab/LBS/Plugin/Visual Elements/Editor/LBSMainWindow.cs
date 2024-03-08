@@ -1,332 +1,20 @@
-using LBS;
-using LBS.Components;
-using LBS.VisualElements;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEditor;
-using UnityEngine;
-using UnityEngine.UIElements;
-using Utility;
+using ISILab.Commons.Utility;using ISILab.Commons.Utility.Editor;using ISILab.LBS;
+using ISILab.LBS.Template;
+using ISILab.LBS.VisualElements;using ISILab.LBS.VisualElements.Editor;using LBS.Components;using LBS.VisualElements;using System;using System.Collections;using System.Collections.Generic;using System.Diagnostics;
+using System.Linq;using UnityEditor;using UnityEngine;using UnityEngine.UIElements;using Debug = UnityEngine.Debug;
 
-public class LBSMainWindow : EditorWindow
-{
-    // Data
-    public LBSLevelData levelData;
-
-    // Selected
-    private LBSLayer _selectedLayer;
-    private string _selectedMode; // (??) esto deberia ser mas que un string?
-
-    // Templates
-    public List<LayerTemplate> layerTemplates;
-
-    // Visual Elements
-    private ButtonGroup toolPanel;
-    private VisualElement extraPanel;
-    private VisualElement noLayerSign;
-    private ModeSelector modeSelector;
-    private MainView mainView; // work canvas
-    private Label selectedLabel;
-    private VisualElement floatingPanelContent;
-
-    // Panels
-    private LayersPanel layerPanel;
-    private AIPanel aiPanel;
-    private Generator3DPanel gen3DPanel;
-    private LayerInspector layerInspector;
-
-    // Manager
-    private ToolkitManager toolkitManager;
-    private DrawManager drawManager;
-    private LBSInspectorPanel inspectorManager;
-
-
-    [MenuItem("ISILab/Level Building Sidekick", priority = 0)]
-    public static void ShowWindow()
+public class LBSMainWindow : EditorWindow{    #region PROPERTIES    private LBSLevelData levelData => ISILab.LBS.LBS.loadedLevel.data;    #endregion    #region FIELDS    // Selected    private LBSLayer _selectedLayer;    // Templates    public List<LayerTemplate> layerTemplates;    // Manager    private ToolKit toolkit;    private ToolKit questToolkit;    private DrawManager drawManager;    private LBSInspectorPanel inspectorManager;    #endregion    #region FIELDS-VIEWS    // Visual Elements    private ButtonGroup toolPanel;    private VisualElement extraPanel;    private VisualElement noLayerSign;    private MainView mainView; // work canvas    private Label selectedLabel;    private VisualElement floatingPanelContent;    // Panels    private LayersPanel layerPanel;    private Generator3DPanel gen3DPanel;    private QuestsPanel questsPanel;    private LayerInspector layerInspector;    #endregion    #region EVENTS    public static Action OnWindowRepaint;    #endregion    #region STATIC METHODS    [MenuItem("Window/ISILab/Level Building Sidekick", priority = 0)]    private static void ShowWindow()    {        var window = GetWindow<LBSMainWindow>();        Texture icon = Resources.Load<Texture>("Icons/LBS_Logo1");        window.titleContent = new GUIContent("Level builder", icon);        window.minSize = new Vector2(800, 400);    }    #endregion    #region METHODS    public virtual void CreateGUI()    {        Init();    }    private void OnInspectorUpdate()    {        OnWindowRepaint?.Invoke();    }    /// <summary>    /// Initialize the window.    /// </summary>    private void Init()    {        if (ISILab.LBS.LBS.loadedLevel == null)        {            ISILab.LBS.LBS.loadedLevel = LBSController.CreateNewLevel("new file");        }        levelData.OnReload += () =>        {            layerPanel.ResetSelection();            questsPanel.ResetSelection();        };        var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("LBSMainWindow");        visualTree.CloneTree(rootVisualElement);        // LayerTemplate        layerTemplates = DirectoryTools.GetScriptablesByType<LayerTemplate>();        // SubPanelScrollView        var subPanelScrollView = rootVisualElement.Q<ScrollView>("SubPanelScrollView");        subPanelScrollView.Q<VisualElement>("unity-content-and-vertical-scroll-container").pickingMode = PickingMode.Ignore;        subPanelScrollView.Q<VisualElement>("unity-content-viewport").pickingMode = PickingMode.Ignore;        subPanelScrollView.Q<VisualElement>("unity-content-container").pickingMode = PickingMode.Ignore;        // ToolPanel        toolPanel = rootVisualElement.Q<ButtonGroup>("ToolsGroup");        // LayerInspector        layerInspector = rootVisualElement.Q<LayerInspector>("LayerInspector");        // MainView         mainView = rootVisualElement.Q<MainView>("MainView");        mainView.OnClearSelection += () =>        {            if (_selectedLayer != null)            {                var il = Reflection.MakeGenericScriptable(_selectedLayer);                Selection.SetActiveObjectWithContext(il, il);            }        };        // DrawManager        drawManager = new DrawManager(ref mainView, ref layerTemplates);        // InspectorContent        inspectorManager = rootVisualElement.Q<LBSInspectorPanel>("InpectorPanel");        // ToolKitManager        toolkit = rootVisualElement.Q<ToolKit>(name: "Toolkit");        toolkit.OnEndAction += (l) =>        {            // (!!) esta forma de dibujar, en donde se repinta todo, es la que no es eficiente,            // hay que cambiarla a que repinte solo lo que este relacionado a las posciones editadas,            // pero ahora quedo en que repintara, no todo, pero si toda la layer.            //drawManager.RedrawLayer(l, mainView);            drawManager.RedrawLevel(levelData, mainView);        };        //QuestToolkit        questToolkit = rootVisualElement.Q<ToolKit>(name: "QuestToolkit");        // ToolBar        var toolbar = rootVisualElement.Q<ToolBarMain>("ToolBar");        toolbar.OnNewLevel += (data) =>        {            ISILab.LBS.LBS.loadedLevel = data;            RefreshWindow();        };        toolbar.OnLoadLevel += (data) =>        {            ISILab.LBS.LBS.loadedLevel = data;            RefreshWindow();            drawManager.RedrawLevel(levelData, mainView);        };        // ExtraPanel        extraPanel = rootVisualElement.Q<VisualElement>("ExtraPanel");        // NoLayerSign        noLayerSign = rootVisualElement.Q<VisualElement>("NoLayerSign");        // SelectedLabel        selectedLabel = rootVisualElement.Q<Label>("SelectedLabel");        // FloatingPanelContent        floatingPanelContent = rootVisualElement.Q<VisualElement>("FloatingPanelContent");        // Init Data        OnLevelDataChange(levelData);        levelData.OnChanged += (lvl) =>        {            OnLevelDataChange(lvl);        };        // LayerPanel        layerPanel = new LayersPanel(levelData, ref layerTemplates);        extraPanel.Add(layerPanel);        layerPanel.style.display = DisplayStyle.Flex;        layerPanel.OnLayerVisibilityChange += (l) =>        {            DrawManager.Instance.RedrawLevel(levelData, mainView);        };        layerPanel.OnSelectLayer += (layer) =>        {            OnSelectedLayerChange(layer);        };        layerPanel.OnAddLayer += (layer) =>        {            var sw = new Stopwatch();            sw.Start();            OnSelectedLayerChange(layer);            sw.Stop();            Debug.Log("OnAddLayer: " + sw.ElapsedMilliseconds);            sw.Restart();            DrawManager.Instance.AddContainer(layer);            sw.Stop();            Debug.Log("DrawManager.Instance.AddContainer(layer): " + sw.ElapsedMilliseconds);        };        layerPanel.OnRemoveLayer += (l) =>        {            drawManager.RemoveContainer(l);        };        // Gen3DPanel        gen3DPanel = new Generator3DPanel();        extraPanel.Add(gen3DPanel);        gen3DPanel.style.display = DisplayStyle.None;        gen3DPanel.OnExecute = () =>        {            gen3DPanel.Init(_selectedLayer);        };        //QuestsPanel        questsPanel = new QuestsPanel(levelData);        extraPanel.Add(questsPanel);        questsPanel.style.display = DisplayStyle.None;        questsPanel.OnSelectQuest += OnSelectedLayerChange;        // LayerButton        var layerBtn = rootVisualElement.Q<Button>("LayerButton");        layerBtn.clicked += () =>        {            var value = (layerPanel.style.display == DisplayStyle.None);            layerPanel.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;        };        // 3DButton        var Gen3DBtn = rootVisualElement.Q<Button>("3DButton");        Gen3DBtn.clicked += () =>        {            gen3DPanel.Init(_selectedLayer);            var value = (gen3DPanel.style.display == DisplayStyle.None);            gen3DPanel.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;        };        var QuestBtn = rootVisualElement.Q<Button>("Quests");        QuestBtn.clicked += () =>        {            var value = (questsPanel.style.display == DisplayStyle.None);            questsPanel.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;        };        layerPanel.OnSelectLayer += (l) => questsPanel.ResetSelection();        questsPanel.OnSelectQuest += (l) => layerPanel.ResetSelection();        LBSController.OnLoadLevel += (l) => _selectedLayer = null;        drawManager.RedrawLevel(levelData, mainView);    }    /// <summary>    /// Repaint the window.    /// </summary>    public new void Repaint()    {        base.Repaint();        drawManager.RedrawLevel(levelData, mainView);    }    /// <summary>    /// Refresh the window.    /// </summary>    private void RefreshWindow()    {        mainView.Clear();        this.rootVisualElement.Clear();        Init();    }    /// <summary>    /// Called when the level data is changed.    /// </summary>    /// <param name="levelData"></param>    private void OnLevelDataChange(LBSLevelData levelData)    {        noLayerSign.style.display = (levelData.Layers.Count <= 0) ? DisplayStyle.Flex : DisplayStyle.None;        levelData.OnReload += () => layerPanel.ResetSelection();        levelData.OnReload += () => questsPanel.ResetSelection();    }    /// <summary>    /// Called when the selected layer is changed.    /// </summary>    /// <param name="layer"></param>    private void OnSelectedLayerChange(LBSLayer layer)    {        _selectedLayer = layer;        // Actualize Inspector panel         inspectorManager.SetTarget(layer);        // Actualize ToolKit        toolkit.Clear();        toolkit.Init(layer);        toolkit.SetActiveWhithoutNotify(0);        // Actualize 3D panel        gen3DPanel.Init(layer);        // Actualize Bottom text        selectedLabel.text = "selected: " + layer.Name;    }
+    #endregion
+    private void OnFocus()
     {
-        var window = GetWindow<LBSMainWindow>();
-        Texture icon = Resources.Load<Texture>("Icons/Logo");
-        window.titleContent = new GUIContent("Level builder", icon);
-        window.minSize = new Vector2(800, 400);
+        Undo.undoRedoPerformed += UNDO;
+    }    private void OnLostFocus()
+    {
+        Undo.undoRedoPerformed -= UNDO;
     }
 
-    private static LBSMainWindow _ShowWindow()
+    private void UNDO()
     {
-        var window = GetWindow<LBSMainWindow>();
-        Texture icon = Resources.Load<Texture>("Icons/Logo");
-        window.titleContent = new GUIContent("Level builder", icon);
-        return window;
-    }
-
-    public virtual void CreateGUI()
-    {
-        Init();
-    }
-
-    public void Init()
-    {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LBSMainWindow");
-        visualTree.CloneTree(rootVisualElement);
-
-        // LayerTemplate
-        layerTemplates = Utility.DirectoryTools.GetScriptablesByType<LayerTemplate>();
-
-        // SubPanelScrollView
-        var subPanelScrollView = rootVisualElement.Q<ScrollView>("SubPanelScrollView");
-        subPanelScrollView.Q<VisualElement>("unity-content-and-vertical-scroll-container").pickingMode = PickingMode.Ignore;
-        subPanelScrollView.Q<VisualElement>("unity-content-viewport").pickingMode = PickingMode.Ignore;
-        subPanelScrollView.Q<VisualElement>("unity-content-container").pickingMode = PickingMode.Ignore;
-
-        // ToolPanel
-        toolPanel = rootVisualElement.Q<ButtonGroup>("ToolsGroup");
-
-        // LayerInspector
-        layerInspector = rootVisualElement.Q<LayerInspector>("LayerInspector");
-
-        // ModeSelector
-        modeSelector = rootVisualElement.Q<ModeSelector>("ModeSelector");
-        modeSelector.OnSelectionChange += (mode) =>
-        {
-            OnApplyTrasformers(_selectedMode, mode);
-            OnSelectedModeChange(mode, _selectedLayer);
-        };
-
-        // MainView 
-        mainView = rootVisualElement.Q<MainView>("MainView");
-        mainView.OnClearSelection = () =>
-        {
-            if (_selectedLayer != null)
-            {
-                var il = Reflection.MakeGenericScriptable(_selectedLayer);
-                Selection.SetActiveObjectWithContext(il, il);
-            }
-        };
-
-        // DrawManager
-        drawManager = new DrawManager(ref mainView, ref layerTemplates);
-
-        // InspectorContent
-        inspectorManager = rootVisualElement.Q<LBSInspectorPanel>("InpectorPanel");
-
-        // ToolKitManager
-        toolkitManager = new ToolkitManager(ref toolPanel, ref modeSelector, ref mainView, ref inspectorManager, ref layerTemplates);
-        toolkitManager.OnEndSomeAction += () =>
-        {
-            drawManager.RefreshView(ref _selectedLayer, levelData.Layers, _selectedMode);
-        };
-
-        // ToolBar
-        var toolbar = rootVisualElement.Q<ToolBarMain>("ToolBar");
-        toolbar.OnNewLevel += (data) =>
-        {
-            LevelBackUp.Instance().level = data;
-            levelData = LevelBackUp.Instance().level.data;
-            RefreshWindow();
-        };
-        toolbar.OnLoadLevel += (data) =>
-        {
-            LevelBackUp.Instance().level = data;
-            levelData = LevelBackUp.Instance().level.data;
-            RefreshWindow();
-            drawManager.RefreshView(ref _selectedLayer, levelData.Layers, _selectedMode);
-        };
-
-        // ExtraPanel
-        extraPanel = rootVisualElement.Q<VisualElement>("ExtraPanel");
-
-        // NoLayerSign
-        noLayerSign = rootVisualElement.Q<VisualElement>("NoLayerSign");
-
-        // SelectedLabel
-        selectedLabel = rootVisualElement.Q<Label>("SelectedLabel");
-
-
-        // FloatingPanelContent
-        floatingPanelContent = rootVisualElement.Q<VisualElement>("FloatingPanelContent");
-
-        // Init Data
-        levelData = LBSController.CurrentLevel.data;
-        OnLevelDataChange(levelData);
-        levelData.OnChanged += (lvl) => {
-            OnLevelDataChange(lvl);
-        };
-
-        // LayerPanel
-        layerPanel = new LayersPanel(ref levelData, ref layerTemplates);
-        extraPanel.Add(layerPanel);
-        layerPanel.style.display = DisplayStyle.Flex;
-        layerPanel.OnSelectLayer += (layer) =>
-        {
-            if (!layer.Equals(_selectedLayer))
-            {
-                OnSelectedLayerChange(layer);
-                gen3DPanel.Init(layer);
-            }
-
-            if (_selectedLayer != null)
-            {
-                var il = Reflection.MakeGenericScriptable(_selectedLayer);
-                Selection.SetActiveObjectWithContext(il, il);
-            }
-        };
-        layerPanel.OnLayerVisibilityChange += () =>
-        {
-            drawManager.RefreshView(ref _selectedLayer, levelData.Layers, _selectedMode);
-        };
-
-        // AIPanel
-        aiPanel = new AIPanel();
-        aiPanel.OnAIExecute += () =>
-        {
-            drawManager.RefreshView(ref _selectedLayer, levelData.Layers, _selectedMode);
-        };
-        aiPanel.OnEndExecute += () =>
-        {
-            OnSelectedLayerChange2(_selectedLayer);
-        };
-
-        extraPanel.Add(aiPanel);
-        aiPanel.style.display = DisplayStyle.None;
-
-        // Gen3DPanel
-        gen3DPanel = new Generator3DPanel();
-        extraPanel.Add(gen3DPanel);
-        gen3DPanel.style.display = DisplayStyle.None;
-        gen3DPanel.OnExecute = () =>
-        {
-            gen3DPanel.Init(_selectedLayer);
-        };
-
-        // LayerButton
-        var layerBtn = rootVisualElement.Q<Button>("LayerButton");
-        layerBtn.clicked += () =>
-        {
-            var value = (layerPanel.style.display == DisplayStyle.None);
-            layerPanel.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
-
-            TryCollapseMenuPanels();
-        };
-
-        // IAButton
-        var IABtn = rootVisualElement.Q<Button>("AIButton");
-        IABtn.clicked += () =>
-        {
-            aiPanel.Init(ref _selectedLayer);
-            var value = (aiPanel.style.display == DisplayStyle.None);
-            aiPanel.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
-
-            TryCollapseMenuPanels();
-        };
-
-        // 3DButton
-        var Gen3DBtn = rootVisualElement.Q<Button>("3DButton");
-        Gen3DBtn.clicked += () =>
-        {
-            gen3DPanel.Init(_selectedLayer);
-            var value = (gen3DPanel.style.display == DisplayStyle.None);
-            gen3DPanel.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
-
-            TryCollapseMenuPanels();
-        };
-    }
-
-    private void TryCollapseMenuPanels()
-    {
-        if (layerPanel?.style.display == DisplayStyle.None &&
-            aiPanel?.style.display == DisplayStyle.None &&
-            gen3DPanel?.style.display == DisplayStyle.None)
-        {
-            floatingPanelContent.style.display = DisplayStyle.None;
-        }
-        else
-        {
-            floatingPanelContent.style.display = DisplayStyle.Flex;
-        }
-    }
-
-    public new void Repaint()
-    {
-        base.Repaint();
-        drawManager.RefreshView(ref _selectedLayer, levelData.Layers, _selectedMode);
-    }
-
-    private void RefreshWindow()
-    {
-        mainView.Clear();
-        this.rootVisualElement.Clear();
-        Init();
-        mainView.OnClearSelection?.Invoke();
-    }
-
-    public void OnLevelDataChange(LBSLevelData levelData)
-    {
-        noLayerSign.style.display = (levelData.Layers.Count <= 0) ? DisplayStyle.Flex : DisplayStyle.None;
-        //modeSelector.style.display = (levelData.Layers.Count <= 0) ? DisplayStyle.None : DisplayStyle.Flex;
-    }
-
-    public void OnApplyTrasformers(string modeFrom, string modeTo)
-    {
-        var ModuleFrom = _selectedLayer.GetMode(layerTemplates, modeFrom).module;
-        var ModuleTo = _selectedLayer.GetMode(layerTemplates, modeTo).module;
-
-        var transformers = _selectedLayer.GetTrasformers(layerTemplates);
-        var trans = transformers.Find(t => t.From.FullName.Equals(ModuleFrom) && t.To.FullName.Equals(ModuleTo)); // (!) lo de los fullname es parche ya que ".ModuleType no funciona"
-        
-        if(trans == null)
-        {
-            //Debug.LogWarning("No existe trasformador que trasforme de '" + ModuleFrom + "' a '" + ModuleTo); // (!!!)
-        }
-        else
-        {
-            trans.Switch(ref _selectedLayer);
-        }
-    }
-
-    public void OnSelectedModeChange(string mode, LBSLayer layer)
-    {
-        _selectedLayer = layer;
-
-        var oldMode = _selectedMode;
-        _selectedMode = mode;
-        var modes = _selectedLayer.GetToolkit(layerTemplates);
-
-        // Init tools
-        object tools = null;
-        modes.TryGetValue(mode,out tools);
-        var module = layer.GetModule(0); // (!!) implementar cuando se pueda seleccionar un modulo
-        toolkitManager.SetTools(tools, ref levelData, ref layer, ref module);
-        modeSelector.style.display = (levelData.Layers.Count <= 0) ? DisplayStyle.None : DisplayStyle.Flex;
-
-        drawManager.RefreshView(ref _selectedLayer,levelData.Layers, _selectedMode);
-    }
-
-    public void OnSelectedLayerChange(LBSLayer layer)
-    {
-        _selectedLayer = layer;
-        
-        // actualize modes
-        var modes = _selectedLayer.GetToolkit(layerTemplates);
-        modeSelector.SetChoices(modes);
-        modeSelector.Index = 0;
-        modeSelector.style.display = DisplayStyle.Flex;
-        OnSelectedModeChange(modes.Keys.First(), _selectedLayer);
-
-        selectedLabel.text = "selected: " + layer.Name;
-    }
-
-    public void OnSelectedLayerChange2(LBSLayer layer) // esto es un parche se deberia ir cuando se mejore el paso de selected layer y los comportamientos
-    {
-        _selectedLayer = layer;
-
-        // actualize modes
-        var modes = _selectedLayer.GetToolkit(layerTemplates);
-        modeSelector.SetChoices(modes);
-        modeSelector.Index = modes.Count -1;
-        modeSelector.style.display = DisplayStyle.Flex;
-        OnSelectedModeChange(modes.Keys.Last(), _selectedLayer);
-
-        selectedLabel.text = "selected: " + layer.Name;
-    }
-}
+        DrawManager.ReDraw();
+        LBSInspectorPanel.ReDraw();
+    }}

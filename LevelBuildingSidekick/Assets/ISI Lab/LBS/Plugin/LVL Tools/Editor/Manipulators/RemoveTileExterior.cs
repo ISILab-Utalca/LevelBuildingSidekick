@@ -1,48 +1,48 @@
+using ISILab.LBS.Behaviours;
+using LBS.Components;
 using LBS.Components.TileMap;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class RemoveTileExterior<T> : ManipulateTeselation<T> where T : LBSTile
+namespace ISILab.LBS.Manipulators
 {
-    protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
+    public class RemoveTileExterior : ManipulateTeselation
     {
-        /*
-        OnManipulationStart?.Invoke();
-        var view = e.target as ExteriorTileView;
-        
-        if (view == null)
+        private ExteriorBehaviour exterior;
+
+        public override void Init(LBSLayer layer, object owner)
         {
-            return;
+            base.Init(layer, owner);
+
+            exterior = owner as ExteriorBehaviour;
         }
-        var tile = view.Data;
 
-        module.RemoveTile(tile as T);
-
-        OnManipulationEnd?.Invoke();
-        */
-    }
-
-    protected override void OnMouseMove(VisualElement target, Vector2Int position,  MouseMoveEvent e)
-    {
-        //throw new System.NotImplementedException();
-    }
-
-    protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
-    {
-        var min = this.module.Owner.ToFixedPosition(Vector2Int.Min(StartPosition, EndPosition));
-        var max = this.module.Owner.ToFixedPosition(Vector2Int.Max(StartPosition, EndPosition));
-
-        for (int i = min.x; i <= max.x; i++)
+        protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
         {
-            for (int j = min.y; j <= max.y; j++)
+            var x = LBSController.CurrentLevel;
+            EditorGUI.BeginChangeCheck();
+            Undo.RegisterCompleteObjectUndo(x, "Remove Tiles");
+
+            var corners = exterior.Owner.ToFixedPosition(StartPosition, EndPosition);
+
+            for (int i = corners.Item1.x; i <= corners.Item2.x; i++)
             {
-                var pos = new Vector2Int(i, j);
-                var tile = module.GetTile(pos);
-                if (tile == null)
-                    continue;
-                module.RemoveTile(tile as T);
+                for (int j = corners.Item1.y; j <= corners.Item2.y; j++)
+                {
+                    var pos = new Vector2Int(i, j);
+                    var tile = exterior.GetTile(pos);
+                    if (tile == null)
+                        continue;
+                    exterior.RemoveTile(tile);
+                }
+            }
+
+            if (EditorGUI.EndChangeCheck())
+            {
+                EditorUtility.SetDirty(x);
             }
         }
     }

@@ -4,32 +4,28 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-[InitializeOnLoad]
-public class Startup
+namespace ISILab.LBS
 {
-    static Startup()
+    [InitializeOnLoad]
+    public class Startup
     {
-        // propiedad que se pueda cambiar para que el usuario pueda dejar
-        // de ver esta pantalla al inicio del proyecto si lo necesita
-        //if (false)
-        //    return;
-
-        var onStart = SessionState.GetBool("start",true);
-        if(onStart)
+        static Startup()
         {
-            EditorApplication.update += Start;
-            SessionState.SetBool("start",false);
+
+            var onStart = SessionState.GetBool("start", true);
+            if (onStart)
+            {
+                EditorApplication.update += Start;
+                SessionState.SetBool("start", false);
+            }
         }
-    }
 
-    private static void Start()
-    {
-        // aqui podemos abrir una ventana que se abra al inicio del uso de unity
-        // y que te lleve a novedades y o tutoriales de la herramienta
+        private static void Start()
+        {
+            // TODO: open a window that opens at the beginning of the use of unity
 
-        // busca y setea la instancia de "LBS Settings" en su singleton
-        SettingsEditor.SearchSettingsInstance();
-
-        EditorApplication.update -= Start;
+            SettingsEditor.SearchSettingsInstance();
+            EditorApplication.update -= Start;
+        }
     }
 }

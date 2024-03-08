@@ -1,0 +1,558 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 413f9f532ddefee4cb50a01f79231155, type: 3}
+  m_Name: TestGrammar
+  m_EditorClassIdentifier: 
+  grammarTree:
+    Terminals:
+    - id: ' explore '
+      terminal: ' explore '
+    - id: ' listen '
+      terminal: ' listen '
+    - id: ' stealth '
+      terminal: ' stealth '
+    - id: ' take '
+      terminal: ' take '
+    - id: ' kill '
+      terminal: ' kill '
+    - id: ' gather '
+      terminal: ' gather '
+    - id: ' exchange '
+      terminal: ' exchange '
+    - id: ' read '
+      terminal: ' read '
+    - id: ' give '
+      terminal: ' give '
+    - id: ' go to '
+      terminal: ' go to '
+    - id: ' capture '
+      terminal: ' capture '
+    - id: ' spy '
+      terminal: ' spy '
+    - id: ' report '
+      terminal: ' report '
+    NonTerminals:
+    - id: Quest.0
+      nodes:
+      - rid: 279245815319625941
+      - rid: 279245815319625942
+      - rid: 279245815319625943
+      - rid: 279245815319625944
+      - rid: 279245815319625945
+      - rid: 279245815319625946
+      - rid: 279245815319625947
+      - rid: 279245815319625948
+    - id: Subquest.0
+      nodes:
+      - rid: 279245815319625949
+      - rid: 279245815319625950
+    - id: Goto.0
+      nodes:
+      - rid: 279245815319625951
+      - rid: 279245815319625952
+      - rid: 279245815319625953
+    - id: Learn.0
+      nodes:
+      - rid: 279245815319625954
+      - rid: 279245815319625955
+      - rid: 279245815319625956
+    - id: Get.0
+      nodes:
+      - rid: 279245815319625957
+      - rid: 279245815319625958
+      - rid: 279245815319625959
+    - id: Steal.0
+      nodes:
+      - rid: 279245815319625960
+      - rid: 279245815319625961
+    - id: Kill.0
+      nodes:
+      - rid: 279245815319625962
+    - id: Capture.0
+      nodes:
+      - rid: 279245815319625963
+    - id: Spy.0
+      nodes:
+      - rid: 279245815319625964
+    Productions:
+    - id: Quest
+      nodes:
+      - rid: 279245815319625965
+    - id: Subquest
+      nodes:
+      - rid: 279245815319625966
+    - id: Subquest.0.0
+      nodes:
+      - rid: 279245815319625942
+    - id: Goto
+      nodes:
+      - rid: 279245815319625967
+    - id: Goto.0.0
+      nodes:
+      - rid: 279245815319625968
+    - id: Goto.0.1
+      nodes:
+      - rid: 279245815319625943
+      - rid: 279245815319625969
+    - id: Learn
+      nodes:
+      - rid: 279245815319625970
+    - id: Learn.0.0
+      nodes:
+      - rid: 279245815319625942
+      - rid: 279245815319625941
+      - rid: 279245815319625971
+    - id: Learn.0.1
+      nodes:
+      - rid: 279245815319625942
+      - rid: 279245815319625944
+      - rid: 279245815319625972
+    - id: Get
+      nodes:
+      - rid: 279245815319625973
+    - id: Get.0.0
+      nodes:
+      - rid: 279245815319625945
+    - id: Steal
+      nodes:
+      - rid: 279245815319625974
+    - id: Steal.0.0
+      nodes:
+      - rid: 279245815319625942
+      - rid: 279245815319625975
+      - rid: 279245815319625976
+    - id: Steal.0.0.1
+      nodes:
+      - rid: 279245815319625977
+    - id: Steal.0.1
+      nodes:
+      - rid: 279245815319625942
+      - rid: 279245815319625946
+      - rid: 279245815319625976
+    - id: Kill
+      nodes:
+      - rid: 279245815319625978
+    - id: Kill.0.0
+      nodes:
+      - rid: 279245815319625942
+      - rid: 279245815319625979
+    - id: Get.0.1
+      nodes:
+      - rid: 279245815319625942
+      - rid: 279245815319625980
+    - id: Get.0.2
+      nodes:
+      - rid: 279245815319625942
+      - rid: 279245815319625944
+      - rid: 279245815319625942
+      - rid: 279245815319625941
+      - rid: 279245815319625981
+    - id: Learn.0.2
+      nodes:
+      - rid: 279245815319625944
+      - rid: 279245815319625941
+      - rid: 279245815319625982
+      - rid: 279245815319625971
+    - id: Learn.0.2.2
+      nodes:
+      - rid: 279245815319625983
+    - id: Goto.0.2
+      nodes:
+      - rid: 279245815319625969
+    - id: Subquest.0.1
+      nodes:
+      - rid: 279245815319625942
+      - rid: 279245815319625984
+      - rid: 279245815319625969
+    - id: Capture
+      nodes:
+      - rid: 279245815319625985
+    - id: Capture.0.0
+      nodes:
+      - rid: 279245815319625944
+      - rid: 279245815319625942
+      - rid: 279245815319625986
+    - id: Spy
+      nodes:
+      - rid: 279245815319625987
+    - id: Spy.0.0
+      nodes:
+      - rid: 279245815319625942
+      - rid: 279245815319625988
+      - rid: 279245815319625942
+      - rid: 279245815319625989
+    root:
+      rid: 279245815319625965
+  actions:
+  - grammarElement:
+      rid: 279245815319625968
+    targets: []
+  - grammarElement:
+      rid: 279245815319625971
+    targets: []
+  - grammarElement:
+      rid: 279245815319625977
+    targets: []
+  - grammarElement:
+      rid: 279245815319625976
+    targets: []
+  - grammarElement:
+      rid: 279245815319625979
+    targets: []
+  - grammarElement:
+      rid: 279245815319625980
+    targets: []
+  - grammarElement:
+      rid: 279245815319625981
+    targets: []
+  - grammarElement:
+      rid: 279245815319625972
+    targets: []
+  - grammarElement:
+      rid: 279245815319625983
+    targets: []
+  - grammarElement:
+      rid: 279245815319625969
+    targets: []
+  - grammarElement:
+      rid: 279245815319625986
+    targets: []
+  - grammarElement:
+      rid: 279245815319625988
+    targets: []
+  - grammarElement:
+      rid: 279245815319625989
+    targets: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 279245815319625941
+      type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: Subquest
+        nodes:
+        - rid: 279245815319625966
+    - rid: 279245815319625942
+      type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: Goto
+        nodes:
+        - rid: 279245815319625967
+    - rid: 279245815319625943
+      type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: Learn
+        nodes:
+        - rid: 279245815319625970
+    - rid: 279245815319625944
+      type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: Get
+        nodes:
+        - rid: 279245815319625973
+    - rid: 279245815319625945
+      type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: Steal
+        nodes:
+        - rid: 279245815319625974
+    - rid: 279245815319625946
+      type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: Kill
+        nodes:
+        - rid: 279245815319625978
+    - rid: 279245815319625947
+      type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: Capture
+        nodes:
+        - rid: 279245815319625985
+    - rid: 279245815319625948
+      type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: Spy
+        nodes:
+        - rid: 279245815319625987
+    - rid: 279245815319625949
+      type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: Subquest.0.0
+        nodes:
+        - rid: 279245815319625942
+    - rid: 279245815319625950
+      type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: Subquest.0.1
+        nodes:
+        - rid: 279245815319625942
+        - rid: 279245815319625984
+        - rid: 279245815319625969
+    - rid: 279245815319625951
+      type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: Goto.0.0
+        nodes:
+        - rid: 279245815319625968
+    - rid: 279245815319625952
+      type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: Goto.0.1
+        nodes:
+        - rid: 279245815319625943
+        - rid: 279245815319625969
+    - rid: 279245815319625953
+      type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: Goto.0.2
+        nodes:
+        - rid: 279245815319625969
+    - rid: 279245815319625954
+      type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: Learn.0.0
+        nodes:
+        - rid: 279245815319625942
+        - rid: 279245815319625941
+        - rid: 279245815319625971
+    - rid: 279245815319625955
+      type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: Learn.0.1
+        nodes:
+        - rid: 279245815319625942
+        - rid: 279245815319625944
+        - rid: 279245815319625972
+    - rid: 279245815319625956
+      type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: Learn.0.2
+        nodes:
+        - rid: 279245815319625944
+        - rid: 279245815319625941
+        - rid: 279245815319625982
+        - rid: 279245815319625971
+    - rid: 279245815319625957
+      type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: Get.0.0
+        nodes:
+        - rid: 279245815319625945
+    - rid: 279245815319625958
+      type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: Get.0.1
+        nodes:
+        - rid: 279245815319625942
+        - rid: 279245815319625980
+    - rid: 279245815319625959
+      type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: Get.0.2
+        nodes:
+        - rid: 279245815319625942
+        - rid: 279245815319625944
+        - rid: 279245815319625942
+        - rid: 279245815319625941
+        - rid: 279245815319625981
+    - rid: 279245815319625960
+      type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: Steal.0.0
+        nodes:
+        - rid: 279245815319625942
+        - rid: 279245815319625975
+        - rid: 279245815319625976
+    - rid: 279245815319625961
+      type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: Steal.0.1
+        nodes:
+        - rid: 279245815319625942
+        - rid: 279245815319625946
+        - rid: 279245815319625976
+    - rid: 279245815319625962
+      type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: Kill.0.0
+        nodes:
+        - rid: 279245815319625942
+        - rid: 279245815319625979
+    - rid: 279245815319625963
+      type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: Capture.0.0
+        nodes:
+        - rid: 279245815319625944
+        - rid: 279245815319625942
+        - rid: 279245815319625986
+    - rid: 279245815319625964
+      type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: Spy.0.0
+        nodes:
+        - rid: 279245815319625942
+        - rid: 279245815319625988
+        - rid: 279245815319625942
+        - rid: 279245815319625989
+    - rid: 279245815319625965
+      type: {class: GrammarNonTerminal, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: Quest.0
+        nodes:
+        - rid: 279245815319625941
+        - rid: 279245815319625942
+        - rid: 279245815319625943
+        - rid: 279245815319625944
+        - rid: 279245815319625945
+        - rid: 279245815319625946
+        - rid: 279245815319625947
+        - rid: 279245815319625948
+    - rid: 279245815319625966
+      type: {class: GrammarNonTerminal, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: Subquest.0
+        nodes:
+        - rid: 279245815319625949
+        - rid: 279245815319625950
+    - rid: 279245815319625967
+      type: {class: GrammarNonTerminal, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: Goto.0
+        nodes:
+        - rid: 279245815319625951
+        - rid: 279245815319625952
+        - rid: 279245815319625953
+    - rid: 279245815319625968
+      type: {class: GrammarTerminal, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: ' explore '
+        terminal: ' explore '
+    - rid: 279245815319625969
+      type: {class: GrammarTerminal, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: ' go to '
+        terminal: ' go to '
+    - rid: 279245815319625970
+      type: {class: GrammarNonTerminal, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: Learn.0
+        nodes:
+        - rid: 279245815319625954
+        - rid: 279245815319625955
+        - rid: 279245815319625956
+    - rid: 279245815319625971
+      type: {class: GrammarTerminal, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: ' listen '
+        terminal: ' listen '
+    - rid: 279245815319625972
+      type: {class: GrammarTerminal, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: ' read '
+        terminal: ' read '
+    - rid: 279245815319625973
+      type: {class: GrammarNonTerminal, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: Get.0
+        nodes:
+        - rid: 279245815319625957
+        - rid: 279245815319625958
+        - rid: 279245815319625959
+    - rid: 279245815319625974
+      type: {class: GrammarNonTerminal, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: Steal.0
+        nodes:
+        - rid: 279245815319625960
+        - rid: 279245815319625961
+    - rid: 279245815319625975
+      type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: Steal.0.0.1
+        nodes:
+        - rid: 279245815319625977
+    - rid: 279245815319625976
+      type: {class: GrammarTerminal, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: ' take '
+        terminal: ' take '
+    - rid: 279245815319625977
+      type: {class: GrammarTerminal, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: ' stealth '
+        terminal: ' stealth '
+    - rid: 279245815319625978
+      type: {class: GrammarNonTerminal, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: Kill.0
+        nodes:
+        - rid: 279245815319625962
+    - rid: 279245815319625979
+      type: {class: GrammarTerminal, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: ' kill '
+        terminal: ' kill '
+    - rid: 279245815319625980
+      type: {class: GrammarTerminal, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: ' gather '
+        terminal: ' gather '
+    - rid: 279245815319625981
+      type: {class: GrammarTerminal, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: ' exchange '
+        terminal: ' exchange '
+    - rid: 279245815319625982
+      type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: Learn.0.2.2
+        nodes:
+        - rid: 279245815319625983
+    - rid: 279245815319625983
+      type: {class: GrammarTerminal, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: ' give '
+        terminal: ' give '
+    - rid: 279245815319625984
+      type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: Quest
+        nodes:
+        - rid: 279245815319625965
+    - rid: 279245815319625985
+      type: {class: GrammarNonTerminal, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: Capture.0
+        nodes:
+        - rid: 279245815319625963
+    - rid: 279245815319625986
+      type: {class: GrammarTerminal, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: ' capture '
+        terminal: ' capture '
+    - rid: 279245815319625987
+      type: {class: GrammarNonTerminal, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: Spy.0
+        nodes:
+        - rid: 279245815319625964
+    - rid: 279245815319625988
+      type: {class: GrammarTerminal, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: ' spy '
+        terminal: ' spy '
+    - rid: 279245815319625989
+      type: {class: GrammarTerminal, ns: ISILab.AI.Grammar, asm: LBS}
+      data:
+        id: ' report '
+        terminal: ' report '

@@ -1,152 +1,184 @@
+using ISILab.Commons.Utility.Editor;
+using ISILab.LBS.Template;
 using LBS.Components;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Debug = UnityEngine.Debug;
 
-public class LayersPanel : VisualElement
+namespace ISILab.LBS.VisualElements.Editor
 {
-    #region FACTORY
-    public new class UxmlFactory : UxmlFactory<LayersPanel, VisualElement.UxmlTraits> { }
-    #endregion
-
-    #region FIELDS
-    public LBSLevelData data;
-
-    // templates
-    private List<LayerTemplate> templates;
-    #endregion
-
-    #region FIELD VIEW
-    private ListView list;
-    private TextField nameField;
-    private DropdownField typeDropdown;
-    #endregion
-
-    #region EVENTS
-    public event Action<LBSLayer> OnAddLayer;
-    public event Action<LBSLayer> OnRemoveLayer;
-    public event Action<LBSLayer> OnSelectLayer;
-
-    private Action onLayerVisibilityChange;
-
-    public event Action OnLayerVisibilityChange
+    public class LayersPanel : VisualElement
     {
-        add => onLayerVisibilityChange += value;
-        remove => onLayerVisibilityChange += value;
-    }
-    #endregion
+        #region FACTORY
+        public new class UxmlFactory : UxmlFactory<LayersPanel, VisualElement.UxmlTraits> { }
+        #endregion
 
-    #region CONSTRUCTORS
-    public LayersPanel() { }
+        #region FIELDS
+        public LBSLevelData data;
+        private LBSLayer selectedLayer;
 
-    public LayersPanel(ref LBSLevelData data, ref List<LayerTemplate> templates)
-    {
-        var visualTree = Utility.DirectoryTools.SearchAssetByName<VisualTreeAsset>("LayersPanel"); // Editor
-        visualTree.CloneTree(this);
+        // templates
+        private List<LayerTemplate> templates;
+        #endregion
 
-        this.data = data;
-        this.templates = templates;
+        #region FIELD VIEW
+        private ListView list;
+        private TextField nameField;
+        private DropdownField typeDropdown;
+        #endregion
 
-        // LayerList
-        list = this.Q<ListView>("LayerList");
+        #region EVENTS
+        public event Action<LBSLayer> OnAddLayer;
+        public event Action<LBSLayer> OnRemoveLayer;
+        public event Action<LBSLayer> OnSelectLayer; // click simple (!)
+        public event Action<LBSLayer> OnDoubleSelectLayer; // doble click (!)
+        public event Action<LBSLayer> OnLayerVisibilityChange;
+        #endregion
 
-        Func<VisualElement> makeItem = () =>
+        #region CONSTRUCTORS
+        public LayersPanel() { }
+
+        public LayersPanel(LBSLevelData data, ref List<LayerTemplate> templates)
         {
-            return new LayerView();
-        };
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("LayersPanel");
+            visualTree.CloneTree(this);
 
-        list.bindItem += (item, index) =>
+            this.data = data;
+            this.templates = templates;
+
+            // LayerList
+            list = this.Q<ListView>("List");
+
+            Func<VisualElement> makeItem = () =>
+            {
+                return new LayerView();
+            };
+
+            list.bindItem += (item, index) =>
+            {
+                if (index >= this.data.LayerCount)
+                    return;
+
+                var view = (item as LayerView);
+                var layer = this.data.GetLayer(index);
+                view.SetInfo(layer);
+                view.OnVisibilityChange += () => { OnLayerVisibilityChange(layer); };
+            };
+
+            list.fixedItemHeight = 20;
+            list.itemsSource = data.Layers;
+            list.makeItem += makeItem;
+            list.itemsChosen += ItemChosen;
+            list.selectionChanged += SelectionChange;
+
+            // NameField
+            nameField = this.Q<TextField>("NameField");
+
+            // TypeDropdown
+            typeDropdown = this.Q<DropdownField>("TypeDropdown");
+            typeDropdown.choices = templates.Select(t => t.name).ToList();
+            typeDropdown.index = 0;
+
+            // AddLayerButton
+            var addLayerBtn = this.Q<Button>("AddLayerButton");
+            addLayerBtn.clicked += AddLayer;
+
+            // RemoveSelectedButton
+            var RemoveSelectedBtn = this.Q<Button>("RemoveSelectedButton");
+            RemoveSelectedBtn.clicked += RemoveSelectedLayer;
+        }
+        #endregion
+
+        #region METHODS
+        private LBSLayer CreateLayer(int index)
         {
-            if (index >= this.data.LayerCount)
+            var layers = templates.Select(t => t.layer).ToList();
+            return layers[index].Clone() as LBSLayer;
+        }
+
+        private void AddLayer()
+        {
+            if (typeDropdown.index < 0)
+            {
+                Debug.LogWarning("No layer type has been selected yet, make sure to select one.");
+                return;
+            }
+
+            var layer = CreateLayer(typeDropdown.index);
+
+            layer.Name = nameField.text;
+
+            int i = 1;
+            while (data.Layers.Any(l => l.Name.Equals(layer.Name)))
+            {
+                layer.Name = nameField.text + " " + i;
+                i++;
+            }
+
+            data.AddLayer(layer);
+
+            list.SetSelectionWithoutNotify(new List<int>() {0});
+
+            OnAddLayer?.Invoke(layer);
+
+            list.Rebuild();
+        }
+
+        private void RemoveSelectedLayer()
+        {
+            if (data.Layers.Count <= 0)
                 return;
 
-            var view = (item as LayerView);
-            var layer = this.data.GetLayer(index);
-            view.SetInfo(layer);
-            view.OnVisibilityChange += onLayerVisibilityChange;
-        };
+            var index = list.selectedIndex;
+            if (index < 0)
+                return;
 
-        list.fixedItemHeight = 20;
-        list.itemsSource = data.Layers;
-        list.makeItem += makeItem;
-        list.onItemsChosen += OnItemChosen;
-        list.onSelectionChange += OnSelectionChange;
+            var answer = EditorUtility.DisplayDialog("Caution",
+            "You are about to delete a layer. If you proceed with this action, all of its" +
+            " content will be permanently removed, and you won't be able to recover it. Are" +
+            " you sure you want to continue?", "Continue", "Cancel");
 
-        // NameField
-        nameField = this.Q<TextField>("NameField");
+            if (!answer)
+                return;
 
-        // TypeDropdown
-        typeDropdown = this.Q<DropdownField>("TypeDropdown");
-        typeDropdown.choices = templates.Select(t => t.name).ToList();
-        typeDropdown.index = 0; // (?)
+            var layer = data.RemoveAt(index);
+            OnRemoveLayer?.Invoke(layer);
+            list.Rebuild();
 
-        // AddLayerButton
-        var addLayerBtn = this.Q<Button>("AddLayerButton");
-        addLayerBtn.clicked += AddLayer;
-
-        // RemoveSelectedButton
-        var RemoveSelectedBtn = this.Q<Button>("RemoveSelectedButton");
-        RemoveSelectedBtn.clicked += RemoveSelectedLayer;
-    }
-    #endregion
-
-    #region METHODS
-    private LBSLayer CreateLayer(int index)
-    {
-        var layers = templates.Select(t => t.layer).ToList();
-        return layers[index].Clone() as LBSLayer;
-    }
-
-    private void AddLayer()
-    {
-        if (typeDropdown.index < 0)
-        {
-            Debug.LogWarning("No layer type has been selected yet, make sure to select one.");
-            return;
+            DrawManager.ReDraw();
         }
 
-        var layer = CreateLayer(typeDropdown.index);
-
-        layer.Name = nameField.text;
-
-        int i = 1;
-        while (data.Layers.Any(l => l.Name.Equals(layer.Name)))
+        // Simple Click over element
+        private void SelectionChange(IEnumerable<object> objs)
         {
-            layer.Name = nameField.text + " " + i;
-            i++;
+            if (objs.Count() <= 0)
+                return;
+
+            var selected = objs.ToList()[0] as LBSLayer;
+            OnSelectLayer?.Invoke(selected);
         }
 
-        data.AddLayer(layer);
-        OnAddLayer?.Invoke(layer);
-        list.Rebuild();
+        // Double Click over element
+        private void ItemChosen(IEnumerable<object> objs)
+        {
+            if (objs.Count() <= 0)
+                return;
+
+            var selected = objs.ToList()[0] as LBSLayer;
+            OnDoubleSelectLayer?.Invoke(selected);
+        }
+
+        public void ResetSelection()
+        {
+            list.ClearSelection();
+            //list.RemoveFromSelection(list.selectedIndex);
+        }
+        #endregion
     }
-
-    private void RemoveSelectedLayer()
-    {
-        if (data.Layers.Count <= 0)
-            return;
-
-        var index = list.selectedIndex;
-        if (index <= 0)
-            return;
-
-        var layer = data.RemoveAt(index);
-        OnRemoveLayer?.Invoke(layer);
-        list.Rebuild();
-    }
-
-    public void OnSelectionChange(IEnumerable<object> objs)
-    {
-        var selected = objs.ToList()[0] as LBSLayer;
-        OnSelectLayer?.Invoke(selected);
-    }
-
-    public void OnItemChosen(IEnumerable<object> objs)
-    {
-        Debug.Log("OIC");
-    }
-    #endregion
 }

@@ -1,4 +1,5 @@
 trackSelection = true
+refreshSearchWindowsInPlayMode = false
 fetchPreview = true
 defaultFlags = 0
 keepOpen = false
@@ -16,6 +17,12 @@ scopes = {
 	"last_search.7788661B" = "editor"
 	"OpenInspectorPreview.7788661B" = "0"
 	"currentGroup.7788661B" = "asset"
+	"last_search.3BE40471" = ""
+	"OpenInspectorPreview.3BE40471" = "0"
+	"currentGroup.3BE40471" = "all"
+	"last_search.110DEAF1" = "connectedz"
+	"OpenInspectorPreview.110DEAF1" = "0"
+	"currentGroup.110DEAF1" = "asset"
 }
 providers = {
 	adb = {
@@ -58,10 +65,37 @@ providers = {
 		priority = 50
 		defaultAction = null
 	}
+	profilermarkers = {
+		active = false
+		priority = 100
+		defaultAction = null
+	}
+	menu = {
+		active = true
+		priority = 80
+		defaultAction = null
+	}
+	settings = {
+		active = true
+		priority = 100
+		defaultAction = null
+	}
+	calculator = {
+		active = true
+		priority = 10
+		defaultAction = null
+	}
+	static_methods = {
+		active = true
+		priority = 85
+		defaultAction = null
+	}
 }
 objectSelectors = {
 }
 recentSearches = [
+	"lbsmod"
+	""
 	"m"
 	"editor"
 	"find:"
@@ -70,10 +104,12 @@ recentSearches = [
 searchItemFavorites = [
 ]
 savedSearchesSortOrder = 0
-showSavedSearchPanel = false
-expandedQueries = [
-]
-queryBuilder = false
+showSavedSearchPanel = true
+hideTabs = false
+expandedQueries = [-1765347274 961552606]
+queryBuilder = true
 ignoredProperties = "id;name;classname;imagecontentshash"
 helperWidgetCurrentArea = "find:"
 disabledIndexers = ""
+minIndexVariations = 2
+findProviderIndexHelper = true

@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
+  m_Name: Celling_scifi
+  m_EditorClassIdentifier: 
+  type: 1
+  anchorPosition: 0
+  color: {r: 0, g: 0, b: 0, a: 1}
+  icon: {fileID: 2800000, guid: 497d733675f57de4ca54d01f9b788a5b, type: 3}
+  childsBundles: []
+  assets:
+  - obj: {fileID: 0}
+    probability: 0.516
+  - obj: {fileID: 0}
+    probability: 0.516
+  characteristics:
+  - rid: 5018258080767934760
+  references:
+    version: 2
+    RefIds:
+    - rid: 5018258080767934760
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        value: {fileID: 11400000, guid: 7aa713c3187b559428c4b4b35324ad50, type: 2}

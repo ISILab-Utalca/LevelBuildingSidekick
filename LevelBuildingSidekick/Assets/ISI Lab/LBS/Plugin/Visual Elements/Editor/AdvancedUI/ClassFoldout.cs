@@ -5,128 +5,122 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using ISILab.Extensions;
 
-public class ClassFoldout : Foldout
+namespace ISILab.LBS.VisualElements
 {
-    public new class UxmlFactory : UxmlFactory<ClassFoldout, UxmlTraits>
+    public class ClassFoldout : Foldout
     {
-        public override VisualElement Create(IUxmlAttributes bag, CreationContext cc)
+        public new class UxmlFactory : UxmlFactory<ClassFoldout, UxmlTraits>
         {
-            var instance = base.Create(bag, cc) as ClassFoldout;
-            var ve = instance.Q<VisualElement>(name: "unity-checkmark").parent;
+            public override VisualElement Create(IUxmlAttributes bag, CreationContext cc)
+            {
+                var instance = base.Create(bag, cc) as ClassFoldout;
+                var ve = instance.Q<VisualElement>(name: "unity-checkmark").parent;
 
-            ve.style.flexShrink = 1;
+                ve.style.flexShrink = 1;
 
-            instance.icon = new VisualElement() { name = "Icon" };
-            instance.dropdown = new ClassDropDown() { name = "ClassDropDown" };
+                instance.icon = new VisualElement() { name = "Icon" };
+                instance.dropdown = new ClassDropDown() { name = "ClassDropDown" };
+                instance.content = new VisualElement() { name = "Content" };
+                instance.content.style.flexGrow = 1;
 
-            instance.icon.style.width = instance.icon.style.height = 12;
-            instance.icon.style.marginRight = 6;
-            ve.style.alignItems = Align.Center;
+                instance.icon.style.width = instance.icon.style.height = 12;
+                instance.icon.style.minHeight = instance.icon.style.minWidth = 12;
+                instance.icon.style.marginRight = 6;
+                ve.style.alignItems = Align.Center;
 
-            instance.dropdown.Children().ToList()[0].style.marginLeft = 0;
-            instance.dropdown.SetMargins(0);
-            instance.dropdown.SetPaddings(0);
+                instance.dropdown.Children().ToList()[0].style.marginLeft = 0;
+                instance.dropdown.SetMargins(0);
+                instance.dropdown.SetPaddings(0);
 
-            bag.TryGetAttributeValue("Icon-Path", out string path);
-            var img = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
-            instance.icon.style.backgroundImage = img;
+                bag.TryGetAttributeValue("Icon-Path", out string path);
+                var img = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+                instance.icon.style.backgroundImage = img;
 
-            if (img == null)
-                instance.icon.style.display = DisplayStyle.None;
+                if (img == null)
+                    instance.icon.style.display = DisplayStyle.None;
 
-            ve.Add(instance.icon);
-
-
-            //instance.dropdown.style.paddingLeft = 4;
-            instance.dropdown.style.flexGrow = instance.dropdown.style.flexShrink = 1;
-            //instance.dropdown.parent.style.flexWrap = Wrap.Wrap;
-
-            if (bag.TryGetAttributeValue("Text", out string label))
-                instance.dropdown.label = label;
-
-            ve.Add(instance.dropdown);
-
-            instance.dropdown.RegisterValueChangedCallback(instance.UpdateView);
-
-            return instance;
-        }
-    }
-
-    public new class UxmlTraits : BindableElement.UxmlTraits
-    {
-        private readonly UxmlStringAttributeDescription m_Label = new UxmlStringAttributeDescription { name = "Text", defaultValue = "ClassDropDown" };
-        private readonly UxmlStringAttributeDescription m_icon = new UxmlStringAttributeDescription { name = "Icon-Path", defaultValue = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Logo.png" };
-        //private readonly UxmlStringAttributeDescription m_type = new UxmlStringAttributeDescription { name = "DropDown Type", defaultValue = "Type" };
-
-        public override void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
-        {
-            base.Init(ve, bag, cc);
-
-            ClassFoldout instance = (ClassFoldout)ve;
-
-            instance.dropdown.label = m_Label.GetValueFromBag(bag, cc);
-
-            var path = m_icon.GetValueFromBag(bag, cc);
-            var img = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
-            instance.icon.style.backgroundImage = img;
-        }
-    }
+                ve.Add(instance.icon);
 
 
-    public VisualElement icon = new VisualElement() { name = "Icon" };
-    public ClassDropDown dropdown = new ClassDropDown() { name = "ClassDropDown" };
-    public VisualElement content;
-    //public VisualElement content = new VisualElement();
+                instance.dropdown.style.marginRight = 4;
+                instance.dropdown.style.flexShrink = 1;
+                instance.dropdown.style.flexGrow = 1;
+                //instance.dropdown.parent.style.flexWrap = Wrap.Wrap;
 
-    
-    public new string text
-    {
-        get => dropdown?.label;
-        set
-        {
-            if(dropdown != null)
-                dropdown.label = value; 
-        }
-    }
+                if (bag.TryGetAttributeValue("Text", out string label))
+                    instance.dropdown.label = label;
 
-    public ClassFoldout()
-    {
-        dropdown.RegisterValueChangedCallback(UpdateView);
-    }
+                ve.Add(instance.dropdown);
 
-    public ClassFoldout(Type type) : this()
-    {
-
-    }
-
-    private void UpdateView(ChangeEvent<string> e)
-    {
-
-        var type = Utility.Reflection.GetType(e.newValue);
-
-        if(type == null)
-        {
-            throw new Exception("[ISI Lab] Class type not found");
+                return instance;
+            }
         }
 
-        var ves = Utility.Reflection.GetClassesWith<CustomVisualElementAttribute>().Where(t => t.Item2.Any(v => v.type == type));
-
-        if(ves.Count() == 0)
+        public new class UxmlTraits : BindableElement.UxmlTraits
         {
-            throw new Exception("[ISI Lab] No class marked as CustomVisualElement found for type: " + type);
+            private readonly UxmlStringAttributeDescription m_Label = new UxmlStringAttributeDescription { name = "Text", defaultValue = "ClassDropDown" };
+            private readonly UxmlStringAttributeDescription m_icon = new UxmlStringAttributeDescription { name = "Icon-Path", defaultValue = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Logo.png" };
+            //private readonly UxmlStringAttributeDescription m_type = new UxmlStringAttributeDescription { name = "DropDown Type", defaultValue = "Type" };
+
+            public override void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
+            {
+                base.Init(ve, bag, cc);
+
+                ClassFoldout instance = (ClassFoldout)ve;
+
+                instance.dropdown.label = m_Label.GetValueFromBag(bag, cc);
+
+                var path = m_icon.GetValueFromBag(bag, cc);
+                var img = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+                instance.icon.style.backgroundImage = img;
+            }
         }
 
-        var ve = Activator.CreateInstance(ves.First().Item1, new object[] { dropdown.GetChoiceInstance()});
 
-        if (!(ve is VisualElement))
+        public VisualElement icon = new VisualElement() { name = "Icon" };
+        public ClassDropDown dropdown = new ClassDropDown() { name = "ClassDropDown" };
+        public VisualElement content = new VisualElement();
+
+        object data = null;
+
+        public new string text
         {
-            throw new Exception("[ISI Lab] " + ve.GetType().GetType() +" is not a VisualElement ");
+            get => dropdown?.label;
+            set
+            {
+                if (dropdown != null)
+                    dropdown.label = value;
+            }
         }
 
-        contentContainer.Clear();
-        content = ve as VisualElement;
-        contentContainer.Add(ve as VisualElement);
+        public object Data => data;
+        public Action OnSelectChoice;
+
+        public Type Type
+        {
+            get => dropdown.Type;
+            set => dropdown.Type = value;
+        }
+
+        public ClassFoldout()
+        {
+        }
+
+        public ClassFoldout(Type type) : this()
+        {
+            dropdown.Type = type;
+        }
+
     }
-
 }
+
+/*
+public class  ClassFoldout : VisualElement
+{
+    public ClassFoldout() 
+    {
+        
+    }
+}*/

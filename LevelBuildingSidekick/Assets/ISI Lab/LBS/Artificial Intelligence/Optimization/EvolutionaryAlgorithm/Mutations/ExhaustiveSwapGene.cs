@@ -1,33 +1,37 @@
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Randomizations;
+using LBS.Components.TileMap;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExhaustiveSwapGene : MutationBase
+namespace ISILab.AI.Categorization
 {
-    protected override void PerformMutate(ChromosomeBase chromosome, float probability)
+    [System.Serializable]
+    public class ExhaustiveSwapGene : MutationBase
     {
-        var r = RandomizationProvider.Current;
-
-
-        for (int i = 0; i < chromosome.Length; i++)
+        protected override void PerformMutate(ChromosomeBase chromosome, float probability)
         {
-            if (chromosome.IsImmutable(i))
-                continue;
-            if (chromosome.GetGene(i) != default)
-            {
-                var d = r.GetDouble();
-                if (d < probability)
-                {
-                    var j = r.GetInt(0, chromosome.Length);
-                    if (chromosome.IsImmutable(j))
-                        continue;
+            var r = RandomizationProvider.Current;
 
-                    var aux = chromosome.GetGene(i);
-                    chromosome.ReplaceGene(i, chromosome.GetGene(j));
-                    chromosome.ReplaceGene(j, aux);
+            for (int i = 0; i < chromosome.Length; i++)
+            {
+                if (chromosome.IsImmutable(i))
+                    continue;
+                if (chromosome.GetGene(i) != default)
+                {
+                    var d = r.GetDouble();
+                    if (d < probability)
+                    {
+                        var j = r.GetInt(0, chromosome.Length);
+                        if (chromosome.IsImmutable(j))
+                            continue;
+
+                        var aux = chromosome.GetGene(i);
+                        chromosome.ReplaceGene(i, chromosome.GetGene(j));
+                        chromosome.ReplaceGene(j, aux);
+                    }
                 }
             }
         }

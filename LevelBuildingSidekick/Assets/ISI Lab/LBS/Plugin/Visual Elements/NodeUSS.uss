@@ -17,3 +17,11 @@
     flex-grow: 1;
     flex-shrink: 0;
 }
+
+.nodehover :hover {
+    scale: 1.04 1.04;
+    transition-property: scale;
+    transition-duration: 0.3s;
+    transition-timing-function: ease;
+    transition-delay: 0s;
+}

@@ -4,56 +4,65 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class GrupalbeButton : Button, IGrupable
+namespace ISILab.LBS.VisualElements
 {
-    public new class UxmlFactory : UxmlFactory<GrupalbeButton, Button.UxmlTraits> { }
-
-    private Color color = new Color(1, 0, 0);
-    private Color selected = new Color(0, 0, 1);
-
-    private Action OnFocusEvent;
-    private Action OnBlurEvent;
-
-    event Action IGrupable.OnFocusEvent
+    public class GrupalbeButton : Button, IGrupable
     {
-        add => OnFocusEvent += value;
-        remove => OnFocusEvent -= value;
-    }
+        public new class UxmlFactory : UxmlFactory<GrupalbeButton, UxmlTraits> { }
 
-    event Action IGrupable.OnBlurEvent
-    {
-        add => OnBlurEvent += value;
-        remove => OnBlurEvent -= value;
-    }
+        public string label;
 
-    public GrupalbeButton() { }
+        private Color color = new Color(1, 0, 0);
+        private Color selected = new Color(0, 0, 1);
 
-    public GrupalbeButton(string text )
-    {
-        this.text = text;
-    }
+        private Action OnFocusEvent;
+        private Action OnBlurEvent;
 
-    public void AddGroupEvent(Action action)
-    {
-        this.clicked += action;
-    }
+        event Action IGrupable.OnFocusEvent
+        {
+            add => OnFocusEvent += value;
+            remove => OnFocusEvent -= value;
+        }
 
-    public void OnBlur()
-    {
-        this.style.backgroundColor = color;
-        OnBlurEvent?.Invoke();
-    }
+        event Action IGrupable.OnBlurEvent
+        {
+            add => OnBlurEvent += value;
+            remove => OnBlurEvent -= value;
+        }
 
-    public void OnFocus()
-    {
-        this.style.backgroundColor = selected;
-        OnFocusEvent?.Invoke();
-    }
+        public GrupalbeButton() { }
 
-    public void SetColorGroup(Color color, Color selected)
-    {
-        this.color = color;
-        this.selected = selected;
+        public GrupalbeButton(string text)
+        {
+            this.text = label = text;
+        }
+
+        public void AddGroupEvent(Action action)
+        {
+            clicked += action;
+        }
+
+        public void OnBlur()
+        {
+            style.backgroundColor = color;
+            OnBlurEvent?.Invoke();
+        }
+
+        public void OnFocus()
+        {
+            style.backgroundColor = selected;
+            OnFocusEvent?.Invoke();
+        }
+
+        public void SetColorGroup(Color color, Color selected)
+        {
+            this.color = color;
+            this.selected = selected;
+        }
+
+        public string GetLabel()
+        {
+            return label;
+        }
     }
 }
-

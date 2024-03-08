@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
+  m_Name: Sci-fi_hex_interior 1
+  m_EditorClassIdentifier: 
+  type: 0
+  anchorPosition: 0
+  color: {r: 0, g: 0, b: 0, a: 0}
+  icon: {fileID: 0}
+  childsBundles:
+  - {fileID: 11400000, guid: 3df41e25206f77d40b6ec1966f581ba2, type: 2}
+  - {fileID: 11400000, guid: d29d7466414a90444b438360adf6969f, type: 2}
+  - {fileID: 11400000, guid: 22e1fa0bf02fedb4c9e5725bd13884c9, type: 2}
+  - {fileID: 11400000, guid: f3711301554ae2949bd77f46478e60fa, type: 2}
+  - {fileID: 11400000, guid: 9d5e70310bf40a547b42320ef5694c72, type: 2}
+  assets: []
+  characteristics: []
+  references:
+    version: 2
+    RefIds: []

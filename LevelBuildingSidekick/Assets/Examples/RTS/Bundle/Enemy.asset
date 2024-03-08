@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
+  m_Name: Enemy
+  m_EditorClassIdentifier: 
+  type: 2
+  anchorPosition: 0
+  color: {r: 0.854902, g: 0.68235296, b: 0.5882353, a: 1}
+  icon: {fileID: 2800000, guid: 36612891cca70e046b0e30e5e2fc8bbc, type: 3}
+  childsBundles: []
+  assets:
+  - obj: {fileID: 8272943599224061573, guid: 47b41978aba272c47ae5f4a2f7179c61, type: 3}
+    probability: 1
+  - obj: {fileID: 3235565414987765396, guid: a620458849218ac4d9ce56dd0d976909, type: 3}
+    probability: 1
+  - obj: {fileID: -927199367670048503, guid: ef019180a46774882bdbf566549b7960, type: 3}
+    probability: 1
+  characteristics:
+  - rid: 4305865204711817727
+  references:
+    version: 2
+    RefIds:
+    - rid: 4305865204711817727
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        value: {fileID: 11400000, guid: 1c34483075e8bb54d8aa70274f2eddfe, type: 2}

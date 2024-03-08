@@ -38,32 +38,15 @@ namespace LBS.Settings
         }
         #endregion
 
-        // Paths
-        public string settingsPath = "Assets/ISI Lab/LBS/Plugin/Internal/Settings/Resources/LBS Settings.asset";
-        public string storagePath = "Assets/ISI Lab/LBS/Plugin/Internal/Editor/LBS Storage.asset";
-
-        // Folders storages
-        public string bundleFolderPath = "Assets/ISI Lab/LBS/Data/Bundles";
-        public string tagFolderPath = "Assets/ISI Lab/LBS/Data/Tags";
-
-        // Folder presets
-        public string layerPressetFolderPath = "Assets/ISI Lab/LBS/Presets/Layers";
-        public string assistantPresetFolderPath = "Assets/ISI Lab/LBS/Presets/Assistants";
-        public string Generator3DPresetFolderPath = "Assets/ISI Lab/LBS/Presets/Generators3D";
-        public string bundlesPresetFolderPath = "Assets/ISI Lab/LBS/Presets/Bundles";
-
+        public Paths paths = new Paths();
         public General general = new General();
-        public Modules modules = new Modules();
-        public Layers layers = new Layers();
-        public Generators3D generator3D = new Generators3D();
-        public Assisstants assisstent = new Assisstants();
+        public Interface view = new Interface();
+        public Test test = new Test();
 
-        [SerializeField]
-        Vector2 tileSize = new Vector2(50, 50);
-        public Vector2 TileSize
+        [System.Serializable]
+        public class Test
         {
-            get => tileSize;
-            set => tileSize = value;
+            public string TestFolderPath = "";
         }
 
         [System.Serializable]
@@ -72,31 +55,53 @@ namespace LBS.Settings
             public float zoomMax = 10;
             public float zoomMin = 0.1f;
 
+            [SerializeField]
+            Vector2 tileSize = new Vector2(50, 50);
+
+            public Vector2 TileSize
+            {
+                get => tileSize;
+                set => tileSize = value;
+            }
+
             public Action<float, float> OnChangeZoomValue;
+            public Action<Vector2> OnChangeTileSize;
         }
 
         [System.Serializable]
-        public class Modules
+        public class Paths
         {
-            //Teselation
+            // Controller Paths
+            public string settingsPath = "Assets/ISI Lab/LBS/Plugin/Internal/Settings/Resources/LBS Settings.asset";
+            public string storagePath = "Assets/ISI Lab/LBS/Plugin/Internal/Editor/LBS Storage.asset";
+            public string pressetsPath = "Assets/ISI Lab/LBS/Presets/LBS Presets.asset";
+            public string backUpPath = "Assets/ISI Lab/LBS/Plugin/Internal/Resources/LBSBackUp.asset";
+
+            // Folders data storages
+            public string bundleFolderPath = "Assets/ISI Lab/LBS/Data/Bundles";
+            public string tagFolderPath = "Assets/ISI Lab/LBS/Data/Tags";
+
+            // Folders extra storages
+            public string iconPath = "Assets/ISI Lab/LBS/Plugin/Internal/Icons";
+
+            // Folders presets
+            public string layerPressetFolderPath = "Assets/ISI Lab/LBS/Presets/Layers";
+            public string assistantPresetFolderPath = "Assets/ISI Lab/LBS/Presets/Assistants";
+            public string Generator3DPresetFolderPath = "Assets/ISI Lab/LBS/Presets/Generators3D";
+            public string bundlesPresetFolderPath = "Assets/ISI Lab/LBS/Presets/Bundles";
+
         }
 
         [System.Serializable]
-        public class Layers
+        public class Interface
         {
+            public Color toolkitSelected = new Color(254f / 255f, 118f / 255f, 105f / 255f);
 
-        }
+            public Color behavioursColor = new Color(135f / 255f, 215f / 255f, 246f / 255f);
+            public Color assitantsColor = new Color(0f / 255f, 0f / 255f, 0f / 255f);
 
-        [System.Serializable]
-        public class Generators3D
-        {
-
-        }
-
-        [System.Serializable]
-        public class Assisstants
-        {
-
+            public Color bundlesColor = new Color(0f / 255f, 0f / 255f, 0f / 255f);
+            public Color tagsColor = new Color(0f / 255f, 0f / 255f, 0f / 255f);
         }
     }
 
