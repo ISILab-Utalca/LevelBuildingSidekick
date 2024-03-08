@@ -12,14 +12,6 @@ using UnityEngine;
 
 namespace ISILab.LBS
 {
-    /*
-    [System.Serializable]
-    public class LevelDataWraper : UnityEngine.Object
-    {
-        public LBSLevelData data;
-    }
-    */
-
     [System.Serializable]
     public class LBSLevelData
     {
@@ -166,6 +158,7 @@ namespace ISILab.LBS
             quest.AddBehaviour(behaviour);
             quests.Add(quest);
 
+            this.OnChanged?.Invoke(this);
             return quest;
         }
 
@@ -173,7 +166,11 @@ namespace ISILab.LBS
         {
             var q = quests[index];
             quests.RemoveAt(index);
-            return q.GetModule<QuestGraph>();
+
+            var qg = q.GetModule<QuestGraph>();
+
+            this.OnChanged?.Invoke(this);
+            return qg;
         }
 
 
