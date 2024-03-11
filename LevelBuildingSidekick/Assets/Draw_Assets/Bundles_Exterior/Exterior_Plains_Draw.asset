@@ -17,28 +17,31 @@ MonoBehaviour:
   color: {r: 0, g: 0, b: 0, a: 0}
   icon: {fileID: 0}
   childsBundles:
+  - {fileID: 11400000, guid: ee9b403b8d0ee8942bed3de2a60f1b80, type: 2}
   - {fileID: 11400000, guid: 6886b69bdd1a7f242b7ecdbb9ef9afbf, type: 2}
   - {fileID: 11400000, guid: 7d1e4e2fa8ff3424d8b5331a03a66ed7, type: 2}
   - {fileID: 11400000, guid: ca3f7b2d37f6cc842915103e63129949, type: 2}
-  - {fileID: 11400000, guid: ee9b403b8d0ee8942bed3de2a60f1b80, type: 2}
   - {fileID: 11400000, guid: e39969ae5b249bc40b1a7da5bdfb9d2c, type: 2}
+  - {fileID: 11400000, guid: 72c3f8001f21e4445b6e7abb011ed29a, type: 2}
   assets: []
   characteristics:
-  - rid: 4305865179182923895
+  - rid: 5018258193639015163
   references:
     version: 2
     RefIds:
-    - rid: 4305865179182923895
+    - rid: 5018258193639015163
       type: {class: LBSDirectionedGroup, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         Weights:
+        - target: {fileID: 11400000, guid: ee9b403b8d0ee8942bed3de2a60f1b80, type: 2}
+          weigth: 0.5
         - target: {fileID: 11400000, guid: 6886b69bdd1a7f242b7ecdbb9ef9afbf, type: 2}
           weigth: 0.5
         - target: {fileID: 11400000, guid: 7d1e4e2fa8ff3424d8b5331a03a66ed7, type: 2}
           weigth: 0.5
         - target: {fileID: 11400000, guid: ca3f7b2d37f6cc842915103e63129949, type: 2}
           weigth: 0.5
-        - target: {fileID: 11400000, guid: ee9b403b8d0ee8942bed3de2a60f1b80, type: 2}
-          weigth: 0.5
         - target: {fileID: 11400000, guid: e39969ae5b249bc40b1a7da5bdfb9d2c, type: 2}
+          weigth: 0.5
+        - target: {fileID: 11400000, guid: 72c3f8001f21e4445b6e7abb011ed29a, type: 2}
           weigth: 0.5

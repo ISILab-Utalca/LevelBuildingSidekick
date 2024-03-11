@@ -19,23 +19,23 @@ MonoBehaviour:
   childsBundles: []
   assets:
   - obj: {fileID: 5010330683904878901, guid: 380bdf4a85defb247b2e162dfbfc8a6b, type: 3}
-    probability: 0.609
+    probability: 0.342
   - obj: {fileID: 8037984774169180464, guid: 82766493ec17daf47bc6823f44ecb0df, type: 3}
-    probability: 0.609
+    probability: 0.171
   - obj: {fileID: 7823330301652372566, guid: 30c9668deb603d645b64a69eaa8e776d, type: 3}
-    probability: 0.861
+    probability: 0.539
   - obj: {fileID: 903921997439312597, guid: 390ab74496491684a8d4405a742ee3ee, type: 3}
-    probability: 0.861
+    probability: 0.441
   characteristics:
-  - rid: 4305865179182923893
+  - rid: 5018258193639015164
   references:
     version: 2
     RefIds:
-    - rid: 4305865179182923893
+    - rid: 5018258193639015164
       type: {class: LBSDirection, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         connections:
+        - Road
         - 
-        - 
-        - 
-        - 
+        - Road
+        - Road

@@ -18,11 +18,11 @@ MonoBehaviour:
   icon: {fileID: 2800000, guid: 16a716e143b08f84b80e84df098084d2, type: 3}
   childsBundles: []
   assets:
-  - obj: {fileID: 1576488453971893466, guid: a778b631c6253a04899cb31bad047c81, type: 3}
+  - obj: {fileID: 7405846476849542632, guid: c6308cb7062fac34e8e50600086b12a1, type: 3}
     probability: 1
-  - obj: {fileID: 8783306491908617939, guid: f02116c209ecd9e488fc4d2cd8996133, type: 3}
+  - obj: {fileID: 5202732821079448320, guid: cebfacc247a640945a2c30b442202fca, type: 3}
     probability: 1
-  - obj: {fileID: 4680757731160225450, guid: 0fde05fa0f3321942a21896ff4f0856f, type: 3}
+  - obj: {fileID: 100000, guid: 14125b656fb71fd4d9d65bfe344107ad, type: 3}
     probability: 1
   characteristics:
   - rid: 4305865204711817728
