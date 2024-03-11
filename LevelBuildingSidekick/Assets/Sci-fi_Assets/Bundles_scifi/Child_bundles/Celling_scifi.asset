@@ -18,9 +18,9 @@ MonoBehaviour:
   icon: {fileID: 2800000, guid: 497d733675f57de4ca54d01f9b788a5b, type: 3}
   childsBundles: []
   assets:
-  - obj: {fileID: 0}
+  - obj: {fileID: 4172231169517024291, guid: 35921f162d30dbe4fafe59cb8336de4e, type: 3}
     probability: 0.516
-  - obj: {fileID: 0}
+  - obj: {fileID: 358828988675792148, guid: a69566193652f2e43b04792f15745084, type: 3}
     probability: 0.516
   characteristics:
   - rid: 5018258080767934760

@@ -22,7 +22,7 @@ MonoBehaviour:
     probability: 1
   - obj: {fileID: 3235565414987765396, guid: a620458849218ac4d9ce56dd0d976909, type: 3}
     probability: 1
-  - obj: {fileID: -927199367670048503, guid: ef019180a46774882bdbf566549b7960, type: 3}
+  - obj: {fileID: 4800839809881058091, guid: 9e0a093a368ee4f10b7c6c056f5f7077, type: 3}
     probability: 1
   characteristics:
   - rid: 4305865204711817727
