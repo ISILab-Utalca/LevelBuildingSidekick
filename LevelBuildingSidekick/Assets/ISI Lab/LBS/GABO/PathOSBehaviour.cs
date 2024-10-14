@@ -1,5 +1,6 @@
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Modules;
+using LBS.Bundles;
 using LBS.Components;
 using Newtonsoft.Json;
 using System.Collections;
@@ -8,6 +9,8 @@ using UnityEngine;
 
 namespace ISILab.LBS.Behaviours
 {
+    [System.Serializable]
+    [RequieredModule(typeof(PathOSModule))]
     public class PathOSBehaviour : LBSBehaviour
     {
         // TODO: Implementar los iconos correspondientes a cada enum como paleta en el Behaviour
@@ -37,6 +40,11 @@ namespace ISILab.LBS.Behaviours
         TileMapModule tileMap;
         #endregion
 
+        #region META-FIELDS
+        [JsonIgnore]
+        public Bundle selectedToSet;
+        #endregion
+
         public PathOSBehaviour(Texture2D icon, string name) : base(icon, name)
         {
 
@@ -44,17 +52,33 @@ namespace ISILab.LBS.Behaviours
 
         public override object Clone()
         {
-            throw new System.NotImplementedException();
+            return new PathOSBehaviour(this.Icon, this.Name);
         }
 
         public override void OnAttachLayer(LBSLayer layer)
         {
-            throw new System.NotImplementedException();
+            Owner = layer;
+
+            PathOSModule pathOSModule = Owner.GetModule<PathOSModule>();
         }
 
         public override void OnDetachLayer(LBSLayer layer)
         {
             throw new System.NotImplementedException();
+        }
+
+        public override bool Equals(object obj)
+        {
+            var other = obj as PathOSBehaviour;
+
+            if (other == null) return false;
+
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

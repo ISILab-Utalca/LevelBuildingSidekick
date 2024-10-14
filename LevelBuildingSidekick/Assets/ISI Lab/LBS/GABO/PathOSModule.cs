@@ -9,17 +9,20 @@ namespace ISILab.LBS.Modules
     {
         public override void Clear()
         {
-            throw new System.NotImplementedException();
+            Debug.Log("TERMINAR PathOSModule.Clear!!!");
         }
 
         public override object Clone()
         {
-            throw new System.NotImplementedException();
+            Debug.Log("Ejecutando PathOSModule.Clone() por alguna razon");
+            var clone = new PathOSModule();
+            return clone;
         }
 
         public override bool IsEmpty()
         {
-            throw new System.NotImplementedException();
+            Debug.Log("Ejecutando PathOSModule.IsEmpty() por alguna razon");
+            return true;
         }
     }
 }

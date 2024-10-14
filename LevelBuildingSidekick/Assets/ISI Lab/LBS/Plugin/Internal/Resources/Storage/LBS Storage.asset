@@ -284,6 +284,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 531e915267477db4e886c2e6401c4372, type: 2}
     - {fileID: 11400000, guid: 253f372750fae784d9a42445a8e08fcc, type: 2}
     - {fileID: 11400000, guid: 8205ab67b3e47ed4aa4b97e13d9e6abb, type: 2}
+    - {fileID: 11400000, guid: 20d3010aaea0c8140b6f56990c9808af, type: 2}
   - type: ISILab.LBS.AI.Categorization.MAPElitesPreset
     items:
     - {fileID: 11400000, guid: ee03be004b3a3c84583d4d19c72c48db, type: 2}
