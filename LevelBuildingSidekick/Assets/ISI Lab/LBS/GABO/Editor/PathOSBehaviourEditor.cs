@@ -23,12 +23,19 @@ namespace ISILab.LBS.VisualElements
         private PathOSTagPallete bundlePallete;
         // Target (PathOSBehaviour)
         private PathOSBehaviour _target;
+        #endregion
 
+    #region METHODS
+        public PathOSBehaviourEditor(object target) : base(target)
+        {
+            _target = target as PathOSBehaviour;
 
-        #endregion 
+            CreateVisualElement();
+        }
+
         public override void SetInfo(object target)
         {
-            throw new System.NotImplementedException();
+            _target = target as PathOSBehaviour;
         }
 
         protected override VisualElement CreateVisualElement()
@@ -51,8 +58,9 @@ namespace ISILab.LBS.VisualElements
 
             // Get proper bundles
             List<Bundle> allBundles = LBSAssetsStorage.Instance.Get<Bundle>();
-            List<Bundle> pathOSBundles = (List<Bundle>)allBundles.Where(
-                b => b.GetCharacteristics<LBSPathOSTagsCharacteristic>().Count > 0);
+            List<Bundle> pathOSBundles = allBundles.Where(
+                b => b.GetCharacteristics<LBSPathOSTagsCharacteristic>().Count > 0).ToList();
+
             // If there are no PathOS bundles, abort.
             if (pathOSBundles.Count == 0) { return; }
 
@@ -113,7 +121,8 @@ namespace ISILab.LBS.VisualElements
         //GABO TODO
         public void SetTools(ToolKit toolkit)
         {
-            throw new System.NotImplementedException();
+            return;
         }
     }
+    #endregion
 }
