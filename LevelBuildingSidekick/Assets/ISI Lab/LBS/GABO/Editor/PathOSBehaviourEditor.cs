@@ -42,7 +42,7 @@ namespace ISILab.LBS.VisualElements
         {
             bundlePallete = new PathOSTagPallete();
             Add(bundlePallete);
-            bundlePallete.SetName("PathOS+");
+            bundlePallete.SetName("PathOS+ Tags");
 
             SetBundlePallete();
 

@@ -80,6 +80,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: f537a2c1b820efe44a4da4b0aeb7d0e1, type: 2}
     - {fileID: 11400000, guid: 3f0d3bf72b2180049ac3640000afd840, type: 2}
     - {fileID: 11400000, guid: 6ab3cc14c34eee940a915bcee64fb316, type: 2}
+    - {fileID: 11400000, guid: b65cb0f4f5bb20b43b7e7fee92b6b172, type: 2}
   - type: ISILab.LBS.Components.LBSTag
     items:
     - {fileID: 11400000, guid: ad4b6b7f3c074404d85bd37108f1bd69, type: 2}
@@ -338,3 +339,4 @@ MonoBehaviour:
   - type: ISILab.LBS.Components.PathOSTag
     items:
     - {fileID: 11400000, guid: 1fb0c6b015371654c99a22cc54705f18, type: 2}
+    - {fileID: 11400000, guid: 5308f9ea5a0fde54bb58b2825a28a8ff, type: 2}
