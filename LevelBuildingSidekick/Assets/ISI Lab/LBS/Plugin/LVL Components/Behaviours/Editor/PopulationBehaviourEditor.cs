@@ -18,7 +18,7 @@ namespace ISILab.LBS.VisualElements
     [LBSCustomEditor("PopulationBehaviour", typeof(PopulationBehaviour))]
     public class PopulationBehaviourEditor : LBSCustomEditor, IToolProvider
     {
-        private readonly Color BHcolor = LBSSettings.Instance.view.behavioursColor;
+        //private readonly Color BHcolor = LBSSettings.Instance.view.behavioursColor;
 
         private PopulationBehaviour _target;
 
@@ -85,7 +85,7 @@ namespace ISILab.LBS.VisualElements
         {
             bundlePallete.name = "Bundles";
             var icon = Resources.Load<Texture2D>("Icons/BrushIcon");
-            bundlePallete.SetIcon(icon, BHcolor);
+            bundlePallete.SetIcon(icon, Color.white);
 
             var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
             if (bundles.Count == 0)

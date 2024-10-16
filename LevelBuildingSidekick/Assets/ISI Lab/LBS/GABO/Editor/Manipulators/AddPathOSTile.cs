@@ -14,12 +14,16 @@ namespace ISILab.LBS.Manipulators
 {
     public class AddPathOSTile : LBSManipulator
     {
+        #region FIELDS
         PathOSBehaviour behaviour;
+        #endregion
 
+        #region PROPERTIES
         public Bundle ToSet
         {
             get => behaviour.selectedToSet;
         }
+        #endregion
 
         public AddPathOSTile() : base()
         {

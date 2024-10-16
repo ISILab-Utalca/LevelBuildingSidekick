@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   anchorPosition: 0
-  color: {r: 0, g: 1, b: 0, a: 0}
+  color: {r: 0, g: 1, b: 0, a: 1}
   icon: {fileID: 2800000, guid: 8ae8429f836af284db71942821223a22, type: 3}
   childsBundles: []
   assets: []

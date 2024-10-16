@@ -1,6 +1,7 @@
 using ISILab.LBS.Modules;
 using LBS.Components.TileMap;
 using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,7 +17,10 @@ namespace ISILab.LBS.Modules
         private Dictionary<Vector2Int, LBSTile> _tileDic = new Dictionary<Vector2Int, LBSTile>();
         #endregion
 
-
+        #region EVENTS
+        public event Action<PathOSModule, LBSTile> OnAddTile;
+        public event Action<PathOSModule, LBSTile> OnRemoveTile;
+        #endregion
         //........
 
         public override void Clear()
