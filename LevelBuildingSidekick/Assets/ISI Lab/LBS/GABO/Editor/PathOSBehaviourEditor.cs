@@ -9,6 +9,7 @@ using LBS.VisualElements;
 using ISILab.LBS.Internal;
 using LBS.Bundles;
 using System.Linq;
+using LBS;
 
 namespace ISILab.LBS.VisualElements
 {
@@ -20,6 +21,8 @@ namespace ISILab.LBS.VisualElements
         private PathOSTagPallete bundlePallete;
         // Target (PathOSBehaviour)
         private PathOSBehaviour _target;
+        // Manipulators
+        AddPathOSTile addPathOSTile;
         #endregion
 
     #region METHODS
@@ -113,11 +116,17 @@ namespace ISILab.LBS.VisualElements
 
             bundlePallete.Repaint();
         }
-
         
         //GABO TODO
         public void SetTools(ToolKit toolkit)
         {
+            // Add element tiles
+            Texture2D icon = Resources.Load<Texture2D>("Icons/AddTileBrush");
+            addPathOSTile = new AddPathOSTile();
+            var t1 = new LBSTool(icon, "Paint Tile", addPathOSTile);
+            t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
+            t1.Init(_target.Owner, _target);
+            toolkit.AddTool(t1);
             return;
         }
     }

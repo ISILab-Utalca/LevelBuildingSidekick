@@ -52,7 +52,20 @@ namespace ISILab.LBS.Manipulators
             Undo.RegisterCompleteObjectUndo(x, "Add PathOS Tile");
 
             var corners = behaviour.Owner.ToFixedPosition(StartPosition, EndPosition);
-            //...
+
+            for (int i = corners.Item1.x; i <= corners.Item2.x; i++)
+            {
+                for (int j = corners.Item1.y; j <= corners.Item2.y; j++)
+                {
+                    // GABO TODO TERMINARR: hacer funcion addtile para pathosbehaviour
+                    //population.AddTile(new Vector2Int(i, j), ToSet);
+                }
+            }
+
+            if (EditorGUI.EndChangeCheck())
+            {
+                EditorUtility.SetDirty(x);
+            }
 
 
         }

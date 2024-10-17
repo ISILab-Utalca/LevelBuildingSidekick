@@ -6,7 +6,9 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
 using System.Linq;
-//using ISILab.LBS.Characteristics;
+using LBS.Bundles;
+using ISILab.LBS.Characteristics;
+using ISILab.LBS.Components;
 
 namespace LBS.VisualElements
 {
@@ -162,16 +164,15 @@ namespace LBS.VisualElements
                 // desde su Bundle).
                 // FIX: Realizar la separacion de los tipos de tag en otra parte y recibirlos como
                 // parametro (u otra manera mas elegante).
-                Bundles.Bundle castedOption = option as Bundles.Bundle;
+                Bundle castedOption = option as Bundle;
                 if (castedOption != null)
                 {
-                    ISILab.LBS.Components.PathOSTag t = castedOption.
-                        GetCharacteristics<ISILab.LBS.Characteristics.LBSPathOSTagsCharacteristic>()[0].Value;
-                    if (t.Category == ISILab.LBS.Components.PathOSTag.PathOSCategory.ElementTag)
+                    var t = castedOption.GetCharacteristics<LBSPathOSTagsCharacteristic>()[0].Value;
+                    if (t.Category == PathOSTag.PathOSCategory.ElementTag)
                     {
                         contentElements.Add(view);
                     }
-                    else if (t.Category == ISILab.LBS.Components.PathOSTag.PathOSCategory.EventTag)
+                    else if (t.Category == PathOSTag.PathOSCategory.EventTag)
                     {
                         contentEvents.Add(view);
                     }
@@ -195,7 +196,7 @@ namespace LBS.VisualElements
                 contentEvents.Add(noEvent);
             }
 
-            // Se reestablece la PathOSOptionView seleccionada
+            // Se restablece la PathOSOptionView seleccionada anteriormente
             if (selected != null)
             {
                 var ov = optionViews.ToList().Find(o => o.target.Equals(selected));
