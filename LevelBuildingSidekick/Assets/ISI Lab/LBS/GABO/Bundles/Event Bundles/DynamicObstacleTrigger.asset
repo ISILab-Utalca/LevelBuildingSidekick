@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
+  m_Name: DynamicObstacleTrigger
+  m_EditorClassIdentifier: 
+  type: 0
+  anchorPosition: 0
+  color: {r: 1, g: 0.62614346, b: 0, a: 1}
+  icon: {fileID: 2800000, guid: e8922f5433137a8419727367bb553fc4, type: 3}
+  childsBundles: []
+  assets: []
+  characteristics:
+  - rid: 6390179419553267827
+  references:
+    version: 2
+    RefIds:
+    - rid: 6390179419553267827
+      type: {class: LBSPathOSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        value: {fileID: 11400000, guid: 30736fef261cfd842b5ef46d78ae5dba, type: 2}

@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
 using System.Linq;
+//using ISILab.LBS.Characteristics;
 
 namespace LBS.VisualElements
 {
@@ -21,11 +22,13 @@ namespace LBS.VisualElements
         private Action<PathOSOptionView, object> onSetView;
 
         #region FIELS VIEW
-        private VisualElement content;
+        private VisualElement contentElements;
+        private VisualElement contentEvents;
         private DropdownField dropdownGroup;
         private VisualElement icon;
         private Label nameLabel;
         private Button noElement;
+        private Button noEvent;
         private Button addButton;
         private Button removeButton;
         #endregion
@@ -36,7 +39,7 @@ namespace LBS.VisualElements
         public event Action<object> OnRemoveOption;
         public event Action OnAddOption;
         public event Action OnRepaint;
-        public event Func<object,string> OnSetTooltip;
+        public event Func<object, string> OnSetTooltip;
         #endregion
 
         #region PROPERTIES
@@ -75,8 +78,11 @@ namespace LBS.VisualElements
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("PathOSTagPallete");
             visualTree.CloneTree(this);
 
-            // Content
-            this.content = this.Q<VisualElement>("Content");
+            // Content: Elements
+            this.contentElements = this.Q<VisualElement>("ContentElementTags");
+
+            // Content: Events
+            this.contentEvents = this.Q<VisualElement>("ContentEventTags");
 
             // Change Group
             this.dropdownGroup = this.Q<DropdownField>("DropdownGroup");
@@ -95,6 +101,9 @@ namespace LBS.VisualElements
 
             // NoElement
             this.noElement = this.Q<Button>("NoElement");
+
+            // NoEvent
+            this.noEvent = this.Q<Button>("NoEvent");
 
             // Icon
             this.icon = this.Q<VisualElement>("IconPallete");
@@ -135,30 +144,62 @@ namespace LBS.VisualElements
         {
             OnRepaint?.Invoke();
 
-            content.Clear();
+            // Limpiar contenedores
+            contentElements.Clear();
+            contentEvents.Clear();
 
-            if (options.Length > 0)
+            this.optionViews = new PathOSOptionView[options.Length];
+
+            // Se agregan opciones a contenedores
+            for (int i = 0; i < options.Length; i++)
             {
-                this.optionViews = new PathOSOptionView[options.Length];
+                var option = options[i];
+                var view = new PathOSOptionView(option, OnInternalSelectOption, onSetView);
+                view.tooltip = OnSetTooltip?.Invoke(option);
+                optionViews[i] = view;
 
-                for (int i = 0; i < options.Length; i++)
+                // Se agrega a contenedor correspondiente segun PathOSTag asociado a la opcion (obtenido
+                // desde su Bundle).
+                // FIX: Realizar la separacion de los tipos de tag en otra parte y recibirlos como
+                // parametro (u otra manera mas elegante).
+                Bundles.Bundle castedOption = option as Bundles.Bundle;
+                if (castedOption != null)
                 {
-                    var option = options[i];
-                    var view = new PathOSOptionView(option, OnInternalSelectOption, onSetView);
-                    view.tooltip = OnSetTooltip?.Invoke(option);
-                    optionViews[i] = view;
-                    content.Add(view);
+                    ISILab.LBS.Components.PathOSTag t = castedOption.
+                        GetCharacteristics<ISILab.LBS.Characteristics.LBSPathOSTagsCharacteristic>()[0].Value;
+                    if (t.Category == ISILab.LBS.Components.PathOSTag.PathOSCategory.ElementTag)
+                    {
+                        contentElements.Add(view);
+                    }
+                    else if (t.Category == ISILab.LBS.Components.PathOSTag.PathOSCategory.EventTag)
+                    {
+                        contentEvents.Add(view);
+                    }
+                }
+                // Si NO es convertible a bundle, arroja advertencia.
+                else
+                {
+                    Debug.LogWarning("PathOSTagPallete.Repaint():" +
+                        "Elemento no convertible a Bundle encontrado en opciones!");
                 }
             }
-            else
+
+            // Si un contenedor queda vacio, se le agrega su boton "vacio"
+            // correspondiente. 
+            if (contentElements.childCount == 0)
             {
-                content.Add(noElement);
+                contentElements.Add(noElement);
+            }
+            if (contentEvents.childCount == 0)
+            {
+                contentEvents.Add(noEvent);
             }
 
-            if(selected != null)
+            // Se reestablece la PathOSOptionView seleccionada
+            if (selected != null)
             {
                 var ov = optionViews.ToList().Find(o => o.target.Equals(selected));
-                if(ov != null)
+                if (ov != null)
                     ov.SetSelected(true);
             }
         }

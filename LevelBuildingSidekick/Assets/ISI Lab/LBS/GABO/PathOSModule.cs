@@ -21,6 +21,8 @@ namespace ISILab.LBS.Modules
         public event Action<PathOSModule, LBSTile> OnAddTile;
         public event Action<PathOSModule, LBSTile> OnRemoveTile;
         #endregion
+
+
         //........
 
         public override void Clear()

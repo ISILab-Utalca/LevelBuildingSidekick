@@ -9,6 +9,12 @@ namespace ISILab.LBS.Components
     [System.Serializable]
     public class PathOSTag : ScriptableObject
     {
+        public enum PathOSCategory
+        {
+            ElementTag,
+            EventTag
+        }
+
         #region FIELDS
         [ReadOnly]
         public string label;
@@ -16,6 +22,8 @@ namespace ISILab.LBS.Components
         protected Texture2D icon;
         [SerializeField]
         protected Color color;
+        [SerializeField]
+        protected PathOSCategory category;
         #endregion
 
         #region PROPERTIES
@@ -57,6 +65,17 @@ namespace ISILab.LBS.Components
                 OnChangeColor?.Invoke(this);
             }
         }
+
+        public PathOSCategory Category
+        {
+            get => category;
+            set
+            {
+                if (category == value) return;
+                category = value;
+                OnChangeCategory?.Invoke(this);
+            }
+        }
         #endregion
 
         #region EVENTS
@@ -64,6 +83,7 @@ namespace ISILab.LBS.Components
         public PathOSTagEvent OnChangeText;
         public PathOSTagEvent OnChangeColor;
         public PathOSTagEvent OnChangeIcon;
+        public PathOSTagEvent OnChangeCategory;
         #endregion
 
         #region METHODS
