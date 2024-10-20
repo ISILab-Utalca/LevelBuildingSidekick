@@ -110,7 +110,7 @@ namespace ISILab.LBS.VisualElements
             {
                 var bundle = (Bundle)option;
                 optionView.Label = bundle.name;
-                optionView.Color = bundle.Color;
+                optionView.Color = bundle.GetCharacteristics<LBSPathOSTagsCharacteristic>()[0].Value.Color;
                 optionView.Icon = bundle.Icon;
             });
 

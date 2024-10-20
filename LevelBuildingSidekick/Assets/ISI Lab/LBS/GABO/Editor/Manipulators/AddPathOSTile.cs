@@ -1,5 +1,6 @@
 using ISILab.AI.Optimization.Populations;
 using ISILab.LBS.Behaviours;
+using ISILab.LBS.Characteristics;
 using ISILab.LBS.VisualElements;
 using LBS.Bundles;
 using LBS.Components;
@@ -47,21 +48,22 @@ namespace ISILab.LBS.Manipulators
                 return;
             }
 
+            // Inicio logica UNDO
             var x = LBSController.CurrentLevel;
             EditorGUI.BeginChangeCheck();
             Undo.RegisterCompleteObjectUndo(x, "Add PathOS Tile");
 
+            // Agregar PathOSTiles mediante PathOSBehaviour
             var corners = behaviour.Owner.ToFixedPosition(StartPosition, EndPosition);
-
             for (int i = corners.Item1.x; i <= corners.Item2.x; i++)
             {
                 for (int j = corners.Item1.y; j <= corners.Item2.y; j++)
                 {
-                    // GABO TODO TERMINARR: hacer funcion addtile para pathosbehaviour
-                    //population.AddTile(new Vector2Int(i, j), ToSet);
+                    behaviour.AddTile(ToSet.GetCharacteristics<LBSPathOSTagsCharacteristic>()[0].Value, i, j);
                 }
             }
 
+            // Final logica UNDO
             if (EditorGUI.EndChangeCheck())
             {
                 EditorUtility.SetDirty(x);

@@ -80,10 +80,10 @@ namespace LBS.VisualElements
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("PathOSTagPallete");
             visualTree.CloneTree(this);
 
-            // Content: Elements
+            // Content: Element Tags
             this.contentElements = this.Q<VisualElement>("ContentElementTags");
 
-            // Content: Events
+            // Content: Event Tags
             this.contentEvents = this.Q<VisualElement>("ContentEventTags");
 
             // Change Group
@@ -162,8 +162,6 @@ namespace LBS.VisualElements
 
                 // Se agrega a contenedor correspondiente segun PathOSTag asociado a la opcion (obtenido
                 // desde su Bundle).
-                // FIX: Realizar la separacion de los tipos de tag en otra parte y recibirlos como
-                // parametro (u otra manera mas elegante).
                 Bundle castedOption = option as Bundle;
                 if (castedOption != null)
                 {

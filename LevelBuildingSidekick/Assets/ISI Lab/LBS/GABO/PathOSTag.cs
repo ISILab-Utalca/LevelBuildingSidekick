@@ -16,8 +16,8 @@ namespace ISILab.LBS.Components
         }
 
         #region FIELDS
-        [ReadOnly]
-        public string label;
+        [SerializeField, ReadOnly]
+        private string label;
         [SerializeField]
         protected Texture2D icon;
         [SerializeField]
@@ -94,9 +94,24 @@ namespace ISILab.LBS.Components
             this.icon = icon;
         }
 
+        public override bool Equals(object obj)
+        {
+            var other = obj as PathOSTag;
+            if (other == null) return false;
+            if (this.label != other.label) return false;
+            if (this.color != other.color) return false;
+            if (this.icon != other.icon) return false;
+            if (this.category != other.category) return false;
+            return true;
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
         private void OnValidate()
         {
-            label = this.name;
+            this.label = this.name;
         }
         #endregion
     }
