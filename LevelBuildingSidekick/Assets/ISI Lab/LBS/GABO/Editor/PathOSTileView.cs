@@ -1,4 +1,5 @@
 using ISILab.Commons.Utility.Editor;
+using ISILab.LBS.Components;
 using System.Collections;
 using System.Collections.Generic;
 //using System.Drawing;
@@ -32,14 +33,15 @@ public class PathOSTileView : GraphElement
 
         background = this.Q<VisualElement>(name: "Background");
         elementTag = this.Q<VisualElement>(name: "ElementTag");
-        dynamicTagObject = this.Q<VisualElement>(name:"DynamicTagObject");
-        dynamicTagTrigger = this.Q<VisualElement>(name:"DynamicTagTrigger");
-        dynamicObstacleObject = this.Q<VisualElement>(name:"DynamicObstacleObject");
-        dynamicObstacleTrigger = this.Q<VisualElement>(name:"DynamicObstacleTrigger");
+        dynamicTagObject = this.Q<VisualElement>(name: "DynamicTagObject");
+        dynamicTagTrigger = this.Q<VisualElement>(name: "DynamicTagTrigger");
+        dynamicObstacleObject = this.Q<VisualElement>(name: "DynamicObstacleObject");
+        dynamicObstacleTrigger = this.Q<VisualElement>(name: "DynamicObstacleTrigger");
 
         // Set data
         SetColor(tile.Tag.Color);
         SetImage(tile.Tag.Icon);
+        SetEvents(tile);
     }
     #endregion
 
@@ -52,6 +54,21 @@ public class PathOSTileView : GraphElement
     public void SetImage(Texture2D image)
     {
         elementTag.style.backgroundImage = image;
+    }
+
+    // Modifica opacidad de elementos visuales asoc. a Event Tags, segun info recibida del eventTile.
+    public void SetEvents(PathOSTile tile)
+    {
+        // Chequeo nulo
+        if (tile == null) { Debug.LogWarning("PathOSTileView.SetEvents(): Tile nulo!"); return; }
+        // Chequeo tag nulo
+        if (tile.Tag == null) { Debug.LogWarning("PathOSTileView.SetEvents(): Tile tiene tag nulo!"); }
+
+        // Setear opacidad de event tags segun info del tile
+        dynamicTagObject.style.opacity = tile.IsDynamicTagObject ? 1f : 0f;
+        dynamicTagTrigger.style.opacity = tile.IsDynamicTagTrigger ? 1f : 0f;
+        dynamicObstacleObject.style.opacity = tile.IsDynamicObstacleObject ? 1f : 0f;
+        dynamicObstacleTrigger.style.opacity = tile.IsDynamicObstacleTrigger ? 1f : 0f;
     }
     #endregion
 }

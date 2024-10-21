@@ -15,15 +15,24 @@ public class PathOSTile
     private int x, y;
     [SerializeField, JsonRequired]
     private PathOSTag tag;
+    // Booleanos para Event Tags
+    [SerializeField, JsonRequired]
+    private bool isDynamicTagObject = false;
+    [SerializeField, JsonRequired]
+    private bool isDynamicTagTrigger = false;
+    [SerializeField, JsonRequired]
+    private bool isDynamicObstacleObject = false;
+    [SerializeField, JsonRequired]
+    private bool isDynamicObstacleTrigger = false;
     //private List<PathOSTag> tags = new List<PathOSTag>();
     #endregion
 
     #region CONSTRUCTORS
     public PathOSTile(int x, int y, PathOSTag tag = null)
     {
-        this.X = x;
-        this.Y = y;
-        if (tag != null) { this.Tag = tag; }
+        this.x = x;
+        this.y = y;
+        if (tag != null) { this.tag = tag; }
     }
     #endregion
 
@@ -31,6 +40,10 @@ public class PathOSTile
     public int X { get { return x; } set { x = value; } }
     public int Y { get { return y; } set { y = value; } }
     public PathOSTag Tag { get { return tag; } set { tag = value; } }
+    public bool IsDynamicTagObject { get {  return isDynamicTagObject; } set { isDynamicTagObject = value; } }
+    public bool IsDynamicTagTrigger { get {  return isDynamicTagTrigger; } set { isDynamicTagTrigger = value; } }
+    public bool IsDynamicObstacleObject { get {  return isDynamicObstacleObject; } set { isDynamicObstacleObject = value; } }
+    public bool IsDynamicObstacleTrigger { get {  return isDynamicObstacleTrigger; } set { isDynamicObstacleTrigger = value; } }
     //public PathOSTag Tags { get { return tags; } set { tags = value; } }
     #endregion
 

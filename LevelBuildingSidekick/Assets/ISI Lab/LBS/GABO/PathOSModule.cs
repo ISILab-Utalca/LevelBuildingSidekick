@@ -19,6 +19,7 @@ namespace ISILab.LBS.Modules
 
         #region EVENTS
         public event Action<PathOSModule, PathOSTile> OnAddTile;
+        public event Action<PathOSModule, PathOSTile> OnApplyEventTile;
         public event Action<PathOSModule, PathOSTile> OnRemoveTile;
         #endregion
 
@@ -40,6 +41,47 @@ namespace ISILab.LBS.Modules
             // Eventos
             OnAddTile?.Invoke(this, tile);
             OnChanged?.Invoke(this, null, new List<object>() { tile });
+        }
+
+        // Para aplicar Event Tiles sobre un tile existente.
+        public void ApplyEventTile(PathOSTile eventTile)
+        {
+            // Chequeo nulo
+            if (eventTile == null) { Debug.LogWarning("PathOSModule.ApplyEventTile(): Tile nulo!"); return; }
+            // Chequeo tag nulo
+            if (eventTile.Tag == null) { Debug.LogWarning("PathOSModule.ApplyEventTile(): Tile tiene tag nulo!"); }
+            // Chequeo Event Tile
+            if (eventTile.Tag.Category != PathOSTag.PathOSCategory.EventTag)
+            {
+                Debug.LogWarning("PathOSModule.ApplyEventTile(): Tile dado no contiene un Event Tag!"); return;
+            }
+
+            // Si existe Tile con Element Tag en la posicion, activa el booleano correspondiente al Event Tag.
+            var t = GetTile(eventTile.X, eventTile.Y);
+            if (t != null)
+            {
+                PathOSTag eventTag = eventTile.Tag;
+                switch (eventTag.Label)
+                {
+                    case "DynamicTagObject":
+                        t.IsDynamicTagObject = !t.IsDynamicTagObject; break;
+                    case "DynamicTagTrigger":
+                        t.IsDynamicTagTrigger = !t.IsDynamicTagTrigger; break;
+                    case "DynamicObstacleObject":
+                        t.IsDynamicObstacleObject = !t.IsDynamicObstacleObject; break;
+                    case "DynamicObstacleTrigger":
+                        t.IsDynamicObstacleTrigger = !t.IsDynamicObstacleTrigger; break;
+                    default:
+                        Debug.LogWarning("Tile no contiene un Event Tag valido!"); return;
+                }
+            }
+            else
+            {
+                Debug.LogWarning("No existe en aquella posicion un tile donde colocar Event Tags.");
+            }
+
+            OnChanged?.Invoke(this, null, new List<object>() { eventTile });
+            OnApplyEventTile?.Invoke(this, eventTile);
         }
 
         public void RemoveTile(PathOSTile tile)

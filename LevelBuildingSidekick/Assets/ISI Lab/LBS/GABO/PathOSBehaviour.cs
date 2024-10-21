@@ -58,8 +58,18 @@ namespace ISILab.LBS.Behaviours
         public void AddTile(PathOSTag tag, int x, int y)
         {
             var tile = new PathOSTile(x, y, tag);
-            module.AddTile(tile);
+
+            // Add Tile or ApplyEventTile segun defina el tag asociado
+            if (tag.Category == PathOSTag.PathOSCategory.ElementTag)
+            {
+                module.AddTile(tile);
+            }
+            else if (tag.Category == PathOSTag.PathOSCategory.EventTag)
+            {
+                module.ApplyEventTile(tile);
+            }
         }
+
         public override object Clone()
         {
             return new PathOSBehaviour(this.Icon, this.Name);
