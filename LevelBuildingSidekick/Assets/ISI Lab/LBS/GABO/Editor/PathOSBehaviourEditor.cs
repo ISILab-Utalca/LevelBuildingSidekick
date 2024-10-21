@@ -79,7 +79,7 @@ namespace ISILab.LBS.VisualElements
             bundlePallete.OnSelectOption += (selected) =>
             {
                 _target.selectedToSet = selected as Bundle;
-                //ToolKit.Instance.SetActive("Paint Tile");
+                ToolKit.Instance.SetActive("Paint Tile");
             };
 
             // OnAdd option event
