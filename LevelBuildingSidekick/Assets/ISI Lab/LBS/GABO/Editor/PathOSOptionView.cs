@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 using ISILab.Extensions;
 
 
-namespace LBS.VisualElements
+namespace ISILab.LBS.VisualElements
 {
     public class PathOSOptionView : VisualElement
     {

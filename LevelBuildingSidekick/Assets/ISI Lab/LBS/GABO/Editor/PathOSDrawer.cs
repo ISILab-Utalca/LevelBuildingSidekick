@@ -1,5 +1,6 @@
 using ISILab.AI.Optimization.Populations;
 using ISILab.LBS.Behaviours;
+using ISILab.LBS.Modules;
 using ISILab.LBS.VisualElements;
 using ISILab.LBS.VisualElements.Editor;
 using LBS.Settings;

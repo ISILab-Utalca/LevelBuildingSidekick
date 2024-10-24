@@ -1,5 +1,6 @@
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Components;
+using ISILab.LBS.Modules;
 using System.Collections;
 using System.Collections.Generic;
 //using System.Drawing;
@@ -8,67 +9,70 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 // GABO TODO: TERMINARRR
-public class PathOSTileView : GraphElement
+namespace ISILab.LBS.VisualElements
 {
-    #region FIELDS
-    private static VisualTreeAsset view;
-    // Icono del tag
-    VisualElement background;
-    VisualElement elementTag;
-    // Event tags
-    VisualElement dynamicTagObject;
-    VisualElement dynamicTagTrigger;
-    VisualElement dynamicObstacleObject;
-    VisualElement dynamicObstacleTrigger;
-    #endregion
-
-    #region CONSTRUCTORS
-    public PathOSTileView(PathOSTile tile)
+    public class PathOSTileView : GraphElement
     {
-        if (view == null)
+        #region FIELDS
+        private static VisualTreeAsset view;
+        // Icono del tag
+        VisualElement background;
+        VisualElement elementTag;
+        // Event tags
+        VisualElement dynamicTagObject;
+        VisualElement dynamicTagTrigger;
+        VisualElement dynamicObstacleObject;
+        VisualElement dynamicObstacleTrigger;
+        #endregion
+
+        #region CONSTRUCTORS
+        public PathOSTileView(PathOSTile tile)
         {
-            view = DirectoryTools.GetAssetByName<VisualTreeAsset>("PathOSTileView");
+            if (view == null)
+            {
+                view = DirectoryTools.GetAssetByName<VisualTreeAsset>("PathOSTileView");
+            }
+            view.CloneTree(this);
+
+            background = this.Q<VisualElement>(name: "Background");
+            elementTag = this.Q<VisualElement>(name: "ElementTag");
+            dynamicTagObject = this.Q<VisualElement>(name: "DynamicTagObject");
+            dynamicTagTrigger = this.Q<VisualElement>(name: "DynamicTagTrigger");
+            dynamicObstacleObject = this.Q<VisualElement>(name: "DynamicObstacleObject");
+            dynamicObstacleTrigger = this.Q<VisualElement>(name: "DynamicObstacleTrigger");
+
+            // Set data
+            SetColor(tile.Tag.Color);
+            SetImage(tile.Tag.Icon);
+            SetEvents(tile);
         }
-        view.CloneTree(this);
+        #endregion
 
-        background = this.Q<VisualElement>(name: "Background");
-        elementTag = this.Q<VisualElement>(name: "ElementTag");
-        dynamicTagObject = this.Q<VisualElement>(name: "DynamicTagObject");
-        dynamicTagTrigger = this.Q<VisualElement>(name: "DynamicTagTrigger");
-        dynamicObstacleObject = this.Q<VisualElement>(name: "DynamicObstacleObject");
-        dynamicObstacleTrigger = this.Q<VisualElement>(name: "DynamicObstacleTrigger");
+        #region METHODS
+        public void SetColor(Color color)
+        {
+            background.style.backgroundColor = color;
+        }
 
-        // Set data
-        SetColor(tile.Tag.Color);
-        SetImage(tile.Tag.Icon);
-        SetEvents(tile);
+        public void SetImage(Texture2D image)
+        {
+            elementTag.style.backgroundImage = image;
+        }
+
+        // Modifica opacidad de elementos visuales asoc. a Event Tags, segun info recibida del eventTile.
+        public void SetEvents(PathOSTile tile)
+        {
+            // Chequeo nulo
+            if (tile == null) { Debug.LogWarning("PathOSTileView.SetEvents(): Tile nulo!"); return; }
+            // Chequeo tag nulo
+            if (tile.Tag == null) { Debug.LogWarning("PathOSTileView.SetEvents(): Tile tiene tag nulo!"); }
+
+            // Setear opacidad de event tags segun info del tile
+            dynamicTagObject.style.opacity = tile.IsDynamicTagObject ? 1f : 0f;
+            dynamicTagTrigger.style.opacity = tile.IsDynamicTagTrigger ? 1f : 0f;
+            dynamicObstacleObject.style.opacity = tile.IsDynamicObstacleObject ? 1f : 0f;
+            dynamicObstacleTrigger.style.opacity = tile.IsDynamicObstacleTrigger ? 1f : 0f;
+        }
+        #endregion
     }
-    #endregion
-
-    #region METHODS
-    public void SetColor(Color color)
-    {
-        background.style.backgroundColor = color;
-    }
-
-    public void SetImage(Texture2D image)
-    {
-        elementTag.style.backgroundImage = image;
-    }
-
-    // Modifica opacidad de elementos visuales asoc. a Event Tags, segun info recibida del eventTile.
-    public void SetEvents(PathOSTile tile)
-    {
-        // Chequeo nulo
-        if (tile == null) { Debug.LogWarning("PathOSTileView.SetEvents(): Tile nulo!"); return; }
-        // Chequeo tag nulo
-        if (tile.Tag == null) { Debug.LogWarning("PathOSTileView.SetEvents(): Tile tiene tag nulo!"); }
-
-        // Setear opacidad de event tags segun info del tile
-        dynamicTagObject.style.opacity = tile.IsDynamicTagObject ? 1f : 0f;
-        dynamicTagTrigger.style.opacity = tile.IsDynamicTagTrigger ? 1f : 0f;
-        dynamicObstacleObject.style.opacity = tile.IsDynamicObstacleObject ? 1f : 0f;
-        dynamicObstacleTrigger.style.opacity = tile.IsDynamicObstacleTrigger ? 1f : 0f;
-    }
-    #endregion
 }

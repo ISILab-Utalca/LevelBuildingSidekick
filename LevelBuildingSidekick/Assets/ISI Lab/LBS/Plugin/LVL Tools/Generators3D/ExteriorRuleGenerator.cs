@@ -19,7 +19,7 @@ namespace ISILab.LBS.Generators
     {
         private Tuple<LBSDirection, int> GetBundle(LBSDirectionedGroup group, string[] conections)
         {
-            // Get connections
+            // Get obstacles
             var connections = group.GetDirs();
 
             foreach (var connection in connections)

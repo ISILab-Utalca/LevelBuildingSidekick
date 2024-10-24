@@ -10,7 +10,7 @@ using LBS.Bundles;
 using ISILab.LBS.Characteristics;
 using ISILab.LBS.Components;
 
-namespace LBS.VisualElements
+namespace ISILab.LBS.VisualElements
 {
     public class PathOSTagPallete : VisualElement
     {
