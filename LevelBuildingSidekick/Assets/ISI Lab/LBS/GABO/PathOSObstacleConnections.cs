@@ -18,7 +18,7 @@ namespace ISILab.LBS.Components
         #endregion
 
         #region FIELDS
-        private PathOSTile obstacleTriggertile;
+        private PathOSTile obstacleTriggerTile;
         private List<(PathOSTile, Category)> obstacles;
         #endregion
 
@@ -35,17 +35,22 @@ namespace ISILab.LBS.Components
                 return;
             }
 
-            obstacleTriggertile = trigger;
+            obstacleTriggerTile = trigger;
             this.obstacles = obstacles;
         }
         #endregion
 
         #region PROPERTIES
-        public PathOSTile ObstacleTriggertile { get => obstacleTriggertile; set => obstacleTriggertile = value; }
+        public PathOSTile ObstacleTriggertile { get => obstacleTriggerTile; set => obstacleTriggerTile = value; }
         public List<(PathOSTile, Category)> Obstacles { get => obstacles; set => obstacles = value; }
         #endregion
 
         #region METHODS
+        public (PathOSTile, Category) GetObstacle(int x, int y)
+        {
+            return obstacles.Find(o => o.Item1.Position == new Vector2Int(x, y));
+        }
+
         public void AddObstacle(PathOSTile obstacleTile, Category category)
         {
             // Tile tipo "obstaculo" check
@@ -58,6 +63,7 @@ namespace ISILab.LBS.Components
             if (obstacles.Exists(o => obstacleTile.Position == o.Item1.Position))
             {
                 Debug.LogWarning("PathOSObstacleConnection.AddObstacle(): Obstaculo ya existe!");
+                return;
             }
 
             obstacles.Add((obstacleTile, category));
@@ -80,7 +86,7 @@ namespace ISILab.LBS.Components
         {
             string s = "";
             s += base.ToString();
-            s += $"DynamicObstacleTrigger: {obstacleTriggertile.Tag.Label} {obstacleTriggertile.Position}\n";
+            s += $"DynamicObstacleTrigger: {obstacleTriggerTile.Tag.Label} {obstacleTriggerTile.Position}\n";
             s += "DynamicObstacleObjects asociados:\n";
             foreach(var obstacle in obstacles)
             {
