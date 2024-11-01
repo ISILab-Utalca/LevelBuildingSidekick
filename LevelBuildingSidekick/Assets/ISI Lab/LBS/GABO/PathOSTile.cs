@@ -42,13 +42,13 @@ namespace ISILab.LBS.Modules
         public bool IsDynamicTagObject { get { return isDynamicTagObject; } set { isDynamicTagObject = value; } }
         public bool IsDynamicTagTrigger
         {
-            get { return dynamicTagTiles == null; }
+            get { return dynamicTagTiles != null; }
             set
             {
                 if (value)
                 {
                     // Solo instanciar si no existe
-                    if (dynamicTagTiles != null)
+                    if (dynamicTagTiles == null)
                     {
                         dynamicTagTiles = new(this, new());
                     }
@@ -68,7 +68,7 @@ namespace ISILab.LBS.Modules
                 if (value)
                 {
                     // Solo instanciar si no existe
-                    if (obstacles != null)
+                    if (obstacles == null)
                     {
                         obstacles = new(this, new());
                     }

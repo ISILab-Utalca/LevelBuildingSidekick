@@ -46,7 +46,7 @@ namespace ISILab.LBS.Modules
             // Chequeo nulo
             if (eventTile == null) { Debug.LogWarning("PathOSModule.ApplyEventTile(): Tile nulo!"); return; }
             // Chequeo tag nulo
-            if (eventTile.Tag == null) { Debug.LogWarning("PathOSModule.ApplyEventTile(): Tile tiene tag nulo!"); }
+            if (eventTile.Tag == null) { Debug.LogWarning("PathOSModule.ApplyEventTile(): Tile tiene tag nulo!"); return; }
             // Chequeo Event Tile
             if (eventTile.Tag.Category != PathOSTag.PathOSCategory.EventTag)
             {
@@ -74,7 +74,7 @@ namespace ISILab.LBS.Modules
             }
             else
             {
-                Debug.LogWarning("No existe en aquella posicion un tile donde colocar Event Tags.");
+                Debug.LogWarning("No existe en aquella posicion un tile donde colocar Event Tags."); return;
             }
 
             OnChanged?.Invoke(this, null, new List<object>() { eventTile });
@@ -95,15 +95,16 @@ namespace ISILab.LBS.Modules
                 OnRemoveTile?.Invoke(this, tile);
                 OnChanged?.Invoke(this, null, new List<object>() { tile });
             }
+            // Chequeo de tile no existente en nivel
             else
             {
-                Debug.LogWarning("PathOSModule.RemoveTile(): No se encuentra el tile a remover!");
+                Debug.LogWarning("PathOSModule.RemoveTile(): No se encuentra el tile a remover!"); return;
             }
         }
 
         public PathOSTile GetTile(int x, int y)
         {
-            if (tiles.Count <= 0)
+            if (tiles.Count == 0)
                 return null;
             return tiles.Find(t => t.X == x && t.Y == y);
         }

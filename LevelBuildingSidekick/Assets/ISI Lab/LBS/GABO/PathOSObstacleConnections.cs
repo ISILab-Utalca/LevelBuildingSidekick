@@ -19,14 +19,14 @@ namespace ISILab.LBS.Components
 
         #region FIELDS
         private PathOSTile obstacleTriggerTile;
-        private List<(PathOSTile, Category)> obstacles;
+        private List<(PathOSTile, Category)> obstacles = new();
         #endregion
 
         #region CONSTRUCTORS
-        public PathOSObstacleConnections(PathOSTile trigger, List<(PathOSTile, Category)> obstacles)
+        public PathOSObstacleConnections(PathOSTile trigger, List<(PathOSTile, Category)> obs)
         {
             // Obstacle tile check
-            foreach (var obstacle in obstacles)
+            foreach (var obstacle in obs)
             {
                 if (!obstacle.Item1.IsDynamicObstacleObject)
                 {
@@ -36,7 +36,7 @@ namespace ISILab.LBS.Components
             }
 
             obstacleTriggerTile = trigger;
-            this.obstacles = obstacles;
+            this.obstacles = obs;
         }
         #endregion
 

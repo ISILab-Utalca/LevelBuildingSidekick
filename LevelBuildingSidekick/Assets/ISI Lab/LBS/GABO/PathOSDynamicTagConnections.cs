@@ -12,14 +12,14 @@ namespace ISILab.LBS.Components
     {
         #region FIELDS
         private PathOSTile tagTriggerTile;
-        private List<(PathOSTile, PathOSTag)> dynamicTagObjects;
+        private List<(PathOSTile, PathOSTag)> dynamicTagObjects = new();
         #endregion
 
         #region CONSTRUCTORS
-        public PathOSDynamicTagConnections(PathOSTile trigger, List<(PathOSTile, PathOSTag)> dynamicTags)
+        public PathOSDynamicTagConnections(PathOSTile trigger, List<(PathOSTile, PathOSTag)> dynamicTagObjs)
         {
             // Dynamic Tag Object check
-            foreach (var dynamicTagObject in dynamicTagObjects)
+            foreach (var dynamicTagObject in dynamicTagObjs)
             {
                 if (!dynamicTagObject.Item1.IsDynamicTagObject)
                 {
@@ -29,7 +29,7 @@ namespace ISILab.LBS.Components
             }
 
             tagTriggerTile = trigger;
-            this.dynamicTagObjects = dynamicTags;
+            this.dynamicTagObjects = dynamicTagObjs;
         }
         #endregion
 

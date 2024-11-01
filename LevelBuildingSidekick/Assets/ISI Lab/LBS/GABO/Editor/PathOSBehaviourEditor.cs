@@ -114,13 +114,15 @@ namespace ISILab.LBS.VisualElements
                 optionView.Icon = bundle.Icon;
             });
 
+            bundlePallete.OnRepaint += () => { bundlePallete.Selected = _target.selectedToSet; };
+
             bundlePallete.Repaint();
         }
         
         //GABO TODO
         public void SetTools(ToolKit toolkit)
         {
-            // Add element tiles
+            // Add tiles
             Texture2D icon = Resources.Load<Texture2D>("Icons/AddTileBrush");
             addPathOSTile = new AddPathOSTile();
             var t1 = new LBSTool(icon, "Paint Tile", addPathOSTile);
