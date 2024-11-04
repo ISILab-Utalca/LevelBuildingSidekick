@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/ISI%20Lab/LBS/GABO/Editor/PathOSStyles.uss?fileID=7433441132597879392&amp;guid=4aa42835fe956d24aa3a57e6d43a0e83&amp;type=3#PathOSStyles" />
+    <ui:VisualElement name="HorizontalContainer" style="flex-grow: 1; flex-direction: row;">
+        <ui:VisualElement name="Icon" style="background-color: rgba(0, 0, 0, 0); background-image: resource(&apos;Icons/PathOSPlaceholderIcon&apos;); -unity-background-scale-mode: scale-to-fit; width: 25%;" />
+        <ui:Label tabindex="-1" text="Position" display-tooltip-when-elided="true" name="PositionLabel" class="TriggerInfoLabel" style="flex-grow: 1;" />
+        <ui:Label tabindex="-1" text="State" display-tooltip-when-elided="true" name="StateLabel" class="TriggerInfoLabel" style="flex-grow: 1;" />
+        <ui:Button text="Remove" display-tooltip-when-elided="true" name="RemoveButton" class="TriggerInfoLabel" style="flex-grow: 1;" />
+    </ui:VisualElement>
+</ui:UXML>
