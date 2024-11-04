@@ -39,7 +39,6 @@ namespace ISILab.LBS.Manipulators
             layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
         }
 
-        //GABO TODO: TERMINAR
         protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
         {
             if (ToSet == null)
@@ -48,6 +47,7 @@ namespace ISILab.LBS.Manipulators
                 return;
             }
 
+            //GABO TODO: ARREGLAR LOGICA UNDO
             // Inicio logica UNDO
             var x = LBSController.CurrentLevel;
             EditorGUI.BeginChangeCheck();

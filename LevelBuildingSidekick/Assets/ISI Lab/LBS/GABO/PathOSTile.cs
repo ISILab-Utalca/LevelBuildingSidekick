@@ -1,5 +1,6 @@
 using ISILab.LBS.Components;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using UnityEngine;
 
 // GABO TODO: FALTA VER COMO TRATAR ELEMENT TAGS Y EVENT TAGS.
@@ -81,8 +82,17 @@ namespace ISILab.LBS.Modules
         }
         #endregion
 
-        // GABO TODO: COMPLETAR FUNCIONES NECESARIAS
         #region METHODS
+        public List<(PathOSTile, PathOSObstacleConnections.Category)> GetObstacles()
+        {
+            return obstacles.Obstacles;
+        }
+
+        public List<(PathOSTile, PathOSTag)> GetDynamicTags()
+        {
+            return dynamicTagTiles.DynamicTagObjects;
+        }
+
         public (PathOSTile, PathOSObstacleConnections.Category) GetObstacle(int x, int y)
         {
             return obstacles.GetObstacle(x, y);

@@ -49,19 +49,18 @@ namespace ISILab.LBS.VisualElements
             return this;
         }
 
-        // GABO TODO: Terminarrrrrr
         private void SetBundlePallete()
         {
             bundlePallete.name = "Bundles";
             Texture2D icon = Resources.Load<Texture2D>("Icons/TinyIconPathOSModule16x16");
             bundlePallete.SetIcon(icon, Color.white);
 
-            // Get proper bundles
+            // Obtener Bundles PathOS
             List<Bundle> allBundles = LBSAssetsStorage.Instance.Get<Bundle>();
             List<Bundle> pathOSBundles = allBundles.Where(
                 b => b.GetCharacteristics<LBSPathOSTagsCharacteristic>().Count > 0).ToList();
 
-            // If there are no PathOS bundles, abort.
+            // Si no hay PathOS Bundles, abortar.
             if (pathOSBundles.Count == 0) { return; }
 
             // Generalizacion de Bundles a "object" (ej.: Para usar en el objeto pallete, y los option views)
@@ -75,7 +74,6 @@ namespace ISILab.LBS.VisualElements
             bundlePallete.ShowGroups = false;
 
             // OnSelect event
-            // GABO TODO: Agregar herramienta propia cuando este hecha
             bundlePallete.OnSelectOption += (selected) =>
             {
                 _target.selectedToSet = selected as Bundle;
@@ -119,7 +117,7 @@ namespace ISILab.LBS.VisualElements
             bundlePallete.Repaint();
         }
         
-        //GABO TODO
+        //GABO TODO: Agregar herramientas faltantes
         public void SetTools(ToolKit toolkit)
         {
             // Add tiles

@@ -84,8 +84,6 @@ namespace ISILab.LBS.Behaviours
             throw new System.NotImplementedException();
         }
 
-        // GABO TODO: PARA QUE SE USA, en PopulationBehaviour? Que pasa con copias en dist. capas?
-        // No es peligroso que para la igualdad baste que sean de la misma clase?
         public override bool Equals(object obj)
         {
             var other = obj as PathOSBehaviour;

@@ -1,3 +1,4 @@
+using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.VisualElements;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,9 +15,23 @@ namespace ISILab.LBS.VisualElements
         #endregion
 
         #region FIELDS
-
         #endregion
 
+        #region FIELDS VIEW
+        #endregion
+        private ListView obstacleList;
+        private ListView tagList;
 
-    }
+        #region CONSTRUCTORS
+        public PathOSTriggerInfoPanel()
+        {
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("PathOSTriggerInfoPanel");
+            visualTree.CloneTree(this);
+
+
+        }
+            #endregion
+
+
+        }
 }
