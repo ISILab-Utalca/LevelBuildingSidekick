@@ -7,7 +7,6 @@ using ISILab.LBS.Editor;
 using UnityEngine.UIElements;
 
 
-// GABO TODO: TERMINAR
 namespace ISILab.LBS.VisualElements
 {
     [LBSCustomEditor("PathOSTile", typeof(PathOSTile))]
@@ -19,9 +18,14 @@ namespace ISILab.LBS.VisualElements
             CreateVisualElement();
         }
 
+        //GABO TODO: TERMINAR
         protected override VisualElement CreateVisualElement()
         {
-            Add(new PathOSTriggerInfoPanel());
+            var panel = new PathOSTriggerInfoPanel();
+            // Agregar obstaculos (si no hay, no hace nada)
+            panel.AddObstacles(target as PathOSTile);
+            Add(panel);
+
             return this;
         }
     }

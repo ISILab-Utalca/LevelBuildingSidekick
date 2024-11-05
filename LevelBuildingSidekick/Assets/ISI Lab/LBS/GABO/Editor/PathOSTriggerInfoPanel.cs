@@ -19,8 +19,8 @@ namespace ISILab.LBS.VisualElements
         #endregion
 
         #region FIELDS VIEW
-        private ListView obstacleList;
-        private ListView tagList;
+        private ScrollView obstacleList;
+        private ScrollView tagList;
         #endregion
 
         #region CONSTRUCTORS
@@ -30,13 +30,14 @@ namespace ISILab.LBS.VisualElements
             visualTree.CloneTree(this);
 
             // Obstacle List
-            this.obstacleList = this.Q<ListView>("ObstacleList");
+            this.obstacleList = this.Q<ScrollView>("ObstacleList");
             // Tag List
-            this.tagList = this.Q<ListView>("TagList");
+            this.tagList = this.Q<ScrollView>("TagList");
         }
         #endregion
 
         #region METHODS
+        //GABO TODO: VER DONDE USAR ESTA FUNCION PARA ACTUALIZAR ANTE NUEVO OBSTACULO
         public void AddObstacles(PathOSTile tile)
         {
             // Clear obstacles
@@ -44,9 +45,10 @@ namespace ISILab.LBS.VisualElements
 
             // Create PathOSObstacleView objects, then add.
             var obstacles = tile.GetObstacles();
+            if (obstacles == null) return;
+
             foreach(var obstacle in obstacles)
             {
-                //GABO TODO: TERMINAR (terminar PathOSObstacleView y conectar aqui)
                 PathOSObstacleView newView = new(obstacle.Item1, obstacle.Item2);
                 obstacleList.Add(newView);
             }

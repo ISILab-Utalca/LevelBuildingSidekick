@@ -68,6 +68,11 @@ namespace ISILab.LBS.Behaviours
             }
         }
 
+        public PathOSTile GetTile(int x, int y)
+        {
+            return module.GetTile(x, y);
+        }
+
         public override object Clone()
         {
             return new PathOSBehaviour(this.Icon, this.Name);
@@ -84,19 +89,19 @@ namespace ISILab.LBS.Behaviours
             throw new System.NotImplementedException();
         }
 
-        public override bool Equals(object obj)
-        {
-            var other = obj as PathOSBehaviour;
+        //public override bool Equals(object obj)
+        //{
+        //    var other = obj as PathOSBehaviour;
 
-            if (other == null) return false;
+        //    if (other == null) return false;
 
-            return true;
-        }
+        //    return true;
+        //}
 
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
+        //public override int GetHashCode()
+        //{
+        //    return base.GetHashCode();
+        //}
         #endregion
     }
 }

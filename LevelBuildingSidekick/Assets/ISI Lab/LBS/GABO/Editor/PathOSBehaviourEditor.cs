@@ -23,6 +23,8 @@ namespace ISILab.LBS.VisualElements
         private PathOSBehaviour _target;
         // Manipulators
         AddPathOSTile addPathOSTile;
+        AddClosedObstacle addClosedObstacle;
+        AddOpenedObstacle addOpenedObstacle;
         #endregion
 
     #region METHODS
@@ -127,7 +129,22 @@ namespace ISILab.LBS.VisualElements
             t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
             t1.Init(_target.Owner, _target);
             toolkit.AddTool(t1);
-            return;
+
+            // Add closed obstacle
+            icon = Resources.Load<Texture2D>("Icons/AddClosedObstacle");
+            addClosedObstacle = new AddClosedObstacle();
+            var t2 = new LBSTool(icon, "Add closed obstacle", addClosedObstacle);
+            t2.OnSelect += () => LBSInspectorPanel.ShowInspector("Current data");
+            t2.Init(_target.Owner, _target);
+            toolkit.AddTool(t2);
+
+            // Add open obstacle
+            icon = Resources.Load<Texture2D>("Icons/AddOpenedObstacle");
+            addOpenedObstacle = new AddOpenedObstacle();
+            var t3 = new LBSTool(icon, "Add opened obstacle", addOpenedObstacle);
+            t3.OnSelect += () => LBSInspectorPanel.ShowInspector("Current data");
+            t3.Init(_target.Owner, _target);
+            toolkit.AddTool(t3);
         }
     }
     #endregion

@@ -85,6 +85,7 @@ namespace ISILab.LBS.Modules
         #region METHODS
         public List<(PathOSTile, PathOSObstacleConnections.Category)> GetObstacles()
         {
+            if (obstacles.Obstacles == null) return null;
             return obstacles.Obstacles;
         }
 
