@@ -51,6 +51,11 @@ namespace ISILab.LBS.Components
             return obstacles.Find(o => o.Item1.Position == new Vector2Int(x, y));
         }
 
+        public (PathOSTile, Category) GetObstacle(PathOSTile tile)
+        {
+            return obstacles.Find(o => o.Item1 == tile);
+        }
+
         public void AddObstacle(PathOSTile obstacleTile, Category category)
         {
             // Tile tipo "obstaculo" check

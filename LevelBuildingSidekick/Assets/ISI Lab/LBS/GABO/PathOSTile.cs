@@ -97,6 +97,12 @@ namespace ISILab.LBS.Modules
         {
             return obstacles.GetObstacle(x, y);
         }
+
+        public (PathOSTile, PathOSObstacleConnections.Category) GetObstacle(PathOSTile tile)
+        {
+            return obstacles.GetObstacle(tile);
+        }
+
         public (PathOSTile, PathOSTag) GetDynamicTag(int x, int y)
         {
             return dynamicTagTiles.GetDynamicTag(x, y);

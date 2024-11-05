@@ -10,18 +10,19 @@ using UnityEngine.UIElements;
 // GABO TODO: TERMINAR
 namespace ISILab.LBS.VisualElements
 {
-    [LBSCustomEditor("PathOSModule", typeof(PathOSModule))]
-    public class PathOSModuleEditor : LBSCustomEditor
+    [LBSCustomEditor("PathOSTile", typeof(PathOSTile))]
+    public class PathOSTileEditor : LBSCustomEditor
     {
-
         public override void SetInfo(object target)
         {
-            throw new System.NotImplementedException();
+            this.target = target as PathOSTile;
+            CreateVisualElement();
         }
 
         protected override VisualElement CreateVisualElement()
         {
-            throw new System.NotImplementedException();
+            Add(new PathOSTriggerInfoPanel());
+            return this;
         }
     }
 

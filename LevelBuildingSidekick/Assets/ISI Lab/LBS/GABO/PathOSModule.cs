@@ -7,7 +7,7 @@ using UnityEngine;
 namespace ISILab.LBS.Modules
 {
     //GABO TODO: Agregar funciones y fields necesarios para obstacles y Dynamic Tags
-    public class PathOSModule : LBSModule
+    public class PathOSModule : LBSModule, ISelectable
     {
         #region FIELDS
         [SerializeField, JsonRequired, SerializeReference]
@@ -131,6 +131,17 @@ namespace ISILab.LBS.Modules
         {
             Debug.Log("Ejecutando PathOSModule.IsEmpty()");
             return (tiles.Count == 0);
+        }
+
+        //GABO TODO: Terminar retorno
+        public List<object> GetSelected(Vector2Int position)
+        {
+            var pos = Owner.ToFixedPosition(position);
+            PathOSTile tile = GetTile(pos.x, pos.y);
+            var r = new List<object>();
+            if (tile != null) { r.Add(tile); }
+
+            return r;
         }
         #endregion
     }

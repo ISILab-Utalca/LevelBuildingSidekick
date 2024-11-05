@@ -1,4 +1,5 @@
 using ISILab.Commons.Utility.Editor;
+using ISILab.LBS.Modules;
 using ISILab.LBS.VisualElements;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,9 +19,9 @@ namespace ISILab.LBS.VisualElements
         #endregion
 
         #region FIELDS VIEW
-        #endregion
         private ListView obstacleList;
         private ListView tagList;
+        #endregion
 
         #region CONSTRUCTORS
         public PathOSTriggerInfoPanel()
@@ -28,10 +29,32 @@ namespace ISILab.LBS.VisualElements
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("PathOSTriggerInfoPanel");
             visualTree.CloneTree(this);
 
-
+            // Obstacle List
+            this.obstacleList = this.Q<ListView>("ObstacleList");
+            // Tag List
+            this.tagList = this.Q<ListView>("TagList");
         }
-            #endregion
+        #endregion
 
+        #region METHODS
+        public void AddObstacles(PathOSTile tile)
+        {
+            // Clear obstacles
+            ClearObstacles();
 
+            // Create PathOSObstacleView objects, then add.
+            var obstacles = tile.GetObstacles();
+            foreach(var obstacle in obstacles)
+            {
+                //GABO TODO: TERMINAR (terminar PathOSObstacleView y conectar aqui)
+                PathOSObstacleView newView = new(obstacle.Item1, obstacle.Item2);
+                obstacleList.Add(newView);
+            }
         }
+
+        public void ClearObstacles() { obstacleList.Clear(); }
+        public void ClearTags() { tagList.Clear(); }
+        #endregion
+
+    }
 }

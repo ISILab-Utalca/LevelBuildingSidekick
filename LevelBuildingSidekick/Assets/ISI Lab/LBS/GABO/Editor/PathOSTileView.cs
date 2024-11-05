@@ -13,7 +13,11 @@ namespace ISILab.LBS.VisualElements
 {
     public class PathOSTileView : GraphElement
     {
+
         #region FIELDS
+        #endregion
+
+        #region FIELDS VIEW
         private static VisualTreeAsset view;
         // Icono del tag
         VisualElement background;

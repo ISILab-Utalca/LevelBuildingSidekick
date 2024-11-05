@@ -7,7 +7,7 @@ namespace ISILab.LBS.Components
 {
     [System.Serializable]
     // Conexiones entre un PathOSTile de tipo DynamicTagTrigger y los
-    // respectivos DynamicTagObject que transforma.
+    // respectivos DynamicTagObject que transforma (asignandoles un nuevo PathOSTag)
     public class PathOSDynamicTagConnections
     {
         #region FIELDS
