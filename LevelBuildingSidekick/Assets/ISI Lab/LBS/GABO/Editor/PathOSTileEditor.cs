@@ -15,6 +15,7 @@ namespace ISILab.LBS.VisualElements
         public override void SetInfo(object target)
         {
             this.target = target as PathOSTile;
+            (this.target as PathOSTile).OnAddObstacle += Repaint;
             CreateVisualElement();
         }
 
@@ -27,6 +28,12 @@ namespace ISILab.LBS.VisualElements
             Add(panel);
 
             return this;
+        }
+
+        public override void Repaint()
+        {
+            Clear();
+            CreateVisualElement();
         }
     }
 

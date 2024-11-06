@@ -1,5 +1,6 @@
 using ISILab.LBS.Components;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -32,6 +33,10 @@ namespace ISILab.LBS.Modules
             obstacles = null;
             if (tag != null) { this.tag = tag; }
         }
+        #endregion
+
+        #region EVENTS
+        public Action OnAddObstacle;
         #endregion
 
         #region PROPERTIES
@@ -85,7 +90,8 @@ namespace ISILab.LBS.Modules
         #region METHODS
         public List<(PathOSTile, PathOSObstacleConnections.Category)> GetObstacles()
         {
-            if (obstacles.Obstacles == null) return null;
+            // Chequeo de existencia.
+            if (obstacles == null) return null;
             return obstacles.Obstacles;
         }
 
@@ -119,6 +125,8 @@ namespace ISILab.LBS.Modules
                 IsDynamicObstacleTrigger = true;
             }
             obstacles.AddObstacle(obstacleTile, category);
+
+            OnAddObstacle?.Invoke();
         }
 
         public void RemoveObstacle(PathOSTile obstacleTile)
