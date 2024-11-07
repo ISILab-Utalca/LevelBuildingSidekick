@@ -3,6 +3,7 @@ using ISILab.LBS.Modules;
 using LBS.Bundles;
 using LBS.Components;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -48,6 +49,24 @@ namespace ISILab.LBS.Behaviours
         public List<PathOSTile> Tiles { get { return module.GetTiles(); } private set { } }
         #endregion
 
+        #region EVENTS
+        public event Action<PathOSModule, PathOSTile> OnAddTile
+        {
+            add { module.OnAddTile += value; }
+            remove { module.OnAddTile -= value; }
+        }
+        public event Action<PathOSModule, PathOSTile> OnApplyEventTile
+        {
+            add { module.OnApplyEventTile += value; }
+            remove { module.OnApplyEventTile -= value; }
+        }
+        public event Action<PathOSModule, PathOSTile> OnRemoveTile
+        {
+            add { module.OnRemoveTile += value; }
+            remove { module.OnRemoveTile -= value; }
+        }
+        #endregion
+
         #region CONSTRUCTORS
         public PathOSBehaviour(Texture2D icon, string name) : base(icon, name) { }
         #endregion
@@ -55,7 +74,7 @@ namespace ISILab.LBS.Behaviours
         #region METHODS
         public void AddTile(PathOSTag tag, int x, int y)
         {
-            var tile = new PathOSTile(x, y, tag);
+            var tile = new PathOSTile(this, x, y, tag);
 
             // Add Tile or ApplyEventTile segun defina el tag asociado
             if (tag.Category == PathOSTag.PathOSCategory.ElementTag)
@@ -66,6 +85,12 @@ namespace ISILab.LBS.Behaviours
             {
                 module.ApplyEventTile(tile);
             }
+        }
+
+        public void RemoveTile(int x, int y)
+        {
+            var t = module.GetTile(x, y);
+            module.RemoveTile(t);
         }
 
         public PathOSTile GetTile(int x, int y)

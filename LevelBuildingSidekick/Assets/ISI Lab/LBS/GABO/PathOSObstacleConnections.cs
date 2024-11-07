@@ -12,6 +12,7 @@ namespace ISILab.LBS.Components
         #region ENUMS
         public enum Category
         {
+            None,
             OPEN,
             CLOSE
         }
@@ -46,14 +47,18 @@ namespace ISILab.LBS.Components
         #endregion
 
         #region METHODS
-        public (PathOSTile, Category) GetObstacle(int x, int y)
+        public (PathOSTile, Category)? GetObstacle(int x, int y)
         {
-            return obstacles.Find(o => o.Item1.Position == new Vector2Int(x, y));
+            var o = obstacles.Find(o => o.Item1.Position == new Vector2Int(x, y));
+            if (o == (null, Category.None)) { return null; }
+            return o;
         }
 
-        public (PathOSTile, Category) GetObstacle(PathOSTile tile)
+        public (PathOSTile, Category)? GetObstacle(PathOSTile tile)
         {
-            return obstacles.Find(o => o.Item1 == tile);
+            var o = obstacles.Find(o => o.Item1 == tile);
+            if (o == (null, Category.None)) { return null; }
+            return o;
         }
 
         public void AddObstacle(PathOSTile obstacleTile, Category category)

@@ -2,6 +2,7 @@ using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
 using System.Collections.Generic;
 using UnityEngine;
+using static ISILab.LBS.Components.PathOSObstacleConnections;
 
 namespace ISILab.LBS.Components
 {
@@ -39,9 +40,17 @@ namespace ISILab.LBS.Components
         #endregion
 
         #region METHODS
-        public (PathOSTile, PathOSTag) GetDynamicTag(int x, int y)
+        public (PathOSTile, PathOSTag)? GetDynamicTag(int x, int y)
         {
-            return dynamicTagObjects.Find(o => o.Item1.Position == new Vector2Int(x, y));
+            var o = dynamicTagObjects.Find(o => o.Item1.Position == new Vector2Int(x, y));
+            if (o == (null, null)) { return null; }
+            return o;
+        }
+        public (PathOSTile, PathOSTag)? GetDynamicTag(PathOSTile tile)
+        {
+            var o = dynamicTagObjects.Find(t => t.Item1 == tile);
+            if (o == (null, null)) { return null; }
+            return o;
         }
 
         public void AddDynamicTag(PathOSTile tagTile, PathOSTag tag)

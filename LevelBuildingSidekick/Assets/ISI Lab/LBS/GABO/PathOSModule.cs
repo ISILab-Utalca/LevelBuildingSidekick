@@ -33,8 +33,14 @@ namespace ISILab.LBS.Modules
             {
                 tiles.Remove(t);
             }
-            tiles.Add(tile);
 
+            // Suscripciones (para limpieza)
+            tile.OnRevertingFromDynamicTagObject += () => CleanAllDynamicTagConnectionsTo(tile);
+            tile.OnRevertingFromObstacleObject += () => CleanAllObstacleConnectionsTo(tile);
+
+            // Agregar tile
+            tiles.Add(tile);
+            
             // Eventos
             OnAddTile?.Invoke(this, tile);
             OnChanged?.Invoke(this, null, new List<object>() { tile });
@@ -84,11 +90,19 @@ namespace ISILab.LBS.Modules
         public void RemoveTile(PathOSTile tile)
         {
             // Chequeo nulo
-            if (tile == null) { Debug.LogWarning("PathOSModule.RemoveTile(): Tile nulo!"); return; }
+            if (tile == null) { return; }// Debug.LogWarning("PathOSModule.RemoveTile(): Tile nulo!"); return; }
 
-            var t = GetTile(tile.X, tile.Y);
+            var t = GetTile(tile);
             if (t != null)
             {
+                // Remover conexiones en objetos Triggers (si existen)
+                foreach (var otherTile in tiles)
+                {
+                    if (otherTile.GetObstacle(t) != null) otherTile.RemoveObstacle(t);
+                    if (otherTile.GetDynamicTag(t) != null) otherTile.RemoveDynamicTag(t);
+                }
+
+                // Remover
                 tiles.Remove(t);
 
                 // Eventos
@@ -104,14 +118,40 @@ namespace ISILab.LBS.Modules
 
         public PathOSTile GetTile(int x, int y)
         {
-            if (tiles.Count == 0)
-                return null;
             return tiles.Find(t => t.X == x && t.Y == y);
+        }
+        public PathOSTile GetTile(PathOSTile tile)
+        {
+            return tiles.Find(t => t == tile);
         }
 
         public List<PathOSTile> GetTiles()
         {
             return tiles;
+        }
+
+        public void CleanAllObstacleConnectionsTo(PathOSTile tile)
+        {
+            PathOSTile tileToClean = tiles.Find(t => t == tile);
+            if (tileToClean == null) { Debug.LogWarning("Tile no encontrado en modulo!"); return; }
+            {
+                foreach(var otherTile in tiles)
+                {
+                    if (otherTile.GetObstacle(tileToClean) != null) otherTile.RemoveObstacle(tileToClean, false);
+                }
+            }
+        }
+
+        public void CleanAllDynamicTagConnectionsTo(PathOSTile tile)
+        {
+            PathOSTile tileToClean = tiles.Find(t => t == tile);
+            if (tileToClean == null) { Debug.LogWarning("Tile no encontrado en modulo!"); return; }
+            {
+                foreach (var otherTile in tiles)
+                {
+                    if (otherTile.GetDynamicTag(tileToClean) != null) otherTile.RemoveDynamicTag(tileToClean, false);
+                }
+            }
         }
 
         public override void Clear()
@@ -133,7 +173,6 @@ namespace ISILab.LBS.Modules
             return (tiles.Count == 0);
         }
 
-        //GABO TODO: Terminar retorno
         public List<object> GetSelected(Vector2Int position)
         {
             var pos = Owner.ToFixedPosition(position);

@@ -37,10 +37,9 @@ namespace ISILab.LBS.VisualElements
         #endregion
 
         #region METHODS
-        //GABO TODO: VER DONDE USAR ESTA FUNCION PARA ACTUALIZAR ANTE NUEVO OBSTACULO
-        public void AddObstacles(PathOSTile tile)
+        public void RefreshObstacles(PathOSTile tile)
         {
-            // Clear obstacles
+            // Clear old obstacles
             ClearObstacles();
 
             // Create PathOSObstacleView objects, then add.
@@ -49,7 +48,7 @@ namespace ISILab.LBS.VisualElements
 
             foreach(var obstacle in obstacles)
             {
-                PathOSObstacleView newView = new(obstacle.Item1, obstacle.Item2);
+                PathOSObstacleView newView = new(tile, obstacle.Item1, obstacle.Item2);
                 obstacleList.Add(newView);
             }
         }

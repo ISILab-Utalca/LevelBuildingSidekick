@@ -1,7 +1,9 @@
+using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 // GABO TODO: FALTA VER COMO TRATAR ELEMENT TAGS Y EVENT TAGS.
@@ -10,6 +12,8 @@ namespace ISILab.LBS.Modules
     public class PathOSTile
     {
         #region FIELDS
+        [SerializeField, JsonRequired]
+        private PathOSBehaviour owner;
         [SerializeField, JsonRequired]
         private int x, y;
         [SerializeField, JsonRequired]
@@ -26,8 +30,9 @@ namespace ISILab.LBS.Modules
         #endregion
 
         #region CONSTRUCTORS
-        public PathOSTile(int x, int y, PathOSTag tag = null)
+        public PathOSTile(PathOSBehaviour owner, int x, int y, PathOSTag tag = null)
         {
+            this.owner = owner;
             this.x = x;
             this.y = y;
             obstacles = null;
@@ -37,20 +42,46 @@ namespace ISILab.LBS.Modules
 
         #region EVENTS
         public Action OnAddObstacle;
+        public Action OnRemoveObstacle;
+        public Action OnAddDynamicTag;
+        public Action OnRemoveDynamicTag;
+        public Action OnConvertingToObstacleTrigger;
+        public Action OnConvertingToObstacleObject;
+        public Action OnConvertingToDynamicTagTrigger;
+        public Action OnConvertingToDynamicTagObject;
+        public Action OnRevertingFromObstacleTrigger;
+        public Action OnRevertingFromObstacleObject;
+        public Action OnRevertingFromDynamicTagTrigger;
+        public Action OnRevertingFromDynamicTagObject;
         #endregion
 
         #region PROPERTIES
+        public PathOSBehaviour Owner { get { return owner; } set { Owner = value; } }
         public int X { get { return x; } set { x = value; } }
         public int Y { get { return y; } set { y = value; } }
-
         public Vector2Int Position { get { return new Vector2Int(x, y); } }
         public PathOSTag Tag { get { return tag; } set { tag = value; } }
-        public bool IsDynamicTagObject { get { return isDynamicTagObject; } set { isDynamicTagObject = value; } }
+        public bool IsDynamicTagObject
+        {
+            get { return isDynamicTagObject; }
+            set
+            {
+                bool lastValue = isDynamicTagObject;
+
+                isDynamicTagObject = value;
+
+                // Eventos de conversion y reversion (solo si cambio es no redundante)
+                if (value && value != lastValue) { OnConvertingToDynamicTagObject?.Invoke(); }
+                else if (!value && value != lastValue) { OnRevertingFromDynamicTagObject?.Invoke(); }
+            }
+        }
         public bool IsDynamicTagTrigger
         {
             get { return dynamicTagTiles != null; }
             set
             {
+                bool lastValue = dynamicTagTiles != null;
+
                 if (value)
                 {
                     // Solo instanciar si no existe
@@ -63,14 +94,33 @@ namespace ISILab.LBS.Modules
                 {
                     dynamicTagTiles = null;
                 }
+
+                // Eventos de conversion y reversion (solo si cambio es no redundante)
+                if (value && value != lastValue) { OnConvertingToDynamicTagTrigger?.Invoke(); }
+                else if (!value && value != lastValue) { OnRevertingFromDynamicTagTrigger?.Invoke(); }
             }
         }
-        public bool IsDynamicObstacleObject { get { return isDynamicObstacleObject; } set { isDynamicObstacleObject = value; } }
+        public bool IsDynamicObstacleObject
+        {
+            get { return isDynamicObstacleObject; }
+            set
+            {
+                bool lastValue = isDynamicObstacleObject;
+
+                isDynamicObstacleObject = value;
+
+                // Eventos de conversion y reversion (solo si cambio es no redundante)
+                if (value && value != lastValue) { OnConvertingToObstacleObject?.Invoke(); }
+                else if (!value && value != lastValue) { OnRevertingFromObstacleObject?.Invoke(); }
+            }
+        }
         public bool IsDynamicObstacleTrigger
         {
             get { return obstacles != null; }
             set
             {
+                bool lastValue = obstacles != null;
+
                 if (value)
                 {
                     // Solo instanciar si no existe
@@ -83,6 +133,10 @@ namespace ISILab.LBS.Modules
                 {
                     obstacles = null;
                 }
+
+                // Eventos de conversion y reversion (solo si cambio es no redundante)
+                if (value && value != lastValue) { OnConvertingToObstacleTrigger?.Invoke(); }
+                else if (!value && value != lastValue) { OnRevertingFromObstacleTrigger?.Invoke(); }
             }
         }
         #endregion
@@ -100,19 +154,27 @@ namespace ISILab.LBS.Modules
             return dynamicTagTiles.DynamicTagObjects;
         }
 
-        public (PathOSTile, PathOSObstacleConnections.Category) GetObstacle(int x, int y)
+        public (PathOSTile, PathOSObstacleConnections.Category)? GetObstacle(int x, int y)
         {
+            if (obstacles == null) { return null; }
             return obstacles.GetObstacle(x, y);
         }
 
-        public (PathOSTile, PathOSObstacleConnections.Category) GetObstacle(PathOSTile tile)
+        public (PathOSTile, PathOSObstacleConnections.Category)? GetObstacle(PathOSTile tile)
         {
+            if (obstacles == null) { return null; }
             return obstacles.GetObstacle(tile);
         }
 
-        public (PathOSTile, PathOSTag) GetDynamicTag(int x, int y)
+        public (PathOSTile, PathOSTag)? GetDynamicTag(int x, int y)
         {
+            if (dynamicTagTiles == null) { return null; }
             return dynamicTagTiles.GetDynamicTag(x, y);
+        }
+        public (PathOSTile, PathOSTag)? GetDynamicTag(PathOSTile tile)
+        {
+            if (dynamicTagTiles == null) { return null; }
+            return dynamicTagTiles.GetDynamicTag(tile);
         }
 
         public void AddObstacle(PathOSTile obstacleTile, PathOSObstacleConnections.Category category)
@@ -129,11 +191,14 @@ namespace ISILab.LBS.Modules
             OnAddObstacle?.Invoke();
         }
 
-        public void RemoveObstacle(PathOSTile obstacleTile)
+        // *NOTA*: Segundo parametro indica si revisar condicion "IsDynamicObstacleObject".
+        // Usado en "PathOSModule.CleanAllObstacleConnectionsTo" ya que su invocacion por suscripcion es
+        // posterior al seteo de la propiedad en "False".
+        public void RemoveObstacle(PathOSTile obstacleTile, bool checkIfObstacleObjectProperty = true)
         {
             // Chequeo de Condiciones
             if (obstacleTile == null) { Debug.LogWarning("Tile obstaculo es nulo!"); return; }
-            if (!obstacleTile.isDynamicObstacleObject) { Debug.LogWarning("Tile dado no es obstaculo!"); return; }
+            if (!obstacleTile.isDynamicObstacleObject && checkIfObstacleObjectProperty) { Debug.LogWarning("Tile dado no es obstaculo!"); return; }
             if (!IsDynamicObstacleTrigger)
             {
                 Debug.LogWarning("Este tile NO es DynamicObstacleTrigger!");
@@ -141,14 +206,16 @@ namespace ISILab.LBS.Modules
             }
             // Chequeo de existencia en mapa
             var currConnection = obstacles.GetObstacle(obstacleTile.x, obstacleTile.y);
-            if (currConnection == (null, null)) { Debug.LogWarning("No existe tile en la posicion!"); return; }
-            if (obstacleTile.Tag.Label != currConnection.Item1.Tag.Label)
+            if (currConnection == null) { Debug.LogWarning("No existe tile en la posicion!"); return; }
+            if (obstacleTile.Tag.Label != currConnection?.Item1.Tag.Label)
             {
                 Debug.LogWarning("Tag.Label del tile a remover es distinto del existente!");
                 return;
             }
 
             obstacles.RemoveObstacle(obstacleTile.X, obstacleTile.Y);
+
+            OnRemoveObstacle?.Invoke();
         }
 
         public void AddDynamicTag(PathOSTile tagTile, PathOSTag tag)
@@ -161,13 +228,18 @@ namespace ISILab.LBS.Modules
                 IsDynamicTagTrigger = true;
             }
             dynamicTagTiles.AddDynamicTag(tagTile, tag);
+
+            OnAddDynamicTag?.Invoke();
         }
 
-        public void RemoveDynamicTag(PathOSTile tagTile)
+        // *NOTA*: Segundo parametro indica si revisar condicion "IsDynamicTagObject".
+        // Usado en "PathOSModule.CleanAllDynamicTagConnectionsTo" ya que su invocacion por suscripcion es
+        // posterior al seteo de la propiedad en "False".
+        public void RemoveDynamicTag(PathOSTile tagTile, bool checkIfDynamicTagObjectProperty = true)
         {
             // Chequeos
             if (tagTile == null) { Debug.LogWarning("Tag tile es nulo!"); return; }
-            if (!tagTile.isDynamicTagObject) { Debug.LogWarning("Tile dado no es DynamicTileObject!"); return; }
+            if (!tagTile.isDynamicTagObject && checkIfDynamicTagObjectProperty) { Debug.LogWarning("Tile dado no es DynamicTileObject!"); return; }
             if (!IsDynamicTagTrigger)
             {
                 Debug.LogWarning("Este tile NO es DynamicTagTrigger!");
@@ -175,14 +247,16 @@ namespace ISILab.LBS.Modules
             }
             // Chequeo de existencia en mapa
             var currConnection = dynamicTagTiles.GetDynamicTag(tagTile.x, tagTile.y);
-            if (currConnection == (null, null)) { Debug.LogWarning("No existe tile en la posicion!"); return; }
-            if (tagTile.Tag.Label != currConnection.Item1.Tag.Label)
+            if (currConnection == null) { Debug.LogWarning("No existe tile en la posicion!"); return; }
+            if (tagTile.Tag.Label != currConnection?.Item1.Tag.Label)
             {
                 Debug.LogWarning("Tag.Label del tile a remover es distinto del existente!");
                 return;
             }
 
             dynamicTagTiles.RemoveDynamicTag(tagTile.X, tagTile.Y);
+
+            OnRemoveDynamicTag?.Invoke();
         }
         #endregion
 

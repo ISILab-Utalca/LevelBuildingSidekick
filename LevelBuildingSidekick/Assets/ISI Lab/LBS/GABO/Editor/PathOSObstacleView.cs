@@ -1,6 +1,7 @@
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,7 +21,11 @@ namespace ISILab.LBS.VisualElements
         public VisualElement icon;
         public Label positionLabel;
         public Label stateLabel;
-        public Label removeButton;
+        public Button removeButton;
+        #endregion
+
+        #region EVENTS
+        Action OnRemove;
         #endregion
 
         #region PROPERTIES
@@ -31,7 +36,7 @@ namespace ISILab.LBS.VisualElements
         #endregion
 
         #region CONSTRUCTORS
-        public PathOSObstacleView(PathOSTile obstacleTile, PathOSObstacleConnections.Category category)
+        public PathOSObstacleView(PathOSTile triggerTile, PathOSTile obstacleTile, PathOSObstacleConnections.Category category)
         {
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("PathOSObstacleView");
             visualTree.CloneTree(this);
@@ -39,23 +44,29 @@ namespace ISILab.LBS.VisualElements
             this.icon = this.Q<VisualElement>("Icon");
             this.positionLabel = this.Q<Label>("PositionLabel");
             this.stateLabel = this.Q<Label>("StateLabel");
-            this.removeButton = this.Q<Label>("RemoveButton");
+            this.removeButton = this.Q<Button>("RemoveButton");
 
             // Set fields
-            SetFields(obstacleTile, category);
+            SetFields(triggerTile, obstacleTile, category);
         }
         #endregion
 
         #region METHODS
-        private void SetFields(PathOSTile obstacleTile, PathOSObstacleConnections.Category category)
+        private void SetFields(PathOSTile triggerTile, PathOSTile obstacleTile, PathOSObstacleConnections.Category category)
         {
             // Obstacle object+trigger tile check
             if (!obstacleTile.IsDynamicObstacleObject) { Debug.LogWarning("PathOSObstacleView.SetFields(): Tile dada no es obstaculo!"); return; }
 
-            //this.triggerTile = triggerTile;
             icon.style.backgroundImage = obstacleTile.Tag.Icon;
             positionLabel.text = $"{obstacleTile.X} x {obstacleTile.Y}";
             stateLabel.text = category.ToString();
+            // Suscripciones a boton
+            OnRemove -= () => triggerTile.RemoveObstacle(obstacleTile);
+            OnRemove += () => triggerTile.RemoveObstacle(obstacleTile);
+            //OnRemove -= () => RemoveFromHierarchy(); // Redundante??? Debiese removerse solo con TriggerInfoPanel.Repaint()
+            //OnRemove += () => RemoveFromHierarchy();
+            removeButton.clicked -= OnRemove;
+            removeButton.clicked += OnRemove;
         }
         #endregion
     }

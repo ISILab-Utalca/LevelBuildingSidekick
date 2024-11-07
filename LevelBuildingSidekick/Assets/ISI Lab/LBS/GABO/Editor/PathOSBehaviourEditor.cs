@@ -23,6 +23,7 @@ namespace ISILab.LBS.VisualElements
         private PathOSBehaviour _target;
         // Manipulators
         AddPathOSTile addPathOSTile;
+        RemovePathOSTile removePathOSTile;
         AddClosedObstacle addClosedObstacle;
         AddOpenedObstacle addOpenedObstacle;
         #endregion
@@ -79,7 +80,7 @@ namespace ISILab.LBS.VisualElements
             bundlePallete.OnSelectOption += (selected) =>
             {
                 _target.selectedToSet = selected as Bundle;
-                ToolKit.Instance.SetActive("Paint Tile");
+                ToolKit.Instance.SetActive("Paint tiles");
             };
 
             // OnAdd option event
@@ -125,26 +126,33 @@ namespace ISILab.LBS.VisualElements
             // Add tiles
             Texture2D icon = Resources.Load<Texture2D>("Icons/AddTileBrush");
             addPathOSTile = new AddPathOSTile();
-            var t1 = new LBSTool(icon, "Paint Tile", addPathOSTile);
-            t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
-            t1.Init(_target.Owner, _target);
-            toolkit.AddTool(t1);
+            var tAdd = new LBSTool(icon, "Paint tiles", addPathOSTile);
+            tAdd.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
+            tAdd.Init(_target.Owner, _target);
+            toolkit.AddTool(tAdd);
+
+            // Remove tiles
+            icon = Resources.Load<Texture2D>("Icons/RemoveTileBrush");
+            removePathOSTile = new RemovePathOSTile();
+            var tRemove = new LBSTool(icon, "Remove tiles", removePathOSTile);
+            tRemove.Init(_target.Owner, _target);
+            toolkit.AddTool(tRemove);
 
             // Add closed obstacle
             icon = Resources.Load<Texture2D>("Icons/AddClosedObstacle");
             addClosedObstacle = new AddClosedObstacle();
-            var t2 = new LBSTool(icon, "Add closed obstacle", addClosedObstacle);
-            t2.OnSelect += () => LBSInspectorPanel.ShowInspector("Current data");
-            t2.Init(_target.Owner, _target);
-            toolkit.AddTool(t2);
+            var tClosed = new LBSTool(icon, "Add closed obstacle", addClosedObstacle);
+            tClosed.OnSelect += () => LBSInspectorPanel.ShowInspector("Current data");
+            tClosed.Init(_target.Owner, _target);
+            toolkit.AddTool(tClosed);
 
             // Add open obstacle
             icon = Resources.Load<Texture2D>("Icons/AddOpenedObstacle");
             addOpenedObstacle = new AddOpenedObstacle();
-            var t3 = new LBSTool(icon, "Add opened obstacle", addOpenedObstacle);
-            t3.OnSelect += () => LBSInspectorPanel.ShowInspector("Current data");
-            t3.Init(_target.Owner, _target);
-            toolkit.AddTool(t3);
+            var tOpen = new LBSTool(icon, "Add opened obstacle", addOpenedObstacle);
+            tOpen.OnSelect += () => LBSInspectorPanel.ShowInspector("Current data");
+            tOpen.Init(_target.Owner, _target);
+            toolkit.AddTool(tOpen);
         }
     }
     #endregion
