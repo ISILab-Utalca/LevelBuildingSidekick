@@ -63,8 +63,6 @@ namespace ISILab.LBS.VisualElements
             // Suscripciones a boton
             OnRemove -= () => triggerTile.RemoveObstacle(obstacleTile);
             OnRemove += () => triggerTile.RemoveObstacle(obstacleTile);
-            //OnRemove -= () => RemoveFromHierarchy(); // Redundante??? Debiese removerse solo con TriggerInfoPanel.Repaint()
-            //OnRemove += () => RemoveFromHierarchy();
             removeButton.clicked -= OnRemove;
             removeButton.clicked += OnRemove;
         }

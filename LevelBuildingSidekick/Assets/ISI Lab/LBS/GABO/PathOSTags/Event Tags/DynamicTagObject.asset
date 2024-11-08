@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: DynamicTagObject
   m_EditorClassIdentifier: 
   label: DynamicTagObject
-  icon: {fileID: 2800000, guid: e8922f5433137a8419727367bb553fc4, type: 3}
-  color: {r: 1, g: 0, b: 0.81834984, a: 1}
+  icon: {fileID: 2800000, guid: 9d4979e01257f3c429f90c418f2dbaf8, type: 3}
+  color: {r: 1, g: 1, b: 0, a: 1}
   category: 1

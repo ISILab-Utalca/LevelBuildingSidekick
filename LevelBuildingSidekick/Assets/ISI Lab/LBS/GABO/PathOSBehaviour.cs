@@ -13,7 +13,6 @@ namespace ISILab.LBS.Behaviours
     [RequieredModule(typeof(PathOSModule))]
     public class PathOSBehaviour : LBSBehaviour
     {
-        // TODO: Implementar los iconos correspondientes a cada enum como paleta en el Behaviour
         #region ENUMS(sin usar por ahora)
         //public enum EntityType
         //{
