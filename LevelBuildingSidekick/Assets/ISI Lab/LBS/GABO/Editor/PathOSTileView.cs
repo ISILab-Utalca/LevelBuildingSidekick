@@ -19,6 +19,8 @@ namespace ISILab.LBS.VisualElements
 
         #region FIELDS VIEW
         private static VisualTreeAsset view;
+        // Test : PositionLabel
+        Label positionLabel;
         // Icono del tag
         VisualElement background;
         VisualElement elementTag;
@@ -38,6 +40,9 @@ namespace ISILab.LBS.VisualElements
             }
             view.CloneTree(this);
 
+            //Test
+            positionLabel = this.Q<Label>(name: "PositionLabel");
+            //
             background = this.Q<VisualElement>(name: "Background");
             elementTag = this.Q<VisualElement>(name: "ElementTag");
             dynamicTagObject = this.Q<VisualElement>(name: "DynamicTagObject");
@@ -63,13 +68,17 @@ namespace ISILab.LBS.VisualElements
             elementTag.style.backgroundImage = image;
         }
 
-        // Modifica opacidad de elementos visuales asoc. a Event Tags, segun info recibida del eventTile.
+        // Asigna posicion y modifica opacidad de elementos visuales asoc. a Event Tags,
+        // segun info recibida del eventTile.
         public void SetEvents(PathOSTile tile)
         {
             // Chequeo nulo
             if (tile == null) { Debug.LogWarning("PathOSTileView.SetEvents(): Tile nulo!"); return; }
             // Chequeo tag nulo
             if (tile.Tag == null) { Debug.LogWarning("PathOSTileView.SetEvents(): Tile tiene tag nulo!"); }
+
+            // Setear posicion
+            positionLabel.text = $"{tile.X} x {tile.Y}";
 
             // Setear opacidad de event tags segun info del tile
             dynamicTagObject.style.opacity = tile.IsDynamicTagObject ? 1f : 0f;

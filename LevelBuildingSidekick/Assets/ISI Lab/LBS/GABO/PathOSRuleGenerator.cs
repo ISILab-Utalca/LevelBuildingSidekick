@@ -55,7 +55,7 @@ namespace ISILab.LBS.Generators
                 MeshRenderer currRenderer = currInstance.GetComponentInChildren<MeshRenderer>();
                 Material originalMaterial = currRenderer.sharedMaterial;
                 Material currMaterial = new Material(originalMaterial);
-                currMaterial.SetTexture(tile.Tag.Icon.ToString(), tile.Tag.Icon);
+                currMaterial.SetTexture("_MainTex", tile.Tag.Icon);
                 currRenderer.material = currMaterial;
 
                 // Setear posicion
