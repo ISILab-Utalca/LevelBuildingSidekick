@@ -1,5 +1,6 @@
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
+using JetBrains.Annotations;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -9,10 +10,11 @@ using UnityEngine;
 // GABO TODO: FALTA VER COMO TRATAR ELEMENT TAGS Y EVENT TAGS.
 namespace ISILab.LBS.Modules
 {
+    [System.Serializable]
     public class PathOSTile
     {
         #region FIELDS
-        [SerializeField, JsonRequired]
+        [SerializeField, SerializeReference, JsonRequired]
         private PathOSBehaviour owner;
         [SerializeField, JsonRequired]
         private int x, y;
@@ -23,9 +25,9 @@ namespace ISILab.LBS.Modules
         private bool isDynamicTagObject = false;
         [SerializeField, JsonRequired]
         private bool isDynamicObstacleObject = false;
-        [SerializeField, JsonRequired]
+        [SerializeField, SerializeReference] //GABO TODO: Corregir. Por que se guardan mal? Al deserializar no quedan nulos
         private PathOSObstacleConnections obstacles;
-        [SerializeField, JsonRequired]
+        [SerializeField, SerializeReference] //GABO TODO: Corregir. Por que se guardan mal?
         private PathOSDynamicTagConnections dynamicTagTiles;
         #endregion
 
@@ -36,6 +38,7 @@ namespace ISILab.LBS.Modules
             this.x = x;
             this.y = y;
             obstacles = null;
+            dynamicTagTiles = null;
             if (tag != null) { this.tag = tag; }
         }
         #endregion

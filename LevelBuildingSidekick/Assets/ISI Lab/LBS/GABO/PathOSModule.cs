@@ -7,6 +7,7 @@ using UnityEngine;
 namespace ISILab.LBS.Modules
 {
     //GABO TODO: Agregar funciones y fields necesarios para obstacles y Dynamic Tags
+    [System.Serializable]
     public class PathOSModule : LBSModule, ISelectable
     {
         #region FIELDS

@@ -35,7 +35,7 @@ namespace ISILab.LBS.Behaviours
         #endregion
 
         #region FIELDS
-        [SerializeField, JsonIgnore]
+        [SerializeField, SerializeReference, JsonRequired] // GABO TODO: Deberia ir o no JsonIgnore?????? De todas maneras hay error de serialziacion (queda nulo)
         private PathOSModule module;
         #endregion
 

@@ -12,7 +12,9 @@ namespace ISILab.LBS.Components
     public class PathOSDynamicTagConnections
     {
         #region FIELDS
+        [SerializeField, SerializeReference]
         private PathOSTile tagTriggerTile;
+        [SerializeField]
         private List<(PathOSTile, PathOSTag)> dynamicTagObjects = new();
         #endregion
 

@@ -19,11 +19,12 @@ MonoBehaviour:
     id: Testing
     name: Layer Testing
     modules:
-    - rid: 6390179397034049580
+    - rid: 3505131169766440963
     behaviours:
-    - rid: 6390179397034049581
+    - rid: 3505131169766440964
     assitants: []
-    generatorRules: []
+    generatorRules:
+    - rid: 3505131169766440965
     settings:
       scale: {x: 2, y: 2}
       resize: {x: 0, y: 0}
@@ -32,17 +33,24 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 6390179397034049580
+    - rid: 3505131169766440963
       type: {class: PathOSModule, ns: ISILab.LBS.Modules, asm: LBS}
       data:
         id: PathOSModule
-    - rid: 6390179397034049581
+    - rid: 3505131169766440964
       type: {class: PathOSBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
       data:
         visible: 1
         icon: {fileID: 2800000, guid: 771d36a714319204ea4ddcbecdc2006e, type: 3}
         name: PathOS Behaviour
-        tileMap:
-          id: TileMapModule
-          tiles: []
         selectedToSet: {fileID: 0}
+    - rid: 3505131169766440965
+      type: {class: PathOSRuleGenerator, ns: ISILab.LBS.Generators, asm: LBS}
+      data:
+        generator3D:
+          settings:
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: DEFAULT
+          rules: []

@@ -260,9 +260,8 @@ namespace ISILab.LBS.Template.Editor
             var Icon = Resources.Load<Texture2D>("Icons/Select");
             layer.AddBehaviour(new PathOSBehaviour(Icon, "PathOS Behaviour"));
 
-            // GABO TODO: HACER CLASE GENERADORAAA!
             // Rules
-            //layer.AddGeneratorRule(???????);
+            layer.AddGeneratorRule(new PathOSRuleGenerator());
 
             Debug.Log("Set Testing Default");
             EditorUtility.SetDirty(target);

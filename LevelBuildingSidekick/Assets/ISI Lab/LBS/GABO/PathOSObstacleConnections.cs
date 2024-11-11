@@ -19,7 +19,9 @@ namespace ISILab.LBS.Components
         #endregion
 
         #region FIELDS
+        [SerializeField, SerializeReference]
         private PathOSTile obstacleTriggerTile;
+        [SerializeField]
         private List<(PathOSTile, Category)> obstacles = new();
         #endregion
 

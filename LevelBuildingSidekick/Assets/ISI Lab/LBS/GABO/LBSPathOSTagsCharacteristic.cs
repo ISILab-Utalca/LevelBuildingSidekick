@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace ISILab.LBS.Characteristics
 {
+    [System.Serializable]
     public class LBSPathOSTagsCharacteristic : LBSCharacteristic
     {
         [JsonRequired]
