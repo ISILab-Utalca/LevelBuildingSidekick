@@ -60,8 +60,8 @@ namespace ISILab.LBS.Generators
 
                 // Setear posicion
                 currInstance.transform.position = settings.position +
-                                                  new Vector3(tile.X * scale.x, 0, tile.Y * scale.y);
-                                                  //- new Vector3(scale.x, 0, scale.y) / 2f; // GABO TODO: Necesario agreg. este vector???
+                                                  new Vector3(tile.X * scale.x, 0, tile.Y * scale.y)
+                                                  - new Vector3(scale.x, 0, scale.y) / 2f; // GABO TODO: Necesario ??? Basado en PopulationRuleGenerator.
                 boxes.Add(currInstance);
             }
 
@@ -78,8 +78,8 @@ namespace ISILab.LBS.Generators
             }
 
             // Ya unidos los objetos hijos con padre, trasladar segun Settings
-            // GABO TODO: No es esto un error? Basado en PopulationRuleGenerator. TESTEAR!
-            //parent.transform.position += settings.position;
+            // GABO TODO: No es esto un error? Basado en PopulationRuleGenerator.
+            parent.transform.position += settings.position;
 
             return parent; 
         }
