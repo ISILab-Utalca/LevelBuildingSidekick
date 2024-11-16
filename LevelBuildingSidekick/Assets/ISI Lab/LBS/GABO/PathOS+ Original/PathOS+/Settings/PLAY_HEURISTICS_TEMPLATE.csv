@@ -1,0 +1,73 @@
+Type, Description, Input, Priority
+*,Category 1: Game Play,,NA
+%,A. Heuristic: Enduring Play,,NA
+#,A1 The players find the game fun with no repetitive or boring tasks.,,NA
+#,A2 The players should not experience being penalized repetitively for the same failure. ,,NA
+#,A3 The players should not lose any hard won possessions.,,NA
+#,A4 Gameplay is long and enduring and keeps the players' interest., ,NA
+#,A5 Any fatigue or boredom was minimized by varying activities and pacing during the game play., ,NA
+%,B. Heuristic: Challenge Strategy and Pace,,
+#,B1 Challenge strategy and pace are in balance, ,NA
+#,B2 The game is paced to apply pressure without frustrating the players. The difficulty level varies so the players experience greater challenges as they develop master., ,NA
+#,B3 Easy to learn harder to master. , ,NA
+#,B4 Challenges are positive game experiences rather than negative experiences. This results in wanting to play more rather than quitting. , ,NA
+#,B5 AI is balanced with the players' play., ,NA
+#,B6 The AI is tough enough that the players have to try different tactics against it., ,NA
+%,C. Heuristic: Consistency in Game World,,
+#,C1 The game world reacts to the player and remembers their passage through it. , ,NA
+#,C2 Changes the player make in the game world are persistent and noticeable if they back-track to where they have been before., ,NA
+%,D. Heuristic: Goals,,
+#,D1 The game goals are clear. The game provides clear goals/presents overriding goals early/as well as short term goals throughout game play., ,NA
+#,D2 The skills needed to attain goals are taught early enough to play or use later or right before the new skill is needed. , ,NA
+#,D3 The game gives rewards that immerse the player more deeply in the game  by increasing their capabilities (capacity or for example) expanding their ability to customize. , ,NA
+%,E. Heuristic: Variety of Players and Game Styles,,
+#,E1 The game supports a variety of game styles., ,NA
+#,E2 The game is balanced with multiple ways to win., ,NA
+#,E3 The first ten minutes of play and player actions are painfully obvious and should result in immediate and positive feedback for all types of players., ,NA
+#,E4 The game had diffferent AI settings so that it was challenging to all levels of players whether novice or expert players. , ,NA
+%,F. Heuristic: Players Perception of Control,,
+#,F1 Players feel in control., ,NA
+#,F2 The player's have a sense of control and influence on the game world., ,NA
+*,Category 2: Coolness/Entertainment/Humor/Emotional Immersion,,
+%,A. Heuristic: Emotional Connection,,
+#,A1 There is an emotional connection between the player and the game world as wellas with their avatar. , ,NA
+%,B. Heuristic: Coolness/Entertainment,,
+#,B1 The game offers something different in terms of attracting and retaining the players' interest., ,NA
+%,C. Heuristic: Humor,,
+#,C1 The game uses humor well., ,NA
+%,D. Heuristic: Immersion,,
+#,D1 The game utilizes visceral/audio/visual content to further the players' immersion in the game., ,NA
+*,Category 3: Usability and Game Mechanics,,
+%,A. Heuristic: Documentation/Tutorial,,
+#,A1 Player does not need to read the manual or documentation to play., ,NA
+#,A2 Player does not need to access the tutorial in order to play., ,NA
+%,B. Heuristic: Status and Score,,
+#,B1 Game controls are consistent within the game and follow standard conventions., ,NA
+#,B2 Status score Indictators are seamless/obvious/available and do not interfere with game play., ,NA
+#,B3 Controls are intuitive and mapped in a natural way; they are customizable and default to industry standard settings., ,NA
+#,B4 Consistency shortens the learning curve by following the trends set by the gaming industry to meet users' expectations. If no industry standard exists perform usability/playability research to ascertain the best mapping for the majority of intended players., ,NA
+%,C. Heuristic: Game Provides Feedback,,
+#,C1 Game provides feedback and reacts in a consistent/immediate/challenging and exciting way to the players' actions., ,NA
+#,C2 Provide appropriate audio.visual/visceral feedback (music/sound effects/controller vibration)., ,NA
+%,D. Heuristic: Terminology,,
+#,D1 The game goals are clear. The game provides clear goals presents overriding goals early as well as short term goals throughout game play., ,NA
+#,D2 The skills needed to attain goals are taught early enough to play or use later or right before the new skill is needed. , ,NA
+#,D3 The game gives rewards that immerse the player more deeply in the game by increasing their capabilities/capacity or expanding their ability to customize., ,NA
+%,E. Heuristic: Burden On Player,,
+#,E1 The game does not put an unneccessary burden on the player., ,NA
+#,E2 Player is given controls that are basic enough to learn quickly yet expandable for advanced options for advanced players., ,NA
+%,F. Heuristic: Screen Layout,,
+#,F1 Screen layout is efficient integrated and visually pleasing. , ,NA
+#,F2 The player experiencees the user interface as consistent (in controller/color/typographic/dialogue and user interface design)., ,NA
+#,F3 The players experience the user interface/HUD as part of the game., ,NA
+#,F4 Art is recognizable to the player and speaks to its function., ,NA
+%,G. Heuristic: Navigation,,
+#,G1 Navigation is consistent logical and minimalist. , ,NA
+%,H. Heuristic: Error Prevention,,
+#,H1 Player error is avoided., ,NA
+#,H2 Player Interruption is supported so that players can easily turn the game on and off and be able to save the games in different states., ,NA
+#,H3 Upon turning on the game the player has enough information to begin play., ,NA
+#,H4 Players should be given context sensitive help while playing so that they are not stuck and need to rely on a manual for help., ,NA
+#,H5 All levels of players are able to play and get involved quickly and easily with tutorials and/or progressive or adjustable difficulty levels., ,NA
+%,I. Heuristic: Game Story ,,
+#,I1 Game story encourages immersion (if game has story component). , ,NA
