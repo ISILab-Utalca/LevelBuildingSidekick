@@ -297,7 +297,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3999886422330179394, guid: 31f1861d4df0ac1488cf45674399f745, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3999886422330179394, guid: 31f1861d4df0ac1488cf45674399f745, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -401,7 +401,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5005646905853620061, guid: 31f1861d4df0ac1488cf45674399f745, type: 3}
       propertyPath: levelEntities.Array.data[4].name
-      value: Mushroom 3
+      value: TreasureRock (1)
       objectReference: {fileID: 0}
     - target: {fileID: 5005646905853620061, guid: 31f1861d4df0ac1488cf45674399f745, type: 3}
       propertyPath: levelEntities.Array.data[5].name
@@ -449,7 +449,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5005646905853620061, guid: 31f1861d4df0ac1488cf45674399f745, type: 3}
       propertyPath: levelEntities.Array.data[4].entityType
-      value: 250
+      value: 110
       objectReference: {fileID: 0}
     - target: {fileID: 5005646905853620061, guid: 31f1861d4df0ac1488cf45674399f745, type: 3}
       propertyPath: levelEntities.Array.data[5].entityType
@@ -482,6 +482,18 @@ PrefabInstance:
     - target: {fileID: 5005646905853620061, guid: 31f1861d4df0ac1488cf45674399f745, type: 3}
       propertyPath: levelEntities.Array.data[3].objectVisitRadius
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005646905853620061, guid: 31f1861d4df0ac1488cf45674399f745, type: 3}
+      propertyPath: levelEntities.Array.data[4].objectVisitRadius
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005646905853620061, guid: 31f1861d4df0ac1488cf45674399f745, type: 3}
+      propertyPath: heuristicWeights.Array.data[0].weights.Array.data[0].weight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005646905853620061, guid: 31f1861d4df0ac1488cf45674399f745, type: 3}
+      propertyPath: heuristicWeights.Array.data[0].weights.Array.data[8].weight
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 5005646905853620062, guid: 31f1861d4df0ac1488cf45674399f745, type: 3}
       propertyPath: logDirectory
