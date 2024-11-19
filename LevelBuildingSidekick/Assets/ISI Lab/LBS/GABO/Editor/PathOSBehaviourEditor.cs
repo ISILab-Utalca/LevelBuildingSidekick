@@ -10,6 +10,8 @@ using ISILab.LBS.Internal;
 using LBS.Bundles;
 using System.Linq;
 using LBS;
+using UnityEditor;
+using System.Dynamic;
 
 namespace ISILab.LBS.VisualElements
 {
@@ -19,6 +21,8 @@ namespace ISILab.LBS.VisualElements
         #region FIELDS
         // Palletes
         private PathOSTagPallete bundlePallete;
+        // PathOS Original Inspector
+        private PathOSWindow pathOSOriginalWindow;
         // Target (PathOSBehaviour)
         private PathOSBehaviour _target;
         // Manipulators
@@ -28,7 +32,7 @@ namespace ISILab.LBS.VisualElements
         AddOpenedObstacle addOpenedObstacle;
         #endregion
 
-    #region METHODS
+        #region METHODS
         public PathOSBehaviourEditor(object target) : base(target)
         {
             _target = target as PathOSBehaviour;
@@ -43,11 +47,19 @@ namespace ISILab.LBS.VisualElements
 
         protected override VisualElement CreateVisualElement()
         {
+            // Add and set Tag Pallete
             bundlePallete = new PathOSTagPallete();
             Add(bundlePallete);
             bundlePallete.SetName("PathOS+ Tags");
-
             SetBundlePallete();
+
+            // Add the original PathOSWindow (IMGUI-based)
+            if (pathOSOriginalWindow == null)
+            {
+                pathOSOriginalWindow = ScriptableObject.CreateInstance<PathOSWindow>();
+            }
+            IMGUIContainer container = new IMGUIContainer(pathOSOriginalWindow.OnGUI);
+            Add(container);
 
             return this;
         }
@@ -119,7 +131,7 @@ namespace ISILab.LBS.VisualElements
 
             bundlePallete.Repaint();
         }
-        
+
         //GABO TODO: Agregar herramientas faltantes
         public void SetTools(ToolKit toolkit)
         {
