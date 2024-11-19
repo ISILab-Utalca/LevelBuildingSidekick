@@ -48,7 +48,7 @@ namespace ISILab.LBS.Manipulators
             var pos = behaviour.Owner.ToFixedPosition(endPosition);
             obstacleTile = behaviour.GetTile(pos.x, pos.y);
 
-            // GABO TODO: Arreglar, tal y como en AddPathOSTile!!!!
+            // GABO TODO: Arreglar undo, tal y como en AddPathOSTile!!!!
             // Inicio logica UNDO
             var x = LBSController.CurrentLevel;
             EditorGUI.BeginChangeCheck();
@@ -57,6 +57,8 @@ namespace ISILab.LBS.Manipulators
             // Chequeos
             // Chequeo nulo
             if (obstacleTile == null || triggerTile == null) { Debug.LogWarning("Alguno de los tiles dados es nulo!"); return; }
+            // Chequeo de tile de agente
+            if (obstacleTile.Tag.Label == "PathOSAgent" || triggerTile.Tag.Label == "PathOSAgent") { Debug.LogWarning("Agente no puede dar ni recibir eventos!"); return; }
             // Chequeo de propiedad correcta
             if (!obstacleTile.IsDynamicObstacleObject || !triggerTile.IsDynamicObstacleTrigger) { Debug.LogWarning("Alguno de los tiles no es del tipo correcto!"); return; }
             // Chequeo de repeticion
@@ -78,7 +80,6 @@ namespace ISILab.LBS.Manipulators
 
         // Accion a realizar al agregar el obstaculo (debe implementarse)
         public abstract void AddObstacleAction();
-
         #endregion
     }
 }

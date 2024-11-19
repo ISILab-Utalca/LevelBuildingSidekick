@@ -76,12 +76,27 @@ namespace ISILab.LBS.Behaviours
             var tile = new PathOSTile(this, x, y, tag);
 
             // Add Tile or ApplyEventTile segun defina el tag asociado
+            // Tags de Elementos
             if (tag.Category == PathOSTag.PathOSCategory.ElementTag)
             {
+                // Si el tile a agregar es el del agente, se restringe a uno:
+                // Si ya existe, se borra el anterior.
+                if (tag.Label == "PathOSAgent")
+                {
+                    var oldAgentTile = module.GetTiles().Find(t => t.Tag.Label == "PathOSAgent");
+                    if (oldAgentTile != null)
+                    {
+                        module.RemoveTile(oldAgentTile);
+                    }
+                }
                 module.AddTile(tile);
             }
+            // Tags de eventos
             else if (tag.Category == PathOSTag.PathOSCategory.EventTag)
             {
+                // El tile de agente no puede recibir eventos
+                if (module.GetTile(x, y).Tag.Label == "PathOSAgent") { return; }
+
                 module.ApplyEventTile(tile);
             }
         }

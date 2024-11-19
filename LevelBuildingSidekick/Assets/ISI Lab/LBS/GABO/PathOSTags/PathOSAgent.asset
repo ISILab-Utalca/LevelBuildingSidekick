@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 625e9b68000045e4c98b4cc1facbdde4, type: 3}
   m_Name: PathOSAgent
   m_EditorClassIdentifier: 
-  label: Player
+  label: PathOSAgent
   icon: {fileID: 2800000, guid: 1df91c8fad8de564fae7be3d9bba3e44, type: 3}
-  color: {r: 0, g: 0, b: 0, a: 0}
+  color: {r: 1, g: 1, b: 0, a: 1}
   category: 0
