@@ -230,7 +230,6 @@ namespace ISILab.LBS.Template.Editor
             AssetDatabase.SaveAssets();
         }
 
-        // GABO TODO : TERMINAR !!!!!!!!!!!!!
         /// <summary>
         /// This function adjust the icons, layout and labels of the PathOS Testing system.
         /// Also calls the manipulators to make functional buttons in the layout (TO BE IMPLEMENTED).

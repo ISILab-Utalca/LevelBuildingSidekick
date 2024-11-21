@@ -199,6 +199,13 @@ public class PathOSManager : NPSingleton<PathOSManager>
 #endif
     }
 
+    // Gabo: Allows addition of level entities from outside.
+    public void AddLevelEntity(GameObject currGameObject, EntityType entityType)
+    {
+        LevelEntity newEntity = new(currGameObject, entityType);
+        levelEntities.Add(newEntity);
+    }
+
     private bool AreAllAgentsDead()
     {
         for (int i = 0; i < agents.Count; ++i)

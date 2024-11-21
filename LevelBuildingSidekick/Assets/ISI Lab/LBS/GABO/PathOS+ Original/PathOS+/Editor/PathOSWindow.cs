@@ -11,10 +11,10 @@ PathOSWindow.cs
 
 public class PathOSWindow : EditorWindow
 {
-   enum Tabs { 
+    enum Tabs {
         Setup = 0,
-        Agent = 1, 
-        Resources = 2, 
+        Agent = 1,
+        Resources = 2,
         Batching = 3,
         Profiles = 4,
         Manager = 5,
@@ -22,7 +22,7 @@ public class PathOSWindow : EditorWindow
         ExpertEvaluation = 7
     };
 
-    string[] tabLabels = { "SETUP", "Agent", "Resource Values", "Batching", "Profiles", "Manager", "Visualization", "Expert Evaluation"};
+    string[] tabLabels = { "SETUP", "Agent", "Resource Values", "Batching", "Profiles", "Manager", "Visualization", "Expert Evaluation" };
     int tabSelection = 0;
 
     private PathOSProfileWindow profileWindow;
@@ -218,6 +218,12 @@ public class PathOSWindow : EditorWindow
         //Temporary solution
         batchingWindow.UpdateBatching();
     }
+
+    // GABO: Set references from outside the class
+    public void SetAgentReference(PathOSAgent agent) { agentReference = agent; hasAgent = true; }
+    public void SetManagerReference(PathOSManager manager) { managerReference = manager; hasManager = true; }
+    public void SetScreenshotCameraReference(ScreenshotManager camera) { screenshotReference = camera; hasScreenshot = true; }
+
     private void OnResourcesOpen()
     {
         managerWindow.OnResourceOpen();
@@ -399,5 +405,4 @@ public class PathOSWindow : EditorWindow
         if (hasAgent && null == agentReference)
             agentReference = EditorUtility.InstanceIDToObject(agentID) as PathOSAgent;
     }
-
 }

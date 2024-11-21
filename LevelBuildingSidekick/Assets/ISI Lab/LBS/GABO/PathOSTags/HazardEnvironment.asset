@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: HazardEnvironment
   m_EditorClassIdentifier: 
   label: HazardEnvironment
+  entityType: 250
   icon: {fileID: 2800000, guid: 0897562c595adcc4ea0dec15d3478729, type: 3}
   color: {r: 1, g: 0, b: 0, a: 1}
   category: 0

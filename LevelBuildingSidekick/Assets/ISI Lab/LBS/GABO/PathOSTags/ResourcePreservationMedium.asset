@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: ResourcePreservationMedium
   m_EditorClassIdentifier: 
   label: ResourcePreservationMedium
+  entityType: 170
   icon: {fileID: 2800000, guid: c5618c3e79dfa7148a82434fa1b55521, type: 3}
   color: {r: 1, g: 0, b: 0.99944544, a: 1}
   category: 0

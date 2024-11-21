@@ -19,11 +19,11 @@ MonoBehaviour:
   childsBundles: []
   assets: []
   characteristics:
-  - rid: 3505131369817964549
+  - rid: 3505131369817964999
   references:
     version: 2
     RefIds:
-    - rid: 3505131369817964549
+    - rid: 3505131369817964999
       type: {class: LBSPathOSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         value: {fileID: 11400000, guid: 50b60534d850b9d40b86e359d740eaa1, type: 2}

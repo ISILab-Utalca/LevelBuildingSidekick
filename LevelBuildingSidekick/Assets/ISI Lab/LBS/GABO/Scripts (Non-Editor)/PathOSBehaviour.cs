@@ -13,27 +13,6 @@ namespace ISILab.LBS.Behaviours
     [RequieredModule(typeof(PathOSModule))]
     public class PathOSBehaviour : LBSBehaviour
     {
-        #region ENUMS(sin usar por ahora)
-        //public enum EntityType
-        //{
-        //    ET_NONE = 0,
-        //    ET_GOAL_OPTIONAL = 100,
-        //    ET_GOAL_MANDATORY = 110,
-        //    ET_GOAL_COMPLETION = 120,
-        //    ET_RESOURCE_ACHIEVEMENT = 150,
-        //    ET_RESOURCE_PRESERVATION_LOW = 160,
-        //    ET_RESOURCE_PRESERVATION_MED = 170,
-        //    ET_RESOURCE_PRESERVATION_HIGH = 180,
-        //    ET_HAZARD_ENEMY_LOW = 200,
-        //    ET_HAZARD_ENEMY_MED = 210,
-        //    ET_HAZARD_ENEMY_HIGH = 220,
-        //    ET_HAZARD_ENEMY_BOSS = 230,
-        //    ET_HAZARD_ENVIRONMENT = 250,
-        //    ET_POI = 300,
-        //    ET_POI_NPC = 350
-        //};
-        #endregion
-
         #region FIELDS
         [SerializeField, SerializeReference, JsonRequired] // GABO TODO: Deberia ir o no JsonIgnore?????? De todas maneras hay error de serialziacion (queda nulo)
         private PathOSModule module;

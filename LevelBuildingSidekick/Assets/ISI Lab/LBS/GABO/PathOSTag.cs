@@ -1,11 +1,12 @@
 using ISILab.Commons.Attributes;
+using PathOS;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace ISILab.LBS.Components
 {
-    [CreateAssetMenu(fileName = "NewID", menuName = "ISILab/LBS/PathOSTag")]
+    [CreateAssetMenu(fileName = "NewID", menuName = "ISILab/LBS/PathOS/PathOSTag")]
     [System.Serializable]
     public class PathOSTag : ScriptableObject
     {
@@ -18,6 +19,8 @@ namespace ISILab.LBS.Components
         #region FIELDS
         [SerializeField, ReadOnly]
         private string label;
+        [SerializeField]
+        private PathOS.EntityType entityType;
         [SerializeField]
         protected Texture2D icon;
         [SerializeField]
@@ -37,6 +40,19 @@ namespace ISILab.LBS.Components
 
                 this.label = value;
                 OnChangeText?.Invoke(this);
+            }
+        }
+
+        public EntityType EntityType
+        {
+            get => entityType;
+            set
+            {
+                if (entityType == value)
+                    return;
+
+                this.entityType = value;
+                OnChangeEntityType?.Invoke(this);
             }
         }
 
@@ -81,6 +97,7 @@ namespace ISILab.LBS.Components
         #region EVENTS
         public delegate void PathOSTagEvent(PathOSTag tag);
         public PathOSTagEvent OnChangeText;
+        public PathOSTagEvent OnChangeEntityType;
         public PathOSTagEvent OnChangeColor;
         public PathOSTagEvent OnChangeIcon;
         public PathOSTagEvent OnChangeCategory;

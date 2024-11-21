@@ -32,6 +32,10 @@ namespace ISILab.LBS.VisualElements
         AddOpenedObstacle addOpenedObstacle;
         #endregion
 
+        #region PROPERTIES
+        public PathOSWindow PathOSOriginalWindow { get => pathOSOriginalWindow; set => pathOSOriginalWindow = value; }
+        #endregion
+
         #region METHODS
         public PathOSBehaviourEditor(object target) : base(target)
         {
