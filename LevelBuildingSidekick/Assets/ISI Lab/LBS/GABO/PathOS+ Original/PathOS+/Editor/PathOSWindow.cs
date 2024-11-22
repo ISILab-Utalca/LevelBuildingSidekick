@@ -130,13 +130,14 @@ public class PathOSWindow : EditorWindow
         if (evaluationWindow) DestroyImmediate(evaluationWindow);
     }
 
+    // GABO NOTA***: Commented out due to bug when using Batching 
     private void OnDisable()
     {
-        if (profileWindow) DestroyImmediate(profileWindow);
-        if (batchingWindow) DestroyImmediate(batchingWindow);
-        if (agentWindow) DestroyImmediate(agentWindow);
-        if (managerWindow) DestroyImmediate(managerWindow);
-        if (evaluationWindow) DestroyImmediate(evaluationWindow);
+        //if (profileWindow) DestroyImmediate(profileWindow);
+        //if (batchingWindow) DestroyImmediate(batchingWindow);
+        //if (agentWindow) DestroyImmediate(agentWindow);
+        //if (managerWindow) DestroyImmediate(managerWindow);
+        //if (evaluationWindow) DestroyImmediate(evaluationWindow);
     }
 
     //gizmo stuff from here https://stackoverflow.com/questions/37267021/unity-editor-script-visible-hidden-gizmos
