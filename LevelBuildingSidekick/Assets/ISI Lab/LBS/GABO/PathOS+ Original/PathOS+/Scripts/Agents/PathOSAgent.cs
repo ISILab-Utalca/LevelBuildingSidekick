@@ -12,7 +12,7 @@ PathOSAgent (c) Samantha Stahlke and Atiya Nova 2018
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(PathOSAgentMemory))]
 [RequireComponent(typeof(PathOSAgentEyes))]
-public class PathOSAgent : MonoBehaviour 
+public class PathOSAgent : MonoBehaviour
 {
     /* OBJECT REFERENCES AND DEBUGGING */
     private NavMeshAgent navAgent;
@@ -50,7 +50,7 @@ public class PathOSAgent : MonoBehaviour
     [Tooltip("How many degrees should separate lines of " +
         "sight checked for \"explorability\" by the agent?")]
     public float exploreDegrees = 5.0f;
-    
+
     [PathOSDisplayName("Explore Degrees (Back)")]
     [Tooltip("How many degrees should separate paths checked for " +
         "\"explorability\" behind (out of sight of) the agent?")]
@@ -59,7 +59,7 @@ public class PathOSAgent : MonoBehaviour
     [Tooltip("How many degrees should the agent sway to either " +
         "side when looking around?")]
     public float lookDegrees = 60.0f;
-    
+
     [Tooltip("How close do two \"exploration\" goals have to " +
         "be to be considered the same?")]
     public float exploreThreshold = 2.0f;
@@ -112,16 +112,16 @@ public class PathOSAgent : MonoBehaviour
     //Health variables
     private float health = 100.0f;
     private bool dead = false;
-    public TimeRange lowEnemyDamage = new TimeRange(10,30), medEnemyDamage = new TimeRange(30,50),
-        highEnemyDamage = new TimeRange(50,70), bossEnemyDamage = new TimeRange(70,100),
-        hazardDamage = new TimeRange(10,20), lowHealthGain = new TimeRange(10, 30),
-        medHealthGain = new TimeRange(30, 60), highHealthGain = new TimeRange(70,100);
+    public TimeRange lowEnemyDamage = new TimeRange(10, 30), medEnemyDamage = new TimeRange(30, 50),
+        highEnemyDamage = new TimeRange(50, 70), bossEnemyDamage = new TimeRange(70, 100),
+        hazardDamage = new TimeRange(10, 20), lowHealthGain = new TimeRange(10, 30),
+        medHealthGain = new TimeRange(30, 60), highHealthGain = new TimeRange(70, 100);
     private int cautionIndex, aggressionIndex, adrenalineIndex;
 
     private GameObject cameraObject;
     private static bool cameraFollow = false;
     private void Awake()
-    { 
+    {
         eyes = GetComponent<PathOSAgentEyes>();
         memory = GetComponent<PathOSAgentMemory>();
 
@@ -139,7 +139,7 @@ public class PathOSAgent : MonoBehaviour
         heuristicScaleLookup = new Dictionary<Heuristic, float>();
         entityScoringLookup = new Dictionary<(Heuristic, EntityType), float>();
 
-        if(null == manager)
+        if (null == manager)
             manager = PathOSManager.instance;
 
         if (null == logger)
@@ -170,23 +170,23 @@ public class PathOSAgent : MonoBehaviour
             }
         }
 
-        foreach(HeuristicWeightSet curSet in manager.heuristicWeights)
+        foreach (HeuristicWeightSet curSet in manager.heuristicWeights)
         {
-            for(int j = 0; j < curSet.weights.Count; ++j)
+            for (int j = 0; j < curSet.weights.Count; ++j)
             {
                 entityScoringLookup.Add((curSet.heuristic, curSet.weights[j].entype), curSet.weights[j].weight);
             }
         }
 
-          float avgAggressionScore =  0.2f *
-          (entityScoringLookup[(Heuristic.AGGRESSION, EntityType.ET_HAZARD_ENEMY_LOW)] +
-          (entityScoringLookup[(Heuristic.AGGRESSION, EntityType.ET_HAZARD_ENEMY_MED)]) +
-          (entityScoringLookup[(Heuristic.AGGRESSION, EntityType.ET_HAZARD_ENEMY_HIGH)]) +
-          (entityScoringLookup[(Heuristic.AGGRESSION, EntityType.ET_HAZARD_ENEMY_BOSS)]) +
-          entityScoringLookup[(Heuristic.AGGRESSION, EntityType.ET_HAZARD_ENVIRONMENT)]);
+        float avgAggressionScore = 0.2f *
+        (entityScoringLookup[(Heuristic.AGGRESSION, EntityType.ET_HAZARD_ENEMY_LOW)] +
+        (entityScoringLookup[(Heuristic.AGGRESSION, EntityType.ET_HAZARD_ENEMY_MED)]) +
+        (entityScoringLookup[(Heuristic.AGGRESSION, EntityType.ET_HAZARD_ENEMY_HIGH)]) +
+        (entityScoringLookup[(Heuristic.AGGRESSION, EntityType.ET_HAZARD_ENEMY_BOSS)]) +
+        entityScoringLookup[(Heuristic.AGGRESSION, EntityType.ET_HAZARD_ENVIRONMENT)]);
 
         float avgAdrenalineScore = 0.2f
-            * (entityScoringLookup[(Heuristic.ADRENALINE, EntityType.ET_HAZARD_ENEMY_LOW)] + 
+            * (entityScoringLookup[(Heuristic.ADRENALINE, EntityType.ET_HAZARD_ENEMY_LOW)] +
               (entityScoringLookup[(Heuristic.AGGRESSION, EntityType.ET_HAZARD_ENEMY_MED)]) +
               (entityScoringLookup[(Heuristic.AGGRESSION, EntityType.ET_HAZARD_ENEMY_HIGH)]) +
               (entityScoringLookup[(Heuristic.AGGRESSION, EntityType.ET_HAZARD_ENEMY_BOSS)]) +
@@ -222,8 +222,8 @@ public class PathOSAgent : MonoBehaviour
             PathOS.Constants.Behaviour.LOOK_TIME_MAX,
             heuristicScaleLookup[Heuristic.CURIOSITY]);
 
-        float memPathScale = (heuristicScaleLookup[Heuristic.CAUTION] 
-            + 1.0f - heuristicScaleLookup[Heuristic.CURIOSITY]) 
+        float memPathScale = (heuristicScaleLookup[Heuristic.CAUTION]
+            + 1.0f - heuristicScaleLookup[Heuristic.CURIOSITY])
             * 0.5f;
 
         memPathChance = Mathf.Lerp(PathOS.Constants.Behaviour.MEMORY_NAV_CHANCE_MIN,
@@ -242,16 +242,26 @@ public class PathOSAgent : MonoBehaviour
         lookTimer = Random.Range(0.0f, lookTime);
     }
 
+    private void OnDestroy()
+    {
+        // GABO: Resets global time scale when destroyed (prevents affecting Time.timeScale beyond agent lifetime
+        // when using Agent Batching)
+        if (name.Contains("Temporary Batch Agent"))
+        {
+            Time.timeScale = 1.0f;
+        }
+    }
+
     private void LogAgentData()
     {
-        if(logger != null)
+        if (logger != null)
         {
             string header = "";
 
             header += "HEURISTICS,";
             header += "EXPERIENCE," + experienceScale + ",";
 
-            foreach(HeuristicScale scale in modifiableHeuristicScales)
+            foreach (HeuristicScale scale in modifiableHeuristicScales)
             {
                 header += scale.heuristic + "," + scale.scale + ",";
             }
@@ -267,7 +277,7 @@ public class PathOSAgent : MonoBehaviour
 
     public void RecalibratePath()
     {
-        navAgent.ResetPath(); 
+        navAgent.ResetPath();
         ResetDestinationSelf();
         //ComputeNewDestination();
     }
@@ -288,7 +298,7 @@ public class PathOSAgent : MonoBehaviour
 
         //Actual look time can fluctuate based on the agent's caution and the 
         //danger in the current area.
-        float lookTimeScale = memory.ScoreHazards(GetPosition()) * 
+        float lookTimeScale = memory.ScoreHazards(GetPosition()) *
             heuristicScaleLookup[Heuristic.CAUTION];
 
         lookTime = Mathf.Min(baseLookTime,
@@ -296,7 +306,7 @@ public class PathOSAgent : MonoBehaviour
             PathOS.Constants.Behaviour.LOOK_TIME_MIN_CAUTION,
             lookTimeScale));
     }
-    
+
     private float RouteComputeTimeCalculated()
     {
         return PathOS.Constants.Navigation.ROUTE_COMPUTE_BASE
@@ -309,14 +319,14 @@ public class PathOSAgent : MonoBehaviour
     {
         Dictionary<Heuristic, float> weights = new Dictionary<Heuristic, float>();
 
-        for(int i = 0; i < modifiableHeuristicScales.Count; ++i)
+        for (int i = 0; i < modifiableHeuristicScales.Count; ++i)
         {
             weights.Add(modifiableHeuristicScales[i].heuristic, modifiableHeuristicScales[i].scale);
         }
 
         modifiableHeuristicScales.Clear();
 
-        foreach(Heuristic heuristic in System.Enum.GetValues(typeof(Heuristic)))
+        foreach (Heuristic heuristic in System.Enum.GetValues(typeof(Heuristic)))
         {
             float weight = 0.0f;
 
@@ -331,23 +341,23 @@ public class PathOSAgent : MonoBehaviour
     {
         //if (health <= 50.0f)
         //{
-            //Variables for calculations
-            float newCaution = 0, newAggression = 0, newAdrenaline = 0;
-            float h = 1.0f - (health / 100.0f);
+        //Variables for calculations
+        float newCaution = 0, newAggression = 0, newAdrenaline = 0;
+        float h = 1.0f - (health / 100.0f);
 
-            //Updates the caution
-            newCaution = Mathf.Lerp(heuristicScaleLookup[Heuristic.CAUTION], 1.0f, h);
-            if (newCaution > 1.0f) newCaution = 1.0f;
-            modifiableHeuristicScales[cautionIndex].scale = newCaution;
+        //Updates the caution
+        newCaution = Mathf.Lerp(heuristicScaleLookup[Heuristic.CAUTION], 1.0f, h);
+        if (newCaution > 1.0f) newCaution = 1.0f;
+        modifiableHeuristicScales[cautionIndex].scale = newCaution;
 
-            //Cuts aggression/adrenaline by half
-            newAggression = Mathf.Lerp(heuristicScaleLookup[Heuristic.AGGRESSION], (heuristicScaleLookup[Heuristic.AGGRESSION]*0.25f), h);
-            if (newAggression <= 0) newAggression = 0.0f;
-            modifiableHeuristicScales[aggressionIndex].scale = newAggression;
+        //Cuts aggression/adrenaline by half
+        newAggression = Mathf.Lerp(heuristicScaleLookup[Heuristic.AGGRESSION], (heuristicScaleLookup[Heuristic.AGGRESSION] * 0.25f), h);
+        if (newAggression <= 0) newAggression = 0.0f;
+        modifiableHeuristicScales[aggressionIndex].scale = newAggression;
 
-            newAdrenaline = Mathf.Lerp(heuristicScaleLookup[Heuristic.ADRENALINE], (heuristicScaleLookup[Heuristic.ADRENALINE]*0.25f), h);
-            if (newAdrenaline <= 0) newAdrenaline = 0.0f;
-            modifiableHeuristicScales[adrenalineIndex].scale = newAdrenaline;
+        newAdrenaline = Mathf.Lerp(heuristicScaleLookup[Heuristic.ADRENALINE], (heuristicScaleLookup[Heuristic.ADRENALINE] * 0.25f), h);
+        if (newAdrenaline <= 0) newAdrenaline = 0.0f;
+        modifiableHeuristicScales[adrenalineIndex].scale = newAdrenaline;
         //}
         //else
         //{
@@ -432,7 +442,7 @@ public class PathOSAgent : MonoBehaviour
 
         ScoreExploreDirection(GetPosition(), XZForward, true, ref maxScore);
 
-        for(int i = 1; i <= steps; ++i)
+        for (int i = 1; i <= steps; ++i)
         {
             ScoreExploreDirection(GetPosition(), Quaternion.AngleAxis(i * exploreDegrees, Vector3.up) * XZForward,
                 true, ref maxScore);
@@ -447,7 +457,7 @@ public class PathOSAgent : MonoBehaviour
         halfX = (360.0f - eyes.XFOV()) * 0.5f;
         steps = (int)(halfX / invisibleExploreDegrees);
 
-        for(int i = 1; i <= steps; ++i)
+        for (int i = 1; i <= steps; ++i)
         {
             ScoreExploreDirection(GetPosition(), Quaternion.AngleAxis(i * invisibleExploreDegrees, Vector3.up) * XZBack,
                 false, ref maxScore);
@@ -457,13 +467,13 @@ public class PathOSAgent : MonoBehaviour
 
         //If no destinations are added to the list,
         //the old target will be used.
-        if(destList.Count != 0)
+        if (destList.Count != 0)
             dest = PathOS.ScoringUtility.PickTarget(destList, maxScore);
-        
+
         //Only recompute goal routing if our new goal is different
         //from the previous goal.
         if (currentDest.entity != dest.entity ||
-            Vector3.SqrMagnitude(currentDest.pos - dest.pos) 
+            Vector3.SqrMagnitude(currentDest.pos - dest.pos)
             > PathOS.Constants.Navigation.GOAL_EPSILON_SQR)
         {
             ++changeTargetCount;
@@ -494,8 +504,8 @@ public class PathOSAgent : MonoBehaviour
 
         assessedGoalsInit = true;
 
-        if(verboseDebugging)
-            NPDebug.LogMessage("Position: " + navAgent.transform.position + 
+        if (verboseDebugging)
+            NPDebug.LogMessage("Position: " + navAgent.transform.position +
                 ", Destination: " + currentDest);
     }
 
@@ -509,11 +519,11 @@ public class PathOSAgent : MonoBehaviour
     {
         //A previously visited entity shouldn't be targeted.
         //Likewise, an entity found to be unreachable shouldn't be targeted.
-        if (memory.visited || memory.unreachable) 
+        if (memory.visited || memory.unreachable)
             return;
 
         bool isFinalGoal = memory.entity.entityType == EntityType.ET_GOAL_COMPLETION;
-        
+
         float bias = 0.0f;
 
         //Special circumstances for the final goal - since it marks the end of play
@@ -524,7 +534,7 @@ public class PathOSAgent : MonoBehaviour
             if (this.memory.MandatoryGoalsLeft() || !assessedGoalsInit)
                 return;
 
-            bias += Mathf.Lerp(PathOS.Constants.Behaviour.FINAL_GOAL_BONUS_MIN, 
+            bias += Mathf.Lerp(PathOS.Constants.Behaviour.FINAL_GOAL_BONUS_MIN,
                 PathOS.Constants.Behaviour.FINAL_GOAL_BONUS_MAX,
                 heuristicScaleLookup[Heuristic.EFFICIENCY]);
 
@@ -546,7 +556,7 @@ public class PathOSAgent : MonoBehaviour
         {
             (Heuristic, EntityType) key = (heuristicScale.heuristic, memory.entity.entityType);
 
-            if(!entityScoringLookup.ContainsKey(key))
+            if (!entityScoringLookup.ContainsKey(key))
             {
                 NPDebug.LogError("Couldn't find key " + key.ToString() + " in heuristic scoring lookup!", typeof(PathOSAgent));
                 continue;
@@ -566,7 +576,7 @@ public class PathOSAgent : MonoBehaviour
 
         if (!isFinalGoal && score > 0.0f)
             cumulativeEntityScore += score;
-        
+
         //Bias for preferring the goal we have already set.
         //(If we haven't already reached it).
         if (memory.entity == currentDest.entity
@@ -575,8 +585,8 @@ public class PathOSAgent : MonoBehaviour
             score += PathOS.Constants.Behaviour.EXISTING_GOAL_BIAS;
 
         //Check if the destination should be added to the candidate list.
-        if (score > maxScore 
-            || (maxScore - score) 
+        if (score > maxScore
+            || (maxScore - score)
             < PathOS.Constants.Behaviour.SCORE_UNCERTAINTY_THRESHOLD)
         {
             TargetDest newDest = new TargetDest();
@@ -705,7 +715,7 @@ public class PathOSAgent : MonoBehaviour
             //Else, target the "start" point, and the agent will re-assess its 
             //options when it gets there.
             if (Vector3.SqrMagnitude(origin - GetPosition())
-                < PathOS.Constants.Navigation.EXPLORE_PATH_POS_THRESHOLD_FAC 
+                < PathOS.Constants.Navigation.EXPLORE_PATH_POS_THRESHOLD_FAC
                 * exploreThreshold)
                 newDest.pos = newTarget;
             else
@@ -733,7 +743,7 @@ public class PathOSAgent : MonoBehaviour
         PathOSNavUtility.NavmeshMemoryMapper.NavmeshMemoryMapperCastHit hit;
         memory.memoryMap.RaycastMemoryMap(origin, dir, maxDistance, out hit);
 
-        score += (heuristicScaleLookup[Heuristic.CURIOSITY]) 
+        score += (heuristicScaleLookup[Heuristic.CURIOSITY])
             * hit.numUnexplored / PathOSNavUtility.NavmeshMemoryMapper.maxCastSamples
             * hit.distance / eyes.navmeshCastDistance;
 
@@ -757,12 +767,12 @@ public class PathOSAgent : MonoBehaviour
             dot = Mathf.Clamp(dot, 0.0f, 1.0f);
 
             //Weighted scoring function.
-            foreach(HeuristicScale heuristicScale in modifiableHeuristicScales)
+            foreach (HeuristicScale heuristicScale in modifiableHeuristicScales)
             {
-                (Heuristic, EntityType) key = (heuristicScale.heuristic, 
+                (Heuristic, EntityType) key = (heuristicScale.heuristic,
                     memory.entities[i].entity.entityType);
 
-                if(!entityScoringLookup.ContainsKey(key))
+                if (!entityScoringLookup.ContainsKey(key))
                 {
                     NPDebug.LogError("Couldn't find key " + key.ToString() + " in heuristic scoring lookup!", typeof(PathOSAgent));
                     continue;
@@ -775,15 +785,23 @@ public class PathOSAgent : MonoBehaviour
         return score;
     }
 
-	private void Update() 
-	{
+    private void Update()
+    {
         //Inactive state toggle for debugging purposes (or if the agent is finished).
         if (freezeAgent || completed)
             return;
 
         if (timeScale <= 0.0f) timeScale = 1.0f;
 
-        Time.timeScale = timeScale;
+        // GABO: Ignoring this line for temporary batch agents, since you're not supposed
+        // to control their timeScale in the inspector or when batching ends, while also
+        // allowing use of PathOSBatchingWindow's time scale slider which doesn't work
+        // properly when this line is set since entering Game Mode calls this object
+        // default timeScale for some reason.
+        if (!name.Contains("Temporary Batch Agent"))
+        {
+            Time.timeScale = timeScale;
+        }
 
         if (health <= 0 && !dead) dead = true;
 
@@ -808,7 +826,7 @@ public class PathOSAgent : MonoBehaviour
         routeTimer += Time.deltaTime;
         perceptionTimer += Time.deltaTime;
 
-        if(!lookingAround)
+        if (!lookingAround)
             lookTimer += Time.deltaTime;
 
         //Rerouting update.
@@ -816,7 +834,7 @@ public class PathOSAgent : MonoBehaviour
         {
             routeTimer = 0.0f;
 
-            float rerouteChance = changeTargetCount 
+            float rerouteChance = changeTargetCount
                 * PathOS.Constants.Behaviour.GOAL_INDECISION_CHANCE;
 
             float rerouteRoll = Random.Range(0.0f, 1.0f);
@@ -850,22 +868,22 @@ public class PathOSAgent : MonoBehaviour
                 }
             }
         }
-        else if(currentDest.entity != null && !currentDest.accurate
+        else if (currentDest.entity != null && !currentDest.accurate
             && currentDest.entity.visible)
             MakeEntityDestinationAccurate();
 
         //Targeting update. This prevents the agent from getting stuck.
-        if(!pathResolved && NavmeshPathIncomplete())
+        if (!pathResolved && NavmeshPathIncomplete())
         {
             //If we're following a memory path,
             //abort and route to the final target on the Navmesh.
-            if(onMemPath)
+            if (onMemPath)
             {
                 onMemPath = false;
                 RouteDestination();
             }
             //If we're dealing with an entity...
-            else if(currentDest.entity != null)
+            else if (currentDest.entity != null)
             {
                 PerceivedEntity entity = currentDest.entity;
 
@@ -898,7 +916,7 @@ public class PathOSAgent : MonoBehaviour
             {
                 //This will prevent the agent from retargeting the current destination.
                 AddUnreachable(currentDest.pos);
-                changeTargetCount = 0;      
+                changeTargetCount = 0;
             }
 
             pathResolved = true;
@@ -915,7 +933,7 @@ public class PathOSAgent : MonoBehaviour
         }
 
         //Look-around update.
-        if(lookTimer >= lookTime)
+        if (lookTimer >= lookTime)
         {
             lookTimer = 0.0f;
             lookingAround = true;
@@ -936,6 +954,7 @@ public class PathOSAgent : MonoBehaviour
             if (cameraObject != null) cameraObject.transform.position = new Vector3(transform.position.x, 15.0f, transform.position.z);
         }
     }
+
     private void RouteDestination()
     {
         navAgent.SetDestination(currentDest.pos);
@@ -973,7 +992,7 @@ public class PathOSAgent : MonoBehaviour
 
     private void AddUnreachable(Vector3 target)
     {
-        for(int i = 0; i < unreachableReference.Count; ++i)
+        for (int i = 0; i < unreachableReference.Count; ++i)
         {
             if (Vector3.SqrMagnitude(target - unreachableReference[i])
                 < PathOS.Constants.Navigation.UNREACHABLE_POS_SIMILARITY_SQR)
@@ -985,7 +1004,7 @@ public class PathOSAgent : MonoBehaviour
 
     public bool IsUnreachable(Vector3 target)
     {
-        for(int i = 0; i < unreachableReference.Count; ++i)
+        for (int i = 0; i < unreachableReference.Count; ++i)
         {
             if (Vector3.SqrMagnitude(target - unreachableReference[i])
                 < PathOS.Constants.Navigation.UNREACHABLE_POS_CHECK_SQR)
@@ -1002,7 +1021,7 @@ public class PathOSAgent : MonoBehaviour
 
     private bool NavmeshPathIncomplete()
     {
-        return !navAgent.pathPending && !navAgent.hasPath 
+        return !navAgent.pathPending && !navAgent.hasPath
             && navAgent.pathStatus == NavMeshPathStatus.PathPartial
             && !navAgent.isPathStale;
     }
@@ -1092,7 +1111,7 @@ public class PathOSAgent : MonoBehaviour
                 health -= GetEnemyDamage(highEnemyDamage.min, highEnemyDamage.max);
                 break;
             case EntityType.ET_HAZARD_ENEMY_BOSS:
-                health -= GetEnemyDamage(bossEnemyDamage.min, bossEnemyDamage.max);  
+                health -= GetEnemyDamage(bossEnemyDamage.min, bossEnemyDamage.max);
                 break;
             case EntityType.ET_HAZARD_ENVIRONMENT:
                 health -= GetEnemyDamage(hazardDamage.min, hazardDamage.max);

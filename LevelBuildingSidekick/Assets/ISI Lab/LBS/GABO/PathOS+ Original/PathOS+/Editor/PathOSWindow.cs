@@ -79,7 +79,7 @@ public class PathOSWindow : EditorWindow
         //managerWindow = new PathOSManagerWindow();
         //evaluationWindow = new PathOSEvaluationWindow();
 
-        profileWindow = (PathOSProfileWindow)ScriptableObject.CreateInstance(typeof(PathOSProfileWindow)); 
+        profileWindow = (PathOSProfileWindow)ScriptableObject.CreateInstance(typeof(PathOSProfileWindow));
         batchingWindow = (PathOSAgentBatchingWindow)ScriptableObject.CreateInstance(typeof(PathOSAgentBatchingWindow));
         agentWindow = (PathOSAgentWindow)ScriptableObject.CreateInstance(typeof(PathOSAgentWindow)); 
         managerWindow = (PathOSManagerWindow)ScriptableObject.CreateInstance(typeof(PathOSManagerWindow)); 
@@ -130,14 +130,13 @@ public class PathOSWindow : EditorWindow
         if (evaluationWindow) DestroyImmediate(evaluationWindow);
     }
 
-    // GABO NOTA***: Commented out due to bug when using Batching 
     private void OnDisable()
     {
-        //if (profileWindow) DestroyImmediate(profileWindow);
-        //if (batchingWindow) DestroyImmediate(batchingWindow);
-        //if (agentWindow) DestroyImmediate(agentWindow);
-        //if (managerWindow) DestroyImmediate(managerWindow);
-        //if (evaluationWindow) DestroyImmediate(evaluationWindow);
+        if (profileWindow) DestroyImmediate(profileWindow);
+        if (batchingWindow) DestroyImmediate(batchingWindow);
+        if (agentWindow) DestroyImmediate(agentWindow);
+        if (managerWindow) DestroyImmediate(managerWindow);
+        if (evaluationWindow) DestroyImmediate(evaluationWindow);
     }
 
     //gizmo stuff from here https://stackoverflow.com/questions/37267021/unity-editor-script-visible-hidden-gizmos

@@ -47,9 +47,10 @@ public class OGLogManager : OGSingleton<OGLogManager>
 
         if(!LogDirectoryValid())
         {
-            Debug.LogError("Log manager has no valid directory set! Logs will not " +
-                "be recorded.\n Log manager needs a directory on this computer " +
-                "outside of the Assets folder.");
+            // GABO: LogError commented out due to possibility of not wanting logs
+            //Debug.LogError("Log manager has no valid directory set! Logs will not " +
+            //    "be recorded.\n Log manager needs a directory on this computer " +
+            //    "outside of the Assets folder.");
 
             return;
         }

@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using PathOS;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 /*
 PathOSAgentBatchingWindow.cs 
@@ -310,11 +311,15 @@ public class PathOSAgentBatchingWindow : EditorWindow
 
         PlayerPrefs.SetInt(OGLogManager.overrideFlagId, 0);
 
-        if (simulationActive)
-        {
-            NPDebug.LogError("Batching control window closed while simulation was active! " +
-                "Any instantiated agents will not be deleted automatically.");
-        }
+        // GABO: Delete created agent instances
+        DeleteInstantiatedAgents(instantiatedAgents.Count);
+        // GABO: Due to temporary fix inside DeleteInstantiatedAgents(), this warning
+        // is unnecessary. Commented out.
+        //if (simulationActive)
+        //{
+        //    NPDebug.LogError("Batching control window closed while simulation was active! " +
+        //        "Any instantiated agents will not be deleted automatically.");
+        //}
 
         instantiatedAgents.Clear();
         existingSceneAgents.Clear();
@@ -368,6 +373,14 @@ public class PathOSAgentBatchingWindow : EditorWindow
 
         EditorGUILayout.BeginVertical();
         timeScale = EditorGUILayout.Slider("Timescale: ", timeScale, 1.0f, 8.0f);
+        // GABO: Allows the slider to set time scale if batching agents are in the scene.
+        // Temp fix for timescale (and other things) resetting during PathOSWindow.OnDisable when entering Play Mode.
+        // "Time.timeScale will be set here during batching. Code in "PathOSAgent.OnDestroy()"
+        // should prevent them from affecting timeScale after batching ends.
+        if (FindObjectsOfType<PathOSAgent>().ToList().Exists(a => a.name.Contains("Temporary Batch Agent")))
+        {
+            Time.timeScale = timeScale;
+        }
 
         numAgents = EditorGUILayout.IntField("Number of agents: ", numAgents);
         EditorGUILayout.EndVertical();
@@ -606,7 +619,7 @@ public class PathOSAgentBatchingWindow : EditorWindow
                 PlayerPrefs.Save();
 
                 EditorApplication.isPlaying = true;
-                Time.timeScale = timeScale;
+                Time.timeScale = timeScale; // GABO: Doesn't work due to the OnDestroy reset (itself due to PathOSWindow.OnDisable) entering Play Mode.
                 triggerFrame = false;
 
             }
@@ -787,6 +800,13 @@ public class PathOSAgentBatchingWindow : EditorWindow
     //Grab fixed heuristic values from the agent reference specified.
     private void LoadHeuristicsFromAgent()
     {
+        // GABO: Set agentReference as prefab if it was null (if already checked as valid)
+        if (validPrefabFile && null == agentReference)
+        {
+            PathOSAgent prefab = AssetDatabase.LoadAssetAtPath<PathOSAgent>(GetLocalPrefabFile());
+            if (prefab != null) { agentReference = prefab; }
+        }
+
         if(null == agentReference)
             return;
 
@@ -993,6 +1013,21 @@ public class PathOSAgentBatchingWindow : EditorWindow
             }
             
             instantiatedAgents.RemoveAt(instantiatedAgents.Count - 1);
+        }
+
+        // GABO: Find all agents and delete temporary ones.
+        // Temporary solution. Due to strange OnDisable/OnEnable behaviour
+        // on PathOSWindow entering play mode, instantiatedAgents and existingAgents
+        // refs are lost when initializing Play Mode,so the code above doesn't work.
+        // Preventing PathOSWindow from creating a new PathOSAgentBatchingWindow
+        // on its OnEnable call doesn't help.
+        PathOSAgent[] allAgents = FindObjectsOfType<PathOSAgent>();
+        foreach (PathOSAgent agent in allAgents)
+        {
+            if (agent.name.Contains("Temporary Batch Agent"))
+            {
+                DestroyImmediate(agent.gameObject);
+            }
         }
     }
 }
