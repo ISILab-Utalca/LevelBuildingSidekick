@@ -199,7 +199,11 @@ public class PathOSManager : NPSingleton<PathOSManager>
 #endif
     }
 
-    // Gabo: Allows addition of level entities from outside.
+    /// <summary>
+    /// GABO: Allows addition of level entities from outside.
+    /// </summary>
+    /// <param name="currGameObject"> Object to be tagged. </param>
+    /// <param name="entityType"> Type of PathOS entity. </param>
     public void AddLevelEntity(GameObject currGameObject, EntityType entityType)
     {
         LevelEntity newEntity = new(currGameObject, entityType);

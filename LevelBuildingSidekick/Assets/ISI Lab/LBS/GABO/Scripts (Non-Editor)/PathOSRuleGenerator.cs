@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
+using UnityEngine.AI;
+using Unity.AI.Navigation;
 
 namespace ISILab.LBS.Generators
 {
@@ -16,6 +17,8 @@ namespace ISILab.LBS.Generators
         GameObject parent;
         GameObject levelMarkupContainer;
         Vector2 scale;
+        // Referencia a PathOSManager original
+        PathOSManager manager;
         // Ventana de PathOS+
         PathOSWindow window;
         // PathOS+ Prefabs originales
@@ -71,7 +74,7 @@ namespace ISILab.LBS.Generators
             // Lista de GameObjects a retornar
             List<GameObject> boxes = new List<GameObject>();
 
-            // Instanciacion de Prefabs y colocacion de referencias en PathOSWindow
+            // Instanciacion de Prefabs + colocacion de referencias en PathOSWindow
             GenerateManager();
             GenerateWorldCamera();
             GenerateScreenshotCamera();
@@ -114,13 +117,19 @@ namespace ISILab.LBS.Generators
                                                   - new Vector3(scale.x, 0, scale.y) / 2f;
 
                 // Agregar Tag a entidades del PathOSManager
-                var manager = managerGameObject.GetComponent<PathOSManager>();
+                manager = managerGameObject.GetComponent<PathOSManager>();
                 manager.AddLevelEntity(currInstance, tile.Tag.EntityType);
             }
 
+            // GABO TERMINAR:
+            // Baking automatico (asume que ya se encuentran instanciados los objetos de los otros modulos,
+            // y que estos tienen colliders)
+            GenerateNavMesh();
+
+            // Obtener posicion planar promedio de las cajas, y altura del objeto mas bajo,
+            // para asignar al padre.
             if (boxes.Count > 0)
             {
-                // Obtener posicion planar promedio de las cajas, y altura del objeto mas bajo.
                 var x = boxes.Average(o => o.transform.position.x);
                 var y = boxes.Min(o => o.transform.position.y);
                 var z = boxes.Average(o => o.transform.position.z);
@@ -161,6 +170,77 @@ namespace ISILab.LBS.Generators
             screenshotCameraGameObject = PrefabUtility.InstantiatePrefab(screenshotCameraPrefab, parent.transform) as GameObject;
             // Se asigna a su campo respectivo de PathOSWindow
             window.SetScreenshotCameraReference(screenshotCameraGameObject.GetComponent<ScreenshotManager>());
+        }
+
+        private void GenerateNavMesh()
+        {
+            // Si existe un NavMesh, evita generar otro.
+            //NavMeshTriangulation triangulation = NavMesh.CalculateTriangulation();
+            //if (triangulation.vertices.Length == 0 && triangulation.indices.Length == 0)
+            //{
+            //    Debug.LogWarning("Ya existe un NavMesh! No se generara uno nuevo.");
+            //    return;
+            //}
+
+            // Interior Layers: GameObjects
+            List<GameObject> interiorLayerGameObjects = GameObject.FindObjectsOfType<GameObject>().Where(
+                obj => obj.transform.childCount == 2 &&
+                obj.transform?.GetChild(0).name == "Schema" &&
+                obj.transform?.GetChild(1).name == "Schema outside").ToList();
+
+            // Exterior Layers: GameObjects
+            List<GameObject> exteriorLayerGameObjects = GameObject.FindObjectsOfType<GameObject>().Where(
+                obj => obj.transform.childCount == 1 &&
+                obj.transform?.GetChild(0).name == "Exterior").ToList();
+            
+            // Si no se encuentra, advierte.
+            if (interiorLayerGameObjects.Count == 0 && exteriorLayerGameObjects.Count == 0)
+            {
+                Debug.LogWarning("Ninguna instancia de Exterior o Interior Layer encontrada. No se generara un NavMesh.");
+                return;
+            }
+
+            // Crea padre temporal para usarlos en un solo mesh
+            GameObject tempParent = new GameObject();
+            tempParent.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+            // Agrega componente de superficie y limita su efecto a los hijos de tempParent
+            var surface = tempParent.AddComponent<NavMeshSurface>();
+            surface.collectObjects = CollectObjects.Children;
+            // Guarda padres viejos para la posterior reinsertacion
+            GameObject[] interiorOldParents = new GameObject[interiorLayerGameObjects.Count];
+            GameObject[] exteriorOldParents = new GameObject[exteriorLayerGameObjects.Count];
+
+            // Interior Layers: Nuevo padre temporal
+            for (int i = 0; i < interiorLayerGameObjects.Count; i++)
+            {
+                interiorOldParents[i] = interiorLayerGameObjects[i].transform.parent?.gameObject;
+                // Agrega objetos al padre temporal
+                interiorLayerGameObjects[i].transform.parent = tempParent.transform;
+            }
+            // Exterior Layers: Nuevo padre temporal
+            for (int i = 0; i < exteriorLayerGameObjects.Count; i++)
+            {
+                exteriorOldParents[i] = exteriorLayerGameObjects[i].transform.parent?.gameObject;
+                // Agrega objetos al padre temporal
+                exteriorLayerGameObjects[i].transform.parent = tempParent.transform;
+            }
+
+            // Genera NavMesh (Bake)
+            surface.BuildNavMesh();
+
+            // Interior Layers: Reasigna padre original
+            for (int i = 0; i < interiorLayerGameObjects.Count; i++)
+            {
+                interiorLayerGameObjects[i].transform.parent = interiorOldParents[i]?.transform;
+            }
+            // Exterior Layers: Reasigna padre original
+            for (int i = 0; i < exteriorLayerGameObjects.Count; i++)
+            {
+                exteriorLayerGameObjects[i].transform.parent = exteriorOldParents[i]?.transform;
+            }
+
+            // Padre temporal cambia de nombre (pasa a contener unicamente el navmesh)
+            tempParent.name = "NavMeshSurface";
         }
 
         private GameObject SimpleBoxGenerate(LBSLayer layer, Generator3D.Settings settings)

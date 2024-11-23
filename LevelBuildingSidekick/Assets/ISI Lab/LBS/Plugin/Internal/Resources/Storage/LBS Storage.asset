@@ -228,9 +228,6 @@ MonoBehaviour:
     - {fileID: 9197481963319205126, guid: 9409e019e8a3d467694747cb45b13abb, type: 3}
     - {fileID: 11400000, guid: ad9baf3ac3e35c948bf6a50e91e91473, type: 3}
     - {fileID: 11400000, guid: d02b5650e6e0b4c45ab18d5a1d1fce97, type: 3}
-    - {fileID: 9197481963319205126, guid: cd1eb3c3c695c494d855ea678fe7395b, type: 3}
-    - {fileID: 9197481963319205126, guid: aaa3e510761864dac9b71f85526490d6, type: 3}
-    - {fileID: 9197481963319205126, guid: d6de7697d63d64fabbfb31425d93541e, type: 3}
   - type: UnityEngine.UIElements.StyleSheet
     items:
     - {fileID: 7433441132597879392, guid: ac773345d0f3bcc4392c29c0837c7f7e, type: 3}
@@ -270,8 +267,6 @@ MonoBehaviour:
     - {fileID: 7433441132597879392, guid: 7d4067dd1e595a64aa7286438069d37c, type: 3}
     - {fileID: 7433441132597879392, guid: edca8f45c1127f147b3fa62aad3ed9c1, type: 3}
     - {fileID: 7433441132597879392, guid: 2a208840b98c7aa46a99ed3517e86d98, type: 3}
-    - {fileID: 7433441132597879392, guid: 3eb99c80b411349188e1e5167887ac6c, type: 3}
-    - {fileID: 7433441132597879392, guid: 63cb84b97408b4d25a6925daccffcd22, type: 3}
     - {fileID: 11400000, guid: dab23848655b5c74ca8b171d95b0864a, type: 3}
     - {fileID: 11400000, guid: 940a3fecc672f9f4ba7ab2b5b71a63a5, type: 3}
     - {fileID: 11400000, guid: 7de59e38a5edf344794b4a5cb8baaae0, type: 3}
