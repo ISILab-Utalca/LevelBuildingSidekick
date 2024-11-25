@@ -64,7 +64,7 @@ namespace ISILab.LBS.Generators
             module = layer.GetModule<PathOSModule>();
             tiles = module.GetTiles();
             scale = settings.scale;
-            // Referencia a interfaz
+            // Obtiene (o crea) instancia de PathOSWindow
             window = EditorWindow.GetWindow(typeof(PathOSWindow), false, "PathOS+") as PathOSWindow;
             // Objeto contenedor padre
             parent = new GameObject("PathOS+ Tags");

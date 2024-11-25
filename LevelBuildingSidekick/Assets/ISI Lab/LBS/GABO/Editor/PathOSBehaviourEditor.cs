@@ -57,10 +57,18 @@ namespace ISILab.LBS.VisualElements
             bundlePallete.SetName("PathOS+ Tags");
             SetBundlePallete();
 
-            // Add the original PathOSWindow (IMGUI-based)
+            // Add the original PathOSWindow (IMGUI-based), create new if there's no instance.
+            PathOSWindow[] oldWindows = Resources.FindObjectsOfTypeAll<PathOSWindow>();
             if (pathOSOriginalWindow == null)
             {
-                pathOSOriginalWindow = ScriptableObject.CreateInstance<PathOSWindow>();
+                if (oldWindows.Length == 0)
+                {
+                    pathOSOriginalWindow = ScriptableObject.CreateInstance<PathOSWindow>();
+                }
+                else
+                {
+                    pathOSOriginalWindow = oldWindows[0];
+                }
             }
             IMGUIContainer container = new IMGUIContainer(pathOSOriginalWindow.OnGUI);
             Add(container);
