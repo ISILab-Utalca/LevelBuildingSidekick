@@ -800,13 +800,6 @@ public class PathOSAgentBatchingWindow : EditorWindow
     //Grab fixed heuristic values from the agent reference specified.
     private void LoadHeuristicsFromAgent()
     {
-        // GABO: Set agentReference as prefab if it was null (if already checked as valid)
-        if (validPrefabFile && null == agentReference)
-        {
-            PathOSAgent prefab = AssetDatabase.LoadAssetAtPath<PathOSAgent>(GetLocalPrefabFile());
-            if (prefab != null) { agentReference = prefab; }
-        }
-
         if(null == agentReference)
             return;
 
