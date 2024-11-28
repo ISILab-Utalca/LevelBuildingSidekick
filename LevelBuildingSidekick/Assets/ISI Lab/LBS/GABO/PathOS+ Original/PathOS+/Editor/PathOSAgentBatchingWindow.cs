@@ -173,6 +173,9 @@ public class PathOSAgentBatchingWindow : EditorWindow
     private Color bgColor, btnColor, btnColorLight, bgDark3;
     private Color themeColor = Color.black;
     private static string sceneName;
+
+    //GABO: Reference to created EditorWindow to correct window duplication in original code
+    Editor headerEditor;
            
     private void OnEnable()
     {
@@ -321,6 +324,9 @@ public class PathOSAgentBatchingWindow : EditorWindow
         //        "Any instantiated agents will not be deleted automatically.");
         //}
 
+        //GABO: Destroy editor reference. Helps prevent duplication when opening/closing PathOS.
+        DestroyImmediate(headerEditor);
+
         instantiatedAgents.Clear();
         existingSceneAgents.Clear();
 
@@ -360,9 +366,9 @@ public class PathOSAgentBatchingWindow : EditorWindow
         GUI.backgroundColor = bgDark3;
         EditorGUILayout.BeginVertical("Box");
 
-        Editor header = Editor.CreateEditor(this);
+        headerEditor = headerEditor == null ? Editor.CreateEditor(this) : headerEditor;
         
-        header.DrawHeader();
+        headerEditor.DrawHeader();
        
         GUI.backgroundColor = bgColor;
 

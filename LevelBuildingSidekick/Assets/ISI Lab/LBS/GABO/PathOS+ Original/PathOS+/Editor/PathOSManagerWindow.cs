@@ -124,6 +124,10 @@ public class PathOSManagerWindow : EditorWindow
 
     private List<MarkupToggle> markupToggles = new List<MarkupToggle>();
     private MarkupToggle activeToggle = null;
+
+    // GABO: Editor reference to prevent editor duplication in original code through "CreateEditor()"
+    Editor headerManagerGameObjectEditor;
+
     private void OnEnable()
     {
         //Load saved settings.
@@ -145,6 +149,12 @@ public class PathOSManagerWindow : EditorWindow
         EditorPrefs.SetString(editorPrefsID, prefsData);
 
         SceneView.duringSceneGui -= this.OnSceneGUI;
+
+        //GABO: Destroy editor references. Helps prevent duplication when opening/closing PathOS.
+        DestroyImmediate(headerManagerGameObjectEditor);
+        DestroyImmediate(currentManagerEditor);
+        DestroyImmediate(currentLogEditor);
+        DestroyImmediate(currentVisEditor);
     }
 
     private void OnDisable()
@@ -171,14 +181,14 @@ public class PathOSManagerWindow : EditorWindow
         if (!managerInitialized) InitializeManager();
 
         Selection.objects = new Object[] { managerReference.gameObject };
-        Editor editor = Editor.CreateEditor(managerReference.gameObject);
+        headerManagerGameObjectEditor = headerManagerGameObjectEditor == null ? Editor.CreateEditor(managerReference.gameObject) : headerManagerGameObjectEditor;
 
-        editor.DrawHeader();
+        headerManagerGameObjectEditor.DrawHeader();
         EditorGUILayout.Space();
 
         GUI.backgroundColor = bgDark3;
         EditorGUILayout.BeginVertical("Box");
-        currentManagerEditor = Editor.CreateEditor(managerReference);
+        currentManagerEditor = currentManagerEditor == null ? Editor.CreateEditor(managerReference) : currentManagerEditor;
         EditorGUIUtility.labelWidth = 150.0f;
         currentManagerEditor.DrawHeader();
         GUI.backgroundColor = bgColor;
@@ -202,13 +212,13 @@ public class PathOSManagerWindow : EditorWindow
 
         //What does this do
         Selection.objects = new Object[] { managerReference.gameObject };
-        Editor editor = Editor.CreateEditor(managerReference.gameObject);
-        editor.DrawHeader();
+        headerManagerGameObjectEditor = headerManagerGameObjectEditor == null ?  Editor.CreateEditor(managerReference.gameObject) : headerManagerGameObjectEditor;
+        headerManagerGameObjectEditor.DrawHeader();
 
         logManagerReference = managerReference.GetComponent<OGLogManager>();
         logVisualizerReference = managerReference.GetComponent<OGLogVisualizer>();
-        currentLogEditor = Editor.CreateEditor(logManagerReference);
-        currentVisEditor = Editor.CreateEditor(logVisualizerReference);
+        currentLogEditor = currentLogEditor == null ? Editor.CreateEditor(logManagerReference) : currentLogEditor;
+        currentVisEditor = currentVisEditor == null ? Editor.CreateEditor(logVisualizerReference) : currentVisEditor;
 
         // Shows the created Editor beneath CustomEditor
         EditorGUIUtility.labelWidth = 150.0f;

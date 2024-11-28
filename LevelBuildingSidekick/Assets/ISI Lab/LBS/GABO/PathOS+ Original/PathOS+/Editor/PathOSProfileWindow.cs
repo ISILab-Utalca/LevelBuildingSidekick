@@ -23,6 +23,10 @@ public class PathOSProfileWindow : EditorWindow
     private AgentProfile curProfile = new AgentProfile();
 
     private Color bgColor, btnColorLight, bgDark3;
+
+    // GABO: Reference to prevent editor duplication in original code
+    Editor headerEditor;
+
     private void OnEnable()
     {
         //Background color
@@ -45,6 +49,9 @@ public class PathOSProfileWindow : EditorWindow
     private void OnDestroy()
     {
         WritePrefsData();
+
+        //GABO: Destroy editor reference. Helps prevent duplication when opening/closing PathOS.
+        DestroyImmediate(headerEditor);
     }
 
     private static void WritePrefsData()
@@ -150,8 +157,8 @@ public class PathOSProfileWindow : EditorWindow
         GUI.backgroundColor = bgDark3;
         EditorGUILayout.BeginVertical("Box");
 
-        Editor header = Editor.CreateEditor(this);
-        header.DrawHeader();
+        headerEditor = headerEditor == null ? Editor.CreateEditor(this) : headerEditor;
+        headerEditor.DrawHeader();
 
         GUI.backgroundColor = bgColor;
 

@@ -144,7 +144,7 @@ namespace ISILab.LBS.Generators
             }
 
             // Ya unidos los objetos hijos con padre, trasladar segun Settings
-            // GABO TODO: No es esto un error? Basado en PopulationRuleGenerator.
+            // GABO TODO: No es esto un error? Basado en PopulationRuleGenerator (todos los modulos base lo hacen)
             parent.transform.position += settings.position;
 
             return parent;
@@ -203,10 +203,12 @@ namespace ISILab.LBS.Generators
             // Crea padre temporal para usarlos en un solo mesh
             GameObject tempParent = new GameObject();
             tempParent.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
-            // Agrega componente de superficie y limita su efecto a los hijos de tempParent
+
+            // NavMeshSurface: Agrega componente de superficie y limita su efecto a los hijos de tempParent
             var surface = tempParent.AddComponent<NavMeshSurface>();
             surface.collectObjects = CollectObjects.Children;
-            // Guarda padres viejos para la posterior reinsertacion
+
+            // Arreglos donde guardar padres viejos para la posterior reinsertacion
             GameObject[] interiorOldParents = new GameObject[interiorLayerGameObjects.Count];
             GameObject[] exteriorOldParents = new GameObject[exteriorLayerGameObjects.Count];
 
@@ -243,6 +245,7 @@ namespace ISILab.LBS.Generators
             tempParent.name = "NavMeshSurface";
         }
 
+        // [DEBUG] Generador de prueba hecho originalmente para probar colocacion de elementos
         private GameObject SimpleBoxGenerate(LBSLayer layer, Generator3D.Settings settings)
         {
             // Variables

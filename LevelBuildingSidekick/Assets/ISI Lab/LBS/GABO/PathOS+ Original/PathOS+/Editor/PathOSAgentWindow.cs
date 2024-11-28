@@ -5,6 +5,8 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
 using PathOS;
+using static UnityEngine.GraphicsBuffer;
+using System.Linq;
 
 /*
 PathOSAgentWindow.cs 
@@ -25,6 +27,9 @@ public class PathOSAgentWindow : EditorWindow
 
     private Editor currentTransformEditor, currentAgentEditor, currentMemoryEditor,
         currentEyeEditor, currentRendererEditor;
+
+    // GABO: Agregado para resolver bug de creacion infinita de Editors
+    private Editor agentGameObjectEditor;
 
     //Inspector variables
     private SerializedObject serial;
@@ -93,6 +98,14 @@ public class PathOSAgentWindow : EditorWindow
         //Save settings to the editor.
         string prefsData = JsonUtility.ToJson(this, false);
         EditorPrefs.SetString(editorPrefsID, prefsData);
+
+        //GABO: Destroy editor references. Helps prevent duplication when opening/closing PathOS.
+        DestroyImmediate(agentGameObjectEditor);
+        DestroyImmediate(currentAgentEditor);
+        DestroyImmediate(currentMemoryEditor);
+        DestroyImmediate(currentEyeEditor);
+        DestroyImmediate(currentRendererEditor);
+        DestroyImmediate(currentTransformEditor);
     }
     private void OnDisable()
     {
@@ -147,15 +160,20 @@ public class PathOSAgentWindow : EditorWindow
 
         Selection.objects = new Object[] { agentReference.gameObject };
 
-        Editor editor = Editor.CreateEditor(agentReference.gameObject);
-        currentAgentEditor = Editor.CreateEditor(agentReference);
-        currentMemoryEditor = Editor.CreateEditor(memoryReference);
-        currentEyeEditor = Editor.CreateEditor(eyeReference);
-        currentRendererEditor = Editor.CreateEditor(rendererReference);
-        currentTransformEditor = Editor.CreateEditor(agentReference.gameObject.transform);
+        // GABO DEBUG: To check for editor duplication due to CreateWindow(). Could be placed anywhere, tbh.
+        //var totalEditors = Resources.FindObjectsOfTypeAll<Editor>();
+        //int totalEditorCount = totalEditors.Count();
+        //Debug.LogWarning($"Conteo totalEditorCount: {totalEditorCount}");
+        // END DEBUG
+        agentGameObjectEditor = agentGameObjectEditor == null ? Editor.CreateEditor(agentReference.gameObject) : agentGameObjectEditor;
+        currentAgentEditor = currentAgentEditor == null ? Editor.CreateEditor(agentReference) : currentAgentEditor;
+        currentMemoryEditor = currentMemoryEditor == null ? Editor.CreateEditor(memoryReference) : currentMemoryEditor;
+        currentEyeEditor = currentEyeEditor == null ? Editor.CreateEditor(eyeReference) : currentEyeEditor;
+        currentRendererEditor = currentRendererEditor == null ? Editor.CreateEditor(rendererReference) : currentRendererEditor;
+        currentTransformEditor = currentTransformEditor == null ? Editor.CreateEditor(agentReference.gameObject.transform) : currentTransformEditor;
 
         //// Shows the created Editor beneath CustomEditor
-        editor.DrawHeader();
+        agentGameObjectEditor.DrawHeader();
 
         GUI.backgroundColor = bgDark3;
         EditorGUILayout.BeginVertical("Box");
