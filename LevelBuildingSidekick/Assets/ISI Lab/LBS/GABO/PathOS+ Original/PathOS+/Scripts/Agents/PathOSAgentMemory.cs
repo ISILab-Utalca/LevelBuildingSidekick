@@ -101,6 +101,9 @@ public class PathOSAgentMemory : MonoBehaviour
                 && (targetEntity != null && entity.entity.entityType == targetEntity.entityType))
             {
                 entity.Visit(this.gameObject, PathOSAgent.logger);
+
+                //GABO DEBUG : SetAllMemoriesAsreachable
+                DEBUGSetAllMemoriesAsReachable();
             }
 
             //Only something which is no longer visible and forgettable
@@ -141,7 +144,11 @@ public class PathOSAgentMemory : MonoBehaviour
 
             if (Vector3.SqrMagnitude(finalGoalTracker[i].XZActualPos() - agentPos) 
                 < visitThresholdSqr)
-                finalGoalTracker[i].Visit();             
+            {
+                finalGoalTracker[i].Visit();
+                //GABO DEBUG : SetAllMemoriesAsreachable
+                DEBUGSetAllMemoriesAsReachable();
+            }        
         }
 
         if(finalGoal != null)
@@ -414,5 +421,15 @@ public class PathOSAgentMemory : MonoBehaviour
         }
 
         return penalty;
+    }
+
+    // GABO TODO DEBUG: Set all unreachable entities as "possibly reachable" again
+    public void DEBUGSetAllMemoriesAsReachable()
+    {
+        foreach (EntityMemory memory in entities)
+        {
+            memory.unreachable = false;
+        }
+        return;
     }
 }
