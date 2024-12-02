@@ -4,6 +4,7 @@ LBS is an extension designed for Unity Engine, which facilitates developers in c
 - [Introduction](#introduction)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Extensive Documentation](#Extensive-Documentation)
 - [License](#license)
 - [Other Projects](#other-projects)
 
@@ -30,6 +31,12 @@ In the main window, you will find a large working area visualized with a tiling 
 In addition to this, we can find in the vertical bar between these two aforementioned elements 3 general buttons, which will allow showing and hiding 3 main panels to organize the work. The first corresponds to a panel to organize the content of the level by layers, the second corresponds to a panel to work by layers the quests that are created on these levels, and the third corresponds to the panel that will allow us to pass these levels to structures directly usable in unity.
 
 For detailed information on the different layers that can be created, how the assistants work, and how to interact with the tool more specifically, it is recommended to review the "user manual" available in this same repository.
+
+# Extensive Documentation
+- [Classes](/LDTK_Documentation/Classes.md)
+- [Modules](/LDTK_Documentation/Modules.md)
+- [UI](/LDTK_Documentation/UI.md)
+
 
 ## License
 The license for this project is available in the LICENSE file in this repository. For more details on the license terms and conditions, please see [here](LICENSE).

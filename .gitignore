@@ -87,3 +87,8 @@ crashlytics-build.properties
 # ISILab
 [Gg]itIgnorable/
 /[Gg]itIgnorable/
+LDTK_Documentation/.obsidian/workspace.json
+LDTK_Documentation/.obsidian/app.json
+LDTK_Documentation/.obsidian/appearance.json
+LDTK_Documentation/.obsidian/core-plugins-migration.json
+LDTK_Documentation/.obsidian/core-plugins.json
