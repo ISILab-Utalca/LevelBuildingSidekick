@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using PathOS;
+using System.Linq;
 
 /*
 PathOSAgent.cs 
@@ -604,9 +605,16 @@ public class PathOSAgent : MonoBehaviour
                 //Check for reachability.
                 Vector3 realPos = Vector3.zero;
 
-                bool reachable = PathOSNavUtility.GetClosestPointWalkable(memory.entity.ActualPosition(),
+                // GABO TODO DEBUG: reachability
+                //bool reachable = PathOSNavUtility.GetClosestPointWalkable(memory.entity.ActualPosition(),
+                //    navAgent.height * PathOS.Constants.Navigation.NAV_SEARCH_RADIUS_FAC,
+                //    ref realPos);
+                bool reachable = PathOSNavUtility.CanAgentReachTarget(
+                    navAgent,
+                    memory.entity.ActualPosition(),
                     navAgent.height * PathOS.Constants.Navigation.NAV_SEARCH_RADIUS_FAC,
                     ref realPos);
+                // FIN DEBUG
 
                 if (reachable)
                     reachable = Vector3.SqrMagnitude(
@@ -633,10 +641,17 @@ public class PathOSAgent : MonoBehaviour
                 {
                     Vector3 guessPos = Vector3.zero;
 
-                    reachable = PathOSNavUtility.GetClosestPointWalkable(
-                    memory.RecallPos(),
-                    navAgent.height * PathOS.Constants.Navigation.NAV_SEARCH_RADIUS_FAC,
-                    ref guessPos);
+                    // GABO TODO DEBUG
+                    //reachable = PathOSNavUtility.GetClosestPointWalkable(
+                    //memory.RecallPos(),
+                    //navAgent.height * PathOS.Constants.Navigation.NAV_SEARCH_RADIUS_FAC,
+                    //ref guessPos);
+                    reachable = PathOSNavUtility.CanAgentReachTarget(
+                        navAgent,
+                        memory.RecallPos(),
+                        navAgent.height * PathOS.Constants.Navigation.NAV_SEARCH_RADIUS_FAC,
+                        ref guessPos);
+                    // FIN DEBUG
 
                     newDest.pos = (reachable) ? guessPos : realPos;
                     newDest.accurate = !reachable;
@@ -662,7 +677,9 @@ public class PathOSAgent : MonoBehaviour
         Vector3 newTarget = origin;
 
         if (overridePos && overrideDest != null)
+        {
             newTarget = overrideDest;
+        }
         else
         {
             if (visible)
@@ -679,8 +696,15 @@ public class PathOSAgent : MonoBehaviour
                 memory.memoryMap.RaycastMemoryMap(origin, dir, eyes.navmeshCastDistance, out hit);
                 distance = hit.distance;
 
-                bool reachable = PathOSNavUtility.GetClosestPointWalkable(
-                    origin + distance * dir, exploreTargetMargin, ref newTarget);
+                // GABO TODO DEBUG
+                //bool reachable = PathOSNavUtility.GetClosestPointWalkable(
+                //    origin + distance * dir, exploreTargetMargin, ref newTarget);
+                bool reachable = PathOSNavUtility.CanAgentReachTarget(
+                    navAgent,
+                    origin + distance * dir,
+                    exploreTargetMargin,
+                    ref newTarget);
+                // FIN DEBUG
 
                 //Disqualify a target if the agent has determined it to be unreachable.
                 if (!reachable || IsUnreachable(newTarget))
@@ -969,10 +993,17 @@ public class PathOSAgent : MonoBehaviour
 
     private void MakeEntityDestinationAccurate()
     {
-        bool reachable = PathOSNavUtility.GetClosestPointWalkable(
-                    currentDest.entity.ActualPosition(),
-                    navAgent.height * PathOS.Constants.Navigation.NAV_SEARCH_RADIUS_FAC,
-                    ref currentDest.pos);
+        // GABO TODO DEBUG: Reachability
+        //bool reachable = PathOSNavUtility.GetClosestPointWalkable(
+        //            currentDest.entity.ActualPosition(),
+        //            navAgent.height * PathOS.Constants.Navigation.NAV_SEARCH_RADIUS_FAC,
+        //            ref currentDest.pos);
+        bool reachable = PathOSNavUtility.CanAgentReachTarget(
+                navAgent,
+                currentDest.entity.ActualPosition(),
+                navAgent.height * PathOS.Constants.Navigation.NAV_SEARCH_RADIUS_FAC,
+                ref currentDest.pos);
+        // FIN DEBUG
 
         if (reachable)
             reachable = Vector3.SqrMagnitude(
@@ -1170,5 +1201,14 @@ public class PathOSAgent : MonoBehaviour
     public bool IsDead()
     {
         return dead;
+    }
+
+    //GABO DEBUG:
+    public void DEBUGResetUnreachablePositionReferences()
+    {
+        if (unreachableReference.Count > 0)
+        {
+            unreachableReference.Clear();
+        }
     }
 }

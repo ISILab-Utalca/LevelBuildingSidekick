@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.Networking.UnityWebRequest;
 
 /*
 PathOSNavUtility.cs 
 PathOSNavUtility (c) Nine Penguins (Samantha Stahlke) 2018
 */
 
-public class PathOSNavUtility 
+public class PathOSNavUtility
 {
     //Simple class for defining the boundaries of a NavMesh in the XZ plane.
     [System.Serializable]
@@ -65,7 +66,7 @@ public class PathOSNavUtility
                 this.xCoord = parent.xCoord;
                 this.zCoord = parent.zCoord;
                 this.gScore = parent.gScore + 1;
-                this.parent = parent;           
+                this.parent = parent;
             }
 
             public void AddPenalty(float penalty)
@@ -85,7 +86,7 @@ public class PathOSNavUtility
 
             private void RecomputeF()
             {
-                fScore = (hScore == 0) ? -PathOS.Constants.Behaviour.SCORE_MAX 
+                fScore = (hScore == 0) ? -PathOS.Constants.Behaviour.SCORE_MAX
                     : gScore + hScore + penalty;
             }
 
@@ -96,12 +97,12 @@ public class PathOSNavUtility
                     this.parent = parent;
                     this.gScore = parent.gScore + 1;
                     RecomputeF();
-                }           
+                }
             }
 
             public void InsertByScore(ref List<AStarTile> list)
             {
-                for(int i = 0; i < list.Count; ++i)
+                for (int i = 0; i < list.Count; ++i)
                 {
                     if (list[i].fScore >= this.fScore)
                     {
@@ -114,7 +115,7 @@ public class PathOSNavUtility
             }
 
             //Equality is determined by location.
-            public static bool operator==(AStarTile lhs, AStarTile rhs)
+            public static bool operator ==(AStarTile lhs, AStarTile rhs)
             {
                 if (object.ReferenceEquals(lhs, null))
                     return object.ReferenceEquals(rhs, null);
@@ -346,7 +347,7 @@ public class PathOSNavUtility
             int obstacleCount = 0;
             NavmeshMapCode sample = NavmeshMapCode.NM_DNE;
 
-            for(int i = 1; (i * sampleDistance) < maxDistance && i < maxCastSamples; ++i)
+            for (int i = 1; (i * sampleDistance) < maxDistance && i < maxCastSamples; ++i)
             {
                 sample = SampleMap(point);
 
@@ -380,13 +381,13 @@ public class PathOSNavUtility
             int gridX = 0, gridZ = 0;
             GetGridCoords(point, ref gridX, ref gridZ);
 
-            if(gridX < 0 || gridZ < 0
-                || gridX > visitedGrid.GetLength(0) 
+            if (gridX < 0 || gridZ < 0
+                || gridX > visitedGrid.GetLength(0)
                 || gridZ > visitedGrid.GetLength(1))
             {
                 NPDebug.LogError("Navmesh sample location outside of grid bounds!\n" +
                     "Check that navmesh is baked properly. Otherwise there is an " +
-                    "issue with PathOS' Navmesh border detection!", 
+                    "issue with PathOS' Navmesh border detection!",
                     typeof(NavmeshMemoryMapper));
 
                 return;
@@ -402,7 +403,7 @@ public class PathOSNavUtility
 
             Color fillColor = PathOS.UI.mapUnknown;
 
-            switch(code)
+            switch (code)
             {
                 case NavmeshMapCode.NM_VISITED:
                     fillColor = PathOS.UI.mapVisited;
@@ -423,7 +424,7 @@ public class PathOSNavUtility
 
         public void BakeVisualGrid()
         {
-            if(visualGridDirty)
+            if (visualGridDirty)
             {
                 visualGrid.Apply();
                 visualGridDirty = false;
@@ -454,7 +455,7 @@ public class PathOSNavUtility
                 left.AddPenalty(memory.MovementHazardPenalty(left.point));
                 adjacent.Add(left);
             }
-                
+
             if (Walkable(right.xCoord, right.zCoord))
             {
                 right.point = GetPoint(right.xCoord, right.zCoord);
@@ -462,7 +463,7 @@ public class PathOSNavUtility
                 right.AddPenalty(memory.MovementHazardPenalty(right.point));
                 adjacent.Add(right);
             }
-                
+
             if (Walkable(up.xCoord, up.zCoord))
             {
                 up.point = GetPoint(up.xCoord, up.zCoord);
@@ -470,7 +471,7 @@ public class PathOSNavUtility
                 up.AddPenalty(memory.MovementHazardPenalty(up.point));
                 adjacent.Add(up);
             }
-                
+
             if (Walkable(down.xCoord, down.zCoord))
             {
                 down.point = GetPoint(down.xCoord, down.zCoord);
@@ -512,11 +513,11 @@ public class PathOSNavUtility
 
             //NPDebug.LogMessage("Initialized A-Star.");
 
-            while(!complete)
-            { 
+            while (!complete)
+            {
                 closed.Add(curTile);
 
-                if(curTile == destTile)
+                if (curTile == destTile)
                 {
                     //NPDebug.LogMessage("Reached destination.");
                     complete = true;
@@ -549,7 +550,7 @@ public class PathOSNavUtility
 
                 int maxIndex = 0;
 
-                for(int i = 1; i < open.Count; ++i)
+                for (int i = 1; i < open.Count; ++i)
                 {
                     if (open[i].fScore <= open[0].fScore)
                         maxIndex = i;
@@ -567,12 +568,12 @@ public class PathOSNavUtility
             List<AStarTile> path = new List<AStarTile>();
 
             //Construct final path.
-            if(!destinationReached)
-            { 
+            if (!destinationReached)
+            {
                 //"Try" to navigate back - take the tile that got closest and build path.
                 AStarTile best = closed[0];
 
-                for(int i = 1; i < closed.Count; ++i)
+                for (int i = 1; i < closed.Count; ++i)
                 {
                     if (closed[i].hScore < best.hScore)
                         best = closed[i];
@@ -637,5 +638,45 @@ public class PathOSNavUtility
     {
         p.y = 0.0f;
         return p;
+    }
+
+    // Determines if a given NavMesh agent can reach the specified target position.
+    // GABO: Due to "GetClosestPointWalkable()" not calculating if a NavMesh agent is ACTUALLY able
+    // to get to "p" beyond a limited "margin" (understandable since the original code always
+    // expected a completely connected NavMesh) we create the needed auxiliary method.
+    public static bool CanAgentReachTarget(NavMeshAgent agent, Vector3 target, float margin, ref Vector3 result)
+    {
+        // Get sampled position from NavMesh
+        NavMeshHit hitResult = new NavMeshHit();
+        bool found = NavMesh.SamplePosition(target, out hitResult, margin, NavMesh.AllAreas);
+        if (found)
+        {
+            result = hitResult.position;
+        }
+        else
+        {
+            Debug.LogWarning("CanAgentReachTarget(): Target failed position sampling!");
+            return false;
+        }
+
+        // Calculate if path between agent and sampled position exists
+        NavMeshPath path = new NavMeshPath();
+        if (agent.CalculatePath(result, path))
+        {
+            // Check if the path is complete
+            if (path.status == NavMeshPathStatus.PathComplete)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            Debug.LogWarning("CanAgentReachTarget(): Invalid pathfinding!");
+            return false;
+        }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using PathOS;
+using Unity.AI.Navigation;
 
 /*
 PathOSAgentMemory.cs 
@@ -9,7 +10,7 @@ PathOSAgentMemory (c) Nine Penguins (Samantha Stahlke) and Atiya Nova 2018
 */
 
 [RequireComponent(typeof(PathOSAgent))]
-public class PathOSAgentMemory : MonoBehaviour 
+public class PathOSAgentMemory : MonoBehaviour
 {
     private PathOSAgent agent;
     private static PathOSManager manager;
@@ -55,7 +56,7 @@ public class PathOSAgentMemory : MonoBehaviour
         //Commit any "always-known" entities to memory.
         foreach (PerceivedEntity entity in agent.eyes.perceptionInfo)
         {
-            if(entity.entityRef.alwaysKnown)
+            if (entity.entityRef.alwaysKnown)
             {
                 EntityMemory newMemory = new EntityMemory(entity);
                 newMemory.MakeUnforgettable();
@@ -63,12 +64,12 @@ public class PathOSAgentMemory : MonoBehaviour
                 entities.Add(newMemory);
             }
 
-            if(entity.entityType == EntityType.ET_GOAL_MANDATORY)
+            if (entity.entityType == EntityType.ET_GOAL_MANDATORY)
             {
                 EntityMemory newMemory = new EntityMemory(entity);
                 finalGoalTracker.Add(newMemory);
             }
-            else if(entity.entityType == EntityType.ET_GOAL_COMPLETION)
+            else if (entity.entityType == EntityType.ET_GOAL_COMPLETION)
                 finalGoal = new EntityMemory(entity);
         }
     }
@@ -84,7 +85,7 @@ public class PathOSAgentMemory : MonoBehaviour
 
         PerceivedEntity targetEntity = agent.GetDestinationEntity();
 
-        for(int i = entities.Count - 1; i >= 0; --i)
+        for (int i = entities.Count - 1; i >= 0; --i)
         {
             EntityMemory entity = entities[i];
 
@@ -102,14 +103,14 @@ public class PathOSAgentMemory : MonoBehaviour
             {
                 entity.Visit(this.gameObject, PathOSAgent.logger);
 
-                //GABO DEBUG : SetAllMemoriesAsreachable
-                DEBUGSetAllMemoriesAsReachable();
+                //GABO DEBUG 
+                DEBUGRefreshReachablesObstaclesAndNavMeshWhenVisitingNewEntity();
             }
 
             //Only something which is no longer visible and forgettable
             //can be discarded from memory.
             //Additionally, the *current* target cannot be forgotten.
-            if (!entity.entity.visible 
+            if (!entity.entity.visible
                 && entity.forgettable
                 && entity.impressionTime >= agent.forgetTime
                 && !PerceivedEntity.SameEntity(targetEntity, entity))
@@ -117,7 +118,7 @@ public class PathOSAgentMemory : MonoBehaviour
                 entities.RemoveAt(i);
                 continue;
             }
-                
+
 
             if (!entities[i].ltm
                 && !entities[i].entity.visible)
@@ -126,32 +127,30 @@ public class PathOSAgentMemory : MonoBehaviour
 
         //Forget any non-visible entities that aren't in long-term memory 
         //over the STM size cap.
-        if(stm.Count > agent.stmSize)
+        if (stm.Count > agent.stmSize)
         {
             stm.Sort((m1, m2) => m1.impressionTime.CompareTo(m2.impressionTime));
 
             while (stm.Count > agent.stmSize)
             {
                 entities.Remove(stm[stm.Count - 1]);
-                stm.RemoveAt(stm.Count - 1);          
-            }               
+                stm.RemoveAt(stm.Count - 1);
+            }
         }
 
-        for(int i = 0; i < finalGoalTracker.Count; ++i)
+        for (int i = 0; i < finalGoalTracker.Count; ++i)
         {
             float visitThresholdSqr = (finalGoalTracker[i].entity.entityRef.overrideVisitRadius) ?
                 finalGoalTracker[i].entity.entityRef.visitRadiusSqr : agent.visitThresholdSqr;
 
-            if (Vector3.SqrMagnitude(finalGoalTracker[i].XZActualPos() - agentPos) 
+            if (Vector3.SqrMagnitude(finalGoalTracker[i].XZActualPos() - agentPos)
                 < visitThresholdSqr)
             {
                 finalGoalTracker[i].Visit();
-                //GABO DEBUG : SetAllMemoriesAsreachable
-                DEBUGSetAllMemoriesAsReachable();
-            }        
+            }
         }
 
-        if(finalGoal != null)
+        if (finalGoal != null)
         {
             float finalThresholdSqr = (finalGoal.entity.entityRef.overrideVisitRadius) ?
             finalGoal.entity.entityRef.visitRadiusSqr : agent.visitThresholdSqr;
@@ -166,7 +165,7 @@ public class PathOSAgentMemory : MonoBehaviour
             }
         }
 
-        for(int i = paths.Count - 1; i >= 0; --i)
+        for (int i = paths.Count - 1; i >= 0; --i)
         {
             paths[i].impressionTime += Time.deltaTime;
 
@@ -175,13 +174,13 @@ public class PathOSAgentMemory : MonoBehaviour
             if (paths[i].impressionTime >= agent.forgetTime
                 || agent.IsUnreachable(paths[i].estimatedDest))
                 paths.RemoveAt(i);
-        }       
+        }
     }
 
     //Push an entity into the agent's memory.
     public void Memorize(PerceivedEntity entity)
     {
-        for(int i = 0; i < entities.Count; ++i)
+        for (int i = 0; i < entities.Count; ++i)
         {
             if (PerceivedEntity.SameEntity(entity, entities[i]))
             {
@@ -196,7 +195,7 @@ public class PathOSAgentMemory : MonoBehaviour
 
     public EntityMemory GetMemory(PerceivedEntity entity)
     {
-        for(int i = 0; i < entities.Count; ++i)
+        for (int i = 0; i < entities.Count; ++i)
         {
             if (PerceivedEntity.SameEntity(entity, entities[i]))
                 return entities[i];
@@ -207,9 +206,9 @@ public class PathOSAgentMemory : MonoBehaviour
 
     public void CommitLTM(PerceivedEntity entity)
     {
-        for(int i = 0; i < entities.Count; ++i)
+        for (int i = 0; i < entities.Count; ++i)
         {
-            if(PerceivedEntity.SameEntity(entity, entities[i]))
+            if (PerceivedEntity.SameEntity(entity, entities[i]))
             {
                 entities[i].ltm = true;
                 return;
@@ -224,29 +223,29 @@ public class PathOSAgentMemory : MonoBehaviour
     {
         EntityMemory memory = null;
 
-        for(int i = 0; i < entities.Count; ++i)
+        for (int i = 0; i < entities.Count; ++i)
         {
-            if(PerceivedEntity.SameEntity(entity, entities[i]))
+            if (PerceivedEntity.SameEntity(entity, entities[i]))
             {
                 memory = entities[i];
                 break;
             }
         }
 
-        if(null == memory)
+        if (null == memory)
         {
             memory = new EntityMemory(entity);
             entities.Add(memory);
         }
 
-        if(!memory.ltm)
+        if (!memory.ltm)
         {
             if (entity.visibilityTimer >= PathOS.Constants.Memory.IMPRESSION_TIME_CONVERT_LTM
                 || entity.impressionCount >= PathOS.Constants.Memory.IMPRESSIONS_CONVERT_LTM)
-                memory.ltm = true;  
+                memory.ltm = true;
         }
 
-        if(memory.forgettable)
+        if (memory.forgettable)
         {
             if (entity.impressionCount >= PathOS.Constants.Memory.IMPRESSIONS_CONVERT_UNFORGETTABLE)
                 memory.MakeUnforgettable();
@@ -255,9 +254,9 @@ public class PathOSAgentMemory : MonoBehaviour
 
     public void CommitUnforgettable(PerceivedEntity entity)
     {
-        for(int i = 0; i < entities.Count; ++i)
+        for (int i = 0; i < entities.Count; ++i)
         {
-            if(PerceivedEntity.SameEntity(entity, entities[i]))
+            if (PerceivedEntity.SameEntity(entity, entities[i]))
             {
                 entities[i].MakeUnforgettable();
                 return;
@@ -267,9 +266,9 @@ public class PathOSAgentMemory : MonoBehaviour
 
     public void MakeUnreachable(PerceivedEntity entity)
     {
-        for(int i = 0; i < entities.Count; ++i)
+        for (int i = 0; i < entities.Count; ++i)
         {
-            if(PerceivedEntity.SameEntity(entity, entities[i]))
+            if (PerceivedEntity.SameEntity(entity, entities[i]))
             {
                 entities[i].MakeUnreachable();
                 return;
@@ -280,7 +279,7 @@ public class PathOSAgentMemory : MonoBehaviour
     //Has a visible entity been visited?
     public bool Visited(PerceivedEntity entity)
     {
-        for(int i = 0; i < entities.Count; ++i)
+        for (int i = 0; i < entities.Count; ++i)
         {
             if (PerceivedEntity.SameEntity(entity, entities[i]))
                 return entities[i].visited;
@@ -295,10 +294,10 @@ public class PathOSAgentMemory : MonoBehaviour
         int minScoringIndex = 0;
         float minScore = PathOS.Constants.Behaviour.SCORE_MAX;
 
-        for(int i = 0; i < paths.Count; ++i)
+        for (int i = 0; i < paths.Count; ++i)
         {
             if (path.EqualsSimilar(paths[i], agent))
-            { 
+            {
                 paths[i].UpdateScore(path.score);
                 return;
             }
@@ -310,7 +309,7 @@ public class PathOSAgentMemory : MonoBehaviour
             }
         }
 
-        if(paths.Count >= agent.stmSize)
+        if (paths.Count >= agent.stmSize)
         {
             if (path.score < minScore)
                 return;
@@ -377,14 +376,14 @@ public class PathOSAgentMemory : MonoBehaviour
 
         for (int i = 0; i < entities.Count; ++i)
         {
-            if(!entities[i].visited
+            if (!entities[i].visited
                 && (entities[i].entity.entityType == EntityType.ET_HAZARD_ENEMY_LOW
                 || entities[i].entity.entityType == EntityType.ET_HAZARD_ENEMY_MED
                 || entities[i].entity.entityType == EntityType.ET_HAZARD_ENEMY_HIGH
                 || entities[i].entity.entityType == EntityType.ET_HAZARD_ENEMY_BOSS
                 || entities[i].entity.entityType == EntityType.ET_HAZARD_ENVIRONMENT))
             {
-                if (Vector3.SqrMagnitude(entities[i].entity.perceivedPos - pos) 
+                if (Vector3.SqrMagnitude(entities[i].entity.perceivedPos - pos)
                     < PathOS.Constants.Behaviour.ENEMY_RADIUS_SQR)
                     ++hazardCount;
 
@@ -393,7 +392,7 @@ public class PathOSAgentMemory : MonoBehaviour
             }
         }
 
-        float hazardScore = (float)hazardCount / 
+        float hazardScore = (float)hazardCount /
             PathOS.Constants.Behaviour.ENEMY_COUNT_THRESHOLD;
 
         return hazardScore;
@@ -405,7 +404,7 @@ public class PathOSAgentMemory : MonoBehaviour
 
         for (int i = 0; i < entities.Count; ++i)
         {
-            if(!entities[i].visited 
+            if (!entities[i].visited
                 && (entities[i].entity.entityType == EntityType.ET_HAZARD_ENEMY_LOW
                 || entities[i].entity.entityType == EntityType.ET_HAZARD_ENEMY_MED
                 || entities[i].entity.entityType == EntityType.ET_HAZARD_ENEMY_HIGH
@@ -423,13 +422,53 @@ public class PathOSAgentMemory : MonoBehaviour
         return penalty;
     }
 
-    // GABO TODO DEBUG: Set all unreachable entities as "possibly reachable" again
-    public void DEBUGSetAllMemoriesAsReachable()
+    // GABO DEBUG
+    // GABO TODO DEBUG: Set all unreachable entities and paths(Vector3 positions) as "possibly reachable" again
+    public int DEBUGSetAllMemoriesAndPathsAsReachable()
     {
+        int unreachableCount = 0;
         foreach (EntityMemory memory in entities)
         {
-            memory.unreachable = false;
+            if (memory.unreachable == true)
+            {
+                memory.unreachable = false;
+                unreachableCount++;
+            }
         }
-        return;
+        // Reset paths
+        agent.DEBUGResetUnreachablePositionReferences();
+        return unreachableCount;
+    }
+
+    // Set all memories as reachable, activate test obstacle if new object is visited
+    public void DEBUGRefreshReachablesObstaclesAndNavMeshWhenVisitingNewEntity()
+    {
+        //
+        int unreachableCount = DEBUGSetAllMemoriesAndPathsAsReachable();
+        //
+        GameObject testRock = GameObject.Find("TestDynamicObstacle");
+        if (testRock != null && unreachableCount > 0)
+        {
+            testRock.GetComponent<BoxCollider>().enabled = false;
+        }
+        else if (testRock == null)
+        {
+            Debug.LogWarning("Couldn't find TestDynamicObstacle!");
+        }
+        // Re-bake
+        if (unreachableCount > 0)
+        {
+            NavMeshSurface currNavMesh = GameObject.Find("NavMeshSurface").GetComponent<NavMeshSurface>();
+            // Save old set option
+            var oldGeometryCollector = currNavMesh.useGeometry;
+            // Use colliders to define navmesh, since Unity throws errors if we're baking with non-readable meshes
+            // at runtime.
+            currNavMesh.useGeometry = UnityEngine.AI.NavMeshCollectGeometry.PhysicsColliders;
+            currNavMesh.BuildNavMesh();
+            // Put old option back
+            currNavMesh.useGeometry = oldGeometryCollector;
+        }
+
+
     }
 }
