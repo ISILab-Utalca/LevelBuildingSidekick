@@ -1,6 +1,10 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/Visual%20Elements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
     <ui:VisualElement style="background-color: rgb(56, 56, 56); border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; padding-left: 3px; padding-right: 3px; padding-top: 5px; padding-bottom: 5px; border-left-color: rgb(48, 48, 48); border-right-color: rgb(48, 48, 48); border-top-color: rgb(48, 48, 48); border-bottom-color: rgb(48, 48, 48); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; margin-bottom: 7px;">
-        <ui:Label tabindex="-1" text="Generator 3D" display-tooltip-when-elided="true" style="border-bottom-width: 1px; border-bottom-color: rgba(0, 0, 0, 0.4); -unity-font-style: bold; font-size: 12px; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0;" />
+        <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row; align-items: stretch; justify-content: flex-end; align-self: stretch; width: auto; height: auto;">
+            <ui:VisualElement name="VisualElement" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); background-image: resource(&apos;Icons/Vectorial/3D_Icon_Vector&apos;); align-self: auto; flex-direction: row; align-items: flex-start; width: 58px; height: 19px; justify-content: flex-start; flex-basis: auto; flex-shrink: initial;" />
+            <ui:Label tabindex="-1" text="Generator 3D" display-tooltip-when-elided="true" style="border-bottom-width: 1px; border-bottom-color: rgba(0, 0, 0, 0.4); -unity-font-style: bold; font-size: 12px; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; align-items: auto;" />
+        </ui:VisualElement>
         <ui:VisualElement style="margin-left: 4px; margin-right: 4px; margin-top: 8px; margin-bottom: 8px;">
             <ui:TextField picking-mode="Ignore" label="Name" value="Default Name" text="Default Name" name="ObjName" tooltip="GameObject name in hierarchy" />
             <ui:Vector3Field label="Position" name="Position" tooltip="Position of the 3D model in the scene" />
