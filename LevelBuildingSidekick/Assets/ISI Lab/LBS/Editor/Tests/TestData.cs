@@ -244,6 +244,7 @@ namespace ISILab.LBS.Tests
 
             // Cheack if the new level and previously are equals
             Assert.AreEqual(lvl, loaded);
+
         }
 
         [Test]
@@ -267,18 +268,24 @@ namespace ISILab.LBS.Tests
             // Add some data
             var tile = new LBSTile(new Vector2(0, 0));
             bundleMap.AddTile(tile, new BundleData("data", new List<LBSCharacteristic>(bundle.Characteristics)), dir);
+            Debug.Log(bundleMap.GetTile(tile));
+
 
             // Save the level as JSON
             JSONDataManager.SaveData(path, "Layer_With_BundleTileMap.tst", lvl);
 
             // Load the level from JSON
             var loaded = JSONDataManager.LoadData<LBSLevelData>(path, "Layer_With_BundleTileMap.tst");
-
+            
             // Check if loaded level is not null
             Assert.IsNotNull(loaded);
 
+            Debug.Log(lvl.GetLayer(0).GetModule<BundleTileMap>().GetTile(tile.Position).Rotation);
+            Debug.Log(loaded.GetLayer(0).GetModule<BundleTileMap>().GetTile(tile.Position).Rotation);
+
             // Cheack if the new level and previously are equals
             Assert.AreEqual(lvl, loaded);
+            
         }
     }
 
