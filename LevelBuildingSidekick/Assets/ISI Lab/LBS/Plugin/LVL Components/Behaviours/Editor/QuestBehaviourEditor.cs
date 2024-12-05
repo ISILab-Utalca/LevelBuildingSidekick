@@ -107,7 +107,7 @@ namespace ISILab.LBS.VisualElements
             grammarDropdown.choices.Clear();
             grammars.Clear();
             var options = LBSAssetsStorage.Instance.Get<LBSGrammar>();
-            if (options.Count == 0)
+            if (options == null || options.Count == 0)
                 return;
             grammars = options;
             grammarDropdown.choices = options.Select(s => s.name).ToList();

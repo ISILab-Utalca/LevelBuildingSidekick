@@ -254,6 +254,7 @@ MonoBehaviour:
   - type: ISILab.LBS.AI.Categorization.MAPElitesPreset
     items:
     - {fileID: 11400000, guid: b90bb27f581fe354799c9c3b84f44eac, type: 2}
+    - {fileID: 11400000, guid: 4b9b0e49ec07d8d488a2e08f8d2bd757, type: 2}
   - type: Borodar.RainbowFolders.ProjectRuleset
     items:
     - {fileID: 11400000, guid: 5e41b3c1212089d44971f715d8388de8, type: 2}
@@ -332,6 +333,7 @@ MonoBehaviour:
   - type: ISILab.AI.Grammar.LBSGrammar
     items:
     - {fileID: 11400000, guid: 63ab688b53411154db5edd0ec7171c42, type: 2}
+<<<<<<< HEAD
   - type: ISILab.LBS.Template.LayerTemplate
     items:
     - {fileID: 11400000, guid: 531e915267477db4e886c2e6401c4372, type: 2}
@@ -341,3 +343,6 @@ MonoBehaviour:
     items:
     - {fileID: 11400000, guid: 2bf3c5dcf9db60848bd36df406db40ab, type: 2}
     - {fileID: 11400000, guid: 5dab7331507a6554a83a7ddfd42f5292, type: 2}
+=======
+    - {fileID: 11400000, guid: 58bc10aa290d21347a22b7648bf8d27e, type: 2}
+>>>>>>> main
