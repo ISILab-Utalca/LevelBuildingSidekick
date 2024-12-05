@@ -1,3 +1,12 @@
+:root {
+    --lbs-light-red-color: rgb(254, 118, 105);
+    --lbs-light-green-color: rgb(194, 246, 100);
+    --lbs-light-yellow-color: rgb(247, 196, 64);
+    --lbs-light-blue-color: rgb(135, 215, 246);
+    --lbs-light-purple-color: rgb(163, 160, 251);
+    --lbs-dark-overlay-color: rgb(0, 0, 0);
+}
+
 .unity-base-field__label {
     padding-right: 21px;
 }
@@ -43,4 +52,48 @@
 }
 
 .lbs-default-button {
+}
+
+.lbs-default-label-icon {
+    flex-grow: 1;
+    background-color: rgba(0, 0, 0, 0.16);
+    align-self: stretch;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-basis: auto;
+    flex-shrink: initial;
+    -unity-background-image-tint-color: var(--unity-colors-label-text);
+    min-width: 16px;
+    min-height: 16px;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    max-width: 24px;
+    max-height: 24px;
+}
+
+.lbs-3d-icon {
+    -unity-background-image-tint-color: rgb(135, 215, 246);
+}
+
+.lbs-default-container-panel {
+    background-color: var(--unity-colors-popup-background);
+    border-left-color: var(--unity-colors-default-border);
+    border-right-color: var(--unity-colors-default-border);
+    border-top-color: var(--unity-colors-default-border);
+    border-bottom-color: var(--unity-colors-default-border);
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-top-left-radius: var(--unity-metrics-default-border_radius);
+    border-bottom-left-radius: var(--unity-metrics-default-border_radius);
+    border-top-right-radius: var(--unity-metrics-default-border_radius);
+    border-bottom-right-radius: var(--unity-metrics-default-border_radius);
 }
