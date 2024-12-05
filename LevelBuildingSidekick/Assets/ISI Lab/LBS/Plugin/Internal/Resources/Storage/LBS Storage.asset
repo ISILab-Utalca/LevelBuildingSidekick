@@ -73,7 +73,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 79511a1b67e4d834cac9774688907ced, type: 2}
     - {fileID: 11400000, guid: 50238b964364050418416fa48f290579, type: 2}
     - {fileID: 11400000, guid: 6ab3cc14c34eee940a915bcee64fb316, type: 2}
-    - {fileID: 11400000, guid: b959f4fb293eeb944bac494c5e6bc639, type: 2}
+    - {fileID: 11400000, guid: 51b64b59109603d498df5c545511f1db, type: 2}
   - type: LBSIdentifierBundle
     items:
     - {fileID: 11400000, guid: 5dab7331507a6554a83a7ddfd42f5292, type: 2}
@@ -251,13 +251,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 531e915267477db4e886c2e6401c4372, type: 2}
     - {fileID: 11400000, guid: 253f372750fae784d9a42445a8e08fcc, type: 2}
     - {fileID: 11400000, guid: 8205ab67b3e47ed4aa4b97e13d9e6abb, type: 2}
-  - type: ISILab.LBS.AI.Categorization.MAPElitesPreset
-    items:
-    - {fileID: 11400000, guid: b90bb27f581fe354799c9c3b84f44eac, type: 2}
-    - {fileID: 11400000, guid: 4b9b0e49ec07d8d488a2e08f8d2bd757, type: 2}
-  - type: Borodar.RainbowFolders.ProjectRuleset
-    items:
-    - {fileID: 11400000, guid: 5e41b3c1212089d44971f715d8388de8, type: 2}
   - type: UnityEngine.UIElements.ThemeStyleSheet
     items:
     - {fileID: -4733365628477956816, guid: e143be758899db849b60f1f32e2521b7, type: 3}
@@ -333,16 +326,3 @@ MonoBehaviour:
   - type: ISILab.AI.Grammar.LBSGrammar
     items:
     - {fileID: 11400000, guid: 63ab688b53411154db5edd0ec7171c42, type: 2}
-<<<<<<< HEAD
-  - type: ISILab.LBS.Template.LayerTemplate
-    items:
-    - {fileID: 11400000, guid: 531e915267477db4e886c2e6401c4372, type: 2}
-    - {fileID: 11400000, guid: 8205ab67b3e47ed4aa4b97e13d9e6abb, type: 2}
-    - {fileID: 11400000, guid: 253f372750fae784d9a42445a8e08fcc, type: 2}
-  - type: ISILab.LBS.LBSIdentifierBundle
-    items:
-    - {fileID: 11400000, guid: 2bf3c5dcf9db60848bd36df406db40ab, type: 2}
-    - {fileID: 11400000, guid: 5dab7331507a6554a83a7ddfd42f5292, type: 2}
-=======
-    - {fileID: 11400000, guid: 58bc10aa290d21347a22b7648bf8d27e, type: 2}
->>>>>>> main
