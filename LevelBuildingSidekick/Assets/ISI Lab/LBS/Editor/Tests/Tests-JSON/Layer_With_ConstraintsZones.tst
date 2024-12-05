@@ -1,6 +1,6 @@
 {
   "$id": "1",
-  "$type": "LBSLevelData, LBS",
+  "$type": "ISILab.LBS.LBSLevelData, LBS",
   "layers": {
     "$id": "2",
     "$type": "System.Collections.Generic.List`1[[LBS.Components.LBSLayer, LBS]], mscorlib",
@@ -15,21 +15,21 @@
         "name": "Layer name",
         "modules": {
           "$id": "4",
-          "$type": "System.Collections.Generic.List`1[[LBS.Components.LBSModule, LBS]], mscorlib",
+          "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Modules.LBSModule, LBS]], mscorlib",
           "$values": [
             {
               "$id": "5",
-              "$type": "ConstrainsZonesModule, LBS",
+              "$type": "ISILab.LBS.Modules.ConstrainsZonesModule, LBS",
               "pairs": {
                 "$id": "6",
-                "$type": "System.Collections.Generic.List`1[[ConstraintPair, LBS]], mscorlib",
+                "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Modules.ConstraintPair, LBS]], mscorlib",
                 "$values": [
                   {
                     "$id": "7",
-                    "$type": "ConstraintPair, LBS",
+                    "$type": "ISILab.LBS.Modules.ConstraintPair, LBS",
                     "zone": {
                       "$id": "8",
-                      "$type": "Zone, LBS",
+                      "$type": "ISILab.LBS.Components.Zone, LBS",
                       "id": "Zone-1",
                       "color": {
                         "r": 1.0,
@@ -41,15 +41,20 @@
                         "x": 0.0,
                         "y": 0.0
                       },
-                      "tagsBundles": {
+                      "insideStyles": {
                         "$id": "9",
+                        "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                        "$values": []
+                      },
+                      "outsideStyles": {
+                        "$id": "10",
                         "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
                         "$values": []
                       }
                     },
                     "constraint": {
-                      "$id": "10",
-                      "$type": "Constraint, LBS",
+                      "$id": "11",
+                      "$type": "ISILab.LBS.Modules.Constraint, LBS",
                       "minWidth": 3.0,
                       "minHeight": 3.0,
                       "maxWidth": 4.0,
@@ -57,11 +62,11 @@
                     }
                   },
                   {
-                    "$id": "11",
-                    "$type": "ConstraintPair, LBS",
+                    "$id": "12",
+                    "$type": "ISILab.LBS.Modules.ConstraintPair, LBS",
                     "zone": {
-                      "$id": "12",
-                      "$type": "Zone, LBS",
+                      "$id": "13",
+                      "$type": "ISILab.LBS.Components.Zone, LBS",
                       "id": "Zone-2",
                       "color": {
                         "r": 0.0,
@@ -73,15 +78,20 @@
                         "x": 0.0,
                         "y": 0.0
                       },
-                      "tagsBundles": {
-                        "$id": "13",
+                      "insideStyles": {
+                        "$id": "14",
+                        "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                        "$values": []
+                      },
+                      "outsideStyles": {
+                        "$id": "15",
                         "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
                         "$values": []
                       }
                     },
                     "constraint": {
-                      "$id": "14",
-                      "$type": "Constraint, LBS",
+                      "$id": "16",
+                      "$type": "ISILab.LBS.Modules.Constraint, LBS",
                       "minWidth": 5.0,
                       "minHeight": 5.0,
                       "maxWidth": 6.0,
@@ -95,23 +105,23 @@
           ]
         },
         "behaviours": {
-          "$id": "15",
-          "$type": "System.Collections.Generic.List`1[[LBS.Behaviours.LBSBehaviour, LBS]], mscorlib",
+          "$id": "17",
+          "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Behaviours.LBSBehaviour, LBS]], mscorlib",
           "$values": []
         },
         "assitants": {
-          "$id": "16",
-          "$type": "System.Collections.Generic.List`1[[LBS.Assisstants.LBSAssistant, LBS]], mscorlib",
+          "$id": "18",
+          "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Assistants.LBSAssistant, LBS]], mscorlib",
           "$values": []
         },
         "generatorRules": {
-          "$id": "17",
-          "$type": "System.Collections.Generic.List`1[[LBS.Generator.LBSGeneratorRule, LBS]], mscorlib",
+          "$id": "19",
+          "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Generators.LBSGeneratorRule, LBS]], mscorlib",
           "$values": []
         },
         "settings": {
-          "$id": "18",
-          "$type": "LBS.Generator.Generator3D+Settings, LBS",
+          "$id": "20",
+          "$type": "ISILab.LBS.Generators.Generator3D+Settings, LBS",
           "scale": {
             "x": 2.0,
             "y": 2.0
@@ -131,8 +141,8 @@
     ]
   },
   "quests": {
-    "$id": "19",
-    "$type": "System.Collections.Generic.List`1[[LBSQuest, LBS]], mscorlib",
+    "$id": "21",
+    "$type": "System.Collections.Generic.List`1[[LBS.Components.LBSLayer, LBS]], mscorlib",
     "$values": []
   }
 }

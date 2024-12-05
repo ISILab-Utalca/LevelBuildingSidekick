@@ -1,6 +1,6 @@
 {
   "$id": "1",
-  "$type": "LBSLevelData, LBS",
+  "$type": "ISILab.LBS.LBSLevelData, LBS",
   "layers": {
     "$id": "2",
     "$type": "System.Collections.Generic.List`1[[LBS.Components.LBSLayer, LBS]], mscorlib",
@@ -15,27 +15,27 @@
         "name": "Layer name",
         "modules": {
           "$id": "4",
-          "$type": "System.Collections.Generic.List`1[[LBS.Components.LBSModule, LBS]], mscorlib",
+          "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Modules.LBSModule, LBS]], mscorlib",
           "$values": []
         },
         "behaviours": {
           "$id": "5",
-          "$type": "System.Collections.Generic.List`1[[LBS.Behaviours.LBSBehaviour, LBS]], mscorlib",
+          "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Behaviours.LBSBehaviour, LBS]], mscorlib",
           "$values": []
         },
         "assitants": {
           "$id": "6",
-          "$type": "System.Collections.Generic.List`1[[LBS.Assisstants.LBSAssistant, LBS]], mscorlib",
+          "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Assistants.LBSAssistant, LBS]], mscorlib",
           "$values": []
         },
         "generatorRules": {
           "$id": "7",
-          "$type": "System.Collections.Generic.List`1[[LBS.Generator.LBSGeneratorRule, LBS]], mscorlib",
+          "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Generators.LBSGeneratorRule, LBS]], mscorlib",
           "$values": []
         },
         "settings": {
           "$id": "8",
-          "$type": "LBS.Generator.Generator3D+Settings, LBS",
+          "$type": "ISILab.LBS.Generators.Generator3D+Settings, LBS",
           "scale": {
             "x": 2.0,
             "y": 2.0
@@ -56,7 +56,7 @@
   },
   "quests": {
     "$id": "9",
-    "$type": "System.Collections.Generic.List`1[[LBSQuest, LBS]], mscorlib",
+    "$type": "System.Collections.Generic.List`1[[LBS.Components.LBSLayer, LBS]], mscorlib",
     "$values": []
   }
 }

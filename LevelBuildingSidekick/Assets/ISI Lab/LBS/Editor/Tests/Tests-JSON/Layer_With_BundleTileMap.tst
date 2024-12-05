@@ -1,6 +1,6 @@
 {
   "$id": "1",
-  "$type": "LBSLevelData, LBS",
+  "$type": "ISILab.LBS.LBSLevelData, LBS",
   "layers": {
     "$id": "2",
     "$type": "System.Collections.Generic.List`1[[LBS.Components.LBSLayer, LBS]], mscorlib",
@@ -15,18 +15,18 @@
         "name": "Layer name",
         "modules": {
           "$id": "4",
-          "$type": "System.Collections.Generic.List`1[[LBS.Components.LBSModule, LBS]], mscorlib",
+          "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Modules.LBSModule, LBS]], mscorlib",
           "$values": [
             {
               "$id": "5",
-              "$type": "BundleTileMap, LBS",
+              "$type": "ISILab.LBS.Modules.BundleTileMap, LBS",
               "tiles": {
                 "$id": "6",
-                "$type": "System.Collections.Generic.List`1[[TileBundlePair, LBS]], mscorlib",
+                "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Modules.TileBundlePair, LBS]], mscorlib",
                 "$values": [
                   {
                     "$id": "7",
-                    "$type": "TileBundlePair, LBS",
+                    "$type": "ISILab.LBS.Modules.TileBundlePair, LBS",
                     "tile": {
                       "$id": "8",
                       "$type": "LBS.Components.TileMap.LBSTile, LBS",
@@ -38,14 +38,25 @@
                       "$type": "LBS.Components.TileMap.BundleData, LBS",
                       "characteristics": {
                         "$id": "10",
-                        "$type": "System.Collections.Generic.List`1[[LBSCharacteristic, LBS]], mscorlib",
-                        "$values": []
+                        "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Characteristics.LBSCharacteristic, LBS]], mscorlib",
+                        "$values": [
+                          {
+                            "$id": "11",
+                            "$type": "ISILab.LBS.Characteristics.LBSDirection, LBS",
+                            "connections": {
+                              "$id": "12",
+                              "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                              "$values": [
+                                "Road",
+                                "",
+                                "Road",
+                                "Road"
+                              ]
+                            }
+                          }
+                        ]
                       },
-                      "bundleTag": "data",
-                      "Characteristics": {
-                        "$type": "System.Collections.Generic.List`1[[LBSCharacteristic, LBS]], mscorlib",
-                        "$values": []
-                      }
+                      "bundleName": "data"
                     },
                     "rotation": {
                       "x": 1.0,
@@ -60,7 +71,7 @@
               },
               "id": "BundleTileMap",
               "Tiles": {
-                "$type": "System.Collections.Generic.List`1[[TileBundlePair, LBS]], mscorlib",
+                "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Modules.TileBundlePair, LBS]], mscorlib",
                 "$values": [
                   {
                     "$ref": "7"
@@ -71,23 +82,23 @@
           ]
         },
         "behaviours": {
-          "$id": "11",
-          "$type": "System.Collections.Generic.List`1[[LBS.Behaviours.LBSBehaviour, LBS]], mscorlib",
+          "$id": "13",
+          "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Behaviours.LBSBehaviour, LBS]], mscorlib",
           "$values": []
         },
         "assitants": {
-          "$id": "12",
-          "$type": "System.Collections.Generic.List`1[[LBS.Assisstants.LBSAssistant, LBS]], mscorlib",
+          "$id": "14",
+          "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Assistants.LBSAssistant, LBS]], mscorlib",
           "$values": []
         },
         "generatorRules": {
-          "$id": "13",
-          "$type": "System.Collections.Generic.List`1[[LBS.Generator.LBSGeneratorRule, LBS]], mscorlib",
+          "$id": "15",
+          "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Generators.LBSGeneratorRule, LBS]], mscorlib",
           "$values": []
         },
         "settings": {
-          "$id": "14",
-          "$type": "LBS.Generator.Generator3D+Settings, LBS",
+          "$id": "16",
+          "$type": "ISILab.LBS.Generators.Generator3D+Settings, LBS",
           "scale": {
             "x": 2.0,
             "y": 2.0
@@ -107,8 +118,8 @@
     ]
   },
   "quests": {
-    "$id": "15",
-    "$type": "System.Collections.Generic.List`1[[LBSQuest, LBS]], mscorlib",
+    "$id": "17",
+    "$type": "System.Collections.Generic.List`1[[LBS.Components.LBSLayer, LBS]], mscorlib",
     "$values": []
   }
 }
