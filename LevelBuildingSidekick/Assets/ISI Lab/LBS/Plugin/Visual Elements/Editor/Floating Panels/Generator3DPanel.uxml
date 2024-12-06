@@ -1,9 +1,9 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
     <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/Visual%20Elements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
     <ui:VisualElement class="lbs-default-container-panel">
-        <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row; align-items: stretch; justify-content: flex-start; align-self: stretch; width: auto; height: 25px; border-bottom-color: rgba(0, 0, 0, 0.16); border-bottom-width: 1px; margin-bottom: 0; padding-bottom: 2px;">
-            <ui:VisualElement name="VisualElement" class="lbs-default-label-icon lbs-3d-icon" style="background-image: resource(&apos;Icons/Vectorial/3D_Icon_Vector&apos;); background-color: rgba(0, 0, 0, 0.16); height: 23px; width: 24px;" />
-            <ui:Label tabindex="-1" text="3D Generator" display-tooltip-when-elided="true" style="-unity-font-style: bold; font-size: 12px; margin-left: 3px; margin-right: 0; margin-top: 0; margin-bottom: 0; align-items: stretch; height: 24px; width: auto; -unity-text-align: middle-center; align-self: stretch;" />
+        <ui:VisualElement class="lbs-title-label-container">
+            <ui:VisualElement name="VisualElement" class="lbs-default-label-icon lbs-3d-icon" style="background-image: resource(&apos;Icons/Vectorial/3D_Icon_Vector&apos;);" />
+            <ui:Label tabindex="-1" text="3D Generator" display-tooltip-when-elided="true" style="-unity-font-style: bold; font-size: 12px; margin-left: 3px; margin-right: 0; margin-top: 0; margin-bottom: 0; align-items: stretch; height: 22px; width: auto; -unity-text-align: middle-center; align-self: stretch;" />
         </ui:VisualElement>
         <ui:VisualElement class="lbs-group-box" style="align-self: auto;">
             <ui:TextField picking-mode="Ignore" label="Name" value="Default Name" text="Default Name" name="ObjName" tooltip="GameObject name in hierarchy" style="justify-content: space-around; flex-wrap: wrap;" />

@@ -1,9 +1,9 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
     <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/Visual%20Elements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
     <ui:VisualElement class="lbs-default-container-panel">
-        <ui:VisualElement class="lbs-title-label-container" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row; flex-shrink: 1; justify-content: flex-start; align-items: center; height: 19px;">
-            <ui:VisualElement name="LayerIcon" class="lbs-layer-icon lbs-default-label-icon" style="background-image: resource(&apos;Icons/Vectorial/Layer_Panel_Icon&apos;); width: 24px; height: auto;" />
-            <ui:Label tabindex="-1" text="Layers" display-tooltip-when-elided="true" name="LayerLabel" enable-rich-text="false" style="-unity-font-style: bold; padding-left: 2px;" />
+        <ui:VisualElement class="lbs-title-label-container">
+            <ui:VisualElement name="LayerIcon" class="lbs-layer-icon lbs-default-label-icon" style="background-image: resource(&apos;Icons/Vectorial/Layer_Panel_Icon&apos;);" />
+            <ui:Label tabindex="-1" text="Layers" display-tooltip-when-elided="true" name="LayerLabel" enable-rich-text="false" style="-unity-font-style: bold; padding-left: 2px; -unity-text-align: middle-left;" />
         </ui:VisualElement>
         <ui:ListView focusable="true" reorder-mode="Simple" reorderable="true" show-foldout-header="false" header-title="Layers" show-add-remove-footer="false" horizontal-scrolling="false" show-alternating-row-backgrounds="None" selection-type="Single" show-border="true" virtualization-method="DynamicHeight" name="List" show-bound-collection-size="true" fixed-item-height="18" style="padding-left: 0; padding-right: 0; padding-top: 7px; padding-bottom: 5px; background-color: rgba(0, 0, 0, 0);" />
         <ui:VisualElement class="lbs-group-box">

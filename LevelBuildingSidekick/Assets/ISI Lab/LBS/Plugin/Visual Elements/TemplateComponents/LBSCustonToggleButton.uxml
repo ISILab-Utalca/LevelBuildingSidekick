@@ -1,0 +1,3 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:Toggle label="Toggle" class="lbs-tool-button-toggle" />
+</ui:UXML>
