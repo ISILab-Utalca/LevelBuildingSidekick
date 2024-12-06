@@ -665,5 +665,4 @@ public class PathOSManagerWindow : EditorWindow
         EditorGUILayout.Space(10);
         EditorGUILayout.EndVertical();
     }
-
 }

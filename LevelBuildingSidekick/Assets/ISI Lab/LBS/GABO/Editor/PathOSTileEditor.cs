@@ -67,8 +67,8 @@ namespace ISILab.LBS.VisualElements
             var castedTarget = target as PathOSTile;
             var panel = new PathOSTriggerInfoPanel();
 
-            // Agregar obstaculos (si no hay, no hace nada)
-            panel.RefreshObstacles(castedTarget);
+            // Actualizar panel con informacion del tile
+            panel.Refresh(castedTarget);
             Add(panel);
 
             return this;

@@ -10,6 +10,7 @@ namespace ISILab.LBS.Components
     public class PathOSObstacleConnections
     {
         #region ENUMS
+        [System.Serializable]
         public enum Category
         {
             None,

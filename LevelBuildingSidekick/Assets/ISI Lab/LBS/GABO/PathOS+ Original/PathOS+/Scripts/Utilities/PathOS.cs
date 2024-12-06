@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using ISILab.LBS.Components;
+using Malee.Editor;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -220,12 +222,21 @@ namespace PathOS
         private Vector3[] boxVerts;
         private bool initBounds = false;
 
+        // GABO: Dynamic Obstacle List for connected level entities
+        // that should be toggled inside PathOS agents once they Visit() me,
+        // perceiving them when marked as CLOSE, ignoring them when marked
+        // as OPEN.
+        public List<EntityObstaclePair> dynamicObstacles;
+
         public LevelEntity(GameObject objectRef, EntityType entityType)
         {
             this.objectRef = objectRef;
             name = objectRef.name;
 
             this.entityType = entityType;
+
+            // GABO: Obstacle list starts empty
+            dynamicObstacles = new();
         }
 
         public void Init()
@@ -322,6 +333,16 @@ namespace PathOS
 
             return false;
         }
+
+
+    }
+    // GABO: Class uniting a LevelEntity with an associated
+    // obstacle connection event (either CLOSE or OPEN).
+    [System.Serializable]
+    public class EntityObstaclePair
+    {
+        public GameObject entity = null;
+        public PathOSObstacleConnections.Category connectionType = PathOSObstacleConnections.Category.None;
     }
 
     public class ScoringUtility

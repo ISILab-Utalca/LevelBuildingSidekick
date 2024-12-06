@@ -422,8 +422,7 @@ public class PathOSAgentMemory : MonoBehaviour
         return penalty;
     }
 
-    // GABO DEBUG
-    // GABO TODO DEBUG: Set all unreachable entities and paths(Vector3 positions) as "possibly reachable" again
+    // GABO DEBUG: Set all unreachable entities and paths(Vector3 positions) as "possibly reachable" again
     public int DEBUGSetAllMemoriesAndPathsAsReachable()
     {
         int unreachableCount = 0;
@@ -440,6 +439,7 @@ public class PathOSAgentMemory : MonoBehaviour
         return unreachableCount;
     }
 
+    // GABO DEBUG
     // Set all memories as reachable, activate test obstacle if new object is visited
     public void DEBUGRefreshReachablesObstaclesAndNavMeshWhenVisitingNewEntity()
     {
@@ -455,7 +455,7 @@ public class PathOSAgentMemory : MonoBehaviour
         {
             Debug.LogWarning("Couldn't find TestDynamicObstacle!");
         }
-        // Re-bake
+        // Re-bake (if there were any previously unreachable objects)
         if (unreachableCount > 0)
         {
             NavMeshSurface currNavMesh = GameObject.Find("NavMeshSurface").GetComponent<NavMeshSurface>();

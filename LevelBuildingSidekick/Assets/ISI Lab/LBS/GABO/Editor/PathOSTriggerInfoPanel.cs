@@ -19,6 +19,7 @@ namespace ISILab.LBS.VisualElements
         #endregion
 
         #region FIELDS VIEW
+        private Label nameLabel;
         private ScrollView obstacleList;
         private ScrollView tagList;
         #endregion
@@ -29,6 +30,8 @@ namespace ISILab.LBS.VisualElements
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("PathOSTriggerInfoPanel");
             visualTree.CloneTree(this);
 
+            // Name Label
+            this.nameLabel = this.Q<Label>("NameLabel");
             // Obstacle List
             this.obstacleList = this.Q<ScrollView>("ObstacleList");
             // Tag List
@@ -37,6 +40,12 @@ namespace ISILab.LBS.VisualElements
         #endregion
 
         #region METHODS
+        public void Refresh(PathOSTile tile)  
+        {
+            nameLabel.text = $"{tile.X} x {tile.Y}";
+            RefreshObstacles(tile);
+        }
+
         public void RefreshObstacles(PathOSTile tile)
         {
             // Clear old obstacles

@@ -655,7 +655,7 @@ public class PathOSNavUtility
         }
         else
         {
-            Debug.LogWarning("CanAgentReachTarget(): Target failed position sampling!");
+            Debug.LogWarning("CanAgentReachTarget(): Target failed position sampling! Is target on the NavMesh?");
             return false;
         }
 
@@ -675,7 +675,7 @@ public class PathOSNavUtility
         }
         else
         {
-            Debug.LogWarning("CanAgentReachTarget(): Invalid pathfinding!");
+            Debug.LogWarning("CanAgentReachTarget(): Invalid pathfinding! Is agent (and/or target) on the NavMesh?");
             return false;
         }
     }
