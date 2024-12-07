@@ -6,6 +6,8 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using Unity.AI.Navigation;
+using PathOS;
+using ISILab.LBS.Components;
 
 namespace ISILab.LBS.Generators
 {
@@ -17,7 +19,7 @@ namespace ISILab.LBS.Generators
         GameObject parent;
         GameObject levelMarkupContainer;
         Vector2 scale;
-        // Referencia a PathOSManager original
+        // Referencia al PathOSManager instanciado
         PathOSManager manager;
         // Ventana de PathOS+
         PathOSWindow window;
@@ -67,10 +69,13 @@ namespace ISILab.LBS.Generators
             // Obtiene (o crea) instancia de PathOSWindow
             window = EditorWindow.GetWindow(typeof(PathOSWindow), false, "PathOS+") as PathOSWindow;
             // Objeto contenedor padre
-            parent = new GameObject("PathOS+ Tags");
+            parent = new GameObject("PathOS+");
             // Objeto hijo, contenedor de los objetos etiquetados
             levelMarkupContainer = new GameObject("Level Markup");
             levelMarkupContainer.transform.SetParent(parent.transform);
+            // Referencia temporal a entidades creadas con su tile correspondiente
+            // (ej.: Para agregarles sus obstaculos dinamicos post-instanciacion)
+            List<(PathOSTile, LevelEntity)> entitiesTemporaryReference = new();
             // Lista de GameObjects a retornar
             List<GameObject> boxes = new List<GameObject>();
 
@@ -80,6 +85,7 @@ namespace ISILab.LBS.Generators
             GenerateScreenshotCamera();
 
             // Instanciacion de tags
+            manager = managerGameObject.GetComponent<PathOSManager>();
             foreach (PathOSTile tile in tiles)
             {
                 // Si el tile es de agente, instanciar prefab.
@@ -116,13 +122,24 @@ namespace ISILab.LBS.Generators
                                                   new Vector3(tile.X * scale.x, 0, tile.Y * scale.y)
                                                   - new Vector3(scale.x, 0, scale.y) / 2f;
 
-                // Agregar Tag a entidades del PathOSManager
-                manager = managerGameObject.GetComponent<PathOSManager>();
-                manager.AddLevelEntity(currInstance, tile.Tag.EntityType);
+                // Crear entidades de marcado de PathOS y guardarlas temporalmente para su posterior manipulacion
+                entitiesTemporaryReference.Add((tile, manager.AddLevelEntity(currInstance, tile.Tag.EntityType)));
             }
 
-            // GABO TERMINAR:
-            // Baking automatico (asume que ya se encuentran instanciados los objetos de los otros modulos,
+            // OBSTACULOS DINAMICOS: Crear y agregar obstaculos dinamicos para cada entidad recien creada (si le corresponde)
+            foreach (var entityPair in entitiesTemporaryReference)
+            {
+                if (entityPair.Item1.IsDynamicObstacleTrigger)
+                {
+                    foreach (var obstaclePair in entityPair.Item1.GetObstacles())
+                    {
+                        var otherEntityPair = entitiesTemporaryReference.Find(otherPair => otherPair.Item1 == obstaclePair.Item1);
+                        entityPair.Item2.dynamicObstacles.Add(new EntityObstaclePair(otherEntityPair.Item2.objectRef, obstaclePair.Item2));
+                    }
+                }
+            }
+
+            // BAKING AUTOMATICO (asume que ya se encuentran instanciados los objetos de los otros modulos,
             // y que estos tienen colliders)
             GenerateNavMesh();
 
@@ -192,7 +209,7 @@ namespace ISILab.LBS.Generators
             List<GameObject> exteriorLayerGameObjects = GameObject.FindObjectsOfType<GameObject>().Where(
                 obj => obj.transform.childCount == 1 &&
                 obj.transform?.GetChild(0).name == "Exterior").ToList();
-            
+
             // Si no se encuentra, advierte.
             if (interiorLayerGameObjects.Count == 0 && exteriorLayerGameObjects.Count == 0)
             {
@@ -204,9 +221,12 @@ namespace ISILab.LBS.Generators
             GameObject tempParent = new GameObject();
             tempParent.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
 
-            // NavMeshSurface: Agrega componente de superficie y limita su efecto a los hijos de tempParent
+            // NavMeshSurface: Agrega componente de superficie y limita su efecto a los hijos de tempParent.
+            // NOTA***: Producto de la potencial existencia de meshes sin acceso de lectura, usamos, en vez, los colliders.
+            // Asi se evitan excepciones al realizar "re-Bakes" en Play Mode (ej.: Con obstaculos dinamicos)
             var surface = tempParent.AddComponent<NavMeshSurface>();
             surface.collectObjects = CollectObjects.Children;
+            surface.useGeometry = NavMeshCollectGeometry.PhysicsColliders;
 
             // Arreglos donde guardar padres viejos para la posterior reinsertacion
             GameObject[] interiorOldParents = new GameObject[interiorLayerGameObjects.Count];

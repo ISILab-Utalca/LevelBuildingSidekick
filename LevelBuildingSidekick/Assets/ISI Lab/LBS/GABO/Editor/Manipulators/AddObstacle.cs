@@ -42,7 +42,6 @@ namespace ISILab.LBS.Manipulators
             triggerTile = behaviour.GetTile(pos.x, pos.y);
         }
 
-        // GABO TODO: TERMINAR
         protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
         {
             var pos = behaviour.Owner.ToFixedPosition(endPosition);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using PathOS;
+using ISILab.LBS.Components; // GABO: Added to use PathOSObstacleConnections.Category
 
 /*
 PathOSAgentEyes.cs 
@@ -54,6 +55,9 @@ public class PathOSAgentEyes : MonoBehaviour
     //Field of view for immediate-range "explorability" checks.
     private float xFOV;
 
+    // GABO: List of invisible entities (to this agent)
+    private List<LevelEntity> invisibleEntities;
+
 	void Awake()
 	{
         agent = GetComponent<PathOSAgent>();
@@ -79,6 +83,20 @@ public class PathOSAgentEyes : MonoBehaviour
 
         xFOV = Mathf.Rad2Deg * 2.0f * Mathf.Atan(
             cam.aspect * Mathf.Tan(cam.fieldOfView * Mathf.Deg2Rad * 0.5f));
+
+        // GABO: Setup empty list of invisible entities
+        invisibleEntities = new();
+    }
+
+    void Update()
+    {
+        perceptionTimer += Time.deltaTime;
+
+        //Visual processing update.
+        if (perceptionTimer >= PathOS.Constants.Perception.PERCEPTION_COMPUTE_TIME)
+        {
+            ProcessPerception();
+        }
     }
 
     public float XFOV()
@@ -110,7 +128,9 @@ public class PathOSAgentEyes : MonoBehaviour
             //moves around.
             entity.entityRef.UpdateBounds();
 
-            entity.visible = Vector3.Dot(camForwardXZ, entityVecXZ) > 0
+            entity.visible =
+                !invisibleEntities.Contains(entity.entityRef) // GABO: Ignore invisible objects (to be used for OPEN entities)
+                && Vector3.Dot(camForwardXZ, entityVecXZ) > 0
                 && GeometryUtility.TestPlanesAABB(frustum, entity.entityRef.bounds)
                 && entity.entityRef.SizeVisibilityCheck(cam, visSizeThreshold)
                 && RaycastVisibilityCheck(entity.entityRef.bounds, entityPos);
@@ -211,14 +231,14 @@ public class PathOSAgentEyes : MonoBehaviour
         return hit;
     }
 
-	void Update() 
-	{
-        perceptionTimer += Time.deltaTime;
-
-        //Visual processing update.
-        if (perceptionTimer >= PathOS.Constants.Perception.PERCEPTION_COMPUTE_TIME)
-        {
-            ProcessPerception();
-        }
+    // GABO: Add to list of invisible objects, so this agent can't see it.
+    public void AddInvisible(LevelEntity newInvisibleEntity)
+    {
+        invisibleEntities.Add(newInvisibleEntity);
+    }
+    // GABO: Remove from list of invisible objects, making it visible again.
+    public void RemoveInvisible(LevelEntity invisibleEntityToRemove)
+    {
+        invisibleEntities.Remove(invisibleEntityToRemove);
     }
 }

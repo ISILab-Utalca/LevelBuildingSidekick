@@ -341,8 +341,13 @@ namespace PathOS
     [System.Serializable]
     public class EntityObstaclePair
     {
-        public GameObject entity = null;
+        public GameObject entityObjectRef = null;
         public PathOSObstacleConnections.Category connectionType = PathOSObstacleConnections.Category.None;
+        public EntityObstaclePair(GameObject entity, PathOSObstacleConnections.Category connectionType)
+        {
+            this.entityObjectRef = entity;
+            this.connectionType = connectionType;
+        }
     }
 
     public class ScoringUtility

@@ -101,10 +101,18 @@ public class PathOSAgentMemory : MonoBehaviour
                 && entity.entity.entityType != EntityType.ET_GOAL_COMPLETION
                 && (targetEntity != null && entity.entity.entityType == targetEntity.entityType))
             {
+                // GABO: Need to check if the "visit is actually a FIRST visit to use dynamic obstacles
+                bool oldVisitState = entity.visited;
+                // GABO: Original code line
                 entity.Visit(this.gameObject, PathOSAgent.logger);
+                // GABO : New state
+                bool newVisitState = entity.visited;
 
-                //GABO DEBUG 
-                DEBUGRefreshReachablesObstaclesAndNavMeshWhenVisitingNewEntity();
+                // GABO: Toggle dynamic obstacle connections of this entity (if any), for this agent.
+                if (entity.visited && oldVisitState != newVisitState)
+                {
+                    manager.ToggleDynamicObstacles(agent, entity.entity.entityRef);
+                }
             }
 
             //Only something which is no longer visible and forgettable
@@ -468,7 +476,5 @@ public class PathOSAgentMemory : MonoBehaviour
             // Put old option back
             currNavMesh.useGeometry = oldGeometryCollector;
         }
-
-
     }
 }

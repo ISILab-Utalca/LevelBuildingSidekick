@@ -74,7 +74,7 @@ namespace ISILab.LBS.Behaviours
             else if (tag.Category == PathOSTag.PathOSCategory.EventTag)
             {
                 // El tile de agente no puede recibir eventos
-                if (module.GetTile(x, y).Tag.Label == "PathOSAgent") { return; }
+                if (module.GetTile(x, y) != null && module.GetTile(x, y).Tag.Label == "PathOSAgent") { return; }
 
                 module.ApplyEventTile(tile);
             }

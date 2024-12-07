@@ -1,5 +1,6 @@
 using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using static ISILab.LBS.Components.PathOSObstacleConnections;
@@ -16,6 +17,8 @@ namespace ISILab.LBS.Components
         private PathOSTile tagTriggerTile;
         [SerializeField]
         private List<(PathOSTile, PathOSTag)> dynamicTagObjects = new();
+        [SerializeField]
+        public bool IsNull = false;
         #endregion
 
         #region CONSTRUCTORS
@@ -33,6 +36,13 @@ namespace ISILab.LBS.Components
 
             tagTriggerTile = trigger;
             this.dynamicTagObjects = dynamicTagObjs;
+        }
+        // "NULL" Constructor: Represents a "null" connections object. Prevents serialization problems
+        // with Unity by replacing traditional "null" value.
+        public PathOSDynamicTagConnections(bool isNull)
+        {
+            if (!isNull) { Debug.LogError("Null constructor should always set 'isNull' as true!"); }
+            this.IsNull = true;
         }
         #endregion
 

@@ -1,4 +1,5 @@
 using ISILab.LBS.Modules;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,6 +25,8 @@ namespace ISILab.LBS.Components
         private PathOSTile obstacleTriggerTile;
         [SerializeField]
         private List<(PathOSTile, Category)> obstacles = new();
+        [SerializeField]
+        public bool IsNull = false;
         #endregion
 
         #region CONSTRUCTORS
@@ -41,6 +44,13 @@ namespace ISILab.LBS.Components
 
             obstacleTriggerTile = trigger;
             this.obstacles = obs;
+        }
+        // "NULL" Constructor: Represents a "null" connections object. Prevents serialization problems
+        // with Unity by replacing traditional "null" value.
+        public PathOSObstacleConnections(bool isNull)
+        {
+            if (!isNull) { Debug.LogError("Null constructor should always set 'isNull' as true!"); }
+            this.IsNull = true;
         }
         #endregion
 

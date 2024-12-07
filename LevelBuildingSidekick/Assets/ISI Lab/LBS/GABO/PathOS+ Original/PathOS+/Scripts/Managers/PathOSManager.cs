@@ -4,6 +4,9 @@ using System.IO;
 using UnityEngine;
 using UnityEditor;
 using PathOS;
+using Unity.AI.Navigation;
+using System.Linq;
+using ISILab.LBS.Components;
 
 /*
 PathOSManager.cs 
@@ -76,15 +79,15 @@ public class PathOSManager : NPSingleton<PathOSManager>
     public bool endSimulationOnDeath = false;
 
     private void Awake()
-	{
+    {
         bool warned = false;
 
         for (int i = levelEntities.Count - 1; i >= 0; --i)
         {
-            if(null == levelEntities[i].objectRef
+            if (null == levelEntities[i].objectRef
                 || !levelEntities[i].objectRef.activeInHierarchy)
             {
-                if(!warned)
+                if (!warned)
                 {
                     NPDebug.LogWarning("One or more PathOS entities in the " +
                         "scene is null or inactive in the scene. It will be " +
@@ -150,7 +153,7 @@ public class PathOSManager : NPSingleton<PathOSManager>
     {
 
 #if UNITY_EDITOR
-        if(!UnityEditor.EditorApplication.isPlaying)
+        if (!UnityEditor.EditorApplication.isPlaying)
         {
             if (showLevelMarkup)
             {
@@ -161,9 +164,9 @@ public class PathOSManager : NPSingleton<PathOSManager>
                             entityGizmoLookup[entity.entityType] + ".png");
                 }
             }
-            
-            if(curMouseover != null)
-            {          
+
+            if (curMouseover != null)
+            {
                 Matrix4x4 oldGizmos = Gizmos.matrix;
                 Color oldGizmosColor = Gizmos.color;
 
@@ -173,19 +176,19 @@ public class PathOSManager : NPSingleton<PathOSManager>
                 MeshFilter[] filters = curMouseover.GetComponentsInChildren<MeshFilter>();
                 SkinnedMeshRenderer[] renderers = curMouseover.GetComponentsInChildren<SkinnedMeshRenderer>();
 
-                foreach(MeshFilter filter in filters)
+                foreach (MeshFilter filter in filters)
                 {
                     mouseoverMeshes.Add(filter.sharedMesh);
                     mouseoverMeshTransforms.Add(filter.transform.localToWorldMatrix);
                 }
 
-                foreach(SkinnedMeshRenderer renderer in renderers)
+                foreach (SkinnedMeshRenderer renderer in renderers)
                 {
                     mouseoverMeshes.Add(renderer.sharedMesh);
                     mouseoverMeshTransforms.Add(renderer.transform.localToWorldMatrix);
                 }
 
-                for(int i = 0; i < mouseoverMeshes.Count; ++i)
+                for (int i = 0; i < mouseoverMeshes.Count; ++i)
                 {
                     Gizmos.matrix = mouseoverMeshTransforms[i];
                     Gizmos.DrawWireMesh(mouseoverMeshes[i]);
@@ -194,7 +197,7 @@ public class PathOSManager : NPSingleton<PathOSManager>
                 curMouseover = null;
                 Gizmos.matrix = oldGizmos;
                 Gizmos.color = oldGizmosColor;
-            }           
+            }
         }
 #endif
     }
@@ -204,10 +207,105 @@ public class PathOSManager : NPSingleton<PathOSManager>
     /// </summary>
     /// <param name="currGameObject"> Object to be tagged. </param>
     /// <param name="entityType"> Type of PathOS entity. </param>
-    public void AddLevelEntity(GameObject currGameObject, EntityType entityType)
+    public LevelEntity AddLevelEntity(GameObject currGameObject, EntityType entityType)
     {
         LevelEntity newEntity = new(currGameObject, entityType);
         levelEntities.Add(newEntity);
+        return newEntity;
+    }
+
+    // GABO: Toggle dynamic obstacle connections of this entity (if any).
+    public void ToggleDynamicObstacles(PathOSAgent agent, LevelEntity entity)
+    {
+        // Abort if no dynamic obstacles connected
+        if (entity.dynamicObstacles.Count == 0) { return; }
+
+        foreach (EntityObstaclePair connectedEntity in entity.dynamicObstacles)
+        {
+            // CLOSE: Make object visible
+            if (connectedEntity.connectionType == PathOSObstacleConnections.Category.CLOSE)
+            {
+                agent.eyes.RemoveInvisible(GetEntity(connectedEntity.entityObjectRef));
+            }
+            // OPEN: Make object invisible
+            else if (connectedEntity.connectionType == PathOSObstacleConnections.Category.OPEN)
+            {
+                agent.eyes.AddInvisible(GetEntity(connectedEntity.entityObjectRef));
+            }
+            else
+            {
+                Debug.LogError("EntityObstaclePair object has no connectionType set!");
+            }
+        }        
+    }
+
+    // GABO: Regenerate NavMesh considering Exterior&Interior modules-generated obects ()
+    public void RegenerateNavMeshForLBSModules()
+    {
+        // Re-bake NavMesh (based on PathOSRuleGenerator.GenerateNavMesh(), but using existing NavMeshSurface object)
+        NavMeshSurface surface = GameObject.Find("NavMeshSurface").GetComponent<NavMeshSurface>();
+        if (surface != null)
+        {
+            // Interior Layers: GameObjects
+            List<GameObject> interiorLayerGameObjects = GameObject.FindObjectsOfType<GameObject>().Where(
+                obj => obj.transform.childCount == 2 &&
+                obj.transform?.GetChild(0).name == "Schema" &&
+                obj.transform?.GetChild(1).name == "Schema outside").ToList();
+
+            // Exterior Layers: GameObjects
+            List<GameObject> exteriorLayerGameObjects = GameObject.FindObjectsOfType<GameObject>().Where(
+                obj => obj.transform.childCount == 1 &&
+                obj.transform?.GetChild(0).name == "Exterior").ToList();
+
+            // If none found, sends warning.
+            if (interiorLayerGameObjects.Count == 0 && exteriorLayerGameObjects.Count == 0)
+            {
+                Debug.LogWarning("No default instances of Interior/Exterior layers found. NavMesh won't be re-baked! " +
+                    "Avoid changing children name structure (i.e. \"Schema\" (0) and \"Schema Outside\" (1) for Interior).");
+                return;
+            }
+
+            // Arrays to save old parent transforms for later reinsertion
+            GameObject[] interiorOldParents = new GameObject[interiorLayerGameObjects.Count];
+            GameObject[] exteriorOldParents = new GameObject[exteriorLayerGameObjects.Count];
+
+            // Surface object becomes temporal parent
+            GameObject tempParent = surface.gameObject;
+
+            // Interior Layers: New temporary parent
+            for (int i = 0; i < interiorLayerGameObjects.Count; i++)
+            {
+                interiorOldParents[i] = interiorLayerGameObjects[i].transform.parent?.gameObject;
+                // Add interior objects to temporary parent
+                interiorLayerGameObjects[i].transform.parent = tempParent.transform;
+            }
+            // Exterior Layers: New temporary parent
+            for (int i = 0; i < exteriorLayerGameObjects.Count; i++)
+            {
+                exteriorOldParents[i] = exteriorLayerGameObjects[i].transform.parent?.gameObject;
+                // Add exterior objects to temporary parent
+                exteriorLayerGameObjects[i].transform.parent = tempParent.transform;
+            }
+
+            // Generate new NavMesh
+            surface.BuildNavMesh();
+
+            // Interior Layers: Reassign original parent
+            for (int i = 0; i < interiorLayerGameObjects.Count; i++)
+            {
+                interiorLayerGameObjects[i].transform.parent = interiorOldParents[i]?.transform;
+            }
+            // Exterior Layers: Reassign original parent
+            for (int i = 0; i < exteriorLayerGameObjects.Count; i++)
+            {
+                exteriorLayerGameObjects[i].transform.parent = exteriorOldParents[i]?.transform;
+            }
+        }
+        else
+        {
+            Debug.LogWarning("No NavMeshSurface object with the name \"NavMeshSurface\" found " +
+                "(as created by LBS's Testing Layer)! NavMesh won't be re-baked!");
+        }
     }
 
     private bool AreAllAgentsDead()
@@ -231,27 +329,27 @@ public class PathOSManager : NPSingleton<PathOSManager>
     public void ResizeWeightMatrix()
     {
         //Save existing values and rebuild the weight matrix.
-        Dictionary<(Heuristic, EntityType), float> weights = 
+        Dictionary<(Heuristic, EntityType), float> weights =
             new Dictionary<(Heuristic, EntityType), float>();
 
-        for(int i = 0; i < heuristicWeights.Count; ++i)
+        for (int i = 0; i < heuristicWeights.Count; ++i)
         {
-            for(int j = 0; j < heuristicWeights[i].weights.Count; ++j)
+            for (int j = 0; j < heuristicWeights[i].weights.Count; ++j)
             {
-                weights.Add((heuristicWeights[i].heuristic, 
+                weights.Add((heuristicWeights[i].heuristic,
                     heuristicWeights[i].weights[j].entype),
                     heuristicWeights[i].weights[j].weight);
             }
         }
 
         heuristicWeights.Clear();
-        
-        foreach(Heuristic heuristic in System.Enum.GetValues(typeof(Heuristic)))
+
+        foreach (Heuristic heuristic in System.Enum.GetValues(typeof(Heuristic)))
         {
             heuristicWeights.Add(new HeuristicWeightSet(heuristic));
             HeuristicWeightSet newWeights = heuristicWeights[heuristicWeights.Count - 1];
 
-            foreach(EntityType entype in System.Enum.GetValues(typeof(EntityType)))
+            foreach (EntityType entype in System.Enum.GetValues(typeof(EntityType)))
             {
                 float weight = 0.0f;
 
@@ -269,14 +367,14 @@ public class PathOSManager : NPSingleton<PathOSManager>
         {
             //Only show an error if some filename was selected.
             //(Don't throw an error if the user cancels out of the dialog.)
-            if(filename != "")
+            if (filename != "")
                 NPDebug.LogError("Could not load heuristic weights! " +
                     "PathOS heuristic weights can only be imported from a " +
                     "valid local .csv file.");
 
             return false;
         }
-            
+
         Dictionary<(Heuristic, EntityType), float> weights =
             new Dictionary<(Heuristic, EntityType), float>();
 
@@ -289,7 +387,7 @@ public class PathOSManager : NPSingleton<PathOSManager>
 
         string[] headerTypes = line.Split(sep, System.StringSplitOptions.RemoveEmptyEntries);
 
-        while((line = sr.ReadLine()) != null)
+        while ((line = sr.ReadLine()) != null)
         {
             string[] lineContents = line.Split(sep, System.StringSplitOptions.RemoveEmptyEntries);
 
@@ -298,9 +396,9 @@ public class PathOSManager : NPSingleton<PathOSManager>
 
             Heuristic heuristic;
 
-            if(System.Enum.TryParse<Heuristic>(lineContents[0], out heuristic))
+            if (System.Enum.TryParse<Heuristic>(lineContents[0], out heuristic))
             {
-                for(int i = 1; i < lineContents.Length; ++i)
+                for (int i = 1; i < lineContents.Length; ++i)
                 {
                     if (i - 1 > headerTypes.Length)
                         break;
@@ -315,9 +413,9 @@ public class PathOSManager : NPSingleton<PathOSManager>
 
         sr.Close();
 
-        for(int i = 0; i < heuristicWeights.Count; ++i)
+        for (int i = 0; i < heuristicWeights.Count; ++i)
         {
-            for(int j = 0; j < heuristicWeights[i].weights.Count; ++j)
+            for (int j = 0; j < heuristicWeights[i].weights.Count; ++j)
             {
                 (Heuristic, EntityType) key = (heuristicWeights[i].heuristic,
                     heuristicWeights[i].weights[j].entype);
@@ -348,11 +446,11 @@ public class PathOSManager : NPSingleton<PathOSManager>
 
         sw.Write("\n");
 
-        for(int i = 0; i < heuristicWeights.Count; ++i)
+        for (int i = 0; i < heuristicWeights.Count; ++i)
         {
             sw.Write(heuristicWeights[i].heuristic.ToString() + ",");
-            
-            for(int j = 0; j < heuristicWeights[i].weights.Count; ++j)
+
+            for (int j = 0; j < heuristicWeights[i].weights.Count; ++j)
             {
                 sw.Write(heuristicWeights[i].weights[j].weight + ",");
             }
@@ -361,5 +459,11 @@ public class PathOSManager : NPSingleton<PathOSManager>
         }
 
         sw.Close();
+    }
+
+    // GABO: Obtains LevelEntity from a given GameObject
+    public LevelEntity GetEntity(GameObject obj)
+    {
+        return levelEntities.Find(ent => ent.objectRef == obj);
     }
 }

@@ -25,9 +25,9 @@ namespace ISILab.LBS.Modules
         private bool isDynamicTagObject = false;
         [SerializeField, JsonRequired]
         private bool isDynamicObstacleObject = false;
-        [SerializeField, SerializeReference] //GABO TODO: Corregir. Por que se guardan mal? Al deserializar no quedan nulos
+        [SerializeField]
         private PathOSObstacleConnections obstacles;
-        [SerializeField, SerializeReference] //GABO TODO: Corregir. Por que se guardan mal?
+        [SerializeField]
         private PathOSDynamicTagConnections dynamicTagTiles;
         #endregion
 
@@ -37,8 +37,8 @@ namespace ISILab.LBS.Modules
             this.owner = owner;
             this.x = x;
             this.y = y;
-            obstacles = null;
-            dynamicTagTiles = null;
+            obstacles = new PathOSObstacleConnections(isNull: true);
+            dynamicTagTiles = new PathOSDynamicTagConnections(isNull: true);
             if (tag != null) { this.tag = tag; }
         }
         #endregion
@@ -78,31 +78,6 @@ namespace ISILab.LBS.Modules
                 else if (!value && value != lastValue) { OnRevertingFromDynamicTagObject?.Invoke(); }
             }
         }
-        public bool IsDynamicTagTrigger
-        {
-            get { return dynamicTagTiles != null; }
-            set
-            {
-                bool lastValue = dynamicTagTiles != null;
-
-                if (value)
-                {
-                    // Solo instanciar si no existe
-                    if (dynamicTagTiles == null)
-                    {
-                        dynamicTagTiles = new(this, new());
-                    }
-                }
-                else
-                {
-                    dynamicTagTiles = null;
-                }
-
-                // Eventos de conversion y reversion (solo si cambio es no redundante)
-                if (value && value != lastValue) { OnConvertingToDynamicTagTrigger?.Invoke(); }
-                else if (!value && value != lastValue) { OnRevertingFromDynamicTagTrigger?.Invoke(); }
-            }
-        }
         public bool IsDynamicObstacleObject
         {
             get { return isDynamicObstacleObject; }
@@ -117,24 +92,49 @@ namespace ISILab.LBS.Modules
                 else if (!value && value != lastValue) { OnRevertingFromObstacleObject?.Invoke(); }
             }
         }
-        public bool IsDynamicObstacleTrigger
+        public bool IsDynamicTagTrigger
         {
-            get { return obstacles != null; }
+            get { return !dynamicTagTiles.IsNull; }
             set
             {
-                bool lastValue = obstacles != null;
+                bool lastValue = !dynamicTagTiles.IsNull;
 
                 if (value)
                 {
                     // Solo instanciar si no existe
-                    if (obstacles == null)
+                    if (dynamicTagTiles.IsNull)
+                    {
+                        dynamicTagTiles = new(this, new());
+                    }
+                }
+                else
+                {
+                    dynamicTagTiles = new PathOSDynamicTagConnections(isNull: true);
+                }
+
+                // Eventos de conversion y reversion (solo si cambio es no redundante)
+                if (value && value != lastValue) { OnConvertingToDynamicTagTrigger?.Invoke(); }
+                else if (!value && value != lastValue) { OnRevertingFromDynamicTagTrigger?.Invoke(); }
+            }
+        }
+        public bool IsDynamicObstacleTrigger
+        {
+            get { return !obstacles.IsNull; }
+            set
+            {
+                bool lastValue = !obstacles.IsNull;
+
+                if (value)
+                {
+                    // Solo instanciar si no existe
+                    if (obstacles.IsNull)
                     {
                         obstacles = new(this, new());
                     }
                 }
                 else
                 {
-                    obstacles = null;
+                    obstacles = new PathOSObstacleConnections(isNull: true);
                 }
 
                 // Eventos de conversion y reversion (solo si cambio es no redundante)
