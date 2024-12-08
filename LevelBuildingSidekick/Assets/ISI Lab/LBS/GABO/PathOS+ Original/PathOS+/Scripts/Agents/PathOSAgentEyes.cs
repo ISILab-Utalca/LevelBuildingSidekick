@@ -55,8 +55,10 @@ public class PathOSAgentEyes : MonoBehaviour
     //Field of view for immediate-range "explorability" checks.
     private float xFOV;
 
-    // GABO: List of invisible entities (to this agent)
+    // GABO: List of invisible marked up entities (to this agent)
     private List<LevelEntity> invisibleEntities;
+    // GABO: List of invisible walls (to this agent)
+    private List<GameObject> invisibleWalls;
 
 	void Awake()
 	{
@@ -84,8 +86,9 @@ public class PathOSAgentEyes : MonoBehaviour
         xFOV = Mathf.Rad2Deg * 2.0f * Mathf.Atan(
             cam.aspect * Mathf.Tan(cam.fieldOfView * Mathf.Deg2Rad * 0.5f));
 
-        // GABO: Setup empty list of invisible entities
+        // GABO: Setup empty list of invisible entities and walls
         invisibleEntities = new();
+        invisibleWalls = new();
     }
 
     void Update()
@@ -129,11 +132,11 @@ public class PathOSAgentEyes : MonoBehaviour
             entity.entityRef.UpdateBounds();
 
             entity.visible =
-                !invisibleEntities.Contains(entity.entityRef) // GABO: Ignore invisible objects (to be used for OPEN entities)
+                !invisibleEntities.Contains(entity.entityRef) // GABO: Ignore invisible entities (to be used for OPEN entities)
                 && Vector3.Dot(camForwardXZ, entityVecXZ) > 0
                 && GeometryUtility.TestPlanesAABB(frustum, entity.entityRef.bounds)
                 && entity.entityRef.SizeVisibilityCheck(cam, visSizeThreshold)
-                && RaycastVisibilityCheck(entity.entityRef.bounds, entityPos);
+                && RaycastVisibilityCheck(entity.entityRef.bounds, entityPos); // GABO: Modified to ignore invisible walls.
 
             if (wasVisible != entity.visible)
             {
@@ -181,7 +184,24 @@ public class PathOSAgentEyes : MonoBehaviour
     {
         Vector3 ray = cam.transform.position - pos;
 
-        if (!Physics.Raycast(pos, ray.normalized, ray.magnitude))
+        // GABO: We add the invisible walls (and children) to the "Ignore Raycast" layer
+        // temporarily and mask the raycasts with it so they're ignored.
+        Dictionary<GameObject, int> oldLayers = new();
+        foreach (GameObject wall in invisibleWalls)
+        {
+            // Parent
+            oldLayers[wall] = wall.layer;
+            wall.layer = LayerMask.NameToLayer("Ignore Raycast");
+            // Children
+            Transform[] children = wall.GetComponentsInChildren<Transform>();
+            foreach (Transform child in children)
+            {
+                oldLayers[child.gameObject] = child.gameObject.layer;
+                child.gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
+            }
+        }
+
+        if (!Physics.Raycast(pos, ray.normalized, ray.magnitude, ~LayerMask.GetMask("Ignore Raycast")))
             return true;
 
         boundsCheck[0].Set(bounds.min.x, bounds.min.y, bounds.min.z);
@@ -197,8 +217,19 @@ public class PathOSAgentEyes : MonoBehaviour
         {
             ray = cam.transform.position - boundsCheck[i];
 
-            if (!Physics.Raycast(boundsCheck[i], ray.normalized, ray.magnitude))
+            if (!Physics.Raycast(boundsCheck[i], ray.normalized, ray.magnitude, ~LayerMask.GetMask("Ignore Raycast")))
                 return true;
+        }
+
+        // GABO: We return invisible walls (and children) to their original layer
+        foreach (GameObject wall in invisibleWalls)
+        {
+            wall.layer = oldLayers[wall];
+            Transform[] children = wall.GetComponentsInChildren<Transform>();
+            foreach (Transform child in children)
+            {
+                child.gameObject.layer = oldLayers[child.gameObject];
+            }
         }
 
         return false;
@@ -232,13 +263,23 @@ public class PathOSAgentEyes : MonoBehaviour
     }
 
     // GABO: Add to list of invisible objects, so this agent can't see it.
-    public void AddInvisible(LevelEntity newInvisibleEntity)
+    public void AddInvisibleEntity(LevelEntity newInvisibleEntity)
     {
         invisibleEntities.Add(newInvisibleEntity);
     }
     // GABO: Remove from list of invisible objects, making it visible again.
-    public void RemoveInvisible(LevelEntity invisibleEntityToRemove)
+    public void RemoveInvisibleEntity(LevelEntity invisibleEntityToRemove)
     {
         invisibleEntities.Remove(invisibleEntityToRemove);
+    }
+    // GABO: Add wall to list of invisible walls, so this agent can see through them.
+    public void AddInvisibleWall(GameObject wall)
+    {
+        invisibleWalls.Add(wall);
+    }
+    // GABO: Remove wall from list of invisible walls, so they block this agent's view.
+    public void RemoveInvisibleWall(GameObject wall)
+    {
+        invisibleWalls.Remove(wall);
     }
 }

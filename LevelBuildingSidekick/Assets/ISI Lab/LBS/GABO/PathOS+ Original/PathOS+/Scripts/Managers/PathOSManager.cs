@@ -214,23 +214,41 @@ public class PathOSManager : NPSingleton<PathOSManager>
         return newEntity;
     }
 
-    // GABO: Toggle dynamic obstacle connections of this entity (if any).
+    // GABO: Toggle dynamic obstacle connections of this entity (if any). Includes both marked up entities, and walls.
     public void ToggleDynamicObstacles(PathOSAgent agent, LevelEntity entity)
     {
         // Abort if no dynamic obstacles connected
         if (entity.dynamicObstacles.Count == 0) { return; }
 
-        foreach (EntityObstaclePair connectedEntity in entity.dynamicObstacles)
+        foreach (EntityObstaclePair connectedObject in entity.dynamicObstacles)
         {
             // CLOSE: Make object visible
-            if (connectedEntity.connectionType == PathOSObstacleConnections.Category.CLOSE)
+            if (connectedObject.connectionType == PathOSObstacleConnections.Category.CLOSE)
             {
-                agent.eyes.RemoveInvisible(GetEntity(connectedEntity.entityObjectRef));
+                // Walls
+                if (connectedObject.entityObjectRef.name == "WallPrefab")
+                {
+                    agent.eyes.RemoveInvisibleWall(connectedObject.entityObjectRef);
+                }
+                // Entities
+                else
+                {
+                    agent.eyes.RemoveInvisibleEntity(GetEntity(connectedObject.entityObjectRef));
+                }
             }
             // OPEN: Make object invisible
-            else if (connectedEntity.connectionType == PathOSObstacleConnections.Category.OPEN)
+            else if (connectedObject.connectionType == PathOSObstacleConnections.Category.OPEN)
             {
-                agent.eyes.AddInvisible(GetEntity(connectedEntity.entityObjectRef));
+                // Walls
+                if (connectedObject.entityObjectRef.name == "WallPrefab")
+                {
+                    agent.eyes.AddInvisibleWall(connectedObject.entityObjectRef);
+                }
+                // Entities
+                else
+                {
+                    agent.eyes.AddInvisibleEntity(GetEntity(connectedObject.entityObjectRef));
+                }
             }
             else
             {
@@ -239,8 +257,9 @@ public class PathOSManager : NPSingleton<PathOSManager>
         }        
     }
 
-    // GABO: Regenerate NavMesh considering Exterior&Interior modules-generated obects ()
-    public void RegenerateNavMeshForLBSModules()
+    // GABO: Regenerate NavMesh considering Exterior, Interior & Testing modules-generated objects
+    // GABO TODO: FALTA PASAR LO DE "WALLS" DESDE EL generador del ruleGenerator!
+    public void GenerateNavMeshFromLBSModules()
     {
         // Re-bake NavMesh (based on PathOSRuleGenerator.GenerateNavMesh(), but using existing NavMeshSurface object)
         NavMeshSurface surface = GameObject.Find("NavMeshSurface").GetComponent<NavMeshSurface>();
@@ -260,8 +279,8 @@ public class PathOSManager : NPSingleton<PathOSManager>
             // If none found, sends warning.
             if (interiorLayerGameObjects.Count == 0 && exteriorLayerGameObjects.Count == 0)
             {
-                Debug.LogWarning("No default instances of Interior/Exterior layers found. NavMesh won't be re-baked! " +
-                    "Avoid changing children name structure (i.e. \"Schema\" (0) and \"Schema Outside\" (1) for Interior).");
+                Debug.LogWarning("No standard instances of Interior/Exterior layers found. NavMesh won't be re-baked! " +
+                    "Avoid changing first-order children name structure (i.e. \"Schema\" (0) and \"Schema Outside\" (1) for Interior).");
                 return;
             }
 

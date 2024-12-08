@@ -115,7 +115,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5697338780693294693}
   m_Layer: 0
-  m_Name: BoxWithTexture
+  m_Name: WallPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

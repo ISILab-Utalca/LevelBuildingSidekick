@@ -430,7 +430,7 @@ public class PathOSAgentMemory : MonoBehaviour
         return penalty;
     }
 
-    // GABO DEBUG: Set all unreachable entities and paths(Vector3 positions) as "possibly reachable" again
+    // [GABO DEBUG] Set all unreachable entities and paths(Vector3 positions) as "possibly reachable" again
     public int DEBUGSetAllMemoriesAndPathsAsReachable()
     {
         int unreachableCount = 0;
@@ -447,7 +447,7 @@ public class PathOSAgentMemory : MonoBehaviour
         return unreachableCount;
     }
 
-    // GABO DEBUG
+    // [GABO DEBUG]
     // Set all memories as reachable, activate test obstacle if new object is visited
     public void DEBUGRefreshReachablesObstaclesAndNavMeshWhenVisitingNewEntity()
     {

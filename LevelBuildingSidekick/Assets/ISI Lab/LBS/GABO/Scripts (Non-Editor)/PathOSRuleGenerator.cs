@@ -17,8 +17,11 @@ namespace ISILab.LBS.Generators
         PathOSModule module;
         List<PathOSTile> tiles;
         GameObject parent;
-        GameObject levelMarkupContainer;
+        GameObject levelMarkupContainer; // Contiene objetos marcados de PathOS
+        GameObject wallsContainer; // Contiene los objetos muro
         Vector2 scale;
+        // Referencias a muros colocados en ultima generacion
+        List<GameObject> lastGenerationWalls;
         // Referencia al PathOSManager instanciado
         PathOSManager manager;
         // Ventana de PathOS+
@@ -38,7 +41,8 @@ namespace ISILab.LBS.Generators
         GameObject worldCameraGameObject;
         GameObject screenshotCameraGameObject;
         // Otros prefabs
-        GameObject prefabBox;
+        GameObject elementPrefab;
+        GameObject wallPrefab;
         #endregion
 
         #region METHODS
@@ -61,11 +65,14 @@ namespace ISILab.LBS.Generators
             managerPrefab = PathOSStorage.Instance.managerPrefab.gameObject;
             worldCameraPrefab = PathOSStorage.Instance.worldCameraPrefab.gameObject;
             screenshotCameraPrefab = PathOSStorage.Instance.screenshotCameraPrefab.gameObject;
-            prefabBox = Resources.Load<GameObject>("Prefabs/BoxWithTexture");
+            elementPrefab = Resources.Load<GameObject>("Prefabs/ElementPrefab");
+            wallPrefab = Resources.Load<GameObject>("Prefabs/WallPrefab");
             // Variables
             module = layer.GetModule<PathOSModule>();
             tiles = module.GetTiles();
             scale = settings.scale;
+            // Se reinicia lista de muros antigua
+            lastGenerationWalls = new();
             // Obtiene (o crea) instancia de PathOSWindow
             window = EditorWindow.GetWindow(typeof(PathOSWindow), false, "PathOS+") as PathOSWindow;
             // Objeto contenedor padre
@@ -73,6 +80,9 @@ namespace ISILab.LBS.Generators
             // Objeto hijo, contenedor de los objetos etiquetados
             levelMarkupContainer = new GameObject("Level Markup");
             levelMarkupContainer.transform.SetParent(parent.transform);
+            // 2do Objeto hijo, contenedor de los muros
+            wallsContainer = new GameObject("Walls");
+            wallsContainer.transform.SetParent(parent.transform);
             // Referencia temporal a entidades creadas con su tile correspondiente
             // (ej.: Para agregarles sus obstaculos dinamicos post-instanciacion)
             List<(PathOSTile, LevelEntity)> entitiesTemporaryReference = new();
@@ -104,13 +114,28 @@ namespace ISILab.LBS.Generators
                     // Terminar este ciclo para evitar errores
                     continue;
                 }
+                // Si el tile es Wall, instanciar muro.
+                else if (tile.Tag.Label == "Wall")
+                {
+                    currInstance = PrefabUtility.InstantiatePrefab(wallPrefab, wallsContainer.transform) as GameObject;
+                    // Se modifican dimensiones segun la escala actual (la altura del muro es equivalente a la primera dimension X,
+                    // de manera de calcular correctamente el NavMesh)
+                    currInstance.transform.localScale = new Vector3(scale.x, scale.x, scale.y);
+                    // Agrega y setea modificador de NavMesh
+                    NavMeshModifier modifier = currInstance.AddComponent<NavMeshModifier>();
+                    modifier.ignoreFromBuild = false;
+                    modifier.overrideArea = true;
+                    modifier.area = NavMesh.GetAreaFromName("Not Walkable");
+                    // Guarda referencias para su uso durante el baking
+                    lastGenerationWalls.Add(currInstance); 
+                }
                 else
                 {
                     // Instanciar prefab
-                    currInstance = PrefabUtility.InstantiatePrefab(prefabBox, levelMarkupContainer.transform) as GameObject;
+                    currInstance = PrefabUtility.InstantiatePrefab(elementPrefab, levelMarkupContainer.transform) as GameObject;
                 }
 
-                // Agregar icono del Tag asociado a este tile como textura al cubo (excepto al tile agente)
+                // Agregar icono del Tag asociado a este tile como textura al cubo
                 MeshRenderer currRenderer = currInstance.GetComponentInChildren<MeshRenderer>();
                 Material originalMaterial = currRenderer.sharedMaterial;
                 Material currMaterial = new Material(originalMaterial);
@@ -123,7 +148,10 @@ namespace ISILab.LBS.Generators
                                                   - new Vector3(scale.x, 0, scale.y) / 2f;
 
                 // Crear entidades de marcado de PathOS y guardarlas temporalmente para su posterior manipulacion
-                entitiesTemporaryReference.Add((tile, manager.AddLevelEntity(currInstance, tile.Tag.EntityType)));
+                if (tile.Tag.Label != "Wall")
+                {
+                    entitiesTemporaryReference.Add((tile, manager.AddLevelEntity(currInstance, tile.Tag.EntityType)));
+                }
             }
 
             // OBSTACULOS DINAMICOS: Crear y agregar obstaculos dinamicos para cada entidad recien creada (si le corresponde)
@@ -142,23 +170,6 @@ namespace ISILab.LBS.Generators
             // BAKING AUTOMATICO (asume que ya se encuentran instanciados los objetos de los otros modulos,
             // y que estos tienen colliders)
             GenerateNavMesh();
-
-            // Obtener posicion planar promedio de las cajas, y altura del objeto mas bajo,
-            // para asignar al padre.
-            if (boxes.Count > 0)
-            {
-                var x = boxes.Average(o => o.transform.position.x);
-                var y = boxes.Min(o => o.transform.position.y);
-                var z = boxes.Average(o => o.transform.position.z);
-                // Asignar esta posicion al objeto contenedor padre
-                parent.transform.position = new Vector3(x, y, z);
-            }
-
-            // Asignar padre
-            foreach (var box in boxes)
-            {
-                box.transform.parent = parent.transform;
-            }
 
             // Ya unidos los objetos hijos con padre, trasladar segun Settings
             // GABO TODO: No es esto un error? Basado en PopulationRuleGenerator (todos los modulos base lo hacen)
@@ -231,6 +242,7 @@ namespace ISILab.LBS.Generators
             // Arreglos donde guardar padres viejos para la posterior reinsertacion
             GameObject[] interiorOldParents = new GameObject[interiorLayerGameObjects.Count];
             GameObject[] exteriorOldParents = new GameObject[exteriorLayerGameObjects.Count];
+            GameObject[] wallsOldParents = new GameObject[lastGenerationWalls.Count];
 
             // Interior Layers: Nuevo padre temporal
             for (int i = 0; i < interiorLayerGameObjects.Count; i++)
@@ -246,6 +258,13 @@ namespace ISILab.LBS.Generators
                 // Agrega objetos al padre temporal
                 exteriorLayerGameObjects[i].transform.parent = tempParent.transform;
             }
+            // Muros: Nuevo padre temporal
+            for (int i = 0; i < lastGenerationWalls.Count; i++)
+            {
+                wallsOldParents[i] = lastGenerationWalls[i].transform.parent?.gameObject;
+                // Agrega objetos al padre temporal
+                lastGenerationWalls[i].transform.parent = tempParent.transform;
+            }
 
             // Genera NavMesh (Bake)
             surface.BuildNavMesh();
@@ -260,12 +279,17 @@ namespace ISILab.LBS.Generators
             {
                 exteriorLayerGameObjects[i].transform.parent = exteriorOldParents[i]?.transform;
             }
+            // Muros: Reasigna padre original
+            for (int i = 0; i < lastGenerationWalls.Count; i++)
+            {
+                lastGenerationWalls[i].transform.parent = wallsOldParents[i]?.transform;
+            }
 
             // Padre temporal cambia de nombre (pasa a contener unicamente el navmesh)
             tempParent.name = "NavMeshSurface";
         }
 
-        // [DEBUG] Generador de prueba hecho originalmente para probar colocacion de elementos
+        // [GABO DEBUG] Generador de prueba hecho originalmente para probar colocacion de elementos
         private GameObject SimpleBoxGenerate(LBSLayer layer, Generator3D.Settings settings)
         {
             // Variables
@@ -275,7 +299,7 @@ namespace ISILab.LBS.Generators
             // Objeto contenedor padre
             parent = new GameObject("PathOS+ Tags");
             // Prefab
-            prefabBox = Resources.Load<GameObject>("Prefabs/BoxWithTexture");
+            elementPrefab = Resources.Load<GameObject>("Prefabs/BoxWithTexture");
             // GameObject List
             List<GameObject> boxes = new List<GameObject>();
 
@@ -283,7 +307,7 @@ namespace ISILab.LBS.Generators
             {
                 // Instanciar prefab
 #if UNITY_EDITOR
-                GameObject currInstance = PrefabUtility.InstantiatePrefab(prefabBox) as GameObject;
+                GameObject currInstance = PrefabUtility.InstantiatePrefab(elementPrefab) as GameObject;
 #else
                 Debug.LogError("Attempting to use PathOSRuleGenerator class outside of Editor!"); return null;
 #endif

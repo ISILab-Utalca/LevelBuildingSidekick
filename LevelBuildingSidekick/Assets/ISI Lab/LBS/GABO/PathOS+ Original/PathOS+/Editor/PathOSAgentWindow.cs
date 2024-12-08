@@ -160,7 +160,7 @@ public class PathOSAgentWindow : EditorWindow
 
         Selection.objects = new Object[] { agentReference.gameObject };
 
-        // GABO DEBUG: To check for editor duplication bug due to CreateWindow(). Could be placed anywhere, tbh.
+        // [GABO DEBUG] To check for editor duplication bug due to CreateWindow(). Could be placed anywhere, tbh.
         //var totalEditors = Resources.FindObjectsOfTypeAll<Editor>();
         //int totalEditorCount = totalEditors.Count();
         //Debug.LogWarning($"Conteo totalEditorCount: {totalEditorCount}");

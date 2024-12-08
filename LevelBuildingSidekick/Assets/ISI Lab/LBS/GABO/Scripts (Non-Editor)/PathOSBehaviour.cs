@@ -58,7 +58,7 @@ namespace ISILab.LBS.Behaviours
             // Tags de Elementos
             if (tag.Category == PathOSTag.PathOSCategory.ElementTag)
             {
-                // Si el tile a agregar es el del agente, se restringe a uno:
+                // Si el tile a agregar es del AGENTE, se restringe a uno:
                 // Si ya existe, se borra el anterior.
                 if (tag.Label == "PathOSAgent")
                 {
@@ -73,8 +73,13 @@ namespace ISILab.LBS.Behaviours
             // Tags de eventos
             else if (tag.Category == PathOSTag.PathOSCategory.EventTag)
             {
+                PathOSTile oldTile = module.GetTile(x, y);
                 // El tile de agente no puede recibir eventos
-                if (module.GetTile(x, y) != null && module.GetTile(x, y).Tag.Label == "PathOSAgent") { return; }
+                if (oldTile != null && oldTile.Tag.Label == "PathOSAgent") { return; }
+                // Un tile de muro no puede recibir tags de Trigger
+                if (oldTile != null &&
+                    oldTile.Tag.Label == "Wall" &&
+                    (tag.Label == "DynamicObstacleTrigger" || tag.Label == "DynamicTagTrigger")) { return; }
 
                 module.ApplyEventTile(tile);
             }

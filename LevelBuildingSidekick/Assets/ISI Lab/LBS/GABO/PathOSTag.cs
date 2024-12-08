@@ -13,7 +13,7 @@ namespace ISILab.LBS.Components
         public enum PathOSCategory
         {
             ElementTag,
-            EventTag
+            EventTag,
         }
 
         #region FIELDS
