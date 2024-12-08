@@ -11,7 +11,7 @@ PathOSAgentEyes (c) Nine Penguins (Samantha Stahlke) 2018-19
 */
 
 [RequireComponent(typeof(PathOSAgent))]
-public class PathOSAgentEyes : MonoBehaviour 
+public class PathOSAgentEyes : MonoBehaviour
 {
     private PathOSAgent agent;
     private static PathOSManager manager;
@@ -56,12 +56,12 @@ public class PathOSAgentEyes : MonoBehaviour
     private float xFOV;
 
     // GABO: List of invisible marked up entities (to this agent)
-    private List<LevelEntity> invisibleEntities;
+    public List<LevelEntity> invisibleEntities { get; private set; }
     // GABO: List of invisible walls (to this agent)
-    private List<GameObject> invisibleWalls;
+    public List<GameObject> invisibleWalls { get; private set; }
 
-	void Awake()
-	{
+    void Awake()
+    {
         agent = GetComponent<PathOSAgent>();
 
         visible = new List<PerceivedEntity>();
@@ -141,7 +141,7 @@ public class PathOSAgentEyes : MonoBehaviour
             if (wasVisible != entity.visible)
             {
                 entity.visibilityTimer = 0.0f;
-                entity.impressionMade = false;     
+                entity.impressionMade = false;
             }
 
             //Keep track of how long the object has been in the current visibility state.
@@ -153,7 +153,7 @@ public class PathOSAgentEyes : MonoBehaviour
 
                 if (entity.visibilityTimer >= PathOS.Constants.Memory.IMPRESSION_TIME_MIN)
                 {
-                    if(!entity.impressionMade)
+                    if (!entity.impressionMade)
                     {
                         entity.impressionMade = true;
 
@@ -171,8 +171,8 @@ public class PathOSAgentEyes : MonoBehaviour
                         agent.memory.CommitUnforgettable(entity);
 
                     agent.memory.TryCommitLTM(entity);
-                }  
-            }          
+                }
+            }
         }
 
         perceptionTimer = 0.0f;
@@ -213,7 +213,7 @@ public class PathOSAgentEyes : MonoBehaviour
         boundsCheck[6].Set(bounds.max.x, bounds.max.y, bounds.min.z);
         boundsCheck[7].Set(bounds.max.x, bounds.max.y, bounds.max.z);
 
-        for(int i = 0; i < boundsCheck.Length; ++i)
+        for (int i = 0; i < boundsCheck.Length; ++i)
         {
             ray = cam.transform.position - boundsCheck[i];
 
@@ -234,7 +234,7 @@ public class PathOSAgentEyes : MonoBehaviour
 
         return false;
     }
-	
+
     //This should be updated eventually to do a more sophisticated check accounting
     //for *apparent* distance - i.e., by adding a couple of physics raycasts from the 
     //camera.
@@ -253,7 +253,7 @@ public class PathOSAgentEyes : MonoBehaviour
 
         agent.memory.memoryMap.Fill(hit.position, fillCode);
 
-        PathOSNavUtility.NavmeshMemoryMapper.NavmeshMemoryMapperCastHit memHit = 
+        PathOSNavUtility.NavmeshMemoryMapper.NavmeshMemoryMapperCastHit memHit =
             new PathOSNavUtility.NavmeshMemoryMapper.NavmeshMemoryMapperCastHit();
 
         agent.memory.memoryMap.RaycastMemoryMap(origin, dir, hit.distance,

@@ -53,6 +53,7 @@ public class PathOSAgentRenderer : MonoBehaviour
     private string visitTex = "visited";
     private string memoryTex = "brain";
     private string badTex = "unreachable";
+    private string offTex = "OffIcon"; // GABO: Object is invisible to this agent
     private string iconExtension = ".png";
 
     private Texture[] gizmoLegendTextures;
@@ -63,7 +64,8 @@ public class PathOSAgentRenderer : MonoBehaviour
         "Visited",
         "Visible",
         "In Memory",
-        "Unreachable"
+        "Unreachable",
+        "Invisible" // GABO
     };
 
     [Header("Map Drawing")]
@@ -127,12 +129,13 @@ public class PathOSAgentRenderer : MonoBehaviour
         transformCam = Camera.main;
         sceneInit = true;
 
-        gizmoLegendTextures = new Texture[5];
+        gizmoLegendTextures = new Texture[6];
         gizmoLegendTextures[0] = Resources.Load<Texture2D>(targetTex);
         gizmoLegendTextures[1] = Resources.Load<Texture2D>(visitTex);
         gizmoLegendTextures[2] = Resources.Load<Texture2D>(eyeTex);
         gizmoLegendTextures[3] = Resources.Load<Texture2D>(memoryTex);
         gizmoLegendTextures[4] = Resources.Load<Texture2D>(badTex);
+        gizmoLegendTextures[5] = Resources.Load<Texture2D>("Icons/" + offTex); // GABO
 
         //We want to draw the memory "map" in the lower-left corner of the screen.
         //Grab a persistent reference to the texture.
@@ -395,6 +398,17 @@ public class PathOSAgentRenderer : MonoBehaviour
                 Gizmos.DrawIcon(GetGizmoIconPos(pos), eyeTex + iconExtension);
             else
                 Gizmos.DrawIcon(GetGizmoIconPos(pos), memoryTex + iconExtension);
+        }
+
+        // GABO: Draw invisible walls gizmos
+        foreach (GameObject wall in agent.eyes.invisibleWalls)
+        {
+            Gizmos.DrawIcon(GetGizmoIconPos(wall.transform.position), offTex + iconExtension);
+        }
+        // GABO Draw invisible entity gizmos
+        foreach(PathOS.LevelEntity invisibleEntity in agent.eyes.invisibleEntities)
+        {
+            Gizmos.DrawIcon(GetGizmoIconPos(invisibleEntity.objectRef.transform.position), offTex + iconExtension);
         }
 
         Gizmos.DrawIcon(GetGizmoIconPos(agent.GetTargetPosition()), targetTex + iconExtension);
