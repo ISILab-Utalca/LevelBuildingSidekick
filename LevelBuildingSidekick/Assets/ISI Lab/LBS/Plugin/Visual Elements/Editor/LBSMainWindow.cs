@@ -96,7 +96,7 @@ public class LBSMainWindow : EditorWindow
             questsPanel.ResetSelection();
         };
 
-        var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("LBSMainWindow");
+        VisualTreeAsset visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("LBSMainWindow");
         visualTree.CloneTree(rootVisualElement);
 
         // LayerTemplate
@@ -225,29 +225,31 @@ public class LBSMainWindow : EditorWindow
         questsPanel.OnSelectQuest += OnSelectedLayerChange;
 
         // LayerButton
-        var layerBtn = rootVisualElement.Q<Button>("LayerButton");
-        layerBtn.clicked += () =>
-        {
-            var value = (layerPanel.style.display == DisplayStyle.None);
-            layerPanel.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
-        };
+        Toggle layerToggleButton = rootVisualElement.Q<Toggle>("LayerToggleButton");
+        layerToggleButton.SetValueWithoutNotify(true);
+        layerToggleButton.RegisterCallback<ChangeEvent<bool>>((_event) => {
+            layerPanel.style.display = (layerToggleButton.value) ? DisplayStyle.Flex : DisplayStyle.None;
+        });
 
-        // 3DButton
-        var Gen3DBtn = rootVisualElement.Q<Toggle>("3DButton");
-        Gen3DBtn.RegisterCallback<ChangeEvent<bool>>((evt) =>
-        {
-            gen3DPanel.Init(_selectedLayer);
-            //var value = (gen3DPanel.style.display == DisplayStyle.None);
-            gen3DPanel.style.display = (Gen3DBtn.value) ? DisplayStyle.Flex : DisplayStyle.None;
+        // Quest Panel Toggle
+        Toggle toggleQuest = rootVisualElement.Q<Toggle>("QuestToggleButton");
+        toggleQuest.RegisterCallback<ChangeEvent<bool>>( (evt) => {
+            //var value = (questsPanel.style.display == DisplayStyle.None);
+            questsPanel.style.display = (toggleQuest.value) ? DisplayStyle.Flex : DisplayStyle.None;
         });
 
 
-        var QuestBtn = rootVisualElement.Q<Button>("Quests");
-        QuestBtn.clicked += () =>
+        // 3D Generator Toggle
+        Toggle toggleButton3D = rootVisualElement.Q<Toggle>("Gen3DToggleButton");
+        //Toggle toggleButton3D = Gen3DBtn.Q<Toggle>("ToggleButton");
+        toggleButton3D.RegisterCallback<ChangeEvent<bool>>((evt) =>
         {
-            var value = (questsPanel.style.display == DisplayStyle.None);
-            questsPanel.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
-        };
+            gen3DPanel.Init(_selectedLayer);
+            //var value = (gen3DPanel.style.display == DisplayStyle.None);
+            gen3DPanel.style.display = (toggleButton3D.value) ? DisplayStyle.Flex : DisplayStyle.None;
+        });
+
+
 
         layerPanel.OnSelectLayer += (l) => questsPanel.ResetSelection();
         questsPanel.OnSelectQuest += (l) => layerPanel.ResetSelection();

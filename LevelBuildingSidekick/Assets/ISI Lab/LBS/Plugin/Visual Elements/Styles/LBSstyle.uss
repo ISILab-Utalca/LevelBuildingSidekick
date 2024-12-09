@@ -124,6 +124,7 @@
 
 .lbs-3d-icon {
     -unity-background-image-tint-color: rgb(135, 215, 246);
+    background-image: resource('Icons/Vectorial/3D_Icon_Vector');
 }
 
 .lbs-layer-icon {
