@@ -31,7 +31,10 @@ public class PathOSAgentMemory : MonoBehaviour
     [Header("Navmesh Memory Model")]
     [Tooltip("The edge length of a tile in the memory map (in units)")]
     public float gridSampleSize = 2.0f;
-    public PathOSNavUtility.NavmeshMemoryMapper memoryMap { get; set; }
+    public PathOSNavUtility.NavmeshMemoryMapper memoryMap { get; set; } // GABO TODO: Should update already-explored space
+                                                                        // when dynamic obstacle toggling (e.g. Walls) changes the NavMesh!!!
+                                                                        // Otherwise may ignore paths if they were seen as blocked before
+                                                                        // using the inner original AStar system.
 
     //Check to see if there are any goals left
     protected bool goalsLeft = true;

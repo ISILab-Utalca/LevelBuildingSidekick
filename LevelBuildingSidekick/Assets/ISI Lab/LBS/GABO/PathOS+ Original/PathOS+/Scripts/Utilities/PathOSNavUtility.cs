@@ -640,8 +640,8 @@ public class PathOSNavUtility
         return p;
     }
 
-    // Determines if a given NavMesh agent can reach the specified target position.
-    // GABO: Due to "GetClosestPointWalkable()" not calculating if a NavMesh agent is ACTUALLY able
+    // GABO: Determines if a given NavMesh agent can reach the specified target position.
+    // Due to "GetClosestPointWalkable()" not calculating if a NavMesh agent is ACTUALLY able
     // to get to "p" beyond a limited "margin" (understandable since the original code always
     // expected a completely connected NavMesh) we create the needed auxiliary method.
     public static bool CanAgentReachTarget(NavMeshAgent agent, Vector3 target, float margin, ref Vector3 result)
@@ -678,5 +678,23 @@ public class PathOSNavUtility
             Debug.LogWarning("CanAgentReachTarget(): Invalid pathfinding! Is agent (and/or target) on the NavMesh?");
             return false;
         }
+    }
+
+    // GABO: Gets agent type ID from name.
+    // ***Helpful method, just in case.
+    // (https://web.archive.org/web/20210919121830/https://answers.unity.com/questions/1650130/change-agenttype-at-runtime.html)
+    public static int GetAgentTypeIdByName(string agentTypeName)
+    {
+        int count = NavMesh.GetSettingsCount();
+        for (var i = 0; i < count; i++)
+        {
+            int id = NavMesh.GetSettingsByIndex(i).agentTypeID;
+            string name = NavMesh.GetSettingsNameFromID(id);
+            if (name == agentTypeName)
+            {
+                return id;
+            }
+        }
+        return -1;
     }
 }

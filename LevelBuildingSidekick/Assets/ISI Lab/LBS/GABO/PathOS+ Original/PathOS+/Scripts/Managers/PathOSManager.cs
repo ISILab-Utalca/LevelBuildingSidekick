@@ -7,6 +7,8 @@ using PathOS;
 using Unity.AI.Navigation;
 using System.Linq;
 using ISILab.LBS.Components;
+using UnityEngine.AI;
+using UnityEngine.Rendering.VirtualTexturing;
 
 /*
 PathOSManager.cs 
@@ -214,12 +216,21 @@ public class PathOSManager : NPSingleton<PathOSManager>
         return newEntity;
     }
 
-    // GABO: Toggle dynamic obstacle connections of this entity (if any). Includes both marked up entities, and walls.
+    // GABO
+    // GABO TODO: Make it usable with MULTIPLE agents! (currently it can't due to navmesh changes affecting all agents)
+    /// <summary>
+    /// Toggle dynamic obstacle connections of this entity (if any) for the given agent.
+    /// Includes both marked up entities and Testing Layer walls.
+    /// If Testing Layer walls were added or removed, re-bakes NavMesh.
+    /// </summary>
+    /// <param name="agent"> Agent which is being affected by the toggling. </param>
+    /// <param name="entity"> Entity which dynamic obstacles we're toggling.</param>
     public void ToggleDynamicObstacles(PathOSAgent agent, LevelEntity entity)
     {
         // Abort if no dynamic obstacles connected
         if (entity.dynamicObstacles.Count == 0) { return; }
 
+        bool IsWallsAddedOrRemoved = false; // Modify NavMesh only if walls were added or removed
         foreach (EntityObstaclePair connectedObject in entity.dynamicObstacles)
         {
             // CLOSE: Make object visible
@@ -229,6 +240,7 @@ public class PathOSManager : NPSingleton<PathOSManager>
                 if (connectedObject.entityObjectRef.name == "WallPrefab")
                 {
                     agent.eyes.RemoveInvisibleWall(connectedObject.entityObjectRef);
+                    IsWallsAddedOrRemoved = true;
                 }
                 // Entities
                 else
@@ -243,6 +255,7 @@ public class PathOSManager : NPSingleton<PathOSManager>
                 if (connectedObject.entityObjectRef.name == "WallPrefab")
                 {
                     agent.eyes.AddInvisibleWall(connectedObject.entityObjectRef);
+                    IsWallsAddedOrRemoved = true;
                 }
                 // Entities
                 else
@@ -254,76 +267,162 @@ public class PathOSManager : NPSingleton<PathOSManager>
             {
                 Debug.LogError("EntityObstaclePair object has no connectionType set!");
             }
-        }        
+        }
+
+        // Re-Bake NavMesh (if walls were added or removed)
+        if (IsWallsAddedOrRemoved)
+        {
+            GenerateNavMeshFromLBSModules(agent);
+        }
     }
 
-    // GABO: Regenerate NavMesh considering Exterior, Interior & Testing modules-generated objects
-    // GABO TODO: FALTA PASAR LO DE "WALLS" DESDE EL generador del ruleGenerator!
-    public void GenerateNavMeshFromLBSModules()
+    // GABO: Regenerate NavMesh considering Exterior, Interior and Testing Layer objects.
+    // Testing Layer "Walls" instances considered depend on given agent.
+    // GABO TODO: ARREGLAR PARA FUNCIONAR CON MULTIPLES AGENTES
+    public void GenerateNavMeshFromLBSModules(PathOSAgent affectedAgent)
     {
+        // Variables
+        bool newAgentIdFound = false;
+        int currentSmallestUnassignedIdIndex = -1;
         // Re-bake NavMesh (based on PathOSRuleGenerator.GenerateNavMesh(), but using existing NavMeshSurface object)
-        NavMeshSurface surface = GameObject.Find("NavMeshSurface").GetComponent<NavMeshSurface>();
-        if (surface != null)
+        GameObject surfaceGameObject = new GameObject("TemporaryNavMeshSurface");
+        NavMeshSurface surface = surfaceGameObject.AddComponent<NavMeshSurface>();
+
+        // Assign new agent type to affectedAgent in order to separate its NavMesh from other agents (if it hasn't been done yet).
+        // *** Due to Unity's limitations to create and modify agent types at runtime, 8 "Temporary Agent <X>" types
+        // were created in the editor to cover for the maximum of 8 simultaneous agents used in PathOS batching system.
+        // In the meantime, limit use to 8 agents at the same time, or add more agent types manually.
+        PathOSAgent[] activeAgents = FindObjectsOfType<PathOSAgent>(false);
+        // 8-maximum check
+        if (activeAgents.Length > 8) { Debug.LogWarning("There shouldn't be more than 8 concurrent agents!"); return; }
+        // "Already-changed-agent-type" check //GABO TODO: Buscar una manera menos propensa a error de deteccion
+        else if (affectedAgent.GetComponent<NavMeshAgent>().agentTypeID != 0)
         {
-            // Interior Layers: GameObjects
-            List<GameObject> interiorLayerGameObjects = GameObject.FindObjectsOfType<GameObject>().Where(
-                obj => obj.transform.childCount == 2 &&
-                obj.transform?.GetChild(0).name == "Schema" &&
-                obj.transform?.GetChild(1).name == "Schema outside").ToList();
-
-            // Exterior Layers: GameObjects
-            List<GameObject> exteriorLayerGameObjects = GameObject.FindObjectsOfType<GameObject>().Where(
-                obj => obj.transform.childCount == 1 &&
-                obj.transform?.GetChild(0).name == "Exterior").ToList();
-
-            // If none found, sends warning.
-            if (interiorLayerGameObjects.Count == 0 && exteriorLayerGameObjects.Count == 0)
-            {
-                Debug.LogWarning("No standard instances of Interior/Exterior layers found. NavMesh won't be re-baked! " +
-                    "Avoid changing first-order children name structure (i.e. \"Schema\" (0) and \"Schema Outside\" (1) for Interior).");
-                return;
-            }
-
-            // Arrays to save old parent transforms for later reinsertion
-            GameObject[] interiorOldParents = new GameObject[interiorLayerGameObjects.Count];
-            GameObject[] exteriorOldParents = new GameObject[exteriorLayerGameObjects.Count];
-
-            // Surface object becomes temporal parent
-            GameObject tempParent = surface.gameObject;
-
-            // Interior Layers: New temporary parent
-            for (int i = 0; i < interiorLayerGameObjects.Count; i++)
-            {
-                interiorOldParents[i] = interiorLayerGameObjects[i].transform.parent?.gameObject;
-                // Add interior objects to temporary parent
-                interiorLayerGameObjects[i].transform.parent = tempParent.transform;
-            }
-            // Exterior Layers: New temporary parent
-            for (int i = 0; i < exteriorLayerGameObjects.Count; i++)
-            {
-                exteriorOldParents[i] = exteriorLayerGameObjects[i].transform.parent?.gameObject;
-                // Add exterior objects to temporary parent
-                exteriorLayerGameObjects[i].transform.parent = tempParent.transform;
-            }
-
-            // Generate new NavMesh
-            surface.BuildNavMesh();
-
-            // Interior Layers: Reassign original parent
-            for (int i = 0; i < interiorLayerGameObjects.Count; i++)
-            {
-                interiorLayerGameObjects[i].transform.parent = interiorOldParents[i]?.transform;
-            }
-            // Exterior Layers: Reassign original parent
-            for (int i = 0; i < exteriorLayerGameObjects.Count; i++)
-            {
-                exteriorLayerGameObjects[i].transform.parent = exteriorOldParents[i]?.transform;
-            }
+            surface.agentTypeID = affectedAgent.GetComponent<NavMeshAgent>().agentTypeID;
         }
         else
         {
-            Debug.LogWarning("No NavMeshSurface object with the name \"NavMeshSurface\" found " +
-                "(as created by LBS's Testing Layer)! NavMesh won't be re-baked!");
+            currentSmallestUnassignedIdIndex = 1;
+            while (true)
+            {
+                bool isAgentTypeTaken = false;
+                foreach (PathOSAgent agent in activeAgents)
+                {
+                    if (agent.GetComponent<NavMeshAgent>().agentTypeID == NavMesh.GetSettingsByIndex(currentSmallestUnassignedIdIndex).agentTypeID)
+                    {
+                        isAgentTypeTaken = true;
+                        break;
+                    }
+                }
+                if (isAgentTypeTaken)
+                {
+                    if (currentSmallestUnassignedIdIndex == 8)
+                    {
+                        Debug.LogError("There shouldn't be more than 8 extra agent types needed! Check code.");
+                        return;
+                    }
+                    currentSmallestUnassignedIdIndex++;
+                }
+                else
+                {
+                    newAgentIdFound = true;
+                    break;
+                }
+            }
+        }
+
+        // Surface parameters
+        surface.defaultArea = NavMesh.GetAreaFromName("Walkable");
+        surface.layerMask = Physics.AllLayers;
+        surface.useGeometry = NavMeshCollectGeometry.PhysicsColliders;
+        surface.collectObjects = CollectObjects.Children;
+        surface.overrideVoxelSize = false;
+        surface.overrideTileSize = false;
+
+        // Interior Layers: GameObjects
+        List<GameObject> interiorLayerGameObjects = GameObject.FindObjectsOfType<GameObject>().Where(
+            obj => obj.transform.childCount == 2 &&
+            obj.transform?.GetChild(0).name == "Schema" &&
+            obj.transform?.GetChild(1).name == "Schema outside").ToList();
+
+        // Exterior Layers: GameObjects
+        List<GameObject> exteriorLayerGameObjects = GameObject.FindObjectsOfType<GameObject>().Where(
+            obj => obj.transform.childCount == 1 &&
+            obj.transform?.GetChild(0).name == "Exterior").ToList();
+        // Testing Layers: Active walls (depend on given agent)
+        List<GameObject> testingLayerWalls = GameObject.FindObjectsOfType<GameObject>().Where(
+            obj => //obj.name == "WallPrefab" &&
+            obj.transform.parent?.name == "Walls" &&
+            obj.transform.parent.parent?.name == "PathOS+" &&
+            !affectedAgent.eyes.invisibleWalls.Contains(obj)).ToList();
+
+        // If none found, sends warning.
+        if (interiorLayerGameObjects.Count == 0 && exteriorLayerGameObjects.Count == 0 && testingLayerWalls.Count == 0)
+        {
+            Debug.LogWarning("No standard instances of Interior/Exterior layers, or Testing Layer walls, found. " +
+                "NavMesh won't be re-baked! " +
+                "Avoid changing first-order children name structure " +
+                "(i.e. \"Schema\" (0) and \"Schema Outside\" (1) names for an Interior layer).");
+            return;
+        }
+
+        // Arrays to save old parent transforms for later reinsertion
+        GameObject[] interiorOldParents = new GameObject[interiorLayerGameObjects.Count];
+        GameObject[] exteriorOldParents = new GameObject[exteriorLayerGameObjects.Count];
+        GameObject[] wallsOldParents = new GameObject[testingLayerWalls.Count];
+
+        // Surface object becomes temporal parent
+        GameObject tempParent = surface.gameObject;
+
+        // Interior Layers: New temporary parent
+        for (int i = 0; i < interiorLayerGameObjects.Count; i++)
+        {
+            interiorOldParents[i] = interiorLayerGameObjects[i].transform.parent?.gameObject;
+            // Add interior objects to temporary parent
+            interiorLayerGameObjects[i].transform.parent = tempParent.transform;
+        }
+        // Exterior Layers: New temporary parent
+        for (int i = 0; i < exteriorLayerGameObjects.Count; i++)
+        {
+            exteriorOldParents[i] = exteriorLayerGameObjects[i].transform.parent?.gameObject;
+            // Add exterior objects to temporary parent
+            exteriorLayerGameObjects[i].transform.parent = tempParent.transform;
+        }
+        // Testing Layer walls: New temporary parent
+        for (int i = 0; i < testingLayerWalls.Count; i++)
+        {
+            wallsOldParents[i] = testingLayerWalls[i].transform.parent?.gameObject;
+            // Add walls to temporary parent
+            testingLayerWalls[i].transform.parent = tempParent.transform;
+        }
+
+        // Generate new NavMesh
+        // ***Seems to need to go like this to prevent "Not close to NavMesh" warnings" when assigning new ids
+        if (newAgentIdFound)
+        {
+            surface.agentTypeID = NavMesh.GetSettingsByIndex(currentSmallestUnassignedIdIndex).agentTypeID;
+            surface.BuildNavMesh();
+            affectedAgent.GetComponent<NavMeshAgent>().agentTypeID = NavMesh.GetSettingsByIndex(currentSmallestUnassignedIdIndex).agentTypeID;
+        }
+        else
+        {
+            surface.BuildNavMesh();
+        }
+
+        // Interior Layers: Reassign original parent
+        for (int i = 0; i < interiorLayerGameObjects.Count; i++)
+        {
+            interiorLayerGameObjects[i].transform.parent = interiorOldParents[i]?.transform;
+        }
+        // Exterior Layers: Reassign original parent
+        for (int i = 0; i < exteriorLayerGameObjects.Count; i++)
+        {
+            exteriorLayerGameObjects[i].transform.parent = exteriorOldParents[i]?.transform;
+        }
+        // Testing Layer walls: Reassign original parent
+        for (int i = 0; i < testingLayerWalls.Count; i++)
+        {
+            testingLayerWalls[i].transform.parent = wallsOldParents[i]?.transform;
         }
     }
 
