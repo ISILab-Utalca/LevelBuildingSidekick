@@ -6,6 +6,7 @@ using UnityEngine;
 using PathOS;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using UnityEngine.AI;
 
 /*
 PathOSAgentBatchingWindow.cs 
@@ -388,7 +389,10 @@ public class PathOSAgentBatchingWindow : EditorWindow
             Time.timeScale = timeScale;
         }
 
-        numAgents = EditorGUILayout.IntField("Number of agents: ", numAgents);
+        //numAgents = EditorGUILayout.IntField("Number of agents: ", numAgents);
+        // GABO TEMP FIX: Preventing agents from being more than single batch to stop error warnings (to be fixed). 
+        numAgents = EditorGUILayout.IntSlider("Number of Agents: ", numAgents, 0, MAX_AGENTS_SIMULTANEOUS);
+
         EditorGUILayout.EndVertical();
 
         EditorGUILayout.BeginVertical();

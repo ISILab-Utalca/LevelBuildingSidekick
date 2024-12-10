@@ -433,8 +433,8 @@ public class PathOSAgentMemory : MonoBehaviour
         return penalty;
     }
 
-    // [GABO DEBUG] Set all unreachable entities and paths(Vector3 positions) as "possibly reachable" again
-    public int DEBUGSetAllMemoriesAndPathsAsReachable()
+    // GABO:Set all unreachable entities and paths(Vector3 positions) as "possibly reachable" again
+    public int SetAllMemoriesAndPathsAsReachable()
     {
         int unreachableCount = 0;
         foreach (EntityMemory memory in entities)
@@ -446,7 +446,7 @@ public class PathOSAgentMemory : MonoBehaviour
             }
         }
         // Reset paths
-        agent.DEBUGResetUnreachablePositionReferences();
+        agent.ResetUnreachablePositionReferences();
         return unreachableCount;
     }
 
@@ -455,7 +455,7 @@ public class PathOSAgentMemory : MonoBehaviour
     public void DEBUGRefreshReachablesObstaclesAndNavMeshWhenVisitingNewEntity()
     {
         //
-        int unreachableCount = DEBUGSetAllMemoriesAndPathsAsReachable();
+        int unreachableCount = SetAllMemoriesAndPathsAsReachable();
         //
         GameObject testRock = GameObject.Find("TestDynamicObstacle");
         if (testRock != null && unreachableCount > 0)

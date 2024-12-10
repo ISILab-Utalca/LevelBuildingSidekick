@@ -1203,8 +1203,8 @@ public class PathOSAgent : MonoBehaviour
         return dead;
     }
 
-    // [GABO DEBUG] Set all unreachable positions as possibly reachable again
-    public void DEBUGResetUnreachablePositionReferences()
+    // GABO: Set all unreachable positions (memory entities not included) as possibly reachable again
+    public void ResetUnreachablePositionReferences()
     {
         if (unreachableReference.Count > 0)
         {

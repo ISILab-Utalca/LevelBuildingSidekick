@@ -310,7 +310,8 @@ public class PathOSManager : NPSingleton<PathOSManager>
         // GABO TODO: Horrible but currently works. Fix in the future.
         if (affectedAgent.GetComponent<NavMeshAgent>().agentTypeID != 0)
         {
-            surface = FindObjectOfType<NavMeshSurface>();
+            surface = FindObjectsOfType<NavMeshSurface>().Where(
+                s => s.agentTypeID == affectedAgent.GetComponent<NavMeshAgent>().agentTypeID).ToArray()[0];
             if (surface == null)
             {
                 GameObject surfaceGameObject = new GameObject("TemporaryNavMeshSurface");
@@ -445,13 +446,17 @@ public class PathOSManager : NPSingleton<PathOSManager>
             surface.agentTypeID = NavMesh.GetSettingsByIndex(currentSmallestUnassignedIdIndex).agentTypeID;
             surface.BuildNavMesh();
             affectedAgent.GetComponent<NavMeshAgent>().agentTypeID = NavMesh.GetSettingsByIndex(currentSmallestUnassignedIdIndex).agentTypeID;
-            // Reset obstacles in agent memory (TEMP SOLUTION in order to prevent agent from getting stuck)
+            // Make "unreachable" entities and paths potentially reachable again
+            affectedAgent.memory.SetAllMemoriesAndPathsAsReachable();
+            // Clear obstacles in agent memory map (TEMP SOLUTION in order to prevent agent from getting stuck)
             affectedAgent.memory.memoryMap.ResetObstacles();
         }
         else
         {
             surface.BuildNavMesh();
-            // Reset obstacles in agent memory (TEMP SOLUTION in order to prevent agent from getting stuck)
+            // Make "unreachable" entities and paths potentially reachable again
+            affectedAgent.memory.SetAllMemoriesAndPathsAsReachable();
+            // Clear obstacles in agent memory (TEMP SOLUTION in order to prevent agent from getting stuck)
             affectedAgent.memory.memoryMap.ResetObstacles();
         }
 
