@@ -278,56 +278,98 @@ public class PathOSManager : NPSingleton<PathOSManager>
 
     // GABO: Regenerate NavMesh considering Exterior, Interior and Testing Layer objects.
     // Testing Layer "Walls" instances considered depend on given agent.
-    // GABO TODO: ARREGLAR PARA FUNCIONAR CON MULTIPLES AGENTES
+    // GABO TODO: This function is a mess and should be reworked to avoid many edge cases.
     public void GenerateNavMeshFromLBSModules(PathOSAgent affectedAgent)
     {
         // Variables
+        PathOSAgent[] batchingAgents = FindObjectsOfType<PathOSAgent>().Where(a => a.name.Contains("Temporary Batch Agent")).ToArray();
         bool newAgentIdFound = false;
         int currentSmallestUnassignedIdIndex = -1;
-        // Re-bake NavMesh (based on PathOSRuleGenerator.GenerateNavMesh(), but using existing NavMeshSurface object)
-        GameObject surfaceGameObject = new GameObject("TemporaryNavMeshSurface");
-        NavMeshSurface surface = surfaceGameObject.AddComponent<NavMeshSurface>();
+        // Surface
+        NavMeshSurface surface;
 
-        // Assign new agent type to affectedAgent in order to separate its NavMesh from other agents (if it hasn't been done yet).
+        // Assign new agent type to affectedAgent in order to separate its NavMesh from other agents (if needed).
         // *** Due to Unity's limitations to create and modify agent types at runtime, 8 "Temporary Agent <X>" types
         // were created in the editor to cover for the maximum of 8 simultaneous agents used in PathOS batching system.
         // In the meantime, limit use to 8 agents at the same time, or add more agent types manually.
-        PathOSAgent[] activeAgents = FindObjectsOfType<PathOSAgent>(false);
-        // 8-maximum check
-        if (activeAgents.Length > 8) { Debug.LogWarning("There shouldn't be more than 8 concurrent agents!"); return; }
-        // "Already-changed-agent-type" check //GABO TODO: Buscar una manera menos propensa a error de deteccion
-        else if (affectedAgent.GetComponent<NavMeshAgent>().agentTypeID != 0)
+        // ----------------------------------------------------------------------------------------------------------------
+        // AgentType-maximum batching check
+        if (batchingAgents.Length > NavMesh.GetSettingsCount() - 1)
         {
+            Debug.LogWarning($"There shouldn't be more than {NavMesh.GetSettingsCount() - 1}" +
+                                                                                       $"concurrent batching agents!"); return;
+        }
+        // AgentType-maximum non-batching check.
+        else if (batchingAgents.Length == 0 && FindObjectsOfType<PathOSAgent>(true).Length > NavMesh.GetSettingsCount() - 1)
+        {
+            Debug.LogWarning($"More than {NavMesh.GetSettingsCount() - 1} (non-batching) agents detected." +
+                             $"Limit the number of concurrent agents to {NavMesh.GetSettingsCount() - 1}."); return;
+        }
+
+        // If agent is not of "Humanoid" type, we assume its agent type has already been altered by the playing simulation.
+        // GABO TODO: Horrible but currently works. Fix in the future.
+        if (affectedAgent.GetComponent<NavMeshAgent>().agentTypeID != 0)
+        {
+            surface = FindObjectOfType<NavMeshSurface>();
+            if (surface == null)
+            {
+                GameObject surfaceGameObject = new GameObject("TemporaryNavMeshSurface");
+                surface = surfaceGameObject.AddComponent<NavMeshSurface>();
+            }
             surface.agentTypeID = affectedAgent.GetComponent<NavMeshAgent>().agentTypeID;
         }
+        // Else we assign a surface accordingly
         else
         {
-            currentSmallestUnassignedIdIndex = 1;
-            while (true)
+            // If single agent, no need to create extra surfaces (unless there's zero)
+            if (FindObjectsOfType<PathOSAgent>().Length == 1)
             {
-                bool isAgentTypeTaken = false;
-                foreach (PathOSAgent agent in activeAgents)
+                surface = FindObjectOfType<NavMeshSurface>().GetComponent<NavMeshSurface>();
+                if (surface == null)
                 {
-                    if (agent.GetComponent<NavMeshAgent>().agentTypeID == NavMesh.GetSettingsByIndex(currentSmallestUnassignedIdIndex).agentTypeID)
+                    GameObject surfaceGameObject = new GameObject("TemporaryNavMeshSurface");
+                    surface = surfaceGameObject.AddComponent<NavMeshSurface>();
+                }
+            }
+            // For more than one agent, we need to give the current one its own surface.
+            else if (FindObjectsOfType<PathOSAgent>().Length > 1)
+            {
+
+                PathOSAgent[] allAgents = FindObjectsOfType<PathOSAgent>(true);  // Includes inactive agents
+                GameObject surfaceGameObject = new GameObject("TemporaryNavMeshSurface");
+                surface = surfaceGameObject.AddComponent<NavMeshSurface>();
+
+                currentSmallestUnassignedIdIndex = 1;
+                for (int i = 0; i < NavMesh.GetSettingsCount(); i++)
+                {
+                    bool isAgentTypeTaken = false;
+                    foreach (PathOSAgent agent in allAgents)
                     {
-                        isAgentTypeTaken = true;
+                        if (agent.GetComponent<NavMeshAgent>().agentTypeID == NavMesh.GetSettingsByIndex(currentSmallestUnassignedIdIndex).agentTypeID)
+                        {
+                            isAgentTypeTaken = true;
+                            break;
+                        }
+                    }
+                    if (isAgentTypeTaken)
+                    {
+                        if (currentSmallestUnassignedIdIndex == NavMesh.GetSettingsCount())
+                        {
+                            Debug.LogError("There shouldn't be more than 8 extra agent types needed! Check code.");
+                            return;
+                        }
+                        currentSmallestUnassignedIdIndex++;
+                    }
+                    else
+                    {
+                        newAgentIdFound = true;
                         break;
                     }
                 }
-                if (isAgentTypeTaken)
-                {
-                    if (currentSmallestUnassignedIdIndex == 8)
-                    {
-                        Debug.LogError("There shouldn't be more than 8 extra agent types needed! Check code.");
-                        return;
-                    }
-                    currentSmallestUnassignedIdIndex++;
-                }
-                else
-                {
-                    newAgentIdFound = true;
-                    break;
-                }
+            }
+            else
+            {
+                Debug.LogError("No agent found! Check code."); return;
             }
         }
 
@@ -342,18 +384,18 @@ public class PathOSManager : NPSingleton<PathOSManager>
         // Interior Layers: GameObjects
         List<GameObject> interiorLayerGameObjects = GameObject.FindObjectsOfType<GameObject>().Where(
             obj => obj.transform.childCount == 2 &&
-            obj.transform?.GetChild(0).name == "Schema" &&
-            obj.transform?.GetChild(1).name == "Schema outside").ToList();
+            obj.transform != null && obj.transform.GetChild(0).name == "Schema" &&
+            obj.transform != null && obj.transform.GetChild(1).name == "Schema outside").ToList();
 
         // Exterior Layers: GameObjects
         List<GameObject> exteriorLayerGameObjects = GameObject.FindObjectsOfType<GameObject>().Where(
             obj => obj.transform.childCount == 1 &&
-            obj.transform?.GetChild(0).name == "Exterior").ToList();
+            obj.transform != null && obj.transform.GetChild(0).name == "Exterior").ToList();
         // Testing Layers: Active walls (depend on given agent)
         List<GameObject> testingLayerWalls = GameObject.FindObjectsOfType<GameObject>().Where(
             obj => //obj.name == "WallPrefab" &&
-            obj.transform.parent?.name == "Walls" &&
-            obj.transform.parent.parent?.name == "PathOS+" &&
+            obj.transform.parent != null && obj.transform.parent.name == "Walls" &&
+            obj.transform.parent.parent != null && obj.transform.parent.parent.name == "PathOS+" &&
             !affectedAgent.eyes.invisibleWalls.Contains(obj)).ToList();
 
         // If none found, sends warning.
@@ -377,21 +419,21 @@ public class PathOSManager : NPSingleton<PathOSManager>
         // Interior Layers: New temporary parent
         for (int i = 0; i < interiorLayerGameObjects.Count; i++)
         {
-            interiorOldParents[i] = interiorLayerGameObjects[i].transform.parent?.gameObject;
+            interiorOldParents[i] = interiorLayerGameObjects[i].transform.parent != null ? interiorLayerGameObjects[i].transform.parent.gameObject : null;
             // Add interior objects to temporary parent
             interiorLayerGameObjects[i].transform.parent = tempParent.transform;
         }
         // Exterior Layers: New temporary parent
         for (int i = 0; i < exteriorLayerGameObjects.Count; i++)
         {
-            exteriorOldParents[i] = exteriorLayerGameObjects[i].transform.parent?.gameObject;
+            exteriorOldParents[i] = exteriorLayerGameObjects[i].transform.parent != null ? exteriorLayerGameObjects[i].transform.parent.gameObject : null;
             // Add exterior objects to temporary parent
             exteriorLayerGameObjects[i].transform.parent = tempParent.transform;
         }
         // Testing Layer walls: New temporary parent
         for (int i = 0; i < testingLayerWalls.Count; i++)
         {
-            wallsOldParents[i] = testingLayerWalls[i].transform.parent?.gameObject;
+            wallsOldParents[i] = testingLayerWalls[i].transform.parent != null ? testingLayerWalls[i].transform.parent.gameObject : null;
             // Add walls to temporary parent
             testingLayerWalls[i].transform.parent = tempParent.transform;
         }
@@ -412,17 +454,17 @@ public class PathOSManager : NPSingleton<PathOSManager>
         // Interior Layers: Reassign original parent
         for (int i = 0; i < interiorLayerGameObjects.Count; i++)
         {
-            interiorLayerGameObjects[i].transform.parent = interiorOldParents[i]?.transform;
+            interiorLayerGameObjects[i].transform.parent = interiorOldParents[i] != null ? interiorOldParents[i].transform : null;
         }
         // Exterior Layers: Reassign original parent
         for (int i = 0; i < exteriorLayerGameObjects.Count; i++)
         {
-            exteriorLayerGameObjects[i].transform.parent = exteriorOldParents[i]?.transform;
+            exteriorLayerGameObjects[i].transform.parent = exteriorOldParents[i] != null ? exteriorOldParents[i].transform : null;
         }
         // Testing Layer walls: Reassign original parent
         for (int i = 0; i < testingLayerWalls.Count; i++)
         {
-            testingLayerWalls[i].transform.parent = wallsOldParents[i]?.transform;
+            testingLayerWalls[i].transform.parent = wallsOldParents[i] != null ? wallsOldParents[i].transform : null;
         }
     }
 

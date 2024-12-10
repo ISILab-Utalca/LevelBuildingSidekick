@@ -21,7 +21,7 @@ namespace ISILab.LBS.Generators
         GameObject wallsContainer; // Contiene los objetos muro
         Vector2 scale;
         // Referencias a muros colocados en ultima generacion
-        List<GameObject> lastGenerationWalls;
+        List<(PathOSTile, GameObject)> lastGenerationWalls;
         // Referencia al PathOSManager instanciado
         PathOSManager manager;
         // Ventana de PathOS+
@@ -126,8 +126,8 @@ namespace ISILab.LBS.Generators
                     modifier.ignoreFromBuild = false;
                     modifier.overrideArea = true;
                     modifier.area = NavMesh.GetAreaFromName("Not Walkable");
-                    // Guarda referencias para su uso durante el baking
-                    lastGenerationWalls.Add(currInstance); 
+                    // Guarda referencias para su uso durante el Baking
+                    lastGenerationWalls.Add((tile, currInstance)); 
                 }
                 else
                 {
@@ -161,8 +161,16 @@ namespace ISILab.LBS.Generators
                 {
                     foreach (var obstaclePair in entityPair.Item1.GetObstacles())
                     {
-                        var otherEntityPair = entitiesTemporaryReference.Find(otherPair => otherPair.Item1 == obstaclePair.Item1);
-                        entityPair.Item2.dynamicObstacles.Add(new EntityObstaclePair(otherEntityPair.Item2.objectRef, obstaclePair.Item2));
+                        if (obstaclePair.Item1.Tag.Label != "Wall")
+                        {
+                            var otherEntityPair = entitiesTemporaryReference.Find(otherPair => otherPair.Item1 == obstaclePair.Item1);
+                            entityPair.Item2.dynamicObstacles.Add(new EntityObstaclePair(otherEntityPair.Item2.objectRef, obstaclePair.Item2));
+                        }
+                        else
+                        {
+                            var wallPair = lastGenerationWalls.Find(wallPair => wallPair.Item1 == obstaclePair.Item1);
+                            entityPair.Item2.dynamicObstacles.Add(new EntityObstaclePair(wallPair.Item2, obstaclePair.Item2));
+                        }
                     }
                 }
             }
@@ -261,9 +269,9 @@ namespace ISILab.LBS.Generators
             // Muros: Nuevo padre temporal
             for (int i = 0; i < lastGenerationWalls.Count; i++)
             {
-                wallsOldParents[i] = lastGenerationWalls[i].transform.parent?.gameObject;
+                wallsOldParents[i] = lastGenerationWalls[i].Item2.transform.parent?.gameObject;
                 // Agrega objetos al padre temporal
-                lastGenerationWalls[i].transform.parent = tempParent.transform;
+                lastGenerationWalls[i].Item2.transform.parent = tempParent.transform;
             }
 
             // Genera NavMesh (Bake)
@@ -282,7 +290,7 @@ namespace ISILab.LBS.Generators
             // Muros: Reasigna padre original
             for (int i = 0; i < lastGenerationWalls.Count; i++)
             {
-                lastGenerationWalls[i].transform.parent = wallsOldParents[i]?.transform;
+                lastGenerationWalls[i].Item2.transform.parent = wallsOldParents[i]?.transform;
             }
 
             // Padre temporal cambia de nombre (pasa a contener unicamente el navmesh)

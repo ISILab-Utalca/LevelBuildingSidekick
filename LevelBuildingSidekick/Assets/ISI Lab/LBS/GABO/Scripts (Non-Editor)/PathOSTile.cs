@@ -148,10 +148,11 @@ namespace ISILab.LBS.Modules
         public List<(PathOSTile, PathOSObstacleConnections.Category)> GetObstacles()
         {
             // Chequeo de existencia.
-            if (obstacles == null) return null;
+            if (obstacles.IsNull) return new(); // Devuelve lista vacia
+            if (obstacles.Obstacles == null) return new();
             return obstacles.Obstacles;
         }
-
+        // GABO TODO: Arreglar metodo cuando se arregle la clase y devolver VACIO similarmente a GetObstacles
         public List<(PathOSTile, PathOSTag)> GetDynamicTags()
         {
             return dynamicTagTiles.DynamicTagObjects;
@@ -159,21 +160,22 @@ namespace ISILab.LBS.Modules
 
         public (PathOSTile, PathOSObstacleConnections.Category)? GetObstacle(int x, int y)
         {
-            if (obstacles == null) { return null; }
+            if (obstacles.IsNull) { return null; }
             return obstacles.GetObstacle(x, y);
         }
 
         public (PathOSTile, PathOSObstacleConnections.Category)? GetObstacle(PathOSTile tile)
         {
-            if (obstacles == null) { return null; }
+            if (obstacles.IsNull) { return null; }
             return obstacles.GetObstacle(tile);
         }
-
+        // GABO TODO: Arreglar metodo cuando se arregle la clase y devolver NULO similar a GetObstacle
         public (PathOSTile, PathOSTag)? GetDynamicTag(int x, int y)
         {
             if (dynamicTagTiles == null) { return null; }
             return dynamicTagTiles.GetDynamicTag(x, y);
         }
+        // GABO TODO: Arreglar metodo cuando se arregle la clase y devolver NULO similar a GetObstacle
         public (PathOSTile, PathOSTag)? GetDynamicTag(PathOSTile tile)
         {
             if (dynamicTagTiles == null) { return null; }

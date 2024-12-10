@@ -330,3 +330,6 @@ MonoBehaviour:
   - type: ISILab.LBS.Modules.PathOSStorage
     items:
     - {fileID: 11400000, guid: 866387a6890e135458a3470e5c459a2d, type: 2}
+  - type: ISILab.LBS.BackUp
+    items:
+    - {fileID: 11400000, guid: 7fe9986436f873f4b83de5bd34d5a931, type: 2}

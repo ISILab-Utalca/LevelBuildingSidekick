@@ -53,7 +53,6 @@ namespace ISILab.LBS.VisualElements
 
             // Create PathOSObstacleView objects, then add.
             var obstacles = tile.GetObstacles();
-            if (obstacles == null) return;
 
             foreach(var obstacle in obstacles)
             {
