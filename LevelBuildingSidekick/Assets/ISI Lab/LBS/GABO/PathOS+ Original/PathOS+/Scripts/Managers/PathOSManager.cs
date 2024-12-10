@@ -445,10 +445,14 @@ public class PathOSManager : NPSingleton<PathOSManager>
             surface.agentTypeID = NavMesh.GetSettingsByIndex(currentSmallestUnassignedIdIndex).agentTypeID;
             surface.BuildNavMesh();
             affectedAgent.GetComponent<NavMeshAgent>().agentTypeID = NavMesh.GetSettingsByIndex(currentSmallestUnassignedIdIndex).agentTypeID;
+            // Reset obstacles in agent memory (TEMP SOLUTION in order to prevent agent from getting stuck)
+            affectedAgent.memory.memoryMap.ResetObstacles();
         }
         else
         {
             surface.BuildNavMesh();
+            // Reset obstacles in agent memory (TEMP SOLUTION in order to prevent agent from getting stuck)
+            affectedAgent.memory.memoryMap.ResetObstacles();
         }
 
         // Interior Layers: Reassign original parent

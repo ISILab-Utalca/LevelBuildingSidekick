@@ -620,6 +620,25 @@ public class PathOSNavUtility
             return visitedGrid[x, z] != NavmeshMapCode.NM_UNKNOWN
                 && visitedGrid[x, z] != NavmeshMapCode.NM_OBSTACLE;
         }
+
+        // GABO: Reset Obstacles
+        // ***Temporary solution to use when rebaking map, in order to prevent the agent from getting stuck due to
+        // believing it's surrounded by obstacles that may now be unblocked.
+        public void ResetObstacles()
+        {
+            for (int i = 0; i < visitedGrid.GetLength(0); i++)
+            {
+                for (int j = 0; j < visitedGrid.GetLength(1); j++)
+                {
+                    if (visitedGrid[i, j] == NavmeshMapCode.NM_OBSTACLE)
+                    {
+                        visitedGrid[i, j] = NavmeshMapCode.NM_UNKNOWN;
+                        visualGrid.SetPixel(i, j, PathOS.UI.mapUnknown);
+                    }
+                }
+                visualGridDirty = true;
+            }
+        }
     }
 
     public static bool GetClosestPointWalkable(Vector3 p, float margin, ref Vector3 result)
