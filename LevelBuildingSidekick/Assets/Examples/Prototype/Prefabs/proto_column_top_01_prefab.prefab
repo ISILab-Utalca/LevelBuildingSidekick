@@ -56,9 +56,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: cf18e4d4a249ae3469f16e97fcd16aa8, type: 3}
+      propertyPath: m_CastShadows
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: cf18e4d4a249ae3469f16e97fcd16aa8, type: 3}
       propertyPath: m_Name
-      value: proto_column_top_01 (4) Variant
+      value: proto_column_top_01_prefab
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: cf18e4d4a249ae3469f16e97fcd16aa8, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -72,7 +76,7 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 3607889054517550820}
   m_SourcePrefab: {fileID: 100100000, guid: cf18e4d4a249ae3469f16e97fcd16aa8, type: 3}
---- !u!1 &4526295931871880117 stripped
+--- !u!1 &4286098909894164567 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: cf18e4d4a249ae3469f16e97fcd16aa8, type: 3}
   m_PrefabInstance: {fileID: 4015559324115107078}
@@ -83,7 +87,7 @@ BoxCollider:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4526295931871880117}
+  m_GameObject: {fileID: 4286098909894164567}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
