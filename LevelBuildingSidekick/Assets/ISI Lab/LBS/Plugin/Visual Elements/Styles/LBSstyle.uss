@@ -183,7 +183,7 @@
     background-color: var(--unity-colors-app_toolbar_button-background);
 }
 
-Toggle > VisualElement {
+.lbs-tool-button-toggle > VisualElement {
     display: none;
 }
 
