@@ -34,7 +34,8 @@ public class PathOSAgentMemory : MonoBehaviour
     public PathOSNavUtility.NavmeshMemoryMapper memoryMap { get; set; } // GABO TODO: Should update already-explored space
                                                                         // when dynamic obstacle toggling (e.g. Walls) changes the NavMesh!!!
                                                                         // Otherwise may ignore paths if they were seen as blocked before
-                                                                        // using the inner original AStar system.
+                                                                        // using the inner original AStar system. EDIT: TEMP FIX made with
+                                                                        // ResetMemories(), which simply replaces "obstacle" with "unknown".
 
     //Check to see if there are any goals left
     protected bool goalsLeft = true;
@@ -104,7 +105,7 @@ public class PathOSAgentMemory : MonoBehaviour
                 && entity.entity.entityType != EntityType.ET_GOAL_COMPLETION
                 && (targetEntity != null && entity.entity.entityType == targetEntity.entityType))
             {
-                // GABO: Need to check if the "visit is actually a FIRST visit to use dynamic obstacles
+                // GABO: Need to check if the "visit" is actually a FIRST visit to use dynamic obstacles
                 bool oldVisitState = entity.visited;
                 // GABO: Original code line
                 entity.Visit(this.gameObject, PathOSAgent.logger);

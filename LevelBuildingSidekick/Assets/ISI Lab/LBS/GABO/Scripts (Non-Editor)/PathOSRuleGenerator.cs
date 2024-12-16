@@ -274,8 +274,36 @@ namespace ISILab.LBS.Generators
                 lastGenerationWalls[i].Item2.transform.parent = tempParent.transform;
             }
 
+            // Si un objeto recolectado no tiene un Collider, pero renderiza (MeshRenderer), se
+            // le asigna temporalmente un BoxCollider.
+            // ***Los objetos del modulo de exteriores, por defecto, no vienen con Colliders.
+            // ***Para ello se usa esta seccion (2024-12-16).
+            var doNotHaveColliderList = new List<GameObject>();
+            var totalList = new List<GameObject>();
+            totalList.AddRange(interiorLayerGameObjects);
+            totalList.AddRange(exteriorLayerGameObjects);
+            foreach (var obj in totalList)
+            {
+                if (obj.GetComponentsInChildren<MeshRenderer>().Length > 0 && obj.GetComponentsInChildren<Collider>().Length == 0)
+                {
+                    var currMeshPlusChildren = obj.GetComponentsInChildren<MeshRenderer>();
+                    foreach(var mesh in currMeshPlusChildren)
+                    {
+                        mesh.gameObject.AddComponent<BoxCollider>();
+                        doNotHaveColliderList.Add(mesh.gameObject);
+                    }
+                }
+            }
+
             // Genera NavMesh (Bake)
             surface.BuildNavMesh();
+
+            // Remover colliders temporales
+            int meshCount = doNotHaveColliderList.Count;
+            for (int i = 0; i < meshCount; i++)
+            {
+                GameObject.DestroyImmediate(doNotHaveColliderList[i].GetComponent<BoxCollider>());
+            }
 
             // Interior Layers: Reasigna padre original
             for (int i = 0; i < interiorLayerGameObjects.Count; i++)

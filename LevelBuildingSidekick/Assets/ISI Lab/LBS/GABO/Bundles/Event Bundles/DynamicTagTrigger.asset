@@ -18,12 +18,7 @@ MonoBehaviour:
   icon: {fileID: 2800000, guid: 8ce87c49bd7581c46b8fba4378470332, type: 3}
   childsBundles: []
   assets: []
-  characteristics:
-  - rid: 6390179419553267827
+  characteristics: []
   references:
     version: 2
-    RefIds:
-    - rid: 6390179419553267827
-      type: {class: LBSPathOSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
-      data:
-        value: {fileID: 11400000, guid: 7b7481ef4acee554187e32b1242ab3ed, type: 2}
+    RefIds: []

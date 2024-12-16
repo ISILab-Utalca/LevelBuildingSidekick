@@ -278,7 +278,7 @@ public class PathOSManager : NPSingleton<PathOSManager>
 
     // GABO: Regenerate NavMesh considering Exterior, Interior and Testing Layer objects.
     // Testing Layer "Walls" instances considered depend on given agent.
-    // GABO TODO: This function is a mess and should be reworked to avoid many edge cases.
+    // GABO TODO: This function is a mess and should be reworked to avoid many edge cases and divided between classes.
     public void GenerateNavMeshFromLBSModules(PathOSAgent affectedAgent)
     {
         // Variables
@@ -439,13 +439,34 @@ public class PathOSManager : NPSingleton<PathOSManager>
             testingLayerWalls[i].transform.parent = tempParent.transform;
         }
 
+        // Exterior rendered objects receive a temporary BoxCollider.
+        // ***Exterior module objects, as of (2024-12-16 (YY_MM_DD)), come without collider, therefore this is needed.
+        var doNotHaveColliderList = new List<GameObject>();
+        var totalList = new List<GameObject>();
+        //totalList.AddRange(interiorLayerGameObjects);
+        totalList.AddRange(exteriorLayerGameObjects);
+        foreach (var container in totalList)
+        {
+            var mePlusChildren = container.GetComponentsInChildren<Transform>();
+            foreach (var childTranform in mePlusChildren)
+            {
+                // Only applies to leaf children, without colliders
+                if (childTranform.transform.childCount == 0 && childTranform.GetComponent<Collider>() == null)
+                {
+                    childTranform.gameObject.AddComponent<BoxCollider>();
+                    doNotHaveColliderList.Add(childTranform.gameObject);
+                }
+            }
+        }
+
         // Generate new NavMesh
-        // ***Seems to need to go like this to prevent "Not close to NavMesh" warnings" when assigning new ids
         if (newAgentIdFound)
         {
+            // ***Seems to need to go like this to prevent "Not close to NavMesh" warnings" when assigning new ids
             surface.agentTypeID = NavMesh.GetSettingsByIndex(currentSmallestUnassignedIdIndex).agentTypeID;
             surface.BuildNavMesh();
             affectedAgent.GetComponent<NavMeshAgent>().agentTypeID = NavMesh.GetSettingsByIndex(currentSmallestUnassignedIdIndex).agentTypeID;
+
             // Make "unreachable" entities and paths potentially reachable again
             affectedAgent.memory.SetAllMemoriesAndPathsAsReachable();
             // Clear obstacles in agent memory map (TEMP SOLUTION in order to prevent agent from getting stuck)
@@ -454,10 +475,18 @@ public class PathOSManager : NPSingleton<PathOSManager>
         else
         {
             surface.BuildNavMesh();
+
             // Make "unreachable" entities and paths potentially reachable again
             affectedAgent.memory.SetAllMemoriesAndPathsAsReachable();
             // Clear obstacles in agent memory (TEMP SOLUTION in order to prevent agent from getting stuck)
             affectedAgent.memory.memoryMap.ResetObstacles();
+        }
+
+        // Remove temporary BoxColliders from objects that didn't have them.
+        int tempMeshCount = doNotHaveColliderList.Count;
+        for (int i = 0; i < tempMeshCount; i++)
+        {
+            GameObject.DestroyImmediate(doNotHaveColliderList[i].GetComponent<BoxCollider>());
         }
 
         // Interior Layers: Reassign original parent
