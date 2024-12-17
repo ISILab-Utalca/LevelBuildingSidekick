@@ -1,3 +1,12 @@
+:root {
+    --lbs-light-red-color: rgb(254, 118, 105);
+    --lbs-light-green-color: rgb(194, 246, 100);
+    --lbs-light-yellow-color: rgb(247, 196, 64);
+    --lbs-light-blue-color: rgb(135, 215, 246);
+    --lbs-light-purple-color: rgb(163, 160, 251);
+    --lbs-dark-overlay-color: rgba(0, 0, 0, 0.2);
+}
+
 .unity-base-field__label {
     padding-right: 21px;
 }
@@ -40,7 +49,144 @@
     background-color: rgba(0, 0, 0, 0);
     align-self: center;
     flex-direction: column;
+    -unity-background-scale-mode: scale-to-fit;
+    display: flex;
+}
+
+.lbs-default-container-panel {
+    background-color: var(--unity-colors-toolbar-background);
+    border-left-color: var(--unity-colors-default-border);
+    border-right-color: var(--unity-colors-default-border);
+    border-top-color: var(--unity-colors-default-border);
+    border-bottom-color: var(--unity-colors-default-border);
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-top-left-radius: var(--unity-metrics-default-border_radius);
+    border-bottom-left-radius: var(--unity-metrics-default-border_radius);
+    border-top-right-radius: var(--unity-metrics-default-border_radius);
+    border-bottom-right-radius: var(--unity-metrics-default-border_radius);
+    padding-left: 3px;
+    padding-right: 3px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    margin-bottom: 6px;
 }
 
 .lbs-default-button {
+}
+
+.lbs-default-label-icon {
+    flex-grow: 1;
+    background-color: rgba(0, 0, 0, 0.16);
+    flex-direction: row;
+    flex-basis: auto;
+    flex-shrink: initial;
+    -unity-background-image-tint-color: var(--unity-colors-label-text);
+    min-width: 16px;
+    min-height: 16px;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    max-width: 24px;
+    max-height: 24px;
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+.lbs-group-box {
+    background-color: var(--lbs-dark-overlay-color);
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-top-left-radius: 1.5px;
+    border-bottom-left-radius: 1.5px;
+    border-top-right-radius: 1.5px;
+    border-bottom-right-radius: 1.5px;
+    border-left-color: rgba(0, 0, 0, 0.16);
+    border-right-color: rgba(0, 0, 0, 0.16);
+    border-top-color: rgba(0, 0, 0, 0.16);
+    border-bottom-color: rgba(0, 0, 0, 0.16);
+    margin-right: 0;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.lbs-3d-icon {
+    -unity-background-image-tint-color: rgb(135, 215, 246);
+    background-image: resource('Icons/Vectorial/3D_Icon_Vector');
+}
+
+.lbs-layer-icon {
+    -unity-background-image-tint-color: var(--lbs-light-yellow-color);
+}
+
+.lbs-title-label-container {
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 1px;
+    border-bottom-color: var(--lbs-dark-overlay-color);
+    margin-top: 0;
+    margin-bottom: 0;
+    height: 24px;
+    min-height: 24px;
+    max-height: 24px;
+    padding-bottom: 2px;
+    flex-direction: row;
+}
+
+.lbs-tool-button-toggle {
+    border-left-color: rgba(0, 0, 0, 0.6);
+    border-right-color: rgba(0, 0, 0, 0.6);
+    border-top-color: rgba(0, 0, 0, 0.6);
+    border-bottom-color: rgba(0, 0, 0, 0.6);
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 1px;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    height: 30px;
+    background-image: url('project://database/Assets/ISI%20Lab/Commons/Assets2D/Fade%201.png?fileID=2800000&guid=c86acac07209fcc41a17cab77404a8b9&type=3#Fade 1');
+    -unity-background-image-tint-color: rgba(0, 0, 0, 0.2);
+    -unity-font-style: bold;
+    font-size: 18px;
+    color: rgb(195, 196, 195);
+    background-color: var(--unity-colors-button-background);
+    -unity-text-align: middle-center;
+    align-self: stretch;
+    justify-content: center;
+}
+
+.lbs-tool-button-toggle:active {
+    background-color: var(--unity-colors-button-background-pressed);
+}
+
+.lbs-tool-button-toggle:selected {
+    background-color: var(--unity-colors-app_toolbar_button-background);
+}
+
+.lbs-tool-button-toggle > VisualElement {
+    display: none;
+}
+
+Toggle > .lbs-default-icon {
+    display: flex;
 }

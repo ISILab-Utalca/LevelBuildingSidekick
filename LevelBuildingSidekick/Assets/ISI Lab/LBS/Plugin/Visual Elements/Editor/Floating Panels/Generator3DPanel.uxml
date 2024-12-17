@@ -1,21 +1,21 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
     <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/Visual%20Elements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
-    <ui:VisualElement style="background-color: rgb(56, 56, 56); border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; padding-left: 3px; padding-right: 3px; padding-top: 5px; padding-bottom: 5px; border-left-color: rgb(48, 48, 48); border-right-color: rgb(48, 48, 48); border-top-color: rgb(48, 48, 48); border-bottom-color: rgb(48, 48, 48); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; margin-bottom: 7px;">
-        <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row; align-items: flex-start; justify-content: flex-start; align-self: flex-start; width: auto; height: auto;">
-            <ui:VisualElement name="VisualElement" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); background-image: resource(&apos;Icons/Vectorial/3D_Icon_Vector&apos;); align-self: flex-start; flex-direction: row; align-items: flex-start; width: 167px; height: 21px; justify-content: flex-start; flex-basis: auto; flex-shrink: initial; -unity-background-image-tint-color: rgb(254, 118, 105);" />
-            <ui:Label tabindex="-1" text="Generator 3D" display-tooltip-when-elided="true" style="border-bottom-width: 1px; border-bottom-color: rgba(0, 0, 0, 0.4); -unity-font-style: bold; font-size: 12px; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; align-items: stretch; height: 24px; width: 321px; -unity-text-align: upper-left; align-self: flex-start;" />
+    <ui:VisualElement class="lbs-default-container-panel">
+        <ui:VisualElement class="lbs-title-label-container">
+            <ui:VisualElement name="VisualElement" class="lbs-default-label-icon lbs-3d-icon" style="background-image: resource(&apos;Icons/Vectorial/3D_Icon_Vector&apos;);" />
+            <ui:Label tabindex="-1" text="3D Generator" display-tooltip-when-elided="true" style="-unity-font-style: bold; font-size: 12px; margin-left: 3px; margin-right: 0; margin-top: 0; margin-bottom: 0; align-items: stretch; height: 22px; width: auto; -unity-text-align: middle-center; align-self: stretch;" />
         </ui:VisualElement>
-        <ui:VisualElement style="margin-left: 4px; margin-right: 4px; margin-top: 8px; margin-bottom: 8px;">
-            <ui:TextField picking-mode="Ignore" label="Name" value="Default Name" text="Default Name" name="ObjName" tooltip="GameObject name in hierarchy" />
-            <ui:Vector3Field label="Position" name="Position" tooltip="Position of the 3D model in the scene" />
-            <ui:Vector2Field label="Reference Size" name="ReferenceSize" />
+        <ui:VisualElement class="lbs-group-box" style="align-self: auto;">
+            <ui:TextField picking-mode="Ignore" label="Name" value="Default Name" text="Default Name" name="ObjName" tooltip="GameObject name in hierarchy" style="justify-content: space-around; flex-wrap: wrap;" />
+            <ui:Vector3Field label="Position" name="Position" tooltip="Position of the 3D model in the scene" style="align-items: stretch; flex-wrap: wrap; align-self: auto; justify-content: flex-start; flex-direction: column;" />
+            <ui:Vector2Field label="Reference Size" name="ReferenceSize" style="justify-content: flex-start; flex-wrap: nowrap; align-items: stretch; flex-direction: column;" />
             <ui:Vector2Field label="Resize" name="Resize" style="display: none;" />
             <ui:Label tabindex="-1" text="Prefab Configuration" display-tooltip-when-elided="true" style="display: none;" />
         </ui:VisualElement>
-        <ui:VisualElement style="margin-left: 4px; margin-right: 4px; margin-top: 8px; margin-bottom: 8px;">
+        <ui:VisualElement class="lbs-group-box">
             <ui:Label tabindex="-1" text="Generator Configuration" display-tooltip-when-elided="true" style="display: none;" />
             <ISILab.LBS.VisualElements.ClassDropDown name="Generator" style="display: none;" />
-            <ui:Toggle label="Destroy previous" name="DestroyPrev" tooltip="Destroy the previously generated 3D model with the same name" style="flex-grow: 1;" />
+            <ui:Toggle label="Destroy previous" name="DestroyPrev" tooltip="Destroy the previously generated 3D model with the same name" />
             <ui:Button tabindex="-1" text="Generate" display-tooltip-when-elided="true" name="Action" tooltip="Generate 3D models in the scene" />
         </ui:VisualElement>
     </ui:VisualElement>
