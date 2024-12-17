@@ -7,9 +7,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Debug = UnityEngine.Debug;
+
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -30,6 +32,8 @@ namespace ISILab.LBS.VisualElements.Editor
         #region FIELD VIEW
         private ListView list;
         private TextField nameField;
+
+        private ToolbarMenu addButtonMenu;   
         private DropdownField typeDropdown;
         #endregion
 
@@ -79,6 +83,10 @@ namespace ISILab.LBS.VisualElements.Editor
 
             // NameField
             nameField = this.Q<TextField>("NameField");
+
+            //Add Layer Button Menu
+            addButtonMenu = this.Q<ToolbarMenu>("AddLayerButtonMenu");
+            //addButtonMenu.menu.
 
             // TypeDropdown
             typeDropdown = this.Q<DropdownField>("TypeDropdown");
