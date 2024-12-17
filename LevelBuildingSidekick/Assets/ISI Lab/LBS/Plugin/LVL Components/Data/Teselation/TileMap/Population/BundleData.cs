@@ -18,15 +18,15 @@ namespace LBS.Components.TileMap // FIX: change namespace to ISILab.LBS.Bundle
 
         [SerializeField, JsonRequired]
         protected string bundleName;
+
+        [SerializeField, SerializeReference]
+        protected Bundle bundle;
         #endregion
 
         #region PROPERTIES
 
         [JsonIgnore]
         public string BundleName => bundleName;
-
-        [NonSerialized, JsonIgnore]
-        Bundle bundle;
 
         [JsonIgnore]
         public Bundle Bundle
@@ -51,9 +51,7 @@ namespace LBS.Components.TileMap // FIX: change namespace to ISILab.LBS.Bundle
         public BundleData(string bundle, List<LBSCharacteristic> characteristics)
         {
             this.bundleName = bundle;
-            foreach(var c in characteristics)
-                this.characteristics.Add(c.Clone() as LBSCharacteristic);
-
+            this.characteristics = characteristics;
         }
 
         public BundleData(Bundle bundle) : this(bundle.name, bundle.Characteristics)
@@ -78,12 +76,12 @@ namespace LBS.Components.TileMap // FIX: change namespace to ISILab.LBS.Bundle
             return base.Equals(obj);
         }*/
 
-        public LBSCharacteristic GetCharasteristic(Type type)
+        public LBSCharacteristic GetCharacteristic(Type type)
         {
             return characteristics.Find(c => c.GetType() == type);
         }
 
-        public T GetCharasteristic<T>() where T : LBSCharacteristic
+        public T GetCharacteristic<T>() where T : LBSCharacteristic
         {
             var type = typeof(T);
             return (T)characteristics.Find(c => c.GetType() == type);
@@ -102,7 +100,6 @@ namespace LBS.Components.TileMap // FIX: change namespace to ISILab.LBS.Bundle
         public override bool Equals(object obj)
         {
             var other = obj as BundleData;
-            
             var characteristics = new List<LBSCharacteristic>();
 
             if (other == null)
@@ -141,7 +138,6 @@ namespace LBS.Components.TileMap // FIX: change namespace to ISILab.LBS.Bundle
 
                 if (!c1.Equals(c2)) return false;
             }
-
             return true;
         }
         #endregion

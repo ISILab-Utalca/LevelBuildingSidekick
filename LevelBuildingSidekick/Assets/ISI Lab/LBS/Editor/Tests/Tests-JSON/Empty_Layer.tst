@@ -23,7 +23,7 @@
           "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Behaviours.LBSBehaviour, LBS]], mscorlib",
           "$values": []
         },
-        "assitants": {
+        "assistants": {
           "$id": "6",
           "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Assistants.LBSAssistant, LBS]], mscorlib",
           "$values": []

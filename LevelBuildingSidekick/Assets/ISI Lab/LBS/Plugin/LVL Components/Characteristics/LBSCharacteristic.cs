@@ -14,12 +14,12 @@ namespace ISILab.LBS.Characteristics
     public abstract class LBSCharacteristic : ICloneable
     {
         #region FIELDS
-        [HideInInspector, JsonIgnore]
+        [SerializeReference]
         private Bundle owner;
         #endregion
 
         #region PROPERTIES
-        [HideInInspector, JsonIgnore]
+        [SerializeField, HideInInspector]
         public Bundle Owner
         {
             get => owner; 
@@ -28,7 +28,8 @@ namespace ISILab.LBS.Characteristics
         #endregion
 
         #region CONSTRUCTORS
-        public LBSCharacteristic() { }
+        [SerializeField]
+        public LBSCharacteristic() {   }
         #endregion
 
         #region METHODS

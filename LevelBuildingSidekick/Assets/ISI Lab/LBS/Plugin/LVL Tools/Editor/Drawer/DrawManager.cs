@@ -100,7 +100,7 @@ namespace ISILab.LBS
                 drawer.Draw(b, view, l.TileSize);
             }
 
-            var assistants = l.Assitants;
+            var assistants = l.Assistants;
             foreach (var a in assistants)
             {
                 if (a == null)
@@ -139,7 +139,7 @@ namespace ISILab.LBS
                 toR.Add(drawerT);
             }
 
-            foreach (var a in layer.Assitants)
+            foreach (var a in layer.Assistants)
             {
                 if (a == null)
                     continue;

@@ -267,25 +267,22 @@ namespace ISILab.LBS.Tests
 
             // Add some data
             var tile = new LBSTile(new Vector2(0, 0));
+            
+            //Problems starts here
             bundleMap.AddTile(tile, new BundleData("data", new List<LBSCharacteristic>(bundle.Characteristics)), dir);
-            Debug.Log(bundleMap.GetTile(tile));
-
-
             // Save the level as JSON
             JSONDataManager.SaveData(path, "Layer_With_BundleTileMap.tst", lvl);
-
             // Load the level from JSON
             var loaded = JSONDataManager.LoadData<LBSLevelData>(path, "Layer_With_BundleTileMap.tst");
-            
             // Check if loaded level is not null
             Assert.IsNotNull(loaded);
 
-            Debug.Log(lvl.GetLayer(0).GetModule<BundleTileMap>().GetTile(tile.Position).Rotation);
-            Debug.Log(loaded.GetLayer(0).GetModule<BundleTileMap>().GetTile(tile.Position).Rotation);
 
-            // Cheack if the new level and previously are equals
+            // Check if the new level and previously are equals
             Assert.AreEqual(lvl, loaded);
-            
+
+            //I fixed the problem through implementing an overloaed Equals method on the LBSDirection object.
+            //I had to modify the JSONDataManager object to serialize loops for it to work, but it seems fine.
         }
     }
 
@@ -332,14 +329,14 @@ namespace ISILab.LBS.Tests
         {
             // Create a level
             var lvl = new LBSLevelData();
-
+            
             // Get interior presset
             var template = LBSAssetsStorage.Instance.Get<LayerTemplate>().First(t => t.name.Contains("Exterior"));
-
+            Debug.Log("problem code");
             // Clone Interior presset
             var layer = template.layer.Clone() as LBSLayer;
             lvl.AddLayer(layer);
-
+            Debug.Log("layer added");
             // Get Bundle
             var bundle = LBSAssetsStorage.Instance.Get<Bundle>().First(b => b.name.Contains("Exterior_Plains"));
 

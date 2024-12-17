@@ -47,7 +47,7 @@ namespace ISILab.LBS.VisualElements
 
             this.target = target;
 
-            if (target.Assitants.Count <= 0)
+            if (target.Assistants.Count <= 0)
             {
                 noContentPanel.SetDisplay(true);
                 return;
@@ -55,7 +55,7 @@ namespace ISILab.LBS.VisualElements
 
             noContentPanel.SetDisplay(false);
 
-            foreach (var assist in target.Assitants)
+            foreach (var assist in target.Assistants)
             {
                 var type = assist.GetType();
                 var ves = Reflection.GetClassesWith<LBSCustomEditorAttribute>()

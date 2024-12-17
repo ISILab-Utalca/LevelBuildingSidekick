@@ -46,7 +46,7 @@ namespace LBS.Components
         private List<LBSBehaviour> behaviours = new List<LBSBehaviour>();
 
         [SerializeField, JsonRequired, SerializeReference]
-        private List<LBSAssistant> assitants = new List<LBSAssistant>();
+        private List<LBSAssistant> assistants = new List<LBSAssistant>();
 
         [SerializeField, JsonRequired, SerializeReference]
         private List<LBSGeneratorRule> generatorRules = new List<LBSGeneratorRule>();
@@ -113,9 +113,9 @@ namespace LBS.Components
         }
 
         [JsonIgnore]
-        public List<LBSAssistant> Assitants
+        public List<LBSAssistant> Assistants
         {
-            get => new List<LBSAssistant>(assitants);
+            get => new List<LBSAssistant>(assistants);
         }
 
         [JsonIgnore]
@@ -216,7 +216,7 @@ namespace LBS.Components
                 module.OnAttach(this);
             }
 
-            foreach(var assistant in assitants)
+            foreach(var assistant in assistants)
             {
                 assistant.OnAttachLayer(this);
             }
@@ -273,13 +273,13 @@ namespace LBS.Components
 
         public void AddAssistant(LBSAssistant assistant)
         {
-            if (this.assitants.Find( a => assistant.GetType().Equals(a.GetType())) != null)
+            if (this.assistants.Find( a => assistant.GetType().Equals(a.GetType())) != null)
             {
                 Debug.Log("[ISI Lab]: This layer already contains the assistant " + assistant.GetType().Name + ".");
                 return;
             }
 
-            this.assitants.Add(assistant);
+            this.assistants.Add(assistant);
 
             var reqModules = assistant.GetRequieredModules();
             foreach (var type in reqModules)
@@ -295,13 +295,13 @@ namespace LBS.Components
 
         public void RemoveAssitant(LBSAssistant assistant)
         {
-            this.assitants.Remove(assistant);
+            this.assistants.Remove(assistant);
             assistant.OnDetachLayer(this);
         }
 
         public LBSAssistant GetAssistant(int index)
         {
-            return assitants[index];
+            return assistants[index];
         }
 
         public bool AddModule(LBSModule module)
@@ -361,7 +361,7 @@ namespace LBS.Components
         public T GetAssistant<T>(string ID = "") where T : LBSAssistant
         {
             var t = typeof(T);
-            foreach (var a in assitants)
+            foreach (var a in assistants)
             {
                 if (a is T || Reflection.IsSubclassOfRawGeneric(t, a.GetType()))
                 {
@@ -460,7 +460,7 @@ namespace LBS.Components
         public object Clone()
         {
             var modules = this.modules.Clone(); // CloneRef
-            var assistants = this.assitants.Select(a => a.Clone() as LBSAssistant);
+            var assistants = this.assistants.Select(a => a.Clone() as LBSAssistant);
             var rules = this.generatorRules.Select(r => r.Clone() as LBSGeneratorRule);
             var behaviours = this.behaviours.Select(b => b.Clone() as LBSBehaviour);
 
@@ -510,15 +510,15 @@ namespace LBS.Components
             }
 
             // get amount of modules
-            var aCount = other.assitants.Count;
+            var aCount = other.assistants.Count;
 
             // cheack amount of behaviours
-            if (this.assitants.Count != aCount) return false;
+            if (this.assistants.Count != aCount) return false;
 
             for (int i = 0; i < aCount; i++)
             {
-                var a1 = other.assitants[i];
-                var a2 = this.assitants[i];
+                var a1 = other.assistants[i];
+                var a2 = this.assistants[i];
 
                 if (!a1.Equals(a2)) return false;
             }

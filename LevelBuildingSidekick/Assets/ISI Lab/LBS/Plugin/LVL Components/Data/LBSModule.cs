@@ -23,7 +23,7 @@ namespace ISILab.LBS.Modules
         //[SerializeField, JsonRequired]
         //protected bool changed;
 
-        [JsonIgnore, HideInInspector]
+        [SerializeField, JsonRequired, HideInInspector]
         private LBSLayer owner;
         #endregion
 
@@ -95,6 +95,18 @@ namespace ISILab.LBS.Modules
         /// </summary>
         /// <returns></returns>
         public abstract object Clone();
+
+        /*public override bool Equals(object obj)
+        {
+            var other = obj as LBSModule;
+            if (other == null) return false;
+
+            if(this.id != other.id) return false;
+            if(this.owner != other.owner) return false;
+
+            return true;
+        }*/
+
         #endregion
 
         #region VIRTUAL METHODS

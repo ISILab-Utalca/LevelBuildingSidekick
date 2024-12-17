@@ -67,7 +67,7 @@ namespace LBS.Bundles
         [SerializeField]
         private List<Asset> assets = new List<Asset>();
 
-        [SerializeField, SerializeReference, HideInInspector]
+        [SerializeReference, HideInInspector]
         public List<LBSCharacteristic> characteristics = new List<LBSCharacteristic>();
 
         #endregion
@@ -85,7 +85,7 @@ namespace LBS.Bundles
             set => assets = value;
         }
 
-        public List<LBSCharacteristic> Characteristics => new List<LBSCharacteristic>(characteristics);
+        public List<LBSCharacteristic> Characteristics => characteristics;
 
         [SerializeField]
         public bool IsLeaf => (childsBundles.Count <= 0);

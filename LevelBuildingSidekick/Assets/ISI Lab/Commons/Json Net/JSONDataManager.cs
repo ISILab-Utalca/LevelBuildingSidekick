@@ -25,7 +25,7 @@ namespace ISILab.JsonNet
             var jsonSerializerSettings = new JsonSerializerSettings()
             {
                 PreserveReferencesHandling = PreserveReferencesHandling.All,
-                ReferenceLoopHandling = ReferenceLoopHandling.Error,
+                ReferenceLoopHandling = ReferenceLoopHandling.Serialize, //Esto hace que funcione la función, pero debo investigar más.
                 TypeNameHandling = TypeNameHandling.All,
                 Formatting = Formatting.Indented,
                 NullValueHandling = NullValueHandling.Ignore,

@@ -179,7 +179,7 @@ namespace LBS.VisualElements
 
         private void InitAssistantsTools(LBSLayer layer)
         {
-            foreach (var assist in layer.Assitants)
+            foreach (var assist in layer.Assistants)
             {
                 var type = assist.GetType();
                 var customEditors = Reflection.GetClassesWith<LBSCustomEditorAttribute>()

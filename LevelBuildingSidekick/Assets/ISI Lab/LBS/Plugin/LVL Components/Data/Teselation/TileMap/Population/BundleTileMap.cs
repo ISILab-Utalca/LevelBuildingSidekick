@@ -13,11 +13,12 @@ namespace ISILab.LBS.Modules
     public class BundleTileMap : LBSModule, ISelectable
     {
         #region FIELDS
-        [SerializeField, JsonRequired]
+        [SerializeField, JsonRequired, SerializeReference]
         protected List<TileBundlePair> tiles = new List<TileBundlePair>();
         #endregion
 
         #region PROPERTIES
+        [JsonIgnore]
         public List<TileBundlePair> Tiles => new List<TileBundlePair>(tiles);
         #endregion
 
@@ -193,12 +194,12 @@ namespace ISILab.LBS.Modules
             set => bData = value;
         }
 
+        [JsonIgnore]
         public Vector2 Rotation
         {
             get => rotation;
             set => rotation = value;
         }
-
         public TileBundlePair(LBSTile tile, BundleData bData, Vector2 rotation)
         {
             this.tile = tile;

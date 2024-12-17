@@ -61,22 +61,13 @@
                     "rotation": {
                       "x": 1.0,
                       "y": 0.0
-                    },
-                    "Rotation": {
-                      "x": 1.0,
-                      "y": 0.0
                     }
                   }
                 ]
               },
               "id": "BundleTileMap",
-              "Tiles": {
-                "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Modules.TileBundlePair, LBS]], mscorlib",
-                "$values": [
-                  {
-                    "$ref": "7"
-                  }
-                ]
+              "owner": {
+                "$ref": "3"
               }
             }
           ]
@@ -86,7 +77,7 @@
           "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Behaviours.LBSBehaviour, LBS]], mscorlib",
           "$values": []
         },
-        "assitants": {
+        "assistants": {
           "$id": "14",
           "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Assistants.LBSAssistant, LBS]], mscorlib",
           "$values": []

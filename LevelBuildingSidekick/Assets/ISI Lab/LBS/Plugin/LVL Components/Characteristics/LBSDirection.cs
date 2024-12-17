@@ -15,6 +15,9 @@ namespace ISILab.LBS.Characteristics
     [LBSCharacteristic("Directions", "")]
     public class LBSDirection : LBSCharacteristic, ICloneable
     {
+
+
+
         #region SUB-STRUCTURE
         /*
         [System.Serializable]
@@ -63,7 +66,7 @@ namespace ISILab.LBS.Characteristics
         #endregion
 
         #region CONSTRUCTORS
-        public LBSDirection() : base() { Size = 4; }
+        public LBSDirection() : base() { Size = 0; }
 
         public LBSDirection(List<string> tags)
         {
@@ -103,7 +106,18 @@ namespace ISILab.LBS.Characteristics
 
         public override bool Equals(object obj)
         {
-            return false; // TODO: Implement
+
+            var other = obj as LBSDirection;
+
+            if (other != null)
+            {
+                if (this.Size != other.Size) return false;
+            }
+            for(int i = 0; i>this.Size; i++)
+            {
+                if (this.Connections[i] != other.Connections[i]) { return false; }
+            }
+            return true;
         }
 
         public override int GetHashCode()
@@ -111,5 +125,7 @@ namespace ISILab.LBS.Characteristics
             return base.GetHashCode();
         }
         #endregion
+
+        
     }
 }

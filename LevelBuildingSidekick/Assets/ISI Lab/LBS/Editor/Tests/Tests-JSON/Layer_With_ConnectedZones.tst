@@ -81,7 +81,10 @@
                 "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Modules.TileZonePair, LBS]], mscorlib",
                 "$values": []
               },
-              "id": "SectorizedTileMapModule"
+              "id": "SectorizedTileMapModule",
+              "owner": {
+                "$ref": "3"
+              }
             },
             {
               "$id": "14",
@@ -102,7 +105,10 @@
                   }
                 ]
               },
-              "id": "ConnectedZonesModule"
+              "id": "ConnectedZonesModule",
+              "owner": {
+                "$ref": "3"
+              }
             }
           ]
         },
@@ -111,7 +117,7 @@
           "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Behaviours.LBSBehaviour, LBS]], mscorlib",
           "$values": []
         },
-        "assitants": {
+        "assistants": {
           "$id": "18",
           "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Assistants.LBSAssistant, LBS]], mscorlib",
           "$values": []

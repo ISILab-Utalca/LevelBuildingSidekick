@@ -100,7 +100,10 @@
                   }
                 ]
               },
-              "id": "ConstrainsZonesModule"
+              "id": "ConstrainsZonesModule",
+              "owner": {
+                "$ref": "3"
+              }
             }
           ]
         },
@@ -109,7 +112,7 @@
           "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Behaviours.LBSBehaviour, LBS]], mscorlib",
           "$values": []
         },
-        "assitants": {
+        "assistants": {
           "$id": "18",
           "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Assistants.LBSAssistant, LBS]], mscorlib",
           "$values": []

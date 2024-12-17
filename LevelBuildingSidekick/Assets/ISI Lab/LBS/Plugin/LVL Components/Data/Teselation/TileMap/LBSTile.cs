@@ -12,7 +12,7 @@ namespace LBS.Components.TileMap
     {
         #region FIELDS
         [SerializeField, JsonRequired]
-        protected int x, y;
+        public int x, y;
         #endregion
 
         #region PROPERTIES
@@ -25,7 +25,7 @@ namespace LBS.Components.TileMap
         }
         #endregion
 
-        #region COSNTRUCTORS
+        #region CONSTRUCTORS
         public LBSTile(Vector2 position)
         {
             this.x = (int)position.x;

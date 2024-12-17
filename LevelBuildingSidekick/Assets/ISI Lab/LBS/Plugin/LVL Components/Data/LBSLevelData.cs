@@ -179,6 +179,7 @@ namespace ISILab.LBS
             // cast other object
             var other = obj as LBSLevelData;
 
+            //Debug.Log("Comparing bundle data: " + other + " /// " + obj);
             // check if other object are the same type
             if (other == null) return false;
 
