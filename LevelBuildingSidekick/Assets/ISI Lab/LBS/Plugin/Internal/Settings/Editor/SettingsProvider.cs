@@ -33,6 +33,7 @@ namespace ISILab.LBS.Settings
                     settings.general.OnChangeZoomValue?.Invoke(settings.general.zoomMin, settings.general.zoomMax);
                     settings.general.zoomMin = EditorGUILayout.FloatField("Min", settings.general.zoomMin);
                     settings.general.zoomMax = EditorGUILayout.FloatField("Max", settings.general.zoomMax);
+                    settings.general.baseLayerName = EditorGUILayout.TextField("Default Layer Name", settings.general.baseLayerName);
 
                     // Header teselation
                     EditorGUILayout.Space();

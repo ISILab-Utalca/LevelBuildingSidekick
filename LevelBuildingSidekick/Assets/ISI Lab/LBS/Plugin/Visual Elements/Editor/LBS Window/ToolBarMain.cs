@@ -33,7 +33,8 @@ namespace ISILab.LBS.VisualElements.Editor
             fileMenu.menu.AppendAction("Save as", SaveAsLevel);
 
             //Button
-            ToolbarButton optionMenu = this.Q<ToolbarButton>("OptionButton");
+            ToolbarButton settingMenu = this.Q<ToolbarButton>("OptionButton");
+            //settingMenu.RegisterCallback
 
             var keyMapBtn = this.Q<ToolbarButton>("KeyMapBtn");
             keyMapBtn.clicked += () => { KeyMapWindow.ShowWindow(); };

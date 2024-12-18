@@ -52,6 +52,7 @@ namespace LBS.Settings
         [System.Serializable]
         public class General
         {
+
             public float zoomMax = 10;
             public float zoomMin = 0.1f;
 
@@ -63,6 +64,8 @@ namespace LBS.Settings
                 get => tileSize;
                 set => tileSize = value;
             }
+
+            public String baseLayerName = "New Layer";
 
             public Action<float, float> OnChangeZoomValue;
             public Action<Vector2> OnChangeTileSize;

@@ -6,22 +6,17 @@
             <ui:Label tabindex="-1" text="Layers" display-tooltip-when-elided="true" name="LayerLabel" enable-rich-text="false" style="-unity-font-style: bold; padding-left: 2px; -unity-text-align: middle-left;" />
         </ui:VisualElement>
         <ui:VisualElement name="ToolLayerEditor" style="flex-grow: 1; flex-direction: row-reverse; background-color: rgb(48, 48, 48); min-height: 24px; border-left-color: rgba(0, 0, 0, 0.2); border-right-color: rgba(0, 0, 0, 0.2); border-top-color: rgba(0, 0, 0, 0.2); border-bottom-color: rgba(0, 0, 0, 0.2); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-top-left-radius: 1.5px; border-bottom-left-radius: 0; border-top-right-radius: 1.5px; border-bottom-right-radius: 0; margin-top: 2px; overflow: hidden;">
-            <uie:ToolbarMenu tabindex="-1" display-tooltip-when-elided="true" name="AddLayerButtonMenu" class="lbs-tool-bar-button">
-                <ui:VisualElement name="ButtonIcon" class="lbs-default-button" style="background-color: rgba(0, 0, 0, 0); background-image: resource(&apos;Icons/Vectorial/Icon=Add_New_Layer&apos;); min-width: 16px; min-height: 16px; -unity-background-image-tint-color: rgb(194, 246, 113); margin-left: 0;" />
+            <uie:ToolbarMenu tabindex="-1" display-tooltip-when-elided="true" name="AddLayerButtonMenu" tooltip="Create a new layer" class="lbs-tool-bar-button" style="padding-right: 7px;">
+                <ui:VisualElement name="ButtonIcon" class="lbs-default-button" style="background-color: rgba(0, 0, 0, 0); background-image: resource(&apos;Icons/Vectorial/Icon=Add_New_Layer&apos;); min-width: 16px; min-height: 16px; -unity-background-image-tint-color: rgb(196, 196, 196); margin-left: 0;" />
             </uie:ToolbarMenu>
-            <ui:Button tabindex="-1" display-tooltip-when-elided="true" name="AddLayerButton" tooltip="Add selected layer type" class="lbs-tool-bar-button" style="background-image: none;">
-                <ui:VisualElement name="ButtonIcon" class="lbs-default-button" style="background-color: rgba(0, 0, 0, 0); background-image: resource(&apos;Icons/Vectorial/Icon=Add_New_Layer&apos;); min-width: 16px; min-height: 16px; -unity-background-image-tint-color: rgb(194, 246, 113); margin-left: 0;" />
-            </ui:Button>
             <ui:Button tabindex="-1" display-tooltip-when-elided="true" name="RemoveSelectedButton" tooltip="Remove selected layer" class="lbs-tool-bar-button" style="background-image: none; padding-left: 1px; padding-right: 1px; padding-top: 1px; padding-bottom: 1px;">
                 <ui:VisualElement name="ButtonIcon" class="lbs-default-button" style="background-color: rgba(0, 0, 0, 0); background-image: resource(&apos;Icons/Vectorial/Icon=Trash_Layer_Icon&apos;); min-width: 16px; min-height: 16px; -unity-background-image-tint-color: rgb(254, 118, 105); margin-left: 0;" />
             </ui:Button>
         </ui:VisualElement>
         <ui:ListView focusable="true" reorder-mode="Simple" reorderable="true" show-foldout-header="false" header-title="Layers" show-add-remove-footer="false" horizontal-scrolling="false" show-alternating-row-backgrounds="None" selection-type="Single" show-border="true" virtualization-method="DynamicHeight" name="List" show-bound-collection-size="true" fixed-item-height="18" style="padding-left: 0; padding-right: 0; padding-top: 7px; padding-bottom: 5px; background-color: rgba(0, 0, 0, 0);" />
         <ui:VisualElement class="lbs-group-box">
-            <ui:Label tabindex="-1" text="Add new layer" display-tooltip-when-elided="true" />
             <ui:TextField picking-mode="Ignore" label="Name" value="New Layer" text="New Layer" name="NameField" />
             <ui:DropdownField label="Type" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="TypeDropdown" tooltip="Select the type of layer you need for your job" />
-            <ui:Button tabindex="-1" text="Add" display-tooltip-when-elided="true" name="AddLayerButton" tooltip="Add selected layer type" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

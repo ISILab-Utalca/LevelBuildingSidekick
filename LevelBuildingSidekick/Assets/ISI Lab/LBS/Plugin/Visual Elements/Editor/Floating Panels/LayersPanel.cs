@@ -1,6 +1,7 @@
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Template;
 using LBS.Components;
+using LBS.Settings;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -28,6 +29,8 @@ namespace ISILab.LBS.VisualElements.Editor
 
         // templates
         private List<LayerTemplate> templates;
+
+
         #endregion
 
         #region FIELD VIEW
@@ -130,7 +133,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
             var layer = CreateLayer(_index);
 
-            layer.Name = nameField.text;
+            layer.Name = LBSSettings.Instance.general.baseLayerName;
 
             int i = 1;
             while (data.Layers.Any(l => l.Name.Equals(layer.Name)))
