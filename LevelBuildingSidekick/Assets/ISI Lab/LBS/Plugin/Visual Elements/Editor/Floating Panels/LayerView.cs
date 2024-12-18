@@ -65,7 +65,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
         private void SetIcon(string path)
         {
-            var texture = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+            Texture2D texture = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
             layerIcon.style.backgroundImage = texture;
         }
 

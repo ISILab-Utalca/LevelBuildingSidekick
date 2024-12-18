@@ -87,7 +87,7 @@ namespace ISILab.LBS.Template.Editor
         }
 
         /// <summary>
-        /// This function adjust the icons, layout and labels of the system for Contructión in interior
+        /// This function adjust the icons, layout and labels of the system for Contructiï¿½n in interior
         /// also call the manipulators to make functional buttons in the layout
         /// </summary>
         /// <param name="template"></param>
@@ -99,7 +99,7 @@ namespace ISILab.LBS.Template.Editor
             var layer = template.layer;
             layer.ID = "Interior";
             layer.Name = "Layer Interior";
-            layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/interior-design.png";
+            layer.iconPath = "Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=InteriorLayerIcon.png";
             template.layer = layer;
 
             // Behaviours
@@ -132,7 +132,7 @@ namespace ISILab.LBS.Template.Editor
         }
 
         /// <summary>
-        /// This function adjust the icons, layout and labels of the system for Contructión in exterior
+        /// This function adjust the icons, layout and labels of the system for Contructiï¿½n in exterior
         /// also call the manipulators to make functional buttons in the layout
         /// </summary>
         /// <param name="template"></param>

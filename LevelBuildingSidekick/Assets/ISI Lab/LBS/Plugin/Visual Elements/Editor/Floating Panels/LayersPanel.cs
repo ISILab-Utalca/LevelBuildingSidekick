@@ -62,9 +62,8 @@ namespace ISILab.LBS.VisualElements.Editor
             this.templates = templates;
 
             //Event self conection
-            //this.OnAddLayer += (LBSLayer layer) => OnLayerChangeEventHandle(layer);
-            this.OnAddLayer += OnLayerChangeEventHandle;
-            this.OnRemoveLayer += OnLayerChangeEventHandle;
+            this.OnAddLayer += (LBSLayer layer) => OnLayerChangeEventHandle(layer);
+            this.OnRemoveLayer += (LBSLayer layer) => OnLayerChangeEventHandle(layer);
 
             // LayerList
             list = this.Q<ListView>("List");
@@ -95,12 +94,10 @@ namespace ISILab.LBS.VisualElements.Editor
             // NameField
             nameField = this.Q<TextField>("NameField");
 
-
             // TypeDropdown
             typeDropdown = this.Q<DropdownField>("TypeDropdown");
             typeDropdown.choices = templates.Select(t => t.name).ToList();
             typeDropdown.index = 0;
-            
             
             //Add Layer Button Menu
             addButtonMenu = this.Q<ToolbarMenu>("AddLayerButtonMenu");

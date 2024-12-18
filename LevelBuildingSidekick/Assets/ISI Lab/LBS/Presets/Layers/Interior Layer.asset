@@ -15,22 +15,22 @@ MonoBehaviour:
   layer:
     visible: 1
     blocked: 0
-    iconPath: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/interior-design.png
+    iconPath: Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=InteriorLayerIcon.png
     id: Interior
     name: Layer Interior
     modules:
-    - rid: 279245475787309071
-    - rid: 279245475787309072
-    - rid: 279245475787309073
-    - rid: 279245475787309074
-    - rid: 279245475787309075
+    - rid: 6672573654602890670
+    - rid: 6672573654602890671
+    - rid: 6672573654602890672
+    - rid: 6672573654602890673
+    - rid: 6672573654602890674
     behaviours:
-    - rid: 279245475787309076
-    assitants:
-    - rid: 279245475787309077
+    - rid: 6672573654602890675
+    assistants:
+    - rid: 6672573654602890676
     generatorRules:
-    - rid: 279245475787309078
-    - rid: 279245475787309079
+    - rid: 6672573654602890677
+    - rid: 6672573654602890678
     settings:
       scale: {x: 2, y: 2}
       resize: {x: 0, y: 0}
@@ -39,34 +39,154 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 279245475787309071
+    - rid: 6672573654602890670
       type: {class: TileMapModule, ns: ISILab.LBS.Modules, asm: LBS}
       data:
         id: TileMapModule
+        owner:
+          visible: 1
+          blocked: 0
+          iconPath: Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=InteriorLayerIcon.svg
+          id: Interior
+          name: Layer Interior
+          modules:
+          - rid: 6672573654602890670
+          - rid: 6672573654602890671
+          - rid: 6672573654602890672
+          - rid: 6672573654602890673
+          - rid: 6672573654602890674
+          behaviours:
+          - rid: 6672573654602890675
+          assistants:
+          - rid: 6672573654602890676
+          generatorRules:
+          - rid: 6672573654602890677
+          - rid: 6672573654602890678
+          settings:
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: Interior
         tiles: []
-    - rid: 279245475787309072
+    - rid: 6672573654602890671
       type: {class: ConnectedTileMapModule, ns: ISILab.LBS.Modules, asm: LBS}
       data:
         id: ConnectedTileMapModule
+        owner:
+          visible: 1
+          blocked: 0
+          iconPath: Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=InteriorLayerIcon.svg
+          id: Interior
+          name: Layer Interior
+          modules:
+          - rid: 6672573654602890670
+          - rid: 6672573654602890671
+          - rid: 6672573654602890672
+          - rid: 6672573654602890673
+          - rid: 6672573654602890674
+          behaviours:
+          - rid: 6672573654602890675
+          assistants:
+          - rid: 6672573654602890676
+          generatorRules:
+          - rid: 6672573654602890677
+          - rid: 6672573654602890678
+          settings:
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: Interior
         connectedDirections: 4
         pairs: []
-    - rid: 279245475787309073
+    - rid: 6672573654602890672
       type: {class: SectorizedTileMapModule, ns: ISILab.LBS.Modules, asm: LBS}
       data:
         id: SectorizedTileMapModule
+        owner:
+          visible: 1
+          blocked: 0
+          iconPath: Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=InteriorLayerIcon.svg
+          id: Interior
+          name: Layer Interior
+          modules:
+          - rid: 6672573654602890670
+          - rid: 6672573654602890671
+          - rid: 6672573654602890672
+          - rid: 6672573654602890673
+          - rid: 6672573654602890674
+          behaviours:
+          - rid: 6672573654602890675
+          assistants:
+          - rid: 6672573654602890676
+          generatorRules:
+          - rid: 6672573654602890677
+          - rid: 6672573654602890678
+          settings:
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: Interior
         zones: []
         pairs: []
-    - rid: 279245475787309074
+    - rid: 6672573654602890673
       type: {class: ConnectedZonesModule, ns: ISILab.LBS.Modules, asm: LBS}
       data:
         id: ConnectedZonesModule
+        owner:
+          visible: 1
+          blocked: 0
+          iconPath: Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=InteriorLayerIcon.svg
+          id: Interior
+          name: Layer Interior
+          modules:
+          - rid: 6672573654602890670
+          - rid: 6672573654602890671
+          - rid: 6672573654602890672
+          - rid: 6672573654602890673
+          - rid: 6672573654602890674
+          behaviours:
+          - rid: 6672573654602890675
+          assistants:
+          - rid: 6672573654602890676
+          generatorRules:
+          - rid: 6672573654602890677
+          - rid: 6672573654602890678
+          settings:
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: Interior
         edges: []
-    - rid: 279245475787309075
+    - rid: 6672573654602890674
       type: {class: ConstrainsZonesModule, ns: ISILab.LBS.Modules, asm: LBS}
       data:
         id: ConstrainsZonesModule
+        owner:
+          visible: 1
+          blocked: 0
+          iconPath: Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=InteriorLayerIcon.svg
+          id: Interior
+          name: Layer Interior
+          modules:
+          - rid: 6672573654602890670
+          - rid: 6672573654602890671
+          - rid: 6672573654602890672
+          - rid: 6672573654602890673
+          - rid: 6672573654602890674
+          behaviours:
+          - rid: 6672573654602890675
+          assistants:
+          - rid: 6672573654602890676
+          generatorRules:
+          - rid: 6672573654602890677
+          - rid: 6672573654602890678
+          settings:
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: Interior
         pairs: []
-    - rid: 279245475787309076
+    - rid: 6672573654602890675
       type: {class: SchemaBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
       data:
         visible: 1
@@ -74,21 +194,15 @@ MonoBehaviour:
         name: Schema behaviour
         pressetInsideStyle: Castle_Wooden
         pressetOutsideStyle: Castle_Brick
-        roomToSet:
-          id: Zone
-          color: {r: 0, g: 0, b: 0, a: 0}
-          pivot: {x: 0, y: 0}
-          insideStyles: []
-          outsideStyles: []
         conectionToSet: 
-    - rid: 279245475787309077
+    - rid: 6672573654602890676
       type: {class: HillClimbingAssistant, ns: ISILab.LBS.Assistants, asm: LBS}
       data:
         visible: 1
         name: HillClimbing
         visibleConstraints: 0
         printClocks: 0
-    - rid: 279245475787309078
+    - rid: 6672573654602890677
       type: {class: SchemaRuleGenerator, ns: ISILab.LBS.Generators, asm: LBS}
       data:
         generator3D:
@@ -98,7 +212,7 @@ MonoBehaviour:
             position: {x: 0, y: 0, z: 0}
             name: DEFAULT
           rules: []
-    - rid: 279245475787309079
+    - rid: 6672573654602890678
       type: {class: SchemaRuleGeneratorExteriror, ns: ISILab.LBS.Generators, asm: LBS}
       data:
         generator3D:

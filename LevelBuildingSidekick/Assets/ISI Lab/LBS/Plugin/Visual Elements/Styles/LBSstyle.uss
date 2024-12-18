@@ -231,3 +231,18 @@ Toggle > .lbs-default-icon {
     justify-content: center;
     background-color: rgb(88, 88, 88);
 }
+
+.lbs-text-field-container > TextInput {
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-top-left-radius: 1.5px;
+    border-bottom-left-radius: 1.5px;
+    border-top-right-radius: 1.5px;
+    border-bottom-right-radius: 1.5px;
+    border-left-color: rgba(0, 0, 0, 0.53);
+    border-right-color: rgba(0, 0, 0, 0.53);
+    border-top-color: rgba(0, 0, 0, 0.53);
+    border-bottom-color: rgba(0, 0, 0, 0.53);
+}
