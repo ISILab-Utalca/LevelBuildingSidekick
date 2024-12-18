@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -84,18 +85,27 @@ namespace ISILab.LBS.VisualElements.Editor
             // NameField
             nameField = this.Q<TextField>("NameField");
 
-            //Add Layer Button Menu
-            addButtonMenu = this.Q<ToolbarMenu>("AddLayerButtonMenu");
-            //addButtonMenu.menu.
 
             // TypeDropdown
             typeDropdown = this.Q<DropdownField>("TypeDropdown");
             typeDropdown.choices = templates.Select(t => t.name).ToList();
             typeDropdown.index = 0;
+            
+            
+            //Add Layer Button Menu
+            addButtonMenu = this.Q<ToolbarMenu>("AddLayerButtonMenu");
+            for(int i = 0; i < templates.Count; i++)
+            {
+                int x = i;
+                addButtonMenu.menu.AppendAction(templates[i].name, (DropdownMenuAction dma) => {
+                    AddLayer(x);
+                });
+            }
+
 
             // AddLayerButton
-            var addLayerBtn = this.Q<Button>("AddLayerButton");
-            addLayerBtn.clicked += AddLayer;
+            // var addLayerBtn = this.Q<Button>("AddLayerButton");
+            // addLayerBtn.clicked += AddLayer;
 
             // RemoveSelectedButton
             var RemoveSelectedBtn = this.Q<Button>("RemoveSelectedButton");
@@ -104,21 +114,21 @@ namespace ISILab.LBS.VisualElements.Editor
         #endregion
 
         #region METHODS
-        private LBSLayer CreateLayer(int index)
+        private LBSLayer CreateLayer(int _index)
         {
             var layers = templates.Select(t => t.layer).ToList();
-            return layers[index].Clone() as LBSLayer;
+            return layers[_index].Clone() as LBSLayer;
         }
 
-        private void AddLayer()
+        private void AddLayer(int _index)
         {
-            if (typeDropdown.index < 0)
+            if (_index < 0)
             {
                 Debug.LogWarning("No layer type has been selected yet, make sure to select one.");
                 return;
             }
 
-            var layer = CreateLayer(typeDropdown.index);
+            var layer = CreateLayer(_index);
 
             layer.Name = nameField.text;
 
@@ -135,7 +145,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
             OnAddLayer?.Invoke(layer);
 
-            list.Rebuild();
+            list.Rebuild(); // esta raro
         }
 
         private void RemoveSelectedLayer()

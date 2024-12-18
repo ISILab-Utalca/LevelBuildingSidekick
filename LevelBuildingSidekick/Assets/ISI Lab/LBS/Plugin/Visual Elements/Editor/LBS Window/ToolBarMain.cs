@@ -19,17 +19,21 @@ namespace ISILab.LBS.VisualElements.Editor
         public event Action<LoadedLevel> OnLoadLevel;
         public event Action<LoadedLevel> OnNewLevel;
 
+
         public ToolBarMain()
         {
-            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("ToolBarMain");
+            VisualTreeAsset visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("ToolBarMain");
             visualTree.CloneTree(this);
 
             // File menu option
-            var fileMenu = this.Q<ToolbarMenu>("ToolBarMenu");
+            ToolbarMenu fileMenu = this.Q<ToolbarMenu>("ToolBarMenu");
             fileMenu.menu.AppendAction("New", NewLevel);
             fileMenu.menu.AppendAction("Load", LoadLevel);
             fileMenu.menu.AppendAction("Save", SaveLevel);
             fileMenu.menu.AppendAction("Save as", SaveAsLevel);
+
+            //Button
+            ToolbarButton optionMenu = this.Q<ToolbarButton>("OptionButton");
 
             var keyMapBtn = this.Q<ToolbarButton>("KeyMapBtn");
             keyMapBtn.clicked += () => { KeyMapWindow.ShowWindow(); };
@@ -62,5 +66,10 @@ namespace ISILab.LBS.VisualElements.Editor
             LBSController.SaveFileAs();
             AssetDatabase.Refresh();
         }
+
+        public void OpenConfiguration(){
+
+        }
+
     }
 }
