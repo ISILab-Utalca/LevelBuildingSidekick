@@ -1,11 +1,9 @@
 using ISILab.Commons.Utility.Editor;
-using LBS;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.UIElements;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements.Editor
@@ -34,7 +32,8 @@ namespace ISILab.LBS.VisualElements.Editor
 
             //Button
             ToolbarButton settingMenu = this.Q<ToolbarButton>("OptionButton");
-            //settingMenu.RegisterCallback
+            //settingMenu.clicked += () => OpenConfiguration();
+            settingMenu.RegisterCallback<ClickEvent>(OpenConfiguration);
 
             var keyMapBtn = this.Q<ToolbarButton>("KeyMapBtn");
             keyMapBtn.clicked += () => { KeyMapWindow.ShowWindow(); };
@@ -68,7 +67,7 @@ namespace ISILab.LBS.VisualElements.Editor
             AssetDatabase.Refresh();
         }
 
-        public void OpenConfiguration(){
+        public void OpenConfiguration(ClickEvent evt){
 
         }
 

@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security.Policy;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -36,12 +37,12 @@ namespace ISILab.LBS.VisualElements.Editor
         #region FIELD VIEW
         private ListView list;
         private TextField nameField;
-
         private ToolbarMenu addButtonMenu;   
         private DropdownField typeDropdown;
+        private VisualElement noLayerNotificator; 
         #endregion
 
-        #region EVENTS
+        #region EVENTS ACTIONS
         public event Action<LBSLayer> OnAddLayer;
         public event Action<LBSLayer> OnRemoveLayer;
         public event Action<LBSLayer> OnSelectLayer; // click simple (!)
@@ -59,6 +60,11 @@ namespace ISILab.LBS.VisualElements.Editor
 
             this.data = data;
             this.templates = templates;
+
+            //Event self conection
+            //this.OnAddLayer += (LBSLayer layer) => OnLayerChangeEventHandle(layer);
+            this.OnAddLayer += OnLayerChangeEventHandle;
+            this.OnRemoveLayer += OnLayerChangeEventHandle;
 
             // LayerList
             list = this.Q<ListView>("List");
@@ -79,7 +85,8 @@ namespace ISILab.LBS.VisualElements.Editor
                 view.OnVisibilityChange += () => { OnLayerVisibilityChange(layer); };
             };
 
-            list.fixedItemHeight = 20;
+            // list configuration
+            list.fixedItemHeight = 24;
             list.itemsSource = data.Layers;
             list.makeItem += makeItem;
             list.itemsChosen += ItemChosen;
@@ -105,14 +112,16 @@ namespace ISILab.LBS.VisualElements.Editor
                 });
             }
 
-
             // AddLayerButton
             // var addLayerBtn = this.Q<Button>("AddLayerButton");
             // addLayerBtn.clicked += AddLayer;
 
             // RemoveSelectedButton
-            var RemoveSelectedBtn = this.Q<Button>("RemoveSelectedButton");
+            Button RemoveSelectedBtn = this.Q<Button>("RemoveSelectedButton");
             RemoveSelectedBtn.clicked += RemoveSelectedLayer;
+
+            noLayerNotificator = this.Q<VisualElement>("NoLayerNotifator");
+
         }
         #endregion
 
@@ -199,6 +208,14 @@ namespace ISILab.LBS.VisualElements.Editor
         {
             list.ClearSelection();
             //list.RemoveFromSelection(list.selectedIndex);
+        }
+
+        void OnLayerChangeEventHandle(LBSLayer _layer){
+            if (list.itemsSource.Count > 0){
+                noLayerNotificator.style.display = DisplayStyle.None;
+            } else {
+                noLayerNotificator.style.display = DisplayStyle.Flex;
+            }
         }
         #endregion
     }
