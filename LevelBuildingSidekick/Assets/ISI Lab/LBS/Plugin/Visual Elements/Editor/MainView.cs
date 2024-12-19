@@ -21,7 +21,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
         public void Actualize(object obj, object other)
         {
-
+            
         }
 
         public void Repaint(object obj)
