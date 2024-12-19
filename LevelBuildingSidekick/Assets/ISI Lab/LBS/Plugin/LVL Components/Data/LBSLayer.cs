@@ -491,13 +491,11 @@ namespace LBS.Components
             {
                 var m1 = other.modules[i];
                 var m2 = this.modules[i];
-
                 if (!m1.Equals(m2)) return false;
             }
 
             // get amount of modules
             var bCount = other.behaviours.Count;
-
             // cheack amount of behaviours
             if (this.behaviours.Count != bCount) return false;
 
@@ -536,7 +534,6 @@ namespace LBS.Components
 
                 if (!g1.Equals(g2)) return false;
             }
-
             // check if have EQUALS settings
             if (!this.settings.Equals(other.settings)) return false;
 

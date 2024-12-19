@@ -25,7 +25,7 @@ namespace ISILab.JsonNet
             var jsonSerializerSettings = new JsonSerializerSettings()
             {
                 PreserveReferencesHandling = PreserveReferencesHandling.All,
-                ReferenceLoopHandling = ReferenceLoopHandling.Serialize, //Esto hace que funcione la función, pero debo investigar más.
+                ReferenceLoopHandling = ReferenceLoopHandling.Serialize, //Esto arregla un problema de serialización de LBSCharacteristics, pero puede que cause problemas luego
                 TypeNameHandling = TypeNameHandling.All,
                 Formatting = Formatting.Indented,
                 NullValueHandling = NullValueHandling.Ignore,

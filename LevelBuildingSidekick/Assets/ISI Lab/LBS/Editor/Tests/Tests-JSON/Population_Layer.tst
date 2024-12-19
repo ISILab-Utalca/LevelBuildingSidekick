@@ -10,9 +10,9 @@
         "$type": "LBS.Components.LBSLayer, LBS",
         "visible": true,
         "blocked": false,
-        "iconPath": "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/pine-tree.png",
-        "id": "Exterior",
-        "name": "Layer Exterior",
+        "iconPath": "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/ghost.png",
+        "id": "Population",
+        "name": "Layer Population",
         "modules": {
           "$id": "4",
           "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Modules.LBSModule, LBS]], mscorlib",
@@ -39,45 +39,41 @@
             },
             {
               "$id": "8",
-              "$type": "ISILab.LBS.Modules.ConnectedTileMapModule, LBS",
-              "connectedDirections": 4,
-              "pairs": {
+              "$type": "ISILab.LBS.Modules.BundleTileMap, LBS",
+              "tiles": {
                 "$id": "9",
-                "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Modules.TileConnectionsPair, LBS]], mscorlib",
+                "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Modules.TileBundlePair, LBS]], mscorlib",
                 "$values": [
                   {
                     "$id": "10",
-                    "$type": "ISILab.LBS.Modules.TileConnectionsPair, LBS",
+                    "$type": "ISILab.LBS.Modules.TileBundlePair, LBS",
                     "tile": {
                       "$ref": "7"
                     },
-                    "connections": {
+                    "bData": {
                       "$id": "11",
-                      "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
-                      "$values": [
-                        "Grass",
-                        "",
-                        "",
-                        ""
-                      ]
+                      "$type": "LBS.Components.TileMap.BundleData, LBS",
+                      "characteristics": {
+                        "$id": "12",
+                        "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Characteristics.LBSCharacteristic, LBS]], mscorlib",
+                        "$values": [
+                          {
+                            "$id": "13",
+                            "$type": "ISILab.LBS.Characteristics.LBSTagsCharacteristic, LBS",
+                            "tagName": ""
+                          }
+                        ]
+                      },
+                      "bundleName": "Goblin"
                     },
-                    "editedByIA": {
-                      "$id": "12",
-                      "$type": "System.Collections.Generic.List`1[[System.Boolean, mscorlib]], mscorlib",
-                      "$values": [
-                        true,
-                        false,
-                        false,
-                        false
-                      ]
-                    },
-                    "EditedByIA": {
-                      "$ref": "12"
+                    "rotation": {
+                      "x": 1.0,
+                      "y": 0.0
                     }
                   }
                 ]
               },
-              "id": "ConnectedTileMapModule",
+              "id": "BundleTileMap",
               "owner": {
                 "$ref": "3"
               }
@@ -85,35 +81,34 @@
           ]
         },
         "behaviours": {
-          "$id": "13",
+          "$id": "14",
           "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Behaviours.LBSBehaviour, LBS]], mscorlib",
           "$values": [
             {
-              "$id": "14",
-              "$type": "ISILab.LBS.Behaviours.ExteriorBehaviour, LBS",
-              "targetBundle": "Exterior_Plains_Draw",
+              "$id": "15",
+              "$type": "ISILab.LBS.Behaviours.PopulationBehaviour, LBS",
               "visible": true,
-              "name": "Exteriror behaviour"
+              "name": "Population Behavior"
             }
           ]
         },
         "assistants": {
-          "$id": "15",
+          "$id": "16",
           "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Assistants.LBSAssistant, LBS]], mscorlib",
           "$values": []
         },
         "generatorRules": {
-          "$id": "16",
+          "$id": "17",
           "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Generators.LBSGeneratorRule, LBS]], mscorlib",
           "$values": [
             {
-              "$id": "17",
-              "$type": "ISILab.LBS.Generators.ExteriorRuleGenerator, LBS"
+              "$id": "18",
+              "$type": "ISILab.LBS.Generators.PopulationRuleGenerator, LBS"
             }
           ]
         },
         "settings": {
-          "$id": "18",
+          "$id": "19",
           "$type": "ISILab.LBS.Generators.Generator3D+Settings, LBS",
           "scale": {
             "x": 2.0,
@@ -134,7 +129,7 @@
     ]
   },
   "quests": {
-    "$id": "19",
+    "$id": "20",
     "$type": "System.Collections.Generic.List`1[[LBS.Components.LBSLayer, LBS]], mscorlib",
     "$values": []
   }
