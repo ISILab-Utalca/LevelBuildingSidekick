@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using static UnityEngine.Networking.UnityWebRequest;
@@ -694,7 +695,13 @@ public class PathOSNavUtility
         }
         else
         {
-            Debug.LogWarning("CanAgentReachTarget(): Invalid pathfinding! Is agent (and/or target) on the NavMesh?");
+            // GABO TEMP FIX: For some reason, other agents baking their own meshes invalidates path calculation,
+            // so the warning is limited to single agent testing. It is not consistent with every test map either,
+            // like "PlusSign5Room", or not always at least.
+            if (Resources.FindObjectsOfTypeAll<PathOSAgent>().Length == 1)
+            {
+                Debug.LogWarning("CanAgentReachTarget(): Invalid pathfinding! Is agent (and/or target) on the NavMesh?");
+            }
             return false;
         }
     }

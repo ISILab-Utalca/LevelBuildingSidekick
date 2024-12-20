@@ -196,13 +196,31 @@ public class PathOSAgentEyes : MonoBehaviour
             Transform[] children = wall.GetComponentsInChildren<Transform>();
             foreach (Transform child in children)
             {
+                // Ignore self to avoid bugs
+                if (child.transform == wall.transform) { continue; }
+
                 oldLayers[child.gameObject] = child.gameObject.layer;
                 child.gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
             }
         }
 
         if (!Physics.Raycast(pos, ray.normalized, ray.magnitude, ~LayerMask.GetMask("Ignore Raycast")))
+        {
+            // GABO: We return invisible walls (and children) to their original layer
+            foreach (GameObject wall in invisibleWalls)
+            {
+                wall.layer = oldLayers[wall];
+                Transform[] children = wall.GetComponentsInChildren<Transform>();
+                foreach (Transform child in children)
+                {
+                    // Ignore self to avoid bugs
+                    if (child.transform == wall.transform) { continue; }
+
+                    child.gameObject.layer = oldLayers[child.gameObject];
+                }
+            }
             return true;
+        }
 
         boundsCheck[0].Set(bounds.min.x, bounds.min.y, bounds.min.z);
         boundsCheck[1].Set(bounds.min.x, bounds.min.y, bounds.max.z);
@@ -218,7 +236,22 @@ public class PathOSAgentEyes : MonoBehaviour
             ray = cam.transform.position - boundsCheck[i];
 
             if (!Physics.Raycast(boundsCheck[i], ray.normalized, ray.magnitude, ~LayerMask.GetMask("Ignore Raycast")))
+            {
+                // GABO: We return invisible walls (and children) to their original layer
+                foreach (GameObject wall in invisibleWalls)
+                {
+                    wall.layer = oldLayers[wall];
+                    Transform[] children = wall.GetComponentsInChildren<Transform>();
+                    foreach (Transform child in children)
+                    {
+                        // Ignore self to avoid bugs
+                        if (child.transform == wall.transform) { continue; }
+
+                        child.gameObject.layer = oldLayers[child.gameObject];
+                    }
+                }
                 return true;
+            }
         }
 
         // GABO: We return invisible walls (and children) to their original layer
@@ -228,6 +261,9 @@ public class PathOSAgentEyes : MonoBehaviour
             Transform[] children = wall.GetComponentsInChildren<Transform>();
             foreach (Transform child in children)
             {
+                // Ignore self to avoid bugs
+                if (child.transform == wall.transform) { continue; }
+
                 child.gameObject.layer = oldLayers[child.gameObject];
             }
         }
