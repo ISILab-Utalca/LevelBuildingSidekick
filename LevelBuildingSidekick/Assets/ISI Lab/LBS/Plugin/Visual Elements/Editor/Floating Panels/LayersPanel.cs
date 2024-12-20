@@ -154,7 +154,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
             OnAddLayer?.Invoke(layer);
 
-            list.Rebuild(); // esta raro
+            list.Rebuild();
         }
 
         private void RemoveSelectedLayer()

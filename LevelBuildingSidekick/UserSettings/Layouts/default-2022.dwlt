@@ -14,17 +14,95 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PixelRect:
     serializedVersion: 2
-    x: 0
-    y: 43
-    width: 1920
-    height: 997
+    x: -2560
+    y: -320
+    width: 2560
+    height: 1357
   m_ShowMode: 4
-  m_Title: Test Runner
-  m_RootView: {fileID: 8}
+  m_Title: Level builder
+  m_RootView: {fileID: 11}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
   m_Maximized: 1
 --- !u!114 &2
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: ReplaceWithPrefab
+  m_EditorClassIdentifier: 
+  m_Children: []
+  m_Position:
+    serializedVersion: 2
+    x: 789
+    y: 0
+    width: 394
+    height: 352
+  m_MinSize: {x: 102, y: 121}
+  m_MaxSize: {x: 4002, y: 4021}
+  m_ActualView: {fileID: 16}
+  m_Panes:
+  - {fileID: 16}
+  m_Selected: 0
+  m_LastSelected: 0
+--- !u!114 &3
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: ProjectBrowser
+  m_EditorClassIdentifier: 
+  m_Children: []
+  m_Position:
+    serializedVersion: 2
+    x: 1183
+    y: 0
+    width: 894
+    height: 352
+  m_MinSize: {x: 232, y: 271}
+  m_MaxSize: {x: 10002, y: 10021}
+  m_ActualView: {fileID: 20}
+  m_Panes:
+  - {fileID: 20}
+  m_Selected: 0
+  m_LastSelected: 0
+--- !u!114 &4
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 12010, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Children:
+  - {fileID: 10}
+  - {fileID: 2}
+  - {fileID: 3}
+  m_Position:
+    serializedVersion: 2
+    x: 0
+    y: 955
+    width: 2077
+    height: 352
+  m_MinSize: {x: 300, y: 50}
+  m_MaxSize: {x: 24288, y: 8096}
+  vertical: 0
+  controlID: 32576
+--- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,41 +119,16 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 181
-    height: 555
+    width: 233
+    height: 955
   m_MinSize: {x: 201, y: 221}
   m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 16}
+  m_ActualView: {fileID: 21}
   m_Panes:
-  - {fileID: 16}
+  - {fileID: 21}
   m_Selected: 0
   m_LastSelected: 0
---- !u!114 &3
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 12010, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Children:
-  - {fileID: 2}
-  - {fileID: 12}
-  m_Position:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 899
-    height: 555
-  m_MinSize: {x: 200, y: 50}
-  m_MaxSize: {x: 16192, y: 8096}
-  vertical: 0
-  controlID: 41
---- !u!114 &4
+--- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -89,17 +142,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Children:
   - {fileID: 5}
+  - {fileID: 15}
+  m_Position:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 2077
+    height: 955
+  m_MinSize: {x: 200, y: 50}
+  m_MaxSize: {x: 16192, y: 8096}
+  vertical: 0
+  controlID: 42
+--- !u!114 &7
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 12010, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Children:
+  - {fileID: 8}
   m_Position:
     serializedVersion: 2
     x: 0
     y: 30
-    width: 1920
-    height: 947
-  m_MinSize: {x: 300, y: 100}
-  m_MaxSize: {x: 24288, y: 16192}
+    width: 2560
+    height: 1307
+  m_MinSize: {x: 400, y: 100}
+  m_MaxSize: {x: 32384, y: 16192}
   vertical: 1
-  controlID: 86
---- !u!114 &5
+  controlID: 157
+--- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -112,19 +190,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Children:
-  - {fileID: 11}
-  - {fileID: 6}
+  - {fileID: 14}
+  - {fileID: 9}
   m_Position:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1920
-    height: 947
-  m_MinSize: {x: 300, y: 100}
-  m_MaxSize: {x: 24288, y: 16192}
+    width: 2560
+    height: 1307
+  m_MinSize: {x: 400, y: 100}
+  m_MaxSize: {x: 32384, y: 16192}
   vertical: 0
-  controlID: 87
---- !u!114 &6
+  controlID: 158
+--- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -134,24 +212,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: TestRunnerWindow
+  m_Name: InspectorWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 899
+    x: 2077
     y: 0
-    width: 1021
-    height: 947
-  m_MinSize: {x: 101, y: 121}
+    width: 483
+    height: 1307
+  m_MinSize: {x: 276, y: 71}
   m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 13}
+  m_ActualView: {fileID: 25}
   m_Panes:
-  - {fileID: 20}
-  - {fileID: 13}
-  m_Selected: 1
-  m_LastSelected: 0
---- !u!114 &7
+  - {fileID: 25}
+  - {fileID: 17}
+  m_Selected: 0
+  m_LastSelected: 1
+--- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -167,19 +245,19 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 555
-    width: 899
-    height: 392
-  m_MinSize: {x: 101, y: 121}
-  m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 19}
+    y: 0
+    width: 789
+    height: 352
+  m_MinSize: {x: 100, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_ActualView: {fileID: 24}
   m_Panes:
-  - {fileID: 15}
+  - {fileID: 24}
   - {fileID: 19}
-  - {fileID: 14}
-  m_Selected: 1
-  m_LastSelected: 0
---- !u!114 &8
+  - {fileID: 18}
+  m_Selected: 0
+  m_LastSelected: 2
+--- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -192,22 +270,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Children:
-  - {fileID: 9}
-  - {fileID: 4}
-  - {fileID: 10}
+  - {fileID: 12}
+  - {fileID: 7}
+  - {fileID: 13}
   m_Position:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1920
-    height: 997
+    width: 2560
+    height: 1357
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
   m_UseTopView: 1
   m_TopViewHeight: 30
   m_UseBottomView: 1
   m_BottomViewHeight: 20
---- !u!114 &9
+--- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -224,12 +302,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1920
+    width: 2560
     height: 30
   m_MinSize: {x: 0, y: 0}
   m_MaxSize: {x: 0, y: 0}
   m_LastLoadedLayoutName: 
---- !u!114 &10
+--- !u!114 &13
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -245,12 +323,12 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 977
-    width: 1920
+    y: 1337
+    width: 2560
     height: 20
   m_MinSize: {x: 0, y: 0}
   m_MaxSize: {x: 0, y: 0}
---- !u!114 &11
+--- !u!114 &14
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -263,19 +341,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Children:
-  - {fileID: 3}
-  - {fileID: 7}
+  - {fileID: 6}
+  - {fileID: 4}
   m_Position:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 899
-    height: 947
-  m_MinSize: {x: 200, y: 100}
-  m_MaxSize: {x: 16192, y: 16192}
+    width: 2077
+    height: 1307
+  m_MinSize: {x: 300, y: 100}
+  m_MaxSize: {x: 24288, y: 16192}
   vertical: 1
-  controlID: 40
---- !u!114 &12
+  controlID: 41
+--- !u!114 &15
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -285,26 +363,95 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: SceneView
+  m_Name: LBSMainWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 181
+    x: 233
     y: 0
-    width: 718
-    height: 555
-  m_MinSize: {x: 202, y: 221}
+    width: 1844
+    height: 955
+  m_MinSize: {x: 802, y: 421}
   m_MaxSize: {x: 4002, y: 4021}
-  m_ActualView: {fileID: 17}
+  m_ActualView: {fileID: 27}
   m_Panes:
-  - {fileID: 17}
-  - {fileID: 18}
   - {fileID: 22}
-  - {fileID: 21}
-  m_Selected: 0
-  m_LastSelected: 2
---- !u!114 &13
+  - {fileID: 23}
+  - {fileID: 27}
+  - {fileID: 26}
+  m_Selected: 2
+  m_LastSelected: 0
+--- !u!114 &16
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b061105fc077054bad7e1a24778f57a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MinSize: {x: 100, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_TitleContent:
+    m_Text: ReplaceWithPrefab
+    m_Image: {fileID: 0}
+    m_Tooltip: 
+  m_Pos:
+    serializedVersion: 2
+    x: -1771
+    y: 665
+    width: 392
+    height: 331
+  m_SerializedDataModeController:
+    m_DataMode: 0
+    m_PreferredDataMode: 0
+    m_SupportedDataModes: 
+    isAutomatic: 1
+  m_ViewDataDictionary: {fileID: 0}
+  m_OverlayCanvas:
+    m_LastAppliedPresetName: Default
+    m_SaveData: []
+    m_OverlaysVisible: 1
+  prefab: {fileID: 7233598324507150777, guid: ee2a987889bc7c448a70fbe60bb66f3a, type: 3}
+--- !u!114 &17
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 12079, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MinSize: {x: 390, y: 390}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_TitleContent:
+    m_Text: Lighting
+    m_Image: {fileID: -1347227620855488341, guid: 0000000000000000d000000000000000, type: 0}
+    m_Tooltip: 
+  m_Pos:
+    serializedVersion: 2
+    x: -483
+    y: -290
+    width: 482
+    height: 1286
+  m_SerializedDataModeController:
+    m_DataMode: 0
+    m_PreferredDataMode: 0
+    m_SupportedDataModes: 
+    isAutomatic: 1
+  m_ViewDataDictionary: {fileID: 0}
+  m_OverlayCanvas:
+    m_LastAppliedPresetName: Default
+    m_SaveData: []
+    m_OverlaysVisible: 1
+--- !u!114 &18
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -324,10 +471,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 899
-    y: 73
-    width: 1020
-    height: 926
+    x: -2560
+    y: 602
+    width: 976
+    height: 394
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -339,12 +486,12 @@ MonoBehaviour:
     m_SaveData: []
     m_OverlaysVisible: 1
   m_Spl:
-    ID: 117
+    ID: 647
     splitterInitialOffset: 0
     currentActiveSplitter: -1
     realSizes:
-    - 642
-    - 214
+    - 243
+    - 81
     relativeSizes:
     - 0.75
     - 0.25
@@ -354,7 +501,7 @@ MonoBehaviour:
     maxSizes:
     - 0
     - 0
-    lastTotalSize: 856
+    lastTotalSize: 324
     splitSize: 6
     xOffset: 0
     m_Version: 1
@@ -399,15 +546,15 @@ MonoBehaviour:
       availableCategories: []
     m_SelectedOption: 0
   m_EditModeTestListGUI:
-    m_Window: {fileID: 13}
+    m_Window: {fileID: 18}
     m_NewResultList:
     - id: 1000
       uniqueId: '[LevelBuildingSidekick][suite]'
       name: LevelBuildingSidekick
       fullName: LevelBuildingSidekick
-      resultStatus: 1
-      duration: 0.1961224
-      messages: 
+      resultStatus: 2
+      duration: 1.4538049
+      messages: One or more child tests had errors
       output: 
       stacktrace: 
       notRunnable: 0
@@ -421,9 +568,9 @@ MonoBehaviour:
       uniqueId: '[Tests.dll][suite]'
       name: Tests.dll
       fullName: C:/Users/zakup/GitHub/LevelBuildingSidekick/LevelBuildingSidekick/Library/ScriptAssemblies/Tests.dll
-      resultStatus: 1
-      duration: 0.1848023
-      messages: 
+      resultStatus: 2
+      duration: 1.4077746
+      messages: One or more child tests had errors
       output: 
       stacktrace: 
       notRunnable: 0
@@ -437,9 +584,9 @@ MonoBehaviour:
       uniqueId: Tests.dll/[ISILab][suite]
       name: ISILab
       fullName: ISILab
-      resultStatus: 1
-      duration: 0.1842575
-      messages: 
+      resultStatus: 2
+      duration: 1.4067922
+      messages: One or more child tests had errors
       output: 
       stacktrace: 
       notRunnable: 0
@@ -453,9 +600,9 @@ MonoBehaviour:
       uniqueId: Tests.dll/ISILab/[LBS][suite]
       name: LBS
       fullName: ISILab.LBS
-      resultStatus: 1
-      duration: 0.1804621
-      messages: 
+      resultStatus: 2
+      duration: 1.405623
+      messages: One or more child tests had errors
       output: 
       stacktrace: 
       notRunnable: 0
@@ -469,9 +616,9 @@ MonoBehaviour:
       uniqueId: Tests.dll/ISILab/LBS/[Tests][suite]
       name: Tests
       fullName: ISILab.LBS.Tests
-      resultStatus: 1
-      duration: 0.177248
-      messages: 
+      resultStatus: 2
+      duration: 1.4033782
+      messages: One or more child tests had errors
       output: 
       stacktrace: 
       notRunnable: 0
@@ -486,7 +633,7 @@ MonoBehaviour:
       name: Test_Simple_Module
       fullName: ISILab.LBS.Tests.Test_Simple_Module
       resultStatus: 1
-      duration: 0.1735147
+      duration: 1.3775375
       messages: 
       output: 
       stacktrace: 
@@ -502,61 +649,9 @@ MonoBehaviour:
       name: Save_And_Load_Bundle_TileMap
       fullName: ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_Bundle_TileMap
       resultStatus: 1
-      duration: 0.1701458
+      duration: 0.4870714
       messages: 
-      output: "A\r\nLevel Data Object: System.Collections.Generic.List`1[LBS.Components.LBSLayer]\r\nLevel
-        Data Object: LBS.Components.LBSLayer\r\nLevel Data Object: System.Collections.Generic.List`1[ISILab.LBS.Modules.LBSModule]\r\nLayer
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Modules.LBSModule]\r\nLevel
-        Data Object: ISILab.LBS.Modules.BundleTileMap\r\nLayer Object: ISILab.LBS.Modules.BundleTileMap\r\nLevel
-        Data Object: System.Collections.Generic.List`1[ISILab.LBS.Modules.TileBundlePair]\r\nLayer
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Modules.TileBundlePair]\r\nComparing
-        Module: System.Collections.Generic.List`1[ISILab.LBS.Modules.TileBundlePair]\r\nLevel
-        Data Object: ISILab.LBS.Modules.TileBundlePair\r\nLayer Object: ISILab.LBS.Modules.TileBundlePair\r\nComparing
-        Module: ISILab.LBS.Modules.TileBundlePair\r\nLevel Data Object: LBS.Components.TileMap.LBSTile\r\nLayer
-        Object: LBS.Components.TileMap.LBSTile\r\nComparing Module: LBS.Components.TileMap.LBSTile\r\nComparing
-        Tiles in BundlePair: LBS.Components.TileMap.LBSTile\r\nLevel Data Object:
-        LBS.Components.TileMap.BundleData\r\nLayer Object: LBS.Components.TileMap.BundleData\r\nComparing
-        Module: LBS.Components.TileMap.BundleData\r\nComparing Tiles in BundlePair:
-        LBS.Components.TileMap.BundleData\r\nLevel Data Object: System.Collections.Generic.List`1[ISILab.LBS.Characteristics.LBSCharacteristic]\r\nLayer
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Characteristics.LBSCharacteristic]\r\nComparing
-        Module: System.Collections.Generic.List`1[ISILab.LBS.Characteristics.LBSCharacteristic]\r\nComparing
-        Tiles in BundlePair: System.Collections.Generic.List`1[ISILab.LBS.Characteristics.LBSCharacteristic]\r\nBundleData
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Characteristics.LBSCharacteristic]\r\nLevel
-        Data Object: ISILab.LBS.Characteristics.LBSDirection\r\nLayer Object: ISILab.LBS.Characteristics.LBSDirection\r\nComparing
-        Module: ISILab.LBS.Characteristics.LBSDirection\r\nComparing Tiles in BundlePair:
-        ISILab.LBS.Characteristics.LBSDirection\r\nBundleData Object: ISILab.LBS.Characteristics.LBSDirection\r\nLevel
-        Data Object: System.Collections.Generic.List`1[System.String]\r\nLayer Object:
-        System.Collections.Generic.List`1[System.String]\r\nComparing Module: System.Collections.Generic.List`1[System.String]\r\nComparing
-        Tiles in BundlePair: System.Collections.Generic.List`1[System.String]\r\nBundleData
-        Object: System.Collections.Generic.List`1[System.String]\r\nCharacteristic
-        Object: System.Collections.Generic.List`1[System.String]\r\nComparing Direction
-        Data: ISILab.LBS.Characteristics.LBSDirection /// \r\nEverything going through?\r\nWe
-        got to the end!\r\nLevel Data Object: (1.00, 0.00)\r\nLayer Object: (1.00,
-        0.00)\r\nComparing Module: (1.00, 0.00)\r\nComparing Tiles in BundlePair:
-        (1.00, 0.00)\r\nLevel Data Object: (1.00, 0.00)\r\nLayer Object: (1.00, 0.00)\r\nComparing
-        Module: (1.00, 0.00)\r\nComparing Tiles in BundlePair: (1.00, 0.00)\r\nLevel
-        Data Object: System.Collections.Generic.List`1[ISILab.LBS.Behaviours.LBSBehaviour]\r\nLayer
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Behaviours.LBSBehaviour]\r\nLevel
-        Data Object: System.Collections.Generic.List`1[ISILab.LBS.Assistants.LBSAssistant]\r\nLayer
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Assistants.LBSAssistant]\r\nLevel
-        Data Object: System.Collections.Generic.List`1[ISILab.LBS.Generators.LBSGeneratorRule]\r\nLayer
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Generators.LBSGeneratorRule]\r\nLevel
-        Data Object: ISILab.LBS.Generators.Generator3D+Settings\r\nLayer Object:
-        ISILab.LBS.Generators.Generator3D+Settings\r\nLevel Data Object: (2.00, 2.00)\r\nLayer
-        Object: (2.00, 2.00)\r\nLevel Data Object: (2.00, 2.00)\r\nLayer Object:
-        (2.00, 2.00)\r\nLevel Data Object: (0.00, 0.00)\r\nLayer Object: (0.00, 0.00)\r\nLevel
-        Data Object: (0.00, 0.00)\r\nLayer Object: (0.00, 0.00)\r\nLevel Data Object:
-        (0.00, 0.00, 0.00)\r\nLayer Object: (0.00, 0.00, 0.00)\r\nLevel Data Object:
-        (0.00, 0.00, 0.00)\r\nLayer Object: (0.00, 0.00, 0.00)\r\nLevel Data Object:
-        System.Collections.Generic.List`1[LBS.Components.LBSLayer]\r\nB\r\nC\r\na\r\nB:False\r\nCheck
-        Equal:ISILab.LBS.LBSLevelData///ISILab.LBS.LBSLevelData\r\nLevel Data Object:
-        ISILab.LBS.LBSLevelData\r\nComparing Layers\r\nLayer Object: LBS.Components.LBSLayer\r\nComparing
-        Modules:\r\nComparing Module: ISILab.LBS.Modules.BundleTileMap\r\nComparing
-        Tiles in BundlePair: ISILab.LBS.Modules.TileBundlePair\r\nComparing BundleData
-        in Tiles\r\nBundleData Object: LBS.Components.TileMap.BundleData\r\nComparing
-        Characteristics\r\nCharacteristic Object: ISILab.LBS.Characteristics.LBSDirection\r\nComparing
-        Direction Data: ISILab.LBS.Characteristics.LBSDirection /// ISILab.LBS.Characteristics.LBSDirection\r\nEverything
-        going through?\r\nWe got to the end!\r\nBundleData is true\r\nfinished\r\n"
+      output: 
       stacktrace: 
       notRunnable: 0
       ignoredOrSkipped: 0
@@ -571,133 +666,9 @@ MonoBehaviour:
       name: Save_And_Load_Connected_TileMap
       fullName: ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_Connected_TileMap
       resultStatus: 1
-      duration: 0.1878768
+      duration: 0.1268787
       messages: 
-      output: 'Level Data Object: System.Collections.Generic.List`1[LBS.Components.LBSLayer]
-
-        Level
-        Data Object: LBS.Components.LBSLayer
-
-        Level Data Object: System.Collections.Generic.List`1[ISILab.LBS.Modules.LBSModule]
-
-        Layer
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Modules.LBSModule]
-
-        Level
-        Data Object: ISILab.LBS.Modules.TileMapModule
-
-        Layer Object: ISILab.LBS.Modules.TileMapModule
-
-        Level
-        Data Object: System.Collections.Generic.List`1[LBS.Components.TileMap.LBSTile]
-
-        Layer
-        Object: System.Collections.Generic.List`1[LBS.Components.TileMap.LBSTile]
-
-        Level
-        Data Object: LBS.Components.TileMap.LBSTile
-
-        Layer Object: LBS.Components.TileMap.LBSTile
-
-        Level
-        Data Object: ISILab.LBS.Modules.ConnectedTileMapModule
-
-        Layer Object:
-        ISILab.LBS.Modules.ConnectedTileMapModule
-
-        Level Data Object: System.Collections.Generic.List`1[ISILab.LBS.Modules.TileConnectionsPair]
-
-        Layer
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Modules.TileConnectionsPair]
-
-        Level
-        Data Object: ISILab.LBS.Modules.TileConnectionsPair
-
-        Layer Object:
-        ISILab.LBS.Modules.TileConnectionsPair
-
-        Level Data Object: System.Collections.Generic.List`1[System.String]
-
-        Layer
-        Object: System.Collections.Generic.List`1[System.String]
-
-        Level
-        Data Object: System.Collections.Generic.List`1[System.Boolean]
-
-        Layer
-        Object: System.Collections.Generic.List`1[System.Boolean]
-
-        Level
-        Data Object: System.Collections.Generic.List`1[ISILab.LBS.Behaviours.LBSBehaviour]
-
-        Layer
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Behaviours.LBSBehaviour]
-
-        Level
-        Data Object: System.Collections.Generic.List`1[ISILab.LBS.Assistants.LBSAssistant]
-
-        Layer
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Assistants.LBSAssistant]
-
-        Level
-        Data Object: System.Collections.Generic.List`1[ISILab.LBS.Generators.LBSGeneratorRule]
-
-        Layer
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Generators.LBSGeneratorRule]
-
-        Level
-        Data Object: ISILab.LBS.Generators.Generator3D+Settings
-
-        Layer Object:
-        ISILab.LBS.Generators.Generator3D+Settings
-
-        Level Data Object: (2.00,
-        2.00)
-
-        Layer Object: (2.00, 2.00)
-
-        Level Data Object: (2.00,
-        2.00)
-
-        Layer Object: (2.00, 2.00)
-
-        Level Data Object: (0.00,
-        0.00)
-
-        Layer Object: (0.00, 0.00)
-
-        Level Data Object: (0.00,
-        0.00)
-
-        Layer Object: (0.00, 0.00)
-
-        Level Data Object: (0.00,
-        0.00, 0.00)
-
-        Layer Object: (0.00, 0.00, 0.00)
-
-        Level Data
-        Object: (0.00, 0.00, 0.00)
-
-        Layer Object: (0.00, 0.00, 0.00)
-
-        Level
-        Data Object: System.Collections.Generic.List`1[LBS.Components.LBSLayer]
-
-        Level
-        Data Object: ISILab.LBS.LBSLevelData
-
-        Comparing Layers
-
-        Layer
-        Object: LBS.Components.LBSLayer
-
-        Comparing Modules:
-
-        Comparing
-        Modules:
-
-'
+      output: 
       stacktrace: 
       notRunnable: 0
       ignoredOrSkipped: 0
@@ -712,198 +683,9 @@ MonoBehaviour:
       name: Save_And_Load_Connected_Zones
       fullName: ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_Connected_Zones
       resultStatus: 1
-      duration: 0.1828836
+      duration: 0.1328099
       messages: 
-      output: 'Level Data Object: System.Collections.Generic.List`1[LBS.Components.LBSLayer]
-
-        Level
-        Data Object: LBS.Components.LBSLayer
-
-        Level Data Object: System.Collections.Generic.List`1[ISILab.LBS.Modules.LBSModule]
-
-        Layer
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Modules.LBSModule]
-
-        Level
-        Data Object: ISILab.LBS.Modules.SectorizedTileMapModule
-
-        Layer Object:
-        ISILab.LBS.Modules.SectorizedTileMapModule
-
-        Level Data Object: System.Collections.Generic.List`1[ISILab.LBS.Components.Zone]
-
-        Layer
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Components.Zone]
-
-        Level
-        Data Object: ISILab.LBS.Components.Zone
-
-        Layer Object: ISILab.LBS.Components.Zone
-
-        Level
-        Data Object: RGBA(1.000, 0.000, 0.000, 1.000)
-
-        Layer Object: RGBA(1.000,
-        0.000, 0.000, 1.000)
-
-        Level Data Object: RGBA(1.000, 0.000, 0.000,
-        1.000)
-
-        Layer Object: RGBA(1.000, 0.000, 0.000, 1.000)
-
-        Level
-        Data Object: (0.00, 0.00)
-
-        Layer Object: (0.00, 0.00)
-
-        Level
-        Data Object: (0.00, 0.00)
-
-        Layer Object: (0.00, 0.00)
-
-        Level
-        Data Object: System.Collections.Generic.List`1[System.String]
-
-        Layer
-        Object: System.Collections.Generic.List`1[System.String]
-
-        Level
-        Data Object: System.Collections.Generic.List`1[System.String]
-
-        Layer
-        Object: System.Collections.Generic.List`1[System.String]
-
-        Level
-        Data Object: ISILab.LBS.Components.Zone
-
-        Layer Object: ISILab.LBS.Components.Zone
-
-        Level
-        Data Object: RGBA(0.000, 0.000, 1.000, 1.000)
-
-        Layer Object: RGBA(0.000,
-        0.000, 1.000, 1.000)
-
-        Level Data Object: RGBA(0.000, 0.000, 1.000,
-        1.000)
-
-        Layer Object: RGBA(0.000, 0.000, 1.000, 1.000)
-
-        Level
-        Data Object: (0.00, 0.00)
-
-        Layer Object: (0.00, 0.00)
-
-        Level
-        Data Object: (0.00, 0.00)
-
-        Layer Object: (0.00, 0.00)
-
-        Level
-        Data Object: System.Collections.Generic.List`1[System.String]
-
-        Layer
-        Object: System.Collections.Generic.List`1[System.String]
-
-        Level
-        Data Object: System.Collections.Generic.List`1[System.String]
-
-        Layer
-        Object: System.Collections.Generic.List`1[System.String]
-
-        Level
-        Data Object: System.Collections.Generic.List`1[ISILab.LBS.Modules.TileZonePair]
-
-        Layer
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Modules.TileZonePair]
-
-        Level
-        Data Object: ISILab.LBS.Modules.ConnectedZonesModule
-
-        Layer Object:
-        ISILab.LBS.Modules.ConnectedZonesModule
-
-        Level Data Object: System.Collections.Generic.List`1[ISILab.LBS.Components.ZoneEdge]
-
-        Layer
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Components.ZoneEdge]
-
-        Level
-        Data Object: ISILab.LBS.Components.ZoneEdge
-
-        Layer Object: ISILab.LBS.Components.ZoneEdge
-
-        Level
-        Data Object: System.Collections.Generic.List`1[ISILab.LBS.Behaviours.LBSBehaviour]
-
-        Layer
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Behaviours.LBSBehaviour]
-
-        Level
-        Data Object: System.Collections.Generic.List`1[ISILab.LBS.Assistants.LBSAssistant]
-
-        Layer
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Assistants.LBSAssistant]
-
-        Level
-        Data Object: System.Collections.Generic.List`1[ISILab.LBS.Generators.LBSGeneratorRule]
-
-        Layer
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Generators.LBSGeneratorRule]
-
-        Level
-        Data Object: ISILab.LBS.Generators.Generator3D+Settings
-
-        Layer Object:
-        ISILab.LBS.Generators.Generator3D+Settings
-
-        Level Data Object: (2.00,
-        2.00)
-
-        Layer Object: (2.00, 2.00)
-
-        Level Data Object: (2.00,
-        2.00)
-
-        Layer Object: (2.00, 2.00)
-
-        Level Data Object: (0.00,
-        0.00)
-
-        Layer Object: (0.00, 0.00)
-
-        Level Data Object: (0.00,
-        0.00)
-
-        Layer Object: (0.00, 0.00)
-
-        Level Data Object: (0.00,
-        0.00, 0.00)
-
-        Layer Object: (0.00, 0.00, 0.00)
-
-        Level Data
-        Object: (0.00, 0.00, 0.00)
-
-        Layer Object: (0.00, 0.00, 0.00)
-
-        Level
-        Data Object: System.Collections.Generic.List`1[LBS.Components.LBSLayer]
-
-        Level
-        Data Object: ISILab.LBS.LBSLevelData
-
-        Comparing Layers
-
-        Layer
-        Object: LBS.Components.LBSLayer
-
-        Comparing Modules:
-
-        Comparing
-        Modules:
-
-'
+      output: 
       stacktrace: 
       notRunnable: 0
       ignoredOrSkipped: 0
@@ -918,193 +700,9 @@ MonoBehaviour:
       name: Save_And_Load_Constraints_Zones
       fullName: ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_Constraints_Zones
       resultStatus: 1
-      duration: 0.1738357
+      duration: 0.1237545
       messages: 
-      output: 'Level Data Object: System.Collections.Generic.List`1[LBS.Components.LBSLayer]
-
-        Level
-        Data Object: LBS.Components.LBSLayer
-
-        Level Data Object: System.Collections.Generic.List`1[ISILab.LBS.Modules.LBSModule]
-
-        Layer
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Modules.LBSModule]
-
-        Level
-        Data Object: ISILab.LBS.Modules.ConstrainsZonesModule
-
-        Layer Object:
-        ISILab.LBS.Modules.ConstrainsZonesModule
-
-        Level Data Object: System.Collections.Generic.List`1[ISILab.LBS.Modules.ConstraintPair]
-
-        Layer
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Modules.ConstraintPair]
-
-        Level
-        Data Object: ISILab.LBS.Modules.ConstraintPair
-
-        Layer Object: ISILab.LBS.Modules.ConstraintPair
-
-        Level
-        Data Object: ISILab.LBS.Components.Zone
-
-        Layer Object: ISILab.LBS.Components.Zone
-
-        Level
-        Data Object: RGBA(1.000, 0.000, 0.000, 1.000)
-
-        Layer Object: RGBA(1.000,
-        0.000, 0.000, 1.000)
-
-        Level Data Object: RGBA(1.000, 0.000, 0.000,
-        1.000)
-
-        Layer Object: RGBA(1.000, 0.000, 0.000, 1.000)
-
-        Level
-        Data Object: (0.00, 0.00)
-
-        Layer Object: (0.00, 0.00)
-
-        Level
-        Data Object: (0.00, 0.00)
-
-        Layer Object: (0.00, 0.00)
-
-        Level
-        Data Object: System.Collections.Generic.List`1[System.String]
-
-        Layer
-        Object: System.Collections.Generic.List`1[System.String]
-
-        Level
-        Data Object: System.Collections.Generic.List`1[System.String]
-
-        Layer
-        Object: System.Collections.Generic.List`1[System.String]
-
-        Level
-        Data Object: ISILab.LBS.Modules.Constraint
-
-        Layer Object: ISILab.LBS.Modules.Constraint
-
-        Level
-        Data Object: ISILab.LBS.Modules.ConstraintPair
-
-        Layer Object: ISILab.LBS.Modules.ConstraintPair
-
-        Level
-        Data Object: ISILab.LBS.Components.Zone
-
-        Layer Object: ISILab.LBS.Components.Zone
-
-        Level
-        Data Object: RGBA(0.000, 0.000, 1.000, 1.000)
-
-        Layer Object: RGBA(0.000,
-        0.000, 1.000, 1.000)
-
-        Level Data Object: RGBA(0.000, 0.000, 1.000,
-        1.000)
-
-        Layer Object: RGBA(0.000, 0.000, 1.000, 1.000)
-
-        Level
-        Data Object: (0.00, 0.00)
-
-        Layer Object: (0.00, 0.00)
-
-        Level
-        Data Object: (0.00, 0.00)
-
-        Layer Object: (0.00, 0.00)
-
-        Level
-        Data Object: System.Collections.Generic.List`1[System.String]
-
-        Layer
-        Object: System.Collections.Generic.List`1[System.String]
-
-        Level
-        Data Object: System.Collections.Generic.List`1[System.String]
-
-        Layer
-        Object: System.Collections.Generic.List`1[System.String]
-
-        Level
-        Data Object: ISILab.LBS.Modules.Constraint
-
-        Layer Object: ISILab.LBS.Modules.Constraint
-
-        Level
-        Data Object: System.Collections.Generic.List`1[ISILab.LBS.Behaviours.LBSBehaviour]
-
-        Layer
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Behaviours.LBSBehaviour]
-
-        Level
-        Data Object: System.Collections.Generic.List`1[ISILab.LBS.Assistants.LBSAssistant]
-
-        Layer
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Assistants.LBSAssistant]
-
-        Level
-        Data Object: System.Collections.Generic.List`1[ISILab.LBS.Generators.LBSGeneratorRule]
-
-        Layer
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Generators.LBSGeneratorRule]
-
-        Level
-        Data Object: ISILab.LBS.Generators.Generator3D+Settings
-
-        Layer Object:
-        ISILab.LBS.Generators.Generator3D+Settings
-
-        Level Data Object: (2.00,
-        2.00)
-
-        Layer Object: (2.00, 2.00)
-
-        Level Data Object: (2.00,
-        2.00)
-
-        Layer Object: (2.00, 2.00)
-
-        Level Data Object: (0.00,
-        0.00)
-
-        Layer Object: (0.00, 0.00)
-
-        Level Data Object: (0.00,
-        0.00)
-
-        Layer Object: (0.00, 0.00)
-
-        Level Data Object: (0.00,
-        0.00, 0.00)
-
-        Layer Object: (0.00, 0.00, 0.00)
-
-        Level Data
-        Object: (0.00, 0.00, 0.00)
-
-        Layer Object: (0.00, 0.00, 0.00)
-
-        Level
-        Data Object: System.Collections.Generic.List`1[LBS.Components.LBSLayer]
-
-        Level
-        Data Object: ISILab.LBS.LBSLevelData
-
-        Comparing Layers
-
-        Layer
-        Object: LBS.Components.LBSLayer
-
-        Comparing Modules:
-
-'
+      output: 
       stacktrace: 
       notRunnable: 0
       ignoredOrSkipped: 0
@@ -1119,84 +717,9 @@ MonoBehaviour:
       name: Save_And_Load_Empty_Layer
       fullName: ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_Empty_Layer
       resultStatus: 1
-      duration: 0.1334894
+      duration: 0.1306544
       messages: 
-      output: 'Level Data Object: System.Collections.Generic.List`1[LBS.Components.LBSLayer]
-
-        Level
-        Data Object: LBS.Components.LBSLayer
-
-        Level Data Object: System.Collections.Generic.List`1[ISILab.LBS.Modules.LBSModule]
-
-        Layer
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Modules.LBSModule]
-
-        Level
-        Data Object: System.Collections.Generic.List`1[ISILab.LBS.Behaviours.LBSBehaviour]
-
-        Layer
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Behaviours.LBSBehaviour]
-
-        Level
-        Data Object: System.Collections.Generic.List`1[ISILab.LBS.Assistants.LBSAssistant]
-
-        Layer
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Assistants.LBSAssistant]
-
-        Level
-        Data Object: System.Collections.Generic.List`1[ISILab.LBS.Generators.LBSGeneratorRule]
-
-        Layer
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Generators.LBSGeneratorRule]
-
-        Level
-        Data Object: ISILab.LBS.Generators.Generator3D+Settings
-
-        Layer Object:
-        ISILab.LBS.Generators.Generator3D+Settings
-
-        Level Data Object: (2.00,
-        2.00)
-
-        Layer Object: (2.00, 2.00)
-
-        Level Data Object: (2.00,
-        2.00)
-
-        Layer Object: (2.00, 2.00)
-
-        Level Data Object: (0.00,
-        0.00)
-
-        Layer Object: (0.00, 0.00)
-
-        Level Data Object: (0.00,
-        0.00)
-
-        Layer Object: (0.00, 0.00)
-
-        Level Data Object: (0.00,
-        0.00, 0.00)
-
-        Layer Object: (0.00, 0.00, 0.00)
-
-        Level Data
-        Object: (0.00, 0.00, 0.00)
-
-        Layer Object: (0.00, 0.00, 0.00)
-
-        Level
-        Data Object: System.Collections.Generic.List`1[LBS.Components.LBSLayer]
-
-        Level
-        Data Object: ISILab.LBS.LBSLevelData
-
-        Comparing Layers
-
-        Layer
-        Object: LBS.Components.LBSLayer
-
-'
+      output: 
       stacktrace: 
       notRunnable: 0
       ignoredOrSkipped: 0
@@ -1211,17 +734,9 @@ MonoBehaviour:
       name: Save_And_Load_Empty_Level_Data
       fullName: ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_Empty_Level_Data
       resultStatus: 1
-      duration: 0.1152671
+      duration: 0.1216998
       messages: 
-      output: 'Level Data Object: System.Collections.Generic.List`1[LBS.Components.LBSLayer]
-
-        Level
-        Data Object: System.Collections.Generic.List`1[LBS.Components.LBSLayer]
-
-        Level
-        Data Object: ISILab.LBS.LBSLevelData
-
-'
+      output: 
       stacktrace: 
       notRunnable: 0
       ignoredOrSkipped: 0
@@ -1236,165 +751,9 @@ MonoBehaviour:
       name: Save_And_Load_Sectorized_TileMap
       fullName: ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_Sectorized_TileMap
       resultStatus: 1
-      duration: 0.1571708
+      duration: 0.130159
       messages: 
-      output: 'Level Data Object: System.Collections.Generic.List`1[LBS.Components.LBSLayer]
-
-        Level
-        Data Object: LBS.Components.LBSLayer
-
-        Level Data Object: System.Collections.Generic.List`1[ISILab.LBS.Modules.LBSModule]
-
-        Layer
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Modules.LBSModule]
-
-        Level
-        Data Object: ISILab.LBS.Modules.TileMapModule
-
-        Layer Object: ISILab.LBS.Modules.TileMapModule
-
-        Level
-        Data Object: System.Collections.Generic.List`1[LBS.Components.TileMap.LBSTile]
-
-        Layer
-        Object: System.Collections.Generic.List`1[LBS.Components.TileMap.LBSTile]
-
-        Level
-        Data Object: LBS.Components.TileMap.LBSTile
-
-        Layer Object: LBS.Components.TileMap.LBSTile
-
-        Level
-        Data Object: ISILab.LBS.Modules.SectorizedTileMapModule
-
-        Layer Object:
-        ISILab.LBS.Modules.SectorizedTileMapModule
-
-        Level Data Object: System.Collections.Generic.List`1[ISILab.LBS.Components.Zone]
-
-        Layer
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Components.Zone]
-
-        Level
-        Data Object: ISILab.LBS.Components.Zone
-
-        Layer Object: ISILab.LBS.Components.Zone
-
-        Level
-        Data Object: RGBA(1.000, 0.000, 0.000, 1.000)
-
-        Layer Object: RGBA(1.000,
-        0.000, 0.000, 1.000)
-
-        Level Data Object: RGBA(1.000, 0.000, 0.000,
-        1.000)
-
-        Layer Object: RGBA(1.000, 0.000, 0.000, 1.000)
-
-        Level
-        Data Object: (0.50, 0.50)
-
-        Layer Object: (0.50, 0.50)
-
-        Level
-        Data Object: (0.50, 0.50)
-
-        Layer Object: (0.50, 0.50)
-
-        Level
-        Data Object: System.Collections.Generic.List`1[System.String]
-
-        Layer
-        Object: System.Collections.Generic.List`1[System.String]
-
-        Level
-        Data Object: System.Collections.Generic.List`1[System.String]
-
-        Layer
-        Object: System.Collections.Generic.List`1[System.String]
-
-        Level
-        Data Object: System.Collections.Generic.List`1[ISILab.LBS.Modules.TileZonePair]
-
-        Layer
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Modules.TileZonePair]
-
-        Level
-        Data Object: ISILab.LBS.Modules.TileZonePair
-
-        Layer Object: ISILab.LBS.Modules.TileZonePair
-
-        Level
-        Data Object: System.Collections.Generic.List`1[ISILab.LBS.Behaviours.LBSBehaviour]
-
-        Layer
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Behaviours.LBSBehaviour]
-
-        Level
-        Data Object: System.Collections.Generic.List`1[ISILab.LBS.Assistants.LBSAssistant]
-
-        Layer
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Assistants.LBSAssistant]
-
-        Level
-        Data Object: System.Collections.Generic.List`1[ISILab.LBS.Generators.LBSGeneratorRule]
-
-        Layer
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Generators.LBSGeneratorRule]
-
-        Level
-        Data Object: ISILab.LBS.Generators.Generator3D+Settings
-
-        Layer Object:
-        ISILab.LBS.Generators.Generator3D+Settings
-
-        Level Data Object: (2.00,
-        2.00)
-
-        Layer Object: (2.00, 2.00)
-
-        Level Data Object: (2.00,
-        2.00)
-
-        Layer Object: (2.00, 2.00)
-
-        Level Data Object: (0.00,
-        0.00)
-
-        Layer Object: (0.00, 0.00)
-
-        Level Data Object: (0.00,
-        0.00)
-
-        Layer Object: (0.00, 0.00)
-
-        Level Data Object: (0.00,
-        0.00, 0.00)
-
-        Layer Object: (0.00, 0.00, 0.00)
-
-        Level Data
-        Object: (0.00, 0.00, 0.00)
-
-        Layer Object: (0.00, 0.00, 0.00)
-
-        Level
-        Data Object: System.Collections.Generic.List`1[LBS.Components.LBSLayer]
-
-        Level
-        Data Object: ISILab.LBS.LBSLevelData
-
-        Comparing Layers
-
-        Layer
-        Object: LBS.Components.LBSLayer
-
-        Comparing Modules:
-
-        Comparing
-        Modules:
-
-'
+      output: 
       stacktrace: 
       notRunnable: 0
       ignoredOrSkipped: 0
@@ -1409,102 +768,9 @@ MonoBehaviour:
       name: Save_And_Load_TileMap_Module
       fullName: ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_TileMap_Module
       resultStatus: 1
-      duration: 0.1385405
+      duration: 0.1111329
       messages: 
-      output: 'Level Data Object: System.Collections.Generic.List`1[LBS.Components.LBSLayer]
-
-        Level
-        Data Object: LBS.Components.LBSLayer
-
-        Level Data Object: System.Collections.Generic.List`1[ISILab.LBS.Modules.LBSModule]
-
-        Layer
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Modules.LBSModule]
-
-        Level
-        Data Object: ISILab.LBS.Modules.TileMapModule
-
-        Layer Object: ISILab.LBS.Modules.TileMapModule
-
-        Level
-        Data Object: System.Collections.Generic.List`1[LBS.Components.TileMap.LBSTile]
-
-        Layer
-        Object: System.Collections.Generic.List`1[LBS.Components.TileMap.LBSTile]
-
-        Level
-        Data Object: LBS.Components.TileMap.LBSTile
-
-        Layer Object: LBS.Components.TileMap.LBSTile
-
-        Level
-        Data Object: System.Collections.Generic.List`1[ISILab.LBS.Behaviours.LBSBehaviour]
-
-        Layer
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Behaviours.LBSBehaviour]
-
-        Level
-        Data Object: System.Collections.Generic.List`1[ISILab.LBS.Assistants.LBSAssistant]
-
-        Layer
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Assistants.LBSAssistant]
-
-        Level
-        Data Object: System.Collections.Generic.List`1[ISILab.LBS.Generators.LBSGeneratorRule]
-
-        Layer
-        Object: System.Collections.Generic.List`1[ISILab.LBS.Generators.LBSGeneratorRule]
-
-        Level
-        Data Object: ISILab.LBS.Generators.Generator3D+Settings
-
-        Layer Object:
-        ISILab.LBS.Generators.Generator3D+Settings
-
-        Level Data Object: (2.00,
-        2.00)
-
-        Layer Object: (2.00, 2.00)
-
-        Level Data Object: (2.00,
-        2.00)
-
-        Layer Object: (2.00, 2.00)
-
-        Level Data Object: (0.00,
-        0.00)
-
-        Layer Object: (0.00, 0.00)
-
-        Level Data Object: (0.00,
-        0.00)
-
-        Layer Object: (0.00, 0.00)
-
-        Level Data Object: (0.00,
-        0.00, 0.00)
-
-        Layer Object: (0.00, 0.00, 0.00)
-
-        Level Data
-        Object: (0.00, 0.00, 0.00)
-
-        Layer Object: (0.00, 0.00, 0.00)
-
-        Level
-        Data Object: System.Collections.Generic.List`1[LBS.Components.LBSLayer]
-
-        Level
-        Data Object: ISILab.LBS.LBSLevelData
-
-        Comparing Layers
-
-        Layer
-        Object: LBS.Components.LBSLayer
-
-        Comparing Modules:
-
-'
+      output: 
       stacktrace: 
       notRunnable: 0
       ignoredOrSkipped: 0
@@ -1519,7 +785,7 @@ MonoBehaviour:
       name: Test_Template_Layers
       fullName: ISILab.LBS.Tests.Test_Template_Layers
       resultStatus: 2
-      duration: 0.0196488
+      duration: 0.0219332
       messages: One or more child tests had errors
       output: 
       stacktrace: 
@@ -1535,7 +801,7 @@ MonoBehaviour:
       name: Save_And_Load_Exterior_Layer
       fullName: ISILab.LBS.Tests.Test_Template_Layers.Save_And_Load_Exterior_Layer
       resultStatus: 2
-      duration: 0.0053271
+      duration: 0.0024499
       messages: 'System.ArgumentNullException : Value cannot be null.
 
         Parameter
@@ -1546,8 +812,8 @@ MonoBehaviour:
         in <7b5547b4335144ceb60840e62be9f312>:0 \r\n  at System.Linq.Enumerable.First[TSource]
         (System.Collections.Generic.IEnumerable`1[T] source, System.Func`2[T,TResult]
         predicate) [0x00000] in <7b5547b4335144ceb60840e62be9f312>:0 \r\n  at ISILab.LBS.Tests.Test_Template_Layers.Save_And_Load_Exterior_Layer
-        () [0x00007] in C:\\Users\\zakup\\GitHub\\LevelBuildingSidekick\\LevelBuildingSidekick\\Assets\\ISI
-        Lab\\LBS\\Editor\\Tests\\TestData.cs:345 \r\n  at (wrapper managed-to-native)
+        () [0x00006] in C:\\Users\\roth8\\Documents\\GitHub\\LevelBuildingSidekick\\LevelBuildingSidekick\\Assets\\ISI
+        Lab\\LBS\\Editor\\Tests\\TestData.cs:334 \r\n  at (wrapper managed-to-native)
         System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n 
         at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
         invokeAttr, System.Reflection.Binder binder, System.Object[] parameters,
@@ -1565,7 +831,7 @@ MonoBehaviour:
       name: Save_And_Load_Interior_Layer
       fullName: ISILab.LBS.Tests.Test_Template_Layers.Save_And_Load_Interior_Layer
       resultStatus: 2
-      duration: 0.0005456
+      duration: 0.0004643
       messages: 'System.ArgumentNullException : Value cannot be null.
 
         Parameter
@@ -1576,8 +842,8 @@ MonoBehaviour:
         in <7b5547b4335144ceb60840e62be9f312>:0 \r\n  at System.Linq.Enumerable.First[TSource]
         (System.Collections.Generic.IEnumerable`1[T] source, System.Func`2[T,TResult]
         predicate) [0x00000] in <7b5547b4335144ceb60840e62be9f312>:0 \r\n  at ISILab.LBS.Tests.Test_Template_Layers.Save_And_Load_Interior_Layer
-        () [0x00007] in C:\\Users\\zakup\\GitHub\\LevelBuildingSidekick\\LevelBuildingSidekick\\Assets\\ISI
-        Lab\\LBS\\Editor\\Tests\\TestData.cs:312 \r\n  at (wrapper managed-to-native)
+        () [0x00006] in C:\\Users\\roth8\\Documents\\GitHub\\LevelBuildingSidekick\\LevelBuildingSidekick\\Assets\\ISI
+        Lab\\LBS\\Editor\\Tests\\TestData.cs:301 \r\n  at (wrapper managed-to-native)
         System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n 
         at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
         invokeAttr, System.Reflection.Binder binder, System.Object[] parameters,
@@ -1595,7 +861,7 @@ MonoBehaviour:
       name: Save_And_Load_Population_Layer
       fullName: ISILab.LBS.Tests.Test_Template_Layers.Save_And_Load_Population_Layer
       resultStatus: 2
-      duration: 0.0004715
+      duration: 0.0003981
       messages: 'System.ArgumentNullException : Value cannot be null.
 
         Parameter
@@ -1606,8 +872,8 @@ MonoBehaviour:
         in <7b5547b4335144ceb60840e62be9f312>:0 \r\n  at System.Linq.Enumerable.First[TSource]
         (System.Collections.Generic.IEnumerable`1[T] source, System.Func`2[T,TResult]
         predicate) [0x00000] in <7b5547b4335144ceb60840e62be9f312>:0 \r\n  at ISILab.LBS.Tests.Test_Template_Layers.Save_And_Load_Population_Layer
-        () [0x00007] in C:\\Users\\zakup\\GitHub\\LevelBuildingSidekick\\LevelBuildingSidekick\\Assets\\ISI
-        Lab\\LBS\\Editor\\Tests\\TestData.cs:381 \r\n  at (wrapper managed-to-native)
+        () [0x00006] in C:\\Users\\roth8\\Documents\\GitHub\\LevelBuildingSidekick\\LevelBuildingSidekick\\Assets\\ISI
+        Lab\\LBS\\Editor\\Tests\\TestData.cs:370 \r\n  at (wrapper managed-to-native)
         System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n 
         at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
         invokeAttr, System.Reflection.Binder binder, System.Object[] parameters,
@@ -1620,64 +886,34 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1010
       parentUniqueId: Tests.dll/ISILab/LBS/Tests/[Tests][ISILab.LBS.Tests.Test_Template_Layers][suite]
-    m_ResultText: "Save_And_Load_Bundle_TileMap (0.170s)\n---\nA\r\nLevel Data Object:
-      System.Collections.Generic.List`1[LBS.Components.LBSLayer]\r\nLevel Data Object:
-      LBS.Components.LBSLayer\r\nLevel Data Object: System.Collections.Generic.List`1[ISILab.LBS.Modules.LBSModule]\r\nLayer
-      Object: System.Collections.Generic.List`1[ISILab.LBS.Modules.LBSModule]\r\nLevel
-      Data Object: ISILab.LBS.Modules.BundleTileMap\r\nLayer Object: ISILab.LBS.Modules.BundleTileMap\r\nLevel
-      Data Object: System.Collections.Generic.List`1[ISILab.LBS.Modules.TileBundlePair]\r\nLayer
-      Object: System.Collections.Generic.List`1[ISILab.LBS.Modules.TileBundlePair]\r\nComparing
-      Module: System.Collections.Generic.List`1[ISILab.LBS.Modules.TileBundlePair]\r\nLevel
-      Data Object: ISILab.LBS.Modules.TileBundlePair\r\nLayer Object: ISILab.LBS.Modules.TileBundlePair\r\nComparing
-      Module: ISILab.LBS.Modules.TileBundlePair\r\nLevel Data Object: LBS.Components.TileMap.LBSTile\r\nLayer
-      Object: LBS.Components.TileMap.LBSTile\r\nComparing Module: LBS.Components.TileMap.LBSTile\r\nComparing
-      Tiles in BundlePair: LBS.Components.TileMap.LBSTile\r\nLevel Data Object: LBS.Components.TileMap.BundleData\r\nLayer
-      Object: LBS.Components.TileMap.BundleData\r\nComparing Module: LBS.Components.TileMap.BundleData\r\nComparing
-      Tiles in BundlePair: LBS.Components.TileMap.BundleData\r\nLevel Data Object:
-      System.Collections.Generic.List`1[ISILab.LBS.Characteristics.LBSCharacteristic]\r\nLayer
-      Object: System.Collections.Generic.List`1[ISILab.LBS.Characteristics.LBSCharacteristic]\r\nComparing
-      Module: System.Collections.Generic.List`1[ISILab.LBS.Characteristics.LBSCharacteristic]\r\nComparing
-      Tiles in BundlePair: System.Collections.Generic.List`1[ISILab.LBS.Characteristics.LBSCharacteristic]\r\nBundleData
-      Object: System.Collections.Generic.List`1[ISILab.LBS.Characteristics.LBSCharacteristic]\r\nLevel
-      Data Object: ISILab.LBS.Characteristics.LBSDirection\r\nLayer Object: ISILab.LBS.Characteristics.LBSDirection\r\nComparing
-      Module: ISILab.LBS.Characteristics.LBSDirection\r\nComparing Tiles in BundlePair:
-      ISILab.LBS.Characteristics.LBSDirection\r\nBundleData Object: ISILab.LBS.Characteristics.LBSDirection\r\nLevel
-      Data Object: System.Collections.Generic.List`1[System.String]\r\nLayer Object:
-      System.Collections.Generic.List`1[System.String]\r\nComparing Module: System.Collections.Generic.List`1[System.String]\r\nComparing
-      Tiles in BundlePair: System.Collections.Generic.List`1[System.String]\r\nBundleData
-      Object: System.Collections.Generic.List`1[System.String]\r\nCharacteristic
-      Object: System.Collections.Generic.List`1[System.String]\r\nComparing Direction
-      Data: ISILab.LBS.Characteristics.LBSDirection /// \r\nEverything going through?\r\nWe
-      got to the end!\r\nLevel Data Object: (1.00, 0.00)\r\nLayer Object: (1.00,
-      0.00)\r\nComparing Module: (1.00, 0.00)\r\nComparing Tiles in BundlePair: (1.00,
-      0.00)\r\nLevel Data Object: (1.00, 0.00)\r\nLayer Object: (1.00, 0.00)\r\nComparing
-      Module: (1.00, 0.00)\r\nComparing Tiles in BundlePair: (1.00, 0.00)\r\nLevel
-      Data Object: System.Collections.Generic.List`1[ISILab.LBS.Behaviours.LBSBehaviour]\r\nLayer
-      Object: System.Collections.Generic.List`1[ISILab.LBS.Behaviours.LBSBehaviour]\r\nLevel
-      Data Object: System.Collections.Generic.List`1[ISILab.LBS.Assistants.LBSAssistant]\r\nLayer
-      Object: System.Collections.Generic.List`1[ISILab.LBS.Assistants.LBSAssistant]\r\nLevel
-      Data Object: System.Collections.Generic.List`1[ISILab.LBS.Generators.LBSGeneratorRule]\r\nLayer
-      Object: System.Collections.Generic.List`1[ISILab.LBS.Generators.LBSGeneratorRule]\r\nLevel
-      Data Object: ISILab.LBS.Generators.Generator3D+Settings\r\nLayer Object: ISILab.LBS.Generators.Generator3D+Settings\r\nLevel
-      Data Object: (2.00, 2.00)\r\nLayer Object: (2.00, 2.00)\r\nLevel Data Object:
-      (2.00, 2.00)\r\nLayer Object: (2.00, 2.00)\r\nLevel Data Object: (0.00, 0.00)\r\nLayer
-      Object: (0.00, 0.00)\r\nLevel Data Object: (0.00, 0.00)\r\nLayer Object: (0.00,
-      0.00)\r\nLevel Data Object: (0.00, 0.00, 0.00)\r\nLayer Object: (0.00, 0.00,
-      0.00)\r\nLevel Data Object: (0.00, 0.00, 0.00)\r\nLayer Object: (0.00, 0.00,
-      0.00)\r\nLevel Data Object: System.Collections.Generic.List`1[LBS.Components.LBSLayer]\r\nB\r\nC\r\na\r\nB:False\r\nCheck
-      Equal:ISILab.LBS.LBSLevelData///ISILab.LBS.LBSLevelData\r\nLevel Data Object:
-      ISILab.LBS.LBSLevelData\r\nComparing Layers\r\nLayer Object: LBS.Components.LBSLayer\r\nComparing
-      Modules:\r\nComparing Module: ISILab.LBS.Modules.BundleTileMap\r\nComparing
-      Tiles in BundlePair: ISILab.LBS.Modules.TileBundlePair\r\nComparing BundleData
-      in Tiles\r\nBundleData Object: LBS.Components.TileMap.BundleData\r\nComparing
-      Characteristics\r\nCharacteristic Object: ISILab.LBS.Characteristics.LBSDirection\r\nComparing
-      Direction Data: ISILab.LBS.Characteristics.LBSDirection /// ISILab.LBS.Characteristics.LBSDirection\r\nEverything
-      going through?\r\nWe got to the end!\r\nBundleData is true\r\nfinished"
-    m_ResultStacktrace: 
+    m_ResultText: "Save_And_Load_Exterior_Layer (0,002s)\n---\nSystem.ArgumentNullException
+      : Value cannot be null.\r\nParameter name: source\n---\nat System.Linq.Enumerable.TryGetFirst[TSource]
+      (System.Collections.Generic.IEnumerable`1[T] source, System.Func`2[T,TResult]
+      predicate, System.Boolean& found) [0x0000d] in <7b5547b4335144ceb60840e62be9f312>:0
+      \r\n  at System.Linq.Enumerable.First[TSource] (System.Collections.Generic.IEnumerable`1[T]
+      source, System.Func`2[T,TResult] predicate) [0x00000] in <7b5547b4335144ceb60840e62be9f312>:0
+      \r\n  at ISILab.LBS.Tests.Test_Template_Layers.Save_And_Load_Exterior_Layer
+      () [0x00006] in C:\\Users\\roth8\\Documents\\GitHub\\LevelBuildingSidekick\\LevelBuildingSidekick\\Assets\\ISI
+      Lab\\LBS\\Editor\\Tests\\TestData.cs:334 \r\n  at (wrapper managed-to-native)
+      System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n 
+      at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
+      invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo
+      culture) [0x0006a] in <605bf8b31fcb444b85176da963870aa7>:0"
+    m_ResultStacktrace: "  at System.Linq.Enumerable.TryGetFirst[TSource] (System.Collections.Generic.IEnumerable`1[T]
+      source, System.Func`2[T,TResult] predicate, System.Boolean& found) [0x0000d]
+      in <7b5547b4335144ceb60840e62be9f312>:0 \r\n  at System.Linq.Enumerable.First[TSource]
+      (System.Collections.Generic.IEnumerable`1[T] source, System.Func`2[T,TResult]
+      predicate) [0x00000] in <7b5547b4335144ceb60840e62be9f312>:0 \r\n  at ISILab.LBS.Tests.Test_Template_Layers.Save_And_Load_Exterior_Layer
+      () [0x00006] in C:\\Users\\roth8\\Documents\\GitHub\\LevelBuildingSidekick\\LevelBuildingSidekick\\Assets\\ISI
+      Lab\\LBS\\Editor\\Tests\\TestData.cs:334 \r\n  at (wrapper managed-to-native)
+      System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n 
+      at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
+      invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo
+      culture) [0x0006a] in <605bf8b31fcb444b85176da963870aa7>:0 "
     m_TestListState:
-      scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: e9c6867e
-      m_LastClickedID: 2122761961
+      scrollPos: {x: 0, y: 49}
+      m_SelectedIDs: 9e1a110a
+      m_LastClickedID: 168893086
       m_ExpandedIDs: 3859e0afe557abf748a1fffb8330ba087a3a1d536a938f537e7b5a67ffffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0
@@ -1704,7 +940,7 @@ MonoBehaviour:
       selectedCategoryMask: 0
       availableCategories:
       - Uncategorized
---- !u!114 &14
+--- !u!114 &19
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1724,10 +960,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 8
-    y: 627
-    width: 491
-    height: 364
+    x: -2560
+    y: 476
+    width: 1291
+    height: 520
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1747,7 +983,7 @@ MonoBehaviour:
     m_ShowDrawStats: 0
     m_BreakBatches: 0
     m_ShowWireframe: 0
---- !u!114 &15
+--- !u!114 &20
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1767,10 +1003,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 0
-    y: 628
-    width: 983
-    height: 371
+    x: -1377
+    y: 665
+    width: 892
+    height: 331
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1782,7 +1018,7 @@ MonoBehaviour:
     m_SaveData: []
     m_OverlaysVisible: 1
   m_SearchFilter:
-    m_NameFilter: test
+    m_NameFilter: 
     m_ClassNames: []
     m_AssetLabels: []
     m_AssetBundleNames: []
@@ -1792,24 +1028,24 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets
+    - Assets/Examples/Prototype/Prefabs/Exterior
     m_Globs: []
-    m_OriginalText: test
+    m_OriginalText: 
     m_ImportLogFlags: 0
     m_FilterByTypeIntersection: 0
   m_ViewMode: 1
   m_StartGridSize: 96
   m_LastFolders:
-  - Assets
+  - Assets/Examples/Prototype/Prefabs/Exterior
   m_LastFoldersGridSize: 96
-  m_LastProjectPath: C:\Users\zakup\GitHub\LevelBuildingSidekick\LevelBuildingSidekick
+  m_LastProjectPath: C:\Users\roth8\Documents\GitHub\LevelBuildingSidekick\LevelBuildingSidekick
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 8e600000
-    m_LastClickedID: 24718
-    m_ExpandedIDs: 000000008e60000090600000926000009460000096600000986000009a6000009c6000009e600000a0600000a2600000a4600000a660000000ca9a3bffffff7f
+    scrollPos: {x: 0, y: 239}
+    m_SelectedIDs: 58ad0000
+    m_LastClickedID: 44376
+    m_ExpandedIDs: 00000000d06f0000d26f0000d46f0000d66f0000d86f0000da6f0000dc6f0000de6f0000e06f0000e26f0000e46f0000e66f0000e86f0000ea6f0000ec6f0000ee6f0000f06f0000f26f0000f46f0000f66f0000f86f0000fa6f0000fc6f0000fe6f000000700000027000000470000006700000087000000a7000000c7000000e70000010700000127000001470000016700000e2710000347200005a7200005c72000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1837,7 +1073,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000008e60000090600000926000009460000096600000986000009a6000009c6000009e600000a0600000a2600000a4600000a6600000
+    m_ExpandedIDs: 00000000d06f0000d26f0000d46f0000d66f0000d86f0000da6f0000dc6f0000de6f0000e06f0000e26f0000e46f0000e66f0000e86f0000ea6f0000ec6f0000ee6f0000f06f0000f26f0000f46f0000f66f0000f86f0000fa6f0000fc6f0000fe6f000000700000027000000470000006700000087000000a7000000c7000000e70000010700000127000001470000016700000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1864,8 +1100,8 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
-    m_ExpandedInstanceIDs: c6230000acb20d00429e000000000000
+    m_HadKeyboardFocusLastEvent: 1
+    m_ExpandedInstanceIDs: c6230000acb20d00429e0000000000002a6f0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1893,7 +1129,7 @@ MonoBehaviour:
     m_GridSize: 96
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 207
---- !u!114 &16
+--- !u!114 &21
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1913,10 +1149,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 0
-    y: 73
-    width: 180
-    height: 534
+    x: -2560
+    y: -290
+    width: 232
+    height: 934
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1929,10 +1165,10 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_SceneHierarchy:
     m_TreeViewState:
-      scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
-      m_ExpandedIDs: 5c61ffffba61ffff1062ffff8e62ffffd862ffff2e63ffff8063ffffde63ffff7666ffffcc66ffff1667ffff6c67ffffbe67ffff1c68fffffc6affff526bffff9e6bfffff46bffff426cffff986cfffffa6cffff506dffff9a6dfffff06dffff3a6effff906efffff86effff4e6fffffa06fffff2670ffff7c70ffffd270ffff6c7affffca7affff987dfffff27dffff587effffae7effff5081ffffaa81ffffbc84ffff1285ffffae87ffff0488ffff6288ffffb888ffff508bffffa68bffff3a8effff908effff1c91ffff7291ffff0a94ffff6c94fffffc96ffff5697ffff2a9cffff809cffff289fffff869fffff22a2ffff74a2ffff24a5ffff7aa5ffff3ca9ffff92a9ffff0caaffff6aaaffff50abffffaeabffff4aaeffffa0aeffff34b1ffff92b1ffff30b4ffff8eb4ffff1eb7ffff74b7ffff10baffff66baffffc0bdffff1ebeffff3ac1ffff8cc1ffff1cc4ffff72c4ffff0ac7ffff60c7ffff3acaffff98caffffb6cdffff14ceffffacd0ffff02d1ffff90d3ffffe6d3ffff1eddffff7cddffffdeddffff3cdeffffe2e0ffff40e1ffff2ae6ffff80e6ffffc6ebffff1cecffffb0eeffff0aeffffff8efffff4ef0fffff4f2ffff52f3ffffb6f3ffff0cf4ffff60f4ffffb6f4ffff62f7ffffb8f7ffff16f8ffff6ef8ffffe4faffff
+      scrollPos: {x: 0, y: 802}
+      m_SelectedIDs: 6c71feff
+      m_LastClickedID: -102036
+      m_ExpandedIDs: d834feffae6effff22b5ffff2ab9ffff94b9ffff68bbfffff2bbffff1ebcffff6ebcffff8ebcffffaebcffff92bdffffc2bdffff52beffffc6bfffff80c5ffffdcc6ffffe0c6ffffe6faffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1948,7 +1184,7 @@ MonoBehaviour:
         m_IsRenaming: 0
         m_OriginalEventType: 11
         m_IsRenamingFilename: 0
-        m_ClientGUIView: {fileID: 0}
+        m_ClientGUIView: {fileID: 5}
       m_SearchString: 
     m_ExpandedScenes: []
     m_CurrenRootInstanceID: 0
@@ -1956,7 +1192,7 @@ MonoBehaviour:
       m_IsLocked: 0
     m_CurrentSortingName: TransformSorting
   m_WindowGUID: 4c969a2b90040154d917609493e03593
---- !u!114 &17
+--- !u!114 &22
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1976,10 +1212,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 181
-    y: 73
-    width: 716
-    height: 534
+    x: -2327
+    y: -290
+    width: 1842
+    height: 883
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1994,7 +1230,7 @@ MonoBehaviour:
       floating: 0
       collapsed: 0
       displayed: 1
-      snapOffset: {x: -170.40002, y: -26.400024}
+      snapOffset: {x: -171, y: -26.400024}
       snapOffsetDelta: {x: 0, y: 0}
       snapCorner: 3
       id: Tool Settings
@@ -2007,9 +1243,9 @@ MonoBehaviour:
       floating: 0
       collapsed: 0
       displayed: 1
-      snapOffset: {x: -141, y: 149}
+      snapOffset: {x: 171, y: 0}
       snapOffsetDelta: {x: 0, y: 0}
-      snapCorner: 1
+      snapCorner: 0
       id: unity-grid-and-snap-toolbar
       index: 1
       layout: 1
@@ -2306,7 +1542,7 @@ MonoBehaviour:
       floating: 0
       collapsed: 0
       displayed: 1
-      snapOffset: {x: -217.6001, y: -275}
+      snapOffset: {x: -217.6001, y: -300}
       snapOffsetDelta: {x: 0, y: 0}
       snapCorner: 3
       id: AINavigationOverlay
@@ -2338,9 +1574,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 0, y: 0, z: 0}
+    m_Target: {x: -7.3130603, y: -62.8211, z: 7.9949427}
     speed: 2
-    m_Value: {x: 0, y: 0, z: 0}
+    m_Value: {x: -7.3130603, y: -62.8211, z: 7.9949427}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -2349,7 +1585,7 @@ MonoBehaviour:
   m_ValidateTrueMetals: 0
   m_DoValidateTrueMetals: 0
   m_SceneViewState:
-    m_AlwaysRefresh: 0
+    m_AlwaysRefresh: 1
     showFog: 1
     showSkybox: 1
     showFlares: 1
@@ -2373,26 +1609,26 @@ MonoBehaviour:
         m_Value: 1
       m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 0.4}
       m_Pivot: {x: 0, y: 0, z: 0}
-      m_Size: {x: 1, y: 1}
+      m_Size: {x: 3, y: 3}
     zGrid:
       m_Fade:
         m_Target: 0
         speed: 2
-        m_Value: 0
+        m_Value: 1
       m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 0.4}
       m_Pivot: {x: 0, y: 0, z: 0}
-      m_Size: {x: 1, y: 1}
+      m_Size: {x: 3, y: 3}
     m_ShowGrid: 1
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.08717229, y: 0.89959055, z: -0.21045254, w: -0.3726226}
+    m_Target: {x: 0.54729384, y: -0.07132752, z: 0.046870302, w: 0.8327974}
     speed: 2
-    m_Value: {x: -0.08717229, y: 0.89959055, z: -0.21045254, w: -0.3726226}
+    m_Value: {x: 0.5470505, y: -0.07381207, z: 0.048503082, w: 0.83242714}
   m_Size:
-    m_Target: 9.55
+    m_Target: 38.39651
     speed: 2
-    m_Value: 9.55
+    m_Value: 38.39651
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -2410,14 +1646,14 @@ MonoBehaviour:
     m_FarClip: 10000
     m_DynamicClip: 1
     m_OcclusionCulling: 0
-  m_LastSceneViewRotation: {x: 0, y: 0, z: 0, w: 0}
+  m_LastSceneViewRotation: {x: -0.3950458, y: -0.16761707, z: 0.07334444, w: -0.9004513}
   m_LastSceneViewOrtho: 0
   m_ReplacementShader: {fileID: 0}
   m_ReplacementString: 
   m_SceneVisActive: 1
   m_LastLockedObject: {fileID: 0}
   m_ViewIsLockedToObject: 0
---- !u!114 &18
+--- !u!114 &23
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2437,10 +1673,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: -2329
+    x: -2169
     y: -290
-    width: 1881
-    height: 745
+    width: 1576
+    height: 883
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -2493,29 +1729,29 @@ MonoBehaviour:
       serializedVersion: 2
       x: 0
       y: 21
-      width: 1881
-      height: 724
-    m_Scale: {x: 0.3351852, y: 0.3351852}
-    m_Translation: {x: 940.49994, y: 362.00003}
+      width: 1576
+      height: 862
+    m_Scale: {x: 0.39907408, y: 0.39907408}
+    m_Translation: {x: 788, y: 431}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -2805.9114
+      x: -1974.5708
       y: -1080
-      width: 5611.8228
+      width: 3949.1416
       height: 2160
     m_MinimalGUI: 1
-  m_defaultScale: 0.3351852
-  m_LastWindowPixelSize: {x: 1881, y: 745}
+  m_defaultScale: 0.39907408
+  m_LastWindowPixelSize: {x: 1576, y: 883}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000000000000
   m_XRRenderMode: 0
   m_RenderTexture: {fileID: 0}
---- !u!114 &19
+--- !u!114 &24
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2535,10 +1771,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 0
-    y: 628
-    width: 898
-    height: 371
+    x: -2560
+    y: 665
+    width: 788
+    height: 331
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -2549,7 +1785,7 @@ MonoBehaviour:
     m_LastAppliedPresetName: Default
     m_SaveData: []
     m_OverlaysVisible: 1
---- !u!114 &20
+--- !u!114 &25
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2569,10 +1805,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1585
-    y: 73
-    width: 334
-    height: 926
+    x: -483
+    y: -290
+    width: 482
+    height: 1286
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -2596,7 +1832,7 @@ MonoBehaviour:
   m_LockTracker:
     m_IsLocked: 0
   m_PreviewWindow: {fileID: 0}
---- !u!114 &21
+--- !u!114 &26
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2616,10 +1852,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: -2329
+    x: -2327
     y: -290
-    width: 1881
-    height: 745
+    width: 1842
+    height: 883
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -2630,7 +1866,7 @@ MonoBehaviour:
     m_LastAppliedPresetName: Default
     m_SaveData: []
     m_OverlaysVisible: 1
---- !u!114 &22
+--- !u!114 &27
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2650,10 +1886,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 100
-    y: 73
-    width: 416
-    height: 534
+    x: -2327
+    y: -290
+    width: 1842
+    height: 934
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0

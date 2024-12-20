@@ -43,7 +43,7 @@ namespace ISILab.LBS.Manipulators
 
             if (z1 == null)
             {
-                Debug.Log("No seleccionaste ninguna zona de comienzo");
+                Debug.Log("No seleccionaste ninguna zona de comienzo");// [TODO] - Change to english or delete
                 return;
             }
 
@@ -51,13 +51,13 @@ namespace ISILab.LBS.Manipulators
             var z2 = assistant.GetZone(pos);
             if (z2 == null)
             {
-                Debug.Log("No seleccionaste ninguna zona de final");
+                Debug.Log("No seleccionaste ninguna zona de final"); // [TODO] - Change to english or delete
                 return;
             }
 
             if (z1.Equals(z2))
             {
-                Debug.Log("No puedes conectar una zona con sigo misma");
+                Debug.Log("No puedes conectar una zona con sigo misma"); // [TODO] - Change to english or delete
                 return;
             }
 
