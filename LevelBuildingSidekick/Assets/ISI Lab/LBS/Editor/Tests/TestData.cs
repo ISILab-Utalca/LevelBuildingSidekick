@@ -332,11 +332,9 @@ namespace ISILab.LBS.Tests
             
             // Get interior presset
             var template = LBSAssetsStorage.Instance.Get<LayerTemplate>().First(t => t.name.Contains("Exterior"));
-            Debug.Log("problem code");
             // Clone Interior presset
             var layer = template.layer.Clone() as LBSLayer;
             lvl.AddLayer(layer);
-            Debug.Log("layer added");
             // Get Bundle
             var bundle = LBSAssetsStorage.Instance.Get<Bundle>().First(b => b.name.Contains("Exterior_Plains"));
 
@@ -368,10 +366,9 @@ namespace ISILab.LBS.Tests
 
             // Get interior presset
             var template = LBSAssetsStorage.Instance.Get<LayerTemplate>().First(t => t.name.Contains("Population"));
-
             // Clone Interior presset
             var layer = template.layer.Clone() as LBSLayer;
-            lvl.AddLayer(layer);
+            lvl.AddLayer(layer);;
 
             // Get Bundle
             var bundle = LBSAssetsStorage.Instance.Get<Bundle>().First(b => b.name.Contains("Goblin"));
@@ -381,17 +378,16 @@ namespace ISILab.LBS.Tests
             populationBH.AddTile(new Vector2Int(0, 0), bundle);
 
             // Save the level as JSON
-            JSONDataManager.SaveData(path, "Exterior_Layer.tst", lvl);
+            JSONDataManager.SaveData(path, "Population_Layer.tst", lvl);
 
             // Load the level from JSON
-            var loaded = JSONDataManager.LoadData<LBSLevelData>(path, "Exterior_Layer.tst");
+            var loaded = JSONDataManager.LoadData<LBSLevelData>(path, "Population_Layer.tst");
 
             // Check if loaded level is not null
             Assert.IsNotNull(loaded);
 
             // Cheack if the new level and previously are equals
             Assert.AreEqual(lvl, loaded);
-
         }
     }
 }

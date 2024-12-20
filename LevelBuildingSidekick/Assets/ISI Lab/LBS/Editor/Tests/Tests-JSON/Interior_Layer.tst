@@ -1,6 +1,6 @@
 {
   "$id": "1",
-  "$type": "LBSLevelData, LBS",
+  "$type": "ISILab.LBS.LBSLevelData, LBS",
   "layers": {
     "$id": "2",
     "$type": "System.Collections.Generic.List`1[[LBS.Components.LBSLayer, LBS]], mscorlib",
@@ -15,11 +15,11 @@
         "name": "Layer Interior",
         "modules": {
           "$id": "4",
-          "$type": "System.Collections.Generic.List`1[[LBS.Components.LBSModule, LBS]], mscorlib",
+          "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Modules.LBSModule, LBS]], mscorlib",
           "$values": [
             {
               "$id": "5",
-              "$type": "LBS.Components.TileMap.TileMapModule, LBS",
+              "$type": "ISILab.LBS.Modules.TileMapModule, LBS",
               "tiles": {
                 "$id": "6",
                 "$type": "System.Collections.Generic.List`1[[LBS.Components.TileMap.LBSTile, LBS]], mscorlib",
@@ -32,62 +32,78 @@
                   }
                 ]
               },
-              "id": "TileMapModule"
+              "id": "TileMapModule",
+              "owner": {
+                "$ref": "3"
+              }
             },
             {
               "$id": "8",
-              "$type": "ConnectedTileMapModule, LBS",
+              "$type": "ISILab.LBS.Modules.ConnectedTileMapModule, LBS",
               "connectedDirections": 4,
               "pairs": {
                 "$id": "9",
-                "$type": "System.Collections.Generic.List`1[[TileConnectionsPair, LBS]], mscorlib",
+                "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Modules.TileConnectionsPair, LBS]], mscorlib",
                 "$values": []
               },
-              "id": "ConnectedTileMapModule"
+              "id": "ConnectedTileMapModule",
+              "owner": {
+                "$ref": "3"
+              }
             },
             {
               "$id": "10",
-              "$type": "SectorizedTileMapModule, LBS",
+              "$type": "ISILab.LBS.Modules.SectorizedTileMapModule, LBS",
               "zones": {
                 "$id": "11",
-                "$type": "System.Collections.Generic.List`1[[Zone, LBS]], mscorlib",
+                "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Components.Zone, LBS]], mscorlib",
                 "$values": [
                   {
                     "$id": "12",
-                    "$type": "Zone, LBS",
+                    "$type": "ISILab.LBS.Components.Zone, LBS",
                     "id": "Zone: 0",
                     "color": {
-                      "r": 0.75,
-                      "g": 0.75,
-                      "b": 0.0,
+                      "r": 0.1875,
+                      "g": 0.6875,
+                      "b": 0.625,
                       "a": 1.0
                     },
                     "pivot": {
-                      "x": 0.0,
-                      "y": 0.0
+                      "x": 0.5,
+                      "y": 0.5
                     },
-                    "tagsBundles": {
+                    "insideStyles": {
                       "$id": "13",
+                      "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                      "$values": []
+                    },
+                    "outsideStyles": {
+                      "$id": "14",
                       "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
                       "$values": []
                     }
                   },
                   {
-                    "$id": "14",
-                    "$type": "Zone, LBS",
+                    "$id": "15",
+                    "$type": "ISILab.LBS.Components.Zone, LBS",
                     "id": "Zone: 1",
                     "color": {
-                      "r": 0.4375,
-                      "g": 0.5,
-                      "b": 0.3125,
+                      "r": 0.6875,
+                      "g": 0.6875,
+                      "b": 0.6875,
                       "a": 1.0
                     },
                     "pivot": {
                       "x": 0.0,
                       "y": 0.0
                     },
-                    "tagsBundles": {
-                      "$id": "15",
+                    "insideStyles": {
+                      "$id": "16",
+                      "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                      "$values": []
+                    },
+                    "outsideStyles": {
+                      "$id": "17",
                       "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
                       "$values": []
                     }
@@ -95,12 +111,12 @@
                 ]
               },
               "pairs": {
-                "$id": "16",
-                "$type": "System.Collections.Generic.List`1[[TileZonePair, LBS]], mscorlib",
+                "$id": "18",
+                "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Modules.TileZonePair, LBS]], mscorlib",
                 "$values": [
                   {
-                    "$id": "17",
-                    "$type": "TileZonePair, LBS",
+                    "$id": "19",
+                    "$type": "ISILab.LBS.Modules.TileZonePair, LBS",
                     "tile": {
                       "$ref": "7"
                     },
@@ -110,72 +126,60 @@
                   }
                 ]
               },
-              "id": "SectorizedTileMapModule"
-            },
-            {
-              "$id": "18",
-              "$type": "ConnectedZonesModule, LBS",
-              "edges": {
-                "$id": "19",
-                "$type": "System.Collections.Generic.List`1[[ZoneEdge, LBS]], mscorlib",
-                "$values": []
-              },
-              "id": "ConnectedZonesModule"
+              "id": "SectorizedTileMapModule",
+              "owner": {
+                "$ref": "3"
+              }
             },
             {
               "$id": "20",
-              "$type": "ConstrainsZonesModule, LBS",
-              "pairs": {
+              "$type": "ISILab.LBS.Modules.ConnectedZonesModule, LBS",
+              "edges": {
                 "$id": "21",
-                "$type": "System.Collections.Generic.List`1[[ConstraintPair, LBS]], mscorlib",
-                "$values": [
-                  {
-                    "$id": "22",
-                    "$type": "ConstraintPair, LBS",
-                    "zone": {
-                      "$ref": "12"
-                    },
-                    "constraint": {
-                      "$id": "23",
-                      "$type": "Constraint, LBS",
-                      "minWidth": 3.0,
-                      "minHeight": 3.0,
-                      "maxWidth": 4.0,
-                      "maxHeight": 4.0
-                    }
-                  },
-                  {
-                    "$id": "24",
-                    "$type": "ConstraintPair, LBS",
-                    "zone": {
-                      "$ref": "14"
-                    },
-                    "constraint": {
-                      "$id": "25",
-                      "$type": "Constraint, LBS",
-                      "minWidth": 3.0,
-                      "minHeight": 3.0,
-                      "maxWidth": 4.0,
-                      "maxHeight": 4.0
-                    }
-                  }
-                ]
+                "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Components.ZoneEdge, LBS]], mscorlib",
+                "$values": []
               },
-              "id": "ConstrainsZonesModule"
+              "id": "ConnectedZonesModule",
+              "owner": {
+                "$ref": "3"
+              }
+            },
+            {
+              "$id": "22",
+              "$type": "ISILab.LBS.Modules.ConstrainsZonesModule, LBS",
+              "pairs": {
+                "$id": "23",
+                "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Modules.ConstraintPair, LBS]], mscorlib",
+                "$values": []
+              },
+              "id": "ConstrainsZonesModule",
+              "owner": {
+                "$ref": "3"
+              }
             }
           ]
         },
         "behaviours": {
-          "$id": "26",
-          "$type": "System.Collections.Generic.List`1[[LBS.Behaviours.LBSBehaviour, LBS]], mscorlib",
+          "$id": "24",
+          "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Behaviours.LBSBehaviour, LBS]], mscorlib",
           "$values": [
             {
-              "$id": "27",
-              "$type": "SchemaBehaviour, LBS",
+              "$id": "25",
+              "$type": "ISILab.LBS.Behaviours.SchemaBehaviour, LBS",
+              "visible": true,
               "name": "Schema behaviour",
               "Connections": {
                 "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
                 "$values": [
+                  "Wall",
+                  "Door",
+                  "Empty",
+                  "Wall",
+                  "Door",
+                  "Empty",
+                  "Wall",
+                  "Door",
+                  "Empty",
                   "Wall",
                   "Door",
                   "Empty"
@@ -184,47 +188,30 @@
             }
           ]
         },
-        "assitants": {
-          "$id": "28",
-          "$type": "System.Collections.Generic.List`1[[LBS.Assisstants.LBSAssistant, LBS]], mscorlib",
-          "$values": [
-            {
-              "$id": "29",
-              "$type": "HillClimbingAssistant, LBS",
-              "name": "HillClimbing",
-              "TileMapMod": {
-                "$ref": "5"
-              },
-              "AreasMod": {
-                "$ref": "10"
-              },
-              "GraphMod": {
-                "$ref": "18"
-              },
-              "ConstrainsZonesMod": {
-                "$ref": "20"
-              }
-            }
-          ]
+        "assistants": {
+          "$id": "26",
+          "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Assistants.LBSAssistant, LBS]], mscorlib",
+          "$values": []
         },
         "generatorRules": {
-          "$id": "30",
-          "$type": "System.Collections.Generic.List`1[[LBS.Generator.LBSGeneratorRule, LBS]], mscorlib",
+          "$id": "27",
+          "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Generators.LBSGeneratorRule, LBS]], mscorlib",
           "$values": [
             {
-              "$id": "31",
-              "$type": "SchemaRuleGenerator, LBS",
+              "$id": "28",
+              "$type": "ISILab.LBS.Generators.SchemaRuleGenerator, LBS",
               "deltaWall": 1.0
             },
             {
-              "$id": "32",
-              "$type": "SchemaRuleGeneratorExteriror, LBS"
+              "$id": "29",
+              "$type": "ISILab.LBS.Generators.SchemaRuleGeneratorExteriror, LBS",
+              "deltaWall": 1.0
             }
           ]
         },
         "settings": {
-          "$id": "33",
-          "$type": "LBS.Generator.Generator3D+Settings, LBS",
+          "$id": "30",
+          "$type": "ISILab.LBS.Generators.Generator3D+Settings, LBS",
           "scale": {
             "x": 2.0,
             "y": 2.0
@@ -244,8 +231,8 @@
     ]
   },
   "quests": {
-    "$id": "34",
-    "$type": "System.Collections.Generic.List`1[[LBSQuest, LBS]], mscorlib",
+    "$id": "31",
+    "$type": "System.Collections.Generic.List`1[[LBS.Components.LBSLayer, LBS]], mscorlib",
     "$values": []
   }
 }

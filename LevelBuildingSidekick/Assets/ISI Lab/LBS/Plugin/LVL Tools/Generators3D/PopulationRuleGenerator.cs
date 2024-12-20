@@ -24,6 +24,19 @@ namespace ISILab.LBS.Generators
             return new PopulationRuleGenerator();
         }
 
+        public override bool Equals(object obj)
+        {
+            var other = obj as PopulationRuleGenerator;
+
+            if (other == null) return false;
+
+            return true;
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
         public override GameObject Generate(LBSLayer layer, Generator3D.Settings settings)
         {
             var data = layer.GetModule<BundleTileMap>();

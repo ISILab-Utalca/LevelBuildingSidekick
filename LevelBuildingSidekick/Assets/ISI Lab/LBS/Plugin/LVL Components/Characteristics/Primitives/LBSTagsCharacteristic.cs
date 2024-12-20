@@ -57,8 +57,8 @@ namespace ISILab.LBS.Characteristics
             if (!(obj is LBSTagsCharacteristic))
                 return false;
             var ch = (LBSTagsCharacteristic)obj;
-            if (ch.value != this.value)
-                return false;
+            //if (ch.value != this.value)
+              //  return false;
             return true;
         }
 
