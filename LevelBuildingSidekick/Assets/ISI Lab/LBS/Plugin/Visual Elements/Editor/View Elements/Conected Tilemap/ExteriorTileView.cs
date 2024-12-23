@@ -33,20 +33,23 @@ namespace ISILab.LBS.VisualElements
 
             this.SetMargins(0);
             this.SetPaddings(0);
-            this.SetBorder(Color.black, 1);
+            this.SetBorder(new Color(0.6f,0.6f,0.6f,6f), 1f);
+            this.SetBackgroundColor(new Color(0.2f,0.2f,0.2f,1.0f));
+            this.SetBorderRadius(0);
+            //SetBorderBackgroundColor(Color.white);
 
             // conecctions
             left = this.Q<VisualElement>("Left");
             right = this.Q<VisualElement>("Right");
             top = this.Q<VisualElement>("Top");
             bottom = this.Q<VisualElement>("Bottom");
-            border = this.Q<VisualElement>("Border");
+            // border = this.Q<VisualElement>("Border");
 
 
             SetConnections(connections.ToArray());
         }
 
-        public void SetBackgroundColor(Color color)
+        public void SetBorderBackgroundColor(Color color)
         {
             border.style.backgroundColor = color;
         }

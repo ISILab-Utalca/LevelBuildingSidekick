@@ -3,13 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace ISILab.Extensions
+
+// Extensions are allways static classes
+namespace ISILab.Extensions 
 {
     public static class VisualElementExtensions
     {
         public static void SetDisplay(this VisualElement element, bool value)
         {
             element.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
+        }
+
+
+        public static void SetBackgroundColor(this VisualElement element, Color color){
+            element.style.backgroundColor = color;
         }
 
         public static void SetMargins(this VisualElement element, int value)
@@ -28,7 +35,7 @@ namespace ISILab.Extensions
             element.style.paddingTop = value;
         }
 
-        public static void SetBorder(this VisualElement element, Color color, int value = -1)
+        public static void SetBorder(this VisualElement element, Color color, float value = 0f)
         {
             element.style.borderBottomColor = color;
             element.style.borderLeftColor = color;

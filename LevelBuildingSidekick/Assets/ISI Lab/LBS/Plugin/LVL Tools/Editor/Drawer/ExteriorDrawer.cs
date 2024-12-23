@@ -80,8 +80,8 @@ namespace ISILab.LBS.Drawers
         public GraphElement GetTileView(LBSTile tile, List<string> connections, Vector2 teselationSize)
         {
 
-            var tView = new ExteriorTileView(connections);
-            tView.SetBackgroundColor(Color.gray);
+            ExteriorTileView tView = new ExteriorTileView(connections);
+
             tView.SetConnections(connections.ToArray());
 
             var pos = new Vector2(tile.Position.x, -tile.Position.y);
