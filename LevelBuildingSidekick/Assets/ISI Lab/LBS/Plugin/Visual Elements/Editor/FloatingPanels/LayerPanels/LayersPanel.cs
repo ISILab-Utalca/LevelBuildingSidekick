@@ -40,6 +40,8 @@ namespace ISILab.LBS.VisualElements.Editor
         private ToolbarMenu addButtonMenu;   
         private DropdownField typeDropdown;
         private List<VisualElement> noLayerNotificators; 
+
+        private VisualElement noSelectedLayerNotificator;
         #endregion
 
         #region EVENTS ACTIONS
@@ -64,6 +66,7 @@ namespace ISILab.LBS.VisualElements.Editor
             //Event self conection
             this.OnAddLayer += (LBSLayer layer) => OnLayerChangeEventHandle(layer);
             this.OnRemoveLayer += (LBSLayer layer) => OnLayerChangeEventHandle(layer);
+            this.OnSelectLayer += (LBSLayer layer) => OnLayerSelectedEventHandle(layer);
 
             // LayerList
             list = this.Q<ListView>("List");
@@ -118,7 +121,7 @@ namespace ISILab.LBS.VisualElements.Editor
             RemoveSelectedBtn.clicked += RemoveSelectedLayer;
 
             noLayerNotificators = this.Query<VisualElement>("NoLayerNotify").ToList();
-
+            noSelectedLayerNotificator = this.Q<VisualElement>("NoSelectedLayerNotify");
         }
         #endregion
 
@@ -184,8 +187,10 @@ namespace ISILab.LBS.VisualElements.Editor
         // Simple Click over element
         private void SelectionChange(IEnumerable<object> objs)
         {
-            if (objs.Count() <= 0)
+            if (objs.Count() <= 0) {
+                noSelectedLayerNotificator.style.display = DisplayStyle.Flex;
                 return;
+                }
 
             var selected = objs.ToList()[0] as LBSLayer;
             OnSelectLayer?.Invoke(selected);
@@ -216,6 +221,14 @@ namespace ISILab.LBS.VisualElements.Editor
                 foreach(VisualElement layer in noLayerNotificators){
                     layer.style.display = DisplayStyle.Flex;
                 }
+            }
+        }
+
+        void OnLayerSelectedEventHandle(LBSLayer _layer){
+            if (_layer != null){
+                noSelectedLayerNotificator.style.display = DisplayStyle.None;
+            } else {
+                noSelectedLayerNotificator.style.display = DisplayStyle.Flex;
             }
         }
         #endregion

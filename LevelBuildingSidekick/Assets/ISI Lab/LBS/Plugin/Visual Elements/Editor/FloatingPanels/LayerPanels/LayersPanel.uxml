@@ -20,6 +20,7 @@
         <ui:VisualElement class="lbs-group-box">
             <ui:TextField picking-mode="Ignore" label="Name" value="New Layer" text="New Layer" name="NameField" style="display: none;" />
             <ui:DropdownField label="Type" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="TypeDropdown" tooltip="Select the type of layer you need for your job" style="display: none;" />
+            <LBS.VisualElements.LayerInfoView />
         </ui:VisualElement>
         <ui:Instance template="NoLayerNotify" />
     </ui:VisualElement>
