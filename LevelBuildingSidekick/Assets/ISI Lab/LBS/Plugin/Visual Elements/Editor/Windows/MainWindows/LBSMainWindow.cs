@@ -197,12 +197,12 @@ public class LBSMainWindow : EditorWindow
             sw.Start();
             OnSelectedLayerChange(layer);
             sw.Stop();
-            Debug.Log("OnAddLayer: " + sw.ElapsedMilliseconds);
+            Debug.Log("OnAddLayer: " + sw.ElapsedMilliseconds + " ms");
 
             sw.Restart();
             DrawManager.Instance.AddContainer(layer);
             sw.Stop();
-            Debug.Log("DrawManager.Instance.AddContainer(layer): " + sw.ElapsedMilliseconds);
+            Debug.Log("DrawManager.Instance.AddContainer(layer): " + sw.ElapsedMilliseconds + " ms");
         };
         layerPanel.OnRemoveLayer += (l) =>
         {

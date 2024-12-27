@@ -1,5 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
-    <ui:Template name="NoLayerNotify" src="project://database/Assets/ISI%20Lab/LBS/Plugin/Visual%20Elements/Editor/StaticTemplateComponents/NoLayerNotify.uxml?fileID=9197481963319205126&amp;guid=2df09d976763543458d4a518d88f90d0&amp;type=3#NoLayerNotify" />
+    <ui:Template name="NoLayerNotifyHorizontal" src="project://database/Assets/ISI%20Lab/LBS/Plugin/Visual%20Elements/Editor/StaticTemplateComponents/NoLayerNotifyHorizontal.uxml?fileID=9197481963319205126&amp;guid=66b05318a46d7cc4bad16879964d4955&amp;type=3#NoLayerNotifyHorizontal" />
+    <ui:Template name="NoLayerNotify" src="project://database/Assets/ISI%20Lab/LBS/Plugin/Visual%20Elements/Editor/StaticTemplateComponents/NoLayerNotifyVertical.uxml?fileID=9197481963319205126&amp;guid=2df09d976763543458d4a518d88f90d0&amp;type=3#NoLayerNotifyVertical" />
     <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/Visual%20Elements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
     <ui:VisualElement name="VisualElement" class="lbs-default-container-panel">
         <ui:VisualElement class="lbs-title-label-container">
@@ -14,15 +15,12 @@
                 <ui:VisualElement name="ButtonIcon" class="lbs-default-button" style="background-color: rgba(0, 0, 0, 0); background-image: resource(&apos;Icons/Vectorial/Icon=Trash_Layer_Icon&apos;); min-width: 16px; min-height: 16px; -unity-background-image-tint-color: rgb(254, 118, 105); margin-left: 0;" />
             </ui:Button>
         </ui:VisualElement>
-        <ui:VisualElement name="NoLayerNotifator" class="lbs-notificator" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row; padding-left: 3px; padding-right: 3px; padding-top: 3px; padding-bottom: 3px; margin-top: 3px;">
-            <ui:VisualElement class="lbs-default-label-icon" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); background-image: resource(&apos;Icons/Vectorial/Icon=Add_New_Layer&apos;); -unity-background-image-tint-color: rgba(196, 196, 196, 0.33);" />
-            <ui:Label tabindex="-1" text="Add a new layer to start working." display-tooltip-when-elided="true" style="font-size: 11px; padding-top: 3px; padding-bottom: 3px; padding-right: 3px; padding-left: 3px;" />
-        </ui:VisualElement>
+        <ui:Instance template="NoLayerNotifyHorizontal" />
         <ui:ListView focusable="true" reorder-mode="Simple" reorderable="true" show-foldout-header="false" header-title="Layers" show-add-remove-footer="false" horizontal-scrolling="false" selection-type="Single" show-border="false" virtualization-method="DynamicHeight" name="List" show-bound-collection-size="true" fixed-item-height="18" style="padding-left: 0; padding-right: 0; padding-top: 3px; padding-bottom: 3px; background-color: rgba(0, 0, 0, 0); border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-left-color: rgba(0, 0, 0, 0.2); border-right-color: rgba(0, 0, 0, 0.2); border-top-color: rgba(0, 0, 0, 0.2); border-bottom-color: rgba(0, 0, 0, 0.2); margin-top: 3px;" />
         <ui:VisualElement class="lbs-group-box">
             <ui:TextField picking-mode="Ignore" label="Name" value="New Layer" text="New Layer" name="NameField" style="display: none;" />
             <ui:DropdownField label="Type" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="TypeDropdown" tooltip="Select the type of layer you need for your job" style="display: none;" />
         </ui:VisualElement>
-        <ui:Instance template="NoLayerNotify" name="NoLayerNotify" />
+        <ui:Instance template="NoLayerNotify" />
     </ui:VisualElement>
 </ui:UXML>

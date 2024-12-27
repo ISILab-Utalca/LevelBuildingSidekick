@@ -39,7 +39,7 @@ namespace ISILab.LBS.VisualElements.Editor
         private TextField nameField;
         private ToolbarMenu addButtonMenu;   
         private DropdownField typeDropdown;
-        private VisualElement noLayerNotificator; 
+        private List<VisualElement> noLayerNotificators; 
         #endregion
 
         #region EVENTS ACTIONS
@@ -117,7 +117,7 @@ namespace ISILab.LBS.VisualElements.Editor
             Button RemoveSelectedBtn = this.Q<Button>("RemoveSelectedButton");
             RemoveSelectedBtn.clicked += RemoveSelectedLayer;
 
-            noLayerNotificator = this.Q<VisualElement>("NoLayerNotifator");
+            noLayerNotificators = this.Query<VisualElement>("NoLayerNotify").ToList();
 
         }
         #endregion
@@ -209,9 +209,13 @@ namespace ISILab.LBS.VisualElements.Editor
 
         void OnLayerChangeEventHandle(LBSLayer _layer){
             if (list.itemsSource.Count > 0){
-                noLayerNotificator.style.display = DisplayStyle.None;
+                foreach(VisualElement layer in noLayerNotificators){
+                    layer.style.display = DisplayStyle.None;
+                }
             } else {
-                noLayerNotificator.style.display = DisplayStyle.Flex;
+                foreach(VisualElement layer in noLayerNotificators){
+                    layer.style.display = DisplayStyle.Flex;
+                }
             }
         }
         #endregion
