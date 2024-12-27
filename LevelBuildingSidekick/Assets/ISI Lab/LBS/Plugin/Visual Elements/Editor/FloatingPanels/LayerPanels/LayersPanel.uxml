@@ -1,6 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:Template name="NoLayerNotify" src="project://database/Assets/ISI%20Lab/LBS/Plugin/Visual%20Elements/Editor/StaticTemplateComponents/NoLayerNotify.uxml?fileID=9197481963319205126&amp;guid=2df09d976763543458d4a518d88f90d0&amp;type=3#NoLayerNotify" />
     <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/Visual%20Elements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
-    <ui:VisualElement class="lbs-default-container-panel">
+    <ui:VisualElement name="VisualElement" class="lbs-default-container-panel">
         <ui:VisualElement class="lbs-title-label-container">
             <ui:VisualElement name="LayerIcon" class="lbs-layer-icon lbs-default-label-icon" style="background-image: resource(&apos;Icons/Vectorial/Layer_Panel_Icon&apos;);" />
             <ui:Label tabindex="-1" text="Layers" display-tooltip-when-elided="true" name="LayerLabel" enable-rich-text="false" style="-unity-font-style: bold; padding-left: 2px; -unity-text-align: middle-left;" />
@@ -22,5 +23,6 @@
             <ui:TextField picking-mode="Ignore" label="Name" value="New Layer" text="New Layer" name="NameField" style="display: none;" />
             <ui:DropdownField label="Type" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="TypeDropdown" tooltip="Select the type of layer you need for your job" style="display: none;" />
         </ui:VisualElement>
+        <ui:Instance template="NoLayerNotify" name="NoLayerNotify" />
     </ui:VisualElement>
 </ui:UXML>
