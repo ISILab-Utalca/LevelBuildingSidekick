@@ -204,7 +204,7 @@ namespace ISILab.LBS.Assistants
             for (int i = 0; i < group.Weights.Count; i++)
             {
                 // Get characteristics and weigth
-                var weigth = group.Weights[i].weigth;
+                var weigth = group.Weights[i].weight;
                 var sBundle = group.Weights[i].target.GetCharacteristics<LBSDirection>()[0];
 
                 for (int j = 0; j < 4; j++)

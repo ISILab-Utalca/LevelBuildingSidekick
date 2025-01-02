@@ -20,7 +20,7 @@ namespace ISILab.LBS.Modules
         private Dictionary<Vector2Int,LBSTile> _tileDic = new Dictionary<Vector2Int, LBSTile>();
         #endregion
 
-        #region PROEPRTIES
+        #region PROPERTIES
         [JsonIgnore]
         public Vector2 CellSize
         {

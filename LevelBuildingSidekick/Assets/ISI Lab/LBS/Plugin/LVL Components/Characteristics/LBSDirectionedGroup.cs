@@ -21,7 +21,7 @@ namespace ISILab.LBS.Characteristics
             public Bundle target;
 
             [Range(0f, 1f)]
-            public float weigth;
+            public float weight;
         };
         #endregion
 
@@ -70,7 +70,7 @@ namespace ISILab.LBS.Characteristics
             for(int i = 0; i < bundles.Count; i++)
             {
                 if (i == Weights.Count)
-                    Weights.Add(new WeightStruct() { target = bundles[i], weigth = 0.5f });
+                    Weights.Add(new WeightStruct() { target = bundles[i], weight = 0.5f });
 
                 if (!bundles[i].Equals(Weights[i].target))
                 {
@@ -85,7 +85,7 @@ namespace ISILab.LBS.Characteristics
         {
             var c = new LBSDirection();
             child.AddCharacteristic(c);
-            Weights.Add(new WeightStruct() { target = child, weigth = 0.5f });
+            Weights.Add(new WeightStruct() { target = child, weight = 0.5f });
         }
 
         private void OnRemoveChildToOwner(Bundle child)

@@ -14,12 +14,12 @@ namespace ISILab.LBS.Characteristics
     public abstract class LBSCharacteristic : ICloneable
     {
         #region FIELDS
-        [SerializeReference]
+        [SerializeReference, SerializeField]
         private Bundle owner;
         #endregion
 
         #region PROPERTIES
-        [SerializeField, HideInInspector]
+        [JsonIgnore, HideInInspector]
         public Bundle Owner
         {
             get => owner; 
@@ -43,7 +43,7 @@ namespace ISILab.LBS.Characteristics
             OnEnable();
         }
 
-        public virtual void OnEnable() { }
+        public virtual void OnEnable() {  }
 
         public abstract object Clone();
 

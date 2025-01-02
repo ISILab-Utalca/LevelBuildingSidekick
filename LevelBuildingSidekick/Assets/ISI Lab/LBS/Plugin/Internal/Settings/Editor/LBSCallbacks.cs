@@ -57,6 +57,7 @@ namespace ISILab.LBS.Internal.Editor
         /// </summary>
         private static void SaveBackUp()
         {
+            //Debug.Log("saving");
             var level = LBS.loadedLevel;
             if (level != null)
             {
@@ -101,8 +102,10 @@ namespace ISILab.LBS.Internal.Editor
             }
             else
             {
+                //Debug.Log("backup not found");
                 // if the backup is not found, a new level is created
                 LBS.loadedLevel = LoadedLevel.CreateInstance(new LBSLevelData(), "New level");
+                //Debug.Log("created new level: "+LBS.loadedLevel);
             }
         }
 

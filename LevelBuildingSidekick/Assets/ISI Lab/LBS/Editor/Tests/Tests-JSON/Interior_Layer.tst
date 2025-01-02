@@ -10,7 +10,7 @@
         "$type": "LBS.Components.LBSLayer, LBS",
         "visible": true,
         "blocked": false,
-        "iconPath": "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/interior-design.png",
+        "iconPath": "Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=InteriorLayerIcon.png",
         "id": "Interior",
         "name": "Layer Interior",
         "modules": {
@@ -63,9 +63,9 @@
                     "$type": "ISILab.LBS.Components.Zone, LBS",
                     "id": "Zone: 0",
                     "color": {
-                      "r": 0.1875,
-                      "g": 0.6875,
-                      "b": 0.625,
+                      "r": 0.5,
+                      "g": 0.375,
+                      "b": 0.1875,
                       "a": 1.0
                     },
                     "pivot": {
@@ -88,9 +88,9 @@
                     "$type": "ISILab.LBS.Components.Zone, LBS",
                     "id": "Zone: 1",
                     "color": {
-                      "r": 0.6875,
-                      "g": 0.6875,
-                      "b": 0.6875,
+                      "r": 0.625,
+                      "g": 0.75,
+                      "b": 0.375,
                       "a": 1.0
                     },
                     "pivot": {
@@ -150,7 +150,38 @@
               "pairs": {
                 "$id": "23",
                 "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Modules.ConstraintPair, LBS]], mscorlib",
-                "$values": []
+                "$values": [
+                  {
+                    "$id": "24",
+                    "$type": "ISILab.LBS.Modules.ConstraintPair, LBS",
+                    "zone": {
+                      "$ref": "12"
+                    },
+                    "constraint": {
+                      "$id": "25",
+                      "$type": "ISILab.LBS.Modules.Constraint, LBS",
+                      "minWidth": 3.0,
+                      "minHeight": 3.0,
+                      "maxWidth": 4.0,
+                      "maxHeight": 4.0
+                    }
+                  },
+                  {
+                    "$id": "26",
+                    "$type": "ISILab.LBS.Modules.ConstraintPair, LBS",
+                    "zone": {
+                      "$ref": "15"
+                    },
+                    "constraint": {
+                      "$id": "27",
+                      "$type": "ISILab.LBS.Modules.Constraint, LBS",
+                      "minWidth": 3.0,
+                      "minHeight": 3.0,
+                      "maxWidth": 4.0,
+                      "maxHeight": 4.0
+                    }
+                  }
+                ]
               },
               "id": "ConstrainsZonesModule",
               "owner": {
@@ -160,26 +191,17 @@
           ]
         },
         "behaviours": {
-          "$id": "24",
+          "$id": "28",
           "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Behaviours.LBSBehaviour, LBS]], mscorlib",
           "$values": [
             {
-              "$id": "25",
+              "$id": "29",
               "$type": "ISILab.LBS.Behaviours.SchemaBehaviour, LBS",
               "visible": true,
               "name": "Schema behaviour",
               "Connections": {
                 "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
                 "$values": [
-                  "Wall",
-                  "Door",
-                  "Empty",
-                  "Wall",
-                  "Door",
-                  "Empty",
-                  "Wall",
-                  "Door",
-                  "Empty",
                   "Wall",
                   "Door",
                   "Empty"
@@ -189,28 +211,49 @@
           ]
         },
         "assistants": {
-          "$id": "26",
+          "$id": "30",
           "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Assistants.LBSAssistant, LBS]], mscorlib",
-          "$values": []
+          "$values": [
+            {
+              "$id": "31",
+              "$type": "ISILab.LBS.Assistants.HillClimbingAssistant, LBS",
+              "visibleConstraints": false,
+              "printClocks": false,
+              "visible": true,
+              "name": "HillClimbing",
+              "TileMapMod": {
+                "$ref": "5"
+              },
+              "AreasMod": {
+                "$ref": "10"
+              },
+              "GraphMod": {
+                "$ref": "20"
+              },
+              "ConstrainsZonesMod": {
+                "$ref": "22"
+              }
+            }
+          ]
         },
         "generatorRules": {
-          "$id": "27",
+          "$id": "32",
           "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Generators.LBSGeneratorRule, LBS]], mscorlib",
           "$values": [
             {
-              "$id": "28",
+              "$id": "33",
               "$type": "ISILab.LBS.Generators.SchemaRuleGenerator, LBS",
               "deltaWall": 1.0
             },
             {
-              "$id": "29",
+              "$id": "34",
               "$type": "ISILab.LBS.Generators.SchemaRuleGeneratorExteriror, LBS",
               "deltaWall": 1.0
             }
           ]
         },
         "settings": {
-          "$id": "30",
+          "$id": "35",
           "$type": "ISILab.LBS.Generators.Generator3D+Settings, LBS",
           "scale": {
             "x": 2.0,
@@ -231,7 +274,7 @@
     ]
   },
   "quests": {
-    "$id": "31",
+    "$id": "36",
     "$type": "System.Collections.Generic.List`1[[LBS.Components.LBSLayer, LBS]], mscorlib",
     "$values": []
   }

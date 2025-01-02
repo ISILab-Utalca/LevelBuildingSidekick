@@ -29,6 +29,7 @@ namespace ISILab.LBS.Generators
                     var curDir = connection.Connections.Rotate(i);
                     if (curDir.SequenceEqual(conections))
                     {
+                        Debug.Log("found");
                         return new Tuple<LBSDirection, int>(connection, i);
                     }
                 }
@@ -41,11 +42,14 @@ namespace ISILab.LBS.Generators
         {
             // Get bundles
             var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
+            Debug.Log("bundle obtained");
 
             var e = layer.Behaviours[0] as ExteriorBehaviour; // (!) parche
             var bundle = bundles.Find(b => b.name == e.TargetBundle);
 
             var selected = bundle.GetCharacteristics<LBSDirectionedGroup>()[0];
+
+            Debug.Log("directions received");
 
             // Create pivot
             var mainPivot = new GameObject("Exterior");
@@ -55,20 +59,23 @@ namespace ISILab.LBS.Generators
             var mapMod = layer.GetModule<TileMapModule>();
             var connctMod = layer.GetModule<ConnectedTileMapModule>();
 
+            Debug.Log("modules obtained");
+
             var tiles = new List<GameObject>();
 
             foreach (var tile in mapMod.Tiles)
             {
                 // Get connection
-                var con = connctMod.GetConnections(tile);
-
+                var tileConnection = connctMod.GetConnections(tile);
                 // Get pref
-                var pair = GetBundle(selected, con.ToArray());
-
+                var pair = GetBundle(selected, tileConnection.ToArray());
+                //pair.owner = bundle;
+                Debug.Log("pair obtained: " + pair);
                 var pref = pair?.Item1?.Owner?.Assets?.RandomRullete(w => w.probability)?.obj;
 
                 if(pref == null)
                 {
+                    Debug.Log("pref is null");
                     Debug.LogWarning("[ISILab]: Element generation has failed, " +
                         "make sure you have properly configured and assigned " +
                         "the Bundles you want to generate with.");

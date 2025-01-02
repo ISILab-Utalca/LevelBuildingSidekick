@@ -226,8 +226,8 @@ namespace LBS.Bundles
 
         public void AddCharacteristic(LBSCharacteristic characteristic)
         {
-            characteristic.Init(this);
             characteristics.Add(characteristic);
+            characteristic.Init(this);
             OnAddCharacteristic?.Invoke(characteristic);
         }
 

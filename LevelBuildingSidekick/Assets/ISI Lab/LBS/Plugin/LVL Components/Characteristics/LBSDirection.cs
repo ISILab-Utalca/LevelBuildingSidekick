@@ -66,12 +66,13 @@ namespace ISILab.LBS.Characteristics
         #endregion
 
         #region CONSTRUCTORS
-        public LBSDirection() : base() { Size = 0; }
+        public LBSDirection() : base() { Size = 0;  }
 
         public LBSDirection(List<string> tags)
         {
             this.connections = tags;
             Size = tags.Count;
+            Debug.Log("test");
         }
         #endregion
 

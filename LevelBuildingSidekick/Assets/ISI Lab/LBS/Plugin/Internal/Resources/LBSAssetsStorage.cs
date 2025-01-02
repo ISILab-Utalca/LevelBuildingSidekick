@@ -6,6 +6,8 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
+using LBS.Bundles;
+
 namespace ISILab.LBS.Internal
 {
     [CreateAssetMenu(fileName = "New LBS Storage", menuName = "ISILab/LBS/Internal/AssetStorage")]
@@ -79,7 +81,6 @@ namespace ISILab.LBS.Internal
 
         public List<T> Get<T>() where T : Object
         {
-            
             //CleanAllEmpties();
             foreach (var group in groups)
             {
@@ -95,6 +96,7 @@ namespace ISILab.LBS.Internal
                     return new List<T>(group.items.Cast<T>());
                 }
             }
+            
             return null;
         }
 

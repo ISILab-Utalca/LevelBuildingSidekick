@@ -64,10 +64,10 @@ namespace ISILab.LBS.VisualElements
                 box.Add(slider);
                 slider.lowValue = 0;
                 slider.highValue = 1;
-                slider.value = current.weigth;
+                slider.value = current.weight;
                 slider.RegisterValueChangedCallback( evt =>
                 {
-                    current.weigth = evt.newValue;
+                    current.weight = evt.newValue;
                 });
             }
         }
