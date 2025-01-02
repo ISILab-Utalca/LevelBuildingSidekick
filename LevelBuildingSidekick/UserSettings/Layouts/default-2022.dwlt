@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 2560
     height: 1357
   m_ShowMode: 4
-  m_Title: Level builder
+  m_Title: Project
   m_RootView: {fileID: 11}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -101,7 +101,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 50}
   m_MaxSize: {x: 24288, y: 8096}
   vertical: 0
-  controlID: 32576
+  controlID: 98
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -152,7 +152,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 42
+  controlID: 43
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -176,7 +176,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 100}
   m_MaxSize: {x: 32384, y: 16192}
   vertical: 1
-  controlID: 157
+  controlID: 154
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -201,7 +201,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 100}
   m_MaxSize: {x: 32384, y: 16192}
   vertical: 0
-  controlID: 158
+  controlID: 155
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -248,8 +248,8 @@ MonoBehaviour:
     y: 0
     width: 789
     height: 352
-  m_MinSize: {x: 100, y: 100}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 101, y: 121}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 24}
   m_Panes:
   - {fileID: 24}
@@ -352,7 +352,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 1
-  controlID: 41
+  controlID: 97
 --- !u!114 &15
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -381,7 +381,7 @@ MonoBehaviour:
   - {fileID: 27}
   - {fileID: 26}
   m_Selected: 2
-  m_LastSelected: 0
+  m_LastSelected: 3
 --- !u!114 &16
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -1028,7 +1028,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Examples/Prototype/Prefabs/Exterior
+    - Assets/Examples/Prototype/Textures
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -1036,16 +1036,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 96
   m_LastFolders:
-  - Assets/Examples/Prototype/Prefabs/Exterior
+  - Assets/Examples/Prototype/Textures
   m_LastFoldersGridSize: 96
   m_LastProjectPath: C:\Users\roth8\Documents\GitHub\LevelBuildingSidekick\LevelBuildingSidekick
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 239}
-    m_SelectedIDs: 58ad0000
-    m_LastClickedID: 44376
-    m_ExpandedIDs: 00000000d06f0000d26f0000d46f0000d66f0000d86f0000da6f0000dc6f0000de6f0000e06f0000e26f0000e46f0000e66f0000e86f0000ea6f0000ec6f0000ee6f0000f06f0000f26f0000f46f0000f66f0000f86f0000fa6f0000fc6f0000fe6f000000700000027000000470000006700000087000000a7000000c7000000e70000010700000127000001470000016700000e2710000347200005a7200005c72000000ca9a3bffffff7f
+    scrollPos: {x: 0, y: 559}
+    m_SelectedIDs: 3e750000
+    m_LastClickedID: 30014
+    m_ExpandedIDs: 000000001473000016730000187300001a7300001c7300001e73000020730000227300002473000026730000287300002a7300002c7300002e73000030730000327300003473000036730000387300003a7300003c7300003e73000040730000427300004473000046730000487300004a7300004c7300004e73000050730000527300005473000056730000587300005a7300005c7300005e7300006073000014750000dabb0000debb0000e2bb000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1073,7 +1073,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000d06f0000d26f0000d46f0000d66f0000d86f0000da6f0000dc6f0000de6f0000e06f0000e26f0000e46f0000e66f0000e86f0000ea6f0000ec6f0000ee6f0000f06f0000f26f0000f46f0000f66f0000f86f0000fa6f0000fc6f0000fe6f000000700000027000000470000006700000087000000a7000000c7000000e70000010700000127000001470000016700000
+    m_ExpandedIDs: 000000001473000016730000187300001a7300001c7300001e73000020730000227300002473000026730000287300002a7300002c7300002e73000030730000327300003473000036730000387300003a7300003c7300003e73000040730000427300004473000046730000487300004a7300004c7300004e73000050730000527300005473000056730000587300005a7300005c7300005e73000060730000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1165,10 +1165,10 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_SceneHierarchy:
     m_TreeViewState:
-      scrollPos: {x: 0, y: 802}
-      m_SelectedIDs: 6c71feff
-      m_LastClickedID: -102036
-      m_ExpandedIDs: d834feffae6effff22b5ffff2ab9ffff94b9ffff68bbfffff2bbffff1ebcffff6ebcffff8ebcffffaebcffff92bdffffc2bdffff52beffffc6bfffff80c5ffffdcc6ffffe0c6ffffe6faffff
+      scrollPos: {x: 0, y: 0}
+      m_SelectedIDs: 84bd0000
+      m_LastClickedID: 0
+      m_ExpandedIDs: e6faffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1215,7 +1215,7 @@ MonoBehaviour:
     x: -2327
     y: -290
     width: 1842
-    height: 883
+    height: 934
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1494,7 +1494,7 @@ MonoBehaviour:
       snapOffsetDelta: {x: 0, y: 0}
       snapCorner: 0
       id: UnityEditor.SceneViewCameraOverlay
-      index: 12
+      index: 13
       layout: 4
       size: {x: 0, y: 0}
       sizeOverriden: 0
@@ -1563,6 +1563,19 @@ MonoBehaviour:
       layout: 4
       size: {x: 0, y: 0}
       sizeOverriden: 0
+    - dockPosition: 1
+      containerId: overlay-container--right
+      floating: 0
+      collapsed: 0
+      displayed: 0
+      snapOffset: {x: 48, y: 48}
+      snapOffsetDelta: {x: 0, y: 0}
+      snapCorner: 0
+      id: APV Overlay
+      index: 12
+      layout: 4
+      size: {x: 0, y: 0}
+      sizeOverriden: 0
     m_OverlaysVisible: 1
   m_WindowGUID: cc27987af1a868c49b0894db9c0f5429
   m_Gizmos: 1
@@ -1574,9 +1587,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -7.3130603, y: -62.8211, z: 7.9949427}
+    m_Target: {x: -2.5745604, y: 1.0385388, z: 0.31994432}
     speed: 2
-    m_Value: {x: -7.3130603, y: -62.8211, z: 7.9949427}
+    m_Value: {x: -2.5745604, y: 1.0385388, z: 0.31994432}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1614,7 +1627,7 @@ MonoBehaviour:
       m_Fade:
         m_Target: 0
         speed: 2
-        m_Value: 1
+        m_Value: 0
       m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 0.4}
       m_Pivot: {x: 0, y: 0, z: 0}
       m_Size: {x: 3, y: 3}
@@ -1622,13 +1635,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.54729384, y: -0.07132752, z: 0.046870302, w: 0.8327974}
+    m_Target: {x: -0.34744686, y: 0.024739016, z: -0.009094732, w: -0.9375358}
     speed: 2
-    m_Value: {x: 0.5470505, y: -0.07381207, z: 0.048503082, w: 0.83242714}
+    m_Value: {x: -0.34739283, y: 0.023328166, z: -0.008571891, w: -0.93739027}
   m_Size:
-    m_Target: 38.39651
+    m_Target: 10
     speed: 2
-    m_Value: 38.39651
+    m_Value: 10
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -1673,10 +1686,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: -2169
+    x: -2327
     y: -290
-    width: 1576
-    height: 883
+    width: 1842
+    height: 934
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1729,23 +1742,23 @@ MonoBehaviour:
       serializedVersion: 2
       x: 0
       y: 21
-      width: 1576
-      height: 862
-    m_Scale: {x: 0.39907408, y: 0.39907408}
-    m_Translation: {x: 788, y: 431}
+      width: 1842
+      height: 913
+    m_Scale: {x: 0.42268515, y: 0.42268518}
+    m_Translation: {x: 921, y: 456.5}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -1974.5708
+      x: -2178.9268
       y: -1080
-      width: 3949.1416
+      width: 4357.8535
       height: 2160
     m_MinimalGUI: 1
-  m_defaultScale: 0.39907408
-  m_LastWindowPixelSize: {x: 1576, y: 883}
+  m_defaultScale: 0.42268518
+  m_LastWindowPixelSize: {x: 1842, y: 934}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000000000000
@@ -1855,7 +1868,7 @@ MonoBehaviour:
     x: -2327
     y: -290
     width: 1842
-    height: 883
+    height: 934
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
