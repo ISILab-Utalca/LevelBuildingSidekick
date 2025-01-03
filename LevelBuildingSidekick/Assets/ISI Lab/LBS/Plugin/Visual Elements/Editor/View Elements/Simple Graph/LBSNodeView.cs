@@ -14,12 +14,19 @@ namespace ISILab.LBS.VisualElements
     {
         public readonly Color unselected = Color.white;
         public readonly Color selcted = new Color(150f / 255f, 243f / 255f, 255f / 255f);
-
+        
+        private Color normalColor;
+        // Set outline width here NOT in uxml
+        private float normalBorder = 2f;
+        
+        private float hoverIncrease = 1.5f;
+        
         #region VIEW FIELDS
         private static VisualTreeAsset view;
 
         private Label label;
         private VisualElement background;
+        private VisualElement outline;
         #endregion
 
         #region EVENTS
@@ -33,12 +40,41 @@ namespace ISILab.LBS.VisualElements
                 view = DirectoryTools.GetAssetByName<VisualTreeAsset>("NodeUxml");
             }
             view.CloneTree(this);
+            
+            outline = this.Q<VisualElement>("Outline");
+            background = outline.Q<VisualElement>("Background");
+            label = background.Q<Label>("Label");
+      
+            RegisterCallback<PointerEnterEvent>(OnHover);
+            RegisterCallback<PointerLeaveEvent>(OnUnhover);
+        }
 
-            // Label
-            label = this.Q<Label>();
+        private void OnHover(PointerEnterEvent evt)
+        {
+            // Color change
+            normalColor = background.style.backgroundColor.value;
+            var _hoverColor = normalColor;
+            _hoverColor.a = 1f;
+            _hoverColor.r *= hoverIncrease;
+            _hoverColor.g *= hoverIncrease;
+            _hoverColor.b *= hoverIncrease;
+            background.style.backgroundColor = _hoverColor;
+            
+            // Border
+            background.style.borderTopWidth = hoverIncrease + normalBorder;
+            background.style.borderBottomWidth = hoverIncrease + normalBorder;
+            background.style.borderLeftWidth = hoverIncrease + normalBorder;
+            background.style.borderRightWidth = hoverIncrease + normalBorder;
+        }
 
-            // Background
-            background = this.Q<VisualElement>("Background");
+        private void OnUnhover(PointerLeaveEvent evt)
+        {
+            background.style.backgroundColor = normalColor;
+            
+            background.style.borderTopWidth = normalBorder;
+            background.style.borderBottomWidth = normalBorder;
+            background.style.borderLeftWidth = normalBorder;
+            background.style.borderRightWidth = normalBorder;
         }
 
         public void SetColor(Color color)

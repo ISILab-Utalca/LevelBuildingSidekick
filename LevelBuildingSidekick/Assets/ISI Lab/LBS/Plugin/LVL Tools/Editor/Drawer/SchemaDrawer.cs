@@ -85,6 +85,8 @@ namespace ISILab.LBS.Drawers
 
             tView.SetBackgroundColor(zone.Color);
 
+            tView.SetBorderColor(zone.Color, zone.BorderThickness);
+            
             tView.SetConnections(connections.ToArray());
             return tView;
         }

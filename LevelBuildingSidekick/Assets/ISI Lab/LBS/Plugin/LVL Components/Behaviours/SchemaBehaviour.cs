@@ -111,14 +111,18 @@ namespace ISILab.LBS.Behaviours
 
         public Zone AddZone()
         {
-            string prefix = "Zone: ";
+            string prefix = "Zone\n";
             int counter = 0;
             string name = prefix + counter;
             IEnumerable<string> names = areas.Zones.Select(z => z.ID);
             while (names.Contains(name))
             {
                 counter++;
-                name = prefix + counter;
+                name = prefix;
+                
+                if (counter < 10) name += "0" + counter;
+                else   name += counter;
+               
             }
 
             int r = (int)((Random.value * (256 - 32)) / 16);

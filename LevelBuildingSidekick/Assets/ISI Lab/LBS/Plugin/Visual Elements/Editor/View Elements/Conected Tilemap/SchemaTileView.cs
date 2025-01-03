@@ -15,6 +15,9 @@ namespace ISILab.LBS.VisualElements
         #region VIEW FIELDS
         private static VisualTreeAsset view;
 
+        private const float borderThickness = 2f;
+        private const float backgroundOpacity = 0.2f;
+        
         private VisualElement left;
         private VisualElement right;
         private VisualElement top;
@@ -44,11 +47,21 @@ namespace ISILab.LBS.VisualElements
 
         public void SetBackgroundColor(Color color)
         {
+            color.a = backgroundOpacity;
             border.style.backgroundColor = color;
             right.style.backgroundColor = color;
             top.style.backgroundColor = color;
             left.style.backgroundColor = color;
             bottom.style.backgroundColor = color;
+        }
+
+        public void SetBorderColor(Color color, float thickness)
+        {
+            border.style.borderRightColor = color;
+            border.style.borderLeftColor = color;
+            border.style.borderTopColor = color;
+            border.style.borderBottomColor = color;
+            this.SetBorder(color, thickness);
         }
 
         public void SetConnections(string[] tags)
@@ -58,10 +71,10 @@ namespace ISILab.LBS.VisualElements
             left.SetDisplay(tags[2].Equals("Door"));
             bottom.SetDisplay(tags[3].Equals("Door"));
 
-            border.style.borderRightWidth = tags[0].Equals("Empty") ? 0f : 8f;
-            border.style.borderTopWidth = tags[1].Equals("Empty") ? 0f : 8f;
-            border.style.borderLeftWidth = tags[2].Equals("Empty") ? 0f : 8f;
-            border.style.borderBottomWidth = tags[3].Equals("Empty") ? 0f : 8f;
+            border.style.borderRightWidth = tags[0].Equals("Empty") ? 0f : borderThickness;
+            border.style.borderTopWidth = tags[1].Equals("Empty") ? 0f : borderThickness;
+            border.style.borderLeftWidth = tags[2].Equals("Empty") ? 0f : borderThickness;
+            border.style.borderBottomWidth = tags[3].Equals("Empty") ? 0f : borderThickness;
         }
 
     }

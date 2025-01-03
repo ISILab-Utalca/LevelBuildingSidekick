@@ -7,9 +7,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Security.Policy;
 using UnityEditor;
+using UnityEditor.TerrainTools;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -18,8 +20,17 @@ using Debug = UnityEngine.Debug;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
+
+    public struct SavedLayerPanel
+    {
+        public LBSLevelData data;
+        public LBSLayer selectedLayer;
+    }
+    
     public class LayersPanel : VisualElement
     {
+
+        
         #region FACTORY
         public new class UxmlFactory : UxmlFactory<LayersPanel, VisualElement.UxmlTraits> { }
         #endregion
@@ -27,7 +38,10 @@ namespace ISILab.LBS.VisualElements.Editor
         #region FIELDS
         public LBSLevelData data;
         private LBSLayer selectedLayer;
-
+        
+        private SavedLayerPanel[] redoData;
+        private SavedLayerPanel[] undoData;
+        
         // templates
         private List<LayerTemplate> templates;
 
@@ -122,6 +136,10 @@ namespace ISILab.LBS.VisualElements.Editor
 
             noLayerNotificators = this.Query<VisualElement>("NoLayerNotify").ToList();
             noSelectedLayerNotificator = this.Q<VisualElement>("NoSelectedLayerNotify");
+            
+            // Input Keys
+            
+            
         }
         #endregion
 
@@ -132,7 +150,7 @@ namespace ISILab.LBS.VisualElements.Editor
             return layers[_index].Clone() as LBSLayer;
         }
 
-        private void AddLayer(int _index)
+        public void AddLayer(int _index)
         {
             if (_index < 0)
             {
@@ -158,9 +176,11 @@ namespace ISILab.LBS.VisualElements.Editor
             OnAddLayer?.Invoke(layer);
 
             list.Rebuild();
+            
+            RegisterCallback<KeyDownEvent>(OnKeyDown);
         }
 
-        private void RemoveSelectedLayer()
+        public void RemoveSelectedLayer()
         {
             if (data.Layers.Count <= 0)
                 return;
@@ -231,6 +251,67 @@ namespace ISILab.LBS.VisualElements.Editor
                 noSelectedLayerNotificator.style.display = DisplayStyle.Flex;
             }
         }
+        
+
+        void OnKeyDown(KeyDownEvent evt)
+        {
+            // delete selected layer
+            if (evt.keyCode == KeyCode.Delete)
+            {
+                var predeleteIndex = list.selectedIndex;
+                
+                RemoveSelectedLayer();
+                
+                if (data.LayerCount < 1)
+                {
+                    //OnSelectLayer?.Invoke(null); 
+                    evt.StopPropagation();
+                    return;
+                }
+                
+                int nextIndex = predeleteIndex >= data.LayerCount ? data.LayerCount - 1 : predeleteIndex;
+                
+                LBSLayer selected = data.GetLayer(nextIndex);
+                if (selected != null)
+                {
+                    OnSelectLayer?.Invoke(selected);
+                    OnLayerChangeEventHandle(selected);
+                    OnLayerSelectedEventHandle(selected);
+                    
+                    evt.StopPropagation();
+                    return;
+                }
+            }
+            if (evt.keyCode == KeyCode.LeftControl && evt.keyCode == KeyCode.Z)
+            {
+                Undo();
+                evt.StopPropagation(); 
+                return;
+            }
+            if (evt.keyCode == KeyCode.LeftControl && evt.keyCode == KeyCode.Y)
+            {
+                Redo();
+                evt.StopPropagation(); 
+                return;
+            }
+        }
+        
         #endregion
+    
+        #region Input Events
+
+        void Undo()
+        {
+            
+        }
+
+
+        void Redo()
+        {
+            
+            
+        }
+        #endregion
+
     }
 }

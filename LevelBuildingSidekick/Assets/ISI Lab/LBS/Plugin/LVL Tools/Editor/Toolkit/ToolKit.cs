@@ -80,6 +80,8 @@ namespace LBS.VisualElements
         private List<(LBSTool,ToolButton)> tools = new();
         private (LBSTool,ToolButton) current;
 
+        private bool Initialized;
+        
         private Color baseColor = new Color(72f / 255f, 72f / 255f, 72f / 255f);
         private int index = 0;
         private int choiceCount = 0;
@@ -139,20 +141,35 @@ namespace LBS.VisualElements
 
             InitAssistantsTools(layer);
         }
-
+        
         private void InitGeneralTools(LBSLayer layer)
         {
-            var icon = Resources.Load<Texture2D>("Icons/Select");
-            var selectTool = new Select();
-            var t1 = new LBSTool(icon, "Select", selectTool);
+            var t1 = TryGetTool("Select");
+            if (t1 == null)
+            {
+                var icon = Resources.Load<Texture2D>("Icons/Select");
+                var selectTool = new Select();
+                t1 = new LBSTool(icon, "Select", selectTool);
+            }
             t1.Init(layer, this);
             t1.OnSelect += () =>
             {
                 LBSInspectorPanel.ShowInspector("Current data");
             };
-            this.AddTool(t1);
+            AddTool(t1);
+
         }
 
+        LBSTool TryGetTool(string toolName)
+        {
+            foreach (var element in tools)
+            {
+                if(element.Item1 == null) continue;
+                if (element.Item1.Name == toolName) return element.Item1;
+            }
+            return null;
+        }
+        
         private void InitBehavioursTools(LBSLayer layer)
         {
 
@@ -237,7 +254,8 @@ namespace LBS.VisualElements
                 return;
         }
 
-        public void AddTool(LBSTool tool, int index = -1)
+        public void  
+            AddTool(LBSTool tool, int index = -1)
         {
             var button = new ToolButton(tool);
             (LBSTool, ToolButton) t = new(tool, button);
@@ -263,7 +281,7 @@ namespace LBS.VisualElements
         {
             var separator = new VisualElement();
             separator.style.height = height;
-            this.content.Add(separator);
+            content.Add(separator);
         }
 
         public new void Clear()
@@ -273,8 +291,9 @@ namespace LBS.VisualElements
 
             current.Item2?.OnBlur();
             tools.Clear();
-            this.content.Clear();
+            content.Clear();
         }
         #endregion
+        
     }
 }

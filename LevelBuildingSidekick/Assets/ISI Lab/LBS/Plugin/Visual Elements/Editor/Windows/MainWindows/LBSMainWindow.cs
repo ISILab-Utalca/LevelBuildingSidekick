@@ -248,14 +248,12 @@ public class LBSMainWindow : EditorWindow
             //var value = (gen3DPanel.style.display == DisplayStyle.None);
             gen3DPanel.style.display = (toggleButton3D.value) ? DisplayStyle.Flex : DisplayStyle.None;
         });
-
-
-
+        
         layerPanel.OnSelectLayer += (l) => questsPanel.ResetSelection();
         questsPanel.OnSelectQuest += (l) => layerPanel.ResetSelection();
-
+        
         LBSController.OnLoadLevel += (l) => _selectedLayer = null;
-
+        
         drawManager.RedrawLevel(levelData, mainView);
     }
 
@@ -298,6 +296,7 @@ public class LBSMainWindow : EditorWindow
     /// <param name="layer"></param>
     private void OnSelectedLayerChange(LBSLayer layer)
     {
+        
         _selectedLayer = layer;
 
         // Actualize Inspector panel 
@@ -307,6 +306,7 @@ public class LBSMainWindow : EditorWindow
         toolkit.Clear();
 
         toolkit.Init(layer);
+
         toolkit.SetActiveWhithoutNotify(0);
 
         // Actualize 3D panel

@@ -20,6 +20,8 @@ namespace ISILab.LBS.Components
         [SerializeField, JsonRequired]
         protected Color color;
         [SerializeField, JsonRequired]
+        protected float borderThickness;
+        [SerializeField, JsonRequired]
         protected Vector2 pivot;
 
         //[ScriptableObjectReference(typeof(LBSIdentifier), "Interior Styles")]
@@ -28,6 +30,7 @@ namespace ISILab.LBS.Components
 
         [SerializeField, JsonRequired]
         private List<string> outsideStyles = new List<string>();
+        
         #endregion
 
         #region PROPERTIES
@@ -46,6 +49,13 @@ namespace ISILab.LBS.Components
             set => color = value;
         }
 
+        [JsonIgnore]
+        public float BorderThickness
+        {
+            get => borderThickness;
+            set => borderThickness = value;
+        }
+        
         [JsonIgnore]
         public Vector2 Pivot
         {
