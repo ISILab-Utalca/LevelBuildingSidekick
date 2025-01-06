@@ -19,14 +19,14 @@ MonoBehaviour:
     id: Exterior
     name: Layer Exterior
     modules:
-    - rid: 279245475787309066
-    - rid: 279245475787309067
+    - rid: 6598277183820005783
+    - rid: 6598277183820005784
     behaviours:
-    - rid: 279245475787309068
-    assitants:
-    - rid: 279245475787309069
+    - rid: 6598277183820005785
+    assistants:
+    - rid: 6598277183820005786
     generatorRules:
-    - rid: 279245475787309070
+    - rid: 6598277183820005787
     settings:
       scale: {x: 2, y: 2}
       resize: {x: 0, y: 0}
@@ -35,18 +35,58 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 279245475787309066
+    - rid: 6598277183820005783
       type: {class: TileMapModule, ns: ISILab.LBS.Modules, asm: LBS}
       data:
         id: TileMapModule
+        owner:
+          visible: 1
+          blocked: 0
+          iconPath: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/pine-tree.png
+          id: Exterior
+          name: Layer Exterior
+          modules:
+          - rid: 6598277183820005783
+          - rid: 6598277183820005784
+          behaviours:
+          - rid: 6598277183820005785
+          assistants:
+          - rid: 6598277183820005786
+          generatorRules:
+          - rid: 6598277183820005787
+          settings:
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: Exteriror
         tiles: []
-    - rid: 279245475787309067
+    - rid: 6598277183820005784
       type: {class: ConnectedTileMapModule, ns: ISILab.LBS.Modules, asm: LBS}
       data:
         id: ConnectedTileMapModule
+        owner:
+          visible: 1
+          blocked: 0
+          iconPath: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/pine-tree.png
+          id: Exterior
+          name: Layer Exterior
+          modules:
+          - rid: 6598277183820005783
+          - rid: 6598277183820005784
+          behaviours:
+          - rid: 6598277183820005785
+          assistants:
+          - rid: 6598277183820005786
+          generatorRules:
+          - rid: 6598277183820005787
+          settings:
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: Exteriror
         connectedDirections: 4
         pairs: []
-    - rid: 279245475787309068
+    - rid: 6598277183820005785
       type: {class: ExteriorBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
       data:
         visible: 1
@@ -54,14 +94,14 @@ MonoBehaviour:
         name: Exteriror behaviour
         targetBundle: Exterior_Plains
         identifierToSet: {fileID: 0}
-    - rid: 279245475787309069
+    - rid: 6598277183820005786
       type: {class: AssistantWFC, ns: ISILab.LBS.Assistants, asm: LBS}
       data:
         visible: 1
         name: Assistant WFC
         overrideValues: 0
         targetBundle: Exterior_Plains
-    - rid: 279245475787309070
+    - rid: 6598277183820005787
       type: {class: ExteriorRuleGenerator, ns: ISILab.LBS.Generators, asm: LBS}
       data:
         generator3D:
