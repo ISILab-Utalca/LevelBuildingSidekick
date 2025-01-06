@@ -14,15 +14,18 @@ namespace ISILab.LBS.VisualElements
 {
     public class ExteriorTileView : GraphElement
     {
-        // VisualElements
-        private VisualElement left;
-        private VisualElement right;
-        private VisualElement top;
-        private VisualElement bottom;
-        private VisualElement border;
+        
+        private VisualElement leftConnection, leftSide;
+        private VisualElement rightConnection,rightSide;
+        private VisualElement topConnection, topSide;
+        private VisualElement bottomConnection, bottomSide;
+        
+        private VisualElement fill;
 
         private static VisualTreeAsset view;
-
+        
+        private static float scaleFactor = 1f;
+        private static Color fillColor = Color.grey;
         public ExteriorTileView(List<string> connections)
         {
             if (view == null)
@@ -33,71 +36,93 @@ namespace ISILab.LBS.VisualElements
 
             this.SetMargins(0);
             this.SetPaddings(0);
-            this.SetBorder(new Color(0.6f,0.6f,0.6f,6f), 1f);
-            this.SetBackgroundColor(new Color(0.2f,0.2f,0.2f,1.0f));
+            //this.SetBorder(new Color(0.6f,0.6f,0.6f,6f), 1f);
+            this.SetBackgroundColor(fillColor);
             this.SetBorderRadius(0);
+            this.transform.scale = Vector3.one * scaleFactor;
             //SetBorderBackgroundColor(Color.white);
-
-            // conecctions
-            left = this.Q<VisualElement>("Left");
-            right = this.Q<VisualElement>("Right");
-            top = this.Q<VisualElement>("Top");
-            bottom = this.Q<VisualElement>("Bottom");
-            // border = this.Q<VisualElement>("Border");
-
-
+      
+            leftConnection = this.Q<VisualElement>("LeftConnection");
+            rightConnection = this.Q<VisualElement>("RightConnection");
+            topConnection = this.Q<VisualElement>("TopConnection");
+            bottomConnection = this.Q<VisualElement>("BottomConnection");
+            
+            fill = this.Q<VisualElement>("Fill");
+            leftSide = fill.Q<VisualElement>("LeftFill");
+            rightSide = fill.Q<VisualElement>("RightFill");
+            topSide = fill.Q<VisualElement>("TopFill");
+            bottomSide = fill.Q<VisualElement>("BottomFill");
+            
+            SetBackgroundColor(leftSide, fillColor);
+            SetBackgroundColor(rightSide, fillColor);
+            SetBackgroundColor(topSide, fillColor);
+            SetBackgroundColor(bottomSide, fillColor);
+            
             SetConnections(connections.ToArray());
         }
 
-        public void SetBorderBackgroundColor(Color color)
+        private static void SetBackgroundColor(VisualElement ve, Color color)
         {
-            border.style.backgroundColor = color;
+            if (ve == null) return;
+            ve.style.backgroundColor = color;
         }
-
-
+        
         public void SetConnections(string[] tags)
         {
             var tts = LBSAssetsStorage.Instance.Get<LBSTag>();
-
+            Color color;
             if (!string.IsNullOrEmpty(tags[0]))
             {
-                right.style.backgroundColor = tts.Find(t => t.Label.Equals(tags[0])).Color;
-                right.style.display = DisplayStyle.Flex;
+                color = tts.Find(t => t.Label.Equals(tags[0])).Color;
+                SetBackgroundColor(rightConnection, color);
+                SetBackgroundColor(rightSide, color);
+                rightConnection.style.display = DisplayStyle.Flex;
             }
             else
             {
-                right.style.display = DisplayStyle.None;
+                rightConnection.style.display = DisplayStyle.None;
+                rightSide.style.display = DisplayStyle.None;
             }
 
             if (!string.IsNullOrEmpty(tags[1]))
             {
-                top.style.backgroundColor = tts.Find(t => t.Label.Equals(tags[1])).Color;
-                top.style.display = DisplayStyle.Flex;
+                color = tts.Find(t => t.Label.Equals(tags[1])).Color;
+                SetBackgroundColor(topConnection, color);
+                SetBackgroundColor(topSide, color);
+                topConnection.style.display = DisplayStyle.Flex;
             }
             else
             {
-                top.style.display = DisplayStyle.None;
+                topConnection.style.display = DisplayStyle.None;
+                topSide.style.display = DisplayStyle.None;
             }
 
             if (!string.IsNullOrEmpty(tags[2]))
             {
-                left.style.backgroundColor = tts.Find(t => t.Label.Equals(tags[2])).Color;
-                left.style.display = DisplayStyle.Flex;
+                color = tts.Find(t => t.Label.Equals(tags[2])).Color;
+                SetBackgroundColor(leftConnection, color);
+                SetBackgroundColor(leftSide, color);
+                leftConnection.style.display = DisplayStyle.Flex;
             }
             else
             {
-                left.style.display = DisplayStyle.None;
+                leftConnection.style.display = DisplayStyle.None;
+                leftSide.style.display = DisplayStyle.None;
             }
 
             if (!string.IsNullOrEmpty(tags[3]))
             {
-                bottom.style.backgroundColor = tts.Find(t => t.Label.Equals(tags[3])).Color;
-                bottom.style.display = DisplayStyle.Flex;
+                color = tts.Find(t => t.Label.Equals(tags[3])).Color;
+                SetBackgroundColor(bottomConnection, color);
+                SetBackgroundColor(bottomSide, color);
+                bottomConnection.style.display = DisplayStyle.Flex;
             }
             else
             {
-                bottom.style.display = DisplayStyle.None;
+                bottomConnection.style.display = DisplayStyle.None;
+                bottomSide.style.display = DisplayStyle.None;
             }
+   
         }
     }
 }

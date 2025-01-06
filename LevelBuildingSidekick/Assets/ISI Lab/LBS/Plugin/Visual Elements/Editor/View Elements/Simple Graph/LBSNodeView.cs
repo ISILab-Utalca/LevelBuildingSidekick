@@ -19,7 +19,7 @@ namespace ISILab.LBS.VisualElements
         // Set outline width here NOT in uxml
         private float normalBorder = 2f;
         
-        private float hoverIncrease = 1.5f;
+        private float hoverIncrease = 1.2f;
         
         #region VIEW FIELDS
         private static VisualTreeAsset view;

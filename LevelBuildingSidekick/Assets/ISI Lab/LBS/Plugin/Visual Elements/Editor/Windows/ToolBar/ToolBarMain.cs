@@ -67,8 +67,10 @@ namespace ISILab.LBS.VisualElements.Editor
             AssetDatabase.Refresh();
         }
 
-        public void OpenConfiguration(ClickEvent evt){
-
+        public static void OpenConfiguration(ClickEvent evt)
+        {
+            // Open the Project Settings window
+            SettingsService.OpenProjectSettings("LBS");
         }
 
     }
