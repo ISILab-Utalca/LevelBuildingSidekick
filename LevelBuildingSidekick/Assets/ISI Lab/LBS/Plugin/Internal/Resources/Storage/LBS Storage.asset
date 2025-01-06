@@ -74,11 +74,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 50238b964364050418416fa48f290579, type: 2}
     - {fileID: 11400000, guid: 6ab3cc14c34eee940a915bcee64fb316, type: 2}
     - {fileID: 11400000, guid: 51b64b59109603d498df5c545511f1db, type: 2}
-    - {fileID: 11400000, guid: c4e1674fd02bed44a900cf2f8cdc1480, type: 2}
-    - {fileID: 11400000, guid: 96768dacc43843c44980aaa3af16208c, type: 2}
-    - {fileID: 11400000, guid: e22ce772955d606438c55340680d443e, type: 2}
-    - {fileID: 11400000, guid: 5f57e16b6b3bf8448825a98f99baf452, type: 2}
-    - {fileID: 11400000, guid: 4931752101e5db9428801c214514e2d9, type: 2}
   - type: LBSIdentifierBundle
     items:
     - {fileID: 11400000, guid: 5dab7331507a6554a83a7ddfd42f5292, type: 2}
@@ -333,12 +328,3 @@ MonoBehaviour:
   - type: ISILab.LBS.Template.LayerTemplate
     items:
     - {fileID: 11400000, guid: 253f372750fae784d9a42445a8e08fcc, type: 2}
-    - {fileID: 11400000, guid: 531e915267477db4e886c2e6401c4372, type: 2}
-    - {fileID: 11400000, guid: 8205ab67b3e47ed4aa4b97e13d9e6abb, type: 2}
-  - type: ISILab.LBS.LBSIdentifierBundle
-    items:
-    - {fileID: 11400000, guid: 2bf3c5dcf9db60848bd36df406db40ab, type: 2}
-    - {fileID: 11400000, guid: 5dab7331507a6554a83a7ddfd42f5292, type: 2}
-  - type: ISILab.LBS.AI.Categorization.MAPElitesPreset
-    items:
-    - {fileID: 11400000, guid: ee03be004b3a3c84583d4d19c72c48db, type: 2}
