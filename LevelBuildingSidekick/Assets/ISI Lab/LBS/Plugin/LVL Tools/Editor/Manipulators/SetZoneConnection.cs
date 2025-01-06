@@ -13,7 +13,7 @@ namespace ISILab.LBS.Manipulators
     public class SetZoneConnection : LBSManipulator
     {
         private LBSLayer layer;
-        private HillClimbingAssistant assistant;
+        private IStep1 assistant;
         private Vector2Int first;
 
         public SetZoneConnection() : base()
@@ -25,7 +25,7 @@ namespace ISILab.LBS.Manipulators
         public override void Init(LBSLayer layer, object provider)
         {
             this.layer = layer;
-            assistant = provider as HillClimbingAssistant;
+            assistant = provider as IStep1;
 
             feedback.TeselationSize = layer.TileSize;
             layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;

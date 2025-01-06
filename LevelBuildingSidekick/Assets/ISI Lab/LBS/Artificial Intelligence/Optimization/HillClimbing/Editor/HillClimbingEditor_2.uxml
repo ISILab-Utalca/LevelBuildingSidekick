@@ -1,0 +1,15 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <ui:Toggle label="Show Constraints" name="ShowConstraintToggle" />
+    <ui:Slider picking-mode="Ignore" label="Iterations" value="10" high-value="100" name="iteration_slider" show-input-field="true" low-value="1" />
+    <ui:Slider picking-mode="Ignore" label="Ant amount" value="5" high-value="1000" name="ant_amount_slider" show-input-field="true" low-value="1" />
+    <ui:Slider picking-mode="Ignore" label="Evaporation rate" value="0.01" high-value="0.99" name="evaporation_slider" show-input-field="true" low-value="0.01" />
+    <ui:Slider picking-mode="Ignore" label="Pheromone intensity" value="1" high-value="10" name="pheromone_slider" show-input-field="true" low-value="0.01" />
+    <ui:TextField picking-mode="Ignore" label=" Seed" name="seed_field" />
+    <ui:ListView focusable="true" name="weigth_list" show-border="true" reorderable="true" horizontal-scrolling="false" show-foldout-header="true" header-title="Weights" show-add-remove-footer="false" />
+    <ui:Foldout text="Constraints" />
+    <ui:VisualElement style="flex-grow: 0; background-color: rgba(0, 0, 0, 0.12); flex-direction: column; margin-left: 4px; margin-right: 4px; margin-top: 4px; margin-bottom: 4px; padding-left: 4px; padding-right: 4px; padding-top: 4px; padding-bottom: 4px; border-top-left-radius: 4px; border-bottom-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px;">
+        <ui:Toggle label="print timer at end" name="ShowTimerToggle" style="display: none;" />
+        <ui:Button text="Revert" display-tooltip-when-elided="true" name="Revert" style="flex-grow: 1; display: none;" />
+        <ui:Button text="Execute" display-tooltip-when-elided="true" name="Execute" style="flex-grow: 1;" />
+    </ui:VisualElement>
+</ui:UXML>

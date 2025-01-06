@@ -84,7 +84,190 @@ namespace ISILab.LBS.Template.Editor
             {
                 PopulationConstruct(template);
             }
+
+            if (GUILayout.Button("Set as Interior (ACO: death ants)"))
+            {
+                InteriorConstructACO(template);
+            }
+
+            if(GUILayout.Button("Set as Interior (ACO: recycle ants)"))
+            {
+                InteriorConstructACO2(template);
+            }
+
+            if (GUILayout.Button("Set as Interior (HILL CLIMBING: First Choice)"))
+            {
+                InteriorConstructHILLFixed(template);
+            }
+
+            if(GUILayout.Button("Set as Interior (HILL CLIMBING: Steepest Ascent)"))
+            {
+                InteriorConstructHILLFixed2(template);
+            }
         }
+
+        private void InteriorConstructACO(LayerTemplate template)
+        {
+            template.Clear();
+
+            // Basic data layer
+            var layer = template.layer;
+            layer.ID = "Interior ACO";
+            layer.Name = "Layer Interior ACO";
+            layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/interior-design.png";
+            template.layer = layer;
+
+            // Behaviours
+            var bhIcon = Resources.Load<Texture2D>("Icons/Select");
+            var bh = new SchemaBehaviour(bhIcon, "Schema behaviour");
+            layer.AddBehaviour(bh);
+
+            // Assistants
+            var assIcon = Resources.Load<Texture2D>("Icons/Select");
+            var ass = new ACO_BlueprintAssistant(assIcon, "ACO");
+            layer.AddAssistant(ass);
+
+
+            // Generators
+            layer.AddGeneratorRule(new SchemaRuleGenerator());
+            layer.AddGeneratorRule(new SchemaRuleGeneratorExteriror());
+
+            // Seting generator
+            layer.Settings = new Generator3D.Settings()
+            {
+                scale = new Vector2Int(2, 2),
+                resize = new Vector2(0, 0),
+                position = new Vector3(0, 0, 0),
+                name = "Interior",
+            };
+
+            // Save scriptableObject
+            Debug.Log("Set Interior ACO Default");
+            EditorUtility.SetDirty(target);
+            AssetDatabase.SaveAssets();
+        }
+
+        private void InteriorConstructACO2(LayerTemplate template)
+        {
+            template.Clear();
+
+            // Basic data layer
+            var layer = template.layer;
+            layer.ID = "Interior ACO: Recycle ants";
+            layer.Name = "Layer Interior ACO: Recycle ants";
+            layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/interior-design.png";
+            template.layer = layer;
+
+            // Behaviours
+            var bhIcon = Resources.Load<Texture2D>("Icons/Select");
+            var bh = new SchemaBehaviour(bhIcon, "Schema behaviour");
+            layer.AddBehaviour(bh);
+
+            // Assistants
+            var assIcon = Resources.Load<Texture2D>("Icons/Select");
+            var ass = new ACO_BlueprintAssistant(assIcon, "ACO"); // FIX: remplazar por ACO_2 que recicla las hormigas en vez de matarlas
+            layer.AddAssistant(ass);
+
+
+            // Generators
+            layer.AddGeneratorRule(new SchemaRuleGenerator());
+            layer.AddGeneratorRule(new SchemaRuleGeneratorExteriror());
+
+            // Seting generator
+            layer.Settings = new Generator3D.Settings()
+            {
+                scale = new Vector2Int(2, 2),
+                resize = new Vector2(0, 0),
+                position = new Vector3(0, 0, 0),
+                name = "Interior",
+            };
+
+            // Save scriptableObject
+            Debug.Log("Set Interior ACO Default");
+            EditorUtility.SetDirty(target);
+            AssetDatabase.SaveAssets();
+        }
+
+        private void InteriorConstructHILLFixed(LayerTemplate template)
+        {
+            template.Clear();
+
+            // Basic data layer
+            var layer = template.layer;
+            layer.ID = "Interior";
+            layer.Name = "Layer Interior";
+            layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/interior-design.png";
+            template.layer = layer;
+
+            // Behaviours
+            var bhIcon = Resources.Load<Texture2D>("Icons/Select");
+            var bh = new SchemaBehaviour(bhIcon, "Schema behaviour");
+            layer.AddBehaviour(bh);
+
+            // Assistants
+            var assIcon = Resources.Load<Texture2D>("Icons/Select");
+            var ass = new HillClimbingAssistant(assIcon, "HillClimbing"); // FIX: cambiar por la implementacion de hill climbing quen o use los modulos directamente
+            layer.AddAssistant(ass);
+
+            // Generators
+            layer.AddGeneratorRule(new SchemaRuleGenerator());
+            layer.AddGeneratorRule(new SchemaRuleGeneratorExteriror());
+
+            // Seting generator
+            layer.Settings = new Generator3D.Settings()
+            {
+                scale = new Vector2Int(2, 2),
+                resize = new Vector2(0, 0),
+                position = new Vector3(0, 0, 0),
+                name = "Interior",
+            };
+
+            // Save scriptableObject
+            Debug.Log("Set Interior Default");
+            EditorUtility.SetDirty(target);
+            AssetDatabase.SaveAssets();
+        }
+
+        private void InteriorConstructHILLFixed2(LayerTemplate template)
+        {
+            template.Clear();
+
+            // Basic data layer
+            var layer = template.layer;
+            layer.ID = "Interior";
+            layer.Name = "Layer Interior";
+            layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/interior-design.png";
+            template.layer = layer;
+
+            // Behaviours
+            var bhIcon = Resources.Load<Texture2D>("Icons/Select");
+            var bh = new SchemaBehaviour(bhIcon, "Schema behaviour");
+            layer.AddBehaviour(bh);
+
+            // Assistants
+            var assIcon = Resources.Load<Texture2D>("Icons/Select");
+            var ass = new HillClimbingAssistant(assIcon, "HillClimbing"); // FIX: cambiar por la implementacion de hill climbing quen o use los modulos directamente
+            layer.AddAssistant(ass);
+
+            // Generators
+            layer.AddGeneratorRule(new SchemaRuleGenerator());
+            layer.AddGeneratorRule(new SchemaRuleGeneratorExteriror());
+
+            // Seting generator
+            layer.Settings = new Generator3D.Settings()
+            {
+                scale = new Vector2Int(2, 2),
+                resize = new Vector2(0, 0),
+                position = new Vector3(0, 0, 0),
+                name = "Interior",
+            };
+
+            // Save scriptableObject
+            Debug.Log("Set Interior Default");
+            EditorUtility.SetDirty(target);
+            AssetDatabase.SaveAssets();
+        }
+
 
         /// <summary>
         /// This function adjust the icons, layout and labels of the system for Contructión in interior

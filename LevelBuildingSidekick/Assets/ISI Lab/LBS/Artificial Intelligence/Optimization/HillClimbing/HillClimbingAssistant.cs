@@ -22,13 +22,21 @@ using ISILab.LBS.Components;
 
 namespace ISILab.LBS.Assistants
 {
+    public interface IStep1
+    {
+        public Zone GetZone(LBSTile tile);
+        public Zone GetZone(Vector2Int position);
+
+        public void ConnectZones(Zone first, Zone second);
+    }
+
     [System.Serializable]
     [RequieredModule(typeof(TileMapModule),
         typeof(ConnectedTileMapModule),
         typeof(SectorizedTileMapModule),
         typeof(ConnectedZonesModule),
         typeof(ConstrainsZonesModule))]
-    public class HillClimbingAssistant : LBSAssistant
+    public class HillClimbingAssistant : LBSAssistant, IStep1
     {
         private List<Vector2Int> Dirs => Directions.Bidimencional.Edges;
 
@@ -50,9 +58,13 @@ namespace ISILab.LBS.Assistants
         #region PROPERTIES
         [JsonIgnore]
         public List<Zone> ZonesWhitTiles => Owner.GetModule<SectorizedTileMapModule>().ZonesWithTiles;
+        [JsonIgnore]
         public TileMapModule TileMapMod => Owner.GetModule<TileMapModule>();
+        [JsonIgnore]
         public SectorizedTileMapModule AreasMod => Owner.GetModule<SectorizedTileMapModule>();
+        [JsonIgnore]
         public ConnectedZonesModule GraphMod => Owner.GetModule<ConnectedZonesModule>();
+        [JsonIgnore]
         public ConstrainsZonesModule ConstrainsZonesMod => Owner.GetModule<ConstrainsZonesModule>();
         #endregion
 
@@ -639,9 +651,9 @@ namespace ISILab.LBS.Assistants
             return pair.Zone;
         }
 
-        public Zone GetZone(Vector2 position)
+        public Zone GetZone(Vector2Int position)
         {
-            var tile = GetTile(position.ToInt());
+            var tile = GetTile(position);
             return GetZone(tile);
         }
 

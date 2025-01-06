@@ -128,6 +128,7 @@ namespace ISILab.LBS.VisualElements
             {
                 hillClimbing.visibleConstraints = x.newValue;
                 DrawManager.ReDraw();
+                Debug.Log("Show contrains: " + x.newValue);
             });
 
             recalculate = new Button();

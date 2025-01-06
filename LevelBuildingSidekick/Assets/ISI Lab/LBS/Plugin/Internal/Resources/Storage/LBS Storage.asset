@@ -13,12 +13,6 @@ MonoBehaviour:
   m_Name: LBS Storage
   m_EditorClassIdentifier: 
   groups:
-  - type: UnityEngine.Rendering.PostProcessing.PostProcessProfile
-    items:
-    - {fileID: 11400000, guid: 81c673aa856745041b27a9548ec5c993, type: 2}
-  - type: Readme
-    items:
-    - {fileID: 11400000, guid: 447108942fa59f243b3e1f146cab91c2, type: 2}
   - type: LBS.Bundles.Bundle
     items:
     - {fileID: 11400000, guid: ee9b403b8d0ee8942bed3de2a60f1b80, type: 2}
@@ -60,13 +54,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: b27b53884401ce9458068046439a15d4, type: 2}
     - {fileID: 11400000, guid: 91bd51b6b6d56a94096e053826d639cb, type: 2}
     - {fileID: 11400000, guid: 689f899e39464344ea0d68a437c0ecf5, type: 2}
-    - {fileID: 11400000, guid: 57b65ca6867fc8245b3f93609a47c392, type: 2}
-    - {fileID: 11400000, guid: b2d0755e3bf927b4bb7e2178b82e6f1d, type: 2}
-    - {fileID: 11400000, guid: e90184dc1083a36448255a0bd69ad420, type: 2}
-    - {fileID: 11400000, guid: 5e4b3a32054cb2e41ae006aa92a199a9, type: 2}
-    - {fileID: 11400000, guid: 6c332378994aa164c9522bef902072aa, type: 2}
-    - {fileID: 11400000, guid: 5635f64a02759b54cadb34e5d7b36185, type: 2}
-    - {fileID: 11400000, guid: a80a6b2a16178e74db6238514b0002c9, type: 2}
     - {fileID: 11400000, guid: 9d5e70310bf40a547b42320ef5694c72, type: 2}
     - {fileID: 11400000, guid: 22e1fa0bf02fedb4c9e5725bd13884c9, type: 2}
     - {fileID: 11400000, guid: f3711301554ae2949bd77f46478e60fa, type: 2}
@@ -86,7 +73,12 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 79511a1b67e4d834cac9774688907ced, type: 2}
     - {fileID: 11400000, guid: 50238b964364050418416fa48f290579, type: 2}
     - {fileID: 11400000, guid: 6ab3cc14c34eee940a915bcee64fb316, type: 2}
-    - {fileID: 11400000, guid: b959f4fb293eeb944bac494c5e6bc639, type: 2}
+    - {fileID: 11400000, guid: c4e1674fd02bed44a900cf2f8cdc1480, type: 2}
+    - {fileID: 11400000, guid: 188b384687088564d8ac8eb8c9e039bc, type: 2}
+    - {fileID: 11400000, guid: 96768dacc43843c44980aaa3af16208c, type: 2}
+    - {fileID: 11400000, guid: e22ce772955d606438c55340680d443e, type: 2}
+    - {fileID: 11400000, guid: 5f57e16b6b3bf8448825a98f99baf452, type: 2}
+    - {fileID: 11400000, guid: 4931752101e5db9428801c214514e2d9, type: 2}
   - type: LBSIdentifierBundle
     items:
     - {fileID: 11400000, guid: 5dab7331507a6554a83a7ddfd42f5292, type: 2}
@@ -266,11 +258,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 8205ab67b3e47ed4aa4b97e13d9e6abb, type: 2}
   - type: ISILab.LBS.AI.Categorization.MAPElitesPreset
     items:
-    - {fileID: 11400000, guid: b90bb27f581fe354799c9c3b84f44eac, type: 2}
-    - {fileID: 11400000, guid: 4b9b0e49ec07d8d488a2e08f8d2bd757, type: 2}
-  - type: Borodar.RainbowFolders.ProjectRuleset
-    items:
-    - {fileID: 11400000, guid: 5e41b3c1212089d44971f715d8388de8, type: 2}
+    - {fileID: 11400000, guid: ee03be004b3a3c84583d4d19c72c48db, type: 2}
   - type: UnityEngine.UIElements.ThemeStyleSheet
     items:
     - {fileID: -4733365628477956816, guid: e143be758899db849b60f1f32e2521b7, type: 3}
@@ -346,4 +334,12 @@ MonoBehaviour:
   - type: ISILab.AI.Grammar.LBSGrammar
     items:
     - {fileID: 11400000, guid: 63ab688b53411154db5edd0ec7171c42, type: 2}
-    - {fileID: 11400000, guid: 58bc10aa290d21347a22b7648bf8d27e, type: 2}
+  - type: ISILab.LBS.Template.LayerTemplate
+    items:
+    - {fileID: 11400000, guid: 531e915267477db4e886c2e6401c4372, type: 2}
+    - {fileID: 11400000, guid: 8205ab67b3e47ed4aa4b97e13d9e6abb, type: 2}
+    - {fileID: 11400000, guid: 253f372750fae784d9a42445a8e08fcc, type: 2}
+  - type: ISILab.LBS.LBSIdentifierBundle
+    items:
+    - {fileID: 11400000, guid: 2bf3c5dcf9db60848bd36df406db40ab, type: 2}
+    - {fileID: 11400000, guid: 5dab7331507a6554a83a7ddfd42f5292, type: 2}

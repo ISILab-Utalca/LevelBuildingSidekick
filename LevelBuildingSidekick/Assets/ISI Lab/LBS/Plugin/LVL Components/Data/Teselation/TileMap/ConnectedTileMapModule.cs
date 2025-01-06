@@ -102,7 +102,7 @@ namespace ISILab.LBS.Modules
         public List<string> GetConnections(LBSTile tile)
         {
             var p = GetPair(tile);
-            return p.Connections;
+            return p?.Connections;
         }
 
         public void RemoveTile(LBSTile tile)
