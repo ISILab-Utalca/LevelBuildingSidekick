@@ -79,7 +79,7 @@ namespace ISILab.LBS.VisualElements.Editor
             var styleSheet = DirectoryTools.GetAssetByName<StyleSheet>("MainViewUSS");
             styleSheets.Add(styleSheet);
             style.flexGrow = 1;
-
+            
             SetBasicManipulators();
             InitBound(20000, int.MaxValue / 2);
 
@@ -265,6 +265,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
             return container;
         }
+        
         #endregion
     }
 }
