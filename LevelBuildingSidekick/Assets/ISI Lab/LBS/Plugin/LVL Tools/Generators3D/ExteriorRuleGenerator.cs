@@ -75,7 +75,6 @@ namespace ISILab.LBS.Generators
 
                 if(pref == null)
                 {
-                    Debug.Log("pref is null");
                     Debug.LogWarning("[ISILab]: Element generation has failed, " +
                         "make sure you have properly configured and assigned " +
                         "the Bundles you want to generate with.");

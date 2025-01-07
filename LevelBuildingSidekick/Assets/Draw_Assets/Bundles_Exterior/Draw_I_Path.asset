@@ -30,12 +30,19 @@ MonoBehaviour:
     probability: 0.82
   characteristics:
   - rid: 5085006314459627530
+  - rid: 680282313244803072
   references:
     version: 2
     RefIds:
+    - rid: 680282313244803072
+      type: {class: LBSDirection, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        owner: {fileID: 11400000}
+        connections: []
     - rid: 5085006314459627530
       type: {class: LBSDirection, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
+        owner: {fileID: 11400000}
         connections:
         - Fodder
         - Road
