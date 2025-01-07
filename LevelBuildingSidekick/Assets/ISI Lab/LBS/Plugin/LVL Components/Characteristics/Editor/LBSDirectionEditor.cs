@@ -42,6 +42,12 @@ namespace ISILab.LBS.VisualElements
             {
                 fields[i].objectType = typeof(LBSTag);
 
+                if (connections.Count <= i)
+                {
+                    Debug.Log(connections.Count);
+                    continue;
+                }
+
                 var tag = DirectoryTools.GetAssetByName<LBSTag>(connections[i]);
 
                 fields[i].value = tag;

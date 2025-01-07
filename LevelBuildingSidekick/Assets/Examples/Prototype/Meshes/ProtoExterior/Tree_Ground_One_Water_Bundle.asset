@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
-  m_Name: Full_Water_Bundle
+  m_Name: Tree_Ground_One_Water_Bundle
   m_EditorClassIdentifier: 
   type: 0
   anchorPosition: 0
@@ -18,9 +18,15 @@ MonoBehaviour:
   icon: {fileID: 0}
   childsBundles: []
   assets:
-  - obj: {fileID: 919132149155446097, guid: 116e51d496e6588409b05d94a2508502, type: 3}
+  - obj: {fileID: 919132149155446097, guid: 723e46e457c766b4c82e788ced14020a, type: 3}
     probability: 1
-  characteristics: []
+  characteristics:
+  - rid: 6598277204649181268
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 6598277204649181268
+      type: {class: LBSDirection, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        owner: {fileID: 11400000}
+        connections: []
