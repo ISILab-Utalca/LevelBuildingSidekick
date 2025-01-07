@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
-  m_Name: plains_X_Grass
+  m_Name: Full_Water_Bundle
   m_EditorClassIdentifier: 
   type: 0
   anchorPosition: 0
@@ -18,19 +18,15 @@ MonoBehaviour:
   icon: {fileID: 0}
   childsBundles: []
   assets:
-  - obj: {fileID: 5489090585539047440, guid: 1d0ebeeaf8f29dc43a7948344998b3e1, type: 3}
+  - obj: {fileID: 919132149155446097, guid: 116e51d496e6588409b05d94a2508502, type: 3}
     probability: 1
   characteristics:
-  - rid: 5085006314459627539
+  - rid: 6598277183838093610
   references:
     version: 2
     RefIds:
-    - rid: 5085006314459627539
+    - rid: 6598277183838093610
       type: {class: LBSDirection, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 11400000}
-        connections:
-        - Grass
-        - Grass
-        - Grass
-        - Grass
+        connections: []
