@@ -9,7 +9,7 @@ namespace LBS.VisualElements
     {
         private Label message;
         private VisualElement icon;
-
+        private bool whiteSpace;
         public class NotificationMessageFactory : UxmlFactory<NotificationMessage, UxmlTraits> { }
         
         public NotificationMessage()
@@ -18,9 +18,23 @@ namespace LBS.VisualElements
             visualTree.CloneTree(this);
             message = this.Q<Label>("MessageVe");
             icon = this.Q<VisualElement>("IconVe");
-            pickingMode = PickingMode.Ignore; 
+            pickingMode = PickingMode.Ignore;
+            style.scale = new Vector2(1f, -1f); // flip because notification viewer is flipped on Y
         }
 
+        public bool WhiteSpace
+        {
+            get => whiteSpace;
+            set => whiteSpace = value;
+        }
+
+
+        /**
+         * Currently only unique icons for LogTypes:
+         * -Error
+         * -Warning
+         * -Log
+         */
         public void SetData(string inMessage, LogType logType)
         {
             if (message == null || icon == null)
@@ -30,18 +44,16 @@ namespace LBS.VisualElements
             }
             var setIcon = logType switch
             {
-                LogType.Error => Resources.Load<Texture2D>("Icons/Error"),
-                LogType.Assert => Resources.Load<Texture2D>("Icons/Assert"),
-                LogType.Warning => Resources.Load<Texture2D>("Icons/Warning"),
-                LogType.Log => Resources.Load<Texture2D>("Icons/Log"),
-                LogType.Exception => Resources.Load<Texture2D>("Icons/Exception"),
+                LogType.Error => Resources.Load<VectorImage>("Icons/Vectorial/Icon=Error"),
+                LogType.Assert => Resources.Load<VectorImage>("Icons/Vectorial/Icon=Log"),
+                LogType.Warning => Resources.Load<VectorImage>("Icons/Vectorial/Icon=Warning"),
+                LogType.Log => Resources.Load<VectorImage>("Icons/Vectorial/Icon=Log"),
+                LogType.Exception => Resources.Load<VectorImage>("Icons/Vectorial/Icon=Error"),
                 _ => throw new ArgumentOutOfRangeException(nameof(logType), logType, null)
             };
             
-            icon.style.backgroundImage = setIcon;
+            icon.style.backgroundImage = new StyleBackground(setIcon);
             message.text = inMessage;
-            Debug.Log("Data Set");
-            
         } 
     } 
 }

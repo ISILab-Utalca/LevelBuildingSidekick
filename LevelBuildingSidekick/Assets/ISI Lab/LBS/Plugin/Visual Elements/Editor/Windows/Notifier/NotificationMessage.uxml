@@ -1,5 +1,4 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <ui:Label text="I'm Error!" name="MessageVe" enable-rich-text="false" style="width: 850px; height: 90px; translate: 100px 0;" />
-    
-    <ui:VisualElement name="IconVe" style="flex-grow: 0; background-color: rgb(255, 255, 255); background-image: resource('Icons/AddNode'); width: 50px; height: 50px; align-items: auto; flex-direction: row-reverse; align-self: flex-start; justify-content: center; translate: 20px -40px; -unity-background-scale-mode: scale-to-fit; flex-shrink: 0; position: absolute; top: 51px; left: 2px; -unity-text-outline-width: 2px;" />
+    <ui:VisualElement name="IconVe" style="flex-grow: 0; background-color: rgba(255, 255, 255, 0); background-image: resource(&apos;Icons/Vectorial/Icon=Log&apos;); width: 50px; height: 50px; align-items: auto; flex-direction: row-reverse; align-self: flex-start; justify-content: center; translate: 0 0; -unity-background-scale-mode: scale-to-fit; flex-shrink: 0; position: relative; top: 0; left: 0; -unity-text-outline-width: 2px; transform-origin: left top;" />
+    <ui:Label text="I&apos;m Error!" name="MessageVe" enable-rich-text="false" style="width: 850px; height: 43px; translate: 60px -50px; top: 0; transform-origin: left top;" />
 </ui:UXML>
