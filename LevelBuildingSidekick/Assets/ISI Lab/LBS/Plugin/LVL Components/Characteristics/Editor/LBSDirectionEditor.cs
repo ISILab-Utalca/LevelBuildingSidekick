@@ -38,23 +38,26 @@ namespace ISILab.LBS.VisualElements
 
             var connections = target.Connections;
 
-            if (connections.Count >= fields.Length)
+            for(int i = 0; i < fields.Length; i++)
             {
-                for (int i = 0; i < fields.Length; i++)
+                fields[i].objectType = typeof(LBSTag);
+
+                if (connections.Count <= i)
                 {
-                    fields[i].objectType = typeof(LBSTag);
-
-                    var tag = DirectoryTools.GetAssetByName<LBSTag>(connections[i]);
-
-                    fields[i].value = tag;
-
-                    var index = i;
-
-                    fields[i].RegisterValueChangedCallback(evt =>
-                    {
-                        target.SetConnection(evt.newValue as LBSTag, index);
-                    });
+                    Debug.Log(connections.Count);
+                    continue;
                 }
+
+                var tag = DirectoryTools.GetAssetByName<LBSTag>(connections[i]);
+
+                fields[i].value = tag;
+
+                var index = i;
+
+                fields[i].RegisterValueChangedCallback(evt =>
+                {
+                    target.SetConnection(evt.newValue as LBSTag, index);
+                });
             }
         }
 

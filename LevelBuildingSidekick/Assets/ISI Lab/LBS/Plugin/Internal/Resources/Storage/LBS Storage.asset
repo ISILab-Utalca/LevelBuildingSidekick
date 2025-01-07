@@ -75,6 +75,14 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 6ab3cc14c34eee940a915bcee64fb316, type: 2}
     - {fileID: 11400000, guid: 51b64b59109603d498df5c545511f1db, type: 2}
     - {fileID: 11400000, guid: 6eca44a9d25c6df4d8216614e323dd60, type: 2}
+    - {fileID: 11400000, guid: 3cbb92a444048d845a89d48742a9e927, type: 2}
+    - {fileID: 11400000, guid: cbd6969f6a1a45b48a859e434a22df14, type: 2}
+    - {fileID: 11400000, guid: ac03edd14aa39784aadad6a39fdc781c, type: 2}
+    - {fileID: 11400000, guid: bcf95dd72e3de9740bcacf553166359e, type: 2}
+    - {fileID: 11400000, guid: 6e0d1c529fe5a6c49bc1a715cd4409b0, type: 2}
+    - {fileID: 11400000, guid: c1927752c4d799445ab7bcd1744555f9, type: 2}
+    - {fileID: 11400000, guid: 830cb209e2da4c846ae0dfe99876972c, type: 2}
+    - {fileID: 11400000, guid: d631702b3896c2c4fa2ccca4802013db, type: 2}
   - type: LBSIdentifierBundle
     items:
     - {fileID: 11400000, guid: 5dab7331507a6554a83a7ddfd42f5292, type: 2}
@@ -323,9 +331,15 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 29bb7522bbb9fa249819f016dc0d4b13, type: 2}
     - {fileID: 11400000, guid: 94b707ea81720694d8e3ac214351af91, type: 2}
     - {fileID: 11400000, guid: 69d9a8691d0cefd4d94396cdeeb2e340, type: 2}
+    - {fileID: 11400000, guid: c24ceb3018896af43b3002b5857746f7, type: 2}
+    - {fileID: 11400000, guid: 0091aa48152daf84b879bd47afd95c5f, type: 2}
   - type: ISILab.AI.Grammar.LBSGrammar
     items:
     - {fileID: 11400000, guid: 63ab688b53411154db5edd0ec7171c42, type: 2}
   - type: ISILab.LBS.Template.LayerTemplate
     items:
     - {fileID: 11400000, guid: 253f372750fae784d9a42445a8e08fcc, type: 2}
+    - {fileID: 11400000, guid: 531e915267477db4e886c2e6401c4372, type: 2}
+  - type: ISILab.LBS.LBSIdentifierBundle
+    items:
+    - {fileID: 11400000, guid: 468aebbf5a02f6d45b144fc9dc3deb01, type: 2}

@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
+  m_Name: Exterior_Proto
+  m_EditorClassIdentifier: 
+  type: 1
+  anchorPosition: 0
+  color: {r: 0, g: 0, b: 0, a: 0}
+  icon: {fileID: 0}
+  childsBundles:
+  - {fileID: 11400000, guid: cbd6969f6a1a45b48a859e434a22df14, type: 2}
+  - {fileID: 11400000, guid: 3cbb92a444048d845a89d48742a9e927, type: 2}
+  - {fileID: 11400000, guid: ac03edd14aa39784aadad6a39fdc781c, type: 2}
+  - {fileID: 11400000, guid: d631702b3896c2c4fa2ccca4802013db, type: 2}
+  - {fileID: 11400000, guid: bcf95dd72e3de9740bcacf553166359e, type: 2}
+  - {fileID: 11400000, guid: 6e0d1c529fe5a6c49bc1a715cd4409b0, type: 2}
+  - {fileID: 11400000, guid: c1927752c4d799445ab7bcd1744555f9, type: 2}
+  - {fileID: 11400000, guid: 830cb209e2da4c846ae0dfe99876972c, type: 2}
+  assets: []
+  characteristics:
+  - rid: 4305865203777798400
+  references:
+    version: 2
+    RefIds:
+    - rid: 4305865203777798400
+      type: {class: LBSDirectionedGroup, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        owner: {fileID: 11400000}
+        Weights:
+        - target: {fileID: 11400000, guid: cbd6969f6a1a45b48a859e434a22df14, type: 2}
+          weight: 1
+        - target: {fileID: 11400000, guid: 3cbb92a444048d845a89d48742a9e927, type: 2}
+          weight: 1
+        - target: {fileID: 11400000, guid: ac03edd14aa39784aadad6a39fdc781c, type: 2}
+          weight: 0
+        - target: {fileID: 11400000, guid: d631702b3896c2c4fa2ccca4802013db, type: 2}
+          weight: 0
+        - target: {fileID: 11400000, guid: bcf95dd72e3de9740bcacf553166359e, type: 2}
+          weight: 0
+        - target: {fileID: 11400000, guid: 6e0d1c529fe5a6c49bc1a715cd4409b0, type: 2}
+          weight: 0
+        - target: {fileID: 11400000, guid: c1927752c4d799445ab7bcd1744555f9, type: 2}
+          weight: 0
+        - target: {fileID: 11400000, guid: 830cb209e2da4c846ae0dfe99876972c, type: 2}
+          weight: 0.5
