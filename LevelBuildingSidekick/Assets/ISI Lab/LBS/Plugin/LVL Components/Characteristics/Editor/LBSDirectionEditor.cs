@@ -44,7 +44,7 @@ namespace ISILab.LBS.VisualElements
 
                 if (connections.Count <= i)
                 {
-                    Debug.Log(connections.Count);
+                    //Debug.Log(connections.Count);
                     continue;
                 }
 
