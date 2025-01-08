@@ -47,7 +47,18 @@ namespace LBS.VisualElements
                 _ => throw new ArgumentOutOfRangeException(nameof(logType), logType, null)
             };
             
+            Color setColor = logType switch
+            {
+                LogType.Error => new Color(1, 0.2f, 0.2f, 1),
+                LogType.Assert => new Color(1, 0.2f, 0.2f, 1),
+                LogType.Warning => new Color(1, 0.8f, 0.1f, 1),
+                LogType.Log => new Color(1, 1, 1, 1),
+                LogType.Exception => new Color(1, 1, 1, 0),
+                _ => throw new ArgumentOutOfRangeException(nameof(logType), logType, null)
+            };
+            
             icon.style.backgroundImage = new StyleBackground(setIcon);
+            icon.style.unityBackgroundImageTintColor = setColor;
             message.text = inMessage;
         } 
     } 

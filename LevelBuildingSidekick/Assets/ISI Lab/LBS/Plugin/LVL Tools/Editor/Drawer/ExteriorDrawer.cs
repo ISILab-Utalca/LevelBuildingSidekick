@@ -88,7 +88,7 @@ namespace ISILab.LBS.Drawers
             ExteriorTileView tView = new ExteriorTileView(connections);
 
             tView.SetConnections(connections.ToArray());
-            if(tile.tag) tView.SetMain(tile.tag);
+            if(tile.tag) tView.SetTileCenter(tile.tag);
             var pos = new Vector2(tile.Position.x, -tile.Position.y);
 
             var size = DefalutSize * teselationSize;

@@ -27,7 +27,7 @@ namespace ISILab.LBS.VisualElements
         
         private static float scaleFactor = 1f;
         private static Color fillColor = Color.grey;
-        private static Color borderColor = new Color(0f, 0f, 0f, 0.33f);
+        private static float colorBrightenner = 0.1f;
         public ExteriorTileView(List<string> connections)
         {
             if (view == null)
@@ -38,11 +38,10 @@ namespace ISILab.LBS.VisualElements
 
             this.SetMargins(0);
             this.SetPaddings(0);
-            //this.SetBorder(new Color(0.6f,0.6f,0.6f,6f), 1f);
+
             this.SetBackgroundColor(fillColor);
             this.SetBorderRadius(0);
             this.transform.scale = Vector3.one * scaleFactor;
-            //SetBorderBackgroundColor(Color.white);
       
             leftConnection = this.Q<VisualElement>("LeftConnection");
             rightConnection = this.Q<VisualElement>("RightConnection");
@@ -56,17 +55,6 @@ namespace ISILab.LBS.VisualElements
             bottomSide = fill.Q<VisualElement>("BottomFill");
             center = fill.Q<VisualElement>("CenterFill");
             
-            SetBackgroundColor(leftSide, fillColor);
-            SetBackgroundColor(rightSide, fillColor);
-            SetBackgroundColor(topSide, fillColor);
-            SetBackgroundColor(bottomSide, fillColor);
-            
-            SetBorderColor(leftSide, borderColor);
-            SetBorderColor(rightSide, borderColor);
-            SetBorderColor(topSide, borderColor);
-            SetBorderColor(bottomSide, borderColor);
-            SetBorderColor(fill, borderColor);
-                
             SetConnections(connections.ToArray());
         }
 
@@ -74,6 +62,14 @@ namespace ISILab.LBS.VisualElements
         {
             if (ve == null) return;
             ve.style.backgroundColor = color;
+        }
+        
+        private static void SetImageTint(VisualElement ve, Color color)
+        {
+            if (ve == null) return;
+            if (ve.style.backgroundImage == null) return;
+            ve.style.unityBackgroundImageTintColor = color;
+
         }
         
         private static void SetBorderColor(VisualElement ve, Color color)
@@ -94,7 +90,7 @@ namespace ISILab.LBS.VisualElements
             {
                 color = tts.Find(t => t.Label.Equals(tags[0])).Color;
                 SetBackgroundColor(rightConnection, color);
-                SetBackgroundColor(rightSide, color);
+                SetImageTint(rightSide, ClearColor(color));
                 rightConnection.style.display = DisplayStyle.Flex;
             }
             else
@@ -107,7 +103,7 @@ namespace ISILab.LBS.VisualElements
             {
                 color = tts.Find(t => t.Label.Equals(tags[1])).Color;
                 SetBackgroundColor(topConnection, color);
-                SetBackgroundColor(topSide, color);
+                SetImageTint(topSide, ClearColor(color));
                 topConnection.style.display = DisplayStyle.Flex;
             }
             else
@@ -120,7 +116,7 @@ namespace ISILab.LBS.VisualElements
             {
                 color = tts.Find(t => t.Label.Equals(tags[2])).Color;
                 SetBackgroundColor(leftConnection, color);
-                SetBackgroundColor(leftSide, color);
+                SetImageTint(leftSide, ClearColor(color));
                 leftConnection.style.display = DisplayStyle.Flex;
             }
             else
@@ -133,7 +129,7 @@ namespace ISILab.LBS.VisualElements
             {
                 color = tts.Find(t => t.Label.Equals(tags[3])).Color;
                 SetBackgroundColor(bottomConnection, color);
-                SetBackgroundColor(bottomSide, color);
+                SetImageTint(bottomSide, ClearColor(color));
                 bottomConnection.style.display = DisplayStyle.Flex;
             }
             else
@@ -144,14 +140,18 @@ namespace ISILab.LBS.VisualElements
    
         }
 
-        public void SetMain(LBSTag identifier)
+        public void SetTileCenter(LBSTag identifier)
         {
-            //var tts = LBSAssetsStorage.Instance.Get<LBSTag>();
-            // var tag = identifier;
-            //var color = tts.Find(t => t.Label.Equals(identifier)).Color;
             var color = identifier.Color;
-            SetBackgroundColor(center,color);
-            SetBorderColor(center,borderColor);
+            SetBackgroundColor(center,ClearColor(color));
+        }
+
+        private static Color ClearColor(Color color)
+        {
+            color.r += colorBrightenner;
+            color.b += colorBrightenner;
+            color.g += colorBrightenner;
+            return color;
         }
     }
 }
