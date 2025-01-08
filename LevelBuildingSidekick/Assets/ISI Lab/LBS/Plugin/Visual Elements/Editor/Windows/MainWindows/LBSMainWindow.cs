@@ -112,11 +112,10 @@ public class LBSMainWindow : EditorWindow
 
         // Message Notifier
         notifier = rootVisualElement.Q<NotifierViewer>("NotifierViewer");
-        if (notifier == null)
-        {
-            Debug.LogError("NotifierViewer could not be cast.");
-        }
-
+        var cleanButton = rootVisualElement.Q<VisualElement>("CleanNotificationsButton");
+        var disableNotificationButton = rootVisualElement.Q<VisualElement>("DisableNotificationsButton");
+        notifier.SetButtons(cleanButton, disableNotificationButton);
+        
         // ToolPanel
         toolPanel = rootVisualElement.Q<ButtonGroup>("ToolsGroup");
 

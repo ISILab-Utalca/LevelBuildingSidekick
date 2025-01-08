@@ -277,7 +277,6 @@ namespace ISILab.LBS.VisualElements.Editor
             }
             if (evt.keyCode == KeyCode.Z)
             {
-
                 LBSMainWindow.MessageNotify("message", LogType.Log, 10);
                 evt.StopPropagation(); 
                 return;

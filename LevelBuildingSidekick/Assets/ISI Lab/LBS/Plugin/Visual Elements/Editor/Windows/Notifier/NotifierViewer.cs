@@ -13,7 +13,11 @@ namespace LBS.VisualElements
         private ListView messageContainer;
         
         // max size of messages on the container before force remove
-        private int MaxCount = 5; 
+        private int maxCount = 5;
+        private bool notificationOn = true;
+        private ScrollView scrollView;
+        private VectorImage iconNotificationsOn; 
+        private VectorImage iconNotificationsOff; 
         
         public class NotifierViewerFactory : UxmlFactory<NotifierViewer, UxmlTraits> { }
         
@@ -38,7 +42,11 @@ namespace LBS.VisualElements
                 Debug.LogError("MessageContainer not found in the UXML.");
                 return;
             }
-            var scrollView = messageContainer.hierarchy.Children().OfType<ScrollView>().Single();
+            scrollView = messageContainer.hierarchy.Children().OfType<ScrollView>().Single();
+            
+            // disable as a clickable 
+            messageContainer.pickingMode = PickingMode.Ignore;
+            scrollView.contentViewport.pickingMode = PickingMode.Ignore;
             
             scrollView.contentViewport.style.justifyContent = Justify.FlexEnd;
 
@@ -60,7 +68,7 @@ namespace LBS.VisualElements
         private NotificationMessage[] GetChildren()
         {
             List<NotificationMessage> messages = new List<NotificationMessage>();
-            var veChildren = messageContainer.hierarchy.Children().OfType<ScrollView>().Single().Children().ToArray();
+            var veChildren = scrollView.Children().ToArray();
             foreach (var veChild in veChildren)
             {
                 if(veChild is NotificationMessage message) messages.Add(message);
@@ -72,7 +80,7 @@ namespace LBS.VisualElements
         private NotificationMessage[] GetNonWhiteChildren()
         {
             List<NotificationMessage> messages = new List<NotificationMessage>();
-            var veChildren = messageContainer.hierarchy.Children().OfType<ScrollView>().Single().Children().ToArray();
+            var veChildren = scrollView.Children().ToArray();
             foreach (var veChild in veChildren)
             {
                 if(veChild is NotificationMessage message && !message.WhiteSpace) messages.Add(message);
@@ -87,42 +95,41 @@ namespace LBS.VisualElements
             var newMessage = new NotificationMessage();
             message = GetNonWhiteChildren().Length.ToString();
             newMessage.SetData(message, logType);
-            messageContainer.hierarchy.Children().OfType<ScrollView>().Single().Add(newMessage);
+            scrollView.Add(newMessage);
             OnNotificationVisualUpdate();
             
             Lifetime(newMessage, duration);
 
         }
         
-        public void OnNotificationVisualUpdate()
+        private void OnNotificationVisualUpdate()
         {
             var _children = GetNonWhiteChildren();
             if (_children == null || !_children.Any()) return;
 
             NotificationMessage[] reOrdered = GetNonWhiteChildren();
-            var _scrollView = messageContainer.hierarchy.Children().OfType<ScrollView>().Single();
-            _scrollView.Clear();
 
+            ClearNotifications();
             
             // Add white space for empty spaces
-            var whites = MaxCount - reOrdered.Length;
+            var whites = maxCount - reOrdered.Length;
             for (int i = 0; i < whites; i++)
             {
                 var whiteMessage = new NotificationMessage();
                 whiteMessage.WhiteSpace = true;
                 whiteMessage.style.opacity = 0f;
-                _scrollView.Add(whiteMessage);
+                scrollView.Add(whiteMessage);
             }
             
             // Re-add visual elements
-            foreach (var child in reOrdered) _scrollView.Add(child);
+            foreach (var child in reOrdered) scrollView.Add(child);
             
             // Remove overboard
-            if (GetChildren().Count() > MaxCount)
+            if (GetChildren().Count() > maxCount)
             {
-                for (int i = MaxCount; i < GetChildren().Count(); i++)
+                for (int i = maxCount; i < GetChildren().Count(); i++)
                 {
-                    _scrollView.RemoveAt(i);
+                    scrollView.RemoveAt(i);
                 }
             }
         }
@@ -163,6 +170,26 @@ namespace LBS.VisualElements
             element.WhiteSpace = true;
             OnNotificationVisualUpdate();
         }
+
+        public void ClearNotifications()
+        {
+            scrollView.Clear();
+          
+        }
+        
+        public void NotificationFlipFlop(VisualElement button)
+        {
+            notificationOn = !notificationOn;
+            if (button == null) return;
+            button.style.backgroundImage = notificationOn ? new StyleBackground(iconNotificationsOn) : new StyleBackground(iconNotificationsOff);
+        }
+        
+        public void SetButtons(VisualElement cleanButton, VisualElement disableNotificationButton)
+        {
+            cleanButton.RegisterCallback<ClickEvent>(vt => ClearNotifications());
+            disableNotificationButton.RegisterCallback<ClickEvent>(vt => NotificationFlipFlop(disableNotificationButton));
+        }
+
     }
 }
   
