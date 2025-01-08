@@ -19,13 +19,16 @@ namespace LBS.VisualElements
             message = this.Q<Label>("MessageVe");
             icon = this.Q<VisualElement>("IconVe");
             pickingMode = PickingMode.Ignore;
-            style.scale = new Vector2(1f, -1f); // flip because notification viewer is flipped on Y
+            
+            style.flexDirection = FlexDirection.Row;
+            style.flexGrow = 1;
         }
 
         public bool WhiteSpace
         {
             get => whiteSpace;
             set => whiteSpace = value;
+     
         }
 
 
@@ -42,7 +45,7 @@ namespace LBS.VisualElements
                 Debug.LogError("Missing VE");
                 return;
             }
-            var setIcon = logType switch
+            VectorImage setIcon = logType switch
             {
                 LogType.Error => Resources.Load<VectorImage>("Icons/Vectorial/Icon=Error"),
                 LogType.Assert => Resources.Load<VectorImage>("Icons/Vectorial/Icon=Log"),

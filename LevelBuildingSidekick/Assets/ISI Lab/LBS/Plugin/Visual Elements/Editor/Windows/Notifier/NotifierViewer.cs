@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ISILab.Commons.Utility.Editor;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -13,23 +14,27 @@ namespace LBS.VisualElements
         private ListView messageContainer;
         
         // max size of messages on the container before force remove
-        private int maxCount = 5;
+        private int maxCount = 20;
         private bool notificationOn = true;
         private ScrollView scrollView;
         private VectorImage iconNotificationsOn; 
-        private VectorImage iconNotificationsOff; 
-        
+        private VectorImage iconNotificationsOff;
+        private static int fadeTime = 5;
         public class NotifierViewerFactory : UxmlFactory<NotifierViewer, UxmlTraits> { }
         
         public NotifierViewer()
         {
             // to overlap other visual elements
-            pickingMode = PickingMode.Ignore; 
+            // Set up the container styles
             style.position = Position.Absolute;
-            style.top = 0;
-            style.left = 0;
-            style.right = 0;
-            style.bottom = 0;
+            style.bottom = 0; // Anchor to the bottom
+            style.left = 0;   // Anchor to the left
+            style.alignContent = Align.FlexStart; // Align content at the start
+            style.justifyContent = Justify.FlexStart; // Ensure content alignment starts at the bottom
+            style.overflow = Overflow.Visible; // Allow it
+            
+            iconNotificationsOn = Resources.Load<VectorImage>("Icons/Vectorial/Icon=Notification");
+            iconNotificationsOff = Resources.Load<VectorImage>("Icons/Vectorial/Icon=MuteNotification");
         }
         
         private void SetContainer()
@@ -48,21 +53,16 @@ namespace LBS.VisualElements
             messageContainer.pickingMode = PickingMode.Ignore;
             scrollView.contentViewport.pickingMode = PickingMode.Ignore;
             
-            scrollView.contentViewport.style.justifyContent = Justify.FlexEnd;
+            scrollView.contentViewport.style.justifyContent = Justify.FlexStart;
 
-            // Make sure the content does not grow; we want the list to have a fixed size in height
-            scrollView.contentViewport.style.flexGrow = 0f;
+            // Make sure the content does not grow; list with fixed height size
+            scrollView.contentViewport.style.flexGrow = 1f;
 
             scrollView.verticalScrollerVisibility = ScrollerVisibility.Hidden;
             scrollView.horizontalScrollerVisibility = ScrollerVisibility.Hidden;
 
-            messageContainer.style.flexDirection = FlexDirection.ColumnReverse;
-            scrollView.contentViewport.style.flexDirection = FlexDirection.ColumnReverse;
-            scrollView.contentContainer.style.flexDirection = FlexDirection.ColumnReverse;
-            
-            // flip because listview only adds content from top to bottom. Design calls for the opposite
-            scrollView.style.scale = new Vector2(1, -1); 
-            
+            scrollView.contentViewport.style.flexDirection = FlexDirection.Row;
+
         }
         
         private NotificationMessage[] GetChildren()
@@ -91,9 +91,9 @@ namespace LBS.VisualElements
         
         public void SendNotification(string message, LogType logType, int duration)
         {
+            
             SetContainer();
             var newMessage = new NotificationMessage();
-            message = GetNonWhiteChildren().Length.ToString();
             newMessage.SetData(message, logType);
             scrollView.Add(newMessage);
             OnNotificationVisualUpdate();
@@ -139,29 +139,29 @@ namespace LBS.VisualElements
             // Ensure the duration is valid
             if (duration > 0)
             {
-                float elapsed = 0f;
-                while (elapsed < duration)
+                var stopwatch = System.Diagnostics.Stopwatch.StartNew(); 
+                while (stopwatch.Elapsed.TotalSeconds < duration)
                 {
-                    await Task.Yield(); 
-                    elapsed += Time.deltaTime;
+                    await Task.Yield();
                 }
+                stopwatch.Stop();
             }
-            FadeOut(element, duration);
+            FadeOut(element);
         }
 
-        private async void FadeOut(NotificationMessage element, float duration)
+        private async void FadeOut(NotificationMessage element)
         {
             // Ensure the duration is valid
-            if (duration > 0)
+            if (fadeTime > 0)
             {
                 float startOpacity = element.resolvedStyle.opacity;
                 float elapsed = 0f;
 
-                while (elapsed < duration)
+                while (elapsed < fadeTime)
                 {
                     await Task.Yield(); 
                     elapsed += Time.deltaTime;
-                    float t = elapsed / duration; 
+                    float t = elapsed / fadeTime; 
                     element.style.opacity = Mathf.Lerp(startOpacity, 0f, t);
                 }
             }
@@ -174,14 +174,15 @@ namespace LBS.VisualElements
         public void ClearNotifications()
         {
             scrollView.Clear();
-          
         }
         
         public void NotificationFlipFlop(VisualElement button)
         {
             notificationOn = !notificationOn;
             if (button == null) return;
-            button.style.backgroundImage = notificationOn ? new StyleBackground(iconNotificationsOn) : new StyleBackground(iconNotificationsOff);
+            var tButton = button as ToolbarButton;
+            if (tButton == null) return;
+            tButton.contentContainer.style.backgroundImage = notificationOn ? new StyleBackground(iconNotificationsOn) : new StyleBackground(iconNotificationsOff);
         }
         
         public void SetButtons(VisualElement cleanButton, VisualElement disableNotificationButton)

@@ -1,5 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <LBS.VisualElements.NotifierViewer name="NotifierViewer">
-        <ui:ListView focusable="true" name="MessageContainer" fixed-item-height="1" horizontal-scrolling="false" style="overflow: visible; transform-origin: left top; height: auto; translate: 0 0; flex-direction: column;" />
+    <LBS.VisualElements.NotifierViewer name="NotifierViewer" style="position: relative; width: 1000px; max-width: 1000px; min-width: 150px; flex-grow: 1;">
+        <ui:ListView focusable="true" name="MessageContainer" fixed-item-height="1" horizontal-scrolling="false" virtualization-method="DynamicHeight" style="overflow: visible; transform-origin: left top; height: auto; translate: 0 0; flex-direction: column; max-height: none; min-height: auto; width: auto; max-width: 1000px;" />
     </LBS.VisualElements.NotifierViewer>
 </ui:UXML>

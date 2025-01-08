@@ -165,11 +165,13 @@ namespace ISILab.LBS.VisualElements.Editor
             }
 
             data.AddLayer(layer);
-
+            
             list.SetSelectionWithoutNotify(new List<int>() {0});
 
             OnAddLayer?.Invoke(layer);
 
+            LBSMainWindow.MessageNotify("New Data layer created", LogType.Log, 2);
+            
             list.Rebuild();
         }
         
@@ -194,6 +196,8 @@ namespace ISILab.LBS.VisualElements.Editor
             OnRemoveLayer?.Invoke(layer);
             list.Rebuild();
 
+            LBSMainWindow.MessageNotify("Data layer deleted", LogType.Log, 2);
+            
             DrawManager.ReDraw();
         }
 
@@ -277,7 +281,8 @@ namespace ISILab.LBS.VisualElements.Editor
             }
             if (evt.keyCode == KeyCode.Z)
             {
-                LBSMainWindow.MessageNotify("message", LogType.Log, 10);
+                //Debugging here
+                
                 evt.StopPropagation(); 
                 return;
             }
