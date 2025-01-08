@@ -9,7 +9,7 @@ namespace LBS.VisualElements
     {
         private Label message;
         private VisualElement icon;
-        private bool whiteSpace;
+
         public class NotificationMessageFactory : UxmlFactory<NotificationMessage, UxmlTraits> { }
         
         public NotificationMessage()
@@ -23,14 +23,6 @@ namespace LBS.VisualElements
             style.flexDirection = FlexDirection.Row;
             style.flexGrow = 1;
         }
-
-        public bool WhiteSpace
-        {
-            get => whiteSpace;
-            set => whiteSpace = value;
-     
-        }
-
 
         /**
          * Currently only unique icons for LogTypes:

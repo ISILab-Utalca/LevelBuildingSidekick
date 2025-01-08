@@ -52,6 +52,7 @@ namespace LBS.VisualElements
             // disable as a clickable 
             messageContainer.pickingMode = PickingMode.Ignore;
             scrollView.contentViewport.pickingMode = PickingMode.Ignore;
+            scrollView.pickingMode = PickingMode.Ignore;
             
             scrollView.contentViewport.style.justifyContent = Justify.FlexStart;
 
@@ -63,6 +64,8 @@ namespace LBS.VisualElements
 
             scrollView.contentViewport.style.flexDirection = FlexDirection.Row;
 
+            scrollView.contentContainer.style.flexDirection = FlexDirection.Column;
+            
         }
         
         private NotificationMessage[] GetChildren()
@@ -72,18 +75,6 @@ namespace LBS.VisualElements
             foreach (var veChild in veChildren)
             {
                 if(veChild is NotificationMessage message) messages.Add(message);
-            }
-            
-            return messages.ToArray();
-        }
-        
-        private NotificationMessage[] GetNonWhiteChildren()
-        {
-            List<NotificationMessage> messages = new List<NotificationMessage>();
-            var veChildren = scrollView.Children().ToArray();
-            foreach (var veChild in veChildren)
-            {
-                if(veChild is NotificationMessage message && !message.WhiteSpace) messages.Add(message);
             }
             
             return messages.ToArray();
@@ -104,25 +95,13 @@ namespace LBS.VisualElements
         
         private void OnNotificationVisualUpdate()
         {
-            var _children = GetNonWhiteChildren();
+            var _children = GetChildren();
             if (_children == null || !_children.Any()) return;
-
-            NotificationMessage[] reOrdered = GetNonWhiteChildren();
-
+            
             ClearNotifications();
             
-            // Add white space for empty spaces
-            var whites = maxCount - reOrdered.Length;
-            for (int i = 0; i < whites; i++)
-            {
-                var whiteMessage = new NotificationMessage();
-                whiteMessage.WhiteSpace = true;
-                whiteMessage.style.opacity = 0f;
-                scrollView.Add(whiteMessage);
-            }
-            
             // Re-add visual elements
-            foreach (var child in reOrdered) scrollView.Add(child);
+            foreach (var child in _children) scrollView.Add(child);
             
             // Remove overboard
             if (GetChildren().Count() > maxCount)
@@ -167,7 +146,6 @@ namespace LBS.VisualElements
             }
             
             element.style.opacity = 0f;
-            element.WhiteSpace = true;
             OnNotificationVisualUpdate();
         }
 
