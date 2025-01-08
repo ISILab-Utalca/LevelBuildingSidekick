@@ -11,6 +11,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using ISILab.Commons.VisualElements.Editor;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -34,6 +35,7 @@ public class LBSMainWindow : EditorWindow
     private ToolKit questToolkit;
     private DrawManager drawManager;
     private LBSInspectorPanel inspectorManager;
+    private static NotifierViewer notifier;
     #endregion
 
     #region FIELDS-VIEWS
@@ -71,9 +73,9 @@ public class LBSMainWindow : EditorWindow
     public virtual void CreateGUI()
     {
         Init();
+        
     }
-
-
+    
     private void OnInspectorUpdate()
     {
         OnWindowRepaint?.Invoke();
@@ -108,6 +110,12 @@ public class LBSMainWindow : EditorWindow
         subPanelScrollView.Q<VisualElement>("unity-content-viewport").pickingMode = PickingMode.Ignore;
         subPanelScrollView.Q<VisualElement>("unity-content-container").pickingMode = PickingMode.Ignore;
 
+        // Message Notifier
+        notifier = rootVisualElement.Q<NotifierViewer>("NotifierViewer");
+        var cleanButton = rootVisualElement.Q<VisualElement>("CleanNotificationsButton");
+        var disableNotificationButton = rootVisualElement.Q<VisualElement>("DisableNotificationsButton");
+        notifier.SetButtons(cleanButton, disableNotificationButton);
+        
         // ToolPanel
         toolPanel = rootVisualElement.Q<ButtonGroup>("ToolsGroup");
 
@@ -255,8 +263,9 @@ public class LBSMainWindow : EditorWindow
         LBSController.OnLoadLevel += (l) => _selectedLayer = null;
         
         drawManager.RedrawLevel(levelData, mainView);
+  
     }
-
+    
     /// <summary>
     /// Repaint the window.
     /// </summary>
@@ -332,5 +341,15 @@ public class LBSMainWindow : EditorWindow
     {
         DrawManager.ReDraw();
         LBSInspectorPanel.ReDraw();
+    }
+
+    public static void MessageNotify(string message, LogType logType, int duration)
+    {       
+        if (notifier == null)
+        {
+            Debug.LogError("NotifierViewer could not be cast.");
+            return;
+        }
+        notifier.SendNotification(message, logType, duration);
     }
 }

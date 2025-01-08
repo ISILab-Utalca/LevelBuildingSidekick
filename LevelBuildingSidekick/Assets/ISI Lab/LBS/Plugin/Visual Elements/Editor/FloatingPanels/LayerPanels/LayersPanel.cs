@@ -39,9 +39,6 @@ namespace ISILab.LBS.VisualElements.Editor
         public LBSLevelData data;
         private LBSLayer selectedLayer;
         
-        private SavedLayerPanel[] redoData;
-        private SavedLayerPanel[] undoData;
-        
         // templates
         private List<LayerTemplate> templates;
 
@@ -67,7 +64,7 @@ namespace ISILab.LBS.VisualElements.Editor
         #endregion
 
         #region CONSTRUCTORS
-        public LayersPanel() { }
+        public LayersPanel() {  }
 
         public LayersPanel(LBSLevelData data, ref List<LayerTemplate> templates)
         {
@@ -137,9 +134,7 @@ namespace ISILab.LBS.VisualElements.Editor
             noLayerNotificators = this.Query<VisualElement>("NoLayerNotify").ToList();
             noSelectedLayerNotificator = this.Q<VisualElement>("NoSelectedLayerNotify");
             
-            // Input Keys
-            
-            
+            RegisterCallback<KeyDownEvent>(OnKeyDown);
         }
         #endregion
 
@@ -170,16 +165,16 @@ namespace ISILab.LBS.VisualElements.Editor
             }
 
             data.AddLayer(layer);
-
+            
             list.SetSelectionWithoutNotify(new List<int>() {0});
 
             OnAddLayer?.Invoke(layer);
 
-            list.Rebuild();
+            LBSMainWindow.MessageNotify("New Data layer created", LogType.Log, 2);
             
-            RegisterCallback<KeyDownEvent>(OnKeyDown);
+            list.Rebuild();
         }
-
+        
         public void RemoveSelectedLayer()
         {
             if (data.Layers.Count <= 0)
@@ -201,6 +196,8 @@ namespace ISILab.LBS.VisualElements.Editor
             OnRemoveLayer?.Invoke(layer);
             list.Rebuild();
 
+            LBSMainWindow.MessageNotify("Data layer deleted", LogType.Log, 2);
+            
             DrawManager.ReDraw();
         }
 
@@ -282,36 +279,18 @@ namespace ISILab.LBS.VisualElements.Editor
                     return;
                 }
             }
-            if (evt.keyCode == KeyCode.LeftControl && evt.keyCode == KeyCode.Z)
+            if (evt.keyCode == KeyCode.Z)
             {
-                Undo();
+                //Debugging here
+                
                 evt.StopPropagation(); 
                 return;
             }
-            if (evt.keyCode == KeyCode.LeftControl && evt.keyCode == KeyCode.Y)
-            {
-                Redo();
-                evt.StopPropagation(); 
-                return;
-            }
+
         }
         
         #endregion
-    
-        #region Input Events
 
-        void Undo()
-        {
-            
-        }
-
-
-        void Redo()
-        {
-            
-            
-        }
-        #endregion
 
     }
 }

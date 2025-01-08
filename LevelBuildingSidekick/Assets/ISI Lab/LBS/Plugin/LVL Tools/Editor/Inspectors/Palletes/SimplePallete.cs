@@ -157,9 +157,8 @@ namespace LBS.VisualElements
 
             if(selected != null)
             {
-                var ov = optionViews.ToList().Find(o => o.target.Equals(selected));
-                if(ov != null)
-                    ov.SetSelected(true);
+                var ov = optionViews.ToList().Find(o => o.target != null && o.target.Equals(selected));
+                if (ov != null)  ov.SetSelected(true);
             }
         }
         #endregion

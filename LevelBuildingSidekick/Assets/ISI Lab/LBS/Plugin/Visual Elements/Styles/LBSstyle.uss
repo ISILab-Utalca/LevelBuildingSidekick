@@ -246,3 +246,7 @@ Toggle > .lbs-default-icon {
 .lbs-foldout-title {
     background-color: rgba(0, 0, 0, 0.2);
 }
+
+.unity-toolbar-button {
+    background-image: none;
+}
