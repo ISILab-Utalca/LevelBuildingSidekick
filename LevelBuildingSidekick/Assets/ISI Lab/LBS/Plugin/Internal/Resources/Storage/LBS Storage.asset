@@ -343,3 +343,6 @@ MonoBehaviour:
   - type: ISILab.LBS.LBSIdentifierBundle
     items:
     - {fileID: 11400000, guid: 468aebbf5a02f6d45b144fc9dc3deb01, type: 2}
+  - type: ISILab.LBS.BackUp
+    items:
+    - {fileID: 0}

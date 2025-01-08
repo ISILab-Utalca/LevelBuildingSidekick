@@ -100,20 +100,29 @@
         "assistants": {
           "$id": "15",
           "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Assistants.LBSAssistant, LBS]], mscorlib",
-          "$values": []
+          "$values": [
+            {
+              "$id": "16",
+              "$type": "ISILab.LBS.Assistants.AssistantWFC, LBS",
+              "overrideValues": false,
+              "targetBundle": "Exterior_Plains",
+              "visible": true,
+              "name": "Assistant WFC"
+            }
+          ]
         },
         "generatorRules": {
-          "$id": "16",
+          "$id": "17",
           "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Generators.LBSGeneratorRule, LBS]], mscorlib",
           "$values": [
             {
-              "$id": "17",
+              "$id": "18",
               "$type": "ISILab.LBS.Generators.ExteriorRuleGenerator, LBS"
             }
           ]
         },
         "settings": {
-          "$id": "18",
+          "$id": "19",
           "$type": "ISILab.LBS.Generators.Generator3D+Settings, LBS",
           "scale": {
             "x": 2.0,
@@ -134,7 +143,7 @@
     ]
   },
   "quests": {
-    "$id": "19",
+    "$id": "20",
     "$type": "System.Collections.Generic.List`1[[LBS.Components.LBSLayer, LBS]], mscorlib",
     "$values": []
   }
