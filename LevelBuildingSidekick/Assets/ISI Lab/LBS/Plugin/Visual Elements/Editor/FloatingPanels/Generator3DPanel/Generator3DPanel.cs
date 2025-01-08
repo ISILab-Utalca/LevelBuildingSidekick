@@ -131,6 +131,8 @@ namespace ISILab.LBS.VisualElements.Editor
 
             var obj = generator.Generate(this.layer, this.layer.GeneratorRules, settings);
             Undo.RegisterCreatedObjectUndo(obj, "Create my GameObject");
+            
+            EditorWindow.FocusWindowIfItsOpen<SceneView>();
         }
 
 

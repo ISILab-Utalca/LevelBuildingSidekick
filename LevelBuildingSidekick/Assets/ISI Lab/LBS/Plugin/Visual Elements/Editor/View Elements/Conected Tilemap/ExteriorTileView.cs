@@ -26,6 +26,7 @@ namespace ISILab.LBS.VisualElements
         
         private static float scaleFactor = 1f;
         private static Color fillColor = Color.grey;
+        private static Color borderColor = new Color(1f, 1f, 1f, 0.8f);
         public ExteriorTileView(List<string> connections)
         {
             if (view == null)
@@ -58,6 +59,12 @@ namespace ISILab.LBS.VisualElements
             SetBackgroundColor(topSide, fillColor);
             SetBackgroundColor(bottomSide, fillColor);
             
+            SetBorderColor(leftSide, borderColor);
+            SetBorderColor(rightSide, borderColor);
+            SetBorderColor(topSide, borderColor);
+            SetBorderColor(bottomSide, borderColor);
+                
+                
             SetConnections(connections.ToArray());
         }
 
@@ -65,6 +72,16 @@ namespace ISILab.LBS.VisualElements
         {
             if (ve == null) return;
             ve.style.backgroundColor = color;
+        }
+        
+        private static void SetBorderColor(VisualElement ve, Color color)
+        {
+            if (ve == null) return;
+            ve.style.borderBottomColor = color;
+            ve.style.borderLeftColor = color;
+            ve.style.borderTopColor = color;
+            ve.style.borderRightColor = color;
+            
         }
         
         public void SetConnections(string[] tags)
