@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ISILab.LBS.Components;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -13,6 +14,9 @@ namespace LBS.Components.TileMap
         #region FIELDS
         [SerializeField, JsonRequired]
         public int x, y;
+
+        public LBSTag tag;
+        
         #endregion
 
         #region PROPERTIES

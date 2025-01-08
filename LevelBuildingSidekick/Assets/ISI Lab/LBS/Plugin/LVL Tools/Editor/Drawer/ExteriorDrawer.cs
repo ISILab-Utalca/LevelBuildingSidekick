@@ -24,17 +24,21 @@ namespace ISILab.LBS.Drawers
 
         public override void Draw(object target, MainView view, Vector2 teselationSize)
         {
+            //Debug.Log("Drawing Exterior Drawer");
+            
             // Get behaviours
-            var exterior = target as ExteriorBehaviour;
-
+            if (target is not ExteriorBehaviour exterior) return;
+           
             // Get modules
             var tileMod = exterior.Owner.GetModule<TileMapModule>();
             var connectMod = exterior.Owner.GetModule<ConnectedTileMapModule>();
-
+            
             foreach (var tile in exterior.Tiles)
             {
+                if(tile.tag == null) tile.tag = exterior.identifierToSet;
+                
                 var connections = connectMod.GetConnections(tile);
-
+                
                 var tView = GetTileView(tile, connections, teselationSize);
 
                 view.AddElement(exterior.Owner, tile, tView);
@@ -65,6 +69,7 @@ namespace ISILab.LBS.Drawers
                     if (n.GetType().Equals(typeof(LBSTile)))
                     {
                         var tile = n as LBSTile;
+                    
                         var connections = connectMod.GetConnections(tile);
                         var ve = GetTileView(tile, connections, teselationSize);
                         view.AddElement(layer, tile, ve);
@@ -83,7 +88,7 @@ namespace ISILab.LBS.Drawers
             ExteriorTileView tView = new ExteriorTileView(connections);
 
             tView.SetConnections(connections.ToArray());
-
+            if(tile.tag) tView.SetMain(tile.tag);
             var pos = new Vector2(tile.Position.x, -tile.Position.y);
 
             var size = DefalutSize * teselationSize;

@@ -1,3 +1,4 @@
+using System;
 using ISILab.Commons.Utility.Editor;
 using LBS.Components.TileMap;
 using System.Collections;
@@ -20,13 +21,13 @@ namespace ISILab.LBS.VisualElements
         private VisualElement topConnection, topSide;
         private VisualElement bottomConnection, bottomSide;
         
-        private VisualElement fill;
+        private VisualElement fill, center;
 
         private static VisualTreeAsset view;
         
         private static float scaleFactor = 1f;
         private static Color fillColor = Color.grey;
-        private static Color borderColor = new Color(1f, 1f, 1f, 0.8f);
+        private static Color borderColor = new Color(0f, 0f, 0f, 0.33f);
         public ExteriorTileView(List<string> connections)
         {
             if (view == null)
@@ -53,6 +54,7 @@ namespace ISILab.LBS.VisualElements
             rightSide = fill.Q<VisualElement>("RightFill");
             topSide = fill.Q<VisualElement>("TopFill");
             bottomSide = fill.Q<VisualElement>("BottomFill");
+            center = fill.Q<VisualElement>("CenterFill");
             
             SetBackgroundColor(leftSide, fillColor);
             SetBackgroundColor(rightSide, fillColor);
@@ -63,7 +65,7 @@ namespace ISILab.LBS.VisualElements
             SetBorderColor(rightSide, borderColor);
             SetBorderColor(topSide, borderColor);
             SetBorderColor(bottomSide, borderColor);
-                
+            SetBorderColor(fill, borderColor);
                 
             SetConnections(connections.ToArray());
         }
@@ -140,6 +142,16 @@ namespace ISILab.LBS.VisualElements
                 bottomSide.style.display = DisplayStyle.None;
             }
    
+        }
+
+        public void SetMain(LBSTag identifier)
+        {
+            //var tts = LBSAssetsStorage.Instance.Get<LBSTag>();
+            // var tag = identifier;
+            //var color = tts.Find(t => t.Label.Equals(identifier)).Color;
+            var color = identifier.Color;
+            SetBackgroundColor(center,color);
+            SetBorderColor(center,borderColor);
         }
     }
 }
