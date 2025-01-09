@@ -232,6 +232,7 @@ public class LBSMainWindow : EditorWindow
         questsPanel.style.display = DisplayStyle.None;
         questsPanel.OnSelectQuest += OnSelectedLayerChange;
 
+        #region Extra Toolbar
         // LayerButton
         Toggle layerToggleButton = rootVisualElement.Q<Toggle>("LayerToggleButton");
         layerToggleButton.SetValueWithoutNotify(true);
@@ -256,6 +257,19 @@ public class LBSMainWindow : EditorWindow
             //var value = (gen3DPanel.style.display == DisplayStyle.None);
             gen3DPanel.style.display = (toggleButton3D.value) ? DisplayStyle.Flex : DisplayStyle.None;
         });
+        
+        // Plus toggle
+        Toggle toggleButtonPlus = rootVisualElement.Q<Toggle>("PlusToggleButton");
+        toggleButton3D.RegisterCallback<ChangeEvent<bool>>((evt) =>
+        {
+            gen3DPanel.Init(_selectedLayer);
+            gen3DPanel.style.display = (toggleButton3D.value) ? DisplayStyle.Flex : DisplayStyle.None;
+        });
+        
+        
+        // 
+        
+        #endregion
         
         layerPanel.OnSelectLayer += (l) => questsPanel.ResetSelection();
         questsPanel.OnSelectQuest += (l) => layerPanel.ResetSelection();
