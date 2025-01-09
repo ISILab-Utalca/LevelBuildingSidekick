@@ -61,13 +61,14 @@
                   {
                     "$id": "12",
                     "$type": "ISILab.LBS.Components.Zone, LBS",
-                    "id": "Zone: 0",
+                    "id": "Zone\n0",
                     "color": {
-                      "r": 0.5,
-                      "g": 0.375,
-                      "b": 0.1875,
+                      "r": 0.25,
+                      "g": 0.125,
+                      "b": 0.5,
                       "a": 1.0
                     },
+                    "borderThickness": 0.0,
                     "pivot": {
                       "x": 0.5,
                       "y": 0.5
@@ -86,13 +87,14 @@
                   {
                     "$id": "15",
                     "$type": "ISILab.LBS.Components.Zone, LBS",
-                    "id": "Zone: 1",
+                    "id": "Zone\n01",
                     "color": {
-                      "r": 0.625,
-                      "g": 0.75,
-                      "b": 0.375,
+                      "r": 0.3125,
+                      "g": 0.0625,
+                      "b": 0.0,
                       "a": 1.0
                     },
+                    "borderThickness": 0.0,
                     "pivot": {
                       "x": 0.0,
                       "y": 0.0

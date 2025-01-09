@@ -34,6 +34,7 @@
                       "b": 0.0,
                       "a": 1.0
                     },
+                    "borderThickness": 0.0,
                     "pivot": {
                       "x": 0.0,
                       "y": 0.0
@@ -59,6 +60,7 @@
                       "b": 1.0,
                       "a": 1.0
                     },
+                    "borderThickness": 0.0,
                     "pivot": {
                       "x": 0.0,
                       "y": 0.0

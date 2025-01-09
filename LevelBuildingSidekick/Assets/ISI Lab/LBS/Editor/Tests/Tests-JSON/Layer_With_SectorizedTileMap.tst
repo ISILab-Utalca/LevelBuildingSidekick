@@ -54,6 +54,7 @@
                       "b": 0.0,
                       "a": 1.0
                     },
+                    "borderThickness": 0.0,
                     "pivot": {
                       "x": 0.5,
                       "y": 0.5

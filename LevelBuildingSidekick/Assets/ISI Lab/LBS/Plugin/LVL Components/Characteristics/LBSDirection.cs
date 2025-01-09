@@ -16,8 +16,6 @@ namespace ISILab.LBS.Characteristics
     public class LBSDirection : LBSCharacteristic, ICloneable
     {
 
-
-
         #region SUB-STRUCTURE
         /*
         [System.Serializable]
@@ -48,6 +46,7 @@ namespace ISILab.LBS.Characteristics
             get => connections.Count;
             set
             {
+                
                 if(connections.Count < value)
                 {
                     connections.AddRange(new string[value - connections.Count]);
@@ -66,13 +65,13 @@ namespace ISILab.LBS.Characteristics
         #endregion
 
         #region CONSTRUCTORS
-        public LBSDirection() : base() { Size = 0;  }
+        public LBSDirection() : base() {  }
+        
 
         public LBSDirection(List<string> tags)
         {
             this.connections = tags;
             Size = tags.Count;
-            Debug.Log("test");
         }
         #endregion
 
@@ -89,9 +88,10 @@ namespace ISILab.LBS.Characteristics
 
         public void SetConnection(LBSTag tag, int index)
         {
+
             try
             {
-                connections[index] = tag.Label; 
+                connections[index] = tag.Label;
             }
             catch
             {

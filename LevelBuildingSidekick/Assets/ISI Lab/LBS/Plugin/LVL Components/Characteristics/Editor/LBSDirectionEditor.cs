@@ -36,26 +36,25 @@ namespace ISILab.LBS.VisualElements
             if (target == null)
                 return;
 
+            target.Size = 4;
             var connections = target.Connections;
 
-            if (connections.Count >= fields.Length)
-            {
-                for (int i = 0; i < fields.Length; i++)
+            for (int i = 0; i < fields.Length; i++)
+            {  
+                fields[i].objectType = typeof(LBSTag);
+
+                var tag = DirectoryTools.GetAssetByName<LBSTag>(connections[i]);
+
+                fields[i].value = tag;
+
+                var index = i;
+
+                fields[i].RegisterValueChangedCallback(evt =>
                 {
-                    fields[i].objectType = typeof(LBSTag);
-
-                    var tag = DirectoryTools.GetAssetByName<LBSTag>(connections[i]);
-
-                    fields[i].value = tag;
-
-                    var index = i;
-
-                    fields[i].RegisterValueChangedCallback(evt =>
-                    {
-                        target.SetConnection(evt.newValue as LBSTag, index);
-                    });
-                }
+                    target.SetConnection(evt.newValue as LBSTag, index);
+                });
             }
+            
         }
 
         protected override VisualElement CreateVisualElement()
