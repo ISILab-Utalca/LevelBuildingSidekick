@@ -85,6 +85,8 @@ MonoBehaviour:
     - {fileID: 11400000, guid: d631702b3896c2c4fa2ccca4802013db, type: 2}
     - {fileID: 11400000, guid: ce1b2c33321714743b35305340bd46bc, type: 2}
     - {fileID: 11400000, guid: 31169e4e4e6144e4899117f7cc662a4c, type: 2}
+    - {fileID: 11400000, guid: 88795bdba328c1a479ba16dd5924282b, type: 2}
+    - {fileID: 11400000, guid: 434f16bb626a0434b927756ca4b91cb1, type: 2}
   - type: LBSIdentifierBundle
     items:
     - {fileID: 11400000, guid: 5dab7331507a6554a83a7ddfd42f5292, type: 2}

@@ -25,8 +25,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6e0d1c529fe5a6c49bc1a715cd4409b0, type: 2}
   - {fileID: 11400000, guid: c1927752c4d799445ab7bcd1744555f9, type: 2}
   - {fileID: 11400000, guid: 830cb209e2da4c846ae0dfe99876972c, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
   assets: []
   characteristics:
   - rid: 4305865203777798400
@@ -39,22 +37,18 @@ MonoBehaviour:
         owner: {fileID: 11400000}
         Weights:
         - target: {fileID: 11400000, guid: cbd6969f6a1a45b48a859e434a22df14, type: 2}
-          weight: 1
-        - target: {fileID: 11400000, guid: 3cbb92a444048d845a89d48742a9e927, type: 2}
-          weight: 1
-        - target: {fileID: 11400000, guid: ac03edd14aa39784aadad6a39fdc781c, type: 2}
           weight: 0.223
-        - target: {fileID: 11400000, guid: d631702b3896c2c4fa2ccca4802013db, type: 2}
+        - target: {fileID: 11400000, guid: 3cbb92a444048d845a89d48742a9e927, type: 2}
           weight: 0.458
-        - target: {fileID: 11400000, guid: bcf95dd72e3de9740bcacf553166359e, type: 2}
+        - target: {fileID: 11400000, guid: ac03edd14aa39784aadad6a39fdc781c, type: 2}
           weight: 0.708
-        - target: {fileID: 11400000, guid: 6e0d1c529fe5a6c49bc1a715cd4409b0, type: 2}
+        - target: {fileID: 11400000, guid: d631702b3896c2c4fa2ccca4802013db, type: 2}
           weight: 0.144
-        - target: {fileID: 11400000, guid: c1927752c4d799445ab7bcd1744555f9, type: 2}
+        - target: {fileID: 11400000, guid: bcf95dd72e3de9740bcacf553166359e, type: 2}
           weight: 0.682
-        - target: {fileID: 11400000, guid: 830cb209e2da4c846ae0dfe99876972c, type: 2}
+        - target: {fileID: 11400000, guid: 6e0d1c529fe5a6c49bc1a715cd4409b0, type: 2}
           weight: 0.375
-        - target: {fileID: 11400000, guid: 830cb209e2da4c846ae0dfe99876972c, type: 2}
+        - target: {fileID: 11400000, guid: c1927752c4d799445ab7bcd1744555f9, type: 2}
           weight: 0.5
         - target: {fileID: 11400000, guid: 830cb209e2da4c846ae0dfe99876972c, type: 2}
           weight: 0.5

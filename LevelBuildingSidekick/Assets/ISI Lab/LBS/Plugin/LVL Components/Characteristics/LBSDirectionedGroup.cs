@@ -24,7 +24,7 @@ namespace ISILab.LBS.Characteristics
             public float weight;
         };
         #endregion
-
+        
         [SerializeField]
         public List<WeightStruct> Weights = new List<WeightStruct>();
 
@@ -52,8 +52,7 @@ namespace ISILab.LBS.Characteristics
                 return;
 
             var bundles = Owner.ChildsBundles;
-
-
+            
             while(bundles.Count < Weights.Count)
             {
                 for (int i = 0; i < Weights.Count; i++)
@@ -65,19 +64,17 @@ namespace ISILab.LBS.Characteristics
                     }
                 }
             }
-            
-
-            for(int i = 0; i < bundles.Count; i++)
+    
+            for (int i = 0; i < bundles.Count; i++)
             {
                 if (i == Weights.Count)
                     Weights.Add(new WeightStruct() { target = bundles[i], weight = 0.5f });
-
-                if (!bundles[i].Equals(Weights[i].target))
+                
+                if (bundles[i] != null && !bundles[i].Equals(Weights[i].target))
                 {
                     Weights[i].target = bundles[i];
                 }
             }
-
             
         }
 
