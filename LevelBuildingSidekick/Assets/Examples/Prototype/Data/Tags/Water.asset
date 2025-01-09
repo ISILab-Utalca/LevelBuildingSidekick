@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   label: Water
   icon: {fileID: 0}
-  color: {r: 0.23584908, g: 0.05896227, b: 0.05896227, a: 1}
+  color: {r: 0.14173192, g: 0.6753718, b: 0.8584906, a: 1}

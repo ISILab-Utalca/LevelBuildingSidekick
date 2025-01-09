@@ -30,7 +30,7 @@ MonoBehaviour:
       data:
         owner: {fileID: 11400000}
         connections:
-        - 
-        - 
-        - 
-        - 
+        - Land
+        - Water
+        - Water
+        - Water
