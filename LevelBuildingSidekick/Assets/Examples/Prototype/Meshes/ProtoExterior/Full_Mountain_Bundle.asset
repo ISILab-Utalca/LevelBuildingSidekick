@@ -19,9 +19,9 @@ MonoBehaviour:
   childsBundles: []
   assets:
   - obj: {fileID: 919132149155446097, guid: 2108b20f0ebc4af4798af950b7ab9af5, type: 3}
-    probability: 1
+    probability: 0.858
   - obj: {fileID: 7357068772033030628, guid: cb85ea646b8bf534a948002dccfc7851, type: 3}
-    probability: 1
+    probability: 0.645
   characteristics:
   - rid: 6598277204649181379
   references:

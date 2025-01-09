@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
-  m_Name: Two_FullMountain_Two_Ground_Bundlle
+  m_Name: One_Ground_One_Water_Two_Mountain_Bundle
   m_EditorClassIdentifier: 
   type: 0
   anchorPosition: 0
@@ -18,19 +18,19 @@ MonoBehaviour:
   icon: {fileID: 0}
   childsBundles: []
   assets:
-  - obj: {fileID: 919132149155446097, guid: 05f553444c7695f48859282897a0c269, type: 3}
+  - obj: {fileID: 919132149155446097, guid: da9d077dc4d31904fbaf38266c0484ca, type: 3}
     probability: 1
   characteristics:
-  - rid: 6598277204649181268
+  - rid: 6598277204649181496
   references:
     version: 2
     RefIds:
-    - rid: 6598277204649181268
+    - rid: 6598277204649181496
       type: {class: LBSDirection, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 11400000}
         connections:
+        - Water
+        - Mountain
         - Mountain
         - Land
-        - Land
-        - Mountain
