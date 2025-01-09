@@ -260,14 +260,31 @@ public class LBSMainWindow : EditorWindow
         
         // Plus toggle
         Toggle toggleButtonPlus = rootVisualElement.Q<Toggle>("PlusToggleButton");
-        toggleButton3D.RegisterCallback<ChangeEvent<bool>>((evt) =>
+        
+        Button layerDataButton = rootVisualElement.Q<Button>("LayerDataButton");
+        layerDataButton.RegisterCallback<ClickEvent>((evt) =>
         {
-            gen3DPanel.Init(_selectedLayer);
-            gen3DPanel.style.display = (toggleButton3D.value) ? DisplayStyle.Flex : DisplayStyle.None;
+            layerDataButton.tooltip = LBSInspectorPanel.DataTab;
+            LBSInspectorPanel.ShowInspector(LBSInspectorPanel.DataTab);
         });
         
+        Button behaviourButton = rootVisualElement.Q<Button>("BehaviourButton");
+        behaviourButton.RegisterCallback<ClickEvent>((evt) =>
+        {
+            behaviourButton.tooltip = LBSInspectorPanel.BehavioursTab;
+            LBSInspectorPanel.ShowInspector(LBSInspectorPanel.BehavioursTab);
+        });
         
-        // 
+        Button assistantButton = rootVisualElement.Q<Button>("AssistantButton");
+        assistantButton.RegisterCallback<ClickEvent>((evt) =>
+        {
+            assistantButton.tooltip = LBSInspectorPanel.AssistantsTab;
+            LBSInspectorPanel.ShowInspector(LBSInspectorPanel.AssistantsTab);
+        });
+
+        Button tagsButton = rootVisualElement.Q<Button>("TagsButton");     
+        Button bundlesButton = rootVisualElement.Q<Button>("BlundlesButton");     
+
         
         #endregion
         
@@ -356,8 +373,8 @@ public class LBSMainWindow : EditorWindow
         DrawManager.ReDraw();
         LBSInspectorPanel.ReDraw();
     }
-
-    public static void MessageNotify(string message, LogType logType, int duration)
+    
+    public static void MessageNotify(string message, LogType logType = LogType.Log, int duration = 2)
     {       
         if (notifier == null)
         {

@@ -87,32 +87,11 @@ namespace LBS.VisualElements
             var newMessage = new NotificationMessage();
             newMessage.SetData(message, logType);
             scrollView.Add(newMessage);
-            OnNotificationVisualUpdate();
             
             Lifetime(newMessage, duration);
 
         }
         
-        private void OnNotificationVisualUpdate()
-        {
-            var _children = GetChildren();
-            if (_children == null || !_children.Any()) return;
-            
-            ClearNotifications();
-            
-            // Re-add visual elements
-            foreach (var child in _children) scrollView.Add(child);
-            
-            // Remove overboard
-            if (GetChildren().Count() > maxCount)
-            {
-                for (int i = maxCount; i < GetChildren().Count(); i++)
-                {
-                    scrollView.RemoveAt(i);
-                }
-            }
-        }
-
         private async void Lifetime(NotificationMessage element, float duration)
         {
             // Ensure the duration is valid
@@ -146,7 +125,7 @@ namespace LBS.VisualElements
             }
             
             element.style.opacity = 0f;
-            OnNotificationVisualUpdate();
+            scrollView.Remove(element);
         }
 
         public void ClearNotifications()
