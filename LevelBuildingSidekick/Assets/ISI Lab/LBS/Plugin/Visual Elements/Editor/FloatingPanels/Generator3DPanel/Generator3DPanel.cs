@@ -78,7 +78,7 @@ namespace ISILab.LBS.VisualElements.Editor
         {
             if (layer == null)
             {
-                Debug.LogWarning("[ISI Lab] Warning: You don't have any layer selected.");
+                LBSMainWindow.MessageNotify("[ISI Lab] Warning: You don't have any layer selected.", LogType.Warning, 2);
                 return;
             }
 
@@ -103,7 +103,7 @@ namespace ISILab.LBS.VisualElements.Editor
         {
             if (this.layer == null)
             {
-                Debug.LogError("[ISI LAB]: There is no reference for any layer to generate.");
+                LBSMainWindow.MessageNotify("[ISI LAB]: There is no reference for any layer to generate.", LogType.Error, 2);
                 return;
             }
 

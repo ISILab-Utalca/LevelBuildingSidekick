@@ -20,7 +20,17 @@ MonoBehaviour:
   assets:
   - obj: {fileID: 919132149155446097, guid: af0b6b8094dbf044ca7dec20a155326e, type: 3}
     probability: 1
-  characteristics: []
+  characteristics:
+  - rid: 6598277247340642558
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 6598277247340642558
+      type: {class: LBSDirection, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        owner: {fileID: 11400000}
+        connections:
+        - Land
+        - Water
+        - Water
+        - Land

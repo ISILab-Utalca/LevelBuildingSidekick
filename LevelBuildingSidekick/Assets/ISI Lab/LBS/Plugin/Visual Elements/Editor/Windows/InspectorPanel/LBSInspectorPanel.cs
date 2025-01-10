@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ISILab.Extensions;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -35,6 +36,10 @@ namespace ISILab.LBS.VisualElements
         public LBSLocalBehaviours behaviours;
         public LBSLocalAssistants assistants;
 
+        public static string DataTab = "Layer data";
+        public static string BehavioursTab = "Behaviours";
+        public static string AssistantsTab = "Assistants";
+        
         private Dictionary<string, LBSInspector> VEs = new();
         #endregion
 
@@ -55,7 +60,7 @@ namespace ISILab.LBS.VisualElements
             // Content
             content = this.Q<VisualElement>("InspectorContent");
 
-            SetSelectedTab("Current data");
+            SetSelectedTab(DataTab);
 
             instance = this;
         }
@@ -65,14 +70,15 @@ namespace ISILab.LBS.VisualElements
         public void InitTabs()
         {
             this.data = new LBSLocalCurrent();
-            AddTab("Current data", data);
+            AddTab(DataTab, data);
 
             this.behaviours = new LBSLocalBehaviours();
-            AddTab("Behaviours", behaviours);
+            AddTab(BehavioursTab, behaviours);
 
             this.assistants = new LBSLocalAssistants();
-            AddTab("Assistants", assistants);
+            AddTab(AssistantsTab, assistants);
 
+            
             tabsGroup.OnChangeTab += (tab) =>
             {
                 this.ClearContent();
@@ -80,20 +86,22 @@ namespace ISILab.LBS.VisualElements
                 this.SetContent(inspct);
 
                 OnChangeTab?.Invoke(tab);
-            };
+            }; 
         }
 
         private void AddTab(string tab, LBSInspector element)
         {
             VEs.Add(tab, element);
-
+            SetContent(element);
+   
             tabsGroup.AddChoice(tab, (btn) =>
             {
                 var grupableBtn = btn as GrupalbeButton;
                 this.ClearContent();
                 VEs.TryGetValue(grupableBtn.text, out var inspct);
-                this.SetContent(inspct);
+            this.SetContent(inspct);
             });
+            
         }
 
         public void SetSelectedTab(string name)
@@ -115,8 +123,8 @@ namespace ISILab.LBS.VisualElements
             if (inspector == null)
                 return;
 
-            content.Add(inspector);
-            (inspector as LBSInspector).Repaint();
+            content?.Add(inspector);
+            (inspector as LBSInspector)?.Repaint();
         }
 
         internal void SetTarget(LBSLayer layer)
@@ -145,6 +153,8 @@ namespace ISILab.LBS.VisualElements
         {
             var panel = LBSInspectorPanel.Instance;
             panel.VEs.TryGetValue(tab, out var ve);
+            if(ve == null) return;
+            ve.style.display = DisplayStyle.Flex;
             panel.tabsGroup.ChangeActive(tab);
         }
 

@@ -85,57 +85,72 @@ namespace ISILab.LBS.VisualElements
         public void SetConnections(string[] tags)
         {
             var tts = LBSAssetsStorage.Instance.Get<LBSTag>();
-            Color color;
+            Color color = Color.magenta; // invalid color
+            Dictionary<Color,int> ConnectionColors = new Dictionary<Color, int>();
             if (!string.IsNullOrEmpty(tags[0]))
             {
                 color = tts.Find(t => t.Label.Equals(tags[0])).Color;
                 SetBackgroundColor(rightConnection, color);
-                SetImageTint(rightSide, ClearColor(color));
+                SetImageTint(rightSide, BrightenColor(color));
                 rightConnection.style.display = DisplayStyle.Flex;
+                
+                if(!ConnectionColors.TryAdd(color, 1)) ConnectionColors[color]++;
+                
             }
             else
             {
                 rightConnection.style.display = DisplayStyle.None;
-                rightSide.style.display = DisplayStyle.None;
             }
 
             if (!string.IsNullOrEmpty(tags[1]))
             {
                 color = tts.Find(t => t.Label.Equals(tags[1])).Color;
                 SetBackgroundColor(topConnection, color);
-                SetImageTint(topSide, ClearColor(color));
+                SetImageTint(topSide, BrightenColor(color));
                 topConnection.style.display = DisplayStyle.Flex;
+                
+                if(!ConnectionColors.TryAdd(color, 1)) ConnectionColors[color]++;
             }
             else
             {
                 topConnection.style.display = DisplayStyle.None;
-                topSide.style.display = DisplayStyle.None;
             }
 
             if (!string.IsNullOrEmpty(tags[2]))
             {
                 color = tts.Find(t => t.Label.Equals(tags[2])).Color;
                 SetBackgroundColor(leftConnection, color);
-                SetImageTint(leftSide, ClearColor(color));
+                SetImageTint(leftSide, BrightenColor(color));
                 leftConnection.style.display = DisplayStyle.Flex;
+                
+                if(!ConnectionColors.TryAdd(color, 1)) ConnectionColors[color]++;
             }
             else
             {
                 leftConnection.style.display = DisplayStyle.None;
-                leftSide.style.display = DisplayStyle.None;
             }
 
             if (!string.IsNullOrEmpty(tags[3]))
             {
                 color = tts.Find(t => t.Label.Equals(tags[3])).Color;
                 SetBackgroundColor(bottomConnection, color);
-                SetImageTint(bottomSide, ClearColor(color));
+                SetImageTint(bottomSide, BrightenColor(color));
                 bottomConnection.style.display = DisplayStyle.Flex;
+               
+                if(!ConnectionColors.TryAdd(color, 1)) ConnectionColors[color]++;
             }
             else
             {
                 bottomConnection.style.display = DisplayStyle.None;
-                bottomSide.style.display = DisplayStyle.None;
+            }
+            
+            // paints center if there are connections and to the most connections
+            if (ConnectionColors.Count > 0)
+            {
+                var orderedConnectionColors = ConnectionColors
+                    .OrderByDescending(kvp => kvp.Value)
+                    .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                SetBackgroundColor(center,orderedConnectionColors.First().Key);
             }
    
         }
@@ -143,10 +158,14 @@ namespace ISILab.LBS.VisualElements
         public void SetTileCenter(LBSTag identifier)
         {
             var color = identifier.Color;
-            SetBackgroundColor(center,ClearColor(color));
+            SetBackgroundColor(center,color);
+            SetImageTint(bottomSide, BrightenColor(color));
+            SetImageTint(topSide, BrightenColor(color));
+            SetImageTint(leftSide, BrightenColor(color));
+            SetImageTint(rightSide, BrightenColor(color));
         }
 
-        private static Color ClearColor(Color color)
+        private static Color BrightenColor(Color color)
         {
             color.r += colorBrightenner;
             color.b += colorBrightenner;

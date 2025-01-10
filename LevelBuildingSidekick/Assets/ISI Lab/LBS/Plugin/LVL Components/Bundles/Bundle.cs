@@ -261,6 +261,7 @@ namespace LBS.Bundles
 
             foreach (var child in childsBundles)
             {
+                if(child == null) continue;
                 var subChars = child.GetChildrenCharacteristics<T>();
                 chars.AddRange(subChars);
             }
