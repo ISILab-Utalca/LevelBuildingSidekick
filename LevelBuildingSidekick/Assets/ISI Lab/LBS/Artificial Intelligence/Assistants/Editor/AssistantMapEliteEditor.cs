@@ -1,11 +1,13 @@
 using LBS;
 using LBS.VisualElements;
+
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+
 using UnityEngine;
 using UnityEngine.UIElements;
+
 using ISILab.Extensions;
 using ISILab.LBS.VisualElements;
 using ISILab.LBS.Manipulators;

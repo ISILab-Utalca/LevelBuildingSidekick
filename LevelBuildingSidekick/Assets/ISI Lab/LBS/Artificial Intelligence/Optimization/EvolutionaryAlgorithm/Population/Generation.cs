@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Infrastructure.Framework.Texts;
 using GeneticSharp.Infrastructure.Framework.Commons;
-using System.Diagnostics;
+using GeneticSharp.Infrastructure.Framework.Texts;
 
 namespace ISILab.AI.Optimization.Populations
 {

@@ -1,24 +1,24 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using LBS.Components;
-using LBS.Components.TileMap;
-using System.Linq;
-using ISILab.AI.Optimization.Selections;
-using ISILab.AI.Optimization.Populations;
-using Commons.Optimization.Evaluator;
-using ISILab.AI.Optimization.Terminations;
-using ISILab.AI.Optimization;
-using System;
 using System.Diagnostics;
-using Debug = UnityEngine.Debug;
-using Newtonsoft.Json;
+using System.Linq;
 using System.Threading.Tasks;
+using Commons.Optimization.Evaluator;
+using ISILab.AI.Optimization;
+using ISILab.AI.Optimization.Populations;
+using ISILab.AI.Optimization.Selections;
+using ISILab.AI.Optimization.Terminations;
+using ISILab.AI.Wrappers;
 using ISILab.Commons;
 using ISILab.Extensions;
-using ISILab.AI.Wrappers;
-using ISILab.LBS.Modules;
 using ISILab.LBS.Components;
+using ISILab.LBS.Modules;
+using LBS.Components;
+using LBS.Components.TileMap;
+using Newtonsoft.Json;
+using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 namespace ISILab.LBS.Assistants
 {

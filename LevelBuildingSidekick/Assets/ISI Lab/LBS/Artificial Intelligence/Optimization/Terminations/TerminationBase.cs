@@ -1,7 +1,7 @@
-using GeneticSharp.Infrastructure.Framework.Texts;
-using GeneticSharp.Infrastructure.Framework.Commons;
-using UnityEngine.UIElements;
 using Commons.Optimization.Evaluator;
+using GeneticSharp.Infrastructure.Framework.Commons;
+using GeneticSharp.Infrastructure.Framework.Texts;
+using UnityEngine.UIElements;
 
 namespace ISILab.AI.Optimization.Terminations
 {

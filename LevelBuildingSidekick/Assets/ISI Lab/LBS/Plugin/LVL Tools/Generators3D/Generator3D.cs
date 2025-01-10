@@ -1,11 +1,11 @@
-using LBS;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using ISILab.Extensions;
+using ISILab.JsonNet.Coverters;
+using LBS;
 using LBS.Components;
 using Newtonsoft.Json;
-using ISILab.JsonNet.Coverters;
-using ISILab.Extensions;
+using UnityEngine;
 
 namespace ISILab.LBS.Generators
 {
@@ -143,6 +143,7 @@ namespace ISILab.LBS.Generators
             for (int i = 0; i < this.rules.Count; i++)
             {
                 var ruleParent = rules[i].Generate(layer, settings); 
+                if(ruleParent == null) continue;
                 ruleParent.SetParent(parent);
             }
 

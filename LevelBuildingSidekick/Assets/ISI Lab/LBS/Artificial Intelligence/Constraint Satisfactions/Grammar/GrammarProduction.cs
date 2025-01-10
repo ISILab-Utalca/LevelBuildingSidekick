@@ -1,7 +1,7 @@
-using ISILab.AI.Grammar;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ISILab.AI.Grammar;
 using UnityEngine;
 
 namespace ISILab.AI.Grammar

@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using GeneticSharp.Domain.Chromosomes;
-using ISILab.AI.Optimization.Populations;
-using GeneticSharp.Infrastructure.Framework.Texts;
-using GeneticSharp.Infrastructure.Framework.Commons;
 using System.Linq;
-using UnityEngine.UIElements;
 using Commons.Optimization.Evaluator;
+using GeneticSharp.Domain.Chromosomes;
+using GeneticSharp.Infrastructure.Framework.Commons;
+using GeneticSharp.Infrastructure.Framework.Texts;
+using ISILab.AI.Optimization.Populations;
+using UnityEngine.UIElements;
 
 namespace ISILab.AI.Optimization.Selections
 {

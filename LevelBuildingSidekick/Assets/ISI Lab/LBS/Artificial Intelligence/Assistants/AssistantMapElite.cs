@@ -1,20 +1,20 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
-using Newtonsoft.Json;
-using LBS.Components.TileMap;
 using System.Linq;
 using Commons.Optimization.Evaluator;
+using ISILab.AI.Categorization;
+using ISILab.AI.Optimization;
 using ISILab.Extensions;
 using ISILab.LBS.AI.Categorization;
-using ISILab.LBS.Modules;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Characteristics;
 using ISILab.LBS.Components;
-using ISILab.AI.Categorization;
-using ISILab.AI.Optimization;
-using UnityEditor;
+using ISILab.LBS.Modules;
 using LBS.Components;
+using LBS.Components.TileMap;
+using Newtonsoft.Json;
+using UnityEditor;
+using UnityEngine;
 
 namespace ISILab.LBS.Assistants
 {

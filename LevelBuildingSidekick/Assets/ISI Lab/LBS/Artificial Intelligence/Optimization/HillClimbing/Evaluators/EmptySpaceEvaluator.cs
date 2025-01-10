@@ -1,10 +1,10 @@
-﻿using Commons.Optimization.Evaluator;
+﻿using System.Linq;
+using Commons.Optimization.Evaluator;
 using ISILab.AI.Optimization;
 using ISILab.AI.Wrappers;
 using ISILab.Extensions;
 using ISILab.LBS.Modules;
 using LBS.Components;
-using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;

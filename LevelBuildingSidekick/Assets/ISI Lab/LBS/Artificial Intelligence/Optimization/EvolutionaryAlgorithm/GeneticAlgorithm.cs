@@ -1,20 +1,20 @@
-﻿using Commons.Optimization.Evaluator;
-using ISILab.AI.Optimization.Terminations;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using Commons.Optimization.Evaluator;
 using GeneticSharp.Domain;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Mutations;
-using ISILab.AI.Optimization.Populations;
 using GeneticSharp.Domain.Reinsertions;
-using ISILab.AI.Optimization.Selections;
 using GeneticSharp.Infrastructure.Framework.Texts;
 using GeneticSharp.Infrastructure.Framework.Threading;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using UnityEngine;
 using ISILab.AI.Categorization;
+using ISILab.AI.Optimization.Populations;
+using ISILab.AI.Optimization.Selections;
+using ISILab.AI.Optimization.Terminations;
+using UnityEngine;
 
 namespace ISILab.AI.Optimization
 {

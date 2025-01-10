@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using ISILab.Commons;
+using ISILab.LBS.Internal;
+using ISILab.LBS.Modules;
+using LBS.Bundles;
 using LBS.Components;
 using UnityEditor;
-using LBS.Bundles;
-using ISILab.Commons;
-using ISILab.LBS.Modules;
-using ISILab.LBS.Internal;
+using UnityEngine;
 
 namespace ISILab.LBS.Generators
 {
@@ -84,6 +84,12 @@ namespace ISILab.LBS.Generators
                 objects.Add(go);
             }
 
+            if(objects.Count == 0)
+            {
+                Debug.LogWarning("No population objects were created. Assign a valid bundle type");
+                return parent;
+            }
+            
             var x = objects.Average(o => o.transform.position.x);
             var y = objects.Min(o => o.transform.position.y);
             var z = objects.Average(o => o.transform.position.z);

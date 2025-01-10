@@ -1,22 +1,54 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
     <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/Visual%20Elements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
-    <ui:VisualElement class="lbs-default-container-panel">
+    <ui:VisualElement name="Panel" class="SubBackground lbs-default-container-panel" style="margin-left: 2px; margin-right: 2px;">
         <ui:VisualElement class="lbs-title-label-container">
             <ui:VisualElement name="VisualElement" class="lbs-default-label-icon lbs-3d-icon" style="background-image: resource(&apos;Icons/Vectorial/3D_Icon_Vector&apos;);" />
-            <ui:Label tabindex="-1" text="3D Generator" display-tooltip-when-elided="true" style="-unity-font-style: bold; font-size: 12px; margin-left: 3px; margin-right: 0; margin-top: 0; margin-bottom: 0; align-items: stretch; height: 22px; width: auto; -unity-text-align: middle-center; align-self: stretch;" />
+            <ui:Label tabindex="-1" text="3D Generator" display-tooltip-when-elided="true" style="-unity-font-style: bold; font-size: 12px; margin-left: 3px; margin-right: 0; margin-top: 0; margin-bottom: 0; align-items: stretch; height: 22px; width: auto; -unity-text-align: middle-center; align-self: stretch; color: rgb(255, 255, 255);" />
         </ui:VisualElement>
-        <ui:VisualElement class="lbs-group-box" style="align-self: auto;">
-            <ui:TextField picking-mode="Ignore" label="Name" value="Default Name" text="Default Name" name="ObjName" tooltip="GameObject name in hierarchy" style="justify-content: space-around; flex-wrap: wrap;" />
-            <ui:Vector3Field label="Position" name="Position" tooltip="Position of the 3D model in the scene" style="align-items: stretch; flex-wrap: wrap; align-self: auto; justify-content: flex-start; flex-direction: column;" />
-            <ui:Vector2Field label="Reference Size" name="ReferenceSize" style="justify-content: flex-start; flex-wrap: nowrap; align-items: stretch; flex-direction: column;" />
-            <ui:Vector2Field label="Resize" name="Resize" style="display: none;" />
-            <ui:Label tabindex="-1" text="Prefab Configuration" display-tooltip-when-elided="true" style="display: none;" />
+        <ui:VisualElement name="GenerationSettingsContainer" class="lbs-group-box SubBackground" style="align-self: auto; margin-left: 4px; margin-right: 4px; margin-top: 4px; margin-bottom: 4px; padding-left: 4px; padding-right: 4px; padding-top: 2px; padding-bottom: 2px;">
+            <ui:VisualElement name="RoomName" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; justify-content: space-between; align-self: stretch; align-items: stretch; margin-bottom: 10px; padding-top: 0; padding-bottom: 0; margin-top: 0; flex-shrink: 0; margin-left: 0; margin-right: 0;">
+                <ui:Label tabindex="-1" text="Room name" display-tooltip-when-elided="true" name="Label" style="flex-direction: row; color: rgb(255, 255, 255); -unity-text-align: middle-left;" />
+                <ui:TextField picking-mode="Ignore" text="Default Name" name="ObjName" tooltip="GameObject name in hierarchy" class="lbs-text-field-container" style="justify-content: flex-end; flex-wrap: wrap; color: rgb(248, 248, 248); flex-direction: row-reverse; align-self: stretch; align-items: stretch; width: 150px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Scale" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; justify-content: flex-start; align-items: stretch; align-self: stretch; margin-bottom: 10px; flex-shrink: 0;">
+                <ui:Label tabindex="-1" text="Tile Size" display-tooltip-when-elided="true" style="color: rgb(255, 255, 255); -unity-text-align: middle-left; white-space: nowrap;" />
+                <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); align-self: stretch; flex-direction: row; justify-content: flex-start; flex-wrap: nowrap; align-items: flex-end; width: 110px;" />
+                <ui:Vector2Field name="TileSize" style="justify-content: flex-end; align-self: stretch; flex-direction: row; flex-grow: 0; align-items: stretch; flex-wrap: nowrap; width: 140px; flex-shrink: 0; min-width: auto; max-width: none;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="ReSize" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; justify-content: flex-start; align-items: stretch; align-self: stretch; margin-bottom: 10px; display: none; flex-shrink: 0;">
+                <ui:Label tabindex="-1" text="Re-size" display-tooltip-when-elided="true" style="color: rgb(255, 255, 255); -unity-text-align: middle-left; white-space: nowrap;" />
+                <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); align-self: stretch; flex-direction: row; justify-content: flex-start; flex-wrap: nowrap; align-items: flex-end; width: 110px;" />
+                <ui:Vector2Field name="Resize" style="justify-content: flex-end; align-self: stretch; flex-direction: row; flex-grow: 1; align-items: stretch; flex-wrap: nowrap; width: 100px; flex-shrink: 1; min-width: auto; max-width: none;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Position" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; justify-content: space-between; align-items: stretch; align-self: stretch; margin-bottom: 10px; flex-shrink: 0;">
+                <ui:Label tabindex="-1" text="Origin Position" display-tooltip-when-elided="true" style="color: rgb(255, 255, 255); -unity-text-align: middle-left; white-space: nowrap;" />
+                <ui:Vector3Field name="Position" style="align-self: stretch; align-items: stretch; justify-content: flex-end; flex-grow: 0; flex-shrink: 0; width: 215px; min-width: 0; flex-wrap: nowrap;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="GenerarCeilling" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; justify-content: space-between; align-self: stretch; align-items: stretch; margin-bottom: 10px; flex-shrink: 0;">
+                <ui:Label tabindex="-1" text="Generate Ceilling" display-tooltip-when-elided="true" name="Label" style="flex-direction: row; color: rgb(255, 255, 255); -unity-text-align: middle-left; align-self: stretch;" />
+                <ui:Toggle name="ToggleGenCeilling" tooltip="Generates ceilling for interior layers." style="justify-content: space-around; align-self: stretch; flex-grow: 0; flex-shrink: 0; align-items: stretch; margin-bottom: 3px; margin-left: 3px; margin-right: 3px; margin-top: 3px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="LightProbes" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; justify-content: space-between; align-self: stretch; align-items: stretch; margin-bottom: 10px; flex-shrink: 0;">
+                <ui:Label tabindex="-1" text="Build Light Probes" display-tooltip-when-elided="true" name="Label" style="flex-direction: row; color: rgb(255, 255, 255); -unity-text-align: middle-left; align-self: stretch;" />
+                <ui:Toggle name="ToggleLightProbes" tooltip="Builds light probes on the scene." style="justify-content: space-around; align-self: stretch; flex-grow: 0; flex-shrink: 0; align-items: stretch; margin-bottom: 3px; margin-left: 3px; margin-right: 3px; margin-top: 3px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="BakeLights" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; justify-content: space-between; align-self: stretch; align-items: stretch; margin-bottom: 10px; flex-shrink: 0;">
+                <ui:Label tabindex="-1" text="Bake Lights" display-tooltip-when-elided="true" name="Label" style="flex-direction: row; color: rgb(255, 255, 255); -unity-text-align: middle-left; align-self: stretch;" />
+                <ui:Toggle name="ToggleBakeLights" tooltip="Bakes lights after level generator. May take a long time." style="justify-content: space-around; align-self: stretch; flex-grow: 0; flex-shrink: 0; align-items: stretch; margin-bottom: 3px; margin-left: 3px; margin-right: 3px; margin-top: 3px;" />
+            </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement class="lbs-group-box">
-            <ui:Label tabindex="-1" text="Generator Configuration" display-tooltip-when-elided="true" style="display: none;" />
+        <ui:VisualElement name="Static" class="lbs-group-box" style="flex-shrink: 0; margin-left: 4px; margin-right: 4px; margin-top: 4px; margin-bottom: 4px; padding-left: 4px; padding-right: 4px; padding-top: 2px; padding-bottom: 8px;">
+            <ui:Button tabindex="-1" text="Generate All Layers" display-tooltip-when-elided="true" name="ButtonGenAllLayers" tooltip="Generate 3D models of all the layers in the scene." class="lbs-button-dark" style="margin-bottom: 3px; margin-top: 3px;" />
+            <ui:Button tabindex="-1" text="Generate Current Layer" display-tooltip-when-elided="true" name="ButtonGenCurrentLayer" tooltip="Generate 3D models of the current layer in the scene." class="lbs-button-dark" style="margin-bottom: 3px; margin-top: 3px;" />
+            <ui:VisualElement name="AutoGenerate" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; justify-content: space-between; align-self: stretch; align-items: stretch; margin-bottom: 10px; flex-shrink: 0;">
+                <ui:Label tabindex="-1" text="Auto Generate (Preview)" display-tooltip-when-elided="true" name="Label" style="flex-direction: row; color: rgb(255, 255, 255); -unity-text-align: middle-left; align-self: stretch;" />
+                <ui:Toggle name="ToggleAutoGen" tooltip="Destroy the previously generated 3D model with the same name" style="justify-content: space-around; align-self: stretch; flex-grow: 0; flex-shrink: 0; align-items: stretch; margin-bottom: 3px; margin-left: 3px; margin-right: 3px; margin-top: 3px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Replace" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; justify-content: space-between; align-self: stretch; align-items: stretch; margin-bottom: 10px; flex-shrink: 0;">
+                <ui:Label tabindex="-1" text="Replace Previous" display-tooltip-when-elided="true" name="Label" style="flex-direction: row; color: rgb(255, 255, 255); -unity-text-align: middle-left; align-self: stretch;" />
+                <ui:Toggle name="ToggleReplace" tooltip="Destroy the previously generated 3D model with the same name." style="justify-content: space-around; align-self: stretch; flex-grow: 0; flex-shrink: 0; align-items: stretch; margin-bottom: 3px; margin-left: 3px; margin-right: 3px; margin-top: 3px;" />
+            </ui:VisualElement>
             <ISILab.LBS.VisualElements.ClassDropDown name="Generator" style="display: none;" />
-            <ui:Toggle label="Destroy previous" name="DestroyPrev" tooltip="Destroy the previously generated 3D model with the same name" />
-            <ui:Button tabindex="-1" text="Generate" display-tooltip-when-elided="true" name="Action" tooltip="Generate 3D models in the scene" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

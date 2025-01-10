@@ -1,11 +1,11 @@
-using System.Collections.Generic;
-using UnityEngine;
-using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using LBS.Bundles;
 using ISILab.LBS.Characteristics;
 using ISILab.LBS.Internal;
+using LBS.Bundles;
+using Newtonsoft.Json;
+using UnityEngine;
 
 namespace LBS.Components.TileMap // FIX: change namespace to ISILab.LBS.Bundle
 {

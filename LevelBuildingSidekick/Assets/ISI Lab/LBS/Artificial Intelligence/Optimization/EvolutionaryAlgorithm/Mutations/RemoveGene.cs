@@ -1,8 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Randomizations;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace ISILab.AI.Categorization

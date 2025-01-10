@@ -1,10 +1,10 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Drawing;
 using ISILab.AI.Grammar;
 using ISILab.LBS.Modules;
 using LBS.Components;
 using Newtonsoft.Json;
-using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
 using UnityEngine;
 
 namespace ISILab.LBS.Behaviours

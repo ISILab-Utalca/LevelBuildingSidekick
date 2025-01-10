@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Infrastructure.Framework.Commons;
 using UnityEngine;
 using UnityEngine.UIElements;
-using System.Linq;
 
 namespace ISILab.AI.Optimization.Populations
 {

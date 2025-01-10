@@ -1,9 +1,9 @@
 using System;
-using System.Diagnostics;
-using GeneticSharp.Infrastructure.Framework.Texts;
-using GeneticSharp.Infrastructure.Framework.Commons;
-using System.Linq;
 using System.Collections;
+using System.Diagnostics;
+using System.Linq;
+using GeneticSharp.Infrastructure.Framework.Commons;
+using GeneticSharp.Infrastructure.Framework.Texts;
 using ISILab.AI.Optimization;
 
 namespace GeneticSharp.Domain.Chromosomes
