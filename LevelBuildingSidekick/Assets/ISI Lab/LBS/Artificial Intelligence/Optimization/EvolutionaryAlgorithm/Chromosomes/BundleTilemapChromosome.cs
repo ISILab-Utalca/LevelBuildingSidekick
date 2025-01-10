@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
-using System.Linq;
-using LBS.Components.TileMap;
 using ISILab.Commons;
 using ISILab.Extensions;
 using ISILab.LBS.Modules;
+using LBS.Components.TileMap;
+using UnityEngine;
 
 namespace ISILab.AI.Categorization
 {

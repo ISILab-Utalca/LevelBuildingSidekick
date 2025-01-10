@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Infrastructure.Framework.Texts;
-using GeneticSharp.Infrastructure.Framework.Commons;
 using System.Linq;
+using GeneticSharp.Domain.Chromosomes;
+using GeneticSharp.Infrastructure.Framework.Commons;
+using GeneticSharp.Infrastructure.Framework.Texts;
 using UnityEngine.UIElements;
 
 namespace GeneticSharp.Domain.Crossovers

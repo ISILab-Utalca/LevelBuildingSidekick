@@ -1,10 +1,10 @@
-﻿using System.Linq;
-using System;
+﻿using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Commons.Optimization.Evaluator;
 using UnityEngine.UIElements;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using System.Threading;
 
 namespace ISILab.AI.Optimization
 {

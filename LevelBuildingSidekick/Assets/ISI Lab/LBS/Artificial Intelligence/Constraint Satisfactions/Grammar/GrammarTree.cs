@@ -1,9 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using System.Speech.Recognition.SrgsGrammar;
-using System;
 using System.Linq;
+using System.Speech.Recognition.SrgsGrammar;
+using UnityEngine;
 
 namespace ISILab.AI.Grammar
 {

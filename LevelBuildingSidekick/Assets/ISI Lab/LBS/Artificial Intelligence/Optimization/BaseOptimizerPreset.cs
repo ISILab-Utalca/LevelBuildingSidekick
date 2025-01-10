@@ -1,9 +1,9 @@
-using Commons.Optimization.Evaluator;
-using ISILab.AI.Optimization.Terminations;
-using ISILab.AI.Optimization.Populations;
-using ISILab.AI.Optimization.Selections;
 using System.Collections;
 using System.Collections.Generic;
+using Commons.Optimization.Evaluator;
+using ISILab.AI.Optimization.Populations;
+using ISILab.AI.Optimization.Selections;
+using ISILab.AI.Optimization.Terminations;
 using UnityEngine;
 
 

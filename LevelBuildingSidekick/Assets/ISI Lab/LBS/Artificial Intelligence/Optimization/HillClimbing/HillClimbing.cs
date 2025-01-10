@@ -1,17 +1,17 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using System;
-using Commons.Optimization.Evaluator;
-using ISILab.AI.Optimization.Terminations;
-using Commons.Optimization;
-using LBS;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using Commons.Optimization;
+using Commons.Optimization.Evaluator;
+using ISILab.AI.Optimization.Populations;
+using ISILab.AI.Optimization.Selections;
+using ISILab.AI.Optimization.Terminations;
+using LBS;
+using LBS.Components.Graph;
 using LBS.Components.TileMap;
 using UnityEditor;
-using LBS.Components.Graph;
-using System.Diagnostics;
-using ISILab.AI.Optimization.Selections;
-using ISILab.AI.Optimization.Populations;
+using UnityEngine;
 
 namespace ISILab.AI.Optimization
 {

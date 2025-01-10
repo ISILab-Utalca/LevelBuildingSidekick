@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Diagnostics.CodeAnalysis;
-using GeneticSharp.Infrastructure.Framework.Reflection;
+using System.Linq;
 using GeneticSharp.Domain.Randomizations;
+using GeneticSharp.Infrastructure.Framework.Reflection;
 
 
 namespace GeneticSharp.Domain.Mutations

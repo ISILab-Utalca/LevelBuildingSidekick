@@ -1,8 +1,8 @@
-﻿using GeneticSharp.Domain.Randomizations;
-using System;
+﻿using System;
 using System.Collections;
 using System.Data.SqlTypes;
 using System.Linq;
+using GeneticSharp.Domain.Randomizations;
 using UnityEngine;
 
 namespace GeneticSharp.Domain.Chromosomes

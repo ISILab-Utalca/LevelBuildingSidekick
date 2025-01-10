@@ -1,6 +1,6 @@
-using Commons.Optimization.Evaluator;
-using System.Linq;
 using System;
+using System.Linq;
+using Commons.Optimization.Evaluator;
 using GeneticSharp.Domain.Chromosomes;
 using ISILab.AI.Optimization;
 

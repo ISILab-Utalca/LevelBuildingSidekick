@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
-using System.Linq;
 using GeneticSharp.Infrastructure.Framework.Texts;
 using UnityEngine;
-using System;
 
 namespace GeneticSharp.Domain.Mutations
 {

@@ -1,6 +1,6 @@
-using LBS.Components;
 using System.Collections;
 using System.Collections.Generic;
+using LBS.Components;
 using UnityEngine;
 
 namespace ISILab.AI.Categorization

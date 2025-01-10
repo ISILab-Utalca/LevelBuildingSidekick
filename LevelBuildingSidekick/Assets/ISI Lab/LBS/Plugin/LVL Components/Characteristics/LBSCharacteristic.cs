@@ -1,9 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using System;
-using Newtonsoft.Json;
 using LBS.Bundles;
+using Newtonsoft.Json;
+using UnityEngine;
 
 namespace ISILab.LBS.Characteristics
 {

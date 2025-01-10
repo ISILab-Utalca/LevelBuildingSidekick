@@ -1,6 +1,6 @@
-using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace ISILab.LBS.Characteristics
