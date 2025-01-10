@@ -75,7 +75,7 @@ namespace ISILab.LBS.Behaviours
         public List<Zone> Zones => areas.Zones;
 
         [JsonIgnore]
-        public List<Zone> ZonesWhitTiles => areas.ZonesWithTiles;
+        public List<Zone> ZonesWithTiles => areas.ZonesWithTiles;
 
         [JsonIgnore]
         public List<LBSTile> Tiles => tileMap.Tiles;

@@ -343,6 +343,6 @@ MonoBehaviour:
   - type: ISILab.LBS.LBSIdentifierBundle
     items:
     - {fileID: 11400000, guid: 468aebbf5a02f6d45b144fc9dc3deb01, type: 2}
-  - type: ISILab.LBS.BackUp
+  - type: UnityEngine.Rendering.VolumeProfile
     items:
-    - {fileID: 0}
+    - {fileID: 11400000, guid: dc74bbb7a50b73b40af3e5c16fead5f8, type: 2}
