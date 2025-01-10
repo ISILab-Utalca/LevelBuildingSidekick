@@ -37,12 +37,12 @@ MonoBehaviour:
         - target: {fileID: 11400000, guid: 3ccf8442a472e0943899ad0e08afc068, type: 2}
           weight: 1
         - target: {fileID: 11400000, guid: 21bf7352873a7684d97fd1e307da5c6d, type: 2}
-          weight: 0.07
+          weight: 0
         - target: {fileID: 11400000, guid: bf35d09bad9922e41a6c2710cfc3d528, type: 2}
-          weight: 0.056
+          weight: 0.148
         - target: {fileID: 11400000, guid: 97a009fe75e5514469f6bb24b530ca12, type: 2}
-          weight: 0.045
+          weight: 0
         - target: {fileID: 11400000, guid: cb9d3c99b1d41844e8f9e023aa8096aa, type: 2}
-          weight: 0.493
+          weight: 0.202
         - target: {fileID: 11400000, guid: b4e7c0dd3687e6d46bdcd1845dab9416, type: 2}
           weight: 1
