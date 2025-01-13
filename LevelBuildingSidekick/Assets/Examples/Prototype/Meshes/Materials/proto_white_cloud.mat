@@ -11,14 +11,17 @@ Material:
   m_Shader: {fileID: -6465566751694194690, guid: ff2aa308c0ae29a4aab34be1f0c47abc, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _BUILTIN_ALPHATEST_ON
+  - _BUILTIN_AlphaClip
   m_InvalidKeywords:
   - _EMISSION
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
+  m_CustomRenderQueue: 2450
+  stringTagMap:
+    RenderType: TransparentCutout
   disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
@@ -66,10 +69,20 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _BUILTIN_AlphaClip: 1
+    - _BUILTIN_Blend: 0
+    - _BUILTIN_CullMode: 2
+    - _BUILTIN_DstBlend: 0
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
+    - _BUILTIN_SrcBlend: 1
+    - _BUILTIN_Surface: 0
+    - _BUILTIN_ZTest: 4
+    - _BUILTIN_ZWrite: 1
+    - _BUILTIN_ZWriteControl: 0
     - _Blend: 0.216
     - _BumpScale: 1
+    - _Clip: 0.5
     - _CloudScale: 5.69
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -92,7 +105,7 @@ Material:
     m_Colors:
     - _Color: {r: 0.6037736, g: 0.6037736, b: 0.6037736, a: 1}
     - _EmissionColor: {r: 0.103773594, g: 0.103773594, b: 0.103773594, a: 0}
-    - _Tint: {r: 0.8867924, g: 0.8867924, b: 0.8867924, a: 0}
+    - _Tint: {r: 0.8490566, g: 0.8490566, b: 0.8490566, a: 0.78039217}
   m_BuildTextureStacks: []
 --- !u!114 &5104098137476792096
 MonoBehaviour:

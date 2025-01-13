@@ -1,8 +1,8 @@
-using ISILab.AI.Optimization.Populations;
-using GeneticSharp.Domain.Randomizations;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using GeneticSharp.Domain.Randomizations;
+using ISILab.AI.Optimization.Populations;
 using UnityEngine;
 using UnityEngine.UIElements;
 

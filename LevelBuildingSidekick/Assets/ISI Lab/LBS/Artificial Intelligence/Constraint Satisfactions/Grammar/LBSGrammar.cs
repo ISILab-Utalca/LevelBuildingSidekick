@@ -1,8 +1,8 @@
-using ISILab.LBS.Assistants;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ISILab.LBS.Assistants;
 using UnityEngine;
 
 namespace ISILab.AI.Grammar

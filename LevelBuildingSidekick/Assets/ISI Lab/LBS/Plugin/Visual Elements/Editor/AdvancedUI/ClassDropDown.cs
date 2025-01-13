@@ -1,17 +1,15 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
+
 using UnityEngine.UIElements;
-using Commons.Optimization.Evaluator;
 using ISILab.Commons.Utility;
 
 namespace ISILab.LBS.VisualElements
 {
     public class ClassDropDown : DropdownField
     {
-        public new class UxmlFactory : UxmlFactory<ClassDropDown, UxmlTraits> { }
+        public new class UxmlFactory : UxmlFactory<ClassDropDown, UxmlTraits> {}
 
         public new class UxmlTraits : DropdownField.UxmlTraits
         {

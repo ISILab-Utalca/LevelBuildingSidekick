@@ -1,5 +1,6 @@
 using ISILab.Commons.Utility;
 using ISILab.Commons.Utility.Editor;
+
 using ISILab.LBS;
 using ISILab.LBS.Template;
 using ISILab.LBS.VisualElements;
@@ -7,16 +8,19 @@ using ISILab.LBS.VisualElements.Editor;
 using LBS.Components;
 using LBS.VisualElements;
 using System;
-using System.Collections;
+
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using ISILab.Commons.VisualElements.Editor;
+
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Debug = UnityEngine.Debug;
 
+//namespace ISILab.LBS.Editor.MainWindow{
+
+   
+    
 public class LBSMainWindow : EditorWindow
 {
     #region PROPERTIES
@@ -46,6 +50,7 @@ public class LBSMainWindow : EditorWindow
     private MainView mainView; // work canvas
     private Label selectedLabel;
     private VisualElement floatingPanelContent;
+    private VisualElement toggleButtons;
 
     // Panels
     private LayersPanel layerPanel;
@@ -234,14 +239,14 @@ public class LBSMainWindow : EditorWindow
 
         #region Extra Toolbar
         // LayerButton
-        Toggle layerToggleButton = rootVisualElement.Q<Toggle>("LayerToggleButton");
+        Toggle layerToggleButton = rootVisualElement.Q<Toggle>("LayerToggle");
         layerToggleButton.SetValueWithoutNotify(true);
         layerToggleButton.RegisterCallback<ChangeEvent<bool>>((_event) => {
             layerPanel.style.display = (layerToggleButton.value) ? DisplayStyle.Flex : DisplayStyle.None;
         });
 
         // Quest Panel Toggle
-        Toggle toggleQuest = rootVisualElement.Q<Toggle>("QuestToggleButton");
+        Toggle toggleQuest = rootVisualElement.Q<Toggle>("QuestToggle");
         toggleQuest.RegisterCallback<ChangeEvent<bool>>( (evt) => {
             //var value = (questsPanel.style.display == DisplayStyle.None);
             questsPanel.style.display = (toggleQuest.value) ? DisplayStyle.Flex : DisplayStyle.None;
@@ -249,7 +254,7 @@ public class LBSMainWindow : EditorWindow
 
 
         // 3D Generator Toggle
-        Toggle toggleButton3D = rootVisualElement.Q<Toggle>("Gen3DToggleButton");
+        Toggle toggleButton3D = rootVisualElement.Q<Toggle>("Gen3DToggle");
         //Toggle toggleButton3D = Gen3DBtn.Q<Toggle>("ToggleButton");
         toggleButton3D.RegisterCallback<ChangeEvent<bool>>((evt) =>
         {
@@ -259,32 +264,51 @@ public class LBSMainWindow : EditorWindow
         });
         
         // Plus toggle
-        Toggle toggleButtonPlus = rootVisualElement.Q<Toggle>("PlusToggleButton");
+        Toggle toggleButtonPlus = rootVisualElement.Q<Toggle>("PlusToggle");
         
-        Button layerDataButton = rootVisualElement.Q<Button>("LayerDataButton");
+        
+        // Toggle buttons only one active at a time
+        toggleButtons = rootVisualElement.Q<VisualElement>("ToggleButtonContainer");
+        
+        Toggle layerDataButton = rootVisualElement.Q<Toggle>("LayerDataButton");
         layerDataButton.RegisterCallback<ClickEvent>((evt) =>
         {
-            layerDataButton.tooltip = LBSInspectorPanel.DataTab;
+            OnToggleButtonClick();
+            layerDataButton.SetValueWithoutNotify(true);
             LBSInspectorPanel.ShowInspector(LBSInspectorPanel.DataTab);
         });
         
-        Button behaviourButton = rootVisualElement.Q<Button>("BehaviourButton");
+        Toggle behaviourButton = rootVisualElement.Q<Toggle>("BehaviourButton");
         behaviourButton.RegisterCallback<ClickEvent>((evt) =>
         {
-            behaviourButton.tooltip = LBSInspectorPanel.BehavioursTab;
+            OnToggleButtonClick();
+            behaviourButton.SetValueWithoutNotify(true);
             LBSInspectorPanel.ShowInspector(LBSInspectorPanel.BehavioursTab);
         });
         
-        Button assistantButton = rootVisualElement.Q<Button>("AssistantButton");
+        Toggle assistantButton = rootVisualElement.Q<Toggle>("AssistantButton");
         assistantButton.RegisterCallback<ClickEvent>((evt) =>
         {
-            assistantButton.tooltip = LBSInspectorPanel.AssistantsTab;
+            OnToggleButtonClick();
+            assistantButton.SetValueWithoutNotify(true);
             LBSInspectorPanel.ShowInspector(LBSInspectorPanel.AssistantsTab);
         });
 
-        Button tagsButton = rootVisualElement.Q<Button>("TagsButton");     
-        Button bundlesButton = rootVisualElement.Q<Button>("BlundlesButton");     
-
+        Toggle tagsButton = rootVisualElement.Q<Toggle>("TagsButton");  
+        tagsButton.RegisterCallback<ClickEvent>((evt) =>
+        {
+            OnToggleButtonClick();
+            tagsButton.SetValueWithoutNotify(true);
+            //LBSInspectorPanel.ShowInspector(LBSInspectorPanel.AssistantsTab);
+        });
+        
+        Toggle bundlesButton = rootVisualElement.Q<Toggle>("BundlesButton");     
+        bundlesButton.RegisterCallback<ClickEvent>((evt) =>
+        {
+            OnToggleButtonClick();
+            bundlesButton.SetValueWithoutNotify(true);
+            //LBSInspectorPanel.ShowInspector(LBSInspectorPanel.AssistantsTab);
+        });
         
         #endregion
         
@@ -383,4 +407,24 @@ public class LBSMainWindow : EditorWindow
         }
         notifier.SendNotification(message, logType, duration);
     }
+
+    public List<LBSLayer> GetLayers()
+    {
+        List<LBSLayer> layers = new List<LBSLayer>();
+        if(layerPanel == null || layerPanel.data == null) return layers;
+        return layerPanel.data.Layers;
+    }
+
+    private void OnToggleButtonClick()
+    {
+        foreach (var child in toggleButtons.Children())
+        {
+            if (child is Toggle toggle)
+            {
+                toggle.SetValueWithoutNotify(false); // Deselect
+            }
+        }
+    }
 }
+
+//}

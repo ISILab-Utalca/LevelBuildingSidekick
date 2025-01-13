@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
-using System.Linq;
 using UnityEngine.UIElements;
 
 namespace GeneticSharp.Domain.Crossovers

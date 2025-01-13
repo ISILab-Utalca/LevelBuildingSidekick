@@ -1,8 +1,8 @@
-using ISILab.LBS.Modules;
-using LBS.Components;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ISILab.LBS.Modules;
+using LBS.Components;
 using UnityEngine;
 
 namespace ISILab.LBS.Generators

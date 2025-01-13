@@ -2,9 +2,9 @@
 using System.ComponentModel;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
-using ISILab.AI.Optimization.Populations;
 using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Infrastructure.Framework.Texts;
+using ISILab.AI.Optimization.Populations;
 using UnityEngine.UIElements;
 
 namespace ISILab.AI.Optimization.Selections

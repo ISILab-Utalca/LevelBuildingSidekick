@@ -1,3 +1,6 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using ISILab.LBS.Assistants;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Generators;
@@ -5,9 +8,6 @@ using ISILab.LBS.Modules;
 using LBS;
 using LBS.Components;
 using Newtonsoft.Json;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace ISILab.LBS

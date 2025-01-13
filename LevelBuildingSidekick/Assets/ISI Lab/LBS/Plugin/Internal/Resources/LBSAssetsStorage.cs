@@ -2,11 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using LBS.Bundles;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
-
-using LBS.Bundles;
 
 namespace ISILab.LBS.Internal
 {

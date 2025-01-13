@@ -1,17 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using LBS.Components;
-using LBS.Components.TileMap;
 using System.Linq;
-using LBS.Bundles;
-using Newtonsoft.Json;
 using ISILab.Commons;
 using ISILab.Extensions;
-using ISILab.LBS.Modules;
 using ISILab.LBS.Characteristics;
-using ISILab.LBS.Internal;
 using ISILab.LBS.Components;
+using ISILab.LBS.Internal;
+using ISILab.LBS.Modules;
+using LBS.Bundles;
+using LBS.Components;
+using LBS.Components.TileMap;
+using Newtonsoft.Json;
+using UnityEngine;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -316,6 +316,12 @@ namespace ISILab.LBS.Generators
                 tiles.Add(tileObj);
             }
 
+            if (tiles.Count <= 0)
+            {
+                Debug.LogWarning("[ISI Lab]: Not tiles found");
+                return mainPivot;
+            }
+            
             var x = tiles.Average(t => t.transform.position.x);
             var y = tiles.Min(t => t.transform.position.y);
             var z = tiles.Average(t => t.transform.position.z);

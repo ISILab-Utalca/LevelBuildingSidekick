@@ -1,12 +1,12 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using ISILab.Extensions;
 using ISILab.LBS.Assistants;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Modules;
 using LBS.Components;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace ISILab.LBS

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-using GeneticSharp.Domain.Chromosomes;
 using System.Linq;
+using GeneticSharp.Domain.Chromosomes;
 using UnityEngine.UIElements;
 
 namespace GeneticSharp.Domain.Crossovers

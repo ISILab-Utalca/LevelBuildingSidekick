@@ -1,8 +1,8 @@
-using ISILab.LBS.Characteristics;
-using ISILab.LBS.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ISILab.LBS.Characteristics;
+using ISILab.LBS.Internal;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;

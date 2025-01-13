@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 using ISILab.Extensions;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Characteristics;
@@ -5,11 +9,7 @@ using ISILab.LBS.Internal;
 using ISILab.LBS.Modules;
 using LBS.Bundles;
 using LBS.Components;
-using LBS.Components.TileMap;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+
 using UnityEditor;
 using UnityEngine;
 
@@ -99,6 +99,12 @@ namespace ISILab.LBS.Generators
                 tiles.Add(go);
             }
 
+            if (tiles.Count == 0)
+            {
+                Debug.LogWarning("[ISILab]: No tiles were created in the tool. Can't generate game object.");
+                return null;
+            }
+            
             var x = tiles.Average(t => t.transform.position.x);
             var y = tiles.Min(t => t.transform.position.y);
             var z = tiles.Average(t => t.transform.position.z);

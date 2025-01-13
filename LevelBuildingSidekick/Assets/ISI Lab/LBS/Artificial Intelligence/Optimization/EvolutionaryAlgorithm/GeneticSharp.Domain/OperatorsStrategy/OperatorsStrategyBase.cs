@@ -3,8 +3,8 @@ using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Mutations;
-using ISILab.AI.Optimization.Populations;
 using GeneticSharp.Domain.Randomizations;
+using ISILab.AI.Optimization.Populations;
 
 namespace GeneticSharp.Domain
 {

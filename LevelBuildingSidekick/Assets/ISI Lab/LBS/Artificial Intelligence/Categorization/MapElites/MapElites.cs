@@ -1,12 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using Commons.Optimization.Evaluator;
 using System.Linq;
-using System;
-using UnityEngine.UIElements;
-using ISILab.AI.Optimization;
 using System.Threading;
+using Commons.Optimization.Evaluator;
+using ISILab.AI.Optimization;
+using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace ISILab.LBS.AI.Categorization
 {

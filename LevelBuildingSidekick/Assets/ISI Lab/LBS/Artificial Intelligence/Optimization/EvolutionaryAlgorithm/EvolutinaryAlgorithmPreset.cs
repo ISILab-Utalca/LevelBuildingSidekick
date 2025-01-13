@@ -1,7 +1,7 @@
-using GeneticSharp.Domain.Crossovers;
-using GeneticSharp.Domain.Mutations;
 using System.Collections;
 using System.Collections.Generic;
+using GeneticSharp.Domain.Crossovers;
+using GeneticSharp.Domain.Mutations;
 using UnityEngine;
 
 namespace ISILab.AI.Optimization

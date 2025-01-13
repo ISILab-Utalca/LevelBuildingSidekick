@@ -1,14 +1,14 @@
-﻿using Commons.Optimization.Evaluator;
-using ISILab.AI.Optimization.Terminations;
-using System;
-using ISILab.AI.Optimization.Populations;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using System.Linq;
 using System.Diagnostics;
+using System.Linq;
 using Commons.Optimization;
+using Commons.Optimization.Evaluator;
+using ISILab.AI.Optimization.Populations;
 using ISILab.AI.Optimization.Selections;
+using ISILab.AI.Optimization.Terminations;
+using UnityEngine;
 
 namespace ISILab.AI.Optimization
 {

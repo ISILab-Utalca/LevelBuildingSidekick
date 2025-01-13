@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Empty
   m_EditorClassIdentifier: 
   label: Empty
-  icon: {fileID: 0}
-  color: {r: 1, g: 1, b: 1, a: 1}
+  icon: {fileID: 2800000, guid: cd47397b40cf6bd43a6d62d2f71de997, type: 3}
+  color: {r: 0.1509434, g: 0.1509434, b: 0.1509434, a: 0.15686275}

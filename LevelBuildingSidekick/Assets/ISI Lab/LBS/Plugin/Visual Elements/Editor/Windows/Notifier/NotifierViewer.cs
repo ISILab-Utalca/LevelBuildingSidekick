@@ -13,8 +13,6 @@ namespace LBS.VisualElements
     {
         private ListView messageContainer;
         
-        // max size of messages on the container before force remove
-        private int maxCount = 20;
         private bool notificationOn = true;
         private ScrollView scrollView;
         private VectorImage iconNotificationsOn; 
