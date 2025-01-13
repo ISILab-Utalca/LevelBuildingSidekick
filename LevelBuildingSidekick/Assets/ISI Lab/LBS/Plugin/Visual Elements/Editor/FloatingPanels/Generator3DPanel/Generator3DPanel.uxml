@@ -29,7 +29,7 @@
                 <ui:Toggle name="ToggleGenCeilling" tooltip="Generates ceilling for interior layers." style="justify-content: space-around; align-self: stretch; flex-grow: 0; flex-shrink: 0; align-items: stretch; margin-bottom: 3px; margin-left: 3px; margin-right: 3px; margin-top: 3px;" />
             </ui:VisualElement>
             <ui:VisualElement name="LightProbes" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; justify-content: space-between; align-self: stretch; align-items: stretch; margin-bottom: 10px; flex-shrink: 0;">
-                <ui:Label tabindex="-1" text="Build Light Probes" display-tooltip-when-elided="true" name="Label" style="flex-direction: row; color: rgb(255, 255, 255); -unity-text-align: middle-left; align-self: stretch;" />
+                <ui:Label tabindex="-1" text="Build Light Probes" display-tooltip-when-elided="true" name="Label" tooltip="Generates light probes on each room. According to size and object density." style="flex-direction: row; color: rgb(255, 255, 255); -unity-text-align: middle-left; align-self: stretch;" />
                 <ui:Toggle name="ToggleLightProbes" tooltip="Builds light probes on the scene." style="justify-content: space-around; align-self: stretch; flex-grow: 0; flex-shrink: 0; align-items: stretch; margin-bottom: 3px; margin-left: 3px; margin-right: 3px; margin-top: 3px;" />
             </ui:VisualElement>
             <ui:VisualElement name="BakeLights" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; justify-content: space-between; align-self: stretch; align-items: stretch; margin-bottom: 10px; flex-shrink: 0;">
@@ -40,7 +40,7 @@
         <ui:VisualElement name="Static" class="lbs-group-box" style="flex-shrink: 0; margin-left: 4px; margin-right: 4px; margin-top: 4px; margin-bottom: 4px; padding-left: 4px; padding-right: 4px; padding-top: 2px; padding-bottom: 8px;">
             <ui:Button tabindex="-1" text="Generate All Layers" display-tooltip-when-elided="true" name="ButtonGenAllLayers" tooltip="Generate 3D models of all the layers in the scene." class="lbs-button-dark" style="margin-bottom: 3px; margin-top: 3px;" />
             <ui:Button tabindex="-1" text="Generate Current Layer" display-tooltip-when-elided="true" name="ButtonGenCurrentLayer" tooltip="Generate 3D models of the current layer in the scene." class="lbs-button-dark" style="margin-bottom: 3px; margin-top: 3px;" />
-            <ui:VisualElement name="AutoGenerate" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; justify-content: space-between; align-self: stretch; align-items: stretch; margin-bottom: 10px; flex-shrink: 0;">
+            <ui:VisualElement name="AutoGenerate" tooltip="Applies any changes immediately." style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; justify-content: space-between; align-self: stretch; align-items: stretch; margin-bottom: 10px; flex-shrink: 0; height: 20px;">
                 <ui:Label tabindex="-1" text="Auto Generate (Preview)" display-tooltip-when-elided="true" name="Label" style="flex-direction: row; color: rgb(255, 255, 255); -unity-text-align: middle-left; align-self: stretch;" />
                 <ui:Toggle name="ToggleAutoGen" tooltip="Destroy the previously generated 3D model with the same name" style="justify-content: space-around; align-self: stretch; flex-grow: 0; flex-shrink: 0; align-items: stretch; margin-bottom: 3px; margin-left: 3px; margin-right: 3px; margin-top: 3px;" />
             </ui:VisualElement>

@@ -20,7 +20,8 @@ namespace ISILab.LBS.Generators
 
         public override object Clone()
         {
-            throw new System.NotImplementedException();
+            return new QuestRuleGenerator();
+            //throw new System.NotImplementedException();
         }
 
         public override GameObject Generate(LBSLayer layer, Generator3D.Settings settings)
