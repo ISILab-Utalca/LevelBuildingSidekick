@@ -24,7 +24,7 @@ namespace ISILab.LBS.Generators
         typeof(ConnectedTileMapModule),
         typeof(SectorizedTileMapModule),
         typeof(ConnectedZonesModule))]
-    public class SchemaRuleGeneratorExteriror : LBSGeneratorRule
+    public class SchemaRuleGeneratorExterior : LBSGeneratorRule
     {
         [JsonRequired]
         private float deltaWall = 1f;
@@ -48,7 +48,7 @@ namespace ISILab.LBS.Generators
         #endregion
 
         #region CONSTRUCTORS
-        public SchemaRuleGeneratorExteriror() { }
+        public SchemaRuleGeneratorExterior() { }
         #endregion
 
         public void Init(LBSLayer layer, Generator3D.Settings settings)
@@ -233,7 +233,7 @@ namespace ISILab.LBS.Generators
 
         public override object Clone()
         {
-            return new SchemaRuleGeneratorExteriror();
+            return new SchemaRuleGeneratorExterior();
         }
 
         private GameObject CreateObject(GameObject pref, Transform pivot)
@@ -248,7 +248,7 @@ namespace ISILab.LBS.Generators
 
         public override bool Equals(object obj)
         {
-            var other = obj as SchemaRuleGeneratorExteriror;
+            var other = obj as SchemaRuleGeneratorExterior;
 
             if (other == null) return false;
 

@@ -1,0 +1,1114 @@
+{
+  "$id": "1",
+  "$type": "ISILab.LBS.LBSLevelData, LBS",
+  "layers": {
+    "$id": "2",
+    "$type": "System.Collections.Generic.List`1[[LBS.Components.LBSLayer, LBS]], mscorlib",
+    "$values": [
+      {
+        "$id": "3",
+        "$type": "LBS.Components.LBSLayer, LBS",
+        "visible": true,
+        "blocked": false,
+        "iconPath": "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/pine-tree.png",
+        "id": "Exterior",
+        "name": "New Layer",
+        "modules": {
+          "$id": "4",
+          "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Modules.LBSModule, LBS]], mscorlib",
+          "$values": [
+            {
+              "$id": "5",
+              "$type": "ISILab.LBS.Modules.TileMapModule, LBS",
+              "tiles": {
+                "$id": "6",
+                "$type": "System.Collections.Generic.List`1[[LBS.Components.TileMap.LBSTile, LBS]], mscorlib",
+                "$values": [
+                  {
+                    "$id": "7",
+                    "$type": "LBS.Components.TileMap.LBSTile, LBS",
+                    "x": 1,
+                    "y": -5,
+                    "tag": {
+                      "$id": "8",
+                      "$type": "ISILab.LBS.Components.LBSTag, LBS",
+                      "label": "Grass",
+                      "Label": "Grass",
+                      "Color": {
+                        "r": 0.200000018,
+                        "g": 0.360784322,
+                        "b": 0.4039216,
+                        "a": 1.0
+                      },
+                      "name": "Grass",
+                      "hideFlags": "None"
+                    }
+                  },
+                  {
+                    "$id": "9",
+                    "$type": "LBS.Components.TileMap.LBSTile, LBS",
+                    "x": 1,
+                    "y": -4,
+                    "tag": {
+                      "$ref": "8"
+                    }
+                  },
+                  {
+                    "$id": "10",
+                    "$type": "LBS.Components.TileMap.LBSTile, LBS",
+                    "x": 1,
+                    "y": -3,
+                    "tag": {
+                      "$ref": "8"
+                    }
+                  },
+                  {
+                    "$id": "11",
+                    "$type": "LBS.Components.TileMap.LBSTile, LBS",
+                    "x": 1,
+                    "y": -2,
+                    "tag": {
+                      "$ref": "8"
+                    }
+                  },
+                  {
+                    "$id": "12",
+                    "$type": "LBS.Components.TileMap.LBSTile, LBS",
+                    "x": 1,
+                    "y": -1,
+                    "tag": {
+                      "$ref": "8"
+                    }
+                  },
+                  {
+                    "$id": "13",
+                    "$type": "LBS.Components.TileMap.LBSTile, LBS",
+                    "x": 2,
+                    "y": -5,
+                    "tag": {
+                      "$ref": "8"
+                    }
+                  },
+                  {
+                    "$id": "14",
+                    "$type": "LBS.Components.TileMap.LBSTile, LBS",
+                    "x": 2,
+                    "y": -4,
+                    "tag": {
+                      "$ref": "8"
+                    }
+                  },
+                  {
+                    "$id": "15",
+                    "$type": "LBS.Components.TileMap.LBSTile, LBS",
+                    "x": 2,
+                    "y": -3,
+                    "tag": {
+                      "$ref": "8"
+                    }
+                  },
+                  {
+                    "$id": "16",
+                    "$type": "LBS.Components.TileMap.LBSTile, LBS",
+                    "x": 2,
+                    "y": -2,
+                    "tag": {
+                      "$ref": "8"
+                    }
+                  },
+                  {
+                    "$id": "17",
+                    "$type": "LBS.Components.TileMap.LBSTile, LBS",
+                    "x": 2,
+                    "y": -1,
+                    "tag": {
+                      "$ref": "8"
+                    }
+                  },
+                  {
+                    "$id": "18",
+                    "$type": "LBS.Components.TileMap.LBSTile, LBS",
+                    "x": 3,
+                    "y": -5,
+                    "tag": {
+                      "$ref": "8"
+                    }
+                  },
+                  {
+                    "$id": "19",
+                    "$type": "LBS.Components.TileMap.LBSTile, LBS",
+                    "x": 3,
+                    "y": -4,
+                    "tag": {
+                      "$ref": "8"
+                    }
+                  },
+                  {
+                    "$id": "20",
+                    "$type": "LBS.Components.TileMap.LBSTile, LBS",
+                    "x": 3,
+                    "y": -3,
+                    "tag": {
+                      "$ref": "8"
+                    }
+                  },
+                  {
+                    "$id": "21",
+                    "$type": "LBS.Components.TileMap.LBSTile, LBS",
+                    "x": 3,
+                    "y": -2,
+                    "tag": {
+                      "$ref": "8"
+                    }
+                  },
+                  {
+                    "$id": "22",
+                    "$type": "LBS.Components.TileMap.LBSTile, LBS",
+                    "x": 3,
+                    "y": -1,
+                    "tag": {
+                      "$ref": "8"
+                    }
+                  },
+                  {
+                    "$id": "23",
+                    "$type": "LBS.Components.TileMap.LBSTile, LBS",
+                    "x": 4,
+                    "y": -5,
+                    "tag": {
+                      "$ref": "8"
+                    }
+                  },
+                  {
+                    "$id": "24",
+                    "$type": "LBS.Components.TileMap.LBSTile, LBS",
+                    "x": 4,
+                    "y": -4,
+                    "tag": {
+                      "$ref": "8"
+                    }
+                  },
+                  {
+                    "$id": "25",
+                    "$type": "LBS.Components.TileMap.LBSTile, LBS",
+                    "x": 4,
+                    "y": -3,
+                    "tag": {
+                      "$ref": "8"
+                    }
+                  },
+                  {
+                    "$id": "26",
+                    "$type": "LBS.Components.TileMap.LBSTile, LBS",
+                    "x": 4,
+                    "y": -2,
+                    "tag": {
+                      "$ref": "8"
+                    }
+                  },
+                  {
+                    "$id": "27",
+                    "$type": "LBS.Components.TileMap.LBSTile, LBS",
+                    "x": 4,
+                    "y": -1,
+                    "tag": {
+                      "$ref": "8"
+                    }
+                  },
+                  {
+                    "$id": "28",
+                    "$type": "LBS.Components.TileMap.LBSTile, LBS",
+                    "x": 5,
+                    "y": -5,
+                    "tag": {
+                      "$ref": "8"
+                    }
+                  },
+                  {
+                    "$id": "29",
+                    "$type": "LBS.Components.TileMap.LBSTile, LBS",
+                    "x": 5,
+                    "y": -4,
+                    "tag": {
+                      "$ref": "8"
+                    }
+                  },
+                  {
+                    "$id": "30",
+                    "$type": "LBS.Components.TileMap.LBSTile, LBS",
+                    "x": 5,
+                    "y": -3,
+                    "tag": {
+                      "$ref": "8"
+                    }
+                  },
+                  {
+                    "$id": "31",
+                    "$type": "LBS.Components.TileMap.LBSTile, LBS",
+                    "x": 5,
+                    "y": -2,
+                    "tag": {
+                      "$ref": "8"
+                    }
+                  },
+                  {
+                    "$id": "32",
+                    "$type": "LBS.Components.TileMap.LBSTile, LBS",
+                    "x": 5,
+                    "y": -1,
+                    "tag": {
+                      "$ref": "8"
+                    }
+                  }
+                ]
+              },
+              "id": "TileMapModule",
+              "owner": {
+                "$ref": "3"
+              }
+            },
+            {
+              "$id": "33",
+              "$type": "ISILab.LBS.Modules.ConnectedTileMapModule, LBS",
+              "connectedDirections": 4,
+              "pairs": {
+                "$id": "34",
+                "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Modules.TileConnectionsPair, LBS]], mscorlib",
+                "$values": [
+                  {
+                    "$id": "35",
+                    "$type": "ISILab.LBS.Modules.TileConnectionsPair, LBS",
+                    "tile": {
+                      "$ref": "7"
+                    },
+                    "connections": {
+                      "$id": "36",
+                      "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                      "$values": [
+                        "Path",
+                        "Path",
+                        "Path",
+                        "Path"
+                      ]
+                    },
+                    "editedByIA": {
+                      "$id": "37",
+                      "$type": "System.Collections.Generic.List`1[[System.Boolean, mscorlib]], mscorlib",
+                      "$values": [
+                        false,
+                        false,
+                        false,
+                        false
+                      ]
+                    },
+                    "EditedByIA": {
+                      "$ref": "37"
+                    }
+                  },
+                  {
+                    "$id": "38",
+                    "$type": "ISILab.LBS.Modules.TileConnectionsPair, LBS",
+                    "tile": {
+                      "$ref": "9"
+                    },
+                    "connections": {
+                      "$id": "39",
+                      "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                      "$values": [
+                        "Grass",
+                        "Path",
+                        "Path",
+                        "Path"
+                      ]
+                    },
+                    "editedByIA": {
+                      "$id": "40",
+                      "$type": "System.Collections.Generic.List`1[[System.Boolean, mscorlib]], mscorlib",
+                      "$values": [
+                        false,
+                        false,
+                        false,
+                        false
+                      ]
+                    },
+                    "EditedByIA": {
+                      "$ref": "40"
+                    }
+                  },
+                  {
+                    "$id": "41",
+                    "$type": "ISILab.LBS.Modules.TileConnectionsPair, LBS",
+                    "tile": {
+                      "$ref": "10"
+                    },
+                    "connections": {
+                      "$id": "42",
+                      "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                      "$values": [
+                        "Grass",
+                        "Path",
+                        "Path",
+                        "Path"
+                      ]
+                    },
+                    "editedByIA": {
+                      "$id": "43",
+                      "$type": "System.Collections.Generic.List`1[[System.Boolean, mscorlib]], mscorlib",
+                      "$values": [
+                        false,
+                        false,
+                        false,
+                        false
+                      ]
+                    },
+                    "EditedByIA": {
+                      "$ref": "43"
+                    }
+                  },
+                  {
+                    "$id": "44",
+                    "$type": "ISILab.LBS.Modules.TileConnectionsPair, LBS",
+                    "tile": {
+                      "$ref": "11"
+                    },
+                    "connections": {
+                      "$id": "45",
+                      "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                      "$values": [
+                        "Grass",
+                        "Path",
+                        "Path",
+                        "Path"
+                      ]
+                    },
+                    "editedByIA": {
+                      "$id": "46",
+                      "$type": "System.Collections.Generic.List`1[[System.Boolean, mscorlib]], mscorlib",
+                      "$values": [
+                        false,
+                        false,
+                        false,
+                        false
+                      ]
+                    },
+                    "EditedByIA": {
+                      "$ref": "46"
+                    }
+                  },
+                  {
+                    "$id": "47",
+                    "$type": "ISILab.LBS.Modules.TileConnectionsPair, LBS",
+                    "tile": {
+                      "$ref": "12"
+                    },
+                    "connections": {
+                      "$id": "48",
+                      "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                      "$values": [
+                        "Path",
+                        "Path",
+                        "Path",
+                        "Path"
+                      ]
+                    },
+                    "editedByIA": {
+                      "$id": "49",
+                      "$type": "System.Collections.Generic.List`1[[System.Boolean, mscorlib]], mscorlib",
+                      "$values": [
+                        false,
+                        false,
+                        false,
+                        false
+                      ]
+                    },
+                    "EditedByIA": {
+                      "$ref": "49"
+                    }
+                  },
+                  {
+                    "$id": "50",
+                    "$type": "ISILab.LBS.Modules.TileConnectionsPair, LBS",
+                    "tile": {
+                      "$ref": "13"
+                    },
+                    "connections": {
+                      "$id": "51",
+                      "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                      "$values": [
+                        "Path",
+                        "Grass",
+                        "Path",
+                        "Path"
+                      ]
+                    },
+                    "editedByIA": {
+                      "$id": "52",
+                      "$type": "System.Collections.Generic.List`1[[System.Boolean, mscorlib]], mscorlib",
+                      "$values": [
+                        false,
+                        false,
+                        false,
+                        false
+                      ]
+                    },
+                    "EditedByIA": {
+                      "$ref": "52"
+                    }
+                  },
+                  {
+                    "$id": "53",
+                    "$type": "ISILab.LBS.Modules.TileConnectionsPair, LBS",
+                    "tile": {
+                      "$ref": "14"
+                    },
+                    "connections": {
+                      "$id": "54",
+                      "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                      "$values": [
+                        "Grass",
+                        "Grass",
+                        "Grass",
+                        "Grass"
+                      ]
+                    },
+                    "editedByIA": {
+                      "$id": "55",
+                      "$type": "System.Collections.Generic.List`1[[System.Boolean, mscorlib]], mscorlib",
+                      "$values": [
+                        false,
+                        false,
+                        false,
+                        false
+                      ]
+                    },
+                    "EditedByIA": {
+                      "$ref": "55"
+                    }
+                  },
+                  {
+                    "$id": "56",
+                    "$type": "ISILab.LBS.Modules.TileConnectionsPair, LBS",
+                    "tile": {
+                      "$ref": "15"
+                    },
+                    "connections": {
+                      "$id": "57",
+                      "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                      "$values": [
+                        "Grass",
+                        "Grass",
+                        "Grass",
+                        "Grass"
+                      ]
+                    },
+                    "editedByIA": {
+                      "$id": "58",
+                      "$type": "System.Collections.Generic.List`1[[System.Boolean, mscorlib]], mscorlib",
+                      "$values": [
+                        false,
+                        false,
+                        false,
+                        false
+                      ]
+                    },
+                    "EditedByIA": {
+                      "$ref": "58"
+                    }
+                  },
+                  {
+                    "$id": "59",
+                    "$type": "ISILab.LBS.Modules.TileConnectionsPair, LBS",
+                    "tile": {
+                      "$ref": "16"
+                    },
+                    "connections": {
+                      "$id": "60",
+                      "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                      "$values": [
+                        "Grass",
+                        "Grass",
+                        "Grass",
+                        "Grass"
+                      ]
+                    },
+                    "editedByIA": {
+                      "$id": "61",
+                      "$type": "System.Collections.Generic.List`1[[System.Boolean, mscorlib]], mscorlib",
+                      "$values": [
+                        false,
+                        false,
+                        false,
+                        false
+                      ]
+                    },
+                    "EditedByIA": {
+                      "$ref": "61"
+                    }
+                  },
+                  {
+                    "$id": "62",
+                    "$type": "ISILab.LBS.Modules.TileConnectionsPair, LBS",
+                    "tile": {
+                      "$ref": "17"
+                    },
+                    "connections": {
+                      "$id": "63",
+                      "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                      "$values": [
+                        "Path",
+                        "Path",
+                        "Path",
+                        "Grass"
+                      ]
+                    },
+                    "editedByIA": {
+                      "$id": "64",
+                      "$type": "System.Collections.Generic.List`1[[System.Boolean, mscorlib]], mscorlib",
+                      "$values": [
+                        false,
+                        false,
+                        false,
+                        false
+                      ]
+                    },
+                    "EditedByIA": {
+                      "$ref": "64"
+                    }
+                  },
+                  {
+                    "$id": "65",
+                    "$type": "ISILab.LBS.Modules.TileConnectionsPair, LBS",
+                    "tile": {
+                      "$ref": "18"
+                    },
+                    "connections": {
+                      "$id": "66",
+                      "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                      "$values": [
+                        "Path",
+                        "Grass",
+                        "Path",
+                        "Path"
+                      ]
+                    },
+                    "editedByIA": {
+                      "$id": "67",
+                      "$type": "System.Collections.Generic.List`1[[System.Boolean, mscorlib]], mscorlib",
+                      "$values": [
+                        false,
+                        false,
+                        false,
+                        false
+                      ]
+                    },
+                    "EditedByIA": {
+                      "$ref": "67"
+                    }
+                  },
+                  {
+                    "$id": "68",
+                    "$type": "ISILab.LBS.Modules.TileConnectionsPair, LBS",
+                    "tile": {
+                      "$ref": "19"
+                    },
+                    "connections": {
+                      "$id": "69",
+                      "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                      "$values": [
+                        "Grass",
+                        "Grass",
+                        "Grass",
+                        "Grass"
+                      ]
+                    },
+                    "editedByIA": {
+                      "$id": "70",
+                      "$type": "System.Collections.Generic.List`1[[System.Boolean, mscorlib]], mscorlib",
+                      "$values": [
+                        false,
+                        false,
+                        false,
+                        false
+                      ]
+                    },
+                    "EditedByIA": {
+                      "$ref": "70"
+                    }
+                  },
+                  {
+                    "$id": "71",
+                    "$type": "ISILab.LBS.Modules.TileConnectionsPair, LBS",
+                    "tile": {
+                      "$ref": "20"
+                    },
+                    "connections": {
+                      "$id": "72",
+                      "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                      "$values": [
+                        "Grass",
+                        "Grass",
+                        "Grass",
+                        "Grass"
+                      ]
+                    },
+                    "editedByIA": {
+                      "$id": "73",
+                      "$type": "System.Collections.Generic.List`1[[System.Boolean, mscorlib]], mscorlib",
+                      "$values": [
+                        false,
+                        false,
+                        false,
+                        false
+                      ]
+                    },
+                    "EditedByIA": {
+                      "$ref": "73"
+                    }
+                  },
+                  {
+                    "$id": "74",
+                    "$type": "ISILab.LBS.Modules.TileConnectionsPair, LBS",
+                    "tile": {
+                      "$ref": "21"
+                    },
+                    "connections": {
+                      "$id": "75",
+                      "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                      "$values": [
+                        "Grass",
+                        "Grass",
+                        "Grass",
+                        "Grass"
+                      ]
+                    },
+                    "editedByIA": {
+                      "$id": "76",
+                      "$type": "System.Collections.Generic.List`1[[System.Boolean, mscorlib]], mscorlib",
+                      "$values": [
+                        false,
+                        false,
+                        false,
+                        false
+                      ]
+                    },
+                    "EditedByIA": {
+                      "$ref": "76"
+                    }
+                  },
+                  {
+                    "$id": "77",
+                    "$type": "ISILab.LBS.Modules.TileConnectionsPair, LBS",
+                    "tile": {
+                      "$ref": "22"
+                    },
+                    "connections": {
+                      "$id": "78",
+                      "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                      "$values": [
+                        "Path",
+                        "Path",
+                        "Path",
+                        "Grass"
+                      ]
+                    },
+                    "editedByIA": {
+                      "$id": "79",
+                      "$type": "System.Collections.Generic.List`1[[System.Boolean, mscorlib]], mscorlib",
+                      "$values": [
+                        false,
+                        false,
+                        false,
+                        false
+                      ]
+                    },
+                    "EditedByIA": {
+                      "$ref": "79"
+                    }
+                  },
+                  {
+                    "$id": "80",
+                    "$type": "ISILab.LBS.Modules.TileConnectionsPair, LBS",
+                    "tile": {
+                      "$ref": "23"
+                    },
+                    "connections": {
+                      "$id": "81",
+                      "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                      "$values": [
+                        "Path",
+                        "Grass",
+                        "Path",
+                        "Path"
+                      ]
+                    },
+                    "editedByIA": {
+                      "$id": "82",
+                      "$type": "System.Collections.Generic.List`1[[System.Boolean, mscorlib]], mscorlib",
+                      "$values": [
+                        false,
+                        false,
+                        false,
+                        false
+                      ]
+                    },
+                    "EditedByIA": {
+                      "$ref": "82"
+                    }
+                  },
+                  {
+                    "$id": "83",
+                    "$type": "ISILab.LBS.Modules.TileConnectionsPair, LBS",
+                    "tile": {
+                      "$ref": "24"
+                    },
+                    "connections": {
+                      "$id": "84",
+                      "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                      "$values": [
+                        "Grass",
+                        "Grass",
+                        "Grass",
+                        "Grass"
+                      ]
+                    },
+                    "editedByIA": {
+                      "$id": "85",
+                      "$type": "System.Collections.Generic.List`1[[System.Boolean, mscorlib]], mscorlib",
+                      "$values": [
+                        false,
+                        false,
+                        false,
+                        false
+                      ]
+                    },
+                    "EditedByIA": {
+                      "$ref": "85"
+                    }
+                  },
+                  {
+                    "$id": "86",
+                    "$type": "ISILab.LBS.Modules.TileConnectionsPair, LBS",
+                    "tile": {
+                      "$ref": "25"
+                    },
+                    "connections": {
+                      "$id": "87",
+                      "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                      "$values": [
+                        "Grass",
+                        "Grass",
+                        "Grass",
+                        "Grass"
+                      ]
+                    },
+                    "editedByIA": {
+                      "$id": "88",
+                      "$type": "System.Collections.Generic.List`1[[System.Boolean, mscorlib]], mscorlib",
+                      "$values": [
+                        false,
+                        false,
+                        false,
+                        false
+                      ]
+                    },
+                    "EditedByIA": {
+                      "$ref": "88"
+                    }
+                  },
+                  {
+                    "$id": "89",
+                    "$type": "ISILab.LBS.Modules.TileConnectionsPair, LBS",
+                    "tile": {
+                      "$ref": "26"
+                    },
+                    "connections": {
+                      "$id": "90",
+                      "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                      "$values": [
+                        "Grass",
+                        "Grass",
+                        "Grass",
+                        "Grass"
+                      ]
+                    },
+                    "editedByIA": {
+                      "$id": "91",
+                      "$type": "System.Collections.Generic.List`1[[System.Boolean, mscorlib]], mscorlib",
+                      "$values": [
+                        false,
+                        false,
+                        false,
+                        false
+                      ]
+                    },
+                    "EditedByIA": {
+                      "$ref": "91"
+                    }
+                  },
+                  {
+                    "$id": "92",
+                    "$type": "ISILab.LBS.Modules.TileConnectionsPair, LBS",
+                    "tile": {
+                      "$ref": "27"
+                    },
+                    "connections": {
+                      "$id": "93",
+                      "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                      "$values": [
+                        "Path",
+                        "Path",
+                        "Path",
+                        "Grass"
+                      ]
+                    },
+                    "editedByIA": {
+                      "$id": "94",
+                      "$type": "System.Collections.Generic.List`1[[System.Boolean, mscorlib]], mscorlib",
+                      "$values": [
+                        false,
+                        false,
+                        false,
+                        false
+                      ]
+                    },
+                    "EditedByIA": {
+                      "$ref": "94"
+                    }
+                  },
+                  {
+                    "$id": "95",
+                    "$type": "ISILab.LBS.Modules.TileConnectionsPair, LBS",
+                    "tile": {
+                      "$ref": "28"
+                    },
+                    "connections": {
+                      "$id": "96",
+                      "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                      "$values": [
+                        "Path",
+                        "Path",
+                        "Path",
+                        "Path"
+                      ]
+                    },
+                    "editedByIA": {
+                      "$id": "97",
+                      "$type": "System.Collections.Generic.List`1[[System.Boolean, mscorlib]], mscorlib",
+                      "$values": [
+                        false,
+                        false,
+                        false,
+                        false
+                      ]
+                    },
+                    "EditedByIA": {
+                      "$ref": "97"
+                    }
+                  },
+                  {
+                    "$id": "98",
+                    "$type": "ISILab.LBS.Modules.TileConnectionsPair, LBS",
+                    "tile": {
+                      "$ref": "29"
+                    },
+                    "connections": {
+                      "$id": "99",
+                      "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                      "$values": [
+                        "Path",
+                        "Path",
+                        "Grass",
+                        "Path"
+                      ]
+                    },
+                    "editedByIA": {
+                      "$id": "100",
+                      "$type": "System.Collections.Generic.List`1[[System.Boolean, mscorlib]], mscorlib",
+                      "$values": [
+                        false,
+                        false,
+                        false,
+                        false
+                      ]
+                    },
+                    "EditedByIA": {
+                      "$ref": "100"
+                    }
+                  },
+                  {
+                    "$id": "101",
+                    "$type": "ISILab.LBS.Modules.TileConnectionsPair, LBS",
+                    "tile": {
+                      "$ref": "30"
+                    },
+                    "connections": {
+                      "$id": "102",
+                      "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                      "$values": [
+                        "Path",
+                        "Path",
+                        "Grass",
+                        "Path"
+                      ]
+                    },
+                    "editedByIA": {
+                      "$id": "103",
+                      "$type": "System.Collections.Generic.List`1[[System.Boolean, mscorlib]], mscorlib",
+                      "$values": [
+                        false,
+                        false,
+                        false,
+                        false
+                      ]
+                    },
+                    "EditedByIA": {
+                      "$ref": "103"
+                    }
+                  },
+                  {
+                    "$id": "104",
+                    "$type": "ISILab.LBS.Modules.TileConnectionsPair, LBS",
+                    "tile": {
+                      "$ref": "31"
+                    },
+                    "connections": {
+                      "$id": "105",
+                      "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                      "$values": [
+                        "Path",
+                        "Path",
+                        "Grass",
+                        "Path"
+                      ]
+                    },
+                    "editedByIA": {
+                      "$id": "106",
+                      "$type": "System.Collections.Generic.List`1[[System.Boolean, mscorlib]], mscorlib",
+                      "$values": [
+                        false,
+                        false,
+                        false,
+                        false
+                      ]
+                    },
+                    "EditedByIA": {
+                      "$ref": "106"
+                    }
+                  },
+                  {
+                    "$id": "107",
+                    "$type": "ISILab.LBS.Modules.TileConnectionsPair, LBS",
+                    "tile": {
+                      "$ref": "32"
+                    },
+                    "connections": {
+                      "$id": "108",
+                      "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                      "$values": [
+                        "Path",
+                        "Path",
+                        "Path",
+                        "Path"
+                      ]
+                    },
+                    "editedByIA": {
+                      "$id": "109",
+                      "$type": "System.Collections.Generic.List`1[[System.Boolean, mscorlib]], mscorlib",
+                      "$values": [
+                        false,
+                        false,
+                        false,
+                        false
+                      ]
+                    },
+                    "EditedByIA": {
+                      "$ref": "109"
+                    }
+                  }
+                ]
+              },
+              "id": "ConnectedTileMapModule",
+              "owner": {
+                "$ref": "3"
+              }
+            }
+          ]
+        },
+        "behaviours": {
+          "$id": "110",
+          "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Behaviours.LBSBehaviour, LBS]], mscorlib",
+          "$values": [
+            {
+              "$id": "111",
+              "$type": "ISILab.LBS.Behaviours.ExteriorBehaviour, LBS",
+              "targetBundle": "Exterior_Plains",
+              "visible": true,
+              "name": "Exteriror behaviour"
+            }
+          ]
+        },
+        "assistants": {
+          "$id": "112",
+          "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Assistants.LBSAssistant, LBS]], mscorlib",
+          "$values": [
+            {
+              "$id": "113",
+              "$type": "ISILab.LBS.Assistants.AssistantWFC, LBS",
+              "overrideValues": false,
+              "targetBundle": "Exterior_Plains",
+              "visible": true,
+              "name": "Assistant WFC"
+            }
+          ]
+        },
+        "generatorRules": {
+          "$id": "114",
+          "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Generators.LBSGeneratorRule, LBS]], mscorlib",
+          "$values": [
+            {
+              "$id": "115",
+              "$type": "ISILab.LBS.Generators.ExteriorRuleGenerator, LBS"
+            }
+          ]
+        },
+        "settings": {
+          "$id": "116",
+          "$type": "ISILab.LBS.Generators.Generator3D+Settings, LBS",
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "resize": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "position": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "name": "DEFAULT"
+        }
+      }
+    ]
+  },
+  "quests": {
+    "$id": "117",
+    "$type": "System.Collections.Generic.List`1[[LBS.Components.LBSLayer, LBS]], mscorlib",
+    "$values": []
+  },
+  "OnReload": {
+    "$id": "118",
+    "$type": "System.Action, mscorlib",
+    "Method": {
+      "$type": "System.Reflection.RuntimeMethodInfo, mscorlib",
+      "Name": "<OnLevelDataChange>b__27_1",
+      "AssemblyName": "LBS.Editor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+      "ClassName": "LBSMainWindow",
+      "Signature": "Void <OnLevelDataChange>b__27_1()",
+      "Signature2": "System.Void <OnLevelDataChange>b__27_1()",
+      "MemberType": 8,
+      "GenericArguments": null
+    }
+  }
+}
