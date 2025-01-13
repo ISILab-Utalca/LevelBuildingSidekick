@@ -120,7 +120,7 @@ namespace ISILab.LBS.Template.Editor
 
             // Generators
             layer.AddGeneratorRule(new SchemaRuleGenerator());
-            layer.AddGeneratorRule(new SchemaRuleGeneratorExteriror());
+            layer.AddGeneratorRule(new SchemaRuleGeneratorExterior());
 
             // Seting generator
             layer.Settings = new Generator3D.Settings()
@@ -155,7 +155,7 @@ namespace ISILab.LBS.Template.Editor
 
             // Behaviours
             var bhIcon = Resources.Load<Texture2D>("Icons/Select"); // TODO: Change icon
-            var bh = new ExteriorBehaviour(bhIcon, "Exteriror behaviour");
+            var bh = new ExteriorBehaviour(bhIcon, "Exterior behaviour");
             bh.OnAttachLayer(layer);
             layer.AddBehaviour(bh);
 
@@ -174,7 +174,7 @@ namespace ISILab.LBS.Template.Editor
                 scale = new Vector2Int(2, 2),
                 resize = new Vector2(0, 0),
                 position = new Vector3(0, 0, 0),
-                name = "Exteriror",
+                name = "Exterior",
             };
 
             // Save scriptableObject

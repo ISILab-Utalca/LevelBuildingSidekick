@@ -34,7 +34,14 @@ namespace ISILab.LBS.Components
 
         public Texture2D Icon
         {
-            get => icon;
+            get
+            {
+                if (icon == null)
+                {
+                    return Resources.Load<Texture2D>("Icons/Tag_Icon.png");
+                }
+                return icon;
+            }
             set
             {
                 if (icon == value)

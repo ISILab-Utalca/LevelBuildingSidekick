@@ -23,7 +23,7 @@ namespace ISILab.LBS.Modules
 
         #region PROPERTIES
         [JsonIgnore]
-        public int ConnecteDirections
+        public int ConnectedDirections
         {
             get => connectedDirections;
             set => connectedDirections = value;
