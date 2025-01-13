@@ -37,6 +37,7 @@ namespace ISILab.LBS
         #region EVENTS
         public event Action<LBSLevelData> OnChanged;
 
+        [JsonIgnore]
         public Action OnReload;
         #endregion
 
