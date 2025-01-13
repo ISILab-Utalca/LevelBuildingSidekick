@@ -39,7 +39,7 @@
                 <ui:Toggle value="false" focusable="true" name="Gen3DToggle" tooltip="3D Generator Panel " class="lbs-tool-button-toggle" style="flex-direction: row; height: 40px;">
                     <ui:VisualElement name="Icon" class="lbs-default-icon" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); align-self: center; align-items: auto; width: 32px; height: 32px; background-image: resource(&apos;Icons/Vectorial/3D_Icon_Vector&apos;); -unity-background-image-tint-color: rgb(255, 255, 255);" />
                 </ui:Toggle>
-                <ui:Toggle value="false" focusable="true" name="QuestToggle" tooltip="Quest Panel" class="lbs-tool-button-toggle" style="flex-direction: row; height: 40px;">
+                <ui:Toggle value="false" focusable="true" name="QuestToggle" tooltip="Quest Panel" picking-mode="Ignore" class="lbs-tool-button-toggle" style="flex-direction: row; height: 40px; display: none;">
                     <ui:VisualElement name="Icon" class="lbs-default-icon" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); align-self: center; align-items: auto; width: 32px; height: 32px; background-image: resource(&apos;Icons/Vectorial/Quest_Script_Icon&apos;); -unity-background-image-tint-color: rgb(255, 255, 255);" />
                 </ui:Toggle>
                 <ui:Toggle value="false" focusable="true" name="PlusToggle" class="lbs-tool-button-toggle" style="flex-direction: row; height: 40px; display: none;">

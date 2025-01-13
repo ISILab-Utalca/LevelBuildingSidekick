@@ -9,6 +9,7 @@ using ISILab.LBS.AI.Assistants;
 using ISILab.LBS.Generators;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Assistants;
+using ISILab.LBS.Editor;
 
 namespace ISILab.LBS.Template.Editor
 {
@@ -83,6 +84,11 @@ namespace ISILab.LBS.Template.Editor
             if (GUILayout.Button("Set as Population"))
             {
                 PopulationConstruct(template);
+            }
+            
+            if (GUILayout.Button("Set as Quest"))
+            {
+                QuestConstruct(template);
             }
         }
 
@@ -201,11 +207,13 @@ namespace ISILab.LBS.Template.Editor
                 name = "Population",
             };
 
+            /*
             layer.ID = "Population";
             layer.Name = "Layer Population";
             layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/ghost.png";
             template.layer = layer;
-
+            */
+            
             // Behaviours
             var Icon = Resources.Load<Texture2D>("Icons/Select");
             layer.AddBehaviour(new PopulationBehaviour(Icon, "Population Behavior"));
@@ -225,5 +233,49 @@ namespace ISILab.LBS.Template.Editor
             AssetDatabase.SaveAssets();
         }
 
+        
+        /// <summary>
+        /// This function adjust the icons, layout and labels of the Quest system
+        /// also call the manipulators to make functional buttons in the layout
+        /// </summary>
+        /// <param name="template"></param>
+        private void QuestConstruct(LayerTemplate template)
+        {
+            template.Clear();
+
+            // Basic data layer
+            var layer = template.layer;
+            layer.ID = "Quest";
+            layer.Name = "Layer Quest";
+            layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Stamp_Icon.png";
+            template.layer = layer;
+
+            layer.Settings = new Generator3D.Settings()
+            {
+                scale = new Vector2Int(2, 2),
+                resize = new Vector2(0, 0),
+                position = new Vector3(0, 0, 0),
+                name = "Quest",
+            };
+            
+            // Assistants
+            var assIcon = Resources.Load<Texture2D>("Icons/Select");
+            var ass = new GrammarAssistant(assIcon, "Grammar Assistant");
+            ass.OnAttachLayer(layer);
+            layer.AddAssistant(ass);
+            
+            // Behaviours
+            var bhIcon = Resources.Load<Texture2D>("Icons/Select");
+            var bh = new QuestBehaviour(bhIcon, "Quest Behavior");
+            bh.OnAttachLayer(layer);
+            layer.AddBehaviour(bh);
+            
+            // Rules
+            layer.AddGeneratorRule(new QuestRuleGenerator());
+
+            Debug.Log("Set Quest Default");
+            EditorUtility.SetDirty(target);
+            AssetDatabase.SaveAssets();
+        }
     }
 }

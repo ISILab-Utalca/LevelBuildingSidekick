@@ -24,7 +24,8 @@ namespace ISILab.LBS.Behaviours
 
         public override object Clone()
         {
-            throw new System.NotImplementedException();
+            return new QuestBehaviour(this.Icon, this.Name);
+            //throw new System.NotImplementedException();
         }
 
         public override void OnAttachLayer(LBSLayer layer)
