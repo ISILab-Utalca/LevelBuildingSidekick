@@ -78,6 +78,9 @@ namespace ISILab.LBS
                     return CurrentLevel;
 
                 case 1: // Discard
+                    
+                    LBSMainWindow.MessageNotify("Level discarded.");
+                    
                     path = EditorUtility.OpenFilePanel("Load level data", "", "lbs");
                     if (path == "")
                         return null;
@@ -114,6 +117,7 @@ namespace ISILab.LBS
             {
                 JSONDataManager.SaveData(fileInfo.DirectoryName, fileInfo.Name, CurrentLevel.data);
             }
+            LBSMainWindow.MessageNotify("The file has been saved.");
         }
 
         /// <summary>
@@ -152,6 +156,8 @@ namespace ISILab.LBS
                 JSONDataManager.SaveData(directory, filename, CurrentLevel.data);
                 LBS.loadedLevel.fullName = path;
             }
+            
+            LBSMainWindow.MessageNotify("The file has been saved.");
         }
 
         /// <summary>
@@ -167,6 +173,7 @@ namespace ISILab.LBS
             CurrentLevel = loaded;
             CurrentLevel.data.Reload();
             return CurrentLevel;
+            
         }
     }
 }

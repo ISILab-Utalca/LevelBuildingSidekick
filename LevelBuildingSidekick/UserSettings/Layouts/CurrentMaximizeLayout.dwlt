@@ -14,17 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Children:
   - {fileID: 3}
-  - {fileID: 9}
   m_Position:
     serializedVersion: 2
     x: 0
     y: 30
-    width: 2560
-    height: 1299
+    width: 1536
+    height: 722.8
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 1
-  controlID: 15
+  controlID: 1439
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -45,10 +44,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 0
-    y: 73
-    width: 1269
-    height: 749
+    x: 191.2
+    y: 73.6
+    width: 991.60004
+    height: 408.6
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -63,7 +62,58 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 531e915267477db4e886c2e6401c4372, type: 2}
   - {fileID: 11400000, guid: 253f372750fae784d9a42445a8e08fcc, type: 2}
   - {fileID: 11400000, guid: 8205ab67b3e47ed4aa4b97e13d9e6abb, type: 2}
+  - {fileID: 11400000, guid: 430b61e3f6924f949ab48de4b84eba1f, type: 2}
 --- !u!114 &3
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 1
+  m_Script: {fileID: 12010, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Children:
+  - {fileID: 4}
+  - {fileID: 21}
+  m_Position:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1536
+    height: 722.8
+  m_MinSize: {x: 300, y: 100}
+  m_MaxSize: {x: 24288, y: 16192}
+  vertical: 0
+  controlID: 1440
+--- !u!114 &4
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 1
+  m_Script: {fileID: 12010, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Children:
+  - {fileID: 5}
+  - {fileID: 12}
+  m_Position:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1184.8
+    height: 722.8
+  m_MinSize: {x: 200, y: 100}
+  m_MaxSize: {x: 16192, y: 16192}
+  vertical: 1
+  controlID: 1441
+--- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -76,19 +126,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Children:
-  - {fileID: 4}
-  - {fileID: 5}
+  - {fileID: 6}
+  - {fileID: 8}
   m_Position:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 2560
-    height: 770
+    width: 1184.8
+    height: 429.6
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 16
---- !u!114 &4
+  controlID: 1442
+--- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -98,23 +148,86 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: LBSMainWindow
+  m_Name: SceneHierarchyWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1270
-    height: 770
-  m_MinSize: {x: 801, y: 421}
+    width: 191.2
+    height: 429.6
+  m_MinSize: {x: 201, y: 221}
   m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 2}
+  m_ActualView: {fileID: 7}
   m_Panes:
-  - {fileID: 2}
+  - {fileID: 7}
   m_Selected: 0
   m_LastSelected: 0
---- !u!114 &5
+--- !u!114 &7
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 1
+  m_Script: {fileID: 12061, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_TitleContent:
+    m_Text: Hierarchy
+    m_Image: {fileID: -3734745235275155857, guid: 0000000000000000d000000000000000, type: 0}
+    m_Tooltip: 
+  m_Pos:
+    serializedVersion: 2
+    x: 0
+    y: 73.6
+    width: 190.2
+    height: 408.6
+  m_SerializedDataModeController:
+    m_DataMode: 0
+    m_PreferredDataMode: 0
+    m_SupportedDataModes: 
+    isAutomatic: 1
+  m_ViewDataDictionary: {fileID: 0}
+  m_OverlayCanvas:
+    m_LastAppliedPresetName: Default
+    m_SaveData: []
+    m_OverlaysVisible: 1
+  m_SceneHierarchy:
+    m_TreeViewState:
+      scrollPos: {x: 0, y: 0}
+      m_SelectedIDs: 526b0000
+      m_LastClickedID: 0
+      m_ExpandedIDs: bafaffff
+      m_RenameOverlay:
+        m_UserAcceptedRename: 0
+        m_Name: 
+        m_OriginalName: 
+        m_EditFieldRect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        m_UserData: 0
+        m_IsWaitingForDelay: 0
+        m_IsRenaming: 0
+        m_OriginalEventType: 11
+        m_IsRenamingFilename: 0
+        m_ClientGUIView: {fileID: 0}
+      m_SearchString: 
+    m_ExpandedScenes: []
+    m_CurrenRootInstanceID: 0
+    m_LockTracker:
+      m_IsLocked: 0
+    m_CurrentSortingName: TransformSorting
+  m_WindowGUID: 4c969a2b90040154d917609493e03593
+--- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -124,25 +237,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: Builder
+  m_Name: LBSMainWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 1270
+    x: 191.2
     y: 0
-    width: 1290
-    height: 770
-  m_MinSize: {x: 201, y: 221}
-  m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 8}
+    width: 993.60004
+    height: 429.6
+  m_MinSize: {x: 802, y: 421}
+  m_MaxSize: {x: 4002, y: 4021}
+  m_ActualView: {fileID: 2}
   m_Panes:
-  - {fileID: 6}
-  - {fileID: 7}
-  - {fileID: 8}
-  m_Selected: 2
-  m_LastSelected: 1
---- !u!114 &6
+  - {fileID: 9}
+  - {fileID: 10}
+  - {fileID: 11}
+  - {fileID: 2}
+  m_Selected: 3
+  m_LastSelected: 2
+--- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -158,14 +272,14 @@ MonoBehaviour:
   m_MaxSize: {x: 4000, y: 4000}
   m_TitleContent:
     m_Text: Scene
-    m_Image: {fileID: 2593428753322112591, guid: 0000000000000000d000000000000000, type: 0}
+    m_Image: {fileID: 8634526014445323508, guid: 0000000000000000d000000000000000, type: 0}
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1259
-    y: 73
-    width: 1300
-    height: 749
+    x: 191.2
+    y: 73.6
+    width: 991.60004
+    height: 408.6
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -528,7 +642,7 @@ MonoBehaviour:
       sizeOverriden: 0
     m_OverlaysVisible: 1
   m_WindowGUID: cc27987af1a868c49b0894db9c0f5429
-  m_Gizmos: 0
+  m_Gizmos: 1
   m_OverrideSceneCullingMask: 6917529027641081856
   m_SceneIsLit: 1
   m_SceneLighting: 1
@@ -537,9 +651,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 9.631134, y: -0.80265427, z: -4.9987307}
+    m_Target: {x: 4.1720176, y: -1.1833639, z: -7.299237}
     speed: 2
-    m_Value: {x: 9.631134, y: -0.80265427, z: -4.9987307}
+    m_Value: {x: 4.1720176, y: -1.1833639, z: -7.299237}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -548,7 +662,7 @@ MonoBehaviour:
   m_ValidateTrueMetals: 0
   m_DoValidateTrueMetals: 0
   m_SceneViewState:
-    m_AlwaysRefresh: 1
+    m_AlwaysRefresh: 0
     showFog: 1
     showSkybox: 1
     showFlares: 1
@@ -585,20 +699,20 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.37163988, y: -0.28446963, z: 0.12081713, w: -0.87564355}
+    m_Target: {x: 0.0018976047, y: 0.8513105, z: -0.52465177, w: 0.0030784742}
     speed: 2
-    m_Value: {x: -0.37163988, y: -0.28446963, z: 0.12081713, w: -0.87564355}
+    m_Value: {x: 0.0018976028, y: 0.85130966, z: -0.5246513, w: 0.0030784712}
   m_Size:
-    m_Target: 14.740944
+    m_Target: 4.3880706
     speed: 2
-    m_Value: 14.740944
+    m_Value: 4.3880706
   m_Ortho:
     m_Target: 0
     speed: 2
     m_Value: 0
   m_CameraSettings:
-    m_Speed: 1.7201394
-    m_SpeedNormalized: 0.8599997
+    m_Speed: 1.2403799
+    m_SpeedNormalized: 0.61999995
     m_SpeedMin: 0.001
     m_SpeedMax: 2
     m_EasingEnabled: 1
@@ -616,7 +730,7 @@ MonoBehaviour:
   m_SceneVisActive: 1
   m_LastLockedObject: {fileID: 0}
   m_ViewIsLockedToObject: 0
---- !u!114 &7
+--- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -632,14 +746,14 @@ MonoBehaviour:
   m_MaxSize: {x: 4000, y: 4000}
   m_TitleContent:
     m_Text: Game
-    m_Image: {fileID: -6423792434712278376, guid: 0000000000000000d000000000000000, type: 0}
+    m_Image: {fileID: 4621777727084837110, guid: 0000000000000000d000000000000000, type: 0}
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1259
-    y: 73
-    width: 1300
-    height: 749
+    x: 191.2
+    y: 73.6
+    width: 991.60004
+    height: 408.6
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -671,10 +785,10 @@ MonoBehaviour:
     m_VRangeLocked: 0
     hZoomLockedByDefault: 0
     vZoomLockedByDefault: 0
-    m_HBaseRangeMin: -1920
-    m_HBaseRangeMax: 1920
-    m_VBaseRangeMin: -1080
-    m_VBaseRangeMax: 1080
+    m_HBaseRangeMin: -1536
+    m_HBaseRangeMax: 1536
+    m_VBaseRangeMin: -864
+    m_VBaseRangeMax: 864
     m_HAllowExceedBaseRangeMin: 1
     m_HAllowExceedBaseRangeMax: 1
     m_VAllowExceedBaseRangeMin: 1
@@ -692,29 +806,29 @@ MonoBehaviour:
       serializedVersion: 2
       x: 0
       y: 21
-      width: 1300
-      height: 728
-    m_Scale: {x: 0.33703703, y: 0.33703703}
-    m_Translation: {x: 650, y: 364}
+      width: 991.60004
+      height: 387.6
+    m_Scale: {x: 0.22430557, y: 0.22430556}
+    m_Translation: {x: 495.80002, y: 193.8}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -1928.5715
-      y: -1080
-      width: 3857.143
-      height: 2160
+      x: -2210.3777
+      y: -864
+      width: 4420.7554
+      height: 1728
     m_MinimalGUI: 1
-  m_defaultScale: 0.33703703
-  m_LastWindowPixelSize: {x: 1300, y: 749}
+  m_defaultScale: 0.22430556
+  m_LastWindowPixelSize: {x: 1239.5, y: 510.75}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000000000000
   m_XRRenderMode: 0
   m_RenderTexture: {fileID: 0}
---- !u!114 &8
+--- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -730,14 +844,14 @@ MonoBehaviour:
   m_MaxSize: {x: 4000, y: 4000}
   m_TitleContent:
     m_Text: UI Builder
-    m_Image: {fileID: 8683992553321208622, guid: 0000000000000000d000000000000000, type: 0}
+    m_Image: {fileID: -3932862461143797134, guid: 0000000000000000d000000000000000, type: 0}
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1270
-    y: 73
-    width: 1289
-    height: 749
+    x: 191.2
+    y: 73.6
+    width: 991.60004
+    height: 408.6
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -748,7 +862,7 @@ MonoBehaviour:
     m_LastAppliedPresetName: Default
     m_SaveData: []
     m_OverlaysVisible: 1
---- !u!114 &9
+--- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -761,20 +875,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Children:
-  - {fileID: 10}
-  - {fileID: 15}
+  - {fileID: 13}
   - {fileID: 17}
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 770
-    width: 2560
-    height: 529
-  m_MinSize: {x: 300, y: 50}
-  m_MaxSize: {x: 24288, y: 8096}
+    y: 429.6
+    width: 1184.8
+    height: 293.19998
+  m_MinSize: {x: 200, y: 50}
+  m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 63
---- !u!114 &10
+  controlID: 1487
+--- !u!114 &13
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -791,19 +904,18 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 686
-    height: 529
-  m_MinSize: {x: 101, y: 121}
-  m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 11}
+    width: 665.6
+    height: 293.19998
+  m_MinSize: {x: 100, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_ActualView: {fileID: 14}
   m_Panes:
-  - {fileID: 11}
-  - {fileID: 12}
-  - {fileID: 13}
   - {fileID: 14}
+  - {fileID: 15}
+  - {fileID: 16}
   m_Selected: 0
   m_LastSelected: 1
---- !u!114 &11
+--- !u!114 &14
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -819,14 +931,14 @@ MonoBehaviour:
   m_MaxSize: {x: 4000, y: 4000}
   m_TitleContent:
     m_Text: Console
-    m_Image: {fileID: -4327648978806127646, guid: 0000000000000000d000000000000000, type: 0}
+    m_Image: {fileID: -4950941429401207979, guid: 0000000000000000d000000000000000, type: 0}
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 843
-    width: 685
-    height: 508
+    y: 503.2
+    width: 664.6
+    height: 272.19998
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -837,7 +949,7 @@ MonoBehaviour:
     m_LastAppliedPresetName: Default
     m_SaveData: []
     m_OverlaysVisible: 1
---- !u!114 &12
+--- !u!114 &15
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -858,9 +970,9 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 843
-    width: 685
-    height: 508
+    y: 559
+    width: 558
+    height: 440
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -874,13 +986,13 @@ MonoBehaviour:
   m_DebuggerImpl:
     m_LastVisualTreeName: 
   m_DebuggerContext:
-    m_SelectedElementIndex: 643
+    m_SelectedElementIndex: 4814
     m_ShowLayoutBound: 0
     m_ShowRepaintOverlay: 0
     m_ShowDrawStats: 0
     m_BreakBatches: 0
     m_ShowWireframe: 0
---- !u!114 &13
+--- !u!114 &16
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -900,10 +1012,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: -2560
-    y: 602
-    width: 976
-    height: 394
+    x: 0
+    y: 559
+    width: 558
+    height: 440
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -915,12 +1027,12 @@ MonoBehaviour:
     m_SaveData: []
     m_OverlaysVisible: 1
   m_Spl:
-    ID: 647
+    ID: 360
     splitterInitialOffset: 0
     currentActiveSplitter: -1
     realSizes:
-    - 243
-    - 81
+    - 277
+    - 93
     relativeSizes:
     - 0.75
     - 0.25
@@ -930,7 +1042,7 @@ MonoBehaviour:
     maxSizes:
     - 0
     - 0
-    lastTotalSize: 324
+    lastTotalSize: 370
     splitSize: 6
     xOffset: 0
     m_Version: 1
@@ -975,15 +1087,15 @@ MonoBehaviour:
       availableCategories: []
     m_SelectedOption: 0
   m_EditModeTestListGUI:
-    m_Window: {fileID: 13}
+    m_Window: {fileID: 16}
     m_NewResultList:
     - id: 1000
       uniqueId: '[LevelBuildingSidekick][suite]'
       name: LevelBuildingSidekick
       fullName: LevelBuildingSidekick
-      resultStatus: 2
-      duration: 1.4538049
-      messages: One or more child tests had errors
+      resultStatus: 1
+      duration: 1.8105505
+      messages: 
       output: 
       stacktrace: 
       notRunnable: 0
@@ -997,9 +1109,9 @@ MonoBehaviour:
       uniqueId: '[Tests.dll][suite]'
       name: Tests.dll
       fullName: C:/Users/zakup/GitHub/LevelBuildingSidekick/LevelBuildingSidekick/Library/ScriptAssemblies/Tests.dll
-      resultStatus: 2
-      duration: 1.4077746
-      messages: One or more child tests had errors
+      resultStatus: 1
+      duration: 1.7929105
+      messages: 
       output: 
       stacktrace: 
       notRunnable: 0
@@ -1013,9 +1125,9 @@ MonoBehaviour:
       uniqueId: Tests.dll/[ISILab][suite]
       name: ISILab
       fullName: ISILab
-      resultStatus: 2
-      duration: 1.4067922
-      messages: One or more child tests had errors
+      resultStatus: 1
+      duration: 1.7920094
+      messages: 
       output: 
       stacktrace: 
       notRunnable: 0
@@ -1029,9 +1141,9 @@ MonoBehaviour:
       uniqueId: Tests.dll/ISILab/[LBS][suite]
       name: LBS
       fullName: ISILab.LBS
-      resultStatus: 2
-      duration: 1.405623
-      messages: One or more child tests had errors
+      resultStatus: 1
+      duration: 1.7915332
+      messages: 
       output: 
       stacktrace: 
       notRunnable: 0
@@ -1045,9 +1157,9 @@ MonoBehaviour:
       uniqueId: Tests.dll/ISILab/LBS/[Tests][suite]
       name: Tests
       fullName: ISILab.LBS.Tests
-      resultStatus: 2
-      duration: 1.4033782
-      messages: One or more child tests had errors
+      resultStatus: 1
+      duration: 1.7881582
+      messages: 
       output: 
       stacktrace: 
       notRunnable: 0
@@ -1062,7 +1174,7 @@ MonoBehaviour:
       name: Test_Simple_Module
       fullName: ISILab.LBS.Tests.Test_Simple_Module
       resultStatus: 1
-      duration: 1.3775375
+      duration: 1.2985857
       messages: 
       output: 
       stacktrace: 
@@ -1078,7 +1190,7 @@ MonoBehaviour:
       name: Save_And_Load_Bundle_TileMap
       fullName: ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_Bundle_TileMap
       resultStatus: 1
-      duration: 0.4870714
+      duration: 0.305873
       messages: 
       output: 
       stacktrace: 
@@ -1095,7 +1207,7 @@ MonoBehaviour:
       name: Save_And_Load_Connected_TileMap
       fullName: ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_Connected_TileMap
       resultStatus: 1
-      duration: 0.1268787
+      duration: 0.1557384
       messages: 
       output: 
       stacktrace: 
@@ -1112,7 +1224,7 @@ MonoBehaviour:
       name: Save_And_Load_Connected_Zones
       fullName: ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_Connected_Zones
       resultStatus: 1
-      duration: 0.1328099
+      duration: 0.1514454
       messages: 
       output: 
       stacktrace: 
@@ -1129,7 +1241,7 @@ MonoBehaviour:
       name: Save_And_Load_Constraints_Zones
       fullName: ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_Constraints_Zones
       resultStatus: 1
-      duration: 0.1237545
+      duration: 0.1418836
       messages: 
       output: 
       stacktrace: 
@@ -1146,7 +1258,7 @@ MonoBehaviour:
       name: Save_And_Load_Empty_Layer
       fullName: ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_Empty_Layer
       resultStatus: 1
-      duration: 0.1306544
+      duration: 0.1292356
       messages: 
       output: 
       stacktrace: 
@@ -1163,7 +1275,7 @@ MonoBehaviour:
       name: Save_And_Load_Empty_Level_Data
       fullName: ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_Empty_Level_Data
       resultStatus: 1
-      duration: 0.1216998
+      duration: 0.1291564
       messages: 
       output: 
       stacktrace: 
@@ -1180,7 +1292,7 @@ MonoBehaviour:
       name: Save_And_Load_Sectorized_TileMap
       fullName: ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_Sectorized_TileMap
       resultStatus: 1
-      duration: 0.130159
+      duration: 0.1339685
       messages: 
       output: 
       stacktrace: 
@@ -1197,7 +1309,7 @@ MonoBehaviour:
       name: Save_And_Load_TileMap_Module
       fullName: ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_TileMap_Module
       resultStatus: 1
-      duration: 0.1111329
+      duration: 0.1344313
       messages: 
       output: 
       stacktrace: 
@@ -1213,9 +1325,9 @@ MonoBehaviour:
       uniqueId: Tests.dll/ISILab/LBS/Tests/[Tests][ISILab.LBS.Tests.Test_Template_Layers][suite]
       name: Test_Template_Layers
       fullName: ISILab.LBS.Tests.Test_Template_Layers
-      resultStatus: 2
-      duration: 0.0219332
-      messages: One or more child tests had errors
+      resultStatus: 1
+      duration: 0.4848372
+      messages: 
       output: 
       stacktrace: 
       notRunnable: 0
@@ -1229,24 +1341,11 @@ MonoBehaviour:
       uniqueId: Tests.dll/ISILab/LBS/Tests/Test_Template_Layers/[Tests][ISILab.LBS.Tests.Test_Template_Layers.Save_And_Load_Exterior_Layer]
       name: Save_And_Load_Exterior_Layer
       fullName: ISILab.LBS.Tests.Test_Template_Layers.Save_And_Load_Exterior_Layer
-      resultStatus: 2
-      duration: 0.0024499
-      messages: 'System.ArgumentNullException : Value cannot be null.
-
-        Parameter
-        name: source'
+      resultStatus: 1
+      duration: 0.1765573
+      messages: 
       output: 
-      stacktrace: "  at System.Linq.Enumerable.TryGetFirst[TSource] (System.Collections.Generic.IEnumerable`1[T]
-        source, System.Func`2[T,TResult] predicate, System.Boolean& found) [0x0000d]
-        in <7b5547b4335144ceb60840e62be9f312>:0 \r\n  at System.Linq.Enumerable.First[TSource]
-        (System.Collections.Generic.IEnumerable`1[T] source, System.Func`2[T,TResult]
-        predicate) [0x00000] in <7b5547b4335144ceb60840e62be9f312>:0 \r\n  at ISILab.LBS.Tests.Test_Template_Layers.Save_And_Load_Exterior_Layer
-        () [0x00006] in C:\\Users\\roth8\\Documents\\GitHub\\LevelBuildingSidekick\\LevelBuildingSidekick\\Assets\\ISI
-        Lab\\LBS\\Editor\\Tests\\TestData.cs:334 \r\n  at (wrapper managed-to-native)
-        System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n 
-        at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
-        invokeAttr, System.Reflection.Binder binder, System.Object[] parameters,
-        System.Globalization.CultureInfo culture) [0x0006a] in <605bf8b31fcb444b85176da963870aa7>:0 "
+      stacktrace: 
       notRunnable: 0
       ignoredOrSkipped: 0
       description: 
@@ -1259,24 +1358,11 @@ MonoBehaviour:
       uniqueId: Tests.dll/ISILab/LBS/Tests/Test_Template_Layers/[Tests][ISILab.LBS.Tests.Test_Template_Layers.Save_And_Load_Interior_Layer]
       name: Save_And_Load_Interior_Layer
       fullName: ISILab.LBS.Tests.Test_Template_Layers.Save_And_Load_Interior_Layer
-      resultStatus: 2
-      duration: 0.0004643
-      messages: 'System.ArgumentNullException : Value cannot be null.
-
-        Parameter
-        name: source'
+      resultStatus: 1
+      duration: 0.1617587
+      messages: 
       output: 
-      stacktrace: "  at System.Linq.Enumerable.TryGetFirst[TSource] (System.Collections.Generic.IEnumerable`1[T]
-        source, System.Func`2[T,TResult] predicate, System.Boolean& found) [0x0000d]
-        in <7b5547b4335144ceb60840e62be9f312>:0 \r\n  at System.Linq.Enumerable.First[TSource]
-        (System.Collections.Generic.IEnumerable`1[T] source, System.Func`2[T,TResult]
-        predicate) [0x00000] in <7b5547b4335144ceb60840e62be9f312>:0 \r\n  at ISILab.LBS.Tests.Test_Template_Layers.Save_And_Load_Interior_Layer
-        () [0x00006] in C:\\Users\\roth8\\Documents\\GitHub\\LevelBuildingSidekick\\LevelBuildingSidekick\\Assets\\ISI
-        Lab\\LBS\\Editor\\Tests\\TestData.cs:301 \r\n  at (wrapper managed-to-native)
-        System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n 
-        at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
-        invokeAttr, System.Reflection.Binder binder, System.Object[] parameters,
-        System.Globalization.CultureInfo culture) [0x0006a] in <605bf8b31fcb444b85176da963870aa7>:0 "
+      stacktrace: 
       notRunnable: 0
       ignoredOrSkipped: 0
       description: 
@@ -1289,24 +1375,11 @@ MonoBehaviour:
       uniqueId: Tests.dll/ISILab/LBS/Tests/Test_Template_Layers/[Tests][ISILab.LBS.Tests.Test_Template_Layers.Save_And_Load_Population_Layer]
       name: Save_And_Load_Population_Layer
       fullName: ISILab.LBS.Tests.Test_Template_Layers.Save_And_Load_Population_Layer
-      resultStatus: 2
-      duration: 0.0003981
-      messages: 'System.ArgumentNullException : Value cannot be null.
-
-        Parameter
-        name: source'
+      resultStatus: 1
+      duration: 0.1403224
+      messages: 
       output: 
-      stacktrace: "  at System.Linq.Enumerable.TryGetFirst[TSource] (System.Collections.Generic.IEnumerable`1[T]
-        source, System.Func`2[T,TResult] predicate, System.Boolean& found) [0x0000d]
-        in <7b5547b4335144ceb60840e62be9f312>:0 \r\n  at System.Linq.Enumerable.First[TSource]
-        (System.Collections.Generic.IEnumerable`1[T] source, System.Func`2[T,TResult]
-        predicate) [0x00000] in <7b5547b4335144ceb60840e62be9f312>:0 \r\n  at ISILab.LBS.Tests.Test_Template_Layers.Save_And_Load_Population_Layer
-        () [0x00006] in C:\\Users\\roth8\\Documents\\GitHub\\LevelBuildingSidekick\\LevelBuildingSidekick\\Assets\\ISI
-        Lab\\LBS\\Editor\\Tests\\TestData.cs:370 \r\n  at (wrapper managed-to-native)
-        System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n 
-        at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
-        invokeAttr, System.Reflection.Binder binder, System.Object[] parameters,
-        System.Globalization.CultureInfo culture) [0x0006a] in <605bf8b31fcb444b85176da963870aa7>:0 "
+      stacktrace: 
       notRunnable: 0
       ignoredOrSkipped: 0
       description: 
@@ -1315,32 +1388,10 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1010
       parentUniqueId: Tests.dll/ISILab/LBS/Tests/[Tests][ISILab.LBS.Tests.Test_Template_Layers][suite]
-    m_ResultText: "Save_And_Load_Exterior_Layer (0,002s)\n---\nSystem.ArgumentNullException
-      : Value cannot be null.\r\nParameter name: source\n---\nat System.Linq.Enumerable.TryGetFirst[TSource]
-      (System.Collections.Generic.IEnumerable`1[T] source, System.Func`2[T,TResult]
-      predicate, System.Boolean& found) [0x0000d] in <7b5547b4335144ceb60840e62be9f312>:0
-      \r\n  at System.Linq.Enumerable.First[TSource] (System.Collections.Generic.IEnumerable`1[T]
-      source, System.Func`2[T,TResult] predicate) [0x00000] in <7b5547b4335144ceb60840e62be9f312>:0
-      \r\n  at ISILab.LBS.Tests.Test_Template_Layers.Save_And_Load_Exterior_Layer
-      () [0x00006] in C:\\Users\\roth8\\Documents\\GitHub\\LevelBuildingSidekick\\LevelBuildingSidekick\\Assets\\ISI
-      Lab\\LBS\\Editor\\Tests\\TestData.cs:334 \r\n  at (wrapper managed-to-native)
-      System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n 
-      at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
-      invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo
-      culture) [0x0006a] in <605bf8b31fcb444b85176da963870aa7>:0"
-    m_ResultStacktrace: "  at System.Linq.Enumerable.TryGetFirst[TSource] (System.Collections.Generic.IEnumerable`1[T]
-      source, System.Func`2[T,TResult] predicate, System.Boolean& found) [0x0000d]
-      in <7b5547b4335144ceb60840e62be9f312>:0 \r\n  at System.Linq.Enumerable.First[TSource]
-      (System.Collections.Generic.IEnumerable`1[T] source, System.Func`2[T,TResult]
-      predicate) [0x00000] in <7b5547b4335144ceb60840e62be9f312>:0 \r\n  at ISILab.LBS.Tests.Test_Template_Layers.Save_And_Load_Exterior_Layer
-      () [0x00006] in C:\\Users\\roth8\\Documents\\GitHub\\LevelBuildingSidekick\\LevelBuildingSidekick\\Assets\\ISI
-      Lab\\LBS\\Editor\\Tests\\TestData.cs:334 \r\n  at (wrapper managed-to-native)
-      System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n 
-      at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
-      invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo
-      culture) [0x0006a] in <605bf8b31fcb444b85176da963870aa7>:0 "
+    m_ResultText: Save_And_Load_Exterior_Layer (0.177s)
+    m_ResultStacktrace: 
     m_TestListState:
-      scrollPos: {x: 0, y: 49}
+      scrollPos: {x: 0, y: 15}
       m_SelectedIDs: 9e1a110a
       m_LastClickedID: 168893086
       m_ExpandedIDs: 3859e0afe557abf748a1fffb8330ba087a3a1d536a938f537e7b5a67ffffff7f
@@ -1369,142 +1420,6 @@ MonoBehaviour:
       selectedCategoryMask: 0
       availableCategories:
       - Uncategorized
---- !u!114 &14
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 1
-  m_Script: {fileID: 12061, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_TitleContent:
-    m_Text: Hierarchy
-    m_Image: {fileID: 7966133145522015247, guid: 0000000000000000d000000000000000, type: 0}
-    m_Tooltip: 
-  m_Pos:
-    serializedVersion: 2
-    x: 0
-    y: 19
-    width: 638
-    height: 503
-  m_SerializedDataModeController:
-    m_DataMode: 0
-    m_PreferredDataMode: 0
-    m_SupportedDataModes: 
-    isAutomatic: 1
-  m_ViewDataDictionary: {fileID: 0}
-  m_OverlayCanvas:
-    m_LastAppliedPresetName: Default
-    m_SaveData: []
-    m_OverlaysVisible: 1
-  m_SceneHierarchy:
-    m_TreeViewState:
-      scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
-      m_ExpandedIDs: e4faffff
-      m_RenameOverlay:
-        m_UserAcceptedRename: 0
-        m_Name: 
-        m_OriginalName: 
-        m_EditFieldRect:
-          serializedVersion: 2
-          x: 0
-          y: 0
-          width: 0
-          height: 0
-        m_UserData: 0
-        m_IsWaitingForDelay: 0
-        m_IsRenaming: 0
-        m_OriginalEventType: 11
-        m_IsRenamingFilename: 0
-        m_ClientGUIView: {fileID: 0}
-      m_SearchString: 
-    m_ExpandedScenes: []
-    m_CurrenRootInstanceID: 0
-    m_LockTracker:
-      m_IsLocked: 0
-    m_CurrentSortingName: TransformSorting
-  m_WindowGUID: 4c969a2b90040154d917609493e03593
---- !u!114 &15
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: InspectorWindow
-  m_EditorClassIdentifier: 
-  m_Children: []
-  m_Position:
-    serializedVersion: 2
-    x: 686
-    y: 0
-    width: 697
-    height: 529
-  m_MinSize: {x: 277, y: 71}
-  m_MaxSize: {x: 4002, y: 4021}
-  m_ActualView: {fileID: 16}
-  m_Panes:
-  - {fileID: 16}
-  m_Selected: 0
-  m_LastSelected: 0
---- !u!114 &16
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 1
-  m_Script: {fileID: 12019, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_TitleContent:
-    m_Text: Inspector
-    m_Image: {fileID: -2667387946076563598, guid: 0000000000000000d000000000000000, type: 0}
-    m_Tooltip: 
-  m_Pos:
-    serializedVersion: 2
-    x: 686
-    y: 843
-    width: 695
-    height: 508
-  m_SerializedDataModeController:
-    m_DataMode: 0
-    m_PreferredDataMode: 0
-    m_SupportedDataModes: 
-    isAutomatic: 1
-  m_ViewDataDictionary: {fileID: 0}
-  m_OverlayCanvas:
-    m_LastAppliedPresetName: Default
-    m_SaveData: []
-    m_OverlaysVisible: 1
-  m_ObjectsLockedBeforeSerialization: []
-  m_InstanceIDsLockedBeforeSerialization: 
-  m_PreviewResizer:
-    m_CachedPref: 253
-    m_ControlHash: -371814159
-    m_PrefName: Preview_InspectorPreview
-  m_LastInspectedObjectInstanceID: -1
-  m_LastVerticalScrollValue: 0
-  m_GlobalObjectId: 
-  m_InspectorMode: 0
-  m_LockTracker:
-    m_IsLocked: 0
-  m_PreviewWindow: {fileID: 0}
 --- !u!114 &17
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -1520,20 +1435,19 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 1383
+    x: 665.6
     y: 0
-    width: 1177
-    height: 529
-  m_MinSize: {x: 231, y: 271}
-  m_MaxSize: {x: 10001, y: 10021}
-  m_ActualView: {fileID: 18}
+    width: 519.2001
+    height: 293.19998
+  m_MinSize: {x: 232, y: 271}
+  m_MaxSize: {x: 10002, y: 10021}
+  m_ActualView: {fileID: 19}
   m_Panes:
   - {fileID: 18}
   - {fileID: 19}
   - {fileID: 20}
-  - {fileID: 21}
-  m_Selected: 0
-  m_LastSelected: 2
+  m_Selected: 1
+  m_LastSelected: 0
 --- !u!114 &18
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -1550,14 +1464,14 @@ MonoBehaviour:
   m_MaxSize: {x: 10000, y: 10000}
   m_TitleContent:
     m_Text: Project
-    m_Image: {fileID: -5467254957812901981, guid: 0000000000000000d000000000000000, type: 0}
+    m_Image: {fileID: -5179483145760003458, guid: 0000000000000000d000000000000000, type: 0}
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1383
-    y: 843
-    width: 1176
-    height: 508
+    x: 665.60004
+    y: 503.2
+    width: 517.2001
+    height: 272.19998
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1569,7 +1483,7 @@ MonoBehaviour:
     m_SaveData: []
     m_OverlaysVisible: 1
   m_SearchFilter:
-    m_NameFilter: lbsmain
+    m_NameFilter: lbsmainwin
     m_ClassNames: []
     m_AssetLabels: []
     m_AssetBundleNames: []
@@ -1579,24 +1493,24 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Examples
+    - Assets/ISI Lab/LBS/Plugin/Visual Elements/Editor/Windows/MainWindows
     m_Globs: []
-    m_OriginalText: lbsmain
+    m_OriginalText: lbsmainwin
     m_ImportLogFlags: 0
     m_FilterByTypeIntersection: 0
   m_ViewMode: 1
   m_StartGridSize: 96
   m_LastFolders:
-  - Assets/Examples
+  - Assets/ISI Lab/LBS/Plugin/Visual Elements/Editor/Windows/MainWindows
   m_LastFoldersGridSize: 96
-  m_LastProjectPath: C:\Users\diego\OneDrive\Escritorio\Unity_Projects\LevelBuildingSidekickSSH\LevelBuildingSidekick
+  m_LastProjectPath: C:\Users\laboratorio\LevelBuildingSidekick\LevelBuildingSidekick
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: c6720000
-    m_LastClickedID: 29382
-    m_ExpandedIDs: 00000000ba72000000ca9a3b
+    scrollPos: {x: 0, y: 371.80002}
+    m_SelectedIDs: da8a0000
+    m_LastClickedID: 35546
+    m_ExpandedIDs: 00000000d66c0000e46c0000ae6d0000b48a0000d68a0000868d0000d68d000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1612,7 +1526,7 @@ MonoBehaviour:
       m_IsRenaming: 0
       m_OriginalEventType: 11
       m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 0}
+      m_ClientGUIView: {fileID: 17}
     m_SearchString: 
     m_CreateAssetUtility:
       m_EndAction: {fileID: 0}
@@ -1624,7 +1538,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000ba720000
+    m_ExpandedIDs: 00000000d66c000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1649,10 +1563,10 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 
-    m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
-    m_ExpandedInstanceIDs: c6230000acb20d00429e00002a6f000000000000c27e0000a49700007eaa0100
+    m_SelectedInstanceIDs: 1c6b0000
+    m_LastClickedInstanceID: 27420
+    m_HadKeyboardFocusLastEvent: 1
+    m_ExpandedInstanceIDs: c6230000acb20d00429e0000000000002a6f0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1696,160 +1610,14 @@ MonoBehaviour:
   m_MaxSize: {x: 10000, y: 10000}
   m_TitleContent:
     m_Text: Project
-    m_Image: {fileID: -5467254957812901981, guid: 0000000000000000d000000000000000, type: 0}
+    m_Image: {fileID: -5179483145760003458, guid: 0000000000000000d000000000000000, type: 0}
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1383
-    y: 843
-    width: 1176
-    height: 508
-  m_SerializedDataModeController:
-    m_DataMode: 0
-    m_PreferredDataMode: 0
-    m_SupportedDataModes: 
-    isAutomatic: 1
-  m_ViewDataDictionary: {fileID: 0}
-  m_OverlayCanvas:
-    m_LastAppliedPresetName: Default
-    m_SaveData: []
-    m_OverlaysVisible: 1
-  m_SearchFilter:
-    m_NameFilter: generator3
-    m_ClassNames: []
-    m_AssetLabels: []
-    m_AssetBundleNames: []
-    m_ReferencingInstanceIDs: 
-    m_SceneHandles: 
-    m_ShowAllHits: 0
-    m_SkipHidden: 0
-    m_SearchArea: 1
-    m_Folders:
-    - Assets/ISI Lab/LBS/Editor
-    m_Globs: []
-    m_OriginalText: generator3
-    m_ImportLogFlags: 0
-    m_FilterByTypeIntersection: 0
-  m_ViewMode: 1
-  m_StartGridSize: 16
-  m_LastFolders:
-  - Assets/ISI Lab/LBS/Editor
-  m_LastFoldersGridSize: -1
-  m_LastProjectPath: C:\Users\diego\OneDrive\Escritorio\Unity_Projects\LevelBuildingSidekickSSH\LevelBuildingSidekick
-  m_LockTracker:
-    m_IsLocked: 0
-  m_FolderTreeState:
-    scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: f0880000
-    m_LastClickedID: 35056
-    m_ExpandedIDs: 00000000ba720000
-    m_RenameOverlay:
-      m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
-      m_EditFieldRect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 0
-        height: 0
-      m_UserData: 0
-      m_IsWaitingForDelay: 0
-      m_IsRenaming: 0
-      m_OriginalEventType: 11
-      m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 17}
-    m_SearchString: 
-    m_CreateAssetUtility:
-      m_EndAction: {fileID: 0}
-      m_InstanceID: 0
-      m_Path: 
-      m_Icon: {fileID: 0}
-      m_ResourceFile: 
-  m_AssetTreeState:
-    scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 
-    m_LastClickedID: 0
-    m_ExpandedIDs: 00000000ba720000
-    m_RenameOverlay:
-      m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
-      m_EditFieldRect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 0
-        height: 0
-      m_UserData: 0
-      m_IsWaitingForDelay: 0
-      m_IsRenaming: 0
-      m_OriginalEventType: 11
-      m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 0}
-    m_SearchString: 
-    m_CreateAssetUtility:
-      m_EndAction: {fileID: 0}
-      m_InstanceID: 0
-      m_Path: 
-      m_Icon: {fileID: 0}
-      m_ResourceFile: 
-  m_ListAreaState:
-    m_SelectedInstanceIDs: d0700000
-    m_LastClickedInstanceID: 28880
-    m_HadKeyboardFocusLastEvent: 1
-    m_ExpandedInstanceIDs: 
-    m_RenameOverlay:
-      m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
-      m_EditFieldRect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 0
-        height: 0
-      m_UserData: 0
-      m_IsWaitingForDelay: 0
-      m_IsRenaming: 0
-      m_OriginalEventType: 11
-      m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 17}
-    m_CreateAssetUtility:
-      m_EndAction: {fileID: 0}
-      m_InstanceID: 0
-      m_Path: 
-      m_Icon: {fileID: 0}
-      m_ResourceFile: 
-    m_NewAssetIndexInList: -1
-    m_ScrollPosition: {x: 0, y: 0}
-    m_GridSize: 16
-  m_SkipHiddenPackages: 0
-  m_DirectoriesAreaWidth: 366
---- !u!114 &20
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 12014, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MinSize: {x: 230, y: 250}
-  m_MaxSize: {x: 10000, y: 10000}
-  m_TitleContent:
-    m_Text: Project
-    m_Image: {fileID: -5467254957812901981, guid: 0000000000000000d000000000000000, type: 0}
-    m_Tooltip: 
-  m_Pos:
-    serializedVersion: 2
-    x: 1383
-    y: 843
-    width: 1176
-    height: 508
+    x: 665.60004
+    y: 503.2
+    width: 517.2001
+    height: 272.19998
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1871,7 +1639,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/ISI Lab/LBS/Editor
+    - Assets/ISI Lab/LBS/Plugin/Visual Elements/Editor/FloatingPanels/LayerPanels
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -1879,16 +1647,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/ISI Lab/LBS/Editor
+  - Assets/ISI Lab/LBS/Plugin/Visual Elements/Editor/FloatingPanels/LayerPanels
   m_LastFoldersGridSize: -1
-  m_LastProjectPath: C:\Users\diego\OneDrive\Escritorio\Unity_Projects\LevelBuildingSidekickSSH\LevelBuildingSidekick
+  m_LastProjectPath: C:\Users\laboratorio\LevelBuildingSidekick\LevelBuildingSidekick
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: f0880000
-    m_LastClickedID: 35056
-    m_ExpandedIDs: 00000000ba720000
+    scrollPos: {x: 0, y: 410}
+    m_SelectedIDs: ba8a0000
+    m_LastClickedID: 35514
+    m_ExpandedIDs: 00000000d66c0000e46c0000ae6d0000b48a0000b88a0000d68a0000868d0000d68d000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1904,7 +1672,7 @@ MonoBehaviour:
       m_IsRenaming: 0
       m_OriginalEventType: 11
       m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 17}
+      m_ClientGUIView: {fileID: 0}
     m_SearchString: 
     m_CreateAssetUtility:
       m_EndAction: {fileID: 0}
@@ -1916,7 +1684,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000ba720000
+    m_ExpandedIDs: 00000000d66c000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1941,8 +1709,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: d0700000
-    m_LastClickedInstanceID: 28880
+    m_SelectedInstanceIDs: 526b0000
+    m_LastClickedInstanceID: 27474
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: 
     m_RenameOverlay:
@@ -1971,8 +1739,117 @@ MonoBehaviour:
     m_ScrollPosition: {x: 0, y: 0}
     m_GridSize: 16
   m_SkipHiddenPackages: 0
-  m_DirectoriesAreaWidth: 582
+  m_DirectoriesAreaWidth: 221
+--- !u!114 &20
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b061105fc077054bad7e1a24778f57a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MinSize: {x: 100, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_TitleContent:
+    m_Text: ReplaceWithPrefab
+    m_Image: {fileID: 0}
+    m_Tooltip: 
+  m_Pos:
+    serializedVersion: 2
+    x: 181
+    y: 636
+    width: 1298
+    height: 363
+  m_SerializedDataModeController:
+    m_DataMode: 0
+    m_PreferredDataMode: 0
+    m_SupportedDataModes: 
+    isAutomatic: 1
+  m_ViewDataDictionary: {fileID: 0}
+  m_OverlayCanvas:
+    m_LastAppliedPresetName: Default
+    m_SaveData: []
+    m_OverlaysVisible: 1
+  prefab: {fileID: 7233598324507150777, guid: ee2a987889bc7c448a70fbe60bb66f3a, type: 3}
 --- !u!114 &21
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 1
+  m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: InspectorWindow
+  m_EditorClassIdentifier: 
+  m_Children: []
+  m_Position:
+    serializedVersion: 2
+    x: 1184.8
+    y: 0
+    width: 351.19995
+    height: 722.8
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_ActualView: {fileID: 22}
+  m_Panes:
+  - {fileID: 22}
+  - {fileID: 23}
+  m_Selected: 0
+  m_LastSelected: 1
+--- !u!114 &22
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 1
+  m_Script: {fileID: 12019, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_TitleContent:
+    m_Text: Inspector
+    m_Image: {fileID: -440750813802333266, guid: 0000000000000000d000000000000000, type: 0}
+    m_Tooltip: 
+  m_Pos:
+    serializedVersion: 2
+    x: 1184.8
+    y: 73.6
+    width: 350.19995
+    height: 701.8
+  m_SerializedDataModeController:
+    m_DataMode: 0
+    m_PreferredDataMode: 0
+    m_SupportedDataModes: 
+    isAutomatic: 1
+  m_ViewDataDictionary: {fileID: 0}
+  m_OverlayCanvas:
+    m_LastAppliedPresetName: Default
+    m_SaveData: []
+    m_OverlaysVisible: 1
+  m_ObjectsLockedBeforeSerialization: []
+  m_InstanceIDsLockedBeforeSerialization: 
+  m_PreviewResizer:
+    m_CachedPref: 253
+    m_ControlHash: -371814159
+    m_PrefName: Preview_InspectorPreview
+  m_LastInspectedObjectInstanceID: -1
+  m_LastVerticalScrollValue: 0
+  m_GlobalObjectId: 
+  m_InspectorMode: 0
+  m_LockTracker:
+    m_IsLocked: 0
+  m_PreviewWindow: {fileID: 0}
+--- !u!114 &23
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1988,14 +1865,14 @@ MonoBehaviour:
   m_MaxSize: {x: 4000, y: 4000}
   m_TitleContent:
     m_Text: Lighting
-    m_Image: {fileID: -1347227620855488341, guid: 0000000000000000d000000000000000, type: 0}
+    m_Image: {fileID: -1477008817101679558, guid: 0000000000000000d000000000000000, type: 0}
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 640
-    y: 847
-    width: 638
-    height: 503
+    x: 1558
+    y: 73
+    width: 361
+    height: 926
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0

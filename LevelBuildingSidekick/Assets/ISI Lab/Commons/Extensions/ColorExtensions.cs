@@ -7,7 +7,16 @@ namespace ISILab.Extensions
 {
     public static class ColorExtensions
     {
-        public static Color RandomColor(this Color color)
+        public static Color RandomColorHSV(this Color color)
+        {
+            float hue = Random.Range(0f, 1f); 
+            float saturation = 1f;            
+            float value = 1f;                  
+            color = Color.HSVToRGB(hue, saturation, value);
+
+            return color;
+        }
+        public static Color RandomColorRGB(this Color color)
         {
             color = new Color(
                 Random.Range(0f, 255f) / 255f,
