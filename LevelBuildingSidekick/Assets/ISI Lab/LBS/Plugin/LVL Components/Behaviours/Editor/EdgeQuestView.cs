@@ -43,6 +43,7 @@ namespace ISILab.LBS.VisualElements
         void OnGenerateVisualContent(MeshGenerationContext mgc)
         {
             var painter = mgc.painter2D;
+            
             painter.DrawDottedLine(
                 Vector2.zero,
                 pos2 - pos1,

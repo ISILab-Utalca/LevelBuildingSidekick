@@ -102,11 +102,11 @@ namespace ISILab.LBS.Assistants
 
         public void ValidateEdgeGrammar(QuestEdge edge)
         {
-
+            if(edge == null) return;
             var grammar = Quest.Grammar;
 
             var root = Quest.Root;
-
+            
             var first = edge.First;
             var second = edge.Second;
 

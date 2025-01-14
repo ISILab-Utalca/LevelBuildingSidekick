@@ -36,7 +36,7 @@ namespace ISILab.LBS.Manipulators
         {
             if (ActionToSet == null)
             {
-                Debug.LogWarning("They have nothing selected, make sure to select a grammar and a word for it to work.");
+                LBSMainWindow.MessageNotify("They have nothing selected, make sure to select a grammar and a word for it to work.", LogType.Warning);
                 return;
             }
 
