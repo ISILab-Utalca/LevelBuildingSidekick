@@ -45,13 +45,18 @@ namespace ISILab.LBS.VisualElements.Editor
         {
             var data = LBSController.CreateNewLevel("new file");
             OnNewLevel?.Invoke(data);
+            LBSMainWindow.MessageNotify("New level created.");
         }
 
         public void LoadLevel(DropdownMenuAction dma)
         {
             var data = LBSController.LoadFile();
             if (data != null)
+            {
                 OnLoadLevel?.Invoke(data);
+                LBSMainWindow.MessageNotify("The level has been loaded successfully.");
+            }
+                
         }
 
         public void SaveLevel(DropdownMenuAction dma)

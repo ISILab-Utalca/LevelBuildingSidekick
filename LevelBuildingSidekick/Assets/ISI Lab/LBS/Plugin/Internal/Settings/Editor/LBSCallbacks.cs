@@ -79,7 +79,7 @@ namespace ISILab.LBS.Internal.Editor
             }
             else
             {
-                Debug.LogError("[ISI Lab]: Error on save BackUp");
+                LBSMainWindow.MessageNotify("Error on save BackUp", LogType.Error);
             }
         }
 

@@ -126,7 +126,7 @@ namespace ISILab.LBS.Modules
         public void AddConnection(QuestNode first, QuestNode second)
         {
 
-            if (first == null || second == null)
+            if (first == null || second == null || first==second)
             {
                 return;
             }
@@ -144,6 +144,12 @@ namespace ISILab.LBS.Modules
                     Debug.LogWarning("The start node is already connected");
                     return;
                 }
+                
+                if (questEdges.Any(e => e.First == second))
+                {
+                    Debug.LogWarning("The start is being connected to previous first");
+                    return;
+                }
             }
 
             if (questEdges.Any(e => (e.First.Equals(first) && e.Second.Equals(second)) || (e.First.Equals(second) && e.Second.Equals(first))))
@@ -154,7 +160,7 @@ namespace ISILab.LBS.Modules
 
             var edge = new QuestEdge(first, second);
 
-            if (Looped(edge))
+            if (IsLooped(edge))
             {
                 Debug.LogWarning("Invalid connection, loop detected");
                 return;
@@ -165,12 +171,24 @@ namespace ISILab.LBS.Modules
             OnAddEdge?.Invoke(edge);
         }
 
+        private bool IsLooped(QuestEdge edge)
+        {
+            HashSet<QuestNode> origins = new HashSet<QuestNode>();
+            HashSet<QuestNode> destinations = new HashSet<QuestNode>();
+            foreach (var node in questEdges)
+            {
+                origins.Add(node.First);
+                destinations.Add(node.Second);
+            }
+
+            if (destinations.Contains(edge.First) && origins.Contains(edge.Second)) return true;
+            if (destinations.Contains(edge.Second) && origins.Contains(edge.First)) return true;
+            return false;
+        }
         private bool Looped(QuestEdge edge)
         {
-
             var list = new List<QuestNode>();
             list.Add(edge.Second);
-
             while (list.Count > 0)
             {
                 if (list.Contains(edge.First))
@@ -187,7 +205,7 @@ namespace ISILab.LBS.Modules
 
                 list = candidates;
             }
-
+            
             return false;
         }
 

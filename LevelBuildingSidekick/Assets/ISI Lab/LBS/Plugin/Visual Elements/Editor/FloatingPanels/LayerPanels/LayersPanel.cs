@@ -49,6 +49,7 @@ namespace ISILab.LBS.VisualElements.Editor
         private List<VisualElement> noLayerNotificators; 
 
         private VisualElement noSelectedLayerNotificator;
+        private VisualElement layerSettings;
         #endregion
 
         #region EVENTS ACTIONS
@@ -129,8 +130,14 @@ namespace ISILab.LBS.VisualElements.Editor
 
             noLayerNotificators = this.Query<VisualElement>("NoLayerNotify").ToList();
             noSelectedLayerNotificator = this.Q<VisualElement>("NoSelectedLayerNotify");
+            layerSettings = this.Q<VisualElement>("LayerSettings");
+            
+            list.style.display = DisplayStyle.None;
+            noSelectedLayerNotificator.style.display = DisplayStyle.Flex;
             
             RegisterCallback<KeyDownEvent>(OnKeyDown);
+
+            OnLayerChangeEventHandle(null);
         }
         #endregion
 
@@ -225,23 +232,34 @@ namespace ISILab.LBS.VisualElements.Editor
             //list.RemoveFromSelection(list.selectedIndex);
         }
 
-        void OnLayerChangeEventHandle(LBSLayer _layer){
-            if (list.itemsSource.Count > 0){
-                foreach(VisualElement layer in noLayerNotificators){
-                    layer.style.display = DisplayStyle.None;
-                }
-            } else {
-                foreach(VisualElement layer in noLayerNotificators){
-                    layer.style.display = DisplayStyle.Flex;
-                }
+        void OnLayerChangeEventHandle(LBSLayer _layer)
+        {
+            bool hasItems = list.itemsSource.Count > 0;
+            DisplayStyle notificatorsDisplay = hasItems ? DisplayStyle.None : DisplayStyle.Flex;
+            DisplayStyle noSelectedDisplay = hasItems ? DisplayStyle.None : DisplayStyle.Flex;
+            DisplayStyle listDisplay = hasItems ? DisplayStyle.Flex : DisplayStyle.None;
+            
+            DisplayStyle settingsDisplay = (_layer!=null && hasItems) ? DisplayStyle.Flex : DisplayStyle.None;
+            
+            foreach (VisualElement layer in noLayerNotificators)
+            {
+                layer.style.display = notificatorsDisplay;
             }
+            list.style.display = listDisplay; 
+            layerSettings.style.display = settingsDisplay;
+            noSelectedLayerNotificator.style.display = noSelectedDisplay;
         }
 
+
         void OnLayerSelectedEventHandle(LBSLayer _layer){
-            if (_layer != null){
+            if (_layer != null)
+            {
                 noSelectedLayerNotificator.style.display = DisplayStyle.None;
-            } else {
+                layerSettings.style.display = DisplayStyle.Flex;
+            } else 
+            {
                 noSelectedLayerNotificator.style.display = DisplayStyle.Flex;
+                layerSettings.style.display = DisplayStyle.None;
             }
         }
         

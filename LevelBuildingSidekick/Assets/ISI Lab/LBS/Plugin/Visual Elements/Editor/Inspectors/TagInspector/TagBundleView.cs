@@ -93,7 +93,7 @@ namespace ISILab.LBS.VisualElements
             var name = Format.CheckNameFormat(target.Tags.Select(b => b.name), "new tag");
 
             var nTag = ScriptableObject.CreateInstance<LBSTag>();
-            nTag.Init(name, new Color().RandomColor(), null);
+            nTag.Init(name, new Color().RandomColorHSV(), null);
 
             var settings = LBSSettings.Instance;
             AssetDatabase.CreateAsset(nTag, settings.paths.tagFolderPath + "/" + name + ".asset");
