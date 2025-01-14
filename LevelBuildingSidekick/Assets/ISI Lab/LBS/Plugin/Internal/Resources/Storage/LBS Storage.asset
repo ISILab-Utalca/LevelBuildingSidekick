@@ -364,6 +364,7 @@ MonoBehaviour:
     items:
     - {fileID: 11400000, guid: 253f372750fae784d9a42445a8e08fcc, type: 2}
     - {fileID: 11400000, guid: 531e915267477db4e886c2e6401c4372, type: 2}
+    - {fileID: 11400000, guid: 430b61e3f6924f949ab48de4b84eba1f, type: 2}
   - type: ISILab.LBS.LBSIdentifierBundle
     items:
     - {fileID: 11400000, guid: 468aebbf5a02f6d45b144fc9dc3deb01, type: 2}
