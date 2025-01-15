@@ -35,7 +35,7 @@ namespace ISILab.LBS.Drawers
             
             foreach (var tile in exterior.Tiles)
             {
-                if(tile.tag == null) tile.tag = exterior.identifierToSet;
+                //if(tile.tag == null) tile.tag = exterior.identifierToSet;
                 
                 var connections = connectMod.GetConnections(tile);
                 
@@ -87,7 +87,7 @@ namespace ISILab.LBS.Drawers
 
             ExteriorTileView tView = new ExteriorTileView(connections);
             
-            if(tile.tag) tView.SetTileCenter(tile.tag);
+            //if(tile.tag) tView.SetTileCenter(tile.tag);
             tView.SetConnections(connections.ToArray());
             
             var pos = new Vector2(tile.Position.x, -tile.Position.y);

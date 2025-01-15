@@ -75,6 +75,7 @@ namespace ISILab.LBS.Internal.Editor
 
                 AssetDatabase.CreateAsset(backUp, path);
                 AssetDatabase.SaveAssets();
+
             }
             else
             {
@@ -119,6 +120,8 @@ namespace ISILab.LBS.Internal.Editor
         {
             var data = LBS.loadedLevel.data;
             data?.Reload();
+            Debug.Log("LAYER COUNT TEST: "+LBS.loadedLevel.data.LayerCount);
+            
         }
 
         public static void ReloadBundles()

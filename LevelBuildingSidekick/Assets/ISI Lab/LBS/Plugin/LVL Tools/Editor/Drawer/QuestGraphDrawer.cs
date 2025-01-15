@@ -29,15 +29,16 @@ namespace ISILab.LBS.Drawers.Editor
 
             foreach (var node in quest.QuestNodes)
             {
-
+                /*  Start Node is now assigned by the user. Right click on a node to make it root */
                 if (node.ID == "Start Node")
                 {
+                    continue;
                     var v = new StartQNode();
                     v.SetPosition(new Rect(node.Position, LBSSettings.Instance.general.TileSize));
                     nodeViews.Add(node, v);
-                    continue;
+                    
                 }
-
+                
 
                 var nodeView = new QuestNodeView(node);
 

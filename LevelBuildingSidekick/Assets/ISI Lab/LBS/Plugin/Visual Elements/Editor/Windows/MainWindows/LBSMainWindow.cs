@@ -24,7 +24,12 @@ using Debug = UnityEngine.Debug;
 public class LBSMainWindow : EditorWindow
 {
     #region PROPERTIES
-    private LBSLevelData levelData => ISILab.LBS.LBS.loadedLevel.data;
+    private LBSLevelData levelData
+    {
+        get => ISILab.LBS.LBS.loadedLevel.data;
+        set => ISILab.LBS.LBS.loadedLevel.data = value;
+    }
+
     #endregion
 
     #region FIELDS
@@ -350,8 +355,7 @@ public class LBSMainWindow : EditorWindow
         var questIsEmpty = levelData.Quests.Count <= 0;
 
         noLayerSign.style.display = (layersIsEmpty && questIsEmpty) ? DisplayStyle.Flex : DisplayStyle.None;
-        levelData.OnReload += () => layerPanel.ResetSelection();
-        levelData.OnReload += () => questsPanel.ResetSelection();
+      
     }
 
     /// <summary>

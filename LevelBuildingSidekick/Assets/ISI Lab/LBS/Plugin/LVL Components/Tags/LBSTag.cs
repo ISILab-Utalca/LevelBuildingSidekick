@@ -1,20 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using ISILab.Commons.Attributes;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace ISILab.LBS.Components
 {
     [CreateAssetMenu(fileName = "NewID", menuName = "ISILab/LBS/Tag")]
-    [System.Serializable]
     public class LBSTag : ScriptableObject
     {
         #region FIELDS
         [ReadOnly]
         public string label;
-        [SerializeField]
         protected Texture2D icon;
-        [SerializeField]
         protected Color color;
         #endregion
 

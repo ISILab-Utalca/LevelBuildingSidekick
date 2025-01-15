@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using ISILab.LBS.Components;
+using ISILab.LBS.Modules;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -31,7 +32,16 @@ namespace ISILab.LBS.Components
         [SerializeField, JsonRequired, SerializeReference]
         private QuestTarget target;
 
+        private QuestGraph graph;
+
         #region PROPERTIES
+        [JsonIgnore]
+        public QuestGraph Graph
+        {
+            get => graph;
+            set => graph = value;
+        }
+        
         [JsonIgnore]
         public Vector2Int Position
         {
@@ -90,19 +100,20 @@ namespace ISILab.LBS.Components
         #region CONSTRUCTOR
         QuestNode() { }
 
-        public QuestNode(string id, Vector2 position, string action)
+        public QuestNode(string id, Vector2 position, string action, QuestGraph graph)
         {
             this.id = id;
             x = (int)position.x;
             y = (int)position.y;
             this.questAction = action;
+            this.graph = graph;
             target = new QuestTarget();
         }
         #endregion
 
         public object Clone()
         {
-            var node = new QuestNode(ID, Position, QuestAction);
+            var node = new QuestNode(ID, Position, QuestAction, graph);
 
             node.target = target.Clone() as QuestTarget;
 

@@ -25,6 +25,7 @@ namespace ISILab.LBS.VisualElements
         {
             CreateVisualElement();
             SetInfo(target);
+            
         }
 
         public override void SetInfo(object target)
@@ -61,8 +62,7 @@ namespace ISILab.LBS.VisualElements
 
             tags.makeItem = MakeTagItem;
             tags.bindItem = BindTagItem;*/
-
-            return this;
+ return this;
         }
 
         public VisualElement MakeTagItem()
@@ -85,8 +85,13 @@ namespace ISILab.LBS.VisualElements
             of.value = node.Target.Tags[index];
 
             of.RegisterValueChangedCallback(evt => node.Target.Tags[index] = evt.newValue as LBSTag);
+
         }
 
-
+        
+       
     }
 }
+
+    
+    

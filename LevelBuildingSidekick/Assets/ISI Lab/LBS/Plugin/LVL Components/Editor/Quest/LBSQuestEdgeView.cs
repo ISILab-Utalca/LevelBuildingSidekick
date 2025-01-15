@@ -9,6 +9,7 @@ using ISILab.LBS.Modules;
 
 namespace ISILab.LBS.VisualElements
 {
+    // Class that draws the quest edges.
     public class LBSQuestEdgeView : GraphElement
     {
         private Vector2Int pos1, pos2;
@@ -44,11 +45,29 @@ namespace ISILab.LBS.VisualElements
         void OnGenerateVisualContent(MeshGenerationContext mgc)
         {
             var painter = mgc.painter2D;
-            painter.DrawDottedLine(
-                Vector2.zero,
-                pos2 - pos1,
-                Color.white
-                );
+            // line
+            painter.DrawDottedLine(Vector2.zero, pos2 - pos1, Color.white);
+               
+            // arrow
+            var pos = pos2 - pos1;
+            Vector2 direction = new Vector2(pos.x, pos.y).normalized;
+            Vector2 midpoint = (pos2 - pos1) / 2;
+            
+            Vector2 perpendicular = new Vector2(-direction.y, direction.x);
+            
+            float arrowLength = 25f;
+            float arrowWidth = 15f; 
+
+            // Define the arrow points relative to the midpoint
+            List<Vector2> arrowPoints = new List<Vector2>()
+            {
+                
+                midpoint - direction * arrowLength + perpendicular * arrowWidth, // Left base
+                midpoint,                                                       // Arrow tip
+                midpoint - direction * arrowLength - perpendicular * arrowWidth  // Right base
+            };
+            painter.DrawPolygon(arrowPoints, Color.white, Color.white, 0f);
+            
         }
 
         private void ActualizePositions(Vector2Int pos1, Vector2Int pos2)

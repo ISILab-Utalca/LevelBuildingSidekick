@@ -51,8 +51,7 @@ namespace ISILab.LBS.Manipulators
                 v++;
             } while (loop);
 
-            quest.AddNode(new QuestNode(name, EndPosition, ActionToSet.ID));
-
+            quest.AddNode(new QuestNode(name, EndPosition, ActionToSet.ID, quest));
         }
     }
 }

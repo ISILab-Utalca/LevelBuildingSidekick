@@ -85,11 +85,15 @@ namespace ISILab.LBS.Modules
         public QuestGraph()
         {
             IsVisible = true;
-            root = new QuestNode("Start Node", Vector2.zero, "Start Node");
-            questNodes.Add(root);
+            //root = new QuestNode("Start Node", Vector2.zero, "Start Node");
+            //questNodes.Add(root);
             nodeSize = new Vector2Int(3, 1);
         }
 
+        public void SetRoot(QuestNode node)
+        {
+            root = node;
+        }
         public QuestNode GetQuestNode(Vector2 position)
         {
             var size = nodeSize * LBSSettings.Instance.general.TileSize;
@@ -99,13 +103,14 @@ namespace ISILab.LBS.Modules
 
         public void AddNode(string id, Vector2 position, string action)
         {
-            var data = new QuestNode(id, position, action);
+            var data = new QuestNode(id, position, action, this);
             questNodes.Add(data);
             OnAddNode?.Invoke(data);
         }
 
         public void AddNode(QuestNode node)
         {
+            if(root == null) SetRoot(node);
             questNodes.Add(node);
             OnAddNode?.Invoke(node);
         }
@@ -343,5 +348,7 @@ namespace ISILab.LBS.Modules
         {
             return new QuestEdge(CloneRefs.Get(first) as QuestNode, CloneRefs.Get(second) as QuestNode);
         }
+
+   
     }
 }

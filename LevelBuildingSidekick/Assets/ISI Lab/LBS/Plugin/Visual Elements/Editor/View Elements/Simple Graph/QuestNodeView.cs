@@ -9,14 +9,22 @@ using UnityEngine.UIElements;
 using Label = UnityEngine.UIElements.Label;
 using ISILab.Extensions;
 using ISILab.LBS.Components;
+using ISILab.LBS.Modules;
+using UnityEditor;
+using UnityEditor.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
+    /**
+     * Node that is displayed in the quest graph
+     */
     public class QuestNodeView : GraphElement
     {
+        private QuestNode node;
+        
         private static VisualTreeAsset view;
 
-
+        private ToolbarMenu toolbar;
         private Label label;
         private VisualElement root;
 
@@ -40,9 +48,15 @@ namespace ISILab.LBS.VisualElements
             // Label
             label = this.Q<Label>();
             root = this.Q<VisualElement>(name: "root");
-
+            toolbar = this.Q<ToolbarMenu>("ToolBar");
+            toolbar.menu.AppendAction("Make root", MakeRoot);
+            toolbar.style.display = DisplayStyle.None;
             SetText(node.QuestAction);
             SetBorder(node);
+            
+            RegisterCallback<MouseDownEvent>(OnMouseDown);
+            
+            this.node = node;
         }
 
         private void SetBorder(QuestNode node)
@@ -78,6 +92,21 @@ namespace ISILab.LBS.VisualElements
 
             label.text = text;
         }
+        
+        private void OnMouseDown(MouseDownEvent evt)
+        {
+            // RightClick
+            if (evt.button == 1)
+            {
+                toolbar.style.display = DisplayStyle.Flex;
+                toolbar.ShowMenu();
+            }
+        }
 
+        private void MakeRoot(DropdownMenuAction obj)
+        {
+            node.Graph.SetRoot(node);
+        }
+        
     }
 }
