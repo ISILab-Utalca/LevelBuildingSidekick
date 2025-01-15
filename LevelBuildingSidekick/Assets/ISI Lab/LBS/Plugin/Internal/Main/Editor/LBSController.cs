@@ -45,7 +45,7 @@ namespace ISILab.LBS
             CurrentLevel = LoadedLevel.CreateInstance(data, fileInfo.FullName);
             CurrentLevel.data.Reload();
             OnLoadLevel?.Invoke(CurrentLevel.data);
-            Debug.Log("[ISI Lab]: The level '" + fileInfo.Name + "' has been loaded successfully.");
+            LBSMainWindow.MessageNotify("The level '\" + fileInfo.Name + \"' has been loaded successfully.");
         }
 
         /// <summary>

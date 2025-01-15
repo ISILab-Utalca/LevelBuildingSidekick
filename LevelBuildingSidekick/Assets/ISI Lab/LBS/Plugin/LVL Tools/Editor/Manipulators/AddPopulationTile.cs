@@ -37,7 +37,7 @@ namespace ISILab.LBS.Manipulators
         {
             if (ToSet == null)
             {
-                Debug.LogWarning("[ISILab]: You don't have any selected item to place.");
+                LBSMainWindow.MessageNotify("You don't have any selected item to place.", LogType.Error);
                 return;
             }
 

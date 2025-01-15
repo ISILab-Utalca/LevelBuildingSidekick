@@ -85,6 +85,8 @@ namespace ISILab.LBS.VisualElements
             var t2 = new LBSTool(icon, "Remove zone connection", removeAreaConnection);
             t2.Init(hillClimbing.Owner, hillClimbing);
             toolKit.AddTool(t2);
+            
+            setZoneConnection.SetRemover(removeAreaConnection);
         }
 
         protected override VisualElement CreateVisualElement()

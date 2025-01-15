@@ -8,6 +8,7 @@ using LBS.Components.Graph;
 using LBS.Settings;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Modules
 {
@@ -30,6 +31,7 @@ namespace ISILab.LBS.Modules
 
         public LBSGraph()
         {
+            
         }
 
         public LBSGraph(List<LBSNode> nodes, List<LBSEdge> edges)
@@ -130,6 +132,11 @@ namespace ISILab.LBS.Modules
         public override bool IsEmpty()
         {
             return nodes.Count == 0;
+        }
+
+        public void MouseUpEvent(Event evt)
+        {
+       
         }
     }
 }

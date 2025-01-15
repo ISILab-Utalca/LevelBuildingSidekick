@@ -19,7 +19,9 @@ namespace ISILab.LBS.Manipulators
 
         private bool started = false;
         private bool ended = false;
-
+        // if the manipulator paints, assign the deleter to be usable by right click
+        private LBSManipulator remover;
+        
         private Vector2Int startClickPosition = Vector2Int.zero;
         private Vector2Int moveClickPosition = Vector2Int.zero;
         private Vector2Int endClickPosition = Vector2Int.zero;
@@ -36,7 +38,7 @@ namespace ISILab.LBS.Manipulators
                 }
                 else
                 {
-                    Debug.LogWarning("[ISI Lab]: no puedes axeder a la variable 'StartPosition' fuera de la accion.");
+                    Debug.LogWarning("[ISI Lab]: no puedes acceder a la variable 'StartPosition' fuera de la accion.");
                     return default;
                 }
             }
@@ -72,6 +74,11 @@ namespace ISILab.LBS.Manipulators
                     return default;
                 }
             }
+        }
+
+        public void SetRemover(LBSManipulator remover)
+        {
+            this.remover = remover;
         }
         #endregion
 
@@ -159,8 +166,21 @@ namespace ISILab.LBS.Manipulators
         /// <param name="e"></param>
         protected void OnInternalMouseDown(MouseDownEvent e)
         {
-            if (e.button != 0)
+            if (e.button != 0 && e.button != 1)
                 return;
+     
+            // right click tries deleting 
+            if (e.button == 1 && remover != null)
+            {
+                var ne = MouseDownEvent.GetPooled(e.mousePosition, 0, e.clickCount, e.mouseDelta, e.modifiers);
+                ne.target = e.target as VisualElement;
+                remover.OnInternalMouseDown(ne);
+                /*
+                var simDelete = MouseDownEvent.GetPooled(e.mousePosition, 0, e.clickCount, e.mouseDelta, e.modifiers);
+                simDelete.target = e.target as VisualElement;
+                remover.OnMouseDown(simDelete.target as VisualElement, startClickPosition, simDelete);
+                */return;
+            }
 
             started = true;
             startClickPosition = MainView.Instance.FixPos(e.localMousePosition).ToInt();
@@ -176,9 +196,18 @@ namespace ISILab.LBS.Manipulators
         /// <param name="e"></param>
         protected void OnInternalMouseMove(MouseMoveEvent e)
         {
-            if (e.button != 0)
+            if (e.button != 0 && e.button != 1)
                 return;
 
+            // right click tries deleting 
+            if (e.button == 1 && remover != null)
+            {
+                var ne = MouseMoveEvent.GetPooled(e.mousePosition, 0, e.clickCount, e.mouseDelta, e.modifiers);
+                ne.target = e.target as VisualElement;
+                remover.OnInternalMouseMove(ne);
+                return;
+            }
+            
             moveClickPosition = MainView.Instance.FixPos(e.localMousePosition).ToInt();
 
             OnMouseMove(e.target as VisualElement, moveClickPosition, e);
@@ -193,13 +222,21 @@ namespace ISILab.LBS.Manipulators
         /// <param name="e"></param>
         protected void OnInternalMouseUp(MouseUpEvent e)
         {
-            if (e.button != 0)
+            if (e.button != 0 && e.button != 1)
                 return;
-
             ended = true;
             endClickPosition = MainView.Instance.FixPos(e.localMousePosition).ToInt();
             EndFeedback();
-
+            
+            // right click tries deleting 
+            if (e.button == 1 && remover != null)
+            {
+                var ne = MouseUpEvent.GetPooled(e.mousePosition, 0, e.clickCount, e.mouseDelta, e.modifiers);
+                ne.target = e.target as VisualElement;
+                remover.OnInternalMouseUp(ne);
+                return;
+            }
+            
             if (!e.altKey)
             {
                 OnMouseUp(e.target as VisualElement, endClickPosition, e);

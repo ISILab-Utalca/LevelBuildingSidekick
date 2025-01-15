@@ -167,6 +167,7 @@ namespace ISILab.LBS.Modules
 
             if (IsLooped(edge))
             {
+                
                 Debug.LogWarning("Invalid connection, loop detected");
                 return;
             }

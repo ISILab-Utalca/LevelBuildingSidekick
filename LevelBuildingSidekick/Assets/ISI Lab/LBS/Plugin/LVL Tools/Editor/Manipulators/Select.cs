@@ -34,6 +34,7 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
         {
+           
             current = LBSInspectorPanel.Instance.data;
 
             // Get fixed position

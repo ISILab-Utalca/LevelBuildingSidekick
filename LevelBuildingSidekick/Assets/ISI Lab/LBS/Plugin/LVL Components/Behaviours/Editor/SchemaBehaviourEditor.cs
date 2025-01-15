@@ -70,6 +70,8 @@ namespace ISILab.LBS.Behaviours.Editor
             t2.Init(_target.Owner, _target);
             toolKit.AddTool(t2);
 
+            createNewRoomNode.SetRemover(removeSchemaTile);
+            
             toolKit.AddSeparator(10);
 
             // Add Tile connection
@@ -86,6 +88,8 @@ namespace ISILab.LBS.Behaviours.Editor
             var t4 = new LBSTool(icon, "Clean connection", removeTileConnection);
             t4.Init(_target.Owner, _target);
             toolKit.AddTool(t4);
+            
+            setTileConnection.SetRemover(removeTileConnection);
         }
 
         public override void ContextMenu(ContextualMenuPopulateEvent evt)

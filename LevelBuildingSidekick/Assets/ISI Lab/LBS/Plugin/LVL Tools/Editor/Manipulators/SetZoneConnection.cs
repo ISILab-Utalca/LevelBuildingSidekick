@@ -43,7 +43,7 @@ namespace ISILab.LBS.Manipulators
 
             if (z1 == null)
             {
-                Debug.Log("No seleccionaste ninguna zona de comienzo");// [TODO] - Change to english or delete
+                LBSMainWindow.MessageNotify("No origin selected!", LogType.Error, 2);
                 return;
             }
 
@@ -51,19 +51,19 @@ namespace ISILab.LBS.Manipulators
             var z2 = assistant.GetZone(pos);
             if (z2 == null)
             {
-                Debug.Log("No seleccionaste ninguna zona de final"); // [TODO] - Change to english or delete
+                LBSMainWindow.MessageNotify("No destination selected!", LogType.Error, 2);
                 return;
             }
 
             if (z1.Equals(z2))
             {
-                Debug.Log("No puedes conectar una zona con sigo misma"); // [TODO] - Change to english or delete
+                LBSMainWindow.MessageNotify("Can't connect a zone with itself!", LogType.Error, 2);
                 return;
             }
 
             var x = LBSController.CurrentLevel;
             EditorGUI.BeginChangeCheck();
-            Undo.RegisterCompleteObjectUndo(x, "Add Zone Conections");
+            Undo.RegisterCompleteObjectUndo(x, "Add Zone Connections");
 
             assistant.ConnectZones(z1, z2);
 

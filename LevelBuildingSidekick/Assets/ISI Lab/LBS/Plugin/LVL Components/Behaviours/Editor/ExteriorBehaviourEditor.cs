@@ -105,6 +105,7 @@ namespace ISILab.LBS.VisualElements
             t4.Init(exterior.Owner, exterior);
             toolKit.AddTool(t4);
 
+            addEmptyTile.SetRemover(removeTile);
         }
 
         private void OnTargetBundle() // FIX: set a better name

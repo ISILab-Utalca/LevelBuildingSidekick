@@ -88,7 +88,16 @@ namespace ISILab.LBS.VisualElements.Editor
             // Singleton
             if (instance != this)
                 instance = this;
+            
+            // right click on workspace does not display it's default options
+            RegisterCallback<MouseUpEvent>(evt =>
+            {
+                evt.PreventDefault();
+        
+            });
+
         }
+        
         #endregion
 
         #region INTERNAL_METHODS

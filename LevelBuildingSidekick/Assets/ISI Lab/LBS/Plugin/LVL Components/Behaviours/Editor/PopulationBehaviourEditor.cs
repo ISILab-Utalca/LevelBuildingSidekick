@@ -68,6 +68,8 @@ namespace ISILab.LBS.VisualElements
             var t2 = new LBSTool(icon, "Remove Tile", removePopulationTile);
             t2.Init(_target.Owner, _target);
             toolkit.AddTool(t2);
+            
+            addPopulationTile.SetRemover(removePopulationTile);
         }
 
         protected override VisualElement CreateVisualElement()

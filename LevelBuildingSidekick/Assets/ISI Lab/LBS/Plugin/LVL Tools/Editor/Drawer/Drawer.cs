@@ -24,7 +24,7 @@ namespace ISILab.LBS.Drawers
 
         public virtual Texture2D GetTexture(object target, Rect sourceRect, Vector2Int teselationSize)
         {
-            Debug.LogWarning("[ISI Lab]: Texture generation not implemented.");
+            LBSMainWindow.MessageNotify("Texture generation not implemented.", LogType.Warning);
             return new Texture2D(16, 16);
         }
     }

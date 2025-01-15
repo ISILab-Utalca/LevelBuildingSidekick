@@ -173,8 +173,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
             OnAddLayer?.Invoke(layer);
 
-            LBSMainWindow.MessageNotify("New Data layer created", LogType.Log, 2);
-            
+            LBSMainWindow.MessageNotify("New Data layer created");
             list.Rebuild();
         }
         
@@ -199,8 +198,7 @@ namespace ISILab.LBS.VisualElements.Editor
             OnRemoveLayer?.Invoke(layer);
             list.Rebuild();
 
-            LBSMainWindow.MessageNotify("Data layer deleted", LogType.Log, 2);
-            
+            LBSMainWindow.MessageNotify("Data layer deleted");
             DrawManager.ReDraw();
         }
 

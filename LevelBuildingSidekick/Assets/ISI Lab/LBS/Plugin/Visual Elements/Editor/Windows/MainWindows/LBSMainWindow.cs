@@ -114,11 +114,6 @@ public class LBSMainWindow : EditorWindow
         // LayerTemplate
         layerTemplates = DirectoryTools.GetScriptablesByType<LayerTemplate>();
 
-        // SubPanelScrollView
-        var subPanelScrollView = rootVisualElement.Q<ScrollView>("SubPanelScrollView");
-        subPanelScrollView.Q<VisualElement>("unity-content-and-vertical-scroll-container").pickingMode = PickingMode.Ignore;
-        subPanelScrollView.Q<VisualElement>("unity-content-viewport").pickingMode = PickingMode.Ignore;
-        subPanelScrollView.Q<VisualElement>("unity-content-container").pickingMode = PickingMode.Ignore;
 
         // Message Notifier
         notifier = rootVisualElement.Q<NotifierViewer>("NotifierViewer");
@@ -126,9 +121,6 @@ public class LBSMainWindow : EditorWindow
         var disableNotificationButton = rootVisualElement.Q<VisualElement>("DisableNotificationsButton");
         notifier.SetButtons(cleanButton, disableNotificationButton);
         
-        // ToolPanel
-        toolPanel = rootVisualElement.Q<ButtonGroup>("ToolsGroup");
-
         // LayerInspector
         layerInspector = rootVisualElement.Q<LayerInspector>("LayerInspector");
 
@@ -145,9 +137,7 @@ public class LBSMainWindow : EditorWindow
 
         // DrawManager
         drawManager = new DrawManager(ref mainView, ref layerTemplates);
-
-        // InspectorContent
-        inspectorManager = rootVisualElement.Q<LBSInspectorPanel>("InpectorPanel");
+        
 
         // ToolKitManager
         toolkit = rootVisualElement.Q<ToolKit>(name: "Toolkit");
@@ -177,25 +167,32 @@ public class LBSMainWindow : EditorWindow
             drawManager.RedrawLevel(levelData, mainView);
         };
 
-        // ExtraPanel
-        extraPanel = rootVisualElement.Q<VisualElement>("ExtraPanel");
-
         // NoLayerSign
         noLayerSign = rootVisualElement.Q<VisualElement>("NoLayerSign");
 
         // SelectedLabel
         selectedLabel = rootVisualElement.Q<Label>("SelectedLabel");
-
+      
+        #region Panels
+        
+        // InspectorContent
+        inspectorManager = rootVisualElement.Q<LBSInspectorPanel>("InpectorPanel");
+        
+        // SubPanelScrollView
+        var subPanelScrollView = rootVisualElement.Q<ScrollView>("SubPanelScrollView");
+        subPanelScrollView.Q<VisualElement>("unity-content-and-vertical-scroll-container").pickingMode = PickingMode.Ignore;
+        subPanelScrollView.Q<VisualElement>("unity-content-viewport").pickingMode = PickingMode.Ignore;
+        subPanelScrollView.Q<VisualElement>("unity-content-container").pickingMode = PickingMode.Ignore;
+        
+        // ToolPanel
+        toolPanel = rootVisualElement.Q<ButtonGroup>("ToolsGroup");
+        
+        // ExtraPanel
+        extraPanel = rootVisualElement.Q<VisualElement>("ExtraPanel");
+        
         // FloatingPanelContent
         floatingPanelContent = rootVisualElement.Q<VisualElement>("FloatingPanelContent");
-
-        // Init Data
-        OnLevelDataChange(levelData);
-        levelData.OnChanged += (lvl) =>
-        {
-            OnLevelDataChange(lvl);
-        };
-
+        
         // LayerPanel
         layerPanel = new LayersPanel(levelData, ref layerTemplates);
         extraPanel.Add(layerPanel);
@@ -241,7 +238,8 @@ public class LBSMainWindow : EditorWindow
         extraPanel.Add(questsPanel);
         questsPanel.style.display = DisplayStyle.None;
         questsPanel.OnSelectQuest += OnSelectedLayerChange;
-
+        #endregion
+        
         #region Extra Toolbar
         // LayerButton
         Toggle layerToggleButton = rootVisualElement.Q<Toggle>("LayerToggle");
@@ -322,8 +320,18 @@ public class LBSMainWindow : EditorWindow
         
         LBSController.OnLoadLevel += (l) => _selectedLayer = null;
         
+        
+        // Init Data
+        OnLevelDataChange(levelData);
+        levelData.OnChanged += (lvl) =>
+        {
+            OnLevelDataChange(lvl);
+        };
+        
         drawManager.RedrawLevel(levelData, mainView);
-  
+        
+
+
     }
     
     /// <summary>
