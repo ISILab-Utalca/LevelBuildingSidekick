@@ -30,6 +30,8 @@ namespace ISILab.LBS.VisualElements
         protected Vector2Int endPosition = new Vector2Int();
 
         public bool fixToTeselation = false;
+
+        public bool delete;
         #endregion
 
         #region PROPERTIES

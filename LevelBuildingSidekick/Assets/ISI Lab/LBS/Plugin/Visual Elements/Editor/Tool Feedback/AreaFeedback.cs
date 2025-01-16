@@ -13,6 +13,8 @@ namespace ISILab.LBS.VisualElements
         private static float borderThickness = 1f;
         private static float fillOpacity = 0.33f;
         private static readonly Color Colordefault = new (0.5f, 0.7f, 0.98f, 1);
+        private static readonly Color ColorDelete = Color.red;
+
 
         #endregion
         
@@ -26,7 +28,7 @@ namespace ISILab.LBS.VisualElements
         protected override void OnGenerateVisualContent(MeshGenerationContext mgc)
         {
             var painter = mgc.painter2D;
-            var ColorFill = Colordefault;
+            var ColorFill = delete ?  ColorDelete : Colordefault;
             ColorFill.a = fillOpacity;
             var fillColor = currentColor * ColorFill;
 
@@ -37,7 +39,7 @@ namespace ISILab.LBS.VisualElements
             new Vector2(endPosition.x, endPosition.y),
             new Vector2(endPosition.x, startPosition.y),
         };
-            painter.DrawPolygon(points, fillColor, Colordefault, borderThickness, true);
+            painter.DrawPolygon(points, fillColor, ColorFill, borderThickness, true);
         }
 
         public override void ActualizePositions(Vector2Int p1, Vector2Int p2)

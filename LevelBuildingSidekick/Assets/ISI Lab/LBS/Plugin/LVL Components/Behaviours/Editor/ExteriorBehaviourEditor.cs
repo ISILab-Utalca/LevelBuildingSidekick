@@ -79,15 +79,14 @@ namespace ISILab.LBS.VisualElements
             addEmptyTile = new AddEmptyTile();
             var t1 = new LBSTool(icon, "Add tile wihtout connection", addEmptyTile);
             t1.Init(exterior.Owner, exterior);
-            toolKit.AddTool(t1);
+         
 
             // Remove tile
             icon = Resources.Load<Texture2D>("Icons/Tools/Delete_exterior_tile");
             removeTile = new RemoveTileExterior();
             var t2 = new LBSTool(icon, "Remove Tile", removeTile);
             t2.Init(exterior.Owner, exterior);
-            toolKit.AddTool(t2);
-
+     
             toolKit.AddSeparator(10);
 
             // Set connection
@@ -96,16 +95,21 @@ namespace ISILab.LBS.VisualElements
             var t3 = new LBSTool(icon, "Set connection", setConnection);
             t3.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
             t3.Init(exterior.Owner, exterior);
-            toolKit.AddTool(t3);
-
+         
             // Remove connection
             icon = Resources.Load<Texture2D>("Icons/Tools/Delete_exterior_connection");
             removeConection = new RemoveConnection();
             var t4 = new LBSTool(icon, "Remove connection", removeConection);
             t4.Init(exterior.Owner, exterior);
+
+            addEmptyTile.SetAddRemoveConnection(removeTile);
+            setConnection.SetAddRemoveConnection(removeConection);
+            
+            toolKit.AddTool(t1);
+            toolKit.AddTool(t2);
+            toolKit.AddTool(t3);
             toolKit.AddTool(t4);
 
-            addEmptyTile.SetRemover(removeTile);
         }
 
         private void OnTargetBundle() // FIX: set a better name

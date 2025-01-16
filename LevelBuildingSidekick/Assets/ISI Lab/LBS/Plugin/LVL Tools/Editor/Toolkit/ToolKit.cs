@@ -1,17 +1,12 @@
-using LBS.Components;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using LBS.VisualElements;
+using UnityEngine.UIElements;
+
+using System.Collections.Generic;
 using System.Linq;
 using System;
-using UnityEngine.UIElements;
-using UnityEditor;
-using System.Speech.Recognition;
-using static UnityEngine.GraphicsBuffer;
+
 using LBS.Settings;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
+using LBS.Components;
 using ISILab.Commons.Utility;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.VisualElements.Editor;
@@ -271,9 +266,47 @@ namespace LBS.VisualElements
                 SetActive(index);
             });
             button.SetColorGroup(baseColor, LBSSettings.Instance.view.toolkitSelected);
-
+            
+            // for tools that add
+            if (tool.Manipulator.Remover != null)
+            {
+                // right clicking removes
+                tool.Manipulator.OnManipulationRightClick += () =>
+                {
+                    foreach ((LBSTool toolItem, ToolButton button) tuple in tools)
+                    {
+                        if (tuple.toolItem.Manipulator == tool.Manipulator.Remover)
+                        {
+                            int index = tools.FindIndex(t => t.Item1.Manipulator == tool.Manipulator.Remover);
+                            SetActive(index);
+                            MainView.Instance.SetManipulator(tool.Manipulator.Remover, true);
+                            break; 
+                        }
+                    }
+                };
+            }
+            // for tools that remove
+            if (tool.Manipulator.Adder != null)
+            {
+                // once it was used via right click go back to its corresponding add tool
+                tool.Manipulator.OnManipulationRightClickEnd += () =>
+                {
+                    foreach ((LBSTool toolItem, ToolButton button) tuple in tools)
+                    {
+                        if (tuple.toolItem.Manipulator == tool.Manipulator.Adder)
+                        {
+                            int index = tools.FindIndex(t => t.Item1.Manipulator == tool.Manipulator.Adder);
+                            SetActive(index);
+                            MainView.Instance.SetManipulator(tool.Manipulator.Adder, true);
+                            break; 
+                        }
+                    }
+                };
+            }
+            
             tool.OnStart += (l) => { OnStartAction?.Invoke(l); };
             tool.OnEnd += (l) => { OnEndAction?.Invoke(l); };
+            
 
         }
 

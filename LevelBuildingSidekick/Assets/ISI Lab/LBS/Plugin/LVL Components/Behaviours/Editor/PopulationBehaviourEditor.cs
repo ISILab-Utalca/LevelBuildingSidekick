@@ -53,23 +53,27 @@ namespace ISILab.LBS.VisualElements
             var t1 = new LBSTool(icon, "Paint Tile", addPopulationTile);
             t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
             t1.Init(_target.Owner, _target);
-            toolkit.AddTool(t1);
+
 
             // Rotate element
             icon = Resources.Load<Texture2D>("Icons/Tools/Rotacion_population");
             rotatePopulationTile = new RotatePopulationTile();
             var t3 = new LBSTool(icon, "Rotate Tile", rotatePopulationTile);
             t3.Init(_target.Owner, _target);
-            toolkit.AddTool(t3);
+     
 
             // Remove Tiles
             icon = Resources.Load<Texture2D>("Icons/Tools/Delete_population");
             removePopulationTile = new RemovePopulationTile();
             var t2 = new LBSTool(icon, "Remove Tile", removePopulationTile);
             t2.Init(_target.Owner, _target);
-            toolkit.AddTool(t2);
+
             
-            addPopulationTile.SetRemover(removePopulationTile);
+            addPopulationTile.SetAddRemoveConnection(removePopulationTile);
+            
+            toolkit.AddTool(t1);
+            toolkit.AddTool(t2);
+            toolkit.AddTool(t3);
         }
 
         protected override VisualElement CreateVisualElement()

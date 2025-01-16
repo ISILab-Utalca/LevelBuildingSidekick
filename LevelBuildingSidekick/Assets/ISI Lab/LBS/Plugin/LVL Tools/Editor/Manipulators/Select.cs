@@ -1,9 +1,9 @@
 using ISILab.LBS.Modules;
 using ISILab.LBS.VisualElements;
 using LBS.Components;
-using System.Collections;
+   
 using System.Collections.Generic;
-using System.Linq;
+
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -36,9 +36,7 @@ namespace ISILab.LBS.Manipulators
         {
            
             current = LBSInspectorPanel.Instance.data;
-
-            // Get fixed position
-
+            
             // Get selectable elements
             var selected = new List<object>();
             foreach (var module in layer.Modules)
