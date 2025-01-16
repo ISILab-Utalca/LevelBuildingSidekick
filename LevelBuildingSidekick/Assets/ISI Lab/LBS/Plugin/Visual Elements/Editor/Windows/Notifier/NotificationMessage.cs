@@ -1,5 +1,6 @@
 using System;
 using ISILab.Commons.Utility.Editor;
+using LBS.Settings;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -49,10 +50,10 @@ namespace LBS.VisualElements
             
             Color setColor = logType switch
             {
-                LogType.Error => new Color(1, 0.2f, 0.2f, 1),
-                LogType.Assert => new Color(1, 0.2f, 0.2f, 1),
-                LogType.Warning => new Color(1, 0.8f, 0.1f, 1),
-                LogType.Log => new Color(1, 1, 1, 1),
+                LogType.Error => LBSSettings.Instance.view.errorColor,
+                LogType.Assert => LBSSettings.Instance.view.errorColor,
+                LogType.Warning => LBSSettings.Instance.view.warningColor,
+                LogType.Log => LBSSettings.Instance.view.okColor,
                 LogType.Exception => new Color(1, 1, 1, 0),
                 _ => throw new ArgumentOutOfRangeException(nameof(logType), logType, null)
             };

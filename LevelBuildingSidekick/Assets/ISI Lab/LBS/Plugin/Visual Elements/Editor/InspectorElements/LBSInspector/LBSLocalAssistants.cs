@@ -19,7 +19,7 @@ namespace ISILab.LBS.VisualElements
         public new class UxmlFactory : UxmlFactory<LBSLocalAssistants, UxmlTraits> { }
         #endregion
 
-        private Color color => LBSSettings.Instance.view.assitantsColor;
+        private Color color => LBSSettings.Instance.view.assistantColor;
 
         private VisualElement content;
         private VisualElement noContentPanel;

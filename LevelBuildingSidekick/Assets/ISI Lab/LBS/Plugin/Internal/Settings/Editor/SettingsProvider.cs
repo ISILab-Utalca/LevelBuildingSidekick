@@ -255,8 +255,19 @@ namespace ISILab.LBS.Settings
 
                     // Assistants Color
                     EditorGUILayout.BeginHorizontal();
-                    settings.view.assitantsColor = EditorGUILayout.ColorField("Assistants color", settings.view.assitantsColor);
+                    settings.view.assistantColor = EditorGUILayout.ColorField("Assistants color", settings.view.assistantColor);
                     EditorGUILayout.EndHorizontal();
+                    
+                    EditorGUILayout.Space();
+                    EditorStyles.boldLabel.fontSize = 14;
+                    EditorGUILayout.LabelField("Notifications", EditorStyles.boldLabel);
+                    
+                    // Notification Color
+                    settings.view.errorColor = EditorGUILayout.ColorField("Error Color", settings.view.errorColor);
+                    settings.view.warningColor = EditorGUILayout.ColorField("Warning Color", settings.view.warningColor);
+                    settings.view.okColor = EditorGUILayout.ColorField("Default Color", settings.view.okColor);
+                    settings.view.successColor = EditorGUILayout.ColorField("Success Color", settings.view.successColor);
+                    
 
                     // Set Default button
                     EditorGUILayout.BeginHorizontal();
@@ -270,7 +281,7 @@ namespace ISILab.LBS.Settings
                         settings.view.bundlesColor = newSettings.view.bundlesColor;
                         settings.view.tagsColor = newSettings.view.tagsColor;
                         settings.view.behavioursColor = newSettings.view.behavioursColor;
-                        settings.view.assitantsColor = newSettings.view.assitantsColor;
+                        settings.view.assistantColor = newSettings.view.assistantColor;
                         EditorUtility.SetDirty(settings);
                     }
                     EditorGUILayout.EndHorizontal();

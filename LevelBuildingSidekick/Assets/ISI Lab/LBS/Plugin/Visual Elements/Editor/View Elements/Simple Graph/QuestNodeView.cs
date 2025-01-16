@@ -10,6 +10,7 @@ using Label = UnityEngine.UIElements.Label;
 using ISILab.Extensions;
 using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
+using LBS.Settings;
 using UnityEditor;
 using UnityEditor.UIElements;
 
@@ -20,56 +21,55 @@ namespace ISILab.LBS.VisualElements
      */
     public class QuestNodeView : GraphElement
     {
-        private QuestNode node;
-        
-        private static VisualTreeAsset view;
+        private QuestNode _node;
+        private VisualElement _root;
+        private static VisualTreeAsset _view;
 
-        private ToolbarMenu toolbar;
-        private Label label;
-        private VisualElement root;
+        private ToolbarMenu _toolbar;
+        private Label _label;
 
         public Action<Rect> OnMoving;
 
-        public static Color32 GrammarWrong = Color.yellow;
-        public static Color32 MapWrong = Color.red;
-        public static Color32 Unchecked = Color.white;
-        public static Color32 Correct = Color.blue;
+        public static Color GrammarWrong = LBSSettings.Instance.view.warningColor;
+        public static Color MapWrong = LBSSettings.Instance.view.errorColor;
+        public static Color Unchecked = LBSSettings.Instance.view.okColor ;
+        public static Color Correct = LBSSettings.Instance.view.successColor;
 
         protected QuestNodeView() { }
 
         public QuestNodeView(QuestNode node)
         {
-            if (view == null)
+            if (_view == null)
             {
-                view = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNodeView");
+                _view = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNodeView");
             }
-            view.CloneTree(this);
+            _view.CloneTree(this);
 
             // Label
-            label = this.Q<Label>();
-            root = this.Q<VisualElement>(name: "root");
-            toolbar = this.Q<ToolbarMenu>("ToolBar");
-            toolbar.menu.AppendAction("Make root", MakeRoot);
-            toolbar.style.display = DisplayStyle.None;
+            _label = this.Q<Label>("Title");
+            _root = this.Q<VisualElement>(name: "Root");
+            _toolbar = this.Q<ToolbarMenu>("ToolBar");
+            _toolbar.menu.AppendAction("Make Graph Root", MakeRoot);
+            _toolbar.style.display = DisplayStyle.None;
             SetText(node.QuestAction);
             SetBorder(node);
             
             RegisterCallback<MouseDownEvent>(OnMouseDown);
             
-            this.node = node;
+            this._node = node;
         }
 
         private void SetBorder(QuestNode node)
         {
-            root.SetBorder(Unchecked);
+            _root.SetBorder(Unchecked);
 
             if (!node.GrammarCheck)
             {
-                root.SetBorder(GrammarWrong);
+                _root.SetBorder(GrammarWrong);
                 return;
             }
 
-            root.SetBorder(Correct);
+            _root.SetBorder(Correct);
         }
 
         public override void SetPosition(Rect newPos)
@@ -90,7 +90,7 @@ namespace ISILab.LBS.VisualElements
                 text = text.Substring(0, 8) + "...";
             }
 
-            label.text = text;
+            _label.text = text;
         }
         
         private void OnMouseDown(MouseDownEvent evt)
@@ -98,14 +98,14 @@ namespace ISILab.LBS.VisualElements
             // RightClick
             if (evt.button == 1)
             {
-                toolbar.style.display = DisplayStyle.Flex;
-                toolbar.ShowMenu();
+                _toolbar.style.display = DisplayStyle.Flex;
+                _toolbar.ShowMenu();
             }
         }
 
         private void MakeRoot(DropdownMenuAction obj)
         {
-            node.Graph.SetRoot(node);
+            _node.Graph.SetRoot(_node);
         }
         
     }

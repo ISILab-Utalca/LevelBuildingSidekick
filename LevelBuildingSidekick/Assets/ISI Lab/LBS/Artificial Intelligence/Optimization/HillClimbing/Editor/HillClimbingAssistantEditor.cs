@@ -18,7 +18,7 @@ namespace ISILab.LBS.VisualElements
     [LBSCustomEditor("HillClimbingAssistant", typeof(HillClimbingAssistant))]
     public class HillClimbingAssistantEditor : LBSCustomEditor, IToolProvider
     {
-        private readonly UnityEngine.Color AssColor = LBSSettings.Instance.view.assitantsColor;
+        private readonly UnityEngine.Color AssColor = LBSSettings.Instance.view.assistantColor;
 
         private HillClimbingAssistant hillClimbing;
 

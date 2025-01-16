@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace LBS.Settings
 {
@@ -98,13 +99,17 @@ namespace LBS.Settings
         [System.Serializable]
         public class Interface
         {
-            public Color toolkitSelected = new Color(254f / 255f, 118f / 255f, 105f / 255f);
+            public Color toolkitSelected = new Color(1f, 0.46f, 0.41f);
+            public Color behavioursColor = new Color(0.53f, 0.84f, 0.96f);
+            [FormerlySerializedAs("assitantsColor")] public Color assistantColor = new Color(0.76f, 0.96f, 0.44f);
+            public Color bundlesColor = new Color(0.5f, 0.69f, 0.98f);
+            public Color tagsColor = new Color(0.93f, 0.81f, 0.42f);
 
-            public Color behavioursColor = new Color(135f / 255f, 215f / 255f, 246f / 255f);
-            public Color assitantsColor = new Color(0f / 255f, 0f / 255f, 0f / 255f);
-
-            public Color bundlesColor = new Color(0f / 255f, 0f / 255f, 0f / 255f);
-            public Color tagsColor = new Color(0f / 255f, 0f / 255f, 0f / 255f);
+            public Color warningColor = new Color(1f, 0.76f, 0.03f);
+            public Color errorColor = new Color(0.81f, 0.13f, 0.31f);
+            public Color okColor = Color.white;
+            public Color successColor = new Color(0f, 1f, 0.68f);
+            
         }
     }
 

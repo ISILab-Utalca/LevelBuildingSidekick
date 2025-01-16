@@ -46,7 +46,7 @@ namespace ISILab.LBS.VisualElements
         {
             var painter = mgc.painter2D;
             // line
-            painter.DrawDottedLine(Vector2.zero, pos2 - pos1, Color.white);
+            painter.DrawDottedLine(Vector2.zero, pos2 - pos1, Color.white, 3f, 5f);
                
             // arrow
             var pos = pos2 - pos1;
