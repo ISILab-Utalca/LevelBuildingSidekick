@@ -220,6 +220,16 @@ namespace ISILab.Extensions
             paint2D.Stroke();
         }
         
+        
+        
+        /// <summary>
+        /// Create a triangle arrow facing <c>arrowDirection</c>.
+        /// </summary>
+        /// <param name="center"> The Vector2 center point.</param>
+        /// <param name="arrowDirection"> A normalized vector facing direction</param>
+        /// <param name="arrowWidth"> the width of the triangle face</param>
+        /// <param name="color"> Fill color </param>
+        /// <param name="thickness"> The border thickness</param>
         public static void DrawEquilateralArrow(this Painter2D painter, 
             Vector2 center,
             Vector2 arrowDirection,

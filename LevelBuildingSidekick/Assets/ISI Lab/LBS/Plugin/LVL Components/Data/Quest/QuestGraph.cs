@@ -87,7 +87,7 @@ namespace ISILab.LBS.Modules
             IsVisible = true;
             //root = new QuestNode("Start Node", Vector2.zero, "Start Node");
             //questNodes.Add(root);
-            nodeSize = new Vector2Int(3, 1);
+            nodeSize = new Vector2Int(5, 1);
         }
 
         public void SetRoot(QuestNode node)

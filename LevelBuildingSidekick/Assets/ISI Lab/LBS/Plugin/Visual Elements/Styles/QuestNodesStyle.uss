@@ -18,8 +18,50 @@
     border-right-color: rgba(255, 255, 255, 0.2);
     border-top-color: rgba(255, 255, 255, 0.2);
     border-bottom-color: rgba(255, 255, 255, 0.2);
+    border-top-left-radius: 22px;
+    border-bottom-left-radius: 22px;
+    border-top-right-radius: 22px;
+    border-bottom-right-radius: 22px;
+    min-height: 24px;
+    min-width: 128px;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 8px;
+    padding-right: 4px;
+    padding-top: 8px;
+    padding-bottom: 8px;
 }
 
 .node Label {
     font-size: 14px;
+    -unity-font-style: bold;
+    color: rgb(255, 255, 255);
+    -unity-text-align: middle-left;
+    white-space: nowrap;
+    flex-grow: 1;
+    flex-shrink: 0;
+}
+
+.node > VisualElement {
+    visibility: visible;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-self: auto;
+    flex-grow: 1;
+    flex-shrink: 0;
+}
+
+.node-icon {
+    flex-shrink: 0;
+    max-height: 24px;
+    max-width: 24px;
+    min-width: 16px;
+    min-height: 16px;
+}
+
+.node-status {
 }
