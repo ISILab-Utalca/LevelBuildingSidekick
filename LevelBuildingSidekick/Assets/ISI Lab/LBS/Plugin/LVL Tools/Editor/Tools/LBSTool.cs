@@ -3,9 +3,7 @@ using ISILab.LBS.VisualElements;
 using ISILab.LBS.VisualElements.Editor;
 using LBS.Components;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace LBS
@@ -22,6 +20,7 @@ namespace LBS
         public Texture2D Icon => icon;
         public string Name => name;
         public LBSManipulator Manipulator => manipulator;
+        
         #endregion
 
         #region EVENTS
@@ -55,7 +54,7 @@ namespace LBS
         public void BindButton(ToolButton button)
         {
             var canvas = MainView.Instance;
-
+            
             button.OnFocusEvent += () =>
             {
                 canvas.AddManipulator(this.manipulator);
@@ -67,6 +66,7 @@ namespace LBS
                 OnDeselect?.Invoke();
             };
         }
+        
         #endregion;
     }
 }

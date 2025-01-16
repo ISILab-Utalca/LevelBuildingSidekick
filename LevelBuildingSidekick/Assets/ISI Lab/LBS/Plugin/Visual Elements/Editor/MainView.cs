@@ -66,6 +66,8 @@ namespace ISILab.LBS.VisualElements.Editor
 
         private LayerContainer defaultLayer = new LayerContainer();
         private Dictionary<LBSLayer, LayerContainer> layers = new Dictionary<LBSLayer, LayerContainer>();
+        // shared manipulators such as drag, zoom
+        private List<Manipulator> defaultManipulators = new List<Manipulator>();
         #endregion
 
         #region EVENTS
@@ -137,6 +139,7 @@ namespace ISILab.LBS.VisualElements.Editor
             var sDragger = new SelectionDragger();
 
             var manis = new List<Manipulator>() { zoomer, cDragger, sDragger };
+            defaultManipulators = manis;
             SetManipulators(manis);
         }
 
@@ -149,9 +152,10 @@ namespace ISILab.LBS.VisualElements.Editor
             }
         }
 
-        public void SetManipulator(Manipulator current)
+        public void SetManipulator(Manipulator current, bool keepDefaults = false)
         {
             ClearManipulators();
+            if(keepDefaults) AddManipulators(defaultManipulators);
             this.AddManipulator(current);
         }
 
@@ -160,7 +164,7 @@ namespace ISILab.LBS.VisualElements.Editor
             ClearManipulators();
             AddManipulators(manipulators);
         }
-
+        
         public void ClearManipulators()
         {
             foreach (var m in this.manipulators)
@@ -187,6 +191,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
         public void AddManipulator(Manipulator manipulator)
         {
+            if (manipulators.Contains(manipulator)) return;
             this.manipulators.Add(manipulator);
             this.AddManipulator(manipulator as IManipulator);
         }

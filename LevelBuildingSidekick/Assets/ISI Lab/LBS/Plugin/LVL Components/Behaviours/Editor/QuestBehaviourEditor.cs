@@ -72,8 +72,6 @@ namespace ISILab.LBS.VisualElements
             removeNode = new RemoveQuestNode();
             var t2 = new LBSTool(icon, "Remove Quest Node", removeNode);
             t2.Init(ass.Owner, target);
-
-            addNode.SetRemover(removeNode);
             
             icon = Resources.Load<Texture2D>("Icons/Quest_Icon/Node_Connection_Quest");
             connectNodes = new ConnectQuestNodes();
@@ -85,12 +83,15 @@ namespace ISILab.LBS.VisualElements
             var t4 = new LBSTool(icon, "Remove Quest Connection", removeConnection);
             t4.Init(ass.Owner, target);
 
-            connectNodes.SetRemover(removeConnection);
+            addNode.SetAddRemoveConnection(removeNode);
+            connectNodes.SetAddRemoveConnection(removeConnection);
             
             toolkit.AddTool(t1);
             toolkit.AddTool(t2);
             toolkit.AddTool(t3);
             toolkit.AddTool(t4);
+            
+    
         }
 
         protected override VisualElement CreateVisualElement()

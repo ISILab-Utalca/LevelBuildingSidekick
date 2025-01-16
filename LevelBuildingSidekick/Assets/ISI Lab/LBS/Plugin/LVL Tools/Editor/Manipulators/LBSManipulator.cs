@@ -1,13 +1,14 @@
 using LBS.Components;
 using LBS.VisualElements;
 using System;
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
 using ISILab.LBS.VisualElements.Editor;
 using ISILab.LBS.VisualElements;
+using LBS;
+using UnityEditor;
 
 namespace ISILab.LBS.Manipulators
 {
@@ -19,8 +20,13 @@ namespace ISILab.LBS.Manipulators
 
         private bool started = false;
         private bool ended = false;
-        // if the manipulator paints, assign the deleter to be usable by right click
+        private bool isRightClick = false;
+        // referenced by adders. usable by right click
         private LBSManipulator remover;
+
+   
+        // referenced by deleters. If activatedByOther, sets adder as manipulator in MainView
+        private LBSManipulator adder;
         
         private Vector2Int startClickPosition = Vector2Int.zero;
         private Vector2Int moveClickPosition = Vector2Int.zero;
@@ -28,6 +34,20 @@ namespace ISILab.LBS.Manipulators
         #endregion
 
         #region PROPERTIES
+        public bool IsRightClick
+        {
+            get { return isRightClick; }
+            set { isRightClick = value; }
+        }
+        public LBSManipulator Adder
+        {
+            get { return adder; }
+        }
+        public LBSManipulator Remover
+        {
+            get { return remover; }
+        }
+        
         public Vector2Int StartPosition
         {
             get
@@ -42,6 +62,7 @@ namespace ISILab.LBS.Manipulators
                     return default;
                 }
             }
+            set => startClickPosition = value;
         }
 
         public Vector2Int CurrentPosition
@@ -76,9 +97,10 @@ namespace ISILab.LBS.Manipulators
             }
         }
 
-        public void SetRemover(LBSManipulator remover)
+        public void SetAddRemoveConnection(LBSManipulator remover)
         {
             this.remover = remover;
+            remover.adder = this;
         }
         #endregion
 
@@ -87,6 +109,8 @@ namespace ISILab.LBS.Manipulators
         public Action OnManipulationStart;
         public Action OnManipulationUpdate;
         public Action OnManipulationEnd;
+        public Action OnManipulationRightClick;
+        public Action OnManipulationRightClickEnd;
         #endregion
 
         #region METHODS
@@ -130,7 +154,8 @@ namespace ISILab.LBS.Manipulators
         {
             if (feedback == null)
                 return;
-
+            
+            UpdateFeedbackColor();
             MainView.Instance.AddElement(feedback);
             feedback.ActualizePositions(startClickPosition, startClickPosition);
         }
@@ -140,13 +165,19 @@ namespace ISILab.LBS.Manipulators
         /// </summary>
         private void UpdateFeedback()
         {
-            if (feedback == null)
-                return;
+            if (feedback == null) return;
+            if (!started) return;
 
-            if (!started)
-                return;
-
+            UpdateFeedbackColor();
             feedback.ActualizePositions(startClickPosition, moveClickPosition);
+        }
+        
+        // if it has an adder ref it means the manipulator's function is to delete
+        private bool UpdateFeedbackColor()
+        {
+            bool deleting = remover is { isRightClick: true } || adder is not null;
+            feedback.delete = deleting;
+            return deleting;
         }
 
         /// <summary>
@@ -157,6 +188,7 @@ namespace ISILab.LBS.Manipulators
             if (feedback == null)
                 return;
 
+            UpdateFeedbackColor();
             MainView.Instance.RemoveElement(feedback);
         }
 
@@ -168,26 +200,33 @@ namespace ISILab.LBS.Manipulators
         {
             if (e.button != 0 && e.button != 1)
                 return;
-     
+            
             // right click tries deleting 
             if (e.button == 1 && remover != null)
             {
-                var ne = MouseDownEvent.GetPooled(e.mousePosition, 0, e.clickCount, e.mouseDelta, e.modifiers);
+                remover.isRightClick = true;
+                OnManipulationRightClick?.Invoke();
+                
+                var ne = MouseDownEvent.GetPooled(e.localMousePosition, 0, e.clickCount, e.mouseDelta, e.modifiers);
                 ne.target = e.target as VisualElement;
+                e.StopImmediatePropagation();
                 remover.OnInternalMouseDown(ne);
-                /*
-                var simDelete = MouseDownEvent.GetPooled(e.mousePosition, 0, e.clickCount, e.mouseDelta, e.modifiers);
-                simDelete.target = e.target as VisualElement;
-                remover.OnMouseDown(simDelete.target as VisualElement, startClickPosition, simDelete);
-                */return;
+                return;
             }
-
+            
             started = true;
             startClickPosition = MainView.Instance.FixPos(e.localMousePosition).ToInt();
             StartFeedback();
 
             OnManipulationStart?.Invoke();
             OnMouseDown(e.target as VisualElement, startClickPosition, e);
+            
+            // check if last called by adder
+            if (isRightClick)
+            {
+                OnManipulationRightClickEnd?.Invoke();
+                adder.OnInternalMouseDown(e);
+            }
         }
 
         /// <summary>
@@ -198,12 +237,15 @@ namespace ISILab.LBS.Manipulators
         {
             if (e.button != 0 && e.button != 1)
                 return;
-
+            
             // right click tries deleting 
             if (e.button == 1 && remover != null)
             {
-                var ne = MouseMoveEvent.GetPooled(e.mousePosition, 0, e.clickCount, e.mouseDelta, e.modifiers);
+                var ne = MouseMoveEvent.GetPooled(e.localMousePosition, 0, e.clickCount, e.mouseDelta, e.modifiers);
                 ne.target = e.target as VisualElement;
+                remover.isRightClick = true;
+                e.StopImmediatePropagation();
+                MainView.Instance.RemoveManipulator(adder);
                 remover.OnInternalMouseMove(ne);
                 return;
             }
@@ -231,9 +273,18 @@ namespace ISILab.LBS.Manipulators
             // right click tries deleting 
             if (e.button == 1 && remover != null)
             {
-                var ne = MouseUpEvent.GetPooled(e.mousePosition, 0, e.clickCount, e.mouseDelta, e.modifiers);
+                remover.isRightClick = true;
+                OnManipulationRightClick?.Invoke();
+                var ne = MouseUpEvent.GetPooled(e.localMousePosition, 0, e.clickCount, e.mouseDelta, e.modifiers);
                 ne.target = e.target as VisualElement;
+                e.StopImmediatePropagation();
                 remover.OnInternalMouseUp(ne);
+                return;
+            }
+            
+            if (e.button == 1 && remover != null)
+            {
+                OnManipulationRightClick?.Invoke();
                 return;
             }
             
@@ -244,6 +295,18 @@ namespace ISILab.LBS.Manipulators
             }
 
             ended = started = false;
+
+            // if it's a deleter called from an adder
+            if (isRightClick)
+            {
+                isRightClick = false;
+                OnManipulationRightClickEnd?.Invoke();
+            }
+        }
+
+        private void SetSelfAsManipulator()
+        {
+            MainView.Instance.SetManipulator(this, true);
         }
         #endregion
 

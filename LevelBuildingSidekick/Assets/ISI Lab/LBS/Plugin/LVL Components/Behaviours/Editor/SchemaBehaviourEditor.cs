@@ -5,13 +5,10 @@ using ISILab.LBS.Manipulators;
 using ISILab.LBS.VisualElements;
 using LBS;
 using LBS.Bundles;
-using LBS.Components.TileMap;
 using LBS.Settings;
 using LBS.VisualElements;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -61,18 +58,14 @@ namespace ISILab.LBS.Behaviours.Editor
             t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
             t1.OnEnd += (l) => areaPallete.Repaint();
             t1.Init(_target.Owner, _target);
-            toolKit.AddTool(t1);
-
+            
             // Remove Tiles
             icon = Resources.Load<Texture2D>("Icons/Tools/Delete_interior_tile");
             this.removeSchemaTile = new RemoveSchemaTile();
             var t2 = new LBSTool(icon, "Remove Tile", removeSchemaTile);
             t2.Init(_target.Owner, _target);
-            toolKit.AddTool(t2);
-
-            createNewRoomNode.SetRemover(removeSchemaTile);
             
-            toolKit.AddSeparator(10);
+            toolKit.AddSeparator();
 
             // Add Tile connection
             icon = Resources.Load<Texture2D>("Icons/Tools/Set_Connection");
@@ -80,21 +73,22 @@ namespace ISILab.LBS.Behaviours.Editor
             var t3 = new LBSTool(icon, "Set connection", setTileConnection);
             t3.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
             t3.Init(_target.Owner, _target);
-            toolKit.AddTool(t3);
+       
 
             // Remove Tile connection
             icon = Resources.Load<Texture2D>("Icons/Tools/Delete_Set_Connection");
             this.removeTileConnection = new RemoveTileConnection();
             var t4 = new LBSTool(icon, "Clean connection", removeTileConnection);
             t4.Init(_target.Owner, _target);
-            toolKit.AddTool(t4);
+      
             
-            setTileConnection.SetRemover(removeTileConnection);
-        }
-
-        public override void ContextMenu(ContextualMenuPopulateEvent evt)
-        {
-
+            createNewRoomNode.SetAddRemoveConnection(removeSchemaTile);
+            setTileConnection.SetAddRemoveConnection(removeTileConnection);
+            
+            toolKit.AddTool(t1);
+            toolKit.AddTool(t2);
+            toolKit.AddTool(t3);
+            toolKit.AddTool(t4);
         }
 
         public override void SetInfo(object target)
