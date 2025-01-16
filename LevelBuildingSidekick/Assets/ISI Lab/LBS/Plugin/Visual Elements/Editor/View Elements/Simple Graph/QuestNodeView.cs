@@ -1,17 +1,13 @@
 using ISILab.Commons.Utility.Editor;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Reflection.Emit;
+
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Label = UnityEngine.UIElements.Label;
 using ISILab.Extensions;
 using ISILab.LBS.Components;
-using ISILab.LBS.Modules;
 using LBS.Settings;
-using UnityEditor;
 using UnityEditor.UIElements;
 
 namespace ISILab.LBS.VisualElements
@@ -61,15 +57,15 @@ namespace ISILab.LBS.VisualElements
 
         private void SetBorder(QuestNode node)
         {
-            _root.SetBorder(Unchecked);
+            _root.SetBorder(Unchecked, 1f);
 
             if (!node.GrammarCheck)
             {
-                _root.SetBorder(GrammarWrong);
+                _root.SetBorder(GrammarWrong, 1f);
                 return;
             }
 
-            _root.SetBorder(Correct);
+            _root.SetBorder(Correct, 1f);
         }
 
         public override void SetPosition(Rect newPos)

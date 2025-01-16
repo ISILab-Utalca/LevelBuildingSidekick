@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.Overlays;
 using UnityEngine;
@@ -218,6 +219,27 @@ namespace ISILab.Extensions
             paint2D.Fill(FillRule.OddEven);
             paint2D.Stroke();
         }
+        
+        public static void DrawEquilateralArrow(this Painter2D painter, 
+            Vector2 center,
+            Vector2 arrowDirection,
+            float arrowWidth,
+            Color color,
+            float thickness = 1)
+        {
+            // perpendicular according to https://mathworld.wolfram.com/PerpendicularVector.html
+            Vector2 perpendicular = new Vector2(arrowDirection.y, -arrowDirection.x);
+            float arrowLength = arrowWidth * Mathf.Sqrt(3f) / 2f;
+            
+            // Define the arrow points relative to the midpoint
+            List<Vector2> arrowPoints = new List<Vector2>()
+            {
+                center - arrowDirection * arrowLength * 0.5f + perpendicular * arrowWidth * 0.5f, // Left base
+                center + arrowDirection * arrowLength * 0.5f,                                                       // Arrow tip
+                center - arrowDirection * arrowLength * 0.5f - perpendicular * arrowWidth * 0.5f  // Right base
+            };
+            painter.DrawPolygon(arrowPoints, color, color, 1f);
+        }
 
         /// <summary>
         /// Rotates a Vector2 object by a given number of degrees around the origin point (0,0).
@@ -236,6 +258,7 @@ namespace ISILab.Extensions
             vector.y = (sin * tx) + (cos * ty);
             return vector;
         }
+        
         
     }
 }

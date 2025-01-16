@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 
-// Extensions are allways static classes
+// Extensions are always static classes
 namespace ISILab.Extensions 
 {
     public static class VisualElementExtensions
