@@ -36,7 +36,7 @@ namespace ISILab.LBS.Manipulators
         {
             if (ActionToSet == null)
             {
-                LBSMainWindow.MessageNotify("They have nothing selected, make sure to select a grammar and a word for it to work.", LogType.Warning);
+                LBSMainWindow.MessageNotify("Can't add node. Make sure to select a grammar and a word.", LogType.Error, 5);
                 return;
             }
 
