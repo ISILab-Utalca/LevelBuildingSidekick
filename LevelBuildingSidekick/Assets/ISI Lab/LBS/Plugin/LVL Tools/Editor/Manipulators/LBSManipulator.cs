@@ -215,7 +215,7 @@ namespace ISILab.LBS.Manipulators
             }
             
             started = true;
-            startClickPosition = MainView.Instance.FixPos(e.localMousePosition).ToInt();
+             
             StartFeedback();
 
             OnManipulationStart?.Invoke();
