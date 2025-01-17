@@ -7,6 +7,9 @@ using UnityEngine.UIElements;
 using Label = UnityEngine.UIElements.Label;
 using ISILab.Extensions;
 using ISILab.LBS.Components;
+using ISILab.LBS.Manipulators;
+using ISILab.LBS.Modules;
+using ISILab.LBS.VisualElements.Editor;
 using LBS.Settings;
 using UnityEditor.UIElements;
 
@@ -51,8 +54,14 @@ namespace ISILab.LBS.VisualElements
             SetBorder(node);
             
             RegisterCallback<MouseDownEvent>(OnMouseDown);
-            
+            RegisterCallback<MouseMoveEvent>(OnMouseMove);
+            RegisterCallback<MouseLeaveEvent>(OnMouseLeave);
             this._node = node;
+        }
+
+        private void OnMouseLeave(MouseLeaveEvent e)
+        {
+            OnMouseMove(MouseMoveEvent.GetPooled(e.mousePosition, e.button, e.clickCount, e.mouseDelta, EventModifiers.None ));
         }
 
         private void SetBorder(QuestNode node)
@@ -87,6 +96,28 @@ namespace ISILab.LBS.VisualElements
             }
 
             _label.text = text;
+        }
+
+        private void OnMouseMove(MouseMoveEvent e)
+        {
+            // left button pressed
+            if (e.pressedButtons != 1) return;
+            if (!MainView.Instance.HasManipulator<Select>() ) return;
+            
+            var grabPosition =  GetPosition().position + e.mouseDelta / MainView.Instance.viewTransform.scale;
+            grabPosition *= MainView.Instance.viewport.transform.scale;
+            Rect newPos = new Rect(grabPosition.x, grabPosition.y, resolvedStyle.width, resolvedStyle.height);
+            SetPosition(newPos);
+            _node.Position = grabPosition.ToInt();
+            /*
+
+            var mousPos = MainView.Instance.FixPos(e.mouseDelta);
+            var vect = mousPos + GetPosition().position;
+            Rect newPos = new Rect(vect.x, vect.y, resolvedStyle.width, resolvedStyle.height);
+            SetPosition(newPos);
+
+
+            */
         }
         
         private void OnMouseDown(MouseDownEvent evt)

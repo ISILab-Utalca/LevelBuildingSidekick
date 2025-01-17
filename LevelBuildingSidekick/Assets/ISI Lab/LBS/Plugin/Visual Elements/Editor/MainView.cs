@@ -4,6 +4,7 @@ using LBS.Settings;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -207,6 +208,13 @@ namespace ISILab.LBS.VisualElements.Editor
                 }
             }
         }
+        
+        public bool HasManipulator<T>() where T : Manipulator
+        {
+            return manipulators.Any(m => m is T);
+        }
+
+
 
         #endregion
 
@@ -281,5 +289,6 @@ namespace ISILab.LBS.VisualElements.Editor
         }
         
         #endregion
+
     }
 }
