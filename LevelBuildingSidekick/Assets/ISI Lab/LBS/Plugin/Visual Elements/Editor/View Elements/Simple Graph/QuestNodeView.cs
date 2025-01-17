@@ -97,6 +97,7 @@ namespace ISILab.LBS.VisualElements
                 _toolbar.style.display = DisplayStyle.Flex;
                 _toolbar.ShowMenu();
             }
+
         }
 
         private void MakeRoot(DropdownMenuAction obj)
