@@ -51,8 +51,8 @@ namespace ISILab.LBS.VisualElements
             _startIcon = this.Q<VisualElement>(name: "Start");
             _toolbar = this.Q<ToolbarMenu>("ToolBar");
             _toolbar.menu.AppendAction("Set as Start Node", MakeRoot);
- 
             _toolbar.style.display = DisplayStyle.None;
+            
             SetText(node.QuestAction);
             SetBorder(node);
             

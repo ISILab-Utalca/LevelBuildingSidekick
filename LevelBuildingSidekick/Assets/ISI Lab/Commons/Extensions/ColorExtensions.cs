@@ -11,7 +11,7 @@ namespace ISILab.Extensions
         {
             float hue = Random.Range(0f, 1f); 
             float saturation = 1f;            
-            float value = 1f;                  
+            float value = 1f;    // Closer to yellow, lower value, the closer to blue, higher value              
             color = Color.HSVToRGB(hue, saturation, value);
 
             return color;

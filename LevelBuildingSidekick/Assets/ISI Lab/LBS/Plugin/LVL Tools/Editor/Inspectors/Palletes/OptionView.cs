@@ -5,6 +5,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
+using ISILab.LBS.Behaviours;
+using ISILab.LBS.Behaviours.Editor;
+using ISILab.LBS.VisualElements;
+using UnityEditor.UIElements;
 
 
 namespace LBS.VisualElements
@@ -18,7 +22,8 @@ namespace LBS.VisualElements
         private Button button;
         private VisualElement icon;
         private VisualElement border;
-
+        private ToolbarMenu _toolbar;
+        
         public object target;
 
         public Action<object> OnSelect;
@@ -51,7 +56,7 @@ namespace LBS.VisualElements
         }
         #endregion
 
-        public OptionView(object target, Action<object> onSelect, Action<OptionView, object> onSetView)
+        public OptionView(object target, Action<object> onSelect, Action<object> onRemove, Action<OptionView, object> onSetView)
         {
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("OptionView");
             visualTree.CloneTree(this);
@@ -65,7 +70,14 @@ namespace LBS.VisualElements
                 this.OnSelect?.Invoke(target);
                 SetSelected(true);
             };
-
+            
+            _toolbar = this.Q<ToolbarMenu>("ToolBar");
+            _toolbar.menu.AppendAction("Delete Zone", action =>
+            {
+                DeleteZone(action, onRemove); 
+            });
+            _toolbar.style.display = DisplayStyle.None;
+            
             // Init Fields
             this.target = target;
 
@@ -74,6 +86,24 @@ namespace LBS.VisualElements
 
             this.OnSetView = onSetView;
             OnSetView?.Invoke(this, target);
+            
+            RegisterCallback<MouseDownEvent>(OnMouseDown);
+            
+        }
+
+        private void OnMouseDown(MouseDownEvent evt)
+        {
+            if (evt.button == 1)
+            {
+                _toolbar.style.display = DisplayStyle.Flex;
+                _toolbar.ShowMenu();
+            }
+            
+        }
+
+        private void DeleteZone(DropdownMenuAction obj, Action<object> Remove)
+        {
+            Remove.Invoke(target);
         }
 
         public void SetSelected(bool value)

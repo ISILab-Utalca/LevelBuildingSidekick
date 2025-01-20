@@ -114,6 +114,16 @@ namespace LBS.VisualElements
 
         }
 
+        private void OnInternalRemoveOption(object obj)
+        {
+            foreach (var optV in optionViews)
+            {
+                optV.SetSelected(false);
+            }
+            selected = obj;
+            OnRemoveOption?.Invoke(obj);
+        }
+
         public void SetOptions(object[] options, Action<OptionView, object> onSetView)
         {
             this.options = options;
@@ -144,7 +154,7 @@ namespace LBS.VisualElements
                 for (int i = 0; i < options.Length; i++)
                 {
                     var option = options[i];
-                    var view = new OptionView(option, OnInternalSelectOption, onSetView);
+                    var view = new OptionView(option, OnInternalSelectOption, OnRemoveOption, onSetView);
                     view.tooltip = OnSetTooltip?.Invoke(option);
                     optionViews[i] = view;
                     content.Add(view);
