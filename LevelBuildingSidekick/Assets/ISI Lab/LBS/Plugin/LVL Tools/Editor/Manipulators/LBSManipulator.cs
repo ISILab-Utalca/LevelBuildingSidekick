@@ -134,6 +134,14 @@ namespace ISILab.LBS.Manipulators
             target.UnregisterCallback<MouseUpEvent>(OnInternalMouseUp);
         }
 
+        // if it has an adder ref it means the manipulator's function is to delete
+        private bool UpdateFeedbackColor()
+        {
+            bool deleting = remover is { isRightClick: true } || adder is not null;
+            feedback.delete = deleting;
+            return deleting;
+        }
+        
         public void SetFeedback(Feedback feedback)
         {
             if (!started)
@@ -152,6 +160,7 @@ namespace ISILab.LBS.Manipulators
         /// </summary>
         private void StartFeedback()
         {
+            Debug.Log(this);
             if (feedback == null)
                 return;
             
@@ -172,14 +181,6 @@ namespace ISILab.LBS.Manipulators
             feedback.ActualizePositions(startClickPosition, moveClickPosition);
         }
         
-        // if it has an adder ref it means the manipulator's function is to delete
-        private bool UpdateFeedbackColor()
-        {
-            bool deleting = remover is { isRightClick: true } || adder is not null;
-            feedback.delete = deleting;
-            return deleting;
-        }
-
         /// <summary>
         /// Ends the feedback for the manipulation.
         /// </summary>
@@ -201,6 +202,8 @@ namespace ISILab.LBS.Manipulators
             if (e.button != 0 && e.button != 1)
                 return;
             
+            startClickPosition = MainView.Instance.FixPos(e.localMousePosition).ToInt();
+            
             // right click tries deleting 
             if (e.button == 1 && remover != null)
             {
@@ -217,12 +220,12 @@ namespace ISILab.LBS.Manipulators
             started = true;
              
             StartFeedback();
-
+            
             OnManipulationStart?.Invoke();
-            OnMouseDown(e.target as VisualElement, startClickPosition, e);
+            OnMouseDown(e.target as VisualElement, e.originalMousePosition.ToInt(), e);
             
             // check if last called by adder
-            if (isRightClick)
+            if (isRightClick && adder != null)
             {
                 OnManipulationRightClickEnd?.Invoke();
                 adder.OnInternalMouseDown(e);
