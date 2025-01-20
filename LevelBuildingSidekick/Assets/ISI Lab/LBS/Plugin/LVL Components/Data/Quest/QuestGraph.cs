@@ -92,7 +92,16 @@ namespace ISILab.LBS.Modules
 
         public void SetRoot(QuestNode node)
         {
+            if (node == null)
+            {
+                root = null;
+                Debug.Log("Root set: to NULL ");
+                return;
+            }
+            
             root = node;
+            root.ID = "Start Node";
+            Debug.Log("Root set: " + node.ToString());
         }
         public QuestNode GetQuestNode(Vector2 position)
         {
@@ -165,7 +174,7 @@ namespace ISILab.LBS.Modules
 
             var edge = new QuestEdge(first, second);
 
-            if (IsLooped(edge))
+            if (IsLooped(edge) || Looped(edge))
             {
                 
                 Debug.LogWarning("Invalid connection, loop detected");
@@ -174,6 +183,14 @@ namespace ISILab.LBS.Modules
 
             questEdges.Add(edge);
 
+            foreach (var qe in questEdges)
+            {
+                if (qe.First != null && qe.Second != null)
+                {
+                    Debug.Log("Connection: "+ qe.First.QuestAction + " -to- " + qe.Second.QuestAction);
+                }
+            }
+            
             OnAddEdge?.Invoke(edge);
         }
 
@@ -233,7 +250,8 @@ namespace ISILab.LBS.Modules
         {
             QuestEdge edge = GetEdge(position, delta);
             questEdges.Remove(edge);
-            OnAddEdge?.Invoke(edge);
+            // OnAddEdge?.Invoke(edge);
+            OnRemoveEdge?.Invoke(edge);
         }
 
         private QuestEdge GetEdge(Vector2 position, float delta)

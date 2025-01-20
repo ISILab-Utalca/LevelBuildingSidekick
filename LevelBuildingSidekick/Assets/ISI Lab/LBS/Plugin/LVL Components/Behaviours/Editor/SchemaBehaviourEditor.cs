@@ -201,12 +201,12 @@ namespace ISILab.LBS.Behaviours.Editor
                 DrawManager.ReDraw();
                 areaPallete.Repaint();
             };
-
+            
             areaPallete.OnRepaint += () => { areaPallete.Selected = _target.RoomToSet; };
 
             areaPallete.Repaint();
         }
-
+        
         private void SetConnectionPallete()
         {
             connectionPallete.ShowGroups = false;

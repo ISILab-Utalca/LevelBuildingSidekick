@@ -160,7 +160,6 @@ namespace ISILab.LBS.Manipulators
         /// </summary>
         private void StartFeedback()
         {
-            Debug.Log(this);
             if (feedback == null)
                 return;
             
@@ -306,11 +305,7 @@ namespace ISILab.LBS.Manipulators
                 OnManipulationRightClickEnd?.Invoke();
             }
         }
-
-        private void SetSelfAsManipulator()
-        {
-            MainView.Instance.SetManipulator(this, true);
-        }
+        
         #endregion
 
         #region VIRTUAL METHODS

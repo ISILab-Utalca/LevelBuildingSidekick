@@ -6,7 +6,7 @@ using LBS.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using ISILab.LBS.Modules;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -294,9 +294,9 @@ namespace ISILab.LBS.VisualElements.Editor
             if (evt.keyCode == KeyCode.Z)
             {
                 //Debugging here
+                Debug.Log("printe me");
                 
                 evt.StopPropagation(); 
-                return;
             }
 
         }

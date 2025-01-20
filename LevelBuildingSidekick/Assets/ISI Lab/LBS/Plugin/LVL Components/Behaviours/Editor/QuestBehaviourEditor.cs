@@ -83,7 +83,7 @@ namespace ISILab.LBS.VisualElements
             var t4 = new LBSTool(icon, "Remove Quest Connection", removeConnection);
             t4.Init(ass.Owner, target);
 
-            addNode.SetAddRemoveConnection(removeNode);
+            //addNode.SetAddRemoveConnection(removeNode); - right click assigns main root - no remover
             connectNodes.SetAddRemoveConnection(removeConnection);
             
             toolkit.AddTool(t1);

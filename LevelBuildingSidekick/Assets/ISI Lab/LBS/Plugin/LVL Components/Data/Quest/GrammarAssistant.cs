@@ -263,6 +263,7 @@ namespace ISILab.LBS.Assistants
 
                     expanding = true;
 
+                    if(branches[0].Second == null) continue;
                     line.Add(branches[0].Second);
 
                     for (int j = 1; j < branches.Count; j++)

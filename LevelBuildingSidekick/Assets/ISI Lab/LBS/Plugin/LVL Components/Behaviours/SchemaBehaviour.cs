@@ -125,12 +125,14 @@ namespace ISILab.LBS.Behaviours
                
             }
 
+            /*
             int r = (int)((Random.value * (256 - 32)) / 16);
             int g = (int)((Random.value * (256 - 32)) / 16);
             int b = (int)((Random.value * (256 - 32)) / 16);
 
             var c = new Color(r * 16 / 256f, g * 16 / 256f, b * 16 / 256f);
-
+            */
+            var c = new Color().RandomColorHSV();
             var zone = new Zone(name, c);
 
             areas.AddZone(zone);
