@@ -40,12 +40,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: d23e60ecbfbf37a408abdffb6e6a2d06, type: 2}
     - {fileID: 11400000, guid: 4c555d400e916714e9825fa0c207ba04, type: 2}
     - {fileID: 11400000, guid: 9d3dac0f9a486fd47866f815b4fefc29, type: 2}
-    - {fileID: 11400000, guid: 96e342b46785340458f3d9950e72f3c0, type: 2}
-    - {fileID: 11400000, guid: 4ed3c9c9c7fa9294e9c89a02f2ee1a3e, type: 2}
-    - {fileID: 11400000, guid: c481c305af5fdbf42ad799d7dc72aa59, type: 2}
-    - {fileID: 11400000, guid: 7a32c908bcc56b143af54bfa703d76de, type: 2}
-    - {fileID: 11400000, guid: 5eb94e0f345637744a6e6ca227f8a754, type: 2}
-    - {fileID: 11400000, guid: 94eb9d25a6848ee4a83677c8cebbd146, type: 2}
     - {fileID: 11400000, guid: 68a6b8a7d0fc2004c9d17fe39c37a1c5, type: 2}
     - {fileID: 11400000, guid: cb460c6ce44590347afa406cfa6450c0, type: 2}
     - {fileID: 11400000, guid: f165a46bac1fc294887ab889baa0650f, type: 2}
@@ -108,6 +102,13 @@ MonoBehaviour:
     - {fileID: 11400000, guid: e22ce772955d606438c55340680d443e, type: 2}
     - {fileID: 11400000, guid: 5f57e16b6b3bf8448825a98f99baf452, type: 2}
     - {fileID: 11400000, guid: 4931752101e5db9428801c214514e2d9, type: 2}
+    - {fileID: 11400000, guid: 4f55fc046c4a61343a4289dcfff573a0, type: 2}
+    - {fileID: 11400000, guid: 98d3e3489e6579a4294c8de2b5e4ca89, type: 2}
+    - {fileID: 11400000, guid: 93dbde140e5ce1a41bc9b2117f6878d8, type: 2}
+    - {fileID: 11400000, guid: fe71a0080b0e997469379a032f1b06a2, type: 2}
+    - {fileID: 11400000, guid: d76e4f8cacfe6a34580328dba315cbcc, type: 2}
+    - {fileID: 11400000, guid: 2795999aff7ff97458984ee0f814c176, type: 2}
+    - {fileID: 11400000, guid: 4429de8e76b1f30469dfbafcfb3a2367, type: 2}
   - type: LBSIdentifierBundle
     items:
     - {fileID: 11400000, guid: 5dab7331507a6554a83a7ddfd42f5292, type: 2}
@@ -362,6 +363,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 1d5bb63e17b60b24fbcc07529b297294, type: 2}
     - {fileID: 11400000, guid: 3ee62dd03f67c7545a8fc2590983e4ee, type: 2}
     - {fileID: 11400000, guid: 1b8092fb5937c544dafbc733564ac39a, type: 2}
+    - {fileID: 11400000, guid: dc218e9181dcc474b9d4c0b85a7d634a, type: 2}
   - type: ISILab.AI.Grammar.LBSGrammar
     items:
     - {fileID: 11400000, guid: 63ab688b53411154db5edd0ec7171c42, type: 2}

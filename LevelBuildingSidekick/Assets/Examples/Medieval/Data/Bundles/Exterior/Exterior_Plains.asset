@@ -14,15 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   anchorPosition: 0
-  color: {r: 0, g: 0, b: 0, a: 0}
+  color: {r: 0.9056604, g: 0.029903898, b: 0.35830382, a: 1}
   icon: {fileID: 0}
   childsBundles:
-  - {fileID: 11400000, guid: 96e342b46785340458f3d9950e72f3c0, type: 2}
-  - {fileID: 11400000, guid: 4ed3c9c9c7fa9294e9c89a02f2ee1a3e, type: 2}
-  - {fileID: 11400000, guid: 7a32c908bcc56b143af54bfa703d76de, type: 2}
-  - {fileID: 11400000, guid: 94eb9d25a6848ee4a83677c8cebbd146, type: 2}
-  - {fileID: 11400000, guid: c481c305af5fdbf42ad799d7dc72aa59, type: 2}
-  - {fileID: 11400000, guid: 5eb94e0f345637744a6e6ca227f8a754, type: 2}
+  - {fileID: 11400000, guid: 98d3e3489e6579a4294c8de2b5e4ca89, type: 2}
+  - {fileID: 11400000, guid: 4f55fc046c4a61343a4289dcfff573a0, type: 2}
+  - {fileID: 11400000, guid: 93dbde140e5ce1a41bc9b2117f6878d8, type: 2}
+  - {fileID: 11400000, guid: fe71a0080b0e997469379a032f1b06a2, type: 2}
+  - {fileID: 11400000, guid: d76e4f8cacfe6a34580328dba315cbcc, type: 2}
+  - {fileID: 11400000, guid: 4429de8e76b1f30469dfbafcfb3a2367, type: 2}
   assets: []
   characteristics:
   - rid: 4305865203777798400
@@ -34,15 +34,15 @@ MonoBehaviour:
       data:
         owner: {fileID: 11400000}
         Weights:
-        - target: {fileID: 11400000, guid: 96e342b46785340458f3d9950e72f3c0, type: 2}
-          weight: 0
-        - target: {fileID: 11400000, guid: 4ed3c9c9c7fa9294e9c89a02f2ee1a3e, type: 2}
+        - target: {fileID: 11400000, guid: 98d3e3489e6579a4294c8de2b5e4ca89, type: 2}
           weight: 1
-        - target: {fileID: 11400000, guid: 7a32c908bcc56b143af54bfa703d76de, type: 2}
-          weight: 0
-        - target: {fileID: 11400000, guid: 94eb9d25a6848ee4a83677c8cebbd146, type: 2}
-          weight: 0
-        - target: {fileID: 11400000, guid: c481c305af5fdbf42ad799d7dc72aa59, type: 2}
+        - target: {fileID: 11400000, guid: 4f55fc046c4a61343a4289dcfff573a0, type: 2}
           weight: 1
-        - target: {fileID: 11400000, guid: 5eb94e0f345637744a6e6ca227f8a754, type: 2}
-          weight: 1
+        - target: {fileID: 11400000, guid: 93dbde140e5ce1a41bc9b2117f6878d8, type: 2}
+          weight: 0.036
+        - target: {fileID: 11400000, guid: fe71a0080b0e997469379a032f1b06a2, type: 2}
+          weight: 0.375
+        - target: {fileID: 11400000, guid: d76e4f8cacfe6a34580328dba315cbcc, type: 2}
+          weight: 0.08
+        - target: {fileID: 11400000, guid: 4429de8e76b1f30469dfbafcfb3a2367, type: 2}
+          weight: 0

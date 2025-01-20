@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: Castle_Wooden
   m_EditorClassIdentifier: 
-  type: 1
+  type: 0
   anchorPosition: 0
   color: {r: 0, g: 0, b: 0, a: 0}
   icon: {fileID: 0}
@@ -22,7 +22,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4c555d400e916714e9825fa0c207ba04, type: 2}
   - {fileID: 11400000, guid: 64171be29d3355f4683ca0691172b123, type: 2}
   assets: []
-  characteristics: []
+  characteristics:
+  - rid: -2
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
