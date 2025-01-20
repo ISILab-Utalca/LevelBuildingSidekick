@@ -22,6 +22,7 @@ namespace ISILab.LBS.VisualElements
     {
         private QuestNode _node;
         private VisualElement _root;
+        private VisualElement _startIcon;
         private static VisualTreeAsset _view;
 
         private ToolbarMenu _toolbar;
@@ -47,8 +48,10 @@ namespace ISILab.LBS.VisualElements
             // Label
             _label = this.Q<Label>("Title");
             _root = this.Q<VisualElement>(name: "Root");
+            _startIcon = this.Q<VisualElement>(name: "Start");
             _toolbar = this.Q<ToolbarMenu>("ToolBar");
-            _toolbar.menu.AppendAction("Make Graph Root", MakeRoot);
+            _toolbar.menu.AppendAction("Set as Start Node", MakeRoot);
+ 
             _toolbar.style.display = DisplayStyle.None;
             SetText(node.QuestAction);
             SetBorder(node);
@@ -57,6 +60,7 @@ namespace ISILab.LBS.VisualElements
             RegisterCallback<MouseMoveEvent>(OnMouseMove);
             RegisterCallback<MouseLeaveEvent>(OnMouseLeave);
             this._node = node;
+            _startIcon.style.display = DisplayStyle.None;
         }
 
         private void OnMouseLeave(MouseLeaveEvent e)
@@ -130,10 +134,20 @@ namespace ISILab.LBS.VisualElements
             }
         }
 
-        private void MakeRoot(DropdownMenuAction obj)
+        public void MakeRoot(DropdownMenuAction obj = null)
         {
+            _startIcon.style.display = DisplayStyle.Flex;
             _node.Graph.SetRoot(_node);
+            _toolbar.menu.ClearItems();
+            _toolbar.menu.AppendAction("Remove Start Node assignation", RemoveRoot);
         }
-        
+
+        private void RemoveRoot(DropdownMenuAction obj)
+        {
+            _startIcon.style.display = DisplayStyle.None;
+            _node.Graph.SetRoot(null);
+            _toolbar.menu.ClearItems();
+            _toolbar.menu.AppendAction("Set as Start Node", MakeRoot);
+        }
     }
 }
