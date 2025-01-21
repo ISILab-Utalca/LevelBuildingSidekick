@@ -55,7 +55,7 @@ namespace ISILab.LBS.VisualElements
             // Get Target bundle
             var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
 
-            targetBundle = bundles.Find(b => b.Name == exterior.TargetBundle);
+            targetBundle = exterior.Bundle;///bundles.Find(b => b.Name == exterior.BundlePath);
             CreateVisualElement();
         }
         #endregion
@@ -66,17 +66,12 @@ namespace ISILab.LBS.VisualElements
             exterior = target as ExteriorBehaviour;
 
             // Get Target bundle
-            var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
-
+            //var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
+            //exterior.OnGUI();
            // targetBundle = bundles.Find(b => b.Name == exterior.TargetBundle);
-            Debug.Log("guid: " + exterior.TargetBundle);
-            var assetPath = AssetDatabase.GUIDToAssetPath(exterior.TargetBundle);
-            Debug.Log("assetPath: " + assetPath);
-            targetBundle = AssetDatabase.LoadAssetAtPath<Bundle>(assetPath);
-            Debug.Log("targetBundle: " + targetBundle);
+            //targetBundle = AssetDatabase.LoadAssetAtPath<Bundle>(exterior?.BundlePath);
+            bundleField.value = exterior?.Bundle;
             OnTargetBundle();
-            bundleField.value = targetBundle;
-
         }
 
         public void SetTools(ToolKit toolKit)
@@ -150,7 +145,8 @@ namespace ISILab.LBS.VisualElements
             bundleField.RegisterValueChangedCallback(evt =>
             {
                 targetBundle = evt.newValue as Bundle;
-                exterior.TargetBundle = targetBundle?.Name;
+                //exterior.Bundle = targetBundle;
+               // exterior.BundlePath = AssetDatabase.GetAssetPath(targetBundle);
                 OnTargetBundle();
                 ToolKit.Instance.SetActive("Set connection");
             });
@@ -164,6 +160,7 @@ namespace ISILab.LBS.VisualElements
 
         private void SetConnectionPallete(Bundle bundle)
         {
+            if (bundle == null) return;
             // Set init options
             connectionPallete.ShowGroups = false;
             connectionPallete.ShowAddButton = false;

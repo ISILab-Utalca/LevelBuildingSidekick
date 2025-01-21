@@ -10,6 +10,7 @@ using LBS.Components.TileMap;
 using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ISILab.LBS.Assistants
 {
@@ -25,14 +26,14 @@ namespace ISILab.LBS.Assistants
         private Bundle targetBundleRef;
         
         // Stores the guid for the object instead of the current path
-        [SerializeField, JsonRequired, HideInInspector]
-        private string targetBundle = "";
+        [FormerlySerializedAs("targetBundle")] [SerializeField, JsonRequired, HideInInspector]
+        private string bundlePath = "";
 
         /***
          * Use asset's GUID; current bundle:
          * - "Exterior_Plains" 
          */
-        private const string defaultBundle = "9d3dac0f9a486fd47866f815b4fefc29";
+        private string defaultBundleGuid = "9d3dac0f9a486fd47866f815b4fefc29";
 
         #endregion
 
@@ -50,12 +51,31 @@ namespace ISILab.LBS.Assistants
         [JsonIgnore]
         public Bundle TargetBundle
         {
-            get => GetBundle(targetBundle);
+            get => GetBundle(bundlePath);
             set
             {
                 targetBundleRef = value;
                 OnGUI();
             }
+        }
+        
+        public Bundle Bundle
+        {
+            get
+            {
+                if(bundlePath != "") 
+                {
+                    var bundle = AssetDatabase.LoadAssetAtPath<Bundle>(bundlePath); // The custom bundle
+                    Debug.Log(bundle);
+                    return bundle;
+                }
+          
+                var guiBundle = AssetDatabase.LoadAssetAtPath<Bundle>(AssetDatabase.GUIDToAssetPath(defaultBundleGuid)); // the default bundle
+                Debug.Log(guiBundle);
+                return guiBundle;
+
+            }
+            set => targetBundleRef = value;
         }
 
         private List<Vector2Int> Dirs => Directions.Bidimencional.Edges;
@@ -76,13 +96,14 @@ namespace ISILab.LBS.Assistants
         {
             if (!targetBundleRef)
             {
-                targetBundle = defaultBundle;
+                bundlePath = AssetDatabase.GUIDToAssetPath(defaultBundleGuid);
             }
             else
             {
-                var assetPath = AssetDatabase.GetAssetPath(targetBundleRef);
-                targetBundle = AssetDatabase.AssetPathToGUID(assetPath);
+                bundlePath = AssetDatabase.GetAssetPath(targetBundleRef);
+                defaultBundleGuid = AssetDatabase.AssetPathToGUID(bundlePath);
             }
+            targetBundleRef = AssetDatabase.LoadAssetAtPath<Bundle>(bundlePath);
         }
 
         public override object Clone()
@@ -324,7 +345,7 @@ namespace ISILab.LBS.Assistants
 
             if (!other.Name.Equals(this.Name)) return false;
 
-            if (!other.targetBundle.Equals(this.targetBundle)) return false;
+            if (!other.bundlePath.Equals(this.bundlePath)) return false;
 
             if (!other.overrideValues.Equals(this.overrideValues)) return false;
 

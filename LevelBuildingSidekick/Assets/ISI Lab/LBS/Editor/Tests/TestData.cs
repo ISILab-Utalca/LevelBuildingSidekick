@@ -340,7 +340,7 @@ namespace ISILab.LBS.Tests
 
             // Add some data
             var exteriorBH = layer.Behaviours[0] as ExteriorBehaviour;
-            exteriorBH.TargetBundle = bundle.Name;
+            exteriorBH.BundlePath = bundle.Name;
             var tile = new LBSTile(new Vector2(0, 0));
             exteriorBH.AddTile(tile);
             exteriorBH.SetConnection(tile, 0, "Grass", true);
