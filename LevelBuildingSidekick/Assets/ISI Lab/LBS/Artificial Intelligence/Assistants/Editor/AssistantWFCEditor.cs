@@ -54,10 +54,10 @@ namespace ISILab.LBS.AI.Assistants.Editor
             visualTree.CloneTree(this);
 
             var field = this.Q<ObjectField>();
-            field.value = assistant.TargetBundle;
+            field.value = assistant.Bundle;
             field.RegisterValueChangedCallback(evt =>
             {
-                assistant.TargetBundle = evt.newValue as Bundle;
+                assistant.Bundle = evt.newValue as Bundle;
                 ToolKit.Instance.SetActive("Wave function collapse");
             });
 
