@@ -425,11 +425,7 @@ public class LBSMainWindow : EditorWindow
     
     public static void MessageNotify(string message, LogType logType = LogType.Log, int duration = 2)
     {       
-        if (notifier == null)
-        {
-            Debug.LogError("NotifierViewer could not be cast.");
-            return;
-        }
+        if (notifier == null) return; 
         notifier.SendNotification(message, logType, duration);
     }
 
