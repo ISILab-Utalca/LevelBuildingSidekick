@@ -210,7 +210,6 @@ MonoBehaviour:
     - {fileID: 9197481963319205126, guid: cd1eb3c3c695c494d855ea678fe7395b, type: 3}
     - {fileID: 9197481963319205126, guid: aaa3e510761864dac9b71f85526490d6, type: 3}
     - {fileID: 9197481963319205126, guid: d6de7697d63d64fabbfb31425d93541e, type: 3}
-    - {fileID: 9197481963319205126, guid: dc5a13143b609774da7101bb8313dd7a, type: 3}
   - type: UnityEngine.UIElements.StyleSheet
     items:
     - {fileID: 7433441132597879392, guid: ac773345d0f3bcc4392c29c0837c7f7e, type: 3}
@@ -250,30 +249,14 @@ MonoBehaviour:
     - {fileID: 7433441132597879392, guid: 2a208840b98c7aa46a99ed3517e86d98, type: 3}
     - {fileID: 7433441132597879392, guid: 3eb99c80b411349188e1e5167887ac6c, type: 3}
     - {fileID: 7433441132597879392, guid: 63cb84b97408b4d25a6925daccffcd22, type: 3}
-    - {fileID: 7433441132597879392, guid: d00412342a1b6c943b91cc06edad1202, type: 3}
-    - {fileID: 7433441132597879392, guid: a9e3b7e7e1851a140b1a5c23270ded34, type: 3}
-    - {fileID: 7433441132597879392, guid: 0bebc765ff411f3428c6b3b23d5eb8e7, type: 3}
-    - {fileID: 7433441132597879392, guid: 13a732708670b6040ac77e49fceae9c5, type: 3}
-    - {fileID: 7433441132597879392, guid: 526a426fa6626ce498c3bd03c67737e4, type: 3}
-    - {fileID: 7433441132597879392, guid: 6c6827adc58f1b146bde5b52679588d7, type: 3}
-    - {fileID: 7433441132597879392, guid: 6320179b9eae0cc4cb6728a4392c4da5, type: 3}
-    - {fileID: 7433441132597879392, guid: 2e1bb62d57954d94690fac6155f453ab, type: 3}
-    - {fileID: 7433441132597879392, guid: 703ea091ed1e85049b6c0e6b94f4aba3, type: 3}
-    - {fileID: 7433441132597879392, guid: 42629fa0950d47d4fb25ead7ae74591f, type: 3}
-    - {fileID: 7433441132597879392, guid: a7a6eb19ec987844280ce30ca2135cca, type: 3}
-    - {fileID: 7433441132597879392, guid: fd40f16a3ddafd6438ecc0f5c2017593, type: 3}
-    - {fileID: 7433441132597879392, guid: 225786b34a57ee440b0c1b213902214a, type: 3}
-    - {fileID: 7433441132597879392, guid: 8cdc065c428afe14c96781ac6fd73d73, type: 3}
-    - {fileID: 7433441132597879392, guid: daf82dcb916f6ae498d03a6a127122c6, type: 3}
-    - {fileID: 7433441132597879392, guid: 6072b9c171efabd4b9df404b6a14bced, type: 3}
-    - {fileID: 7433441132597879392, guid: 3aabcb23e4d233d4cb06467692556b1c, type: 3}
-    - {fileID: 7433441132597879392, guid: cd5d36e7e8fb8014fa998bc5cb2816f4, type: 3}
     - {fileID: 11400000, guid: dab23848655b5c74ca8b171d95b0864a, type: 3}
     - {fileID: 11400000, guid: 940a3fecc672f9f4ba7ab2b5b71a63a5, type: 3}
     - {fileID: 11400000, guid: 7de59e38a5edf344794b4a5cb8baaae0, type: 3}
     - {fileID: 7433441132597879392, guid: ada555936059fa149bb48537842ee230, type: 3}
     - {fileID: 7433441132597879392, guid: 5393cdb70614ab24f94f78bfcf5d1455, type: 3}
     - {fileID: 7433441132597879392, guid: e98085123be873947970c4f10099a39a, type: 3}
+    - {fileID: 7433441132597879392, guid: bea9503736c358b4e99eac03c0db32b7, type: 3}
+    - {fileID: 7433441132597879392, guid: 895ecc4cb6c82b144b8423996c89f7ef, type: 3}
   - type: ISILab.LBS.Internal.LBSAssetsStorage
     items:
     - {fileID: 11400000}
@@ -291,40 +274,6 @@ MonoBehaviour:
   - type: UnityEngine.U2D.SpriteShape
     items:
     - {fileID: 11400000, guid: f24cddf7c09a6442abbce710a6fd7397, type: 2}
-  - type: AssetStoreTools.Validator.TestDefinitions.AutomatedTestScriptableObject
-    items:
-    - {fileID: 11400000, guid: e0426dd01b5136a4ca1d42d312e12fad, type: 2}
-    - {fileID: 11400000, guid: 03c6cd398931b3e41b0784e8589e153f, type: 2}
-    - {fileID: 11400000, guid: 28ab5af444cf3c849800ed0d8f4a3102, type: 2}
-    - {fileID: 11400000, guid: 53189e6e51235b14192c4d5b3145dd27, type: 2}
-    - {fileID: 11400000, guid: f108107be07f69045813d69eff580078, type: 2}
-    - {fileID: 11400000, guid: b03433f7977b29e4ca7e8d76393a6c26, type: 2}
-    - {fileID: 11400000, guid: 08790ea0ed0fd274fb1df75ccc32d415, type: 2}
-    - {fileID: 11400000, guid: eaf232919893db04b8e05e91f6815424, type: 2}
-    - {fileID: 11400000, guid: 1e7b5480c1d8bda43ab4fa945939e243, type: 2}
-    - {fileID: 11400000, guid: ad52ffa05767e9d4bb4d92093ad68b03, type: 2}
-    - {fileID: 11400000, guid: 03b362b67028eb443b7ba8b84aedd5f2, type: 2}
-    - {fileID: 11400000, guid: 1a3d0b3827fc16347867bee335e8f4ea, type: 2}
-    - {fileID: 11400000, guid: bc2cb4e6635aa334ea4a52e2e3ce57c8, type: 2}
-    - {fileID: 11400000, guid: c889cdd91c2f41941a14363dad7a1a38, type: 2}
-    - {fileID: 11400000, guid: 45b2b11da67e8864aacc62d928524b4c, type: 2}
-    - {fileID: 11400000, guid: ffef800a102b0e04cae1a3b98549ef1b, type: 2}
-    - {fileID: 11400000, guid: 241ad0174fcadb64da867011d196acbb, type: 2}
-    - {fileID: 11400000, guid: 5da4c440d3728ba40b183c1de4a1c384, type: 2}
-    - {fileID: 11400000, guid: 87da7eaed3cee0d4b8ada0b500e3a958, type: 2}
-    - {fileID: 11400000, guid: 21f8ec0602ffac045b1f4a93f8a9b555, type: 2}
-    - {fileID: 11400000, guid: 700026f446833f649a3c63b33a90a295, type: 2}
-    - {fileID: 11400000, guid: 339e21c955642a04289482aa923e10b6, type: 2}
-    - {fileID: 11400000, guid: 1450037453608204a989ff95dca62fae, type: 2}
-    - {fileID: 11400000, guid: c23253393b8e28846b8e02aeaee7e152, type: 2}
-    - {fileID: 11400000, guid: dd110ee16e8de4d48a602349ed7a0b25, type: 2}
-    - {fileID: 11400000, guid: e996c53186de96e49a742d414648a809, type: 2}
-    - {fileID: 11400000, guid: bf01c18b66907f54c99517f6a877e3e0, type: 2}
-    - {fileID: 11400000, guid: 781021ae3aa6570468e08d78e3195127, type: 2}
-    - {fileID: 11400000, guid: a48657926de5cfb47ac559a7108d03ee, type: 2}
-    - {fileID: 11400000, guid: a0a44055f786ec64f86a07a214d5f831, type: 2}
-    - {fileID: 11400000, guid: 305bbe67f7c644d18bc8a5b2273aa6a4, type: 2}
-    - {fileID: 11400000, guid: 893a0df188c2026438be48eed39b301f, type: 2}
   - type: UnityEngine.Rendering.PostProcessing.PostProcessResources
     items:
     - {fileID: 11400000, guid: d82512f9c8e5d4a4d938b575d47f88d4, type: 2}
