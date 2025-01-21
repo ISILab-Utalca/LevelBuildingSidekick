@@ -91,6 +91,12 @@ namespace ISILab.LBS.Behaviours
         #endregion
 
         #region METHODS
+        
+        public override void OnGUI()
+        {
+
+        }
+        
         public override void OnAttachLayer(LBSLayer layer)
         {
             Owner = layer;

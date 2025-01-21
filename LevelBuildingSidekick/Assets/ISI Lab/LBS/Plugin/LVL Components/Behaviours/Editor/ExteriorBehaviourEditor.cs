@@ -15,10 +15,11 @@ using ISILab.LBS.Internal;
 using ISILab.LBS.Characteristics;
 using ISILab.LBS.Editor;
 using ISILab.LBS.Components;
+using UnityEditor;
 
 namespace ISILab.LBS.VisualElements
 {
-    [LBSCustomEditor("Exteiror Behaviour", typeof(ExteriorBehaviour))]
+    [LBSCustomEditor("Exterior Behaviour", typeof(ExteriorBehaviour))]
     public class ExteriorBehaviourEditor : LBSCustomEditor, IToolProvider
     {
         #region FIELDS
@@ -67,7 +68,15 @@ namespace ISILab.LBS.VisualElements
             // Get Target bundle
             var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
 
-            targetBundle = bundles.Find(b => b.Name == exterior.TargetBundle);
+           // targetBundle = bundles.Find(b => b.Name == exterior.TargetBundle);
+            Debug.Log("guid: " + exterior.TargetBundle);
+            var assetPath = AssetDatabase.GUIDToAssetPath(exterior.TargetBundle);
+            Debug.Log("assetPath: " + assetPath);
+            targetBundle = AssetDatabase.LoadAssetAtPath<Bundle>(assetPath);
+            Debug.Log("targetBundle: " + targetBundle);
+            OnTargetBundle();
+            bundleField.value = targetBundle;
+
         }
 
         public void SetTools(ToolKit toolKit)
@@ -77,7 +86,7 @@ namespace ISILab.LBS.VisualElements
             // Set empty tile
             icon = Resources.Load<Texture2D>("Icons/Tools/Brush_interior_tile");
             addEmptyTile = new AddEmptyTile();
-            var t1 = new LBSTool(icon, "Add tile wihtout connection", addEmptyTile);
+            var t1 = new LBSTool(icon, "Add tile without connection", addEmptyTile);
             t1.Init(exterior.Owner, exterior);
          
 
@@ -141,7 +150,7 @@ namespace ISILab.LBS.VisualElements
             bundleField.RegisterValueChangedCallback(evt =>
             {
                 targetBundle = evt.newValue as Bundle;
-                exterior.TargetBundle = targetBundle.Name;
+                exterior.TargetBundle = targetBundle?.Name;
                 OnTargetBundle();
                 ToolKit.Instance.SetActive("Set connection");
             });

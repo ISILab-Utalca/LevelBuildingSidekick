@@ -18,6 +18,10 @@ namespace ISILab.LBS.Behaviours
             return new SimpleConectedBehaviour(this.Icon, this.Name);
         }
 
+        public override void OnGUI()
+        {
+        }
+        
         public override void OnAttachLayer(LBSLayer layer)
         {
         }

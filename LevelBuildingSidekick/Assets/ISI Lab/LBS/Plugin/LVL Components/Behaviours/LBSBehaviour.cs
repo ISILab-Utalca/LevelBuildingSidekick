@@ -6,6 +6,7 @@ using LBS.Components;
 using LBS.Components.Graph;
 using LBS.Components.TileMap;
 using Newtonsoft.Json;
+using UnityEditor;
 using UnityEngine;
 
 namespace ISILab.LBS.Behaviours
@@ -79,6 +80,9 @@ namespace ISILab.LBS.Behaviours
         public abstract void OnDetachLayer(LBSLayer layer);
 
         public abstract object Clone();
+        
+        public abstract void OnGUI();
+        
         #endregion
     }
 }

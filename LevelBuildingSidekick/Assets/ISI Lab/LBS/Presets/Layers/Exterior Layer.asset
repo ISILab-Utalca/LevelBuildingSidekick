@@ -19,23 +19,23 @@ MonoBehaviour:
     id: Exterior
     name: Layer Exterior
     modules:
-    - rid: 6598277500097265688
-    - rid: 6598277500097265689
+    - rid: 6598277183820005783
+    - rid: 6598277183820005784
     behaviours:
-    - rid: 6598277500097265690
+    - rid: 6598277183820005785
     assistants:
-    - rid: 6598277500097265691
+    - rid: 6598277183820005786
     generatorRules:
-    - rid: 6598277500097265692
+    - rid: 6598277183820005787
     settings:
       scale: {x: 2, y: 2}
       resize: {x: 0, y: 0}
       position: {x: 0, y: 0, z: 0}
-      name: Exterior
+      name: Exteriror
   references:
     version: 2
     RefIds:
-    - rid: 6598277500097265688
+    - rid: 6598277183820005783
       type: {class: TileMapModule, ns: ISILab.LBS.Modules, asm: LBS}
       data:
         id: TileMapModule
@@ -46,21 +46,21 @@ MonoBehaviour:
           id: Exterior
           name: Layer Exterior
           modules:
-          - rid: 6598277500097265688
-          - rid: 6598277500097265689
+          - rid: 6598277183820005783
+          - rid: 6598277183820005784
           behaviours:
-          - rid: 6598277500097265690
+          - rid: 6598277183820005785
           assistants:
-          - rid: 6598277500097265691
+          - rid: 6598277183820005786
           generatorRules:
-          - rid: 6598277500097265692
+          - rid: 6598277183820005787
           settings:
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
-            name: Exterior
+            name: Exteriror
         tiles: []
-    - rid: 6598277500097265689
+    - rid: 6598277183820005784
       type: {class: ConnectedTileMapModule, ns: ISILab.LBS.Modules, asm: LBS}
       data:
         id: ConnectedTileMapModule
@@ -71,37 +71,39 @@ MonoBehaviour:
           id: Exterior
           name: Layer Exterior
           modules:
-          - rid: 6598277500097265688
-          - rid: 6598277500097265689
+          - rid: 6598277183820005783
+          - rid: 6598277183820005784
           behaviours:
-          - rid: 6598277500097265690
+          - rid: 6598277183820005785
           assistants:
-          - rid: 6598277500097265691
+          - rid: 6598277183820005786
           generatorRules:
-          - rid: 6598277500097265692
+          - rid: 6598277183820005787
           settings:
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
-            name: Exterior
+            name: Exteriror
         connectedDirections: 4
         pairs: []
-    - rid: 6598277500097265690
+    - rid: 6598277183820005785
       type: {class: ExteriorBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
       data:
         visible: 1
         icon: {fileID: 2800000, guid: 771d36a714319204ea4ddcbecdc2006e, type: 3}
-        name: Exterior behaviour
-        targetBundle: Exterior_Plains
+        name: Exteriror behaviour
+        targetBundleRef: {fileID: 11400000, guid: 6eca44a9d25c6df4d8216614e323dd60, type: 2}
+        targetBundle: 6eca44a9d25c6df4d8216614e323dd60
         identifierToSet: {fileID: 0}
-    - rid: 6598277500097265691
+    - rid: 6598277183820005786
       type: {class: AssistantWFC, ns: ISILab.LBS.Assistants, asm: LBS}
       data:
         visible: 1
         name: Assistant WFC
         overrideValues: 0
-        targetBundle: Exterior_Plains
-    - rid: 6598277500097265692
+        targetBundleRef: {fileID: 11400000, guid: 6eca44a9d25c6df4d8216614e323dd60, type: 2}
+        targetBundle: 6eca44a9d25c6df4d8216614e323dd60
+    - rid: 6598277183820005787
       type: {class: ExteriorRuleGenerator, ns: ISILab.LBS.Generators, asm: LBS}
       data:
         generator3D:

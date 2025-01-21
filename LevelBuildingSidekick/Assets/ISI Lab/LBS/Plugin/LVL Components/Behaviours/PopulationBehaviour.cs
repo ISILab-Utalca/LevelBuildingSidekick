@@ -36,6 +36,12 @@ namespace ISILab.LBS.Behaviours
         #endregion
 
         #region METHODS
+        
+        public override void OnGUI()
+        {
+
+        }
+        
         public void AddTile(Vector2Int position, Bundle bundle)
         {
             var tile = new LBSTile(position);

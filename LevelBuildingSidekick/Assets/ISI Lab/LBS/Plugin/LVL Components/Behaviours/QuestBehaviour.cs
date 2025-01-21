@@ -13,15 +13,20 @@ namespace ISILab.LBS.Behaviours
     public class QuestBehaviour : LBSBehaviour
     {
         [JsonIgnore]
-    public GrammarTerminal ToSet { get; set; }
+        public GrammarTerminal ToSet { get; set; }
 
-    public QuestGraph Graph => Owner.GetModule<QuestGraph>();
+        public QuestGraph Graph => Owner.GetModule<QuestGraph>();
 
 
-    public QuestBehaviour(Texture2D icon, string name) : base(icon, name)
-    {
-    }
+        public QuestBehaviour(Texture2D icon, string name) : base(icon, name)
+        {
+        }
 
+        public override void OnGUI()
+        {
+
+        }
+        
         public override object Clone()
         {
             return new QuestBehaviour(this.Icon, this.Name);
