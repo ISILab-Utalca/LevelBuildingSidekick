@@ -57,9 +57,9 @@ namespace ISILab.LBS.Internal.Editor
         /// </summary>
         private static void SaveBackUp()
         {
-            //Debug.Log("saving");
+            Debug.Log("saving");
             var level = LBS.loadedLevel;
-            if (level != null)
+            if (level.data != null)
             {
                 var settings = LBSSettings.Instance;
                 var path = settings.paths.backUpPath;

@@ -2,6 +2,7 @@ using ISILab.Commons.Utility;
 using ISILab.Commons.Utility.Editor;
 
 using ISILab.LBS;
+using ISILab.LBS.Internal.Editor;
 using ISILab.LBS.Template;
 using ISILab.LBS.VisualElements;
 using ISILab.LBS.VisualElements.Editor;
@@ -29,6 +30,7 @@ public class LBSMainWindow : EditorWindow
         get => ISILab.LBS.LBS.loadedLevel.data;
         set => ISILab.LBS.LBS.loadedLevel.data = value;
     }
+    private LBSLevelData backUpData;
 
     #endregion
 
@@ -99,8 +101,19 @@ public class LBSMainWindow : EditorWindow
 
         if (ISILab.LBS.LBS.loadedLevel == null)
         {
-            ISILab.LBS.LBS.loadedLevel = LBSController.CreateNewLevel("new file");
+            if(levelData==null)
+            {
+                ISILab.LBS.LBS.loadedLevel = LBSController.CreateNewLevel("new file");
+            } else
+            {
+                backUpData = levelData;
+                ISILab.LBS.LBS.loadedLevel = LBSController.CreateNewLevel("new file");
+                levelData = backUpData;
+            }
         }
+        Debug.Log("new level created: " + ISILab.LBS.LBS.loadedLevel);
+        LBSCallbacks.ReloadCurrentLevel();
+        Debug.Log("debug thing");
 
         levelData.OnReload += () =>
         {
