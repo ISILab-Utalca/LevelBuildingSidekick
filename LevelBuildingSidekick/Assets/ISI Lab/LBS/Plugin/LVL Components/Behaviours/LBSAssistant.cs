@@ -92,6 +92,9 @@ namespace ISILab.LBS.Assistants
         }
 
         public abstract object Clone();
+        
+        public abstract void OnGUI();
+        
         #endregion
     }
 }

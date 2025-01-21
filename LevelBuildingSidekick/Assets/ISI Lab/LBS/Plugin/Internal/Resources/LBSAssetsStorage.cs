@@ -99,6 +99,8 @@ namespace ISILab.LBS.Internal
             return null;
         }
 
+        
+        
         public List<ScriptableObject> Get(Type type)
         {
             //CleanAllEmpties();

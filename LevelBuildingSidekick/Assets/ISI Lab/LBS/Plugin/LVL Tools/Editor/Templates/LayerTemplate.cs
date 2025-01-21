@@ -19,5 +19,21 @@ namespace ISILab.LBS.Template
         {
             layer = new LBSLayer();
         }
+
+        private void OnValidate()
+        {
+            if (layer == null) return;
+            foreach (var behaviour in layer.Behaviours)
+            {
+                behaviour.OnGUI();
+                // invoke
+            }
+
+            foreach (var assistant in layer.Assistants)
+            {
+                // invoke
+                assistant.OnGUI();
+            }
+        }
     }
 }

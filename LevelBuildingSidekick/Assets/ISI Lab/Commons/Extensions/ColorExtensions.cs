@@ -10,8 +10,8 @@ namespace ISILab.Extensions
         public static Color RandomColorHSV(this Color color)
         {
             float hue = Random.Range(0f, 1f); 
-            float saturation = 1f;            
-            float value = 1f;    // Closer to yellow, lower value, the closer to blue, higher value              
+            float saturation = Random.Range(0.75f,1f);            
+            float value = Random.Range(0.75f,1f);    // Closer to yellow, lower value, the closer to blue, higher value              
             color = Color.HSVToRGB(hue, saturation, value);
 
             return color;

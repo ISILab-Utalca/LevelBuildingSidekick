@@ -4,9 +4,12 @@ using System.Collections.Generic;
 using ISILab.Commons;
 using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
+using JetBrains.Annotations;
+using LBS.Bundles;
 using LBS.Components;
 using LBS.Components.TileMap;
 using Newtonsoft.Json;
+using UnityEditor;
 using UnityEngine;
 
 namespace ISILab.LBS.Behaviours
@@ -17,8 +20,18 @@ namespace ISILab.LBS.Behaviours
     public class ExteriorBehaviour : LBSBehaviour
     {
         #region FIELDS
-        [JsonRequired, SerializeField]
-        private string targetBundle = "Exterior_Plains";
+        [SerializeField, InspectorName("Target Bundle")]
+        private Bundle targetBundleRef;
+        
+        // Stores the guid for the object instead of the current path
+        [JsonRequired, SerializeField, HideInInspector]
+        private string targetBundle = "";
+
+        /***
+         * Use asset's GUID; current bundle:
+         * - "Exterior_Plains"
+         */
+        private string defaultBundle = "9d3dac0f9a486fd47866f815b4fefc29"; 
         #endregion
 
         #region META-FIELDS
@@ -46,12 +59,34 @@ namespace ISILab.LBS.Behaviours
         [JsonIgnore]
         public List<Vector2Int> Directions => ISILab.Commons.Directions.Bidimencional.Edges;
         #endregion
-
+        
         #region CONSTRUCTORS
-        public ExteriorBehaviour(Texture2D icon, string name) : base(icon, name) { }
+
+        public ExteriorBehaviour(Texture2D icon, string name) : base(icon, name)
+        {
+            OnGUI();
+        }
+        
         #endregion
 
         #region METHODS
+
+        // Method invoked from the LBSLayer Class, whenever the scriptable object's values are modified
+        public sealed override void OnGUI()
+        {
+            if (!targetBundleRef)
+            {
+                targetBundle = defaultBundle;
+            }
+            else
+            {
+                var assetPath = AssetDatabase.GetAssetPath(targetBundleRef);
+                targetBundle = AssetDatabase.AssetPathToGUID(assetPath);
+            }
+
+        }
+
+
         public override void OnAttachLayer(LBSLayer layer)
         {
             Owner = layer;
@@ -113,6 +148,10 @@ namespace ISILab.LBS.Behaviours
         {
             return base.GetHashCode();
         }
+        
+        
         #endregion
+        
+        
     }
 }

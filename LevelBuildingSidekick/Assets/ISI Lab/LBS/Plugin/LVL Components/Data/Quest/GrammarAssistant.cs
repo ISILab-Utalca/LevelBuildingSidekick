@@ -312,5 +312,9 @@ namespace ISILab.LBS.Assistants
             Quest.OnAddEdge += ValidateEdgeGrammar;
 
         }
+
+        public override void OnGUI()
+        {
+        }
     }
 }

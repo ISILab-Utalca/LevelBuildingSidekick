@@ -8,6 +8,7 @@ using ISILab.LBS.Modules;
 using LBS.Bundles;
 using LBS.Components.TileMap;
 using Newtonsoft.Json;
+using UnityEditor;
 using UnityEngine;
 
 namespace ISILab.LBS.Assistants
@@ -20,8 +21,18 @@ namespace ISILab.LBS.Assistants
         [SerializeField, JsonRequired]
         private bool overrideValues;
 
-        [SerializeField, JsonRequired]
-        private string targetBundle = "Exterior_Plains";
+        [SerializeField, InspectorName("Target Bundle")]
+        private Bundle targetBundleRef;
+        
+        // Stores the guid for the object instead of the current path
+        [SerializeField, JsonRequired, HideInInspector]
+        private string targetBundle = "";
+
+        /***
+         * Use asset's GUID; current bundle:
+         * - "Exterior_Plains" 
+         */
+        private string defaultBundle = "9d3dac0f9a486fd47866f815b4fefc29"; 
         #endregion
 
         #region PROPERTIES
@@ -39,17 +50,40 @@ namespace ISILab.LBS.Assistants
         public Bundle TargetBundle
         {
             get => GetBundle(targetBundle);
-            set => targetBundle = value.name;
+            set
+            {
+                targetBundleRef = value;
+                OnGUI();
+            }
         }
 
         private List<Vector2Int> Dirs => Directions.Bidimencional.Edges;
         #endregion
 
         #region CONSTRUCTORS
-        public AssistantWFC(Texture2D icon, string name) : base(icon, name) { }
+
+        public AssistantWFC(Texture2D icon, string name) : base(icon, name)
+        {
+            OnGUI(); 
+        }
+        
         #endregion
 
         #region METHODS
+
+        public sealed override void OnGUI()
+        {
+            if (!targetBundleRef)
+            {
+                targetBundle = defaultBundle;
+            }
+            else
+            {
+                var assetPath = AssetDatabase.GetAssetPath(targetBundleRef);
+                targetBundle = AssetDatabase.AssetPathToGUID(assetPath);
+            }
+        }
+
         public override object Clone()
         {
             return new AssistantWFC(this.Icon, this.Name);

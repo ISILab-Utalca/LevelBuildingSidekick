@@ -85,6 +85,11 @@ namespace ISILab.LBS.Assistants
         #endregion
 
         #region METHODS
+
+        public override void OnGUI()
+        {
+        }
+
         public void Execute()
         {
             toUpdate.Clear();
