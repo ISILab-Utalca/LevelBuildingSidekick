@@ -111,9 +111,6 @@ public class LBSMainWindow : EditorWindow
                 levelData = backUpData;
             }
         }
-        Debug.Log("new level created: " + ISILab.LBS.LBS.loadedLevel);
-        LBSCallbacks.ReloadCurrentLevel();
-        Debug.Log("debug thing");
 
         levelData.OnReload += () =>
         {
