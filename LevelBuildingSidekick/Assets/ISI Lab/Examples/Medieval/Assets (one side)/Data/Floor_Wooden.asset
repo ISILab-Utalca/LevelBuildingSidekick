@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
+  m_Name: Floor_Wooden
+  m_EditorClassIdentifier: 
+  type: 1
+  anchorPosition: 0
+  color: {r: 0, g: 0, b: 0, a: 0}
+  icon: {fileID: 0}
+  childsBundles: []
+  assets:
+  - obj: {fileID: 3340211634435293643, guid: 7a68f3748ea3f56469f668b4a78e63bf, type: 3}
+    probability: 1
+  - obj: {fileID: 4506225093705001793, guid: 92311860c8c187d41a8281547a752763, type: 3}
+    probability: 0.1
+  - obj: {fileID: 5600215542615774154, guid: b5c0bcf85e3a9b1448b613dcd8c592eb, type: 3}
+    probability: 0.1
+  characteristics:
+  - rid: 279245815319625876
+  references:
+    version: 2
+    RefIds:
+    - rid: 279245815319625876
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        value: {fileID: 11400000, guid: 94b707ea81720694d8e3ac214351af91, type: 2}

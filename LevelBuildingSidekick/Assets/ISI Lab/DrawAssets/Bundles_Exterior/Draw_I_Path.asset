@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
+  m_Name: Draw_I_Path
+  m_EditorClassIdentifier: 
+  type: 0
+  anchorPosition: 0
+  color: {r: 0, g: 0, b: 0, a: 0}
+  icon: {fileID: 0}
+  childsBundles: []
+  assets:
+  - obj: {fileID: 8762447809779192002, guid: f5816315784d019499f7054633641e1d, type: 3}
+    probability: 0.05
+  - obj: {fileID: 3932273227017046637, guid: ec464bdaf1cf58a4fb3f0f24e630bc5d, type: 3}
+    probability: 0.403
+  - obj: {fileID: 1924427875594947383, guid: 3c72a5a0ac6697c4ca39a3ffb7f3adca, type: 3}
+    probability: 0.229
+  - obj: {fileID: 4316767383107087537, guid: 052e0a3875d97434abd2672169dec04b, type: 3}
+    probability: 0.578
+  - obj: {fileID: 5495854422311650968, guid: db17f36577fa1a745a088128ffd909f4, type: 3}
+    probability: 0.82
+  characteristics:
+  - rid: 5085006314459627530
+  references:
+    version: 2
+    RefIds:
+    - rid: 5085006314459627530
+      type: {class: LBSDirection, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        owner: {fileID: 11400000}
+        connections:
+        - Fodder
+        - Road
+        - Fodder
+        - Road

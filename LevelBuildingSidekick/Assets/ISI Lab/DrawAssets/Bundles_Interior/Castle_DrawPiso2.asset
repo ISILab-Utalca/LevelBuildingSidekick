@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
+  m_Name: Castle_DrawPiso2
+  m_EditorClassIdentifier: 
+  type: 0
+  anchorPosition: 0
+  color: {r: 0, g: 0, b: 0, a: 0}
+  icon: {fileID: 0}
+  childsBundles:
+  - {fileID: 11400000, guid: f912ebdf373537d4698c8e30b1b3af7e, type: 2}
+  - {fileID: 11400000, guid: 4e789120bbb0c654187c78eeb73de492, type: 2}
+  - {fileID: 11400000, guid: 9bba4b2f632ed5a498e6e89d841c358f, type: 2}
+  - {fileID: 11400000, guid: 69cae54a4a9d5b4448f4697db8f7fb93, type: 2}
+  assets: []
+  characteristics: []
+  references:
+    version: 2
+    RefIds: []
