@@ -32,7 +32,8 @@ namespace ISILab.LBS.Assistants
          * Use asset's GUID; current bundle:
          * - "Exterior_Plains" 
          */
-        private string defaultBundle = "9d3dac0f9a486fd47866f815b4fefc29"; 
+        private const string defaultBundle = "9d3dac0f9a486fd47866f815b4fefc29";
+
         #endregion
 
         #region PROPERTIES
@@ -92,7 +93,8 @@ namespace ISILab.LBS.Assistants
         public void Execute()
         {
             // Get Bundle
-            var bundle = GetBundle(targetBundle);
+            OnGUI();
+            var bundle = targetBundleRef;// GetBundle(targetBundle);
 
             // Cheack if can execute
             if (bundle == null)

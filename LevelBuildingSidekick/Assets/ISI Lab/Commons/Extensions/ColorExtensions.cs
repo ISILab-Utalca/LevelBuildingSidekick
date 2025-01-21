@@ -7,11 +7,15 @@ namespace ISILab.Extensions
 {
     public static class ColorExtensions
     {
+        // 😫 Should either improve the value generation or
+        // create a dictionary of colors and apply small modifications on it
+        //
+        // （づ￣3￣）づ╭🖌️～
         public static Color RandomColorHSV(this Color color)
         {
             float hue = Random.Range(0f, 1f); 
             float saturation = Random.Range(0.75f,1f);            
-            float value = Random.Range(0.75f,1f);    // Closer to yellow, lower value, the closer to blue, higher value              
+            float value = Random.Range(0.75f,1f);                 
             color = Color.HSVToRGB(hue, saturation, value);
 
             return color;
@@ -27,6 +31,7 @@ namespace ISILab.Extensions
 
         public static Color RandomGrayScale(this Color color)
         {
+ 
             var gray = Random.Range(0f, 255f) / 255f;
             color = new Color(gray, gray, gray);
             return color;
