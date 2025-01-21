@@ -45,7 +45,7 @@ namespace ISILab.LBS.Generators
             Debug.Log("bundle obtained");
 
             var e = layer.Behaviours[0] as ExteriorBehaviour; // (!) parche
-            var bundle = bundles.Find(b => b.name == e.TargetBundle);
+            var bundle = bundles.Find(b => b.name == e.BundlePath);
 
             var selected = bundle.GetCharacteristics<LBSDirectionedGroup>()[0];
 
