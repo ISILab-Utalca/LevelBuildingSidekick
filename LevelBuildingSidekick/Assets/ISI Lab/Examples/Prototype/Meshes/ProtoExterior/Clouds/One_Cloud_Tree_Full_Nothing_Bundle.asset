@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
+  m_Name: One_Cloud_Tree_Full_Nothing_Bundle
+  m_EditorClassIdentifier: 
+  type: 0
+  anchorPosition: 0
+  color: {r: 0, g: 0, b: 0, a: 0}
+  icon: {fileID: 0}
+  childsBundles: []
+  assets:
+  - obj: {fileID: 919132149155446097, guid: 57800bfd5261b224b8338018788ffdf3, type: 3}
+    probability: 1
+  characteristics:
+  - rid: 6598277268373504833
+  references:
+    version: 2
+    RefIds:
+    - rid: 6598277268373504833
+      type: {class: LBSDirection, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        owner: {fileID: 11400000}
+        connections:
+        - Empty
+        - Cloud
+        - Empty
+        - Empty

@@ -11,6 +11,7 @@ namespace ISILab.LBS.Internal.Editor
     [InitializeOnLoad]
     public class LBSCallbacks
     {
+        private static LBSLevelData backUpData;
         static LBSCallbacks()
         {
             var onStart = SessionState.GetBool("start", true);
@@ -57,8 +58,8 @@ namespace ISILab.LBS.Internal.Editor
         /// </summary>
         private static void SaveBackUp()
         {
-            Debug.Log("saving");
             var level = LBS.loadedLevel;
+
             if (level.data != null)
             {
                 var settings = LBSSettings.Instance;
@@ -66,7 +67,18 @@ namespace ISILab.LBS.Internal.Editor
                 var folderPath = Path.GetDirectoryName(path);
 
                 var backUp = ScriptableObject.CreateInstance<BackUp>();
-                backUp.level = level;
+                
+                //Checks if the level is corrupted. If it is, it saves the data and goes on.
+                if (level == null)
+                {
+                    backUpData = level.data;
+                    backUp.level = LBSController.CreateNewLevel("new file");
+                    backUp.level.data = backUpData;
+                }
+                else
+                {
+                    backUp.level = level;
+                }
 
                 if (!Directory.Exists(folderPath))
                 {
@@ -103,10 +115,8 @@ namespace ISILab.LBS.Internal.Editor
             }
             else
             {
-                //Debug.Log("backup not found");
                 // if the backup is not found, a new level is created
                 LBS.loadedLevel = LoadedLevel.CreateInstance(new LBSLevelData(), "New level");
-                //Debug.Log("created new level: "+LBS.loadedLevel);
             }
         }
 
@@ -120,7 +130,6 @@ namespace ISILab.LBS.Internal.Editor
         {
             var data = LBS.loadedLevel.data;
             data?.Reload();
-            Debug.Log("LAYER COUNT TEST: "+LBS.loadedLevel.data.LayerCount);
             
         }
 
