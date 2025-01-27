@@ -14,15 +14,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a41063f78805ff14aa4100fc30c3c829, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.75
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a41063f78805ff14aa4100fc30c3c829, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.400651
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a41063f78805ff14aa4100fc30c3c829, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.0000033
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a41063f78805ff14aa4100fc30c3c829, type: 3}
       propertyPath: m_LocalRotation.w
@@ -58,7 +58,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a41063f78805ff14aa4100fc30c3c829, type: 3}
       propertyPath: m_Name
-      value: proto_wall_windows_center_01 Variant
+      value: proto_wall_windows_center_01_prefab
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a41063f78805ff14aa4100fc30c3c829, type: 3}
       propertyPath: m_StaticEditorFlags
