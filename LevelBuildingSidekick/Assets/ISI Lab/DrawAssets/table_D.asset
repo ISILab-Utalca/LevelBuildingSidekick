@@ -30,4 +30,5 @@ MonoBehaviour:
     - rid: 279245815319625885
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
+        owner: {fileID: 11400000}
         value: {fileID: 11400000, guid: f34ea2bda3e03b44fad1047a0050c860, type: 2}
