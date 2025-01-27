@@ -15,6 +15,7 @@ using ISILab.LBS.Assistants;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Editor;
 using ISILab.LBS.Drawers;
+using ISILab.LBS.Editor.Windows;
 using UnityEditor;
 
 namespace ISILab.LBS.AI.Assistants.Editor

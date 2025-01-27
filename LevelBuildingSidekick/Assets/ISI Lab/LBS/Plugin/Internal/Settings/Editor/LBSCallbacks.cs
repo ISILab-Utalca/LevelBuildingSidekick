@@ -1,5 +1,6 @@
 using LBS.Bundles;
 using LBS.Settings;
+using ISILab.LBS.Editor.Windows;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;

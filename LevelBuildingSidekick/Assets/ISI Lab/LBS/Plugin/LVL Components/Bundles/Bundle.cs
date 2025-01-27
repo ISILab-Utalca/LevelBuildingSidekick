@@ -382,9 +382,8 @@ namespace LBS.Bundles
             return parent;
         }
     }
-
-}
-
+    
+    
 [CustomEditor(typeof(Bundle))]
 public class BundleEditor : Editor
 {
@@ -463,6 +462,8 @@ public class BundleEditor : Editor
 
             menu.ShowAsContext();
         }
-    serializedObject.ApplyModifiedProperties();
+        serializedObject.ApplyModifiedProperties();
     }
+}
+
 }

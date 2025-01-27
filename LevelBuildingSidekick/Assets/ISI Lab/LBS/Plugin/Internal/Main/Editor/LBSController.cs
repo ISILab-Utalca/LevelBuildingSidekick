@@ -5,6 +5,7 @@ using UnityEditor;
 using System;
 using System.IO;
 using ISILab.JsonNet;
+using ISILab.LBS.Editor.Windows;
 
 namespace ISILab.LBS
 {

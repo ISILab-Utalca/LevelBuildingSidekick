@@ -111,6 +111,9 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 4429de8e76b1f30469dfbafcfb3a2367, type: 2}
     - {fileID: 11400000, guid: 27d05e6b18d8d1945ad19c82c34b9acd, type: 2}
     - {fileID: 11400000, guid: cf2e905696bc95a4fbe169ed8597c912, type: 2}
+    - {fileID: 11400000, guid: 194c20abdee6ed745a559324b501d08f, type: 2}
+    - {fileID: 11400000, guid: 2922de97f99038046b1f66903be656ca, type: 2}
+    - {fileID: 11400000, guid: a90b9e160779a6441ab7e2fa57c1b7d0, type: 2}
   - type: LBSIdentifierBundle
     items:
     - {fileID: 11400000, guid: 5dab7331507a6554a83a7ddfd42f5292, type: 2}
@@ -259,6 +262,22 @@ MonoBehaviour:
     - {fileID: 7433441132597879392, guid: e98085123be873947970c4f10099a39a, type: 3}
     - {fileID: 7433441132597879392, guid: bea9503736c358b4e99eac03c0db32b7, type: 3}
     - {fileID: 7433441132597879392, guid: 895ecc4cb6c82b144b8423996c89f7ef, type: 3}
+    - {fileID: 7433441132597879392, guid: d09164f0be2befd40aac764571737ff7, type: 3}
+    - {fileID: 7433441132597879392, guid: 5e05fbdf7dd89a14985a87aa62a03a0e, type: 3}
+    - {fileID: 7433441132597879392, guid: 23112eed1f211274c94028490f81007c, type: 3}
+    - {fileID: 7433441132597879392, guid: 4b3b52dc166e3e24bb1ce4acd2592f3a, type: 3}
+    - {fileID: 7433441132597879392, guid: 1c04ee69303d45644bb3971a4e8ce952, type: 3}
+    - {fileID: 7433441132597879392, guid: a994594cc493b7346b4d4a71d39908dc, type: 3}
+    - {fileID: 7433441132597879392, guid: 2096f0ee5b05ec643b409ded0d725eb3, type: 3}
+    - {fileID: 7433441132597879392, guid: 6f0343bfa66bbb344bee68a23d24cca8, type: 3}
+    - {fileID: 7433441132597879392, guid: 9b79808cdce73b949abc32c5fada1bda, type: 3}
+    - {fileID: 7433441132597879392, guid: d453bb92cd1f35943b1c5f652837ada9, type: 3}
+    - {fileID: 7433441132597879392, guid: 38ae9e6ef965cae43902ba22967938ee, type: 3}
+    - {fileID: 7433441132597879392, guid: 0cbf43b8dabcd1242b32ed3ed2167a54, type: 3}
+    - {fileID: 7433441132597879392, guid: 095b74bd60b187c418dcc4cd47aa696d, type: 3}
+    - {fileID: 7433441132597879392, guid: 7404a65e6f9592846a20fd5190b12b1a, type: 3}
+    - {fileID: 7433441132597879392, guid: 26d328c2ffac2ff44af266e9c632f2ab, type: 3}
+    - {fileID: 7433441132597879392, guid: 2c67a10c292c653428af654599fc15aa, type: 3}
   - type: ISILab.LBS.Internal.LBSAssetsStorage
     items:
     - {fileID: 11400000}
@@ -335,3 +354,8 @@ MonoBehaviour:
   - type: ISILab.LBS.AI.Categorization.MAPElitesPreset
     items:
     - {fileID: 11400000, guid: ee03be004b3a3c84583d4d19c72c48db, type: 2}
+  - type: AssetStoreTools.Validator.TestDefinitions.AutomatedTestScriptableObject
+    items:
+    - {fileID: 11400000, guid: 25721b2d7384e5b4f936cf3b33b80a02, type: 2}
+    - {fileID: 11400000, guid: 5392e9de0549574419ff76897d1e0fa1, type: 2}
+    - {fileID: 11400000, guid: 04098aa074d151b4a908dfa79dfddec3, type: 2}

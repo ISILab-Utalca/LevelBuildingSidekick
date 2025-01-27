@@ -3,6 +3,7 @@ using ISILab.LBS.Assistants;
 using ISILab.LBS.Editor;
 using ISILab.LBS.Manipulators;
 using ISILab.LBS.Modules;
+using ISILab.LBS.Editor.Windows;
 
 using LBS;
 using LBS.Components;

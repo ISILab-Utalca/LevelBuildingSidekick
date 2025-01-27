@@ -1,4 +1,5 @@
 using ISILab.Commons.Utility.Editor;
+using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.Template;
 using LBS.Components;
 using LBS.Settings;

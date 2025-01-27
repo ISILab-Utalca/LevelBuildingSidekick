@@ -1,5 +1,6 @@
 using ISILab.AI.Grammar;
 using ISILab.AI.Optimization.Populations;
+using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
