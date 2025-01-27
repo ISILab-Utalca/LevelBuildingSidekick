@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: Castle_Wooden
   m_EditorClassIdentifier: 
-  flags: 0
-  type: 0
+  flags: 1
+  type: 1
   anchorPosition: 0
   color: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 0}
   icon: {fileID: 0}

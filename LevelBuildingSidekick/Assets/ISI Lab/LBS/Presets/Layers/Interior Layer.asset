@@ -19,18 +19,18 @@ MonoBehaviour:
     id: Interior
     name: Layer Interior
     modules:
-    - rid: 680282446483423234
-    - rid: 680282446483423235
-    - rid: 680282446483423236
-    - rid: 680282446483423237
-    - rid: 680282446483423238
+    - rid: 6598277660977397760
+    - rid: 6598277660977397761
+    - rid: 6598277660977397762
+    - rid: 6598277660977397763
+    - rid: 6598277660977397764
     behaviours:
-    - rid: 680282446483423239
+    - rid: 6598277660977397765
     assistants:
-    - rid: 680282446483423240
+    - rid: 6598277660977397766
     generatorRules:
-    - rid: 680282446483423241
-    - rid: 680282446483423242
+    - rid: 6598277660977397767
+    - rid: 6598277660977397768
     settings:
       scale: {x: 2, y: 2}
       resize: {x: 0, y: 0}
@@ -39,7 +39,7 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 680282446483423234
+    - rid: 6598277660977397760
       type: {class: TileMapModule, ns: ISILab.LBS.Modules, asm: LBS}
       data:
         id: TileMapModule
@@ -50,25 +50,25 @@ MonoBehaviour:
           id: Interior
           name: Layer Interior
           modules:
-          - rid: 680282446483423234
-          - rid: 680282446483423235
-          - rid: 680282446483423236
-          - rid: 680282446483423237
-          - rid: 680282446483423238
+          - rid: 6598277660977397760
+          - rid: 6598277660977397761
+          - rid: 6598277660977397762
+          - rid: 6598277660977397763
+          - rid: 6598277660977397764
           behaviours:
-          - rid: 680282446483423239
+          - rid: 6598277660977397765
           assistants:
-          - rid: 680282446483423240
+          - rid: 6598277660977397766
           generatorRules:
-          - rid: 680282446483423241
-          - rid: 680282446483423242
+          - rid: 6598277660977397767
+          - rid: 6598277660977397768
           settings:
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
             name: Interior
         tiles: []
-    - rid: 680282446483423235
+    - rid: 6598277660977397761
       type: {class: ConnectedTileMapModule, ns: ISILab.LBS.Modules, asm: LBS}
       data:
         id: ConnectedTileMapModule
@@ -79,18 +79,18 @@ MonoBehaviour:
           id: Interior
           name: Layer Interior
           modules:
-          - rid: 680282446483423234
-          - rid: 680282446483423235
-          - rid: 680282446483423236
-          - rid: 680282446483423237
-          - rid: 680282446483423238
+          - rid: 6598277660977397760
+          - rid: 6598277660977397761
+          - rid: 6598277660977397762
+          - rid: 6598277660977397763
+          - rid: 6598277660977397764
           behaviours:
-          - rid: 680282446483423239
+          - rid: 6598277660977397765
           assistants:
-          - rid: 680282446483423240
+          - rid: 6598277660977397766
           generatorRules:
-          - rid: 680282446483423241
-          - rid: 680282446483423242
+          - rid: 6598277660977397767
+          - rid: 6598277660977397768
           settings:
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
@@ -98,7 +98,7 @@ MonoBehaviour:
             name: Interior
         connectedDirections: 4
         pairs: []
-    - rid: 680282446483423236
+    - rid: 6598277660977397762
       type: {class: SectorizedTileMapModule, ns: ISILab.LBS.Modules, asm: LBS}
       data:
         id: SectorizedTileMapModule
@@ -109,18 +109,18 @@ MonoBehaviour:
           id: Interior
           name: Layer Interior
           modules:
-          - rid: 680282446483423234
-          - rid: 680282446483423235
-          - rid: 680282446483423236
-          - rid: 680282446483423237
-          - rid: 680282446483423238
+          - rid: 6598277660977397760
+          - rid: 6598277660977397761
+          - rid: 6598277660977397762
+          - rid: 6598277660977397763
+          - rid: 6598277660977397764
           behaviours:
-          - rid: 680282446483423239
+          - rid: 6598277660977397765
           assistants:
-          - rid: 680282446483423240
+          - rid: 6598277660977397766
           generatorRules:
-          - rid: 680282446483423241
-          - rid: 680282446483423242
+          - rid: 6598277660977397767
+          - rid: 6598277660977397768
           settings:
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
@@ -128,7 +128,7 @@ MonoBehaviour:
             name: Interior
         zones: []
         pairs: []
-    - rid: 680282446483423237
+    - rid: 6598277660977397763
       type: {class: ConnectedZonesModule, ns: ISILab.LBS.Modules, asm: LBS}
       data:
         id: ConnectedZonesModule
@@ -139,25 +139,25 @@ MonoBehaviour:
           id: Interior
           name: Layer Interior
           modules:
-          - rid: 680282446483423234
-          - rid: 680282446483423235
-          - rid: 680282446483423236
-          - rid: 680282446483423237
-          - rid: 680282446483423238
+          - rid: 6598277660977397760
+          - rid: 6598277660977397761
+          - rid: 6598277660977397762
+          - rid: 6598277660977397763
+          - rid: 6598277660977397764
           behaviours:
-          - rid: 680282446483423239
+          - rid: 6598277660977397765
           assistants:
-          - rid: 680282446483423240
+          - rid: 6598277660977397766
           generatorRules:
-          - rid: 680282446483423241
-          - rid: 680282446483423242
+          - rid: 6598277660977397767
+          - rid: 6598277660977397768
           settings:
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
             name: Interior
         edges: []
-    - rid: 680282446483423238
+    - rid: 6598277660977397764
       type: {class: ConstrainsZonesModule, ns: ISILab.LBS.Modules, asm: LBS}
       data:
         id: ConstrainsZonesModule
@@ -168,25 +168,25 @@ MonoBehaviour:
           id: Interior
           name: Layer Interior
           modules:
-          - rid: 680282446483423234
-          - rid: 680282446483423235
-          - rid: 680282446483423236
-          - rid: 680282446483423237
-          - rid: 680282446483423238
+          - rid: 6598277660977397760
+          - rid: 6598277660977397761
+          - rid: 6598277660977397762
+          - rid: 6598277660977397763
+          - rid: 6598277660977397764
           behaviours:
-          - rid: 680282446483423239
+          - rid: 6598277660977397765
           assistants:
-          - rid: 680282446483423240
+          - rid: 6598277660977397766
           generatorRules:
-          - rid: 680282446483423241
-          - rid: 680282446483423242
+          - rid: 6598277660977397767
+          - rid: 6598277660977397768
           settings:
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
             name: Interior
         pairs: []
-    - rid: 680282446483423239
+    - rid: 6598277660977397765
       type: {class: SchemaBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
       data:
         visible: 1
@@ -195,14 +195,14 @@ MonoBehaviour:
         pressetInsideStyle: Castle_Wooden
         pressetOutsideStyle: Castle_Brick
         conectionToSet: 
-    - rid: 680282446483423240
+    - rid: 6598277660977397766
       type: {class: HillClimbingAssistant, ns: ISILab.LBS.Assistants, asm: LBS}
       data:
         visible: 1
         name: HillClimbing
         visibleConstraints: 0
         printClocks: 0
-    - rid: 680282446483423241
+    - rid: 6598277660977397767
       type: {class: SchemaRuleGenerator, ns: ISILab.LBS.Generators, asm: LBS}
       data:
         generator3D:
@@ -212,7 +212,7 @@ MonoBehaviour:
             position: {x: 0, y: 0, z: 0}
             name: DEFAULT
           rules: []
-    - rid: 680282446483423242
+    - rid: 6598277660977397768
       type: {class: SchemaRuleGeneratorExterior, ns: ISILab.LBS.Generators, asm: LBS}
       data:
         generator3D:
