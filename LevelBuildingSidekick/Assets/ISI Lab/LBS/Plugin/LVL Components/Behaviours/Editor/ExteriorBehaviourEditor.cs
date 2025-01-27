@@ -64,12 +64,6 @@ namespace ISILab.LBS.VisualElements
         public override void SetInfo(object target)
         {
             exterior = target as ExteriorBehaviour;
-
-            // Get Target bundle
-            //var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
-            //exterior.OnGUI();
-           // targetBundle = bundles.Find(b => b.Name == exterior.TargetBundle);
-            //targetBundle = AssetDatabase.LoadAssetAtPath<Bundle>(exterior?.BundlePath);
             bundleField.value = exterior?.Bundle;
             OnTargetBundle();
         }
@@ -131,7 +125,7 @@ namespace ISILab.LBS.VisualElements
             }
         }
 
-        protected override VisualElement CreateVisualElement()
+        protected sealed override VisualElement CreateVisualElement()
         {
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("ExteriorBehaviourEditor");
             visualTree.CloneTree(this);
@@ -145,8 +139,9 @@ namespace ISILab.LBS.VisualElements
             bundleField.RegisterValueChangedCallback(evt =>
             {
                 targetBundle = evt.newValue as Bundle;
-                //exterior.Bundle = targetBundle;
-               // exterior.BundlePath = AssetDatabase.GetAssetPath(targetBundle);
+                bundleField.value = targetBundle;
+                exterior.Bundle = targetBundle;
+                exterior.BundlePath = AssetDatabase.GetAssetPath(targetBundle);
                 OnTargetBundle();
                 ToolKit.Instance.SetActive("Set connection");
             });
