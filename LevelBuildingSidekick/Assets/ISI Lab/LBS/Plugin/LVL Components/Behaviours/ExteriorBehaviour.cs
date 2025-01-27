@@ -77,6 +77,12 @@ namespace ISILab.LBS.Behaviours
             set => targetBundleRef = value;
         }
 
+        public Bundle TargetBundleRef
+        {
+            get => targetBundleRef;
+            set => targetBundleRef = value;
+        }
+
         [JsonIgnore]
         public List<LBSTile> Tiles => TileMap.Tiles;
 
