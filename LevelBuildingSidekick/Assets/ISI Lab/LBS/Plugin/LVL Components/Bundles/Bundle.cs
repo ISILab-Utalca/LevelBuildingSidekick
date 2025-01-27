@@ -3,12 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using ISILab.LBS.Characteristics;
 using ISILab.LBS.Internal;
+using LBS.Bundles;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace LBS.Bundles
 {
+    
+    [System.Flags]
+    public enum BundleFlags
+    {
+        None = 0,
+        Interior = 1 << 0,
+        Exterior = 1 << 1,
+        Population = 1 << 2,
+        //NewOne = 1 << 3,
+    }
+    
     [System.Serializable]
     public enum Positioning
     {
@@ -40,6 +52,18 @@ namespace LBS.Bundles
     [System.Serializable]
     public class Bundle : ScriptableObject, ICloneable
     {
+
+        public Bundle()
+        {
+            flags = BundleFlags.None;
+        }
+        
+        // Add a flags field
+        [SerializeField]
+        private BundleFlags flags;
+
+        public BundleFlags Flags => flags;
+        
         public enum TagType
         {
             Aesthetic, // (Style)Ej: Castle, Spaceship,
@@ -61,7 +85,8 @@ namespace LBS.Bundles
         [SerializeField]
         private Texture2D icon;
 
-        [SerializeField]
+        // hides in inspector and uses the custom GUI to assign only children with containing flags
+        [SerializeField, HideInInspector]
         private List<Bundle> childsBundles = new List<Bundle>();
 
         [SerializeField]
@@ -310,7 +335,8 @@ namespace LBS.Bundles
         #endregion
 
         #region STATIC FUNCTIONS
-        private static bool IsRecursive(Bundle parent, Bundle child) // mover a extensions (!)
+
+        public static bool IsRecursive(Bundle parent, Bundle child) // mover a extensions (!)
         {
             if (parent == child)
                 return true;
@@ -357,4 +383,86 @@ namespace LBS.Bundles
         }
     }
 
+}
+
+[CustomEditor(typeof(Bundle))]
+public class BundleEditor : Editor
+{
+    private SerializedProperty childBundlesProp;
+
+    private void OnEnable()
+    {
+        //cache reference
+        childBundlesProp = serializedObject.FindProperty("childsBundles");
+    }
+
+    public override void OnInspectorGUI()
+    {
+        // default inspector for all other fields
+        DrawDefaultInspector();
+
+        EditorGUILayout.Space(10);
+        EditorGUILayout.LabelField("Child Bundles Inspector", EditorStyles.boldLabel);
+        
+        
+           // Display current child bundles
+        for (int i = 0; i < childBundlesProp.arraySize; i++)
+        {
+            var childProp = childBundlesProp.GetArrayElementAtIndex(i);
+            var childBundle = childProp.objectReferenceValue as Bundle;
+
+            EditorGUILayout.BeginHorizontal();
+
+            // Child bundle reference field
+            childProp.objectReferenceValue = EditorGUILayout.ObjectField(childBundle, typeof(Bundle), false);
+
+            // Remove button
+            if (GUILayout.Button("Remove", GUILayout.Width(60)))
+            {
+                childBundlesProp.DeleteArrayElementAtIndex(i);
+            }
+
+            EditorGUILayout.EndHorizontal();
+        }
+
+        // Add new child bundle
+        if (GUILayout.Button("Add Child Bundle"))
+        {
+            Bundle parentBundle = (Bundle)target;
+            Debug.Log(parentBundle.Flags);
+            // Fetch all potential bundles in the project
+            var allBundles = AssetDatabase.FindAssets("t:Bundle")
+                .Select(guid => AssetDatabase.LoadAssetAtPath<Bundle>(AssetDatabase.GUIDToAssetPath(guid)))
+                .ToList();
+            
+            GenericMenu menu = new GenericMenu();
+
+            // get all parents from the current parent to avoid recurssion
+            List<Bundle> parents = new List<Bundle>();
+            var GetParent = parentBundle;
+            while (GetParent != null)
+            {
+                parents.Add(GetParent);
+                GetParent = GetParent.Parent();
+            }
+            
+            foreach (var potentialChild in allBundles)
+            {
+                if ( parents.Contains(potentialChild) || !potentialChild.Flags.HasFlag(parentBundle.Flags) || parentBundle.ChildsBundles.Contains(potentialChild))
+                {
+                    continue;
+                }
+                menu.AddItem(new GUIContent(potentialChild.name), false, () =>
+                {
+                    childBundlesProp.InsertArrayElementAtIndex(childBundlesProp.arraySize);
+                    childBundlesProp.GetArrayElementAtIndex(childBundlesProp.arraySize - 1).objectReferenceValue = potentialChild;
+                    
+                    serializedObject.ApplyModifiedProperties();
+                });
+            }
+
+            menu.ShowAsContext();
+        }
+    serializedObject.ApplyModifiedProperties();
+    }
 }
