@@ -109,6 +109,8 @@ MonoBehaviour:
     - {fileID: 11400000, guid: d76e4f8cacfe6a34580328dba315cbcc, type: 2}
     - {fileID: 11400000, guid: 2795999aff7ff97458984ee0f814c176, type: 2}
     - {fileID: 11400000, guid: 4429de8e76b1f30469dfbafcfb3a2367, type: 2}
+    - {fileID: 11400000, guid: 27d05e6b18d8d1945ad19c82c34b9acd, type: 2}
+    - {fileID: 11400000, guid: cf2e905696bc95a4fbe169ed8597c912, type: 2}
   - type: LBSIdentifierBundle
     items:
     - {fileID: 11400000, guid: 5dab7331507a6554a83a7ddfd42f5292, type: 2}

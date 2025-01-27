@@ -66,7 +66,7 @@ namespace ISILab.LBS.Assistants
                 if(bundlePath != "") 
                 {
                     var bundle = AssetDatabase.LoadAssetAtPath<Bundle>(bundlePath); // The custom bundle
-                    Debug.Log(bundle);
+                    //Debug.Log(bundle);
                     return bundle;
                 }
           
@@ -120,7 +120,7 @@ namespace ISILab.LBS.Assistants
             // Cheack if can execute
             if (bundle == null)
             {
-                Debug.LogWarning("No bundle is selected.");
+                Debug.LogWarning("No bundle selected.");
                 return;
             }
 
@@ -160,7 +160,7 @@ namespace ISILab.LBS.Assistants
                 // Get tile with lees possibilities
                 var current = xx.OrderBy(e => e.Value.Count).First();
 
-                // cheack if curren tile have tile posibilities
+                // cheack if curren tile have tile possibilities
                 if (current.Value.Count <= 0)
                 {
                     // Remove from the list of tiles to calculate 
@@ -169,7 +169,7 @@ namespace ISILab.LBS.Assistants
                     continue;
                 }
 
-                // Collapse posibilities
+                // Collapse possibilities
                 var selected = current.Value.RandomRullete(c => c.weigth);
                 var connections = selected.bundle.GetConnection(selected.rotation);
                 connected.SetConnections(current.Key, connections.ToList(), new List<bool>() { false, false, false, false });
@@ -178,7 +178,7 @@ namespace ISILab.LBS.Assistants
                 // Ignore This tiles
                 closed.Add(current.Key);
 
-                // Collapse neigthbours connection 
+                // Collapse neighbours connection 
                 var neigth = map.GetTileNeighbors(current.Key, Dirs);
                 SetConnectionNei(current.Key, neigth.ToArray(), closed);
 
@@ -199,7 +199,7 @@ namespace ISILab.LBS.Assistants
                     {
                         currentCalcs[tile] = newCandidates;
 
-                        // Get neigthbours
+                        // Get neighbours
                         var neigs = map.GetTileNeighbors(tile, Dirs).RemoveEmpties();
 
                         // Add to reCalc list
@@ -229,7 +229,7 @@ namespace ISILab.LBS.Assistants
             var toR = new List<LBSTile>();
             foreach (var position in Positions)
             {
-                // Get tile inforamtion
+                // Get tile information
                 var tile = map.GetTile(position);
 
                 // Check if tile is null
@@ -241,7 +241,7 @@ namespace ISILab.LBS.Assistants
 
                 if (overrideValues)
                 {
-                    //Clear prev conection
+                    //Clear prev connection
                     connected.SetConnections(tile,
                         new List<string>() { "", "", "", "" },
                         new List<bool>() { false, false, false, false });
@@ -260,7 +260,7 @@ namespace ISILab.LBS.Assistants
             var candidates = new List<Candidate>();
             for (int i = 0; i < group.Weights.Count; i++)
             {
-                // Get characteristics and weigth
+                // Get characteristics and weigh
                 var weigth = group.Weights[i].weight;
                 var sBundle = group.Weights[i].target.GetCharacteristics<LBSDirection>()[0];
 
