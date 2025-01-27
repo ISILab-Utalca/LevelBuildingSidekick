@@ -44,9 +44,19 @@ namespace ISILab.LBS.Generators
             var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
             Debug.Log("bundle obtained");
 
+            if (layer.Behaviours.Count == 0)
+            {
+                Debug.LogWarning("No behaviours found");
+                return null;
+            }
             var e = layer.Behaviours[0] as ExteriorBehaviour; // (!) parche
-            var bundle = bundles.Find(b => b.name == e.BundlePath);
-
+            var bundle = bundles.Find(b => b.name == e.TargetBundleRef.name);
+            if (bundle == null)
+            {
+                Debug.LogWarning("Bundle not found");
+                return null;
+            }
+            
             var selected = bundle.GetCharacteristics<LBSDirectionedGroup>()[0];
 
             Debug.Log("directions received");
