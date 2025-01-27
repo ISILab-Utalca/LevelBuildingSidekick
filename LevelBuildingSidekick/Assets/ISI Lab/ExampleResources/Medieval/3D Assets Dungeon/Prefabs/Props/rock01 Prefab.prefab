@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3123735584257663767}
   - {fileID: 5609540501895267262}
@@ -71,6 +72,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 8469330543617264012}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: b230d92df894f5448944239b82ed4306, type: 3}
@@ -122,6 +124,9 @@ PrefabInstance:
       value: granite rock01_lod0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b230d92df894f5448944239b82ed4306, type: 3}
 --- !u!4 &3123735584257663767 stripped
 Transform:
@@ -138,6 +143,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 8469330543617264012}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 20098c639c6321d48a7c322d29094b28, type: 3}
@@ -193,6 +199,9 @@ PrefabInstance:
       value: granite rock01_lod1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 20098c639c6321d48a7c322d29094b28, type: 3}
 --- !u!4 &5609540501895267262 stripped
 Transform:
@@ -209,6 +218,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 8469330543617264012}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: a541818b4cf009d4a9ccdc0e4370cf62, type: 3}
@@ -264,6 +274,9 @@ PrefabInstance:
       value: granite rock01_lod2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a541818b4cf009d4a9ccdc0e4370cf62, type: 3}
 --- !u!4 &7304316592807146857 stripped
 Transform:
@@ -280,6 +293,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 8469330543617264012}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 11b9f7f004efd1e4181b82da0d5cab82, type: 3}
@@ -335,6 +349,9 @@ PrefabInstance:
       value: granite rock01_lod3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 11b9f7f004efd1e4181b82da0d5cab82, type: 3}
 --- !u!4 &7998587065248105168 stripped
 Transform:

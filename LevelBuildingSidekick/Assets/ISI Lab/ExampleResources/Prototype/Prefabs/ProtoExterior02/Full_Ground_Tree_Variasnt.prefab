@@ -146,7 +146,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c86228419a181724ab421378d6dcea9d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c86228419a181724ab421378d6dcea9d, type: 3}
       propertyPath: m_LocalPosition.y
@@ -154,7 +154,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c86228419a181724ab421378d6dcea9d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c86228419a181724ab421378d6dcea9d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -186,7 +186,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: c86228419a181724ab421378d6dcea9d, type: 3}
       propertyPath: m_Name
-      value: Full_Ground (5) Variant
+      value: Full_Ground_Tree_Variasnt
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: c86228419a181724ab421378d6dcea9d, type: 3}
       propertyPath: m_StaticEditorFlags
