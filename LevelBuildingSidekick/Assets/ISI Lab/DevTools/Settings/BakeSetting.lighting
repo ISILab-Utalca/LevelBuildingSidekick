@@ -8,7 +8,7 @@ LightingSettings:
   m_PrefabAsset: {fileID: 0}
   m_Name: BakeSetting
   serializedVersion: 6
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_EnableBakedLightmaps: 1
   m_EnableRealtimeLightmaps: 0
   m_RealtimeEnvironmentLighting: 1
@@ -18,7 +18,7 @@ LightingSettings:
   m_UsingShadowmask: 0
   m_BakeBackend: 2
   m_LightmapMaxSize: 2048
-  m_BakeResolution: 24
+  m_BakeResolution: 12
   m_Padding: 2
   m_LightmapCompression: 3
   m_AO: 1
@@ -40,12 +40,12 @@ LightingSettings:
   m_FinalGatherFiltering: 1
   m_PVRCulling: 0
   m_PVRSampling: 1
-  m_PVRDirectSampleCount: 8
+  m_PVRDirectSampleCount: 16
   m_PVRSampleCount: 128
   m_PVREnvironmentSampleCount: 64
   m_PVREnvironmentReferencePointCount: 2048
   m_LightProbeSampleCountMultiplier: 2
-  m_PVRBounces: 2
+  m_PVRBounces: 4
   m_PVRMinBounces: 0
   m_PVREnvironmentImportanceSampling: 0
   m_PVRFilteringMode: 1

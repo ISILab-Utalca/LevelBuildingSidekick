@@ -12,15 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: Castle_Wooden
   m_EditorClassIdentifier: 
+  flags: 0
   type: 0
   anchorPosition: 0
-  color: {r: 0, g: 0, b: 0, a: 0}
+  color: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 0}
   icon: {fileID: 0}
   childsBundles:
-  - {fileID: 11400000, guid: 98dd6db6b0c3878419630fed3e670245, type: 2}
-  - {fileID: 11400000, guid: 239c4b9a8a5b34c41acbb6fad1ddcc5b, type: 2}
-  - {fileID: 11400000, guid: 4c555d400e916714e9825fa0c207ba04, type: 2}
-  - {fileID: 11400000, guid: 64171be29d3355f4683ca0691172b123, type: 2}
+  - {fileID: 11400000, guid: 27d05e6b18d8d1945ad19c82c34b9acd, type: 2}
+  - {fileID: 11400000, guid: 2922de97f99038046b1f66903be656ca, type: 2}
+  - {fileID: 11400000, guid: a90b9e160779a6441ab7e2fa57c1b7d0, type: 2}
+  - {fileID: 11400000, guid: cf2e905696bc95a4fbe169ed8597c912, type: 2}
   assets: []
   characteristics:
   - rid: -2
