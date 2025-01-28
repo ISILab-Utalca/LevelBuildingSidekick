@@ -71,7 +71,6 @@ namespace LBS.Bundles
             Element, // Ej: Furniture, Enemies, 
                      // Distinction, // (characteristics)Ej: Destroyed, Blooded, Dirty,
         }
-
         #region FIELDS
         [SerializeField]
         private TagType type;
@@ -84,16 +83,16 @@ namespace LBS.Bundles
 
         [SerializeField]
         private Texture2D icon;
-
-        // hides in inspector and uses the custom GUI to assign only children with containing flags
-        [SerializeField, HideInInspector]
-        private List<Bundle> childsBundles = new List<Bundle>();
-
+        
         [SerializeField]
         private List<Asset> assets = new List<Asset>();
 
         [SerializeReference, HideInInspector]
         public List<LBSCharacteristic> characteristics = new List<LBSCharacteristic>();
+
+        // hides in inspector and uses the custom GUI to assign only children with containing flags
+        [SerializeField, HideInInspector]
+        private List<Bundle> childsBundles = new List<Bundle>();
 
         #endregion
 
@@ -101,9 +100,6 @@ namespace LBS.Bundles
         public Texture2D Icon => icon;
         public Color Color => color;
         public string Name => name;
-
-        public List<Bundle> ChildsBundles => new List<Bundle>(childsBundles);
-
         public List<Asset> Assets
         {
             get => new List<Asset>(assets);
@@ -112,6 +108,9 @@ namespace LBS.Bundles
 
         public List<LBSCharacteristic> Characteristics => characteristics;
 
+        public List<Bundle> ChildsBundles => new List<Bundle>(childsBundles);
+
+        
         [SerializeField]
         public bool IsLeaf => (childsBundles.Count <= 0);
 
@@ -383,87 +382,4 @@ namespace LBS.Bundles
         }
     }
     
-    
-[CustomEditor(typeof(Bundle))]
-public class BundleEditor : Editor
-{
-    private SerializedProperty childBundlesProp;
-
-    private void OnEnable()
-    {
-        //cache reference
-        childBundlesProp = serializedObject.FindProperty("childsBundles");
-    }
-
-    public override void OnInspectorGUI()
-    {
-        // default inspector for all other fields
-        DrawDefaultInspector();
-
-        EditorGUILayout.Space(10);
-        EditorGUILayout.LabelField("Child Bundles Inspector", EditorStyles.boldLabel);
-        
-        
-           // Display current child bundles
-        for (int i = 0; i < childBundlesProp.arraySize; i++)
-        {
-            var childProp = childBundlesProp.GetArrayElementAtIndex(i);
-            var childBundle = childProp.objectReferenceValue as Bundle;
-
-            EditorGUILayout.BeginHorizontal();
-
-            // Child bundle reference field
-            childProp.objectReferenceValue = EditorGUILayout.ObjectField(childBundle, typeof(Bundle), false);
-
-            // Remove button
-            if (GUILayout.Button("Remove", GUILayout.Width(60)))
-            {
-                childBundlesProp.DeleteArrayElementAtIndex(i);
-            }
-
-            EditorGUILayout.EndHorizontal();
-        }
-
-        // Add new child bundle
-        if (GUILayout.Button("Add Child Bundle"))
-        {
-            Bundle parentBundle = (Bundle)target;
-            Debug.Log(parentBundle.Flags);
-            // Fetch all potential bundles in the project
-            var allBundles = AssetDatabase.FindAssets("t:Bundle")
-                .Select(guid => AssetDatabase.LoadAssetAtPath<Bundle>(AssetDatabase.GUIDToAssetPath(guid)))
-                .ToList();
-            
-            GenericMenu menu = new GenericMenu();
-
-            // get all parents from the current parent to avoid recurssion
-            List<Bundle> parents = new List<Bundle>();
-            var GetParent = parentBundle;
-            while (GetParent != null)
-            {
-                parents.Add(GetParent);
-                GetParent = GetParent.Parent();
-            }
-            
-            foreach (var potentialChild in allBundles)
-            {
-                if ( parents.Contains(potentialChild) || !potentialChild.Flags.HasFlag(parentBundle.Flags) || parentBundle.ChildsBundles.Contains(potentialChild))
-                {
-                    continue;
-                }
-                menu.AddItem(new GUIContent(potentialChild.name), false, () =>
-                {
-                    childBundlesProp.InsertArrayElementAtIndex(childBundlesProp.arraySize);
-                    childBundlesProp.GetArrayElementAtIndex(childBundlesProp.arraySize - 1).objectReferenceValue = potentialChild;
-                    
-                    serializedObject.ApplyModifiedProperties();
-                });
-            }
-
-            menu.ShowAsContext();
-        }
-        serializedObject.ApplyModifiedProperties();
-    }
-}
-
 }
