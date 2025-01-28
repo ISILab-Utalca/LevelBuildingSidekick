@@ -15,8 +15,8 @@ namespace LBS.Components.TileMap
         [SerializeField, JsonRequired]
         public int x, y;
 
-        //NOTA: El tag estaba causando problemas con la serialización. Puede que cause problemas a futuro.
-        //Si se necesita reimplementar, debería reimplementarse en ExteriorDrawer (el script que lo utiliza) y no en LBSTile.
+        //NOTA: El tag estaba causando problemas con la serializaciï¿½n. Puede que cause problemas a futuro.
+        //Si se necesita reimplementar, deberï¿½a reimplementarse en ExteriorDrawer (el script que lo utiliza) y no en LBSTile.
 
         //public LBSTag tag;
         

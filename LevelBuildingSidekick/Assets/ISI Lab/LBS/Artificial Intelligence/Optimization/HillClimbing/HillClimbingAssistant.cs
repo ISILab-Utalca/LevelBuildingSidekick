@@ -575,7 +575,7 @@ namespace ISILab.LBS.Assistants
             var connectionMod = modules.GetModule<ConnectedTileMapModule>();
 
 
-            //make sure tiles don't overlapg
+            //make sure tiles don't overlap
             //
             var tiles = zonesMod.GetTiles(zone);
 

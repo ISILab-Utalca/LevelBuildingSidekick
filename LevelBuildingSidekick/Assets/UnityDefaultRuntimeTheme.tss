@@ -1,2 +1,4 @@
 @import url("unity-theme://default");
+
+@import url("ISI Lab/LBS/Plugin/VisualElements/Styles/LBSstyle.uss");
 VisualElement {}

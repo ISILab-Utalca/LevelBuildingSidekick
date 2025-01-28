@@ -13,11 +13,11 @@ namespace ISILab.AI.Optimization
 {
     public class AreasEvaluator : IEvaluator
     {
-        private LBSLayer original;
+        private LBSLayer _original;
 
         public AreasEvaluator(LBSLayer layer)
         {
-            this.original = layer;
+            this._original = layer;
         }
 
         private float EvaluateBySize(List<LBSModule> modules, Zone zone)
@@ -56,7 +56,7 @@ namespace ISILab.AI.Optimization
         {
             var modules = (evaluable as OptimizableModules).Modules;
 
-            var zones = original.GetModule<SectorizedTileMapModule>();
+            var zones = _original.GetModule<SectorizedTileMapModule>();
             var connected = modules.GetModule<ConnectedZonesModule>();
 
             var value = 0f;

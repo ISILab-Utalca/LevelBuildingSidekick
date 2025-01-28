@@ -240,8 +240,8 @@ MonoBehaviour:
     y: 0
     width: 305
     height: 771
-  m_MinSize: {x: 201, y: 221}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 18}
   m_Panes:
   - {fileID: 18}
@@ -257,7 +257,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: SceneView
+  m_Name: LBSMainWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -266,15 +266,15 @@ MonoBehaviour:
     y: 0
     width: 1325
     height: 771
-  m_MinSize: {x: 202, y: 221}
+  m_MinSize: {x: 802, y: 421}
   m_MaxSize: {x: 4002, y: 4021}
-  m_ActualView: {fileID: 17}
+  m_ActualView: {fileID: 27}
   m_Panes:
   - {fileID: 17}
   - {fileID: 19}
   - {fileID: 27}
-  m_Selected: 0
-  m_LastSelected: 2
+  m_Selected: 2
+  m_LastSelected: 0
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -373,8 +373,8 @@ MonoBehaviour:
     y: 0
     width: 479
     height: 1307
-  m_MinSize: {x: 276, y: 71}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 24}
   m_Panes:
   - {fileID: 24}
@@ -811,9 +811,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 13.768507, y: -8.434096, z: -2.8105145}
+    m_Target: {x: 5.395711, y: -7.9276304, z: -0.9450283}
     speed: 2
-    m_Value: {x: 9.69301, y: -8.918115, z: -19.544703}
+    m_Value: {x: 5.395711, y: -7.9276304, z: -0.9450283}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -859,13 +859,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.37962243, y: -0.15621471, z: 0.06520627, w: -0.9095407}
+    m_Target: {x: -0.37545756, y: 0.007793089, z: -0.0031515253, w: -0.92681885}
     speed: 2
-    m_Value: {x: -0.03575157, y: 0.9007844, z: -0.42616323, w: -0.075577505}
+    m_Value: {x: -0.3754515, y: 0.0077929636, z: -0.0031514745, w: -0.92680395}
   m_Size:
     m_Target: 16.966927
     speed: 2
-    m_Value: 15.097756
+    m_Value: 16.966927
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -929,7 +929,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 16f8ffff
+      m_ExpandedIDs: 4829ffffba74ffffc6faffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1105,10 +1105,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 0
-    y: 658
-    width: 744
-    height: 341
+    x: 1920
+    y: 495
+    width: 723
+    height: 515
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1120,12 +1120,12 @@ MonoBehaviour:
     m_SaveData: []
     m_OverlaysVisible: 1
   m_Spl:
-    ID: 363
+    ID: 4810
     splitterInitialOffset: 0
     currentActiveSplitter: -1
     realSizes:
-    - 203
-    - 68
+    - 334
+    - 111
     relativeSizes:
     - 0.75
     - 0.25
@@ -1135,7 +1135,7 @@ MonoBehaviour:
     maxSizes:
     - 0
     - 0
-    lastTotalSize: 271
+    lastTotalSize: 445
     splitSize: 6
     xOffset: 0
     m_Version: 1
@@ -1186,9 +1186,9 @@ MonoBehaviour:
       uniqueId: '[LevelBuildingSidekick][suite]'
       name: LevelBuildingSidekick
       fullName: LevelBuildingSidekick
-      resultStatus: 1
-      duration: 1.8105505
-      messages: 
+      resultStatus: 2
+      duration: 0.1279917
+      messages: One or more child tests had errors
       output: 
       stacktrace: 
       notRunnable: 0
@@ -1202,9 +1202,9 @@ MonoBehaviour:
       uniqueId: '[Tests.dll][suite]'
       name: Tests.dll
       fullName: C:/Users/zakup/GitHub/LevelBuildingSidekick/LevelBuildingSidekick/Library/ScriptAssemblies/Tests.dll
-      resultStatus: 1
-      duration: 1.7929105
-      messages: 
+      resultStatus: 2
+      duration: 0.1107386
+      messages: One or more child tests had errors
       output: 
       stacktrace: 
       notRunnable: 0
@@ -1218,9 +1218,9 @@ MonoBehaviour:
       uniqueId: Tests.dll/[ISILab][suite]
       name: ISILab
       fullName: ISILab
-      resultStatus: 1
-      duration: 1.7920094
-      messages: 
+      resultStatus: 2
+      duration: 0.1084469
+      messages: One or more child tests had errors
       output: 
       stacktrace: 
       notRunnable: 0
@@ -1234,9 +1234,9 @@ MonoBehaviour:
       uniqueId: Tests.dll/ISILab/[LBS][suite]
       name: LBS
       fullName: ISILab.LBS
-      resultStatus: 1
-      duration: 1.7915332
-      messages: 
+      resultStatus: 2
+      duration: 0.10536
+      messages: One or more child tests had errors
       output: 
       stacktrace: 
       notRunnable: 0
@@ -1250,9 +1250,9 @@ MonoBehaviour:
       uniqueId: Tests.dll/ISILab/LBS/[Tests][suite]
       name: Tests
       fullName: ISILab.LBS.Tests
-      resultStatus: 1
-      duration: 1.7881582
-      messages: 
+      resultStatus: 2
+      duration: 0.1012329
+      messages: One or more child tests had errors
       output: 
       stacktrace: 
       notRunnable: 0
@@ -1267,7 +1267,7 @@ MonoBehaviour:
       name: Test_Simple_Module
       fullName: ISILab.LBS.Tests.Test_Simple_Module
       resultStatus: 1
-      duration: 1.2985857
+      duration: 1.3422875
       messages: 
       output: 
       stacktrace: 
@@ -1283,7 +1283,7 @@ MonoBehaviour:
       name: Save_And_Load_Bundle_TileMap
       fullName: ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_Bundle_TileMap
       resultStatus: 1
-      duration: 0.305873
+      duration: 0.2238254
       messages: 
       output: 
       stacktrace: 
@@ -1300,7 +1300,7 @@ MonoBehaviour:
       name: Save_And_Load_Connected_TileMap
       fullName: ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_Connected_TileMap
       resultStatus: 1
-      duration: 0.1557384
+      duration: 0.1576026
       messages: 
       output: 
       stacktrace: 
@@ -1317,7 +1317,7 @@ MonoBehaviour:
       name: Save_And_Load_Connected_Zones
       fullName: ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_Connected_Zones
       resultStatus: 1
-      duration: 0.1514454
+      duration: 0.1629064
       messages: 
       output: 
       stacktrace: 
@@ -1334,7 +1334,7 @@ MonoBehaviour:
       name: Save_And_Load_Constraints_Zones
       fullName: ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_Constraints_Zones
       resultStatus: 1
-      duration: 0.1418836
+      duration: 0.1762226
       messages: 
       output: 
       stacktrace: 
@@ -1351,7 +1351,7 @@ MonoBehaviour:
       name: Save_And_Load_Empty_Layer
       fullName: ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_Empty_Layer
       resultStatus: 1
-      duration: 0.1292356
+      duration: 0.1524775
       messages: 
       output: 
       stacktrace: 
@@ -1368,7 +1368,7 @@ MonoBehaviour:
       name: Save_And_Load_Empty_Level_Data
       fullName: ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_Empty_Level_Data
       resultStatus: 1
-      duration: 0.1291564
+      duration: 0.1602317
       messages: 
       output: 
       stacktrace: 
@@ -1385,7 +1385,7 @@ MonoBehaviour:
       name: Save_And_Load_Sectorized_TileMap
       fullName: ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_Sectorized_TileMap
       resultStatus: 1
-      duration: 0.1339685
+      duration: 0.1502413
       messages: 
       output: 
       stacktrace: 
@@ -1402,7 +1402,7 @@ MonoBehaviour:
       name: Save_And_Load_TileMap_Module
       fullName: ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_TileMap_Module
       resultStatus: 1
-      duration: 0.1344313
+      duration: 0.1447818
       messages: 
       output: 
       stacktrace: 
@@ -1418,9 +1418,9 @@ MonoBehaviour:
       uniqueId: Tests.dll/ISILab/LBS/Tests/[Tests][ISILab.LBS.Tests.Test_Template_Layers][suite]
       name: Test_Template_Layers
       fullName: ISILab.LBS.Tests.Test_Template_Layers
-      resultStatus: 1
-      duration: 0.4848372
-      messages: 
+      resultStatus: 2
+      duration: 0.0980946
+      messages: One or more child tests had errors
       output: 
       stacktrace: 
       notRunnable: 0
@@ -1434,11 +1434,149 @@ MonoBehaviour:
       uniqueId: Tests.dll/ISILab/LBS/Tests/Test_Template_Layers/[Tests][ISILab.LBS.Tests.Test_Template_Layers.Save_And_Load_Exterior_Layer]
       name: Save_And_Load_Exterior_Layer
       fullName: ISILab.LBS.Tests.Test_Template_Layers.Save_And_Load_Exterior_Layer
-      resultStatus: 1
-      duration: 0.1765573
-      messages: 
-      output: 
-      stacktrace: 
+      resultStatus: 2
+      duration: 0.0948619
+      messages: "Newtonsoft.Json.JsonSerializationException : Error getting value
+        from 'format' on 'UnityEngine.Texture2D'.\r\n  ----> UnityEngine.UnassignedReferenceException
+        : The variable icon of Bundle has not been assigned.\nYou probably need to
+        assign the icon variable of the Bundle script in the inspector."
+      output: 'Null
+
+'
+      stacktrace: "  at Newtonsoft.Json.Serialization.ExpressionValueProvider.GetValue
+        (System.Object target) [0x00054] in <761cf2a144514d2291a678c334d49e9b>:0
+        \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.CalculatePropertyValues
+        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContainerContract
+        contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonProperty
+        property, Newtonsoft.Json.Serialization.JsonContract& memberContract, System.Object&
+        memberValue) [0x00066] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
+        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
+        contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+        collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+        [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
+        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
+        valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+        containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+        [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
+        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
+        contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+        collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+        [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
+        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
+        valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+        containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+        [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
+        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
+        contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+        collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+        [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
+        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
+        valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+        containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+        [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeList
+        (Newtonsoft.Json.JsonWriter writer, System.Collections.IEnumerable values,
+        Newtonsoft.Json.Serialization.JsonArrayContract contract, Newtonsoft.Json.Serialization.JsonProperty
+        member, Newtonsoft.Json.Serialization.JsonContainerContract collectionContract,
+        Newtonsoft.Json.Serialization.JsonProperty containerProperty) [0x000d6] in
+        <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
+        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
+        valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+        containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+        [0x000d6] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
+        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
+        contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+        collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+        [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
+        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
+        valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+        containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+        [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeList
+        (Newtonsoft.Json.JsonWriter writer, System.Collections.IEnumerable values,
+        Newtonsoft.Json.Serialization.JsonArrayContract contract, Newtonsoft.Json.Serialization.JsonProperty
+        member, Newtonsoft.Json.Serialization.JsonContainerContract collectionContract,
+        Newtonsoft.Json.Serialization.JsonProperty containerProperty) [0x000d6] in
+        <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
+        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
+        valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+        containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+        [0x000d6] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
+        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
+        contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+        collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+        [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
+        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
+        valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+        containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+        [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
+        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
+        contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+        collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+        [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
+        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
+        valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+        containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+        [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeList
+        (Newtonsoft.Json.JsonWriter writer, System.Collections.IEnumerable values,
+        Newtonsoft.Json.Serialization.JsonArrayContract contract, Newtonsoft.Json.Serialization.JsonProperty
+        member, Newtonsoft.Json.Serialization.JsonContainerContract collectionContract,
+        Newtonsoft.Json.Serialization.JsonProperty containerProperty) [0x000d6] in
+        <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
+        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
+        valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+        containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+        [0x000d6] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
+        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
+        contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+        collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+        [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
+        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
+        valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+        containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+        [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeList
+        (Newtonsoft.Json.JsonWriter writer, System.Collections.IEnumerable values,
+        Newtonsoft.Json.Serialization.JsonArrayContract contract, Newtonsoft.Json.Serialization.JsonProperty
+        member, Newtonsoft.Json.Serialization.JsonContainerContract collectionContract,
+        Newtonsoft.Json.Serialization.JsonProperty containerProperty) [0x000d6] in
+        <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
+        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
+        valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+        containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+        [0x000d6] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
+        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
+        contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+        collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+        [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
+        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
+        valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+        containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+        [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.Serialize
+        (Newtonsoft.Json.JsonWriter jsonWriter, System.Object value, System.Type
+        objectType) [0x00079] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.JsonSerializer.SerializeInternal
+        (Newtonsoft.Json.JsonWriter jsonWriter, System.Object value, System.Type
+        objectType) [0x0023a] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.JsonSerializer.Serialize
+        (Newtonsoft.Json.JsonWriter jsonWriter, System.Object value, System.Type
+        objectType) [0x00000] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.JsonConvert.SerializeObjectInternal
+        (System.Object value, System.Type type, Newtonsoft.Json.JsonSerializer jsonSerializer)
+        [0x00028] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.JsonConvert.SerializeObject
+        (System.Object value, System.Type type, Newtonsoft.Json.JsonSerializerSettings
+        settings) [0x00007] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.JsonConvert.SerializeObject
+        (System.Object value, Newtonsoft.Json.JsonSerializerSettings settings) [0x00000]
+        in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at ISILab.JsonNet.JSONDataManager.SaveData[T]
+        (System.String path, T data) [0x000a6] in C:\\Users\\roth8\\Documents\\GitHub\\LevelBuildingSidekick\\LevelBuildingSidekick\\Assets\\ISI
+        Lab\\Commons\\Json Net\\JSONDataManager.cs:46 \r\n  at ISILab.JsonNet.JSONDataManager.SaveData[T]
+        (System.String directoryName, System.String fileName, T data) [0x0002c] in
+        C:\\Users\\roth8\\Documents\\GitHub\\LevelBuildingSidekick\\LevelBuildingSidekick\\Assets\\ISI
+        Lab\\Commons\\Json Net\\JSONDataManager.cs:76 \r\n  at ISILab.LBS.Tests.Test_Template_Layers.Save_And_Load_Exterior_Layer
+        () [0x000c0] in C:\\Users\\roth8\\Documents\\GitHub\\LevelBuildingSidekick\\LevelBuildingSidekick\\Assets\\ISI
+        Lab\\LBS\\Editor\\Tests\\TestData.cs:349 \r\n  at (wrapper managed-to-native)
+        System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n 
+        at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
+        invokeAttr, System.Reflection.Binder binder, System.Object[] parameters,
+        System.Globalization.CultureInfo culture) [0x0006a] in <605bf8b31fcb444b85176da963870aa7>:0
+        \r\n--UnassignedReferenceException\r\n  at (wrapper managed-to-native) UnityEngine.Texture2D.get_format(UnityEngine.Texture2D)\r\n 
+        at (wrapper dynamic-method) System.Object.lambda_method(System.Runtime.CompilerServices.Closure,object)\r\n 
+        at Newtonsoft.Json.Serialization.ExpressionValueProvider.GetValue (System.Object
+        target) [0x0001e] in <761cf2a144514d2291a678c334d49e9b>:0 "
       notRunnable: 0
       ignoredOrSkipped: 0
       description: 
@@ -1452,7 +1590,7 @@ MonoBehaviour:
       name: Save_And_Load_Interior_Layer
       fullName: ISILab.LBS.Tests.Test_Template_Layers.Save_And_Load_Interior_Layer
       resultStatus: 1
-      duration: 0.1617587
+      duration: 0.1613867
       messages: 
       output: 
       stacktrace: 
@@ -1469,7 +1607,7 @@ MonoBehaviour:
       name: Save_And_Load_Population_Layer
       fullName: ISILab.LBS.Tests.Test_Template_Layers.Save_And_Load_Population_Layer
       resultStatus: 1
-      duration: 0.1403224
+      duration: 0.1582023
       messages: 
       output: 
       stacktrace: 
@@ -1481,8 +1619,278 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1010
       parentUniqueId: Tests.dll/ISILab/LBS/Tests/[Tests][ISILab.LBS.Tests.Test_Template_Layers][suite]
-    m_ResultText: Save_And_Load_Exterior_Layer (0,177s)
-    m_ResultStacktrace: 
+    m_ResultText: "Save_And_Load_Exterior_Layer (0,095s)\n---\nNewtonsoft.Json.JsonSerializationException
+      : Error getting value from 'format' on 'UnityEngine.Texture2D'.\r\n  ---->
+      UnityEngine.UnassignedReferenceException : The variable icon of Bundle has
+      not been assigned.\nYou probably need to assign the icon variable of the Bundle
+      script in the inspector.\n---\nat Newtonsoft.Json.Serialization.ExpressionValueProvider.GetValue
+      (System.Object target) [0x00054] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n 
+      at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.CalculatePropertyValues
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContainerContract
+      contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonProperty
+      property, Newtonsoft.Json.Serialization.JsonContract& memberContract, System.Object&
+      memberValue) [0x00066] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
+      contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
+      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
+      contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
+      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
+      contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
+      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeList
+      (Newtonsoft.Json.JsonWriter writer, System.Collections.IEnumerable values,
+      Newtonsoft.Json.Serialization.JsonArrayContract contract, Newtonsoft.Json.Serialization.JsonProperty
+      member, Newtonsoft.Json.Serialization.JsonContainerContract collectionContract,
+      Newtonsoft.Json.Serialization.JsonProperty containerProperty) [0x000d6] in
+      <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
+      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x000d6] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
+      contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
+      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeList
+      (Newtonsoft.Json.JsonWriter writer, System.Collections.IEnumerable values,
+      Newtonsoft.Json.Serialization.JsonArrayContract contract, Newtonsoft.Json.Serialization.JsonProperty
+      member, Newtonsoft.Json.Serialization.JsonContainerContract collectionContract,
+      Newtonsoft.Json.Serialization.JsonProperty containerProperty) [0x000d6] in
+      <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
+      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x000d6] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
+      contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
+      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
+      contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
+      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeList
+      (Newtonsoft.Json.JsonWriter writer, System.Collections.IEnumerable values,
+      Newtonsoft.Json.Serialization.JsonArrayContract contract, Newtonsoft.Json.Serialization.JsonProperty
+      member, Newtonsoft.Json.Serialization.JsonContainerContract collectionContract,
+      Newtonsoft.Json.Serialization.JsonProperty containerProperty) [0x000d6] in
+      <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
+      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x000d6] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
+      contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
+      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeList
+      (Newtonsoft.Json.JsonWriter writer, System.Collections.IEnumerable values,
+      Newtonsoft.Json.Serialization.JsonArrayContract contract, Newtonsoft.Json.Serialization.JsonProperty
+      member, Newtonsoft.Json.Serialization.JsonContainerContract collectionContract,
+      Newtonsoft.Json.Serialization.JsonProperty containerProperty) [0x000d6] in
+      <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
+      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x000d6] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
+      contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
+      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.Serialize
+      (Newtonsoft.Json.JsonWriter jsonWriter, System.Object value, System.Type objectType)
+      [0x00079] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.JsonSerializer.SerializeInternal
+      (Newtonsoft.Json.JsonWriter jsonWriter, System.Object value, System.Type objectType)
+      [0x0023a] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.JsonSerializer.Serialize
+      (Newtonsoft.Json.JsonWriter jsonWriter, System.Object value, System.Type objectType)
+      [0x00000] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.JsonConvert.SerializeObjectInternal
+      (System.Object value, System.Type type, Newtonsoft.Json.JsonSerializer jsonSerializer)
+      [0x00028] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.JsonConvert.SerializeObject
+      (System.Object value, System.Type type, Newtonsoft.Json.JsonSerializerSettings
+      settings) [0x00007] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.JsonConvert.SerializeObject
+      (System.Object value, Newtonsoft.Json.JsonSerializerSettings settings) [0x00000]
+      in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at ISILab.JsonNet.JSONDataManager.SaveData[T]
+      (System.String path, T data) [0x000a6] in C:\\Users\\roth8\\Documents\\GitHub\\LevelBuildingSidekick\\LevelBuildingSidekick\\Assets\\ISI
+      Lab\\Commons\\Json Net\\JSONDataManager.cs:46 \r\n  at ISILab.JsonNet.JSONDataManager.SaveData[T]
+      (System.String directoryName, System.String fileName, T data) [0x0002c] in
+      C:\\Users\\roth8\\Documents\\GitHub\\LevelBuildingSidekick\\LevelBuildingSidekick\\Assets\\ISI
+      Lab\\Commons\\Json Net\\JSONDataManager.cs:76 \r\n  at ISILab.LBS.Tests.Test_Template_Layers.Save_And_Load_Exterior_Layer
+      () [0x000c0] in C:\\Users\\roth8\\Documents\\GitHub\\LevelBuildingSidekick\\LevelBuildingSidekick\\Assets\\ISI
+      Lab\\LBS\\Editor\\Tests\\TestData.cs:349 \r\n  at (wrapper managed-to-native)
+      System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n 
+      at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
+      invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo
+      culture) [0x0006a] in <605bf8b31fcb444b85176da963870aa7>:0 \r\n--UnassignedReferenceException\r\n 
+      at (wrapper managed-to-native) UnityEngine.Texture2D.get_format(UnityEngine.Texture2D)\r\n 
+      at (wrapper dynamic-method) System.Object.lambda_method(System.Runtime.CompilerServices.Closure,object)\r\n 
+      at Newtonsoft.Json.Serialization.ExpressionValueProvider.GetValue (System.Object
+      target) [0x0001e] in <761cf2a144514d2291a678c334d49e9b>:0\n---\nNull"
+    m_ResultStacktrace: "  at Newtonsoft.Json.Serialization.ExpressionValueProvider.GetValue
+      (System.Object target) [0x00054] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n 
+      at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.CalculatePropertyValues
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContainerContract
+      contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonProperty
+      property, Newtonsoft.Json.Serialization.JsonContract& memberContract, System.Object&
+      memberValue) [0x00066] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
+      contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
+      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
+      contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
+      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
+      contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
+      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeList
+      (Newtonsoft.Json.JsonWriter writer, System.Collections.IEnumerable values,
+      Newtonsoft.Json.Serialization.JsonArrayContract contract, Newtonsoft.Json.Serialization.JsonProperty
+      member, Newtonsoft.Json.Serialization.JsonContainerContract collectionContract,
+      Newtonsoft.Json.Serialization.JsonProperty containerProperty) [0x000d6] in
+      <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
+      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x000d6] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
+      contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
+      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeList
+      (Newtonsoft.Json.JsonWriter writer, System.Collections.IEnumerable values,
+      Newtonsoft.Json.Serialization.JsonArrayContract contract, Newtonsoft.Json.Serialization.JsonProperty
+      member, Newtonsoft.Json.Serialization.JsonContainerContract collectionContract,
+      Newtonsoft.Json.Serialization.JsonProperty containerProperty) [0x000d6] in
+      <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
+      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x000d6] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
+      contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
+      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
+      contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
+      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeList
+      (Newtonsoft.Json.JsonWriter writer, System.Collections.IEnumerable values,
+      Newtonsoft.Json.Serialization.JsonArrayContract contract, Newtonsoft.Json.Serialization.JsonProperty
+      member, Newtonsoft.Json.Serialization.JsonContainerContract collectionContract,
+      Newtonsoft.Json.Serialization.JsonProperty containerProperty) [0x000d6] in
+      <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
+      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x000d6] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
+      contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
+      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeList
+      (Newtonsoft.Json.JsonWriter writer, System.Collections.IEnumerable values,
+      Newtonsoft.Json.Serialization.JsonArrayContract contract, Newtonsoft.Json.Serialization.JsonProperty
+      member, Newtonsoft.Json.Serialization.JsonContainerContract collectionContract,
+      Newtonsoft.Json.Serialization.JsonProperty containerProperty) [0x000d6] in
+      <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
+      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x000d6] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
+      contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
+      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
+      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
+      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
+      [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.Serialize
+      (Newtonsoft.Json.JsonWriter jsonWriter, System.Object value, System.Type objectType)
+      [0x00079] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.JsonSerializer.SerializeInternal
+      (Newtonsoft.Json.JsonWriter jsonWriter, System.Object value, System.Type objectType)
+      [0x0023a] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.JsonSerializer.Serialize
+      (Newtonsoft.Json.JsonWriter jsonWriter, System.Object value, System.Type objectType)
+      [0x00000] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.JsonConvert.SerializeObjectInternal
+      (System.Object value, System.Type type, Newtonsoft.Json.JsonSerializer jsonSerializer)
+      [0x00028] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.JsonConvert.SerializeObject
+      (System.Object value, System.Type type, Newtonsoft.Json.JsonSerializerSettings
+      settings) [0x00007] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.JsonConvert.SerializeObject
+      (System.Object value, Newtonsoft.Json.JsonSerializerSettings settings) [0x00000]
+      in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at ISILab.JsonNet.JSONDataManager.SaveData[T]
+      (System.String path, T data) [0x000a6] in C:\\Users\\roth8\\Documents\\GitHub\\LevelBuildingSidekick\\LevelBuildingSidekick\\Assets\\ISI
+      Lab\\Commons\\Json Net\\JSONDataManager.cs:46 \r\n  at ISILab.JsonNet.JSONDataManager.SaveData[T]
+      (System.String directoryName, System.String fileName, T data) [0x0002c] in
+      C:\\Users\\roth8\\Documents\\GitHub\\LevelBuildingSidekick\\LevelBuildingSidekick\\Assets\\ISI
+      Lab\\Commons\\Json Net\\JSONDataManager.cs:76 \r\n  at ISILab.LBS.Tests.Test_Template_Layers.Save_And_Load_Exterior_Layer
+      () [0x000c0] in C:\\Users\\roth8\\Documents\\GitHub\\LevelBuildingSidekick\\LevelBuildingSidekick\\Assets\\ISI
+      Lab\\LBS\\Editor\\Tests\\TestData.cs:349 \r\n  at (wrapper managed-to-native)
+      System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n 
+      at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
+      invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo
+      culture) [0x0006a] in <605bf8b31fcb444b85176da963870aa7>:0 \r\n--UnassignedReferenceException\r\n 
+      at (wrapper managed-to-native) UnityEngine.Texture2D.get_format(UnityEngine.Texture2D)\r\n 
+      at (wrapper dynamic-method) System.Object.lambda_method(System.Runtime.CompilerServices.Closure,object)\r\n 
+      at Newtonsoft.Json.Serialization.ExpressionValueProvider.GetValue (System.Object
+      target) [0x0001e] in <761cf2a144514d2291a678c334d49e9b>:0 "
     m_TestListState:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 9e1a110a
@@ -1548,7 +1956,7 @@ MonoBehaviour:
     m_SaveData: []
     m_OverlaysVisible: 1
   m_SearchFilter:
-    m_NameFilter: 
+    m_NameFilter: bundle
     m_ClassNames: []
     m_AssetLabels: []
     m_AssetBundleNames: []
@@ -1558,24 +1966,24 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/ISI Lab
+    - Assets/ISI Lab/LBS/Plugin/VisualElements/Editor
     m_Globs: []
-    m_OriginalText: 
+    m_OriginalText: bundle
     m_ImportLogFlags: 0
     m_FilterByTypeIntersection: 0
   m_ViewMode: 1
-  m_StartGridSize: 96
+  m_StartGridSize: 16
   m_LastFolders:
-  - Assets/ISI Lab
-  m_LastFoldersGridSize: 96
+  - Assets/ISI Lab/LBS/Plugin/VisualElements/Editor
+  m_LastFoldersGridSize: 16
   m_LastProjectPath: C:\Users\roth8\Documents\GitHub\LevelBuildingSidekick\LevelBuildingSidekick
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 271}
-    m_SelectedIDs: 342a0000
-    m_LastClickedID: 10804
-    m_ExpandedIDs: 00000000342a0000a8a50000aaa50000aca50000aea50000b0a50000b2a50000b4a50000b6a50000b8a50000baa50000bca50000bea50000c0a50000c2a50000c4a50000c6a50000c8a50000caa50000cca50000cea50000d0a50000d2a50000d4a50000d6a50000e6a5000000ca9a3bffffff7f
+    scrollPos: {x: 0, y: 1759}
+    m_SelectedIDs: 20a40000
+    m_LastClickedID: 42016
+    m_ExpandedIDs: 000000000ea4000010a4000012a4000014a4000016a4000018a400001aa400001ca400001ea4000020a4000022a4000024a4000026a4000028a400002aa400002ca400002ea4000030a4000032a4000034a4000036a4000038a400003aa400003ca400003ea400004ea4000088a40000b8a40000baa4000000a5000004a500000aa500000ca500002ca5000080a5000082a5000088a50000a6a50000b8a50000c8a5000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1603,7 +2011,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000342a0000a8a50000aaa50000aca50000aea50000b0a50000b2a50000b4a50000b6a50000b8a50000baa50000bca50000bea50000c0a50000c2a50000c4a50000c6a50000c8a50000caa50000cca50000cea50000d0a50000d2a50000d4a50000d6a50000
+    m_ExpandedIDs: 000000000ea4000010a4000012a4000014a4000016a4000018a400001aa400001ca400001ea4000020a4000022a4000024a4000026a4000028a400002aa400002ca400002ea4000030a4000032a4000034a4000036a4000038a400003aa400003ca400003ea40000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1630,7 +2038,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 1
+    m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: c6230000acb20d00429e00002a6f00004e850000000000001ac80000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -1656,7 +2064,7 @@ MonoBehaviour:
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
     m_ScrollPosition: {x: 0, y: 0}
-    m_GridSize: 96
+    m_GridSize: 16
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 50
 --- !u!114 &23
@@ -1721,7 +2129,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: cc6c0000
     m_LastClickedID: 27852
-    m_ExpandedIDs: 00000000342a0000a8a50000aaa50000aca50000aea50000b0a50000b2a50000b4a50000b6a50000b8a50000baa50000bca50000bea50000c0a50000c2a50000c4a50000c6a50000c8a50000caa50000cca50000cea50000d0a50000d2a50000d4a50000d6a50000
+    m_ExpandedIDs: 000000000ea4000010a4000012a4000014a4000016a4000018a400001aa400001ca400001ea4000020a4000022a4000024a4000026a4000028a400002aa400002ca400002ea4000030a4000032a4000034a4000036a4000038a400003aa400003ca400003ea40000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1749,7 +2157,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000342a0000a8a50000aaa50000aca50000aea50000b0a50000b2a50000b4a50000b6a50000b8a50000baa50000bca50000bea50000c0a50000c2a50000c4a50000c6a50000c8a50000caa50000cca50000cea50000d0a50000d2a50000d4a50000d6a50000
+    m_ExpandedIDs: 000000000ea4000010a4000012a4000014a4000016a4000018a400001aa400001ca400001ea4000020a4000022a4000024a4000026a4000028a400002aa400002ca400002ea4000030a4000032a4000034a4000036a4000038a400003aa400003ca400003ea40000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

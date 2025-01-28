@@ -180,7 +180,7 @@ namespace ISILab.LBS.Components
             return neighborhood;
         }
 
-        private int NeighborhoodValue(Vector2Int position, List<Vector2> directions) // TODO: Refactor the name of this method
+        private int NeighborhoodValue(Vector2Int position, List<Vector2> directions)
         {
             var value = 0;
             for (int i = 0; i < directions.Count; i++)
