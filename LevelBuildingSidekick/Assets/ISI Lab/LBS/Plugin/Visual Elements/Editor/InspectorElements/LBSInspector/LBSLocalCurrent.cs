@@ -3,7 +3,7 @@ using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Editor;
 using ISILab.LBS.Manipulators;
 using LBS.Components;
-using LBS.Settings;
+using ISILab.LBS.Settings;
 using LBS.VisualElements;
 using System;
 using System.Collections;

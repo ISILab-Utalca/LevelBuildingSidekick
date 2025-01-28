@@ -5,7 +5,7 @@ using System.Linq;
 using ISILab.Extensions;
 using ISILab.LBS.Modules;
 using LBS.Components.Graph;
-using LBS.Settings;
+using ISILab.LBS.Settings;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UIElements;

@@ -1,6 +1,6 @@
 using ISILab.Commons.Utility;
 using ISILab.Commons.Utility.Editor;
-using LBS.Settings;
+using ISILab.LBS.Settings;
 using System;
 using System.Collections;
 using System.Collections.Generic;

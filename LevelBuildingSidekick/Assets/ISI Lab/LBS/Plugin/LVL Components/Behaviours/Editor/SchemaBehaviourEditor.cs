@@ -5,7 +5,7 @@ using ISILab.LBS.Manipulators;
 using ISILab.LBS.VisualElements;
 using LBS;
 using LBS.Bundles;
-using LBS.Settings;
+using ISILab.LBS.Settings;
 using LBS.VisualElements;
 using System.Collections.Generic;
 

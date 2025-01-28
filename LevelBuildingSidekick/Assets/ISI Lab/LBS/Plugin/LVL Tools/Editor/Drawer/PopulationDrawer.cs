@@ -1,7 +1,7 @@
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.VisualElements;
 using ISILab.LBS.VisualElements.Editor;
-using LBS.Settings;
+using ISILab.LBS.Settings;
 using UnityEngine;
 
 namespace ISILab.LBS.Drawers

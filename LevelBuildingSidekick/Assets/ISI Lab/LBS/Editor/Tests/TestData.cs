@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEditor.Playables;
 using UnityEngine;
 using System.IO;
-using LBS.Settings;
+using ISILab.LBS.Settings;
 using System.Linq;
 using LBS.Components.TileMap;
 using UnityEngine.Tilemaps;

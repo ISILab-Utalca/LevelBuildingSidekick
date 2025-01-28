@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 
-using LBS.Settings;
+using ISILab.LBS.Settings;
 using LBS.Components;
 using ISILab.Commons.Utility;
 using ISILab.Commons.Utility.Editor;

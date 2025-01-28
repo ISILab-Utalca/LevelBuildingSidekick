@@ -10,7 +10,7 @@ using ISILab.LBS.Components;
 using ISILab.LBS.Manipulators;
 using ISILab.LBS.Modules;
 using ISILab.LBS.VisualElements.Editor;
-using LBS.Settings;
+using ISILab.LBS.Settings;
 using UnityEditor.UIElements;
 
 namespace ISILab.LBS.VisualElements

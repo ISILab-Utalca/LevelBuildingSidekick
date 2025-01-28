@@ -6,7 +6,7 @@ using ISILab.AI.Grammar;
 using ISILab.Extensions;
 using ISILab.LBS.Components;
 using ISILab.LBS.Internal;
-using LBS.Settings;
+using ISILab.LBS.Settings;
 using Newtonsoft.Json;
 using UnityEngine;
 

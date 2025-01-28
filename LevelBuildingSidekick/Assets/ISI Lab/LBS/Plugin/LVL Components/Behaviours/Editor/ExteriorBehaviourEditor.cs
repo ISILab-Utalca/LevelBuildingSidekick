@@ -1,7 +1,7 @@
 using ISILab.Commons.Utility.Editor;
 using LBS;
 using LBS.Bundles;
-using LBS.Settings;
+using ISILab.LBS.Settings;
 using LBS.VisualElements;
 using System.Collections.Generic;
 using System.Linq;

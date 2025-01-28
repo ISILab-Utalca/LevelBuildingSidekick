@@ -9,7 +9,7 @@ using ISILab.LBS.Assistants;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Generators;
 using ISILab.LBS.Modules;
-using LBS.Settings;
+using ISILab.LBS.Settings;
 using Newtonsoft.Json;
 using UnityEngine;
 

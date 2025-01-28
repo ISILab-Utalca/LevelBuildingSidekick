@@ -1,7 +1,7 @@
 using ISILab.LBS.VisualElements.Editor;
 using ISILab.LBS.Editor.Windows;
 using LBS.Components;
-using LBS.Settings;
+using ISILab.LBS.Settings;
 using System;
 using UnityEngine;
 

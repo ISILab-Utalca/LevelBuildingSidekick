@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace LBS.Settings
+namespace ISILab.LBS.Settings
 {
     public class SettingsEditor
     {

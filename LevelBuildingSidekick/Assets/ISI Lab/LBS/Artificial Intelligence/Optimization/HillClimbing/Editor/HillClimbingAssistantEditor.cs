@@ -7,7 +7,7 @@ using ISILab.LBS.Editor.Windows;
 
 using LBS;
 using LBS.Components;
-using LBS.Settings;
+using ISILab.LBS.Settings;
 using LBS.VisualElements;
 
 using UnityEditor;

@@ -3,7 +3,7 @@ using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Internal;
 using LBS.Bundles;
 using LBS.Components;
-using LBS.Settings;
+using ISILab.LBS.Settings;
 using System;
 using System.Collections;
 using System.Collections.Generic;
