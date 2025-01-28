@@ -42,8 +42,6 @@ namespace ISILab.JsonNet
             }
 
             // generate json string
-
-            Debug.Log("test");
             string jsonString = "ERROR";
             jsonString = JsonConvert.SerializeObject(
                 data,
