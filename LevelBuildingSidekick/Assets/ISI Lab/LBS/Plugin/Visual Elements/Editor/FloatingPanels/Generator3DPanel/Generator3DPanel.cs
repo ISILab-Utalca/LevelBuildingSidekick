@@ -137,9 +137,17 @@ namespace ISILab.LBS.VisualElements.Editor
             if (bakeLights.value)
             {
                 // Retrieve the LightingSettings asset by its path
-                LightingSettings lightingSettings = AssetDatabase.LoadAssetAtPath<LightingSettings>("Assets/DevTool/Settings/BakeSetting.lighting");
-                Lightmapping.lightingSettings = lightingSettings;
-                Lightmapping.Bake();
+                LightingSettings lightingSettings = AssetDatabase.LoadAssetAtPath<LightingSettings>("Assets/ISI Lab/DevTools/Settings/BakeSetting.lighting");
+                if (lightingSettings)
+                {
+                    Lightmapping.lightingSettings = lightingSettings;
+                    Lightmapping.Bake();
+                }
+                else
+                {
+                    LBSMainWindow.MessageNotify("Missing lightning settings BakeSetting", LogType.Error, 4);
+                }
+
             }
         }
         
