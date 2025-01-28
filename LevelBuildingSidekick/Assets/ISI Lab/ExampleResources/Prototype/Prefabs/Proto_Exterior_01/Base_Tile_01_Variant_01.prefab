@@ -307,7 +307,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a4bc311945a4b924abc9e60990e88604, type: 3}
---- !u!4 &4692576193275220646 stripped
+--- !u!4 &8598974311975343461 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3912168735021991872, guid: a4bc311945a4b924abc9e60990e88604, type: 3}
   m_PrefabInstance: {fileID: 4692576193275220645}
@@ -697,7 +697,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a4bc311945a4b924abc9e60990e88604, type: 3}
---- !u!4 &8237502500077404086 stripped
+--- !u!4 &4907705736963913845 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3912168735021991872, guid: a4bc311945a4b924abc9e60990e88604, type: 3}
   m_PrefabInstance: {fileID: 8237502500077404085}
@@ -716,7 +716,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49b4b69dfd387e348bcbf159365d9096, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49b4b69dfd387e348bcbf159365d9096, type: 3}
       propertyPath: m_LocalPosition.y
@@ -724,7 +724,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49b4b69dfd387e348bcbf159365d9096, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 14.48
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49b4b69dfd387e348bcbf159365d9096, type: 3}
       propertyPath: m_LocalRotation.w
@@ -756,7 +756,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 49b4b69dfd387e348bcbf159365d9096, type: 3}
       propertyPath: m_Name
-      value: Base_Tile_01 Variant
+      value: Base_Tile_01_Variant_01
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 49b4b69dfd387e348bcbf159365d9096, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -773,7 +773,7 @@ PrefabInstance:
       addedObject: {fileID: 6413346658062707357}
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 49b4b69dfd387e348bcbf159365d9096, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4692576193275220646}
+      addedObject: {fileID: 8598974311975343461}
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 49b4b69dfd387e348bcbf159365d9096, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4475779486088825509}
@@ -785,7 +785,7 @@ PrefabInstance:
       addedObject: {fileID: 6596900618295690618}
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 49b4b69dfd387e348bcbf159365d9096, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8237502500077404086}
+      addedObject: {fileID: 4907705736963913845}
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 49b4b69dfd387e348bcbf159365d9096, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2556075497412811514}
