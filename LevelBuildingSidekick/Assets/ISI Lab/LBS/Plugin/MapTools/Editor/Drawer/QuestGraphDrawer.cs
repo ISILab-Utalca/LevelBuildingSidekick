@@ -33,9 +33,9 @@ namespace ISILab.LBS.Drawers.Editor
                 if (node.ID == "Start Node")
                 {
                     continue;
-                    var v = new StartQNode();
-                    v.SetPosition(new Rect(node.Position, LBSSettings.Instance.general.TileSize));
-                    nodeViews.Add(node, v);
+                    // var v = new StartQNode();
+                    // v.SetPosition(new Rect(node.Position, LBSSettings.Instance.general.TileSize));
+                    // nodeViews.Add(node, v);
                     
                 }
                 
