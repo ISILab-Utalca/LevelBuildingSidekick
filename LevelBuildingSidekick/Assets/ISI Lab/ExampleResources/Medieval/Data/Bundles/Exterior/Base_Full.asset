@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: Base_Full
   m_EditorClassIdentifier: 
+  flags: 0
   type: 0
   anchorPosition: 0
   color: {r: 0, g: 0, b: 0, a: 0}
@@ -19,6 +20,10 @@ MonoBehaviour:
   childsBundles: []
   assets:
   - obj: {fileID: 919132149155446097, guid: 49b4b69dfd387e348bcbf159365d9096, type: 3}
+    probability: 1
+  - obj: {fileID: 8813718854481977812, guid: cab9a7b30c4820946a447999fcf27f11, type: 3}
+    probability: 1
+  - obj: {fileID: 918351745695781812, guid: 8f9edf87b381aec41bd0da90b256a2d3, type: 3}
     probability: 1
   characteristics:
   - rid: 5085006314459627539
