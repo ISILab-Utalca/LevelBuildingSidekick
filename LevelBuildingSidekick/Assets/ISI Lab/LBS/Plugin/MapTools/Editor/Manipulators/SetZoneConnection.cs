@@ -63,10 +63,15 @@ namespace ISILab.LBS.Manipulators
                 return;
             }
 
+            if (assistant.CheckEdges(z1, z2))
+            {
+                LBSMainWindow.MessageNotify("This connection already exists.");
+                return;
+            }
+
             var x = LBSController.CurrentLevel;
             EditorGUI.BeginChangeCheck();
             Undo.RegisterCompleteObjectUndo(x, "Add Zone Connections");
-
             assistant.ConnectZones(z1, z2);
 
             if (EditorGUI.EndChangeCheck())
