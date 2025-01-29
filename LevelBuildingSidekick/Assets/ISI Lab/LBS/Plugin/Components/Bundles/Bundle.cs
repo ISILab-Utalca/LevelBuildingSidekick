@@ -7,6 +7,7 @@ using LBS.Bundles;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 
 namespace LBS.Bundles
 {
@@ -55,14 +56,14 @@ namespace LBS.Bundles
 
         public Bundle()
         {
-            flags = BundleFlags.None;
+            layerContentFlags = BundleFlags.None;
         }
         
         // Add a flags field
-        [SerializeField]
-        private BundleFlags flags;
+        [FormerlySerializedAs("flags")] [SerializeField]
+        private BundleFlags layerContentFlags;
 
-        public BundleFlags Flags => flags;
+        public BundleFlags LayerContentFlags => layerContentFlags;
         
         public enum TagType
         {
@@ -189,7 +190,7 @@ namespace LBS.Bundles
                 parents.Add(currentParent);
                 currentParent = currentParent.Parent();
             }
-            if (!potentialChild.Flags.HasFlag(Flags)) return false;
+            if (!potentialChild.LayerContentFlags.HasFlag(LayerContentFlags)) return false;
             if (parents.Contains(potentialChild))  return false;
             if (ChildsBundles.Contains(potentialChild)) return false;
             return true;
