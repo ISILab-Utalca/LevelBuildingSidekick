@@ -382,3 +382,18 @@ MonoBehaviour:
   - type: ISILab.LBS.AI.Categorization.MAPElitesPreset
     items:
     - {fileID: 11400000, guid: ee03be004b3a3c84583d4d19c72c48db, type: 2}
+  - type: UnityEditor.ShaderGraph.ShaderGraphHeatmapValues
+    items:
+    - {fileID: 11400000, guid: 089885f17bac7464a80c68e81d8538a1, type: 2}
+  - type: UnityEngine.Rendering.LensFlareDataSRP
+    items:
+    - {fileID: 11400000, guid: bd7eaf3bd49c39f4cb77bd809459aa72, type: 2}
+  - type: ISILab.LBS.Settings.LBSSettings
+    items:
+    - {fileID: 11400000, guid: 29abd09f3cff7644da7097258d0ae978, type: 2}
+  - type: UnityEditor.U2D.PSD.Pipeline
+    items:
+    - {fileID: 11400000, guid: 7a602206d712e496b8b4f2c9fb6ce07c, type: 2}
+  - type: UnityEditor.U2D.Common.SpriteAtlasPacker.SpriteAtlasScriptablePacker
+    items:
+    - {fileID: 11400000, guid: 9eaaf0b28a38f804f9fadea8b77e198d, type: 2}
