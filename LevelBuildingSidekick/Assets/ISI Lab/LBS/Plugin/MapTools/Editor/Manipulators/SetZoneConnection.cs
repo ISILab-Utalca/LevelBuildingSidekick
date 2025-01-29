@@ -39,6 +39,7 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
         {
+            var second = layer.ToFixedPosition(position);
 
             var z1 = assistant.GetZone(first);
 
