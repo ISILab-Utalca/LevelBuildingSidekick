@@ -73,7 +73,7 @@ namespace ISILab.LBS.Editor.Windows{
         {
             var window = GetWindow<LBSMainWindow>();
             Texture icon = Resources.Load<Texture>("Icons/LBS_Logo1");
-            window.titleContent = new GUIContent("Level builder", icon);
+            window.titleContent = new GUIContent("Level Builder", icon);
             window.minSize = new Vector2(800, 400);
         }
         #endregion
