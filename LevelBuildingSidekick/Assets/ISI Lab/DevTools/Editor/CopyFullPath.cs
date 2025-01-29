@@ -31,6 +31,7 @@ namespace Nico.Tools
 
                     path = path.Replace('/', '\\');
 
+                    
                     GUIUtility.systemCopyBuffer = path;
 
                     Debug.Log("The full path was copy to the clipboard:\n" + path);
