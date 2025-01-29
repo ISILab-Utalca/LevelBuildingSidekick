@@ -12,10 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: Exterior_Proto_Cloud_Bundle
   m_EditorClassIdentifier: 
+  flags: 0
   type: 0
   anchorPosition: 0
   color: {r: 0.6226415, g: 0.6226415, b: 0.6226415, a: 0}
   icon: {fileID: 2800000, guid: c5ceb79ceb9c465439932b2bcd854059, type: 3}
+  assets: []
+  characteristics:
+  - rid: 6598277268373504832
   childsBundles:
   - {fileID: 11400000, guid: 3ccf8442a472e0943899ad0e08afc068, type: 2}
   - {fileID: 11400000, guid: 21bf7352873a7684d97fd1e307da5c6d, type: 2}
@@ -23,9 +27,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 97a009fe75e5514469f6bb24b530ca12, type: 2}
   - {fileID: 11400000, guid: cb9d3c99b1d41844e8f9e023aa8096aa, type: 2}
   - {fileID: 11400000, guid: b4e7c0dd3687e6d46bdcd1845dab9416, type: 2}
-  assets: []
-  characteristics:
-  - rid: 6598277268373504832
   references:
     version: 2
     RefIds:
