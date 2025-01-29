@@ -1,6 +1,5 @@
-<<<<<<< HEAD
-# Level Building SideKick Documentation
-=======
+![imagen](https://github.com/user-attachments/assets/db98a781-9836-462c-8e15-faad82e0eedf)
+
 # Level Building Sidekick
 LBS is an extension designed for Unity Engine, which facilitates developers in creating environments for their video games, thereby contributing to increased productivity. This extension features artificial intelligence assistants in various areas, which suggest modifications based on the fundamental characteristics developed by the user. These suggestions enable developers to explore new possibilities without manually creating these variations, fostering greater creative freedom.
 ## Table of Contents
