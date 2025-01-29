@@ -202,7 +202,7 @@ namespace ISILab.LBS.Manipulators
                 return;
             
             startClickPosition = MainView.Instance.FixPos(e.localMousePosition).ToInt();
-            
+
             // right click tries deleting 
             if (e.button == 1 && remover != null)
             {
@@ -219,9 +219,9 @@ namespace ISILab.LBS.Manipulators
             started = true;
              
             StartFeedback();
-            
+
             OnManipulationStart?.Invoke();
-            OnMouseDown(e.target as VisualElement, e.originalMousePosition.ToInt(), e);
+            OnMouseDown(e.target as VisualElement, startClickPosition, e);
             
             // check if last called by adder
             if (isRightClick && adder != null)
@@ -271,7 +271,7 @@ namespace ISILab.LBS.Manipulators
             ended = true;
             endClickPosition = MainView.Instance.FixPos(e.localMousePosition).ToInt();
             EndFeedback();
-            
+
             // right click tries deleting 
             if (e.button == 1 && remover != null)
             {

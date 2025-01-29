@@ -65,7 +65,7 @@ namespace ISILab.LBS.Behaviours
                 if(bundlePath != "") 
                 {
                     var bundle = AssetDatabase.LoadAssetAtPath<Bundle>(bundlePath); // The custom bundle
-                    Debug.Log(bundle);
+                    //Debug.Log(bundle);
                     return bundle;
                 }
           
