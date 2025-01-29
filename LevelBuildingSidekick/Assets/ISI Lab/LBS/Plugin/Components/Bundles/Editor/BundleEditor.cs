@@ -1,23 +1,16 @@
-using ISILab.LBS.Settings;
-using System.Collections;
-using System.Collections.Generic;
+
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using ISILab.Commons.Utility;
-using ISILab.Commons.Utility.Editor;
-using ISILab.Extensions;
+
 using ISILab.LBS.Characteristics;
 using UnityEngine.UIElements;
-using ISILab.LBS.Components;
+
 using UnityEditor.UIElements;
 using LBS.Bundles;
 using System;
 using ISILab.LBS.VisualElements;
-using ISILab.LBS.AI.Categorization;
-using System.Reflection;
-using static UnityEngine.Rendering.VirtualTexturing.Debugging;
-using UnityEditor.TerrainTools;
+
 
 namespace ISILab.LBS.Bundles.Editor
 {
@@ -44,6 +37,7 @@ namespace ISILab.LBS.Bundles.Editor
             var bundle = target as Bundle;
 
             #region Characteristics
+
             characteristics = new ListView();
             characteristics.headerTitle = "Characteristics";
             characteristics.showAddRemoveFooter = true;
@@ -54,45 +48,47 @@ namespace ISILab.LBS.Bundles.Editor
             characteristics.makeItem = MakeItem;
             characteristics.bindItem = BindItem;
 
-            characteristics.itemsSource = bundle.characteristics;
+            characteristics.itemsSource = bundle!.Characteristics;
 
             characteristics.itemsAdded += view =>
             {
-
-                var x = bundle.characteristics.Last();
-                bundle.characteristics.RemoveAt(bundle.characteristics.Count - 1);
+                var x = bundle!.Characteristics.Last();
+                bundle.Characteristics.RemoveAt(bundle.Characteristics.Count - 1);
 
                 EditorGUI.BeginChangeCheck();
                 Undo.RegisterCompleteObjectUndo(bundle, "Add characteristics");
-                bundle.characteristics.Add(x);
+                bundle.Characteristics.Add(x);
 
-                if (EditorGUI.EndChangeCheck())
-                {
-                    EditorUtility.SetDirty(target);
-                }
+                if (EditorGUI.EndChangeCheck()) EditorUtility.SetDirty(target);
                 Undo.undoRedoPerformed += UNDO;
             };
 
             root.Insert(root.childCount, characteristics);
-           
-            foreach (var characteristic in bundle.Characteristics)
+
+            foreach (var characteristic in bundle!.Characteristics)
             {
-                characteristic?.Init(bundle);    
+                characteristic?.Init(bundle);
             }
 
             #endregion
 
             #region Child Bundles
+
             var lv = root.Children().ToList()[5] as PropertyField;
-            lv.TrackPropertyValue(serializedObject.FindProperty("childsBundles"), (sp) => 
-            { 
-                characteristics.RefreshItems(); Repaint(); 
+            lv.TrackPropertyValue(serializedObject.FindProperty("characteristics"), (sp) =>
+            {
+         
+                //foreach (var child in bundle.Characteristics) Debug.Log(child);
+                
+                characteristics.RefreshItems();
+                Repaint();
             });
-            
+
             // Create ListView for Child Bundles
             childBundles = new ListView();
             childBundles.headerTitle = "Child Bundles";
-            childBundles.showAddRemoveFooter = true;
+            childBundles.reorderable = false;
+            childBundles.showAddRemoveFooter = false;
             childBundles.showBorder = true;
             childBundles.showFoldoutHeader = true;
             childBundles.virtualizationMethod = CollectionVirtualizationMethod.DynamicHeight;
@@ -102,65 +98,121 @@ namespace ISILab.LBS.Bundles.Editor
 
             childBundles.itemsSource = bundle.ChildsBundles;
             
+            
             childBundles.itemsAdded += view =>
             {
+                if (bundle.ChildsBundles.Count == 0) return;
                 var x = bundle.ChildsBundles.Last();
                 bundle.ChildsBundles.RemoveAt(bundle.ChildsBundles.Count - 1);
                 
                 EditorGUI.BeginChangeCheck();
                 Undo.RegisterCompleteObjectUndo(bundle, "Add child bundle");
-                bundle.ChildsBundles.Add(x);
+                bundle.AddChild(x);
 
-                if (EditorGUI.EndChangeCheck())
-                {
-                    EditorUtility.SetDirty(target);
-                }
+                if (EditorGUI.EndChangeCheck()) EditorUtility.SetDirty(target);
                 Undo.undoRedoPerformed += UNDO;
             };
 
-            // Add itemsRemoved handler
+     
             childBundles.itemsRemoved += (view) =>
             {
-                ite
-                foreach (var removedItem in view)
+                if(bundle.ChildsBundles.Count == 0) return;
+                
+                var x = bundle.ChildsBundles.Last();
+                // Remove the child bundle from the parent bundle's child list
+                if (bundle.ChildsBundles.Contains(x))
                 {
-                    if (childBundles. is Bundle removedBundle)
-                    {
-                        // Remove the child bundle from the parent bundle's child list
-                        if (bundle.ChildsBundles.Contains(removedBundle))
-                        {
-                            EditorGUI.BeginChangeCheck();
-                            Undo.RegisterCompleteObjectUndo(bundle, "Remove child bundle");
-                            bundle.ChildsBundles.Remove(removedBundle);
+                    EditorGUI.BeginChangeCheck(); 
+                    Undo.RegisterCompleteObjectUndo(bundle, "Remove child bundle");
+                    bundle.RemoveChild(x);
 
-                            if (EditorGUI.EndChangeCheck())
-                            {
-                                EditorUtility.SetDirty(target);
-                            }
-                        }
-                    }
+                    if (EditorGUI.EndChangeCheck()) EditorUtility.SetDirty(target);
+                    Undo.undoRedoPerformed += UNDO;
                 }
             };
-
-           
-            // Add a button to trigger the Add Child Bundle context menu
-            var button = new Button(() =>
-            {
-                ShowAddChildBundleMenu(bundle);
-            })
-            {
-                text = "Add Child Bundle"
-            };
-
             
             root.Insert(root.childCount, childBundles);
-            root.Insert(root.childCount, button);
+            
+            var addButton = new Button(() =>
+            {
+                EditorGUI.BeginChangeCheck();
+                
+                ShowAddChildBundleMenu(bundle);
+                if (EditorGUI.EndChangeCheck()) EditorUtility.SetDirty(target);
+                Undo.undoRedoPerformed += UNDO;
+                
+            }){ text = "Add Child Bundle" };
+            
+            
+            var removeButton = new Button(() =>
+            {
+                EditorGUI.BeginChangeCheck();
+                
+                ShowRemoveChildBundle(bundle);
+                if (EditorGUI.EndChangeCheck()) EditorUtility.SetDirty(target);
+                Undo.undoRedoPerformed += UNDO;
+                
+            }){ text = "Remove Child Bundle"};
+            
+            
+            var cblv = root.Children().ToList()[6] as PropertyField;
+            cblv.TrackPropertyValue(serializedObject.FindProperty("childsBundles"), (sp) =>
+            {
+                //foreach (var child in bundle.ChildsBundles) Debug.Log(child);
+                
+                childBundles.itemsSource = bundle.ChildsBundles;
+                characteristics.RefreshItems();
+                childBundles.RefreshItems();
+                Repaint();
+            });
+            
+            
+            VisualElement buttonContainer = new VisualElement();
+            buttonContainer.style.flexDirection = FlexDirection.Row; 
+            buttonContainer.style.alignItems = Align.Auto;
+            buttonContainer.style.justifyContent = Justify.Center; 
+            
+            buttonContainer.Add(addButton);
+            buttonContainer.Add(removeButton);
+            
+            root.Add(buttonContainer);
+            
             #endregion
             
             return root;
         }
+        
+        private void ShowRemoveChildBundle(Bundle bundle)
+        {
 
-        private void ShowAddChildBundleMenu(Bundle parentBundle)
+            var allBundles = bundle.ChildsBundles;
+
+            GenericMenu menu = new GenericMenu();
+            
+            // Add existing child bundles to the menu
+            foreach (var potentialChild in allBundles)
+            {
+                menu.AddItem(new GUIContent(potentialChild.name), false, () =>
+                {
+                    // Add selected bundle to the child bundles list
+                    if (MakeChildBundleItem() is ObjectField cb)
+                    {
+                        EditorGUI.BeginChangeCheck(); 
+                        Undo.RegisterCompleteObjectUndo(bundle, "Remove child bundle");
+                      //  cb.SetValueWithoutNotify(potentialChild);
+                        bundle.RemoveChild(potentialChild);
+                        
+                        if (EditorGUI.EndChangeCheck()) EditorUtility.SetDirty(target);
+                        Undo.undoRedoPerformed += UNDO;
+                    }
+                  
+                });
+            }
+
+            menu.ShowAsContext();
+        }
+        
+        private void ShowAddChildBundleMenu(Bundle bundle)
         {
             // Get all available bundles in the project
             var allBundles = AssetDatabase.FindAssets("t:Bundle")
@@ -168,43 +220,25 @@ namespace ISILab.LBS.Bundles.Editor
                 .ToList();
 
             GenericMenu menu = new GenericMenu();
-
-            // Get all parent bundles to avoid recursion
-            List<Bundle> parents = new List<Bundle>();
-            var currentParent = parentBundle;
-            while (currentParent != null)
-            {
-                parents.Add(currentParent);
-                currentParent = currentParent.Parent();
-            }
-
+            
             // Add valid child bundles to the menu
             foreach (var potentialChild in allBundles)
             {
-                if (!potentialChild.Flags.HasFlag(parentBundle.Flags))
-                {
-                    Debug.Log("child missing bundle's flag: " + potentialChild.name);
-                    continue;
-                }
-                if (parents.Contains(potentialChild)) 
-                {
-                    Debug.Log("child is a parent of the current bundle: " + potentialChild.name);
-                    continue;
-                }
-                if (parentBundle.ChildsBundles.Contains(potentialChild))
-                {
-                    Debug.Log("bundle already contains child: " + potentialChild.name);
-                    continue;
-                }
-                
-                Debug.Log("valid for adding:" +potentialChild.name);
-                
+                if (!bundle.IsBundleValidChild(potentialChild))  continue;
                 menu.AddItem(new GUIContent(potentialChild.name), false, () =>
                 {
                     // Add selected bundle to the child bundles list
-                    parentBundle.ChildsBundles.Add(potentialChild);
-                    serializedObject.ApplyModifiedProperties();
-                    EditorUtility.SetDirty(target);
+                    if (MakeChildBundleItem() is ObjectField cb)
+                    {
+                        EditorGUI.BeginChangeCheck(); 
+                        Undo.RegisterCompleteObjectUndo(bundle, "Add child bundle");
+                        cb.SetValueWithoutNotify(potentialChild);
+                        bundle.AddChild(potentialChild);
+                        
+                        if (EditorGUI.EndChangeCheck()) EditorUtility.SetDirty(target);
+                        Undo.undoRedoPerformed += UNDO;
+                    }
+                  
                 });
             }
 
@@ -228,19 +262,19 @@ namespace ISILab.LBS.Bundles.Editor
         void BindItem(VisualElement ve, int index)
         {
             var bundle = target as Bundle;
-            if (index < bundle.characteristics.Count)
+            if (index < bundle!.Characteristics.Count)
             {
                 var cf = ve.Q<DynamicFoldout>();
                 cf.Label = "Characteristic " + index + ":";
-                if (bundle.characteristics[index] != null)
+                if (bundle.Characteristics[index] != null)
                 {
-                    cf.Data = bundle.characteristics[index];
-                    bundle.characteristics[index].Init(bundle);
+                    cf.Data = bundle.Characteristics[index];
+                    bundle.Characteristics[index].Init(bundle);
                 }
 
                 cf.OnChoiceSelection = () =>
                 {
-                    bundle.characteristics[index] = cf.Data as LBSCharacteristic;
+                    bundle.Characteristics[index] = cf.Data as LBSCharacteristic;
                     (cf.Data as LBSCharacteristic)?.Init(bundle);
                 };
             }
@@ -251,25 +285,15 @@ namespace ISILab.LBS.Bundles.Editor
             var bundle = target as Bundle;
             var v = new ObjectField();
             v.objectType = typeof(Bundle);
+            v.RegisterValueChangedCallback(HandleChildBundleChange);
             
-            v.RegisterValueChangedCallback(evt =>
-            {
-                var newValue = evt.newValue as Bundle;
-                if (newValue != null && newValue.Flags.HasFlag(bundle.Flags))
-                {
-                    v.value = newValue;
-                }
-           
-                //(cf.Data as LBSCharacteristic)?.Init(bundle);
-            });
-
             return v;
         }
 
         private void BindChildBundleItem(VisualElement ve, int index)
         {
             var bundle = target as Bundle;
-            if (index < bundle.ChildsBundles.Count)
+            if (index < bundle!.ChildsBundles.Count)
             {
                 var cb = ve.Q<ObjectField>();
                 cb.objectType = typeof(Bundle);
@@ -277,11 +301,25 @@ namespace ISILab.LBS.Bundles.Editor
                 if (bundle.ChildsBundles[index] != null)
                 {
                     cb.value = bundle.ChildsBundles[index];
+                   // bundle.ChildsBundles[index].Reload();
                 }
-                else{}
+
+                //cb.RegisterValueChangedCallback(HandleChildBundleChange);
             }
         }
 
+        private void HandleChildBundleChange(ChangeEvent<UnityEngine.Object> evt)
+        {
+            var parent = target as Bundle;
+            if (parent == null) return;
+            
+            var newBundle = evt.newValue as Bundle;
+            if (newBundle == null) return;
+
+            if (!parent.IsBundleValidChild(newBundle)) return;
+            
+            parent.AddChild(newBundle);
+        }
         
         public void Save()
         {
