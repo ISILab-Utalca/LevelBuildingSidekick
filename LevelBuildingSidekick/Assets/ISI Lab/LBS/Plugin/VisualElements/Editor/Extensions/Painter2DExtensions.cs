@@ -100,7 +100,7 @@ namespace ISILab.Extensions
         {
             var dir = (endPos - initPos).normalized;
             var distance = Vector2.Distance(initPos, endPos);
-            var divs = distance / lineWidth;
+            var divs = Mathf.Round(distance / lineWidth);
 
             List<Vector2> dots = new List<Vector2>();
 
