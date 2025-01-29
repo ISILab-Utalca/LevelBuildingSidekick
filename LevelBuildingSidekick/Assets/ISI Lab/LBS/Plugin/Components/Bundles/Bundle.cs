@@ -88,7 +88,7 @@ namespace LBS.Bundles
         private List<Asset> assets = new List<Asset>();
 
         [SerializeReference, HideInInspector]
-        public List<LBSCharacteristic> characteristics = new List<LBSCharacteristic>();
+        private List<LBSCharacteristic> characteristics = new List<LBSCharacteristic>();
 
         // hides in inspector and uses the custom GUI to assign only children with containing flags
         [SerializeField, HideInInspector]
@@ -173,6 +173,29 @@ namespace LBS.Bundles
             }
         }
 
+        /* Checks that a child to be added:
+            - not in a child already
+            - not parent of the current bundle
+            - has at least one of the current bundle's flags
+    
+        */
+        public bool IsBundleValidChild(Bundle potentialChild)
+        {
+            // Get all parent bundles to avoid recursion
+            List<Bundle> parents = new List<Bundle>();
+            var currentParent = this;
+            while (currentParent != null)
+            {
+                parents.Add(currentParent);
+                currentParent = currentParent.Parent();
+            }
+            if (!potentialChild.Flags.HasFlag(Flags)) return false;
+            if (parents.Contains(potentialChild))  return false;
+            if (ChildsBundles.Contains(potentialChild)) return false;
+            return true;
+        }
+        
+        
         public void AddChild(Bundle child)
         {
             if (IsRecursive(this, child))
@@ -182,6 +205,8 @@ namespace LBS.Bundles
                     child.name + "' or one of its child bundles.");
                 return;
             }
+
+            if (!IsBundleValidChild(child)) return;
 
             childsBundles.Add(child);
             OnAddChild?.Invoke(child);
@@ -337,21 +362,14 @@ namespace LBS.Bundles
 
         public static bool IsRecursive(Bundle parent, Bundle child) // mover a extensions (!)
         {
-            if (parent == child)
-                return true;
-
-            if (child.ChildsBundles.Contains(parent))
+            if (parent == child) return true;
+            if (child.ChildsBundles.Contains(parent)) return true;
+            
+            foreach (var ch in child.ChildsBundles)
             {
-                return true;
-            }
-            else
-            {
-                foreach (var ch in child.ChildsBundles)
+                if (IsRecursive(parent, ch))
                 {
-                    if (IsRecursive(parent, child))
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
 
