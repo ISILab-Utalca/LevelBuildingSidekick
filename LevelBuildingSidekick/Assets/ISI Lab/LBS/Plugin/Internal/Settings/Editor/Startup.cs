@@ -1,4 +1,4 @@
-using LBS.Settings;
+using ISILab.LBS.Settings;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;

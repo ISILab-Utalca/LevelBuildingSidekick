@@ -16,14 +16,8 @@ namespace ISILab.LBS.VisualElements
         public string Text;
 
         public object Data { 
-            get
-            {
-                return data;
-            }
-            set
-            {
-                data = value;
-            }
+            get => data;
+            set => data = value;
         }
 
         public ButtonWrapper()
@@ -72,6 +66,7 @@ namespace ISILab.LBS.VisualElements
 
         internal void SetTexture(object value)
         {
+            
             throw new NotImplementedException();
         }
     }

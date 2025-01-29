@@ -1,0 +1,85 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:Template name="NotifierViewer" src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Editor/Windows/Notifier/NotifierViewer.uxml?fileID=9197481963319205126&amp;guid=d2ab2317fac497243851408d64671a8c&amp;type=3#NotifierViewer" />
+    <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
+    <ui:VisualElement style="flex-grow: 1; flex-direction: row; position: absolute; width: 100%; height: 100%; visibility: visible; opacity: 1; overflow: visible;">
+        <ISILab.LBS.VisualElements.Editor.MainView focusable="true" name="MainView" tabindex="0" style="flex-grow: 1; width: auto; height: auto; visibility: visible;" />
+    </ui:VisualElement>
+    <ISILab.LBS.VisualElements.Editor.ToolBarMain name="ToolBar" style="height: 24px; border-bottom-color: rgb(36, 36, 36); border-bottom-width: 1px; max-height: 24px; min-height: 24px;" />
+    <ISILab.Commons.VisualElements.Editor.SplitView picking-mode="Ignore" fixed-pane-index="1" fixed-pane-initial-dimension="400">
+        <ui:VisualElement picking-mode="Ignore" name="Workspace" style="flex-grow: 1; display: flex; flex-shrink: 1;">
+            <LBS.VisualElements.LayerInspector name="LayerInspector" style="background-color: rgba(60, 60, 60, 0.39); max-height: 18px; min-height: 18px; border-bottom-width: 1px; border-bottom-color: rgba(0, 0, 0, 0.59); display: none; flex-direction: row;" />
+            <ui:VisualElement picking-mode="Ignore" name="WorspaceOverlay" style="width: auto; min-width: auto; min-height: auto; flex-direction: row; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; flex-grow: 1;">
+                <ui:VisualElement picking-mode="Ignore" style="flex-grow: 1; flex-direction: row; width: 406px; align-items: flex-start; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px;">
+                    <LBS.VisualElements.ToolKit name="Toolkit" />
+                </ui:VisualElement>
+                <ui:VisualElement picking-mode="Ignore" name="FloatingPanelContent" style="flex-grow: 1; width: 350px; max-width: 350px; min-width: 350px; flex-shrink: 0; align-self: stretch; flex-direction: row-reverse; justify-content: flex-end;">
+                    <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0.2" vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden" name="SubPanelScrollView" picking-mode="Ignore" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); width: 350px; max-width: 350px; min-width: 350px; flex-shrink: 0;">
+                        <ui:VisualElement name="ExtraPanel" picking-mode="Ignore" style="width: 350px; max-width: 350px; min-width: 350px; background-image: none; -unity-background-image-tint-color: rgba(0, 0, 0, 0); background-color: rgba(0, 0, 0, 0); padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; flex-grow: 1;" />
+                    </ui:ScrollView>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="NoLayerSign" class="lbs-notificator" style="width: 400px; height: 150px; background-color: rgb(55, 55, 55); flex-direction: row; align-items: center; position: absolute; align-self: center; top: 40%; overflow: hidden; opacity: 1;">
+                <ui:VisualElement style="flex-direction: row; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px; flex-grow: 1; align-items: center; border-top-left-radius: -6px; border-bottom-left-radius: -6px; border-top-right-radius: -6px; border-bottom-right-radius: -6px; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px;">
+                    <ui:VisualElement style="flex-grow: 1; background-image: resource(&apos;Icons/Vectorial/Layer_Panel_Icon&apos;); width: 60px; height: 60px; align-items: center; justify-content: flex-start; max-height: 60px; min-height: 60px; max-width: 60px; min-width: 60px; margin-left: 35px; margin-right: 35px; margin-top: 35px; margin-bottom: 35px; -unity-background-image-tint-color: rgb(210, 210, 210);" />
+                    <ui:VisualElement style="flex-grow: 1; flex-wrap: wrap; -unity-text-align: middle-left; padding-left: 11px; padding-right: 11px; padding-top: 11px; padding-bottom: 11px; background-color: rgba(0, 0, 0, 0);">
+                        <ui:Label tabindex="-1" text="Required Initial Layer" display-tooltip-when-elided="true" style="margin-bottom: 10px; -unity-font-style: bold; font-size: 16px; flex-shrink: 1; flex-grow: 1; -unity-text-align: lower-left;" />
+                        <ui:Label tabindex="-1" text="Make sure to add the initial layer before attempting to use the application. This action is necessary for operation mode control." display-tooltip-when-elided="true" style="font-size: 14px; flex-wrap: wrap; flex-shrink: 1; flex-grow: 1; white-space: normal; -unity-text-align: upper-left;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement picking-mode="Ignore" style="width: auto; height: auto; overflow: visible; position: relative; flex-direction: row-reverse; flex-wrap: nowrap; flex-shrink: 1; align-items: stretch; justify-content: flex-start; flex-grow: 1; visibility: visible;">
+            <ISILab.LBS.VisualElements.LBSInspectorPanel name="InpectorPanel" style="flex-grow: 1; width: 350px; visibility: visible;" />
+            <ui:VisualElement name="ExtraToolsBar" class="lbs-container-bg" style="overflow: visible; position: relative; height: auto; width: 32px; top: auto; left: auto; display: flex; visibility: visible; flex-grow: 0; flex-shrink: 0; border-left-width: 1px; border-right-width: 1px; border-left-color: rgba(29, 29, 29, 0.6); border-right-color: rgba(29, 29, 29, 0.6); border-top-color: rgba(29, 29, 29, 0.6); border-bottom-color: rgba(29, 29, 29, 0.6); flex-basis: auto; max-width: 48px; min-width: 48px; align-items: stretch; flex-direction: column; justify-content: flex-start; margin-left: 1px; margin-top: -1px;">
+                <ui:VisualElement style="flex-grow: 0; border-bottom-width: 1px; height: 8px; background-color: rgb(72, 72, 72); border-bottom-color: rgb(35, 35, 35);" />
+                <ui:Button tabindex="-1" text="AI" display-tooltip-when-elided="true" name="AIButton" tooltip="Display available assistant window for the layer type" style="border-left-color: rgba(0, 0, 0, 0.6); border-right-color: rgba(0, 0, 0, 0.6); border-top-color: rgba(0, 0, 0, 0.6); border-bottom-color: rgba(0, 0, 0, 0.6); border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 1px; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; height: 30px; background-image: url(&apos;project://database/Assets/ISI%20Lab/Commons/Assets2D/Fade%201.png?fileID=2800000&amp;guid=c86acac07209fcc41a17cab77404a8b9&amp;type=3#Fade 1&apos;); -unity-background-image-tint-color: rgba(0, 0, 0, 0.2); align-items: center; justify-content: space-around; -unity-font-style: bold; font-size: 18px; color: rgb(195, 196, 195); display: none;" />
+                <ui:Toggle value="false" focusable="true" name="LayerToggle" tooltip="Layers Panel" class="lbs-tool-button-toggle" style="flex-direction: row-reverse; color: rgb(58, 58, 58); height: 40px; width: auto;">
+                    <ui:VisualElement name="Icon" class="lbs-default-icon" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); align-self: center; align-items: auto; width: 32px; height: 32px; background-image: resource(&apos;Icons/Vectorial/Layer_Panel_Icon&apos;); -unity-background-image-tint-color: rgb(255, 255, 255);" />
+                </ui:Toggle>
+                <ui:Toggle value="false" focusable="true" name="Gen3DToggle" tooltip="3D Generator Panel " class="lbs-tool-button-toggle" style="flex-direction: row; height: 40px;">
+                    <ui:VisualElement name="Icon" class="lbs-default-icon" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); align-self: center; align-items: auto; width: 32px; height: 32px; background-image: resource(&apos;Icons/Vectorial/3D_Icon_Vector&apos;); -unity-background-image-tint-color: rgb(255, 255, 255);" />
+                </ui:Toggle>
+                <ui:Toggle value="false" focusable="true" name="QuestToggle" tooltip="Quest Panel" picking-mode="Ignore" class="lbs-tool-button-toggle" style="flex-direction: row; height: 40px; display: none;">
+                    <ui:VisualElement name="Icon" class="lbs-default-icon" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); align-self: center; align-items: auto; width: 32px; height: 32px; background-image: resource(&apos;Icons/Vectorial/Quest_Script_Icon&apos;); -unity-background-image-tint-color: rgb(255, 255, 255);" />
+                </ui:Toggle>
+                <ui:Toggle value="false" focusable="true" name="PlusToggle" class="lbs-tool-button-toggle" style="flex-direction: row; height: 40px; display: none;">
+                    <ui:VisualElement name="Icon" class="lbs-default-icon" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); align-self: center; align-items: auto; width: 32px; height: 32px; background-image: resource(&apos;Icons/Vectorial/Icon=Add&apos;); -unity-background-image-tint-color: rgb(255, 255, 255);" />
+                </ui:Toggle>
+                <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);" />
+                <ui:VisualElement name="ToggleButtonContainer" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: column; justify-content: flex-end;">
+                    <ui:Toggle value="false" focusable="true" name="LayerDataButton" tooltip="Layer Data" class="lbs-tool-button-toggle lbs-tab-button" style="flex-direction: row; height: 40px; display: flex; border-right-width: 0;">
+                        <ui:VisualElement name="Icon" class="lbs-default-icon" style="flex-grow: 1; align-self: center; align-items: auto; background-image: resource(&apos;Icons/Vectorial/Icon=Editor&apos;);" />
+                    </ui:Toggle>
+                    <ui:Toggle value="false" focusable="true" name="BehaviourButton" tooltip="Behaviours" class="lbs-tool-button-toggle lbs-tab-button" style="flex-direction: row; height: 40px; display: flex; border-right-width: 0;">
+                        <ui:VisualElement name="Icon" class="lbs-default-icon" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); align-self: center; align-items: auto; background-image: resource(&apos;Icons/Vectorial/Icon=Node_Icon&apos;); -unity-background-image-tint-color: rgb(255, 255, 255);" />
+                    </ui:Toggle>
+                    <ui:Toggle value="false" focusable="true" name="AssistantButton" tooltip="AI Assistant" class="lbs-tool-button-toggle lbs-tab-button" style="flex-direction: row; height: 40px; display: flex; border-right-width: 0;">
+                        <ui:VisualElement name="Icon" class="lbs-default-icon" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); align-self: center; align-items: auto; background-image: resource(&apos;Icons/Vectorial/Icon=AssitanceV2&apos;); -unity-background-image-tint-color: rgb(255, 255, 255);" />
+                    </ui:Toggle>
+                    <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); height: 10%; max-height: 40px;" />
+                    <ui:Toggle value="false" focusable="true" name="TagsButton" tooltip="Tags" class="lbs-tool-button-toggle lbs-tab-button" style="flex-direction: row; height: 40px; display: none;">
+                        <ui:VisualElement name="Icon" class="lbs-default-icon" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); align-self: center; align-items: auto; background-image: resource(&apos;Icons/Vectorial/Icon=TagOutline&apos;); -unity-background-image-tint-color: rgb(255, 255, 255);" />
+                    </ui:Toggle>
+                    <ui:Toggle value="false" focusable="true" name="BundlesButton" tooltip="Bundles" class="lbs-tool-button-toggle lbs-tab-button" style="flex-direction: row; height: 40px; display: none;">
+                        <ui:VisualElement name="Icon" class="lbs-default-icon" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); align-self: center; align-items: auto; background-image: resource(&apos;Icons/Vectorial/Icon=BundleIcon&apos;); -unity-background-image-tint-color: rgb(255, 255, 255);" />
+                    </ui:Toggle>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="Shadow" style="width: 5px; max-width: 5px; min-width: 5px; background-image: url(&apos;project://database/Assets/ISI%20Lab/Commons/Assets2D/Fade.png?fileID=2800000&amp;guid=a49e354fa998c454e9115ce30c3cba6d&amp;type=3#Fade&apos;); -unity-background-image-tint-color: rgba(2, 2, 2, 0.2); background-color: rgba(0, 0, 0, 0); display: none;" />
+        </ui:VisualElement>
+    </ISILab.Commons.VisualElements.Editor.SplitView>
+    <ui:VisualElement name="InfoBar" style="background-color: rgb(63, 62, 62); max-height: 24px; min-height: 24px; border-left-color: rgba(0, 0, 0, 0.4); border-right-color: rgba(0, 0, 0, 0.4); border-top-color: rgba(0, 0, 0, 0.4); border-bottom-color: rgba(0, 0, 0, 0.4); border-top-width: 1px; justify-content: flex-start; align-items: stretch; align-self: stretch; flex-direction: row;">
+        <uie:ToolbarButton tabindex="-1" name="CleanNotificationsButton" focusable="false">
+            <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); background-image: resource(&apos;Icons/Vectorial/Icon=Clear&apos;); min-width: 16px; min-height: 16px; -unity-background-image-tint-color: rgb(196, 196, 196); -unity-background-scale-mode: scale-and-crop;" />
+        </uie:ToolbarButton>
+        <uie:ToolbarButton tabindex="-1" name="DisableNotificationsButton" focusable="false" style="left: -2px;">
+            <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); background-image: resource(&apos;Icons/Vectorial/Icon=Notification&apos;); min-width: 16px; min-height: 16px; -unity-background-image-tint-color: rgb(196, 196, 196); -unity-background-scale-mode: scale-and-crop;" />
+        </uie:ToolbarButton>
+        <ui:Label tabindex="-1" text="selected: -" display-tooltip-when-elided="true" name="SelectedLabel" picking-mode="Ignore" style="color: rgb(255, 255, 255); -unity-font-style: normal; font-size: 14px; -unity-text-align: middle-left; white-space: nowrap; text-overflow: ellipsis; margin-left: 5px;" />
+        <ui:VisualElement name="Limits" picking-mode="Ignore" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); position: absolute; height: 500px; top: -500px; width: 75%; transform-origin: left bottom; overflow: hidden; justify-content: flex-end; align-self: stretch; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px;">
+            <ui:Instance template="NotifierViewer" name="NotifierViewer" picking-mode="Ignore" focusable="false" style="height: 50%; width: 50%; flex-basis: auto; position: relative; top: auto; left: auto; bottom: auto; transform-origin: left bottom; translate: 0 0; scale: 1 1; align-self: flex-start; justify-content: space-around; flex-direction: column; align-items: stretch; flex-grow: 1; margin-left: 2px; margin-right: 2px; margin-top: 2px; margin-bottom: 2px; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px; max-width: 100%; min-width: auto; max-height: 80%; min-height: auto; overflow: hidden;">
+                <AttributeOverrides element-name="NotifierViewer" picking-mode="Ignore" />
+            </ui:Instance>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

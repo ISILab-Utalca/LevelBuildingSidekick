@@ -14,7 +14,7 @@ namespace Nico.Tools
     {
 #if UNITY_EDITOR
         
-        [MenuItem("Assets/Copy Full Path Location", false, 19)]
+        [MenuItem("Assets/Copy File Absolute Path", false, 19)]
         private static void CopyPathToClipboard()
         {
             Object obj = Selection.activeObject;

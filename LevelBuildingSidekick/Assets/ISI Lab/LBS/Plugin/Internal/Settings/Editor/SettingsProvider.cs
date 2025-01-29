@@ -1,11 +1,11 @@
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Internal;
-using LBS.Settings;
+using ISILab.LBS.Settings;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using static LBS.Settings.LBSSettings;
+using static ISILab.LBS.Settings.LBSSettings;
 
 namespace ISILab.LBS.Settings
 {
