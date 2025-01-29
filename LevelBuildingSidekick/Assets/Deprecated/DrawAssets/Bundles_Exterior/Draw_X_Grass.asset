@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: Draw_X_Grass
   m_EditorClassIdentifier: 
+  flags: 0
   type: 0
   anchorPosition: 0
   color: {r: 0, g: 0, b: 0, a: 0}
   icon: {fileID: 0}
-  childsBundles: []
   assets:
   - obj: {fileID: 4588112811286258271, guid: ce2ef8e2c2c67c74fa0f22b0c07b7c7b, type: 3}
     probability: 0.051
@@ -28,12 +28,14 @@ MonoBehaviour:
     probability: 0.849
   characteristics:
   - rid: 5085006314459627533
+  childsBundles: []
   references:
     version: 2
     RefIds:
     - rid: 5085006314459627533
       type: {class: LBSDirection, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
+        owner: {fileID: 11400000}
         connections:
         - Fodder
         - Fodder

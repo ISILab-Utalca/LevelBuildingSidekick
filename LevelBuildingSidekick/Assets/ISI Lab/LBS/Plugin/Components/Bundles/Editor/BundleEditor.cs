@@ -285,6 +285,7 @@ namespace ISILab.LBS.Bundles.Editor
             var bundle = target as Bundle;
             var v = new ObjectField();
             v.objectType = typeof(Bundle);
+            v.SetEnabled(false);
             v.RegisterValueChangedCallback(HandleChildBundleChange);
             
             return v;
