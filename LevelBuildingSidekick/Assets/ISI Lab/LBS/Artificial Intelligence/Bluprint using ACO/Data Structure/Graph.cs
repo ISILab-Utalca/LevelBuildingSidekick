@@ -9,8 +9,7 @@ namespace Optimization.Data
     {
         public class Node
         {
-            public string name;
-            public int id;
+            public string id;
             public Vector2 pos;
             public Vector2Int minArea;
             public Vector2Int maxArea;

@@ -79,7 +79,6 @@ namespace ISILab.AI.Optimization
                 return 0;
 
             return value / (float)zones.ZonesWithTiles.Count;
-
         }
 
         public object Clone()

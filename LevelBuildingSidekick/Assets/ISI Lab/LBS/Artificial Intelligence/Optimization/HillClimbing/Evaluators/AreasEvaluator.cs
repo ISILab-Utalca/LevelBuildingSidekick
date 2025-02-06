@@ -20,6 +20,32 @@ namespace ISILab.AI.Optimization
             this.original = layer;
         }
 
+
+        public float Evaluate(IOptimizable evaluable)
+        {
+            var modules = (evaluable as OptimizableModules).Modules;
+
+            var zones = original.GetModule<SectorizedTileMapModule>();
+            var connected = modules.GetModule<ConnectedZonesModule>();
+
+            var value = 0f;
+
+
+            for (int i = 0; i < zones.ZonesWithTiles.Count; i++)
+            {
+                Zone zone = zones.ZonesWithTiles[i];
+
+                value += EvaluateBySize(modules, zone);
+            }
+
+            if (zones.ZonesWithTiles.Count <= 0)
+            {
+                return 0;
+            }
+
+            return value / (zones.ZonesWithTiles.Count * 1f);
+        }
+
         private float EvaluateBySize(List<LBSModule> modules, Zone zone)
         {
             var zones = modules.GetModule<SectorizedTileMapModule>();
@@ -52,30 +78,6 @@ namespace ISILab.AI.Optimization
             return (vw + vh) / 2f;
         }
 
-        public float Evaluate(IOptimizable evaluable)
-        {
-            var modules = (evaluable as OptimizableModules).Modules;
-
-            var zones = original.GetModule<SectorizedTileMapModule>();
-            var connected = modules.GetModule<ConnectedZonesModule>();
-
-            var value = 0f;
-
-
-            for (int i = 0; i < zones.ZonesWithTiles.Count; i++)
-            {
-                Zone zone = zones.ZonesWithTiles[i];
-
-                value += EvaluateBySize(modules, zone);
-            }
-
-            if (zones.ZonesWithTiles.Count <= 0)
-            {
-                return 0;
-            }
-
-            return value / (zones.ZonesWithTiles.Count * 1f);
-        }
 
         public object Clone()
         {

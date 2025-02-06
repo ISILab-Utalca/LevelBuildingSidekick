@@ -1,7 +1,9 @@
+using ISILab.AI.Optimization;
 using Optimization.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -10,242 +12,122 @@ namespace Optimization.Data
 {
     public class Tile : ICloneable
     {
-        public Map owner;
-        public int roomID = -1;
+        public Room owner;
 
         #region Constructors
-        public Tile(Map owner)
+        public Tile(Room owner)
         {
-            this.roomID = -1;
             this.owner = owner;
         }
 
-        public object Clone() // TODO: Impelentar el sistema de diccionario que permite clonar referencias.
+        public object Clone() 
         {
-            return new Tile(null)
-            {
-                roomID = this.roomID,
-            };
+            return new Tile(owner);// TODO: Impelentar el sistema de diccionario que permite clonar referencias.
         }
         #endregion
     }
 
-    public class Map : ICloneable
+    public class Room : ICloneable
     {
-        #region Properties
+        public Map owner;
+        public Dictionary<Vector2Int, Tile> tiles = new();
+
         public RectInt Bounds
         {
             get
             {
+                if (tiles.Count <= 0)
+                    return new RectInt(0, 0, 0, 0);
+
                 var min = new Vector2Int(int.MaxValue, int.MaxValue);
                 var max = new Vector2Int(int.MinValue, int.MinValue);
 
-                foreach (var r in rooms)
+                foreach (var (key, tile) in tiles)
                 {
-                    foreach (var t in r.Value)
-                    {
-                        if (t.Key.x < min.x)
-                            min.x = t.Key.x;
-                        if (t.Key.x > max.x)
-                            max.x = t.Key.x;
+                    if (key.x < min.x)
+                        min.x = key.x;
+                    if (key.x > max.x)
+                        max.x = key.x;
 
-                        if (t.Key.y < min.y)
-                            min.y = t.Key.y;
-                        if (t.Key.y > max.y)
-                            max.y = t.Key.y;
-                    }
-
+                    if (key.y < min.y)
+                        min.y = key.y;
+                    if (key.y > max.y)
+                        max.y = key.y;
                 }
+
                 return new RectInt(min.x, min.y, max.x - min.x, max.y - min.y);
             }
         }
 
-        public int Width
+        public Vector2Int GetRoomArea()
         {
-            get
+            var minX = int.MaxValue;
+            var minY = int.MaxValue;
+            var maxX = int.MinValue;
+            var maxY = int.MinValue;
+
+            foreach (var (pos, tile) in tiles)
             {
-                var min = int.MaxValue;
-                var max = int.MinValue;
-
-                foreach (var r in rooms)
-                {
-                    foreach (var t in r.Value)
-                    {
-                        if (t.Key.x < min)
-                            min = t.Key.x;
-                        if (t.Key.x > max)
-                            max = t.Key.x;
-                    }
-
-                }
-                return (max - min) + 1;
+                if (pos.x < minX) minX = pos.x;
+                if (pos.y < minY) minY = pos.y;
+                if (pos.x > maxX) maxX = pos.x;
+                if (pos.y > maxY) maxY = pos.y;
             }
+            return (new Vector2Int(maxX - minX + 1, maxY - minY + 1));
         }
-
-        public int Height
-        {
-            get
-            {
-                var min = int.MaxValue;
-                var max = int.MinValue;
-
-                foreach (var r in rooms)
-                {
-                    foreach (var t in r.Value)
-                    {
-                        if (t.Key.y < min)
-                            min = t.Key.y;
-                        if (t.Key.y > max)
-                            max = t.Key.y;
-                    }
-
-                }
-                return (max - min) + 1;
-            }
-        }
-
-        public Vector2Int Center
-        {
-            get
-            {
-                var sum = Vector2Int.zero;
-                var i = 0;
-                foreach (var r in rooms)
-                {
-                    foreach (var t in r.Value)
-                    {
-                        sum.x += t.Key.x;
-                        sum.y += t.Key.y;
-                        i++;
-                    }
-                }
-                return new Vector2Int(sum.x / i, sum.y / i); // BUG?: si no hay rooms, se divide por 0
-            }
-        }
-
-        public int Area
-        {
-            get
-            {
-                var area = 0;
-                foreach (var r in rooms)
-                {
-                    foreach (var t in r.Value)
-                    {
-                        area++;
-                    }
-                }
-                return area;
-            }
-        }
-        #endregion
-
-        #region Variables
-        public Dictionary<int, Dictionary<Vector2Int, Tile>> rooms = new();
-        #endregion
-
-        #region Constructors
-        public Map()
-        {
-
-        }
-
-        public object Clone()
-        {
-            var map = new Map();
-
-            foreach (var r in this.rooms)
-            {
-                var room = new Dictionary<Vector2Int, Tile>();
-                foreach (var t in r.Value)
-                {
-                    var nTile = t.Value.Clone() as Tile;
-                    nTile.owner = map;
-                    room.Add(t.Key, nTile);
-                }
-                map.rooms.Add(r.Key, room);
-            }
-            return map;
-        }
-        #endregion
-
-        #region Methods
 
         /// <summary>
-        /// Set the room id to the tiles in the positions list,
-        /// and recalculate the neigthbors and walls.
+        /// Retrieves a list of convex corners within a specified room.
         /// </summary>
-        /// <param name="positions"></param>
+        /// <param name="roomID">The identifier of the room.</param>
+        /// <returns>A list of Vector2Int representing convex corners positions.</returns>
+        internal List<Vector2Int> GetConvexCorners()
+        {
+            var corners = new List<Vector2Int>();
+            foreach (var (pos, tile) in tiles)
+            {
+                var value = NeigthborValue(pos.x, pos.y);
+
+                if (NumbersSet.IsConvexCorner(value))
+                {
+                    corners.Add(pos);
+                }
+            }
+            return corners;
+        }
+
+        /// <summary>
+        /// Retrieves a list of concave corners within a specified room.
+        /// </summary>
+        /// <param name="roomID">The identifier of the room.</param>
+        /// <returns>A list of Vector2Int representing convex corners positions.</returns>
+        internal List<Vector2Int> GetConcaveCorners()
+        {
+            var corners = new List<Vector2Int>();
+            foreach (var (pos, tile) in tiles)
+            {
+                var value = NeigthborValue(pos.x, pos.y);
+
+                if (NumbersSet.IsConcaveCorner(value))
+                {
+                    corners.Add(pos);
+                }
+            }
+            return corners;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="roomID"></param>
-        public void SetRoomTiles(List<Vector2Int> positions, int roomID)
-        {
-            // set room owner id
-            for (int i = 0; i < positions.Count; i++)
-            {
-                var x = positions[i].x;
-                var y = positions[i].y;
-
-                Tile tile = null;
-                foreach (var r in rooms)
-                {
-                    var pos = new Vector2Int(x, y);
-                    if (r.Value.ContainsKey(pos))
-                    {
-                        tile = r.Value[pos];
-                        r.Value.Remove(new Vector2Int(x, y));
-                        break;
-                    }
-                }
-
-                if (tile == null)
-                {
-                    tile = new Tile(this);
-                    tile.roomID = roomID;
-
-                    if (!rooms.ContainsKey(roomID))
-                    {
-                        rooms.Add(roomID, new Dictionary<Vector2Int, Tile>());
-                    }
-                    rooms[roomID].Add(new Vector2Int(x, y), tile);
-                }
-                else
-                {
-                    tile.roomID = roomID;
-                    if (!rooms.ContainsKey(roomID))
-                    {
-                        rooms.Add(roomID, new Dictionary<Vector2Int, Tile>());
-                    }
-                    rooms[roomID].Add(new Vector2Int(x, y), tile);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Retrieves a list of walls comprising a room's perimeter, 
-        /// each represented by points and their facing direction.
-        /// </summary>
-        /// <param name="roomID">The room identifier.</param>
-        /// <returns>A list of wall points and their facing direction.</returns>
-        /*
-        public List<(Vector2Int[], Vector2Int)> GetWalls(int roomID)
-        {
-            var r = rooms[roomID];
-            var walls = new List<(Vector2Int[],Vector2Int)>();
-            var horizontal = GetHorizontalWalls(roomID);
-            var vertical = GetVerticalWalls(roomID);
-            walls.AddRange(horizontal);
-            walls.AddRange(vertical);
-            return walls;
-        }
-        */
-
-        public List<(Vector2Int[], Vector2Int)> GetWalls(int roomID)
+        /// <returns></returns>
+        public List<(Vector2Int[], Vector2Int)> GetWalls()
         {
             var toR = new List<(Vector2Int[], Vector2Int)>();
             var candidates = new Dictionary<(Vector2Int, Directions.Dirs_4), Vector2Int>();
 
-            var concave = GetConcaveCorners(roomID);
-            var convex = GetConvexCorners(roomID);
+            var concave = GetConcaveCorners();
+            var convex = GetConvexCorners();
             var corners = new List<Vector2Int>();
             corners.AddRange(concave);
             corners.AddRange(convex);
@@ -325,7 +207,7 @@ namespace Optimization.Data
                 {
                     var point = points[i];
                     var other = point + Directions.directions_4[(int)d];
-                    if (rooms[roomID].ContainsKey(other))
+                    if (tiles.ContainsKey(other))
                     {
                         include = false;
                         break;
@@ -339,202 +221,6 @@ namespace Optimization.Data
             }
 
             return toR;
-        }
-
-        /// <summary>
-        /// Retrieves a list of convex corners within a specified room.
-        /// </summary>
-        /// <param name="roomID">The identifier of the room.</param>
-        /// <returns>A list of Vector2Int representing convex corners positions.</returns>
-        internal List<Vector2Int> GetConvexCorners(int roomID)
-        {
-            var pairs = rooms[roomID];
-            var corners = new List<Vector2Int>();
-            foreach (var (pos, tile) in pairs)
-            {
-                var value = NeigthborValue(pos.x, pos.y);
-
-                if (NumbersSet.IsConvexCorner(value))
-                {
-                    corners.Add(pos);
-                }
-            }
-            return corners;
-        }
-
-        /// <summary>
-        /// Retrieves a list of concave corners within a specified room.
-        /// </summary>
-        /// <param name="roomID">The identifier of the room.</param>
-        /// <returns>A list of Vector2Int representing convex corners positions.</returns>
-        internal List<Vector2Int> GetConcaveCorners(int roomID)
-        {
-            var pairs = rooms[roomID];
-            var corners = new List<Vector2Int>();
-
-            foreach (var (pos, tile) in pairs)
-            {
-                var value = NeigthborValue(pos.x, pos.y);
-
-                if (NumbersSet.IsConcaveCorner(value))
-                {
-                    corners.Add(pos);
-                }
-            }
-            return corners;
-        }
-
-        /// <summary>
-        /// Get a list of points that form the wall and the direction of the wall.
-        /// </summary>
-        /// <param name="roomID"></param>
-        /// <returns></returns>
-        [Obsolete()]
-        private List<(Vector2Int[], Vector2Int)> GetVerticalWalls(int roomID)
-        {
-            var room = rooms[roomID];
-            var walls = new List<(Vector2Int[], Vector2Int)>();
-
-            var convexCorners = GetConvexCorners(roomID);
-            var allCorners = GetConcaveCorners(roomID);
-            allCorners.AddRange(convexCorners);
-
-            foreach (var current in convexCorners)
-            {
-                Vector2Int? other = null;
-                int lessDist = int.MaxValue;
-                foreach (var candidate in allCorners)
-                {
-                    if (current == candidate)
-                        continue;
-
-                    if (current.x - candidate.x != 0) // Comprobación para pared vertical
-                        continue;
-
-                    var dist = Mathf.Abs(current.y - candidate.y);
-                    if (dist < lessDist)
-                    {
-                        lessDist = dist;
-                        other = candidate;
-                    }
-                }
-
-                if (other == null)
-                    other = current;
-
-                if (walls.Any(w => (w.Item1.First() == other) && (w.Item1.Last() == current))) // Unnecessary?
-                    continue;
-
-                var wallTiles = new List<Vector2Int>();
-                var end = Mathf.Max(current.y, other?.y ?? 0);
-                var start = Mathf.Min(current.y, other?.y ?? 0);
-
-                for (int i = 0; i <= end - start; i++)
-                {
-                    wallTiles.Add(new Vector2Int(current.x, start + i));
-                }
-
-                bool toRight = true;
-                for (int i = 0; i < wallTiles.Count; i++)
-                {
-                    var n = wallTiles[i] + Vector2Int.right;
-                    if (room.ContainsKey(n))
-                    {
-                        toRight = false;
-                        break;
-                    }
-                }
-
-                var dir = (toRight) ? Vector2Int.right : Vector2Int.left; // Cambiado para muro vertical
-                walls.Add((wallTiles.ToArray(), dir));
-            }
-            return walls;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="roomID"></param>
-        /// <returns></returns>
-        [Obsolete]
-        private List<(Vector2Int[], Vector2Int)> GetHorizontalWalls(int roomID)
-        {
-            var room = rooms[roomID];
-            var walls = new List<(Vector2Int[], Vector2Int)>();
-
-            var convexCorners = GetConvexCorners(roomID);
-            var allCorners = GetConcaveCorners(roomID);
-            allCorners.AddRange(convexCorners);
-
-            foreach (var current in convexCorners)
-            {
-                Vector2Int? other = null;
-                int lessDist = int.MaxValue;
-                foreach (var candidate in allCorners)
-                {
-                    if (current == candidate)
-                        continue;
-
-                    if (current.y - candidate.y != 0)
-                        continue;
-
-                    var dist = Mathf.Abs(current.x - candidate.x);
-                    if (dist < lessDist)
-                    {
-                        lessDist = dist;
-                        other = candidate;
-                    }
-                }
-
-                if (other == null)
-                    other = current;
-
-                if (walls.Any(w => (w.Item1.First() == other) && (w.Item1.Last() == current))) // UNESESARY?
-                    continue;
-
-                var wallTiles = new List<Vector2Int>();
-                var end = Mathf.Max(current.x, other?.x ?? 00);
-                var start = Mathf.Min(current.x, other?.x ?? 00);
-                for (int i = 0; i <= end - start; i++)
-                {
-                    wallTiles.Add(new Vector2Int(start + i, current.y));
-                }
-
-                bool toUp = true;
-                for (int i = 0; i < wallTiles.Count; i++)
-                {
-                    var n = wallTiles[i] + Vector2Int.up;
-                    if (room.ContainsKey(n))
-                    {
-                        toUp = false;
-                        break;
-                    }
-                }
-
-                var dir = (toUp) ? Vector2Int.up : Vector2Int.down;
-                walls.Add((wallTiles.ToArray(), dir));
-            }
-            return walls;
-        }
-
-        /// <summary>
-        /// Set the room id to the tiles in the rectangle,
-        /// and recalculate the neigthbors and walls.
-        /// </summary>
-        /// <param name="min"></param>
-        /// <param name="max"></param>
-        /// <param name="value"></param>
-        public void SetRoomTiles(Vector2Int min, Vector2Int max, int value)
-        {
-            var pos = new List<Vector2Int>();
-            for (int i = min.x; i < max.x; i++)
-            {
-                for (int j = min.y; j < max.y; j++)
-                {
-                    pos.Add(new Vector2Int(i, j));
-                }
-            }
-            SetRoomTiles(pos, value);
         }
 
         /// <summary>
@@ -552,10 +238,276 @@ namespace Optimization.Data
                 var nx = x + dir.x;
                 var ny = y + dir.y;
 
-                foreach (var r in rooms)
+                var pos = new Vector2Int(nx, ny);
+                if (tiles.ContainsKey(pos))
+                {
+                    bitArray[i] = true;
+                }
+            }
+
+            return GeneralUtils.BitArrayToInt(bitArray);
+        }
+
+        public Room(Map owner)
+        {
+            this.owner = owner;
+        }
+
+        public object Clone()
+        {
+            var room = new Room(this.owner); // TODO: Impelentar el sistema de diccionario que permite clonar referencias.
+
+            var tiles = new Dictionary<Vector2Int, Tile>();
+            foreach (var (key, value) in this.tiles)
+            {
+                var t = value.Clone() as Tile;
+                tiles.Add(key, t);
+            }
+            room.tiles = tiles;
+
+            return room;
+        }
+    }
+
+    public class Map : ICloneable, IOptimizable
+    {
+        #region Properties
+        public RectInt Bounds
+        {
+            get
+            {
+                var min = new Vector2Int(int.MaxValue, int.MaxValue);
+                var max = new Vector2Int(int.MinValue, int.MinValue);
+
+                foreach (var (key, room) in rooms)
+                {
+                    foreach (var t in room.tiles)
+                    {
+                        if (t.Key.x < min.x)
+                            min.x = t.Key.x;
+                        if (t.Key.x > max.x)
+                            max.x = t.Key.x;
+
+                        if (t.Key.y < min.y)
+                            min.y = t.Key.y;
+                        if (t.Key.y > max.y)
+                            max.y = t.Key.y;
+                    }
+
+                }
+                return new RectInt(min.x, min.y, max.x - min.x, max.y - min.y);
+            }
+        }
+
+        public int Width
+        {
+            get
+            {
+                var min = int.MaxValue;
+                var max = int.MinValue;
+
+                foreach (var (key, room) in rooms)
+                {
+                    foreach (var t in room.tiles)
+                    {
+                        if (t.Key.x < min)
+                            min = t.Key.x;
+                        if (t.Key.x > max)
+                            max = t.Key.x;
+                    }
+
+                }
+                return (max - min) + 1;
+            }
+        }
+
+        public int Height
+        {
+            get
+            {
+                var min = int.MaxValue;
+                var max = int.MinValue;
+
+                foreach (var (key, room) in rooms)
+                {
+                    foreach (var t in room.tiles)
+                    {
+                        if (t.Key.y < min)
+                            min = t.Key.y;
+                        if (t.Key.y > max)
+                            max = t.Key.y;
+                    }
+
+                }
+                return (max - min) + 1;
+            }
+        }
+
+        public Vector2Int Center
+        {
+            get
+            {
+                var sum = Vector2Int.zero;
+                var i = 0;
+                foreach (var (key, room) in rooms)
+                {
+                    foreach (var t in room.tiles)
+                    {
+                        sum.x += t.Key.x;
+                        sum.y += t.Key.y;
+                        i++;
+                    }
+                }
+                return new Vector2Int(sum.x / i, sum.y / i);
+            }
+        }
+
+        public int Area
+        {
+            get
+            {
+                var area = 0;
+                foreach (var (key, room) in rooms)
+                {
+                    foreach (var t in room.tiles)
+                    {
+                        area++;
+                    }
+                }
+                return area;
+            }
+        }
+
+        public double Fitness { get; set; }
+        #endregion
+
+        #region Variables
+        public Dictionary<string, Room> rooms = new();
+        #endregion
+
+        #region Constructors
+        public Map()
+        {
+
+        }
+
+        public object Clone()
+        {
+            var map = new Map();
+
+            var rooms = new Dictionary<string, Room>();
+            foreach (var (key,room) in this.rooms)
+            {
+                var r = room.Clone();
+                map.rooms.Add(key, r as Room);
+            }
+            map.rooms = rooms;
+
+            return map;
+        }
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Set the room id to the tiles in the positions list,
+        /// and recalculate the neigthbors and walls.
+        /// </summary>
+        /// <param name="positions"></param>
+        /// <param name="id"></param>
+        public void SetRoomTiles(List<Vector2Int> positions, string id)
+        {
+            // set room owner id
+            for (int i = 0; i < positions.Count; i++)
+            {
+                var x = positions[i].x;
+                var y = positions[i].y;
+                var pos = new Vector2Int(x, y);
+
+                Tile tile = null;
+                foreach (var (key, r) in rooms)
+                {
+                    if (r.tiles.ContainsKey(pos)) // if exist, extract from previous room
+                    {
+                        tile = r.tiles[pos];
+                        r.tiles.Remove(pos);
+                        break;
+                    }
+                }
+
+                var room = rooms.TryGetValue(id, out var _room) ? _room : new Room(this);
+
+                if (tile == null)
+                {
+                    tile = new Tile(room);
+                    rooms.Add(id, room);
+                }
+
+                rooms[id].tiles.Add(pos, tile);
+
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="zone"></param>
+        /// <param name="dir"></param>
+        public void MoveArea(string id, Vector2Int dir)
+        {
+            rooms.TryGetValue(id, out var room);
+
+            var olds = room.tiles;
+            room.tiles = new Dictionary<Vector2Int, Tile>();
+
+            var newPositions = olds.Select(t => t.Key + dir).ToList();
+            room.owner.SetRoomTiles(newPositions, id);
+        }
+
+        /// <summary>
+        /// Set the room id to the tiles in the rectangle.
+        /// </summary>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <param name="id"></param>
+        public void SetRoomTiles(Vector2Int min, Vector2Int max, string id)
+        {
+            var pos = new List<Vector2Int>();
+            for (int i = min.x; i < max.x; i++)
+            {
+                for (int j = min.y; j < max.y; j++)
+                {
+                    pos.Add(new Vector2Int(i, j));
+                }
+            }
+            SetRoomTiles(pos, id);
+        }
+
+        public void RemoveTiles()
+        {
+
+        }
+
+        /// <summary>
+        /// Return the number of neigthbors that the tile has in the 8 directions
+        /// considering all rooms.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public int NeigthborValue(int x, int y)
+        {
+            var bitArray = new BitArray(8);
+            for (int i = 0; i < Directions.directions_8.Count; i++)
+            {
+                var dir = Directions.directions_8[i];
+                var nx = x + dir.x;
+                var ny = y + dir.y;
+
+                foreach (var (key,r) in rooms)
                 {
                     var pos = new Vector2Int(nx, ny);
-                    if (r.Value.ContainsKey(pos))
+                    if (r.tiles.ContainsKey(pos))
                     {
                         bitArray[i] = true;
                     }
@@ -580,12 +532,40 @@ namespace Optimization.Data
                 var nx = x + dir.x;
                 var ny = y + dir.y;
 
-                foreach (var r in rooms)
+                foreach (var (key, r) in rooms)
                 {
                     var pos = new Vector2Int(nx, ny);
-                    if (r.Value.ContainsKey(pos))
+                    if (r.tiles.ContainsKey(pos))
                     {
                         toR++;
+                    }
+                }
+            }
+            return toR;
+        }
+
+        /// <summary>
+        /// Get the neigbours of a tile in the given directions.
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="directions"></param>
+        /// <returns></returns>
+        public (List<Vector2Int>,List<Tile>) GetTileNeighbors(Vector2Int position, List<Vector2Int> directions)
+        {
+            var toR = (new List<Vector2Int>(),new List<Tile>());
+
+            var neigPositions = directions.Select(d => position + d).ToArray();
+
+            foreach (var (key, room) in rooms)
+            {
+                foreach (var neigPos in neigPositions)
+                {
+                    room.tiles.TryGetValue(neigPos, out var tile);
+
+                    if (tile != null)
+                    {
+                        toR.Item1.Add(neigPos);
+                        toR.Item2.Add(tile);
                     }
                 }
             }
@@ -607,66 +587,56 @@ namespace Optimization.Data
         /// of rows in the tile matrix.</description></item>
         /// </list>
         /// </returns>
-        public ((Vector2Int[,], int[,], Tile[,]), int, int) ToTileMatrix()
+        public ((Vector2Int[,], string[,], Tile[,]), int, int) ToTileMatrix()
         {
             var rect = Bounds;
             var tiles = new Tile[rect.width + 1, rect.height + 1];
             var cords = new Vector2Int[rect.width + 1, rect.height + 1];
-            var roomID = new int[rect.width + 1, rect.height + 1];
+            var roomID = new string[rect.width + 1, rect.height + 1];
 
-            foreach (var r in rooms)
+            foreach (var (key,r) in rooms)
             {
-                foreach (var t in r.Value)
+                foreach (var t in r.tiles)
                 {
                     var pivot = t.Key - rect.min;
                     tiles[pivot.x, pivot.y] = t.Value;
                     cords[pivot.x, pivot.y] = t.Key;
-                    roomID[pivot.x, pivot.y] = r.Key;
+                    roomID[pivot.x, pivot.y] = key;
                 }
             }
             return ((cords, roomID, tiles), rect.width + 1, rect.height + 1);
         }
 
-        public static Map MatrixToMap(int[,] matrix, int w, int h)
+        /// <summary>
+        /// Generate a map based on a matrix of strings representing the rooms IDs.
+        /// </summary>
+        /// <param name="matrix"></param>
+        /// <param name="w"></param>
+        /// <param name="h"></param>
+        /// <returns></returns>
+        public static Map MatrixToMap(string[,] matrix, int w, int h)
         {
             var map = new Map();
+            var rooms = new Dictionary<string, Room>();
 
             for (int i = 0; i < h; i++)
             {
                 for (int j = 0; j < w; j++)
                 {
-                    if (matrix[j, i] == 0)
+                    if (string.IsNullOrEmpty(matrix[j, i]))
                         continue;
 
-                    var tile = new Tile(map);
-                    tile.roomID = matrix[j, i];
-                    if (!map.rooms.ContainsKey(tile.roomID))
+                    rooms.TryGetValue(matrix[j, i], out var room);
+                    if(room == null)
                     {
-                        map.rooms.Add(tile.roomID, new Dictionary<Vector2Int, Tile>());
+                        rooms.Add(matrix[j, i], new Room(map));
                     }
-                    map.rooms[tile.roomID].Add(new Vector2Int(j, i), tile);
+
+                    var tile = new Tile(room);
+                    room.tiles.Add(new Vector2Int(j, i), tile);
                 }
             }
             return map;
-        }
-
-        public (List<Vector2Int>, List<Tile>) GetNeigTiles(Vector2Int pos, List<Vector2Int> dirs)
-        {
-            var posR = new List<Vector2Int>();
-            var tilesR = new List<Tile>();
-
-            foreach (var d in dirs)
-            {
-                var dd = pos + d;
-
-                foreach (var r in rooms)
-                {
-                    posR.Add(dd);
-                    tilesR.Add(r.Value.ContainsKey(dd) ? r.Value[dd] : null);
-                }
-            }
-
-            return (posR, tilesR);
         }
 
         /// <summary>
@@ -688,16 +658,16 @@ namespace Optimization.Data
             Debug.Log(msg);
         }
 
-        public (int, Dictionary<Vector2Int, Tile>) GetRoom(Vector2Int vector2Int)
+        public (string, Room) GetRoom(Vector2Int vector2Int)
         {
-            foreach (var r in rooms)
+            foreach (var (key, r) in rooms)
             {
-                if (r.Value.ContainsKey(vector2Int))
+                if (r.tiles.ContainsKey(vector2Int))
                 {
-                    return (r.Key, r.Value);
+                    return (key, r);
                 }
             }
-            return (-1, null);
+            return ("", null);
         }
 
         // override object.Equals
@@ -714,24 +684,10 @@ namespace Optimization.Data
 
             foreach (var (key, value) in this.rooms)
             {
-                // check if the other map has the same room ids
-                if (other.rooms.TryGetValue(key, out var oRoom))
-                {
-                    // check if the room has the same amount of tiles
-                    if (value.Count != oRoom.Count)
-                        return false;
+                other.rooms.TryGetValue(key, out var oRoom);
 
-                    // check if the tiles are the same
-                    foreach (var (pos, tile) in value)
-                    {
-                        if (!oRoom.TryGetValue(pos, out var t))
-                            return false;
-                    }
-                }
-                else
-                {
+                if (oRoom == null || !oRoom.Equals(value)) // TODO: Implement Room.Equals method
                     return false;
-                }
             }
 
             return true;
@@ -743,17 +699,22 @@ namespace Optimization.Data
             int hash = 17;
 
             // Combine the hash codes of all the rooms and their tiles
-            foreach (var room in rooms)
+            foreach (var (key,room) in rooms)
             {
-                hash = hash * 31 + room.Key.GetHashCode();
+                hash = hash * 31 + key.GetHashCode();
 
-                foreach (var tile in room.Value)
+                foreach (var tile in room.tiles)
                 {
                     hash = hash * 31 + tile.Key.GetHashCode();
                 }
             }
 
             return hash;
+        }
+
+        public IOptimizable CreateNew()
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

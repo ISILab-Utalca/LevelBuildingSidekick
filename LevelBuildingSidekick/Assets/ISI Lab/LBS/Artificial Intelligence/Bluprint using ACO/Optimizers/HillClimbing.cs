@@ -17,8 +17,6 @@ namespace Optimization
     {
         List<List<(object,float,string)>> history; // population
 
-            
-
         public Map Execute(Map init, IEvaluator evaluator, ITerminator terminator, IGetNeighbors getNeighbors,ISelector selector)
         {
             Map best = init;

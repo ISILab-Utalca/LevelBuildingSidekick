@@ -146,14 +146,14 @@ public class ACO_BlueprintAssistant : LBSAssistant, IStep1
 
         // add ACO data to mdules
         var acoData = path.Last();
-        DataACOtoModules(acoData);
+        DataACOtoModules(acoData, graph);
 
         Owner.Reload();
         UnityEngine.Debug.Log("ACO End!");
         OnTermination?.Invoke();
     }
 
-    private void DataACOtoModules(Map map)
+    private void DataACOtoModules(Map map, Graph graph)
     {
 
         var tmm = Owner.GetModule<TileMapModule>();
@@ -164,16 +164,14 @@ public class ACO_BlueprintAssistant : LBSAssistant, IStep1
         ctmm.Clear();
 
         var rooms = map.rooms.ToArray();
-        for (int i = 0; i < rooms.Length; i++)
+        foreach (var (key, room) in rooms)
         {
-            var room = rooms[i].Value.ToArray();
-
-            var zone = new Zone("Room " + i, new Color().RandomColor()); // FIX: mantener color de lo anterior.
+            var zone = new Zone(key, new Color().RandomColor());
             stmm.AddZone(zone);
 
-            for (int j = 0; j < room.Length; j++)
+            foreach (var (pos, _tile) in room.tiles)
             {
-                var tile = new LBSTile(room[j].Key);
+                var tile = new LBSTile(pos);
                 tmm.AddTile(tile);
 
                 stmm.AddPair(new TileZonePair(tile, zone));
@@ -260,8 +258,7 @@ public class ACO_BlueprintAssistant : LBSAssistant, IStep1
         STMM.Zones.ForEach(z =>
         {
             var node = new Graph.Node();
-            node.name = z.ID;
-            node.id = _Parse(z.ID);
+            node.id = z.ID;
             node.pos = new Vector2(z.Pivot.x, z.Pivot.y);
             node.color = new Color(z.Color.r, z.Color.g, z.Color.b);
             graph.nodes.Add(node);
@@ -272,8 +269,8 @@ public class ACO_BlueprintAssistant : LBSAssistant, IStep1
         CTMM.Edges.ForEach(c =>
         {
             var edge = new Graph.Edge();
-            edge.n1 = graph.nodes.Find(n => n.id == _Parse(c.First.ID));
-            edge.n2 = graph.nodes.Find(n => n.id == _Parse(c.Second.ID));
+            edge.n1 = graph.nodes.Find(n => n.id == c.First.ID);
+            edge.n2 = graph.nodes.Find(n => n.id == c.Second.ID);
 
             graph.edges.Add(edge);
         });
@@ -282,7 +279,7 @@ public class ACO_BlueprintAssistant : LBSAssistant, IStep1
 
         CZM.Constraints.ForEach(c =>
         {
-            var id = _Parse(c.Zone.ID);
+            var id = c.Zone.ID;
             var nodes = graph.nodes;
             var node = graph.nodes.Find(n => n.id == id);
 

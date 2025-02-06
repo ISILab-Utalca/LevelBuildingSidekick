@@ -32,7 +32,7 @@ namespace Problem.Neigbors
 
             foreach (var (id, room) in map.rooms)
             {
-                var walls = map.GetWalls(id);
+                var walls = room.GetWalls();
                 foreach (var (point, dir) in walls)
                 {
                     List<(object, string)> neig = new();
@@ -48,7 +48,7 @@ namespace Problem.Neigbors
                 var (m,s) = toR[i];
                 foreach (var (id,rooms) in (m as Map).rooms)
                 {
-                    if (rooms.Count() == 0)
+                    if (rooms.tiles.Count() == 0)
                     {
                         toR.RemoveAt(i);
                         break;
@@ -87,12 +87,12 @@ namespace Problem.Neigbors
         /// <param name="wall"></param>
         /// <param name="dir"></param>
         /// <returns></returns>
-        internal static List<(object, string)> GetNeigsByExpandWall(this Map map, int roomID, List<Vector2Int> wall, Vector2Int dir)
+        internal static List<(object, string)> GetNeigsByExpandWall(this Map map, string roomID, List<Vector2Int> wall, Vector2Int dir)
         {
             var toR = new List<(object, string)>();
 
             var clone = map.Clone() as Map;
-            var room = clone.rooms[roomID];
+            clone.rooms.TryGetValue(roomID, out var room);
             var newWall = wall.Select(p => p + dir).ToList(); // OPTIMIZE: .toList() may slow down the process, measure time!
             clone.SetRoomTiles(newWall, roomID);
             toR.Add((clone, "R:" + roomID + "D:" + dir.ToString() + "M:Expand"));
@@ -108,12 +108,12 @@ namespace Problem.Neigbors
         /// <param name="wall"></param>
         /// <param name="dir"></param>
         /// <returns></returns>
-        internal static List<(object, string)> GetNeigsByRetractWall(this Map map, int roomID, List<Vector2Int> wall, Vector2Int dir)
+        internal static List<(object, string)> GetNeigsByRetractWall(this Map map, string roomID, List<Vector2Int> wall, Vector2Int dir)
         {
             var toR = new List<(object, string)>();
 
             var clone = map.Clone() as Map;
-            var room = clone.rooms[roomID];
+            clone.rooms.TryGetValue(roomID, out var room);
 
             var frontWall = wall.Select(p => p + dir).ToList(); // OPTIMIZE: .toList() may slow down the process, measure time!
 
@@ -128,7 +128,7 @@ namespace Problem.Neigbors
                 }
 
                 var (id,dict) = clone.GetRoom(frontWall[i]);
-                if (id != -1) 
+                if (dict == null) 
                 {
                     // OPTIMIZE: esto podria pasar sin los chequeos internos de setroom
                     // por que ya seque room le pertence los tiles
@@ -136,7 +136,7 @@ namespace Problem.Neigbors
                 }
                 else 
                 {
-                    room.Remove(wall[i]);
+                    room.tiles.Remove(wall[i]);
                 }
             }
 
@@ -152,27 +152,27 @@ namespace Problem.Neigbors
         /// <param name="roomID"></param>
         /// <param name="dirs"></param>
         /// <returns></returns>
-        internal static List<(object, string)> GetNeigsByMoveRoom(this Map map, int roomID, List<Vector2Int> dirs)
+        internal static List<(object, string)> GetNeigsByMoveRoom(this Map map, string roomID, List<Vector2Int> dirs)
         {
-            var room = map.rooms[roomID];
+            map.rooms.TryGetValue(roomID, out var room);
             var neigs = new List<(object, string)>();
-            List<Vector2Int> originPos = room.Select(p => p.Key).ToList(); // OPTIMIZE: .toList() may slow down the process, measure time!
+            var originPos = room.tiles.Select(p => p.Key); // TODO: OPTIMIZE: .toList() may slow down the process, measure time!
 
             for (int i = 0; i < dirs.Count; i++)
             {
-                var neigPos = originPos.Select(p => p + dirs[i]).ToList(); // OPTIMIZE: .toList() may slow down the process, measure time!
+                var neigPos = originPos.Select(p => p + dirs[i]); // OPTIMIZE: .toList() may slow down the process, measure time!
 
                 var (intersect, toAdd, toRemove) = SegregatePos(neigPos, originPos);
 
                 var neig = map.Clone() as Map;
 
-                var nr = neig.rooms[roomID];
+                neig.rooms.TryGetValue(roomID, out var nr);
                 foreach (var p in toRemove)
                 {
-                    nr.Remove(p);
+                    nr.tiles.Remove(p);
                 }
 
-                neig.SetRoomTiles(toAdd, roomID);
+                neig.SetRoomTiles(toAdd.ToList(), roomID);
                 neigs.Add((neig, "R:" + roomID + "D:" + dirs[i].ToString()));
             }
             return neigs;
@@ -184,11 +184,12 @@ namespace Problem.Neigbors
         /// <param name="neigPos"></param>
         /// <param name="originPos"></param>
         /// <returns></returns>
-        private static (List<Vector2Int>, List<Vector2Int>, List<Vector2Int>) SegregatePos(List<Vector2Int> neigPos, List<Vector2Int> originPos)
+        private static (IEnumerable<Vector2Int>, IEnumerable<Vector2Int>, IEnumerable<Vector2Int>) 
+            SegregatePos(IEnumerable<Vector2Int> neigPos, IEnumerable<Vector2Int> originPos)
         {
-            var intersect = neigPos.Intersect(originPos).ToList();
-            var toA = neigPos.Except(intersect).ToList();
-            var toR = originPos.Except(intersect).ToList();
+            var intersect = neigPos.Intersect(originPos);
+            var toA = neigPos.Except(intersect);
+            var toR = originPos.Except(intersect);
 
             return (intersect, toA, toR);
         }

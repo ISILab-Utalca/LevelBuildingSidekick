@@ -26,7 +26,6 @@ namespace ISILab.LBS.Assistants
     {
         public Zone GetZone(LBSTile tile);
         public Zone GetZone(Vector2Int position);
-
         public void ConnectZones(Zone first, Zone second);
     }
 
@@ -324,9 +323,9 @@ namespace ISILab.LBS.Assistants
             var termination = new FitnessStagnationTermination(1);
             var evaluator = new WeightedEvaluator(new System.Tuple<IEvaluator, float>[]
             {
-            new System.Tuple<IEvaluator, float> (new AdjacenciesEvaluator(layer), 4f),
-            new System.Tuple<IEvaluator, float> (new AreasEvaluator(layer), 0.15f),
-            new System.Tuple<IEvaluator, float> (new EmptySpaceEvaluator(layer), 0.35f),
+                new System.Tuple<IEvaluator, float> (new AdjacenciesEvaluator(layer), 4f),
+                new System.Tuple<IEvaluator, float> (new AreasEvaluator(layer), 0.15f),
+                new System.Tuple<IEvaluator, float> (new EmptySpaceEvaluator(layer), 0.35f),
                 //new System.Tuple<IEvaluator, float> (new RoomCutEvaluator(layer), 1f),
                 //new System.Tuple<IEvaluator, float> (new StretchEvaluator(), 0.1f),
             });
@@ -347,10 +346,10 @@ namespace ISILab.LBS.Assistants
             var termination = new FitnessStagnationTermination(1);
             var evaluator = new WeightedEvaluator(new System.Tuple<IEvaluator, float>[]
             {
-            new System.Tuple<IEvaluator, float> (new AdjacenciesEvaluator(layer), 0.4f),
-            new System.Tuple<IEvaluator, float> (new AreasEvaluator(layer), 0.15f),
-            new System.Tuple<IEvaluator, float> (new EmptySpaceEvaluator(layer), 0.35f),
-            new System.Tuple<IEvaluator, float> (new RoomCutEvaluator(layer), 1f),
+                new System.Tuple<IEvaluator, float> (new AdjacenciesEvaluator(layer), 0.4f),
+                new System.Tuple<IEvaluator, float> (new AreasEvaluator(layer), 0.15f),
+                new System.Tuple<IEvaluator, float> (new EmptySpaceEvaluator(layer), 0.35f),
+                new System.Tuple<IEvaluator, float> (new RoomCutEvaluator(layer), 1f),
                 //new System.Tuple<IEvaluator, float> (new StretchEvaluator(), 0.1f),
             });
             var population = new Population(1, 100, adam); // agregar parametros
@@ -592,6 +591,7 @@ namespace ISILab.LBS.Assistants
             {
                 if (z == zone)
                     continue;
+
                 var zTiles = zonesMod.GetTiles(z);
                 for (int i = 0; i < tiles.Count; i++)
                 {

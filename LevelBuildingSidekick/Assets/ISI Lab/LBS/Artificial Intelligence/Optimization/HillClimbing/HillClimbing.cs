@@ -67,7 +67,6 @@ namespace ISILab.AI.Optimization
 
             Nlog = clock.ElapsedMilliseconds;
             NNlog= offsprings.Count;
-            //var offsprings = GetNeighbors?.Invoke(BestCandidate); // poner exepcion por si neigthbor es null (!!!)
 
             clock.Restart();
             EvaluateFitness(offsprings);

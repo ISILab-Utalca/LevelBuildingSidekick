@@ -373,7 +373,7 @@ namespace Optimization.ACO
         /// <param name="roomID"></param>
         /// <param name="map"></param>
         /// <returns></returns>
-        private List<Vector2Int> GetPivotsNeigs(Vector2 nodeVector, Vector2Int sizeArea, int roomID, Map map)
+        private List<Vector2Int> GetPivotsNeigs(Vector2 nodeVector, Vector2Int sizeArea, string roomID, Map map)
         {
             var toR = new List<Vector2Int>();
 
@@ -426,14 +426,14 @@ namespace Optimization.ACO
             return toR;  // FIX: los numeros podrian estar mas distantes de lo que deberian
         }
 
-        private List<Vector2Int> GetAdjacent(Directions.Dirs_4 dir, Dictionary<Vector2Int, Tile> room)
+        private List<Vector2Int> GetAdjacent(Directions.Dirs_4 dir,Room room)
         {
             var toR = new List<Vector2Int>();
-            foreach (var (pos, tile) in room)
+            foreach (var (pos, tile) in room.tiles)
             {
                 var adjacentTile = pos + Directions.directions_4[(int)dir];
                 Tile t = null;
-                if (!room.TryGetValue(adjacentTile, out t))
+                if (!room.tiles.TryGetValue(adjacentTile, out t))
                 {
                     toR.Add(adjacentTile);
                 }

@@ -42,7 +42,7 @@ namespace Optimization.Utils
                 {
                     var id = rooms[j, i];
 
-                    if (id == 0)
+                    if (string.IsNullOrEmpty(id))
                     {
                         for (int x = 0; x < pixelSize; x++)
                         {
@@ -99,7 +99,7 @@ namespace Optimization.Utils
                 {
                     var id = rooms[j, i];
 
-                    if (id == 0)
+                    if (string.IsNullOrEmpty(id))
                         t.SetPixel(j, i, Color.black);
 
                     var node = graph.nodes.Find(n => n.id == id);

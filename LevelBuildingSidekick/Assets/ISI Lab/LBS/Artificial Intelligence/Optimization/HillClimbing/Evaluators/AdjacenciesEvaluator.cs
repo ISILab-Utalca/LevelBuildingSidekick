@@ -1,10 +1,10 @@
-﻿using Commons.Optimization.Evaluator;
-using LBS.Components;
+﻿using LBS.Components;
 using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.AI.Wrappers;
 using ISILab.LBS.Modules;
 using ISILab.AI.Optimization;
+using Commons.Optimization.Evaluator;
 
 namespace ISILab.AI.Optimization
 {
