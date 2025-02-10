@@ -30,7 +30,6 @@ namespace Nico.Tools
                     path = Application.dataPath + path;
 
                     path = path.Replace('/', '\\');
-
                     
                     GUIUtility.systemCopyBuffer = path;
 
