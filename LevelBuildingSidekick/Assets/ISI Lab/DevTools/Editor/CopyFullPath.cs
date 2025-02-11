@@ -24,7 +24,6 @@ namespace Nico.Tools
                 if (AssetDatabase.Contains(obj))
                 {
                     string path = AssetDatabase.GetAssetPath(obj);
-
                     path = path.TrimStart('A', 's', 's', 'e', 't');
 
                     path = Application.dataPath + path;

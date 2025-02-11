@@ -14,10 +14,16 @@ namespace ISI_Lab.DevTools.Editor
            {
                string path = AssetDatabase.GetAssetPath(obj);
                string uid = AssetDatabase.AssetPathToGUID(path);
+               
                GUIUtility.systemCopyBuffer = uid;
                Debug.Log("The GUID was copy to the clipboard:\n" + uid);
+               
+               
            }
         }
+        
+
+        
 #endif
     }
 }
