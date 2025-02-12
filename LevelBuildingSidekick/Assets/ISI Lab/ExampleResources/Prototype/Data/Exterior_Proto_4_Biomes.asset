@@ -20,6 +20,7 @@ MonoBehaviour:
   assets: []
   characteristics:
   - rid: 4305865203777798400
+  populationType: 0
   childsBundles:
   - {fileID: 11400000, guid: cbd6969f6a1a45b48a859e434a22df14, type: 2}
   - {fileID: 11400000, guid: 3cbb92a444048d845a89d48742a9e927, type: 2}

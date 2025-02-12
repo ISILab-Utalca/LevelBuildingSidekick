@@ -136,14 +136,27 @@ namespace ISILab.LBS.VisualElements
             // BundleField
             bundleField = this.Q<ObjectField>("BundleField");
             bundleField.value = targetBundle;
+            // only updates the first bundle value change - fix pending
             bundleField.RegisterValueChangedCallback(evt =>
             {
-                targetBundle = evt.newValue as Bundle;
-                bundleField.value = targetBundle;
-                exterior.Bundle = targetBundle;
-                exterior.BundlePath = AssetDatabase.GetAssetPath(targetBundle);
-                OnTargetBundle();
-                ToolKit.Instance.SetActive("Set connection");
+                if (evt.newValue == null)
+                {
+                    targetBundle = null;
+                    bundleField.value = null;
+                    exterior.Bundle = null;
+                    OnTargetBundle();
+                }
+                else
+                {
+                    targetBundle = evt.newValue as Bundle;
+                    bundleField.value = targetBundle;
+                    exterior.Bundle = targetBundle;
+                    exterior.BundlePath = AssetDatabase.GetAssetPath(targetBundle);
+                    OnTargetBundle();
+                    ToolKit.Instance.SetActive("Set connection");
+                }
+                   
+  
             });
 
             // Connection Pallete

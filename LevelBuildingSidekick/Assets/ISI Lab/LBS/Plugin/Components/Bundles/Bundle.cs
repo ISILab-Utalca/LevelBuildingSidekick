@@ -11,6 +11,15 @@ using UnityEngine.Serialization;
 
 namespace LBS.Bundles
 {
+
+    public enum PopulationType
+    {
+        Entity, // player, npc, enemies
+        Object, // collectable type
+        Interactable, // buttons, doors, levers
+        Area, // triggers 
+        Prop // static mesh
+    }
     
     [System.Flags]
     public enum BundleFlags
@@ -91,6 +100,10 @@ namespace LBS.Bundles
         [SerializeReference, HideInInspector]
         private List<LBSCharacteristic> characteristics = new List<LBSCharacteristic>();
 
+        // only used if it's an element (population)
+        [SerializeField,HideInInspector] 
+        private PopulationType populationType = PopulationType.Entity;
+        
         // hides in inspector and uses the custom GUI to assign only children with containing flags
         [SerializeField, HideInInspector]
         private List<Bundle> childsBundles = new List<Bundle>();
@@ -107,6 +120,7 @@ namespace LBS.Bundles
             set => assets = value;
         }
 
+        public PopulationType PopulationType => populationType;
         public List<LBSCharacteristic> Characteristics => characteristics;
 
         public List<Bundle> ChildsBundles => new List<Bundle>(childsBundles);

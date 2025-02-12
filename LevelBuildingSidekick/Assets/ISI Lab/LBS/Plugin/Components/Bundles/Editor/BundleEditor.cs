@@ -36,6 +36,19 @@ namespace ISILab.LBS.Bundles.Editor
             InspectorElement.FillDefaultInspector(root, this.serializedObject, this);
             var bundle = target as Bundle;
 
+                    
+            // Element option
+            if (bundle != null && bundle.Type == Bundle.TagType.Element)
+            {
+                SerializedProperty populationTypeProp = serializedObject.FindProperty("populationType");
+                if (populationTypeProp != null)
+                {
+                    PropertyField populationField = new PropertyField(populationTypeProp);
+                    populationField.Bind(serializedObject);
+                    root.Add(populationField);
+                }
+            }
+            
             #region Characteristics
 
             characteristics = new ListView();
@@ -178,6 +191,8 @@ namespace ISILab.LBS.Bundles.Editor
             root.Add(buttonContainer);
             
             #endregion
+    
+
             
             return root;
         }

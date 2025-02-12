@@ -32,6 +32,7 @@ namespace ISILab.LBS.AI.Assistants.Editor
 
         public AssistantMapEliteEditor(object target) : base(target)
         {
+            Debug.LogError("mapelite");
             Add(CreateVisualElement());
             SetInfo(target);
         }
