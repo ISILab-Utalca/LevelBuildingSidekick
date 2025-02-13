@@ -10,6 +10,9 @@ using LBS.VisualElements;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ISILab.Commons.Utility.Editor;
+using ISILab.Extensions;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -22,6 +25,10 @@ namespace ISILab.LBS.VisualElements
 
         private PopulationBehaviour _target;
 
+        [SerializeField]
+        private BundleCollection _collection; 
+        [SerializeField]
+        private PopulationType _populationType; 
         //Manipulators
         AddPopulationTile addPopulationTile;
         RemovePopulationTile removePopulationTile;
@@ -29,11 +36,13 @@ namespace ISILab.LBS.VisualElements
 
         //Palletes
         private SimplePallete bundlePallete;
+        private WarningPanel warningPanel;
 
         public PopulationBehaviourEditor(object target) : base(target)
         {
             _target = target as PopulationBehaviour;
-
+            SetInfo(_target);
+            //_collection = load default collection
             CreateVisualElement();
         }
 
@@ -41,6 +50,8 @@ namespace ISILab.LBS.VisualElements
         public override void SetInfo(object target)
         {
             _target = target as PopulationBehaviour;
+            if (_target != null) _collection = _target.selectedCollectionToSet;
+            if (_target != null) _populationType = _target.selectedTypetoSet;
         }
 
         public void SetTools(ToolKit toolkit)
@@ -76,15 +87,141 @@ namespace ISILab.LBS.VisualElements
             toolkit.AddTool(t3);
         }
 
-        protected override VisualElement CreateVisualElement()
+        protected sealed override VisualElement CreateVisualElement()
         {
+          
+            /*bundlePallete = new SimplePallete();
             bundlePallete = new SimplePallete();
             Add(bundlePallete);
             bundlePallete.SetName("Population");
+                        // Connection Pallete
+            bundlePallete = this.Q<SimplePallete>("ConnectionPallete");
+              SetBundlePallete();
+            */
 
-            SetBundlePallete();
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("PopulationBehaviourEditor");
+            visualTree.CloneTree(this);
+            
+            // WarningPanel
+            warningPanel = this.Q<WarningPanel>();
+            
+            var collectionField = this.Q<ObjectField>("BundleCollection");
+          
+            collectionField.value = _collection;
+            // only updates the first bundle value change - fix pending
+            collectionField.RegisterValueChangedCallback(evt =>
+            {
+                var collection = evt.newValue as BundleCollection;
+                collectionField.value = collection;
+                _collection = collection;
+                UpdateElementBundles();
+                
+            });
+            
+            var type =  this.Q<EnumField>("Type");
+            type.RegisterValueChangedCallback(evt =>
+            {
+                _populationType = (PopulationType)evt.newValue;
+                UpdateElementBundles();
+            });
 
+            type.SetValueWithoutNotify(_populationType); 
+            
+            bundlePallete = this.Q<SimplePallete>("ConnectionPallete");
+            bundlePallete.DisplayAddElement = false;
+            UpdateElementBundles();
+            SetPallete();
+            bundlePallete.Repaint();
             return this;
+        }
+
+        private void SetPallete()
+        {
+            // Set init options
+            bundlePallete.ShowGroups = false;
+            bundlePallete.ShowAddButton = false;
+            bundlePallete.ShowRemoveButton = false;
+            
+            
+            bundlePallete.OnSelectOption += (selected) =>
+            {
+                _target.selectedToSet = selected as Bundle;
+                _target.selectedCollectionToSet = _collection;
+                _target.selectedTypetoSet = _populationType;
+                /*
+                if (selected == null)
+                {
+                    _target.selectedCollectionToSet = null;
+                    _target.selectedTypetoSet = PopulationType.Entity;
+                }
+                else
+                {
+                    _target.selectedCollectionToSet = _collection;
+                    _target.selectedTypetoSet = _populationType;
+                }
+                */
+             
+                ToolKit.Instance.SetActive("Paint Tile");
+            };
+            
+            bundlePallete.OnSetTooltip += (option) =>
+            {
+                var b = option as Bundle;
+
+                var tooltip = "Tags:";
+                if (b.Characteristics.Count > 0)
+                {
+                    b.Characteristics.ForEach(c => tooltip += "\n- " + c?.GetType().ToString());
+                }
+                else
+                {
+                    tooltip += "\n[None]";
+                }
+                return tooltip;
+            };
+
+            bundlePallete.OnRepaint += () =>
+            {
+                bundlePallete.Selected = _target.selectedToSet;
+                bundlePallete.CollectionSelected = _target.selectedCollectionToSet;
+            };
+            
+            
+
+        }
+
+        private void UpdateElementBundles()
+        {
+            if (_collection == null)
+            {
+                warningPanel.SetDisplay(true);
+                bundlePallete.DisplayContent(false);
+                return;
+            }
+            warningPanel.SetDisplay(false);
+            bundlePallete.DisplayContent(true);
+            var bundles = _collection.Collection;
+            var candidates = bundles
+                .Where(b => b.Type == Bundle.TagType.Element && b.PopulationType == _populationType)
+                .ToList();
+            
+            bundlePallete.ShowGroups = false;
+            var options = new object[candidates.Count];
+            for (int i = 0; i < candidates.Count; i++)
+            {
+                options[i] = candidates[i];
+            }
+         
+            // Init options
+            bundlePallete.SetOptions(options, (optionView, option) =>
+            {
+                var bundle = (Bundle)option;
+                optionView.Label = bundle.name;
+                optionView.Color = bundle.Color;
+                optionView.Icon = bundle.Icon;
+            });
+            
+            bundlePallete.Repaint();
         }
 
         private void SetBundlePallete()
@@ -146,7 +283,10 @@ namespace ISILab.LBS.VisualElements
                 optionView.Icon = bundle.Icon;
             });
 
-            bundlePallete.OnRepaint += () => { bundlePallete.Selected = _target.selectedToSet; };
+            bundlePallete.OnRepaint += () =>
+            {
+                bundlePallete.Selected = _target.selectedToSet;
+            };
 
             bundlePallete.Repaint();
 

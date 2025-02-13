@@ -24,6 +24,12 @@ namespace ISILab.LBS.Behaviours
         #region META-FIELDS
         [JsonIgnore]
         public Bundle selectedToSet;
+        
+        [JsonIgnore]
+        public BundleCollection selectedCollectionToSet;
+        
+        [JsonIgnore]
+        public PopulationType selectedTypetoSet;
         #endregion
 
         #region PROPERTIES
