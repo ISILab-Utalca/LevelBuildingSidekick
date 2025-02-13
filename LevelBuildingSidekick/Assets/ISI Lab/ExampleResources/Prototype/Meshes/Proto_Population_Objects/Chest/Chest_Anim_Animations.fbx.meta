@@ -33,11 +33,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: ChestArmature|ChestArmatureAction
-      takeName: ChestArmature|ChestArmatureAction
-      internalID: 720660538602098710
+      name: ChestArmature|Idle
+      takeName: ChestArmature|Idle
+      internalID: 306501369465659787
       firstFrame: 0
-      lastFrame: 30
+      lastFrame: 47
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -62,11 +62,40 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: ChestArmature|Idle
-      takeName: ChestArmature|Idle
-      internalID: 306501369465659787
+      name: ChestArmature|OnOpen
+      takeName: ChestArmature|OnOpen
+      internalID: 7906937893834271402
       firstFrame: 0
-      lastFrame: 47
+      lastFrame: 18
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: ChestArmature|Open
+      takeName: ChestArmature|Open
+      internalID: -4184518001961102549
+      firstFrame: 0
+      lastFrame: 30
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
