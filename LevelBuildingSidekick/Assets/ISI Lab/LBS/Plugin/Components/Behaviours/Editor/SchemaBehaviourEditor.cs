@@ -146,7 +146,8 @@ namespace ISILab.LBS.Behaviours.Editor
             areaPallete.OnSelectOption += (selected) =>
             {
                 _target.RoomToSet = selected as Zone;
-                ToolKit.Instance.SetActive("Paint Zone");
+                //ToolKit.Instance.SetActive("Paint Zone");
+                //Debug.Log("Hi");
             };
 
             // OnAdd option event
@@ -156,11 +157,11 @@ namespace ISILab.LBS.Behaviours.Editor
                 newZone.InsideStyles = new List<string>() { _target.PressetInsideStyle.Name };
                 newZone.OutsideStyles = new List<string>() { _target.PressetOutsideStyle.Name };
                 areaPallete.Options = new object[_target.Zones.Count];
-                for (int i = 0; i < zones.Count; i++)
+                for (int i = 0; i < _target.Zones.Count; i++)
                 {
                     areaPallete.Options[i] = _target.Zones[i];
                 }
-                ToolKit.Instance.SetActive("Paint Zone");
+                _target.RoomToSet = newZone;
                 areaPallete.Repaint();
             };
 
@@ -170,6 +171,7 @@ namespace ISILab.LBS.Behaviours.Editor
                 var area = (Zone)option;
                 optionView.Label = area.ID; // ID or name (??)
                 optionView.Color = area.Color;
+
             });
 
             areaPallete.OnRepaint += () =>
@@ -197,6 +199,7 @@ namespace ISILab.LBS.Behaviours.Editor
                     return;
 
                 _target.RemoveZone(option as Zone);
+                ToolKit.Instance.SetActive("Paint Zone");
 
                 DrawManager.ReDraw();
                 areaPallete.Repaint();

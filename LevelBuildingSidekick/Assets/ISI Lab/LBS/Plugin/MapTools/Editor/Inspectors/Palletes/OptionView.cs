@@ -110,7 +110,7 @@ namespace LBS.VisualElements
         {
             if(value)
             {
-                border.SetBorder(selected, 4);
+                border.SetBorder(selected, 2);
                 border.style.backgroundColor = selected;
             }
             else
