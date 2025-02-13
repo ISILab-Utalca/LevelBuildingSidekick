@@ -92,10 +92,16 @@ namespace ISILab.LBS.Behaviours
 
         public void RotateTile(Vector2Int pos, Vector2 rotation)
         {
-            var t = GetTileBundle(pos);
+            TileBundlePair t = GetTileBundle(pos);
             if (t == null)
                 return;
             t.Rotation = rotation;
+        }
+
+        public Vector2 GetTileRotation(Vector2Int pos)
+        {
+            TileBundlePair t = GetTileBundle(pos);
+            return t.Rotation;
         }
 
         public BundleData GetBundleData(Vector2 position)
