@@ -16,11 +16,11 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 43
-    width: 1920
-    height: 997
+    width: 2560
+    height: 989
   m_ShowMode: 4
-  m_Title: Level builder
-  m_RootView: {fileID: 4}
+  m_Title: Scene
+  m_RootView: {fileID: 3}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
   m_Maximized: 1
@@ -34,48 +34,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: TestRunnerWindow
+  m_Name: AnimatorControllerTool
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 0
+    x: 238
     y: 0
-    width: 200
-    height: 250
-  m_MinSize: {x: 101, y: 121}
-  m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 23}
+    width: 647
+    height: 650
+  m_MinSize: {x: 102, y: 121}
+  m_MaxSize: {x: 4002, y: 4021}
+  m_ActualView: {fileID: 17}
   m_Panes:
-  - {fileID: 23}
+  - {fileID: 17}
   m_Selected: 0
   m_LastSelected: 0
 --- !u!114 &3
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 12010, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Children:
-  - {fileID: 2}
-  - {fileID: 16}
-  m_Position:
-    serializedVersion: 2
-    x: 1720
-    y: 0
-    width: 200
-    height: 947
-  m_MinSize: {x: 100, y: 100}
-  m_MaxSize: {x: 8096, y: 16192}
-  vertical: 1
-  controlID: 169
---- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -88,22 +63,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Children:
-  - {fileID: 5}
-  - {fileID: 7}
+  - {fileID: 4}
   - {fileID: 6}
+  - {fileID: 5}
   m_Position:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1920
-    height: 997
+    width: 2560
+    height: 989
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
   m_UseTopView: 1
   m_TopViewHeight: 30
   m_UseBottomView: 1
   m_BottomViewHeight: 20
---- !u!114 &5
+--- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -120,12 +95,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1920
+    width: 2560
     height: 30
   m_MinSize: {x: 0, y: 0}
   m_MaxSize: {x: 0, y: 0}
   m_LastLoadedLayoutName: 
---- !u!114 &6
+--- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -141,12 +116,12 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 977
-    width: 1920
+    y: 969
+    width: 2560
     height: 20
   m_MinSize: {x: 0, y: 0}
   m_MaxSize: {x: 0, y: 0}
---- !u!114 &7
+--- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -159,17 +134,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Children:
-  - {fileID: 8}
+  - {fileID: 7}
   m_Position:
     serializedVersion: 2
     x: 0
     y: 30
-    width: 1920
-    height: 947
-  m_MinSize: {x: 300, y: 100}
-  m_MaxSize: {x: 24288, y: 16192}
+    width: 2560
+    height: 939
+  m_MinSize: {x: 400, y: 100}
+  m_MaxSize: {x: 32384, y: 16192}
   vertical: 1
-  controlID: 37
+  controlID: 85
+--- !u!114 &7
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 1
+  m_Script: {fileID: 12010, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Children:
+  - {fileID: 8}
+  - {fileID: 15}
+  m_Position:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 2560
+    height: 939
+  m_MinSize: {x: 400, y: 100}
+  m_MaxSize: {x: 32384, y: 16192}
+  vertical: 0
+  controlID: 86
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -184,43 +184,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Children:
   - {fileID: 9}
-  - {fileID: 3}
+  - {fileID: 12}
   m_Position:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1920
-    height: 947
+    width: 1861
+    height: 939
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
-  vertical: 0
-  controlID: 38
---- !u!114 &9
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 1
-  m_Script: {fileID: 12010, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Children:
-  - {fileID: 10}
-  - {fileID: 13}
-  m_Position:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1720
-    height: 947
-  m_MinSize: {x: 200, y: 100}
-  m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 39
---- !u!114 &10
+  controlID: 87
+--- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -233,19 +208,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Children:
+  - {fileID: 10}
+  - {fileID: 2}
   - {fileID: 11}
-  - {fileID: 12}
   m_Position:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1720
-    height: 561
-  m_MinSize: {x: 200, y: 50}
-  m_MaxSize: {x: 16192, y: 8096}
+    width: 1861
+    height: 650
+  m_MinSize: {x: 300, y: 50}
+  m_MaxSize: {x: 24288, y: 8096}
   vertical: 0
-  controlID: 40
---- !u!114 &11
+  controlID: 88
+--- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -262,16 +238,16 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 233
-    height: 561
+    width: 238
+    height: 650
   m_MinSize: {x: 201, y: 221}
   m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 18}
+  m_ActualView: {fileID: 20}
   m_Panes:
-  - {fileID: 18}
+  - {fileID: 20}
   m_Selected: 0
   m_LastSelected: 0
---- !u!114 &12
+--- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -281,25 +257,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: LBSMainWindow
+  m_Name: SceneView
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 233
+    x: 885
     y: 0
-    width: 1487
-    height: 561
-  m_MinSize: {x: 802, y: 421}
+    width: 976
+    height: 650
+  m_MinSize: {x: 202, y: 221}
   m_MaxSize: {x: 4002, y: 4021}
-  m_ActualView: {fileID: 17}
+  m_ActualView: {fileID: 21}
   m_Panes:
+  - {fileID: 21}
+  - {fileID: 22}
   - {fileID: 19}
-  - {fileID: 20}
-  - {fileID: 17}
-  m_Selected: 2
+  m_Selected: 0
   m_LastSelected: 1
---- !u!114 &13
+--- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -312,19 +288,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Children:
+  - {fileID: 13}
   - {fileID: 14}
-  - {fileID: 15}
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 561
-    width: 1720
-    height: 386
+    y: 650
+    width: 1861
+    height: 289
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 47
---- !u!114 &14
+  controlID: 134
+--- !u!114 &13
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -334,24 +310,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ConsoleWindow
+  m_Name: AnimationWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 724
-    height: 386
+    width: 783
+    height: 289
   m_MinSize: {x: 101, y: 121}
   m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 21}
+  m_ActualView: {fileID: 16}
   m_Panes:
-  - {fileID: 21}
-  - {fileID: 22}
-  m_Selected: 0
-  m_LastSelected: 1
---- !u!114 &15
+  - {fileID: 23}
+  - {fileID: 24}
+  - {fileID: 16}
+  m_Selected: 2
+  m_LastSelected: 0
+--- !u!114 &14
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -366,20 +343,19 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 724
+    x: 783
     y: 0
-    width: 996
-    height: 386
+    width: 1078
+    height: 289
   m_MinSize: {x: 232, y: 271}
   m_MaxSize: {x: 10002, y: 10021}
-  m_ActualView: {fileID: 24}
+  m_ActualView: {fileID: 25}
   m_Panes:
-  - {fileID: 24}
   - {fileID: 25}
   - {fileID: 26}
   m_Selected: 0
-  m_LastSelected: 2
---- !u!114 &16
+  m_LastSelected: 0
+--- !u!114 &15
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -394,19 +370,190 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 0
-    y: 250
-    width: 200
-    height: 697
-  m_MinSize: {x: 276, y: 71}
+    x: 1861
+    y: 0
+    width: 699
+    height: 939
+  m_MinSize: {x: 276, y: 121}
   m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 27}
+  m_ActualView: {fileID: 18}
   m_Panes:
+  - {fileID: 18}
   - {fileID: 27}
-  - {fileID: 28}
   m_Selected: 0
   m_LastSelected: 1
+--- !u!114 &16
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 12071, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MinSize: {x: 100, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_TitleContent:
+    m_Text: Animation
+    m_Image: {fileID: -8166618308981325432, guid: 0000000000000000d000000000000000, type: 0}
+    m_Tooltip: 
+  m_Pos:
+    serializedVersion: 2
+    x: 0
+    y: 723
+    width: 782
+    height: 268
+  m_SerializedDataModeController:
+    m_DataMode: 0
+    m_PreferredDataMode: 0
+    m_SupportedDataModes: 
+    isAutomatic: 1
+  m_ViewDataDictionary: {fileID: 0}
+  m_OverlayCanvas:
+    m_LastAppliedPresetName: Default
+    m_SaveData: []
+    m_OverlaysVisible: 1
+  m_LockTracker:
+    m_IsLocked: 0
+  m_LastSelectedObjectID: -17980
 --- !u!114 &17
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 12914, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MinSize: {x: 100, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_TitleContent:
+    m_Text: Animator
+    m_Image: {fileID: -1673928668082335149, guid: 0000000000000000d000000000000000, type: 0}
+    m_Tooltip: 
+  m_Pos:
+    serializedVersion: 2
+    x: 238
+    y: 73
+    width: 645
+    height: 629
+  m_SerializedDataModeController:
+    m_DataMode: 0
+    m_PreferredDataMode: 0
+    m_SupportedDataModes: 
+    isAutomatic: 1
+  m_ViewDataDictionary: {fileID: 0}
+  m_OverlayCanvas:
+    m_LastAppliedPresetName: Default
+    m_SaveData: []
+    m_OverlaysVisible: 1
+  m_ViewTransforms:
+    m_KeySerializationHelper:
+    - {fileID: -2435369068262848311, guid: 86be27329438d124fb6105759ba4154b, type: 2}
+    - {fileID: 0}
+    m_ValueSerializationHelper:
+    - e00: 0.60333395
+      e01: 0
+      e02: 0
+      e03: -91.945435
+      e10: 0
+      e11: 0.60333395
+      e12: 0
+      e13: 268.8803
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    - e00: 0.85
+      e01: 0
+      e02: 0
+      e03: 0.4500258
+      e10: 0
+      e11: 0.85
+      e12: 0
+      e13: 263.3
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+  m_PreviewAnimator: {fileID: 0}
+  m_AnimatorController: {fileID: 9100000, guid: 86be27329438d124fb6105759ba4154b, type: 2}
+  m_BreadCrumbs:
+  - m_Target: {fileID: -2435369068262848311, guid: 86be27329438d124fb6105759ba4154b, type: 2}
+    m_ScrollPosition: {x: 0, y: 0}
+  stateMachineGraph: {fileID: 0}
+  stateMachineGraphGUI: {fileID: 0}
+  blendTreeGraph: {fileID: 0}
+  blendTreeGraphGUI: {fileID: 0}
+  m_AutoLiveLink: 1
+  m_MiniTool: 0
+  m_LockTracker:
+    m_IsLocked: 0
+  m_CurrentEditor: 1
+  m_LayerEditor:
+    m_SelectedLayerIndex: 0
+--- !u!114 &18
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 12019, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MinSize: {x: 275, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_TitleContent:
+    m_Text: Inspector
+    m_Image: {fileID: -2667387946076563598, guid: 0000000000000000d000000000000000, type: 0}
+    m_Tooltip: 
+  m_Pos:
+    serializedVersion: 2
+    x: 1861
+    y: 73
+    width: 698
+    height: 918
+  m_SerializedDataModeController:
+    m_DataMode: 0
+    m_PreferredDataMode: 0
+    m_SupportedDataModes: 
+    isAutomatic: 1
+  m_ViewDataDictionary: {fileID: 0}
+  m_OverlayCanvas:
+    m_LastAppliedPresetName: Default
+    m_SaveData: []
+    m_OverlaysVisible: 1
+  m_ObjectsLockedBeforeSerialization: []
+  m_InstanceIDsLockedBeforeSerialization: 
+  m_PreviewResizer:
+    m_CachedPref: 394
+    m_ControlHash: 1412526313
+    m_PrefName: Preview_InspectorPreview
+  m_LastInspectedObjectInstanceID: -1
+  m_LastVerticalScrollValue: 0
+  m_GlobalObjectId: 
+  m_InspectorMode: 0
+  m_LockTracker:
+    m_IsLocked: 0
+  m_PreviewWindow: {fileID: 0}
+--- !u!114 &19
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -426,10 +573,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 233
+    x: 238
     y: 73
-    width: 1485
-    height: 540
+    width: 1621
+    height: 629
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -445,7 +592,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 253f372750fae784d9a42445a8e08fcc, type: 2}
   - {fileID: 11400000, guid: 8205ab67b3e47ed4aa4b97e13d9e6abb, type: 2}
   - {fileID: 11400000, guid: 430b61e3f6924f949ab48de4b84eba1f, type: 2}
---- !u!114 &18
+--- !u!114 &20
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -467,8 +614,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 73
-    width: 232
-    height: 540
+    width: 237
+    height: 629
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -481,26 +628,26 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_SceneHierarchy:
     m_TreeViewState:
-      scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: de080000
-      m_LastClickedID: 0
-      m_ExpandedIDs: 46f9ffff
+      scrollPos: {x: 0, y: 32}
+      m_SelectedIDs: c4b9ffff
+      m_LastClickedID: -17980
+      m_ExpandedIDs: c4b9ffffe4faffffea6f0000b27c0000a67f0000ee800000aa8d0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: 
-        m_OriginalName: 
+        m_Name: ChestArmature
+        m_OriginalName: ChestArmature
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: 0
+        m_UserData: -17988
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 11
+        m_OriginalEventType: 0
         m_IsRenamingFilename: 0
-        m_ClientGUIView: {fileID: 11}
+        m_ClientGUIView: {fileID: 10}
       m_SearchString: 
     m_ExpandedScenes: []
     m_CurrenRootInstanceID: 0
@@ -508,7 +655,7 @@ MonoBehaviour:
       m_IsLocked: 0
     m_CurrentSortingName: TransformSorting
   m_WindowGUID: 4c969a2b90040154d917609493e03593
---- !u!114 &19
+--- !u!114 &21
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -528,10 +675,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 154
+    x: 885
     y: 73
-    width: 1300
-    height: 540
+    width: 974
+    height: 629
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -903,9 +1050,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 10.177298, y: 4.807206, z: -2.3719153}
+    m_Target: {x: 21.098104, y: -7.4331727, z: 8.755899}
     speed: 2
-    m_Value: {x: 10.177298, y: 4.807206, z: -2.3719153}
+    m_Value: {x: 21.098104, y: -7.4331727, z: 8.755899}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -914,7 +1061,7 @@ MonoBehaviour:
   m_ValidateTrueMetals: 0
   m_DoValidateTrueMetals: 0
   m_SceneViewState:
-    m_AlwaysRefresh: 0
+    m_AlwaysRefresh: 1
     showFog: 1
     showSkybox: 1
     showFlares: 1
@@ -933,9 +1080,9 @@ MonoBehaviour:
       m_Size: {x: 1, y: 1}
     yGrid:
       m_Fade:
-        m_Target: 1
+        m_Target: 0
         speed: 2
-        m_Value: 1
+        m_Value: 0
       m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 0.4}
       m_Pivot: {x: 0, y: 0, z: 0}
       m_Size: {x: 1, y: 1}
@@ -947,17 +1094,17 @@ MonoBehaviour:
       m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 0.4}
       m_Pivot: {x: 0, y: 0, z: 0}
       m_Size: {x: 3, y: 3}
-    m_ShowGrid: 1
+    m_ShowGrid: 0
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.41877803, y: -0.027525373, z: 0.012703023, w: 0.90758675}
+    m_Target: {x: -0.25303847, y: -0.25330493, z: 0.06750967, w: -0.93154526}
     speed: 2
-    m_Value: {x: 0.41877642, y: -0.027525268, z: 0.0127029745, w: 0.9075833}
+    m_Value: {x: -0.25287044, y: -0.254635, z: 0.0678713, w: -0.93091947}
   m_Size:
-    m_Target: 8.720184
+    m_Target: 10
     speed: 2
-    m_Value: 8.720184
+    m_Value: 10
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -982,7 +1129,7 @@ MonoBehaviour:
   m_SceneVisActive: 1
   m_LastLockedObject: {fileID: 0}
   m_ViewIsLockedToObject: 0
---- !u!114 &20
+--- !u!114 &22
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1002,10 +1149,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 161
+    x: 885
     y: 73
-    width: 1329
-    height: 540
+    width: 974
+    height: 629
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1049,7 +1196,7 @@ MonoBehaviour:
     m_HSlider: 0
     m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 1
+    m_EnableMouseInput: 0
     m_EnableSliderZoomHorizontal: 0
     m_EnableSliderZoomVertical: 0
     m_UniformScale: 1
@@ -1058,29 +1205,29 @@ MonoBehaviour:
       serializedVersion: 2
       x: 0
       y: 21
-      width: 1329
-      height: 519
-    m_Scale: {x: 0.24027778, y: 0.24027778}
-    m_Translation: {x: 664.5, y: 259.5}
+      width: 974
+      height: 608
+    m_Scale: {x: 0.25364584, y: 0.25364584}
+    m_Translation: {x: 487, y: 304}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -2765.549
-      y: -1080
-      width: 5531.098
-      height: 2160
+      x: -1920
+      y: -1198.5215
+      width: 3840
+      height: 2397.043
     m_MinimalGUI: 1
-  m_defaultScale: 0.24027778
-  m_LastWindowPixelSize: {x: 1329, y: 540}
+  m_defaultScale: 0.25364584
+  m_LastWindowPixelSize: {x: 974, y: 629}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000000000000
   m_XRRenderMode: 0
   m_RenderTexture: {fileID: 0}
---- !u!114 &21
+--- !u!114 &23
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1101,9 +1248,9 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 634
-    width: 723
-    height: 365
+    y: 723
+    width: 782
+    height: 268
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1114,7 +1261,7 @@ MonoBehaviour:
     m_LastAppliedPresetName: Default
     m_SaveData: []
     m_OverlaysVisible: 1
---- !u!114 &22
+--- !u!114 &24
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1135,9 +1282,9 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 634
-    width: 693
-    height: 365
+    y: 723
+    width: 782
+    height: 268
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1157,845 +1304,7 @@ MonoBehaviour:
     m_ShowDrawStats: 0
     m_BreakBatches: 0
     m_ShowWireframe: 0
---- !u!114 &23
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 13401, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MinSize: {x: 100, y: 100}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_TitleContent:
-    m_Text: Test Runner
-    m_Image: {fileID: 0}
-    m_Tooltip: 
-  m_Pos:
-    serializedVersion: 2
-    x: 1720
-    y: 73
-    width: 199
-    height: 229
-  m_SerializedDataModeController:
-    m_DataMode: 0
-    m_PreferredDataMode: 0
-    m_SupportedDataModes: 
-    isAutomatic: 1
-  m_ViewDataDictionary: {fileID: 0}
-  m_OverlayCanvas:
-    m_LastAppliedPresetName: Default
-    m_SaveData: []
-    m_OverlaysVisible: 1
-  m_Spl:
-    ID: 183
-    splitterInitialOffset: 0
-    currentActiveSplitter: -1
-    realSizes:
-    - 119
-    - 40
-    relativeSizes:
-    - 0.75
-    - 0.25
-    minSizes:
-    - 32
-    - 32
-    maxSizes:
-    - 0
-    - 0
-    lastTotalSize: 159
-    splitSize: 6
-    xOffset: 0
-    m_Version: 1
-    oldRealSizes: 
-    oldMinSizes: 
-    oldMaxSizes: 
-    oldSplitSize: 0
-  m_TestTypeToolbarIndex: 1
-  m_PlayModeTestListGUI:
-    m_Window: {fileID: 0}
-    m_NewResultList: []
-    m_ResultText: 
-    m_ResultStacktrace: 
-    m_TestListState:
-      scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
-      m_ExpandedIDs: 
-      m_RenameOverlay:
-        m_UserAcceptedRename: 0
-        m_Name: 
-        m_OriginalName: 
-        m_EditFieldRect:
-          serializedVersion: 2
-          x: 0
-          y: 0
-          width: 0
-          height: 0
-        m_UserData: 0
-        m_IsWaitingForDelay: 0
-        m_IsRenaming: 0
-        m_OriginalEventType: 11
-        m_IsRenamingFilename: 0
-        m_ClientGUIView: {fileID: 0}
-      m_SearchString: 
-    m_TestRunnerUIFilter:
-      PassedHidden: 0
-      FailedHidden: 0
-      NotRunHidden: 0
-      m_SearchString: 
-      selectedCategoryMask: 0
-      availableCategories: []
-    m_SelectedOption: 0
-  m_EditModeTestListGUI:
-    m_Window: {fileID: 23}
-    m_NewResultList:
-    - id: 1000
-      uniqueId: '[LevelBuildingSidekick][suite]'
-      name: LevelBuildingSidekick
-      fullName: LevelBuildingSidekick
-      resultStatus: 2
-      duration: 0.093435
-      messages: One or more child tests had errors
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-      categories: []
-      parentId: 
-      parentUniqueId: 
-    - id: 1014
-      uniqueId: '[Tests.dll][suite]'
-      name: Tests.dll
-      fullName: C:/Users/zakup/GitHub/LevelBuildingSidekick/LevelBuildingSidekick/Library/ScriptAssemblies/Tests.dll
-      resultStatus: 2
-      duration: 0.0843467
-      messages: One or more child tests had errors
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-      categories: []
-      parentId: 1000
-      parentUniqueId: '[LevelBuildingSidekick][suite]'
-    - id: 1015
-      uniqueId: Tests.dll/[ISILab][suite]
-      name: ISILab
-      fullName: ISILab
-      resultStatus: 2
-      duration: 0.0836686
-      messages: One or more child tests had errors
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-      categories: []
-      parentId: 1014
-      parentUniqueId: '[Tests.dll][suite]'
-    - id: 1016
-      uniqueId: Tests.dll/ISILab/[LBS][suite]
-      name: LBS
-      fullName: ISILab.LBS
-      resultStatus: 2
-      duration: 0.0807779
-      messages: One or more child tests had errors
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-      categories: []
-      parentId: 1015
-      parentUniqueId: Tests.dll/[ISILab][suite]
-    - id: 1017
-      uniqueId: Tests.dll/ISILab/LBS/[Tests][suite]
-      name: Tests
-      fullName: ISILab.LBS.Tests
-      resultStatus: 2
-      duration: 0.0773917
-      messages: One or more child tests had errors
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-      categories: []
-      parentId: 1016
-      parentUniqueId: Tests.dll/ISILab/[LBS][suite]
-    - id: 1001
-      uniqueId: Tests.dll/ISILab/LBS/Tests/[Tests][ISILab.LBS.Tests.Test_Simple_Module][suite]
-      name: Test_Simple_Module
-      fullName: ISILab.LBS.Tests.Test_Simple_Module
-      resultStatus: 1
-      duration: 1.1790622
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-      categories: []
-      parentId: 1017
-      parentUniqueId: Tests.dll/ISILab/LBS/[Tests][suite]
-    - id: 1009
-      uniqueId: Tests.dll/ISILab/LBS/Tests/Test_Simple_Module/[Tests][ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_Bundle_TileMap]
-      name: Save_And_Load_Bundle_TileMap
-      fullName: ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_Bundle_TileMap
-      resultStatus: 1
-      duration: 0.144748
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1001
-      parentUniqueId: Tests.dll/ISILab/LBS/Tests/[Tests][ISILab.LBS.Tests.Test_Simple_Module][suite]
-    - id: 1005
-      uniqueId: Tests.dll/ISILab/LBS/Tests/Test_Simple_Module/[Tests][ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_Connected_TileMap]
-      name: Save_And_Load_Connected_TileMap
-      fullName: ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_Connected_TileMap
-      resultStatus: 1
-      duration: 0.1522252
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1001
-      parentUniqueId: Tests.dll/ISILab/LBS/Tests/[Tests][ISILab.LBS.Tests.Test_Simple_Module][suite]
-    - id: 1007
-      uniqueId: Tests.dll/ISILab/LBS/Tests/Test_Simple_Module/[Tests][ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_Connected_Zones]
-      name: Save_And_Load_Connected_Zones
-      fullName: ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_Connected_Zones
-      resultStatus: 1
-      duration: 0.1353316
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1001
-      parentUniqueId: Tests.dll/ISILab/LBS/Tests/[Tests][ISILab.LBS.Tests.Test_Simple_Module][suite]
-    - id: 1008
-      uniqueId: Tests.dll/ISILab/LBS/Tests/Test_Simple_Module/[Tests][ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_Constraints_Zones]
-      name: Save_And_Load_Constraints_Zones
-      fullName: ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_Constraints_Zones
-      resultStatus: 1
-      duration: 0.141181
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1001
-      parentUniqueId: Tests.dll/ISILab/LBS/Tests/[Tests][ISILab.LBS.Tests.Test_Simple_Module][suite]
-    - id: 1003
-      uniqueId: Tests.dll/ISILab/LBS/Tests/Test_Simple_Module/[Tests][ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_Empty_Layer]
-      name: Save_And_Load_Empty_Layer
-      fullName: ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_Empty_Layer
-      resultStatus: 1
-      duration: 0.1622301
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1001
-      parentUniqueId: Tests.dll/ISILab/LBS/Tests/[Tests][ISILab.LBS.Tests.Test_Simple_Module][suite]
-    - id: 1002
-      uniqueId: Tests.dll/ISILab/LBS/Tests/Test_Simple_Module/[Tests][ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_Empty_Level_Data]
-      name: Save_And_Load_Empty_Level_Data
-      fullName: ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_Empty_Level_Data
-      resultStatus: 1
-      duration: 0.1375427
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1001
-      parentUniqueId: Tests.dll/ISILab/LBS/Tests/[Tests][ISILab.LBS.Tests.Test_Simple_Module][suite]
-    - id: 1006
-      uniqueId: Tests.dll/ISILab/LBS/Tests/Test_Simple_Module/[Tests][ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_Sectorized_TileMap]
-      name: Save_And_Load_Sectorized_TileMap
-      fullName: ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_Sectorized_TileMap
-      resultStatus: 1
-      duration: 0.1486928
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1001
-      parentUniqueId: Tests.dll/ISILab/LBS/Tests/[Tests][ISILab.LBS.Tests.Test_Simple_Module][suite]
-    - id: 1004
-      uniqueId: Tests.dll/ISILab/LBS/Tests/Test_Simple_Module/[Tests][ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_TileMap_Module]
-      name: Save_And_Load_TileMap_Module
-      fullName: ISILab.LBS.Tests.Test_Simple_Module.Save_And_Load_TileMap_Module
-      resultStatus: 1
-      duration: 0.1527622
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1001
-      parentUniqueId: Tests.dll/ISILab/LBS/Tests/[Tests][ISILab.LBS.Tests.Test_Simple_Module][suite]
-    - id: 1010
-      uniqueId: Tests.dll/ISILab/LBS/Tests/[Tests][ISILab.LBS.Tests.Test_Template_Layers][suite]
-      name: Test_Template_Layers
-      fullName: ISILab.LBS.Tests.Test_Template_Layers
-      resultStatus: 2
-      duration: 0.0738572
-      messages: One or more child tests had errors
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-      categories: []
-      parentId: 1017
-      parentUniqueId: Tests.dll/ISILab/LBS/[Tests][suite]
-    - id: 1012
-      uniqueId: Tests.dll/ISILab/LBS/Tests/Test_Template_Layers/[Tests][ISILab.LBS.Tests.Test_Template_Layers.Save_And_Load_Exterior_Layer]
-      name: Save_And_Load_Exterior_Layer
-      fullName: ISILab.LBS.Tests.Test_Template_Layers.Save_And_Load_Exterior_Layer
-      resultStatus: 2
-      duration: 0.0698097
-      messages: "Newtonsoft.Json.JsonSerializationException : Error getting value
-        from 'format' on 'UnityEngine.Texture2D'.\r\n  ----> UnityEngine.UnassignedReferenceException
-        : The variable icon of Bundle has not been assigned.\nYou probably need to
-        assign the icon variable of the Bundle script in the inspector."
-      output: 'Null
-
-'
-      stacktrace: "  at Newtonsoft.Json.Serialization.ExpressionValueProvider.GetValue
-        (System.Object target) [0x00054] in <761cf2a144514d2291a678c334d49e9b>:0
-        \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.CalculatePropertyValues
-        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContainerContract
-        contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonProperty
-        property, Newtonsoft.Json.Serialization.JsonContract& memberContract, System.Object&
-        memberValue) [0x00066] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
-        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
-        contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-        collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-        [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
-        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
-        valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-        containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-        [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
-        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
-        contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-        collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-        [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
-        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
-        valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-        containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-        [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
-        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
-        contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-        collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-        [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
-        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
-        valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-        containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-        [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeList
-        (Newtonsoft.Json.JsonWriter writer, System.Collections.IEnumerable values,
-        Newtonsoft.Json.Serialization.JsonArrayContract contract, Newtonsoft.Json.Serialization.JsonProperty
-        member, Newtonsoft.Json.Serialization.JsonContainerContract collectionContract,
-        Newtonsoft.Json.Serialization.JsonProperty containerProperty) [0x000d6] in
-        <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
-        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
-        valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-        containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-        [0x000d6] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
-        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
-        contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-        collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-        [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
-        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
-        valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-        containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-        [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeList
-        (Newtonsoft.Json.JsonWriter writer, System.Collections.IEnumerable values,
-        Newtonsoft.Json.Serialization.JsonArrayContract contract, Newtonsoft.Json.Serialization.JsonProperty
-        member, Newtonsoft.Json.Serialization.JsonContainerContract collectionContract,
-        Newtonsoft.Json.Serialization.JsonProperty containerProperty) [0x000d6] in
-        <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
-        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
-        valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-        containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-        [0x000d6] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
-        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
-        contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-        collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-        [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
-        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
-        valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-        containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-        [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
-        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
-        contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-        collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-        [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
-        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
-        valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-        containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-        [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeList
-        (Newtonsoft.Json.JsonWriter writer, System.Collections.IEnumerable values,
-        Newtonsoft.Json.Serialization.JsonArrayContract contract, Newtonsoft.Json.Serialization.JsonProperty
-        member, Newtonsoft.Json.Serialization.JsonContainerContract collectionContract,
-        Newtonsoft.Json.Serialization.JsonProperty containerProperty) [0x000d6] in
-        <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
-        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
-        valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-        containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-        [0x000d6] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
-        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
-        contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-        collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-        [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
-        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
-        valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-        containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-        [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeList
-        (Newtonsoft.Json.JsonWriter writer, System.Collections.IEnumerable values,
-        Newtonsoft.Json.Serialization.JsonArrayContract contract, Newtonsoft.Json.Serialization.JsonProperty
-        member, Newtonsoft.Json.Serialization.JsonContainerContract collectionContract,
-        Newtonsoft.Json.Serialization.JsonProperty containerProperty) [0x000d6] in
-        <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
-        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
-        valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-        containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-        [0x000d6] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
-        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
-        contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-        collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-        [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
-        (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
-        valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-        containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-        [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.Serialize
-        (Newtonsoft.Json.JsonWriter jsonWriter, System.Object value, System.Type
-        objectType) [0x00079] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.JsonSerializer.SerializeInternal
-        (Newtonsoft.Json.JsonWriter jsonWriter, System.Object value, System.Type
-        objectType) [0x0023a] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.JsonSerializer.Serialize
-        (Newtonsoft.Json.JsonWriter jsonWriter, System.Object value, System.Type
-        objectType) [0x00000] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.JsonConvert.SerializeObjectInternal
-        (System.Object value, System.Type type, Newtonsoft.Json.JsonSerializer jsonSerializer)
-        [0x00028] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.JsonConvert.SerializeObject
-        (System.Object value, System.Type type, Newtonsoft.Json.JsonSerializerSettings
-        settings) [0x00007] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.JsonConvert.SerializeObject
-        (System.Object value, Newtonsoft.Json.JsonSerializerSettings settings) [0x00000]
-        in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at ISILab.JsonNet.JSONDataManager.SaveData[T]
-        (System.String path, T data) [0x000be] in C:\\Users\\zakup\\GitHub\\LevelBuildingSidekick\\LevelBuildingSidekick\\Assets\\ISI
-        Lab\\Commons\\Json Net\\JSONDataManager.cs:46 \r\n  at ISILab.JsonNet.JSONDataManager.SaveData[T]
-        (System.String directoryName, System.String fileName, T data) [0x00039] in
-        C:\\Users\\zakup\\GitHub\\LevelBuildingSidekick\\LevelBuildingSidekick\\Assets\\ISI
-        Lab\\Commons\\Json Net\\JSONDataManager.cs:76 \r\n  at ISILab.LBS.Tests.Test_Template_Layers.Save_And_Load_Exterior_Layer
-        () [0x000d0] in C:\\Users\\zakup\\GitHub\\LevelBuildingSidekick\\LevelBuildingSidekick\\Assets\\ISI
-        Lab\\LBS\\Editor\\Tests\\TestData.cs:349 \r\n  at (wrapper managed-to-native)
-        System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n 
-        at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
-        invokeAttr, System.Reflection.Binder binder, System.Object[] parameters,
-        System.Globalization.CultureInfo culture) [0x0006a] in <605bf8b31fcb444b85176da963870aa7>:0
-        \r\n--UnassignedReferenceException\r\n  at (wrapper managed-to-native) UnityEngine.Texture2D.get_format(UnityEngine.Texture2D)\r\n 
-        at (wrapper dynamic-method) System.Object.lambda_method(System.Runtime.CompilerServices.Closure,object)\r\n 
-        at Newtonsoft.Json.Serialization.ExpressionValueProvider.GetValue (System.Object
-        target) [0x0001e] in <761cf2a144514d2291a678c334d49e9b>:0 "
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1010
-      parentUniqueId: Tests.dll/ISILab/LBS/Tests/[Tests][ISILab.LBS.Tests.Test_Template_Layers][suite]
-    - id: 1011
-      uniqueId: Tests.dll/ISILab/LBS/Tests/Test_Template_Layers/[Tests][ISILab.LBS.Tests.Test_Template_Layers.Save_And_Load_Interior_Layer]
-      name: Save_And_Load_Interior_Layer
-      fullName: ISILab.LBS.Tests.Test_Template_Layers.Save_And_Load_Interior_Layer
-      resultStatus: 1
-      duration: 0.3530363
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1010
-      parentUniqueId: Tests.dll/ISILab/LBS/Tests/[Tests][ISILab.LBS.Tests.Test_Template_Layers][suite]
-    - id: 1013
-      uniqueId: Tests.dll/ISILab/LBS/Tests/Test_Template_Layers/[Tests][ISILab.LBS.Tests.Test_Template_Layers.Save_And_Load_Population_Layer]
-      name: Save_And_Load_Population_Layer
-      fullName: ISILab.LBS.Tests.Test_Template_Layers.Save_And_Load_Population_Layer
-      resultStatus: 1
-      duration: 70.73683
-      messages: 
-      output: 'returning bundle: ISILab.LBS.Internal.LBSAssetsStorage+TypeGroup
-
-'
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1010
-      parentUniqueId: Tests.dll/ISILab/LBS/Tests/[Tests][ISILab.LBS.Tests.Test_Template_Layers][suite]
-    m_ResultText: "Save_And_Load_Exterior_Layer (0.070s)\n---\nNewtonsoft.Json.JsonSerializationException
-      : Error getting value from 'format' on 'UnityEngine.Texture2D'.\r\n  ---->
-      UnityEngine.UnassignedReferenceException : The variable icon of Bundle has
-      not been assigned.\nYou probably need to assign the icon variable of the Bundle
-      script in the inspector.\n---\nat Newtonsoft.Json.Serialization.ExpressionValueProvider.GetValue
-      (System.Object target) [0x00054] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n 
-      at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.CalculatePropertyValues
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContainerContract
-      contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonProperty
-      property, Newtonsoft.Json.Serialization.JsonContract& memberContract, System.Object&
-      memberValue) [0x00066] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
-      contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
-      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
-      contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
-      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
-      contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
-      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeList
-      (Newtonsoft.Json.JsonWriter writer, System.Collections.IEnumerable values,
-      Newtonsoft.Json.Serialization.JsonArrayContract contract, Newtonsoft.Json.Serialization.JsonProperty
-      member, Newtonsoft.Json.Serialization.JsonContainerContract collectionContract,
-      Newtonsoft.Json.Serialization.JsonProperty containerProperty) [0x000d6] in
-      <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
-      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x000d6] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
-      contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
-      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeList
-      (Newtonsoft.Json.JsonWriter writer, System.Collections.IEnumerable values,
-      Newtonsoft.Json.Serialization.JsonArrayContract contract, Newtonsoft.Json.Serialization.JsonProperty
-      member, Newtonsoft.Json.Serialization.JsonContainerContract collectionContract,
-      Newtonsoft.Json.Serialization.JsonProperty containerProperty) [0x000d6] in
-      <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
-      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x000d6] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
-      contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
-      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
-      contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
-      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeList
-      (Newtonsoft.Json.JsonWriter writer, System.Collections.IEnumerable values,
-      Newtonsoft.Json.Serialization.JsonArrayContract contract, Newtonsoft.Json.Serialization.JsonProperty
-      member, Newtonsoft.Json.Serialization.JsonContainerContract collectionContract,
-      Newtonsoft.Json.Serialization.JsonProperty containerProperty) [0x000d6] in
-      <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
-      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x000d6] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
-      contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
-      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeList
-      (Newtonsoft.Json.JsonWriter writer, System.Collections.IEnumerable values,
-      Newtonsoft.Json.Serialization.JsonArrayContract contract, Newtonsoft.Json.Serialization.JsonProperty
-      member, Newtonsoft.Json.Serialization.JsonContainerContract collectionContract,
-      Newtonsoft.Json.Serialization.JsonProperty containerProperty) [0x000d6] in
-      <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
-      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x000d6] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
-      contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
-      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.Serialize
-      (Newtonsoft.Json.JsonWriter jsonWriter, System.Object value, System.Type objectType)
-      [0x00079] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.JsonSerializer.SerializeInternal
-      (Newtonsoft.Json.JsonWriter jsonWriter, System.Object value, System.Type objectType)
-      [0x0023a] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.JsonSerializer.Serialize
-      (Newtonsoft.Json.JsonWriter jsonWriter, System.Object value, System.Type objectType)
-      [0x00000] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.JsonConvert.SerializeObjectInternal
-      (System.Object value, System.Type type, Newtonsoft.Json.JsonSerializer jsonSerializer)
-      [0x00028] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.JsonConvert.SerializeObject
-      (System.Object value, System.Type type, Newtonsoft.Json.JsonSerializerSettings
-      settings) [0x00007] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.JsonConvert.SerializeObject
-      (System.Object value, Newtonsoft.Json.JsonSerializerSettings settings) [0x00000]
-      in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at ISILab.JsonNet.JSONDataManager.SaveData[T]
-      (System.String path, T data) [0x000be] in C:\\Users\\zakup\\GitHub\\LevelBuildingSidekick\\LevelBuildingSidekick\\Assets\\ISI
-      Lab\\Commons\\Json Net\\JSONDataManager.cs:46 \r\n  at ISILab.JsonNet.JSONDataManager.SaveData[T]
-      (System.String directoryName, System.String fileName, T data) [0x00039] in
-      C:\\Users\\zakup\\GitHub\\LevelBuildingSidekick\\LevelBuildingSidekick\\Assets\\ISI
-      Lab\\Commons\\Json Net\\JSONDataManager.cs:76 \r\n  at ISILab.LBS.Tests.Test_Template_Layers.Save_And_Load_Exterior_Layer
-      () [0x000d0] in C:\\Users\\zakup\\GitHub\\LevelBuildingSidekick\\LevelBuildingSidekick\\Assets\\ISI
-      Lab\\LBS\\Editor\\Tests\\TestData.cs:349 \r\n  at (wrapper managed-to-native)
-      System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n 
-      at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
-      invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo
-      culture) [0x0006a] in <605bf8b31fcb444b85176da963870aa7>:0 \r\n--UnassignedReferenceException\r\n 
-      at (wrapper managed-to-native) UnityEngine.Texture2D.get_format(UnityEngine.Texture2D)\r\n 
-      at (wrapper dynamic-method) System.Object.lambda_method(System.Runtime.CompilerServices.Closure,object)\r\n 
-      at Newtonsoft.Json.Serialization.ExpressionValueProvider.GetValue (System.Object
-      target) [0x0001e] in <761cf2a144514d2291a678c334d49e9b>:0\n---\nNull"
-    m_ResultStacktrace: "  at Newtonsoft.Json.Serialization.ExpressionValueProvider.GetValue
-      (System.Object target) [0x00054] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n 
-      at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.CalculatePropertyValues
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContainerContract
-      contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonProperty
-      property, Newtonsoft.Json.Serialization.JsonContract& memberContract, System.Object&
-      memberValue) [0x00066] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
-      contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
-      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
-      contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
-      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
-      contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
-      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeList
-      (Newtonsoft.Json.JsonWriter writer, System.Collections.IEnumerable values,
-      Newtonsoft.Json.Serialization.JsonArrayContract contract, Newtonsoft.Json.Serialization.JsonProperty
-      member, Newtonsoft.Json.Serialization.JsonContainerContract collectionContract,
-      Newtonsoft.Json.Serialization.JsonProperty containerProperty) [0x000d6] in
-      <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
-      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x000d6] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
-      contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
-      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeList
-      (Newtonsoft.Json.JsonWriter writer, System.Collections.IEnumerable values,
-      Newtonsoft.Json.Serialization.JsonArrayContract contract, Newtonsoft.Json.Serialization.JsonProperty
-      member, Newtonsoft.Json.Serialization.JsonContainerContract collectionContract,
-      Newtonsoft.Json.Serialization.JsonProperty containerProperty) [0x000d6] in
-      <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
-      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x000d6] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
-      contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
-      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
-      contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
-      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeList
-      (Newtonsoft.Json.JsonWriter writer, System.Collections.IEnumerable values,
-      Newtonsoft.Json.Serialization.JsonArrayContract contract, Newtonsoft.Json.Serialization.JsonProperty
-      member, Newtonsoft.Json.Serialization.JsonContainerContract collectionContract,
-      Newtonsoft.Json.Serialization.JsonProperty containerProperty) [0x000d6] in
-      <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
-      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x000d6] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
-      contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
-      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeList
-      (Newtonsoft.Json.JsonWriter writer, System.Collections.IEnumerable values,
-      Newtonsoft.Json.Serialization.JsonArrayContract contract, Newtonsoft.Json.Serialization.JsonProperty
-      member, Newtonsoft.Json.Serialization.JsonContainerContract collectionContract,
-      Newtonsoft.Json.Serialization.JsonProperty containerProperty) [0x000d6] in
-      <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
-      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x000d6] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonObjectContract
-      contract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      collectionContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x0008d] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue
-      (Newtonsoft.Json.JsonWriter writer, System.Object value, Newtonsoft.Json.Serialization.JsonContract
-      valueContract, Newtonsoft.Json.Serialization.JsonProperty member, Newtonsoft.Json.Serialization.JsonContainerContract
-      containerContract, Newtonsoft.Json.Serialization.JsonProperty containerProperty)
-      [0x000b2] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.Serialize
-      (Newtonsoft.Json.JsonWriter jsonWriter, System.Object value, System.Type objectType)
-      [0x00079] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.JsonSerializer.SerializeInternal
-      (Newtonsoft.Json.JsonWriter jsonWriter, System.Object value, System.Type objectType)
-      [0x0023a] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.JsonSerializer.Serialize
-      (Newtonsoft.Json.JsonWriter jsonWriter, System.Object value, System.Type objectType)
-      [0x00000] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.JsonConvert.SerializeObjectInternal
-      (System.Object value, System.Type type, Newtonsoft.Json.JsonSerializer jsonSerializer)
-      [0x00028] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.JsonConvert.SerializeObject
-      (System.Object value, System.Type type, Newtonsoft.Json.JsonSerializerSettings
-      settings) [0x00007] in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at Newtonsoft.Json.JsonConvert.SerializeObject
-      (System.Object value, Newtonsoft.Json.JsonSerializerSettings settings) [0x00000]
-      in <761cf2a144514d2291a678c334d49e9b>:0 \r\n  at ISILab.JsonNet.JSONDataManager.SaveData[T]
-      (System.String path, T data) [0x000be] in C:\\Users\\zakup\\GitHub\\LevelBuildingSidekick\\LevelBuildingSidekick\\Assets\\ISI
-      Lab\\Commons\\Json Net\\JSONDataManager.cs:46 \r\n  at ISILab.JsonNet.JSONDataManager.SaveData[T]
-      (System.String directoryName, System.String fileName, T data) [0x00039] in
-      C:\\Users\\zakup\\GitHub\\LevelBuildingSidekick\\LevelBuildingSidekick\\Assets\\ISI
-      Lab\\Commons\\Json Net\\JSONDataManager.cs:76 \r\n  at ISILab.LBS.Tests.Test_Template_Layers.Save_And_Load_Exterior_Layer
-      () [0x000d0] in C:\\Users\\zakup\\GitHub\\LevelBuildingSidekick\\LevelBuildingSidekick\\Assets\\ISI
-      Lab\\LBS\\Editor\\Tests\\TestData.cs:349 \r\n  at (wrapper managed-to-native)
-      System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n 
-      at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
-      invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo
-      culture) [0x0006a] in <605bf8b31fcb444b85176da963870aa7>:0 \r\n--UnassignedReferenceException\r\n 
-      at (wrapper managed-to-native) UnityEngine.Texture2D.get_format(UnityEngine.Texture2D)\r\n 
-      at (wrapper dynamic-method) System.Object.lambda_method(System.Runtime.CompilerServices.Closure,object)\r\n 
-      at Newtonsoft.Json.Serialization.ExpressionValueProvider.GetValue (System.Object
-      target) [0x0001e] in <761cf2a144514d2291a678c334d49e9b>:0 "
-    m_TestListState:
-      scrollPos: {x: 0, y: 173}
-      m_SelectedIDs: 9e1a110a
-      m_LastClickedID: 168893086
-      m_ExpandedIDs: 3859e0afe557abf748a1fffb8330ba087a3a1d536a938f537e7b5a67ffffff7f
-      m_RenameOverlay:
-        m_UserAcceptedRename: 0
-        m_Name: 
-        m_OriginalName: 
-        m_EditFieldRect:
-          serializedVersion: 2
-          x: 0
-          y: 0
-          width: 0
-          height: 0
-        m_UserData: 0
-        m_IsWaitingForDelay: 0
-        m_IsRenaming: 0
-        m_OriginalEventType: 11
-        m_IsRenamingFilename: 0
-        m_ClientGUIView: {fileID: 0}
-      m_SearchString: 
-    m_TestRunnerUIFilter:
-      PassedHidden: 0
-      FailedHidden: 0
-      NotRunHidden: 0
-      m_SearchString: 
-      selectedCategoryMask: 0
-      availableCategories:
-      - Uncategorized
---- !u!114 &24
+--- !u!114 &25
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2015,10 +1324,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 724
-    y: 634
-    width: 994
-    height: 365
+    x: 783
+    y: 723
+    width: 1076
+    height: 268
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -2030,7 +1339,7 @@ MonoBehaviour:
     m_SaveData: []
     m_OverlaysVisible: 1
   m_SearchFilter:
-    m_NameFilter: lbsedge
+    m_NameFilter: 
     m_ClassNames: []
     m_AssetLabels: []
     m_AssetBundleNames: []
@@ -2040,24 +1349,24 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/ISI Lab/LBS/Artificial Intelligence/Optimization/EvolutionaryAlgorithm/Evaluators/RTS/Editor
+    - Assets/ISI Lab/ExampleResources/Prototype/Meshes/Proto_Population_Objects/Chest
     m_Globs: []
-    m_OriginalText: lbsedge
+    m_OriginalText: 
     m_ImportLogFlags: 0
     m_FilterByTypeIntersection: 0
   m_ViewMode: 1
-  m_StartGridSize: 96
+  m_StartGridSize: 16
   m_LastFolders:
-  - Assets/ISI Lab/LBS/Artificial Intelligence/Optimization/EvolutionaryAlgorithm/Evaluators/RTS/Editor
-  m_LastFoldersGridSize: 96
-  m_LastProjectPath: C:\Users\zakup\GitHub\LevelBuildingSidekick\LevelBuildingSidekick
+  - Assets/ISI Lab/ExampleResources/Prototype/Meshes/Proto_Population_Objects/Chest
+  m_LastFoldersGridSize: 16
+  m_LastProjectPath: D:\Proyectos\Github\LevelBuildingSidekick\LevelBuildingSidekick
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 667}
-    m_SelectedIDs: ee7c0000
-    m_LastClickedID: 31982
-    m_ExpandedIDs: 000000007e7c0000807c0000827c0000847c0000867c0000887c00008a7c00008c7c00008e7c0000907c0000927c0000947c0000967c0000987c00009a7c00009c7c00009e7c0000a07c0000a27c0000ea7c0000f07c0000f27c0000f47c0000f67c0000f87c000000ca9a3b
+    scrollPos: {x: 0, y: 328}
+    m_SelectedIDs: fc980000
+    m_LastClickedID: 39164
+    m_ExpandedIDs: 000000005e97000060970000629700006497000066970000689700006a9700006c9700006e97000070970000e098000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -2073,7 +1382,7 @@ MonoBehaviour:
       m_IsRenaming: 0
       m_OriginalEventType: 11
       m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 15}
+      m_ClientGUIView: {fileID: 14}
     m_SearchString: 
     m_CreateAssetUtility:
       m_EndAction: {fileID: 0}
@@ -2085,7 +1394,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000007e7c0000807c0000827c0000847c0000867c0000887c00008a7c00008c7c00008e7c0000907c0000927c0000947c0000967c0000987c00009a7c00009c7c00009e7c0000a07c0000a27c0000
+    m_ExpandedIDs: 000000005e97000060970000629700006497000066970000689700006a9700006c9700006e97000070970000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -2113,7 +1422,7 @@ MonoBehaviour:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
     m_HadKeyboardFocusLastEvent: 1
-    m_ExpandedInstanceIDs: c6230000acb20d00429e0000000000002a6f0000
+    m_ExpandedInstanceIDs: c6230000acb20d00429e0000000000002a6f00000e6a00006aa200009c1d010042460200fe980000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -2129,153 +1438,7 @@ MonoBehaviour:
       m_IsRenaming: 0
       m_OriginalEventType: 11
       m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 15}
-    m_CreateAssetUtility:
-      m_EndAction: {fileID: 0}
-      m_InstanceID: 0
-      m_Path: 
-      m_Icon: {fileID: 0}
-      m_ResourceFile: 
-    m_NewAssetIndexInList: -1
-    m_ScrollPosition: {x: 0, y: 0}
-    m_GridSize: 96
-  m_SkipHiddenPackages: 0
-  m_DirectoriesAreaWidth: 50
---- !u!114 &25
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 12014, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MinSize: {x: 230, y: 250}
-  m_MaxSize: {x: 10000, y: 10000}
-  m_TitleContent:
-    m_Text: Project
-    m_Image: {fileID: -5467254957812901981, guid: 0000000000000000d000000000000000, type: 0}
-    m_Tooltip: 
-  m_Pos:
-    serializedVersion: 2
-    x: 619
-    y: 765
-    width: 937
-    height: 234
-  m_SerializedDataModeController:
-    m_DataMode: 0
-    m_PreferredDataMode: 0
-    m_SupportedDataModes: 
-    isAutomatic: 1
-  m_ViewDataDictionary: {fileID: 0}
-  m_OverlayCanvas:
-    m_LastAppliedPresetName: Default
-    m_SaveData: []
-    m_OverlaysVisible: 1
-  m_SearchFilter:
-    m_NameFilter: 
-    m_ClassNames: []
-    m_AssetLabels: []
-    m_AssetBundleNames: []
-    m_ReferencingInstanceIDs: 
-    m_SceneHandles: 
-    m_ShowAllHits: 0
-    m_SkipHidden: 0
-    m_SearchArea: 1
-    m_Folders:
-    - Assets
-    m_Globs: []
-    m_OriginalText: 
-    m_ImportLogFlags: 0
-    m_FilterByTypeIntersection: 0
-  m_ViewMode: 1
-  m_StartGridSize: 16
-  m_LastFolders:
-  - Assets/Draw_Assets/Bundles_Tag
-  m_LastFoldersGridSize: -1
-  m_LastProjectPath: C:\Users\zakup\GitHub\LevelBuildingSidekick\LevelBuildingSidekick
-  m_LockTracker:
-    m_IsLocked: 0
-  m_FolderTreeState:
-    scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: cc6c0000
-    m_LastClickedID: 27852
-    m_ExpandedIDs: 000000007e7c0000807c0000827c0000847c0000867c0000887c00008a7c00008c7c00008e7c0000907c0000927c0000947c0000967c0000987c00009a7c00009c7c00009e7c0000a07c0000a27c0000
-    m_RenameOverlay:
-      m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
-      m_EditFieldRect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 0
-        height: 0
-      m_UserData: 0
-      m_IsWaitingForDelay: 0
-      m_IsRenaming: 0
-      m_OriginalEventType: 11
-      m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 0}
-    m_SearchString: 
-    m_CreateAssetUtility:
-      m_EndAction: {fileID: 0}
-      m_InstanceID: 0
-      m_Path: 
-      m_Icon: {fileID: 0}
-      m_ResourceFile: 
-  m_AssetTreeState:
-    scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 
-    m_LastClickedID: 0
-    m_ExpandedIDs: 000000007e7c0000807c0000827c0000847c0000867c0000887c00008a7c00008c7c00008e7c0000907c0000927c0000947c0000967c0000987c00009a7c00009c7c00009e7c0000a07c0000a27c0000
-    m_RenameOverlay:
-      m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
-      m_EditFieldRect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 0
-        height: 0
-      m_UserData: 0
-      m_IsWaitingForDelay: 0
-      m_IsRenaming: 0
-      m_OriginalEventType: 11
-      m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 0}
-    m_SearchString: 
-    m_CreateAssetUtility:
-      m_EndAction: {fileID: 0}
-      m_InstanceID: 0
-      m_Path: 
-      m_Icon: {fileID: 0}
-      m_ResourceFile: 
-  m_ListAreaState:
-    m_SelectedInstanceIDs: b0670000
-    m_LastClickedInstanceID: 26544
-    m_HadKeyboardFocusLastEvent: 1
-    m_ExpandedInstanceIDs: 
-    m_RenameOverlay:
-      m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
-      m_EditFieldRect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 0
-        height: 0
-      m_UserData: 0
-      m_IsWaitingForDelay: 0
-      m_IsRenaming: 0
-      m_OriginalEventType: 11
-      m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 15}
+      m_ClientGUIView: {fileID: 14}
     m_CreateAssetUtility:
       m_EndAction: {fileID: 0}
       m_InstanceID: 0
@@ -2286,7 +1449,7 @@ MonoBehaviour:
     m_ScrollPosition: {x: 0, y: 0}
     m_GridSize: 16
   m_SkipHiddenPackages: 0
-  m_DirectoriesAreaWidth: 221
+  m_DirectoriesAreaWidth: 50
 --- !u!114 &26
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -2330,53 +1493,6 @@ MonoBehaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
-  m_EditorHideFlags: 1
-  m_Script: {fileID: 12019, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_TitleContent:
-    m_Text: Inspector
-    m_Image: {fileID: -2667387946076563598, guid: 0000000000000000d000000000000000, type: 0}
-    m_Tooltip: 
-  m_Pos:
-    serializedVersion: 2
-    x: 1720
-    y: 323
-    width: 199
-    height: 676
-  m_SerializedDataModeController:
-    m_DataMode: 0
-    m_PreferredDataMode: 0
-    m_SupportedDataModes: 
-    isAutomatic: 1
-  m_ViewDataDictionary: {fileID: 0}
-  m_OverlayCanvas:
-    m_LastAppliedPresetName: Default
-    m_SaveData: []
-    m_OverlaysVisible: 1
-  m_ObjectsLockedBeforeSerialization: []
-  m_InstanceIDsLockedBeforeSerialization: 
-  m_PreviewResizer:
-    m_CachedPref: 196
-    m_ControlHash: -371814159
-    m_PrefName: Preview_InspectorPreview
-  m_LastInspectedObjectInstanceID: -1
-  m_LastVerticalScrollValue: 0
-  m_GlobalObjectId: 
-  m_InspectorMode: 0
-  m_LockTracker:
-    m_IsLocked: 0
-  m_PreviewWindow: {fileID: 0}
---- !u!114 &28
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 12079, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: 
@@ -2389,10 +1505,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1558
+    x: 1861
     y: 73
-    width: 361
-    height: 926
+    width: 698
+    height: 918
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0

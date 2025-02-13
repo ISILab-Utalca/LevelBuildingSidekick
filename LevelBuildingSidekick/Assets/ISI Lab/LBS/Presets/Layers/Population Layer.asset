@@ -19,14 +19,14 @@ MonoBehaviour:
     id: Population
     name: Layer Population
     modules:
-    - rid: 279245475787309080
-    - rid: 279245475787309081
+    - rid: 9190820156213035053
+    - rid: 9190820156213035054
     behaviours:
-    - rid: 279245475787309082
-    assitants:
-    - rid: 279245475787309083
+    - rid: 9190820156213035055
+    assistants:
+    - rid: 9190820156213035056
     generatorRules:
-    - rid: 279245475787309084
+    - rid: 9190820156213035057
     settings:
       scale: {x: 2, y: 2}
       resize: {x: 0, y: 0}
@@ -35,17 +35,57 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 279245475787309080
+    - rid: 9190820156213035053
       type: {class: TileMapModule, ns: ISILab.LBS.Modules, asm: LBS}
       data:
         id: TileMapModule
+        owner:
+          visible: 1
+          blocked: 0
+          iconPath: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/ghost.png
+          id: Population
+          name: Layer Population
+          modules:
+          - rid: 9190820156213035053
+          - rid: 9190820156213035054
+          behaviours:
+          - rid: 9190820156213035055
+          assistants:
+          - rid: 9190820156213035056
+          generatorRules:
+          - rid: 9190820156213035057
+          settings:
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: Population
         tiles: []
-    - rid: 279245475787309081
+    - rid: 9190820156213035054
       type: {class: BundleTileMap, ns: ISILab.LBS.Modules, asm: LBS}
       data:
         id: BundleTileMap
+        owner:
+          visible: 1
+          blocked: 0
+          iconPath: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/ghost.png
+          id: Population
+          name: Layer Population
+          modules:
+          - rid: 9190820156213035053
+          - rid: 9190820156213035054
+          behaviours:
+          - rid: 9190820156213035055
+          assistants:
+          - rid: 9190820156213035056
+          generatorRules:
+          - rid: 9190820156213035057
+          settings:
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: Population
         tiles: []
-    - rid: 279245475787309082
+    - rid: 9190820156213035055
       type: {class: PopulationBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
       data:
         visible: 1
@@ -53,15 +93,35 @@ MonoBehaviour:
         name: Population Behavior
         tileMap:
           id: TileMapModule
+          owner:
+            visible: 1
+            blocked: 0
+            iconPath: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/ghost.png
+            id: Population
+            name: Layer Population
+            modules:
+            - rid: 9190820156213035053
+            - rid: 9190820156213035054
+            behaviours:
+            - rid: 9190820156213035055
+            assistants:
+            - rid: 9190820156213035056
+            generatorRules:
+            - rid: 9190820156213035057
+            settings:
+              scale: {x: 2, y: 2}
+              resize: {x: 0, y: 0}
+              position: {x: 0, y: 0, z: 0}
+              name: Population
           tiles: []
         selectedToSet: {fileID: 0}
-    - rid: 279245475787309083
+    - rid: 9190820156213035056
       type: {class: AssistantMapElite, ns: ISILab.LBS.Assistants, asm: LBS}
       data:
         visible: 1
         name: Map Elite - Genetic Algorithm
         toUpdate: []
-    - rid: 279245475787309084
+    - rid: 9190820156213035057
       type: {class: PopulationRuleGenerator, ns: ISILab.LBS.Generators, asm: LBS}
       data:
         generator3D:

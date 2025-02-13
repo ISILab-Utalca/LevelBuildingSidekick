@@ -42,8 +42,17 @@
                         "$values": [
                           {
                             "$id": "11",
-                            "$type": "ISILab.LBS.Characteristics.LBSTagsCharacteristic, LBS",
-                            "tagName": ""
+                            "$type": "ISILab.LBS.Characteristics.LBSDirection, LBS",
+                            "connections": {
+                              "$id": "12",
+                              "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                              "$values": [
+                                "Road",
+                                "",
+                                "Road",
+                                "Road"
+                              ]
+                            }
                           }
                         ]
                       },
@@ -64,22 +73,22 @@
           ]
         },
         "behaviours": {
-          "$id": "12",
+          "$id": "13",
           "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Behaviours.LBSBehaviour, LBS]], mscorlib",
           "$values": []
         },
         "assistants": {
-          "$id": "13",
+          "$id": "14",
           "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Assistants.LBSAssistant, LBS]], mscorlib",
           "$values": []
         },
         "generatorRules": {
-          "$id": "14",
+          "$id": "15",
           "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Generators.LBSGeneratorRule, LBS]], mscorlib",
           "$values": []
         },
         "settings": {
-          "$id": "15",
+          "$id": "16",
           "$type": "ISILab.LBS.Generators.Generator3D+Settings, LBS",
           "scale": {
             "x": 2.0,
@@ -100,7 +109,7 @@
     ]
   },
   "quests": {
-    "$id": "16",
+    "$id": "17",
     "$type": "System.Collections.Generic.List`1[[LBS.Components.LBSLayer, LBS]], mscorlib",
     "$values": []
   }

@@ -63,9 +63,9 @@
                     "$type": "ISILab.LBS.Components.Zone, LBS",
                     "id": "Zone\n0",
                     "color": {
-                      "r": 0.9034115,
-                      "g": 0.08201969,
-                      "b": 0.348099232,
+                      "r": 0.147837088,
+                      "g": 0.894311666,
+                      "b": 0.5494512,
                       "a": 1.0
                     },
                     "borderThickness": 0.0,
@@ -89,9 +89,9 @@
                     "$type": "ISILab.LBS.Components.Zone, LBS",
                     "id": "Zone\n01",
                     "color": {
-                      "r": 0.183456331,
-                      "g": 0.735529244,
-                      "b": 0.9893086,
+                      "r": 0.263512284,
+                      "g": 0.129575834,
+                      "b": 0.9190935,
                       "a": 1.0
                     },
                     "borderThickness": 0.0,
