@@ -98,7 +98,14 @@ namespace LBS.Bundles
         #endregion
 
         #region PROPERTIES
-        public Texture2D Icon => icon;
+        public Texture2D Icon
+        {
+            get
+            {
+                return (icon == null) ? null : icon;
+            }
+            set => icon = value;
+        }
         public Color Color => color;
         public string Name => name;
         public List<Asset> Assets
