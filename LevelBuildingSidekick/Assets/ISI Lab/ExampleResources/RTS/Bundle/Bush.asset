@@ -26,6 +26,7 @@ MonoBehaviour:
   - rid: 4305865204711817725
   - rid: 4305865204711817726
   populationType: 4
+  tileSize: {x: 2, y: 2}
   childsBundles: []
   references:
     version: 2
