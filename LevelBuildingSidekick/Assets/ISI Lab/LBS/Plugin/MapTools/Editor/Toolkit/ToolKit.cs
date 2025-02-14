@@ -225,6 +225,8 @@ namespace LBS.VisualElements
 
             var m = current.Item1.Manipulator;
             MainView.Instance.AddManipulator(m);
+
+            Debug.Log("setting active");
         }
 
         public void SetActiveWhithoutNotify(int index)
