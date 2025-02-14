@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: Full_Snow_Bundle
   m_EditorClassIdentifier: 
-  flags: 2
+  layerContentFlags: 2
   type: 0
   anchorPosition: 0
   color: {r: 0, g: 0, b: 0, a: 0}
@@ -24,6 +24,7 @@ MonoBehaviour:
     probability: 1
   characteristics:
   - rid: 6598277204649181379
+  populationType: 0
   childsBundles: []
   references:
     version: 2

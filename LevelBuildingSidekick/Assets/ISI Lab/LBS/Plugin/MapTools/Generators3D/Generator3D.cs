@@ -16,6 +16,10 @@ namespace ISILab.LBS.Generators
         [System.Serializable]
         public class Settings // TODO: Setting can be outside of the class to be used as general settings
         {
+            [SerializeField] 
+            [JsonConverter(typeof(bool))]
+            public bool useBundleSize = false;
+            
             [SerializeField]
             [JsonConverter(typeof(Vector2Converter))]
             public Vector2 scale = new Vector2(2, 2);
@@ -50,6 +54,8 @@ namespace ISILab.LBS.Generators
                 // cheack if name is the same
                 if (this.name != other.name) return false;
 
+                if (this.useBundleSize != other.useBundleSize) return false;
+                
                 return true;
             }
 

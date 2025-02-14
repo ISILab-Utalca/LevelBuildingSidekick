@@ -103,6 +103,10 @@ namespace LBS.Bundles
         // only used if it's an element (population)
         [SerializeField,HideInInspector] 
         private PopulationType populationType = PopulationType.Entity;
+
+        // Used in generation 3d.
+        [SerializeField,HideInInspector] 
+        private Vector2Int tileSize = Vector2Int.one;
         
         // hides in inspector and uses the custom GUI to assign only children with containing flags
         [SerializeField, HideInInspector]
@@ -120,6 +124,8 @@ namespace LBS.Bundles
             set => assets = value;
         }
 
+        public Vector2Int TileSize => tileSize;
+        
         public PopulationType PopulationType => populationType;
         public List<LBSCharacteristic> Characteristics => characteristics;
 

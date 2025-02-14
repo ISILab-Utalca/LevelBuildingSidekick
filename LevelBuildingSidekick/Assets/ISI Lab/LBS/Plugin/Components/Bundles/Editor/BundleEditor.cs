@@ -47,6 +47,13 @@ namespace ISILab.LBS.Bundles.Editor
                     populationField.Bind(serializedObject);
                     root.Add(populationField);
                 }
+                SerializedProperty tileSizeProp = serializedObject.FindProperty("tileSize");
+                if (tileSizeProp != null)
+                {
+                    PropertyField tileSizeField = new PropertyField(tileSizeProp);
+                    tileSizeField.Bind(serializedObject);
+                    root.Add(tileSizeField);
+                }
             }
             
             #region Characteristics
