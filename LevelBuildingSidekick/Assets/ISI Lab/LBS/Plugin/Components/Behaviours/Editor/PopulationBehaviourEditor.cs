@@ -27,10 +27,13 @@ namespace ISILab.LBS.VisualElements
 
         private PopulationBehaviour _target;
 
+        private Dictionary<string, List<Bundle.PopulationTypeE>> displayChoices = new Dictionary<string, List<Bundle.PopulationTypeE>>();
+        
         [SerializeField]
         private BundleCollection _collection; 
         [SerializeField]
-        private int _populationType; 
+        private string _populationFilter;
+        private const string allFilter = "All";
         //Manipulators
         AddPopulationTile addPopulationTile;
         RemovePopulationTile removePopulationTile;
@@ -43,8 +46,34 @@ namespace ISILab.LBS.VisualElements
         public PopulationBehaviourEditor(object target) : base(target)
         {
             _target = target as PopulationBehaviour;
-            SetInfo(_target);
             //_collection = load default collection
+
+            _populationFilter = allFilter;
+            List<Bundle.PopulationTypeE> characterList = new List<Bundle.PopulationTypeE> { Bundle.PopulationTypeE.Character };
+            List<Bundle.PopulationTypeE> itemList = new List<Bundle.PopulationTypeE> { Bundle.PopulationTypeE.Item };
+            List<Bundle.PopulationTypeE> interactableList = new List<Bundle.PopulationTypeE> { Bundle.PopulationTypeE.Interactable };
+            List<Bundle.PopulationTypeE> areaList = new List<Bundle.PopulationTypeE> { Bundle.PopulationTypeE.Area };
+            List<Bundle.PopulationTypeE> propList = new List<Bundle.PopulationTypeE> { Bundle.PopulationTypeE.Prop };
+            List<Bundle.PopulationTypeE> miscList = new List<Bundle.PopulationTypeE> { Bundle.PopulationTypeE.Misc };
+            List<Bundle.PopulationTypeE> allList = new List<Bundle.PopulationTypeE>
+            {
+                Bundle.PopulationTypeE.Misc,
+                Bundle.PopulationTypeE.Prop,
+                Bundle.PopulationTypeE.Area,
+                Bundle.PopulationTypeE.Interactable,
+                Bundle.PopulationTypeE.Item,
+                Bundle.PopulationTypeE.Character
+            };
+            
+            displayChoices.Add(allFilter, allList);
+            displayChoices.Add(Bundle.PopulationTypeE.Character.ToString(), characterList);
+            displayChoices.Add(Bundle.PopulationTypeE.Item.ToString(), itemList);
+            displayChoices.Add(Bundle.PopulationTypeE.Interactable.ToString(), interactableList);
+            displayChoices.Add(Bundle.PopulationTypeE.Area.ToString(), areaList);
+            displayChoices.Add(Bundle.PopulationTypeE.Prop.ToString(), propList);
+            displayChoices.Add(Bundle.PopulationTypeE.Misc.ToString(), miscList);
+
+            SetInfo(_target);
             CreateVisualElement();
         }
 
@@ -53,7 +82,7 @@ namespace ISILab.LBS.VisualElements
         {
             _target = target as PopulationBehaviour;
             if (_target != null) _collection = _target.selectedCollectionToSet;
-            if (_target != null) _populationType = (int)_target.selectedTypetoSet;
+            if (_target != null) _populationFilter = _target.selectedTypeFilter;
         }
 
         public void SetTools(ToolKit toolkit)
@@ -120,52 +149,16 @@ namespace ISILab.LBS.VisualElements
                 
             });
             
-            # region TypeFilter
             var type =  this.Q<DropdownField>("Type");
-            Dictionary<string, List<Bundle.PopulationTypeE>> displayChoices = null;
-
-            List<Bundle.PopulationTypeE> characterList = new List<Bundle.PopulationTypeE> { Bundle.PopulationTypeE.Character };
-            List<Bundle.PopulationTypeE> itemList = new List<Bundle.PopulationTypeE> { Bundle.PopulationTypeE.Item };
-            List<Bundle.PopulationTypeE> interactableList = new List<Bundle.PopulationTypeE> { Bundle.PopulationTypeE.Interactable };
-            List<Bundle.PopulationTypeE> areaList = new List<Bundle.PopulationTypeE> { Bundle.PopulationTypeE.Area };
-            List<Bundle.PopulationTypeE> propList = new List<Bundle.PopulationTypeE> { Bundle.PopulationTypeE.Prop };
-            List<Bundle.PopulationTypeE> miscList = new List<Bundle.PopulationTypeE> { Bundle.PopulationTypeE.Misc };
-            List<Bundle.PopulationTypeE> allList = new List<Bundle.PopulationTypeE>
-            {
-                Bundle.PopulationTypeE.Misc,
-                Bundle.PopulationTypeE.Prop,
-                Bundle.PopulationTypeE.Area,
-                Bundle.PopulationTypeE.Interactable,
-                Bundle.PopulationTypeE.Item,
-                Bundle.PopulationTypeE.Character
-            };
-
-            displayChoices.Add(Bundle.PopulationTypeE.Character.ToString(), characterList);
-            displayChoices.Add(Bundle.PopulationTypeE.Item.ToString(), itemList);
-            displayChoices.Add(Bundle.PopulationTypeE.Interactable.ToString(), interactableList);
-            displayChoices.Add(Bundle.PopulationTypeE.Area.ToString(), areaList);
-            displayChoices.Add(Bundle.PopulationTypeE.Prop.ToString(), propList);
-            displayChoices.Add(Bundle.PopulationTypeE.Misc.ToString(), miscList);
-
-            displayChoices.Add("All", allList);
-            
             type.choices = displayChoices.Keys.ToArray().ToList();
-            
             type.RegisterValueChangedCallback(evt =>
             {
-                Debug.LogWarning(evt.newValue);
-                //_populationType = evt.newValue;
-                Debug.Log((Bundle.PopulationTypeE)int.Parse(type.value));
+                _populationFilter = evt.newValue as string;
                 UpdateElementBundles();
             });
 
-            foreach (var choice in type.choices)
-            {
-                if(((Bundle.PopulationTypeE)_populationType).ToString() == choice)
-                    type.SetValueWithoutNotify(choice); 
-            }
-           
-            #endregion
+            type.SetValueWithoutNotify(_populationFilter); 
+            
             
             bundlePallete = this.Q<SimplePallete>("ConnectionPallete");
             bundlePallete.DisplayAddElement = false;
@@ -182,12 +175,11 @@ namespace ISILab.LBS.VisualElements
             bundlePallete.ShowAddButton = false;
             bundlePallete.ShowRemoveButton = false;
             
-            
             bundlePallete.OnSelectOption += (selected) =>
             {
                 _target.selectedToSet = selected as Bundle;
                 _target.selectedCollectionToSet = _collection;
-                _target.selectedTypetoSet = (Bundle.PopulationTypeE)_populationType;
+                _target.selectedTypeFilter = _populationFilter;
                 /*
                 if (selected == null)
                 {
@@ -242,7 +234,7 @@ namespace ISILab.LBS.VisualElements
             bundlePallete.DisplayContent(true);
             var bundles = _collection.Collection;
             var candidates = new List<Bundle>();
-            if (_populationType == -1)
+            if (_populationFilter == allFilter)
             {
                 candidates = bundles
                     .Where(b => b.Type == Bundle.TagType.Element).ToList();
@@ -250,10 +242,9 @@ namespace ISILab.LBS.VisualElements
             else
             {
                 candidates = bundles
-                    .Where(b => b.Type == Bundle.TagType.Element && b.PopulationType == (Bundle.PopulationTypeE)_populationType)
+                    .Where(b => b.Type == Bundle.TagType.Element && b.PopulationType == displayChoices[_populationFilter][0]) // get the bundle type at the filter index
                     .ToList();
             }
-            
             bundlePallete.ShowGroups = false;
             var options = new object[candidates.Count];
             for (int i = 0; i < candidates.Count; i++)
