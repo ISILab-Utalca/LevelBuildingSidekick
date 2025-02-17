@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
     <uie:ObjectField label="Bundle Collection" type="LBS.Bundles.BundleCollection, LBS" name="BundleCollection" />
-    <ui:EnumField label="Type" type="LBS.Bundles.Bundle+PopulationTypeE, LBS" name="Type" />
+    <ui:DropdownField label="Type Filter" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="Type" />
     <ISILab.LBS.VisualElements.WarningPanel Text="Need a reference to a bundle in order to display the connections." />
     <LBS.VisualElements.SimplePallete name="ConnectionPallete" />
 </ui:UXML>
