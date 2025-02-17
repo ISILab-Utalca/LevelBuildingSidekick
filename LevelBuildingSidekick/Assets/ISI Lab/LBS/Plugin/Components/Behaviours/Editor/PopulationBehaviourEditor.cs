@@ -1,3 +1,4 @@
+using System;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Characteristics;
 using ISILab.LBS.Editor;
@@ -14,6 +15,7 @@ using ISILab.Commons.Utility.Editor;
 using ISILab.Extensions;
 using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
@@ -28,7 +30,7 @@ namespace ISILab.LBS.VisualElements
         [SerializeField]
         private BundleCollection _collection; 
         [SerializeField]
-        private PopulationType _populationType; 
+        private int _populationType; 
         //Manipulators
         AddPopulationTile addPopulationTile;
         RemovePopulationTile removePopulationTile;
@@ -51,7 +53,7 @@ namespace ISILab.LBS.VisualElements
         {
             _target = target as PopulationBehaviour;
             if (_target != null) _collection = _target.selectedCollectionToSet;
-            if (_target != null) _populationType = _target.selectedTypetoSet;
+            if (_target != null) _populationType = (int)_target.selectedTypetoSet;
         }
 
         public void SetTools(ToolKit toolkit)
@@ -118,14 +120,52 @@ namespace ISILab.LBS.VisualElements
                 
             });
             
-            var type =  this.Q<EnumField>("Type");
+            # region TypeFilter
+            var type =  this.Q<DropdownField>("Type");
+            Dictionary<string, List<Bundle.PopulationTypeE>> displayChoices = null;
+
+            List<Bundle.PopulationTypeE> characterList = new List<Bundle.PopulationTypeE> { Bundle.PopulationTypeE.Character };
+            List<Bundle.PopulationTypeE> itemList = new List<Bundle.PopulationTypeE> { Bundle.PopulationTypeE.Item };
+            List<Bundle.PopulationTypeE> interactableList = new List<Bundle.PopulationTypeE> { Bundle.PopulationTypeE.Interactable };
+            List<Bundle.PopulationTypeE> areaList = new List<Bundle.PopulationTypeE> { Bundle.PopulationTypeE.Area };
+            List<Bundle.PopulationTypeE> propList = new List<Bundle.PopulationTypeE> { Bundle.PopulationTypeE.Prop };
+            List<Bundle.PopulationTypeE> miscList = new List<Bundle.PopulationTypeE> { Bundle.PopulationTypeE.Misc };
+            List<Bundle.PopulationTypeE> allList = new List<Bundle.PopulationTypeE>
+            {
+                Bundle.PopulationTypeE.Misc,
+                Bundle.PopulationTypeE.Prop,
+                Bundle.PopulationTypeE.Area,
+                Bundle.PopulationTypeE.Interactable,
+                Bundle.PopulationTypeE.Item,
+                Bundle.PopulationTypeE.Character
+            };
+
+            displayChoices.Add(Bundle.PopulationTypeE.Character.ToString(), characterList);
+            displayChoices.Add(Bundle.PopulationTypeE.Item.ToString(), itemList);
+            displayChoices.Add(Bundle.PopulationTypeE.Interactable.ToString(), interactableList);
+            displayChoices.Add(Bundle.PopulationTypeE.Area.ToString(), areaList);
+            displayChoices.Add(Bundle.PopulationTypeE.Prop.ToString(), propList);
+            displayChoices.Add(Bundle.PopulationTypeE.Misc.ToString(), miscList);
+
+            displayChoices.Add("All", allList);
+            
+            type.choices = displayChoices.Keys.ToArray().ToList();
+            
             type.RegisterValueChangedCallback(evt =>
             {
-                _populationType = (PopulationType)evt.newValue;
+                Debug.LogWarning(evt.newValue);
+                //_populationType = evt.newValue;
+                Debug.Log((Bundle.PopulationTypeE)int.Parse(type.value));
                 UpdateElementBundles();
             });
 
-            type.SetValueWithoutNotify(_populationType); 
+            foreach (var choice in type.choices)
+            {
+                if(((Bundle.PopulationTypeE)_populationType).ToString() == choice)
+                    type.SetValueWithoutNotify(choice); 
+            }
+           
+            #endregion
             
             bundlePallete = this.Q<SimplePallete>("ConnectionPallete");
             bundlePallete.DisplayAddElement = false;
@@ -147,7 +187,7 @@ namespace ISILab.LBS.VisualElements
             {
                 _target.selectedToSet = selected as Bundle;
                 _target.selectedCollectionToSet = _collection;
-                _target.selectedTypetoSet = _populationType;
+                _target.selectedTypetoSet = (Bundle.PopulationTypeE)_populationType;
                 /*
                 if (selected == null)
                 {
@@ -201,9 +241,18 @@ namespace ISILab.LBS.VisualElements
             warningPanel.SetDisplay(false);
             bundlePallete.DisplayContent(true);
             var bundles = _collection.Collection;
-            var candidates = bundles
-                .Where(b => b.Type == Bundle.TagType.Element && b.PopulationType == _populationType)
-                .ToList();
+            var candidates = new List<Bundle>();
+            if (_populationType == -1)
+            {
+                candidates = bundles
+                    .Where(b => b.Type == Bundle.TagType.Element).ToList();
+            }
+            else
+            {
+                candidates = bundles
+                    .Where(b => b.Type == Bundle.TagType.Element && b.PopulationType == (Bundle.PopulationTypeE)_populationType)
+                    .ToList();
+            }
             
             bundlePallete.ShowGroups = false;
             var options = new object[candidates.Count];

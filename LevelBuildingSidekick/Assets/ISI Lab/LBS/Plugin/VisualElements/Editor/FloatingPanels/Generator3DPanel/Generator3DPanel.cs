@@ -185,7 +185,8 @@ namespace ISILab.LBS.VisualElements.Editor
 
             var settings = new Generator3D.Settings
             {
-                name = nameField.value != "" ? name = nameField.value : layer.Name,
+                name = layer.Name,
+                //name = nameField.value != "" ? name = nameField.value : layer.Name,
                 position = positionField.value,
                 resize = resizeField.value,
                 scale = scaleField.value,

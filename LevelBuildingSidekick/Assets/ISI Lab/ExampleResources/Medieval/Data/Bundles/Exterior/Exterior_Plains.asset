@@ -20,6 +20,8 @@ MonoBehaviour:
   assets: []
   characteristics:
   - rid: 4305865203777798400
+  populationType: 1
+  tileSize: {x: 1, y: 1}
   childsBundles:
   - {fileID: 11400000, guid: 98d3e3489e6579a4294c8de2b5e4ca89, type: 2}
   - {fileID: 11400000, guid: 4f55fc046c4a61343a4289dcfff573a0, type: 2}
