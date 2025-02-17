@@ -29,7 +29,7 @@ namespace ISILab.LBS.Behaviours
         public BundleCollection selectedCollectionToSet;
         
         [JsonIgnore]
-        public PopulationType selectedTypetoSet;
+        public Bundle.PopulationTypeE selectedTypetoSet;
         #endregion
 
         #region PROPERTIES
