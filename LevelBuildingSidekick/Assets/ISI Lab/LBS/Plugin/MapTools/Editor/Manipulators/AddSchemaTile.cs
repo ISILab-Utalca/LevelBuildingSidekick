@@ -48,6 +48,8 @@ namespace ISILab.LBS.Manipulators
                 ToSet = newZone;
             }
 
+            if(!schema.Zones.Contains(ToSet)) { ToSet = null; }
+
             if (ToSet == null)
             {
                 Debug.LogWarning("You don't have any selected area to place.");

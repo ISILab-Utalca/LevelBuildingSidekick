@@ -33,6 +33,7 @@ namespace ISILab.LBS.VisualElements.Editor
         private Toggle bakeLights;
         private Toggle autoGen;
         private Toggle replacePrev;
+        private Toggle ignoreBundleTileSize;
         #endregion
 
         #region FIELDS
@@ -82,7 +83,7 @@ namespace ISILab.LBS.VisualElements.Editor
             
             autoGen = this.Q<Toggle>(name: "ToggleAutoGen");
             replacePrev = this.Q<Toggle>(name: "ToggleReplace");
-
+            ignoreBundleTileSize = this.Q<Toggle>(name: "ToggleTileSize");  
             generateCurrLayer = this.Q<Button>(name: "ButtonGenCurrentLayer");
             generateCurrLayer.clicked += OnExecute;
             generateCurrLayer.clicked += GenerateCurrentLayer;
@@ -188,6 +189,7 @@ namespace ISILab.LBS.VisualElements.Editor
                 position = positionField.value,
                 resize = resizeField.value,
                 scale = scaleField.value,
+                useBundleSize = !ignoreBundleTileSize.value
             };
 
             var obj = generator.Generate(this.layer, this.layer.GeneratorRules, settings);

@@ -12,16 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: Corner_Proto
   m_EditorClassIdentifier: 
+  layerContentFlags: 0
   type: 1
   anchorPosition: 2
   color: {r: 0, g: 0, b: 0, a: 0}
   icon: {fileID: 0}
-  childsBundles: []
   assets:
   - obj: {fileID: 919132149155446097, guid: 963d20c00c0e2ea47bbc1582c708ae80, type: 3}
     probability: 1
   characteristics:
   - rid: 279245815319625872
+  populationType: 0
+  childsBundles: []
   references:
     version: 2
     RefIds:

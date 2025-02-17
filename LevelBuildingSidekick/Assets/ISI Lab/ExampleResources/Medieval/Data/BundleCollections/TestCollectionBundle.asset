@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2985e634a09bd034bb9dc5096e94627a, type: 3}
+  m_Name: TestCollectionBundle
+  m_EditorClassIdentifier: 
+  collectionType: 2
+  color: {r: 0.44421327, g: 0.6320754, b: 0.033790153, a: 0.6}
+  icon: {fileID: 2800000, guid: 0bcc5d75759b49242962e0cf2742a01e, type: 3}
+  collection:
+  - {fileID: 11400000, guid: 68a6b8a7d0fc2004c9d17fe39c37a1c5, type: 2}
+  - {fileID: 11400000, guid: cb460c6ce44590347afa406cfa6450c0, type: 2}
+  - {fileID: 11400000, guid: f165a46bac1fc294887ab889baa0650f, type: 2}
+  - {fileID: 11400000, guid: d5af553499fddd04dacff4f048c85d10, type: 2}
+  - {fileID: 11400000, guid: 3f0d3bf72b2180049ac3640000afd840, type: 2}
+  - {fileID: 11400000, guid: e110dc866a7428f418b238712afecaaf, type: 2}
+  - {fileID: 11400000, guid: 88e22348cba23e1479786414f02e8f4d, type: 2}

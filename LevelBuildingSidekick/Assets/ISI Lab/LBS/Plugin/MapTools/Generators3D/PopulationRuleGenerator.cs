@@ -42,7 +42,7 @@ namespace ISILab.LBS.Generators
             var data = layer.GetModule<BundleTileMap>();
             var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
             var scale = settings.scale;
-
+            
             var parent = new GameObject("Population");
             var tiles = data.Tiles;
 
@@ -65,6 +65,8 @@ namespace ISILab.LBS.Generators
                     continue;
                 }
 
+                if (current == null) continue;
+                
                 var pref = current.Assets[Random.Range(0, current.Assets.Count)];
 #if UNITY_EDITOR
                 var go = PrefabUtility.InstantiatePrefab(pref.obj) as GameObject;
@@ -75,11 +77,15 @@ namespace ISILab.LBS.Generators
                 var r = Directions.Bidimencional.Edges.FindIndex(v => v == tile.Rotation);
                 go.transform.rotation = Quaternion.Euler(0, -90 * (r - 1), 0);
 
+                if (settings.useBundleSize)
+                    if (current != null)
+                        scale = current.TileSize;
+
                 // Set General position
                 go.transform.position =
                     settings.position +
-                    new Vector3(tile.Tile.Position.x * settings.scale.x, 0, tile.Tile.Position.y * settings.scale.y) +
-                    -(new Vector3(settings.scale.x, 0, settings.scale.y) / 2f);
+                    new Vector3(tile.Tile.Position.x * scale.x, 0, tile.Tile.Position.y * scale.y) +
+                    -(new Vector3(scale.x, 0, scale.y) / 2f);
 
                 objects.Add(go);
             }
