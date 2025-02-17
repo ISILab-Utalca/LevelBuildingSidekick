@@ -60,6 +60,7 @@ MonoBehaviour:
     - rid: 4305865204711817735
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
+        owner: {fileID: 0}
         value: {fileID: 11400000, guid: 261af09a46f50a647b4fb33a0e989c66, type: 2}
     - rid: 4305865204711817738
       type: {class: SafetyFairness, ns: ISILab.AI.Categorization, asm: LBS}
@@ -71,10 +72,12 @@ MonoBehaviour:
     - rid: 4305865204711817739
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
+        owner: {fileID: 0}
         value: {fileID: 11400000, guid: 261af09a46f50a647b4fb33a0e989c66, type: 2}
     - rid: 4305865204711817740
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
+        owner: {fileID: 0}
         value: {fileID: 11400000, guid: 975a57a1811d3f743838422b5c87c58a, type: 2}
     - rid: 4305865204711817741
       type: {class: ResourcesSafetyFairness, ns: ISILab.AI.Categorization, asm: LBS}
@@ -88,6 +91,7 @@ MonoBehaviour:
     - rid: 4305865204711817742
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
+        owner: {fileID: 0}
         value: {fileID: 11400000, guid: 975a57a1811d3f743838422b5c87c58a, type: 2}
     - rid: 4305865204711817745
       type: {class: RoulleteWheelMutation, ns: ISILab.AI.Categorization, asm: LBS}
@@ -138,12 +142,15 @@ MonoBehaviour:
     - rid: 4688719056639886050
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
+        owner: {fileID: 0}
         value: {fileID: 11400000, guid: 0147d0d479179b04a8c825d8159e70ce, type: 2}
     - rid: 4688719056639886051
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
+        owner: {fileID: 0}
         value: {fileID: 11400000, guid: 8d03f9563098ae048a81b709940e56c0, type: 2}
     - rid: 4688719056639886052
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
+        owner: {fileID: 0}
         value: {fileID: 11400000, guid: b354587b73f945f4188c7dc7026de4ef, type: 2}
