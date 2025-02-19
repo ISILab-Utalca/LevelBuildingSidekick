@@ -1,18 +1,18 @@
 using UnityEngine;
-using System.Collections;
+using ISILab.LBS.Generators;
 using UnityEditor;
 
-[CustomEditor(typeof(LighProbeCubeGenerator))]
+[CustomEditor(typeof(LightProbeCubeGenerator))]
 public class ObjectBuilderEditor : Editor
 {
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
 
-        LighProbeCubeGenerator myScript = (LighProbeCubeGenerator)target;
+        LightProbeCubeGenerator myScript = (LightProbeCubeGenerator)target;
         if(GUILayout.Button("Build Object"))
         {
             myScript.Execute();
         }
     }
-}
+}   
