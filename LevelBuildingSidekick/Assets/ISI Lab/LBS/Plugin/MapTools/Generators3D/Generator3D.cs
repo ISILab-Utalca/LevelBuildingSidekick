@@ -20,6 +20,14 @@ namespace ISILab.LBS.Generators
             [JsonConverter(typeof(bool))]
             public bool useBundleSize = false;
             
+            [SerializeField] 
+            [JsonConverter(typeof(bool))]
+            public bool lightVolume = false;
+            
+            [SerializeField] 
+            [JsonConverter(typeof(bool))]
+            public bool reflectionProbe = false;
+            
             [SerializeField]
             [JsonConverter(typeof(Vector2Converter))]
             public Vector2 scale = new Vector2(2, 2);
@@ -152,7 +160,6 @@ namespace ISILab.LBS.Generators
                 if(ruleParent == null) continue;
                 ruleParent.SetParent(parent);
             }
-
             return parent;
         }
         #endregion

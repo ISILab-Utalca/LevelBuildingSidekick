@@ -29,7 +29,7 @@ namespace ISILab.LBS.Generators
                     var curDir = connection.Connections.Rotate(i);
                     if (curDir.SequenceEqual(conections))
                     {
-                        Debug.Log("found");
+                       // Debug.Log("found");
                         return new Tuple<LBSDirection, int>(connection, i);
                     }
                 }
@@ -80,7 +80,7 @@ namespace ISILab.LBS.Generators
                 // Get pref
                 var pair = GetBundle(selected, tileConnection.ToArray());
                 //pair.owner = bundle;
-                Debug.Log("pair obtained: " + pair);
+             //   Debug.Log("pair obtained: " + pair);
                 var pref = pair?.Item1?.Owner?.Assets?.RandomRullete(w => w.probability)?.obj;
 
                 if(pref == null)
