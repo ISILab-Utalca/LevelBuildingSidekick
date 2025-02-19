@@ -7,6 +7,7 @@ using LBS.Components;
 using LBS.Components.TileMap;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ISILab.LBS.Behaviours
 {
@@ -28,8 +29,8 @@ namespace ISILab.LBS.Behaviours
         [JsonIgnore]
         public BundleCollection selectedCollectionToSet;
         
-        [JsonIgnore]
-        public PopulationType selectedTypetoSet;
+        [FormerlySerializedAs("selectedTypetoSet")] [JsonIgnore]
+        public string selectedTypeFilter;
         #endregion
 
         #region PROPERTIES

@@ -20,13 +20,7 @@ MonoBehaviour:
   assets:
   - obj: {fileID: 4661435515762455780, guid: e289bf5debb17f6459818c207d781953, type: 3}
     probability: 1
-  - obj: {fileID: 6941765000743290380, guid: c60edd51c065ceb46b345849a03bc106, type: 3}
-    probability: 1
-  - obj: {fileID: 2222111361404534124, guid: 88f2fd29f58b9734683512546acec310, type: 3}
-    probability: 1
   - obj: {fileID: 2807449429036958551, guid: f0c16f0ea935ea64297ca1d4d55d9746, type: 3}
-    probability: 1
-  - obj: {fileID: 9069115365609291303, guid: 60f79905accf3b24fa0114b941f1aac0, type: 3}
     probability: 1
   characteristics:
   - rid: 4305865204711817731

@@ -264,7 +264,7 @@ namespace ISILab.LBS.Generators
         /// <param name="layer"></param>
         /// <param name="settings"></param>
         /// <returns></returns>
-        public override GameObject Generate(LBSLayer layer, Generator3D.Settings settings)
+        public override GameObject  Generate(LBSLayer layer, Generator3D.Settings settings)
         {
             // Init values
             Init(layer, settings);
@@ -277,12 +277,12 @@ namespace ISILab.LBS.Generators
             var mainPivot = new GameObject("Schema");
 
             var tiles = new List<GameObject>();
-
             foreach (var tile in tilesMod.Tiles)
             {
+                if(tile == null) continue;
                 // Get zone
                 var zone = zonesMod.GetZone(tile);
-
+                zone.AddPosition(tile.Position);
                 // Get bundle from current tile
                 var bundles = zone.GetInsideBundles();
 
@@ -316,25 +316,110 @@ namespace ISILab.LBS.Generators
                 tiles.Add(tileObj);
             }
 
+            var probes = new List<GameObject>();
+            var lightVolumes = new List<GameObject>();
+            foreach (var zone in zonesMod.Zones)
+            {
+                Vector2 zonePos = zonesMod.ZoneCentroid(zone);
+                var zoneSize = zone.GetSize() * settings.scale;
+                var basePos = settings.position;
+                var tilePos = new Vector3(zonePos.x * settings.scale.x, 0, zonePos.y * settings.scale.y);
+                var delta = new Vector3(settings.scale.x, 0, settings.scale.y) / 2f;
+                var centerPos = basePos + tilePos - delta - Vector3.one;
+                
+                if (settings.reflectionProbe)
+                {
+                    // Set General position
+                    var probeObject = new GameObject("rf_" + zone.ID);
+                    probeObject.AddComponent<ReflectionProbe>();
+                    probeObject.transform.position = centerPos;
+                    probes.Add(probeObject);
+                    
+                    // Set size
+                    var rp = probeObject.GetComponent<ReflectionProbe>();
+                    
+                    rp.size = new Vector3(zoneSize.x, zoneSize.x, zoneSize.y);
+                }
+
+                if (settings.lightVolume)
+                {
+                    var lightObject = new GameObject("lv_" + zone.ID);
+                    var light = lightObject.AddComponent<LightProbeCubeGenerator>();
+                  //  lightObject.AddComponent<LightProbeGroup>();
+                   // lightObject.AddComponent<BoxCollider>();
+               
+                    centerPos.y -= centerPos.y * settings.scale.y; // to be in the center of the room
+                    lightObject.transform.position = centerPos;
+                    lightVolumes.Add(lightObject);
+
+                    var boxCollider = lightObject.GetComponent<BoxCollider>();
+                    boxCollider.isTrigger = true;
+                    boxCollider.size = new Vector3(zoneSize.x, zoneSize.x*0.5f, zoneSize.y);
+                    
+                    light.transform.SetParent(lightObject.transform);
+                }
+              
+            }
+            
             if (tiles.Count <= 0)
             {
                 Debug.LogWarning("[ISI Lab]: Not tiles found");
                 return mainPivot;
             }
             
+            // tiles
             var x = tiles.Average(t => t.transform.position.x);
             var y = tiles.Min(t => t.transform.position.y);
             var z = tiles.Average(t => t.transform.position.z);
-
+            
             mainPivot.transform.position = new Vector3(x,y,z);
 
             foreach ( var tile in tiles ) 
             {
                 tile.transform.parent = mainPivot.transform;
             }
+            
+            // reflection probes
+            if (probes.Count > 0)
+            {
+                var px = probes.Min(t => t.transform.position.x);
+                var py = probes.Min(t => t.transform.position.y);
+                var pz = probes.Min(t => t.transform.position.z);
 
+                GameObject probePivot = new GameObject("ReflectionProbes");
+                probePivot.transform.position = new Vector3(px,py,pz);
+                foreach ( var probe in probes ) 
+                {
+                    probe.transform.parent = probePivot.transform;
+                }
+                probePivot.transform.SetParent(mainPivot.transform);
+            }
+  
+            
+            // light volumes - 
+            if (lightVolumes.Count > 0)
+            {
+                var px = lightVolumes.Min(t => t.transform.position.x);
+                var py = lightVolumes.Min(t => t.transform.position.y);
+                var pz = lightVolumes.Min(t => t.transform.position.z);
+                
+                GameObject lightVolPivot = new GameObject("LightVolumes");
+                lightVolPivot.transform.position = new Vector3(px,py,pz);
+                foreach ( var light in lightVolumes ) 
+                {
+                    light.transform.parent = lightVolPivot.transform;
+                }
+                
+                lightVolPivot.transform.SetParent(mainPivot.transform);
+                
+            }
+
+            // main
             mainPivot.transform.position += settings.position;
 
+            
+
+            
             return mainPivot;
         }
 

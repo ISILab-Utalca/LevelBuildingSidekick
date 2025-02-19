@@ -56,6 +56,10 @@
                     <ui:Label tabindex="-1" text="Bake Lights" display-tooltip-when-elided="true" name="Label" style="flex-direction: row; color: rgb(255, 255, 255); -unity-text-align: middle-left; align-self: stretch;" />
                     <ui:Toggle name="ToggleBakeLights" tooltip="Bakes lights after level generator. May take a long time." style="justify-content: space-between; align-self: stretch; flex-grow: 0; flex-shrink: 0; align-items: stretch; margin-bottom: 2px; margin-left: 2px; margin-right: 2px; margin-top: 2px; -unity-background-scale-mode: scale-to-fit;" />
                 </ui:VisualElement>
+                <ui:VisualElement name="Reflection" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; justify-content: space-between; align-self: stretch; align-items: stretch; margin-bottom: 10px; flex-shrink: 0;">
+                    <ui:Label tabindex="-1" text="Reflection" display-tooltip-when-elided="true" name="Label" style="flex-direction: row; color: rgb(255, 255, 255); -unity-text-align: middle-left; align-self: stretch;" />
+                    <ui:Toggle name="ToggleReflection" tooltip="Activates the generatino of reflections in an area" style="justify-content: space-between; align-self: stretch; flex-grow: 0; flex-shrink: 0; align-items: stretch; margin-bottom: 2px; margin-left: 2px; margin-right: 2px; margin-top: 2px; -unity-background-scale-mode: scale-to-fit;" />
+                </ui:VisualElement>
             </ui:Foldout>
         </ui:VisualElement>
     </ui:VisualElement>

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: Chest
   m_EditorClassIdentifier: 
-  layerContentFlags: 0
+  layerContentFlags: 2
   type: 2
   anchorPosition: 0
   color: {r: 0.97647065, g: 0.7803922, b: 0.30980393, a: 1}
@@ -23,7 +23,9 @@ MonoBehaviour:
   characteristics:
   - rid: 279245815319625884
   populationType: 2
-  childsBundles: []
+  tileSize: {x: 1, y: 1}
+  childsBundles:
+  - {fileID: 11400000, guid: 3ccf8442a472e0943899ad0e08afc068, type: 2}
   references:
     version: 2
     RefIds:
