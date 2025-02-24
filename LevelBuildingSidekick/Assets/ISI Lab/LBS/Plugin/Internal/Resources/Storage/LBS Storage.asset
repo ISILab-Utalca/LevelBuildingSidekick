@@ -385,3 +385,6 @@ MonoBehaviour:
   - type: LBS.Bundles.BundleCollection
     items:
     - {fileID: 11400000, guid: 3e607c0f80297b849a6ea0d7f98c73a3, type: 2}
+  - type: UnityEngine.UIElements.PanelSettings
+    items:
+    - {fileID: 11400000, guid: da6adae693698d3409943a20661e2031, type: 2}
