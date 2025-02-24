@@ -12,8 +12,6 @@ using UnityEngine.Serialization;
 namespace LBS.Bundles
 {
 
-
-    
     [System.Flags]
     public enum BundleFlags
     {
