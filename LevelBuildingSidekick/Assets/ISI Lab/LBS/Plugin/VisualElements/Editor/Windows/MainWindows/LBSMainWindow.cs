@@ -11,7 +11,7 @@ using System;
 
 using System.Collections.Generic;
 using System.Diagnostics;
-
+using ISILab.Commons.VisualElements.Editor;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -44,6 +44,7 @@ namespace ISILab.LBS.Editor.Windows{
         private DrawManager drawManager;
         private LBSInspectorPanel inspectorManager;
         private static NotifierViewer notifier;
+        private SplitView splitView;
         #endregion
 
         #region FIELDS-VIEWS
@@ -55,6 +56,8 @@ namespace ISILab.LBS.Editor.Windows{
         private Label selectedLabel;
         private VisualElement floatingPanelContent;
         private VisualElement toggleButtons;
+        private VisualElement hideBar;
+        private VisualElement inspectorPanel;
 
         // Panels
         private LayersPanel layerPanel;
@@ -121,6 +124,9 @@ namespace ISILab.LBS.Editor.Windows{
             // LayerTemplate
             layerTemplates = DirectoryTools.GetScriptablesByType<LayerTemplate>();
 
+            // SplitView
+            splitView = rootVisualElement.Q<SplitView>("SplitView");
+            if(splitView == null) Debug.LogError("Cannot find SplitView");
 
             // Message Notifier
             notifier = rootVisualElement.Q<NotifierViewer>("NotifierViewer");
@@ -321,6 +327,27 @@ namespace ISILab.LBS.Editor.Windows{
             });
             
             #endregion
+            
+            //inspector panel 
+            inspectorPanel = rootVisualElement.Q<VisualElement>("Inspector");
+            // topBar
+            hideBar = rootVisualElement.Q<VisualElement>("HideBar");
+            // Hide toggle
+            Button buttonHideInspector = rootVisualElement.Q<Button>("ButtonDisplayInspector");
+            buttonHideInspector.RegisterCallback<ClickEvent>((evt) =>{
+                if (inspectorPanel.ClassListContains("lbs_inspectorhide"))
+                {
+                    inspectorPanel.RemoveFromClassList("lbs_inspectorhide");
+                    splitView.fixedPaneInitialDimension = 400f;
+                }
+                else
+                {
+                    inspectorPanel.AddToClassList("lbs_inspectorhide");
+                    splitView.fixedPaneInitialDimension = 80f;
+                }
+                splitView.MarkDirtyRepaint();
+            });
+            
             
             layerPanel.OnSelectLayer += (l) => questsPanel.ResetSelection();
             questsPanel.OnSelectQuest += (l) => layerPanel.ResetSelection();

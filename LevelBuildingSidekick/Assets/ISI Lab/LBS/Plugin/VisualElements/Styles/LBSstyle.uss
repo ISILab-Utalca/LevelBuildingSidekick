@@ -163,6 +163,7 @@
     -unity-text-align: middle-center;
     align-self: stretch;
     justify-content: center;
+    left: auto;
 }
 
 .lbs-tool-button-toggle:active {
@@ -476,4 +477,90 @@ Toggle > .lbs-default-icon {
     flex-shrink: 0;
     margin-left: 0;
     margin-top: 0;
+}
+
+.lbs_inspectorshow {
+    flex-grow: 1;
+    background-color: rgba(0, 0, 0, 0);
+    flex-direction: column-reverse;
+    width: auto;
+    align-items: stretch;
+    align-self: stretch;
+    justify-content: space-around;
+    display: flex;
+    transition-duration: 0.25s;
+    transition-timing-function: ease;
+}
+
+.lbs_inspectorshow > LBSInspectorPanel {
+    flex-grow: 1;
+    background-color: rgba(0, 0, 0, 0);
+    flex-direction: column;
+    width: auto;
+    align-items: stretch;
+    align-self: stretch;
+    justify-content: space-around;
+    display: flex;
+    flex-wrap: nowrap;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-in;
+}
+
+.lbs_inspectorshow > VisualElement {
+    flex-grow: 0;
+    background-color: rgb(47, 47, 47);
+    flex-direction: row;
+    width: auto;
+    align-items: stretch;
+    align-self: stretch;
+    justify-content: space-around;
+    display: flex;
+    min-height: auto;
+    transition-timing-function: ease;
+    transition-duration: 0.25s;
+    min-width: 100%;
+}
+
+.lbs_inspectorhide {
+    flex-grow: 0;
+    background-color: rgba(0, 0, 0, 0);
+    flex-direction: column-reverse;
+    width: auto;
+    align-items: stretch;
+    align-self: stretch;
+    justify-content: space-around;
+    display: flex;
+    transition-duration: 0.1s;
+    transition-timing-function: ease;
+}
+
+.lbs_inspectorhide > LBSInspectorPanel {
+    flex-grow: 1;
+    background-color: rgba(0, 0, 0, 0);
+    flex-direction: column;
+    width: auto;
+    align-items: stretch;
+    align-self: stretch;
+    justify-content: space-around;
+    display: none;
+    right: auto;
+    left: 400px;
+    transition-duration: 0.25s;
+    transition-timing-function: ease;
+}
+
+.lbs_inspectorhide > VisualElement {
+    flex-grow: 1;
+    background-color: rgb(47, 47, 47);
+    flex-direction: row;
+    width: 32px;
+    align-items: stretch;
+    align-self: stretch;
+    justify-content: space-between;
+    display: flex;
+    min-height: auto;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-in;
+    min-width: 32px;
+    max-width: 32px;
 }
