@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: Walls_scifi
   m_EditorClassIdentifier: 
+  layerContentFlags: 0
   type: 1
   anchorPosition: 1
   color: {r: 0, g: 0, b: 0, a: 0}
   icon: {fileID: 0}
-  childsBundles: []
   assets:
   - obj: {fileID: 4451775199137912153, guid: fe4029c9e5b97fb469235e9ad0d173da, type: 3}
     probability: 0.424
@@ -26,10 +26,14 @@ MonoBehaviour:
     probability: 0.109
   characteristics:
   - rid: 279245815319625889
+  populationType: 0
+  tileSize: {x: 1, y: 1}
+  childsBundles: []
   references:
     version: 2
     RefIds:
     - rid: 279245815319625889
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
+        owner: {fileID: 11400000}
         value: {fileID: 11400000, guid: 676b2525bf31dc6439be198604391b79, type: 2}

@@ -163,6 +163,7 @@
     -unity-text-align: middle-center;
     align-self: stretch;
     justify-content: center;
+    left: auto;
 }
 
 .lbs-tool-button-toggle:active {
@@ -476,4 +477,146 @@ Toggle > .lbs-default-icon {
     flex-shrink: 0;
     margin-left: 0;
     margin-top: 0;
+}
+
+.lbs_inspectorshow {
+    flex-grow: 1;
+    background-color: rgba(0, 0, 0, 0);
+    flex-direction: column-reverse;
+    width: auto;
+    align-items: stretch;
+    align-self: stretch;
+    justify-content: space-around;
+    display: flex;
+    transition-duration: 0.25s;
+    transition-timing-function: ease;
+}
+
+.lbs_inspectorshow > LBSInspectorPanel {
+    flex-grow: 1;
+    background-color: rgba(0, 0, 0, 0);
+    flex-direction: column;
+    width: auto;
+    align-items: stretch;
+    align-self: stretch;
+    justify-content: space-around;
+    display: flex;
+    flex-wrap: nowrap;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-out;
+}
+
+.lbs_inspectorshow > VisualElement {
+    flex-grow: 0;
+    background-color: rgb(47, 47, 47);
+    flex-direction: row;
+    width: auto;
+    align-items: stretch;
+    align-self: stretch;
+    justify-content: space-around;
+    display: flex;
+    min-height: auto;
+    transition-timing-function: ease-in-out;
+    transition-duration: 0.1s;
+    min-width: 100%;
+}
+
+.lbs_inspectorhide {
+    flex-grow: 0;
+    background-color: rgba(0, 0, 0, 0);
+    flex-direction: column-reverse;
+    width: auto;
+    align-items: stretch;
+    align-self: stretch;
+    justify-content: space-around;
+    display: flex;
+    transition-duration: 0.1s;
+    transition-timing-function: ease;
+}
+
+.lbs_inspectorhide > LBSInspectorPanel {
+    flex-grow: 1;
+    background-color: rgba(0, 0, 0, 0);
+    flex-direction: column;
+    width: auto;
+    align-items: stretch;
+    align-self: stretch;
+    justify-content: space-around;
+    display: none;
+    right: auto;
+    left: 400px;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-out;
+}
+
+.lbs_inspectorhide > VisualElement {
+    flex-grow: 1;
+    background-color: rgb(47, 47, 47);
+    flex-direction: row;
+    width: 32px;
+    align-items: stretch;
+    align-self: stretch;
+    justify-content: space-between;
+    display: flex;
+    min-height: auto;
+    transition-duration: 0.1s;
+    transition-timing-function: ease-in-out;
+    min-width: 32px;
+    max-width: 32px;
+}
+
+.lbs_ToolButton > VisualElement {
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    margin-left: 2px;
+    margin-right: 2px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    justify-content: flex-start;
+    align-self: center;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    align-items: stretch;
+    flex-grow: 1;
+    max-width: 32px;
+    min-width: 32px;
+    min-height: 32px;
+    max-height: 32px;
+    -unity-text-align: middle-left;
+    -unity-background-scale-mode: scale-to-fit;
+    flex-shrink: 1;
+    flex-direction: row;
+    position: absolute;
+    transform-origin: center;
+    scale: 0.6 0.6;
+}
+
+.lbs_ToolButton {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    justify-content: center;
+    align-self: center;
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    align-items: center;
+    -unity-background-scale-mode: scale-to-fit;
+    max-width: 32px;
+    min-width: 32px;
+    max-height: 32px;
+    min-height: 32px;
+    flex-wrap: wrap;
+    flex-direction: row;
+    flex-grow: 1;
 }

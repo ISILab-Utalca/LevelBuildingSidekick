@@ -106,6 +106,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: cf2e905696bc95a4fbe169ed8597c912, type: 2}
     - {fileID: 11400000, guid: 2922de97f99038046b1f66903be656ca, type: 2}
     - {fileID: 11400000, guid: a90b9e160779a6441ab7e2fa57c1b7d0, type: 2}
+    - {fileID: 11400000, guid: ed5cf5fb39f24a84aaa8eb3e8a88c84f, type: 2}
   - type: LBSIdentifierBundle
     items:
     - {fileID: 11400000, guid: 5dab7331507a6554a83a7ddfd42f5292, type: 2}
@@ -362,6 +363,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 3ee62dd03f67c7545a8fc2590983e4ee, type: 2}
     - {fileID: 11400000, guid: 1b8092fb5937c544dafbc733564ac39a, type: 2}
     - {fileID: 11400000, guid: dc218e9181dcc474b9d4c0b85a7d634a, type: 2}
+    - {fileID: 11400000, guid: 04212421bd21c0040972c027fe29563c, type: 2}
   - type: ISILab.AI.Grammar.LBSGrammar
     items:
     - {fileID: 11400000, guid: 63ab688b53411154db5edd0ec7171c42, type: 2}
@@ -385,3 +387,6 @@ MonoBehaviour:
   - type: LBS.Bundles.BundleCollection
     items:
     - {fileID: 11400000, guid: 3e607c0f80297b849a6ea0d7f98c73a3, type: 2}
+  - type: UnityEngine.UIElements.PanelSettings
+    items:
+    - {fileID: 11400000, guid: da6adae693698d3409943a20661e2031, type: 2}

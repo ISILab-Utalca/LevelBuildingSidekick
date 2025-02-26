@@ -39,6 +39,8 @@ namespace ISILab.LBS.VisualElements
         RemovePopulationTile removePopulationTile;
         RotatePopulationTile rotatePopulationTile;
 
+        private DropdownField type;
+        
         //Palletes
         private SimplePallete bundlePallete;
         private WarningPanel warningPanel;
@@ -145,11 +147,13 @@ namespace ISILab.LBS.VisualElements
                 var collection = evt.newValue as BundleCollection;
                 collectionField.value = collection;
                 _collection = collection;
+                _populationFilter = allFilter; // all by default
+
                 UpdateElementBundles();
                 
             });
             
-            var type =  this.Q<DropdownField>("Type");
+            type =  this.Q<DropdownField>("Type");
             type.choices = displayChoices.Keys.ToArray().ToList();
             type.RegisterValueChangedCallback(evt =>
             {
@@ -230,6 +234,8 @@ namespace ISILab.LBS.VisualElements
                 bundlePallete.DisplayContent(false);
                 return;
             }
+            
+            type.SetValueWithoutNotify(_populationFilter); 
             warningPanel.SetDisplay(false);
             bundlePallete.DisplayContent(true);
             var bundles = _collection.Collection;
@@ -260,6 +266,10 @@ namespace ISILab.LBS.VisualElements
                 optionView.Color = bundle.Color;
                 optionView.Icon = bundle.Icon;
             });
+            
+            // Save current selected options in layer
+            _target.selectedCollectionToSet = _collection;
+            _target.selectedTypeFilter = _populationFilter;
             
             bundlePallete.Repaint();
         }

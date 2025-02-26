@@ -8,6 +8,7 @@ using ISILab.Extensions;
 using ISILab.LBS.Modules;
 using LBS.Components.TileMap;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace ISILab.AI.Categorization
 {
@@ -93,7 +94,7 @@ namespace ISILab.AI.Categorization
                 }
                 else
                 {
-                    var source = (genes[i] as BundleData).Bundle.Icon;
+                    Texture2D source = (genes[i] as BundleData).Bundle.Icon;
                     var color = (genes[i] as BundleData).Bundle.Color;
                     var t = new Texture2D(source.width, source.height);
                     t.SetAllPixels(color);

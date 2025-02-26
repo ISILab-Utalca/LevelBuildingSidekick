@@ -3,10 +3,12 @@ using LBS.Components.TileMap;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
+using ISILab.LBS.Behaviours;
 
 namespace ISILab.LBS.VisualElements
 {
@@ -76,6 +78,27 @@ namespace ISILab.LBS.VisualElements
             border.style.borderLeftWidth = tags[2].Equals("Empty") ? 0f : borderThickness;
             border.style.borderBottomWidth = tags[3].Equals("Empty") ? 0f : borderThickness;
         }
+
+        /// <summary>
+        /// returns a dictionary of the connection points, where:
+        /// - key = direction (example: "up")
+        /// - value = connection type (example: "door")
+        ///
+        /// </summary>
+        /// <param name="tags"></param>
+        /// <returns></returns>
+        public static Dictionary<string,string> GetConnectionPoints(List<string> tags)
+        {
+            Dictionary<string, string> ConnectionPoints = new Dictionary<string, string>();
+
+            if(tags.Count > 0)  ConnectionPoints.Add("right", tags[0]);
+            if(tags.Count > 1)  ConnectionPoints.Add("top", tags[1]);
+            if(tags.Count > 2) ConnectionPoints.Add("left", tags[2]);
+            if(tags.Count > 3) ConnectionPoints.Add("bottom", tags[3]);
+
+            return ConnectionPoints; 
+        }
+
 
     }
 }

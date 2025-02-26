@@ -1,3 +1,4 @@
+using System;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Components;
 using ISILab.LBS.Editor;
@@ -8,7 +9,7 @@ using LBS.Bundles;
 using ISILab.LBS.Settings;
 using LBS.VisualElements;
 using System.Collections.Generic;
-
+using System.Resources;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -220,13 +221,14 @@ namespace ISILab.LBS.Behaviours.Editor
             var icon = Resources.Load<Texture2D>("Icons/BrushIcon");
             connectionPallete.SetIcon(icon, BHcolor);
 
+  
             var connections = _target.Connections;
             var options = new object[connections.Count];
             for (int i = 0; i < connections.Count; i++)
             {
                 options[i] = connections[i];
             }
-
+            
             // Select option event
             connectionPallete.OnSelectOption += (selected) =>
             {
@@ -236,18 +238,29 @@ namespace ISILab.LBS.Behaviours.Editor
                 ToolKit.Instance.SetActive("Set connection");
             };
 
-            // Init options
+            // Init options}
+            
             connectionPallete.SetOptions(options, (optionView, option) =>
             {
-                var conencts = (string)option;
-                optionView.Label = conencts;
-                optionView.Color = Color.black;
-            });
+                var arg1Label = (string)option;
+                optionView.Label = arg1Label;
+                optionView.Icon = GetOptionIcon(arg1Label);
 
+            });
+            
+            
             connectionPallete.OnRepaint += () => { connectionPallete.Selected = _target.conectionToSet; };
 
             connectionPallete.Repaint();
+        }
 
+        Texture2D GetOptionIcon(string label)
+        {
+            if(label == "Empty") return Resources.Load<Texture2D>("Icons/Behaviors/IconEmptyConnection");
+            if(label == "Wall") return Resources.Load<Texture2D>("Icons/Behaviors/IconWallConnection");
+            if(label == "Door") return Resources.Load<Texture2D>("Icons/Behaviors/IconDoorConnection");
+            if(label == "Window") return Resources.Load<Texture2D>("Icons/Behaviors/IconWindowsConnection");
+            return Resources.Load<Texture2D>("Icons/Behaviors/IconEmptyConnection");
         }
     }
 }

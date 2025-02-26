@@ -67,12 +67,16 @@ namespace ISILab.LBS.Behaviours
         {
             var tile = tileMap.GetTile(position);
             var group = bundleTileMap.GetGroup(tile);
-            
-            foreach(var groupTile in group.TileGroup)
+
+            //CHANGE FROM HERE
+            if (group != null)
             {
-                tileMap.RemoveTile(tile);
+                foreach (var groupTile in group.TileGroup)
+                {
+                    tileMap.RemoveTile(tile);
+                }
+                bundleTileMap.RemoveGroup(group);
             }
-            bundleTileMap.RemoveGroup(group);
         }
 
         public void SetBundle(TileBundleGroup group, Bundle bundle)

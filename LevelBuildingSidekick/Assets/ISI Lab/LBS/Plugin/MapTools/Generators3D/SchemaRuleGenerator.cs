@@ -282,6 +282,7 @@ namespace ISILab.LBS.Generators
                 if(tile == null) continue;
                 // Get zone
                 var zone = zonesMod.GetZone(tile);
+                if(zone == null) continue;
                 zone.AddPosition(tile.Position);
                 // Get bundle from current tile
                 var bundles = zone.GetInsideBundles();
@@ -311,6 +312,7 @@ namespace ISILab.LBS.Generators
                 // Set General position
                 tileObj.transform.position = basePos + tilePos - delta;
 
+                // TODO: add component for gizmos here 
 
                 // Set mainPivot as the parent of tileObj
                 tiles.Add(tileObj);
