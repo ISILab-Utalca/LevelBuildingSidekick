@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using ISILab.Commons.Utility;
+using UnityEngine.UIElements;
 
 namespace ISILab.Extensions
 {
@@ -184,6 +185,47 @@ namespace ISILab.Extensions
             }
 
             texture.Apply();
+        }
+        
+        public static Texture2D ConvertToTexture2D(VectorImage vectorImage, int width, int height)
+        {
+            if (vectorImage == null)
+            {
+                Debug.LogError("VectorImage is null!");
+                return null;
+            }
+
+            // Create a RenderTexture (temporary GPU texture)
+            RenderTexture renderTexture = new RenderTexture(width, height, 32);
+            renderTexture.enableRandomWrite = true;
+            renderTexture.Create();
+
+            // Create a new Texture2D
+            Texture2D texture = new Texture2D(width, height, TextureFormat.RGBA32, false);
+
+            // Create a UI Document to draw the VectorImage
+            var root = new VisualElement();
+            root.style.width = width;
+            root.style.height = height;
+            root.style.backgroundImage = vectorImage;
+
+            // Render the VisualElement into the RenderTexture
+            var panelSettings = ScriptableObject.CreateInstance<PanelSettings>();
+            var panel = RuntimePanel.Create(panelSettings);
+            panel.visualTree.Add(root);
+            panel.Repaint(renderTexture);
+
+            // Copy RenderTexture to Texture2D
+            RenderTexture.active = renderTexture;
+            texture.ReadPixels(new Rect(0, 0, width, height), 0, 0);
+            texture.Apply();
+            RenderTexture.active = null;
+
+            // Cleanup
+            Object.Destroy(panelSettings);
+            renderTexture.Release();
+
+            return texture;
         }
     }
 }

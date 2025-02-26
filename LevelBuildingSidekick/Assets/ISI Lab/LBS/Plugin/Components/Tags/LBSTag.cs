@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using ISILab.Commons.Attributes;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Components
 {
@@ -14,7 +15,7 @@ namespace ISILab.LBS.Components
         [ReadOnly]
         public string label;
         [SerializeField]
-        protected Texture2D icon;
+        protected VectorImage icon;
         [SerializeField]
         protected Color color;
         #endregion
@@ -33,13 +34,13 @@ namespace ISILab.LBS.Components
             }
         }
 
-        public Texture2D Icon
+        public VectorImage Icon
         {
             get
             {
                 if (icon == null)
                 {
-                    return Resources.Load<Texture2D>("Icons/Tag_Icon.png");
+                    return Resources.Load<VectorImage>("Icons/Tag_Icon.png"); // TODO change png to vector
                 }
                 return icon;
             }
@@ -75,7 +76,7 @@ namespace ISILab.LBS.Components
         #endregion
 
         #region METHODS
-        public void Init(string text, Color color, Texture2D icon)
+        public void Init(string text, Color color, VectorImage icon)
         {
             this.label = text;
             this.color = color;

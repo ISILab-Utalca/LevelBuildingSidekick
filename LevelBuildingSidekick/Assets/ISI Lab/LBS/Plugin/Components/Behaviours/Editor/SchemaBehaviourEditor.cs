@@ -1,3 +1,4 @@
+using System;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Components;
 using ISILab.LBS.Editor;
@@ -220,13 +221,14 @@ namespace ISILab.LBS.Behaviours.Editor
             var icon = Resources.Load<Texture2D>("Icons/BrushIcon");
             connectionPallete.SetIcon(icon, BHcolor);
 
+  
             var connections = _target.Connections;
             var options = new object[connections.Count];
             for (int i = 0; i < connections.Count; i++)
             {
                 options[i] = connections[i];
             }
-
+            
             // Select option event
             connectionPallete.OnSelectOption += (selected) =>
             {
@@ -237,13 +239,32 @@ namespace ISILab.LBS.Behaviours.Editor
             };
 
             // Init options
+            
             connectionPallete.SetOptions(options, (optionView, option) =>
             {
-                var conencts = (string)option;
-                optionView.Label = conencts;
-                optionView.Color = Color.black;
-            });
+                var connections = (string)option;
+                optionView.Label = connections;
+                Debug.Log(connections);
 
+                optionView.Icon = Resources.Load<VectorImage>("Icons/Vectorial/Icon=DoorConnection");
+                optionView.Color = Color.green;
+                foreach (var ve in optionView.Children())
+                {
+                    if(ve is BehaviourContent bc) Debug.Log(true);
+                    /*
+                    var VE = new VisualElement
+                    {
+                        style =
+                        {
+                            backgroundImage = new StyleBackground(Resources.Load<VectorImage>("Icons/Vectorial/Icon=DoorConnection"))
+                        }
+                    };
+                    ve.Add(VE);
+                    */
+                }
+            });
+            
+            
             connectionPallete.OnRepaint += () => { connectionPallete.Selected = _target.conectionToSet; };
 
             connectionPallete.Repaint();
