@@ -64,7 +64,7 @@ namespace ISILab.LBS.Modules
         //Check bundle size -> create group -> check tile location and add all tiles according to size.
 
         //Creates group from variables provided
-        public void CreateGroup(Vector2Int position, BundleData bundleData, Vector2 rotation, bool addGroup = true) {
+        public TileBundleGroup CreateGroup(Vector2Int position, BundleData bundleData, Vector2 rotation) {
 
             //Create group, then get the tilesize
             TileBundleGroup newGroup = new TileBundleGroup(new List<LBSTile>(), bundleData, rotation);
@@ -79,7 +79,8 @@ namespace ISILab.LBS.Modules
                 }
             }
 
-            if (addGroup) { AddGroup(newGroup); }
+            AddGroup(newGroup);
+            return newGroup;
         }
         
         //Adds a group to the group list and replaces anything in the way
@@ -318,10 +319,23 @@ namespace ISILab.LBS.Modules
         {
             return TileGroup.Find(t => t.Position == pos);
         }
+
+        public TileBundleGroup FindFromTile(LBSTile tile)
+        {
+            if(this.Contains(tile)) return this;
+            return null;
+        }
         //Get tile
         public LBSTile GetTile(LBSTile tile)
         {
             return TileGroup.Find(t => t == tile);
+        }
+
+        public bool HasTile(LBSTile tile)
+        {
+            if(GetTile(tile) == null) return false;
+
+            return true;
         }
 
         public object Clone()

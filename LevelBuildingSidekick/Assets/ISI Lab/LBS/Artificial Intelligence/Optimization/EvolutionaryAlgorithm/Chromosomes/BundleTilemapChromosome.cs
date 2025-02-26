@@ -15,15 +15,17 @@ namespace ISILab.AI.Categorization
     {
         public BundleTilemapChromosome(BundleTileMap tileMap, Rect rect, int[] immutables = null) : base(rect, immutables)
         {
-            var tiles = tileMap.Tiles;
+            var groups = tileMap.Groups;
 
-            foreach (var t in tiles)
-            {
-                if (!rect.Contains(t.Tile.Position))
-                    continue;
-                var i = ToIndex(t.Tile.Position - rect.position);
-                var data = t.BundleData.Clone() as BundleData;
-                ReplaceGene(i, data);
+            foreach(var group in groups) { 
+                foreach (var tile in group.TileGroup)
+                {
+                    if (!rect.Contains(tile.Position))
+                        continue;
+                    var i = ToIndex(tile.Position - rect.position);
+                    var data = group.BundleData.Clone() as BundleData;
+                    ReplaceGene(i, data);
+                }
             }
         }
 

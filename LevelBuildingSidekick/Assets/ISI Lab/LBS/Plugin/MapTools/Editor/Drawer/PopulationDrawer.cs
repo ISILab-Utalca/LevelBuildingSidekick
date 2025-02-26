@@ -22,9 +22,13 @@ namespace ISILab.LBS.Drawers
             {
                 var v = new PopulationTileView(t);
                 var size = population.Owner.TileSize * LBSSettings.Instance.general.TileSize;
-                var p = new Vector2(t.Tile.Position.x, -t.Tile.Position.y);
-                v.SetPosition(new Rect(p * size, size));
-                view.AddElement(v);
+                
+                foreach(var tile in t.TileGroup)
+                {
+                    var p = new Vector2(tile.Position.x, -tile.Position.y);
+                    v.SetPosition(new Rect(p * size, size));
+                    view.AddElement(v);
+                }
             }
         }
     }

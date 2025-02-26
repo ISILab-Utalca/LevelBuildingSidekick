@@ -15,10 +15,10 @@ namespace ISILab.LBS.Modules
     public class TaggedTileMap : LBSModule
     {
         [SerializeField, JsonRequired, SerializeReference]
-        private List<TileBundlePair> pairTiles = new List<TileBundlePair>();
+        private List<TileBundleGroup> tileGroups = new List<TileBundleGroup>();
 
         [JsonIgnore]
-        public List<TileBundlePair> PairTiles => pairTiles;
+        public List<TileBundleGroup> TileGroups => tileGroups;
 
         public Func<LBSTile, bool> OnRemoveTile { get; private set; }
 
@@ -30,49 +30,57 @@ namespace ISILab.LBS.Modules
             ID = GetType().Name;
         }
 
-        public TaggedTileMap(string key, List<TileBundlePair> tiles) : base(key)
+        public TaggedTileMap(string key, List<TileBundleGroup> groups) : base(key)
         {
-            this.pairTiles = tiles;
+            this.tileGroups = groups;
         }
 
         public override void Clear()
         {
-            for (int i = 0; i < pairTiles.Count; i++)
+            for (int i = 0; i < tileGroups.Count; i++)
             {
-                OnRemoveTile?.Invoke(pairTiles[i].Tile);
+                foreach(var tile in tileGroups[i].TileGroup) { 
+                    OnRemoveTile?.Invoke(tile);
+                }
             }
-            pairTiles.Clear();
+            tileGroups.Clear();
         }
 
         public BundleData GetBundleData(LBSTile tile)
         {
-            return pairTiles.Find(x => x.Tile == tile)?.BundleData;
+            var t = tileGroups.Find(g => g.HasTile(tile));
+            return t.BundleData;
         }
 
-        public void AddTile(LBSTile tile, Bundle bundle)
+        //This does nothing? But I'll change it for addGroup.
+        public void AddGroup(List<LBSTile> tiles, Bundle bundle)
         {
             var data = new BundleData(bundle.name, bundle.Characteristics);
-            AddTile(tile, data);
+            AddGroup(tiles, data);
         }
 
-        public void AddTile(LBSTile tile, BundleData data)
+        public void AddGroup(List<LBSTile> tiles, BundleData data)
         {
-            var t = pairTiles.Find(p => p.Tile.Equals(tile));
+            var t = tileGroups.Find(g => g.TileGroup == tiles);
 
             if (t == null)
             {
-                OnAddTile?.Invoke(tile);
-                t = pairTiles.Find(p => p.Tile.Equals(tile));
+                foreach (var groupTile in t.TileGroup)
+                {
+                    OnAddTile?.Invoke(groupTile);
+                }
+
+                t = tileGroups.Find(g => g.TileGroup == tiles);
             }
             t.BundleData = data;
         }
 
         public override object Clone()
         {
-            var dir = new List<TileBundlePair>();
-            foreach (var pair in pairTiles)
+            var dir = new List<TileBundleGroup>();
+            foreach (var group in TileGroups)
             {
-                dir.Add(new TileBundlePair(pair.Tile, pair.BundleData, pair.Rotation));
+                dir.Add(new TileBundleGroup(group.TileGroup, group.BundleData, group.Rotation));
             }
 
             return new TaggedTileMap(id, dir);
@@ -80,7 +88,7 @@ namespace ISILab.LBS.Modules
 
         public override bool IsEmpty()
         {
-            return pairTiles.Count == 0;
+            return tileGroups.Count == 0;
         }
 
         public override void OnAttach(LBSLayer layer)
@@ -102,33 +110,34 @@ namespace ISILab.LBS.Modules
             throw new System.NotImplementedException();
         }
 
-        public void RemoveTile(object tile)
+        public void RemoveGroup(object tile)
         {
             var toR = tile as LBSTile;
-            var xx = pairTiles.Find(x => x.Tile.Equals(toR));
-            pairTiles.Remove(xx);
+            var xx = tileGroups.Find(x => x.HasTile(toR));
+            tileGroups.Remove(xx);
         }
 
         public void AddEmpty(object tile)
         {
             var t = tile as LBSTile;
-            var xx = pairTiles.Find(x => x.Tile.Equals(t));
+            var xx = tileGroups.Find(x => x.HasTile(t));
             if (xx != null)
             {
                 xx.BundleData = null;
                 return;
             }
-            pairTiles.Add(new TileBundlePair(t, null, Vector2.right));
+            tileGroups.Add(new TileBundleGroup(new List<LBSTile> { t }, null, Vector2.right));
         }
 
         public override Rect GetBounds()
         {
-            var x = pairTiles.Min(p => p.Tile.Position.x);
-            var y = pairTiles.Min(p => p.Tile.Position.y);
-            var with = pairTiles.Max(p => p.Tile.Position.x) - x + 1;
-            var height = pairTiles.Max(p => p.Tile.Position.y) - y + 1;
+            var x = tileGroups.Min(p => p.TileGroup.Min(t => t.Position.x));
+            var y = tileGroups.Min(p => p.TileGroup.Min(t => t.Position.y));
 
-            return new Rect(x, y, with, height);
+            var width = tileGroups.Max(p => p.TileGroup.Max(t => t.Position.x)) - x + 1;
+            var height = tileGroups.Max(p => p.TileGroup.Max(t => t.Position.y)) - y + 1;
+
+            return new Rect(x, y, width, height);
         }
 
         public override void Rewrite(LBSModule module)
@@ -142,9 +151,9 @@ namespace ISILab.LBS.Modules
 
             Clear();
 
-            foreach (var p in tileMap.PairTiles)
+            foreach (var g in tileMap.TileGroups)
             {
-                AddTile(p.Tile, p.BundleData);
+                AddGroup(g.TileGroup, g.BundleData);
             }
         }
 

@@ -19,7 +19,7 @@ namespace ISILab.LBS.VisualElements
         VisualElement icon;
         VisualElement bg;
 
-        public PopulationTileView(TileBundlePair tile)
+        public PopulationTileView(TileBundleGroup tile)
         {
             if (view == null)
             {
