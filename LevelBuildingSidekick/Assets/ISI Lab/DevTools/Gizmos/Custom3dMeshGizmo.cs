@@ -12,6 +12,7 @@ namespace ISI_Lab.DevTools.Gizmos
         public Mesh gizmoMesh;
         [Range(0f,1f)]
         public float meshGizmoScale = 0.3f;
+        public Vector3 worldPosition = Vector3.zero;
         
         [HideInInspector]
         public Bounds gizmoBounds;
@@ -22,7 +23,7 @@ namespace ISI_Lab.DevTools.Gizmos
             MeshRenderer mr = GetComponent<MeshRenderer>();
             if (mr)
             {
-                
+                worldPosition = mr.bounds.center;
                 gizmoBounds = mr.bounds;
                 Gizmos.color = this.gizmoColor;
                 Gizmos.DrawWireCube(mr.bounds.center, mr.bounds.size);      
