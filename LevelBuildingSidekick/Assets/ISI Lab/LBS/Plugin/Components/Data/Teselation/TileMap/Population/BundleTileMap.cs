@@ -7,7 +7,6 @@ using LBS.Components;
 using LBS.Components.TileMap;
 using Newtonsoft.Json;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Modules
 {
@@ -15,12 +14,12 @@ namespace ISILab.LBS.Modules
     {
         #region FIELDS
         [SerializeField, JsonRequired, SerializeReference]
-        protected List<TileBundleGroup> groups = new List<TileBundleGroup>();
+        protected List<TileBundlePair> tiles = new List<TileBundlePair>();
         #endregion
 
         #region PROPERTIES
         [JsonIgnore]
-        public List<TileBundleGroup> Groups => new List<TileBundleGroup>(groups);
+        public List<TileBundlePair> Tiles => new List<TileBundlePair>(tiles);
         #endregion
 
         #region CONSTRUCTORS
@@ -29,7 +28,6 @@ namespace ISILab.LBS.Modules
             id = GetType().Name;
         }
 
-        //This one has to be compatible with groups so let's see how I'll make groups work
         public BundleTileMap(IEnumerable<TileBundlePair> tiles, string id = "ConnectedTileMapModule") : base(id)
         {
             foreach (var t in tiles)
@@ -40,10 +38,6 @@ namespace ISILab.LBS.Modules
         #endregion
 
         #region METHODS
-        //For a bundle to add a tile, it should always add the entire group.
-        //Check bundle size -> create group -> check tile location and add all tiles according to size.
-
-        //TODO: Need to be able to check if a tile is in a bundle group. "foreach(TileBundleGroup group in groups) -> foreach(LBSTile tile in group.tileGroup)"
         public void AddTile(TileBundlePair tile)
         {
             var t = GetTile(tile.Tile);
@@ -73,18 +67,6 @@ namespace ISILab.LBS.Modules
         }
 
         public void AddTile(LBSTile tile, BundleData bundleData, Vector2 rotation) => AddTile(new TileBundlePair(tile, bundleData, rotation));
-
-        //First of all, the option to create a group.
-        //It needs a starting position, so either a tile or a position!
-        public void AddGroup(TileBundleGroup group)
-        {
-
-        }
-
-        public void AddGroup(LBSTile tile, BundleData bundleData, Vector2 rotation) => AddGroup(new TileBundleGroup(new List<LBSTile> { tile }, bundleData, rotation) );
-        //This one starts it from a position.
-        public void AddGroup(Vector2Int position, BundleData bundleData, Vector2 rotation) => AddGroup(new TileBundleGroup(new List<LBSTile> { new LBSTile(position) }, bundleData, rotation) );
-          
 
         public TileBundlePair GetTile(LBSTile tile)
         {
@@ -203,7 +185,6 @@ namespace ISILab.LBS.Modules
         #endregion
     }
 
-    //deprecated lol
     [System.Serializable]
     public class TileBundlePair : ICloneable
     {
@@ -271,91 +252,86 @@ namespace ISILab.LBS.Modules
             return base.GetHashCode();
         }
     }
-
-    /// <summary>
-    /// So TileBundlePairs are a little too limited in functionality since they only link a tile to bundle data and that's it.
-    /// I made a reworked version that SHOULD allow for multiple tiles to be stored with an ID.
-    /// </summary>
-    [System.Serializable]
-    public class TileBundleGroup : ICloneable
-    {
-        [SerializeField, JsonRequired]
-        List<LBSTile> tileGroup = new List<LBSTile>();
-        [SerializeField, JsonRequired]
-        BundleData bData;
-        [SerializeField, JsonRequired]
-        Vector2 rotation;
-
-        #region PROPERTIES
-        [JsonIgnore]
-        public List<LBSTile> TileGroup
-        {
-            get => tileGroup;
-            set => tileGroup = value;
-        }
-
-        [JsonIgnore]
-        public BundleData BundleData
-        {
-            get => bData;
-            set => bData = value;
-        }
-
-        [JsonIgnore]
-        public Vector2 Rotation
-        {
-            get => rotation;
-            set => rotation = value;
-        }
-        public TileBundleGroup(List<LBSTile> tiles, BundleData bData, Vector2 rotation)
-        {
-            this.tileGroup = tiles;
-            this.bData = bData;
-            this.rotation = rotation;
-        }
-        #endregion
-
-        #region METHODS
-        public Vector2Int GetBundleSize()
-        {
-            return bData.Bundle.TileSize;
-        }
-
-        public object Clone()
-        {
-            List<LBSTile> clonedTileGroup = new List<LBSTile>();
-            foreach (LBSTile tile in tileGroup)
-            {
-                clonedTileGroup.Add(tile.Clone() as LBSTile);
-            }
-            return new TileBundleGroup(clonedTileGroup, bData.Clone() as BundleData, rotation);
-        }
-
-        public override bool Equals(object obj)
-        {
-            var other = obj as TileBundleGroup;
-
-            if (other == null) return false;
-
-            if (tileGroup.Count != other.tileGroup.Count) return false;
-
-            for (int i = 0; i < tileGroup.Count; i++)
-            {
-                if (!tileGroup[i].Equals(other.tileGroup[i])) return false;
-            }
-
-            if (!this.bData.Equals(other.bData)) return false;
-
-            if (!this.rotation.Equals(other.rotation)) return false;
-
-            return true;
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-        #endregion
-    }
 }
 
+/// <summary>
+/// So TileBundlePairs are a little too limited in functionality since they only link a tile to bundle data and that's it.
+/// I made a reworked version that SHOULD allow for multiple tiles to be stored with an ID.
+/// </summary>
+[System.Serializable]
+public class TileBundleGroup : ICloneable
+{
+    [SerializeField, JsonRequired]
+    List<LBSTile> tileGroup = new List<LBSTile>();
+    [SerializeField, JsonRequired]
+    BundleData bData;
+    [SerializeField, JsonRequired]
+    Vector2 rotation;
+
+    [JsonIgnore]
+    public List<LBSTile> TileGroup
+    {
+        get => tileGroup;
+        set => tileGroup = value;
+    }
+
+    [JsonIgnore]
+    public BundleData BundleData
+    {
+        get => bData;
+        set => bData = value;
+    }
+
+    [JsonIgnore]
+    public Vector2 Rotation
+    {
+        get => rotation;
+        set => rotation = value;
+    }
+    public TileBundleGroup(List<LBSTile> tiles, BundleData bData, Vector2 rotation)
+    {
+        this.tileGroup = tiles;
+        this.bData = bData;
+        this.rotation = rotation;
+    }
+
+    public Vector2Int GetBundleSize()
+    {
+        return bData.Bundle.TileSize;
+    }
+
+    public object Clone()
+    {
+        List<LBSTile> clonedTileGroup = new List<LBSTile>();
+        foreach(LBSTile tile in tileGroup)
+        {
+            clonedTileGroup.Add(tile.Clone() as LBSTile);
+        }
+        return new TileBundleGroup(clonedTileGroup, bData.Clone() as BundleData, rotation);
+    }
+
+    public override bool Equals(object obj)
+    {
+        var other = obj as TileBundleGroup;
+
+        if (other == null) return false;
+
+        if (tileGroup.Count != other.tileGroup.Count) return false;
+        
+        for(int i=0; i<tileGroup.Count; i++)
+        {
+            if (!tileGroup[i].Equals(other.tileGroup[i])) return false;
+        }
+
+        if (!this.bData.Equals(other.bData)) return false;
+
+        if (!this.rotation.Equals(other.rotation)) return false;
+
+        return true;
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
+}
