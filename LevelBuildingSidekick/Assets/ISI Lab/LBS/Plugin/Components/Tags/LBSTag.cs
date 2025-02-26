@@ -15,7 +15,7 @@ namespace ISILab.LBS.Components
         [ReadOnly]
         public string label;
         [SerializeField]
-        protected VectorImage icon;
+        protected Texture2D icon;
         [SerializeField]
         protected Color color;
         #endregion
@@ -34,13 +34,13 @@ namespace ISILab.LBS.Components
             }
         }
 
-        public VectorImage Icon
+        public Texture2D Icon
         {
             get
             {
                 if (icon == null)
                 {
-                    return Resources.Load<VectorImage>("Icons/Tag_Icon.png"); // TODO change png to vector
+                    return Resources.Load<Texture2D>("Icons/Tag_Icon.png");
                 }
                 return icon;
             }
@@ -76,7 +76,7 @@ namespace ISILab.LBS.Components
         #endregion
 
         #region METHODS
-        public void Init(string text, Color color, VectorImage icon)
+        public void Init(string text, Color color, Texture2D icon)
         {
             this.label = text;
             this.color = color;

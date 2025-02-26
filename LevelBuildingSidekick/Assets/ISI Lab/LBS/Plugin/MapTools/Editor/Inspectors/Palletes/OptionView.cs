@@ -45,9 +45,9 @@ namespace LBS.VisualElements
             set => label.text = value;
         }
 
-        public VectorImage Icon
+        public Texture2D Icon
         {
-            set => icon.style.backgroundImage = new StyleBackground(value as VectorImage);
+            set => icon.style.backgroundImage = value;
         }
 
         public Color Color

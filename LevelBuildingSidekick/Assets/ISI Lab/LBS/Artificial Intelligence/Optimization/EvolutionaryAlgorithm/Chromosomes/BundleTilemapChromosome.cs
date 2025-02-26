@@ -92,7 +92,7 @@ namespace ISILab.AI.Categorization
                 }
                 else
                 {
-                    VectorImage source = (genes[i] as BundleData).Bundle.Icon;
+                    Texture2D source = (genes[i] as BundleData).Bundle.Icon;
                     var color = (genes[i] as BundleData).Bundle.Color;
                     var t = new Texture2D(source.width, source.height);
                     t.SetAllPixels(color);
