@@ -1,5 +1,9 @@
 
 using ISILab.LBS.Modules;
+using ISILab.LBS.VisualElements;
+using LBS.Bundles;
+using UnityEditor.UIElements;
+using UnityEngine.UIElements;
 
 namespace ISI_Lab.DevTools.Gizmos.Editor
 {
@@ -9,29 +13,50 @@ namespace ISI_Lab.DevTools.Gizmos.Editor
     [CustomEditor(typeof(Custom3dMeshGizmo))]
     public class Custom3dMeshGizmoEditor : Editor
     {
+        private VisualElement rootVisualElement;
         private bool isVisible = false;
         private Rect popupRect;
 
-        void OnSceneGUI()
+
+        private const float buttonSize = 18;
+        private const float yOffset = 64;
+        
+        void OnEnable()
+        {
+            SceneView.duringSceneGui += OnSceneGUI;
+        }
+        
+        void OnDisable()
+        {
+            SceneView.duringSceneGui -= OnSceneGUI;
+            RemoveUI();
+        }
+        
+        private void RemoveUI()
+        {
+            if (rootVisualElement != null)
+            {
+                rootVisualElement.RemoveFromHierarchy();
+                rootVisualElement = null;
+            }
+        }
+        
+        void OnSceneGUI(SceneView sceneView)
         {
             Custom3dMeshGizmo targetComponent = (Custom3dMeshGizmo)target;
-            popupRect = new Rect(10, 10, 150, 100);
-            
-            
-            Vector3 center = targetComponent.transform.position;
-            Vector2 screenPoint =  RectTransformUtility.WorldToScreenPoint(Camera.current, center);
-            
-            Handles.BeginGUI();
-            if (GUI.Button(new Rect(screenPoint.x, screenPoint.y, 100, 20), "Toggle Popup"))
+            Vector3 center = targetComponent.worldPosition;
+            Vector2 screenPoint = HandleUtility.WorldToGUIPoint(center);
+
+            if (rootVisualElement == null)
             {
-                isVisible = !isVisible;
+                rootVisualElement = new WorldEditBarView(targetComponent.gameObject);
+                sceneView.rootVisualElement.Add(rootVisualElement);
             }
 
-            if (isVisible)
-            {
-                GUILayout.Window(0, popupRect, DrawPopupWindow, "Popup Window");
-            }
-            Handles.EndGUI();
+            rootVisualElement.style.position = Position.Absolute;
+            // Update position
+            rootVisualElement.style.left = screenPoint.x - rootVisualElement.resolvedStyle.width/2;
+            rootVisualElement.style.top = screenPoint.y - yOffset;
         }
         
         void DrawPopupWindow(int windowID)
