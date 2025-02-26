@@ -8,6 +8,7 @@ using LBS.Components.TileMap;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static UnityEditor.PlayerSettings;
 
 namespace ISILab.LBS.Modules
 {
@@ -30,118 +31,150 @@ namespace ISILab.LBS.Modules
         }
 
         //This one has to be compatible with groups so let's see how I'll make groups work
-        public BundleTileMap(IEnumerable<TileBundlePair> tiles, string id = "ConnectedTileMapModule") : base(id)
+        public BundleTileMap(IEnumerable<TileBundleGroup> groups, string id = "ConnectedTileMapModule") : base(id)
         {
-            foreach (var t in tiles)
+            foreach (var t in groups)
             {
-                AddTile(t);
+                AddGroupTiles(t);
             }
         }
         #endregion
 
         #region METHODS
+        //METHODS TO REPLACE ELSEWHERE
+        //AddTile -> CreateGroup
+        //GetTIle -> GetGroup
+        //RemoveTile -> RemoveGroup
+
         //For a bundle to add a tile, it should always add the entire group.
         //Check bundle size -> create group -> check tile location and add all tiles according to size.
+        
+        //Screw it, let's make the whole thing here lol
+        public void CreateGroup(Vector2Int position, BundleData bundleData, Vector2 rotation, bool addGroup = true) {
 
-        //TODO: Need to be able to check if a tile is in a bundle group. "foreach(TileBundleGroup group in groups) -> foreach(LBSTile tile in group.tileGroup)"
-        public void AddTile(TileBundlePair tile)
-        {
-            var t = GetTile(tile.Tile);
-            if (t != null)
+            //Create group, then get the tilesize
+            TileBundleGroup newGroup = new TileBundleGroup(new List<LBSTile>(), bundleData, rotation);
+            Vector2Int groupSize = newGroup.GetBundleSize();
+            
+            //Fill group with tiles according to tilesize
+            for(int i=0; i<groupSize.x; i++)
             {
-                tiles.Remove(t);
-            }
-
-            OnChanged?.Invoke(this, null, new List<object>() { tile });
-
-            //Generate according to tilesize
-            Vector2Int newTileSize = tile.GetBundleSize();
-            Debug.Log("Tile size: X "+ newTileSize.x + "/ Y" + newTileSize.y);
-
-            for(int i=0; i<newTileSize.x; i++)
-            {
-                for (int j = 0; j < newTileSize.y; j++)
+                for(int j=0; j<groupSize.y; j++)
                 {
-
+                    newGroup.TileGroup.Add( new LBSTile( new Vector2( position.x + i, position.y + j ) ) );
                 }
             }
-            Debug.Log("adding tile at " + tile.Tile.Position);
-            tiles.Add(tile);
+            //This creates the group, now all that's left is to add it.
 
-            Debug.Log("adding population tile");
+            if (addGroup) { AddGroupTiles(newGroup); }
 
+            //TODO: I need a method that checks a tile and checks if it's part of any group already active. Will do it after the one that adds the group.
+        }
+        
+        //Executed alongside the one that creates a group by default
+        public void AddGroupTiles(TileBundleGroup group)
+        {
+            foreach(LBSTile tile in group.TileGroup)
+            {
+                //Check if there's tiles and remove their respective groups.
+                var groupToRemove = GetGroup(tile);
+                if (groupToRemove != null)
+                {
+                    groups.Remove(groupToRemove);
+                }
+            }
+            //OnChanged
+            OnChanged?.Invoke(this, null, new List<object>() { group });
+
+            //Then add the group!
+            groups.Add(group);
         }
 
-        public void AddTile(LBSTile tile, BundleData bundleData, Vector2 rotation) => AddTile(new TileBundlePair(tile, bundleData, rotation));
-
-        //First of all, the option to create a group.
-        //It needs a starting position, so either a tile or a position!
-        public void AddGroup(TileBundleGroup group)
+        public TileBundleGroup GetGroup(LBSTile tile)
         {
-
-        }
-
-        public void AddGroup(LBSTile tile, BundleData bundleData, Vector2 rotation) => AddGroup(new TileBundleGroup(new List<LBSTile> { tile }, bundleData, rotation) );
-        //This one starts it from a position.
-        public void AddGroup(Vector2Int position, BundleData bundleData, Vector2 rotation) => AddGroup(new TileBundleGroup(new List<LBSTile> { new LBSTile(position) }, bundleData, rotation) );
-          
-
-        public TileBundlePair GetTile(LBSTile tile)
-        {
-            if (tiles.Count <= 0)
+            //The obvious
+            if (groups.Count <= 0)
                 return null;
-            return tiles.Find(t => t.Tile.Equals(tile));
 
+            //Then, find the specific tile and return the group
+            foreach (TileBundleGroup group in groups)
+            {
+                LBSTile searchTile = group.TileGroup.Find(t => t == tile);
+                if (searchTile != null) { return group; }
+            }
+            return null;
         }
 
-        public TileBundlePair GetTile(Vector2 pos)
+        public TileBundleGroup GetGroup(Vector2 pos)
         {
-            if (tiles.Count <= 0)
+            if (groups.Count <= 0)
                 return null;
-            return tiles.Find(t => t.Tile.Position == pos);
+            //return groups.Find(t => t.Tiles.Position == pos);
 
+            //Find the position and return the group if it isn't null
+            foreach (TileBundleGroup group in groups)
+            {
+                LBSTile searchTile = group.TileGroup.Find(t => t.Position == pos);
+                if (searchTile != null) { return group; }
+            }
+            return null;
         }
 
-        public void RemoveTile(LBSTile tile)
+        //Remove group from group
+        public void RemoveGroup(TileBundleGroup group)
         {
-            var t = GetTile(tile);
+            if (groups.Count <= 0) return;
 
-            OnChanged?.Invoke(this, new List<object>() { t }, null);
-
-            tiles.Remove(t);
+            OnChanged?.Invoke(this, new List<object>() { group }, null);
+            groups.Remove(group);
         }
 
-        public void RemoveTile(int index) => RemoveTile(tiles[index].Tile);
+        public void RemoveGroup(LBSTile tile)
+        {
+            TileBundleGroup groupToRemove = GetGroup(tile);
+            if (groupToRemove != null) { RemoveGroup(groupToRemove); }
+
+            return;
+        }
+
+        public void RemoveGroup(int index) => RemoveGroup(groups[index]);
 
         public bool Contains(LBSTile tile)
         {
-            if (tiles.Count <= 0)
+            if (groups.Count <= 0)
                 return false;
-            return tiles.Any(t => t.Tile.Equals(tile));
+            foreach (TileBundleGroup group in groups)
+            {
+                bool tileExists = group.TileGroup.Any(t => t == tile);
+                if(tileExists) return true;
+            }
+            return false;
         }
 
         public override Rect GetBounds()
         {
-            if (tiles == null || tiles.Count == 0)
+            if (groups == null || groups.Count == 0)
             {
                 return new Rect(Vector2.zero, Vector2.zero);
             }
-            return tiles.Select(t => t.Tile).GetBounds();
+
+            //I have no idea if this works but I want to see because I'm tired of the entire code flashing red!!
+            return groups.Select(t => t.TileGroup[0]).GetBounds();
         }
 
         public override bool IsEmpty()
         {
-            return tiles.Count <= 0;
+            return groups.Count <= 0;
         }
 
         public override void Clear()
         {
-            tiles.Clear();
+            groups.Clear();
         }
 
         public override object Clone()
         {
-            return new BundleTileMap(tiles.Select(t => t.Clone()).Cast<TileBundlePair>(), ID);
+            return new BundleTileMap(groups.Select(t => t.Clone()).Cast<TileBundleGroup>(), ID);
         }
 
         public override void Rewrite(LBSModule module)
@@ -152,12 +185,12 @@ namespace ISILab.LBS.Modules
                 return;
             }
 
-            OnChanged?.Invoke(this, new List<object>(tiles), new List<object>(map.tiles));
+            OnChanged?.Invoke(this, new List<object>(groups), new List<object>(map.groups));
 
             Clear();
-            foreach (var t in map.tiles)
+            foreach (var t in map.groups)
             {
-                AddTile(t);
+                AddGroupTiles(t);
             }
         }
 
@@ -165,11 +198,11 @@ namespace ISILab.LBS.Modules
         {
             var pos = Owner.ToFixedPosition(position);
             var r = new List<object>();
-            var tile = GetTile(pos);
+            var group = GetGroup(pos);
 
-            if (tile != null)
+            if (group != null)
             {
-                r.Add(tile.BundleData);
+                r.Add(group.BundleData);
             }
 
             return r;
@@ -181,14 +214,14 @@ namespace ISILab.LBS.Modules
 
             if (other == null) return false;
 
-            var tCount = other.tiles.Count;
+            var tCount = other.groups.Count;
 
-            if (tCount != this.tiles.Count) return false;
+            if (tCount != this.groups.Count) return false;
 
             for (int i = 0; i < tCount; i++)
             {
-                var t1 = other.tiles[i];
-                var t2 = this.tiles[i];
+                var t1 = other.groups[i];
+                var t2 = this.groups[i];
 
                 if (!t1.Equals(t2)) return false;
             }
@@ -201,75 +234,6 @@ namespace ISILab.LBS.Modules
             return base.GetHashCode();
         }
         #endregion
-    }
-
-    //deprecated lol
-    [System.Serializable]
-    public class TileBundlePair : ICloneable
-    {
-        [SerializeField, JsonRequired]
-        LBSTile tile;
-        [SerializeField, JsonRequired]
-        BundleData bData;
-        [SerializeField, JsonRequired]
-        Vector2 rotation;
-
-        [JsonIgnore]
-        public LBSTile Tile
-        {
-            get => tile;
-            set => tile = value;
-        }
-
-        [JsonIgnore]
-        public BundleData BundleData
-        {
-            get => bData;
-            set => bData = value;
-        }
-
-        [JsonIgnore]
-        public Vector2 Rotation
-        {
-            get => rotation;
-            set => rotation = value;
-        }
-        public TileBundlePair(LBSTile tile, BundleData bData, Vector2 rotation)
-        {
-            this.tile = tile;
-            this.bData = bData;
-            this.rotation = rotation;
-        }
-
-        public Vector2Int GetBundleSize()
-        {
-            return bData.Bundle.TileSize;
-        }
-
-        public object Clone()
-        {
-            return new TileBundlePair(tile.Clone() as LBSTile, bData.Clone() as BundleData, rotation);
-        }
-
-        public override bool Equals(object obj)
-        {
-            var other = obj as TileBundlePair;
-
-            if (other == null) return false;
-
-            if (!this.tile.Equals(other.tile)) return false;
-
-            if (!this.bData.Equals(other.bData)) return false;
-
-            if (!this.rotation.Equals(other.rotation)) return false;
-
-            return true;
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
     }
 
     /// <summary>
@@ -323,12 +287,7 @@ namespace ISILab.LBS.Modules
 
         public object Clone()
         {
-            List<LBSTile> clonedTileGroup = new List<LBSTile>();
-            foreach (LBSTile tile in tileGroup)
-            {
-                clonedTileGroup.Add(tile.Clone() as LBSTile);
-            }
-            return new TileBundleGroup(clonedTileGroup, bData.Clone() as BundleData, rotation);
+            return new TileBundleGroup(tileGroup.Clone(), bData.Clone() as BundleData, rotation);
         }
 
         public override bool Equals(object obj)
