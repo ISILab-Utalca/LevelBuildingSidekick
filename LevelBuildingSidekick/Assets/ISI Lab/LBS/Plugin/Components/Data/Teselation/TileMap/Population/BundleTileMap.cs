@@ -35,7 +35,7 @@ namespace ISILab.LBS.Modules
         {
             foreach (var t in groups)
             {
-                AddGroupTiles(t);
+                AddGroup(t);
             }
         }
         #endregion
@@ -46,10 +46,24 @@ namespace ISILab.LBS.Modules
         //GetTIle -> GetGroup
         //RemoveTile -> RemoveGroup
 
+        //METHODS THAT ARE NECESSARY
+        // - Create group from a position, bundledata and rotation combo = Check!
+        // - Add group to the group list, replacing anything in the way = Check!
+
+        // - Get group from tile = Check!
+        // - Get group from location = Check!
+        // - Remove group = Check! ( From tile = Check! / From index = Check!)+
+
+        // - Get tile from group = Can be done from group
+        // - Get tile from position = Can be done from group
+
+        // - Check if tilemap has tile = Check!
+        // - Check if tilemap has group = Check!
+
         //For a bundle to add a tile, it should always add the entire group.
         //Check bundle size -> create group -> check tile location and add all tiles according to size.
-        
-        //Screw it, let's make the whole thing here lol
+
+        //Creates group from variables provided
         public void CreateGroup(Vector2Int position, BundleData bundleData, Vector2 rotation, bool addGroup = true) {
 
             //Create group, then get the tilesize
@@ -64,15 +78,12 @@ namespace ISILab.LBS.Modules
                     newGroup.TileGroup.Add( new LBSTile( new Vector2( position.x + i, position.y + j ) ) );
                 }
             }
-            //This creates the group, now all that's left is to add it.
 
-            if (addGroup) { AddGroupTiles(newGroup); }
-
-            //TODO: I need a method that checks a tile and checks if it's part of any group already active. Will do it after the one that adds the group.
+            if (addGroup) { AddGroup(newGroup); }
         }
         
-        //Executed alongside the one that creates a group by default
-        public void AddGroupTiles(TileBundleGroup group)
+        //Adds a group to the group list and replaces anything in the way
+        public void AddGroup(TileBundleGroup group)
         {
             foreach(LBSTile tile in group.TileGroup)
             {
@@ -90,6 +101,7 @@ namespace ISILab.LBS.Modules
             groups.Add(group);
         }
 
+        //Gets a group from any tile
         public TileBundleGroup GetGroup(LBSTile tile)
         {
             //The obvious
@@ -105,11 +117,11 @@ namespace ISILab.LBS.Modules
             return null;
         }
 
+        //Gets a group from a position
         public TileBundleGroup GetGroup(Vector2 pos)
         {
             if (groups.Count <= 0)
                 return null;
-            //return groups.Find(t => t.Tiles.Position == pos);
 
             //Find the position and return the group if it isn't null
             foreach (TileBundleGroup group in groups)
@@ -120,25 +132,23 @@ namespace ISILab.LBS.Modules
             return null;
         }
 
-        //Remove group from group
+        //Remove group
         public void RemoveGroup(TileBundleGroup group)
         {
             if (groups.Count <= 0) return;
+            if (group == null) return;
 
             OnChanged?.Invoke(this, new List<object>() { group }, null);
             groups.Remove(group);
         }
 
-        public void RemoveGroup(LBSTile tile)
-        {
-            TileBundleGroup groupToRemove = GetGroup(tile);
-            if (groupToRemove != null) { RemoveGroup(groupToRemove); }
-
-            return;
-        }
-
+        //Remove group from tile
+        public void RemoveGroup(LBSTile tile) => RemoveGroup(GetGroup(tile));
+        
+        //Remove group from index
         public void RemoveGroup(int index) => RemoveGroup(groups[index]);
-
+        
+        //Check if there's a tile on the tilemap
         public bool Contains(LBSTile tile)
         {
             if (groups.Count <= 0)
@@ -150,7 +160,15 @@ namespace ISILab.LBS.Modules
             }
             return false;
         }
-
+        //Check if there's a group on the tilemap
+        public bool Contains(TileBundleGroup group)
+        {
+            if(groups.Count <= 0) return false;
+            if(groups.Any(t => t == group)) return true;
+            return false;
+        }
+        
+        //Idk if this one works, modify if it breaks anything
         public override Rect GetBounds()
         {
             if (groups == null || groups.Count == 0)
@@ -190,10 +208,11 @@ namespace ISILab.LBS.Modules
             Clear();
             foreach (var t in map.groups)
             {
-                AddGroupTiles(t);
+                AddGroup(t);
             }
         }
-
+        
+        //Selects groups, probably needs fixing
         public List<object> GetSelected(Vector2Int position)
         {
             var pos = Owner.ToFixedPosition(position);
@@ -280,9 +299,29 @@ namespace ISILab.LBS.Modules
         #endregion
 
         #region METHODS
+        //Returns bundle size
         public Vector2Int GetBundleSize()
         {
             return bData.Bundle.TileSize;
+        }
+
+        //Check if group contains tile
+        public bool Contains(LBSTile tile)
+        {
+            if(tileGroup.Count <= 0) return false;
+            if (tileGroup.Any(t => t == tile)) return true;
+            return false;
+        }
+
+        //Get tile from position
+        public LBSTile GetTile(Vector2Int pos)
+        {
+            return TileGroup.Find(t => t.Position == pos);
+        }
+        //Get tile
+        public LBSTile GetTile(LBSTile tile)
+        {
+            return TileGroup.Find(t => t == tile);
         }
 
         public object Clone()
