@@ -282,6 +282,7 @@ namespace ISILab.LBS.Generators
                 if(tile == null) continue;
                 // Get zone
                 var zone = zonesMod.GetZone(tile);
+                if(zone == null) continue;
                 zone.AddPosition(tile.Position);
                 // Get bundle from current tile
                 var bundles = zone.GetInsideBundles();
