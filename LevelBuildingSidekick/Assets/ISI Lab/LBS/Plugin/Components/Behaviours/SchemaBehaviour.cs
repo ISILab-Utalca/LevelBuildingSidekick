@@ -15,6 +15,7 @@ using UnityEngine;
 
 namespace ISILab.LBS.Behaviours
 {
+    
     [System.Serializable]
     [RequieredModule(typeof(TileMapModule),
         typeof(ConnectedTileMapModule),
@@ -23,11 +24,16 @@ namespace ISILab.LBS.Behaviours
     public class SchemaBehaviour : LBSBehaviour
     {
         #region READONLY-FIELDS
+        
         [JsonIgnore]
         private static List<string> connections = new List<string>() // esto puede ser remplazado despues (!)
-    {
-        "Wall", "Door", "Empty"
-    };
+        {
+            "Empty", // for clearing a wall
+            "Wall", // default wall connection 
+                "Door", // within wall connection
+                "Window" // within wall connection
+        };
+        
         #endregion
 
         #region FIELDS

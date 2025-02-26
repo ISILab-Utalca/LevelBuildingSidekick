@@ -8,6 +8,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Serialization;
+using UnityEngine.UIElements;
 
 namespace LBS.Bundles
 {
