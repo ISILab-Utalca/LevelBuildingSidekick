@@ -20,6 +20,7 @@ namespace ISI_Lab.DevTools.Gizmos.Editor
             
             Vector3 center = targetComponent.transform.position;
             Vector2 screenPoint =  RectTransformUtility.WorldToScreenPoint(Camera.current, center);
+            //RectTransformUtility.ScreenPointToLocalPointInRectangle()
             
             Handles.BeginGUI();
             if (GUI.Button(new Rect(screenPoint.x, screenPoint.y, 100, 20), "Toggle Popup"))
