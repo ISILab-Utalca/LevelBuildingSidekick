@@ -488,7 +488,7 @@ Toggle > .lbs-default-icon {
     align-self: stretch;
     justify-content: space-around;
     display: flex;
-    transition-duration: 0.25s;
+    transition-duration: 0.2s;
     transition-timing-function: ease;
 }
 
