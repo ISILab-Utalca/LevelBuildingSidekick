@@ -50,6 +50,15 @@ namespace ISILab.LBS.VisualElements
             //arrows[dir].visible = true;
         }
 
+        public void SetSize(Vector2 vector)
+        {
+            bg.style.width = vector.x;
+            bg.style.height = vector.y;
+
+            //arrows.ForEach(v => v.visible = false);
+            //arrows[dir].visible = true;
+        }
+
         public void SetColor(Color color)
         {
             bg.style.backgroundColor = color;

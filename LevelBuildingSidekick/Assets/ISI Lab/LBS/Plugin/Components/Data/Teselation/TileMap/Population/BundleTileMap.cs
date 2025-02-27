@@ -75,7 +75,7 @@ namespace ISILab.LBS.Modules
             {
                 for(int j=0; j<groupSize.y; j++)
                 {
-                    newGroup.TileGroup.Add( new LBSTile( new Vector2( position.x + i, position.y + j ) ) );
+                    newGroup.TileGroup.Add( new LBSTile( new Vector2( position.x + i, position.y - j ) ) );
                 }
             }
 
@@ -309,7 +309,7 @@ namespace ISILab.LBS.Modules
         //Check if group contains tile
         public bool Contains(LBSTile tile)
         {
-            if(tileGroup.Count <= 0) return false;
+            if (tileGroup.Count <= 0) return false;
             if (tileGroup.Any(t => t == tile)) return true;
             return false;
         }
@@ -325,17 +325,11 @@ namespace ISILab.LBS.Modules
             if(this.Contains(tile)) return this;
             return null;
         }
+
         //Get tile
         public LBSTile GetTile(LBSTile tile)
         {
             return TileGroup.Find(t => t == tile);
-        }
-
-        public bool HasTile(LBSTile tile)
-        {
-            if(GetTile(tile) == null) return false;
-
-            return true;
         }
 
         public object Clone()

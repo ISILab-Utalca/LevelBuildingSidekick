@@ -22,8 +22,9 @@ namespace ISILab.LBS.Drawers
             {
                 var v = new PopulationTileView(t);
                 var size = population.Owner.TileSize * LBSSettings.Instance.general.TileSize;
-                
-                foreach(var tile in t.TileGroup)
+                //This sets the size of the group tile to draw and seems to work. Yay!
+                v.SetSize(size * t.GetBundleSize());
+                foreach (var tile in t.TileGroup)
                 {
                     var p = new Vector2(tile.Position.x, -tile.Position.y);
                     v.SetPosition(new Rect(p * size, size));

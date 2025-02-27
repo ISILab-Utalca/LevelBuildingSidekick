@@ -48,7 +48,7 @@ namespace ISILab.LBS.Modules
 
         public BundleData GetBundleData(LBSTile tile)
         {
-            var t = tileGroups.Find(g => g.HasTile(tile));
+            var t = tileGroups.Find(g => g.Contains(tile));
             return t.BundleData;
         }
 
@@ -113,14 +113,14 @@ namespace ISILab.LBS.Modules
         public void RemoveGroup(object tile)
         {
             var toR = tile as LBSTile;
-            var xx = tileGroups.Find(x => x.HasTile(toR));
+            var xx = tileGroups.Find(x => x.Contains(toR));
             tileGroups.Remove(xx);
         }
 
         public void AddEmpty(object tile)
         {
             var t = tile as LBSTile;
-            var xx = tileGroups.Find(x => x.HasTile(t));
+            var xx = tileGroups.Find(x => x.Contains(t));
             if (xx != null)
             {
                 xx.BundleData = null;
