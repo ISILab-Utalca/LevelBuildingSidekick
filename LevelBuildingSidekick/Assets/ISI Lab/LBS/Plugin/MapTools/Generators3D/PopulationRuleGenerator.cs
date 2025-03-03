@@ -110,6 +110,10 @@ namespace ISILab.LBS.Generators
                     new Vector3(tile.Tile.Position.x * scale.x, 0, tile.Tile.Position.y * scale.y) +
                     -(new Vector3(scale.x, 0, scale.y) / 2f);
 
+
+                LBSGenerated generatedComponent = go.AddComponent<LBSGenerated>();
+                generatedComponent.BundleRef = current;
+                
                 objects.Add(go, current.PopulationType);
             }
             
@@ -161,6 +165,7 @@ namespace ISILab.LBS.Generators
             parentInteractable.transform.SetParent(parent.transform);
             parentArea.transform.SetParent(parent.transform);
             parentProp.transform.SetParent(parent.transform);
+            parentMisc.transform.SetParent(parent.transform);
             
             parent.transform.position += settings.position;
             
