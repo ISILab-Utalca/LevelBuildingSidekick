@@ -16,7 +16,8 @@ namespace ISILab.Examples
         private void Start()
         {
             controller = GetComponent<CharacterController>();
-            playerCamera = GetComponentInChildren<Camera>();
+            //playerCamera = GetComponentInChildren<Camera>();
+            playerCamera = Camera.main;
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
@@ -30,7 +31,7 @@ namespace ISILab.Examples
             Vector3 movement = transform.right * moveHorizontal + transform.forward * moveVertical;
             controller.Move(movement * movementSpeed * Time.deltaTime);
 
-            // Movimiento de la cámara
+            // Movimiento de la cï¿½mara
             float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
             float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
 

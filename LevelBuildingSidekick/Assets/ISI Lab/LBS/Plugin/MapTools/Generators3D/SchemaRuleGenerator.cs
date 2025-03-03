@@ -133,6 +133,7 @@ namespace ISILab.LBS.Generators
             {
                 var xx = currents.Where(b => b.GetCharacteristics<LBSTagsCharacteristic>().Any(c => c.Value.name == tags[i])).ToList();
 
+                
                 // Get random bundle
                 var current = xx.Random();
 
@@ -141,6 +142,10 @@ namespace ISILab.LBS.Generators
 
                 // Create part
                 CreateObject(pref, pivot.transform);
+                
+                // Add ref component
+                LBSGenerated generatedComponent = pivot.AddComponent<LBSGenerated>();
+                generatedComponent.BundleRef = current;
             }
 
             return pivot;
@@ -192,6 +197,10 @@ namespace ISILab.LBS.Generators
                     settings.scale.x / 2f * -obj.transform.forward.x,
                     0,
                     settings.scale.y / 2f * -obj.transform.forward.z) * deltaWall;
+                
+                // Add ref component
+                LBSGenerated generatedComponent = pivot.AddComponent<LBSGenerated>();
+                generatedComponent.BundleRef = current;
             }
 
             return pivot;
@@ -251,6 +260,10 @@ namespace ISILab.LBS.Generators
                     // Set rotation orientation
                     var rot = (i) % Dirs.Count();
                     instance.transform.rotation = Quaternion.Euler(0, -90 * (rot + 1), 0);
+                    
+                    // Add ref component
+                    LBSGenerated generatedComponent = pivot.AddComponent<LBSGenerated>();
+                    generatedComponent.BundleRef = current;
                 }
 
             }
