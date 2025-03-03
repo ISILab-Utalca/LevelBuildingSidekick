@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:LevelBuildingSidekick/Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Behaviors/IconDoorConnection.png.meta
 guid: e3ba73cf030fd6b44b3b4746fd9c00d0
+========
+guid: f07b0cfccdf028540a9d7bc92c60295c
+>>>>>>>> Development:LevelBuildingSidekick/Assets/ISI Lab/Commons/Assets2D/Resources/Icons/PopulationIcon/Icon=Foe.png.meta
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -34,7 +38,11 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
+<<<<<<<< HEAD:LevelBuildingSidekick/Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Behaviors/IconDoorConnection.png.meta
     filterMode: 0
+========
+    filterMode: 1
+>>>>>>>> Development:LevelBuildingSidekick/Assets/ISI Lab/Commons/Assets2D/Resources/Icons/PopulationIcon/Icon=Foe.png.meta
     aniso: 1
     mipBias: 0
     wrapU: 1

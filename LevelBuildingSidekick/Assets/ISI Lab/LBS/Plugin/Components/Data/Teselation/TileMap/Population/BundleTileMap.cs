@@ -332,6 +332,26 @@ namespace ISILab.LBS.Modules
             return TileGroup.Find(t => t == tile);
         }
 
+        public Rect GetBounds()
+        {
+            var x = TileGroup.Min(t => t.Position.x);
+            var y = TileGroup.Min(t => t.Position.y);
+
+            var width = TileGroup.Max(t => t.Position.x) - x + 1;
+            var height = TileGroup.Max(t => t.Position.y) - y + 1;
+
+            return new Rect(x, y, width, height);
+        }
+
+        public Vector2 GetCenter()
+        {
+            var bounds = this.GetBounds();
+            return new Vector2(
+                bounds.x + (bounds.width / 2),
+                bounds.y + (bounds.height / 2)
+                );
+        }
+
         public object Clone()
         {
             return new TileBundleGroup(tileGroup.Clone(), bData.Clone() as BundleData, rotation);

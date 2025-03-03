@@ -5,6 +5,7 @@ using LBS.Components;
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Messaging;
 using UnityEditor;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Generators;
@@ -247,6 +248,12 @@ namespace ISILab.LBS.VisualElements.Editor
 
         private void StaticObjs(GameObject obj)
         {
+            var lbsGen = obj.GetComponent<LBSGenerated>();
+            if (lbsGen != null)
+            {
+                if (lbsGen.HasLBSTag("NoBake")) return;
+            }
+            
             obj.isStatic = true; 
             foreach (Transform child in obj.transform)
             {
