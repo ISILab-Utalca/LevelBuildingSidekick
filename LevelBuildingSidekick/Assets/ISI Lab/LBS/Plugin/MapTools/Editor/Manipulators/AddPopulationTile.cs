@@ -6,6 +6,7 @@ using ISILab.LBS.Editor.Windows;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using ISILab.LBS.Settings;
 
 namespace ISILab.LBS.Manipulators
 {
@@ -37,7 +38,8 @@ namespace ISILab.LBS.Manipulators
             {
                 var bundleTile = population.GetTileGroup(population.Owner.ToFixedPosition(endPosition));
                 var bundleName = bundleTile?.BundleData.BundleName;
-                LBSMainWindow.MessageNotify("Highlighted Element " + population.Owner.ToFixedPosition(endPosition).ToString() + " : " + (bundleName!=null ? bundleName + "\nB: " + bundleTile.GetBounds().ToString() + "/ C: " + bundleTile.GetCenter().ToString() : "None "));
+                LBSMainWindow.MessageNotify("Highlighted Element " + population.Owner.ToFixedPosition(endPosition).ToString() + " : " + (bundleName!=null ? bundleName : "None "));
+                
                 return;
             }
 
