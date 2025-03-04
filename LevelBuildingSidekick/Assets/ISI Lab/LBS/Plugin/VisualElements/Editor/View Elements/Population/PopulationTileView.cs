@@ -14,7 +14,7 @@ namespace ISILab.LBS.VisualElements
     {
         private static VisualTreeAsset view;
 
-        //List<VisualElement> arrows = new List<VisualElement>();
+        List<VisualElement> arrows = new List<VisualElement>();
         VisualElement main;
         VisualElement icon;
         VisualElement bg;
@@ -27,10 +27,10 @@ namespace ISILab.LBS.VisualElements
             }
             view.CloneTree(this);
 
-            //arrows.Add(this.Q<VisualElement>(name: "Right"));
-            //arrows.Add(this.Q<VisualElement>(name: "Up"));
-            //arrows.Add(this.Q<VisualElement>(name: "Left"));
-            //arrows.Add(this.Q<VisualElement>(name: "Down"));
+            arrows.Add(this.Q<VisualElement>(name: "Right"));
+            arrows.Add(this.Q<VisualElement>(name: "Up"));
+            arrows.Add(this.Q<VisualElement>(name: "Left"));
+            arrows.Add(this.Q<VisualElement>(name: "Down"));
 
             main = this.Q<VisualElement>(name: "Pivot");
             icon = this.Q<VisualElement>(name: "Icon");
@@ -39,7 +39,7 @@ namespace ISILab.LBS.VisualElements
             var id = tile.BundleData.Bundle;
             SetColor(id.Color);
             SetImage(id.Icon);
-            //SetDirection(tile.Rotation);
+            SetDirection(tile.Rotation);
 
         }
 
@@ -47,8 +47,8 @@ namespace ISILab.LBS.VisualElements
         {
             var dir = Directions.Bidimencional.Edges.Select((d, i) => new { d, i }).OrderBy(o => (vector - o.d).magnitude).First().i;
 
-            //arrows.ForEach(v => v.visible = false);
-            //arrows[dir].visible = true;
+            arrows.ForEach(v => v.visible = false);
+            arrows[dir].visible = true;
         }
 
         public void SetPivot(Vector2 pivot)

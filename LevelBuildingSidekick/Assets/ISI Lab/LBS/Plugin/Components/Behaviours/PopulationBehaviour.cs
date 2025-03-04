@@ -66,7 +66,7 @@ namespace ISILab.LBS.Behaviours
         public void RemoveTileGroup(Vector2Int position)
         {
             var tile = tileMap.GetTile(position);
-            var group = bundleTileMap.GetGroup(tile);
+            var group = bundleTileMap.GetGroup(position);
 
             //CHANGE FROM HERE
             if (group != null)
