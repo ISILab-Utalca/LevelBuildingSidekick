@@ -14,15 +14,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e634500d06b172240aa398e23ef69db9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 14.896
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e634500d06b172240aa398e23ef69db9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.003
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e634500d06b172240aa398e23ef69db9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -7.034
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e634500d06b172240aa398e23ef69db9, type: 3}
       propertyPath: m_LocalRotation.w
@@ -54,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: e634500d06b172240aa398e23ef69db9, type: 3}
       propertyPath: m_Name
-      value: Simple_Crate_Box_01 Variant
+      value: Simple_Crate_Box_01_Prefab
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: e634500d06b172240aa398e23ef69db9, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -68,7 +68,7 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 9041250154637377371}
   m_SourcePrefab: {fileID: 100100000, guid: e634500d06b172240aa398e23ef69db9, type: 3}
---- !u!1 &8194740207465398794 stripped
+--- !u!1 &705033960279597898 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e634500d06b172240aa398e23ef69db9, type: 3}
   m_PrefabInstance: {fileID: 362998778006887963}
@@ -79,7 +79,7 @@ BoxCollider:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8194740207465398794}
+  m_GameObject: {fileID: 705033960279597898}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2

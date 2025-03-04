@@ -14,15 +14,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 994ac84197bdb8d4a9d909d16de7bc48, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.74
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 994ac84197bdb8d4a9d909d16de7bc48, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.036
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 994ac84197bdb8d4a9d909d16de7bc48, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.769
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 994ac84197bdb8d4a9d909d16de7bc48, type: 3}
       propertyPath: m_LocalRotation.w
@@ -54,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 994ac84197bdb8d4a9d909d16de7bc48, type: 3}
       propertyPath: m_Name
-      value: small_tree_pot Variant
+      value: small_tree_pot_proto
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 994ac84197bdb8d4a9d909d16de7bc48, type: 3}
       propertyPath: m_StaticEditorFlags

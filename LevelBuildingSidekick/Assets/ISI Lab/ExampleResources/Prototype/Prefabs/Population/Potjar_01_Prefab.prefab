@@ -14,15 +14,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 08933cac0bd9a2845b0388ea84a64ed9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 15.364
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 08933cac0bd9a2845b0388ea84a64ed9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.012024879
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 08933cac0bd9a2845b0388ea84a64ed9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -9.345
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 08933cac0bd9a2845b0388ea84a64ed9, type: 3}
       propertyPath: m_LocalRotation.w
@@ -58,7 +58,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 08933cac0bd9a2845b0388ea84a64ed9, type: 3}
       propertyPath: m_Name
-      value: Potjar_01 Variant
+      value: Potjar_01_Prefab
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 08933cac0bd9a2845b0388ea84a64ed9, type: 3}
       propertyPath: m_StaticEditorFlags
