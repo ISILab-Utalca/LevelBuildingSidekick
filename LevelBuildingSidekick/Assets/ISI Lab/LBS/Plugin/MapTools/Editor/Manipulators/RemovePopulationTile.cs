@@ -38,7 +38,7 @@ namespace ISILab.LBS.Manipulators
             {
                 for (int j = corners.Item1.y; j <= corners.Item2.y; j++)
                 {
-                    population.RemoveTile(new Vector2Int(i, j));
+                    population.RemoveTileGroup(new Vector2Int(i, j));
                 }
             }
 

@@ -14,12 +14,12 @@ namespace ISILab.LBS.VisualElements
     {
         private static VisualTreeAsset view;
 
-        //List<VisualElement> arrows = new List<VisualElement>();
-
+        List<VisualElement> arrows = new List<VisualElement>();
+        VisualElement main;
         VisualElement icon;
         VisualElement bg;
 
-        public PopulationTileView(TileBundlePair tile)
+        public PopulationTileView(TileBundleGroup tile)
         {
             if (view == null)
             {
@@ -27,24 +27,40 @@ namespace ISILab.LBS.VisualElements
             }
             view.CloneTree(this);
 
-            //arrows.Add(this.Q<VisualElement>(name: "Right"));
-            //arrows.Add(this.Q<VisualElement>(name: "Up"));
-            //arrows.Add(this.Q<VisualElement>(name: "Left"));
-            //arrows.Add(this.Q<VisualElement>(name: "Down"));
+            arrows.Add(this.Q<VisualElement>(name: "Right"));
+            arrows.Add(this.Q<VisualElement>(name: "Up"));
+            arrows.Add(this.Q<VisualElement>(name: "Left"));
+            arrows.Add(this.Q<VisualElement>(name: "Down"));
 
+            main = this.Q<VisualElement>(name: "Pivot");
             icon = this.Q<VisualElement>(name: "Icon");
             bg = this.Q<VisualElement>(name: "Background");
 
             var id = tile.BundleData.Bundle;
             SetColor(id.Color);
             SetImage(id.Icon);
-            //SetDirection(tile.Rotation);
+            SetDirection(tile.Rotation);
 
         }
 
         public void SetDirection(Vector2 vector)
         {
             var dir = Directions.Bidimencional.Edges.Select((d, i) => new { d, i }).OrderBy(o => (vector - o.d).magnitude).First().i;
+
+            arrows.ForEach(v => v.visible = false);
+            arrows[dir].visible = true;
+        }
+
+        public void SetPivot(Vector2 pivot)
+        {
+            main.style.left = pivot.x;
+            main.style.top = pivot.y;
+        }
+
+        public void SetSize(Vector2 vector)
+        {
+            main.style.width = vector.x;
+            main.style.height = vector.y;
 
             //arrows.ForEach(v => v.visible = false);
             //arrows[dir].visible = true;

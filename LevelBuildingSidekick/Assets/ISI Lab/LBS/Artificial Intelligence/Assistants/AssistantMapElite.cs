@@ -123,11 +123,11 @@ namespace ISILab.LBS.Assistants
             for (int i = 0; i < chrom.Length; i++)
             {
                 var pos = chrom.ToMatrixPosition(i) + rect.position.ToInt();
-                population.RemoveTile(pos);
+                population.RemoveTileGroup(pos);
                 var gene = chrom.GetGene(i);
                 if (gene == null)
                     continue;
-                population.AddTile(pos, gene as BundleData);
+                population.AddTileGroup(pos, gene as BundleData);
             }
         }
 
@@ -186,32 +186,35 @@ namespace ISILab.LBS.Assistants
             }
 
             var tm = Owner.GetModule<BundleTileMap>();
-            foreach (var b in tm.Tiles)
+            foreach (var g in tm.Groups)
             {
-                if (rect.Contains(b.Tile.Position))
+                foreach (var t in g.TileGroup)
                 {
-                    var characteristics = b.BundleData.Characteristics.Where(c => c is LBSTagsCharacteristic);
-
-                    if (characteristics.Count() == 0)
-                        continue;
-
-                    var tags = characteristics.Select(c => (c as LBSTagsCharacteristic).Value);
-
-                    bool flag = false;
-                    foreach (var tag in tags)
+                    if (rect.Contains(t.Position))
                     {
-                        if (blacklist.Contains(tag))
+                        var characteristics = g.BundleData.Characteristics.Where(c => c is LBSTagsCharacteristic);
+
+                        if (characteristics.Count() == 0)
+                            continue;
+
+                        var tags = characteristics.Select(c => (c as LBSTagsCharacteristic).Value);
+
+                        bool flag = false;
+                        foreach (var tag in tags)
                         {
-                            flag = true;
-                            break;
+                            if (blacklist.Contains(tag))
+                            {
+                                flag = true;
+                                break;
+                            }
                         }
-                    }
 
-                    if (flag)
-                    {
-                        var pos = b.Tile.Position - rect.position;
-                        var i = (int)(pos.y * rect.width + pos.x);
-                        im.Add(i);
+                        if (flag)
+                        {
+                            var pos = t.Position - rect.position;
+                            var i = (int)(pos.y * rect.width + pos.x);
+                            im.Add(i);
+                        }
                     }
                 }
             }

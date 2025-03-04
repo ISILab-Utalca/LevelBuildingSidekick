@@ -6,6 +6,7 @@ using ISILab.LBS.Editor.Windows;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using ISILab.LBS.Settings;
 
 namespace ISILab.LBS.Manipulators
 {
@@ -33,6 +34,15 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
         {
+            if (e.ctrlKey)
+            {
+                var bundleTile = population.GetTileGroup(population.Owner.ToFixedPosition(endPosition));
+                var bundleName = bundleTile?.BundleData.BundleName;
+                LBSMainWindow.MessageNotify("Highlighted Element " + population.Owner.ToFixedPosition(endPosition).ToString() + " : " + (bundleName!=null ? bundleName : "None "));
+                
+                return;
+            }
+
             if (ToSet == null)
             {
                 LBSMainWindow.MessageNotify("You don't have any selected item to place.", LogType.Error);
@@ -49,7 +59,7 @@ namespace ISILab.LBS.Manipulators
             {
                 for (int j = corners.Item1.y; j <= corners.Item2.y; j++)
                 {
-                    population.AddTile(new Vector2Int(i, j), ToSet);
+                    population.AddTileGroup(new Vector2Int(i, j), ToSet);
                 }
             }
 
