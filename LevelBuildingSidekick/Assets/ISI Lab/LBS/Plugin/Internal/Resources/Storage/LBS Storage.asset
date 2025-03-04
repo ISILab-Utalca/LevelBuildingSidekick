@@ -391,3 +391,9 @@ MonoBehaviour:
   - type: UnityEngine.UIElements.PanelSettings
     items:
     - {fileID: 11400000, guid: da6adae693698d3409943a20661e2031, type: 2}
+  - type: ISILab.LBS.Settings.LBSSettings
+    items:
+    - {fileID: 11400000, guid: 29abd09f3cff7644da7097258d0ae978, type: 2}
+  - type: UnityEditor.U2D.PSD.Pipeline
+    items:
+    - {fileID: 11400000, guid: 7a602206d712e496b8b4f2c9fb6ce07c, type: 2}
