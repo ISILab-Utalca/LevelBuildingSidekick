@@ -24,8 +24,7 @@ namespace ISILab.LBS.Components
         [SerializeField, JsonRequired]
         protected Vector2 pivot;
         [SerializeField, JsonRequired]
-        protected List<Vector2Int> positions;
-
+        protected List<Vector2Int> positions = new List<Vector2Int>();
         //[ScriptableObjectReference(typeof(LBSIdentifier), "Interior Styles")]
         [SerializeField, JsonRequired]
         private List<string> insideStyles = new List<string>();
