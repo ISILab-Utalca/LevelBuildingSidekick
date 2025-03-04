@@ -15,7 +15,7 @@ namespace ISILab.LBS.VisualElements
         private static VisualTreeAsset view;
 
         //List<VisualElement> arrows = new List<VisualElement>();
-
+        VisualElement main;
         VisualElement icon;
         VisualElement bg;
 
@@ -32,12 +32,14 @@ namespace ISILab.LBS.VisualElements
             //arrows.Add(this.Q<VisualElement>(name: "Left"));
             //arrows.Add(this.Q<VisualElement>(name: "Down"));
 
-            icon = this.Q<VisualElement>(name: "Icon");
+            main = this.Q<VisualElement>(name: "Border");
+            
+            //icon = this.Q<VisualElement>(name: "Icon");
             bg = this.Q<VisualElement>(name: "Background");
 
             var id = tile.BundleData.Bundle;
             SetColor(id.Color);
-            SetImage(id.Icon);
+            //SetImage(id.Icon);
             //SetDirection(tile.Rotation);
 
         }
@@ -52,8 +54,8 @@ namespace ISILab.LBS.VisualElements
 
         public void SetSize(Vector2 vector)
         {
-            bg.style.width = vector.x;
-            bg.style.height = vector.y;
+            main.style.width = vector.x;
+            main.style.height = vector.y;
 
             //arrows.ForEach(v => v.visible = false);
             //arrows[dir].visible = true;

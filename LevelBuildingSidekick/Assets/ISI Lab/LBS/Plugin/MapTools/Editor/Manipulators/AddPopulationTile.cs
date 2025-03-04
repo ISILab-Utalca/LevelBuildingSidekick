@@ -35,8 +35,9 @@ namespace ISILab.LBS.Manipulators
         {
             if (e.ctrlKey)
             {
-                var bundleName = population.GetTileGroup(population.Owner.ToFixedPosition(endPosition))?.BundleData.BundleName;
-                LBSMainWindow.MessageNotify("Highlighted Element " + population.Owner.ToFixedPosition(endPosition).ToString() + " : " + (bundleName!=null ? bundleName : "None"));
+                var bundleTile = population.GetTileGroup(population.Owner.ToFixedPosition(endPosition));
+                var bundleName = bundleTile?.BundleData.BundleName;
+                LBSMainWindow.MessageNotify("Highlighted Element " + population.Owner.ToFixedPosition(endPosition).ToString() + " : " + (bundleName!=null ? bundleName + "\nB: " + bundleTile.GetBounds().ToString() + "/ C: " + bundleTile.GetCenter().ToString() : "None "));
                 return;
             }
 

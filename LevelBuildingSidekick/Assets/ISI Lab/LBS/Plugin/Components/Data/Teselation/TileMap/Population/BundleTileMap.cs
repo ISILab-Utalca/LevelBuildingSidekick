@@ -335,7 +335,7 @@ namespace ISILab.LBS.Modules
         public Rect GetBounds()
         {
             var x = TileGroup.Min(t => t.Position.x);
-            var y = TileGroup.Min(t => t.Position.y);
+            var y = TileGroup.Max(t => t.Position.y);
 
             var width = TileGroup.Max(t => t.Position.x) - x + 1;
             var height = TileGroup.Max(t => t.Position.y) - y + 1;
@@ -347,8 +347,8 @@ namespace ISILab.LBS.Modules
         {
             var bounds = this.GetBounds();
             return new Vector2(
-                bounds.x + (bounds.width / 2),
-                bounds.y + (bounds.height / 2)
+                (bounds.x + bounds.width/2),
+                (bounds.y + bounds.height/2)
                 );
         }
 
