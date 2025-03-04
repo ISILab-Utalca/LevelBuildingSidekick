@@ -403,9 +403,6 @@ MonoBehaviour:
   - type: UnityEngine.Rendering.LensFlareDataSRP
     items:
     - {fileID: 11400000, guid: bd7eaf3bd49c39f4cb77bd809459aa72, type: 2}
-  - type: ISILab.LBS.BackUp
-    items:
-    - {fileID: 0}
   - type: UnityEditor.U2D.Common.SpriteAtlasPacker.SpriteAtlasScriptablePacker
     items:
     - {fileID: 11400000, guid: 9eaaf0b28a38f804f9fadea8b77e198d, type: 2}
