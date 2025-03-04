@@ -54,6 +54,18 @@ namespace ISILab.LBS.Modules
             OnAddEdge?.Invoke(this, edge);
         }
 
+        public bool EdgesConnected(Zone first, Zone second)
+        {
+            foreach (var edge in edges)
+            {
+                if (edge.First.Equals(first) && edge.Second.Equals(second))
+                    return true;
+                if (edge.First.Equals(second) && edge.Second.Equals(first))
+                    return true;
+            }
+            return false;
+        }
+
         public ZoneEdge GetEdge(Zone first, Zone second, bool bothDir = true)
         {
             foreach (var edge in edges)

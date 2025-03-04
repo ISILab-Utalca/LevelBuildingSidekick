@@ -12,21 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: Medikit
   m_EditorClassIdentifier: 
-  isPreset: 0
+  layerContentFlags: 0
   type: 2
+  anchorPosition: 0
   color: {r: 0, g: 0, b: 0, a: 1}
   icon: {fileID: 2800000, guid: 4b1ed2f09a57c984baf4cba2d9b4e150, type: 3}
-  childsBundles: []
   assets:
   - obj: {fileID: 314868758777896127, guid: 8be33848cc8d6c248909718e1ac23727, type: 3}
     probability: 0.5
   characteristics:
   - rid: 279245815319625990
-  positioning: 0
+  populationType: 1
+  childsBundles: []
   references:
     version: 2
     RefIds:
     - rid: 279245815319625990
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
+        owner: {fileID: 11400000}
         value: {fileID: 11400000, guid: b354587b73f945f4188c7dc7026de4ef, type: 2}

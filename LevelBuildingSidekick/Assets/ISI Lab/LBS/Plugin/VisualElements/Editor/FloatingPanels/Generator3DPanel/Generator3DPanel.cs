@@ -4,6 +4,8 @@ using UnityEngine.UIElements;
 using LBS.Components;
 
 using System;
+using System.Collections.Generic;
+using System.Runtime.Remoting.Messaging;
 using UnityEditor;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Generators;
@@ -33,6 +35,8 @@ namespace ISILab.LBS.VisualElements.Editor
         private Toggle bakeLights;
         private Toggle autoGen;
         private Toggle replacePrev;
+        private Toggle ignoreBundleTileSize;
+        private Toggle reflection;
         #endregion
 
         #region FIELDS
@@ -82,7 +86,9 @@ namespace ISILab.LBS.VisualElements.Editor
             
             autoGen = this.Q<Toggle>(name: "ToggleAutoGen");
             replacePrev = this.Q<Toggle>(name: "ToggleReplace");
-
+            ignoreBundleTileSize = this.Q<Toggle>(name: "ToggleTileSize");  
+            reflection = this.Q<Toggle>(name: "ToggleReflection");
+            
             generateCurrLayer = this.Q<Button>(name: "ButtonGenCurrentLayer");
             generateCurrLayer.clicked += OnExecute;
             generateCurrLayer.clicked += GenerateCurrentLayer;
@@ -137,7 +143,8 @@ namespace ISILab.LBS.VisualElements.Editor
             if (bakeLights.value)
             {
                 // Retrieve the LightingSettings asset by its path
-                LightingSettings lightingSettings = AssetDatabase.LoadAssetAtPath<LightingSettings>("Assets/ISI Lab/DevTools/Settings/BakeSetting.lighting");
+                string BakePath = AssetDatabase.GUIDToAssetPath("e64852b0a0c259543bc34a95930684dd");
+                LightingSettings lightingSettings = AssetDatabase.LoadAssetAtPath<LightingSettings>(BakePath);
                 if (lightingSettings)
                 {
                     Lightmapping.lightingSettings = lightingSettings;
@@ -169,8 +176,14 @@ namespace ISILab.LBS.VisualElements.Editor
 
             if (replacePrev.value)
             {
-                var prev = GameObject.Find(nameField.value);
-                if (prev != null)
+                GameObject[] allObjects = GameObject.FindObjectsOfType<GameObject>();
+                List<GameObject> prevs = new List<GameObject>();
+
+                foreach (var generic in allObjects)
+                {
+                    if (generic.name == layer.Name)  prevs.Add(generic);
+                }
+                foreach (var prev in prevs)
                 {
                     ifReplace = "Previous layer replaced.";
                     GameObject.DestroyImmediate(prev);
@@ -184,10 +197,14 @@ namespace ISILab.LBS.VisualElements.Editor
 
             var settings = new Generator3D.Settings
             {
-                name = nameField.value != "" ? name = nameField.value : layer.Name,
+                name = layer.Name,
+                //name = nameField.value != "" ? name = nameField.value : layer.Name,
                 position = positionField.value,
                 resize = resizeField.value,
                 scale = scaleField.value,
+                useBundleSize = !ignoreBundleTileSize.value,
+                reflectionProbe = reflection.value,
+                lightVolume = buildLightProbes.value
             };
 
             var obj = generator.Generate(this.layer, this.layer.GeneratorRules, settings);
@@ -208,14 +225,35 @@ namespace ISILab.LBS.VisualElements.Editor
             if (bakeLights.value)
             {
                 StaticObjs(obj);
+                BakeReflections();
+            }
+
+            if (buildLightProbes.value)
+            {
+                LightProbeCubeGenerator[] allLightProbes = GameObject.FindObjectsOfType<LightProbeCubeGenerator>();
+                foreach (var lpcg in allLightProbes) lpcg.Execute();
             }
             
 
         }
-        
-        
+
+        private void BakeReflections()
+        {
+            ReflectionProbe[] probes = GameObject.FindObjectsOfType<ReflectionProbe>();
+            foreach (var probe in probes)
+            {
+                probe.RenderProbe();
+            }
+        }
+
         private void StaticObjs(GameObject obj)
         {
+            var lbsGen = obj.GetComponent<LBSGenerated>();
+            if (lbsGen != null)
+            {
+                if (lbsGen.HasLBSTag("NoBake")) return;
+            }
+            
             obj.isStatic = true; 
             foreach (Transform child in obj.transform)
             {

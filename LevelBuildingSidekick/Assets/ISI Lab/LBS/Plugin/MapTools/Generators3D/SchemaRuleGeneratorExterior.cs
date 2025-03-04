@@ -112,6 +112,11 @@ namespace ISILab.LBS.Generators
                     settings.scale.y / 2f * -obj.transform.forward.z);
 
                 obj.transform.rotation = Quaternion.Euler(obj.transform.rotation.eulerAngles + new Vector3(0, 90 * 2, 0));
+                
+                // Add ref component
+                LBSGenerated generatedComponent = pivot.AddComponent<LBSGenerated>();
+                generatedComponent.BundleRef = current;
+                
             }
 
             return pivot;
@@ -155,6 +160,11 @@ namespace ISILab.LBS.Generators
                     var rot = (i - 1) % Dirs.Count();
                     instance.name = "R:" + rot + " i:" + i;
                     instance.transform.rotation = Quaternion.Euler(0, -90 * rot, 0);
+                    
+                    // Add ref component
+                    LBSGenerated generatedComponent = pivot.AddComponent<LBSGenerated>();
+                    generatedComponent.BundleRef = current;
+                    
                 }
             }
 

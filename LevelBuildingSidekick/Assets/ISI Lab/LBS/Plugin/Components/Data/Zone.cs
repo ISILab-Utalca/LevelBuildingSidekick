@@ -23,6 +23,8 @@ namespace ISILab.LBS.Components
         protected float borderThickness;
         [SerializeField, JsonRequired]
         protected Vector2 pivot;
+        [SerializeField, JsonRequired]
+        protected List<Vector2Int> positions;
 
         //[ScriptableObjectReference(typeof(LBSIdentifier), "Interior Styles")]
         [SerializeField, JsonRequired]
@@ -62,7 +64,7 @@ namespace ISILab.LBS.Components
             get => pivot;
             set => pivot = value;
         }
-
+        
         [JsonIgnore]
         public List<string> InsideStyles
         {
@@ -91,6 +93,30 @@ namespace ISILab.LBS.Components
         #endregion
 
         #region METHODS
+        
+        public void AddPosition(Vector2Int tilePosition)
+        {
+            positions.Add(tilePosition); 
+        }
+
+        public Vector2Int GetSize()
+        {
+            if (positions.Count == 0)
+                return Vector2Int.zero;
+
+            int minX = int.MaxValue, minY = int.MaxValue;
+            int maxX = int.MinValue, maxY = int.MinValue;
+
+            foreach (var pos in positions)
+            {
+                if (pos.x < minX) minX = pos.x;
+                if (pos.y < minY) minY = pos.y;
+                if (pos.x > maxX) maxX = pos.x;
+                if (pos.y > maxY) maxY = pos.y;
+            }
+
+            return new Vector2Int(maxX - minX + 1, maxY - minY + 1);
+        }
         public object Clone()
         {
             var clone = new Zone(this.id, this.color);
@@ -120,6 +146,8 @@ namespace ISILab.LBS.Components
             return base.GetHashCode();
         }
         #endregion
+
+
     }
 
     public static class ZoneExtension

@@ -27,7 +27,6 @@ namespace ISILab.LBS.VisualElements
 
             Add(new Label(data.BundleName));
 
-
             Add(new Label("Characteristics"));
 
             foreach (var c in data.Characteristics)

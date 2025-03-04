@@ -28,7 +28,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
         public void Repaint(object obj)
         {
-            var ve = pairs[obj];
+            GraphElement ve = pairs[obj];
             ve.MarkDirtyRepaint();
         }
 
@@ -43,7 +43,7 @@ namespace ISILab.LBS.VisualElements.Editor
     public class MainView : GraphView // Canvas or WorkSpace
     {
         #region UXML_FACTORY
-        public new class UxmlFactory : UxmlFactory<MainView, GraphView.UxmlTraits> { }
+        public new class UxmlFactory : UxmlFactory<MainView, UxmlTraits> { }
         #endregion
 
         #region SINGLETON

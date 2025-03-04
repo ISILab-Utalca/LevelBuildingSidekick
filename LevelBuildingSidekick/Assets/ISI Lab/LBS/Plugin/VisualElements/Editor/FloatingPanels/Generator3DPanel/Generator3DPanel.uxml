@@ -1,5 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
-    <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/Visual%20Elements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
+    <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
     <ui:VisualElement name="Panel" class="SubBackground lbs-default-container-panel" style="margin-left: 2px; margin-right: 2px;">
         <ui:VisualElement class="lbs-title-label-container">
             <ui:VisualElement name="VisualElement" class="lbs-default-label-icon lbs-3d-icon" style="background-image: resource(&apos;Icons/Vectorial/3D_Icon_Vector&apos;);" />
@@ -26,6 +26,10 @@
                     <ui:Label tabindex="-1" text="Room name" display-tooltip-when-elided="true" name="Label" style="flex-direction: row; color: rgb(255, 255, 255); -unity-text-align: middle-left;" />
                     <ui:TextField picking-mode="Ignore" text="Default Name" name="ObjName" tooltip="GameObject name in hierarchy" class="lbs-text-field-container" style="justify-content: space-between; flex-wrap: wrap; color: rgb(248, 248, 248); flex-direction: row-reverse; align-self: stretch; align-items: stretch; width: 150px; -unity-background-scale-mode: scale-to-fit;" />
                 </ui:VisualElement>
+                <ui:VisualElement name="IgnoreTileSize" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; justify-content: space-between; align-self: stretch; align-items: stretch; margin-bottom: 10px; flex-shrink: 0;">
+                    <ui:Label tabindex="-1" text="Ignore Bundle Tile Size" display-tooltip-when-elided="true" name="Label" tooltip="Generates light probes on each room. According to size and object density." style="flex-direction: row; color: rgb(255, 255, 255); -unity-text-align: middle-left; align-self: stretch;" />
+                    <ui:Toggle name="ToggleTileSize" tooltip="Ignore the bundle&apos;s own tile size and use the uniform Tile Size of the panel." style="justify-content: space-around; align-self: stretch; flex-grow: 0; flex-shrink: 0; align-items: stretch; margin-bottom: 2px; margin-left: 2px; margin-right: 2px; margin-top: 2px; -unity-background-scale-mode: scale-to-fit;" />
+                </ui:VisualElement>
                 <ui:VisualElement name="Scale" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; justify-content: flex-start; align-items: stretch; align-self: stretch; margin-bottom: 10px; flex-shrink: 0;">
                     <ui:Label tabindex="-1" text="Tile Size" display-tooltip-when-elided="true" style="color: rgb(255, 255, 255); -unity-text-align: middle-left; white-space: nowrap;" />
                     <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); align-self: stretch; flex-direction: row; justify-content: flex-start; flex-wrap: nowrap; align-items: flex-end; width: 110px;" />
@@ -51,6 +55,10 @@
                 <ui:VisualElement name="BakeLights" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; justify-content: space-between; align-self: stretch; align-items: stretch; margin-bottom: 10px; flex-shrink: 0;">
                     <ui:Label tabindex="-1" text="Bake Lights" display-tooltip-when-elided="true" name="Label" style="flex-direction: row; color: rgb(255, 255, 255); -unity-text-align: middle-left; align-self: stretch;" />
                     <ui:Toggle name="ToggleBakeLights" tooltip="Bakes lights after level generator. May take a long time." style="justify-content: space-between; align-self: stretch; flex-grow: 0; flex-shrink: 0; align-items: stretch; margin-bottom: 2px; margin-left: 2px; margin-right: 2px; margin-top: 2px; -unity-background-scale-mode: scale-to-fit;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="Reflection" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; justify-content: space-between; align-self: stretch; align-items: stretch; margin-bottom: 10px; flex-shrink: 0;">
+                    <ui:Label tabindex="-1" text="Reflection" display-tooltip-when-elided="true" name="Label" style="flex-direction: row; color: rgb(255, 255, 255); -unity-text-align: middle-left; align-self: stretch;" />
+                    <ui:Toggle name="ToggleReflection" tooltip="Activates the generatino of reflections in an area" style="justify-content: space-between; align-self: stretch; flex-grow: 0; flex-shrink: 0; align-items: stretch; margin-bottom: 2px; margin-left: 2px; margin-right: 2px; margin-top: 2px; -unity-background-scale-mode: scale-to-fit;" />
                 </ui:VisualElement>
             </ui:Foldout>
         </ui:VisualElement>

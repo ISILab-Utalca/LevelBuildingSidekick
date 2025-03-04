@@ -12,19 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: Bush
   m_EditorClassIdentifier: 
+  layerContentFlags: 0
   type: 2
   anchorPosition: 0
   color: {r: 0.8235295, g: 0.54509807, b: 0.3803922, a: 1}
   icon: {fileID: 2800000, guid: 519a57572d70c2f44a976e1321d6c9ce, type: 3}
-  childsBundles: []
   assets:
-  - obj: {fileID: 4263922822445002727, guid: 3cdafb3c2f54d434894928d72d282874, type: 3}
+  - obj: {fileID: 919132149155446097, guid: 5f415fd0a46ad1d479d39b65bb935f32, type: 3}
     probability: 1
-  - obj: {fileID: 6239969156481229051, guid: b71b0f8d2f881c743a85228f3030d1cb, type: 3}
+  - obj: {fileID: 5904395869029400924, guid: a97c402f591eca34b9d6b591c04a86ba, type: 3}
     probability: 1
   characteristics:
   - rid: 4305865204711817725
   - rid: 4305865204711817726
+  populationType: 4
+  tileSize: {x: 2, y: 2}
+  childsBundles: []
   references:
     version: 2
     RefIds:

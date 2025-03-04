@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using LBS.Components.TileMap;
@@ -8,6 +9,7 @@ using ISILab.LBS.Modules;
 using ISILab.LBS.Behaviours;
 using ISILab.Commons.VisualElements;
 using ISILab.LBS.VisualElements;
+using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Drawers
 {
@@ -88,6 +90,65 @@ namespace ISILab.LBS.Drawers
             tView.SetBorderColor(zone.Color, zone.BorderThickness);
             
             tView.SetConnections(connections.ToArray());
+
+            var Connections = SchemaTileView.GetConnectionPoints(connections);
+            var tempSchemaBehaviour = new SchemaBehaviour(new Texture2D(0,0), "temp");
+            
+            foreach (var connection in Connections)
+            {
+                if (string.IsNullOrEmpty(connection.Key) || string.IsNullOrEmpty(connection.Value)) continue; 
+
+                // divided by 4 offsets to center the background image
+                var xOffset = tView.GetPosition().width/8f;
+                var yOffset = tView.GetPosition().height/8f;
+
+                float xPos = xOffset;
+                float yPos = yOffset;
+                
+                
+                switch (connection.Key)
+                {
+                    case "top":
+                        yPos += -(tView.GetPosition().height / 2f);
+                        break;
+                    case "bottom":
+                        yPos += (tView.GetPosition().height / 2f);
+                        break;
+                    case "left":
+                        xPos += -(tView.GetPosition().width / 2f);
+                        break;
+                    case "right":
+                        xPos += (tView.GetPosition().width / 2f);
+                        break;
+                }
+                string connectionType = connection.Value;
+                var connectionTypes = tempSchemaBehaviour.Connections;
+                // Draw connection tile only if its not wall or open
+                if (connectionType != connectionTypes[0] && connectionType != connectionTypes[1])
+                {
+                    VectorImage setIcon = null;
+                    if (connectionType == connectionTypes[2])
+                        setIcon = Resources.Load<VectorImage>("Icons/Vectorial/Icon=DoorConnection");
+                    else if (connectionType == connectionTypes[3])
+                        setIcon = Resources.Load<VectorImage>("Icons/Vectorial/Icon=WindowsConnection");
+
+                    var connectionPoint = new SchemaTileConnectionView(setIcon)
+                    {
+                        style =
+                        {
+                            width = 64,
+                            height = 64,
+                            backgroundColor = Color.clear,
+                            position = Position.Absolute,
+                            left = xPos-2.5f,
+                            top = yPos-2.5f
+                        }
+                    };
+                    tView.Add(connectionPoint);
+                }
+            }
+
+            
             return tView;
         }
 
