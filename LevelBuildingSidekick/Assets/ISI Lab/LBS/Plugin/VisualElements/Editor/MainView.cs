@@ -92,17 +92,19 @@ namespace ISILab.LBS.VisualElements.Editor
             if (instance != this)
                 instance = this;
             
-            // right click on workspace does not display it's default options
-            RegisterCallback<MouseUpEvent>(evt =>
+            AddManipulator(new ContextualMenuManipulator((evt) =>
             {
-                evt.PreventDefault();
-        
-            });
+                // Prevent the default right-click menu
+              //  evt.StopPropagation();
+                evt.menu.ClearItems(); 
+                
+            }));
 
         }
         
         #endregion
 
+        
         #region INTERNAL_METHODS
         private void InitBound(int interior, int exterior)
         {
