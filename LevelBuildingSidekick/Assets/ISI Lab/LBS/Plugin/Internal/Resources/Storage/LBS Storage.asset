@@ -108,6 +108,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: a90b9e160779a6441ab7e2fa57c1b7d0, type: 2}
     - {fileID: 11400000, guid: ed5cf5fb39f24a84aaa8eb3e8a88c84f, type: 2}
     - {fileID: 11400000, guid: abecd8f2ae63b214c9e9e1eb1b0ca551, type: 2}
+    - {fileID: 11400000, guid: 1fe18346ae9efce4187df492c2b751a1, type: 2}
   - type: LBSIdentifierBundle
     items:
     - {fileID: 11400000, guid: 5dab7331507a6554a83a7ddfd42f5292, type: 2}
@@ -367,6 +368,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 04212421bd21c0040972c027fe29563c, type: 2}
     - {fileID: 11400000, guid: 7ee45b380fbc713488634d817baaaeb2, type: 2}
     - {fileID: 11400000, guid: aa672e189e8bdda45817f7056741fbc2, type: 2}
+    - {fileID: 11400000, guid: ce98e237a5ac2e441860779a44e25c85, type: 2}
   - type: ISILab.AI.Grammar.LBSGrammar
     items:
     - {fileID: 11400000, guid: 63ab688b53411154db5edd0ec7171c42, type: 2}
