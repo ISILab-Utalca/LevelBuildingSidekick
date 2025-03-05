@@ -21,15 +21,15 @@ namespace ISILab.LBS.Manipulators
 
         public RotatePopulationTile()
         {
-            feedback = new ConnectedLine();
-            feedback.fixToTeselation = true;
+            //feedback = new ConnectedLine();
+           // feedback.fixToTeselation = true;
         }
 
         public override void Init(LBSLayer layer, object provider)
         {
-            population = provider as PopulationBehaviour;
-            feedback.TeselationSize = layer.TileSize;
-            layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
+            population = provider as PopulationBehaviour; 
+           // feedback.TeselationSize = layer.TileSize;
+            //layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
         }
 
         protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
