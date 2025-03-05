@@ -40,10 +40,11 @@ namespace ISILab.LBS.VisualElements.Editor
         }
     }
 
-    public class MainView : GraphView // Canvas or WorkSpace
+    [UxmlElement]
+    public partial class MainView : GraphView // Canvas or WorkSpace
     {
         #region UXML_FACTORY
-        public new class UxmlFactory : UxmlFactory<MainView, UxmlTraits> { }
+       // public new class UxmlFactory : UxmlFactory<MainView, UxmlTraits> { }
         #endregion
 
         #region SINGLETON

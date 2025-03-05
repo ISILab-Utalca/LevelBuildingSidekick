@@ -10,10 +10,11 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class LBSInspectorPanel : VisualElement
+    [UxmlElement]
+    public partial class LBSInspectorPanel : VisualElement
     {
         #region FACTORY
-        public new class UxmlFactory : UxmlFactory<LBSInspectorPanel, VisualElement.UxmlTraits> { }
+        //public new class UxmlFactory : UxmlFactory<LBSInspectorPanel, VisualElement.UxmlTraits> { }
         #endregion
 
         #region SINGLETON

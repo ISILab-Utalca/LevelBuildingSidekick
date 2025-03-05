@@ -9,9 +9,10 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
-    public class LayerView : VisualElement
+    [UxmlElement]
+    public partial class LayerView : VisualElement
     {
-        public new class UxmlFactory : UxmlFactory<LayerView, VisualElement.UxmlTraits> { }
+       // public new class UxmlFactory : UxmlFactory<LayerView, VisualElement.UxmlTraits> { }
 
         private LBSLayer target;
 

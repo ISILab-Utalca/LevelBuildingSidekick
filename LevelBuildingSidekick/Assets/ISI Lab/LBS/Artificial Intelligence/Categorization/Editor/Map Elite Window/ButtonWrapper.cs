@@ -8,9 +8,9 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class ButtonWrapper : Button
+    [UxmlElement]
+    public partial class ButtonWrapper : Button
     {
-        public new class UxmlFactory : UxmlFactory<ButtonWrapper, VisualElement.UxmlTraits> { }
 
         object data;
         public string Text;

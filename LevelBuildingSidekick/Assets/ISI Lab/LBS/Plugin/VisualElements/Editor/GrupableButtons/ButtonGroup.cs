@@ -9,13 +9,12 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class ButtonGroup : VisualElement
+    [UxmlElement]
+    public partial class ButtonGroup : VisualElement
     {
         #region FACTORY
-        public new class UxmlFactory : UxmlFactory<ButtonGroup, UxmlTraits> { }
+        //public new class UxmlFactory : UxmlFactory<ButtonGroup, UxmlTraits> { }
 
-        public new class UxmlTraits : VisualElement.UxmlTraits
-        {
             UxmlColorAttributeDescription m_BaseColor = new UxmlColorAttributeDescription
             {
                 name = "base-color",
@@ -40,7 +39,7 @@ namespace ISILab.LBS.VisualElements
                 defaultValue = ""
             };
 
-            public override IEnumerable<UxmlChildElementDescription> uxmlChildElementsDescription
+            public IEnumerable<UxmlChildElementDescription> uxmlChildElementsDescription
             {
                 get
                 {
@@ -48,9 +47,9 @@ namespace ISILab.LBS.VisualElements
                 }
             }
 
-            public override void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
+            public void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
             {
-                base.Init(ve, bag, cc);
+                Init(ve, bag, cc);
                 ButtonGroup btn = ve as ButtonGroup;
 
                 btn.SelectedColor = m_SelectedColor.GetValueFromBag(bag, cc);
@@ -58,7 +57,7 @@ namespace ISILab.LBS.VisualElements
                 btn.Index = m_Index.GetValueFromBag(bag, cc);
                 btn.SetChoices(m_choices.GetValueFromBag(bag, cc));
             }
-        };
+      
         #endregion
 
         #region FIELDS

@@ -14,10 +14,11 @@ using ISILab.LBS.Editor;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class LBSLocalBehaviours : LBSInspector
+    [UxmlElement]
+    public partial class LBSLocalBehaviours : LBSInspector
     {
         #region FACTORY
-        public new class UxmlFactory : UxmlFactory<LBSLocalBehaviours, UxmlTraits> { }
+     //   public new class UxmlFactory : UxmlFactory<LBSLocalBehaviours, UxmlTraits> { }
         #endregion
 
         #region FIELDS

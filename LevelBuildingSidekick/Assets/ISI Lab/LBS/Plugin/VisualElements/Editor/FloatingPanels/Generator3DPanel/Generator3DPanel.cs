@@ -16,7 +16,8 @@ namespace ISILab.LBS.VisualElements.Editor
     public class Generator3DPanel : VisualElement
     {
         #region UXMLFACTORY
-        public new class UxmlFactory : UxmlFactory<Generator3DPanel, VisualElement.UxmlTraits> { }
+        [UxmlElementAttribute]
+        public new class UxmlFactory { }
         #endregion
 
         #region VIEW ELEMENTS
@@ -177,7 +178,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
             if (replacePrev.value)
             {
-                GameObject[] allObjects = GameObject.FindObjectsOfType<GameObject>();
+                GameObject[] allObjects = UnityEngine.Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None);
                 List<GameObject> prevs = new List<GameObject>();
 
                 foreach (var generic in allObjects)
@@ -231,16 +232,16 @@ namespace ISILab.LBS.VisualElements.Editor
 
             if (buildLightProbes.value)
             {
-                LightProbeCubeGenerator[] allLightProbes = GameObject.FindObjectsOfType<LightProbeCubeGenerator>();
+                LightProbeCubeGenerator[] allLightProbes = 
+                    UnityEngine.Object.FindObjectsByType<LightProbeCubeGenerator>(FindObjectsSortMode.None);
                 foreach (var lpcg in allLightProbes) lpcg.Execute();
             }
-            
 
         }
 
         private void BakeReflections()
         {
-            ReflectionProbe[] probes = GameObject.FindObjectsOfType<ReflectionProbe>();
+            ReflectionProbe[] probes = UnityEngine.Object.FindObjectsByType<ReflectionProbe>(FindObjectsSortMode.None);
             foreach (var probe in probes)
             {
                 probe.RenderProbe();

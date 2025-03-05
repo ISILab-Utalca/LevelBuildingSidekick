@@ -44,6 +44,7 @@ namespace ISILab.LBS.Editor.Windows{
         private DrawManager drawManager;
         private LBSInspectorPanel inspectorManager;
         private static NotifierViewer notifier;
+        [UxmlAttribute]
         private SplitView splitView;
         #endregion
 
@@ -63,6 +64,8 @@ namespace ISILab.LBS.Editor.Windows{
         private LayersPanel layerPanel;
         private Generator3DPanel gen3DPanel;
         private QuestsPanel questsPanel;
+        
+        [UxmlAttribute]
         private LayerInspector layerInspector;
         #endregion
 

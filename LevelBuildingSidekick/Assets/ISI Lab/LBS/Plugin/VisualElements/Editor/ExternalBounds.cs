@@ -7,9 +7,10 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class ExternalBounds : GraphElement
+    [UxmlElement]
+    public partial class ExternalBounds : GraphElement
     {
-        public new class UxmlFactory : UxmlFactory<ExternalBounds, UxmlTraits> { }
+       // public new class UxmlFactory : UxmlFactory<ExternalBounds, UxmlTraits> { }
 
         private Painter2D paint2D;
         private Rect _internal, external;
