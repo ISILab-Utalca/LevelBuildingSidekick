@@ -83,6 +83,11 @@ namespace LBS.VisualElements
             set => this.addButton.SetDisplay(value);
         }
         
+        public bool ShowNoElement
+        {
+            set => this.noElement.SetDisplay(value);
+        }
+        
         #endregion
 
 

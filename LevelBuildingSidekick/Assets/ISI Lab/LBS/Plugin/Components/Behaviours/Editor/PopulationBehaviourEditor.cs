@@ -178,6 +178,9 @@ namespace ISILab.LBS.VisualElements
             bundlePallete.ShowGroups = false;
             bundlePallete.ShowAddButton = false;
             bundlePallete.ShowRemoveButton = false;
+            bundlePallete.ShowNoElement = false;
+            
+            bundlePallete.Repaint();
             
             bundlePallete.OnSelectOption += (selected) =>
             {
