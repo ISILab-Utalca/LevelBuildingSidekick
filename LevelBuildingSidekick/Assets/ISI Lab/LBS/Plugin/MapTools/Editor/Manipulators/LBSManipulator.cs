@@ -119,6 +119,7 @@ namespace ISILab.LBS.Manipulators
         /// </summary>
         protected override void RegisterCallbacksOnTarget()
         {
+            target.AddManipulator(new ContextualMenuManipulator((evt) => { evt.menu.ClearItems(); }));
             target.RegisterCallback<MouseDownEvent>(OnInternalMouseDown);
             target.RegisterCallback<MouseMoveEvent>(OnInternalMouseMove);
             target.RegisterCallback<MouseUpEvent>(OnInternalMouseUp);
