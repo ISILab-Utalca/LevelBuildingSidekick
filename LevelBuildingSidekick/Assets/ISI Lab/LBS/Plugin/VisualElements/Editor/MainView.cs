@@ -18,7 +18,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
         public void AddElement(object obj, GraphElement element)
         {
-            pairs.Add(obj, element);
+            pairs.Add(obj, element);    
         }
 
         public void Actualize(object obj, object other)
