@@ -85,7 +85,7 @@
                     <ui:Toggle value="false" focusable="true" name="AssistantButton" tooltip="AI Assistant" class="lbs-tool-button-toggle lbs-tab-button" style="flex-direction: row; height: 40px; display: flex; border-right-width: 0;">
                         <ui:VisualElement name="Icon" class="lbs-default-icon" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); align-self: center; align-items: auto; background-image: resource(&apos;Icons/Vectorial/Icon=AssitanceV2&apos;); -unity-background-image-tint-color: rgb(255, 255, 255);" />
                     </ui:Toggle>
-                    <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); height: 10%; max-height: 40px;" />
+                    <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); height: 10%; max-height: 40px; display: none;" />
                     <ui:Toggle value="false" focusable="true" name="TagsButton" tooltip="Tags" class="lbs-tool-button-toggle lbs-tab-button" style="flex-direction: row; height: 40px; display: none;">
                         <ui:VisualElement name="Icon" class="lbs-default-icon" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); align-self: center; align-items: auto; background-image: resource(&apos;Icons/Vectorial/Icon=TagOutline&apos;); -unity-background-image-tint-color: rgb(255, 255, 255);" />
                     </ui:Toggle>
