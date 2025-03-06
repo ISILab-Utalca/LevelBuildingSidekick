@@ -43,9 +43,8 @@ namespace ISILab.JsonNet
 
             // generate json string
             string jsonString = "ERROR";
-            jsonString = JsonConvert.SerializeObject(
-                data,
-                jsonSerializerSettings
+            jsonString = JsonUtility.ToJson(
+                data
                 );
 
             // write json in a file
@@ -134,9 +133,8 @@ namespace ISILab.JsonNet
             }
 
             // generate data from string
-            var data = JsonConvert.DeserializeObject<T>(
-                json,
-                jsonSerializerSettings
+            var data = JsonUtility.FromJson<T>(
+                json
                 );
 
             if (data == null)
