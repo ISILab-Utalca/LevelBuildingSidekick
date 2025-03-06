@@ -110,5 +110,8 @@
                 <AttributeOverrides element-name="NotifierViewer" picking-mode="Ignore" />
             </ui:Instance>
         </ui:VisualElement>
+        <ui:Label tabindex="-1" text="&#x9;&#x9;&#x9;&#x9;" display-tooltip-when-elided="true" name="Spacer" picking-mode="Ignore" style="color: rgb(255, 255, 255); -unity-font-style: normal; font-size: 14px; -unity-text-align: middle-left; white-space: nowrap; text-overflow: ellipsis; margin-left: 5px;" />
+        <ui:Label tabindex="-1" text="grid position:" display-tooltip-when-elided="true" name="GridText" picking-mode="Ignore" style="color: rgb(255, 255, 255); -unity-font-style: normal; font-size: 14px; -unity-text-align: middle-left; white-space: nowrap; text-overflow: ellipsis; margin-left: 5px;" />
+        <ui:Label tabindex="-1" text="-" display-tooltip-when-elided="true" name="PositionLabel" picking-mode="Ignore" style="color: rgb(255, 255, 255); -unity-font-style: normal; font-size: 14px; -unity-text-align: middle-left; white-space: nowrap; text-overflow: ellipsis; margin-left: 5px;" />
     </ui:VisualElement>
 </ui:UXML>

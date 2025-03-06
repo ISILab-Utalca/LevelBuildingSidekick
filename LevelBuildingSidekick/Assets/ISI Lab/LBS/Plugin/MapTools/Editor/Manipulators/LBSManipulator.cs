@@ -5,6 +5,8 @@ using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
+using ISILab.LBS.Editor.Windows;
+using ISILab.LBS.Settings;
 using ISILab.LBS.VisualElements.Editor;
 using ISILab.LBS.VisualElements;
 using LBS;
@@ -114,6 +116,8 @@ namespace ISILab.LBS.Manipulators
         #endregion
 
         #region METHODS
+        
+        
         /// <summary>
         /// Registers mouse event callbacks on the target element.
         /// </summary>
@@ -238,6 +242,18 @@ namespace ISILab.LBS.Manipulators
         /// <param name="e"></param>
         protected void OnInternalMouseMove(MouseMoveEvent e)
         {
+            // Display grid position
+            var  movePosition = MainView.Instance.FixPos(e.localMousePosition).ToInt();
+            Vector2 pos = movePosition / (LBSSettings.Instance.general.TileSize);
+            if (pos.x < 0)
+                pos.x -= 1;
+            if (pos.y < 0)
+                pos.y -= 1;
+
+            pos = new Vector2(pos.x, -pos.y);
+            LBSMainWindow.GridPosition("Grid Position: " +  pos.ToInt());
+   
+            // button functionalities
             if (e.button != 0 && e.button != 1)
                 return;
             

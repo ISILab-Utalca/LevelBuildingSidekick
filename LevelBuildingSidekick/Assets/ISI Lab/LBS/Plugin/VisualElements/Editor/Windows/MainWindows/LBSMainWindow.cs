@@ -49,12 +49,15 @@ namespace ISILab.LBS.Editor.Windows{
         #endregion
 
         #region FIELDS-VIEWS
+        
         // Visual Elements
+        private MainView mainView; // work canvas
+        
         private ButtonGroup toolPanel;
         private VisualElement extraPanel;
         private VisualElement noLayerSign;
-        private MainView mainView; // work canvas
         private Label selectedLabel;
+        static private Label positionLabel;
         private VisualElement floatingPanelContent;
         private VisualElement toggleButtons;
         private VisualElement hideBar;
@@ -188,6 +191,9 @@ namespace ISILab.LBS.Editor.Windows{
 
             // SelectedLabel
             selectedLabel = rootVisualElement.Q<Label>("SelectedLabel");
+            
+            // PositionLabel
+            positionLabel = rootVisualElement.Q<Label>("PositionLabel");
           
             #region Panels
             
@@ -469,6 +475,12 @@ namespace ISILab.LBS.Editor.Windows{
                     toggle.SetValueWithoutNotify(false); // Deselect
                 }
             }
+        }
+
+        public static void GridPosition(string gridPosition)
+        {
+            if (positionLabel == null) return; 
+            positionLabel.text = gridPosition;
         }
     }
 
