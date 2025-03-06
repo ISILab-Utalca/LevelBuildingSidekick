@@ -10,6 +10,7 @@ using ISI_Lab.LBS.Plugin.MapTools.Generators3D;
 using UnityEditor;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Generators;
+using Object = UnityEngine.Object;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -187,8 +188,9 @@ namespace ISILab.LBS.VisualElements.Editor
                 }
                 foreach (var prev in prevs)
                 {
+                    if(prev == null) continue;
                     ifReplace = "Previous layer replaced.";
-                    GameObject.DestroyImmediate(prev);
+                    Object.DestroyImmediate(prev);
                 }
             }
 
@@ -209,6 +211,8 @@ namespace ISILab.LBS.VisualElements.Editor
                 lightVolume = buildLightProbes.value
             };
 
+            if (generator == null) return;
+            
             var obj = generator.Generate(this.layer, this.layer.GeneratorRules, settings);
             
             // If it created a usable LBS game object 

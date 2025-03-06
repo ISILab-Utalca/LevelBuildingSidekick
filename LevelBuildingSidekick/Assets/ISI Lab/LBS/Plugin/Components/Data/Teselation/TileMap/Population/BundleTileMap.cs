@@ -8,6 +8,7 @@ using LBS.Components.TileMap;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.WSA;
 using static UnityEditor.PlayerSettings;
 
 namespace ISILab.LBS.Modules
@@ -69,6 +70,23 @@ namespace ISILab.LBS.Modules
             //Create group, then get the tilesize
             TileBundleGroup newGroup = new TileBundleGroup(new List<LBSTile>(), bundleData, rotation);
             Vector2Int groupSize = newGroup.GetBundleSize();
+            
+            // Check if its valid to add a tilegroup
+            foreach (var tbg in groups)
+            {
+                foreach (var lbsTile in tbg.TileGroup)
+                {
+                    for(int i=0; i<groupSize.x; i++)
+                    {
+                        for(int j=0; j<groupSize.y; j++)
+                        {
+                            if (new Vector2(position.x + i, position.y - j) != lbsTile.Position) continue;
+                            return newGroup;
+                        }
+                    }
+                }
+            }
+            
             
             //Fill group with tiles according to tilesize
             for(int i=0; i<groupSize.x; i++)
