@@ -91,8 +91,6 @@ namespace ISILab.LBS.Manipulators
             if (topLeftCorner.x < 0) topLeftCorner.x++;
             var bottomRightCorner = topLeftCorner;
  
-            var valid = population.ValidNewGroup(topLeftCorner, ToSet);
-            previewFeedback.ValidForInput(valid);
 
             // Set corner by tile size
            if (ToSet.TileSize.x > 1 || ToSet.TileSize.y > 1 )
@@ -112,6 +110,8 @@ namespace ISILab.LBS.Manipulators
             
             previewFeedback.ActualizePositions(firstPos.ToInt(), lastPos.ToInt());
             MainView.Instance.AddElement(previewFeedback);
+            var valid = population.ValidNewGroup(topLeftCorner, ToSet);
+            previewFeedback.ValidForInput(valid);
        
         }
     }
