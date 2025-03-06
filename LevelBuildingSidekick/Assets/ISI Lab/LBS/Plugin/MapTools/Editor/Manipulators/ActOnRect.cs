@@ -16,8 +16,6 @@ namespace ISILab.LBS.Manipulators
     {
         Action<Rect> OnSelection;
 
-        private LBSLayer layer;
-
         public ActOnRect(Action<Rect> action)
         {
             feedback = new AreaFeedback();
@@ -27,7 +25,7 @@ namespace ISILab.LBS.Manipulators
 
         public override void Init(LBSLayer layer, object provider)
         {
-            this.layer = layer;
+            base.Init(layer, provider);
         }
 
         protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
@@ -36,7 +34,7 @@ namespace ISILab.LBS.Manipulators
             EditorGUI.BeginChangeCheck();
             Undo.RegisterCompleteObjectUndo(xx, "On Rect");
 
-            var corners = layer.ToFixedPosition(StartPosition, EndPosition);
+            var corners = lbsLayer.ToFixedPosition(StartPosition, EndPosition);
 
             var x = StartPosition.x < EndPosition.x ? StartPosition.x : EndPosition.x;
             var y = StartPosition.y < EndPosition.y ? StartPosition.y : EndPosition.y;

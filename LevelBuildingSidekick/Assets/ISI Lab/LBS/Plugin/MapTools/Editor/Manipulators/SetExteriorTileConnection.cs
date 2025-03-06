@@ -38,6 +38,7 @@ namespace ISILab.LBS.Manipulators
 
         public override void Init(LBSLayer layer, object behaviour)
         {
+            base.Init(layer, behaviour);
             exterior = behaviour as ExteriorBehaviour;
             lineFeedback.TeselationSize = layer.TileSize;
             areaFeedback.TeselationSize = layer.TileSize;

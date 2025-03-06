@@ -28,6 +28,8 @@ namespace ISILab.LBS.Manipulators
 
         public override void Init(LBSLayer layer, object owner)
         {
+            base.Init(layer, owner);
+            
             schema = owner as SchemaBehaviour;
             feedback.TeselationSize = layer.TileSize;
             layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;

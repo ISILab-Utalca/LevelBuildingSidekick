@@ -24,9 +24,12 @@ namespace ISILab.LBS.Manipulators
 
         public override void Init(LBSLayer layer, object behaviour)
         {
+            base.Init(layer, behaviour);
+            
             schema = behaviour as SchemaBehaviour;
             feedback.TeselationSize = layer.TileSize;
             layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
+           
         }
 
         protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
