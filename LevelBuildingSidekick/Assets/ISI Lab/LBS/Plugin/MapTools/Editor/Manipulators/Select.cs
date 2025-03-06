@@ -11,7 +11,6 @@ namespace ISILab.LBS.Manipulators
 {
     public class Select : LBSManipulator
     {
-        private LBSLayer layer;
         private LBSLocalCurrent current;
 
         public Select()
@@ -24,12 +23,11 @@ namespace ISILab.LBS.Manipulators
 
         public override void Init(LBSLayer layer, object provider)
         {
-            // Set layer reference
-            this.layer = layer;
+            base.Init(layer, provider);
 
             // Set provider reference
             current = provider as LBSLocalCurrent;
-
+            
         }
 
         protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
@@ -39,7 +37,7 @@ namespace ISILab.LBS.Manipulators
             
             // Get selectable elements
             var selected = new List<object>();
-            foreach (var module in layer.Modules)
+            foreach (var module in lbsLayer.Modules)
             {
                 if (module is ISelectable)
                 {

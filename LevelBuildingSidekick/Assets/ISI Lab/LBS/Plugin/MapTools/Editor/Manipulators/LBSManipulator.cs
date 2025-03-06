@@ -5,6 +5,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
+using ISILab.LBS.Behaviours;
 using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.Settings;
 using ISILab.LBS.VisualElements.Editor;
@@ -18,6 +19,9 @@ namespace ISILab.LBS.Manipulators
     public abstract class LBSManipulator : MouseManipulator
     {
         #region FIELDS
+
+        protected LBSLayer lbsLayer;
+        
         protected Feedback feedback;
 
         private bool started = false;
@@ -242,16 +246,15 @@ namespace ISILab.LBS.Manipulators
         /// <param name="e"></param>
         protected void OnInternalMouseMove(MouseMoveEvent e)
         {
+            moveClickPosition = MainView.Instance.FixPos(e.localMousePosition).ToInt();
+            
             // Display grid position
-            var  movePosition = MainView.Instance.FixPos(e.localMousePosition).ToInt();
-            Vector2 pos = movePosition / (LBSSettings.Instance.general.TileSize);
-            if (pos.x < 0)
-                pos.x -= 1;
-            if (pos.y < 0)
-                pos.y -= 1;
+            if (lbsLayer != null)
+            {
+                Vector2 pos = lbsLayer.ToFixedPosition(moveClickPosition);
+                LBSMainWindow.GridPosition("Grid Position: " +  pos.ToInt());
+            }
 
-            pos = new Vector2(pos.x, -pos.y);
-            LBSMainWindow.GridPosition("Grid Position: " +  pos.ToInt());
    
             // button functionalities
             if (e.button != 0 && e.button != 1)
@@ -269,7 +272,7 @@ namespace ISILab.LBS.Manipulators
                 return;
             }
             
-            moveClickPosition = MainView.Instance.FixPos(e.localMousePosition).ToInt();
+          
 
             OnMouseMove(e.target as VisualElement, moveClickPosition, e);
             UpdateFeedback();
@@ -326,7 +329,10 @@ namespace ISILab.LBS.Manipulators
         #endregion
 
         #region VIRTUAL METHODS
-        public abstract void Init(LBSLayer layer, object provider);
+        public virtual void Init(LBSLayer layer, object provider)
+        {
+            lbsLayer = layer;
+        }
 
         protected virtual void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e) { }
 

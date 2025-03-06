@@ -29,6 +29,8 @@ namespace ISILab.LBS.Manipulators
 
         public override void Init(LBSLayer layer, object owner)
         {
+            base.Init(layer, owner);
+            
             quest = layer.GetModule<QuestGraph>();
             behaviour = layer.GetBehaviour<QuestBehaviour>();
         }
