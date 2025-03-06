@@ -2,22 +2,26 @@ using ISILab.Commons.Utility.Editor;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEditor.UIElements;
 using ISILab.Extensions;
 using System.Linq;
 
 namespace LBS.VisualElements
 {
-    public class SimplePallete : VisualElement
+    [UxmlElement]
+    public partial class SimplePallete : VisualElement
     {
         #region FACTORY
-        public new class UxmlFactory : UxmlFactory<SimplePallete, VisualElement.UxmlTraits> { }
+        //public new class UxmlFactory : UxmlFactory<SimplePallete, VisualElement.UxmlTraits> { }
         #endregion
 
         private OptionView[] optionViews;
         private object[] options;
         private object selected;
+        private object collectionSelected;
         private Action<OptionView, object> onSetView;
 
         #region FIELS VIEW
@@ -28,6 +32,8 @@ namespace LBS.VisualElements
         private Button noElement;
         private Button addButton;
         private Button removeButton;
+        
+        private bool displayAddElement = true;
         #endregion
 
         #region EVENTS
@@ -40,12 +46,22 @@ namespace LBS.VisualElements
         #endregion
 
         #region PROPERTIES
+        public bool DisplayAddElement       
+        {
+            set => displayAddElement = value;
+        }
         public object Selected
         {
             get => selected;
             set => selected = value;
         }
 
+        public object CollectionSelected
+        {
+            get => collectionSelected;
+            set => collectionSelected = value;
+        }
+        
         public object[] Options
         {
             get => options;
@@ -66,6 +82,12 @@ namespace LBS.VisualElements
         {
             set => this.addButton.SetDisplay(value);
         }
+        
+        public bool ShowNoElement
+        {
+            set => this.noElement.SetDisplay(value);
+        }
+        
         #endregion
 
 
@@ -98,6 +120,7 @@ namespace LBS.VisualElements
 
             // Icon
             this.icon = this.Q<VisualElement>("IconPallete");
+
         }
         #endregion
 
@@ -129,6 +152,7 @@ namespace LBS.VisualElements
             this.options = options;
             this.onSetView = onSetView;
         }
+        
 
         public void SetIcon(Texture2D icon, Color color)
         {
@@ -141,13 +165,19 @@ namespace LBS.VisualElements
             this.nameLabel.text = name;
         }
 
+        public void DisplayContent(bool show)
+        {
+            if (show) content.style.display = DisplayStyle.Flex;
+            else content.style.display = DisplayStyle.None;
+        }
+        
         public void Repaint()
         {
             OnRepaint?.Invoke();
 
             content.Clear();
 
-            if (options.Length > 0)
+            if (options != null && options.Length > 0)
             {
                 this.optionViews = new OptionView[options.Length];
 
@@ -162,7 +192,10 @@ namespace LBS.VisualElements
             }
             else
             {
-                content.Add(noElement);
+                if (displayAddElement)
+                {
+                  content.Add(noElement);
+                }
             }
 
             if(selected != null)

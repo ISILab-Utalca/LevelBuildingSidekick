@@ -8,10 +8,11 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class BundleAssetView : VisualElement
+    [UxmlElement]
+    public partial class BundleAssetView : VisualElement
     {
         #region FACTORY
-        public new class UxmlFactory : UxmlFactory<BundleAssetView, UxmlTraits> { }
+        //public new class UxmlFactory : UxmlFactory<BundleAssetView, UxmlTraits> { }
         #endregion
 
         private Label label;

@@ -13,7 +13,6 @@ namespace ISILab.LBS.Manipulators
 {
     public class SetZoneConnection : LBSManipulator
     {
-        private LBSLayer layer;
         private HillClimbingAssistant assistant;
         private Vector2Int first;
 
@@ -25,7 +24,8 @@ namespace ISILab.LBS.Manipulators
 
         public override void Init(LBSLayer layer, object provider)
         {
-            this.layer = layer;
+            base.Init(layer, provider);
+            
             assistant = provider as HillClimbingAssistant;
 
             feedback.TeselationSize = layer.TileSize;
@@ -34,12 +34,12 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
         {
-            first = layer.ToFixedPosition(position);
+            first = lbsLayer.ToFixedPosition(position);
         }
 
         protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
         {
-            var second = layer.ToFixedPosition(position);
+            var second = lbsLayer.ToFixedPosition(position);
 
             var z1 = assistant.GetZone(first);
 
@@ -49,7 +49,7 @@ namespace ISILab.LBS.Manipulators
                 return;
             }
 
-            var pos = layer.ToFixedPosition(position);
+            var pos = lbsLayer.ToFixedPosition(position);
             var z2 = assistant.GetZone(pos);
             if (z2 == null)
             {
@@ -63,10 +63,15 @@ namespace ISILab.LBS.Manipulators
                 return;
             }
 
+            if (assistant.CheckEdges(z1, z2))
+            {
+                LBSMainWindow.MessageNotify("This connection already exists.");
+                return;
+            }
+
             var x = LBSController.CurrentLevel;
             EditorGUI.BeginChangeCheck();
             Undo.RegisterCompleteObjectUndo(x, "Add Zone Connections");
-
             assistant.ConnectZones(z1, z2);
 
             if (EditorGUI.EndChangeCheck())

@@ -13,10 +13,11 @@ using ISILab.Extensions;
 
 namespace LBS.VisualElements
 {
-    public class LayerInfoView : VisualElement
+    [UxmlElement]
+    public partial class LayerInfoView : VisualElement
     {
         #region FACTORY
-        public new class UxmlFactory : UxmlFactory<LayerInfoView, VisualElement.UxmlTraits> { }
+        //public new class UxmlFactory : UxmlFactory<LayerInfoView, VisualElement.UxmlTraits> { }
         #endregion
 
         private Foldout foldout;

@@ -11,7 +11,7 @@ using System;
 
 using System.Collections.Generic;
 using System.Diagnostics;
-
+using ISILab.Commons.VisualElements.Editor;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -44,22 +44,31 @@ namespace ISILab.LBS.Editor.Windows{
         private DrawManager drawManager;
         private LBSInspectorPanel inspectorManager;
         private static NotifierViewer notifier;
+        [UxmlAttribute]
+        private SplitView splitView;
         #endregion
 
         #region FIELDS-VIEWS
+        
         // Visual Elements
+        private MainView mainView; // work canvas
+        
         private ButtonGroup toolPanel;
         private VisualElement extraPanel;
         private VisualElement noLayerSign;
-        private MainView mainView; // work canvas
         private Label selectedLabel;
+        static private Label positionLabel;
         private VisualElement floatingPanelContent;
         private VisualElement toggleButtons;
+        private VisualElement hideBar;
+        private VisualElement inspectorPanel;
 
         // Panels
         private LayersPanel layerPanel;
         private Generator3DPanel gen3DPanel;
         private QuestsPanel questsPanel;
+        
+        [UxmlAttribute]
         private LayerInspector layerInspector;
         #endregion
 
@@ -121,6 +130,9 @@ namespace ISILab.LBS.Editor.Windows{
             // LayerTemplate
             layerTemplates = DirectoryTools.GetScriptablesByType<LayerTemplate>();
 
+            // SplitView
+            splitView = rootVisualElement.Q<SplitView>("SplitView");
+            if(splitView == null) Debug.LogError("Cannot find SplitView");
 
             // Message Notifier
             notifier = rootVisualElement.Q<NotifierViewer>("NotifierViewer");
@@ -179,6 +191,9 @@ namespace ISILab.LBS.Editor.Windows{
 
             // SelectedLabel
             selectedLabel = rootVisualElement.Q<Label>("SelectedLabel");
+            
+            // PositionLabel
+            positionLabel = rootVisualElement.Q<Label>("PositionLabel");
           
             #region Panels
             
@@ -322,6 +337,27 @@ namespace ISILab.LBS.Editor.Windows{
             
             #endregion
             
+            //inspector panel 
+            inspectorPanel = rootVisualElement.Q<VisualElement>("Inspector");
+            // topBar
+            hideBar = rootVisualElement.Q<VisualElement>("HideBar");
+            // Hide toggle
+            Button buttonHideInspector = rootVisualElement.Q<Button>("ButtonDisplayInspector");
+            buttonHideInspector.RegisterCallback<ClickEvent>((evt) =>{
+                if (inspectorPanel.ClassListContains("lbs_inspectorhide"))
+                {
+                    inspectorPanel.RemoveFromClassList("lbs_inspectorhide");
+                    splitView.fixedPaneInitialDimension = 400f;
+                }
+                else
+                {
+                    inspectorPanel.AddToClassList("lbs_inspectorhide");
+                    splitView.fixedPaneInitialDimension = 80f;
+                }
+                splitView.MarkDirtyRepaint();
+            });
+            
+            
             layerPanel.OnSelectLayer += (l) => questsPanel.ResetSelection();
             questsPanel.OnSelectQuest += (l) => layerPanel.ResetSelection();
             
@@ -439,6 +475,12 @@ namespace ISILab.LBS.Editor.Windows{
                     toggle.SetValueWithoutNotify(false); // Deselect
                 }
             }
+        }
+
+        public static void GridPosition(string gridPosition)
+        {
+            if (positionLabel == null) return; 
+            positionLabel.text = gridPosition;
         }
     }
 

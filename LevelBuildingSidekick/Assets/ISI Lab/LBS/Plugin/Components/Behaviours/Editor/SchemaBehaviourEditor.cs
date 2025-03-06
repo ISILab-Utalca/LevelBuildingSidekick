@@ -1,3 +1,4 @@
+using System;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Components;
 using ISILab.LBS.Editor;
@@ -8,7 +9,7 @@ using LBS.Bundles;
 using ISILab.LBS.Settings;
 using LBS.VisualElements;
 using System.Collections.Generic;
-
+using System.Resources;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -146,7 +147,8 @@ namespace ISILab.LBS.Behaviours.Editor
             areaPallete.OnSelectOption += (selected) =>
             {
                 _target.RoomToSet = selected as Zone;
-                ToolKit.Instance.SetActive("Paint Zone");
+                //ToolKit.Instance.SetActive("Paint Zone");
+                //Debug.Log("Hi");
             };
 
             // OnAdd option event
@@ -156,11 +158,11 @@ namespace ISILab.LBS.Behaviours.Editor
                 newZone.InsideStyles = new List<string>() { _target.PressetInsideStyle.Name };
                 newZone.OutsideStyles = new List<string>() { _target.PressetOutsideStyle.Name };
                 areaPallete.Options = new object[_target.Zones.Count];
-                for (int i = 0; i < zones.Count; i++)
+                for (int i = 0; i < _target.Zones.Count; i++)
                 {
                     areaPallete.Options[i] = _target.Zones[i];
                 }
-                ToolKit.Instance.SetActive("Paint Zone");
+                _target.RoomToSet = newZone;
                 areaPallete.Repaint();
             };
 
@@ -170,6 +172,7 @@ namespace ISILab.LBS.Behaviours.Editor
                 var area = (Zone)option;
                 optionView.Label = area.ID; // ID or name (??)
                 optionView.Color = area.Color;
+
             });
 
             areaPallete.OnRepaint += () =>
@@ -197,6 +200,7 @@ namespace ISILab.LBS.Behaviours.Editor
                     return;
 
                 _target.RemoveZone(option as Zone);
+                ToolKit.Instance.SetActive("Paint Zone");
 
                 DrawManager.ReDraw();
                 areaPallete.Repaint();
@@ -217,13 +221,14 @@ namespace ISILab.LBS.Behaviours.Editor
             var icon = Resources.Load<Texture2D>("Icons/BrushIcon");
             connectionPallete.SetIcon(icon, BHcolor);
 
+  
             var connections = _target.Connections;
             var options = new object[connections.Count];
             for (int i = 0; i < connections.Count; i++)
             {
                 options[i] = connections[i];
             }
-
+            
             // Select option event
             connectionPallete.OnSelectOption += (selected) =>
             {
@@ -233,18 +238,29 @@ namespace ISILab.LBS.Behaviours.Editor
                 ToolKit.Instance.SetActive("Set connection");
             };
 
-            // Init options
+            // Init options}
+            
             connectionPallete.SetOptions(options, (optionView, option) =>
             {
-                var conencts = (string)option;
-                optionView.Label = conencts;
-                optionView.Color = Color.black;
-            });
+                var arg1Label = (string)option;
+                optionView.Label = arg1Label;
+                optionView.Icon = GetOptionIcon(arg1Label);
 
+            });
+            
+            
             connectionPallete.OnRepaint += () => { connectionPallete.Selected = _target.conectionToSet; };
 
             connectionPallete.Repaint();
+        }
 
+        Texture2D GetOptionIcon(string label)
+        {
+            if(label == "Empty") return Resources.Load<Texture2D>("Icons/Behaviors/IconEmptyConnection");
+            if(label == "Wall") return Resources.Load<Texture2D>("Icons/Behaviors/IconWallConnection");
+            if(label == "Door") return Resources.Load<Texture2D>("Icons/Behaviors/IconDoorConnection");
+            if(label == "Window") return Resources.Load<Texture2D>("Icons/Behaviors/IconWindowsConnection");
+            return Resources.Load<Texture2D>("Icons/Behaviors/IconEmptyConnection");
         }
     }
 }

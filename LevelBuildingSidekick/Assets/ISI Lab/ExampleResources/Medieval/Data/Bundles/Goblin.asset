@@ -12,16 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: Goblin
   m_EditorClassIdentifier: 
+  layerContentFlags: 0
   type: 2
   anchorPosition: 0
   color: {r: 0.97647065, g: 0.25490198, b: 0.26666668, a: 1}
   icon: {fileID: 2800000, guid: 6c608816b47ba0041bb82380b5a8c65e, type: 3}
-  childsBundles: []
   assets:
-  - obj: {fileID: 4697017240656324050, guid: f019b5a5580837b4184a3701130fb9f6, type: 3}
+  - obj: {fileID: 8272943599224061573, guid: 47b41978aba272c47ae5f4a2f7179c61, type: 3}
     probability: 1
   characteristics:
   - rid: 5607495160444747959
+  - rid: 6953538112726761620
+  populationType: 0
+  tileSize: {x: 2, y: 2}
+  childsBundles: []
   references:
     version: 2
     RefIds:
@@ -30,3 +34,8 @@ MonoBehaviour:
       data:
         owner: {fileID: 11400000}
         value: {fileID: 11400000, guid: 560e713e6c53d0b4f9ae9a9a5d8d18bf, type: 2}
+    - rid: 6953538112726761620
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        owner: {fileID: 11400000}
+        value: {fileID: 11400000, guid: 04212421bd21c0040972c027fe29563c, type: 2}

@@ -16,7 +16,7 @@ namespace ISILab.LBS.VisualElements
     public class MAPEliteContent : VisualElement
     {
         AssistantMapElite assistant;
-
+        
         public ButtonWrapper[] Content = new ButtonWrapper[1];
         public VisualElement Container;
         private int buttonSize = 128;
@@ -73,7 +73,7 @@ namespace ISILab.LBS.VisualElements
             this.partitions = partitions;
             assistant.SampleWidth = (int)partitions.x;
             assistant.SampleHeight = (int)partitions.y;
-
+            
             Content = new ButtonWrapper[assistant.SampleWidth * assistant.SampleHeight];
             Container.Clear();
 

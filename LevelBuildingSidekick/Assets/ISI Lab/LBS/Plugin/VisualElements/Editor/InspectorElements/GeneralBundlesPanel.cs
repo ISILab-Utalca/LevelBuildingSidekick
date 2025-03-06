@@ -15,10 +15,11 @@ using ISILab.LBS.Components;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class GeneralBundlesPanel : VisualElement
+    [UxmlElement]
+    public partial class GeneralBundlesPanel : VisualElement
     {
         #region FACTORY
-        public new class UxmlFactory : UxmlFactory<GeneralBundlesPanel, UxmlTraits> { }
+    //    public new class UxmlFactory : UxmlFactory<GeneralBundlesPanel, UxmlTraits> { }
         #endregion
 
         #region FILEDS VIEWS

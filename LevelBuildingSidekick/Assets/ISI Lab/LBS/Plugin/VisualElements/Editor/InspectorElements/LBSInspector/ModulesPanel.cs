@@ -9,10 +9,11 @@ using ISILab.LBS.Modules;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class ModulesPanel : VisualElement
+    [UxmlElement]
+    public partial class ModulesPanel : VisualElement
     {
         #region FACTORY
-        public new class UxmlFactory : UxmlFactory<ModulesPanel, UxmlTraits> { }
+        //public new class UxmlFactory : UxmlFactory<ModulesPanel, UxmlTraits> { }
         #endregion
 
         private Foldout foldout;

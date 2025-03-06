@@ -439,6 +439,12 @@ namespace LBS.Components
             return pos.ToInt();
         }
 
+        public Vector2 FixedToPosition(Vector2Int position) 
+        {
+            var x = position.x * (TileSize.x * LBSSettings.Instance.general.TileSize.x);
+            var y = position.y * (TileSize.y * LBSSettings.Instance.general.TileSize.y);
+            return new Vector2(Mathf.Ceil(x), Mathf.Ceil(y));
+        }
         
         public (Vector2Int,Vector2Int) ToFixedPosition(Vector2 startPos, Vector2 endPos)
         {

@@ -8,10 +8,10 @@ using UnityEditor;
 
 namespace ISILab.Commons.VisualElements.Editor
 {
-    public class SplitView : TwoPaneSplitView
+    [UxmlElement]
+    public partial class SplitView : TwoPaneSplitView
     {
-        public new class UxmlFactory : UxmlFactory<SplitView, TwoPaneSplitView.UxmlTraits> { }
-
+       // public new class UxmlFactory : UxmlFactory<SplitView, UxmlElementAttribute> { }
         public SplitView()
         {
             var content = this.Q<VisualElement>("unity-content-container");

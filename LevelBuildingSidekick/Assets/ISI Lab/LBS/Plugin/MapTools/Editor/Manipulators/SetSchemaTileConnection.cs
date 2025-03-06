@@ -3,6 +3,7 @@ using ISILab.LBS.VisualElements;
 using LBS.Components;
 using System.Collections;
 using System.Collections.Generic;
+using ISILab.LBS.Editor.Windows;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -30,6 +31,8 @@ namespace ISILab.LBS.Manipulators
 
         public override void Init(LBSLayer layer, object behaviour)
         {
+            base.Init(layer, behaviour);
+            
             schema = behaviour as SchemaBehaviour;
             feedback.TeselationSize = layer.TileSize;
             layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
@@ -44,6 +47,7 @@ namespace ISILab.LBS.Manipulators
         {
             if (ToSet == null)
             {
+                LBSMainWindow.MessageNotify("Select a connection type in the LBS-inspector panel",LogType.Warning);
                 Debug.LogWarning("You don't have any selected connection to place.");
                 return;
             }

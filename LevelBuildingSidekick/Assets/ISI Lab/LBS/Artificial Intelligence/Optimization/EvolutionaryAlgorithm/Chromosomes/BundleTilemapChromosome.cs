@@ -8,6 +8,7 @@ using ISILab.Extensions;
 using ISILab.LBS.Modules;
 using LBS.Components.TileMap;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace ISILab.AI.Categorization
 {
@@ -15,15 +16,17 @@ namespace ISILab.AI.Categorization
     {
         public BundleTilemapChromosome(BundleTileMap tileMap, Rect rect, int[] immutables = null) : base(rect, immutables)
         {
-            var tiles = tileMap.Tiles;
+            var groups = tileMap.Groups;
 
-            foreach (var t in tiles)
-            {
-                if (!rect.Contains(t.Tile.Position))
-                    continue;
-                var i = ToIndex(t.Tile.Position - rect.position);
-                var data = t.BundleData.Clone() as BundleData;
-                ReplaceGene(i, data);
+            foreach(var group in groups) { 
+                foreach (var tile in group.TileGroup)
+                {
+                    if (!rect.Contains(tile.Position))
+                        continue;
+                    var i = ToIndex(tile.Position - rect.position);
+                    var data = group.BundleData.Clone() as BundleData;
+                    ReplaceGene(i, data);
+                }
             }
         }
 
@@ -91,7 +94,7 @@ namespace ISILab.AI.Categorization
                 }
                 else
                 {
-                    var source = (genes[i] as BundleData).Bundle.Icon;
+                    Texture2D source = (genes[i] as BundleData).Bundle.Icon;
                     var color = (genes[i] as BundleData).Bundle.Color;
                     var t = new Texture2D(source.width, source.height);
                     t.SetAllPixels(color);

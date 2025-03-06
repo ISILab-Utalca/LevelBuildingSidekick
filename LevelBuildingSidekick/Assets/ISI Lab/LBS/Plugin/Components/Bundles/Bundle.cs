@@ -8,10 +8,11 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Serialization;
+using UnityEngine.UIElements;
 
 namespace LBS.Bundles
 {
-    
+
     [System.Flags]
     public enum BundleFlags
     {
@@ -19,7 +20,6 @@ namespace LBS.Bundles
         Interior = 1 << 0,
         Exterior = 1 << 1,
         Population = 1 << 2,
-        //NewOne = 1 << 3,
     }
     
     [System.Serializable]
@@ -72,6 +72,17 @@ namespace LBS.Bundles
             Element, // Ej: Furniture, Enemies, 
                      // Distinction, // (characteristics)Ej: Destroyed, Blooded, Dirty,
         }
+        
+        public enum PopulationTypeE
+        {
+            Character, // player, npc, enemies
+            Item, // collectable type
+            Interactable, // buttons, doors, levers
+            Area, // triggers 
+            Prop, // static mesh
+            Misc // non categorized
+        }
+        
         #region FIELDS
         [SerializeField]
         private TagType type;
@@ -91,6 +102,14 @@ namespace LBS.Bundles
         [SerializeReference, HideInInspector]
         private List<LBSCharacteristic> characteristics = new List<LBSCharacteristic>();
 
+        // only used if it's an element (population)
+        [FormerlySerializedAs("populationType")] [SerializeField,HideInInspector] 
+        private PopulationTypeE populationType = PopulationTypeE.Character;
+
+        // Used in generation 3d.
+        [SerializeField,HideInInspector] 
+        private Vector2Int tileSize = Vector2Int.one;
+        
         // hides in inspector and uses the custom GUI to assign only children with containing flags
         [SerializeField, HideInInspector]
         private List<Bundle> childsBundles = new List<Bundle>();
@@ -98,7 +117,14 @@ namespace LBS.Bundles
         #endregion
 
         #region PROPERTIES
-        public Texture2D Icon => icon;
+        public Texture2D Icon
+        {
+            get
+            {
+                return (icon == null) ? null : icon;
+            }
+            set => icon = value;
+        }
         public Color Color => color;
         public string Name => name;
         public List<Asset> Assets
@@ -107,6 +133,9 @@ namespace LBS.Bundles
             set => assets = value;
         }
 
+        public Vector2Int TileSize => tileSize;
+        
+        public PopulationTypeE PopulationType => populationType;
         public List<LBSCharacteristic> Characteristics => characteristics;
 
         public List<Bundle> ChildsBundles => new List<Bundle>(childsBundles);

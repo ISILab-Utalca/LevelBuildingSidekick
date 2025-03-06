@@ -10,10 +10,11 @@ using ISILab.LBS.Components;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class TagInfo : VisualElement
+    [UxmlElement]
+    public partial class TagInfo : VisualElement
     {
         #region FACTORY
-        public new class UxmlFactory : UxmlFactory<TagInfo, UxmlTraits> { }
+        //public new class UxmlFactory : UxmlFactory<TagInfo, UxmlTraits> { }
         #endregion
 
         private LBSTag target;

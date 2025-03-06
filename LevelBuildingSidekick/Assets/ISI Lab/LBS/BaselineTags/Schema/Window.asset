@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20f19c2b877ae074b825ae4f29d5587a, type: 3}
+  m_Name: Window
+  m_EditorClassIdentifier: 
+  label: Window
+  icon: {fileID: 2800000, guid: 3914d02d92b254c48a695d64a6ebce2a, type: 3}
+  color: {r: 0.39398354, g: 0.81886786, b: 0.78259414, a: 0}

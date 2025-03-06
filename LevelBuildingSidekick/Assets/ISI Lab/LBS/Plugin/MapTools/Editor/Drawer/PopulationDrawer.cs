@@ -22,9 +22,16 @@ namespace ISILab.LBS.Drawers
             {
                 var v = new PopulationTileView(t);
                 var size = population.Owner.TileSize * LBSSettings.Instance.general.TileSize;
-                var p = new Vector2(t.Tile.Position.x, -t.Tile.Position.y);
+                var bundleSize = t.GetBundleSize();
+                //This sets the size of the group tile to draw and seems to work. Yay!
+                v.SetSize(size * bundleSize);
+
+                v.SetPivot(new Vector2(LBSSettings.Instance.general.TileSize.x * bundleSize.x, LBSSettings.Instance.general.TileSize.y * bundleSize.y));
+                
+                var p = new Vector2(t.GetBounds().x, -t.GetBounds().y);
                 v.SetPosition(new Rect(p * size, size));
                 view.AddElement(v);
+                
             }
         }
     }

@@ -659,6 +659,10 @@ namespace ISILab.LBS.Assistants
         {
             GraphMod.AddEdge(first, second);
         }
+        public bool CheckEdges(Zone first, Zone second)
+        {
+            return GraphMod.EdgesConnected(first, second);
+        }
 
         public override object Clone()
         {

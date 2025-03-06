@@ -13,6 +13,7 @@ namespace ISILab.LBS.VisualElements
         private static float borderThickness = 1f;
         private static float fillOpacity = 0.33f;
         private static readonly Color Colordefault = new (0.5f, 0.7f, 0.98f, 1);
+        private static readonly Color ColorPreview = new (0.5f, 0.7f, 0.98f, 1);
         private static readonly Color ColorDelete = Color.red;
 
 
@@ -28,9 +29,12 @@ namespace ISILab.LBS.VisualElements
         protected override void OnGenerateVisualContent(MeshGenerationContext mgc)
         {
             var painter = mgc.painter2D;
-            var ColorFill = delete ?  ColorDelete : Colordefault;
-            ColorFill.a = fillOpacity;
-            var fillColor = currentColor * ColorFill;
+            
+            var colorFill = delete ?  ColorDelete : Colordefault;
+            if(preview) colorFill = ColorPreview;
+            
+            colorFill.a = fillOpacity;
+            var fillColor = currentColor * colorFill;
 
             var points = new List<Vector2>()
         {
@@ -39,7 +43,7 @@ namespace ISILab.LBS.VisualElements
             new Vector2(endPosition.x, endPosition.y),
             new Vector2(endPosition.x, startPosition.y),
         };
-            painter.DrawPolygon(points, fillColor, ColorFill, borderThickness, true);
+            painter.DrawPolygon(points, fillColor, colorFill, borderThickness, true);
         }
 
         public override void ActualizePositions(Vector2Int p1, Vector2Int p2)
@@ -57,6 +61,11 @@ namespace ISILab.LBS.VisualElements
             }
 
             MarkDirtyRepaint();
+        }
+
+        public void SetColor(Color color)
+        {
+            currentColor = color; 
         }
     }
 }

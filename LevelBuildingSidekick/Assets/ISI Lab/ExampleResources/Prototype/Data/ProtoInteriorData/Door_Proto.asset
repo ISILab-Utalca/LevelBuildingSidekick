@@ -12,16 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: Door_Proto
   m_EditorClassIdentifier: 
+  layerContentFlags: 0
   type: 1
   anchorPosition: 1
   color: {r: 0.4433962, g: 0.4433962, b: 0.4433962, a: 0}
   icon: {fileID: 0}
-  childsBundles: []
   assets:
   - obj: {fileID: 919132149155446097, guid: 2e3191e056e85bb449c18aa39b59b47b, type: 3}
     probability: 1
   characteristics:
   - rid: 279245815319625874
+  populationType: 0
+  tileSize: {x: 1, y: 1}
+  childsBundles: []
   references:
     version: 2
     RefIds:
