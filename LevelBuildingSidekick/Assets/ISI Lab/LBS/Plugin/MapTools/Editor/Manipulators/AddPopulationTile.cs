@@ -86,7 +86,7 @@ namespace ISILab.LBS.Manipulators
             MainView.Instance.RemoveElement(previewFeedback);
             if (ToSet == null) return;
             
-            var topLeftCorner = -population.Owner.ToFixedPosition(endPosition);
+            var topLeftCorner = -population.Owner.ToFixedPosition(endPosition); // use negative value for corner
             var bottomRightCorner = topLeftCorner;
 
             // Set corner by tile size
@@ -118,13 +118,8 @@ namespace ISILab.LBS.Manipulators
             
             previewFeedback.ActualizePositions(firstPos.ToInt(), lastPos.ToInt());
             MainView.Instance.AddElement(previewFeedback);
-            var valid = population.ValidNewGroup(topLeftCorner, ToSet);
+            var valid = population.ValidNewGroup(-topLeftCorner, ToSet); // undo the negative of topLeftCorner
             previewFeedback.ValidForInput(valid);
-       
-            Debug.LogWarning(
-                "mousePosition: "+ endPosition.x + "||" + 
-                "gridPosition: " + topLeftCorner.x + "||" + 
-                "localPosition: " + firstPos.x);
             
         }
     }
