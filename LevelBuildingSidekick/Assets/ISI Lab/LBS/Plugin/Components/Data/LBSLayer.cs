@@ -441,9 +441,10 @@ namespace LBS.Components
 
         public Vector2 FixedToPosition(Vector2Int position) 
         {
-            var x = position.x * (TileSize.x * LBSSettings.Instance.general.TileSize.x);
-            var y = position.y * (TileSize.y * LBSSettings.Instance.general.TileSize.y);
-            return new Vector2(Mathf.Ceil(x), Mathf.Ceil(y));
+            var tileSizeX = TileSize.x * LBSSettings.Instance.general.TileSize.x;
+            var tileSizeY = TileSize.y * LBSSettings.Instance.general.TileSize.y;
+
+            return new Vector2(position.x * tileSizeX, position.y * tileSizeY);
         }
         
         public (Vector2Int,Vector2Int) ToFixedPosition(Vector2 startPos, Vector2 endPos)

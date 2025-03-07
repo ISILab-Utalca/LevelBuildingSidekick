@@ -86,33 +86,46 @@ namespace ISILab.LBS.Manipulators
             MainView.Instance.RemoveElement(previewFeedback);
             if (ToSet == null) return;
             
-            var topLeftCorner = population.Owner.ToFixedPosition(endPosition);
-            if (topLeftCorner.y > 0) topLeftCorner.y--;
-            if (topLeftCorner.x < 0) topLeftCorner.x++;
+            var topLeftCorner = -population.Owner.ToFixedPosition(endPosition);
             var bottomRightCorner = topLeftCorner;
- 
 
             // Set corner by tile size
-           if (ToSet.TileSize.x > 1 || ToSet.TileSize.y > 1 )
-           {
-               var offset = ToSet.TileSize - new Vector2Int(1, 1);
-               offset.x = -Mathf.Abs(offset.x);
-               offset.y = Mathf.Abs(offset.y);
-               bottomRightCorner -= offset;
-           }
-           
+            if (ToSet.TileSize.x > 1 || ToSet.TileSize.y > 1 )
+            {
+                var offset = ToSet.TileSize - new Vector2Int(1, 1);
+                offset.x = -Mathf.Abs(offset.x);
+                offset.y = Mathf.Abs(offset.y);
+                bottomRightCorner += offset;
+            }
+
             // grid to local position
             var firstPos = population.Owner.FixedToPosition(topLeftCorner);
             var lastPos = population.Owner.FixedToPosition(bottomRightCorner);
 
-            firstPos.y *= -1;
-            lastPos.y *= -1;
+            // weird correction on coordinates, hate it but it works
+            if(endPosition.y < 0)
+            {
+                firstPos.y += 99;
+                lastPos.y += 99;
+            }
+            if(endPosition.x < 0)
+            {
+                firstPos.x -= 99;
+                lastPos.x -= 99;
+            }
+            firstPos.x *= -1;
+            lastPos.x *= -1;
             
             previewFeedback.ActualizePositions(firstPos.ToInt(), lastPos.ToInt());
             MainView.Instance.AddElement(previewFeedback);
             var valid = population.ValidNewGroup(topLeftCorner, ToSet);
             previewFeedback.ValidForInput(valid);
        
+            Debug.LogWarning(
+                "mousePosition: "+ endPosition.x + "||" + 
+                "gridPosition: " + topLeftCorner.x + "||" + 
+                "localPosition: " + firstPos.x);
+            
         }
     }
 }
