@@ -8,9 +8,10 @@ using ISILab.LBS.Editor.Windows;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
-    public class ToolBarMain : VisualElement
+    [UxmlElement]
+    public partial class ToolBarMain : VisualElement
     {
-        public new class UxmlFactory : UxmlFactory<ToolBarMain, VisualElement.UxmlTraits> { }
+        //public new class UxmlFactory : UxmlFactory<ToolBarMain, VisualElement.UxmlTraits> { }
 
         public LBSMainWindow window;
 

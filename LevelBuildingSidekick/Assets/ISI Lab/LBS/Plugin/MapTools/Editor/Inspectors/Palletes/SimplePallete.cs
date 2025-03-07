@@ -11,10 +11,11 @@ using System.Linq;
 
 namespace LBS.VisualElements
 {
-    public class SimplePallete : VisualElement
+    [UxmlElement]
+    public partial class SimplePallete : VisualElement
     {
         #region FACTORY
-        public new class UxmlFactory : UxmlFactory<SimplePallete, VisualElement.UxmlTraits> { }
+        //public new class UxmlFactory : UxmlFactory<SimplePallete, VisualElement.UxmlTraits> { }
         #endregion
 
         private OptionView[] optionViews;
@@ -80,6 +81,11 @@ namespace LBS.VisualElements
         public bool ShowAddButton
         {
             set => this.addButton.SetDisplay(value);
+        }
+        
+        public bool ShowNoElement
+        {
+            set => this.noElement.SetDisplay(value);
         }
         
         #endregion

@@ -18,7 +18,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
         public void AddElement(object obj, GraphElement element)
         {
-            pairs.Add(obj, element);
+            pairs.Add(obj, element);    
         }
 
         public void Actualize(object obj, object other)
@@ -28,7 +28,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
         public void Repaint(object obj)
         {
-            var ve = pairs[obj];
+            GraphElement ve = pairs[obj];
             ve.MarkDirtyRepaint();
         }
 
@@ -40,10 +40,11 @@ namespace ISILab.LBS.VisualElements.Editor
         }
     }
 
-    public class MainView : GraphView // Canvas or WorkSpace
+    [UxmlElement]
+    public partial class MainView : GraphView // Canvas or WorkSpace
     {
         #region UXML_FACTORY
-        public new class UxmlFactory : UxmlFactory<MainView, GraphView.UxmlTraits> { }
+       // public new class UxmlFactory : UxmlFactory<MainView, UxmlTraits> { }
         #endregion
 
         #region SINGLETON
@@ -92,17 +93,19 @@ namespace ISILab.LBS.VisualElements.Editor
             if (instance != this)
                 instance = this;
             
-            // right click on workspace does not display it's default options
-            RegisterCallback<MouseUpEvent>(evt =>
+            AddManipulator(new ContextualMenuManipulator((evt) =>
             {
-                evt.PreventDefault();
-        
-            });
+                // Prevent the default right-click menu
+              //  evt.StopPropagation();
+                evt.menu.ClearItems(); 
+                
+            }));
 
         }
         
         #endregion
 
+        
         #region INTERNAL_METHODS
         private void InitBound(int interior, int exterior)
         {

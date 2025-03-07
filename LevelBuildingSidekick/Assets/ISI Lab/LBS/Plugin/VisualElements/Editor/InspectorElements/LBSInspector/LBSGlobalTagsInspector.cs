@@ -15,10 +15,11 @@ using ISILab.LBS.Components;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class LBSGlobalTagsInspector : LBSInspector
+    [UxmlElement]
+    public partial class LBSGlobalTagsInspector : LBSInspector
     {
         #region FACTORY
-        public new class UxmlFactory : UxmlFactory<LBSGlobalTagsInspector, UxmlTraits> { }
+        //public new class UxmlFactory : UxmlFactory<LBSGlobalTagsInspector, UxmlTraits> { }
         #endregion
 
         #region FIELDS

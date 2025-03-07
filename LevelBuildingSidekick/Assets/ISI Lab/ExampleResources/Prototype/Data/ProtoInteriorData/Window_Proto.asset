@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
+  m_Name: Window_Proto
+  m_EditorClassIdentifier: 
+  layerContentFlags: 1
+  type: 1
+  anchorPosition: 1
+  color: {r: 0, g: 0, b: 0, a: 0}
+  icon: {fileID: 0}
+  assets:
+  - obj: {fileID: 919132149155446097, guid: 9f423195bcc051e409d023665ef01904, type: 3}
+    probability: 1
+  characteristics:
+  - rid: 279245815319625878
+  populationType: 0
+  tileSize: {x: 1, y: 1}
+  childsBundles: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 279245815319625878
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        owner: {fileID: 11400000}
+        value: {fileID: 11400000, guid: aa672e189e8bdda45817f7056741fbc2, type: 2}

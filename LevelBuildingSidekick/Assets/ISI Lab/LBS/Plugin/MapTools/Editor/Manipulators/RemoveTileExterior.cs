@@ -18,6 +18,7 @@ namespace ISILab.LBS.Manipulators
             base.Init(layer, owner);
 
             exterior = owner as ExteriorBehaviour;
+            lbsLayer = layer;
         }
 
         protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)

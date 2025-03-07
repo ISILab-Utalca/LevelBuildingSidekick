@@ -7,22 +7,20 @@ using ISILab.Commons.Utility;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class ClassDropDown : DropdownField
+    [UxmlElement]
+    public partial class ClassDropDown : DropdownField
     {
-        public new class UxmlFactory : UxmlFactory<ClassDropDown, UxmlTraits> {}
+   //     public new class UxmlFactory : UxmlFactory<ClassDropDown, UxmlTraits> {}
 
-        public new class UxmlTraits : DropdownField.UxmlTraits
-        {
-            private readonly UxmlStringAttributeDescription m_Label = new UxmlStringAttributeDescription { name = "Label", defaultValue = "Class DropDown" };
+       private readonly UxmlStringAttributeDescription m_Label = new UxmlStringAttributeDescription { name = "Label", defaultValue = "Class DropDown" };
 
-            public override void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
-            {
-                base.Init(ve, bag, cc);
+       public void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
+       {
+           Init(ve, bag, cc);
 
-                ClassDropDown field = (ClassDropDown)ve;
-                field.label = m_Label.GetValueFromBag(bag, cc);
-            }
-        }
+           ClassDropDown field = (ClassDropDown)ve;
+           field.label = m_Label.GetValueFromBag(bag, cc);
+       }
 
         #region FIELDS
         Type type;

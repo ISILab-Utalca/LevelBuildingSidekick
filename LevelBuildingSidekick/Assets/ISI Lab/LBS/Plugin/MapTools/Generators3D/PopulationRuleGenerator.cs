@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ISI_Lab.LBS.Plugin.MapTools.Generators3D;
 using ISILab.Commons;
 using ISILab.Extensions;
 using ISILab.LBS.Internal;
@@ -45,30 +46,54 @@ namespace ISILab.LBS.Generators
             var data = layer.GetModule<BundleTileMap>();
             var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
             var scale = settings.scale;
-            
+
             var parent = new GameObject("Types");
-            
+
             var parentEntity = new GameObject("Entity");
             var parentObject = new GameObject("Object");
             var parentInteractable = new GameObject("Interactable");
             var parentArea = new GameObject("Area");
             var parentProp = new GameObject("Prop");
             var parentMisc = new GameObject("Misc");
-            
-            var tiles = data.Tiles;
+
+            var groups = data.Groups;
 
             var objects = new Dictionary<GameObject, Bundle.PopulationTypeE>();
-            foreach (var tile in tiles)
+
+            foreach (TileBundleGroup group in groups)
             {
+                Vector2Int centerposition = Vector2Int.zero;
+                List<Vector2Int> positions = new List<Vector2Int>();
+                foreach (var tile in group.TileGroup)
+                {
+                    Debug.Log(tile + tile.Position.ToString());
+                    // get interpolated center
+                    positions!.Add(tile.Position);
+                }
+                
+               
+                
+                int sumX = 0;
+                int sumY = 0;
+
+                foreach (var pos in positions)
+                {
+                    sumX += pos.x;
+                    sumY += pos.y;
+                }
+                centerposition = new Vector2Int(sumX / positions.Count, sumY / positions.Count);
+            
                 Bundle current = null;
                 foreach (var b in bundles)
                 {
                     var id = b.name;
 
-                    if (id.Equals(tile.BundleData.BundleName))
+                    if (id.Equals(group.BundleData.BundleName))
                         current = b;
                 }
-
+                if (current == null) continue;
+                
+                Debug.Log("for " + current.Name + "\n");
                 /*
                 if (bundles == null)
                 {
@@ -77,10 +102,10 @@ namespace ISILab.LBS.Generators
                     continue;
                 }*/
 
-                if (current == null) continue;
-                
+
+
                 var pref = current.Assets[Random.Range(0, current.Assets.Count)];
-                if(pref == null) 
+                if (pref == null)
                 {
                     Debug.LogError("Null reference in asset: " + current.Name);
                     continue;
@@ -89,7 +114,7 @@ namespace ISILab.LBS.Generators
 #if UNITY_EDITOR
                 var go = PrefabUtility.InstantiatePrefab(pref.obj) as GameObject;
 #else
-                var go = GameObject.Instantiate(pref.obj);
+                    var go = GameObject.Instantiate(pref.obj);
 #endif
                 if (go == null)
                 {
@@ -97,7 +122,7 @@ namespace ISILab.LBS.Generators
                     continue;
                 }
 
-                var r = Directions.Bidimencional.Edges.FindIndex(v => v == tile.Rotation);
+                var r = Directions.Bidimencional.Edges.FindIndex(v => v == group.Rotation);
                 go.transform.rotation = Quaternion.Euler(0, -90 * (r - 1), 0);
 
                 if (settings.useBundleSize)
@@ -107,16 +132,14 @@ namespace ISILab.LBS.Generators
                 // Set General position
                 go.transform.position =
                     settings.position +
-                    new Vector3(tile.Tile.Position.x * scale.x, 0, tile.Tile.Position.y * scale.y) +
+                    new Vector3(centerposition.x * scale.x, 0, centerposition.y * scale.y) +
                     -(new Vector3(scale.x, 0, scale.y) / 2f);
-
 
                 LBSGenerated generatedComponent = go.AddComponent<LBSGenerated>();
                 generatedComponent.BundleRef = current;
-                
                 objects.Add(go, current.PopulationType);
+               
             }
-            
             
             if(objects.Count == 0)
             {
@@ -165,8 +188,9 @@ namespace ISILab.LBS.Generators
             parentInteractable.transform.SetParent(parent.transform);
             parentArea.transform.SetParent(parent.transform);
             parentProp.transform.SetParent(parent.transform);
-            parentMisc.transform.SetParent(parent.transform);
             
+            
+            parentMisc.transform.SetParent(parent.transform);
             parent.transform.position += settings.position;
             
             return parent;

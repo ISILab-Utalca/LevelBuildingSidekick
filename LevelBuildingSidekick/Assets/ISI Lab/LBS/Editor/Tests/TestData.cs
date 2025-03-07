@@ -266,10 +266,10 @@ namespace ISILab.LBS.Tests
             var dir = Directions.Bidimencional.All[0];
 
             // Add some data
-            var tile = new LBSTile(new Vector2(0, 0));
+            //var tile = new LBSTile(new Vector2(0, 0));
             
             //Problems starts here
-            bundleMap.AddTile(tile, new BundleData("data", new List<LBSCharacteristic>(bundle.Characteristics)), dir);
+            bundleMap.CreateGroup(new Vector2Int(0, 0), new BundleData("data", new List<LBSCharacteristic>(bundle.Characteristics)), dir);
             // Save the level as JSON
             JSONDataManager.SaveData(path, "Layer_With_BundleTileMap.tst", lvl);
             // Load the level from JSON
@@ -375,7 +375,7 @@ namespace ISILab.LBS.Tests
 
             // Add some data
             var populationBH = layer.Behaviours[0] as PopulationBehaviour;
-            populationBH.AddTile(new Vector2Int(0, 0), bundle);
+            populationBH.AddTileGroup(new Vector2Int(0, 0), bundle);
 
             // Save the level as JSON
             JSONDataManager.SaveData(path, "Population_Layer.tst", lvl);

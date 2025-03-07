@@ -8,9 +8,10 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class TagsInspector : VisualElement
+    [UxmlElement]
+    public partial class TagsInspector : VisualElement
     {
-        public new class UxmlFactory : UxmlFactory<TagsInspector, UxmlTraits> { }
+    //    public new class UxmlFactory : UxmlFactory<TagsInspector, UxmlTraits> { }
 
         private List<BundleTagView> bundleViews = new List<BundleTagView>();
 

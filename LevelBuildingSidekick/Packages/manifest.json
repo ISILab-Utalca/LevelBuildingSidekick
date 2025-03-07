@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.unity.ai.navigation": "2.0.5",
+    "com.unity.ai.navigation": "2.0.6",
     "com.unity.feature.2d": "2.0.1",
     "com.unity.feature.development": "1.0.2",
     "com.unity.formats.fbx": "5.1.1",
@@ -9,7 +9,7 @@
     "com.unity.nuget.newtonsoft-json": "3.2.1",
     "com.unity.postprocessing": "3.4.0",
     "com.unity.recorder": "5.1.2",
-    "com.unity.shadergraph": "17.0.3",
+    "com.unity.shadergraph": "17.0.4",
     "com.unity.ugui": "2.0.0",
     "com.unity.vectorgraphics": "2.0.0-preview.25",
     "com.unity.modules.accessibility": "1.0.0",

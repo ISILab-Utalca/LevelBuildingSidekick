@@ -68,7 +68,6 @@ namespace ISILab.LBS.Internal.Editor
                 var folderPath = Path.GetDirectoryName(path);
 
                 var backUp = ScriptableObject.CreateInstance<BackUp>();
-                
                 //Checks if the level is corrupted. If it is, it saves the data and goes on.
                 if (level == null)
                 {
@@ -88,7 +87,6 @@ namespace ISILab.LBS.Internal.Editor
 
                 AssetDatabase.CreateAsset(backUp, path);
                 AssetDatabase.SaveAssets();
-
             }
             else
             {
@@ -111,8 +109,6 @@ namespace ISILab.LBS.Internal.Editor
                 // load the level from the backup
                 LBS.loadedLevel = backUp.level;
 
-                // After loading the level, the backup is destroyed
-                AssetDatabase.DeleteAsset(path);
             }
             else
             {

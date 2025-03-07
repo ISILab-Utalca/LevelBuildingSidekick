@@ -19,6 +19,8 @@ namespace ISILab.LBS.Manipulators
 
         public override void Init(LBSLayer layer, object owner)
         {
+            base.Init(layer, owner);
+            
             hillclimbing = owner as HillClimbingAssistant;
             layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
         }

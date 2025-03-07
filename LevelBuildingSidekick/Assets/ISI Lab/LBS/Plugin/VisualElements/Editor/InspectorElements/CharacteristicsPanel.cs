@@ -13,10 +13,11 @@ using ISILab.LBS;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class CharacteristicsPanel : VisualElement
+    [UxmlElement]
+    public partial class CharacteristicsPanel : VisualElement
     {
         #region FACTORY
-        public new class UxmlFactory : UxmlFactory<CharacteristicsPanel, UxmlTraits> { }
+      //  public new class UxmlFactory : UxmlFactory<CharacteristicsPanel, UxmlTraits> { }
         #endregion
 
         private VisualElement content;

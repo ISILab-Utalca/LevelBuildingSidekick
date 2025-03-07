@@ -16,47 +16,46 @@ using ISILab.LBS;
 
 namespace LBS.VisualElements
 {
-    public class ToolKit : VisualElement
+    [UxmlElement]
+    public partial class ToolKit : VisualElement
     {
         #region FACTORY
-        public new class UxmlFactory : UxmlFactory<ToolKit, UxmlTraits> { }
-
-        public new class UxmlTraits : VisualElement.UxmlTraits
+        //public new class UxmlFactory : UxmlFactory<ToolKit, UxmlTraits> { }
+        
+        UxmlColorAttributeDescription m_BaseColor = new UxmlColorAttributeDescription
         {
-            UxmlColorAttributeDescription m_BaseColor = new UxmlColorAttributeDescription
-            {
-                name = "base-color",
-                defaultValue = new Color(72f / 255f, 72f / 255f, 72f / 255f)
-            };
+            name = "base-color",
+            defaultValue = new Color(72f / 255f, 72f / 255f, 72f / 255f)
+        };
 
-            UxmlColorAttributeDescription m_SelectedColor = new UxmlColorAttributeDescription
-            {
-                name = "selected-color",
-                defaultValue = new Color(215f / 255f, 127f / 255f, 45f / 255f)
-            };
+        UxmlColorAttributeDescription m_SelectedColor = new UxmlColorAttributeDescription
+        {
+            name = "selected-color",
+    
+            defaultValue = new Color(215f / 255f, 127f / 255f, 45f / 255f)
+        };
 
-            UxmlIntAttributeDescription m_Index = new UxmlIntAttributeDescription
-            {
-                name = "index",
-                defaultValue = 0
-            };
+        UxmlIntAttributeDescription m_Index = new UxmlIntAttributeDescription
+        {
+            name = "index",
+            defaultValue = 0
+        };
 
-            public override IEnumerable<UxmlChildElementDescription> uxmlChildElementsDescription
+        public IEnumerable<UxmlChildElementDescription> uxmlChildElementsDescription
+        {
+            get
             {
-                get
-                {
-                    yield return new UxmlChildElementDescription(typeof(VisualElement));
-                }
+                yield return new UxmlChildElementDescription(typeof(VisualElement));
             }
+        }
 
-            public override void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
-            {
-                base.Init(ve, bag, cc);
-                var btn = ve as ToolKit;
+        public void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
+        {
+            Init(ve, bag, cc);
+            var btn = ve as ToolKit;
 
-                btn.BaseColor = m_BaseColor.GetValueFromBag(bag, cc);
-                btn.Index = m_Index.GetValueFromBag(bag, cc);
-            }
+            btn.BaseColor = m_BaseColor.GetValueFromBag(bag, cc);
+            btn.Index = m_Index.GetValueFromBag(bag, cc);
         }
         #endregion
 

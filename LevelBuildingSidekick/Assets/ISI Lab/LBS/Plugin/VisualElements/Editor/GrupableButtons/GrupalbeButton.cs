@@ -6,9 +6,10 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class GrupalbeButton : Button, IGrupable
+    [UxmlElement]
+    public partial class GrupalbeButton : Button, IGrupable
     {
-        public new class UxmlFactory : UxmlFactory<GrupalbeButton, UxmlTraits> { }
+       // public new class UxmlFactory : UxmlFactory<GrupalbeButton, UxmlTraits> { }
 
         public string label;
 

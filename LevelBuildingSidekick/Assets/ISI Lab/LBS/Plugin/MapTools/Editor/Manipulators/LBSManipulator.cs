@@ -5,6 +5,9 @@ using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
+using ISILab.LBS.Behaviours;
+using ISILab.LBS.Editor.Windows;
+using ISILab.LBS.Settings;
 using ISILab.LBS.VisualElements.Editor;
 using ISILab.LBS.VisualElements;
 using LBS;
@@ -16,6 +19,9 @@ namespace ISILab.LBS.Manipulators
     public abstract class LBSManipulator : MouseManipulator
     {
         #region FIELDS
+
+        protected LBSLayer lbsLayer;
+        
         protected Feedback feedback;
 
         private bool started = false;
@@ -114,11 +120,14 @@ namespace ISILab.LBS.Manipulators
         #endregion
 
         #region METHODS
+        
+        
         /// <summary>
         /// Registers mouse event callbacks on the target element.
         /// </summary>
         protected override void RegisterCallbacksOnTarget()
         {
+            target.AddManipulator(new ContextualMenuManipulator((evt) => { evt.menu.ClearItems(); }));
             target.RegisterCallback<MouseDownEvent>(OnInternalMouseDown);
             target.RegisterCallback<MouseMoveEvent>(OnInternalMouseMove);
             target.RegisterCallback<MouseUpEvent>(OnInternalMouseUp);
@@ -237,6 +246,17 @@ namespace ISILab.LBS.Manipulators
         /// <param name="e"></param>
         protected void OnInternalMouseMove(MouseMoveEvent e)
         {
+            moveClickPosition = MainView.Instance.FixPos(e.localMousePosition).ToInt();
+            
+            // Display grid position
+            if (lbsLayer != null)
+            {
+                Vector2 pos = lbsLayer.ToFixedPosition(moveClickPosition);
+                LBSMainWindow.GridPosition("Grid Position: " +  pos.ToInt());
+            }
+
+   
+            // button functionalities
             if (e.button != 0 && e.button != 1)
                 return;
             
@@ -252,7 +272,7 @@ namespace ISILab.LBS.Manipulators
                 return;
             }
             
-            moveClickPosition = MainView.Instance.FixPos(e.localMousePosition).ToInt();
+          
 
             OnMouseMove(e.target as VisualElement, moveClickPosition, e);
             UpdateFeedback();
@@ -309,7 +329,10 @@ namespace ISILab.LBS.Manipulators
         #endregion
 
         #region VIRTUAL METHODS
-        public abstract void Init(LBSLayer layer, object provider);
+        public virtual void Init(LBSLayer layer, object provider)
+        {
+            lbsLayer = layer;
+        }
 
         protected virtual void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e) { }
 

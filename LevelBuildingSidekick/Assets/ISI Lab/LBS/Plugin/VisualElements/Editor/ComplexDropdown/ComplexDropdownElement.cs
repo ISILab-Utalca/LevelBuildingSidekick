@@ -8,9 +8,10 @@ using ISILab.Extensions;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class ComplexDropdownElement : VisualElement
+    [UxmlElement]
+    public partial class ComplexDropdownElement : VisualElement
     {
-        public new class UxmlFactory : UxmlFactory<ComplexDropdownElement, UxmlTraits> { }
+     //   public new class UxmlFactory : UxmlFactory<ComplexDropdownElement, UxmlTraits> { }
 
         public readonly Texture2D defaultIcon = new Texture2D(16, 16);
 

@@ -13,10 +13,11 @@ using ISILab.LBS.Editor;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class LBSLocalAssistants : LBSInspector
+    [UxmlElement]
+    public partial class LBSLocalAssistants : LBSInspector
     {
         #region FACTORY
-        public new class UxmlFactory : UxmlFactory<LBSLocalAssistants, UxmlTraits> { }
+        //public new class UxmlFactory : UxmlFactory<LBSLocalAssistants, UxmlTraits> { }
         #endregion
 
         private Color color => LBSSettings.Instance.view.assistantColor;

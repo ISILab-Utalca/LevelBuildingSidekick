@@ -6,51 +6,47 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class CustomFoldout : Foldout
+    [UxmlElement]
+    public partial class CustomFoldout : Foldout
     {
-        public new class UxmlFactory : UxmlFactory<CustomFoldout, UxmlTraits>
+        public VisualElement Create(IUxmlAttributes bag, CreationContext cc)
         {
-            public override VisualElement Create(IUxmlAttributes bag, CreationContext cc)
-            {
-                var instance = base.Create(bag, cc) as CustomFoldout;
-                var ve = instance.Q<VisualElement>(name: "unity-checkmark").parent;
+            var instance = Create(bag, cc) as CustomFoldout;
+            var ve = instance.Q<VisualElement>(name: "unity-checkmark").parent;
 
-                instance.icon = new VisualElement() { name = "Icon" };
-                instance.icon.style.width = instance.icon.style.height = 12;
-                instance.icon.style.marginRight = 6;
+            instance.icon = new VisualElement() { name = "Icon" };
+            instance.icon.style.width = instance.icon.style.height = 12;
+            instance.icon.style.marginRight = 6;
 
-                bag.TryGetAttributeValue("Icon-Path", out string path);
-                var img = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
-                instance.icon.style.backgroundImage = img;
+            bag.TryGetAttributeValue("Icon-Path", out string path);
+            var img = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+            instance.icon.style.backgroundImage = img;
 
-                //ve.Add(instance.icon);
+            //ve.Add(instance.icon);
 
-                ve.Insert(1, instance.icon);
-                ve.style.alignItems = Align.Center;
+            ve.Insert(1, instance.icon);
+            ve.style.alignItems = Align.Center;
 
 
 
-                return instance;
-            }
+            return instance;
         }
 
-        public new class UxmlTraits : BindableElement.UxmlTraits
+        
+        private readonly UxmlStringAttributeDescription m_icon = new UxmlStringAttributeDescription { name = "Icon-Path", defaultValue = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Logo.png" };
+        private readonly UxmlStringAttributeDescription m_text = new UxmlStringAttributeDescription { name = "Text", defaultValue = "Foldout" };
+
+        public void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
         {
-            private readonly UxmlStringAttributeDescription m_icon = new UxmlStringAttributeDescription { name = "Icon-Path", defaultValue = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Logo.png" };
-            private readonly UxmlStringAttributeDescription m_text = new UxmlStringAttributeDescription { name = "Text", defaultValue = "Foldout" };
+            Init(ve, bag, cc);
 
-            public override void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
-            {
-                base.Init(ve, bag, cc);
+            CustomFoldout instance = (CustomFoldout)ve;
 
-                CustomFoldout instance = (CustomFoldout)ve;
+            var path = m_icon.GetValueFromBag(bag, cc);
+            var img = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+            instance.icon.style.backgroundImage = img;
 
-                var path = m_icon.GetValueFromBag(bag, cc);
-                var img = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
-                instance.icon.style.backgroundImage = img;
-
-                instance.text = m_text.GetValueFromBag(bag, cc);
-            }
+            instance.text = m_text.GetValueFromBag(bag, cc);
         }
 
         public VisualElement icon = new VisualElement() { name = "Icon" };

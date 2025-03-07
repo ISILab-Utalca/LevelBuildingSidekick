@@ -9,7 +9,8 @@ using UnityEngine.UIElements;
 
 namespace LBS.VisualElements
 {
-    public class NotifierViewer : VisualElement
+    [UxmlElement]
+    public partial class NotifierViewer : VisualElement
     {
         private ListView messageContainer;
         
@@ -18,7 +19,8 @@ namespace LBS.VisualElements
         private VectorImage iconNotificationsOn; 
         private VectorImage iconNotificationsOff;
         private static int fadeTime = 5;
-        public class NotifierViewerFactory : UxmlFactory<NotifierViewer, UxmlTraits> { }
+        
+        //public class NotifierViewerFactory : UxmlFactory<NotifierViewer, UxmlTraits> { }
         
         public NotifierViewer()
         {

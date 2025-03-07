@@ -7,12 +7,13 @@ using ISILab.Extensions;
 
 namespace LBS.VisualElements
 {
-    public class LayerInspector : VisualElement
+    [UxmlElement]
+    public partial class LayerInspector : VisualElement
     {
         private readonly string path = "Assets/ISI Lab/Commons/Assets2D/Arrow.png";
         private readonly Texture2D arrow;
 
-        public new class UxmlFactory : UxmlFactory<LayerInspector, UxmlTraits> { }
+    //    public new class UxmlFactory : UxmlFactory<LayerInspector, UxmlTraits> { }
 
         public LayerInspector()
         {

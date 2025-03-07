@@ -14,7 +14,8 @@ using ISILab.LBS;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class ComplexDropdown : VisualElement
+    [UxmlElement]
+    public partial class ComplexDropdown : VisualElement
     {
         public class listElement
         {
@@ -57,7 +58,7 @@ namespace ISILab.LBS.VisualElements
         }
         #endregion
 
-        public new class UxmlFactory : UxmlFactory<ComplexDropdown, UxmlTraits> { }
+       // public new class UxmlFactory : UxmlFactory<ComplexDropdown, UxmlTraits> { }
 
         public Action<object> OnSelected;
 

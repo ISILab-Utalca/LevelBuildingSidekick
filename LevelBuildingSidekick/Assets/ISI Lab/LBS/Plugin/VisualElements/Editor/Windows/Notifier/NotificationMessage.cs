@@ -6,12 +6,13 @@ using UnityEngine.UIElements;
 
 namespace LBS.VisualElements
 {
-    public class NotificationMessage : VisualElement
+    [UxmlElement]
+    public partial class NotificationMessage : VisualElement
     {
         private Label message;
         private VisualElement icon;
 
-        public class NotificationMessageFactory : UxmlFactory<NotificationMessage, UxmlTraits> { }
+    //    public class NotificationMessageFactory : UxmlFactory<NotificationMessage, UxmlTraits> { }
         
         public NotificationMessage()
         {

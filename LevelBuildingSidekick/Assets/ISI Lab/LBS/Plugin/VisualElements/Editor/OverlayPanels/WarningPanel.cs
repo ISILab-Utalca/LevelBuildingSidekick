@@ -7,35 +7,34 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class WarningPanel : VisualElement
+    [UxmlElement]
+    public partial class WarningPanel : VisualElement
     {
         #region FACTORY
-        public new class UxmlFactory : UxmlFactory<WarningPanel, UxmlTraits> { }
+        //public new class UxmlFactory : UxmlFactory<WarningPanel, UxmlTraits> { }
 
-        public new class UxmlTraits : VisualElement.UxmlTraits
+        UxmlStringAttributeDescription m_Text = new UxmlStringAttributeDescription
         {
-            UxmlStringAttributeDescription m_Text = new UxmlStringAttributeDescription
-            {
-                name = "Text",
-                defaultValue = "...",
-            };
+            name = "Text",
+            defaultValue = "...",
+        };
 
-            public override IEnumerable<UxmlChildElementDescription> uxmlChildElementsDescription
+        public IEnumerable<UxmlChildElementDescription> uxmlChildElementsDescription
+        {
+            get
             {
-                get
-                {
-                    yield return new UxmlChildElementDescription(typeof(VisualElement));
-                }
-            }
-
-            public override void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
-            {
-                base.Init(ve, bag, cc);
-                var panel = ve as WarningPanel;
-
-                panel.Text = m_Text.GetValueFromBag(bag, cc);
+                yield return new UxmlChildElementDescription(typeof(VisualElement));
             }
         }
+
+        public void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
+        {
+            Init(ve, bag, cc);
+            var panel = ve as WarningPanel;
+
+            panel.Text = m_Text.GetValueFromBag(bag, cc);
+        }
+        
         #endregion
 
         #region FIELDS

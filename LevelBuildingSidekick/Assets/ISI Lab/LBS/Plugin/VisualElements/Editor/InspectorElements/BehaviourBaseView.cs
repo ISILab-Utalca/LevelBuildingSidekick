@@ -7,10 +7,11 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class BehaviourBaseView : VisualElement
+    [UxmlElement]
+    public partial class BehaviourBaseView : VisualElement
     {
         #region FACTORY
-        public new class UxmlFactory : UxmlFactory<BehaviourBaseView, UxmlTraits> { }
+      //  public new class UxmlFactory : UxmlFactory<BehaviourBaseView, UxmlTraits> { }
         #endregion
 
         private LBSBehaviour target;

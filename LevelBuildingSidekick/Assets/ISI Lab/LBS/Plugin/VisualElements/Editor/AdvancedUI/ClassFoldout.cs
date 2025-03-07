@@ -9,75 +9,73 @@ using ISILab.Extensions;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class ClassFoldout : Foldout
+    [UxmlElement]
+    public partial class ClassFoldout : Foldout
     {
-        public new class UxmlFactory : UxmlFactory<ClassFoldout, UxmlTraits>
+  
+        public VisualElement Create(IUxmlAttributes bag, CreationContext cc)
         {
-            public override VisualElement Create(IUxmlAttributes bag, CreationContext cc)
-            {
-                var instance = base.Create(bag, cc) as ClassFoldout;
-                var ve = instance.Q<VisualElement>(name: "unity-checkmark").parent;
+            var instance = Create(bag, cc) as ClassFoldout;
+            var ve = instance.Q<VisualElement>(name: "unity-checkmark").parent;
 
-                ve.style.flexShrink = 1;
+            ve.style.flexShrink = 1;
 
-                instance.icon = new VisualElement() { name = "Icon" };
-                instance.dropdown = new ClassDropDown() { name = "ClassDropDown" };
-                instance.content = new VisualElement() { name = "Content" };
-                instance.content.style.flexGrow = 1;
+            instance.icon = new VisualElement() { name = "Icon" };
+            instance.dropdown = new ClassDropDown() { name = "ClassDropDown" };
+            instance.content = new VisualElement() { name = "Content" };
+            instance.content.style.flexGrow = 1;
 
-                instance.icon.style.width = instance.icon.style.height = 12;
-                instance.icon.style.minHeight = instance.icon.style.minWidth = 12;
-                instance.icon.style.marginRight = 6;
-                ve.style.alignItems = Align.Center;
+            instance.icon.style.width = instance.icon.style.height = 12;
+            instance.icon.style.minHeight = instance.icon.style.minWidth = 12;
+            instance.icon.style.marginRight = 6;
+            ve.style.alignItems = Align.Center;
 
-                instance.dropdown.Children().ToList()[0].style.marginLeft = 0;
-                instance.dropdown.SetMargins(0);
-                instance.dropdown.SetPaddings(0);
+            instance.dropdown.Children().ToList()[0].style.marginLeft = 0;
+            instance.dropdown.SetMargins(0);
+            instance.dropdown.SetPaddings(0);
 
-                bag.TryGetAttributeValue("Icon-Path", out string path);
-                var img = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
-                instance.icon.style.backgroundImage = img;
+            bag.TryGetAttributeValue("Icon-Path", out string path);
+            var img = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+            instance.icon.style.backgroundImage = img;
 
-                if (img == null)
-                    instance.icon.style.display = DisplayStyle.None;
+            if (img == null)
+                instance.icon.style.display = DisplayStyle.None;
 
-                ve.Add(instance.icon);
+            ve.Add(instance.icon);
 
 
-                instance.dropdown.style.marginRight = 4;
-                instance.dropdown.style.flexShrink = 1;
-                instance.dropdown.style.flexGrow = 1;
-                //instance.dropdown.parent.style.flexWrap = Wrap.Wrap;
+            instance.dropdown.style.marginRight = 4;
+            instance.dropdown.style.flexShrink = 1;
+            instance.dropdown.style.flexGrow = 1;
+            //instance.dropdown.parent.style.flexWrap = Wrap.Wrap;
 
-                if (bag.TryGetAttributeValue("Text", out string label))
-                    instance.dropdown.label = label;
+            if (bag.TryGetAttributeValue("Text", out string label))
+                instance.dropdown.label = label;
 
-                ve.Add(instance.dropdown);
+            ve.Add(instance.dropdown);
 
-                return instance;
-            }
+            return instance;
         }
+        
 
-        public new class UxmlTraits : BindableElement.UxmlTraits
+
+        private readonly UxmlStringAttributeDescription m_Label = new UxmlStringAttributeDescription { name = "Text", defaultValue = "ClassDropDown" };
+        private readonly UxmlStringAttributeDescription m_icon = new UxmlStringAttributeDescription { name = "Icon-Path", defaultValue = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Logo.png" };
+        //private readonly UxmlStringAttributeDescription m_type = new UxmlStringAttributeDescription { name = "DropDown Type", defaultValue = "Type" };
+
+        public void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
         {
-            private readonly UxmlStringAttributeDescription m_Label = new UxmlStringAttributeDescription { name = "Text", defaultValue = "ClassDropDown" };
-            private readonly UxmlStringAttributeDescription m_icon = new UxmlStringAttributeDescription { name = "Icon-Path", defaultValue = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Logo.png" };
-            //private readonly UxmlStringAttributeDescription m_type = new UxmlStringAttributeDescription { name = "DropDown Type", defaultValue = "Type" };
+            Init(ve, bag, cc);
 
-            public override void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
-            {
-                base.Init(ve, bag, cc);
+            ClassFoldout instance = (ClassFoldout)ve;
 
-                ClassFoldout instance = (ClassFoldout)ve;
+            instance.dropdown.label = m_Label.GetValueFromBag(bag, cc);
 
-                instance.dropdown.label = m_Label.GetValueFromBag(bag, cc);
-
-                var path = m_icon.GetValueFromBag(bag, cc);
-                var img = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
-                instance.icon.style.backgroundImage = img;
-            }
+            var path = m_icon.GetValueFromBag(bag, cc);
+            var img = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+            instance.icon.style.backgroundImage = img;
         }
-
+    
 
         public VisualElement icon = new VisualElement() { name = "Icon" };
         public ClassDropDown dropdown = new ClassDropDown() { name = "ClassDropDown" };

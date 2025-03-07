@@ -4,7 +4,7 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - gizmoMesh: {fileID: -6755227765702660719, guid: d4208258a77268b45bc1ca0668d326e5, type: 3}
+  - gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

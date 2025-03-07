@@ -14,15 +14,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1ac775b78cf31104191bc3afa0c07c49, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 12.961
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1ac775b78cf31104191bc3afa0c07c49, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.025
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1ac775b78cf31104191bc3afa0c07c49, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.242
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1ac775b78cf31104191bc3afa0c07c49, type: 3}
       propertyPath: m_LocalRotation.w
@@ -130,7 +130,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &7171417708451394438
 Animator:
-  serializedVersion: 5
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -144,6 +144,7 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1

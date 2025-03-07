@@ -13,10 +13,11 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class LBSLocalCurrent : LBSInspector, IToolProvider
+    [UxmlElement]
+    public partial class LBSLocalCurrent : LBSInspector, IToolProvider
     {
         #region FACTORY
-        public new class UxmlFactory : UxmlFactory<LBSLocalCurrent, UxmlTraits> { }
+    //    public new class UxmlFactory : UxmlFactory<LBSLocalCurrent, UxmlTraits> { }
         #endregion
 
         private LBSLayer layer;
@@ -63,6 +64,7 @@ namespace ISILab.LBS.VisualElements
 
         public override void Repaint()
         {
+            
             if(layer != null)
                 SetInfo(layer);
         }

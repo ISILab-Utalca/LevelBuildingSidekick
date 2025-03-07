@@ -7,10 +7,11 @@ using ISILab.Extensions;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class Button8Connected : VisualElement
+    [UxmlElement]
+    public partial class Button8Connected : VisualElement
     {
         #region FACTORY
-        public new class UxmlFactory : UxmlFactory<Button8Connected, UxmlTraits> { }
+        //public new class UxmlFactory : UxmlFactory<Button8Connected, UxmlTraits> { }
         #endregion
 
         private Color baseColor = new Color(88 / 255f, 88 / 255f, 88 / 255f, 1f);

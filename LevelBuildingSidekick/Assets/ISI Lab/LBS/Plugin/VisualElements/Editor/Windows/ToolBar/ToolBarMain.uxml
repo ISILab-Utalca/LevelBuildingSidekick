@@ -1,11 +1,11 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
-    <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/Visual%20Elements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
-    <uie:Toolbar name="MainToolBar" style="background-color: rgb(58, 58, 58); margin-left: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; opacity: 1; display: flex; height: 24px; max-height: 24px; min-height: 24px; border-top-width: 1px;">
+    <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
+    <uie:Toolbar name="MainToolBar" style="background-color: rgb(58, 58, 58); margin-left: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; opacity: 1; display: flex; height: 24px; max-height: 24px; min-height: 24px; border-top-width: 1px; -unity-background-scale-mode: scale-to-fit;">
         <uie:ToolbarMenu tabindex="-1" display-tooltip-when-elided="true" text="File" name="ToolBarMenu" style="left: 0; align-self: stretch; justify-content: center; align-items: stretch;" />
         <uie:ToolbarButton tabindex="-1" text="Key map" name="KeyMapBtn" focusable="false" style="left: 0; margin-left: -1px; justify-content: center; align-self: stretch; -unity-text-align: middle-center;" />
         <uie:ToolbarButton tabindex="-1" name="OptionButton" focusable="false" style="left: 0; margin-left: -1px;">
-            <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); background-image: resource(&apos;Icons/Vectorial/Icon=Configuration&apos;); min-width: 16px; min-height: 16px; -unity-background-image-tint-color: rgb(196, 196, 196); align-self: center;" />
+            <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); background-image: resource(&apos;Icons/Vectorial/Icon=Configuration&apos;); min-width: 16px; min-height: 16px; -unity-background-image-tint-color: rgb(196, 196, 196); align-self: center; -unity-background-scale-mode: scale-to-fit;" />
         </uie:ToolbarButton>
-        <ui:Label tabindex="-1" text="Unsaved file *" display-tooltip-when-elided="true" name="IsSavedLabel" style="-unity-text-align: middle-center; background-color: rgba(255, 255, 255, 0); color: rgb(159, 159, 159); padding-left: 16px; align-self: center; align-items: center;" />
+        <ui:Label tabindex="-1" text="Unsaved file *" display-tooltip-when-elided="true" name="IsSavedLabel" style="-unity-text-align: middle-center; background-color: rgba(255, 255, 255, 0); color: rgb(159, 159, 159); padding-left: 16px; align-self: stretch; align-items: center; align-content: stretch;" />
     </uie:Toolbar>
 </ui:UXML>

@@ -13,10 +13,11 @@ using ISILab.LBS.Editor;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class CharacteristicsBaseView : VisualElement
+    [UxmlElement]
+    public partial class CharacteristicsBaseView : VisualElement
     {
         #region FACTORY
-        public new class UxmlFactory : UxmlFactory<CharacteristicsBaseView, UxmlTraits> { }
+        //public new class UxmlFactory : UxmlFactory<CharacteristicsBaseView, UxmlTraits> { }
         #endregion
 
         private VisualElement content;

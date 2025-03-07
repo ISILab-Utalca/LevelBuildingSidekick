@@ -24,12 +24,13 @@ namespace ISILab.LBS.VisualElements.Editor
         public LBSLayer selectedLayer;
     }
     
-    public class LayersPanel : VisualElement
+    [UxmlElement]
+    public partial class LayersPanel : VisualElement
     {
 
         
         #region FACTORY
-        public new class UxmlFactory : UxmlFactory<LayersPanel, VisualElement.UxmlTraits> { }
+        //public new class UxmlFactory : UxmlFactory<LayersPanel, VisualElement.UxmlTraits> { }
         #endregion
 
         #region FIELDS

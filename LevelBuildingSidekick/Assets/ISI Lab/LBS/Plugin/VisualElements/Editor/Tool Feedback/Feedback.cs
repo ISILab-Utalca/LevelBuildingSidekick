@@ -32,6 +32,7 @@ namespace ISILab.LBS.VisualElements
         public bool fixToTeselation = false;
 
         public bool delete;
+        public bool preview;
         #endregion
 
         #region PROPERTIES
@@ -62,6 +63,7 @@ namespace ISILab.LBS.VisualElements
                 currentState = value;
             }
         }
+        
         #endregion
 
         #region CONSTRUCTORS
@@ -105,6 +107,8 @@ namespace ISILab.LBS.VisualElements
             Problem = 1,
             Error = 2
         }
+
+        public void ValidForInput(bool valid) => currentColor = valid? Color.white :Color.red;
     }
 
     public class Empty : GraphElement
