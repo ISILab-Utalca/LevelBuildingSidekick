@@ -62,7 +62,7 @@ namespace ISILab.LBS.Generators
 
             foreach (TileBundleGroup group in groups)
             {
-                Vector2Int centerposition = Vector2Int.zero;
+                Vector2 centerposition = Vector2.zero;
                 List<Vector2Int> positions = new List<Vector2Int>();
                 foreach (var tile in group.TileGroup)
                 {
@@ -70,9 +70,7 @@ namespace ISILab.LBS.Generators
                     // get interpolated center
                     positions!.Add(tile.Position);
                 }
-                
-               
-                
+ 
                 int sumX = 0;
                 int sumY = 0;
 
@@ -81,7 +79,8 @@ namespace ISILab.LBS.Generators
                     sumX += pos.x;
                     sumY += pos.y;
                 }
-                centerposition = new Vector2Int(sumX / positions.Count, sumY / positions.Count);
+                centerposition = new Vector2(sumX / (float)positions.Count, sumY / (float)positions.Count);
+
             
                 Bundle current = null;
                 foreach (var b in bundles)
@@ -93,7 +92,6 @@ namespace ISILab.LBS.Generators
                 }
                 if (current == null) continue;
                 
-                Debug.Log("for " + current.Name + "\n");
                 /*
                 if (bundles == null)
                 {
@@ -124,11 +122,7 @@ namespace ISILab.LBS.Generators
 
                 var r = Directions.Bidimencional.Edges.FindIndex(v => v == group.Rotation);
                 go.transform.rotation = Quaternion.Euler(0, -90 * (r - 1), 0);
-
-                if (settings.useBundleSize)
-                    if (current != null)
-                        scale = current.TileSize;
-
+                
                 // Set General position
                 go.transform.position =
                     settings.position +
