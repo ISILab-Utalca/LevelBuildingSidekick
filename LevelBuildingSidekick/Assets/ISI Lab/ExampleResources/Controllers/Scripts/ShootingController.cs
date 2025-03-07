@@ -22,7 +22,7 @@ namespace ISILab.Examples
         {
             GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
             Rigidbody bulletRigidbody = bullet.GetComponent<Rigidbody>();
-            bulletRigidbody.velocity = firePoint.forward * bulletSpeed;
+            bulletRigidbody.linearVelocity = firePoint.forward * bulletSpeed;
         }
     }
 }
