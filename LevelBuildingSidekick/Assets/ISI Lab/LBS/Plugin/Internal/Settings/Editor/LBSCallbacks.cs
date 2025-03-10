@@ -60,17 +60,17 @@ namespace ISILab.LBS.Internal.Editor
         private static void SaveBackUp()
         {
             var level = LBS.loadedLevel;
-            backUpData = level.data;
 
-            if (level.data != null)
+            if (level != null)
             {
                 var settings = LBSSettings.Instance;
                 var path = settings.paths.backUpPath;
                 var folderPath = Path.GetDirectoryName(path);
 
                 var backUp = ScriptableObject.CreateInstance<BackUp>();
+                
                 //Checks if the level is corrupted. If it is, it saves the data and goes on.
-                if (level == null)
+                /*if (level == null)
                 {
                     backUpData = level.data;
                     backUp.level = LBSController.CreateNewLevel("new file");
@@ -79,7 +79,7 @@ namespace ISILab.LBS.Internal.Editor
                 else
                 {
                     backUp.level = level;
-                }
+                }*/
 
                 if (!Directory.Exists(folderPath))
                 {
@@ -88,6 +88,7 @@ namespace ISILab.LBS.Internal.Editor
 
                 AssetDatabase.CreateAsset(backUp, path);
                 AssetDatabase.SaveAssets();
+
             }
             else
             {
@@ -104,22 +105,19 @@ namespace ISILab.LBS.Internal.Editor
             var settings = LBSSettings.Instance;
             var path = settings.paths.backUpPath;
             var backUp = AssetDatabase.LoadAssetAtPath<BackUp>(path);
-            if(!AssetDatabase.AssetPathExists(path)) { Debug.Log("there's nothing here btw"); }
 
             if (backUp != null)
             {
                 // load the level from the backup
                 LBS.loadedLevel = backUp.level;
 
+                // Fine, let's delete the backup I guess
+                AssetDatabase.DeleteAsset(path);
             }
             else
             {
                 // if the backup is not found, a new level is created
                 LBS.loadedLevel = LoadedLevel.CreateInstance(new LBSLevelData(), "New level");
-                if(backUpData != null)
-                {
-                    LBS.loadedLevel.data = backUpData;
-                }
             }
         }
 
