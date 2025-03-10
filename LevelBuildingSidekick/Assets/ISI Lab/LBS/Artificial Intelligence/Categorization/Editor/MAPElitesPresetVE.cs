@@ -168,6 +168,10 @@ namespace ISILab.LBS.VisualElements
             }
 
             var ve = Activator.CreateInstance(veType, new object[] { target }) as VisualElement;
+            if (ve is ClassFoldout cf)
+            {
+                //cf.OnCreate(veType, target);
+            }
 
             container.Add(ve);
         }

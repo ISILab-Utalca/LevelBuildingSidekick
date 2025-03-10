@@ -24,6 +24,7 @@ namespace ISILab.LBS.Editor.Windows{
         #region PROPERTIES
         private LBSLevelData levelData
         {
+
             get => ISILab.LBS.LBS.loadedLevel.data;
             set => ISILab.LBS.LBS.loadedLevel.data = value;
         }

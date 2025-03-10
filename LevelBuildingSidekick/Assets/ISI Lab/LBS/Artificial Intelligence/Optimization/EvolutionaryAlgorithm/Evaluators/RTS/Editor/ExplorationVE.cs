@@ -11,6 +11,7 @@ namespace ISILab.LBS.VisualElements
     [LBSCustomEditor("Exploration", typeof(Exploration))]
     public class ExplorationVE : LBSCustomEditor
     {
+        [UxmlAttribute]
         DynamicFoldout colliderCharacteristic;
 
         public ExplorationVE(object target) : base(target)

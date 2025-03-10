@@ -16,13 +16,18 @@ namespace ISILab.LBS.VisualElements
     [LBSCustomEditor("GeneticAlgorithm", typeof(GeneticAlgorithm))]
     public class GeneticAlgorithmVE : LBSCustomEditor
     {
+        [UxmlAttribute]
         DynamicFoldout evaluator;
+        [UxmlAttribute]
         DynamicFoldout selection;
+        [UxmlAttribute]
         DynamicFoldout termination;
 
+        [UxmlAttribute]
         DynamicFoldout mutation;
         FloatField mutationProbability;
 
+        [UxmlAttribute]
         DynamicFoldout crossover;
         FloatField crossoverProbability;
 

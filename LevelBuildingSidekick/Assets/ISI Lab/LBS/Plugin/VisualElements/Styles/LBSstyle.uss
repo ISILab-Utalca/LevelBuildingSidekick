@@ -620,3 +620,78 @@ Toggle > .lbs-default-icon {
     flex-direction: row;
     flex-grow: 1;
 }
+
+.lbs-Foldout {
+    flex-grow: 0;
+    flex-direction: row;
+    align-self: stretch;
+    padding-top: 3px;
+    padding-right: 3px;
+    padding-bottom: 3px;
+    padding-left: 3px;
+    background-color: rgb(42, 42, 42);
+    border-left-color: rgb(20, 20, 20);
+    border-right-color: rgb(20, 20, 20);
+    border-top-color: rgb(20, 20, 20);
+    border-bottom-color: rgb(20, 20, 20);
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    flex-shrink: 0;
+}
+
+.lbs-Foldout > Label {
+    flex-grow: 0;
+    flex-direction: row;
+    align-self: stretch;
+    padding-top: 3px;
+    padding-right: 3px;
+    padding-bottom: 3px;
+    padding-left: 12px;
+    background-color: rgb(42, 42, 42);
+    border-left-color: rgb(20, 20, 20);
+    border-right-color: rgb(20, 20, 20);
+    border-top-color: rgb(20, 20, 20);
+    border-bottom-color: rgb(20, 20, 20);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    flex-shrink: 0;
+}
+
+.lbs-enumcolored {
+    color: rgb(255, 255, 255);
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.lbs-enumc-red > Label {
+    color: rgb(255, 119, 126);
+    background-color: rgba(0, 0, 0, 0);
+    -unity-text-outline-width: 0.5px;
+    -unity-text-outline-color: rgb(0, 0, 0);
+    -unity-font-style: bold;
+}
+
+.lbs-enumc-green > Label {
+    color: rgb(0, 255, 174);
+    background-color: rgba(0, 0, 0, 0);
+    -unity-text-outline-width: 0.5px;
+    -unity-text-outline-color: rgb(0, 0, 0);
+}
+
+.lbs-integerField {
+    display: flex;
+    align-self: flex-start;
+    justify-content: flex-start;
+    width: 42px;
+    min-width: 42px;
+    max-width: 42px;
+}
+
+.lbs-integerField > Label {
+    font-size: 0;
+    color: rgba(210, 210, 210, 0);
+    display: none;
+}

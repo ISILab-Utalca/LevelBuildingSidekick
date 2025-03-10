@@ -1,85 +1,22 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
-using ISILab.Extensions;
 
 namespace ISILab.LBS.VisualElements
 {
-    [UxmlElement]
+    [UxmlElement] 
     public partial class ClassFoldout : Foldout
     {
-  
-        public VisualElement Create(IUxmlAttributes bag, CreationContext cc)
-        {
-            var instance = Create(bag, cc) as ClassFoldout;
-            var ve = instance.Q<VisualElement>(name: "unity-checkmark").parent;
-
-            ve.style.flexShrink = 1;
-
-            instance.icon = new VisualElement() { name = "Icon" };
-            instance.dropdown = new ClassDropDown() { name = "ClassDropDown" };
-            instance.content = new VisualElement() { name = "Content" };
-            instance.content.style.flexGrow = 1;
-
-            instance.icon.style.width = instance.icon.style.height = 12;
-            instance.icon.style.minHeight = instance.icon.style.minWidth = 12;
-            instance.icon.style.marginRight = 6;
-            ve.style.alignItems = Align.Center;
-
-            instance.dropdown.Children().ToList()[0].style.marginLeft = 0;
-            instance.dropdown.SetMargins(0);
-            instance.dropdown.SetPaddings(0);
-
-            bag.TryGetAttributeValue("Icon-Path", out string path);
-            var img = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
-            instance.icon.style.backgroundImage = img;
-
-            if (img == null)
-                instance.icon.style.display = DisplayStyle.None;
-
-            ve.Add(instance.icon);
-
-
-            instance.dropdown.style.marginRight = 4;
-            instance.dropdown.style.flexShrink = 1;
-            instance.dropdown.style.flexGrow = 1;
-            //instance.dropdown.parent.style.flexWrap = Wrap.Wrap;
-
-            if (bag.TryGetAttributeValue("Text", out string label))
-                instance.dropdown.label = label;
-
-            ve.Add(instance.dropdown);
-
-            return instance;
-        }
-        
-
-
+        // Define UXML attributes
         private readonly UxmlStringAttributeDescription m_Label = new UxmlStringAttributeDescription { name = "Text", defaultValue = "ClassDropDown" };
-        private readonly UxmlStringAttributeDescription m_icon = new UxmlStringAttributeDescription { name = "Icon-Path", defaultValue = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Logo.png" };
-        //private readonly UxmlStringAttributeDescription m_type = new UxmlStringAttributeDescription { name = "DropDown Type", defaultValue = "Type" };
+        private readonly UxmlStringAttributeDescription m_IconPath = new UxmlStringAttributeDescription { name = "Icon-Path", defaultValue = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Logo.png" };
 
-        public void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
-        {
-            Init(ve, bag, cc);
-
-            ClassFoldout instance = (ClassFoldout)ve;
-
-            instance.dropdown.label = m_Label.GetValueFromBag(bag, cc);
-
-            var path = m_icon.GetValueFromBag(bag, cc);
-            var img = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
-            instance.icon.style.backgroundImage = img;
-        }
-    
-
-        public VisualElement icon = new VisualElement() { name = "Icon" };
-        public ClassDropDown dropdown = new ClassDropDown() { name = "ClassDropDown" };
-        public VisualElement content = new VisualElement();
+        // UI Elements
+        public VisualElement icon;
+        public ClassDropDown dropdown;
+        public VisualElement content;
 
         object data = null;
 
@@ -95,30 +32,51 @@ namespace ISILab.LBS.VisualElements
 
         public object Data => data;
         public Action OnSelectChoice;
-
+        
         public Type Type
         {
             get => dropdown.Type;
             set => dropdown.Type = value;
         }
 
+        // new uxml constructor 
         public ClassFoldout()
         {
+
+            // Initialize UI elements
+            icon = new VisualElement() { name = "Icon" };
+            dropdown = new ClassDropDown() { name = "ClassDropDown" };
+            content = new VisualElement() { name = "Content" };
+
+            content.style.flexGrow = 1;
+
+            icon.style.width = icon.style.height = 12;
+            icon.style.minHeight = icon.style.minWidth = 12;
+            icon.style.marginRight = 6;
+
+            dropdown.style.marginRight = 4;
+            dropdown.style.flexShrink = 1;
+            dropdown.style.flexGrow = 1;
+
+            hierarchy.Add(icon);
+            hierarchy.Add(dropdown);
+            hierarchy.Add(content);
         }
 
-        public ClassFoldout(Type type) : this()
+        // previous create
+        public void OnCreate(IUxmlAttributes bag, CreationContext cc)
         {
-            dropdown.Type = type;
-        }
+            // Apply attributes
+            text = m_Label.GetValueFromBag(bag, cc);
 
+            string path = m_IconPath.GetValueFromBag(bag, cc);
+            Texture2D img = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+            icon.style.backgroundImage = img;
+
+            if (img == null)
+            {
+                icon.style.display = DisplayStyle.None;
+            }
+        }
     }
 }
-
-/*
-public class  ClassFoldout : VisualElement
-{
-    public ClassFoldout() 
-    {
-        
-    }
-}*/

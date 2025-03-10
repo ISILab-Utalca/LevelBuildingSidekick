@@ -21,7 +21,7 @@ MonoBehaviour:
     yEvaluator:
       rid: 4305865204711817738
     optimizer:
-      rid: 3832781230169915597
+      rid: 4399913724046213865
     changedSample: 
   maskType: ISILab.LBS.Behaviours.ExteriorBehaviour
   blackList:
@@ -31,27 +31,6 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 3832781230169915597
-      type: {class: GeneticAlgorithm, ns: ISILab.AI.Optimization, asm: LBS}
-      data:
-        population:
-          rid: -2
-        evaluator:
-          rid: 4305865204711817741
-        selection:
-          rid: 3832781230169915599
-        termination:
-          rid: 4305865204711817764
-        crossover:
-          rid: 4305865204711817765
-        mutation:
-          rid: 4305865204711817745
-        crossoverProbability: 1
-        mutationProbability: 0.05
-    - rid: 3832781230169915599
-      type: {class: TournamentSelection, ns: ISILab.AI.Optimization.Selections, asm: LBS}
-      data:
-        m_minNumberChromosomes: 2
     - rid: 4305865204711817734
       type: {class: Exploration, ns: ISILab.AI.Categorization, asm: LBS}
       data:
@@ -79,78 +58,36 @@ MonoBehaviour:
       data:
         owner: {fileID: 0}
         value: {fileID: 11400000, guid: 975a57a1811d3f743838422b5c87c58a, type: 2}
-    - rid: 4305865204711817741
-      type: {class: ResourcesSafetyFairness, ns: ISILab.AI.Categorization, asm: LBS}
+    - rid: 4399913724046213865
+      type: {class: GeneticAlgorithm, ns: ISILab.AI.Optimization, asm: LBS}
       data:
-        playerCharacteristc:
-          rid: 4305865204711817742
-        resourceCharactersitic:
-        - rid: 4688719056639886050
-        - rid: 4688719056639886051
-        - rid: 4688719056639886052
-    - rid: 4305865204711817742
-      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
-      data:
-        owner: {fileID: 0}
-        value: {fileID: 11400000, guid: 975a57a1811d3f743838422b5c87c58a, type: 2}
-    - rid: 4305865204711817745
-      type: {class: RoulleteWheelMutation, ns: ISILab.AI.Categorization, asm: LBS}
-      data:
-        mutations:
-        - rid: 4305865204711817758
-        - rid: 4305865204711817756
-        - rid: 4305865204711817760
-        - rid: 4305865204711817762
-    - rid: 4305865204711817749
-      type: {class: ExhaustiveMoveGene, ns: ISILab.AI.Categorization, asm: LBS}
-      data:
-        range: 2
-    - rid: 4305865204711817756
-      type: {class: WeightedMutation, ns: ISILab.AI.Categorization, asm: LBS}
-      data:
+        population:
+          rid: 4399913724046213866
+        evaluator:
+          rid: -2
+        selection:
+          rid: 4399913724046213867
+        termination:
+          rid: 4399913724046213868
+        crossover:
+          rid: 4399913724046213869
         mutation:
-          rid: 4305865204711817749
-        weight: 0.6
-    - rid: 4305865204711817758
-      type: {class: WeightedMutation, ns: ISILab.AI.Categorization, asm: LBS}
+          rid: 4399913724046213870
+        crossoverProbability: 1
+        mutationProbability: 0.05
+    - rid: 4399913724046213866
+      type: {class: Population, ns: ISILab.AI.Optimization.Populations, asm: LBS}
+      data: 
+    - rid: 4399913724046213867
+      type: {class: TournamentSelection, ns: ISILab.AI.Optimization.Selections, asm: LBS}
       data:
-        mutation:
-          rid: 4305865204711817759
-        weight: 0.2
-    - rid: 4305865204711817759
-      type: {class: ExhaustiveAddGene, ns: ISILab.AI.Categorization, asm: LBS}
-    - rid: 4305865204711817760
-      type: {class: WeightedMutation, ns: ISILab.AI.Categorization, asm: LBS}
-      data:
-        mutation:
-          rid: 4305865204711817761
-        weight: 0.2
-    - rid: 4305865204711817761
-      type: {class: ExhaustiveRemoveGene, ns: ISILab.AI.Categorization, asm: LBS}
-    - rid: 4305865204711817762
-      type: {class: WeightedMutation, ns: ISILab.AI.Categorization, asm: LBS}
-      data:
-        mutation:
-          rid: 4305865204711817763
-        weight: 1
-    - rid: 4305865204711817763
-      type: {class: ExhaustiveSwapGene, ns: ISILab.AI.Categorization, asm: LBS}
-    - rid: 4305865204711817764
+        m_minNumberChromosomes: 2
+    - rid: 4399913724046213868
       type: {class: GenerationNumberTermination, ns: ISILab.AI.Optimization.Terminations, asm: LBS}
-    - rid: 4305865204711817765
+      data: 
+    - rid: 4399913724046213869
       type: {class: AreaCrossover, ns: ISILab.AI.Categorization, asm: LBS}
-    - rid: 4688719056639886050
-      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
-      data:
-        owner: {fileID: 0}
-        value: {fileID: 11400000, guid: 0147d0d479179b04a8c825d8159e70ce, type: 2}
-    - rid: 4688719056639886051
-      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
-      data:
-        owner: {fileID: 0}
-        value: {fileID: 11400000, guid: 8d03f9563098ae048a81b709940e56c0, type: 2}
-    - rid: 4688719056639886052
-      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
-      data:
-        owner: {fileID: 0}
-        value: {fileID: 11400000, guid: b354587b73f945f4188c7dc7026de4ef, type: 2}
+      data: 
+    - rid: 4399913724046213870
+      type: {class: AddGene, ns: ISILab.AI.Categorization, asm: LBS}
+      data: 
