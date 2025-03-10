@@ -18,8 +18,6 @@ MonoBehaviour:
   color: {r: 0.8235295, g: 0.54509807, b: 0.3803922, a: 1}
   icon: {fileID: 2800000, guid: 519a57572d70c2f44a976e1321d6c9ce, type: 3}
   assets:
-  - obj: {fileID: 919132149155446097, guid: 5f415fd0a46ad1d479d39b65bb935f32, type: 3}
-    probability: 1
   - obj: {fileID: 5904395869029400924, guid: a97c402f591eca34b9d6b591c04a86ba, type: 3}
     probability: 1
   characteristics:

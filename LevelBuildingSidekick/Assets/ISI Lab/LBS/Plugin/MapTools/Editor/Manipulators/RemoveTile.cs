@@ -11,7 +11,7 @@ namespace ISILab.LBS.Manipulators
     {
         public override void Init(LBSLayer layer, object behaviour)
         {
-            throw new System.NotImplementedException();
+            base.Init(layer, behaviour);
         }
 
         protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)

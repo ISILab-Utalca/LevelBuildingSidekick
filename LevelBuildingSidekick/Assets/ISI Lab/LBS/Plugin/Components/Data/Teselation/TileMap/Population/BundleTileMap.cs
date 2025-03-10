@@ -71,23 +71,6 @@ namespace ISILab.LBS.Modules
             TileBundleGroup newGroup = new TileBundleGroup(new List<LBSTile>(), bundleData, rotation);
             Vector2Int groupSize = newGroup.GetBundleSize();
             
-            // Check if its valid to add a tilegroup
-            foreach (var tbg in groups)
-            {
-                foreach (var lbsTile in tbg.TileGroup)
-                {
-                    for(int i=0; i<groupSize.x; i++)
-                    {
-                        for(int j=0; j<groupSize.y; j++)
-                        {
-                            if (new Vector2(position.x + i, position.y - j) != lbsTile.Position) continue;
-                            return newGroup;
-                        }
-                    }
-                }
-            }
-            
-            
             //Fill group with tiles according to tilesize
             for(int i=0; i<groupSize.x; i++)
             {
@@ -99,6 +82,32 @@ namespace ISILab.LBS.Modules
 
             AddGroup(newGroup);
             return newGroup;
+        }
+        
+        public bool ValidNewGroup(Vector2Int position, BundleData bundleData, Vector2 rotation)
+        {
+         
+            //Create group, then get the tilesize
+            TileBundleGroup newGroup = new TileBundleGroup(new List<LBSTile>(), bundleData, rotation);
+            Vector2Int groupSize = newGroup.GetBundleSize();
+            
+            // Check if its valid to add a tilegroup
+            foreach (var tbg in groups)
+            {
+                foreach (var lbsTile in tbg.TileGroup)
+                {
+                    for(int i=0; i<groupSize.x; i++)
+                    {
+                        for(int j=0; j<groupSize.y; j++)
+                        {
+                            if (new Vector2(position.x + i, position.y - j) != lbsTile.Position) continue;
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            return true;
         }
         
         //Adds a group to the group list and replaces anything in the way
@@ -272,6 +281,8 @@ namespace ISILab.LBS.Modules
             return base.GetHashCode();
         }
         #endregion
+
+   
     }
 
     /// <summary>

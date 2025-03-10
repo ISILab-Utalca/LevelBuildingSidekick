@@ -51,6 +51,8 @@ namespace ISILab.LBS.Behaviours
 
         public void AddTileGroup(Vector2Int position, BundleData bundle)
         {
+            if (!bundleTileMap.ValidNewGroup(position, bundle, Vector2.right)) return;
+            
             //Create group
             var group = bundleTileMap.CreateGroup(position, bundle, Vector2.right);
 
@@ -59,6 +61,11 @@ namespace ISILab.LBS.Behaviours
             {
                 tileMap.AddTile(tile);
             }
+        }
+
+        public bool ValidNewGroup(Vector2Int position, Bundle bundle)
+        {
+            return bundleTileMap.ValidNewGroup(position, new BundleData(bundle), Vector2.right);
         }
 
         public void AddTileGroup(Vector2Int position, Bundle bundle) => AddTileGroup(position, new BundleData(bundle));

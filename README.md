@@ -38,4 +38,3 @@ The license for this project is available in the LICENSE file in this repository
 
 ## Other Projects
 Thank you for reviewing this project! To discover more interesting projects, we invite you to visit our website [ISILab.cl](https://isilab.utalca.cl/) and explore everything we have to offer.
->>>>>>> main
