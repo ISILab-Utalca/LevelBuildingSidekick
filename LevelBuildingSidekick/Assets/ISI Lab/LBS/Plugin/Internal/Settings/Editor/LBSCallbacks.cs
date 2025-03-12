@@ -12,7 +12,7 @@ namespace ISILab.LBS.Internal.Editor
     [InitializeOnLoad]
     public class LBSCallbacks
     {
-        private static LBSLevelData backUpData;
+        private static BackUp localBackUp;
         static LBSCallbacks()
         {
             var onStart = SessionState.GetBool("start", true);
@@ -59,36 +59,40 @@ namespace ISILab.LBS.Internal.Editor
         /// </summary>
         private static void SaveBackUp()
         {
-            var level = LBS.loadedLevel;
+            LoadedLevel level = LBS.loadedLevel;
+            LBSLevelData data = level?.data;
 
-            if (level != null)
+            if (data != null)
             {
+                //Instance
+                localBackUp = ScriptableObject.CreateInstance<BackUp>();
+
+                //Backup file setup
                 var settings = LBSSettings.Instance;
                 var path = settings.paths.backUpPath;
                 var folderPath = Path.GetDirectoryName(path);
 
-                var backUp = ScriptableObject.CreateInstance<BackUp>();
-                
-                //Checks if the level is corrupted. If it is, it saves the data and goes on.
-                /*if (level == null)
-                {
-                    backUpData = level.data;
-                    backUp.level = LBSController.CreateNewLevel("new file");
-                    backUp.level.data = backUpData;
-                }
-                else
-                {
-                    backUp.level = level;
-                }*/
-
+                //Directory making
                 if (!Directory.Exists(folderPath))
                 {
                     Directory.CreateDirectory(folderPath);
                 }
 
-                AssetDatabase.CreateAsset(backUp, path);
-                AssetDatabase.SaveAssets();
+                //Save the level into the backup
+                switch(level == null)
+                {
+                    case true:
+                        localBackUp.level = LBSController.CreateNewLevel("new file");
+                        localBackUp.level.data = level.data;
+                        break;
+                    case false:
+                        localBackUp.level = level;
+                        break;
+                }
 
+                //Make the asset
+                AssetDatabase.CreateAsset(localBackUp, path);
+                AssetDatabase.SaveAssets();
             }
             else
             {
@@ -110,13 +114,9 @@ namespace ISILab.LBS.Internal.Editor
             {
                 // load the level from the backup
                 LBS.loadedLevel = backUp.level;
-
-                // Fine, let's delete the backup I guess
-                AssetDatabase.DeleteAsset(path);
-            }
+            } 
             else
             {
-                // if the backup is not found, a new level is created
                 LBS.loadedLevel = LoadedLevel.CreateInstance(new LBSLevelData(), "New level");
             }
         }
