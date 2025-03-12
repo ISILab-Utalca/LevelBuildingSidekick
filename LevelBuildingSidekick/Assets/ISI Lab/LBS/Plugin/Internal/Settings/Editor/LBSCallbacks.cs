@@ -109,8 +109,8 @@ namespace ISILab.LBS.Internal.Editor
             var settings = LBSSettings.Instance;
             var path = settings.paths.backUpPath;
             var backUp = AssetDatabase.LoadAssetAtPath<BackUp>(path);
-
-            if (backUp.level != null)
+            
+            if (backUp?.level != null)
             {
                 // load the level from the backup
                 LBS.loadedLevel = backUp.level;
