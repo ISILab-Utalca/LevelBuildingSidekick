@@ -6,7 +6,7 @@
             <ui:Label tabindex="-1" text="Quick Assistant" display-tooltip-when-elided="true" style="-unity-font-style: bold; margin-right: 0; margin-top: 0; margin-left: 2px; -unity-text-align: middle-left; color: rgb(120, 255, 212);" />
         </ui:VisualElement>
         <ui:EnumField label="Layer Type" value="Interior" type="LBS.Bundles.BundleFlags, LBS" tooltip="Select the assistant mode" />
-        <ui:Button text="Run Assistant!" style="height: 40px; margin-left: 0; margin-right: 0; margin-bottom: 2px; margin-top: 2px; padding-left: 3px; padding-right: 3px;" />
+        <ui:Button text="Run Assistant!" icon-image="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Editor/FloatingPanels/QuickAssistantPanel/PlayQuickAssistant.svg?fileID=7388822144124034973&amp;guid=ae41c9e092b1e5e4f85381b251cf15db&amp;type=3#PlayQuickAssistant" style="height: 40px; margin-left: 0; margin-right: 0; margin-bottom: 2px; margin-top: 2px; padding-left: 3px; padding-right: 3px;" />
         <ui:VisualElement class="lbs-notificator" style="height: 47px;">
             <ui:VisualElement name="VisualElement" style="flex-grow: 1;">
                 <ui:VisualElement name="AddIcon" style="flex-grow: 1;" />
