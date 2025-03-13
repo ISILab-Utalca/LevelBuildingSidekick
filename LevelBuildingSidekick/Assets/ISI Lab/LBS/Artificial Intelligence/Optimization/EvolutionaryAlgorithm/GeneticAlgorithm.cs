@@ -15,6 +15,7 @@ using ISILab.AI.Optimization.Populations;
 using ISILab.AI.Optimization.Selections;
 using ISILab.AI.Optimization.Terminations;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 namespace ISILab.AI.Optimization
 {
@@ -242,6 +243,7 @@ namespace ISILab.AI.Optimization
         /// <param name="chromosome">The chromosome.</param>
         private void RunEvaluateFitness(IOptimizable chromosome)
         {
+            // evaluator is null Calculate in panel (assistants/mapElite-genetic algorithm)
             chromosome.Fitness = Evaluator.Evaluate(chromosome);
         }
 
