@@ -740,11 +740,12 @@ Toggle > .lbs-default-icon {
     flex-shrink: 1;
     flex-grow: 1;
     background-color: rgba(42, 42, 42, 0);
-    margin-right: 3px;
+    margin-right: 2px;
     justify-content: flex-start;
     align-items: stretch;
     align-self: stretch;
     align-content: stretch;
+    margin-left: 2px;
 }
 
 .lbs-slide-int > Label {
@@ -752,7 +753,7 @@ Toggle > .lbs-default-icon {
     flex-shrink: 1;
     flex-grow: 1;
     background-color: rgba(42, 42, 42, 0);
-    margin-right: 1px;
+    margin-right: 0;
     justify-content: center;
     align-items: auto;
     -unity-font-style: normal;
@@ -801,4 +802,86 @@ Toggle > .lbs-default-icon {
     flex-direction: row;
     height: auto;
     flex-wrap: nowrap;
+}
+
+.lbs-graphHell-style {
+    flex-grow: 1;
+    align-self: stretch;
+    justify-content: space-around;
+    position: relative;
+    overflow: visible;
+    min-height: 100%;
+    max-height: 100px;
+}
+
+.lbs-graphHell-style > VisualElement > VisualElement > VisualElement {
+    flex-grow: 1;
+    align-self: stretch;
+    justify-content: space-around;
+    position: relative;
+    overflow: visible;
+    min-height: 100%;
+    max-height: 100%;
+}
+
+.lbs-foldout-right-to-left {
+    align-self: auto;
+    background-color: rgb(52, 52, 52);
+    border-left-color: rgb(12, 12, 12);
+    border-right-color: rgb(12, 12, 12);
+    border-top-color: rgb(12, 12, 12);
+    border-bottom-color: rgb(12, 12, 12);
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-top-left-radius: 1px;
+    border-top-right-radius: 1px;
+    border-bottom-right-radius: 1px;
+    border-bottom-left-radius: 1px;
+}
+
+.lbs-foldout-right-to-left > Toggle > VisualElement {
+    align-self: auto;
+    flex-direction: row-reverse;
+    justify-content: center;
+    align-items: auto;
+    align-content: auto;
+    padding-right: 20px;
+    padding-left: 10px;
+}
+
+.lbs-progressBar-score-thick > VisualElement > VisualElement {
+    align-self: stretch;
+    align-content: stretch;
+    flex-grow: 1;
+    flex-shrink: 0;
+    max-width: none;
+    max-height: 30px;
+    align-items: stretch;
+    flex-direction: column;
+    background-color: rgba(255, 32, 32, 0);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+    overflow: hidden;
+    border-left-color: rgb(32, 32, 32);
+    border-right-color: rgb(32, 32, 32);
+    border-top-color: rgb(32, 32, 32);
+    border-bottom-color: rgb(32, 32, 32);
+}
+
+.lbs-enumc-green {
+}
+
+.lbs-enumc-white > Label {
+    color: rgb(255, 255, 255);
+    -unity-text-outline-width: 0.5px;
+    -unity-text-outline-color: rgb(0, 0, 0);
+    -unity-font-style: bold;
 }

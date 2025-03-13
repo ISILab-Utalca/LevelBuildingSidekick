@@ -65,6 +65,7 @@ namespace ISILab.LBS.VisualElements.Editor
             
             savedElitesContent = this.Q<VisualElement>("SavedElitesContent");
             
+            mapEntries.Clear();
             // replace these calls with reading the actual saved data from the user
             AddEntry();
             AddEntry();
@@ -76,13 +77,16 @@ namespace ISILab.LBS.VisualElements.Editor
             mapElitesList.makeItem = () => new PopulationMapEntry(); 
             mapElitesList.bindItem = (element, index) =>
             {
-                var mapEntry = mapEntries[index];
-                var mapEntryVE = (PopulationMapEntry)element;
-                
-                mapEntryVE.SetData(savedMaps[index]); 
+                var mapEntryVE = element as PopulationMapEntry;
+                if (mapEntryVE == null) return;
+
+                var mapEntry = savedMaps[index]; 
+                mapEntryVE.SetData(mapEntry);
+
+                mapEntryVE.RemoveMapEntry = null;
                 mapEntryVE.RemoveMapEntry += () =>
                 {
-                    Debug.Log("Removing map entry");
+                    Debug.Log("Remove at " +index);
                     mapEntries.RemoveAt(index);
                     mapElitesList.Rebuild();
                 };
@@ -98,7 +102,7 @@ namespace ISILab.LBS.VisualElements.Editor
         // should pass the preset as parameter
         private void AddEntry()
         {
-            var mapEntry1 = new MAPElitesPreset();
+            var mapEntry1 = ScriptableObject.CreateInstance<MAPElitesPreset>(); // not null
             savedMaps.Add(mapEntry1);
 
             var mapEntryVE = new PopulationMapEntry();

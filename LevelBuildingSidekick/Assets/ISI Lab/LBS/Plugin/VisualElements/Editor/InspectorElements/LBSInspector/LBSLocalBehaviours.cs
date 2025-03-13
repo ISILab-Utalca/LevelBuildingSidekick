@@ -76,7 +76,7 @@ namespace ISILab.LBS.VisualElements
                 var ves = Reflection.GetClassesWith<LBSCustomEditorAttribute>()
                     .Where(t => t.Item2.Any(v => v.type == type)).ToList();
 
-                if (ves.Count() == 0)
+                if (!ves.Any())
                 {
                     Debug.LogWarning("[ISI Lab] No class marked as LBSCustomEditor found for type: " + type);
                     continue;

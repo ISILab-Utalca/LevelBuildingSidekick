@@ -44,7 +44,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
         #region PROPERTIES
 
-        MAPElitesPreset EntryMap
+        public MAPElitesPreset EntryMap
         {
             get => entryMap;
             set => entryMap = value;

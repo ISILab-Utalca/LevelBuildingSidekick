@@ -64,9 +64,11 @@ namespace ISILab.LBS.VisualElements
             }
 
             noContentPanel.SetDisplay(false);
-
+            this.content.Clear(); // clear all content before setting, based on the layer's assistants
             foreach (var assist in target.Assistants)
             {
+           
+                
                 if (assist.GetType() == typeof(AssistantMapElite) && this.content != null)
                 {
                     this.content.Add(new PopulationAssistantTab());
