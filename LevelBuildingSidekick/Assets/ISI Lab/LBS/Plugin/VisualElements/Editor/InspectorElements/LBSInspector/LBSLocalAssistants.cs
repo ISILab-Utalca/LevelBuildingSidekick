@@ -9,7 +9,10 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
+using ISILab.LBS.Assistants;
+using ISILab.LBS.Behaviours;
 using ISILab.LBS.Editor;
+using ISILab.LBS.VisualElements.Editor;
 
 namespace ISILab.LBS.VisualElements
 {
@@ -35,7 +38,13 @@ namespace ISILab.LBS.VisualElements
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("LBSLocalAssistants");
             visualTree.CloneTree(this);
 
-            content = this.Q<VisualElement>("Content");
+            content = this.Q<VisualElement>("NewContent");
+            
+            if(target != null) 
+            
+                  //
+            
+            //content = this.Q<VisualElement>("Content"); <<<<<< previous content display
             noContentPanel = this.Q<VisualElement>("NoContentPanel");
             contentAssist = this.Q<VisualElement>("ContentAssist");
 
@@ -55,9 +64,15 @@ namespace ISILab.LBS.VisualElements
             }
 
             noContentPanel.SetDisplay(false);
-
+            this.content.Clear(); // clear all content before setting, based on the layer's assistants
             foreach (var assist in target.Assistants)
             {
+           
+                
+                if (assist.GetType() == typeof(AssistantMapElite) && this.content != null)
+                {
+                    this.content.Add(new PopulationAssistantTab());
+                }
                 var type = assist.GetType();
                 var ves = Reflection.GetClassesWith<LBSCustomEditorAttribute>()
                     .Where(t => t.Item2.Any(v => v.type == type));

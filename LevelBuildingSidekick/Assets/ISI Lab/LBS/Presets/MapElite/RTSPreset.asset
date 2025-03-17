@@ -64,7 +64,7 @@ MonoBehaviour:
         population:
           rid: 4399913724046213866
         evaluator:
-          rid: -2
+          rid: 6953538363330920798
         selection:
           rid: 4399913724046213867
         termination:
@@ -91,3 +91,8 @@ MonoBehaviour:
     - rid: 4399913724046213870
       type: {class: AddGene, ns: ISILab.AI.Categorization, asm: LBS}
       data: 
+    - rid: 6953538363330920798
+      type: {class: Exploration, ns: ISILab.AI.Categorization, asm: LBS}
+      data:
+        colliderCharacteristic:
+          rid: -2
