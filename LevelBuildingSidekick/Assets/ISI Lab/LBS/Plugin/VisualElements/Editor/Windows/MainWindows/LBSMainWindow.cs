@@ -45,6 +45,11 @@ namespace ISILab.LBS.Editor.Windows{
         private DrawManager drawManager;
         private LBSInspectorPanel inspectorManager;
         private static NotifierViewer notifier;
+
+        //Warning notif
+        private VisualElement warningNotification;
+        private Label warningLabel;
+
         [UxmlAttribute]
         private SplitView splitView;
         #endregion
@@ -140,7 +145,11 @@ namespace ISILab.LBS.Editor.Windows{
             var cleanButton = rootVisualElement.Q<VisualElement>("CleanNotificationsButton");
             var disableNotificationButton = rootVisualElement.Q<VisualElement>("DisableNotificationsButton");
             notifier.SetButtons(cleanButton, disableNotificationButton);
-            
+
+            //Warning
+            warningNotification = rootVisualElement.Q<VisualElement>("WarningNotification");
+            warningLabel = rootVisualElement.Q<Label>("WarningText");
+
             // LayerInspector
             layerInspector = rootVisualElement.Q<LayerInspector>("LayerInspector");
 
@@ -401,6 +410,8 @@ namespace ISILab.LBS.Editor.Windows{
         /// Called when the level data is changed.
         /// </summary>
         /// <param name="levelData"></param>
+        
+
         private void OnLevelDataChange(LBSLevelData levelData)
         {
             var layersIsEmpty = levelData.Layers.Count <= 0;
