@@ -124,7 +124,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
         #region METHODS_MANIPULATORS
 
-        public void SetBasicManipulators() // (?) necesario aqui 
+        public void SetBasicManipulators()
         {
             var setting = LBSSettings.Instance.general;
 
