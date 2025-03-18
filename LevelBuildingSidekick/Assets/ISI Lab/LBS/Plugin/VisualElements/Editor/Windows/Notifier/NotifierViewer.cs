@@ -125,12 +125,12 @@ namespace LBS.VisualElements
             }
             
             element.style.opacity = 0f;
-            scrollView.Remove(element);
+            if(scrollView.childCount >0 && scrollView.Contains(element)) scrollView.Remove(element);
         }
 
         public void ClearNotifications()
         {
-            scrollView.Clear();
+            scrollView?.Clear();
         }
         
         public void NotificationFlipFlop(VisualElement button)
@@ -139,7 +139,10 @@ namespace LBS.VisualElements
             if (button == null) return;
             var tButton = button as ToolbarButton;
             if (tButton == null) return;
-            tButton.contentContainer.style.backgroundImage = notificationOn ? new StyleBackground(iconNotificationsOn) : new StyleBackground(iconNotificationsOff);
+            var ve = button.Children().First() as VisualElement;
+            
+            ve.style.backgroundImage = notificationOn ? new StyleBackground(iconNotificationsOn) : new StyleBackground(iconNotificationsOff);
+            
         }
         
         public void SetButtons(VisualElement cleanButton, VisualElement disableNotificationButton)

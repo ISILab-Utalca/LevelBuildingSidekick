@@ -75,7 +75,7 @@ namespace ISILab.LBS.VisualElements
             // Add Zone connection
             icon = Resources.Load<Texture2D>("Icons/Tools/Node_connection");
             setZoneConnection = new SetZoneConnection();
-            var t1 = new LBSTool(icon, "Add zone connection", setZoneConnection);
+            var t1 = new LBSTool(icon, "Add zone connection","Add a zone connection activated!", setZoneConnection);
             t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Assistants");
             t1.Init(hillClimbing.Owner, hillClimbing);
             toolKit.AddTool(t1);
@@ -83,7 +83,7 @@ namespace ISILab.LBS.VisualElements
             // Remove zone connections
             icon = Resources.Load<Texture2D>("Icons/Tools/Delete_node_connection");
             removeAreaConnection = new RemoveAreaConnection();
-            var t2 = new LBSTool(icon, "Remove zone connection", removeAreaConnection);
+            var t2 = new LBSTool(icon, "Remove zone connection", "Remove zone connection activated!", removeAreaConnection);
             t2.Init(hillClimbing.Owner, hillClimbing);
             toolKit.AddTool(t2);
             

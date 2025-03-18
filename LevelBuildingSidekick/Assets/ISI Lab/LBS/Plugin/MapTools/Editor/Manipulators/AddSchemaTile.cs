@@ -4,6 +4,7 @@ using ISILab.LBS.VisualElements;
 using LBS.Components;
 
 using System.Collections.Generic;
+using ISILab.LBS.Editor.Windows;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -35,6 +36,20 @@ namespace ISILab.LBS.Manipulators
             layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
         }
 
+        protected override void OnKeyDown(KeyDownEvent e)
+        {
+            base.OnKeyDown(e);
+            if (e.ctrlKey) LBSMainWindow.MessageManipulator("CTRL-Add new zone activated!");
+            else  OnManipulationNotification?.Invoke();
+        }
+
+        protected override void OnKeyUp(KeyUpEvent e)
+        {
+            base.OnKeyUp(e);
+            if (e.ctrlKey) LBSMainWindow.MessageManipulator("CTRL-Add new zone activated!");
+            else  OnManipulationNotification?.Invoke();
+        }
+        
         protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
         {
             var x = LBSController.CurrentLevel;
@@ -49,12 +64,12 @@ namespace ISILab.LBS.Manipulators
 
                 ToSet = newZone;
             }
-
+            
             if(!schema.Zones.Contains(ToSet)) { ToSet = null; }
 
             if (ToSet == null)
             {
-                Debug.LogWarning("You don't have any selected area to place.");
+                LBSMainWindow.MessageNotify("You don't have any selected area to place. Create a new Zone in the panel or press 'CTRL' when left clicking.", LogType.Error, 8);
                 return;
             }
 

@@ -4,6 +4,7 @@ using ISILab.LBS.VisualElements.Editor;
 using LBS.Components;
 using System;
 using System.Collections.Generic;
+using ISILab.LBS.Editor.Windows;
 using UnityEngine;
 
 namespace LBS
@@ -13,12 +14,14 @@ namespace LBS
         #region FIELDS
         private Texture2D icon;
         private string name;
+        private string description;
         private LBSManipulator manipulator;
         #endregion
 
         #region PROPERTIES
         public Texture2D Icon => icon;
         public string Name => name;
+        public string Description => description;
         public LBSManipulator Manipulator => manipulator;
         
         #endregion
@@ -33,11 +36,12 @@ namespace LBS
         #endregion
 
         #region CONSTRUCTORS
-        public LBSTool(Texture2D icon, string name, LBSManipulator manipulator)
+        public LBSTool(Texture2D icon, string name, string description, LBSManipulator manipulator)
         {
             this.icon = icon;
             this.name = name;
             this.manipulator = manipulator;
+            this.description = description;
         }
         #endregion
 
@@ -59,11 +63,13 @@ namespace LBS
             {
                 canvas.AddManipulator(this.manipulator);
                 OnSelect?.Invoke();
+
             };
             button.OnBlurEvent += () =>
             {
                 canvas.RemoveManipulator(this.manipulator);
                 OnDeselect?.Invoke();
+                LBSMainWindow.MessageManipulator("-");
             };
         }
         

@@ -48,7 +48,7 @@ namespace ISILab.LBS.Editor.Windows{
 
         //Warning notif
         private VisualElement warningNotification;
-        private Label warningLabel;
+        private static Label warningLabel;
 
         [UxmlAttribute]
         private SplitView splitView;
@@ -63,7 +63,7 @@ namespace ISILab.LBS.Editor.Windows{
         private VisualElement extraPanel;
         private VisualElement noLayerSign;
         private Label selectedLabel;
-        static private Label positionLabel;
+        private static Label positionLabel;
         private VisualElement floatingPanelContent;
         private VisualElement toggleButtons;
         private VisualElement hideBar;
@@ -178,6 +178,7 @@ namespace ISILab.LBS.Editor.Windows{
                 //drawManager.RedrawLayer(l, mainView);
                 drawManager.RedrawLevel(levelData, mainView);
             };
+         //   toolkit.OnNewAction()
 
             //QuestToolkit
             questToolkit = rootVisualElement.Q<ToolKit>(name: "QuestToolkit");
@@ -470,6 +471,13 @@ namespace ISILab.LBS.Editor.Windows{
             if (notifier == null) return; 
             notifier.SendNotification(message, logType, duration);
         }
+        
+        public static void MessageManipulator(string description)
+        {       
+            if (warningLabel == null) return; 
+            warningLabel.text = description;
+        }
+
 
         public List<LBSLayer> GetLayers()
         {

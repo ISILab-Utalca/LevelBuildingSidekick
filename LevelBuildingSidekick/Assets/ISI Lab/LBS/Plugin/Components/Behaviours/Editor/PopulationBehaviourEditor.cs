@@ -94,7 +94,7 @@ namespace ISILab.LBS.VisualElements
             // Add element Tiles
             icon = Resources.Load<Texture2D>("Icons/Tools/Population_Brush");
             addPopulationTile = new AddPopulationTile();
-            var t1 = new LBSTool(icon, "Paint Tile", addPopulationTile);
+            var t1 = new LBSTool(icon, "Paint Tile", "Add a population item activated!", addPopulationTile);
             t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
             t1.Init(_target.Owner, _target);
 
@@ -102,14 +102,14 @@ namespace ISILab.LBS.VisualElements
             // Rotate element
             icon = Resources.Load<Texture2D>("Icons/Tools/Rotacion_population");
             rotatePopulationTile = new RotatePopulationTile();
-            var t3 = new LBSTool(icon, "Rotate Tile", rotatePopulationTile);
+            var t3 = new LBSTool(icon, "Rotate Tile", "Rotate a population item activated!",rotatePopulationTile);
             t3.Init(_target.Owner, _target);
      
 
             // Remove Tiles
             icon = Resources.Load<Texture2D>("Icons/Tools/Delete_population");
             removePopulationTile = new RemovePopulationTile();
-            var t2 = new LBSTool(icon, "Remove Tile", removePopulationTile);
+            var t2 = new LBSTool(icon, "Remove Tile", "Remove a population item activated!", removePopulationTile);
             t2.Init(_target.Owner, _target);
 
             

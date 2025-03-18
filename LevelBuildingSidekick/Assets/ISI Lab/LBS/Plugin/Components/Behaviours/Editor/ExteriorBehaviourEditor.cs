@@ -15,6 +15,7 @@ using ISILab.LBS.Internal;
 using ISILab.LBS.Characteristics;
 using ISILab.LBS.Editor;
 using ISILab.LBS.Components;
+using ISILab.LBS.Editor.Windows;
 using UnityEditor;
 
 namespace ISILab.LBS.VisualElements
@@ -75,14 +76,14 @@ namespace ISILab.LBS.VisualElements
             // Set empty tile
             icon = Resources.Load<Texture2D>("Icons/Tools/Brush_interior_tile");
             addEmptyTile = new AddEmptyTile();
-            var t1 = new LBSTool(icon, "Add tile without connection", addEmptyTile);
+            var t1 = new LBSTool(icon, "Add tile without connection", "Add non-connected exterior tile activated!", addEmptyTile);
             t1.Init(exterior.Owner, exterior);
          
 
             // Remove tile
             icon = Resources.Load<Texture2D>("Icons/Tools/Delete_exterior_tile");
             removeTile = new RemoveTileExterior();
-            var t2 = new LBSTool(icon, "Remove Tile", removeTile);
+            var t2 = new LBSTool(icon, "Remove Tile", "Remove exterior tile activated!", removeTile);
             t2.Init(exterior.Owner, exterior);
      
             toolKit.AddSeparator(10);
@@ -90,14 +91,14 @@ namespace ISILab.LBS.VisualElements
             // Set connection
             icon = Resources.Load<Texture2D>("Icons/Tools/Exterior_connection");
             setConnection = new SetExteriorTileConnection();
-            var t3 = new LBSTool(icon, "Set connection", setConnection);
+            var t3 = new LBSTool(icon, "Set connection", "Set tile connection activated!", setConnection);
             t3.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
             t3.Init(exterior.Owner, exterior);
          
             // Remove connection
             icon = Resources.Load<Texture2D>("Icons/Tools/Delete_exterior_connection");
             removeConection = new RemoveConnection();
-            var t4 = new LBSTool(icon, "Remove connection", removeConection);
+            var t4 = new LBSTool(icon, "Remove connection", "Remove tile connection activated!", removeConection);
             t4.Init(exterior.Owner, exterior);
 
             addEmptyTile.SetAddRemoveConnection(removeTile);

@@ -13,6 +13,7 @@ using ISILab.LBS.VisualElements.Editor;
 using ISILab.LBS.VisualElements;
 using ISILab.LBS.Manipulators;
 using ISILab.LBS;
+using ISILab.LBS.Editor.Windows;
 
 namespace LBS.VisualElements
 {
@@ -143,7 +144,7 @@ namespace LBS.VisualElements
             {
                 var icon = Resources.Load<Texture2D>("Icons/Select");
                 var selectTool = new Select();
-                t1 = new LBSTool(icon, "Select", selectTool);
+                t1 = new LBSTool(icon, "Select", "Selecting activated!",  selectTool);
             }
             t1.Init(layer, this);
             t1.OnSelect += () =>
@@ -224,6 +225,13 @@ namespace LBS.VisualElements
 
             var m = current.Item1.Manipulator;
             MainView.Instance.AddManipulator(m);
+            
+            m.OnManipulationNotification += () =>
+            {
+                LBSMainWindow.MessageManipulator(tools.ElementAtOrDefault(index).Item1.Description);
+  
+            };
+            m.OnManipulationNotification?.Invoke();
         }
 
         public void SetActiveWhithoutNotify(int index)
@@ -234,12 +242,20 @@ namespace LBS.VisualElements
 
             var m = current.Item1.Manipulator;
             MainView.Instance.AddManipulator(m);
+            
+            m.OnManipulationNotification += () =>
+            {
+                LBSMainWindow.MessageManipulator(tools.ElementAtOrDefault(index).Item1.Description);
+  
+            };
+            m.OnManipulationNotification?.Invoke();
         }
 
         public void SetActive(string value)
         {
             var index = tools.FindIndex(t => t.Item2.tooltip.Equals(value));
             SetActive(index);
+       //     if(tools.Count >= index && tools[index].Item1 != null) Debug.Log(tools[index].Item1.Name);
         }
 
         public void SetActive()
@@ -248,8 +264,7 @@ namespace LBS.VisualElements
                 return;
         }
 
-        public void  
-            AddTool(LBSTool tool, int index = -1)
+        public void AddTool(LBSTool tool, int index = -1)
         {
             var button = new ToolButton(tool);
             (LBSTool, ToolButton) t = new(tool, button);
@@ -285,7 +300,7 @@ namespace LBS.VisualElements
                 };
             }
             // for tools that remove
-            if (tool.Manipulator.Adder != null)
+            else if (tool.Manipulator.Adder != null)
             {
                 // once it was used via right click go back to its corresponding add tool
                 tool.Manipulator.OnManipulationRightClickEnd += () =>
@@ -326,6 +341,7 @@ namespace LBS.VisualElements
             content.Clear();
         }
         #endregion
-        
+
+
     }
 }

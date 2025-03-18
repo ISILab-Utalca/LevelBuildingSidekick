@@ -111,6 +111,8 @@ namespace ISILab.LBS.Manipulators
         #endregion
 
         #region EVENTS
+        /* meant to call the default description message of a manipulator in case it is overwritten for unique cases */
+        public Action OnManipulationNotification;
         public Action OnManipulationUnpressed;
         public Action OnManipulationStart;
         public Action OnManipulationUpdate;
@@ -131,6 +133,8 @@ namespace ISILab.LBS.Manipulators
             target.RegisterCallback<MouseDownEvent>(OnInternalMouseDown);
             target.RegisterCallback<MouseMoveEvent>(OnInternalMouseMove);
             target.RegisterCallback<MouseUpEvent>(OnInternalMouseUp);
+            target.RegisterCallback<KeyDownEvent>(OnKeyDown);
+            target.RegisterCallback<KeyUpEvent>(OnKeyUp);
         }
 
         /// <summary>
@@ -141,6 +145,8 @@ namespace ISILab.LBS.Manipulators
             target.UnregisterCallback<MouseDownEvent>(OnInternalMouseDown);
             target.UnregisterCallback<MouseMoveEvent>(OnInternalMouseMove);
             target.UnregisterCallback<MouseUpEvent>(OnInternalMouseUp);
+            target.UnregisterCallback<KeyDownEvent>(OnKeyDown);
+            target.UnregisterCallback<KeyUpEvent>(OnKeyUp);
         }
 
         // if it has an adder ref it means the manipulator's function is to delete
@@ -210,18 +216,22 @@ namespace ISILab.LBS.Manipulators
             if (e.button != 0 && e.button != 1)
                 return;
             
+            OnManipulationNotification?.Invoke();
             startClickPosition = MainView.Instance.FixPos(e.localMousePosition).ToInt();
 
             // right click tries deleting 
             if (e.button == 1 && remover != null)
             {
                 remover.isRightClick = true;
+                
+                //remover.OnManipulationNotification?.Invoke();
                 OnManipulationRightClick?.Invoke();
                 
                 var ne = MouseDownEvent.GetPooled(e.localMousePosition, 0, e.clickCount, e.mouseDelta, e.modifiers);
                 ne.target = e.target as VisualElement;
-                e.StopImmediatePropagation();
+
                 remover.OnInternalMouseDown(ne);
+                e.StopImmediatePropagation();
                 return;
             }
             
@@ -235,8 +245,8 @@ namespace ISILab.LBS.Manipulators
             // check if last called by adder
             if (isRightClick && adder != null)
             {
-                OnManipulationRightClickEnd?.Invoke();
-                adder.OnInternalMouseDown(e);
+              //  OnManipulationRightClickEnd?.Invoke();
+               // adder.OnInternalMouseDown(e);
             }
         }
 
@@ -272,8 +282,6 @@ namespace ISILab.LBS.Manipulators
                 return;
             }
             
-          
-
             OnMouseMove(e.target as VisualElement, moveClickPosition, e);
             UpdateFeedback();
 
@@ -307,6 +315,8 @@ namespace ISILab.LBS.Manipulators
             if (e.button == 1 && remover != null)
             {
                 OnManipulationRightClick?.Invoke();
+                remover.OnManipulationNotification?.Invoke();
+                
                 return;
             }
             
@@ -339,6 +349,10 @@ namespace ISILab.LBS.Manipulators
         protected virtual void OnMouseMove(VisualElement target, Vector2Int movePosition, MouseMoveEvent e) { }
 
         protected virtual void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e) { }
+        
+        protected virtual void OnKeyDown(KeyDownEvent e) { }
+        
+        protected virtual void OnKeyUp(KeyUpEvent e) { }
         #endregion
     }
 
