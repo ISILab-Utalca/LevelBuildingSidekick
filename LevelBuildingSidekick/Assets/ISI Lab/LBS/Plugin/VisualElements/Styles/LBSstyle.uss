@@ -435,22 +435,6 @@ Toggle > .lbs-default-icon {
     -unity-background-image-tint-color: rgb(255, 255, 255);
 }
 
-.lbs-button-dark {
-    color: rgb(255, 255, 255);
-    -unity-text-outline-width: 0.1px;
-    -unity-font-style: bold;
-    -unity-text-outline-color: rgb(0, 0, 0);
-    background-color: rgb(62, 62, 62);
-    border-left-color: rgba(0, 0, 0, 0.2);
-    border-right-color: rgba(0, 0, 0, 0.2);
-    border-top-color: rgba(0, 0, 0, 0.2);
-    border-bottom-color: rgba(0, 0, 0, 0.2);
-    border-top-left-radius: 2px;
-    border-bottom-left-radius: 2px;
-    border-top-right-radius: 2px;
-    border-bottom-right-radius: 2px;
-}
-
 .lbs-input-field-float {
 }
 
@@ -884,4 +868,116 @@ Toggle > .lbs-default-icon {
     -unity-text-outline-width: 0.5px;
     -unity-text-outline-color: rgb(0, 0, 0);
     -unity-font-style: bold;
+}
+
+.lbs-tutorial-tab-button {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.lbs-tutorial-tab-button > VisualElement {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    background-color: rgb(42, 42, 42);
+    color: rgb(255, 255, 255);
+}
+
+.lbs-tutorial-tab-button-act > VisualElement {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    background-color: rgb(247, 196, 64);
+    color: rgb(255, 255, 255);
+    transition-duration: 0.5s;
+}
+
+.lbs-button-dark {
+    color: rgb(255, 255, 255);
+    -unity-text-outline-width: 0.1px;
+    -unity-font-style: bold;
+    -unity-text-outline-color: rgb(0, 0, 0);
+    background-color: rgb(62, 62, 62);
+    border-left-color: rgba(0, 0, 0, 0.2);
+    border-right-color: rgba(0, 0, 0, 0.2);
+    border-top-color: rgba(0, 0, 0, 0.2);
+    border-bottom-color: rgba(0, 0, 0, 0.2);
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+
+.lbs-radio-button {
+    width: auto;
+    max-width: 32px;
+}
+
+.lbs-radio-button > VisualElement > VisualElement {
+    width: auto;
+    max-width: 32px;
+    min-width: 32px;
+    min-height: 32px;
+    max-height: 32px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    background-color: rgb(83, 83, 83);
+    border-top-width: 4px;
+    border-right-width: 4px;
+    border-bottom-width: 4px;
+    border-left-width: 4px;
+    border-left-color: rgb(40, 40, 40);
+    border-right-color: rgb(40, 40, 40);
+    border-top-color: rgb(40, 40, 40);
+    border-bottom-color: rgb(40, 40, 40);
+}
+
+.lbs-radio-button:selected > VisualElement > VisualElement {
+    width: auto;
+    max-width: 32px;
+    min-width: 32px;
+    min-height: 32px;
+    max-height: 32px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    background-color: rgb(247, 196, 64);
+    border-top-width: 4px;
+    border-right-width: 4px;
+    border-bottom-width: 4px;
+    border-left-width: 4px;
+    border-left-color: rgb(139, 110, 36);
+    border-right-color: rgb(139, 110, 36);
+    border-top-color: rgb(139, 110, 36);
+    border-bottom-color: rgb(139, 110, 36);
+}
+
+.lbs-radio-button:selected > VisualElement > VisualElement > VisualElement {
+    width: 0;
+    max-width: 0;
+    min-width: 0;
+    min-height: 0;
+    max-height: 0;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    background-color: rgba(247, 196, 64, 0);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    border-left-color: rgb(139, 110, 36);
+    border-right-color: rgb(139, 110, 36);
+    border-top-color: rgb(139, 110, 36);
+    border-bottom-color: rgb(139, 110, 36);
+    display: flex;
+    flex-shrink: 0;
 }
