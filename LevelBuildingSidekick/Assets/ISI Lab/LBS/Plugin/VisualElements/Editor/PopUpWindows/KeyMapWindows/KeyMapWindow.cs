@@ -15,7 +15,8 @@ namespace ISILab.LBS.VisualElements.Editor
             var window = GetWindow<KeyMapWindow>();
             Texture icon = AssetDatabase.LoadAssetAtPath<Texture>(AssetDatabase.GUIDToAssetPath("809c25c61768b1c41b1ed78f56c0d7da")); //Logo
             window.titleContent = new GUIContent("ToolTips", icon);
-            window.minSize = new Vector2(600, 400);
+            window.minSize = new Vector2(350, 500);
+
         }
 
         public virtual void CreateGUI()
