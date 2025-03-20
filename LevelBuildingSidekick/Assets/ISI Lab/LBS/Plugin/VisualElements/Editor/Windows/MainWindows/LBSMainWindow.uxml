@@ -2,7 +2,9 @@
     <ui:Template name="NotifierViewer" src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Editor/Windows/Notifier/NotifierViewer.uxml?fileID=9197481963319205126&amp;guid=d2ab2317fac497243851408d64671a8c&amp;type=3#NotifierViewer" />
     <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
     <ui:VisualElement style="flex-grow: 1; flex-direction: row; position: absolute; width: 100%; height: 100%; visibility: visible; opacity: 1; overflow: visible;">
-        <ISILab.LBS.VisualElements.Editor.MainView focusable="true" name="MainView" tabindex="0" style="flex-grow: 1; width: auto; height: auto; visibility: visible; display: flex; -unity-text-align: upper-left;" />
+        <ISILab.LBS.VisualElements.Editor.MainView focusable="true" name="MainView" tabindex="0" style="flex-grow: 1; width: auto; height: auto; visibility: visible; display: flex; -unity-text-align: upper-left;">
+            <ui:VisualElement name="HelpOverlayAnchor" style="flex-grow: 1; position: absolute; height: 26px; width: 30px; top: 32px; left: 72px;" />
+        </ISILab.LBS.VisualElements.Editor.MainView>
     </ui:VisualElement>
     <ISILab.LBS.VisualElements.Editor.ToolBarMain name="ToolBar" style="height: 24px; border-bottom-color: rgb(36, 36, 36); border-bottom-width: 1px; max-height: 24px; min-height: 24px; -unity-background-scale-mode: scale-to-fit;" />
     <ISILab.Commons.VisualElements.Editor.SplitView picking-mode="Ignore" fixed-pane-index="1" fixed-pane-initial-dimension="400" name="SplitView" style="justify-content: space-around; align-self: stretch; flex-direction: row-reverse; flex-wrap: wrap; align-items: flex-end;">

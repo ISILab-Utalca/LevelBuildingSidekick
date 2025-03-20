@@ -26,8 +26,8 @@ namespace ISILab.LBS.VisualElements.Editor
 
         #region VIEW ELEMENTS
         // visual element's "tab" is not appropriate for the design, so just using its header with style change
-        private Tab buttonTooltip;
-        private Tab buttonTutorial;
+        private VisualElement buttonTooltip;
+        private VisualElement buttonTutorial;
         
         private VisualElement tooltipTab;
         private VisualElement tutorialTab;
@@ -51,17 +51,27 @@ namespace ISILab.LBS.VisualElements.Editor
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("HintsController");
             visualTree.CloneTree(this);
             
-            buttonTooltip = this.Q<Tab>("ButtonTooltip");
-            buttonTooltip.RegisterCallback<ClickEvent>(evt =>
+            var temp1 = this.Q<Tab>("ButtonTooltip");
+            if (temp1 != null)
             {
-                SetupTabButton(buttonTooltip, buttonTutorial, tooltipTab, tutorialTab);
-            });
+                buttonTooltip = temp1.hierarchy.Children().First();
+                temp1.RegisterCallback<ClickEvent>(evt =>
+                {
+                    SetupTabButton(buttonTooltip, buttonTutorial, tooltipTab, tutorialTab);
+                });
+            }
+          
             
-            buttonTutorial = this.Q<Tab>("ButtonTutorial");
-            buttonTutorial.RegisterCallback<ClickEvent>(evt =>
+            var temp2 = this.Q<Tab>("ButtonTutorial");
+            if (temp2 != null)
             {
-                SetupTabButton(buttonTutorial, buttonTooltip, tutorialTab, tooltipTab);
-            });
+                buttonTutorial = temp2.hierarchy.Children().First();
+                temp2.RegisterCallback<ClickEvent>(evt =>
+                {
+                    SetupTabButton(buttonTutorial, buttonTooltip, tutorialTab, tooltipTab);
+                });
+            }
+          
             
             
             tooltipTab = this.Q<VisualElement>("TooltipTab");
@@ -91,9 +101,9 @@ namespace ISILab.LBS.VisualElements.Editor
             }
             
             // By default on open
-            ChangeTab(button1);
+  
             SetupTabButton(buttonTooltip, buttonTutorial, tooltipTab, tutorialTab);
-            
+            ChangeTab(button1);
         }
         
         #endregion
@@ -103,16 +113,20 @@ namespace ISILab.LBS.VisualElements.Editor
         {
             foreach (var entry in tabs)
             {
+                entry.Key.value = entry.Key == selectedButton ? true : false;
                 entry.Value.style.display = entry.Key == selectedButton ? DisplayStyle.Flex : DisplayStyle.None;
             }
         }
         
-        private void SetupTabButton(Tab button, Tab otherButton, VisualElement activeTab, VisualElement inactiveTab)
+        private void SetupTabButton(VisualElement button, VisualElement otherButton, VisualElement activeTab, VisualElement inactiveTab)
         {
             button.RegisterCallback<ClickEvent>(evt =>
             {
-                if(!button.ClassListContains(activeClass)) button.AddToClassList(activeClass);
-                if(otherButton.ClassListContains(activeClass)) otherButton.RemoveFromClassList(activeClass);
+                var parent = button.hierarchy.parent;
+                var parentOther = otherButton.hierarchy.parent;
+                
+                if(parent!=null && !parent.ClassListContains(activeClass)) parent.AddToClassList(activeClass);
+                if(parentOther!=null && parentOther.ClassListContains(activeClass)) parentOther.RemoveFromClassList(activeClass);
 
                 activeTab.style.display = DisplayStyle.Flex;
                 inactiveTab.style.display = DisplayStyle.None;

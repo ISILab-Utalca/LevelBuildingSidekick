@@ -68,6 +68,7 @@ namespace ISILab.LBS.Editor.Windows{
         private VisualElement toggleButtons;
         private VisualElement hideBar;
         private VisualElement inspectorPanel;
+        private static VisualElement helpOverlay;
 
         // Panels
         private LayersPanel layerPanel;
@@ -140,6 +141,13 @@ namespace ISILab.LBS.Editor.Windows{
             splitView = rootVisualElement.Q<SplitView>("SplitView");
             if(splitView == null) Debug.LogError("Cannot find SplitView");
 
+            // Help
+            var helpOverlayAnchor = rootVisualElement.Q<VisualElement>("HelpOverlayAnchor");
+            helpOverlay = new HintsController();
+            helpOverlay.style.position = Position.Absolute; 
+            helpOverlayAnchor.Add(helpOverlay);
+            DisplayHelp();
+            
             // Message Notifier
             notifier = rootVisualElement.Q<NotifierViewer>("NotifierViewer");
             var cleanButton = rootVisualElement.Q<VisualElement>("CleanNotificationsButton");
@@ -374,6 +382,7 @@ namespace ISILab.LBS.Editor.Windows{
             
             LBSController.OnLoadLevel += (l) => _selectedLayer = null;
             
+
             
             // Init Data
             OnLevelDataChange(levelData);
@@ -501,6 +510,12 @@ namespace ISILab.LBS.Editor.Windows{
         {
             if (positionLabel == null) return; 
             positionLabel.text = gridPosition;
+        }
+
+        public static void DisplayHelp()
+        {
+            if(helpOverlay == null) return;
+            helpOverlay.style.display = helpOverlay.style.display == DisplayStyle.None ?  DisplayStyle.Flex : DisplayStyle.None;
         }
     }
 

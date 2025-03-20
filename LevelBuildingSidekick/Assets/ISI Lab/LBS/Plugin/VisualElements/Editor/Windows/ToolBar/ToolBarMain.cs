@@ -37,7 +37,7 @@ namespace ISILab.LBS.VisualElements.Editor
             settingMenu.RegisterCallback<ClickEvent>(OpenConfiguration);
 
             var keyMapBtn = this.Q<ToolbarButton>("KeyMapBtn");
-            keyMapBtn.clicked += () => { KeyMapWindow.ShowWindow(); };
+            keyMapBtn.clicked += () =>  LBSMainWindow.DisplayHelp();// { KeyMapWindow.ShowWindow(); };
 
             // file name label
             var label = this.Q<Label>("IsSavedLabel"); // TODO: mark as unsaved when changes are made
