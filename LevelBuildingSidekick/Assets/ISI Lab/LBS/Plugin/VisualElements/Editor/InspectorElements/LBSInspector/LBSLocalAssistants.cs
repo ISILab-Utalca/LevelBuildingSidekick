@@ -37,9 +37,8 @@ namespace ISILab.LBS.VisualElements
         {
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("LBSLocalAssistants");
             visualTree.CloneTree(this);
-
-            //content = this.Q<VisualElement>("NewContent");
-            content = this.Q<VisualElement>("Content"); //<<<<<< previous content display
+            
+            content = this.Q<VisualElement>("Content"); 
             noContentPanel = this.Q<VisualElement>("NoContentPanel");
             contentAssist = this.Q<VisualElement>("ContentAssist");
 
@@ -61,7 +60,7 @@ namespace ISILab.LBS.VisualElements
                 var ves = Reflection.GetClassesWith<LBSCustomEditorAttribute>()
                     .Where(t => t.Item2.Any(v => v.type == type));
 
-                if (ves.Count() == 0)
+                if (!ves.Any())
                 {
                     Debug.LogWarning("[ISI Lab] No class marked as LBSCustomEditor found for type: " + type);
                     continue;

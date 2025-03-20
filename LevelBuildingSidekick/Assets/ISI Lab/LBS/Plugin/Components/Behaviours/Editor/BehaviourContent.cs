@@ -48,7 +48,7 @@ namespace ISILab.LBS.VisualElements
 
         private void FoldoutPressed(ChangeEvent<bool> evt)
         {
-            content.SetDisplay(evt.newValue);
+            content.style.display = evt.newValue ? DisplayStyle.Flex : DisplayStyle.None;
         }
     }
 }
