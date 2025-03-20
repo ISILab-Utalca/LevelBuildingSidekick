@@ -38,13 +38,8 @@ namespace ISILab.LBS.VisualElements
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("LBSLocalAssistants");
             visualTree.CloneTree(this);
 
-            content = this.Q<VisualElement>("NewContent");
-            
-            if(target != null) 
-            
-                  //
-            
-            //content = this.Q<VisualElement>("Content"); <<<<<< previous content display
+            //content = this.Q<VisualElement>("NewContent");
+            content = this.Q<VisualElement>("Content"); //<<<<<< previous content display
             noContentPanel = this.Q<VisualElement>("NoContentPanel");
             contentAssist = this.Q<VisualElement>("ContentAssist");
 
@@ -53,26 +48,15 @@ namespace ISILab.LBS.VisualElements
 
         public void SetInfo(LBSLayer target)
         {
+           // this.content.Clear(); // clear all content before setting, based on the layer's assistants
             contentAssist.Clear();
-
             this.target = target;
-
-            if (target.Assistants.Count <= 0)
-            {
-                noContentPanel.SetDisplay(true);
-                return;
-            }
-
-            noContentPanel.SetDisplay(false);
-            this.content.Clear(); // clear all content before setting, based on the layer's assistants
+            bool assitants = target.Assistants.Any();
+            Debug.Log(assitants);
+            noContentPanel.style.display = assitants ? DisplayStyle.None : DisplayStyle.Flex;
+            
             foreach (var assist in target.Assistants)
             {
-           
-                
-                if (assist.GetType() == typeof(AssistantMapElite) && this.content != null)
-                {
-                    this.content.Add(new PopulationAssistantTab());
-                }
                 var type = assist.GetType();
                 var ves = Reflection.GetClassesWith<LBSCustomEditorAttribute>()
                     .Where(t => t.Item2.Any(v => v.type == type));

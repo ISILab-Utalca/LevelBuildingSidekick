@@ -16,6 +16,7 @@ using ISILab.LBS.Behaviours;
 using ISILab.LBS.Editor;
 using ISILab.LBS.Drawers;
 using ISILab.LBS.Editor.Windows;
+using ISILab.LBS.VisualElements.Editor;
 using UnityEditor;
 
 namespace ISILab.LBS.AI.Assistants.Editor
@@ -32,7 +33,7 @@ namespace ISILab.LBS.AI.Assistants.Editor
 
         public AssistantMapEliteEditor(object target) : base(target)
         {
-            Add(CreateVisualElement());
+            Add(new PopulationAssistantTab());
             SetInfo(target);
         }
 
