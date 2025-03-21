@@ -438,24 +438,17 @@ namespace ISILab.LBS.Editor.Windows{
         /// <param name="layer"></param>
         private void OnSelectedLayerChange(LBSLayer layer)
         {
-            
             _selectedLayer = layer;
-
-            // Actualize Inspector panel 
+            
             inspectorManager.SetTarget(layer);
-
-            // Actualize ToolKit
+            
             toolkit.Clear();
-
             toolkit.Init(layer);
-
             toolkit.SetActiveWhithoutNotify(0);
-
-            // Actualize 3D panel
+            
             gen3DPanel.Init(layer);
-
-            // Actualize Bottom text
-            selectedLabel.text = "selected: " + layer.Name;
+            
+            selectedLabel.text = "Selected: " + layer.Name;
 
         }
         #endregion

@@ -131,6 +131,8 @@ namespace ISILab.LBS.Behaviours.Editor
 
         private void SetAreaPallete()
         {
+            if (areaPallete == null) return;
+            
             areaPallete.ShowGroups = false;
             areaPallete.SetName("Zones");
             var icon = Resources.Load<Texture2D>("Icons/BrushIcon");
