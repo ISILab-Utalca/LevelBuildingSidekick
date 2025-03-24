@@ -200,7 +200,9 @@ namespace LBS.VisualElements
 
             if(selected != null)
             {
-                var ov = optionViews.ToList().Find(o => o.target != null && o.target.Equals(selected));
+                var ov = optionViews?.ToList().Find(o 
+                    => o != null && o.target != null && selected != null && o.target.Equals(selected));
+
                 if (ov != null)  ov.SetSelected(true);
             }
         }

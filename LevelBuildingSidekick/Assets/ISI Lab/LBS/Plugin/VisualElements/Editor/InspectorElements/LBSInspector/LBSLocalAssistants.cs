@@ -51,7 +51,6 @@ namespace ISILab.LBS.VisualElements
             contentAssist.Clear();
             this.target = target;
             bool assitants = target.Assistants.Any();
-            Debug.Log(assitants);
             noContentPanel.style.display = assitants ? DisplayStyle.None : DisplayStyle.Flex;
             
             foreach (var assist in target.Assistants)

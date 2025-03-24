@@ -5,6 +5,7 @@ using LBS.Components;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ISILab.LBS.Editor.Windows;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -36,8 +37,8 @@ namespace ISILab.LBS.Manipulators
         protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
         {
             var second = quest.GetQuestNode(endPosition);
-            quest.AddConnection(first, second);
-
+            var result = quest.AddConnection(first, second);
+            LBSMainWindow.MessageNotify(result.Item1, result.Item2, 4);
         }
 
     }

@@ -137,62 +137,43 @@ namespace ISILab.LBS.Modules
             OnRemoveNode?.Invoke(node);
         }
 
-        public void AddConnection(QuestNode first, QuestNode second)
+        public Tuple<string, LogType> AddConnection(QuestNode first, QuestNode second)
         {
+            if (first == null || second == null)
+                return Tuple.Create("Must select two nodes", LogType.Error);
 
-            if (first == null || second == null || first==second)
-            {
-                return;
-            }
+            if (first == second)
+                return Tuple.Create("Cannot connect a node to itself", LogType.Error);
 
             if (second.Equals(root))
-            {
-                Debug.LogWarning("The start node can not be the second element of a connection");
-                return;
-            }
+                return Tuple.Create("The start node cannot be the second element of a connection", LogType.Error);
 
             if (first.Equals(root))
             {
                 if (questEdges.Any(e => e.First.Equals(root)))
-                {
-                    Debug.LogWarning("The start node is already connected");
-                    return;
-                }
-                
-                if (questEdges.Any(e => e.First == second))
-                {
-                    Debug.LogWarning("The start is being connected to previous first");
-                    return;
-                }
+                    return Tuple.Create("The start node is already connected", LogType.Error);
+
+                if (questEdges.Any(e => e.First.Equals(second)))
+                    return Tuple.Create("The start node is being connected to a previous first node", LogType.Error);
             }
 
-            if (questEdges.Any(e => (e.First.Equals(first) && e.Second.Equals(second)) || (e.First.Equals(second) && e.Second.Equals(first))))
-            {
-                Debug.LogWarning("The connection already exists");
-                return;
-            }
+            if (questEdges.Any(e => (e.First.Equals(first) && e.Second.Equals(second)) || 
+                                    (e.First.Equals(second) && e.Second.Equals(first))))
+                return Tuple.Create("The connection already exists", LogType.Error);
 
             var edge = new QuestEdge(first, second);
 
-            if (IsLooped(edge) || Looped(edge))
-            {
-                
-                Debug.LogWarning("Invalid connection, loop detected");
-                return;
-            }
+            // if (IsLooped(edge) || Looped(edge))
+            if (Looped(edge))
+                return Tuple.Create("Invalid connection, loop detected", LogType.Error);
 
             questEdges.Add(edge);
-
-            foreach (var qe in questEdges)
-            {
-                if (qe.First != null && qe.Second != null)
-                {
-                    Debug.Log("Connection: "+ qe.First.QuestAction + " -to- " + qe.Second.QuestAction);
-                }
-            }
-            
             OnAddEdge?.Invoke(edge);
+
+            var connectionInfo = $"Connection: {first.QuestAction} → {second.QuestAction}";
+            return Tuple.Create(connectionInfo, LogType.Log);
         }
+
 
         private bool IsLooped(QuestEdge edge)
         {
@@ -210,6 +191,27 @@ namespace ISILab.LBS.Modules
         }
         private bool Looped(QuestEdge edge)
         {
+            var visited = new HashSet<QuestNode>();
+            var queue = new Queue<QuestNode>();
+            queue.Enqueue(edge.Second);
+
+            while (queue.Count > 0)
+            {
+                var current = queue.Dequeue();
+                if (current == edge.First)
+                    return true;
+
+                if (visited.Contains(current))
+                    continue;
+
+                visited.Add(current);
+                foreach (var e in GetBranches(current))
+                    queue.Enqueue(e.Second);
+            }
+
+            return false;
+            
+            /*
             var list = new List<QuestNode>();
             list.Add(edge.Second);
             while (list.Count > 0)
@@ -230,6 +232,7 @@ namespace ISILab.LBS.Modules
             }
             
             return false;
+            */
         }
 
         public List<QuestEdge> GetBranches(QuestNode node)
