@@ -6,19 +6,23 @@ namespace ISILab.Macros
     public class LBSAssetMacro
     {
     
-        public static Texture LoadAssetByGuid(string guid)
+        public static T LoadAssetByGuid<T>(string guid) 
+            where T : Object
         {
-            Texture texture = AssetDatabase.LoadAssetAtPath<Texture>(
-                AssetDatabase.GUIDToAssetPath("edcbfe04a88995d49aabd5bf8ee28e79") //placeholder
-            );
+            if (typeof(T)  == typeof(Texture))
+            {
+                
+            }
+            T asset = AssetDatabase.LoadAssetAtPath<T>(
+                AssetDatabase.GUIDToAssetPath("edcbfe04a88995d49aabd5bf8ee28e79"));
         
             string path = AssetDatabase.GUIDToAssetPath(guid);
         
             if (path != null)
             {
-                texture = AssetDatabase.LoadAssetAtPath<Texture>(path);
+                asset = AssetDatabase.LoadAssetAtPath<T>(path);
             }
-            return texture;
+            return asset;
         }
         
     }
