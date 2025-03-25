@@ -48,24 +48,28 @@ namespace ISILab.LBS.VisualElements.Editor
         }
         #endregion
 
+        #region EVENTS
+
+        #endregion
+        
         #region CONSTRUCTORS
         public QuestHistoryPanel()
         {
-        
         }
         
         #endregion
 
         #region METHODS
 
+      
+        
         public void SetInfo(QuestBehaviour target)
         {
             if (target == null) return;
             questBehaviour = target;
             CreateVisualElement();
-
         }
-       
+        
         private void CreateVisualElement()
         {
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestHistoryPanel");
@@ -91,34 +95,38 @@ namespace ISILab.LBS.VisualElements.Editor
                 if (questEntryVe == null) return;
 
                 var quest = questGraph.QuestNodes[index]; 
+               
                 questEntryVe.SetData(quest);
-                UpdateGraphOrder();
+                questEntries.Add(questEntryVe);
                 
                 questEntryVe.RemoveNode = null;
                 questEntryVe.RemoveNode += () =>
                 {
-                    
                     questGraph.RemoveQuestNode(questGraph.QuestNodes[index]);
-                    
-                    questGraph.UpdateQuestNodes();
-                    questList?.Rebuild();
-                    UpdateGraphOrder();
-                        
-                    if (questBehaviour != null) SetInfo(questBehaviour);
+                    UpdateVE();
                 };
 
                 questEntryVe.GoToNode = null;
                 questEntryVe.GoToNode += GoToNode;
             };
-
+            
+            questList.itemIndexChanged += (oldIndex, newIndex) =>
+            {
+                UpdateVE();
+            };
+            
             questList.itemsSource = questGraph.QuestNodes;
             
-            questGraph.UpdateQuestNodes();
-            questList?.Rebuild();
-            UpdateGraphOrder();
-            Debug.Log("rebuilding");
+            UpdateVE();
         }
-        
+
+        private void UpdateVE()
+        {
+            questList?.Rebuild();
+            questGraph.UpdateQuestNodes();
+            UpdateGraphOrder();
+        }
+
         // should pass the preset as parameter
         private void AddEntry(QuestNode node)
         {
@@ -143,7 +151,16 @@ namespace ISILab.LBS.VisualElements.Editor
             }
             MarkDirtyRepaint();
             //questList?.Rebuild();
-            LBSMainWindow.OnWindowRepaint?.Invoke();
+             LBSMainWindow.OnWindowRepaint?.Invoke();
+             DrawManager.ReDraw();
+            // LBSInspectorPanel.ReDraw();
+        }
+        
+        public void Refresh()
+        {
+            MarkDirtyRepaint();
+            //if(questBehaviour != null) SetInfo(questBehaviour);
+            UpdateVE();
         }
         
         #endregion

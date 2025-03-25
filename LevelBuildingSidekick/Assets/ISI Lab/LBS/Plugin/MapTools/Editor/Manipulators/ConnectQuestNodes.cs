@@ -39,6 +39,7 @@ namespace ISILab.LBS.Manipulators
             var second = quest.GetQuestNode(endPosition);
             var result = quest.AddConnection(first, second);
             LBSMainWindow.MessageNotify(result.Item1, result.Item2, 4);
+           
             OnManipulationEnd.Invoke();
         }
 

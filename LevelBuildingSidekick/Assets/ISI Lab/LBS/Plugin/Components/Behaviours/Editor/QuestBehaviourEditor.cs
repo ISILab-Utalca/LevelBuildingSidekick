@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Speech.Recognition;
 using ISILab.LBS.VisualElements.Editor;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -44,6 +45,8 @@ namespace ISILab.LBS.VisualElements
 
         public override void SetInfo(object target)
         {
+            Clear();
+            
             CreateVisualElement();
             
             behaviour = target as QuestBehaviour;
@@ -97,12 +100,20 @@ namespace ISILab.LBS.VisualElements
             toolkit.AddTool(t3);
             toolkit.AddTool(t4);
 
-            addNode.OnManipulationEnd += () => SetInfo(target);
-            removeConnection.OnManipulationEnd += () => SetInfo(target);
-            connectNodes.OnManipulationEnd += () => SetInfo(target);
-            removeConnection.OnManipulationEnd += () => SetInfo(target);
+            addNode.OnManipulationEnd += RefreshHistoryPanel;
+            removeConnection.OnManipulationEnd += RefreshHistoryPanel;
+            connectNodes.OnManipulationEnd += RefreshHistoryPanel;
+            removeConnection.OnManipulationEnd += RefreshHistoryPanel;
+
         }
 
+        private void RefreshHistoryPanel()
+        {
+            SetInfo(target);
+            LBSInspectorPanel.ReDraw();
+            questHistoryPanel?.Refresh();
+        }
+        
         protected override VisualElement CreateVisualElement()
         {
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("GrammarAssistantEditor");
@@ -152,6 +163,7 @@ namespace ISILab.LBS.VisualElements
                 {
                     behaviour.ToSet = a.GrammarElement;
                     ToolKit.Instance.SetActive("Add Quest Node");
+                    questHistoryPanel?.Refresh();
                 });
                 actionPallete.Add(b);
             }
