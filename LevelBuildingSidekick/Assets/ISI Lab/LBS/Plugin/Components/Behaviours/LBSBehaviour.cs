@@ -12,7 +12,7 @@ using UnityEngine;
 namespace ISILab.LBS.Behaviours
 {
     [System.Serializable]
-    public abstract class LBSBehaviour : ICloneable
+    public abstract class  LBSBehaviour : ICloneable
     {
         #region META-FIELDS
         [SerializeField, JsonRequired]

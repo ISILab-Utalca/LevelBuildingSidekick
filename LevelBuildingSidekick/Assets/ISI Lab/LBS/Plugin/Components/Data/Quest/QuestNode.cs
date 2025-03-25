@@ -8,7 +8,13 @@ using UnityEngine;
 
 namespace ISILab.LBS.Components
 {
-    [System.Serializable]
+
+    public enum NodeType
+    {
+        start, middle, goal
+    }
+
+[System.Serializable]
     public class QuestNode : ICloneable
     {
 
@@ -27,6 +33,13 @@ namespace ISILab.LBS.Components
 
         [SerializeField, JsonRequired]
         private bool mapCheck;
+        
+        [SerializeField, JsonRequired]
+        private NodeType nodeType;
+        
+        [SerializeField, JsonRequired]
+        private bool valid;
+        
         #endregion
 
         [SerializeField, JsonRequired, SerializeReference]
@@ -95,6 +108,22 @@ namespace ISILab.LBS.Components
             get => target;
             set => target = value;
         }
+        
+        
+        [JsonIgnore]
+        public bool Valid
+        {
+            get => valid;
+            set => valid = value;
+        }
+        
+        [JsonIgnore]
+        public NodeType NodeType
+        {
+            get => nodeType;
+            set => nodeType = value;
+        }
+        
         #endregion
 
         #region CONSTRUCTOR
@@ -111,6 +140,12 @@ namespace ISILab.LBS.Components
         }
         #endregion
 
+        public bool HasEdges()
+        {
+            if (graph == null) return false;
+            return graph.HasConnection(this);
+        }
+        
         public object Clone()
         {
             var node = new QuestNode(ID, Position, QuestAction, graph);
@@ -127,7 +162,7 @@ namespace ISILab.LBS.Components
         [SerializeField, JsonRequired, SerializeReference]
         private Rect rect;
         [SerializeField, JsonRequired, SerializeReference]
-        private List<LBSTag> tags = new List<LBSTag>();
+        private List<LBSTag> tags = new();
 
         [JsonIgnore]
         public Rect Rect

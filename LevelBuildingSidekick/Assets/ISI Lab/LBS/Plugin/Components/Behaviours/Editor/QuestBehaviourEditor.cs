@@ -13,6 +13,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Speech.Recognition;
+using ISILab.LBS.VisualElements.Editor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -21,26 +22,31 @@ namespace ISILab.LBS.VisualElements
     [LBSCustomEditor("QuestBehaviour", typeof(QuestBehaviour))]
     public class QuestBehaviourEditor : LBSCustomEditor, IToolProvider
     {
-        CreateQuestNode addNode;
-        RemoveQuestNode removeNode;
-        ConnectQuestNodes connectNodes;
-        RemoveQuestConnection removeConnection;
+        private CreateQuestNode addNode;
+        private RemoveQuestNode removeNode;
+        private ConnectQuestNodes connectNodes;
+        private RemoveQuestConnection removeConnection;
 
+        private QuestHistoryPanel questHistoryPanel;
+        
         DropdownField grammarDropdown;
 
         VisualElement actionPallete;
 
         List<LBSGrammar> grammars = new List<LBSGrammar>();
 
+        QuestBehaviour behaviour;
+        
         public QuestBehaviourEditor(object target) : base(target)
         {
-            CreateVisualElement();
             SetInfo(target);
         }
 
         public override void SetInfo(object target)
         {
-            var behaviour = target as QuestBehaviour;
+            CreateVisualElement();
+            
+            behaviour = target as QuestBehaviour;
             if (behaviour == null)
                 return;
 
@@ -90,8 +96,11 @@ namespace ISILab.LBS.VisualElements
             toolkit.AddTool(t2);
             toolkit.AddTool(t3);
             toolkit.AddTool(t4);
-            
-    
+
+            addNode.OnManipulationEnd += () => SetInfo(target);
+            removeConnection.OnManipulationEnd += () => SetInfo(target);
+            connectNodes.OnManipulationEnd += () => SetInfo(target);
+            removeConnection.OnManipulationEnd += () => SetInfo(target);
         }
 
         protected override VisualElement CreateVisualElement()
@@ -101,9 +110,13 @@ namespace ISILab.LBS.VisualElements
 
             grammarDropdown = this.Q<DropdownField>(name: "Grammar");
             actionPallete = this.Q<VisualElement>(name: "Content");
-
+            
             grammarDropdown.RegisterValueChangedCallback(evt => ChangeGrammar(evt.newValue));
-
+            
+            questHistoryPanel = new QuestHistoryPanel();
+            questHistoryPanel.SetInfo(behaviour);
+            Add(questHistoryPanel);
+            
             return this;
         }
 
@@ -122,7 +135,7 @@ namespace ISILab.LBS.VisualElements
         {
             actionPallete.Clear();
 
-            var behaviour = target as QuestBehaviour;
+           // var behaviour = target as QuestBehaviour;
             if (behaviour == null)
                 return;
 
@@ -142,6 +155,9 @@ namespace ISILab.LBS.VisualElements
                 });
                 actionPallete.Add(b);
             }
+            
+            questHistoryPanel?.SetInfo(target as QuestBehaviour);
+           
         }
 
         private void ChangeGrammar(string value)
