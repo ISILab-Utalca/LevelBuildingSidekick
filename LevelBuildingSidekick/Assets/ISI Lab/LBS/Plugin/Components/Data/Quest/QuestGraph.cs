@@ -8,6 +8,7 @@ using ISILab.LBS.Components;
 using ISILab.LBS.Internal;
 using ISILab.LBS.Settings;
 using Newtonsoft.Json;
+using UnityEditor.Graphs.AnimationBlendTree;
 using UnityEngine;
 
 namespace ISILab.LBS.Modules
@@ -18,17 +19,17 @@ namespace ISILab.LBS.Modules
         [SerializeField, JsonRequired]
         private Vector2Int nodeSize;
 
-        [SerializeField, JsonRequired]
-        string grammarName;
+        [SerializeField, JsonRequired] 
+        private string grammarName;
 
         [SerializeField, SerializeReference, JsonRequired]
-        List<QuestNode> questNodes = new List<QuestNode>();
+        private List<QuestNode> questNodes = new();
 
         [SerializeField, SerializeReference, JsonRequired]
-        List<QuestEdge> questEdges = new List<QuestEdge>();
+        private List<QuestEdge> questEdges = new();
 
         [SerializeField, SerializeReference, JsonRequired]
-        QuestNode root;
+        private QuestNode root;
 
 
         [JsonIgnore]
@@ -93,16 +94,14 @@ namespace ISILab.LBS.Modules
         public void SetRoot(QuestNode node)
         {
             if (node == null)
-            {
-                root = null;
-                Debug.Log("Root set: to NULL ");
-                return;
-            }
-            
-            root = node;
-            root.ID = "Start Node";
-            Debug.Log("Root set: " + node.ToString());
+                throw new ArgumentNullException(nameof(node), "Root node cannot be null.");
+            root = node; // directRef 
+
+            // set at first position
+            questNodes.Remove(node);
+            questNodes.Insert(0, node);
         }
+
         public QuestNode GetQuestNode(Vector2 position)
         {
             var size = nodeSize * LBSSettings.Instance.general.TileSize;
@@ -110,20 +109,42 @@ namespace ISILab.LBS.Modules
             return questNodes.Find(x => (new Rect(x.Position, size)).Contains(position));
         }
 
+        /*
         public void AddNode(string id, Vector2 position, string action)
         {
             var data = new QuestNode(id, position, action, this);
             questNodes.Add(data);
             OnAddNode?.Invoke(data);
+            UpdateQuestNodes();
         }
-
+*/
+        
         public void AddNode(QuestNode node)
-        {
-            if(root == null) SetRoot(node);
+        { 
             questNodes.Add(node);
             OnAddNode?.Invoke(node);
+            UpdateQuestNodes();
         }
 
+        public void UpdateQuestNodes()
+        {
+            if (!questNodes.Any()) return;
+
+            for (int i = 0; i < questNodes.Count; i++)
+            {
+                var node = questNodes[i];
+                if(node == null) continue;
+                
+                if (node == questNodes.First())
+                {
+                    SetRoot(node);
+                    node.NodeType = NodeType.start;
+                }
+                else if (node == questNodes.Last()) node.NodeType = NodeType.goal;
+                else node.NodeType = NodeType.middle;
+            }
+        }
+        
         public void RemoveQuestNode(QuestNode node)
         {
             questNodes.Remove(node);
@@ -330,6 +351,16 @@ namespace ISILab.LBS.Modules
         public override void Rewrite(LBSModule other)
         {
             throw new NotImplementedException();
+        }
+
+        public bool HasConnection(QuestNode questNode)
+        {
+            foreach (var qe in QuestEdges)
+            {
+                if(qe.First == questNode && qe.Second != null) return true;
+                if(qe.First != null && qe.Second == questNode) return true;
+            }
+            return false;
         }
     }
 
