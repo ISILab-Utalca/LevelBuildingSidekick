@@ -84,7 +84,7 @@ namespace ISILab.LBS.VisualElements.Editor
             MarkDirtyRepaint();
             if (node == null && quest == null)
             {
-                Debug.LogError("empty quest node");
+                //Debug.LogError("empty quest node");
                 return;
             }
             quest = node;

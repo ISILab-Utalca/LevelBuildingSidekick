@@ -103,7 +103,7 @@ namespace ISILab.LBS.VisualElements.Editor
                 questEntryVe.RemoveNode += () =>
                 {
                     questGraph.RemoveQuestNode(questGraph.QuestNodes[index]);
-                    UpdateVE();
+                    UpdateVe();
                 };
 
                 questEntryVe.GoToNode = null;
@@ -112,19 +112,25 @@ namespace ISILab.LBS.VisualElements.Editor
             
             questList.itemIndexChanged += (oldIndex, newIndex) =>
             {
-                UpdateVE();
+                UpdateVe();
+                Reordered();
             };
             
             questList.itemsSource = questGraph.QuestNodes;
             
-            UpdateVE();
+            UpdateVe();
         }
 
-        private void UpdateVE()
+        private void UpdateVe()
         {
             questList?.Rebuild();
             questGraph.UpdateQuestNodes();
             UpdateGraphOrder();
+        }
+
+        private void Reordered()
+        {
+            questGraph.Reorder();
         }
 
         // should pass the preset as parameter
@@ -160,7 +166,7 @@ namespace ISILab.LBS.VisualElements.Editor
         {
             MarkDirtyRepaint();
             //if(questBehaviour != null) SetInfo(questBehaviour);
-            UpdateVE();
+            UpdateVe();
         }
         
         #endregion
