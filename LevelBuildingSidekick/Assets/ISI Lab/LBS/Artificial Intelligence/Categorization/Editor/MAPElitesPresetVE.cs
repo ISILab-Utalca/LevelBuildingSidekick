@@ -22,6 +22,7 @@ namespace ISILab.LBS.VisualElements
     [LBSCustomEditor("MAPElitesPresset", typeof(MAPElitesPreset))]
     public class MAPElitesPresetVE : LBSCustomEditor
     {
+        TextField presetName;
         Vector2IntField samples;
 
         ClassDropDown evaluatorX;
@@ -49,6 +50,13 @@ namespace ISILab.LBS.VisualElements
         {
             var presset = target as MAPElitesPreset;
             samples.value = presset.SampleCount;
+
+            if (presset.PresetName != null)
+            {
+                presetName.value = presset.PresetName.GetType().Name;
+                LoadEditor(contentX, presset.PresetName);
+            }
+            presetName.value = presset.PresetName;
 
             if (presset.XEvaluator != null)
             {
@@ -80,7 +88,13 @@ namespace ISILab.LBS.VisualElements
             vt.CloneTree(this);
 
             var presset = target as MAPElitesPreset;
-
+            presetName = this.Q<TextField>(name: "PresetName");
+            presetName.RegisterValueChangedCallback(
+                evt => {
+                    presset.PresetName = evt.newValue;
+                    }
+                );
+            
             samples = this.Q<Vector2IntField>(name: "Samples");
             samples.RegisterValueChangedCallback(
                  evt =>
@@ -193,7 +207,6 @@ namespace ISILab.LBS.VisualElements
                 {
                     of.value = presset.blackList[index];
                 }
-                UnityEngine.Debug.Log("hi");
                 of.RegisterValueChangedCallback(e => { presset.blackList[index] = e.newValue as LBSTag; });
                 of.label = "Element " + index + ":";
             }

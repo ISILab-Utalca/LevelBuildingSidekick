@@ -40,6 +40,7 @@ namespace ISILab.LBS.AI.Categorization
         public List<int> changedSample;
 
         private Thread thread;
+
         #endregion
 
         #region FIELDS

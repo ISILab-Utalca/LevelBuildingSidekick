@@ -18,6 +18,9 @@ namespace ISILab.LBS.AI.Categorization
     public class MAPElitesPreset : ScriptableObject, ICloneable
     {
         [SerializeField]
+        string presetName;
+
+        [SerializeField]
         MapElites mapElites = new MapElites();
 
         [SerializeField]
@@ -35,7 +38,11 @@ namespace ISILab.LBS.AI.Categorization
             set => maskType = value.FullName;
         }
 
-
+        public string PresetName
+        {
+            get => presetName;
+            set => presetName = value;
+        }
 
         public Vector2Int SampleCount
         {

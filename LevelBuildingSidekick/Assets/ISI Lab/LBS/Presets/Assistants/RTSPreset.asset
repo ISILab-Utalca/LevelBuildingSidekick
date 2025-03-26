@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08a0b472743d1524e92b39d2fe06fdfe, type: 3}
   m_Name: RTSPreset
   m_EditorClassIdentifier: 
+  presetName: RTS
   mapElites:
     xSampleCount: 3
     ySampleCount: 3

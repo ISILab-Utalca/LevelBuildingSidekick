@@ -13,6 +13,8 @@ using ISILab.LBS.AI.Categorization;
 using ISILab.LBS.Generators;
 using UnityEditor.UIElements;
 using Object = UnityEngine.Object;
+using ISILab.LBS.Settings;
+using System.IO;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -46,11 +48,12 @@ namespace ISILab.LBS.VisualElements.Editor
 
         #region FIELDS
         private MAPElitesPreset mapEliteBundle;
-    
+
         #endregion
 
         #region EVENTS
-       // public Action OnExecute;
+        // public Action OnExecute;
+        public Action<string> OnPresetChanged;
         #endregion
 
         #region PROPERTIES
@@ -66,12 +69,17 @@ namespace ISILab.LBS.VisualElements.Editor
 
         public void CreateGUI()
         {
+            //Start by setting up the presets
+            SetPresets();
+
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("PopulationAssistantWindow");
             visualTree.CloneTree(rootVisualElement);
 
             presetField = rootVisualElement.Q<EnumField>("Preset");
             param1Field = rootVisualElement.Q<EnumField>("XPreset");
             param2Field = rootVisualElement.Q<EnumField>("YPreset");
+            //presetField.RegisterValueChangedCallback(e => OnPresetChanged?.Invoke(e.));
+            
             
             visualizationOptionsContent =  rootVisualElement.Q<VisualElement>("VisualizationOptionsContent");
             presetSettingsContainer = rootVisualElement.Q<VisualElement>("PresetSettingsContainer");
@@ -94,6 +102,25 @@ namespace ISILab.LBS.VisualElements.Editor
             UpdateGrid();
             
             presetFieldRef = rootVisualElement.Q<ObjectField>("PresetObjectField");
+        }
+
+        private void SetPresets()
+        {
+            var settings = LBSSettings.Instance;
+            var presetPath = settings.paths.assistantPresetFolderPath;
+            //Directory making
+            var info = new DirectoryInfo(presetPath);
+            var fileInfo = info.GetFiles();
+
+            foreach (var file in fileInfo)
+            {
+                var newPreset = AssetDatabase.LoadAssetAtPath<MAPElitesPreset>(presetPath + "\\" + file.Name);
+                if (newPreset != null)
+                {
+                    Debug.Log("loaded: " + newPreset);
+                }
+            }
+
         }
 
         private void ApplyResult()

@@ -14,6 +14,7 @@ using LBS.Components;
 using LBS.Components.TileMap;
 using Newtonsoft.Json;
 using UnityEditor;
+using UnityEditor.Presets;
 using UnityEngine;
 
 namespace ISILab.LBS.Assistants
@@ -27,6 +28,11 @@ namespace ISILab.LBS.Assistants
         private MapElites mapElites = new MapElites();
         [JsonIgnore]
         public List<Vector2> toUpdate = new List<Vector2>();
+        /*
+        public enum mapElitePresetType { RTS, Shooter };
+        [JsonIgnore]
+        public Dictionary<MapElites, mapElitePresetType> defaultMapElites = new Dictionary<MapElites, mapElitePresetType>();
+        */
         #endregion
 
         #region PROPERTIES
@@ -47,7 +53,6 @@ namespace ISILab.LBS.Assistants
 
         [JsonIgnore]
         public bool Finished => mapElites.Finished;
-
 
         public bool Running => mapElites.Running;
 
@@ -148,6 +153,7 @@ namespace ISILab.LBS.Assistants
             var chrom = new BundleTilemapChromosome(tm, rect, CalcImmutables(rect));
             mapElites.Adam = chrom;
         }
+
 
         private int[] CalcImmutables(Rect rect)
         {
