@@ -68,10 +68,12 @@ namespace ISILab.LBS.VisualElements
             OnMouseMove(MouseMoveEvent.GetPooled(e.mousePosition, e.button, e.clickCount, e.mouseDelta, EventModifiers.None ));
         }
 
-        private void SetBorder(QuestNode node)
+        public void SetBorder(QuestNode node)
         {
             _root.SetBorder(Unchecked, 1f);
 
+            node.GrammarCheck = node.HasEdges(); // comment this once true grammar is checked TODO
+            
             if (!node.GrammarCheck)
             {
                 _root.SetBorder(GrammarWrong, 1f);

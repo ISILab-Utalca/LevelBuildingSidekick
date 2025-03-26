@@ -142,7 +142,7 @@ namespace ISILab.LBS.Components
 
         public bool HasEdges()
         {
-            return graph != null && graph.HasConnection(this);
+            return graph != null && graph.HasRequiredConnection(this);
         }
         
         public object Clone()
