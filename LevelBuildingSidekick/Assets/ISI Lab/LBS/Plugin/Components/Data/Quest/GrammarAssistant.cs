@@ -128,8 +128,7 @@ namespace ISILab.LBS.Assistants
                     n.GrammarCheck = false;
                 }
             }
-
-
+            
             var validRoots = new List<List<QuestNode>>();
             foreach (var r in roots)
             {
@@ -183,6 +182,7 @@ namespace ISILab.LBS.Assistants
                     n.GrammarCheck = true;
                 }
             }
+            
         }
 
         private List<List<QuestNode>> RootLines(QuestNode node)

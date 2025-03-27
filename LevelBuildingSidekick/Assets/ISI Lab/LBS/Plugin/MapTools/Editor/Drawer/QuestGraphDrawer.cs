@@ -26,19 +26,14 @@ namespace ISILab.LBS.Drawers.Editor
             var quest = behaviour.Graph;
 
             var nodeViews = new Dictionary<QuestNode, QuestNodeView>();
-
+            
             foreach (var node in quest.QuestNodes)
             {
                 /*  Start Node is now assigned by the user. Right click on a node to make it root */
-                if (node.ID == "Start Node")
+                if (node.NodeType == NodeType.start)
                 {
-                    continue;
-                    // var v = new StartQNode();
-                    // v.SetPosition(new Rect(node.Position, LBSSettings.Instance.general.TileSize));
-                    // nodeViews.Add(node, v);
-                    
+                    Debug.Log($"Start Node is {node.ID}");
                 }
-                
 
                 var nodeView = new QuestNodeView(node);
 
@@ -65,11 +60,17 @@ namespace ISILab.LBS.Drawers.Editor
 
             foreach (var edge in quest.QuestEdges)
             {
-                var n1 = nodeViews[edge.First];
-                var n2 = nodeViews[edge.Second];
+                Debug.Log("trying to paint edges");
+                
+                if (!nodeViews.TryGetValue(edge.First, out var n1) || n1 == null) continue;
+                if (!nodeViews.TryGetValue(edge.Second, out var n2) || n2 == null) continue;
 
+                n1.SetBorder(edge.First);
+                n2.SetBorder(edge.Second);
+                
+                Debug.Log("edges painted");
+                
                 var edgeView = new LBSQuestEdgeView(edge, n1, n2, 4, 4);
-
                 view.AddElement(edgeView);
             }
 

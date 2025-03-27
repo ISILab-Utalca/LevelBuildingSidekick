@@ -27,6 +27,9 @@ MonoBehaviour:
     generatorRules:
     - rid: 1248747549014622364
     settings:
+      useBundleSize: 0
+      lightVolume: 0
+      reflectionProbe: 0
       scale: {x: 2, y: 2}
       resize: {x: 0, y: 0}
       position: {x: 0, y: 0, z: 0}
@@ -53,14 +56,16 @@ MonoBehaviour:
           generatorRules:
           - rid: 1248747549014622364
           settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
             name: Quest
         nodeSize: {x: 3, y: 1}
         grammarName: 
-        questNodes:
-        - rid: 1248747549014622365
+        questNodes: []
         questEdges: []
         root:
           rid: 1248747549014622365
@@ -80,6 +85,9 @@ MonoBehaviour:
       data:
         generator3D:
           settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
@@ -90,10 +98,12 @@ MonoBehaviour:
       data:
         x: 0
         y: 0
-        id: Start Node
-        questAction: Start Node
+        id: null
+        questAction: null
         grammarCheck: 0
         mapCheck: 0
+        nodeType: 0
+        valid: 0
         target:
           rid: 1248747549014622366
     - rid: 1248747549014622366

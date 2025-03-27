@@ -49,7 +49,6 @@ namespace ISILab.LBS.VisualElements.Editor
         }
         #endregion
         
-        
         #region EVENTS
         public Action RemoveNode;
         public Action GoToNode;
@@ -82,9 +81,10 @@ namespace ISILab.LBS.VisualElements.Editor
         
         public void SetData(QuestNode node)
         {
-            if (node == null)
+            MarkDirtyRepaint();
+            if (node == null && quest == null)
             {
-                Debug.LogError("empty quest node");
+                //Debug.LogError("empty quest node");
                 return;
             }
             quest = node;
