@@ -406,18 +406,13 @@ namespace ISILab.LBS.Modules
 
         public void Reorder()
         {
-            if (!questEdges.Any()) return;
-            
-            // redo connections
-            // if (questEdges.Count == questNodes.Count - 1) return;
-            
-            foreach (var e in questEdges) RemoveEdge(e);
+            questEdges.Clear(); 
             for (int i = 0; i < questNodes.Count - 1; i++)
             {
-                var edge1 =  questNodes[i];
-                var edge2 = questNodes[i + 1];
-                Debug.LogWarning($"From {edge1.ID} to  {edge2.ID}");
-                AddConnection(edge1,edge2);
+                var node1 = questNodes[i];
+                var node2 = questNodes[i + 1];
+                
+                Debug.Log(AddConnection(node1, node2).Item1);
             }
         }
     }

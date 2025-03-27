@@ -12,7 +12,6 @@ using UnityEditor;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.AI.Categorization;
 using ISILab.LBS.Behaviours;
-using ISILab.LBS.Components;
 using ISILab.LBS.Generators;
 using ISILab.LBS.Modules;
 using Unity.Properties;
@@ -80,9 +79,9 @@ namespace ISILab.LBS.VisualElements.Editor
             if (questBehaviour == null) return;
 
             questGraph = questBehaviour.Graph;
-            foreach (var qnode in questBehaviour.Graph.QuestNodes)
+            foreach (var unused in questBehaviour.Graph.QuestNodes)
             {
-                AddEntry(qnode);
+                AddEntry();
             }
             
             questList = this.Q<ListView>("QuestList");
@@ -103,22 +102,23 @@ namespace ISILab.LBS.VisualElements.Editor
                 questEntryVe.RemoveNode += () =>
                 {
                     questGraph.RemoveQuestNode(questGraph.QuestNodes[index]);
-                    UpdateVe();
+                    Refresh();
                 };
 
                 questEntryVe.GoToNode = null;
                 questEntryVe.GoToNode += GoToNode;
             };
             
-            questList.itemIndexChanged += (oldIndex, newIndex) =>
+            questList.itemIndexChanged += (_, _) =>
             {
-                UpdateVe();
-                Reordered();
+                Refresh();
+                questGraph?.Reorder();
+                Refresh();
             };
             
             questList.itemsSource = questGraph.QuestNodes;
-            
-            UpdateVe();
+
+            Refresh();
         }
 
         private void UpdateVe()
@@ -127,20 +127,12 @@ namespace ISILab.LBS.VisualElements.Editor
             questGraph.UpdateQuestNodes();
             UpdateGraphOrder();
         }
-
-        private void Reordered()
-        {
-            questGraph.Reorder();
-        }
-
+        
         // should pass the preset as parameter
-        private void AddEntry(QuestNode node)
+        private void AddEntry()
         {
-            var questEntryVE = new QuestEntry();
-            questEntries.Add(questEntryVE);
-            MarkDirtyRepaint();
-            //questList?.Rebuild();
-
+            var questEntryVe = new QuestEntry();
+            questEntries.Add(questEntryVe);
         }
 
         private void GoToNode()
@@ -155,18 +147,16 @@ namespace ISILab.LBS.VisualElements.Editor
                 if(qe==null) continue;
                 qe.Update();
             }
-            MarkDirtyRepaint();
-            //questList?.Rebuild();
-             LBSMainWindow.OnWindowRepaint?.Invoke();
-             DrawManager.ReDraw();
-            // LBSInspectorPanel.ReDraw();
+            LBSMainWindow.OnWindowRepaint?.Invoke();
+            DrawManager.ReDraw();
+
         }
         
         public void Refresh()
         {
-            MarkDirtyRepaint();
             //if(questBehaviour != null) SetInfo(questBehaviour);
             UpdateVe();
+            MarkDirtyRepaint();
         }
         
         #endregion
