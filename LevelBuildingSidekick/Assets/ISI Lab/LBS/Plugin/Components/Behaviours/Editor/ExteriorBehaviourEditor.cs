@@ -101,8 +101,8 @@ namespace ISILab.LBS.VisualElements
             var t4 = new LBSTool(icon, "Remove connection", "Remove tile connection activated!", removeConection);
             t4.Init(exterior.Owner, exterior);
 
-            addEmptyTile.SetAddRemoveConnection(removeTile);
-            setConnection.SetAddRemoveConnection(removeConection);
+            addEmptyTile.SetRemover(removeTile);
+            setConnection.SetRemover(removeConection);
             
             toolKit.AddTool(t1);
             toolKit.AddTool(t2);
@@ -170,8 +170,11 @@ namespace ISILab.LBS.VisualElements
         private void SetConnectionPallete(Bundle bundle)
         {
             if (bundle == null) return;
+
+            connectionPallete.style.display = DisplayStyle.Flex;
+            
             // Set init options
-            connectionPallete.ShowGroups = false;
+            connectionPallete.ShowGroups = true;
             connectionPallete.ShowAddButton = false;
             connectionPallete.ShowRemoveButton = false;
 

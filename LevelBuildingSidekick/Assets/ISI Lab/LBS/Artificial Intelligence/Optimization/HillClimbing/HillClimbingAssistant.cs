@@ -18,6 +18,7 @@ using LBS.Components;
 using LBS.Components.TileMap;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.UIElements;
 using Debug = UnityEngine.Debug;
 
 namespace ISILab.LBS.Assistants
@@ -57,7 +58,7 @@ namespace ISILab.LBS.Assistants
         #endregion
 
         #region CONSTRUCTORS
-        public HillClimbingAssistant(Texture2D icon, string name) : base(icon, name)
+        public HillClimbingAssistant(VectorImage icon, string name, Color colorTint) : base(icon, name, colorTint)
         {
         }
         #endregion
@@ -666,7 +667,7 @@ namespace ISILab.LBS.Assistants
 
         public override object Clone()
         {
-            return new HillClimbingAssistant(this.Icon, this.Name);
+            return new HillClimbingAssistant(this.Icon, this.Name, this.ColorTint);
         }
 
         public override bool Equals(object obj)

@@ -8,6 +8,7 @@ using ISILab.LBS.Modules;
 using LBS.Components;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Assistants
 {
@@ -18,7 +19,7 @@ namespace ISILab.LBS.Assistants
         [JsonIgnore]
         public QuestGraph Quest => Owner.GetModule<QuestGraph>();
 
-        public GrammarAssistant(Texture2D icon, string name) : base(icon, name) { }
+        public GrammarAssistant(VectorImage icon, string name, Color colorTint) : base(icon, name, colorTint) { }
 
         public void ValidateNodeGrammar(QuestNode node)
         {
@@ -295,7 +296,7 @@ namespace ISILab.LBS.Assistants
 
         public override object Clone()
         {
-            return new GrammarAssistant(this.Icon, this.Name);
+            return new GrammarAssistant(this.Icon, this.Name, this.ColorTint);
             //throw new NotImplementedException(); // TODO: Implement this method for GrammarAssistant class
         }
 

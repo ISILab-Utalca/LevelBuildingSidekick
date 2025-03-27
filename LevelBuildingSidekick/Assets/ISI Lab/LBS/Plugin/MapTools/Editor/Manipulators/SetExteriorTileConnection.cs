@@ -96,6 +96,7 @@ namespace ISILab.LBS.Manipulators
             {
                 EditorUtility.SetDirty(x);
             }
+            
         }
 
         public void LineEffect(Vector2Int end, MouseUpEvent e)

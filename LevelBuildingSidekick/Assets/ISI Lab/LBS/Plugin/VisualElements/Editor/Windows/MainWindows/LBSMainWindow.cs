@@ -89,7 +89,7 @@ namespace ISILab.LBS.Editor.Windows{
         private static void ShowWindow()
         {
             var window = GetWindow<LBSMainWindow>();
-            Texture icon = LBSAssetMacro.LoadAssetByGuid("e3db8d94c144db946ac8dd18f0bb7a9b");
+            Texture icon = LBSAssetMacro.LoadAssetByGuid<Texture>("e3db8d94c144db946ac8dd18f0bb7a9b");
             window.titleContent = new GUIContent("Level Builder", icon);
             window.minSize = new Vector2(800, 400);
         }

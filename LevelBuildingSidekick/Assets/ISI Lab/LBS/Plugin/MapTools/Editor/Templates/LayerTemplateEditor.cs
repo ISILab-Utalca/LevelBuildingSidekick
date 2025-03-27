@@ -10,6 +10,9 @@ using ISILab.LBS.Generators;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Assistants;
 using ISILab.LBS.Editor;
+using ISILab.Macros;
+using UnityEditor.Experimental.GraphView;
+using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Template.Editor
 {
@@ -26,6 +29,12 @@ namespace ISILab.LBS.Template.Editor
         private int ruleIndex = 0;
         private List<Type> ruleOptions;
 
+        VectorImage behaviourIcon;
+        VectorImage assistantIcon;
+        
+        const string defaultBehaviorIcon = "e17eb0e02534666439fca8ea30b4d4e4";
+        const string defaultAssistantIcon = "ad8feef201665454ca79e31b7d798ac3";
+        
         void OnEnable()
         {
             behaviourOptions = typeof(LBSBehaviour).GetDerivedTypes().ToList();
@@ -35,6 +44,9 @@ namespace ISILab.LBS.Template.Editor
 
         public override void OnInspectorGUI()
         {
+            behaviourIcon = LBSAssetMacro.LoadAssetByGuid<VectorImage>(defaultBehaviorIcon); 
+            assistantIcon = LBSAssetMacro.LoadAssetByGuid<VectorImage>(defaultAssistantIcon); 
+            
             base.OnInspectorGUI();
 
             var template = (LayerTemplate)target;
@@ -90,8 +102,19 @@ namespace ISILab.LBS.Template.Editor
             {
                 QuestConstruct(template);
             }
+
+            if (GUILayout.Button("Apply Changes"))
+            {
+                ApplyChanges();
+            }
         }
 
+        private void ApplyChanges()
+        {
+            EditorUtility.SetDirty(target);
+            AssetDatabase.SaveAssets();
+        }
+        
         /// <summary>
         /// This function adjust the icons, layout and labels of the system for Contructi�n in interior
         /// also call the manipulators to make functional buttons in the layout
@@ -108,14 +131,12 @@ namespace ISILab.LBS.Template.Editor
             layer.iconPath = "Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=InteriorLayerIcon.png";
             template.layer = layer;
 
-            // Behaviours
-            var bhIcon = Resources.Load<Texture2D>("Icons/Select");
-            var bh = new SchemaBehaviour(bhIcon, "Schema behaviour");
+            // Behavior
+            var bh = new SchemaBehaviour(behaviourIcon, "Schema behaviour", Settings.LBSSettings.Instance.view.behavioursColor);
             layer.AddBehaviour(bh);
 
             // Assistants
-            var assIcon = Resources.Load<Texture2D>("Icons/Select");
-            var ass = new HillClimbingAssistant(assIcon, "HillClimbing");
+            var ass = new HillClimbingAssistant(assistantIcon, "HillClimbing", Settings.LBSSettings.Instance.view.assistantColor);
             layer.AddAssistant(ass);
 
             // Generators
@@ -133,8 +154,7 @@ namespace ISILab.LBS.Template.Editor
 
             // Save scriptableObject
             Debug.Log("Set Interior Default");
-            EditorUtility.SetDirty(target);
-            AssetDatabase.SaveAssets();
+            ApplyChanges();
         }
 
         /// <summary>
@@ -152,16 +172,14 @@ namespace ISILab.LBS.Template.Editor
             layer.Name = "Layer Exterior";
             layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/pine-tree.png";
             template.layer = layer;
-
+            
             // Behaviours
-            var bhIcon = Resources.Load<Texture2D>("Icons/Select"); // TODO: Change icon
-            var bh = new ExteriorBehaviour(bhIcon, "Exterior behaviour");
+            var bh = new ExteriorBehaviour(behaviourIcon, "Exterior behaviour", Settings.LBSSettings.Instance.view.behavioursColor);
             bh.OnAttachLayer(layer);
             layer.AddBehaviour(bh);
 
             // Assistant
-            var assIcon = Resources.Load<Texture2D>("Icons/Select"); // TODO: Change icon
-            var ass = new AssistantWFC(assIcon, "Assistant WFC");
+            var ass = new AssistantWFC(assistantIcon, "Assistant WFC", Settings.LBSSettings.Instance.view.assistantColor);
             ass.OnAttachLayer(layer);
             layer.AddAssistant(ass);
 
@@ -179,8 +197,7 @@ namespace ISILab.LBS.Template.Editor
 
             // Save scriptableObject
             Debug.Log("Set Exterior Default");
-            EditorUtility.SetDirty(target);
-            AssetDatabase.SaveAssets();
+            ApplyChanges();
         }
 
         /// <summary>
@@ -206,31 +223,20 @@ namespace ISILab.LBS.Template.Editor
                 position = new Vector3(0, 0, 0),
                 name = "Population",
             };
-
-            /*
-            layer.ID = "Population";
-            layer.Name = "Layer Population";
-            layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/ghost.png";
-            template.layer = layer;
-            */
             
             // Behaviours
-            var Icon = Resources.Load<Texture2D>("Icons/Select");
-            layer.AddBehaviour(new PopulationBehaviour(Icon, "Population Behavior"));
+            layer.AddBehaviour(new PopulationBehaviour(behaviourIcon, "Population Behavior", Settings.LBSSettings.Instance.view.behavioursColor));
 
             // Assistants
-            var assIcon = Resources.Load<Texture2D>("Icons/Select");
-            var ass = new AssistantMapElite(assIcon, "Map Elite - Genetic Algorithm");
+            var ass = new AssistantMapElite(assistantIcon, "Map Elite - Genetic Algorithm", Settings.LBSSettings.Instance.view.assistantColor);
             ass.OnAttachLayer(layer);
-            //ass.OnAdd(layer);
             layer.AddAssistant(ass);
 
             // Rules
             layer.AddGeneratorRule(new PopulationRuleGenerator());
 
             Debug.Log("Set Population Default");
-            EditorUtility.SetDirty(target);
-            AssetDatabase.SaveAssets();
+            ApplyChanges();
         }
 
         
@@ -258,24 +264,22 @@ namespace ISILab.LBS.Template.Editor
                 name = "Quest",
             };
             
-            // Assistants
-            var assIcon = Resources.Load<Texture2D>("Icons/Select");
-            var ass = new GrammarAssistant(assIcon, "Grammar Assistant");
-            ass.OnAttachLayer(layer);
-            layer.AddAssistant(ass);
-            
-            // Behaviours
-            var bhIcon = Resources.Load<Texture2D>("Icons/Select");
-            var bh = new QuestBehaviour(bhIcon, "Quest Behavior");
+            // Behaviours TODO add history behavior
+            var bh = new QuestBehaviour(behaviourIcon, "Quest Behavior", Settings.LBSSettings.Instance.view.behavioursColor);
             bh.OnAttachLayer(layer);
             layer.AddBehaviour(bh);
+            
+            // Assistants
+   
+            var ass = new GrammarAssistant(assistantIcon, "Grammar Assistant", Settings.LBSSettings.Instance.view.assistantColor);
+            ass.OnAttachLayer(layer);
+            layer.AddAssistant(ass);
             
             // Rules
             layer.AddGeneratorRule(new QuestRuleGenerator());
 
             Debug.Log("Set Quest Default");
-            EditorUtility.SetDirty(target);
-            AssetDatabase.SaveAssets();
+            ApplyChanges();
         }
     }
 }

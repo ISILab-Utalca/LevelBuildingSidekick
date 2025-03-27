@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Speech.Recognition;
 using ISILab.LBS.VisualElements.Editor;
+using ISILab.Macros;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -34,13 +35,17 @@ namespace ISILab.LBS.VisualElements
 
         VisualElement actionPallete;
 
-        List<LBSGrammar> grammars = new List<LBSGrammar>();
+        List<LBSGrammar> grammars = new();
 
         QuestBehaviour behaviour;
+
+        private string defaultGrammarGuid = "63ab688b53411154db5edd0ec7171c42";
         
         public QuestBehaviourEditor(object target) : base(target)
         {
             SetInfo(target);
+            var defaultGrammar = LBSAssetMacro.LoadAssetByGuid<LBSGrammar>(defaultGrammarGuid);
+            ChangeGrammar(defaultGrammar.name);
         }
 
         public override void SetInfo(object target)
@@ -93,7 +98,7 @@ namespace ISILab.LBS.VisualElements
             t4.Init(ass.Owner, target);
 
             //addNode.SetAddRemoveConnection(removeNode); - right click assigns main root - no remover
-            connectNodes.SetAddRemoveConnection(removeConnection);
+            connectNodes.SetRemover(removeConnection);
             
             toolkit.AddTool(t1);
             toolkit.AddTool(t2);

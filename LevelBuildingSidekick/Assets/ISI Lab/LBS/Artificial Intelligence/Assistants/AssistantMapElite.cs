@@ -15,6 +15,7 @@ using LBS.Components.TileMap;
 using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Assistants
 {
@@ -79,7 +80,7 @@ namespace ISILab.LBS.Assistants
         #endregion
 
         #region CONSTRUCTORS
-        public AssistantMapElite(Texture2D icon, string name) : base(icon, name)
+        public AssistantMapElite(VectorImage icon, string name, Color colorTint) : base(icon, name, colorTint)
         {
         }
         #endregion
@@ -234,7 +235,7 @@ namespace ISILab.LBS.Assistants
 
         public override object Clone()
         {
-            return new AssistantMapElite(this.Icon, this.Name);
+            return new AssistantMapElite(this.Icon, this.Name, this.ColorTint);
         }
 
         public override bool Equals(object obj)

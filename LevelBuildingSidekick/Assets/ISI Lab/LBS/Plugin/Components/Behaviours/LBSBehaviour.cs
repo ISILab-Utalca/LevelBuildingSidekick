@@ -8,6 +8,7 @@ using LBS.Components.TileMap;
 using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Behaviours
 {
@@ -23,12 +24,22 @@ namespace ISILab.LBS.Behaviours
         [HideInInspector]
         private LBSLayer owner;
         [SerializeField]
-        private Texture2D icon;
+        private VectorImage icon;
+        [SerializeField, JsonIgnore]//, JsonIgnore]
+        private Color colorTint;
         [SerializeField, JsonRequired]
         private string name;
         #endregion
 
         #region PROPERTIES
+        
+        [JsonIgnore]
+        public Color ColorTint
+        {
+            get => colorTint;
+            set => colorTint = value;
+        }
+
         [JsonIgnore]
         public LBSLayer Owner
         {
@@ -37,7 +48,7 @@ namespace ISILab.LBS.Behaviours
         }
 
         [JsonIgnore]
-        public Texture2D Icon
+        public VectorImage Icon
         {
             get => icon;
         }
@@ -47,13 +58,15 @@ namespace ISILab.LBS.Behaviours
         {
             get => name;
         }
+
         #endregion
 
         #region CONSTRUCTORS
-        public LBSBehaviour(Texture2D icon, string name)
+        public LBSBehaviour(VectorImage icon, string name, Color  colorTint)
         {
             this.icon = icon;
             this.name = name;
+            this.colorTint = colorTint;
         }
         #endregion
 

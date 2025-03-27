@@ -113,7 +113,7 @@ namespace ISILab.LBS.VisualElements
             t2.Init(_target.Owner, _target);
 
             
-            addPopulationTile.SetAddRemoveConnection(removePopulationTile);
+            addPopulationTile.SetRemover(removePopulationTile);
             
             toolkit.AddTool(t1);
             toolkit.AddTool(t2);

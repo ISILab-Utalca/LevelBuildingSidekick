@@ -87,7 +87,7 @@ namespace ISILab.LBS.VisualElements
             t2.Init(hillClimbing.Owner, hillClimbing);
             toolKit.AddTool(t2);
             
-            setZoneConnection.SetAddRemoveConnection(removeAreaConnection);
+            setZoneConnection.SetRemover(removeAreaConnection);
         }
 
         protected override VisualElement CreateVisualElement()

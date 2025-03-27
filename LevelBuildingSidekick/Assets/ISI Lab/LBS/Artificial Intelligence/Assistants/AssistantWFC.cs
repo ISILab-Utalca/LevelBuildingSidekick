@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Assistants
 {
@@ -83,7 +84,7 @@ namespace ISILab.LBS.Assistants
 
         #region CONSTRUCTORS
 
-        public AssistantWFC(Texture2D icon, string name) : base(icon, name)
+        public AssistantWFC(VectorImage icon, string name, Color colorTint) : base(icon, name, colorTint)
         {
             OnGUI(); 
         }
@@ -108,7 +109,7 @@ namespace ISILab.LBS.Assistants
 
         public override object Clone()
         {
-            return new AssistantWFC(this.Icon, this.Name);
+            return new AssistantWFC(this.Icon, this.Name, this.ColorTint);
         }
 
         public void Execute()
