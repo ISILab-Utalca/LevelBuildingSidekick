@@ -9,6 +9,9 @@ using ISILab.LBS.Editor;
 
 namespace ISILab.LBS.VisualElements
 {
+    /// <summary>
+    /// Visual Element Class that displays the different behaviors within the behavior's panel
+    /// </summary>
     public class BehaviourContent : VisualElement
     {
         // View
@@ -18,30 +21,25 @@ namespace ISILab.LBS.VisualElements
         private Foldout foldout;
         private VisualElement content;
 
-        public BehaviourContent(LBSCustomEditor content, string name, Texture2D icon, Color color)
+        public BehaviourContent(LBSCustomEditor content, string name, VectorImage icon, Color color)
         {
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("BehaviourContent");
             visualTree.CloneTree(this);
-
-            // Foldout
+            
             foldout = this.Q<Foldout>();
             foldout.RegisterCallback<ChangeEvent<bool>>(FoldoutPressed);
-
-            // Icon
+            
             this.icon = this.Q<VisualElement>("Icon");
-            this.icon.style.backgroundImage = icon;
-            this.icon.style.color = color;
-
-            // Label
+            this.icon.style.backgroundImage = new StyleBackground(icon);
+            this.icon.style.unityBackgroundImageTintColor = new StyleColor(color);
+            
             label = this.Q<Label>();
             label.text = name;
-
-            // Menu
+            
             menu = this.Q<Button>();
             var cmm = new ContextualMenuManipulator(content.ContextMenu);
             cmm.target = menu;
-
-            // Content
+            
             this.content = this.Q<VisualElement>("Content");
             this.content.Add(content);
         }

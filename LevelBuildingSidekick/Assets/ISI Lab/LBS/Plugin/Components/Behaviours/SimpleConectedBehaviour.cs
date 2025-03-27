@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using ISILab.LBS.Modules;
 using LBS.Components;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Behaviours
 {
@@ -11,11 +12,11 @@ namespace ISILab.LBS.Behaviours
     [RequieredModule(typeof(ConnectedTileMapModule))]
     public class SimpleConectedBehaviour : LBSBehaviour
     {
-        public SimpleConectedBehaviour(Texture2D icon, string name) : base(icon, name) { }
+        public SimpleConectedBehaviour(VectorImage icon, string name, Color colorTint) : base(icon, name, colorTint) { }
 
         public override object Clone()
         {
-            return new SimpleConectedBehaviour(this.Icon, this.Name);
+            return new SimpleConectedBehaviour(this.Icon, this.Name, this.ColorTint);
         }
 
         public override void OnGUI()

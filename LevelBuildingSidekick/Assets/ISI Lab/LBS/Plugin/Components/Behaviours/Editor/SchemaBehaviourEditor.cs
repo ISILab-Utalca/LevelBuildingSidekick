@@ -83,8 +83,8 @@ namespace ISILab.LBS.Behaviours.Editor
             t4.Init(_target.Owner, _target);
       
             
-            createNewRoomNode.SetAddRemoveConnection(removeSchemaTile);
-            setTileConnection.SetAddRemoveConnection(removeTileConnection);
+            createNewRoomNode.SetRemover(removeSchemaTile);
+            setTileConnection.SetRemover(removeTileConnection);
             
             toolKit.AddTool(t1);
             toolKit.AddTool(t2);

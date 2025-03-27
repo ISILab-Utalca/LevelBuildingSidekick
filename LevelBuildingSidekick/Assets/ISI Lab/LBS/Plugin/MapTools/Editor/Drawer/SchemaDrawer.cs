@@ -92,7 +92,7 @@ namespace ISILab.LBS.Drawers
             tView.SetConnections(connections.ToArray());
 
             var Connections = SchemaTileView.GetConnectionPoints(connections);
-            var tempSchemaBehaviour = new SchemaBehaviour(new Texture2D(0,0), "temp");
+            var tempSchemaBehaviour = new SchemaBehaviour(ScriptableObject.CreateInstance<VectorImage>(), "temp", Color.clear);
             
             foreach (var connection in Connections)
             {

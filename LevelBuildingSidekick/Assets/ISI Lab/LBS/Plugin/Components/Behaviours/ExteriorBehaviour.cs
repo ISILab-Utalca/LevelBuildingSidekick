@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Behaviours
 {
@@ -92,7 +93,7 @@ namespace ISILab.LBS.Behaviours
         
         #region CONSTRUCTORS
 
-        public ExteriorBehaviour(Texture2D icon, string name) : base(icon, name)
+        public ExteriorBehaviour(VectorImage icon, string name, Color colorTint) : base(icon, name, colorTint)
         {
             OnGUI();
         }
@@ -160,7 +161,7 @@ namespace ISILab.LBS.Behaviours
 
         public override object Clone()
         {
-            return new ExteriorBehaviour(this.Icon, this.Name);
+            return new ExteriorBehaviour(this.Icon, this.Name, this.ColorTint);
         }
 
         public override bool Equals(object obj)

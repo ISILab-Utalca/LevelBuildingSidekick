@@ -1,7 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/Visual%20Elements/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
+    <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
     <ui:VisualElement style="flex-grow: 1; background-color: rgb(48, 48, 48); min-height: auto; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 8px; margin-left: 4px; margin-right: 4px; margin-top: 4px; margin-bottom: 4px;">
-        <ui:DropdownField label="Select grammar" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="Grammar" class="myTextSize" style="margin-bottom: 8px; color: rgb(255, 255, 255); font-size: 14px; -unity-font-style: normal;" />
+        <ui:DropdownField label="Select grammar" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="Grammar" class="myTextSize" style="margin-bottom: 8px; color: rgb(255, 255, 255); font-size: 12px; -unity-font-style: normal;" />
         <ui:ScrollView style="margin-left: 4px;">
             <ui:VisualElement name="Content" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);" />
         </ui:ScrollView>
