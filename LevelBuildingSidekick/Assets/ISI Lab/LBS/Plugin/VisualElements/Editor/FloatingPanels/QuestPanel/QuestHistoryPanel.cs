@@ -20,7 +20,8 @@ using Object = UnityEngine.Object;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
-    public class QuestHistoryPanel : VisualElement
+    [UxmlElement]
+    public partial class QuestHistoryPanel : VisualElement
     {
         #region UXMLFACTORY
         [UxmlElementAttribute]
@@ -29,7 +30,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
         #region VIEW ELEMENTS
         private ListView questList;
-        private QuestBehaviour questBehaviour;
+        private QuestFlowBehaviour questBehaviour;
         #endregion
 
         #region FIELDS
@@ -54,6 +55,7 @@ namespace ISILab.LBS.VisualElements.Editor
         #region CONSTRUCTORS
         public QuestHistoryPanel()
         {
+
         }
         
         #endregion
@@ -62,8 +64,9 @@ namespace ISILab.LBS.VisualElements.Editor
 
       
         
-        public void SetInfo(QuestBehaviour target)
+        public void SetInfo(QuestFlowBehaviour target)
         {
+            Clear();
             if (target == null) return;
             questBehaviour = target;
             CreateVisualElement();
@@ -113,7 +116,8 @@ namespace ISILab.LBS.VisualElements.Editor
             {
                 Refresh();
                 questGraph?.Reorder();
-                Refresh();
+                UpdateVeQuestEntries();
+                //Refresh();
             };
             
             questList.itemsSource = questGraph.QuestNodes;
@@ -121,13 +125,6 @@ namespace ISILab.LBS.VisualElements.Editor
             Refresh();
         }
 
-        private void UpdateVe()
-        {
-            questList?.Rebuild();
-            questGraph.UpdateQuestNodes();
-            UpdateGraphOrder();
-        }
-        
         // should pass the preset as parameter
         private void AddEntry()
         {
@@ -140,7 +137,7 @@ namespace ISILab.LBS.VisualElements.Editor
             Debug.Log("Go To Node in graph!!!");
         }
         
-        private void UpdateGraphOrder()
+        private void UpdateVeQuestEntries()
         {
             foreach (var qe in questEntries)
             {
@@ -149,13 +146,16 @@ namespace ISILab.LBS.VisualElements.Editor
             }
             LBSMainWindow.OnWindowRepaint?.Invoke();
             DrawManager.ReDraw();
-
         }
         
         public void Refresh()
         {
-            //if(questBehaviour != null) SetInfo(questBehaviour);
-            UpdateVe();
+            questList?.Rebuild();
+            
+            questGraph.UpdateQuestNodes();
+            
+            UpdateVeQuestEntries();
+            
             MarkDirtyRepaint();
         }
         

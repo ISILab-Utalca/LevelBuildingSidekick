@@ -21,6 +21,7 @@ MonoBehaviour:
     modules:
     - rid: 1248747549014622361
     behaviours:
+    - rid: 6953538662824935526
     - rid: 1248747549014622362
     assistants:
     - rid: 1248747549014622363
@@ -73,14 +74,14 @@ MonoBehaviour:
       type: {class: QuestBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
       data:
         visible: 1
-        icon: {fileID: 7388822144124034973, guid: a919b94406bb9f5469d29bf56201e3f1, type: 3}
+        icon: {fileID: 7388822144124034973, guid: 49b9448c876b36c4ba26740d7deae035, type: 3}
         colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 1}
         name: Quest Behaviour
     - rid: 1248747549014622363
       type: {class: GrammarAssistant, ns: ISILab.LBS.Assistants, asm: LBS}
       data:
         visible: 1
-        icon: {fileID: 7388822144124034973, guid: 49b9448c876b36c4ba26740d7deae035, type: 3}
+        icon: {fileID: 7388822144124034973, guid: ad8feef201665454ca79e31b7d798ac3, type: 3}
         colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 1}
         name: Grammar Assistant
     - rid: 1248747549014622364
@@ -119,3 +120,10 @@ MonoBehaviour:
           width: 0
           height: 0
         tags: []
+    - rid: 6953538662824935526
+      type: {class: QuestFlowBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
+      data:
+        visible: 1
+        icon: {fileID: 7388822144124034973, guid: a919b94406bb9f5469d29bf56201e3f1, type: 3}
+        colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 0}
+        name: Quest Flow

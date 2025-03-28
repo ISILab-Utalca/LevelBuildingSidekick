@@ -57,7 +57,7 @@ namespace ISILab.LBS.Template.Editor
             var selected = behaviourOptions[behaviourIndex];
             if (GUILayout.Button("Add behaviour"))
             {
-                var bh = Activator.CreateInstance(selected, null, "Default Name");
+                var bh = Activator.CreateInstance(selected, null, "Default Name", Color.clear);
                 template.layer.AddBehaviour(bh as LBSBehaviour);
             }
             GUILayout.EndHorizontal();

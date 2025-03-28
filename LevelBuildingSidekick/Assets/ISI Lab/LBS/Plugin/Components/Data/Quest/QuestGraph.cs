@@ -72,6 +72,8 @@ namespace ISILab.LBS.Modules
         
         #region EVENTS
         [JsonIgnore]
+        public Action UpdateFlow;
+        [JsonIgnore]
         public Action<QuestNode> OnAddNode;
         [JsonIgnore]
         public Action<QuestNode> OnRemoveNode;

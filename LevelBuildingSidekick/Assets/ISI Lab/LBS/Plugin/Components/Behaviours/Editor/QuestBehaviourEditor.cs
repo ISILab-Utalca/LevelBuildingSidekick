@@ -116,7 +116,7 @@ namespace ISILab.LBS.VisualElements
         {
             SetInfo(target);
             LBSInspectorPanel.ReDraw();
-            questHistoryPanel?.Refresh();
+            behaviour.Graph.UpdateFlow?.Invoke();
         }
         
         protected override VisualElement CreateVisualElement()
@@ -128,11 +128,7 @@ namespace ISILab.LBS.VisualElements
             actionPallete = this.Q<VisualElement>(name: "Content");
             
             grammarDropdown.RegisterValueChangedCallback(evt => ChangeGrammar(evt.newValue));
-            
-            questHistoryPanel = new QuestHistoryPanel();
-            questHistoryPanel.SetInfo(behaviour);
-            Add(questHistoryPanel);
-            
+  
             return this;
         }
 
@@ -168,12 +164,11 @@ namespace ISILab.LBS.VisualElements
                 {
                     behaviour.ToSet = a.GrammarElement;
                     ToolKit.Instance.SetActive("Add Quest Node");
-                    questHistoryPanel?.Refresh();
+                    behaviour.Graph.UpdateFlow?.Invoke();
                 });
                 actionPallete.Add(b);
             }
-            
-            questHistoryPanel?.SetInfo(target as QuestBehaviour);
+            behaviour.Graph.UpdateFlow?.Invoke();
            
         }
 
