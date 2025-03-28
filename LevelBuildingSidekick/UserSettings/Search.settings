@@ -110,8 +110,10 @@ providers = {
 objectSelectors = {
 }
 recentSearches = [
-	"type: presett"
+	"type: evalua"
 	"type:"
+	"type: irange"
+	"type: presett"
 	"type: mapel"
 	"type: preset"
 	"lbsmod"

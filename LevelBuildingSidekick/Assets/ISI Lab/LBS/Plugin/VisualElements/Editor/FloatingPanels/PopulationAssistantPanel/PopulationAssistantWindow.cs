@@ -21,12 +21,16 @@ namespace ISILab.LBS.VisualElements.Editor
     public class PopulationAssistantWindow : EditorWindow
     {
         #region UXMLFACTORY
-       // [UxmlElementAttribute]
-       // public new class UxmlFactory { }
+        // [UxmlElementAttribute]
+        // public new class UxmlFactory { }
+        #endregion
+
+        #region Utilities
+        private Dictionary<String, MAPElitesPreset> presetDictionary = new Dictionary<string, MAPElitesPreset>();
         #endregion
 
         #region VIEW ELEMENTS
-        private EnumField presetField;
+        private DropdownField presetField;
         private EnumField param1Field;
         private EnumField param2Field;
         
@@ -70,12 +74,15 @@ namespace ISILab.LBS.VisualElements.Editor
         public void CreateGUI()
         {
             //Start by setting up the presets
-            SetPresets();
+            
 
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("PopulationAssistantWindow");
             visualTree.CloneTree(rootVisualElement);
 
-            presetField = rootVisualElement.Q<EnumField>("Preset");
+            presetField = rootVisualElement.Q<DropdownField>("Preset");
+            SetPresets();
+            presetField.RegisterValueChangedCallback(evt => UpdatePreset(evt.newValue));
+
             param1Field = rootVisualElement.Q<EnumField>("XPreset");
             param2Field = rootVisualElement.Q<EnumField>("YPreset");
             //presetField.RegisterValueChangedCallback(e => OnPresetChanged?.Invoke(e.));
@@ -112,14 +119,36 @@ namespace ISILab.LBS.VisualElements.Editor
             var info = new DirectoryInfo(presetPath);
             var fileInfo = info.GetFiles();
 
+            var mapPresets = new List<MAPElitesPreset>();
             foreach (var file in fileInfo)
             {
                 var newPreset = AssetDatabase.LoadAssetAtPath<MAPElitesPreset>(presetPath + "\\" + file.Name);
                 if (newPreset != null)
                 {
                     Debug.Log("loaded: " + newPreset);
+                    mapPresets.Add(newPreset);
                 }
             }
+
+            presetField.choices.Clear();
+
+            foreach(var preset in mapPresets)
+            {
+                presetField.choices.Add(preset.PresetName);
+                presetDictionary.Add(preset.PresetName, preset);
+            }
+        }
+
+        private void UpdatePreset(string value)
+        {
+            if (value == null) return;
+            if (!presetDictionary.ContainsKey(value)) return;
+            
+            //Everything else happens here
+            mapEliteBundle = presetDictionary[value];
+            Debug.Log("selected map elite: " + mapEliteBundle);
+
+            //param1Field.ch
 
         }
 

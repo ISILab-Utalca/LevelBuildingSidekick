@@ -13,8 +13,7 @@
         <ui:TwoPaneSplitView name="Content" fixed-pane-index="0" fixed-pane-initial-dimension="200" orientation="Horizontal">
             <ui:VisualElement name="LeftSide" style="flex-grow: 1; align-self: flex-start; width: auto; height: 100%; overflow: hidden; min-width: 200px; max-width: none; flex-shrink: 1;">
                 <ui:VisualElement style="flex-grow: 1; background-color: rgb(48, 48, 48); border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 0; border-bottom-left-radius: 0; border-top-width: 1px; border-right-width: 1px; border-left-width: 1px; border-left-color: rgb(34, 34, 34); border-right-color: rgb(34, 34, 34); border-top-color: rgb(34, 34, 34); border-bottom-color: rgb(34, 34, 34);">
-                    <ui:DropdownField label="Dropdown" name="Preset" />
-                    <ui:EnumField label="Preset" value="Center" type="UnityEngine.TextAlignment, UnityEngine.TextRenderingModule" name="Preset" style="padding-bottom: 4px; border-bottom-width: 1px; border-left-color: rgb(196, 196, 196); border-right-color: rgb(196, 196, 196); border-top-color: rgb(196, 196, 196); border-bottom-color: rgb(196, 196, 196); background-color: rgba(255, 0, 0, 0);" />
+                    <ui:DropdownField label="Preset" name="Preset" />
                     <ui:EnumField label="Param 1 (X Axis)" value="Center" type="UnityEngine.TextAlignment, UnityEngine.TextRenderingModule" name="XPreset" class="lbs-enumc-red" style="-unity-font-style: normal; -unity-text-outline-width: 0; -unity-text-outline-color: rgba(0, 0, 0, 0);" />
                     <ui:EnumField label="Param 2 (Y Axis)" value="Center" type="UnityEngine.TextAlignment, UnityEngine.TextRenderingModule" name="YPreset" class="lbs-enumc-green" />
                     <ui:EnumField label="Optimize (Z Axis)" value="Center" type="UnityEngine.TextAlignment, UnityEngine.TextRenderingModule" name="ZPreset" class="lbs-enumc-white" />
