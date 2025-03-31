@@ -12,6 +12,7 @@ using UnityEditor;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.AI.Categorization;
 using ISILab.LBS.Behaviours;
+using ISILab.LBS.Components;
 using ISILab.LBS.Generators;
 using ISILab.LBS.Modules;
 using Unity.Properties;
@@ -109,7 +110,7 @@ namespace ISILab.LBS.VisualElements.Editor
                 };
 
                 questEntryVe.GoToNode = null;
-                questEntryVe.GoToNode += GoToNode;
+                questEntryVe.GoToNode += () => GoToNode(questGraph.QuestNodes[index]);
             };
             
             questList.itemIndexChanged += (_, _) =>
@@ -132,9 +133,10 @@ namespace ISILab.LBS.VisualElements.Editor
             questEntries.Add(questEntryVe);
         }
 
-        private void GoToNode()
-        { 
-            Debug.Log("Go To Node in graph!!!");
+        private void GoToNode(QuestNode node)
+        {
+            if(node == null) return;
+            questGraph?.GoToNode.Invoke(node);
         }
         
         private void UpdateVeQuestEntries()

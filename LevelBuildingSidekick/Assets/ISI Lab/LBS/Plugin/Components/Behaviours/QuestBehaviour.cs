@@ -16,7 +16,6 @@ namespace ISILab.LBS.Behaviours
 
         public QuestGraph Graph => Owner.GetModule<QuestGraph>();
         
-        
         public QuestBehaviour(VectorImage icon, string name, Color colorTint) : base(icon, name, colorTint)
         {
         }
@@ -29,7 +28,6 @@ namespace ISILab.LBS.Behaviours
         public override object Clone()
         {
             return new QuestBehaviour(this.Icon, this.Name, this.ColorTint);
-            //throw new System.NotImplementedException();
         }
 
         public override void OnAttachLayer(LBSLayer layer)

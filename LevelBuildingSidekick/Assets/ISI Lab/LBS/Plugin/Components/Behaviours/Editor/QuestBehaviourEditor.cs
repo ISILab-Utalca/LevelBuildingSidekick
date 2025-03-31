@@ -13,9 +13,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Speech.Recognition;
+using ISILab.Extensions;
+using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.VisualElements.Editor;
 using ISILab.Macros;
 using UnityEditor;
+using UnityEditor.Graphs;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -46,6 +49,7 @@ namespace ISILab.LBS.VisualElements
             SetInfo(target);
             var defaultGrammar = LBSAssetMacro.LoadAssetByGuid<LBSGrammar>(defaultGrammarGuid);
             ChangeGrammar(defaultGrammar.name);
+            
         }
 
         public override void SetInfo(object target)
@@ -105,11 +109,38 @@ namespace ISILab.LBS.VisualElements
             toolkit.AddTool(t3);
             toolkit.AddTool(t4);
 
+            addNode.OnManipulationEnd = null;
+            removeNode.OnManipulationEnd = null;
+            connectNodes.OnManipulationEnd = null;
+            removeConnection.OnManipulationEnd = null;
+            
             addNode.OnManipulationEnd += RefreshHistoryPanel;
             removeConnection.OnManipulationEnd += RefreshHistoryPanel;
             connectNodes.OnManipulationEnd += RefreshHistoryPanel;
             removeConnection.OnManipulationEnd += RefreshHistoryPanel;
 
+            behaviour.Graph.GoToNode += GoToQuestNode;
+        }
+
+        private void GoToQuestNode(QuestNode Node)
+        {
+            var nodePos = Node.Position;
+            var scale = MainView.Instance.viewTransform.scale;
+            var viewport = MainView.Instance.viewport.layout;
+            
+            var xOffset = (viewport.width * 0.5f) / scale.x;
+            var yOffset = (viewport.height * 0.5f) / scale.y;
+            
+            //(viewport.width * 0.5f - viewport.width / behaviour.Graph.NodeSize.x) / scale.x;
+            //var xOffset = (viewport.width * 0.5f)/ scale.x - ((viewport.width / behaviour.Graph.NodeSize.x) *1.5f)/ scale.x;
+            //var yOffset = (viewport.height * 0.5f)/ scale.y - ((viewport.height / behaviour.Graph.NodeSize.y) *1.5f)/ scale.y;
+
+            var x = nodePos.x - xOffset;
+            var y = nodePos.y - yOffset;
+
+            var position = new Vector3(-x * scale.x, -y * scale.y, 0);
+            
+            MainView.Instance.UpdateViewTransform(position, scale);
         }
 
         private void RefreshHistoryPanel()
