@@ -21,7 +21,6 @@ namespace ISILab.LBS.Generators
         public override object Clone()
         {
             return new QuestRuleGenerator();
-            //throw new System.NotImplementedException();
         }
 
         public override GameObject Generate(LBSLayer layer, Generator3D.Settings settings)
@@ -37,9 +36,6 @@ namespace ISILab.LBS.Generators
 
             foreach (var node in quest.QuestNodes)
             {
-                if (node == quest.Root)
-                    continue;
-
                 var go = new GameObject(node.ID);
 
                 go.transform.position = node.Target.Rect.position;

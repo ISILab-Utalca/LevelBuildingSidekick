@@ -14,6 +14,12 @@ namespace ISILab.LBS.Components
         start, middle, goal
     }
 
+    public enum questState
+    {
+        blocked, active, completed, failed
+    }
+    
+
 [System.Serializable]
     public class QuestNode : ICloneable
     {
@@ -38,6 +44,9 @@ namespace ISILab.LBS.Components
         private NodeType nodeType;
         
         [SerializeField, JsonRequired]
+        questState  questState = questState.blocked;
+        
+        [SerializeField, JsonRequired]
         private bool valid;
         
         #endregion
@@ -46,7 +55,7 @@ namespace ISILab.LBS.Components
         private QuestTarget target;
 
         private QuestGraph graph;
-
+        
         #region PROPERTIES
         [JsonIgnore]
         public QuestGraph Graph
@@ -123,7 +132,12 @@ namespace ISILab.LBS.Components
             get => nodeType;
             set => nodeType = value;
         }
-        
+
+
+        [JsonIgnore]
+        public questState QuestState { get; set; }
+
+
         #endregion
 
         #region CONSTRUCTOR
