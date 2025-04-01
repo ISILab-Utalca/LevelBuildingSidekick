@@ -114,7 +114,7 @@ namespace ISILab.LBS
         {
             var branches = questGraph.GetBranches(questGraph.Root);
 
-            var firstNode = branches[0].Second;
+            var firstNode = branches[0].First;
             var trigger = questTriggers.Find(t => t.Node == firstNode).Trigger;
 
             trigger.gameObject.SetActive(true);

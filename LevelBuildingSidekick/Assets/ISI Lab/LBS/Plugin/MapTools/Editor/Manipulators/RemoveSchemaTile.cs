@@ -35,7 +35,7 @@ namespace ISILab.LBS.Manipulators
             EditorGUI.BeginChangeCheck();
             Undo.RegisterCompleteObjectUndo(x, "Remove Zone");
 
-            var corners = schema.Owner.ToFixedPosition(StartPosition, EndPosition);
+            var corners = schema.OwnerLayer.ToFixedPosition(StartPosition, EndPosition);
 
             for (int i = corners.Item1.x; i <= corners.Item2.x; i++)
             {

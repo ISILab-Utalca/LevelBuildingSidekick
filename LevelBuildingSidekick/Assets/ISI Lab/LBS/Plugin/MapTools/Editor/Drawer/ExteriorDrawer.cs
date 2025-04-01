@@ -30,8 +30,8 @@ namespace ISILab.LBS.Drawers
             if (target is not ExteriorBehaviour exterior) return;
            
             // Get modules
-            var tileMod = exterior.Owner.GetModule<TileMapModule>();
-            var connectMod = exterior.Owner.GetModule<ConnectedTileMapModule>();
+            var tileMod = exterior.OwnerLayer.GetModule<TileMapModule>();
+            var connectMod = exterior.OwnerLayer.GetModule<ConnectedTileMapModule>();
             
             foreach (var tile in exterior.Tiles)
             {
@@ -41,7 +41,7 @@ namespace ISILab.LBS.Drawers
                 
                 var tView = GetTileView(tile, connections, teselationSize);
 
-                view.AddElement(exterior.Owner, tile, tView);
+                view.AddElement(exterior.OwnerLayer, tile, tView);
             }
         }
 
@@ -102,8 +102,8 @@ namespace ISILab.LBS.Drawers
         {
             var exterior = target as ExteriorBehaviour;
 
-            var tileMod = exterior.Owner.GetModule<TileMapModule>();
-            var connectMod = exterior.Owner.GetModule<ConnectedTileMapModule>();
+            var tileMod = exterior.OwnerLayer.GetModule<TileMapModule>();
+            var connectMod = exterior.OwnerLayer.GetModule<ConnectedTileMapModule>();
 
             var texture = new Texture2D((int)(sourceRect.width * teselationSize.x), (int)(sourceRect.height * teselationSize.y));
 

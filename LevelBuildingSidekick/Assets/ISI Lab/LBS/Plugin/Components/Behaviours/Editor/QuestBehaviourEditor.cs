@@ -62,7 +62,7 @@ namespace ISILab.LBS.VisualElements
             if (behaviour == null)
                 return;
 
-            var quest = behaviour.Owner.GetModule<QuestGraph>();
+            var quest = behaviour.OwnerLayer.GetModule<QuestGraph>();
 
             UpdateDropdown();
 
@@ -84,22 +84,22 @@ namespace ISILab.LBS.VisualElements
             addNode = new CreateQuestNode();
             var t1 = new LBSTool(icon, "Add Quest Node", "Add a quest node activated!", addNode);
             t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
-            t1.Init(ass.Owner, target);
+            t1.Init(ass.OwnerLayer, target);
 
             icon = Resources.Load<Texture2D>("Icons/Quest_Icon/Delete_Node_Quest");
             removeNode = new RemoveQuestNode();
             var t2 = new LBSTool(icon, "Remove Quest Node", "Remove a quest node activated!", removeNode);
-            t2.Init(ass.Owner, target);
+            t2.Init(ass.OwnerLayer, target);
             
             icon = Resources.Load<Texture2D>("Icons/Quest_Icon/Node_Connection_Quest");
             connectNodes = new ConnectQuestNodes();
             var t3 = new LBSTool(icon, "Connect Quest Node", "Connect quest nodes activated!", connectNodes);
-            t3.Init(ass.Owner, target);
+            t3.Init(ass.OwnerLayer, target);
 
             icon = Resources.Load<Texture2D>("Icons/Quest_Icon/Delete_Node_Connection_Quest");
             removeConnection = new RemoveQuestConnection();
             var t4 = new LBSTool(icon, "Remove Quest Connection", "Remove quest connection activated!", removeConnection);
-            t4.Init(ass.Owner, target);
+            t4.Init(ass.OwnerLayer, target);
 
             //addNode.SetAddRemoveConnection(removeNode); - right click assigns main root - no remover
             connectNodes.SetRemover(removeConnection);
@@ -182,7 +182,7 @@ namespace ISILab.LBS.VisualElements
             if (behaviour == null)
                 return;
 
-            var quest = behaviour.Owner.GetModule<QuestGraph>();
+            var quest = behaviour.OwnerLayer.GetModule<QuestGraph>();
             if (quest == null)
                 return;
 
@@ -209,7 +209,7 @@ namespace ISILab.LBS.VisualElements
             if (behaviour == null)
                 throw new Exception("No Assistant");
 
-            var quest = behaviour.Owner.GetModule<QuestGraph>();
+            var quest = behaviour.OwnerLayer.GetModule<QuestGraph>();
             if (quest == null)
                 throw new Exception("No Module");
 

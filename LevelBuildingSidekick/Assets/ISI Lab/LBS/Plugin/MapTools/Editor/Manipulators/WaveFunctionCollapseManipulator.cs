@@ -35,7 +35,7 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
         {
-            first = assistant.Owner.ToFixedPosition(position);
+            first = assistant.OwnerLayer.ToFixedPosition(position);
         }
 
         protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
@@ -44,7 +44,7 @@ namespace ISILab.LBS.Manipulators
             EditorGUI.BeginChangeCheck();
             Undo.RegisterCompleteObjectUndo(x, "WFC");
 
-            var corners = assistant.Owner.ToFixedPosition(StartPosition, EndPosition);
+            var corners = assistant.OwnerLayer.ToFixedPosition(StartPosition, EndPosition);
 
             var positions = new List<Vector2Int>();
             for (int i = corners.Item1.x; i <= corners.Item2.x; i++)

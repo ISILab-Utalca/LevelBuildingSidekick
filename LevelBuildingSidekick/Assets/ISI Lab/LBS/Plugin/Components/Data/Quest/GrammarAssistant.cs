@@ -17,7 +17,7 @@ namespace ISILab.LBS.Assistants
     public class GrammarAssistant : LBSAssistant
     {
         [JsonIgnore]
-        public QuestGraph Quest => Owner.GetModule<QuestGraph>();
+        public QuestGraph Quest => OwnerLayer.GetModule<QuestGraph>();
 
         public GrammarAssistant(VectorImage icon, string name, Color colorTint) : base(icon, name, colorTint) { }
 
@@ -302,7 +302,6 @@ namespace ISILab.LBS.Assistants
 
         public void CheckNode()
         {
-
 
         }
 

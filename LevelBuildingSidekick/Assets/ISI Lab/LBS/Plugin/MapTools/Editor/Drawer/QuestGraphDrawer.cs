@@ -44,7 +44,7 @@ namespace ISILab.LBS.Drawers.Editor
                 {
                     var rectView = new DottedAreaFeedback();
 
-                    var rectSize = behaviour.Owner.TileSize * LBSSettings.Instance.general.TileSize;
+                    var rectSize = behaviour.OwnerLayer.TileSize * LBSSettings.Instance.general.TileSize;
                     var start = new Vector2(node.Target.Rect.min.x, -node.Target.Rect.min.y) * rectSize;
                     var end = new Vector2(node.Target.Rect.max.x, -node.Target.Rect.max.y) * rectSize;
                     rectView.SetPosition(Rect.zero);

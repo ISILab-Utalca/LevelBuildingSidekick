@@ -132,15 +132,15 @@ namespace ISILab.LBS.AI.Assistants.Editor
             ActOnRect = new ActOnRect((r) => assitant.RawToolRect = r);
             var t1 = new LBSTool(icon, "Select area to evaluate", "Select area to evaluate with MapElites activated!", ActOnRect);
             t1.OnSelect += () => LBSInspectorPanel.ShowInspector(LBSInspectorPanel.DataTab);
-            t1.Init(assitant.Owner, assitant);
+            t1.Init(assitant.OwnerLayer, assitant);
             toolkit.AddTool(t1);
         }
 
         public void SetBackgorundTexture(Rect rect)
         {
             var assitant = target as AssistantMapElite;
-            var behaviours = assitant.Owner.Parent.Layers.SelectMany(l => l.Behaviours);
-            var bh = assitant.Owner.Behaviours.Find(b => b is PopulationBehaviour);
+            var behaviours = assitant.OwnerLayer.Parent.Layers.SelectMany(l => l.Behaviours);
+            var bh = assitant.OwnerLayer.Behaviours.Find(b => b is PopulationBehaviour);
 
             var size = 16;
 

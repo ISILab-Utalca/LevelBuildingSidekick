@@ -14,7 +14,7 @@ namespace ISILab.LBS.Behaviours
         [JsonIgnore]
         public GrammarTerminal ToSet { get; set; }
 
-        public QuestGraph Graph => Owner.GetModule<QuestGraph>();
+        public QuestGraph Graph => OwnerLayer.GetModule<QuestGraph>();
         
         public QuestFlowBehaviour(VectorImage icon, string name, Color colorTint) : base(icon, name, colorTint)
         {
@@ -32,7 +32,7 @@ namespace ISILab.LBS.Behaviours
 
         public override void OnAttachLayer(LBSLayer layer)
         {
-            Owner = layer;
+            OwnerLayer = layer;
         }
 
         public override void OnDetachLayer(LBSLayer layer)

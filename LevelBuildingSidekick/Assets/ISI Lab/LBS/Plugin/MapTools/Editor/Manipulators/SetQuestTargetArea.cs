@@ -21,7 +21,7 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
         {
-            var corners = questGraph.Owner.ToFixedPosition(StartPosition, EndPosition);
+            var corners = questGraph.OwnerLayer.ToFixedPosition(StartPosition, EndPosition);
 
             node.Target.Rect = new Rect(corners.Item1, corners.Item2);
         }

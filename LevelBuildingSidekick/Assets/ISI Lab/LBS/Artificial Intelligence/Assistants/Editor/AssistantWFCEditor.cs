@@ -44,7 +44,7 @@ namespace ISILab.LBS.AI.Assistants.Editor
             this.collapseManipulator = new WaveFunctionCollapseManipulator();
             var t1 = new LBSTool(icon, "Wave function collapse", "Wave function collapse activated!", collapseManipulator);
             t1.OnSelect += () => LBSInspectorPanel.ShowInspector(LBSInspectorPanel.AssistantsTab);
-            t1.Init(assistant.Owner, assistant);
+            t1.Init(assistant.OwnerLayer, assistant);
             toolKit.AddTool(t1);
         }
 

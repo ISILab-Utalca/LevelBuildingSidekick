@@ -22,7 +22,7 @@ namespace ISILab.LBS.Behaviours
 
         #region FIELDS
         [HideInInspector]
-        private LBSLayer owner;
+        private LBSLayer ownerLayerLayer;
         [SerializeField]
         private VectorImage icon;
         [SerializeField, JsonIgnore]//, JsonIgnore]
@@ -41,10 +41,10 @@ namespace ISILab.LBS.Behaviours
         }
 
         [JsonIgnore]
-        public LBSLayer Owner
+        public LBSLayer OwnerLayer
         {
-            get => owner;
-            set => owner = value;
+            get => ownerLayerLayer;
+            set => ownerLayerLayer = value;
         }
 
         [JsonIgnore]

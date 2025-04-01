@@ -76,7 +76,7 @@ namespace ISILab.LBS.VisualElements
 
                 assist.OnTermination += () =>
                 {
-                    LBSInspectorPanel.Instance.SetTarget(assist.Owner);
+                    LBSInspectorPanel.Instance.SetTarget(assist.OwnerLayer);
                     Debug.Log("OnTermination");
                 };
             }
