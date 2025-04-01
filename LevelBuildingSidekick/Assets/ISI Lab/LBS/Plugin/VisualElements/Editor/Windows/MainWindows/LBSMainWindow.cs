@@ -1,7 +1,7 @@
 using ISILab.Commons.Utility;
 using ISILab.Commons.Utility.Editor;
 
-using ISILab.LBS;
+
 using ISILab.LBS.Template;
 using ISILab.LBS.VisualElements;
 using ISILab.LBS.VisualElements.Editor;
@@ -12,6 +12,7 @@ using System;
 
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using ISILab.Commons.VisualElements.Editor;
 using UnityEditor;
 using UnityEngine;
@@ -20,14 +21,15 @@ using Debug = UnityEngine.Debug;
 
 namespace ISILab.LBS.Editor.Windows{
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class LBSMainWindow : EditorWindow
     {
         #region PROPERTIES
         private LBSLevelData levelData
         {
 
-            get => ISILab.LBS.LBS.loadedLevel.data;
-            set => ISILab.LBS.LBS.loadedLevel.data = value;
+            get => LBS.loadedLevel.data;
+            set => LBS.loadedLevel.data = value;
         }
         private LBSLevelData backUpData;
 
@@ -113,20 +115,20 @@ namespace ISILab.LBS.Editor.Windows{
         private void Init()
         {
 
-            if (ISILab.LBS.LBS.loadedLevel == null)
+            if (LBS.loadedLevel == null)
             {
                 if(levelData==null)
                 {
-                    ISILab.LBS.LBS.loadedLevel = LBSController.CreateNewLevel("new file");
+                    LBS.loadedLevel = LBSController.CreateNewLevel("new file");
                 } else
                 {
                     backUpData = levelData;
-                    ISILab.LBS.LBS.loadedLevel = LBSController.CreateNewLevel("new file");
+                    LBS.loadedLevel = LBSController.CreateNewLevel("new file");
                     levelData = backUpData;
                 }
             }
 
-            levelData.OnReload += () =>
+            levelData!.OnReload += () =>
             {
                 layerPanel.ResetSelection();
                 questsPanel.ResetSelection();

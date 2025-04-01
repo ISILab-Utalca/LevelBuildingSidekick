@@ -7,8 +7,10 @@ using ISILab.Extensions;
 using ISILab.LBS.Components;
 using ISILab.LBS.Internal;
 using ISILab.LBS.Settings;
+//using ISILab.LBS.VisualElements.Editor;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Modules
 {
@@ -71,6 +73,10 @@ namespace ISILab.LBS.Modules
         public bool IsVisible { get; set; }
         
         #region EVENTS
+        [JsonIgnore]
+        public Action<QuestNode> GoToNode;
+        [JsonIgnore]
+        public Action UpdateFlow;
         [JsonIgnore]
         public Action<QuestNode> OnAddNode;
         [JsonIgnore]
@@ -366,7 +372,7 @@ namespace ISILab.LBS.Modules
             {
                 // if first node check for next connection
                 valid = hasNext & !hasPrevious;
-                Debug.Log($"start ({questNode.ID}) - edges: {valid} ");
+             //   Debug.Log($"start ({questNode.ID}) - edges: {valid} ");
                 return valid;
             }
             
@@ -374,14 +380,14 @@ namespace ISILab.LBS.Modules
             {
                 // if last node check for previous connection
                 valid = hasPrevious & !hasNext;
-                Debug.Log($"goal ({questNode.ID}) - edges: {valid} ");
+            //    Debug.Log($"goal ({questNode.ID}) - edges: {valid} ");
                 return valid;
             }
 
             // mid node must have both connetions
             valid = hasNext && hasPrevious;
             
-            Debug.Log($"mid ({questNode.ID}) - edges: {valid} ");
+            // Debug.Log($"mid ({questNode.ID}) - edges: {valid} ");
             
             return valid;
         }
@@ -415,6 +421,7 @@ namespace ISILab.LBS.Modules
                 Debug.Log(AddConnection(node1, node2).Item1);
             }
         }
+        
     }
 
     [Serializable]
