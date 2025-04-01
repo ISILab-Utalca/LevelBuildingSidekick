@@ -49,10 +49,10 @@ namespace UI_Toolkit
 
         private void SetQuestList(List<QuestNode> quests)
         {
-            questList.makeItem = () => new RuntimeQuestEntry(); 
+            questList.makeItem = () => new VisualElementQuest(); 
             questList.bindItem = (element, index) =>
             {
-                var questEntryVe = element as RuntimeQuestEntry;
+                var questEntryVe = element as VisualElementQuest;
                 if (questEntryVe == null) return;
 
                 var quest = quests[index]; 

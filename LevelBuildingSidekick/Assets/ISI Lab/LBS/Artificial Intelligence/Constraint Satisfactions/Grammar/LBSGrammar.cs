@@ -47,7 +47,8 @@ namespace ISILab.AI.Grammar
 
         internal bool Validate(List<string> actions, out List<List<GrammarElement>> candidates)
         {
-            actions.RemoveAt(0);
+            // comment as no longer the first node is an empty start node
+           // actions.RemoveAt(0);
 
             var root = grammarTree.Root;
 

@@ -114,6 +114,71 @@ namespace ISILab.LBS.Assistants
             var roots = RootLines(first);
             var branches = BranchLines(second);
 
+            foreach (var n in roots.SelectMany(r => r))
+            {
+                n.GrammarCheck = false;
+            }
+
+            foreach (var n in branches.SelectMany(b => b))
+            {
+                n.GrammarCheck = false;
+            }
+    
+            var validRoots = roots.Where(r => r[0].Equals(Quest.Root)).ToList();
+
+            var questLines = new List<List<QuestNode>>();
+            foreach (var r in validRoots)
+            {
+                foreach (var b in branches)
+                {
+                    var questLine = new List<QuestNode>(r);
+                    questLine.AddRange(b);
+                    questLines.Add(questLine);
+                }
+            }
+
+            var candidates = new List<List<QuestNode>>();
+            foreach (var q in questLines)
+            {
+                if (q == null || q.Count == 0)
+                {
+                    Debug.LogError($"Invalid quest line found. Null or empty.");
+                    continue;
+                }
+
+                var actions = q.Select(n => n.QuestAction).ToList();
+                if (!Quest.Grammar.Validate(actions))
+                {
+                    Debug.LogWarning($"Invalid quest line: {string.Join(", ", actions)}");
+                    continue;
+                }
+
+                candidates.Add(q);
+            }
+
+            foreach (var c in candidates)
+            {
+                foreach (var n in c)
+                {
+                    n.GrammarCheck = true;
+                }
+                Debug.Log($"GrammarCheck set to TRUE for: {string.Join(", ", c.Select(n => n.QuestAction))}");
+            }
+        }
+
+        public void ValidateEdgeGrammarOLD(QuestEdge edge)
+        {
+            if(edge == null) return;
+            var grammar = Quest.Grammar;
+
+            var root = Quest.Root;
+            
+            var first = edge.First;
+            var second = edge.Second;
+
+            var roots = RootLines(first);
+            var branches = BranchLines(second);
+
             foreach (var r in roots)
             {
                 foreach (var n in r)
