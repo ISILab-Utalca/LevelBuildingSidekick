@@ -12,7 +12,7 @@ namespace ISI_Lab.ExampleResources.Controllers.Prefs.UI
     /// meant to display the state of each quest step
     /// </summary>
     [UxmlElement]
-    public partial class RuntimeQuestEntry : VisualElement
+    public partial class VisualElementQuest : VisualElement
     {
         [UxmlElementAttribute]
         public new class UxmlFactory { }
@@ -23,7 +23,7 @@ namespace ISI_Lab.ExampleResources.Controllers.Prefs.UI
         
         private QuestNode questNode;
         
-        public RuntimeQuestEntry()
+        public VisualElementQuest()
         {
             CreateVisualElement();
         }

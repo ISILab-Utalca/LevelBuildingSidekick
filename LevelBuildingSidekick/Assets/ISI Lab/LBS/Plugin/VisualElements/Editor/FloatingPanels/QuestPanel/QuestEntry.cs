@@ -61,9 +61,9 @@ namespace ISILab.LBS.VisualElements.Editor
             visualTree.CloneTree(this);
             
             buttonGoTo = this.Q<Button>("GoToButton");
-            buttonGoTo.clicked += () =>  GoToNode?.Invoke();
+            if(buttonGoTo != null) buttonGoTo.clicked += () =>  GoToNode?.Invoke();
             buttonRemove = this.Q<Button>("RemoveButton");
-            buttonRemove.clicked += () =>  RemoveNode?.Invoke();
+            if(buttonRemove != null) buttonRemove.clicked += () =>  RemoveNode?.Invoke();
             
             nodeName = this.Q<Label>("QuestNodeName");
             
@@ -88,7 +88,7 @@ namespace ISILab.LBS.VisualElements.Editor
                 return;
             }
             quest = node;
-            validImage.style.display = node!.HasEdges() ? DisplayStyle.None : DisplayStyle.Flex;
+            validImage.style.display = node.GrammarCheck ? DisplayStyle.None : DisplayStyle.Flex;
 
             string iconPath;
             Color backgroundColor;
