@@ -39,11 +39,11 @@ namespace ISILab.LBS.Behaviours
 
         #region FIELDS
         [JsonIgnore]
-        private TileMapModule tileMap => Owner.GetModule<TileMapModule>();
+        private TileMapModule tileMap => OwnerLayer.GetModule<TileMapModule>();
         [JsonIgnore]
-        private ConnectedTileMapModule tileConnections => Owner.GetModule<ConnectedTileMapModule>();
+        private ConnectedTileMapModule tileConnections => OwnerLayer.GetModule<ConnectedTileMapModule>();
         [JsonIgnore]
-        private SectorizedTileMapModule areas => Owner.GetModule<SectorizedTileMapModule>();
+        private SectorizedTileMapModule areas => OwnerLayer.GetModule<SectorizedTileMapModule>();
 
         [SerializeField]
         private string pressetInsideStyle = "Castle_Wooden";
@@ -106,7 +106,7 @@ namespace ISILab.LBS.Behaviours
         
         public override void OnAttachLayer(LBSLayer layer)
         {
-            Owner = layer;
+            OwnerLayer = layer;
         }
 
         public override void OnDetachLayer(LBSLayer layer)

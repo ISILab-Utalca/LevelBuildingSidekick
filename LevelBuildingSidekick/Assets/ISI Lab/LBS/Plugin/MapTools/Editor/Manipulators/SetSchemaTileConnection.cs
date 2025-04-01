@@ -40,7 +40,7 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
         {
-            first = schema.Owner.ToFixedPosition(position);
+            first = schema.OwnerLayer.ToFixedPosition(position);
         }
 
         protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
@@ -64,7 +64,7 @@ namespace ISILab.LBS.Manipulators
                 return;
 
             // Get second fixed position
-            var pos = schema.Owner.ToFixedPosition(position);
+            var pos = schema.OwnerLayer.ToFixedPosition(position);
 
             // Get vector direction
             var dx = t1.Position.x - pos.x;

@@ -499,7 +499,7 @@ namespace ISILab.LBS.Modules
 
         public List<object> GetSelected(Vector2Int position)
         {
-            var pos = Owner.ToFixedPosition(position);
+            var pos = OwnerLayer.ToFixedPosition(position);
             var r = new List<object>();
             var zone = GetZone(pos);
 

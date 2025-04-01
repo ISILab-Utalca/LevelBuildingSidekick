@@ -129,10 +129,10 @@ namespace ISILab.LBS.Behaviours
 
         public override void OnAttachLayer(LBSLayer layer)
         {
-            Owner = layer;
+            OwnerLayer = layer;
 
-            tileMap = Owner.GetModule<TileMapModule>();
-            bundleTileMap = Owner.GetModule<BundleTileMap>();
+            tileMap = OwnerLayer.GetModule<TileMapModule>();
+            bundleTileMap = OwnerLayer.GetModule<BundleTileMap>();
         }
 
         public override void OnDetachLayer(LBSLayer layer)

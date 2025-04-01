@@ -37,7 +37,7 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
         {
-            first = population.Owner.ToFixedPosition(startPosition);
+            first = population.OwnerLayer.ToFixedPosition(startPosition);
         }
 
         protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)

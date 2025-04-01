@@ -22,9 +22,9 @@ namespace ISILab.LBS.Drawers
             var schema = target as SchemaBehaviour;
 
             // Get modules
-            var tilesMod = schema.Owner.GetModule<TileMapModule>();
-            var zonesMod = schema.Owner.GetModule<SectorizedTileMapModule>();
-            var connectionsMod = schema.Owner.GetModule<ConnectedTileMapModule>();
+            var tilesMod = schema.OwnerLayer.GetModule<TileMapModule>();
+            var zonesMod = schema.OwnerLayer.GetModule<SectorizedTileMapModule>();
+            var connectionsMod = schema.OwnerLayer.GetModule<ConnectedTileMapModule>();
 
             foreach (var t in tilesMod.Tiles)
             {

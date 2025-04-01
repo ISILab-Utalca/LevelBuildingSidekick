@@ -20,7 +20,7 @@ namespace ISILab.LBS.Assistants
 
         #region FIELDS
         [NonSerialized, HideInInspector, JsonIgnore]
-        private LBSLayer owner;
+        private LBSLayer ownerLayer;
         [SerializeField, JsonIgnore]//, JsonIgnore]
         private VectorImage icon;
         [SerializeField, JsonIgnore]//, JsonIgnore]
@@ -28,9 +28,7 @@ namespace ISILab.LBS.Assistants
         [SerializeField, JsonRequired]
         private string name;
         #endregion
-
- 
-
+        
         #region PROPERTIES
         
         [JsonIgnore]
@@ -41,10 +39,10 @@ namespace ISILab.LBS.Assistants
         }
         
         [JsonIgnore]
-        public LBSLayer Owner
+        public LBSLayer OwnerLayer
         {
-            get => owner;
-            set => owner = value;
+            get => ownerLayer;
+            set => ownerLayer = value;
         }
 
         [JsonIgnore]
@@ -80,12 +78,12 @@ namespace ISILab.LBS.Assistants
         #region METHODS
         public virtual void OnAttachLayer(LBSLayer layer)
         {
-            Owner = layer;
+            OwnerLayer = layer;
         }
 
         public virtual void OnDetachLayer(LBSLayer layer)
         {
-            Owner = null;
+            OwnerLayer = null;
         }
 
         public List<Type> GetRequieredModules()

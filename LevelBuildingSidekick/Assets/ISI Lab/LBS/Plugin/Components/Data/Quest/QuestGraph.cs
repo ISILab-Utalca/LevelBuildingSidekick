@@ -226,7 +226,7 @@ namespace ISILab.LBS.Modules
         
         private QuestEdge GetEdge(Vector2 position, float delta)
         {
-            var size = Owner.TileSize * LBSSettings.Instance.general.TileSize;
+            var size = OwnerLayer.TileSize * LBSSettings.Instance.general.TileSize;
             foreach (var e in questEdges)
             {
                 var c1 = new Rect(e.First.Position, size).center;

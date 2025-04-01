@@ -46,7 +46,7 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
         {
-            first = exterior.Owner.ToFixedPosition(startPosition);
+            first = exterior.OwnerLayer.ToFixedPosition(startPosition);
         }
 
         protected override void OnMouseMove(VisualElement target, Vector2Int movePosition, MouseMoveEvent e)
@@ -70,7 +70,7 @@ namespace ISILab.LBS.Manipulators
             Undo.RegisterCompleteObjectUndo(x, "remove conection");
 
             // Get end position
-            var end = exterior.Owner.ToFixedPosition(position);
+            var end = exterior.OwnerLayer.ToFixedPosition(position);
 
             if (!e.ctrlKey)
             {
@@ -142,7 +142,7 @@ namespace ISILab.LBS.Manipulators
 
         public void AreaEffect(Vector2Int end, MouseUpEvent e)
         {
-            var corners = exterior.Owner.ToFixedPosition(StartPosition, EndPosition);
+            var corners = exterior.OwnerLayer.ToFixedPosition(StartPosition, EndPosition);
 
             for (int i = corners.Item1.x; i <= corners.Item2.x; i++)
             {

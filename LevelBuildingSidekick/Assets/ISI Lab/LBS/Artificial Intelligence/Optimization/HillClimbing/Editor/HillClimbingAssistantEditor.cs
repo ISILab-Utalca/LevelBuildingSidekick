@@ -51,7 +51,7 @@ namespace ISILab.LBS.VisualElements
 
         public override void Repaint()
         {
-            var moduleConstr = hillClimbing.Owner.GetModule<ConstrainsZonesModule>();
+            var moduleConstr = hillClimbing.OwnerLayer.GetModule<ConstrainsZonesModule>();
             foldout.Clear();
             foreach (var constraint in moduleConstr.Constraints)
             {
@@ -77,14 +77,14 @@ namespace ISILab.LBS.VisualElements
             setZoneConnection = new SetZoneConnection();
             var t1 = new LBSTool(icon, "Add zone connection","Add a zone connection activated!", setZoneConnection);
             t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Assistants");
-            t1.Init(hillClimbing.Owner, hillClimbing);
+            t1.Init(hillClimbing.OwnerLayer, hillClimbing);
             toolKit.AddTool(t1);
 
             // Remove zone connections
             icon = Resources.Load<Texture2D>("Icons/Tools/Delete_node_connection");
             removeAreaConnection = new RemoveAreaConnection();
             var t2 = new LBSTool(icon, "Remove zone connection", "Remove zone connection activated!", removeAreaConnection);
-            t2.Init(hillClimbing.Owner, hillClimbing);
+            t2.Init(hillClimbing.OwnerLayer, hillClimbing);
             toolKit.AddTool(t2);
             
             setZoneConnection.SetRemover(removeAreaConnection);
@@ -95,7 +95,7 @@ namespace ISILab.LBS.VisualElements
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("HillClimbingEditor");
             visualTree.CloneTree(this);
 
-            var moduleConstr = hillClimbing.Owner.GetModule<ConstrainsZonesModule>();
+            var moduleConstr = hillClimbing.OwnerLayer.GetModule<ConstrainsZonesModule>();
 
             // Foldout
             foldout = this.Q<Foldout>();
