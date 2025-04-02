@@ -21,7 +21,8 @@ namespace ISILab.AI.Grammar
             try
             {
                 SrgsDocument Grammar = new SrgsDocument(path);
-                return ParseGrammar(Grammar);
+                var parsedGrammar = ParseGrammar(Grammar);
+                return parsedGrammar;
             }
             catch
             {

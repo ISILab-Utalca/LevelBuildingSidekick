@@ -1,9 +1,12 @@
-using System;
-using System.Collections;
+using ISI_Lab.LBS.Plugin.VisualElements.Game;
 using System.Collections.Generic;
+using ISILab.Commons.Utility.Editor;
+using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
+using ISILab.Macros;
 using LBS.Components;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Generators
 {
@@ -23,6 +26,14 @@ namespace ISILab.LBS.Generators
             return new QuestRuleGenerator();
         }
 
+        /// <summary>
+        /// Generates the quest observer (to set up the quest triggers in the scene)
+        /// it also generates a UI Document that will display the default display for quest
+        /// 
+        /// </summary>
+        /// <param name="layer"></param>
+        /// <param name="settings"></param>
+        /// <returns></returns>
         public override GameObject Generate(LBSLayer layer, Generator3D.Settings settings)
         {
             var pivot = new GameObject(layer.ID);
@@ -51,7 +62,25 @@ namespace ISILab.LBS.Generators
 
             observer.Init(quest, triggers);
 
+            // replace with your own function to incorporate it into your game
+            CreateUIDocument(pivot.transform);
+            
             return pivot;
+        }
+
+        private void CreateUIDocument(Transform pivotTransform)
+        {
+            GameObject uiGameObject = new GameObject("UIDocument");
+            UIDocument uiDocument = uiGameObject.AddComponent<UIDocument>();
+            uiGameObject.AddComponent<QuestVisualTree>();
+            var uiAsset = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestVisualTree");
+            var panelSettings = LBSAssetMacro.LoadAssetByGuid<PanelSettings>("da6adae693698d3409943a20661e2031");
+            
+            if (uiAsset == null || panelSettings == null) return; 
+            
+            uiDocument.visualTreeAsset = uiAsset;
+            uiDocument.panelSettings = panelSettings;
+            uiGameObject.transform.SetParent(pivotTransform);
         }
     }
 }

@@ -111,6 +111,7 @@ namespace ISILab.LBS.Modules
             root = node;
             //root.ID = "Start Node";
             root.NodeType = NodeType.start;
+            //OnAddNode?.Invoke(root); // TODO Latest addition
         }
         
         public QuestNode GetQuestNode(Vector2 position)

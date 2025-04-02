@@ -45,6 +45,13 @@ namespace ISILab.AI.Grammar
             return actions[index];
         }
 
+        /// <summary>
+        /// Validates the passed action order (quest flow: graph of quest nodes). It checks their validity
+        /// against the grammar rules in the Grammar file.
+        /// </summary>
+        /// <param name="actions"></param>
+        /// <param name="candidates"></param>
+        /// <returns></returns>
         internal bool Validate(List<string> actions, out List<List<GrammarElement>> candidates)
         {
             // comment as no longer the first node is an empty start node
@@ -90,8 +97,6 @@ namespace ISILab.AI.Grammar
         {
             var toProcess = new List<List<GrammarElement>>();
             var processed = new List<List<GrammarElement>>();
-
-
             var visited = new List<List<GrammarElement>>();
 
             toProcess.Insert(0, phrase);
