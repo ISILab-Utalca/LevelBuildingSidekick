@@ -38,29 +38,24 @@ namespace ISILab.LBS.Generators
         }
 
 
-        public override GameObject Generate(LBSLayer layer, Generator3D.Settings settings)
+        public override Tuple<GameObject, string> Generate(LBSLayer layer, Generator3D.Settings settings)
         {
-            // Get bundles
+
             var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
-            Debug.Log("bundle obtained");
 
             if (layer.Behaviours.Count == 0)
             {
-                Debug.LogWarning("No behaviours found");
-                return null;
+                return Tuple.Create<GameObject,string>(null,"No behaviours found");
             }
             var e = layer.Behaviours[0] as ExteriorBehaviour; // (!) parche
             var bundle = bundles.Find(b => b.name == e.TargetBundleRef.name);
             if (bundle == null)
             {
-                Debug.LogWarning("Bundle not found");
-                return null;
+                return Tuple.Create<GameObject, string>(null, "Bundle not found");
             }
             
             var selected = bundle.GetCharacteristics<LBSDirectionedGroup>()[0];
-
-            Debug.Log("directions received");
-
+            
             // Create pivot
             var mainPivot = new GameObject("Exterior");
             var scale = settings.scale;
@@ -68,9 +63,7 @@ namespace ISILab.LBS.Generators
             // Get modules
             var mapMod = layer.GetModule<TileMapModule>();
             var connctMod = layer.GetModule<ConnectedTileMapModule>();
-
-            Debug.Log("modules obtained");
-
+            
             var tiles = new List<GameObject>();
 
             foreach (var tile in mapMod.Tiles)
@@ -80,7 +73,6 @@ namespace ISILab.LBS.Generators
                 // Get pref
                 var pair = GetBundle(selected, tileConnection.ToArray());
                 //pair.owner = bundle;
-             //   Debug.Log("pair obtained: " + pair);
                 var pref = pair?.Item1?.Owner?.Assets?.RandomRullete(w => w.probability)?.obj;
 
                 if(pref == null)
@@ -111,8 +103,7 @@ namespace ISILab.LBS.Generators
 
             if (tiles.Count == 0)
             {
-                Debug.LogWarning("[ISILab]: No tiles were created in the tool. Can't generate game object.");
-                return null;
+                return Tuple.Create<GameObject, string>(null, "[ISILab]: No tiles were created in the tool. Can't generate game object.");
             }
             
             var x = tiles.Average(t => t.transform.position.x);
@@ -128,7 +119,7 @@ namespace ISILab.LBS.Generators
 
             mainPivot.transform.position += settings.position;
 
-            return mainPivot;
+            return Tuple.Create<GameObject, string>(mainPivot, "");
         }
 
         public override object Clone()

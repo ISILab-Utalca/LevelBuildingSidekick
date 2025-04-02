@@ -20,8 +20,9 @@ namespace ISILab.LBS.Generators
         /// </summary>
         /// <param name="layer"></param>
         /// <param name="settings"></param>
-        /// <returns></returns>
-        public abstract GameObject Generate(LBSLayer layer, Generator3D.Settings settings);
+        /// <returns>returns a tuple of the generated game object containing all the content, as well as a
+        /// string in case the game object is invalid(null)</returns>
+        public abstract Tuple<GameObject, string> Generate(LBSLayer layer, Generator3D.Settings settings);
 
         /// <summary>
         /// Check if the layer is viable to be generated

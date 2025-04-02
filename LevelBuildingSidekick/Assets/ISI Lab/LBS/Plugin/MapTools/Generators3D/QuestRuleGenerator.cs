@@ -1,6 +1,9 @@
+using System;
 using ISI_Lab.LBS.Plugin.VisualElements.Game;
 using System.Collections.Generic;
+using System.Linq;
 using ISILab.Commons.Utility.Editor;
+using ISILab.LBS.Assistants;
 using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
 using ISILab.Macros;
@@ -31,10 +34,10 @@ namespace ISILab.LBS.Generators
         /// it also generates a UI Document that will display the default display for quest
         /// 
         /// </summary>
-        /// <param name="layer"></param>
-        /// <param name="settings"></param>
+        /// <param name="layer"> the quest layer that contains the quest nodes and edges</param>
+        /// <param name="settings"> the settings of the generator</param>
         /// <returns></returns>
-        public override GameObject Generate(LBSLayer layer, Generator3D.Settings settings)
+        public override Tuple<GameObject, string> Generate(LBSLayer layer, Generator3D.Settings settings)
         {
             var pivot = new GameObject(layer.ID);
             var observer = pivot.AddComponent<QuestObserver>();
@@ -45,6 +48,18 @@ namespace ISILab.LBS.Generators
 
             var triggers = new List<QuestStep>();
 
+            var assistant = layer.GetAssistant<GrammarAssistant>();
+            foreach (var edge in quest.QuestEdges)
+            {
+                assistant?.ValidateEdgeGrammar(edge);
+            }
+            
+            bool allValid = quest.QuestNodes.All(q => q.GrammarCheck);
+            if (!allValid)
+            {
+                return Tuple.Create<GameObject, string>(null, "At least one quest node is not grammatically valid");
+            }
+            
             foreach (var node in quest.QuestNodes)
             {
                 var go = new GameObject(node.ID);
@@ -62,12 +77,22 @@ namespace ISILab.LBS.Generators
 
             observer.Init(quest, triggers);
 
-            // replace with your own function to incorporate it into your game
+            /* For LBS User:
+             * ----------------------------------------------------------------
+             * Replace with your own function to incorporate the created quests
+             * into your game. Check the "QuestVisualTree" class as an example.
+             * ----------------------------------------------------------------
+             */
             CreateUIDocument(pivot.transform);
             
-            return pivot;
+            return Tuple.Create<GameObject, string>(pivot, null);
         }
 
+        /// <summary>
+        /// Creates the ui document class (that's displayed during game mode) and
+        /// adds it into the layer generated game object
+        /// </summary>
+        /// <param name="pivotTransform"> transform to assign the UI as child</param>
         private void CreateUIDocument(Transform pivotTransform)
         {
             GameObject uiGameObject = new GameObject("UIDocument");

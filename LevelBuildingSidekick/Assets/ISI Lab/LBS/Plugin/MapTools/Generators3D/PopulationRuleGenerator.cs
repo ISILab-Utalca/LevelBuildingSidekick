@@ -40,8 +40,8 @@ namespace ISILab.LBS.Generators
         {
             return base.GetHashCode();
         }
-
-        public override GameObject Generate(LBSLayer layer, Generator3D.Settings settings)
+        
+        public override Tuple<GameObject, string> Generate(LBSLayer layer, Generator3D.Settings settings)
         {
             var data = layer.GetModule<BundleTileMap>();
             var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
@@ -80,8 +80,7 @@ namespace ISILab.LBS.Generators
                     sumY += pos.y;
                 }
                 centerposition = new Vector2(sumX / (float)positions.Count, sumY / (float)positions.Count);
-
-            
+                
                 Bundle current = null;
                 foreach (var b in bundles)
                 {
@@ -91,16 +90,6 @@ namespace ISILab.LBS.Generators
                         current = b;
                 }
                 if (current == null) continue;
-                
-                /*
-                if (bundles == null)
-                {
-                    Debug.LogWarning("[ISI Lab]: There is no asset named '" + tile.BundleData.BundleName +
-                    "'. Please verify the bundles present in the project or the elements assigned in the level.");
-                    continue;
-                }*/
-
-
 
                 var pref = current.Assets[Random.Range(0, current.Assets.Count)];
                 if (pref == null)
@@ -137,8 +126,7 @@ namespace ISILab.LBS.Generators
             
             if(objects.Count == 0)
             {
-                Debug.LogWarning("No population objects were created. Assign a valid bundle type");
-                return parent;
+                return Tuple.Create<GameObject, string>(parent, "No population objects were created. Assign a valid bundle type");
             }
             
             
@@ -183,11 +171,10 @@ namespace ISILab.LBS.Generators
             parentArea.transform.SetParent(parent.transform);
             parentProp.transform.SetParent(parent.transform);
             
-            
             parentMisc.transform.SetParent(parent.transform);
             parent.transform.position += settings.position;
             
-            return parent;
+            return Tuple.Create<GameObject,string>(parent, null);
         }
     }
 

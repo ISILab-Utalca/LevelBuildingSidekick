@@ -29,7 +29,7 @@ namespace ISILab.LBS.Manipulators
             var node = quest.GetQuestNode(endPosition);
             if (node == null) return;
             quest.RemoveQuestNode(node);
-            OnManipulationEnd.Invoke();
+            OnManipulationEnd?.Invoke();
         }
     }
 }

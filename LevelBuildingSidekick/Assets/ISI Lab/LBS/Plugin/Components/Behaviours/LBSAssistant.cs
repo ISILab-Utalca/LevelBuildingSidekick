@@ -19,7 +19,7 @@ namespace ISILab.LBS.Assistants
         #endregion
 
         #region FIELDS
-        [NonSerialized, HideInInspector, JsonIgnore]
+        [SerializeField, HideInInspector, JsonIgnore]
         private LBSLayer ownerLayer;
         [SerializeField, JsonIgnore]//, JsonIgnore]
         private VectorImage icon;
