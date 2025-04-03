@@ -15,7 +15,7 @@ namespace ISILab.AI.Grammar
         GrammarTree grammarTree;
 
         [SerializeField]
-        private List<ActionTargetDepiction> actions;
+        private List<ActionTargetDepiction> actions = new();
 
         public int ActionCount => actions.Count;
 
