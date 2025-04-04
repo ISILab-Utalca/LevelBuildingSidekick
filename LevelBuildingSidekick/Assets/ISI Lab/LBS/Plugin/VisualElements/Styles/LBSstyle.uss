@@ -1022,3 +1022,50 @@ Toggle > .lbs-default-icon {
 
 .lbs-compact-panel {
 }
+
+.lbs-class-green > Label {
+    color: rgb(2, 241, 165);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    -unity-text-outline-width: 0.4px;
+    -unity-text-outline-color: rgb(0, 0, 0);
+    -unity-font-style: bold;
+    font-size: 13px;
+}
+
+.lbs-class-green {
+    -unity-font-style: normal;
+}
+
+.lbs-class-red > Label {
+    color: rgb(199, 71, 77);
+    -unity-font-style: bold;
+    -unity-text-outline-width: 0.4px;
+    -unity-text-outline-color: rgb(0, 0, 0);
+    letter-spacing: 0;
+    font-size: 13px;
+}
+
+.lbs-class-red {
+}
+
+.lbs-enumc-white {
+}
+
+.lbs-class-white {
+}
+
+.lbs-class-white > Label {
+    color: rgb(233, 233, 233);
+    -unity-font-style: bold;
+    -unity-text-outline-width: 0.4px;
+    -unity-text-outline-color: rgb(0, 0, 0);
+    letter-spacing: 0;
+    font-size: 13px;
+}

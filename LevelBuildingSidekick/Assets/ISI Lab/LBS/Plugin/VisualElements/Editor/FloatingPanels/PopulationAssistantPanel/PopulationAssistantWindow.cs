@@ -15,6 +15,9 @@ using UnityEditor.UIElements;
 using Object = UnityEngine.Object;
 using ISILab.LBS.Settings;
 using System.IO;
+using Commons.Optimization.Evaluator;
+using ISILab.LBS.AI.VisualElements;
+using ISILab.AI.Optimization;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -31,9 +34,10 @@ namespace ISILab.LBS.VisualElements.Editor
 
         #region VIEW ELEMENTS
         private DropdownField presetField;
-        private EnumField param1Field;
-        private EnumField param2Field;
-        
+        private ClassDropDown param1Field;
+        private ClassDropDown param2Field;
+        private ClassDropDown optimizerField;
+
         // their foldout functionalities are set in the constructor
         private VisualElement visualizationOptionsContent;
         private VisualElement presetSettingsContainer;
@@ -82,12 +86,26 @@ namespace ISILab.LBS.VisualElements.Editor
             presetField = rootVisualElement.Q<DropdownField>("Preset");
             SetPresets();
             presetField.RegisterValueChangedCallback(evt => UpdatePreset(evt.newValue));
+            presetField.value = "Select Preset";
 
-            param1Field = rootVisualElement.Q<EnumField>("XPreset");
-            param2Field = rootVisualElement.Q<EnumField>("YPreset");
-            //presetField.RegisterValueChangedCallback(e => OnPresetChanged?.Invoke(e.));
+            //Set parameters
+            param1Field = rootVisualElement.Q<ClassDropDown>("XParamDropdown");
+            param1Field.Type = typeof(IRangedEvaluator);
+            param1Field.value = "Select...";
+            param1Field.SetEnabled(false);
+
+            param2Field = rootVisualElement.Q<ClassDropDown>("YParamDropdown");
+            param2Field.Type = typeof(IRangedEvaluator);
+            param2Field.value = "Select...";
+            param2Field.SetEnabled(false);
+
+            optimizerField = rootVisualElement.Q<ClassDropDown>("ZParamDropdown");
+            optimizerField.Type = typeof(BaseOptimizer);
+            optimizerField.value = "Select Optimizer";
+            optimizerField.SetEnabled(false);
+
             
-            
+
             visualizationOptionsContent =  rootVisualElement.Q<VisualElement>("VisualizationOptionsContent");
             presetSettingsContainer = rootVisualElement.Q<VisualElement>("PresetSettingsContainer");
 
@@ -147,8 +165,6 @@ namespace ISILab.LBS.VisualElements.Editor
             //Everything else happens here
             mapEliteBundle = presetDictionary[value];
             Debug.Log("selected map elite: " + mapEliteBundle);
-
-            //param1Field.ch
 
         }
 
