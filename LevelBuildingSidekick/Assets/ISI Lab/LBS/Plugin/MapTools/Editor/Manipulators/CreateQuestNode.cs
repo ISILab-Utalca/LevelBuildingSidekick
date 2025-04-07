@@ -49,13 +49,11 @@ namespace ISILab.LBS.Manipulators
             do
             {
                 name = prefix + ActionToSet.ID + " (" + v + ")";
-
                 loop = quest.QuestNodes.Any(n => n.ID.Equals(name));
                 v++;
             } while (loop);
 
             quest.AddNode(new QuestNode(name, EndPosition, ActionToSet.ID, quest));
-            
             OnManipulationEnd.Invoke();
         }
     }

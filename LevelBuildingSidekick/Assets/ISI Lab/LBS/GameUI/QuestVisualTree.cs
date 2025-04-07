@@ -1,11 +1,10 @@
 using System.Collections.Generic;
-using ISI_Lab.ExampleResources.Controllers.Prefs.UI;
 using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace UI_Toolkit
+namespace ISILab.LBS
 {
     /// <summary>
     /// Example UI class that displays an active quest and its steps.
@@ -31,14 +30,20 @@ namespace UI_Toolkit
            var tempGraph = new QuestGraph();
            
            var q1 = new QuestNode("1", Vector2.one, "go to place", tempGraph);
-           q1.QuestState = questState.completed;
+           q1.QuestState = QuestState.completed;
            var q2 = new QuestNode("2", Vector2.one, "go to place", tempGraph);
-           q2.QuestState = questState.failed;
+           q2.QuestState = QuestState.failed;
            var q3 = new QuestNode("3", Vector2.one, "kiss enemy entity", tempGraph);
-           q3.QuestState = questState.active;
+           q3.QuestState = QuestState.active;
            var q4 = new QuestNode("4", Vector2.one, "collect n shits", tempGraph);
-           q4.QuestState = questState.blocked;
+           q4.QuestState = QuestState.blocked;
            
+           exampleQuestNodes.Add(q1);
+           exampleQuestNodes.Add(q2);
+           exampleQuestNodes.Add(q3);
+           exampleQuestNodes.Add(q4);
+           
+           SetQuestList(exampleQuestNodes);
  
         }
 

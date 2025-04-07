@@ -5,7 +5,7 @@ using ISILab.LBS.Settings;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace ISI_Lab.ExampleResources.Controllers.Prefs.UI
+namespace ISI_Lab.LBS.Plugin.VisualElements.Game
 {
     /// <summary>
     /// Visual Element used to indicate quest objectives in the QuestVisualTree UI Document.
@@ -30,7 +30,7 @@ namespace ISI_Lab.ExampleResources.Controllers.Prefs.UI
         
         private VisualElement CreateVisualElement()
         {
-            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("RuntimeQuestEntry");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("VisualElementQuest");
             visualTree.CloneTree(this);
             
             questLabel = this.Q<Label>("Action");
@@ -52,17 +52,17 @@ namespace ISI_Lab.ExampleResources.Controllers.Prefs.UI
             bool display = true;
             switch (quest.QuestState)
             {
-                case questState.blocked: 
+                case QuestState.blocked: 
                     // hide: display = false;
                     break;
-                case questState.active:
+                case QuestState.active:
                     color = Color.white;
                     break;
-                case questState.completed:
+                case QuestState.completed:
                     color = LBSSettings.Instance.view.successColor;
                     closed = true;
                     break;
-                case questState.failed:
+                case QuestState.failed:
                     color = LBSSettings.Instance.view.errorColor;
                     closed = true;
                     break;

@@ -162,6 +162,7 @@ namespace ISILab.LBS.Assistants
                 {
                     n.GrammarCheck = true;
                 }
+                
                 Debug.Log($"GrammarCheck set to TRUE for: {string.Join(", ", c.Select(n => n.QuestAction))}");
             }
         }
@@ -254,6 +255,66 @@ namespace ISILab.LBS.Assistants
         private List<List<QuestNode>> RootLines(QuestNode node)
         {
             List<List<QuestNode>> rootLines = new List<List<QuestNode>>();
+            var first = new List<QuestNode> { node };
+            rootLines.Add(first);
+
+            var expanding = true;
+            int iterations = 0;
+            const int MAX_ITERATIONS = 1000;
+            const int MAX_PATHS = 1000;
+
+            while (expanding && iterations++ < MAX_ITERATIONS && rootLines.Count < MAX_PATHS)
+            {
+                expanding = false;
+                List<List<QuestNode>> newLines = new List<List<QuestNode>>();
+
+                for (int i = 0; i < rootLines.Count; i++)
+                {
+                    var line = rootLines[i];
+                    if (line[0].Equals(Quest.Root))
+                        continue;
+
+                    var roots = Quest.GetRoots(line[0]);
+                    if (roots.Count == 0)
+                        continue;
+
+                    expanding = true;
+                    var firstRoot = roots[0].First;
+                    if (firstRoot != null && !line.Contains(firstRoot))
+                    {
+                        line.Insert(0, firstRoot);
+                    }
+
+                    for (int j = 1; j < roots.Count && rootLines.Count + newLines.Count < MAX_PATHS; j++)
+                    {
+                        var nextRoot = roots[j].First;
+                        if (nextRoot == null || line.Contains(nextRoot))
+                            continue;
+
+                        var newLine = new List<QuestNode>(line);
+                        newLine.Insert(0, nextRoot);
+                        newLines.Add(newLine);
+                    }
+                }
+
+                if (newLines.Count > 0)
+                {
+                    rootLines.AddRange(newLines);
+                    expanding = true;
+                }
+            }
+
+            if (iterations >= MAX_ITERATIONS)
+                Debug.LogError($"RootLines exceeded {MAX_ITERATIONS} iterations for node {node.ID}");
+            if (rootLines.Count >= MAX_PATHS)
+                Debug.LogWarning($"RootLines capped at {MAX_PATHS} paths for node {node.ID}");
+
+            return rootLines;
+        }
+        
+        private List<List<QuestNode>> RootLinesOLD(QuestNode node)
+        {
+            List<List<QuestNode>> rootLines = new List<List<QuestNode>>();
 
             var first = new List<QuestNode>();
             first.Add(node);
@@ -299,7 +360,67 @@ namespace ISILab.LBS.Assistants
 
         }
 
+        
         private List<List<QuestNode>> BranchLines(QuestNode node)
+        {
+            List<List<QuestNode>> branchLines = new List<List<QuestNode>>();
+            var first = new List<QuestNode> { node };
+            branchLines.Add(first);
+
+            var expanding = true;
+            int iterations = 0;
+            const int MAX_ITERATIONS = 1000; // Prevent runaway loops
+            const int MAX_PATHS = 1000; // Limit total paths
+
+            while (expanding && iterations++ < MAX_ITERATIONS && branchLines.Count < MAX_PATHS)
+            {
+                expanding = false;
+                List<List<QuestNode>> newLines = new List<List<QuestNode>>();
+
+                for (int i = 0; i < branchLines.Count; i++)
+                {
+                    var line = branchLines[i];
+                    var lastNode = line[line.Count - 1]; // Fix: Use last node
+                    var branches = Quest.GetBranches(lastNode);
+
+                    if (branches.Count == 0)
+                        continue;
+
+                    expanding = true;
+                    var firstBranch = branches[0].Second;
+                    if (firstBranch != null && !line.Contains(firstBranch))
+                    {
+                        line.Add(firstBranch); // Add only if not already in path
+                    }
+
+                    for (int j = 1; j < branches.Count && branchLines.Count + newLines.Count < MAX_PATHS; j++)
+                    {
+                        var nextBranch = branches[j].Second;
+                        if (nextBranch == null || line.Contains(nextBranch))
+                            continue;
+
+                        var newLine = new List<QuestNode>(line);
+                        newLine.Add(nextBranch);
+                        newLines.Add(newLine);
+                    }
+                }
+
+                if (newLines.Count > 0)
+                {
+                    branchLines.AddRange(newLines);
+                    expanding = true; // Continue if new paths were added
+                }
+            }
+
+            if (iterations >= MAX_ITERATIONS)
+                Debug.LogError($"BranchLines exceeded {MAX_ITERATIONS} iterations for node {node.ID}");
+            if (branchLines.Count >= MAX_PATHS)
+                Debug.LogWarning($"BranchLines capped at {MAX_PATHS} paths for node {node.ID}");
+
+            return branchLines;
+        }
+        
+        private List<List<QuestNode>> BranchLinesOLD(QuestNode node)
         {
             List<List<QuestNode>> branchLines = new List<List<QuestNode>>();
 
@@ -318,6 +439,8 @@ namespace ISILab.LBS.Assistants
 
                 for (int i = 0; i < branchLines.Count; i++)
                 {
+                    if (branchLines[i] == null) continue;
+                    
                     var line = branchLines[i];
 
                     var branches = Quest.GetBranches(line[0]);
@@ -339,6 +462,8 @@ namespace ISILab.LBS.Assistants
                         newLines.Add(newLine);
                     }
                 }
+                
+                expanding = false;
             }
 
             return branchLines;

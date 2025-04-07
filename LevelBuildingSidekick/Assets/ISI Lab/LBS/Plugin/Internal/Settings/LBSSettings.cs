@@ -111,6 +111,7 @@ namespace ISILab.LBS.Settings
             public Color successColor = new Color(0f, 1f, 0.68f);
             
         }
+        
     }
 
 

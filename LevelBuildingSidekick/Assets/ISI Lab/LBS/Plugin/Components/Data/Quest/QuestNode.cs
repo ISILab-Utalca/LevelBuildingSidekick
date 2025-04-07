@@ -14,7 +14,7 @@ namespace ISILab.LBS.Components
         start, middle, goal
     }
 
-    public enum questState
+    public enum QuestState
     {
         blocked, active, completed, failed
     }
@@ -44,7 +44,7 @@ namespace ISILab.LBS.Components
         private NodeType nodeType;
         
         [SerializeField, JsonRequired]
-        questState  questState = questState.blocked;
+        private QuestState questState = Components.QuestState.blocked;
         
         [SerializeField, JsonRequired]
         private bool valid;
@@ -54,6 +54,7 @@ namespace ISILab.LBS.Components
         [SerializeField, JsonRequired, SerializeReference]
         private QuestTarget target;
 
+        [SerializeField, JsonRequired, SerializeReference]
         private QuestGraph graph;
         
         #region PROPERTIES
@@ -135,7 +136,7 @@ namespace ISILab.LBS.Components
 
 
         [JsonIgnore]
-        public questState QuestState { get; set; }
+        public QuestState QuestState { get; set; }
 
 
         #endregion

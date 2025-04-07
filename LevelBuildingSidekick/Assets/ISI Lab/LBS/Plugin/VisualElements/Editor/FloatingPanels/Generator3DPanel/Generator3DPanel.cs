@@ -5,6 +5,7 @@ using LBS.Components;
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using ISI_Lab.LBS.Plugin.MapTools.Generators3D;
 using UnityEditor;
@@ -213,24 +214,29 @@ namespace ISILab.LBS.VisualElements.Editor
 
             if (generator == null) return;
             
-            var obj = generator.Generate(this.layer, this.layer.GeneratorRules, settings);
+            // Tuple of game object and error messages
+            var generated = generator.Generate(this.layer, this.layer.GeneratorRules, settings);
             
             // If it created a usable LBS game object 
-            if (obj == null || obj.gameObject == null || obj.GetComponentsInChildren<Transform>().Length == 0)
+            if (generated.Item1 == null || generated.Item1.gameObject == null ||
+                !generated.Item1.GetComponentsInChildren<Transform>().Any() || generated.Item2.Any())
             {
                 LBSMainWindow.MessageNotify("Layer " + layer.Name + " could not be created.", LogType.Error, 3);
+                foreach (var message in generated.Item2)
+                {
+                    LBSMainWindow.MessageNotify("   " + message, LogType.Error, 6);
+                }
                 return;
             }
-
             
-            Undo.RegisterCreatedObjectUndo(obj, "Create my GameObject");
+            Undo.RegisterCreatedObjectUndo(generated.Item1, "Create my GameObject");
             
-            LBSMainWindow.MessageNotify("Layer " + obj.gameObject.name + " created. " + ifReplace, LogType.Log, 3);
+            LBSMainWindow.MessageNotify("Layer " + generated.Item1.gameObject.name + " created. " + ifReplace, LogType.Log, 3);
             EditorWindow.FocusWindowIfItsOpen<SceneView>();
             
             if (bakeLights.value)
             {
-                StaticObjs(obj);
+                StaticObjs(generated.Item1);
                 BakeReflections();
             }
 
