@@ -100,19 +100,13 @@ namespace ISILab.LBS.VisualElements
             removeConnection = new RemoveQuestConnection();
             var t4 = new LBSTool(icon, "Remove Quest Connection", "Remove quest connection activated!", removeConnection);
             t4.Init(ass.OwnerLayer, target);
-
-            //addNode.SetAddRemoveConnection(removeNode); - right click assigns main root - no remover
+            
             connectNodes.SetRemover(removeConnection);
             
             toolkit.AddTool(t1);
             toolkit.AddTool(t2);
             toolkit.AddTool(t3);
             toolkit.AddTool(t4);
-
-            addNode.OnManipulationEnd = null;
-            removeNode.OnManipulationEnd = null;
-            connectNodes.OnManipulationEnd = null;
-            removeConnection.OnManipulationEnd = null;
             
             addNode.OnManipulationEnd += RefreshHistoryPanel;
             removeConnection.OnManipulationEnd += RefreshHistoryPanel;
@@ -131,10 +125,6 @@ namespace ISILab.LBS.VisualElements
             var xOffset = (viewport.width * 0.5f) / scale.x;
             var yOffset = (viewport.height * 0.5f) / scale.y;
             
-            //(viewport.width * 0.5f - viewport.width / behaviour.Graph.NodeSize.x) / scale.x;
-            //var xOffset = (viewport.width * 0.5f)/ scale.x - ((viewport.width / behaviour.Graph.NodeSize.x) *1.5f)/ scale.x;
-            //var yOffset = (viewport.height * 0.5f)/ scale.y - ((viewport.height / behaviour.Graph.NodeSize.y) *1.5f)/ scale.y;
-
             var x = nodePos.x - xOffset;
             var y = nodePos.y - yOffset;
 
@@ -146,7 +136,6 @@ namespace ISILab.LBS.VisualElements
         private void RefreshHistoryPanel()
         {
             SetInfo(target);
-            LBSInspectorPanel.ReDraw();
             behaviour.Graph.UpdateFlow?.Invoke();
         }
         

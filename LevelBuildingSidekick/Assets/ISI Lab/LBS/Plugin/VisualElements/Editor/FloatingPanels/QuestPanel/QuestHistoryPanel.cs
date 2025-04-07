@@ -118,7 +118,6 @@ namespace ISILab.LBS.VisualElements.Editor
                 Refresh();
                 questGraph?.Reorder();
                 UpdateVeQuestEntries();
-                //Refresh();
             };
             
             questList.itemsSource = questGraph.QuestNodes;
@@ -147,7 +146,6 @@ namespace ISILab.LBS.VisualElements.Editor
                 qe.Update();
             }
             LBSMainWindow.OnWindowRepaint?.Invoke();
-            DrawManager.ReDraw();
         }
         
         public void Refresh()

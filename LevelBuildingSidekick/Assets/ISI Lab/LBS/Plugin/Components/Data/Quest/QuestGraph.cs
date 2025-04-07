@@ -91,11 +91,6 @@ namespace ISILab.LBS.Modules
         {
             IsVisible = true;
             nodeSize = new Vector2Int(5, 1);
-            
-          //  root = new QuestNode("Empty", Vector2.zero, "Start Node",this);
-           // SetRoot(root);
-           // AddNode(root);
-
         }
 
         public void SetRoot(QuestNode node)
@@ -109,9 +104,7 @@ namespace ISILab.LBS.Modules
             }
             
             root = node;
-            //root.ID = "Start Node";
             root.NodeType = NodeType.start;
-            //OnAddNode?.Invoke(root); // TODO Latest addition
         }
         
         public QuestNode GetQuestNode(Vector2 position)
@@ -126,6 +119,7 @@ namespace ISILab.LBS.Modules
                 return new List<QuestEdge>();
             return questEdges.Where(e => e.First.ID == node.ID).ToList();
         }
+        
         public List<QuestEdge> GetRoots(QuestNode node)
         {
             if (questEdges.Count == 0)
@@ -166,27 +160,8 @@ namespace ISILab.LBS.Modules
             if (second.Equals(root))
                 return Tuple.Create("The start node cannot be the second element of a connection", LogType.Error);
             
-            /*      
-            if (first.Equals(root))
-            {
-                // Remove previous connection where root is first, if it exists
-                var existingEdge = questEdges.FirstOrDefault(e => e.First.Equals(root));
-                if (existingEdge != null)
-                {
-                    RemoveEdge(existingEdge);
-                }
-            }
-            */
-            
             if (!IsValidFirst(first))
                 return Tuple.Create("The first node is already connected", LogType.Error);
-            
-
-            /*
-            if (!IsValidSecond(second))
-            {
-                return Tuple.Create("The second node is already connected", LogType.Error);
-            }*/
             
             var reverseEdge = new QuestEdge(second, first);
             var edge = new QuestEdge(first, second);
@@ -268,29 +243,29 @@ namespace ISILab.LBS.Modules
         private bool IsLooped(QuestEdge edge)
         {
             if (edge == null || edge.First == null || edge.Second == null)
-                return false; // Safety check
-
-            var visited = new HashSet<QuestNode>(); // Use reference equality if ID equality is unreliable
+                return false; 
+            
+            var visited = new HashSet<QuestNode>(); 
             var queue = new Queue<QuestNode>();
             queue.Enqueue(edge.Second);
 
             int iteration = 0; // Debug limit
-            const int MAX_ITERATIONS = 1000; // Prevent infinite loops
+            const int MAX_ITERATIONS = 1000;
 
             while (queue.Count > 0)
             {
                 if (iteration++ > MAX_ITERATIONS)
                 {
                     Debug.LogError("IsLooped exceeded max iterations; possible graph corruption");
-                    return true; // Assume loop to be safe
+                    return true; 
                 }
 
                 var current = queue.Dequeue();
 
-                if (ReferenceEquals(current, edge.First)) // Explicit reference check
+                if (ReferenceEquals(current, edge.First)) // reference check
                     return true;
 
-                if (!visited.Add(current)) // Add returns false if already present
+                if (!visited.Add(current))
                     continue;
 
                 var branches = GetBranches(current);
