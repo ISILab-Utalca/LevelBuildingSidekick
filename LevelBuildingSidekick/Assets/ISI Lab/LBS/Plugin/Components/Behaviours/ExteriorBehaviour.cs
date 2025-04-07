@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Behaviours
 {
@@ -42,10 +43,10 @@ namespace ISILab.LBS.Behaviours
 
         #region PROPERTIES
         [JsonIgnore]
-        private TileMapModule TileMap => Owner.GetModule<TileMapModule>();
+        private TileMapModule TileMap => OwnerLayer.GetModule<TileMapModule>();
 
         [JsonIgnore]
-        private ConnectedTileMapModule Connections => Owner.GetModule<ConnectedTileMapModule>();
+        private ConnectedTileMapModule Connections => OwnerLayer.GetModule<ConnectedTileMapModule>();
 
         [JsonIgnore]
         public string BundlePath
@@ -92,7 +93,7 @@ namespace ISILab.LBS.Behaviours
         
         #region CONSTRUCTORS
 
-        public ExteriorBehaviour(Texture2D icon, string name) : base(icon, name)
+        public ExteriorBehaviour(VectorImage icon, string name, Color colorTint) : base(icon, name, colorTint)
         {
             OnGUI();
         }
@@ -119,7 +120,7 @@ namespace ISILab.LBS.Behaviours
 
         public override void OnAttachLayer(LBSLayer layer)
         {
-            Owner = layer;
+            OwnerLayer = layer;
         }
 
         public override void OnDetachLayer(LBSLayer layer)
@@ -134,22 +135,22 @@ namespace ISILab.LBS.Behaviours
 
         public void RemoveTile(LBSTile tile)
         {
-            Owner.GetModule<TileMapModule>().RemoveTile(tile);
-            Owner.GetModule<ConnectedTileMapModule>().RemoveTile(tile);
+            OwnerLayer.GetModule<TileMapModule>().RemoveTile(tile);
+            OwnerLayer.GetModule<ConnectedTileMapModule>().RemoveTile(tile);
         }
 
         public void AddTile(LBSTile tile)
         {
-            Owner.GetModule<TileMapModule>()
+            OwnerLayer.GetModule<TileMapModule>()
                 .AddTile(tile);
 
-            Owner.GetModule<ConnectedTileMapModule>()
+            OwnerLayer.GetModule<ConnectedTileMapModule>()
                 .AddPair(tile, new List<string> { "", "", "", "" }, new List<bool> { false, false, false, false });
         }
 
         public void SetConnection(LBSTile tile, int direction, string connection, bool canEditedByAI)
         {
-            var t = Owner.GetModule<ConnectedTileMapModule>().GetPair(tile);
+            var t = OwnerLayer.GetModule<ConnectedTileMapModule>().GetPair(tile);
             t.SetConnection(direction, connection, canEditedByAI);
         }
 
@@ -160,7 +161,7 @@ namespace ISILab.LBS.Behaviours
 
         public override object Clone()
         {
-            return new ExteriorBehaviour(this.Icon, this.Name);
+            return new ExteriorBehaviour(this.Icon, this.Name, this.ColorTint);
         }
 
         public override bool Equals(object obj)

@@ -8,6 +8,7 @@ using ISILab.LBS.Modules;
 using LBS.Components;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Assistants
 {
@@ -16,9 +17,9 @@ namespace ISILab.LBS.Assistants
     public class GrammarAssistant : LBSAssistant
     {
         [JsonIgnore]
-        public QuestGraph Quest => Owner.GetModule<QuestGraph>();
+        public QuestGraph Quest => OwnerLayer.GetModule<QuestGraph>();
 
-        public GrammarAssistant(Texture2D icon, string name) : base(icon, name) { }
+        public GrammarAssistant(VectorImage icon, string name, Color colorTint) : base(icon, name, colorTint) { }
 
         public void ValidateNodeGrammar(QuestNode node)
         {
@@ -113,6 +114,71 @@ namespace ISILab.LBS.Assistants
             var roots = RootLines(first);
             var branches = BranchLines(second);
 
+            foreach (var n in roots.SelectMany(r => r))
+            {
+                n.GrammarCheck = false;
+            }
+
+            foreach (var n in branches.SelectMany(b => b))
+            {
+                n.GrammarCheck = false;
+            }
+    
+            var validRoots = roots.Where(r => r[0].Equals(Quest.Root)).ToList();
+
+            var questLines = new List<List<QuestNode>>();
+            foreach (var r in validRoots)
+            {
+                foreach (var b in branches)
+                {
+                    var questLine = new List<QuestNode>(r);
+                    questLine.AddRange(b);
+                    questLines.Add(questLine);
+                }
+            }
+
+            var candidates = new List<List<QuestNode>>();
+            foreach (var q in questLines)
+            {
+                if (q == null || q.Count == 0)
+                {
+                    Debug.LogError($"Invalid quest line found. Null or empty.");
+                    continue;
+                }
+
+                var actions = q.Select(n => n.QuestAction).ToList();
+                if (!Quest.Grammar.Validate(actions))
+                {
+                    Debug.LogWarning($"Invalid quest line: {string.Join(", ", actions)}");
+                    continue;
+                }
+
+                candidates.Add(q);
+            }
+
+            foreach (var c in candidates)
+            {
+                foreach (var n in c)
+                {
+                    n.GrammarCheck = true;
+                }
+                Debug.Log($"GrammarCheck set to TRUE for: {string.Join(", ", c.Select(n => n.QuestAction))}");
+            }
+        }
+
+        public void ValidateEdgeGrammarOLD(QuestEdge edge)
+        {
+            if(edge == null) return;
+            var grammar = Quest.Grammar;
+
+            var root = Quest.Root;
+            
+            var first = edge.First;
+            var second = edge.Second;
+
+            var roots = RootLines(first);
+            var branches = BranchLines(second);
+
             foreach (var r in roots)
             {
                 foreach (var n in r)
@@ -128,8 +194,7 @@ namespace ISILab.LBS.Assistants
                     n.GrammarCheck = false;
                 }
             }
-
-
+            
             var validRoots = new List<List<QuestNode>>();
             foreach (var r in roots)
             {
@@ -183,6 +248,7 @@ namespace ISILab.LBS.Assistants
                     n.GrammarCheck = true;
                 }
             }
+            
         }
 
         private List<List<QuestNode>> RootLines(QuestNode node)
@@ -295,13 +361,12 @@ namespace ISILab.LBS.Assistants
 
         public override object Clone()
         {
-            return new GrammarAssistant(this.Icon, this.Name);
+            return new GrammarAssistant(this.Icon, this.Name, this.ColorTint);
             //throw new NotImplementedException(); // TODO: Implement this method for GrammarAssistant class
         }
 
         public void CheckNode()
         {
-
 
         }
 

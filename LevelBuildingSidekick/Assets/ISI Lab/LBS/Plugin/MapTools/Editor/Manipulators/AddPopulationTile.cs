@@ -47,9 +47,9 @@ namespace ISILab.LBS.Manipulators
         {
             if (e.ctrlKey)
             {
-                var bundleTile = population.GetTileGroup(population.Owner.ToFixedPosition(endPosition));
+                var bundleTile = population.GetTileGroup(population.OwnerLayer.ToFixedPosition(endPosition));
                 var bundleName = bundleTile?.BundleData.BundleName;
-                LBSMainWindow.MessageNotify("Highlighted Element " + population.Owner.ToFixedPosition(endPosition).ToString() + " : " + (bundleName!=null ? bundleName : "None "));
+                LBSMainWindow.MessageNotify("Highlighted Element " + population.OwnerLayer.ToFixedPosition(endPosition).ToString() + " : " + (bundleName!=null ? bundleName : "None "));
                 
                 return;
             }
@@ -64,7 +64,7 @@ namespace ISILab.LBS.Manipulators
             EditorGUI.BeginChangeCheck();
             Undo.RegisterCompleteObjectUndo(x, "Add Element population");
 
-            var corners = population.Owner.ToFixedPosition(StartPosition, EndPosition);
+            var corners = population.OwnerLayer.ToFixedPosition(StartPosition, EndPosition);
 
             for (int i = corners.Item1.x; i <= corners.Item2.x; i++)
             {
@@ -86,7 +86,7 @@ namespace ISILab.LBS.Manipulators
             MainView.Instance.RemoveElement(previewFeedback);
             if (ToSet == null) return;
             
-            var topLeftCorner = -population.Owner.ToFixedPosition(endPosition); // use negative value for corner
+            var topLeftCorner = -population.OwnerLayer.ToFixedPosition(endPosition); // use negative value for corner
             var bottomRightCorner = topLeftCorner;
 
             // Set corner by tile size
@@ -99,8 +99,8 @@ namespace ISILab.LBS.Manipulators
             }
 
             // grid to local position
-            var firstPos = population.Owner.FixedToPosition(topLeftCorner);
-            var lastPos = population.Owner.FixedToPosition(bottomRightCorner);
+            var firstPos = population.OwnerLayer.FixedToPosition(topLeftCorner);
+            var lastPos = population.OwnerLayer.FixedToPosition(bottomRightCorner);
 
             // weird correction on coordinates, hate it but it works
             if(endPosition.y < 0)

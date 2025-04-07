@@ -3,16 +3,11 @@ using ISILab.Commons.Utility.Editor;
 using LBS.Components;
 using ISILab.LBS.Settings;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
-using ISILab.Extensions;
-using ISILab.LBS.Assistants;
-using ISILab.LBS.Behaviours;
 using ISILab.LBS.Editor;
-using ISILab.LBS.VisualElements.Editor;
 
 namespace ISILab.LBS.VisualElements
 {
@@ -23,7 +18,7 @@ namespace ISILab.LBS.VisualElements
         //public new class UxmlFactory : UxmlFactory<LBSLocalAssistants, UxmlTraits> { }
         #endregion
 
-        private Color color => LBSSettings.Instance.view.assistantColor;
+        private Color color;
 
         private VisualElement content;
         private VisualElement noContentPanel;
@@ -41,7 +36,8 @@ namespace ISILab.LBS.VisualElements
             content = this.Q<VisualElement>("Content"); 
             noContentPanel = this.Q<VisualElement>("NoContentPanel");
             contentAssist = this.Q<VisualElement>("ContentAssist");
-
+            color = LBSSettings.Instance.view.assistantColor;
+            
             this.Q<Button>("Add").SetEnabled(false);
         }
 
@@ -74,13 +70,13 @@ namespace ISILab.LBS.VisualElements
                 }
 
                 CustomEditors.Add(ve as LBSCustomEditor);
-
-                var content = new BehaviourContent(ve as LBSCustomEditor, assist.Name, assist.Icon, color);
+                
+                var content = new BehaviourContent(ve as LBSCustomEditor, assist.Name, assist.Icon, assist.ColorTint);
                 contentAssist.Add(content);
 
                 assist.OnTermination += () =>
                 {
-                    LBSInspectorPanel.Instance.SetTarget(assist.Owner);
+                    LBSInspectorPanel.Instance.SetTarget(assist.OwnerLayer);
                     Debug.Log("OnTermination");
                 };
             }

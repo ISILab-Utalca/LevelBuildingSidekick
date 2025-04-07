@@ -18,6 +18,7 @@ using LBS.Components;
 using LBS.Components.TileMap;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.UIElements;
 using Debug = UnityEngine.Debug;
 
 namespace ISILab.LBS.Assistants
@@ -49,15 +50,15 @@ namespace ISILab.LBS.Assistants
 
         #region PROPERTIES
         [JsonIgnore]
-        public List<Zone> ZonesWhitTiles => Owner.GetModule<SectorizedTileMapModule>().ZonesWithTiles;
-        public TileMapModule TileMapMod => Owner.GetModule<TileMapModule>();
-        public SectorizedTileMapModule AreasMod => Owner.GetModule<SectorizedTileMapModule>();
-        public ConnectedZonesModule GraphMod => Owner.GetModule<ConnectedZonesModule>();
-        public ConstrainsZonesModule ConstrainsZonesMod => Owner.GetModule<ConstrainsZonesModule>();
+        public List<Zone> ZonesWhitTiles => OwnerLayer.GetModule<SectorizedTileMapModule>().ZonesWithTiles;
+        public TileMapModule TileMapMod => OwnerLayer.GetModule<TileMapModule>();
+        public SectorizedTileMapModule AreasMod => OwnerLayer.GetModule<SectorizedTileMapModule>();
+        public ConnectedZonesModule GraphMod => OwnerLayer.GetModule<ConnectedZonesModule>();
+        public ConstrainsZonesModule ConstrainsZonesMod => OwnerLayer.GetModule<ConstrainsZonesModule>();
         #endregion
 
         #region CONSTRUCTORS
-        public HillClimbingAssistant(Texture2D icon, string name) : base(icon, name)
+        public HillClimbingAssistant(VectorImage icon, string name, Color colorTint) : base(icon, name, colorTint)
         {
         }
         #endregion
@@ -87,11 +88,11 @@ namespace ISILab.LBS.Assistants
 
             foreach (var module in modules)
             {
-                var old = this.Owner.GetModule(module.ID);
-                this.Owner.ReplaceModule(old, module);
+                var old = this.OwnerLayer.GetModule(module.ID);
+                this.OwnerLayer.ReplaceModule(old, module);
             }
 
-            Owner.Reload();
+            OwnerLayer.Reload();
 
             OnTermination?.Invoke();
 
@@ -116,11 +117,11 @@ namespace ISILab.LBS.Assistants
 
             foreach (var module in modules)
             {
-                var old = this.Owner.GetModule(module.ID);
-                this.Owner.ReplaceModule(old, module);
+                var old = this.OwnerLayer.GetModule(module.ID);
+                this.OwnerLayer.ReplaceModule(old, module);
             }
 
-            Owner.Reload();
+            OwnerLayer.Reload();
             OnTermination?.Invoke();
             UnityEngine.Debug.Log("HillClimbing on step, finish!");
         }
@@ -255,7 +256,7 @@ namespace ISILab.LBS.Assistants
 
         public void RecalculateConstraint()
         {
-            var zoneModule = Owner.GetModule<SectorizedTileMapModule>();
+            var zoneModule = OwnerLayer.GetModule<SectorizedTileMapModule>();
             var zones = zoneModule.Zones;
 
             ConstrainsZonesMod.Clear();
@@ -332,7 +333,7 @@ namespace ISILab.LBS.Assistants
         private StochasticHillClimbing InitStochastic(LBSLayer layer)
         {
             // Set Owner
-            Owner = layer;
+            OwnerLayer = layer;
 
             var adam = new OptimizableModules(new List<LBSModule>(layer.Modules));
 
@@ -666,7 +667,7 @@ namespace ISILab.LBS.Assistants
 
         public override object Clone()
         {
-            return new HillClimbingAssistant(this.Icon, this.Name);
+            return new HillClimbingAssistant(this.Icon, this.Name, this.ColorTint);
         }
 
         public override bool Equals(object obj)

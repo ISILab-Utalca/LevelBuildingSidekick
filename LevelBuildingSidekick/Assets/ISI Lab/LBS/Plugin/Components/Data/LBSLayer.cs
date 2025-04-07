@@ -420,7 +420,7 @@ namespace LBS.Components
             modules[index].OnDetach(this);
             modules[index] = module;
             modules[index].OnAttach(this);
-            modules[index].Owner = this;
+            modules[index].OwnerLayer = this;
         }
 
         // esto tiene que ir en una extension (?)

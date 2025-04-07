@@ -31,7 +31,7 @@ namespace ISILab.LBS.Manipulators
             EditorGUI.BeginChangeCheck();
             Undo.RegisterCompleteObjectUndo(x, "Remove Zone Conection");
 
-            Vector2 pos = position / (hillclimbing.Owner.TileSize * LBSSettings.Instance.general.TileSize);
+            Vector2 pos = position / (hillclimbing.OwnerLayer.TileSize * LBSSettings.Instance.general.TileSize);
             pos = new Vector2(pos.x, -(pos.y - 1));
 
             hillclimbing.RemoveZoneConnection(pos, 0.2f);

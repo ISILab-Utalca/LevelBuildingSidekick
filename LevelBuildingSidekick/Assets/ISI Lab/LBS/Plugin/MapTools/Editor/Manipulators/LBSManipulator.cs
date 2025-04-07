@@ -103,7 +103,12 @@ namespace ISILab.LBS.Manipulators
             }
         }
 
-        public void SetAddRemoveConnection(LBSManipulator remover)
+        /// <summary>
+        /// Sets the manipulator that removes for the current manipulator's adding function.
+        /// Only assign this from an Adder manipulator.
+        /// </summary>
+        /// <param name="remover"></param>
+        public void SetRemover(LBSManipulator remover)
         {
             this.remover = remover;
             remover.adder = this;

@@ -41,7 +41,7 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
         {
-            var pos = module.Owner.ToFixedPosition(position);
+            var pos = module.OwnerLayer.ToFixedPosition(position);
             var tile = module.Pairs.Find(t => t.Tile.Position == pos);
 
             if (tile == null)
@@ -55,7 +55,7 @@ namespace ISILab.LBS.Manipulators
             if (first == null)
                 return;
 
-            var pos = module.Owner.ToFixedPosition(position);
+            var pos = module.OwnerLayer.ToFixedPosition(position);
 
             var dx = first.Tile.Position.x - pos.x;
             var dy = first.Tile.Position.y - pos.y;

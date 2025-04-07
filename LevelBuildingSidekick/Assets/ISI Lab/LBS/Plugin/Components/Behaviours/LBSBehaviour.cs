@@ -8,11 +8,12 @@ using LBS.Components.TileMap;
 using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Behaviours
 {
     [System.Serializable]
-    public abstract class LBSBehaviour : ICloneable
+    public abstract class  LBSBehaviour : ICloneable
     {
         #region META-FIELDS
         [SerializeField, JsonRequired]
@@ -21,23 +22,33 @@ namespace ISILab.LBS.Behaviours
 
         #region FIELDS
         [HideInInspector]
-        private LBSLayer owner;
+        private LBSLayer ownerLayerLayer;
         [SerializeField]
-        private Texture2D icon;
+        private VectorImage icon;
+        [SerializeField, JsonIgnore]//, JsonIgnore]
+        private Color colorTint;
         [SerializeField, JsonRequired]
         private string name;
         #endregion
 
         #region PROPERTIES
+        
         [JsonIgnore]
-        public LBSLayer Owner
+        public Color ColorTint
         {
-            get => owner;
-            set => owner = value;
+            get => colorTint;
+            set => colorTint = value;
         }
 
         [JsonIgnore]
-        public Texture2D Icon
+        public LBSLayer OwnerLayer
+        {
+            get => ownerLayerLayer;
+            set => ownerLayerLayer = value;
+        }
+
+        [JsonIgnore]
+        public VectorImage Icon
         {
             get => icon;
         }
@@ -47,13 +58,15 @@ namespace ISILab.LBS.Behaviours
         {
             get => name;
         }
+
         #endregion
 
         #region CONSTRUCTORS
-        public LBSBehaviour(Texture2D icon, string name)
+        public LBSBehaviour(VectorImage icon, string name, Color  colorTint)
         {
             this.icon = icon;
             this.name = name;
+            this.colorTint = colorTint;
         }
         #endregion
 

@@ -12,6 +12,7 @@ using LBS.Components.Graph;
 using LBS.Components.TileMap;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Behaviours
 {
@@ -38,11 +39,11 @@ namespace ISILab.LBS.Behaviours
 
         #region FIELDS
         [JsonIgnore]
-        private TileMapModule tileMap => Owner.GetModule<TileMapModule>();
+        private TileMapModule tileMap => OwnerLayer.GetModule<TileMapModule>();
         [JsonIgnore]
-        private ConnectedTileMapModule tileConnections => Owner.GetModule<ConnectedTileMapModule>();
+        private ConnectedTileMapModule tileConnections => OwnerLayer.GetModule<ConnectedTileMapModule>();
         [JsonIgnore]
-        private SectorizedTileMapModule areas => Owner.GetModule<SectorizedTileMapModule>();
+        private SectorizedTileMapModule areas => OwnerLayer.GetModule<SectorizedTileMapModule>();
 
         [SerializeField]
         private string pressetInsideStyle = "Castle_Wooden";
@@ -93,7 +94,7 @@ namespace ISILab.LBS.Behaviours
         #endregion
 
         #region CONSTRUCTORS
-        public SchemaBehaviour(Texture2D icon, string name) : base(icon, name) { }
+        public SchemaBehaviour(VectorImage icon, string name, Color colorTint) : base(icon, name, colorTint) { }
         #endregion
 
         #region METHODS
@@ -105,7 +106,7 @@ namespace ISILab.LBS.Behaviours
         
         public override void OnAttachLayer(LBSLayer layer)
         {
-            Owner = layer;
+            OwnerLayer = layer;
         }
 
         public override void OnDetachLayer(LBSLayer layer)
@@ -266,7 +267,7 @@ namespace ISILab.LBS.Behaviours
 
         public override object Clone()
         {
-            return new SchemaBehaviour(this.Icon, this.Name);
+            return new SchemaBehaviour(this.Icon, this.Name, this.ColorTint);
         }
 
         public override bool Equals(object obj)

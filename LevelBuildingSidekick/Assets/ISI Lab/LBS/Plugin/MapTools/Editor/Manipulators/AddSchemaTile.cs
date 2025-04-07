@@ -74,7 +74,7 @@ namespace ISILab.LBS.Manipulators
             }
 
 
-            var corners = schema.Owner.ToFixedPosition(StartPosition, EndPosition);
+            var corners = schema.OwnerLayer.ToFixedPosition(StartPosition, EndPosition);
 
             for (int i = corners.Item1.x; i <= corners.Item2.x; i++)
             {
@@ -89,7 +89,7 @@ namespace ISILab.LBS.Manipulators
                 }
             }
 
-            LBSInspectorPanel.Instance.SetTarget(schema.Owner);
+            LBSInspectorPanel.Instance.SetTarget(schema.OwnerLayer);
 
             schema.RecalculateWalls();
 

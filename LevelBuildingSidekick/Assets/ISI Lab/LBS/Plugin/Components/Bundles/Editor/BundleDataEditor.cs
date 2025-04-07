@@ -56,7 +56,7 @@ namespace ISILab.LBS.VisualElements
 
                 // Instantiate editor class
                 var ve = Activator.CreateInstance(edtr, new object[] { c }) as LBSCustomEditor;
-
+                Debug.Log(ve.GetType());
                 Add(ve);
             }
 

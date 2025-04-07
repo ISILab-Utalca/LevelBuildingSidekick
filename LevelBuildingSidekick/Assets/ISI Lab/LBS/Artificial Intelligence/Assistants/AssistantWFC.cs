@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Assistants
 {
@@ -83,7 +84,7 @@ namespace ISILab.LBS.Assistants
 
         #region CONSTRUCTORS
 
-        public AssistantWFC(Texture2D icon, string name) : base(icon, name)
+        public AssistantWFC(VectorImage icon, string name, Color colorTint) : base(icon, name, colorTint)
         {
             OnGUI(); 
         }
@@ -108,7 +109,7 @@ namespace ISILab.LBS.Assistants
 
         public override object Clone()
         {
-            return new AssistantWFC(this.Icon, this.Name);
+            return new AssistantWFC(this.Icon, this.Name, this.ColorTint);
         }
 
         public void Execute()
@@ -128,8 +129,8 @@ namespace ISILab.LBS.Assistants
             var group = bundle.GetCharacteristics<LBSDirectionedGroup>()[0];
 
             // Get modules
-            var map = Owner.GetModule<TileMapModule>();
-            var connected = Owner.GetModule<ConnectedTileMapModule>();
+            var map = OwnerLayer.GetModule<TileMapModule>();
+            var connected = OwnerLayer.GetModule<ConnectedTileMapModule>();
 
             // Get tiles to change
             var toCalc = GetTileToCalc(Positions, map, connected);
@@ -255,7 +256,7 @@ namespace ISILab.LBS.Assistants
         private List<Candidate> CalcCandidates(LBSTile tile, LBSDirectionedGroup group)
         {
             // Get modules
-            var connectedMod = Owner.GetModule<ConnectedTileMapModule>();
+            var connectedMod = OwnerLayer.GetModule<ConnectedTileMapModule>();
 
             var candidates = new List<Candidate>();
             for (int i = 0; i < group.Weights.Count; i++)
@@ -290,7 +291,7 @@ namespace ISILab.LBS.Assistants
 
         public void SetConnectionNei(LBSTile origin, LBSTile[] neis, List<LBSTile> closed)
         {
-            var connected = Owner.GetModule<ConnectedTileMapModule>();
+            var connected = OwnerLayer.GetModule<ConnectedTileMapModule>();
 
             var dirs = Directions.Bidimencional.Edges;
 

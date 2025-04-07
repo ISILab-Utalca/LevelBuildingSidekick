@@ -21,12 +21,16 @@ MonoBehaviour:
     modules:
     - rid: 1248747549014622361
     behaviours:
+    - rid: 6953538662824935526
     - rid: 1248747549014622362
     assistants:
     - rid: 1248747549014622363
     generatorRules:
     - rid: 1248747549014622364
     settings:
+      useBundleSize: 0
+      lightVolume: 0
+      reflectionProbe: 0
       scale: {x: 2, y: 2}
       resize: {x: 0, y: 0}
       position: {x: 0, y: 0, z: 0}
@@ -53,14 +57,16 @@ MonoBehaviour:
           generatorRules:
           - rid: 1248747549014622364
           settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
             name: Quest
         nodeSize: {x: 3, y: 1}
         grammarName: 
-        questNodes:
-        - rid: 1248747549014622365
+        questNodes: []
         questEdges: []
         root:
           rid: 1248747549014622365
@@ -68,18 +74,24 @@ MonoBehaviour:
       type: {class: QuestBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
       data:
         visible: 1
-        icon: {fileID: 2800000, guid: 771d36a714319204ea4ddcbecdc2006e, type: 3}
-        name: Quest Behavior
+        icon: {fileID: 7388822144124034973, guid: 49b9448c876b36c4ba26740d7deae035, type: 3}
+        colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 1}
+        name: Quest Behaviour
     - rid: 1248747549014622363
       type: {class: GrammarAssistant, ns: ISILab.LBS.Assistants, asm: LBS}
       data:
         visible: 1
+        icon: {fileID: 7388822144124034973, guid: ad8feef201665454ca79e31b7d798ac3, type: 3}
+        colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 1}
         name: Grammar Assistant
     - rid: 1248747549014622364
       type: {class: QuestRuleGenerator, ns: ISILab.LBS.Generators, asm: LBS}
       data:
         generator3D:
           settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
@@ -90,10 +102,12 @@ MonoBehaviour:
       data:
         x: 0
         y: 0
-        id: Start Node
-        questAction: Start Node
+        id: null
+        questAction: null
         grammarCheck: 0
         mapCheck: 0
+        nodeType: 0
+        valid: 0
         target:
           rid: 1248747549014622366
     - rid: 1248747549014622366
@@ -106,3 +120,10 @@ MonoBehaviour:
           width: 0
           height: 0
         tags: []
+    - rid: 6953538662824935526
+      type: {class: QuestFlowBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
+      data:
+        visible: 1
+        icon: {fileID: 7388822144124034973, guid: a919b94406bb9f5469d29bf56201e3f1, type: 3}
+        colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 0}
+        name: Quest Flow

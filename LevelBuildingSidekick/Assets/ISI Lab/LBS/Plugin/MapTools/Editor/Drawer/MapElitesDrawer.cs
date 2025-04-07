@@ -16,7 +16,7 @@ namespace ISILab.LBS.Drawers
         {
             var assitant = target as AssistantMapElite;
             var d = new DottedAreaFeedback();
-            var size = (assitant.Owner.TileSize * LBSSettings.Instance.general.TileSize).ToInt();
+            var size = (assitant.OwnerLayer.TileSize * LBSSettings.Instance.general.TileSize).ToInt();
             var start = new Vector2(assitant.RawToolRect.min.x, -assitant.RawToolRect.min.y + 1) * size;
             var end = new Vector2(assitant.RawToolRect.max.x, -assitant.RawToolRect.max.y + 1) * size;
             d.SetPosition(Rect.zero);

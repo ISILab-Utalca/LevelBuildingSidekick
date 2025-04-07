@@ -32,6 +32,9 @@ MonoBehaviour:
     - rid: 6598277660977397767
     - rid: 6598277660977397768
     settings:
+      useBundleSize: 0
+      lightVolume: 0
+      reflectionProbe: 0
       scale: {x: 2, y: 2}
       resize: {x: 0, y: 0}
       position: {x: 0, y: 0, z: 0}
@@ -63,6 +66,9 @@ MonoBehaviour:
           - rid: 6598277660977397767
           - rid: 6598277660977397768
           settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
@@ -92,6 +98,9 @@ MonoBehaviour:
           - rid: 6598277660977397767
           - rid: 6598277660977397768
           settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
@@ -122,6 +131,9 @@ MonoBehaviour:
           - rid: 6598277660977397767
           - rid: 6598277660977397768
           settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
@@ -152,6 +164,9 @@ MonoBehaviour:
           - rid: 6598277660977397767
           - rid: 6598277660977397768
           settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
@@ -181,6 +196,9 @@ MonoBehaviour:
           - rid: 6598277660977397767
           - rid: 6598277660977397768
           settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
@@ -190,7 +208,8 @@ MonoBehaviour:
       type: {class: SchemaBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
       data:
         visible: 1
-        icon: {fileID: 2800000, guid: 771d36a714319204ea4ddcbecdc2006e, type: 3}
+        icon: {fileID: 7388822144124034973, guid: e17eb0e02534666439fca8ea30b4d4e4, type: 3}
+        colorTint: {r: 0.5294118, g: 0.8431373, b: 0.96470594, a: 1}
         name: Schema behaviour
         pressetInsideStyle: Castle_Wooden
         pressetOutsideStyle: Castle_Brick
@@ -199,6 +218,8 @@ MonoBehaviour:
       type: {class: HillClimbingAssistant, ns: ISILab.LBS.Assistants, asm: LBS}
       data:
         visible: 1
+        icon: {fileID: 7388822144124034973, guid: cabe9f5bc61788d4989e79a2bbc7ec42, type: 3}
+        colorTint: {r: 0.7607844, g: 0.96470594, b: 0.4431373, a: 1}
         name: HillClimbing
         visibleConstraints: 0
         printClocks: 0
@@ -207,6 +228,9 @@ MonoBehaviour:
       data:
         generator3D:
           settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
@@ -217,6 +241,9 @@ MonoBehaviour:
       data:
         generator3D:
           settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}

@@ -21,6 +21,7 @@ MonoBehaviour:
   characteristics:
   - rid: 6598277268373504832
   populationType: 0
+  tileSize: {x: 1, y: 1}
   childsBundles:
   - {fileID: 11400000, guid: 3ccf8442a472e0943899ad0e08afc068, type: 2}
   - {fileID: 11400000, guid: 21bf7352873a7684d97fd1e307da5c6d, type: 2}

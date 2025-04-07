@@ -295,9 +295,6 @@ namespace ISILab.LBS.VisualElements.Editor
             }
             if (evt.keyCode == KeyCode.Z)
             {
-                //Debugging here
-                Debug.Log("printe me");
-                
                 evt.StopPropagation(); 
             }
 

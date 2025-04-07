@@ -1,16 +1,15 @@
 using ISILab.Commons.Utility;
 using ISILab.Commons.Utility.Editor;
 using LBS.Components;
-using LBS.VisualElements;
+using ISILab.LBS.Settings;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
+using ISILab.Extensions;
 using UnityEngine;
 using UnityEngine.UIElements;
-using ISILab.Extensions;
 using ISILab.LBS.Editor;
+using LBS.VisualElements;
 
 namespace ISILab.LBS.VisualElements
 {
@@ -92,8 +91,8 @@ namespace ISILab.LBS.VisualElements
                 }
 
                 CustomEditors.Add(ve as LBSCustomEditor);
-
-                var content = new BehaviourContent(ve as LBSCustomEditor, behaviour.Name, behaviour.Icon, color);
+                
+                var content = new BehaviourContent(ve as LBSCustomEditor, behaviour.Name, behaviour.Icon, behaviour.ColorTint);
                 contentBehaviour.Add(content);
 
             }

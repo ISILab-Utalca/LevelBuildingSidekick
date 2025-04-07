@@ -16,6 +16,7 @@ using Newtonsoft.Json;
 using UnityEditor;
 using UnityEditor.Presets;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Assistants
 {
@@ -44,7 +45,7 @@ namespace ISILab.LBS.Assistants
         {
             get
             {
-                var corners = Owner.ToFixedPosition(RawToolRect.min, RawToolRect.max);
+                var corners = OwnerLayer.ToFixedPosition(RawToolRect.min, RawToolRect.max);
 
                 var size = corners.Item2 - corners.Item1 + Vector2.one;
                 return new Rect(corners.Item1, size);
@@ -84,7 +85,7 @@ namespace ISILab.LBS.Assistants
         #endregion
 
         #region CONSTRUCTORS
-        public AssistantMapElite(Texture2D icon, string name) : base(icon, name)
+        public AssistantMapElite(VectorImage icon, string name, Color colorTint) : base(icon, name, colorTint)
         {
         }
         #endregion
@@ -121,7 +122,7 @@ namespace ISILab.LBS.Assistants
                 throw new Exception("[ISI Lab] Data " + data.GetType().Name + " is not LBSChromosome!");
             }
 
-            var population = Owner.Behaviours.Find(b => b.GetType().Equals(typeof(PopulationBehaviour))) as PopulationBehaviour;
+            var population = OwnerLayer.Behaviours.Find(b => b.GetType().Equals(typeof(PopulationBehaviour))) as PopulationBehaviour;
 
             var rect = chrom.Rect;
 
@@ -149,7 +150,7 @@ namespace ISILab.LBS.Assistants
 
         public void SetAdam(Rect rect)
         {
-            var tm = Owner.GetModule<BundleTileMap>();
+            var tm = OwnerLayer.GetModule<BundleTileMap>();
             var chrom = new BundleTilemapChromosome(tm, rect, CalcImmutables(rect));
             mapElites.Adam = chrom;
         }
@@ -164,7 +165,7 @@ namespace ISILab.LBS.Assistants
 
             if (maskType != null)
             {
-                var layers = Owner.Parent.Layers.Where(l => l.Behaviours.Any(b => b.GetType().Equals(maskType)));
+                var layers = OwnerLayer.Parent.Layers.Where(l => l.Behaviours.Any(b => b.GetType().Equals(maskType)));
                 foreach (var l in layers)
                 {
                     var m = l.GetModule<TileMapModule>();
@@ -191,7 +192,7 @@ namespace ISILab.LBS.Assistants
                 }
             }
 
-            var tm = Owner.GetModule<BundleTileMap>();
+            var tm = OwnerLayer.GetModule<BundleTileMap>();
             foreach (var g in tm.Groups)
             {
                 foreach (var t in g.TileGroup)
@@ -240,7 +241,7 @@ namespace ISILab.LBS.Assistants
 
         public override object Clone()
         {
-            return new AssistantMapElite(this.Icon, this.Name);
+            return new AssistantMapElite(this.Icon, this.Name, this.ColorTint);
         }
 
         public override bool Equals(object obj)

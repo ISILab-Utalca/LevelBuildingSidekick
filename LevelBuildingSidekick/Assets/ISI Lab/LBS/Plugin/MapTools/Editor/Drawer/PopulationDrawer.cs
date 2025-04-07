@@ -21,7 +21,7 @@ namespace ISILab.LBS.Drawers
             foreach (var t in population.Tilemap)
             {
                 var v = new PopulationTileView(t);
-                var size = population.Owner.TileSize * LBSSettings.Instance.general.TileSize;
+                var size = population.OwnerLayer.TileSize * LBSSettings.Instance.general.TileSize;
                 var bundleSize = t.GetBundleSize();
                 //This sets the size of the group tile to draw and seems to work. Yay!
                 v.SetSize(size * bundleSize);

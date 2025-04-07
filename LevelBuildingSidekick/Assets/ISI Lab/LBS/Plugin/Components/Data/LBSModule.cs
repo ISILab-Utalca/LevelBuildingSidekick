@@ -5,6 +5,7 @@ using LBS.Components;
 using LBS.Components.TileMap;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ISILab.LBS.Modules
 {
@@ -23,16 +24,16 @@ namespace ISILab.LBS.Modules
         //[SerializeField, JsonRequired]
         //protected bool changed;
 
-        [SerializeField, JsonRequired, HideInInspector]
-        private LBSLayer owner;
+        [FormerlySerializedAs("owner")] [SerializeField, JsonRequired, HideInInspector]
+        private LBSLayer ownerLayer;
         #endregion
 
         #region PROPERTIES
         [JsonIgnore]
-        public LBSLayer Owner
+        public LBSLayer OwnerLayer
         {
-            get => owner;
-            set => owner = value;
+            get => ownerLayer;
+            set => ownerLayer = value;
         }
 
         [JsonIgnore]
@@ -64,17 +65,17 @@ namespace ISILab.LBS.Modules
         #region METHODS
         public virtual void OnAttach(LBSLayer layer)
         {
-            Owner = layer;
+            OwnerLayer = layer;
         }
 
         public virtual void OnDetach(LBSLayer layer)
         {
-            Owner = null;
+            OwnerLayer = null;
         }
 
         public virtual void Reload(LBSLayer layer)
         {
-            Owner = layer;
+            OwnerLayer = layer;
         }
         #endregion
 

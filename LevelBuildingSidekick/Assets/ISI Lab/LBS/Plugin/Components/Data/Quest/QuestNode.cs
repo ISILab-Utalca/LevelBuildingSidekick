@@ -8,7 +8,19 @@ using UnityEngine;
 
 namespace ISILab.LBS.Components
 {
-    [System.Serializable]
+
+    public enum NodeType
+    {
+        start, middle, goal
+    }
+
+    public enum questState
+    {
+        blocked, active, completed, failed
+    }
+    
+
+[System.Serializable]
     public class QuestNode : ICloneable
     {
 
@@ -27,13 +39,23 @@ namespace ISILab.LBS.Components
 
         [SerializeField, JsonRequired]
         private bool mapCheck;
+        
+        [SerializeField, JsonRequired]
+        private NodeType nodeType;
+        
+        [SerializeField, JsonRequired]
+        questState  questState = questState.blocked;
+        
+        [SerializeField, JsonRequired]
+        private bool valid;
+        
         #endregion
 
         [SerializeField, JsonRequired, SerializeReference]
         private QuestTarget target;
 
         private QuestGraph graph;
-
+        
         #region PROPERTIES
         [JsonIgnore]
         public QuestGraph Graph
@@ -95,6 +117,27 @@ namespace ISILab.LBS.Components
             get => target;
             set => target = value;
         }
+        
+        
+        [JsonIgnore]
+        public bool Valid
+        {
+            get => valid;
+            set => valid = value;
+        }
+        
+        [JsonIgnore]
+        public NodeType NodeType
+        {
+            get => nodeType;
+            set => nodeType = value;
+        }
+
+
+        [JsonIgnore]
+        public questState QuestState { get; set; }
+
+
         #endregion
 
         #region CONSTRUCTOR
@@ -111,6 +154,11 @@ namespace ISILab.LBS.Components
         }
         #endregion
 
+        public bool HasEdges()
+        {
+            return graph != null && graph.HasRequiredConnection(this);
+        }
+        
         public object Clone()
         {
             var node = new QuestNode(ID, Position, QuestAction, graph);
@@ -127,7 +175,7 @@ namespace ISILab.LBS.Components
         [SerializeField, JsonRequired, SerializeReference]
         private Rect rect;
         [SerializeField, JsonRequired, SerializeReference]
-        private List<LBSTag> tags = new List<LBSTag>();
+        private List<LBSTag> tags = new();
 
         [JsonIgnore]
         public Rect Rect

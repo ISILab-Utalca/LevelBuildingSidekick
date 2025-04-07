@@ -243,7 +243,7 @@ namespace ISILab.LBS.Modules
         //Selects groups, probably needs fixing
         public List<object> GetSelected(Vector2Int position)
         {
-            var pos = Owner.ToFixedPosition(position);
+            var pos = OwnerLayer.ToFixedPosition(position);
             var r = new List<object>();
             var group = GetGroup(pos);
 

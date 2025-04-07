@@ -26,20 +26,12 @@ namespace ISILab.LBS.Drawers.Editor
             var quest = behaviour.Graph;
 
             var nodeViews = new Dictionary<QuestNode, QuestNodeView>();
-
+            
             foreach (var node in quest.QuestNodes)
             {
                 /*  Start Node is now assigned by the user. Right click on a node to make it root */
-                if (node.ID == "Start Node")
-                {
-                    continue;
-                    // var v = new StartQNode();
-                    // v.SetPosition(new Rect(node.Position, LBSSettings.Instance.general.TileSize));
-                    // nodeViews.Add(node, v);
-                    
-                }
+                if (node.NodeType == NodeType.start) {}//Debug.Log($"Start Node is {node.ID}");
                 
-
                 var nodeView = new QuestNodeView(node);
 
                 var size = LBSSettings.Instance.general.TileSize * quest.NodeSize;
@@ -52,7 +44,7 @@ namespace ISILab.LBS.Drawers.Editor
                 {
                     var rectView = new DottedAreaFeedback();
 
-                    var rectSize = behaviour.Owner.TileSize * LBSSettings.Instance.general.TileSize;
+                    var rectSize = behaviour.OwnerLayer.TileSize * LBSSettings.Instance.general.TileSize;
                     var start = new Vector2(node.Target.Rect.min.x, -node.Target.Rect.min.y) * rectSize;
                     var end = new Vector2(node.Target.Rect.max.x, -node.Target.Rect.max.y) * rectSize;
                     rectView.SetPosition(Rect.zero);
@@ -65,11 +57,13 @@ namespace ISILab.LBS.Drawers.Editor
 
             foreach (var edge in quest.QuestEdges)
             {
-                var n1 = nodeViews[edge.First];
-                var n2 = nodeViews[edge.Second];
+                if (!nodeViews.TryGetValue(edge.First, out var n1) || n1 == null) continue;
+                if (!nodeViews.TryGetValue(edge.Second, out var n2) || n2 == null) continue;
 
+                n1.SetBorder(edge.First);
+                n2.SetBorder(edge.Second);
+                
                 var edgeView = new LBSQuestEdgeView(edge, n1, n2, 4, 4);
-
                 view.AddElement(edgeView);
             }
 

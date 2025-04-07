@@ -24,7 +24,7 @@ namespace ISILab.LBS.Modules
         [JsonIgnore]
         public Vector2 CellSize
         {
-            get => Owner.TileSize;
+            get => OwnerLayer.TileSize;
         }
 
         [JsonIgnore]
@@ -259,7 +259,7 @@ namespace ISILab.LBS.Modules
 
         public List<object> GetSelected(Vector2Int position)
         {
-            var pos = Owner.ToFixedPosition(position);
+            var pos = OwnerLayer.ToFixedPosition(position);
 
             var r = new List<object>();
             var tile = GetTile(pos);
