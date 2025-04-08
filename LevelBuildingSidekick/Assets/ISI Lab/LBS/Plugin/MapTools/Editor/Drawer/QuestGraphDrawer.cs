@@ -1,15 +1,13 @@
 using ISILab.LBS.VisualElements.Editor;
 using ISILab.LBS.Settings;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.UIElements;
 using ISILab.Extensions;
 using ISILab.LBS.Behaviours;
-using ISILab.LBS.Modules;
 using ISILab.LBS.VisualElements;
 using ISILab.LBS.Components;
+using UnityEditor.Experimental.GraphView;
+using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Drawers.Editor
 {
@@ -23,9 +21,14 @@ namespace ISILab.LBS.Drawers.Editor
         {
             var behaviour = target as QuestBehaviour;
 
-            var quest = behaviour.Graph;
-
+            var quest = behaviour?.Graph;
+            if (quest == null) return;
+            
             var nodeViews = new Dictionary<QuestNode, QuestNodeView>();
+            
+            FindAndRemoveAllOfType<QuestNodeView>(view);
+            FindAndRemoveAllOfType<DottedAreaFeedback>(view);
+            FindAndRemoveAllOfType<LBSQuestEdgeView>(view);
             
             foreach (var node in quest.QuestNodes)
             {
@@ -42,7 +45,7 @@ namespace ISILab.LBS.Drawers.Editor
 
                 if (!(node.Target.Rect.width == 0 || node.Target.Rect.height == 0))
                 {
-                    var rectView = new DottedAreaFeedback();
+                    var rectView = new DottedAreaFeedback(); // TODO make this a DottedAreaUnique for quest
 
                     var rectSize = behaviour.OwnerLayer.TileSize * LBSSettings.Instance.general.TileSize;
                     var start = new Vector2(node.Target.Rect.min.x, -node.Target.Rect.min.y) * rectSize;
@@ -54,7 +57,7 @@ namespace ISILab.LBS.Drawers.Editor
                     view.AddElement(rectView);
                 }
             }
-
+            
             foreach (var edge in quest.QuestEdges)
             {
                 if (!nodeViews.TryGetValue(edge.First, out var n1) || n1 == null) continue;
@@ -65,6 +68,7 @@ namespace ISILab.LBS.Drawers.Editor
                 
                 var edgeView = new LBSQuestEdgeView(edge, n1, n2, 4, 4);
                 view.AddElement(edgeView);
+                Debug.Log("Painting Edge:" + edge.First.ID + "->" + edge.Second.ID);
             }
 
             foreach (var nodeView in nodeViews.Values)
@@ -72,5 +76,26 @@ namespace ISILab.LBS.Drawers.Editor
                 view.AddElement(nodeView);
             }
         }
+
+        private void FindAndRemoveAllOfType<T>(MainView view) where T : VisualElement
+        {
+            var toRemove = new List<T>();
+
+            foreach (var element in view.graphElements)
+            {
+                if (element is T typedElement)
+                {
+                    var te = element as T;
+                    toRemove.Add(te);
+                }
+            }
+
+            foreach (var element in toRemove)
+            {
+                var ge = element as GraphElement;
+                view.RemoveElement(ge);
+            }
+        }
+
     }
 }
