@@ -46,7 +46,8 @@ namespace ISILab.LBS.VisualElements
             behaviour = target as QuestFlowBehaviour;
             CreateVisualElement();
             if (behaviour == null) return;
-            behaviour.Graph.UpdateFlow += () => RefreshHistoryPanel();
+           // behaviour.Graph.UpdateFlow -= () => questHistoryPanel?.Refresh(); // avoid multicalls
+           // behaviour.Graph.UpdateFlow += () => questHistoryPanel?.Refresh();
             questHistoryPanel?.SetInfo(behaviour);
         }
         protected override VisualElement CreateVisualElement()
@@ -56,14 +57,6 @@ namespace ISILab.LBS.VisualElements
             Add(questHistoryPanel);
             return this;
         }
-        private void RefreshHistoryPanel()
-        {
-            // redo
-           // questHistoryPanel?.SetInfo(behaviour);
-            MarkDirtyRepaint();
-            questHistoryPanel?.Refresh();
-        }
-
 
     }
 }

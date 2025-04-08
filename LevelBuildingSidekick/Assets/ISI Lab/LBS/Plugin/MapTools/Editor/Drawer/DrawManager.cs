@@ -97,7 +97,7 @@ namespace ISILab.LBS
 
                 var drawer = Activator.CreateInstance(drawerT) as Drawer;
 
-                drawer.Draw(b, view, l.TileSize);
+                drawer?.Draw(b, view, l.TileSize);
             }
 
             var assistants = l.Assistants;
@@ -116,7 +116,7 @@ namespace ISILab.LBS
 
                 var drawer = Activator.CreateInstance(drawerT) as Drawer;
 
-                drawer.Draw(a, view, l.TileSize);
+                drawer?.Draw(a, view, l.TileSize);
             }
         }
 

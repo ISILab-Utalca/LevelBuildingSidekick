@@ -50,9 +50,10 @@ namespace ISILab.LBS.VisualElements
             var defaultGrammar = LBSAssetMacro.LoadAssetByGuid<LBSGrammar>(defaultGrammarGuid);
             ChangeGrammar(defaultGrammar.name);
             
+           // behaviour.Graph.UpdateFlow += ()=> DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance);
         }
 
-        public override void SetInfo(object target)
+        public sealed override void SetInfo(object target)
         {
             Clear();
             
@@ -188,7 +189,6 @@ namespace ISILab.LBS.VisualElements
                 });
                 actionPallete.Add(b);
             }
-            behaviour.Graph.UpdateFlow?.Invoke();
            
         }
 

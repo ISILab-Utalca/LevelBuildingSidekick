@@ -327,6 +327,7 @@ namespace ISILab.LBS.Manipulators
             
             if (!e.altKey)
             {
+                e.StopPropagation();
                 OnMouseUp(e.target as VisualElement, endClickPosition, e);
                 OnManipulationEnd?.Invoke();
             }
