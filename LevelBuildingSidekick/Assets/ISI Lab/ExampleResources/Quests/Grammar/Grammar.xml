@@ -1,8 +1,38 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <grammar xml:lang="es-CL" root="Quest" version="1.0" xmlns="http://www.w3.org/2001/06/grammar">
+
+  <rule id="ParallelSubquests">
+    <item>
+      <ruleref uri="#Quest" />
+      <ruleref uri="#Quest" />
+      merge
+    </item>
+
+    <item>
+      <ruleref uri="#Subquest" />
+      and
+      <ruleref uri="#Subquest" />
+      then
+      <ruleref uri="#Quest" />
+    </item>
+  </rule>
+
+  <item> <ruleref uri="#QuestBranch" /> </item>
   
+  <rule id="QuestBranch">
+    <item>
+      <ruleref uri="#Goto" />
+      <ruleref uri="#Subquest" />
+      or
+      <ruleref uri="#Subquest" />
+      <ruleref uri="#Goto" />
+    </item>
+  </rule>
+
+
   <rule id="Quest">
     <one-of>
+      <item> <ruleref uri="#ParallelSubquests" /> </item>
       <item> <ruleref uri="#Subquest" /> </item>
       <item> <ruleref uri="#Goto" /> </item>
       <item> <ruleref uri="#Learn" /> </item>

@@ -3,6 +3,7 @@ using ISILab.LBS.Components;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,12 +14,13 @@ namespace ISILab.LBS.VisualElements
     {
         string path = "";
         bool foldout;
-        List<bool> actionFoldouts = new List<bool>();
+        List<bool> actionFoldouts = new ();
 
         public override void OnInspectorGUI()
         {
             var grammar = (LBSGrammar)target;
             foldout = EditorGUILayout.Foldout(foldout, "Actions");
+
             if (foldout)
             {
                 if (actionFoldouts.Count != grammar.ActionCount)
@@ -28,23 +30,11 @@ namespace ISILab.LBS.VisualElements
                         actionFoldouts.Add(false);
                     }
                 }
+
                 for (int i = 0; i < grammar.ActionCount; i++)
                 {
                     var action = grammar.GetAction(i);
                     GUILayout.Label(action.GrammarElement.ID);
-                    //actionFoldouts[i] = EditorGUILayout.Foldout(actionFoldouts[i], action.GrammarElement.ID);
-                    /*if (actionFoldouts[i])
-                    {
-                        for (int j = 0; j < action.TargetCount; j++)
-                        {
-                            action.SetTarget(j, EditorGUILayout.TextField("Target " + j + ": ", action.GetTarget(j)));
-                        }
-                        var s = EditorGUILayout.TextField("New Target: ", "");
-                        if (s != "")
-                        {
-                            action.AddTarget(s);
-                        }
-                    }*/
                 }
             }
 
@@ -59,9 +49,11 @@ namespace ISILab.LBS.VisualElements
                 {
                     throw new Exception("Could not load Grammar File");
                 }
+
                 grammar.GrammarTree = _grammar;
                 EditorUtility.SetDirty(target);
 
+                // Reset foldouts after importing the grammar
                 actionFoldouts = new List<bool>();
                 if (grammar.GrammarTree != null)
                 {
@@ -70,8 +62,25 @@ namespace ISILab.LBS.VisualElements
                         actionFoldouts.Add(false);
                     }
                 }
+
+                // Generate and print all possible permutations
+                GenerateAndLogPermutations(grammar);
             }
+        }
+
+        /// <summary>
+        /// Generate and log all quest permutations and create a text file with the permutations.
+        /// </summary>
+        private void GenerateAndLogPermutations(LBSGrammar grammar)
+        {
+            // Generate all permutations
+            var questDefinitions = grammar.GenerateQuestDefinitions();
+            string allPermutations = string.Join("\n", questDefinitions.ConvertAll(q => string.Join(" -> ", q)));
+
+            // Write the permutations to a .txt file
+            string filePath = Path.Combine(Application.dataPath, "QuestPermutations.txt");
+            File.WriteAllText(filePath, allPermutations);
+            Debug.Log("Quest permutations have been written to: " + filePath);
         }
     }
 }
-
