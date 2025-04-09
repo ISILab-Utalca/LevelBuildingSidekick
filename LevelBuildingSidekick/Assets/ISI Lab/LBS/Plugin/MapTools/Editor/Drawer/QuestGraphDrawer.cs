@@ -15,8 +15,7 @@ namespace ISILab.LBS.Drawers.Editor
     public class QuestGraphDrawer : Drawer
     {
         public QuestGraphDrawer() : base() { }
-
-        //TODO: Falls into a null for a key in a dictionary.
+        
         public override void Draw(object target, MainView view, Vector2 teselationSize)
         {
             var behaviour = target as QuestBehaviour;
@@ -68,7 +67,6 @@ namespace ISILab.LBS.Drawers.Editor
                 
                 var edgeView = new LBSQuestEdgeView(edge, n1, n2, 4, 4);
                 view.AddElement(edgeView);
-                Debug.Log("Painting Edge:" + edge.First.ID + "->" + edge.Second.ID);
             }
 
             foreach (var nodeView in nodeViews.Values)
@@ -77,6 +75,12 @@ namespace ISILab.LBS.Drawers.Editor
             }
         }
 
+        /// <summary>
+        /// Unlike other layers the visual elements seem to overlap, unless a full redrawing of the MainView is done}
+        /// for that reason we remove all the view elements that belong to this layer.
+        /// </summary>
+        /// <param name="view"></param>
+        /// <typeparam name="T"></typeparam>
         private void FindAndRemoveAllOfType<T>(MainView view) where T : VisualElement
         {
             var toRemove = new List<T>();

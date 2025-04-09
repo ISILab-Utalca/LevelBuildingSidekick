@@ -66,7 +66,6 @@ namespace ISILab.LBS.Generators
                 List<Vector2Int> positions = new List<Vector2Int>();
                 foreach (var tile in group.TileGroup)
                 {
-                    Debug.Log(tile + tile.Position.ToString());
                     // get interpolated center
                     positions!.Add(tile.Position);
                 }

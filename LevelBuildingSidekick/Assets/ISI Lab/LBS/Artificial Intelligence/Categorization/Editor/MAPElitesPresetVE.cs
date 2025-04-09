@@ -193,7 +193,6 @@ namespace ISILab.LBS.VisualElements
                 {
                     of.value = presset.blackList[index];
                 }
-                UnityEngine.Debug.Log("hi");
                 of.RegisterValueChangedCallback(e => { presset.blackList[index] = e.newValue as LBSTag; });
                 of.label = "Element " + index + ":";
             }

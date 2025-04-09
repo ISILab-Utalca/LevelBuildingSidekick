@@ -42,22 +42,28 @@ namespace ISILab.LBS.Generators
 
             CloneRefs.Start();
             var quest = layer.GetModule<QuestGraph>().Clone() as QuestGraph;
+            if(quest == null)
+            {
+                return Tuple.Create<GameObject, string>(null, "No quest graph found. Can't generate");
+            }
             CloneRefs.End();
 
             var triggers = new List<QuestStep>();
 
             var assistant = layer.GetAssistant<GrammarAssistant>();
-            foreach (var edge in quest.QuestEdges)
+            /*foreach (var edge in quest.QuestEdges)
             {
-                assistant?.ValidateEdgeGrammar(edge);
+                assistant?.ValidateEdgeGrammarOLD(edge);
             }
-            
             bool allValid = quest.QuestNodes.All(q => q.GrammarCheck);
+         
+            assistant?.ValidateEdgeGrammar(quest.QuestEdges.First());
+            bool allValid = assistant!.fastValidGrammar(quest.QuestNodes);
             if (!allValid)
             {
-                return Tuple.Create<GameObject, string>(null, "At least one quest node is not grammatically valid");
+                return Tuple.Create<GameObject, string>(null, "At least one quest node is not grammatically valid. Fix or remove");
             }
-            
+               */
             foreach (var node in quest.QuestNodes)
             {
                 var go = new GameObject(node.ID);
