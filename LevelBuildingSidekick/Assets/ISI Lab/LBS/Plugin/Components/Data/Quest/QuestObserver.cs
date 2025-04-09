@@ -11,15 +11,15 @@ namespace ISILab.LBS
     [System.Serializable]
     public class QuestObserver : MonoBehaviour
     {
-        [SerializeField, HideInInspector]
+        [SerializeField]//, HideInInspector]
         private QuestGraph questGraph;
 
-        [SerializeField, HideInInspector]
+        [SerializeField]//, HideInInspector]
         private List<QuestStep> questTriggers;
 
-        [SerializeField, SerializeReference, HideInInspector]
+        [SerializeField, SerializeReference]//, HideInInspector]
         private List<QuestTrigger> activeTriggers = new List<QuestTrigger>();
-
+        
         public Action<QuestNode, QuestTrigger> OnQuestComplete;
 
         bool questComplete = false;

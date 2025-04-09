@@ -101,13 +101,20 @@ namespace ISILab.LBS.Assistants
 
         }
 
+        /// <summary>
+        /// Assuming that the validation grammar is checked by the user when setting the nodes
+        /// i.e assumes all the nodes have valid grammatical connections
+        /// </summary>
+        /// <param name="nodes">All the nodes that the graph contains</param>
+        /// <returns></returns>
+        public bool fastValidGrammar(List<QuestNode> nodes)
+        {
+            return nodes.All(n => n.GrammarCheck);
+        }
+        
         public void ValidateEdgeGrammar(QuestEdge edge)
         {
             if(edge == null) return;
-            var grammar = Quest.Grammar;
-
-            var root = Quest.Root;
-            
             var first = edge.First;
             var second = edge.Second;
 
@@ -123,11 +130,28 @@ namespace ISILab.LBS.Assistants
             {
                 n.GrammarCheck = false;
             }
-    
-            var validRoots = roots.Where(r => r[0].Equals(Quest.Root)).ToList();
+
+            List<List<QuestNode>> validRoots = new();
+            foreach (var list in roots)
+            {
+                first = list.First();
+                var root = Quest.Root;
+
+                Debug.LogError("Comparing nodes:");
+                Debug.Log($"   First: {first} - InstanceID: {first.GetHashCode()}, ID: {first.ID}");
+                Debug.Log($"   Root:  {root} - InstanceID: {root.GetHashCode()}, ID: {root.ID}");
+
+                // Better comparison by ID or custom logic
+                if (first.ID == root.ID) // assuming QuestNode has an ID field
+                {
+                    validRoots.Add(list);
+                }
+            }
+
+  
 
             var questLines = new List<List<QuestNode>>();
-            foreach (var r in validRoots)
+            foreach (var r in validRoots.ToList())
             {
                 foreach (var b in branches)
                 {
@@ -500,6 +524,8 @@ namespace ISILab.LBS.Assistants
             base.OnAttachLayer(layer);
             Quest.OnAddNode += ValidateNodeGrammar;
             Quest.OnAddEdge += ValidateEdgeGrammar;
+            Quest.OnRemoveNode += ValidateNodeGrammar;
+            Quest.OnRemoveEdge += ValidateEdgeGrammar;
 
         }
 
