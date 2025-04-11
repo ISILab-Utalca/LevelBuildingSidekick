@@ -95,5 +95,11 @@ namespace ISILab.LBS.AI.Categorization
         {
             throw new NotImplementedException();
         }
+
+        public MAPElitesPreset ResetValues()
+        {
+            //TODO: Implement this!
+            return this;
+        }
     }
 }
