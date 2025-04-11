@@ -44,7 +44,7 @@ namespace ISILab.LBS.VisualElements
 
             if (GUILayout.Button("Import"))
             {
-                var _grammar = GrammarReader.ReadGrammar(path);
+                GrammarTree _grammar = GrammarReader.ReadGrammar(path);
                 if (_grammar == null)
                 {
                     throw new Exception("Could not load Grammar File");
@@ -63,8 +63,14 @@ namespace ISILab.LBS.VisualElements
                     }
                 }
 
+                HashSet<string> permutations = GrammarReader.GetGrammarPermutations(_grammar);
+                foreach (var p in permutations)
+                {
+                    Debug.Log(p);
+                }
+
                 // Generate and print all possible permutations
-                GenerateAndLogPermutations(grammar);
+                //GenerateAndLogPermutations(grammar);
             }
         }
 

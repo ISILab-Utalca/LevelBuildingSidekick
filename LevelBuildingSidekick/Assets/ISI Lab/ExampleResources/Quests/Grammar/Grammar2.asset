@@ -41,313 +41,313 @@ MonoBehaviour:
     NonTerminals:
     - id: Quest.0
       nodes:
-      - rid: 3694760614975767022
-      - rid: 3694760614975767023
-      - rid: 3694760614975767024
+      - rid: 8325711214609170993
+      - rid: 8325711214609170994
+      - rid: 8325711214609170995
     - id: Action.0
       nodes:
-      - rid: 3694760614975767025
-      - rid: 3694760614975767026
-      - rid: 3694760614975767027
-      - rid: 3694760614975767028
-      - rid: 3694760614975767029
-      - rid: 3694760614975767030
-      - rid: 3694760614975767031
-      - rid: 3694760614975767032
-      - rid: 3694760614975767033
-      - rid: 3694760614975767034
+      - rid: 8325711214609170996
+      - rid: 8325711214609170997
+      - rid: 8325711214609170998
+      - rid: 8325711214609170999
+      - rid: 8325711214609171000
+      - rid: 8325711214609171001
+      - rid: 8325711214609171002
+      - rid: 8325711214609171003
+      - rid: 8325711214609171004
+      - rid: 8325711214609171005
     Productions:
     - id: Quest
       nodes:
-      - rid: 3694760614975767035
+      - rid: 8325711214609171006
     - id: QuestBranch
       nodes:
-      - rid: 3694760614975767036
+      - rid: 8325711214609171007
     - id: QuestBranch.0
       nodes:
-      - rid: 3694760614975767037
-      - rid: 3694760614975767038
-      - rid: 3694760614975767037
-      - rid: 3694760614975767039
+      - rid: 8325711214609171008
+      - rid: 8325711214609171009
+      - rid: 8325711214609171008
+      - rid: 8325711214609171010
     - id: Merge
       nodes:
-      - rid: 3694760614975767040
+      - rid: 8325711214609171011
     - id: Merge.0
       nodes:
-      - rid: 3694760614975767041
+      - rid: 8325711214609171012
     - id: QuestSequence
       nodes:
-      - rid: 3694760614975767042
+      - rid: 8325711214609171013
     - id: QuestSequence.0
       nodes:
-      - rid: 3694760614975767024
-      - rid: 3694760614975767037
+      - rid: 8325711214609170995
+      - rid: 8325711214609171008
     - id: Action
       nodes:
-      - rid: 3694760614975767043
+      - rid: 8325711214609171014
     - id: Action.0.0
       nodes:
-      - rid: 3694760614975767044
+      - rid: 8325711214609171015
     - id: Action.0.1
       nodes:
-      - rid: 3694760614975767045
+      - rid: 8325711214609171016
     - id: Action.0.2
       nodes:
-      - rid: 3694760614975767046
+      - rid: 8325711214609171017
     - id: Action.0.3
       nodes:
-      - rid: 3694760614975767047
+      - rid: 8325711214609171018
     - id: Action.0.4
       nodes:
-      - rid: 3694760614975767048
+      - rid: 8325711214609171019
     - id: Action.0.5
       nodes:
-      - rid: 3694760614975767049
+      - rid: 8325711214609171020
     - id: Action.0.6
       nodes:
-      - rid: 3694760614975767050
+      - rid: 8325711214609171021
     - id: Action.0.7
       nodes:
-      - rid: 3694760614975767051
+      - rid: 8325711214609171022
     - id: Action.0.8
       nodes:
-      - rid: 3694760614975767052
+      - rid: 8325711214609171023
     - id: Action.0.9
       nodes:
-      - rid: 3694760614975767053
+      - rid: 8325711214609171024
     root:
-      rid: 3694760614975767035
+      rid: 8325711214609171006
   actions:
   - grammarElement:
-      rid: 3694760614975767038
+      rid: 8325711214609171009
     targets: []
   - grammarElement:
-      rid: 3694760614975767041
+      rid: 8325711214609171012
     targets: []
   - grammarElement:
-      rid: 3694760614975767044
+      rid: 8325711214609171015
     targets: []
   - grammarElement:
-      rid: 3694760614975767045
+      rid: 8325711214609171016
     targets: []
   - grammarElement:
-      rid: 3694760614975767046
+      rid: 8325711214609171017
     targets: []
   - grammarElement:
-      rid: 3694760614975767047
+      rid: 8325711214609171018
     targets: []
   - grammarElement:
-      rid: 3694760614975767048
+      rid: 8325711214609171019
     targets: []
   - grammarElement:
-      rid: 3694760614975767049
+      rid: 8325711214609171020
     targets: []
   - grammarElement:
-      rid: 3694760614975767050
+      rid: 8325711214609171021
     targets: []
   - grammarElement:
-      rid: 3694760614975767051
+      rid: 8325711214609171022
     targets: []
   - grammarElement:
-      rid: 3694760614975767052
+      rid: 8325711214609171023
     targets: []
   - grammarElement:
-      rid: 3694760614975767053
+      rid: 8325711214609171024
     targets: []
   references:
     version: 2
     RefIds:
-    - rid: 3694760614975767022
+    - rid: 8325711214609170993
       type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
       data:
         id: QuestBranch
         nodes:
-        - rid: 3694760614975767036
-    - rid: 3694760614975767023
+        - rid: 8325711214609171007
+    - rid: 8325711214609170994
       type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
       data:
         id: QuestSequence
         nodes:
-        - rid: 3694760614975767042
-    - rid: 3694760614975767024
+        - rid: 8325711214609171013
+    - rid: 8325711214609170995
       type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
       data:
         id: Action
         nodes:
-        - rid: 3694760614975767043
-    - rid: 3694760614975767025
+        - rid: 8325711214609171014
+    - rid: 8325711214609170996
       type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
       data:
         id: Action.0.0
         nodes:
-        - rid: 3694760614975767044
-    - rid: 3694760614975767026
+        - rid: 8325711214609171015
+    - rid: 8325711214609170997
       type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
       data:
         id: Action.0.1
         nodes:
-        - rid: 3694760614975767045
-    - rid: 3694760614975767027
+        - rid: 8325711214609171016
+    - rid: 8325711214609170998
       type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
       data:
         id: Action.0.2
         nodes:
-        - rid: 3694760614975767046
-    - rid: 3694760614975767028
+        - rid: 8325711214609171017
+    - rid: 8325711214609170999
       type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
       data:
         id: Action.0.3
         nodes:
-        - rid: 3694760614975767047
-    - rid: 3694760614975767029
+        - rid: 8325711214609171018
+    - rid: 8325711214609171000
       type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
       data:
         id: Action.0.4
         nodes:
-        - rid: 3694760614975767048
-    - rid: 3694760614975767030
+        - rid: 8325711214609171019
+    - rid: 8325711214609171001
       type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
       data:
         id: Action.0.5
         nodes:
-        - rid: 3694760614975767049
-    - rid: 3694760614975767031
+        - rid: 8325711214609171020
+    - rid: 8325711214609171002
       type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
       data:
         id: Action.0.6
         nodes:
-        - rid: 3694760614975767050
-    - rid: 3694760614975767032
+        - rid: 8325711214609171021
+    - rid: 8325711214609171003
       type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
       data:
         id: Action.0.7
         nodes:
-        - rid: 3694760614975767051
-    - rid: 3694760614975767033
+        - rid: 8325711214609171022
+    - rid: 8325711214609171004
       type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
       data:
         id: Action.0.8
         nodes:
-        - rid: 3694760614975767052
-    - rid: 3694760614975767034
+        - rid: 8325711214609171023
+    - rid: 8325711214609171005
       type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
       data:
         id: Action.0.9
         nodes:
-        - rid: 3694760614975767053
-    - rid: 3694760614975767035
+        - rid: 8325711214609171024
+    - rid: 8325711214609171006
       type: {class: GrammarNonTerminal, ns: ISILab.AI.Grammar, asm: LBS}
       data:
         id: Quest.0
         nodes:
-        - rid: 3694760614975767022
-        - rid: 3694760614975767023
-        - rid: 3694760614975767024
-    - rid: 3694760614975767036
+        - rid: 8325711214609170993
+        - rid: 8325711214609170994
+        - rid: 8325711214609170995
+    - rid: 8325711214609171007
       type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
       data:
         id: QuestBranch.0
         nodes:
-        - rid: 3694760614975767037
-        - rid: 3694760614975767038
-        - rid: 3694760614975767037
-        - rid: 3694760614975767039
-    - rid: 3694760614975767037
+        - rid: 8325711214609171008
+        - rid: 8325711214609171009
+        - rid: 8325711214609171008
+        - rid: 8325711214609171010
+    - rid: 8325711214609171008
       type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
       data:
         id: Quest
         nodes:
-        - rid: 3694760614975767035
-    - rid: 3694760614975767038
+        - rid: 8325711214609171006
+    - rid: 8325711214609171009
       type: {class: GrammarTerminal, ns: ISILab.AI.Grammar, asm: LBS}
       data:
         id: "\r\n      or\r\n      "
         terminal: "\r\n      or\r\n      "
-    - rid: 3694760614975767039
+    - rid: 8325711214609171010
       type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
       data:
         id: Merge
         nodes:
-        - rid: 3694760614975767040
-    - rid: 3694760614975767040
+        - rid: 8325711214609171011
+    - rid: 8325711214609171011
       type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
       data:
         id: Merge.0
         nodes:
-        - rid: 3694760614975767041
-    - rid: 3694760614975767041
+        - rid: 8325711214609171012
+    - rid: 8325711214609171012
       type: {class: GrammarTerminal, ns: ISILab.AI.Grammar, asm: LBS}
       data:
         id: ' merge '
         terminal: ' merge '
-    - rid: 3694760614975767042
+    - rid: 8325711214609171013
       type: {class: GrammarProduction, ns: ISILab.AI.Grammar, asm: LBS}
       data:
         id: QuestSequence.0
         nodes:
-        - rid: 3694760614975767024
-        - rid: 3694760614975767037
-    - rid: 3694760614975767043
+        - rid: 8325711214609170995
+        - rid: 8325711214609171008
+    - rid: 8325711214609171014
       type: {class: GrammarNonTerminal, ns: ISILab.AI.Grammar, asm: LBS}
       data:
         id: Action.0
         nodes:
-        - rid: 3694760614975767025
-        - rid: 3694760614975767026
-        - rid: 3694760614975767027
-        - rid: 3694760614975767028
-        - rid: 3694760614975767029
-        - rid: 3694760614975767030
-        - rid: 3694760614975767031
-        - rid: 3694760614975767032
-        - rid: 3694760614975767033
-        - rid: 3694760614975767034
-    - rid: 3694760614975767044
+        - rid: 8325711214609170996
+        - rid: 8325711214609170997
+        - rid: 8325711214609170998
+        - rid: 8325711214609170999
+        - rid: 8325711214609171000
+        - rid: 8325711214609171001
+        - rid: 8325711214609171002
+        - rid: 8325711214609171003
+        - rid: 8325711214609171004
+        - rid: 8325711214609171005
+    - rid: 8325711214609171015
       type: {class: GrammarTerminal, ns: ISILab.AI.Grammar, asm: LBS}
       data:
         id: ' explore '
         terminal: ' explore '
-    - rid: 3694760614975767045
+    - rid: 8325711214609171016
       type: {class: GrammarTerminal, ns: ISILab.AI.Grammar, asm: LBS}
       data:
         id: ' go to '
         terminal: ' go to '
-    - rid: 3694760614975767046
+    - rid: 8325711214609171017
       type: {class: GrammarTerminal, ns: ISILab.AI.Grammar, asm: LBS}
       data:
         id: ' stealth take '
         terminal: ' stealth take '
-    - rid: 3694760614975767047
+    - rid: 8325711214609171018
       type: {class: GrammarTerminal, ns: ISILab.AI.Grammar, asm: LBS}
       data:
         id: ' gather '
         terminal: ' gather '
-    - rid: 3694760614975767048
+    - rid: 8325711214609171019
       type: {class: GrammarTerminal, ns: ISILab.AI.Grammar, asm: LBS}
       data:
         id: ' kill '
         terminal: ' kill '
-    - rid: 3694760614975767049
+    - rid: 8325711214609171020
       type: {class: GrammarTerminal, ns: ISILab.AI.Grammar, asm: LBS}
       data:
         id: ' capture '
         terminal: ' capture '
-    - rid: 3694760614975767050
+    - rid: 8325711214609171021
       type: {class: GrammarTerminal, ns: ISILab.AI.Grammar, asm: LBS}
       data:
         id: ' spy report '
         terminal: ' spy report '
-    - rid: 3694760614975767051
+    - rid: 8325711214609171022
       type: {class: GrammarTerminal, ns: ISILab.AI.Grammar, asm: LBS}
       data:
         id: ' read '
         terminal: ' read '
-    - rid: 3694760614975767052
+    - rid: 8325711214609171023
       type: {class: GrammarTerminal, ns: ISILab.AI.Grammar, asm: LBS}
       data:
         id: ' listen '
         terminal: ' listen '
-    - rid: 3694760614975767053
+    - rid: 8325711214609171024
       type: {class: GrammarTerminal, ns: ISILab.AI.Grammar, asm: LBS}
       data:
         id: ' give listen '

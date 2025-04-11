@@ -19,7 +19,7 @@ namespace ISILab.AI.Grammar
 
         public int ActionCount => actions.Count;
 
-        public List<ActionTargetDepiction> Actions => new List<ActionTargetDepiction>(actions);
+        public List<ActionTargetDepiction> Actions => new(actions);
 
         public GrammarTree GrammarTree
         {

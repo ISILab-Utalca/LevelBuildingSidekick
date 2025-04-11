@@ -9,8 +9,8 @@ namespace ISILab.LBS.VisualElements
 {
     public class ActionButton : VisualElement
     {
-        Label text;
-        Button button;
+        public Label text;
+        public Button button;
 
         public ActionButton()
         {
