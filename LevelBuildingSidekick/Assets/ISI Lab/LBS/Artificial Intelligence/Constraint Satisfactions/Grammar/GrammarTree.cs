@@ -11,11 +11,11 @@ namespace ISILab.AI.Grammar
     public class GrammarTree
     {
         [SerializeField]
-        public List<GrammarTerminal> Terminals = new List<GrammarTerminal>();
+        public List<GrammarTerminal> Terminals = new();
         [SerializeField]
-        public List<GrammarNonTerminal> NonTerminals = new List<GrammarNonTerminal>();
+        public List<GrammarNonTerminal> NonTerminals = new();
         [SerializeField]
-        public List<GrammarProduction> Productions = new List<GrammarProduction>();
+        public List<GrammarProduction> Productions = new();
 
         [SerializeField, SerializeReference]
         private GrammarElement root;
@@ -65,7 +65,6 @@ namespace ISILab.AI.Grammar
                         break;
                     }
                     root = node.Nodes[0];
-                    continue;
                 }
             }
         }
