@@ -15,11 +15,11 @@ namespace ISILab.AI.Grammar
         GrammarTree grammarTree;
 
         [SerializeField]
-        private List<ActionTargetDepiction> actions;
+        private List<ActionTargetDepiction> actions = new();
 
         public int ActionCount => actions.Count;
 
-        public List<ActionTargetDepiction> Actions => new List<ActionTargetDepiction>(actions);
+        public List<ActionTargetDepiction> Actions => new(actions);
 
         public GrammarTree GrammarTree
         {
@@ -45,11 +45,15 @@ namespace ISILab.AI.Grammar
             return actions[index];
         }
 
+        /// <summary>
+        /// Validates the passed action order (quest flow: graph of quest nodes). It checks their validity
+        /// against the grammar rules in the Grammar file.
+        /// </summary>
+        /// <param name="actions"></param>
+        /// <param name="candidates"></param>
+        /// <returns></returns>
         internal bool Validate(List<string> actions, out List<List<GrammarElement>> candidates)
         {
-            // comment as no longer the first node is an empty start node
-           // actions.RemoveAt(0);
-
             var root = grammarTree.Root;
 
             candidates = new List<List<GrammarElement>>();
@@ -61,7 +65,7 @@ namespace ISILab.AI.Grammar
             {
                 var newCandidates = new List<List<GrammarElement>>();
 
-                //Partial exploration of grammar tree
+                // Partial exploration of grammar tree
                 foreach (var c in candidates)
                 {
                     newCandidates.AddRange(ProcessPhrase(c, actions));
@@ -69,7 +73,7 @@ namespace ISILab.AI.Grammar
 
                 candidates.Clear();
 
-                //Prunning non valid phrases
+                // Pruning non-valid phrases
                 foreach (var c in newCandidates)
                 {
                     if (c.Count != actions.Count)
@@ -90,15 +94,13 @@ namespace ISILab.AI.Grammar
         {
             var toProcess = new List<List<GrammarElement>>();
             var processed = new List<List<GrammarElement>>();
-
-
             var visited = new List<List<GrammarElement>>();
 
             toProcess.Insert(0, phrase);
 
             while (toProcess.Count > 0)
             {
-                var raw = toProcess[0];
+                List<GrammarElement> raw = toProcess[0];
                 toProcess.RemoveAt(0);
 
                 bool closed = visited.Any(r =>
@@ -118,69 +120,34 @@ namespace ISILab.AI.Grammar
 
                 for (int i = 0; i < raw.Count; i++)
                 {
+                    var node = raw[i];
 
-                    //In theory should never enter the catch
-                    try
+                    // If the current node is a production or non-terminal, we expand it
+                    if (node is GrammarProduction)
                     {
-                        var node = raw[i];
+                        var production = (node as GrammarProduction).Nodes;
+                        raw.RemoveAt(i);
+                        raw.InsertRange(i, production);
+                        continue;
                     }
-                    catch
+
+                    // Non-terminal processing
+                    if (node is GrammarNonTerminal)
                     {
-                        Debug.Log("Raw: " + raw.Count + " - first: " + raw[0] + " - last: " + raw[^1]);
-                        break;
-                    }
+                        var nonTerminal = (node as GrammarNonTerminal).Nodes;
 
-
-                    do
-                    {
-                        //if option bigger than current, invalid option
-                        if (raw.Count > actions.Count)
-                            break;
-
-                        //if option has element that current don't, invalid option
-                        bool unregisteredElement = false;
-                        foreach (var n in raw)
+                        for (int j = 1; j < nonTerminal.Count; j++)
                         {
-                            if (n is GrammarTerminal && !actions.Contains(n.ID))
-                            {
-                                unregisteredElement = true;
-                                break;
-                            }
+                            var newRaw = new List<GrammarElement>(raw);
+                            newRaw.RemoveAt(i);
+                            newRaw.Insert(i, nonTerminal[j]);
+                            toProcess.Add(newRaw);
                         }
 
-                        if (unregisteredElement)
-                            break;
-
-                        //If production replace node with expansion chain
-                        if (raw[i] is GrammarProduction)
-                        {
-                            //replace for production
-                            var production = (raw[i] as GrammarProduction).Nodes;
-                            raw.RemoveAt(i);
-                            raw.InsertRange(i, production);
-                            continue;
-                        }
-
-                        //If nonTerminal replace 
-                        if (raw[i] is GrammarNonTerminal)
-                        {
-                            var nonTerminal = (raw[i] as GrammarNonTerminal).Nodes;
-
-                            for (int j = 1; j < nonTerminal.Count; j++)
-                            {
-                                var newRaw = new List<GrammarElement>(raw);
-                                newRaw.RemoveAt(i);
-                                newRaw.Insert(i, nonTerminal[j]);
-                                toProcess.Add(newRaw);
-                            }
-
-                            raw.RemoveAt(i);
-                            raw.Insert(i, nonTerminal[0]);
-                            continue;
-                        }
+                        raw.RemoveAt(i);
+                        raw.Insert(i, nonTerminal[0]);
+                        continue;
                     }
-                    while (!(raw[i] is GrammarTerminal));
-
                 }
 
                 visited.Add(raw);
@@ -188,13 +155,68 @@ namespace ISILab.AI.Grammar
                 {
                     processed.Add(raw);
                 }
-
             }
-
 
             return processed;
         }
 
+        /// <summary>
+        /// Generates and prints all valid permutations based on the grammar.
+        /// </summary>
+        public void GenerateAndPrintQuestDefinitions()
+        {
+            var questDefinitions = GenerateQuestDefinitions();
+            foreach (var quest in questDefinitions)
+            {
+                Debug.Log("Generated Quest Definition: " + string.Join(" -> ", quest));
+            }
+        }
+
+        /// <summary>
+        /// Generates all possible quest definitions by recursively expanding the grammar.
+        /// </summary>
+        public List<List<string>> GenerateQuestDefinitions()
+        {
+            var questDefinitions = new List<List<string>>();
+            GenerateQuestDefinitionsRecursive(questDefinitions, new List<string>(), grammarTree.Root);
+            return questDefinitions;
+        }
+
+        /// <summary>
+        /// Recursively generates quest definitions by traversing the grammar tree.
+        /// </summary>
+        private void GenerateQuestDefinitionsRecursive(List<List<string>> questDefinitions, List<string> currentDefinition, GrammarElement currentNode)
+        {
+            if (currentNode == null || questDefinitions.Contains(new List<string>(currentDefinition))) {
+                return; 
+            }
+            
+            if (currentNode is GrammarTerminal terminal)
+            {
+                // Terminal node, add the action text to the current definition
+                currentDefinition.Add(terminal.Text);
+                questDefinitions.Add(new List<string>(currentDefinition));
+                return;
+            }
+
+            if (currentNode is GrammarProduction production)
+            {
+                // If it's a production, explore all the possible expansions
+                foreach (var subNode in production.Nodes)
+                {
+                    GenerateQuestDefinitionsRecursive(questDefinitions, currentDefinition, subNode);
+                }
+            }
+
+            if (currentNode is GrammarNonTerminal nonTerminal)
+            {
+                // Non-terminal, recursively explore its options
+                foreach (var subNode in nonTerminal.Nodes)
+                {
+                    GenerateQuestDefinitionsRecursive(questDefinitions, currentDefinition, subNode);
+                }
+            }
+        }
 
         internal bool Validate(List<string> actions)
         {
@@ -203,4 +225,3 @@ namespace ISILab.AI.Grammar
         }
     }
 }
-

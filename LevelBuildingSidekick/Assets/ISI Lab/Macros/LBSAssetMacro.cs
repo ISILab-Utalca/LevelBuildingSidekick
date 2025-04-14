@@ -10,6 +10,6 @@ namespace ISILab.Macros
             string path = AssetDatabase.GUIDToAssetPath(guid);
             return !string.IsNullOrEmpty(path) ? AssetDatabase.LoadAssetAtPath<T>(path) : null;
         }
-        
+
     }
 }

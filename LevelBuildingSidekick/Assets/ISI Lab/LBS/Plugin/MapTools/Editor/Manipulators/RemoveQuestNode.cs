@@ -27,9 +27,9 @@ namespace ISILab.LBS.Manipulators
         protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
         {
             var node = quest.GetQuestNode(endPosition);
-
+            if (node == null) return;
             quest.RemoveQuestNode(node);
-            OnManipulationEnd.Invoke();
+            OnManipulationEnd?.Invoke();
         }
     }
 }

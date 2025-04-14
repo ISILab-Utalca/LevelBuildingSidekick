@@ -37,7 +37,7 @@ namespace ISILab.LBS.Manipulators
         protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
         {
             var second = quest.GetQuestNode(endPosition);
-            var result = quest.AddConnection(first, second);
+            var result = quest.AddEdge(first, second);
             LBSMainWindow.MessageNotify(result.Item1, result.Item2, 4);
            
             OnManipulationEnd.Invoke();

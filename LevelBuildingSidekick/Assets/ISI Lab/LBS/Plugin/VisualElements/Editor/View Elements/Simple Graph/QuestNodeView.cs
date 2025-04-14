@@ -71,9 +71,6 @@ namespace ISILab.LBS.VisualElements
         public void SetBorder(QuestNode node)
         {
             _root.SetBorder(Unchecked, 1f);
-
-          //  node.GrammarCheck = node.HasEdges(); // comment this once true grammar is checked TODO
-            
             if (!node.GrammarCheck)
             {
                 _root.SetBorder(GrammarWrong, 1f);
@@ -115,15 +112,6 @@ namespace ISILab.LBS.VisualElements
             Rect newPos = new Rect(grabPosition.x, grabPosition.y, resolvedStyle.width, resolvedStyle.height);
             SetPosition(newPos);
             _node.Position = grabPosition.ToInt();
-            /*
-
-            var mousPos = MainView.Instance.FixPos(e.mouseDelta);
-            var vect = mousPos + GetPosition().position;
-            Rect newPos = new Rect(vect.x, vect.y, resolvedStyle.width, resolvedStyle.height);
-            SetPosition(newPos);
-
-
-            */
         }
         
         private void OnMouseDown(MouseDownEvent evt)

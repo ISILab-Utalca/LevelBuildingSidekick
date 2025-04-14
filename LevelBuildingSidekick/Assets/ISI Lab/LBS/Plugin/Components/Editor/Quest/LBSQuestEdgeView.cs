@@ -39,6 +39,8 @@ namespace ISILab.LBS.VisualElements
             ActualizePositions(sPos1, sPos2);
 
             SetPosition(new Rect(pos1, new Vector2(10, 10)));
+            
+            generateVisualContent -= OnGenerateVisualContent;
             generateVisualContent += OnGenerateVisualContent;
         }
 

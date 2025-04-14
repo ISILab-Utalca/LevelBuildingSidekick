@@ -1,23 +1,10 @@
 using ISILab.LBS.Editor.Windows;
-using UnityEngine;
 using UnityEngine.UIElements;
-using LBS.Components;
-
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using ISI_Lab.LBS.Plugin.MapTools.Generators3D;
-using UnityEditor;
 using ISILab.Commons.Utility.Editor;
-using ISILab.LBS.AI.Categorization;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
-using ISILab.LBS.Generators;
 using ISILab.LBS.Modules;
-using Unity.Properties;
-using UnityEditor.UIElements;
-using Object = UnityEngine.Object;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -107,6 +94,12 @@ namespace ISILab.LBS.VisualElements.Editor
                 {
                     questGraph.RemoveQuestNode(questGraph.QuestNodes[index]);
                     Refresh();
+                    /*
+                     * Extremely slow, called instead of DrawLayer, because
+                     * drawing the quest connections gets bugged out, ends up
+                     * redrawing connections on top of each other.
+                     */
+                    DrawManager.ReDraw();
                 };
 
                 questEntryVe.GoToNode = null;
@@ -115,17 +108,17 @@ namespace ISILab.LBS.VisualElements.Editor
             
             questList.itemIndexChanged += (_, _) =>
             {
-                Refresh();
                 questGraph?.Reorder();
-                UpdateVeQuestEntries();
-                //Refresh();
+                Refresh();
             };
             
             questList.itemsSource = questGraph.QuestNodes;
-
+            
+            questGraph.UpdateFlow -= Refresh;
+            questGraph.UpdateFlow += Refresh;
             Refresh();
         }
-
+        
         // should pass the preset as parameter
         private void AddEntry()
         {
@@ -146,8 +139,6 @@ namespace ISILab.LBS.VisualElements.Editor
                 if(qe==null) continue;
                 qe.Update();
             }
-            LBSMainWindow.OnWindowRepaint?.Invoke();
-            DrawManager.ReDraw();
         }
         
         public void Refresh()
@@ -157,6 +148,10 @@ namespace ISILab.LBS.VisualElements.Editor
             questGraph.UpdateQuestNodes();
             
             UpdateVeQuestEntries();
+            
+            DrawManager.Instance.RedrawLayer(questGraph?.OwnerLayer, MainView.Instance);
+            
+            LBSMainWindow.OnWindowRepaint?.Invoke();
             
             MarkDirtyRepaint();
         }

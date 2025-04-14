@@ -3,22 +3,16 @@ using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
 using ISILab.LBS.Editor;
-using ISILab.LBS.Internal;
 using ISILab.LBS.Manipulators;
 using ISILab.LBS.Modules;
 using LBS;
 using LBS.VisualElements;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Speech.Recognition;
-using ISILab.Extensions;
-using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.VisualElements.Editor;
 using ISILab.Macros;
-using UnityEditor;
-using UnityEditor.Graphs;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -34,11 +28,9 @@ namespace ISILab.LBS.VisualElements
 
         private QuestHistoryPanel questHistoryPanel;
         
-        DropdownField grammarDropdown;
+        ObjectField grammarReference;
 
         VisualElement actionPallete;
-
-        List<LBSGrammar> grammars = new();
 
         QuestBehaviour behaviour;
 
@@ -47,12 +39,9 @@ namespace ISILab.LBS.VisualElements
         public QuestBehaviourEditor(object target) : base(target)
         {
             SetInfo(target);
-            var defaultGrammar = LBSAssetMacro.LoadAssetByGuid<LBSGrammar>(defaultGrammarGuid);
-            ChangeGrammar(defaultGrammar.name);
-            
         }
 
-        public override void SetInfo(object target)
+        public sealed override void SetInfo(object target)
         {
             Clear();
             
@@ -63,14 +52,14 @@ namespace ISILab.LBS.VisualElements
                 return;
 
             var quest = behaviour.OwnerLayer.GetModule<QuestGraph>();
-
-            UpdateDropdown();
-
-            if (quest.Grammar != null)
+            
+            if (quest.Grammar == null) // load default
             {
-                grammarDropdown.value = quest.Grammar.name;
+                quest.Grammar = LBSAssetMacro.LoadAssetByGuid<LBSGrammar>(defaultGrammarGuid); 
             }
-
+            grammarReference.value = quest.Grammar;
+            
+            ChangeGrammar(quest.Grammar);
             UpdateContent();
         }
 
@@ -84,35 +73,29 @@ namespace ISILab.LBS.VisualElements
             addNode = new CreateQuestNode();
             var t1 = new LBSTool(icon, "Add Quest Node", "Add a quest node activated!", addNode);
             t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
-            t1.Init(ass.OwnerLayer, target);
+            t1.Init(ass?.OwnerLayer, target);
 
             icon = Resources.Load<Texture2D>("Icons/Quest_Icon/Delete_Node_Quest");
             removeNode = new RemoveQuestNode();
             var t2 = new LBSTool(icon, "Remove Quest Node", "Remove a quest node activated!", removeNode);
-            t2.Init(ass.OwnerLayer, target);
+            t2.Init(ass?.OwnerLayer, target);
             
             icon = Resources.Load<Texture2D>("Icons/Quest_Icon/Node_Connection_Quest");
             connectNodes = new ConnectQuestNodes();
             var t3 = new LBSTool(icon, "Connect Quest Node", "Connect quest nodes activated!", connectNodes);
-            t3.Init(ass.OwnerLayer, target);
+            t3.Init(ass?.OwnerLayer, target);
 
             icon = Resources.Load<Texture2D>("Icons/Quest_Icon/Delete_Node_Connection_Quest");
             removeConnection = new RemoveQuestConnection();
             var t4 = new LBSTool(icon, "Remove Quest Connection", "Remove quest connection activated!", removeConnection);
-            t4.Init(ass.OwnerLayer, target);
-
-            //addNode.SetAddRemoveConnection(removeNode); - right click assigns main root - no remover
+            t4.Init(ass?.OwnerLayer, target);
+            
             connectNodes.SetRemover(removeConnection);
             
             toolkit.AddTool(t1);
             toolkit.AddTool(t2);
             toolkit.AddTool(t3);
             toolkit.AddTool(t4);
-
-            addNode.OnManipulationEnd = null;
-            removeNode.OnManipulationEnd = null;
-            connectNodes.OnManipulationEnd = null;
-            removeConnection.OnManipulationEnd = null;
             
             addNode.OnManipulationEnd += RefreshHistoryPanel;
             removeConnection.OnManipulationEnd += RefreshHistoryPanel;
@@ -131,10 +114,6 @@ namespace ISILab.LBS.VisualElements
             var xOffset = (viewport.width * 0.5f) / scale.x;
             var yOffset = (viewport.height * 0.5f) / scale.y;
             
-            //(viewport.width * 0.5f - viewport.width / behaviour.Graph.NodeSize.x) / scale.x;
-            //var xOffset = (viewport.width * 0.5f)/ scale.x - ((viewport.width / behaviour.Graph.NodeSize.x) *1.5f)/ scale.x;
-            //var yOffset = (viewport.height * 0.5f)/ scale.y - ((viewport.height / behaviour.Graph.NodeSize.y) *1.5f)/ scale.y;
-
             var x = nodePos.x - xOffset;
             var y = nodePos.y - yOffset;
 
@@ -146,7 +125,6 @@ namespace ISILab.LBS.VisualElements
         private void RefreshHistoryPanel()
         {
             SetInfo(target);
-            LBSInspectorPanel.ReDraw();
             behaviour.Graph.UpdateFlow?.Invoke();
         }
         
@@ -155,23 +133,14 @@ namespace ISILab.LBS.VisualElements
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("GrammarAssistantEditor");
             visualTree.CloneTree(this);
 
-            grammarDropdown = this.Q<DropdownField>(name: "Grammar");
+            grammarReference = this.Q<ObjectField>(name: "Grammar");
+            grammarReference.objectType = typeof(LBSGrammar);
+            
             actionPallete = this.Q<VisualElement>(name: "Content");
             
-            grammarDropdown.RegisterValueChangedCallback(evt => ChangeGrammar(evt.newValue));
+            grammarReference.RegisterValueChangedCallback(evt => ChangeGrammar(evt.newValue as LBSGrammar));
   
             return this;
-        }
-
-        private void UpdateDropdown()
-        {
-            grammarDropdown.choices.Clear();
-            grammars.Clear();
-            var options = LBSAssetsStorage.Instance.Get<LBSGrammar>();
-            if (options == null || options.Count == 0)
-                return;
-            grammars = options;
-            grammarDropdown.choices = options.Select(s => s.name).ToList();
         }
 
         private void UpdateContent()
@@ -189,34 +158,46 @@ namespace ISILab.LBS.VisualElements
             if (quest.Grammar == null)
                 return;
 
+            List<ActionButton> abL = new();
             foreach (var a in quest.Grammar.Actions)
             {
-                var b = new ActionButton(a.GrammarElement.Text, () =>
+                ActionButton b = null;
+                b = new ActionButton(a.GrammarElement.Text, () =>
                 {
                     behaviour.ToSet = a.GrammarElement;
                     ToolKit.Instance.SetActive("Add Quest Node");
                     behaviour.Graph.UpdateFlow?.Invoke();
                 });
+                abL.Add(b);
                 actionPallete.Add(b);
             }
-            behaviour.Graph.UpdateFlow?.Invoke();
+
+            foreach (var b in abL)
+            {
+               
+                if (behaviour.ToSet?.Text == b.text.text)
+                {
+                    b.Children().First().AddToClassList("lbs-actionbutton_selected");
+                    b.Children().First().RemoveFromClassList("lbs-actionbutton");
+                }
+                else
+                {
+                    b.Children().First().RemoveFromClassList("lbs-actionbutton_selected");
+                    b.Children().First().AddToClassList("lbs-actionbutton");
+                }
+            }
            
         }
 
-        private void ChangeGrammar(string value)
+        private void ChangeGrammar(LBSGrammar grammar)
         {
-            var behaviour = target as QuestBehaviour;
-            if (behaviour == null)
-                throw new Exception("No Assistant");
-
+            if (grammar == null) throw new Exception("No Grammar");
+            
+            if (target is not QuestBehaviour behaviour) throw new Exception("No Assistant");
+            
             var quest = behaviour.OwnerLayer.GetModule<QuestGraph>();
-            if (quest == null)
-                throw new Exception("No Module");
-
-            var grammar = grammars.Find(s => s.name == value);
-            if (grammar == null)
-                throw new Exception("No Grammar");
-
+            if (quest == null)  throw new Exception("No Module");
+            
             quest.Grammar = grammar;
 
             UpdateContent();
