@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc2dc3f1e6eaba6459dfcc51c46e3e2a, type: 3}
+  m_Name: PathOSStorage
+  m_EditorClassIdentifier: 
+  agentPrefab: {fileID: 114084877281343334, guid: 607318e5beb058643a9226e07f881723, type: 3}
+  managerPrefab: {fileID: 5005646905853620061, guid: 31f1861d4df0ac1488cf45674399f745, type: 3}
+  worldCameraPrefab: {fileID: 4802606248819095171, guid: 7fc2dc49844862141b01cdd554ae2476, type: 3}
+  screenshotCameraPrefab: {fileID: 988990242519381641, guid: 90df82b60f8b4cc4c8c801a3076fb368, type: 3}

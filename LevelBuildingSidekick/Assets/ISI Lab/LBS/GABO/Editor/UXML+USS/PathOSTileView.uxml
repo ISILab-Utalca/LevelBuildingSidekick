@@ -1,0 +1,29 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Assets/ISI%20Lab/LBS/GABO/Editor/UXML+USS/PathOSStyles.uss?fileID=7433441132597879392&amp;guid=4aa42835fe956d24aa3a57e6d43a0e83&amp;type=3#PathOSStyles" />
+    <ui:VisualElement name="PositionContainer" style="background-color: rgba(0, 0, 0, 0); position: absolute; left: 40%; width: 20%; height: 10%; align-self: center; top: 59%;">
+        <ui:Label tabindex="-1" text="? x ?" display-tooltip-when-elided="true" name="PositionLabel" class="TriggerInfoLabel" style="font-size: 10px;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="Column" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);">
+        <ui:VisualElement name="ElementTagContainer" style="flex-grow: 1; height: 33%; width: 50%; align-self: center; justify-content: center;">
+            <ui:VisualElement name="Background" style="background-color: rgb(255, 0, 0); border-top-left-radius: 500px; border-bottom-left-radius: 500px; border-top-right-radius: 500px; border-bottom-right-radius: 500px; align-items: center; justify-content: center; border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0; align-self: center; -unity-background-image-tint-color: rgb(255, 255, 255); width: 66%; height: 100%; flex-grow: 1; -unity-background-scale-mode: scale-to-fit;">
+                <ui:VisualElement name="ElementTag" style="align-self: center; background-image: resource(&apos;Icons/PathOSPlaceholderIcon&apos;); flex-grow: 1; -unity-background-scale-mode: scale-to-fit; width: 60%; flex-shrink: 1; max-height: 80%; align-items: auto;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="DynamicTagRow" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row; height: 33%;">
+            <ui:VisualElement name="DynamicTagObjectContainer" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);">
+                <ui:VisualElement name="DynamicTagObject" style="flex-grow: 1; background-image: resource(&apos;Icons/DynamicTagObject&apos;); -unity-background-image-tint-color: rgb(255, 255, 0); width: 50%; align-items: auto; align-self: center; -unity-background-scale-mode: scale-to-fit;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="DynamicTagTriggerContainer" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);">
+                <ui:VisualElement name="DynamicTagTrigger" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); background-image: resource(&apos;Icons/DynamicTagTrigger&apos;); -unity-background-image-tint-color: rgb(255, 0, 0); width: 50%; align-self: center; -unity-background-scale-mode: scale-to-fit;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="DynamicObstacleRow" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row; height: 33%;">
+            <ui:VisualElement name="DynamicObstacleObjectContainer" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);">
+                <ui:VisualElement name="DynamicObstacleObject" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); background-image: resource(&apos;Icons/ObstacleObject&apos;); -unity-background-image-tint-color: rgb(255, 255, 0); width: 50%; align-self: center; -unity-background-scale-mode: scale-to-fit;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="DynamicObstacleTriggerContainer" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);">
+                <ui:VisualElement name="DynamicObstacleTrigger" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); background-image: resource(&apos;Icons/ObstacleTrigger&apos;); -unity-background-image-tint-color: rgb(255, 0, 0); width: 50%; align-self: center; -unity-background-scale-mode: scale-to-fit;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

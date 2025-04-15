@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:LevelBuildingSidekick/Assets/ISI Lab/Drawer.cs.meta
 guid: 95dd4748ff8e0f043ab8fb339807913a
+========
+guid: 088d9967a3663a748be62ea93a8a06be
+>>>>>>>> pr/97:LevelBuildingSidekick/Assets/ISI Lab/LBS/GABO/Editor/Manipulators/AddObstacle.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

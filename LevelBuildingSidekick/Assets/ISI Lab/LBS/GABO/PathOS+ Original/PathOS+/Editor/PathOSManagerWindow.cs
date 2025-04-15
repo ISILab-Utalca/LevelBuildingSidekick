@@ -1,0 +1,668 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
+using PathOS;
+using Malee.Editor;
+
+/*
+PathOSManagerWindow.cs 
+Nine Penguins (Samantha Stahlke) 2018 (Atiya Nova) 2021
+ */
+public class PathOSManagerWindow : EditorWindow
+{
+
+    //Used to identify preferences string by Unity.
+    private const string editorPrefsID = "PathOSManager";
+
+    //Window component settings
+    [SerializeField]
+    private PathOSManager managerReference;
+    private OGLogManager logManagerReference;
+    private OGLogVisualizer logVisualizerReference;
+    private Editor currentManagerEditor, currentLogEditor, currentVisEditor;
+
+    //Inspector settings
+    private SerializedObject serial;
+    private GUIStyle foldoutStyle = GUIStyle.none;
+
+    /* Basic Properties */
+    private SerializedProperty limitSimulationTime;
+    private SerializedProperty maxSimulationTime;
+    private SerializedProperty endOnCompletionGoal;
+    private SerializedProperty endSimulationOnDeath;
+
+    private SerializedProperty showLevelMarkup;
+    private GUIContent completionLabel, deathLabel;
+
+    /* Level Markup */
+    private static bool showMarkup = false;
+    private GameObject selection = null;
+
+    /* Level Entity List */
+    private static bool showList = false, showIgnored = false;
+    private bool warnedEntityNull = false;
+    private ReorderableList entityListReorderable, ignoredListReorderable;
+    private SerializedProperty heuristicWeights;
+
+    /* Heuristic Weight Matrix */
+    private static bool showWeights = false;
+    private PathOS.Heuristic weightMatrixRowID;
+    private int entityPopupId = 0;
+    private string[] entityLabelList;
+    private PathOS.EntityType weightMatrixColumnID;
+    private int heuristicPopupId = 0;
+    private string[] heuristicLabelList;
+
+    private Dictionary<Heuristic, int> heuristicIndices;
+    private Dictionary<EntityType, int> entypeIndices;
+
+    private Dictionary<(Heuristic, EntityType), float> weightLookup;
+
+    private bool transposeWeightMatrix;
+
+    private bool managerInitialized = false;
+    private string ignoredLabel = "Add the Mesh Renderers of GameObjects you'd like the Level Markup to ignore";
+
+    private Color bgColor, bgDark1, bgDark2, bgDark3;
+    private class MarkupToggle
+    {
+        public static GUIStyle style;
+
+        public EntityType entityType;
+        public bool isClear;
+
+        public Texture2D icon;
+        public Texture2D cursor;
+        private GUIContent content;
+
+        public string label;
+
+        public bool active;
+
+        public MarkupToggle(EntityType entityType, string label,
+            Texture2D icon, Texture2D cursor, bool isClear = false)
+        {
+            this.entityType = entityType;
+            this.label = label;
+            this.icon = icon;
+            this.cursor = cursor;
+            this.isClear = isClear;
+
+            content = new GUIContent(icon);
+        }
+
+        public bool Layout()
+        {
+            if (null == style)
+            {
+                style = EditorStyles.miniButton;
+                style.fixedHeight = 32.0f;
+                style.fixedWidth = 32.0f;
+            }
+
+            style = EditorStyles.miniButton;
+            style.fixedHeight = 32.0f;
+            style.fixedWidth = 32.0f;
+
+            GUILayout.BeginHorizontal();
+
+            active = GUILayout.Toggle(active, content, style);
+            GUILayout.BeginVertical();
+            GUILayout.FlexibleSpace();
+            GUILayout.Label(label);
+            GUILayout.FlexibleSpace();
+            GUILayout.EndVertical();
+
+            GUILayout.EndHorizontal();
+
+            return active;
+        }
+    }
+
+    private List<MarkupToggle> markupToggles = new List<MarkupToggle>();
+    private MarkupToggle activeToggle = null;
+
+    // GABO: Editor reference to prevent editor duplication in original code through "CreateEditor()"
+    Editor headerManagerGameObjectEditor;
+
+    private void OnEnable()
+    {
+        //Load saved settings.
+        string prefsData = EditorPrefs.GetString(editorPrefsID, JsonUtility.ToJson(this, false));
+        JsonUtility.FromJsonOverwrite(prefsData, this);
+
+        SceneView.duringSceneGui += this.OnSceneGUI;
+
+        bgColor = GUI.backgroundColor;
+        bgDark1 = new Color32(184, 187, 199, 130);
+        bgDark2 = new Color32(224, 225, 230, 150);
+        bgDark3 = new Color32(224, 225, 230, 80);
+    }
+    void OnDestroy()
+    {
+        managerInitialized = false;
+        //Save settings to the editor.
+        string prefsData = JsonUtility.ToJson(this, false);
+        EditorPrefs.SetString(editorPrefsID, prefsData);
+
+        SceneView.duringSceneGui -= this.OnSceneGUI;
+
+        //GABO: Destroy editor references. Helps prevent duplication when opening/closing PathOS.
+        DestroyImmediate(headerManagerGameObjectEditor);
+        DestroyImmediate(currentManagerEditor);
+        DestroyImmediate(currentLogEditor);
+        DestroyImmediate(currentVisEditor);
+    }
+
+    private void OnDisable()
+    {
+        managerInitialized = false;
+        //Save settings to the editor.
+        string prefsData = JsonUtility.ToJson(this, false);
+        EditorPrefs.SetString(editorPrefsID, prefsData);
+
+        SceneView.duringSceneGui -= this.OnSceneGUI;
+
+    }
+    public void OnWindowOpen()
+    {
+        if (managerReference == null)
+        {
+            EditorGUILayout.HelpBox("MANAGER REFERENCE REQUIRED", MessageType.Error);
+            managerInitialized = false;
+            return;
+        }
+
+        EditorGUILayout.Space();
+
+        if (!managerInitialized) InitializeManager();
+
+        Selection.objects = new Object[] { managerReference.gameObject };
+        headerManagerGameObjectEditor = headerManagerGameObjectEditor == null ? Editor.CreateEditor(managerReference.gameObject) : headerManagerGameObjectEditor;
+
+        headerManagerGameObjectEditor.DrawHeader();
+        EditorGUILayout.Space();
+
+        GUI.backgroundColor = bgDark3;
+        EditorGUILayout.BeginVertical("Box");
+        currentManagerEditor = currentManagerEditor == null ? Editor.CreateEditor(managerReference) : currentManagerEditor;
+        EditorGUIUtility.labelWidth = 150.0f;
+        currentManagerEditor.DrawHeader();
+        GUI.backgroundColor = bgColor;
+        ManagerEditorGUI();
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.Space();
+    }
+
+    public void OnVisualizationOpen()
+    {
+        if (managerReference == null)
+        {
+            EditorGUILayout.HelpBox("MANAGER REFERENCE REQUIRED", MessageType.Error);
+            managerInitialized = false;
+            return;
+        }
+
+        EditorGUILayout.Space();
+
+        if (!managerInitialized) InitializeManager();
+
+        //What does this do
+        Selection.objects = new Object[] { managerReference.gameObject };
+        headerManagerGameObjectEditor = headerManagerGameObjectEditor == null ?  Editor.CreateEditor(managerReference.gameObject) : headerManagerGameObjectEditor;
+        headerManagerGameObjectEditor.DrawHeader();
+
+        logManagerReference = managerReference.GetComponent<OGLogManager>();
+        logVisualizerReference = managerReference.GetComponent<OGLogVisualizer>();
+        currentLogEditor = currentLogEditor == null ? Editor.CreateEditor(logManagerReference) : currentLogEditor;
+        currentVisEditor = currentVisEditor == null ? Editor.CreateEditor(logVisualizerReference) : currentVisEditor;
+
+        // Shows the created Editor beneath CustomEditor
+        EditorGUIUtility.labelWidth = 150.0f;
+        GUI.backgroundColor = bgDark3;
+        EditorGUILayout.BeginVertical("Box");
+        currentLogEditor.DrawHeader();
+        GUI.backgroundColor = bgColor;
+        currentLogEditor.OnInspectorGUI();
+        EditorGUILayout.Space(5);
+        EditorGUILayout.EndVertical();
+
+        EditorGUIUtility.labelWidth = 200.0f;
+        GUI.backgroundColor = bgDark3;
+        EditorGUILayout.BeginVertical("Box");
+        currentVisEditor.DrawHeader();
+        GUI.backgroundColor = bgColor;
+        currentVisEditor.OnInspectorGUI();
+        EditorGUILayout.Space(5);
+        EditorGUILayout.EndVertical();
+    }
+
+    private void InitializeManager()
+    {
+        serial = new SerializedObject(managerReference);
+
+        //Grab properties.
+        limitSimulationTime = serial.FindProperty("limitSimulationTime");
+        maxSimulationTime = serial.FindProperty("maxSimulationTime");
+        endOnCompletionGoal = serial.FindProperty("endOnCompletionGoal");
+        endSimulationOnDeath = serial.FindProperty("endSimulationOnDeath");
+        showLevelMarkup = serial.FindProperty("showLevelMarkup");
+
+        completionLabel = new GUIContent("Final Goal Triggers End");
+        deathLabel = new GUIContent("Death Triggers End");
+
+        heuristicWeights = serial.FindProperty("heuristicWeights");
+
+
+        ignoredListReorderable = new ReorderableList(serial.FindProperty("ignoredEntities"));
+        ignoredListReorderable.elementNameProperty = "Ignored Entities";
+
+        entityListReorderable = new ReorderableList(serial.FindProperty("levelEntities"));
+        entityListReorderable.elementNameProperty = "Level Entities";
+
+
+        //Build weight matrix.
+        heuristicIndices = new Dictionary<Heuristic, int>();
+        entypeIndices = new Dictionary<EntityType, int>();
+
+        int index = 0;
+
+        foreach (Heuristic heuristic in System.Enum.GetValues(typeof(Heuristic)))
+        {
+            heuristicIndices.Add(heuristic, index);
+            ++index;
+        }
+
+        index = 0;
+
+        foreach (EntityType entype in System.Enum.GetValues(typeof(EntityType)))
+        {
+            entypeIndices.Add(entype, index);
+            ++index;
+        }
+
+        weightLookup = new Dictionary<(Heuristic, EntityType), float>();
+
+        managerReference.ResizeWeightMatrix();
+        BuildWeightDictionary();
+
+        entityLabelList = new string[UI.entityLabels.Count];
+        for (int i = 0; i < UI.entityLabels.Count; ++i)
+        {
+            entityLabelList[i] = UI.entityLabels.Values[i];
+        }
+
+        heuristicLabelList = new string[UI.heuristicLabels.Count];
+        for (int i = 0; i < UI.heuristicLabels.Count; ++i)
+        {
+            heuristicLabelList[i] = UI.heuristicLabels.Values[i];
+        }
+
+
+        //Todo: Just in case. Remove if this gets in the way
+        if (markupToggles.Count <= 0)
+        {//Set up toggles for level markup.
+            foreach (EntityType entype in System.Enum.GetValues(typeof(EntityType)))
+            {
+                markupToggles.Add(new MarkupToggle(entype,
+                    managerReference.entityLabelLookup[entype],
+                    Resources.Load<Texture2D>(managerReference.entityGizmoLookup[entype]),
+                    Resources.Load<Texture2D>("cursor_" + managerReference.entityGizmoLookup[entype])));
+            }
+
+
+            markupToggles.Add(new MarkupToggle(EntityType.ET_NONE,
+                "Clear Markup (remove from entity list)",
+                Resources.Load<Texture2D>("delete"),
+                Resources.Load<Texture2D>("cursor_delete"),
+                true));
+        }
+
+        warnedEntityNull = false;
+        managerInitialized = true;
+    }
+
+    private void ManagerEditorGUI()
+    {
+        serial.Update();
+
+        //Placed here since Unity seems to have issues with having these 
+        //styles initialized on enable sometimes.
+        foldoutStyle = EditorStyles.foldout;
+        foldoutStyle.fontStyle = FontStyle.Bold;
+
+        //Show basic properties.
+        EditorGUILayout.PropertyField(limitSimulationTime);
+        if (limitSimulationTime.boolValue) EditorGUILayout.PropertyField(maxSimulationTime);
+        EditorGUILayout.PropertyField(endOnCompletionGoal, completionLabel);
+        EditorGUILayout.PropertyField(showLevelMarkup);
+
+        GUI.backgroundColor = bgDark1;
+        EditorGUILayout.BeginVertical("Box");
+        showMarkup = EditorGUILayout.Foldout( showMarkup, "Level Markup", foldoutStyle);
+        GUI.backgroundColor = bgColor;
+
+        if (showMarkup)
+        {
+            for (int i = 0; i < markupToggles.Count; ++i)
+            {
+                if (markupToggles[i].Layout())
+                    ActivateToggle(markupToggles[i]);
+            }
+
+
+        }
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.Space(3.0f);
+
+        //Stop using the markup tool if escape is pressed.
+        if (Event.current.type == EventType.KeyDown
+           && Event.current.keyCode == KeyCode.Escape)
+        {
+            ActivateToggle(null);
+            Repaint();
+        }
+
+
+        GUI.backgroundColor = bgDark2;
+        EditorGUILayout.BeginVertical("Box");
+        showIgnored = EditorGUILayout.Foldout( showIgnored, "Ignored Entity List", foldoutStyle);
+        GUI.backgroundColor = bgColor;
+
+        if (showIgnored)
+        {
+            EditorGUILayout.LabelField(ignoredLabel);
+            ignoredListReorderable.DoLayoutList();
+        }
+
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.Space(3.0f);
+
+
+        GUI.backgroundColor = bgDark1;
+        EditorGUILayout.BeginVertical("Box");
+        showList = EditorGUILayout.Foldout(showList, "Level Entity List", foldoutStyle);
+        GUI.backgroundColor = bgColor;
+
+        EditorGUI.BeginChangeCheck();
+
+        if (showList)
+            entityListReorderable.DoLayoutList();
+
+        if (EditorGUI.EndChangeCheck())
+            warnedEntityNull = false;
+
+        if (!warnedEntityNull)
+        {
+            for (int i = 0; i < managerReference.levelEntities.Count; ++i)
+            {
+                if (null == managerReference.levelEntities[i].objectRef)
+                {
+                    NPDebug.LogWarning("One or more level entities in the scene " +
+                        "is null and will be ignored during play.");
+
+                    warnedEntityNull = true;
+                    break;
+                }
+            }
+        }
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.Space(3.0f);
+
+        GUI.backgroundColor = bgDark2;
+        EditorGUILayout.BeginVertical("Box");
+        showWeights = EditorGUILayout.Foldout(showWeights, "Motive Weights", foldoutStyle);
+        GUI.backgroundColor = bgColor;
+
+        //Heuristic weight matrix.
+        if (showWeights)
+        {
+            //Sync displayed values with values stored in manager.
+            RefreshWeightDictionary();
+
+            string transposeButtonText = "View by Entity Type";
+
+            if (transposeWeightMatrix)
+                transposeButtonText = "View by Motive";
+
+            if (GUILayout.Button(transposeButtonText))
+                transposeWeightMatrix = !transposeWeightMatrix;
+
+            if (transposeWeightMatrix)
+            {
+                entityPopupId = EditorGUILayout.Popup("Entity type: ", entityPopupId, entityLabelList);
+                weightMatrixColumnID = UI.entityLookup[entityLabelList[entityPopupId]];
+            }
+            else
+            {
+                heuristicPopupId = EditorGUILayout.Popup("Motive: ", heuristicPopupId, heuristicLabelList);
+                weightMatrixRowID = UI.heuristicLookup[heuristicLabelList[heuristicPopupId]];
+            }
+
+            Heuristic curHeuristic;
+            EntityType curEntityType;
+
+            System.Type indexType = (transposeWeightMatrix) ? typeof(Heuristic) : typeof(EntityType);
+
+            foreach (var index in System.Enum.GetValues(indexType))
+            {
+                curHeuristic = (transposeWeightMatrix) ? (Heuristic)(index) : weightMatrixRowID;
+                curEntityType = (transposeWeightMatrix) ? weightMatrixColumnID : (EntityType)(index);
+
+                string label = (transposeWeightMatrix) ?
+                    PathOS.UI.heuristicLabels[curHeuristic] :
+                    PathOS.UI.entityLabels[curEntityType];
+
+                if (!weightLookup.ContainsKey((curHeuristic, curEntityType)))
+                    continue;
+
+                EditorGUI.BeginChangeCheck();
+
+                float newWeight = EditorGUILayout.FloatField(label, weightLookup[(curHeuristic, curEntityType)]);
+
+                if (EditorGUI.EndChangeCheck())
+                {
+                    Undo.RecordObject(managerReference, "Change Motive Weight");
+
+                    weightLookup[(curHeuristic, curEntityType)] = newWeight;
+
+                    managerReference.heuristicWeights[heuristicIndices[curHeuristic]].
+                    weights[entypeIndices[curEntityType]].weight =
+                    weightLookup[(curHeuristic, curEntityType)];
+                }
+
+            }
+
+            if (GUILayout.Button("Refresh Matrix"))
+            {
+                managerReference.ResizeWeightMatrix();
+                BuildWeightDictionary();
+            }
+
+            if (GUILayout.Button("Export Weights..."))
+            {
+                string exportPath = EditorUtility.SaveFilePanel("Export Weights...", Application.dataPath, "heuristic-weights", "csv");
+                managerReference.ExportWeights(exportPath);
+            }
+
+            if (GUILayout.Button("Import Weights..."))
+            {
+                string importPath = EditorUtility.OpenFilePanel("Import Weights...", Application.dataPath, "csv");
+
+                Undo.RecordObject(managerReference, "Import Motive Weights");
+
+                if (managerReference.ImportWeights(importPath))
+                {
+                    EditorUtility.SetDirty(managerReference);
+                    EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
+                }
+            }
+        }
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.Space(3.0f);
+
+        serial.ApplyModifiedProperties();
+        SceneView.RepaintAll();
+    }
+
+
+    private void BuildWeightDictionary()
+    {
+        weightLookup.Clear();
+
+        for (int i = 0; i < managerReference.heuristicWeights.Count; ++i)
+        {
+            for (int j = 0; j < managerReference.heuristicWeights[i].weights.Count; ++j)
+            {
+                weightLookup.Add((managerReference.heuristicWeights[i].heuristic,
+                    managerReference.heuristicWeights[i].weights[j].entype),
+                    managerReference.heuristicWeights[i].weights[j].weight);
+            }
+        }
+    }
+
+    private void RefreshWeightDictionary()
+    {
+        for (int i = 0; i < managerReference.heuristicWeights.Count; ++i)
+        {
+            for (int j = 0; j < managerReference.heuristicWeights[i].weights.Count; ++j)
+            {
+                weightLookup[(managerReference.heuristicWeights[i].heuristic,
+                    managerReference.heuristicWeights[i].weights[j].entype)] =
+                    managerReference.heuristicWeights[i].weights[j].weight;
+            }
+        }
+    }
+
+    private void ActivateToggle(MarkupToggle toggle)
+    {
+        if (activeToggle != null)
+            activeToggle.active = false;
+
+        activeToggle = toggle;
+
+        if (null == activeToggle)
+        {
+            selection = null;
+            GUIUtility.hotControl = 0;
+        }
+        else
+        {
+            activeToggle.active = true;
+            managerReference.showLevelMarkup = true;
+        }
+    }
+
+    void OnSceneGUI(SceneView sceneView)
+    {
+        if (!managerReference) return;
+
+        Handles.BeginGUI();
+
+        if (activeToggle != null)
+        {
+            //Use the current markup icon as the cursor.
+            Cursor.SetCursor(activeToggle.cursor, Vector2.zero, CursorMode.Auto);
+            EditorGUIUtility.AddCursorRect(new Rect(0.0f, 0.0f, 10000.0f, 10000.0f), MouseCursor.CustomCursor);
+
+            //Selection update.
+            if (EditorWindow.mouseOverWindow != null &&
+                EditorWindow.mouseOverWindow.ToString() == " (UnityEditor.SceneView)")
+            {
+                if (Event.current.type == EventType.MouseMove || Event.current.type == EventType.MouseDrag)
+                         selection = HandleUtility.PickGameObject(Event.current.mousePosition, true, managerReference.ignoredEntities.ToArray());
+            }
+            else
+                selection = null;
+
+            //Mark up the current selection.
+            if (Event.current.type == EventType.MouseDown || Event.current.type == EventType.MouseDrag)
+            {
+                if (Event.current.button == 0)
+                {
+                    Event.current.Use();
+
+                    int passiveControlId = GUIUtility.GetControlID(FocusType.Passive);
+                    GUIUtility.hotControl = passiveControlId;
+
+                    if (selection != null)
+                    {
+                        Undo.RecordObject(managerReference, "Edit Level Markup");
+                        EditorUtility.SetDirty(managerReference);
+                        EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
+
+                        int selectedID = selection.GetInstanceID();
+
+                        bool addNewEntry = !activeToggle.isClear;
+
+                        for (int i = 0; i < managerReference.levelEntities.Count; ++i)
+                        {
+                            if (managerReference.levelEntities[i].objectRef.GetInstanceID() == selectedID)
+                            {
+                                if (activeToggle.isClear)
+                                    managerReference.levelEntities.RemoveAt(i);
+                                else
+                                    managerReference.levelEntities[i].entityType = activeToggle.entityType;
+
+                                addNewEntry = false;
+                                break;
+                            }
+                        }
+
+                        if (addNewEntry)
+                            managerReference.levelEntities.Add(new LevelEntity(selection, activeToggle.entityType));
+                    }
+                }
+            }
+
+            //Stop using the markup tool if escape key is pressed.
+            else if (Event.current.type == EventType.KeyDown
+            && Event.current.keyCode == KeyCode.Escape)
+            {
+                ActivateToggle(null);
+                Repaint();
+            }
+        }
+
+        managerReference.curMouseover = selection;
+        
+        Handles.EndGUI();
+    }
+
+    public void SetManagerReference(PathOSManager reference)
+    {
+        managerReference = reference;
+    }
+    public void OnResourceOpen()
+    {
+        if (managerReference == null)
+        {
+            EditorGUILayout.BeginVertical("Box");
+            EditorGUILayout.Space(0.5f);
+            EditorGUILayout.HelpBox("MANAGER REFERENCE REQUIRED", MessageType.Error);
+            managerInitialized = false;
+            EditorGUILayout.Space(0.5f);
+            EditorGUILayout.EndVertical();
+
+            return;
+        }
+
+        EditorGUILayout.BeginVertical("Box");
+
+        EditorGUILayout.Space(10);
+
+        if (!managerInitialized) InitializeManager();
+
+        Selection.objects = new Object[] { managerReference.gameObject };
+
+        serial.Update();
+        EditorGUILayout.PropertyField(endSimulationOnDeath, deathLabel);
+        serial.ApplyModifiedProperties();
+
+        EditorGUILayout.Space(10);
+        EditorGUILayout.EndVertical();
+    }
+}
