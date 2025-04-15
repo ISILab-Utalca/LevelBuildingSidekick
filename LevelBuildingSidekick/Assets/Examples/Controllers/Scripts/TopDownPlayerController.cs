@@ -82,7 +82,7 @@ namespace ISILab.Examples
 
         private void FixedUpdate()
         {
-            rb.velocity = movementDirection * movementSpeed;
+            rb.linearVelocity = movementDirection * movementSpeed;
 
             cameraBasePositon = Vector3.Lerp(cameraBasePositon, cameraTargetPosition, cameraSmoothSpeed * Time.deltaTime);
             cameraTransform.position = cameraBasePositon + cameraZoomPosition;
