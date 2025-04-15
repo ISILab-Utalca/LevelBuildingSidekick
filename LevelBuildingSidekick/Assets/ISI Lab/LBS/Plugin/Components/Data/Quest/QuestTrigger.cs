@@ -10,7 +10,7 @@ namespace ISILab.LBS
     public class QuestTrigger : MonoBehaviour
     {
         BoxCollider boxCollider;
-
+        
         public Action<GameObject> OnEnterZone;
         public Action<GameObject> OnLeaveZone;
 
