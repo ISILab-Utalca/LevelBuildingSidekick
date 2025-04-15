@@ -10,7 +10,9 @@ using UnityEngine.UIElements;
 using ISILab.Extensions;
 using ISILab.LBS.Behaviours;
 using UnityEditor.UIElements;
+using LBS.Bundles;
 using Object = UnityEngine.Object;
+using System.Runtime.InteropServices;
 
 namespace ISILab.LBS.VisualElements
 {
@@ -37,6 +39,8 @@ namespace ISILab.LBS.VisualElements
             view.CloneTree(this);
             
             typeField = this.Q<EnumField>("TypeField");
+            typeField.dataSourceType = typeof(Bundle.TagType);
+
             bundleField = this.Q<ObjectField>("BundleField");
             resetButton = this.Q<Button>("ResetButton");
             shuffleButton = this.Q<Button>("ShuffleButton");
@@ -48,6 +52,13 @@ namespace ISILab.LBS.VisualElements
 
             go = targetComponent;
             Debug.Log(go.name);
+        }
+
+        public void SetOriginalFields(Bundle bundleRef)
+        {
+            OnBundleChanged(bundleRef);
+            OnTypeChanged(bundleRef.Type);
+            MarkDirtyRepaint();
         }
 
         private void OnShuffleClicked()
@@ -62,12 +73,13 @@ namespace ISILab.LBS.VisualElements
 
         private void OnBundleChanged(Object evtNewValue)
         {
-            throw new NotImplementedException();
+            bundleField.value = evtNewValue;
         }
 
         private void OnTypeChanged(Enum evtNewValue)
         {
-            throw new NotImplementedException();
+            typeField.value = evtNewValue;
+            Debug.Log(evtNewValue.ToString());
         } 
     }
 }

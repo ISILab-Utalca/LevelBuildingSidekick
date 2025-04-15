@@ -10,7 +10,7 @@ namespace ISI_Lab.DevTools.Gizmos.Editor
     [CustomEditor(typeof(Custom3dMeshGizmo))]
     public class Custom3dMeshGizmoEditor : Editor
     {
-        private VisualElement rootVisualElement;
+        private WorldEditBarView rootVisualElement;
         private bool isVisible = false;
         private Rect popupRect;
 
@@ -48,12 +48,16 @@ namespace ISI_Lab.DevTools.Gizmos.Editor
             {
                 rootVisualElement = new WorldEditBarView(targetComponent.gameObject);
                 sceneView.rootVisualElement.Add(rootVisualElement);
+
+                targetComponent.SetOriginalReference();
+                rootVisualElement.SetOriginalFields(targetComponent.GetOgBundleRef());
             }
 
             rootVisualElement.style.position = Position.Absolute;
             // Update position
             rootVisualElement.style.left = screenPoint.x - rootVisualElement.resolvedStyle.width/2;
             rootVisualElement.style.top = screenPoint.y - yOffset;
+
         }
         
         void DrawPopupWindow(int windowID)

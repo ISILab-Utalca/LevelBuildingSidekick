@@ -40,7 +40,7 @@ namespace ISI_Lab.LBS.Plugin.MapTools.Generators3D
             // Check again that the object still exists and doesn’t already have the component
             if (this != null && gameObject != null && !GetComponent<Custom3dMeshGizmo>())
             {
-                Undo.AddComponent<Custom3dMeshGizmo>(gameObject); // Supports undo in editor
+                var gizmo = Undo.AddComponent<Custom3dMeshGizmo>(gameObject); // Supports undo in editor
             }
         }
 #endif
@@ -49,7 +49,7 @@ namespace ISI_Lab.LBS.Plugin.MapTools.Generators3D
         {
             if (!GetComponent<Custom3dMeshGizmo>())
             {
-                gameObject.AddComponent<Custom3dMeshGizmo>();
+                var gizmo = gameObject.AddComponent<Custom3dMeshGizmo>();
             }
         }
         
