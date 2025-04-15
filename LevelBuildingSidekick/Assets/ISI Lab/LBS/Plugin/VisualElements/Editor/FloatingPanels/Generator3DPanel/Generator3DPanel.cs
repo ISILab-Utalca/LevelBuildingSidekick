@@ -271,6 +271,7 @@ namespace ISILab.LBS.VisualElements.Editor
             {
                 StaticObjs(child.gameObject);
             }
+            if(lbsGen == null) obj.AddComponent<LBSGenerated>();
         }
         
 

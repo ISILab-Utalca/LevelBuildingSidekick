@@ -1,7 +1,6 @@
 
-namespace ISI_Lab.DevTools.Gizmos
+namespace ISI_Lab.LBS.DevTools
 {
-    using System;
     using UnityEngine;
     
     [ExecuteInEditMode]
