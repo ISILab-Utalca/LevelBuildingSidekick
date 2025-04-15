@@ -107,7 +107,7 @@ namespace ISILab.LBS.Assistants
         /// </summary>
         /// <param name="nodes">All the nodes that the graph contains</param>
         /// <returns></returns>
-        public bool ISGrammarCorrect(List<QuestNode> nodes)
+        public bool fastValidGrammar(List<QuestNode> nodes)
         {
             return nodes.All(n => n.GrammarCheck);
         }
@@ -136,7 +136,13 @@ namespace ISILab.LBS.Assistants
             {
                 first = list.First();
                 var root = Quest.Root;
-                if (first.ID == root.ID) 
+
+                Debug.LogError("Comparing nodes:");
+                Debug.Log($"   First: {first} - InstanceID: {first.GetHashCode()}, ID: {first.ID}");
+                Debug.Log($"   Root:  {root} - InstanceID: {root.GetHashCode()}, ID: {root.ID}");
+
+                // Better comparison by ID or custom logic
+                if (first.ID == root.ID) // assuming QuestNode has an ID field
                 {
                     validRoots.Add(list);
                 }
