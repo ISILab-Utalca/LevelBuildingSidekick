@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:LevelBuildingSidekick/Assets/UI Toolkit/QuestVisualTree.uxml.meta
+guid: 86523d578184bef4085c5742d9ebf923
+========
+guid: 4264e8aa839f2ee429df66aa51b87509
+>>>>>>>> pr/97:LevelBuildingSidekick/Assets/ISI Lab/LBS/GABO/Editor/UXML+USS/PathOSDynamicTagView.uxml.meta
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 13804, guid: 0000000000000000e000000000000000, type: 0}

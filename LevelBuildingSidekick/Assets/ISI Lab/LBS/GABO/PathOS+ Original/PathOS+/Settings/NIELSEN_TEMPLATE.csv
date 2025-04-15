@@ -1,0 +1,22 @@
+Type, Description, Input, Priority
+*,Jakob Nielsen's 10 general principles for interaction design,,
+%,1: Visibility of system status,,NA
+#,The design should always keep users informed about what is going on through appropriate feedback within a reasonable amount of time.,,NA
+%,2: Match between system and the real world,,NA
+#,The design should speak the users' language. Use words/phrases/concepts familiar to the user rather than internal jargon. Follow real-world conventions making information appear in a natural and logical order.,,NA
+%,3: User control and freedom,,NA
+#,"Users often perform actions by mistake. They need a clearly marked ""emergency exit"" to leave the unwanted action without having to go through an extended process.",,NA
+%,4: Consistency and standards,,NA
+#,Users should not have to wonder whether different words/situations/or actions mean the same thing. Follow platform and industry conventions.,,NA
+%,5: Error prevention,,NA
+#,Good error messages are important but the best designs carefully prevent problems from occurring in the first place. Either eliminate error-prone conditions or check for them and present users with a confirmation option before they commit to the action.,,NA
+%,6: Recognition rather than recall,,NA
+#,Minimize the user's memory load by making elements/actions/options visible. The user should not have to remember information from one part of the interface to another. Information required to use the design (e.g. field labels or menu items) should be visible or easily retrievable when needed.,,NA
+%,7: Flexibility and efficiency of use,,NA
+#,Shortcuts — hidden from novice users — may speed up the interaction for the expert user such that the design can cater to both inexperienced and experienced users. Allow users to tailor frequent actions.,,NA
+%,8: Aesthetic and minimalist design,,NA
+#,Interfaces should not contain information which is irrelevant or rarely needed. Every extra unit of information in an interface competes with the relevant units of information and diminishes their relative visibility.,,NA
+%,9: Help users recognize/diagnose and recover from errors,,NA
+#,Error messages should be expressed in plain language (no error codes)/precisely indicate the problem/constructively suggest a solution.,,NA
+%,10: Help and documentation,,NA
+#,It’s best if the system doesn’t need any additional explanation. However it may be necessary to provide documentation to help users understand how to complete their tasks.,,NA

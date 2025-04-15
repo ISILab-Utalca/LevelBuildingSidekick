@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:LevelBuildingSidekick/Packages/com.unity.asset-store-tools/Editor/Previews/Styles/Style.uss.meta
+guid: 0329948ad5dadcb4c85bc4984a128b1a
+========
+guid: 4aa42835fe956d24aa3a57e6d43a0e83
+>>>>>>>> pr/97:LevelBuildingSidekick/Assets/ISI Lab/LBS/GABO/Editor/UXML+USS/PathOSStyles.uss.meta
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 12385, guid: 0000000000000000e000000000000000, type: 0}
+  disableValidation: 0

@@ -1,0 +1,5 @@
+.TriggerInfoLabel {
+    color: rgb(255, 255, 255);
+    -unity-text-align: middle-center;
+    font-size: 22px;
+}
