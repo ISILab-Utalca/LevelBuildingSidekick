@@ -2,7 +2,7 @@
   "dependencies": {
     "com.autodesk.fbx": {
       "version": "5.1.1",
-      "depth": 1,
+      "depth": 0,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
@@ -41,11 +41,7 @@
         "com.unity.2d.sprite": "1.0.0",
         "com.unity.mathematics": "1.1.0",
         "com.unity.modules.animation": "1.0.0",
-<<<<<<< HEAD
-        "com.unity.burst": "1.8.4"
-=======
         "com.unity.modules.uielements": "1.0.0"
->>>>>>> pr/97
       },
       "url": "https://packages.unity.com"
     },
@@ -104,11 +100,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ai.navigation": {
-<<<<<<< HEAD
-      "version": "2.0.6",
-=======
       "version": "2.0.7",
->>>>>>> pr/97
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -116,7 +108,6 @@
       },
       "url": "https://packages.unity.com"
     },
-<<<<<<< HEAD
     "com.unity.asset-store-tools": {
       "version": "file:com.unity.asset-store-tools",
       "depth": 0,
@@ -125,8 +116,6 @@
         "com.unity.nuget.newtonsoft-json": "3.2.1"
       }
     },
-=======
->>>>>>> pr/97
     "com.unity.bindings.openimageio": {
       "version": "1.0.0",
       "depth": 1,
@@ -192,13 +181,8 @@
       "depth": 0,
       "source": "builtin",
       "dependencies": {
-<<<<<<< HEAD
-        "com.unity.ide.visualstudio": "2.0.22",
-        "com.unity.ide.rider": "3.0.34",
-=======
         "com.unity.ide.visualstudio": "2.0.23",
-        "com.unity.ide.rider": "3.0.31",
->>>>>>> pr/97
+        "com.unity.ide.rider": "3.0.34",
         "com.unity.editorcoroutines": "1.0.0",
         "com.unity.performance.profile-analyzer": "1.2.3",
         "com.unity.test-framework": "1.4.6",
@@ -206,30 +190,17 @@
       }
     },
     "com.unity.formats.fbx": {
-<<<<<<< HEAD
-      "version": "5.1.1",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.timeline": "1.7.1",
-        "com.autodesk.fbx": "5.1.1"
-=======
       "version": "5.1.3",
       "depth": 0,
       "source": "registry",
       "dependencies": {
         "com.autodesk.fbx": "5.1.1",
         "com.unity.timeline": "1.7.1"
->>>>>>> pr/97
       },
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.rider": {
-<<<<<<< HEAD
       "version": "3.0.34",
-=======
-      "version": "3.0.31",
->>>>>>> pr/97
       "depth": 1,
       "source": "registry",
       "dependencies": {
@@ -238,11 +209,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.visualstudio": {
-<<<<<<< HEAD
-      "version": "2.0.22",
-=======
       "version": "2.0.23",
->>>>>>> pr/97
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -250,6 +217,13 @@
       },
       "url": "https://packages.unity.com"
     },
+    "com.unity.ide.vscode": {
+      "version": "1.2.5",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
     "com.unity.mathematics": {
       "version": "1.3.2",
       "depth": 2,
@@ -257,16 +231,6 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
-<<<<<<< HEAD
-=======
-    "com.unity.mathematics": {
-      "version": "1.3.2",
-      "depth": 2,
-      "source": "registry",
-      "dependencies": {},
-      "url": "https://packages.unity.com"
-    },
->>>>>>> pr/97
     "com.unity.multiplayer.center": {
       "version": "1.0.0",
       "depth": 0,
@@ -416,7 +380,6 @@
         "com.unity.modules.imgui": "1.0.0"
       }
     },
-<<<<<<< HEAD
     "com.unity.vectorgraphics": {
       "version": "2.0.0-preview.25",
       "depth": 0,
@@ -436,8 +399,6 @@
       },
       "url": "https://packages.unity.com"
     },
-=======
->>>>>>> pr/97
     "com.unity.modules.accessibility": {
       "version": "1.0.0",
       "depth": 0,
