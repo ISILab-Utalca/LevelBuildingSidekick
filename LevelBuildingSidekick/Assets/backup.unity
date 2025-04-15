@@ -2203,6 +2203,70 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f9edf87b381aec41bd0da90b256a2d3, type: 3}
+--- !u!1 &87301478
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 87301479}
+  - component: {fileID: 87301481}
+  - component: {fileID: 87301480}
+  m_Layer: 0
+  m_Name: UIDocument
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &87301479
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 87301478}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 696574063}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &87301480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 87301478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9b865dcb48c4e94cbce359ab6179694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &87301481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 87301478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PanelSettings: {fileID: 11400000, guid: da6adae693698d3409943a20661e2031, type: 2}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 9197481963319205126, guid: f8188ad53d3715a46881b6fc9cc539ed, type: 3}
+  m_SortingOrder: 0
+  m_WorldSpaceSizeMode: 1
+  m_WorldSpaceWidth: 1920
+  m_WorldSpaceHeight: 1080
 --- !u!1 &87585465
 GameObject:
   m_ObjectHideFlags: 0
@@ -2847,6 +2911,38 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8150193941359098734, guid: cab9a7b30c4820946a447999fcf27f11, type: 3}
   m_PrefabInstance: {fileID: 1140185609}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &111188354
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 111188355}
+  m_Layer: 0
+  m_Name: Quest Layer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &111188355
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111188354}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 696574063}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &118066497
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7436,50 +7532,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e6cb94999f2c30d43a63945cc3496bfd, type: 3}
---- !u!1 &327755163
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 327755164}
-  - component: {fileID: 327755165}
-  m_Layer: 0
-  m_Name: ' spy  (0)'
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &327755164
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 327755163}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1571898999}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &327755165
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 327755163}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd02f98bb00679047ac4747652b36791, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &332875013
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8326,6 +8378,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bundleRef: {fileID: 11400000, guid: a90b9e160779a6441ab7e2fa57c1b7d0, type: 2}
+--- !u!1 &364316832
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 364316833}
+  - component: {fileID: 364316834}
+  m_Layer: 0
+  m_Name: ' go to  (1)'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &364316833
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 364316832}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 696574063}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &364316834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 364316832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd02f98bb00679047ac4747652b36791, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &366042819
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9162,6 +9258,50 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c200347072fd8146a2e8e2087f1e801, type: 3}
+--- !u!1 &400158493
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 400158494}
+  - component: {fileID: 400158495}
+  m_Layer: 0
+  m_Name: ' spy  (0)'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &400158494
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400158493}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 696574063}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &400158495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400158493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd02f98bb00679047ac4747652b36791, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &406675431
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15728,6 +15868,453 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 49b4b69dfd387e348bcbf159365d9096, type: 3}
+--- !u!1 &696574062
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 696574063}
+  - component: {fileID: 696574064}
+  m_Layer: 0
+  m_Name: Quest
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &696574063
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 696574062}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 841162670}
+  - {fileID: 400158494}
+  - {fileID: 364316833}
+  - {fileID: 764859715}
+  - {fileID: 87301479}
+  m_Father: {fileID: 111188355}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &696574064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 696574062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8da598e40f967b64f9c6c24b5a8d76c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questGraph:
+    id: QuestGraph
+    ownerLayer:
+      visible: 1
+      blocked: 0
+      iconPath: Icon/Default
+      id: LBSLayer
+      name: Layer name
+      modules: []
+      behaviours: []
+      assistants: []
+      generatorRules: []
+      settings:
+        useBundleSize: 0
+        lightVolume: 0
+        reflectionProbe: 0
+        scale: {x: 2, y: 2}
+        resize: {x: 0, y: 0}
+        position: {x: 0, y: 0, z: 0}
+        name: DEFAULT
+    nodeSize: {x: 5, y: 1}
+    grammarName: 
+    questNodes:
+    - rid: 8325711306590257152
+    - rid: 8325711306590257153
+    - rid: 8325711306590257154
+    - rid: 8325711306590257155
+    questEdges:
+    - rid: 8325711306590257156
+    - rid: 8325711306590257157
+    - rid: 8325711306590257158
+    root:
+      rid: 8325711306590257152
+  questTriggers:
+  - node:
+      rid: 8325711306590257152
+    trigger: {fileID: 841162671}
+  - node:
+      rid: 8325711306590257153
+    trigger: {fileID: 400158495}
+  - node:
+      rid: 8325711306590257154
+    trigger: {fileID: 364316834}
+  - node:
+      rid: 8325711306590257155
+    trigger: {fileID: 764859716}
+  activeTriggers:
+  - {fileID: 841162671}
+  references:
+    version: 2
+    RefIds:
+    - rid: 8325711306590257152
+      type: {class: QuestNode, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        x: -1147
+        y: 452
+        id: ' go to  (0)'
+        questAction: ' go to '
+        grammarCheck: 0
+        mapCheck: 0
+        nodeType: 0
+        questState: 0
+        valid: 0
+        target:
+          rid: 8325711306590257159
+        graph:
+          rid: 8325711306590257160
+    - rid: 8325711306590257153
+      type: {class: QuestNode, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        x: -1000
+        y: 740
+        id: ' spy  (0)'
+        questAction: ' spy '
+        grammarCheck: 0
+        mapCheck: 0
+        nodeType: 0
+        questState: 0
+        valid: 0
+        target:
+          rid: 8325711306590257161
+        graph:
+          rid: 8325711306590257160
+    - rid: 8325711306590257154
+      type: {class: QuestNode, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        x: -1006
+        y: 1009
+        id: ' go to  (1)'
+        questAction: ' go to '
+        grammarCheck: 0
+        mapCheck: 0
+        nodeType: 0
+        questState: 0
+        valid: 0
+        target:
+          rid: 8325711306590257162
+        graph:
+          rid: 8325711306590257160
+    - rid: 8325711306590257155
+      type: {class: QuestNode, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        x: -841
+        y: 1397
+        id: ' report  (0)'
+        questAction: ' report '
+        grammarCheck: 0
+        mapCheck: 0
+        nodeType: 0
+        questState: 0
+        valid: 0
+        target:
+          rid: 8325711306590257163
+        graph:
+          rid: 8325711306590257160
+    - rid: 8325711306590257156
+      type: {class: QuestEdge, ns: ISILab.LBS.Modules, asm: LBS}
+      data:
+        first:
+          rid: 8325711306590257152
+        second:
+          rid: 8325711306590257153
+    - rid: 8325711306590257157
+      type: {class: QuestEdge, ns: ISILab.LBS.Modules, asm: LBS}
+      data:
+        first:
+          rid: 8325711306590257153
+        second:
+          rid: 8325711306590257154
+    - rid: 8325711306590257158
+      type: {class: QuestEdge, ns: ISILab.LBS.Modules, asm: LBS}
+      data:
+        first:
+          rid: 8325711306590257154
+        second:
+          rid: 8325711306590257155
+    - rid: 8325711306590257159
+      type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        rect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        tags: []
+    - rid: 8325711306590257160
+      type: {class: QuestGraph, ns: ISILab.LBS.Modules, asm: LBS}
+      data:
+        id: QuestGraph
+        ownerLayer:
+          visible: 1
+          blocked: 0
+          iconPath: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Stamp_Icon.png
+          id: Quest
+          name: Quest Layer
+          modules:
+          - rid: 8325711306590257160
+          behaviours:
+          - rid: 8325711306590257164
+          - rid: 8325711306590257165
+          assistants:
+          - rid: 8325711306590257166
+          generatorRules:
+          - rid: 8325711306590257167
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: DEFAULT
+        nodeSize: {x: 5, y: 1}
+        grammarName: DefaultGrammar
+        questNodes:
+        - rid: 8325711306590257168
+        - rid: 8325711306590257169
+        - rid: 8325711306590257170
+        - rid: 8325711306590257171
+        questEdges:
+        - rid: 8325711306590257179
+        - rid: 8325711306590257180
+        - rid: 8325711306590257181
+        root:
+          rid: 8325711306590257168
+    - rid: 8325711306590257161
+      type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        rect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        tags: []
+    - rid: 8325711306590257162
+      type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        rect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        tags: []
+    - rid: 8325711306590257163
+      type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        rect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        tags: []
+    - rid: 8325711306590257164
+      type: {class: QuestFlowBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
+      data:
+        visible: 1
+        icon: {fileID: 7388822144124034973, guid: a919b94406bb9f5469d29bf56201e3f1, type: 3}
+        colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 0}
+        name: Quest Flow
+    - rid: 8325711306590257165
+      type: {class: QuestBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
+      data:
+        visible: 1
+        icon: {fileID: 7388822144124034973, guid: 49b9448c876b36c4ba26740d7deae035, type: 3}
+        colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 1}
+        name: Quest Behaviour
+    - rid: 8325711306590257166
+      type: {class: GrammarAssistant, ns: ISILab.LBS.Assistants, asm: LBS}
+      data:
+        visible: 1
+        ownerLayer:
+          visible: 1
+          blocked: 0
+          iconPath: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Stamp_Icon.png
+          id: Quest
+          name: Quest Layer
+          modules:
+          - rid: 8325711306590257160
+          behaviours:
+          - rid: 8325711306590257164
+          - rid: 8325711306590257165
+          assistants:
+          - rid: 8325711306590257166
+          generatorRules:
+          - rid: 8325711306590257167
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: DEFAULT
+        icon: {fileID: 7388822144124034973, guid: ad8feef201665454ca79e31b7d798ac3, type: 3}
+        colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 1}
+        name: Grammar Assistant
+    - rid: 8325711306590257167
+      type: {class: QuestRuleGenerator, ns: ISILab.LBS.Generators, asm: LBS}
+      data:
+        generator3D:
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: DEFAULT
+          rules: []
+    - rid: 8325711306590257168
+      type: {class: QuestNode, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        x: -1147
+        y: 452
+        id: ' go to  (0)'
+        questAction: ' go to '
+        grammarCheck: 1
+        mapCheck: 0
+        nodeType: 0
+        questState: 0
+        valid: 0
+        target:
+          rid: 8325711306590257175
+        graph:
+          rid: 8325711306590257160
+    - rid: 8325711306590257169
+      type: {class: QuestNode, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        x: -1000
+        y: 740
+        id: ' spy  (0)'
+        questAction: ' spy '
+        grammarCheck: 1
+        mapCheck: 0
+        nodeType: 1
+        questState: 0
+        valid: 0
+        target:
+          rid: 8325711306590257176
+        graph:
+          rid: 8325711306590257160
+    - rid: 8325711306590257170
+      type: {class: QuestNode, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        x: -1006
+        y: 1009
+        id: ' go to  (1)'
+        questAction: ' go to '
+        grammarCheck: 1
+        mapCheck: 0
+        nodeType: 1
+        questState: 0
+        valid: 0
+        target:
+          rid: 8325711306590257177
+        graph:
+          rid: 8325711306590257160
+    - rid: 8325711306590257171
+      type: {class: QuestNode, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        x: -841
+        y: 1397
+        id: ' report  (0)'
+        questAction: ' report '
+        grammarCheck: 1
+        mapCheck: 0
+        nodeType: 2
+        questState: 0
+        valid: 0
+        target:
+          rid: 8325711306590257178
+        graph:
+          rid: 8325711306590257160
+    - rid: 8325711306590257175
+      type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        rect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        tags: []
+    - rid: 8325711306590257176
+      type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        rect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        tags: []
+    - rid: 8325711306590257177
+      type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        rect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        tags: []
+    - rid: 8325711306590257178
+      type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        rect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        tags: []
+    - rid: 8325711306590257179
+      type: {class: QuestEdge, ns: ISILab.LBS.Modules, asm: LBS}
+      data:
+        first:
+          rid: 8325711306590257168
+        second:
+          rid: 8325711306590257169
+    - rid: 8325711306590257180
+      type: {class: QuestEdge, ns: ISILab.LBS.Modules, asm: LBS}
+      data:
+        first:
+          rid: 8325711306590257169
+        second:
+          rid: 8325711306590257170
+    - rid: 8325711306590257181
+      type: {class: QuestEdge, ns: ISILab.LBS.Modules, asm: LBS}
+      data:
+        first:
+          rid: 8325711306590257170
+        second:
+          rid: 8325711306590257171
 --- !u!4 &706195117 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 49b4b69dfd387e348bcbf159365d9096, type: 3}
@@ -15923,70 +16510,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e6cb94999f2c30d43a63945cc3496bfd, type: 3}
   m_PrefabInstance: {fileID: 1026296950}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &718035315
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 718035316}
-  - component: {fileID: 718035318}
-  - component: {fileID: 718035317}
-  m_Layer: 0
-  m_Name: UIDocument
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &718035316
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 718035315}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1571898999}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &718035317
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 718035315}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9b865dcb48c4e94cbce359ab6179694, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &718035318
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 718035315}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_PanelSettings: {fileID: 11400000, guid: da6adae693698d3409943a20661e2031, type: 2}
-  m_ParentUI: {fileID: 0}
-  sourceAsset: {fileID: 9197481963319205126, guid: f8188ad53d3715a46881b6fc9cc539ed, type: 3}
-  m_SortingOrder: 0
-  m_WorldSpaceSizeMode: 1
-  m_WorldSpaceWidth: 1920
-  m_WorldSpaceHeight: 1080
 --- !u!1001 &718628587
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17116,6 +17639,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bundleRef: {fileID: 11400000, guid: a90b9e160779a6441ab7e2fa57c1b7d0, type: 2}
+--- !u!1 &764859714
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 764859715}
+  - component: {fileID: 764859716}
+  m_Layer: 0
+  m_Name: ' report  (0)'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &764859715
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 764859714}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 696574063}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &764859716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 764859714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd02f98bb00679047ac4747652b36791, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &764887002 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 49b4b69dfd387e348bcbf159365d9096, type: 3}
@@ -19586,6 +20153,50 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4c44c35ac88a4fc46a9e25616a1ec7b8, type: 3}
   m_PrefabInstance: {fileID: 840891383}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &841162669
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 841162670}
+  - component: {fileID: 841162671}
+  m_Layer: 0
+  m_Name: ' go to  (0)'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &841162670
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 841162669}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 696574063}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &841162671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 841162669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd02f98bb00679047ac4747652b36791, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &841832711
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30023,38 +30634,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f9edf87b381aec41bd0da90b256a2d3, type: 3}
---- !u!1 &1293319240
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1293319241}
-  m_Layer: 0
-  m_Name: Quest Layer
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1293319241
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1293319240}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1571898999}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1293579973
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -35943,50 +36522,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bundleRef: {fileID: 11400000, guid: a90b9e160779a6441ab7e2fa57c1b7d0, type: 2}
---- !u!1 &1539760472
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1539760473}
-  - component: {fileID: 1539760474}
-  m_Layer: 0
-  m_Name: ' go to  (0)'
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1539760473
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1539760472}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1571898999}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1539760474
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1539760472}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd02f98bb00679047ac4747652b36791, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1540363348
 GameObject:
   m_ObjectHideFlags: 0
@@ -36935,453 +37470,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e6cb94999f2c30d43a63945cc3496bfd, type: 3}
---- !u!1 &1571898998
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1571898999}
-  - component: {fileID: 1571899000}
-  m_Layer: 0
-  m_Name: Quest
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1571898999
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1571898998}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1539760473}
-  - {fileID: 327755164}
-  - {fileID: 1837363296}
-  - {fileID: 1784513932}
-  - {fileID: 718035316}
-  m_Father: {fileID: 1293319241}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1571899000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1571898998}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8da598e40f967b64f9c6c24b5a8d76c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  questGraph:
-    id: QuestGraph
-    ownerLayer:
-      visible: 1
-      blocked: 0
-      iconPath: Icon/Default
-      id: LBSLayer
-      name: Layer name
-      modules: []
-      behaviours: []
-      assistants: []
-      generatorRules: []
-      settings:
-        useBundleSize: 0
-        lightVolume: 0
-        reflectionProbe: 0
-        scale: {x: 2, y: 2}
-        resize: {x: 0, y: 0}
-        position: {x: 0, y: 0, z: 0}
-        name: DEFAULT
-    nodeSize: {x: 5, y: 1}
-    grammarName: 
-    questNodes:
-    - rid: 8325711152577250249
-    - rid: 8325711152577250250
-    - rid: 8325711152577250251
-    - rid: 8325711152577250252
-    questEdges:
-    - rid: 8325711152577250253
-    - rid: 8325711152577250254
-    - rid: 8325711152577250255
-    root:
-      rid: 8325711152577250249
-  questTriggers:
-  - node:
-      rid: 8325711152577250249
-    trigger: {fileID: 1539760474}
-  - node:
-      rid: 8325711152577250250
-    trigger: {fileID: 327755165}
-  - node:
-      rid: 8325711152577250251
-    trigger: {fileID: 1837363297}
-  - node:
-      rid: 8325711152577250252
-    trigger: {fileID: 1784513933}
-  activeTriggers:
-  - {fileID: 1539760474}
-  references:
-    version: 2
-    RefIds:
-    - rid: 8325711152577250249
-      type: {class: QuestNode, ns: ISILab.LBS.Components, asm: LBS}
-      data:
-        x: -1147
-        y: 452
-        id: ' go to  (0)'
-        questAction: ' go to '
-        grammarCheck: 0
-        mapCheck: 0
-        nodeType: 0
-        questState: 0
-        valid: 0
-        target:
-          rid: 8325711152577250256
-        graph:
-          rid: 8325711152577250257
-    - rid: 8325711152577250250
-      type: {class: QuestNode, ns: ISILab.LBS.Components, asm: LBS}
-      data:
-        x: -1000
-        y: 740
-        id: ' spy  (0)'
-        questAction: ' spy '
-        grammarCheck: 0
-        mapCheck: 0
-        nodeType: 0
-        questState: 0
-        valid: 0
-        target:
-          rid: 8325711152577250258
-        graph:
-          rid: 8325711152577250257
-    - rid: 8325711152577250251
-      type: {class: QuestNode, ns: ISILab.LBS.Components, asm: LBS}
-      data:
-        x: -1006
-        y: 1009
-        id: ' go to  (1)'
-        questAction: ' go to '
-        grammarCheck: 0
-        mapCheck: 0
-        nodeType: 0
-        questState: 0
-        valid: 0
-        target:
-          rid: 8325711152577250259
-        graph:
-          rid: 8325711152577250257
-    - rid: 8325711152577250252
-      type: {class: QuestNode, ns: ISILab.LBS.Components, asm: LBS}
-      data:
-        x: -841
-        y: 1397
-        id: ' report  (0)'
-        questAction: ' report '
-        grammarCheck: 0
-        mapCheck: 0
-        nodeType: 0
-        questState: 0
-        valid: 0
-        target:
-          rid: 8325711152577250260
-        graph:
-          rid: 8325711152577250257
-    - rid: 8325711152577250253
-      type: {class: QuestEdge, ns: ISILab.LBS.Modules, asm: LBS}
-      data:
-        first:
-          rid: 8325711152577250249
-        second:
-          rid: 8325711152577250250
-    - rid: 8325711152577250254
-      type: {class: QuestEdge, ns: ISILab.LBS.Modules, asm: LBS}
-      data:
-        first:
-          rid: 8325711152577250250
-        second:
-          rid: 8325711152577250251
-    - rid: 8325711152577250255
-      type: {class: QuestEdge, ns: ISILab.LBS.Modules, asm: LBS}
-      data:
-        first:
-          rid: 8325711152577250251
-        second:
-          rid: 8325711152577250252
-    - rid: 8325711152577250256
-      type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
-      data:
-        rect:
-          serializedVersion: 2
-          x: 0
-          y: 0
-          width: 0
-          height: 0
-        tags: []
-    - rid: 8325711152577250257
-      type: {class: QuestGraph, ns: ISILab.LBS.Modules, asm: LBS}
-      data:
-        id: QuestGraph
-        ownerLayer:
-          visible: 1
-          blocked: 0
-          iconPath: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Stamp_Icon.png
-          id: Quest
-          name: Quest Layer
-          modules:
-          - rid: 8325711152577250257
-          behaviours:
-          - rid: 8325711152577250261
-          - rid: 8325711152577250262
-          assistants:
-          - rid: 8325711152577250263
-          generatorRules:
-          - rid: 8325711152577250264
-          settings:
-            useBundleSize: 0
-            lightVolume: 0
-            reflectionProbe: 0
-            scale: {x: 2, y: 2}
-            resize: {x: 0, y: 0}
-            position: {x: 0, y: 0, z: 0}
-            name: DEFAULT
-        nodeSize: {x: 5, y: 1}
-        grammarName: DefaultGrammar
-        questNodes:
-        - rid: 8325711152577250265
-        - rid: 8325711152577250266
-        - rid: 8325711152577250267
-        - rid: 8325711152577250268
-        questEdges:
-        - rid: 8325711152577250269
-        - rid: 8325711152577250270
-        - rid: 8325711152577250271
-        root:
-          rid: 8325711152577250265
-    - rid: 8325711152577250258
-      type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
-      data:
-        rect:
-          serializedVersion: 2
-          x: 0
-          y: 0
-          width: 0
-          height: 0
-        tags: []
-    - rid: 8325711152577250259
-      type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
-      data:
-        rect:
-          serializedVersion: 2
-          x: 0
-          y: 0
-          width: 0
-          height: 0
-        tags: []
-    - rid: 8325711152577250260
-      type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
-      data:
-        rect:
-          serializedVersion: 2
-          x: 0
-          y: 0
-          width: 0
-          height: 0
-        tags: []
-    - rid: 8325711152577250261
-      type: {class: QuestFlowBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
-      data:
-        visible: 1
-        icon: {fileID: 7388822144124034973, guid: a919b94406bb9f5469d29bf56201e3f1, type: 3}
-        colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 0}
-        name: Quest Flow
-    - rid: 8325711152577250262
-      type: {class: QuestBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
-      data:
-        visible: 1
-        icon: {fileID: 7388822144124034973, guid: 49b9448c876b36c4ba26740d7deae035, type: 3}
-        colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 1}
-        name: Quest Behaviour
-    - rid: 8325711152577250263
-      type: {class: GrammarAssistant, ns: ISILab.LBS.Assistants, asm: LBS}
-      data:
-        visible: 1
-        ownerLayer:
-          visible: 1
-          blocked: 0
-          iconPath: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Stamp_Icon.png
-          id: Quest
-          name: Quest Layer
-          modules:
-          - rid: 8325711152577250257
-          behaviours:
-          - rid: 8325711152577250261
-          - rid: 8325711152577250262
-          assistants:
-          - rid: 8325711152577250263
-          generatorRules:
-          - rid: 8325711152577250264
-          settings:
-            useBundleSize: 0
-            lightVolume: 0
-            reflectionProbe: 0
-            scale: {x: 2, y: 2}
-            resize: {x: 0, y: 0}
-            position: {x: 0, y: 0, z: 0}
-            name: DEFAULT
-        icon: {fileID: 7388822144124034973, guid: ad8feef201665454ca79e31b7d798ac3, type: 3}
-        colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 1}
-        name: Grammar Assistant
-    - rid: 8325711152577250264
-      type: {class: QuestRuleGenerator, ns: ISILab.LBS.Generators, asm: LBS}
-      data:
-        generator3D:
-          settings:
-            useBundleSize: 0
-            lightVolume: 0
-            reflectionProbe: 0
-            scale: {x: 2, y: 2}
-            resize: {x: 0, y: 0}
-            position: {x: 0, y: 0, z: 0}
-            name: DEFAULT
-          rules: []
-    - rid: 8325711152577250265
-      type: {class: QuestNode, ns: ISILab.LBS.Components, asm: LBS}
-      data:
-        x: -1147
-        y: 452
-        id: ' go to  (0)'
-        questAction: ' go to '
-        grammarCheck: 1
-        mapCheck: 0
-        nodeType: 0
-        questState: 0
-        valid: 0
-        target:
-          rid: 8325711152577250272
-        graph:
-          rid: 8325711152577250257
-    - rid: 8325711152577250266
-      type: {class: QuestNode, ns: ISILab.LBS.Components, asm: LBS}
-      data:
-        x: -1000
-        y: 740
-        id: ' spy  (0)'
-        questAction: ' spy '
-        grammarCheck: 1
-        mapCheck: 0
-        nodeType: 1
-        questState: 0
-        valid: 0
-        target:
-          rid: 8325711152577250273
-        graph:
-          rid: 8325711152577250257
-    - rid: 8325711152577250267
-      type: {class: QuestNode, ns: ISILab.LBS.Components, asm: LBS}
-      data:
-        x: -1006
-        y: 1009
-        id: ' go to  (1)'
-        questAction: ' go to '
-        grammarCheck: 1
-        mapCheck: 0
-        nodeType: 1
-        questState: 0
-        valid: 0
-        target:
-          rid: 8325711152577250274
-        graph:
-          rid: 8325711152577250257
-    - rid: 8325711152577250268
-      type: {class: QuestNode, ns: ISILab.LBS.Components, asm: LBS}
-      data:
-        x: -841
-        y: 1397
-        id: ' report  (0)'
-        questAction: ' report '
-        grammarCheck: 1
-        mapCheck: 0
-        nodeType: 2
-        questState: 0
-        valid: 0
-        target:
-          rid: 8325711152577250275
-        graph:
-          rid: 8325711152577250257
-    - rid: 8325711152577250269
-      type: {class: QuestEdge, ns: ISILab.LBS.Modules, asm: LBS}
-      data:
-        first:
-          rid: 8325711152577250265
-        second:
-          rid: 8325711152577250266
-    - rid: 8325711152577250270
-      type: {class: QuestEdge, ns: ISILab.LBS.Modules, asm: LBS}
-      data:
-        first:
-          rid: 8325711152577250266
-        second:
-          rid: 8325711152577250267
-    - rid: 8325711152577250271
-      type: {class: QuestEdge, ns: ISILab.LBS.Modules, asm: LBS}
-      data:
-        first:
-          rid: 8325711152577250267
-        second:
-          rid: 8325711152577250268
-    - rid: 8325711152577250272
-      type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
-      data:
-        rect:
-          serializedVersion: 2
-          x: 0
-          y: 0
-          width: 0
-          height: 0
-        tags: []
-    - rid: 8325711152577250273
-      type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
-      data:
-        rect:
-          serializedVersion: 2
-          x: 0
-          y: 0
-          width: 0
-          height: 0
-        tags: []
-    - rid: 8325711152577250274
-      type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
-      data:
-        rect:
-          serializedVersion: 2
-          x: 0
-          y: 0
-          width: 0
-          height: 0
-        tags: []
-    - rid: 8325711152577250275
-      type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
-      data:
-        rect:
-          serializedVersion: 2
-          x: 0
-          y: 0
-          width: 0
-          height: 0
-        tags: []
 --- !u!4 &1575128965 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b130fc21bc60e28458fb6974a44b90aa, type: 3}
@@ -42413,50 +42501,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: cc2a4134b1a568a4f8d76dcd7175ace6, type: 3}
   m_PrefabInstance: {fileID: 1784082323}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1784513931
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1784513932}
-  - component: {fileID: 1784513933}
-  m_Layer: 0
-  m_Name: ' report  (0)'
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1784513932
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1784513931}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1571898999}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1784513933
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1784513931}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd02f98bb00679047ac4747652b36791, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1787645440
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43221,50 +43265,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bundleRef: {fileID: 11400000, guid: 2922de97f99038046b1f66903be656ca, type: 2}
---- !u!1 &1837363295
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1837363296}
-  - component: {fileID: 1837363297}
-  m_Layer: 0
-  m_Name: ' go to  (1)'
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1837363296
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1837363295}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1571898999}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1837363297
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1837363295}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd02f98bb00679047ac4747652b36791, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1837501480 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 49b4b69dfd387e348bcbf159365d9096, type: 3}
@@ -50629,4 +50629,4 @@ SceneRoots:
   - {fileID: 2061600861}
   - {fileID: 1796008561}
   - {fileID: 2005539882}
-  - {fileID: 1293319241}
+  - {fileID: 111188355}
