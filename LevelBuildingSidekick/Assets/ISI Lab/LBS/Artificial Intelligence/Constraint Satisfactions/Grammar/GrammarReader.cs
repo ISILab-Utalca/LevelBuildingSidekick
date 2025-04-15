@@ -144,6 +144,43 @@ namespace ISILab.AI.Grammar
 
             return grammar.Productions.Find(g => g.ID == rule.Id);
         }
+        
+        public static HashSet<string> GetGrammarPermutations(GrammarTree grammarTree)
+        {
+            HashSet<string> permutations = new HashSet<string>(); 
+            HashSet<GrammarElement> visitedNodes = new HashSet<GrammarElement>(); 
+            
+            GeneratePermutations(grammarTree.Root, ref permutations, visitedNodes);
+
+            return permutations;
+        }
+        
+        // Recursive function to generate all permutations from a GrammarTree
+        public static void GeneratePermutations(GrammarElement currentNode, ref HashSet<string> permutations, HashSet<GrammarElement> visitedNodes)
+        {
+            // Prevent cycles (to avoid infinite recursion)
+            if (visitedNodes.Contains(currentNode))
+                return;
+
+            visitedNodes.Add(currentNode);
+
+            // If it's a terminal (just a text), add it to the permutations set
+            if (currentNode is GrammarTerminal terminal)
+            {
+                permutations.Add(terminal.ID);
+            }
+            // If it's a non-terminal, we need to expand it recursively
+            else if (currentNode is GrammarNonTerminal nonTerminal)
+            {
+                foreach (var child in nonTerminal.Nodes)
+                {
+                    // Expand non-terminal nodes recursively
+                    GeneratePermutations(child, ref permutations, visitedNodes);
+                }
+            }
+
+            visitedNodes.Remove(currentNode);
+        }
     }
 }
 
