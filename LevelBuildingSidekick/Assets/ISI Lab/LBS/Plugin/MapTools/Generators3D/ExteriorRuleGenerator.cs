@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using ISI_Lab.LBS.Plugin.MapTools.Generators3D;
 using ISILab.Extensions;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Characteristics;
@@ -99,6 +99,12 @@ namespace ISILab.LBS.Generators
                     go.transform.rotation = Quaternion.Euler(0, 90 * (pair.Item2 - 2) % 360, 0);
                 
                 tiles.Add(go);
+
+                var current = pair.Item1.Owner;
+                // Add ref component
+                LBSGenerated generatedComponent = go.AddComponent<LBSGenerated>();
+                generatedComponent.BundleRef = current;
+                
             }
 
             if (tiles.Count == 0)
