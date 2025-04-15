@@ -14,7 +14,7 @@ namespace ISILab.LBS
         [SerializeField]//, HideInInspector]
         private QuestGraph questGraph;
 
-        [SerializeField]//, HideInInspector]
+        [SerializeField, HideInInspector]
         private List<QuestStep> questTriggers;
 
         [SerializeField, SerializeReference]//, HideInInspector]
