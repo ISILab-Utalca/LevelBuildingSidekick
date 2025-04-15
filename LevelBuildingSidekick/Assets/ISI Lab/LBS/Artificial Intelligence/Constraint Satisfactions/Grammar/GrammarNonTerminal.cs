@@ -25,7 +25,6 @@ namespace ISILab.AI.Grammar
 
         public override List<GrammarElement> GetTerminals()
         {
-            Debug.Log("getting non terminal");
             return nodes[Random.Range(0, nodes.Count - 1)].GetTerminals();
         }
 
