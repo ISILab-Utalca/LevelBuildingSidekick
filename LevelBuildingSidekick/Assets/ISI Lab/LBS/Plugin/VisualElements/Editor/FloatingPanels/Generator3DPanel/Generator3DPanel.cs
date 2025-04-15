@@ -233,7 +233,7 @@ namespace ISILab.LBS.VisualElements.Editor
             
             LBSMainWindow.MessageNotify("Layer " + generated.Item1.gameObject.name + " created. " + ifReplace, LogType.Log, 3);
             EditorWindow.FocusWindowIfItsOpen<SceneView>();
-            
+
             if (bakeLights.value)
             {
                 StaticObjs(generated.Item1);
@@ -271,9 +271,6 @@ namespace ISILab.LBS.VisualElements.Editor
             {
                 StaticObjs(child.gameObject);
             }
-            if(lbsGen == null) obj.AddComponent<LBSGenerated>();
         }
-        
-
     }
 }
