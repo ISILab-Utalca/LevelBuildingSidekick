@@ -10,7 +10,12 @@ using UnityEngine.UIElements;
 using ISILab.Extensions;
 using ISILab.LBS.Behaviours;
 using UnityEditor.UIElements;
+using LBS.Bundles;
+using UnityEditor;
 using Object = UnityEngine.Object;
+using System.Runtime.InteropServices;
+using ISI_Lab.LBS.Plugin.MapTools.Generators3D;
+using ISI_Lab.LBS.DevTools;
 
 namespace ISILab.LBS.VisualElements
 {
@@ -37,6 +42,7 @@ namespace ISILab.LBS.VisualElements
             view.CloneTree(this);
             
             typeField = this.Q<EnumField>("TypeField");
+
             bundleField = this.Q<ObjectField>("BundleField");
             resetButton = this.Q<Button>("ResetButton");
             shuffleButton = this.Q<Button>("ShuffleButton");
@@ -50,6 +56,13 @@ namespace ISILab.LBS.VisualElements
             Debug.Log(go.name);
         }
 
+        public void SetFields(Bundle bundleRef)
+        {
+            OnBundleChanged(bundleRef);
+            OnTypeChanged(bundleRef.Type);
+            MarkDirtyRepaint();
+        }
+
         private void OnShuffleClicked()
         {
             throw new NotImplementedException();
@@ -57,17 +70,51 @@ namespace ISILab.LBS.VisualElements
 
         private void OnResetClicked()
         {
-            throw new NotImplementedException();
+            LBSGenerated lbs = go.GetComponent<LBSGenerated>();
+            OnBundleChanged(lbs.BundleRef);
         }
 
         private void OnBundleChanged(Object evtNewValue)
         {
-            throw new NotImplementedException();
+            //Get references
+            LBSGenerated lbs = go.GetComponent<LBSGenerated>();
+
+            //Replace models if new bundle assigned
+            if (lbs.BundleTemp != (Bundle)evtNewValue)
+            {
+                int pick = UnityEngine.Random.Range(0, ((Bundle)evtNewValue).Assets.Count);
+#if UNITY_EDITOR
+                var ngo = PrefabUtility.InstantiatePrefab(((Bundle)evtNewValue).Assets[pick].obj) as GameObject;
+#else
+                var ngo = GameObject.Instantiate(((Bundle)evtNewValue).Assets[pick].obj);
+#endif
+                //Copy transform
+                ngo.transform.position = go.transform.position;
+                ngo.transform.rotation = go.transform.rotation;
+                ngo.transform.localScale = go.transform.localScale;
+                ngo.transform.SetParent(go.transform.parent);
+
+                //Copy LBSGenerated component
+                LBSGenerated nlbs = ngo.AddComponent<LBSGenerated>();
+                nlbs.BundleRef = lbs.BundleRef;
+                nlbs.BundleTemp = (Bundle)evtNewValue;
+
+                //Copy Custom2dMeshGizmo component
+                Custom3dMeshGizmo nGizmo = ngo.GetComponent<Custom3dMeshGizmo>();
+                nGizmo = go.GetComponent<Custom3dMeshGizmo>();
+
+                GameObject.DestroyImmediate(go);
+            }
+            else
+            {
+                bundleField.value = evtNewValue;
+            }
         }
 
         private void OnTypeChanged(Enum evtNewValue)
         {
-            throw new NotImplementedException();
+            typeField.Init(evtNewValue);
+            Debug.Log(evtNewValue.ToString());
         } 
     }
 }
