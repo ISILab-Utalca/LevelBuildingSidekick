@@ -20,31 +20,6 @@ namespace ISI_Lab.LBS.DevTools
         [HideInInspector]
         public Bounds gizmoBounds;
 
-        //Original object references
-        [SerializeField]
-        private Bundle ogBundleRef;
-
-        public void SetOriginalReference()
-        {
-            if (ogBundleRef != null)
-            {
-                Debug.LogWarning("ogBundleRef already set");
-                return;
-            }
-
-            LBSGenerated lbs = GetComponent<LBSGenerated>();
-            //Save object original references
-            if (lbs != null && lbs.BundleRef != null)
-            {
-                ogBundleRef = lbs.BundleRef;
-                Debug.Log("ogBundleRef: " + ogBundleRef.name);
-            }
-            else
-            {
-                Debug.LogWarning("Custom3dMeshGizmo couldnt set ogBundleRef");
-            }
-        }
-
         private void OnDrawGizmosSelected()
         {
             MeshRenderer mr = GetComponent<MeshRenderer>();
@@ -62,11 +37,6 @@ namespace ISI_Lab.LBS.DevTools
                     new Vector3(meshGizmoScale,meshGizmoScale,meshGizmoScale)
                     );
             }
-        }
-
-        public Bundle GetOgBundleRef()
-        {
-            return ogBundleRef;
         }
     }
     

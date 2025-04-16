@@ -6,7 +6,8 @@ namespace ISI_Lab.DevTools.Gizmos.Editor
 {
     using UnityEngine;
     using UnityEditor;
-    
+    using ISI_Lab.LBS.Plugin.MapTools.Generators3D;
+
     [CustomEditor(typeof(Custom3dMeshGizmo))]
     public class Custom3dMeshGizmoEditor : Editor
     {
@@ -49,8 +50,7 @@ namespace ISI_Lab.DevTools.Gizmos.Editor
                 rootVisualElement = new WorldEditBarView(targetComponent.gameObject);
                 sceneView.rootVisualElement.Add(rootVisualElement);
 
-                targetComponent.SetOriginalReference();
-                rootVisualElement.SetOriginalFields(targetComponent.GetOgBundleRef());
+                rootVisualElement.SetFields(targetComponent.GetComponent<LBSGenerated>().BundleTemp);
             }
 
             rootVisualElement.style.position = Position.Absolute;
@@ -59,7 +59,7 @@ namespace ISI_Lab.DevTools.Gizmos.Editor
             rootVisualElement.style.top = screenPoint.y - yOffset;
 
         }
-        
+
         void DrawPopupWindow(int windowID)
         {
             GUILayout.Label("This is a popup in the Scene view.");

@@ -15,11 +15,22 @@ namespace ISI_Lab.LBS.Plugin.MapTools.Generators3D
     {
         [SerializeField]
         private Bundle bundleRef;
+        [SerializeField]
+        private Bundle bundleTemp;
 
         public Bundle BundleRef
         {
             get => bundleRef;
-            set => bundleRef = value;
+            set
+            {
+                bundleRef = value;
+                bundleTemp = value;
+            }
+        }
+        public Bundle BundleTemp
+        {
+            get => bundleTemp;
+            set => bundleTemp = value;
         }
 
         private void Reset()
@@ -40,7 +51,7 @@ namespace ISI_Lab.LBS.Plugin.MapTools.Generators3D
             // Check again that the object still exists and doesn’t already have the component
             if (this != null && gameObject != null && !GetComponent<Custom3dMeshGizmo>())
             {
-                var gizmo = Undo.AddComponent<Custom3dMeshGizmo>(gameObject); // Supports undo in editor
+                Undo.AddComponent<Custom3dMeshGizmo>(gameObject); // Supports undo in editor
             }
         }
 #endif
@@ -49,7 +60,7 @@ namespace ISI_Lab.LBS.Plugin.MapTools.Generators3D
         {
             if (!GetComponent<Custom3dMeshGizmo>())
             {
-                var gizmo = gameObject.AddComponent<Custom3dMeshGizmo>();
+                gameObject.AddComponent<Custom3dMeshGizmo>();
             }
         }
         
