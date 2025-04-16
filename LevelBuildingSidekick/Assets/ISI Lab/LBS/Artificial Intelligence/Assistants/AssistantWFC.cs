@@ -24,7 +24,7 @@ namespace ISILab.LBS.Assistants
         [SerializeField, JsonRequired]
         private bool overrideValues;
 
-        [SerializeField, JsonIgnore, InspectorName("Target Bundle")]
+        [SerializeField]
         private Bundle targetBundleRef;
         
         /***
