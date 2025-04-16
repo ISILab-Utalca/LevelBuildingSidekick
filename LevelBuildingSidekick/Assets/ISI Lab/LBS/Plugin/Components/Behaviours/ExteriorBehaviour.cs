@@ -23,7 +23,7 @@ namespace ISILab.LBS.Behaviours
     public class ExteriorBehaviour : LBSBehaviour
     {
         #region FIELDS
-        [SerializeField, JsonIgnore]
+        [SerializeField]
         private Bundle targetBundleRef;
 
         /***
