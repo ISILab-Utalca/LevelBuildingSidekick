@@ -12,20 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: Floor_Draw2
   m_EditorClassIdentifier: 
+  layerContentFlags: 0
   type: 0
   anchorPosition: 0
   color: {r: 0, g: 0, b: 0, a: 0}
   icon: {fileID: 0}
-  childsBundles: []
   assets:
   - obj: {fileID: 5887271726782185899, guid: 9c875623ef5bf0c42813286a6c359e26, type: 3}
     probability: 0.514
   characteristics:
   - rid: 4305865203777798150
+  populationType: 0
+  tileSize: {x: 1, y: 1}
+  childsBundles: []
   references:
     version: 2
     RefIds:
     - rid: 4305865203777798150
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
+        owner: {fileID: 11400000}
         value: {fileID: 11400000, guid: 94b707ea81720694d8e3ac214351af91, type: 2}
