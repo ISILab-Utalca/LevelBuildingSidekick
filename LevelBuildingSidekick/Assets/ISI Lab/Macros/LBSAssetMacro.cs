@@ -10,6 +10,10 @@ namespace ISILab.Macros
             string path = AssetDatabase.GUIDToAssetPath(guid);
             return !string.IsNullOrEmpty(path) ? AssetDatabase.LoadAssetAtPath<T>(path) : null;
         }
-
+        public static string GetGuidFromAsset(Object asset)
+        {
+            string path = AssetDatabase.GetAssetPath(asset);
+            return string.IsNullOrEmpty(path) ? null : AssetDatabase.AssetPathToGUID(path);
+        }
     }
 }

@@ -83,7 +83,7 @@ namespace ISILab.LBS.VisualElements
         public override void SetInfo(object target)
         {
             _target = target as PopulationBehaviour;
-            if (_target != null) _collection = _target.selectedCollectionToSet;
+            if (_target != null) _collection = _target.BundleCollection;
             if (_target != null) _populationFilter = _target.selectedTypeFilter;
         }
 
@@ -139,7 +139,7 @@ namespace ISILab.LBS.VisualElements
             warningPanel = this.Q<WarningPanel>();
             
             var collectionField = this.Q<ObjectField>("BundleCollection");
-          
+            
             collectionField.value = _collection;
             // only updates the first bundle value change - fix pending
             collectionField.RegisterValueChangedCallback(evt =>
@@ -185,7 +185,7 @@ namespace ISILab.LBS.VisualElements
             bundlePallete.OnSelectOption += (selected) =>
             {
                 _target.selectedToSet = selected as Bundle;
-                _target.selectedCollectionToSet = _collection;
+                _target.BundleCollection = _collection;
                 _target.selectedTypeFilter = _populationFilter;
                 /*
                 if (selected == null)
@@ -222,7 +222,7 @@ namespace ISILab.LBS.VisualElements
             bundlePallete.OnRepaint += () =>
             {
                 bundlePallete.Selected = _target.selectedToSet;
-                bundlePallete.CollectionSelected = _target.selectedCollectionToSet;
+                bundlePallete.CollectionSelected = _target.BundleCollection;
             };
             
             
@@ -271,7 +271,7 @@ namespace ISILab.LBS.VisualElements
             });
             
             // Save current selected options in layer
-            _target.selectedCollectionToSet = _collection;
+            _target.BundleCollection = _collection;
             _target.selectedTypeFilter = _populationFilter;
             
             bundlePallete.Repaint();

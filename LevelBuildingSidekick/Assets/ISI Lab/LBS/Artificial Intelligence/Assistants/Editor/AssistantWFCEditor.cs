@@ -103,6 +103,7 @@ namespace ISILab.LBS.AI.Assistants.Editor
             exterior.OwnerLayer.OnChange += () =>
             {
                 bundleField.SetValueWithoutNotify(exterior.Bundle);
+                assistant.Bundle = exterior.Bundle;
             };
 
             assistant.Bundle = exterior.Bundle;

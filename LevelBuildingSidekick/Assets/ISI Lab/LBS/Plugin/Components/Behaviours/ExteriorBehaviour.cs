@@ -23,9 +23,12 @@ namespace ISILab.LBS.Behaviours
     public class ExteriorBehaviour : LBSBehaviour
     {
         #region FIELDS
-        [SerializeField]
+        [JsonProperty, SerializeReference, SerializeField, JsonRequired]
         private Bundle targetBundleRef;
 
+        [SerializeField,JsonRequired]
+        private string bundleRefGui = null;
+        
         /***
          * Use asset's GUID; current bundle:
          * - "Exterior_Plains"
@@ -48,7 +51,11 @@ namespace ISILab.LBS.Behaviours
         public Bundle Bundle
         {
             get => GetBundleRef();
-            set => targetBundleRef = value;
+            set
+            {
+                targetBundleRef = value;
+                bundleRefGui = LBSAssetMacro.GetGuidFromAsset(value);
+            }
         }
 
         [JsonIgnore]
@@ -77,6 +84,11 @@ namespace ISILab.LBS.Behaviours
 
         public Bundle GetBundleRef()
         {
+            // guid ref saved 
+            if (bundleRefGui != null)
+            {
+                targetBundleRef = LBSAssetMacro.LoadAssetByGuid<Bundle>(bundleRefGui);
+            }
             if (!targetBundleRef) // if it's null load default
             {
                 targetBundleRef = LBSAssetMacro.LoadAssetByGuid<Bundle>(defaultBundleGuid);
@@ -137,8 +149,9 @@ namespace ISILab.LBS.Behaviours
             var other = obj as ExteriorBehaviour;
 
             if (other == null) return false;
-
-            if (!targetBundleRef.Equals(other.targetBundleRef)) return false;
+            
+            //if (!GetBundleRef().Equals(other.GetBundleRef())) return false;
+            if (!Equals(GetBundleRef(), other?.GetBundleRef())) return false;
 
             return true;
         }

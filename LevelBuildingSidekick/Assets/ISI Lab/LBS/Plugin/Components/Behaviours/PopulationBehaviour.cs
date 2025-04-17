@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using ISILab.Extensions;
 using ISILab.LBS.Modules;
+using ISILab.Macros;
 using LBS.Bundles;
 using LBS.Components;
 using LBS.Components.TileMap;
@@ -21,14 +22,18 @@ namespace ISILab.LBS.Behaviours
         TileMapModule tileMap;
         [SerializeField, JsonIgnore]
         BundleTileMap bundleTileMap;
+        
+        [SerializeField,JsonRequired]
+        private string bundleRefGui = null;
+        
         #endregion
 
         #region META-FIELDS
         [JsonIgnore]
         public Bundle selectedToSet;
         
-        [JsonIgnore]
-        public BundleCollection selectedCollectionToSet;
+        [SerializeField, JsonIgnore]
+        private BundleCollection bundleCollection;
         
         [FormerlySerializedAs("selectedTypetoSet")] [JsonIgnore]
         public string selectedTypeFilter;
@@ -37,6 +42,16 @@ namespace ISILab.LBS.Behaviours
         #region PROPERTIES
         [JsonIgnore]
         public List<TileBundleGroup> Tilemap => bundleTileMap.Groups;
+        
+        public BundleCollection BundleCollection 
+        {
+            get => bundleCollection;
+            set
+            {
+                bundleCollection = value;
+                bundleRefGui = LBSAssetMacro.GetGuidFromAsset(value);
+            }
+        }
         #endregion
 
         #region CONSTRUCTORS
