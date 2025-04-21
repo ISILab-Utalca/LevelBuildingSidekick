@@ -45,7 +45,7 @@ namespace ISILab.LBS.Behaviours
         
         public BundleCollection BundleCollection 
         {
-            get => bundleCollection;
+            get => GetBundleCollection();
             set
             {
                 bundleCollection = value;
@@ -174,6 +174,16 @@ namespace ISILab.LBS.Behaviours
             return base.GetHashCode();
         }
 
+        private BundleCollection GetBundleCollection()
+        {
+            if (bundleCollection == null)
+            {
+                bundleCollection = LBSAssetMacro.LoadAssetByGuid<BundleCollection>(bundleRefGui);
+            }
+
+            return bundleCollection;
+        }
+        
         #endregion
     }
 }

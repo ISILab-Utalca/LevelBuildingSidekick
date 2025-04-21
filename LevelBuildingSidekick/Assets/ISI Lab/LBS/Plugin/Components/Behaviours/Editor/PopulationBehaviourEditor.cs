@@ -31,6 +31,7 @@ namespace ISILab.LBS.VisualElements
         
         [SerializeField]
         private BundleCollection _collection; 
+        
         [SerializeField]
         private string _populationFilter;
         private const string allFilter = "All";
@@ -146,7 +147,7 @@ namespace ISILab.LBS.VisualElements
             {
                 var collection = evt.newValue as BundleCollection;
                 collectionField.value = collection;
-                _collection = collection;
+                SetCollection(collection);
                 _populationFilter = allFilter; // all by default
 
                 UpdateElementBundles();
@@ -388,6 +389,12 @@ namespace ISILab.LBS.VisualElements
             });
 
             bundlePallete.Repaint();
+        }
+
+        private void SetCollection(BundleCollection collection)
+        {
+            _target.BundleCollection = collection;
+            _collection = collection;
         }
 
     }
