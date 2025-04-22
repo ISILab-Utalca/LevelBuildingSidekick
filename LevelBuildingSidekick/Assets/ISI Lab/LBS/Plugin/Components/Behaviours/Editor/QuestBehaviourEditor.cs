@@ -65,7 +65,7 @@ namespace ISILab.LBS.VisualElements
 
         public void SetTools(ToolKit toolkit)
         {
-            var ass = target as QuestBehaviour;
+            var questBehaviour = target as QuestBehaviour;
 
             Texture2D icon;
 
@@ -73,22 +73,22 @@ namespace ISILab.LBS.VisualElements
             addNode = new CreateQuestNode();
             var t1 = new LBSTool(icon, "Add Quest Node", "Add a quest node activated!", addNode);
             t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
-            t1.Init(ass?.OwnerLayer, target);
+            t1.Init(questBehaviour?.OwnerLayer, target);
 
             icon = Resources.Load<Texture2D>("Icons/Quest_Icon/Delete_Node_Quest");
             removeNode = new RemoveQuestNode();
             var t2 = new LBSTool(icon, "Remove Quest Node", "Remove a quest node activated!", removeNode);
-            t2.Init(ass?.OwnerLayer, target);
+            t2.Init(questBehaviour?.OwnerLayer, target);
             
             icon = Resources.Load<Texture2D>("Icons/Quest_Icon/Node_Connection_Quest");
             connectNodes = new ConnectQuestNodes();
             var t3 = new LBSTool(icon, "Connect Quest Node", "Connect quest nodes activated!", connectNodes);
-            t3.Init(ass?.OwnerLayer, target);
+            t3.Init(questBehaviour?.OwnerLayer, target);
 
             icon = Resources.Load<Texture2D>("Icons/Quest_Icon/Delete_Node_Connection_Quest");
             removeConnection = new RemoveQuestConnection();
             var t4 = new LBSTool(icon, "Remove Quest Connection", "Remove quest connection activated!", removeConnection);
-            t4.Init(ass?.OwnerLayer, target);
+            t4.Init(questBehaviour?.OwnerLayer, target);
             
             connectNodes.SetRemover(removeConnection);
             
@@ -102,7 +102,8 @@ namespace ISILab.LBS.VisualElements
             connectNodes.OnManipulationEnd += RefreshHistoryPanel;
             removeConnection.OnManipulationEnd += RefreshHistoryPanel;
 
-            behaviour.Graph.GoToNode += GoToQuestNode;
+            behaviour ??= questBehaviour;
+            behaviour!.Graph.GoToNode += GoToQuestNode;
         }
 
         private void GoToQuestNode(QuestNode Node)
@@ -126,6 +127,8 @@ namespace ISILab.LBS.VisualElements
         {
             SetInfo(target);
             behaviour.Graph.UpdateFlow?.Invoke();
+            var questBehaviour = target as QuestBehaviour;
+            DrawManager.Instance.RedrawLayer(questBehaviour?.OwnerLayer, MainView.Instance);
         }
         
         protected override VisualElement CreateVisualElement()

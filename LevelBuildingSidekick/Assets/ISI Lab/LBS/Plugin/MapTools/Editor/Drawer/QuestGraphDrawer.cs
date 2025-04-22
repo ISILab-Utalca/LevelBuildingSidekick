@@ -25,9 +25,9 @@ namespace ISILab.LBS.Drawers.Editor
             
             var nodeViews = new Dictionary<QuestNode, QuestNodeView>();
             
-            FindAndRemoveAllOfType<QuestNodeView>(view);
-            FindAndRemoveAllOfType<DottedAreaFeedback>(view);
-            FindAndRemoveAllOfType<LBSQuestEdgeView>(view);
+           // FindAndRemoveAllOfType<QuestNodeView>(view);
+          //  FindAndRemoveAllOfType<DottedAreaFeedback>(view);
+          //  FindAndRemoveAllOfType<LBSQuestEdgeView>(view);
             
             foreach (var node in quest.QuestNodes)
             {
