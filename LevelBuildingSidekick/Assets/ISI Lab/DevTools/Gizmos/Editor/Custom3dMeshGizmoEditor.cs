@@ -18,9 +18,14 @@ namespace ISI_Lab.DevTools.Gizmos.Editor
 
         private const float buttonSize = 18;
         private const float yOffset = 64;
+
+        private LBSGenerated lbsComponent;
         
         void OnEnable()
         {
+            Custom3dMeshGizmo targetComponent = (Custom3dMeshGizmo)target;
+            lbsComponent = targetComponent.GetComponent<LBSGenerated>();
+            
             SceneView.duringSceneGui += OnSceneGUI;
         }
         
@@ -47,10 +52,10 @@ namespace ISI_Lab.DevTools.Gizmos.Editor
 
             if (rootVisualElement == null)
             {
-                rootVisualElement = new WorldEditBarView(targetComponent.gameObject);
+                rootVisualElement = new WorldEditBarView(lbsComponent);
                 sceneView.rootVisualElement.Add(rootVisualElement);
 
-                rootVisualElement.SetFields(targetComponent.GetComponent<LBSGenerated>().BundleTemp);
+                rootVisualElement.SetFields(lbsComponent.BundleTemp);
             }
 
             rootVisualElement.style.position = Position.Absolute;
