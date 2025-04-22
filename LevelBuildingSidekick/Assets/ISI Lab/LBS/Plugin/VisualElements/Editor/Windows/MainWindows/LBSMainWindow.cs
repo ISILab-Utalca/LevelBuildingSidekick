@@ -177,20 +177,14 @@ namespace ISILab.LBS.Editor.Windows{
 
             // DrawManager
             drawManager = new DrawManager(ref mainView, ref layerTemplates);
-            
 
             // ToolKitManager
             toolkit = rootVisualElement.Q<ToolKit>(name: "Toolkit");
             toolkit.OnEndAction += (l) =>
             {
-                // (!!) esta forma de dibujar, en donde se repinta todo, es la que no es eficiente,
-                // hay que cambiarla a que repinte solo lo que este relacionado a las posciones editadas,
-                // pero ahora quedo en que repintara, no todo, pero si toda la layer.
-                //drawManager.RedrawLayer(l, mainView);
-                drawManager.RedrawLevel(levelData, mainView);
+                drawManager.RedrawLayer(l, mainView);
             };
-         //   toolkit.OnNewAction()
-
+            
             //QuestToolkit
             questToolkit = rootVisualElement.Q<ToolKit>(name: "QuestToolkit");
 

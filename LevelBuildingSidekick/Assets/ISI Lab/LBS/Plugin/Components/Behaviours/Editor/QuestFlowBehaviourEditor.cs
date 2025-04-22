@@ -46,8 +46,6 @@ namespace ISILab.LBS.VisualElements
             behaviour = target as QuestFlowBehaviour;
             CreateVisualElement();
             if (behaviour == null) return;
-           // behaviour.Graph.UpdateFlow -= () => questHistoryPanel?.Refresh(); // avoid multicalls
-           // behaviour.Graph.UpdateFlow += () => questHistoryPanel?.Refresh();
             questHistoryPanel?.SetInfo(behaviour);
         }
         protected override VisualElement CreateVisualElement()

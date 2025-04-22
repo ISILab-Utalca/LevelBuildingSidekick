@@ -102,7 +102,7 @@ namespace ISILab.LBS.VisualElements
             connectNodes.OnManipulationEnd += RefreshHistoryPanel;
             removeConnection.OnManipulationEnd += RefreshHistoryPanel;
 
-            behaviour ??= questBehaviour;
+            behaviour ??= questBehaviour; // if null, assign
             behaviour!.Graph.GoToNode += GoToQuestNode;
         }
 
