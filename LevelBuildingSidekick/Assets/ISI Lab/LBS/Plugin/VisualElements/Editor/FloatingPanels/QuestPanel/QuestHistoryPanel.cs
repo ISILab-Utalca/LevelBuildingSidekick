@@ -134,8 +134,7 @@ namespace ISILab.LBS.VisualElements.Editor
         {
             foreach (var qe in questEntries)
             {
-                if(qe==null) continue;
-                qe.Update();
+                qe?.Update();
             }
         }
         

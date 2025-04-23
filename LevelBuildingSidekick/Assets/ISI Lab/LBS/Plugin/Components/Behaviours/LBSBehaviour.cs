@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ISILab.Macros;
 using LBS.Components;
 using LBS.Components.Graph;
 using LBS.Components.TileMap;
@@ -23,9 +24,9 @@ namespace ISILab.LBS.Behaviours
         #region FIELDS
         [HideInInspector]
         private LBSLayer ownerLayerLayer;
-        [SerializeField]
-        private VectorImage icon;
-        [SerializeField, JsonIgnore]//, JsonIgnore]
+        
+        [SerializeField] private VectorImage icon;
+        [SerializeField] 
         private Color colorTint;
         [SerializeField, JsonRequired]
         private string name;

@@ -23,10 +23,10 @@ namespace ISILab.LBS.Behaviours
     public class ExteriorBehaviour : LBSBehaviour
     {
         #region FIELDS
-        [JsonProperty, SerializeReference, SerializeField, JsonRequired]
+        [JsonProperty, SerializeReference, SerializeField]
         private Bundle targetBundleRef;
 
-        [SerializeField,JsonRequired]
+        [SerializeField]
         private string bundleRefGui = null;
         
         /***

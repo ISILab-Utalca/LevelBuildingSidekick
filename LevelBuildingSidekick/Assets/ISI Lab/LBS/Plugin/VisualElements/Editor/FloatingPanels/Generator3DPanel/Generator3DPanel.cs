@@ -160,6 +160,8 @@ namespace ISILab.LBS.VisualElements.Editor
                 }
 
             }
+            
+            EditorWindow.FocusWindowIfItsOpen<SceneView>();
         }
         
         private void GenerateCurrentLayer()
@@ -232,8 +234,6 @@ namespace ISILab.LBS.VisualElements.Editor
             Undo.RegisterCreatedObjectUndo(generated.Item1, "Create my GameObject");
             
             LBSMainWindow.MessageNotify("Layer " + generated.Item1.gameObject.name + " created. " + ifReplace, LogType.Log, 3);
-            EditorWindow.FocusWindowIfItsOpen<SceneView>();
-
             if (bakeLights.value)
             {
                 StaticObjs(generated.Item1);
