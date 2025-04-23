@@ -38,11 +38,13 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 1248747549014622361
       type: {class: QuestGraph, ns: ISILab.LBS.Modules, asm: LBS}
       data:
         id: QuestGraph
-        owner:
+        ownerLayer:
           visible: 1
           blocked: 0
           iconPath: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Stamp_Icon.png
@@ -81,6 +83,24 @@ MonoBehaviour:
       type: {class: GrammarAssistant, ns: ISILab.LBS.Assistants, asm: LBS}
       data:
         visible: 1
+        ownerLayer:
+          visible: 1
+          blocked: 0
+          iconPath: Icon/Default
+          id: LBSLayer
+          name: Layer name
+          modules: []
+          behaviours: []
+          assistants: []
+          generatorRules: []
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: DEFAULT
         icon: {fileID: 7388822144124034973, guid: ad8feef201665454ca79e31b7d798ac3, type: 3}
         colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 1}
         name: Grammar Assistant
@@ -107,9 +127,12 @@ MonoBehaviour:
         grammarCheck: 0
         mapCheck: 0
         nodeType: 0
+        questState: 0
         valid: 0
         target:
           rid: 1248747549014622366
+        graph:
+          rid: -2
     - rid: 1248747549014622366
       type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
       data:
@@ -125,5 +148,5 @@ MonoBehaviour:
       data:
         visible: 1
         icon: {fileID: 7388822144124034973, guid: a919b94406bb9f5469d29bf56201e3f1, type: 3}
-        colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 0}
+        colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 1}
         name: Quest Flow
