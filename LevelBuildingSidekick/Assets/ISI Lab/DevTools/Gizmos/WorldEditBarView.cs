@@ -30,13 +30,14 @@ namespace ISILab.LBS.VisualElements
         private ObjectField bundleField;
         private Button resetButton;
         private Button shuffleButton;
+        
+        private bool isStructure;
 
         // reference to the gameObject containing the gizmo
-        public GameObject go;
-        bool isStructure;
+        private GameObject go;
         
         // other references
-        LBSGenerated lbsComponent;
+        private LBSGenerated lbsComponent;
         #endregion
 
         public WorldEditBarView(LBSGenerated targetComponent)
@@ -62,21 +63,23 @@ namespace ISILab.LBS.VisualElements
         #region BUTTON METHODS
         private void OnShuffleClicked()
         {
-            //Get references
-            LBSGenerated lbs = go.GetComponent<LBSGenerated>();
+            //Pick an asset
+            lbsComponent.AssetIndex++;
+            if (lbsComponent.AssetIndex >= lbsComponent.BundleTemp.Assets.Count)
+            {
+                lbsComponent.AssetIndex = 0;
+            }   
             
-            //Call to SwapObject
-            int pick = UnityEngine.Random.Range(0, lbs.BundleTemp.Assets.Count);
-            SwapObject(lbs, lbs.BundleTemp.Assets[pick].obj);
-
             //Debug
-            Debug.Log("Switching to asset " + (pick + 1) + " of " + lbs.BundleTemp.Assets.Count);
+            Debug.Log("Switching to asset " + (lbsComponent.AssetIndex + 1) + " of " + lbsComponent.BundleTemp.Assets.Count);
+            
+            //Call SwapObject
+            SwapObject(lbsComponent, lbsComponent.BundleTemp.Assets[lbsComponent.AssetIndex].obj);
         }
 
         private void OnResetClicked()
         {
-            LBSGenerated lbs = go.GetComponent<LBSGenerated>();
-            OnBundleChanged(lbs.BundleRef);
+            bundleField.value = lbsComponent.BundleRef;
         }
         #endregion
 
@@ -87,7 +90,7 @@ namespace ISILab.LBS.VisualElements
             //Replace models if new bundle assigned
             if (lbsComponent.BundleTemp != (Bundle)evtNewValue)
             {
-                //Access to asset in bundle
+                //Access to asset in the bundle
                 List<Asset> assets = ((Bundle)evtNewValue).Assets;
 
                 if(assets.Count > 0)
@@ -101,13 +104,13 @@ namespace ISILab.LBS.VisualElements
                     }
                     else
                     {
-                        Debug.LogWarning("Can't replace model because newbundle asset is null");    //Exception case
+                        Debug.LogError("Can't replace model because bundle " + ((Bundle)evtNewValue).Name + "'s chosen asset " + pick + " is null");    //Exception case
                         bundleField.value = lbsComponent.BundleTemp;
                     }
                 }
                 else
                 {
-                    Debug.LogWarning("Can't replace model because newbundle has no assets");    //Exception case
+                    Debug.LogError("Can't replace model because bundle " + ((Bundle)evtNewValue).Name + " has no assets");    //Exception case
                     bundleField.value = lbsComponent.BundleTemp;
                 }
             }
@@ -121,124 +124,128 @@ namespace ISILab.LBS.VisualElements
             {
                 typeField.value = StructureTags.None;
             }
-            else
+            else if (isStructure)
             {
                 //Get references
-                typeField.value = evtNewValue;
                 Bundle newBundle = lbsComponent.BundleTemp.Parent().ChildsBundles.Find(b => b.name.Contains(EnumToString((StructureTags)evtNewValue)));
 
                 //Replace models if new type
-                if (lbsComponent.BundleTemp != newBundle)
-                {
-                    //Access to asset in bundle
-                    Asset asset = newBundle.Assets[0];      //ESTA LINEA PUEDE GENERAR EXCEPCIONES, REVISAR
-
-                    if(asset != null)
+                if (newBundle && lbsComponent.BundleTemp != newBundle)
+                {   
+                    if (newBundle.Assets.Count <= 0)
                     {
-                        SwapObject(lbsComponent, asset.obj, newBundle);  //Change asset
+                        Debug.LogError("Can't replace model because bundle " + newBundle.Name + " doesn't have any assets");    //Exception case
                     }
                     else
                     {
-                        Debug.LogWarning("Can't replace model because newbundle asset is null");    //Exception case
+                        //Access to asset in the bundle
+                        int pick = UnityEngine.Random.Range(0, newBundle.Assets.Count);
+                        Asset asset = newBundle.Assets[pick];
+
+                        if(asset != null)
+                        {
+                            SwapObject(lbsComponent, asset.obj, newBundle);  //Change asset
+                        }
+                        else
+                        {
+                            Debug.LogError("Can't replace model because bundle " + newBundle.Name + "'s asset " + pick + " is null");    //Exception case
+                        }
+                    }
+                }
+                else if(!newBundle)
+                {
+                    //Blocks changing to an unavailable type
+                    List<LBSTagsCharacteristic> tags = lbsComponent.BundleTemp.GetCharacteristics<LBSTagsCharacteristic>();
+                    typeField.value = tags.Count > 0 ? TagToEnum(tags[0].Value) : StructureTags.None;
+
+                    if ((StructureTags)evtNewValue != StructureTags.None)   //Structures never have a None tag, so it'd be obvious
+                    {
+                        Debug.LogError("Can't replace model because there's no sibling bundle in " + lbsComponent.BundleTemp.Parent().Name + " named with that type"); //Exception case   
                     }
                 }
             }
-            Debug.Log(evtNewValue.ToString());
         }
         #endregion
 
+        //Set all fields according to reference 
         public void SetFields(Bundle bundleRef)
         {
+            //Set typeField to tag in characteristics if found
             List<LBSTagsCharacteristic> tags = bundleRef.GetCharacteristics<LBSTagsCharacteristic>();
-            if (tags.Count > 0)
-            {
-                typeField.value = TagToEnum(tags[0].Value);
-            }
-            else
-            {
-                typeField.value = StructureTags.None;
-            }
+            typeField.value = tags.Count > 0 ? TagToEnum(tags[0].Value) : StructureTags.None;
 
             bundleField.value = bundleRef;
             MarkDirtyRepaint();
         }
 
+        //Creates a new object to replace the current one
         private bool SwapObject(LBSGenerated lbs, GameObject prefab, Bundle newBundle = null)
         {
             //Exception case
             if (!prefab)
             {
-                Debug.LogWarning("Can't execute SwapObject because prefab is null.");
+                Debug.LogError("Can't execute SwapObject because prefab is null.");
                 return false;
             }
 
             //Instantiate new object
 #if UNITY_EDITOR
-            var ngo = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
+            GameObject ngo = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
 #else
-            var ngo = GameObject.Instantiate(prefab);
+            GameObject ngo = GameObject.Instantiate(prefab);
 #endif
+            //Exception case
+            if (!ngo)
+            {
+                Debug.LogError("Failed to instantiate prefab");
+                return false;
+            }
+            
             //Copy transform
-            ngo.transform.position = go.transform.position;
-            ngo.transform.rotation = go.transform.rotation;
+            ngo.transform.SetPositionAndRotation(go.transform.position, go.transform.rotation);
             ngo.transform.localScale = go.transform.localScale;
             ngo.transform.SetParent(go.transform.parent);
 
             //Copy LBSGenerated component
-            LBSGenerated nlbs = ngo.AddComponent<LBSGenerated>();
-            nlbs.BundleRef = lbs.BundleRef;
+            LBSGenerated newLbs = ngo.AddComponent<LBSGenerated>();
+            newLbs.BundleRef = lbs.BundleRef;
+            newLbs.AssetIndex = lbs.AssetIndex;
 
-            //Copy BundleTemp if no newBundle assigned
-            if (newBundle != null)
-            {
-                nlbs.BundleTemp = newBundle;
-            }
-            else
-            {
-                nlbs.BundleTemp = lbs.BundleTemp;
-            }
+            //Copy BundleTemp if no newBundle assigned (useful when called from shuffle)
+            newLbs.BundleTemp = newBundle ? newBundle : lbs.BundleTemp;
 
             //Destroy original
-            GameObject.DestroyImmediate(go);
+            Object.DestroyImmediate(go);
             return true;
         }
 
         //Returns the StructureBundle enum value according to a LBSTag
-        StructureTags TagToEnum(LBSTag tag)
+        private static StructureTags TagToEnum(LBSTag tag)
         {
-            switch(tag.label){
-                case "Wall":
-                    return StructureTags.Wall;
-                case "Floor":
-                    return StructureTags.Floor;
-                case "Window":
-                    return StructureTags.Window;
-                case "Door":
-                    return StructureTags.Door;
-                case "Corner":
-                    return StructureTags.Corner;
-                default: return StructureTags.None;
-            }
+            return tag.label switch
+            {
+                "Wall" => StructureTags.Wall,
+                "Floor" => StructureTags.Floor,
+                "Window" => StructureTags.Window,
+                "Door" => StructureTags.Door,
+                "Corner" => StructureTags.Corner,
+                _ => StructureTags.None
+            };
         }
 
         //Returns a string value according to a StructureBundle enum value
-        string EnumToString(StructureTags type)
+        private static string EnumToString(StructureTags type)
         {
-            switch (type){
-                case StructureTags.None:
-                    return "None";
-                case StructureTags.Wall:
-                    return "Wall";
-                case StructureTags.Floor:
-                    return "Floor";
-                case StructureTags.Window:
-                    return "Window";
-                case StructureTags.Door:
-                    return "Door";
-                case StructureTags.Corner:
-                    return "Corner";
-                default: return "None";
-            }
+            return type switch
+            {
+                StructureTags.None => "None",
+                StructureTags.Wall => "Wall",
+                StructureTags.Floor => "Floor",
+                StructureTags.Window => "Window",
+                StructureTags.Door => "Door",
+                StructureTags.Corner => "Corner",
+                _ => "None"
+            };
         }
     }
 

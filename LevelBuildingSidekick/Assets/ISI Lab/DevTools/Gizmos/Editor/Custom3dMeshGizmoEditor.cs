@@ -15,7 +15,6 @@ namespace ISI_Lab.DevTools.Gizmos.Editor
         private bool isVisible = false;
         private Rect popupRect;
 
-
         private const float buttonSize = 18;
         private const float yOffset = 64;
 
