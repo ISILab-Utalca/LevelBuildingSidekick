@@ -67,9 +67,8 @@ namespace ISILab.LBS.VisualElements
             };
             
             _collection = _target.BundleCollection;
-            var filter = _target.SelectedFilter;
-            
-            displayChoices.Add(filter, allList);
+            _target.SelectedFilter = _target.allFilter; 
+            displayChoices.Add(_target.allFilter, allList);
             displayChoices.Add(Bundle.PopulationTypeE.Character.ToString(), characterList);
             displayChoices.Add(Bundle.PopulationTypeE.Item.ToString(), itemList);
             displayChoices.Add(Bundle.PopulationTypeE.Interactable.ToString(), interactableList);
@@ -246,7 +245,7 @@ namespace ISILab.LBS.VisualElements
             bundlePallete.DisplayContent(true);
             var bundles = _collection.Collection;
             var candidates = new List<Bundle>();
-            if (_target.SelectedFilter == _target.allFilter)
+            if (type.value == _target.allFilter)
             {
                 candidates = bundles
                     .Where(b => b.Type == Bundle.TagType.Element).ToList();
@@ -254,7 +253,7 @@ namespace ISILab.LBS.VisualElements
             else
             {
                 candidates = bundles
-                    .Where(b => b.Type == Bundle.TagType.Element && b.PopulationType == displayChoices[_target.SelectedFilter][0]) // get the bundle type at the filter index
+                    .Where(b => b.Type == Bundle.TagType.Element && b.PopulationType == displayChoices[type.value][0]) // get the bundle type at the filter index
                     .ToList();
             }
             bundlePallete.ShowGroups = false;
