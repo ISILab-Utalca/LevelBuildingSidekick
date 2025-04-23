@@ -10,6 +10,7 @@ using LBS.VisualElements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ISILab.LBS.Assistants;
 using ISILab.LBS.VisualElements.Editor;
 using ISILab.Macros;
 using UnityEditor.UIElements;
@@ -189,6 +190,8 @@ namespace ISILab.LBS.VisualElements
                     b.Children().First().AddToClassList("lbs-actionbutton");
                 }
             }
+            
+            DrawManager.Instance.RedrawLayer(quest.OwnerLayer, MainView.Instance);
            
         }
 
@@ -196,13 +199,18 @@ namespace ISILab.LBS.VisualElements
         {
             if (grammar == null) throw new Exception("No Grammar");
             
-            if (target is not QuestBehaviour behaviour) throw new Exception("No Assistant");
+            if (target is not QuestBehaviour behaviour) throw new Exception("No Behavior");
+
+            var assistant = behaviour.OwnerLayer.GetAssistant<GrammarAssistant>();
+            if (assistant == null) throw new Exception("No Behavior");
             
             var quest = behaviour.OwnerLayer.GetModule<QuestGraph>();
             if (quest == null)  throw new Exception("No Module");
             
             quest.Grammar = grammar;
-
+            // check if the new grammar applies on the graph
+            if(quest.QuestEdges.Any()) assistant.ValidateEdgeGrammar(quest.QuestEdges.First());
+          
             UpdateContent();
         }
     }

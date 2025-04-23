@@ -51,13 +51,19 @@ namespace ISILab.LBS.Generators
             var triggers = new List<QuestStep>();
 
             var assistant = layer.GetAssistant<GrammarAssistant>();
+            assistant?.ValidateEdgeGrammar(quest.QuestEdges.First());
+            bool allValid = quest.QuestNodes.All(q => q.GrammarCheck);
+            if (!allValid)
+            {
+                return Tuple.Create<GameObject, string>(null, "At least one quest node is not grammatically valid. Fix or remove");
+            }
             /*foreach (var edge in quest.QuestEdges)
             {
                 assistant?.ValidateEdgeGrammarOLD(edge);
             }
             bool allValid = quest.QuestNodes.All(q => q.GrammarCheck);
          
-            assistant?.ValidateEdgeGrammar(quest.QuestEdges.First());
+           
             bool allValid = assistant!.fastValidGrammar(quest.QuestNodes);
             if (!allValid)
             {

@@ -144,13 +144,14 @@ namespace ISILab.LBS.Components
         #region CONSTRUCTOR
         QuestNode() { }
 
-        public QuestNode(string id, Vector2 position, string action, QuestGraph graph)
+        public QuestNode(string id, Vector2 position, string action, QuestGraph graph, bool grammarCheck = false)
         {
             this.id = id;
             x = (int)position.x;
             y = (int)position.y;
-            this.questAction = action;
+            questAction = action;
             this.graph = graph;
+            this.grammarCheck = grammarCheck;
             target = new QuestTarget();
         }
         #endregion
@@ -162,9 +163,10 @@ namespace ISILab.LBS.Components
         
         public object Clone()
         {
-            var node = new QuestNode(ID, Position, QuestAction, graph);
-
-            node.target = target.Clone() as QuestTarget;
+            var node = new QuestNode(ID, Position, QuestAction, graph, GrammarCheck)
+            {
+                target = target.Clone() as QuestTarget
+            };
 
             return node;
         }
