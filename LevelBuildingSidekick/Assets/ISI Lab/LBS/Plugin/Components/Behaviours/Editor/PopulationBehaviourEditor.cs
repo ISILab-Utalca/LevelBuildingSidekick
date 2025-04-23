@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ISILab.Commons.Utility.Editor;
 using ISILab.Extensions;
+using ISILab.Macros;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,13 +29,13 @@ namespace ISILab.LBS.VisualElements
         private PopulationBehaviour _target;
 
         private Dictionary<string, List<Bundle.PopulationTypeE>> displayChoices = new Dictionary<string, List<Bundle.PopulationTypeE>>();
-        
-        [SerializeField]
+
+        [SerializeField] 
         private BundleCollection _collection; 
         
         [SerializeField]
         private string _populationFilter;
-        private const string allFilter = "All";
+  
         //Manipulators
         AddPopulationTile addPopulationTile;
         RemovePopulationTile removePopulationTile;
@@ -50,8 +51,7 @@ namespace ISILab.LBS.VisualElements
         {
             _target = target as PopulationBehaviour;
             //_collection = load default collection
-
-            _populationFilter = allFilter;
+            
             List<Bundle.PopulationTypeE> characterList = new List<Bundle.PopulationTypeE> { Bundle.PopulationTypeE.Character };
             List<Bundle.PopulationTypeE> itemList = new List<Bundle.PopulationTypeE> { Bundle.PopulationTypeE.Item };
             List<Bundle.PopulationTypeE> interactableList = new List<Bundle.PopulationTypeE> { Bundle.PopulationTypeE.Interactable };
@@ -68,7 +68,10 @@ namespace ISILab.LBS.VisualElements
                 Bundle.PopulationTypeE.Character
             };
             
-            displayChoices.Add(allFilter, allList);
+            _collection = _target.BundleCollection;
+            _populationFilter = _target.SelectedFilter;
+            
+            displayChoices.Add(_populationFilter, allList);
             displayChoices.Add(Bundle.PopulationTypeE.Character.ToString(), characterList);
             displayChoices.Add(Bundle.PopulationTypeE.Item.ToString(), itemList);
             displayChoices.Add(Bundle.PopulationTypeE.Interactable.ToString(), interactableList);
@@ -81,11 +84,12 @@ namespace ISILab.LBS.VisualElements
         }
 
 
-        public override void SetInfo(object target)
+        public sealed override void SetInfo(object target)
         {
             _target = target as PopulationBehaviour;
-            if (_target != null) _collection = _target.BundleCollection;
-            if (_target != null) _populationFilter = _target.selectedTypeFilter;
+            if(_target == null) return;
+            _collection = _target.BundleCollection;
+            _populationFilter = _target.SelectedFilter;
         }
 
         public void SetTools(ToolKit toolkit)
@@ -140,15 +144,13 @@ namespace ISILab.LBS.VisualElements
             warningPanel = this.Q<WarningPanel>();
             
             var collectionField = this.Q<ObjectField>("BundleCollection");
-            
-            collectionField.value = _collection;
             // only updates the first bundle value change - fix pending
             collectionField.RegisterValueChangedCallback(evt =>
             {
                 var collection = evt.newValue as BundleCollection;
                 collectionField.value = collection;
                 SetCollection(collection);
-                _populationFilter = allFilter; // all by default
+                _populationFilter = _target.allFilter; // all by default
 
                 UpdateElementBundles();
                 
@@ -170,6 +172,12 @@ namespace ISILab.LBS.VisualElements
             UpdateElementBundles();
             SetPallete();
             bundlePallete.Repaint();
+            
+            _populationFilter = _target.selectedTypeFilter;
+            collectionField.SetValueWithoutNotify(_target.BundleCollection);
+            
+            MarkDirtyRepaint();
+            
             return this;
         }
 
@@ -244,7 +252,7 @@ namespace ISILab.LBS.VisualElements
             bundlePallete.DisplayContent(true);
             var bundles = _collection.Collection;
             var candidates = new List<Bundle>();
-            if (_populationFilter == allFilter)
+            if (_populationFilter == _target.allFilter)
             {
                 candidates = bundles
                     .Where(b => b.Type == Bundle.TagType.Element).ToList();

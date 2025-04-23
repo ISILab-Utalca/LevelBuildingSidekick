@@ -42,7 +42,7 @@ MonoBehaviour:
       type: {class: TileMapModule, ns: ISILab.LBS.Modules, asm: LBS}
       data:
         id: TileMapModule
-        owner:
+        ownerLayer:
           visible: 1
           blocked: 0
           iconPath: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/ghost.png
@@ -70,7 +70,7 @@ MonoBehaviour:
       type: {class: BundleTileMap, ns: ISILab.LBS.Modules, asm: LBS}
       data:
         id: BundleTileMap
-        owner:
+        ownerLayer:
           visible: 1
           blocked: 0
           iconPath: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/ghost.png
@@ -103,7 +103,7 @@ MonoBehaviour:
         name: Population Behavior
         tileMap:
           id: TileMapModule
-          owner:
+          ownerLayer:
             visible: 1
             blocked: 0
             iconPath: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/ghost.png
@@ -127,13 +127,33 @@ MonoBehaviour:
               position: {x: 0, y: 0, z: 0}
               name: Population
           tiles: []
+        bundleRefGui: 3e607c0f80297b849a6ea0d7f98c73a3
         selectedToSet: {fileID: 0}
-        selectedCollectionToSet: {fileID: 0}
-        selectedTypeFilter: 
+        bundleCollection: {fileID: 11400000, guid: 3e607c0f80297b849a6ea0d7f98c73a3, type: 2}
+        allFilter: 
+        selectedTypeFilter: All
     - rid: 6598277744948937224
       type: {class: AssistantMapElite, ns: ISILab.LBS.Assistants, asm: LBS}
       data:
         visible: 1
+        ownerLayer:
+          visible: 1
+          blocked: 0
+          iconPath: Icon/Default
+          id: LBSLayer
+          name: Layer name
+          modules: []
+          behaviours: []
+          assistants: []
+          generatorRules: []
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: DEFAULT
         icon: {fileID: 7388822144124034973, guid: 6515130e0caff664593540ffec59637c, type: 3}
         colorTint: {r: 0.7607844, g: 0.96470594, b: 0.4431373, a: 1}
         name: Map Elite - Genetic Algorithm
