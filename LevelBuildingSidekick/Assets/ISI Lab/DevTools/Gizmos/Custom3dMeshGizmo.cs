@@ -1,12 +1,13 @@
 
+using System;
 using ISI_Lab.LBS.Plugin.MapTools.Generators3D;
 using LBS.Bundles;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ISI_Lab.LBS.DevTools
 {
-
     [ExecuteInEditMode]
     [RequireComponent(typeof(MeshRenderer))]
     public class Custom3dMeshGizmo : MonoBehaviour
@@ -19,6 +20,19 @@ namespace ISI_Lab.LBS.DevTools
         
         [HideInInspector]
         public Bounds gizmoBounds;
+        public bool canDrawPopup = false;
+
+        private MeshRenderer mRendererComponent;
+        private void OnEnable()
+        {
+            Selection.selectionChanged += UpdatePosition;
+            mRendererComponent = GetComponent<MeshRenderer>();
+        }
+
+        private void OnDisable()
+        {
+            Selection.selectionChanged -= UpdatePosition;
+        }
 
         private void OnDrawGizmosSelected()
         {
@@ -28,7 +42,7 @@ namespace ISI_Lab.LBS.DevTools
                 worldPosition = mr.bounds.center;
                 gizmoBounds = mr.bounds;
                 Gizmos.color = this.gizmoColor;
-                Gizmos.DrawWireCube(mr.bounds.center, mr.bounds.size);      
+                Gizmos.DrawWireCube(mr.bounds.center, mr.bounds.size);
                 
                 Gizmos.DrawWireMesh(
                     gizmoMesh,
@@ -36,6 +50,15 @@ namespace ISI_Lab.LBS.DevTools
                     Quaternion.identity,
                     new Vector3(meshGizmoScale,meshGizmoScale,meshGizmoScale)
                     );
+            }
+        }
+
+        public void UpdatePosition()
+        {
+            if (mRendererComponent)
+            {
+                worldPosition = mRendererComponent.bounds.center;
+                gizmoBounds = mRendererComponent.bounds;
             }
         }
     }
