@@ -21,8 +21,8 @@ MonoBehaviour:
     modules:
     - rid: 1248747549014622361
     behaviours:
-    - rid: 6953538662824935526
     - rid: 1248747549014622362
+    - rid: 6953538662824935526
     assistants:
     - rid: 1248747549014622363
     generatorRules:
@@ -72,10 +72,12 @@ MonoBehaviour:
         questEdges: []
         root:
           rid: 1248747549014622365
+        LBSGrammarGui: 63ab688b53411154db5edd0ec7171c42
     - rid: 1248747549014622362
       type: {class: QuestBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
       data:
         visible: 1
+        VectorImageGuid: 49b9448c876b36c4ba26740d7deae035
         icon: {fileID: 7388822144124034973, guid: 49b9448c876b36c4ba26740d7deae035, type: 3}
         colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 1}
         name: Quest Behaviour
@@ -147,6 +149,7 @@ MonoBehaviour:
       type: {class: QuestFlowBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
       data:
         visible: 1
+        VectorImageGuid: a919b94406bb9f5469d29bf56201e3f1
         icon: {fileID: 7388822144124034973, guid: a919b94406bb9f5469d29bf56201e3f1, type: 3}
         colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 1}
         name: Quest Flow

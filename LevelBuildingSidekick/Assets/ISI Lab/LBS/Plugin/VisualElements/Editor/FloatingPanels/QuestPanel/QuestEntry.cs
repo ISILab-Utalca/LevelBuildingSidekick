@@ -81,7 +81,6 @@ namespace ISILab.LBS.VisualElements.Editor
         
         public void SetData(QuestNode node)
         {
-            MarkDirtyRepaint();
             if (node == null && quest == null)
             {
                 //Debug.LogError("empty quest node");
@@ -116,6 +115,8 @@ namespace ISILab.LBS.VisualElements.Editor
             nodeTypeImage.style.backgroundImage = new StyleBackground(Resources.Load<VectorImage>(iconPath));
             nodeTypeImage.style.unityBackgroundImageTintColor = backgroundColor;
             nodeName.text = node.ID;
+            
+            MarkDirtyRepaint();
         }
         
         #endregion

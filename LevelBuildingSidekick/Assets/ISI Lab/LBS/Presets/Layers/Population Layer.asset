@@ -98,6 +98,7 @@ MonoBehaviour:
       type: {class: PopulationBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
       data:
         visible: 1
+        VectorImageGuid: e17eb0e02534666439fca8ea30b4d4e4
         icon: {fileID: 7388822144124034973, guid: e17eb0e02534666439fca8ea30b4d4e4, type: 3}
         colorTint: {r: 0.5294118, g: 0.8431373, b: 0.96470594, a: 1}
         name: Population Behavior
