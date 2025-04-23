@@ -15,12 +15,24 @@ namespace ISI_Lab.LBS.Plugin.MapTools.Generators3D
     {
         [SerializeField]
         private Bundle bundleRef;
+        [SerializeField]
+        private Bundle bundleTemp;
 
         public Bundle BundleRef
         {
             get => bundleRef;
-            set => bundleRef = value;
+            set
+            {
+                bundleRef = value;
+                bundleTemp = value;
+            }
         }
+        public Bundle BundleTemp
+        {
+            get => bundleTemp;
+            set => bundleTemp = value;
+        }
+        public int AssetIndex { get; set; }
 
         private void Reset()
         {
