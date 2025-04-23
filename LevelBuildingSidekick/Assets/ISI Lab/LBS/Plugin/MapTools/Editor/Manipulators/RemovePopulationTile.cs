@@ -3,6 +3,7 @@ using ISILab.LBS.VisualElements;
 using LBS.Components;
 using System.Collections;
 using System.Collections.Generic;
+using ISILab.LBS.VisualElements.Editor;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -48,6 +49,7 @@ namespace ISILab.LBS.Manipulators
             {
                 EditorUtility.SetDirty(x);
             }
+            
         }
     }
 }
