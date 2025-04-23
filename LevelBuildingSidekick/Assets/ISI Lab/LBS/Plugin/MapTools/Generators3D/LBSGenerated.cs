@@ -32,6 +32,7 @@ namespace ISI_Lab.LBS.Plugin.MapTools.Generators3D
             get => bundleTemp;
             set => bundleTemp = value;
         }
+        public int AssetIndex { get; set; }
 
         private void Reset()
         {

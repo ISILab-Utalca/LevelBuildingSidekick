@@ -110,6 +110,7 @@ providers = {
 objectSelectors = {
 }
 recentSearches = [
+	"type: structure"
 	"lbsmod"
 	""
 	"m"
