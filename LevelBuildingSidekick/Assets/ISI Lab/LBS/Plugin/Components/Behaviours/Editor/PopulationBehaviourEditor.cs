@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ISILab.Commons.Utility.Editor;
 using ISILab.Extensions;
+using ISILab.LBS.VisualElements.Editor;
 using ISILab.Macros;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -32,9 +33,6 @@ namespace ISILab.LBS.VisualElements
 
         [SerializeField] 
         private BundleCollection _collection; 
-        
-        [SerializeField]
-        private string _populationFilter;
   
         //Manipulators
         AddPopulationTile addPopulationTile;
@@ -69,9 +67,9 @@ namespace ISILab.LBS.VisualElements
             };
             
             _collection = _target.BundleCollection;
-            _populationFilter = _target.SelectedFilter;
+            var filter = _target.SelectedFilter;
             
-            displayChoices.Add(_populationFilter, allList);
+            displayChoices.Add(filter, allList);
             displayChoices.Add(Bundle.PopulationTypeE.Character.ToString(), characterList);
             displayChoices.Add(Bundle.PopulationTypeE.Item.ToString(), itemList);
             displayChoices.Add(Bundle.PopulationTypeE.Interactable.ToString(), interactableList);
@@ -89,7 +87,6 @@ namespace ISILab.LBS.VisualElements
             _target = target as PopulationBehaviour;
             if(_target == null) return;
             _collection = _target.BundleCollection;
-            _populationFilter = _target.SelectedFilter;
         }
 
         public void SetTools(ToolKit toolkit)
@@ -102,21 +99,21 @@ namespace ISILab.LBS.VisualElements
             var t1 = new LBSTool(icon, "Paint Tile", "Add a population item activated!", addPopulationTile);
             t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
             t1.Init(_target.OwnerLayer, _target);
-
+            t1.OnEnd += (l) => DrawManager.Instance.RedrawLayer(_target.OwnerLayer, MainView.Instance);
 
             // Rotate element
             icon = Resources.Load<Texture2D>("Icons/Tools/Rotacion_population");
             rotatePopulationTile = new RotatePopulationTile();
             var t3 = new LBSTool(icon, "Rotate Tile", "Rotate a population item activated!",rotatePopulationTile);
             t3.Init(_target.OwnerLayer, _target);
-     
+            t3.OnEnd += (l) => DrawManager.Instance.RedrawLayer(_target.OwnerLayer, MainView.Instance);
 
             // Remove Tiles
             icon = Resources.Load<Texture2D>("Icons/Tools/Delete_population");
             removePopulationTile = new RemovePopulationTile();
             var t2 = new LBSTool(icon, "Remove Tile", "Remove a population item activated!", removePopulationTile);
             t2.Init(_target.OwnerLayer, _target);
-
+            t2.OnEnd += (l) => DrawManager.Instance.RedrawLayer(_target.OwnerLayer, MainView.Instance);
             
             addPopulationTile.SetRemover(removePopulationTile);
             
@@ -150,8 +147,6 @@ namespace ISILab.LBS.VisualElements
                 var collection = evt.newValue as BundleCollection;
                 collectionField.value = collection;
                 SetCollection(collection);
-                _populationFilter = _target.allFilter; // all by default
-
                 UpdateElementBundles();
                 
             });
@@ -160,11 +155,12 @@ namespace ISILab.LBS.VisualElements
             type.choices = displayChoices.Keys.ToArray().ToList();
             type.RegisterValueChangedCallback(evt =>
             {
-                _populationFilter = evt.newValue as string;
+               var filter = evt.newValue as string;
+               _target.selectedTypeFilter = filter; 
                 UpdateElementBundles();
             });
 
-            type.SetValueWithoutNotify(_populationFilter); 
+            type.SetValueWithoutNotify(_target.SelectedFilter); 
             
             
             bundlePallete = this.Q<SimplePallete>("ConnectionPallete");
@@ -173,7 +169,6 @@ namespace ISILab.LBS.VisualElements
             SetPallete();
             bundlePallete.Repaint();
             
-            _populationFilter = _target.selectedTypeFilter;
             collectionField.SetValueWithoutNotify(_target.BundleCollection);
             
             MarkDirtyRepaint();
@@ -195,7 +190,6 @@ namespace ISILab.LBS.VisualElements
             {
                 _target.selectedToSet = selected as Bundle;
                 _target.BundleCollection = _collection;
-                _target.selectedTypeFilter = _populationFilter;
                 /*
                 if (selected == null)
                 {
@@ -247,12 +241,12 @@ namespace ISILab.LBS.VisualElements
                 return;
             }
             
-            type.SetValueWithoutNotify(_populationFilter); 
+            type.SetValueWithoutNotify(_target.SelectedFilter); 
             warningPanel.SetDisplay(false);
             bundlePallete.DisplayContent(true);
             var bundles = _collection.Collection;
             var candidates = new List<Bundle>();
-            if (_populationFilter == _target.allFilter)
+            if (_target.SelectedFilter == _target.allFilter)
             {
                 candidates = bundles
                     .Where(b => b.Type == Bundle.TagType.Element).ToList();
@@ -260,7 +254,7 @@ namespace ISILab.LBS.VisualElements
             else
             {
                 candidates = bundles
-                    .Where(b => b.Type == Bundle.TagType.Element && b.PopulationType == displayChoices[_populationFilter][0]) // get the bundle type at the filter index
+                    .Where(b => b.Type == Bundle.TagType.Element && b.PopulationType == displayChoices[_target.SelectedFilter][0]) // get the bundle type at the filter index
                     .ToList();
             }
             bundlePallete.ShowGroups = false;
@@ -281,7 +275,6 @@ namespace ISILab.LBS.VisualElements
             
             // Save current selected options in layer
             _target.BundleCollection = _collection;
-            _target.selectedTypeFilter = _populationFilter;
             
             bundlePallete.Repaint();
         }

@@ -54,10 +54,6 @@ namespace ISILab.LBS.VisualElements
 
             var quest = behaviour.OwnerLayer.GetModule<QuestGraph>();
             
-            if (quest.Grammar == null) // load default
-            {
-                quest.Grammar = LBSAssetMacro.LoadAssetByGuid<LBSGrammar>(defaultGrammarGuid); 
-            }
             grammarReference.value = quest.Grammar;
             
             ChangeGrammar(quest.Grammar);

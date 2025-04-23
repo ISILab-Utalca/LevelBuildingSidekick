@@ -30,7 +30,7 @@ namespace ISILab.LBS.Drawers
                 
                 var p = new Vector2(t.GetBounds().x, -t.GetBounds().y);
                 v.SetPosition(new Rect(p * size, size));
-                view.AddElement(v);
+                view.AddElement(population.OwnerLayer,this,v);
                 
             }
         }
