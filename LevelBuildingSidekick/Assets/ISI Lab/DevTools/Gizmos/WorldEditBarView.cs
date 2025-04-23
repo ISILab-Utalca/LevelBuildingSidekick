@@ -194,6 +194,8 @@ namespace ISILab.LBS.VisualElements
 #else
             GameObject ngo = GameObject.Instantiate(prefab);
 #endif
+            Undo.RegisterCreatedObjectUndo(ngo, "Create replacement object");
+            
             //Exception case
             if (!ngo)
             {
@@ -215,7 +217,7 @@ namespace ISILab.LBS.VisualElements
             newLbs.BundleTemp = newBundle ? newBundle : lbs.BundleTemp;
 
             //Destroy original
-            Object.DestroyImmediate(go);
+            Undo.DestroyObjectImmediate(go);;
             return true;
         }
 
