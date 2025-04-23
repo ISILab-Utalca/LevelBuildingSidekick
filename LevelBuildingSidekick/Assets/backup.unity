@@ -27347,6 +27347,109 @@ Transform:
   - {fileID: 848777824}
   m_Father: {fileID: 576210360}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &658188789
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 658188791}
+  - component: {fileID: 658188790}
+  m_Layer: 0
+  m_Name: Quest
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &658188790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 658188789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8da598e40f967b64f9c6c24b5a8d76c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questGraph:
+    id: QuestGraph
+    ownerLayer:
+      visible: 1
+      blocked: 0
+      iconPath: Icon/Default
+      id: LBSLayer
+      name: Layer name
+      modules: []
+      behaviours: []
+      assistants: []
+      generatorRules: []
+      settings:
+        useBundleSize: 0
+        lightVolume: 0
+        reflectionProbe: 0
+        scale: {x: 2, y: 2}
+        resize: {x: 0, y: 0}
+        position: {x: 0, y: 0, z: 0}
+        name: DEFAULT
+    nodeSize: {x: 5, y: 1}
+    grammarName: 
+    questNodes: []
+    questEdges: []
+    root:
+      rid: 8325711462895452325
+  questTriggers: []
+  activeTriggers: []
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 8325711462895452325
+      type: {class: QuestNode, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        x: 0
+        y: 0
+        id: null
+        questAction: null
+        grammarCheck: 0
+        mapCheck: 0
+        nodeType: 0
+        questState: 0
+        valid: 0
+        target:
+          rid: 8325711462895452326
+        graph:
+          rid: -2
+    - rid: 8325711462895452326
+      type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        rect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        tags: []
+--- !u!4 &658188791
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 658188789}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &658844688
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32418,6 +32521,109 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bundleRef: {fileID: 11400000, guid: ce1b2c33321714743b35305340bd46bc, type: 2}
+--- !u!1 &777632669
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 777632671}
+  - component: {fileID: 777632670}
+  m_Layer: 0
+  m_Name: Quest
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &777632670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 777632669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8da598e40f967b64f9c6c24b5a8d76c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questGraph:
+    id: QuestGraph
+    ownerLayer:
+      visible: 1
+      blocked: 0
+      iconPath: Icon/Default
+      id: LBSLayer
+      name: Layer name
+      modules: []
+      behaviours: []
+      assistants: []
+      generatorRules: []
+      settings:
+        useBundleSize: 0
+        lightVolume: 0
+        reflectionProbe: 0
+        scale: {x: 2, y: 2}
+        resize: {x: 0, y: 0}
+        position: {x: 0, y: 0, z: 0}
+        name: DEFAULT
+    nodeSize: {x: 5, y: 1}
+    grammarName: 
+    questNodes: []
+    questEdges: []
+    root:
+      rid: 8325711462895452227
+  questTriggers: []
+  activeTriggers: []
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 8325711462895452227
+      type: {class: QuestNode, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        x: 0
+        y: 0
+        id: null
+        questAction: null
+        grammarCheck: 0
+        mapCheck: 0
+        nodeType: 0
+        questState: 0
+        valid: 0
+        target:
+          rid: 8325711462895452228
+        graph:
+          rid: -2
+    - rid: 8325711462895452228
+      type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        rect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        tags: []
+--- !u!4 &777632671
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 777632669}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &781798518
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -67457,6 +67663,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bundleRef: {fileID: 11400000, guid: b0cbef488335204408c5073e81ad1539, type: 2}
+--- !u!1 &1632122726
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1632122727}
+  m_Layer: 0
+  m_Name: Quest test 1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1632122727
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1632122726}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1633533394
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -82950,6 +83187,109 @@ Transform:
   m_Children: []
   m_Father: {fileID: 576210360}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2074238331
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2074238333}
+  - component: {fileID: 2074238332}
+  m_Layer: 0
+  m_Name: Quest
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2074238332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2074238331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8da598e40f967b64f9c6c24b5a8d76c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questGraph:
+    id: QuestGraph
+    ownerLayer:
+      visible: 1
+      blocked: 0
+      iconPath: Icon/Default
+      id: LBSLayer
+      name: Layer name
+      modules: []
+      behaviours: []
+      assistants: []
+      generatorRules: []
+      settings:
+        useBundleSize: 0
+        lightVolume: 0
+        reflectionProbe: 0
+        scale: {x: 2, y: 2}
+        resize: {x: 0, y: 0}
+        position: {x: 0, y: 0, z: 0}
+        name: DEFAULT
+    nodeSize: {x: 5, y: 1}
+    grammarName: 
+    questNodes: []
+    questEdges: []
+    root:
+      rid: 8325711463474530227
+  questTriggers: []
+  activeTriggers: []
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 8325711463474530227
+      type: {class: QuestNode, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        x: 0
+        y: 0
+        id: null
+        questAction: null
+        grammarCheck: 0
+        mapCheck: 0
+        nodeType: 0
+        questState: 0
+        valid: 0
+        target:
+          rid: 8325711463474530228
+        graph:
+          rid: -2
+    - rid: 8325711463474530228
+      type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        rect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        tags: []
+--- !u!4 &2074238333
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2074238331}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2083936291
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -84884,3 +85224,7 @@ SceneRoots:
   - {fileID: 309543065}
   - {fileID: 1090184027}
   - {fileID: 666902300}
+  - {fileID: 777632671}
+  - {fileID: 658188791}
+  - {fileID: 1632122727}
+  - {fileID: 2074238333}

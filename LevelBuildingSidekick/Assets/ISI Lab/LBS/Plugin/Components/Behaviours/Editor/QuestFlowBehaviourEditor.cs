@@ -23,7 +23,7 @@ using UnityEngine.UIElements;
 namespace ISILab.LBS.VisualElements
 {
     [LBSCustomEditor("QuestFlowBehaviour", typeof(QuestFlowBehaviour))]
-    public class QuestFlowBehaviourEditor : LBSCustomEditor
+    public class QuestFlowBehaviourEditor : LBSCustomEditor, IToolProvider
     {
         private CreateQuestNode addNode;
         private RemoveQuestNode removeNode;
@@ -46,8 +46,6 @@ namespace ISILab.LBS.VisualElements
             behaviour = target as QuestFlowBehaviour;
             CreateVisualElement();
             if (behaviour == null) return;
-           // behaviour.Graph.UpdateFlow -= () => questHistoryPanel?.Refresh(); // avoid multicalls
-           // behaviour.Graph.UpdateFlow += () => questHistoryPanel?.Refresh();
             questHistoryPanel?.SetInfo(behaviour);
         }
         protected override VisualElement CreateVisualElement()
@@ -58,5 +56,9 @@ namespace ISILab.LBS.VisualElements
             return this;
         }
 
+        public void SetTools(ToolKit toolkit)
+        { 
+            // No tools 
+        }
     }
 }

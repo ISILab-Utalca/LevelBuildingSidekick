@@ -24,18 +24,15 @@ namespace ISILab.LBS.Drawers.Editor
             if (quest == null) return;
             
             var nodeViews = new Dictionary<QuestNode, QuestNodeView>();
-            
-            FindAndRemoveAllOfType<QuestNodeView>(view);
-            FindAndRemoveAllOfType<DottedAreaFeedback>(view);
-            FindAndRemoveAllOfType<LBSQuestEdgeView>(view);
+
+            GraphElement allElements = null;
             
             foreach (var node in quest.QuestNodes)
             {
                 /*  Start Node is now assigned by the user. Right click on a node to make it root */
-                if (node.NodeType == NodeType.start) {}//Debug.Log($"Start Node is {node.ID}");
+                if (node.NodeType == NodeType.start) {}
                 
                 var nodeView = new QuestNodeView(node);
-
                 var size = LBSSettings.Instance.general.TileSize * quest.NodeSize;
 
                 nodeView.SetPosition(new Rect(node.Position, size));
@@ -52,8 +49,8 @@ namespace ISILab.LBS.Drawers.Editor
                     rectView.SetPosition(Rect.zero);
                     rectView.ActualizePositions(start.ToInt(), end.ToInt());
                     rectView.SetColor(Color.blue);
-
-                    view.AddElement(rectView);
+                    
+                    view.AddElement(quest.OwnerLayer, this, rectView);
                 }
             }
             
@@ -66,40 +63,13 @@ namespace ISILab.LBS.Drawers.Editor
                 n2.SetBorder(edge.Second);
                 
                 var edgeView = new LBSQuestEdgeView(edge, n1, n2, 4, 4);
-                view.AddElement(edgeView);
+                view.AddElement(quest.OwnerLayer, this, edgeView);
             }
 
             foreach (var nodeView in nodeViews.Values)
             {
-                view.AddElement(nodeView);
+               view.AddElement(quest.OwnerLayer, this, nodeView);
             }
         }
-
-        /// <summary>
-        /// Unlike other layers the visual elements seem to overlap, unless a full redrawing of the MainView is done}
-        /// for that reason we remove all the view elements that belong to this layer.
-        /// </summary>
-        /// <param name="view"></param>
-        /// <typeparam name="T"></typeparam>
-        private void FindAndRemoveAllOfType<T>(MainView view) where T : VisualElement
-        {
-            var toRemove = new List<T>();
-
-            foreach (var element in view.graphElements)
-            {
-                if (element is T typedElement)
-                {
-                    var te = element as T;
-                    toRemove.Add(te);
-                }
-            }
-
-            foreach (var element in toRemove)
-            {
-                var ge = element as GraphElement;
-                view.RemoveElement(ge);
-            }
-        }
-
     }
 }

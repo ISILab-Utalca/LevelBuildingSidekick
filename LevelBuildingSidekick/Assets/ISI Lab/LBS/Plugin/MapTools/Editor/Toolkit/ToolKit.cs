@@ -13,6 +13,8 @@ using ISILab.LBS.VisualElements.Editor;
 using ISILab.LBS.VisualElements;
 using ISILab.LBS.Manipulators;
 using ISILab.LBS;
+using ISILab.LBS.Behaviours;
+using ISILab.LBS.Editor;
 using ISILab.LBS.Editor.Windows;
 
 namespace LBS.VisualElements
@@ -164,28 +166,54 @@ namespace LBS.VisualElements
             }
             return null;
         }
-        
-        private void InitBehavioursTools(LBSLayer layer)
-        {
 
+        public void InitBehavioursTools(LBSLayer layer)
+        {
+            if (layer==null) return;
             foreach (var behaviour in layer.Behaviours)
             {
                 var type = behaviour.GetType();
                 var customEditors = Reflection.GetClassesWith<LBSCustomEditorAttribute>()
                     .Where(t => t.Item2.Any(v => v.type == type)).ToList();
 
-                if (customEditors.Count() == 0)
+                if (!customEditors.Any())
                     return;
 
                 var customEditor = customEditors.First().Item1;
-                var i = customEditor.GetInterface(typeof(IToolProvider).Name);
+                var i = customEditor.GetInterface(nameof(IToolProvider));
 
-                if (i != null)
-                {
-                    var ve = LBSInspectorPanel.Instance.behaviours.CustomEditors.First( x => x.GetType() == customEditor);
-                    ve.SetInfo(behaviour);
-                    ((IToolProvider)ve).SetTools(this);
-                }
+                if (i == null) continue;
+                
+                var matchingEditors = LBSInspectorPanel.Instance.behaviours.CustomEditors
+                    .Where(e => e.Target is LBSBehaviour lb && e.GetType() == customEditor && lb.OwnerLayer == layer)
+                    .ToList();
+
+               // foreach (var editor in matchingEditors)
+               // {
+                    var editor = matchingEditors.First();  
+                    var lb = editor.Target as LBSBehaviour;
+                    if (lb == null) continue;
+
+                    Debug.Log($"Comparing OwnerLayer: {lb.OwnerLayer.ID} with Layer: {layer.ID}");
+
+                    if (Equals(lb.OwnerLayer, layer))
+                    {
+                        Debug.Log($"MATCH: {lb.OwnerLayer.ID} belongs to layer {layer.ID}");
+                        // Do something with matching editor
+                        var ve = editor as LBSCustomEditor;
+                        ve?.SetInfo(behaviour);
+                        if (ve is IToolProvider toolProvider)
+                            toolProvider.SetTools(this);
+                        
+                    }
+                //}
+             
+                /*
+              var ve = LBSInspectorPanel.Instance.behaviours.CustomEditors.First( x => x.GetType() == customEditor);
+                ve.SetInfo(behaviour);
+                if (ve is IToolProvider toolProvider) 
+                    toolProvider.SetTools(this);
+                }*/
             }
         }
 
@@ -234,6 +262,17 @@ namespace LBS.VisualElements
             m.OnManipulationNotification?.Invoke();
         }
 
+        public void SetActive(LBSManipulator manipulator)
+        {
+            foreach (var element in tools)
+            {
+                if (element.Item1.Manipulator == manipulator)
+                {
+                    SetActive(manipulator);
+                }
+            }
+        }
+        
         public void SetActiveWhithoutNotify(int index)
         {
             this.index = index;
