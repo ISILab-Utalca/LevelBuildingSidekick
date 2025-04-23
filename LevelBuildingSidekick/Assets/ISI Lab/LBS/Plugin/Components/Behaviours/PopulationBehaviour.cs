@@ -24,7 +24,7 @@ namespace ISILab.LBS.Behaviours
         BundleTileMap bundleTileMap;
         
         [SerializeField,JsonRequired]
-        private string bundleRefGui = null;
+        private string bundleRefGui = "3e607c0f80297b849a6ea0d7f98c73a3";
         
         #endregion
 
@@ -34,6 +34,8 @@ namespace ISILab.LBS.Behaviours
         
         [SerializeField, JsonIgnore]
         private BundleCollection bundleCollection;
+        
+        public string allFilter = "All";
         
         [FormerlySerializedAs("selectedTypetoSet")] [JsonIgnore]
         public string selectedTypeFilter;
@@ -52,6 +54,21 @@ namespace ISILab.LBS.Behaviours
                 bundleRefGui = LBSAssetMacro.GetGuidFromAsset(value);
             }
         }
+        
+        public string SelectedFilter 
+        {
+            get => GetFilter();
+            set
+            {
+                selectedTypeFilter = value;
+            }
+        }
+
+        private string GetFilter()
+        {
+            return selectedTypeFilter ?? allFilter;
+        }
+
         #endregion
 
         #region CONSTRUCTORS
