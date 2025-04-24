@@ -150,6 +150,8 @@ namespace LBS.Components
         #endregion
 
         #region EVENTS
+
+        public event Action OnChange; // call whenever needing to update a change on a single layer
         public event Action<Vector2Int> OnTileSizeChange;
         public event Action<LBSLayer, LBSModule> OnAddModule;
         public event Action<LBSLayer, LBSModule> OnReplaceModule;
@@ -584,7 +586,12 @@ namespace LBS.Components
             return module;
         }
         */
+        public void OnChangeUpdate()
+        {
+            OnChange?.Invoke();
+        }
         #endregion
     }
+
 }
 

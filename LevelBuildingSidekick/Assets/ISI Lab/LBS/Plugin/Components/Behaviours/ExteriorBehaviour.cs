@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using ISILab.Commons;
 using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
+using ISILab.Macros;
 using JetBrains.Annotations;
 using LBS.Bundles;
 using LBS.Components;
@@ -22,13 +23,12 @@ namespace ISILab.LBS.Behaviours
     public class ExteriorBehaviour : LBSBehaviour
     {
         #region FIELDS
-        [SerializeField, InspectorName("Target Bundle")]
+        [JsonProperty, SerializeReference, SerializeField]
         private Bundle targetBundleRef;
-        
-        // Stores the guid for the object instead of the current path
-        [FormerlySerializedAs("targetBundle")] [JsonRequired, SerializeField, HideInInspector]
-        private string bundlePath = "";
 
+        [SerializeField]
+        private string bundleRefGui = null;
+        
         /***
          * Use asset's GUID; current bundle:
          * - "Exterior_Plains"
@@ -47,41 +47,15 @@ namespace ISILab.LBS.Behaviours
 
         [JsonIgnore]
         private ConnectedTileMapModule Connections => OwnerLayer.GetModule<ConnectedTileMapModule>();
-
-        [JsonIgnore]
-        public string BundlePath
-        {
-            get
-            {
-                if(bundlePath == "") return AssetDatabase.GUIDToAssetPath(defaultBundleGuid);
-                return bundlePath;
-            }
-            set => bundlePath = value;
-        }
-
+        
         public Bundle Bundle
         {
-            get
+            get => GetBundleRef();
+            set
             {
-                if(bundlePath != "") 
-                {
-                    var bundle = AssetDatabase.LoadAssetAtPath<Bundle>(bundlePath); // The custom bundle
-                    //Debug.Log(bundle);
-                    return bundle;
-                }
-          
-                var guiBundle = AssetDatabase.LoadAssetAtPath<Bundle>(AssetDatabase.GUIDToAssetPath(defaultBundleGuid)); // the default bundle
-                Debug.Log(guiBundle);
-                return guiBundle;
-
+                targetBundleRef = value;
+                bundleRefGui = LBSAssetMacro.GetGuidFromAsset(value);
             }
-            set => targetBundleRef = value;
-        }
-
-        public Bundle TargetBundleRef
-        {
-            get => targetBundleRef;
-            set => targetBundleRef = value;
         }
 
         [JsonIgnore]
@@ -105,16 +79,22 @@ namespace ISILab.LBS.Behaviours
         // Method invoked from the LBSLayer Class, whenever the scriptable object's values are modified
         public sealed override void OnGUI()
         {
-            if (!targetBundleRef)
+            GetBundleRef();
+        }
+
+        public Bundle GetBundleRef()
+        {
+            // guid ref saved 
+            if (bundleRefGui != null)
             {
-                bundlePath = AssetDatabase.GUIDToAssetPath(defaultBundleGuid);
+                targetBundleRef = LBSAssetMacro.LoadAssetByGuid<Bundle>(bundleRefGui);
             }
-            else
+            if (!targetBundleRef) // if it's null load default
             {
-                bundlePath = AssetDatabase.GetAssetPath(targetBundleRef);
-                defaultBundleGuid = AssetDatabase.AssetPathToGUID(bundlePath);
+                targetBundleRef = LBSAssetMacro.LoadAssetByGuid<Bundle>(defaultBundleGuid);
             }
-            targetBundleRef = AssetDatabase.LoadAssetAtPath<Bundle>(bundlePath);
+            
+            return targetBundleRef;
         }
 
 
@@ -169,8 +149,9 @@ namespace ISILab.LBS.Behaviours
             var other = obj as ExteriorBehaviour;
 
             if (other == null) return false;
-
-            if (!this.bundlePath.Equals(other.bundlePath)) return false;
+            
+            //if (!GetBundleRef().Equals(other.GetBundleRef())) return false;
+            if (!Equals(GetBundleRef(), other?.GetBundleRef())) return false;
 
             return true;
         }
@@ -182,7 +163,8 @@ namespace ISILab.LBS.Behaviours
         
         
         #endregion
-        
-        
+
+
+
     }
 }

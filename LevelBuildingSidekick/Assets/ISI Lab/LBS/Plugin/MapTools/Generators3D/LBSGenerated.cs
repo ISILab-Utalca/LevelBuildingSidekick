@@ -1,5 +1,7 @@
+using ISI_Lab.LBS.DevTools;
 using ISILab.LBS.Characteristics;
 using LBS.Bundles;
+using UnityEditor;
 using UnityEngine;
 
 namespace ISI_Lab.LBS.Plugin.MapTools.Generators3D
@@ -8,17 +10,61 @@ namespace ISI_Lab.LBS.Plugin.MapTools.Generators3D
     /// Component added to any game objects created by the LBS tool.
     /// Main function is to contain a reference to the object's bundle, for different functionalities.
     /// </summary>
+    [ExecuteInEditMode] // Allows this to run in editor mode
     public class LBSGenerated : MonoBehaviour
     {
         [SerializeField]
         private Bundle bundleRef;
+        [SerializeField]
+        private Bundle bundleTemp;
 
         public Bundle BundleRef
         {
             get => bundleRef;
-            set => bundleRef = value;
+            set
+            {
+                bundleRef = value;
+                bundleTemp = value;
+            }
         }
-    
+        public Bundle BundleTemp
+        {
+            get => bundleTemp;
+            set => bundleTemp = value;
+        }
+        public int AssetIndex { get; set; }
+
+        private void Reset()
+        {
+            // This runs when the script is first added to a GameObject
+            EnsureGizmoComponent();
+        }
+
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            // Schedule the AddComponent for after the current editor update
+            EditorApplication.delayCall += TryAddGizmo;
+        }
+
+        private void TryAddGizmo()
+        {
+            // Check again that the object still exists and doesn’t already have the component
+            if (this != null && gameObject != null && !GetComponent<Custom3dMeshGizmo>())
+            {
+                Undo.AddComponent<Custom3dMeshGizmo>(gameObject); // Supports undo in editor
+            }
+        }
+#endif
+
+        private void EnsureGizmoComponent()
+        {
+            if (!GetComponent<Custom3dMeshGizmo>())
+            {
+                gameObject.AddComponent<Custom3dMeshGizmo>();
+            }
+        }
+        
         public bool HasLBSTag(string tag)
         {
             var characteristics = bundleRef.Characteristics;

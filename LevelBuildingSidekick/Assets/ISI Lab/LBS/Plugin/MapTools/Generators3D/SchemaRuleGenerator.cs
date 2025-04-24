@@ -143,11 +143,12 @@ namespace ISILab.LBS.Generators
                 var pref = current.Assets.RandomRullete(a => a.probability).obj;
 
                 // Create part
-                CreateObject(pref, pivot.transform);
+                var obj = CreateObject(pref, pivot.transform);
                 
                 // Add ref component
-                LBSGenerated generatedComponent = pivot.AddComponent<LBSGenerated>();
+                LBSGenerated generatedComponent = obj.AddComponent<LBSGenerated>();
                 generatedComponent.BundleRef = current;
+    
             }
 
             return pivot;
@@ -201,7 +202,7 @@ namespace ISILab.LBS.Generators
                     settings.scale.y / 2f * -obj.transform.forward.z) * deltaWall;
                 
                 // Add ref component
-                LBSGenerated generatedComponent = pivot.AddComponent<LBSGenerated>();
+                LBSGenerated generatedComponent = obj.AddComponent<LBSGenerated>();
                 generatedComponent.BundleRef = current;
             }
 
@@ -264,7 +265,7 @@ namespace ISILab.LBS.Generators
                     instance.transform.rotation = Quaternion.Euler(0, -90 * (rot + 1), 0);
                     
                     // Add ref component
-                    LBSGenerated generatedComponent = pivot.AddComponent<LBSGenerated>();
+                    LBSGenerated generatedComponent = instance.AddComponent<LBSGenerated>();
                     generatedComponent.BundleRef = current;
                 }
 

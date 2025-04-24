@@ -1,54 +1,75 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <grammar xml:lang="es-CL" root="Quest" version="1.0" xmlns="http://www.w3.org/2001/06/grammar">
 
-  <!-- Root quest node -->
   <rule id="Quest">
+    <ruleref uri="#SubquestList" />
+  </rule>
+
+  <!-- Recursive Subquest List -->
+  <rule id="SubquestList">
+    <item repeat="1-">
+      <ruleref uri="#Subquest" />
+    </item>
+  </rule>
+
+  <rule id="Subquest">
     <one-of>
-      <item> <ruleref uri="#QuestBranch" /> </item>
-      <item> <ruleref uri="#QuestSequence" /> </item>
-      <item> <ruleref uri="#Action" /> </item>
+      <item> <ruleref uri="#Goto" /> </item>
+      <item> <ruleref uri="#Learn" /> </item>
+      <item> <ruleref uri="#Get" /> </item>
+      <item> <ruleref uri="#Steal" /> </item>
+      <item> <ruleref uri="#Kill" /> </item>
+      <item> <ruleref uri="#Capture" /> </item>
+      <item> <ruleref uri="#Spy" /> </item>
     </one-of>
   </rule>
 
-  <!-- Sequential quest steps -->
-  <rule id="QuestSequence">
-    <item>
-      <ruleref uri="#Action" />
-      <ruleref uri="#Quest" />
-    </item>
-  </rule>
-
-  <!-- A branching path -->
-  <rule id="QuestBranch">
-    <item>
-      <ruleref uri="#Quest" />
-      or
-      <ruleref uri="#Quest" />
-      <item repeat="0-1">
-        <ruleref uri="#Merge" />
-      </item>
-    </item>
-  </rule>
-
-  <!-- Merge step after a branch -->
-  <rule id="Merge">
-    <item> merge </item>
-  </rule>
-
-  <!-- An atomic quest action -->
-  <rule id="Action">
+  <rule id="Goto">
     <one-of>
       <item> explore </item>
+      <item> <ruleref uri="#Learn" /> go to </item>
       <item> go to </item>
-      <item> stealth take </item>
-      <item> gather </item>
-      <item> kill </item>
-      <item> capture </item>
-      <item> spy report </item>
-      <item> read </item>
-      <item> listen </item>
-      <item> give listen </item>
     </one-of>
   </rule>
 
+  <rule id="Learn">
+    <one-of>
+      <item> <ruleref uri="#Goto" /> <ruleref uri="#SubquestList" /> listen </item>
+      <item> <ruleref uri="#Goto" /> <ruleref uri="#Get" /> read </item>
+      <item> <ruleref uri="#Get" /> <ruleref uri="#SubquestList" /> give listen </item>
+    </one-of>
+  </rule>
+
+  <rule id="Get">
+    <one-of>
+      <item> <ruleref uri="#Steal" /> </item>
+      <item> <ruleref uri="#Goto" /> gather </item>
+      <item> <ruleref uri="#Goto" /> <ruleref uri="#Get" /> <ruleref uri="#Goto" /> <ruleref uri="#SubquestList" /> exchange </item>
+    </one-of>
+  </rule>
+
+  <rule id="Steal">
+    <one-of>
+      <item> <ruleref uri="#Goto" /> stealth take </item>
+      <item> <ruleref uri="#Goto" /> <ruleref uri="#Kill" /> take </item>
+    </one-of>
+  </rule>
+
+  <rule id="Kill">
+    <one-of>
+      <item> <ruleref uri="#Goto" /> kill </item>
+    </one-of>
+  </rule>
+
+  <rule id="Capture">
+    <one-of>
+      <item> <ruleref uri="#Get" /> <ruleref uri="#Goto" /> capture </item>
+    </one-of>
+  </rule>
+
+  <rule id="Spy">
+    <one-of>
+      <item> <ruleref uri="#Goto" /> spy <ruleref uri="#Goto" /> report </item>
+    </one-of>
+  </rule>
 </grammar>

@@ -371,7 +371,7 @@ MonoBehaviour:
   - type: ISILab.AI.Grammar.LBSGrammar
     items:
     - {fileID: 11400000, guid: 63ab688b53411154db5edd0ec7171c42, type: 2}
-    - {fileID: 11400000, guid: 33275f4b3ae3eb0419b3fb60cb538728, type: 2}
+    - {fileID: 11400000, guid: a09e5df974ffa574eb25d266e7b36d38, type: 2}
   - type: ISILab.LBS.Template.LayerTemplate
     items:
     - {fileID: 11400000, guid: 253f372750fae784d9a42445a8e08fcc, type: 2}
@@ -410,3 +410,6 @@ MonoBehaviour:
   - type: UnityEditor.U2D.Common.SpriteAtlasPacker.SpriteAtlasScriptablePacker
     items:
     - {fileID: 11400000, guid: 9eaaf0b28a38f804f9fadea8b77e198d, type: 2}
+  - type: ISILab.LBS.BackUp
+    items:
+    - {fileID: 11400000, guid: 73ef80c1f9e5e804fb553ce98758f3f2, type: 2}

@@ -10,6 +10,7 @@ using LBS.VisualElements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ISILab.LBS.Assistants;
 using ISILab.LBS.VisualElements.Editor;
 using ISILab.Macros;
 using UnityEditor.UIElements;
@@ -53,10 +54,6 @@ namespace ISILab.LBS.VisualElements
 
             var quest = behaviour.OwnerLayer.GetModule<QuestGraph>();
             
-            if (quest.Grammar == null) // load default
-            {
-                quest.Grammar = LBSAssetMacro.LoadAssetByGuid<LBSGrammar>(defaultGrammarGuid); 
-            }
             grammarReference.value = quest.Grammar;
             
             ChangeGrammar(quest.Grammar);
@@ -65,7 +62,7 @@ namespace ISILab.LBS.VisualElements
 
         public void SetTools(ToolKit toolkit)
         {
-            var ass = target as QuestBehaviour;
+            var questBehaviour = target as QuestBehaviour;
 
             Texture2D icon;
 
@@ -73,22 +70,22 @@ namespace ISILab.LBS.VisualElements
             addNode = new CreateQuestNode();
             var t1 = new LBSTool(icon, "Add Quest Node", "Add a quest node activated!", addNode);
             t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
-            t1.Init(ass?.OwnerLayer, target);
+            t1.Init(questBehaviour?.OwnerLayer, target);
 
             icon = Resources.Load<Texture2D>("Icons/Quest_Icon/Delete_Node_Quest");
             removeNode = new RemoveQuestNode();
             var t2 = new LBSTool(icon, "Remove Quest Node", "Remove a quest node activated!", removeNode);
-            t2.Init(ass?.OwnerLayer, target);
+            t2.Init(questBehaviour?.OwnerLayer, target);
             
             icon = Resources.Load<Texture2D>("Icons/Quest_Icon/Node_Connection_Quest");
             connectNodes = new ConnectQuestNodes();
             var t3 = new LBSTool(icon, "Connect Quest Node", "Connect quest nodes activated!", connectNodes);
-            t3.Init(ass?.OwnerLayer, target);
+            t3.Init(questBehaviour?.OwnerLayer, target);
 
             icon = Resources.Load<Texture2D>("Icons/Quest_Icon/Delete_Node_Connection_Quest");
             removeConnection = new RemoveQuestConnection();
             var t4 = new LBSTool(icon, "Remove Quest Connection", "Remove quest connection activated!", removeConnection);
-            t4.Init(ass?.OwnerLayer, target);
+            t4.Init(questBehaviour?.OwnerLayer, target);
             
             connectNodes.SetRemover(removeConnection);
             
@@ -102,7 +99,8 @@ namespace ISILab.LBS.VisualElements
             connectNodes.OnManipulationEnd += RefreshHistoryPanel;
             removeConnection.OnManipulationEnd += RefreshHistoryPanel;
 
-            behaviour.Graph.GoToNode += GoToQuestNode;
+            behaviour ??= questBehaviour; // if null, assign
+            behaviour!.Graph.GoToNode += GoToQuestNode;
         }
 
         private void GoToQuestNode(QuestNode Node)
@@ -126,6 +124,8 @@ namespace ISILab.LBS.VisualElements
         {
             SetInfo(target);
             behaviour.Graph.UpdateFlow?.Invoke();
+            var questBehaviour = target as QuestBehaviour;
+            DrawManager.Instance.RedrawLayer(questBehaviour?.OwnerLayer, MainView.Instance);
         }
         
         protected override VisualElement CreateVisualElement()
@@ -186,6 +186,8 @@ namespace ISILab.LBS.VisualElements
                     b.Children().First().AddToClassList("lbs-actionbutton");
                 }
             }
+            
+            DrawManager.Instance.RedrawLayer(quest.OwnerLayer, MainView.Instance);
            
         }
 
@@ -193,13 +195,18 @@ namespace ISILab.LBS.VisualElements
         {
             if (grammar == null) throw new Exception("No Grammar");
             
-            if (target is not QuestBehaviour behaviour) throw new Exception("No Assistant");
+            if (target is not QuestBehaviour behaviour) throw new Exception("No Behavior");
+
+            var assistant = behaviour.OwnerLayer.GetAssistant<GrammarAssistant>();
+            if (assistant == null) throw new Exception("No Behavior");
             
             var quest = behaviour.OwnerLayer.GetModule<QuestGraph>();
             if (quest == null)  throw new Exception("No Module");
             
             quest.Grammar = grammar;
-
+            // check if the new grammar applies on the graph
+            if(quest.QuestEdges.Any()) assistant.ValidateEdgeGrammar(quest.QuestEdges.First());
+          
             UpdateContent();
         }
     }

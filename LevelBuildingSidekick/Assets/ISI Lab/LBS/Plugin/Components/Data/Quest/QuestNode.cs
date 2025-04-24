@@ -149,7 +149,7 @@ namespace ISILab.LBS.Components
             this.id = id;
             x = (int)position.x;
             y = (int)position.y;
-            this.questAction = action;
+            questAction = action;
             this.graph = graph;
             this.grammarCheck = grammarCheck;
             target = new QuestTarget();
@@ -163,9 +163,10 @@ namespace ISILab.LBS.Components
         
         public object Clone()
         {
-            var node = new QuestNode(ID, Position, QuestAction, graph, grammarCheck);
-
-            node.target = target.Clone() as QuestTarget;
+            var node = new QuestNode(ID, Position, QuestAction, graph, GrammarCheck)
+            {
+                target = target.Clone() as QuestTarget
+            };
 
             return node;
         }

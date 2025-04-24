@@ -5,6 +5,7 @@ using ISILab.Extensions;
 using ISILab.LBS.Characteristics;
 using ISILab.LBS.Internal;
 using ISILab.LBS.Modules;
+using ISILab.Macros;
 using LBS.Bundles;
 using LBS.Components.TileMap;
 using Newtonsoft.Json;
@@ -23,13 +24,9 @@ namespace ISILab.LBS.Assistants
         [SerializeField, JsonRequired]
         private bool overrideValues;
 
-        [SerializeField, InspectorName("Target Bundle")]
+        [JsonProperty, SerializeReference, SerializeField, JsonRequired]
         private Bundle targetBundleRef;
         
-        // Stores the guid for the object instead of the current path
-        [FormerlySerializedAs("targetBundle")] [SerializeField, JsonRequired, HideInInspector]
-        private string bundlePath = "";
-
         /***
          * Use asset's GUID; current bundle:
          * - "Exterior_Plains" 
@@ -50,34 +47,12 @@ namespace ISILab.LBS.Assistants
         public List<Vector2Int> Positions { get; set; }
 
         [JsonIgnore]
-        public Bundle TargetBundle
-        {
-            get => GetBundle(bundlePath);
-            set
-            {
-                targetBundleRef = value;
-                OnGUI();
-            }
-        }
-        
         public Bundle Bundle
         {
-            get
-            {
-                if(bundlePath != "") 
-                {
-                    var bundle = AssetDatabase.LoadAssetAtPath<Bundle>(bundlePath); // The custom bundle
-                    //Debug.Log(bundle);
-                    return bundle;
-                }
-          
-                var guiBundle = AssetDatabase.LoadAssetAtPath<Bundle>(AssetDatabase.GUIDToAssetPath(defaultBundleGuid)); // the default bundle
-                Debug.Log(guiBundle);
-                return guiBundle;
-
-            }
+            get => GetBundleRef();
             set => targetBundleRef = value;
         }
+        
 
         private List<Vector2Int> Dirs => Directions.Bidimencional.Edges;
         #endregion
@@ -95,16 +70,7 @@ namespace ISILab.LBS.Assistants
 
         public sealed override void OnGUI()
         {
-            if (!targetBundleRef)
-            {
-                bundlePath = AssetDatabase.GUIDToAssetPath(defaultBundleGuid);
-            }
-            else
-            {
-                bundlePath = AssetDatabase.GetAssetPath(targetBundleRef);
-                defaultBundleGuid = AssetDatabase.AssetPathToGUID(bundlePath);
-            }
-            targetBundleRef = AssetDatabase.LoadAssetAtPath<Bundle>(bundlePath);
+            GetBundleRef();
         }
 
         public override object Clone()
@@ -344,11 +310,13 @@ namespace ISILab.LBS.Assistants
 
             if (other == null) return false;
 
-            if (!other.Name.Equals(this.Name)) return false;
+            if (!other.Name.Equals(Name)) return false;
 
-            if (!other.bundlePath.Equals(this.bundlePath)) return false;
+            if (!Equals(other.targetBundleRef, targetBundleRef))
+                return false;
 
-            if (!other.overrideValues.Equals(this.overrideValues)) return false;
+
+            if (!other.overrideValues.Equals(overrideValues)) return false;
 
             return true;
         }
@@ -356,6 +324,16 @@ namespace ISILab.LBS.Assistants
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+       
+        public Bundle GetBundleRef()
+        {
+            if (!targetBundleRef) // if it's null load default
+            {
+                targetBundleRef = LBSAssetMacro.LoadAssetByGuid<Bundle>(defaultBundleGuid);
+            }
+            
+            return targetBundleRef;
         }
         #endregion
     }

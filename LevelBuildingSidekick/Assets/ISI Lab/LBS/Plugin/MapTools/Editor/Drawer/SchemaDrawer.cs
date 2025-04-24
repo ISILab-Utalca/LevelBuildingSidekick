@@ -33,8 +33,8 @@ namespace ISILab.LBS.Drawers
                 var conections = connectionsMod.GetConnections(t);
 
                 var tView = GetTileView(t, zone, conections, teselationSize);
-
-                view.AddElement(tView);
+                
+                view.AddElement(schema.OwnerLayer, this, tView);
             }
         }
 

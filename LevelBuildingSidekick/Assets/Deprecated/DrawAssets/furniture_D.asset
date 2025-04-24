@@ -12,20 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: furniture_D
   m_EditorClassIdentifier: 
+  layerContentFlags: 0
   type: 2
   anchorPosition: 0
   color: {r: 0.9433962, g: 0.44000405, b: 0.19045922, a: 1}
   icon: {fileID: 2800000, guid: 51c25ae72f94c554cbfc7b5344ed383b, type: 3}
-  childsBundles: []
   assets:
   - obj: {fileID: 919132149155446097, guid: a20abce8e4655294886742eb9bb5c382, type: 3}
     probability: 1
   characteristics:
   - rid: 279245815319625885
+  populationType: 0
+  tileSize: {x: 1, y: 1}
+  childsBundles: []
   references:
     version: 2
     RefIds:
     - rid: 279245815319625885
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
+        owner: {fileID: 11400000}
         value: {fileID: 11400000, guid: f34ea2bda3e03b44fad1047a0050c860, type: 2}

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using ISILab.Extensions;
 using ISILab.LBS.Modules;
+using ISILab.Macros;
 using LBS.Bundles;
 using LBS.Components;
 using LBS.Components.TileMap;
@@ -21,14 +22,20 @@ namespace ISILab.LBS.Behaviours
         TileMapModule tileMap;
         [SerializeField, JsonIgnore]
         BundleTileMap bundleTileMap;
+        
+        [SerializeField,JsonRequired]
+        private string bundleRefGui = "3e607c0f80297b849a6ea0d7f98c73a3";
+        
         #endregion
 
         #region META-FIELDS
         [JsonIgnore]
         public Bundle selectedToSet;
         
-        [JsonIgnore]
-        public BundleCollection selectedCollectionToSet;
+        [SerializeField, JsonIgnore]
+        private BundleCollection bundleCollection;
+        
+        public string allFilter = "All";
         
         [FormerlySerializedAs("selectedTypetoSet")] [JsonIgnore]
         public string selectedTypeFilter;
@@ -37,6 +44,31 @@ namespace ISILab.LBS.Behaviours
         #region PROPERTIES
         [JsonIgnore]
         public List<TileBundleGroup> Tilemap => bundleTileMap.Groups;
+        
+        public BundleCollection BundleCollection 
+        {
+            get => GetBundleCollection();
+            set
+            {
+                bundleCollection = value;
+                bundleRefGui = LBSAssetMacro.GetGuidFromAsset(value);
+            }
+        }
+        
+        public string SelectedFilter 
+        {
+            get => GetFilter();
+            set
+            {
+                selectedTypeFilter = value;
+            }
+        }
+
+        private string GetFilter()
+        {
+            return selectedTypeFilter ?? allFilter;
+        }
+
         #endregion
 
         #region CONSTRUCTORS
@@ -159,6 +191,16 @@ namespace ISILab.LBS.Behaviours
             return base.GetHashCode();
         }
 
+        private BundleCollection GetBundleCollection()
+        {
+            if (bundleCollection == null)
+            {
+                bundleCollection = LBSAssetMacro.LoadAssetByGuid<BundleCollection>(bundleRefGui);
+            }
+
+            return bundleCollection;
+        }
+        
         #endregion
     }
 }

@@ -14,12 +14,18 @@ namespace ISILab.LBS.VisualElements.Editor
 {
     public class LayerContainer
     {
-        private Dictionary<object, GraphElement> pairs = new();
+        private Dictionary<object, List<GraphElement>> pairs = new();
 
         public void AddElement(object obj, GraphElement element)
         {
-            pairs.Add(obj, element);    
+            if (!pairs.TryGetValue(obj, out var list))
+            {
+                list = new List<GraphElement>();
+                pairs[obj] = list;
+            }
+            list.Add(element);
         }
+
 
         public void Actualize(object obj, object other)
         {
@@ -28,15 +34,20 @@ namespace ISILab.LBS.VisualElements.Editor
 
         public void Repaint(object obj)
         {
-            GraphElement ve = pairs[obj];
-            ve.MarkDirtyRepaint();
+            List<GraphElement> ve = pairs[obj].ToList();
+            foreach (GraphElement element in ve)
+            {
+                element.MarkDirtyRepaint();
+            }
+            
         }
 
-        public List<GraphElement> Clear()
+        public  List<List<GraphElement>> Clear()
         {
-            var elements = new List<GraphElement>(pairs.Values);
+            List<List<GraphElement>> elements = pairs.Values.ToList();
             pairs.Clear();
             return elements;
+            
         }
     }
 
@@ -242,8 +253,15 @@ namespace ISILab.LBS.VisualElements.Editor
             }
 
             var l = layers[layer];
-            var elements = l.Clear();
-            elements.ForEach(e => this.RemoveElement(e));
+            var graphs = l.Clear();
+            foreach (var graph in graphs)
+            {
+                foreach (var element in graph)
+                {
+                   RemoveElement(element); 
+                }
+            }
+            
         }
 
         public void AddElement(object obj, GraphElement element)

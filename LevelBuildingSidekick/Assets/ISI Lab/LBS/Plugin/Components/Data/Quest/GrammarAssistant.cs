@@ -83,7 +83,7 @@ namespace ISILab.LBS.Assistants
 
                 var actions = q.Select(n => n.QuestAction).ToList();
 
-                if (!Quest.Grammar.Validate(actions))
+                if (!Quest.Grammar.Validate(q).Item1)
                 {
                     continue;
                 }
@@ -107,7 +107,7 @@ namespace ISILab.LBS.Assistants
         /// </summary>
         /// <param name="nodes">All the nodes that the graph contains</param>
         /// <returns></returns>
-        public bool ISGrammarCorrect(List<QuestNode> nodes)
+        public bool fastValidGrammar(List<QuestNode> nodes)
         {
             return nodes.All(n => n.GrammarCheck);
         }
@@ -136,13 +136,13 @@ namespace ISILab.LBS.Assistants
             {
                 first = list.First();
                 var root = Quest.Root;
-                if (first.ID == root.ID) 
+                
+                // Better comparison by ID or custom logic
+                if (first.ID == root.ID) // assuming QuestNode has an ID field
                 {
                     validRoots.Add(list);
                 }
             }
-
-  
 
             var questLines = new List<List<QuestNode>>();
             foreach (var r in validRoots.ToList())
@@ -163,14 +163,20 @@ namespace ISILab.LBS.Assistants
                     Debug.LogError($"Invalid quest line found. Null or empty.");
                     continue;
                 }
-
-                var actions = q.Select(n => n.QuestAction).ToList();
-                if (!Quest.Grammar.Validate(actions))
+                
+                Tuple<bool, List<QuestNode>> result = Quest.Grammar.Validate(q);
+                
+                foreach (var qn in result.Item2)
                 {
-                    Debug.LogWarning($"Invalid quest line: {string.Join(", ", actions)}");
+                    qn.GrammarCheck = true;
+                }
+                
+                if (!result.Item1)
+                {
+                    Debug.LogWarning($"Invalid quest line: {string.Join(", ", q.Select(n => n.QuestAction).ToList())}");
                     continue;
                 }
-
+                
                 candidates.Add(q);
             }
 
@@ -178,7 +184,7 @@ namespace ISILab.LBS.Assistants
             {
                 foreach (var n in c)
                 {
-                    n.GrammarCheck = true;
+                   // n.GrammarCheck = true;
                 }
                 
                 Debug.Log($"GrammarCheck set to TRUE for: {string.Join(", ", c.Select(n => n.QuestAction))}");
@@ -251,7 +257,7 @@ namespace ISILab.LBS.Assistants
 
                 var actions = q.Select(n => n.QuestAction).ToList();
 
-                if (!Quest.Grammar.Validate(actions))
+                if (!Quest.Grammar.Validate(q).Item1)
                 {
                     continue;
                 }
