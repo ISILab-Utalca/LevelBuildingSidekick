@@ -95,6 +95,30 @@ namespace ISILab.LBS.Editor.Windows{
             window.titleContent = new GUIContent("Level Builder", icon);
             window.minSize = new Vector2(800, 400);
         }
+        
+        public static void MessageNotify(string message, LogType logType = LogType.Log, int duration = 2)
+        {       
+            if (notifier == null) return; 
+            notifier.SendNotification(message, logType, duration);
+        }
+        
+        public static void MessageManipulator(string description)
+        {       
+            if (warningLabel == null) return; 
+            warningLabel.text = description;
+        }
+        
+        public static void GridPosition(string gridPosition)
+        {
+            if (positionLabel == null) return; 
+            positionLabel.text = gridPosition;
+        }
+
+        public static void DisplayHelp()
+        {
+            if(helpOverlay == null) return;
+            helpOverlay.style.display = helpOverlay.style.display == DisplayStyle.None ?  DisplayStyle.Flex : DisplayStyle.None;
+        }
         #endregion
 
         #region METHODS
@@ -417,8 +441,6 @@ namespace ISILab.LBS.Editor.Windows{
         /// Called when the level data is changed.
         /// </summary>
         /// <param name="levelData"></param>
-        
-
         private void OnLevelDataChange(LBSLevelData levelData)
         {
             var layersIsEmpty = levelData.Layers.Count <= 0;
@@ -447,37 +469,7 @@ namespace ISILab.LBS.Editor.Windows{
             selectedLabel.text = "Selected: " + layer.Name;
 
         }
-        #endregion
-
-        private void OnFocus()
-        {
-            Undo.undoRedoPerformed += UNDO;
-        }
-
-        private void OnLostFocus()
-        {
-            Undo.undoRedoPerformed -= UNDO;
-        }
-
-        private void UNDO()
-        {
-            DrawManager.ReDraw();
-            LBSInspectorPanel.ReDraw();
-        }
         
-        public static void MessageNotify(string message, LogType logType = LogType.Log, int duration = 2)
-        {       
-            if (notifier == null) return; 
-            notifier.SendNotification(message, logType, duration);
-        }
-        
-        public static void MessageManipulator(string description)
-        {       
-            if (warningLabel == null) return; 
-            warningLabel.text = description;
-        }
-
-
         public List<LBSLayer> GetLayers()
         {
             List<LBSLayer> layers = new List<LBSLayer>();
@@ -495,18 +487,24 @@ namespace ISILab.LBS.Editor.Windows{
                 }
             }
         }
-
-        public static void GridPosition(string gridPosition)
+        
+        private void OnFocus()
         {
-            if (positionLabel == null) return; 
-            positionLabel.text = gridPosition;
+            Undo.undoRedoPerformed += UNDO;
         }
 
-        public static void DisplayHelp()
+        private void OnLostFocus()
         {
-            if(helpOverlay == null) return;
-            helpOverlay.style.display = helpOverlay.style.display == DisplayStyle.None ?  DisplayStyle.Flex : DisplayStyle.None;
+            Undo.undoRedoPerformed -= UNDO;
         }
+
+        private void UNDO()
+        {
+            DrawManager.ReDraw();
+            LBSInspectorPanel.ReDraw();
+        }
+        #endregion
+        
     }
 
 }

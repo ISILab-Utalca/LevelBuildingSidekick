@@ -1,10 +1,6 @@
 using ISILab.Commons.Utility.Editor;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-using ISILab.Extensions;
 using ISILab.LBS.Editor;
 
 namespace ISILab.LBS.VisualElements
@@ -15,38 +11,34 @@ namespace ISILab.LBS.VisualElements
     public class BehaviourContent : VisualElement
     {
         // View
-        private Button menu;
-        private Label label;
-        private VisualElement icon;
-        private Foldout foldout;
-        private VisualElement content;
+        private readonly VisualElement _content;
 
         public BehaviourContent(LBSCustomEditor content, string name, VectorImage icon, Color color)
         {
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("BehaviourContent");
             visualTree.CloneTree(this);
             
-            foldout = this.Q<Foldout>();
-            foldout.RegisterCallback<ChangeEvent<bool>>(FoldoutPressed);
+            var foldout1 = this.Q<Foldout>();
+            foldout1.RegisterCallback<ChangeEvent<bool>>(FoldoutPressed);
             
-            this.icon = this.Q<VisualElement>("Icon");
-            this.icon.style.backgroundImage = new StyleBackground(icon);
-            this.icon.style.unityBackgroundImageTintColor = new StyleColor(color);
+            var icon1 = this.Q<VisualElement>("Icon");
+            icon1.style.backgroundImage = new StyleBackground(icon);
+            icon1.style.unityBackgroundImageTintColor = new StyleColor(color);
             
-            label = this.Q<Label>();
-            label.text = name;
+            var label1 = this.Q<Label>();
+            label1.text = name;
             
-            menu = this.Q<Button>();
+            var menu1 = this.Q<Button>();
             var cmm = new ContextualMenuManipulator(content.ContextMenu);
-            cmm.target = menu;
+            cmm.target = menu1;
             
-            this.content = this.Q<VisualElement>("Content");
-            this.content.Add(content);
+            _content = this.Q<VisualElement>("Content");
+            _content.Add(content);
         }
 
         private void FoldoutPressed(ChangeEvent<bool> evt)
         {
-            content.style.display = evt.newValue ? DisplayStyle.Flex : DisplayStyle.None;
+            _content.style.display = evt.newValue ? DisplayStyle.Flex : DisplayStyle.None;
         }
     }
 }

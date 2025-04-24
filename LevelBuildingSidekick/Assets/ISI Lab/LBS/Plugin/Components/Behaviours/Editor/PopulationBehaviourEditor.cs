@@ -1,6 +1,4 @@
-using System;
 using ISILab.LBS.Behaviours;
-using ISILab.LBS.Characteristics;
 using ISILab.LBS.Editor;
 using ISILab.LBS.Internal;
 using ISILab.LBS.Manipulators;
@@ -8,16 +6,13 @@ using LBS;
 using LBS.Bundles;
 using ISILab.LBS.Settings;
 using LBS.VisualElements;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ISILab.Commons.Utility.Editor;
 using ISILab.Extensions;
 using ISILab.LBS.VisualElements.Editor;
-using ISILab.Macros;
 using UnityEditor.UIElements;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
@@ -79,8 +74,7 @@ namespace ISILab.LBS.VisualElements
             SetInfo(_target);
             CreateVisualElement();
         }
-
-
+        
         public sealed override void SetInfo(object target)
         {
             _target = target as PopulationBehaviour;
