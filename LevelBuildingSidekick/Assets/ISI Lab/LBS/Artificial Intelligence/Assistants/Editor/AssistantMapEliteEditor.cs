@@ -21,6 +21,12 @@ using UnityEditor;
 
 namespace ISILab.LBS.AI.Assistants.Editor
 {
+    //TODO:
+    //AssistantMapEliteEditor debe volverse el objeto principal.
+    /// <summary>
+    /// Reemplazar los VisualElements de Configuration y Content con PopulationAssistantWindow para permitirles ser una ventana independiente.
+    /// </summary>
+
     [LBSCustomEditor("Assistant Map Elite", typeof(AssistantMapElite))]
     public class AssistantMapEliteEditor : LBSCustomEditor, IToolProvider
     {

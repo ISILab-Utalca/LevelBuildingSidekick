@@ -20,6 +20,10 @@ using ISILab.LBS.AI.VisualElements;
 using ISILab.AI.Optimization;
 using System.Linq;
 using System.Speech.Recognition;
+using ISILab.LBS.Assistants;
+using ISILab.LBS.Editor;
+using ISILab.LBS.Manipulators;
+using ISILab.LBS.AI.Assistants.Editor;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -95,6 +99,8 @@ namespace ISILab.LBS.VisualElements.Editor
 
         public void CreateGUI()
         {
+            //
+            
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("PopulationAssistantWindow");
             visualTree.CloneTree(rootVisualElement);
             
@@ -266,7 +272,10 @@ namespace ISILab.LBS.VisualElements.Editor
 
         private void RunAlgorithm()
         {
-            Debug.Log("calculating for " + (rows.value * columns.value) + " windows");
+            //Debug
+            PopulationAssistantEditor.Run();
+            //var elite = new AssistantMapElite();
+            
         }
 
         private void UpdateGrid()
@@ -312,4 +321,5 @@ namespace ISILab.LBS.VisualElements.Editor
 
        #endregion
     }
+
 }
