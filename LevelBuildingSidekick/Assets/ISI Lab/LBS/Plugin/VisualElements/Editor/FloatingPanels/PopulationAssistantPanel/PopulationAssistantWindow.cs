@@ -36,6 +36,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
         #region Utilities
         private Dictionary<String, MAPElitesPreset> presetDictionary = new Dictionary<string, MAPElitesPreset>();
+        private PopulationAssistantEditor editor;
 
         //Default text for unchosen elements
         private string defaultSelectText = "Select...";
@@ -273,7 +274,7 @@ namespace ISILab.LBS.VisualElements.Editor
         private void RunAlgorithm()
         {
             //Debug
-            PopulationAssistantEditor.Run();
+
             //var elite = new AssistantMapElite();
             
         }
@@ -318,7 +319,6 @@ namespace ISILab.LBS.VisualElements.Editor
            window.minSize = new Vector2(1000, 500); // use the Canvas Size of the uxml
            window.Show();
        }
-
        #endregion
     }
 

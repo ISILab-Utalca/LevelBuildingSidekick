@@ -197,6 +197,14 @@ namespace ISILab.LBS.VisualElements.Editor
                 return;
 
             var layer = data.RemoveAt(index);
+
+            //Select a new layer
+            if(data.LayerCount != 0)
+            {
+                if (index >= data.LayerCount) list.selectedIndex--;
+                else OnSelectLayer(data.GetLayer(list.selectedIndex));
+            }
+
             OnRemoveLayer?.Invoke(layer);
             list.Rebuild();
 

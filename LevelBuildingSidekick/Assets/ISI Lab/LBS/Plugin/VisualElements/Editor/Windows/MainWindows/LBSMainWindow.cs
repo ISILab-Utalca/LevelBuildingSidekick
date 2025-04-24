@@ -260,6 +260,10 @@ namespace ISILab.LBS.Editor.Windows{
             layerPanel.OnRemoveLayer += (l) =>
             {
                 drawManager.RemoveContainer(l);
+                if(levelData.LayerCount==0)
+                {
+                    toolkit.Clear();
+                }
             };
 
             // Gen3DPanel
