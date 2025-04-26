@@ -137,6 +137,7 @@ namespace ISILab.LBS.Manipulators
             target.AddManipulator(new ContextualMenuManipulator((evt) => { evt.menu.ClearItems(); }));
             target.RegisterCallback<MouseDownEvent>(OnInternalMouseDown);
             target.RegisterCallback<MouseMoveEvent>(OnInternalMouseMove);
+            target.RegisterCallback<MouseLeaveEvent>(OnInternalMouseLeave);
             target.RegisterCallback<MouseUpEvent>(OnInternalMouseUp);
             target.RegisterCallback<KeyDownEvent>(OnKeyDown);
             target.RegisterCallback<KeyUpEvent>(OnKeyUp);
@@ -149,6 +150,7 @@ namespace ISILab.LBS.Manipulators
         {
             target.UnregisterCallback<MouseDownEvent>(OnInternalMouseDown);
             target.UnregisterCallback<MouseMoveEvent>(OnInternalMouseMove);
+            target.UnregisterCallback<MouseLeaveEvent>(OnInternalMouseLeave);
             target.UnregisterCallback<MouseUpEvent>(OnInternalMouseUp);
             target.UnregisterCallback<KeyDownEvent>(OnKeyDown);
             target.UnregisterCallback<KeyUpEvent>(OnKeyUp);
@@ -255,6 +257,11 @@ namespace ISILab.LBS.Manipulators
             }
         }
 
+        protected void OnInternalMouseLeave(MouseLeaveEvent e)
+        {
+            OnMouseLeave(e.target as VisualElement, e);
+        }
+
         /// <summary>
         /// Handles the internal mouse move event.
         /// </summary>
@@ -262,14 +269,13 @@ namespace ISILab.LBS.Manipulators
         protected void OnInternalMouseMove(MouseMoveEvent e)
         {
             moveClickPosition = MainView.Instance.FixPos(e.localMousePosition).ToInt();
-            
+
             // Display grid position
             if (lbsLayer != null)
             {
                 Vector2 pos = lbsLayer.ToFixedPosition(moveClickPosition);
                 LBSMainWindow.GridPosition("Grid Position: " +  pos.ToInt());
             }
-
    
             // button functionalities
             if (e.button != 0 && e.button != 1)
@@ -286,7 +292,7 @@ namespace ISILab.LBS.Manipulators
                 remover.OnInternalMouseMove(ne);
                 return;
             }
-            
+
             OnMouseMove(e.target as VisualElement, moveClickPosition, e);
             UpdateFeedback();
 
@@ -351,6 +357,9 @@ namespace ISILab.LBS.Manipulators
         }
 
         protected virtual void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e) { }
+
+
+        protected virtual void OnMouseLeave(VisualElement target, MouseLeaveEvent e) { }
 
         protected virtual void OnMouseMove(VisualElement target, Vector2Int movePosition, MouseMoveEvent e) { }
 

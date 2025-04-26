@@ -46,7 +46,7 @@ namespace ISILab.LBS.AI.Assistants.Editor
             // Wave function collapse
             icon = Resources.Load<Texture2D>("Icons/Assistans/Assistans_WaveFunctionCollapse");
             this.collapseManipulator = new WaveFunctionCollapseManipulator();
-            var t1 = new LBSTool(icon, "Wave function collapse", "Wave function collapse activated!", collapseManipulator);
+            var t1 = new LBSTool(icon, "Wave Function Collapse", "Wave Function Collapse", collapseManipulator);
             t1.OnSelect += () =>
             {
                 LBSInspectorPanel.ShowInspector(LBSInspectorPanel.AssistantsTab);

@@ -43,6 +43,11 @@ namespace ISILab.LBS.Manipulators
             layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
         }
 
+        protected override void OnMouseLeave(VisualElement target, MouseLeaveEvent e)
+        {
+            MainView.Instance.RemoveElement(previewFeedback);
+        }
+
         protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
         {
             if (e.ctrlKey)
@@ -83,6 +88,7 @@ namespace ISILab.LBS.Manipulators
         // TODO Currently it completely bugs out whenever x or y are 0 in the grid space. why? wish i fucking knew
         protected override void OnMouseMove(VisualElement target, Vector2Int endPosition, MouseMoveEvent e)
         {
+
             MainView.Instance.RemoveElement(previewFeedback);
             if (ToSet == null) return;
             

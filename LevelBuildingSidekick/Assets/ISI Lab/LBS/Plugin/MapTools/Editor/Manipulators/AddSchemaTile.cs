@@ -39,15 +39,14 @@ namespace ISILab.LBS.Manipulators
         protected override void OnKeyDown(KeyDownEvent e)
         {
             base.OnKeyDown(e);
-            if (e.ctrlKey) LBSMainWindow.MessageManipulator("CTRL-Add new zone activated!");
+            if (e.ctrlKey) LBSMainWindow.WarningManipulator("(CTRL) Adding New Zone");
             else  OnManipulationNotification?.Invoke();
         }
 
         protected override void OnKeyUp(KeyUpEvent e)
         {
             base.OnKeyUp(e);
-            if (e.ctrlKey) LBSMainWindow.MessageManipulator("CTRL-Add new zone activated!");
-            else  OnManipulationNotification?.Invoke();
+            LBSMainWindow.WarningManipulator();
         }
         
         protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)

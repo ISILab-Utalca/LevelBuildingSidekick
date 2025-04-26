@@ -68,23 +68,23 @@ namespace ISILab.LBS.VisualElements
 
             icon = Resources.Load<Texture2D>("Icons/Quest_Icon/Add_Node_Quest");
             addNode = new CreateQuestNode();
-            var t1 = new LBSTool(icon, "Add Quest Node", "Add a quest node activated!", addNode);
+            var t1 = new LBSTool(icon, "Add Quest Node", "Add Quest Node", addNode);
             t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
             t1.Init(questBehaviour?.OwnerLayer, target);
 
             icon = Resources.Load<Texture2D>("Icons/Quest_Icon/Delete_Node_Quest");
             removeNode = new RemoveQuestNode();
-            var t2 = new LBSTool(icon, "Remove Quest Node", "Remove a quest node activated!", removeNode);
+            var t2 = new LBSTool(icon, "Remove Quest Node", "Remove Quest Node", removeNode);
             t2.Init(questBehaviour?.OwnerLayer, target);
             
             icon = Resources.Load<Texture2D>("Icons/Quest_Icon/Node_Connection_Quest");
             connectNodes = new ConnectQuestNodes();
-            var t3 = new LBSTool(icon, "Connect Quest Node", "Connect quest nodes activated!", connectNodes);
+            var t3 = new LBSTool(icon, "Connect Quest Node", "Add Node Connection", connectNodes);
             t3.Init(questBehaviour?.OwnerLayer, target);
 
             icon = Resources.Load<Texture2D>("Icons/Quest_Icon/Delete_Node_Connection_Quest");
             removeConnection = new RemoveQuestConnection();
-            var t4 = new LBSTool(icon, "Remove Quest Connection", "Remove quest connection activated!", removeConnection);
+            var t4 = new LBSTool(icon, "Remove Quest Connection", "Remove Quest Connection", removeConnection);
             t4.Init(questBehaviour?.OwnerLayer, target);
             
             connectNodes.SetRemover(removeConnection);

@@ -146,7 +146,7 @@ namespace LBS.VisualElements
             {
                 var icon = Resources.Load<Texture2D>("Icons/Select");
                 var selectTool = new Select();
-                t1 = new LBSTool(icon, "Select", "Selecting activated!",  selectTool);
+                t1 = new LBSTool(icon, "Select", "Selection",  selectTool);
             }
             t1.Init(layer, this);
             t1.OnSelect += () =>
