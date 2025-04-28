@@ -14,6 +14,7 @@ using ISILab.LBS.AI.Categorization;
 using ISILab.LBS.Generators;
 using UnityEditor.UIElements;
 using Object = UnityEngine.Object;
+using ISILab.LBS.AI.Assistants.Editor;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -61,7 +62,7 @@ namespace ISILab.LBS.VisualElements.Editor
             mapEliteContent = this.Q<VisualElement>("MapEliteContent");
             
             buttonMapElitesAssistant = this.Q<Button>("ButtonMapElitesAssistant");
-            buttonMapElitesAssistant.clicked += PopulationAssistantWindow.ShowWindow;
+            buttonMapElitesAssistant.clicked += PopulationAssistantEditor.Open;
             
             savedElitesContent = this.Q<VisualElement>("SavedElitesContent");
             

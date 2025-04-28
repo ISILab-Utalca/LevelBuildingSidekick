@@ -18,6 +18,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Debug = UnityEngine.Debug;
+using NUnit.Framework.Internal;
 
 namespace ISILab.LBS.Editor.Windows{
 
@@ -49,8 +50,12 @@ namespace ISILab.LBS.Editor.Windows{
         private LBSInspectorPanel inspectorManager;
         private static NotifierViewer notifier;
 
+        //Tool notif
+        private VisualElement toolInformation;
+        private static Label toolLabel;
+
         //Warning notif
-        private VisualElement warningNotification;
+        private static VisualElement warningNotification;
         private static Label warningLabel;
 
         [UxmlAttribute]
@@ -181,9 +186,15 @@ namespace ISILab.LBS.Editor.Windows{
             var disableNotificationButton = rootVisualElement.Q<VisualElement>("DisableNotificationsButton");
             notifier.SetButtons(cleanButton, disableNotificationButton);
 
+            //Tools
+            toolInformation = rootVisualElement.Q<VisualElement>("ToolInformation");
+            toolLabel = rootVisualElement.Q<Label>("ToolText");
+            
+
             //Warning
             warningNotification = rootVisualElement.Q<VisualElement>("WarningNotification");
             warningLabel = rootVisualElement.Q<Label>("WarningText");
+            warningNotification.visible = false;
 
             // LayerInspector
             layerInspector = rootVisualElement.Q<LayerInspector>("LayerInspector");
@@ -284,6 +295,10 @@ namespace ISILab.LBS.Editor.Windows{
             layerPanel.OnRemoveLayer += (l) =>
             {
                 drawManager.RemoveContainer(l);
+                if(levelData.LayerCount==0)
+                {
+                    toolkit.Clear();
+                }
             };
 
             // Gen3DPanel
@@ -470,6 +485,24 @@ namespace ISILab.LBS.Editor.Windows{
 
         }
         
+        public static void MessageNotify(string message, LogType logType = LogType.Log, int duration = 2)
+        {       
+            if (notifier == null) return; 
+            notifier.SendNotification(message, logType, duration);
+        }
+        
+        public static void MessageManipulator(string description)
+        {       
+            if (toolLabel == null) return;
+            toolLabel.text = description;
+        }
+        public static void WarningManipulator(string description = null)
+        {
+            if (warningLabel == null) return;
+            warningLabel.text = description;
+            warningNotification.visible = description != null ? true : false;
+        }
+
         public List<LBSLayer> GetLayers()
         {
             List<LBSLayer> layers = new List<LBSLayer>();

@@ -72,14 +72,14 @@ namespace ISILab.LBS.VisualElements
             // Set empty tile
             icon = Resources.Load<Texture2D>("Icons/Tools/Brush_interior_tile");
             addEmptyTile = new AddEmptyTile();
-            var t1 = new LBSTool(icon, "Add tile without connection", "Add non-connected exterior tile activated!", addEmptyTile);
+            var t1 = new LBSTool(icon, "Add tile without connection", "Add Non-Connected Exterior Tile", addEmptyTile);
             t1.Init(exterior.OwnerLayer, exterior);
          
 
             // Remove tile
             icon = Resources.Load<Texture2D>("Icons/Tools/Delete_exterior_tile");
             removeTile = new RemoveTileExterior();
-            var t2 = new LBSTool(icon, "Remove Tile", "Remove exterior tile activated!", removeTile);
+            var t2 = new LBSTool(icon, "Remove Tile", "Remove Exterior Tile", removeTile);
             t2.Init(exterior.OwnerLayer, exterior);
      
             toolKit.AddSeparator(10);
@@ -87,14 +87,14 @@ namespace ISILab.LBS.VisualElements
             // Set connection
             icon = Resources.Load<Texture2D>("Icons/Tools/Exterior_connection");
             setConnection = new SetExteriorTileConnection();
-            var t3 = new LBSTool(icon, "Set connection", "Set tile connection activated!", setConnection);
+            var t3 = new LBSTool(icon, "Set connection", "Set Tile Connection", setConnection);
             t3.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
             t3.Init(exterior.OwnerLayer, exterior);
          
             // Remove connection
             icon = Resources.Load<Texture2D>("Icons/Tools/Delete_exterior_connection");
             removeConection = new RemoveConnection();
-            var t4 = new LBSTool(icon, "Remove connection", "Remove tile connection activated!", removeConection);
+            var t4 = new LBSTool(icon, "Remove connection", "Remove Tile Connection", removeConection);
             t4.Init(exterior.OwnerLayer, exterior);
 
             addEmptyTile.SetRemover(removeTile);

@@ -21,6 +21,12 @@ using UnityEditor;
 
 namespace ISILab.LBS.AI.Assistants.Editor
 {
+    //TODO:
+    //AssistantMapEliteEditor debe volverse el objeto principal.
+    /// <summary>
+    /// Reemplazar los VisualElements de Configuration y Content con PopulationAssistantWindow para permitirles ser una ventana independiente.
+    /// </summary>
+
     [LBSCustomEditor("Assistant Map Elite", typeof(AssistantMapElite))]
     public class AssistantMapEliteEditor : LBSCustomEditor, IToolProvider
     {
@@ -130,7 +136,7 @@ namespace ISILab.LBS.AI.Assistants.Editor
             var assitant = target as AssistantMapElite;
             var icon = Resources.Load<Texture2D>("Icons/Tools/Area_MapElite");
             ActOnRect = new ActOnRect((r) => assitant.RawToolRect = r);
-            var t1 = new LBSTool(icon, "Select area to evaluate", "Select area to evaluate with MapElites activated!", ActOnRect);
+            var t1 = new LBSTool(icon, "Select area to evaluate", "Area Evaluation", ActOnRect);
             t1.OnSelect += () => LBSInspectorPanel.ShowInspector(LBSInspectorPanel.DataTab);
             t1.Init(assitant.OwnerLayer, assitant);
             toolkit.AddTool(t1);
