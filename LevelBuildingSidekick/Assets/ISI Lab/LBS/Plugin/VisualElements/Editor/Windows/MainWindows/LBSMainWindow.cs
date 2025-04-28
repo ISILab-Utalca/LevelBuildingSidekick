@@ -109,7 +109,8 @@ namespace ISILab.LBS.Editor.Windows{
         
         public static void MessageManipulator(string description)
         {       
-            if (warningLabel == null) return; 
+            if (warningLabel == null) return;
+            if (toolLabel == null) return;
             warningLabel.text = description;
         }
         
@@ -483,18 +484,6 @@ namespace ISILab.LBS.Editor.Windows{
             
             selectedLabel.text = "Selected: " + layer.Name;
 
-        }
-        
-        public static void MessageNotify(string message, LogType logType = LogType.Log, int duration = 2)
-        {       
-            if (notifier == null) return; 
-            notifier.SendNotification(message, logType, duration);
-        }
-        
-        public static void MessageManipulator(string description)
-        {       
-            if (toolLabel == null) return;
-            toolLabel.text = description;
         }
         public static void WarningManipulator(string description = null)
         {
