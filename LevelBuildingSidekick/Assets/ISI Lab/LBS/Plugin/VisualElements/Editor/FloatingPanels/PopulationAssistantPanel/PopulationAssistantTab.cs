@@ -15,6 +15,7 @@ using ISILab.LBS.Generators;
 using UnityEditor.UIElements;
 using Object = UnityEngine.Object;
 using ISILab.LBS.AI.Assistants.Editor;
+using ISILab.LBS.Assistants;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -24,6 +25,7 @@ namespace ISILab.LBS.VisualElements.Editor
         [UxmlElementAttribute]
         public new class UxmlFactory { }
         #endregion
+        private PopulationAssistantWindow window;
 
         #region VIEW ELEMENTS
         private VisualElement mapEliteContent;
@@ -34,6 +36,7 @@ namespace ISILab.LBS.VisualElements.Editor
         private Button buttonMapElitesAssistant;
 
         private ListView mapElitesList;
+        private AssistantMapElite target;
         
         #endregion
 
@@ -53,8 +56,11 @@ namespace ISILab.LBS.VisualElements.Editor
         #endregion
 
         #region CONSTRUCTORS
-        public PopulationAssistantTab()
+        public PopulationAssistantTab(AssistantMapElite target)
         {
+            this.target = target;
+            window = new PopulationAssistantWindow(target);
+
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("PopulationAssistantTab");
             visualTree.CloneTree(this);
             
@@ -62,7 +68,7 @@ namespace ISILab.LBS.VisualElements.Editor
             mapEliteContent = this.Q<VisualElement>("MapEliteContent");
             
             buttonMapElitesAssistant = this.Q<Button>("ButtonMapElitesAssistant");
-            buttonMapElitesAssistant.clicked += PopulationAssistantEditor.Open;
+            buttonMapElitesAssistant.clicked += window.ShowWindow;
             
             savedElitesContent = this.Q<VisualElement>("SavedElitesContent");
             
