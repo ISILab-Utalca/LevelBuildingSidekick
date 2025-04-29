@@ -10,26 +10,32 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
-  m_Name: Furniture
+  m_Name: Grass
   m_EditorClassIdentifier: 
   layerContentFlags: 0
   type: 2
   anchorPosition: 0
-  color: {r: 0.97647065, g: 0.5176471, b: 0.2901961, a: 1}
-  icon: {fileID: 2800000, guid: 51c25ae72f94c554cbfc7b5344ed383b, type: 3}
+  color: {r: 0.8235295, g: 0.54509807, b: 0.3803922, a: 1}
+  icon: {fileID: 2800000, guid: 519a57572d70c2f44a976e1321d6c9ce, type: 3}
   assets:
-  - obj: {fileID: 919132149155446097, guid: a20abce8e4655294886742eb9bb5c382, type: 3}
+  - obj: {fileID: 1782398106950529116, guid: 26ef71e178a237b4a8555d2a041e60a9, type: 3}
     probability: 1
   characteristics:
-  - rid: 279245815319625885
+  - rid: 4305865204711817725
+  - rid: 4305865204711817726
   populationType: 4
   tileSize: {x: 2, y: 2}
   childsBundles: []
   references:
     version: 2
     RefIds:
-    - rid: 279245815319625885
+    - rid: 4305865204711817725
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 11400000}
-        value: {fileID: 11400000, guid: f34ea2bda3e03b44fad1047a0050c860, type: 2}
+        value: {fileID: 11400000, guid: b354587b73f945f4188c7dc7026de4ef, type: 2}
+    - rid: 4305865204711817726
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        owner: {fileID: 11400000}
+        value: {fileID: 11400000, guid: 7aa713c3187b559428c4b4b35324ad50, type: 2}

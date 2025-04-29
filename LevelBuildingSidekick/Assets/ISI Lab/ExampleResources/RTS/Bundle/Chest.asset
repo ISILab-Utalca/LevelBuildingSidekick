@@ -18,7 +18,7 @@ MonoBehaviour:
   color: {r: 0.97647065, g: 0.7803922, b: 0.30980393, a: 1}
   icon: {fileID: 2800000, guid: e32a81c6ec2e1a04d949b9fea1c3b662, type: 3}
   assets:
-  - obj: {fileID: 8837219279990917525, guid: 4b0a6fa21b1780846bd1b7cea7dd27b2, type: 3}
+  - obj: {fileID: 2704943605461428973, guid: 5dfed09cfda7fe14d8a2e41a747fbb29, type: 3}
     probability: 1
   characteristics:
   - rid: 279245815319625884
