@@ -29,7 +29,7 @@ namespace ISILab.LBS.Assistants
 
             var roots = RootLines(node);
             var branches = BranchLines(node);
-
+            
             var questLines = new List<List<QuestNode>>();
 
             foreach (var r in roots)

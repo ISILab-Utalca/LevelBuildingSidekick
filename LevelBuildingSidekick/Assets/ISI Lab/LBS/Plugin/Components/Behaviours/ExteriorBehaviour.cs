@@ -1,23 +1,18 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using ISILab.Commons;
 using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
 using ISILab.Macros;
-using JetBrains.Annotations;
 using LBS.Bundles;
 using LBS.Components;
 using LBS.Components.TileMap;
 using Newtonsoft.Json;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Behaviours
 {
-    [System.Serializable]
+    [Serializable]
     [RequieredModule(typeof(TileMapModule),
                     typeof(ConnectedTileMapModule))]
     public class ExteriorBehaviour : LBSBehaviour
@@ -26,14 +21,12 @@ namespace ISILab.LBS.Behaviours
         [JsonProperty, SerializeReference, SerializeField]
         private Bundle targetBundleRef;
 
-        [SerializeField]
-        private string bundleRefGui = null;
-        
         /***
          * Use asset's GUID; current bundle:
          * - "Exterior_Plains"
          */
-        private string defaultBundleGuid = "9d3dac0f9a486fd47866f815b4fefc29"; 
+        [SerializeField]
+        private string bundleRefGui = "9d3dac0f9a486fd47866f815b4fefc29";
         #endregion
 
         #region META-FIELDS
@@ -62,7 +55,7 @@ namespace ISILab.LBS.Behaviours
         public List<LBSTile> Tiles => TileMap.Tiles;
 
         [JsonIgnore]
-        public List<Vector2Int> Directions => ISILab.Commons.Directions.Bidimencional.Edges;
+        public List<Vector2Int> Directions => Commons.Directions.Bidimencional.Edges;
         #endregion
         
         #region CONSTRUCTORS
@@ -84,14 +77,10 @@ namespace ISILab.LBS.Behaviours
 
         public Bundle GetBundleRef()
         {
-            // guid ref saved 
             if (bundleRefGui != null)
             {
+                // either loads the default guid or the saved guid field
                 targetBundleRef = LBSAssetMacro.LoadAssetByGuid<Bundle>(bundleRefGui);
-            }
-            if (!targetBundleRef) // if it's null load default
-            {
-                targetBundleRef = LBSAssetMacro.LoadAssetByGuid<Bundle>(defaultBundleGuid);
             }
             
             return targetBundleRef;
@@ -151,7 +140,7 @@ namespace ISILab.LBS.Behaviours
             if (other == null) return false;
             
             //if (!GetBundleRef().Equals(other.GetBundleRef())) return false;
-            if (!Equals(GetBundleRef(), other?.GetBundleRef())) return false;
+            if (!Equals(GetBundleRef(), other.GetBundleRef())) return false;
 
             return true;
         }
