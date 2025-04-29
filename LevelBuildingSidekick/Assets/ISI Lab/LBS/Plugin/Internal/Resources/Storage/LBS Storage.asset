@@ -108,6 +108,8 @@ MonoBehaviour:
     - {fileID: 11400000, guid: ed5cf5fb39f24a84aaa8eb3e8a88c84f, type: 2}
     - {fileID: 11400000, guid: abecd8f2ae63b214c9e9e1eb1b0ca551, type: 2}
     - {fileID: 11400000, guid: 1fe18346ae9efce4187df492c2b751a1, type: 2}
+    - {fileID: 11400000, guid: 699e6e67d44b0f342acfe1e91ace6cec, type: 2}
+    - {fileID: 11400000, guid: b24071b1bf4ff114ea5f944bc3a13f5f, type: 2}
   - type: LBSIdentifierBundle
     items:
     - {fileID: 11400000, guid: 5dab7331507a6554a83a7ddfd42f5292, type: 2}

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
-  m_Name: One_Water_Two_FullGround_One_Mountain_Bundle
+  m_Name: Three_Mountain_one_Ground
   m_EditorClassIdentifier: 
   layerContentFlags: 2
   type: 0
@@ -18,22 +18,22 @@ MonoBehaviour:
   color: {r: 0, g: 0, b: 0, a: 0}
   icon: {fileID: 0}
   assets:
-  - obj: {fileID: 919132149155446097, guid: da92a14d12781a94a8be2695c8c10b59, type: 3}
+  - obj: {fileID: 919132149155446097, guid: 4439ec5ff97a5cd4896fbcc76fafb023, type: 3}
     probability: 1
   characteristics:
-  - rid: 6598277248308479329
+  - rid: 3186582182236258993
   populationType: 0
   tileSize: {x: 1, y: 1}
   childsBundles: []
   references:
     version: 2
     RefIds:
-    - rid: 6598277248308479329
+    - rid: 3186582182236258993
       type: {class: LBSDirection, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 11400000}
         connections:
-        - Land
+        - Mountain
+        - Mountain
         - Mountain
         - Land
-        - Water
