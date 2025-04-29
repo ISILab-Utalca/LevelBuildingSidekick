@@ -110,6 +110,9 @@ providers = {
 objectSelectors = {
 }
 recentSearches = [
+	"type: populationParams"
+	"type: population"
+	"type:"
 	"type: structure"
 	"lbsmod"
 	""

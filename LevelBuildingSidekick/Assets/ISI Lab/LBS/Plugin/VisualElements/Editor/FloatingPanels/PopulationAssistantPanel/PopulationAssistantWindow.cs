@@ -20,6 +20,7 @@ using ISILab.LBS.AI.VisualElements;
 using ISILab.AI.Optimization;
 using System.Linq;
 using System.Speech.Recognition;
+using UnityEngine.PlayerLoop;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -69,6 +70,9 @@ namespace ISILab.LBS.VisualElements.Editor
         private ObjectField presetFieldRef;
         private Button openPresetButton;
         private Button resetPresetButton;
+        
+        //Parameters' graphic
+        private VisualElement graphOfHell;
 
         #endregion
 
@@ -196,6 +200,12 @@ namespace ISILab.LBS.VisualElements.Editor
             gridContent = rootVisualElement.Q<VisualElement>("GridContent");
             UpdateGrid();
             
+            //Parameters' graph
+            graphOfHell = rootVisualElement.Q<VisualElement>("GraphOfHell");
+
+            float[] axes = new[] { 0.5f, 1, 0.7f };
+            graphOfHell.Add(new PopulationParamsGraph(axes, Color.yellow, 1));
+
         }
 
         private void SetPresets()
@@ -309,7 +319,7 @@ namespace ISILab.LBS.VisualElements.Editor
            window.minSize = new Vector2(1000, 500); // use the Canvas Size of the uxml
            window.Show();
        }
-
+       
        #endregion
     }
 }
