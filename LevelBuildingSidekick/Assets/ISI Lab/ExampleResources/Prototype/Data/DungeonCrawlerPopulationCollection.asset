@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2985e634a09bd034bb9dc5096e94627a, type: 3}
-  m_Name: TestCollectionBundle
+  m_Name: DungeonCrawlerPopulationCollection
   m_EditorClassIdentifier: 
   collectionType: 2
   color: {r: 0.44421327, g: 0.6320754, b: 0.033790153, a: 0.6}
@@ -29,3 +29,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1fe18346ae9efce4187df492c2b751a1, type: 2}
   - {fileID: 11400000, guid: 60222196b42cc3c40abd97628df94326, type: 2}
   - {fileID: 11400000, guid: e110dc866a7428f418b238712afecaaf, type: 2}
+  - {fileID: 11400000, guid: ba23adec0178df642b196d07637c66a0, type: 2}
+  - {fileID: 11400000, guid: 4a337b02f45cffc429137a953fd37754, type: 2}
+  - {fileID: 11400000, guid: 970d7dc28a8eabe4981202b518f3ae16, type: 2}
