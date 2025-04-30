@@ -203,8 +203,8 @@ namespace ISILab.LBS.VisualElements.Editor
             //Parameters' graph
             graphOfHell = rootVisualElement.Q<VisualElement>("GraphOfHell");
 
-            float[] axes = new[] { 0.5f, 1, 0.7f };
-            graphOfHell.Add(new PopulationParamsGraph(axes, Color.yellow, 1));
+            float[] axes = { 0.5f, 1, 0.7f, 0.1f, 0.4f, 0.5f};
+            graphOfHell.Add(new PopulationParamsGraph(axes, Color.yellow, 2));
 
         }
 
