@@ -1,13 +1,8 @@
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Assistants;
 using ISILab.LBS.Manipulators;
-using LBS;
 using LBS.VisualElements;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
+using ISILab.Macros;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -16,7 +11,8 @@ namespace ISILab.LBS.Editor
     [LBSCustomEditor("GrammarAssistant", typeof(GrammarAssistant))]
     public class GrammarAssistantEditor : LBSCustomEditor, IToolProvider
     {
-
+        private GrammarAssistant m_GrammarAssistant;
+        
         public GrammarAssistantEditor()
         {
 
@@ -28,19 +24,26 @@ namespace ISILab.LBS.Editor
             SetInfo(target);
         }
 
-        public override void SetInfo(object target)
+        public sealed override void SetInfo(object target)
         {
-
-
+            this.target = target as GrammarAssistant;
+            m_GrammarAssistant = LBSLayerHelper.GetFromLayer<GrammarAssistant>(target);
+            Debug.Log(m_GrammarAssistant.Name);
 
         }
 
         public void SetTools(ToolKit toolkit)
         {
+            
         }
 
-        protected override VisualElement CreateVisualElement()
+        protected sealed override VisualElement CreateVisualElement()
         {
+            Clear();
+  
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("GrammarAssistantEditor");
+            visualTree.CloneTree(this);
+            
             return this;
         }
     }
