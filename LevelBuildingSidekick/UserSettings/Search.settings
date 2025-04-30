@@ -110,6 +110,9 @@ providers = {
 objectSelectors = {
 }
 recentSearches = [
+	"type: bundle"
+	"type:"
+	"type: ubndle"
 	"type: structure"
 	"lbsmod"
 	""

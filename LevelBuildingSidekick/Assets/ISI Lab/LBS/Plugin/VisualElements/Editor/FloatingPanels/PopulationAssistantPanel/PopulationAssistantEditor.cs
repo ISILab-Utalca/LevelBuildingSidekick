@@ -30,27 +30,25 @@ namespace ISILab.LBS.AI.Assistants.Editor
 
         public PopulationAssistantEditor(object target) : base(target)
         {
-
+            SetInfo(target);
         }
 
         public void Run()
         {
+            var assistant = target as AssistantMapElite;
         }
 
         public override void SetInfo(object target)
         {
-            //No need for this to do anything
+            this.target = target;
         }
+
         protected override VisualElement CreateVisualElement()
         {
             //We can use this later to add the windows themselves!!
             var ve = new VisualElement();
             ve.style.display = DisplayStyle.None;
             return ve;
-        }
-        public static void Open()
-        {
-            PopulationAssistantWindow.ShowWindow();
         }
     }
 }

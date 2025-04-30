@@ -24,6 +24,12 @@ using ISILab.LBS.Assistants;
 using ISILab.LBS.Editor;
 using ISILab.LBS.Manipulators;
 using ISILab.LBS.AI.Assistants.Editor;
+using ISILab.LBS.Internal;
+using ISILab.LBS.Behaviours;
+using ISILab.LBS.Drawers;
+using ISILab.Extensions;
+using LBS.VisualElements;
+using UnityEditor.VersionControl;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -37,6 +43,7 @@ namespace ISILab.LBS.VisualElements.Editor
         #region Utilities
         private Dictionary<String, MAPElitesPreset> presetDictionary = new Dictionary<string, MAPElitesPreset>();
         private PopulationAssistantEditor editor;
+        private AssistantMapElite target;
 
         //Default text for unchosen elements
         private string defaultSelectText = "Select...";
@@ -97,6 +104,10 @@ namespace ISILab.LBS.VisualElements.Editor
         #endregion
 
         #region CONSTRUCTORS
+        public PopulationAssistantWindow(AssistantMapElite target)
+        {
+            this.target = target;
+        }
 
         public void CreateGUI()
         {
@@ -274,9 +285,18 @@ namespace ISILab.LBS.VisualElements.Editor
         private void RunAlgorithm()
         {
             //Debug
-
+            if (target.Running)
+                return;
+            Debug.Log("running algorithm");
+            target.LoadPresset(GetPresset());
+            if (target.RawToolRect.width == 0 || target.RawToolRect.height == 0)
+            {
+                Debug.LogError("[ISI Lab]: Selected evolution area height or with < 0");
+                return;
+            }
+            SetBackgroundTexture(target.RawToolRect);
             //var elite = new AssistantMapElite();
-            
+
         }
 
         private void UpdateGrid()
@@ -310,9 +330,74 @@ namespace ISILab.LBS.VisualElements.Editor
 
         #endregion
 
-       #region METHODS
-       
-       public static void ShowWindow()
+        #region METHODS
+        public MAPElitesPreset GetPresset()
+        {
+            return LBSAssetsStorage.Instance.Get<MAPElitesPreset>().Find(p => p.name == mapEliteBundle.name);
+        }
+
+        public void SetBackgroundTexture(Rect rect)
+        {
+            var behaviours = target.OwnerLayer.Parent.Layers.SelectMany(l => l.Behaviours);
+            var bh = target.OwnerLayer.Behaviours.Find(b => b is PopulationBehaviour);
+
+            var size = 16;
+
+            var textures = new List<Texture2D>();
+
+            foreach (var b in behaviours)
+            {
+                if (b == null)
+                    continue;
+
+                if (bh != null && b.Equals(bh))
+                    continue;
+
+                var drawerT = LBS_Editor.GetDrawer(b.GetType());
+                var drawer = Activator.CreateInstance(drawerT) as Drawer;
+                textures.Add(drawer.GetTexture(b, rect, Vector2Int.one * size));
+            }
+
+            var texture = new Texture2D((int)(rect.width * size), (int)(rect.height * size));
+
+            for (int j = 0; j < texture.height; j++)
+            {
+                for (int i = 0; i < texture.height; i++)
+                {
+                    texture.SetPixel(i, j, new UnityEngine.Color(0.1f, 0.1f, 0.1f, 1));
+                }
+            }
+
+            for (int i = textures.Count - 1; i >= 0; i--)
+            {
+                if (textures[i] == null)
+                    continue;
+
+                texture = texture.MergeTextures(textures[i]);
+            }
+
+            texture.Apply();
+
+            //Let's try to access the very first one first, and then make a way to access any piece of the grid with a method afterwards.
+
+            var veChildren = gridContent.Children().ToArray();
+            foreach (var veChild in veChildren)
+            {
+                if (veChild is PopulationAssistantButtonResult square)
+                {  //square.style.backgroundImage = new StyleBackground(texture);
+
+                    VisualElement newVE = new VisualElement();
+                    newVE.style.backgroundImage = new StyleBackground(texture);
+                    square.Add(newVE);
+                }
+            }
+            Debug.Log("texture changed");
+            
+            //content.background = texture;
+        }
+    
+
+        public void ShowWindow()
        {
            var window = GetWindow<PopulationAssistantWindow>();
            window.titleContent = new GUIContent("Population Assistant");

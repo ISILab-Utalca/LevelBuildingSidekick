@@ -18,7 +18,6 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Debug = UnityEngine.Debug;
-using NUnit.Framework.Internal;
 
 namespace ISILab.LBS.Editor.Windows{
 

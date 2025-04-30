@@ -70,6 +70,7 @@ namespace ISILab.LBS.Assistants
             this.name = name;
             this.colorTint = colorTint;
         }
+
         #endregion
 
         #region METHODS
