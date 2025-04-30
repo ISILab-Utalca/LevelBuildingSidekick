@@ -30,6 +30,7 @@ using ISILab.LBS.Drawers;
 using ISILab.Extensions;
 using LBS.VisualElements;
 using UnityEditor.VersionControl;
+using UnityEngine.PlayerLoop;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -214,6 +215,12 @@ namespace ISILab.LBS.VisualElements.Editor
             gridContent = rootVisualElement.Q<VisualElement>("GridContent");
             UpdateGrid();
             
+            //Parameters' graph
+            graphOfHell = rootVisualElement.Q<VisualElement>("GraphOfHell");
+
+            float[] axes = { 0.5f, 1, 0.7f, 0.1f, 0.4f, 0.5f};
+            graphOfHell.Add(new PopulationParamsGraph(axes, Color.yellow, 2));
+
         }
 
         private void SetPresets()
@@ -404,7 +411,7 @@ namespace ISILab.LBS.VisualElements.Editor
            window.minSize = new Vector2(1000, 500); // use the Canvas Size of the uxml
            window.Show();
        }
+
        #endregion
     }
-
 }
