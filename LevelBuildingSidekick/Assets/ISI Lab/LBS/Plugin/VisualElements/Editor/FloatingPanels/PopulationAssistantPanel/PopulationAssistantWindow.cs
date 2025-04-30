@@ -41,7 +41,7 @@ namespace ISILab.LBS.VisualElements.Editor
         #endregion
 
         #region Utilities
-        private Dictionary<String, MAPElitesPreset> presetDictionary = new Dictionary<string, MAPElitesPreset>();
+        private Dictionary<String, MAPElitesPreset> presetDictionary;
         private PopulationAssistantEditor editor;
         private AssistantMapElite target;
 
@@ -111,8 +111,9 @@ namespace ISILab.LBS.VisualElements.Editor
 
         public void CreateGUI()
         {
-            //
-            
+
+            presetDictionary = new Dictionary<string, MAPElitesPreset>();
+
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("PopulationAssistantWindow");
             visualTree.CloneTree(rootVisualElement);
             
@@ -176,8 +177,8 @@ namespace ISILab.LBS.VisualElements.Editor
                 zParamText.text = optimizerChoice.GetType().Name + " / Fitness";
             });
 
-            optimizerField.SetEnabled(false);
             //I set everything false so they can't be manipulated if there's no preset present.
+            optimizerField.SetEnabled(false);
 
             //PRESET SETTINGS
             presetSettingsContainer = rootVisualElement.Q<VisualElement>("PresetSettingsContainer");
@@ -213,7 +214,6 @@ namespace ISILab.LBS.VisualElements.Editor
             
             gridContent = rootVisualElement.Q<VisualElement>("GridContent");
             UpdateGrid();
-            
         }
 
         private void SetPresets()
@@ -284,18 +284,30 @@ namespace ISILab.LBS.VisualElements.Editor
 
         private void RunAlgorithm()
         {
-            //Debug
+            //Update button
+            recalculate.text = "Recalculate";
+            //Quit if algorithm is working
             if (target.Running)
                 return;
-            Debug.Log("running algorithm");
-            target.LoadPresset(GetPresset());
-            if (target.RawToolRect.width == 0 || target.RawToolRect.height == 0)
+
+            //Check how many of these there are, and get the optimizer!
+            var veChildren = GetButtonResults(new List<PopulationAssistantButtonResult>(), gridContent);
+            var optimizerThingy = mapEliteBundle.Optimizer;
+
+            foreach (PopulationAssistantButtonResult square in veChildren)
             {
-                Debug.LogError("[ISI Lab]: Selected evolution area height or with < 0");
-                return;
+                //Run algorithm
+                target.LoadPresset(GetPresset());
+                if (target.RawToolRect.width == 0 || target.RawToolRect.height == 0)
+                {
+                    Debug.LogError("[ISI Lab]: Selected evolution area height or with < 0");
+                    return;
+                }
+                SetBackgroundTexture(square, target.RawToolRect);
+                //square.SetLabel(optimizerThingy.EvaluateFitness());
             }
-            SetBackgroundTexture(target.RawToolRect);
-            //var elite = new AssistantMapElite();
+            
+            
 
         }
 
@@ -336,7 +348,7 @@ namespace ISILab.LBS.VisualElements.Editor
             return LBSAssetsStorage.Instance.Get<MAPElitesPreset>().Find(p => p.name == mapEliteBundle.name);
         }
 
-        public void SetBackgroundTexture(Rect rect)
+        public void SetBackgroundTexture(PopulationAssistantButtonResult gridSquare, Rect rect)
         {
             var behaviours = target.OwnerLayer.Parent.Layers.SelectMany(l => l.Behaviours);
             var bh = target.OwnerLayer.Behaviours.Find(b => b is PopulationBehaviour);
@@ -378,26 +390,31 @@ namespace ISILab.LBS.VisualElements.Editor
 
             texture.Apply();
 
-            //Let's try to access the very first one first, and then make a way to access any piece of the grid with a method afterwards.
+            //Update texture on the chosen square
+            gridSquare.SetTexture(texture);
+            //veChildren.First().SetColor(new Color(0, 1, 0, 1));
 
-            var veChildren = gridContent.Children().ToArray();
-            foreach (var veChild in veChildren)
-            {
-                if (veChild is PopulationAssistantButtonResult square)
-                {  //square.style.backgroundImage = new StyleBackground(texture);
-
-                    VisualElement newVE = new VisualElement();
-                    newVE.style.backgroundImage = new StyleBackground(texture);
-                    square.Add(newVE);
-                }
-            }
             Debug.Log("texture changed");
             
             //content.background = texture;
         }
-    
 
-        public void ShowWindow()
+        private List<PopulationAssistantButtonResult> GetButtonResults(List<PopulationAssistantButtonResult> buttons, VisualElement parent)
+        {
+            foreach (var ve in parent.Children())
+            {
+                if (ve is PopulationAssistantButtonResult buttonResult)
+                {
+                    buttons.Add(buttonResult);
+                }
+
+                // Recurse on children
+                GetButtonResults(buttons, ve);
+            }
+            return buttons;
+        }
+
+        public static void ShowWindow()
        {
            var window = GetWindow<PopulationAssistantWindow>();
            window.titleContent = new GUIContent("Population Assistant");
