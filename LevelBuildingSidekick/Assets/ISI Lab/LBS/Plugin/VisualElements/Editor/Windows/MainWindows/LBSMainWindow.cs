@@ -286,7 +286,6 @@ namespace ISILab.LBS.Editor.Windows{
                 OnSelectedLayerChange(layer);
                 sw.Stop();
                 Debug.Log("OnAddLayer: " + sw.ElapsedMilliseconds + " ms");
-
                 sw.Restart();
                 DrawManager.Instance.AddContainer(layer);
                 sw.Stop();

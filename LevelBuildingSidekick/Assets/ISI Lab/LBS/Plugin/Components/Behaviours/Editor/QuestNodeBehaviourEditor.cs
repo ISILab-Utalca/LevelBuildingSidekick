@@ -5,6 +5,7 @@ using ISILab.LBS.Editor;
 using ISILab.LBS.Manipulators;
 using LBS.VisualElements;
 using ISILab.LBS.VisualElements.Editor;
+using ISILab.Macros;
 using UnityEditor.Search;
 using UnityEngine.PlayerLoop;
 using UnityEngine.UIElements;
@@ -58,11 +59,12 @@ namespace ISILab.LBS.VisualElements
         {
             SetInfo(target);
             CreateVisualElement();
-            UpdatePanel();
+            UpdatePanel(null);
         }
         public override void SetInfo(object target)
         {
             behaviour = target as QuestNodeBehaviour;
+            behaviour.OnQuestNodeSelected += UpdatePanel;
         }
         protected override VisualElement CreateVisualElement()
         {
@@ -71,7 +73,8 @@ namespace ISILab.LBS.VisualElements
             visualTree.CloneTree(this);
             
             ActionLabel = this.Q<Label>("ParamAction");
-
+            NodeIDLabel = this.Q<Label>("ParamID");
+            
             ObjectFieldVe = this.Q<VisualElement>("ObjectFieldVe");
             TargetField = this.Q<ObjectField>("TargetField");
             TargetCount = this.Q<IntegerField>("TargetCount");
@@ -92,12 +95,23 @@ namespace ISILab.LBS.VisualElements
 
         public void SetTools(ToolKit toolkit)
         { 
-            // Suscribe select tool to display a node's data
-            var SelectTool = toolkit.TryGetTool("Select");
+            /* Although it relies on the OnSelect tool, its functionality is called from QuestNode Mouse Down
+                where the SelectedNode is set in QuestNodeBehavior 
+            */
         }
 
-        private void UpdatePanel()
+        private void UpdatePanel(QuestNode node)
         {
+            if (node is null)
+            {
+                ObjectFieldVe.style.display = DisplayStyle.None;    
+                Vector2DVe.style.display = DisplayStyle.None;    
+                NoNodeSelectedPanel.style.display = DisplayStyle.Flex;    
+                return;
+            }
+            
+            ActionLabel.text = node.QuestAction;
+            NodeIDLabel.text = node.ID.ToString();
             
         }
 
