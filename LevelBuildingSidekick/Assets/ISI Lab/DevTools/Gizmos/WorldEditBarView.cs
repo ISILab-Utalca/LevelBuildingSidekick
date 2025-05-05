@@ -260,10 +260,10 @@ namespace ISILab.LBS.VisualElements
             };
         }
         
-        public enum StructureTags
-        {
-            None, Wall, Floor, Window, Door, Corner
-        }
     }
 
+    public enum StructureTags
+    {
+        None, Wall, Floor, Window, Door, Corner
+    }
 }

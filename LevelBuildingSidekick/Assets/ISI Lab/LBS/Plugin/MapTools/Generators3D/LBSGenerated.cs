@@ -13,11 +13,9 @@ namespace ISI_Lab.LBS.Plugin.MapTools.Generators3D
     [ExecuteInEditMode] // Allows this to run in editor mode
     public class LBSGenerated : MonoBehaviour
     {
-        [SerializeField]
+        #region BUNDLE REFERENCES
+        //Original bundle reference
         private Bundle bundleRef;
-        [SerializeField]
-        private Bundle bundleTemp;
-
         public Bundle BundleRef
         {
             get => bundleRef;
@@ -27,10 +25,21 @@ namespace ISI_Lab.LBS.Plugin.MapTools.Generators3D
                 bundleTemp = value;
             }
         }
+        //Temporal bundle reference (for when it changes using the WorldEditBar)
+        [SerializeField]
+        private Bundle bundleTemp;
         public Bundle BundleTemp
         {
             get => bundleTemp;
             set => bundleTemp = value;
+        }
+        #endregion
+        
+        [SerializeField]
+        private SpreadType _spread;
+        public SpreadType Spread
+        {
+            get => _spread;
         }
         public int AssetIndex { get; set; }
 
@@ -77,6 +86,18 @@ namespace ISI_Lab.LBS.Plugin.MapTools.Generators3D
             }
 
             return false;
+        }
+
+        void ReposObject()
+        {
+            
+        }
+
+        public enum SpreadType
+        {
+            Center,
+            Side,
+            Random
         }
     }
 }
