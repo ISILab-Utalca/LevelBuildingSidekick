@@ -21,6 +21,7 @@ MonoBehaviour:
     modules:
     - rid: 1248747549014622361
     behaviours:
+    - rid: 8325711621806097963
     - rid: 1248747549014622362
     - rid: 6953538662824935526
     assistants:
@@ -77,7 +78,24 @@ MonoBehaviour:
       type: {class: QuestBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
       data:
         visible: 1
-        VectorImageGuid: 49b9448c876b36c4ba26740d7deae035
+        ownerLayerLayer:
+          visible: 1
+          blocked: 0
+          iconPath: Icon/Default
+          id: LBSLayer
+          name: Layer name
+          modules: []
+          behaviours: []
+          assistants: []
+          generatorRules: []
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: DEFAULT
         icon: {fileID: 7388822144124034973, guid: 49b9448c876b36c4ba26740d7deae035, type: 3}
         colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 1}
         name: Quest Behaviour
@@ -149,7 +167,55 @@ MonoBehaviour:
       type: {class: QuestFlowBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
       data:
         visible: 1
-        VectorImageGuid: a919b94406bb9f5469d29bf56201e3f1
+        ownerLayerLayer:
+          visible: 1
+          blocked: 0
+          iconPath: Icon/Default
+          id: LBSLayer
+          name: Layer name
+          modules: []
+          behaviours: []
+          assistants: []
+          generatorRules: []
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: DEFAULT
         icon: {fileID: 7388822144124034973, guid: a919b94406bb9f5469d29bf56201e3f1, type: 3}
         colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 1}
         name: Quest Flow
+    - rid: 8325711621806097963
+      type: {class: QuestNodeBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
+      data:
+        visible: 1
+        ownerLayerLayer:
+          visible: 1
+          blocked: 0
+          iconPath: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Stamp_Icon.png
+          id: Quest
+          name: Layer Quest
+          modules:
+          - rid: 1248747549014622361
+          behaviours:
+          - rid: 1248747549014622362
+          - rid: 6953538662824935526
+          - rid: 8325711621806097963
+          assistants:
+          - rid: 1248747549014622363
+          generatorRules:
+          - rid: 1248747549014622364
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: Quest
+        icon: {fileID: 7388822144124034973, guid: 8a9f4ea328526464085e24168d212ac9, type: 3}
+        colorTint: {r: 0.3019608, g: 0.3019608, b: 0.3019608, a: 1}
+        name: Selected Action Config

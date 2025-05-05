@@ -30,6 +30,8 @@ using ISILab.LBS.Drawers;
 using ISILab.Extensions;
 using LBS.VisualElements;
 using UnityEditor.VersionControl;
+using UnityEditor.Graphs;
+using UnityEngine.PlayerLoop;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -81,6 +83,9 @@ namespace ISILab.LBS.VisualElements.Editor
         private ObjectField presetFieldRef;
         private Button openPresetButton;
         private Button resetPresetButton;
+        
+        //Parameters' graphic
+        private VisualElement graphOfHell;
 
         #endregion
 
@@ -116,7 +121,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("PopulationAssistantWindow");
             visualTree.CloneTree(rootVisualElement);
-            
+
             //Set up preset
             presetField = rootVisualElement.Q<DropdownField>("Preset");
             SetPresets();
@@ -192,28 +197,61 @@ namespace ISILab.LBS.VisualElements.Editor
             openPresetButton.clicked += () => { UnityEditor.Selection.activeObject = presetFieldRef.value; };
 
             resetPresetButton = rootVisualElement.Q<Button>("ResetPresetButton");
-            resetPresetButton.clicked += () => { if (mapEliteBundle != null) mapEliteBundle = mapEliteBundle.ResetValues(); UpdatePreset(mapEliteBundle.PresetName); };
+            resetPresetButton.clicked += () =>
+            {
+                if (mapEliteBundle != null) mapEliteBundle = mapEliteBundle.ResetValues();
+                UpdatePreset(mapEliteBundle.PresetName);
+            };
 
             //Visualization option buttons
-            visualizationOptionsContent =  rootVisualElement.Q<VisualElement>("VisualizationOptionsContent");
+            visualizationOptionsContent = rootVisualElement.Q<VisualElement>("VisualizationOptionsContent");
 
-            rows =  rootVisualElement.Q<SliderInt>("RowsSlideInt");
+            rows = rootVisualElement.Q<SliderInt>("RowsSlideInt");
             rows.RegisterValueChangedCallback(evt => UpdateGrid());
             columns = rootVisualElement.Q<SliderInt>("ColumnsSlideInt");
             columns.RegisterValueChangedCallback(evt => UpdateGrid());
-            
+
             //Recalculate button
             recalculate = rootVisualElement.Q<Button>("ButtonRecalculate");
             recalculate.clicked += RunAlgorithm;
-            
-            applySuggestion =  rootVisualElement.Q<Button>("ButtonApplySuggestion");
+
+            applySuggestion = rootVisualElement.Q<Button>("ButtonApplySuggestion");
             applySuggestion.clicked += ApplyResult;
-            
-            closeWindow =  rootVisualElement.Q<Button>("ButtonClose");
+
+            closeWindow = rootVisualElement.Q<Button>("ButtonClose");
             closeWindow.clicked += Close;
-            
+
             gridContent = rootVisualElement.Q<VisualElement>("GridContent");
             UpdateGrid();
+
+            //PARAMETER'S GRAPH
+            //Find container
+            graphOfHell = rootVisualElement.Q<VisualElement>("GraphOfHell");
+            
+            //Create and add VisualElement: PopulationAssistantGraph to the container
+            PopulationAssistantGraph graph = new(new[] { 0, 0.2f, 0.4f, 0.6f, 0.8f, 1 }, 2);
+            graphOfHell.Add(graph);
+            
+            //Modify graph's colors (not necessary, it comes with default colors)
+            graph.MainColor = Color.green;
+            graph.SecondaryColor = Color.cyan;
+            
+            //Change axes color
+            graph.SetAxisColor(Color.magenta, 0);
+            graph.SetAxisColor(Color.yellow, 1);
+            graph.SetAxisColor(Color.white, 2);
+            if (graph.SetAxisColor(Color.white, 6))
+            {
+                Debug.LogError("Can't SetAxisValue: Index out of range");
+            }
+            
+            //Change axes value
+            graph.SetAxisValue(0.5f,0);
+            if (graph.SetAxisValue(1, 6))
+            {
+                Debug.LogError("Can't SetAxisValue: Index out of range");
+            }
+            graph.RecalculateCorners(); //Important after changing axes' values
         }
 
         private void SetPresets()
@@ -421,7 +459,7 @@ namespace ISILab.LBS.VisualElements.Editor
            window.minSize = new Vector2(1000, 500); // use the Canvas Size of the uxml
            window.Show();
        }
+
        #endregion
     }
-
 }

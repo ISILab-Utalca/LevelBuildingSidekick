@@ -157,7 +157,7 @@ namespace LBS.VisualElements
 
         }
 
-        LBSTool TryGetTool(string toolName)
+        public LBSTool TryGetTool(string toolName)
         {
             foreach (var element in tools)
             {
