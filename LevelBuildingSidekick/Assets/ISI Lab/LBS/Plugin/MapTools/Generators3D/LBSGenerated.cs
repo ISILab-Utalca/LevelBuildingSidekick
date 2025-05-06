@@ -15,6 +15,7 @@ namespace ISI_Lab.LBS.Plugin.MapTools.Generators3D
     {
         #region BUNDLE REFERENCES
         //Original bundle reference
+        [SerializeField]
         private Bundle bundleRef;
         public Bundle BundleRef
         {
@@ -25,6 +26,7 @@ namespace ISI_Lab.LBS.Plugin.MapTools.Generators3D
                 bundleTemp = value;
             }
         }
+        
         //Temporal bundle reference (for when it changes using the WorldEditBar)
         [SerializeField]
         private Bundle bundleTemp;
@@ -40,6 +42,7 @@ namespace ISI_Lab.LBS.Plugin.MapTools.Generators3D
         public SpreadType Spread
         {
             get => _spread;
+            set => _spread = value;
         }
         public int AssetIndex { get; set; }
 
@@ -88,9 +91,19 @@ namespace ISI_Lab.LBS.Plugin.MapTools.Generators3D
             return false;
         }
 
-        void ReposObject()
+        public Vector3 MicroPosVector(Vector3 origin, float scale)
         {
-            
+            Vector3 vec = new Vector3();
+
+            switch (_spread)
+            {
+                case SpreadType.Side:
+                    break;
+                case SpreadType.Random:
+                    break;
+            }
+
+            return vec;
         }
 
         public enum SpreadType

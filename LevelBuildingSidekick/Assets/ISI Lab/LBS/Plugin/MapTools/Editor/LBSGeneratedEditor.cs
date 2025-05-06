@@ -1,3 +1,4 @@
+using System;
 using ISI_Lab.LBS.Plugin.MapTools.Generators3D;
 using UnityEditor;
 using UnityEditor.UIElements;
@@ -9,17 +10,14 @@ namespace ISI_Lab.LBS.Plugin.MapTools.Editor
     [CustomEditor(typeof(LBSGenerated))]   
     public class LBSGeneratedEditor : UnityEditor.Editor
     {
-        public override void OnInspectorGUI()
+        private LBSGeneratedMargin _margin;
+        public override VisualElement CreateInspectorGUI()
         {
             LBSGenerated targetLbs = (LBSGenerated)target;
-            DrawDefaultInspector();
-
-            if (targetLbs.Spread == LBSGenerated.SpreadType.Center)
-            {
-                EditorGUILayout.LabelField("Hola");
-                Bounds b = new Bounds();
-                EditorGUILayout.BoundsField(b);
-            }
+            
+            _margin = new LBSGeneratedMargin();
+            _margin.SetLBSRef(targetLbs);
+            return _margin;
         }
     }
 }

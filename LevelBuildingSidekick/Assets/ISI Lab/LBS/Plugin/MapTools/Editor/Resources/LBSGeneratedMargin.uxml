@@ -1,0 +1,14 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
+    <uie:ObjectField label="Bundle Ref" name="BundleRef" enabled="false" />
+    <uie:ObjectField label="Bundle Temp" name="BundleTemp" enabled="false" />
+    <ui:EnumField label="Spread Type" value="Center" type="ISI_Lab.LBS.Plugin.MapTools.Generators3D.LBSGenerated+SpreadType, LBS" name="SpreadType" style="margin-bottom: 15px;" />
+    <ui:VisualElement name="MarginGraph" style="flex-grow: 1; top: auto; flex-wrap: nowrap; width: 200px; align-self: center;">
+        <ui:FloatField value="1" style="align-self: center; width: 25px; height: 25px;" />
+        <ui:VisualElement name="VisualElement" style="flex-grow: 1; align-content: auto; align-self: auto; justify-content: space-between; align-items: center; flex-direction: row; width: auto; height: 125px;">
+            <ui:FloatField value="1" style="height: 25px; width: 25px; justify-content: flex-start; align-content: auto; align-self: auto; align-items: stretch;" />
+            <ui:FloatField value="1" style="justify-content: flex-start; height: 25px; width: 25px; align-self: auto; align-content: auto;" />
+        </ui:VisualElement>
+        <ui:FloatField value="1" style="align-content: center; align-self: center; width: 25px; height: 25px;" />
+    </ui:VisualElement>
+</ui:UXML>

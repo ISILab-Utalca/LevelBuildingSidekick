@@ -43,10 +43,12 @@ namespace ISILab.LBS.Generators
         
         public override Tuple<GameObject, string> Generate(LBSLayer layer, Generator3D.Settings settings)
         {
+            //Get references
             var data = layer.GetModule<BundleTileMap>();
             var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
             var scale = settings.scale;
 
+            //Create container objects
             var parent = new GameObject("Types");
 
             var parentEntity = new GameObject("Entity");
@@ -57,11 +59,11 @@ namespace ISILab.LBS.Generators
             var parentMisc = new GameObject("Misc");
 
             var groups = data.Groups;
-
             var objects = new Dictionary<GameObject, Bundle.PopulationTypeE>();
 
             foreach (TileBundleGroup group in groups)
             {
+                //Get tile positions
                 Vector2 centerposition = Vector2.zero;
                 List<Vector2Int> positions = new List<Vector2Int>();
                 foreach (var tile in group.TileGroup)
@@ -80,6 +82,7 @@ namespace ISILab.LBS.Generators
                 }
                 centerposition = new Vector2(sumX / (float)positions.Count, sumY / (float)positions.Count);
                 
+                //Get bundle
                 Bundle current = null;
                 foreach (var b in bundles)
                 {
@@ -89,25 +92,28 @@ namespace ISILab.LBS.Generators
                         current = b;
                 }
                 if (current == null) continue;
-
+                
+                //Get asset from bundle
                 var pref = current.Assets[Random.Range(0, current.Assets.Count)];
                 if (pref == null)
                 {
                     Debug.LogError("Null reference in asset: " + current.Name);
                     continue;
                 }
-
+                
+                //Instantiate prefab
 #if UNITY_EDITOR
                 var go = PrefabUtility.InstantiatePrefab(pref.obj) as GameObject;
 #else
-                    var go = GameObject.Instantiate(pref.obj);
+                var go = GameObject.Instantiate(pref.obj);
 #endif
                 if (go == null)
                 {
                     Debug.LogError("Could not find prefab for: " + current.Name);
                     continue;
                 }
-
+                
+                //Set rotation
                 var r = Directions.Bidimencional.Edges.FindIndex(v => v == group.Rotation);
                 go.transform.rotation = Quaternion.Euler(0, -90 * (r - 1), 0);
                 
@@ -117,10 +123,11 @@ namespace ISILab.LBS.Generators
                     new Vector3(centerposition.x * scale.x, 0, centerposition.y * scale.y) +
                     -(new Vector3(scale.x, 0, scale.y) / 2f);
 
+                //Add components
                 LBSGenerated generatedComponent = go.AddComponent<LBSGenerated>();
                 generatedComponent.BundleRef = current;
+                
                 objects.Add(go, current.PopulationType);
-               
             }
             
             if(objects.Count == 0)
