@@ -208,8 +208,9 @@ namespace ISILab.LBS.VisualElements.Editor
 
             var selected = objs.ToList()[0] as LBSLayer;
             OnSelectLayer?.Invoke(selected);
+            
         }
-
+        
         // Double Click over an element
         private void ItemChosen(IEnumerable<object> objs)
         {
@@ -246,11 +247,12 @@ namespace ISILab.LBS.VisualElements.Editor
 
 
         private void OnLayerSelectedEventHandle(LBSLayer layer){
-            if (layer != null)
+            if (layer is not null)
             {
                 noSelectedLayerNotificator.style.display = DisplayStyle.None;
                 layerSettings.style.display = DisplayStyle.Flex;
-            } else 
+            } 
+            else 
             {
                 noSelectedLayerNotificator.style.display = DisplayStyle.Flex;
                 layerSettings.style.display = DisplayStyle.None;

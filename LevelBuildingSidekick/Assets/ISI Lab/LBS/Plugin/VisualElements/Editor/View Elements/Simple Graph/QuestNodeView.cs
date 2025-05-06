@@ -6,11 +6,15 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Label = UnityEngine.UIElements.Label;
 using ISILab.Extensions;
+using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
+using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.Manipulators;
 using ISILab.LBS.Modules;
 using ISILab.LBS.VisualElements.Editor;
 using ISILab.LBS.Settings;
+using ISILab.Macros;
+using LBS.Components;
 using UnityEditor.UIElements;
 
 namespace ISILab.LBS.VisualElements
@@ -121,6 +125,15 @@ namespace ISILab.LBS.VisualElements
             {
                 _toolbar.style.display = DisplayStyle.Flex;
                 _toolbar.ShowMenu();
+            }
+            // Assign selected quest node behavior only if the node belongs to the active layer
+            else if (evt.button == 0)
+            {
+                QuestNodeBehaviour qnb = LBSLayerHelper.GetObjectFromLayer<QuestNodeBehaviour>(_node.Graph.OwnerLayer);
+                if(qnb is null) return;
+                if (!qnb.Graph.QuestNodes.Contains(_node)) return;
+                qnb.SelectedQuestNode = _node;
+                
             }
 
         }

@@ -1,8 +1,7 @@
-using ISILab.AI.Grammar;
+using System;
 using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
 using LBS.Components;
-using Newtonsoft.Json;
 using UnityEngine.UIElements;
 using Color = UnityEngine.Color;
 
@@ -11,12 +10,24 @@ namespace ISILab.LBS.Behaviours
     [RequieredModule(typeof(QuestGraph))]
     public class QuestNodeBehaviour : LBSBehaviour
     {
-        [JsonIgnore]
-        public GrammarTerminal ToSet { get; set; }
-
         public QuestGraph Graph => OwnerLayer.GetModule<QuestGraph>();
-        public QuestNode SelectedQuestNode { get; set; }
-
+        private QuestNode _selectedQuestNode;
+        /// <summary>
+        /// Assigned from the QuestNodeView On MouseDown event. It will assign the current selected node, allowing to
+        /// modify it based on its action type.
+        /// </summary>
+        public QuestNode SelectedQuestNode
+        {
+            get => _selectedQuestNode;
+            set
+            {
+                _selectedQuestNode = value;
+                OnQuestNodeSelected?.Invoke(_selectedQuestNode);
+            }
+        }
+        
+        public event Action<QuestNode> OnQuestNodeSelected;
+        
         public QuestNodeBehaviour(VectorImage icon, string name, Color colorTint) : base(icon, name, colorTint)
         {
         }

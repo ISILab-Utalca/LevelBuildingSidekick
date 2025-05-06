@@ -169,51 +169,48 @@ namespace LBS.VisualElements
 
         public void InitBehavioursTools(LBSLayer layer)
         {
-            if (layer==null) return;
+            if (layer == null) return;
+
+            // Cache reflection results once
+            var editorTypes = Reflection.GetClassesWith<LBSCustomEditorAttribute>()
+                .Where(t => t.Item2.Any(v => v.type != null))
+                .Select(t => new
+                {
+                    EditorType = t.Item1,
+                    BehaviorType = t.Item2.First(v => v.type != null).type // Safely select first non-null type
+                })
+                .Where(x => typeof(IToolProvider).IsAssignableFrom(x.EditorType)) // Only IToolProvider editors
+                .ToList();
+
+            // Cache matching editors for the layer
+            var customEditors = Enumerable.OfType<LBSCustomEditor>(LBSInspectorPanel.Instance.behaviours.CustomEditors)
+                .Where(e => e.Target is LBSBehaviour lb && lb.OwnerLayer == layer)
+                .ToList();
+
             foreach (var behaviour in layer.Behaviours)
             {
-                var type = behaviour.GetType();
-                var customEditors = Reflection.GetClassesWith<LBSCustomEditorAttribute>()
-                    .Where(t => t.Item2.Any(v => v.type == type)).ToList();
+                if (behaviour == null) continue;
 
-                if (!customEditors.Any())
-                    return;
+                var behaviourType = behaviour.GetType();
 
-                var customEditor = customEditors.First().Item1;
-                var i = customEditor.GetInterface(nameof(IToolProvider));
+                // Find the first editor type matching the behavior
+                var editorType = editorTypes
+                    .FirstOrDefault(x => x.BehaviorType == behaviourType)?.EditorType;
 
-                if (i == null) continue;
-                
-                var matchingEditors = LBSInspectorPanel.Instance.behaviours.CustomEditors
-                    .Where(e => e.Target is LBSBehaviour lb && e.GetType() == customEditor && lb.OwnerLayer == layer)
-                    .ToList();
+                if (editorType == null) continue;
 
-               // foreach (var editor in matchingEditors)
-               // {
-                    var editor = matchingEditors.First();  
-                    var lb = editor.Target as LBSBehaviour;
-                    if (lb == null) continue;
+                // Find the first matching editor instance
+                var editor = customEditors
+                    .FirstOrDefault(e => e.GetType() == editorType && e.Target == behaviour);
 
-                    Debug.Log($"Comparing OwnerLayer: {lb.OwnerLayer.ID} with Layer: {layer.ID}");
+                if (editor == null) continue;
 
-                    if (Equals(lb.OwnerLayer, layer))
-                    {
-                        Debug.Log($"MATCH: {lb.OwnerLayer.ID} belongs to layer {layer.ID}");
-                        // Do something with matching editor
-                        var ve = editor as LBSCustomEditor;
-                        ve?.SetInfo(behaviour);
-                        if (ve is IToolProvider toolProvider)
-                            toolProvider.SetTools(this);
-                        
-                    }
-                //}
-             
-                /*
-              var ve = LBSInspectorPanel.Instance.behaviours.CustomEditors.First( x => x.GetType() == customEditor);
-                ve.SetInfo(behaviour);
-                if (ve is IToolProvider toolProvider) 
+                // Update the editor and set tools
+                editor.SetInfo(behaviour);
+                if (editor is IToolProvider toolProvider)
+                {
                     toolProvider.SetTools(this);
-                }*/
+                }
             }
         }
 

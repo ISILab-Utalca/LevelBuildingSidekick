@@ -41,6 +41,7 @@ namespace ISILab.LBS
 
         [JsonIgnore]
         public Action OnReload;
+
         #endregion
 
         #region METHODS
@@ -62,7 +63,7 @@ namespace ISILab.LBS
 
             OnReload?.Invoke();
         }
-
+        
         public LBSLayer GetLayer(int index)
         {
             return layers[index];

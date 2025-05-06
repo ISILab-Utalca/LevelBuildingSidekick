@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ISILab.AI.Grammar;
 using ISILab.Extensions;
+using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
 using ISILab.LBS.Internal;
 using ISILab.LBS.Settings;
@@ -150,9 +151,9 @@ namespace ISILab.LBS.Modules
         
         public void AddNode(string id, Vector2 position, string action)
         {
-            var data = new QuestNode(id, position, action, this);
-            questNodes.Add(data);
-            OnAddNode?.Invoke(data);
+            var newNode = new QuestNode(id, position, action, this);
+            questNodes.Add(newNode);
+            OnAddNode?.Invoke(newNode);
             UpdateFlow?.Invoke();
         }
         public void AddNode(QuestNode node)
@@ -161,6 +162,10 @@ namespace ISILab.LBS.Modules
             questNodes.Add(node);
             OnAddNode?.Invoke(node);
             UpdateFlow?.Invoke();
+            
+            QuestNodeBehaviour qnb = LBSLayerHelper.GetObjectFromLayer<QuestNodeBehaviour>(OwnerLayer);
+            if(qnb is null) return;
+            qnb.SelectedQuestNode = node;
         }
         public void RemoveQuestNode(QuestNode node)
         {
