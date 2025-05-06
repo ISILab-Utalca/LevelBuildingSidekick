@@ -40,6 +40,8 @@ namespace ISILab.LBS.VisualElements
         public static string DataTab = "Layer data";
         public static string BehavioursTab = "Behaviours";
         public static string AssistantsTab = "Assistants";
+
+        private static string recentTab;
         
         private Dictionary<string, LBSInspector> VEs = new();
         #endregion
@@ -152,11 +154,15 @@ namespace ISILab.LBS.VisualElements
         #region FUNCTIONS SINGLETON
         public static void ShowInspector(string tab)
         {
-            var panel = LBSInspectorPanel.Instance;
+            if (recentTab == tab) return;
+            recentTab = tab; 
+            var panel = Instance;
             panel.VEs.TryGetValue(tab, out var ve);
             if(ve == null) return;
-            ve.style.display = DisplayStyle.Flex;
-            panel.tabsGroup.ChangeActive(tab);
+           // Avoid reopening the same tab constantly
+           ve.style.display = DisplayStyle.Flex;
+           panel.tabsGroup.ChangeActive(tab);
+       
         }
 
         public static void ReDraw()

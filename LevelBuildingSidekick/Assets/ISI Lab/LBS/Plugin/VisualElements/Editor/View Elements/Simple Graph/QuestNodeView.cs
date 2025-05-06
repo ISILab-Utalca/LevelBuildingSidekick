@@ -136,6 +136,8 @@ namespace ISILab.LBS.VisualElements
                 
             }
 
+            LBSInspectorPanel.ShowInspector(LBSInspectorPanel.BehavioursTab);
+            
         }
 
         public void MakeRoot(DropdownMenuAction obj = null)
