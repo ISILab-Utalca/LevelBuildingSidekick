@@ -24,10 +24,15 @@ namespace ISILab.LBS.VisualElements.Editor
         #endregion
 
         #region VIEW ELEMENTS
+
+        private VisualElement background;
         // display 2 decimals only
         private Label scoreLabel;
         // image displaying 3 dots and eventually the generated data
         private VisualElement image;
+        private VisualElement customImage;
+
+        private Texture2D defaultImage;
         
         #endregion
 
@@ -41,6 +46,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
         #region EVENTS
         public Action OnExecute;
+        public Action OnImageChange;
         #endregion
 
         #region PROPERTIES
@@ -55,9 +61,14 @@ namespace ISILab.LBS.VisualElements.Editor
         {
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("PopulationAssistantButtonResult");
             visualTree.CloneTree(this);
-            
+
+            background = this.Q<VisualElement>("Background");
             scoreLabel = this.Q<Label>("ScoreValue");
-            image = this.Q<Image>("Image");   
+
+            image = this.Q<VisualElement>("Image");
+            customImage = this.Q<VisualElement>("CustomImage");
+            OnImageChange += () => image.visible = customImage.style.backgroundImage != null ? false : true;
+            
         }
         #endregion
         
@@ -70,13 +81,19 @@ namespace ISILab.LBS.VisualElements.Editor
             return default;
         }
 
-        internal void SetTexture(Texture2D texture)
+        public void SetTexture(Texture2D texture)
         {
-            if (image == null) return;
-            image.style.backgroundImage = texture;
+            if (customImage == null) { Debug.Log("No image");  return; }
+            customImage.style.backgroundImage = texture;
+            OnImageChange?.Invoke();
         }
 
-        internal void UpdateLabel(string score)
+        public void SetColor(Color color)
+        {
+            background.style.backgroundColor = color;
+        }
+
+        public void SetLabel(string score)
         {
             if (scoreLabel == null) return;
             scoreLabel.text = score;
