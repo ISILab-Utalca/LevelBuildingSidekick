@@ -43,8 +43,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b0cbef488335204408c5073e81ad1539, type: 2}
   - {fileID: 11400000, guid: 8c3037191b5f7b741b0a8929f5624c30, type: 2}
   - {fileID: 11400000, guid: 7eadf284e32d9cd4aacfa26c4333896c, type: 2}
-  - {fileID: 11400000, guid: 88795bdba328c1a479ba16dd5924282b, type: 2}
-  - {fileID: 11400000, guid: 08f13257604e86e49a0ea9f3e2518bbc, type: 2}
+  - {fileID: 11400000, guid: 699e6e67d44b0f342acfe1e91ace6cec, type: 2}
+  - {fileID: 11400000, guid: b24071b1bf4ff114ea5f944bc3a13f5f, type: 2}
   references:
     version: 2
     RefIds:
@@ -93,7 +93,7 @@ MonoBehaviour:
           weight: 0.5
         - target: {fileID: 11400000, guid: 7eadf284e32d9cd4aacfa26c4333896c, type: 2}
           weight: 0.5
-        - target: {fileID: 11400000, guid: 88795bdba328c1a479ba16dd5924282b, type: 2}
+        - target: {fileID: 11400000, guid: 699e6e67d44b0f342acfe1e91ace6cec, type: 2}
           weight: 0.5
-        - target: {fileID: 11400000, guid: 08f13257604e86e49a0ea9f3e2518bbc, type: 2}
+        - target: {fileID: 11400000, guid: b24071b1bf4ff114ea5f944bc3a13f5f, type: 2}
           weight: 0.5

@@ -63,22 +63,31 @@ namespace ISILab.LBS.VisualElements
         #region BUTTON METHODS
         private void OnShuffleClicked()
         {
-            //Pick an asset
-            lbsComponent.AssetIndex++;
-            if (lbsComponent.AssetIndex >= lbsComponent.BundleTemp.Assets.Count)
+            if (lbsComponent.BundleTemp.Assets.Count < 2)
             {
-                lbsComponent.AssetIndex = 0;
-            }   
+                //Pick an asset
+                lbsComponent.AssetIndex++;
+                if (lbsComponent.AssetIndex >= lbsComponent.BundleTemp.Assets.Count)
+                {
+                    lbsComponent.AssetIndex = 0;
+                }   
             
-            //Debug
-            Debug.Log("Switching to asset " + (lbsComponent.AssetIndex + 1) + " of " + lbsComponent.BundleTemp.Assets.Count);
+                //Debug
+                Debug.Log("Switching to asset " + (lbsComponent.AssetIndex + 1) + " of " + lbsComponent.BundleTemp.Assets.Count);
             
-            //Call SwapObject
-            SwapObject(lbsComponent, lbsComponent.BundleTemp.Assets[lbsComponent.AssetIndex].obj);
+                //Call SwapObject
+                SwapObject(lbsComponent, lbsComponent.BundleTemp.Assets[lbsComponent.AssetIndex].obj);
+            }
+            else
+            {
+                //Debug
+                Debug.Log("There's less than 2 assets in the bundle");
+            }
         }
 
         private void OnResetClicked()
         {
+            Undo.RecordObject(bundleField.value, "Previous to Reset");
             bundleField.value = lbsComponent.BundleRef;
         }
         #endregion
@@ -127,6 +136,7 @@ namespace ISILab.LBS.VisualElements
             else if (isStructure)
             {
                 //Get references
+                //Access to bundle parent to get the children and search one that contains a StructureTag in its name
                 Bundle newBundle = lbsComponent.BundleTemp.Parent().ChildsBundles.Find(b => b.name.Contains(EnumToString((StructureTags)evtNewValue)));
 
                 //Replace models if new type
@@ -249,6 +259,7 @@ namespace ISILab.LBS.VisualElements
                 _ => "None"
             };
         }
+        
     }
 
     public enum StructureTags

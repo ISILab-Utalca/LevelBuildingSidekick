@@ -68,7 +68,7 @@ namespace ISILab.LBS.VisualElements.Editor
             mapEliteContent = this.Q<VisualElement>("MapEliteContent");
             
             buttonMapElitesAssistant = this.Q<Button>("ButtonMapElitesAssistant");
-            buttonMapElitesAssistant.clicked += window.ShowWindow;
+            buttonMapElitesAssistant.clicked += PopulationAssistantWindow.ShowWindow;
             
             savedElitesContent = this.Q<VisualElement>("SavedElitesContent");
             

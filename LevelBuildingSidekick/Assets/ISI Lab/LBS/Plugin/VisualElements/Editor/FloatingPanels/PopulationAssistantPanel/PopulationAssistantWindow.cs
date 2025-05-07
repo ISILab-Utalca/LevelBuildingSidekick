@@ -30,6 +30,8 @@ using ISILab.LBS.Drawers;
 using ISILab.Extensions;
 using LBS.VisualElements;
 using UnityEditor.VersionControl;
+using UnityEditor.Graphs;
+using UnityEngine.PlayerLoop;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -41,7 +43,7 @@ namespace ISILab.LBS.VisualElements.Editor
         #endregion
 
         #region Utilities
-        private Dictionary<String, MAPElitesPreset> presetDictionary = new Dictionary<string, MAPElitesPreset>();
+        private Dictionary<String, MAPElitesPreset> presetDictionary;
         private PopulationAssistantEditor editor;
         private AssistantMapElite target;
 
@@ -81,6 +83,9 @@ namespace ISILab.LBS.VisualElements.Editor
         private ObjectField presetFieldRef;
         private Button openPresetButton;
         private Button resetPresetButton;
+        
+        //Parameters' graphic
+        private VisualElement graphOfHell;
 
         #endregion
 
@@ -111,11 +116,12 @@ namespace ISILab.LBS.VisualElements.Editor
 
         public void CreateGUI()
         {
-            //
-            
+
+            presetDictionary = new Dictionary<string, MAPElitesPreset>();
+
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("PopulationAssistantWindow");
             visualTree.CloneTree(rootVisualElement);
-            
+
             //Set up preset
             presetField = rootVisualElement.Q<DropdownField>("Preset");
             SetPresets();
@@ -176,8 +182,8 @@ namespace ISILab.LBS.VisualElements.Editor
                 zParamText.text = optimizerChoice.GetType().Name + " / Fitness";
             });
 
-            optimizerField.SetEnabled(false);
             //I set everything false so they can't be manipulated if there's no preset present.
+            optimizerField.SetEnabled(false);
 
             //PRESET SETTINGS
             presetSettingsContainer = rootVisualElement.Q<VisualElement>("PresetSettingsContainer");
@@ -191,29 +197,61 @@ namespace ISILab.LBS.VisualElements.Editor
             openPresetButton.clicked += () => { UnityEditor.Selection.activeObject = presetFieldRef.value; };
 
             resetPresetButton = rootVisualElement.Q<Button>("ResetPresetButton");
-            resetPresetButton.clicked += () => { if (mapEliteBundle != null) mapEliteBundle = mapEliteBundle.ResetValues(); UpdatePreset(mapEliteBundle.PresetName); };
+            resetPresetButton.clicked += () =>
+            {
+                if (mapEliteBundle != null) mapEliteBundle = mapEliteBundle.ResetValues();
+                UpdatePreset(mapEliteBundle.PresetName);
+            };
 
             //Visualization option buttons
-            visualizationOptionsContent =  rootVisualElement.Q<VisualElement>("VisualizationOptionsContent");
+            visualizationOptionsContent = rootVisualElement.Q<VisualElement>("VisualizationOptionsContent");
 
-            rows =  rootVisualElement.Q<SliderInt>("RowsSlideInt");
+            rows = rootVisualElement.Q<SliderInt>("RowsSlideInt");
             rows.RegisterValueChangedCallback(evt => UpdateGrid());
             columns = rootVisualElement.Q<SliderInt>("ColumnsSlideInt");
             columns.RegisterValueChangedCallback(evt => UpdateGrid());
-            
+
             //Recalculate button
             recalculate = rootVisualElement.Q<Button>("ButtonRecalculate");
             recalculate.clicked += RunAlgorithm;
-            
-            applySuggestion =  rootVisualElement.Q<Button>("ButtonApplySuggestion");
+
+            applySuggestion = rootVisualElement.Q<Button>("ButtonApplySuggestion");
             applySuggestion.clicked += ApplyResult;
-            
-            closeWindow =  rootVisualElement.Q<Button>("ButtonClose");
+
+            closeWindow = rootVisualElement.Q<Button>("ButtonClose");
             closeWindow.clicked += Close;
-            
+
             gridContent = rootVisualElement.Q<VisualElement>("GridContent");
             UpdateGrid();
+
+            //PARAMETER'S GRAPH
+            //Find container
+            graphOfHell = rootVisualElement.Q<VisualElement>("GraphOfHell");
             
+            //Create and add VisualElement: PopulationAssistantGraph to the container
+            PopulationAssistantGraph graph = new(new[] { 0, 0.2f, 0.4f, 0.6f, 0.8f, 1 }, 2);
+            graphOfHell.Add(graph);
+            
+            //Modify graph's colors (not necessary, it comes with default colors)
+            graph.MainColor = Color.green;
+            graph.SecondaryColor = Color.cyan;
+            
+            //Change axes color
+            graph.SetAxisColor(Color.magenta, 0);
+            graph.SetAxisColor(Color.yellow, 1);
+            graph.SetAxisColor(Color.white, 2);
+            if (graph.SetAxisColor(Color.white, 6))
+            {
+                Debug.LogError("Can't SetAxisValue: Index out of range");
+            }
+            
+            //Change axes value
+            graph.SetAxisValue(0.5f,0);
+            if (graph.SetAxisValue(1, 6))
+            {
+                Debug.LogError("Can't SetAxisValue: Index out of range");
+            }
+            graph.RecalculateCorners(); //Important after changing axes' values
         }
 
         private void SetPresets()
@@ -284,18 +322,30 @@ namespace ISILab.LBS.VisualElements.Editor
 
         private void RunAlgorithm()
         {
-            //Debug
+            //Update button
+            recalculate.text = "Recalculate";
+            //Quit if algorithm is working
             if (target.Running)
                 return;
-            Debug.Log("running algorithm");
-            target.LoadPresset(GetPresset());
-            if (target.RawToolRect.width == 0 || target.RawToolRect.height == 0)
+
+            //Check how many of these there are, and get the optimizer!
+            var veChildren = GetButtonResults(new List<PopulationAssistantButtonResult>(), gridContent);
+            var optimizerThingy = mapEliteBundle.Optimizer;
+
+            foreach (PopulationAssistantButtonResult square in veChildren)
             {
-                Debug.LogError("[ISI Lab]: Selected evolution area height or with < 0");
-                return;
+                //Run algorithm
+                target.LoadPresset(GetPresset());
+                if (target.RawToolRect.width == 0 || target.RawToolRect.height == 0)
+                {
+                    Debug.LogError("[ISI Lab]: Selected evolution area height or with < 0");
+                    return;
+                }
+                SetBackgroundTexture(square, target.RawToolRect);
+                //square.SetLabel(optimizerThingy.EvaluateFitness());
             }
-            SetBackgroundTexture(target.RawToolRect);
-            //var elite = new AssistantMapElite();
+            
+            
 
         }
 
@@ -336,7 +386,7 @@ namespace ISILab.LBS.VisualElements.Editor
             return LBSAssetsStorage.Instance.Get<MAPElitesPreset>().Find(p => p.name == mapEliteBundle.name);
         }
 
-        public void SetBackgroundTexture(Rect rect)
+        public void SetBackgroundTexture(PopulationAssistantButtonResult gridSquare, Rect rect)
         {
             var behaviours = target.OwnerLayer.Parent.Layers.SelectMany(l => l.Behaviours);
             var bh = target.OwnerLayer.Behaviours.Find(b => b is PopulationBehaviour);
@@ -378,33 +428,38 @@ namespace ISILab.LBS.VisualElements.Editor
 
             texture.Apply();
 
-            //Let's try to access the very first one first, and then make a way to access any piece of the grid with a method afterwards.
+            //Update texture on the chosen square
+            gridSquare.SetTexture(texture);
+            //veChildren.First().SetColor(new Color(0, 1, 0, 1));
 
-            var veChildren = gridContent.Children().ToArray();
-            foreach (var veChild in veChildren)
-            {
-                if (veChild is PopulationAssistantButtonResult square)
-                {  //square.style.backgroundImage = new StyleBackground(texture);
-
-                    VisualElement newVE = new VisualElement();
-                    newVE.style.backgroundImage = new StyleBackground(texture);
-                    square.Add(newVE);
-                }
-            }
             Debug.Log("texture changed");
             
             //content.background = texture;
         }
-    
 
-        public void ShowWindow()
+        private List<PopulationAssistantButtonResult> GetButtonResults(List<PopulationAssistantButtonResult> buttons, VisualElement parent)
+        {
+            foreach (var ve in parent.Children())
+            {
+                if (ve is PopulationAssistantButtonResult buttonResult)
+                {
+                    buttons.Add(buttonResult);
+                }
+
+                // Recurse on children
+                GetButtonResults(buttons, ve);
+            }
+            return buttons;
+        }
+
+        public static void ShowWindow()
        {
            var window = GetWindow<PopulationAssistantWindow>();
            window.titleContent = new GUIContent("Population Assistant");
            window.minSize = new Vector2(1000, 500); // use the Canvas Size of the uxml
            window.Show();
        }
+
        #endregion
     }
-
 }

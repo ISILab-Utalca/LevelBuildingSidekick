@@ -113,9 +113,8 @@ namespace ISILab.LBS.Editor.Windows{
         
         public static void MessageManipulator(string description)
         {       
-            if (warningLabel == null) return;
             if (toolLabel == null) return;
-            warningLabel.text = description;
+            toolLabel.text = description;
         }
         
         public static void GridPosition(string gridPosition)
@@ -195,7 +194,6 @@ namespace ISILab.LBS.Editor.Windows{
             toolInformation = rootVisualElement.Q<VisualElement>("ToolInformation");
             toolLabel = rootVisualElement.Q<Label>("ToolText");
             
-
             //Warning
             warningNotification = rootVisualElement.Q<VisualElement>("WarningNotification");
             warningLabel = rootVisualElement.Q<Label>("WarningText");
