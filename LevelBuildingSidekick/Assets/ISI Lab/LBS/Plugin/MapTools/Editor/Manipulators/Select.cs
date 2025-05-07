@@ -17,7 +17,6 @@ namespace ISILab.LBS.Manipulators
         {
             // Unset feedback
             feedback = null;
-
             current = LBSInspectorPanel.Instance.data;
         }
 

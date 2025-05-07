@@ -31,7 +31,7 @@ namespace ISILab.LBS.VisualElements
 
         private ToolbarMenu _toolbar;
         private Label _label;
-
+        
         public Action<Rect> OnMoving;
 
         public static Color GrammarWrong = LBSSettings.Instance.view.warningColor;
@@ -131,13 +131,10 @@ namespace ISILab.LBS.VisualElements
             {
                 QuestNodeBehaviour qnb = LBSLayerHelper.GetObjectFromLayer<QuestNodeBehaviour>(_node.Graph.OwnerLayer);
                 if(qnb is null) return;
+                LBSInspectorPanel.ActivateBehaviourTab();
                 if (!qnb.Graph.QuestNodes.Contains(_node)) return;
                 qnb.SelectedQuestNode = _node;
-                
             }
-
-            LBSInspectorPanel.ShowInspector(LBSInspectorPanel.BehavioursTab);
-            
         }
 
         public void MakeRoot(DropdownMenuAction obj = null)

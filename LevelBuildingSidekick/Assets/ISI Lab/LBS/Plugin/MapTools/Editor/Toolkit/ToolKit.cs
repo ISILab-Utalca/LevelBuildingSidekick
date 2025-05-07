@@ -149,10 +149,7 @@ namespace LBS.VisualElements
                 t1 = new LBSTool(icon, "Select", "Selection",  selectTool);
             }
             t1.Init(layer, this);
-            t1.OnSelect += () =>
-            {
-                LBSInspectorPanel.ShowInspector("Current data");
-            };
+            t1.OnSelect += LBSInspectorPanel.ActivateDataTab;
             AddTool(t1);
 
         }
@@ -239,8 +236,10 @@ namespace LBS.VisualElements
 
         public void SetActive(int index)
         {
+            
+            if (this.index == index) return; // already active
+            
             this.index = index;
-
             if(current != default((LBSTool,ToolButton)))
                 current.Item2.OnBlur();
             

@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ISILab.Extensions;
+using ISILab.LBS.Editor.Windows;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -48,6 +49,7 @@ namespace ISILab.LBS.VisualElements
 
         #region EVENTS
         public event Action<string> OnChangeTab;
+        
         #endregion
 
         #region CONSTRUCTORS
@@ -152,23 +154,27 @@ namespace ISILab.LBS.VisualElements
         #endregion
 
         #region FUNCTIONS SINGLETON
-        public static void ShowInspector(string tab)
+        private static void ShowInspector(string tab)
         {
             if (recentTab == tab) return;
             recentTab = tab; 
+            
             var panel = Instance;
             panel.VEs.TryGetValue(tab, out var ve);
             if(ve == null) return;
-           // Avoid reopening the same tab constantly
-           ve.style.display = DisplayStyle.Flex;
-           panel.tabsGroup.ChangeActive(tab);
-       
+           
+            // Avoid reopening the same tab constantly
+            ve.style.display = DisplayStyle.Flex;
+            panel.tabsGroup.ChangeActive(tab);
+            LBSMainWindow.InspectorToggleButtonChange(tab);
         }
 
+        public static void ActivateBehaviourTab() { ShowInspector(BehavioursTab); }
+        public static void ActivateAssistantTab() { ShowInspector(AssistantsTab); }
+        public static void ActivateDataTab() { ShowInspector(DataTab); }
         public static void ReDraw()
         {
-            var panel = LBSInspectorPanel.Instance;
-            panel.Repaint();
+            Instance.Repaint();
         }
         #endregion
     }

@@ -69,22 +69,25 @@ namespace ISILab.LBS.VisualElements
             icon = Resources.Load<Texture2D>("Icons/Quest_Icon/Add_Node_Quest");
             addNode = new CreateQuestNode();
             var t1 = new LBSTool(icon, "Add Quest Node", "Add Quest Node", addNode);
-            t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
+            t1.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             t1.Init(questBehaviour?.OwnerLayer, target);
 
             icon = Resources.Load<Texture2D>("Icons/Quest_Icon/Delete_Node_Quest");
             removeNode = new RemoveQuestNode();
             var t2 = new LBSTool(icon, "Remove Quest Node", "Remove Quest Node", removeNode);
+            t2.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             t2.Init(questBehaviour?.OwnerLayer, target);
             
             icon = Resources.Load<Texture2D>("Icons/Quest_Icon/Node_Connection_Quest");
             connectNodes = new ConnectQuestNodes();
             var t3 = new LBSTool(icon, "Connect Quest Node", "Add Node Connection", connectNodes);
+            t3.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             t3.Init(questBehaviour?.OwnerLayer, target);
 
             icon = Resources.Load<Texture2D>("Icons/Quest_Icon/Delete_Node_Connection_Quest");
             removeConnection = new RemoveQuestConnection();
             var t4 = new LBSTool(icon, "Remove Quest Connection", "Remove Quest Connection", removeConnection);
+            t4.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             t4.Init(questBehaviour?.OwnerLayer, target);
             
             connectNodes.SetRemover(removeConnection);
@@ -161,12 +164,13 @@ namespace ISILab.LBS.VisualElements
             List<ActionButton> abL = new();
             foreach (var a in quest.Grammar.Actions)
             {
-                ActionButton b = null;
+                ActionButton b;
                 b = new ActionButton(a.GrammarElement.Text, () =>
                 {
-                    behaviour.ToSet = a.GrammarElement;
                     ToolKit.Instance.SetActive("Add Quest Node");
+                    behaviour.ToSet = a.GrammarElement;
                     behaviour.Graph.UpdateFlow?.Invoke();
+                    UpdateContent();
                 });
                 abL.Add(b);
                 actionPallete.Add(b);
@@ -174,7 +178,6 @@ namespace ISILab.LBS.VisualElements
 
             foreach (var b in abL)
             {
-               
                 if (behaviour.ToSet?.Text == b.text.text)
                 {
                     b.Children().First().AddToClassList("lbs-actionbutton_selected");

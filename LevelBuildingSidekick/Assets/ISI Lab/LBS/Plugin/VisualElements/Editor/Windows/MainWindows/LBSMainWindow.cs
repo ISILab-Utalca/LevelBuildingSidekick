@@ -72,7 +72,7 @@ namespace ISILab.LBS.Editor.Windows{
         private Label selectedLabel;
         private static Label positionLabel;
         private VisualElement floatingPanelContent;
-        private VisualElement toggleButtons;
+        private static VisualElement toggleButtons;
         private VisualElement hideBar;
         private VisualElement inspectorPanel;
         private static VisualElement helpOverlay;
@@ -84,6 +84,11 @@ namespace ISILab.LBS.Editor.Windows{
         
         [UxmlAttribute]
         private LayerInspector layerInspector;
+
+        private static Toggle layerDataButton;
+        private static Toggle behaviourButton;
+        private static Toggle assistantButton;
+
         #endregion
 
         #region EVENTS
@@ -349,29 +354,13 @@ namespace ISILab.LBS.Editor.Windows{
             // Toggle buttons only one active at a time
             toggleButtons = rootVisualElement.Q<VisualElement>("ToggleButtonContainer");
             
-            Toggle layerDataButton = rootVisualElement.Q<Toggle>("LayerDataButton");
-            layerDataButton.RegisterCallback<ClickEvent>((evt) =>
-            {
-                OnToggleButtonClick();
-                layerDataButton.SetValueWithoutNotify(true);
-                LBSInspectorPanel.ShowInspector(LBSInspectorPanel.DataTab);
-            });
-            
-            Toggle behaviourButton = rootVisualElement.Q<Toggle>("BehaviourButton");
-            behaviourButton.RegisterCallback<ClickEvent>((evt) =>
-            {
-                OnToggleButtonClick();
-                behaviourButton.SetValueWithoutNotify(true);
-                LBSInspectorPanel.ShowInspector(LBSInspectorPanel.BehavioursTab);
-            });
-            
-            Toggle assistantButton = rootVisualElement.Q<Toggle>("AssistantButton");
-            assistantButton.RegisterCallback<ClickEvent>((evt) =>
-            {
-                OnToggleButtonClick();
-                assistantButton.SetValueWithoutNotify(true);
-                LBSInspectorPanel.ShowInspector(LBSInspectorPanel.AssistantsTab);
-            });
+   
+            layerDataButton = rootVisualElement.Q<Toggle>("LayerDataButton");
+            layerDataButton.RegisterCallback<ClickEvent>((evt) => { ChangeInspectorPanelTab(layerDataButton); });
+            behaviourButton = rootVisualElement.Q<Toggle>("BehaviourButton");
+            behaviourButton.RegisterCallback<ClickEvent>((evt) =>  { ChangeInspectorPanelTab(behaviourButton); });
+            assistantButton = rootVisualElement.Q<Toggle>("AssistantButton");
+            assistantButton.RegisterCallback<ClickEvent>((evt) => { ChangeInspectorPanelTab(assistantButton); });
 
             Toggle tagsButton = rootVisualElement.Q<Toggle>("TagsButton");  
             tagsButton.RegisterCallback<ClickEvent>((evt) =>
@@ -431,7 +420,36 @@ namespace ISILab.LBS.Editor.Windows{
 
 
         }
-        
+
+        /// <summary>
+        /// Called when changing tabs from the toggle buttons in this class
+        /// </summary>
+        /// <param name="toggleVe"></param>
+        private void ChangeInspectorPanelTab(Toggle toggleVe)
+        {
+            OnToggleButtonClick();
+            toggleVe.SetValueWithoutNotify(true);
+            if(toggleVe == layerDataButton) LBSInspectorPanel.ActivateDataTab();
+            if(toggleVe == behaviourButton) LBSInspectorPanel.ActivateBehaviourTab();
+            if(toggleVe == assistantButton) LBSInspectorPanel.ActivateAssistantTab();
+        }
+
+        /// <summary>
+        /// Activates visually the corresponding toggle button, only call this from inspector panel
+        /// </summary>
+        /// <param name="panel"></param>
+        public static void InspectorToggleButtonChange(string panel)
+        {
+            Toggle toggleVe = null;
+            if(panel == LBSInspectorPanel.DataTab) toggleVe = layerDataButton; 
+            if(panel == LBSInspectorPanel.BehavioursTab) toggleVe = behaviourButton; 
+            if(panel == LBSInspectorPanel.AssistantsTab) toggleVe = assistantButton;
+            if (toggleVe is null) return;
+            
+            OnToggleButtonClick();
+            toggleVe.SetValueWithoutNotify(true);
+        }
+
         /// <summary>
         /// Repaint the window.
         /// </summary>
@@ -476,6 +494,7 @@ namespace ISILab.LBS.Editor.Windows{
             
             toolkit.Clear();
             toolkit.Init(layer);
+            toolkit.SetActive("Select");
             toolkit.SetActiveWhithoutNotify(0);
             
             gen3DPanel.Init(layer);
@@ -497,7 +516,7 @@ namespace ISILab.LBS.Editor.Windows{
             return layerPanel.data.Layers;
         }
 
-        private void OnToggleButtonClick()
+        private static void OnToggleButtonClick()
         {
             foreach (var child in toggleButtons.Children())
             {

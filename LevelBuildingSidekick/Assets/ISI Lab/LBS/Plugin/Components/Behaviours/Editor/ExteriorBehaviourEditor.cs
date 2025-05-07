@@ -74,29 +74,31 @@ namespace ISILab.LBS.VisualElements
             addEmptyTile = new AddEmptyTile();
             var t1 = new LBSTool(icon, "Add tile without connection", "Add Non-Connected Exterior Tile", addEmptyTile);
             t1.Init(exterior.OwnerLayer, exterior);
-         
+            t1.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
 
             // Remove tile
             icon = Resources.Load<Texture2D>("Icons/Tools/Delete_exterior_tile");
             removeTile = new RemoveTileExterior();
             var t2 = new LBSTool(icon, "Remove Tile", "Remove Exterior Tile", removeTile);
             t2.Init(exterior.OwnerLayer, exterior);
-     
+            t2.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
+            
             toolKit.AddSeparator(10);
 
             // Set connection
             icon = Resources.Load<Texture2D>("Icons/Tools/Exterior_connection");
             setConnection = new SetExteriorTileConnection();
             var t3 = new LBSTool(icon, "Set connection", "Set Tile Connection", setConnection);
-            t3.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
             t3.Init(exterior.OwnerLayer, exterior);
-         
+            t3.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
+            
             // Remove connection
             icon = Resources.Load<Texture2D>("Icons/Tools/Delete_exterior_connection");
             removeConection = new RemoveConnection();
             var t4 = new LBSTool(icon, "Remove connection", "Remove Tile Connection", removeConection);
             t4.Init(exterior.OwnerLayer, exterior);
-
+            t4.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
+            
             addEmptyTile.SetRemover(removeTile);
             setConnection.SetRemover(removeConection);
             

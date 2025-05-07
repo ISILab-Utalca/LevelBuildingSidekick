@@ -90,23 +90,25 @@ namespace ISILab.LBS.VisualElements
             icon = Resources.Load<Texture2D>("Icons/Tools/Population_Brush");
             addPopulationTile = new AddPopulationTile();
             var t1 = new LBSTool(icon, "Paint Tile", "Add Population Item", addPopulationTile);
-            t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
+            t1.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             t1.Init(_target.OwnerLayer, _target);
             t1.OnEnd += (l) => DrawManager.Instance.RedrawLayer(_target.OwnerLayer, MainView.Instance);
-
-            // Rotate element
-            icon = Resources.Load<Texture2D>("Icons/Tools/Rotacion_population");
-            rotatePopulationTile = new RotatePopulationTile();
-            var t3 = new LBSTool(icon, "Rotate Tile", "Rotate Population Item", rotatePopulationTile);
-            t3.Init(_target.OwnerLayer, _target);
-            t3.OnEnd += (l) => DrawManager.Instance.RedrawLayer(_target.OwnerLayer, MainView.Instance);
-
+            
             // Remove Tiles
             icon = Resources.Load<Texture2D>("Icons/Tools/Delete_population");
             removePopulationTile = new RemovePopulationTile();
             var t2 = new LBSTool(icon, "Remove Tile", "Remove Population Item", removePopulationTile);
             t2.Init(_target.OwnerLayer, _target);
+            t2.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             t2.OnEnd += (l) => DrawManager.Instance.RedrawLayer(_target.OwnerLayer, MainView.Instance);
+            
+            // Rotate element
+            icon = Resources.Load<Texture2D>("Icons/Tools/Rotacion_population");
+            rotatePopulationTile = new RotatePopulationTile();
+            var t3 = new LBSTool(icon, "Rotate Tile", "Rotate Population Item", rotatePopulationTile);
+            t3.Init(_target.OwnerLayer, _target);
+            t3.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
+            t3.OnEnd += (l) => DrawManager.Instance.RedrawLayer(_target.OwnerLayer, MainView.Instance);
             
             addPopulationTile.SetRemover(removePopulationTile);
             
