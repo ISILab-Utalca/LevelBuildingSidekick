@@ -79,6 +79,8 @@ namespace ISILab.LBS.Components
             return _goal is not null;
         }
 
+        public QuestNode Owner => _owner;
+
         public object Goal
         {
             get => _goal;
@@ -178,8 +180,12 @@ namespace ISILab.LBS.Components
         
         [SerializeField][JsonRequired]
         public string bundleGuid = "";
- 
-        public QuestNodeDataKill(QuestNode owner) : base(owner) {}
+
+        public QuestNodeDataKill(QuestNode owner) : base(owner)
+        {
+            Num = 1;
+        }
+    
         public override void SetGoal<T>(object goal)
         {
             if (goal is not string killGoal) return;
