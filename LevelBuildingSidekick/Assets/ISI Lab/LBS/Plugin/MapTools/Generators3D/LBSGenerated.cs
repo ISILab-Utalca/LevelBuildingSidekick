@@ -37,14 +37,7 @@ namespace ISI_Lab.LBS.Plugin.MapTools.Generators3D
         }
         #endregion
         
-        [SerializeField]
-        private SpreadType _spread;
-        public SpreadType Spread
-        {
-            get => _spread;
-            set => _spread = value;
-        }
-        public int AssetIndex { get; set; }
+        public int AssetIndex { get; set; } //Not very accurate, it adjusts when using the switch button in the WorldEditBar
 
         private void Reset()
         {
@@ -89,28 +82,6 @@ namespace ISI_Lab.LBS.Plugin.MapTools.Generators3D
             }
 
             return false;
-        }
-
-        public Vector3 MicroPosVector(Vector3 origin, float scale)
-        {
-            Vector3 vec = new Vector3();
-
-            switch (_spread)
-            {
-                case SpreadType.Side:
-                    break;
-                case SpreadType.Random:
-                    break;
-            }
-
-            return vec;
-        }
-
-        public enum SpreadType
-        {
-            Center,
-            Side,
-            Random
         }
     }
 }

@@ -115,13 +115,14 @@ namespace ISILab.LBS.Generators
                 
                 //Set rotation
                 var r = Directions.Bidimencional.Edges.FindIndex(v => v == group.Rotation);
-                go.transform.rotation = Quaternion.Euler(0, -90 * (r - 1), 0);
+                go.transform.rotation = Quaternion.Euler(0, 90 * (r + 1), 0);
                 
                 // Set General position
                 go.transform.position =
                     settings.position +
                     new Vector3(centerposition.x * scale.x, 0, centerposition.y * scale.y) +
-                    -(new Vector3(scale.x, 0, scale.y) / 2f);
+                    -(new Vector3(scale.x, 0, scale.y) / 2f)
+                    + current.microGenTool.MicroPosVector(scale, r);
 
                 //Add components
                 LBSGenerated generatedComponent = go.AddComponent<LBSGenerated>();

@@ -12,7 +12,6 @@ using UnityEngine.UIElements;
 
 namespace LBS.Bundles
 {
-
     [System.Flags]
     public enum BundleFlags
     {
@@ -113,6 +112,9 @@ namespace LBS.Bundles
         // hides in inspector and uses the custom GUI to assign only children with containing flags
         [SerializeField, HideInInspector]
         private List<Bundle> childsBundles = new List<Bundle>();
+        
+        [SerializeField]
+        public MicroGenTool microGenTool = new MicroGenTool();
 
         #endregion
 

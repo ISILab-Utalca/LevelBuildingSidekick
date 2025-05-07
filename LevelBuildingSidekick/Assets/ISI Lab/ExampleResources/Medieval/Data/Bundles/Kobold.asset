@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   layerContentFlags: 0
   type: 2
-  anchorPosition: 0
+  anchorPosition: 1
   color: {r: 0.3019608, g: 0.5647059, b: 0.5568628, a: 1}
   icon: {fileID: 2800000, guid: 36612891cca70e046b0e30e5e2fc8bbc, type: 3}
   assets:
@@ -24,6 +24,13 @@ MonoBehaviour:
   populationType: 0
   tileSize: {x: 1, y: 1}
   childsBundles: []
+  microGenTool:
+    _spread: 0
+    _margin:
+      negativeX: 1
+      positiveX: 1
+      negativeZ: 1
+      positiveZ: 1
   references:
     version: 2
     RefIds: []

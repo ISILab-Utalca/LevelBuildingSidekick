@@ -1,23 +1,24 @@
 using System;
 using ISI_Lab.LBS.Plugin.MapTools.Generators3D;
+using LBS.Bundles;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Object = UnityEngine.Object;
 
 namespace ISI_Lab.LBS.Plugin.MapTools.Editor
 {
     [CustomEditor(typeof(LBSGenerated))]   
     public class LBSGeneratedEditor : UnityEditor.Editor
     {
-        private LBSGeneratedMargin _margin;
-        public override VisualElement CreateInspectorGUI()
+        public override void OnInspectorGUI()
         {
-            LBSGenerated targetLbs = (LBSGenerated)target;
-            
-            _margin = new LBSGeneratedMargin();
-            _margin.SetLBSRef(targetLbs);
-            return _margin;
+            LBSGenerated LBSgen = (LBSGenerated)target;
+
+            GUI.enabled = false;
+            EditorGUILayout.ObjectField("Original Bundle", LBSgen.BundleRef, typeof(Bundle));
+            EditorGUILayout.ObjectField("Temporal Bundle", LBSgen.BundleTemp, typeof(Bundle));
         }
     }
 }
