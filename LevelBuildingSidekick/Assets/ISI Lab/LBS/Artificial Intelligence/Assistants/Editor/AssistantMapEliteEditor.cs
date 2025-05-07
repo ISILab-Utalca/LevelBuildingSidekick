@@ -133,12 +133,12 @@ namespace ISILab.LBS.AI.Assistants.Editor
         {
             toolkit.AddSeparator();
 
-            var assitant = target as AssistantMapElite;
+            var assistant = target as AssistantMapElite;
             var icon = Resources.Load<Texture2D>("Icons/Tools/Area_MapElite");
-            ActOnRect = new ActOnRect((r) => assitant.RawToolRect = r);
+            ActOnRect = new ActOnRect((r) => assistant.RawToolRect = r);
             var t1 = new LBSTool(icon, "Select area to evaluate", "Area Evaluation", ActOnRect);
             t1.OnSelect += LBSInspectorPanel.ActivateAssistantTab;
-            t1.Init(assitant.OwnerLayer, assitant);
+            t1.Init(assistant.OwnerLayer, assistant);
             toolkit.AddTool(t1);
         }
 

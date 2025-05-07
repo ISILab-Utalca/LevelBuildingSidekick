@@ -7,6 +7,7 @@ using ISILab.LBS.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using LBS.VisualElements;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -158,9 +159,9 @@ namespace ISILab.LBS.VisualElements.Editor
             data.AddLayer(layer);
             
             list.SetSelectionWithoutNotify(new List<int>() {0});
-
             OnAddLayer?.Invoke(layer);
-
+            
+            LBSInspectorPanel.ActivateDataTab();
             LBSMainWindow.MessageNotify("New Data layer created");
             list.Rebuild();
         }
