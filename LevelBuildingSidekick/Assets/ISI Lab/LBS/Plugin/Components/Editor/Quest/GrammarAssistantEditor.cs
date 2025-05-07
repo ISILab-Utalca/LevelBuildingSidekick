@@ -27,9 +27,7 @@ namespace ISILab.LBS.Editor
         public sealed override void SetInfo(object target)
         {
             this.target = target as GrammarAssistant;
-            m_GrammarAssistant = LBSLayerHelper.GetFromLayer<GrammarAssistant>(target);
-            Debug.Log(m_GrammarAssistant.Name);
-
+            m_GrammarAssistant = LBSLayerHelper.GetObjectFromLayerChild<GrammarAssistant>(target);
         }
 
         public void SetTools(ToolKit toolkit)

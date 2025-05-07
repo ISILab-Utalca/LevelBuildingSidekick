@@ -1,14 +1,20 @@
+
+
+
+// ReSharper disable All
+
+using System;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
 using ISILab.LBS.Editor;
 using ISILab.LBS.Manipulators;
+using ISILab.Macros;
+using LBS.Bundles;
 using LBS.VisualElements;
-using ISILab.LBS.VisualElements.Editor;
-using UnityEditor.Search;
-using UnityEngine.PlayerLoop;
+using UnityEditor.UIElements;
+using UnityEngine;
 using UnityEngine.UIElements;
-// ReSharper disable All
 
 namespace ISILab.LBS.VisualElements
 {
@@ -29,8 +35,8 @@ namespace ISILab.LBS.VisualElements
         /// <summary>
         /// Vector to translate from graph to world position in scene for a generated
         /// </summary>
-        private Vector2IntField Vector2Location;  
-        
+        private Vector2IntField Vector2Location;
+
         /// <summary>
         /// References a bundle who's prefab type then is used in the quest generated on scene 
         /// </summary>
@@ -58,11 +64,12 @@ namespace ISILab.LBS.VisualElements
         {
             SetInfo(target);
             CreateVisualElement();
-            UpdatePanel();
+            UpdatePanel(null);
         }
         public override void SetInfo(object target)
         {
             behaviour = target as QuestNodeBehaviour;
+            behaviour.OnQuestNodeSelected += UpdatePanel;
         }
         protected override VisualElement CreateVisualElement()
         {
@@ -71,39 +78,158 @@ namespace ISILab.LBS.VisualElements
             visualTree.CloneTree(this);
             
             ActionLabel = this.Q<Label>("ParamAction");
-
+            NodeIDLabel = this.Q<Label>("ParamID");
+            
             ObjectFieldVe = this.Q<VisualElement>("ObjectFieldVe");
-            TargetField = this.Q<ObjectField>("TargetField");
+            TargetField = this.Q<ObjectField>("TargetFieldBundle");
+            TargetField.RegisterValueChangedCallback(evt =>
+            {
+                if (evt.newValue is Bundle bundle) SetTargetValue(bundle);
+            });
+            
             TargetCount = this.Q<IntegerField>("TargetCount");
+            TargetCount.RegisterValueChangedCallback(evt => SetIntValue(evt.newValue));
+
             TargetCountIncrease = this.Q<Button>("TargetCountIncrease");
             TargetCountDecrease = this.Q<Button>("TargetCountDecrease");
-
+            TargetCountIncrease.clicked += () =>
+            {
+                TargetCount.value = TargetCount.value + 1;
+            };
+            TargetCountDecrease.clicked += () =>
+            {
+                TargetCount.value = TargetCount.value - 1;
+            };
+            
+            
             Vector2DVe = this.Q<VisualElement>("Vector2DVe");
-            Vector2Location = this.Q<Vector2IntField>("Vector2Location");
-
+            Vector2Location = this.Q<Vector2IntField>("Vector2LocationInput");
+            Vector2Location.RegisterValueChangedCallback(evt => SetVector2IntValue(evt.newValue));
+            
+           
             NoNodeSelectedPanel = this.Q<VisualElement>("NoNodeSelectedPanel");
 
             ObjectFieldVe.style.display = DisplayStyle.None;    
             Vector2DVe.style.display = DisplayStyle.None;    
             NoNodeSelectedPanel.style.display = DisplayStyle.Flex;    
             
+
+            
             return this;
+        }
+
+        private void SetTargetValue(Bundle newValue)
+        {
+            var nd = GetSelectedNode().NodeData;
+            if(nd is null)  return;
+            var bundleGuid = LBSAssetMacro.GetGuidFromAsset(newValue);
+            switch (nd)
+            {
+                case QuestNodeDataKill kill:
+                {
+                    nd.SetGoal<string>(bundleGuid);
+                    break;
+                }
+                
+                case QuestNodeDataSteal steal:
+                {
+                    var tuple = new Tuple<string, Vector2Int>(bundleGuid, Vector2Location.value);
+                    nd.SetGoal<Tuple<string, Vector2Int>>(tuple);
+                    break;
+                }
+            }
+        }
+
+        private void SetIntValue(int newValue)
+        {
+            var nd = GetSelectedNode().NodeData;
+            if(nd is null)  return;
+            nd.SetNum(newValue);
+        }
+
+        private void SetVector2IntValue(Vector2Int newValue)
+        {
+            var nd = GetSelectedNode().NodeData;
+            if(nd is null)  return;
+
+            switch (nd)
+            {
+                case QuestNodeDataLocation locationData:
+                {
+                    nd.SetGoal<Vector2Int>(newValue);
+                    break;
+                }
+                
+                case QuestNodeDataSteal steal:
+                {
+                    var bundleGuid = LBSAssetMacro.GetGuidFromAsset(TargetField.value);
+                    var tuple = new Tuple<string, Vector2Int>(bundleGuid, newValue);
+                    nd.SetGoal<Tuple<string, Vector2Int>>(tuple);
+                    break;
+                }
+
+            }
         }
 
         public void SetTools(ToolKit toolkit)
         { 
-            // Suscribe select tool to display a node's data
-            var SelectTool = toolkit.TryGetTool("Select");
+            /* Although it relies on the OnSelect tool, its functionality is called from QuestNode Mouse Down
+                where the SelectedNode is set in QuestNodeBehavior 
+            */
         }
 
-        private void UpdatePanel()
+        private void UpdatePanel(QuestNode node)
+        {
+            ObjectFieldVe.style.display = DisplayStyle.None;    
+            Vector2DVe.style.display = DisplayStyle.None;    
+            NoNodeSelectedPanel.style.display = DisplayStyle.None;    
+            
+            if (node is null || 
+                node.NodeData is null ||
+                node.NodeData is  QuestNodeDataEmpty emptyData)
+            {
+                NoNodeSelectedPanel.style.display = DisplayStyle.Flex;    
+                return;
+            }
+            
+            ActionLabel.text = node.QuestAction;
+            NodeIDLabel.text = node.ID.ToString();
+            
+            SetPanelValuesWithNodeData(node);
+
+        }
+
+        private void SetPanelValuesWithNodeData(QuestNode node)
         {
             
+            TargetCount.value = node.NodeData.Num;
+            switch (node.NodeData)
+            {
+                case QuestNodeDataLocation locationData:
+                    Vector2Location.value = locationData.position;
+                    Vector2DVe.style.display = DisplayStyle.Flex;
+                    break;
+
+                case QuestNodeDataKill killData:
+                    ObjectFieldVe.style.display = DisplayStyle.Flex;
+                    TargetField.value = LBSAssetMacro.LoadAssetByGuid<Bundle>(
+                        killData.bundleGuid);
+                    break;
+                
+                case QuestNodeDataSteal stealData:
+                    ObjectFieldVe.style.display = DisplayStyle.Flex;
+                    Vector2Location.value = stealData.position;
+                    TargetField.value = LBSAssetMacro.LoadAssetByGuid<Bundle>(
+                        stealData.bundleGuid);
+                    break;
+                
+            }
         }
 
         private QuestNode GetSelectedNode()
         {
             return behaviour.SelectedQuestNode;
         }
+        
     }
 }
