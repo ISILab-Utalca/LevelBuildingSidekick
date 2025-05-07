@@ -136,11 +136,6 @@ namespace ISILab.LBS.VisualElements.Editor
         }
         #endregion
 
-        #region CONSTRUCTORS
-        public PopulationAssistantWindow(AssistantMapElite target)
-        {
-            this.assistant = target;
-        }
 
         public void CreateGUI()
         {
@@ -344,23 +339,21 @@ namespace ISILab.LBS.VisualElements.Editor
 
         private void RunAlgorithm()
         {
+            Debug.Log("running algorithm");
             //Update button
             recalculate.text = "Recalculate";
-            //Quit if algorithm is working
 
+            //Quit if algorithm is working
             if (assistant.Running)
                 return;
 
             //Check how many of these there are, and get the optimizer!
             var veChildren = GetButtonResults(new List<PopulationAssistantButtonResult>(), gridContent);
-            var optimizerThingy = mapEliteBundle.Optimizer;
 
             UpdateGrid();
-            assistant.LoadPresset(GetPresset());
-            /*foreach (PopulationAssistantButtonResult square in veChildren)
-            {*/
-            //Run algorithm
-
+            assistant.LoadPresset(mapEliteBundle);
+            
+            //Check if there's a place to optimize
             if (assistant.RawToolRect.width == 0 || assistant.RawToolRect.height == 0)
                 {
                     Debug.LogError("[ISI Lab]: Selected evolution area height or with < 0");
@@ -369,6 +362,8 @@ namespace ISILab.LBS.VisualElements.Editor
             //SetBackgroundTexture(square, assistant.RawToolRect);
             assistant.SetAdam(assistant.RawToolRect);
             assistant.Execute();
+
+            Debug.Log("executed");
             //TODO: Hay que pasarle el Optimizer a los Map Elites
             LBSMainWindow.OnWindowRepaint += RepaintContent; 
 
@@ -412,7 +407,6 @@ namespace ISILab.LBS.VisualElements.Editor
                 gridContent.Add(rVE);
             }
         }
-        #endregion
 
         #region METHODS
 
@@ -512,6 +506,11 @@ namespace ISILab.LBS.VisualElements.Editor
                 GetButtonResults(buttons, ve);
             }
             return buttons;
+        }
+
+        public void SetAssistant(AssistantMapElite target)
+        {
+            assistant = target;
         }
 
         public static void ShowWindow()

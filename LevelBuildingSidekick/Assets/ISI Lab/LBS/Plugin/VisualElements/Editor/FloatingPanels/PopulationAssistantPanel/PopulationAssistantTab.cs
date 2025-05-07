@@ -59,7 +59,8 @@ namespace ISILab.LBS.VisualElements.Editor
         public PopulationAssistantTab(AssistantMapElite target)
         {
             this.target = target;
-            window = new PopulationAssistantWindow(target);
+            window = ScriptableObject.CreateInstance<PopulationAssistantWindow>();
+            window.SetAssistant(target);
 
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("PopulationAssistantTab");
             visualTree.CloneTree(this);
