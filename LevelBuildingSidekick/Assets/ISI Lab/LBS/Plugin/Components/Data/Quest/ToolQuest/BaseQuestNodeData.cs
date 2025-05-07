@@ -156,12 +156,12 @@ namespace ISILab.LBS.Components
     /// Uses Vector2Int as object
     /// </summary>
     [QuestNodeActionTag(" go to ")][Serializable]
-    public class QuestNodeDataLocation : BaseQuestNodeData
+    public class QuestNodeDataGoto : BaseQuestNodeData
     {
         [SerializeField][JsonRequired]
         public Vector2Int position;
         
-        public QuestNodeDataLocation(QuestNode owner) : base(owner) {}
+        public QuestNodeDataGoto(QuestNode owner) : base(owner) {}
 
         public override void SetGoal<T>(object goal)
         {

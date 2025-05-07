@@ -7,7 +7,6 @@ using ISILab.LBS.Behaviours;
 using ISILab.LBS.VisualElements;
 using ISILab.LBS.Components;
 using UnityEditor.Experimental.GraphView;
-using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Drawers.Editor
 {

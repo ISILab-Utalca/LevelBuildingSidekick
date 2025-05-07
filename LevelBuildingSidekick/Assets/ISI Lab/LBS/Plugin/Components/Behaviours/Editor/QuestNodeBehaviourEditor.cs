@@ -9,6 +9,7 @@ using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
 using ISILab.LBS.Editor;
 using ISILab.LBS.Manipulators;
+using ISILab.LBS.VisualElements.Editor;
 using ISILab.Macros;
 using LBS.Bundles;
 using LBS.VisualElements;
@@ -138,6 +139,8 @@ namespace ISILab.LBS.VisualElements
                     break;
                 }
             }
+            
+            DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance);
         }
 
         private void SetIntValue(int newValue)
@@ -145,6 +148,8 @@ namespace ISILab.LBS.VisualElements
             var nd = GetSelectedNode().NodeData;
             if(nd is null)  return;
             nd.SetNum(newValue);
+            
+            DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance);
         }
 
         private void SetVector2IntValue(Vector2Int newValue)
@@ -154,7 +159,7 @@ namespace ISILab.LBS.VisualElements
 
             switch (nd)
             {
-                case QuestNodeDataLocation locationData:
+                case QuestNodeDataGoto locationData:
                 {
                     nd.SetGoal<Vector2Int>(newValue);
                     break;
@@ -169,6 +174,8 @@ namespace ISILab.LBS.VisualElements
                 }
 
             }
+            
+            DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance);
         }
 
         public void SetTools(ToolKit toolkit)
@@ -196,7 +203,6 @@ namespace ISILab.LBS.VisualElements
             NodeIDLabel.text = node.ID.ToString();
             
             SetPanelValuesWithNodeData(node);
-
         }
 
         private void SetPanelValuesWithNodeData(QuestNode node)
@@ -205,7 +211,7 @@ namespace ISILab.LBS.VisualElements
             TargetCount.value = node.NodeData.Num;
             switch (node.NodeData)
             {
-                case QuestNodeDataLocation locationData:
+                case QuestNodeDataGoto locationData:
                     Vector2Location.value = locationData.position;
                     Vector2DVe.style.display = DisplayStyle.Flex;
                     break;
@@ -224,6 +230,8 @@ namespace ISILab.LBS.VisualElements
                     break;
                 
             }
+            
+            DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance);
         }
 
         private QuestNode GetSelectedNode()
