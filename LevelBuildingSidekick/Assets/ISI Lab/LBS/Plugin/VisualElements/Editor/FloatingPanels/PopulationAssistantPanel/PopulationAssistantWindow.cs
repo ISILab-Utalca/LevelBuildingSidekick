@@ -417,22 +417,22 @@ namespace ISILab.LBS.VisualElements.Editor
             for (int i = 0; i < assistant.toUpdate.Count; i++)
             {
                 var v = assistant.toUpdate[i];
-                var index = (int)(v.y * assistant.SampleWidth + v.x);
+                //var index = (int)(v.y * assistant.SampleWidth + v.x);
 
-                SetBackgroundTexture(veChildren[index], assistant.RawToolRect);
+                SetBackgroundTexture(veChildren[i], assistant.RawToolRect);
 
-                veChildren[index].Data = assistant.Samples[(int)v.y, (int)v.x];
-                veChildren[index].Score = ((decimal)assistant.Samples[(int)v.y, (int)v.x].Fitness).ToString("f4");
-                var t = veChildren[index].GetTexture();
-                if (veChildren[index].Data != null)
+                veChildren[i].Data = assistant.Samples[(int)v.y, (int)v.x];
+                veChildren[i].Score = ((decimal)assistant.Samples[(int)v.y, (int)v.x].Fitness).ToString("f4");
+                var t = veChildren[i].GetTexture();
+                if (veChildren[i].Data != null)
                 {
-                    veChildren[index].SetTexture(veChildren[index].backgroundTexture.MergeTextures(t).FitSquare());
+                    veChildren[i].SetTexture(veChildren[i].backgroundTexture.MergeTextures(t).FitSquare());
                 }
                 else
                 {
-                    veChildren[index].SetTexture(DirectoryTools.GetAssetByName<Texture2D>("LoadingContent"));
+                    veChildren[i].SetTexture(DirectoryTools.GetAssetByName<Texture2D>("LoadingContent"));
                 }
-                veChildren[index].UpdateLabel();
+                veChildren[i].UpdateLabel();
             }
             assistant.toUpdate.Clear();
         }
