@@ -1,8 +1,11 @@
+using System;
 using ISI_Lab.LBS.Plugin.MapTools.Generators3D;
+using LBS.Bundles;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Object = UnityEngine.Object;
 
 namespace ISI_Lab.LBS.Plugin.MapTools.Editor
 {
@@ -11,15 +14,11 @@ namespace ISI_Lab.LBS.Plugin.MapTools.Editor
     {
         public override void OnInspectorGUI()
         {
-            LBSGenerated targetLbs = (LBSGenerated)target;
-            DrawDefaultInspector();
+            LBSGenerated LBSgen = (LBSGenerated)target;
 
-            if (targetLbs.Spread == LBSGenerated.SpreadType.Center)
-            {
-                EditorGUILayout.LabelField("Hola");
-                Bounds b = new Bounds();
-                EditorGUILayout.BoundsField(b);
-            }
+            GUI.enabled = false;
+            EditorGUILayout.ObjectField("Original Bundle", LBSgen.BundleRef, typeof(Bundle));
+            EditorGUILayout.ObjectField("Temporal Bundle", LBSgen.BundleTemp, typeof(Bundle));
         }
     }
 }

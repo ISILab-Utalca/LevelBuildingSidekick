@@ -15,6 +15,7 @@ namespace ISI_Lab.LBS.Plugin.MapTools.Generators3D
     {
         #region BUNDLE REFERENCES
         //Original bundle reference
+        [SerializeField]
         private Bundle bundleRef;
         public Bundle BundleRef
         {
@@ -25,6 +26,7 @@ namespace ISI_Lab.LBS.Plugin.MapTools.Generators3D
                 bundleTemp = value;
             }
         }
+        
         //Temporal bundle reference (for when it changes using the WorldEditBar)
         [SerializeField]
         private Bundle bundleTemp;
@@ -35,13 +37,7 @@ namespace ISI_Lab.LBS.Plugin.MapTools.Generators3D
         }
         #endregion
         
-        [SerializeField]
-        private SpreadType _spread;
-        public SpreadType Spread
-        {
-            get => _spread;
-        }
-        public int AssetIndex { get; set; }
+        public int AssetIndex { get; set; } //Not very accurate, it adjusts when using the switch button in the WorldEditBar
 
         private void Reset()
         {
@@ -86,18 +82,6 @@ namespace ISI_Lab.LBS.Plugin.MapTools.Generators3D
             }
 
             return false;
-        }
-
-        void ReposObject()
-        {
-            
-        }
-
-        public enum SpreadType
-        {
-            Center,
-            Side,
-            Random
         }
     }
 }
