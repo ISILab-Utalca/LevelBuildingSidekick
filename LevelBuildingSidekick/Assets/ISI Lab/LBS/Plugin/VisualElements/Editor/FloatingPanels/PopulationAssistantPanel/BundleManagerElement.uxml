@@ -1,0 +1,11 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
+    <engine:VisualElement style="flex-grow: 1; flex-direction: row; align-self: auto; align-content: auto; justify-content: space-evenly; align-items: auto; width: auto; height: auto;">
+        <engine:IMGUIContainer name="IMGUIContainer" style="background-image: resource(&apos;Icons/Vectorial/Icon=Crown&apos;); align-content: stretch; align-items: stretch; height: auto; justify-content: flex-start; align-self: stretch; width: auto; -unity-background-image-tint-color: rgb(255, 255, 255); flex-grow: 1;" />
+        <engine:IMGUIContainer name="IMGUIContainer" style="background-image: resource(&apos;Icons/Vectorial/Icon=BundleIcon&apos;); align-content: stretch; align-items: stretch; height: initial; justify-content: flex-start; align-self: stretch; width: initial; -unity-background-image-tint-color: rgb(255, 255, 255); flex-grow: 1;" />
+        <engine:VisualElement style="flex-grow: 0.2; width: auto; flex-direction: row; align-items: auto; align-content: auto; flex-shrink: 1;" />
+        <engine:Label text="Bundle name" name="BundleName" style="align-self: center;" />
+        <engine:VisualElement style="flex-grow: 0.2; width: auto; flex-direction: row; align-items: auto; align-content: auto; flex-shrink: 1;" />
+        <engine:Button name="DeleteButton" style="align-items: flex-end; align-self: center; background-image: resource(&apos;Icons/Vectorial/Icon=Trash_Layer_Icon&apos;); width: 30px; height: 30px; flex-grow: 0; flex-shrink: 0; align-content: flex-start; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0;" />
+    </engine:VisualElement>
+</engine:UXML>
