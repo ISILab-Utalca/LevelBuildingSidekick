@@ -25,6 +25,13 @@ namespace ISILab.LBS.Components
     {
 
         #region FIELD
+
+        [SerializeField] 
+        private string nodeDataJson;
+        
+        [SerializeField, SerializeReference][JsonRequired]
+        private BaseQuestNodeData nodeData;
+        
         [SerializeField, HideInInspector, JsonRequired]
         private int x, y;
 
@@ -58,6 +65,13 @@ namespace ISILab.LBS.Components
         private QuestGraph graph;
         
         #region PROPERTIES
+        [JsonIgnore]
+        public BaseQuestNodeData NodeData
+        {
+            get => nodeData;
+            set => nodeData = value;
+        }
+        
         [JsonIgnore]
         public QuestGraph Graph
         {
@@ -144,15 +158,27 @@ namespace ISILab.LBS.Components
         #region CONSTRUCTOR
         QuestNode() { }
 
-        public QuestNode(string id, Vector2 position, string action, QuestGraph graph)
+        public QuestNode(string id, Vector2 position, string action, QuestGraph graph, bool grammarCheck = false)
         {
             this.id = id;
             x = (int)position.x;
             y = (int)position.y;
-            this.questAction = action;
+            questAction = action;
+            
+            InstanceDataByAction(action);
             this.graph = graph;
+            this.grammarCheck = grammarCheck;
             target = new QuestTarget();
+            
+            LoadNodeFromJson();
         }
+
+        private void InstanceDataByAction(string action)
+        {
+            nodeData = QuestNodeDataFactory.CreateByTag(action, this);
+            SaveNodeAsJson();
+        }
+
         #endregion
 
         public bool HasEdges()
@@ -162,11 +188,32 @@ namespace ISILab.LBS.Components
         
         public object Clone()
         {
-            var node = new QuestNode(ID, Position, QuestAction, graph);
-
-            node.target = target.Clone() as QuestTarget;
+            var node = new QuestNode(ID, Position, QuestAction, graph, GrammarCheck)
+            {
+                target = target.Clone() as QuestTarget
+            };
 
             return node;
+        }
+        
+        /// <summary>
+        /// Saves the changes from the dataJson whenever the SetGoal is called (whenever it is changed)
+        /// </summary>
+        public void SaveNodeAsJson()
+        {
+            return;
+            nodeDataJson =  JsonUtility.ToJson(nodeData);
+        }
+
+        /// <summary>
+        /// Load from json as it is easier to load polyformism
+        /// </summary>
+        public void LoadNodeFromJson()
+        {
+            return;
+            if (string.IsNullOrEmpty(nodeDataJson)) return;
+            nodeData = JsonUtility.FromJson<BaseQuestNodeData>(nodeDataJson);
+   
         }
     }
 
@@ -197,5 +244,7 @@ namespace ISILab.LBS.Components
             target.rect = rect;
             return target;
         }
+        
+        
     }
 }

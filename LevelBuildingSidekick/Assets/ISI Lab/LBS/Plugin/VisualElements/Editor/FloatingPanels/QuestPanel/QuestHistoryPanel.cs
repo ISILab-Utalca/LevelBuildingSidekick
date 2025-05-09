@@ -5,6 +5,7 @@ using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
+using UnityEditor;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -22,6 +23,8 @@ namespace ISILab.LBS.VisualElements.Editor
         #endregion
 
         #region FIELDS
+
+        private static bool RedrawCalled = false;
         private QuestGraph questGraph = new ();
         private List<QuestEntry> questEntries = new ();
     
@@ -58,6 +61,7 @@ namespace ISILab.LBS.VisualElements.Editor
             if (target == null) return;
             questBehaviour = target;
             CreateVisualElement();
+     
         }
         
         private void CreateVisualElement()
@@ -94,12 +98,6 @@ namespace ISILab.LBS.VisualElements.Editor
                 {
                     questGraph.RemoveQuestNode(questGraph.QuestNodes[index]);
                     Refresh();
-                    /*
-                     * Extremely slow, called instead of DrawLayer, because
-                     * drawing the quest connections gets bugged out, ends up
-                     * redrawing connections on top of each other.
-                     */
-                    DrawManager.ReDraw();
                 };
 
                 questEntryVe.GoToNode = null;
@@ -136,8 +134,7 @@ namespace ISILab.LBS.VisualElements.Editor
         {
             foreach (var qe in questEntries)
             {
-                if(qe==null) continue;
-                qe.Update();
+                qe?.Update();
             }
         }
         
@@ -150,7 +147,7 @@ namespace ISILab.LBS.VisualElements.Editor
             UpdateVeQuestEntries();
             
             DrawManager.Instance.RedrawLayer(questGraph?.OwnerLayer, MainView.Instance);
-            
+
             LBSMainWindow.OnWindowRepaint?.Invoke();
             
             MarkDirtyRepaint();
@@ -159,4 +156,7 @@ namespace ISILab.LBS.VisualElements.Editor
         #endregion
        
     }
+    
+
 }
+

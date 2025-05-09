@@ -10,29 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
-  m_Name: Chest
+  m_Name: Candle
   m_EditorClassIdentifier: 
   layerContentFlags: 2
   type: 2
   anchorPosition: 0
-  color: {r: 0.97647065, g: 0.7803922, b: 0.30980393, a: 1}
-  icon: {fileID: 2800000, guid: e32a81c6ec2e1a04d949b9fea1c3b662, type: 3}
+  color: {r: 0.031372543, g: 0.4681992, b: 0.90588236, a: 1}
+  icon: {fileID: 2800000, guid: 2383c65204fc1ee4da02363516878a93, type: 3}
   assets:
-  - obj: {fileID: 8837219279990917525, guid: 4b0a6fa21b1780846bd1b7cea7dd27b2, type: 3}
+  - obj: {fileID: 3319659984964797446, guid: 5006f0dcfb4e35a4d8401eb0014030a8, type: 3}
     probability: 1
   characteristics:
   - rid: 279245815319625884
   populationType: 2
-  tileSize: {x: 2, y: 1}
+  tileSize: {x: 1, y: 1}
   childsBundles:
   - {fileID: 11400000, guid: 3ccf8442a472e0943899ad0e08afc068, type: 2}
-  microGenTool:
-    spread: 0
-    margin:
-      negativeX: 1
-      positiveX: 1
-      negativeZ: 1
-      positiveZ: 1
   references:
     version: 2
     RefIds:

@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using ISILab.AI.Grammar;
 using ISILab.Extensions;
+using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
 using ISILab.LBS.Internal;
 using ISILab.LBS.Settings;
+using ISILab.Macros;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -38,11 +40,13 @@ namespace ISILab.LBS.Modules
 
         [JsonIgnore]
         private LBSGrammar grammar;
-
+        
+        [SerializeField] private string LBSGrammarGui = "63ab688b53411154db5edd0ec7171c42"; // default value is DefaultGrammar
+        
         [JsonIgnore]
         public LBSGrammar Grammar
         {
-            get
+            get => GetQuestGrammar(); /*
             {
                 if (grammar != null && grammarName != null && grammar.name == grammarName)
                     return grammar;
@@ -52,12 +56,18 @@ namespace ISILab.LBS.Modules
                     return grammar;
                 }
                 return null;
-            }
+            }*/
             set
             {
                 grammar = value;
                 grammarName = value.name;
+                LBSGrammarGui = LBSAssetMacro.GetGuidFromAsset(value);
             }
+        }
+
+        private LBSGrammar GetQuestGrammar()
+        {
+            return LBSAssetMacro.LoadAssetByGuid<LBSGrammar>(LBSGrammarGui);
         }
 
         [JsonIgnore]
@@ -141,9 +151,9 @@ namespace ISILab.LBS.Modules
         
         public void AddNode(string id, Vector2 position, string action)
         {
-            var data = new QuestNode(id, position, action, this);
-            questNodes.Add(data);
-            OnAddNode?.Invoke(data);
+            var newNode = new QuestNode(id, position, action, this);
+            questNodes.Add(newNode);
+            OnAddNode?.Invoke(newNode);
             UpdateFlow?.Invoke();
         }
         public void AddNode(QuestNode node)
@@ -152,6 +162,10 @@ namespace ISILab.LBS.Modules
             questNodes.Add(node);
             OnAddNode?.Invoke(node);
             UpdateFlow?.Invoke();
+            
+            QuestNodeBehaviour qnb = LBSLayerHelper.GetObjectFromLayer<QuestNodeBehaviour>(OwnerLayer);
+            if(qnb is null) return;
+            qnb.SelectedQuestNode = node;
         }
         public void RemoveQuestNode(QuestNode node)
         {

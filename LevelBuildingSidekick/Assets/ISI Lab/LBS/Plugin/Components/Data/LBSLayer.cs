@@ -150,6 +150,8 @@ namespace LBS.Components
         #endregion
 
         #region EVENTS
+
+        public event Action OnChange; // call whenever needing to update a change on a single layer
         public event Action<Vector2Int> OnTileSizeChange;
         public event Action<LBSLayer, LBSModule> OnAddModule;
         public event Action<LBSLayer, LBSModule> OnReplaceModule;
@@ -439,11 +441,11 @@ namespace LBS.Components
             return pos.ToInt();
         }
 
-        public Vector2 FixedToPosition(Vector2Int position) 
+        public Vector2 FixedToPosition(Vector2Int position, bool invertY = false) 
         {
             var tileSizeX = TileSize.x * LBSSettings.Instance.general.TileSize.x;
             var tileSizeY = TileSize.y * LBSSettings.Instance.general.TileSize.y;
-
+            if(invertY) tileSizeY = -tileSizeY;
             return new Vector2(position.x * tileSizeX, position.y * tileSizeY);
         }
         
@@ -584,7 +586,12 @@ namespace LBS.Components
             return module;
         }
         */
+        public void OnChangeUpdate()
+        {
+            OnChange?.Invoke();
+        }
         #endregion
     }
+
 }
 

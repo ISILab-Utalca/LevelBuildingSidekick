@@ -1,18 +1,13 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using LBS.Components;
-using LBS.Components.Graph;
-using LBS.Components.TileMap;
 using Newtonsoft.Json;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Behaviours
 {
-    [System.Serializable]
+    [Serializable]
     public abstract class  LBSBehaviour : ICloneable
     {
         #region META-FIELDS
@@ -21,11 +16,11 @@ namespace ISILab.LBS.Behaviours
         #endregion
 
         #region FIELDS
-        [HideInInspector]
+        [SerializeField, HideInInspector, JsonIgnore]
         private LBSLayer ownerLayerLayer;
-        [SerializeField]
+        [SerializeField, JsonRequired] 
         private VectorImage icon;
-        [SerializeField, JsonIgnore]//, JsonIgnore]
+        [SerializeField, JsonRequired] 
         private Color colorTint;
         [SerializeField, JsonRequired]
         private string name;

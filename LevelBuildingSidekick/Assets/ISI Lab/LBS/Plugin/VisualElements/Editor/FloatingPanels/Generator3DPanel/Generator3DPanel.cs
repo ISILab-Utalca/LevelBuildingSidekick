@@ -100,6 +100,8 @@ namespace ISILab.LBS.VisualElements.Editor
             generateAllLayers = this.Q<Button>(name: "ButtonGenAllLayers");
             generateAllLayers.clicked += OnExecute;
             generateAllLayers.clicked += GenerateAllLayers;
+            
+            if(generator == null) generator = new Generator3D();
         }
         #endregion
 
@@ -133,7 +135,7 @@ namespace ISILab.LBS.VisualElements.Editor
             LBSMainWindow mw = EditorWindow.GetWindow<LBSMainWindow>();
             if(mw == null) return;
             var layers = mw.GetLayers();
-
+            
             foreach (var _layer in layers)
             {
                 this.layer = _layer;
@@ -160,6 +162,8 @@ namespace ISILab.LBS.VisualElements.Editor
                 }
 
             }
+            
+            EditorWindow.FocusWindowIfItsOpen<SceneView>();
         }
         
         private void GenerateCurrentLayer()
@@ -232,8 +236,6 @@ namespace ISILab.LBS.VisualElements.Editor
             Undo.RegisterCreatedObjectUndo(generated.Item1, "Create my GameObject");
             
             LBSMainWindow.MessageNotify("Layer " + generated.Item1.gameObject.name + " created. " + ifReplace, LogType.Log, 3);
-            EditorWindow.FocusWindowIfItsOpen<SceneView>();
-
             if (bakeLights.value)
             {
                 StaticObjs(generated.Item1);

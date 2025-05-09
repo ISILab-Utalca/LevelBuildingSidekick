@@ -1,6 +1,4 @@
 using ISILab.LBS.Settings;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using ISILab.Extensions;
 using ISILab.LBS.VisualElements.Editor;
@@ -14,15 +12,15 @@ namespace ISILab.LBS.Drawers
     {
         public override void Draw(object target, MainView view, Vector2 teselationSize)
         {
-            var assitant = target as AssistantMapElite;
-            var d = new DottedAreaFeedback();
-            var size = (assitant.OwnerLayer.TileSize * LBSSettings.Instance.general.TileSize).ToInt();
-            var start = new Vector2(assitant.RawToolRect.min.x, -assitant.RawToolRect.min.y + 1) * size;
-            var end = new Vector2(assitant.RawToolRect.max.x, -assitant.RawToolRect.max.y + 1) * size;
-            d.SetPosition(Rect.zero);
-            d.ActualizePositions(start.ToInt(), end.ToInt());
-            d.SetColor(Color.red);
-            view.AddElement(d);
+            var assistant = target as AssistantMapElite;
+            var dotArea = new DottedAreaFeedback();
+            var size = (assistant.OwnerLayer.TileSize * LBSSettings.Instance.general.TileSize).ToInt();
+            var start = new Vector2(assistant.RawToolRect.min.x, -assistant.RawToolRect.min.y + 1) * size;
+            var end = new Vector2(assistant.RawToolRect.max.x, -assistant.RawToolRect.max.y + 1) * size;
+            dotArea.SetPosition(Rect.zero);
+            dotArea.ActualizePositions(start.ToInt(), end.ToInt());
+            dotArea.SetColor(LBSSettings.Instance.view.errorColor);
+            view.AddElement(assistant.OwnerLayer,this,dotArea);
         }
     }
 }

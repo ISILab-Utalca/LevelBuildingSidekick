@@ -49,8 +49,12 @@ namespace ISILab.LBS.Editor.Windows{
         private LBSInspectorPanel inspectorManager;
         private static NotifierViewer notifier;
 
+        //Tool notif
+        private VisualElement toolInformation;
+        private static Label toolLabel;
+
         //Warning notif
-        private VisualElement warningNotification;
+        private static VisualElement warningNotification;
         private static Label warningLabel;
 
         [UxmlAttribute]
@@ -68,7 +72,7 @@ namespace ISILab.LBS.Editor.Windows{
         private Label selectedLabel;
         private static Label positionLabel;
         private VisualElement floatingPanelContent;
-        private VisualElement toggleButtons;
+        private static VisualElement toggleButtons;
         private VisualElement hideBar;
         private VisualElement inspectorPanel;
         private static VisualElement helpOverlay;
@@ -80,6 +84,11 @@ namespace ISILab.LBS.Editor.Windows{
         
         [UxmlAttribute]
         private LayerInspector layerInspector;
+
+        private static Toggle layerDataButton;
+        private static Toggle behaviourButton;
+        private static Toggle assistantButton;
+
         #endregion
 
         #region EVENTS
@@ -94,6 +103,30 @@ namespace ISILab.LBS.Editor.Windows{
             Texture icon = LBSAssetMacro.LoadAssetByGuid<Texture>("e3db8d94c144db946ac8dd18f0bb7a9b");
             window.titleContent = new GUIContent("Level Builder", icon);
             window.minSize = new Vector2(800, 400);
+        }
+        
+        public static void MessageNotify(string message, LogType logType = LogType.Log, int duration = 2)
+        {       
+            if (notifier == null) return; 
+            notifier.SendNotification(message, logType, duration);
+        }
+        
+        public static void MessageManipulator(string description)
+        {       
+            if (toolLabel == null) return;
+            toolLabel.text = description;
+        }
+        
+        public static void GridPosition(string gridPosition)
+        {
+            if (positionLabel == null) return; 
+            positionLabel.text = gridPosition;
+        }
+
+        public static void DisplayHelp()
+        {
+            if(helpOverlay == null) return;
+            helpOverlay.style.display = helpOverlay.style.display == DisplayStyle.None ?  DisplayStyle.Flex : DisplayStyle.None;
         }
         #endregion
 
@@ -157,9 +190,14 @@ namespace ISILab.LBS.Editor.Windows{
             var disableNotificationButton = rootVisualElement.Q<VisualElement>("DisableNotificationsButton");
             notifier.SetButtons(cleanButton, disableNotificationButton);
 
+            //Tools
+            toolInformation = rootVisualElement.Q<VisualElement>("ToolInformation");
+            toolLabel = rootVisualElement.Q<Label>("ToolText");
+            
             //Warning
             warningNotification = rootVisualElement.Q<VisualElement>("WarningNotification");
             warningLabel = rootVisualElement.Q<Label>("WarningText");
+            warningNotification.visible = false;
 
             // LayerInspector
             layerInspector = rootVisualElement.Q<LayerInspector>("LayerInspector");
@@ -177,20 +215,14 @@ namespace ISILab.LBS.Editor.Windows{
 
             // DrawManager
             drawManager = new DrawManager(ref mainView, ref layerTemplates);
-            
 
             // ToolKitManager
             toolkit = rootVisualElement.Q<ToolKit>(name: "Toolkit");
             toolkit.OnEndAction += (l) =>
             {
-                // (!!) esta forma de dibujar, en donde se repinta todo, es la que no es eficiente,
-                // hay que cambiarla a que repinte solo lo que este relacionado a las posciones editadas,
-                // pero ahora quedo en que repintara, no todo, pero si toda la layer.
-                //drawManager.RedrawLayer(l, mainView);
-                drawManager.RedrawLevel(levelData, mainView);
+                drawManager.RedrawLayer(l, mainView);
             };
-         //   toolkit.OnNewAction()
-
+            
             //QuestToolkit
             questToolkit = rootVisualElement.Q<ToolKit>(name: "QuestToolkit");
 
@@ -257,7 +289,6 @@ namespace ISILab.LBS.Editor.Windows{
                 OnSelectedLayerChange(layer);
                 sw.Stop();
                 Debug.Log("OnAddLayer: " + sw.ElapsedMilliseconds + " ms");
-
                 sw.Restart();
                 DrawManager.Instance.AddContainer(layer);
                 sw.Stop();
@@ -266,6 +297,10 @@ namespace ISILab.LBS.Editor.Windows{
             layerPanel.OnRemoveLayer += (l) =>
             {
                 drawManager.RemoveContainer(l);
+                if(levelData.LayerCount==0)
+                {
+                    toolkit.Clear();
+                }
             };
 
             // Gen3DPanel
@@ -317,29 +352,13 @@ namespace ISILab.LBS.Editor.Windows{
             // Toggle buttons only one active at a time
             toggleButtons = rootVisualElement.Q<VisualElement>("ToggleButtonContainer");
             
-            Toggle layerDataButton = rootVisualElement.Q<Toggle>("LayerDataButton");
-            layerDataButton.RegisterCallback<ClickEvent>((evt) =>
-            {
-                OnToggleButtonClick();
-                layerDataButton.SetValueWithoutNotify(true);
-                LBSInspectorPanel.ShowInspector(LBSInspectorPanel.DataTab);
-            });
-            
-            Toggle behaviourButton = rootVisualElement.Q<Toggle>("BehaviourButton");
-            behaviourButton.RegisterCallback<ClickEvent>((evt) =>
-            {
-                OnToggleButtonClick();
-                behaviourButton.SetValueWithoutNotify(true);
-                LBSInspectorPanel.ShowInspector(LBSInspectorPanel.BehavioursTab);
-            });
-            
-            Toggle assistantButton = rootVisualElement.Q<Toggle>("AssistantButton");
-            assistantButton.RegisterCallback<ClickEvent>((evt) =>
-            {
-                OnToggleButtonClick();
-                assistantButton.SetValueWithoutNotify(true);
-                LBSInspectorPanel.ShowInspector(LBSInspectorPanel.AssistantsTab);
-            });
+   
+            layerDataButton = rootVisualElement.Q<Toggle>("LayerDataButton");
+            layerDataButton.RegisterCallback<ClickEvent>((evt) => { ChangeInspectorPanelTab(layerDataButton); });
+            behaviourButton = rootVisualElement.Q<Toggle>("BehaviourButton");
+            behaviourButton.RegisterCallback<ClickEvent>((evt) =>  { ChangeInspectorPanelTab(behaviourButton); });
+            assistantButton = rootVisualElement.Q<Toggle>("AssistantButton");
+            assistantButton.RegisterCallback<ClickEvent>((evt) => { ChangeInspectorPanelTab(assistantButton); });
 
             Toggle tagsButton = rootVisualElement.Q<Toggle>("TagsButton");  
             tagsButton.RegisterCallback<ClickEvent>((evt) =>
@@ -399,7 +418,36 @@ namespace ISILab.LBS.Editor.Windows{
 
 
         }
-        
+
+        /// <summary>
+        /// Called when changing tabs from the toggle buttons in this class
+        /// </summary>
+        /// <param name="toggleVe"></param>
+        private void ChangeInspectorPanelTab(Toggle toggleVe)
+        {
+            OnToggleButtonClick();
+            toggleVe.SetValueWithoutNotify(true);
+            if(toggleVe == layerDataButton) LBSInspectorPanel.ActivateDataTab();
+            if(toggleVe == behaviourButton) LBSInspectorPanel.ActivateBehaviourTab();
+            if(toggleVe == assistantButton) LBSInspectorPanel.ActivateAssistantTab();
+        }
+
+        /// <summary>
+        /// Activates visually the corresponding toggle button, only call this from inspector panel
+        /// </summary>
+        /// <param name="panel"></param>
+        public static void InspectorToggleButtonChange(string panel)
+        {
+            Toggle toggleVe = null;
+            if(panel == LBSInspectorPanel.DataTab) toggleVe = layerDataButton; 
+            if(panel == LBSInspectorPanel.BehavioursTab) toggleVe = behaviourButton; 
+            if(panel == LBSInspectorPanel.AssistantsTab) toggleVe = assistantButton;
+            if (toggleVe is null) return;
+            
+            OnToggleButtonClick();
+            toggleVe.SetValueWithoutNotify(true);
+        }
+
         /// <summary>
         /// Repaint the window.
         /// </summary>
@@ -423,8 +471,6 @@ namespace ISILab.LBS.Editor.Windows{
         /// Called when the level data is changed.
         /// </summary>
         /// <param name="levelData"></param>
-        
-
         private void OnLevelDataChange(LBSLevelData levelData)
         {
             var layersIsEmpty = levelData.Layers.Count <= 0;
@@ -446,6 +492,7 @@ namespace ISILab.LBS.Editor.Windows{
             
             toolkit.Clear();
             toolkit.Init(layer);
+            toolkit.SetActive("Select");
             toolkit.SetActiveWhithoutNotify(0);
             
             gen3DPanel.Init(layer);
@@ -453,8 +500,31 @@ namespace ISILab.LBS.Editor.Windows{
             selectedLabel.text = "Selected: " + layer.Name;
 
         }
-        #endregion
+        public static void WarningManipulator(string description = null)
+        {
+            if (warningLabel == null) return;
+            warningLabel.text = description;
+            warningNotification.visible = description != null ? true : false;
+        }
 
+        public List<LBSLayer> GetLayers()
+        {
+            List<LBSLayer> layers = new List<LBSLayer>();
+            if(layerPanel == null || layerPanel.data == null) return layers;
+            return layerPanel.data.Layers;
+        }
+
+        private static void OnToggleButtonClick()
+        {
+            foreach (var child in toggleButtons.Children())
+            {
+                if (child is Toggle toggle)
+                {
+                    toggle.SetValueWithoutNotify(false); // Deselect
+                }
+            }
+        }
+        
         private void OnFocus()
         {
             Undo.undoRedoPerformed += UNDO;
@@ -470,49 +540,8 @@ namespace ISILab.LBS.Editor.Windows{
             DrawManager.ReDraw();
             LBSInspectorPanel.ReDraw();
         }
+        #endregion
         
-        public static void MessageNotify(string message, LogType logType = LogType.Log, int duration = 2)
-        {       
-            if (notifier == null) return; 
-            notifier.SendNotification(message, logType, duration);
-        }
-        
-        public static void MessageManipulator(string description)
-        {       
-            if (warningLabel == null) return; 
-            warningLabel.text = description;
-        }
-
-
-        public List<LBSLayer> GetLayers()
-        {
-            List<LBSLayer> layers = new List<LBSLayer>();
-            if(layerPanel == null || layerPanel.data == null) return layers;
-            return layerPanel.data.Layers;
-        }
-
-        private void OnToggleButtonClick()
-        {
-            foreach (var child in toggleButtons.Children())
-            {
-                if (child is Toggle toggle)
-                {
-                    toggle.SetValueWithoutNotify(false); // Deselect
-                }
-            }
-        }
-
-        public static void GridPosition(string gridPosition)
-        {
-            if (positionLabel == null) return; 
-            positionLabel.text = gridPosition;
-        }
-
-        public static void DisplayHelp()
-        {
-            if(helpOverlay == null) return;
-            helpOverlay.style.display = helpOverlay.style.display == DisplayStyle.None ?  DisplayStyle.Flex : DisplayStyle.None;
-        }
     }
 
 }

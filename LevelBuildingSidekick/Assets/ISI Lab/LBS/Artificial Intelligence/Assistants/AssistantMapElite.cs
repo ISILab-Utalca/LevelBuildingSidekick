@@ -10,11 +10,8 @@ using ISILab.LBS.Behaviours;
 using ISILab.LBS.Characteristics;
 using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
-using LBS.Components;
 using LBS.Components.TileMap;
 using Newtonsoft.Json;
-using UnityEditor;
-using UnityEditor.Presets;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -29,11 +26,6 @@ namespace ISILab.LBS.Assistants
         private MapElites mapElites = new MapElites();
         [JsonIgnore]
         public List<Vector2> toUpdate = new List<Vector2>();
-        /*
-        public enum mapElitePresetType { RTS, Shooter };
-        [JsonIgnore]
-        public Dictionary<MapElites, mapElitePresetType> defaultMapElites = new Dictionary<MapElites, mapElitePresetType>();
-        */
         #endregion
 
         #region PROPERTIES
@@ -241,7 +233,7 @@ namespace ISILab.LBS.Assistants
 
         public override object Clone()
         {
-            return new AssistantMapElite(this.Icon, this.Name, this.ColorTint);
+            return new AssistantMapElite(Icon, Name, ColorTint);
         }
 
         public override bool Equals(object obj)

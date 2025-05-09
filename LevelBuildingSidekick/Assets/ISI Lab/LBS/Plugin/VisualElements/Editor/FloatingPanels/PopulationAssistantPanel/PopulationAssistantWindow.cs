@@ -20,8 +20,20 @@ using ISILab.LBS.AI.VisualElements;
 using ISILab.AI.Optimization;
 using System.Linq;
 using System.Speech.Recognition;
+using ISILab.LBS.Assistants;
+using ISILab.LBS.Editor;
+using ISILab.LBS.Manipulators;
+using ISILab.LBS.AI.Assistants.Editor;
+using ISILab.LBS.Internal;
+using ISILab.LBS.Behaviours;
+using ISILab.LBS.Drawers;
+using ISILab.Extensions;
+using LBS.VisualElements;
+using UnityEditor.VersionControl;
 using UnityEditor.Graphs;
 using UnityEngine.PlayerLoop;
+using System.Collections.Concurrent;
+using static UnityEngine.GraphicsBuffer;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -33,7 +45,9 @@ namespace ISILab.LBS.VisualElements.Editor
         #endregion
 
         #region Utilities
-        private Dictionary<String, MAPElitesPreset> presetDictionary = new Dictionary<string, MAPElitesPreset>();
+        private Dictionary<String, MAPElitesPreset> presetDictionary;
+        private PopulationAssistantEditor editor;
+        private AssistantMapElite assistant;
 
         //Default text for unchosen elements
         private string defaultSelectText = "Select...";
@@ -80,6 +94,32 @@ namespace ISILab.LBS.VisualElements.Editor
         #region FIELDS
         private MAPElitesPreset mapEliteBundle;
 
+        protected IRangedEvaluator currentXField
+        {
+            get => mapEliteBundle.XEvaluator;
+            set
+            {
+                if (mapEliteBundle == null) return;
+                mapEliteBundle.XEvaluator = value;
+            }
+        }
+        protected IRangedEvaluator currentYField
+        {
+            get => mapEliteBundle.YEvaluator;
+            set
+            {
+                if (mapEliteBundle == null) return;
+                mapEliteBundle.YEvaluator = value;
+            }
+        }
+        protected BaseOptimizer currentOptimizer
+        {
+            get => mapEliteBundle.Optimizer;
+            set {  
+                if (mapEliteBundle == null) return;
+                mapEliteBundle.Optimizer = value;
+            }
+        }
         #endregion
 
         #region EVENTS
@@ -96,10 +136,12 @@ namespace ISILab.LBS.VisualElements.Editor
         }
         #endregion
 
-        #region CONSTRUCTORS
 
         public void CreateGUI()
         {
+
+            presetDictionary = new Dictionary<string, MAPElitesPreset>();
+
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("PopulationAssistantWindow");
             visualTree.CloneTree(rootVisualElement);
 
@@ -122,11 +164,9 @@ namespace ISILab.LBS.VisualElements.Editor
             param1Field.RegisterValueChangedCallback(evt =>
             {
                 if (param1Field.value == null) return;
-
-                var xChoice = param1Field.GetChoiceInstance();
-                if (mapEliteBundle == null) return;
-                mapEliteBundle.XEvaluator = xChoice as IRangedEvaluator;
-                xParamText.text = xChoice.GetType().Name + " / X Axis";
+                var xChoice = param1Field.GetChoiceInstance() as IRangedEvaluator;
+                currentXField = xChoice;
+                //xParamText.text = xChoice.GetType().Name + " / X Axis";
             });
 
             param1Field.SetEnabled(false);
@@ -139,11 +179,9 @@ namespace ISILab.LBS.VisualElements.Editor
             param2Field.RegisterValueChangedCallback(evt =>
             {
                 if (param2Field.value == null) return;
-
-                var yChoice = param2Field.GetChoiceInstance();
-                if (mapEliteBundle == null) return;
-                mapEliteBundle.YEvaluator = yChoice as IRangedEvaluator;
-                yParamText.text = yChoice.GetType().Name + " / Y Axis";
+                var yChoice = param2Field.GetChoiceInstance() as IRangedEvaluator;
+                currentYField = yChoice;
+                //yParamText.text = yChoice.GetType().Name + " / Y Axis";
             });
 
             param2Field.SetEnabled(false);
@@ -156,15 +194,13 @@ namespace ISILab.LBS.VisualElements.Editor
             optimizerField.RegisterValueChangedCallback(evt =>
             {
                 if (optimizerField.value == null) return;
-
-                var optimizerChoice = optimizerField.GetChoiceInstance();
-                if (mapEliteBundle == null) return;
-                mapEliteBundle.Optimizer = optimizerChoice as BaseOptimizer;
-                zParamText.text = optimizerChoice.GetType().Name + " / Fitness";
+                var optimizerChoice = optimizerField.GetChoiceInstance() as BaseOptimizer;
+                currentOptimizer = optimizerChoice;
+                //zParamText.text = optimizerChoice.GetType().Name + " / Fitness";
             });
 
-            optimizerField.SetEnabled(false);
             //I set everything false so they can't be manipulated if there's no preset present.
+            optimizerField.SetEnabled(false);
 
             //PRESET SETTINGS
             presetSettingsContainer = rootVisualElement.Q<VisualElement>("PresetSettingsContainer");
@@ -287,9 +323,9 @@ namespace ISILab.LBS.VisualElements.Editor
             param2Field.SetEnabled(true);
             optimizerField.SetEnabled(true);
 
-            param1Field.value = mapEliteBundle.XEvaluator != null ? mapEliteBundle.XEvaluator.GetType().Name : defaultSelectText;
-            param2Field.value = mapEliteBundle.YEvaluator != null ? mapEliteBundle.YEvaluator.GetType().Name : defaultSelectText;
-            optimizerField.value = mapEliteBundle.Optimizer != null ? mapEliteBundle.Optimizer.GetType().Name : defaultSelectText;
+            param1Field.value = currentXField != null ? currentXField.GetType().Name : defaultSelectText;
+            param2Field.value = currentYField != null ? currentYField.GetType().Name : defaultSelectText;
+            optimizerField.value = currentOptimizer != null ? currentOptimizer.GetType().Name : defaultSelectText;
 
             //Debug stuff!
             //Debug.Log("Preset Updated: " + mapEliteBundle.name + " / PARAM 1: " + param1Field.GetChoiceInstance() + " / PARAM 2: " + param2Field.GetChoiceInstance() + " / OPTIMIZER: " + optimizerField.GetChoiceInstance());
@@ -303,11 +339,48 @@ namespace ISILab.LBS.VisualElements.Editor
 
         private void RunAlgorithm()
         {
-            Debug.Log("calculating for " + (rows.value * columns.value) + " windows");
+            Debug.Log("running algorithm");
+            //Update button
+            recalculate.text = "Recalculate";
+
+            //Quit if algorithm is working
+            if (assistant.Running)
+                return;
+
+            //Check how many of these there are, and get the optimizer!
+            var veChildren = GetButtonResults(new List<PopulationAssistantButtonResult>(), gridContent);
+
+            UpdateGrid();
+            assistant.LoadPresset(mapEliteBundle);
+            
+            //Check if there's a place to optimize
+            if (assistant.RawToolRect.width == 0 || assistant.RawToolRect.height == 0)
+                {
+                    Debug.LogError("[ISI Lab]: Selected evolution area height or with < 0");
+                    return;
+            }
+            //SetBackgroundTexture(square, assistant.RawToolRect);
+            assistant.SetAdam(assistant.RawToolRect);
+            assistant.Execute();
+
+            Debug.Log("executed");
+            //TODO: Hay que pasarle el Optimizer a los Map Elites
+            LBSMainWindow.OnWindowRepaint += RepaintContent; 
+
+        }
+
+        private void RepaintContent()
+        {
+            UpdateContent();
+            if (assistant.Finished)
+                LBSMainWindow.OnWindowRepaint -= RepaintContent;
         }
 
         private void UpdateGrid()
         {
+            assistant.SampleWidth = rows.value;
+            assistant.SampleHeight = columns.value;
+
             gridContent.Clear();
             gridContent.style.flexDirection = FlexDirection.Column;
             List<VisualElement> rowsVE = new();
@@ -335,18 +408,119 @@ namespace ISILab.LBS.VisualElements.Editor
             }
         }
 
-        #endregion
+        #region METHODS
 
-       #region METHODS
-       
-       public static void ShowWindow()
+        public void UpdateContent()
+        {
+            var veChildren = GetButtonResults(new List<PopulationAssistantButtonResult>(), gridContent);
+            for (int i = 0; i < assistant.toUpdate.Count; i++)
+            {
+                var v = assistant.toUpdate[i];
+                var index = (int)(v.y * assistant.SampleWidth + v.x);
+                
+                
+                
+                veChildren[index].Data = assistant.Samples[(int)v.y, (int)v.x];
+                veChildren[index].Score = ((decimal)assistant.Samples[(int)v.y, (int)v.x].Fitness).ToString("f4");
+                var t = veChildren[index].GetTexture();
+                if (veChildren[index].Data != null)
+                {
+                    veChildren[index].SetTexture(veChildren[index].backgroundTexture.MergeTextures(t).FitSquare());
+                    
+                }
+                else
+                {
+                    veChildren[index].SetTexture(DirectoryTools.GetAssetByName<Texture2D>("LoadingContent"));
+                }
+                veChildren[index].UpdateLabel();
+            }
+            assistant.toUpdate.Clear();
+        }
+
+        public MAPElitesPreset GetPresset()
+        {
+            return LBSAssetsStorage.Instance.Get<MAPElitesPreset>().Find(p => p.name == mapEliteBundle.name);
+        }
+
+        public void SetBackgroundTexture(PopulationAssistantButtonResult gridSquare, Rect rect)
+        {
+            var behaviours = assistant.OwnerLayer.Parent.Layers.SelectMany(l => l.Behaviours);
+            var bh = assistant.OwnerLayer.Behaviours.Find(b => b is PopulationBehaviour);
+
+            var size = 16;
+
+            var textures = new List<Texture2D>();
+
+            foreach (var b in behaviours)
+            {
+                if (b == null)
+                    continue;
+
+                if (bh != null && b.Equals(bh))
+                    continue;
+
+                var drawerT = LBS_Editor.GetDrawer(b.GetType());
+                var drawer = Activator.CreateInstance(drawerT) as Drawer;
+                textures.Add(drawer.GetTexture(b, rect, Vector2Int.one * size));
+            }
+
+            var texture = new Texture2D((int)(rect.width * size), (int)(rect.height * size));
+
+            for (int j = 0; j < texture.height; j++)
+            {
+                for (int i = 0; i < texture.height; i++)
+                {
+                    texture.SetPixel(i, j, new UnityEngine.Color(0.1f, 0.1f, 0.1f, 1));
+                }
+            }
+
+            for (int i = textures.Count - 1; i >= 0; i--)
+            {
+                if (textures[i] == null)
+                    continue;
+
+                texture = texture.MergeTextures(textures[i]);
+            }
+
+            texture.Apply();
+
+            //Update texture on the chosen square
+            gridSquare.SetTexture(texture);
+            //veChildren.First().SetColor(new Color(0, 1, 0, 1));
+
+            Debug.Log("texture changed");
+            
+            //content.background = texture;
+        }
+
+        private List<PopulationAssistantButtonResult> GetButtonResults(List<PopulationAssistantButtonResult> buttons, VisualElement parent)
+        {
+            foreach (var ve in parent.Children())
+            {
+                if (ve is PopulationAssistantButtonResult buttonResult)
+                {
+                    buttons.Add(buttonResult);
+                }
+
+                // Recurse on children
+                GetButtonResults(buttons, ve);
+            }
+            return buttons;
+        }
+
+        public void SetAssistant(AssistantMapElite target)
+        {
+            assistant = target;
+        }
+
+        public static void ShowWindow()
        {
            var window = GetWindow<PopulationAssistantWindow>();
            window.titleContent = new GUIContent("Population Assistant");
            window.minSize = new Vector2(1000, 500); // use the Canvas Size of the uxml
            window.Show();
        }
-       
+
        #endregion
     }
 }

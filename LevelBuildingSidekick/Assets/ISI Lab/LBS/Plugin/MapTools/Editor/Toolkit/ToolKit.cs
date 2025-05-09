@@ -13,6 +13,8 @@ using ISILab.LBS.VisualElements.Editor;
 using ISILab.LBS.VisualElements;
 using ISILab.LBS.Manipulators;
 using ISILab.LBS;
+using ISILab.LBS.Behaviours;
+using ISILab.LBS.Editor;
 using ISILab.LBS.Editor.Windows;
 
 namespace LBS.VisualElements
@@ -144,18 +146,15 @@ namespace LBS.VisualElements
             {
                 var icon = Resources.Load<Texture2D>("Icons/Select");
                 var selectTool = new Select();
-                t1 = new LBSTool(icon, "Select", "Selecting activated!",  selectTool);
+                t1 = new LBSTool(icon, "Select", "Selection",  selectTool);
             }
             t1.Init(layer, this);
-            t1.OnSelect += () =>
-            {
-                LBSInspectorPanel.ShowInspector("Current data");
-            };
+            t1.OnSelect += LBSInspectorPanel.ActivateDataTab;
             AddTool(t1);
 
         }
 
-        LBSTool TryGetTool(string toolName)
+        public LBSTool TryGetTool(string toolName)
         {
             foreach (var element in tools)
             {
@@ -164,27 +163,50 @@ namespace LBS.VisualElements
             }
             return null;
         }
-        
-        private void InitBehavioursTools(LBSLayer layer)
+
+        public void InitBehavioursTools(LBSLayer layer)
         {
+            if (layer == null) return;
+
+            // Cache reflection results once
+            var editorTypes = Reflection.GetClassesWith<LBSCustomEditorAttribute>()
+                .Where(t => t.Item2.Any(v => v.type != null))
+                .Select(t => new
+                {
+                    EditorType = t.Item1,
+                    BehaviorType = t.Item2.First(v => v.type != null).type // Safely select first non-null type
+                })
+                .Where(x => typeof(IToolProvider).IsAssignableFrom(x.EditorType)) // Only IToolProvider editors
+                .ToList();
+
+            // Cache matching editors for the layer
+            var customEditors = Enumerable.OfType<LBSCustomEditor>(LBSInspectorPanel.Instance.behaviours.CustomEditors)
+                .Where(e => e.Target is LBSBehaviour lb && lb.OwnerLayer == layer)
+                .ToList();
 
             foreach (var behaviour in layer.Behaviours)
             {
-                var type = behaviour.GetType();
-                var customEditors = Reflection.GetClassesWith<LBSCustomEditorAttribute>()
-                    .Where(t => t.Item2.Any(v => v.type == type)).ToList();
+                if (behaviour == null) continue;
 
-                if (customEditors.Count() == 0)
-                    return;
+                var behaviourType = behaviour.GetType();
 
-                var customEditor = customEditors.First().Item1;
-                var i = customEditor.GetInterface(typeof(IToolProvider).Name);
+                // Find the first editor type matching the behavior
+                var editorType = editorTypes
+                    .FirstOrDefault(x => x.BehaviorType == behaviourType)?.EditorType;
 
-                if (i != null)
+                if (editorType == null) continue;
+
+                // Find the first matching editor instance
+                var editor = customEditors
+                    .FirstOrDefault(e => e.GetType() == editorType && e.Target == behaviour);
+
+                if (editor == null) continue;
+
+                // Update the editor and set tools
+                editor.SetInfo(behaviour);
+                if (editor is IToolProvider toolProvider)
                 {
-                    var ve = LBSInspectorPanel.Instance.behaviours.CustomEditors.First( x => x.GetType() == customEditor);
-                    ve.SetInfo(behaviour);
-                    ((IToolProvider)ve).SetTools(this);
+                    toolProvider.SetTools(this);
                 }
             }
         }
@@ -214,8 +236,10 @@ namespace LBS.VisualElements
 
         public void SetActive(int index)
         {
+            
+            if (this.index == index) return; // already active
+            
             this.index = index;
-
             if(current != default((LBSTool,ToolButton)))
                 current.Item2.OnBlur();
             
@@ -234,6 +258,17 @@ namespace LBS.VisualElements
             m.OnManipulationNotification?.Invoke();
         }
 
+        public void SetActive(LBSManipulator manipulator)
+        {
+            foreach (var element in tools)
+            {
+                if (element.Item1.Manipulator == manipulator)
+                {
+                    SetActive(manipulator);
+                }
+            }
+        }
+        
         public void SetActiveWhithoutNotify(int index)
         {
             this.index = index;

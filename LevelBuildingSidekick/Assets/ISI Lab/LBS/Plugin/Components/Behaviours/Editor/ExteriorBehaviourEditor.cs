@@ -25,8 +25,7 @@ namespace ISILab.LBS.VisualElements
     {
         #region FIELDS
         private ExteriorBehaviour exterior;
-        private Bundle targetBundle;
-
+   
         private List<LBSIdentifierBundle> Groups;
         private object[] options;
 
@@ -52,21 +51,18 @@ namespace ISILab.LBS.VisualElements
         {
             // Set target Behaviour
             exterior = target as ExteriorBehaviour;
-
-            // Get Target bundle
-            var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
-
-            targetBundle = exterior.Bundle;///bundles.Find(b => b.Name == exterior.BundlePath);
+            
+            //SetInfo(target);
+            
             CreateVisualElement();
         }
         #endregion
 
         #region METHODS
-        public override void SetInfo(object target)
+        public sealed override void SetInfo(object target)
         {
             exterior = target as ExteriorBehaviour;
-            bundleField.value = exterior?.Bundle;
-            OnTargetBundle();
+            CheckTargetBundle();
         }
 
         public void SetTools(ToolKit toolKit)
@@ -76,31 +72,33 @@ namespace ISILab.LBS.VisualElements
             // Set empty tile
             icon = Resources.Load<Texture2D>("Icons/Tools/Brush_interior_tile");
             addEmptyTile = new AddEmptyTile();
-            var t1 = new LBSTool(icon, "Add tile without connection", "Add non-connected exterior tile activated!", addEmptyTile);
+            var t1 = new LBSTool(icon, "Add tile without connection", "Add Non-Connected Exterior Tile", addEmptyTile);
             t1.Init(exterior.OwnerLayer, exterior);
-         
+            t1.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
 
             // Remove tile
             icon = Resources.Load<Texture2D>("Icons/Tools/Delete_exterior_tile");
             removeTile = new RemoveTileExterior();
-            var t2 = new LBSTool(icon, "Remove Tile", "Remove exterior tile activated!", removeTile);
+            var t2 = new LBSTool(icon, "Remove Tile", "Remove Exterior Tile", removeTile);
             t2.Init(exterior.OwnerLayer, exterior);
-     
+            t2.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
+            
             toolKit.AddSeparator(10);
 
             // Set connection
             icon = Resources.Load<Texture2D>("Icons/Tools/Exterior_connection");
             setConnection = new SetExteriorTileConnection();
-            var t3 = new LBSTool(icon, "Set connection", "Set tile connection activated!", setConnection);
-            t3.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
+            var t3 = new LBSTool(icon, "Set connection", "Set Tile Connection", setConnection);
             t3.Init(exterior.OwnerLayer, exterior);
-         
+            t3.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
+            
             // Remove connection
             icon = Resources.Load<Texture2D>("Icons/Tools/Delete_exterior_connection");
             removeConection = new RemoveConnection();
-            var t4 = new LBSTool(icon, "Remove connection", "Remove tile connection activated!", removeConection);
+            var t4 = new LBSTool(icon, "Remove connection", "Remove Tile Connection", removeConection);
             t4.Init(exterior.OwnerLayer, exterior);
-
+            t4.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
+            
             addEmptyTile.SetRemover(removeTile);
             setConnection.SetRemover(removeConection);
             
@@ -111,9 +109,10 @@ namespace ISILab.LBS.VisualElements
 
         }
 
-        private void OnTargetBundle() // FIX: set a better name
+        private void CheckTargetBundle() 
         {
-            if (targetBundle == null)
+            var exteriorBundle = exterior.Bundle;
+            if ( exteriorBundle == null)
             {
                 warningPanel.SetDisplay(true);
                 connectionPallete.SetDisplay(false);
@@ -122,12 +121,13 @@ namespace ISILab.LBS.VisualElements
             {
                 warningPanel.SetDisplay(false);
                 connectionPallete.SetDisplay(true);
-                SetConnectionPallete(targetBundle);
+                SetConnectionPallete(exterior.Bundle);
             }
         }
 
         protected sealed override VisualElement CreateVisualElement()
         {
+            
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("ExteriorBehaviourEditor");
             visualTree.CloneTree(this);
 
@@ -136,34 +136,42 @@ namespace ISILab.LBS.VisualElements
 
             // BundleField
             bundleField = this.Q<ObjectField>("BundleField");
-            bundleField.value = targetBundle;
+            bundleField.objectType = typeof(Bundle);
+            bundleField.value = exterior.Bundle;
             // only updates the first bundle value change - fix pending
             bundleField.RegisterValueChangedCallback(evt =>
             {
-                if (evt.newValue == null)
+                var bundle = evt.newValue as Bundle;
+                
+                // Get current option
+                var connections = bundle.GetChildrenCharacteristics<LBSDirection>();
+                var tags = connections.SelectMany(c => c.Connections).ToList().RemoveDuplicates();
+                var indtifiers = LBSAssetsStorage.Instance.Get<LBSTag>();
+                var idents = tags.Select(s => indtifiers.Find(i => s == i.Label)).ToList().RemoveEmpties();
+                
+                if (idents.Any())
                 {
-                    targetBundle = null;
-                    bundleField.value = null;
-                    exterior.Bundle = null;
-                    OnTargetBundle();
+                    exterior.Bundle = bundle; // valid for exterior
+                    var owner = exterior.OwnerLayer;
+                    owner.OnChangeUpdate(); // updates the assistant and viceversa
                 }
                 else
                 {
-                    targetBundle = evt.newValue as Bundle;
-                    bundleField.value = targetBundle;
-                    exterior.Bundle = targetBundle;
-                    exterior.BundlePath = AssetDatabase.GetAssetPath(targetBundle);
-                    OnTargetBundle();
-                    ToolKit.Instance.SetActive("Set connection");
+                    bundleField.value = exterior.Bundle; // set default or current if new option not valid
                 }
-                   
-  
+               
+                CheckTargetBundle();
             });
 
             // Connection Pallete
             connectionPallete = this.Q<SimplePallete>("ConnectionPallete");
-            OnTargetBundle();
+            CheckTargetBundle();
 
+            exterior.OwnerLayer.OnChange += () =>
+            {
+                bundleField.SetValueWithoutNotify(exterior.Bundle);
+            };
+            
             return this;
         }
 
