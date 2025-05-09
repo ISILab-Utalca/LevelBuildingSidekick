@@ -139,7 +139,6 @@ namespace ISILab.LBS.VisualElements.Editor
 
         public void CreateGUI()
         {
-
             presetDictionary = new Dictionary<string, MAPElitesPreset>();
 
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("PopulationAssistantWindow");
@@ -339,9 +338,9 @@ namespace ISILab.LBS.VisualElements.Editor
 
         private void RunAlgorithm()
         {
+            currentOptimizer.Evaluator = currentXField;
+
             Debug.Log("running algorithm");
-            //Update button
-            recalculate.text = "Recalculate";
 
             //Quit if algorithm is working
             if (assistant.Running)
@@ -365,8 +364,10 @@ namespace ISILab.LBS.VisualElements.Editor
 
             Debug.Log("executed");
             //TODO: Hay que pasarle el Optimizer a los Map Elites
-            LBSMainWindow.OnWindowRepaint += RepaintContent; 
+            LBSMainWindow.OnWindowRepaint += RepaintContent;
 
+            //Update button
+            recalculate.text = "Recalculate";
         }
 
         private void RepaintContent()
@@ -417,16 +418,15 @@ namespace ISILab.LBS.VisualElements.Editor
             {
                 var v = assistant.toUpdate[i];
                 var index = (int)(v.y * assistant.SampleWidth + v.x);
-                
-                
-                
+
+                SetBackgroundTexture(veChildren[index], assistant.RawToolRect);
+
                 veChildren[index].Data = assistant.Samples[(int)v.y, (int)v.x];
                 veChildren[index].Score = ((decimal)assistant.Samples[(int)v.y, (int)v.x].Fitness).ToString("f4");
                 var t = veChildren[index].GetTexture();
                 if (veChildren[index].Data != null)
                 {
                     veChildren[index].SetTexture(veChildren[index].backgroundTexture.MergeTextures(t).FitSquare());
-                    
                 }
                 else
                 {
