@@ -1,9 +1,10 @@
-using ISILab.Extensions;
 using ISILab.LBS.VisualElements.Editor;
 using UnityEngine;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
+using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.Manipulators;
+using ISILab.Macros;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
@@ -12,8 +13,12 @@ namespace ISILab.LBS.Drawers.Editor
     [Drawer(typeof(QuestNodeBehaviour))]
     public class QuestNodeBehaviourDrawer : Drawer
     {
-        public QuestNodeBehaviourDrawer() : base() { }
+        // Circle drawn to display an element on the graph
+        private const float CircleSize = 100f;
+        // Multiplied by the CircleSize (1 == filled circle)
+        private const float borderThickness = 0.025f;
 
+        public QuestNodeBehaviourDrawer() : base() { }
         /// <summary>
         /// Draws the information that corresponds to the quest node behavior selected node.
         /// </summary>
@@ -31,25 +36,23 @@ namespace ISILab.LBS.Drawers.Editor
             var nd = qn?.NodeData;
             if (nd == null) return;
             
-            Debug.Log("\n --node: " + nd.Owner.ID + "--");
+            //Debug.Log("\n --node: " + nd.Owner.ID + "--");
 
             switch (nd)
             {
                 case QuestNodeDataGoto dataGoto:
                 {
                     var position = layer.FixedToPosition(dataGoto.position, true);
-                    //var position = view.FixPos(location.position);
-                    Color tagsColor = new Color(0.93f, 0.81f, 0.42f, 0.65f);
-                    var square = new SquareElement(position, new Vector2(50, 50),
-                        tagsColor,dataGoto);
-                    view.AddElement(behaviour.OwnerLayer, behaviour, square);
-                    Debug.Log(dataGoto.position);
+                  
+                    var circle = new CircleElement(position, CircleSize, dataGoto);
+                    view.AddElement(behaviour.OwnerLayer, behaviour, circle);
+                    
                     break;
                 }
 
                 case QuestNodeDataKill kill:
                 {
-                    Debug.Log(kill.bundleGuid + " -> " + kill.Num);
+                 //   Debug.Log(kill.bundleGuid + " -> " + kill.Num);
                     break;
                 }
 
@@ -57,7 +60,7 @@ namespace ISILab.LBS.Drawers.Editor
                 {
 
                     Debug.Log(steal.position);
-                    Debug.Log(steal.bundleGuid + " -> " + steal.bundleGuid);
+                //    Debug.Log(steal.bundleGuid + " -> " + steal.bundleGuid);
                     break;
                 }
             }
@@ -66,65 +69,113 @@ namespace ISILab.LBS.Drawers.Editor
         }
         
 
-        private class SquareElement : GraphElement
+        public class CircleElement : GraphElement
         {
             private readonly BaseQuestNodeData _data;
-            public SquareElement(Vector2 position, Vector2 size, Color color, BaseQuestNodeData data)
+
+            public CircleElement(Vector2 position, float diameter, BaseQuestNodeData data)
             {
                 _data = data;
 
-                // Set the size and position
-                style.width = size.x;
-                style.height = size.y;
+                // Clone the UXML template
+                // Find root: var root 
+                style.width = diameter;
+                style.height = diameter;
                 style.left = position.x;
                 style.top = position.y;
 
-                // Set a background color
-                style.backgroundColor = color;
+                var radius = diameter / 2;
                 
-                RegisterCallback<MouseLeaveEvent>(OnMouseUp);
-                RegisterCallback<MouseMoveEvent>(OnMouseMove);
-            }
-            
-            private void OnMouseUp(MouseLeaveEvent e)
-            {
-                Debug.LogError("UUUUUP");
-                // Get the fixed position using your logic
-                var moveClickPosition = MainView.Instance.FixPos(e.localMousePosition).ToInt();
-                Vector2Int newPosition = _data.Owner.Graph.OwnerLayer.ToFixedPosition(moveClickPosition);
-                newPosition.y = -newPosition.y;
-                
-                // Print the current position
-                Debug.Log($"Dragging to: {newPosition}");
-                
-                // Update the data's position
-                switch (_data)
-                {
-                    case QuestNodeDataGoto dataGoto: 
-                        dataGoto.position = newPosition;
-                        Debug.Log($"Updated QuestNodeDataGoto position to: {newPosition}");
-                        break;
+                style.borderBottomLeftRadius = radius;
+                style.borderBottomRightRadius = radius;
+                style.borderTopLeftRadius = radius;
+                style.borderTopRightRadius = radius;
 
-                    case QuestNodeDataSteal steal:
-                        steal.position = newPosition;
-                        Debug.Log($"Updated QuestNodeDataSteal position to: {newPosition}");
-                        break;
+
+                var thickness = diameter * borderThickness;
+                style.borderBottomWidth = thickness;
+                style.borderTopWidth = thickness;
+                style.borderLeftWidth = thickness;
+                style.borderRightWidth = thickness;
+                
+                
+                // Add the UXML root to this VisualElement
+                // Add(root);
+                
+                // Should set color per switch data class
+                Color color;
+                
+                // Get references to sub-elements
+                VisualElement centerElement = null; // root.Q<VisualElement>("CenterElement");
+                if (centerElement != null)
+                {
+                    centerElement.style.backgroundColor = Color.white;
+                    // Set unique icon per quest data
+                    switch (_data)
+                    {
+                        case QuestNodeDataGoto dataGoto: 
+                            Debug.Log($"Missing vector for Center Element: {typeof(QuestNodeDataGoto)}");
+                            break;
+                        case QuestNodeDataKill kill:
+                            Debug.Log($"Missing vector for Center Element: {typeof(QuestNodeDataKill)}");
+                            break;
+                        case QuestNodeDataSteal steal:
+                            Debug.Log($"Missing vector for Center Element: {typeof(QuestNodeDataSteal)}");
+                            break;
+                    }
                 }
 
+                color = new Color(0.93f, 0.81f, 0.42f, 1f);
+                Color backgroundColor = color;
+                backgroundColor.a = 0.33f;
+                
+                style.backgroundColor = backgroundColor;
+                style.borderBottomColor = color;
+                style.borderTopColor = color;
+                style.borderRightColor = color;
+                style.borderLeftColor = color;
+                
+                RegisterCallback<MouseMoveEvent>(OnMouseMove);
+                RegisterCallback<MouseUpEvent>(OnMouseUp);
             }
 
             private void OnMouseMove(MouseMoveEvent e)
             {
                 // left button pressed
-                if (e.pressedButtons != 1) return;
-                if (!MainView.Instance.HasManipulator<Select>() ) return;
-                
-                var grabPosition =  GetPosition().position + e.mouseDelta / MainView.Instance.viewTransform.scale;
+                if (e.pressedButtons == 0 || e.button != 0) return;
+                if (!MainView.Instance.HasManipulator<Select>()) return;
+
+                var gridPos = LBSMainWindow._gridPosition;
+
+                var grabPosition = GetPosition().position + e.mouseDelta / MainView.Instance.viewTransform.scale;
                 grabPosition *= MainView.Instance.viewport.transform.scale;
                 Rect newPos = new Rect(grabPosition.x, grabPosition.y, resolvedStyle.width, resolvedStyle.height);
                 SetPosition(newPos);
-                
-              
+
+       
+                switch (_data)
+                {
+                    case QuestNodeDataGoto dataGoto: 
+                        dataGoto.position = gridPos;
+                        Debug.Log($"Updated QuestNodeDataGoto position to: {gridPos}");
+                        break;
+
+                    case QuestNodeDataSteal steal:
+                        steal.position = gridPos;
+                        Debug.Log($"Updated QuestNodeDataSteal position to: {gridPos}");
+                        break;
+                }
+
+
+
+
+
+            }
+
+            private void OnMouseUp(MouseUpEvent e)
+            {
+                var qnb = LBSLayerHelper.GetObjectFromLayer<QuestNodeBehaviour>(_data.Owner.Graph.OwnerLayer); 
+                qnb.DataChanged(_data.Owner);
             }
         }
     }
