@@ -29,6 +29,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ca3f7b2d37f6cc842915103e63129949, type: 2}
   - {fileID: 11400000, guid: e39969ae5b249bc40b1a7da5bdfb9d2c, type: 2}
   - {fileID: 11400000, guid: 72c3f8001f21e4445b6e7abb011ed29a, type: 2}
+  microGenTool:
+    _spread: 0
+    _margin:
+      negativeX: 1
+      positiveX: 1
+      negativeZ: 1
+      positiveZ: 1
   references:
     version: 2
     RefIds:

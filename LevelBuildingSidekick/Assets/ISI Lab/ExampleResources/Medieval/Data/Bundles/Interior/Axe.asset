@@ -26,6 +26,13 @@ MonoBehaviour:
   populationType: 1
   tileSize: {x: 1, y: 1}
   childsBundles: []
+  microGenTool:
+    _spread: 0
+    _margin:
+      negativeX: 1
+      positiveX: 1
+      negativeZ: 1
+      positiveZ: 1
   references:
     version: 2
     RefIds:
