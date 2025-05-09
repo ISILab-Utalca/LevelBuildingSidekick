@@ -10,6 +10,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ISILab.Macros;
+using LBS.Bundles;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -23,11 +25,9 @@ namespace ISILab.LBS.Manipulators
     public class QuestPicker : LBSManipulator
     {
         QuestGraph quest;
-        QuestBehaviour behaviour;
-        public GrammarTerminal ActionToSet => behaviour.ToSet;
-
-
-        private string prefix = "";
+        QuestNodeBehaviour behaviour;
+        public Bundle pickedBundle;
+        
         public QuestPicker() : base()
         {
         }
@@ -37,28 +37,52 @@ namespace ISILab.LBS.Manipulators
             base.Init(layer, owner);
             
             quest = layer.GetModule<QuestGraph>();
-            behaviour = layer.GetBehaviour<QuestBehaviour>();
+            behaviour = layer.GetBehaviour<QuestNodeBehaviour>();
         }
 
         protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
         {
-            if (ActionToSet == null)
+            var node = behaviour.SelectedQuestNode;
+            if (node == null ) return;
+            var populationLayers = LBS.loadedLevel.data.Layers
+                .Where(l => l.Behaviours.Any(
+                    bh => bh.GetType() == typeof(PopulationBehaviour)))
+                .ToList();
+
+
+            TileBundleGroup bundleTile = null;
+
+            // Here search for the bundle ref in the layer graph
+            if (populationLayers.Any())
             {
-                LBSMainWindow.MessageNotify("Can't add node. Make sure to select a grammar and a word.", LogType.Error, 5);
+                foreach (var layer in populationLayers)
+                {
+                    var population = layer.GetBehaviour<PopulationBehaviour>();
+                    bundleTile = population.GetTileGroup(population.OwnerLayer.ToFixedPosition(endPosition));
+                    if (bundleTile != null) break;
+                }
+            }
+
+            if (bundleTile == null)
+            {
+                OnManipulationEnd.Invoke();
                 return;
             }
 
-            var name = "";
-            var loop = true;
-            var v = 0;
-            do
+            var bundle = bundleTile.BundleData.Bundle;
+            string bundleDataGui = LBSAssetMacro.GetGuidFromAsset(bundle);
+            switch (node.NodeData)
             {
-                name = prefix + ActionToSet.ID + " (" + v + ")";
-                loop = quest.QuestNodes.Any(n => n.ID.Equals(name));
-                v++;
-            } while (loop);
 
-            quest.AddNode(new QuestNode(name, EndPosition, ActionToSet.ID, quest));
+                case QuestNodeDataKill killData:
+                    killData.bundleGuid = bundleDataGui;
+                    break;
+                
+                case QuestNodeDataSteal stealData:
+                    stealData.bundleGuid = bundleDataGui;
+                    break;
+                
+            }
             OnManipulationEnd.Invoke();
         }
     }

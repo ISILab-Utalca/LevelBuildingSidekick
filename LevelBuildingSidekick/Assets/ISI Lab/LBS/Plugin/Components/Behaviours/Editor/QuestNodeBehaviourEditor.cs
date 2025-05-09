@@ -11,6 +11,7 @@ using ISILab.LBS.Editor;
 using ISILab.LBS.Manipulators;
 using ISILab.LBS.VisualElements.Editor;
 using ISILab.Macros;
+using LBS;
 using LBS.Bundles;
 using LBS.VisualElements;
 using UnityEditor.UIElements;
@@ -181,9 +182,16 @@ namespace ISILab.LBS.VisualElements
 
         public void SetTools(ToolKit toolkit)
         { 
-            /* Although it relies on the OnSelect tool, its functionality is called from QuestNode Mouse Down
-                where the SelectedNode is set in QuestNodeBehavior 
-            */
+            Texture2D icon = Resources.Load<Texture2D>("Icons/Quest_Icon/Icon=ColorPicker");
+            var questPicker = new QuestPicker();
+            var t1 = new LBSTool(icon, "Pick population element",
+                "picks foremost population element from any layer within the graph." +
+                " The picked bundle is assigned to the selected behaviour node", questPicker);
+            t1.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
+            t1.Init(behaviour?.OwnerLayer, target);
+            
+            toolkit.AddTool(t1);
+            
         }
 
         private void UpdatePanel(QuestNode node)
