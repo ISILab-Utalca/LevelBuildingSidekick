@@ -26,12 +26,12 @@ MonoBehaviour:
   tileSize: {x: 1, y: 1}
   childsBundles: []
   microGenTool:
-    spread: 2
+    spread: 1
     margin:
-      negativeX: 0
-      positiveX: 0
-      negativeZ: 0
-      positiveZ: 0
+      negativeX: 0.65
+      positiveX: 0.65
+      negativeZ: 0.65
+      positiveZ: 0.65
   references:
     version: 2
     RefIds:

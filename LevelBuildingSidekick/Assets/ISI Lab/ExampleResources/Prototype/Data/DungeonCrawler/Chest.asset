@@ -27,7 +27,7 @@ MonoBehaviour:
   childsBundles:
   - {fileID: 11400000, guid: 3ccf8442a472e0943899ad0e08afc068, type: 2}
   microGenTool:
-    spread: 0
+    spread: 2
     margin:
       negativeX: 1
       positiveX: 1
