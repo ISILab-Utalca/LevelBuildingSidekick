@@ -32,15 +32,16 @@ namespace ISILab.LBS.VisualElements.Editor
         private VisualElement image;
         private VisualElement customImage;
 
+        public Texture2D backgroundTexture;
         private Texture2D defaultImage;
-        
+
         #endregion
 
         #region FIELDS
         // result
         private object data;
         // value/score of the generated result
-        private string value;
+        private string score;
         
         #endregion
 
@@ -54,6 +55,13 @@ namespace ISILab.LBS.VisualElements.Editor
             get => data;
             set => data = value;
         }
+
+        public string Score
+        {
+            get => score;
+            set => score = value;
+        }
+
         #endregion
 
         #region CONSTRUCTORS
@@ -84,6 +92,7 @@ namespace ISILab.LBS.VisualElements.Editor
         public void SetTexture(Texture2D texture)
         {
             if (customImage == null) { Debug.Log("No image");  return; }
+            backgroundTexture = texture;
             customImage.style.backgroundImage = texture;
             OnImageChange?.Invoke();
         }
@@ -93,10 +102,10 @@ namespace ISILab.LBS.VisualElements.Editor
             background.style.backgroundColor = color;
         }
 
-        public void SetLabel(string score)
+        public void UpdateLabel()
         {
             if (scoreLabel == null) return;
-            scoreLabel.text = score;
+            scoreLabel.text = Score;
         }
     }
 }
