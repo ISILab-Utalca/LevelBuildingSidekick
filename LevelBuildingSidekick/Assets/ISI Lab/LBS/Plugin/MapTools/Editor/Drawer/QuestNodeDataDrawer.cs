@@ -37,6 +37,12 @@ namespace ISILab.LBS.Drawers.Editor
             if (nd == null) return;
             
             //Debug.Log("\n --node: " + nd.Owner.ID + "--");
+            /*
+             * TODO: Replace this within the switch and pass the visualElement corresponding
+             * to the type in the switch. Perhaps use the attribute created for actions}
+             * but apply on visual Elements.
+             */
+            // view.AddElement(behaviour.OwnerLayer, behaviour, type);
 
             switch (nd)
             {
