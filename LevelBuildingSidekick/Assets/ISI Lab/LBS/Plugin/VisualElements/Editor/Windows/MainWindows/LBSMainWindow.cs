@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using ISILab.Commons.VisualElements.Editor;
+using ISILab.Extensions;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -85,6 +86,8 @@ namespace ISILab.LBS.Editor.Windows{
         [UxmlAttribute]
         private LayerInspector layerInspector;
 
+        public static Vector2Int _gridPosition;
+
         private static Toggle layerDataButton;
         private static Toggle behaviourButton;
         private static Toggle assistantButton;
@@ -117,10 +120,12 @@ namespace ISILab.LBS.Editor.Windows{
             toolLabel.text = description;
         }
         
-        public static void GridPosition(string gridPosition)
+        public static void GridPosition(Vector2 pos)
         {
-            if (positionLabel == null) return; 
-            positionLabel.text = gridPosition;
+            _gridPosition = pos.ToInt();
+            if (positionLabel == null) return;
+            string text = "Grid Position: " + pos.ToInt();
+            positionLabel.text = text;
         }
 
         public static void DisplayHelp()

@@ -102,7 +102,9 @@ namespace ISILab.LBS.VisualElements
                 text = text.Substring(0, 8) + "...";
             }
 
-            _label.text = text;
+            // Remove leading spaces and capitalize the first letter
+            _label.text = string.IsNullOrWhiteSpace(text) ? text : char.ToUpper(text.TrimStart()[0]) + text.TrimStart().Substring(1);
+
         }
 
         private void OnMouseMove(MouseMoveEvent e)

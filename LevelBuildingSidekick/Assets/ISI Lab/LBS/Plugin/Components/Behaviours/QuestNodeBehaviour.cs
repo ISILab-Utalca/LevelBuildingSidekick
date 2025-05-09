@@ -27,6 +27,7 @@ namespace ISILab.LBS.Behaviours
         }
         
         public event Action<QuestNode> OnQuestNodeSelected;
+        public event Action<QuestNode> OnQuestDataChanged;
         
         public QuestNodeBehaviour(VectorImage icon, string name, Color colorTint) : base(icon, name, colorTint)
         {
@@ -50,5 +51,7 @@ namespace ISILab.LBS.Behaviours
         public override void OnDetachLayer(LBSLayer layer)
         {
         }
+        
+        public void DataChanged(QuestNode node) {OnQuestDataChanged?.Invoke(node);}
     }
 }

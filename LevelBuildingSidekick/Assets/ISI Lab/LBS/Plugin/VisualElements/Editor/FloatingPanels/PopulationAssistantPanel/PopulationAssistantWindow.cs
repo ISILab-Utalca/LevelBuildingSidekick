@@ -513,12 +513,11 @@ namespace ISILab.LBS.VisualElements.Editor
             assistant = target;
         }
 
-        public static void ShowWindow()
+        public void ShowWindow()
        {
-           var window = GetWindow<PopulationAssistantWindow>();
-           window.titleContent = new GUIContent("Population Assistant");
-           window.minSize = new Vector2(1000, 500); // use the Canvas Size of the uxml
-           window.Show();
+           titleContent = new GUIContent("Population Assistant");
+           minSize = new Vector2(1000, 500); // use the Canvas Size of the uxml
+           Show();
        }
 
        #endregion

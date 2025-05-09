@@ -71,6 +71,7 @@ namespace ISILab.LBS.VisualElements
         {
             behaviour = target as QuestNodeBehaviour;
             behaviour.OnQuestNodeSelected += UpdatePanel;
+            behaviour.OnQuestDataChanged += SetPanelValuesWithNodeData;
         }
         protected override VisualElement CreateVisualElement()
         {
@@ -204,7 +205,7 @@ namespace ISILab.LBS.VisualElements
             
             SetPanelValuesWithNodeData(node);
         }
-
+        
         private void SetPanelValuesWithNodeData(QuestNode node)
         {
             
