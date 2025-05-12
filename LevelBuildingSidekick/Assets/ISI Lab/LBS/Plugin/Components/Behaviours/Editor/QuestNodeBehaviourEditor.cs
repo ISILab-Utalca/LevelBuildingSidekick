@@ -33,28 +33,34 @@ namespace ISILab.LBS.VisualElements
         /// </summary>
         private Label NodeIDLabel;
         
-        
-        /// <summary>
-        /// Vector to translate from graph to world position in scene for a generated
-        /// </summary>
-        private Vector2IntField Vector2Location;
-
-        /// <summary>
-        /// References a bundle who's prefab type then is used in the quest generated on scene 
-        /// </summary>
-        private ObjectField TargetField;
-        private IntegerField TargetCount;
-        private Button TargetCountIncrease;
-        private Button TargetCountDecrease;
-        
         /// <summary>
         /// contains the visual element to access target field
         /// </summary>
-        private VisualElement ObjectFieldVe;
+        private VisualElement TargetBundleVe;
+            /// <summary>
+            /// References a bundle who's prefab type then is used in the quest generated on scene 
+            /// </summary>
+            private ObjectField TargetBundle;
+            private IntegerField TargetCount;
+            private Button TargetCountIncrease;
+            private Button TargetCountDecrease;
+            
         /// <summary>
         /// contains the visual element to access vector field
         /// </summary>
-        private VisualElement Vector2DVe;
+        private VisualElement PositionVe;
+            /// <summary>
+            /// Vector to translate from graph to world position in scene for a generated
+            /// </summary>
+            private Vector2IntField Vector2Pos;
+            
+        /// <summary>
+        /// contains the visual element to the time constraint variables
+        /// </summary>
+        private VisualElement ConstraintVe;
+            private FloatField MaxDistance;
+            private FloatField StayTime;
+            
         /// <summary>
         /// Display to indicate no Node from the graph has been selected
         /// </summary>
@@ -83,9 +89,9 @@ namespace ISILab.LBS.VisualElements
             ActionLabel = this.Q<Label>("ParamAction");
             NodeIDLabel = this.Q<Label>("ParamID");
             
-            ObjectFieldVe = this.Q<VisualElement>("ObjectFieldVe");
-            TargetField = this.Q<ObjectField>("TargetFieldBundle");
-            TargetField.RegisterValueChangedCallback(evt =>
+            TargetBundleVe = this.Q<VisualElement>("ObjectFieldVe");
+            TargetBundle = this.Q<ObjectField>("TargetFieldBundle");
+            TargetBundle.RegisterValueChangedCallback(evt =>
             {
                 if (evt.newValue is Bundle bundle) SetTargetValue(bundle);
             });
@@ -105,15 +111,22 @@ namespace ISILab.LBS.VisualElements
             };
             
             
-            Vector2DVe = this.Q<VisualElement>("Vector2DVe");
-            Vector2Location = this.Q<Vector2IntField>("Vector2LocationInput");
-            Vector2Location.RegisterValueChangedCallback(evt => SetVector2IntValue(evt.newValue));
+            PositionVe = this.Q<VisualElement>("Vector2DVe");
+            Vector2Pos = this.Q<Vector2IntField>("Vector2LocationInput");
+            Vector2Pos.RegisterValueChangedCallback(evt => SetVector2IntValue(evt.newValue));
             
+            
+            ConstraintVe = this.Q<VisualElement>("ConstraintVe");
+            MaxDistance = this.Q<FloatField>("MaxDistanceInput");
+            MaxDistance.RegisterValueChangedCallback(evt => SetMaxDistance(evt.newValue));
+            StayTime = this.Q<FloatField>("StayTimeInput");
+            StayTime.RegisterValueChangedCallback(evt => SetStayTime(evt.newValue));
+
            
             NoNodeSelectedPanel = this.Q<VisualElement>("NoNodeSelectedPanel");
 
-            ObjectFieldVe.style.display = DisplayStyle.None;    
-            Vector2DVe.style.display = DisplayStyle.None;    
+            TargetBundleVe.style.display = DisplayStyle.None;    
+            PositionVe.style.display = DisplayStyle.None;    
             NoNodeSelectedPanel.style.display = DisplayStyle.Flex;    
             
 
@@ -121,28 +134,30 @@ namespace ISILab.LBS.VisualElements
             return this;
         }
 
+        private void SetStayTime(float evtNewValue)
+        {
+            
+            var nd = GetSelectedNode().NodeData;
+            if(nd is null)  return;
+        }
+
+        private void SetMaxDistance(float evtNewValue)
+        {
+            var nd = GetSelectedNode().NodeData;
+            if(nd is null)  return;
+            
+        }
+
         private void SetTargetValue(Bundle newValue)
         {
             var nd = GetSelectedNode().NodeData;
             if(nd is null)  return;
             var bundleGuid = LBSAssetMacro.GetGuidFromAsset(newValue);
-            switch (nd)
-            {
-                case QuestNodeDataKill kill:
-                {
-                    nd.SetGoal<string>(bundleGuid);
-                    break;
-                }
-                
-                case QuestNodeDataSteal steal:
-                {
-                    var tuple = new Tuple<string, Vector2Int>(bundleGuid, Vector2Location.value);
-                    nd.SetGoal<Tuple<string, Vector2Int>>(tuple);
-                    break;
-                }
-            }
-            
+
+            if (!nd.HasBundle()) return;
+            nd.Bundle.bundleGuid = bundleGuid;
             DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance);
+            
         }
 
         private void SetIntValue(int newValue)
@@ -157,26 +172,10 @@ namespace ISILab.LBS.VisualElements
         private void SetVector2IntValue(Vector2Int newValue)
         {
             var nd = GetSelectedNode().NodeData;
-            if(nd is null)  return;
+            if (nd is null) return;
+            if (!nd.HasPosition()) return;
 
-            switch (nd)
-            {
-                case QuestNodeDataGoto locationData:
-                {
-                    nd.SetGoal<Vector2Int>(newValue);
-                    break;
-                }
-                
-                case QuestNodeDataSteal steal:
-                {
-                    var bundleGuid = LBSAssetMacro.GetGuidFromAsset(TargetField.value);
-                    var tuple = new Tuple<string, Vector2Int>(bundleGuid, newValue);
-                    nd.SetGoal<Tuple<string, Vector2Int>>(tuple);
-                    break;
-                }
-
-            }
-            
+            nd.Position.position = newValue;
             DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance);
         }
 
@@ -185,7 +184,7 @@ namespace ISILab.LBS.VisualElements
             Texture2D icon = Resources.Load<Texture2D>("Icons/Quest_Icon/Icon=ColorPicker");
             var questPicker = new QuestPicker();
             var t1 = new LBSTool(icon, "Pick population element",
-                "picks foremost population element from any layer within the graph." +
+                "Pick the foremost population element from any layer within the graph." +
                 " The picked bundle is assigned to the selected behaviour node", questPicker);
             t1.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             t1.Init(behaviour?.OwnerLayer, target);
@@ -196,13 +195,13 @@ namespace ISILab.LBS.VisualElements
 
         private void UpdatePanel(QuestNode node)
         {
-            ObjectFieldVe.style.display = DisplayStyle.None;    
-            Vector2DVe.style.display = DisplayStyle.None;    
+            TargetBundleVe.style.display = DisplayStyle.None;    
+            PositionVe.style.display = DisplayStyle.None;    
+            ConstraintVe.style.display = DisplayStyle.None;    
             NoNodeSelectedPanel.style.display = DisplayStyle.None;    
             
             if (node is null || 
-                node.NodeData is null ||
-                node.NodeData is  QuestNodeDataEmpty emptyData)
+                node.NodeData is null)
             {
                 NoNodeSelectedPanel.style.display = DisplayStyle.Flex;    
                 return;
@@ -216,28 +215,29 @@ namespace ISILab.LBS.VisualElements
         
         private void SetPanelValuesWithNodeData(QuestNode node)
         {
+            if (node is null) return;
+            var nd = node.NodeData;
+            if (nd is null) return;
             
-            TargetCount.value = node.NodeData.Num;
-            switch (node.NodeData)
-            {
-                case QuestNodeDataGoto locationData:
-                    Vector2Location.value = locationData.position;
-                    Vector2DVe.style.display = DisplayStyle.Flex;
-                    break;
+            TargetCount.value = nd.Num;
 
-                case QuestNodeDataKill killData:
-                    ObjectFieldVe.style.display = DisplayStyle.Flex;
-                    TargetField.value = LBSAssetMacro.LoadAssetByGuid<Bundle>(
-                        killData.bundleGuid);
-                    break;
-                
-                case QuestNodeDataSteal stealData:
-                    ObjectFieldVe.style.display = DisplayStyle.Flex;
-                    Vector2Location.value = stealData.position;
-                    TargetField.value = LBSAssetMacro.LoadAssetByGuid<Bundle>(
-                        stealData.bundleGuid);
-                    break;
-                
+            if (nd.HasPosition())
+            {
+                PositionVe.style.display = DisplayStyle.Flex;
+                Vector2Pos.value = nd.Position.position;
+            }
+
+            if (nd.HasBundle())
+            {
+                TargetBundleVe.style.display = DisplayStyle.Flex;
+                TargetBundle.value = LBSAssetMacro.LoadAssetByGuid<Bundle>(
+                    nd.Bundle.bundleGuid);
+            }
+
+            if (nd.HasConstraint())
+            {
+                PositionVe.style.display = DisplayStyle.Flex;
+                Vector2Pos.value = nd.Position.position;
             }
             
             DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance);
