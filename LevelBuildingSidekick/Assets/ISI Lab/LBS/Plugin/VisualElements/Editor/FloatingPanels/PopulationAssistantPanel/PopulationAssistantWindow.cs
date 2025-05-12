@@ -342,14 +342,11 @@ namespace ISILab.LBS.VisualElements.Editor
 
             Debug.Log("running algorithm");
 
-            //Quit if algorithm is working
-            if (assistant.Running)
-                return;
-
             //Check how many of these there are, and get the optimizer!
             var veChildren = GetButtonResults(new List<PopulationAssistantButtonResult>(), gridContent);
 
             UpdateGrid();
+            //This resets the algorithm all the time, so nothing to worry about regarding whether it's running or not.
             assistant.LoadPresset(mapEliteBundle);
             
             //Check if there's a place to optimize
