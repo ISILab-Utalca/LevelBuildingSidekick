@@ -1,7 +1,7 @@
+using System;
 using ISILab.LBS.Behaviours;
 using LBS.Components;
 using LBS.Components.TileMap;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -9,8 +9,9 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Manipulators
 {
-    public class AddEmptyTile : ManipulateTeselation
+    public class AddExteriorTile : ManipulateTeselation
     {
+        private List<Vector2Int> Directions => Commons.Directions.Bidimencional.Edges;
         private ExteriorBehaviour exterior;
 
         public override void Init(LBSLayer layer, object owner)
@@ -26,6 +27,8 @@ namespace ISILab.LBS.Manipulators
             EditorGUI.BeginChangeCheck();
             Undo.RegisterCompleteObjectUndo(x, "Add empty tiles");
 
+            var paintNeighbors = e.ctrlKey;
+            
             var corners = exterior.OwnerLayer.ToFixedPosition(StartPosition, EndPosition);
 
             for (int i = corners.Item1.x; i <= corners.Item2.x; i++)
@@ -35,6 +38,11 @@ namespace ISILab.LBS.Manipulators
                     var pos = new Vector2Int(i, j);
                     var tile = new LBSTile(pos);
                     exterior.AddTile(tile);
+                    
+                    if (!exterior.identifierToSet || 
+                        exterior.identifierToSet.Label == null) continue;
+            
+                    SetConnections(tile, pos, paintNeighbors);
                 }
             }
 
@@ -44,5 +52,22 @@ namespace ISILab.LBS.Manipulators
             }
         }
 
+        private void SetConnections(LBSTile tile, Vector2Int pos, bool paintNeighbors)
+        {
+            // Paint all connections
+            for (int k = 0; k < Directions.Count; k++)
+            {
+                exterior.SetConnection(tile, k, exterior.identifierToSet.Label, true);
+
+                if(!paintNeighbors) continue;
+                
+                var dir = Directions[k];
+                var neig = exterior.GetTile(pos + dir);
+                if (neig != null)
+                {
+                    exterior.SetConnection(neig, (k + 2) % 4, exterior.identifierToSet.Label, true);
+                }
+            }
+        }
     }
 }

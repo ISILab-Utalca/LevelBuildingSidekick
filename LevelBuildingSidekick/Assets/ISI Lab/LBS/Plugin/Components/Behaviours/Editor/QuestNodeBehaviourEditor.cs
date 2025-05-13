@@ -201,7 +201,7 @@ namespace ISILab.LBS.VisualElements
             NoNodeSelectedPanel.style.display = DisplayStyle.None;    
             
             if (node is null || 
-                node.NodeData is null)
+                node.NodeData is null )
             {
                 NoNodeSelectedPanel.style.display = DisplayStyle.Flex;    
                 return;

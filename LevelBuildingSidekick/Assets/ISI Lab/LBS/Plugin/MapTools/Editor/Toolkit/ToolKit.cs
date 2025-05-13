@@ -234,6 +234,12 @@ namespace LBS.VisualElements
             }
         }
 
+        public LBSManipulator GetActiveManipulator()
+        {
+            if(current.Item1 == null) return null;
+            return current.Item1.Manipulator;
+        }
+        
         public void SetActive(int index)
         {
             
@@ -289,14 +295,9 @@ namespace LBS.VisualElements
         public void SetActive(string value)
         {
             var index = tools.FindIndex(t => t.Item2.tooltip.Equals(value));
+            if (index == -1) return;
             SetActive(index);
        //     if(tools.Count >= index && tools[index].Item1 != null) Debug.Log(tools[index].Item1.Name);
-        }
-
-        public void SetActive()
-        {
-            if (tools.Count <= 0)
-                return;
         }
 
         public void AddTool(LBSTool tool, int index = -1)

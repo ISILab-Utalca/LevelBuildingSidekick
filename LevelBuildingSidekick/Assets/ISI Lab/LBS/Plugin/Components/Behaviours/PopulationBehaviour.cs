@@ -151,7 +151,7 @@ namespace ISILab.LBS.Behaviours
         public Vector2 GetTileRotation(Vector2Int pos)
         {
             TileBundleGroup t = GetTileGroup(pos);
-            return t.Rotation;
+            return t == null ? default : t.Rotation;
         }
 
         public BundleData GetBundleData(Vector2 position)

@@ -89,7 +89,8 @@ namespace ISILab.LBS.VisualElements
             // Add element Tiles
             icon = Resources.Load<Texture2D>("Icons/Tools/Population_Brush");
             addPopulationTile = new AddPopulationTile();
-            var t1 = new LBSTool(icon, "Paint Tile", "Add Population Item", addPopulationTile);
+            var t1 = new LBSTool(icon, "Paint Tile", 
+                "Select an item from Behaviour panel and Click on the graph to add a population tile.", addPopulationTile);
             t1.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             t1.Init(_target.OwnerLayer, _target);
             t1.OnEnd += (l) => DrawManager.Instance.RedrawLayer(_target.OwnerLayer, MainView.Instance);
@@ -97,7 +98,7 @@ namespace ISILab.LBS.VisualElements
             // Remove Tiles
             icon = Resources.Load<Texture2D>("Icons/Tools/Delete_population");
             removePopulationTile = new RemovePopulationTile();
-            var t2 = new LBSTool(icon, "Remove Tile", "Remove Population Item", removePopulationTile);
+            var t2 = new LBSTool(icon, "Remove Tile", "Click on an item in the graph to remove it.", removePopulationTile);
             t2.Init(_target.OwnerLayer, _target);
             t2.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             t2.OnEnd += (l) => DrawManager.Instance.RedrawLayer(_target.OwnerLayer, MainView.Instance);
@@ -105,7 +106,7 @@ namespace ISILab.LBS.VisualElements
             // Rotate element
             icon = Resources.Load<Texture2D>("Icons/Tools/Rotacion_population");
             rotatePopulationTile = new RotatePopulationTile();
-            var t3 = new LBSTool(icon, "Rotate Tile", "Rotate Population Item", rotatePopulationTile);
+            var t3 = new LBSTool(icon, "Rotate Tile", "Left Click to rotate counter-clockwise, Right Click to clockwise. May use Mouse Wheel as well.", rotatePopulationTile);
             t3.Init(_target.OwnerLayer, _target);
             t3.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             t3.OnEnd += (l) => DrawManager.Instance.RedrawLayer(_target.OwnerLayer, MainView.Instance);

@@ -41,12 +41,12 @@ namespace ISILab.LBS.AI.Assistants.Editor
         {
             Texture2D icon;
 
-            toolKit.AddSeparator(10);
+            toolKit.AddSeparator();
 
             // Wave function collapse
             icon = Resources.Load<Texture2D>("Icons/Assistans/Assistans_WaveFunctionCollapse");
-            this.collapseManipulator = new WaveFunctionCollapseManipulator();
-            var t1 = new LBSTool(icon, "Wave Function Collapse", "Wave Function Collapse", collapseManipulator);
+            collapseManipulator = new WaveFunctionCollapseManipulator();
+            var t1 = new LBSTool(icon, "Wave Function Collapse", "Select an area to generate new connections.", collapseManipulator);
             t1.OnSelect += LBSInspectorPanel.ActivateAssistantTab;
 
             t1.Init(assistant.OwnerLayer, assistant);
@@ -92,7 +92,7 @@ namespace ISILab.LBS.AI.Assistants.Editor
                  }
                  
                  assistant.Bundle = exterior.Bundle;
-                 ToolKit.Instance.SetActive("Wave function collapse");
+                 ToolKit.Instance.SetActive("Wave Function Collapse");
                  MarkDirtyRepaint();
                 
             });

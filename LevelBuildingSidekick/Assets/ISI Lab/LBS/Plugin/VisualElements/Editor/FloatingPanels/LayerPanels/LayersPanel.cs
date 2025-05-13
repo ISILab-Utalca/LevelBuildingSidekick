@@ -7,7 +7,6 @@ using ISILab.LBS.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using LBS.VisualElements;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -83,7 +82,7 @@ namespace ISILab.LBS.VisualElements.Editor
                 var layer = this.data.GetLayer(index);
                 if (view == null) return;
                 view.SetInfo(layer);
-                view.OnVisibilityChange += () => { OnLayerVisibilityChange(layer); };
+                view.OnVisibilityChange += () => OnLayerVisibilityChange(layer);
             };
 
             // list configuration
@@ -160,8 +159,7 @@ namespace ISILab.LBS.VisualElements.Editor
             
             list.SetSelectionWithoutNotify(new List<int>() {0});
             OnAddLayer?.Invoke(layer);
-            
-            LBSInspectorPanel.ActivateDataTab();
+            OnLayerSelectedEventHandle(layer);
             LBSMainWindow.MessageNotify("New Data layer created");
             list.Rebuild();
         }
@@ -202,8 +200,8 @@ namespace ISILab.LBS.VisualElements.Editor
         // Simple Click over an element
         private void SelectionChange(IEnumerable<object> objs)
         {
-            if (!objs.Any()) {
-                noSelectedLayerNotificator.style.display = DisplayStyle.Flex;
+            if (!objs.Any()) 
+            {
                 return;
             }
 
@@ -216,8 +214,10 @@ namespace ISILab.LBS.VisualElements.Editor
         private void ItemChosen(IEnumerable<object> objs)
         {
             if (!objs.Any())
+            {
+                noSelectedLayerNotificator.style.display = DisplayStyle.Flex;
                 return;
-
+            }
             var selected = objs.ToList()[0] as LBSLayer;
             OnDoubleSelectLayer?.Invoke(selected);
         }
@@ -232,7 +232,7 @@ namespace ISILab.LBS.VisualElements.Editor
         {
             bool hasItems = list.itemsSource.Count > 0;
             DisplayStyle notificatorsDisplay = hasItems ? DisplayStyle.None : DisplayStyle.Flex;
-            DisplayStyle noSelectedDisplay = hasItems ? DisplayStyle.None : DisplayStyle.Flex;
+            DisplayStyle noSelectedDisplay = _layer is not null ? DisplayStyle.None : DisplayStyle.Flex;
             DisplayStyle listDisplay = hasItems ? DisplayStyle.Flex : DisplayStyle.None;
             
             DisplayStyle settingsDisplay = (_layer!=null && hasItems) ? DisplayStyle.Flex : DisplayStyle.None;
@@ -250,6 +250,7 @@ namespace ISILab.LBS.VisualElements.Editor
         private void OnLayerSelectedEventHandle(LBSLayer layer){
             if (layer is not null)
             {
+                LBSInspectorPanel.ActivateDataTab();
                 noSelectedLayerNotificator.style.display = DisplayStyle.None;
                 layerSettings.style.display = DisplayStyle.Flex;
             } 
