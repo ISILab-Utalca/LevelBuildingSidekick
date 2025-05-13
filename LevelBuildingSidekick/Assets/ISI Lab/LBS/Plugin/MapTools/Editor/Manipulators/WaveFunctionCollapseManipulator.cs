@@ -15,7 +15,7 @@ namespace ISILab.LBS.Manipulators
             public float weight;
         }
 
-        private Vector2Int first;
+        private Vector2Int cornerStart;
 
         private AssistantWFC assistant;
 
@@ -35,7 +35,7 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
         {
-            first = assistant.OwnerLayer.ToFixedPosition(position);
+            cornerStart = position;
         }
 
         protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
@@ -43,22 +43,24 @@ namespace ISILab.LBS.Manipulators
             var x = LBSController.CurrentLevel;
             EditorGUI.BeginChangeCheck();
             Undo.RegisterCompleteObjectUndo(x, "WFC");
-
-            var corners = assistant.OwnerLayer.ToFixedPosition(StartPosition, EndPosition);
-
+            
+            var corners = assistant.OwnerLayer.ToFixedPosition(cornerStart, position);
+            
             var positions = new List<Vector2Int>();
             for (int i = corners.Item1.x; i <= corners.Item2.x; i++)
             {
                 for (int j = corners.Item1.y; j <= corners.Item2.y; j++)
                 {
-                    positions.Add(new Vector2Int(i, j));
+                    var selected = new Vector2Int(i, j);
+                    positions.Add(selected);
                 }
             }
 
             assistant.Positions = positions;
 
-            assistant.OverrideValues = e.ctrlKey;
-
+            // No longer having empty tiles means overwrite is default
+                // assistant.OverrideValues = e.ctrlKey;
+            assistant.OverrideValues = true;
             assistant.Execute();
 
             if (EditorGUI.EndChangeCheck())

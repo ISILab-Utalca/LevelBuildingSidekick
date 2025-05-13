@@ -18,7 +18,9 @@ namespace ISILab.LBS.VisualElements
         VisualElement main;
         VisualElement icon;
         VisualElement bg;
-
+        
+        float borderWidth = 2f;
+        
         public PopulationTileView(TileBundleGroup tile)
         {
             if (view == null)
@@ -41,6 +43,7 @@ namespace ISILab.LBS.VisualElements
             SetImage(id.Icon);
             SetDirection(tile.Rotation);
 
+           // borderWidth = bg.style.borderBottomWidth.value;
         }
 
         public void SetDirection(Vector2 vector)
@@ -74,6 +77,15 @@ namespace ISILab.LBS.VisualElements
         public void SetImage(Texture2D image)
         {
             icon.style.backgroundImage = image;
+        }
+
+        public void Highlight(bool highlight)
+        {
+            var newBorderWidth = highlight ? borderWidth*3 : borderWidth;
+            bg.style.borderBottomWidth = newBorderWidth;
+            bg.style.borderTopWidth = newBorderWidth;
+            bg.style.borderLeftWidth = newBorderWidth;
+            bg.style.borderRightWidth = newBorderWidth;
         }
     }
 }

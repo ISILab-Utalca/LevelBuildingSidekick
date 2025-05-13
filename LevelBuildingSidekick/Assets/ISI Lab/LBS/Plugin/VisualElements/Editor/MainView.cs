@@ -81,6 +81,11 @@ namespace ISILab.LBS.VisualElements.Editor
         private Dictionary<LBSLayer, LayerContainer> layers = new Dictionary<LBSLayer, LayerContainer>();
         // shared manipulators such as drag, zoom
         private List<Manipulator> defaultManipulators = new List<Manipulator>();
+        private ContentZoomer zoomer;
+        private ContentDragger cDragger;
+        private SelectionDragger sDragger;
+        private bool zoomEnabled;
+
         #endregion
 
         #region EVENTS
@@ -139,7 +144,7 @@ namespace ISILab.LBS.VisualElements.Editor
         {
             var setting = LBSSettings.Instance.general;
 
-            var zoomer = new ContentZoomer();
+            zoomer = new ContentZoomer();
 
             setting.OnChangeZoomValue = (min, max) =>
             {
@@ -150,8 +155,10 @@ namespace ISILab.LBS.VisualElements.Editor
             zoomer.maxScale = setting.zoomMax;
             zoomer.minScale = setting.zoomMin;
 
-            var cDragger = new ContentDragger();
-            var sDragger = new SelectionDragger();
+            RegisterCallback<WheelEvent>(evt => { zoomer.target = !zoomEnabled ? null : this; });
+            
+            cDragger = new ContentDragger();
+            sDragger = new SelectionDragger();
 
             var manis = new List<Manipulator>() { zoomer, cDragger, sDragger };
             defaultManipulators = manis;
@@ -228,7 +235,10 @@ namespace ISILab.LBS.VisualElements.Editor
             return manipulators.Any(m => m is T);
         }
 
-
+        public void SetManipulatorZoom(bool enable)
+        {
+            zoomEnabled = enable;
+        }
 
         #endregion
 

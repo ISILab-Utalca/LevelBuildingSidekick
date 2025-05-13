@@ -84,7 +84,7 @@ namespace ISILab.LBS.VisualElements
 
                 var ovg = ves.First().Item1;
                 if(ovg == null) continue;
-                var ve = Activator.CreateInstance(ovg, new object[] { behaviour });
+                 var ve = Activator.CreateInstance(ovg, new object[] { behaviour });
                 if (!(ve is VisualElement))
                 {
                     Debug.LogWarning("[ISI Lab] " + ve.GetType() + " is not a VisualElement ");

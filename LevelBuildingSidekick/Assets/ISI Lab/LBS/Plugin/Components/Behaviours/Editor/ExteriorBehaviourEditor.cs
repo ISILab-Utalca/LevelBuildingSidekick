@@ -29,7 +29,7 @@ namespace ISILab.LBS.VisualElements
         private List<LBSIdentifierBundle> Groups;
         private object[] options;
 
-        private AddEmptyTile addEmptyTile;
+        private AddExteriorTile addExteriorTile;
         private RemoveTileExterior removeTile;
         private SetExteriorTileConnection setConnection;
         private RemoveConnection removeConection;
@@ -71,8 +71,8 @@ namespace ISILab.LBS.VisualElements
 
             // Set empty tile
             icon = Resources.Load<Texture2D>("Icons/Tools/Brush_interior_tile");
-            addEmptyTile = new AddEmptyTile();
-            var t1 = new LBSTool(icon, "Add tile without connection", "Add Non-Connected Exterior Tile", addEmptyTile);
+            addExteriorTile = new AddExteriorTile();
+            var t1 = new LBSTool(icon, "Add Tile", "Add a an Exterior Tile. Hold CTRL to paint neighbors as well.", addExteriorTile);
             t1.Init(exterior.OwnerLayer, exterior);
             t1.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
 
@@ -88,10 +88,11 @@ namespace ISILab.LBS.VisualElements
             // Set connection
             icon = Resources.Load<Texture2D>("Icons/Tools/Exterior_connection");
             setConnection = new SetExteriorTileConnection();
-            var t3 = new LBSTool(icon, "Set connection", "Set Tile Connection", setConnection);
+            var t3 = new LBSTool(icon, "Set connection", "Paint line across tiles to make connections. Hold CTRL to connect areas.", setConnection);
             t3.Init(exterior.OwnerLayer, exterior);
             t3.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             
+            /* No longer needed as now the manipulator always overwrites a connection with no white tiles being used.
             // Remove connection
             icon = Resources.Load<Texture2D>("Icons/Tools/Delete_exterior_connection");
             removeConection = new RemoveConnection();
@@ -99,13 +100,17 @@ namespace ISILab.LBS.VisualElements
             t4.Init(exterior.OwnerLayer, exterior);
             t4.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             
-            addEmptyTile.SetRemover(removeTile);
-            setConnection.SetRemover(removeConection);
+                 setConnection.SetRemover(removeConection);
+                
+            */
+            
+            addExteriorTile.SetRemover(removeTile);
             
             toolKit.AddTool(t1);
             toolKit.AddTool(t2);
             toolKit.AddTool(t3);
-            toolKit.AddTool(t4);
+            
+            //toolKit.AddTool(t4);
 
         }
 
@@ -185,21 +190,22 @@ namespace ISILab.LBS.VisualElements
             connectionPallete.ShowGroups = true;
             connectionPallete.ShowAddButton = false;
             connectionPallete.ShowRemoveButton = false;
+            connectionPallete.ShowDropdown = false;
 
-            // Get pallete icon 
+            // Get palette icon 
             var icon = Resources.Load<Texture2D>("Icons/BrushIcon");
 
             // Set basic value
-            connectionPallete.SetName("Connections");
+            connectionPallete.SetName("Zones");
             connectionPallete.SetIcon(icon, BHcolor);
 
             // Get odentifiers
-            var indtifiers = LBSAssetsStorage.Instance.Get<LBSTag>();
+            var identifierTags = LBSAssetsStorage.Instance.Get<LBSTag>();
 
             // Get current option
             var connections = bundle.GetChildrenCharacteristics<LBSDirection>();
             var tags = connections.SelectMany(c => c.Connections).ToList().RemoveDuplicates();
-            var idents = tags.Select(s => indtifiers.Find(i => s == i.Label)).ToList().RemoveEmpties();
+            var idents = tags.Select(s => identifierTags.Find(i => s == i.Label)).ToList().RemoveEmpties();
 
             // Set Options
             options = new object[idents.Count];
@@ -211,11 +217,19 @@ namespace ISILab.LBS.VisualElements
                 options[i] = idents[i];
             }
 
+            exterior.identifierToSet = idents[0];
+            
             // Selected option event
             connectionPallete.OnSelectOption += (selected) =>
             {
                 exterior.identifierToSet = selected as LBSTag;
-                ToolKit.Instance.SetActive("Set connection");
+                // by default set the 
+                var activeManipulator = ToolKit.Instance.GetActiveManipulator().GetType();
+                if ( activeManipulator != typeof(AddExteriorTile) &&
+                     activeManipulator != typeof(SetExteriorTileConnection))
+                {
+                    ToolKit.Instance.SetActive("Add Tile");
+                }
             };
 
             // Init options

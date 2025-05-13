@@ -219,7 +219,8 @@ namespace ISILab.LBS.Behaviours.Editor
             connectionPallete.ShowGroups = false;
             connectionPallete.ShowRemoveButton = false;
             connectionPallete.ShowAddButton = false;
-
+            connectionPallete.ShowNoElement = false;
+            
             connectionPallete.SetName("Connections");
             var icon = Resources.Load<Texture2D>("Icons/BrushIcon");
             connectionPallete.SetIcon(icon, BHcolor);
