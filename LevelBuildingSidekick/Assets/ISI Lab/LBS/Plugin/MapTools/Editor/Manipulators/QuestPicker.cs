@@ -43,10 +43,9 @@ namespace ISILab.LBS.Manipulators
         protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
         {
             var node = behaviour.SelectedQuestNode;
-            if (node == null ) return;
+            if (node == null) return;
             var populationLayers = LBS.loadedLevel.data.Layers
-                .Where(l => l.Behaviours.Any(
-                    bh => bh.GetType() == typeof(PopulationBehaviour)))
+                .Where(l => l.Behaviours.Any(bh => bh.GetType() == typeof(PopulationBehaviour)))
                 .ToList();
 
 
@@ -71,18 +70,14 @@ namespace ISILab.LBS.Manipulators
 
             var bundle = bundleTile.BundleData.Bundle;
             string bundleDataGui = LBSAssetMacro.GetGuidFromAsset(bundle);
-            switch (node.NodeData)
-            {
 
-                case QuestNodeDataKill killData:
-                    killData.bundleGuid = bundleDataGui;
-                    break;
-                
-                case QuestNodeDataSteal stealData:
-                    stealData.bundleGuid = bundleDataGui;
-                    break;
-                
+            if (node.NodeData.HasBundle())
+            {
+                node.NodeData.Bundle.bundleGuid = bundleDataGui;
             }
+            
+            behaviour.DataChanged(node);
+
             OnManipulationEnd.Invoke();
         }
     }

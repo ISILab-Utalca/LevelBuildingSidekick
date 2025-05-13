@@ -44,33 +44,14 @@ namespace ISILab.LBS.Drawers.Editor
              */
             // view.AddElement(behaviour.OwnerLayer, behaviour, type);
 
-            switch (nd)
+            if (nd.HasPosition())
             {
-                case QuestNodeDataGoto dataGoto:
-                {
-                    var position = layer.FixedToPosition(dataGoto.position, true);
+                var position = layer.FixedToPosition(nd.Position.position, true);
                   
-                    var circle = new CircleElement(position, CircleSize, dataGoto);
-                    view.AddElement(behaviour.OwnerLayer, behaviour, circle);
-                    
-                    break;
-                }
+                var circle = new CircleElement(position, CircleSize, nd);
+                view.AddElement(behaviour.OwnerLayer, behaviour, circle);
 
-                case QuestNodeDataKill kill:
-                {
-                 //   Debug.Log(kill.bundleGuid + " -> " + kill.Num);
-                    break;
-                }
-
-                case QuestNodeDataSteal steal:
-                {
-
-                    Debug.Log(steal.position);
-                //    Debug.Log(steal.bundleGuid + " -> " + steal.bundleGuid);
-                    break;
-                }
             }
-                
             
         }
         
@@ -112,25 +93,9 @@ namespace ISILab.LBS.Drawers.Editor
                 Color color;
                 
                 // Get references to sub-elements
-                VisualElement centerElement = null; // root.Q<VisualElement>("CenterElement");
-                if (centerElement != null)
-                {
-                    centerElement.style.backgroundColor = Color.white;
-                    // Set unique icon per quest data
-                    switch (_data)
-                    {
-                        case QuestNodeDataGoto dataGoto: 
-                            Debug.Log($"Missing vector for Center Element: {typeof(QuestNodeDataGoto)}");
-                            break;
-                        case QuestNodeDataKill kill:
-                            Debug.Log($"Missing vector for Center Element: {typeof(QuestNodeDataKill)}");
-                            break;
-                        case QuestNodeDataSteal steal:
-                            Debug.Log($"Missing vector for Center Element: {typeof(QuestNodeDataSteal)}");
-                            break;
-                    }
-                }
-
+               // VisualElement centerElement = null; // root.Q<VisualElement>("CenterElement");
+               // centerElement.style.backgroundColor = Color.white;
+                
                 color = new Color(0.93f, 0.81f, 0.42f, 1f);
                 Color backgroundColor = color;
                 backgroundColor.a = 0.33f;
@@ -157,25 +122,9 @@ namespace ISILab.LBS.Drawers.Editor
                 grabPosition *= MainView.Instance.viewport.transform.scale;
                 Rect newPos = new Rect(grabPosition.x, grabPosition.y, resolvedStyle.width, resolvedStyle.height);
                 SetPosition(newPos);
-
-       
-                switch (_data)
-                {
-                    case QuestNodeDataGoto dataGoto: 
-                        dataGoto.position = gridPos;
-                        Debug.Log($"Updated QuestNodeDataGoto position to: {gridPos}");
-                        break;
-
-                    case QuestNodeDataSteal steal:
-                        steal.position = gridPos;
-                        Debug.Log($"Updated QuestNodeDataSteal position to: {gridPos}");
-                        break;
-                }
-
-
-
-
-
+                
+                if (_data.HasPosition()) _data.Position.position = gridPos;
+                
             }
 
             private void OnMouseUp(MouseUpEvent e)
