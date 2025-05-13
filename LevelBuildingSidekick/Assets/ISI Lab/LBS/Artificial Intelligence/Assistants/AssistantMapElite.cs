@@ -97,7 +97,18 @@ namespace ISILab.LBS.Assistants
                     toUpdate.Add(v);
                 }
             };
-            mapElites.Run();
+            if (mapElites.Running)
+            {
+                Debug.Log("Algorithm is already running; Restarting.");
+                mapElites.Restart();
+            }
+            else 
+            {
+                mapElites.Run();
+            }
+                
+            
+            
         }
 
         public void Continue()
