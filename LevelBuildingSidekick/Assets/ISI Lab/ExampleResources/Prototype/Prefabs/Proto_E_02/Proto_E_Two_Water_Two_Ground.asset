@@ -10,28 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
-  m_Name: Water_Full
+  m_Name: Proto_E_Two_Water_Two_Ground
   m_EditorClassIdentifier: 
-  layerContentFlags: 0
-  type: 0
+  layerContentFlags: 2
+  type: 1
   anchorPosition: 0
   color: {r: 0, g: 0, b: 0, a: 0}
   icon: {fileID: 0}
   assets:
-  - obj: {fileID: 919132149155446097, guid: 01a0327e4fae40e4b8696c8f19775638, type: 3}
+  - obj: {fileID: 352548572156891723, guid: 9eec96438aa57bc4fa01af2559c06030, type: 3}
     probability: 1
-  - obj: {fileID: 8935465766269110040, guid: 46a13501be5dc5049a19d54923bb045c, type: 3}
-    probability: 0.294
-  - obj: {fileID: 8935465766269110040, guid: 5316c700b4b309c4dbe52b1527025ccb, type: 3}
-    probability: 0.121
+  - obj: {fileID: 7186673553856494103, guid: c211f7e27c07c384eb7b64d412aa0e00, type: 3}
+    probability: 1
   characteristics:
   - rid: 5085006314459627539
   populationType: 0
   tileSize: {x: 1, y: 1}
   childsBundles: []
   microGenTool:
-    _spread: 0
-    _margin:
+    spread: 0
+    margin:
       negativeX: 1
       positiveX: 1
       negativeZ: 1
@@ -45,6 +43,6 @@ MonoBehaviour:
         owner: {fileID: 11400000}
         connections:
         - Water
-        - Water
-        - Water
+        - Grass
+        - Grass
         - Water

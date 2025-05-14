@@ -376,6 +376,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 7ee45b380fbc713488634d817baaaeb2, type: 2}
     - {fileID: 11400000, guid: aa672e189e8bdda45817f7056741fbc2, type: 2}
     - {fileID: 11400000, guid: ce98e237a5ac2e441860779a44e25c85, type: 2}
+    - {fileID: 11400000, guid: 03e58311bc09e0249a119c303a11b4b2, type: 2}
   - type: ISILab.AI.Grammar.LBSGrammar
     items:
     - {fileID: 11400000, guid: 63ab688b53411154db5edd0ec7171c42, type: 2}

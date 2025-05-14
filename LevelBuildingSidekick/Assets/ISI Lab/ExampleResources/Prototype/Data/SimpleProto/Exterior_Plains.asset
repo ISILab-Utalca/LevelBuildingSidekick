@@ -10,27 +10,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
-  m_Name: Water_01_Ground_03
+  m_Name: Exterior_Plains
   m_EditorClassIdentifier: 
-  type: 0
+  layerContentFlags: 2
+  type: 1
   anchorPosition: 0
-  color: {r: 0, g: 0, b: 0, a: 0}
+  color: {r: 0.9056604, g: 0.029903898, b: 0.35830382, a: 1}
   icon: {fileID: 0}
-  childsBundles: []
-  assets:
-  - obj: {fileID: 919132149155446097, guid: e6cb94999f2c30d43a63945cc3496bfd, type: 3}
-    probability: 1
+  assets: []
   characteristics:
-  - rid: 5085006314459627539
+  - rid: 4305865203777798400
+  populationType: 1
+  tileSize: {x: 1, y: 1}
+  childsBundles: []
+  microGenTool:
+    spread: 0
+    margin:
+      negativeX: 1
+      positiveX: 1
+      negativeZ: 1
+      positiveZ: 1
   references:
     version: 2
     RefIds:
-    - rid: 5085006314459627539
-      type: {class: LBSDirection, ns: ISILab.LBS.Characteristics, asm: LBS}
+    - rid: 4305865203777798400
+      type: {class: LBSDirectionedGroup, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 11400000}
-        connections:
-        - Grass
-        - Grass
-        - Water
-        - Grass
+        Weights: []

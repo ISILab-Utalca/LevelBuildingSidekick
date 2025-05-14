@@ -10,21 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
-  m_Name: Water_03_Ground_01
+  m_Name: Proto_E_Full_Water
   m_EditorClassIdentifier: 
-  layerContentFlags: 0
-  type: 0
+  layerContentFlags: 2
+  type: 1
   anchorPosition: 0
   color: {r: 0, g: 0, b: 0, a: 0}
   icon: {fileID: 0}
   assets:
-  - obj: {fileID: 919132149155446097, guid: 1eb7025e281fcb94982b9b3217cd4adf, type: 3}
+  - obj: {fileID: 2970304731003609138, guid: 8d67494b10c628046a689e4999975f2c, type: 3}
     probability: 1
   characteristics:
   - rid: 5085006314459627539
   populationType: 0
   tileSize: {x: 1, y: 1}
   childsBundles: []
+  microGenTool:
+    spread: 0
+    margin:
+      negativeX: 1
+      positiveX: 1
+      negativeZ: 1
+      positiveZ: 1
   references:
     version: 2
     RefIds:
@@ -33,7 +40,7 @@ MonoBehaviour:
       data:
         owner: {fileID: 11400000}
         connections:
-        - Grass
+        - Water
         - Water
         - Water
         - Water
