@@ -232,7 +232,7 @@ namespace ISILab.LBS.VisualElements.Editor
         {
             bool hasItems = list.itemsSource.Count > 0;
             DisplayStyle notificatorsDisplay = hasItems ? DisplayStyle.None : DisplayStyle.Flex;
-            DisplayStyle noSelectedDisplay = _layer is not null ? DisplayStyle.None : DisplayStyle.Flex;
+            DisplayStyle noSelectedDisplay = _layer is null && hasItems ? DisplayStyle.Flex : DisplayStyle.None;
             DisplayStyle listDisplay = hasItems ? DisplayStyle.Flex : DisplayStyle.None;
             
             DisplayStyle settingsDisplay = (_layer!=null && hasItems) ? DisplayStyle.Flex : DisplayStyle.None;

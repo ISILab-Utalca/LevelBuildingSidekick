@@ -4,6 +4,8 @@ using ISILab.LBS.Modules;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ISILab.LBS.Characteristics;
+using LBS.Bundles;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -38,10 +40,19 @@ namespace ISILab.LBS.VisualElements
             icon = this.Q<VisualElement>(name: "Icon");
             bg = this.Q<VisualElement>(name: "Background");
 
-            var id = tile.BundleData.Bundle;
-            SetColor(id.Color);
-            SetImage(id.Icon);
+            Bundle bundle = tile.BundleData.Bundle;
+            SetColor(bundle.Color);
+            SetImage(bundle.Icon);
             SetDirection(tile.Rotation);
+            
+            if (bundle.GetHasTagCharacteristic("NonRotate"))
+            {
+                foreach (var arrow in arrows)
+                {
+                    arrow.style.display = DisplayStyle.None;
+                }
+            }
+
 
            // borderWidth = bg.style.borderBottomWidth.value;
         }

@@ -84,7 +84,7 @@ namespace ISILab.LBS.VisualElements.Editor
         private ContentZoomer zoomer;
         private ContentDragger cDragger;
         private SelectionDragger sDragger;
-        private bool zoomEnabled;
+        private bool zoomEnabled = true;
 
         #endregion
 

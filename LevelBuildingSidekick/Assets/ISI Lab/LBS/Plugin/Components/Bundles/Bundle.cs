@@ -388,6 +388,18 @@ namespace LBS.Bundles
 
             return other;
         }
+        
+        public bool GetHasTagCharacteristic(string label)
+        {
+            bool exists = Characteristics
+                .OfType<LBSTagsCharacteristic>()
+                .Any(c => c.Value != null && c.Value.Label == label);
+
+            //if (!exists)  Debug.Log($"Tag characteristic with label '{label}' was not found.");
+            return exists;
+        }
+
+        
         #endregion
 
         #region STATIC FUNCTIONS
@@ -409,6 +421,8 @@ namespace LBS.Bundles
         }
 
         #endregion
+
+   
     }
 
     public static class BundleExtensions

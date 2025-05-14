@@ -108,7 +108,7 @@ namespace ISILab.LBS.Editor.Windows{
             window.minSize = new Vector2(800, 400);
         }
         
-        public static void MessageNotify(string message, LogType logType = LogType.Log, int duration = 2)
+        public static void MessageNotify(string message, LogType logType = LogType.Log, int duration = 3)
         {       
             if (notifier == null) return; 
             notifier.SendNotification(message, logType, duration);

@@ -55,7 +55,7 @@ namespace ISILab.LBS.Behaviours.Editor
             // Add Zone Tiles
             icon = Resources.Load<Texture2D>("Icons/Tools/Brush_interior_tile");
             this.createNewRoomNode = new AddSchemaTile();
-            var t1 = new LBSTool(icon, "Paint Zone", "Paint Zone", createNewRoomNode);
+            var t1 = new LBSTool(icon, "Paint Zone", "Add a new zone in the inspector and then paint in the graph. Hold CTRL and select an area to auto-generate a new zone.", createNewRoomNode);
             t1.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             t1.OnEnd += (l) => areaPallete.Repaint();
             t1.Init(_target.OwnerLayer, _target);
@@ -63,24 +63,21 @@ namespace ISILab.LBS.Behaviours.Editor
             // Remove Tiles
             icon = Resources.Load<Texture2D>("Icons/Tools/Delete_interior_tile");
             this.removeSchemaTile = new RemoveSchemaTile();
-            var t2 = new LBSTool(icon, "Remove Tile", "Erase Zone", removeSchemaTile);
+            var t2 = new LBSTool(icon, "Remove Tile", "Select an area to remove any tiles that belong to the selected zone.", removeSchemaTile);
             t2.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             t2.Init(_target.OwnerLayer, _target);
-            
-            toolKit.AddSeparator();
 
             // Add Tile connection
             icon = Resources.Load<Texture2D>("Icons/Tools/Set_Connection");
             this.setTileConnection = new SetSchemaTileConnection();
-            var t3 = new LBSTool(icon, "Set connection", "Set Zone Connection", setTileConnection);
+            var t3 = new LBSTool(icon, "Set connection", "Draw across a zone's border to generate a connection.", setTileConnection);
             t3.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             t3.Init(_target.OwnerLayer, _target);
-       
-
+            
             // Remove Tile connection
             icon = Resources.Load<Texture2D>("Icons/Tools/Delete_Set_Connection");
             this.removeTileConnection = new RemoveTileConnection();
-            var t4 = new LBSTool(icon, "Clean connection", "Clear Zone Connection", removeTileConnection);
+            var t4 = new LBSTool(icon, "Clean connection", "Click on a connection to remove it.", removeTileConnection);
             t4.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             t4.Init(_target.OwnerLayer, _target);
             

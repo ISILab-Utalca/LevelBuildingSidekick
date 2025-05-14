@@ -72,7 +72,7 @@ namespace ISILab.LBS.VisualElements
             // Set empty tile
             icon = Resources.Load<Texture2D>("Icons/Tools/Brush_interior_tile");
             addExteriorTile = new AddExteriorTile();
-            var t1 = new LBSTool(icon, "Add Tile", "Add a an Exterior Tile. Hold CTRL to paint neighbors as well.", addExteriorTile);
+            var t1 = new LBSTool(icon, "Add Tile", "Add an Exterior Tile. Hold CTRL to paint neighbors as well.", addExteriorTile);
             t1.Init(exterior.OwnerLayer, exterior);
             t1.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
 

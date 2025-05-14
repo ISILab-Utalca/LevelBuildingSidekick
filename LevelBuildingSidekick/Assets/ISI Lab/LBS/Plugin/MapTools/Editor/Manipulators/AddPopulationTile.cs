@@ -5,6 +5,7 @@ using ISILab.LBS.VisualElements;
 using LBS.Bundles;
 using LBS.Components;
 using ISILab.LBS.Editor.Windows;
+using ISILab.LBS.Modules;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -18,12 +19,24 @@ namespace ISILab.LBS.Manipulators
         PopulationBehaviour population;
 
         Feedback previewFeedback;
-        
+        private TileBundleGroup selectedTile;
+
         public Bundle ToSet
         {
             get => population.selectedToSet;
         }
 
+        protected override void OnKeyDown(KeyDownEvent e)
+        {
+            base.OnKeyDown(e);
+            if (e.ctrlKey) LBSMainWindow.WarningManipulator("(CTRL) Dragging selected tile");
+        }
+        
+        protected override void OnKeyUp(KeyUpEvent e)
+        {
+            LBSMainWindow.WarningManipulator();
+        }
+        
         public AddPopulationTile() : base()
         {
             feedback = new AreaFeedback();
@@ -50,24 +63,39 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
         {
+            var endPos = population.OwnerLayer.ToFixedPosition(endPosition);
+
+            // Dragging selected tile
             if (e.ctrlKey)
             {
-                var bundleTile = population.GetTileGroup(population.OwnerLayer.ToFixedPosition(endPosition));
-                var bundleName = bundleTile?.BundleData.BundleName;
-                LBSMainWindow.MessageNotify("Highlighted Element " + population.OwnerLayer.ToFixedPosition(endPosition).ToString() + " : " + (bundleName!=null ? bundleName : "None "));
-                
+                if (selectedTile == null) return;
+
+                // Check if the move is valid
+                if (!population.BundleTilemap.ValidMoveGroup(endPos, selectedTile, Vector2.right))
+                    return;
+
+                // Calculate the difference between the new position and the original top-left position of the group
+                Vector2Int originalTopLeft = selectedTile.TileGroup[0].Position;
+                Vector2Int offset = endPos - originalTopLeft;
+
+                // Move each tile relative to the offset
+                foreach (var lbsTile in selectedTile.TileGroup)
+                {
+                    lbsTile.Position += offset;
+                }
                 return;
             }
 
+            // Default Add Tile
             if (ToSet == null)
             {
                 LBSMainWindow.MessageNotify("You don't have any selected item to place.", LogType.Error);
                 return;
             }
 
-            var x = LBSController.CurrentLevel;
+            var level = LBSController.CurrentLevel;
             EditorGUI.BeginChangeCheck();
-            Undo.RegisterCompleteObjectUndo(x, "Add Element population");
+            Undo.RegisterCompleteObjectUndo(level, "Add Element population");
 
             var corners = population.OwnerLayer.ToFixedPosition(StartPosition, EndPosition);
 
@@ -81,17 +109,31 @@ namespace ISILab.LBS.Manipulators
 
             if (EditorGUI.EndChangeCheck())
             {
-                EditorUtility.SetDirty(x);
+                EditorUtility.SetDirty(level);
             }
+        }
+
+        protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
+        {
+            // get tile to drag
+            if (!e.ctrlKey) return;
+            var tile = population.GetTile(population.OwnerLayer.ToFixedPosition(startPosition));
+            if (tile == null) return;
+            selectedTile = population.GetTileGroup(tile.Position);
+            if (selectedTile == null) return;
+            Debug.Log(selectedTile.BundleData.BundleName);
         }
 
         // TODO Currently it completely bugs out whenever x or y are 0 in the grid space. why? wish i fucking knew
         protected override void OnMouseMove(VisualElement target, Vector2Int endPosition, MouseMoveEvent e)
         {
-
             MainView.Instance.RemoveElement(previewFeedback);
-            if (ToSet == null) return;
-            
+            if (!ToSet) return;
+           
+            // when dragging by using CTRL, do not display the feedback area
+            feedback.SetDisplay(!e.ctrlKey);
+
+
             var topLeftCorner = -population.OwnerLayer.ToFixedPosition(endPosition); // use negative value for corner
             var bottomRightCorner = topLeftCorner;
 
@@ -124,7 +166,20 @@ namespace ISILab.LBS.Manipulators
             
             previewFeedback.ActualizePositions(firstPos.ToInt(), lastPos.ToInt());
             MainView.Instance.AddElement(previewFeedback);
-            var valid = population.ValidNewGroup(-topLeftCorner, ToSet); // undo the negative of topLeftCorner
+
+            bool valid;
+            // dragging feedback
+            if (e.ctrlKey && selectedTile != null)
+            {
+                // undo the negative of topLeftCorner
+                valid = population.ValidMoveGroup(-topLeftCorner, selectedTile); 
+            }
+            // adding feedback
+            else
+            {
+                // undo the negative of topLeftCorner
+                valid = population.ValidNewGroup(-topLeftCorner, ToSet); 
+            }
             previewFeedback.ValidForInput(valid);
             
         }

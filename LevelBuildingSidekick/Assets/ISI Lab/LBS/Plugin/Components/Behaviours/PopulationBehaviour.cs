@@ -45,6 +45,9 @@ namespace ISILab.LBS.Behaviours
         [JsonIgnore]
         public List<TileBundleGroup> Tilemap => bundleTileMap.Groups;
         
+        [JsonIgnore]
+        public BundleTileMap BundleTilemap => bundleTileMap;
+        
         public BundleCollection BundleCollection 
         {
             get => GetBundleCollection();
@@ -101,6 +104,10 @@ namespace ISILab.LBS.Behaviours
             return bundleTileMap.ValidNewGroup(position, new BundleData(bundle), Vector2.right);
         }
 
+        public bool ValidMoveGroup(Vector2Int position, TileBundleGroup group)
+        {
+            return bundleTileMap.ValidMoveGroup(position, group, Vector2.right);
+        }
         public void AddTileGroup(Vector2Int position, Bundle bundle) => AddTileGroup(position, new BundleData(bundle));
 
         public void RemoveTileGroup(Vector2Int position)

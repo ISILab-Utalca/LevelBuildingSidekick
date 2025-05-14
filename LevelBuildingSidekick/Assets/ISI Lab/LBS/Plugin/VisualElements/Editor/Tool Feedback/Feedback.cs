@@ -29,6 +29,10 @@ namespace ISILab.LBS.VisualElements
         protected Vector2Int startPosition = new Vector2Int();
         protected Vector2Int endPosition = new Vector2Int();
 
+        /// <summary>
+        /// If true the feedback area will snap within the tile coordinates on the graph
+        /// selecting squares. If false it will draw on the actual selected area by the mouse
+        /// </summary>
         public bool fixToTeselation = false;
 
         public bool delete;

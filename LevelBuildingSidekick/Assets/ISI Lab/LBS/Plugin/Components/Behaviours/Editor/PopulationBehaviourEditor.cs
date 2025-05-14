@@ -90,7 +90,7 @@ namespace ISILab.LBS.VisualElements
             icon = Resources.Load<Texture2D>("Icons/Tools/Population_Brush");
             addPopulationTile = new AddPopulationTile();
             var t1 = new LBSTool(icon, "Paint Tile", 
-                "Select an item from Behaviour panel and Click on the graph to add a population tile.", addPopulationTile);
+                "Select an item in Behaviour panel and Click on the graph to add a population tile. Hold CTRL to drag it.", addPopulationTile);
             t1.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             t1.Init(_target.OwnerLayer, _target);
             t1.OnEnd += (l) => DrawManager.Instance.RedrawLayer(_target.OwnerLayer, MainView.Instance);
