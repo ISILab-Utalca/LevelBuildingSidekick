@@ -62,6 +62,7 @@ namespace ISILab.LBS.AI.Assistants.Editor
 
             var bundleField = this.Q<ObjectField>();
             bundleField.objectType = typeof(Bundle);
+            bundleField.label = "Exterior Tile Bundle";
             var exterior = GetExteriorBehaviour();
             bundleField.value = exterior.Bundle;
             bundleField.RegisterValueChangedCallback(evt =>
