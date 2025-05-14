@@ -61,8 +61,17 @@ namespace ISILab.LBS.Manipulators
         protected override void OnMouseMove(VisualElement target, Vector2Int movePosition, MouseMoveEvent e)
         {
             var position = population.OwnerLayer.ToFixedPosition(movePosition);
-            Selected = population.GetTileGroup(position);
-            if(Selected!=null) storedPosition = position;
+             var tilegroup = population.GetTileGroup(position);
+             if (tilegroup == null ||
+                 tilegroup.BundleData == null ||
+                 !tilegroup.BundleData.Bundle ||
+                !tilegroup.BundleData.Bundle.GetHasTagCharacteristic("NonRotate"))
+             {
+                 Selected = null;
+             }
+             
+             Selected = tilegroup;
+             if(Selected!=null) storedPosition = position;
             DrawManager.Instance.RedrawLayer(population.OwnerLayer, MainView.Instance);
         }
 
@@ -108,8 +117,6 @@ namespace ISILab.LBS.Manipulators
             index++;
             if(index >= Directions.Count) index = 0;
             population.RotateTile(storedPosition, Directions[index]);
-            
-            Debug.Log("Rotated: " + Directions[index]);
             
             PostRotate();
         }

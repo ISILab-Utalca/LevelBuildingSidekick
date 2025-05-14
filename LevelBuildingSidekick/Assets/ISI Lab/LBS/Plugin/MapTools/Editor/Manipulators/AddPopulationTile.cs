@@ -5,6 +5,7 @@ using ISILab.LBS.VisualElements;
 using LBS.Bundles;
 using LBS.Components;
 using ISILab.LBS.Editor.Windows;
+using ISILab.LBS.Modules;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -18,7 +19,8 @@ namespace ISILab.LBS.Manipulators
         PopulationBehaviour population;
 
         Feedback previewFeedback;
-        
+        private TileBundleGroup selectedTile;
+
         public Bundle ToSet
         {
             get => population.selectedToSet;
@@ -50,24 +52,36 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
         {
+            var endPos = population.OwnerLayer.ToFixedPosition(endPosition);
+
             if (e.ctrlKey)
             {
-                var bundleTile = population.GetTileGroup(population.OwnerLayer.ToFixedPosition(endPosition));
-                var bundleName = bundleTile?.BundleData.BundleName;
-                LBSMainWindow.MessageNotify("Highlighted Element " + population.OwnerLayer.ToFixedPosition(endPosition).ToString() + " : " + (bundleName!=null ? bundleName : "None "));
+                // Dragging selected tile
+                if (selectedTile != null)
+                {
+                    if (!population.BundleTilemap.ValidNewGroup(endPos, selectedTile.BundleData, selectedTile.Rotation))
+                        return;
                 
+                    foreach (var lbsTile in selectedTile.TileGroup)
+                    {
+                        var position = endPos;// + selectedTile.GetCenter();
+                        lbsTile.Position = position;//.ToInt();
+                    }
+                }
                 return;
             }
+           
 
+            // Default Add Tile
             if (ToSet == null)
             {
                 LBSMainWindow.MessageNotify("You don't have any selected item to place.", LogType.Error);
                 return;
             }
 
-            var x = LBSController.CurrentLevel;
+            var level = LBSController.CurrentLevel;
             EditorGUI.BeginChangeCheck();
-            Undo.RegisterCompleteObjectUndo(x, "Add Element population");
+            Undo.RegisterCompleteObjectUndo(level, "Add Element population");
 
             var corners = population.OwnerLayer.ToFixedPosition(StartPosition, EndPosition);
 
@@ -81,16 +95,23 @@ namespace ISILab.LBS.Manipulators
 
             if (EditorGUI.EndChangeCheck())
             {
-                EditorUtility.SetDirty(x);
+                EditorUtility.SetDirty(level);
+            }
+        }
+
+        protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
+        {
+            if (e.ctrlKey)
+            {
+                selectedTile = population.GetTileGroup(population.OwnerLayer.ToFixedPosition(startPosition));
             }
         }
 
         // TODO Currently it completely bugs out whenever x or y are 0 in the grid space. why? wish i fucking knew
         protected override void OnMouseMove(VisualElement target, Vector2Int endPosition, MouseMoveEvent e)
         {
-
             MainView.Instance.RemoveElement(previewFeedback);
-            if (ToSet == null) return;
+            if (!ToSet) return;
             
             var topLeftCorner = -population.OwnerLayer.ToFixedPosition(endPosition); // use negative value for corner
             var bottomRightCorner = topLeftCorner;

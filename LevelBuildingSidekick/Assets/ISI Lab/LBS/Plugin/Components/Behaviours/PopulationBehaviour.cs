@@ -45,6 +45,9 @@ namespace ISILab.LBS.Behaviours
         [JsonIgnore]
         public List<TileBundleGroup> Tilemap => bundleTileMap.Groups;
         
+        [JsonIgnore]
+        public BundleTileMap BundleTilemap => bundleTileMap;
+        
         public BundleCollection BundleCollection 
         {
             get => GetBundleCollection();
