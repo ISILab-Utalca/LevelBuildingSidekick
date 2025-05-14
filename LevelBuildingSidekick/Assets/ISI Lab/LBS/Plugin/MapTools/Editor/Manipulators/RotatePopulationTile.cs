@@ -40,8 +40,6 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnWheelEvent(WheelEvent evt)
         {
-            MainView.Instance.SetManipulatorZoom(Selected == null);
-            
             if(Selected == null)
             {
                 LBSMainWindow.MessageNotify("No tile available to rotate. Click on a tile first, then use the Wheel");
@@ -72,6 +70,7 @@ namespace ISILab.LBS.Manipulators
              
              Selected = tilegroup;
              if(Selected!=null) storedPosition = position;
+             MainView.Instance.SetManipulatorZoom(Selected == null);
             DrawManager.Instance.RedrawLayer(population.OwnerLayer, MainView.Instance);
         }
 
@@ -84,12 +83,12 @@ namespace ISILab.LBS.Manipulators
             
             if (e.button == 0)
             {
-                RotateLeft();
+                RotateRight();
             }
             // rotate clockwise
             else if (e.button == 1)
             {
-                RotateRight();
+                RotateLeft();
             }
         }
 

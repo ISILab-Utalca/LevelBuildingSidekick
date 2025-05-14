@@ -54,23 +54,26 @@ namespace ISILab.LBS.Manipulators
         {
             var endPos = population.OwnerLayer.ToFixedPosition(endPosition);
 
+            // Dragging selected tile
             if (e.ctrlKey)
             {
-                // Dragging selected tile
-                if (selectedTile != null)
+                if (selectedTile == null) return;
+
+                // Check if the move is valid
+                if (!population.BundleTilemap.ValidMoveGroup(endPos, selectedTile, Vector2.right))
+                    return;
+
+                // Calculate the difference between the new position and the original top-left position of the group
+                Vector2Int originalTopLeft = selectedTile.TileGroup[0].Position;
+                Vector2Int offset = endPos - originalTopLeft;
+
+                // Move each tile relative to the offset
+                foreach (var lbsTile in selectedTile.TileGroup)
                 {
-                    if (!population.BundleTilemap.ValidNewGroup(endPos, selectedTile.BundleData, selectedTile.Rotation))
-                        return;
-                
-                    foreach (var lbsTile in selectedTile.TileGroup)
-                    {
-                        var position = endPos;// + selectedTile.GetCenter();
-                        lbsTile.Position = position;//.ToInt();
-                    }
+                    lbsTile.Position += offset;
                 }
                 return;
             }
-           
 
             // Default Add Tile
             if (ToSet == null)
@@ -101,10 +104,13 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
         {
-            if (e.ctrlKey)
-            {
-                selectedTile = population.GetTileGroup(population.OwnerLayer.ToFixedPosition(startPosition));
-            }
+            // get tile to drag
+            if (!e.ctrlKey) return;
+            var tile = population.GetTile(population.OwnerLayer.ToFixedPosition(startPosition));
+            if (tile == null) return;
+            selectedTile = population.GetTileGroup(tile.Position);
+            if (selectedTile == null) return;
+            Debug.Log(selectedTile.BundleData.BundleName);
         }
 
         // TODO Currently it completely bugs out whenever x or y are 0 in the grid space. why? wish i fucking knew
@@ -112,7 +118,11 @@ namespace ISILab.LBS.Manipulators
         {
             MainView.Instance.RemoveElement(previewFeedback);
             if (!ToSet) return;
-            
+           
+            // when dragging by using CTRL, do not display the feedback area
+            feedback.SetDisplay(!e.ctrlKey);
+
+
             var topLeftCorner = -population.OwnerLayer.ToFixedPosition(endPosition); // use negative value for corner
             var bottomRightCorner = topLeftCorner;
 
@@ -145,7 +155,20 @@ namespace ISILab.LBS.Manipulators
             
             previewFeedback.ActualizePositions(firstPos.ToInt(), lastPos.ToInt());
             MainView.Instance.AddElement(previewFeedback);
-            var valid = population.ValidNewGroup(-topLeftCorner, ToSet); // undo the negative of topLeftCorner
+
+            bool valid;
+            // dragging feedback
+            if (e.ctrlKey && selectedTile != null)
+            {
+                // undo the negative of topLeftCorner
+                valid = population.ValidMoveGroup(-topLeftCorner, selectedTile); 
+            }
+            // adding feedback
+            else
+            {
+                // undo the negative of topLeftCorner
+                valid = population.ValidNewGroup(-topLeftCorner, ToSet); 
+            }
             previewFeedback.ValidForInput(valid);
             
         }
