@@ -225,7 +225,8 @@ namespace ISILab.LBS.Manipulators
             {
                 remover.isRightClick = true;
                 
-                //remover.OnManipulationNotification?.Invoke();
+                LBSMainWindow.WarningManipulator("Remover Activated."); // notify remover use
+                
                 OnManipulationRightClick?.Invoke();
                 
                 var ne = MouseDownEvent.GetPooled(e.localMousePosition, 0, e.clickCount, e.mouseDelta, e.modifiers);
@@ -246,8 +247,7 @@ namespace ISILab.LBS.Manipulators
             // check if last called by adder
             if (isRightClick && adder != null)
             {
-              //  OnManipulationRightClickEnd?.Invoke();
-               // adder.OnInternalMouseDown(e);
+ 
             }
         }
 
@@ -339,6 +339,7 @@ namespace ISILab.LBS.Manipulators
             {
                 isRightClick = false;
                 OnManipulationRightClickEnd?.Invoke();
+                LBSMainWindow.WarningManipulator(); // finished using a remover
             }
         }
         

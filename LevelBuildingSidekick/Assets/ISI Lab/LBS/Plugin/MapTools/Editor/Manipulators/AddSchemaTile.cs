@@ -40,12 +40,10 @@ namespace ISILab.LBS.Manipulators
         {
             base.OnKeyDown(e);
             if (e.ctrlKey) LBSMainWindow.WarningManipulator("(CTRL) Adding New Zone");
-            else  OnManipulationNotification?.Invoke();
         }
-
+        
         protected override void OnKeyUp(KeyUpEvent e)
         {
-            base.OnKeyUp(e);
             LBSMainWindow.WarningManipulator();
         }
         

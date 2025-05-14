@@ -3,6 +3,7 @@ using ISILab.LBS.Behaviours;
 using LBS.Components;
 using LBS.Components.TileMap;
 using System.Collections.Generic;
+using ISILab.LBS.Editor.Windows;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -21,6 +22,17 @@ namespace ISILab.LBS.Manipulators
             exterior = owner as ExteriorBehaviour;
         }
 
+        protected override void OnKeyDown(KeyDownEvent e)
+        {
+            base.OnKeyDown(e);
+            if (e.ctrlKey) LBSMainWindow.WarningManipulator("(CTRL) Adding Tile with neighbour connections");
+        }
+        
+        protected override void OnKeyUp(KeyUpEvent e)
+        {
+            LBSMainWindow.WarningManipulator();
+        }
+        
         protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
         {
             var x = LBSController.CurrentLevel;

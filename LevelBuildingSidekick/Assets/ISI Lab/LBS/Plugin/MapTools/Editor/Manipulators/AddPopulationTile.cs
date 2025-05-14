@@ -26,6 +26,17 @@ namespace ISILab.LBS.Manipulators
             get => population.selectedToSet;
         }
 
+        protected override void OnKeyDown(KeyDownEvent e)
+        {
+            base.OnKeyDown(e);
+            if (e.ctrlKey) LBSMainWindow.WarningManipulator("(CTRL) Dragging selected tile");
+        }
+        
+        protected override void OnKeyUp(KeyUpEvent e)
+        {
+            LBSMainWindow.WarningManipulator();
+        }
+        
         public AddPopulationTile() : base()
         {
             feedback = new AreaFeedback();

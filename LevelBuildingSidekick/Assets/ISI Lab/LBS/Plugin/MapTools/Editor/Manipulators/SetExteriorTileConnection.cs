@@ -9,6 +9,7 @@ using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
 using ISILab.LBS.VisualElements;
 using ISILab.Commons.VisualElements;
+using ISILab.LBS.Editor.Windows;
 using UnityEditor;
 
 namespace ISILab.LBS.Manipulators
@@ -49,6 +50,17 @@ namespace ISILab.LBS.Manipulators
             };
         }
 
+        protected override void OnKeyDown(KeyDownEvent e)
+        {
+            base.OnKeyDown(e);
+            if (e.ctrlKey) LBSMainWindow.WarningManipulator("(CTRL) Adding connections in area");
+        }
+        
+        protected override void OnKeyUp(KeyUpEvent e)
+        {
+            LBSMainWindow.WarningManipulator();
+        }
+        
         protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
         {
             first = exterior.OwnerLayer.ToFixedPosition(position);

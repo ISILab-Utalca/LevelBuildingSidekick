@@ -47,14 +47,13 @@ namespace ISILab.LBS.Manipulators
         {
             if (ToSet == null)
             {
-                LBSMainWindow.MessageNotify("Select a connection type in the LBS-inspector panel",LogType.Warning);
-                Debug.LogWarning("You don't have any selected connection to place.");
+                LBSMainWindow.MessageNotify("Select a connection type in the LBS-inspector panel",LogType.Warning,4);
                 return;
             }
 
-            var x = LBSController.CurrentLevel;
+            var level = LBSController.CurrentLevel;
             EditorGUI.BeginChangeCheck();
-            Undo.RegisterCompleteObjectUndo(x, "Add Connection between tile");
+            Undo.RegisterCompleteObjectUndo(level, "Add Connection between tile");
 
             // Get tile in first position
             var t1 = schema.GetTile(first);
@@ -99,7 +98,7 @@ namespace ISILab.LBS.Manipulators
 
             if (EditorGUI.EndChangeCheck())
             {
-                EditorUtility.SetDirty(x);
+                EditorUtility.SetDirty(level);
             }
         }
     }

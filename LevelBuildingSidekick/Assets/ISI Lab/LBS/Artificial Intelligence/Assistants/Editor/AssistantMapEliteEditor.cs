@@ -136,7 +136,7 @@ namespace ISILab.LBS.AI.Assistants.Editor
             var assistant = target as AssistantMapElite;
             var icon = Resources.Load<Texture2D>("Icons/Tools/Area_MapElite");
             ActOnRect = new ActOnRect((r) => assistant.RawToolRect = r);
-            var t1 = new LBSTool(icon, "Select area to evaluate", "Area Evaluation", ActOnRect);
+            var t1 = new LBSTool(icon, "Assistant Area Selector", "Select an area that will be used by Map Elites Assistant.", ActOnRect);
             t1.OnSelect += LBSInspectorPanel.ActivateAssistantTab;
             t1.Init(assistant.OwnerLayer, assistant);
             toolkit.AddTool(t1);

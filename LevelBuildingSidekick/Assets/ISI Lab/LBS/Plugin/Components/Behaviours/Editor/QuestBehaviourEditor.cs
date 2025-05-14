@@ -68,25 +68,25 @@ namespace ISILab.LBS.VisualElements
 
             icon = Resources.Load<Texture2D>("Icons/Quest_Icon/Add_Node_Quest");
             addNode = new CreateQuestNode();
-            var t1 = new LBSTool(icon, "Add Quest Node", "Add Quest Node", addNode);
+            var t1 = new LBSTool(icon, "Add Quest Node", "Pick a quest word from the inspector panel, then Click on the graph.", addNode);
             t1.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             t1.Init(questBehaviour?.OwnerLayer, target);
 
             icon = Resources.Load<Texture2D>("Icons/Quest_Icon/Delete_Node_Quest");
             removeNode = new RemoveQuestNode();
-            var t2 = new LBSTool(icon, "Remove Quest Node", "Remove Quest Node", removeNode);
+            var t2 = new LBSTool(icon, "Remove Quest Node", "Click on a quest node to remove it.", removeNode);
             t2.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             t2.Init(questBehaviour?.OwnerLayer, target);
             
             icon = Resources.Load<Texture2D>("Icons/Quest_Icon/Node_Connection_Quest");
             connectNodes = new ConnectQuestNodes();
-            var t3 = new LBSTool(icon, "Connect Quest Node", "Add Node Connection", connectNodes);
+            var t3 = new LBSTool(icon, "Connect Quest Node", "Click on a starting node, then release on the follow up node.", connectNodes);
             t3.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             t3.Init(questBehaviour?.OwnerLayer, target);
 
             icon = Resources.Load<Texture2D>("Icons/Quest_Icon/Delete_Node_Connection_Quest");
             removeConnection = new RemoveQuestConnection();
-            var t4 = new LBSTool(icon, "Remove Quest Connection", "Remove Quest Connection", removeConnection);
+            var t4 = new LBSTool(icon, "Remove Quest Connection", "Click a connection line between nodes to remove it.", removeConnection);
             t4.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             t4.Init(questBehaviour?.OwnerLayer, target);
             
