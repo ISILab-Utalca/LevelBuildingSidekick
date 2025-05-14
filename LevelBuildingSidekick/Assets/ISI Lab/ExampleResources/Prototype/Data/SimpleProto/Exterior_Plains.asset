@@ -22,7 +22,14 @@ MonoBehaviour:
   - rid: 4305865203777798400
   populationType: 1
   tileSize: {x: 1, y: 1}
-  childsBundles: []
+  childsBundles:
+  - {fileID: 11400000, guid: 53d10687d94f051488fc977a8cf974f3, type: 2}
+  - {fileID: 11400000, guid: c1c872b8016ce5b46bd533dcaf61578e, type: 2}
+  - {fileID: 11400000, guid: a9d7f4c336021254a963eb1653ae967a, type: 2}
+  - {fileID: 11400000, guid: 1dd25fa391a5eba40bdbc3a697431897, type: 2}
+  - {fileID: 11400000, guid: 0b263dd0b61883942a71f950834c7123, type: 2}
+  - {fileID: 11400000, guid: 1eaa05f650d6b324a8dec93daa60d0fd, type: 2}
+  - {fileID: 11400000, guid: d26b0e950a72ee644a95f2c7acd55bfb, type: 2}
   microGenTool:
     spread: 0
     margin:
@@ -37,4 +44,18 @@ MonoBehaviour:
       type: {class: LBSDirectionedGroup, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 11400000}
-        Weights: []
+        Weights:
+        - target: {fileID: 11400000, guid: 53d10687d94f051488fc977a8cf974f3, type: 2}
+          weight: 0.085
+        - target: {fileID: 11400000, guid: c1c872b8016ce5b46bd533dcaf61578e, type: 2}
+          weight: 0.17
+        - target: {fileID: 11400000, guid: a9d7f4c336021254a963eb1653ae967a, type: 2}
+          weight: 0.314
+        - target: {fileID: 11400000, guid: 1dd25fa391a5eba40bdbc3a697431897, type: 2}
+          weight: 1
+        - target: {fileID: 11400000, guid: 0b263dd0b61883942a71f950834c7123, type: 2}
+          weight: 0.107
+        - target: {fileID: 11400000, guid: 1eaa05f650d6b324a8dec93daa60d0fd, type: 2}
+          weight: 0.133
+        - target: {fileID: 11400000, guid: d26b0e950a72ee644a95f2c7acd55bfb, type: 2}
+          weight: 0.07
