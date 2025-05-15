@@ -15,7 +15,7 @@ MonoBehaviour:
   layerContentFlags: 0
   type: 2
   anchorPosition: 0
-  color: {r: 0.8235295, g: 0.54509807, b: 0.3803922, a: 1}
+  color: {r: 0.2269491, g: 0.6415094, b: 0.45885813, a: 1}
   icon: {fileID: 7388822144124034973, guid: 6834449120e351d449c5311c4b0dc289, type: 3}
   assets:
   - obj: {fileID: 5904395869029400924, guid: a97c402f591eca34b9d6b591c04a86ba, type: 3}
