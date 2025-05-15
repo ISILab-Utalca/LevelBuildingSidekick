@@ -317,6 +317,13 @@ namespace ISILab.LBS.AI.Categorization
             thread.Start();
         }
 
+        public void Stop()
+        {
+            //TODO: Investigate what parts break if this gets to be used
+            thread = new Thread(Optimizer.Stop);
+            thread.Start();
+        }
+
         /// <summary>
         /// Updates the best samples in the map with the provided array of evaluables.
         /// </summary>

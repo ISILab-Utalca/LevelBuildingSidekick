@@ -21,16 +21,18 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: proto_floor_gray_water_1k
-  m_Shader: {fileID: -6465566751694194690, guid: 02b400d32380c314ebe2a75774483eca, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 3d1e9e20b18e5e94ca0f4fb7cc7d0dbb, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _BUILTIN_SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
+  m_CustomRenderQueue: 3000
+  stringTagMap:
+    RenderType: Transparent
   disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
@@ -78,21 +80,33 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _BUILTIN_AlphaClip: 0
+    - _BUILTIN_Blend: 0
+    - _BUILTIN_CullMode: 2
+    - _BUILTIN_DstBlend: 10
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
+    - _BUILTIN_SrcBlend: 5
+    - _BUILTIN_Surface: 1
+    - _BUILTIN_ZTest: 4
+    - _BUILTIN_ZWrite: 0
+    - _BUILTIN_ZWriteControl: 0
     - _Blend: 1
     - _BumpScale: 1
     - _Cutoff: 0.5
+    - _DepthFadeDistance: 0.43
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1
+    - _Intensity: 0.2
     - _Metallic: 0.27
+    - _Metalness: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _Roughtnnes: 1
+    - _Roughtnnes: 0
     - _Scale: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -102,5 +116,7 @@ Material:
     m_Colors:
     - _Color: {r: 0.0141509175, g: 0.9265443, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
-    - _Tint: {r: 0, g: 0.6191083, b: 0.6698113, a: 1}
+    - _FoamTint: {r: 1, g: 1, b: 1, a: 1}
+    - _Tint: {r: 0, g: 0.9239764, b: 1, a: 0.7882353}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1

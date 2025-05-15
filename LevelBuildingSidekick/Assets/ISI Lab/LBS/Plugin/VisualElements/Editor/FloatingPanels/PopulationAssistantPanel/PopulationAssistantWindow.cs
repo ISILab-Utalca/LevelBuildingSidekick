@@ -139,7 +139,6 @@ namespace ISILab.LBS.VisualElements.Editor
 
         public void CreateGUI()
         {
-
             presetDictionary = new Dictionary<string, MAPElitesPreset>();
 
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("PopulationAssistantWindow");
@@ -339,18 +338,15 @@ namespace ISILab.LBS.VisualElements.Editor
 
         private void RunAlgorithm()
         {
-            Debug.Log("running algorithm");
-            //Update button
-            recalculate.text = "Recalculate";
+            currentOptimizer.Evaluator = currentXField;
 
-            //Quit if algorithm is working
-            if (assistant.Running)
-                return;
+            Debug.Log("running algorithm");
 
             //Check how many of these there are, and get the optimizer!
             var veChildren = GetButtonResults(new List<PopulationAssistantButtonResult>(), gridContent);
 
             UpdateGrid();
+            //This resets the algorithm all the time, so nothing to worry about regarding whether it's running or not.
             assistant.LoadPresset(mapEliteBundle);
             
             //Check if there's a place to optimize
@@ -365,8 +361,10 @@ namespace ISILab.LBS.VisualElements.Editor
 
             Debug.Log("executed");
             //TODO: Hay que pasarle el Optimizer a los Map Elites
-            LBSMainWindow.OnWindowRepaint += RepaintContent; 
+            LBSMainWindow.OnWindowRepaint += RepaintContent;
 
+            //Update button
+            recalculate.text = "Recalculate";
         }
 
         private void RepaintContent()
@@ -416,23 +414,22 @@ namespace ISILab.LBS.VisualElements.Editor
             for (int i = 0; i < assistant.toUpdate.Count; i++)
             {
                 var v = assistant.toUpdate[i];
-                var index = (int)(v.y * assistant.SampleWidth + v.x);
-                
-                
-                
-                veChildren[index].Data = assistant.Samples[(int)v.y, (int)v.x];
-                veChildren[index].Score = ((decimal)assistant.Samples[(int)v.y, (int)v.x].Fitness).ToString("f4");
-                var t = veChildren[index].GetTexture();
-                if (veChildren[index].Data != null)
+                //var index = (int)(v.y * assistant.SampleWidth + v.x);
+
+                SetBackgroundTexture(veChildren[i], assistant.RawToolRect);
+
+                veChildren[i].Data = assistant.Samples[(int)v.y, (int)v.x];
+                veChildren[i].Score = ((decimal)assistant.Samples[(int)v.y, (int)v.x].Fitness).ToString("f4");
+                var t = veChildren[i].GetTexture();
+                if (veChildren[i].Data != null)
                 {
-                    veChildren[index].SetTexture(veChildren[index].backgroundTexture.MergeTextures(t).FitSquare());
-                    
+                    veChildren[i].SetTexture(veChildren[i].backgroundTexture.MergeTextures(t).FitSquare());
                 }
                 else
                 {
-                    veChildren[index].SetTexture(DirectoryTools.GetAssetByName<Texture2D>("LoadingContent"));
+                    veChildren[i].SetTexture(DirectoryTools.GetAssetByName<Texture2D>("LoadingContent"));
                 }
-                veChildren[index].UpdateLabel();
+                veChildren[i].UpdateLabel();
             }
             assistant.toUpdate.Clear();
         }
