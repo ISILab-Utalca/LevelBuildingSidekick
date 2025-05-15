@@ -117,16 +117,7 @@ namespace ISILab.LBS.VisualElements
 
         protected sealed override VisualElement CreateVisualElement()
         {
-          
-            /*bundlePallete = new SimplePallete();
-            bundlePallete = new SimplePallete();
-            Add(bundlePallete);
-            bundlePallete.SetName("Population");
-                        // Connection Pallete
-            bundlePallete = this.Q<SimplePallete>("ConnectionPallete");
-              SetBundlePallete();
-            */
-
+            
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("PopulationBehaviourEditor");
             visualTree.CloneTree(this);
             
@@ -196,7 +187,7 @@ namespace ISILab.LBS.VisualElements
                 }
                 */
              
-                ToolKit.Instance.SetActive("Paint Tile");
+                ToolKit.Instance.SetActive("Paint Tile with Item");
             };
             
             bundlePallete.OnSetTooltip += (option) =>
@@ -270,6 +261,8 @@ namespace ISILab.LBS.VisualElements
             _target.BundleCollection = _collection;
             
             bundlePallete.Repaint();
+            
+            
         }
 
         private void SetBundlePallete()

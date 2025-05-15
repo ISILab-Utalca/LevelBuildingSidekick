@@ -16,7 +16,7 @@ MonoBehaviour:
   type: 2
   anchorPosition: 0
   color: {r: 0.854902, g: 0.68235296, b: 0.5882353, a: 1}
-  icon: {fileID: 2800000, guid: 36612891cca70e046b0e30e5e2fc8bbc, type: 3}
+  icon: {fileID: 7388822144124034973, guid: 6a4e009a980c9034ea12c8c670625f8d, type: 3}
   assets:
   - obj: {fileID: 8272943599224061573, guid: 47b41978aba272c47ae5f4a2f7179c61, type: 3}
     probability: 1
