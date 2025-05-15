@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
+using ISILab.LBS.Components;
+using ISILab.LBS.Internal;
 using UnityEditor;
 using UnityEngine;
 
@@ -30,7 +32,6 @@ namespace ISILab.Macros
             string path = AssetDatabase.GetAssetPath(asset);
             return string.IsNullOrEmpty(path) ? null : AssetDatabase.AssetPathToGUID(path);
         }
-
     }
 
     public class LBSLayerHelper

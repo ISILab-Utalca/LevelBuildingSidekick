@@ -16,10 +16,15 @@ namespace ISILab.LBS.Manipulators
         private SchemaBehaviour schema;
         private Vector2Int first;
 
+        protected override string IconGuid => "0ce694377e9e05a478862c63a2ca952d";
+        
         public RemoveTileConnection() : base()
         {
             feedback = new ConnectedLine();
             feedback.fixToTeselation = true;
+            
+            name = "Remove connection";
+            description = "Click on a connection to remove it.";
         }
 
         public override void Init(LBSLayer layer, object behaviour)

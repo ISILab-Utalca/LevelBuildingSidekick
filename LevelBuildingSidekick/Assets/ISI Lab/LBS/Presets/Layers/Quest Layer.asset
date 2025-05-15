@@ -15,7 +15,7 @@ MonoBehaviour:
   layer:
     visible: 1
     blocked: 0
-    iconPath: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Stamp_Icon.png
+    iconGUID: 9fc8ac6f82a8b39458c73185d378ffbf
     id: Quest
     name: Layer Quest
     modules:
@@ -48,7 +48,7 @@ MonoBehaviour:
         ownerLayer:
           visible: 1
           blocked: 0
-          iconPath: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Stamp_Icon.png
+          iconGUID: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Stamp_Icon.png
           id: Quest
           name: Layer Quest
           modules:
@@ -81,7 +81,7 @@ MonoBehaviour:
         ownerLayerLayer:
           visible: 1
           blocked: 0
-          iconPath: Icon/Default
+          iconGUID: Icon/Default
           id: LBSLayer
           name: Layer name
           modules: []
@@ -106,7 +106,7 @@ MonoBehaviour:
         ownerLayer:
           visible: 1
           blocked: 0
-          iconPath: Icon/Default
+          iconGUID: Icon/Default
           id: LBSLayer
           name: Layer name
           modules: []
@@ -140,6 +140,9 @@ MonoBehaviour:
     - rid: 1248747549014622365
       type: {class: QuestNode, ns: ISILab.LBS.Components, asm: LBS}
       data:
+        nodeDataJson: 
+        nodeData:
+          rid: -2
         x: 0
         y: 0
         id: null
@@ -170,7 +173,7 @@ MonoBehaviour:
         ownerLayerLayer:
           visible: 1
           blocked: 0
-          iconPath: Icon/Default
+          iconGUID: Icon/Default
           id: LBSLayer
           name: Layer name
           modules: []
@@ -195,7 +198,7 @@ MonoBehaviour:
         ownerLayerLayer:
           visible: 1
           blocked: 0
-          iconPath: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Stamp_Icon.png
+          iconGUID: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Stamp_Icon.png
           id: Quest
           name: Layer Quest
           modules:

@@ -151,7 +151,7 @@ namespace ISILab.LBS
 
             quest.ID = name;
             quest.Name = name;
-            quest.iconPath = "Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Quest_Icon/IconQuestTitle2.png";
+            quest.iconGuid = "Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Quest_Icon/IconQuestTitle2.png";
             quest.TileSize = new Vector2Int(2, 2);
             quest.AddGeneratorRule(new QuestRuleGenerator());
 

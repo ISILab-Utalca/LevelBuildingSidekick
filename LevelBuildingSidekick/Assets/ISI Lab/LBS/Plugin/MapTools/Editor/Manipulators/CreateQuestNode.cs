@@ -20,11 +20,13 @@ namespace ISILab.LBS.Manipulators
         QuestGraph quest;
         QuestBehaviour behaviour;
         public GrammarTerminal ActionToSet => behaviour.ToSet;
-
+        protected override string IconGuid { get => "3d0b251f4a09bce4b9224787cfa08d49"; }
 
         private string prefix = "";
         public CreateQuestNode() : base()
         {
+            name = "Add Quest Node";
+            description = "Pick a quest word from the inspector panel, then Click on the graph.";
         }
 
         public override void Init(LBSLayer layer, object owner)

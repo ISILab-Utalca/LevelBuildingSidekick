@@ -25,21 +25,30 @@ namespace ISILab.LBS.VisualElements
     [LBSCustomEditor("QuestFlowBehaviour", typeof(QuestFlowBehaviour))]
     public class QuestFlowBehaviourEditor : LBSCustomEditor, IToolProvider
     {
+        #region FIELDS
         private CreateQuestNode addNode;
         private RemoveQuestNode removeNode;
         private ConnectQuestNodes connectNodes;
         private RemoveQuestConnection removeConnection;
 
+        #region VIEW FIELDS
         private QuestHistoryPanel questHistoryPanel;
         private DropdownField grammarDropdown;
         private VisualElement actionPallete;
         private QuestFlowBehaviour behaviour;
+        #endregion
         
+        #endregion
+        
+        #region CONSTRUCTORS
         public QuestFlowBehaviourEditor(object target) : base(target)
         {
             Clear();
             SetInfo(target);
         }
+        #endregion
+        
+        #region METHODS
         public override void SetInfo(object target)
         {
             Clear();
@@ -60,5 +69,6 @@ namespace ISILab.LBS.VisualElements
         { 
             // No tools 
         }
+        #endregion
     }
 }

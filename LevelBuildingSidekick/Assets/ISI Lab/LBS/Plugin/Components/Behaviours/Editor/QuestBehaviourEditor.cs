@@ -34,8 +34,6 @@ namespace ISILab.LBS.VisualElements
         VisualElement actionPallete;
 
         QuestBehaviour behaviour;
-
-        private string defaultGrammarGuid = "63ab688b53411154db5edd0ec7171c42";
         
         public QuestBehaviourEditor(object target) : base(target)
         {
@@ -54,7 +52,7 @@ namespace ISILab.LBS.VisualElements
 
             var quest = behaviour.OwnerLayer.GetModule<QuestGraph>();
             
-            grammarReference.value = quest.Grammar;
+            grammarReference.value = quest.Grammar; // Loads grammar
             
             ChangeGrammar(quest.Grammar);
             UpdateContent();
@@ -62,33 +60,27 @@ namespace ISILab.LBS.VisualElements
 
         public void SetTools(ToolKit toolkit)
         {
-            var questBehaviour = target as QuestBehaviour;
-
-            Texture2D icon;
-
-            icon = Resources.Load<Texture2D>("Icons/Quest_Icon/Add_Node_Quest");
-            addNode = new CreateQuestNode();
-            var t1 = new LBSTool(icon, "Add Quest Node", "Pick a quest word from the inspector panel, then Click on the graph.", addNode);
-            t1.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
-            t1.Init(questBehaviour?.OwnerLayer, target);
-
-            icon = Resources.Load<Texture2D>("Icons/Quest_Icon/Delete_Node_Quest");
-            removeNode = new RemoveQuestNode();
-            var t2 = new LBSTool(icon, "Remove Quest Node", "Click on a quest node to remove it.", removeNode);
-            t2.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
-            t2.Init(questBehaviour?.OwnerLayer, target);
+            behaviour = target as QuestBehaviour;
             
-            icon = Resources.Load<Texture2D>("Icons/Quest_Icon/Node_Connection_Quest");
+            addNode = new CreateQuestNode();
+            var t1 = new LBSTool(addNode);
+            t1.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
+            t1.Init(behaviour?.OwnerLayer, target);
+            
+            removeNode = new RemoveQuestNode();
+            var t2 = new LBSTool(removeNode);
+            t2.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
+            t2.Init(behaviour?.OwnerLayer, target);
+            
             connectNodes = new ConnectQuestNodes();
-            var t3 = new LBSTool(icon, "Connect Quest Node", "Click on a starting node, then release on the follow up node.", connectNodes);
+            var t3 = new LBSTool(connectNodes);
             t3.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
-            t3.Init(questBehaviour?.OwnerLayer, target);
-
-            icon = Resources.Load<Texture2D>("Icons/Quest_Icon/Delete_Node_Connection_Quest");
+            t3.Init(behaviour?.OwnerLayer, target);
+            
             removeConnection = new RemoveQuestConnection();
-            var t4 = new LBSTool(icon, "Remove Quest Connection", "Click a connection line between nodes to remove it.", removeConnection);
+            var t4 = new LBSTool(removeConnection);
             t4.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
-            t4.Init(questBehaviour?.OwnerLayer, target);
+            t4.Init(behaviour?.OwnerLayer, target);
             
             connectNodes.SetRemover(removeConnection);
             
@@ -102,7 +94,7 @@ namespace ISILab.LBS.VisualElements
             connectNodes.OnManipulationEnd += RefreshHistoryPanel;
             removeConnection.OnManipulationEnd += RefreshHistoryPanel;
 
-            behaviour ??= questBehaviour; // if null, assign
+            behaviour ??= behaviour; // if null, assign
             behaviour!.Graph.GoToNode += GoToQuestNode;
         }
 
@@ -142,7 +134,6 @@ namespace ISILab.LBS.VisualElements
             actionPallete = this.Q<VisualElement>(name: "Content");
             
             grammarReference.RegisterValueChangedCallback(evt => ChangeGrammar(evt.newValue as LBSGrammar));
-  
             return this;
         }
 

@@ -12,6 +12,7 @@ using ISILab.LBS.Modules;
 using ISILab.LBS.Settings;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace LBS.Components
 {
@@ -25,8 +26,8 @@ namespace LBS.Components
         [SerializeField, JsonRequired]
         private bool blocked = false;
 
-        [SerializeField, JsonRequired]
-        public string iconPath = "Icon/Default";
+        [FormerlySerializedAs("iconGUID")] [FormerlySerializedAs("iconPath")] [SerializeField, JsonRequired]
+        public string iconGuid = "Icon/Default";
         #endregion
 
         #region FIELDS
@@ -172,7 +173,7 @@ namespace LBS.Components
             IEnumerable<LBSAssistant> assistant,
             IEnumerable<LBSGeneratorRule> rules,
             IEnumerable<LBSBehaviour> behaviours,
-            string ID, bool visible, string name, string iconPath, Vector2Int tileSize)
+            string ID, bool visible, string name, string iconGuid, Vector2Int tileSize)
         {
             foreach (var m in modules)
             {
@@ -197,7 +198,7 @@ namespace LBS.Components
             this.ID = ID;
             IsVisible = visible;
             this.name = name;
-            this.iconPath = iconPath;
+            this.iconGuid = iconGuid;
             this.TileSize = tileSize;
         }
         #endregion
@@ -470,10 +471,10 @@ namespace LBS.Components
         {
             var modules = this.modules.Clone(); // CloneRef
             var assistants = this.assistants.Select(a => a.Clone() as LBSAssistant);
-            var rules = this.generatorRules.Select(r => r.Clone() as LBSGeneratorRule);
+            var rules = generatorRules.Select(r => r.Clone() as LBSGeneratorRule);
             var behaviours = this.behaviours.Select(b => b.Clone() as LBSBehaviour);
 
-            var layer = new LBSLayer(modules, assistants, rules, behaviours, this.id, this.visible, this.name, this.iconPath, this.TileSize);
+            var layer = new LBSLayer(modules, assistants, rules, behaviours, id, visible, name, iconGuid, TileSize);
             return layer;
         }
 

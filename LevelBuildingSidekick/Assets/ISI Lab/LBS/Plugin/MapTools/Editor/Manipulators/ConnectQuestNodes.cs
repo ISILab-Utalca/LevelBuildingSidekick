@@ -16,11 +16,16 @@ namespace ISILab.LBS.Manipulators
         QuestGraph quest;
 
         public QuestNode first;
-
+        protected override string IconGuid { get => "ec280cec81783e94cb5df0b0b40dec7e"; }
+        
         public ConnectQuestNodes() : base()
         {
             feedback = new ConnectedLine();
+            name = "Connect Quest Node";
+            description = "Click on a starting node, then release on the follow up node.";
         }
+
+
 
         public override void Init(LBSLayer layer, object provider)
         {

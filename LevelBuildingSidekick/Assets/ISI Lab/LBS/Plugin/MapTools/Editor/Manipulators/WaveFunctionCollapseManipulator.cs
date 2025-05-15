@@ -19,9 +19,13 @@ namespace ISILab.LBS.Manipulators
 
         private AssistantWFC assistant;
 
+        protected override string IconGuid { get => "08c60bd0a76e4bb4dad11ebf18bca46e"; }
+        
         public WaveFunctionCollapseManipulator() : base()
         {
             feedback.fixToTeselation = true;
+            name = "Wave Function Collapse";
+            description = "Select an area to generate new connections.";
         }
 
         public override void Init(LBSLayer layer, object provider)

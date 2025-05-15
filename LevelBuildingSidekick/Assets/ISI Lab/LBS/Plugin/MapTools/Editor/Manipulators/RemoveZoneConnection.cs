@@ -9,13 +9,17 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Manipulators
 {
-    public class RemoveAreaConnection : LBSManipulator
+    public class RemoveZoneConnection : LBSManipulator
     {
         HillClimbingAssistant hillclimbing;
 
-        public RemoveAreaConnection() : base()
+        public RemoveZoneConnection() : base()
         {
+            name = "Remove Assistant zone connection";
+            description = "Click a connection between zones to remove it.";
         }
+
+        protected override string IconGuid { get => "42830f36abd22544fb35c697171f8374"; }
 
         public override void Init(LBSLayer layer, object owner)
         {

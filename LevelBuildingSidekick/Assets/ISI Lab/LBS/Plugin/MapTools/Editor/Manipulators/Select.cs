@@ -12,26 +12,26 @@ namespace ISILab.LBS.Manipulators
     public class Select : LBSManipulator
     {
         private LBSLocalCurrent current;
-
-        public Select()
+        protected override string IconGuid { get => "77f81c1ea560ddf4c99e41c605166e3e" ; }
+        public Select():base()
         {
             // Unset feedback
             feedback = null;
             current = LBSInspectorPanel.Instance.data;
-        }
 
+            name = "Select";
+            description = "Selection";
+        }
+        
         public override void Init(LBSLayer layer, object provider)
         {
             base.Init(layer, provider);
-
             // Set provider reference
             current = provider as LBSLocalCurrent;
-            
         }
 
         protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
         {
-           
             current = LBSInspectorPanel.Instance.data;
             
             // Get selectable elements

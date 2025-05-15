@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ISILab.LBS.Settings;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -65,8 +66,9 @@ namespace ISILab.LBS.VisualElements
         private List<IGrupable> group = new List<IGrupable>();
         private IGrupable current;
 
-        private Color baseColor = new Color(72f / 255f, 72f / 255f, 72f / 255f);
-        private Color selectedColor = new Color(215f / 255f, 127f / 255f, 45f / 255f);
+        private Color baseColor = LBSSettings.Instance.view.toolkitNormal;
+        private Color selectedColor = LBSSettings.Instance.view.newToolkitSelected;
+        
         private int index = -1;
         private string choices = "";
         private int choiceCount = 0;

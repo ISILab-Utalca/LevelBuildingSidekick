@@ -124,7 +124,7 @@ namespace ISILab.LBS.Behaviours
 
         public Zone AddZone()
         {
-            string prefix = "Zone\n";
+            string prefix = "Zone: ";
             int counter = 0;
             string name = prefix + counter;
             IEnumerable<string> names = areas.Zones.Select(z => z.ID);
@@ -138,13 +138,6 @@ namespace ISILab.LBS.Behaviours
                
             }
 
-            /*
-            int r = (int)((Random.value * (256 - 32)) / 16);
-            int g = (int)((Random.value * (256 - 32)) / 16);
-            int b = (int)((Random.value * (256 - 32)) / 16);
-
-            var c = new Color(r * 16 / 256f, g * 16 / 256f, b * 16 / 256f);
-            */
             var c = new Color().RandomColorHSV();
             var zone = new Zone(name, c);
 

@@ -36,7 +36,7 @@ namespace ISILab.LBS.VisualElements
 
         // Manipulators
         private SetZoneConnection setZoneConnection;
-        private RemoveAreaConnection removeAreaConnection;
+        private RemoveZoneConnection removeZoneConnection;
 
         public HillClimbingAssistantEditor(object target) : base(target)
         {
@@ -68,27 +68,19 @@ namespace ISILab.LBS.VisualElements
 
         public void SetTools(ToolKit toolKit)
         {
-            Texture2D icon;
-
-            toolKit.AddSeparator();
-
-            // Add Zone connection
-            icon = Resources.Load<Texture2D>("Icons/Tools/Node_connection");
             setZoneConnection = new SetZoneConnection();
-            var t1 = new LBSTool(icon, "Add Assistant zone connection", "Select an start and end point between zones to create a connection.", setZoneConnection);
+            var t1 = new LBSTool(setZoneConnection);
             t1.OnSelect += LBSInspectorPanel.ActivateAssistantTab;
             t1.Init(hillClimbing.OwnerLayer, hillClimbing);
             toolKit.AddTool(t1);
-
-            // Remove zone connections
-            icon = Resources.Load<Texture2D>("Icons/Tools/Delete_node_connection");
-            removeAreaConnection = new RemoveAreaConnection();
-            var t2 = new LBSTool(icon, "Remove Assistant zone connection", "Click a connection between zones to remove it.", removeAreaConnection);
+            
+            removeZoneConnection = new RemoveZoneConnection();
+            var t2 = new LBSTool(removeZoneConnection);
             t2.OnSelect += LBSInspectorPanel.ActivateAssistantTab;
             t2.Init(hillClimbing.OwnerLayer, hillClimbing);
             toolKit.AddTool(t2);
             
-            setZoneConnection.SetRemover(removeAreaConnection);
+            setZoneConnection.SetRemover(removeZoneConnection);
         }
 
         protected override VisualElement CreateVisualElement()

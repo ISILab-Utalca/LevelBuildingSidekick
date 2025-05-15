@@ -23,7 +23,10 @@ namespace ISILab.LBS.VisualElements
     [LBSCustomEditor("QuestFlowBehaviour", typeof(QuestNodeBehaviour))]
     public class QuestNodeBehaviourEditor : LBSCustomEditor, IToolProvider
     {
+        #region FIELDS
+        private QuestNodeBehaviour behaviour;
 
+        #region VIEW FIELDS
         /// <summary>
         /// Displays the action string
         /// </summary>
@@ -65,15 +68,21 @@ namespace ISILab.LBS.VisualElements
         /// Display to indicate no Node from the graph has been selected
         /// </summary>
         private VisualElement NoNodeSelectedPanel;
+        #endregion
         
-        private QuestNodeBehaviour behaviour;
+        #endregion
+
         
+        #region CONSTRUCTORS
         public QuestNodeBehaviourEditor(object target) : base(target)
         {
             SetInfo(target);
             CreateVisualElement();
             UpdatePanel(null);
         }
+        #endregion
+        
+        #region METHODS
         public override void SetInfo(object target)
         {
             behaviour = target as QuestNodeBehaviour;
@@ -181,11 +190,8 @@ namespace ISILab.LBS.VisualElements
 
         public void SetTools(ToolKit toolkit)
         { 
-            Texture2D icon = Resources.Load<Texture2D>("Icons/Quest_Icon/Icon=ColorPicker");
             var questPicker = new QuestPicker();
-            var t1 = new LBSTool(icon, "Pick population element",
-                "Pick the foremost population element from any layer within the graph." +
-                " The picked bundle is assigned to the selected behaviour node", questPicker);
+            var t1 = new LBSTool(questPicker);
             t1.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             t1.Init(behaviour?.OwnerLayer, target);
             
@@ -247,6 +253,7 @@ namespace ISILab.LBS.VisualElements
         {
             return behaviour.SelectedQuestNode;
         }
+        #endregion
         
     }
 }

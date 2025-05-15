@@ -14,6 +14,7 @@ namespace ISILab.LBS.Manipulators
     public class AddSchemaTile : LBSManipulator
     {
         private SchemaBehaviour schema;
+        protected override string IconGuid => "ce4ce3091e6cf864cbbdc1494feb6529";
 
         public Zone ToSet
         {
@@ -23,6 +24,9 @@ namespace ISILab.LBS.Manipulators
 
         public AddSchemaTile() : base()
         {
+            name = "Paint Zone";
+            description = "Add a new zone in the inspector and then paint in the graph. Hold CTRL and select an area to auto-generate a new zone.";
+            
             feedback = new AreaFeedback();
             feedback.fixToTeselation = true;
         }

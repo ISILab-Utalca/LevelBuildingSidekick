@@ -14,7 +14,14 @@ namespace ISILab.LBS.Manipulators
     {
         private List<Vector2Int> Directions => Commons.Directions.Bidimencional.Edges;
         private ExteriorBehaviour exterior;
+        protected override string IconGuid => "ce4ce3091e6cf864cbbdc1494feb6529";
 
+        public AddExteriorTile() : base()
+        {
+            name = "Add Tile";
+            description = "Add an Exterior Tile. Hold CTRL to paint neighbors as well.";
+        }
+        
         public override void Init(LBSLayer layer, object owner)
         {
             base.Init(layer, owner);

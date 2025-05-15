@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using ISILab.Commons.Attributes;
+using ISILab.Macros;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -15,7 +16,7 @@ namespace ISILab.LBS.Components
         [ReadOnly]
         public string label;
         [SerializeField]
-        protected Texture2D icon;
+        protected VectorImage icon;
         [SerializeField]
         protected Color color;
         #endregion
@@ -26,21 +27,19 @@ namespace ISILab.LBS.Components
             get => label;
             set
             {
-                if (label == value)
-                    return;
-
-                this.label = value;
+                if (label == value) return;
+                label = value;
                 OnChangeText?.Invoke(this);
             }
         }
 
-        public Texture2D Icon
+        public VectorImage Icon
         {
             get
             {
                 if (icon == null)
                 {
-                    return Resources.Load<Texture2D>("Icons/Tag_Icon.png");
+                    return LBSAssetMacro.LoadAssetByGuid<VectorImage>("d6f94a68988be8b45894b9f0e677e8d1");
                 }
                 return icon;
             }
@@ -76,7 +75,7 @@ namespace ISILab.LBS.Components
         #endregion
 
         #region METHODS
-        public void Init(string text, Color color, Texture2D icon)
+        public void Init(string text, Color color, VectorImage icon)
         {
             this.label = text;
             this.color = color;
@@ -85,7 +84,7 @@ namespace ISILab.LBS.Components
 
         private void OnValidate()
         {
-            label = this.name;
+            label = name;
         }
         #endregion
     }

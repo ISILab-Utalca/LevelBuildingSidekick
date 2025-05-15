@@ -99,7 +99,8 @@ namespace ISILab.LBS.Settings
         [System.Serializable]
         public class Interface
         {
-            public Color toolkitSelected = new Color(1f, 0.46f, 0.41f);
+            public Color toolkitNormal = new Color(0.28f, 0.28f, 0.28f);
+            public Color newToolkitSelected = new Color(0.21f, 0.48f, 0.96f);
             public Color behavioursColor = new Color(0.53f, 0.84f, 0.96f);
             public Color assistantColor = new Color(0.76f, 0.96f, 0.44f);
             public Color bundlesColor = new Color(0.5f, 0.69f, 0.98f);

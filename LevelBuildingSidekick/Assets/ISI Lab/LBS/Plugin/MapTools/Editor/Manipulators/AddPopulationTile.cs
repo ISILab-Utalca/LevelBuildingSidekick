@@ -20,12 +20,27 @@ namespace ISILab.LBS.Manipulators
 
         Feedback previewFeedback;
         private TileBundleGroup selectedTile;
-
+        protected override string IconGuid { get => "ce4ce3091e6cf864cbbdc1494feb6529"; }
+        
         public Bundle ToSet
         {
             get => population.selectedToSet;
         }
 
+        public AddPopulationTile() : base()
+        {
+            feedback = new AreaFeedback();
+            feedback.fixToTeselation = true;
+            
+            previewFeedback = new DottedAreaFeedback();
+            previewFeedback.preview = true;
+            previewFeedback.fixToTeselation = true;
+
+            name = "Paint Tile with Item";
+            description =
+                "Select an item in Behaviour panel and Click on the graph to add a population tile. Hold CTRL to drag it.";
+        }
+        
         protected override void OnKeyDown(KeyDownEvent e)
         {
             base.OnKeyDown(e);
@@ -35,16 +50,6 @@ namespace ISILab.LBS.Manipulators
         protected override void OnKeyUp(KeyUpEvent e)
         {
             LBSMainWindow.WarningManipulator();
-        }
-        
-        public AddPopulationTile() : base()
-        {
-            feedback = new AreaFeedback();
-            feedback.fixToTeselation = true;
-            
-            previewFeedback = new DottedAreaFeedback();
-            previewFeedback.preview = true;
-            previewFeedback.fixToTeselation = true;
         }
 
         public override void Init(LBSLayer layer, object owner)

@@ -93,7 +93,7 @@ namespace LBS.Bundles
         private Color color;
 
         [SerializeField]
-        private Texture2D icon;
+        private VectorImage icon;
         
         [SerializeField]
         private List<Asset> assets = new List<Asset>();
@@ -119,12 +119,9 @@ namespace LBS.Bundles
         #endregion
 
         #region PROPERTIES
-        public Texture2D Icon
+        public VectorImage Icon
         {
-            get
-            {
-                return (icon == null) ? null : icon;
-            }
+            get => !icon ? null : icon;
             set => icon = value;
         }
         public Color Color => color;

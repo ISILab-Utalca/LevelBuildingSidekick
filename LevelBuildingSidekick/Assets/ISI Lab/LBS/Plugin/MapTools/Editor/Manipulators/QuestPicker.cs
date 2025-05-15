@@ -24,19 +24,25 @@ namespace ISILab.LBS.Manipulators
     /// </summary>
     public class QuestPicker : LBSManipulator
     {
-        QuestGraph quest;
+        QuestGraph questGraph;
         QuestNodeBehaviour behaviour;
         public Bundle pickedBundle;
+        protected override string IconGuid { get => "f53f51dae7956eb4b99123e868e99d67"; }
         
         public QuestPicker() : base()
         {
+            name = "Pick population element";
+            description = "Pick the foremost population element from any layer within the graph." +
+                          " The picked bundle is assigned to the selected behaviour node";
         }
+
+
 
         public override void Init(LBSLayer layer, object owner)
         {
             base.Init(layer, owner);
             
-            quest = layer.GetModule<QuestGraph>();
+            questGraph = layer.GetModule<QuestGraph>();
             behaviour = layer.GetBehaviour<QuestNodeBehaviour>();
         }
 

@@ -9,6 +9,7 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Manipulators
 {
+    // TODO CHECK IF THIS CLASS CAN BE DELETED. SEEMS TO BE DEPRECATED
     public class AddConnection : LBSManipulator
     {
         public LBSTag tagToSet;
@@ -22,12 +23,17 @@ namespace ISILab.LBS.Manipulators
         Vector2Int.up
     };
 
+        protected override string IconGuid { get => null; }
+
         private TileConnectionsPair first;
 
         public AddConnection() : base()
         {
             feedback = new ConnectedLine();
             feedback.fixToTeselation = true;
+            
+            name = "Add Connection";
+            description = "Add a connection to the selected area.";
         }
 
         public override void Init(LBSLayer layer, object owner)

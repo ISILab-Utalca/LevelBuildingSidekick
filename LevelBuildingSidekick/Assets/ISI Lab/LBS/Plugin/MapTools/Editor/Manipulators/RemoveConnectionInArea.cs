@@ -12,6 +12,10 @@ namespace ISILab.LBS.Manipulators
     {
         private ExteriorBehaviour exterior;
 
+        protected override string IconGuid { get => "ce08b36a396edbf4394f7a4e641f253d"; }
+
+        public RemoveConnectionInArea():base(){}
+
         public override void Init(LBSLayer layer, object owner)
         {
             base.Init(layer, owner);

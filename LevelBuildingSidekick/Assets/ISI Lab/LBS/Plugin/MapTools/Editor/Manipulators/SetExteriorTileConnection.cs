@@ -23,7 +23,8 @@ namespace ISILab.LBS.Manipulators
 
         private ConnectedConrnerLine lineFeedback = new ConnectedConrnerLine();
         private Feedback areaFeedback = new AreaFeedback();
-
+        protected override string IconGuid => "89403d16440c74442a7260e1a2fe2a40";
+        
         public LBSTag ToSet
         {
             get => exterior.identifierToSet;
@@ -35,6 +36,9 @@ namespace ISILab.LBS.Manipulators
             lineFeedback.fixToTeselation = true;
             areaFeedback.fixToTeselation = true;
             feedback = lineFeedback;
+
+            name = "Set connection";
+            description = "Paint line across tiles to make connections. Hold CTRL to connect areas.";
         }
 
         public override void Init(LBSLayer layer, object behaviour)

@@ -5,13 +5,10 @@ using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
-using ISILab.LBS.Behaviours;
 using ISILab.LBS.Editor.Windows;
-using ISILab.LBS.Settings;
 using ISILab.LBS.VisualElements.Editor;
 using ISILab.LBS.VisualElements;
-using LBS;
-using UnityEditor;
+using ISILab.Macros;
 
 namespace ISILab.LBS.Manipulators
 {
@@ -20,31 +17,50 @@ namespace ISILab.LBS.Manipulators
     {
         #region FIELDS
 
+        #region DATA
         protected LBSLayer lbsLayer;
         
         protected Feedback feedback;
+        
+        protected VectorImage icon;
 
+        protected string name;
+        
+        protected string description;
+        #endregion
+        
+        #region STATES
         private bool started;
         private bool ended;
         private bool isRightClick;
-      
-        /// <summary>
-        /// referenced by adders. usable by right click
-        /// </summary>
-        private LBSManipulator remover;
-
-   
-        /// <summary>
-        /// referenced by deleters. If activatedByOther, sets adder as manipulator in MainView
-        /// </summary>
-        private LBSManipulator adder;
+        #endregion
         
+        #region POSITIONS
         private Vector2Int startClickPosition = Vector2Int.zero;
         private Vector2Int moveClickPosition = Vector2Int.zero;
         private Vector2Int endClickPosition = Vector2Int.zero;
         #endregion
+        
+        #region MANIPULATOR ADDER AND REMOVER
+        /// <summary>
+        /// referenced by adders. usable by right click
+        /// </summary>
+        private LBSManipulator remover;
+        
+        /// <summary>
+        /// referenced by deleters. If activatedByOther, sets adder as manipulator in MainView
+        /// </summary>
+        private LBSManipulator adder;
+        #endregion
+        
+        #endregion
 
         #region PROPERTIES
+        public string Description => description;
+        public string Name => name;
+        protected abstract string IconGuid { get; }
+
+        public VectorImage Icon => icon;
         public bool IsRightClick
         {
             get => isRightClick;
@@ -117,6 +133,13 @@ namespace ISILab.LBS.Manipulators
         public Action OnManipulationEnd;
         public Action OnManipulationRightClick;
         public Action OnManipulationRightClickEnd;
+        #endregion
+        
+        #region CONSTRUCTORS
+        protected LBSManipulator()
+        {
+            icon = LBSAssetMacro.LoadAssetByGuid<VectorImage>(IconGuid);
+        }    
         #endregion
 
         #region METHODS

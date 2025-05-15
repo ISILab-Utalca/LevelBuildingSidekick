@@ -6,16 +6,22 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Manipulators
 {
-    public class ActOnRect : LBSManipulator
+    public class MapEliteAreaSelector : LBSManipulator
     {
         Action<Rect> OnSelection;
-
-        public ActOnRect(Action<Rect> action)
+        protected override string IconGuid { get => "132787114daf605489a3d20bafcf2844"; }
+        
+        public MapEliteAreaSelector(Action<Rect> action)
         {
             feedback = new AreaFeedback();
             feedback.fixToTeselation = true;
             OnSelection = action;
+            
+            name = "Assistant Area Selector";
+            description = "Select an area that will be used by Map Elites Assistant.";
         }
+
+
 
         protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
         {

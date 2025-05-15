@@ -131,10 +131,10 @@ namespace LBS.VisualElements
         public void Init(LBSLayer layer)
         {
             InitGeneralTools(layer);
-            this.AddSeparator();
+            AddSeparator();
 
             InitBehavioursTools(layer);
-            this.AddSeparator();
+            AddSeparator();
 
             InitAssistantsTools(layer);
         }
@@ -144,9 +144,7 @@ namespace LBS.VisualElements
             var t1 = TryGetTool("Select");
             if (t1 == null)
             {
-                var icon = Resources.Load<Texture2D>("Icons/Select");
-                var selectTool = new Select();
-                t1 = new LBSTool(icon, "Select", "Selection",  selectTool);
+                t1 = new LBSTool(new Select());
             }
             t1.Init(layer, this);
             t1.OnSelect += LBSInspectorPanel.ActivateDataTab;
@@ -315,7 +313,7 @@ namespace LBS.VisualElements
                 var index = i;
                 SetActive(index);
             });
-            button.SetColorGroup(baseColor, LBSSettings.Instance.view.toolkitSelected);
+            button.SetColorGroup(LBSSettings.Instance.view.toolkitNormal, LBSSettings.Instance.view.newToolkitSelected);
             
             // for tools that add
             if (tool.Manipulator.Remover != null)

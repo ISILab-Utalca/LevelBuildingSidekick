@@ -46,17 +46,7 @@ namespace ISILab.LBS.Modules
         [JsonIgnore]
         public LBSGrammar Grammar
         {
-            get => GetQuestGrammar(); /*
-            {
-                if (grammar != null && grammarName != null && grammar.name == grammarName)
-                    return grammar;
-                else if (grammarName != null)
-                {
-                    grammar = LBSAssetsStorage.Instance.Get<LBSGrammar>().Find(g => g.name == grammarName);
-                    return grammar;
-                }
-                return null;
-            }*/
+            get => GetQuestGrammar();
             set
             {
                 grammar = value;

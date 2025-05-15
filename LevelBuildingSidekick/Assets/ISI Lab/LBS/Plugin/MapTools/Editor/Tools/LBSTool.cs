@@ -6,20 +6,21 @@ using System;
 using System.Collections.Generic;
 using ISILab.LBS.Editor.Windows;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace LBS
 {
     public class LBSTool
     {
         #region FIELDS
-        private Texture2D icon;
+        private VectorImage icon;
         private string name;
         private string description;
         private LBSManipulator manipulator;
         #endregion
 
         #region PROPERTIES
-        public Texture2D Icon => icon;
+        public VectorImage Icon => icon;
         public string Name => name;
         public string Description => description;
         public LBSManipulator Manipulator => manipulator;
@@ -29,19 +30,18 @@ namespace LBS
         #region EVENTS
         public event Action OnSelect;
         public event Action OnDeselect;
-
         public event Action<LBSLayer> OnStart;
         public event Action<LBSLayer> OnPressed;
         public event Action<LBSLayer> OnEnd;
         #endregion
 
         #region CONSTRUCTORS
-        public LBSTool(Texture2D icon, string name, string description, LBSManipulator manipulator)
+        public LBSTool(LBSManipulator manipulator)
         {
-            this.icon = icon;
-            this.name = name;
             this.manipulator = manipulator;
-            this.description = description;
+            name = manipulator.Name;
+            description = manipulator.Description;
+            icon =  manipulator.Icon;
         }
         #endregion
 

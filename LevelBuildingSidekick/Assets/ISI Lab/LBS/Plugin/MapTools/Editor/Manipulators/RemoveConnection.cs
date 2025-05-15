@@ -30,6 +30,8 @@ namespace ISILab.LBS.Manipulators
             feedback = lineFeedback;
         }
 
+        protected override string IconGuid => "ce08b36a396edbf4394f7a4e641f253d";
+
         public override void Init(LBSLayer layer, object provider)
         {
             base.Init(layer, provider);

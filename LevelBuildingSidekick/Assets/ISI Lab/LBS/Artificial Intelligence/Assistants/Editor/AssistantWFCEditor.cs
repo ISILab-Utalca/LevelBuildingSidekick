@@ -39,16 +39,11 @@ namespace ISILab.LBS.AI.Assistants.Editor
 
         public void SetTools(ToolKit toolKit)
         {
-            Texture2D icon;
-
             toolKit.AddSeparator();
 
-            // Wave function collapse
-            icon = Resources.Load<Texture2D>("Icons/Assistans/Assistans_WaveFunctionCollapse");
             collapseManipulator = new WaveFunctionCollapseManipulator();
-            var t1 = new LBSTool(icon, "Wave Function Collapse", "Select an area to generate new connections.", collapseManipulator);
+            var t1 = new LBSTool(collapseManipulator);
             t1.OnSelect += LBSInspectorPanel.ActivateAssistantTab;
-
             t1.Init(assistant.OwnerLayer, assistant);
             toolKit.AddTool(t1);
         }

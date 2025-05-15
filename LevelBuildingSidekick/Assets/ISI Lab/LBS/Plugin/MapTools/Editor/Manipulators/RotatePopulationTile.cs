@@ -22,11 +22,14 @@ namespace ISILab.LBS.Manipulators
         public TileBundleGroup Selected { get; set; }
         PopulationBehaviour population;
         private Vector2Int storedPosition;
+        protected override string IconGuid { get => "485afea6f40f10e41a28c3d016a9250b"; }
 
-        public RotatePopulationTile()
+        public RotatePopulationTile():base()
         {
             //feedback = new ConnectedLine();
            // feedback.fixToTeselation = true;
+           name = "Rotate Tile";
+           description = "Left Click to rotate counter-clockwise, Right Click to clockwise. May use Mouse Wheel as well.";
         }
 
         public override void Init(LBSLayer layer, object provider)

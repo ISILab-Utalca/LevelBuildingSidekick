@@ -16,6 +16,7 @@ using ISILab.LBS.Characteristics;
 using ISILab.LBS.Editor;
 using ISILab.LBS.Components;
 using ISILab.LBS.Editor.Windows;
+using ISILab.Macros;
 using UnityEditor;
 
 namespace ISILab.LBS.VisualElements
@@ -32,14 +33,15 @@ namespace ISILab.LBS.VisualElements
         private AddExteriorTile addExteriorTile;
         private RemoveTileExterior removeTile;
         private SetExteriorTileConnection setConnection;
-        private RemoveConnection removeConection;
         private RemoveConnectionInArea removeConnectionInArea;
         #endregion
 
         #region VIEW FIELDS
+        private VectorImage icon =LBSAssetMacro.LoadAssetByGuid<VectorImage>("e17eb0e02534666439fca8ea30b4d4e4");
         private SimplePallete connectionPallete;
         private ObjectField bundleField;
         private WarningPanel warningPanel;
+        private string tileIconGuid = "";
         #endregion
 
         #region PROPERTIES
@@ -67,51 +69,27 @@ namespace ISILab.LBS.VisualElements
 
         public void SetTools(ToolKit toolKit)
         {
-            Texture2D icon;
-
-            // Set empty tile
-            icon = Resources.Load<Texture2D>("Icons/Tools/Brush_interior_tile");
+            
             addExteriorTile = new AddExteriorTile();
-            var t1 = new LBSTool(icon, "Add Tile", "Add an Exterior Tile. Hold CTRL to paint neighbors as well.", addExteriorTile);
+            var t1 = new LBSTool(addExteriorTile);
             t1.Init(exterior.OwnerLayer, exterior);
             t1.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
-
-            // Remove tile
-            icon = Resources.Load<Texture2D>("Icons/Tools/Delete_exterior_tile");
+            
             removeTile = new RemoveTileExterior();
-            var t2 = new LBSTool(icon, "Remove Tile", "Remove Exterior Tile", removeTile);
+            var t2 = new LBSTool(removeTile);
             t2.Init(exterior.OwnerLayer, exterior);
             t2.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             
-            toolKit.AddSeparator(10);
-
-            // Set connection
-            icon = Resources.Load<Texture2D>("Icons/Tools/Exterior_connection");
             setConnection = new SetExteriorTileConnection();
-            var t3 = new LBSTool(icon, "Set connection", "Paint line across tiles to make connections. Hold CTRL to connect areas.", setConnection);
+            var t3 = new LBSTool(setConnection);
             t3.Init(exterior.OwnerLayer, exterior);
             t3.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
-            
-            /* No longer needed as now the manipulator always overwrites a connection with no white tiles being used.
-            // Remove connection
-            icon = Resources.Load<Texture2D>("Icons/Tools/Delete_exterior_connection");
-            removeConection = new RemoveConnection();
-            var t4 = new LBSTool(icon, "Remove connection", "Remove Tile Connection", removeConection);
-            t4.Init(exterior.OwnerLayer, exterior);
-            t4.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
-            
-                 setConnection.SetRemover(removeConection);
-                
-            */
             
             addExteriorTile.SetRemover(removeTile);
             
             toolKit.AddTool(t1);
             toolKit.AddTool(t2);
             toolKit.AddTool(t3);
-            
-            //toolKit.AddTool(t4);
-
         }
 
         private void CheckTargetBundle() 
@@ -192,12 +170,10 @@ namespace ISILab.LBS.VisualElements
             connectionPallete.ShowAddButton = false;
             connectionPallete.ShowRemoveButton = false;
             connectionPallete.ShowDropdown = false;
-
-            // Get palette icon 
-            var icon = Resources.Load<Texture2D>("Icons/BrushIcon");
-
+            connectionPallete.ShowNoElement = false;
+            
             // Set basic value
-            connectionPallete.SetName("Zones");
+            connectionPallete.SetName("Tile Brushes");
             connectionPallete.SetIcon(icon, BHcolor);
 
             // Get odentifiers
@@ -239,7 +215,8 @@ namespace ISILab.LBS.VisualElements
                 var identifier = option as LBSTag;
                 optionView.Label = identifier.Label;
                 optionView.Color = identifier.Color;
-                optionView.Icon = identifier.Icon;
+                optionView.Icon = LBSAssetMacro.LoadAssetByGuid<VectorImage>(tileIconGuid);
+                // optionView.Icon = identifier.Icon;
             });
 
             connectionPallete.OnRepaint += () => { connectionPallete.Selected = exterior.identifierToSet; };

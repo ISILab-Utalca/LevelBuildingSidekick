@@ -10,23 +10,28 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Manipulators
 {
-    public class SetSchemaTileConnection : LBSManipulator
+    public class AddSchemaTileConnection : LBSManipulator
     {
         private List<Vector2Int> Directions => Commons.Directions.Bidimencional.Edges;
 
         private SchemaBehaviour schema;
         private Vector2Int first;
 
+        protected override string IconGuid => "b06c784e5d88d1547a40d4fc2f54b485";
+        
         public string ToSet
         {
             get => schema.conectionToSet;
             set => schema.conectionToSet = value;
         }
 
-        public SetSchemaTileConnection() : base()
+        public AddSchemaTileConnection() : base()
         {
             feedback = new ConnectedLine();
             feedback.fixToTeselation = true;
+
+            name = "Set connection";
+            description = "Draw across a zone's border to generate a connection.";
         }
 
         public override void Init(LBSLayer layer, object behaviour)

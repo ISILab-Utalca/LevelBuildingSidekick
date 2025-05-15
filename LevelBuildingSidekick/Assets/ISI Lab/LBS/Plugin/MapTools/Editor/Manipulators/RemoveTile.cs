@@ -9,6 +9,10 @@ namespace ISILab.LBS.Manipulators
 {
     public class RemoveTile : ManipulateTeselation
     {
+        protected override string IconGuid { get => "ce08b36a396edbf4394f7a4e641f253d"; }
+
+        public RemoveTile():base(){}
+        
         public override void Init(LBSLayer layer, object behaviour)
         {
             base.Init(layer, behaviour);

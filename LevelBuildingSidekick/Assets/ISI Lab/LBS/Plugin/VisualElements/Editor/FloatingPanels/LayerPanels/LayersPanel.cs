@@ -95,18 +95,22 @@ namespace ISILab.LBS.VisualElements.Editor
             // NameField
             nameField = this.Q<TextField>("NameField");
 
-            // TypeDropdown
-            var typeDropdown1 = this.Q<DropdownField>("TypeDropdown");
-            typeDropdown1.choices = templates.Select(t => t.name).ToList();
-            typeDropdown1.index = 0;
-
             //Add Layer Button Menu
-            var addButtonMenu1 = this.Q<ToolbarMenu>("AddLayerButtonMenu");
+            var addLayerButton = this.Q<ToolbarMenu>("AddLayerButtonMenu");
+            foreach (var ve in addLayerButton.Children())
+            {
+                if (ve != addLayerButton.Children().Last())
+                {
+                    ve.style.display = DisplayStyle.None; // Hide button dropdown, ugly af
+                }
+            }
+            
             for(int i = 0; i < templates.Count; i++)
             {
                 int x = i;
-                addButtonMenu1.menu.AppendAction(templates[i].name, dma => AddLayer(x));
+                addLayerButton.menu.AppendAction(templates[i].name, _ => AddLayer(x));
             }
+
 
             // AddLayerButton
             // var addLayerBtn = this.Q<Button>("AddLayerButton");

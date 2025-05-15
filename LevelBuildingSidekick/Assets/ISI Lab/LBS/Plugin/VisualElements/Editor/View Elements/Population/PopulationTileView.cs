@@ -85,9 +85,9 @@ namespace ISILab.LBS.VisualElements
             bg.style.backgroundColor = color;
         }
 
-        public void SetImage(Texture2D image)
+        public void SetImage(VectorImage icon)
         {
-            icon.style.backgroundImage = image;
+            this.icon.style.backgroundImage = new StyleBackground(icon);
         }
 
         public void Highlight(bool highlight)

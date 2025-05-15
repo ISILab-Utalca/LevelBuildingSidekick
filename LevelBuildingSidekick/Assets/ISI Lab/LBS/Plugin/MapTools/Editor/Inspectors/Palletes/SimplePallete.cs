@@ -100,7 +100,10 @@ namespace LBS.VisualElements
 
             // Content
             content = this.Q<VisualElement>("Content");
-
+            content.style.flexDirection = FlexDirection.Row;         // Horizontal layout
+            content.style.justifyContent = Justify.Center;     // Space items evenly
+            content.style.alignItems = Align.Center;                 // Vertically center them
+            
             // Change Group
             dropdownGroup = this.Q<DropdownField>("DropdownGroup");
             dropdownGroup.RegisterCallback<ChangeEvent<string>>(evt => OnChangeGroup?.Invoke(evt));
@@ -154,13 +157,12 @@ namespace LBS.VisualElements
             this.onSetView = onSetView;
         }
         
-        
-        public void SetIcon(Texture2D icon, Color color)
+        public void SetIcon(VectorImage icon, Color color)
         {
-            this.icon.style.backgroundImage = icon; - // CHANGE THIS!
+            this.icon.style.backgroundImage = new StyleBackground(icon);
             this.icon.style.unityBackgroundImageTintColor = color;
         }
-
+        
         public void SetName(string name)
         {
             nameLabel.text = name;

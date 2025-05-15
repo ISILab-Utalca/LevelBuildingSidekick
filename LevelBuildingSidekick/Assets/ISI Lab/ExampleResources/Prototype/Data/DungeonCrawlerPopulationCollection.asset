@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collectionType: 2
   color: {r: 0.44421327, g: 0.6320754, b: 0.033790153, a: 0.6}
-  icon: {fileID: 2800000, guid: 0bcc5d75759b49242962e0cf2742a01e, type: 3}
+  icon: {fileID: 2800000, guid: 6351057aa17189c44902075c0b9353fd, type: 3}
   collection:
   - {fileID: 11400000, guid: 50238b964364050418416fa48f290579, type: 2}
   - {fileID: 11400000, guid: ed5cf5fb39f24a84aaa8eb3e8a88c84f, type: 2}

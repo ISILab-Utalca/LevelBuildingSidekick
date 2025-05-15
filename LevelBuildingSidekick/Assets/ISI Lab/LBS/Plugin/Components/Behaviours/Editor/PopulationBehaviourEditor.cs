@@ -20,26 +20,28 @@ namespace ISILab.LBS.VisualElements
     [LBSCustomEditor("PopulationBehaviour", typeof(PopulationBehaviour))]
     public class PopulationBehaviourEditor : LBSCustomEditor, IToolProvider
     {
-        private readonly Color BHcolor = LBSSettings.Instance.view.behavioursColor;
+        #region FIELDS
 
         private PopulationBehaviour _target;
 
         private Dictionary<string, List<Bundle.PopulationTypeE>> displayChoices = new Dictionary<string, List<Bundle.PopulationTypeE>>();
-
-        [SerializeField] 
         private BundleCollection _collection; 
-  
-        //Manipulators
+        private DropdownField type;
+        
         AddPopulationTile addPopulationTile;
         RemovePopulationTile removePopulationTile;
         RotatePopulationTile rotatePopulationTile;
-
-        private DropdownField type;
         
-        //Palletes
+        #region VIEW FIELDS
+        private readonly Color BHcolor = LBSSettings.Instance.view.behavioursColor;
+        private VectorImage icon = Resources.Load<VectorImage>("Icons/Vectorial/Icon=Behavior");
         private SimplePallete bundlePallete;
         private WarningPanel warningPanel;
-
+        #endregion
+        
+        #endregion
+        
+        #region CONSTRUCTORS
         public PopulationBehaviourEditor(object target) : base(target)
         {
             _target = target as PopulationBehaviour;
@@ -74,7 +76,9 @@ namespace ISILab.LBS.VisualElements
             SetInfo(_target);
             CreateVisualElement();
         }
+        #endregion
         
+        #region METHODS
         public sealed override void SetInfo(object target)
         {
             _target = target as PopulationBehaviour;
@@ -84,29 +88,22 @@ namespace ISILab.LBS.VisualElements
 
         public void SetTools(ToolKit toolkit)
         {
-            Texture2D icon;
 
-            // Add element Tiles
-            icon = Resources.Load<Texture2D>("Icons/Tools/Population_Brush");
             addPopulationTile = new AddPopulationTile();
-            var t1 = new LBSTool(icon, "Paint Tile", 
-                "Select an item in Behaviour panel and Click on the graph to add a population tile. Hold CTRL to drag it.", addPopulationTile);
+            var t1 = new LBSTool(addPopulationTile);
             t1.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             t1.Init(_target.OwnerLayer, _target);
             t1.OnEnd += (l) => DrawManager.Instance.RedrawLayer(_target.OwnerLayer, MainView.Instance);
             
-            // Remove Tiles
-            icon = Resources.Load<Texture2D>("Icons/Tools/Delete_population");
             removePopulationTile = new RemovePopulationTile();
-            var t2 = new LBSTool(icon, "Remove Tile", "Click on an item in the graph to remove it.", removePopulationTile);
+            var t2 = new LBSTool(removePopulationTile);
             t2.Init(_target.OwnerLayer, _target);
             t2.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             t2.OnEnd += (l) => DrawManager.Instance.RedrawLayer(_target.OwnerLayer, MainView.Instance);
             
             // Rotate element
-            icon = Resources.Load<Texture2D>("Icons/Tools/Rotacion_population");
             rotatePopulationTile = new RotatePopulationTile();
-            var t3 = new LBSTool(icon, "Rotate Tile", "Left Click to rotate counter-clockwise, Right Click to clockwise. May use Mouse Wheel as well.", rotatePopulationTile);
+            var t3 = new LBSTool(rotatePopulationTile);
             t3.Init(_target.OwnerLayer, _target);
             t3.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             t3.OnEnd += (l) => DrawManager.Instance.RedrawLayer(_target.OwnerLayer, MainView.Instance);
@@ -278,7 +275,6 @@ namespace ISILab.LBS.VisualElements
         private void SetBundlePallete()
         {
             bundlePallete.name = "Bundles";
-            var icon = Resources.Load<Texture2D>("Icons/BrushIcon");
             bundlePallete.SetIcon(icon, BHcolor);
 
             var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
@@ -394,5 +390,6 @@ namespace ISILab.LBS.VisualElements
             _collection = collection;
         }
 
+        #endregion
     }
 }
