@@ -50,7 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 679396f00b8af7c43a5a378ac8f78f50, type: 3}
       propertyPath: m_Name
-      value: proto_wall_02
+      value: proto_wall_02_prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 679396f00b8af7c43a5a378ac8f78f50, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
