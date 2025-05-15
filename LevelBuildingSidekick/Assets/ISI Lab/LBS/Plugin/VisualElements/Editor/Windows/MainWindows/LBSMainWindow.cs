@@ -15,6 +15,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using ISILab.Commons.VisualElements.Editor;
 using ISILab.Extensions;
+using ISILab.LBS.Manipulators;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -497,8 +498,7 @@ namespace ISILab.LBS.Editor.Windows{
             
             toolkit.Clear();
             toolkit.Init(layer);
-            toolkit.SetActive("Select");
-            toolkit.SetActiveWhithoutNotify(0);
+            toolkit.SetActive(typeof(Select));
             
             gen3DPanel.Init(layer);
             

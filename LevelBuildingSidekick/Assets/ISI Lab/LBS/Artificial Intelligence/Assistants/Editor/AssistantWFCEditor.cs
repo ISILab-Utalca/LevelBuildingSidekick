@@ -88,7 +88,7 @@ namespace ISILab.LBS.AI.Assistants.Editor
                  }
                  
                  assistant.Bundle = exterior.Bundle;
-                 ToolKit.Instance.SetActive("Wave Function Collapse");
+                 ToolKit.Instance.SetActive(typeof(WaveFunctionCollapseManipulator));
                  MarkDirtyRepaint();
                 
             });

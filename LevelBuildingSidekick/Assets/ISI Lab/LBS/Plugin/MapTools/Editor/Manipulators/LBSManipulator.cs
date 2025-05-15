@@ -61,11 +61,6 @@ namespace ISILab.LBS.Manipulators
         protected abstract string IconGuid { get; }
 
         public VectorImage Icon => icon;
-        public bool IsRightClick
-        {
-            get => isRightClick;
-            set => isRightClick = value;
-        }
         public LBSManipulator Adder => adder;
         public LBSManipulator Remover => remover;
 
@@ -82,20 +77,6 @@ namespace ISILab.LBS.Manipulators
                 return default;
             }
             set => startClickPosition = value;
-        }
-
-        public Vector2Int CurrentPosition
-        {
-            get
-            {
-                if (started)
-                {
-                    return moveClickPosition;
-                }
-
-                Debug.LogWarning("[ISI Lab]: no puedes axeder a la variable 'StartPosition' fuera de la accion.");
-                return default;
-            }
         }
 
         public Vector2Int EndPosition
@@ -249,7 +230,7 @@ namespace ISILab.LBS.Manipulators
                 remover.isRightClick = true;
                 
                 LBSMainWindow.WarningManipulator("Remover Activated."); // notify remover use
-                
+                ToolKit.Instance.SetActive(remover.GetType());
                 OnManipulationRightClick?.Invoke();
                 
                 var ne = MouseDownEvent.GetPooled(e.localMousePosition, 0, e.clickCount, e.mouseDelta, e.modifiers);
