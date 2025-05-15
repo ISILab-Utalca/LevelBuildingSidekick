@@ -257,5 +257,19 @@ namespace ISILab.AI.Optimization
             ga.Evaluator = Evaluator;
             return ga;
         }
+
+        public override void InitializeDefault()
+        {
+            //Initialize genetic algorithm
+            Selection = new TournamentSelection();
+            var roulette = new RoulleteWheelMutation();
+
+            roulette.mutations.Add(new WeightedMutation(new ExhaustiveAddGene(), 0.2f));
+            roulette.mutations.Add(new WeightedMutation(new ExhaustiveMoveGene(1), 0.6f));
+            roulette.mutations.Add(new WeightedMutation(new ExhaustiveRemoveGene(), 0.2f));
+            roulette.mutations.Add(new WeightedMutation(new ExhaustiveSwapGene(), 1.0f));
+
+            Mutation = new RoulleteWheelMutation();
+        }
     }
 }

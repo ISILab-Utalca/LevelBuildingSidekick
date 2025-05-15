@@ -5,6 +5,7 @@ using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Infrastructure.Framework.Texts;
 using UnityEngine;
+using static UnityEngine.Analytics.IAnalytic;
 
 namespace GeneticSharp.Domain.Mutations
 {
@@ -36,7 +37,11 @@ namespace GeneticSharp.Domain.Mutations
 
                 Array.Copy(m, 0, sequence, firstIndex, sequenceLength);
 
-                (evaluable as IChromosome).SetDataSequence(sequence);
+                var icromosomeCast = evaluable as IChromosome;
+                if (icromosomeCast != null)
+                {
+                    icromosomeCast.SetDataSequence(sequence);
+                }
             }
         }
 

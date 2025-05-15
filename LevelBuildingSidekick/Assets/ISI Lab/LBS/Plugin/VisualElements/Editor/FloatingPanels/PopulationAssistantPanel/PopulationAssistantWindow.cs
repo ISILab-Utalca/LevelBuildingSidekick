@@ -59,6 +59,10 @@ namespace ISILab.LBS.VisualElements.Editor
         private ClassDropDown param1Field;
         private ClassDropDown param2Field;
         private ClassDropDown optimizerField;
+        private Button optimizerButton;
+
+        //Optimizer Editor
+        private LBSCustomEditor optimizerEditor;
 
         //Parameter Information
         private Label xParamText;
@@ -96,7 +100,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
         protected IRangedEvaluator currentXField
         {
-            get => mapEliteBundle.XEvaluator;
+            get => mapEliteBundle?.XEvaluator;
             set
             {
                 if (mapEliteBundle == null) return;
@@ -105,7 +109,7 @@ namespace ISILab.LBS.VisualElements.Editor
         }
         protected IRangedEvaluator currentYField
         {
-            get => mapEliteBundle.YEvaluator;
+            get => mapEliteBundle?.YEvaluator;
             set
             {
                 if (mapEliteBundle == null) return;
@@ -114,7 +118,7 @@ namespace ISILab.LBS.VisualElements.Editor
         }
         protected BaseOptimizer currentOptimizer
         {
-            get => mapEliteBundle.Optimizer;
+            get => mapEliteBundle?.Optimizer;
             set {  
                 if (mapEliteBundle == null) return;
                 mapEliteBundle.Optimizer = value;
@@ -159,44 +163,54 @@ namespace ISILab.LBS.VisualElements.Editor
             param1Field = rootVisualElement.Q<ClassDropDown>("XParamDropdown");
             param1Field.Type = typeof(IRangedEvaluator);
             param1Field.value = defaultSelectText;
-
             param1Field.RegisterValueChangedCallback(evt =>
             {
+                //Failsafe stuff
                 if (param1Field.value == null) return;
+                if (param1Field.value == currentXField?.GetType().Name) return;
+
+                //Choice change
                 var xChoice = param1Field.GetChoiceInstance() as IRangedEvaluator;
                 currentXField = xChoice;
-                //xParamText.text = xChoice.GetType().Name + " / X Axis";
+                if(xChoice != null) currentXField.InitializeDefault();
             });
-
             param1Field.SetEnabled(false);
+
 
             //Param 2
             param2Field = rootVisualElement.Q<ClassDropDown>("YParamDropdown");
             param2Field.Type = typeof(IRangedEvaluator);
             param2Field.value = defaultSelectText;
-
             param2Field.RegisterValueChangedCallback(evt =>
             {
+                //Failsafe stuff
                 if (param2Field.value == null) return;
+                if (param2Field.value == currentYField?.GetType().Name) return;
+
+                //Choice change
                 var yChoice = param2Field.GetChoiceInstance() as IRangedEvaluator;
                 currentYField = yChoice;
-                //yParamText.text = yChoice.GetType().Name + " / Y Axis";
+                if (yChoice != null) currentYField.InitializeDefault();
             });
-
             param2Field.SetEnabled(false);
 
             //Optimizer
+
+            //This button doesn't work anymore lol. Next time!!!
             optimizerField = rootVisualElement.Q<ClassDropDown>("ZParamDropdown");
             optimizerField.Type = typeof(BaseOptimizer);
             optimizerField.value = defaultSelectText;
-
             optimizerField.RegisterValueChangedCallback(evt =>
             {
                 if (optimizerField.value == null) return;
+                if (optimizerField.value == currentOptimizer?.GetType().Name) return;
+
                 var optimizerChoice = optimizerField.GetChoiceInstance() as BaseOptimizer;
                 currentOptimizer = optimizerChoice;
-                //zParamText.text = optimizerChoice.GetType().Name + " / Fitness";
+                if(optimizerChoice != null) currentOptimizer.InitializeDefault();
             });
+            optimizerButton = rootVisualElement.Q<Button>("OpenOptimizerButton");
+            optimizerButton.clicked += OpenOptimizer;
 
             //I set everything false so they can't be manipulated if there's no preset present.
             optimizerField.SetEnabled(false);
@@ -309,7 +323,7 @@ namespace ISILab.LBS.VisualElements.Editor
             {
                 param1Field.SetEnabled(false);
                 param2Field.SetEnabled(false);
-                optimizerField.SetEnabled(false);
+                //optimizerField.SetEnabled(false);
                 return;
             }
             
@@ -320,14 +334,11 @@ namespace ISILab.LBS.VisualElements.Editor
             //Enable params set the preset things to the new choice.
             param1Field.SetEnabled(true);
             param2Field.SetEnabled(true);
-            optimizerField.SetEnabled(true);
+            //optimizerField.SetEnabled(true);
 
             param1Field.value = currentXField != null ? currentXField.GetType().Name : defaultSelectText;
             param2Field.value = currentYField != null ? currentYField.GetType().Name : defaultSelectText;
             optimizerField.value = currentOptimizer != null ? currentOptimizer.GetType().Name : defaultSelectText;
-
-            //Debug stuff!
-            //Debug.Log("Preset Updated: " + mapEliteBundle.name + " / PARAM 1: " + param1Field.GetChoiceInstance() + " / PARAM 2: " + param2Field.GetChoiceInstance() + " / OPTIMIZER: " + optimizerField.GetChoiceInstance());
         }
 
 
@@ -338,7 +349,6 @@ namespace ISILab.LBS.VisualElements.Editor
 
         private void RunAlgorithm()
         {
-            currentOptimizer.Evaluator = currentXField;
 
             Debug.Log("running algorithm");
 
@@ -372,6 +382,23 @@ namespace ISILab.LBS.VisualElements.Editor
             UpdateContent();
             if (assistant.Finished)
                 LBSMainWindow.OnWindowRepaint -= RepaintContent;
+        }
+
+        private void OpenOptimizer()
+        {
+            if((currentOptimizer is GeneticAlgorithm)&&(currentOptimizer!=null))
+            {
+                Debug.Log("optimizer is compatible");
+                optimizerEditor = new GeneticAlgorithmVE(mapEliteBundle.Optimizer);
+
+                var optimizerWindow = ScriptableObject.CreateInstance<EditorWindow>();
+                optimizerWindow.titleContent = new GUIContent("Optimizer Editor");
+                optimizerWindow.minSize = new Vector2(350, 500); // use the Canvas Size of the uxml
+                optimizerWindow.Show();
+                optimizerWindow.rootVisualElement.Add(optimizerEditor);
+            }
+
+            
         }
 
         private void UpdateGrid()
