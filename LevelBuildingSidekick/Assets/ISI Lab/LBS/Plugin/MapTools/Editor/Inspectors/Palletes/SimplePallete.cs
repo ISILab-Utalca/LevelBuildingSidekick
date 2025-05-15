@@ -154,10 +154,10 @@ namespace LBS.VisualElements
             this.onSetView = onSetView;
         }
         
-
+        
         public void SetIcon(Texture2D icon, Color color)
         {
-            this.icon.style.backgroundImage = icon;
+            this.icon.style.backgroundImage = icon; - // CHANGE THIS!
             this.icon.style.unityBackgroundImageTintColor = color;
         }
 

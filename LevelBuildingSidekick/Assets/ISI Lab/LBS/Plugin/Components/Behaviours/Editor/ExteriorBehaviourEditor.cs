@@ -141,6 +141,7 @@ namespace ISILab.LBS.VisualElements
 
             // BundleField
             bundleField = this.Q<ObjectField>("BundleField");
+            bundleField.label = "Exterior Tile Bundle";
             bundleField.objectType = typeof(Bundle);
             bundleField.value = exterior.Bundle;
             // only updates the first bundle value change - fix pending

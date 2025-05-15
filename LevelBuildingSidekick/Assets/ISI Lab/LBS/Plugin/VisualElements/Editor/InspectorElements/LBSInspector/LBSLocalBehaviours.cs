@@ -49,6 +49,7 @@ namespace ISILab.LBS.VisualElements
             contentBehaviour = this.Q<VisualElement>("ContentBehaviour");
 
             this.Q<Button>("Add").SetEnabled(false);
+            this.Q<Button>("Add").SetDisplay(false);
         }
         #endregion
 
