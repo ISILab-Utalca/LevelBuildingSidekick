@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: One_Cloud_Tree_Full_Nothing_Bundle
   m_EditorClassIdentifier: 
-  flags: 2
+  layerContentFlags: 2
   type: 0
   anchorPosition: 0
   color: {r: 0, g: 0, b: 0, a: 0}
@@ -22,7 +22,16 @@ MonoBehaviour:
     probability: 1
   characteristics:
   - rid: 6598277268373504833
+  populationType: 0
+  tileSize: {x: 1, y: 1}
   childsBundles: []
+  microGenTool:
+    spread: 0
+    margin:
+      negativeX: 1
+      positiveX: 1
+      negativeZ: 1
+      positiveZ: 1
   references:
     version: 2
     RefIds:
