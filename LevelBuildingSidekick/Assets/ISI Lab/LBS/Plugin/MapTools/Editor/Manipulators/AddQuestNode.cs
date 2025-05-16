@@ -15,7 +15,7 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Manipulators
 {
-    public class CreateQuestNode : LBSManipulator
+    public class AddQuestNode : LBSManipulator
     {
         QuestGraph quest;
         QuestBehaviour behaviour;
@@ -23,7 +23,7 @@ namespace ISILab.LBS.Manipulators
         protected override string IconGuid { get => "3d0b251f4a09bce4b9224787cfa08d49"; }
 
         private string prefix = "";
-        public CreateQuestNode() : base()
+        public AddQuestNode() : base()
         {
             name = "Add Quest Node";
             description = "Pick a quest word from the inspector panel, then Click on the graph.";

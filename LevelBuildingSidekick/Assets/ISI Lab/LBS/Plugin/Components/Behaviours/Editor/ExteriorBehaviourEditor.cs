@@ -205,7 +205,7 @@ namespace ISILab.LBS.VisualElements
                 if ( activeManipulator != typeof(AddExteriorTile) &&
                      activeManipulator != typeof(SetExteriorTileConnection))
                 {
-                    ToolKit.Instance.SetActive("Add Tile");
+                    ToolKit.Instance.SetActive(typeof(AddExteriorTile));
                 }
             };
 

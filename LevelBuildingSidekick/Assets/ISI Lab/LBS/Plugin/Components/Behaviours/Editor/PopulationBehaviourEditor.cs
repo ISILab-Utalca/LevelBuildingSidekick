@@ -24,7 +24,7 @@ namespace ISILab.LBS.VisualElements
 
         private PopulationBehaviour _target;
 
-        private Dictionary<string, List<Bundle.PopulationTypeE>> displayChoices = new Dictionary<string, List<Bundle.PopulationTypeE>>();
+        private Dictionary<string, List<Bundle.PopulationTypeE>> displayChoices = new();
         private BundleCollection _collection; 
         private DropdownField type;
         
@@ -139,7 +139,7 @@ namespace ISILab.LBS.VisualElements
             type.choices = displayChoices.Keys.ToArray().ToList();
             type.RegisterValueChangedCallback(evt =>
             {
-               var filter = evt.newValue as string;
+               var filter = evt.newValue;
                _target.selectedTypeFilter = filter; 
                 UpdateElementBundles();
             });
@@ -174,20 +174,8 @@ namespace ISILab.LBS.VisualElements
             {
                 _target.selectedToSet = selected as Bundle;
                 _target.BundleCollection = _collection;
-                /*
-                if (selected == null)
-                {
-                    _target.selectedCollectionToSet = null;
-                    _target.selectedTypetoSet = PopulationType.Entity;
-                }
-                else
-                {
-                    _target.selectedCollectionToSet = _collection;
-                    _target.selectedTypetoSet = _populationType;
-                }
-                */
              
-                ToolKit.Instance.SetActive("Paint Tile with Item");
+                ToolKit.Instance.SetActive(typeof(AddPopulationTile));
             };
             
             bundlePallete.OnSetTooltip += (option) =>
@@ -197,7 +185,7 @@ namespace ISILab.LBS.VisualElements
                 var tooltip = "Tags:";
                 if (b.Characteristics.Count > 0)
                 {
-                    b.Characteristics.ForEach(c => tooltip += "\n- " + c?.GetType().ToString());
+                    b.Characteristics.ForEach(c => tooltip += "\n- " + c?.GetType());
                 }
                 else
                 {
@@ -263,118 +251,6 @@ namespace ISILab.LBS.VisualElements
             bundlePallete.Repaint();
             
             
-        }
-
-        private void SetBundlePallete()
-        {
-            bundlePallete.name = "Bundles";
-            bundlePallete.SetIcon(icon, BHcolor);
-
-            var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
-            if (bundles.Count == 0)
-                return;
-
-            var candidates = bundles.Where(b => b.Type == Bundle.TagType.Element).ToList();
-
-            if (candidates.Count == 0)
-                return;
-
-            bundlePallete.ShowGroups = false;
-            var options = new object[candidates.Count];
-            for (int i = 0; i < candidates.Count; i++)
-            {
-                options[i] = candidates[i];
-            }
-
-            bundlePallete.OnSelectOption += (selected) =>
-            {
-                _target.selectedToSet = selected as Bundle;
-                ToolKit.Instance.SetActive("Paint Tile");
-            };
-
-            // OnAdd option event
-            bundlePallete.OnAddOption += () =>
-            {
-                Debug.LogWarning("Por ahora esta herramienta no permite agregar nuevos tipos de bundles");
-            };
-
-            bundlePallete.OnSetTooltip += (option) =>
-            {
-                var b = option as Bundle;
-
-                var tooltip = "Tags:";
-                if (b.Characteristics.Count > 0)
-                {
-                    b.Characteristics.ForEach(c => tooltip += "\n- " + c?.GetType().ToString());
-                }
-                else
-                {
-                    tooltip += "\n[None]";
-                }
-                return tooltip;
-            };
-
-            // Init options
-            bundlePallete.SetOptions(options, (optionView, option) =>
-            {
-                var bundle = (Bundle)option;
-                optionView.Label = bundle.name;
-                optionView.Color = bundle.Color;
-                optionView.Icon = bundle.Icon;
-            });
-
-            bundlePallete.OnRepaint += () =>
-            {
-                bundlePallete.Selected = _target.selectedToSet;
-            };
-
-            bundlePallete.Repaint();
-
-        }
-
-        private void ChangeOptions(string tag)
-        {
-            var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
-            if (bundles.Count == 0)
-                return;
-
-            var candidates = bundles.Where(b => b.Type == Bundle.TagType.Element).ToList();
-
-            if (candidates.Count == 0)
-                return;
-
-            var options = new List<Bundle>();
-
-            if (tag == "All")
-            {
-                options = candidates;
-            }
-            else
-            {
-                //options = candidates.Where(b => b.name.Equals(tag) || b.Characteristics.Any(c => c is LBSTagsCharacteristic && c.Label.Equals(tag))).ToList();
-            }
-
-            bundlePallete.OnSelectOption += (selected) =>
-            {
-                _target.selectedToSet = selected as Bundle;
-            };
-
-            // OnAdd option event
-            bundlePallete.OnAddOption += () =>
-            {
-                Debug.LogWarning("Por ahora esta herramienta no permite agregar nuevos tipos de bundles");
-            };
-
-            // Init options
-            bundlePallete.SetOptions(options.ToArray(), (optionView, option) =>
-            {
-                var bundle = (Bundle)option;
-                optionView.Label = bundle.Name;
-                optionView.Color = bundle.Color;
-                optionView.Icon = bundle.Icon;
-            });
-
-            bundlePallete.Repaint();
         }
 
         private void SetCollection(BundleCollection collection)

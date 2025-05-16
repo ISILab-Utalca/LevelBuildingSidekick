@@ -105,7 +105,7 @@ namespace ISILab.LBS.AI.Assistants.Editor
             config.OnPressetChange += (p) =>
             {
                 ChangePresset();
-                ToolKit.Instance.SetActive("Select area to evaluate");
+                ToolKit.Instance.SetActive(typeof(MapEliteAreaSelector));
             };
 
             content.OnSelectOption += (s) =>

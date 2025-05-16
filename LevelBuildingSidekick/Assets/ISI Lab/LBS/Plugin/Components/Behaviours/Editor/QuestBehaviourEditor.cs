@@ -22,7 +22,7 @@ namespace ISILab.LBS.VisualElements
     [LBSCustomEditor("QuestBehaviour", typeof(QuestBehaviour))]
     public class QuestBehaviourEditor : LBSCustomEditor, IToolProvider
     {
-        private CreateQuestNode addNode;
+        private AddQuestNode addNode;
         private RemoveQuestNode removeNode;
         private ConnectQuestNodes connectNodes;
         private RemoveQuestConnection removeConnection;
@@ -62,7 +62,7 @@ namespace ISILab.LBS.VisualElements
         {
             behaviour = target as QuestBehaviour;
             
-            addNode = new CreateQuestNode();
+            addNode = new AddQuestNode();
             var t1 = new LBSTool(addNode);
             t1.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             t1.Init(behaviour?.OwnerLayer, target);
@@ -158,7 +158,7 @@ namespace ISILab.LBS.VisualElements
                 ActionButton b;
                 b = new ActionButton(a.GrammarElement.Text, () =>
                 {
-                    ToolKit.Instance.SetActive("Add Quest Node");
+                    ToolKit.Instance.SetActive(typeof(AddQuestNode));
                     behaviour.ToSet = a.GrammarElement;
                     behaviour.Graph.UpdateFlow?.Invoke();
                     UpdateContent();

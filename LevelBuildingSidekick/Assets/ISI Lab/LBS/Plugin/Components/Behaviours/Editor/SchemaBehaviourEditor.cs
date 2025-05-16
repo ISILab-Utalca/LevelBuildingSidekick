@@ -204,7 +204,7 @@ namespace ISILab.LBS.Behaviours.Editor
                     return;
 
                 _target.RemoveZone(option as Zone);
-                ToolKit.Instance.SetActive("Paint Zone");
+                ToolKit.Instance.SetActive(typeof(AddSchemaTile));
 
                 DrawManager.ReDraw();
                 areaPallete.Repaint();
@@ -239,7 +239,7 @@ namespace ISILab.LBS.Behaviours.Editor
                 // var tk = ToolKit.Instance;
                 _target.conectionToSet = selected as string;
                 //setTileConnection.ToSet = selected as string;
-                ToolKit.Instance.SetActive("Set connection");
+                ToolKit.Instance.SetActive(typeof(AddSchemaTileConnection));
             };
 
             // Init options}
