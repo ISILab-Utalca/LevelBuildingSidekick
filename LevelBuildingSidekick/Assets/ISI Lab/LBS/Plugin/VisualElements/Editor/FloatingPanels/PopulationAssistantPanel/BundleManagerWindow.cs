@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using ISILab.Commons.Utility.Editor;
+using ISILab.Extensions;
 using LBS.Bundles;
 using NUnit.Framework;
 using UnityEditor;
@@ -12,7 +13,11 @@ using UnityEngine.UIElements;
 namespace ISILab.LBS.VisualElements.Editor
 {
     public class BundleManagerWindow : EditorWindow
-    {   
+    {
+        // References
+        public VectorImage _arrowDown;
+        public VectorImage _arrowSide;
+        
         // Bundle lists
         private readonly List<Bundle> _allBundles = new List<Bundle>();
         private readonly List<MasterBundleContainer> _masterBundles = new List<MasterBundleContainer>();
@@ -24,8 +29,9 @@ namespace ISILab.LBS.VisualElements.Editor
         
         private List<Bundle> _subBundles = new List<Bundle>();
         private readonly List<Bundle> _orphanBundles = new List<Bundle>();
+        private List<Bundle> _validatorBundles = new List<Bundle>();
         
-        // Visual Elements
+        // ListViews
         private ListView _interiorList;
         private ListView _exteriorList;
         private ListView _populationList;
@@ -33,7 +39,25 @@ namespace ISILab.LBS.VisualElements.Editor
 
         private ListView _subBundleList;
         private ListView _orphanList;
-
+        private ListView _validatorList;
+        
+        // Is ListView displaying?
+        private bool _interiorDisplay = true;
+        private bool _exteriorDisplay = true;
+        private bool _populationDisplay = true;
+        private bool _unassignedDisplay = true;
+        private bool _subBundleDisplay = true;
+        private bool _orphanDisplay = true;
+        private bool _validatorDisplay = true;
+        
+        // Buttons
+        private Button _interiorExpandButton;
+        private Button _exteriorExpandButton;
+        private Button _populationExpandButton;
+        private Button _unassignedExpandButton;
+        private Button _subBundleExpandButton;
+        private Button _orphanExpandButton;
+        private Button _validatorExpandButton;
 
         [MenuItem("Window/ISILab/Bundle Manager")]
         public static void ShowWindow()
@@ -43,6 +67,10 @@ namespace ISILab.LBS.VisualElements.Editor
 
         private void CreateGUI()
         {
+            //Set references
+            _arrowDown = AssetDatabase.LoadAssetAtPath<VectorImage>(AssetDatabase.GUIDToAssetPath("b570a25de51f01c41bd82dbe5372bb3f")); //GUIDs
+            _arrowSide = AssetDatabase.LoadAssetAtPath<VectorImage>(AssetDatabase.GUIDToAssetPath("83eafacbab9ab554299bc4d0f124d980"));
+            
             // Collect all bundles in project
             SearchAllBundles();
             
@@ -53,23 +81,25 @@ namespace ISILab.LBS.VisualElements.Editor
             // Explicit height for every row so ListView can calculate how many items to actually display
             const int itemHeight = 50;
             
-            // Setting interior list
+            // Setting MasterBundle lists
             SetMasterBundleViewSettings(out _interiorList, "Interior", itemHeight, _interiorBundles);
-            
-            // Setting exterior list
             SetMasterBundleViewSettings(out _exteriorList, "Exterior", itemHeight, _exteriorBundles);
-            
-            // Setting population list
             SetMasterBundleViewSettings(out _populationList, "Population", itemHeight, _populationBundles);
-            
-            // Setting unassigned list
             SetMasterBundleViewSettings(out _unassignedList, "Unassigned", itemHeight, _unassignedBundles);
             
-            // Setting sub-bundle list
+            // Setting Bundle lists
             SetBundleViewSettings(out _subBundleList, "SubBundles", itemHeight, _subBundles);
-            
-            // Setting orphan list
             SetBundleViewSettings(out _orphanList, "OrphanBundles", itemHeight, _orphanBundles);
+            SetBundleViewSettings(out _validatorList, "BundleValidator", itemHeight, _validatorBundles);
+            
+            // Setting Buttons
+            SetExpandButtonSetting(out _interiorExpandButton, "Interior", _interiorDisplay, _interiorList);
+            SetExpandButtonSetting(out _exteriorExpandButton, "Exterior", _interiorDisplay, _exteriorList);
+            SetExpandButtonSetting(out _populationExpandButton, "Population", _interiorDisplay, _populationList);
+            SetExpandButtonSetting(out _unassignedExpandButton, "Unassigned", _interiorDisplay, _unassignedList);
+            SetExpandButtonSetting(out _subBundleExpandButton, "SubBundles", _interiorDisplay, _subBundleList);
+            SetExpandButtonSetting(out _orphanExpandButton, "OrphanBundles", _interiorDisplay, _orphanList);
+            SetExpandButtonSetting(out _validatorExpandButton, "BundleValidator", _interiorDisplay, _validatorList);
         }
         
         void SearchAllBundles()
@@ -153,7 +183,7 @@ namespace ISILab.LBS.VisualElements.Editor
             listView.itemsSource = masterBundles;
             listView.fixedItemHeight = itemHeight;
             listView.makeItem = () => new BundleManagerElement();
-            listView.bindItem = (e, i) => ((BundleManagerElement)e).bundleName.text = masterBundles[i].GetMasterBundle().Name;
+            listView.bindItem = (e, i) => ((BundleManagerElement)e).SetBundleRef(masterBundles[i].GetMasterBundle());
 
             listView.selectedIndicesChanged += objects =>
             {
@@ -189,8 +219,7 @@ namespace ISILab.LBS.VisualElements.Editor
             listView.makeItem = () => new BundleManagerElement();
             
             ListView view = listView;
-            listView.bindItem = (e, i) => ((BundleManagerElement)e).bundleName.text = ((Bundle)view.itemsSource[i]).Name;
-            
+            listView.bindItem = (e, i) => ((BundleManagerElement)e).SetBundleRef((Bundle)view.itemsSource[i]);
             listView.selectedIndicesChanged += objects =>
             {
                 var enumerable = objects as int[] ?? objects.ToArray();
@@ -201,6 +230,21 @@ namespace ISILab.LBS.VisualElements.Editor
                 
                 ClearSelectionInOtherLists(columnName);
                 Selection.activeObject = (Bundle)view.itemsSource[enumerable.First()];
+            };
+        }
+
+        void SetExpandButtonSetting(out Button button, string columnName, bool display, ListView list)
+        {
+            button = rootVisualElement.Q<VisualElement>(columnName).Q<Button>("ExpandButton");
+            button.iconImage = Background.FromVectorImage(display ? _arrowDown : _arrowSide);
+
+            var auxButton = button;
+            button.clickable.clicked += () =>
+            {
+                display = !display;
+                
+                auxButton.iconImage = Background.FromVectorImage(display ? _arrowDown : _arrowSide);
+                list.SetDisplay(display);
             };
         }
         
