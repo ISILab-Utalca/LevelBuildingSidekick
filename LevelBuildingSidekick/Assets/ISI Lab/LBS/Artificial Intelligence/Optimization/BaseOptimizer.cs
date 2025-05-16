@@ -251,6 +251,9 @@ namespace ISILab.AI.Optimization
 
         public abstract void EvaluateFitness(IList<IOptimizable> optimizables);
 
+        //Made so it doesn't just reset all the time
+        public abstract void InitializeDefault();
+
         public void Run()
         {
             while(!TerminationReached() && !(State == Op_State.Paused || State == Op_State.Stopped))

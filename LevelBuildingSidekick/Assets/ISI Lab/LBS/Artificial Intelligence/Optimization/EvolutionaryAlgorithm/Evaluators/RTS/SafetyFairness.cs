@@ -6,6 +6,7 @@ using Commons.Optimization.Evaluator;
 using ISILab.AI.Optimization;
 using ISILab.Commons;
 using ISILab.LBS.Characteristics;
+using ISILab.Macros;
 using LBS.Components.TileMap;
 using UnityEngine;
 
@@ -149,6 +150,12 @@ namespace ISILab.AI.Categorization
         public float FlatDistance(int first, int second, BundleTilemapChromosome chrom)
         {
             return (chrom.ToMatrixPosition(first) - chrom.ToMatrixPosition(second)).magnitude;
+        }
+
+        public void InitializeDefault()
+        {
+            playerCharacteristic = new LBSTagsCharacteristic(LBSAssetMacro.GetLBSTag("Player"));
+            colliderCharacteristic = new LBSTagsCharacteristic(LBSAssetMacro.GetLBSTag("Collider"));
         }
     }
 }

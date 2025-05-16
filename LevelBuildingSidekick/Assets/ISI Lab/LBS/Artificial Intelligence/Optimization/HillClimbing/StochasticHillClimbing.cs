@@ -92,6 +92,9 @@ namespace ISILab.AI.Optimization
             throw new NotImplementedException();
         }
 
-
+        public override void InitializeDefault()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

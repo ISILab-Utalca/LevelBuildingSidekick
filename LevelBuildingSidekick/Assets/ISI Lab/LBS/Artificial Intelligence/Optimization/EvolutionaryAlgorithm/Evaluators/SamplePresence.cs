@@ -62,5 +62,10 @@ namespace ISILab.AI.Categorization
         {
             throw new NotImplementedException(); // TODO: Implement SamplePresence.Clone
         }
+
+        public void InitializeDefault()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

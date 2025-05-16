@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
+using ISILab.AI.Optimization;
 using ISILab.Commons;
 using ISILab.Extensions;
 using ISILab.LBS.Modules;
@@ -12,7 +13,7 @@ using UnityEngine.UIElements;
 
 namespace ISILab.AI.Categorization
 {
-    public class BundleTilemapChromosome : ChromosomeBase2D, IDrawable
+    public class BundleTilemapChromosome : ChromosomeBase2D, IDrawable, IChromosome
     {
         public BundleTilemapChromosome(BundleTileMap tileMap, Rect rect, int[] immutables = null) : base(rect, immutables)
         {
@@ -175,5 +176,20 @@ namespace ISILab.AI.Categorization
             return texture;
         }
 
+
+        IChromosome IChromosome.CreateNewChromosome()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        IChromosome IChromosome.CloneChromosome()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public int CompareTo(IChromosome other)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

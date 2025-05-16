@@ -20,6 +20,9 @@
                     <ISILab.LBS.VisualElements.ClassDropDown name="XParamDropdown" label="X Axis Parameter" class="lbs-class-red" />
                     <ISILab.LBS.VisualElements.ClassDropDown name="YParamDropdown" label="Y Axis Parameter" class="lbs-class-green" />
                     <ISILab.LBS.VisualElements.ClassDropDown name="ZParamDropdown" label="Optimizer&#10;" class="lbs-class-white" style="margin-bottom: 5px;" />
+                    <ui:VisualElement name="OpenOptimizer" style="flex-grow: 1; padding-bottom: 0; margin-bottom: 3px; flex-shrink: 0; margin-top: 0; background-color: rgba(0, 0, 0, 0);">
+                        <ui:Button text="Open Optimizer" name="OpenOptimizerButton" style="flex-grow: 1; padding-right: 0; padding-left: 0; padding-top: 0; padding-bottom: 0; margin-bottom: 4px; margin-top: 0; -unity-text-align: middle-center; background-size: 100% 100%; background-position-x: center 0; -unity-background-image-tint-color: rgb(255, 255, 255); background-color: rgb(88, 106, 55);" />
+                    </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="VisualizationOptions" class="lbs-Foldout" style="height: 26px;">
                     <ui:Foldout name="Foldout" />
@@ -28,7 +31,7 @@
                 </ui:VisualElement>
                 <ui:VisualElement name="VisualizationOptionsContainer" style="flex-grow: 0; -unity-background-image-tint-color: rgba(42, 42, 42, 0); background-color: rgb(42, 42, 42); border-right-width: 1px; border-left-width: 1px; border-left-color: rgb(20, 20, 20); border-right-color: rgb(20, 20, 20); border-top-color: rgb(20, 20, 20); border-bottom-color: rgb(20, 20, 20); margin-bottom: 0;">
                     <ui:VisualElement name="Rows" style="flex-grow: 1; flex-direction: row; background-color: rgba(42, 42, 42, 0); border-left-color: rgb(20, 20, 20); border-right-color: rgb(20, 20, 20); border-top-color: rgb(20, 20, 20); border-bottom-color: rgb(20, 20, 20); border-left-width: 0; border-right-width: 0; padding-top: 4px; padding-right: 4px; padding-bottom: 4px; padding-left: 4px; border-top-width: 0; border-bottom-width: 0; min-width: auto; max-height: none;">
-                        <ui:SliderInt label="Rows" value="3" high-value="5" name="RowsSlideInt" show-input-field="true" fill="true" low-value="1" class="lbs-slide-int" style="max-height: 24px;" />
+                        <ui:SliderInt label="Rows" value="3" high-value="5" name="RowsSlideInt" show-input-field="true" fill="true" low-value="1" class="lbs-slide-int" style="max-height: 24px; margin-bottom: 3px;" />
                     </ui:VisualElement>
                     <ui:VisualElement name="Columns" style="flex-grow: 1; flex-direction: row; background-color: rgba(42, 42, 42, 0); border-left-color: rgb(20, 20, 20); border-right-color: rgb(20, 20, 20); border-top-color: rgb(20, 20, 20); border-bottom-color: rgb(20, 20, 20); border-left-width: 0; border-right-width: 0; padding-top: 4px; padding-right: 4px; padding-bottom: 4px; padding-left: 4px; border-top-width: 0; border-bottom-width: 0;">
                         <ui:SliderInt label="Columns&#10;" value="3" high-value="5" name="ColumnsSlideInt" show-input-field="true" fill="true" low-value="1" class="lbs-slide-int" style="flex-direction: row; flex-shrink: 1; flex-grow: 1; background-color: rgba(42, 42, 42, 0); max-height: 24px;" />
