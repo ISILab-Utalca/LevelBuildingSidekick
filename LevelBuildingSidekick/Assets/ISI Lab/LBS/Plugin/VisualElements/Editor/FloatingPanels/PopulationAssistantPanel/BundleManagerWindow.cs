@@ -66,22 +66,7 @@ namespace ISILab.LBS.VisualElements.Editor
             SetMasterBundleViewSettings(out _unassignedList, "Unassigned", itemHeight, _unassignedBundles);
             
             // Setting sub-bundle list
-            //SetBundleViewSettings(out _subBundleList, "SubBundles", itemHeight, _subBundles);
-            _subBundleList = rootVisualElement.Q<VisualElement>("SubBundles").Q<ListView>();
-            
-            _subBundleList.itemsSource = _subBundles;
-            _subBundleList.fixedItemHeight = itemHeight;
-            _subBundleList.makeItem = () => new BundleManagerElement();
-            _subBundleList.bindItem = (e, i) => ((BundleManagerElement)e).bundleName.text = _subBundles[i].Name;
-            _subBundleList.selectedIndicesChanged += objects =>
-            {
-                if (objects.Count() <= 0)
-                {
-                    return;
-                }
-                ClearSelectionInOtherLists("SubBundles");
-                Selection.activeObject = _subBundles[objects.First()];
-            };
+            SetBundleViewSettings(out _subBundleList, "SubBundles", itemHeight, _subBundles);
             
             // Setting orphan list
             SetBundleViewSettings(out _orphanList, "OrphanBundles", itemHeight, _orphanBundles);
@@ -173,17 +158,25 @@ namespace ISILab.LBS.VisualElements.Editor
             listView.selectedIndicesChanged += objects =>
             {
                 //Skip when there's no selection
-                if (objects.Count() <= 0)
+                var enumerable = objects as int[] ?? objects.ToArray();
+                if (enumerable.Length <= 0)
                 {
                     return;
                 }
                 
                 ClearSelectionInOtherLists(columnName);
                 
-                _subBundleList.itemsSource = masterBundles[objects.First()].GetSubBundles();
+                _subBundles = masterBundles[enumerable.First()].GetSubBundles();
+                SetBundleViewSettings(out _subBundleList, "SubBundles", itemHeight, _subBundles);
                 _subBundleList.RefreshItems();
                 
-                Selection.activeObject = masterBundles[objects.First()].GetMasterBundle();
+                Selection.activeObject = masterBundles[enumerable.First()].GetMasterBundle();
+            };
+
+            var view = listView;
+            listView.itemsChosen += objects =>
+            {
+                Selection.activeObject = masterBundles[view.selectedIndex].GetMasterBundle();
             };
         }
 
@@ -194,16 +187,20 @@ namespace ISILab.LBS.VisualElements.Editor
             listView.itemsSource = bundles;
             listView.fixedItemHeight = itemHeight;
             listView.makeItem = () => new BundleManagerElement();
-            listView.bindItem = (e, i) => ((BundleManagerElement)e).bundleName.text = bundles[i].Name;
+            
+            ListView view = listView;
+            listView.bindItem = (e, i) => ((BundleManagerElement)e).bundleName.text = ((Bundle)view.itemsSource[i]).Name;
             
             listView.selectedIndicesChanged += objects =>
             {
-                if (objects.Count() <= 0)
+                var enumerable = objects as int[] ?? objects.ToArray();
+                if (enumerable.Length <= 0)
                 {
                     return;
                 }
+                
                 ClearSelectionInOtherLists(columnName);
-                Selection.activeObject = bundles[objects.First()];
+                Selection.activeObject = (Bundle)view.itemsSource[enumerable.First()];
             };
         }
         
