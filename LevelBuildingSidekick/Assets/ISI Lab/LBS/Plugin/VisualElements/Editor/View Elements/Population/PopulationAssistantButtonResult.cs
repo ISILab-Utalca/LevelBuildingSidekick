@@ -31,6 +31,7 @@ namespace ISILab.LBS.VisualElements.Editor
         // image displaying 3 dots and eventually the generated data
         private VisualElement image;
         private VisualElement customImage;
+        private Button selectButton;
 
         public Texture2D backgroundTexture;
         private Texture2D defaultImage;
@@ -72,14 +73,34 @@ namespace ISILab.LBS.VisualElements.Editor
 
             background = this.Q<VisualElement>("Background");
             scoreLabel = this.Q<Label>("ScoreValue");
+            selectButton = this.Q<Button>("SelectButton");
+            selectButton.clicked += () => { Debug.Log("button pressed"); };
+            selectButton.visible = false;
 
             image = this.Q<VisualElement>("Image");
             customImage = this.Q<VisualElement>("CustomImage");
             OnImageChange += () => image.visible = customImage.style.backgroundImage != null ? false : true;
+
+            RegisterCallback<MouseLeaveEvent>(OnMouseLeave);
+            RegisterCallback<MouseEnterEvent>(OnMouseEnter);
+
             
         }
+
+        private void OnMouseEnter(MouseEnterEvent evt)
+        {
+            if (customImage.style.backgroundImage != null)
+            {
+                selectButton.visible = true;
+            }
+        }
+
+        private void OnMouseLeave(MouseLeaveEvent evt)
+        {
+            selectButton.visible = false;
+        }
         #endregion
-        
+
         public Texture2D GetTexture()
         {
             if (data is IDrawable)
